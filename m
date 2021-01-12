@@ -2,132 +2,341 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3ECF2F273C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 05:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D17162F2762
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 05:56:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730866AbhALEnz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Jan 2021 23:43:55 -0500
-Received: from mail-eopbgr1410117.outbound.protection.outlook.com ([40.107.141.117]:34057
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730310AbhALEny (ORCPT
+        id S1727713AbhALEzs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Jan 2021 23:55:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54668 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727129AbhALEzs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Jan 2021 23:43:54 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qn8qL/q449fNQD2rClsrAiKT8u4bEZcemzfmffWqaStMq8jmcAtldTjig9NmXlTA+KoZUCAMDeQAc4qcfB29gGRuxxpDNRQ6IeinAi92lurf58m5RYwbdhe66pyruofHwUkCSRhQG/6daNvaZ3TOequORCqQjetQBHa1dIwPyHo5WdaMWtxrLCEXlePdtlkI+L2AVBLEqTzlvI1bc/Pxc2sK9aC6HXkl4mfVfBThjwd8hvsku0FPQvTnqVdfYEgN0zrx7MtltIjm1bns5vTnAUk0Af4jiQzrG46r7gI17tmOF0n5IP2WwmLuaHJeNYmI18KBTCLNtGGLBZ+FM1CoPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=63B1jCEkSnTGL88Bp67Pew+h8/hNIqxuNkeOKCNXMoE=;
- b=FSSNQZ13vMQGAlWAHvJyCXsE2TgjWws1eQmW8jXEeHdaBQK94MKnOIUW1QQ10ol6Uln2NxVicPlYQzgciGOffcXgaHd/aGZPkPrcjfZKF4xCDWzeRGnRx8l2WzPyIZn0XdpF8EC7mAGzlh0buHOnX0GCWIKCVp6d+jU4BViquVI6CIgmGYnxmj2m9AKsHgpCvsqLGKCRBwIvOfQXkW9sxpHRO4Vpj/+I7DvMYbwKaQS/DBgp6GHRN6IGx+4Y3UHLP//0FYKxMOWQdcJK1EL+NNglcj2rWQMHcw7a7r/frQHvE14e8Su1eA0u73uJIANCvIkGLknBETzeeQTJ2l5g3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=63B1jCEkSnTGL88Bp67Pew+h8/hNIqxuNkeOKCNXMoE=;
- b=AW0jfUHjBc67IjhKPqLy6nlZDgiuxv7Y8M511rOGODDQnHUvE/TIQSUPUtWGbj5MU4Nu0YX6g6w8yzAcxqCpM2Lh4IbAi648TC8xYMsLUdLwwn9izFfU242WyEOLGkuORAlYrKHI21iwZRaewRlXwT+BxtoLWL+UaggL5LqU9BE=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TY1PR01MB1530.jpnprd01.prod.outlook.com (2603:1096:403:3::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.8; Tue, 12 Jan
- 2021 04:43:06 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::2023:7ed1:37c3:8037]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::2023:7ed1:37c3:8037%5]) with mapi id 15.20.3742.012; Tue, 12 Jan 2021
- 04:43:06 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-CC:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Khiem Nguyen <khiem.nguyen.xt@renesas.com>,
-        "linux-power@fi.rohmeurope.com" <linux-power@fi.rohmeurope.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v6 08/12] gpio: bd9571mwv: Add BD9574MWF support
-Thread-Topic: [PATCH v6 08/12] gpio: bd9571mwv: Add BD9574MWF support
-Thread-Index: AQHW2RWRDefQuJbQhk63Y/3Ij1nfPqoLeOeAgBgOyLA=
-Date:   Tue, 12 Jan 2021 04:43:06 +0000
-Message-ID: <TY2PR01MB36928A24EB009F309B35B4F3D8AA0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <1608718963-21818-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1608718963-21818-9-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CACRpkdaDFgoaLnqmPFSnXe3KyNrGnpQObb0t7d2X_btU7VWD5w@mail.gmail.com>
-In-Reply-To: <CACRpkdaDFgoaLnqmPFSnXe3KyNrGnpQObb0t7d2X_btU7VWD5w@mail.gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 7ab2dde4-900c-44c0-247f-08d8b6b48dde
-x-ms-traffictypediagnostic: TY1PR01MB1530:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY1PR01MB1530746B3304970D92943F34D8AA0@TY1PR01MB1530.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1360;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NDob52TdGcc21h/SAxHZf2afdMUiW0PS2Ca/kgJmgIugz+Wdz5V2VfMwVsxGp5Nh2oZieAVfho+FctwmFuUtBsMyF1LaMQzGKqhn3ufFQ1qE3DB20KtcknzTlIpzjfVeohzjGyRFaUXSuU6RkCwtiL494LTpdJRJYpTSXyLSthPcUKdZdbEZYON3GY9uRUaXi5iLJlu0rPbY0YjpBFnBnjm3m+6/IHPVrEkmLvsmO/E9kOZQGACHv7gDyeXXqMqBW1+F41s5Ag3AZ7s94yoQIKMz4xAViE00ZIAQna5W4QCwXItPW/OUWMIVvuSXrNA41kaGt10N+v+9PY09QYT9NhepMrgdpU+nOsDt3cxRYdckeKaD0mj3BCzNRaJ1MOEycpqzk+P1fWwfobVcyrRJIQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(39860400002)(376002)(396003)(136003)(66476007)(316002)(186003)(66946007)(76116006)(52536014)(54906003)(66446008)(5660300002)(66556008)(7696005)(478600001)(4744005)(7416002)(8676002)(6916009)(2906002)(55016002)(4326008)(64756008)(9686003)(33656002)(71200400001)(6506007)(8936002)(55236004)(86362001)(26005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?utf-8?B?UFByS2p1OXpIbm5FZzh0Z0ZSc0Q1WCtiTHFPWU1OS2tRd3NyTGh2N1RYaTlM?=
- =?utf-8?B?VzhJcW9aQlJNUU93WEl0bXJEUjlvOVZZdlBsUWY3cml1eHRVdGdQT09sMUxD?=
- =?utf-8?B?blpsRWdxZkoyVDBBSW1qOTFMdG5KTjlQY1Ric0pUcDdhUFNYS3hHbWw2dUhU?=
- =?utf-8?B?RnFpNi9sTTFBUXlYaHU4TCswNjRRUjFqbUgxYWNrR3diZ3FJU0w0TEZUTGlh?=
- =?utf-8?B?eFpsQWdCdmNUb0ppYlRabnZhSkY4b21nWGpqOUV0MmUyalhZT3dEdWpaOFE2?=
- =?utf-8?B?ekhFcnpwSVA4NUdUblFyM21xcS9ra0NYV0VUdDVOWlBaZnNnNFZ6c1RWbnE5?=
- =?utf-8?B?bG96dzZkS3hIRzhoQk0vUUswMUlKTVJXK2FRbVpSdTZoVHJMQm56OUlUN3U4?=
- =?utf-8?B?QjRaSFVCSE8vL1VZTGRxKzhteHYyQ3ltdzVsMFZpbXBvYW5Qb0RRL1dSVUxG?=
- =?utf-8?B?WGdJT2lwSWZjbHpsZFh5VE5mdm81SWNaMDFxQ0R6M1E4M3BpU05yVTAvd0dU?=
- =?utf-8?B?WTFrR1k2dWpuY0FZUER3OGJJQm13cHUwU1JKK2p2bnNYU0JkUTVjRHVYSktJ?=
- =?utf-8?B?OWswMnlqVzljQTFnWWlwVjdSMDRtTFRGaDZ0UVFCV0F1ZmJWY3owMWExQm1R?=
- =?utf-8?B?ekNHdi9RaVZUb1kyeFp6cFRseHlZdytVSHFkcnV2VnBYVS83R1hibEhYUDZG?=
- =?utf-8?B?Q2dzNS9KK1ZUMGhqenZlbHRHY01hS00vWnVJR1lod1pxaDF0ajdzUThZME9h?=
- =?utf-8?B?dmRlTUVGWnZwZFBDSHFWa2RFbUVhaWkyNXlvV3hTa2JqK0xQQmY5ZzN2c01I?=
- =?utf-8?B?SDRDajJwQmR1MG9PL2JZR0ZJN2NxcEhNU3pmTUR1dXJhcTg4QWJXeTJKdklP?=
- =?utf-8?B?MHAvbzNTUHMwWWl3d3ExRU9ERUpuTFZBZ0pMYUFMTHhVRUlLNkkzQ0dZb24w?=
- =?utf-8?B?MkdybkhZcmJoT0NrYUloc2JDTnJrTGROTklIKzRmK0xIS0VnMVVUR2JHZWpS?=
- =?utf-8?B?aVpabUV2ZXBOZXFrczduVVZxY1pFYWlyeEJpZW5sMVROeHc0YmRlNG0zMzh2?=
- =?utf-8?B?R3lteGhYRkZ3cVdKLzdHY3NWRlVrMUQ2MVB1YTRRRG53WDVCTHF4UW01NVRn?=
- =?utf-8?B?SXZmODhNWWsvVmRBdWJaNk9valcyTUN6QzEwUU5sZkpWQXg0aDBmQkl1aG9W?=
- =?utf-8?B?cy93OFA5RGhkWDlNTXVSRmNvNXBraU9vamNYMVZzWlY0YXkrNTRoeGltL0NB?=
- =?utf-8?B?cEhrYWczN3N0aHZ5c1A0eDdtSzVWYjY1emZnZVZTdmswMDlTYkplVUtLbGgy?=
- =?utf-8?Q?5AWtXNI7H1b2c=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Mon, 11 Jan 2021 23:55:48 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 662FFC061575;
+        Mon, 11 Jan 2021 20:55:08 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08C113E;
+        Tue, 12 Jan 2021 05:55:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1610427306;
+        bh=mWSrPw+VEs0WHUPtsV484yQIcw8lphb3LuxwiSbX2e8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mcPEg45A/cuxE5BxKVPaNH19FrQBHAPiD8zgamSgETzNEvKM/6HxH2FAveIqCfDPA
+         4poCbQB34RHQqftNLOZ5+nujZxxYlKgoic7Q77Sti8vlcKY+SUCUJdnmzEHQQERg4V
+         IoESLpPrg4Qj8R6rbrbnrKq0k0ia4LzYnYFH6T10=
+Date:   Tue, 12 Jan 2021 06:54:52 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mark Yao <markyao0591@gmail.com>
+Subject: Re: [PATCH v3 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
+ binding to YAML
+Message-ID: <X/0rnLGvhRFFcBXR@pendragon.ideasonboard.com>
+References: <20210105060818.24158-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210105060818.24158-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20210111231258.GB3214205@robh.at.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ab2dde4-900c-44c0-247f-08d8b6b48dde
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jan 2021 04:43:06.2500
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QPtLH4JCcTJqqse7aOct8UfwxJYeN44Ld1Zb/vRGPLeKKJXMD3oE7cjVsR3dHbPWzbHSeDqDP7eSMJ4T+aBMQRs7P+SQqDkX6GjzDHfC2RRzwDelXhGaeR+k5KAiJ0i3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1530
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210111231258.GB3214205@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGludXMsDQoNCj4gRnJvbTogTGludXMgV2FsbGVpaiwgU2VudDogTW9uZGF5LCBEZWNlbWJl
-ciAyOCwgMjAyMCA2OjE2IEFNDQo+IA0KPiA+IEFkZCBzdXBwb3J0IGZvciBCRDk1NzRNV0Ygd2hp
-Y2ggaXMgc2ltaWxhciBjaGlwIHdpdGggQkQ5NTcxTVdWLg0KPiA+IE5vdGUgdGhhdCBCRDk1NzRN
-V0YgaGFzIGFkZGl0aW9uYWwgZmVhdHVyZXMgIlJFQ09WX0dQT1VUIiwNCj4gPiAiRlJFUVNFTCIg
-YW5kICJSVENfSU4iLCBidXQgc3VwcG9ydHMgR1BJTyBmdW5jdGlvbiBvbmx5Lg0KPiA+DQo+ID4g
-U2lnbmVkLW9mZi1ieTogWW9zaGloaXJvIFNoaW1vZGEgPHlvc2hpaGlyby5zaGltb2RhLnVoQHJl
-bmVzYXMuY29tPg0KPiA+IFJldmlld2VkLWJ5OiBNYXR0aSBWYWl0dGluZW4gPG1hdHRpLnZhaXR0
-aW5lbkBmaS5yb2htZXVyb3BlLmNvbT4NCj4gDQo+IEFja2VkLWJ5OiBMaW51cyBXYWxsZWlqIDxs
-aW51cy53YWxsZWlqQGxpbmFyby5vcmc+DQoNClRoYW5rIHlvdSBmb3IgeW91ciBBY2tlZC1ieSEg
-SSdsbCBhZGQgeW91ciBBY2tlZC1ieSBpbiB0aGUgbmV4dCBwYXRjaCB2ZXJzaW9uIGFzIHY5Lg0K
-DQo+IFRoaXMgbG9va3MgbGlrZSBpdCBjb21waWxlLXRpbWUgZGVwZW5kcyBvbiB0aGUgb3RoZXIg
-cGF0Y2hlcyByaWdodD8NCg0KWW91J3JlIGNvcnJlY3QuDQoNCkJlc3QgcmVnYXJkcywNCllvc2hp
-aGlybyBTaGltb2RhDQoNCg==
+Hi Rob,
+
+On Mon, Jan 11, 2021 at 05:12:58PM -0600, Rob Herring wrote:
+> On Tue, Jan 05, 2021 at 08:08:16AM +0200, Laurent Pinchart wrote:
+> > Convert the Rockchip HDMI TX text binding to YAML.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> > Changes since v2:
+> > 
+> > - Use Mark's @gmail.com e-mail address as the @rock-chips.com address
+> >   bounces
+> > 
+> > Changes since v1:
+> > 
+> > - Drop pinctrl-0 and pinctrl-1
+> > - Use unevaluatedProperties instead of additionalProperties
+> > - Drop reg and interrupts as they're checked in the base schema
+> > - Rebase on top of OF graph schema, dropped redundant properties
+> > - Fix identation for enum entries
+> > - Tidy up clock names
+> > ---
+> >  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
+> >  .../display/rockchip/rockchip,dw-hdmi.yaml    | 158 ++++++++++++++++++
+> >  2 files changed, 158 insertions(+), 74 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> >  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > deleted file mode 100644
+> > index 3d32ce137e7f..000000000000
+> > --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > +++ /dev/null
+> > @@ -1,74 +0,0 @@
+> > -Rockchip DWC HDMI TX Encoder
+> > -============================
+> > -
+> > -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > -with a companion PHY IP.
+> > -
+> > -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+> > -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+> > -following device-specific properties.
+> > -
+> > -
+> > -Required properties:
+> > -
+> > -- compatible: should be one of the following:
+> > -		"rockchip,rk3228-dw-hdmi"
+> > -		"rockchip,rk3288-dw-hdmi"
+> > -		"rockchip,rk3328-dw-hdmi"
+> > -		"rockchip,rk3399-dw-hdmi"
+> > -- reg: See dw_hdmi.txt.
+> > -- reg-io-width: See dw_hdmi.txt. Shall be 4.
+> > -- interrupts: HDMI interrupt number
+> > -- clocks: See dw_hdmi.txt.
+> > -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+> > -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
+> > -  corresponding to the video input of the controller. The port shall have two
+> > -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
+> > -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
+> > -
+> > -Optional properties
+> > -
+> > -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> > -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> > -  connected to a system I2C master this property contains a phandle to that
+> > -  I2C master controller.
+> > -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
+> > -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
+> > -- clock-names: May contain "grf", power for grf io.
+> > -- clock-names: May contain "vpll", external clock for some hdmi phy.
+> > -- phys: from general PHY binding: the phandle for the PHY device.
+> > -- phy-names: Should be "hdmi" if phys references an external phy.
+> > -
+> > -Optional pinctrl entry:
+> > -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
+> > -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
+> > -  i2c timeout.  It's intended that this unwedge pinctrl entry will
+> > -  cause the SDA line to be driven low to work around a hardware
+> > -  errata.
+> > -
+> > -Example:
+> > -
+> > -hdmi: hdmi@ff980000 {
+> > -	compatible = "rockchip,rk3288-dw-hdmi";
+> > -	reg = <0xff980000 0x20000>;
+> > -	reg-io-width = <4>;
+> > -	ddc-i2c-bus = <&i2c5>;
+> > -	rockchip,grf = <&grf>;
+> > -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> > -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> > -	clock-names = "iahb", "isfr";
+> > -	ports {
+> > -		hdmi_in: port {
+> > -			#address-cells = <1>;
+> > -			#size-cells = <0>;
+> > -			hdmi_in_vopb: endpoint@0 {
+> > -				reg = <0>;
+> > -				remote-endpoint = <&vopb_out_hdmi>;
+> > -			};
+> > -			hdmi_in_vopl: endpoint@1 {
+> > -				reg = <1>;
+> > -				remote-endpoint = <&vopl_out_hdmi>;
+> > -			};
+> > -		};
+> > -	};
+> > -};
+> > diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > new file mode 100644
+> > index 000000000000..d3b2f87f152a
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > @@ -0,0 +1,158 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Rockchip DWC HDMI TX Encoder
+> > +
+> > +maintainers:
+> > +  - Mark Yao <markyao0591@gmail.com>
+> > +
+> > +description: |
+> > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > +  with a companion PHY IP.
+> > +
+> > +allOf:
+> > +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - rockchip,rk3228-dw-hdmi
+> > +      - rockchip,rk3288-dw-hdmi
+> > +      - rockchip,rk3328-dw-hdmi
+> > +      - rockchip,rk3399-dw-hdmi
+> > +
+> > +  reg-io-width:
+> > +    const: 4
+> > +
+> > +  clocks:
+> > +    minItems: 2
+> > +    maxItems: 5
+> > +    items:
+> > +      - {}
+> > +      - {}
+> > +      # The next three clocks are all optional, but shall be specified in this
+> > +      # order when present.
+> > +      - description: The HDMI CEC controller main clock
+> > +      - description: Power for GRF IO
+> > +      - description: External clock for some HDMI PHY
+> > +
+> > +  clock-names:
+> > +    minItems: 2
+> > +    maxItems: 5
+> > +    items:
+> > +      - {}
+> > +      - {}
+> > +      - enum:
+> > +          - cec
+> > +          - grf
+> > +          - vpll
+> > +      - enum:
+> > +          - grf
+> > +          - vpll
+> > +      - const: vpll
+> > +
+> > +  ddc-i2c-bus:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description:
+> > +      The HDMI DDC bus can be connected to either a system I2C master or the
+> > +      functionally-reduced I2C master contained in the DWC HDMI. When connected
+> > +      to a system I2C master this property contains a phandle to that I2C
+> > +      master controller.
+> > +
+> > +  phys:
+> > +    maxItems: 1
+> > +    description: The HDMI PHY
+> > +
+> > +  phy-names:
+> > +    const: hdmi
+> > +
+> > +  pinctrl-names:
+> > +    description:
+> > +      The unwedge pinctrl entry shall drive the DDC SDA line low. This is
+> > +      intended to work around a hardware errata that can cause the DDC I2C
+> > +      bus to be wedged.
+> > +    items:
+> > +      - const: default
+> > +      - const: unwedge
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> 
+> In this case, this is correct since you have endpoint definitions.
+> 
+> > +        unevaluatedProperties: false
+> > +        description: Input of the DWC HDMI TX
+> > +
+> > +        properties:
+> > +          endpoint@0:
+> > +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> 
+> #/properties/endpoint
+> 
+> > +            unevaluatedProperties: false
+> > +            description: Connection to the VOPB
+> 
+> Oh good, we've done muxing both ways...
+
+Isn't it nice ? :-S
+
+Are endpoints the right way though ? When the mux is internal to an IP
+core, there are multiple physical input ports.
+
+> > +
+> > +          endpoint@1:
+> > +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > +            unevaluatedProperties: false
+> > +            description: Connection to the VOPL
+> > +
+> > +        required:
+> > +          - endpoint@0
+> > +          - endpoint@1
+> > +
+> > +    required:
+> > +      - port
+> > +
+> > +  rockchip,grf:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description:
+> > +      phandle to the GRF to mux vopl/vopb.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - reg-io-width
+> > +  - clocks
+> > +  - clock-names
+> > +  - interrupts
+> > +  - ports
+> > +  - rockchip,grf
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/rk3288-cru.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +
+> > +    hdmi: hdmi@ff980000 {
+> > +        compatible = "rockchip,rk3288-dw-hdmi";
+> > +        reg = <0xff980000 0x20000>;
+> > +        reg-io-width = <4>;
+> > +        ddc-i2c-bus = <&i2c5>;
+> > +        rockchip,grf = <&grf>;
+> > +        interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> > +        clock-names = "iahb", "isfr";
+> > +
+> > +        ports {
+> > +            port {
+> > +                #address-cells = <1>;
+> > +                #size-cells = <0>;
+> > +
+> > +                hdmi_in_vopb: endpoint@0 {
+> > +                    reg = <0>;
+> > +                    remote-endpoint = <&vopb_out_hdmi>;
+> > +                };
+> > +                hdmi_in_vopl: endpoint@1 {
+> > +                    reg = <1>;
+> > +                    remote-endpoint = <&vopl_out_hdmi>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+
+-- 
+Regards,
+
+Laurent Pinchart
