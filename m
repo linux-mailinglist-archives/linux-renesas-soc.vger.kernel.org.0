@@ -2,80 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDCC42F2A23
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 09:40:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC0262F2A91
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 10:06:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387585AbhALIk2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Jan 2021 03:40:28 -0500
-Received: from mail-ot1-f47.google.com ([209.85.210.47]:46301 "EHLO
-        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387684AbhALIkZ (ORCPT
+        id S2389060AbhALJBu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Jan 2021 04:01:50 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:61665 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2388357AbhALJBu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Jan 2021 03:40:25 -0500
-Received: by mail-ot1-f47.google.com with SMTP id w3so1507867otp.13;
-        Tue, 12 Jan 2021 00:40:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w29dUB5KL4eezIAef15433MX3r9r8DCwvj+zosW1uhM=;
-        b=YnVzBiCQ/ELWkjtNODQeuy60HST78Rw9q2D1VVo6bt77fbkDCOGpr8DHJ2FfGU6Xny
-         msAJtjq0w+I9FsrZZxug7Qtp9BfUMp59W1mAZ/eo0smn19zJgELjWFCu6IHVRLL4xtYv
-         rsc+SpdYjwlTGivT5WbU4WcfZ43whd4ZBn5Bo8EDxryNvJsWwD7gfsxeYvCMJg7b00tc
-         qbnNCzWhL5vnzc+T7Pdy6N0sEvWKdwz6Smq1dRMqoPJ/vzT5ryQ5EGdBy10QKIl4X4vn
-         +i+cL5ofNjemKdz6R2BjT304gRqR3LW9NurZmBjfpNjBAMMdzN/KShPp6Ae5XXTzKyyS
-         keqw==
-X-Gm-Message-State: AOAM533W5/SN7mbMiHAwgYPk5yqtrqr4egsa/BKfuQeq95JoHxdfSFr0
-        fVDlreZCNPi/lSk2toAahXwX16pLEhAUk+DZhAE=
-X-Google-Smtp-Source: ABdhPJxvwE5oiPdBOmeUtO04110FP0REWTxbESwnAkckCmz20kMv1WE8CbpumhTKdbLVoijUlzfY35HVPOC325H0pIg=
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr2143981oth.250.1610440783942;
- Tue, 12 Jan 2021 00:39:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20201228202221.2327468-1-aford173@gmail.com> <20210111201430.GA2993479@robh.at.kernel.org>
-In-Reply-To: <20210111201430.GA2993479@robh.at.kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 12 Jan 2021 09:39:32 +0100
-Message-ID: <CAMuHMdWf-LchrFJRrQ2ByO_e4O8CV3j9EZ5o2TnqUeHhX_YF1g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: clock: renesas: rcar-usb2-clock-sel: Add
- support for RZ/G2 M/N/H
-To:     Rob Herring <robh@kernel.org>
-Cc:     Adam Ford <aford173@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 12 Jan 2021 04:01:50 -0500
+X-IronPort-AV: E=Sophos;i="5.79,340,1602514800"; 
+   d="scan'208";a="68731765"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 12 Jan 2021 18:01:18 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 39A9340062D6;
+        Tue, 12 Jan 2021 18:01:18 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     marek.vasut+renesas@gmail.com, lee.jones@linaro.org,
+        matti.vaittinen@fi.rohmeurope.com, lgirdwood@gmail.com,
+        broonie@kernel.org, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com
+Cc:     khiem.nguyen.xt@renesas.com, linux-power@fi.rohmeurope.com,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v9 00/12] treewide: bd9571mwv: Add support for BD9574MWF
+Date:   Tue, 12 Jan 2021 18:00:55 +0900
+Message-Id: <1610442067-7446-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 9:14 PM Rob Herring <robh@kernel.org> wrote:
-> On Mon, 28 Dec 2020 14:22:20 -0600, Adam Ford wrote:
-> > The datasheet for the RZ/G2 Series show the bit for choosing between a crystal
-> > oscillator and an external oscillator is present.  Add the bindings for
-> > r8a774a1 (RZ/G2M), r8a774b1 (RZ/G2N), and r8a774e1 (RZ/G2H)
-> >
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
-> >
->
-> Acked-by: Rob Herring <robh@kernel.org>
+Add BD9574MWF support into bd9571mwv gpio, mfd and regulator drivers.
+Latest Ebisu-4D boards has this chip instead of BD9571MWV so that
+we need this patch series to detect this chip at runtime.
 
-Thanks, will queue in renesas-clk-for-v5.12.
+Note that the patch [1/12] is a bug-fix patch for mfd driver.
 
-Gr{oetje,eeting}s,
+Hello Lee,
 
-                        Geert
+Now I got Acked-by from maintainers of gpio and regulator. So,
+would you apply this series to your repo?
+
+Changes from v8:
+ - Add Acked-by from maintainers of regulator and gpio in patch 4 to 8.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=406323
+
+Changes from v7:
+ - Fix typo in the patch 10.
+ - Add "Acked-for-MFD-by" in patch 2 and 11.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=406091
+
+Changes from v6:
+ - Remove "struct bd957x_ddata" because this is not used after probed.
+ - Add "Acked-for-MFD-by" in patch 12.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=405725
+
+Changes from v5:
+ - Fix typo in the patch 5 and 8.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=405263
+
+Changes from v4:
+ - Add Reviwed-by in patch 1, 10, 11 and 12.
+ - Keep bd9571mwv_id_table[] as-is because unused in patch 12.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=404657
+
+Changes from v3:
+ - Add "Acked-for-MFD-by" in patch 1, 3, 9 and 10.
+ - Use "Co-developed-by" instead in patch 11.
+ - In patch 11:
+ -- Remove abusing kernel-doc formatting in patch.
+ -- Rename bd957x_data with bd957x_ddata in patch.
+ -- Remove product name printk.
+ -- Rename bd9571mwv_identify() with bd957x_identify().
+ -- Remove argument "part_name" from bd957x_identify().
+ -- Modify dev_err() string.
+ -- Rename BD9571MWV_PRODUCT_CODE_VAL with BD9571MWV_PRODUCT_CODE_BD9571MWV.
+ -- Fix errno from -ENOENT to -ENODEV.
+ - In patch 12:
+ -- Rename "MFD driver" to "core driver".
+ -- Remove unnecessary comments.
+ -- Rename BD9574MWF_PRODUCT_CODE_VAL with BD9571MWV_PRODUCT_CODE_BD9574MWF.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=402719
+
+Changes from v2:
+ - Use devm_mfd_add_devices() to remove the mfd device in unload.
+ - Update commit descriptions in patch 4 and 8.
+ - Use regmap_get_device() to simplify in patch 4.
+ - Remove "struct bd9571mwv" and bd9571mwv_remove().
+ - Add Reviewed-by in patch 3 to 9.
+ - Use devm_regmap_add_irq_chip() to simplify in patch 10.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=400477
+
+Changes from v1:
+ - Document BD9574MWF on the dt-binding.
+ - Add ROHM_CHIP_TYPE_BD957[14] into rohm-generic.h.
+ - To simplify gpio and regulator drivers, using regmap instead of
+   using struct bd9571mwv.
+ - Remove BD9574MWF definitions to make gpio and regulator driver
+   simple to support for BD9574MWF.
+ - Add BD9574MWF support for gpio and regulator drivers.
+ - Add missing regmap ranges for BD9574MWF.
+ - Rename "part_number" with "part_name".
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=398059
+
+
+Khiem Nguyen (2):
+  mfd: bd9571mwv: Make the driver more generic
+  mfd: bd9571mwv: Add support for BD9574MWF
+
+Yoshihiro Shimoda (10):
+  mfd: bd9571mwv: Use devm_mfd_add_devices()
+  dt-bindings: mfd: bd9571mwv: Document BD9574MWF
+  mfd: rohm-generic: Add BD9571 and BD9574
+  regulator: bd9571mwv: rid of using struct bd9571mwv
+  regulator: bd9571mwv: Add BD9574MWF support
+  gpio: bd9571mwv: Use the SPDX license identifier
+  gpio: bd9571mwv: rid of using struct bd9571mwv
+  gpio: bd9571mwv: Add BD9574MWF support
+  mfd: bd9571mwv: Use the SPDX license identifier
+  mfd: bd9571mwv: Use devm_regmap_add_irq_chip()
+
+ .../devicetree/bindings/mfd/bd9571mwv.txt          |   4 +-
+ drivers/gpio/gpio-bd9571mwv.c                      |  35 ++--
+ drivers/mfd/bd9571mwv.c                            | 178 ++++++++++++++-------
+ drivers/regulator/bd9571mwv-regulator.c            |  59 ++++---
+ include/linux/mfd/bd9571mwv.h                      |  45 ++----
+ include/linux/mfd/rohm-generic.h                   |   2 +
+ 6 files changed, 186 insertions(+), 137 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.7.4
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
