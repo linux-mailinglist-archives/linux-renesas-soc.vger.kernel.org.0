@@ -2,44 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63B9C2F3923
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 19:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35A7B2F3B45
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 20:57:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404378AbhALSpU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Jan 2021 13:45:20 -0500
-Received: from mga06.intel.com ([134.134.136.31]:5178 "EHLO mga06.intel.com"
+        id S1726406AbhALTzW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Jan 2021 14:55:22 -0500
+Received: from mga06.intel.com ([134.134.136.31]:10484 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726438AbhALSpU (ORCPT
+        id S2388019AbhALTzW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Jan 2021 13:45:20 -0500
-IronPort-SDR: SWGQ35grszQVFPCjuDc6Is+fpbahphZQ4aVJn7scStisvVaP2EAz3tD1U0aMDciS8+Z77tiKIG
- mrHoVwHz4JOw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="239632595"
+        Tue, 12 Jan 2021 14:55:22 -0500
+IronPort-SDR: FnnZuDjOtVtrKK5l92AO8Ex77y9IHDTm6/1N8muYUvgGLfYy/mPVVDMTxCBhX7sm+6HAXSque6
+ IRHCLvh2j7Qw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="239641709"
 X-IronPort-AV: E=Sophos;i="5.79,342,1602572400"; 
-   d="gz'50?scan'50,208,50";a="239632595"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2021 10:44:33 -0800
-IronPort-SDR: VfuqakAYvqJMTKWBZEXbCBqpXRC4lk0BBb1E2oxLtl2flJLYV4VLvEHh0xIfGnpG872ZMFg7g/
- tcoAH1TV7ZJg==
+   d="gz'50?scan'50,208,50";a="239641709"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2021 11:54:36 -0800
+IronPort-SDR: ndQ7Rk2tZmhYRy6TzMkTbmBnIrrJJqnE3n4hTPcI5+DSTucRxVEMHAXbGP65LuVxUC+rvHmysV
+ MYI/xqIGdfHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,342,1602572400"; 
-   d="gz'50?scan'50,208,50";a="499006232"
+   d="gz'50?scan'50,208,50";a="400292106"
 Received: from lkp-server01.sh.intel.com (HELO b73930e00c65) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 12 Jan 2021 10:44:31 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2021 11:54:34 -0800
 Received: from kbuild by b73930e00c65 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1kzOec-0000RB-Hn; Tue, 12 Jan 2021 18:44:30 +0000
-Date:   Wed, 13 Jan 2021 02:44:06 +0800
+        id 1kzPkO-0000Sd-HE; Tue, 12 Jan 2021 19:54:32 +0000
+Date:   Wed, 13 Jan 2021 03:54:21 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     kbuild-all@lists.01.org, clang-built-linux@googlegroups.com,
         linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:topic/renesas-debug 11/20]
- drivers/soc/renesas/r8a77965-mstp.c:608:13: warning: no previous prototype
- for function 'r8a77965_disable_mstp_clocks'
-Message-ID: <202101130256.6LRW7lf9-lkp@intel.com>
+Subject: [renesas-drivers:topic/renesas-debug 12/20]
+ drivers/soc/renesas/r8a77990-mstp.c:544:13: warning: no previous prototype
+ for function 'r8a77990_disable_mstp_clocks'
+Message-ID: <202101130359.IGT7nuRA-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="W/nzBZO5zC0uMSeA"
+Content-Type: multipart/mixed; boundary="sm4nu43k4a2Rpi4c"
 Content-Disposition: inline
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
@@ -47,13 +47,13 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---W/nzBZO5zC0uMSeA
+--sm4nu43k4a2Rpi4c
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-debug
 head:   19a13e050f789ac7d98a4b3320a376f5052e84a0
-commit: 60122e064f8d3029c65e430a9a4330a02f4b96e3 [11/20] [DEBUG] soc: renesas: r8a77965: MSTP debug handling
+commit: cff4ebb63f314f3c191a893b8bfce4877b5b1572 [12/20] [DEBUG] soc: renesas: r8a77990: MSTP debug handling
 config: arm64-randconfig-r034-20210112 (attached as .config)
 compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project 32bcfcda4e28375e5a85268d2acfabcfcc011abf)
 reproduce (this is a W=1 build):
@@ -61,10 +61,10 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         # install arm64 cross compiling tool for clang build
         # apt-get install binutils-aarch64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=60122e064f8d3029c65e430a9a4330a02f4b96e3
+        # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=cff4ebb63f314f3c191a893b8bfce4877b5b1572
         git remote add renesas-drivers https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
         git fetch --no-tags renesas-drivers topic/renesas-debug
-        git checkout 60122e064f8d3029c65e430a9a4330a02f4b96e3
+        git checkout cff4ebb63f314f3c191a893b8bfce4877b5b1572
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm64 
 
@@ -73,11 +73,11 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/soc/renesas/r8a77965-mstp.c:608:13: warning: no previous prototype for function 'r8a77965_disable_mstp_clocks' [-Wmissing-prototypes]
-   void __init r8a77965_disable_mstp_clocks(void)
+>> drivers/soc/renesas/r8a77990-mstp.c:544:13: warning: no previous prototype for function 'r8a77990_disable_mstp_clocks' [-Wmissing-prototypes]
+   void __init r8a77990_disable_mstp_clocks(void)
                ^
-   drivers/soc/renesas/r8a77965-mstp.c:608:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init r8a77965_disable_mstp_clocks(void)
+   drivers/soc/renesas/r8a77990-mstp.c:544:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init r8a77990_disable_mstp_clocks(void)
    ^
    static 
    1 warning generated.
@@ -85,21 +85,21 @@ All warnings (new ones prefixed by >>):
    clang-12: error: assembler command failed with exit code 1 (use -v to see invocation)
 
 
-vim +/r8a77965_disable_mstp_clocks +608 drivers/soc/renesas/r8a77965-mstp.c
+vim +/r8a77990_disable_mstp_clocks +544 drivers/soc/renesas/r8a77990-mstp.c
 
-   607	
- > 608	void __init r8a77965_disable_mstp_clocks(void)
+   543	
+ > 544	void __init r8a77990_disable_mstp_clocks(void)
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---W/nzBZO5zC0uMSeA
+--sm4nu43k4a2Rpi4c
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICG7n/V8AAy5jb25maWcAnDxdc+O2ru/9FZ725ZyHbv0VJ3vu5IGSKJu1viJSdpwXjZs4
+H4sICFT1/V8AAy5jb25maWcAnDxdc+O2ru/9FZ725ZyHbv0VJ3vu5IGSKJu1viJSdpwXjZs4
 W98m9h7H2Xb//QVIfZAU5c3cnZ0kJkCQBAEQAEH/8tMvA/J+Pr5uz/vH7cvL98GX3WF32p53
 T4Pn/cvufwZBOkhSMaABE58AOdof3v/5bXt6nU0HV59mn4a/nh5Hg+XudNi9DPzj4Xn/5R26
 74+Hn375Cf7/Ao2vX4HS6T+Dx5ft4cvg2+70BuDBaPxp+Gk4+NeX/fk/v/0GP1/3p9Px9NvL
@@ -733,4 +733,4 @@ z02o3CBEz9zsIR0ijIqImemtACZNS8cw1SliNgvaGCXnc3z2VAqBvs/HuK3oDTFaqJ82mCXH
 MW9r/X1HtV0Gb/BLnU+7RTozHeWlkg4aN4AlY9WZ4WCB9LQQAw7DO18Ujchb6J9DEsK67t1L
 zy4LJwxBHqr+D+PlHEywHQIA
 
---W/nzBZO5zC0uMSeA--
+--sm4nu43k4a2Rpi4c--
