@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5098A2F4C70
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 14:48:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7FC92F4C78
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 14:50:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726727AbhAMNrv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Jan 2021 08:47:51 -0500
-Received: from mail-oo1-f48.google.com ([209.85.161.48]:38656 "EHLO
-        mail-oo1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726516AbhAMNru (ORCPT
+        id S1726118AbhAMNtV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Jan 2021 08:49:21 -0500
+Received: from mail-ot1-f46.google.com ([209.85.210.46]:35698 "EHLO
+        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725977AbhAMNtU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Jan 2021 08:47:50 -0500
-Received: by mail-oo1-f48.google.com with SMTP id i18so522801ooh.5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Jan 2021 05:47:35 -0800 (PST)
+        Wed, 13 Jan 2021 08:49:20 -0500
+Received: by mail-ot1-f46.google.com with SMTP id i6so1931281otr.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Jan 2021 05:49:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8tRB2PfmO/hozYhbhHcCSZIymk594Em+3lIhOaPNtgE=;
-        b=TTJjivcmmA4XmSZf1LVBO0razaHlcPpHbHThqCmkkgULnMrsFsGz9Q7iIfp+bQE1i6
-         N9mrdEvVm1SRMJIfj9Oh90hL73GSBxwHyn7oiSjT70/p+ASGjXVXfVID4s5ZgHeKc8Ep
-         /knwJa3w93WNxjmO9Fzobwbf6VW/ajPbnhBji/Pm04/530F27P1PjQnCYhap8DHMw1Z1
-         UgFLVOzOsGc6uYysB6nD62w40rW/Pnk1cOt8AJJCavCBxNVFkhnI9WJWtQpPdZX1ks4d
-         Cfde9AgqZ9q3Xrix5wqyQsD3eVHWaQcW1QXqXdjvZ5QijJoKo55viFkYoEMgH/kqPxO8
-         nMMA==
-X-Gm-Message-State: AOAM5321Vsgq36ySlYYDFosMEomugbGNKUkIb40GbA3r38Hnjqmxo3KZ
-        1Auf/rgTfL0S3Au30pIeqUTbzv+orMTdhTvc0dih+3iD
-X-Google-Smtp-Source: ABdhPJx8qczk+NEfqR0qpVcpKetZ+YC1bwbk4u9aqdRUBtT7UoWD1YvRhy3+QU3T/E3S5Q35ugOkBqTmxrVbEzFYhQ0=
-X-Received: by 2002:a4a:c191:: with SMTP id w17mr1302169oop.1.1610545630202;
- Wed, 13 Jan 2021 05:47:10 -0800 (PST)
+        bh=JIs05OEcZbOChfa422Ebj10lTKHVAC/f8v1QLw9S05c=;
+        b=TQkWrLQgdbJiVxv3As9SQ2rIy+Zo8ctQduYOVYTKBFSXh+vVf3RITmDt+lYbZ2l+Ox
+         PK9wj2Q99YUF4ljPTXSb/3XaeoZw9r3pB3ZJJaEp5SoBLG9IcVvQjI51mIq7Ufemj5ur
+         liho7Jm76CBTO3XaGNUlAw/qpcVfiLvU9A7ceQFGkRBRiXPkb5GII+2oXRXyNpxx+X1/
+         fSz2lpllL3F2Kajg8A5HAEMi0/fyG0NMBZae7oi+I1r6hN0hDPBKhAQ/9zDORpfE76f8
+         isQ2oBjl2oVeT8H/+ndUk1CLHHfx3qZWK81vko2AJqn1FmPIK5iTgI0d8K+1ttcxc67D
+         UqYQ==
+X-Gm-Message-State: AOAM5303ZeK5eRTLmh1klHrKGHo+OOkBi0OvisHAPEjkWNatvkaOSEX2
+        MdQGWnh+snqWIdiw34PlxSQTo5W0IL83n7aaMt4=
+X-Google-Smtp-Source: ABdhPJy1exeaEAQarppKpkVJqiDxS9lEM7LG50punXu5B590Um+0HocawipOrYru/AANipnGiIcy4rwmh3atMgonzl8=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr1245997otc.145.1610545719622;
+ Wed, 13 Jan 2021 05:48:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20210112165929.31002-1-uli+renesas@fpond.eu> <20210112165929.31002-9-uli+renesas@fpond.eu>
-In-Reply-To: <20210112165929.31002-9-uli+renesas@fpond.eu>
+References: <20210112165929.31002-1-uli+renesas@fpond.eu>
+In-Reply-To: <20210112165929.31002-1-uli+renesas@fpond.eu>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Jan 2021 14:46:58 +0100
-Message-ID: <CAMuHMdVK6h-AUJTPxkF+c-1u=WmO2378An8NUKsy0HH7SV2c7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 08/12] pinctrl: renesas: r8a779a0: Add MSIOF pins,
- groups and functions
+Date:   Wed, 13 Jan 2021 14:48:28 +0100
+Message-ID: <CAMuHMdV1k++POj0vRuuDHN-NYYJ4X4TejMMHvz-WFBXMQrjnPg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/12] pinctrl: renesas: R8A779A0 (V3U) device support
 To:     Ulrich Hecht <uli+renesas@fpond.eu>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Wolfram Sang <wsa@the-dreams.de>, hoai.luu.ub@renesas.com
@@ -46,15 +45,30 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 5:59 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> This patch adds MSIOF0-5 pins, groups and functions to R8A779A0 (V3U)
-> SoC.
->
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Uli,
 
-MSIOF1 and MSIOF2 external loopback work, so
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Tue, Jan 12, 2021 at 5:59 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> This series adds V3U pin control support for EtherAVB, CANFD, DU, HSCIF,
+> INTC-EX, MMC, MSIOF, PWM, QSPI, TMU and TPU. It depends on the "pinctrl:
+> renesas: basic R8A779A0 (V3U) support" v3 series posted earlier.
+>
+> This revision includes one commit message fix as suggested by Geert and
+> adds a bunch of Reviewed-by and Tested-by tags.
+>
+> Thanks to Geert and Wolfram for review and testing!
+>
+> CU
+> Uli
+>
+>
+> Changes since v2:
+> - CAN: fix commit message
+> - add Reviewed-by/Tested-by tags where applicable
+
+Thanks for the update!
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl-for-v5.12.
 
 Gr{oetje,eeting}s,
 
