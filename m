@@ -2,82 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D37712F4EBA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 16:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA6BD2F5095
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 18:05:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727145AbhAMP3u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Jan 2021 10:29:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33916 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726779AbhAMP3u (ORCPT
+        id S1726003AbhAMRDk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Jan 2021 12:03:40 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:32894 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725977AbhAMRDk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Jan 2021 10:29:50 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EF0332339F;
-        Wed, 13 Jan 2021 15:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610551749;
-        bh=tigmSALSmnpPhwSMEXEk1CkqDvI2zvR/FIet9q8saxs=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=MoKBqM/0cAcRdDNmglVs+rFdRPUNbzgcXYCqbrdI0E8S7QxdvYgDlOI+H5/EMcuwM
-         bxDx42I8DuZCQKpR34X1vfjGwAUecMfNeTynJiV/t3TZ9U+wQ5bpquctU7F9aIClX9
-         2rbjacg/OlVcf01A7TzO6TXp0E49uU3KaYvyyRfhpVcurQc6PpKzpyGstOh0K3ToYJ
-         25fczjxS9wZCXQbAlYTdHA6cE8OzAa/KFCmBPlrojktAMXvKZKz1hLoIRXk8mBETlM
-         CQuA4Iz6WKlS2qfshnANjPSgAkJRyiaA0MYKhl6ARPFryq54zanQks0Z+S7zSRa3d0
-         PGVGIkwD4Cmyw==
-From:   Mark Brown <broonie@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-spi@vger.kernel.org
-In-Reply-To: <20210113101916.1147695-1-geert+renesas@glider.be>
-References: <20210113101916.1147695-1-geert+renesas@glider.be>
-Subject: Re: [PATCH 0/2] spi: sh-msiof: Advertize bit rate limits and actual speed
-Message-Id: <161055171029.21847.2841921385275436977.b4-ty@kernel.org>
-Date:   Wed, 13 Jan 2021 15:28:30 +0000
+        Wed, 13 Jan 2021 12:03:40 -0500
+Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D01B22B3;
+        Wed, 13 Jan 2021 18:02:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1610557378;
+        bh=k3L8DE43wWxyOWTYB2zxJjQ+TAFWQfp28bpyoPMCzTU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=V73yK3oIqPmubHa1MlH5EqpYMif+Qp5wwbeUnCEKAZwXwyVLu9QpzxhnFTWT6GKpc
+         HbgR6JTfmAtnpzho56DGxe+vQVdmj6FpsMatTxdQdZiR+5TsVPTPSGRMEONkiuDYhc
+         sV/zTtfjiFgPxc7RnvrkC+0HzOccnHw2BBK9Xu20=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] drm: rcar-du: Use drmm_encoder_alloc() to manage encoder
+Date:   Wed, 13 Jan 2021 17:02:53 +0000
+Message-Id: <20210113170253.443820-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 13 Jan 2021 11:19:14 +0100, Geert Uytterhoeven wrote:
-> 	Hi Mark,
-> 
-> This patch series makes the Renesas MSIOF SPI driver fill in actual
-> transfer speeds and controller limits, so the SPI core can take them
-> into account.
-> 
-> This has been tested on R-Car Gen2 and Gen3.
-> Thanks!
-> 
-> [...]
+The encoder allocation was converted to a DRM managed resource at the
+same time as the addition of a new helper drmm_encoder_alloc() which
+simplifies the same process.
 
-Applied to
+Convert the custom drm managed resource allocation of the encoder
+with the helper to simplify the implementation, and prevent hitting a
+WARN_ON() due to the handling the drm_encoder_init() call directly
+without registering a .destroy() function op.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+Fixes: f5f16725edbc ("drm: rcar-du: Use DRM-managed allocation for encoders")
+Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 31 +++++------------------
+ 1 file changed, 6 insertions(+), 25 deletions(-)
 
-Thanks!
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+index ba8c6038cd63..ca3761772211 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+@@ -48,21 +48,12 @@ static unsigned int rcar_du_encoder_count_ports(struct device_node *node)
+ static const struct drm_encoder_funcs rcar_du_encoder_funcs = {
+ };
+ 
+-static void rcar_du_encoder_release(struct drm_device *dev, void *res)
+-{
+-	struct rcar_du_encoder *renc = res;
+-
+-	drm_encoder_cleanup(&renc->base);
+-	kfree(renc);
+-}
+-
+ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 			 enum rcar_du_output output,
+ 			 struct device_node *enc_node)
+ {
+ 	struct rcar_du_encoder *renc;
+ 	struct drm_bridge *bridge;
+-	int ret;
+ 
+ 	/*
+ 	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
+@@ -101,26 +92,16 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 			return -ENOLINK;
+ 	}
+ 
+-	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
+-	if (renc == NULL)
+-		return -ENOMEM;
+-
+-	renc->output = output;
+-
+ 	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
+ 		enc_node, output);
+ 
+-	ret = drm_encoder_init(&rcdu->ddev, &renc->base, &rcar_du_encoder_funcs,
+-			       DRM_MODE_ENCODER_NONE, NULL);
+-	if (ret < 0) {
+-		kfree(renc);
+-		return ret;
+-	}
++	renc = drmm_encoder_alloc(&rcdu->ddev, struct rcar_du_encoder, base,
++				  &rcar_du_encoder_funcs, DRM_MODE_ENCODER_NONE,
++				  NULL);
++	if (!renc)
++		return -ENOMEM;
+ 
+-	ret = drmm_add_action_or_reset(&rcdu->ddev, rcar_du_encoder_release,
+-				       renc);
+-	if (ret)
+-		return ret;
++	renc->output = output;
+ 
+ 	/*
+ 	 * Attach the bridge to the encoder. The bridge will create the
+-- 
+2.25.1
 
-[1/2] spi: sh-msiof: Fill in spi_transfer.effective_speed_hz
-      commit: 9a133f7b72f0b8d8896cbc7e4149c763b59168bb
-[2/2] spi: sh-msiof: Fill in controller speed limits
-      commit: 81f68479ec4ec91c0b0d7fb20db433be28e00497
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
