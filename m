@@ -2,118 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA6BD2F5095
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 18:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 954AE2F52C1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 19:57:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726003AbhAMRDk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Jan 2021 12:03:40 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:32894 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725977AbhAMRDk (ORCPT
+        id S1728075AbhAMSzk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Jan 2021 13:55:40 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:41953 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726803AbhAMSzk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Jan 2021 12:03:40 -0500
-Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D01B22B3;
-        Wed, 13 Jan 2021 18:02:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610557378;
-        bh=k3L8DE43wWxyOWTYB2zxJjQ+TAFWQfp28bpyoPMCzTU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=V73yK3oIqPmubHa1MlH5EqpYMif+Qp5wwbeUnCEKAZwXwyVLu9QpzxhnFTWT6GKpc
-         HbgR6JTfmAtnpzho56DGxe+vQVdmj6FpsMatTxdQdZiR+5TsVPTPSGRMEONkiuDYhc
-         sV/zTtfjiFgPxc7RnvrkC+0HzOccnHw2BBK9Xu20=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] drm: rcar-du: Use drmm_encoder_alloc() to manage encoder
-Date:   Wed, 13 Jan 2021 17:02:53 +0000
-Message-Id: <20210113170253.443820-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 13 Jan 2021 13:55:40 -0500
+X-Originating-IP: 93.61.96.190
+Received: from uno.LocalDomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 247B11C0006;
+        Wed, 13 Jan 2021 18:54:55 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: [PATCH v7 0/7] media: i2c: Add RDACM21 camera module
+Date:   Wed, 13 Jan 2021 19:54:58 +0100
+Message-Id: <20210113185506.119808-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The encoder allocation was converted to a DRM managed resource at the
-same time as the addition of a new helper drmm_encoder_alloc() which
-simplifies the same process.
+This iteration is only to ease review of the RDACM21 as it contains two
+broken out patches marked as fixups
 
-Convert the custom drm managed resource allocation of the encoder
-with the helper to simplify the implementation, and prevent hitting a
-WARN_ON() due to the handling the drm_encoder_init() call directly
-without registering a .destroy() function op.
+I've taken Laurent's comments on v6 in the driver, but once I've rebased on
+the GPIO handling fixes applied to the MAX9271 driver, I've opened the pandora
+can of properly resetting the OV490 ISP @_@
 
-Fixes: f5f16725edbc ("drm: rcar-du: Use DRM-managed allocation for encoders")
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 31 +++++------------------
- 1 file changed, 6 insertions(+), 25 deletions(-)
+The two broken out patches serve to show the difference on top of the v6
+version instead of having reviewers going through the changes  that might get
+lost between the two versions.
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-index ba8c6038cd63..ca3761772211 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-@@ -48,21 +48,12 @@ static unsigned int rcar_du_encoder_count_ports(struct device_node *node)
- static const struct drm_encoder_funcs rcar_du_encoder_funcs = {
- };
- 
--static void rcar_du_encoder_release(struct drm_device *dev, void *res)
--{
--	struct rcar_du_encoder *renc = res;
--
--	drm_encoder_cleanup(&renc->base);
--	kfree(renc);
--}
--
- int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 			 enum rcar_du_output output,
- 			 struct device_node *enc_node)
- {
- 	struct rcar_du_encoder *renc;
- 	struct drm_bridge *bridge;
--	int ret;
- 
- 	/*
- 	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
-@@ -101,26 +92,16 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 			return -ENOLINK;
- 	}
- 
--	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
--	if (renc == NULL)
--		return -ENOMEM;
--
--	renc->output = output;
--
- 	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
- 		enc_node, output);
- 
--	ret = drm_encoder_init(&rcdu->ddev, &renc->base, &rcar_du_encoder_funcs,
--			       DRM_MODE_ENCODER_NONE, NULL);
--	if (ret < 0) {
--		kfree(renc);
--		return ret;
--	}
-+	renc = drmm_encoder_alloc(&rcdu->ddev, struct rcar_du_encoder, base,
-+				  &rcar_du_encoder_funcs, DRM_MODE_ENCODER_NONE,
-+				  NULL);
-+	if (!renc)
-+		return -ENOMEM;
- 
--	ret = drmm_add_action_or_reset(&rcdu->ddev, rcar_du_encoder_release,
--				       renc);
--	if (ret)
--		return ret;
-+	renc->output = output;
- 
- 	/*
- 	 * Attach the bridge to the encoder. The bridge will create the
--- 
-2.25.1
+With acks on the fixups patches, I'll squash in v8.
+
+All the other patches are reviewed already, so I hope if nothing big is in
+this version, v8 will be good for merging.
+
+Thanks
+  j
+
+Jacopo Mondi (7):
+  media: i2c: Add driver for RDACM21 camera module
+  fixup! media: i2c: rdacm21: Fix GPIO handling
+  fixup! media: i2c: rdacm21: Break-out ov10640 initialization
+  dt-bindings: media: max9286: Document
+    'maxim,reverse-channel-microvolt'
+  media: i2c: max9286: Break-out reverse channel setup
+  media: i2c: max9286: Make channel amplitude programmable
+  media: i2c: max9286: Configure reverse channel amplitude
+
+ .../bindings/media/i2c/maxim,max9286.yaml     |  22 +
+ MAINTAINERS                                   |  12 +
+ drivers/media/i2c/Kconfig                     |  13 +
+ drivers/media/i2c/Makefile                    |   2 +
+ drivers/media/i2c/max9286.c                   |  60 +-
+ drivers/media/i2c/rdacm21.c                   | 623 ++++++++++++++++++
+ 6 files changed, 719 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/media/i2c/rdacm21.c
+
+--
+2.29.2
 
