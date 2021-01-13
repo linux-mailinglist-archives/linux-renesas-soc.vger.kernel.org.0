@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 541FA2F4263
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 04:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C95A2F4267
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 04:24:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729040AbhAMDXA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Jan 2021 22:23:00 -0500
-Received: from mga18.intel.com ([134.134.136.126]:30408 "EHLO mga18.intel.com"
+        id S1728940AbhAMDX7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Jan 2021 22:23:59 -0500
+Received: from mga17.intel.com ([192.55.52.151]:27954 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729037AbhAMDW7 (ORCPT
+        id S1728531AbhAMDX6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Jan 2021 22:22:59 -0500
-IronPort-SDR: Jx5UaUIE6/r8IxKDMnPaFXzPWNaQ9wrjn93HnM5UL2emehrfX2L5SwzUJlYq21cKrbEw4eQXJv
- pvpkNlCZPSdg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="165820769"
+        Tue, 12 Jan 2021 22:23:58 -0500
+IronPort-SDR: SHI6xyvnf88ZYI/Z39DsZdMwxF+ak3wjVlDpRGSAdbPeoesUvqsMS2jtzrejrPsrq6rec+idny
+ h0+YeEOU9YpQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="157919644"
 X-IronPort-AV: E=Sophos;i="5.79,343,1602572400"; 
-   d="scan'208";a="165820769"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2021 19:22:18 -0800
-IronPort-SDR: uAnRr8wBlIxxYgLZkGqKgzECw9yGmlrLqh3OiKQzG+b7/q7TRmWFF9TwJx2WhKbtMaDZ3pWbaZ
- D3OnHx1kEutA==
+   d="scan'208";a="157919644"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2021 19:23:18 -0800
+IronPort-SDR: R3zz/MIDsnT2QYK7lbx+qMudh43wrqyc+EoI6TnqtyDeccHnM9RNZt74q3P818J8b3bDevxuxZ
+ gCrc8KFDdfDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,343,1602572400"; 
-   d="scan'208";a="499129116"
+   d="scan'208";a="353293589"
 Received: from lkp-server01.sh.intel.com (HELO d5d1a9a2c6bb) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 12 Jan 2021 19:22:17 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 12 Jan 2021 19:23:17 -0800
 Received: from kbuild by d5d1a9a2c6bb with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1kzWjg-00001f-Pj; Wed, 13 Jan 2021 03:22:16 +0000
-Date:   Wed, 13 Jan 2021 11:22:10 +0800
+        id 1kzWke-00001o-Sa; Wed, 13 Jan 2021 03:23:16 +0000
+Date:   Wed, 13 Jan 2021 11:22:16 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:renesas-pinctrl-for-v5.12] BUILD SUCCESS
- 6dd169fc201d05e8da249ee2eabf1f23b0ccb1e4
-Message-ID: <5ffe6762.IQe2ATpH+/TCiJFx%lkp@intel.com>
+Subject: [renesas-drivers:renesas-clk] BUILD SUCCESS
+ c706121386fe8414ac0a0acab37c74aac698c51d
+Message-ID: <5ffe6768.CR0sQiXncMtc9UiQ%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,12 +44,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  renesas-pinctrl-for-v5.12
-branch HEAD: 6dd169fc201d05e8da249ee2eabf1f23b0ccb1e4  pinctrl: renesas: checker: Restrict checks to Renesas platforms
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  renesas-clk
+branch HEAD: c706121386fe8414ac0a0acab37c74aac698c51d  dt-bindings: clock: renesas: rcar-usb2-clock-sel: Add support for RZ/G2 M/N/H
 
 elapsed time: 721m
 
-configs tested: 169
+configs tested: 172
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -138,6 +138,9 @@ arm                            qcom_defconfig
 sh                ecovec24-romimage_defconfig
 arm                          tango4_defconfig
 mips                          ath25_defconfig
+arm                            pleb_defconfig
+mips                           xway_defconfig
+um                             i386_defconfig
 powerpc                     rainier_defconfig
 m68k                         amcore_defconfig
 h8300                            alldefconfig
@@ -206,11 +209,11 @@ i386                 randconfig-a013-20210112
 i386                 randconfig-a015-20210112
 i386                 randconfig-a014-20210112
 riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
 riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
 riscv                             allnoconfig
 riscv                               defconfig
+riscv                          rv32_defconfig
 riscv                            allmodconfig
 x86_64                                   rhel
 x86_64                           allyesconfig
