@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C325D2F4264
+	by mail.lfdr.de (Postfix) with ESMTP id 541FA2F4263
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 04:24:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729037AbhAMDXB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Jan 2021 22:23:01 -0500
-Received: from mga03.intel.com ([134.134.136.65]:24666 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727502AbhAMDXA (ORCPT
-        <rfc822;linux-renesas-soc@vger.kernel.org>);
+        id S1729040AbhAMDXA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Tue, 12 Jan 2021 22:23:00 -0500
-IronPort-SDR: J0i6VHHbSloH+FANwU1tJBD0iKpJsrQscvB2y4EoG/fPsoVAuZm6Gxc9CeU8+emTU3UfVgTScq
- r6Ka+Pv2A5gA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="178235460"
+Received: from mga18.intel.com ([134.134.136.126]:30408 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729037AbhAMDW7 (ORCPT
+        <rfc822;linux-renesas-soc@vger.kernel.org>);
+        Tue, 12 Jan 2021 22:22:59 -0500
+IronPort-SDR: Jx5UaUIE6/r8IxKDMnPaFXzPWNaQ9wrjn93HnM5UL2emehrfX2L5SwzUJlYq21cKrbEw4eQXJv
+ pvpkNlCZPSdg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="165820769"
 X-IronPort-AV: E=Sophos;i="5.79,343,1602572400"; 
-   d="scan'208";a="178235460"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2021 19:22:18 -0800
-IronPort-SDR: Ck3w0S/Q88hDxKj89J+byvu1+RgVYhpPyp4B58QLCGoODumPB7FLsbnSYxLBYRXMUPcpDpO4k4
- rIahQRk7BYYw==
+   d="scan'208";a="165820769"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2021 19:22:18 -0800
+IronPort-SDR: uAnRr8wBlIxxYgLZkGqKgzECw9yGmlrLqh3OiKQzG+b7/q7TRmWFF9TwJx2WhKbtMaDZ3pWbaZ
+ D3OnHx1kEutA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,343,1602572400"; 
-   d="scan'208";a="353293408"
+   d="scan'208";a="499129116"
 Received: from lkp-server01.sh.intel.com (HELO d5d1a9a2c6bb) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 12 Jan 2021 19:22:17 -0800
+  by orsmga004.jf.intel.com with ESMTP; 12 Jan 2021 19:22:17 -0800
 Received: from kbuild by d5d1a9a2c6bb with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1kzWjg-00001W-FY; Wed, 13 Jan 2021 03:22:16 +0000
-Date:   Wed, 13 Jan 2021 11:22:06 +0800
+        id 1kzWjg-00001f-Pj; Wed, 13 Jan 2021 03:22:16 +0000
+Date:   Wed, 13 Jan 2021 11:22:10 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:topic/r8a779a0-pfc-v2] BUILD SUCCESS
- 1348bc5f86010fbe7dab1dadfaa14b11540fbd92
-Message-ID: <5ffe675e.gbW7AyvJKFGYwqyW%lkp@intel.com>
+Subject: [renesas-drivers:renesas-pinctrl-for-v5.12] BUILD SUCCESS
+ 6dd169fc201d05e8da249ee2eabf1f23b0ccb1e4
+Message-ID: <5ffe6762.IQe2ATpH+/TCiJFx%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,10 +44,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  topic/r8a779a0-pfc-v2
-branch HEAD: 1348bc5f86010fbe7dab1dadfaa14b11540fbd92  pinctrl: renesas: r8a779a0: Add TPU pins, groups and functions
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  renesas-pinctrl-for-v5.12
+branch HEAD: 6dd169fc201d05e8da249ee2eabf1f23b0ccb1e4  pinctrl: renesas: checker: Restrict checks to Renesas platforms
 
-elapsed time: 720m
+elapsed time: 721m
 
 configs tested: 169
 configs skipped: 2
@@ -206,11 +206,11 @@ i386                 randconfig-a013-20210112
 i386                 randconfig-a015-20210112
 i386                 randconfig-a014-20210112
 riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
 riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                            allyesconfig
 riscv                             allnoconfig
 riscv                               defconfig
-riscv                          rv32_defconfig
 riscv                            allmodconfig
 x86_64                                   rhel
 x86_64                           allyesconfig
