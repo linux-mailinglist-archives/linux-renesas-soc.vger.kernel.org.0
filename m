@@ -2,77 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E41C2F4884
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 11:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1B592F4A08
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Jan 2021 12:29:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726874AbhAMKUl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Jan 2021 05:20:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39918 "EHLO
+        id S1726877AbhAML0M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Jan 2021 06:26:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726894AbhAMKUl (ORCPT
+        with ESMTP id S1726986AbhAML0M (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Jan 2021 05:20:41 -0500
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9105AC0617A6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Jan 2021 02:19:20 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by andre.telenet-ops.be with bizsmtp
-        id GAKH2400V4C55Sk01AKHci; Wed, 13 Jan 2021 11:19:18 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kzdFF-003EHD-Jl; Wed, 13 Jan 2021 11:19:17 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kzdFF-004oa7-5u; Wed, 13 Jan 2021 11:19:17 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-sh@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] spi: sh-msiof: Fill in controller speed limits
-Date:   Wed, 13 Jan 2021 11:19:16 +0100
-Message-Id: <20210113101916.1147695-3-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210113101916.1147695-1-geert+renesas@glider.be>
-References: <20210113101916.1147695-1-geert+renesas@glider.be>
+        Wed, 13 Jan 2021 06:26:12 -0500
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEAB7C061794
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Jan 2021 03:25:31 -0800 (PST)
+Received: by mail-vs1-xe35.google.com with SMTP id h18so903105vsg.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Jan 2021 03:25:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UTamP/ArLqqwGoTYLNMH/RB+OzgOFY7u6lXmJEovIaE=;
+        b=UgMjABl95Zcya/xwewD5TR75NWKt5G5GgXaDqG3SLnkwisVB45A4u+L3Ua4kqyacvy
+         Bn0yCJVY1CiYWxoqtkyrfRZxztRfJa2aCwS6COtCEMmtJq7FwDpBuEGa+JTivpDDaBJj
+         NRR3JPJeRibrwoQNcXKrErfCgTX2GaW0OugPvl4weCufgH2OdmH4BRCXdcY9LPOY1tqB
+         NfNmJP+hVexHo1qYOKc0Tef1W/RrKqs+oVGpctpXjtXjpYT/8g1/YwwXEEw5AQX4qC0n
+         u7ZR0YL9iEI6PS/a0ycfeo352VhDvgf5V8Nc3FgmEi/4OegCloz+pD5v1thJXv+oJnEv
+         HdXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UTamP/ArLqqwGoTYLNMH/RB+OzgOFY7u6lXmJEovIaE=;
+        b=aLPmCDomtTtdllAG0TpuKCWeXltPlGmOOfsEf/vvJ7BtDljPH+OdTzXeXKBsUhQDGP
+         SMrFOliINO4jY7J2v7AeUmsLBWBzyViXTpfz1j1/dbp2AZjB948rafnH4ANezOhTUQrc
+         Lqp04DyfEd8b8+LRo9Gr/h864S2ACwjJ+kUEjupSRO0mKTKqEU3jBlkPOyhsZDxs2ONn
+         68HRmd/B3TO6MYFY/+y+nsycL2iX1baMpzIOHlUvOQVG4p7VqbhxrS07Trj6Qe7uOuDY
+         0CuwMk8hmFeQTPTKqyv6YoldovvihOUomtfpxpjOhDHk0BMScaVCV/ywI1SLaZ5Vhb5K
+         pKsw==
+X-Gm-Message-State: AOAM530qxO/YoaIIas6GJUyYTSANtA37O2c2wK2rDepMrbBKHW3pzDDY
+        I3LCtl92zPOteahAYKQ2aSA3EQzlyZRfI1WL04yfUg==
+X-Google-Smtp-Source: ABdhPJwBwHyie480O2xGlwJHrHs3ZflMifx52QfOELTUo6npGeUwrPtutxWDy4YxE8zNu13H6+PTxLqsROPnmyDevQY=
+X-Received: by 2002:a67:e286:: with SMTP id g6mr1628197vsf.42.1610537130904;
+ Wed, 13 Jan 2021 03:25:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1608114572-1892-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1608114572-1892-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 13 Jan 2021 12:24:53 +0100
+Message-ID: <CAPDyKFrE0udk+GY2MnNB7h7GPrdrbLnCwT-U=KunwxUBbdM4qQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] mmc: renesas_internal_dmac: add pre_req and
+ post_req support
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fill in the controller speed limits, so the SPI core can use them for
-validating SPI transfers, and adjust or reject transfers when needed.
+On Wed, 16 Dec 2020 at 11:29, Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+>
+> To improve performance, add pre_req and post_req support into
+> renesas_internal_dmac. Note that the patch [1/2] is a bug fix patch.
+>
+> Changes from v1:
+>  - Add a bug fix patch for hardware limitation in patch 1.
+>  - Remove a redundant argument in the unmap function in patch 2.
+>  - Describe the reason why we should not use host->sg_ptr in patch 2.
+>  - Rename argument of struct mmc_request from req to mrq in patch 2.
+>
+> Takeshi Saito (1):
+>   mmc: renesas_sdhi_internal_dmac: Fix DMA buffer alignment from 8 to
+>     128-bytes
+>
+> Yoshihiro Shimoda (1):
+>   mmc: renesas_internal_dmac: add pre_req and post_req support
+>
+>  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 91 ++++++++++++++++++++++++---
+>  1 file changed, 83 insertions(+), 8 deletions(-)
+>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/spi/spi-sh-msiof.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Applied for next, thanks!
 
-diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 90b8aba8a4fd9f32..41ed9ff8fad0d3b3 100644
---- a/drivers/spi/spi-sh-msiof.c
-+++ b/drivers/spi/spi-sh-msiof.c
-@@ -1262,6 +1262,7 @@ static int sh_msiof_spi_probe(struct platform_device *pdev)
- 	const struct sh_msiof_chipdata *chipdata;
- 	struct sh_msiof_spi_info *info;
- 	struct sh_msiof_spi_priv *p;
-+	unsigned long clksrc;
- 	int i;
- 	int ret;
- 
-@@ -1337,6 +1338,9 @@ static int sh_msiof_spi_probe(struct platform_device *pdev)
- 	/* init controller code */
- 	ctlr->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH;
- 	ctlr->mode_bits |= SPI_LSB_FIRST | SPI_3WIRE;
-+	clksrc = clk_get_rate(p->clk);
-+	ctlr->min_speed_hz = DIV_ROUND_UP(clksrc, 1024);
-+	ctlr->max_speed_hz = DIV_ROUND_UP(clksrc, 1 << p->min_div_pow);
- 	ctlr->flags = chipdata->ctlr_flags;
- 	ctlr->bus_num = pdev->id;
- 	ctlr->num_chipselect = p->info->num_chipselect;
--- 
-2.25.1
-
+Kind regards
+Uffe
