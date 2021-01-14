@@ -2,114 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B076E2F6173
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 14:04:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B46C52F618C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 14:09:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728663AbhANNDh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Jan 2021 08:03:37 -0500
-Received: from mail-qk1-f174.google.com ([209.85.222.174]:41188 "EHLO
-        mail-qk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726066AbhANNDf (ORCPT
+        id S1728142AbhANNJR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Jan 2021 08:09:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47646 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727900AbhANNJQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Jan 2021 08:03:35 -0500
-Received: by mail-qk1-f174.google.com with SMTP id 19so7523702qkm.8;
-        Thu, 14 Jan 2021 05:03:19 -0800 (PST)
+        Thu, 14 Jan 2021 08:09:16 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 121CCC0613C1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jan 2021 05:08:36 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id h17so4294156wmq.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jan 2021 05:08:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=0UQRlGRhhSQJUPHlxgxTpsKu4P5pHgiDZAobJpjj98k=;
+        b=w3IpJEMVrZPsx6nj67HQr8PDvGDpWvmLaCLJtTVWQx8dBxE+RVjmAP1eKF9lJDxmBV
+         9C1libXZoFPdGkhU5kEeIg5i5L9PzVdGt5EmLJrWK3tG7QsTP41fZ+KGOelHHTbPXlXd
+         066I7/aZNXaQ5XtuG2jRTCjFgcAHM+azwE58l/dhe5JSPGb/5fCC398XTqO0MVKRVsMg
+         798pXN84iFu9EoX63N4XRMXihkUQ9VOp8hFmlrEjc9qDdeAQtJ9aiv00XfltdkA+IfL7
+         TOae3FoqJNHEISCb+PZzISwuARpU8i59etrbPNOsB46WCt9VUM3/ec6fNVodHwFN9MgB
+         gaKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Tevr+spNEpRnq44NthoNPfr11G6U21MwOk+W3Rj2u8A=;
-        b=p6izCGH0r6lIcugzvAuaLO6nS00KMZZUCs/OkbVJt6LaL3JY5MonNKAKsp3D6ThimQ
-         M2hQc0OpIxpRh/Mt+i74O4fHdYeDdFt3SqIcYGyaXTD/UgAN9pOnqUGRnSh1RI0tPmKp
-         5xr8eZErTtivPFMNrA/0sAW5vYLvsdtwDCOE6tbpEZuC0+qMWfljFsay1ouwP5NsGGXF
-         rvrO5V/L3MpCBY4d/uqv0wUzM1k52NUsrFfX7jKQ8RQfYC6tHfL2AWaxXyMDW8OvHqZD
-         FHwSiUGM4Nx2j9aMcQ+miQzuzw7gje1OfLIuyed6rWPRF4i4ySpCgk4CR5X6Bl29q7Ne
-         m4TQ==
-X-Gm-Message-State: AOAM5338fL0hcZcTXhdla7EqOg8nVkNlv5Bd4cfzjgs4BQahPq64gKur
-        FfxXH56YuhYYmFRylAu7pjodAq5vCs/lc5U5+TQ=
-X-Google-Smtp-Source: ABdhPJz7zX1VUb6yM/UFCYla+bwht/B5d+uqLgHlNnpvlh8YvZy2Bzj7uocTaFDWEPNqsL1pXXusBDtHKGx+wylrIcs=
-X-Received: by 2002:a37:a950:: with SMTP id s77mr7011771qke.122.1610629374384;
- Thu, 14 Jan 2021 05:02:54 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=0UQRlGRhhSQJUPHlxgxTpsKu4P5pHgiDZAobJpjj98k=;
+        b=HKEb8sjoiJjChtwU8zMo67LQejASFsD4o7rRB2Xnj1RSXfdKj+owjB7dPjvUNIjBco
+         ibDakWf2RUmmHGuutupT5VIY51nYdYRvvALr56vuZVjxUsoLn59uQHuIPxdR2NP1SjHj
+         NxC1MRTv8JfN+nzGDxa0bkhrbwoIAdWzPgtPsT/dngK8rIHH6SIX8DZ2EGFrHesxtxQV
+         GEUxpAVeC9qXwQHKTkHxDp70SR2h3snp13chYXyOb6LIxIJTqzN0YMl31kUmkuo7uOka
+         GgODMj+2uOKkvFkleKs7VWCi0689aTB9dVfrqClKKJYGLOxzx9RqXn6z2qQmk5RGZLju
+         G5pA==
+X-Gm-Message-State: AOAM533LjP+2mQmgSXTjZh6nCmETVa+BTRDhRN0+eh7HQLQ8APnjRU0W
+        G1gToUr79l1qKAG1Ri+29olL0A==
+X-Google-Smtp-Source: ABdhPJxTqpOe445AStxMq1sXCYuysKWIFDo2jXYOHdrcsgHHpNXw6/X8isquvbn1QYgauumWGeUnDQ==
+X-Received: by 2002:a05:600c:3510:: with SMTP id h16mr3848418wmq.156.1610629714637;
+        Thu, 14 Jan 2021 05:08:34 -0800 (PST)
+Received: from dell ([91.110.221.178])
+        by smtp.gmail.com with ESMTPSA id z130sm8490671wmb.33.2021.01.14.05.08.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jan 2021 05:08:33 -0800 (PST)
+Date:   Thu, 14 Jan 2021 13:08:31 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     marek.vasut+renesas@gmail.com, matti.vaittinen@fi.rohmeurope.com,
+        lgirdwood@gmail.com, broonie@kernel.org, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, khiem.nguyen.xt@renesas.com,
+        linux-power@fi.rohmeurope.com, linux-gpio@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Immutable branch between MFD, GPIO and Regulator due for
+ the v5.12 merge window
+Message-ID: <20210114130831.GU3975472@dell>
+References: <1610442067-7446-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-References: <20201021135332.4928-1-fabrizio.castro.jz@renesas.com> <20201021135332.4928-3-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20201021135332.4928-3-fabrizio.castro.jz@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Jan 2021 14:02:42 +0100
-Message-ID: <CAMuHMdWj_Gm6vwOF9Akz84WakA3KTcNTRHte6ukEF_U5=Q8xFA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/5] media: dt-bindings: media: renesas,drif: Convert
- to json-schema
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1610442067-7446-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio, Rob,
+Enjoy!
 
-On Wed, Oct 21, 2020 at 3:53 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> Convert the Renesas DRIF bindings to DT schema and update
-> MAINTAINERS accordingly.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
 
-Thanks for your patch!
+  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
+are available in the Git repository at:
 
-> +  clock-names:
-> +    maxItems: 1
-> +    items:
-> +      - const: fck
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-gpio-regulator-v5.12
 
-With latest dt-schema, "make dt_binding_check" complains:
+for you to fetch changes up to b2548da647bb04737196ffd945505d47a166239b:
 
-    Documentation/devicetree/bindings/media/renesas,drif.yaml:
-properties:clock-names:maxItems: False schema does not allow 1
-    Documentation/devicetree/bindings/media/renesas,drif.yaml:
-ignoring, error in schema: properties: clock-names: maxItems
+  mfd: bd9571mwv: Add support for BD9574MWF (2021-01-14 13:05:55 +0000)
 
-Using
+----------------------------------------------------------------
+Immutable branch between MFD, GPIO and Regulator due for the v5.12 merge window
 
-       clock-names:
-         const: fck
+----------------------------------------------------------------
+Khiem Nguyen (2):
+      mfd: bd9571mwv: Make the driver more generic
+      mfd: bd9571mwv: Add support for BD9574MWF
 
-Fixes that.
+Yoshihiro Shimoda (10):
+      mfd: bd9571mwv: Use devm_mfd_add_devices()
+      dt-bindings: mfd: bd9571mwv: Document BD9574MWF
+      mfd: rohm-generic: Add BD9571 and BD9574
+      regulator: bd9571mwv: rid of using struct bd9571mwv
+      regulator: bd9571mwv: Add BD9574MWF support
+      gpio: bd9571mwv: Use the SPDX license identifier
+      gpio: bd9571mwv: rid of using struct bd9571mwv
+      gpio: bd9571mwv: Add BD9574MWF support
+      mfd: bd9571mwv: Use the SPDX license identifier
+      mfd: bd9571mwv: Use devm_regmap_add_irq_chip()
 
-However, I'm wondering why I do not get a complaint about the similar
-clock/clock-names in
-Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml.
-Because they're part of an else branch?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
+ .../devicetree/bindings/mfd/bd9571mwv.txt          |   4 +-
+ drivers/gpio/gpio-bd9571mwv.c                      |  35 ++--
+ drivers/mfd/bd9571mwv.c                            | 178 ++++++++++++++-------
+ drivers/regulator/bd9571mwv-regulator.c            |  59 ++++---
+ include/linux/mfd/bd9571mwv.h                      |  45 ++----
+ include/linux/mfd/rohm-generic.h                   |   2 +
+ 6 files changed, 186 insertions(+), 137 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
