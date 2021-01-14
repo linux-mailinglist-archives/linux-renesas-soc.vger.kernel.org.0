@@ -2,106 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB7522F6152
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 13:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B076E2F6173
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 14:04:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726670AbhANM5h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Jan 2021 07:57:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45132 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726066AbhANM5h (ORCPT
+        id S1728663AbhANNDh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Jan 2021 08:03:37 -0500
+Received: from mail-qk1-f174.google.com ([209.85.222.174]:41188 "EHLO
+        mail-qk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726066AbhANNDf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Jan 2021 07:57:37 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADC7BC061575
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jan 2021 04:56:56 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id Gcwu240014C55Sk01cwu72; Thu, 14 Jan 2021 13:56:54 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l02BJ-003YYz-Nz; Thu, 14 Jan 2021 13:56:53 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l02BJ-009Mvd-1N; Thu, 14 Jan 2021 13:56:53 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Luca Ceresoli <luca@lucaceresoli.net>,
-        Adam Ford <aford173@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] dt-bindings: clk: versaclock5: Miscellaneous fixes and improvements:
-Date:   Thu, 14 Jan 2021 13:56:50 +0100
-Message-Id: <20210114125650.2233045-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Thu, 14 Jan 2021 08:03:35 -0500
+Received: by mail-qk1-f174.google.com with SMTP id 19so7523702qkm.8;
+        Thu, 14 Jan 2021 05:03:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Tevr+spNEpRnq44NthoNPfr11G6U21MwOk+W3Rj2u8A=;
+        b=p6izCGH0r6lIcugzvAuaLO6nS00KMZZUCs/OkbVJt6LaL3JY5MonNKAKsp3D6ThimQ
+         M2hQc0OpIxpRh/Mt+i74O4fHdYeDdFt3SqIcYGyaXTD/UgAN9pOnqUGRnSh1RI0tPmKp
+         5xr8eZErTtivPFMNrA/0sAW5vYLvsdtwDCOE6tbpEZuC0+qMWfljFsay1ouwP5NsGGXF
+         rvrO5V/L3MpCBY4d/uqv0wUzM1k52NUsrFfX7jKQ8RQfYC6tHfL2AWaxXyMDW8OvHqZD
+         FHwSiUGM4Nx2j9aMcQ+miQzuzw7gje1OfLIuyed6rWPRF4i4ySpCgk4CR5X6Bl29q7Ne
+         m4TQ==
+X-Gm-Message-State: AOAM5338fL0hcZcTXhdla7EqOg8nVkNlv5Bd4cfzjgs4BQahPq64gKur
+        FfxXH56YuhYYmFRylAu7pjodAq5vCs/lc5U5+TQ=
+X-Google-Smtp-Source: ABdhPJz7zX1VUb6yM/UFCYla+bwht/B5d+uqLgHlNnpvlh8YvZy2Bzj7uocTaFDWEPNqsL1pXXusBDtHKGx+wylrIcs=
+X-Received: by 2002:a37:a950:: with SMTP id s77mr7011771qke.122.1610629374384;
+ Thu, 14 Jan 2021 05:02:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201021135332.4928-1-fabrizio.castro.jz@renesas.com> <20201021135332.4928-3-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20201021135332.4928-3-fabrizio.castro.jz@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 14 Jan 2021 14:02:42 +0100
+Message-ID: <CAMuHMdWj_Gm6vwOF9Akz84WakA3KTcNTRHte6ukEF_U5=Q8xFA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/5] media: dt-bindings: media: renesas,drif: Convert
+ to json-schema
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-  - Add missing reference for "idt,voltage-microvolt",
-  - Add missing "additionalProperties: false" for subnodes, to catch
-    typos in properties,
-  - Fix property names in example.
+Hi Fabrizio, Rob,
 
-Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Settle on "idt,voltage-microvolt", cfr. commit 4b003f5fcadfa2d0
-    ('clk: vc5: Use "idt,voltage-microvolt" instead of
-    "idt,voltage-microvolts"'),
-  - Drop reference to clock.yaml, which is already applied
-    unconditionally,
-  - Drop removal of allOf around if condition, as it is unnecessary
-    churn.
----
- .../devicetree/bindings/clock/idt,versaclock5.yaml       | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+On Wed, Oct 21, 2020 at 3:53 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> Convert the Renesas DRIF bindings to DT schema and update
+> MAINTAINERS accordingly.
+>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-index 2ac1131fd9222a86..70239f992d714ae0 100644
---- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-+++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-@@ -75,12 +75,15 @@ patternProperties:
-         maximum: 6
-       idt,voltage-microvolt:
-         description: The output drive voltage.
-+        $ref: /schemas/types.yaml#/definitions/uint32
-         enum: [ 1800000, 2500000, 3300000 ]
-       idt,slew-percent:
-         description: The Slew rate control for CMOS single-ended.
-         $ref: /schemas/types.yaml#/definitions/uint32
-         enum: [ 80, 85, 90, 100 ]
- 
-+    additionalProperties: false
-+
- required:
-   - compatible
-   - reg
-@@ -135,13 +138,13 @@ examples:
-             clock-names = "xin";
- 
-             OUT1 {
--                idt,drive-mode = <VC5_CMOSD>;
--                idt,voltage-microvolts = <1800000>;
-+                idt,mode = <VC5_CMOSD>;
-+                idt,voltage-microvolt = <1800000>;
-                 idt,slew-percent = <80>;
-             };
- 
-             OUT4 {
--                idt,drive-mode = <VC5_LVDS>;
-+                idt,mode = <VC5_LVDS>;
-             };
-         };
-     };
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
+
+> +  clock-names:
+> +    maxItems: 1
+> +    items:
+> +      - const: fck
+
+With latest dt-schema, "make dt_binding_check" complains:
+
+    Documentation/devicetree/bindings/media/renesas,drif.yaml:
+properties:clock-names:maxItems: False schema does not allow 1
+    Documentation/devicetree/bindings/media/renesas,drif.yaml:
+ignoring, error in schema: properties: clock-names: maxItems
+
+Using
+
+       clock-names:
+         const: fck
+
+Fixes that.
+
+However, I'm wondering why I do not get a complaint about the similar
+clock/clock-names in
+Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml.
+Because they're part of an else branch?
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
