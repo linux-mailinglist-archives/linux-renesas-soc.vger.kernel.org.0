@@ -2,96 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCD7A2F5C49
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 09:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A050F2F5C50
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 09:22:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727174AbhANISe convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Jan 2021 03:18:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41522 "EHLO
+        id S1727324AbhANIV1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Jan 2021 03:21:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726677AbhANISd (ORCPT
+        with ESMTP id S1726204AbhANIVY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Jan 2021 03:18:33 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80713C061794
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jan 2021 00:17:53 -0800 (PST)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kzxpG-00029h-HZ; Thu, 14 Jan 2021 09:17:50 +0100
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kzxpD-0004YJ-M3; Thu, 14 Jan 2021 09:17:47 +0100
-Message-ID: <d7e9c3bed92d6fc6922e5f5ec30f27d7242c5624.camel@pengutronix.de>
-Subject: Re: [PATCH v4 4/7] dt-bindings: display: imx: hdmi: Convert binding
- to YAML
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Sandy Huang <hjc@rock-chips.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Yao <markyao0591@gmail.com>
-Date:   Thu, 14 Jan 2021 09:17:47 +0100
-In-Reply-To: <20210114064437.5793-5-laurent.pinchart+renesas@ideasonboard.com>
-References: <20210114064437.5793-1-laurent.pinchart+renesas@ideasonboard.com>
-         <20210114064437.5793-5-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        Thu, 14 Jan 2021 03:21:24 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3428FC061575;
+        Thu, 14 Jan 2021 00:20:44 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id x20so6784391lfe.12;
+        Thu, 14 Jan 2021 00:20:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3nBcH17u4wRamAJ7uMUZUGqlgSjiRmAWW0nH78rAfnc=;
+        b=ovEie4gzrZBF/T8jC/PT19rGl0IpqmmOcZPDHabyd+MGIwXid951DJQjUd/QCFH3GF
+         BSIXJ4d0nJRBNJVo6emoEzcnFSzZuKfjrcDN2ykv5W9RLcvjFNfbbJi8wDQzGPfCz4Bz
+         7as6y+Aji4rJPitUlIoNIHSmWHtqu64YrJUj4X7DdYZoGsXDkOMLJ6b3QTf2J6RQQ09k
+         uKwAQ16DmSXdfhnWraBTu2hC3ZYqVnyRzTAXmxltwJd8YJzYKOKwURfWDNevGYwgfSaL
+         ss26zihDVk3PE121xHDPmvasPUdFe0fTEDezehFOPIfiPpQvRx+51WWa8/FOtS5wuxcb
+         krYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=3nBcH17u4wRamAJ7uMUZUGqlgSjiRmAWW0nH78rAfnc=;
+        b=Nuu4RLugHtyP2G17GqFs/kS27LgvBN44HQuuQxHTeOeFr162q7W6G0Ie7I+uDMQe/w
+         JfYNc/P64oasJuaG1AzmG8EFSlQ9Tw3LmpuEqQj8vgzeLunLyveHU/wFzjXzxCc0KotH
+         GlsbmG9dD6AowOUyDm4oKiOpx1QXyoAhJWep+vm/gZ+vEwvhqPlgZoUB1B0lW/KCwpWf
+         +89TAhPf3fakpnSJvABa8VVZTieEpx7848ft8y4/bnAjKQiwBb1hFMKxZzr/3izIv3ta
+         o/oed6U/TPM/E/w4ile9bTe7+/iJBZjrk5Av8QXFyamkFeLAVyExmC2YYNsfPezgSPGu
+         cBUg==
+X-Gm-Message-State: AOAM5300MIvPMeX1k9zoDw8MpB9ZpaQnQwOHIBaQDslk1lfewTb+Go9B
+        m4XfvwIjXJUmp3ijtjE7szE=
+X-Google-Smtp-Source: ABdhPJwKSJEcRknnP+y9jsGT0h2EP3cC4Glv4jOtT3xYilx0cp1Sf+sbgEmv53OZYAPoglkcFOqrJw==
+X-Received: by 2002:a19:747:: with SMTP id 68mr2645596lfh.408.1610612442737;
+        Thu, 14 Jan 2021 00:20:42 -0800 (PST)
+Received: from [192.168.1.100] ([178.176.79.115])
+        by smtp.gmail.com with ESMTPSA id k25sm472627lfm.236.2021.01.14.00.20.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jan 2021 00:20:42 -0800 (PST)
+Subject: Re: [PATCH v7 4/7] dt-bindings: media: max9286: Document
+ 'maxim,reverse-channel-microvolt'
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210113185506.119808-1-jacopo+renesas@jmondi.org>
+ <20210113185506.119808-5-jacopo+renesas@jmondi.org>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <46b966bb-e276-29c4-bcd8-091cb65a81bf@gmail.com>
+Date:   Thu, 14 Jan 2021 11:20:28 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20210113185506.119808-5-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 2021-01-14 at 08:44 +0200, Laurent Pinchart wrote:
-> Convert the i.MX6 HDMI TX text binding to YAML.
+Hello!
+
+On 13.01.2021 21:55, Jacopo Mondi wrote:
+
+> Document the 'reverse-channel-microvolt' vendor property in the
+
+    Where is "maxim,"?
+
+> bindings document of the max9286 driver.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> The newly introduced property allows to specifying the initial
+
+    Specify?
+
+> configuration of the GMSL reverse control channel to accommodate
+> remote serializers pre-programmed with the high threshold power
+> supply noise immunity enabled.
+> 
 > Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
-> Changes since v3:
-> 
-> - Use port instead of port-base
-> 
-> Changes since v1:
-> 
-> - Only specify maxItems for clocks
-> - Drop reg and interrupts as they're checked in the base schema
-> - Rebase on top of OF graph schema, dropped redundant properties
-> - Fix identation for enum entries
-> - Drop clock-names items, use maxItems only
-> ---
->  .../bindings/display/imx/fsl,imx6-hdmi.yaml   | 126 ++++++++++++++++++
->  .../devicetree/bindings/display/imx/hdmi.txt  |  65 ---------
->  2 files changed, 126 insertions(+), 65 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/imx/hdmi.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
-> new file mode 100644
-> index 000000000000..af7fe9c4d196
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
-> @@ -0,0 +1,126 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/imx/fsl,imx6-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale i.MX6 DWC HDMI TX Encoder
-> +
-> +maintainers:
-> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+[...]
 
-Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-regards
-Philipp
+MBR, Sergei
