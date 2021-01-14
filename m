@@ -2,124 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 606492F66BD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 18:08:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA94F2F676A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 18:23:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728071AbhANRF3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Jan 2021 12:05:29 -0500
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:32935 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728022AbhANRFX (ORCPT
+        id S1727319AbhANRUm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Jan 2021 12:20:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45486 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727278AbhANRUm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Jan 2021 12:05:23 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 68B0940018;
-        Thu, 14 Jan 2021 17:04:38 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v8 5/5] media: i2c: max9286: Configure reverse channel amplitude
-Date:   Thu, 14 Jan 2021 18:04:29 +0100
-Message-Id: <20210114170429.139762-6-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210114170429.139762-1-jacopo+renesas@jmondi.org>
-References: <20210114170429.139762-1-jacopo+renesas@jmondi.org>
+        Thu, 14 Jan 2021 12:20:42 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA69C061757
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jan 2021 09:20:01 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id q18so6619980wrn.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jan 2021 09:20:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DJbxjVn7var5tn3VpXRQHFW70e7JzlJvTaQ/6D9kM2w=;
+        b=UgLBzu91mErnuDHKJs9FPr89uRRZTzo+V1QmaGFwSnw3UnK2K9B1jbVrp0WxpBi0Iz
+         L3B+/m2bqkqhjb+Y6d9NpgSKoXddFhktBLfKhTwRj8KIq4kBEnMetF9QL0QHVr6JiXFn
+         mDdr8j331VBXi0UitN1w37vXjDVtSdhZWlugs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DJbxjVn7var5tn3VpXRQHFW70e7JzlJvTaQ/6D9kM2w=;
+        b=VniO5w8Tz8Hp/c57fno7udp96o8aw9W+CG6Ic4X2xoo9KnCLSyAxTQujxj8hYoHJhW
+         jpILFaKcEZmMV0ANIsDIXdKjl2mV8QdyUqCsHOWTDdxT79IZiO86I7Wrr6FglvaXpjhV
+         Wvy5+JZk+HXsCmQqCIT83QERg2gFg2oCFP6t7ofFpOFg4BlQg/ieImXdqgiICJkoiG1c
+         Z2UChve8IN1UL9ZPQtTrDR4ZpmiHqPqay+R6aS9Ag80Dm4wqmfHkAfVntNkYX5D6r+4G
+         M7QlF37eVC2/jJMwaYkGm2Yc0eRSYVExMgB017AdXUDKHKy2AXuyJ+MLOBzgmlf1o5Dw
+         nSpg==
+X-Gm-Message-State: AOAM530g5DDGdXqJS0KDlc5YNp72wvJXGAAJzOjuGvkeqGrrs4Jpff0a
+        Hs6yFtmgBbZfCwWuUcphSbHQqw==
+X-Google-Smtp-Source: ABdhPJxdULearBSGSGAvpATDOI4FDwr905+i5cFffKJphb+lGHN0mNDV5HrUNJuCrG9xygDc76r9Pw==
+X-Received: by 2002:adf:d1cb:: with SMTP id b11mr3297365wrd.118.1610644800457;
+        Thu, 14 Jan 2021 09:20:00 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id w189sm9796925wmg.31.2021.01.14.09.19.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jan 2021 09:19:59 -0800 (PST)
+Date:   Thu, 14 Jan 2021 18:19:57 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        airlied@linux.ie, daniel@ffwll.ch, eric@anholt.net,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
+ functions
+Message-ID: <YAB9PRxbDMfvd2dB@phenom.ffwll.local>
+References: <20201123115646.11004-1-tzimmermann@suse.de>
+ <20201123115646.11004-3-tzimmermann@suse.de>
+ <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
+ <d6b5376d-05c9-bb43-3071-820d675d921e@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d6b5376d-05c9-bb43-3071-820d675d921e@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Adjust the initial reverse channel amplitude parsing from
-firmware interface the 'maxim,reverse-channel-microvolt'
-property.
+On Thu, Jan 14, 2021 at 02:26:41PM +0100, Thomas Zimmermann wrote:
+> From d0583fe22cd0cd29749ff679e46e13b58de325cb Mon Sep 17 00:00:00 2001
+> From: Thomas Zimmermann <tzimmermann@suse.de>
+> Date: Thu, 14 Jan 2021 14:21:51 +0100
+> Subject: [PATCH] drm/cma: Set vma ops in mmap function
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_gem_cma_helper.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+> index 7942cf05cd93..0bd192736169 100644
+> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+> @@ -489,6 +489,8 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+>  	struct drm_gem_cma_object *cma_obj;
+>  	int ret;
+>  
+> +	vma->vm_ops = obj->funcs->vm_ops;
 
-This change is required for both rdacm20 and rdacm21 camera
-modules to be correctly probed when used in combination with
-the max9286 deserializer.
+I think this should be done in core, otherwise we have tons of refcount
+leaks. I think this was an oversight when we've done that refactoring.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- drivers/media/i2c/max9286.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+Also drivers can easily overwrite this one if they really have to, but not
+assigned this is a clear bug.
+-Daniel
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index ba84a2d7e29b..46c4e7b3c40b 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -163,6 +163,8 @@ struct max9286_priv {
- 	unsigned int mux_channel;
- 	bool mux_open;
- 
-+	u32 reverse_channel_mv;
-+
- 	struct v4l2_ctrl_handler ctrls;
- 	struct v4l2_ctrl *pixelrate;
- 
-@@ -556,10 +558,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
- 	 * All enabled sources have probed and enabled their reverse control
- 	 * channels:
- 	 *
-+	 * - Increase the reverse channel amplitude to compensate for the
-+	 *   remote ends high threshold, if not done already
- 	 * - Verify all configuration links are properly detected
- 	 * - Disable auto-ack as communication on the control channel are now
- 	 *   stable.
- 	 */
-+	if (priv->reverse_channel_mv < 170)
-+		max9286_reverse_channel_setup(priv, 170);
- 	max9286_check_config_link(priv, priv->source_mask);
- 
- 	/*
-@@ -966,7 +972,7 @@ static int max9286_setup(struct max9286_priv *priv)
- 	 * only. This should be disabled after the mux is initialised.
- 	 */
- 	max9286_configure_i2c(priv, true);
--	max9286_reverse_channel_setup(priv, 170);
-+	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
- 
- 	/*
- 	 * Enable GMSL links, mask unused ones and autodetect link
-@@ -1130,6 +1136,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
- 	struct device_node *i2c_mux;
- 	struct device_node *node = NULL;
- 	unsigned int i2c_mux_mask = 0;
-+	u32 reverse_channel_microvolt;
- 
- 	/* Balance the of_node_put() performed by of_find_node_by_name(). */
- 	of_node_get(dev->of_node);
-@@ -1220,6 +1227,20 @@ static int max9286_parse_dt(struct max9286_priv *priv)
- 	}
- 	of_node_put(node);
- 
-+	/*
-+	 * Parse the initial value of the reverse channel amplitude from
-+	 * the firmware interface and convert it to millivolts.
-+	 *
-+	 * Default it to 170mV for backward compatibility with DTBs that do not
-+	 * provide the property.
-+	 */
-+	if (of_property_read_u32(dev->of_node,
-+				 "maxim,reverse-channel-microvolt",
-+				 &reverse_channel_microvolt))
-+		priv->reverse_channel_mv = 170;
-+	else
-+		priv->reverse_channel_mv = reverse_channel_microvolt / 1000U;
-+
- 	priv->route_mask = priv->source_mask;
- 
- 	return 0;
+> +
+>  	/*
+>  	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the
+>  	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to map
+> -- 
+> 2.29.2
+> 
+
+
 -- 
-2.29.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
