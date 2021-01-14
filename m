@@ -2,71 +2,345 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A33922F5FBE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 12:22:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C223D2F6148
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 13:53:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727240AbhANLUt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Jan 2021 06:20:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41696 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727207AbhANLUt (ORCPT
+        id S1726891AbhANMwp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Jan 2021 07:52:45 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53536 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726877AbhANMwn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Jan 2021 06:20:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 887D5238EC
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jan 2021 11:20:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610623208;
-        bh=73TJ3fdrDu+PRW5jag+DkM/nGqL/d+5Tt9BuVARCY0Y=;
-        h=Subject:From:Date:To:From;
-        b=jTo2uaRBDCFCPqJ5yAcvuBm+zZRTf6OqqvfVIHBcncJbsT3lWE6Sa5QTocHOK1gnP
-         eQIrIQ2aJoVZxlwAHNKIjAJ9q1eva+kQmZelq8bBin4t5AacYOy9Mm616suv2AdW6I
-         B/Q4n0X03tLW/cj0P29td6lhVqPfueqpqiTdCw9hkG/jb/zsMIWEM/ghVxC3jsYTBh
-         cXs8b3s2XudbXDMmGrIIYGHnpEMR1HDX+yuinrk8Ce0G3CUAiMiaBGsk3VOP0Or51e
-         rPO6SagLGWCZv1gVIPsFkuGe6r5BpVR8WES+Pf4NxaMn4EqdslPLEP2TeLJQ6YBTVO
-         IZKr1dPqsaiqQ==
-Received: from pdx-korg-docbuild-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-1.ci.codeaurora.org (Postfix) with ESMTP id 7057660593
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jan 2021 11:20:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 14 Jan 2021 07:52:43 -0500
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 11BD92B3;
+        Thu, 14 Jan 2021 13:52:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1610628720;
+        bh=gfkioPrienCjfy/5MrmXV+t0dze3HvJ5YwzkUydBlHo=;
+        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+        b=ihJfY6jLajgtlMY15M1/uE1tlh1CADbHBEiyCfY6gWU1HZ1Zgc7lKPJmrdVyizqts
+         BRGdKmCez+mHLrEKATWiSmP5OhwFASDSChfU11UbJHr0pRmzCJgqfgBgEbnda4DXcr
+         GyCIVCpcKsxiW5mYJJfTTmNbI/KGXmW1c6CaeFDs=
+Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
+ functions
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        airlied@linux.ie, daniel@ffwll.ch, eric@anholt.net,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org
+References: <20201123115646.11004-1-tzimmermann@suse.de>
+ <20201123115646.11004-3-tzimmermann@suse.de>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
+Date:   Thu, 14 Jan 2021 12:51:56 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <161062320838.16123.11682917223391438347.git-patchwork-summary@kernel.org>
-Date:   Thu, 14 Jan 2021 11:20:08 +0000
-To:     linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20201123115646.11004-3-tzimmermann@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi Thomas,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (refs/heads/master):
+On 23/11/2020 11:56, Thomas Zimmermann wrote:
+> The new GEM object function drm_gem_cma_mmap() sets the VMA flags
+> and offset as in the old implementation and immediately maps in the
+> buffer's memory pages.
+> 
+> Changing CMA helpers to use the GEM object function allows for the
+> removal of the special implementations for mmap and gem_prime_mmap
+> callbacks. The regular functions drm_gem_mmap() and drm_gem_prime_mmap()
+> are now used.
 
-Patch: arm64: dts: renesas: r8a779a0: Add SYS-DMAC nodes
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=410781
-  Lore link: https://lore.kernel.org/r/20210107182045.1948037-1-geert+renesas@glider.be
-Series: arm64: dts: renesas: r8a779a0: Add GPIO support
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=411161
-  Lore link: https://lore.kernel.org/r/20210108102854.2025261-1-geert+renesas@glider.be
-    Patches: [PATCH/RFC,v2,1/2] arm64: dts: renesas: r8a779a0: Add PFC node
-             [v2,2/2] arm64: dts: renesas: r8a779a0: Add GPIO nodes
-Patch: arm64: dts: renesas: r8a779a0: Add pinctrl device node
-  Submitter: Ulrich Hecht <uli+renesas@fpond.eu>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=413259
-  Lore link: https://lore.kernel.org/r/20210112165948.31162-1-uli+renesas@fpond.eu
-Patch: [v3] arm64: dts: renesas: r8a779a0: Add GPIO nodes
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=414527
-  Lore link: https://lore.kernel.org/r/20210114111117.2214281-1-geert+renesas@glider.be
+I've encountered a memory leak regression in our Renesas R-Car DU tests,
+and git bisection has led me to this patch (as commit f5ca8eb6f9).
 
-Total patches: 5
+Running the tests sequentially, while grepping /proc/meminfo for Cma, it
+is evident that CMA memory is not released, until exhausted and the
+allocations fail (seen in [0]) shown by the error report:
 
+>     self.fbs.append(pykms.DumbFramebuffer(self.card, mode.hdisplay, mode.vdisplay, "XR24"))
+> ValueError: DRM_IOCTL_MODE_CREATE_DUMB failed: Cannot allocate memory
+
+
+Failing tests at f5ca8eb6f9 can be seen at [0], while the tests pass
+successfully [1] on the commit previous to that (bc2532ab7c2):
+
+Reverting f5ca8eb6f9 also produces a successful pass [2]
+
+ [0] https://paste.ubuntu.com/p/VjPGPgswxR/ # Failed at f5ca8eb6f9
+ [1] https://paste.ubuntu.com/p/78RRp2WpNR/ # Success at bc2532ab7c2
+ [2] https://paste.ubuntu.com/p/qJKjZZN2pt/ # Success with revert
+
+
+I don't believe we handle mmap specially in the RCar-DU driver, so I
+wonder if this issue has hit anyone else as well?
+
+Any ideas of a repair without a revert ? Or do we just need to submit a
+revert?
+
+I've yet to fully understand the implications of the patch below.
+
+Thanks
 --
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Regards
 
+Kieran
+
+
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_file.c           |   3 +-
+>  drivers/gpu/drm/drm_gem_cma_helper.c | 121 +++++++++------------------
+>  drivers/gpu/drm/pl111/pl111_drv.c    |   2 +-
+>  drivers/gpu/drm/vc4/vc4_bo.c         |   2 +-
+>  include/drm/drm_gem_cma_helper.h     |  10 +--
+>  5 files changed, 44 insertions(+), 94 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index b50380fa80ce..80886d50d0f1 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -113,8 +113,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
+>   * The memory mapping implementation will vary depending on how the driver
+>   * manages memory. Legacy drivers will use the deprecated drm_legacy_mmap()
+>   * function, modern drivers should use one of the provided memory-manager
+> - * specific implementations. For GEM-based drivers this is drm_gem_mmap(), and
+> - * for drivers which use the CMA GEM helpers it's drm_gem_cma_mmap().
+> + * specific implementations. For GEM-based drivers this is drm_gem_mmap().
+>   *
+>   * No other file operations are supported by the DRM userspace API. Overall the
+>   * following is an example &file_operations structure::
+> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+> index 6a4ef335ebc9..7942cf05cd93 100644
+> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+> @@ -38,6 +38,7 @@ static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
+>  	.print_info = drm_gem_cma_print_info,
+>  	.get_sg_table = drm_gem_cma_get_sg_table,
+>  	.vmap = drm_gem_cma_vmap,
+> +	.mmap = drm_gem_cma_mmap,
+>  	.vm_ops = &drm_gem_cma_vm_ops,
+>  };
+>  
+> @@ -277,62 +278,6 @@ const struct vm_operations_struct drm_gem_cma_vm_ops = {
+>  };
+>  EXPORT_SYMBOL_GPL(drm_gem_cma_vm_ops);
+>  
+> -static int drm_gem_cma_mmap_obj(struct drm_gem_cma_object *cma_obj,
+> -				struct vm_area_struct *vma)
+> -{
+> -	int ret;
+> -
+> -	/*
+> -	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the
+> -	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to map
+> -	 * the whole buffer.
+> -	 */
+> -	vma->vm_flags &= ~VM_PFNMAP;
+> -	vma->vm_pgoff = 0;
+> -
+> -	ret = dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
+> -			  cma_obj->paddr, vma->vm_end - vma->vm_start);
+> -	if (ret)
+> -		drm_gem_vm_close(vma);
+> -
+> -	return ret;
+> -}
+> -
+> -/**
+> - * drm_gem_cma_mmap - memory-map a CMA GEM object
+> - * @filp: file object
+> - * @vma: VMA for the area to be mapped
+> - *
+> - * This function implements an augmented version of the GEM DRM file mmap
+> - * operation for CMA objects: In addition to the usual GEM VMA setup it
+> - * immediately faults in the entire object instead of using on-demaind
+> - * faulting. Drivers which employ the CMA helpers should use this function
+> - * as their ->mmap() handler in the DRM device file's file_operations
+> - * structure.
+> - *
+> - * Instead of directly referencing this function, drivers should use the
+> - * DEFINE_DRM_GEM_CMA_FOPS().macro.
+> - *
+> - * Returns:
+> - * 0 on success or a negative error code on failure.
+> - */
+> -int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma)
+> -{
+> -	struct drm_gem_cma_object *cma_obj;
+> -	struct drm_gem_object *gem_obj;
+> -	int ret;
+> -
+> -	ret = drm_gem_mmap(filp, vma);
+> -	if (ret)
+> -		return ret;
+> -
+> -	gem_obj = vma->vm_private_data;
+> -	cma_obj = to_drm_gem_cma_obj(gem_obj);
+> -
+> -	return drm_gem_cma_mmap_obj(cma_obj, vma);
+> -}
+> -EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
+> -
+>  #ifndef CONFIG_MMU
+>  /**
+>   * drm_gem_cma_get_unmapped_area - propose address for mapping in noMMU cases
+> @@ -500,33 +445,6 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_cma_prime_import_sg_table);
+>  
+> -/**
+> - * drm_gem_cma_prime_mmap - memory-map an exported CMA GEM object
+> - * @obj: GEM object
+> - * @vma: VMA for the area to be mapped
+> - *
+> - * This function maps a buffer imported via DRM PRIME into a userspace
+> - * process's address space. Drivers that use the CMA helpers should set this
+> - * as their &drm_driver.gem_prime_mmap callback.
+> - *
+> - * Returns:
+> - * 0 on success or a negative error code on failure.
+> - */
+> -int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
+> -			   struct vm_area_struct *vma)
+> -{
+> -	struct drm_gem_cma_object *cma_obj;
+> -	int ret;
+> -
+> -	ret = drm_gem_mmap_obj(obj, obj->size, vma);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	cma_obj = to_drm_gem_cma_obj(obj);
+> -	return drm_gem_cma_mmap_obj(cma_obj, vma);
+> -}
+> -EXPORT_SYMBOL_GPL(drm_gem_cma_prime_mmap);
+> -
+>  /**
+>   * drm_gem_cma_vmap - map a CMA GEM object into the kernel's virtual
+>   *     address space
+> @@ -553,6 +471,43 @@ int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
+>  
+> +/**
+> + * drm_gem_cma_mmap - memory-map an exported CMA GEM object
+> + * @obj: GEM object
+> + * @vma: VMA for the area to be mapped
+> + *
+> + * This function maps a buffer into a userspace process's address space.
+> + * In addition to the usual GEM VMA setup it immediately faults in the entire
+> + * object instead of using on-demand faulting. Drivers that use the CMA
+> + * helpers should set this as their &drm_gem_object_funcs.mmap callback.
+> + *
+> + * Returns:
+> + * 0 on success or a negative error code on failure.
+> + */
+> +int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+> +{
+> +	struct drm_gem_cma_object *cma_obj;
+> +	int ret;
+> +
+> +	/*
+> +	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the
+> +	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to map
+> +	 * the whole buffer.
+> +	 */
+> +	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
+> +	vma->vm_flags &= ~VM_PFNMAP;
+> +
+> +	cma_obj = to_drm_gem_cma_obj(obj);
+> +
+> +	ret = dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
+> +			  cma_obj->paddr, vma->vm_end - vma->vm_start);
+> +	if (ret)
+> +		drm_gem_vm_close(vma);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
+> +
+>  /**
+>   * drm_gem_cma_prime_import_sg_table_vmap - PRIME import another driver's
+>   *	scatter/gather table and get the virtual address of the buffer
+> diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
+> index 40e6708fbbe2..e4dcaef6c143 100644
+> --- a/drivers/gpu/drm/pl111/pl111_drv.c
+> +++ b/drivers/gpu/drm/pl111/pl111_drv.c
+> @@ -228,7 +228,7 @@ static const struct drm_driver pl111_drm_driver = {
+>  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+>  	.gem_prime_import_sg_table = pl111_gem_import_sg_table,
+> -	.gem_prime_mmap = drm_gem_cma_prime_mmap,
+> +	.gem_prime_mmap = drm_gem_prime_mmap,
+>  
+>  #if defined(CONFIG_DEBUG_FS)
+>  	.debugfs_init = pl111_debugfs_init,
+> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+> index 813e6cb3f9af..dc316cb79e00 100644
+> --- a/drivers/gpu/drm/vc4/vc4_bo.c
+> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
+> @@ -782,7 +782,7 @@ int vc4_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+>  		return -EINVAL;
+>  	}
+>  
+> -	return drm_gem_cma_prime_mmap(obj, vma);
+> +	return drm_gem_prime_mmap(obj, vma);
+>  }
+>  
+>  int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+> diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
+> index 4680275ab339..0a9711caa3e8 100644
+> --- a/include/drm/drm_gem_cma_helper.h
+> +++ b/include/drm/drm_gem_cma_helper.h
+> @@ -59,7 +59,7 @@ struct drm_gem_cma_object {
+>  		.poll		= drm_poll,\
+>  		.read		= drm_read,\
+>  		.llseek		= noop_llseek,\
+> -		.mmap		= drm_gem_cma_mmap,\
+> +		.mmap		= drm_gem_mmap,\
+>  		DRM_GEM_CMA_UNMAPPED_AREA_FOPS \
+>  	}
+>  
+> @@ -76,9 +76,6 @@ int drm_gem_cma_dumb_create(struct drm_file *file_priv,
+>  			    struct drm_device *drm,
+>  			    struct drm_mode_create_dumb *args);
+>  
+> -/* set vm_flags and we can change the VM attribute to other one at here */
+> -int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma);
+> -
+>  /* allocate physical memory */
+>  struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
+>  					      size_t size);
+> @@ -101,9 +98,8 @@ struct drm_gem_object *
+>  drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
+>  				  struct dma_buf_attachment *attach,
+>  				  struct sg_table *sgt);
+> -int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
+> -			   struct vm_area_struct *vma);
+>  int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
+>  
+>  /**
+>   * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE - CMA GEM driver operations
+> @@ -123,7 +119,7 @@ int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
+>  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
+>  	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table, \
+> -	.gem_prime_mmap		= drm_gem_cma_prime_mmap
+> +	.gem_prime_mmap		= drm_gem_prime_mmap
+>  
+>  /**
+>   * DRM_GEM_CMA_DRIVER_OPS - CMA GEM driver operations
+> 
 
