@@ -2,509 +2,343 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0C2F2F61F4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 14:28:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF7122F6203
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 14:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725961AbhANN10 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Jan 2021 08:27:26 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45234 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725878AbhANN1Z (ORCPT
+        id S1729094AbhANN3x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Jan 2021 08:29:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52030 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729069AbhANN3w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Jan 2021 08:27:25 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id E7C1AACB0;
-        Thu, 14 Jan 2021 13:26:42 +0000 (UTC)
-Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
- functions
-To:     kieran.bingham+renesas@ideasonboard.com,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        airlied@linux.ie, daniel@ffwll.ch, eric@anholt.net,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org
-References: <20201123115646.11004-1-tzimmermann@suse.de>
- <20201123115646.11004-3-tzimmermann@suse.de>
- <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <d6b5376d-05c9-bb43-3071-820d675d921e@suse.de>
-Date:   Thu, 14 Jan 2021 14:26:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        Thu, 14 Jan 2021 08:29:52 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ED7CC061574;
+        Thu, 14 Jan 2021 05:29:12 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id B3A541F45BD1
+Message-ID: <b7842e88b93247eec12fbc917ef448c68a98410e.camel@collabora.com>
+Subject: Re: [PATCH] media: v4l2-async: Improve
+ v4l2_async_notifier_add_*_subdev() API
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+Date:   Thu, 14 Jan 2021 10:29:02 -0300
+In-Reply-To: <20210114030719.28172-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20210114030719.28172-1-laurent.pinchart+renesas@ideasonboard.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-In-Reply-To: <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="NuRNkZr7cVBv8p8FCD6h20y55c9X14rpZ"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---NuRNkZr7cVBv8p8FCD6h20y55c9X14rpZ
-Content-Type: multipart/mixed; boundary="fYjL4RhaIWzC1aPqWzc3f6ZV564jVaLlO";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kieran.bingham+renesas@ideasonboard.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, eric@anholt.net,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <d6b5376d-05c9-bb43-3071-820d675d921e@suse.de>
-Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
- functions
-References: <20201123115646.11004-1-tzimmermann@suse.de>
- <20201123115646.11004-3-tzimmermann@suse.de>
- <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
-In-Reply-To: <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
+Hi Laurent,
 
---fYjL4RhaIWzC1aPqWzc3f6ZV564jVaLlO
-Content-Type: multipart/mixed;
- boundary="------------45C2C3C6C43F57AFBD43E3A2"
-Content-Language: en-US
+Thanks for the patch.
 
-This is a multi-part message in MIME format.
---------------45C2C3C6C43F57AFBD43E3A2
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+On Thu, 2021-01-14 at 05:07 +0200, Laurent Pinchart wrote:
+> The functions that add an async subdev to an async subdev notifier take
+> as an argument the size of the container structure they need to
+> allocate. This is error prone, as passing an invalid size will not be
+> caught by the compiler. Wrap those functions in macros that take a
+> container type instead of a size, and cast the returned pointer to the
+> desired type. The compiler will catch mistakes if the incorrect type is
+> passed to the macro, as the assignment types won't match.
+> 
 
-Hi Kieran
+With a majority of drivers allocating a struct v4l2_async_subdev, it's
+tempting to have two versions of the APIs, one that just allocates
+struct v4l2_async_subdev, and one to embed it in a larger struct.
 
-Am 14.01.21 um 13:51 schrieb Kieran Bingham:
-> Hi Thomas,
->=20
-> On 23/11/2020 11:56, Thomas Zimmermann wrote:
->> The new GEM object function drm_gem_cma_mmap() sets the VMA flags
->> and offset as in the old implementation and immediately maps in the
->> buffer's memory pages.
->>
->> Changing CMA helpers to use the GEM object function allows for the
->> removal of the special implementations for mmap and gem_prime_mmap
->> callbacks. The regular functions drm_gem_mmap() and drm_gem_prime_mmap=
-()
->> are now used.
->=20
-> I've encountered a memory leak regression in our Renesas R-Car DU tests=
-,
-> and git bisection has led me to this patch (as commit f5ca8eb6f9).
->=20
-> Running the tests sequentially, while grepping /proc/meminfo for Cma, i=
-t
-> is evident that CMA memory is not released, until exhausted and the
-> allocations fail (seen in [0]) shown by the error report:
->=20
->>      self.fbs.append(pykms.DumbFramebuffer(self.card, mode.hdisplay, m=
-ode.vdisplay, "XR24"))
->> ValueError: DRM_IOCTL_MODE_CREATE_DUMB failed: Cannot allocate memory
->=20
->=20
-> Failing tests at f5ca8eb6f9 can be seen at [0], while the tests pass
-> successfully [1] on the commit previous to that (bc2532ab7c2):
->=20
-> Reverting f5ca8eb6f9 also produces a successful pass [2]
->=20
->   [0] https://paste.ubuntu.com/p/VjPGPgswxR/ # Failed at f5ca8eb6f9
->   [1] https://paste.ubuntu.com/p/78RRp2WpNR/ # Success at bc2532ab7c2
->   [2] https://paste.ubuntu.com/p/qJKjZZN2pt/ # Success with revert
->=20
->=20
-> I don't believe we handle mmap specially in the RCar-DU driver, so I
-> wonder if this issue has hit anyone else as well?
->=20
-> Any ideas of a repair without a revert ? Or do we just need to submit a=
+But that means duplicating the API, which sounds like an overkill.
 
-> revert?
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> 
+> This patch is based on top of Ezequiel's "[PATCH 00/13] V4L2 Async
+> notifier API cleanup" series. It makes errors such as the one fixed by
+> "[PATCH] media: ti-vpe: cal: fix write to unallocated memory" impossible
+> to occur in the first place.
+> 
+>  drivers/media/i2c/max9286.c                   |  2 +-
+>  drivers/media/i2c/st-mipid02.c                |  2 +-
+>  drivers/media/pci/intel/ipu3/ipu3-cio2.c      | 10 ++---
+>  drivers/media/platform/am437x/am437x-vpfe.c   |  2 +-
+>  drivers/media/platform/atmel/atmel-isi.c      |  2 +-
+>  .../media/platform/atmel/atmel-sama5d2-isc.c  |  2 +-
+>  drivers/media/platform/cadence/cdns-csi2rx.c  |  3 +-
+>  drivers/media/platform/davinci/vpif_capture.c |  2 +-
+>  drivers/media/platform/exynos4-is/media-dev.c |  3 +-
+>  .../media/platform/marvell-ccic/cafe-driver.c |  2 +-
+>  .../media/platform/marvell-ccic/mmp-driver.c  |  4 +-
+>  drivers/media/platform/omap3isp/isp.c         | 16 +++-----
+>  drivers/media/platform/pxa_camera.c           |  4 +-
+>  drivers/media/platform/qcom/camss/camss.c     | 11 ++----
+>  drivers/media/platform/rcar-vin/rcar-core.c   |  5 ++-
+>  drivers/media/platform/rcar-vin/rcar-csi2.c   |  2 +-
+>  drivers/media/platform/rcar_drif.c            |  2 +-
+>  drivers/media/platform/renesas-ceu.c          | 20 ++++------
+>  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 10 ++---
+>  drivers/media/platform/stm32/stm32-dcmi.c     |  3 +-
+>  .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  4 +-
+>  drivers/media/platform/ti-vpe/cal.c           | 12 +++---
+>  drivers/media/platform/video-mux.c            |  2 +-
+>  drivers/media/platform/xilinx/xilinx-vipp.c   | 10 ++---
+>  drivers/media/v4l2-core/v4l2-async.c          | 38 +++++++++----------
+>  drivers/media/v4l2-core/v4l2-fwnode.c         |  4 +-
+>  drivers/staging/media/imx/imx-media-csi.c     |  2 +-
+>  drivers/staging/media/imx/imx-media-of.c      |  2 +-
+>  drivers/staging/media/imx/imx6-mipi-csi2.c    |  2 +-
+>  drivers/staging/media/imx/imx7-media-csi.c    |  2 +-
+>  drivers/staging/media/imx/imx7-mipi-csis.c    |  2 +-
+>  drivers/staging/media/tegra-video/vi.c        | 10 ++---
+>  include/media/v4l2-async.h                    | 36 ++++++++++++------
+>  33 files changed, 116 insertions(+), 117 deletions(-)
+> 
+[..]
+> diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
+> index 18485812a21e..ae4ad255a46a 100644
+> --- a/drivers/media/platform/renesas-ceu.c
+> +++ b/drivers/media/platform/renesas-ceu.c
+> @@ -1473,7 +1473,6 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+>                                    const struct ceu_platform_data *pdata)
+>  {
+>         const struct ceu_async_subdev *async_sd;
+> -       struct v4l2_async_subdev *asd;
+>         struct ceu_subdev *ceu_sd;
+>         unsigned int i;
+>         int ret;
+> @@ -1489,16 +1488,15 @@ static int ceu_parse_platform_data(struct ceu_device *ceudev,
+>  
+>                 /* Setup the ceu subdevice and the async subdevice. */
+>                 async_sd = &pdata->subdevs[i];
+> -               asd = v4l2_async_notifier_add_i2c_subdev(&ceudev->notifier,
+> +               async_sd = v4l2_async_notifier_add_i2c_subdev(&ceudev->notifier,
 
-I think we might not be setting the VMA ops and therefore not finalize=20
-the BO correctly. Could you please apply the attched (quick-and-dirty)=20
-patch and try again?
+Should be ceu_sd = v4l2_async_notifier_add_i2c_subdev(... here.
 
-Best regards
-Thomas
+>                                 async_sd->i2c_adapter_id,
+>                                 async_sd->i2c_address,
+> -                               sizeof(*ceu_sd));
+> -               if (IS_ERR(asd)) {
+> -                       ret = PTR_ERR(asd);
+> +                               struct ceu_subdev);
+> +               if (IS_ERR(ceu_sd)) {
+> +                       ret = PTR_ERR(ceu_sd);
+>                         v4l2_async_notifier_cleanup(&ceudev->notifier);
+>                         return ret;
+>                 }
+> -               ceu_sd = to_ceu_subdev(asd);
+>                 ceu_sd->mbus_flags = async_sd->flags;
+>                 ceudev->subdevs[i] = ceu_sd;
+>         }
+> @@ -1513,7 +1511,6 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
+>  {
+>         struct device_node *of = ceudev->dev->of_node;
+>         struct device_node *ep;
+> -       struct v4l2_async_subdev *asd;
+>         struct ceu_subdev *ceu_sd;
+>         unsigned int i;
+>         int num_ep;
+> @@ -1555,14 +1552,13 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
+>                 }
+>  
+>                 /* Setup the ceu subdevice and the async subdevice. */
+> -               asd = v4l2_async_notifier_add_fwnode_remote_subdev(
+> +               ceu_sd = v4l2_async_notifier_add_fwnode_remote_subdev(
+>                                 &ceudev->notifier, of_fwnode_handle(ep),
+> -                               sizeof(*ceu_sd));
+> -               if (IS_ERR(asd)) {
+> -                       ret = PTR_ERR(asd);
+> +                               struct ceu_subdev);
+> +               if (IS_ERR(ceu_sd)) {
+> +                       ret = PTR_ERR(ceu_sd);
+>                         goto error_cleanup;
+>                 }
+> -               ceu_sd = to_ceu_subdev(asd);
+>                 ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
+>                 ceudev->subdevs[i] = ceu_sd;
+>  
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index 235dcf0c4122..447721e78d1e 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -251,8 +251,7 @@ static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
+>                 struct v4l2_fwnode_endpoint vep = {
+>                         .bus_type = V4L2_MBUS_CSI2_DPHY
+>                 };
+> -               struct rkisp1_sensor_async *rk_asd = NULL;
+> -               struct v4l2_async_subdev *asd;
+> +               struct rkisp1_sensor_async *rk_asd;
+>                 struct fwnode_handle *ep;
+>  
+>                 ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
+> @@ -265,12 +264,11 @@ static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
+>                 if (ret)
+>                         goto err_parse;
+>  
+> -               asd = v4l2_async_notifier_add_fwnode_remote_subdev(ntf, ep,
+> -                                                       sizeof(*rk_asd));
+> -               if (IS_ERR(asd))
+> +               rk_asd = v4l2_async_notifier_add_fwnode_remote_subdev(ntf, ep,
+> +                                                       struct rkisp1_sensor_async);
+> +               if (IS_ERR(rk_asd))
+>                         goto err_parse;
+>  
+> -               rk_asd = container_of(asd, struct rkisp1_sensor_async, asd);
+>                 rk_asd->mbus_type = vep.bus_type;
+>                 rk_asd->mbus_flags = vep.bus.mipi_csi2.flags;
+>                 rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
+> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+> index 142f63d07dcd..bbcc2254fa2e 100644
+> --- a/drivers/media/platform/stm32/stm32-dcmi.c
+> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
+> @@ -1820,7 +1820,8 @@ static int dcmi_graph_init(struct stm32_dcmi *dcmi)
+>         v4l2_async_notifier_init(&dcmi->notifier);
+>  
+>         asd = v4l2_async_notifier_add_fwnode_remote_subdev(
+> -               &dcmi->notifier, of_fwnode_handle(ep), sizeof(*asd));
+> +               &dcmi->notifier, of_fwnode_handle(ep),
+> +               struct v4l2_async_subdev);
+>  
+>         of_node_put(ep);
+>  
+> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> index 3f94b8c966f3..8d40a7acba9c 100644
+> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> @@ -135,8 +135,8 @@ static int sun4i_csi_notifier_init(struct sun4i_csi *csi)
+>  
+>         csi->bus = vep.bus.parallel;
+>  
+> -       asd = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier,
+> -                                                          ep, sizeof(*asd));
+> +       asd = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier, ep,
+> +                                                          struct v4l2_async_subdev);
+>         if (IS_ERR(asd)) {
+>                 ret = PTR_ERR(asd);
+>                 goto out;
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index 293cbac905b3..9169068a23a9 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -685,23 +685,21 @@ static int cal_async_notifier_register(struct cal_dev *cal)
+>         for (i = 0; i < cal->data->num_csi2_phy; ++i) {
+>                 struct cal_camerarx *phy = cal->phy[i];
+>                 struct cal_v4l2_async_subdev *casd;
+> -               struct v4l2_async_subdev *asd;
+>                 struct fwnode_handle *fwnode;
+>  
+>                 if (!phy->sensor_node)
+>                         continue;
+>  
+>                 fwnode = of_fwnode_handle(phy->sensor_node);
+> -               asd = v4l2_async_notifier_add_fwnode_subdev(&cal->notifier,
+> -                                                           fwnode,
+> -                                                           sizeof(*asd));
+> -               if (IS_ERR(asd)) {
+> +               casd = v4l2_async_notifier_add_fwnode_subdev(&cal->notifier,
+> +                                                            fwnode,
+> +                                                            struct v4l2_async_subdev);
 
->=20
-> I've yet to fully understand the implications of the patch below.
->=20
-> Thanks
-> --
-> Regards
->=20
-> Kieran
->=20
->=20
->=20
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/drm_file.c           |   3 +-
->>   drivers/gpu/drm/drm_gem_cma_helper.c | 121 +++++++++----------------=
---
->>   drivers/gpu/drm/pl111/pl111_drv.c    |   2 +-
->>   drivers/gpu/drm/vc4/vc4_bo.c         |   2 +-
->>   include/drm/drm_gem_cma_helper.h     |  10 +--
->>   5 files changed, 44 insertions(+), 94 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->> index b50380fa80ce..80886d50d0f1 100644
->> --- a/drivers/gpu/drm/drm_file.c
->> +++ b/drivers/gpu/drm/drm_file.c
->> @@ -113,8 +113,7 @@ bool drm_dev_needs_global_mutex(struct drm_device =
-*dev)
->>    * The memory mapping implementation will vary depending on how the =
-driver
->>    * manages memory. Legacy drivers will use the deprecated drm_legacy=
-_mmap()
->>    * function, modern drivers should use one of the provided memory-ma=
-nager
->> - * specific implementations. For GEM-based drivers this is drm_gem_mm=
-ap(), and
->> - * for drivers which use the CMA GEM helpers it's drm_gem_cma_mmap().=
+Should be passing struct cal_v4l2_async_subdev instead of struct v4l2_async_subdev.
 
->> + * specific implementations. For GEM-based drivers this is drm_gem_mm=
-ap().
->>    *
->>    * No other file operations are supported by the DRM userspace API. =
-Overall the
->>    * following is an example &file_operations structure::
->> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/dr=
-m_gem_cma_helper.c
->> index 6a4ef335ebc9..7942cf05cd93 100644
->> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
->> @@ -38,6 +38,7 @@ static const struct drm_gem_object_funcs drm_gem_cma=
-_default_funcs =3D {
->>   	.print_info =3D drm_gem_cma_print_info,
->>   	.get_sg_table =3D drm_gem_cma_get_sg_table,
->>   	.vmap =3D drm_gem_cma_vmap,
->> +	.mmap =3D drm_gem_cma_mmap,
->>   	.vm_ops =3D &drm_gem_cma_vm_ops,
->>   };
->>  =20
->> @@ -277,62 +278,6 @@ const struct vm_operations_struct drm_gem_cma_vm_=
-ops =3D {
->>   };
->>   EXPORT_SYMBOL_GPL(drm_gem_cma_vm_ops);
->>  =20
->> -static int drm_gem_cma_mmap_obj(struct drm_gem_cma_object *cma_obj,
->> -				struct vm_area_struct *vma)
->> -{
->> -	int ret;
->> -
->> -	/*
->> -	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set =
-the
->> -	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to=
- map
->> -	 * the whole buffer.
->> -	 */
->> -	vma->vm_flags &=3D ~VM_PFNMAP;
->> -	vma->vm_pgoff =3D 0;
->> -
->> -	ret =3D dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
->> -			  cma_obj->paddr, vma->vm_end - vma->vm_start);
->> -	if (ret)
->> -		drm_gem_vm_close(vma);
->> -
->> -	return ret;
->> -}
->> -
->> -/**
->> - * drm_gem_cma_mmap - memory-map a CMA GEM object
->> - * @filp: file object
->> - * @vma: VMA for the area to be mapped
->> - *
->> - * This function implements an augmented version of the GEM DRM file =
-mmap
->> - * operation for CMA objects: In addition to the usual GEM VMA setup =
-it
->> - * immediately faults in the entire object instead of using on-demain=
-d
->> - * faulting. Drivers which employ the CMA helpers should use this fun=
-ction
->> - * as their ->mmap() handler in the DRM device file's file_operations=
+> +               if (IS_ERR(casd)) {
+>                         phy_err(phy, "Failed to add subdev to notifier\n");
+> -                       ret = PTR_ERR(asd);
+> +                       ret = PTR_ERR(casd);
+>                         goto error;
+>                 }
+>  
+> -               casd = to_cal_asd(asd);
+>                 casd->phy = phy;
+>         }
+>  
+[..]
 
->> - * structure.
->> - *
->> - * Instead of directly referencing this function, drivers should use =
-the
->> - * DEFINE_DRM_GEM_CMA_FOPS().macro.
->> - *
->> - * Returns:
->> - * 0 on success or a negative error code on failure.
->> - */
->> -int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma)
->> -{
->> -	struct drm_gem_cma_object *cma_obj;
->> -	struct drm_gem_object *gem_obj;
->> -	int ret;
->> -
->> -	ret =3D drm_gem_mmap(filp, vma);
->> -	if (ret)
->> -		return ret;
->> -
->> -	gem_obj =3D vma->vm_private_data;
->> -	cma_obj =3D to_drm_gem_cma_obj(gem_obj);
->> -
->> -	return drm_gem_cma_mmap_obj(cma_obj, vma);
->> -}
->> -EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
->> -
->>   #ifndef CONFIG_MMU
->>   /**
->>    * drm_gem_cma_get_unmapped_area - propose address for mapping in no=
-MMU cases
->> @@ -500,33 +445,6 @@ drm_gem_cma_prime_import_sg_table(struct drm_devi=
-ce *dev,
->>   }
->>   EXPORT_SYMBOL_GPL(drm_gem_cma_prime_import_sg_table);
->>  =20
->> -/**
->> - * drm_gem_cma_prime_mmap - memory-map an exported CMA GEM object
->> - * @obj: GEM object
->> - * @vma: VMA for the area to be mapped
->> - *
->> - * This function maps a buffer imported via DRM PRIME into a userspac=
-e
->> - * process's address space. Drivers that use the CMA helpers should s=
-et this
->> - * as their &drm_driver.gem_prime_mmap callback.
->> - *
->> - * Returns:
->> - * 0 on success or a negative error code on failure.
->> - */
->> -int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
->> -			   struct vm_area_struct *vma)
->> -{
->> -	struct drm_gem_cma_object *cma_obj;
->> -	int ret;
->> -
->> -	ret =3D drm_gem_mmap_obj(obj, obj->size, vma);
->> -	if (ret < 0)
->> -		return ret;
->> -
->> -	cma_obj =3D to_drm_gem_cma_obj(obj);
->> -	return drm_gem_cma_mmap_obj(cma_obj, vma);
->> -}
->> -EXPORT_SYMBOL_GPL(drm_gem_cma_prime_mmap);
->> -
->>   /**
->>    * drm_gem_cma_vmap - map a CMA GEM object into the kernel's virtual=
+The rest of the conversions look good.
 
->>    *     address space
->> @@ -553,6 +471,43 @@ int drm_gem_cma_vmap(struct drm_gem_object *obj, =
-struct dma_buf_map *map)
->>   }
->>   EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
->>  =20
->> +/**
->> + * drm_gem_cma_mmap - memory-map an exported CMA GEM object
->> + * @obj: GEM object
->> + * @vma: VMA for the area to be mapped
->> + *
->> + * This function maps a buffer into a userspace process's address spa=
-ce.
->> + * In addition to the usual GEM VMA setup it immediately faults in th=
-e entire
->> + * object instead of using on-demand faulting. Drivers that use the C=
-MA
->> + * helpers should set this as their &drm_gem_object_funcs.mmap callba=
-ck.
->> + *
->> + * Returns:
->> + * 0 on success or a negative error code on failure.
->> + */
->> +int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struc=
-t *vma)
->> +{
->> +	struct drm_gem_cma_object *cma_obj;
->> +	int ret;
->> +
->> +	/*
->> +	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set =
-the
->> +	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to=
- map
->> +	 * the whole buffer.
->> +	 */
->> +	vma->vm_pgoff -=3D drm_vma_node_start(&obj->vma_node);
->> +	vma->vm_flags &=3D ~VM_PFNMAP;
->> +
->> +	cma_obj =3D to_drm_gem_cma_obj(obj);
->> +
->> +	ret =3D dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
->> +			  cma_obj->paddr, vma->vm_end - vma->vm_start);
->> +	if (ret)
->> +		drm_gem_vm_close(vma);
->> +
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
->> +
->>   /**
->>    * drm_gem_cma_prime_import_sg_table_vmap - PRIME import another dri=
-ver's
->>    *	scatter/gather table and get the virtual address of the buffer
->> diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111=
-/pl111_drv.c
->> index 40e6708fbbe2..e4dcaef6c143 100644
->> --- a/drivers/gpu/drm/pl111/pl111_drv.c
->> +++ b/drivers/gpu/drm/pl111/pl111_drv.c
->> @@ -228,7 +228,7 @@ static const struct drm_driver pl111_drm_driver =3D=
- {
->>   	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
->>   	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
->>   	.gem_prime_import_sg_table =3D pl111_gem_import_sg_table,
->> -	.gem_prime_mmap =3D drm_gem_cma_prime_mmap,
->> +	.gem_prime_mmap =3D drm_gem_prime_mmap,
->>  =20
->>   #if defined(CONFIG_DEBUG_FS)
->>   	.debugfs_init =3D pl111_debugfs_init,
->> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo=
-=2Ec
->> index 813e6cb3f9af..dc316cb79e00 100644
->> --- a/drivers/gpu/drm/vc4/vc4_bo.c
->> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
->> @@ -782,7 +782,7 @@ int vc4_prime_mmap(struct drm_gem_object *obj, str=
-uct vm_area_struct *vma)
->>   		return -EINVAL;
->>   	}
->>  =20
->> -	return drm_gem_cma_prime_mmap(obj, vma);
->> +	return drm_gem_prime_mmap(obj, vma);
->>   }
->>  =20
->>   int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *m=
-ap)
->> diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cm=
-a_helper.h
->> index 4680275ab339..0a9711caa3e8 100644
->> --- a/include/drm/drm_gem_cma_helper.h
->> +++ b/include/drm/drm_gem_cma_helper.h
->> @@ -59,7 +59,7 @@ struct drm_gem_cma_object {
->>   		.poll		=3D drm_poll,\
->>   		.read		=3D drm_read,\
->>   		.llseek		=3D noop_llseek,\
->> -		.mmap		=3D drm_gem_cma_mmap,\
->> +		.mmap		=3D drm_gem_mmap,\
->>   		DRM_GEM_CMA_UNMAPPED_AREA_FOPS \
->>   	}
->>  =20
->> @@ -76,9 +76,6 @@ int drm_gem_cma_dumb_create(struct drm_file *file_pr=
-iv,
->>   			    struct drm_device *drm,
->>   			    struct drm_mode_create_dumb *args);
->>  =20
->> -/* set vm_flags and we can change the VM attribute to other one at he=
-re */
->> -int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma);
->> -
->>   /* allocate physical memory */
->>   struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm=
-,
->>   					      size_t size);
->> @@ -101,9 +98,8 @@ struct drm_gem_object *
->>   drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
->>   				  struct dma_buf_attachment *attach,
->>   				  struct sg_table *sgt);
->> -int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
->> -			   struct vm_area_struct *vma);
->>   int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map =
-*map);
->> +int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struc=
-t *vma);
->>  =20
->>   /**
->>    * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE - CMA GEM driver operatio=
-ns
->> @@ -123,7 +119,7 @@ int drm_gem_cma_vmap(struct drm_gem_object *obj, s=
-truct dma_buf_map *map);
->>   	.prime_handle_to_fd	=3D drm_gem_prime_handle_to_fd, \
->>   	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle, \
->>   	.gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_table, \=
+> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> index 121f7d9dcbe6..72c3f4fe1148 100644
+> --- a/include/media/v4l2-async.h
+> +++ b/include/media/v4l2-async.h
+> @@ -189,9 +189,12 @@ int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
+>   * is released later at notifier cleanup time.
+>   */
+>  struct v4l2_async_subdev *
+> -v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+> -                                     struct fwnode_handle *fwnode,
+> -                                     unsigned int asd_struct_size);
+> +__v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+> +                                       struct fwnode_handle *fwnode,
+> +                                       unsigned int asd_struct_size);
+> +#define v4l2_async_notifier_add_fwnode_subdev(__notifier, __fwnode, __type)    \
+> +((__type *)__v4l2_async_notifier_add_fwnode_subdev(__notifier, __fwnode,       \
+> +                                                  sizeof(__type)))
+>  
+>  /**
+>   * v4l2_async_notifier_add_fwnode_remote_subdev - Allocate and add a fwnode
+> @@ -215,9 +218,12 @@ v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
+>   * exception that the fwnode refers to a local endpoint, not the remote one.
+>   */
+>  struct v4l2_async_subdev *
+> -v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
+> -                                            struct fwnode_handle *endpoint,
+> -                                            unsigned int asd_struct_size);
+> +__v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
+> +                                              struct fwnode_handle *endpoint,
+> +                                              unsigned int asd_struct_size);
+> +#define v4l2_async_notifier_add_fwnode_remote_subdev(__notifier, __ep, __type) \
+> +((__type *)__v4l2_async_notifier_add_fwnode_remote_subdev(__notifier, __ep,    \
+> +                                                         sizeof(__type)))
+>  
+>  /**
+>   * v4l2_async_notifier_add_i2c_subdev - Allocate and add an i2c async
+> @@ -235,9 +241,12 @@ v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
+>   * Same as above but for I2C matched sub-devices.
+>   */
+>  struct v4l2_async_subdev *
+> -v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
+> -                                  int adapter_id, unsigned short address,
+> -                                  unsigned int asd_struct_size);
+> +__v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
+> +                                    int adapter_id, unsigned short address,
+> +                                    unsigned int asd_struct_size);
+> +#define v4l2_async_notifier_add_i2c_subdev(__notifier, __adap, __addr, __type) \
+> +((__type *)__v4l2_async_notifier_add_i2c_subdev(__notifier, __adap, __addr,    \
+> +                                               sizeof(__type)))
+>  
+>  /**
+>   * v4l2_async_notifier_add_devname_subdev - Allocate and add a device-name
+> @@ -254,9 +263,12 @@ v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
+>   * Same as above but for device-name matched sub-devices.
+>   */
+>  struct v4l2_async_subdev *
+> -v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
+> -                                      const char *device_name,
+> -                                      unsigned int asd_struct_size);
+> +__v4l2_async_notifier_add_devname_subdev(struct v4l2_async_notifier *notifier,
+> +                                        const char *device_name,
+> +                                        unsigned int asd_struct_size);
+> +#define v4l2_async_notifier_add_devname_subdev(__notifier, __name, __type)     \
+> +((__type *)__v4l2_async_notifier_add_devname_subdev(__notifier, __name,                \
+> +                                                   sizeof(__type)))
+>  
 
->> -	.gem_prime_mmap		=3D drm_gem_cma_prime_mmap
->> +	.gem_prime_mmap		=3D drm_gem_prime_mmap
->>  =20
->>   /**
->>    * DRM_GEM_CMA_DRIVER_OPS - CMA GEM driver operations
->>
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
+I'm not thrilled about having a API that returns a type like this,
+as it makes it a bit confusing. But of course, being able to catch
+the error at compile-times I think justifies it.
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Would you like me to fold this patch in my v2 cleanup series?
 
---------------45C2C3C6C43F57AFBD43E3A2
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-drm-cma-Set-vma-ops-in-mmap-function.patch"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="0001-drm-cma-Set-vma-ops-in-mmap-function.patch"
+Ezequiel
 
-=46rom d0583fe22cd0cd29749ff679e46e13b58de325cb Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Thu, 14 Jan 2021 14:21:51 +0100
-Subject: [PATCH] drm/cma: Set vma ops in mmap function
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_gem_cma_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_g=
-em_cma_helper.c
-index 7942cf05cd93..0bd192736169 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -489,6 +489,8 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, stru=
-ct vm_area_struct *vma)
- 	struct drm_gem_cma_object *cma_obj;
- 	int ret;
-=20
-+	vma->vm_ops =3D obj->funcs->vm_ops;
-+
- 	/*
- 	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the=
-
- 	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to ma=
-p
---=20
-2.29.2
-
-
---------------45C2C3C6C43F57AFBD43E3A2--
-
---fYjL4RhaIWzC1aPqWzc3f6ZV564jVaLlO--
-
---NuRNkZr7cVBv8p8FCD6h20y55c9X14rpZ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAARpEFAwAAAAAACgkQlh/E3EQov+Al
-iw/+L7XhIseuWlvbHgu7J00agnb+bKukWI+zRKNSOsYeGtECdd/jLC6bbUmk6Ctne0cmbFrgtrJM
-qb/zsVSxw5EYKr8sSS+HEdYHamkbzj8AM9vKdI5Wo1/dmYGIXGDDSkqXfZhH0xRPo1G61zOiH3Rc
-9DiGleTe5U6iMTWseCZF0kLWKY2jbL6KdYr5L5nV3fy3qieel4V4QyjJj4U7M59jkS8nIf5iqK3E
-PMSWbhrujwx6qHgs1eQ/jsk2h6TDRC1LAqTVXrBNLUEPF2dIhx15hgLZU2MntEP/lTPBqybLvTaL
-bcYzLr4WpTiOz1bCK3hwEQ1AoZFakBF8uA9EGkmU2NdujWhRhrzlXWRAjgCOGjZTL3G4+SYsv9ot
-bRCLQoLzPP+fJEHGzUEpJfUh1o/RThRw/nl1ljQkkkxtupaCAPL8WWoRWwusrCxDf2MNQirIkyCh
-rLqOEd2lUAaW5283mUWf2y/WvIgPvl6uZwB1NoDb1J3KZxn4PT0qYwpG+5ix1ZoT9mzQ+vTpAnpG
-0tQwk8uIFWgVchTiQ0a0UOHIvUY2/0QCCleTX1C/rwNiVGmJnA0sUxLmMczbfdSf+JCofVByEX8k
-mF3eZYJA4F0qFwNpozVKFneilQUcXakcjnfmIGmp80rb7wFCzxyyDwl5u+Wq/3vOhnj+Nny1M6IT
-JHw=
-=egTA
------END PGP SIGNATURE-----
-
---NuRNkZr7cVBv8p8FCD6h20y55c9X14rpZ--
