@@ -2,176 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C7C02F5C33
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 09:12:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCD7A2F5C49
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Jan 2021 09:19:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727728AbhANIJy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Jan 2021 03:09:54 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:53295 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727721AbhANIJy (ORCPT
+        id S1727174AbhANISe convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Jan 2021 03:18:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726677AbhANISd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Jan 2021 03:09:54 -0500
-X-Originating-IP: 93.61.96.190
-Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 9F3A2C0025;
-        Thu, 14 Jan 2021 08:09:09 +0000 (UTC)
-Date:   Thu, 14 Jan 2021 09:09:27 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v6 5/5] media: i2c: max9286: Configure reverse channel
- amplitude
-Message-ID: <20210114080927.idz5v472ex25p5r4@uno.localdomain>
-References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
- <20201215170957.92761-6-jacopo+renesas@jmondi.org>
- <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
- <20210111104311.e6nyxhzhvlyjjxxw@uno.localdomain>
- <X/wvc26LXz2VsCkp@pendragon.ideasonboard.com>
- <20210111112023.brrhxgfedo5fer53@uno.localdomain>
- <X/0triYZZJiXaf07@pendragon.ideasonboard.com>
- <20210112090805.myglp2lpozo3blq5@uno.localdomain>
- <X//cYHkyELaH4XHb@pendragon.ideasonboard.com>
+        Thu, 14 Jan 2021 03:18:33 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80713C061794
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Jan 2021 00:17:53 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kzxpG-00029h-HZ; Thu, 14 Jan 2021 09:17:50 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kzxpD-0004YJ-M3; Thu, 14 Jan 2021 09:17:47 +0100
+Message-ID: <d7e9c3bed92d6fc6922e5f5ec30f27d7242c5624.camel@pengutronix.de>
+Subject: Re: [PATCH v4 4/7] dt-bindings: display: imx: hdmi: Convert binding
+ to YAML
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Sandy Huang <hjc@rock-chips.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Yao <markyao0591@gmail.com>
+Date:   Thu, 14 Jan 2021 09:17:47 +0100
+In-Reply-To: <20210114064437.5793-5-laurent.pinchart+renesas@ideasonboard.com>
+References: <20210114064437.5793-1-laurent.pinchart+renesas@ideasonboard.com>
+         <20210114064437.5793-5-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <X//cYHkyELaH4XHb@pendragon.ideasonboard.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+On Thu, 2021-01-14 at 08:44 +0200, Laurent Pinchart wrote:
+> Convert the i.MX6 HDMI TX text binding to YAML.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> Changes since v3:
+> 
+> - Use port instead of port-base
+> 
+> Changes since v1:
+> 
+> - Only specify maxItems for clocks
+> - Drop reg and interrupts as they're checked in the base schema
+> - Rebase on top of OF graph schema, dropped redundant properties
+> - Fix identation for enum entries
+> - Drop clock-names items, use maxItems only
+> ---
+>  .../bindings/display/imx/fsl,imx6-hdmi.yaml   | 126 ++++++++++++++++++
+>  .../devicetree/bindings/display/imx/hdmi.txt  |  65 ---------
+>  2 files changed, 126 insertions(+), 65 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/imx/hdmi.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> new file mode 100644
+> index 000000000000..af7fe9c4d196
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> @@ -0,0 +1,126 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx6-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX6 DWC HDMI TX Encoder
+> +
+> +maintainers:
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
 
-On Thu, Jan 14, 2021 at 07:53:36AM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> >
-> > All in all:
-> > - yes, I think there might be a need to control the noise immunity
-> >   settings after initialization
-> > - I think it should be done on the serializer side, possibly with a DT
-> >   property, possibly something like a boolean 'maxim,high-threshold-enable'
-> > - the deserializer can query that information with a kAPI like
-> >   get_mbus_config() after the remote has probed
-> > - Because of that there is no need for an additional deserializer property
-> >
-> > Hope this makes sense
->
-> Now I get what you meant. Sorry for missing the point.
->
-> While it would be technically feasible to query the property from the
-> serializer at runtime, there's the additional issue that the
-> deserializer has a single reverse channel amplitude setting for all the
-> channels. We would need to ensure that the property is set to the same
-> value in all camera DT nodes. Wouldn't it be best to then set it once
-> only, in the deserializer node ?
->
+Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-To be honest I wouldn't mind a run-time error, or a fallback like "the
-first one to probe is the authoritative one, the rest have to follow".
-And don't forget we would need a serializer property anyway to tell
-the chip if it has to enable its noise immunity threshold or not.
-
-But anyway, the here introduced new property already requires
-knwoledge on the deserializer about which camera is connected on the
-other side. It's not so bad, as if cameras are described in a .dtsi or
-.dtbo the deserializer property can be overridden. We can do the same
-for an additional property.
-
-ie. a deserializer-serializer 'maxim,high-threshold-enable' property
-
-RDACM20: pre-programmed high threshold enable
-
--------------- rdacm20.dtsi -------------------
-&gmsl {
-        maxim,reverse-channel-microvolt = <170000>;
-
-        i2c-mux {
-                i2c@0 {
-                        camera@51 {
-                                ....
-
-                        }
-
-                }
-
-        }
-};
--------------------------------------------------
-
-RDACM21: no pre-programmed high-threshold, high threshold enabled
-after camera probe
-
--------------- rdacm21.dtsi -------------------
-&gmsl {
-        maxim,reverse-channel-microvolt = <100000>;
-        maxim,high-threshold-enable;
-
-        i2c-mux {
-                i2c@0 {
-                        camera@51 {
-                                maxim,high-threshold-enable;
-                                ....
-
-                        }
-
-                }
-
-        }
-};
--------------------------------------------------
-
-RDACM21: no high-threshold enabled at all
-
--------------- rdacm21.dtsi -------------------
-&gmsl {
-        maxim,reverse-channel-microvolt = <100000>;
-
-        i2c-mux {
-                i2c@0 {
-                        camera@51 {
-                                ....
-
-                        }
-
-                }
-
-        }
-};
--------------------------------------------------
-
-For the serializer it's a boolean, for the deser we might need to
-specify a voltage, so it might become an uint32
-'maxim,high-threshold-microvolt' there.
-
--------------- rdacm21.dtsi -------------------
-&gmsl {
-        maxim,reverse-channel-microvolt = <100000>;
-        maxim,high-threshold-microvolt = <170000>;
-
-        i2c-mux {
-                i2c@0 {
-                        camera@51 {
-                                maxim,high-threshold-enable;
-                                ....
-
-                        }
-
-                }
-
-        }
-};
--------------------------------------------------
-
-> --
-> Regards,
->
-> Laurent Pinchart
+regards
+Philipp
