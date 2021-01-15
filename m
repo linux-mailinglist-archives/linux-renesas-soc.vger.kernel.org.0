@@ -2,124 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A672F7610
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jan 2021 10:58:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43F8A2F7758
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jan 2021 12:15:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730780AbhAOJ6P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Jan 2021 04:58:15 -0500
-Received: from mga04.intel.com ([192.55.52.120]:51075 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731207AbhAOJ6M (ORCPT
+        id S1726599AbhAOLOj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Jan 2021 06:14:39 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:51591 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725950AbhAOLOj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Jan 2021 04:58:12 -0500
-IronPort-SDR: ovrD9Pgq4wEPjBXQu8ABfF7pxnBMsXcAndR9Ir2ib7XvuKBeJ51Z6PQIwauByhXF4Q2zp9IGOD
- ZsyHGeu+NT8w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="175947763"
-X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
-   d="scan'208";a="175947763"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 01:56:26 -0800
-IronPort-SDR: 4KDf9o6O2xId+qLPl4cBxvTiFGRpCY0JIdXAOMS5EIV5G5xUItnColLKEZ/xfCa2M1gjB/oK7p
- ZsLxkPdbVmxg==
-X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
-   d="scan'208";a="349443530"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 01:56:24 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 8FAE5206A9; Fri, 15 Jan 2021 11:56:21 +0200 (EET)
-Date:   Fri, 15 Jan 2021 11:56:21 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH] media: v4l2-async: Improve
- v4l2_async_notifier_add_*_subdev() API
-Message-ID: <20210115095621.GQ11878@paasikivi.fi.intel.com>
-References: <20210114030719.28172-1-laurent.pinchart+renesas@ideasonboard.com>
+        Fri, 15 Jan 2021 06:14:39 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 2AA501C0004;
+        Fri, 15 Jan 2021 11:13:56 +0000 (UTC)
+Date:   Fri, 15 Jan 2021 12:14:15 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] rcar-vin: Do not try to stop stream if not running
+Message-ID: <20210115111415.po6tljlkx4plt72i@uno.localdomain>
+References: <20210115002148.4079591-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210115002148.4079591-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210114030719.28172-1-laurent.pinchart+renesas@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210115002148.4079591-2-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Niklas,
 
-Thanks for the patch. It's a really nice improvement.
+On Fri, Jan 15, 2021 at 01:21:45AM +0100, Niklas Söderlund wrote:
+> Do not attempt to stop the streaming if the stream is not running.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-On Thu, Jan 14, 2021 at 05:07:19AM +0200, Laurent Pinchart wrote:
-> The functions that add an async subdev to an async subdev notifier take
-> as an argument the size of the container structure they need to
-> allocate. This is error prone, as passing an invalid size will not be
-> caught by the compiler. Wrap those functions in macros that take a
-> container type instead of a size, and cast the returned pointer to the
-> desired type. The compiler will catch mistakes if the incorrect type is
-> passed to the macro, as the assignment types won't match.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+With the comment on v1 clarified for the double stoppage case:
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+  j
+
 > ---
-> 
-> This patch is based on top of Ezequiel's "[PATCH 00/13] V4L2 Async
-> notifier API cleanup" series. It makes errors such as the one fixed by
-> "[PATCH] media: ti-vpe: cal: fix write to unallocated memory" impossible
-> to occur in the first place.
-> 
->  drivers/media/i2c/max9286.c                   |  2 +-
->  drivers/media/i2c/st-mipid02.c                |  2 +-
->  drivers/media/pci/intel/ipu3/ipu3-cio2.c      | 10 ++---
->  drivers/media/platform/am437x/am437x-vpfe.c   |  2 +-
->  drivers/media/platform/atmel/atmel-isi.c      |  2 +-
->  .../media/platform/atmel/atmel-sama5d2-isc.c  |  2 +-
->  drivers/media/platform/cadence/cdns-csi2rx.c  |  3 +-
->  drivers/media/platform/davinci/vpif_capture.c |  2 +-
->  drivers/media/platform/exynos4-is/media-dev.c |  3 +-
->  .../media/platform/marvell-ccic/cafe-driver.c |  2 +-
->  .../media/platform/marvell-ccic/mmp-driver.c  |  4 +-
->  drivers/media/platform/omap3isp/isp.c         | 16 +++-----
->  drivers/media/platform/pxa_camera.c           |  4 +-
->  drivers/media/platform/qcom/camss/camss.c     | 11 ++----
->  drivers/media/platform/rcar-vin/rcar-core.c   |  5 ++-
->  drivers/media/platform/rcar-vin/rcar-csi2.c   |  2 +-
->  drivers/media/platform/rcar_drif.c            |  2 +-
->  drivers/media/platform/renesas-ceu.c          | 20 ++++------
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 10 ++---
->  drivers/media/platform/stm32/stm32-dcmi.c     |  3 +-
->  .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  4 +-
->  drivers/media/platform/ti-vpe/cal.c           | 12 +++---
->  drivers/media/platform/video-mux.c            |  2 +-
->  drivers/media/platform/xilinx/xilinx-vipp.c   | 10 ++---
->  drivers/media/v4l2-core/v4l2-async.c          | 38 +++++++++----------
->  drivers/media/v4l2-core/v4l2-fwnode.c         |  4 +-
->  drivers/staging/media/imx/imx-media-csi.c     |  2 +-
->  drivers/staging/media/imx/imx-media-of.c      |  2 +-
->  drivers/staging/media/imx/imx6-mipi-csi2.c    |  2 +-
->  drivers/staging/media/imx/imx7-media-csi.c    |  2 +-
->  drivers/staging/media/imx/imx7-mipi-csis.c    |  2 +-
->  drivers/staging/media/tegra-video/vi.c        | 10 ++---
->  include/media/v4l2-async.h                    | 36 ++++++++++++------
->  33 files changed, 116 insertions(+), 117 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index c82c1493e099..c31858548d34 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -580,7 +580,7 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
->  
->  		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
->  							    source->fwnode,
-> -							    sizeof(*asd));
-> +							    struct v4l2_async_subdev);
-
-Would it be possible to use *asd here instead?
-
-You'd need typeof(), too.
-
-Same for the rest.
-
--- 
-Kind regards,
-
-Sakari Ailus
+>  drivers/media/platform/rcar-vin/rcar-dma.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 48280ddb15b9b0ee..f30dafbdf61ca15f 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -1301,6 +1301,11 @@ void rvin_stop_streaming(struct rvin_dev *vin)
+>
+>  	spin_lock_irqsave(&vin->qlock, flags);
+>
+> +	if (vin->state == STOPPED) {
+> +		spin_unlock_irqrestore(&vin->qlock, flags);
+> +		return;
+> +	}
+> +
+>  	vin->state = STOPPING;
+>
+>  	/* Wait until only scratch buffer is used, max 3 interrupts. */
+> --
+> 2.30.0
+>
