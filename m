@@ -2,78 +2,215 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D56F2F73F2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jan 2021 09:01:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 329222F7427
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jan 2021 09:16:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732105AbhAOIBG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Jan 2021 03:01:06 -0500
-Received: from mail-oo1-f41.google.com ([209.85.161.41]:36310 "EHLO
-        mail-oo1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728688AbhAOIBF (ORCPT
+        id S1726201AbhAOIQo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Jan 2021 03:16:44 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49348 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726004AbhAOIQk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Jan 2021 03:01:05 -0500
-Received: by mail-oo1-f41.google.com with SMTP id j8so2006194oon.3;
-        Fri, 15 Jan 2021 00:00:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=9kXUvk5r5wmoJiypHdN3S2Vu6BTC52Np6aUDp7nDGvI=;
-        b=WWHQwWewVVrtx66YgyFkuXcP2QVPH9xnNG99gOhDs3ygkoQpRjScz/tiGuQXHlahsN
-         x/DIVmOojSruLpuXZcLkicaAeIBNlPDGrIX0zB6pfGlfEZNTZhxWK3dxH1mTbNKOusOC
-         jqsetTUdKfHjLsmw+QmErSL2u4MXp+kIhH4GolTJ2Vm3+9VxRyEnkuGiDDuwd2mGHdPw
-         ZalVcb3n/TCrkuH1jS7T5PhzEExXb0owN7hVy2hKzvLF2dVKdIK5UkQdSd+CkoanCfGM
-         yodkfyoSBRdgj9uRN1wKeQza6hIGqafLXdtx7OLZselC9SYN5+KtRN6xgS9e6HEV+yze
-         s+jg==
-X-Gm-Message-State: AOAM530nTA23Cs0oUntyAKKjDXl/Nudn1FaYPyUhm4bBdfQESe4H18eG
-        +1F9/UKYfTBSUNNH7CCxafQAt1370t3KUvtJZdo=
-X-Google-Smtp-Source: ABdhPJz7EssXixQz7eMJk3rSBT5mLf+NEM4oOC5TdqDezkvy/1R9ZzkkV/X9kqdd4/+a705Ud73QQdv6k0cmjIdNepc=
-X-Received: by 2002:a4a:c191:: with SMTP id w17mr7438191oop.1.1610697624607;
- Fri, 15 Jan 2021 00:00:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20201228112715.14947-1-wsa+renesas@sang-engineering.com>
- <20201228112715.14947-2-wsa+renesas@sang-engineering.com> <CAMuHMdUDPaaaHsDP11qZJzWzd+tss97iZXXATCHdVQZE1vLHSg@mail.gmail.com>
- <20210114205756.GB16693@kunai>
-In-Reply-To: <20210114205756.GB16693@kunai>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 15 Jan 2021 09:00:13 +0100
-Message-ID: <CAMuHMdU4=_ZdwmpNchNC58z-4OfWV9Za2apnAhDfzUM8pQD9Qw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] arm64: dts: renesas: r8a779a0: add & update SCIF nodes
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Fri, 15 Jan 2021 03:16:40 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id DEB59AB7A;
+        Fri, 15 Jan 2021 08:15:58 +0000 (UTC)
+Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
+ functions
+To:     kieran.bingham+renesas@ideasonboard.com,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        airlied@linux.ie, daniel@ffwll.ch, eric@anholt.net,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linh Phung <linh.phung.jy@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org
+References: <20201123115646.11004-1-tzimmermann@suse.de>
+ <20201123115646.11004-3-tzimmermann@suse.de>
+ <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
+ <d6b5376d-05c9-bb43-3071-820d675d921e@suse.de>
+ <d67ce6c5-71f1-ec1e-ca89-db0997f96b61@ideasonboard.com>
+ <6afaad84-505a-87e7-a7ce-9f45c9cc79bd@suse.de>
+ <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <1c1e4df6-006b-f631-7f0a-0a11b546bf8e@suse.de>
+Date:   Fri, 15 Jan 2021 09:15:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh
+Content-Type: multipart/mixed; boundary="4SMfsDSRy9oRo45qeK3KFv7zGjvngFvtL";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: kieran.bingham+renesas@ideasonboard.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, eric@anholt.net,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <1c1e4df6-006b-f631-7f0a-0a11b546bf8e@suse.de>
+Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
+ functions
+References: <20201123115646.11004-1-tzimmermann@suse.de>
+ <20201123115646.11004-3-tzimmermann@suse.de>
+ <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
+ <d6b5376d-05c9-bb43-3071-820d675d921e@suse.de>
+ <d67ce6c5-71f1-ec1e-ca89-db0997f96b61@ideasonboard.com>
+ <6afaad84-505a-87e7-a7ce-9f45c9cc79bd@suse.de>
+ <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
+In-Reply-To: <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
 
-On Thu, Jan 14, 2021 at 9:57 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > > +               scif3: serial@e6c50000 {
-> >
-> > Please move scif3 before scif4.
->
-> I thought we are sorting by reg value?
+--4SMfsDSRy9oRo45qeK3KFv7zGjvngFvtL
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Yeah, but we group nodes of the same type, and sort them by
-label within the group.
+Hi
 
-We really need a script to take care of the sorting...
+Am 14.01.21 um 17:28 schrieb Kieran Bingham:
+> Hi Thomas,
+>=20
+> On 14/01/2021 15:15, Thomas Zimmermann wrote:
+>>>>> On 23/11/2020 11:56, Thomas Zimmermann wrote:
+>>>>>> The new GEM object function drm_gem_cma_mmap() sets the VMA flags
+>>>>>> and offset as in the old implementation and immediately maps in th=
+e
+>>>>>> buffer's memory pages.
+>>>>>>
+>>>>>> Changing CMA helpers to use the GEM object function allows for the=
 
-Gr{oetje,eeting}s,
+>>>>>> removal of the special implementations for mmap and gem_prime_mmap=
 
-                        Geert
+>>>>>> callbacks. The regular functions drm_gem_mmap() and
+>>>>>> drm_gem_prime_mmap()
+>>>>>> are now used.
+>>>>>
+>>>>> I've encountered a memory leak regression in our Renesas R-Car DU
+>>>>> tests,
+>>>>> and git bisection has led me to this patch (as commit f5ca8eb6f9).
+>>>>>
+>>>>> Running the tests sequentially, while grepping /proc/meminfo for
+>>>>> Cma, it
+>>>>> is evident that CMA memory is not released, until exhausted and the=
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>>>>> allocations fail (seen in [0]) shown by the error report:
+>>>>>
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.fbs.append(pykms.DumbFramebuf=
+fer(self.card, mode.hdisplay,
+>>>>>> mode.vdisplay, "XR24"))
+>>>>>> ValueError: DRM_IOCTL_MODE_CREATE_DUMB failed: Cannot allocate mem=
+ory
+>>>>>
+>>>>>
+>>>>> Failing tests at f5ca8eb6f9 can be seen at [0], while the tests pas=
+s
+>>>>> successfully [1] on the commit previous to that (bc2532ab7c2):
+>>>>>
+>>>>> Reverting f5ca8eb6f9 also produces a successful pass [2]
+>>>>>
+>>>>>  =C2=A0=C2=A0 [0] https://paste.ubuntu.com/p/VjPGPgswxR/ # Failed a=
+t f5ca8eb6f9
+>>>>>  =C2=A0=C2=A0 [1] https://paste.ubuntu.com/p/78RRp2WpNR/ # Success =
+at bc2532ab7c2
+>>>>>  =C2=A0=C2=A0 [2] https://paste.ubuntu.com/p/qJKjZZN2pt/ # Success =
+with revert
+>>>>>
+>>>>>
+>>>>> I don't believe we handle mmap specially in the RCar-DU driver, so =
+I
+>>>>> wonder if this issue has hit anyone else as well?
+>>>>>
+>>>>> Any ideas of a repair without a revert ? Or do we just need to subm=
+it a
+>>>>> revert?
+>>>>
+>>>> I think we might not be setting the VMA ops and therefore not finali=
+ze
+>>>> the BO correctly. Could you please apply the attched (quick-and-dirt=
+y)
+>>>> patch and try again?
+>>>
+>>> Thanks for the quick response.
+>>>
+>>> I can confirm the quick-and-dirty patch resolves the issue:
+>>>  =C2=A0=C2=A0 https://paste.ubuntu.com/p/sKDp3dNvwV/
+>>>
+>>> You can add a
+>>> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>
+>> Great! If you don't mind, I'd also add you in the Reported-by tag.
+>=20
+> Certainly!
+>=20
+>>>
+>>> if it stays like that, but I suspect there might be a better place to=
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>>> initialise the ops rather than in the mmap call itself.
+>>
+>> I think that's the fix, basically. We could put such a line as a
+>> fall-back somewhere into the DRM core code. But I don't know if this
+>> really works with all drivers. Maybe there's one that requires vm_ops =
+to
+>> be NULL.
+>=20
+> Ok, that's reaching beyond code I've explored, so I'll leave it to you.=
+
+
+Daniel asked for a fix in the DRM core, so I'll go with the alternative=20
+approach. If you have the time, I'd appreciate another test run.
+
+Best regards
+Thomas
+
+>=20
+>=20
+>> Thanks for reporting this issue and testing quickly.
+>=20
+> Thanks for fixing so quickly :-)
+>=20
+> Regards
+>=20
+> Kieran
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--4SMfsDSRy9oRo45qeK3KFv7zGjvngFvtL--
+
+--Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmABTz0FAwAAAAAACgkQlh/E3EQov+CV
+xA/+PoKFAj2XjMj4k6um1i/stJIlU8XfqnXWd2QV0TvhmeUkW9XsDLSn4NGcJzCeDqfZAMu6o8xB
+t38plEFr9gOI2fKxKOntbxN+OID1BPRgJ0hjuuqHiNxv4fyOozfsHJIq8vTZYOZ1RmNHJcWqGTy2
+7OjyNQqGk1AXbBNjPBITMX8Eq78YJ/acqGaCoTIRNI4HNV6RcKP/1phXrqwMeLu9E8k+iiQXDwFQ
+gR3RClr9R3F+YFW6gXI81arcevOXtvM9dG4XzIRht5EYHO4c+pFxqiRsphDC3UIskMcvlsf7JvNX
+2DM94E6Z2JdEvYflEHwD4j8MFG8ryJzR2AGtQwirxg60SImcH8vljSMTNswH7gE28S/iOXD0R23k
+dQd2/qE2I7frg+o0/JAKi45frK7eTKqO3SBBYP1OYdjTAVGkvaEG4YZV4DGObUO5veA5njMdVkTP
+l0/RRfYwZhr+gFWXi+vPV8AyyAKaeKqJOIaLOqVijwvy7MN0911ePGQEs4+JTlu3WmSbwPjBeB/J
+U2CuzziziRGPrygQGBVh2odeVo0XBuIasyrXMGz+nFDUcY6o3zDE2cvT2c1Yah4U7eYQ/M2QCm68
+WpbBrHELD45ARuibozMh2G1iobh721vRNTCBtRpltuWrMtleg7s/Ob2RCvQxH25mpH4cHFjS8Wk/
+UNs=
+=hO8Z
+-----END PGP SIGNATURE-----
+
+--Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh--
