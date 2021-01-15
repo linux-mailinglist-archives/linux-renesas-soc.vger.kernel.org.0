@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB2D62F86B6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jan 2021 21:30:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AED22F86D4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jan 2021 21:40:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387526AbhAOUaP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Jan 2021 15:30:15 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50256 "EHLO
+        id S1733257AbhAOUkU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Jan 2021 15:40:20 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:50574 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732164AbhAOUaB (ORCPT
+        with ESMTP id S1728305AbhAOUkS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Jan 2021 15:30:01 -0500
+        Fri, 15 Jan 2021 15:40:18 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E61358B;
-        Fri, 15 Jan 2021 21:29:16 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 309F158B;
+        Fri, 15 Jan 2021 21:39:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610742556;
-        bh=8R5qOZgwIXX9QIBlCIV/R54viYQ+tS8st/8kK+PspT4=;
+        s=mail; t=1610743174;
+        bh=0eTzkl0LE8TIXGf5t0PGWUacoy38z9y9u6sIiGp9UYE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rXfe/Bd4sxDcopxrQyulKr6sWDtZgNWVEUmMmsnebMU4/0jVNn/8hLQVXHqwR4Iqy
-         dmLamgDdsuehH2QKJU5DVGWdiVNzsC5Rqtv2JHOZ59k4V2CtY3G/tqo9iglvRf5/6q
-         dndbBomFsfYf9WqlpJf3+ozL6ojiJBE1hiTgHRnI=
-Date:   Fri, 15 Jan 2021 22:28:59 +0200
+        b=FXkkLjrDScPwYCBTtHe+DPRrgVJwFQs+YddTW3P3PdK3Wp3t1JdLeO03A/q4YqBb0
+         yL0LkWkkkMrfDp4IQxFj67afKUSbF+PM1L5xg7dytXkZ+flIG2RQqODs4Y3ZibtTbs
+         45RkI7efEFF4ERwTe7cGwnLt1+LYrGqe7X5DhFkE=
+Date:   Fri, 15 Jan 2021 22:39:17 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Maxime Ripard <maxime@cerno.tech>
 Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -41,6 +41,12 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Brian Starkey <brian.starkey@arm.com>,
         Russell King <linux@armlinux.org.uk>,
         Dave Airlie <airlied@redhat.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Maxime Ripard <mripard@kernel.org>,
         Inki Dae <inki.dae@samsung.com>,
         Joonyoung Shim <jy0922.shim@samsung.com>,
         Seung-Woo Kim <sw0312.kim@samsung.com>,
@@ -71,7 +77,7 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Jerome Brunet <jbrunet@baylibre.com>,
         Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
         Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Ben Skeggs <bskeggs@redhat.com>,
+        Marek Vasut <marex@denx.de>, Ben Skeggs <bskeggs@redhat.com>,
         Tomi Valkeinen <tomba@kernel.org>,
         Gerd Hoffmann <kraxel@redhat.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -83,12 +89,13 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Philippe Cornu <philippe.cornu@st.com>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Alexandre Torgue <alexandre.torgue@st.com>,
-        Maxime Ripard <mripard@kernel.org>,
         Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Jyri Sarha <jyri.sarha@iki.fi>, Eric Anholt <eric@anholt.net>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Eric Anholt <eric@anholt.net>,
         Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
         Melissa Wen <melissa.srw@gmail.com>,
         Haneen Mohammed <hamohammed.sa@gmail.com>,
@@ -108,14 +115,15 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         linux-rockchip@lists.infradead.org,
         linux-stm32@st-md-mailman.stormreply.com,
         linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 02/10] drm: Rename plane atomic_check state names
-Message-ID: <YAH7C0EOsisHhqvR@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 04/10] drm/atomic: Pass the full state to planes
+ atomic_check
+Message-ID: <YAH9dTnznIugsSYE@pendragon.ideasonboard.com>
 References: <20210115125703.1315064-1-maxime@cerno.tech>
- <20210115125703.1315064-2-maxime@cerno.tech>
+ <20210115125703.1315064-4-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210115125703.1315064-2-maxime@cerno.tech>
+In-Reply-To: <20210115125703.1315064-4-maxime@cerno.tech>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -124,160 +132,140 @@ Hi Maxime,
 
 Thank you for the patch.
 
-On Fri, Jan 15, 2021 at 01:56:54PM +0100, Maxime Ripard wrote:
-> Most drivers call the argument to the plane atomic_check hook simply
-> state, which is going to conflict with the global atomic state in a
-> later rework. Let's rename it to new_plane_state (or new_state depending
-> on the convention used in the driver).
+On Fri, Jan 15, 2021 at 01:56:56PM +0100, Maxime Ripard wrote:
+> The current atomic helpers have either their object state being passed as
+> an argument or the full atomic state.
 > 
-> This was done using the coccinelle script below, and built tested:
+> The former is the pattern that was done at first, before switching to the
+> latter for new hooks or when it was needed.
+> 
+> Let's start convert all the remaining helpers to provide a consistent
+
+s/start convert/convert/ ?
+
+> interface, starting with the planes atomic_check.
+> 
+> The conversion was done using the coccinelle script below plus some
+> manual changes for vmwgfx, built tested on all the drivers.
+> 
+> @@
+> identifier plane, plane_state;
+> symbol state;
+> @@
+> 
+>  struct drm_plane_helper_funcs {
+>  	...
+> 	int (*atomic_check)(struct drm_plane *plane,
+> -			    struct drm_plane_state *plane_state);
+> +			    struct drm_atomic_state *state);
+> 	...
+> }
 > 
 > @ plane_atomic_func @
 > identifier helpers;
 > identifier func;
 > @@
 > 
->  static const struct drm_plane_helper_funcs helpers = {
+> static const struct drm_plane_helper_funcs helpers = {
+> 	...,
 >  	.atomic_check = func,
->  };
+> 	...,
+> };
 > 
-> @ has_old_state @
-> identifier plane_atomic_func.func;
-> identifier plane;
-> expression e;
-> symbol old_state;
-> symbol state;
+> @@
+> struct drm_plane_helper_funcs *FUNCS;
+> identifier f;
+> identifier dev;
+> identifier plane, plane_state, state;
 > @@
 > 
->  func(struct drm_plane *plane, struct drm_plane_state *state)
->  {
->  	...
->  	struct drm_plane_state *old_state = e;
->  	...
->  }
-> 
-> @ depends on has_old_state @
-> identifier plane_atomic_func.func;
-> identifier plane;
-> symbol old_state;
-> @@
-> 
->  func(struct drm_plane *plane,
-> -	struct drm_plane_state *state
-> +	struct drm_plane_state *new_state
->      )
+>  f(struct drm_device *dev, struct drm_atomic_state *state)
 >  {
 >  	<+...
-> -	state
-> +	new_state
-> 	...+>
+> -	FUNCS->atomic_check(plane, plane_state)
+> +	FUNCS->atomic_check(plane, state)
+>  	...+>
 >  }
 > 
-> @ has_state @
+> @@
 > identifier plane_atomic_func.func;
 > identifier plane;
 > symbol state;
 > @@
 > 
->  func(struct drm_plane *plane, struct drm_plane_state *state)
->  {
->  	...
->  }
-> 
-> @ depends on has_state @
-> identifier plane_atomic_func.func;
-> identifier plane;
-> symbol old_state;
-> @@
-> 
 >  func(struct drm_plane *plane,
-> -	struct drm_plane_state *state
-> +	struct drm_plane_state *new_plane_state
->      )
+> -    struct drm_plane_state *state)
+> +    struct drm_plane_state *new_plane_state)
 >  {
->  	<+...
+> 	<...
 > -	state
 > +	new_plane_state
-> 	...+>
+> 	...>
 >  }
+> 
+
+Is this needed, or is it a leftover from 02/10 ?
+
+> @ ignores_new_state @
+> identifier plane_atomic_func.func;
+> identifier plane, new_plane_state;
+> @@
+> 
+>  func(struct drm_plane *plane, struct drm_plane_state *new_plane_state)
+>  {
+> 	... when != new_plane_state
+>  }
+> 
+> @ adds_new_state depends on plane_atomic_func && !ignores_new_state @
+> identifier plane_atomic_func.func;
+> identifier plane, new_plane_state;
+> @@
+> 
+>  func(struct drm_plane *plane, struct drm_plane_state *new_plane_state)
+>  {
+> +	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
+>  	...
+>  }
+> 
+> @ depends on plane_atomic_func @
+> identifier plane_atomic_func.func;
+> identifier plane, new_plane_state;
+> @@
+> 
+>  func(struct drm_plane *plane,
+> -     struct drm_plane_state *new_plane_state
+> +     struct drm_atomic_state *state
+>      )
+>  { ... }
+> 
+> @ include depends on adds_new_state @
+> @@
+> 
+>  #include <drm/drm_atomic.h>
+> 
+> @ no_include depends on !include && adds_new_state @
+> @@
+> 
+> + #include <drm/drm_atomic.h>
+>   #include <drm/...>
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
 
-[...]
+[snip]
 
->  drivers/gpu/drm/omapdrm/omap_plane.c          | 19 +++++----
->  drivers/gpu/drm/rcar-du/rcar_du_plane.c       |  7 ++--
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  7 ++--
->  drivers/gpu/drm/xlnx/zynqmp_disp.c            | 10 +++--
+>  drivers/gpu/drm/drm_atomic_helper.c               | 2 +-
+>  drivers/gpu/drm/drm_simple_kms_helper.c           | 4 +++-
+>  drivers/gpu/drm/omapdrm/omap_plane.c              | 4 +++-
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.c           | 4 +++-
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c             | 5 ++++-
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c                | 4 +++-
 
-For these, with the comment below addressed,
+For these,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->  41 files changed, 402 insertions(+), 357 deletions(-)
-
 [snip]
-
-> diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-> index 51dc24acea73..78d0eb1fd69d 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_plane.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-> @@ -99,18 +99,19 @@ static void omap_plane_atomic_disable(struct drm_plane *plane,
->  }
->  
->  static int omap_plane_atomic_check(struct drm_plane *plane,
-> -				   struct drm_plane_state *state)
-> +				   struct drm_plane_state *new_plane_state)
->  {
->  	struct drm_crtc_state *crtc_state;
->  
-> -	if (!state->fb)
-> +	if (!new_plane_state->fb)
->  		return 0;
->  
->  	/* crtc should only be NULL when disabling (i.e., !state->fb) */
-
-s/state/new_plane_state/ here too ?
-
-> -	if (WARN_ON(!state->crtc))
-> +	if (WARN_ON(!new_plane_state->crtc))
->  		return 0;
->  
-> -	crtc_state = drm_atomic_get_existing_crtc_state(state->state, state->crtc);
-> +	crtc_state = drm_atomic_get_existing_crtc_state(new_plane_state->state,
-> +							new_plane_state->crtc);
->  	/* we should have a crtc state if the plane is attached to a crtc */
->  	if (WARN_ON(!crtc_state))
->  		return 0;
-> @@ -118,17 +119,17 @@ static int omap_plane_atomic_check(struct drm_plane *plane,
->  	if (!crtc_state->enable)
->  		return 0;
->  
-> -	if (state->crtc_x < 0 || state->crtc_y < 0)
-> +	if (new_plane_state->crtc_x < 0 || new_plane_state->crtc_y < 0)
->  		return -EINVAL;
->  
-> -	if (state->crtc_x + state->crtc_w > crtc_state->adjusted_mode.hdisplay)
-> +	if (new_plane_state->crtc_x + new_plane_state->crtc_w > crtc_state->adjusted_mode.hdisplay)
-
-I can't help thinking we're using too long variable names... :-(
-
->  		return -EINVAL;
->  
-> -	if (state->crtc_y + state->crtc_h > crtc_state->adjusted_mode.vdisplay)
-> +	if (new_plane_state->crtc_y + new_plane_state->crtc_h > crtc_state->adjusted_mode.vdisplay)
->  		return -EINVAL;
->  
-> -	if (state->rotation != DRM_MODE_ROTATE_0 &&
-> -	    !omap_framebuffer_supports_rotation(state->fb))
-> +	if (new_plane_state->rotation != DRM_MODE_ROTATE_0 &&
-> +	    !omap_framebuffer_supports_rotation(new_plane_state->fb))
->  		return -EINVAL;
->  
->  	return 0;
-
-[...]
 
 -- 
 Regards,
