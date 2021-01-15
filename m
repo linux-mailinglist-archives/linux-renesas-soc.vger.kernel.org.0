@@ -2,95 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12BB72F75F3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jan 2021 10:54:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8A672F7610
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jan 2021 10:58:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730205AbhAOJyB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Jan 2021 04:54:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726381AbhAOJyA (ORCPT
+        id S1730780AbhAOJ6P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Jan 2021 04:58:15 -0500
+Received: from mga04.intel.com ([192.55.52.120]:51075 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731207AbhAOJ6M (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Jan 2021 04:54:00 -0500
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DA84C061793
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Jan 2021 01:53:21 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by andre.telenet-ops.be with bizsmtp
-        id GxtK2400Q4C55Sk01xtKPt; Fri, 15 Jan 2021 10:53:19 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l0LnD-003j2D-4Q; Fri, 15 Jan 2021 10:53:19 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l0LnC-009nN7-K5; Fri, 15 Jan 2021 10:53:18 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: sh-pfc: Updates for v5.12
-Date:   Fri, 15 Jan 2021 10:53:13 +0100
-Message-Id: <20210115095313.2334693-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 15 Jan 2021 04:58:12 -0500
+IronPort-SDR: ovrD9Pgq4wEPjBXQu8ABfF7pxnBMsXcAndR9Ir2ib7XvuKBeJ51Z6PQIwauByhXF4Q2zp9IGOD
+ ZsyHGeu+NT8w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="175947763"
+X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
+   d="scan'208";a="175947763"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 01:56:26 -0800
+IronPort-SDR: 4KDf9o6O2xId+qLPl4cBxvTiFGRpCY0JIdXAOMS5EIV5G5xUItnColLKEZ/xfCa2M1gjB/oK7p
+ ZsLxkPdbVmxg==
+X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
+   d="scan'208";a="349443530"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 01:56:24 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 8FAE5206A9; Fri, 15 Jan 2021 11:56:21 +0200 (EET)
+Date:   Fri, 15 Jan 2021 11:56:21 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH] media: v4l2-async: Improve
+ v4l2_async_notifier_add_*_subdev() API
+Message-ID: <20210115095621.GQ11878@paasikivi.fi.intel.com>
+References: <20210114030719.28172-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210114030719.28172-1-laurent.pinchart+renesas@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
+Hi Laurent,
 
-The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
+Thanks for the patch. It's a really nice improvement.
 
-  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
+On Thu, Jan 14, 2021 at 05:07:19AM +0200, Laurent Pinchart wrote:
+> The functions that add an async subdev to an async subdev notifier take
+> as an argument the size of the container structure they need to
+> allocate. This is error prone, as passing an invalid size will not be
+> caught by the compiler. Wrap those functions in macros that take a
+> container type instead of a size, and cast the returned pointer to the
+> desired type. The compiler will catch mistakes if the incorrect type is
+> passed to the macro, as the assignment types won't match.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> 
+> This patch is based on top of Ezequiel's "[PATCH 00/13] V4L2 Async
+> notifier API cleanup" series. It makes errors such as the one fixed by
+> "[PATCH] media: ti-vpe: cal: fix write to unallocated memory" impossible
+> to occur in the first place.
+> 
+>  drivers/media/i2c/max9286.c                   |  2 +-
+>  drivers/media/i2c/st-mipid02.c                |  2 +-
+>  drivers/media/pci/intel/ipu3/ipu3-cio2.c      | 10 ++---
+>  drivers/media/platform/am437x/am437x-vpfe.c   |  2 +-
+>  drivers/media/platform/atmel/atmel-isi.c      |  2 +-
+>  .../media/platform/atmel/atmel-sama5d2-isc.c  |  2 +-
+>  drivers/media/platform/cadence/cdns-csi2rx.c  |  3 +-
+>  drivers/media/platform/davinci/vpif_capture.c |  2 +-
+>  drivers/media/platform/exynos4-is/media-dev.c |  3 +-
+>  .../media/platform/marvell-ccic/cafe-driver.c |  2 +-
+>  .../media/platform/marvell-ccic/mmp-driver.c  |  4 +-
+>  drivers/media/platform/omap3isp/isp.c         | 16 +++-----
+>  drivers/media/platform/pxa_camera.c           |  4 +-
+>  drivers/media/platform/qcom/camss/camss.c     | 11 ++----
+>  drivers/media/platform/rcar-vin/rcar-core.c   |  5 ++-
+>  drivers/media/platform/rcar-vin/rcar-csi2.c   |  2 +-
+>  drivers/media/platform/rcar_drif.c            |  2 +-
+>  drivers/media/platform/renesas-ceu.c          | 20 ++++------
+>  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 10 ++---
+>  drivers/media/platform/stm32/stm32-dcmi.c     |  3 +-
+>  .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  4 +-
+>  drivers/media/platform/ti-vpe/cal.c           | 12 +++---
+>  drivers/media/platform/video-mux.c            |  2 +-
+>  drivers/media/platform/xilinx/xilinx-vipp.c   | 10 ++---
+>  drivers/media/v4l2-core/v4l2-async.c          | 38 +++++++++----------
+>  drivers/media/v4l2-core/v4l2-fwnode.c         |  4 +-
+>  drivers/staging/media/imx/imx-media-csi.c     |  2 +-
+>  drivers/staging/media/imx/imx-media-of.c      |  2 +-
+>  drivers/staging/media/imx/imx6-mipi-csi2.c    |  2 +-
+>  drivers/staging/media/imx/imx7-media-csi.c    |  2 +-
+>  drivers/staging/media/imx/imx7-mipi-csis.c    |  2 +-
+>  drivers/staging/media/tegra-video/vi.c        | 10 ++---
+>  include/media/v4l2-async.h                    | 36 ++++++++++++------
+>  33 files changed, 116 insertions(+), 117 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index c82c1493e099..c31858548d34 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -580,7 +580,7 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
+>  
+>  		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
+>  							    source->fwnode,
+> -							    sizeof(*asd));
+> +							    struct v4l2_async_subdev);
 
-are available in the Git repository at:
+Would it be possible to use *asd here instead?
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.12-tag1
+You'd need typeof(), too.
 
-for you to fetch changes up to a5cda861ed57710837bc560a3c715160da710555:
+Same for the rest.
 
-  pinctrl: renesas: r8a779a0: Add TPU pins, groups and functions (2021-01-14 12:06:16 +0100)
+-- 
+Kind regards,
 
-----------------------------------------------------------------
-pinctrl: renesas: Updates for v5.12
-
-  - Restrict debug runtime-checks to Renesas platforms,
-  - Initial support for the R-Car V3U SoC.
-
-Thanks for pulling!
-----------------------------------------------------------------
-Geert Uytterhoeven (1):
-      pinctrl: renesas: checker: Restrict checks to Renesas platforms
-
-Ulrich Hecht (18):
-      dt-bindings: pinctrl: renesas,pfc: Document r8a779a0 PFC support
-      pinctrl: renesas: Implement unlock register masks
-      pinctrl: renesas: Add I/O voltage level flag
-      pinctrl: renesas: Add PORT_GP_CFG_{2,31} macros
-      pinctrl: renesas: Initial R8A779A0 (V3U) PFC support
-      pinctrl: renesas: r8a779a0: Add SCIF pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add I2C pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add EtherAVB pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add CANFD pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add DU pins, groups and function
-      pinctrl: renesas: r8a779a0: Add HSCIF pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add INTC-EX pins, groups and function
-      pinctrl: renesas: r8a779a0: Add MMC pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add MSIOF pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add PWM pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add QSPI pins, groups, and functions
-      pinctrl: renesas: r8a779a0: Add TMU pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add TPU pins, groups and functions
-
- .../devicetree/bindings/pinctrl/renesas,pfc.yaml   |    3 +-
- drivers/pinctrl/renesas/Kconfig                    |    5 +
- drivers/pinctrl/renesas/Makefile                   |    1 +
- drivers/pinctrl/renesas/core.c                     |   38 +-
- drivers/pinctrl/renesas/pfc-r8a779a0.c             | 4460 ++++++++++++++++++++
- drivers/pinctrl/renesas/pinctrl.c                  |   16 +-
- drivers/pinctrl/renesas/sh_pfc.h                   |   28 +-
- 7 files changed, 4533 insertions(+), 18 deletions(-)
- create mode 100644 drivers/pinctrl/renesas/pfc-r8a779a0.c
+Sakari Ailus
