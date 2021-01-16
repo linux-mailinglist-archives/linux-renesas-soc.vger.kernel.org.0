@@ -2,139 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 778A12F87E3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Jan 2021 22:49:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E64B2F8CC1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Jan 2021 10:56:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726157AbhAOVte (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Jan 2021 16:49:34 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51526 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbhAOVte (ORCPT
+        id S1726615AbhAPJzy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 16 Jan 2021 04:55:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60168 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726595AbhAPJzx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Jan 2021 16:49:34 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9178858B;
-        Fri, 15 Jan 2021 22:48:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610747331;
-        bh=E2nJPXoeI0w+X4GetsqfJnMDZCkC2pS+PvUrW4KNNT8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TwI5xLdpjkl6mebXxtAm2lsGRJmLDKxl6i7s9LIqu8bLcdvXc0Hz6+fTvrle5+cfP
-         zyGZ1UjQHEylQWeGOh8SebtTwSupnRGDgTE24QJO8q4CDFym8at6qCUykSeSW1nkHX
-         z1Ztd946mt/+HHtGFnyyDQvhzFxQjsmY9uVSj3pA=
-Date:   Fri, 15 Jan 2021 23:48:34 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH] media: v4l2-async: Improve
- v4l2_async_notifier_add_*_subdev() API
-Message-ID: <YAINsr+dI/ang2og@pendragon.ideasonboard.com>
-References: <20210114030719.28172-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210115095621.GQ11878@paasikivi.fi.intel.com>
+        Sat, 16 Jan 2021 04:55:53 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83972C061757;
+        Sat, 16 Jan 2021 01:55:12 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id u25so16899631lfc.2;
+        Sat, 16 Jan 2021 01:55:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=y28tRJhhoiCvoELiMGKRKxElE6yxaeeck1yAOz8t9W8=;
+        b=czdMl4/Ku/KwisqwYx7KcjKBaYlnKeThg912tzF/uIRJbOhIlk8/52MbhNjr9elSN7
+         09NNCpDQaxTfVRcB3Z929Xmd8PSTmFTGMbQqdd8yjImeVmPBk+OCM0PUrjpJDAzP0ISU
+         iKcInFIcLyVlwOV2yR/Fds5vU4uSHBhwUGFpUG4StXMviwtNrWwDzHfhd0FPXiCSHcUi
+         NN1dRTFSFC6/nE8sjsHKz+FnL1PEa5be29c8HZmfU0R7Y5Fm/4arFLNIONv4X4eGtagW
+         XTzKQKV4ak/C49rjC4oxWkU/TEzs+jz9Jpj3T6eBtPJGNCOazFzLMQr+9JoMM1gZCFXG
+         FpWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=y28tRJhhoiCvoELiMGKRKxElE6yxaeeck1yAOz8t9W8=;
+        b=hPfxlpFrs3Sj4w3meHUleaTRgiMwc1wKSzIWLu6HpoGRzELPyiz9/jHXnvv6MxR+et
+         4letNOBzzjx/8Mf/heCwaEpjh9BZd2+wxyeq8Zye280JS0bXSzLDZDWPGi5LuKyjIESW
+         oAIeub8wNRkr3okwno8NFkzvno2fRyW4fqZ0E0AcKkUu8q5noq9+M/29iIlusaOryvXO
+         US0jF85f+0xsIyAJg/K4Nakz8Z70bBEq2PxbTtzFV+5nNDCnKHouc/ZZ5qx3UMrVlizq
+         /rJy9KwQzsq2c0VcN4Wsnm0pJpjom9mXYgqfY8/L2AozlDAtCQayck32Ctdr5i8LZ16P
+         Tnrg==
+X-Gm-Message-State: AOAM530Vc6wi5PLEmfcPTrAOyaHV4tIWX0Wk6W9qpDzMjukDup0BfOQj
+        3vX5iRV7I5L1Op+nxGt8brFnqTteKWpbkA==
+X-Google-Smtp-Source: ABdhPJwcz8Y5CfHPAsfZekp4IqvI4xm/ySjeRI1I9E9GuyrBQw9Hi7qxJEQQc/8CGjp0LEs0BaXeeQ==
+X-Received: by 2002:a19:997:: with SMTP id 145mr8093829lfj.588.1610790910957;
+        Sat, 16 Jan 2021 01:55:10 -0800 (PST)
+Received: from [192.168.1.100] ([178.176.75.157])
+        by smtp.gmail.com with ESMTPSA id t17sm1221138lfr.5.2021.01.16.01.55.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 Jan 2021 01:55:10 -0800 (PST)
+Subject: Re: [PATCH V2 4/4] net: ethernet: ravb: Enable optional refclk
+To:     Adam Ford <aford173@gmail.com>, linux-renesas-soc@vger.kernel.org
+Cc:     aford@beaconembedded.com, "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210115201953.443710-1-aford173@gmail.com>
+ <20210115201953.443710-4-aford173@gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <ce35708b-34ee-cc0a-3cf7-ff955f14db2d@gmail.com>
+Date:   Sat, 16 Jan 2021 12:55:07 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210115095621.GQ11878@paasikivi.fi.intel.com>
+In-Reply-To: <20210115201953.443710-4-aford173@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
+Hello!
 
-On Fri, Jan 15, 2021 at 11:56:21AM +0200, Sakari Ailus wrote:
-> Hi Laurent,
+On 15.01.2021 23:19, Adam Ford wrote:
+
+> For devices that use a programmable clock for the avb reference clock,
+
+    AVB.
+
+> the driver may need to enable them.  Add code to find the optional clock
+> and enable it when available.
 > 
-> Thanks for the patch. It's a really nice improvement.
-> 
-> On Thu, Jan 14, 2021 at 05:07:19AM +0200, Laurent Pinchart wrote:
-> > The functions that add an async subdev to an async subdev notifier take
-> > as an argument the size of the container structure they need to
-> > allocate. This is error prone, as passing an invalid size will not be
-> > caught by the compiler. Wrap those functions in macros that take a
-> > container type instead of a size, and cast the returned pointer to the
-> > desired type. The compiler will catch mistakes if the incorrect type is
-> > passed to the macro, as the assignment types won't match.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> > 
-> > This patch is based on top of Ezequiel's "[PATCH 00/13] V4L2 Async
-> > notifier API cleanup" series. It makes errors such as the one fixed by
-> > "[PATCH] media: ti-vpe: cal: fix write to unallocated memory" impossible
-> > to occur in the first place.
-> > 
-> >  drivers/media/i2c/max9286.c                   |  2 +-
-> >  drivers/media/i2c/st-mipid02.c                |  2 +-
-> >  drivers/media/pci/intel/ipu3/ipu3-cio2.c      | 10 ++---
-> >  drivers/media/platform/am437x/am437x-vpfe.c   |  2 +-
-> >  drivers/media/platform/atmel/atmel-isi.c      |  2 +-
-> >  .../media/platform/atmel/atmel-sama5d2-isc.c  |  2 +-
-> >  drivers/media/platform/cadence/cdns-csi2rx.c  |  3 +-
-> >  drivers/media/platform/davinci/vpif_capture.c |  2 +-
-> >  drivers/media/platform/exynos4-is/media-dev.c |  3 +-
-> >  .../media/platform/marvell-ccic/cafe-driver.c |  2 +-
-> >  .../media/platform/marvell-ccic/mmp-driver.c  |  4 +-
-> >  drivers/media/platform/omap3isp/isp.c         | 16 +++-----
-> >  drivers/media/platform/pxa_camera.c           |  4 +-
-> >  drivers/media/platform/qcom/camss/camss.c     | 11 ++----
-> >  drivers/media/platform/rcar-vin/rcar-core.c   |  5 ++-
-> >  drivers/media/platform/rcar-vin/rcar-csi2.c   |  2 +-
-> >  drivers/media/platform/rcar_drif.c            |  2 +-
-> >  drivers/media/platform/renesas-ceu.c          | 20 ++++------
-> >  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 10 ++---
-> >  drivers/media/platform/stm32/stm32-dcmi.c     |  3 +-
-> >  .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  4 +-
-> >  drivers/media/platform/ti-vpe/cal.c           | 12 +++---
-> >  drivers/media/platform/video-mux.c            |  2 +-
-> >  drivers/media/platform/xilinx/xilinx-vipp.c   | 10 ++---
-> >  drivers/media/v4l2-core/v4l2-async.c          | 38 +++++++++----------
-> >  drivers/media/v4l2-core/v4l2-fwnode.c         |  4 +-
-> >  drivers/staging/media/imx/imx-media-csi.c     |  2 +-
-> >  drivers/staging/media/imx/imx-media-of.c      |  2 +-
-> >  drivers/staging/media/imx/imx6-mipi-csi2.c    |  2 +-
-> >  drivers/staging/media/imx/imx7-media-csi.c    |  2 +-
-> >  drivers/staging/media/imx/imx7-mipi-csis.c    |  2 +-
-> >  drivers/staging/media/tegra-video/vi.c        | 10 ++---
-> >  include/media/v4l2-async.h                    | 36 ++++++++++++------
-> >  33 files changed, 116 insertions(+), 117 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > index c82c1493e099..c31858548d34 100644
-> > --- a/drivers/media/i2c/max9286.c
-> > +++ b/drivers/media/i2c/max9286.c
-> > @@ -580,7 +580,7 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
-> >  
-> >  		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
-> >  							    source->fwnode,
-> > -							    sizeof(*asd));
-> > +							    struct v4l2_async_subdev);
-> 
-> Would it be possible to use *asd here instead?
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index bd30505fbc57..739e30f45daa 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2148,6 +2148,14 @@ static int ravb_probe(struct platform_device *pdev)
+>   		goto out_release;
+>   	}
+>   
+> +	priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
+> +	if (IS_ERR(priv->refclk)) {
+> +		error = PTR_ERR(priv->refclk);
+> +		goto out_release;
+> +	} else {
 
-Is that really better ? I mean, we could add even more shortcuts by
-defining the macro as
+    No need for *else* after *goto*.
 
-#define v4l2_async_notifier_add_fwnode_remote_subdev(__notifier, __ep, __var) \
-__var = (typeof(var)__v4l2_async_notifier_add_fwnode_remote_subdev(__notifier, __ep, \
-                                                         sizeof(*__var)))
+> +		(void)clk_prepare_enable(priv->refclk);
 
-and using it as
+    You can really omit (void)...
+    Also, I'm not seeing where do you call clk_disable_unprepare()...
 
-		v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
-						      source->fwnode, asd);
+[...]
 
-but at some point it becomes confusing. Passing a struct type to a macro
-is a fairly well established practice in the kernel, I think it would be
-best to stick to it.
-
-> You'd need typeof(), too.
-> 
-> Same for the rest.
-
--- 
-Regards,
-
-Laurent Pinchart
+MBR, Sergei
