@@ -2,143 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9A0D2FA7CD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 18:45:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B6A32FA89A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 19:21:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436611AbhARRoq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Jan 2021 12:44:46 -0500
-Received: from mail-ot1-f49.google.com ([209.85.210.49]:41105 "EHLO
-        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436662AbhARRoh (ORCPT
+        id S2390759AbhARSVI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Jan 2021 13:21:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33906 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393140AbhARPHq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Jan 2021 12:44:37 -0500
-Received: by mail-ot1-f49.google.com with SMTP id x13so17040518oto.8;
-        Mon, 18 Jan 2021 09:44:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WshXhzkH2XfopRbzIV2UWEt8m4y4wNSaw59qJ5tNr3s=;
-        b=WbGcpXN8RaF1eQdmWJM8Snw6piKSTLoArDTOSKWe1bS7HzMOjxJAx8yKlLPKDG3HBt
-         ScE0eRTdEdU7/8OSoIXJ7dK4eKLGauMOIcQqvqk0W4+P3WvY/iVAHDIFBwNzc/Tuu3zO
-         XBweaNkatyPpGetiH2S6iX8YPNjTWqql7yA4IRGjlwcEwVXdOqVu4okPKkhvqdUS1Rpr
-         tCRvY44SG+DW/48O6lZNHMleczJBqxD2x8vb9mQYYOS8zjzlSEaxK+lGHI50yGZNqXKi
-         urJ0XhSNhZeAlKbxoI3zc8runt9kNWjo2rUHA+7cNWIEAWg2Yt4rqiItGeJRqgprrwLt
-         b1lA==
-X-Gm-Message-State: AOAM530fgFAOxGSZw56PgUFKbUJU0xVQcwu+1MdXc+dJZZFTB/iVTpUh
-        Tv6noJ65+LaZptDiOWjaxtyReakH0DXgLKJT+cA=
-X-Google-Smtp-Source: ABdhPJw0LIEAGkysll8noaB/WB7jpQwACbfeXdYGkzXxJDZ+grPUIPJqWdg7nE5TVyJy9M1rdgL6SSu1lwZ184oBLsE=
-X-Received: by 2002:a9d:c01:: with SMTP id 1mr465551otr.107.1610991835791;
- Mon, 18 Jan 2021 09:43:55 -0800 (PST)
+        Mon, 18 Jan 2021 10:07:46 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24D77C061757
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jan 2021 07:07:03 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by laurent.telenet-ops.be with bizsmtp
+        id JF6y240084C55Sk01F6y0M; Mon, 18 Jan 2021 16:07:02 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l1W7O-004cpY-1A; Mon, 18 Jan 2021 16:06:58 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l1W7N-003LEv-JJ; Mon, 18 Jan 2021 16:06:57 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH net v2 0/2] sh_eth: Fix reboot crash
+Date:   Mon, 18 Jan 2021 16:06:54 +0100
+Message-Id: <20210118150656.796584-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20201218031703.3053753-1-saravanak@google.com>
- <20201218031703.3053753-6-saravanak@google.com> <CGME20210111141814eucas1p1f388df07b789693a999042b27f0d8c2a@eucas1p1.samsung.com>
- <5484316b-0f27-6c36-9259-5c765bb6b96c@samsung.com> <2556a69b-5da5-bf80-e051-df2d02fbc40f@samsung.com>
- <CAGETcx8-1YzF2Br0sszJROLAWo3DSm27K071Md9wY5SOwUeLdw@mail.gmail.com>
- <fde65185-fd00-1f79-0f80-245eaa6c95cb@samsung.com> <CAGETcx_QY3h83q1fSr=h_vMQdH-TMhVYPozPuSr=q4uv2Lr48w@mail.gmail.com>
-In-Reply-To: <CAGETcx_QY3h83q1fSr=h_vMQdH-TMhVYPozPuSr=q4uv2Lr48w@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 Jan 2021 18:43:44 +0100
-Message-ID: <CAMuHMdV6v52RxCqkk8AjMiED5WGWAu4DvBcW3_oM638f29V4Pg@mail.gmail.com>
-Subject: Re: [PATCH v1 5/5] driver core: Set fw_devlink=on by default
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+	Hi,
 
-On Wed, Jan 13, 2021 at 3:34 AM Saravana Kannan <saravanak@google.com> wrote:
-> On Mon, Jan 11, 2021 at 11:11 PM Marek Szyprowski
-> <m.szyprowski@samsung.com> wrote:
-> > On 11.01.2021 22:47, Saravana Kannan wrote:
-> > > On Mon, Jan 11, 2021 at 6:18 AM Marek Szyprowski
-> > > <m.szyprowski@samsung.com> wrote:
-> > >> On 11.01.2021 12:12, Marek Szyprowski wrote:
-> > >>> On 18.12.2020 04:17, Saravana Kannan wrote:
-> > >>>> Cyclic dependencies in some firmware was one of the last remaining
-> > >>>> reasons fw_devlink=on couldn't be set by default. Now that cyclic
-> > >>>> dependencies don't block probing, set fw_devlink=on by default.
-> > >>>>
-> > >>>> Setting fw_devlink=on by default brings a bunch of benefits (currently,
-> > >>>> only for systems with device tree firmware):
-> > >>>> * Significantly cuts down deferred probes.
-> > >>>> * Device probe is effectively attempted in graph order.
-> > >>>> * Makes it much easier to load drivers as modules without having to
-> > >>>>     worry about functional dependencies between modules (depmod is still
-> > >>>>     needed for symbol dependencies).
-> > >>>>
-> > >>>> If this patch prevents some devices from probing, it's very likely due
-> > >>>> to the system having one or more device drivers that "probe"/set up a
-> > >>>> device (DT node with compatible property) without creating a struct
-> > >>>> device for it.  If we hit such cases, the device drivers need to be
-> > >>>> fixed so that they populate struct devices and probe them like normal
-> > >>>> device drivers so that the driver core is aware of the devices and their
-> > >>>> status. See [1] for an example of such a case.
-> > >>>>
-> > >>>> [1] -
-> > >>>> https://lore.kernel.org/lkml/CAGETcx9PiX==mLxB9PO8Myyk6u2vhPVwTMsA5NkD-ywH5xhusw@mail.gmail.com/
-> > >>>> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > >>> This patch landed recently in linux next-20210111 as commit
-> > >>> e590474768f1 ("driver core: Set fw_devlink=on by default"). Sadly it
-> > >>> breaks Exynos IOMMU operation, what causes lots of devices being
-> > >>> deferred and not probed at all. I've briefly checked and noticed that
-> > >>> exynos_sysmmu_probe() is never called after this patch. This is really
-> > >>> strange for me, as the SYSMMU controllers on Exynos platform are
-> > >>> regular platform devices registered by the OF code. The driver code is
-> > >>> here: drivers/iommu/exynos-iommu.c, example dts:
-> > >>> arch/arm/boot/dts/exynos3250.dtsi (compatible = "samsung,exynos-sysmmu").
-> > >> Okay, I found the source of this problem. It is caused by Exynos power
-> > >> domain driver, which is not platform driver yet. I will post a patch,
-> > >> which converts it to the platform driver.
-> > > Thanks Marek! Hopefully the debug logs I added were sufficient to
-> > > figure out the reason.
-> >
-> > Frankly, it took me a while to figure out that device core waits for the
-> > power domain devices. Maybe it would be possible to add some more debug
-> > messages or hints? Like the reason of the deferred probe in
-> > /sys/kernel/debug/devices_deferred ?
->
-> There's already a /sys/devices/.../<device>/waiting_for_supplier file
-> that tells you if the device is waiting for a supplier device to be
-> added. That file goes away once the device probes. If the file has 1,
-> then it's waiting for the supplier device to be added (like your
-> case). If it's 0, then the device is just waiting on one of the
-> existing suppliers to probe. You can find the existing suppliers
-> through /sys/devices/.../<device>/supplier:*/supplier. Also, flip
-> these dev_dbg() to dev_info() if you need more details about deferred
-> probing.
+This patch fixes a regression v5.11-rc1, where rebooting while a sh_eth
+device is not opened will cause a crash.
 
-How are we supposed to check the contents of that file, if the system
-doesn't even boot into userspace with a ramdisk? All hardware drivers
-fail to probe. The only thing that works is "earlycon keep_bootcon",
-and kernel output just stops after a while.
+Changes compared to v1:
+  - Export mdiobb_{read,write}(),
+  - Call mdiobb_{read,write}() now they are exported,
+  - Use mii_bus.parent to avoid bb_info.dev copy,
+  - Drop RFC state.
 
-Thanks for your suggestions!
+Alternatively, mdio-bitbang could provide Runtime PM-aware wrappers
+itself, and use them either manually (through a new parameter to
+alloc_mdio_bitbang(), or a new alloc_mdio_bitbang_*() function), or
+automatically (e.g. if pm_runtime_enabled() returns true).  Note that
+the latter requires a "struct device *" parameter to operate on.
+Currently there are only two drivers that call alloc_mdio_bitbang() and
+use Runtime PM: the Renesas sh_eth and ravb drivers.  This series fixes
+the former, while the latter is not affected (it keeps the device
+powered all the time between driver probe and driver unbind, and
+changing that seems to be non-trivial).
+
+Thanks for your comments!
+
+Geert Uytterhoeven (2):
+  net: mdio-bitbang: Export mdiobb_{read,write}()
+  sh_eth: Make PHY access aware of Runtime PM to fix reboot crash
+
+ drivers/net/ethernet/renesas/sh_eth.c | 26 ++++++++++++++++++++++++++
+ drivers/net/mdio/mdio-bitbang.c       |  6 ++++--
+ include/linux/mdio-bitbang.h          |  3 +++
+ 3 files changed, 33 insertions(+), 2 deletions(-)
+
+-- 
+2.25.1
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
