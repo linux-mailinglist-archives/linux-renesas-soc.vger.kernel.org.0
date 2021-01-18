@@ -2,111 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 576762FA425
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 16:08:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D62312FA430
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 16:11:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393188AbhARPIF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Jan 2021 10:08:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33902 "EHLO
+        id S2404857AbhARPJ2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Jan 2021 10:09:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393077AbhARPHq (ORCPT
+        with ESMTP id S2405406AbhARPJI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Jan 2021 10:07:46 -0500
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C40BC061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jan 2021 07:07:03 -0800 (PST)
+        Mon, 18 Jan 2021 10:09:08 -0500
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44598C061793
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jan 2021 07:08:17 -0800 (PST)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by albert.telenet-ops.be with bizsmtp
-        id JF6y2400a4C55Sk06F6yM1; Mon, 18 Jan 2021 16:07:02 +0100
+        by michel.telenet-ops.be with bizsmtp
+        id JF8E2400b4C55Sk06F8Es0; Mon, 18 Jan 2021 16:08:15 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1l1W7O-004cpZ-6t; Mon, 18 Jan 2021 16:06:58 +0100
+        id 1l1W8c-004cqS-8S; Mon, 18 Jan 2021 16:08:14 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1l1W7N-003LEz-KG; Mon, 18 Jan 2021 16:06:57 +0100
+        id 1l1W8b-003LIE-FR; Mon, 18 Jan 2021 16:08:13 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Jakub Kicinski <kuba@kernel.org>,
+        Simon Horman <horms+renesas@verge.net.au>
 Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH net v2 1/2] mdio-bitbang: Export mdiobb_{read,write}()
-Date:   Mon, 18 Jan 2021 16:06:55 +0100
-Message-Id: <20210118150656.796584-2-geert+renesas@glider.be>
+Subject: [PATCH] sh_eth: Fix power down vs. is_opened flag ordering
+Date:   Mon, 18 Jan 2021 16:08:12 +0100
+Message-Id: <20210118150812.796791-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210118150656.796584-1-geert+renesas@glider.be>
-References: <20210118150656.796584-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Export mdiobb_read() and mdiobb_write(), so Ethernet controller drivers
-can call them from their MDIO read/write wrappers.
+sh_eth_close() does a synchronous power down of the device before
+marking it closed.  Revert the order, to make sure the device is never
+marked opened while suspended.
 
+While at it, use pm_runtime_put() instead of pm_runtime_put_sync(), as
+there is no reason to do a synchronous power down.
+
+Fixes: 7fa2955ff70ce453 ("sh_eth: Fix sleeping function called from invalid context")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v2:
-  - New.
----
- drivers/net/mdio/mdio-bitbang.c | 6 ++++--
- include/linux/mdio-bitbang.h    | 3 +++
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/renesas/sh_eth.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/mdio/mdio-bitbang.c b/drivers/net/mdio/mdio-bitbang.c
-index 5136275c8e7399fb..d3915f83185430e9 100644
---- a/drivers/net/mdio/mdio-bitbang.c
-+++ b/drivers/net/mdio/mdio-bitbang.c
-@@ -149,7 +149,7 @@ static int mdiobb_cmd_addr(struct mdiobb_ctrl *ctrl, int phy, u32 addr)
- 	return dev_addr;
- }
+diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
+index 9b52d350e21a9f2b..590b088bc4c7f3e2 100644
+--- a/drivers/net/ethernet/renesas/sh_eth.c
++++ b/drivers/net/ethernet/renesas/sh_eth.c
+@@ -2606,10 +2606,10 @@ static int sh_eth_close(struct net_device *ndev)
+ 	/* Free all the skbuffs in the Rx queue and the DMA buffer. */
+ 	sh_eth_ring_free(ndev);
  
--static int mdiobb_read(struct mii_bus *bus, int phy, int reg)
-+int mdiobb_read(struct mii_bus *bus, int phy, int reg)
- {
- 	struct mdiobb_ctrl *ctrl = bus->priv;
- 	int ret, i;
-@@ -180,8 +180,9 @@ static int mdiobb_read(struct mii_bus *bus, int phy, int reg)
- 	mdiobb_get_bit(ctrl);
- 	return ret;
- }
-+EXPORT_SYMBOL(mdiobb_read);
+-	pm_runtime_put_sync(&mdp->pdev->dev);
+-
+ 	mdp->is_opened = 0;
  
--static int mdiobb_write(struct mii_bus *bus, int phy, int reg, u16 val)
-+int mdiobb_write(struct mii_bus *bus, int phy, int reg, u16 val)
- {
- 	struct mdiobb_ctrl *ctrl = bus->priv;
- 
-@@ -201,6 +202,7 @@ static int mdiobb_write(struct mii_bus *bus, int phy, int reg, u16 val)
- 	mdiobb_get_bit(ctrl);
++	pm_runtime_put(&mdp->pdev->dev);
++
  	return 0;
  }
-+EXPORT_SYMBOL(mdiobb_write);
- 
- struct mii_bus *alloc_mdio_bitbang(struct mdiobb_ctrl *ctrl)
- {
-diff --git a/include/linux/mdio-bitbang.h b/include/linux/mdio-bitbang.h
-index 5d71e8a8500f5ed1..aca4dc037b70b728 100644
---- a/include/linux/mdio-bitbang.h
-+++ b/include/linux/mdio-bitbang.h
-@@ -35,6 +35,9 @@ struct mdiobb_ctrl {
- 	const struct mdiobb_ops *ops;
- };
- 
-+int mdiobb_read(struct mii_bus *bus, int phy, int reg);
-+int mdiobb_write(struct mii_bus *bus, int phy, int reg, u16 val);
-+
- /* The returned bus is not yet registered with the phy layer. */
- struct mii_bus *alloc_mdio_bitbang(struct mdiobb_ctrl *ctrl);
  
 -- 
 2.25.1
