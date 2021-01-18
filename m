@@ -2,88 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D0A92F9AFE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 09:09:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 356232F9B9A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 09:58:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733251AbhARIJZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Jan 2021 03:09:25 -0500
-Received: from mail-ot1-f49.google.com ([209.85.210.49]:45397 "EHLO
-        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733218AbhARIJX (ORCPT
+        id S2387793AbhARI57 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Jan 2021 03:57:59 -0500
+Received: from www.zeus03.de ([194.117.254.33]:59934 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387722AbhARI55 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Jan 2021 03:09:23 -0500
-Received: by mail-ot1-f49.google.com with SMTP id n42so15424386ota.12;
-        Mon, 18 Jan 2021 00:09:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QpDzGIVBbYEco6RAafAKtGUYoFM/UMj629CQOFKn9sw=;
-        b=s82t1LffZ71jgAJ9Hec4xS8g4P7Ij6qH2J3e9kp3JXgwQsbISxl8qjnlbdb0tnHe1B
-         DjW5w/CcgJ8/58QVS8Bb1rKmAedaxYqW0FpBGV4DK4nwgCgRmQ5c9c8X73KAluF9qPMx
-         wI+9E4R0ANll5ACbEOcUpA0asfUObre/1vajUdWTyedzYaGpk3m0BKqmEtqddO1WZAA7
-         203CupWda36KXkz8kdE0kX91p8CUXA3rhFuhtrtiuZhMi1gB5XU+fKbHt0KTW6FNq7kz
-         kpY0kRxkgNR61vXFqZRbakfnMHt68jXVfwRfMYAelMMxUcbGxLWgL1WAhpmVUT93QNiq
-         Wg4A==
-X-Gm-Message-State: AOAM5313XFXl2dkcxu5fbp+Ebomb0v71WTpYi5UzRSeEP3qc1uYCQZKv
-        1Jiwk4c7Z5LiAtrx6jLPkAQV5dkYFYJ8TEJYaao=
-X-Google-Smtp-Source: ABdhPJz6E5rYTn4BlDUweSYAYPmPFr2zeRdP4qj7iaXD7O97tnKyPzYv37ySEgWivsWC+kF3vWrpeiiptZZkTu5YINw=
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr16764312oth.250.1610957322297;
- Mon, 18 Jan 2021 00:08:42 -0800 (PST)
+        Mon, 18 Jan 2021 03:57:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=odbwHB50SLc5EVMnx2MmbfbSij/6
+        RS2X0gG9yUbXGvQ=; b=35cEMqbixgG9D9YOqRlnGxyBA/GzVCNs+bow7itYaiBZ
+        5Zzww7jebMcxC0HKguv8zEdCcVEzm+bgFOtWATnL4QUSJesyLRDLpNiWblKMQIzR
+        /xh/qXyfIVDQMAVOTfUhf2/gjtTMauZqWbHtJ9eym28EVct1nQNSDeHR7VpJWh8=
+Received: (qmail 629519 invoked from network); 18 Jan 2021 09:57:15 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Jan 2021 09:57:15 +0100
+X-UD-Smtp-Session: l3s3148p1@gSBe6Ci5oIYgAwDPXwacAOByz8F9Mgm1
+Date:   Mon, 18 Jan 2021 09:57:11 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] dt-bindings: watchdog: renesas,wdt: add r8a779a0
+ (V3U) support
+Message-ID: <20210118085711.GA1018@ninjato>
+References: <20201218173731.12839-1-wsa+renesas@sang-engineering.com>
+ <20201218173731.12839-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <20210112134555.1787924-1-aford173@gmail.com>
-In-Reply-To: <20210112134555.1787924-1-aford173@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 Jan 2021 09:08:31 +0100
-Message-ID: <CAMuHMdU6bc1hH2a8gCTAE3UvnxgQ+P93Yg7We578GHbYRH2c=g@mail.gmail.com>
-Subject: Re: [PATCH] arm64: defconfig: Enable CLK_RCAR_USB2_CLOCK_SEL
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="nFreZHaLTZJo0R7j"
+Content-Disposition: inline
+In-Reply-To: <20201218173731.12839-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
 
-On Tue, Jan 12, 2021 at 2:46 PM Adam Ford <aford173@gmail.com> wrote:
-> The RZ/G2 Series has the optional CLK_RCAR_USB2_CLOCK_SEL.
-> Enable it by default.  It's disabled by default in the
-> the device tree, so it should be safe to enable it here.
->
-> Signed-off-by: Adam Ford <aford173@gmail.com>
+--nFreZHaLTZJo0R7j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your patch!
+On Fri, Dec 18, 2020 at 06:37:26PM +0100, Wolfram Sang wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>=20
+> Please apply it to the watchdog-tree.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Guenter, could you pick/ack it, please?
 
-I will accept this patch once the Beacon Kit DTS starts using this, and
-the patch description can be changed to "... enabled because it's used by
-Beacon Kit".
+>=20
+>  Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml =
+b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> index 6933005b52bd..ab66d3f0c476 100644
+> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> @@ -50,6 +50,7 @@ properties:
+>                - renesas,r8a77980-wdt     # R-Car V3H
+>                - renesas,r8a77990-wdt     # R-Car E3
+>                - renesas,r8a77995-wdt     # R-Car D3
+> +              - renesas,r8a779a0-wdt     # R-Car V3U
+>            - const: renesas,rcar-gen3-wdt # R-Car Gen3 and RZ/G2
+> =20
+>    reg:
+> --=20
+> 2.29.2
+>=20
 
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -932,6 +932,7 @@ CONFIG_SM_GCC_8250=y
->  CONFIG_SM_GPUCC_8150=y
->  CONFIG_SM_GPUCC_8250=y
->  CONFIG_QCOM_HFPLL=y
-> +CONFIG_CLK_RCAR_USB2_CLOCK_SEL=y
->  CONFIG_HWSPINLOCK=y
->  CONFIG_HWSPINLOCK_QCOM=y
->  CONFIG_ARM_MHU=y
+--nFreZHaLTZJo0R7j
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-                        Geert
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAFTWMACgkQFA3kzBSg
+KbbE1Q/8DueMvbDDst01JemJotsD5DZn6/VwnSUwluawt6ObGTDYwxfbcyBkoUzt
+HaladCExuPmRaLjDwhG5TPQ1jChelhrJzwjks+SEr0p9WngO7ivZsidG9pzuR/fc
+5K8Rk/dbTuEfafV9tLDfLsLZT8aNWa8YmaSx01BcgUoeKEJilw2V+Uy0RSUamQU5
+C6dxS2gIG7oevY4rAL3VmPBxQuKxI6yYLlacy8yb7p0XkIaQj9Mnl5WXQ1ZKeZtT
+HXKjAP3gTpmyX5+2PxEk673q7PfOHFVN0tlg3kQIJliUBjlpIRTeysyT2v7nYg/S
+r17jEOlKp7zhKqHbzr8JNVLNQx/ZylBq7ItewEHum4OQQuxuTNNuGV8Dj5Syj8bR
+FBA84UApMgIBEm9/V30OXsOxbLZw8vc9P/VGALzOiobQsrzaG5bBIl423jZx8q8S
+hm9EJ9PR0wRKqPPROOv8+A2ZO/bCd35VJ2TM9P28TQwWToMrON0DVlIoBf9g3cXh
+kxthluUr/f3F3vS4UHlqwn2xxZrd4Xtf4P7pkpxcZFK+cW08w325N3VxXkIOAE11
+2xcSgnPp0JqJzJpNKkbH5MHPb8BNOdSs/ACUX5QKkxWxCMj9yXIAx4a+WUSyqhPk
+lex5jN1fDQzofZ6JMvLKerrr7KvgzAu18GRUcRZHE2O5edC5izo=
+=8zwP
+-----END PGP SIGNATURE-----
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--nFreZHaLTZJo0R7j--
