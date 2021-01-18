@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3401C2FAD17
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 23:09:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7C812FAD14
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 23:09:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732689AbhARWI7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Jan 2021 17:08:59 -0500
-Received: from mga04.intel.com ([192.55.52.120]:41704 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387532AbhARWI4 (ORCPT
-        <rfc822;linux-renesas-soc@vger.kernel.org>);
+        id S2387561AbhARWI4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 18 Jan 2021 17:08:56 -0500
-IronPort-SDR: huJTvbOvnfU6G05Jc2/RPFdDxyvhRX6syeg17QZ4tGxchJmjYLDjuMbCN6LDP5H6/8spnSfyf1
- FzZccsgNnpeA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="176281570"
+Received: from mga06.intel.com ([134.134.136.31]:57796 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733307AbhARWIy (ORCPT
+        <rfc822;linux-renesas-soc@vger.kernel.org>);
+        Mon, 18 Jan 2021 17:08:54 -0500
+IronPort-SDR: wp9gaZP6VxeT4ML3HpvhFDvoHrrYCp3xQSM/D/LFRTDkAkOSEGWemCe0vZwFi+tpieYIkl8TsU
+ bN7XIs1miU4Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="240393584"
 X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
-   d="scan'208";a="176281570"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 14:08:13 -0800
-IronPort-SDR: 9ii295wGI+aOhgy27ZA+VGuQoRaJgV0WoQoQwdw9wTiHdiC0s10ZbiUHulDbp4RCn5OpKNpufS
- XkTA3Gg7w7hw==
+   d="scan'208";a="240393584"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 14:08:12 -0800
+IronPort-SDR: 6oNr9z2Ze0LGh19NDWg7CIIy1Anv0aXmU9rxJ6LA6sBRx1C5SqdqOT70a0SPafh1rUD42iNQ+t
+ EQlVCJ2AsCgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
-   d="scan'208";a="350322584"
+   d="scan'208";a="426258490"
 Received: from lkp-server01.sh.intel.com (HELO 260eafd5ecd0) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Jan 2021 14:08:11 -0800
+  by orsmga001.jf.intel.com with ESMTP; 18 Jan 2021 14:08:11 -0800
 Received: from kbuild by 260eafd5ecd0 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1l1ch0-0004TX-TD; Mon, 18 Jan 2021 22:08:10 +0000
-Date:   Tue, 19 Jan 2021 06:07:37 +0800
+        id 1l1ch0-0004TV-SQ; Mon, 18 Jan 2021 22:08:10 +0000
+Date:   Tue, 19 Jan 2021 06:07:41 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- b72b30fb341d0acba58431da7519d4643aa85b34
-Message-ID: <600606a9.LgVtdhFSWf8DM+Oc%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-dt-for-v5.12] BUILD SUCCESS
+ 896dd923ad26b900590133c961f26d21a7f18ba7
+Message-ID: <600606ad.QOAqy6rxhR4dSQ4j%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,13 +44,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: b72b30fb341d0acba58431da7519d4643aa85b34  Merge branch 'renesas-arm-dt-for-v5.12' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.12
+branch HEAD: 896dd923ad26b900590133c961f26d21a7f18ba7  arm64: dts: renesas: r8a779a0: Add MSIOF device nodes
 
 elapsed time: 723m
 
-configs tested: 86
-configs skipped: 3
+configs tested: 55
+configs skipped: 89
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -71,10 +71,6 @@ powerpc                 mpc834x_itx_defconfig
 arm                           h3600_defconfig
 mips                        jmr3927_defconfig
 arc                           tb10x_defconfig
-powerpc                   motionpro_defconfig
-arm                         at91_dt_defconfig
-arm                            hisi_defconfig
-mips                       bmips_be_defconfig
 powerpc                 linkstation_defconfig
 m68k                          atari_defconfig
 arm                           omap1_defconfig
@@ -85,40 +81,13 @@ openrisc                  or1klitex_defconfig
 m68k                         amcore_defconfig
 powerpc                       holly_defconfig
 m68k                       m5275evb_defconfig
-mips                      bmips_stb_defconfig
-powerpc                        cell_defconfig
-powerpc                     stx_gp3_defconfig
-arm                      integrator_defconfig
 ia64                             allmodconfig
 ia64                                defconfig
 ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
 nios2                               defconfig
 arc                              allyesconfig
 nds32                             allnoconfig
 c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
 powerpc                          allyesconfig
 powerpc                          allmodconfig
 powerpc                           allnoconfig
