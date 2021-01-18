@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB8F12FAD16
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 23:09:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3401C2FAD17
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 23:09:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733307AbhARWI5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Jan 2021 17:08:57 -0500
-Received: from mga18.intel.com ([134.134.136.126]:11487 "EHLO mga18.intel.com"
+        id S1732689AbhARWI7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Jan 2021 17:08:59 -0500
+Received: from mga04.intel.com ([192.55.52.120]:41704 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387473AbhARWIz (ORCPT
+        id S2387532AbhARWI4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Jan 2021 17:08:55 -0500
-IronPort-SDR: WGjvZlRwvyTvdUXBdg4sPDSMGfoQYMhu7qAI+USz6EmGjx/cvkIlpRwxbT/4z52oIIz6s73l/U
- 1SRyjO3Ts1Nw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="166519661"
+        Mon, 18 Jan 2021 17:08:56 -0500
+IronPort-SDR: huJTvbOvnfU6G05Jc2/RPFdDxyvhRX6syeg17QZ4tGxchJmjYLDjuMbCN6LDP5H6/8spnSfyf1
+ FzZccsgNnpeA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="176281570"
 X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
-   d="scan'208";a="166519661"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 14:08:12 -0800
-IronPort-SDR: GSd/glKlFcK9JJ1Tb7WUD8B6kDR469gUxzJpfPOuiLvIQX89jmsrozyI6kLq2gzhKvKuH9oaEM
- WWok6exVFVQA==
+   d="scan'208";a="176281570"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 14:08:13 -0800
+IronPort-SDR: 9ii295wGI+aOhgy27ZA+VGuQoRaJgV0WoQoQwdw9wTiHdiC0s10ZbiUHulDbp4RCn5OpKNpufS
+ XkTA3Gg7w7hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
-   d="scan'208";a="406325315"
+   d="scan'208";a="350322584"
 Received: from lkp-server01.sh.intel.com (HELO 260eafd5ecd0) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Jan 2021 14:08:11 -0800
+  by orsmga003.jf.intel.com with ESMTP; 18 Jan 2021 14:08:11 -0800
 Received: from kbuild by 260eafd5ecd0 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1l1ch0-0004Ta-U6; Mon, 18 Jan 2021 22:08:10 +0000
-Date:   Tue, 19 Jan 2021 06:07:34 +0800
+        id 1l1ch0-0004TX-TD; Mon, 18 Jan 2021 22:08:10 +0000
+Date:   Tue, 19 Jan 2021 06:07:37 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- 822f1d4bfbf25ac7008eb9779c43ea99d5aa8f40
-Message-ID: <600606a6.x+1nM5owkdUe5C5g%lkp@intel.com>
+Subject: [renesas-devel:next] BUILD SUCCESS
+ b72b30fb341d0acba58431da7519d4643aa85b34
+Message-ID: <600606a9.LgVtdhFSWf8DM+Oc%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,12 +44,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 822f1d4bfbf25ac7008eb9779c43ea99d5aa8f40  Merge branch 'renesas-next', tag 'v5.11-rc4' into renesas-devel
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: b72b30fb341d0acba58431da7519d4643aa85b34  Merge branch 'renesas-arm-dt-for-v5.12' into renesas-next
 
 elapsed time: 723m
 
-configs tested: 98
+configs tested: 86
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -61,12 +61,6 @@ arm64                            allyesconfig
 arm64                               defconfig
 arm                              allyesconfig
 arm                              allmodconfig
-sh                        sh7763rdp_defconfig
-powerpc                   lite5200b_defconfig
-powerpc                     asp8347_defconfig
-arm                        keystone_defconfig
-mips                            gpr_defconfig
-sh                         ecovec24_defconfig
 c6x                        evmc6457_defconfig
 c6x                                 defconfig
 sh                         microdev_defconfig
@@ -85,22 +79,16 @@ powerpc                 linkstation_defconfig
 m68k                          atari_defconfig
 arm                           omap1_defconfig
 mips                        bcm63xx_defconfig
-powerpc                    sam440ep_defconfig
-powerpc                    socrates_defconfig
-arm                           u8500_defconfig
-arm                         palmz72_defconfig
-powerpc64                        alldefconfig
 arm                         shannon_defconfig
 arm                            zeus_defconfig
 openrisc                  or1klitex_defconfig
 m68k                         amcore_defconfig
 powerpc                       holly_defconfig
 m68k                       m5275evb_defconfig
-mips                        workpad_defconfig
-powerpc                    amigaone_defconfig
-sh                         apsh4a3a_defconfig
-mips                           ip32_defconfig
-microblaze                      mmu_defconfig
+mips                      bmips_stb_defconfig
+powerpc                        cell_defconfig
+powerpc                     stx_gp3_defconfig
+arm                      integrator_defconfig
 ia64                             allmodconfig
 ia64                                defconfig
 ia64                             allyesconfig
@@ -150,8 +138,8 @@ x86_64                      rhel-8.3-kbuiltin
 x86_64                                  kexec
 
 clang tested configs:
-x86_64               randconfig-a006-20210118
 x86_64               randconfig-a004-20210118
+x86_64               randconfig-a006-20210118
 x86_64               randconfig-a001-20210118
 x86_64               randconfig-a003-20210118
 x86_64               randconfig-a005-20210118
