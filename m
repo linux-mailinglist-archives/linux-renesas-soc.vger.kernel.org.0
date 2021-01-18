@@ -2,89 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 775632F9214
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Jan 2021 12:45:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D0A92F9AFE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 09:09:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728543AbhAQLoz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 17 Jan 2021 06:44:55 -0500
-Received: from www.zeus03.de ([194.117.254.33]:56962 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728484AbhAQLom (ORCPT
+        id S1733251AbhARIJZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Jan 2021 03:09:25 -0500
+Received: from mail-ot1-f49.google.com ([209.85.210.49]:45397 "EHLO
+        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733218AbhARIJX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 17 Jan 2021 06:44:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=g2JStMt2togUITmRS2fQ0q1p1eOf
-        wFPzmkuuf72bPJk=; b=kL4jtkXr5G10/0fU+TLCBqZdXmhIEDAhGHyIwUO+NyRl
-        7YKKF97xt9dgiZSsoExShK2UU8xt5tGr3x4VIaxKlBRsPV2K7hR+fYossk40WBqI
-        Jxk1ubWFtePkUmib1EU3lV6RcmMy+DJkxoHgsFNmBUVnsQPC8cHAfpOQiuJ8yJQ=
-Received: (qmail 307363 invoked from network); 17 Jan 2021 12:44:00 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jan 2021 12:44:00 +0100
-X-UD-Smtp-Session: l3s3148p1@reMZHxe5ppkgAwDPXy7qAHeYPdzlZkhM
-Date:   Sun, 17 Jan 2021 12:44:00 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/5] dt-bindings: i2c: renesas,i2c: add r8a779a0 (V3U)
- support
-Message-ID: <20210117114400.GF1983@ninjato>
-References: <20201223172505.34736-1-wsa+renesas@sang-engineering.com>
- <20201223172505.34736-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdVKmb8tCGQUQtCOfkjB3VxbVtwuA3u9kh2XuxQumKhekg@mail.gmail.com>
+        Mon, 18 Jan 2021 03:09:23 -0500
+Received: by mail-ot1-f49.google.com with SMTP id n42so15424386ota.12;
+        Mon, 18 Jan 2021 00:09:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QpDzGIVBbYEco6RAafAKtGUYoFM/UMj629CQOFKn9sw=;
+        b=s82t1LffZ71jgAJ9Hec4xS8g4P7Ij6qH2J3e9kp3JXgwQsbISxl8qjnlbdb0tnHe1B
+         DjW5w/CcgJ8/58QVS8Bb1rKmAedaxYqW0FpBGV4DK4nwgCgRmQ5c9c8X73KAluF9qPMx
+         wI+9E4R0ANll5ACbEOcUpA0asfUObre/1vajUdWTyedzYaGpk3m0BKqmEtqddO1WZAA7
+         203CupWda36KXkz8kdE0kX91p8CUXA3rhFuhtrtiuZhMi1gB5XU+fKbHt0KTW6FNq7kz
+         kpY0kRxkgNR61vXFqZRbakfnMHt68jXVfwRfMYAelMMxUcbGxLWgL1WAhpmVUT93QNiq
+         Wg4A==
+X-Gm-Message-State: AOAM5313XFXl2dkcxu5fbp+Ebomb0v71WTpYi5UzRSeEP3qc1uYCQZKv
+        1Jiwk4c7Z5LiAtrx6jLPkAQV5dkYFYJ8TEJYaao=
+X-Google-Smtp-Source: ABdhPJz6E5rYTn4BlDUweSYAYPmPFr2zeRdP4qj7iaXD7O97tnKyPzYv37ySEgWivsWC+kF3vWrpeiiptZZkTu5YINw=
+X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr16764312oth.250.1610957322297;
+ Mon, 18 Jan 2021 00:08:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5CUMAwwhRxlRszMD"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVKmb8tCGQUQtCOfkjB3VxbVtwuA3u9kh2XuxQumKhekg@mail.gmail.com>
+References: <20210112134555.1787924-1-aford173@gmail.com>
+In-Reply-To: <20210112134555.1787924-1-aford173@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 18 Jan 2021 09:08:31 +0100
+Message-ID: <CAMuHMdU6bc1hH2a8gCTAE3UvnxgQ+P93Yg7We578GHbYRH2c=g@mail.gmail.com>
+Subject: Re: [PATCH] arm64: defconfig: Enable CLK_RCAR_USB2_CLOCK_SEL
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Adam,
 
---5CUMAwwhRxlRszMD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jan 12, 2021 at 2:46 PM Adam Ford <aford173@gmail.com> wrote:
+> The RZ/G2 Series has the optional CLK_RCAR_USB2_CLOCK_SEL.
+> Enable it by default.  It's disabled by default in the
+> the device tree, so it should be safe to enable it here.
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
+Thanks for your patch!
 
-> New features:
->   - Slave Clock Stretch Select,
->   - Fast Mode+ Enable,
->   - Enhanced First Bit Setup Cycle configuration.
->=20
-> Looks like the R-Car V3U variant can be treated as a generic R-Car Gen3
-> variant (lacking the new features, of course).
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-FM+ doesn't need an update. It will just handle higher values for the
-bus frequency. This is also the most likely one to be supported in
-Linux. First Bit setup is not even supported yet in the basic version.
-Configuration via Linux is unclear same as SlaveClockStretch. Use cases
-are unclear, too, which we would need for implementating any of this.
+I will accept this patch once the Beacon Kit DTS starts using this, and
+the patch description can be changed to "... enabled because it's used by
+Beacon Kit".
 
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -932,6 +932,7 @@ CONFIG_SM_GCC_8250=y
+>  CONFIG_SM_GPUCC_8150=y
+>  CONFIG_SM_GPUCC_8250=y
+>  CONFIG_QCOM_HFPLL=y
+> +CONFIG_CLK_RCAR_USB2_CLOCK_SEL=y
+>  CONFIG_HWSPINLOCK=y
+>  CONFIG_HWSPINLOCK_QCOM=y
+>  CONFIG_ARM_MHU=y
 
---5CUMAwwhRxlRszMD
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAEIvwACgkQFA3kzBSg
-KbbXFBAAsihiUyUTEcje17AWbRdnKQkuD5JVydJjOMwI7v2ZLVKjK0vDePImlnG2
-modkQu7otK5NtzioVRulBmHD9Yrc5LtPx3F6SpAMwBX7ovo4lmII7xPmFnWozNfm
-pyoVsJBqrWxLe85lg979FRHuUqRePzlv+Cbb9DhPmzfHzKw3pQFt1en1qkp9S8P1
-W9NaU+aMYM5Yizh2tuZOCI4BVVan9bp8EWKLTn3Ke/lg/9oC8UomeYrVCgjz5kB3
-YWWjOb4/anST2RMUEU5dWy4WKClGCphUWZdbdBjS7Sq0k6C23SpX9dmz2jwADJ3a
-75s3+nOZo4TwtVm0Mt9vjACr+znaP3rT47vXx+zff4CHMLgdt+savJkzw25tnCxb
-xzFRU0snOc6jwm+NZZ41DfDVgvWGZzMB5t2lSig9CzyOQGBkEbT9p/jrUY94AoyH
-RyQEwl7m/H/UlLN/dFMbZWOSS3Xekl8ISAR6mhuDwloWNU/zHuV4r7xZGA1TXD0F
-XIXtF9Qozu4HORJvY0oh3fiBz5X95KwChhD19xuBAKgVm1DSpYznHpX6KA8SZgI5
-hKwucm+/E30C0HVqOSBLlKHZhVjicDamYYEvAR7Db05oTNQiPtnEgZqqKkWH7ZAo
-bkqnMZEeAzjVzodn66XEVFMwgXn/TqmB8kWlQHA571jpA6KItI4=
-=+IuA
------END PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---5CUMAwwhRxlRszMD--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
