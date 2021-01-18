@@ -2,142 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 360902FA435
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 16:11:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C89B12FA447
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Jan 2021 16:15:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405436AbhARPKS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Jan 2021 10:10:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34336 "EHLO
+        id S2393243AbhARPNL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Jan 2021 10:13:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405412AbhARPJm (ORCPT
+        with ESMTP id S2393119AbhARPNH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Jan 2021 10:09:42 -0500
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57C67C061573
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jan 2021 07:09:01 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by laurent.telenet-ops.be with bizsmtp
-        id JF8z2400T4C55Sk01F8zQZ; Mon, 18 Jan 2021 16:08:59 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l1W9L-004cql-1j; Mon, 18 Jan 2021 16:08:59 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l1W9K-003LKg-LI; Mon, 18 Jan 2021 16:08:58 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Steve Glendinning <steve.glendinning@shawell.net>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] net: smsc911x: Make Runtime PM handling more fine-grained
-Date:   Mon, 18 Jan 2021 16:08:57 +0100
-Message-Id: <20210118150857.796943-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Mon, 18 Jan 2021 10:13:07 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC7FC061575
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jan 2021 07:12:26 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id 6so24157561ejz.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Jan 2021 07:12:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZmXMj6tFKE8O/qXvV9RqSTfoZj1tErBM1YvyS8NSRYQ=;
+        b=rSKd/+kQhKHKvCzCBh+bDSZaqvcd3n6A8x36pafF19Bqvr1Ssokw2zVnNNuecpVUnZ
+         hIvJ2PY5lmtAH07hYNk4KiFRcLQxQZ/4fEpWyYchZZSIR0gqBKzGjVYMffT8M0ayXNwJ
+         vHij/uYX3va2Fwoy57ZU3+U7+W5LCSD8Woc4ruFMoHn3e3RP+lRmDD0vYm9b+0ON+GEH
+         Kd6/JJg8TPd80zLk/6dsYzMAPB78tKHQ7SrVKnZJZqgPpfiIUeGLdkI7fU6OtrmSYOGM
+         zQwNxtucHHdZuTPfwEyU57JQUBuESnEiRT3+3tjFGqDzsZmaKnHt7qDDy2Vr4Uaf0C7g
+         3TZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZmXMj6tFKE8O/qXvV9RqSTfoZj1tErBM1YvyS8NSRYQ=;
+        b=GjuTiFHEOXZ8OXNVegA0OesXvNuJFJYlYwgCUpQwFjSVCXwaKmdbobi65BaAieREaj
+         KIFS3pKPKjBE0x+4bscCBH3AokOaKouII6vuZlpcLsaMsCJJcRAU21Zh1zQtcW+mRAMR
+         UKEfBeSa/LY8kBvmpEs+2QaWtz0IcwK/jqAdA1Na6+ZYfPXKmZo6o8aRyeOlTeEP743i
+         IpWjoZnKWg8sJta6+SgU8KABcmQzDxX8PlXb6KDdaV7yumQPrDYXTn695BydJZDF/WWn
+         RdS4lkimz4ifM2INrCRVNCgGvhG3dr2Rcj9u2XDiby9nE3SJ4xygyNBvQUPTCGj0f/Uu
+         llRA==
+X-Gm-Message-State: AOAM531ovYiIPI95eXgg3gMKhh7uL7yXNFBVvHgIlbbk4u3ByETxJtXU
+        OVynjcBq4oKfC2VmTpG/Co6k0XcqFjBhIgEQAo05pg==
+X-Google-Smtp-Source: ABdhPJweZGFoaO6uQEfZVRheP1p7oFTT5JiICmWMpMlLwDagcrJsBxmLSovHoJthz83/Az6ydq9fXiF6RTWwlWplxxg=
+X-Received: by 2002:a17:907:2705:: with SMTP id w5mr83892ejk.505.1610982745601;
+ Mon, 18 Jan 2021 07:12:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210115095313.2334693-1-geert+renesas@glider.be>
+In-Reply-To: <20210115095313.2334693-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 18 Jan 2021 16:12:14 +0100
+Message-ID: <CACRpkdYyP=2Rkoxz4ce0R3O_zG9kgqJVZk2mjGaFGRL-amGzpw@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: sh-pfc: Updates for v5.12
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Currently the smsc911x driver has mininal power management: during
-driver probe, the device is powered up, and during driver remove, it is
-powered down.
+On Fri, Jan 15, 2021 at 10:53 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Improve power management by making it more fine-grained:
-  1. Power the device down when driver probe is finished,
-  2. Power the device (down) when it is opened (closed),
-  3. Make sure the device is powered during PHY access.
+> The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
+>
+>   Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.12-tag1
+>
+> for you to fetch changes up to a5cda861ed57710837bc560a3c715160da710555:
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Tested on r8a73a4/ape6evm, where the LAN9220 is connected to a
-power-managed bus, and any attempt to access a device register while the
-device is suspended will trigger an asynchronous external abort.
----
- drivers/net/ethernet/smsc/smsc911x.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Pulled into my "devel" branch for v5.12!
 
-diff --git a/drivers/net/ethernet/smsc/smsc911x.c b/drivers/net/ethernet/smsc/smsc911x.c
-index 823d9a7184fe6aa1..606c79de93a68146 100644
---- a/drivers/net/ethernet/smsc/smsc911x.c
-+++ b/drivers/net/ethernet/smsc/smsc911x.c
-@@ -557,6 +557,7 @@ static int smsc911x_mii_read(struct mii_bus *bus, int phyaddr, int regidx)
- 	unsigned int addr;
- 	int i, reg;
- 
-+	pm_runtime_get_sync(bus->parent);
- 	spin_lock_irqsave(&pdata->mac_lock, flags);
- 
- 	/* Confirm MII not busy */
-@@ -582,6 +583,7 @@ static int smsc911x_mii_read(struct mii_bus *bus, int phyaddr, int regidx)
- 
- out:
- 	spin_unlock_irqrestore(&pdata->mac_lock, flags);
-+	pm_runtime_put(bus->parent);
- 	return reg;
- }
- 
-@@ -594,6 +596,7 @@ static int smsc911x_mii_write(struct mii_bus *bus, int phyaddr, int regidx,
- 	unsigned int addr;
- 	int i, reg;
- 
-+	pm_runtime_get_sync(bus->parent);
- 	spin_lock_irqsave(&pdata->mac_lock, flags);
- 
- 	/* Confirm MII not busy */
-@@ -623,6 +626,7 @@ static int smsc911x_mii_write(struct mii_bus *bus, int phyaddr, int regidx,
- 
- out:
- 	spin_unlock_irqrestore(&pdata->mac_lock, flags);
-+	pm_runtime_put(bus->parent);
- 	return reg;
- }
- 
-@@ -1589,6 +1593,8 @@ static int smsc911x_open(struct net_device *dev)
- 	int retval;
- 	int irq_flags;
- 
-+	pm_runtime_get_sync(dev->dev.parent);
-+
- 	/* find and start the given phy */
- 	if (!dev->phydev) {
- 		retval = smsc911x_mii_probe(dev);
-@@ -1735,6 +1741,7 @@ static int smsc911x_open(struct net_device *dev)
- 	phy_disconnect(dev->phydev);
- 	dev->phydev = NULL;
- out:
-+	pm_runtime_put(dev->dev.parent);
- 	return retval;
- }
- 
-@@ -1766,6 +1773,7 @@ static int smsc911x_stop(struct net_device *dev)
- 		dev->phydev = NULL;
- 	}
- 	netif_carrier_off(dev);
-+	pm_runtime_put(dev->dev.parent);
- 
- 	SMSC_TRACE(pdata, ifdown, "Interface stopped");
- 	return 0;
-@@ -2334,7 +2342,6 @@ static int smsc911x_drv_remove(struct platform_device *pdev)
- 
- 	free_netdev(dev);
- 
--	pm_runtime_put(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 
- 	return 0;
-@@ -2540,6 +2547,7 @@ static int smsc911x_drv_probe(struct platform_device *pdev)
- 	}
- 
- 	spin_unlock_irq(&pdata->mac_lock);
-+	pm_runtime_put(&pdev->dev);
- 
- 	netdev_info(dev, "MAC Address: %pM\n", dev->dev_addr);
- 
--- 
-2.25.1
-
+Yours,
+Linus Walleij
