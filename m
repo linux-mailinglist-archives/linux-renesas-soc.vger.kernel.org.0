@@ -2,106 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEE632FB9E7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jan 2021 15:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 023992FB9EE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jan 2021 15:55:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387688AbhASOjG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Jan 2021 09:39:06 -0500
-Received: from www.zeus03.de ([194.117.254.33]:55108 "EHLO mail.zeus03.de"
+        id S2387698AbhASOjT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Jan 2021 09:39:19 -0500
+Received: from foss.arm.com ([217.140.110.172]:53610 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387715AbhASJkZ (ORCPT
+        id S2392272AbhASMDj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Jan 2021 04:40:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=7oj9WQno7QEpA1
-        XamLc4MgaH1m7rUqRR3GpKdU/K1M0=; b=lFqM8BxbfRkKtAIH+OAQCIBqJ/edPp
-        JDKwf35ERefl3U+wvK83fIYZpnHZyz/s20k7uUNgt28icomNL6aOPYiQYsqwm1s1
-        bohjfIVCxb3R+hPN86P5QcokI9CG8yqb8p3Gkza8tfz+tcAnnLyUJR7ZYjy1yftS
-        viVYfXxUrMUNU=
-Received: (qmail 1003573 invoked from network); 19 Jan 2021 10:39:21 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Jan 2021 10:39:21 +0100
-X-UD-Smtp-Session: l3s3148p1@Gm/3nD258tkgAwDPXyX1ACWcscxtZ2TX
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Corey Minyard <minyard@acm.org>,
-        openipmi-developer@lists.sourceforge.net,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] ipmi: remove open coded version of SMBus block write
-Date:   Tue, 19 Jan 2021 10:39:10 +0100
-Message-Id: <20210119093912.1838-4-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210119093912.1838-1-wsa+renesas@sang-engineering.com>
-References: <20210119093912.1838-1-wsa+renesas@sang-engineering.com>
+        Tue, 19 Jan 2021 07:03:39 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 11E16113E;
+        Tue, 19 Jan 2021 04:02:47 -0800 (PST)
+Received: from e123427-lin.arm.com (unknown [10.57.35.195])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6B0733F719;
+        Tue, 19 Jan 2021 04:02:44 -0800 (PST)
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH] PCI: Drop PCIE_RCAR config option
+Date:   Tue, 19 Jan 2021 12:02:37 +0000
+Message-Id: <161105770999.14004.4826810359475024379.b4-ty@arm.com>
+X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20201229170848.18482-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20201229170848.18482-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The block-write function of the core was not used because there was no
-client-struct to use. However, in this case it seems apropriate to use a
-temporary client struct. Because we are answering a request we recieved
-when being a client ourselves. So, convert the code to use a temporary
-client and use the block-write function of the I2C core.
+On Tue, 29 Dec 2020 17:08:48 +0000, Lad Prabhakar wrote:
+> All the defconfig files have replaced PCIE_RCAR config option with
+> PCIE_RCAR_HOST config option which built the same driver, so we can
+> now safely drop PCIE_RCAR config option.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Applied to pci/misc, thanks!
 
-Changes since RFC:
-* don't use stack but kmemdup. No complaints from buildbots
+[1/1] PCI: Drop PCIE_RCAR config option
+      https://git.kernel.org/lpieralisi/pci/c/ff591f7490
 
- drivers/char/ipmi/ipmb_dev_int.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
-index 382b28f1cf2f..49b8f22fdcf0 100644
---- a/drivers/char/ipmi/ipmb_dev_int.c
-+++ b/drivers/char/ipmi/ipmb_dev_int.c
-@@ -137,7 +137,7 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
- {
- 	struct ipmb_dev *ipmb_dev = to_ipmb_dev(file);
- 	u8 rq_sa, netf_rq_lun, msg_len;
--	union i2c_smbus_data data;
-+	struct i2c_client *temp_client;
- 	u8 msg[MAX_MSG_LEN];
- 	ssize_t ret;
- 
-@@ -160,21 +160,21 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
- 	}
- 
- 	/*
--	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
--	 * i2c_smbus_xfer
-+	 * subtract rq_sa and netf_rq_lun from the length of the msg. Fill the
-+	 * temporary client. Note that its use is an exception for IPMI.
- 	 */
- 	msg_len = msg[IPMB_MSG_LEN_IDX] - SMBUS_MSG_HEADER_LENGTH;
--	if (msg_len > I2C_SMBUS_BLOCK_MAX)
--		msg_len = I2C_SMBUS_BLOCK_MAX;
-+	temp_client = kmemdup(ipmb_dev->client, sizeof(*temp_client), GFP_KERNEL);
-+	if (!temp_client)
-+		return -ENOMEM;
-+
-+	temp_client->addr = rq_sa;
- 
--	data.block[0] = msg_len;
--	memcpy(&data.block[1], msg + SMBUS_MSG_IDX_OFFSET, msg_len);
--	ret = i2c_smbus_xfer(ipmb_dev->client->adapter, rq_sa,
--			     ipmb_dev->client->flags,
--			     I2C_SMBUS_WRITE, netf_rq_lun,
--			     I2C_SMBUS_BLOCK_DATA, &data);
-+	ret = i2c_smbus_write_block_data(temp_client, netf_rq_lun, msg_len,
-+					 msg + SMBUS_MSG_IDX_OFFSET);
-+	kfree(temp_client);
- 
--	return ret ? : count;
-+	return ret < 0 ? ret : count;
- }
- 
- static __poll_t ipmb_poll(struct file *file, poll_table *wait)
--- 
-2.29.2
-
+Thanks,
+Lorenzo
