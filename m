@@ -2,57 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D6A52FC187
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jan 2021 21:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 630C82FC1A0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jan 2021 21:54:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728623AbhASUs0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Jan 2021 15:48:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49700 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392053AbhASUrV (ORCPT
+        id S1727566AbhASUxZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Jan 2021 15:53:25 -0500
+Received: from mail-ot1-f42.google.com ([209.85.210.42]:40063 "EHLO
+        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392081AbhASUxP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Jan 2021 15:47:21 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D446C061757
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jan 2021 12:46:37 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id g12so30460651ejf.8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jan 2021 12:46:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9FLTjygwFi+n7PjOSwkn7MSIo9iFXRW1Ns3VTNaUNoc=;
-        b=TwhuWpNc0mOpczLNerRso8YjIWA6kjhlyf6pnsOUSAcXbMagPUMNCcfCk9OAKSGTb1
-         FfF2VH+oD21qyTZ0CszTudxU/AZW/w3JuTpOPQ1AtvYn0uRywZJ7pfSCh0g5AD2mWKUQ
-         Kt3fqvrviTfEsuu1Qk2pgWHwc5bJblt1pjVKORMyFJINnIPZnHiuAoyel6lCvpUDc4Ty
-         HkUkAq1Nv5bTW2Kd5095sWPyzzWjwUfqtSgsjCM4UcICC3AmiJj6LC/xIcErKPV3Y3cH
-         I3mNvU1haraZzAvCMqUox+wwWu/iryUXtjxtN1IcgynzC+GssDuXQ91/ccRMguX7eNtC
-         NaIw==
+        Tue, 19 Jan 2021 15:53:15 -0500
+Received: by mail-ot1-f42.google.com with SMTP id i20so13383877otl.7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Jan 2021 12:52:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9FLTjygwFi+n7PjOSwkn7MSIo9iFXRW1Ns3VTNaUNoc=;
-        b=h4FMpgUBP4M8uo4Cl9nifx+5rUebReA3paKoHiqHhny3iRJT9UGepgyRkcUpqOU8UI
-         WvAsDm7B5cceVcHprS0nXKH377TWqaaRxcfVhe9A2WcTqHMBze/NNfDOjGajfg0j5UnA
-         gra4r/k+EeCqlRvrS+sKVHnFZEWSPsjKGSib8RlPRYw+A37q0YcV3+lsLvbpNTY/c/iw
-         ITICsRenQB5eFOlu7lmDBVx2148ElEpcWqG8UiHRlIjTSP1BZJkLI7qMh7NPFAWAm+vD
-         SiG2S69mXWiizA2kUYipS77mUOZRsI5xB9taqotjRIG7g9PkY2tKmy9Kyej5dYQqwpps
-         ahWA==
-X-Gm-Message-State: AOAM533lz4QUQYxtfsu+npFSzUNzHWr4/YQNmpeOyO2ldrbDHnfYP6Su
-        zMYx0rBv/mM8U31lWCIwSEHxdDcuDXawkN7SUbKSa+93l8g=
-X-Google-Smtp-Source: ABdhPJxIxaX7IgWoSPLqg09nbLl5Tg7ZKP4mMBz4hHqpsgKgg5l5yDcupin36xPzgWfRCiWG/1a+6mmimNZm3F+ns+U=
-X-Received: by 2002:a17:906:f0d7:: with SMTP id dk23mr4098171ejb.131.1611089195666;
- Tue, 19 Jan 2021 12:46:35 -0800 (PST)
+        bh=fLus/CuC+AN+IDYE7L9UePkEAgItcFI+laELScnfZUg=;
+        b=uVHKKJZDIYRhHUjPhE3vqcrbC4CcD6izUWUDuDz3nioepiXEbtgAS36qik6jhB84OL
+         pdPltdkXugvv7hCr8eOyny1ixGQuDGNHm56nF56W5x+Fsu/I9ANKrwgG7jEUbSjF3LmC
+         vfPhElVBuDR+Cu3ChmTGLiwmsO/lHVANsBXeR2SnHG5LCjk+JAJFgQqXB8A7LmHn3sQc
+         DEVIT0Wiyx9f0Qk2Yw/J7VJi8ZrYhGY3i23fc9GAPxiIt2PD66paWClRt7gsU0rglIPa
+         vhXxy/hjmOm3RuuRCrj0H58oWkqnY25k616uNaXwpERqoeyVi4642OnyIMUaLkAAU4Qf
+         DOAw==
+X-Gm-Message-State: AOAM5304fQswqLiytdP2fA6uo3ZtSbEaiqmonOzZUenSN+YdU7qwM3pk
+        G6/mnks4fnM/6FZzA/zZBOEUt9x3FD+4NvOZUsE=
+X-Google-Smtp-Source: ABdhPJwpjs/e+77ykUPaGRT1S/0qBB9keFjqpZOQLcB14qap1OEvSZli50OyyqrBEdG4OCgJ/tvrr2kN9NgBKIlnHiw=
+X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr4770784oth.250.1611089554078;
+ Tue, 19 Jan 2021 12:52:34 -0800 (PST)
 MIME-Version: 1.0
 References: <20210119133322.87289-1-wsa+renesas@sang-engineering.com>
- <CAHCN7xLcqh0efDuMS96Tot2Wek736VTbSbYm-rQgJf=ghZ0sBA@mail.gmail.com> <CAMuHMdVLwcQ6WpEhybxwCjJ2S-tuOoWqSiQCmB2-=Bunw4fX4A@mail.gmail.com>
-In-Reply-To: <CAMuHMdVLwcQ6WpEhybxwCjJ2S-tuOoWqSiQCmB2-=Bunw4fX4A@mail.gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Tue, 19 Jan 2021 14:46:24 -0600
-Message-ID: <CAHCN7x+_h00tG4jw_NQ+kx7eW=ZOcrDJ1PAVgMWK-rq53TyoiQ@mail.gmail.com>
+ <CAHCN7xLcqh0efDuMS96Tot2Wek736VTbSbYm-rQgJf=ghZ0sBA@mail.gmail.com>
+ <CAMuHMdVLwcQ6WpEhybxwCjJ2S-tuOoWqSiQCmB2-=Bunw4fX4A@mail.gmail.com> <CAHCN7x+_h00tG4jw_NQ+kx7eW=ZOcrDJ1PAVgMWK-rq53TyoiQ@mail.gmail.com>
+In-Reply-To: <CAHCN7x+_h00tG4jw_NQ+kx7eW=ZOcrDJ1PAVgMWK-rq53TyoiQ@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 19 Jan 2021 21:52:23 +0100
+Message-ID: <CAMuHMdV3wXM9GHiYN-nArs=SzojkjCGmuKBrdsAwz8N9SoqQyw@mail.gmail.com>
 Subject: Re: [PATCH] arm64: dts: renesas: disable SD functions for plain eMMC
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Adam Ford <aford173@gmail.com>
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -60,50 +47,48 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 2:35 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Adam,
->
-> On Tue, Jan 19, 2021 at 7:43 PM Adam Ford <aford173@gmail.com> wrote:
-> > On Tue, Jan 19, 2021 at 8:48 AM Wolfram Sang
-> > <wsa+renesas@sang-engineering.com> wrote:
-> > >
-> > > Some SDHI instances are solely used for eMMC. Disable SD and SDIO
-> > > for faster initialization.
-> > >
-> > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
->
-> > > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-> > > @@ -312,6 +312,8 @@ &sdhi3 {
-> > >         vqmmc-supply = <&reg_1p8v>;
-> > >         bus-width = <8>;
-> > >         mmc-hs200-1_8v;
-> > > +       no-sd;
-> > > +       no-sdio;
+Hi Adam,
+
+On Tue, Jan 19, 2021 at 9:46 PM Adam Ford <aford173@gmail.com> wrote:
+> On Tue, Jan 19, 2021 at 2:35 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Tue, Jan 19, 2021 at 7:43 PM Adam Ford <aford173@gmail.com> wrote:
+> > > On Tue, Jan 19, 2021 at 8:48 AM Wolfram Sang
+> > > <wsa+renesas@sang-engineering.com> wrote:
+> > > >
+> > > > Some SDHI instances are solely used for eMMC. Disable SD and SDIO
+> > > > for faster initialization.
+> > > >
+> > > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > >
-> > No objections on the Beacon board.   I cannot speak for the rest.
+> > > > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+> > > > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+> > > > @@ -312,6 +312,8 @@ &sdhi3 {
+> > > >         vqmmc-supply = <&reg_1p8v>;
+> > > >         bus-width = <8>;
+> > > >         mmc-hs200-1_8v;
+> > > > +       no-sd;
+> > > > +       no-sdio;
+> > >
+> > > No objections on the Beacon board.   I cannot speak for the rest.
+> >
+> > Does this mean I can add your
+> >
+> >     Acked-by: Adam Ford <aford173@gmail.com> [beacon]
+> >
 >
-> Does this mean I can add your
->
->     Acked-by: Adam Ford <aford173@gmail.com> [beacon]
->
+> Yes.  I wasn't sure what the appropriate response sould be. (Review-by
+> or Acked-by)
 
-Yes.  I wasn't sure what the appropriate response sould be. (Review-by
-or Acked-by)
+I think "no objections" maps to "Acked-by" ;-)
+Thanks!
 
-adam
-> ?
->
-> Thanks!
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
