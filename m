@@ -2,104 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 111D42FD5B8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jan 2021 17:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A4132FD695
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jan 2021 18:13:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404019AbhATQbo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Jan 2021 11:31:44 -0500
-Received: from mail-ot1-f52.google.com ([209.85.210.52]:34886 "EHLO
-        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404081AbhATQas (ORCPT
+        id S1731846AbhATRLw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Jan 2021 12:11:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59486 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403894AbhATRK0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Jan 2021 11:30:48 -0500
-Received: by mail-ot1-f52.google.com with SMTP id 36so12391461otp.2;
-        Wed, 20 Jan 2021 08:30:31 -0800 (PST)
+        Wed, 20 Jan 2021 12:10:26 -0500
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F289C0613D3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Jan 2021 09:09:46 -0800 (PST)
+Received: by mail-yb1-xb29.google.com with SMTP id w24so17885768ybi.7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Jan 2021 09:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WPDT0PVm4/aPIbV0EAFgXlokPV1lvrypzi2ZcvT8T1I=;
+        b=rFRBi4r7OH8297hz1xcaXSPUbNFKEfIqzd2Rx6NTH6Y+ffjagOVvyD11mOjKIK6B0O
+         EnTvixK2CI5mbaIucjkharRIVAqkKZG5jXeLsZt8H/leQjyUZfpCU/YrMuoQYOs7zzkz
+         L3qyIDLjN5iwMYQDLHDxV5/WN03ot8PPm69Pjib6KSymHmyH+aT+P9pOLSe4amUP9zgH
+         CITfFpa4KGafOK3wMO9DHmi/sQr8tpA4uiCLdHLID2eCDdqnrsUfY98E2eqIgUP/aMEh
+         Fp/feg0UkH6IqjyNqHlfmOLP3AmpJpT9w9xsPjzaL1gKQTdRETZyG3AN8dWBD/XddnwN
+         0T7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8qbcj96nUBxwaOq/+VeJJ4TOWxu4T57LWPFj57lO5C0=;
-        b=Zixq75D+m44gJxZj7PZxRvWQeME0k3gpVTJWvHBvL1u7QDxyEoC/ds8S8ZoGQXGNZD
-         vdqeZrbdmr7qGK31juxvRnq8CeMOyIoECh8W6TFm0yR/Ph/At5823W4e7sgk9X7ZX/+k
-         HTCsUPFv1hL16ASv/7MpalMw+0ef2Z3N1m1Oq2FA2IRk7hXG/GlSHx/OSVUqAV2We2He
-         LCEm79wauKKM9jLDXQc4mjBQFxbUQipfUJDoio2DZxKDYq+n1O/26RqVu+yZnhu9vyvi
-         YCVuFrOOFhHRlK4G5kMvyXe1//8gKcG2ekg4DhmZw3P1Q09ax32B+Wfg2s5762H1+4Ct
-         kdkA==
-X-Gm-Message-State: AOAM532SMUuLCZosGu6BjiYkF+YwbNYqQhJHTgF5W0RSit0vN+BXSh+L
-        ALqmTXZZ1o4hdL9N2XhGKSlQwCyBKIBAi9ilU+vL+7xAffo=
-X-Google-Smtp-Source: ABdhPJzeqp/HHuaRc2XnkL25kpeIpG1eTyKiF4x4rD/IMvU3G3HkLGqRJwU8dkWjjsz1mJTdLGPMYx40St7gv5U7sGM=
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr7583208oth.250.1611160205924;
- Wed, 20 Jan 2021 08:30:05 -0800 (PST)
+        bh=WPDT0PVm4/aPIbV0EAFgXlokPV1lvrypzi2ZcvT8T1I=;
+        b=ZXgV+s+vIFTHXXsOTMZlM28I6tJqffcP4O4D0X1n0aGdVPME2S4pjhAJW3YdL3Fh9V
+         xJyWRBaj/eG/C5Gv918/haxJjwXxxGEpVb7nQgD8yJFjH8bkI6R4sTwBRfjdvbyuV4M7
+         XBFerVkPjFUNgjfEmbNbH3zGJpBz+UwUYwnlVxguQ63+zHp4O6g8Gg8WtCef4IJdXdYv
+         E0/O71pTqWi90P0R2Rs+q0f2BWOSXhBg5YHjUz3W5BnnymP1uhCLMj5i9urQdgB/GuW4
+         ybOcQ9tjGn36foF+fpa5+RnIRpgjVWAWzifZ6VfI1vqeImPjpXP+Ql1rt//OEH1D5HaO
+         JfVw==
+X-Gm-Message-State: AOAM532+YbG7TOScLjY0wDTQ8eD46G8MhSYJrA3wVUc58fb/g7C8qjZv
+        h5tseUuhgM1JzQIXNew2HdS4hmUvoxqP5fInltQGZQ==
+X-Google-Smtp-Source: ABdhPJwgt9Cxc/JcL4f7pl9d8H1GVMqWeXV7Rq5bFY8Gar7UAQgJ9hjlLUp5Y+jDcGNKkVZXb2EOADxVGcwvFJ6fju0=
+X-Received: by 2002:a25:3345:: with SMTP id z66mr7809991ybz.466.1611162585610;
+ Wed, 20 Jan 2021 09:09:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20210114125650.2233045-1-geert+renesas@glider.be> <6d7a8180-b10d-481f-a3ca-05c37c17cb1a@lucaceresoli.net>
-In-Reply-To: <6d7a8180-b10d-481f-a3ca-05c37c17cb1a@lucaceresoli.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 20 Jan 2021 17:29:54 +0100
-Message-ID: <CAMuHMdWO5Uv22q8TuO4MQ_gv4LLT6UDCm0TrDtWe6DL=bbFKWw@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: clk: versaclock5: Miscellaneous fixes and improvements:
-To:     Luca Ceresoli <luca@lucaceresoli.net>
-Cc:     Adam Ford <aford173@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+References: <20210120142323.2203705-1-geert+renesas@glider.be>
+In-Reply-To: <20210120142323.2203705-1-geert+renesas@glider.be>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 20 Jan 2021 09:09:09 -0800
+Message-ID: <CAGETcx-ZcXB9Zw_RnMjA0G2oKAyeK3VfKgha=Mvqnn_dDREuOw@mail.gmail.com>
+Subject: Re: [PATCH/RFC] soc: renesas: rcar-sysc: Mark device node
+ OF_POPULATED after init
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Luca,
-
-On Wed, Jan 20, 2021 at 5:08 PM Luca Ceresoli <luca@lucaceresoli.net> wrote:
-> On 14/01/21 13:56, Geert Uytterhoeven wrote:
-> >   - Add missing reference for "idt,voltage-microvolt",
-> >   - Add missing "additionalProperties: false" for subnodes, to catch
-> >     typos in properties,
-> >   - Fix property names in example.
-> >
-> > Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > v2:
-> >   - Settle on "idt,voltage-microvolt", cfr. commit 4b003f5fcadfa2d0
-> >     ('clk: vc5: Use "idt,voltage-microvolt" instead of
-> >     "idt,voltage-microvolts"'),
-> >   - Drop reference to clock.yaml, which is already applied
-> >     unconditionally,
-> >   - Drop removal of allOf around if condition, as it is unnecessary
-> >     churn.
-> > ---
-> >  .../devicetree/bindings/clock/idt,versaclock5.yaml       | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> > index 2ac1131fd9222a86..70239f992d714ae0 100644
-> > --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> > +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> > @@ -75,12 +75,15 @@ patternProperties:
-> >          maximum: 6
-> >        idt,voltage-microvolt:
-> >          description: The output drive voltage.
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
+On Wed, Jan 20, 2021 at 6:23 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 >
-> "Vendor specific properties having a standard unit suffix don't need a
-> type." -- Documentation/devicetree/bindings/example-schema.yaml
+> The R-Car System Controller (SYSC) driver registers PM domains from an
+> early_initcall().  It does not use a platform driver, as secondary CPU
+> startup on R-Car H1 needs to control the CPU power domains, before
+> initialization of the driver framework.
+>
+> As fw_devlink only considers platform devices,
 
-Thanks, will fix in v3!
+Correction. It only considers devices. As in, devices on all types of
+busses are supported.
 
-Rob: would this apply to idt,slew-percent, too?
-I.e. should -percent be added to dt-schema/schemas/property-units.yaml?
+> it does not know that the
+> System Controller is ready.  Hence probing of on-chip devices that are
+> part of the SYSC PM domain fail:
+>
+>     probe deferral - supplier e6180000.system-controller not ready
+>
+> Fix this by setting the OF_POPULATED flag for the SYSC device node after
+> successful initialization.  This will make of_link_to_phandle() ignore
+> the SYSC device node as a dependency, and consumer devices will be
+> probed again.
 
-Gr{oetje,eeting}s,
+It'd still be nice if you could (maybe in a later patch), at least
+probe all the power domains that aren't really needed this early.
+Using the driver core framework (when it's possible), gives you nice
+things :)
 
-                        Geert
++Rob. I know he hates people using OF_POPULATED, but I think this case
+is reasonable and want to make sure he's aware of this.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Once you fix my commit nitpick, you can add:
+Reviewed-by: Saravana Kannan <saravanak@google.com>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-Saravana
+
+>
+> Fixes: e590474768f1cc04 ("driver core: Set fw_devlink=on by default")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/soc/renesas/rcar-sysc.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/soc/renesas/rcar-sysc.c b/drivers/soc/renesas/rcar-sysc.c
+> index 9b235fc900273405..a00bb098e1fe7488 100644
+> --- a/drivers/soc/renesas/rcar-sysc.c
+> +++ b/drivers/soc/renesas/rcar-sysc.c
+> @@ -439,6 +439,8 @@ static int __init rcar_sysc_pd_init(void)
+>         }
+>
+>         error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
+> +       if (!error)
+> +               of_node_set_flag(np, OF_POPULATED);
+>
+>  out_put:
+>         of_node_put(np);
+> --
+> 2.25.1
+>
