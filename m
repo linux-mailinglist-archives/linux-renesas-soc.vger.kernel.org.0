@@ -2,106 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE5872FC33D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Jan 2021 23:22:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E4202FC61B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Jan 2021 01:52:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727460AbhASWVQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Jan 2021 17:21:16 -0500
-Received: from www.zeus03.de ([194.117.254.33]:35792 "EHLO mail.zeus03.de"
+        id S1726023AbhATAuw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Jan 2021 19:50:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42264 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729681AbhASWR1 (ORCPT
+        id S1730549AbhATAuu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Jan 2021 17:17:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Tvs8pg44S10SnvU7Vfn6Lyi1Ih2C
-        n2uq3D4AyozPauE=; b=qg6kMS/whKZ3RVB00xvRN2S/4I6YmcquDb9RvNWZgQS0
-        QFcuHjbonM1SfmjlL9lnN5kLNUNJydeAfH5wM32f0CDy0+hgLiYyV1YrIHUa6LTq
-        kDImjJgj2zKLcpEg7/gj7w+Hh6Q2Oa3AS8+0+c1xQCc/Z9HWr6EgueriPobyfMs=
-Received: (qmail 1218336 invoked from network); 19 Jan 2021 23:16:34 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Jan 2021 23:16:34 +0100
-X-UD-Smtp-Session: l3s3148p1@DARzMEi5FKQgAwDPXw7XAOd/1ZKxv5fl
-Date:   Tue, 19 Jan 2021 23:16:24 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] dt-bindings: serial: renesas,hscif: Add r8a779a0
- support
-Message-ID: <20210119221624.GA3651@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20201228112715.14947-1-wsa+renesas@sang-engineering.com>
- <20201228112715.14947-4-wsa+renesas@sang-engineering.com>
+        Tue, 19 Jan 2021 19:50:50 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id C15B623109;
+        Wed, 20 Jan 2021 00:50:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611103809;
+        bh=LtxxyRIHpoZ8pyHYd8BJeEaCUydeJtYDQL+hjWN0aIo=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=risNMGVbLJGgt5RVQssCjMl9yj+0u24htDhumTh/XAJbj66H0MA2IU4E/6XwsgYmw
+         3NzpDChv9L0szesGt3aqrMDDAZfQTpfc4uwGXjnLb+odpgN9QIOFSTFVZ+w59S8Z8h
+         ecyxPMgUju2IEjN9if0SOF41lYEleppeKY9qUx1hmMEOWxdGJRL0BfqXihAtKPsN0J
+         ovTY4jijhAMJqf+EUTZppGg2DNGFfuZhm+ffAyj0NSUwn9sRhqxTIXrGM0nDD2uXvn
+         l0AskOuujthgU4yAe65D6cJutxMBBD1z8Jkbr9UGqsmKi302euKOr66Kb6RlVxD57e
+         kAXR+TLwNm7kA==
+Received: from pdx-korg-docbuild-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-1.ci.codeaurora.org (Postfix) with ESMTP id B4F5860584;
+        Wed, 20 Jan 2021 00:50:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
-Content-Disposition: inline
-In-Reply-To: <20201228112715.14947-4-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] sh_eth: Fix power down vs. is_opened flag ordering
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <161110380973.31620.4370293921348341314.git-patchwork-notify@kernel.org>
+Date:   Wed, 20 Jan 2021 00:50:09 +0000
+References: <20210118150812.796791-1-geert+renesas@glider.be>
+In-Reply-To: <20210118150812.796791-1-geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     sergei.shtylyov@gmail.com, davem@davemloft.net, kuba@kernel.org,
+        horms+renesas@verge.net.au, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello:
 
---vkogqOf2sHV7VnPd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch was applied to netdev/net.git (refs/heads/master):
 
-On Mon, Dec 28, 2020 at 12:27:10PM +0100, Wolfram Sang wrote:
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
+On Mon, 18 Jan 2021 16:08:12 +0100 you wrote:
+> sh_eth_close() does a synchronous power down of the device before
+> marking it closed.  Revert the order, to make sure the device is never
+> marked opened while suspended.
+> 
+> While at it, use pm_runtime_put() instead of pm_runtime_put_sync(), as
+> there is no reason to do a synchronous power down.
+> 
+> [...]
 
-Can we apply this via the serial tree? Or shall we take it via
-renesas-soc? Thanks!
+Here is the summary with links:
+  - sh_eth: Fix power down vs. is_opened flag ordering
+    https://git.kernel.org/netdev/net/c/f6a2e94b3f9d
 
->  Documentation/devicetree/bindings/serial/renesas,hscif.yaml | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/serial/renesas,hscif.yaml =
-b/Documentation/devicetree/bindings/serial/renesas,hscif.yaml
-> index c139c5edb93e..512a84942f78 100644
-> --- a/Documentation/devicetree/bindings/serial/renesas,hscif.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,hscif.yaml
-> @@ -51,6 +51,7 @@ properties:
->                - renesas,hscif-r8a77980     # R-Car V3H
->                - renesas,hscif-r8a77990     # R-Car E3
->                - renesas,hscif-r8a77995     # R-Car D3
-> +              - renesas,hscif-r8a779a0     # R-Car V3U
->            - const: renesas,rcar-gen3-hscif # R-Car Gen3 and RZ/G2
->            - const: renesas,hscif           # generic HSCIF compatible UA=
-RT
-> =20
-> --=20
-> 2.29.2
->=20
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
---vkogqOf2sHV7VnPd
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAHWjQACgkQFA3kzBSg
-KbbushAAh8VZmaIq8BcIedVSLt9mwtYU9iJ6PFD4s+QwcHaLo3/+HeRPj2y60X4h
-2TgvgKZrJ1jj6FEe/lrmxJ4b+Ja2Gd/2lNr0ZEOj2TNTIBTN9t84TdgFQIrkRDD9
-smBgo4IZtdrFLcAjTDEwO5yWcMdHJ+2IVl5ZYRlLXltAkaHlHdWvdJkgHQl3QZi2
-SOR/pQ8FT4dUqTinOa53ZbiljA/8DEV8FbxxMPoDaUeda+d8CnVT2txK4LkeDx6c
-kQf/MC9IRfihh5F57OcSuIAWTt0gMRhW8H9aqkFZ4wMQhDfETOxiZyySbnmcALS0
-IE9PLsOTKvUJvq3QT11IAmUe7F5fidbsOUDFGQEU/uQXYflQ6njy/A+n3hsBURsl
-A8AKyySCX1llZSJPZ+MkXa8eVqy7J9j98Ktu9J8BPvC929QjgFaUl6yvD0fzAK0p
-sLz5/kTfRwT/36AFs5acX+IE247kTk/+prliAaBqN+HVrWO9tNRHwrX0vEAC3TQI
-bnQPPaX6ytkZqaibXTXkx6JBNUFMDunhQvSiHVZjjEPYq5tiPxNdO5l7jvTfq3bA
-favvJFCPQr+IjToQhi+IK1dvFG7A1CXa0z4lCMGw+uzxTdb+cTK+Pfsu0zDZSqmy
-VKiwozDpVpe2WCFbW1brt/H6ychnhOenuzt3ILlqivHEuB9vwSk=
-=WX0p
------END PGP SIGNATURE-----
-
---vkogqOf2sHV7VnPd--
