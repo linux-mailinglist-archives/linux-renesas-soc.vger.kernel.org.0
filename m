@@ -2,99 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4706D2FEEDB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jan 2021 16:33:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51D6F2FEF20
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jan 2021 16:40:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729088AbhAUPbx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Jan 2021 10:31:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37784 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733015AbhAUPbk (ORCPT
+        id S1732964AbhAUPkJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Jan 2021 10:40:09 -0500
+Received: from mail-oo1-f43.google.com ([209.85.161.43]:36366 "EHLO
+        mail-oo1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733243AbhAUPjs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Jan 2021 10:31:40 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41916C061797
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Jan 2021 07:30:16 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id a1so2150493wrq.6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Jan 2021 07:30:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=x+uDI94Qw4eCyYW0v0o9rlbjS7vCzG2/PuZcRGrnOYM=;
-        b=JMy1rlperfiiscGLWeNqMi0dYx5oz6fG5yEKEXH+EWYyjX4VIcWByZo1P6mlxYetyN
-         bk3fWUbXiaH38xoRtQuyJdCKLwX5Z937hxtNAkJ3SN3wm51/Q+E9yj7J9nXL+kib/87z
-         vmCq/z2AOQKEi7FKmbQLTPrfjN1DvwhyHITrc=
+        Thu, 21 Jan 2021 10:39:48 -0500
+Received: by mail-oo1-f43.google.com with SMTP id j8so600140oon.3;
+        Thu, 21 Jan 2021 07:39:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=x+uDI94Qw4eCyYW0v0o9rlbjS7vCzG2/PuZcRGrnOYM=;
-        b=SQ/vSMj6jV4bud9GgS7WJXubvKoitIaMvi1Sj3j76fnEBj6a/dDFzUrNVPzmskWTj0
-         0mJUq2CClCcls6gYmeDSMjOzBhnR6wHu4+TTCfQD0DPjtN0tVa7vdIuhdh9nJwSYFdks
-         2FBHSsxQtarW8gAtGT7UFkK5fyCYh7eMKun5LukTq7mssM3YvJRQpXyc9MGu3fwRbx3Z
-         ZqvwRC1R15FcT0psVcU3x+n3DfhXnXKLEX+cjE1w3bm0EXwjRHUcjKrxR37zrH5Wppkr
-         C9khVx22YNJH7eMf3JaLwDDxfPe600t4Qo+AmcNC9Yf2eGgH3TknEzateuwE2zrqmZ6y
-         nUTw==
-X-Gm-Message-State: AOAM532X+gH2msAZK+bHjR3nakwpwahjubxv3lqj0NCa7v6OenPdMurp
-        /KgQxdaHpH4rxf9mc0z5kQdLaw==
-X-Google-Smtp-Source: ABdhPJwbrDgcMH/A2JeA///UqHgkhJo/iRlMZPM0Ih6GMosNi0SIkfMyiUc+Tj+iCg8P0W0XpbPNHQ==
-X-Received: by 2002:a5d:660c:: with SMTP id n12mr14973709wru.291.1611243014995;
-        Thu, 21 Jan 2021 07:30:14 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id f14sm8269866wre.69.2021.01.21.07.30.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 07:30:14 -0800 (PST)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 09/11] drm/rcar-du: Annotate dma-fence critical section in commit path
-Date:   Thu, 21 Jan 2021 16:29:57 +0100
-Message-Id: <20210121152959.1725404-10-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210121152959.1725404-1-daniel.vetter@ffwll.ch>
-References: <20210121152959.1725404-1-daniel.vetter@ffwll.ch>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0R3/vn4OjBwMbm80SVwgo6ViJcCgYeuJbJTYwOEMXho=;
+        b=FaAxe0ztYmmDlexY5mGRDzmKb2lVBFnCvnJHpV1+ewthxB5t6g0thxRsXFeswBCnB8
+         5eUQDgGM2/Q+k/kuGT09vjNKxRHCIKuFbnrYWQYon58g90pVJ+Zlr2a7H0i6zZQ6eNnx
+         mK4BQRLmACvkoFM9DiRsjCk5MbmdCZC2Foe7WAJ+upyfi54xWNX/4avWmIesfGNGF5AQ
+         aDgxDyJ5xeJkOqAzk/wBmD5Lz4XPiBXk8gKZz26ZMipIylFMwCEAREYmaEevW6jjr50L
+         LHFDNSb8tyv1zRxdhPzd0p+ujD+sN4sySCtMoRMZqjad+mtdECkLIvO7x+YtORNNaTW7
+         Psow==
+X-Gm-Message-State: AOAM5321E2n1TMlqHoQrXv9CruAo6ZlThup+fVuMCDGUA+aNmN8JwyfT
+        PpN2dsIY8+e25FDkjt5tOVxDeoVJT5NtEcOH0JYJCaF9
+X-Google-Smtp-Source: ABdhPJyPp4o0v1chZHpawhDO/ZE7GYsY5Wdnka7U4wtIxMUDBXOJwl/XQxnwKaYrFAo6tvTDBufd8fPO824Jnc+3JAI=
+X-Received: by 2002:a4a:8353:: with SMTP id q19mr156184oog.40.1611243529514;
+ Thu, 21 Jan 2021 07:38:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210120142323.2203705-1-geert+renesas@glider.be> <CAGETcx-ZcXB9Zw_RnMjA0G2oKAyeK3VfKgha=Mvqnn_dDREuOw@mail.gmail.com>
+In-Reply-To: <CAGETcx-ZcXB9Zw_RnMjA0G2oKAyeK3VfKgha=Mvqnn_dDREuOw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 21 Jan 2021 16:38:38 +0100
+Message-ID: <CAMuHMdUfA2LgXxz1srbgQLiMw=oadrJ0ASMnwcvCO2xVXqWnUw@mail.gmail.com>
+Subject: Re: [PATCH/RFC] soc: renesas: rcar-sysc: Mark device node
+ OF_POPULATED after init
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Ends right after drm_atomic_helper_commit_hw_done(), absolutely
-nothing fancy going on here.
+Hi Saravana,
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Wed, Jan 20, 2021 at 6:09 PM Saravana Kannan <saravanak@google.com> wrote:
+> On Wed, Jan 20, 2021 at 6:23 AM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> > The R-Car System Controller (SYSC) driver registers PM domains from an
+> > early_initcall().  It does not use a platform driver, as secondary CPU
+> > startup on R-Car H1 needs to control the CPU power domains, before
+> > initialization of the driver framework.
+> >
+> > As fw_devlink only considers platform devices,
+>
+> Correction. It only considers devices. As in, devices on all types of
+> busses are supported.
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index fdb8a0d127ad..734e2e614fd2 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -442,6 +442,7 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_crtc *crtc;
- 	unsigned int i;
-+	bool fence_cookie = dma_fence_begin_signalling();
- 
- 	/*
- 	 * Store RGB routing to DPAD0 and DPAD1, the hardware will be configured
-@@ -468,6 +469,7 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
- 	drm_atomic_helper_commit_modeset_enables(dev, old_state);
- 
- 	drm_atomic_helper_commit_hw_done(old_state);
-+	dma_fence_end_signalling(fence_cookie);
- 	drm_atomic_helper_wait_for_flip_done(dev, old_state);
- 
- 	drm_atomic_helper_cleanup_planes(dev, old_state);
+OK.
+
+> > it does not know that the
+> > System Controller is ready.  Hence probing of on-chip devices that are
+> > part of the SYSC PM domain fail:
+> >
+> >     probe deferral - supplier e6180000.system-controller not ready
+> >
+> > Fix this by setting the OF_POPULATED flag for the SYSC device node after
+> > successful initialization.  This will make of_link_to_phandle() ignore
+> > the SYSC device node as a dependency, and consumer devices will be
+> > probed again.
+>
+> It'd still be nice if you could (maybe in a later patch), at least
+> probe all the power domains that aren't really needed this early.
+> Using the driver core framework (when it's possible), gives you nice
+> things :)
+
+Which nice things are you thinking of? Making the driver modular?
+At least on R-Car H1, it needs to be built-in for SMP to work.
+
+> +Rob. I know he hates people using OF_POPULATED, but I think this case
+> is reasonable and want to make sure he's aware of this.
+>
+> Once you fix my commit nitpick, you can add:
+> Reviewed-by: Saravana Kannan <saravanak@google.com>
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.30.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
