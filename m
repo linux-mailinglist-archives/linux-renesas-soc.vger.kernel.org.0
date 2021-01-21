@@ -2,124 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 039702FE7C9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jan 2021 11:40:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7E2B2FE7F6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jan 2021 11:49:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729662AbhAUKju (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Jan 2021 05:39:50 -0500
-Received: from www.zeus03.de ([194.117.254.33]:57108 "EHLO mail.zeus03.de"
+        id S1728660AbhAUKsq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Jan 2021 05:48:46 -0500
+Received: from www.zeus03.de ([194.117.254.33]:59106 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729552AbhAUKjS (ORCPT
+        id S1729765AbhAUKr7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Jan 2021 05:39:18 -0500
+        Thu, 21 Jan 2021 05:47:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=5TEIJ+GdQVS5lY
-        bceNg2GF9bT8V+O8cmHFNyB9aGaeg=; b=cEwDytMxItiaa6pWF8xP7gw6yHy0XR
-        pjGoD9fjZ632Mlq7qblTwcLRyIF33Mssw2i7Q8naU77mnsHjQNw9fVu2nrXBzNtZ
-        OUESt2r7ZrlDESCuy4xxNHkE/OLOkZXPnKEwEanLVoRf1mo9+gir/5+8FlGsbO0P
-        g0Sy2ggyHdD7I=
-Received: (qmail 1805900 invoked from network); 21 Jan 2021 11:38:36 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jan 2021 11:38:36 +0100
-X-UD-Smtp-Session: l3s3148p1@YniGrGa58L4gAwDPXyX1ACWcscxtZ2TX
+        date:from:to:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=o70t88LDGMvmpgqdCk0T19YtNOSo
+        Vzw6kJEyC/1uDlA=; b=JsD7UF/b2Yntw4ZRaBta4Ds08ikOQVU/KIR5cAE77lq3
+        OKE4Nor7zt0wMewVRC88e2EEq1ecc4zqiIhz2o2ZT/IgpDJ1UVjBqxLcMqHN8ovi
+        bunvy1UtU5RZ676Po6zz4QCilCTk/ssUDyKPYwyQ6XaQPsm0GECQ4RGVK46h5m8=
+Received: (qmail 1809551 invoked from network); 21 Jan 2021 11:47:15 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jan 2021 11:47:15 +0100
+X-UD-Smtp-Session: l3s3148p1@SyNoy2a59L4gAwDPXyX1ACWcscxtZ2TX
+Date:   Thu, 21 Jan 2021 11:47:13 +0100
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
-Cc:     Takeshi Saito <takeshi.saito.xv@renesas.com>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: falcon: Enable MMC
-Date:   Thu, 21 Jan 2021 11:38:30 +0100
-Message-Id: <20210121103830.9575-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210121103830.9575-1-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH 0/2] v3u: add support for SDHI
+Message-ID: <20210121104713.GA1401@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org
 References: <20210121103830.9575-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="W/nzBZO5zC0uMSeA"
+Content-Disposition: inline
+In-Reply-To: <20210121103830.9575-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Takeshi Saito <takeshi.saito.xv@renesas.com>
 
-Enable MMC on the Falcon board.
+--W/nzBZO5zC0uMSeA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-[wsa: double checked, rebased, slightly improved, moved to falcon-cpu]
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-Changes since v1:
-* improved node names for regulators
-* moved entries to Falcon CPU dtsi
+On Thu, Jan 21, 2021 at 11:38:28AM +0100, Wolfram Sang wrote:
+> Here is the updated series to enable SDHI on V3U. Please check the
+> individual patches for updates.
 
- .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 41 +++++++++++++++++++
- 1 file changed, 41 insertions(+)
+Should be all "PATCH V2", of course. I am sorry that it slipped through.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-index 0059381443f6..c54d1e287a49 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-@@ -32,6 +32,24 @@ memory@700000000 {
- 		device_type = "memory";
- 		reg = <0x7 0x00000000 0x0 0x80000000>;
- 	};
-+
-+	reg_1p8v: regulator-1p8v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-1.8V";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
-+	reg_3p3v: regulator-3p3v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-3.3V";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
- };
- 
- &avb0 {
-@@ -189,6 +207,23 @@ &i2c6 {
- 	clock-frequency = <400000>;
- };
- 
-+&mmc0 {
-+	pinctrl-0 = <&mmc_pins>;
-+	pinctrl-1 = <&mmc_pins>;
-+	pinctrl-names = "default", "state_uhs";
-+
-+	vmmc-supply = <&reg_3p3v>;
-+	vqmmc-supply = <&reg_1p8v>;
-+	mmc-hs200-1_8v;
-+	mmc-hs400-1_8v;
-+	bus-width = <8>;
-+	no-sd;
-+	no-sdio;
-+	non-removable;
-+	full-pwr-cycle-in-suspend;
-+	status = "okay";
-+};
-+
- &pfc {
- 	avb0_pins: avb0 {
- 		mux {
-@@ -327,6 +362,12 @@ i2c6_pins: i2c6 {
- 		groups = "i2c6";
- 		function = "i2c6";
- 	};
-+
-+	mmc_pins: mmc {
-+		groups = "mmc_data8", "mmc_ctrl", "mmc_ds";
-+		function = "mmc";
-+		power-source = <1800>;
-+	};
- };
- 
- &scif0 {
--- 
-2.29.2
 
+--W/nzBZO5zC0uMSeA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAJW60ACgkQFA3kzBSg
+KbbF/A/7BODbXe006/xVopNQoZdz7iqz587yVpYmJl/PU8vNfWy2mcRsX/g+VJZ0
+EC9kbeZZgKui7KwwA7AzvaZs9qZNIVd+CJSRZQqT76NlFbh3rFCmDW+SAgvInt4X
+zOBq/idcSt4/gIVDtSfwr1jXoE7jv2AMixgWix0XdyLRBa7K/6iJDR6w57q1e1LK
+PITbliT0F9ydtFdWfLPfvKFOGC+r9iQJCzwaj9SP+BIA+YCnL9Ea8RVlvJCLj9Fc
+bQtBBI4nK1r/1yVn49uewCnTd7iNZ6XSUBUPXa5JonISiudRZ9d8hDWRQ7LGXtIS
+SK6DobcVmltxpAb6U33CZUb469I6/aBGTZNXIhCBVxun5vGcUIEyfUhsm7gk43yl
+dpZlS+Hue71Ynm9fm2aF6WXtYggqlrREqYHkJ3U3GU0xnZnP2GYMdyRhrnD8CEgM
+WHkE14f01z/Xa28s5P6zcpdpFf/DLfWhLOg2xYseOEo7ZBdwUKICrdgeRqSAI+Ss
+SttzdTBc9SDMHikwu7UlyLemp0N/Gup1SkZ+CpExlYzch5dbsM7NG4qxxKfiDvCx
+2Kpi+ms8qC/NZGE/g9+zQvvnAooPgDPHDAC8nJE95KCDWx/xnNWa1NQPLz8uhdVD
+lsuZAGD6ogBuHY0P33217xOOyEXUC6s26nVyx8Iid1yVRyv9gEI=
+=DUDu
+-----END PGP SIGNATURE-----
+
+--W/nzBZO5zC0uMSeA--
