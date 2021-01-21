@@ -2,59 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69BAB2FF0D0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jan 2021 17:47:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA452FF0BE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Jan 2021 17:45:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388049AbhAUQhp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Jan 2021 11:37:45 -0500
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:55701 "EHLO
+        id S1733291AbhAUQjd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Jan 2021 11:39:33 -0500
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:39791 "EHLO
         new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388013AbhAUQg7 (ORCPT
+        by vger.kernel.org with ESMTP id S2388120AbhAUQiS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Jan 2021 11:36:59 -0500
+        Thu, 21 Jan 2021 11:38:18 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id E4FA558052C;
-        Thu, 21 Jan 2021 11:35:51 -0500 (EST)
+        by mailnew.nyi.internal (Postfix) with ESMTP id 657A0580541;
+        Thu, 21 Jan 2021 11:35:59 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Thu, 21 Jan 2021 11:35:51 -0500
+  by compute6.internal (MEProxy); Thu, 21 Jan 2021 11:35:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm1; bh=ffgonM6W8dnD8
-        MurmiwQJ2wLASk+q1af94HKLc6q0Mc=; b=PR9Wlmo8U5yxs29sjuU8D90u+XhNI
-        wWlPiKkJQwHxRbMYtm06GzpEQk8SxWYN2onHjQLVFnkEgOWW6nS/d0nBoLqgl5rT
-        z7yJ4ROWyLgv9qh6HaLWU9VODcoKmp4SPDNYkb5mm7Kx72ak7Au34A2FdnYFJmuc
-        NXqjqpq6XL50eHrhGQr9KWx87KeRyIsGjL/tc+nXsUSxxufbPNLv3YLiJyNiT0hu
-        I5ywW7mUxtdV8/XIMv27tc/+j5Vpw25cI1CIE+onBNzlGLyXLcQc5dflKhjiit5u
-        vpIpmePntw2Sh6javzbJNPfzNtnFFR6l4IBXi3qKD7ahkqWdFCKTykCIw==
+        :mime-version:content-transfer-encoding; s=fm1; bh=gHewKGu1OEOPd
+        mVQlXfOWsnmU4VLA/X8FACVPP6hUtg=; b=QafbK7XxRIj5Etu/2Def2Wkh7K8x6
+        Whi2UqEmQo7D250VXKSXA7KDIrmMr0P9ITq2Gq8XMqmDbdyt5g9KhcKWKInIM0Ds
+        yl8cuh1x+U6uNcWFEXluWePOTHAojAoOCW2tztswoRDUTCBVHkp9EFtnr2QdFr3o
+        dmlbj2slwm38szOxbvPsVjYPxGa8+rDp1e+1wBnPadeRo3f0U20vmC7Z4rwOQX3F
+        k+Hsgwiho9mlDoFc/a/XWa83Cm4+aZDQr3nrxxp7aoinkJVizLm4SltWC4aWrXbM
+        iYUPtgDfK80BQuGuUHwBAcTRuXnsDTeDMpOhd431SvE/LCBgg9ZtAQ7Dw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=ffgonM6W8dnD8MurmiwQJ2wLASk+q1af94HKLc6q0Mc=; b=DpwIHteH
-        FyLcEQjQzBU8C83K+u9V8U7gQwuwIFW3ZZDwpNLALEkHzbID36pCDqOOvMVUEbC0
-        LLl56qTWyEgAgsxTPuTSyMwFCSAPwWBuv2fYYbAgOUkgDVOTaP13idugSdPh5TQY
-        PopwCfDuvnNEVZxarBIvZtF++T1NFRHY6dm+EHf9rU59UyD+8po9RjINpVey553x
-        vhf9f6G87tnYcurMPQTix/G3vtb6AN2wS8soEMERuUKlJ5yjcA9FFiWvdSWgTkfl
-        GFkUnN+i0D8odsdsY+3i//ce6ThtLmZLZF6XjD6fuklj5GKjVpnisLlXs4TLjtS/
-        swup0tncDwl4LQ==
-X-ME-Sender: <xms:Z60JYAoywElkm-i253u5byXRyEY4G7dv0gcXEEQC3zaWKiYehv98cw>
-    <xme:Z60JYGpm-Cg_EgL17kNHcBT1gkAzPxcfePJe8zW15DsPSwWw72xO8dsaCiBMRrLD_
-    i392Jzx38d-lSCNWkQ>
+        fm1; bh=gHewKGu1OEOPdmVQlXfOWsnmU4VLA/X8FACVPP6hUtg=; b=o4GcUGMp
+        MxUM3pGXkbLl5zDHmwl6Kp8LDsN1bVk1i/UBkBA0P0KXoOq0aMCuFpepo79tUQYh
+        WeX4jYYfJzswWodbNjW0S3TgRBM/L3LT4JeLVPBpFA3RbzeI1SHlXFbpXR3fbaHD
+        llJhyANu70vtvbFVFBvRFmMtv4C8ZiIvSblyqrlDNp3PTttvnGW+ZOxEO3ow4s57
+        qygGKEfo+SBMG7BH3EP9asnG3mSrn6Au32pHQ0Xv8lk//E/jfFJnkvJkWpgUVQbB
+        gIrTg/dSHNofmOU6+5241V0SPIfPt6uUkI/t9yT6qge92v1Squcsy5vH3I+J8t8N
+        4q4adRR3bbqXyA==
+X-ME-Sender: <xms:bq0JYMAEZG7kFEvn6q8tQfFiJzmr6bGALPCPwYHcgOJu8WnDXbD6MA>
+    <xme:bq0JYOih0AXCnLwiauT8SBkFd20GVM4WRiKWHmfpw_ZWsWihjezgxRvK-RBknaO7H
+    KGpiVABrByWw9O7n68>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggdelfecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
     ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
     gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
-    vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+    vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeegnecurf
     grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Z60JYFMv3-rs59exUzhqeAQQit5mCy8yYqqt9OwhvlGJjo4tPkgzog>
-    <xmx:Z60JYH4k82Q4HP1_cp7fO5AL0UjXRtba_7m-OV1siV1L7OygqUhm7Q>
-    <xmx:Z60JYP6Bu5K7Tdk5ORuHpThIUChi2EP7yZ-o03gS2AqRK0UO2J8dBg>
-    <xmx:Z60JYCLHiw_-qMjeB71bEvjcnE_uKxoF0-Y3n4XLYU_CQHI3g4e-Rg>
+X-ME-Proxy: <xmx:b60JYPm3i1TIn582BlynkySknLbAI0SFKSx30m7JB-mWFUp-3GFSpg>
+    <xmx:b60JYCx3NlOOcsEeWkzH0xi6wf7B5OGTlX-mWtc-4Vn43i2-lgfIcg>
+    <xmx:b60JYBQKFp7NdLFnUPSn_AGK19Opr9rvFhFGWDmE4i8L64vQlYZd7Q>
+    <xmx:b60JYEvLjKhezRsnVbOuc2-f1YPj1F8oOh0iFsbE3u6IWFwHrXRwYw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id D46B5108005C;
-        Thu, 21 Jan 2021 11:35:50 -0500 (EST)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 7525F108005F;
+        Thu, 21 Jan 2021 11:35:58 -0500 (EST)
 From:   Maxime Ripard <maxime@cerno.tech>
 To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
@@ -63,72 +63,30 @@ To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         David Airlie <airlied@linux.ie>
 Cc:     dri-devel@lists.freedesktop.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
         Daniel Vetter <daniel@ffwll.ch>,
-        "James (Qian) Wang" <james.qian.wang@arm.com>,
         Liviu Dudau <liviu.dudau@arm.com>,
-        Mihail Atanassov <mihail.atanassov@arm.com>,
         Brian Starkey <brian.starkey@arm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Dave Airlie <airlied@redhat.com>,
         Sam Ravnborg <sam@ravnborg.org>,
         Boris Brezillon <bbrezillon@kernel.org>,
         Nicolas Ferre <nicolas.ferre@microchip.com>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
         Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Inki Dae <inki.dae@samsung.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Alison Wang <alison.wang@nxp.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Paul Cercueil <paul@crapouillou.net>,
         Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
         Edmund Dea <edmund.j.dea@intel.com>,
         Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Marek Vasut <marex@denx.de>, Ben Skeggs <bskeggs@redhat.com>,
         Tomi Valkeinen <tomba@kernel.org>,
+        Dave Airlie <airlied@redhat.com>,
         Gerd Hoffmann <kraxel@redhat.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Vincent Abriou <vincent.abriou@st.com>,
-        Yannick Fertre <yannick.fertre@st.com>,
-        Philippe Cornu <philippe.cornu@st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Ripard <mripard@kernel.org>,
         Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
         Hans de Goede <hdegoede@redhat.com>,
-        Eric Anholt <eric@anholt.net>,
         Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
         Melissa Wen <melissa.srw@gmail.com>,
         Haneen Mohammed <hamohammed.sa@gmail.com>,
@@ -137,21 +95,15 @@ Cc:     dri-devel@lists.freedesktop.org,
         Zack Rusin <zackr@vmware.com>,
         Hyun Kwon <hyun.kwon@xilinx.com>,
         Michal Simek <michal.simek@xilinx.com>,
-        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Shawn Guo <shawnguo@kernel.org>, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-mips@vger.kernel.org,
         linux-mediatek@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
         virtualization@lists.linux-foundation.org,
         spice-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v2 04/11] drm/atomic: Pass the full state to planes atomic_check
-Date:   Thu, 21 Jan 2021 17:35:29 +0100
-Message-Id: <20210121163537.1466118-4-maxime@cerno.tech>
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v2 07/11] drm: Store new plane state in a variable for atomic_update and disable
+Date:   Thu, 21 Jan 2021 17:35:32 +0100
+Message-Id: <20210121163537.1466118-7-maxime@cerno.tech>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210121163537.1466118-1-maxime@cerno.tech>
 References: <20210121163537.1466118-1-maxime@cerno.tech>
@@ -161,99 +113,117 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The current atomic helpers have either their object state being passed as
-an argument or the full atomic state.
+In order to store the new plane state in a subsequent helper, let's move
+the plane->state dereferences into a variable.
 
-The former is the pattern that was done at first, before switching to the
-latter for new hooks or when it was needed.
-
-Let's convert all the remaining helpers to provide a consistent
-interface, starting with the planes atomic_check.
-
-The conversion was done using the coccinelle script below plus some
-manual changes for vmwgfx, built tested on all the drivers.
-
-@@
-identifier plane, plane_state;
-symbol state;
-@@
-
- struct drm_plane_helper_funcs {
- 	...
-	int (*atomic_check)(struct drm_plane *plane,
--			    struct drm_plane_state *plane_state);
-+			    struct drm_atomic_state *state);
-	...
-}
+This was done using the following coccinelle script, plus some hand
+changes for vmwgfx:
 
 @ plane_atomic_func @
 identifier helpers;
 identifier func;
 @@
 
-static const struct drm_plane_helper_funcs helpers = {
+(
+ static const struct drm_plane_helper_funcs helpers = {
+ 	...,
+ 	.atomic_disable = func,
 	...,
- 	.atomic_check = func,
+ };
+|
+ static const struct drm_plane_helper_funcs helpers = {
+ 	...,
+ 	.atomic_update = func,
 	...,
-};
+ };
+)
 
-@@
-struct drm_plane_helper_funcs *FUNCS;
-identifier f;
-identifier dev;
-identifier plane, plane_state, state;
-@@
-
- f(struct drm_device *dev, struct drm_atomic_state *state)
- {
- 	<+...
--	FUNCS->atomic_check(plane, plane_state)
-+	FUNCS->atomic_check(plane, state)
- 	...+>
- }
-
-@ ignores_new_state @
+@ has_new_state_old_state @
 identifier plane_atomic_func.func;
-identifier plane, new_plane_state;
+identifier plane;
+identifier new_state;
+symbol old_state;
 @@
 
- func(struct drm_plane *plane, struct drm_plane_state *new_plane_state)
+ func(struct drm_plane *plane, struct drm_plane_state *old_state)
  {
-	... when != new_plane_state
- }
-
-@ adds_new_state depends on plane_atomic_func && !ignores_new_state @
-identifier plane_atomic_func.func;
-identifier plane, new_plane_state;
-@@
-
- func(struct drm_plane *plane, struct drm_plane_state *new_plane_state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
  	...
+ 	struct drm_plane_state *new_state = plane->state;
+	...
  }
 
-@ depends on plane_atomic_func @
+@ depends on !has_new_state_old_state @
 identifier plane_atomic_func.func;
-identifier plane, new_plane_state;
+identifier plane;
+symbol old_state;
 @@
 
- func(struct drm_plane *plane,
--     struct drm_plane_state *new_plane_state
-+     struct drm_atomic_state *state
-     )
- { ... }
+ func(struct drm_plane *plane, struct drm_plane_state *old_state)
+ {
++	struct drm_plane_state *new_state = plane->state;
+ 	<+...
+-	plane->state
++	new_state
+	...+>
+ }
 
-@ include depends on adds_new_state @
+@ has_new_state_state @
+identifier plane_atomic_func.func;
+identifier plane;
+identifier new_state;
+symbol state;
 @@
 
- #include <drm/drm_atomic.h>
+ func(struct drm_plane *plane, struct drm_plane_state *state)
+ {
+ 	...
+ 	struct drm_plane_state *new_state = plane->state;
+	...
+ }
 
-@ no_include depends on !include && adds_new_state @
+@ depends on !has_new_state_state @
+identifier plane_atomic_func.func;
+identifier plane;
+symbol state;
 @@
 
-+ #include <drm/drm_atomic.h>
-  #include <drm/...>
+ func(struct drm_plane *plane, struct drm_plane_state *state)
+ {
++	struct drm_plane_state *new_plane_state = plane->state;
+ 	<+...
+-	plane->state
++	new_plane_state
+	...+>
+ }
+
+@ has_new_state_old_s @
+identifier plane_atomic_func.func;
+identifier plane;
+identifier new_state;
+symbol old_s;
+@@
+
+ func(struct drm_plane *plane, struct drm_plane_state *old_s)
+ {
+ 	...
+ 	struct drm_plane_state *new_state = plane->state;
+	...
+ }
+
+@ depends on !has_new_state_old_s @
+identifier plane_atomic_func.func;
+identifier plane;
+symbol old_s;
+@@
+
+ func(struct drm_plane *plane, struct drm_plane_state *old_s)
+ {
++	struct drm_plane_state *new_s = plane->state;
+ 	<+...
+-	plane->state
++	new_s
+	...+>
+ }
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
@@ -261,968 +231,847 @@ Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
 
 Changes from v1:
-  - Rewording and removal of a coccinelle rule suggested by Laurent
+  - Wrapping change suggested by Laurent in omapdrm
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 +++-
- drivers/gpu/drm/arm/display/komeda/komeda_plane.c | 4 +++-
- drivers/gpu/drm/arm/hdlcd_crtc.c                  | 4 +++-
- drivers/gpu/drm/arm/malidp_planes.c               | 4 +++-
- drivers/gpu/drm/armada/armada_plane.c             | 4 +++-
- drivers/gpu/drm/armada/armada_plane.h             | 2 +-
- drivers/gpu/drm/ast/ast_mode.c                    | 8 ++++++--
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   | 3 ++-
- drivers/gpu/drm/drm_atomic_helper.c               | 2 +-
- drivers/gpu/drm/drm_simple_kms_helper.c           | 4 +++-
- drivers/gpu/drm/exynos/exynos_drm_plane.c         | 4 +++-
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c       | 5 ++++-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c    | 4 +++-
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c   | 4 +++-
- drivers/gpu/drm/imx/dcss/dcss-plane.c             | 4 +++-
- drivers/gpu/drm/imx/ipuv3-plane.c                 | 4 +++-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c         | 4 +++-
- drivers/gpu/drm/ingenic/ingenic-ipu.c             | 4 +++-
- drivers/gpu/drm/kmb/kmb_plane.c                   | 4 +++-
- drivers/gpu/drm/mediatek/mtk_drm_plane.c          | 4 +++-
- drivers/gpu/drm/meson/meson_overlay.c             | 4 +++-
- drivers/gpu/drm/meson/meson_plane.c               | 4 +++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c         | 5 ++++-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c        | 2 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c        | 4 +++-
- drivers/gpu/drm/mxsfb/mxsfb_kms.c                 | 4 +++-
- drivers/gpu/drm/nouveau/dispnv50/wndw.c           | 5 ++++-
- drivers/gpu/drm/omapdrm/omap_plane.c              | 4 +++-
- drivers/gpu/drm/qxl/qxl_display.c                 | 4 +++-
- drivers/gpu/drm/rcar-du/rcar_du_plane.c           | 4 +++-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c             | 5 ++++-
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c       | 4 +++-
- drivers/gpu/drm/sti/sti_cursor.c                  | 4 +++-
- drivers/gpu/drm/sti/sti_gdp.c                     | 4 +++-
- drivers/gpu/drm/sti/sti_hqvdp.c                   | 4 +++-
- drivers/gpu/drm/stm/ltdc.c                        | 4 +++-
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c            | 4 +++-
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c            | 4 +++-
- drivers/gpu/drm/tegra/dc.c                        | 8 ++++++--
- drivers/gpu/drm/tegra/hub.c                       | 4 +++-
- drivers/gpu/drm/tidss/tidss_plane.c               | 4 +++-
- drivers/gpu/drm/tilcdc/tilcdc_plane.c             | 4 +++-
- drivers/gpu/drm/vboxvideo/vbox_mode.c             | 8 ++++++--
- drivers/gpu/drm/vc4/vc4_plane.c                   | 4 +++-
- drivers/gpu/drm/virtio/virtgpu_plane.c            | 4 +++-
- drivers/gpu/drm/vkms/vkms_plane.c                 | 4 +++-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c               | 8 ++++++--
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h               | 4 ++--
- drivers/gpu/drm/xlnx/zynqmp_disp.c                | 4 +++-
- drivers/gpu/drm/zte/zx_plane.c                    | 8 ++++++--
- include/drm/drm_modeset_helper_vtables.h          | 7 +++----
- 51 files changed, 164 insertions(+), 60 deletions(-)
+ drivers/gpu/drm/arc/arcpgu_crtc.c             |  7 ++--
+ drivers/gpu/drm/arm/hdlcd_crtc.c              |  7 ++--
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   |  5 ++-
+ drivers/gpu/drm/kmb/kmb_plane.c               | 19 +++++----
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      | 26 ++++++------
+ drivers/gpu/drm/omapdrm/omap_plane.c          |  6 +--
+ drivers/gpu/drm/qxl/qxl_display.c             | 20 +++++----
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c       |  5 ++-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  3 +-
+ drivers/gpu/drm/sun4i/sun4i_layer.c           |  3 +-
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |  5 ++-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  5 ++-
+ drivers/gpu/drm/tegra/dc.c                    | 42 ++++++++++---------
+ drivers/gpu/drm/tegra/hub.c                   | 25 +++++------
+ drivers/gpu/drm/vboxvideo/vbox_mode.c         | 22 +++++-----
+ drivers/gpu/drm/vkms/vkms_plane.c             | 11 ++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 19 +++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           |  5 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |  7 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          |  9 ++--
+ drivers/gpu/drm/xlnx/zynqmp_disp.c            |  7 ++--
+ drivers/gpu/drm/zte/zx_plane.c                | 19 +++++----
+ 22 files changed, 151 insertions(+), 126 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index dcf970454121..dc340adba098 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6433,8 +6433,10 @@ static int dm_plane_helper_check_state(struct drm_plane_state *state,
+diff --git a/drivers/gpu/drm/arc/arcpgu_crtc.c b/drivers/gpu/drm/arc/arcpgu_crtc.c
+index 895cdd991af6..2cea17a96d5c 100644
+--- a/drivers/gpu/drm/arc/arcpgu_crtc.c
++++ b/drivers/gpu/drm/arc/arcpgu_crtc.c
+@@ -147,14 +147,15 @@ static const struct drm_crtc_helper_funcs arc_pgu_crtc_helper_funcs = {
+ static void arc_pgu_plane_atomic_update(struct drm_plane *plane,
+ 					struct drm_plane_state *state)
+ {
++	struct drm_plane_state *new_plane_state = plane->state;
+ 	struct arcpgu_drm_private *arcpgu;
+ 	struct drm_gem_cma_object *gem;
+ 
+-	if (!plane->state->crtc || !plane->state->fb)
++	if (!new_plane_state->crtc || !new_plane_state->fb)
+ 		return;
+ 
+-	arcpgu = crtc_to_arcpgu_priv(plane->state->crtc);
+-	gem = drm_fb_cma_get_gem_obj(plane->state->fb, 0);
++	arcpgu = crtc_to_arcpgu_priv(new_plane_state->crtc);
++	gem = drm_fb_cma_get_gem_obj(new_plane_state->fb, 0);
+ 	arc_pgu_write(arcpgu, ARCPGU_REG_BUF0_ADDR, gem->paddr);
  }
  
- static int dm_plane_atomic_check(struct drm_plane *plane,
--				 struct drm_plane_state *new_plane_state)
-+				 struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct amdgpu_device *adev = drm_to_adev(plane->dev);
- 	struct dc *dc = adev->dm.dc;
- 	struct dm_plane_state *dm_plane_state;
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-index ee8b7023ad7a..2b67b6b9a6b5 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-@@ -71,8 +71,10 @@ komeda_plane_init_data_flow(struct drm_plane_state *st,
-  */
- static int
- komeda_plane_atomic_check(struct drm_plane *plane,
--			  struct drm_plane_state *new_plane_state)
-+			  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct komeda_plane *kplane = to_kplane(plane);
- 	struct komeda_plane_state *kplane_st = to_kplane_st(new_plane_state);
- 	struct komeda_layer *layer = kplane->layer;
 diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
-index d5a79a4aa996..9da9d0581ce9 100644
+index 028ec39c8484..3f050a52e07a 100644
 --- a/drivers/gpu/drm/arm/hdlcd_crtc.c
 +++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
-@@ -229,8 +229,10 @@ static const struct drm_crtc_helper_funcs hdlcd_crtc_helper_funcs = {
- };
- 
- static int hdlcd_plane_atomic_check(struct drm_plane *plane,
--				    struct drm_plane_state *new_plane_state)
-+				    struct drm_atomic_state *state)
+@@ -262,7 +262,8 @@ static int hdlcd_plane_atomic_check(struct drm_plane *plane,
+ static void hdlcd_plane_atomic_update(struct drm_plane *plane,
+ 				      struct drm_plane_state *state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	int i;
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *crtc_state;
-diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-index e64367f55c70..c94c4a96db68 100644
---- a/drivers/gpu/drm/arm/malidp_planes.c
-+++ b/drivers/gpu/drm/arm/malidp_planes.c
-@@ -502,8 +502,10 @@ static void malidp_de_prefetch_settings(struct malidp_plane *mp,
- }
+-	struct drm_framebuffer *fb = plane->state->fb;
++	struct drm_plane_state *new_plane_state = plane->state;
++	struct drm_framebuffer *fb = new_plane_state->fb;
+ 	struct hdlcd_drm_private *hdlcd;
+ 	u32 dest_h;
+ 	dma_addr_t scanout_start;
+@@ -270,8 +271,8 @@ static void hdlcd_plane_atomic_update(struct drm_plane *plane,
+ 	if (!fb)
+ 		return;
  
- static int malidp_de_plane_check(struct drm_plane *plane,
--				 struct drm_plane_state *new_plane_state)
-+				 struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct malidp_plane *mp = to_malidp_plane(plane);
- 	struct malidp_plane_state *ms = to_malidp_plane_state(new_plane_state);
- 	bool rotated = new_plane_state->rotation & MALIDP_ROTATED_MASK;
-diff --git a/drivers/gpu/drm/armada/armada_plane.c b/drivers/gpu/drm/armada/armada_plane.c
-index 27f83b07c8eb..b1266c588102 100644
---- a/drivers/gpu/drm/armada/armada_plane.c
-+++ b/drivers/gpu/drm/armada/armada_plane.c
-@@ -106,8 +106,10 @@ void armada_drm_plane_cleanup_fb(struct drm_plane *plane,
- }
+-	dest_h = drm_rect_height(&plane->state->dst);
+-	scanout_start = drm_fb_cma_get_gem_addr(fb, plane->state, 0);
++	dest_h = drm_rect_height(&new_plane_state->dst);
++	scanout_start = drm_fb_cma_get_gem_addr(fb, new_plane_state, 0);
  
- int armada_drm_plane_atomic_check(struct drm_plane *plane,
--	struct drm_plane_state *new_plane_state)
-+	struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct armada_plane_state *st = to_armada_plane_state(new_plane_state);
- 	struct drm_crtc *crtc = new_plane_state->crtc;
- 	struct drm_crtc_state *crtc_state;
-diff --git a/drivers/gpu/drm/armada/armada_plane.h b/drivers/gpu/drm/armada/armada_plane.h
-index 2707ec781941..51dab8d8da22 100644
---- a/drivers/gpu/drm/armada/armada_plane.h
-+++ b/drivers/gpu/drm/armada/armada_plane.h
-@@ -26,7 +26,7 @@ int armada_drm_plane_prepare_fb(struct drm_plane *plane,
- void armada_drm_plane_cleanup_fb(struct drm_plane *plane,
- 	struct drm_plane_state *old_state);
- int armada_drm_plane_atomic_check(struct drm_plane *plane,
--	struct drm_plane_state *state);
-+	struct drm_atomic_state *state);
- void armada_plane_reset(struct drm_plane *plane);
- struct drm_plane_state *armada_plane_duplicate_state(struct drm_plane *plane);
- void armada_plane_destroy_state(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 76f3dc62f002..3e030bdd1caf 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -535,8 +535,10 @@ static const uint32_t ast_primary_plane_formats[] = {
- };
- 
- static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
--						 struct drm_plane_state *new_plane_state)
-+						 struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_crtc_state *crtc_state;
- 	struct ast_crtc_state *ast_crtc_state;
- 	int ret;
-@@ -652,8 +654,10 @@ ast_cursor_plane_helper_prepare_fb(struct drm_plane *plane,
- }
- 
- static int ast_cursor_plane_helper_atomic_check(struct drm_plane *plane,
--						struct drm_plane_state *new_plane_state)
-+						struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_framebuffer *fb = new_plane_state->fb;
- 	struct drm_crtc_state *crtc_state;
- 	int ret;
+ 	hdlcd = plane->dev->dev_private;
+ 	hdlcd_write(hdlcd, HDLCD_REG_FB_LINE_LENGTH, fb->pitches[0]);
 diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-index c62e930bccad..445105e75a97 100644
+index a32d45bcc386..cff52098e087 100644
 --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
 +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-@@ -593,8 +593,9 @@ atmel_hlcdc_plane_update_disc_area(struct atmel_hlcdc_plane *plane,
- }
- 
- static int atmel_hlcdc_plane_atomic_check(struct drm_plane *p,
--					  struct drm_plane_state *s)
-+					  struct drm_atomic_state *state)
+@@ -733,12 +733,13 @@ static void atmel_hlcdc_plane_atomic_disable(struct drm_plane *p,
+ static void atmel_hlcdc_plane_atomic_update(struct drm_plane *p,
+ 					    struct drm_plane_state *old_s)
  {
-+	struct drm_plane_state *s = drm_atomic_get_new_plane_state(state, p);
++	struct drm_plane_state *new_s = p->state;
  	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
  	struct atmel_hlcdc_plane_state *hstate =
- 				drm_plane_state_to_atmel_hlcdc_plane_state(s);
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index f9488fd25b1d..037cf3387a11 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -902,7 +902,7 @@ drm_atomic_helper_check_planes(struct drm_device *dev,
- 		if (!funcs || !funcs->atomic_check)
- 			continue;
+-			drm_plane_state_to_atmel_hlcdc_plane_state(p->state);
++			drm_plane_state_to_atmel_hlcdc_plane_state(new_s);
+ 	u32 sr;
  
--		ret = funcs->atomic_check(plane, new_plane_state);
-+		ret = funcs->atomic_check(plane, state);
- 		if (ret) {
- 			DRM_DEBUG_ATOMIC("[PLANE:%d:%s] atomic driver check failed\n",
- 					 plane->base.id, plane->name);
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index 6ce8f5cd1eb5..8ab0b070c1c9 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -177,8 +177,10 @@ static const struct drm_crtc_funcs drm_simple_kms_crtc_funcs = {
- };
+-	if (!p->state->crtc || !p->state->fb)
++	if (!new_s->crtc || !new_s->fb)
+ 		return;
  
- static int drm_simple_kms_plane_atomic_check(struct drm_plane *plane,
--					struct drm_plane_state *plane_state)
-+					struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state,
-+									     plane);
- 	struct drm_simple_display_pipe *pipe;
- 	struct drm_crtc_state *crtc_state;
- 	int ret;
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_plane.c b/drivers/gpu/drm/exynos/exynos_drm_plane.c
-index 009a62978fbc..2c4ceb768a08 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_plane.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_plane.c
-@@ -228,8 +228,10 @@ exynos_drm_plane_check_size(const struct exynos_drm_plane_config *config,
- }
- 
- static int exynos_plane_atomic_check(struct drm_plane *plane,
--				     struct drm_plane_state *new_plane_state)
-+				     struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct exynos_drm_plane *exynos_plane = to_exynos_plane(plane);
- 	struct exynos_drm_plane_state *exynos_state =
- 						to_exynos_plane_state(new_plane_state);
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c
-index fc3ec6b4c732..7d2aa2cbcff6 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/regmap.h>
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_cma_helper.h>
-@@ -33,8 +34,10 @@ static int fsl_dcu_drm_plane_index(struct drm_plane *plane)
- }
- 
- static int fsl_dcu_drm_plane_atomic_check(struct drm_plane *plane,
--					  struct drm_plane_state *new_plane_state)
-+					  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_framebuffer *fb = new_plane_state->fb;
- 
- 	if (!new_plane_state->fb || !new_plane_state->crtc)
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-index d276f37d9d80..ddcf121af542 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-@@ -53,8 +53,10 @@ static const struct hibmc_dislay_pll_config hibmc_pll_table[] = {
- };
- 
- static int hibmc_plane_atomic_check(struct drm_plane *plane,
--				    struct drm_plane_state *new_plane_state)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_framebuffer *fb = new_plane_state->fb;
- 	struct drm_crtc *crtc = new_plane_state->crtc;
- 	struct drm_crtc_state *crtc_state;
-diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-index c8f72098a73f..04c75ef716c1 100644
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-@@ -758,8 +758,10 @@ static void ade_disable_channel(struct kirin_plane *kplane)
- }
- 
- static int ade_plane_atomic_check(struct drm_plane *plane,
--				  struct drm_plane_state *new_plane_state)
-+				  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_framebuffer *fb = new_plane_state->fb;
- 	struct drm_crtc *crtc = new_plane_state->crtc;
- 	struct drm_crtc_state *crtc_state;
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-index c76fce2e8cf6..0e68d295bd60 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-@@ -137,8 +137,10 @@ static bool dcss_plane_is_source_size_allowed(u16 src_w, u16 src_h, u32 pix_fmt)
- }
- 
- static int dcss_plane_atomic_check(struct drm_plane *plane,
--				   struct drm_plane_state *new_plane_state)
-+				   struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct dcss_plane *dcss_plane = to_dcss_plane(plane);
- 	struct dcss_dev *dcss = plane->dev->dev_private;
- 	struct drm_framebuffer *fb = new_plane_state->fb;
-diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-index 1873a155bb26..28571091ff1c 100644
---- a/drivers/gpu/drm/imx/ipuv3-plane.c
-+++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-@@ -337,8 +337,10 @@ static const struct drm_plane_funcs ipu_plane_funcs = {
- };
- 
- static int ipu_plane_atomic_check(struct drm_plane *plane,
--				  struct drm_plane_state *new_state)
-+				  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-+									   plane);
- 	struct drm_plane_state *old_state = plane->state;
- 	struct drm_crtc_state *crtc_state;
- 	struct device *dev = plane->dev->dev;
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index f589923b4a5d..8232104e598f 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -359,8 +359,10 @@ static void ingenic_drm_crtc_atomic_flush(struct drm_crtc *crtc,
- }
- 
- static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
--					  struct drm_plane_state *new_plane_state)
-+					  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct ingenic_drm *priv = drm_device_get_priv(plane->dev);
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_crtc *crtc = new_plane_state->crtc ?: plane->state->crtc;
-diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index 623f42d44b07..7394b0af1259 100644
---- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -514,8 +514,10 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
--					  struct drm_plane_state *new_plane_state)
-+					  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	unsigned int num_w, denom_w, num_h, denom_h, xres, yres, max_w, max_h;
- 	struct ingenic_ipu *ipu = plane_to_ingenic_ipu(plane);
- 	struct drm_crtc *crtc = new_plane_state->crtc ?: plane->state->crtc;
+ 	if (!hstate->base.visible) {
 diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index 51ceaae9e7e8..909045b67b28 100644
+index 9a8cf2991fb4..05e1a7a2c075 100644
 --- a/drivers/gpu/drm/kmb/kmb_plane.c
 +++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -77,8 +77,10 @@ static unsigned int check_pixel_format(struct drm_plane *plane, u32 format)
- }
- 
- static int kmb_plane_atomic_check(struct drm_plane *plane,
--				  struct drm_plane_state *new_plane_state)
-+				  struct drm_atomic_state *state)
+@@ -280,6 +280,7 @@ static void config_csc(struct kmb_drm_private *kmb, int plane_id)
+ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 				    struct drm_plane_state *state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
++	struct drm_plane_state *new_plane_state = plane->state;
  	struct drm_framebuffer *fb;
- 	int ret;
- 	struct drm_crtc_state *crtc_state;
+ 	struct kmb_drm_private *kmb;
+ 	unsigned int width;
+@@ -293,10 +294,10 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 	int num_planes;
+ 	static dma_addr_t addr[MAX_SUB_PLANES];
+ 
+-	if (!plane || !plane->state || !state)
++	if (!plane || !new_plane_state || !state)
+ 		return;
+ 
+-	fb = plane->state->fb;
++	fb = new_plane_state->fb;
+ 	if (!fb)
+ 		return;
+ 	num_planes = fb->format->num_planes;
+@@ -313,10 +314,10 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 	}
+ 	spin_unlock_irq(&kmb->irq_lock);
+ 
+-	src_w = (plane->state->src_w >> 16);
+-	src_h = plane->state->src_h >> 16;
+-	crtc_x = plane->state->crtc_x;
+-	crtc_y = plane->state->crtc_y;
++	src_w = (new_plane_state->src_w >> 16);
++	src_h = new_plane_state->src_h >> 16;
++	crtc_x = new_plane_state->crtc_x;
++	crtc_y = new_plane_state->crtc_y;
+ 
+ 	drm_dbg(&kmb->drm,
+ 		"src_w=%d src_h=%d, fb->format->format=0x%x fb->flags=0x%x\n",
+@@ -333,7 +334,7 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 	kmb_write_lcd(kmb, LCD_LAYERn_DMA_LINE_WIDTH(plane_id),
+ 		      (width * fb->format->cpp[0]));
+ 
+-	addr[Y_PLANE] = drm_fb_cma_get_gem_addr(fb, plane->state, 0);
++	addr[Y_PLANE] = drm_fb_cma_get_gem_addr(fb, new_plane_state, 0);
+ 	kmb_write_lcd(kmb, LCD_LAYERn_DMA_START_ADDR(plane_id),
+ 		      addr[Y_PLANE] + fb->offsets[0]);
+ 	val = get_pixel_format(fb->format->format);
+@@ -345,7 +346,7 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 		kmb_write_lcd(kmb, LCD_LAYERn_DMA_CB_LINE_WIDTH(plane_id),
+ 			      (width * fb->format->cpp[0]));
+ 
+-		addr[U_PLANE] = drm_fb_cma_get_gem_addr(fb, plane->state,
++		addr[U_PLANE] = drm_fb_cma_get_gem_addr(fb, new_plane_state,
+ 							U_PLANE);
+ 		/* check if Cb/Cr is swapped*/
+ 		if (num_planes == 3 && (val & LCD_LAYER_CRCB_ORDER))
+@@ -367,7 +368,7 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 				      ((width) * fb->format->cpp[0]));
+ 
+ 			addr[V_PLANE] = drm_fb_cma_get_gem_addr(fb,
+-								plane->state,
++								new_plane_state,
+ 								V_PLANE);
+ 
+ 			/* check if Cb/Cr is swapped*/
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index cdd2f8cfb4ab..31f1cc2085c7 100644
+index 37489a086ca8..cd143a34bd60 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -141,8 +141,10 @@ static const struct drm_plane_funcs mtk_plane_funcs = {
- };
- 
- static int mtk_plane_atomic_check(struct drm_plane *plane,
--				  struct drm_plane_state *new_plane_state)
-+				  struct drm_atomic_state *state)
+@@ -175,7 +175,8 @@ static int mtk_plane_atomic_check(struct drm_plane *plane,
+ static void mtk_plane_atomic_disable(struct drm_plane *plane,
+ 				     struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_framebuffer *fb = new_plane_state->fb;
- 	struct drm_crtc_state *crtc_state;
- 	int ret;
-diff --git a/drivers/gpu/drm/meson/meson_overlay.c b/drivers/gpu/drm/meson/meson_overlay.c
-index a419a8c514e1..629ca303af25 100644
---- a/drivers/gpu/drm/meson/meson_overlay.c
-+++ b/drivers/gpu/drm/meson/meson_overlay.c
-@@ -165,8 +165,10 @@ struct meson_overlay {
- #define FRAC_16_16(mult, div)    (((mult) << 16) / (div))
+-	struct mtk_plane_state *state = to_mtk_plane_state(plane->state);
++	struct drm_plane_state *new_state = plane->state;
++	struct mtk_plane_state *state = to_mtk_plane_state(new_state);
  
- static int meson_overlay_atomic_check(struct drm_plane *plane,
--				      struct drm_plane_state *new_plane_state)
-+				      struct drm_atomic_state *state)
+ 	state->pending.enable = false;
+ 	wmb(); /* Make sure the above parameter is set before update */
+@@ -185,9 +186,10 @@ static void mtk_plane_atomic_disable(struct drm_plane *plane,
+ static void mtk_plane_atomic_update(struct drm_plane *plane,
+ 				    struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_crtc_state *crtc_state;
+-	struct mtk_plane_state *state = to_mtk_plane_state(plane->state);
+-	struct drm_crtc *crtc = plane->state->crtc;
+-	struct drm_framebuffer *fb = plane->state->fb;
++	struct drm_plane_state *new_state = plane->state;
++	struct mtk_plane_state *state = to_mtk_plane_state(new_state);
++	struct drm_crtc *crtc = new_state->crtc;
++	struct drm_framebuffer *fb = new_state->fb;
+ 	struct drm_gem_object *gem;
+ 	struct mtk_drm_gem_obj *mtk_gem;
+ 	unsigned int pitch, format;
+@@ -196,7 +198,7 @@ static void mtk_plane_atomic_update(struct drm_plane *plane,
+ 	if (!crtc || WARN_ON(!fb))
+ 		return;
  
- 	if (!new_plane_state->crtc)
-diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
-index 2c1256caf48a..f8355cb2a2e1 100644
---- a/drivers/gpu/drm/meson/meson_plane.c
-+++ b/drivers/gpu/drm/meson/meson_plane.c
-@@ -71,8 +71,10 @@ struct meson_plane {
- #define FRAC_16_16(mult, div)    (((mult) << 16) / (div))
+-	if (!plane->state->visible) {
++	if (!new_state->visible) {
+ 		mtk_plane_atomic_disable(plane, old_state);
+ 		return;
+ 	}
+@@ -207,18 +209,18 @@ static void mtk_plane_atomic_update(struct drm_plane *plane,
+ 	pitch = fb->pitches[0];
+ 	format = fb->format->format;
  
- static int meson_plane_atomic_check(struct drm_plane *plane,
--				    struct drm_plane_state *new_plane_state)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_crtc_state *crtc_state;
+-	addr += (plane->state->src.x1 >> 16) * fb->format->cpp[0];
+-	addr += (plane->state->src.y1 >> 16) * pitch;
++	addr += (new_state->src.x1 >> 16) * fb->format->cpp[0];
++	addr += (new_state->src.y1 >> 16) * pitch;
  
- 	if (!new_plane_state->crtc)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 9bce72627ff0..9945d11bb6ed 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -10,6 +10,7 @@
- #include <linux/debugfs.h>
- #include <linux/dma-buf.h>
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_atomic_uapi.h>
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_file.h>
-@@ -950,8 +951,10 @@ static bool dpu_plane_validate_src(struct drm_rect *src,
+ 	state->pending.enable = true;
+ 	state->pending.pitch = pitch;
+ 	state->pending.format = format;
+ 	state->pending.addr = addr;
+-	state->pending.x = plane->state->dst.x1;
+-	state->pending.y = plane->state->dst.y1;
+-	state->pending.width = drm_rect_width(&plane->state->dst);
+-	state->pending.height = drm_rect_height(&plane->state->dst);
+-	state->pending.rotation = plane->state->rotation;
++	state->pending.x = new_state->dst.x1;
++	state->pending.y = new_state->dst.y1;
++	state->pending.width = drm_rect_width(&new_state->dst);
++	state->pending.height = drm_rect_height(&new_state->dst);
++	state->pending.rotation = new_state->rotation;
+ 	wmb(); /* Make sure the above parameters are set before update */
+ 	state->pending.dirty = true;
  }
- 
- static int dpu_plane_atomic_check(struct drm_plane *plane,
--				  struct drm_plane_state *new_plane_state)
-+				  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	int ret = 0, min_scale;
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
- 	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-index da3cc1d8c331..f95b14ebfa8a 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-@@ -106,7 +106,7 @@ static void mdp4_plane_cleanup_fb(struct drm_plane *plane,
- 
- 
- static int mdp4_plane_atomic_check(struct drm_plane *plane,
--		struct drm_plane_state *state)
-+		struct drm_atomic_state *state)
- {
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-index f5434a5254e0..45f7780da901 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-@@ -404,8 +404,10 @@ static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
- }
- 
- static int mdp5_plane_atomic_check(struct drm_plane *plane,
--				   struct drm_plane_state *new_plane_state)
-+				   struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *crtc_state;
- 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index 3e1bb0aefb87..85b547dcf86d 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -402,8 +402,10 @@ static const struct drm_encoder_funcs mxsfb_encoder_funcs = {
-  */
- 
- static int mxsfb_plane_atomic_check(struct drm_plane *plane,
--				    struct drm_plane_state *plane_state)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state,
-+									     plane);
- 	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
- 	struct drm_crtc_state *crtc_state;
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-index f83bfc0794ab..1382ccdfe7e3 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-@@ -30,6 +30,7 @@
- #include <nvhw/class/cl507e.h>
- #include <nvhw/class/clc37e.h>
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_fourcc.h>
- 
-@@ -435,8 +436,10 @@ nv50_wndw_atomic_check_lut(struct nv50_wndw *wndw,
- 
- static int
- nv50_wndw_atomic_check(struct drm_plane *plane,
--		       struct drm_plane_state *new_plane_state)
-+		       struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct nouveau_drm *drm = nouveau_drm(plane->dev);
- 	struct nv50_wndw *wndw = nv50_wndw(plane);
- 	struct nv50_wndw_atom *armw = nv50_wndw_atom(wndw->plane.state);
 diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-index 53ad0744e048..6bd384c79324 100644
+index 0df1d35504ad..b08880915d5e 100644
 --- a/drivers/gpu/drm/omapdrm/omap_plane.c
 +++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-@@ -99,8 +99,10 @@ static void omap_plane_atomic_disable(struct drm_plane *plane,
- }
- 
- static int omap_plane_atomic_check(struct drm_plane *plane,
--				   struct drm_plane_state *new_plane_state)
-+				   struct drm_atomic_state *state)
+@@ -88,12 +88,12 @@ static void omap_plane_atomic_update(struct drm_plane *plane,
+ static void omap_plane_atomic_disable(struct drm_plane *plane,
+ 				      struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_crtc_state *crtc_state;
++	struct drm_plane_state *new_state = plane->state;
+ 	struct omap_drm_private *priv = plane->dev->dev_private;
+ 	struct omap_plane *omap_plane = to_omap_plane(plane);
  
- 	if (!new_plane_state->fb)
+-	plane->state->rotation = DRM_MODE_ROTATE_0;
+-	plane->state->zpos = plane->type == DRM_PLANE_TYPE_PRIMARY
+-			   ? 0 : omap_plane->id;
++	new_state->rotation = DRM_MODE_ROTATE_0;
++	new_state->zpos = plane->type == DRM_PLANE_TYPE_PRIMARY ? 0 : omap_plane->id;
+ 
+ 	dispc_ovl_enable(priv->dispc, omap_plane->id, false);
+ }
 diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index 96769047bd8c..2985b3634ea2 100644
+index 2985b3634ea2..66b704f7c10a 100644
 --- a/drivers/gpu/drm/qxl/qxl_display.c
 +++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -463,8 +463,10 @@ static const struct drm_crtc_helper_funcs qxl_crtc_helper_funcs = {
- };
- 
- static int qxl_primary_atomic_check(struct drm_plane *plane,
--				    struct drm_plane_state *new_plane_state)
-+				    struct drm_atomic_state *state)
+@@ -528,14 +528,15 @@ static int qxl_primary_apply_cursor(struct drm_plane *plane)
+ static void qxl_primary_atomic_update(struct drm_plane *plane,
+ 				      struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
++	struct drm_plane_state *new_state = plane->state;
  	struct qxl_device *qdev = to_qxl(plane->dev);
- 	struct qxl_bo *bo;
+-	struct qxl_bo *bo = gem_to_qxl_bo(plane->state->fb->obj[0]);
++	struct qxl_bo *bo = gem_to_qxl_bo(new_state->fb->obj[0]);
+ 	struct qxl_bo *primary;
+ 	struct drm_clip_rect norect = {
+ 	    .x1 = 0,
+ 	    .y1 = 0,
+-	    .x2 = plane->state->fb->width,
+-	    .y2 = plane->state->fb->height
++	    .x2 = new_state->fb->width,
++	    .y2 = new_state->fb->height
+ 	};
+ 	uint32_t dumb_shadow_offset = 0;
  
+@@ -550,9 +551,9 @@ static void qxl_primary_atomic_update(struct drm_plane *plane,
+ 
+ 	if (bo->is_dumb)
+ 		dumb_shadow_offset =
+-			qdev->dumb_heads[plane->state->crtc->index].x;
++			qdev->dumb_heads[new_state->crtc->index].x;
+ 
+-	qxl_draw_dirty_fb(qdev, plane->state->fb, bo, 0, 0, &norect, 1, 1,
++	qxl_draw_dirty_fb(qdev, new_state->fb, bo, 0, 0, &norect, 1, 1,
+ 			  dumb_shadow_offset);
+ }
+ 
+@@ -574,10 +575,11 @@ static void qxl_primary_atomic_disable(struct drm_plane *plane,
+ static void qxl_cursor_atomic_update(struct drm_plane *plane,
+ 				     struct drm_plane_state *old_state)
+ {
++	struct drm_plane_state *new_state = plane->state;
+ 	struct drm_device *dev = plane->dev;
+ 	struct qxl_device *qdev = to_qxl(dev);
+-	struct drm_framebuffer *fb = plane->state->fb;
+-	struct qxl_crtc *qcrtc = to_qxl_crtc(plane->state->crtc);
++	struct drm_framebuffer *fb = new_state->fb;
++	struct qxl_crtc *qcrtc = to_qxl_crtc(new_state->crtc);
+ 	struct qxl_release *release;
+ 	struct qxl_cursor_cmd *cmd;
+ 	struct qxl_cursor *cursor;
+@@ -660,8 +662,8 @@ static void qxl_cursor_atomic_update(struct drm_plane *plane,
+ 		cmd->type = QXL_CURSOR_MOVE;
+ 	}
+ 
+-	cmd->u.position.x = plane->state->crtc_x + fb->hot_x;
+-	cmd->u.position.y = plane->state->crtc_y + fb->hot_y;
++	cmd->u.position.x = new_state->crtc_x + fb->hot_x;
++	cmd->u.position.y = new_state->crtc_y + fb->hot_y;
+ 
+ 	qxl_release_unmap(qdev, release, &cmd->release_info);
+ 	qxl_release_fence_buffer_objects(release);
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index b887ab8fc577..7afe7442214b 100644
+index 7afe7442214b..639db6e3fbfb 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -607,8 +607,10 @@ int __rcar_du_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static int rcar_du_plane_atomic_check(struct drm_plane *plane,
--				      struct drm_plane_state *new_plane_state)
-+				      struct drm_atomic_state *state)
+@@ -620,11 +620,12 @@ static int rcar_du_plane_atomic_check(struct drm_plane *plane,
+ static void rcar_du_plane_atomic_update(struct drm_plane *plane,
+ 					struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct rcar_du_plane_state *rstate = to_rcar_plane_state(new_plane_state);
++	struct drm_plane_state *new_state = plane->state;
+ 	struct rcar_du_plane *rplane = to_rcar_plane(plane);
+ 	struct rcar_du_plane_state *old_rstate;
+ 	struct rcar_du_plane_state *new_rstate;
  
- 	return __rcar_du_plane_atomic_check(plane, new_plane_state,
+-	if (!plane->state->visible)
++	if (!new_state->visible)
+ 		return;
+ 
+ 	rcar_du_plane_setup(rplane);
+@@ -638,7 +639,7 @@ static void rcar_du_plane_atomic_update(struct drm_plane *plane,
+ 	 * bit. We thus need to restart the group if the source changes.
+ 	 */
+ 	old_rstate = to_rcar_plane_state(old_state);
+-	new_rstate = to_rcar_plane_state(plane->state);
++	new_rstate = to_rcar_plane_state(new_state);
+ 
+ 	if ((old_rstate->source == RCAR_DU_PLANE_MEMORY) !=
+ 	    (new_rstate->source == RCAR_DU_PLANE_MEMORY))
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index f6cc1a76708a..ab82fda22b70 100644
+index ab82fda22b70..659f6e3072ab 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -7,6 +7,7 @@
-  * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
-  */
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_cma_helper.h>
-@@ -265,8 +266,10 @@ static void rcar_du_vsp_plane_cleanup_fb(struct drm_plane *plane,
- }
- 
- static int rcar_du_vsp_plane_atomic_check(struct drm_plane *plane,
--					  struct drm_plane_state *new_plane_state)
-+					  struct drm_atomic_state *state)
+@@ -279,10 +279,11 @@ static int rcar_du_vsp_plane_atomic_check(struct drm_plane *plane,
+ static void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
+ 					struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct rcar_du_vsp_plane_state *rstate = to_rcar_vsp_plane_state(new_plane_state);
++	struct drm_plane_state *new_state = plane->state;
+ 	struct rcar_du_vsp_plane *rplane = to_rcar_vsp_plane(plane);
+ 	struct rcar_du_crtc *crtc = to_rcar_crtc(old_state->crtc);
  
- 	return __rcar_du_plane_atomic_check(plane, new_plane_state,
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index 8a507917a0dc..d96d42dfc6c7 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -778,8 +778,10 @@ static bool rockchip_mod_supported(struct drm_plane *plane,
- }
- 
- static int vop_plane_atomic_check(struct drm_plane *plane,
--			   struct drm_plane_state *new_plane_state)
-+			   struct drm_atomic_state *state)
+-	if (plane->state->visible)
++	if (new_state->visible)
+ 		rcar_du_vsp_plane_setup(rplane);
+ 	else if (old_state->crtc)
+ 		vsp1_du_atomic_update(rplane->vsp->vsp, crtc->vsp_pipe,
+diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
+index acfbfd4463a1..fd7eda2c105d 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_layer.c
++++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
+@@ -83,7 +83,8 @@ static void sun4i_backend_layer_atomic_disable(struct drm_plane *plane,
+ static void sun4i_backend_layer_atomic_update(struct drm_plane *plane,
+ 					      struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_crtc *crtc = new_plane_state->crtc;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_framebuffer *fb = new_plane_state->fb;
-diff --git a/drivers/gpu/drm/sti/sti_cursor.c b/drivers/gpu/drm/sti/sti_cursor.c
-index c04c868e337f..ceb30d545ab9 100644
---- a/drivers/gpu/drm/sti/sti_cursor.c
-+++ b/drivers/gpu/drm/sti/sti_cursor.c
-@@ -181,8 +181,10 @@ static void sti_cursor_init(struct sti_cursor *cursor)
- }
- 
- static int sti_cursor_atomic_check(struct drm_plane *drm_plane,
--				   struct drm_plane_state *new_plane_state)
-+				   struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 drm_plane);
- 	struct sti_plane *plane = to_sti_plane(drm_plane);
- 	struct sti_cursor *cursor = to_sti_cursor(plane);
- 	struct drm_crtc *crtc = new_plane_state->crtc;
-diff --git a/drivers/gpu/drm/sti/sti_gdp.c b/drivers/gpu/drm/sti/sti_gdp.c
-index 4fe91ab4f191..63823827417c 100644
---- a/drivers/gpu/drm/sti/sti_gdp.c
-+++ b/drivers/gpu/drm/sti/sti_gdp.c
-@@ -615,8 +615,10 @@ static int sti_gdp_get_dst(struct device *dev, int dst, int src)
- }
- 
- static int sti_gdp_atomic_check(struct drm_plane *drm_plane,
--				struct drm_plane_state *new_plane_state)
-+				struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 drm_plane);
- 	struct sti_plane *plane = to_sti_plane(drm_plane);
- 	struct sti_gdp *gdp = to_sti_gdp(plane);
- 	struct drm_crtc *crtc = new_plane_state->crtc;
-diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
-index 5d492ac1f2dd..b3b10ee96bb2 100644
---- a/drivers/gpu/drm/sti/sti_hqvdp.c
-+++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-@@ -1017,8 +1017,10 @@ static void sti_hqvdp_start_xp70(struct sti_hqvdp *hqvdp)
- }
- 
- static int sti_hqvdp_atomic_check(struct drm_plane *drm_plane,
--				  struct drm_plane_state *new_plane_state)
-+				  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 drm_plane);
- 	struct sti_plane *plane = to_sti_plane(drm_plane);
- 	struct sti_hqvdp *hqvdp = to_sti_hqvdp(plane);
- 	struct drm_crtc *crtc = new_plane_state->crtc;
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index a316bf87834f..4536de9a18c1 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -720,8 +720,10 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
-  */
- 
- static int ltdc_plane_atomic_check(struct drm_plane *plane,
--				   struct drm_plane_state *new_plane_state)
-+				   struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_framebuffer *fb = new_plane_state->fb;
- 	u32 src_w, src_h;
- 
+-	struct sun4i_layer_state *layer_state = state_to_sun4i_layer_state(plane->state);
++	struct drm_plane_state *new_state = plane->state;
++	struct sun4i_layer_state *layer_state = state_to_sun4i_layer_state(new_state);
+ 	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
+ 	struct sun4i_backend *backend = layer->backend;
+ 	struct sun4i_frontend *frontend = backend->frontend;
 diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index 981dd72a2991..8760e68c4da4 100644
+index 7bcc8c4561a6..c0da3ba9fbdf 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -236,8 +236,10 @@ static int sun8i_ui_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
- }
- 
- static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
--				       struct drm_plane_state *new_plane_state)
-+				       struct drm_atomic_state *state)
+@@ -281,12 +281,13 @@ static void sun8i_ui_layer_atomic_disable(struct drm_plane *plane,
+ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ 					 struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
++	struct drm_plane_state *new_state = plane->state;
  	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
- 	struct drm_crtc *crtc = new_plane_state->crtc;
- 	struct drm_crtc_state *crtc_state;
+-	unsigned int zpos = plane->state->normalized_zpos;
++	unsigned int zpos = new_state->normalized_zpos;
+ 	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+-	if (!plane->state->visible) {
++	if (!new_state->visible) {
+ 		sun8i_ui_layer_enable(mixer, layer->channel,
+ 				      layer->overlay, false, 0, old_zpos);
+ 		return;
 diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index bc0388004f71..cda6d3697876 100644
+index b5a82930e272..04709beb9bae 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -339,8 +339,10 @@ static int sun8i_vi_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
- }
- 
- static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
--				       struct drm_plane_state *new_plane_state)
-+				       struct drm_atomic_state *state)
+@@ -384,12 +384,13 @@ static void sun8i_vi_layer_atomic_disable(struct drm_plane *plane,
+ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ 					 struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
++	struct drm_plane_state *new_state = plane->state;
  	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
- 	struct drm_crtc *crtc = new_plane_state->crtc;
- 	struct drm_crtc_state *crtc_state;
+-	unsigned int zpos = plane->state->normalized_zpos;
++	unsigned int zpos = new_state->normalized_zpos;
+ 	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+-	if (!plane->state->visible) {
++	if (!new_state->visible) {
+ 		sun8i_vi_layer_enable(mixer, layer->channel,
+ 				      layer->overlay, false, 0, old_zpos);
+ 		return;
 diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 2d91956bc762..bd2ee94f6f52 100644
+index bd2ee94f6f52..9231c6ef602a 100644
 --- a/drivers/gpu/drm/tegra/dc.c
 +++ b/drivers/gpu/drm/tegra/dc.c
-@@ -604,8 +604,10 @@ static const u64 tegra124_modifiers[] = {
- };
- 
- static int tegra_plane_atomic_check(struct drm_plane *plane,
--				    struct drm_plane_state *new_plane_state)
-+				    struct drm_atomic_state *state)
+@@ -708,34 +708,35 @@ static void tegra_plane_atomic_disable(struct drm_plane *plane,
+ static void tegra_plane_atomic_update(struct drm_plane *plane,
+ 				      struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct tegra_plane_state *plane_state = to_tegra_plane_state(new_plane_state);
- 	unsigned int supported_rotation = DRM_MODE_ROTATE_0 |
- 					  DRM_MODE_REFLECT_X |
-@@ -831,8 +833,10 @@ static const u32 tegra_cursor_plane_formats[] = {
- };
+-	struct tegra_plane_state *state = to_tegra_plane_state(plane->state);
+-	struct drm_framebuffer *fb = plane->state->fb;
++	struct drm_plane_state *new_state = plane->state;
++	struct tegra_plane_state *state = to_tegra_plane_state(new_state);
++	struct drm_framebuffer *fb = new_state->fb;
+ 	struct tegra_plane *p = to_tegra_plane(plane);
+ 	struct tegra_dc_window window;
+ 	unsigned int i;
  
- static int tegra_cursor_atomic_check(struct drm_plane *plane,
--				     struct drm_plane_state *new_plane_state)
-+				     struct drm_atomic_state *state)
+ 	/* rien ne va plus */
+-	if (!plane->state->crtc || !plane->state->fb)
++	if (!new_state->crtc || !new_state->fb)
+ 		return;
+ 
+-	if (!plane->state->visible)
++	if (!new_state->visible)
+ 		return tegra_plane_atomic_disable(plane, old_state);
+ 
+ 	memset(&window, 0, sizeof(window));
+-	window.src.x = plane->state->src.x1 >> 16;
+-	window.src.y = plane->state->src.y1 >> 16;
+-	window.src.w = drm_rect_width(&plane->state->src) >> 16;
+-	window.src.h = drm_rect_height(&plane->state->src) >> 16;
+-	window.dst.x = plane->state->dst.x1;
+-	window.dst.y = plane->state->dst.y1;
+-	window.dst.w = drm_rect_width(&plane->state->dst);
+-	window.dst.h = drm_rect_height(&plane->state->dst);
++	window.src.x = new_state->src.x1 >> 16;
++	window.src.y = new_state->src.y1 >> 16;
++	window.src.w = drm_rect_width(&new_state->src) >> 16;
++	window.src.h = drm_rect_height(&new_state->src) >> 16;
++	window.dst.x = new_state->dst.x1;
++	window.dst.y = new_state->dst.y1;
++	window.dst.w = drm_rect_width(&new_state->dst);
++	window.dst.h = drm_rect_height(&new_state->dst);
+ 	window.bits_per_pixel = fb->format->cpp[0] * 8;
+ 	window.reflect_x = state->reflect_x;
+ 	window.reflect_y = state->reflect_y;
+ 
+ 	/* copy from state */
+-	window.zpos = plane->state->normalized_zpos;
++	window.zpos = new_state->normalized_zpos;
+ 	window.tiling = state->tiling;
+ 	window.format = state->format;
+ 	window.swap = state->swap;
+@@ -867,15 +868,16 @@ static int tegra_cursor_atomic_check(struct drm_plane *plane,
+ static void tegra_cursor_atomic_update(struct drm_plane *plane,
+ 				       struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct tegra_plane *tegra = to_tegra_plane(plane);
- 	int err;
+-	struct tegra_plane_state *state = to_tegra_plane_state(plane->state);
+-	struct tegra_dc *dc = to_tegra_dc(plane->state->crtc);
++	struct drm_plane_state *new_state = plane->state;
++	struct tegra_plane_state *state = to_tegra_plane_state(new_state);
++	struct tegra_dc *dc = to_tegra_dc(new_state->crtc);
+ 	u32 value = CURSOR_CLIP_DISPLAY;
+ 
+ 	/* rien ne va plus */
+-	if (!plane->state->crtc || !plane->state->fb)
++	if (!new_state->crtc || !new_state->fb)
+ 		return;
+ 
+-	switch (plane->state->crtc_w) {
++	switch (new_state->crtc_w) {
+ 	case 32:
+ 		value |= CURSOR_SIZE_32x32;
+ 		break;
+@@ -894,7 +896,7 @@ static void tegra_cursor_atomic_update(struct drm_plane *plane,
+ 
+ 	default:
+ 		WARN(1, "cursor size %ux%u not supported\n",
+-		     plane->state->crtc_w, plane->state->crtc_h);
++		     new_state->crtc_w, new_state->crtc_h);
+ 		return;
+ 	}
+ 
+@@ -921,8 +923,8 @@ static void tegra_cursor_atomic_update(struct drm_plane *plane,
+ 	tegra_dc_writel(dc, value, DC_DISP_BLEND_CURSOR_CONTROL);
+ 
+ 	/* position the cursor */
+-	value = (plane->state->crtc_y & 0x3fff) << 16 |
+-		(plane->state->crtc_x & 0x3fff);
++	value = (new_state->crtc_y & 0x3fff) << 16 |
++		(new_state->crtc_x & 0x3fff);
+ 	tegra_dc_writel(dc, value, DC_DISP_CURSOR_POSITION);
+ }
  
 diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
-index 8a2d359c4ff6..e5b22508e09a 100644
+index e5b22508e09a..e9d86aec5ee8 100644
 --- a/drivers/gpu/drm/tegra/hub.c
 +++ b/drivers/gpu/drm/tegra/hub.c
-@@ -336,8 +336,10 @@ static void tegra_dc_remove_shared_plane(struct tegra_dc *dc,
- }
- 
- static int tegra_shared_plane_atomic_check(struct drm_plane *plane,
--					   struct drm_plane_state *new_plane_state)
-+					   struct drm_atomic_state *state)
+@@ -427,20 +427,21 @@ static void tegra_shared_plane_atomic_disable(struct drm_plane *plane,
+ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
+ 					     struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct tegra_plane_state *plane_state = to_tegra_plane_state(new_plane_state);
- 	struct tegra_shared_plane *tegra = to_tegra_shared_plane(plane);
- 	struct tegra_bo_tiling *tiling = &plane_state->tiling;
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-index 6dab9ad89644..980b65725d66 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.c
-+++ b/drivers/gpu/drm/tidss/tidss_plane.c
-@@ -20,8 +20,10 @@
- /* drm_plane_helper_funcs */
+-	struct tegra_plane_state *state = to_tegra_plane_state(plane->state);
+-	struct tegra_dc *dc = to_tegra_dc(plane->state->crtc);
+-	unsigned int zpos = plane->state->normalized_zpos;
+-	struct drm_framebuffer *fb = plane->state->fb;
++	struct drm_plane_state *new_state = plane->state;
++	struct tegra_plane_state *state = to_tegra_plane_state(new_state);
++	struct tegra_dc *dc = to_tegra_dc(new_state->crtc);
++	unsigned int zpos = new_state->normalized_zpos;
++	struct drm_framebuffer *fb = new_state->fb;
+ 	struct tegra_plane *p = to_tegra_plane(plane);
+ 	dma_addr_t base;
+ 	u32 value;
+ 	int err;
  
- static int tidss_plane_atomic_check(struct drm_plane *plane,
--				    struct drm_plane_state *new_plane_state)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_device *ddev = plane->dev;
- 	struct tidss_device *tidss = to_tidss(ddev);
- 	struct tidss_plane *tplane = to_tidss_plane(plane);
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_plane.c b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-index 389c80a5873c..f43670aff5ad 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-@@ -21,8 +21,10 @@ static const struct drm_plane_funcs tilcdc_plane_funcs = {
- };
+ 	/* rien ne va plus */
+-	if (!plane->state->crtc || !plane->state->fb)
++	if (!new_state->crtc || !new_state->fb)
+ 		return;
  
- static int tilcdc_plane_atomic_check(struct drm_plane *plane,
--				     struct drm_plane_state *new_state)
-+				     struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-+									   plane);
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_plane_state *old_state = plane->state;
- 	unsigned int pitch;
+-	if (!plane->state->visible) {
++	if (!new_state->visible) {
+ 		tegra_shared_plane_atomic_disable(plane, old_state);
+ 		return;
+ 	}
+@@ -484,17 +485,17 @@ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
+ 	tegra_plane_writel(p, state->format, DC_WIN_COLOR_DEPTH);
+ 	tegra_plane_writel(p, 0, DC_WIN_PRECOMP_WGRP_PARAMS);
+ 
+-	value = V_POSITION(plane->state->crtc_y) |
+-		H_POSITION(plane->state->crtc_x);
++	value = V_POSITION(new_state->crtc_y) |
++		H_POSITION(new_state->crtc_x);
+ 	tegra_plane_writel(p, value, DC_WIN_POSITION);
+ 
+-	value = V_SIZE(plane->state->crtc_h) | H_SIZE(plane->state->crtc_w);
++	value = V_SIZE(new_state->crtc_h) | H_SIZE(new_state->crtc_w);
+ 	tegra_plane_writel(p, value, DC_WIN_SIZE);
+ 
+ 	value = WIN_ENABLE | COLOR_EXPAND;
+ 	tegra_plane_writel(p, value, DC_WIN_WIN_OPTIONS);
+ 
+-	value = V_SIZE(plane->state->crtc_h) | H_SIZE(plane->state->crtc_w);
++	value = V_SIZE(new_state->crtc_h) | H_SIZE(new_state->crtc_w);
+ 	tegra_plane_writel(p, value, DC_WIN_CROPPED_SIZE);
+ 
+ 	tegra_plane_writel(p, upper_32_bits(base), DC_WINBUF_START_ADDR_HI);
+@@ -506,8 +507,8 @@ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
+ 	value = CLAMP_BEFORE_BLEND | DEGAMMA_SRGB | INPUT_RANGE_FULL;
+ 	tegra_plane_writel(p, value, DC_WIN_SET_PARAMS);
+ 
+-	value = OFFSET_X(plane->state->src_y >> 16) |
+-		OFFSET_Y(plane->state->src_x >> 16);
++	value = OFFSET_X(new_state->src_y >> 16) |
++		OFFSET_Y(new_state->src_x >> 16);
+ 	tegra_plane_writel(p, value, DC_WINBUF_CROPPED_POINT);
+ 
+ 	if (dc->soc->supports_block_linear) {
 diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-index dbc0dd53c69e..8405de133831 100644
+index d60f7cb5105f..5df1184ce1af 100644
 --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
 +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-@@ -252,8 +252,10 @@ static const struct drm_crtc_funcs vbox_crtc_funcs = {
- };
- 
- static int vbox_primary_atomic_check(struct drm_plane *plane,
--				     struct drm_plane_state *new_state)
-+				     struct drm_atomic_state *state)
+@@ -274,20 +274,21 @@ static int vbox_primary_atomic_check(struct drm_plane *plane,
+ static void vbox_primary_atomic_update(struct drm_plane *plane,
+ 				       struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-+									   plane);
- 	struct drm_crtc_state *crtc_state = NULL;
+-	struct drm_crtc *crtc = plane->state->crtc;
+-	struct drm_framebuffer *fb = plane->state->fb;
++	struct drm_plane_state *new_state = plane->state;
++	struct drm_crtc *crtc = new_state->crtc;
++	struct drm_framebuffer *fb = new_state->fb;
+ 	struct vbox_private *vbox = to_vbox_dev(fb->dev);
+ 	struct drm_mode_rect *clips;
+ 	uint32_t num_clips, i;
  
- 	if (new_state->crtc) {
-@@ -325,8 +327,10 @@ static void vbox_primary_atomic_disable(struct drm_plane *plane,
- }
+ 	vbox_crtc_set_base_and_mode(crtc, fb,
+-				    plane->state->src_x >> 16,
+-				    plane->state->src_y >> 16);
++				    new_state->src_x >> 16,
++				    new_state->src_y >> 16);
  
- static int vbox_cursor_atomic_check(struct drm_plane *plane,
--				    struct drm_plane_state *new_state)
-+				    struct drm_atomic_state *state)
+ 	/* Send information about dirty rectangles to VBVA. */
+ 
+-	clips = drm_plane_get_damage_clips(plane->state);
+-	num_clips = drm_plane_get_damage_clips_count(plane->state);
++	clips = drm_plane_get_damage_clips(new_state);
++	num_clips = drm_plane_get_damage_clips_count(new_state);
+ 
+ 	if (!num_clips)
+ 		return;
+@@ -381,13 +382,14 @@ static void copy_cursor_image(u8 *src, u8 *dst, u32 width, u32 height,
+ static void vbox_cursor_atomic_update(struct drm_plane *plane,
+ 				      struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-+									   plane);
- 	struct drm_crtc_state *crtc_state = NULL;
- 	u32 width = new_state->crtc_w;
- 	u32 height = new_state->crtc_h;
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index e4b2f537967f..b46d79efa4b0 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -1040,8 +1040,10 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
-  * in the CRTC's flush.
-  */
- static int vc4_plane_atomic_check(struct drm_plane *plane,
--				  struct drm_plane_state *new_plane_state)
-+				  struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct vc4_plane_state *vc4_state = to_vc4_plane_state(new_plane_state);
- 	int ret;
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 9b2ec4db1265..0f4fdd8c28f9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -83,8 +83,10 @@ static const struct drm_plane_funcs virtio_gpu_plane_funcs = {
- };
- 
- static int virtio_gpu_plane_atomic_check(struct drm_plane *plane,
--					 struct drm_plane_state *new_plane_state)
-+					 struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	bool is_cursor = plane->type == DRM_PLANE_TYPE_CURSOR;
- 	struct drm_crtc_state *crtc_state;
- 	int ret;
++	struct drm_plane_state *new_state = plane->state;
+ 	struct vbox_private *vbox =
+ 		container_of(plane->dev, struct vbox_private, ddev);
+-	struct vbox_crtc *vbox_crtc = to_vbox_crtc(plane->state->crtc);
+-	struct drm_framebuffer *fb = plane->state->fb;
++	struct vbox_crtc *vbox_crtc = to_vbox_crtc(new_state->crtc);
++	struct drm_framebuffer *fb = new_state->fb;
+ 	struct drm_gem_vram_object *gbo = drm_gem_vram_of_gem(fb->obj[0]);
+-	u32 width = plane->state->crtc_w;
+-	u32 height = plane->state->crtc_h;
++	u32 width = new_state->crtc_w;
++	u32 height = new_state->crtc_h;
+ 	size_t data_size, mask_size;
+ 	u32 flags;
+ 	struct dma_buf_map map;
 diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index eef120a573a8..751695a76e26 100644
+index 2f2ab3c01bf9..a8a675b6a3f7 100644
 --- a/drivers/gpu/drm/vkms/vkms_plane.c
 +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -114,8 +114,10 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static int vkms_plane_atomic_check(struct drm_plane *plane,
--				   struct drm_plane_state *new_plane_state)
-+				   struct drm_atomic_state *state)
+@@ -94,18 +94,19 @@ static const struct drm_plane_funcs vkms_plane_funcs = {
+ static void vkms_plane_atomic_update(struct drm_plane *plane,
+ 				     struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_crtc_state *crtc_state;
- 	bool can_position = false;
- 	int ret;
++	struct drm_plane_state *new_state = plane->state;
+ 	struct vkms_plane_state *vkms_plane_state;
+-	struct drm_framebuffer *fb = plane->state->fb;
++	struct drm_framebuffer *fb = new_state->fb;
+ 	struct vkms_composer *composer;
+ 
+-	if (!plane->state->crtc || !fb)
++	if (!new_state->crtc || !fb)
+ 		return;
+ 
+-	vkms_plane_state = to_vkms_plane_state(plane->state);
++	vkms_plane_state = to_vkms_plane_state(new_state);
+ 
+ 	composer = vkms_plane_state->composer;
+-	memcpy(&composer->src, &plane->state->src, sizeof(struct drm_rect));
+-	memcpy(&composer->dst, &plane->state->dst, sizeof(struct drm_rect));
++	memcpy(&composer->src, &new_state->src, sizeof(struct drm_rect));
++	memcpy(&composer->dst, &new_state->dst, sizeof(struct drm_rect));
+ 	memcpy(&composer->fb, fb, sizeof(struct drm_framebuffer));
+ 	drm_framebuffer_get(&composer->fb);
+ 	composer->offset = fb->offsets[0];
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 76e900f219f0..25c5a5fa90d4 100644
+index a865ce1509e7..d770f1442c3b 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -437,8 +437,10 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
-  * Returns 0 on success
-  */
- int vmw_du_primary_plane_atomic_check(struct drm_plane *plane,
--				      struct drm_plane_state *new_state)
-+				      struct drm_atomic_state *state)
+@@ -372,10 +372,11 @@ void
+ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 				  struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-+									   plane);
- 	struct drm_crtc_state *crtc_state = NULL;
- 	struct drm_framebuffer *new_fb = new_state->fb;
- 	int ret;
-@@ -477,8 +479,10 @@ int vmw_du_primary_plane_atomic_check(struct drm_plane *plane,
-  * Returns 0 on success
-  */
- int vmw_du_cursor_plane_atomic_check(struct drm_plane *plane,
--				     struct drm_plane_state *new_state)
-+				     struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-+									   plane);
+-	struct drm_crtc *crtc = plane->state->crtc ?: old_state->crtc;
++	struct drm_plane_state *new_state = plane->state;
++	struct drm_crtc *crtc = new_state->crtc ?: old_state->crtc;
+ 	struct vmw_private *dev_priv = vmw_priv(crtc->dev);
+ 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
+-	struct vmw_plane_state *vps = vmw_plane_state_to_vps(plane->state);
++	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
+ 	s32 hotspot_x, hotspot_y;
  	int ret = 0;
- 	struct drm_crtc_state *crtc_state = NULL;
- 	struct vmw_surface *surface = NULL;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index 03f3694015ce..3d96ce9365bc 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -456,9 +456,9 @@ void vmw_du_cursor_plane_destroy(struct drm_plane *plane);
  
- /* Atomic Helpers */
- int vmw_du_primary_plane_atomic_check(struct drm_plane *plane,
--				      struct drm_plane_state *state);
-+				      struct drm_atomic_state *state);
- int vmw_du_cursor_plane_atomic_check(struct drm_plane *plane,
--				     struct drm_plane_state *state);
-+				     struct drm_atomic_state *state);
- void vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
- 				       struct drm_plane_state *old_state);
- int vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
+@@ -383,9 +384,9 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 	hotspot_x = du->hotspot_x;
+ 	hotspot_y = du->hotspot_y;
+ 
+-	if (plane->state->fb) {
+-		hotspot_x += plane->state->fb->hot_x;
+-		hotspot_y += plane->state->fb->hot_y;
++	if (new_state->fb) {
++		hotspot_x += new_state->fb->hot_x;
++		hotspot_y += new_state->fb->hot_y;
+ 	}
+ 
+ 	du->cursor_surface = vps->surf;
+@@ -400,8 +401,8 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 					      hotspot_y);
+ 	} else if (vps->bo) {
+ 		ret = vmw_cursor_update_bo(dev_priv, vps->bo,
+-					   plane->state->crtc_w,
+-					   plane->state->crtc_h,
++					   new_state->crtc_w,
++					   new_state->crtc_h,
+ 					   hotspot_x, hotspot_y);
+ 	} else {
+ 		vmw_cursor_update_position(dev_priv, false, 0, 0);
+@@ -409,8 +410,8 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 	}
+ 
+ 	if (!ret) {
+-		du->cursor_x = plane->state->crtc_x + du->set_gui_x;
+-		du->cursor_y = plane->state->crtc_y + du->set_gui_y;
++		du->cursor_x = new_state->crtc_x + du->set_gui_x;
++		du->cursor_y = new_state->crtc_y + du->set_gui_y;
+ 
+ 		vmw_cursor_update_position(dev_priv, true,
+ 					   du->cursor_x + hotspot_x,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+index 9a9508edbc9e..dfd73f381f04 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+@@ -284,16 +284,17 @@ static void
+ vmw_ldu_primary_plane_atomic_update(struct drm_plane *plane,
+ 				    struct drm_plane_state *old_state)
+ {
++	struct drm_plane_state *new_state = plane->state;
+ 	struct vmw_private *dev_priv;
+ 	struct vmw_legacy_display_unit *ldu;
+ 	struct vmw_framebuffer *vfb;
+ 	struct drm_framebuffer *fb;
+-	struct drm_crtc *crtc = plane->state->crtc ?: old_state->crtc;
++	struct drm_crtc *crtc = new_state->crtc ?: old_state->crtc;
+ 
+ 
+ 	ldu = vmw_crtc_to_ldu(crtc);
+ 	dev_priv = vmw_priv(plane->dev);
+-	fb       = plane->state->fb;
++	fb       = new_state->fb;
+ 
+ 	vfb = (fb) ? vmw_framebuffer_to_vfb(fb) : NULL;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+index b0db059b8cfb..498f541b973c 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+@@ -730,16 +730,17 @@ static void
+ vmw_sou_primary_plane_atomic_update(struct drm_plane *plane,
+ 				    struct drm_plane_state *old_state)
+ {
+-	struct drm_crtc *crtc = plane->state->crtc;
++	struct drm_plane_state *new_state = plane->state;
++	struct drm_crtc *crtc = new_state->crtc;
+ 	struct drm_pending_vblank_event *event = NULL;
+ 	struct vmw_fence_obj *fence = NULL;
+ 	int ret;
+ 
+ 	/* In case of device error, maintain consistent atomic state */
+-	if (crtc && plane->state->fb) {
++	if (crtc && new_state->fb) {
+ 		struct vmw_private *dev_priv = vmw_priv(crtc->dev);
+ 		struct vmw_framebuffer *vfb =
+-			vmw_framebuffer_to_vfb(plane->state->fb);
++			vmw_framebuffer_to_vfb(new_state->fb);
+ 
+ 		if (vfb->bo)
+ 			ret = vmw_sou_plane_update_bo(dev_priv, plane,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index fbe977881364..b05964d5879d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -1577,8 +1577,9 @@ static void
+ vmw_stdu_primary_plane_atomic_update(struct drm_plane *plane,
+ 				     struct drm_plane_state *old_state)
+ {
+-	struct vmw_plane_state *vps = vmw_plane_state_to_vps(plane->state);
+-	struct drm_crtc *crtc = plane->state->crtc;
++	struct drm_plane_state *new_state = plane->state;
++	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
++	struct drm_crtc *crtc = new_state->crtc;
+ 	struct vmw_screen_target_display_unit *stdu;
+ 	struct drm_pending_vblank_event *event;
+ 	struct vmw_fence_obj *fence = NULL;
+@@ -1586,9 +1587,9 @@ vmw_stdu_primary_plane_atomic_update(struct drm_plane *plane,
+ 	int ret;
+ 
+ 	/* If case of device error, maintain consistent atomic state */
+-	if (crtc && plane->state->fb) {
++	if (crtc && new_state->fb) {
+ 		struct vmw_framebuffer *vfb =
+-			vmw_framebuffer_to_vfb(plane->state->fb);
++			vmw_framebuffer_to_vfb(new_state->fb);
+ 		stdu = vmw_crtc_to_stdu(crtc);
+ 		dev_priv = vmw_priv(crtc->dev);
+ 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index ee7793d6a26e..b0a3ba528718 100644
+index 27c0b849598b..8b87a17e9d56 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -1143,8 +1143,10 @@ static inline struct zynqmp_disp_layer *plane_to_layer(struct drm_plane *plane)
- 
- static int
- zynqmp_disp_plane_atomic_check(struct drm_plane *plane,
--			       struct drm_plane_state *new_plane_state)
-+			       struct drm_atomic_state *state)
+@@ -1179,11 +1179,12 @@ static void
+ zynqmp_disp_plane_atomic_update(struct drm_plane *plane,
+ 				struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-+										 plane);
- 	struct drm_crtc_state *crtc_state;
++	struct drm_plane_state *new_state = plane->state;
+ 	struct zynqmp_disp_layer *layer = plane_to_layer(plane);
+ 	bool format_changed = false;
  
- 	if (!new_plane_state->crtc)
+ 	if (!old_state->fb ||
+-	    old_state->fb->format->format != plane->state->fb->format->format)
++	    old_state->fb->format->format != new_state->fb->format->format)
+ 		format_changed = true;
+ 
+ 	/*
+@@ -1195,10 +1196,10 @@ zynqmp_disp_plane_atomic_update(struct drm_plane *plane,
+ 		if (old_state->fb)
+ 			zynqmp_disp_layer_disable(layer);
+ 
+-		zynqmp_disp_layer_set_format(layer, plane->state);
++		zynqmp_disp_layer_set_format(layer, new_state);
+ 	}
+ 
+-	zynqmp_disp_layer_update(layer, plane->state);
++	zynqmp_disp_layer_update(layer, new_state);
+ 
+ 	/* Enable or re-enable the plane is the format has changed. */
+ 	if (format_changed)
 diff --git a/drivers/gpu/drm/zte/zx_plane.c b/drivers/gpu/drm/zte/zx_plane.c
-index 78d787afe594..20ac29212991 100644
+index 1d5d35bda249..2db0ace95426 100644
 --- a/drivers/gpu/drm/zte/zx_plane.c
 +++ b/drivers/gpu/drm/zte/zx_plane.c
-@@ -46,8 +46,10 @@ static const uint32_t vl_formats[] = {
- #define FRAC_16_16(mult, div)    (((mult) << 16) / (div))
- 
- static int zx_vl_plane_atomic_check(struct drm_plane *plane,
--				    struct drm_plane_state *plane_state)
-+				    struct drm_atomic_state *state)
+@@ -353,8 +353,9 @@ static void zx_gl_rsz_setup(struct zx_plane *zplane, u32 src_w, u32 src_h,
+ static void zx_gl_plane_atomic_update(struct drm_plane *plane,
+ 				      struct drm_plane_state *old_state)
  {
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state,
-+									     plane);
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	struct drm_crtc *crtc = plane_state->crtc;
- 	struct drm_crtc_state *crtc_state;
-@@ -275,8 +277,10 @@ static const struct drm_plane_helper_funcs zx_vl_plane_helper_funcs = {
- };
++	struct drm_plane_state *new_state = plane->state;
+ 	struct zx_plane *zplane = to_zx_plane(plane);
+-	struct drm_framebuffer *fb = plane->state->fb;
++	struct drm_framebuffer *fb = new_state->fb;
+ 	struct drm_gem_cma_object *cma_obj;
+ 	void __iomem *layer = zplane->layer;
+ 	void __iomem *csc = zplane->csc;
+@@ -373,15 +374,15 @@ static void zx_gl_plane_atomic_update(struct drm_plane *plane,
+ 	format = fb->format->format;
+ 	stride = fb->pitches[0];
  
- static int zx_gl_plane_atomic_check(struct drm_plane *plane,
--				    struct drm_plane_state *plane_state)
-+				    struct drm_atomic_state *state)
- {
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state,
-+									     plane);
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	struct drm_crtc *crtc = plane_state->crtc;
- 	struct drm_crtc_state *crtc_state;
-diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-index 2b4d085da450..484f91d772ea 100644
---- a/include/drm/drm_modeset_helper_vtables.h
-+++ b/include/drm/drm_modeset_helper_vtables.h
-@@ -1233,9 +1233,8 @@ struct drm_plane_helper_funcs {
- 	 * NOTE:
- 	 *
- 	 * This function is called in the check phase of an atomic update. The
--	 * driver is not allowed to change anything outside of the free-standing
--	 * state objects passed-in or assembled in the overall &drm_atomic_state
--	 * update tracking structure.
-+	 * driver is not allowed to change anything outside of the
-+	 * &drm_atomic_state update tracking structure.
- 	 *
- 	 * RETURNS:
- 	 *
-@@ -1245,7 +1244,7 @@ struct drm_plane_helper_funcs {
- 	 * deadlock.
- 	 */
- 	int (*atomic_check)(struct drm_plane *plane,
--			    struct drm_plane_state *state);
-+			    struct drm_atomic_state *state);
+-	src_x = plane->state->src_x >> 16;
+-	src_y = plane->state->src_y >> 16;
+-	src_w = plane->state->src_w >> 16;
+-	src_h = plane->state->src_h >> 16;
++	src_x = new_state->src_x >> 16;
++	src_y = new_state->src_y >> 16;
++	src_w = new_state->src_w >> 16;
++	src_h = new_state->src_h >> 16;
  
- 	/**
- 	 * @atomic_update:
+-	dst_x = plane->state->crtc_x;
+-	dst_y = plane->state->crtc_y;
+-	dst_w = plane->state->crtc_w;
+-	dst_h = plane->state->crtc_h;
++	dst_x = new_state->crtc_x;
++	dst_y = new_state->crtc_y;
++	dst_w = new_state->crtc_w;
++	dst_h = new_state->crtc_h;
+ 
+ 	bpp = fb->format->cpp[0];
+ 
 -- 
 2.29.2
 
