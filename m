@@ -2,63 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B070A30009D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jan 2021 11:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C1930009E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jan 2021 11:49:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726880AbhAVKo4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jan 2021 05:44:56 -0500
-Received: from mail-oi1-f172.google.com ([209.85.167.172]:46993 "EHLO
-        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727688AbhAVKke (ORCPT
+        id S1727151AbhAVKo7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jan 2021 05:44:59 -0500
+Received: from mail-oo1-f46.google.com ([209.85.161.46]:41290 "EHLO
+        mail-oo1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726652AbhAVKmb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jan 2021 05:40:34 -0500
-Received: by mail-oi1-f172.google.com with SMTP id q205so5450854oig.13
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jan 2021 02:40:18 -0800 (PST)
+        Fri, 22 Jan 2021 05:42:31 -0500
+Received: by mail-oo1-f46.google.com with SMTP id q6so1286296ooo.8
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jan 2021 02:42:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=iD8HJa+xv5WQtBM9V3lSEqSHOkYKZaNeU1Nqn3jtyZ0=;
-        b=OXEmDGQxkyy12rPYouUg0kw9sp6pYEbAuG/A80TiYgsWC4OjqeyL2NO+DLuMVTadi6
-         NTK3XQPkBrv0TfQOsF6y9i6gMHFSmvNjWbs3I+NtWnW0nwWZkzvjwXvhbHnNyWyhtB6g
-         Z0SeHvQgTVKtUvhY0CpB7xgKb1JcUK8Wsmb6kSNxsnnQ5Q5eKz61OuVwS+FMInWhH7Lq
-         IrdITOqllNbb2J3lirMl1EnWH3RRggC6xBnIp8OFqGKLdMX1IfkYiYvTE7+74Kj6kxSH
-         brPv66e7bQC0/twHigG54J5cF20gMxk+q5Me3pH0+WfjLqm1hh0+kyGp09OFUDVq/yGt
-         dQew==
-X-Gm-Message-State: AOAM531oAUuKi7amLthazME+77/FaX8X/cQkL2fzks1VLpGYn25uyFJH
-        MXDWloSSDKf1IyLPr9wQ53clY2eR4MdQSlIfd1RzjiZe
-X-Google-Smtp-Source: ABdhPJxggZlc4S8Z8vRUQXwrtJ2qGtAJQQ83q5vRFvchyqdhVHrMAFJKiw/NFz0YPhT0CXKlCj7Oq06H2nRxVrrK+zY=
-X-Received: by 2002:aca:bbc4:: with SMTP id l187mr2768830oif.148.1611311990359;
- Fri, 22 Jan 2021 02:39:50 -0800 (PST)
+        bh=cCqDECWSPxLoJvJvjuT5TKAssuuUitlDG6tt7Evyysg=;
+        b=or5z2SBVQYcpwQ9NaTvntAdIruZKzdYduRYst4JlYCbZcmJ2QKHjXBBMY6mGb1Kh/w
+         DkhIB/X6t1IPaNgh9bxnmg/BAHovzCAEq+p8i1LDr09KKFNdV/xPNb9GN8zmqUgrUASX
+         LzXt+O6+NxFucnTfChZaTxJlxb9n/CTvwAsj0lpq+wvG0C3oljPUlh2HPBoKW5nspGH4
+         fjSxFDSBx+OKQFsJm/hKxOcRpr4FFbKpMmNTpQJ+9gcDvcvc262iCcajXWrJMKkv6/A2
+         R/JmTN7YxYa3MsC/vQewsmBpb8xPNlSFH1JzE0QZJzreD9c52DMKMViEmVOMRrrq6px7
+         u23Q==
+X-Gm-Message-State: AOAM5331Q0DQcI2WP8aieeiEyLcKw6bUyzi6lJSBwBazuyKHYb2aWujX
+        Wpn4cemiJjYp+vEiD9LbjJPMmDnyyEIU8TLtIJth6rMW
+X-Google-Smtp-Source: ABdhPJweu93AQ9g4ho/56bur/rWZ5+4tuE3TZ5FdIofpNh/gEmy/syaLobEnJmCC6nwkSjyUsPrH5mY9V55l47bNU50=
+X-Received: by 2002:a4a:8353:: with SMTP id q19mr3253272oog.40.1611312111113;
+ Fri, 22 Jan 2021 02:41:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20210121110008.15894-1-wsa+renesas@sang-engineering.com> <20210121110008.15894-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210121110008.15894-2-wsa+renesas@sang-engineering.com>
+References: <20210121110008.15894-1-wsa+renesas@sang-engineering.com> <20210121110008.15894-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210121110008.15894-3-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 22 Jan 2021 11:39:39 +0100
-Message-ID: <CAMuHMdVZ4M=m=+pgwUY4Cuc8PUt8JJpCchk7mDuvmg9Km-zuQw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] arm64: dts: renesas: r8a779a0: add & update SCIF nodes
+Date:   Fri, 22 Jan 2021 11:41:40 +0100
+Message-ID: <CAMuHMdVwpVNCkiogLmFeVP2L2-WH8N0mks_rjivC-_bOxVmspQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] arm64: dts: renesas: falcon: add SCIF0 nodes
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linh Phung <linh.phung.jy@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 12:00 PM Wolfram Sang
+On Thu, Jan 21, 2021 at 12:05 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> This is the result of multiple patches taken from the BSP, combined,
-> rebased, and properly sorted. SCIF0 gets DMA properties, other SCIFs are
-> entirely new.
+> SCIF0 has been enabled by the firmware, so it worked already. Still, add
+> the proper nodes to make it work in any case.
 >
-> Signed-off-by: Linh Phung <linh.phung.jy@renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
 > Changes since v1:
-> * fixed sorting
+> * moved to Falcon CPU dtsi
 
-Thx, will queue in renesas-devel for v5.12.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.12.
 
 Gr{oetje,eeting}s,
 
