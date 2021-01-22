@@ -2,81 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69DFF3000A7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jan 2021 11:50:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2EC53000A9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jan 2021 11:50:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727178AbhAVKtU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jan 2021 05:49:20 -0500
-Received: from www.zeus03.de ([194.117.254.33]:47672 "EHLO mail.zeus03.de"
+        id S1727006AbhAVKth (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jan 2021 05:49:37 -0500
+Received: from www.zeus03.de ([194.117.254.33]:48012 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726670AbhAVKrL (ORCPT
+        id S1727466AbhAVKsl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jan 2021 05:47:11 -0500
+        Fri, 22 Jan 2021 05:48:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=f5EJglY+5c9ireIWj0dXRNwfIKam
-        wdzk/aYyubiDpE0=; b=Sbh6DYNb+n+EJHu5NTkqLHhUuNYxEy/OSoGcihWvUZx3
-        QwW4vzuw+GUb29QuJ3itMh/aqePEVYBboStwamvotLNMaktPL32QtbLe0SIHmgsg
-        +l/IyU3O4qzPtBqZtAgM4eYYmOGqMxUbfdTBIkoqj1pyr4akmEh9307Yhh4qssg=
-Received: (qmail 2306109 invoked from network); 22 Jan 2021 11:46:19 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Jan 2021 11:46:19 +0100
-X-UD-Smtp-Session: l3s3148p1@HnsB5nq5juogAwDPXwqqAP3nWBA3ETDu
-Date:   Fri, 22 Jan 2021 11:46:18 +0100
+        :content-type:in-reply-to; s=k1; bh=PMgvNgcY48fjAtOFJ8UZ1HFr+qTN
+        OAzeOkTMZxnxr9Y=; b=ZuSy68qsXn2ajzCHwuBK0LaW/dJodlMmlz5xsNqqdmMd
+        qiqGAfPmdDLo+bOtsCzfSlRLW8B0fVrROZdySllRFBPL0d/0He2DiUQTx7hr/Nfj
+        VfedbohNtb7Jl3GCVDRKLsowUPviiSlozaqiaGndKp6MhM+FwpiJbioFAQcYqzE=
+Received: (qmail 2306657 invoked from network); 22 Jan 2021 11:47:59 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Jan 2021 11:47:59 +0100
+X-UD-Smtp-Session: l3s3148p1@Ei7t63q5kOogAwDPXwqqAP3nWBA3ETDu
+Date:   Fri, 22 Jan 2021 11:47:58 +0100
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH V2 2/4] arm64: dts: renesas: Add I2C to R8A779A0
-Message-ID: <20210122104618.GA29150@kunai>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 5/5] WIP! arm64: dts: renesas: falcon: Add
+ Ethernet-AVB1-5 support
+Message-ID: <20210122104758.GB29150@kunai>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20210121095420.5023-1-wsa+renesas@sang-engineering.com>
- <20210121095420.5023-3-wsa+renesas@sang-engineering.com>
- <CAMuHMdU-QK2xLrOy-OsS=H7tN5da2wrc3TuVKiwZFy0N6ueDtg@mail.gmail.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210121100619.5653-1-wsa+renesas@sang-engineering.com>
+ <20210121100619.5653-6-wsa+renesas@sang-engineering.com>
+ <CAMuHMdX1PoB-YNXvtr5dFMKu9OE8TdOB43fRfED_wVV6LhRU8g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tKW2IUtsqtDRztdT"
+        protocol="application/pgp-signature"; boundary="jq0ap7NbKX2Kqbes"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdU-QK2xLrOy-OsS=H7tN5da2wrc3TuVKiwZFy0N6ueDtg@mail.gmail.com>
+In-Reply-To: <CAMuHMdX1PoB-YNXvtr5dFMKu9OE8TdOB43fRfED_wVV6LhRU8g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---tKW2IUtsqtDRztdT
+--jq0ap7NbKX2Kqbes
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
-> "arm64: dts: renesas: r8a779a0: Add I2c nodes".
+> >  .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 160 ++++++++++++++++++
+>=20
+> New file r8a779a0-falcon-ether.dtsi?
 
-"I2C" please. Sorry for not prefxing it correctly!
+Makes sense.
+
+>=20
+> > +               ins_mii {
+>=20
+> pins_mii
+
+Now, how did that happen? Thanks!
 
 
---tKW2IUtsqtDRztdT
+--jq0ap7NbKX2Kqbes
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIyBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAKrPYACgkQFA3kzBSg
-KbbOqQ/3Yt6/Lf6mCTAHc3vy13bjaywtdXkwnhbs7xqTM4lppPOs8VHKyvj1vY86
-kDQxUN2/qRThm4KC8uEqeY4Mfh5bCIeGDm7/dsh8rlJ66uxVRYKpAm85DgSFnAmh
-pZK5Tu0QFpmmF7iIcf7vs/FxllT252pSK0sq4dMdqRWKKyfaRMrhmORZikSYIqBq
-hMS2TCL5efpGjyevAlLhx/DxsBtBYzPoPNlqICOCCDjeZsIDI/JXRHPZtgLAN68j
-Hup4vlCKBtd0+EzqBloW0fxz+bB8xQZ5XF3QON765/kNTzpO/xFjsRtwANGhexea
-EnbzN8FPxcigEYVhU3wDLfHANSMGSh7QkBRq704yvBJzUaxkaeC/ceV2P4+DYL1B
-Uw9pKnOSOc/NZK44wEaGFj5bF/LC8RS3RT3G4BHtwvUkhqDF+Z8S0OGnPhbNTlfF
-87sr5/b/WBb2dyGRg3X220SsfHGM3+89XT2Vr14hWcVg/St6N3tGsi3GM8XQjHhp
-225DNRcMYGfAJp3oYMqdGuKvRbBIQyhnHrLj4ONyTVgV4DpZGOAlcTsAGPMWi8KN
-L2RaPfvZSv2/r7+lcZ3c21CJLF6EolahEVtZCPipWdqEZJsWjb8yEht7jvjOlaeT
-bBzak0TcG2SfMdoaYl/lu/rIVlXorqWX9alJ0BmpZ7LB4D7/Aw==
-=RG62
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAKrV0ACgkQFA3kzBSg
+KbbsKg//btL3WC4ZmwXkMAgYycglfnTbQ4Kziaf1JVp1RlYpAROo0tzpO5zQ6hcM
+D4HqeEDI4pa7VFmIhjmOS+klKcWYnDoXd4uSmD8rs2k08XRu2kXAzzVUOyR9VaRT
+YYh8CEX0AKzTlRqo+RRajoje0HGTB6l3/9cM/6op3eDySAhZLZRqXRSAYBC/xfFM
+aQXwupVwhXxDgClKnwSBYpbu9ODEHXY95GCxXhhgQx9eIWZLx2wfwTiAhJknExrr
+R6r3lIoLdaGYf3X3o12j0QGTVq+/z0QknOJuBxAJ5f0t0X1cLva6RfqmtLCDKgpQ
+Iu98g+qg+FYU5Ks56taXGzrz/bZMF33fQsuFLMucwzQp2vB6uoMpjzoweo+jzxlx
+V0aw9hb3bTlr1QQcQMO0Ak4sUlkrgHuAjq2IvfDx6oWKnrnZPkW7x4ecXeHpF0bU
+e/YpBO2oWqoZbyHEVM9pR2drp/wO3GhviMrIbus8zu4EKaFzrAFuALUF483+nOul
+qf01034gGcrZGeNzxH7IpuW24LVzOiSw4sDXOa7L/8Qkodl/cabMrR2eJItP3SnI
+ILV43dQg5aZ5A1Svnw28siYGL2Ai+XRmJ0iCJK4OIej4gYRxHAEO0qeDoBpAerXl
+WPln6qDQDwGgzCgWEnAYAiC2hbRCAsrgMKFtgRVWs0Nrxg4aIog=
+=gEcX
 -----END PGP SIGNATURE-----
 
---tKW2IUtsqtDRztdT--
+--jq0ap7NbKX2Kqbes--
