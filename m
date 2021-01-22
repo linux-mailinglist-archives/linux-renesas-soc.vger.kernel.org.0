@@ -2,99 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08DE8300073
+	by mail.lfdr.de (Postfix) with ESMTP id 74FD0300074
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jan 2021 11:37:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725988AbhAVKff (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jan 2021 05:35:35 -0500
-Received: from mail-qk1-f171.google.com ([209.85.222.171]:45329 "EHLO
-        mail-qk1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727686AbhAVK1l (ORCPT
+        id S1727174AbhAVKfw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jan 2021 05:35:52 -0500
+Received: from mail-qv1-f52.google.com ([209.85.219.52]:45018 "EHLO
+        mail-qv1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727908AbhAVKcd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jan 2021 05:27:41 -0500
-Received: by mail-qk1-f171.google.com with SMTP id r77so4398951qka.12;
-        Fri, 22 Jan 2021 02:27:24 -0800 (PST)
+        Fri, 22 Jan 2021 05:32:33 -0500
+Received: by mail-qv1-f52.google.com with SMTP id d11so2382409qvo.11
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jan 2021 02:32:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vIhaoWWM2NuvcKtHLoEI/L9Ww4a1tUHzU1E2WQMOo5w=;
-        b=KDeilWXhLdJDNtixRhEP2hRLvuoXPXly9vb7deUsnUKL7K7kVZLHwf95U4lv8+uuBM
-         /dI7BXuA95MxyGyn2pAUIKhApHn8O+dFmhezgLgWgDaMvXC8WXBii1NrkIiysUFDuaZM
-         mT9dg9uMVdgKUUq9OEj1oF/sOyWu5eX/vOjYJQ3eYHca7i+sYkZ0ShRr/6pm6M1YWv3L
-         46o1Z4uo03Lu5ibTPrTRLHuWd05Ro0/1MO1Ce5NnqNrDPxoBgMC7Wvc4Cpniw2/WYQ24
-         knmqG91V9gvNQcuWmOe1nQzVz9eSJUc6t+bMIoqA0lxrOXB7zDoTOMwIlPDyjwdxJO/F
-         ZWqg==
-X-Gm-Message-State: AOAM532hKDS0PU0573mPqbwg4NaMtcL0wYfLw/uJsu9qCEP2bP5fdfa0
-        pXMVtQQglZTx7cISPfyZCPfCNPYpnzFyTbCTyr+3eCN4678=
-X-Google-Smtp-Source: ABdhPJz5gomdyAhwwTrS/cCraJKQYLV1Xstvybuakg5104eF8OEciWtScQ23mGx0NJemupv6WYheBYeYdD4Ct78hpeA=
-X-Received: by 2002:a05:620a:b8c:: with SMTP id k12mr1169848qkh.114.1611311219427;
- Fri, 22 Jan 2021 02:26:59 -0800 (PST)
+        bh=eIVeelQ3mqNO4zm82oN04IB1+FI+GAjyZVdOckAwxYM=;
+        b=Eiw7jbg+MHFamkut/bwJceUVZQtSQ2xdcjUsLSCwM1eA5/F85UYHPluplSh1nE/Pxd
+         LzJ7j7Z/3hXfZXp7lPyivz1xvzrCwrlF+Z41SRvW5Nd9F5cc7o/hux5Dy/OhJTw2bp9L
+         HICB8mm9sL7NtAA6nuYXYUAGbG4zLeFBPcvQCEcNS1Gh9aKgibZYc9kTajrffyIaXF8w
+         OkQK4xLVJ2zRJ3/xZWr8D0DiNftXkvQ3hWGFr1TOrmu4FxFMpPEkLFLmlaf9fZGrXDTj
+         QksIZvQRTrti1IXeIVA3YDyXPeRIczIXGgQCC4OJ66sh8eI0DUNIxaH/aAegW00YHgEp
+         /JAQ==
+X-Gm-Message-State: AOAM530gwHShaM7kOHD8OKW/+kcdxwBLmi3ek32iLDH8BGi0Ou7h8tR2
+        h11a6hhMqDO0BR48xGvGbL8b61pkN/GS4AWPHHAQRIgtoJo=
+X-Google-Smtp-Source: ABdhPJx81BMMYbgtge7Jjl5Pq6P+VeAzmzHufsnbg4GKa9GY7gxa37rB1D0rU9b9If3emraImi742a9ApQVODmjRwps=
+X-Received: by 2002:ad4:43ca:: with SMTP id o10mr3845886qvs.25.1611311513082;
+ Fri, 22 Jan 2021 02:31:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20210121100619.5653-1-wsa+renesas@sang-engineering.com> <20210121100619.5653-6-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210121100619.5653-6-wsa+renesas@sang-engineering.com>
+References: <20210121103830.9575-1-wsa+renesas@sang-engineering.com> <20210121103830.9575-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210121103830.9575-2-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 22 Jan 2021 11:26:48 +0100
-Message-ID: <CAMuHMdX1PoB-YNXvtr5dFMKu9OE8TdOB43fRfED_wVV6LhRU8g@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] WIP! arm64: dts: renesas: falcon: Add
- Ethernet-AVB1-5 support
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Fri, 22 Jan 2021 11:31:41 +0100
+Message-ID: <CAMuHMdV=RYfvf7sJxc_F1d3PUDtQPr0ROfqkTbf5quVaZ0LXqw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r8a779a0: Add MMC node
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        Takeshi Saito <takeshi.saito.xv@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Wolfram, Matsuoka-san, Saito-san,
 
-On Thu, Jan 21, 2021 at 11:06 AM Wolfram Sang
+On Thu, Jan 21, 2021 at 11:38 AM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> PHYs on the subboard could not be reached via remote access. But this is
-> the latest DTS snipplet with some fixes suggested by Geert as a starting
-> point. Not for upstream yet!
+> From: Takeshi Saito <takeshi.saito.xv@renesas.com>
 >
+> Add a device node for MMC.
+>
+> Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+> [wsa: double checked & rebased]
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> Change since v1:
->
-> * new patch
-> * removed rxc-skew-ps property
-> * renamed phy-addresses to 0 ('@0')
-> * dropped '_tx' suffix from 'pins_mii' config
-> * added 'okay' status
-> * moved entries to Falcon CPU dtsi
 
-Thanks for the update!
-
->  .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 160 ++++++++++++++++++
-
-New file r8a779a0-falcon-ether.dtsi?
-
-> +       avb5_pins: avb5 {
-> +               mux {
-> +                       groups = "avb5_link", "avb5_mdio", "avb5_rgmii", "avb5_txcrefclk";
-> +                       function = "avb5";
-> +               };
-> +
-> +               pins_mdio {
-> +                       groups = "avb5_mdio";
-> +                       drive-strength = <21>;
-> +               };
-> +
-> +               ins_mii {
-
-pins_mii
-
-> +                       groups = "avb5_rgmii";
-> +                       drive-strength = <21>;
-> +               };
-> +       };
-> +
+ERROR: Missing Signed-off-by: line by nominal patch author 'Takeshi
+Saito <takeshi.saito.xv@renesas.com>'
 
 Gr{oetje,eeting}s,
 
