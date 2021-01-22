@@ -2,113 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D0882FFF26
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jan 2021 10:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14822300024
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jan 2021 11:26:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbhAVJ3b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jan 2021 04:29:31 -0500
-Received: from www.zeus03.de ([194.117.254.33]:50338 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727325AbhAVJKH (ORCPT
+        id S1727191AbhAVKOE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jan 2021 05:14:04 -0500
+Received: from mail-ot1-f41.google.com ([209.85.210.41]:43515 "EHLO
+        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727231AbhAVJ7Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jan 2021 04:10:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=yYGvRI5vU3fWCM5zTsEM9UPJW0uU
-        gsJKQhaglDaenrM=; b=kJqgN858MMfySUKcQZaPyYhlmhOPyH0C5Fa4MrjCB99y
-        GEgZH833rd0HaPgDTAtvOR789ZFd5DCNOz3s8WzRbxkxhuI6ZxwuEug3uvIMZKYt
-        Fcx84FSTMSAsvty5YUZIfvL3rvuIgSqbA+q7ELlR1Z21PYH3ja1PtSxVS/w6FTo=
-Received: (qmail 2271039 invoked from network); 22 Jan 2021 10:02:34 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Jan 2021 10:02:34 +0100
-X-UD-Smtp-Session: l3s3148p1@Itjzcnm5iOkgAwDPXwqqAP3nWBA3ETDu
-Date:   Fri, 22 Jan 2021 10:02:34 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 0/8] i2c: improve RECV_LEN documentation & usage
-Message-ID: <20210122090234.GE858@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-References: <20210109124314.27466-1-wsa+renesas@sang-engineering.com>
+        Fri, 22 Jan 2021 04:59:16 -0500
+Received: by mail-ot1-f41.google.com with SMTP id v1so4529230ott.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jan 2021 01:59:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aqigOQVef+ZYsxoWJnmLLrE2kIEROjGNmadgPrxo15M=;
+        b=Njb/nk80pd03yfTvgNax6flb2s+2ZEyog0P1fwPm6NHoUxUHuXgyvbT9qVVSaVH2yG
+         lddvYkKUuHx9tnjNaKyREovhfrbJ4EM9+DGfCv2eQprZ1fG+d/6qQl3Gdn7+eQuGvYAr
+         NOse+YcMwgo05IM/zNW7RmtHu86ZJMsfdwImMK3pxEj6uuaeBfSbmNA2eh55XH+xwrVs
+         Q3cbshH23ghI4gSIhD1PhBWhLbgYUHOfmYFrVLalY4tX+UxXjzAo1RlK0rt7vf6DXupO
+         3hX7UcQZxJNWXkSRvdX3WVOEYIb3e/nfA11cIC32cReVePgLz2cX5kwh68ryyQ/UFLu3
+         UmpQ==
+X-Gm-Message-State: AOAM533wlqOP9jLaLMnuhK9JHzbzY/7i/u99ja4IwyLirtuMLWpfghPy
+        9P51uqAHQOJTSTA85EPvznHO/bXkyZiGQnLIPIQKFAJ9
+X-Google-Smtp-Source: ABdhPJyGUgklCAdYEjjbjMXMPHfn6dujY7dI+8yWkLeJLPQkFfwVWYX7Jq3jNoRiHLj683O6iHoXndMqZUqzY3BZi1g=
+X-Received: by 2002:a9d:c01:: with SMTP id 1mr2669261otr.107.1611309515348;
+ Fri, 22 Jan 2021 01:58:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mR8QP4gmHujQHb1c"
-Content-Disposition: inline
-In-Reply-To: <20210109124314.27466-1-wsa+renesas@sang-engineering.com>
+References: <20210119133322.87289-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210119133322.87289-1-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 22 Jan 2021 10:58:24 +0100
+Message-ID: <CAMuHMdW5pi81=eLui2GLoYUiuZ6BT7O=jDT_qtMp+_btNo5jaA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: disable SD functions for plain eMMC
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, Jan 19, 2021 at 2:33 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Some SDHI instances are solely used for eMMC. Disable SD and SDIO
+> for faster initialization.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
---mR8QP4gmHujQHb1c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.12.
 
-On Sat, Jan 09, 2021 at 01:43:04PM +0100, Wolfram Sang wrote:
-> Because I want to clarify I2C_M_RECV len usage, this series updates the
-> documentation and some of its users. Patch 1 refactors the whole
-> documentation of 'i2c_msg', so all usage of I2C_M_* flags and their
-> conditions hopefully become clearer. Patch 2+3 remove some obvious
-> boilerplate in the UAPI headers while here. Patch 4 is a driver fix I
-> found while working on this series. Patch 5 introduces a new convenience
-> macro to enable SMBus transfers which need I2C_M_RECV_LEN. Then, some
-> drivers use the new macro, sometimes to remove boilerplate, sometimes
-> because these SMBus transfers have been forgotten before.
->=20
-> This series is the first part of a larger work to extend I2C_M_RECV_LEN
-> to allow larger transfer sizes (as specified in the SMBus 3.0 standard)
-> and to enable this on Renesas R-Car hardware.
->=20
-> Looking forward to comments and/or reviews; the driver patches are only
-> build-tested.
->=20
-> Happy hacking,
->=20
->    Wolfram
->=20
->=20
-> Wolfram Sang (8):
->   i2c: refactor documentation of struct i2c_msg
->   i2c: remove licence boilerplate from main UAPI header
->   i2c: remove licence boilerplate from i2c-dev UAPI header
->   i2c: octeon: check correct size of maximum RECV_LEN packet
->   i2c: uapi: add macro to describe support for all SMBus transfers
->   i2c: algo: bit: use new macro to specifiy capabilities
->   i2c: qup: advertise SMBus transfers using RECV_LEN
->   i2c: s3c2410: advertise SMBus transfers using RECV_LEN
->=20
->  drivers/i2c/algos/i2c-algo-bit.c     |   4 +-
->  drivers/i2c/busses/i2c-octeon-core.c |   2 +-
->  drivers/i2c/busses/i2c-qup.c         |   2 +-
->  drivers/i2c/busses/i2c-s3c2410.c     |   2 +-
+> ---
+>
+> I recall that ARM64 maintainers prefer such changes in one block and not
+> individual patches. If that's not true, I can convert, of course.
 
-Applied to for-next, thanks!
+Correct, thx!
 
+Gr{oetje,eeting}s,
 
---mR8QP4gmHujQHb1c
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAKlKoACgkQFA3kzBSg
-KbadmxAAgAsFpg45B6cfikhrtCMoQ9WUcg8TTipybmy33IOSiLZCrJ8DpzxkuWr4
-P4AirjpXtJuE/ibNXHGYhBr1AeXqL4jkKjkYkgNvXhvb77XEGwOThF/AVCOUS2Gf
-r0mgLfwF0zs1DTPtFKhX6yrANTmjriMY5uyAaBCIgd5zmo72cH2k8ozasBwQztrc
-rt39OTTt8ZDJonrCfVLUoj6p2YyuYQUNkBDtbQG/v/jxTw2G7CJErFUUXiu7W4R2
-kIJh5pH/aK5NqrUAGS86hmDUoIM6XXyIU5ddtLVBySB558yIWXZ9lgXKnvsw1JGs
-CyyV7x5almZQCSM8jVzSyz8aYpxJluACdJ4cdPojFODwG88cblfime/6olQGDWRF
-cG1LYLFyPpWYQjHi2LMX3YojJZBPFSFhOJF1hM8NjZpqEpS+9ZBWgy3uB+plXcUB
-Hlg9g0RrfufrDAzEomzASaQpYkbCxk6OAyXE50QieOJc5K6mYCSdANrdcQDgdTFR
-q6bv0MaG0xKbbRmTX7idzpstAvdj5mh0aPC13WVY0P5W8qRTsuY8j8splZffaOad
-4vcC3CWlHz/vfisQnCt4TwzqYYI4K0jYW7N+giOW9drP/hstaZXqFwYZnlo53ZV3
-XoisBWQA9qkTrhbvQA+b7E7NJzm4q8ZX+xfi20VlaVZgxg4voEY=
-=H1I2
------END PGP SIGNATURE-----
-
---mR8QP4gmHujQHb1c--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
