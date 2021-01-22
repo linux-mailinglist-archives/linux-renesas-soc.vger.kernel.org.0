@@ -2,65 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74FD0300074
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jan 2021 11:37:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E8A9300092
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Jan 2021 11:47:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727174AbhAVKfw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jan 2021 05:35:52 -0500
-Received: from mail-qv1-f52.google.com ([209.85.219.52]:45018 "EHLO
-        mail-qv1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727908AbhAVKcd (ORCPT
+        id S1726740AbhAVKot (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Jan 2021 05:44:49 -0500
+Received: from mail-qt1-f180.google.com ([209.85.160.180]:44920 "EHLO
+        mail-qt1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726880AbhAVKfj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jan 2021 05:32:33 -0500
-Received: by mail-qv1-f52.google.com with SMTP id d11so2382409qvo.11
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jan 2021 02:32:18 -0800 (PST)
+        Fri, 22 Jan 2021 05:35:39 -0500
+Received: by mail-qt1-f180.google.com with SMTP id r9so3692029qtp.11
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jan 2021 02:35:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eIVeelQ3mqNO4zm82oN04IB1+FI+GAjyZVdOckAwxYM=;
-        b=Eiw7jbg+MHFamkut/bwJceUVZQtSQ2xdcjUsLSCwM1eA5/F85UYHPluplSh1nE/Pxd
-         LzJ7j7Z/3hXfZXp7lPyivz1xvzrCwrlF+Z41SRvW5Nd9F5cc7o/hux5Dy/OhJTw2bp9L
-         HICB8mm9sL7NtAA6nuYXYUAGbG4zLeFBPcvQCEcNS1Gh9aKgibZYc9kTajrffyIaXF8w
-         OkQK4xLVJ2zRJ3/xZWr8D0DiNftXkvQ3hWGFr1TOrmu4FxFMpPEkLFLmlaf9fZGrXDTj
-         QksIZvQRTrti1IXeIVA3YDyXPeRIczIXGgQCC4OJ66sh8eI0DUNIxaH/aAegW00YHgEp
-         /JAQ==
-X-Gm-Message-State: AOAM530gwHShaM7kOHD8OKW/+kcdxwBLmi3ek32iLDH8BGi0Ou7h8tR2
-        h11a6hhMqDO0BR48xGvGbL8b61pkN/GS4AWPHHAQRIgtoJo=
-X-Google-Smtp-Source: ABdhPJx81BMMYbgtge7Jjl5Pq6P+VeAzmzHufsnbg4GKa9GY7gxa37rB1D0rU9b9If3emraImi742a9ApQVODmjRwps=
-X-Received: by 2002:ad4:43ca:: with SMTP id o10mr3845886qvs.25.1611311513082;
- Fri, 22 Jan 2021 02:31:53 -0800 (PST)
+        bh=uIs0ctLj6Scyu8rQsE09KeMGGUze7WYd2d4sBHjiuNg=;
+        b=CGyQV8eU7y20iEKEgA1rdFJCBZnRQaAEwlnmRuTAeWKMfpbgfd6phPTL/kPbwBjnS9
+         GKy4jwa0jPNZi7inTBS3c1voeLt96oc9iwsyZxdEgDygXJYLYEH4qnvnK8AgZIQ1shkX
+         EDGD0//vIKr+svygVRb46JTlfCVik9LLHwVPqfWu5RcsHGwcfjbGCUn/YpzvLVpBsjj+
+         9oOYQ/xyHXNnkRLwhSLlpZyMJVK/OcRTk/b15fS2mGscX/E5nkSjBJLlstfGst8dW8NB
+         xLaHzPX1CdEYItfliEsT37XuaPuC2lc4IsXDw9FZ7PjHbuUzvKqn4oEU85zh/LgVuH62
+         UxWQ==
+X-Gm-Message-State: AOAM530hbmbgB959IcgOuEFZpn4BiTRRs74E4bVKoPOYjqP2agwZwaQT
+        poeqbLxmDCpGh+Bhz72nBXTCDOK5MkvlNz1ucI+9Z92Xejk=
+X-Google-Smtp-Source: ABdhPJybL3hYDRNQAz5ULSjdPa/s/hPwV+xkj1HI0ZIqu0MJkYWCEWcYftydqjW2CwKG/DC2I65mJ3g5TNfppJAR1W0=
+X-Received: by 2002:ac8:3986:: with SMTP id v6mr3620431qte.308.1611311697945;
+ Fri, 22 Jan 2021 02:34:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20210121103830.9575-1-wsa+renesas@sang-engineering.com> <20210121103830.9575-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210121103830.9575-2-wsa+renesas@sang-engineering.com>
+References: <20210121103830.9575-1-wsa+renesas@sang-engineering.com> <20210121103830.9575-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210121103830.9575-3-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 22 Jan 2021 11:31:41 +0100
-Message-ID: <CAMuHMdV=RYfvf7sJxc_F1d3PUDtQPr0ROfqkTbf5quVaZ0LXqw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: r8a779a0: Add MMC node
+Date:   Fri, 22 Jan 2021 11:34:46 +0100
+Message-ID: <CAMuHMdWAA8bw338KsaT7ztnPo3oAWB_RWGSw=Lze11A+3_0D=w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: falcon: Enable MMC
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
-        Takeshi Saito <takeshi.saito.xv@renesas.com>
+        Takeshi Saito <takeshi.saito.xv@renesas.com>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram, Matsuoka-san, Saito-san,
+Hi Wolfram, Saito-san, Matsuoka-san,
 
-On Thu, Jan 21, 2021 at 11:38 AM Wolfram Sang
+On Thu, Jan 21, 2021 at 11:40 AM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
 > From: Takeshi Saito <takeshi.saito.xv@renesas.com>
 >
-> Add a device node for MMC.
+> Enable MMC on the Falcon board.
 >
 > Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-> [wsa: double checked & rebased]
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> [wsa: double checked, rebased, slightly improved, moved to falcon-cpu]
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 ERROR: Missing Signed-off-by: line by nominal patch author 'Takeshi
 Saito <takeshi.saito.xv@renesas.com>'
+
+> ---
+> Changes since v1:
+> * improved node names for regulators
+> * moved entries to Falcon CPU dtsi
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
