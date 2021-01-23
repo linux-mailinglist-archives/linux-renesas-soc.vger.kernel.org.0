@@ -2,109 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AD4D3012C4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Jan 2021 04:46:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC54E301727
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Jan 2021 18:22:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbhAWDqC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Jan 2021 22:46:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54310 "EHLO
+        id S1726119AbhAWRVK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 23 Jan 2021 12:21:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726705AbhAWDp4 (ORCPT
+        with ESMTP id S1726021AbhAWRVI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Jan 2021 22:45:56 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22428C0617AB
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jan 2021 19:44:34 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id b8so4410487plx.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Jan 2021 19:44:34 -0800 (PST)
+        Sat, 23 Jan 2021 12:21:08 -0500
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C6DEC06174A;
+        Sat, 23 Jan 2021 09:20:28 -0800 (PST)
+Received: by mail-oo1-xc2c.google.com with SMTP id j8so2239128oon.3;
+        Sat, 23 Jan 2021 09:20:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dJGIvDbFer174uYIU3S/UHlxuD0C4SN9Ba2a5uW/TjI=;
-        b=OifXzFWywulgTYIb9jiyHpcD9JRWqdvQpqyIxxU2D6tsvuICK7UAWAuNdhwL9zUrAR
-         K+Nk1PB3vJuukAby67BHb75dLenU9dJldjAEfwR/2+8xvD7W58qyqrNjKfvj0OLfm/Vm
-         zbEeseMkg52zIyx68ryB6lk3sZbv2Q8yvg+zE=
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aa2zhNGEVZtl6VmccV5UFZrKiIyp17kWyCqdcVHVHY0=;
+        b=fFgA0NUqXaku8+W69UNv8VLzwja6322eL+nb1CEUI8rHNjci1SrnWagoUhhKcYNVzR
+         kut4i68WxVLtWiQDlN1ki+KXEph7jxbi1jGXmqveBXRMNWN1QG6HlmCkvUWoKxmxaDXb
+         LlAorBsUsFHMI381z3B2NojUO7WQg4UnVcNH2lTCHZroJo9/VzDYq5LjTqkKzQA2JVfC
+         vuTuSimWUwOr0HQ/u1vL2Jz9vhtPSQcv6gKuBDRCZ5nIEEWgJzOoQ/l1HRauvhjSdonD
+         nQ5z68gV44lLI6TWOZzm2p5R2osgY7PhZJgEm/IBogzIQvyarRhUxa9xMGsW5pDT3S9i
+         ipug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dJGIvDbFer174uYIU3S/UHlxuD0C4SN9Ba2a5uW/TjI=;
-        b=qpdV6c4CUGCy3mikq4hWZJwiroSI4tuUZhOtCqyNTisdQOgcX1e/nD81fpTW1OsKGW
-         weCstoH5G+9lEDHZpkSpGnDZvbkEM+20CIjg29JTg8Pqc8wXhoaKAPG7oknUzRaXX23H
-         5xU5o2+nYsruu9QtUxqXzmgzXo33FjSkcIPm2STTcyOcTVcoFAq8vN539454VsyGhD0Y
-         Tq0NIsf6vu+YsSgssmUFhtMs8FQR/xPWYG0ho3/rFjxRzw+xOjhN3Tat3f9ZKt0MgUtA
-         wi1BY1IrOW0hMqdHpmXSK0XAXFqqtM8naYEt5k2kUtpZGE8cdgt3ibbb7Ov0JCO056fb
-         qkIg==
-X-Gm-Message-State: AOAM531+0cT1Hcm35zPND/DnPiEYHkvXH9r+5XUB0MXXAuC6orIXGqYO
-        yyVXvNCtYnc3oMZuBB49FufBlA==
-X-Google-Smtp-Source: ABdhPJwOaNd8kn+wXdYuJVArrzuHdGMUINcUY27IXOlFKIQTp/Yvg53oR2Q8FrPD6gGeNitPo2TNQw==
-X-Received: by 2002:a17:90b:3792:: with SMTP id mz18mr8968978pjb.23.1611373473763;
-        Fri, 22 Jan 2021 19:44:33 -0800 (PST)
-Received: from smtp.gmail.com ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
-        by smtp.gmail.com with ESMTPSA id gf23sm10480343pjb.42.2021.01.22.19.44.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 19:44:33 -0800 (PST)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aa2zhNGEVZtl6VmccV5UFZrKiIyp17kWyCqdcVHVHY0=;
+        b=NjYeioXpbaCR8SphrWomUKFnnRvBUuZdJCkLs7ugDqerjkF1COWb3oN/ECE8dSXPjd
+         UgVbQcweSsW+YPsvDhScYAfRK+jwtshGKWTszNw/iXfHEITs5xz7VCE4KnhhLuD+qs/y
+         4IgXy/xc87Taq6L+farvwHdA6OsLJulUurPZ67Z4jX1T3krY2zdzpw5pYUbqGDxr8iQA
+         C4shBUnmlt5hX3jbtfrLbTS7JCVRzz77z6c/aKVqf/8zGGYk0lPJGNIS9pEP9UPsBwTc
+         Pbeb28Lej72zeg7z4YMp3LTLasYeV4uKXNGAv+JkX4HcIE6vern7NDYMNa25OWED8Qc5
+         otLg==
+X-Gm-Message-State: AOAM533qayWiag7qCS7kK/aDoRgsmnfeEsQM+ntO8hs13a8/che96G9a
+        uyIjLe+axqs4CDfZnLbon2spKJSc+uA=
+X-Google-Smtp-Source: ABdhPJxIrr1yJazmxH5j1L9GZit8rfkCVzkbmVq+v2Wd1FaMruoXoZN6zhL3sJEScO+XSeyhTeRZ9A==
+X-Received: by 2002:a4a:901a:: with SMTP id i26mr7575583oog.42.1611422427977;
+        Sat, 23 Jan 2021 09:20:27 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id i126sm2399054oif.22.2021.01.23.09.20.26
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 23 Jan 2021 09:20:27 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sat, 23 Jan 2021 09:20:26 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 1/6] media: renesas-ceu: Use of_device_get_match_data()
-Date:   Fri, 22 Jan 2021 19:44:23 -0800
-Message-Id: <20210123034428.2841052-2-swboyd@chromium.org>
-X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
-In-Reply-To: <20210123034428.2841052-1-swboyd@chromium.org>
-References: <20210123034428.2841052-1-swboyd@chromium.org>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] dt-bindings: watchdog: renesas,wdt: add r8a779a0
+ (V3U) support
+Message-ID: <20210123172026.GA56070@roeck-us.net>
+References: <20201218173731.12839-1-wsa+renesas@sang-engineering.com>
+ <20201218173731.12839-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201218173731.12839-2-wsa+renesas@sang-engineering.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This driver can use the replacement API instead of calling
-of_match_device() and then dereferencing the pointer that is returned.
-This nicely avoids referencing the match table when it is undefined with
-configurations where CONFIG_OF=n.
+On Fri, Dec 18, 2020 at 06:37:26PM +0100, Wolfram Sang wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Rob Herring <robh@kernel.org>
 
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jacopo Mondi <jacopo@jmondi.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Frank Rowand <frowand.list@gmail.com>
-Cc: <linux-media@vger.kernel.org>
-Cc: <linux-renesas-soc@vger.kernel.org>
----
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-Please ack so Rob can apply.
-
- drivers/media/platform/renesas-ceu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
-index 4a633ad0e8fa..352e7c84d5ba 100644
---- a/drivers/media/platform/renesas-ceu.c
-+++ b/drivers/media/platform/renesas-ceu.c
-@@ -1679,7 +1679,7 @@ static int ceu_probe(struct platform_device *pdev)
- 	v4l2_async_notifier_init(&ceudev->notifier);
- 
- 	if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
--		ceu_data = of_match_device(ceu_of_match, dev)->data;
-+		ceu_data = of_device_get_match_data(dev);
- 		num_subdevs = ceu_parse_dt(ceudev);
- 	} else if (dev->platform_data) {
- 		/* Assume SH4 if booting with platform data. */
--- 
-https://chromeos.dev
-
+> ---
+> 
+> Please apply it to the watchdog-tree.
+> 
+>  Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> index 6933005b52bd..ab66d3f0c476 100644
+> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> @@ -50,6 +50,7 @@ properties:
+>                - renesas,r8a77980-wdt     # R-Car V3H
+>                - renesas,r8a77990-wdt     # R-Car E3
+>                - renesas,r8a77995-wdt     # R-Car D3
+> +              - renesas,r8a779a0-wdt     # R-Car V3U
+>            - const: renesas,rcar-gen3-wdt # R-Car Gen3 and RZ/G2
+>  
+>    reg:
