@@ -2,115 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D49E5302659
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Jan 2021 15:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67CDD302D8D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Jan 2021 22:25:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728215AbhAYOdo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Jan 2021 09:33:44 -0500
-Received: from leibniz.telenet-ops.be ([195.130.137.77]:48096 "EHLO
-        leibniz.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729474AbhAYOdJ (ORCPT
+        id S1732687AbhAYVZd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Jan 2021 16:25:33 -0500
+Received: from mail-ot1-f54.google.com ([209.85.210.54]:44681 "EHLO
+        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732682AbhAYVZZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Jan 2021 09:33:09 -0500
-X-Greylist: delayed 314 seconds by postgrey-1.27 at vger.kernel.org; Mon, 25 Jan 2021 09:33:08 EST
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 4DPXPS00fHzMsJcw
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 15:31:56 +0100 (CET)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id M2Wi240034C55Sk012WiV4; Mon, 25 Jan 2021 15:30:54 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l42t7-000emF-Gs; Mon, 25 Jan 2021 15:30:41 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l42t6-004PfB-P9; Mon, 25 Jan 2021 15:30:40 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Viresh Kumar <vireshk@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ntp: Use freezable workqueue for RTC synchronization
-Date:   Mon, 25 Jan 2021 15:30:39 +0100
-Message-Id: <20210125143039.1051912-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Mon, 25 Jan 2021 16:25:25 -0500
+Received: by mail-ot1-f54.google.com with SMTP id e70so14201488ote.11;
+        Mon, 25 Jan 2021 13:25:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gerI2X7REx0tAiYWrM7wbv2wWEM/qqVaLK1pErzM2N0=;
+        b=H8ub348Z4j4AswMylqX81SOsEH3QgNtPCEPUhzgroTZTuIsaB/xoGC5N/ci+1Jsp16
+         8sZugENF4oK6awvdl9D1R5o0rdDhaJqxcA5iECLr5MSXaPzJLchvt/sG84I9UfnSOYl6
+         oJtBmlS6m6jj7p4ZeRqoQudpWvFniLIuZmC0ayTWCVO561ZTUZriNoc5EN/V+2qQkseG
+         vcs8WKPqg/3thnaFmHFO0HuuU8Lm/L7MLNA3unFaQ6pbabX4hfS0gG0hiwcJVARDcswu
+         GisSZoeRX46PMviO48dL6wILBFf22LPE5gnd1uxI3HJV5V6bAufVB3caeipurWo7kY/t
+         CN9g==
+X-Gm-Message-State: AOAM532bSJlflCnOS/b5vVRc+rj8Mz4/dEq++YC+wrOXE3V67QehWUdJ
+        pL9NKjzephDdEMu6DJcEAg==
+X-Google-Smtp-Source: ABdhPJwOlCcoKwWW+VD9c1AKxsaKLbvI3DbHBpYFnjcRG9a6psp4t4wPzAAGnPgD8c3ynPy7yLfnow==
+X-Received: by 2002:a05:6830:1e50:: with SMTP id e16mr1787994otj.149.1611609884301;
+        Mon, 25 Jan 2021 13:24:44 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id n93sm3697893ota.37.2021.01.25.13.24.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 13:24:43 -0800 (PST)
+Received: (nullmailer pid 1024393 invoked by uid 1000);
+        Mon, 25 Jan 2021 21:24:42 -0000
+Date:   Mon, 25 Jan 2021 15:24:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
+        Adam Ford <aford173@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2] dt-bindings: clk: versaclock5: Miscellaneous fixes
+ and improvements:
+Message-ID: <20210125212442.GA1019390@robh.at.kernel.org>
+References: <20210114125650.2233045-1-geert+renesas@glider.be>
+ <6d7a8180-b10d-481f-a3ca-05c37c17cb1a@lucaceresoli.net>
+ <CAMuHMdWO5Uv22q8TuO4MQ_gv4LLT6UDCm0TrDtWe6DL=bbFKWw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWO5Uv22q8TuO4MQ_gv4LLT6UDCm0TrDtWe6DL=bbFKWw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The bug fixed by commit e3fab2f3de081e98 ("ntp: Fix RTC synchronization
-on 32-bit platforms") revealed an underlying issue: RTC synchronization
-may happen anytime, even while the system is partially suspended.
+On Wed, Jan 20, 2021 at 05:29:54PM +0100, Geert Uytterhoeven wrote:
+> Hi Luca,
+> 
+> On Wed, Jan 20, 2021 at 5:08 PM Luca Ceresoli <luca@lucaceresoli.net> wrote:
+> > On 14/01/21 13:56, Geert Uytterhoeven wrote:
+> > >   - Add missing reference for "idt,voltage-microvolt",
+> > >   - Add missing "additionalProperties: false" for subnodes, to catch
+> > >     typos in properties,
+> > >   - Fix property names in example.
+> > >
+> > > Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > v2:
+> > >   - Settle on "idt,voltage-microvolt", cfr. commit 4b003f5fcadfa2d0
+> > >     ('clk: vc5: Use "idt,voltage-microvolt" instead of
+> > >     "idt,voltage-microvolts"'),
+> > >   - Drop reference to clock.yaml, which is already applied
+> > >     unconditionally,
+> > >   - Drop removal of allOf around if condition, as it is unnecessary
+> > >     churn.
+> > > ---
+> > >  .../devicetree/bindings/clock/idt,versaclock5.yaml       | 9 ++++++---
+> > >  1 file changed, 6 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+> > > index 2ac1131fd9222a86..70239f992d714ae0 100644
+> > > --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+> > > +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+> > > @@ -75,12 +75,15 @@ patternProperties:
+> > >          maximum: 6
+> > >        idt,voltage-microvolt:
+> > >          description: The output drive voltage.
+> > > +        $ref: /schemas/types.yaml#/definitions/uint32
+> >
+> > "Vendor specific properties having a standard unit suffix don't need a
+> > type." -- Documentation/devicetree/bindings/example-schema.yaml
+> 
+> Thanks, will fix in v3!
+> 
+> Rob: would this apply to idt,slew-percent, too?
+> I.e. should -percent be added to dt-schema/schemas/property-units.yaml?
 
-On systems where the RTC is connected to an I2C bus, the I2C bus
-controller may already or still be suspended, triggering a WARNING
-during suspend or resume from s2ram:
+Yes.
 
-    WARNING: CPU: 0 PID: 124 at drivers/i2c/i2c-core.h:54 __i2c_transfer+0x634/0x680
-    i2c i2c-6: Transfer while suspended
-    [...]
-    Workqueue: events_power_efficient sync_hw_clock
-    [...]
-    [<c0738e08>] (__i2c_transfer) from [<c0738eac>] (i2c_transfer+0x58/0xf8)
-    [<c0738eac>] (i2c_transfer) from [<c065202c>] (regmap_i2c_read+0x58/0x94)
-    [<c065202c>] (regmap_i2c_read) from [<c064de40>] (_regmap_raw_read+0x19c/0x2f4)
-    [<c064de40>] (_regmap_raw_read) from [<c064dfdc>] (_regmap_bus_read+0x44/0x68)
-    [<c064dfdc>] (_regmap_bus_read) from [<c064ccb4>] (_regmap_read+0x84/0x1a4)
-    [<c064ccb4>] (_regmap_read) from [<c064d334>] (_regmap_update_bits+0xa8/0xf4)
-    [<c064d334>] (_regmap_update_bits) from [<c064d464>] (_regmap_select_page+0xe4/0x100)
-    [<c064d464>] (_regmap_select_page) from [<c064d554>] (_regmap_raw_write_impl+0xd4/0x6c4)
-    [<c064d554>] (_regmap_raw_write_impl) from [<c064ec10>] (_regmap_raw_write+0xd8/0x114)
-    [<c064ec10>] (_regmap_raw_write) from [<c064eca4>] (regmap_raw_write+0x58/0x7c)
-    [<c064eca4>] (regmap_raw_write) from [<c064ede0>] (regmap_bulk_write+0x118/0x13c)
-    [<c064ede0>] (regmap_bulk_write) from [<c073660c>] (da9063_rtc_set_time+0x44/0x8c)
-    [<c073660c>] (da9063_rtc_set_time) from [<c0734164>] (rtc_set_time+0xc8/0x228)
-    [<c0734164>] (rtc_set_time) from [<c02abe78>] (sync_hw_clock+0x128/0x1fc)
-    [<c02abe78>] (sync_hw_clock) from [<c023e6a0>] (process_one_work+0x330/0x550)
-    [<c023e6a0>] (process_one_work) from [<c023f0a8>] (worker_thread+0x22c/0x2ec)
-
-Fix this race condition by using the freezable instead of the normal
-power-efficient workqueue.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- kernel/time/ntp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/kernel/time/ntp.c b/kernel/time/ntp.c
-index 54d52fab201d283e..6310328fe398406a 100644
---- a/kernel/time/ntp.c
-+++ b/kernel/time/ntp.c
-@@ -502,7 +502,7 @@ static struct hrtimer sync_hrtimer;
- 
- static enum hrtimer_restart sync_timer_callback(struct hrtimer *timer)
- {
--	queue_work(system_power_efficient_wq, &sync_work);
-+	queue_work(system_freezable_power_efficient_wq, &sync_work);
- 
- 	return HRTIMER_NORESTART;
- }
-@@ -668,7 +668,7 @@ void ntp_notify_cmos_timer(void)
- 	 * just a pointless work scheduled.
- 	 */
- 	if (ntp_synced() && !hrtimer_is_queued(&sync_hrtimer))
--		queue_work(system_power_efficient_wq, &sync_work);
-+		queue_work(system_freezable_power_efficient_wq, &sync_work);
- }
- 
- static void __init ntp_init_cmos_sync(void)
--- 
-2.25.1
-
+Rob
