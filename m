@@ -2,93 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43A0930255F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Jan 2021 14:17:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D49E5302659
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Jan 2021 15:36:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728379AbhAYNO2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Jan 2021 08:14:28 -0500
-Received: from mail-ot1-f54.google.com ([209.85.210.54]:46292 "EHLO
-        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728655AbhAYNNK (ORCPT
+        id S1728215AbhAYOdo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Jan 2021 09:33:44 -0500
+Received: from leibniz.telenet-ops.be ([195.130.137.77]:48096 "EHLO
+        leibniz.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729474AbhAYOdJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Jan 2021 08:13:10 -0500
-Received: by mail-ot1-f54.google.com with SMTP id d1so12618004otl.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 05:12:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IsT6ga5KS5x7tfYE6Idz9dAAqs/81AeLETCFt0mKlL8=;
-        b=VNlHtmSv6QUJh59GkVs7nsAaTEhHMzL9J/wBRI2HANxekH5A0v5GlSzjsX8nIAk9Jc
-         iah1aV+QoAR0rvBRVMd1CucuDzAeCIaMEd/s/LEgc/rHe0hp8bjYbeSZRUNIdlOtehgw
-         DkpvPGh+iwj7tL6kVEICpJCibujklkpcOtAZkYESqFy1Pwl2MtXLweY/tAmWLRlkjuQO
-         ZY8KPHbanklUqo39yvv8t1COvpg+naxCHtgfFOh0DLNbAfAgfqSrPfcAnpOj0/JktcSN
-         3wC0ZQF/s2b8N10voElgDUZHtluwQY2t3VFQlBrsyjFA8HP6Sst7ORQX56bNUL2vIMZk
-         rIGQ==
-X-Gm-Message-State: AOAM530jvzwPkGe06e72sayOhqyrapA7jadQ//RSMWjKoKiiK4sKp7dg
-        VAmCT3bQCPqQ+WUHibzzq55dGf1JojMX3gzQu7XoOn28
-X-Google-Smtp-Source: ABdhPJyzBjZPlnyvBC3ru+HvtVTvM/i6VeLoe1f3MMxYqnvFNh1UhrimAsiMY7H2AUGs8aeOPP5oQgIdfTC9e7bnLy0=
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr395773oth.250.1611580348656;
- Mon, 25 Jan 2021 05:12:28 -0800 (PST)
+        Mon, 25 Jan 2021 09:33:09 -0500
+X-Greylist: delayed 314 seconds by postgrey-1.27 at vger.kernel.org; Mon, 25 Jan 2021 09:33:08 EST
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 4DPXPS00fHzMsJcw
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 15:31:56 +0100 (CET)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by xavier.telenet-ops.be with bizsmtp
+        id M2Wi240034C55Sk012WiV4; Mon, 25 Jan 2021 15:30:54 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l42t7-000emF-Gs; Mon, 25 Jan 2021 15:30:41 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l42t6-004PfB-P9; Mon, 25 Jan 2021 15:30:40 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Viresh Kumar <vireshk@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ntp: Use freezable workqueue for RTC synchronization
+Date:   Mon, 25 Jan 2021 15:30:39 +0100
+Message-Id: <20210125143039.1051912-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210122113637.2833489-1-geert+renesas@glider.be> <YAshsZKxlmjjKJTH@oden.dyn.berto.se>
-In-Reply-To: <YAshsZKxlmjjKJTH@oden.dyn.berto.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 25 Jan 2021 14:12:17 +0100
-Message-ID: <CAMuHMdXTC_=DfSGhpnq3NHcGHcgotWB4cpua5nKC9oH=Gbb8Rw@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: rcar-sysc: Use readl_poll_timeout_atomic()
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+The bug fixed by commit e3fab2f3de081e98 ("ntp: Fix RTC synchronization
+on 32-bit platforms") revealed an underlying issue: RTC synchronization
+may happen anytime, even while the system is partially suspended.
 
-On Fri, Jan 22, 2021 at 8:04 PM Niklas Söderlund
-<niklas.soderlund@ragnatech.se> wrote:
-> On 2021-01-22 12:36:37 +0100, Geert Uytterhoeven wrote:
-> > Replace the open-coded polling loops by calls to the
-> > readl_poll_timeout_atomic() helper macro.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On systems where the RTC is connected to an I2C bus, the I2C bus
+controller may already or still be suspended, triggering a WARNING
+during suspend or resume from s2ram:
 
-> > --- a/drivers/soc/renesas/rcar-sysc.c
-> > +++ b/drivers/soc/renesas/rcar-sysc.c
+    WARNING: CPU: 0 PID: 124 at drivers/i2c/i2c-core.h:54 __i2c_transfer+0x634/0x680
+    i2c i2c-6: Transfer while suspended
+    [...]
+    Workqueue: events_power_efficient sync_hw_clock
+    [...]
+    [<c0738e08>] (__i2c_transfer) from [<c0738eac>] (i2c_transfer+0x58/0xf8)
+    [<c0738eac>] (i2c_transfer) from [<c065202c>] (regmap_i2c_read+0x58/0x94)
+    [<c065202c>] (regmap_i2c_read) from [<c064de40>] (_regmap_raw_read+0x19c/0x2f4)
+    [<c064de40>] (_regmap_raw_read) from [<c064dfdc>] (_regmap_bus_read+0x44/0x68)
+    [<c064dfdc>] (_regmap_bus_read) from [<c064ccb4>] (_regmap_read+0x84/0x1a4)
+    [<c064ccb4>] (_regmap_read) from [<c064d334>] (_regmap_update_bits+0xa8/0xf4)
+    [<c064d334>] (_regmap_update_bits) from [<c064d464>] (_regmap_select_page+0xe4/0x100)
+    [<c064d464>] (_regmap_select_page) from [<c064d554>] (_regmap_raw_write_impl+0xd4/0x6c4)
+    [<c064d554>] (_regmap_raw_write_impl) from [<c064ec10>] (_regmap_raw_write+0xd8/0x114)
+    [<c064ec10>] (_regmap_raw_write) from [<c064eca4>] (regmap_raw_write+0x58/0x7c)
+    [<c064eca4>] (regmap_raw_write) from [<c064ede0>] (regmap_bulk_write+0x118/0x13c)
+    [<c064ede0>] (regmap_bulk_write) from [<c073660c>] (da9063_rtc_set_time+0x44/0x8c)
+    [<c073660c>] (da9063_rtc_set_time) from [<c0734164>] (rtc_set_time+0xc8/0x228)
+    [<c0734164>] (rtc_set_time) from [<c02abe78>] (sync_hw_clock+0x128/0x1fc)
+    [<c02abe78>] (sync_hw_clock) from [<c023e6a0>] (process_one_work+0x330/0x550)
+    [<c023e6a0>] (process_one_work) from [<c023f0a8>] (worker_thread+0x22c/0x2ec)
 
-> > @@ -101,8 +100,7 @@ static int rcar_sysc_power(const struct rcar_sysc_ch *sysc_ch, bool on)
-> >       unsigned int chan_mask = BIT(sysc_ch->chan_bit);
-> >       unsigned int status;
-> >       unsigned long flags;
-> > -     int ret = 0;
-> > -     int k;
-> > +     int k, ret;
->
-> nit: I would make k an unsigned as it's now only used in incremental
-> loops starting at 0.
+Fix this race condition by using the freezable instead of the normal
+power-efficient workqueue.
 
-That was the case before, too, wasn't it? ;-)
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ kernel/time/ntp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> With or without this unrelated nit,
->
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-Thanks, will make the change.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/kernel/time/ntp.c b/kernel/time/ntp.c
+index 54d52fab201d283e..6310328fe398406a 100644
+--- a/kernel/time/ntp.c
++++ b/kernel/time/ntp.c
+@@ -502,7 +502,7 @@ static struct hrtimer sync_hrtimer;
+ 
+ static enum hrtimer_restart sync_timer_callback(struct hrtimer *timer)
+ {
+-	queue_work(system_power_efficient_wq, &sync_work);
++	queue_work(system_freezable_power_efficient_wq, &sync_work);
+ 
+ 	return HRTIMER_NORESTART;
+ }
+@@ -668,7 +668,7 @@ void ntp_notify_cmos_timer(void)
+ 	 * just a pointless work scheduled.
+ 	 */
+ 	if (ntp_synced() && !hrtimer_is_queued(&sync_hrtimer))
+-		queue_work(system_power_efficient_wq, &sync_work);
++		queue_work(system_freezable_power_efficient_wq, &sync_work);
+ }
+ 
+ static void __init ntp_init_cmos_sync(void)
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
