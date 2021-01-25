@@ -2,61 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8690B3049E4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 21:18:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B65513049D6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 21:17:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729339AbhAZFVo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 00:21:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41442 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727038AbhAYJlF (ORCPT
+        id S1729592AbhAZFWh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jan 2021 00:22:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730337AbhAYPoj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Jan 2021 04:41:05 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 6632C22472
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 09:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611567623;
-        bh=ixY3qSF9yPWv0T3ZLO+8U/8nQROTxD2og8EIQ4FWwo0=;
-        h=Subject:From:Date:To:From;
-        b=WHw8Px+P3M8Ut4HXzU55scGwQzWVTDe69vjDJqxMz/LdHv7y/gvKPuE2q2ZBv6Jy5
-         Xgkzi91Ixm3//WP3uLaTE2JVO5EBaAQ1sPxzI1EYBHaHF8FY6eDCqlmMiya1cMkGTE
-         SpHEb0+ldiQZVoT5SjAt99lcUDTFc8pxPXSqZQDCQmEwjjWMwXRWHFKUoMwi5TBaea
-         Ve+3r886HHeeJB2aKNSiYnQGo5UuRwe8q+rxCKov5CbZGEYoXdn7Q/S8D+tXekRcBv
-         Ssf0TCKOAxwl8fxhdlFjdc/21MHe2+Hglelp7h4WlUmxaQthN6/6FxlC1+uMceVAV+
-         xIQKGtp+MruNw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 51566652F7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 09:40:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 25 Jan 2021 10:44:39 -0500
+X-Greylist: delayed 2400 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 25 Jan 2021 07:43:54 PST
+Received: from newton.telenet-ops.be (newton.telenet-ops.be [IPv6:2a02:1800:120:4::f00:d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F1AC06178C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 07:43:54 -0800 (PST)
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by newton.telenet-ops.be (Postfix) with ESMTPS id 4DPXG801WczMsLHs
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 15:25:36 +0100 (CET)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by andre.telenet-ops.be with bizsmtp
+        id M2QZ240054C55Sk012QZ6j; Mon, 25 Jan 2021 15:24:35 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l42nA-000eiU-K5; Mon, 25 Jan 2021 15:24:32 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l42nA-004P54-5j; Mon, 25 Jan 2021 15:24:32 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 1/4] dt-bindings: renesas,rcar-dmac: Add r8a779a0 support
+Date:   Mon, 25 Jan 2021 15:24:28 +0100
+Message-Id: <20210125142431.1049668-2-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210125142431.1049668-1-geert+renesas@glider.be>
+References: <20210125142431.1049668-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <161156762325.8623.2280098974247093809.git-patchwork-summary@kernel.org>
-Date:   Mon, 25 Jan 2021 09:40:23 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Document the compatible value for the Direct Memory Access Controller
+blocks in the Renesas R-Car V3U (R8A779A0) SoC.
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (refs/heads/master):
+The most visible difference with DMAC blocks on other R-Car SoCs is the
+move of the per-channel registers to a separate register block.
 
-Patch: arm64: dts: renesas: disable SD functions for plain eMMC
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=417473
-  Lore link: https://lore.kernel.org/r/20210119133322.87289-1-wsa+renesas@sang-engineering.com
-Patch: sh_eth: Fix power down vs. is_opened flag ordering
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=416843
-  Lore link: https://lore.kernel.org/r/20210118150812.796791-1-geert+renesas@glider.be
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+v2:
+  - Add Reviewed-by.
+---
+ .../bindings/dma/renesas,rcar-dmac.yaml       | 76 ++++++++++++-------
+ 1 file changed, 48 insertions(+), 28 deletions(-)
 
-Total patches: 2
-
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+diff --git a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
+index c07eb6f2fc8d2f12..7f2a54bc732d3a19 100644
+--- a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
++++ b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
+@@ -14,34 +14,37 @@ allOf:
+ 
+ properties:
+   compatible:
+-    items:
+-      - enum:
+-          - renesas,dmac-r8a7742  # RZ/G1H
+-          - renesas,dmac-r8a7743  # RZ/G1M
+-          - renesas,dmac-r8a7744  # RZ/G1N
+-          - renesas,dmac-r8a7745  # RZ/G1E
+-          - renesas,dmac-r8a77470 # RZ/G1C
+-          - renesas,dmac-r8a774a1 # RZ/G2M
+-          - renesas,dmac-r8a774b1 # RZ/G2N
+-          - renesas,dmac-r8a774c0 # RZ/G2E
+-          - renesas,dmac-r8a774e1 # RZ/G2H
+-          - renesas,dmac-r8a7790  # R-Car H2
+-          - renesas,dmac-r8a7791  # R-Car M2-W
+-          - renesas,dmac-r8a7792  # R-Car V2H
+-          - renesas,dmac-r8a7793  # R-Car M2-N
+-          - renesas,dmac-r8a7794  # R-Car E2
+-          - renesas,dmac-r8a7795  # R-Car H3
+-          - renesas,dmac-r8a7796  # R-Car M3-W
+-          - renesas,dmac-r8a77961 # R-Car M3-W+
+-          - renesas,dmac-r8a77965 # R-Car M3-N
+-          - renesas,dmac-r8a77970 # R-Car V3M
+-          - renesas,dmac-r8a77980 # R-Car V3H
+-          - renesas,dmac-r8a77990 # R-Car E3
+-          - renesas,dmac-r8a77995 # R-Car D3
+-      - const: renesas,rcar-dmac
+-
+-  reg:
+-    maxItems: 1
++    oneOf:
++      - items:
++          - enum:
++              - renesas,dmac-r8a7742  # RZ/G1H
++              - renesas,dmac-r8a7743  # RZ/G1M
++              - renesas,dmac-r8a7744  # RZ/G1N
++              - renesas,dmac-r8a7745  # RZ/G1E
++              - renesas,dmac-r8a77470 # RZ/G1C
++              - renesas,dmac-r8a774a1 # RZ/G2M
++              - renesas,dmac-r8a774b1 # RZ/G2N
++              - renesas,dmac-r8a774c0 # RZ/G2E
++              - renesas,dmac-r8a774e1 # RZ/G2H
++              - renesas,dmac-r8a7790  # R-Car H2
++              - renesas,dmac-r8a7791  # R-Car M2-W
++              - renesas,dmac-r8a7792  # R-Car V2H
++              - renesas,dmac-r8a7793  # R-Car M2-N
++              - renesas,dmac-r8a7794  # R-Car E2
++              - renesas,dmac-r8a7795  # R-Car H3
++              - renesas,dmac-r8a7796  # R-Car M3-W
++              - renesas,dmac-r8a77961 # R-Car M3-W+
++              - renesas,dmac-r8a77965 # R-Car M3-N
++              - renesas,dmac-r8a77970 # R-Car V3M
++              - renesas,dmac-r8a77980 # R-Car V3H
++              - renesas,dmac-r8a77990 # R-Car E3
++              - renesas,dmac-r8a77995 # R-Car D3
++          - const: renesas,rcar-dmac
++
++      - items:
++          - const: renesas,dmac-r8a779a0 # R-Car V3U
++
++  reg: true
+ 
+   interrupts:
+     minItems: 9
+@@ -110,6 +113,23 @@ required:
+   - power-domains
+   - resets
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - renesas,dmac-r8a779a0
++then:
++  properties:
++    reg:
++      items:
++        - description: Base register block
++        - description: Channel register block
++else:
++  properties:
++    reg:
++      maxItems: 1
++
+ additionalProperties: false
+ 
+ examples:
+-- 
+2.25.1
 
