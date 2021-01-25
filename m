@@ -2,99 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D49D03049DD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 21:17:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8690B3049E4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 21:18:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731923AbhAZFWA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 00:22:00 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:57453 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727204AbhAYJsv (ORCPT
+        id S1729339AbhAZFVo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jan 2021 00:21:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41442 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727038AbhAYJlF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Jan 2021 04:48:51 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 3yJrlSq3WiWRg3yJulfgVM; Mon, 25 Jan 2021 10:38:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1611567483; bh=cRKWCdXjPiL2XlpvqcIxZhxldG0a5KVzheRGT3caeDc=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Tnw5b+5VU9gyfGumDmaJ59suhuJbeF8Qw8hHr8rQzUfeLpCtLr7gfVYCtQRWQdfwa
-         2jAWacX95PAvpfOipK/W+XiRYtfBlDzoGuhmuS8Z+WWOrG2VLxqgchyPhfcKaecog8
-         sClpY7Voh7IMRynN6yPN12CRZz7ORtkBoQQSQDhHRpMETHqxByUTAytdnaJnau+YjX
-         rvHmPpakafKkPjrJxrKZQlkaKYNLpDBmLYBmPAt8bKnf4uL3HWs8PVK20Vbmd64rg3
-         Nf9xNeEm6vA/GrXoRgwZ8UzG76jmSMUKY21miNOWR9ulShSj3E7eqt6GFeBYWLzyGS
-         boGCeYwkF4iFg==
-Subject: Re: [PATCH v2 3/4] rcar-vin: Stop stream when subdevice signal EOS
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-References: <20210115002148.4079591-1-niklas.soderlund+renesas@ragnatech.se>
- <20210115002148.4079591-4-niklas.soderlund+renesas@ragnatech.se>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <9d24ffee-120b-51af-cce0-089b96e9e0ed@xs4all.nl>
-Date:   Mon, 25 Jan 2021 10:37:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        Mon, 25 Jan 2021 04:41:05 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6632C22472
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 09:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611567623;
+        bh=ixY3qSF9yPWv0T3ZLO+8U/8nQROTxD2og8EIQ4FWwo0=;
+        h=Subject:From:Date:To:From;
+        b=WHw8Px+P3M8Ut4HXzU55scGwQzWVTDe69vjDJqxMz/LdHv7y/gvKPuE2q2ZBv6Jy5
+         Xgkzi91Ixm3//WP3uLaTE2JVO5EBaAQ1sPxzI1EYBHaHF8FY6eDCqlmMiya1cMkGTE
+         SpHEb0+ldiQZVoT5SjAt99lcUDTFc8pxPXSqZQDCQmEwjjWMwXRWHFKUoMwi5TBaea
+         Ve+3r886HHeeJB2aKNSiYnQGo5UuRwe8q+rxCKov5CbZGEYoXdn7Q/S8D+tXekRcBv
+         Ssf0TCKOAxwl8fxhdlFjdc/21MHe2+Hglelp7h4WlUmxaQthN6/6FxlC1+uMceVAV+
+         xIQKGtp+MruNw==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 51566652F7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 09:40:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20210115002148.4079591-4-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfPknFU8MCKRNfDUhfhxQLihWHdtq9q27KJxMMb610mH0m+9NbOeP3vn9tYMRh16RHRvFlolWtBZqXZ1RmOaPPDBWcndIXSEougffh7ibO54W/AzaDdwL
- dtkZzOnpKQE9Gkv5SkfzOGWiUDwu7thjcxljieTyBdOXww8q5z2g+p3zm9Zy2VaB8cVcjQzFv3LdE/xc+WGO3dEKIiWI0VuWsW7ep9sse/ayjPmiismj1nYu
- 0DQEdNhc0CxpA9kPMOoXzNgmm/B1CR4F/SJQ/MecGFBgqxpn6GaOcPxkn+b3GcxmFDtonSfRAHP+6s8bxTWfnKxIKX4pncETb4EFwTvaB00=
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <161156762325.8623.2280098974247093809.git-patchwork-summary@kernel.org>
+Date:   Mon, 25 Jan 2021 09:40:23 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15/01/2021 01:21, Niklas Söderlund wrote:
-> When a subdevice signals end of stream stop the VIN in addition to
-> informing user-space of the event.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 457a65bf6b664f05..176eae2dd5151ac9 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -969,9 +969,23 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
->  static void rvin_notify_video_device(struct rvin_dev *vin,
->  				     unsigned int notification, void *arg)
->  {
-> +	const struct v4l2_event *event;
-> +
->  	switch (notification) {
->  	case V4L2_DEVICE_NOTIFY_EVENT:
-> -		v4l2_event_queue(&vin->vdev, arg);
-> +		event = arg;
-> +
-> +		switch (event->type) {
-> +		case V4L2_EVENT_EOS:
-> +			rvin_stop_streaming(vin);
-> +			v4l2_info(&vin->v4l2_dev,
+Hello:
 
-Can you make this v4l2_dbg to avoid polluting the kernel log?
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (refs/heads/master):
 
-Regards,
+Patch: arm64: dts: renesas: disable SD functions for plain eMMC
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=417473
+  Lore link: https://lore.kernel.org/r/20210119133322.87289-1-wsa+renesas@sang-engineering.com
+Patch: sh_eth: Fix power down vs. is_opened flag ordering
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=416843
+  Lore link: https://lore.kernel.org/r/20210118150812.796791-1-geert+renesas@glider.be
 
-	Hans
+Total patches: 2
 
-> +				  "Subdevice signaled end of stream, stopping.\n");
-> +			break;
-> +		default:
-> +			break;
-> +		}
-> +
-> +		v4l2_event_queue(&vin->vdev, event);
->  		break;
->  	default:
->  		break;
-> 
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
