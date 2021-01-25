@@ -2,108 +2,261 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66B9D30344A
+	by mail.lfdr.de (Postfix) with ESMTP id D32D930344B
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 06:22:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727038AbhAZFVv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 00:21:51 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:60007 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726793AbhAYJrP (ORCPT
+        id S1732265AbhAZFWF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jan 2021 00:22:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729380AbhAYO3o (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Jan 2021 04:47:15 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 3yQSlSst4iWRg3yQWlfiH0; Mon, 25 Jan 2021 10:44:52 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1611567892; bh=X9qzwXGcE2sFQf9cp/+nOjABplllfztKTXGYuSx4nLk=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=naFbLfcgYqTAQotHwVkJscZTeQgHUA0kK8zkz4nWZ2gKBs4gvB1VRXJ7Vzu+ZcpcC
-         0asysLiKT3V29FB0W+RWdMefPcbXZS6IKu2XjwGTqNl+3ER+eMmgp+Cz/X0k9Mr2tz
-         gNwDem7DD626WEntphgTOjUpJk0yfr6VdaCc89QRZzTD0cMVXsd9Y93XxOLvFEc4lK
-         nO7MyLiBqbY5iG06k2UPk+fSCZfXmlz9vVchRi2OuiF8vn4dpVEpu2UfGtdfyzOMXT
-         yACLHciZOSj21+3J1WODZME+P9mEy357olEKehWWovYIQGsISetTY0BGc8qegeoUTF
-         WTh56ZMxNu08g==
-Subject: Re: [PATCH v2 4/4] rcar-csi2: Do not try to recover after transfer
- error
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20210115002148.4079591-1-niklas.soderlund+renesas@ragnatech.se>
- <20210115002148.4079591-5-niklas.soderlund+renesas@ragnatech.se>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <3f40c6eb-ba13-ac99-bd08-3cea11563e9a@xs4all.nl>
-Date:   Mon, 25 Jan 2021 10:44:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        Mon, 25 Jan 2021 09:29:44 -0500
+X-Greylist: delayed 102 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 25 Jan 2021 06:29:03 PST
+Received: from leibniz.telenet-ops.be (leibniz.telenet-ops.be [IPv6:2a02:1800:110:4::f00:d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6EBBC061797
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 06:29:03 -0800 (PST)
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 4DPXG800mRzMsJqH
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 15:25:36 +0100 (CET)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by xavier.telenet-ops.be with bizsmtp
+        id M2QZ2400R4C55Sk012QZRB; Mon, 25 Jan 2021 15:24:34 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l42nB-000eiX-8K; Mon, 25 Jan 2021 15:24:33 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l42nA-004P5J-8z; Mon, 25 Jan 2021 15:24:32 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 4/4] dmaengine: rcar-dmac: Add support for R-Car V3U
+Date:   Mon, 25 Jan 2021 15:24:31 +0100
+Message-Id: <20210125142431.1049668-5-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210125142431.1049668-1-geert+renesas@glider.be>
+References: <20210125142431.1049668-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <20210115002148.4079591-5-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfKM35xRuy5Zdn5cQBT1Id09Ed34+wj1e0/OQj5wLDbXPYDxZi7/2Yylfd7gDPpies9oaonby6pimUVsL6JAAZchPZ+dSN0tr3NScd7Zgx7e8zOHeQDEx
- oBu+nfHdshrE0owLu+QoGPwWBSxMvdE5FmxzNSfjHebqupBEM2mzmiIJRIgpi3ErG/H3osjlnlUk+JYoG7GaNZNFez7pw2We4rO3c6Y4T9hFHvOUcl9/C7XJ
- eIT2RJ6tcjf3cdwVphV4fKpMV06TSdpq4lISqNhsOBnwqQtLbBavprZHgHnpHld1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15/01/2021 01:21, Niklas Söderlund wrote:
-> Instead of restarting the R-Car CSI-2 receiver if a transmission error
-> is detected inform the R-Car VIN driver of the error so it can stop the
-> whole pipeline and inform user-space. This is done to reflect a updated
-> usage recommendation in later versions of the datasheet.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index 945d2eb8723367f0..a7212ecc46572a3b 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -773,21 +773,19 @@ static irqreturn_t rcsi2_irq(int irq, void *data)
->  
->  	rcsi2_write(priv, INTERRSTATE_REG, err_status);
->  
-> -	dev_info(priv->dev, "Transfer error, restarting CSI-2 receiver\n");
-> -
->  	return IRQ_WAKE_THREAD;
->  }
->  
->  static irqreturn_t rcsi2_irq_thread(int irq, void *data)
->  {
->  	struct rcar_csi2 *priv = data;
-> +	struct v4l2_event event = {
-> +		.type = V4L2_EVENT_EOS,
-> +	};
->  
-> -	mutex_lock(&priv->lock);
-> -	rcsi2_stop(priv);
-> -	usleep_range(1000, 2000);
-> -	if (rcsi2_start(priv))
-> -		dev_warn(priv->dev, "Failed to restart CSI-2 receiver\n");
-> -	mutex_unlock(&priv->lock);
-> +	dev_err(priv->dev, "Transfer error detected.\n");
+The DMACs (both SYS-DMAC and RT-DMAC) on R-Car V3U differ slightly from
+the DMACs on R-Car Gen2 and other R-Car Gen3 SoCs:
+  1. The per-channel registers are located in a second register block.
+     Add support for mapping the second block, using the appropriate
+     offsets and stride.
+  2. The common Channel Clear Register (DMACHCLR) was replaced by a
+     per-channel register.
+     Update rcar_dmac_chan_clear{,_all}() to handle this.
+     As rcar_dmac_init() needs to clear the status before the individual
+     channels are probed, channel index and base address initialization
+     are moved forward.
 
-You probably want to call vb2_queue_error() here. Typically once
-something like this happens you have to restart everything and marking
-the queue as 'error' will ensure that VIDIOC_QBUF will return an error
-until the queue is reset (STREAMOFF).
+Inspired by a patch in the BSP by Phong Hoang
+<phong.hoang.wz@renesas.com>.
 
-It doesn't hurt to also raise the EOS event, I'm fine with that.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - Use two separate named regions instead of an iomem[] array,
+  - Drop rcar_dmac_of_data.chan_reg_block, check for
+    !rcar_dmac_of_data.chan_offset_base instead,
+  - Precalculate chan_base in rcar_dmac_probe().
+---
+ drivers/dma/sh/rcar-dmac.c | 74 ++++++++++++++++++++++++++++----------
+ 1 file changed, 55 insertions(+), 19 deletions(-)
 
-Regards,
-
-	Hans
-
-> +
-> +	v4l2_subdev_notify_event(&priv->subdev, &event);
->  
->  	return IRQ_HANDLED;
->  }
-> 
+diff --git a/drivers/dma/sh/rcar-dmac.c b/drivers/dma/sh/rcar-dmac.c
+index 7a0f802c61e5152d..d9589eea98083215 100644
+--- a/drivers/dma/sh/rcar-dmac.c
++++ b/drivers/dma/sh/rcar-dmac.c
+@@ -189,7 +189,8 @@ struct rcar_dmac_chan {
+  * struct rcar_dmac - R-Car Gen2 DMA Controller
+  * @engine: base DMA engine object
+  * @dev: the hardware device
+- * @iomem: remapped I/O memory base
++ * @dmac_base: remapped base register block
++ * @chan_base: remapped channel register block (optional)
+  * @n_channels: number of available channels
+  * @channels: array of DMAC channels
+  * @channels_mask: bitfield of which DMA channels are managed by this driver
+@@ -198,7 +199,8 @@ struct rcar_dmac_chan {
+ struct rcar_dmac {
+ 	struct dma_device engine;
+ 	struct device *dev;
+-	void __iomem *iomem;
++	void __iomem *dmac_base;
++	void __iomem *chan_base;
+ 
+ 	unsigned int n_channels;
+ 	struct rcar_dmac_chan *channels;
+@@ -234,7 +236,7 @@ struct rcar_dmac_of_data {
+ #define RCAR_DMAOR_PRI_ROUND_ROBIN	(3 << 8)
+ #define RCAR_DMAOR_AE			(1 << 2)
+ #define RCAR_DMAOR_DME			(1 << 0)
+-#define RCAR_DMACHCLR			0x0080
++#define RCAR_DMACHCLR			0x0080	/* Not on R-Car V3U */
+ #define RCAR_DMADPSEC			0x00a0
+ 
+ #define RCAR_DMASAR			0x0000
+@@ -297,6 +299,9 @@ struct rcar_dmac_of_data {
+ #define RCAR_DMAFIXDAR			0x0014
+ #define RCAR_DMAFIXDPBASE		0x0060
+ 
++/* For R-Car V3U */
++#define RCAR_V3U_DMACHCLR		0x0100
++
+ /* Hardcode the MEMCPY transfer size to 4 bytes. */
+ #define RCAR_DMAC_MEMCPY_XFER_SIZE	4
+ 
+@@ -307,17 +312,17 @@ struct rcar_dmac_of_data {
+ static void rcar_dmac_write(struct rcar_dmac *dmac, u32 reg, u32 data)
+ {
+ 	if (reg == RCAR_DMAOR)
+-		writew(data, dmac->iomem + reg);
++		writew(data, dmac->dmac_base + reg);
+ 	else
+-		writel(data, dmac->iomem + reg);
++		writel(data, dmac->dmac_base + reg);
+ }
+ 
+ static u32 rcar_dmac_read(struct rcar_dmac *dmac, u32 reg)
+ {
+ 	if (reg == RCAR_DMAOR)
+-		return readw(dmac->iomem + reg);
++		return readw(dmac->dmac_base + reg);
+ 	else
+-		return readl(dmac->iomem + reg);
++		return readl(dmac->dmac_base + reg);
+ }
+ 
+ static u32 rcar_dmac_chan_read(struct rcar_dmac_chan *chan, u32 reg)
+@@ -339,12 +344,23 @@ static void rcar_dmac_chan_write(struct rcar_dmac_chan *chan, u32 reg, u32 data)
+ static void rcar_dmac_chan_clear(struct rcar_dmac *dmac,
+ 				 struct rcar_dmac_chan *chan)
+ {
+-	rcar_dmac_write(dmac, RCAR_DMACHCLR, BIT(chan->index));
++	if (dmac->chan_base)
++		rcar_dmac_chan_write(chan, RCAR_V3U_DMACHCLR, 1);
++	else
++		rcar_dmac_write(dmac, RCAR_DMACHCLR, BIT(chan->index));
+ }
+ 
+ static void rcar_dmac_chan_clear_all(struct rcar_dmac *dmac)
+ {
+-	rcar_dmac_write(dmac, RCAR_DMACHCLR, dmac->channels_mask);
++	struct rcar_dmac_chan *chan;
++	unsigned int i;
++
++	if (dmac->chan_base) {
++		for_each_rcar_dmac_chan(i, chan, dmac)
++			rcar_dmac_chan_write(chan, RCAR_V3U_DMACHCLR, 1);
++	} else {
++		rcar_dmac_write(dmac, RCAR_DMACHCLR, dmac->channels_mask);
++	}
+ }
+ 
+ /* -----------------------------------------------------------------------------
+@@ -1744,7 +1760,6 @@ static const struct dev_pm_ops rcar_dmac_pm = {
+ 
+ static int rcar_dmac_chan_probe(struct rcar_dmac *dmac,
+ 				struct rcar_dmac_chan *rchan,
+-				const struct rcar_dmac_of_data *data,
+ 				unsigned int index)
+ {
+ 	struct platform_device *pdev = to_platform_device(dmac->dev);
+@@ -1753,9 +1768,6 @@ static int rcar_dmac_chan_probe(struct rcar_dmac *dmac,
+ 	char *irqname;
+ 	int ret;
+ 
+-	rchan->index = index;
+-	rchan->iomem = dmac->iomem + data->chan_offset_base +
+-		       data->chan_offset_stride * index;
+ 	rchan->mid_rid = -EINVAL;
+ 
+ 	spin_lock_init(&rchan->lock);
+@@ -1842,6 +1854,7 @@ static int rcar_dmac_probe(struct platform_device *pdev)
+ 	const struct rcar_dmac_of_data *data;
+ 	struct rcar_dmac_chan *chan;
+ 	struct dma_device *engine;
++	void __iomem *chan_base;
+ 	struct rcar_dmac *dmac;
+ 	unsigned int i;
+ 	int ret;
+@@ -1880,9 +1893,24 @@ static int rcar_dmac_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	/* Request resources. */
+-	dmac->iomem = devm_platform_ioremap_resource(pdev, 0);
+-	if (IS_ERR(dmac->iomem))
+-		return PTR_ERR(dmac->iomem);
++	dmac->dmac_base = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(dmac->dmac_base))
++		return PTR_ERR(dmac->dmac_base);
++
++	if (!data->chan_offset_base) {
++		dmac->chan_base = devm_platform_ioremap_resource(pdev, 1);
++		if (IS_ERR(dmac->chan_base))
++			return PTR_ERR(dmac->chan_base);
++
++		chan_base = dmac->chan_base;
++	} else {
++		chan_base = dmac->dmac_base + data->chan_offset_base;
++	}
++
++	for_each_rcar_dmac_chan(i, chan, dmac) {
++		chan->index = i;
++		chan->iomem = chan_base + i * data->chan_offset_stride;
++	}
+ 
+ 	/* Enable runtime PM and initialize the device. */
+ 	pm_runtime_enable(&pdev->dev);
+@@ -1929,7 +1957,7 @@ static int rcar_dmac_probe(struct platform_device *pdev)
+ 	INIT_LIST_HEAD(&engine->channels);
+ 
+ 	for_each_rcar_dmac_chan(i, chan, dmac) {
+-		ret = rcar_dmac_chan_probe(dmac, chan, data, i);
++		ret = rcar_dmac_chan_probe(dmac, chan, i);
+ 		if (ret < 0)
+ 			goto error;
+ 	}
+@@ -1977,14 +2005,22 @@ static void rcar_dmac_shutdown(struct platform_device *pdev)
+ }
+ 
+ static const struct rcar_dmac_of_data rcar_dmac_data = {
+-	.chan_offset_base = 0x8000,
+-	.chan_offset_stride = 0x80,
++	.chan_offset_base	= 0x8000,
++	.chan_offset_stride	= 0x80,
++};
++
++static const struct rcar_dmac_of_data rcar_v3u_dmac_data = {
++	.chan_offset_base	= 0x0,
++	.chan_offset_stride	= 0x1000,
+ };
+ 
+ static const struct of_device_id rcar_dmac_of_ids[] = {
+ 	{
+ 		.compatible = "renesas,rcar-dmac",
+ 		.data = &rcar_dmac_data,
++	}, {
++		.compatible = "renesas,dmac-r8a779a0",
++		.data = &rcar_v3u_dmac_data,
+ 	},
+ 	{ /* Sentinel */ }
+ };
+-- 
+2.25.1
 
