@@ -2,33 +2,31 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C9543049D5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 21:17:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC0673049D4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 21:17:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732336AbhAZFWb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 00:22:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46346 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729592AbhAYOh3 (ORCPT
+        id S1732302AbhAZFWO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jan 2021 00:22:14 -0500
+Received: from newton.telenet-ops.be ([195.130.132.45]:54858 "EHLO
+        newton.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729567AbhAYOfl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Jan 2021 09:37:29 -0500
-Received: from leibniz.telenet-ops.be (leibniz.telenet-ops.be [IPv6:2a02:1800:110:4::f00:d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37C23C061793
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 06:36:01 -0800 (PST)
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 4DPXG7013jzMsJqD
+        Mon, 25 Jan 2021 09:35:41 -0500
+X-Greylist: delayed 405 seconds by postgrey-1.27 at vger.kernel.org; Mon, 25 Jan 2021 09:35:40 EST
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by newton.telenet-ops.be (Postfix) with ESMTPS id 4DPXG700xNzMsLHT
         for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 15:25:35 +0100 (CET)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id M2QZ2400E4C55Sk012QZRA; Mon, 25 Jan 2021 15:24:34 +0100
+        by andre.telenet-ops.be with bizsmtp
+        id M2QZ2400D4C55Sk012QZ6m; Mon, 25 Jan 2021 15:24:34 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1l42nA-000eiV-Rv; Mon, 25 Jan 2021 15:24:32 +0100
+        id 1l42nA-000eiW-OS; Mon, 25 Jan 2021 15:24:32 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1l42nA-004P59-6u; Mon, 25 Jan 2021 15:24:32 +0100
+        id 1l42nA-004P5E-7x; Mon, 25 Jan 2021 15:24:32 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Vinod Koul <vkoul@kernel.org>
 Cc:     Rob Herring <robh+dt@kernel.org>,
@@ -39,9 +37,9 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/4] dmaengine: rcar-dmac: Add for_each_rcar_dmac_chan() helper
-Date:   Mon, 25 Jan 2021 15:24:29 +0100
-Message-Id: <20210125142431.1049668-3-geert+renesas@glider.be>
+Subject: [PATCH v2 3/4] dmaengine: rcar-dmac: Add helpers for clearing DMA channel status
+Date:   Mon, 25 Jan 2021 15:24:30 +0100
+Message-Id: <20210125142431.1049668-4-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210125142431.1049668-1-geert+renesas@glider.be>
 References: <20210125142431.1049668-1-geert+renesas@glider.be>
@@ -51,80 +49,57 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add and helper macro for iterating over all DMAC channels, taking into
-account the channel mask.  Use it where appropriate, to simplify code.
-
-Restore "reverse Christmas tree" order of local variables while adding a
-new variable.
+Extract the code to clear the status of one or all channels into their
+own helpers, to prepare for the different handling of the R-Car V3U SoC.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
-  - Put the full loop control of for_each_rcar_dmac_chan() on a single
-    line, to improve readability.
+  - No changes.
 ---
- drivers/dma/sh/rcar-dmac.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ drivers/dma/sh/rcar-dmac.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/dma/sh/rcar-dmac.c b/drivers/dma/sh/rcar-dmac.c
-index a57705356e8bb796..537550b4121bbc22 100644
+index 537550b4121bbc22..7a0f802c61e5152d 100644
 --- a/drivers/dma/sh/rcar-dmac.c
 +++ b/drivers/dma/sh/rcar-dmac.c
-@@ -209,6 +209,10 @@ struct rcar_dmac {
+@@ -336,6 +336,17 @@ static void rcar_dmac_chan_write(struct rcar_dmac_chan *chan, u32 reg, u32 data)
+ 		writel(data, chan->iomem + reg);
+ }
  
- #define to_rcar_dmac(d)		container_of(d, struct rcar_dmac, engine)
- 
-+#define for_each_rcar_dmac_chan(i, chan, dmac)						\
-+	for (i = 0, chan = &(dmac)->channels[0]; i < (dmac)->n_channels; i++, chan++)	\
-+		if (!((dmac)->channels_mask & BIT(i))) continue; else
++static void rcar_dmac_chan_clear(struct rcar_dmac *dmac,
++				 struct rcar_dmac_chan *chan)
++{
++	rcar_dmac_write(dmac, RCAR_DMACHCLR, BIT(chan->index));
++}
 +
- /*
-  * struct rcar_dmac_of_data - This driver's OF data
-  * @chan_offset_base: DMAC channels base offset
-@@ -817,15 +821,11 @@ static void rcar_dmac_chan_reinit(struct rcar_dmac_chan *chan)
++static void rcar_dmac_chan_clear_all(struct rcar_dmac *dmac)
++{
++	rcar_dmac_write(dmac, RCAR_DMACHCLR, dmac->channels_mask);
++}
++
+ /* -----------------------------------------------------------------------------
+  * Initialization and configuration
+  */
+@@ -451,7 +462,7 @@ static int rcar_dmac_init(struct rcar_dmac *dmac)
+ 	u16 dmaor;
  
- static void rcar_dmac_stop_all_chan(struct rcar_dmac *dmac)
- {
-+	struct rcar_dmac_chan *chan;
- 	unsigned int i;
+ 	/* Clear all channels and enable the DMAC globally. */
+-	rcar_dmac_write(dmac, RCAR_DMACHCLR, dmac->channels_mask);
++	rcar_dmac_chan_clear_all(dmac);
+ 	rcar_dmac_write(dmac, RCAR_DMAOR,
+ 			RCAR_DMAOR_PRI_FIXED | RCAR_DMAOR_DME);
  
- 	/* Stop all channels. */
--	for (i = 0; i < dmac->n_channels; ++i) {
--		struct rcar_dmac_chan *chan = &dmac->channels[i];
--
--		if (!(dmac->channels_mask & BIT(i)))
--			continue;
--
-+	for_each_rcar_dmac_chan(i, chan, dmac) {
- 		/* Stop and reinitialize the channel. */
- 		spin_lock_irq(&chan->lock);
- 		rcar_dmac_chan_halt(chan);
-@@ -1828,9 +1828,10 @@ static int rcar_dmac_probe(struct platform_device *pdev)
- 		DMA_SLAVE_BUSWIDTH_2_BYTES | DMA_SLAVE_BUSWIDTH_4_BYTES |
- 		DMA_SLAVE_BUSWIDTH_8_BYTES | DMA_SLAVE_BUSWIDTH_16_BYTES |
- 		DMA_SLAVE_BUSWIDTH_32_BYTES | DMA_SLAVE_BUSWIDTH_64_BYTES;
-+	const struct rcar_dmac_of_data *data;
-+	struct rcar_dmac_chan *chan;
- 	struct dma_device *engine;
- 	struct rcar_dmac *dmac;
--	const struct rcar_dmac_of_data *data;
- 	unsigned int i;
- 	int ret;
- 
-@@ -1916,11 +1917,8 @@ static int rcar_dmac_probe(struct platform_device *pdev)
- 
- 	INIT_LIST_HEAD(&engine->channels);
- 
--	for (i = 0; i < dmac->n_channels; ++i) {
--		if (!(dmac->channels_mask & BIT(i)))
--			continue;
--
--		ret = rcar_dmac_chan_probe(dmac, &dmac->channels[i], data, i);
-+	for_each_rcar_dmac_chan(i, chan, dmac) {
-+		ret = rcar_dmac_chan_probe(dmac, chan, data, i);
- 		if (ret < 0)
- 			goto error;
- 	}
+@@ -1566,7 +1577,7 @@ static irqreturn_t rcar_dmac_isr_channel(int irq, void *dev)
+ 		 * because channel is already stopped in error case.
+ 		 * We need to clear register and check DE bit as recovery.
+ 		 */
+-		rcar_dmac_write(dmac, RCAR_DMACHCLR, 1 << chan->index);
++		rcar_dmac_chan_clear(dmac, chan);
+ 		rcar_dmac_chcr_de_barrier(chan);
+ 		reinit = true;
+ 		goto spin_lock_end;
 -- 
 2.25.1
 
