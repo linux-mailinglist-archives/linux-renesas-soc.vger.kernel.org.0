@@ -2,114 +2,226 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D59E303B12
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 12:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 967DD303E7D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 14:23:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404860AbhAZLGY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 06:06:24 -0500
-Received: from mail-ot1-f54.google.com ([209.85.210.54]:45847 "EHLO
-        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726469AbhAZLFJ (ORCPT
+        id S2391768AbhAZNPZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jan 2021 08:15:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391795AbhAZMq0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Jan 2021 06:05:09 -0500
-Received: by mail-ot1-f54.google.com with SMTP id n42so15786804ota.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Jan 2021 03:04:53 -0800 (PST)
+        Tue, 26 Jan 2021 07:46:26 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32FDBC0611BD
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Jan 2021 04:45:46 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id 190so2360957wmz.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Jan 2021 04:45:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HgDoxTkqCtX7qRFLVzIhqucftM+usnXCOOEJb4UlRps=;
+        b=HKlil30JX5XDC2QgJygSa3PW1ij81XFJmGM9hvEgd+MqWPBopjh8B4oKb5p6/RTl/h
+         YaGgR5dCEbp9kTHydbkyFjb9taaxXD4hQuvNkEZyQd/3V8QHbJVES2Xv/l9Q5W1MLlZ1
+         o+5ldum3NNByprXng2exIICoLcvAOXxilOuG+GHw3raMicPEoV3QrdN0yfNBo+YaINvH
+         8HW3ThaNd08HbLqjlaREB1k7zDeEt9pK1xx1Rxx1oRQqR6bahgrEmXEy0hlSW3RtU/at
+         Ge0jATWRVhoSL7UT+EGH0cF0itZkbmoSLDC0gsIOe/xdljbJ/Xk8x7RBWBUCsNGtTAI+
+         inBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wra+m2uskOa6FZ1lEQnpLyA+vPgYgZTL6cRsChTTktg=;
-        b=Vck43lKB670XIPwLPJYrUpAvIhaeaZPuVv9zKtb1rNPQDli2L+OOnwPSMky77z/s9M
-         hWx1vePktMqybbYN+nlNxfI6d+KKFZC2lpEOcsERWEM+7MzrTVe8we86gj1qCWtrd3Ql
-         riP3EWXpWhU0U9pFyF66mANBFqlE1mKgHBmMQgs7RLkSyHX/sIuqMy3grt5Dk7VorWvn
-         m6NGcbV234V0sTh6B/+UCIIZm/3YCQM2+aR60k0v7JlQrK6qK8vjjKxLy1PlecuwFP5y
-         vX1iWG/wYNJljjhM7JrvcTNlQ/3KIoXR5ij0v8btN6pNs7M1RJtDJhKlGvoCJHoDUN2Q
-         U1vQ==
-X-Gm-Message-State: AOAM533FYpNh98wiOqOufMV8dt7PBaOiM6GflWtpPuAuHFRUJ/hyWV9o
-        9SQBLKD0ZjAxy31x+wKOsd3rB6UC3QHdXtHemOQ=
-X-Google-Smtp-Source: ABdhPJxyvQpBn0h14th2G/gWcLUKW+IopXdAdD6V/eSpHxZOZC3/PuBW8DqrgtjUgrCem6DfothtgMy5yT4ACGzorio=
-X-Received: by 2002:a9d:c01:: with SMTP id 1mr3522535otr.107.1611659067702;
- Tue, 26 Jan 2021 03:04:27 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HgDoxTkqCtX7qRFLVzIhqucftM+usnXCOOEJb4UlRps=;
+        b=geQxxZOoC7SlQfFMBp6xDt0pcxxmmvdwVb0szSh6Gm99TROegOEPiD/9xNyUTOa9i6
+         /Ark6Th7RGr9mdPXvghLlRtEyBxNLpSx9JoH7m2v93YPmJs25gEhbInyoEs+Qvz4VPH6
+         vVJEw8xpZUnQh33VCQu9sYttDNT33Bi0YkeR3QKZEwJl1ZFHjZcWwczwj9t55DZDSRDd
+         bY2sgddala86tdSxkxAzvuQNFpmxmauXabwe4Ds1USHybw2iG/EyiIBOLRaL1WQ8xbji
+         ZJuZFkV7EJYZCr/DxpwQ3aQLDL4OD2ZimNtXDFEajpP2hQFnzfuejoHHV0hP0c4QM+qV
+         Sh8g==
+X-Gm-Message-State: AOAM533rICBER9kooFeleGQbdo5nIA1p26viKBKjJPmoJYd0ROIuzVc6
+        oKfs1SltdQ+nS6He5LdqRzc5AA==
+X-Google-Smtp-Source: ABdhPJw3EEAAvcpTE1X6uWF7W1nwVVyQMNjGyt1XrFtc8unQRk9L1XWmIU+HRd62tLEG3E2YvY6hIA==
+X-Received: by 2002:a1c:398b:: with SMTP id g133mr4437355wma.35.1611665144908;
+        Tue, 26 Jan 2021 04:45:44 -0800 (PST)
+Received: from dell.default ([91.110.221.188])
+        by smtp.gmail.com with ESMTPSA id i131sm3263073wmi.25.2021.01.26.04.45.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Jan 2021 04:45:43 -0800 (PST)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Andy Gross <agross@kernel.org>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Boris BREZILLON <boris.brezillon@free-electrons.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        =?UTF-8?q?Emilio=20L=C3=B3pez?= <emilio@elopez.com.ar>,
+        Fabio Estevam <festevam@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jan Kotas <jank@cadence.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org, Loc Ho <lho@apm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Nuvoton Technologies <tali.perry@nuvoton.com>,
+        NXP Linux Team <linux-imx@nxp.com>, openbmc@lists.ozlabs.org,
+        Patrick Venture <venture@google.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Rajan Vaja <rajan.vaja@xilinx.com>,
+        Rajeev Kumar <rajeev-dlh.kumar@st.com>,
+        Richard Woodruff <r-woodruff2@ti.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
+        =?UTF-8?q?S=C3=B6ren=20Brinkmann?= <soren.brinkmann@xilinx.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Tero Kristo <kristo@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Viresh Kumar <vireshk@kernel.org>
+Subject: [PATCH 00/21] [Set 2] Rid W=1 warnings from Clock
+Date:   Tue, 26 Jan 2021 12:45:19 +0000
+Message-Id: <20210126124540.3320214-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210121144321.GA2101@kunai>
-In-Reply-To: <20210121144321.GA2101@kunai>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 26 Jan 2021 12:04:16 +0100
-Message-ID: <CAMuHMdV=r79KiCAzLF-vrYkGGu7bJP66CgNo2k-UyE0JQh2gZA@mail.gmail.com>
-Subject: Re: [PULL REQUEST] renesas/v3u/devel-v2 for renesas drivers
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-On Thu, Jan 21, 2021 at 3:43 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> here is my updated v3u devel branch for renesas-drivers. It is based on
-> our agreed base, so quite some patches from the previous version are
+This is the last set.  Clock is clean after this.
 
-Oops. When discussing this, I thought you were looking for a good base
-for development/testing, not for submitting ;-)
+Lee Jones (21):
+  clk: zynq: pll: Fix kernel-doc formatting in 'clk_register_zynq_pll's
+    header
+  clk: ti: clkt_dpll: Fix some kernel-doc misdemeanours
+  clk: ti: dpll3xxx: Fix some kernel-doc headers and promote other
+    worthy ones
+  clk: qcom: clk-regmap: Provide missing description for
+    'devm_clk_register_regmap()'s dev param
+  clk: sunxi: clk-sun9i-core: Demote non-conformant kernel-doc headers
+  clk: sunxi: clk-usb: Demote obvious kernel-doc abuse
+  clk: tegra: clk-tegra30: Remove unused variable 'reg'
+  clk: clkdev: Ignore suggestion to use gnu_printf() as it's not
+    appropriate here
+  clk: tegra: cvb: Provide missing description for
+    'tegra_cvb_add_opp_table()'s align param
+  clk: ti: dpll44xx: Fix some potential doc-rot
+  clk: renesas: renesas-cpg-mssr: Fix formatting issues for
+    'smstpcr_saved's documentation
+  clk: sunxi: clk-sun6i-ar100: Demote non-conformant kernel-doc header
+  clk: qcom: gcc-ipq4019: Remove unused variable 'ret'
+  clk: clk-fixed-mmio: Demote obvious kernel-doc abuse
+  clk: clk-npcm7xx: Remove unused static const tables 'npcm7xx_gates'
+    and 'npcm7xx_divs_fx'
+  clk: qcom: mmcc-msm8974: Remove unused static const tables
+    'mmcc_xo_mmpll0_1_2_gpll0{map}'
+  clk: clk-xgene: Add description for 'mask' and fix formatting for
+    'flags'
+  clk: qcom: clk-rpm: Remove a bunch of superfluous code
+  clk: spear: Move prototype to accessible header
+  clk: imx: Move 'imx6sl_set_wait_clk()'s prototype out to accessible
+    header
+  clk: zynqmp: divider: Add missing description for 'max_div'
 
-> already upstream. For the remaining ones, all review comments have been
-> addressed, and the patches have been resent. Most binding doc updates
-> are in -next meanwhile. The watchdog patches have been reviewed by
-> Guenter. The rest is mainly your realm :) There are some debugging
-> patches in there which I left in place.
->
-> Please pull.
->
-> Kind regards,
->
->    Wolfram
->
->
-> The following changes since commit 748c9c1c5e7d00fe6d1e5d47140e4492d7e63719:
->
->   Merge branch 'topic/r8a779a0-dt-msiof-v2' into renesas-drivers (2021-01-12 12:36:54 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/v3u/devel-v2
->
-> for you to fetch changes up to 4a1e26c947d213b717ee6c845dc922b1102305ef:
->
->   HACK: make hscif0 console (2021-01-21 11:41:52 +0100)
+ arch/arm/mach-imx/common.h             |   1 -
+ arch/arm/mach-imx/cpuidle-imx6sl.c     |   1 +
+ arch/arm/mach-imx/pm-imx6.c            |   1 +
+ arch/arm/mach-spear/generic.h          |  12 ---
+ arch/arm/mach-spear/spear13xx.c        |   1 +
+ drivers/clk/clk-fixed-mmio.c           |   2 +-
+ drivers/clk/clk-npcm7xx.c              | 108 -------------------------
+ drivers/clk/clk-xgene.c                |   5 +-
+ drivers/clk/clkdev.c                   |   7 ++
+ drivers/clk/imx/clk-imx6sl.c           |   1 +
+ drivers/clk/qcom/clk-regmap.c          |   1 +
+ drivers/clk/qcom/clk-rpm.c             |  63 ---------------
+ drivers/clk/qcom/gcc-ipq4019.c         |   7 +-
+ drivers/clk/qcom/mmcc-msm8974.c        |  16 ----
+ drivers/clk/renesas/renesas-cpg-mssr.c |   4 +-
+ drivers/clk/spear/spear1310_clock.c    |   1 +
+ drivers/clk/spear/spear1340_clock.c    |   1 +
+ drivers/clk/sunxi/clk-sun6i-ar100.c    |   2 +-
+ drivers/clk/sunxi/clk-sun9i-core.c     |   8 +-
+ drivers/clk/sunxi/clk-usb.c            |   2 +-
+ drivers/clk/tegra/clk-tegra30.c        |   5 +-
+ drivers/clk/tegra/cvb.c                |   1 +
+ drivers/clk/ti/clkt_dpll.c             |   3 +-
+ drivers/clk/ti/dpll3xxx.c              |  20 ++---
+ drivers/clk/ti/dpll44xx.c              |   6 +-
+ drivers/clk/zynq/pll.c                 |  12 +--
+ drivers/clk/zynqmp/divider.c           |   1 +
+ include/linux/clk/imx.h                |  15 ++++
+ include/linux/clk/spear.h              |  23 ++++++
+ 29 files changed, 92 insertions(+), 238 deletions(-)
+ create mode 100644 include/linux/clk/imx.h
+ create mode 100644 include/linux/clk/spear.h
 
-Not to be included.
-
-> Wolfram Sang (18):
->       dt-bindings: watchdog: renesas,wdt: add r8a779a0 (V3U) support
->       WIP soc: v3u: allow WDT reset
-
-This is nice to have, for now.
-
->       arm64: proper comment formatting in reboot handler
->       watchdog: renesas_wdt: don't sleep in atomic context
->       watchdog: renesas_wdt: add grace period before rebooting
-
-This is basically your "renesas/v3u/wdt-v2" branch.
-
->       v3u: enable other I2C busses for testing
-
-Not to be included.
-
-Due to the amount of conflicts between the old versions in your base,
-and the newer accepted versions, and due to the unwanted commits, I'm
-cherry-picking the top 5 commits of your "renesas/v3u/wdt-v2" branch
-instead.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Andy Gross <agross@kernel.org>
+Cc: Avi Fishman <avifishman70@gmail.com>
+Cc: Benjamin Fair <benjaminfair@google.com>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Boris BREZILLON <boris.brezillon@free-electrons.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: "Emilio López" <emilio@elopez.com.ar>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Jan Kotas <jank@cadence.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-clk@vger.kernel.org
+Cc: linux-omap@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org
+Cc: Loc Ho <lho@apm.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: Nancy Yuen <yuenn@google.com>
+Cc: Nuvoton Technologies <tali.perry@nuvoton.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: openbmc@lists.ozlabs.org
+Cc: Patrick Venture <venture@google.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Prashant Gaikwad <pgaikwad@nvidia.com>
+Cc: Rajan Vaja <rajan.vaja@xilinx.com>
+Cc: Rajeev Kumar <rajeev-dlh.kumar@st.com>
+Cc: Richard Woodruff <r-woodruff2@ti.com>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Shiraz Hashim <shiraz.linux.kernel@gmail.com>
+Cc: "Sören Brinkmann" <soren.brinkmann@xilinx.com>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: Tali Perry <tali.perry1@gmail.com>
+Cc: Tero Kristo <kristo@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Tomer Maimon <tmaimon77@gmail.com>
+Cc: Viresh Kumar <vireshk@kernel.org>
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
