@@ -2,109 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4506E30581D
+	by mail.lfdr.de (Postfix) with ESMTP id E7E3630581E
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jan 2021 11:19:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S314218AbhAZXDr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 18:03:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50222 "EHLO
+        id S313892AbhAZXDt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jan 2021 18:03:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730292AbhAZRFX (ORCPT
+        with ESMTP id S2392525AbhAZSIR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Jan 2021 12:05:23 -0500
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A779C0613D6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Jan 2021 08:40:01 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by baptiste.telenet-ops.be with bizsmtp
-        id MUg02400J4C55Sk01Ug02m; Tue, 26 Jan 2021 17:40:00 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l4RNm-000wgo-8E; Tue, 26 Jan 2021 17:39:58 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l4RNl-00876a-NC; Tue, 26 Jan 2021 17:39:57 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Luca Ceresoli <luca@lucaceresoli.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Adam Ford <aford173@gmail.com>
-Cc:     linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3] dt-bindings: clk: versaclock5: Miscellaneous fixes and improvements:
-Date:   Tue, 26 Jan 2021 17:39:55 +0100
-Message-Id: <20210126163955.1933893-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 26 Jan 2021 13:08:17 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4950CC061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Jan 2021 10:07:37 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id o16so2326867pgg.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Jan 2021 10:07:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=t5hz7zIeNhAsjoIxj7YYXR6RQ5OB6/j5wYClCChC7l0=;
+        b=NbfnV+gFS/SZ5Hg/V9X8D0FKHrBXyeEUwKlMP8S1PkXyHGumjcIZThFAh4vYZR+Ksr
+         ggNqvq9sR1BTo5R2+9GYEfZxlFUSmIW9xTMlusXHkSf+SfoTRNWrn80NvqRbImwpy8OZ
+         pTRnZkaMAhDLPLIyomD/bVZAdXNZRoeiixxYCPpVORGfifZA/U+3pSh3/VpIzLW1dVe/
+         2f5chSG6VutAt+dVp7bW8wMEaH7r/Nh/A3bNoQ5LwjNMUXUYixGqOFEGFx4reSGB6Oug
+         kIdFmP9JGQMDQ0MFYBZyddxAFw2h2seQyPWSd2Mi0nY781QlV/GPLdLlk+iy1EU871H4
+         zXtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=t5hz7zIeNhAsjoIxj7YYXR6RQ5OB6/j5wYClCChC7l0=;
+        b=O5f16WwEH+amSpVxb8FT0Z7cj8tgvut8QgYjCHkQ+/BbbH4Go9UvLI8QBUoXZRaNCM
+         Cu8W1UYK+2fgD/acNgqxB8yq7+7q+Sa2yqoeUxoxPA6h3Tv94XbND8STCALuMtAfeLbb
+         DweN7wrn7DXSe30XUOl2QxEkpni8mphaaMe4a/m4nc0qnv6nm2X58CFicoq7ATvrhbMI
+         Ubs9ZBM0tEEtnjXaNdLQwORaLfPCMgI1oKXcppq2UWKfN3Ztr7+tLxl1PQmlI7iNcJ+P
+         chsCKpkgbOU1hn713ADgrQQ83QfcPVf9Oso0at76VfLIjJWyHNkx3hUQ06yx/PQmEdG8
+         2WHw==
+X-Gm-Message-State: AOAM531f/cvLp/2hnJnSQujU7OH5bCQeO+Df1UPCiQWOQhSBk6R2izqa
+        6MnB6OTXnCYdzjpDZlbWx8qmumv3aVMR895Y
+X-Google-Smtp-Source: ABdhPJzh6HqpE26q5oLMdXT2GmOfYyL9iwFFoV5C8kA+SnWAuKJcnb41KT/VZl+/7N9XxyLxIB6YAA==
+X-Received: by 2002:a65:6212:: with SMTP id d18mr6874585pgv.141.1611684456486;
+        Tue, 26 Jan 2021 10:07:36 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id e63sm20138428pfe.216.2021.01.26.10.07.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Jan 2021 10:07:35 -0800 (PST)
+Message-ID: <60105a67.1c69fb81.673e.0c72@mx.google.com>
+Date:   Tue, 26 Jan 2021 10:07:35 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2021-01-26-v5.11-rc5
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+Subject: renesas/master baseline-nfs: 28 runs,
+ 2 regressions (renesas-devel-2021-01-26-v5.11-rc5)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-  - Remove unneeded reference for "idt,slew-percent", as vendor specific
-    properties having a standard unit suffix don't need a type,
-  - Add missing "additionalProperties: false" for subnodes, to catch
-    typos in properties,
-  - Fix property names in example.
+renesas/master baseline-nfs: 28 runs, 2 regressions (renesas-devel-2021-01-=
+26-v5.11-rc5)
 
-Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-This depends on "[PATCH dt-schema 0/2] dt-schema: Add percentage"
-https://lore.kernel.org/r/20210126162756.1932692-1-geert+renesas@glider.be
+Regressions Summary
+-------------------
 
-v3:
-  - Drop references for "idt,voltage-microvolt" and "idt,slew-percent",
+platform                  | arch  | lab          | compiler | defconfig    =
+      | regressions
+--------------------------+-------+--------------+----------+--------------=
+------+------------
+meson-gxm-q200            | arm64 | lab-baylibre | gcc-8    | defconfig    =
+      | 1          =
 
-v2:
-  - Settle on "idt,voltage-microvolt", cfr. commit 4b003f5fcadfa2d0
-    ('clk: vc5: Use "idt,voltage-microvolt" instead of
-    "idt,voltage-microvolts"'),
-  - Drop reference to clock.yaml, which is already applied
-    unconditionally,
-  - Drop removal of allOf around if condition, as it is unnecessary
-    churn.
----
- .../devicetree/bindings/clock/idt,versaclock5.yaml       | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+sun7i-a20-olinuxino-lime2 | arm   | lab-baylibre | gcc-8    | multi_v7_defc=
+onfig | 1          =
 
-diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-index 2ac1131fd9222a86..116ecce758bc22cf 100644
---- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-+++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-@@ -78,9 +78,10 @@ patternProperties:
-         enum: [ 1800000, 2500000, 3300000 ]
-       idt,slew-percent:
-         description: The Slew rate control for CMOS single-ended.
--        $ref: /schemas/types.yaml#/definitions/uint32
-         enum: [ 80, 85, 90, 100 ]
- 
-+    additionalProperties: false
-+
- required:
-   - compatible
-   - reg
-@@ -135,13 +136,13 @@ examples:
-             clock-names = "xin";
- 
-             OUT1 {
--                idt,drive-mode = <VC5_CMOSD>;
--                idt,voltage-microvolts = <1800000>;
-+                idt,mode = <VC5_CMOSD>;
-+                idt,voltage-microvolt = <1800000>;
-                 idt,slew-percent = <80>;
-             };
- 
-             OUT4 {
--                idt,drive-mode = <VC5_LVDS>;
-+                idt,mode = <VC5_LVDS>;
-             };
-         };
-     };
--- 
-2.25.1
 
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-01-26-v5.11-rc5/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-01-26-v5.11-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      27061b9ede03072796190d99f00a7fad4f57f184 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                  | arch  | lab          | compiler | defconfig    =
+      | regressions
+--------------------------+-------+--------------+----------+--------------=
+------+------------
+meson-gxm-q200            | arm64 | lab-baylibre | gcc-8    | defconfig    =
+      | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6010220c69d06c3582d3dfd9
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-01-26-v5.11-rc5/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-meson-g=
+xm-q200.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-01-26-v5.11-rc5/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-meson-g=
+xm-q200.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0125.1/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6010220c69d06c358=
+2d3dfda
+        new failure (last pass: renesas-devel-2021-01-04-v5.11-rc2) =
+
+ =
+
+
+
+platform                  | arch  | lab          | compiler | defconfig    =
+      | regressions
+--------------------------+-------+--------------+----------+--------------=
+------+------------
+sun7i-a20-olinuxino-lime2 | arm   | lab-baylibre | gcc-8    | multi_v7_defc=
+onfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/601040781dcbe8f104d3dfc9
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-01-26-v5.11-rc5/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-nfs-=
+sun7i-a20-olinuxino-lime2.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-01-26-v5.11-rc5/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-nfs-=
+sun7i-a20-olinuxino-lime2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0125.1/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/601040781dcbe8f10=
+4d3dfca
+        failing since 0 day (last pass: v5.11-rc4-383-g822f1d4bfbf2, first =
+fail: renesas-devel-2021-01-25-v5.11-rc5) =
+
+ =20
