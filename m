@@ -2,57 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2893330397C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 10:52:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4415C3039CB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 11:06:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390408AbhAZJu4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 04:50:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43270 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390739AbhAZJut (ORCPT
+        id S2391761AbhAZKFs convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jan 2021 05:05:48 -0500
+Received: from mail-ot1-f45.google.com ([209.85.210.45]:39094 "EHLO
+        mail-ot1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390004AbhAZKFj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Jan 2021 04:50:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 46E95206B5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Jan 2021 09:50:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611654609;
-        bh=1Zo7F0Vw2crvZGxVZLh0P4PULQnFshcQ7s6yE3alvy8=;
-        h=Subject:From:Date:To:From;
-        b=vH4u5rOdwcaC4/Z50FftBjS1amOSjVBf+Alxu6LqmoHDqQzLWkwEr55WkfAo1IHoQ
-         Vc7/dGN6ot6PmzKDsnK0chFFGK1Vdyb8GneZJkcYsN24YJg/lg909BV8NcZS+AMnKj
-         Tuy/NcSXvvV2OjmxnOtd7fkWzaIFQKL5QUepLII+z1z/PQsxgFe4lT8X11Ddmd6Mke
-         I9IRFvKGI93XxCsV4Kk2FRu5b9dZwpbhXyEwOLr7BYA029pGAVHFqJt55Va+oN5Dz2
-         cj0+kqOn+aCdl+hGeiNGs1aTYiduiayLH0k55JOsn0OpXysUHoCa9YZHcboS7YLa3b
-         E+SvpJ/8RaN4w==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 2F6B761E3F
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Jan 2021 09:50:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 26 Jan 2021 05:05:39 -0500
+Received: by mail-ot1-f45.google.com with SMTP id i30so15676691ota.6;
+        Tue, 26 Jan 2021 02:05:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rF/1vmEFIVRHjc8AWuZDMv+It2bXb57sOL79ReSBh8A=;
+        b=PV7HUAmdZMxB/Orc1r0hfREx0Dewzfq44/aVkssoQkc/CJw3+BuCObBQ4f/jaZJ/KT
+         BLjMLSvehXfv0Zm1aMlzpfc6fqkf7txiKcW3HQp7Y1SZ50+OC0H0BV+DQHQ8n6LPl08U
+         CU6ZD0cuPs7H+HySQAGzHds5pdCCOF39QXXyym+m+kVS7J7oj05tF/Vtb4HyqI4lg5Ac
+         EIAxh8tNUr9PIyVdfOMbjN4B2VmlIpx84/w+wZyPTJd5HbsSvUqMO4qfN3fELLUbrkCP
+         N01XfB/WUc1Odm/fpmbCA51qxFkV4zV4cMzc/s+2pAFK0Z9dyHxay97r9sVwafuJJrpX
+         PR8Q==
+X-Gm-Message-State: AOAM5332T9ETGyn+dJIsBIo28QoXUSjy65NSKgQ5K6UbBZIQj9OgWjYm
+        OE5IIZOfGI8Z5pPQHvyjMCH6tulurkmwXGxfhstm9ZDI
+X-Google-Smtp-Source: ABdhPJzoRECB4L8uCs8vp+zPXDTBi+GBtP4zmDVSAH9+pdMgnTKapYgjlRDr/HMP1hVrai5n4e0LYvGrLm4Da6OPk70=
+X-Received: by 2002:a9d:c01:: with SMTP id 1mr3400993otr.107.1611655498614;
+ Tue, 26 Jan 2021 02:04:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <161165460911.31320.5491165237712609313.git-patchwork-summary@kernel.org>
-Date:   Tue, 26 Jan 2021 09:50:09 +0000
-To:     linux-renesas-soc@vger.kernel.org
+References: <20201228120147.59387-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20201228120147.59387-1-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 26 Jan 2021 11:04:47 +0100
+Message-ID: <CAMuHMdWD-8YxdrTmaTW7YTOFj+8hHM5LvegnC274QOTOO_gXcg@mail.gmail.com>
+Subject: Re: [PATCH] arm: smp: remove unused variable
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi Wolfram,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (refs/heads/master):
+On Mon, Dec 28, 2020 at 1:03 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Not used anymore after refactoring:
+>
+> arch/arm/kernel/smp.c: In function ‘show_ipi_list’:
+> arch/arm/kernel/smp.c:543:16: warning: variable ‘irq’ set but not used [-Wunused-but-set-variable]
+>   543 |   unsigned int irq;
+>
+> Fixes: 88c637748e31 ("ARM: smp: Use irq_desc_kstat_cpu() in show_ipi_list()")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Marc Zyngier <maz@kernel.org>
 
-Patch: [v2] soc: renesas: rcar-sysc: Use readl_poll_timeout_atomic()
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=421567
-  Lore link: https://lore.kernel.org/r/20210125142606.1050130-1-geert+renesas@glider.be
+Known issue since Dec 15, and still not fixed...
 
-Total patches: 1
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Gr{oetje,eeting}s,
 
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
