@@ -2,77 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18DF03042F9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 16:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15B5B3043A7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 17:21:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391565AbhAZPuh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 10:50:37 -0500
-Received: from mail-oi1-f170.google.com ([209.85.167.170]:36422 "EHLO
-        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391843AbhAZPuZ (ORCPT
+        id S2391187AbhAZQTq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jan 2021 11:19:46 -0500
+Received: from www.zeus03.de ([194.117.254.33]:33046 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2392853AbhAZQTd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Jan 2021 10:50:25 -0500
-Received: by mail-oi1-f170.google.com with SMTP id d18so9594357oic.3;
-        Tue, 26 Jan 2021 07:50:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jgEi7FwFsaNNCaOhqNYWzzMOntaDZT+FwTY7v2XrGtg=;
-        b=CS95uyIm+RNLa0fkNXLAliUEtdffsjv5FJyYwdpl1U8DXV/6vsTVTymSl3ZZs6gCLH
-         PPOdSf3oPZ8Ro/SLeY+oMzLCAlMlLDXTh2VRCEzC3VGqIlnyfOrlqLefpZAPZiknQFAu
-         kuTQCwq9cvgC+XCUhzl3u6y7syrxKBgoQOuGt+gyNeKFVHliEqp1c2vT8jUYomobILCi
-         mZm7EshF8R69ZigfS2Li5Zd5LWOEpMT4ZQmNUg0O+GM/l1C4bw6y5LZEyNUNLxiSPT7J
-         9JGBbzOYm60e0OIC68Drfp7QwHvg2TNfLTNjMg/OAz7RA8633xSSQ58Qzzwr1Ppsyo8F
-         RgxA==
-X-Gm-Message-State: AOAM532bwsAPKQbW2DGkhdm9TFo6W8Ckx/7qXsTN4P+6eEYqcYJ0GOkw
-        nYw6TldQHst8U8FfXoym2Hqnpn5HvrXoRq4BQaU=
-X-Google-Smtp-Source: ABdhPJz6rZTc7tvHGT/n4NsRQLTEmdA+GC28JTm7C8iYFCkmNVDu+6kFnvCZhxc/8jOHNatyH/Gli4T/tzJFeUfpsA4=
-X-Received: by 2002:aca:4d8d:: with SMTP id a135mr161425oib.153.1611676184114;
- Tue, 26 Jan 2021 07:49:44 -0800 (PST)
+        Tue, 26 Jan 2021 11:19:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=4ZLkDNc++qocydbWdU4zqKsHkW8m
+        ct9HExq6tc8OORo=; b=INnAyJ92KMmHxdi7Hxoj4hm7w+9OvwfUMiKBdLFHhsI6
+        0ui6fVgvw0WNRhb28XLd6pnlUOVOfMn4Txa5nxk5FkG6KgRYTsx1uXOmDyGIIxTg
+        PbF0Qhe8kBAeQmAErYyiF7raKkAN1DPSXmNNWFPsh8bWgPo/MdaupL4T69/PEuY=
+Received: (qmail 3781773 invoked from network); 26 Jan 2021 17:18:41 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Jan 2021 17:18:41 +0100
+X-UD-Smtp-Session: l3s3148p1@mq28AdC5AOUgAwDPXyX1AEdA8SGgn5QT
+Date:   Tue, 26 Jan 2021 17:18:36 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] dmaengine: rcar-dmac: Add
+ for_each_rcar_dmac_chan() helper
+Message-ID: <20210126161836.GA928@ninjato>
+References: <20210125142431.1049668-1-geert+renesas@glider.be>
+ <20210125142431.1049668-3-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20210126124540.3320214-1-lee.jones@linaro.org> <20210126124540.3320214-12-lee.jones@linaro.org>
-In-Reply-To: <20210126124540.3320214-12-lee.jones@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 26 Jan 2021 16:49:33 +0100
-Message-ID: <CAMuHMdWtN+TbjVqch0nmKxfAVuqD0UV8Eq3a2sVBiYjFJqiT0g@mail.gmail.com>
-Subject: Re: [PATCH 11/21] clk: renesas: renesas-cpg-mssr: Fix formatting
- issues for 'smstpcr_saved's documentation
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="82I3+IH0IqGh5yIs"
+Content-Disposition: inline
+In-Reply-To: <20210125142431.1049668-3-geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 1:45 PM Lee Jones <lee.jones@linaro.org> wrote:
-> Fixes the following W=1 kernel build warning(s):
->
->  drivers/clk/renesas/renesas-cpg-mssr.c:168: warning: Function parameter or member 'smstpcr_saved' not described in 'cpg_mssr_priv'
->
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: linux-clk@vger.kernel.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.12.
+--82I3+IH0IqGh5yIs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Gr{oetje,eeting}s,
+On Mon, Jan 25, 2021 at 03:24:29PM +0100, Geert Uytterhoeven wrote:
+> Add and helper macro for iterating over all DMAC channels, taking into
+> account the channel mask.  Use it where appropriate, to simplify code.
+>=20
+> Restore "reverse Christmas tree" order of local variables while adding a
+> new variable.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-                        Geert
+Looks good and works fine with I2C + DMA on V3U:
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+--82I3+IH0IqGh5yIs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAQQNgACgkQFA3kzBSg
+KbZsDhAAsC8vs8BUss6fJwgkDZuLlrZvz984Ox/0TUevcI8XmIMEFx5d8uUQ20R5
+1n8RyV1bm02lMEsD2cN/+xFPXZXPzvitfSb2l2vtLPHqn6AeDGbNqGQQ7v3dGk6H
+hUtakdFePtNhsDVc4kmUmM9XGQN8qxL2hlFXLKGkjF5hZHMlC7e9m2J3+74IAi70
+5wiGLtGjNroFwAyFvofd+8NuNrYmQyjyfsaygqQJFNIKBSYKAmVZmN81MWhoYU1w
+NLj59QpjkmKeNeP3b2whjoM9c1m54zcaKsERPMAQBoQpKhPfGk5PguOwEWYT8svk
+jjOgyqUoIfuPP2KOWsLGlDTmHEfoqQXONjZAQqqoWzF82aq4y/V8hT6mPNb93xIB
+Kr4dKji8fVVGBRRoSTGb6EPN1ml3xP69WuxGKiK8ZR2RRKHZ1yj8DcjQGmIxzepD
+nIfk6IWobSWATVO5jElElNEfEHZeXjRWh8atVLkfGQdQXu5isDhaVfQbTT+ik/7o
+aLcAvi9+GL7YJfnaLWR55EZjpvSpKI+9S9MkCWDX04F9uR+BoHHfFc+UPBNioKzd
+VhsH8mxJ+2wPck+0pSelFdxYQRdzbE8kAjiOlc0Gkb3QtDrVXdYlXzx8NHDD1CVG
+4V4OEt1ZdIRrEu/oLp9J0fcGbfjrD1qqEkUTgtjdMjPCb+u8pY4=
+=MZqC
+-----END PGP SIGNATURE-----
+
+--82I3+IH0IqGh5yIs--
