@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C42EC30313C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 02:29:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F260303144
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 02:31:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730486AbhAZB2f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Jan 2021 20:28:35 -0500
-Received: from mga06.intel.com ([134.134.136.31]:10854 "EHLO mga06.intel.com"
+        id S1727140AbhAZB35 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Jan 2021 20:29:57 -0500
+Received: from mga02.intel.com ([134.134.136.20]:22991 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727173AbhAZB02 (ORCPT
+        id S1727180AbhAZB1S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Jan 2021 20:26:28 -0500
-IronPort-SDR: xYOUyEOwjhOFUn1WEmrNjTrlgVSK/d1EyKOEzySY+YtbWUKQjtg5ynrZOc8ezoj4Lu0Tc2SZPs
- mR5VXVoU4auw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="241357269"
+        Mon, 25 Jan 2021 20:27:18 -0500
+IronPort-SDR: cZJ26+ENIDEIsm5SR6DusWzaqhUcPG19dQ/3EpFs0FsT+/ctPGs7o5+JzVE7ngkokJPaM5jydC
+ 2KDQ5ocMZpmw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="166926404"
 X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="241357269"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 16:38:55 -0800
-IronPort-SDR: sFaAJktWx8P3TtAi0J4gw+jhgcsRVe1F2Pxrxtw92ugCvkpEqSkoDd881vQGtypATcguz7EhzL
- Lt/t/9ZpxciA==
+   d="scan'208";a="166926404"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 16:38:56 -0800
+IronPort-SDR: YQ99+XOHIhVX5yhy94FbGRFCtY5MsCalJ06MPeouxSxVO+4Jg6RSskeJH9Rpq5ePzgWblxZBT8
+ 6CGmUjzhjWpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="472555944"
+   d="scan'208";a="361754256"
 Received: from lkp-server02.sh.intel.com (HELO 625d3a354f04) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Jan 2021 16:38:54 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 25 Jan 2021 16:38:54 -0800
 Received: from kbuild by 625d3a354f04 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1l4CNh-0000SZ-KN; Tue, 26 Jan 2021 00:38:53 +0000
-Date:   Tue, 26 Jan 2021 08:38:21 +0800
+        id 1l4CNh-0000SX-Ju; Tue, 26 Jan 2021 00:38:53 +0000
+Date:   Tue, 26 Jan 2021 08:38:27 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- 88f9dbd53c9c6e7f2133822d0727208a2033e1d2
-Message-ID: <600f647d.Qd+zLOQXNX81w1c7%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-dt-for-v5.12] BUILD SUCCESS
+ ee33cd69344ff04f3b512eb9d74c16c412b07115
+Message-ID: <600f6483.VwthsctiFR73EJV3%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,13 +44,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 88f9dbd53c9c6e7f2133822d0727208a2033e1d2  Merge branch 'renesas-arm-dt-for-v5.12' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.12
+branch HEAD: ee33cd69344ff04f3b512eb9d74c16c412b07115  arm64: dts: renesas: falcon: Enable MMC
 
 elapsed time: 726m
 
-configs tested: 124
-configs skipped: 2
+configs tested: 110
+configs skipped: 76
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -61,17 +61,12 @@ arm64                            allyesconfig
 arm64                               defconfig
 arm                              allyesconfig
 arm                              allmodconfig
-sh                           se7722_defconfig
-powerpc               mpc834x_itxgp_defconfig
-sh                   sh7770_generic_defconfig
-arm                          badge4_defconfig
-sh                        sh7757lcr_defconfig
-c6x                                 defconfig
 powerpc                   bluestone_defconfig
 arm                  colibri_pxa270_defconfig
 riscv                             allnoconfig
 powerpc                    klondike_defconfig
 arm                         palmz72_defconfig
+arm                          badge4_defconfig
 m68k                        stmark2_defconfig
 mips                         tb0287_defconfig
 arm                         assabet_defconfig
@@ -84,11 +79,6 @@ arm                           omap1_defconfig
 sh                            shmin_defconfig
 mips                        nlm_xlr_defconfig
 arm                        neponset_defconfig
-sh                 kfr2r09-romimage_defconfig
-arm                            mmp2_defconfig
-ia64                      gensparse_defconfig
-arm                              alldefconfig
-mips                   sb1250_swarm_defconfig
 sh                           se7712_defconfig
 x86_64                              defconfig
 powerpc                      acadia_defconfig
@@ -99,10 +89,6 @@ powerpc                    amigaone_defconfig
 mips                      fuloong2e_defconfig
 arm                       aspeed_g5_defconfig
 arm                         nhk8815_defconfig
-mips                  maltasmvp_eva_defconfig
-arc                            hsdk_defconfig
-powerpc                     mpc83xx_defconfig
-arm                          imote2_defconfig
 m68k                            q40_defconfig
 mips                malta_qemu_32r6_defconfig
 arm                        multi_v7_defconfig
