@@ -2,157 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E085A303EE0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 14:38:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD021303EFE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 14:42:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404546AbhAZNfz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 08:35:55 -0500
-Received: from mga06.intel.com ([134.134.136.31]:48273 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392005AbhAZN0n (ORCPT
+        id S2404187AbhAZNlu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jan 2021 08:41:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34774 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391768AbhAZNlm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Jan 2021 08:26:43 -0500
-IronPort-SDR: Ksr2gGZ7dn03b/85c1HgNMlPduJ5NJC4EiCDNMkUNQVcrdHtToYzTjEMhgvdUx+T9+FNarGHaf
- N+TpHz0X3cag==
-X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="241429103"
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="241429103"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 05:24:53 -0800
-IronPort-SDR: g4Zswe3qz4zMid/EyEG5xz4WWhFPriWd/t2t5KrG0ShP0j9WNEEJayXNCJQTEkRkM2/IHRNzgx
- zk+bb8SSGplQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="369103591"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
-  by orsmga002.jf.intel.com with SMTP; 26 Jan 2021 05:24:36 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Tue, 26 Jan 2021 15:24:35 +0200
-Date:   Tue, 26 Jan 2021 15:24:35 +0200
-From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        linux-tegra@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Marek Vasut <marex@denx.de>,
-        Yannick Fertre <yannick.fertre@st.com>,
-        linux-samsung-soc@vger.kernel.org,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        linux-rockchip@lists.infradead.org,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        freedreno@lists.freedesktop.org,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-arm-msm@vger.kernel.org,
-        Philippe Cornu <philippe.cornu@st.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        virtualization@lists.linux-foundation.org,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Alison Wang <alison.wang@nxp.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        linux-renesas-soc@vger.kernel.org, linux-mips@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-mediatek@lists.infradead
-Subject: Re: [PATCH v2 10/11] drm: Use state helper instead of the plane
- state pointer
-Message-ID: <YBAYE4YH4bgURmuf@intel.com>
-References: <20210121163537.1466118-1-maxime@cerno.tech>
- <20210121163537.1466118-10-maxime@cerno.tech>
+        Tue, 26 Jan 2021 08:41:42 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EECDC0611C2;
+        Tue, 26 Jan 2021 05:41:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=F7Ri1jDa+0p/Mntg1rR5pjiOSiSOGrYBiVXG3iBxWdw=; b=ZlKAwmRijaiAU7MOCcisK0OGd
+        G6KMyzAzXJAFJmLrGZA1wW809O/uTiZDTXwjUM+hRn+zc5PQAlvHeI/nz9WqhpMHne/ZJX/J8l33N
+        2/KBrnN/rWXSuMHZmUEmWP9es+tQqgyLCHaTqbdMhcueeZGdIjnzZIn75DD8IyUVVsRqxU92AS9ns
+        A9FG8sWlxjVtqXMAWUH/muU2vgnL0P5c4ZjZ+6AzLGnzjbuIVf//X++QBjHZxD5sM8NLE70k6/iAe
+        OBm3/+Td78DD5hIGL+3r+vK7DgJbkjoZIX/jd9MxZFxnv+/Gd+l9GBBuu0F529DUH6YlRxIViP1rK
+        uOH/OCdQw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:52972)
+        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1l4OaY-0004Sz-1i; Tue, 26 Jan 2021 13:40:58 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1l4OaX-0003qb-Ky; Tue, 26 Jan 2021 13:40:57 +0000
+Date:   Tue, 26 Jan 2021 13:40:57 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] arm: smp: remove unused variable
+Message-ID: <20210126134057.GH1551@shell.armlinux.org.uk>
+References: <20201228120147.59387-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWD-8YxdrTmaTW7YTOFj+8hHM5LvegnC274QOTOO_gXcg@mail.gmail.com>
+ <20210126104155.GF1551@shell.armlinux.org.uk>
+ <20210126130240.GA2413@kunai>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210121163537.1466118-10-maxime@cerno.tech>
-X-Patchwork-Hint: comment
+In-Reply-To: <20210126130240.GA2413@kunai>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 05:35:35PM +0100, Maxime Ripard wrote:
-> Many drivers reference the plane->state pointer in order to get the
-> current plane state in their atomic_update or atomic_disable hooks,
-> which would be the new plane state in the global atomic state since
-> _swap_state happened when those hooks are run.
+On Tue, Jan 26, 2021 at 02:02:40PM +0100, Wolfram Sang wrote:
+> Hi Russell,
 > 
-> Use the drm_atomic_get_new_plane_state helper to get that state to make it
-> more obvious.
+> > Those who cause breakage really should be the ones to look at patches
+> > that fix their breakage.
 > 
-> This was made using the coccinelle script below:
-> 
-> @ plane_atomic_func @
-> identifier helpers;
-> identifier func;
-> @@
-> 
-> (
->  static const struct drm_plane_helper_funcs helpers = {
->  	...,
->  	.atomic_disable = func,
-> 	...,
->  };
-> |
->  static const struct drm_plane_helper_funcs helpers = {
->  	...,
->  	.atomic_update = func,
-> 	...,
->  };
-> )
-> 
-> @ adds_new_state @
-> identifier plane_atomic_func.func;
-> identifier plane, state;
-> identifier new_state;
-> @@
-> 
->  func(struct drm_plane *plane, struct drm_atomic_state *state)
->  {
->  	...
-> -	struct drm_plane_state *new_state = plane->state;
-> +	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
-> 	...
->  }
-> 
-> @ include depends on adds_new_state @
-> @@
-> 
->  #include <drm/drm_atomic.h>
-> 
-> @ no_include depends on !include && adds_new_state @
-> @@
-> 
-> + #include <drm/drm_atomic.h>
->   #include <drm/...>
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Does it mean you want an explicit ack from Thomas or that it should go
+> via his tree?
 
-Looks great.
+What I'm saying is... don't expect me to always review patches that
+are for fixing code that other people have contributed - I wish those
+who introduce regressions would stick around and attend to breakage
+that they cause, instead of hoping that someone else will do that
+for them. It's a reasonable ask.
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > The way patches get applied is if they end up in my patch system... if
+> > they don't make it there, they don't get applied.
+> 
+> The patch itself is here:
+> 
+> https://www.armlinux.org.uk/developer/patches/viewpatch.php?id=9047/1
+
+Thanks - I'll get around to it in due course. Since I'm no longer
+supported as 32-bit ARM maintainer, I only apply patches once or maybe
+twice per kernel release. Quite how long this will be sustainable for,
+I've no idea (it depends whether I get any actual paying work, and
+how much.)
 
 -- 
-Ville Syrjälä
-Intel
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
