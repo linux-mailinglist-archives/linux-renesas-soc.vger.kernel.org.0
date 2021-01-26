@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E29C2303452
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 06:23:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F869303454
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Jan 2021 06:23:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732356AbhAZFWo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 00:22:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50010 "EHLO
+        id S1730971AbhAZFXI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Jan 2021 00:23:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730739AbhAZBpG (ORCPT
+        with ESMTP id S1728524AbhAZDFJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Jan 2021 20:45:06 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DA7C061352
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 16:34:31 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id f63so9379662pfa.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 16:34:31 -0800 (PST)
+        Mon, 25 Jan 2021 22:05:09 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88D3AC061573
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 19:04:29 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id e9so9011788plh.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Jan 2021 19:04:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20150623.gappssmtp.com; s=20150623;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=S6nUAsHk6M6NpgFKfensnpscv7/aEFW1lTbh+kp3Psw=;
-        b=JUKCrGmUrMOZZxVUgIIgOM8AT3LdccKNGdQvHw/wFc2AirCBZUhndj06S3uk7QT5tS
-         nX4aFD6sOD+8ADWrL7q5PFWJ6RQye87DJyMaNbGH8ZXLBDYAJmICUabKWIiuRiITYsht
-         EM1dOOijxvQ8GCqpforPbghSfs2Li2PTQ2+kTcokOJnmrq5Uxf/N55vRCfDtYS/3DdiO
-         QnHoBVFw84hCC10ri5yHv9Bn/KapHmhBF2hVTJYLR/0Khr18yx3ytqOJhlzHVPG+5i0q
-         +JwM2o8o5OsOCo6QOjrcF4Kk1oZel+lsF5UD8536tM4TI86kcN/dX752pvT0Z/c6lo0i
-         FFkQ==
+        bh=HRAOtoD7GdTkR2JjauMBqFX45Z38LN7zdXLcnPv/Uo4=;
+        b=pBsordxiafZUOIy1cYjGumCqGYBUqyxo5dCnBAXWZnO3UrGQfNXi26+/CL6+yguXnl
+         BqfBxnYp/spER66q2D2q1m3eHfToA3jDlOJkFOwBsp27Uhcby7TnpAU015PMjPDPI8wn
+         fmnFQPDgxyd/zP+ivgZHVHpkAL1meHBc5e4ZSNVKY4S3dWbarUtJHRviqzo6rHiv/eiv
+         cjF9oL5kfBBast9PtwwIi05cHhWfWqvalytrZ30iywhs7pToBYBiDw3iuk8EiQ4hcFN/
+         Rv6OWNHXAEUxsOuFNuVVR0/5/SXIy2XLxW4KJ1JRl/8mdr0seACwTggBrqZ5KG+DOkFO
+         Elyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=S6nUAsHk6M6NpgFKfensnpscv7/aEFW1lTbh+kp3Psw=;
-        b=NLOt0ecRyfM+6tdSQYcLX5qtOW8a6AUlwSdhJCfo8ZhM+Os8lyZDtu29BRbf/Iqio9
-         WimfEa6PI1iHzSSISAt0pKT7thcL4+Hip2CoA3e0nigHppmt7sAIICc6i1CMSi4wj5B9
-         gDYefUG1jWZ0Of2S/+JeN8RP1A1DLKDPmwq5F2a7MHo+TJbAzXb/QX6sK+pVkuKJiMoy
-         SZp6YGDkej0kSfx5vW7KrkaQL1mjGK1wQfjztt2YhdgYZRjpRY2CPEERz5pmVQ7oXtuw
-         8rxIDEOg9TxsQCn9NGHWCZNkgPgPVD9juWVoMLM/4DpV1lGuNgJeSs4509j38F0vYCq2
-         aPag==
-X-Gm-Message-State: AOAM533u1l+u801ZAI8EAP/B8Buec+msbIeYwn/D0JYTTPUrUJeZCcUi
-        C4ajHFuhzflVf4xwlwIZd5t8NMYbMQVgZdOE
-X-Google-Smtp-Source: ABdhPJxrqC+QMm4eRkvubLrw31DAtFwYPAu86FlNv3XvRxVzosLVKCVs2uGJH9CZwwoicwwzBlooVA==
-X-Received: by 2002:a65:534c:: with SMTP id w12mr3031315pgr.179.1611621270832;
-        Mon, 25 Jan 2021 16:34:30 -0800 (PST)
+        bh=HRAOtoD7GdTkR2JjauMBqFX45Z38LN7zdXLcnPv/Uo4=;
+        b=WfBONsl5cG5clqw2tUxjzRZemxbYqi6HCJu9bMW/+GPvtp+j+TkXyt+Gm1xqIo8hEf
+         xVlRq5EbQ+UEOim6DFRvq+oDOeZXUOI9zq3i6V/0rIc/jnKMkbPXT0ePixuHNBriynAT
+         yivbUVEHfE/tUXLMD0AYv3OWL9HS1EKf9EArPIlgXKcNeaxDKYVC0iylyJgDuYv6ImWe
+         u3stNhk7uyJnN/KMga0RnvuZIMoXQ4VEFLrVsGLPo2LzP/RjyKuM3AA4wD1NeM/iM8oz
+         ZvAwk8r2Fx9rCWpJhad15Y7/s+daIrEZGJKFe+xz0oYoFkZFW/O3i0C9OYkD0bP/CvNQ
+         dNbg==
+X-Gm-Message-State: AOAM532AS33dOpmlEIs/j9McKeqPSw9bhlQST6cM2Qz44LzWRSw+mOXi
+        COh39/MZuWUnw5k1I/K1fLI/kFhFTIjQtde5
+X-Google-Smtp-Source: ABdhPJyQfHCvvwHmiHxieVbWSKCJ6kyrkk300EnhP0I4TL8amOENiFKiEcHY8+f8zZH0NpeQRVgieA==
+X-Received: by 2002:a17:902:9349:b029:df:fab3:64b8 with SMTP id g9-20020a1709029349b02900dffab364b8mr3604691plp.72.1611630268865;
+        Mon, 25 Jan 2021 19:04:28 -0800 (PST)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id y11sm10234224pff.93.2021.01.25.16.34.29
+        by smtp.gmail.com with ESMTPSA id f15sm653103pja.24.2021.01.25.19.04.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 16:34:30 -0800 (PST)
-Message-ID: <600f6396.1c69fb81.aa9a1.855b@mx.google.com>
-Date:   Mon, 25 Jan 2021 16:34:30 -0800 (PST)
+        Mon, 25 Jan 2021 19:04:28 -0800 (PST)
+Message-ID: <600f86bc.1c69fb81.1b90e.2d67@mx.google.com>
+Date:   Mon, 25 Jan 2021 19:04:28 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -57,32 +57,35 @@ X-Kernelci-Kernel: renesas-devel-2021-01-25-v5.11-rc5
 X-Kernelci-Report-Type: test
 X-Kernelci-Tree: renesas
 X-Kernelci-Branch: master
-Subject: renesas/master sleep: 4 runs,
- 3 regressions (renesas-devel-2021-01-25-v5.11-rc5)
+Subject: renesas/master baseline-nfs: 17 runs,
+ 2 regressions (renesas-devel-2021-01-25-v5.11-rc5)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master sleep: 4 runs, 3 regressions (renesas-devel-2021-01-25-v5.11=
--rc5)
+renesas/master baseline-nfs: 17 runs, 2 regressions (renesas-devel-2021-01-=
+25-v5.11-rc5)
 
 Regressions Summary
 -------------------
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 3          =
+platform                  | arch | lab          | compiler | defconfig     =
+     | regressions
+--------------------------+------+--------------+----------+---------------=
+-----+------------
+sun7i-a20-olinuxino-lime2 | arm  | lab-baylibre | gcc-8    | multi_v7_defco=
+nfig | 1          =
+
+sun7i-a20-olinuxino-lime2 | arm  | lab-baylibre | gcc-8    | sunxi_defconfi=
+g    | 1          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-01-25-v5.11-rc5/plan/sleep/
+sas-devel-2021-01-25-v5.11-rc5/plan/baseline-nfs/
 
-  Test:     sleep
+  Test:     baseline-nfs
   Tree:     renesas
   Branch:   master
   Describe: renesas-devel-2021-01-25-v5.11-rc5
@@ -97,68 +100,64 @@ Test Regressions
 
 
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 3          =
+platform                  | arch | lab          | compiler | defconfig     =
+     | regressions
+--------------------------+------+--------------+----------+---------------=
+-----+------------
+sun7i-a20-olinuxino-lime2 | arm  | lab-baylibre | gcc-8    | multi_v7_defco=
+nfig | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/600f52876340b624b6d3dfcd
+  Details:     https://kernelci.org/test/plan/id/600f7f541675df9f74d3dfd7
 
-  Results:     2 PASS, 11 FAIL, 0 SKIP
+  Results:     0 PASS, 1 FAIL, 0 SKIP
   Full config: multi_v7_defconfig
   Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-01-25-v5.11-rc5/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288=
--rock2-square.txt
+021-01-25-v5.11-rc5/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-nfs-=
+sun7i-a20-olinuxino-lime2.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-01-25-v5.11-rc5/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288=
--rock2-square.html
+021-01-25-v5.11-rc5/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-nfs-=
+sun7i-a20-olinuxino-lime2.html
   Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0125.1/armhf/rootfs.cpio.gz =
+0125.1/armhf/initrd.cpio.gz =
 
 
 
-  * sleep.rtcwake-mem-4: https://kernelci.org/test/case/id/600f52876340b624=
-b6d3dfd0
-        new failure (last pass: v5.11-rc4-383-g822f1d4bfbf2)
-
-    2021-01-25 23:21:38.122000+00:00  ake: assuming RTC uses UTC ...
-    2021-01-25 23:21:38.123000+00:00  rtcwake: read rtc time failed: Invali=
-d argument
-    2021-01-25 23:21:38.123000+00:00  1 RESULT=3Dfail>
-    2021-01-25 23:21:38.123000+00:00  rtcwake: assuming RTC uses UTC ...
-    2021-01-25 23:21:38.123000+00:00  rtcwake: read rtc time failed: Invali=
-d argument
-    2021-01-25 23:21:38.123000+00:00  CASE_ID=3Drtcwake-mem-2 RESULT=3Dfail>
-    2021-01-25 23:21:38.124000+00:00  rtcwake: assuming RTC uses UTC ...
-    2021-01-25 23:21:38.171000+00:00  rtcwake: read rtc time failed: Invali=
-d argument
-    2021-01-25 23:21:38.172000+00:00  IGNAL_TESTCASE TEST_CASE_ID=3Drtcwake=
--mem-3 RESULT=3Dfail>
-    2021-01-25 23:21:38.172000+00:00  rtcwake: assuming RTC uses UTC ... =
-
-    ... (2 line(s) more)  =
-
-
-  * sleep.rtcwake-mem-5: https://kernelci.org/test/case/id/600f52876340b624=
-b6d3dfd1
-        new failure (last pass: v5.11-rc4-383-g822f1d4bfbf2)
-
-    2021-01-25 23:21:38.219000+00:00  rtcwake: read rt<4>[   19.514693] rtc=
--hym8563 0-0051: no valid clock/calendar values available
-    2021-01-25 23:21:38.220000+00:00  c time failed: Invalid argument
-    2021-01-25 23:21:38.220000+00:00  rtcwake: assuming RTC uses UTC .<4>[ =
-  19.534971] rtc-hym8563 0-0051: no valid clock/calendar values available
-    2021-01-25 23:21:38.220000+00:00  ..
-    2021-01-25 23:21:38.221000+00:00  rtcwake: read rtc time failed: Invali=
-d argument   =
-
-
-  * sleep.rtcwake-mem-6: https://kernelci.org/test/case/id/600f52876340b624=
-b6d3dfd2
+  * baseline-nfs.login: https://kernelci.org/test/case/id/600f7f541675df9f7=
+4d3dfd8
         new failure (last pass: v5.11-rc4-383-g822f1d4bfbf2) =
+
+ =
+
+
+
+platform                  | arch | lab          | compiler | defconfig     =
+     | regressions
+--------------------------+------+--------------+----------+---------------=
+-----+------------
+sun7i-a20-olinuxino-lime2 | arm  | lab-baylibre | gcc-8    | sunxi_defconfi=
+g    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/600f7b74e468485e5ed3dfc9
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: sunxi_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-01-25-v5.11-rc5/arm/sunxi_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun=
+7i-a20-olinuxino-lime2.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-01-25-v5.11-rc5/arm/sunxi_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun=
+7i-a20-olinuxino-lime2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0125.1/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/600f7b74e468485e5=
+ed3dfca
+        new failure (last pass: renesas-devel-2021-01-14-v5.11-rc3) =
 
  =20
