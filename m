@@ -2,190 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21579305532
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jan 2021 09:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E85B30557D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jan 2021 09:19:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234193AbhA0IDp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Jan 2021 03:03:45 -0500
-Received: from mga01.intel.com ([192.55.52.88]:17127 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S316555AbhAZXUU (ORCPT
+        id S233393AbhA0IS4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Jan 2021 03:18:56 -0500
+Received: from mail-oi1-f173.google.com ([209.85.167.173]:45396 "EHLO
+        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234534AbhA0IB5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Jan 2021 18:20:20 -0500
-IronPort-SDR: szvebibm0GfIdFm2rHowiSGmqRIE5HSX2YHYuKw+CP0jhB5UsrpTlJOvUktZsq0BIBuQUy0svL
- I/7mpONstS4Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="198781374"
-X-IronPort-AV: E=Sophos;i="5.79,377,1602572400"; 
-   d="scan'208";a="198781374"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 15:16:15 -0800
-IronPort-SDR: IGHC9icoGHbU4FTX7ebDdWXR65TwzwwHl1PDXQr408LlyVjy7SxS/gM/x/gUENvCyD3JYlaifA
- LrsTJhDOLNyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,377,1602572400"; 
-   d="scan'208";a="406890787"
-Received: from lkp-server02.sh.intel.com (HELO 625d3a354f04) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 26 Jan 2021 15:16:14 -0800
-Received: from kbuild by 625d3a354f04 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1l4XZF-000189-LH; Tue, 26 Jan 2021 23:16:13 +0000
-Date:   Wed, 27 Jan 2021 07:15:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-drivers-for-v5.12] BUILD SUCCESS
- 56d6fb12e64be09924a7140c43279583d49c4625
-Message-ID: <6010a29f.51295DhuSDvoTvuw%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 27 Jan 2021 03:01:57 -0500
+Received: by mail-oi1-f173.google.com with SMTP id g69so1243986oib.12;
+        Tue, 26 Jan 2021 23:58:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XfyRLzMlIoi5X9bZM312ztK9szh1Uoj2MAF1xDhQS7U=;
+        b=jxVe1oXUUUCsWzoLJXun+atiFfR/EYnfNlSpM3x0kW+kos0Ap/CA5hL+UBo2w5LaPV
+         Wpa0movbvR31EIK7ME3wQg+0Ya0ly4nh6SaHtWjeAd1StGQsqsSrJXxRhNmPqsRqvuiX
+         gsfTo0PZ3V8rddWAqMFCJe5ZKZZgh8MziigyqfLTUWf8OEssV+gTzyLArFg08ACIyoCV
+         dMNiX5CMQnHwqp7dKVsj/G1cE5OMoA/PDIcj+xe7Idxawu1ADfVXRjS8F84NRhvI97Vv
+         yPBDarhobiZMJGaUXUs+U1MWKXrl/1TFfdFN+REfNPdi5y6yjkedArkcz0TAIyaQJfqh
+         q10A==
+X-Gm-Message-State: AOAM531qeaB0sku99TQ+Z6+rLxs4E3cawYlntJmodlXowfQI9NpftPdr
+        UZguxNdiM0+Spt6qqDftX28F3mb60Sqq9w+chQ3hf0EG
+X-Google-Smtp-Source: ABdhPJyQk+t/A9YKLA2LqVfKqKypKtLzXPHN3IoCxXpEFRU4g2uVJpYn7UJ6W85zp4YH2b4RCWqBZ10Q9spNLMqH93w=
+X-Received: by 2002:aca:4d8d:: with SMTP id a135mr2327538oib.153.1611734299722;
+ Tue, 26 Jan 2021 23:58:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20210125142431.1049668-1-geert+renesas@glider.be>
+ <20210125142431.1049668-3-geert+renesas@glider.be> <YBCPoOKGRZYkdfPn@pendragon.ideasonboard.com>
+In-Reply-To: <YBCPoOKGRZYkdfPn@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 27 Jan 2021 08:58:08 +0100
+Message-ID: <CAMuHMdVD_g2HW4PBup4Si8H5kJ12PzUHXnZcHp7O_He-MHvtmg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] dmaengine: rcar-dmac: Add for_each_rcar_dmac_chan()
+ helper
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v5.12
-branch HEAD: 56d6fb12e64be09924a7140c43279583d49c4625  soc: renesas: rcar-sysc: Use readl_poll_timeout_atomic()
+Hi Laurent,
 
-elapsed time: 726m
+On Tue, Jan 26, 2021 at 10:55 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Jan 25, 2021 at 03:24:29PM +0100, Geert Uytterhoeven wrote:
+> > Add and helper macro for iterating over all DMAC channels, taking into
+>
+> s/and helper/a helper/
 
-configs tested: 127
-configs skipped: 2
+Oops.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> > account the channel mask.  Use it where appropriate, to simplify code.
+> >
+> > Restore "reverse Christmas tree" order of local variables while adding a
+> > new variable.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                          moxart_defconfig
-powerpc                    adder875_defconfig
-arm                            pleb_defconfig
-powerpc                      acadia_defconfig
-mips                        nlm_xlp_defconfig
-sh                           se7780_defconfig
-arm                          gemini_defconfig
-arm                      tct_hammer_defconfig
-mips                        qi_lb60_defconfig
-arm                           omap1_defconfig
-arm                       versatile_defconfig
-powerpc                  mpc885_ads_defconfig
-s390                          debug_defconfig
-mips                        omega2p_defconfig
-arm                           stm32_defconfig
-mips                  decstation_64_defconfig
-microblaze                      mmu_defconfig
-mips                           ip27_defconfig
-powerpc                     tqm5200_defconfig
-sh                            shmin_defconfig
-arm                         s3c2410_defconfig
-sh                            migor_defconfig
-powerpc                 mpc832x_rdb_defconfig
-arm                         vf610m4_defconfig
-m68k                            mac_defconfig
-powerpc                        cell_defconfig
-powerpc                 mpc837x_rdb_defconfig
-powerpc                 xes_mpc85xx_defconfig
-m68k                        mvme16x_defconfig
-mips                           ci20_defconfig
-ia64                                defconfig
-riscv                            allyesconfig
-sh                                  defconfig
-arm                       cns3420vb_defconfig
-arm                             ezx_defconfig
-m68k                        mvme147_defconfig
-arm                             pxa_defconfig
-sh                          landisk_defconfig
-sh                           se7712_defconfig
-sparc                            alldefconfig
-powerpc                      bamboo_defconfig
-arm                         assabet_defconfig
-powerpc                     mpc5200_defconfig
-powerpc                     redwood_defconfig
-powerpc                      ppc64e_defconfig
-arm                   milbeaut_m10v_defconfig
-xtensa                          iss_defconfig
-arm                      jornada720_defconfig
-xtensa                generic_kc705_defconfig
-x86_64                           alldefconfig
-sh                           se7619_defconfig
-sh                          rsk7201_defconfig
-sh                     magicpanelr2_defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20210126
-i386                 randconfig-a002-20210126
-i386                 randconfig-a004-20210126
-i386                 randconfig-a006-20210126
-i386                 randconfig-a003-20210126
-i386                 randconfig-a005-20210126
-x86_64               randconfig-a012-20210126
-x86_64               randconfig-a016-20210126
-x86_64               randconfig-a015-20210126
-x86_64               randconfig-a011-20210126
-x86_64               randconfig-a013-20210126
-x86_64               randconfig-a014-20210126
-i386                 randconfig-a013-20210126
-i386                 randconfig-a011-20210126
-i386                 randconfig-a012-20210126
-i386                 randconfig-a015-20210126
-i386                 randconfig-a014-20210126
-i386                 randconfig-a016-20210126
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+> > --- a/drivers/dma/sh/rcar-dmac.c
+> > +++ b/drivers/dma/sh/rcar-dmac.c
+> > @@ -209,6 +209,10 @@ struct rcar_dmac {
+> >
+> >  #define to_rcar_dmac(d)              container_of(d, struct rcar_dmac, engine)
+> >
+> > +#define for_each_rcar_dmac_chan(i, chan, dmac)                                               \
+>
+> I would have placed the iterator (chan) after the container being
+> iterated (dmac), but it seems there are some for_each_* macros doing it
+> the other way around (they may be older though).
 
-clang tested configs:
-x86_64               randconfig-a003-20210126
-x86_64               randconfig-a002-20210126
-x86_64               randconfig-a001-20210126
-x86_64               randconfig-a005-20210126
-x86_64               randconfig-a006-20210126
-x86_64               randconfig-a004-20210126
+Makes sense.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
