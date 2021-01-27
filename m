@@ -2,171 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C281305812
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jan 2021 11:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 827FC305839
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jan 2021 11:22:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S314292AbhAZXEA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Jan 2021 18:04:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726280AbhAZVtt (ORCPT
+        id S234747AbhA0KVL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Jan 2021 05:21:11 -0500
+Received: from www.zeus03.de ([194.117.254.33]:60236 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235513AbhA0KS6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Jan 2021 16:49:49 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABDC5C06174A;
-        Tue, 26 Jan 2021 13:49:08 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E62C42C1;
-        Tue, 26 Jan 2021 22:49:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1611697745;
-        bh=LplyXulbPXrXuvaecCE9pwLK5CV2NpJXldimMYOoU6E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=W5/JirBumHHDqY8/gvtF3HYkNqVMRlR2q/gwb6T+0GKqE+Hlwe0nKg+FmiSr08ciu
-         raxqEasMbRLTDaeUYnn8GtEQF9vC3jDgNdAsynIjWFZIGAmh7x+VZ4DC/Sr8JfvFL4
-         v+CvCAq4bMDsWtr8s49i7m/hTQQ2OWWkzqAqlrG4=
-Date:   Tue, 26 Jan 2021 23:48:45 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 1/4] dt-bindings: renesas,rcar-dmac: Add r8a779a0
- support
-Message-ID: <YBCOPXTh8n4Tk0+y@pendragon.ideasonboard.com>
-References: <20210125142431.1049668-1-geert+renesas@glider.be>
- <20210125142431.1049668-2-geert+renesas@glider.be>
+        Wed, 27 Jan 2021 05:18:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=PPiP/ibzC5qvpAjqZLJI3QP1DFP9
+        9sVIpItAR82zC04=; b=x9Sm89cskKvp0s3bJMCTBvIsFwiP0cv+D2lBJLcym/n9
+        Q8/EJYH+pozrJM8bsrdVesN89p+KeIPu9xhLEYcOJ+cBoUNOvNqAKYpQUxWH0b5P
+        R9uzzox1E+AndLeXIOmAquP8preQqMRgjB76rfF71YFZ/93Wv1HvpK65a6nNyk4=
+Received: (qmail 4019814 invoked from network); 27 Jan 2021 11:18:14 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Jan 2021 11:18:14 +0100
+X-UD-Smtp-Session: l3s3148p1@d7PBFt+5bL0gAwDPXyX1AEdA8SGgn5QT
+Date:   Wed, 27 Jan 2021 11:18:14 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: i2c: adv7511: remove open coded version of
+ SMBus block read
+Message-ID: <20210127101814.GB928@ninjato>
+References: <20210119093912.1838-1-wsa+renesas@sang-engineering.com>
+ <20210119093912.1838-3-wsa+renesas@sang-engineering.com>
+ <1b3f4451-20e5-4f73-acab-d0deaa7ba63d@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="LyciRD1jyfeSSjG0"
 Content-Disposition: inline
-In-Reply-To: <20210125142431.1049668-2-geert+renesas@glider.be>
+In-Reply-To: <1b3f4451-20e5-4f73-acab-d0deaa7ba63d@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
 
-Thank you for the patch.
+--LyciRD1jyfeSSjG0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 25, 2021 at 03:24:28PM +0100, Geert Uytterhoeven wrote:
-> Document the compatible value for the Direct Memory Access Controller
-> blocks in the Renesas R-Car V3U (R8A779A0) SoC.
-> 
-> The most visible difference with DMAC blocks on other R-Car SoCs is the
-> move of the per-channel registers to a separate register block.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+Hi Hans,
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > -		adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
+> > +		err =3D adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
+> >  		adv7511_dbg_dump_edid(2, debug, sd, segment, &state->edid.data[segme=
+nt * 256]);
+>=20
+> Only call adv7511_dbg_dump_edid if err >=3D 0.
 
-> ---
-> v2:
->   - Add Reviewed-by.
-> ---
->  .../bindings/dma/renesas,rcar-dmac.yaml       | 76 ++++++++++++-------
->  1 file changed, 48 insertions(+), 28 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
-> index c07eb6f2fc8d2f12..7f2a54bc732d3a19 100644
-> --- a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
-> +++ b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
-> @@ -14,34 +14,37 @@ allOf:
->  
->  properties:
->    compatible:
-> -    items:
-> -      - enum:
-> -          - renesas,dmac-r8a7742  # RZ/G1H
-> -          - renesas,dmac-r8a7743  # RZ/G1M
-> -          - renesas,dmac-r8a7744  # RZ/G1N
-> -          - renesas,dmac-r8a7745  # RZ/G1E
-> -          - renesas,dmac-r8a77470 # RZ/G1C
-> -          - renesas,dmac-r8a774a1 # RZ/G2M
-> -          - renesas,dmac-r8a774b1 # RZ/G2N
-> -          - renesas,dmac-r8a774c0 # RZ/G2E
-> -          - renesas,dmac-r8a774e1 # RZ/G2H
-> -          - renesas,dmac-r8a7790  # R-Car H2
-> -          - renesas,dmac-r8a7791  # R-Car M2-W
-> -          - renesas,dmac-r8a7792  # R-Car V2H
-> -          - renesas,dmac-r8a7793  # R-Car M2-N
-> -          - renesas,dmac-r8a7794  # R-Car E2
-> -          - renesas,dmac-r8a7795  # R-Car H3
-> -          - renesas,dmac-r8a7796  # R-Car M3-W
-> -          - renesas,dmac-r8a77961 # R-Car M3-W+
-> -          - renesas,dmac-r8a77965 # R-Car M3-N
-> -          - renesas,dmac-r8a77970 # R-Car V3M
-> -          - renesas,dmac-r8a77980 # R-Car V3H
-> -          - renesas,dmac-r8a77990 # R-Car E3
-> -          - renesas,dmac-r8a77995 # R-Car D3
-> -      - const: renesas,rcar-dmac
-> -
-> -  reg:
-> -    maxItems: 1
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - renesas,dmac-r8a7742  # RZ/G1H
-> +              - renesas,dmac-r8a7743  # RZ/G1M
-> +              - renesas,dmac-r8a7744  # RZ/G1N
-> +              - renesas,dmac-r8a7745  # RZ/G1E
-> +              - renesas,dmac-r8a77470 # RZ/G1C
-> +              - renesas,dmac-r8a774a1 # RZ/G2M
-> +              - renesas,dmac-r8a774b1 # RZ/G2N
-> +              - renesas,dmac-r8a774c0 # RZ/G2E
-> +              - renesas,dmac-r8a774e1 # RZ/G2H
-> +              - renesas,dmac-r8a7790  # R-Car H2
-> +              - renesas,dmac-r8a7791  # R-Car M2-W
-> +              - renesas,dmac-r8a7792  # R-Car V2H
-> +              - renesas,dmac-r8a7793  # R-Car M2-N
-> +              - renesas,dmac-r8a7794  # R-Car E2
-> +              - renesas,dmac-r8a7795  # R-Car H3
-> +              - renesas,dmac-r8a7796  # R-Car M3-W
-> +              - renesas,dmac-r8a77961 # R-Car M3-W+
-> +              - renesas,dmac-r8a77965 # R-Car M3-N
-> +              - renesas,dmac-r8a77970 # R-Car V3M
-> +              - renesas,dmac-r8a77980 # R-Car V3H
-> +              - renesas,dmac-r8a77990 # R-Car E3
-> +              - renesas,dmac-r8a77995 # R-Car D3
-> +          - const: renesas,rcar-dmac
-> +
-> +      - items:
-> +          - const: renesas,dmac-r8a779a0 # R-Car V3U
-> +
-> +  reg: true
->  
->    interrupts:
->      minItems: 9
-> @@ -110,6 +113,23 @@ required:
->    - power-domains
->    - resets
->  
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - renesas,dmac-r8a779a0
-> +then:
-> +  properties:
-> +    reg:
-> +      items:
-> +        - description: Base register block
-> +        - description: Channel register block
-> +else:
-> +  properties:
-> +    reg:
-> +      maxItems: 1
-> +
->  additionalProperties: false
->  
->  examples:
+Yes.
 
--- 
-Regards,
+>=20
+> >  		if (segment =3D=3D 0) {
+>=20
+> Change condition to: err >=3D 0 && segment =3D=3D 0
 
-Laurent Pinchart
+Yes.
+
+>=20
+> >  			state->edid.blocks =3D state->edid.data[0x7e] + 1;
+> >  			v4l2_dbg(1, debug, sd, "%s: %d blocks in total\n", __func__, state-=
+>edid.blocks);
+> >  		}
+
+So I guarded the above block with an 'if (!err)' clause.
+adv7511_edid_rd() returns either 0 or errno, so we can take the above
+simpler condition.
+
+
+
+> > -		if (!edid_verify_crc(sd, segment) ||
+> > -		    !edid_verify_header(sd, segment)) {
+> > +		if (err < 0 || !edid_verify_crc(sd, segment) || !edid_verify_header(=
+sd, segment)) {
+> >  			/* edid crc error, force reread of edid segment */
+>=20
+> Hmm, this comment is a bit out of date. Change to:
+>=20
+> 			/*
+> 			 * Couldn't read EDID or EDID has invalid content.
+> 			 * Force reread of EDID segment.
+> 			 */
+
+I updated the comment but kept it a oneliner.
+
+>=20
+> >  			v4l2_err(sd, "%s: edid crc or header error\n", __func__);
+>=20
+> Only show this message if err >=3D 0. For err < 0 the adv7511_edid_rd() a=
+lready
+> logs an error.
+
+Yes. I used 'if (!err)' again here.
+
+Will resend in a minute, thanks for the review!
+
+All the best,
+
+   Wolfram
+
+
+--LyciRD1jyfeSSjG0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmARPeUACgkQFA3kzBSg
+KbaU5RAAoHPCy8g/Hy0fafsjns1bhNX+atshAy42bkGoW8bcd55VZisvgAdk1fg3
+WKpPWVRDKxVJ9vTSEjB0TpYPQGm01kvi0l8britPcsRNkJ8VQ9uQGHqM6Jd9JY8P
+hMtJccF7RJDqKVXPRlGPH9k0BBr1jRhfa74pvCI9I3W4+TAqyPat/WbuLuhxHLGn
+xbFZjUSaJBwP/oyznL04HQ9aDV5YIOABzLmQHjLFraofn0HEtL3MpFZtuvs3nHuF
+D/rVjgs/6y//b4KUmaJweD3tbuVyUCruOwYLjljdJK1Se79FHukCHOcowNpbOnb+
+ow2Er7S+U05gjWiJOcMYjUJulryLGg23QLn7HfdvM6BJuuYi0qxQiU0O/cEtH1IB
+liKeGaWcDWWrmWcBinUx3Ldiyxh7wHSCL+22FyjNM8xxqTw5fslc+5CJR5lPMFHB
+WNOppwqO6cKnyql+lkaUijoWept+jDcOLjyKzVWxBaRpIH2z03P8EKt+a/DF2ysa
+cVOjaSfq5I/23pyeByh8yKud3N9tqS/go6j/79eQrhul3CNy7Urk3GraaAOcJUwL
+rodqyQ+upIVh1fNwzzwj/TwMZUPrxzD2Z+BodnSZ8DiNt0YImZtWuGys0XghWcIQ
+AzdL8U/W+0EIvpifOVNokVq3UpisBkVo2VA6ZpTeXl2f+XgIju0=
+=1s9r
+-----END PGP SIGNATURE-----
+
+--LyciRD1jyfeSSjG0--
