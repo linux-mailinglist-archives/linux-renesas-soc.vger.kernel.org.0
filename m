@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0914C3052F9
+	by mail.lfdr.de (Postfix) with ESMTP id 8533E3052FA
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Jan 2021 07:15:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232116AbhA0GOc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Jan 2021 01:14:32 -0500
-Received: from mga04.intel.com ([192.55.52.120]:24911 "EHLO mga04.intel.com"
+        id S232643AbhA0GOe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Jan 2021 01:14:34 -0500
+Received: from mga01.intel.com ([192.55.52.88]:47277 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235240AbhA0DQQ (ORCPT
+        id S235247AbhA0DQR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Jan 2021 22:16:16 -0500
-IronPort-SDR: b+ObMN2rw5l2GwlmLHejWRbRXtVDZXc4KcuToALLwdbszq+rYk9PDE7yom5E/cKpjOruhh+GB8
- q80zoU3ecFvA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="177434390"
+        Tue, 26 Jan 2021 22:16:17 -0500
+IronPort-SDR: gcedy1DgXcuv8GZP7OVNnZPuzPpjjBopfwZHGXrCmeZC59v4+/DxMn70iqYX+KX5jwy8xlWsTX
+ 8zvkft/ALOwQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="198801331"
 X-IronPort-AV: E=Sophos;i="5.79,378,1602572400"; 
-   d="scan'208";a="177434390"
+   d="scan'208";a="198801331"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 18:07:27 -0800
-IronPort-SDR: iPMScwmeXv1kz+5QNCZnkk2DuGqwRQ8XwJfuOTmVKASXeDhmvWpnKCOkfatHeRB+qtYHQszjhI
- TR/afYSa80dQ==
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 18:08:27 -0800
+IronPort-SDR: ETXbaR2RhQbVXohT81lcp2/MZZhId8qtvje8/FSkITCp4qxA5ydBwVfvFmj/fAYK21tOQegYRC
+ A3iIj8+zeZ9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,378,1602572400"; 
-   d="scan'208";a="472975513"
+   d="scan'208";a="472975798"
 Received: from lkp-server02.sh.intel.com (HELO 625d3a354f04) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Jan 2021 18:07:26 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 26 Jan 2021 18:08:26 -0800
 Received: from kbuild by 625d3a354f04 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1l4aEw-0001FG-0n; Wed, 27 Jan 2021 02:07:26 +0000
-Date:   Wed, 27 Jan 2021 10:07:18 +0800
+        id 1l4aFu-0001FR-4r; Wed, 27 Jan 2021 02:08:26 +0000
+Date:   Wed, 27 Jan 2021 10:07:26 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:topic/r8a779a0-wdt-v2] BUILD SUCCESS
- 37ab588d00ee5672623c80fc482602eafdf2e0cf
-Message-ID: <6010cad6.iHtJ/RKh2B7C+FjE%lkp@intel.com>
+Subject: [renesas-drivers:topic/r8a779a0-dmac-v2] BUILD SUCCESS
+ e1e92d941864c688e02fcf691065bc97059c18f6
+Message-ID: <6010cade.sdYaR7oExa0E7InF%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,12 +44,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/r8a779a0-wdt-v2
-branch HEAD: 37ab588d00ee5672623c80fc482602eafdf2e0cf  watchdog: renesas_wdt: add grace period before rebooting
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/r8a779a0-dmac-v2
+branch HEAD: e1e92d941864c688e02fcf691065bc97059c18f6  dmaengine: rcar-dmac: Add support for R-Car V3U
 
 elapsed time: 721m
 
-configs tested: 143
+configs tested: 148
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -116,6 +116,11 @@ arm                        spear6xx_defconfig
 arm                            lart_defconfig
 powerpc                           allnoconfig
 arm                        spear3xx_defconfig
+sh                           se7750_defconfig
+sh                          rsk7264_defconfig
+m68k                          amiga_defconfig
+powerpc                     asp8347_defconfig
+powerpc                       ppc64_defconfig
 nds32                               defconfig
 mips                        nlm_xlr_defconfig
 arm                        neponset_defconfig
