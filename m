@@ -2,47 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 592DC307179
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Jan 2021 09:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB6EC30721F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Jan 2021 09:56:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231650AbhA1I35 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Jan 2021 03:29:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50506 "EHLO
+        id S232220AbhA1Iy6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Jan 2021 03:54:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231432AbhA1I3n (ORCPT
+        with ESMTP id S231911AbhA1Ip3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Jan 2021 03:29:43 -0500
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5B92C061756
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Jan 2021 00:28:57 -0800 (PST)
+        Thu, 28 Jan 2021 03:45:29 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73146C061788
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Jan 2021 00:45:01 -0800 (PST)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by albert.telenet-ops.be with bizsmtp
-        id N8Up2400H4C55Sk068UpAC; Thu, 28 Jan 2021 09:28:55 +0100
+        by andre.telenet-ops.be with bizsmtp
+        id N8kx2400T4C55Sk018kxDA; Thu, 28 Jan 2021 09:44:59 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1l52fY-001JNE-RG; Thu, 28 Jan 2021 09:28:48 +0100
+        id 1l52vB-001JYO-AL; Thu, 28 Jan 2021 09:44:57 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1l52fY-009Fsb-6J; Thu, 28 Jan 2021 09:28:48 +0100
+        id 1l52vA-009O1c-Tn; Thu, 28 Jan 2021 09:44:56 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
+To:     Vinod Koul <vkoul@kernel.org>
 Cc:     Rob Herring <robh+dt@kernel.org>,
-        Saravana Kannan <saravanak@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] soc: renesas: rcar-sysc: Mark device node OF_POPULATED after init
-Date:   Thu, 28 Jan 2021 09:28:47 +0100
-Message-Id: <20210128082847.2205950-1-geert+renesas@glider.be>
+Subject: [PATCH v3 0/4] dmaengine: rcar-dmac: Add support for R-Car V3U
+Date:   Thu, 28 Jan 2021 09:44:51 +0100
+Message-Id: <20210128084455.2237256-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,51 +46,51 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The R-Car System Controller (SYSC) driver registers PM domains from an
-early_initcall().  It does not use a platform driver, as secondary CPU
-startup on R-Car H1 needs to control the CPU power domains, before
-initialization of the driver framework.
+	Hi Vinod,
 
-As fw_devlink only considers devices, it does not know that the System
-Controller is ready.  Hence probing of on-chip devices that are part of
-the SYSC PM domain fails if fw_devlink is enabled:
+This patch series adds support for the Direct Memory Access Controller
+variant in the Renesas R-Car V3U (R8A779A0) SoC, to both DT bindings and
+driver.
 
-    probe deferral - supplier e6180000.system-controller not ready
+Changes compared to v2:
+  - Add Reviewed-by, Tested-by,
+  - Place iterator after container being iterated,
+  - Stop passing index to rcar_dmac_chan_probe().
 
-Fix this by setting the OF_POPULATED flag for the SYSC device node after
-successful initialization.  This will make of_link_to_phandle() ignore
-the SYSC device node as a dependency, and consumer devices will be
-probed again.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Saravana Kannan <saravanak@google.com>
----
-As this seems to be harmless if commit e590474768f1cc04 ("driver core:
-Set fw_devlink=on by default") won't make v5.12, I plan to queue this in
-renesas-devel for v5.12.
-
-v2:
+Changes compared to v1:
   - Add Reviewed-by,
-  - s/platform devices/devices/,
-  - Drop Fixes tag,
-  - Drop RFC.
----
- drivers/soc/renesas/rcar-sysc.c | 2 ++
- 1 file changed, 2 insertions(+)
+  - Put the full loop control of for_each_rcar_dmac_chan() on a single
+    line, to improve readability,
+  - Use two separate named regions instead of array,
+  - Drop rcar_dmac_of_data.chan_reg_block, check for
+    !rcar_dmac_of_data.chan_offset_base instead,
+  - Precalculate chan_base in rcar_dmac_probe().
 
-diff --git a/drivers/soc/renesas/rcar-sysc.c b/drivers/soc/renesas/rcar-sysc.c
-index d51ddc7d5232b9db..53387a72ca00ce79 100644
---- a/drivers/soc/renesas/rcar-sysc.c
-+++ b/drivers/soc/renesas/rcar-sysc.c
-@@ -434,6 +434,8 @@ static int __init rcar_sysc_pd_init(void)
- 	}
- 
- 	error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
-+	if (!error)
-+		of_node_set_flag(np, OF_POPULATED);
- 
- out_put:
- 	of_node_put(np);
+This has been tested on the Renesas Falcon board, using external SPI
+loopback (spi-loopback-test) on MSIOF1 and MSIOF2.
+
+Thanks!
+
+Geert Uytterhoeven (4):
+  dt-bindings: renesas,rcar-dmac: Add r8a779a0 support
+  dmaengine: rcar-dmac: Add for_each_rcar_dmac_chan() helper
+  dmaengine: rcar-dmac: Add helpers for clearing DMA channel status
+  dmaengine: rcar-dmac: Add support for R-Car V3U
+
+ .../bindings/dma/renesas,rcar-dmac.yaml       |  76 +++++++-----
+ drivers/dma/sh/rcar-dmac.c                    | 112 ++++++++++++------
+ 2 files changed, 126 insertions(+), 62 deletions(-)
+
 -- 
 2.25.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
