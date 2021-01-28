@@ -2,76 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 304B330756A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Jan 2021 13:05:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF1C43076AC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Jan 2021 14:05:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231364AbhA1MBC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Jan 2021 07:01:02 -0500
-Received: from mail-oi1-f180.google.com ([209.85.167.180]:45283 "EHLO
-        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231419AbhA1MAH (ORCPT
+        id S231383AbhA1NDw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Jan 2021 08:03:52 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:4261 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231137AbhA1NDs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Jan 2021 07:00:07 -0500
-Received: by mail-oi1-f180.google.com with SMTP id g69so5685338oib.12;
-        Thu, 28 Jan 2021 03:59:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kAP4N1JvamS8Mu0q+wzDG5MIcLJh8DB6Gbuwj+1o0xk=;
-        b=Gfr0N2ENJt5YKMtVKAA0iAP3BwXgJ904EohZVfBzR88ha3zdm3BaMYvJVmwEiatQkX
-         VZBqAYqpH0LNMrpKsaTQcRrn7As/QgBSy1gSbRjYQvLizCGuyN8CsASm2i9sLHslvEZh
-         vduZy/OzvxrkhZTDUCHt5Px9QDB2CiPXdzEi2nEHigrjp/C22Wu2mol3qLtaO0KTFaVL
-         yFcZU6sP95Ukz8J/JvCyDCcnCPd5aSBC1rhqA4eMo7gm+eYAj5UzhHODp1kLNIBZrWB0
-         dmHwRMaY1iIEfHtUddjG4YrlvOlQlgxlxkj1QBNuWZz0Snpb4+ruibYEzesbqV0lzklD
-         1r7A==
-X-Gm-Message-State: AOAM530DPIwZd8jSPr9oXIf62TJXf8LbWVtOZplgfbK0m9DcwBuIs0RE
-        Xi4N3ODOT0U3d8Iw50xumlrTWYHaJPcSycqkX0aksWsDs0E=
-X-Google-Smtp-Source: ABdhPJzrT+Kg8nyfyKS3C+Z0key3XnUxUjStwPy5R868F5Smv4QzgDQQfF0cXgHDjhCU+QdrsluppxYf9QBXRKwmEz4=
-X-Received: by 2002:a54:4e88:: with SMTP id c8mr6196722oiy.148.1611835166537;
- Thu, 28 Jan 2021 03:59:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20210128111343.2295888-1-geert+renesas@glider.be> <20210128113353.GN963@ninjato>
-In-Reply-To: <20210128113353.GN963@ninjato>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 28 Jan 2021 12:59:15 +0100
-Message-ID: <CAMuHMdW--A2bwe==+A35_sLAS2OkXzi2hY0Ky_dwL0n8irHMZw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: eeprom: at24: Document ROHM BR24G01
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 28 Jan 2021 08:03:48 -0500
+X-IronPort-AV: E=Sophos;i="5.79,382,1602514800"; 
+   d="scan'208";a="70577809"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 28 Jan 2021 22:03:17 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 961294017D71;
+        Thu, 28 Jan 2021 22:03:17 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     joro@8bytes.org
+Cc:     iommu@lists.linux-foundation.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 0/2] iommu/ipmmu-vmsa: refactoring and allow SDHI devices
+Date:   Thu, 28 Jan 2021 22:02:58 +0900
+Message-Id: <1611838980-4940-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+I intend to add new SoC support in near the future, but before that,
+I would like to refactor the ipmmu_of_xlate() to improve
+readability/scalability. Also, adds SDHI devices into the allow list.
 
-On Thu, Jan 28, 2021 at 12:33 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> On Thu, Jan 28, 2021 at 12:13:43PM +0100, Geert Uytterhoeven wrote:
-> > Document the compatible value for the ROHM Semiconductor BR24G01 I2C bus
-> > EEPROM.
->
-> What is the difference between those two? Could one also be the fallback
-> of the other (just in the highly unlikely case we need "generic" Rohm
-> handling somewhen)?
+Yoshihiro Shimoda (2):
+  iommu/ipmmu-vmsa: refactor ipmmu_of_xlate()
+  iommu/ipmmu-vmsa: Allow SDHI devices
 
-Good question.  The datasheets look similar.
-Parametric search on rohm.com says the G-series differs in using
-"Cu wire bonding".
-
-Gr{oetje,eeting}s,
-
-                        Geert
+ drivers/iommu/ipmmu-vmsa.c | 53 +++++++++++++++++++---------------------------
+ 1 file changed, 22 insertions(+), 31 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.7.4
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
