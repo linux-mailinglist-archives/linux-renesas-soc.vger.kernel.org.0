@@ -2,76 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 118B4307277
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Jan 2021 10:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 555AF30744F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Jan 2021 12:02:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231975AbhA1JUR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Jan 2021 04:20:17 -0500
-Received: from www.zeus03.de ([194.117.254.33]:49468 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232437AbhA1JQd (ORCPT
+        id S229804AbhA1LC2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Jan 2021 06:02:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229732AbhA1LCZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Jan 2021 04:16:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=ff4IZzcys1007zJSCI7xk9NGZI77
-        yz9N4KDTLk0jEp8=; b=Rtx+WiicowqjzTln5IaynlmowSJDP7h8anMlnczt5gsH
-        mUwdEd3Mb5ps73g3MxPfqqeZjptIxP0ti6/mKZaX6B5dBv/qMI6HqytqT1aA/gUE
-        s3zwFyg2FLohJUYkBkoRpL/Q4VMaAx7aIp8tw55L4iBXTbcQN0r/F4K+vDj+N8E=
-Received: (qmail 166726 invoked from network); 28 Jan 2021 10:15:49 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Jan 2021 10:15:49 +0100
-X-UD-Smtp-Session: l3s3148p1@CIxbVfK5epQgAwDPXyX1AEdA8SGgn5QT
-Date:   Thu, 28 Jan 2021 10:15:48 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] i2c: smbus: improve naming in
- i2c_smbus_xfer_emulated()
-Message-ID: <20210128091548.GI963@ninjato>
-References: <20210112151230.46518-1-wsa+renesas@sang-engineering.com>
- <20210112151230.46518-3-wsa+renesas@sang-engineering.com>
+        Thu, 28 Jan 2021 06:02:25 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0204C061756
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Jan 2021 03:01:39 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by andre.telenet-ops.be with bizsmtp
+        id NB1e240014C55Sk01B1eVm; Thu, 28 Jan 2021 12:01:38 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l553R-001Kyc-K0; Thu, 28 Jan 2021 12:01:37 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l553R-009ceX-0f; Thu, 28 Jan 2021 12:01:37 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>, Adam Ford <aford173@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: beacon: Fix EEPROM compatible value
+Date:   Thu, 28 Jan 2021 12:01:36 +0100
+Message-Id: <20210128110136.2293490-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="N8NGGaQn1mzfvaPg"
-Content-Disposition: inline
-In-Reply-To: <20210112151230.46518-3-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+"make dtbs_check" fails with:
 
---N8NGGaQn1mzfvaPg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+    arch/arm64/boot/dts/renesas/r8a774b1-beacon-rzg2n-kit.dt.yaml: eeprom@50: compatible: 'oneOf' conditional failed, one must be fixed:
+	    'microchip,at24c64' does not match '^(atmel|catalyst|microchip|nxp|ramtron|renesas|rohm|st),(24(c|cs|lc|mac)[0-9]+|spd)$'
 
-On Tue, Jan 12, 2021 at 04:12:30PM +0100, Wolfram Sang wrote:
-> This may be just taste, but I think 'nmsgs' is way more readable than a
-> generic 'num' variable. Also, fix spaces around operators while here.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fix this by dropping the bogus "at" prefix.
 
-Applied to for-next, thanks!
+Fixes: a1d8a344f1ca0709 ("arm64: dts: renesas: Introduce r8a774a1-beacon-rzg2m-kit")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v5.12.
+---
+ arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+index 7c811bc9be3d3ffd..678e83f5cc27e50e 100644
+--- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
++++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+@@ -135,7 +135,7 @@ pca9654_lte: gpio@21 {
+ 	};
+ 
+ 	eeprom@50 {
+-		compatible = "microchip,at24c64", "atmel,24c64";
++		compatible = "microchip,24c64", "atmel,24c64";
+ 		pagesize = <32>;
+ 		read-only;	/* Manufacturing EEPROM programmed at factory */
+ 		reg = <0x50>;
+-- 
+2.25.1
 
---N8NGGaQn1mzfvaPg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmASgMQACgkQFA3kzBSg
-KbaXYhAAhLB5Rf09IOFYo/D1DyvWw2clnxm9dI9rH/ihV/u8DQpr2yp8GRo3OPaj
-tXgHaFzkLlJ5+GA8NmOVSbx535AhdHjpOoxhYxZTCuu/6/Pgh1lhZiXqWthbQORR
-6yA/4x1IJJ7dilyjwusU1BNnmLW4IyLo8777U28+P2Q37faAn6QRVln+LXId1aqw
-+0YAtPBuTmZ+QOhxFTWtzwLnq+hdlfy/kkLAYsLk/2iMyuuPVA6JTZnsYGIqb2wL
-5HwA0aOSjn6jJCnvwmoqZaokeXAtOLQbN1KpEKpbyifmVWghKfKyMDuIFsluRCaY
-TaWqFHdOu8ll7uifODi2NQ5sfR79AV2ikyM84H7d6JXyBIodqYvSgTIT+zOnpjuy
-P1RcbYiz96EO3GJm1ZETD6rMk26KHqaPWG4p4JDzRYS3hLz0yjUzA0Rqox2Nvi66
-dTIBbVtpZHp1qIaG5Vnps3qRqbFyXfiCCr6AD8kf6dvApk3hWkK2m6nXiCtBbie5
-NZbhLtaBZQ4tFflOOHCacg75RCPMBY++p1HhJhVMDaU20Ebjy7fY4Ib4GmU9Kp9N
-malBVgGu+TYsWtwRb3Pugs9CsnxN6rKx4M2V76xr6WXJLqcWBU1xpRhQTZDfk2H0
-1GSht2oN7MSOwKFK+kFOEUTtwjfwo7XKeNFiZ/qD+XsQeGqJeUM=
-=XU4v
------END PGP SIGNATURE-----
-
---N8NGGaQn1mzfvaPg--
