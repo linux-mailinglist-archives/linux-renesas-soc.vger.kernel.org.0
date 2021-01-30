@@ -2,68 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72227309B5F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 Jan 2021 11:39:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C074730CF04
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Feb 2021 23:36:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230122AbhAaKgQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 31 Jan 2021 05:36:16 -0500
-Received: from aruko.org ([45.79.249.221]:45612 "EHLO aruko.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230439AbhAaKI2 (ORCPT
+        id S235875AbhBBWeb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Feb 2021 17:34:31 -0500
+Received: from [20.39.40.203] ([20.39.40.203]:61037 "EHLO optinix.in"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S230091AbhBBWeU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 31 Jan 2021 05:08:28 -0500
-X-Greylist: delayed 621 seconds by postgrey-1.27 at vger.kernel.org; Sun, 31 Jan 2021 05:08:26 EST
-Received: from localhost.localdomain (unknown [213.111.80.72])
-        by aruko.org (Postfix) with ESMTPSA id 14C9B7F496;
-        Sun, 31 Jan 2021 09:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruko.org; s=mail;
-        t=1612087039; bh=WaYjN6LulNhQAZc5zhwsQAkXNQ91yI459HM4uMk/86Y=;
-        h=From:To:Cc:Subject:Date;
-        b=CRGZWkrihQ1uFYO2Y0oYzbvDecHao0u9aMQKSt76J5dxQ6FtdbgYTONUdxYRw/Gy6
-         eNAEK+hcPKWHOW5rwNQ3av+Thd6fMuOvPNi8vcFvfY8+5ZAy2FQp1LPIc4mwAa8pd9
-         FyfUvgVNBEKBRjUd9oJmdV/tiGMxqJtHP25JK7N0=
-From:   Mykyta Poturai <ddone@aruko.org>
-Cc:     Mykyta Poturai <ddone@aruko.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] dt-bindings: display: Add "disable-hpd" binding
-Date:   Sun, 31 Jan 2021 11:57:01 +0200
-Message-Id: <20210131095701.965147-1-ddone@aruko.org>
-X-Mailer: git-send-email 2.30.0
+        Tue, 2 Feb 2021 17:34:20 -0500
+dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
+        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
+        b=Z/qoYR5e93G/1E5Uh8tLreepyziGYShILI7fcXozE97A3DqZKBadv9kcBZBcmHZnqAUcLkt0g+COxgI6WqJ5gdfKqksQSW540KJaAE4DNiZ+EZYtErJhsiZnZCgjfp9yI8W2dpgN2EsH5zUvgVY6Bl2MWU8ziaGqy1DCXSk4DXXi+2CTtkJX9uQrf2ohPvP7bhav6zr4dJxTQjQYoopWjV3h9j7RqQq/UIXqX3VBjVDZARoXQTZUB0KN0A
+        F7X8DeijiSCFEdYkkdQwasjHi3K0B6KloKBXegK0TgQ39PHt5t2MVnmtmeZadY0DbdImfujjk25mqjLTG700JJRoTl9A==
+Received: from User (Unknown [52.231.31.5])
+        by optinix.in with ESMTP
+        ; Sat, 30 Jan 2021 02:14:15 +0000
+Message-ID: <B0CC978E-0149-4652-A2D0-17DE1F49BCC1@optinix.in>
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <support@digitalsol.in>
+Subject: Re:read
+Date:   Sat, 30 Jan 2021 02:14:13 -0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the "disable-hpd" binding, used to disable hotplug detected
-functionality in the driver. When it's enabled the driver assumes that
-the connector is always connected and disables the hotplug detect
-related IRQ.
+Hello,
 
-Signed-off-by: Mykyta Poturai <ddone@aruko.org>
----
- .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt       | 1 +
- 1 file changed, 1 insertion(+)
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-index 3f6072651182..b2b899f46b86 100644
---- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-@@ -39,6 +39,7 @@ Optional properties:
- 
- - power-domains: Shall reference the power domain that contains the DWC HDMI,
-   if any.
-+- disable-hpd: Disables the hotplug detect feature
- 
- 
- Example:
--- 
-2.30.0
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
+
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
+
+Regards,
+Ms. Reem.
 
