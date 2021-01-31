@@ -2,76 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B265308111
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Jan 2021 23:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72227309B5F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 Jan 2021 11:39:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229900AbhA1W0I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Jan 2021 17:26:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbhA1W0I (ORCPT
+        id S230122AbhAaKgQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 31 Jan 2021 05:36:16 -0500
+Received: from aruko.org ([45.79.249.221]:45612 "EHLO aruko.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230439AbhAaKI2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Jan 2021 17:26:08 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA3C0C061574
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Jan 2021 14:25:27 -0800 (PST)
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 604186173;
-        Thu, 28 Jan 2021 22:24:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 604186173
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611872686; bh=qQbtP2Dn03VQjBluckzrepkv+tQCQzx5n99qCMWXWfQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Qwc4/A9UtlSJz2lO2RrPNyO1yVZ8epYaYAgg7ex2y0/na13TyTSGMqL6swwTWfyaq
-         qTJXctnMpDJ101yIyKz+8BAcUMMLTL302yXr2X2QIr5ORMcmMArPTbgm30UaTv9TWb
-         1Xvj0rTpVL5YN2fnd/Fkp5PyCnKre71/Q7cETLGRLv9v5Tez5BKRourwnZrOoG4wtM
-         G7DgE4EVa6wqP6dkoHaR5kFrRkaK6SVkDPv68H4aFKUQZJXwEvZq7qCIzYvK4zrQyP
-         tAN8s0mIcJr5fUrIitd3wLhyWpQNrP4kPp3+iApKs07g2KtPmNAwPkS/bcbfIIm13p
-         nl3tJl3v7JeNQ==
-Date:   Thu, 28 Jan 2021 15:24:45 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] Documentation: kernel-parameters: add missing
- '<'
-Message-ID: <20210128152445.62402f73@lwn.net>
-In-Reply-To: <20210127104343.5647-1-wsa+renesas@sang-engineering.com>
-References: <20210127104343.5647-1-wsa+renesas@sang-engineering.com>
-Organization: LWN.net
+        Sun, 31 Jan 2021 05:08:28 -0500
+X-Greylist: delayed 621 seconds by postgrey-1.27 at vger.kernel.org; Sun, 31 Jan 2021 05:08:26 EST
+Received: from localhost.localdomain (unknown [213.111.80.72])
+        by aruko.org (Postfix) with ESMTPSA id 14C9B7F496;
+        Sun, 31 Jan 2021 09:57:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruko.org; s=mail;
+        t=1612087039; bh=WaYjN6LulNhQAZc5zhwsQAkXNQ91yI459HM4uMk/86Y=;
+        h=From:To:Cc:Subject:Date;
+        b=CRGZWkrihQ1uFYO2Y0oYzbvDecHao0u9aMQKSt76J5dxQ6FtdbgYTONUdxYRw/Gy6
+         eNAEK+hcPKWHOW5rwNQ3av+Thd6fMuOvPNi8vcFvfY8+5ZAy2FQp1LPIc4mwAa8pd9
+         FyfUvgVNBEKBRjUd9oJmdV/tiGMxqJtHP25JK7N0=
+From:   Mykyta Poturai <ddone@aruko.org>
+Cc:     Mykyta Poturai <ddone@aruko.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] dt-bindings: display: Add "disable-hpd" binding
+Date:   Sun, 31 Jan 2021 11:57:01 +0200
+Message-Id: <20210131095701.965147-1-ddone@aruko.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 27 Jan 2021 11:43:43 +0100
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+Add the "disable-hpd" binding, used to disable hotplug detected
+functionality in the driver. When it's enabled the driver assumes that
+the connector is always connected and disables the hotplug detect
+related IRQ.
 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-> index 06fb1b4aa849..202fac80ea0c 100644
-> --- a/Documentation/admin-guide/kernel-parameters.rst
-> +++ b/Documentation/admin-guide/kernel-parameters.rst
-> @@ -60,7 +60,7 @@ Note that for the special case of a range one can split the range into equal
->  sized groups and for each group use some amount from the beginning of that
->  group:
->  
-> -	<cpu number>-cpu number>:<used size>/<group size>
-> +	<cpu number>-<cpu number>:<used size>/<group size>
+Signed-off-by: Mykyta Poturai <ddone@aruko.org>
+---
+ .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt       | 1 +
+ 1 file changed, 1 insertion(+)
 
-Applied, thanks.
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+index 3f6072651182..b2b899f46b86 100644
+--- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
++++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+@@ -39,6 +39,7 @@ Optional properties:
+ 
+ - power-domains: Shall reference the power domain that contains the DWC HDMI,
+   if any.
++- disable-hpd: Disables the hotplug detect feature
+ 
+ 
+ Example:
+-- 
+2.30.0
 
-(FWIW it looks like the original wasn't sent to me, so I didn't apply it
-then...)
-
-jon
