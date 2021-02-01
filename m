@@ -2,56 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE9FA30A1B8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Feb 2021 06:58:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD1DC30A3A9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Feb 2021 09:57:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231834AbhBAF63 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 1 Feb 2021 00:58:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57396 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231514AbhBAFvV (ORCPT
+        id S232512AbhBAIzJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 1 Feb 2021 03:55:09 -0500
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:46971 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232443AbhBAIzI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Feb 2021 00:51:21 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DC1BA64E15;
-        Mon,  1 Feb 2021 05:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612158590;
-        bh=n1Ftlf0+nz05REHPi3P5OsNAYBNGf584f0+3bCYf448=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Psk+p6iLv4bsId/XCtKOYmxrKwT64Myag18LHge73gr0EPF9DPLaW6pAlg1RAAYyH
-         ZkzaOxDXq1p4vgOs7NgDcgOe2tHOpKhs7GnnKnWYQq6jZYADD3dt1xXoR2rVKPzuqT
-         lvkcl5EmOkvolo0Q+GMw6IivTcTzBPhUv4jOXUzPiDqgYFM0/8YUKZ9CNo3++BUGti
-         RwZgl7ov+m7NNy5ekT2TxFNMXEL4st3FwIf8kfIOiTpFiywTDtS1FT6TVLBl0BHE4B
-         7gH33NDZXz+Nwf7GvHJgKWHEA2SNC88jqy8sZSizN5jiri47oxYoNO6omAz5lznFVe
-         Hym5rs5960WGQ==
-Date:   Mon, 1 Feb 2021 11:19:46 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] dmaengine: rcar-dmac: Add support for R-Car V3U
-Message-ID: <20210201054946.GH2771@vkoul-mobl>
-References: <20210128084455.2237256-1-geert+renesas@glider.be>
+        Mon, 1 Feb 2021 03:55:08 -0500
+X-Originating-IP: 93.61.96.190
+Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 41E5A1BF217;
+        Mon,  1 Feb 2021 08:54:18 +0000 (UTC)
+Date:   Mon, 1 Feb 2021 09:54:40 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: Re: [PATCH v8 0/5] media: i2c: Add RDACM21 camera module
+Message-ID: <20210201085440.zcc5kuu4gyiyasvy@uno.localdomain>
+References: <20210114170429.139762-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210128084455.2237256-1-geert+renesas@glider.be>
+In-Reply-To: <20210114170429.139762-1-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 28-01-21, 09:44, Geert Uytterhoeven wrote:
-> 	Hi Vinod,
-> 
-> This patch series adds support for the Direct Memory Access Controller
-> variant in the Renesas R-Car V3U (R8A779A0) SoC, to both DT bindings and
-> driver.
+Hi Sakari,
 
-Applied all, thanks
--- 
-~Vinod
+On Thu, Jan 14, 2021 at 06:04:24PM +0100, Jacopo Mondi wrote:
+> One more iteration to squash in all the fixups sent in v7 and address
+> a comment from Sergei in [2/5] commit message.
+>
+> All patches now reviewed and hopefully ready to be collected!
+
+All patches seems reviewed, do you think we can still collect this for
+the v5.12 merge window ?
+
+Thanks
+  j
+
+>
+> Thanks
+>   j
+>
+> Jacopo Mondi (5):
+>   media: i2c: Add driver for RDACM21 camera module
+>   dt-bindings: media: max9286: Document
+>     'maxim,reverse-channel-microvolt'
+>   media: i2c: max9286: Break-out reverse channel setup
+>   media: i2c: max9286: Make channel amplitude programmable
+>   media: i2c: max9286: Configure reverse channel amplitude
+>
+>  .../bindings/media/i2c/maxim,max9286.yaml     |  22 +
+>  MAINTAINERS                                   |  12 +
+>  drivers/media/i2c/Kconfig                     |  13 +
+>  drivers/media/i2c/Makefile                    |   2 +
+>  drivers/media/i2c/max9286.c                   |  60 +-
+>  drivers/media/i2c/rdacm21.c                   | 623 ++++++++++++++++++
+>  6 files changed, 719 insertions(+), 13 deletions(-)
+>  create mode 100644 drivers/media/i2c/rdacm21.c
+>
+> --
+> 2.29.2
+>
