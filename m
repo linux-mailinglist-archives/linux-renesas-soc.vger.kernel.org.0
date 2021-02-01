@@ -2,169 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7666630A662
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Feb 2021 12:21:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB4630A792
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Feb 2021 13:27:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233539AbhBALVN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 1 Feb 2021 06:21:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44650 "EHLO
+        id S229524AbhBAM0B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 1 Feb 2021 07:26:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233113AbhBALVM (ORCPT
+        with ESMTP id S229554AbhBAMZ7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Feb 2021 06:21:12 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64D2CC061573
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Feb 2021 03:20:31 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id q131so11346406pfq.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 01 Feb 2021 03:20:31 -0800 (PST)
+        Mon, 1 Feb 2021 07:25:59 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EA78C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Feb 2021 04:25:18 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id sa23so7749174ejb.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 01 Feb 2021 04:25:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=ybW6ea4mRu2AEYShPCqMGzBoq6QNNd5EE4ebeNyrTR8=;
-        b=rUCCh7haBFLEa7yEewPfQo/Loior4ZwTp3TyevDeL5YD9WhJCxZxIgRrj7AvmcoW+M
-         SFzchYJ5J7KaoC1uDNZV5WGGCVV3PF2frLDdPl/QCk/6qKyu6TXVvVuMW0dG3mK3Ac9J
-         LO8QvMBN4fqDSzaFwK91CNfeBn0ofZb3s907BncdnX4v7IBNyZR3QOgmNU3eGtaY1aO3
-         KgpBYSIZCUXRYy3o77dbPY0RSxYtspDzbfIHUw8M03eLcS6Qma7f/UoD/+g62YlOyh9s
-         3SB+5E8YA2RVHe/NE5o4lnnlOiEXYN2sgGchh1OkQnO1AT76+M7VjyWdPPDXz/3Sw1N6
-         zX/g==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Zhy4Op1/p4AlSoWo1Lo7zf/4vrfdU7vbu5J/FaBoZE8=;
+        b=1+gNJGjq6sDPgSxw4rmtHgQNqXmsTR9Mfn9eebSVKozIDA8RCo2DdADtJk73y/hfOa
+         uDD5zX4ZsjzcEsLcd4BxMllQiHwlRSyTunTWsZ1Cm1BFB9yb3/kw9nyKEiJMdxVbbOP/
+         dkYlf2J4M86xsMgTPoIb00tcEJ7MVW20rSclHRvV4kVf7XSP7aY9EC2wMjffOtzJN8Vy
+         Xu3KCu43BBkrqf+UEeBDKlG4HwkSuRacAiLF1jVW/ZTgmO39Y+lghhM1JAenv+QY73o4
+         JB50i+AvmHsAhnlJwYomg3bkDTVCF0HLNQF8xUc6rUwoCnP+b2dY7mRzUZLifMkBmznG
+         4f7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=ybW6ea4mRu2AEYShPCqMGzBoq6QNNd5EE4ebeNyrTR8=;
-        b=UJu1Uni0NS+d6H+r/pjYD7uS4U3dRvfQvKYu6wStWfDUbIS1jIpUa2YeR0NeWGMv0S
-         9dW9DEs5veRK5wCY94LetHBdvMBtaluLMHDYxq/WPFCqdz+OpeayEneJUtRVh+qrNO/m
-         Vee3hdfTlIdip0uRSqQBmd3oyregYPsxYXfxWhwzw8+CEtM/Fuo77tRGaBxZJ/Y1cHk+
-         XbYQnourMNAM0c7dSrI1rd3a6pxUwrMkkOYm3PCxabHkRNOSftpihBQgQYikQd+j2CO2
-         b7YpNV5+HYloABxe2GMAbg6xkQMYZDh73sZqWDy07OpPManU5zrgx6ULFC5ytAi2E18+
-         B2Yg==
-X-Gm-Message-State: AOAM533ctkVs2bYyHB1oZkJEl7oOLQGG5pgwfkUkIl4pcoPfd3WDtQT5
-        nARYiWMFHh7sM+ENkBtm2dWxxMWU7mM0eg==
-X-Google-Smtp-Source: ABdhPJw3PCCCOcMUTeWWhIKSrcIRHgcWgCXnmyMSddIyEth8jsmiA4UTwOl8KFjG+OoLJFd3WdDv8w==
-X-Received: by 2002:a62:5e44:0:b029:1a4:daae:e765 with SMTP id s65-20020a625e440000b02901a4daaee765mr15893694pfb.8.1612178430659;
-        Mon, 01 Feb 2021 03:20:30 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id dw23sm7055257pjb.3.2021.02.01.03.20.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Feb 2021 03:20:30 -0800 (PST)
-Message-ID: <6017e3fe.1c69fb81.f57d5.f5ff@mx.google.com>
-Date:   Mon, 01 Feb 2021 03:20:30 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Zhy4Op1/p4AlSoWo1Lo7zf/4vrfdU7vbu5J/FaBoZE8=;
+        b=KNP7qwGOz/dpB+kgN62P1exxBOTh1L+7TtlpnZadp2Fu3oeUDCz5AG7506wlOJkOpJ
+         vazaTIDlC/SdqJhaWz1BoUnLCqv16vbTFwaVRaXKp5ysA/PdOx9JIPsQEeuI8Dgol2Pa
+         adrTig512dgTMYZUDSa0THU5c1z+WkWiVA5EA3XSZwMM0hIP5fUbxs6TtsxTfNNxezrZ
+         0sXvpCbbl0BFLH3cJtxFGu0HwiI4puaK+eEoeKmoLdkrXNcBceRKjShCd3SC2G9ka3Os
+         vOsamnHp+zfofD4c2fZEUd06IbZlc6ywfoU00uzs6+XKh+UQQJbTYSzts5faeOp0FR33
+         qnpA==
+X-Gm-Message-State: AOAM530wobBkAjk32Uf6QQyEsSp15CZ/ipI2NiKLhXCZIhtSQ9NoYkPH
+        ethcKib0Nfg8qyYysDMinUc0So8BzDoaKhPUUVzIhw==
+X-Google-Smtp-Source: ABdhPJysY05qsDlFhtpemuVXjo58cMxwIvOZ+BdS+FscJCQRHU0qaqoKDOIAPE8NUmxcL/kk7Ps86KjfeEL3UtWJGok=
+X-Received: by 2002:a17:906:1c4b:: with SMTP id l11mr17642991ejg.155.1612182316845;
+ Mon, 01 Feb 2021 04:25:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2021-02-01-v5.11-rc6
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-Subject: renesas/master ltp-ipc: 24 runs,
- 2 regressions (renesas-devel-2021-02-01-v5.11-rc6)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+References: <20210105105914.13172-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUT8CEyJ1ERmLr443SuZgemFF40cDviSGwhYM7ZnN_b_g@mail.gmail.com>
+ <20210127103919.GC928@ninjato> <CAMpxmJWKEHsdHAnQt-ozVPHDcjSPrTo3c7D8gGFiPvwrA8TzwQ@mail.gmail.com>
+ <CAMuHMdVYjrs4R+s=ojBegn1PczZ8fiD+95od5Nj9wG02+6TBcA@mail.gmail.com>
+In-Reply-To: <CAMuHMdVYjrs4R+s=ojBegn1PczZ8fiD+95od5Nj9wG02+6TBcA@mail.gmail.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Mon, 1 Feb 2021 13:25:06 +0100
+Message-ID: <CAMpxmJXY-GE70RLUrpD6PwRHgqV=udfu6R6VSNKUPyb-ZXgoHw@mail.gmail.com>
+Subject: Re: [PATCH] gpio: gpiolib: remove shadowed variable
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master ltp-ipc: 24 runs, 2 regressions (renesas-devel-2021-02-01-v5=
-.11-rc6)
+On Mon, Feb 1, 2021 at 10:04 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Bartosz,
+>
+> On Mon, Feb 1, 2021 at 9:59 AM Bartosz Golaszewski
+> <bgolaszewski@baylibre.com> wrote:
+> > On Wed, Jan 27, 2021 at 11:39 AM Wolfram Sang
+> > <wsa+renesas@sang-engineering.com> wrote:
+> > > On Tue, Jan 05, 2021 at 12:14:34PM +0100, Geert Uytterhoeven wrote:
+> > > > On Tue, Jan 5, 2021 at 12:00 PM Wolfram Sang
+> > > > <wsa+renesas@sang-engineering.com> wrote:
+> > > > > After refactoring, we had two variables for the same thing. Remove the
+> > > > > second declaration, one is enough here. Found by cppcheck.
+> > > > >
+> > > > > drivers/gpio/gpiolib.c:2551:17: warning: Local variable 'ret' shadows outer variable [shadowVariable]
+> > > > >
+> > > > > Fixes: d377f56f34f5 ("gpio: gpiolib: Normalize return code variable name")
+> > > > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > > >
+> > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > >
+> > > Ccing Linus & Bartosz
+> > >
+> >
+> > For some reason this is not on patchwork and I also don't have it in
+> > my inbox, can you resend, please?
+>
+> https://lore.kernel.org/linux-gpio/20210105105914.13172-1-wsa+renesas@sang-engineering.com/
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-Regressions Summary
--------------------
+Thanks, now applied. Please make sure to Cc Linus and I next time.
 
-platform   | arch | lab           | compiler | defconfig                   =
- | regressions
------------+------+---------------+----------+-----------------------------=
--+------------
-odroid-xu3 | arm  | lab-collabora | gcc-8    | multi_v7_defconfig          =
- | 1          =
-
-odroid-xu3 | arm  | lab-collabora | gcc-8    | multi_v7_defc...G_ARM_LPAE=
-=3Dy | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-02-01-v5.11-rc6/plan/ltp-ipc/
-
-  Test:     ltp-ipc
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-02-01-v5.11-rc6
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      45e12c13bdd70bc8d9741ce35e2aa594e986e457
-
-  Test suite revisions:
-    ltp-tests
-      URL:  https://github.com/linux-test-project/ltp.git
-      SHA:  3833d44a2ba3773359d3b35a2108af691d75b4f9 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform   | arch | lab           | compiler | defconfig                   =
- | regressions
------------+------+---------------+----------+-----------------------------=
--+------------
-odroid-xu3 | arm  | lab-collabora | gcc-8    | multi_v7_defconfig          =
- | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6017d15af2e1e62d6fd3e001
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-02-01-v5.11-rc6/arm/multi_v7_defconfig/gcc-8/lab-collabora/ltp-ipc-odro=
-id-xu3.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-02-01-v5.11-rc6/arm/multi_v7_defconfig/gcc-8/lab-collabora/ltp-ipc-odro=
-id-xu3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-ltp/=
-20210125.1/armhf/initrd.cpio.gz =
-
-
-
-  * ltp-ipc.login: https://kernelci.org/test/case/id/6017d15af2e1e62d6fd3e0=
-02
-        failing since 17 days (last pass: renesas-devel-2021-01-11-v5.11-rc=
-3, first fail: renesas-devel-2021-01-14-v5.11-rc3) =
-
- =
-
-
-
-platform   | arch | lab           | compiler | defconfig                   =
- | regressions
------------+------+---------------+----------+-----------------------------=
--+------------
-odroid-xu3 | arm  | lab-collabora | gcc-8    | multi_v7_defc...G_ARM_LPAE=
-=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6017dcb56b96c34805d3dfd8
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-02-01-v5.11-rc6/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
-=3Dy/gcc-8/lab-collabora/ltp-ipc-odroid-xu3.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-02-01-v5.11-rc6/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
-=3Dy/gcc-8/lab-collabora/ltp-ipc-odroid-xu3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-ltp/=
-20210125.1/armhf/initrd.cpio.gz =
-
-
-
-  * ltp-ipc.login: https://kernelci.org/test/case/id/6017dcb56b96c34805d3df=
-d9
-        failing since 12 days (last pass: renesas-devel-2021-01-14-v5.11-rc=
-3, first fail: v5.11-rc4-383-g822f1d4bfbf2) =
-
- =20
+Bartosz
