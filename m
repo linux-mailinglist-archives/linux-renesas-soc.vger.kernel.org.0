@@ -2,147 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 079D130A59C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Feb 2021 11:41:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3267B30A663
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Feb 2021 12:21:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232646AbhBAKkx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 1 Feb 2021 05:40:53 -0500
-Received: from mail-oi1-f177.google.com ([209.85.167.177]:36782 "EHLO
-        mail-oi1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233338AbhBAKkm (ORCPT
+        id S233113AbhBALVO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 1 Feb 2021 06:21:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233219AbhBALVM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Feb 2021 05:40:42 -0500
-Received: by mail-oi1-f177.google.com with SMTP id d18so18314237oic.3;
-        Mon, 01 Feb 2021 02:40:26 -0800 (PST)
+        Mon, 1 Feb 2021 06:21:12 -0500
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D050CC061788
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Feb 2021 03:20:31 -0800 (PST)
+Received: by mail-pg1-x52b.google.com with SMTP id o63so11841137pgo.6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 01 Feb 2021 03:20:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=4NX3nXrFe9h8zj3IG9G+SubXa0/HIHxdn62gBxY/ams=;
+        b=rMdr9kpCjLc9iK5GEXeeI6PKFf/DXjkcvoQoWssRaWbv/pQ3YXkfnOwEdGIGM0t1zE
+         Gv9wNAutNMSgRnd6TuEgPDVrYLXjvEvm1yNvoDIn4MbFemDAPrtZPpxBWQXjJAiav4fj
+         081/WMnhqchzMrNllFyN2wfV7tIuIgx2YKELEIOph62LC49Y06u1JsfQVGZRY+7toZn5
+         G/brXukbd4TBbL6uwslPAfUqqNvC4LgaDl3YwMhweCibarM41GaZ/mFoSQ/S2cDnVaI0
+         EyqHG8La1DrUF8McvmhAfOVvcb2yYlhJRmVCMVrEzvgXSwe+GkFxkOT8887bUisr7eyZ
+         hvjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PbFNPUDjF8u5uZWpIEHcWpaJI3RXUPiFu34mgVi86XY=;
-        b=kR0WBOo5QS9f9TkTTR+rPrsBc4VdyoFrFpj8812H2ZYgAtEV7GbioPzxjtHy1YaL5u
-         GPUq7oJEjxo/smdF5fRdOUne0xGmOp7hb20x5Ta/ph4KgtrxHnwSfLJb93egLupCQQ4X
-         NaoPTFltaK5iYaKWFiKYBBj3T2h5wdD3w8aajNlyZ+Pc2LEtOkORbJ46pJjgHXFQZQZv
-         DSfZNdHf7SJ+7egfSzcRUhiMPz5bXnYdCYTK1sR2wmTkEVkve5/z13EXNawsrG433Dl3
-         xSqsRCIa4Ybq8yR8cb6dLljn4Il/hbO85DkAH6lnj/5Sn6+IQO4r2BETbbpruQAnIalW
-         ch3A==
-X-Gm-Message-State: AOAM532u7fjKKoQJ8eXCP0Kfh8OW7+qqKu94oD01eXZWdOR9ai0e/w8J
-        bKqaIBbGW9yReew7GTd5VH2XO92mPVIW9EeFkf8=
-X-Google-Smtp-Source: ABdhPJw65qTThGcsX9iC1bv+Rc95DdKf2Iuj2OS3RR8/qhbi7vQxnnIIJMJ47LSut7xngwvxuA293xVZ1BzjGh51Fww=
-X-Received: by 2002:aca:4d8d:: with SMTP id a135mr10190512oib.153.1612176001101;
- Mon, 01 Feb 2021 02:40:01 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=4NX3nXrFe9h8zj3IG9G+SubXa0/HIHxdn62gBxY/ams=;
+        b=nlALEjgmeK7NiNwppqetuR+zqi/3ai5nUTj95+LXZfA57tUAMtm6Dv62aEKO851Scn
+         Fllz9VYTOHqXYM4d4717qPDTTKjlMWuj2dNQoaDfBRP90Snxru+Is3phAnBtq2h1B7rG
+         iQI7iSq7LwNfCpDsoy2H7dyynlvoyH7hI/3HzYapg/oOKE44VD31G/ZVq2n9XiSl+XsH
+         1vEHvFyH+4LALn/yZE5+pmQZ49xwhHrlgj2hSKw2+yG2TEo0t/Vod7pBLnIpggsByKxT
+         6D2PjIdVlCLiXmJxrkcrk5A1zrerKI1gdRc0edTqZZAlGILFA/If7+pg3sddQzEFsdmt
+         OtjA==
+X-Gm-Message-State: AOAM530QPjH0wkBDzD5FPsKNqKI/UjdrG56ZQwgRvF7H0wNVhN3alN+l
+        mx7wglPZI/j4DRqA7NdSv1+ylrFbwNvTLA==
+X-Google-Smtp-Source: ABdhPJzNMdFxmh0R20a4Xh+JLpBJSzf0sbE/k8fbp5xsS46tifDlUjPIhqI0X1roPD+IAXL1iLTZgA==
+X-Received: by 2002:a63:1f1e:: with SMTP id f30mr16890645pgf.141.1612178431113;
+        Mon, 01 Feb 2021 03:20:31 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id cq2sm4042264pjb.55.2021.02.01.03.20.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Feb 2021 03:20:30 -0800 (PST)
+Message-ID: <6017e3fe.1c69fb81.e333.844b@mx.google.com>
+Date:   Mon, 01 Feb 2021 03:20:30 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210130040344.2807439-1-saravanak@google.com> <CAGETcx941J7Zhrf=ZjO6PW0fiax5VXcV3gbsLQfM_wU_U0EnYw@mail.gmail.com>
-In-Reply-To: <CAGETcx941J7Zhrf=ZjO6PW0fiax5VXcV3gbsLQfM_wU_U0EnYw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 1 Feb 2021 11:39:49 +0100
-Message-ID: <CAMuHMdUGkRmjnkSXQ4VNz5crMJ0S4xUvrV=BenOf96Y_bepPSw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] Make fw_devlink=on more forgiving
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2021-02-01-v5.11-rc6
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+Subject: renesas/master sleep: 7 runs,
+ 2 regressions (renesas-devel-2021-02-01-v5.11-rc6)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+renesas/master sleep: 7 runs, 2 regressions (renesas-devel-2021-02-01-v5.11=
+-rc6)
 
-On Sat, Jan 30, 2021 at 5:09 AM Saravana Kannan <saravanak@google.com> wrote:
-> On Fri, Jan 29, 2021 at 8:03 PM Saravana Kannan <saravanak@google.com> wrote:
-> > This patch series solves two general issues with fw_devlink=on
-> >
-> > Patch 1/2 addresses the issue of firmware nodes that look like they'll
-> > have struct devices created for them, but will never actually have
-> > struct devices added for them. For example, DT nodes with a compatible
-> > property that don't have devices added for them.
-> >
-> > Patch 2/2 address (for static kernels) the issue of optional suppliers
-> > that'll never have a driver registered for them. So, if the device could
-> > have probed with fw_devlink=permissive with a static kernel, this patch
-> > should allow those devices to probe with a fw_devlink=on. This doesn't
-> > solve it for the case where modules are enabled because there's no way
-> > to tell if a driver will never be registered or it's just about to be
-> > registered. I have some other ideas for that, but it'll have to come
-> > later thinking about it a bit.
-> >
-> > These two patches might remove the need for several other patches that
-> > went in as fixes for commit e590474768f1 ("driver core: Set
-> > fw_devlink=on by default"), but I think all those fixes are good
-> > changes. So I think we should leave those in.
-> >
-> > Marek, Geert,
-> >
-> > Can you try this series on a static kernel with your OF_POPULATED
-> > changes reverted? I just want to make sure these patches can identify
-> > and fix those cases.
-> >
-> > Tudor,
-> >
-> > You should still make the clock driver fix (because it's a bug), but I
-> > think this series will fix your issue too (even without the clock driver
-> > fix). Can you please give this a shot?
->
-> Marek, Geert, Tudor,
->
-> Forgot to say that this will probably fix your issues only in a static
-> kernel. So please try this with a static kernel. If you can also try
-> and confirm that this does not fix the issue for a modular kernel,
-> that'd be good too.
+Regressions Summary
+-------------------
 
-Thanks for your series!
+platform            | arch | lab           | compiler | defconfig          =
+| regressions
+--------------------+------+---------------+----------+--------------------=
++------------
+rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
+| 2          =
 
-For the modular case, this series has no impact, as expected (i.e. fails
-to boot, no I/O devices probed).
-With modules disabled, both r8a7791/koelsch and r8a77951/salvator-xs
-seem to boot fine, except for one issue on koelsch:
 
-dmesg:
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-02-01-v5.11-rc6/plan/sleep/
 
-    +i2c-demux-pinctrl i2c-12: failed to setup demux-adapter 0 (-19)
-    +i2c-demux-pinctrl i2c-13: failed to setup demux-adapter 0 (-19)
-    +i2c-demux-pinctrl i2c-14: failed to setup demux-adapter 0 (-19)
+  Test:     sleep
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-02-01-v5.11-rc6
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      45e12c13bdd70bc8d9741ce35e2aa594e986e457 =
 
-    -  #0: rsnd-dai.0-ak4642-hifi
-    +  No soundcards found.
 
-regulator_summary:
 
-    -13-0050-vcc                   0    0mA     0mV     0mV
-    -13-0039-dvdd-3v               1    0mA     0mV     0mV
-    -13-0039-bgvdd                 1    0mA     0mV     0mV
-    -13-0039-pvdd                  1    0mA     0mV     0mV
-    -13-0039-dvdd                  1    0mA     0mV     0mV
-    -13-0039-avdd                  1    0mA     0mV     0mV
+Test Regressions
+---------------- =
 
-pm_genpd_summary:
 
-    -/devices/platform/soc/e6518000.i2c  suspended                  0
-    -/devices/platform/soc/e6530000.i2c  suspended                  0
-    -/devices/platform/soc/e6520000.i2c  suspended                  0
 
-These are all symptoms of the same issue: i2c buses and devices are not
-probed, due to the use of the i2c demuxer.
-I guess the fw_devlink tracker doesn't consider "i2c-parent" links?
+platform            | arch | lab           | compiler | defconfig          =
+| regressions
+--------------------+------+---------------+----------+--------------------=
++------------
+rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
+| 2          =
 
-Note that I only tested this on R-Car Gen2 and Gen3.
-I did not test this on Renesas SH/R-Mobile or RZ/A SoCs.
 
-Gr{oetje,eeting}s,
+  Details:     https://kernelci.org/test/plan/id/6017d0a2d17d0298d3d3dfca
 
-                        Geert
+  Results:     2 PASS, 12 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-02-01-v5.11-rc6/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288=
+-rock2-square.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-02-01-v5.11-rc6/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288=
+-rock2-square.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0125.1/armhf/rootfs.cpio.gz =
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+  * sleep.rtcwake-mem-4: https://kernelci.org/test/case/id/6017d0a2d17d0298=
+d3d3dfce
+        failing since 2 days (last pass: renesas-devel-2021-01-26-v5.11-rc5=
+, first fail: renesas-devel-2021-01-29-v5.11-rc5)
+
+    2021-02-01 09:57:45.250000+00:00  rtcwake: rea<4>[   20.709468] rtc-hym=
+8563 0-0051: no valid clock/calendar values available
+    2021-02-01 09:57:45.251000+00:00  d rtc time failed: Invalid argument
+    2021-02-01 09:57:45.251000+00:00  CASE_ID=3Drtcwake-mem-2 RESULT=3Dfail>
+    2021-02-01 09:57:45.251000+00:00  rtcwake: assuming RTC uses UTC ...
+    2021-02-01 09:57:45.298000+00:00  rtcwake: read rtc time failed: Invali=
+d argument
+    2021-02-01 09:57:45.298000+00:00  IGNAL_TESTCASE TEST_CASE_ID=3Drtcwake=
+-mem-3 RESULT=3Dfail>
+    2021-02-01 09:57:45.299000+00:00  rtcwake: assuming RTC uses UTC ...
+    2021-02-01 09:57:45.299000+00:00  rtcwake: read rtc time failed: Inval<=
+4>[   20.764813] rtc-hym8563 0-0051: no valid clock/calendar values availab=
+le
+    2021-02-01 09:57:45.299000+00:00  id argument   =
+
+
+  * sleep.rtcwake-mem-5: https://kernelci.org/test/case/id/6017d0a2d17d0298=
+d3d3dfcf
+        failing since 2 days (last pass: renesas-devel-2021-01-26-v5.11-rc5=
+, first fail: renesas-devel-2021-01-29-v5.11-rc5)
+
+    2021-02-01 09:57:45.348000+00:00  rtcwake: read rt<4>[   20.783349] rtc=
+-hym8563 0-0051: no valid clock/calendar values available
+    2021-02-01 09:57:45.348000+00:00  c time failed: Invalid argument
+    2021-02-01 09:57:45.348000+00:00  rtcwake: assuming RTC uses UTC .<4>[ =
+  20.803841] rtc-hym8563 0-0051: no valid clock/calendar values available
+    2021-02-01 09:57:45.348000+00:00  ..
+    2021-02-01 09:57:45.348000+00:00  rtcwake: read rtc time failed: Invali=
+d argument   =
+
+ =20
