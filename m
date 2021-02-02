@@ -2,167 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C2E030B987
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Feb 2021 09:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 262DB30BBB4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Feb 2021 11:05:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbhBBIVv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Feb 2021 03:21:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33026 "EHLO
+        id S230135AbhBBKE1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Feb 2021 05:04:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232557AbhBBIV2 (ORCPT
+        with ESMTP id S229542AbhBBKEY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Feb 2021 03:21:28 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D930EC06174A
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Feb 2021 00:20:47 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id i71so6083326ybg.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Feb 2021 00:20:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jnWY72rptLP2mi3bsf536ONY28gusJQRji0UXgomKro=;
-        b=B4gFI+8TlnKMhqz6tbOVJryq3Znq5MIWuzHAOCEZO5GypiU4NOFut9T0tQ5pk5dXvq
-         goh06hx7cQwhNY83q90CUXxRahn9Qh4FLftjcwKQnCN6iMUrJ/uZ8RkjFJfyg6Acb80z
-         OWSxirqdbEjpVLZlXRXHCXJcQUiJynislup8VRliS+WV5Bhei2DeGuiSBAkMkkdD2WIg
-         bHAItCeeqqR5VrITXjMvxRuKyLqn+KLgeil9OBMDJRVGLk7oeZ8popox74WskuLc2yNT
-         bP9pafaCrVd7Z1SGTD9ez4UIPLVBex9CPA1OKFXjVDSHxPELdIPH0gj05zylnGUs77JX
-         srHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jnWY72rptLP2mi3bsf536ONY28gusJQRji0UXgomKro=;
-        b=Lqn6/C8H7qH7eq1Lf0F/R8TMmqEMVJt1kv/hoMxRpPcx8FTd1/IY4HBS3NEYDTkWYM
-         BT3iJXNzE8PNDHjy4lg87qR3rv7q0PXr771xuv38RCZ7XDZxvtggo3bxIVp3pbLsaRVn
-         kX+lRnwlsYDd824YFyrs3S6y1kq9wGAw0Meq6YzLGL75MPc1DaU7RoyUabF8npkipyqo
-         hor9ndELDgfQ8ulNsVTdeCU7amkFJ/FZyKtyKO/ffuoKqDMdgDDjFioOZkHiCsk9eGGk
-         Azg5TZXH4i+dAP+JmSWCFGNAJp5P4U20PQkJW99sijcn8pkxy5w2pjq6ooFP6kDyiltp
-         umgg==
-X-Gm-Message-State: AOAM531LaxF5Da1FwgPUnVvT95hE+7aIzA4P7kFmh3ti6LxLHXueBGC/
-        6NVyzw+KsJwe5vK0YagHa4+sGJarIZYEYfAUf4AllQ==
-X-Google-Smtp-Source: ABdhPJyUafIkSuqqvECAV1VOlEitae42W6N7ZcUU85gX9a6HPyT7KNsD9A4o3TN8eGNhEnSU1WfBWlBxGagdxpVURF4=
-X-Received: by 2002:a25:b74c:: with SMTP id e12mr21829597ybm.20.1612254046790;
- Tue, 02 Feb 2021 00:20:46 -0800 (PST)
+        Tue, 2 Feb 2021 05:04:24 -0500
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B54CAC0613ED
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Feb 2021 02:03:38 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by xavier.telenet-ops.be with bizsmtp
+        id QA3b240094C55Sk01A3bCq; Tue, 02 Feb 2021 11:03:35 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l6sX0-002fzy-Ga; Tue, 02 Feb 2021 11:03:34 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l6sX0-003TgU-3y; Tue, 02 Feb 2021 11:03:34 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        John Garry <john.garry@huawei.com>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] PCI: Fix memory leak in pci_register_io_range()
+Date:   Tue,  2 Feb 2021 11:03:32 +0100
+Message-Id: <20210202100332.829047-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210130040344.2807439-1-saravanak@google.com>
- <CAGETcx941J7Zhrf=ZjO6PW0fiax5VXcV3gbsLQfM_wU_U0EnYw@mail.gmail.com>
- <CAMuHMdUGkRmjnkSXQ4VNz5crMJ0S4xUvrV=BenOf96Y_bepPSw@mail.gmail.com>
- <CAGETcx896XEv8OqOe4eGncjOYb=v6+g1RWkpo5g0hTbfp4Os+w@mail.gmail.com> <CAMuHMdWo0Dpf_GwT1WrGk9f3v7-KX86eR2wgNtXkqoN0t_CLag@mail.gmail.com>
-In-Reply-To: <CAMuHMdWo0Dpf_GwT1WrGk9f3v7-KX86eR2wgNtXkqoN0t_CLag@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 2 Feb 2021 00:20:09 -0800
-Message-ID: <CAGETcx9C3jM+6K3oYHooV6fKkj5OiBT6UnJpufH3w=zCmKLY8A@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] Make fw_devlink=on more forgiving
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Feb 1, 2021 at 11:55 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Saravana,
->
-> On Tue, Feb 2, 2021 at 4:01 AM Saravana Kannan <saravanak@google.com> wrote:
-> > On Mon, Feb 1, 2021 at 2:40 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Sat, Jan 30, 2021 at 5:09 AM Saravana Kannan <saravanak@google.com> wrote:
-> > > > On Fri, Jan 29, 2021 at 8:03 PM Saravana Kannan <saravanak@google.com> wrote:
-> > > > > This patch series solves two general issues with fw_devlink=on
-> > > > >
-> > > > > Patch 1/2 addresses the issue of firmware nodes that look like they'll
-> > > > > have struct devices created for them, but will never actually have
-> > > > > struct devices added for them. For example, DT nodes with a compatible
-> > > > > property that don't have devices added for them.
-> > > > >
-> > > > > Patch 2/2 address (for static kernels) the issue of optional suppliers
-> > > > > that'll never have a driver registered for them. So, if the device could
-> > > > > have probed with fw_devlink=permissive with a static kernel, this patch
-> > > > > should allow those devices to probe with a fw_devlink=on. This doesn't
-> > > > > solve it for the case where modules are enabled because there's no way
-> > > > > to tell if a driver will never be registered or it's just about to be
-> > > > > registered. I have some other ideas for that, but it'll have to come
-> > > > > later thinking about it a bit.
-> > > > >
-> > > > > These two patches might remove the need for several other patches that
-> > > > > went in as fixes for commit e590474768f1 ("driver core: Set
-> > > > > fw_devlink=on by default"), but I think all those fixes are good
-> > > > > changes. So I think we should leave those in.
-> > > > >
-> > > > > Marek, Geert,
-> > > > >
-> > > > > Can you try this series on a static kernel with your OF_POPULATED
-> > > > > changes reverted? I just want to make sure these patches can identify
-> > > > > and fix those cases.
-> > > > >
-> > > > > Tudor,
-> > > > >
-> > > > > You should still make the clock driver fix (because it's a bug), but I
-> > > > > think this series will fix your issue too (even without the clock driver
-> > > > > fix). Can you please give this a shot?
-> > > >
-> > > > Marek, Geert, Tudor,
-> > > >
-> > > > Forgot to say that this will probably fix your issues only in a static
-> > > > kernel. So please try this with a static kernel. If you can also try
-> > > > and confirm that this does not fix the issue for a modular kernel,
-> > > > that'd be good too.
-> > >
-> > > Thanks for your series!
-> > >
-> > > For the modular case, this series has no impact, as expected (i.e. fails
-> > > to boot, no I/O devices probed).
-> > > With modules disabled, both r8a7791/koelsch and r8a77951/salvator-xs
-> > > seem to boot fine, except for one issue on koelsch:
-> >
-> > Thanks a lot for testing the series!
-> >
-> > Regarding the koelsch issue, do you not see it with your OF_POPULATED
-> > fix for rcar-sysc driver? But only see if you revert it and use this
-> > series?
->
-> I've just rechecked, and with fw_devlink=on, and my OF_POPULATED
-> fir for rcar-sysc, i2c-demux-pinctrl works, both with modules enabled
-> and disabled.
+Kmemleak reports:
 
-Thanks Geert! My guess is that with your OF_POPULATED changes the
-"i2c-parents" of i2c-demux-pinctrl don't get probe deferred and
-therefore i2c-demux-pinctrl probes after them and everything goes
-well.
+    unreferenced object 0xc328de40 (size 64):
+      comm "kworker/1:1", pid 21, jiffies 4294938212 (age 1484.670s)
+      hex dump (first 32 bytes):
+        00 00 00 00 00 00 00 00 e0 d8 fc eb 00 00 00 00  ................
+        00 00 10 fe 00 00 00 00 00 00 00 00 00 00 00 00  ................
 
-I guess that goes to show this series can't be the magic bullet even
-with patch 2/3 -- especially for top level DT nodes that never have
-devices created.
+    backtrace:
+      [<ad758d10>] pci_register_io_range+0x3c/0x80
+      [<2c7f139e>] of_pci_range_to_resource+0x48/0xc0
+      [<f079ecc8>] devm_of_pci_get_host_bridge_resources.constprop.0+0x2ac/0x3ac
+      [<e999753b>] devm_of_pci_bridge_init+0x60/0x1b8
+      [<a895b229>] devm_pci_alloc_host_bridge+0x54/0x64
+      [<e451ddb0>] rcar_pcie_probe+0x2c/0x644
 
-The other odd thing I noticed is that i2c-demux-pinctrl seems to
-return -ENODEV when I think it should do -EPROBE_DEFER. In
-i2c_demux_activate_master():
+In case a PCI host driver's probe is deferred, the same I/O range may be
+allocated again, and be ignored, causing a memory leak.
 
-        ret = of_changeset_apply(&priv->chan[new_chan].chgset);
-        if (ret)
-                goto err;
+Fix this by (a) letting logic_pio_register_range() return -EEXIST if the
+passed range already exists, so pci_register_io_range() will free it,
+and by (b) making pci_register_io_range() not consider -EEXIST an error
+condition.
 
-        adap = of_find_i2c_adapter_by_node(priv->chan[new_chan].parent_np);
-        if (!adap) {
-                ret = -ENODEV;
-                goto err_with_revert;
-        }
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/pci/pci.c | 4 ++++
+ lib/logic_pio.c   | 3 +++
+ 2 files changed, 7 insertions(+)
 
-If I understand the code correctly, it's assuming the selected parent
-will probe successfully as soon as its status=ok change is done. Which
-is not guaranteed for many reasons (driver not registered, async
-probing, stuff like fw_devlink, etc).
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 09b03cfba8894955..c651003e304a2b71 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -4037,6 +4037,10 @@ int pci_register_io_range(struct fwnode_handle *fwnode, phys_addr_t addr,
+ 	ret = logic_pio_register_range(range);
+ 	if (ret)
+ 		kfree(range);
++
++	/* Ignore duplicates due to deferred probing */
++	if (ret == -EEXIST)
++		ret = 0;
+ #endif
+ 
+ 	return ret;
+diff --git a/lib/logic_pio.c b/lib/logic_pio.c
+index f32fe481b4922bc1..07b4b9a1f54b6bf5 100644
+--- a/lib/logic_pio.c
++++ b/lib/logic_pio.c
+@@ -28,6 +28,8 @@ static DEFINE_MUTEX(io_range_mutex);
+  * @new_range: pointer to the IO range to be registered.
+  *
+  * Returns 0 on success, the error code in case of failure.
++ * If the range already exists, -EEXIST will be returned, which should be
++ * considered a success.
+  *
+  * Register a new IO range node in the IO range list.
+  */
+@@ -51,6 +53,7 @@ int logic_pio_register_range(struct logic_pio_hwaddr *new_range)
+ 	list_for_each_entry(range, &io_range_list, list) {
+ 		if (range->fwnode == new_range->fwnode) {
+ 			/* range already there */
++			ret = -EEXIST;
+ 			goto end_register;
+ 		}
+ 		if (range->flags == LOGIC_PIO_CPU_MMIO &&
+-- 
+2.25.1
 
-Thanks,
-Saravana
