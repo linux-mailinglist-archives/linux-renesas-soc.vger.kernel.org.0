@@ -2,78 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F23B030AEDC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Feb 2021 19:15:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB89A30B58E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Feb 2021 04:02:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232039AbhBASPa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 1 Feb 2021 13:15:30 -0500
-Received: from relay10.mail.gandi.net ([217.70.178.230]:32939 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232033AbhBASPO (ORCPT
+        id S229614AbhBBDBo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 1 Feb 2021 22:01:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49206 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229537AbhBBDBj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Feb 2021 13:15:14 -0500
-Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id C288A240009;
-        Mon,  1 Feb 2021 18:14:14 +0000 (UTC)
-Date:   Mon, 1 Feb 2021 19:14:36 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v8 0/5] media: i2c: Add RDACM21 camera module
-Message-ID: <20210201181436.6giorxpojizp3rv4@uno.localdomain>
-References: <20210114170429.139762-1-jacopo+renesas@jmondi.org>
- <20210201085440.zcc5kuu4gyiyasvy@uno.localdomain>
- <20210201130029.GM32460@paasikivi.fi.intel.com>
+        Mon, 1 Feb 2021 22:01:39 -0500
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F445C061573
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Feb 2021 19:00:58 -0800 (PST)
+Received: by mail-yb1-xb31.google.com with SMTP id b187so4918587ybg.9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 01 Feb 2021 19:00:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QKlES40ZuuTnQtRZPjfqK6jrJL4AVKwk6AC0/Xfkqm4=;
+        b=TKINA+ss6nSCUFev9F01YHAkMmRw70CqR6dFHclmYWCEWAxry26XMjSUdMWBta7bUa
+         w6peKJSmF5RPlr4ypNZ3fkaiBYqUXhVjRHLMKOnfmbNoPXdBX+BCd2LGcLW2KXNnyUZ0
+         nDx4MCOiucEk454n6jR7yGGho/FtjF7gX6F4i4lxnXEAtAJtN4vGZVepQaBpHvtTquUS
+         vLi9bpfV/Hm5+T2CyAuYhJLW2mRdPwXsrsVsvI7XGq0ieBNMxNQhpJx8U1XbBRwPZLx/
+         FCm5rJKNmGfMFnKJAw9QdLB2PR54g2bgE74hA2Myk8bEB46RzgmwXduDXUAvT6YVAN1C
+         K5CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QKlES40ZuuTnQtRZPjfqK6jrJL4AVKwk6AC0/Xfkqm4=;
+        b=svGhvUOjPTFLwmpHTDrPhQfT4nyYB16rSG+ck3uL0ywt5HssVGKzkrvFzI4SgtXiVP
+         D6KDOkbiXafAh0XtNmjbg/SOszGbEWozzn7bqUsIy4uymi0LFAcdKvqLybRlFuhLpafw
+         Uk7dMu2VrHr5g50r3Vxy9pPXT2LxHRFmNsrGTsUFLm6rL12B4OKdTx1pMy9nmbzMep+Z
+         rJZSuoPOKcN07TdgE6+VjsdcgGbVD2KSd3RNLcmR3p32ty49/VxG0KFRWSFrgsPUgomJ
+         kcS8bk+J0mtbIHiidf+0fPBBnribQP0PEp+nKT9w7rDQfk0AjHnqKmAvvUyx2gOWHQkR
+         En/Q==
+X-Gm-Message-State: AOAM533ArZjCl+S4TulCj+Q0zkL4SmMIL8C48kysq7fbNzJ1pXkv4ppS
+        skD8I+6WyJtyDplWxJo6COcVOgtsdOoAoiYHSbBs+w==
+X-Google-Smtp-Source: ABdhPJw+xl52yLOOnfjekYr5KRXZgIi6lkOSwSq6OsZ6gDTuNN+0py4jKNxFq9CszelcmCFRJXYyJMOfXwFar5J07Ts=
+X-Received: by 2002:a25:3345:: with SMTP id z66mr29578976ybz.466.1612234857051;
+ Mon, 01 Feb 2021 19:00:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210201130029.GM32460@paasikivi.fi.intel.com>
+References: <20210130040344.2807439-1-saravanak@google.com>
+ <CAGETcx941J7Zhrf=ZjO6PW0fiax5VXcV3gbsLQfM_wU_U0EnYw@mail.gmail.com> <CAMuHMdUGkRmjnkSXQ4VNz5crMJ0S4xUvrV=BenOf96Y_bepPSw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUGkRmjnkSXQ4VNz5crMJ0S4xUvrV=BenOf96Y_bepPSw@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Mon, 1 Feb 2021 19:00:21 -0800
+Message-ID: <CAGETcx896XEv8OqOe4eGncjOYb=v6+g1RWkpo5g0hTbfp4Os+w@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] Make fw_devlink=on more forgiving
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
-
-On Mon, Feb 01, 2021 at 03:00:29PM +0200, Sakari Ailus wrote:
-> Hi Jacopo,
+On Mon, Feb 1, 2021 at 2:40 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> On Mon, Feb 01, 2021 at 09:54:40AM +0100, Jacopo Mondi wrote:
-> > Hi Sakari,
-> >
-> > On Thu, Jan 14, 2021 at 06:04:24PM +0100, Jacopo Mondi wrote:
-> > > One more iteration to squash in all the fixups sent in v7 and address
-> > > a comment from Sergei in [2/5] commit message.
+> Hi Saravana,
+>
+> On Sat, Jan 30, 2021 at 5:09 AM Saravana Kannan <saravanak@google.com> wrote:
+> > On Fri, Jan 29, 2021 at 8:03 PM Saravana Kannan <saravanak@google.com> wrote:
+> > > This patch series solves two general issues with fw_devlink=on
 > > >
-> > > All patches now reviewed and hopefully ready to be collected!
+> > > Patch 1/2 addresses the issue of firmware nodes that look like they'll
+> > > have struct devices created for them, but will never actually have
+> > > struct devices added for them. For example, DT nodes with a compatible
+> > > property that don't have devices added for them.
+> > >
+> > > Patch 2/2 address (for static kernels) the issue of optional suppliers
+> > > that'll never have a driver registered for them. So, if the device could
+> > > have probed with fw_devlink=permissive with a static kernel, this patch
+> > > should allow those devices to probe with a fw_devlink=on. This doesn't
+> > > solve it for the case where modules are enabled because there's no way
+> > > to tell if a driver will never be registered or it's just about to be
+> > > registered. I have some other ideas for that, but it'll have to come
+> > > later thinking about it a bit.
+> > >
+> > > These two patches might remove the need for several other patches that
+> > > went in as fixes for commit e590474768f1 ("driver core: Set
+> > > fw_devlink=on by default"), but I think all those fixes are good
+> > > changes. So I think we should leave those in.
+> > >
+> > > Marek, Geert,
+> > >
+> > > Can you try this series on a static kernel with your OF_POPULATED
+> > > changes reverted? I just want to make sure these patches can identify
+> > > and fix those cases.
+> > >
+> > > Tudor,
+> > >
+> > > You should still make the clock driver fix (because it's a bug), but I
+> > > think this series will fix your issue too (even without the clock driver
+> > > fix). Can you please give this a shot?
 > >
-> > All patches seems reviewed, do you think we can still collect this for
-> > the v5.12 merge window ?
+> > Marek, Geert, Tudor,
+> >
+> > Forgot to say that this will probably fix your issues only in a static
+> > kernel. So please try this with a static kernel. If you can also try
+> > and confirm that this does not fix the issue for a modular kernel,
+> > that'd be good too.
 >
-> The set seems good to me. There was some fuzz in the DT binding patch; I
-> hope the resolution is ok:
+> Thanks for your series!
 >
-> <URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?id=c9930c965596af73c61e1a6a9ef2d2128582ef38>
+> For the modular case, this series has no impact, as expected (i.e. fails
+> to boot, no I/O devices probed).
+> With modules disabled, both r8a7791/koelsch and r8a77951/salvator-xs
+> seem to boot fine, except for one issue on koelsch:
 
-Yes, looks good!
+Thanks a lot for testing the series!
 
->
-> Feel free to cc me on the next time. :-)
-
-yeah sorry, I went through too many iterations :)
-
-Thanks
-  j
+Regarding the koelsch issue, do you not see it with your OF_POPULATED
+fix for rcar-sysc driver? But only see if you revert it and use this
+series?
 
 >
-> --
-> Regards,
+> dmesg:
 >
-> Sakari Ailus
+>     +i2c-demux-pinctrl i2c-12: failed to setup demux-adapter 0 (-19)
+>     +i2c-demux-pinctrl i2c-13: failed to setup demux-adapter 0 (-19)
+>     +i2c-demux-pinctrl i2c-14: failed to setup demux-adapter 0 (-19)
+>
+>     -  #0: rsnd-dai.0-ak4642-hifi
+>     +  No soundcards found.
+>
+> regulator_summary:
+>
+>     -13-0050-vcc                   0    0mA     0mV     0mV
+>     -13-0039-dvdd-3v               1    0mA     0mV     0mV
+>     -13-0039-bgvdd                 1    0mA     0mV     0mV
+>     -13-0039-pvdd                  1    0mA     0mV     0mV
+>     -13-0039-dvdd                  1    0mA     0mV     0mV
+>     -13-0039-avdd                  1    0mA     0mV     0mV
+>
+> pm_genpd_summary:
+>
+>     -/devices/platform/soc/e6518000.i2c  suspended                  0
+>     -/devices/platform/soc/e6530000.i2c  suspended                  0
+>     -/devices/platform/soc/e6520000.i2c  suspended                  0
+>
+> These are all symptoms of the same issue: i2c buses and devices are not
+> probed, due to the use of the i2c demuxer.
+> I guess the fw_devlink tracker doesn't consider "i2c-parent" links?
+
+No, it doesn't parse "i2c-parent". Ugh... looked at it. It's going to
+be a problem to parse because it requires the parents to be disbled in
+DT and then fixes them up during run time. fw_devlink can handle DT
+overlay changing a specific node, but the problem is that the consumer
+DT node doesn't get changed. So the i2c-parent will first be parsed,
+fw_devlink will notice they are disabled, so it'll ignore them. Then
+those nodes are enabled, but the i2c-parent isn't reparsed because the
+consumer isn't updated.
+
+> Note that I only tested this on R-Car Gen2 and Gen3.
+> I did not test this on Renesas SH/R-Mobile or RZ/A SoCs.
+
+Thanks for any testing you can do :)
+
+So overall, this series seems to be helping, but doesn't cover 100% of
+the cases. So I suppose this is still a useful series. I'll be happy
+to take any Tested-by or Reviewed-by.
+
+-Saravana
