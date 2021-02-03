@@ -2,113 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 262DB30BBB4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Feb 2021 11:05:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7225830E819
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Feb 2021 00:59:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230135AbhBBKE1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Feb 2021 05:04:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55176 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbhBBKEY (ORCPT
+        id S234010AbhBCX5q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 Feb 2021 18:57:46 -0500
+Received: from 198-20-226-115.unifiedlayer.com ([198.20.226.115]:41668 "EHLO
+        198-20-226-115.unifiedlayer.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233315AbhBCX5m (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Feb 2021 05:04:24 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B54CAC0613ED
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Feb 2021 02:03:38 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id QA3b240094C55Sk01A3bCq; Tue, 02 Feb 2021 11:03:35 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l6sX0-002fzy-Ga; Tue, 02 Feb 2021 11:03:34 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1l6sX0-003TgU-3y; Tue, 02 Feb 2021 11:03:34 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
-        John Garry <john.garry@huawei.com>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] PCI: Fix memory leak in pci_register_io_range()
-Date:   Tue,  2 Feb 2021 11:03:32 +0100
-Message-Id: <20210202100332.829047-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Wed, 3 Feb 2021 18:57:42 -0500
+X-Greylist: delayed 59540 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Feb 2021 18:57:38 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=carnivalassure.com.bd; s=default; h=Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=miRpAdBSO5eDo01VDX+EK9bqGCmqMjXHS3kO16T6iWw=; b=rgk1ikauAU1hvTn54IcRsZV7jN
+        7ew7UnoHYswDbiAn0BwsDPvi1y7NYnu6spVFzd7wuCzuSXaeHSKXCbOKsfovgDS9G8VDov60T9hnO
+        az+ZrAdd9l4q7KVCSxwWKCfCVJbfHTSf42W46YnBkpxHquHw5LLqdFj5EdNb7huiQ1YCWmqOknYH9
+        SyIGPObfTFO7iFaqVfyi8Xbiiafcx4hzvN/iZIY/q1CFEZM+hVR0h+YPMSL3k9qRCiHtO0Ucth7ip
+        RJzG/T6UUDEki2hIinuZoSZa3/L4hnnytmaQT+A2HqKGkNS4nukEOez1R6NMYmAg56m6DyuuzrLgl
+        lDuKQ5eg==;
+Received: from [127.0.0.1] (port=45986 helo=dot.dotlines.com.sg)
+        by dot.dotlines.com.sg with esmtpa (Exim 4.93)
+        (envelope-from <noreply@carnivalassure.com.bd>)
+        id 1l7CVc-0005Wr-DK; Wed, 03 Feb 2021 01:23:28 -0600
 MIME-Version: 1.0
+Date:   Wed, 03 Feb 2021 01:23:26 -0600
+From:   Francois Pinault <noreply@carnivalassure.com.bd>
+To:     undisclosed-recipients:;
+Subject: Hello/Hallo
+Organization: Donation
+Reply-To: francoispinault1936@outlook.com
+Mail-Reply-To: francoispinault1936@outlook.com
+Message-ID: <1a89ab2763fcfd9504c577b99b1b1baa@carnivalassure.com.bd>
+X-Sender: noreply@carnivalassure.com.bd
+User-Agent: Roundcube Webmail/1.3.15
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - dot.dotlines.com.sg
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - carnivalassure.com.bd
+X-Get-Message-Sender-Via: dot.dotlines.com.sg: authenticated_id: noreply@carnivalassure.com.bd
+X-Authenticated-Sender: dot.dotlines.com.sg: noreply@carnivalassure.com.bd
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Kmemleak reports:
 
-    unreferenced object 0xc328de40 (size 64):
-      comm "kworker/1:1", pid 21, jiffies 4294938212 (age 1484.670s)
-      hex dump (first 32 bytes):
-        00 00 00 00 00 00 00 00 e0 d8 fc eb 00 00 00 00  ................
-        00 00 10 fe 00 00 00 00 00 00 00 00 00 00 00 00  ................
 
-    backtrace:
-      [<ad758d10>] pci_register_io_range+0x3c/0x80
-      [<2c7f139e>] of_pci_range_to_resource+0x48/0xc0
-      [<f079ecc8>] devm_of_pci_get_host_bridge_resources.constprop.0+0x2ac/0x3ac
-      [<e999753b>] devm_of_pci_bridge_init+0x60/0x1b8
-      [<a895b229>] devm_pci_alloc_host_bridge+0x54/0x64
-      [<e451ddb0>] rcar_pcie_probe+0x2c/0x644
-
-In case a PCI host driver's probe is deferred, the same I/O range may be
-allocated again, and be ignored, causing a memory leak.
-
-Fix this by (a) letting logic_pio_register_range() return -EEXIST if the
-passed range already exists, so pci_register_io_range() will free it,
-and by (b) making pci_register_io_range() not consider -EEXIST an error
-condition.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/pci/pci.c | 4 ++++
- lib/logic_pio.c   | 3 +++
- 2 files changed, 7 insertions(+)
-
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 09b03cfba8894955..c651003e304a2b71 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -4037,6 +4037,10 @@ int pci_register_io_range(struct fwnode_handle *fwnode, phys_addr_t addr,
- 	ret = logic_pio_register_range(range);
- 	if (ret)
- 		kfree(range);
-+
-+	/* Ignore duplicates due to deferred probing */
-+	if (ret == -EEXIST)
-+		ret = 0;
- #endif
- 
- 	return ret;
-diff --git a/lib/logic_pio.c b/lib/logic_pio.c
-index f32fe481b4922bc1..07b4b9a1f54b6bf5 100644
---- a/lib/logic_pio.c
-+++ b/lib/logic_pio.c
-@@ -28,6 +28,8 @@ static DEFINE_MUTEX(io_range_mutex);
-  * @new_range: pointer to the IO range to be registered.
-  *
-  * Returns 0 on success, the error code in case of failure.
-+ * If the range already exists, -EEXIST will be returned, which should be
-+ * considered a success.
-  *
-  * Register a new IO range node in the IO range list.
-  */
-@@ -51,6 +53,7 @@ int logic_pio_register_range(struct logic_pio_hwaddr *new_range)
- 	list_for_each_entry(range, &io_range_list, list) {
- 		if (range->fwnode == new_range->fwnode) {
- 			/* range already there */
-+			ret = -EEXIST;
- 			goto end_register;
- 		}
- 		if (range->flags == LOGIC_PIO_CPU_MMIO &&
 -- 
-2.25.1
+Hallo, ich bin Herr Francois Pinault, ich habe Ihnen gespendet. Sie 
+können mein Profil auf Wikipedia, Google oder Forbes überprüfen.
 
+Für Ihren Spendenanspruch und weitere Informationen kontaktieren Sie 
+mich umgehend unter francoispinault1936@outlook.com
+
+Mit freundlichen Grüßen,
+Herr Francois Pinault
