@@ -2,89 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F77630F6FE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Feb 2021 17:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD62A30FA54
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Feb 2021 18:55:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237673AbhBDP6s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Feb 2021 10:58:48 -0500
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:40629 "EHLO
-        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237661AbhBDP6l (ORCPT
+        id S237088AbhBDRyX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 Feb 2021 12:54:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237753AbhBDRxC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Feb 2021 10:58:41 -0500
-Received: by mail-oi1-f176.google.com with SMTP id k142so4173563oib.7;
-        Thu, 04 Feb 2021 07:58:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1JoS7ZOVE9Ml5mvNzoRFgSFxVIiKASQvqvy7j1NPt3U=;
-        b=nhJIsssXK15CqsjxpbwmXr1f3u85DTfzZvbQk1YqZuuI1tD8nhHdWeMprjH4nZvf08
-         VqYxFD7m/2ZF3ehF5mVIlCsNJklxf4ezsmSx0PN3VHmNRsIyWR2Ifut+N1h7EU176w3o
-         xqKSHmmryoJNY6g1MWZUWkv9rs2oZF5PtlCtiOHMT5lEyazz/nD0JomiAL/wIuf1JknR
-         Ef0fdhz33cKyDVK+GaL/VUxYeRaDRbRRfY90UJ2B4CtbEpl8J8KxBW1UScY3r3xeAfQH
-         jA+TjeFotmwTWJgCXxZUSuJun1DD2sp9iSc3K89G4laINUNT/A5t9Gtw0D2cJpDoySdY
-         LAww==
-X-Gm-Message-State: AOAM533PBrQISRPBe3A3CFO/ZREB2LhIea2M37KQW/eG7frrmhrMigAH
-        6HEUOSIlpw7yz7OP4kNMhA==
-X-Google-Smtp-Source: ABdhPJwsBZ5X+etCKN8Abu4ufC5JowP7grlS3OIUacD2jRxRHv/O619GgCksaoDNro8ZLT90PYGmBA==
-X-Received: by 2002:aca:c310:: with SMTP id t16mr29076oif.151.1612454280855;
-        Thu, 04 Feb 2021 07:58:00 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id w140sm319379oia.32.2021.02.04.07.57.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 07:58:00 -0800 (PST)
-Received: (nullmailer pid 519407 invoked by uid 1000);
-        Thu, 04 Feb 2021 15:57:59 -0000
-Date:   Thu, 4 Feb 2021 09:57:59 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
-        Adam Ford <aford173@gmail.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v3] dt-bindings: clk: versaclock5: Miscellaneous fixes
- and improvements:
-Message-ID: <20210204155759.GA519221@robh.at.kernel.org>
-References: <20210126163955.1933893-1-geert+renesas@glider.be>
+        Thu, 4 Feb 2021 12:53:02 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84F76C061794
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Feb 2021 09:50:43 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by laurent.telenet-ops.be with bizsmtp
+        id R5qf240044C55Sk015qf67; Thu, 04 Feb 2021 18:50:39 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l7im6-003Fgj-ML; Thu, 04 Feb 2021 18:50:38 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l7eK2-006uUf-2p; Thu, 04 Feb 2021 14:05:22 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/5] arm: dts: renesas: Group tuples in cpus, playback, capture, and pin control properties
+Date:   Thu,  4 Feb 2021 14:05:12 +0100
+Message-Id: <20210204130517.1647073-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210126163955.1933893-1-geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 26 Jan 2021 17:39:55 +0100, Geert Uytterhoeven wrote:
->   - Remove unneeded reference for "idt,slew-percent", as vendor specific
->     properties having a standard unit suffix don't need a type,
->   - Add missing "additionalProperties: false" for subnodes, to catch
->     typos in properties,
->   - Fix property names in example.
-> 
-> Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> This depends on "[PATCH dt-schema 0/2] dt-schema: Add percentage"
-> https://lore.kernel.org/r/20210126162756.1932692-1-geert+renesas@glider.be
-> 
-> v3:
->   - Drop references for "idt,voltage-microvolt" and "idt,slew-percent",
-> 
-> v2:
->   - Settle on "idt,voltage-microvolt", cfr. commit 4b003f5fcadfa2d0
->     ('clk: vc5: Use "idt,voltage-microvolt" instead of
->     "idt,voltage-microvolts"'),
->   - Drop reference to clock.yaml, which is already applied
->     unconditionally,
->   - Drop removal of allOf around if condition, as it is unnecessary
->     churn.
-> ---
->  .../devicetree/bindings/clock/idt,versaclock5.yaml       | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
+	Hi all,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+To improve human readability and enable automatic validation, the tuples
+in properties in DTS files should be grouped using angle brackets.
+This series contains another round of updates for cpus, playback,
+capture, and pin control properties.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (5):
+  ARM: dts: renesas: Group tuples in APMU cpus properties
+  ARM: dts: renesas: Group tuples in playback and capture properties
+  ARM: dts: renesas: Group tuples in pin control properties
+  arm64: dts: renesas: Group tuples in playback and capture properties
+  arm64: dts: renesas: Group tuples in pin control properties
+
+ arch/arm/boot/dts/iwg20d-q7-common.dtsi                   | 4 ++--
+ arch/arm/boot/dts/r8a7742-iwg21d-q7.dts                   | 4 ++--
+ arch/arm/boot/dts/r8a7742.dtsi                            | 4 ++--
+ arch/arm/boot/dts/r8a7743-sk-rzg1m.dts                    | 2 +-
+ arch/arm/boot/dts/r8a7743.dtsi                            | 2 +-
+ arch/arm/boot/dts/r8a7744.dtsi                            | 2 +-
+ arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts               | 4 ++--
+ arch/arm/boot/dts/r8a7745-sk-rzg1e.dts                    | 2 +-
+ arch/arm/boot/dts/r8a7745.dtsi                            | 2 +-
+ arch/arm/boot/dts/r8a77470.dtsi                           | 2 +-
+ arch/arm/boot/dts/r8a7790-lager.dts                       | 8 ++++----
+ arch/arm/boot/dts/r8a7790-stout.dts                       | 4 ++--
+ arch/arm/boot/dts/r8a7790.dtsi                            | 4 ++--
+ arch/arm/boot/dts/r8a7791-koelsch.dts                     | 8 ++++----
+ arch/arm/boot/dts/r8a7791-porter.dts                      | 4 ++--
+ arch/arm/boot/dts/r8a7791.dtsi                            | 2 +-
+ arch/arm/boot/dts/r8a7792-blanche.dts                     | 2 +-
+ arch/arm/boot/dts/r8a7792-wheat.dts                       | 2 +-
+ arch/arm/boot/dts/r8a7792.dtsi                            | 2 +-
+ arch/arm/boot/dts/r8a7793-gose.dts                        | 8 ++++----
+ arch/arm/boot/dts/r8a7793.dtsi                            | 2 +-
+ arch/arm/boot/dts/r8a7794-alt.dts                         | 2 +-
+ arch/arm/boot/dts/r8a7794-silk.dts                        | 6 +++---
+ arch/arm/boot/dts/r8a7794.dtsi                            | 2 +-
+ arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi | 4 ++--
+ arch/arm64/boot/dts/renesas/hihope-rev4.dtsi              | 2 +-
+ arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts           | 4 ++--
+ arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts            | 6 +++---
+ arch/arm64/boot/dts/renesas/salvator-common.dtsi          | 6 +++---
+ arch/arm64/boot/dts/renesas/ulcb.dtsi                     | 6 +++---
+ 30 files changed, 56 insertions(+), 56 deletions(-)
+
+-- 
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
