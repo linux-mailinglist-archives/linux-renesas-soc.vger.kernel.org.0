@@ -2,38 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9547E30FA4C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Feb 2021 18:54:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61F5930FA53
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Feb 2021 18:55:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238448AbhBDRxi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Feb 2021 12:53:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41482 "EHLO
+        id S238234AbhBDRyV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 Feb 2021 12:54:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238710AbhBDRxG (ORCPT
+        with ESMTP id S238497AbhBDRxE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Feb 2021 12:53:06 -0500
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C3D1C061797
+        Thu, 4 Feb 2021 12:53:04 -0500
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA59FC061356
         for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Feb 2021 09:50:43 -0800 (PST)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by albert.telenet-ops.be with bizsmtp
-        id R5qf240094C55Sk065qfPV; Thu, 04 Feb 2021 18:50:41 +0100
+        by michel.telenet-ops.be with bizsmtp
+        id R5qf240084C55Sk065qfy4; Thu, 04 Feb 2021 18:50:39 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1l7im7-003Fgj-3T; Thu, 04 Feb 2021 18:50:39 +0100
+        id 1l7im7-003Fgj-1n; Thu, 04 Feb 2021 18:50:39 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1l7eK2-006uUx-8Y; Thu, 04 Feb 2021 14:05:22 +0100
+        id 1l7eK2-006uV2-9f; Thu, 04 Feb 2021 14:05:22 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4/5] arm64: dts: renesas: Group tuples in playback and capture properties
-Date:   Thu,  4 Feb 2021 14:05:16 +0100
-Message-Id: <20210204130517.1647073-5-geert+renesas@glider.be>
+Subject: [PATCH 5/5] arm64: dts: renesas: Group tuples in pin control properties
+Date:   Thu,  4 Feb 2021 14:05:17 +0100
+Message-Id: <20210204130517.1647073-6-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210204130517.1647073-1-geert+renesas@glider.be>
 References: <20210204130517.1647073-1-geert+renesas@glider.be>
@@ -44,89 +44,96 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 To improve human readability and enable automatic validation, the tuples
-in "playback" and "capture" properties in sound device nodes should be
-grouped using angle brackets.
+in "pinctrl-*" properties should be grouped using angle brackets.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
  arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/hihope-rev4.dtsi              | 2 +-
  arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts           | 2 +-
- arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts            | 4 ++--
- arch/arm64/boot/dts/renesas/salvator-common.dtsi          | 4 ++--
- arch/arm64/boot/dts/renesas/ulcb.dtsi                     | 4 ++--
- 5 files changed, 8 insertions(+), 8 deletions(-)
+ arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts            | 2 +-
+ arch/arm64/boot/dts/renesas/salvator-common.dtsi          | 2 +-
+ arch/arm64/boot/dts/renesas/ulcb.dtsi                     | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-index 30c169b08536a59d..c88229990d422d4d 100644
+index c88229990d422d4d..d8046fedf9c12929 100644
 --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
 +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-@@ -639,7 +639,7 @@ rsnd_endpoint0: endpoint {
- 				bitclock-master = <&rsnd_endpoint0>;
- 				frame-master = <&rsnd_endpoint0>;
+@@ -615,7 +615,7 @@ &pwm2 {
+ };
  
--				playback = <&ssi1 &dvc1 &src1>;
-+				playback = <&ssi1>, <&dvc1>, <&src1>;
- 				capture = <&ssi0>;
- 			};
- 		};
+ &rcar_sound {
+-	pinctrl-0 = <&sound_pins &sound_clk_pins>;
++	pinctrl-0 = <&sound_pins>, <&sound_clk_pins>;
+ 	pinctrl-names = "default";
+ 
+ 	/* Single DAI */
+diff --git a/arch/arm64/boot/dts/renesas/hihope-rev4.dtsi b/arch/arm64/boot/dts/renesas/hihope-rev4.dtsi
+index 929f4a1d3f9054ef..7fc0339a3ac97896 100644
+--- a/arch/arm64/boot/dts/renesas/hihope-rev4.dtsi
++++ b/arch/arm64/boot/dts/renesas/hihope-rev4.dtsi
+@@ -80,7 +80,7 @@ sound_pins: sound {
+ };
+ 
+ &rcar_sound {
+-	pinctrl-0 = <&sound_pins &sound_clk_pins>;
++	pinctrl-0 = <&sound_pins>, <&sound_clk_pins>;
+ 	pinctrl-names = "default";
+ 	status = "okay";
+ 
 diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-index ea87cb5a459c89b3..07fbbc4f4572016f 100644
+index 07fbbc4f4572016f..a46b24f54c580d96 100644
 --- a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
 +++ b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-@@ -365,7 +365,7 @@ &rcar_sound {
- 
- 	rcar_sound,dai {
- 		dai0 {
--			playback = <&ssi0 &src0 &dvc0>;
-+			playback = <&ssi0>, <&src0>, <&dvc0>;
- 		};
- 	};
+@@ -351,7 +351,7 @@ usb30_pins: usb30 {
  };
+ 
+ &rcar_sound {
+-	pinctrl-0 = <&sound_pins &sound_clk_pins>;
++	pinctrl-0 = <&sound_pins>, <&sound_clk_pins>;
+ 	pinctrl-names = "default";
+ 
+ 	/* Single DAI */
 diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-index f74f8b9993f1d79c..0992fff676e3dab3 100644
+index 0992fff676e3dab3..b966541f2e5b6f32 100644
 --- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
 +++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-@@ -653,8 +653,8 @@ &rcar_sound {
+@@ -621,7 +621,7 @@ &pwm5 {
+ };
  
- 	rcar_sound,dai {
- 		dai0 {
--			playback = <&ssi0 &src0 &dvc0>;
--			capture  = <&ssi1 &src1 &dvc1>;
-+			playback = <&ssi0>, <&src0>, <&dvc0>;
-+			capture  = <&ssi1>, <&src1>, <&dvc1>;
- 		};
- 	};
+ &rcar_sound {
+-	pinctrl-0 = <&sound_pins &sound_clk_pins>;
++	pinctrl-0 = <&sound_pins>, <&sound_clk_pins>;
+ 	pinctrl-names = "default";
  
+ 	/* Single DAI */
 diff --git a/arch/arm64/boot/dts/renesas/salvator-common.dtsi b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-index 00a005776b5e7492..9a0ee01df51327f0 100644
+index 9a0ee01df51327f0..99a8d887e3821f22 100644
 --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
 +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-@@ -779,8 +779,8 @@ rsnd_endpoint0: endpoint {
- 				bitclock-master = <&rsnd_endpoint0>;
- 				frame-master = <&rsnd_endpoint0>;
+@@ -736,7 +736,7 @@ &pwm1 {
+ };
  
--				playback = <&ssi0 &src0 &dvc0>;
--				capture  = <&ssi1 &src1 &dvc1>;
-+				playback = <&ssi0>, <&src0>, <&dvc0>;
-+				capture  = <&ssi1>, <&src1>, <&dvc1>;
- 			};
- 		};
- 	};
+ &rcar_sound {
+-	pinctrl-0 = <&sound_pins &sound_clk_pins>;
++	pinctrl-0 = <&sound_pins>, <&sound_clk_pins>;
+ 	pinctrl-names = "default";
+ 
+ 	/* Single DAI */
 diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-index a04eae55dd6c42dc..97e9ed93cf15cd18 100644
+index 97e9ed93cf15cd18..01124efa92bd3875 100644
 --- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
 +++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-@@ -408,8 +408,8 @@ rsnd_for_ak4613: endpoint {
- 				bitclock-master = <&rsnd_for_ak4613>;
- 				frame-master = <&rsnd_for_ak4613>;
+@@ -365,7 +365,7 @@ usb1_pins: usb1 {
+ };
  
--				playback = <&ssi0 &src0 &dvc0>;
--				capture  = <&ssi1 &src1 &dvc1>;
-+				playback = <&ssi0>, <&src0>, <&dvc0>;
-+				capture  = <&ssi1>, <&src1>, <&dvc1>;
- 			};
- 		};
- 		rsnd_port1: port@1 {
+ &rcar_sound {
+-	pinctrl-0 = <&sound_pins &sound_clk_pins>;
++	pinctrl-0 = <&sound_pins>, <&sound_clk_pins>;
+ 	pinctrl-names = "default";
+ 
+ 	/* Single DAI */
 -- 
 2.25.1
 
