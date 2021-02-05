@@ -2,65 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EFD83111C9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Feb 2021 21:01:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54475311221
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Feb 2021 21:18:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233517AbhBESRo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 5 Feb 2021 13:17:44 -0500
-Received: from [20.39.40.203] ([20.39.40.203]:55697 "EHLO optinix.in"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S233183AbhBEPTk (ORCPT
+        id S233244AbhBESf2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 5 Feb 2021 13:35:28 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35702 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233255AbhBESeA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 5 Feb 2021 10:19:40 -0500
-dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
-        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
-        b=JFt3cjfr2gf0oZFNAIkKMxcz4dJD/YGkc0fGvOoSd3DydZ6om7JzTU837vBFVq1NIPU0D2QA5BLHZXE1+7cBmkJlbZjYCUFmJkkaBVbP88e4KHnDVRcctmBLIZ1pL5VerRqjcciKkL4DSuyXFJlGk3Z0CRoskvUoLBM7ZhpxLeqIU2BKsbHQXJZ1h2qHQhaHiD+VrGx+bGKjZzbhmRvwLDQIByq6jRcjht5MzYCcxpzOzp/k+Dev9dQj7B
-        WId68CyP4XonlI4wIMRo1xiGfUtKZ+P3cZo2ejPWBjr+ynq3dK3OxibTTEKfmOc5W1zmJFMAPQ+ZKxsa3M4d1PiYxHmg==
-Received: from User (Unknown [52.231.31.5])
-        by optinix.in with ESMTP
-        ; Mon, 1 Feb 2021 08:50:14 +0000
-Message-ID: <D474448D-A325-42CC-A881-8334C6C84BA7@optinix.in>
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <support@digitalsol.in>
-Subject: Re:read
-Date:   Mon, 1 Feb 2021 08:50:13 -0000
+        Fri, 5 Feb 2021 13:34:00 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B2D1264FBB;
+        Fri,  5 Feb 2021 20:15:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612556145;
+        bh=qgY/DVuIqSludWLeA3R0K2D/h0Yt+L6hRa2j/mG7ovM=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=JHNd0zi92Uv88DwkPWRe87CobScKHeKGVO7+dGg3kVNKeTOjx+YLRINqFRKnfog51
+         lYN6iYzA/2/ivVyELn2U7gAnD+J51SQhvZcMPsgqLf/Jlo39BV1Xxp4rWZ0o5XakBT
+         C2akIFP5EmLdIdf4QfoxT1iQriryfu6XT5d8/skqfheNX9JtNP480VLQMt6VcuQvhp
+         E5lDJ896C0lLyljjqpsgo5cC0Fo2HNhAvtOZYU93ga9OrxxWmBbsDNEq2vCy/ZDVxU
+         odY7UZOO1Git0+yg7qzvBw7u8tCrcXKF6JxQvs1Zg3gEo9x2bf/ptG6Nu3i1TxPQy4
+         deKcZTojy26Zw==
+From:   Mark Brown <broonie@kernel.org>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org
+In-Reply-To: <20210204130022.1646427-1-geert+renesas@glider.be>
+References: <20210204130022.1646427-1-geert+renesas@glider.be>
+Subject: Re: [PATCH] ASoC: dt-bindings: renesas, rsnd: Group tuples in playback/capture properties
+Message-Id: <161255607745.56562.5489379179875398712.b4-ty@kernel.org>
+Date:   Fri, 05 Feb 2021 20:14:37 +0000
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+On Thu, 4 Feb 2021 14:00:22 +0100, Geert Uytterhoeven wrote:
+> To improve human readability and enable automatic validation, the tuples
+> in "playback" and "capture" properties in sound device nodes should be
+> grouped using angle brackets.
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+Applied to
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+Thanks!
 
-Regards,
-Ms. Reem.
+[1/1] ASoC: dt-bindings: renesas, rsnd: Group tuples in playback/capture properties
+      commit: f08c74a3b52d126d053c741b906ee1ca2a4f3568
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
