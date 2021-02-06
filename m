@@ -2,110 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75D67311C4B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Feb 2021 09:53:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A97B2311DF6
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Feb 2021 15:52:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229741AbhBFIxX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 6 Feb 2021 03:53:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33950 "EHLO
+        id S229529AbhBFOwO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 6 Feb 2021 09:52:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229684AbhBFIxT (ORCPT
+        with ESMTP id S230110AbhBFOwL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 6 Feb 2021 03:53:19 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 841E5C06174A
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  6 Feb 2021 00:52:39 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id p21so13939206lfu.11
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 06 Feb 2021 00:52:39 -0800 (PST)
+        Sat, 6 Feb 2021 09:52:11 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A52F2C0617AA
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  6 Feb 2021 06:51:16 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id y18so12848089edw.13
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 06 Feb 2021 06:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=0cnSyR4XNAUGhazxKzpV0CfcJNheP6eqg1CN6Tljdvg=;
-        b=s2Yb/dy2Kis0zI+JHW3HSSJ63lqSQzEvZ2muMkug0mGc+JB76FnnCYSLEEhLL2UJzy
-         wDgEnU4kn9UpK56uDF5P4iuqy7qiQA0jtjdmo34IYzfiPrd8ESTtYaaHz/YKieafoDZa
-         ak9HpnL09YpXF1PnbPgy/UVxjyFzqDjPWPyKVpXBTF3EpvEpQn/+lnrkWwHIrVA6QNoN
-         jidZvMJ96ppecrdNMHpvAL54HNB64BMZnnSECIZjegW3AILx7egbV/3OfGaAU5JVZSU+
-         cEqv56viv17Ru52udijuh+QhYTUYl9M9FfD2ZaFRkL+rxDiCfbqaZAER4jFyMaHQWZ36
-         QDEw==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=sY4fgq/DSyThalwU7QX+pWYKs/8sGH7ZznMUn5qQ1EY=;
+        b=bW+7xwrBLNeAsnKI3oM6YbMn6dL315guD/d81S8+d0zrLjwpmmprzAzU/9WCMQxKJ1
+         5N11bgsEJYs8KVU93Du3YZSdA6fFLWg0tHncu4ctYmHr5LmkpBNFoWP3DeW8LotC/YED
+         hhGYYlRm/iRuDLC7KG06RLmUbNSwd4t5pAc+NDWNBqowRLUHV5kDWQY16CfgLqs4WKbo
+         9JfYe7eirYHUOYCz+AwumbFLcKwjtq50RQrvpAFjqYfji5c3EQATHUTABmL0Xc+9mYy7
+         nr/+GZNY9hPE6Clgzj4ySRo8gbJJ6Z1Q0OsoWd7WAwgjJtvSAWuo97D41juilbhVqnZT
+         4KqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=0cnSyR4XNAUGhazxKzpV0CfcJNheP6eqg1CN6Tljdvg=;
-        b=hHtkbctJLAmdZ5rOqO3zvRjrKBJqBPeZzhbuYERf7QLbsdqAxR2AJfKGRxTcm/yjyF
-         ffkibZYBd/Ytmj3b3KHAaM+5eCage9fxwGFa6+UHfrNMVp0qMkvtCn5LGtVEjcP7uX6c
-         Xt5w5DFBFvLnSbapm0T/aVPwSUboj3I8e6J7yNOfX1vFwGdSn/+zkQopqvH3L+sN/8Z5
-         8Z3N1LbWPSNzUtVFc6LX5LjZn0SZoTA/8xJkEFGuGbO/ASEhQ0CJmetv7jdz8wdCIrzE
-         YKVOXU293mUZGOjX5gPpss1Ik0kWUHeMAGLG53rnyV9hnLi3HNmJDbOBWIzWCrF5XRTA
-         I3UA==
-X-Gm-Message-State: AOAM531SDJma4ve0szGTweWXNach+a5q/1SWHGKAhvknlkIlePVIGFKr
-        c4Xr3pRdOUaODd81Okmy2zZvdA==
-X-Google-Smtp-Source: ABdhPJwLx9Z/0PrBxToqY86vnI+YTktNutrQG5nZ0iMT6fGqtGbNdwdzcJZp0/kSalsO0DATuhMqBw==
-X-Received: by 2002:a19:791c:: with SMTP id u28mr5052510lfc.168.1612601558105;
-        Sat, 06 Feb 2021 00:52:38 -0800 (PST)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id o27sm1257400lfb.126.2021.02.06.00.52.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 00:52:37 -0800 (PST)
-Date:   Sat, 6 Feb 2021 09:52:36 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] soc: renesas: rmobile-sysc: Remove unneeded platform
- includes
-Message-ID: <YB5Y1FTjzfDdWr5m@oden.dyn.berto.se>
-References: <20210205132113.1920047-1-geert+renesas@glider.be>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=sY4fgq/DSyThalwU7QX+pWYKs/8sGH7ZznMUn5qQ1EY=;
+        b=Zmb7SXucjvS081RHT2S+wTOxdprevNmD7U2NxAfelZckMlL+3fpCW+K7xedejlt331
+         oVAgDfIoWFTmXlUCWTGLwIc220usH/0oS/MmLVBTu1JWE3O3qwTSoWq31SXfIN26MkNi
+         +K8M6wdo0pTFUBIrmXrbpYsFQtmozFCMHqSnRAXmHXbOc3sC0UHkYuqBbcak/Jcl/Cqq
+         1996H3ykFJLcW1xTw2Mz1bnESWhIy6R5Y350P9KQHQglEcjtMddA1Tw4BIoxVmWOhqdK
+         fXhzOKoAyYbuH4ZPl+olFQ68DsMg/NkDw/Te5ms7OcJySw1VKv5NluOARHOhqgRMFuWz
+         kUgQ==
+X-Gm-Message-State: AOAM533rOEmywFd45xcARcLjHmn6Ta+63KkXJrMu6GxlVNgUzAsSbJ12
+        7XBS+SsXM4ch2n/6Swsz1seeXK7VkVp+eVnDtcY=
+X-Google-Smtp-Source: ABdhPJz96Lkp/KHOPqlGNNeA9ShR44wyS4FwcBqPdDMerDbXj+zEMEgsq8qacP0vgpOAmdTmPMryxGMjJ796oim9t0M=
+X-Received: by 2002:a05:6402:558:: with SMTP id i24mr6547303edx.190.1612623075460;
+ Sat, 06 Feb 2021 06:51:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210205132113.1920047-1-geert+renesas@glider.be>
+Received: by 2002:a17:906:25d0:0:0:0:0 with HTTP; Sat, 6 Feb 2021 06:51:14
+ -0800 (PST)
+Reply-To: lawyer.nba@gmail.com
+From:   Barrister Daven Bango <stephennbada9@gmail.com>
+Date:   Sat, 6 Feb 2021 15:51:14 +0100
+Message-ID: <CAGSHw-CBtZc3MJwNeQv4rJZzb727mdNbJH3TPi090NuQd9rFNw@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+--=20
+Korisnik fonda =C4=8Destitanja, Va=C5=A1a sredstva za naknadu od 850.000,00
+ameri=C4=8Dkih dolara odobrila je Me=C4=91unarodna monetarna organizacija (=
+MMF)
+u suradnji s (FBI) nakon mnogo istraga. =C4=8Cekamo da se obratimo za
+dodatne informacije
 
-Thanks for your work.
-
-On 2021-02-05 14:21:13 +0100, Geert Uytterhoeven wrote:
-> As of commit b587288001f05c0e ("ARM: shmobile: R-Mobile: Remove legacy
-> PM Domain code"), the R-Mobile System Controller driver no longer
-> handles the adding of platform devices to PM Domains, but delegates that
-> to the PM Domain core code.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
-> To be queued in renesas-devel for v5.13.
-> 
->  drivers/soc/renesas/rmobile-sysc.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/soc/renesas/rmobile-sysc.c b/drivers/soc/renesas/rmobile-sysc.c
-> index 9046b8c933cbe031..bf64d052f9245db5 100644
-> --- a/drivers/soc/renesas/rmobile-sysc.c
-> +++ b/drivers/soc/renesas/rmobile-sysc.c
-> @@ -14,8 +14,6 @@
->  #include <linux/delay.h>
->  #include <linux/of.h>
->  #include <linux/of_address.h>
-> -#include <linux/of_platform.h>
-> -#include <linux/platform_device.h>
->  #include <linux/pm.h>
->  #include <linux/pm_clock.h>
->  #include <linux/pm_domain.h>
-> -- 
-> 2.25.1
-> 
-
--- 
-Regards,
-Niklas Söderlund
+Advokat: Daven Bango
+Telefon: +22891667276
+(URED MMF-a LOME TOGO)
