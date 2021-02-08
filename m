@@ -2,67 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D65E312E4F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Feb 2021 11:00:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86B19312EC6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Feb 2021 11:19:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232022AbhBHKAa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Feb 2021 05:00:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40060 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231951AbhBHJy7 (ORCPT
+        id S231971AbhBHKTZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Feb 2021 05:19:25 -0500
+Received: from mail-ot1-f53.google.com ([209.85.210.53]:40157 "EHLO
+        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232295AbhBHKSx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Feb 2021 04:54:59 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E68DC0698DB
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Feb 2021 01:46:30 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id o7so9873714pgl.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Feb 2021 01:46:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=z7Z/JdX0RhrlgqchmamXWMY47TIIKUp5Zm0+e0J1lMs=;
-        b=EBAN8kT/RdDTitIJIwHViEDhHzNJv4CIWk9rs6YltTkWZ458GA493YyOdSoiZ3kf2I
-         cdNbMkg2fZDvPvkuycg7WSARNJ/puPrDyOFIWKtgjChKMEIfkIP2Q2XVpBk+DA9Lhucn
-         6XQlMQaKQZVW2ZyZN5QBK8n9vbP0QwsOuCEl8YnAfifh/FxrfAzpfX38semmARrCGxh8
-         WFi+25A8lhFcplpes37lwhh0IayXXJWFPkoQ+knUplL4fyj/9WvmsAavsN2O11FqYU0q
-         sXGcgyuoksh1FLpl3IVpUWra/8A8W9zD+TSlCF6rCGoTQRx8E8R9VquYNvg3vN5bAAWe
-         XSXg==
+        Mon, 8 Feb 2021 05:18:53 -0500
+Received: by mail-ot1-f53.google.com with SMTP id i20so13664733otl.7;
+        Mon, 08 Feb 2021 02:18:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=z7Z/JdX0RhrlgqchmamXWMY47TIIKUp5Zm0+e0J1lMs=;
-        b=JFhnAqQBy2pVf8Wqt4SyJQ8fZc1ar2ewpxhes3uPT5JWcgUDbdM872K3FGa2OTm8IP
-         azld8y7objclAuafpVM0wdNhtcnBgXjRi+33wdnLAazWKz0+/tx8aL0oQD6aBg4G+E4Q
-         W9aDtYtHyjxvzqX2h8QtMcz3fUvisOQxmn9VCGrozi5/1gNBuYgLjzXXzqHZ4QHVE5nK
-         /6Hx+5sS7NkwzUYOxXnYR5sPRuHge59PW4nxlIJF6Z3XMu2c4SAfsK4mqHCT4IEFfXy8
-         R1PUinZ9CaQfOEV6S/VjyY1hFA62kCX+fQhgvz7dndlxtvs2P6smgfTyd5Lc+TmL0sGp
-         VtPw==
-X-Gm-Message-State: AOAM532drpeqeqCQQDbH0WxlAlsD8T3qdHrjitjyEQDro273ikMFyl+p
-        qokDumx7AZ9Z+d8qLLmCBsgHh1gJgh9Uj1sIg3k=
-X-Google-Smtp-Source: ABdhPJybDL+KhCvXPDIs57vnx74bKnUW7LRfIk9mtYaX6Td3ETIAJUIor6BltYlrl2tm2rDxnhIvTg/8Y9D/vq+/hVc=
-X-Received: by 2002:a63:c84a:: with SMTP id l10mr16253996pgi.159.1612777589348;
- Mon, 08 Feb 2021 01:46:29 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sYbVgLIX+r79AC92zSDbMeMyYfHTGLVOZJrkvK6/LKQ=;
+        b=ZKqKt2Gu/vTRGswruTe5S42pl3uzvr5Uvfs+RW8XMNCmeEjjpQ7DYmH2yAv2KFldiC
+         XtfHqlsOaL+fZs2d6NPjHiz7VekaGYrkVbS8f/QhiUEXvHwpKQax8GLyCJIqcDN1PZPP
+         wFsQHnceK7HgxKVx/ckv+wMyFGzqNsyvuZp5UgTmYS+z51+2Ya9YjTAYOkzLhobQcpsx
+         BjMorwCqec3NZJulGuADSIiVIBj4PAknhm7HHa42ECFyqLpKwVPX7+ubY9p4N6HKtcXw
+         TThdyFeShkp1QZeHtvrEQdFXJ8o7nh0Nj1V+M/AQHmLEkpt1GagjTRYwjolJB1zOOSOX
+         VROA==
+X-Gm-Message-State: AOAM531ku60lkbDSeMMZYUCM8wuOm+9pFEUypKH+Rw0lbMNbiqAWxke8
+        EBHn5WTUyLlTQXXcZuRZiZaOhwFa5RMYJikq5Zs=
+X-Google-Smtp-Source: ABdhPJzuE0WnFgQq2prS/EOzWrbfsuwPgtDDyydII7UXbUSgS/+JtVjC5DE9GL+Ns+9OFXHsGmG2zJDO4CdNX8b02MU=
+X-Received: by 2002:a9d:77d6:: with SMTP id w22mr1010723otl.145.1612779492055;
+ Mon, 08 Feb 2021 02:18:12 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a17:90a:5d0a:0:0:0:0 with HTTP; Mon, 8 Feb 2021 01:46:29
- -0800 (PST)
-Reply-To: richadtomm@qq.com
-From:   "Mr.Richard Thomas" <tommiirrrch@gmail.com>
-Date:   Mon, 8 Feb 2021 01:46:29 -0800
-Message-ID: <CAGbSTZMAc0EF+BT96=ag5apRs+Aauw-A-2pin2QX1dEQy+tMew@mail.gmail.com>
-Subject: Re Thanks.
-To:     undisclosed-recipients:;
+References: <20210207000030.256592-1-memxor@gmail.com> <20210207173441.2902acac@canb.auug.org.au>
+ <20210207073827.7l7h3475tqgxxfte@apollo>
+In-Reply-To: <20210207073827.7l7h3475tqgxxfte@apollo>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 8 Feb 2021 11:18:01 +0100
+Message-ID: <CAMuHMdVE+a4gMwa206=CWCUzAPD9N5nnvsPa1avWq_t1isfizQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: emxx_udc: Fix incorrectly defined global
+To:     Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nishad Kamdar <nishadkamdar@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dear Friend,
-I will be pleased if you can allow me to invest $104M Dollars in
-Estate Management,in your company or any area you best that will be
-of good profit to both of us
+Hi Kumar,
 
-Please do well to respond including your information for more details.
+CC Nishad, Magnus, linux-renesas-soc,
 
-Thanks.
-Mr.Richard Thomas
+On Sun, Feb 7, 2021 at 8:40 AM Kumar Kartikeya Dwivedi <memxor@gmail.com> wrote:
+> On Sun, Feb 07, 2021 at 12:04:41PM IST, Stephen Rothwell wrote:
+> > Given that drivers/staging/emxx_udc/emxx_udc.h is only included by
+> > drivers/staging/emxx_udc/emxx_udc.c, shouldn't these variables just be
+> > declared static in emxx_udc.c and removed from emxx_udc.h?
+> >
+>
+> Either would be correct. I went this way because it was originally trying to
+> (incorrectly) define a global variable instead. I guess they can be static now
+> and when more users are added, the linkage can be adjusted as needed.
+>
+> Here's another version of the patch:
+>
+> --
+> From 5835ad916ceeba620c85bc32f52ecd69f21f8dab Mon Sep 17 00:00:00 2001
+> From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+> Date: Sun, 7 Feb 2021 12:53:39 +0530
+> Subject: [PATCH] staging: emxx_udc: Make incorrectly defined global static
+>
+> The global gpio_desc pointer and int vbus_irq were defined in the header,
+> instead put the definitions in the translation unit and make them static as
+> there's only a single consumer in emxx_udc.c.
+>
+> This fixes the following sparse warnings for this driver:
+> drivers/staging/emxx_udc/emxx_udc.c: note: in included file:
+> drivers/staging/emxx_udc/emxx_udc.h:23:18: warning: symbol 'vbus_gpio' was not
+> declared. Should it be static?
+> drivers/staging/emxx_udc/emxx_udc.h:24:5: warning: symbol 'vbus_irq' was not
+> declared. Should it be static?
+>
+> Signed-off-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+
+Thanks for your patch!
+
+> --- a/drivers/staging/emxx_udc/emxx_udc.c
+> +++ b/drivers/staging/emxx_udc/emxx_udc.c
+> @@ -34,6 +34,9 @@
+>  #define        DRIVER_DESC     "EMXX UDC driver"
+>  #define        DMA_ADDR_INVALID        (~(dma_addr_t)0)
+>
+> +static struct gpio_desc *vbus_gpio;
+> +static int vbus_irq;
+
+While I agree these must be static, I expect the driver to be still
+broken, as vbus_gpio is never set?
+
+Commit 48101806c52203f6 ("Staging: emxx_udc: Switch to the gpio
+descriptor interface") introduced both variables, which was presumably
+never tested.
+
+Magnus: perhaps we should just remove this driver?
+
+> +
+>  static const char      driver_name[] = "emxx_udc";
+>  static const char      driver_desc[] = DRIVER_DESC;
+>
+> diff --git a/drivers/staging/emxx_udc/emxx_udc.h b/drivers/staging/emxx_udc/emxx_udc.h
+> index bca614d69..c9e37a1b8 100644
+> --- a/drivers/staging/emxx_udc/emxx_udc.h
+> +++ b/drivers/staging/emxx_udc/emxx_udc.h
+> @@ -20,8 +20,6 @@
+>  /* below hacked up for staging integration */
+>  #define GPIO_VBUS 0 /* GPIO_P153 on KZM9D */
+>  #define INT_VBUS 0 /* IRQ for GPIO_P153 */
+> -struct gpio_desc *vbus_gpio;
+> -int vbus_irq;
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
