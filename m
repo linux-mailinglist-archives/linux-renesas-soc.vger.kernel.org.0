@@ -2,164 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D8733133A6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Feb 2021 14:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 987C3313D3E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Feb 2021 19:24:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231132AbhBHNsG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Feb 2021 08:48:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33718 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230526AbhBHNre (ORCPT
+        id S235596AbhBHSWF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Feb 2021 13:22:05 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:58371 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235544AbhBHSU4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Feb 2021 08:47:34 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 995C5C061222
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Feb 2021 05:46:08 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id e9so8824622pjj.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Feb 2021 05:46:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=LBYQ5BrUzkl9ZuAhG+Ujjy94kSROQ7PVBG0kH926X70=;
-        b=H89ICK7iD5qUyU9qaSuRHhanvGUICvMKmDHhrEmadbnwSwjw1sPxWYxOlARgLUuTa8
-         wHTzstEjI+5CtxmWCVNJ/sGZEn5BV+ETsoOXSFIRmM7leb7H9zeO6P0pwQ+ZylWFu8U2
-         Nrj3l5w3LKWocpHGE87I/CCNNIG0mXTI2Kwqnm2NiQuRizFPp0WTMPyC87wA7JnGY+6i
-         Es2PBOncVT0DabmdTia0Puo71kboD1ZF8CjK7ll+2k8yWPxw4a6xtIw8Ki5IYBVKpAA5
-         quU8GuqZo3i/cE04o240JlA8s9gU37FoR9RQXkM8jDcrmiNdzjtFQOtyP7nmz+n7vYUf
-         U/Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=LBYQ5BrUzkl9ZuAhG+Ujjy94kSROQ7PVBG0kH926X70=;
-        b=oajW4dUzSkMBnjLITjjy5rtt3SCiNapywnUSngoeSqa8Zpf0tNpMIDqXV8iAMpd9F7
-         O0sH5bhJkFxMgjIdT/iPI8D3CxoxJdtb2QlC7olG46TBHcbGcAENTU63HDYvsOiJGsCz
-         6zQ6/rjJEBeNHWnrLRCNV17WcaxRcDMlIViCRbwIake9COcAYXUDti1qnh3guA9zxueC
-         c0Y91nh5b7hk5Be9xtrM4Sj3up8XRYF0RFndDP3646iqERaAbfnt98ePVQuNytdluYWv
-         7Wbn5v2gi7hntK2SWAjPukTigDALtYF8uNC0tgIQJ3laxA3NvFAao0wYhp/yYPyZJVj8
-         eMNQ==
-X-Gm-Message-State: AOAM5336Xy5wqtRAIwVbG0E9jHr9IC0jxrSUwwZpsuSkD+DFRPkr9CzQ
-        MY8Wl29WpBdjt6opd6zu6hgThoGALLw3BQ==
-X-Google-Smtp-Source: ABdhPJxlduPt6wZ8hx6wGqycWfJNGvDy1Zbpni4Kbv8Zqd2gWzrGnhLxzXNfl7lIFDILHOMf0TZv/A==
-X-Received: by 2002:a17:902:9a49:b029:df:fab8:384 with SMTP id x9-20020a1709029a49b02900dffab80384mr16504116plv.37.1612791967877;
-        Mon, 08 Feb 2021 05:46:07 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id n15sm19054587pgl.31.2021.02.08.05.46.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 05:46:07 -0800 (PST)
-Message-ID: <6021409f.1c69fb81.a8077.99b7@mx.google.com>
-Date:   Mon, 08 Feb 2021 05:46:07 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 8 Feb 2021 13:20:56 -0500
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 2AFF8200008;
+        Mon,  8 Feb 2021 18:19:53 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-next@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] media: i2c: Kconfig: Make MAX9271 a module
+Date:   Mon,  8 Feb 2021 19:20:06 +0100
+Message-Id: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-devel-2021-02-08-v5.11-rc7
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-Subject: renesas/master baseline-nfs: 22 runs,
- 2 regressions (renesas-devel-2021-02-08-v5.11-rc7)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline-nfs: 22 runs, 2 regressions (renesas-devel-2021-02-=
-08-v5.11-rc7)
+With the introduction of the RDACM21 camera module support in
+commit a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+the symbols defined by the max9271 library were exported twice
+if multiple users of the library were compiled in at the same time.
 
-Regressions Summary
--------------------
+In example:
+WARNING: modpost: drivers/media/i2c/rdacm21-camera_module:
+'max9271_set_serial_link' exported twice. Previous export was in
+drivers/media/i2c/rdacm20-camera_module.ko
 
-platform                  | arch  | lab          | compiler | defconfig    =
-   | regressions
---------------------------+-------+--------------+----------+--------------=
----+------------
-r8a77950-salvator-x       | arm64 | lab-baylibre | gcc-8    | defconfig    =
-   | 1          =
+Fix this by making the rdacm21 file a module and have the driver
+using its functions select it.
 
-sun7i-a20-olinuxino-lime2 | arm   | lab-baylibre | gcc-8    | sunxi_defconf=
-ig | 1          =
+Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
+ drivers/media/i2c/Kconfig  | 5 +++++
+ drivers/media/i2c/Makefile | 7 +++----
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 2d3dc0d82f9e..84645f751da3 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -1240,12 +1240,16 @@ config VIDEO_NOON010PC30
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-02-08-v5.11-rc7/plan/baseline-nfs/
+ source "drivers/media/i2c/m5mols/Kconfig"
 
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-02-08-v5.11-rc7
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      1ae0d11b9a943a7e6ced2a899bc9352429da3a44 =
++config VIDEO_MAX9271
++	tristate
++
+ config VIDEO_RDACM20
+ 	tristate "IMI RDACM20 camera support"
+ 	depends on I2C
+ 	select V4L2_FWNODE
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select MEDIA_CONTROLLER
++	select VIDEO_MAX9271
+ 	help
+ 	  This driver supports the IMI RDACM20 GMSL camera, used in
+ 	  ADAS systems.
+@@ -1259,6 +1263,7 @@ config VIDEO_RDACM21
+ 	select V4L2_FWNODE
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select MEDIA_CONTROLLER
++	select VIDEO_MAX9271
+ 	help
+ 	  This driver supports the IMI RDACM21 GMSL camera, used in
+ 	  ADAS systems.
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index 6bd22d63e1a7..c34a7de3158b 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -125,10 +125,9 @@ obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
+ obj-$(CONFIG_VIDEO_IMX334)	+= imx334.o
+ obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
+ obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
+-rdacm20-camera_module-objs	:= rdacm20.o max9271.o
+-obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
+-rdacm21-camera_module-objs	:= rdacm21.o max9271.o
+-obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
++obj-$(CONFIG_VIDEO_MAX9271)	+= max9271.o
++obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20.o
++obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21.o
+ obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
 
+ obj-$(CONFIG_SDR_MAX2175) += max2175.o
+--
+2.30.0
 
-
-Test Regressions
----------------- =
-
-
-
-platform                  | arch  | lab          | compiler | defconfig    =
-   | regressions
---------------------------+-------+--------------+----------+--------------=
----+------------
-r8a77950-salvator-x       | arm64 | lab-baylibre | gcc-8    | defconfig    =
-   | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/60210dea4ea30a21e23abe70
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-02-08-v5.11-rc7/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-r8a7795=
-0-salvator-x.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-02-08-v5.11-rc7/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-r8a7795=
-0-salvator-x.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0201.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/60210dea4ea30a21e=
-23abe71
-        failing since 7 days (last pass: renesas-devel-2021-01-26-v5.11-rc5=
-, first fail: renesas-devel-2021-02-01-v5.11-rc6) =
-
- =
-
-
-
-platform                  | arch  | lab          | compiler | defconfig    =
-   | regressions
---------------------------+-------+--------------+----------+--------------=
----+------------
-sun7i-a20-olinuxino-lime2 | arm   | lab-baylibre | gcc-8    | sunxi_defconf=
-ig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/60210c080aef8ecab53abe79
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: sunxi_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-02-08-v5.11-rc7/arm/sunxi_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun=
-7i-a20-olinuxino-lime2.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-02-08-v5.11-rc7/arm/sunxi_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun=
-7i-a20-olinuxino-lime2.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0201.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/60210c080aef8ecab=
-53abe7a
-        failing since 9 days (last pass: renesas-devel-2021-01-26-v5.11-rc5=
-, first fail: renesas-devel-2021-01-29-v5.11-rc5) =
-
- =20
