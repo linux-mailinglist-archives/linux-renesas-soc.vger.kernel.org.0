@@ -2,116 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38FAC3130E8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Feb 2021 12:32:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4520B31310F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Feb 2021 12:40:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233269AbhBHLbo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Feb 2021 06:31:44 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:56617 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233144AbhBHL34 (ORCPT
+        id S233061AbhBHLja (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Feb 2021 06:39:30 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:50625 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233158AbhBHLfy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Feb 2021 06:29:56 -0500
+        Mon, 8 Feb 2021 06:35:54 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id 94iqljGiiW4yN94itllPI0; Mon, 08 Feb 2021 12:28:56 +0100
+        id 94oiljJHbW4yN94olllQl1; Mon, 08 Feb 2021 12:34:59 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1612783736; bh=zd9wYXHEAwVYwA23Mr8FHbynTde1pKgyga30K7eK00c=;
+        t=1612784099; bh=cLTN0V3qwtMIWrnNtULMVFYHebjAit9FEOYQIKf/ZKQ=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=m1tqJYOxOv1zwE8X4TmyOMVjMD6aNHe18kXe7J+uLpOly5XaqvlHfKYpGlRFELmDp
-         j50ODjKzsLEFB1ABg+Cw5ImLAbu2plLQOpPB77RBgRlqxfH58DQrWDmY3Hov1Z/yWX
-         6xWendoAx7tvjc02WbFFfgdu1Ei5ztINU+9gKcoSbavQQqGeVH94ai3mKNcvxr4/dE
-         5cydlxI7jrJhvq6fQSqa4arEKIEcZ+46ArSPRbw+3pQHAMQb1wTb6XsHgAwavA8oef
-         kHICzI/+3zs/MpP4qHIfLOSxpbJrIJHBOLmWkD6s98LySfILsS1p7ot7aPKZSewOtG
-         hgwwzpDHsoWnw==
+        b=bJN2xKL8e0aueqyS9mkZtOV30Mxt9hSvyzz2lmz1EADnsLAKKVC/XTv+SJMMfPSr6
+         /WERsnzKOGxCcZpvrxzChBDrHwVwyywp7HM4sPBW+qdDrBZTWnQ0Hl/VVyQ3H7nPjf
+         wa9M8Y3IeeCVQkKf1C6c9ZPLXLFNGGDssexj1nPE/F1g1YWpuo68cHCX4Sjr5TEFXL
+         XdxVjYqQyFTUalFAABcsLsolRpfbyo1sYff+b50b6vDoi32q2lcGMlkVOFSlYNNBdz
+         4j2rVsOiF1AVMcKyyNz1DevGero1GNOfFdSJLah948NWnD4SQrASlbf1CnzuclQ6rD
+         tXTnANbz0WcRw==
 Subject: Re: [PATCH v8 1/5] media: i2c: Add driver for RDACM21 camera module
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        sergei.shtylyov@gmail.com
 References: <20210114170429.139762-1-jacopo+renesas@jmondi.org>
  <20210114170429.139762-2-jacopo+renesas@jmondi.org>
+ <0b118385-70bc-01eb-8ddf-829c604d533b@xs4all.nl>
+ <YCEgcPv1TWe0DN50@pendragon.ideasonboard.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <c5fc0815-7754-1fac-af0a-ccbca922e479@xs4all.nl>
-Date:   Mon, 8 Feb 2021 12:28:52 +0100
+Message-ID: <c0db4607-7e2b-ac88-c9d2-d1c5f75bbf86@xs4all.nl>
+Date:   Mon, 8 Feb 2021 12:34:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210114170429.139762-2-jacopo+renesas@jmondi.org>
+In-Reply-To: <YCEgcPv1TWe0DN50@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMqcCgCMUCNV6262g2AjbkqI0iQVyITrTLPltVvwExF2be8G6+6JDexWF44k2+lPncUfsjoE1TU+oymrn6RIYwjB5nV7x9b0ieqvfJMRBxDvkeWFyy1E
- F3qEauEAZyIjrqPQKT3CuZEKx45N1f0dP7z2PU7raWjxn+VsPXGkgKniNJud3i3ezgnO57tHasUit1JJWvJRLd3bLydO1gdSJususoFBz1qr3aXXomdXwW7P
- MIk98s1ycDAiz0KdnwO9cHPuOlWWbkWFwdYZcoqEN2o9fmdB9if1Y+T8BkMaFzHRSM5IrvahcbOyoB2DzHnbbFGL6JqCps1o6pypDWoBjnVlwTNzjY4v5/oB
- FqSRdDyABusZghb5zHyPfnUW3ayFFNDNj0coVRYaP4omC9UEIp+8WB7HG6In/Ji2N4d3XmACaNJIa6QO+IILw0m8uUF4DvJTyzSZnPcjB4NZQndf4Q5amfZW
- zOw4Sp/cal0EYzDrZ9hVb2zXVj4IV8nG/a5Im565rr/al48MlVW6aQToLW3A6W/tbxlNP/TkeH/TmeFVwOITyFSr1ip2QTtO3yldP5EfT5f84AuTpnhOJD8C
- kZBer5d0rUhwRr+YYRKxW+fx+D72tgqsv1HCoAL1BFGhPL6xkQrI42c9LThenJzJzFPwTPYRJGGDOENBmRczxfuW4RdbOtOe5oABmsSmZ6EhHA==
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfOycAfiYUOVJsJb7JPsJESzYmcPtMQxq949LJ7Q/77adpWZ/KIcaGZfUIc/PVFTioaiDRDStdqbVy9u3ehwQaWoGQ+eShkClJ7v5Ks5QD/xfakT7+QXo
+ FPOcIY0fkYaMwD74S6yjxfbmlfQbWcgVPmbfRcwlGuICqCOG0VgfEHJuyNpnnyEgSQQp7qVdWB39gs6caHVHi7A8bZRo5xYavkvu/V4MsNBNAOuna07IqlI4
+ S2Ql8kvIbGV7u9fK6keGSdV4XqmJ20eks+kyWD27HN7UF+TeDYsgs7z9nJ/GR/eP2uIK523Sp0PnRpkiDlEA5v+yGCJJelZQb7BVyjA20mxzS/tnWOBQZ3R7
+ vDLePzwvQaRVOdBy3SPyEqMovjcuDXDO9NwjSApr4w5Lg2lBr1Xv9NngWeRihUaBTaG3zi2iHvfvXv5z0XUJKdU6I8HjOE4AFVPwZpg5kQnM03EVrX89zvJf
+ 6GPEFvF+6pgpvLqHFnN3Ky9lIaH2lWL2xFnpJkCGyidXswh2ZCZkseEX/ly95eLjKKMp3u1FOl5Dq1QlNPQJJizpCDQRCHLmD31aFkKObZVfvZax8HY9ZTl+
+ Uv0OAHgTajbYeTq9KxRbXwv10btwT2TwoiJr1notw5TF7Q==
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
-
-On 14/01/2021 18:04, Jacopo Mondi wrote:
-> The RDACM21 is a GMSL camera supporting 1280x1080 resolution images
-> developed by IMI based on an Omnivision OV10640 sensor, an Omnivision
-> OV490 ISP and a Maxim MAX9271 GMSL serializer.
+On 08/02/2021 12:28, Laurent Pinchart wrote:
+> Hi Hans,
 > 
-> The driver uses the max9271 library module, to maximize code reuse with
-> other camera module drivers using the same serializer, such as rdacm20.
+> On Mon, Feb 08, 2021 at 12:21:01PM +0100, Hans Verkuil wrote:
+>> On 14/01/2021 18:04, Jacopo Mondi wrote:
+>>> The RDACM21 is a GMSL camera supporting 1280x1080 resolution images
+>>> developed by IMI based on an Omnivision OV10640 sensor, an Omnivision
+>>> OV490 ISP and a Maxim MAX9271 GMSL serializer.
+>>>
+>>> The driver uses the max9271 library module, to maximize code reuse with
+>>> other camera module drivers using the same serializer, such as rdacm20.
+>>>
+>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> ---
+>>>  MAINTAINERS                 |  12 +
+>>>  drivers/media/i2c/Kconfig   |  13 +
+>>>  drivers/media/i2c/Makefile  |   2 +
+>>>  drivers/media/i2c/rdacm21.c | 623 ++++++++++++++++++++++++++++++++++++
+>>>  4 files changed, 650 insertions(+)
+>>>  create mode 100644 drivers/media/i2c/rdacm21.c
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 14adf87d90c7..1822d73ed615 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -14967,6 +14967,18 @@ F:	drivers/media/i2c/max9271.c
+>>>  F:	drivers/media/i2c/max9271.h
+>>>  F:	drivers/media/i2c/rdacm20.c
+>>>
+>>> +RDACM21 Camera Sensor
+>>> +M:	Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> +M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>> +M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>> +M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>>> +L:	linux-media@vger.kernel.org
+>>> +S:	Maintained
+>>> +F:	Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
+>>> +F:	drivers/media/i2c/max9271.c
+>>> +F:	drivers/media/i2c/max9271.h
+>>> +F:	drivers/media/i2c/rdacm21.c
+>>> +
+>>>  RDC R-321X SoC
+>>>  M:	Florian Fainelli <florian@openwrt.org>
+>>>  S:	Maintained
+>>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+>>> index 2b9d81e4794a..d500edb8638b 100644
+>>> --- a/drivers/media/i2c/Kconfig
+>>> +++ b/drivers/media/i2c/Kconfig
+>>> @@ -1212,6 +1212,19 @@ config VIDEO_RDACM20
+>>>  	  This camera should be used in conjunction with a GMSL
+>>>  	  deserialiser such as the MAX9286.
+>>>
+>>> +config VIDEO_RDACM21
+>>> +	tristate "IMI RDACM21 camera support"
+>>> +	depends on I2C
+>>> +	select V4L2_FWNODE
+>>> +	select VIDEO_V4L2_SUBDEV_API
+>>> +	select MEDIA_CONTROLLER
+>>> +	help
+>>> +	  This driver supports the IMI RDACM21 GMSL camera, used in
+>>> +	  ADAS systems.
+>>> +
+>>> +	  This camera should be used in conjunction with a GMSL
+>>> +	  deserialiser such as the MAX9286.
+>>> +
+>>>  config VIDEO_RJ54N1
+>>>  	tristate "Sharp RJ54N1CB0C sensor support"
+>>>  	depends on I2C && VIDEO_V4L2
+>>> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+>>> index a3149dce21bb..85b1edc62508 100644
+>>> --- a/drivers/media/i2c/Makefile
+>>> +++ b/drivers/media/i2c/Makefile
+>>> @@ -124,6 +124,8 @@ obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
+>>>  obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
+>>>  rdacm20-camera_module-objs	:= rdacm20.o max9271.o
+>>>  obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
+>>> +rdacm21-camera_module-objs	:= rdacm21.o max9271.o
+>>> +obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
+>>>  obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
+>>
+>> This isn't right. The max9271 code exports various functions, but since it is
+>> included with *two* modules (rdacm20/1-camera_module.ko) it is exported twice.
+>>
+>> Since max9271 is not a self-contained driver it should not export symbols.
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  MAINTAINERS                 |  12 +
->  drivers/media/i2c/Kconfig   |  13 +
->  drivers/media/i2c/Makefile  |   2 +
->  drivers/media/i2c/rdacm21.c | 623 ++++++++++++++++++++++++++++++++++++
->  4 files changed, 650 insertions(+)
->  create mode 100644 drivers/media/i2c/rdacm21.c
-> 
+> Shouldn't we instead make max9271 a stand-alone module ?
 
-<snip>
+If that makes sense, then that's the alternative option. I don't know if it
+can be used with anything else but rdacm20/21.
 
-> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> new file mode 100644
-> index 000000000000..dcc21515e5a4
-> --- /dev/null
-> +++ b/drivers/media/i2c/rdacm21.c
-
-<snip>
-
-> +static int ov10640_initialize(struct rdacm21_device *dev)
-> +{
-> +	u8 val;
-> +
-> +	/* Power-up OV10640 by setting RESETB and PWDNB pins high. */
-> +	ov490_write_reg(dev, OV490_GPIO_SEL0, OV490_GPIO0);
-> +	ov490_write_reg(dev, OV490_GPIO_SEL1, OV490_SPWDN0);
-> +	ov490_write_reg(dev, OV490_GPIO_DIRECTION0, OV490_GPIO0);
-> +	ov490_write_reg(dev, OV490_GPIO_DIRECTION1, OV490_SPWDN0);
-> +	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_GPIO0);
-> +	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_SPWDN0);
-> +	usleep_range(3000, 5000);
-> +
-> +	/* Read OV10640 ID to test communications. */
-> +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR, OV490_SCCB_SLAVE_READ);
-> +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH, OV10640_CHIP_ID >> 8);
-> +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, (u8)OV10640_CHIP_ID);
-
-This line results in a sparse warning:
-
-drivers/media/i2c/rdacm21.c:348:62: warning: cast truncates bits from constant value (300a becomes a)
-
-Just replace with OV10640_CHIP_ID & 0xff.
+Either way, this needs to be fixed.
 
 Regards,
 
 	Hans
+
+> 
+>> Can you provide a patch fixing that?
+> 
+
