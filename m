@@ -2,113 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B69E31313E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Feb 2021 12:46:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98D2C313156
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Feb 2021 12:49:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233412AbhBHLqT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Feb 2021 06:46:19 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:44791 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231784AbhBHLn7 (ORCPT
+        id S232545AbhBHLsz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Feb 2021 06:48:55 -0500
+Received: from mail-oi1-f169.google.com ([209.85.167.169]:33333 "EHLO
+        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233386AbhBHLpq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Feb 2021 06:43:59 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 5331AC0005;
-        Mon,  8 Feb 2021 11:42:38 +0000 (UTC)
-Date:   Mon, 8 Feb 2021 12:43:02 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v8 1/5] media: i2c: Add driver for RDACM21 camera module
-Message-ID: <20210208114302.yxane4iifalacjnr@uno.localdomain>
-References: <20210114170429.139762-1-jacopo+renesas@jmondi.org>
- <20210114170429.139762-2-jacopo+renesas@jmondi.org>
- <c5fc0815-7754-1fac-af0a-ccbca922e479@xs4all.nl>
+        Mon, 8 Feb 2021 06:45:46 -0500
+Received: by mail-oi1-f169.google.com with SMTP id g84so1478925oib.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Feb 2021 03:45:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ia9PFxht5ayn6H7OynF7v6lDAjAsnjaSBrL3nP1f4WE=;
+        b=cIbvGGgExwv8fmuVoPnGKXVrtwP6l15uiZib18YjdjVqLZ05x7QsBIjd8Mapg1d94f
+         CPqFgX15OqvBxSTcsKnhZUU3V7scUid7eSUrvPrL7egDdS3tY/BmULE7/tqYC81lQv+y
+         5NVRL0bLqRM7tdJJmNDXvRKf15Drl9u74bCYwR8Ji6/+/uDVvSTdSgRw8nDOawh6EOZe
+         2ZrxQSny+rY6Qdo8nTj9AR8VCGzIvRlo1iA3uIw42JAW9WM2hQ54xpU3b1m1Mq0bqNP2
+         nl7ywTErvxEjiSR1QrSZf+JaNFFZkdW8Zcr/8bOpJK6EcSB0vHeLi94Gnm3HloyRdeiR
+         1mew==
+X-Gm-Message-State: AOAM530JsLpMvdFrlJFCj4XVCHsZVzxUwvHabgYyWJ4OpE9o3sXyMXUc
+        BwcLVvv2jdm5zi+hSZzr5T3mZTralzv7lb+V85A=
+X-Google-Smtp-Source: ABdhPJxf6gCKPLlrCt0U1GOJBRdVEaieJvFcRlKFleg91i7xen/fzgicZtZrh57XVlCqwe5/mHccAR6gSYrUfkr/Sqk=
+X-Received: by 2002:aca:744:: with SMTP id 65mr10768186oih.153.1612784691090;
+ Mon, 08 Feb 2021 03:44:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c5fc0815-7754-1fac-af0a-ccbca922e479@xs4all.nl>
+References: <1612752464-27838-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdVBAy7wtB-_uOsTg5NiEorCwyHgENrwUQBxtcqRChvp1Q@mail.gmail.com> <TY2PR01MB3692141F9F2AD0E1CCD0D10ED88F9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY2PR01MB3692141F9F2AD0E1CCD0D10ED88F9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 8 Feb 2021 12:44:39 +0100
+Message-ID: <CAMuHMdXrgDG2AaDQO0cS_-G8-WDHGx2HFha6Nva8zhL8QLnnCQ@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: add sdhi/mmc aliases
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Hans,
+Hi Shimoda-san,
 
-On Mon, Feb 08, 2021 at 12:28:52PM +0100, Hans Verkuil wrote:
-> Hi Jacopo,
->
-> On 14/01/2021 18:04, Jacopo Mondi wrote:
-> > The RDACM21 is a GMSL camera supporting 1280x1080 resolution images
-> > developed by IMI based on an Omnivision OV10640 sensor, an Omnivision
-> > OV490 ISP and a Maxim MAX9271 GMSL serializer.
-> >
-> > The driver uses the max9271 library module, to maximize code reuse with
-> > other camera module drivers using the same serializer, such as rdacm20.
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  MAINTAINERS                 |  12 +
-> >  drivers/media/i2c/Kconfig   |  13 +
-> >  drivers/media/i2c/Makefile  |   2 +
-> >  drivers/media/i2c/rdacm21.c | 623 ++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 650 insertions(+)
-> >  create mode 100644 drivers/media/i2c/rdacm21.c
-> >
->
+On Mon, Feb 8, 2021 at 11:53 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Geert Uytterhoeven, Sent: Monday, February 8, 2021 6:46 PM
+> > On Mon, Feb 8, 2021 at 3:48 AM Yoshihiro Shimoda
+> > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > After the commit 7320915c8861 ("mmc: Set PROBE_PREFER_ASYNCHRONOUS
+> > > for drivers that existed in v4.14"), the order of /dev/mmcblkN
+> > > was not fixed in some SoCs which have multiple sdhi controllers.
+> > > So, we were hard to use an sdhi device as rootfs by using
+> > > the kernel parameter like "root=/dev/mmcblkNpM".
+> > >
+> > > According to the discussion on a mainling list [1], we can add
+> > > mmc aliases to fix the issue. So, add such aliases into R-Car Gen3
+> > > and RZ/G2 dtsi files. Note that, if an SoC like r8a77980 has one
+> > > sdhi controller only, the alias is not defined.
+> > >
+> > > [1]
 > <snip>
->
-> > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> > new file mode 100644
-> > index 000000000000..dcc21515e5a4
-> > --- /dev/null
-> > +++ b/drivers/media/i2c/rdacm21.c
->
+> > >
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > ---
+> > >  Changes from v1:
+> > >  - Revise the commit description.
+> > >  - Remove some alias which SoC has one sdhi controller only.
+> > >
 > <snip>
+> >
+> > Thanks for the update!
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > i.e. I plan to queue this in renesas-devel for v5.13.
+> > Unless you want to upstream this as a fix for v5.11, in which case we
+> > have to hurry. Note that v5.10 already has the issue, too.
 >
-> > +static int ov10640_initialize(struct rdacm21_device *dev)
-> > +{
-> > +	u8 val;
-> > +
-> > +	/* Power-up OV10640 by setting RESETB and PWDNB pins high. */
-> > +	ov490_write_reg(dev, OV490_GPIO_SEL0, OV490_GPIO0);
-> > +	ov490_write_reg(dev, OV490_GPIO_SEL1, OV490_SPWDN0);
-> > +	ov490_write_reg(dev, OV490_GPIO_DIRECTION0, OV490_GPIO0);
-> > +	ov490_write_reg(dev, OV490_GPIO_DIRECTION1, OV490_SPWDN0);
-> > +	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_GPIO0);
-> > +	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_SPWDN0);
-> > +	usleep_range(3000, 5000);
-> > +
-> > +	/* Read OV10640 ID to test communications. */
-> > +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR, OV490_SCCB_SLAVE_READ);
-> > +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH, OV10640_CHIP_ID >> 8);
-> > +	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, (u8)OV10640_CHIP_ID);
->
-> This line results in a sparse warning:
->
-> drivers/media/i2c/rdacm21.c:348:62: warning: cast truncates bits from constant value (300a becomes a)
+> Thank you for this comment. For v5.13 is enough to me. However,
 
-Which is intended :)
+OK.
 
+> if possible, I'd like to apply this patch v5.10.xx too.
+> So, should/may I add the following Fixes tag for it?
 >
-> Just replace with OV10640_CHIP_ID & 0xff.
+> Fixes: 7320915c8861 ("mmc: Set PROBE_PREFER_ASYNCHRONOUS for drivers that existed in v4.14")
 
-Will send a patch on top as the series has been collected.
+I can add the tag while applying.
 
-Thanks
-  j
-
+> > BTW, shouldn't we add the aliases on 32-bit arm, too?
 >
-> Regards,
+> I think so. I'll prepare such a patch too.
+
+TIA!
+
+> > > --- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+> > > @@ -14,6 +14,12 @@
+> > >         #address-cells = <2>;
+> > >         #size-cells = <2>;
+> > >
+> > > +       aliases {
+> > > +               mmc0 = &sdhi0;
+> > > +               mmc1 = &sdhi1;
+> > > +               mmc3 = &sdhi3;
+> > > +       };
+> >
+> > BTW, this is one of the other issues with aliases: where is mmc2?
+> > Yes, I know why it's done this way ;-)
 >
-> 	Hans
+> Ah, I intended to assign the aliases 1:1 between "mmcN" and "sdhiN".
+> But, should we use "mmc2 = &sdhi3;" instead on r8a774c0 and r8a77990?
+
+I'm fine with the numbering you used, as the aliases match the existing
+labels.
+
+However, on R-Car Gen2 we did use contiguous numbering of the labels,
+as early revisions of the datasheet used contiguous numbering for the
+interfaces, while later revisions changed this.
+I think the sensible thing to do is to make the aliases match the existing
+labels, too.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
