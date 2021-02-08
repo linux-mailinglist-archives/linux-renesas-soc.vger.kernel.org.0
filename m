@@ -2,152 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA459313FC9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Feb 2021 21:01:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D6B7314062
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Feb 2021 21:25:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236547AbhBHUBS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Feb 2021 15:01:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57782 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235938AbhBHUBG (ORCPT
+        id S236864AbhBHUY5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Feb 2021 15:24:57 -0500
+Received: from mga02.intel.com ([134.134.136.20]:51829 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236833AbhBHUXh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Feb 2021 15:01:06 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EE11C061786
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Feb 2021 12:00:21 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id f16so237322wmq.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Feb 2021 12:00:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=NQnuO19tXUGZtiOr3UoH1N95z+Bg7lJLf0mHTpRwuhk=;
-        b=w5+AHwTRPQjCJGhAGhBihp8G2gsJZVchXK0Ijm5r5vRYXT5MQ1pbxD+oTeJfOqmhQ+
-         +OPqSRXt8JYJIXR35hu9XnOu2OBl/x+0Xv35FVL1s/fTyMuTagNLnz5XJ32ZJ4ki+e0F
-         g06YhoofFr9E3SJ749C+OvWvyi2WxleREJGiU/sMQ0q9RPVq1Jy03zb2D54kkVmHb1Eo
-         ElMvnmJjrjvzlkLDRgUC4IDPZIG5EcrkcHP3+ofDObKWaDPtOB2D1oPOphC0kJ1eLhQW
-         jEEV5udISceWinltSkZNMqmtocJin7GAWFXM72xIEv+29PbPvlLhJcDOwTdxWZw3jom0
-         Vl1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=NQnuO19tXUGZtiOr3UoH1N95z+Bg7lJLf0mHTpRwuhk=;
-        b=rHrpqPN+nNeVnqA7Q6hus6J5P8KoMKHxYRVEBKbAICnZsLi+uYmAQVCW0i+XkSqmbe
-         tSx17PFcpbhaC4ebkzXqa7IR1wRUpP+WQzFVXjf2woLy2i2dcHO9XIDtdfQrzoEAEhXZ
-         B/9zXCOvZk8+IPPCBvQs89FUBBmxpWy9VERXm13YW++9RsXJ6Kt42z3aWYhtFe3C28tG
-         onayF8Gf6CAyjngRmdtZ/8LIHzck5kreFf2GXTB4B+945G0Be0mVXEEBdDthngCRedCl
-         GeKrEl6zqFn+C69q4dZK6g0ubayrULHjU8OweMACVfC0GqI/9RZma8JyY7VxZVxcLELd
-         MHMg==
-X-Gm-Message-State: AOAM532A13QxJijIVQGsrcRF5eVxQ8qUog9Vdrc+VtmV7oYT8n+jCcOY
-        dd5jyimLqkSIVOOFq4mJlJfVtw==
-X-Google-Smtp-Source: ABdhPJzT28JKGy0yKjWvWUjpl1Tt70h1fxGn4tZWExmkjYQLjchw+NHGUVrkgY1fQU0i9AQ8M9jznw==
-X-Received: by 2002:a1c:e912:: with SMTP id q18mr395683wmc.162.1612814419892;
-        Mon, 08 Feb 2021 12:00:19 -0800 (PST)
-Received: from localhost (p4fca2458.dip0.t-ipconnect.de. [79.202.36.88])
-        by smtp.gmail.com with ESMTPSA id r12sm31735470wrp.13.2021.02.08.12.00.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 12:00:19 -0800 (PST)
-Date:   Mon, 8 Feb 2021 21:00:17 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH/RFC 0/6] ARM: r8a73a4: Add SMP support
-Message-ID: <YCGYURws+hObRzlz@bismarck.dyn.berto.se>
-References: <20210204135409.1652604-1-geert+renesas@glider.be>
+        Mon, 8 Feb 2021 15:23:37 -0500
+IronPort-SDR: zzYnv3LtoB005kWmfBDBMZDWhlcyrGGaW7owBxSl/Z5ZBxXUrzoGIxmrbNnjzsRqzMidI4zAK+
+ 9hbKhX4RjeBQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="168898420"
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; 
+   d="scan'208";a="168898420"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 12:21:51 -0800
+IronPort-SDR: D3ifbHwtH5uTd1WA/Ljp2FMEDMmcEdeaxPZP6u3SGlkNCW81vNNfUbNzuieTVgq+6wO7qTobuJ
+ XOxPH7wqgN7g==
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; 
+   d="scan'208";a="411187625"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 12:21:49 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 79D17209D5; Mon,  8 Feb 2021 22:21:47 +0200 (EET)
+Date:   Mon, 8 Feb 2021 22:21:47 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-next@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] media: i2c: Kconfig: Make MAX9271 a module
+Message-ID: <20210208202147.GZ32460@paasikivi.fi.intel.com>
+References: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210204135409.1652604-1-geert+renesas@glider.be>
+In-Reply-To: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Jacopo,
 
-Thanks for your work.
+On Mon, Feb 08, 2021 at 07:20:06PM +0100, Jacopo Mondi wrote:
+> With the introduction of the RDACM21 camera module support in
+> commit a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> the symbols defined by the max9271 library were exported twice
+> if multiple users of the library were compiled in at the same time.
+> 
+> In example:
+> WARNING: modpost: drivers/media/i2c/rdacm21-camera_module:
+> 'max9271_set_serial_link' exported twice. Previous export was in
+> drivers/media/i2c/rdacm20-camera_module.ko
+> 
+> Fix this by making the rdacm21 file a module and have the driver
+> using its functions select it.
+> 
+> Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/Kconfig  | 5 +++++
+>  drivers/media/i2c/Makefile | 7 +++----
+>  2 files changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 2d3dc0d82f9e..84645f751da3 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -1240,12 +1240,16 @@ config VIDEO_NOON010PC30
+> 
+>  source "drivers/media/i2c/m5mols/Kconfig"
+> 
+> +config VIDEO_MAX9271
 
-On 2021-02-04 14:54:03 +0100, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> This RFC patch series leverages the existing APMU support for R-Car Gen2
-> and RZ/G1 SoCs to enable SMP support on R-Mobile APE6.  This allows me
-> to enjoy the 4 Cortex-A15 CPU cores on the APE6-EVM development board.
-> The core APE6-specific code was lifted from an old series by Magnus[1].
+How about calling this VIDEO_MAX9271_HELPER instead? It's not a driver in
+the proper sense of the word.
 
-I'm also able to enjoy the 4 Cortex-A15 CPU cores, nice :-)
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
+> +	tristate
+> +
+>  config VIDEO_RDACM20
+>  	tristate "IMI RDACM20 camera support"
+>  	depends on I2C
+>  	select V4L2_FWNODE
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	select MEDIA_CONTROLLER
+> +	select VIDEO_MAX9271
+>  	help
+>  	  This driver supports the IMI RDACM20 GMSL camera, used in
+>  	  ADAS systems.
+> @@ -1259,6 +1263,7 @@ config VIDEO_RDACM21
+>  	select V4L2_FWNODE
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	select MEDIA_CONTROLLER
+> +	select VIDEO_MAX9271
+>  	help
+>  	  This driver supports the IMI RDACM21 GMSL camera, used in
+>  	  ADAS systems.
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index 6bd22d63e1a7..c34a7de3158b 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -125,10 +125,9 @@ obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
+>  obj-$(CONFIG_VIDEO_IMX334)	+= imx334.o
+>  obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
+>  obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
+> -rdacm20-camera_module-objs	:= rdacm20.o max9271.o
+> -obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
+> -rdacm21-camera_module-objs	:= rdacm21.o max9271.o
+> -obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
+> +obj-$(CONFIG_VIDEO_MAX9271)	+= max9271.o
+> +obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20.o
+> +obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21.o
+>  obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
 > 
-> Known issues:
->   - While initial secondary CPU bring-up during boot works, CPU cores
->     fail to come online after offlining/onlining them using the sysfs
->     interface ("echo [01] > /sys/*/*/cpu/cpu[0-9]*{off,on}line").
-> 
->   - This breaks detection of the CFI FLASH.  I traced this back to
->     setting the SBAR_BAREN bit in the SYSC.CA15BAR register.
->     Presumably this affects the LBSC in some way?
-> 
-> To do:
->   - Call into rmobile-sysc instead of hardcoding the SYSC mapping,
->   - Describe CCI-400 in DT and call cci_enable_port_by_index()?
->   - Let pm-rcar-gen2.c call into rcar-rst instead of hardcoding the RST
->     mapping,
->   - Abstract SYSC vs. RST access and merge with pm-rcar-gen2.c?
-
-Some of these to do's sounds rather fun and educational. If you have 
-something you want done that is not time critical and does not require a 
-100h time investment I would be happy to help out.
-
-> 
-> Questions:
->   - Do we want to bring up the Cortex-A7 cores, too? We don't on R-Car
->     H2 neither.
-> 
-> Thanks for your comments!
-> 
-> [1] [PATCH 00/02] ARM: shmobile: Initial r8a73a4 APMU SMP code
->     https://lore.kernel.org/linux-arm-kernel/20130807225531.9856.18974.sendpatchset@w520/
-> 
-> Geert Uytterhoeven (6):
->   soc: renesas: Introduce RENESAS_APMU Kconfig option
->   dt-bindings: power: renesas,apmu: Document R-Mobile APE6 support
->   ARM: dts: r8a73a4: Add secondary CPU nodes
->   ARM: dts: r8a73a4: Add Media RAM for SMP jump stub
->   ARM: dts: r8a73a4: Add APMU nodes
->   [WIP] ARM: shmobile: r8a73a4: Add SMP support
-> 
->  .../bindings/power/renesas,apmu.yaml          |   6 +-
->  arch/arm/boot/dts/r8a73a4.dtsi                |  96 +++++++++++
->  arch/arm/mach-shmobile/Makefile               |   6 +-
->  arch/arm/mach-shmobile/platsmp-apmu.c         |  15 +-
->  arch/arm/mach-shmobile/pm-r8a73a4.c           | 152 ++++++++++++++++++
->  arch/arm/mach-shmobile/r8a73a4.h              |   7 +
->  drivers/soc/renesas/Kconfig                   |   5 +
->  7 files changed, 281 insertions(+), 6 deletions(-)
->  create mode 100644 arch/arm/mach-shmobile/pm-r8a73a4.c
->  create mode 100644 arch/arm/mach-shmobile/r8a73a4.h
-> 
-> -- 
-> 2.25.1
-> 
-> Gr{oetje,eeting}s,
-> 
-> 						Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
-> 							    -- Linus Torvalds
+>  obj-$(CONFIG_SDR_MAX2175) += max2175.o
 
 -- 
-Regards,
-Niklas Söderlund
+Kind regards,
+
+Sakari Ailus
