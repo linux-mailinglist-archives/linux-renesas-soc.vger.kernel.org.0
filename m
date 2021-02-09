@@ -2,89 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D603D315162
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Feb 2021 15:17:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BCB315201
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Feb 2021 15:50:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230154AbhBIORj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Feb 2021 09:17:39 -0500
-Received: from mail-oi1-f172.google.com ([209.85.167.172]:38976 "EHLO
-        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229787AbhBIORa (ORCPT
+        id S232313AbhBIOsk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Feb 2021 09:48:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232305AbhBIOs3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Feb 2021 09:17:30 -0500
-Received: by mail-oi1-f172.google.com with SMTP id l19so7062870oih.6;
-        Tue, 09 Feb 2021 06:17:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AxFRPEUXUgFBIeTDAlCgAGbqFmpVn3Z9yEcK5/5S9uU=;
-        b=kWer89l6cs8ePDtRFTYOdoykJKg3PvXQQ8S5VXSMArNaswx6vKuWvwwJl09qEzJ7rx
-         K5Z8BC2xKVEr+m/7AzI8hguNhUznZ8/+6SxGy2GbYm12yncL9QTYaq68A6yqMbscvkrw
-         7t33DqtYjV9pSatrGzAYUqCe2HMlnMKzEZlEqpBJq0PzWxq0lpND/Kjyc7l+UyMZ3Wh2
-         SRmRrOtf1XW7Kc00QHyH6qrEQHhtnCfWz5BirVbW9Nb95aQ6S8sjTL8oz/uZwPpDnbQg
-         ZBpvbPKZKfUkvtQZ+NfL1+iiu7Ja/uymfs2gOKZoZR1dqOmNdy6sEW5gGLGjqg2yHhhR
-         BMCQ==
-X-Gm-Message-State: AOAM530y1yBFyC3aNiE0JwnRghDdncoNl16OOxGpMtAkqcwwCyUEG2XQ
-        59uRokji833PX3bos3uAnVe+xvDVLtD3NI3tUBa3k/jF
-X-Google-Smtp-Source: ABdhPJwJT+K387GCQS0TB4FK8uH84hgOgBWpRLJp2tBGgz84dJmS9gAWcp+8QvgLjv8gy7U0d2plRaH8QJF/X0ppVzY=
-X-Received: by 2002:aca:744:: with SMTP id 65mr2562501oih.153.1612880209235;
- Tue, 09 Feb 2021 06:16:49 -0800 (PST)
+        Tue, 9 Feb 2021 09:48:29 -0500
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5816C061786
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Feb 2021 06:47:48 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by xavier.telenet-ops.be with bizsmtp
+        id T2nl2400L4C55Sk012nlXW; Tue, 09 Feb 2021 15:47:45 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l9UIq-004uZ5-Vg
+        for linux-renesas-soc@vger.kernel.org; Tue, 09 Feb 2021 15:47:44 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1l9UIq-004TdS-IP
+        for linux-renesas-soc@vger.kernel.org; Tue, 09 Feb 2021 15:47:44 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2021-02-09-v5.11-rc7
+Date:   Tue,  9 Feb 2021 15:47:44 +0100
+Message-Id: <20210209144744.1067187-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210128111343.2295888-1-geert+renesas@glider.be>
- <20210128113353.GN963@ninjato> <CAMuHMdW--A2bwe==+A35_sLAS2OkXzi2hY0Ky_dwL0n8irHMZw@mail.gmail.com>
- <CAMpxmJXcbTnCbseAap=F0QO2Er6ANGSfgPMuoufaD2qQyUbpRA@mail.gmail.com>
-In-Reply-To: <CAMpxmJXcbTnCbseAap=F0QO2Er6ANGSfgPMuoufaD2qQyUbpRA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 9 Feb 2021 15:16:38 +0100
-Message-ID: <CAMuHMdU3g3TaWTu6XvKTUU9cdj6Dnbjcgy4zSRhshzeAhH30GA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: eeprom: at24: Document ROHM BR24G01
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Bartosz,
+I have pushed renesas-drivers-2021-02-09-v5.11-rc7 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-On Fri, Feb 5, 2021 at 11:33 AM Bartosz Golaszewski
-<bgolaszewski@baylibre.com> wrote:
-> On Thu, Jan 28, 2021 at 12:59 PM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Thu, Jan 28, 2021 at 12:33 PM Wolfram Sang
-> > <wsa+renesas@sang-engineering.com> wrote:
-> > > On Thu, Jan 28, 2021 at 12:13:43PM +0100, Geert Uytterhoeven wrote:
-> > > > Document the compatible value for the ROHM Semiconductor BR24G01 I2C bus
-> > > > EEPROM.
-> > >
-> > > What is the difference between those two? Could one also be the fallback
-> > > of the other (just in the highly unlikely case we need "generic" Rohm
-> > > handling somewhen)?
-> >
-> > Good question.  The datasheets look similar.
-> > Parametric search on rohm.com says the G-series differs in using
-> > "Cu wire bonding".
->
-> I'm fine with the current form as it's simpler than using two
-> fallbacks. Do you want to submit another version anyway or can I pick
-> it up?
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-If you're happy with it, then I'm happy, too ;-)
-Thanks!
+Today's version is based on renesas-devel-2021-02-08-v5.11-rc7.
+
+Included branches with driver code:
+  - renesas-clk-for-v5.12
+  - renesas-pinctrl-for-v5.12
+  - git://git.ragnatech.se/linux#for-renesas-drivers
+
+Included fixes:
+  - Revert "driver core: Set fw_devlink=on by default"
+  - gpiolib: Don't probe gpio_device if it's not the primary device
+  - WIP soc: v3u: allow WDT reset
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
