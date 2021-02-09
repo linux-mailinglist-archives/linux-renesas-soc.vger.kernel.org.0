@@ -2,99 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2CBB3155DE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Feb 2021 19:28:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77CAB315761
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Feb 2021 21:05:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233202AbhBISYs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Feb 2021 13:24:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232875AbhBISWD (ORCPT
+        id S233792AbhBIUBt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Feb 2021 15:01:49 -0500
+Received: from mail-oi1-f178.google.com ([209.85.167.178]:33630 "EHLO
+        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233772AbhBITwO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Feb 2021 13:22:03 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01368C06178C
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Feb 2021 10:21:16 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id sa23so33384272ejb.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Feb 2021 10:21:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7cdkDnURV9uneBG3FZf4huY2uy2h38N8kqyzGlj6AtI=;
-        b=zYwZZ4NjNSfAiSwsBYVuFR9u8PsuFfwnsy/wdZFz8ssGxdan5DbrHrhRiV8KzLf6tO
-         rNCef+GlVPADxaWfKmY5x7TEuhWk4comNp0sfHsOFQcrmU1MAhJuxD7R9vUmC4rfVyrt
-         ENnQ4xCFZnc99McojJkekPBldx66IiSH0WgOHnVd0yudSSNz8DFcbftNnqV+EXyssyq7
-         Sjxvaya1p3W00HTeGXy2VY0t1Ok2C4M2pfkHR+q012fvgk8EA/hn6zoZniiXOc17j3Uq
-         EC1hcay5GJz34KKl1JM4Hi2xObTc7DOFxKgC5FfoleFg0ml5pPWRGpbjAOXV1mbH+++C
-         QkVw==
+        Tue, 9 Feb 2021 14:52:14 -0500
+Received: by mail-oi1-f178.google.com with SMTP id g84so6925749oib.0;
+        Tue, 09 Feb 2021 11:51:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7cdkDnURV9uneBG3FZf4huY2uy2h38N8kqyzGlj6AtI=;
-        b=TOMy/deOhJC8lVp7OGySPDTP/qFbHsnIY+MphMdFhFPbje7NsqTO0xME/d5NvMQg9C
-         wYp750VGU80CyedbCA5AqbuuQERsF7iPxcwR4ZbjzReF/Y5V/ssAXkrCTCERLUmyRM+a
-         c9WMLI7JH485p20qDpRsZuB1dXwRatVaguImWBCg2KEJflECXe7sblji+v2pqqTUwKKs
-         hBc05TThwCICVBNyMnC/gs8cgzsDJY2hkIEWgMaHfEO0j9gPsGpC9zD2O/AuniaGtYmq
-         4LYuzByWp+Ypk0Zxm7/mMIfDPnvX5DrAgA7qrcU3OswFoeQvbMFPW4nxdJnDKV08hmDR
-         3RRQ==
-X-Gm-Message-State: AOAM530rsJuHfilj56uL2jqxjXzNwVI1Uke8rTgyaGm6HyS8S3QWXDVD
-        /wHHrUdFU931ojTu5w7pRsh2qRkw7olkbb1zMM09oA==
-X-Google-Smtp-Source: ABdhPJzfO6VJFRZMDFakluIwxGzSS3vgzvTNq1ZZNEEpzZEUvu1Ol2fCOByPa461RddADA9Vpjd5NXJawuBAuX+BuQE=
-X-Received: by 2002:a17:906:4707:: with SMTP id y7mr23481756ejq.445.1612894875564;
- Tue, 09 Feb 2021 10:21:15 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=djpia0FYNCw9tE3WP5Tr7Z3WXN4BAb7/Bz2WXM06cjM=;
+        b=FNCy/ITnb/xo2eNmfXPI8mVnDc1D/YvTLG6dK7PVMBxbEfWeNRey7hXCGgnDFSncUE
+         sNTK+XHhCQHZjqASP9+Hzd1DTHCbWAV1qr66Ts9udAEqP6tq3rXKujUQkf4CivwvbA01
+         ZE8Vy5s6lZvWf3NNcH4vSuJkAhCdb7de52hhbKMmROkGsIQVvsiFzuxBI0BtNgzh6o1g
+         3aY3hpJYyoFyk61tOhYWmtv21UFmfE96X2ZqF4PS8+FimpqHRHseV691I8bJYk9weWL3
+         gA5EkOVOor589L4DNKIa9x/w+TdXRueOMDGQEnuX27oDn4XLssVnqea19VqxfF6Redct
+         yCrQ==
+X-Gm-Message-State: AOAM532GLVCobPKjPB+z2BHYpH+r2bNjgwHe7m6Yhx3qFJ7SnYbvBnsq
+        ujQ1u0hZCU/edtrQKjavAE5VSV17RQ==
+X-Google-Smtp-Source: ABdhPJxXHj8LriG5h7lJxb2HcSAF8ts/EcRL9+I3AD9cV1JfGEQuW4cd3YqKhp5vJufOIMZhs5T04Q==
+X-Received: by 2002:aca:2102:: with SMTP id 2mr3615711oiz.80.1612898444606;
+        Tue, 09 Feb 2021 11:20:44 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id i13sm2821404oth.52.2021.02.09.11.20.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 11:20:43 -0800 (PST)
+Received: (nullmailer pid 4189533 invoked by uid 1000);
+        Tue, 09 Feb 2021 19:20:41 -0000
+Date:   Tue, 9 Feb 2021 13:20:41 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [RFC] dt-bindings: power: sysc-remobile: Convert to
+ json-schema
+Message-ID: <20210209192041.GA4168680@robh.at.kernel.org>
+References: <20210127132840.2019595-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20210128111343.2295888-1-geert+renesas@glider.be>
- <20210128113353.GN963@ninjato> <CAMuHMdW--A2bwe==+A35_sLAS2OkXzi2hY0Ky_dwL0n8irHMZw@mail.gmail.com>
- <CAMpxmJXcbTnCbseAap=F0QO2Er6ANGSfgPMuoufaD2qQyUbpRA@mail.gmail.com> <CAMuHMdU3g3TaWTu6XvKTUU9cdj6Dnbjcgy4zSRhshzeAhH30GA@mail.gmail.com>
-In-Reply-To: <CAMuHMdU3g3TaWTu6XvKTUU9cdj6Dnbjcgy4zSRhshzeAhH30GA@mail.gmail.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Tue, 9 Feb 2021 19:21:04 +0100
-Message-ID: <CAMpxmJUQQgDoYAqCq23LwyoATjHgTZPYcPb-ruwQECdArf5GxA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: eeprom: at24: Document ROHM BR24G01
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210127132840.2019595-1-geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 9, 2021 at 3:16 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Bartosz,
->
-> On Fri, Feb 5, 2021 at 11:33 AM Bartosz Golaszewski
-> <bgolaszewski@baylibre.com> wrote:
-> > On Thu, Jan 28, 2021 at 12:59 PM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> > > On Thu, Jan 28, 2021 at 12:33 PM Wolfram Sang
-> > > <wsa+renesas@sang-engineering.com> wrote:
-> > > > On Thu, Jan 28, 2021 at 12:13:43PM +0100, Geert Uytterhoeven wrote:
-> > > > > Document the compatible value for the ROHM Semiconductor BR24G01 I2C bus
-> > > > > EEPROM.
-> > > >
-> > > > What is the difference between those two? Could one also be the fallback
-> > > > of the other (just in the highly unlikely case we need "generic" Rohm
-> > > > handling somewhen)?
-> > >
-> > > Good question.  The datasheets look similar.
-> > > Parametric search on rohm.com says the G-series differs in using
-> > > "Cu wire bonding".
-> >
-> > I'm fine with the current form as it's simpler than using two
-> > fallbacks. Do you want to submit another version anyway or can I pick
-> > it up?
->
-> If you're happy with it, then I'm happy, too ;-)
-> Thanks!
->
+On Wed, Jan 27, 2021 at 02:28:40PM +0100, Geert Uytterhoeven wrote:
+> Convert the Renesas R-Mobile System Controller (SYSC) Device Tree
+> binding documentation to json-schema.
+> 
+> Document missing properties.
+> Drop consumer example, as it does not belong here.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Marked RFC, as it does not check deeper levels than the first level of
+> the "pm-domains" subnode.
+> 
+> I think the reference in
+> 
+>     additionalProperties:
+> 	$ref: "#/patternProperties"
+> 
+> should become "#/patternProperties/0/additionalProperties", but that
+> gives:
+> 
+>     Unresolvable JSON pointer: 'patternProperties/0/additionalProperties'
 
-Applied, thanks!
+AFAIK, numbers only work on lists (such as 'allOf' values). So I think 
+you'd want '#/patternProperties/^pm-domains$/additionalProperties'. 
+However, regex's can have illegal characters. I think URI escaping them 
+would work, but that gets too readable and unmaintainable for my tastes. 
+The other way to do this is put the schema under a '$defs'. But in your 
+case, you have just a fixed string, so there's no need for it to be a 
+pattern. Just move it to 'properties'.
 
-Bartosz
+Otherwise, looks good to me.
+
+Rob
