@@ -2,112 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C13A7314DF2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Feb 2021 12:11:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFF46314E25
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Feb 2021 12:22:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232049AbhBILK6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Feb 2021 06:10:58 -0500
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:39071 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232120AbhBILKF (ORCPT
+        id S229666AbhBILWQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Feb 2021 06:22:16 -0500
+Received: from www.zeus03.de ([194.117.254.33]:49662 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230232AbhBILUN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Feb 2021 06:10:05 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 45BB76000A;
-        Tue,  9 Feb 2021 11:09:18 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-next@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] media: i2c: Kconfig: Make MAX9271 a module
-Date:   Tue,  9 Feb 2021 12:09:21 +0100
-Message-Id: <20210209110921.20653-1-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.30.0
+        Tue, 9 Feb 2021 06:20:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=EEBV23pyAIcfqpvksmub813O9b9
+        exoa6A9a9ixnz1DU=; b=3y00j4hhhhxvXUP3gtUOOGOku+KGAXwrN2iQuqFJoEE
+        Yqh6CfSDJ4siu526jblXtARfk4dSX5TfeM6cNn3GFDWLBzz3fFoSG9n14M87S37H
+        AuxCG32x9sf30YFWu8lobAizV+JE0Fv5GZzfZIgzXdG4VNbK4mHflo23iLlIvjFI
+        =
+Received: (qmail 182523 invoked from network); 9 Feb 2021 12:19:31 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Feb 2021 12:19:31 +0100
+X-UD-Smtp-Session: l3s3148p1@WMrddeW6Go0gAwDPXxOiANNsDO+kmtby
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] i2c: testunit: add support for block process calls
+Date:   Tue,  9 Feb 2021 12:19:27 +0100
+Message-Id: <20210209111927.19169-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-With the introduction of the RDACM21 camera module support in commit
-a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module") the
-symbols defined by the max9271 library were exported twice if multiple
-users of the library were compiled in at the same time.
+Devices offering SMBus block process calls are rare, so add it to the
+testunit. This is also a good test case for testing proper
+I2C_M_RECV_LEN flag handling of I2C bus masters emulating SMBus.
 
-In example:
-WARNING: modpost: drivers/media/i2c/rdacm21-camera_module:
-'max9271_set_serial_link' exported twice. Previous export was in
-drivers/media/i2c/rdacm20-camera_module.ko
-
-Fix this by making the max9271 file a module and have the driver
-using its functions select it.
-
-Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/media/i2c/Kconfig  | 5 +++++
- drivers/media/i2c/Makefile | 7 +++----
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ Documentation/i2c/slave-testunit-backend.rst | 23 ++++++++++++++++++--
+ drivers/i2c/i2c-slave-testunit.c             | 12 ++++++++--
+ 2 files changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 2d3dc0d82f9e..462c0e059754 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -1240,12 +1240,16 @@ config VIDEO_NOON010PC30
-
- source "drivers/media/i2c/m5mols/Kconfig"
-
-+config VIDEO_MAX9271_LIB
-+	tristate
+diff --git a/Documentation/i2c/slave-testunit-backend.rst b/Documentation/i2c/slave-testunit-backend.rst
+index 2c38e64f0bac..ecfc2abec32d 100644
+--- a/Documentation/i2c/slave-testunit-backend.rst
++++ b/Documentation/i2c/slave-testunit-backend.rst
+@@ -22,8 +22,9 @@ Instantiating the device is regular. Example for bus 0, address 0x30:
+ 
+ After that, you will have a write-only device listening. Reads will just return
+ an 8-bit version number of the testunit. When writing, the device consists of 4
+-8-bit registers and all must be written to start a testcase, i.e. you must
+-always write 4 bytes to the device. The registers are:
++8-bit registers and, except for some "partial" commands, all registers must be
++written to start a testcase, i.e. you usually write 4 bytes to the device. The
++registers are:
+ 
+ 0x00 CMD   - which test to trigger
+ 0x01 DATAL - configuration byte 1 for the test
+@@ -67,3 +68,21 @@ status word is currently ignored in the Linux Kernel. Example to send a
+ notification after 10ms:
+ 
+ # i2cset -y 0 0x30 0x02 0x42 0x64 0x01 i
 +
- config VIDEO_RDACM20
- 	tristate "IMI RDACM20 camera support"
- 	depends on I2C
- 	select V4L2_FWNODE
- 	select VIDEO_V4L2_SUBDEV_API
- 	select MEDIA_CONTROLLER
-+	select VIDEO_MAX9271_LIB
- 	help
- 	  This driver supports the IMI RDACM20 GMSL camera, used in
- 	  ADAS systems.
-@@ -1259,6 +1263,7 @@ config VIDEO_RDACM21
- 	select V4L2_FWNODE
- 	select VIDEO_V4L2_SUBDEV_API
- 	select MEDIA_CONTROLLER
-+	select VIDEO_MAX9271_LIB
- 	help
- 	  This driver supports the IMI RDACM21 GMSL camera, used in
- 	  ADAS systems.
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 6bd22d63e1a7..0c067beca066 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -125,10 +125,9 @@ obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
- obj-$(CONFIG_VIDEO_IMX334)	+= imx334.o
- obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
- obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
--rdacm20-camera_module-objs	:= rdacm20.o max9271.o
--obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
--rdacm21-camera_module-objs	:= rdacm21.o max9271.o
--obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
-+obj-$(CONFIG_VIDEO_MAX9271_LIB)	+= max9271.o
-+obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20.o
-+obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21.o
- obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
-
- obj-$(CONFIG_SDR_MAX2175) += max2175.o
---
-2.30.0
++0x03 SMBUS_BLOCK_PROC_CALL (partial command)
++   DATAL - must be '1', i.e. one further byte will be written
++   DATAH - number of bytes to be sent back
++   DELAY - not applicable, partial command!
++
++This test will respond to a block process call as defined by the SMBus
++specification. The one data byte written specifies how many bytes will be sent
++back in the following read transfer. Note that in this read transfer, the
++testunit will prefix the length of the bytes to follow. So, if your host bus
++driver emulates SMBus calls like the majority does, it needs to support the
++I2C_M_RECV_LEN flag of an i2c_msg. This is a good testcase for it. The returned
++data consists of the length first, and then of an array of bytes from length-1
++to 0. Here is an example which emulates i2c_smbus_block_process_call() using
++i2ctransfer (you need i2c-tools v4.2 or later):
++
++# i2ctransfer -y 0 w3@0x30 0x03 0x01 0x10 r?
++0x10 0x0f 0x0e 0x0d 0x0c 0x0b 0x0a 0x09 0x08 0x07 0x06 0x05 0x04 0x03 0x02 0x01 0x00
+diff --git a/drivers/i2c/i2c-slave-testunit.c b/drivers/i2c/i2c-slave-testunit.c
+index c288102de324..56dae08dfd48 100644
+--- a/drivers/i2c/i2c-slave-testunit.c
++++ b/drivers/i2c/i2c-slave-testunit.c
+@@ -19,6 +19,7 @@
+ enum testunit_cmds {
+ 	TU_CMD_READ_BYTES = 1,	/* save 0 for ABORT, RESET or similar */
+ 	TU_CMD_HOST_NOTIFY,
++	TU_CMD_SMBUS_BLOCK_PROC_CALL,
+ 	TU_NUM_CMDS
+ };
+ 
+@@ -88,6 +89,8 @@ static int i2c_slave_testunit_slave_cb(struct i2c_client *client,
+ 				     enum i2c_slave_event event, u8 *val)
+ {
+ 	struct testunit_data *tu = i2c_get_clientdata(client);
++	bool is_proc_call = tu->reg_idx == 3 && tu->regs[TU_REG_DATAL] == 1 &&
++			    tu->regs[TU_REG_CMD] == TU_CMD_SMBUS_BLOCK_PROC_CALL;
+ 	int ret = 0;
+ 
+ 	switch (event) {
+@@ -118,12 +121,17 @@ static int i2c_slave_testunit_slave_cb(struct i2c_client *client,
+ 		fallthrough;
+ 
+ 	case I2C_SLAVE_WRITE_REQUESTED:
++		memset(tu->regs, 0, TU_NUM_REGS);
+ 		tu->reg_idx = 0;
+ 		break;
+ 
+-	case I2C_SLAVE_READ_REQUESTED:
+ 	case I2C_SLAVE_READ_PROCESSED:
+-		*val = TU_CUR_VERSION;
++		if (is_proc_call && tu->regs[TU_REG_DATAH])
++			tu->regs[TU_REG_DATAH]--;
++		fallthrough;
++
++	case I2C_SLAVE_READ_REQUESTED:
++		*val = is_proc_call ? tu->regs[TU_REG_DATAH] : TU_CUR_VERSION;
+ 		break;
+ 	}
+ 
+-- 
+2.28.0
 
