@@ -2,73 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58AFA314DE9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Feb 2021 12:11:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C13A7314DF2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Feb 2021 12:11:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232183AbhBILI6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Feb 2021 06:08:58 -0500
-Received: from www.zeus03.de ([194.117.254.33]:45230 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232185AbhBILGu (ORCPT
+        id S232049AbhBILK6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Feb 2021 06:10:58 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:39071 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232120AbhBILKF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Feb 2021 06:06:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=SUzzrI9D5D4c73ehhqDsMPIhTAu
-        krH5yiKWc0AE6DE4=; b=m0rSdnYqGSAl65b580ZsB9GwLiYA4Urc8L7daE6wZbc
-        NG9PtLFtuaycqmFO81vbzqJOz+8+YaVDpdJ/utd+a6tLl5tVurkm5VbsOoYkqfXW
-        dtlDjQQ8LWHdW4/NwpUpvvLgFckwz7bOw4QALukoOSOSrucOLqHaNx7x2/II2Ql4
-        =
-Received: (qmail 177983 invoked from network); 9 Feb 2021 12:06:05 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Feb 2021 12:06:05 +0100
-X-UD-Smtp-Session: l3s3148p1@rufXReW6Fo0gAwDPXxOiANNsDO+kmtby
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org, Jean Delvare <jdelvare@suse.de>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for returned length from driver"
-Date:   Tue,  9 Feb 2021 12:05:56 +0100
-Message-Id: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.28.0
+        Tue, 9 Feb 2021 06:10:05 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 45BB76000A;
+        Tue,  9 Feb 2021 11:09:18 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-next@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] media: i2c: Kconfig: Make MAX9271 a module
+Date:   Tue,  9 Feb 2021 12:09:21 +0100
+Message-Id: <20210209110921.20653-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This reverts commit 34806fc4e7090b34e32fa1110d546ab5ce01a6a0. It was
-developed against an experimental kernel. The regular kernel does not
-update the new message length to userspace, so the check is always false
-positive. We can't change the kernel behaviour because it would break
-the ABI. So revert this commit.
+With the introduction of the RDACM21 camera module support in commit
+a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module") the
+symbols defined by the max9271 library were exported twice if multiple
+users of the library were compiled in at the same time.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+In example:
+WARNING: modpost: drivers/media/i2c/rdacm21-camera_module:
+'max9271_set_serial_link' exported twice. Previous export was in
+drivers/media/i2c/rdacm20-camera_module.ko
+
+Fix this by making the max9271 file a module and have the driver
+using its functions select it.
+
+Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
+ drivers/media/i2c/Kconfig  | 5 +++++
+ drivers/media/i2c/Makefile | 7 +++----
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-Very embarrasing :( I am sorry for this. Jean, maybe this is worth a
-4.2.1. release?
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 2d3dc0d82f9e..462c0e059754 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -1240,12 +1240,16 @@ config VIDEO_NOON010PC30
 
- tools/i2ctransfer.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ source "drivers/media/i2c/m5mols/Kconfig"
 
-diff --git a/tools/i2ctransfer.c b/tools/i2ctransfer.c
-index f2a4df8..b0e8d43 100644
---- a/tools/i2ctransfer.c
-+++ b/tools/i2ctransfer.c
-@@ -88,12 +88,7 @@ static void print_msgs(struct i2c_msg *msgs, __u32 nmsgs, unsigned flags)
- 		int recv_len = msgs[i].flags & I2C_M_RECV_LEN;
- 		int print_buf = (read && (flags & PRINT_READ_BUF)) ||
- 				(!read && (flags & PRINT_WRITE_BUF));
--		__u16 len = msgs[i].len;
--
--		if (recv_len && print_buf && len != msgs[i].buf[0] + 1) {
--			fprintf(stderr, "Correcting wrong msg length after recv_len! Please fix the I2C driver and/or report.\n");
--			len = msgs[i].buf[0] + 1;
--		}
-+		__u16 len = recv_len ? msgs[i].buf[0] + 1 : msgs[i].len;
- 
- 		if (flags & PRINT_HEADER) {
- 			fprintf(output, "msg %u: addr 0x%02x, %s, len ",
--- 
-2.28.0
++config VIDEO_MAX9271_LIB
++	tristate
++
+ config VIDEO_RDACM20
+ 	tristate "IMI RDACM20 camera support"
+ 	depends on I2C
+ 	select V4L2_FWNODE
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select MEDIA_CONTROLLER
++	select VIDEO_MAX9271_LIB
+ 	help
+ 	  This driver supports the IMI RDACM20 GMSL camera, used in
+ 	  ADAS systems.
+@@ -1259,6 +1263,7 @@ config VIDEO_RDACM21
+ 	select V4L2_FWNODE
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select MEDIA_CONTROLLER
++	select VIDEO_MAX9271_LIB
+ 	help
+ 	  This driver supports the IMI RDACM21 GMSL camera, used in
+ 	  ADAS systems.
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index 6bd22d63e1a7..0c067beca066 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -125,10 +125,9 @@ obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
+ obj-$(CONFIG_VIDEO_IMX334)	+= imx334.o
+ obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
+ obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
+-rdacm20-camera_module-objs	:= rdacm20.o max9271.o
+-obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
+-rdacm21-camera_module-objs	:= rdacm21.o max9271.o
+-obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
++obj-$(CONFIG_VIDEO_MAX9271_LIB)	+= max9271.o
++obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20.o
++obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21.o
+ obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
+
+ obj-$(CONFIG_SDR_MAX2175) += max2175.o
+--
+2.30.0
 
