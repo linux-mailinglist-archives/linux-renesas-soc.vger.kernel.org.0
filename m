@@ -2,176 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04FD5315A24
+	by mail.lfdr.de (Postfix) with ESMTP id 766CA315A25
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Feb 2021 00:38:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233997AbhBIXhV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Feb 2021 18:37:21 -0500
-Received: from mga11.intel.com ([192.55.52.93]:2751 "EHLO mga11.intel.com"
+        id S233802AbhBIXh7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Feb 2021 18:37:59 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54298 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234852AbhBIXNi (ORCPT
+        id S233814AbhBIXZA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Feb 2021 18:13:38 -0500
-IronPort-SDR: 37wAL2COLKz8eMSNw6DI6xJhyYQiayd8aWIwzN2ku1dJVvh5DHCHB+uDDewA0nMC9STm6NVvFO
- 7QE0W4640DVw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="178465942"
-X-IronPort-AV: E=Sophos;i="5.81,166,1610438400"; 
-   d="scan'208";a="178465942"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 14:59:18 -0800
-IronPort-SDR: zU5QhDcrzyT16lbv3tTLcZGvf9/StQvaWxel2GptEA8wchEdPnQ252vx0tGioitLkFp2d8/txz
- Aig8DdafDqbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,166,1610438400"; 
-   d="scan'208";a="420208965"
-Received: from lkp-server02.sh.intel.com (HELO cd560a204411) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Feb 2021 14:59:17 -0800
-Received: from kbuild by cd560a204411 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1l9byW-0002Ne-OJ; Tue, 09 Feb 2021 22:59:16 +0000
-Date:   Wed, 10 Feb 2021 06:59:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- 1ae0d11b9a943a7e6ced2a899bc9352429da3a44
-Message-ID: <602313b6.+tg8Q+FzB+XcKiBa%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 9 Feb 2021 18:25:00 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 23F6A64DED;
+        Tue,  9 Feb 2021 23:24:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612913055;
+        bh=L2ymRxGDKr1/CMeTw1M5We+NqO3B9OwoCehMFDhBuLc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mKyRNYgBCRmMFPmy85Ps+nb6KEI85rO0dzbKj3/K+wo48RW5KhxSzRYe8oIiWQJf+
+         i14dBV2oAZjnKAQpNLQM5wJ3h3pXsuUvlSXQ6/EBIQt4cGZZ/vuf/JiFDnB7vv0pmP
+         WvyYFv2+4WyKLAIu+APCb0VfeVGA/R+PQ4bxkTqjh9mAoWFEgFX0llPK20hCnKnRch
+         GiCTRCKXYeJKROg3byU9lLLc2y91DE+QN7CgB9WO9+ON4pJxql9dIWHW16E7odwOrU
+         O1uw3buPv8K2ECLC5cilXYV8AWPfpiD1EF0QDSOkVCki644+RpwD+sNSgSuQLKdN77
+         1I3z6BbvOy0CA==
+Date:   Tue, 9 Feb 2021 16:24:13 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-next@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] media: i2c: Kconfig: Make MAX9271 a module
+Message-ID: <20210209232413.GA673593@ubuntu-m3-large-x86>
+References: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20210208182006.178740-1-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 1ae0d11b9a943a7e6ced2a899bc9352429da3a44  Merge tag 'v5.11-rc7' into renesas-devel
+On Mon, Feb 08, 2021 at 07:20:06PM +0100, Jacopo Mondi wrote:
+> With the introduction of the RDACM21 camera module support in
+> commit a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> the symbols defined by the max9271 library were exported twice
+> if multiple users of the library were compiled in at the same time.
+> 
+> In example:
+> WARNING: modpost: drivers/media/i2c/rdacm21-camera_module:
+> 'max9271_set_serial_link' exported twice. Previous export was in
+> drivers/media/i2c/rdacm20-camera_module.ko
+> 
+> Fix this by making the rdacm21 file a module and have the driver
+> using its functions select it.
+> 
+> Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-elapsed time: 728m
+That file needs a MODULE_LICENSE now otherwise there will be a fatal
+build error:
 
-configs tested: 113
-configs skipped: 2
+ERROR: modpost: missing MODULE_LICENSE() in drivers/media/i2c/max9271.o
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Cheers,
+Nathan
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                     davinci_all_defconfig
-s390                          debug_defconfig
-arm                         hackkit_defconfig
-powerpc                    socrates_defconfig
-sh                           se7721_defconfig
-powerpc                   motionpro_defconfig
-powerpc                 mpc8540_ads_defconfig
-arm                              zx_defconfig
-mips                     cu1000-neo_defconfig
-csky                             alldefconfig
-powerpc                     pseries_defconfig
-arm                       spear13xx_defconfig
-powerpc                     kmeter1_defconfig
-mips                       lemote2f_defconfig
-mips                     cu1830-neo_defconfig
-arm                        mini2440_defconfig
-arm                          ep93xx_defconfig
-arm                           sunxi_defconfig
-powerpc                      makalu_defconfig
-arm                            zeus_defconfig
-powerpc                     pq2fads_defconfig
-arm                       aspeed_g5_defconfig
-mips                            e55_defconfig
-powerpc                 mpc837x_rdb_defconfig
-m68k                       m5475evb_defconfig
-sh                         microdev_defconfig
-powerpc                       ppc64_defconfig
-arm                          badge4_defconfig
-m68k                            mac_defconfig
-sh                        dreamcast_defconfig
-mips                 decstation_r4k_defconfig
-h8300                     edosk2674_defconfig
-powerpc                 mpc832x_rdb_defconfig
-powerpc                 mpc8313_rdb_defconfig
-powerpc                      ppc40x_defconfig
-m68k                          multi_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-sparc                            allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20210209
-i386                 randconfig-a005-20210209
-i386                 randconfig-a003-20210209
-i386                 randconfig-a002-20210209
-i386                 randconfig-a006-20210209
-i386                 randconfig-a004-20210209
-i386                 randconfig-a016-20210209
-i386                 randconfig-a013-20210209
-i386                 randconfig-a012-20210209
-i386                 randconfig-a014-20210209
-i386                 randconfig-a011-20210209
-i386                 randconfig-a015-20210209
-x86_64               randconfig-a006-20210209
-x86_64               randconfig-a001-20210209
-x86_64               randconfig-a005-20210209
-x86_64               randconfig-a004-20210209
-x86_64               randconfig-a002-20210209
-x86_64               randconfig-a003-20210209
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a013-20210209
-x86_64               randconfig-a014-20210209
-x86_64               randconfig-a015-20210209
-x86_64               randconfig-a012-20210209
-x86_64               randconfig-a016-20210209
-x86_64               randconfig-a011-20210209
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> ---
+>  drivers/media/i2c/Kconfig  | 5 +++++
+>  drivers/media/i2c/Makefile | 7 +++----
+>  2 files changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 2d3dc0d82f9e..84645f751da3 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -1240,12 +1240,16 @@ config VIDEO_NOON010PC30
+> 
+>  source "drivers/media/i2c/m5mols/Kconfig"
+> 
+> +config VIDEO_MAX9271
+> +	tristate
+> +
+>  config VIDEO_RDACM20
+>  	tristate "IMI RDACM20 camera support"
+>  	depends on I2C
+>  	select V4L2_FWNODE
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	select MEDIA_CONTROLLER
+> +	select VIDEO_MAX9271
+>  	help
+>  	  This driver supports the IMI RDACM20 GMSL camera, used in
+>  	  ADAS systems.
+> @@ -1259,6 +1263,7 @@ config VIDEO_RDACM21
+>  	select V4L2_FWNODE
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	select MEDIA_CONTROLLER
+> +	select VIDEO_MAX9271
+>  	help
+>  	  This driver supports the IMI RDACM21 GMSL camera, used in
+>  	  ADAS systems.
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index 6bd22d63e1a7..c34a7de3158b 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -125,10 +125,9 @@ obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
+>  obj-$(CONFIG_VIDEO_IMX334)	+= imx334.o
+>  obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
+>  obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
+> -rdacm20-camera_module-objs	:= rdacm20.o max9271.o
+> -obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
+> -rdacm21-camera_module-objs	:= rdacm21.o max9271.o
+> -obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
+> +obj-$(CONFIG_VIDEO_MAX9271)	+= max9271.o
+> +obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20.o
+> +obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21.o
+>  obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
+> 
+>  obj-$(CONFIG_SDR_MAX2175) += max2175.o
+> --
+> 2.30.0
+> 
