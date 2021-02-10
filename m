@@ -2,80 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEB3F315FD7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Feb 2021 08:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 733793161ED
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Feb 2021 10:18:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232114AbhBJHEX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Feb 2021 02:04:23 -0500
-Received: from spam.auroraoh.com ([24.56.89.101]:51492 "EHLO
-        barracuda.auroraoh.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232084AbhBJHEP (ORCPT
+        id S229611AbhBJJSp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Feb 2021 04:18:45 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.24]:21066 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230235AbhBJJPo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Feb 2021 02:04:15 -0500
-X-ASG-Debug-ID: 1612940587-112c0d6a799c950002-W7S1xt
-Received: from COASRV-MAIL2.auroraoh.loc (coasrv-mail2.auroraoh.loc [10.3.1.15]) by barracuda.auroraoh.com with ESMTP id 7mA8j449GEhrgtbG; Wed, 10 Feb 2021 02:03:08 -0500 (EST)
-X-Barracuda-Envelope-From: JanuskaD@auroraoh.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.3.1.15
-Received: from [172.20.10.5] (197.210.29.8) by COASRV-MAIL2.auroraoh.loc
- (10.3.1.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 9 Feb 2021
- 02:41:50 -0500
-Content-Type: text/plain; charset="iso-8859-1"
-X-Barracuda-RBL-Trusted-Forwarder: 172.20.10.5
+        Wed, 10 Feb 2021 04:15:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1612948308;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
+        From:Subject:Sender;
+        bh=ksVLQIGKM6kEiyt9+nRQ/u2KJw5M1esBBiSkOpbfAFI=;
+        b=MTlRC1sO7xWQA7U/KD0pSLriKKbtNBYfE6xBTsfKEmXbmladjxv1mba/k2Nwd08jMT
+        AFGYg/Kl33JiS7rT4qrjiTpydI2hfksUKx4NwFTbEX0+7nfgyyMBswrUsMa2CzyOvIyj
+        iR2CKZAqWTa/j1cO2m/f/gVfkLAcYAW+Aq4yn3KZac4uQ8JX9lf7ijvT4NBeRpklEDy3
+        Sunms1sNczFRU+1RNI+iVLOp/9tFdl37cxV0a4ihsiHUA7hLakkprqzJ2dR/8GDCOEwB
+        iV7xKGA9+6AKsOsAQfu9BSbt5QF9a32ZA8LvYcwaFtSam1aWUEVN6diGtl9VzmOs2xqK
+        m/vw==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fGk/2qthug="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp03-01.back.ox.d0m.de
+        by smtp-ox.front (RZmta 47.17.1 AUTH)
+        with ESMTPSA id c05ce8x1A9Bm3d0
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Wed, 10 Feb 2021 10:11:48 +0100 (CET)
+Date:   Wed, 10 Feb 2021 10:11:48 +0100 (CET)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-renesas-soc@vger.kernel.org
+Message-ID: <1749889389.830679.1612948308452@webmail.strato.com>
+In-Reply-To: <20210204135409.1652604-1-geert+renesas@glider.be>
+References: <20210204135409.1652604-1-geert+renesas@glider.be>
+Subject: Re: [PATCH/RFC 0/6] ARM: r8a73a4: Add SMP support
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: We are a registered Private Loan Investment Company in the United Kingdom,
- we also registered with the Turkish British Chamber of Commerce and Industry
- (TBCCI) we have operations in Europe and Asia.
-To:     Recipients <januskad@auroraoh.com>
-X-ASG-Orig-Subj: We are a registered Private Loan Investment Company in the United Kingdom,
- we also registered with the Turkish British Chamber of Commerce and Industry
- (TBCCI) we have operations in Europe and Asia.
-From:   <januskad@auroraoh.com>
-Date:   Tue, 9 Feb 2021 15:41:03 +0800
-Reply-To: <cfolimiited@gmail.com>
-X-Priority: 1 (High)
-X-Antivirus: Avast (VPS 210207-2, 02/07/2021), Outbound message
-X-Antivirus-Status: Clean
-Message-ID: <19476914-06ef-4e05-b16e-afe6693abdc0@COASRV-MAIL2.auroraoh.loc>
-X-Originating-IP: [197.210.29.8]
-X-ClientProxiedBy: COASRV-MAIL3.auroraoh.loc (10.3.1.13) To
- COASRV-MAIL2.auroraoh.loc (10.3.1.15)
-X-Barracuda-Connect: coasrv-mail2.auroraoh.loc[10.3.1.15]
-X-Barracuda-Start-Time: 1612940587
-X-Barracuda-URL: https://10.3.1.12:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at auroraoh.com
-X-Barracuda-Scan-Msg-Size: 755
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Spam-Score: 1.61
-X-Barracuda-Spam-Status: No, SCORE=1.61 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=5.0 tests=BSF_SC0_SA609_NRN, BSF_SC0_SA912_RP_FR, BSF_SC0_SA_TO_FROM_ADDR_MATCH, NO_REAL_NAME
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.87879
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.00 NO_REAL_NAME           From: does not include a real name
-        0.01 BSF_SC0_SA912_RP_FR    Custom Rule BSF_SC0_SA912_RP_FR
-        0.50 BSF_SC0_SA_TO_FROM_ADDR_MATCH Sender Address Matches Recipient
-                                   Address
-        1.10 BSF_SC0_SA609_NRN      Custom Rule SA609_NRN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.3-Rev31
+X-Originating-Client: open-xchange-appsuite
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-We are seeking for beneficiaries who source for fund to expand/relocating their business interest abroad. We are ready to fund projects outside Turkey and United Kingdom in the form of Soft Loan. We grant loans to both corporate and private entities at a low interest rate of 2% R.O.I per annul.
 
-We like to grant loan in the following sectors: oil/Gas, banking, real estate, stock speculation and mining, transportation, health sector and tobacco, Communication Services, Agriculture Forestry & Fishing, thus any sector. The terms are very flexible and interesting.
+> On 02/04/2021 2:54 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> Questions:
+>   - Do we want to bring up the Cortex-A7 cores, too? We don't on R-Car
+>     H2 neither.
 
-Please contact us for more details;
+What still needs to be done for that?
 
+[I recall having issues bringing up the A7 cores on my old APE6 board (that has since failed and been returned to Renesas). The kernel failed to bring up the A7 cores if enabled at boot, but I was able to enable up to three (any three) of them one-by-one via sysfs. I'm not sure if that was specific to that board, though.]
 
-Kind regards,
-
-Paul McCann
-
--- 
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
-
+CU
+Uli
