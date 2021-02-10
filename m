@@ -2,67 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 733793161ED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Feb 2021 10:18:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 658FE3162CC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Feb 2021 10:54:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbhBJJSp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Feb 2021 04:18:45 -0500
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.24]:21066 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230235AbhBJJPo (ORCPT
+        id S229812AbhBJJxy convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Feb 2021 04:53:54 -0500
+Received: from mail-ot1-f45.google.com ([209.85.210.45]:47010 "EHLO
+        mail-ot1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229731AbhBJJvw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Feb 2021 04:15:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1612948308;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-        From:Subject:Sender;
-        bh=ksVLQIGKM6kEiyt9+nRQ/u2KJw5M1esBBiSkOpbfAFI=;
-        b=MTlRC1sO7xWQA7U/KD0pSLriKKbtNBYfE6xBTsfKEmXbmladjxv1mba/k2Nwd08jMT
-        AFGYg/Kl33JiS7rT4qrjiTpydI2hfksUKx4NwFTbEX0+7nfgyyMBswrUsMa2CzyOvIyj
-        iR2CKZAqWTa/j1cO2m/f/gVfkLAcYAW+Aq4yn3KZac4uQ8JX9lf7ijvT4NBeRpklEDy3
-        Sunms1sNczFRU+1RNI+iVLOp/9tFdl37cxV0a4ihsiHUA7hLakkprqzJ2dR/8GDCOEwB
-        iV7xKGA9+6AKsOsAQfu9BSbt5QF9a32ZA8LvYcwaFtSam1aWUEVN6diGtl9VzmOs2xqK
-        m/vw==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fGk/2qthug="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp03-01.back.ox.d0m.de
-        by smtp-ox.front (RZmta 47.17.1 AUTH)
-        with ESMTPSA id c05ce8x1A9Bm3d0
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Wed, 10 Feb 2021 10:11:48 +0100 (CET)
-Date:   Wed, 10 Feb 2021 10:11:48 +0100 (CET)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-renesas-soc@vger.kernel.org
-Message-ID: <1749889389.830679.1612948308452@webmail.strato.com>
-In-Reply-To: <20210204135409.1652604-1-geert+renesas@glider.be>
-References: <20210204135409.1652604-1-geert+renesas@glider.be>
-Subject: Re: [PATCH/RFC 0/6] ARM: r8a73a4: Add SMP support
+        Wed, 10 Feb 2021 04:51:52 -0500
+Received: by mail-ot1-f45.google.com with SMTP id r21so1215424otk.13
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Feb 2021 01:51:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=p15BTcj2npK9C4gDTBa+7ZQz8RWNNtxRRUe/4eo6M5E=;
+        b=OXNDWm9K5kbdkDtsVFLx1FGwcG1JQMoO38VfPetzZV5NxnCzj5G9+DW3ihzSXfrPef
+         70EK+3RzjMcxtWzmLe1eWfYYMcP2QY/8rtmb4PykmnEQjHDVM0vL9jGxu0nx6N1DxAWg
+         C6XUNxApo/+eayZAXhMy8imnugfIYUWpwCe4o50J+P/VMKy004MTQyEvMX1+tzzt/HhM
+         vjIFSRuKltv1ac/diT9vXcR+ZHeLBzy4GefszlWvbI4u2hQK536+efpLf6YdhPACTszo
+         oPgh2zYEirsaDAmwdZZUyP4kL5XgZPueEi7JtyHNvA2AIkrJ6q6Jvkjr8rxatMqpx0aP
+         3usw==
+X-Gm-Message-State: AOAM530r5ISyf7BqUYkAU5MCOrkfvxROr0kpNJxzonJbyP/cwcEJF0u6
+        GHZxPEs9ILXj+WvCp/cV7iTS36LPH1FBU97gsJM=
+X-Google-Smtp-Source: ABdhPJxlv1lzDawcbZ7Yhn83KZKO74k4JChmIKdB3lgHGVdh3kq67KCCfjd/UPAPPqJ0b5+mzggidsCf4L8/PidAWEY=
+X-Received: by 2002:a9d:77d6:: with SMTP id w22mr1518841otl.145.1612950671367;
+ Wed, 10 Feb 2021 01:51:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.3-Rev31
-X-Originating-Client: open-xchange-appsuite
+References: <20210204135409.1652604-1-geert+renesas@glider.be> <1749889389.830679.1612948308452@webmail.strato.com>
+In-Reply-To: <1749889389.830679.1612948308452@webmail.strato.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 10 Feb 2021 10:51:00 +0100
+Message-ID: <CAMuHMdXKwHMU4JDf=k+3=+WF_mzVK8hWsfkUM8H8-b-CQgWq5Q@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/6] ARM: r8a73a4: Add SMP support
+To:     Ulrich Hecht <uli@fpond.eu>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Uli,
 
-> On 02/04/2021 2:54 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> Questions:
->   - Do we want to bring up the Cortex-A7 cores, too? We don't on R-Car
->     H2 neither.
+On Wed, Feb 10, 2021 at 10:17 AM Ulrich Hecht <uli@fpond.eu> wrote:
+> > On 02/04/2021 2:54 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> > Questions:
+> >   - Do we want to bring up the Cortex-A7 cores, too? We don't on R-Car
+> >     H2 neither.
+>
+> What still needs to be done for that?
 
-What still needs to be done for that?
+Revert ee490bcc4f2d456c ("ARM: shmobile: Extend APMU code to allow
+single cluster only")?  Looks like Magnus only wanted to enable the boot
+cluster, due to lack of big.LITTLE scheduling support?
 
-[I recall having issues bringing up the A7 cores on my old APE6 board (that has since failed and been returned to Renesas). The kernel failed to bring up the A7 cores if enabled at boot, but I was able to enable up to three (any three) of them one-by-one via sysfs. I'm not sure if that was specific to that board, though.]
+> [I recall having issues bringing up the A7 cores on my old APE6 board (that has since failed and been returned to Renesas). The kernel failed to bring up the A7 cores if enabled at boot, but I was able to enable up to three (any three) of them one-by-one via sysfs. I'm not sure if that was specific to that board, though.]
 
-CU
-Uli
+Disabling the check makes the A7 cores start on my APE6-EVM.
+Userland (Debian nfsroot) boot fails in the middle though, when systemd
+fails to send messages to one of its brethren.
+
+With a ramdisk, everything seems fine.  I can even offline/online CPU
+cores from sysfs at will, which failed before!
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
