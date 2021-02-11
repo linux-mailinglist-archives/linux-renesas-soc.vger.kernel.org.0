@@ -2,223 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 171F3318CAA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Feb 2021 14:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB1F1318CAD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Feb 2021 14:57:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231128AbhBKNvZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Feb 2021 08:51:25 -0500
-Received: from vsp-unauthed02.binero.net ([195.74.38.227]:41216 "EHLO
-        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232004AbhBKNpn (ORCPT
+        id S230348AbhBKNvb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Feb 2021 08:51:31 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51514 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232080AbhBKNqE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Feb 2021 08:45:43 -0500
-X-Halon-ID: 405eb1ba-6c6f-11eb-b73f-0050569116f7
-Authorized-sender: niklas.soderlund@fsdn.se
-Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de [84.172.85.33])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id 405eb1ba-6c6f-11eb-b73f-0050569116f7;
-        Thu, 11 Feb 2021 14:44:28 +0100 (CET)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2] timekeeping: Allow runtime PM from change_clocksource()
-Date:   Thu, 11 Feb 2021 14:43:18 +0100
-Message-Id: <20210211134318.323910-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.30.0
+        Thu, 11 Feb 2021 08:46:04 -0500
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 980C545E;
+        Thu, 11 Feb 2021 14:44:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1613051098;
+        bh=g4+sXUYPsH1u3FNFVgG3+ISCZtj0FkcS0FTgQCzisTs=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=X7z9yKKaEnh1BBO8BNnwnlrxxhgkGGmSVQ51WyNcUoXZbt4f3StSKOqH3RRuSnh38
+         TN1EhteduzSGDRZg5jkTVeYgnp3+Jd5+0s7yv6ON2m2jZVJFvNOjfLxhlS2Jhl/yR6
+         73Zr66UxGhfZ0TTuIcMC9fWyrHQhjIHxsnamVunM=
+Subject: Re: [PATCH v4 00/31] v4l: add support for multiplexed streams
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     luca@lucaceresoli.net, ian.arkver.dev@gmail.com,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20190328200608.9463-1-jacopo+renesas@jmondi.org>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+Message-ID: <1510023a-a6aa-611e-8920-32b949ec5250@ideasonboard.com>
+Date:   Thu, 11 Feb 2021 15:44:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190328200608.9463-1-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The struct clocksource callbacks enable() and disable() are described as
-a way to allow clock sources to enter a power save mode [1]. But using
-runtime PM from these callbacks triggers a cyclic lockdep warning when
-switching clock source using change_clocksource().
+Hi all,
 
-This change allows the new clocksource to be enabled() and the old one
-to be disabled() without holding the timekeeper_lock. This solution is
-modeled on timekeeping_resume() and timekeeping_suspend() where the
-struct clocksource resume() and suspend() callbacks are called without
-holding the timekeeper_lock.
+On 28/03/2019 22:05, Jacopo Mondi wrote:
+> Hello,
+>    new iteration of multiplexed stream support patch series.
+> 
+> V3 available at:
+> https://patchwork.kernel.org/cover/10839889/
+> 
+> V2 sent by Niklas is available at:
+> https://patchwork.kernel.org/cover/10573817/
+> 
+> Series available at:
+> git://jmondi.org/linux v4l2-mux/media-master/v4
 
-Triggering and log of the deadlock warning,
+I'm trying to understand how these changes can be used with virtual
+channels and also with embedded data.
 
-  # echo e60f0000.timer > /sys/devices/system/clocksource/clocksource0/current_clocksource
-  [  118.081095] ======================================================
-  [  118.087455] WARNING: possible circular locking dependency detected
-  [  118.093821] 5.10.0-rc6-arm64-renesas-00002-ga0cf8106e584 #37 Not tainted
-  [  118.100712] ------------------------------------------------------
-  [  118.107069] migration/0/11 is trying to acquire lock:
-  [  118.112269] ffff0000403ed220 (&dev->power.lock){-...}-{2:2}, at: __pm_runtime_resume+0x40/0x74
-  [  118.121172]
-  [  118.121172] but task is already holding lock:
-  [  118.127170] ffff8000113c8f88 (tk_core.seq.seqcount){----}-{0:0}, at: multi_cpu_stop+0xa4/0x190
-  [  118.136061]
-  [  118.136061] which lock already depends on the new lock.
-  [  118.136061]
-  [  118.144461]
-  [  118.144461] the existing dependency chain (in reverse order) is:
-  [  118.152149]
-  [  118.152149] -> #2 (tk_core.seq.seqcount){----}-{0:0}:
-  [  118.158900]        lock_acquire.part.0+0x120/0x330
-  [  118.163834]        lock_acquire+0x64/0x80
-  [  118.167971]        seqcount_lockdep_reader_access.constprop.0+0x74/0x100
-  [  118.174865]        ktime_get+0x28/0xa0
-  [  118.178729]        hrtimer_start_range_ns+0x210/0x2dc
-  [  118.183934]        generic_sched_clock_init+0x70/0x88
-  [  118.189134]        sched_clock_init+0x40/0x64
-  [  118.193622]        start_kernel+0x494/0x524
-  [  118.197926]
-  [  118.197926] -> #1 (hrtimer_bases.lock){-.-.}-{2:2}:
-  [  118.204491]        lock_acquire.part.0+0x120/0x330
-  [  118.209424]        lock_acquire+0x64/0x80
-  [  118.213557]        _raw_spin_lock_irqsave+0x7c/0xc4
-  [  118.218579]        hrtimer_start_range_ns+0x68/0x2dc
-  [  118.223690]        rpm_suspend+0x308/0x5dc
-  [  118.227909]        rpm_idle+0xc4/0x2a4
-  [  118.231771]        pm_runtime_work+0x98/0xc0
-  [  118.236171]        process_one_work+0x294/0x6f0
-  [  118.240836]        worker_thread+0x70/0x45c
-  [  118.245143]        kthread+0x154/0x160
-  [  118.249007]        ret_from_fork+0x10/0x20
-  [  118.253222]
-  [  118.253222] -> #0 (&dev->power.lock){-...}-{2:2}:
-  [  118.259607]        check_noncircular+0x128/0x140
-  [  118.268774]        __lock_acquire+0x13b0/0x204c
-  [  118.277780]        lock_acquire.part.0+0x120/0x330
-  [  118.287001]        lock_acquire+0x64/0x80
-  [  118.295375]        _raw_spin_lock_irqsave+0x7c/0xc4
-  [  118.304623]        __pm_runtime_resume+0x40/0x74
-  [  118.313644]        sh_cmt_start+0x1c4/0x260
-  [  118.322275]        sh_cmt_clocksource_enable+0x28/0x50
-  [  118.331891]        change_clocksource+0x9c/0x160
-  [  118.340910]        multi_cpu_stop+0xa4/0x190
-  [  118.349522]        cpu_stopper_thread+0x90/0x154
-  [  118.358429]        smpboot_thread_fn+0x244/0x270
-  [  118.367265]        kthread+0x154/0x160
-  [  118.375158]        ret_from_fork+0x10/0x20
-  [  118.383284]
-  [  118.383284] other info that might help us debug this:
-  [  118.383284]
-  [  118.402810] Chain exists of:
-  [  118.402810]   &dev->power.lock --> hrtimer_bases.lock --> tk_core.seq.seqcount
-  [  118.402810]
-  [  118.425597]  Possible unsafe locking scenario:
-  [  118.425597]
-  [  118.439130]        CPU0                    CPU1
-  [  118.447413]        ----                    ----
-  [  118.455641]   lock(tk_core.seq.seqcount);
-  [  118.463335]                                lock(hrtimer_bases.lock);
-  [  118.473507]                                lock(tk_core.seq.seqcount);
-  [  118.483787]   lock(&dev->power.lock);
-  [  118.491120]
-  [  118.491120]  *** DEADLOCK ***
-  [  118.491120]
-  [  118.507666] 2 locks held by migration/0/11:
-  [  118.515424]  #0: ffff8000113c9278 (timekeeper_lock){-.-.}-{2:2}, at: change_clocksource+0x2c/0x160
-  [  118.528257]  #1: ffff8000113c8f88 (tk_core.seq.seqcount){----}-{0:0}, at: multi_cpu_stop+0xa4/0x190
-  [  118.541248]
-  [  118.541248] stack backtrace:
-  [  118.553226] CPU: 0 PID: 11 Comm: migration/0 Not tainted 5.10.0-rc6-arm64-renesas-00002-ga0cf8106e584 #37
-  [  118.566923] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
-  [  118.579051] Call trace:
-  [  118.585649]  dump_backtrace+0x0/0x190
-  [  118.593505]  show_stack+0x14/0x30
-  [  118.601001]  dump_stack+0xe8/0x130
-  [  118.608567]  print_circular_bug+0x1f0/0x200
-  [  118.616930]  check_noncircular+0x128/0x140
-  [  118.625231]  __lock_acquire+0x13b0/0x204c
-  [  118.633451]  lock_acquire.part.0+0x120/0x330
-  [  118.641958]  lock_acquire+0x64/0x80
-  [  118.649630]  _raw_spin_lock_irqsave+0x7c/0xc4
-  [  118.658186]  __pm_runtime_resume+0x40/0x74
-  [  118.666483]  sh_cmt_start+0x1c4/0x260
-  [  118.674327]  sh_cmt_clocksource_enable+0x28/0x50
-  [  118.683170]  change_clocksource+0x9c/0x160
-  [  118.691460]  multi_cpu_stop+0xa4/0x190
-  [  118.699384]  cpu_stopper_thread+0x90/0x154
-  [  118.707672]  smpboot_thread_fn+0x244/0x270
-  [  118.715961]  kthread+0x154/0x160
-  [  118.723360]  ret_from_fork+0x10/0x20
-  [  118.731465] clocksource: Switched to clocksource e60f0000.timer
+I have an SoC with two CSI-2 RX ports, both of which connect to a
+processing block with 8 DMA engines. Each of the DMA engines can be
+programmed to handle a certain virtual channel and datatype.
 
-1. commit 4614e6adafa2c5e6 ("clocksource: add enable() and disable() callbacks")
+The board has a multiplexer, connected to 4 cameras, and the multiplexer
+connects to SoC's CSI-2 RX port. This board has just one multiplexer
+connected, but, of course, both RX ports could have a multiplexer,
+amounting to total 8 cameras.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- kernel/time/timekeeping.c | 36 +++++++++++++++++++++++-------------
- 1 file changed, 23 insertions(+), 13 deletions(-)
+So, in theory, there could be 16 streams to be handled (4 pixel streams
+and 4 embedded data streams for both RX ports). With only 8 DMA engines
+available, the driver has to manage them dynamically, reserving a DMA
+engine when a stream is started.
 
-diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
-index 6aee5768c86ff7db..26ef4c9ef5c57081 100644
---- a/kernel/time/timekeeping.c
-+++ b/kernel/time/timekeeping.c
-@@ -1427,35 +1427,45 @@ static void __timekeeping_set_tai_offset(struct timekeeper *tk, s32 tai_offset)
- static int change_clocksource(void *data)
- {
- 	struct timekeeper *tk = &tk_core.timekeeper;
--	struct clocksource *new, *old;
-+	struct clocksource *new, *old = NULL;
- 	unsigned long flags;
-+	bool change = false;
- 
- 	new = (struct clocksource *) data;
- 
--	raw_spin_lock_irqsave(&timekeeper_lock, flags);
--	write_seqcount_begin(&tk_core.seq);
--
--	timekeeping_forward_now(tk);
- 	/*
- 	 * If the cs is in module, get a module reference. Succeeds
- 	 * for built-in code (owner == NULL) as well.
- 	 */
- 	if (try_module_get(new->owner)) {
--		if (!new->enable || new->enable(new) == 0) {
--			old = tk->tkr_mono.clock;
--			tk_setup_internals(tk, new);
--			if (old->disable)
--				old->disable(old);
--			module_put(old->owner);
--		} else {
-+		if (!new->enable || new->enable(new) == 0)
-+			change = true;
-+		else
- 			module_put(new->owner);
--		}
- 	}
-+
-+	raw_spin_lock_irqsave(&timekeeper_lock, flags);
-+	write_seqcount_begin(&tk_core.seq);
-+
-+	timekeeping_forward_now(tk);
-+
-+	if (change) {
-+		old = tk->tkr_mono.clock;
-+		tk_setup_internals(tk, new);
-+	}
-+
- 	timekeeping_update(tk, TK_CLEAR_NTP | TK_MIRROR | TK_CLOCK_WAS_SET);
- 
- 	write_seqcount_end(&tk_core.seq);
- 	raw_spin_unlock_irqrestore(&timekeeper_lock, flags);
- 
-+	if (old) {
-+		if (old->disable)
-+			old->disable(old);
-+
-+		module_put(old->owner);
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.30.0
+My confusion is with the /dev/video nodes. I think it would be logical
+to create 8 of them, one for each DMA engine (or less, if I know there
+is only, say, 1 camera connected, in which case 2 nodes would be
+enough). But in that case how does the user know what data is being
+received from that node? In other words, how to connect, say,
+/dev/video0 to second camera's embedded data stream?
 
+Another option would be to create 16 /dev/video nodes, and document that
+first one maps to virtual channel 0 + pixel data, second to virtual
+channel 0 + embedded data, and so on. And only allow 8 of them to be
+turned on at a time. But I don't like this idea much.
+
+The current driver architecture is such that the multiplexer is modeled
+with a subdev with 4 sink pads and one source pad, the SoC's RX ports
+are subdevs with a single sink and a single output pad, and then there
+are the video devices connected to RX's source pad.
+
+And while I can connect the video node's pad to the source pad on either
+of the RX ports, I don't think I have any way to define which stream it
+receives.
+
+Does that mean that each RX port subdev should instead have 8 source
+pads? Isn't a pad like a physical connection? There's really just one
+output from the RX port, with multiplexed streams, so 8 pads doesn't
+sound right.
+
+ Tomi
