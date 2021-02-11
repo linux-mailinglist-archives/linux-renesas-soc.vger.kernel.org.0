@@ -2,97 +2,307 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA867318AFA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Feb 2021 13:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64F36318B72
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Feb 2021 14:05:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231818AbhBKMkF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Feb 2021 07:40:05 -0500
-Received: from mail-lf1-f47.google.com ([209.85.167.47]:37550 "EHLO
-        mail-lf1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231610AbhBKMhT (ORCPT
+        id S229707AbhBKNEB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Feb 2021 08:04:01 -0500
+Received: from mail-ot1-f44.google.com ([209.85.210.44]:44262 "EHLO
+        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231635AbhBKNBh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Feb 2021 07:37:19 -0500
-Received: by mail-lf1-f47.google.com with SMTP id w36so7860324lfu.4;
-        Thu, 11 Feb 2021 04:37:01 -0800 (PST)
+        Thu, 11 Feb 2021 08:01:37 -0500
+Received: by mail-ot1-f44.google.com with SMTP id e5so4999676otb.11;
+        Thu, 11 Feb 2021 05:01:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BEYc1KpLEzvo5kSYZfGrwQM3KRwm1b2lfZYyXexWZu4=;
-        b=VH4vA5eaDmGzUOYGHm3IOI/bJ70N4gSz0UgY50lfz8vQPzZDpYB2bWFKRSt9AWEVct
-         48618//wLka3kGjw94skvUURS0DjRaLJUKy5EtoM4z9zrmgoA5e7sMp6pTae9r5CNwq9
-         Tz1ZqCr0ZbFjPL7iR0vFtGwo6UpDfMXPlrINKV2g1BBYCx4OE+/Sthy4arnvuSAaOrOK
-         NsI0iCB44dPvaAvt7iymI4/MN9v2tly+pBQtrb0KBqbtT8hfZ3veKqtxIIrCO+HuzUsJ
-         bm+z3Wr+p4eIkecaftCiiGYQVHcz/Cx4qQQ9PP6XJcwpXGjFe3Ylsdobr/4c1zbm7r26
-         mwfA==
-X-Gm-Message-State: AOAM533ABYHxSFAXAadjoCyOdRUCVhFbeNXb4i3HIcamjBiXMWwZeFc/
-        QMRzZjks6yo4ZQosXae/bY0=
-X-Google-Smtp-Source: ABdhPJxdyVid28mVAXjh+nRn+59q3xrQHr7U1Cor2gQrpo6Nb6/fQrsOCfzYErmyn2sPLz9lNKsymA==
-X-Received: by 2002:a19:810c:: with SMTP id c12mr4351687lfd.244.1613046996016;
-        Thu, 11 Feb 2021 04:36:36 -0800 (PST)
-Received: from localhost.localdomain (62-78-225-252.bb.dnainternet.fi. [62.78.225.252])
-        by smtp.gmail.com with ESMTPSA id n12sm896522lji.99.2021.02.11.04.36.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Feb 2021 04:36:35 -0800 (PST)
-Date:   Thu, 11 Feb 2021 14:36:29 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     mazziesaccount@gmail.com, matti.vaittinen@fi.rohmeurope.com
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-power@fi.rohmeurope.com, linux-arm-msm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [RFC PATCH 7/7] regulator: bd9576: Fix the driver name in id table
-Message-ID: <074dbbeef9ee2d5440d8c9ed1424ff4e99bdc048.1613042245.git.matti.vaittinen@fi.rohmeurope.com>
-References: <cover.1613042245.git.matti.vaittinen@fi.rohmeurope.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QMFNyDV7DmfIVLEmKQYa9awS7YrY55WsSx5JuI5FbdM=;
+        b=K8Fi9JmP4ane2ru66Z4kGgUDBZ5rpo2KNZKbxEZ0u6xbmAq6YGe/Eq+pKKteL9GrbX
+         /gvq4l3w5RecZocamcu5TEYGWKLkEuEHDjiZJ5kaebhR0j8YQ7i3i1HwS5srTESbhI/3
+         +x8o2Ecf7MLKJs+0SRKPW2m4GtetUTTOTV/SgXf7oywg4TPiJpYXUarrmZc4eFrDqlMz
+         9cD3MzVH1uOKmEvzU/+MTpc4eL0a9jwgcZOun2xxGU81oKBuCyN8plTA+vco854eJXZ5
+         fbTp2xdYqebFYf1om0yb91hH7480OVle2WLQoa3WgDcJi3x7Hn9pEYkrJhQLthcD3eIH
+         SUEw==
+X-Gm-Message-State: AOAM533lr9AYd//vNHSeEoBsn+KDgQnXoVrAjtMXUHMcw7r6fhKNUp9I
+        D6hGwcAdVjAGGKJmo72o9NYmwU5MDfL98UWT8vk=
+X-Google-Smtp-Source: ABdhPJxZDiUEbHhrzo8aCY9HhP7XU37YsKe5rfbHE0/8zTtJXnv01AsivsknDjLGR8Mn+hMIyIy6+OlyuPE1NQkrSOk=
+X-Received: by 2002:a9d:77d6:: with SMTP id w22mr5641603otl.145.1613048454541;
+ Thu, 11 Feb 2021 05:00:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1613042245.git.matti.vaittinen@fi.rohmeurope.com>
+References: <20210205222644.2357303-1-saravanak@google.com>
+In-Reply-To: <20210205222644.2357303-1-saravanak@google.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 11 Feb 2021 14:00:43 +0100
+Message-ID: <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Driver name was changed in MFD cell:
-https://lore.kernel.org/lkml/560b9748094392493ebf7af11b6cc558776c4fd5.1613031055.git.matti.vaittinen@fi.rohmeurope.com/
-Fix the ID table to match this.
+Hi Saravana,
 
-Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
----
- drivers/regulator/bd9576-regulator.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Fri, Feb 5, 2021 at 11:26 PM Saravana Kannan <saravanak@google.com> wrote:
+> There are a lot of devices/drivers where they never have a struct device
+> created for them or the driver initializes the hardware without ever
+> binding to the struct device.
+>
+> This series is intended to avoid any boot regressions due to such
+> devices/drivers when fw_devlink=on and also address the handling of
+> optional suppliers.
+>
+> Patch 1 and 2 addresses the issue of firmware nodes that look like
+> they'll have struct devices created for them, but will never actually
+> have struct devices added for them. For example, DT nodes with a
+> compatible property that don't have devices added for them.
+>
+> Patch 3 and 4 allow for handling optional DT bindings.
+>
+> Patch 5 sets up a generic API to handle drivers that never bind with
+> their devices.
+>
+> Patch 6 through 8 update different frameworks to use the new API.
+>
+> Thanks,
+> Saravana
+>
+> Saravana Kannan (8):
+>   driver core: fw_devlink: Detect supplier devices that will never be
+>     added
+>   of: property: Don't add links to absent suppliers
+>   driver core: Add fw_devlink.strict kernel param
+>   of: property: Add fw_devlink support for optional properties
+>   driver core: fw_devlink: Handle suppliers that don't use driver core
+>   irqdomain: Mark fwnodes when their irqdomain is added/removed
+>   PM: domains: Mark fwnodes when their powerdomain is added/removed
+>   clk: Mark fwnodes when their clock provider is added/removed
 
-diff --git a/drivers/regulator/bd9576-regulator.c b/drivers/regulator/bd9576-regulator.c
-index 8768f6145ec4..39d4cb04ac34 100644
---- a/drivers/regulator/bd9576-regulator.c
-+++ b/drivers/regulator/bd9576-regulator.c
-@@ -1087,8 +1087,8 @@ static int bd957x_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id bd957x_pmic_id[] = {
--	{ "bd9573-pmic", ROHM_CHIP_TYPE_BD9573 },
--	{ "bd9576-pmic", ROHM_CHIP_TYPE_BD9576 },
-+	{ "bd9573-regulator", ROHM_CHIP_TYPE_BD9573 },
-+	{ "bd9576-regulator", ROHM_CHIP_TYPE_BD9576 },
- 	{ },
- };
- MODULE_DEVICE_TABLE(platform, bd957x_pmic_id);
+Thanks for your series, which is now part of driver-core-next.
+I gave driver-core-next + [1] a try on various Renesas boards.
+Test results are below.
+In general, the result looks much better than before.
+
+[1] - https://lore.kernel.org/lkml/20210210114435.122242-1-tudor.ambarus@microchip.com/
+
+  1. R-Car Gen2 (Koelsch), R-Car Gen3 (Salvator-X(S), Ebisu).
+
+      - Commit 2dfc564bda4a31bc ("soc: renesas: rcar-sysc: Mark device
+        node OF_POPULATED after init") is no longer needed (but already
+        queued for v5.12 anyway)
+
+      - Some devices are reprobed, despite their drivers returning
+        a real error code, and not -EPROBE_DEFER:
+
+            renesas_wdt e6020000.watchdog: Watchdog blacklisted on r8a7791 ES1.*
+            (rwdt_probe() returns -ENODEV)
+
+            sh-pfc e6060000.pinctrl: pin GP_7_23 already requested by
+ee090000.pci; cannot claim for e6590000.usb
+            sh-pfc e6060000.pinctrl: pin-247 (e6590000.usb) status -22
+            sh-pfc e6060000.pinctrl: could not request pin 247
+(GP_7_23) from group usb0  on device sh-pfc
+            renesas_usbhs e6590000.usb: Error applying setting,
+reverse things back
+            renesas_usbhs: probe of e6590000.usb failed with error -22
+
+            rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
+            rcar-pcie fe000000.pcie:       IO
+0x00fe100000..0x00fe1fffff -> 0x0000000000
+            rcar-pcie fe000000.pcie:      MEM
+0x00fe200000..0x00fe3fffff -> 0x00fe200000
+            rcar-pcie fe000000.pcie:      MEM
+0x0030000000..0x0037ffffff -> 0x0030000000
+            rcar-pcie fe000000.pcie:      MEM
+0x0038000000..0x003fffffff -> 0x0038000000
+            rcar-pcie fe000000.pcie:   IB MEM
+0x0040000000..0x00bfffffff -> 0x0040000000
+            rcar-pcie fe000000.pcie:   IB MEM
+0x0200000000..0x02ffffffff -> 0x0200000000
+            rcar-pcie fe000000.pcie: PCIe link down
+            (rcar_pcie_probe() returns -ENODEV)
+
+            xhci-hcd ee000000.usb: xHCI Host Controller
+            xhci-hcd ee000000.usb: new USB bus registered, assigned bus number 7
+            xhci-hcd ee000000.usb: Direct firmware load for
+r8a779x_usb3_v3.dlmem failed with error -2
+            xhci-hcd ee000000.usb: can't setup: -2
+            xhci-hcd ee000000.usb: USB bus 7 deregistered
+            xhci-hcd: probe of ee000000.usb failed with error -2
+
+      - The PCI reprobing leads to a memory leak, for which I've sent a fix
+        "[PATCH] PCI: Fix memory leak in pci_register_io_range()"
+        https://lore.kernel.org/linux-pci/20210202100332.829047-1-geert+renesas@glider.be/
+
+      - I2C on R-Car Gen3 does not seem to use DMA, according to
+        /sys/kernel/debug/dmaengine/summary:
+
+            -dma4chan0    | e66d8000.i2c:tx
+            -dma4chan1    | e66d8000.i2c:rx
+            -dma5chan0    | e6510000.i2c:tx
+
+      - Disabling CONFIG_IPMMU_VMSA (IOMMU) now works, good!
+
+           ignoring dependency for device, assuming no driver
+
+      - Disabling CONFIG_RCAR_DMAC works for most devices, except for
+        sound:
+
+            -rcar_sound ec500000.sound: probed
+
+             ALSA device list:
+            -  #0: rcar-sound
+            +  No soundcards found.
+
+            # cat  /sys/kernel/debug/devices_deferred
+            2-0010
+            sound
+            ec500000.sound
+
+            platform e6510000.i2c: Linked as a sync state only
+consumer to ec500000.sound
+            platform ec500000.sound: Linked as a consumer to e6060000.pinctrl
+            platform ec500000.sound: Linked as a consumer to
+e6150000.clock-controller
+            i2c 2-0010: Linked as a consumer to ec500000.sound
+            platform ec500000.sound: Linked as a consumer to 2-004f
+            cs2000-cp 2-004f: revision - C1
+            i2c-rcar e6510000.i2c: probed
+            i2c-rcar e6510000.i2c: Dropping the link to ec500000.sound
+            i2c 2-0010: probe deferral - supplier ec500000.sound not ready
+
+        With CONFIG_RCAR_DMAC=y, ec500000.sound is probed quite early.
+
+            arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
+
+            ak4613: codec@10 {
+                    clocks = <&rcar_sound 3>;
+
+                    port {
+                            ak4613_endpoint: endpoint {
+                                    remote-endpoint = <&rsnd_endpoint0>;
+                            };
+                    };
+            };
+
+            sound_card: sound {
+                    dais = <&rsnd_port0     /* ak4613 */
+                            &rsnd_port1     /* HDMI0  */
+                            &rsnd_port2>;   /* HDMI1  */
+            };
+
+            rcar_sound: sound@ec500000 {
+                    ports {
+                            rsnd_port0: port@0 {
+                                    rsnd_endpoint0: endpoint {
+                                            remote-endpoint =
+<&ak4613_endpoint>;
+                                    }
+                            }
+                    }
+            };
+
+
+  2. SH/R-Mobile AG5 (kzm9g), APE6 (ape6evm), A1 (armadillo800-eva)
+
+      - "PATCH] soc: renesas: rmobile-sysc: Set OF_POPULATED and absorb
+        reset handling" is no longer needed
+        https://lore.kernel.org/linux-arm-kernel/20210205133319.1921108-1-geert+renesas@glider.be/
+
+      - On R-Mobile A1, I get a BUG and a memory leak:
+
+            BUG: spinlock bad magic on CPU#0, swapper/1
+             lock: lcdc0_device+0x10c/0x308, .magic: 00000000, .owner:
+<none>/-1, .owner_cpu: 0
+            CPU: 0 PID: 1 Comm: swapper Not tainted
+5.11.0-rc5-armadillo-00032-gf0a85c26907e #266
+            Hardware name: Generic R8A7740 (Flattened Device Tree)
+            [<c010c3c8>] (unwind_backtrace) from [<c010a49c>]
+(show_stack+0x10/0x14)
+            [<c010a49c>] (show_stack) from [<c0159534>]
+(do_raw_spin_lock+0x20/0x94)
+            [<c0159534>] (do_raw_spin_lock) from [<c04089d8>]
+(dev_pm_get_subsys_data+0x30/0xa0)
+            [<c04089d8>] (dev_pm_get_subsys_data) from [<c0413698>]
+(genpd_add_device+0x34/0x1c0)
+            [<c0413698>] (genpd_add_device) from [<c041389c>]
+(of_genpd_add_device+0x34/0x4c)
+            [<c041389c>] (of_genpd_add_device) from [<c0a1e9bc>]
+(board_staging_register_device+0xf8/0x118)
+            [<c0a1e9bc>] (board_staging_register_device) from
+[<c0a1ea00>] (board_staging_register_devices+0x24/0x28)
+            [<c0a1ea00>] (board_staging_register_devices) from
+[<c0a1ea30>] (runtime_board_check+0x2c/0x40)
+            [<c0a1ea30>] (runtime_board_check) from [<c0101fac>]
+(do_one_initcall+0xe0/0x278)
+            [<c0101fac>] (do_one_initcall) from [<c0a01034>]
+(kernel_init_freeable+0x174/0x1c0)
+            [<c0a01034>] (kernel_init_freeable) from [<c05fd568>]
+(kernel_init+0x8/0x118)
+            [<c05fd568>] (kernel_init) from [<c010011c>]
+(ret_from_fork+0x14/0x38)
+            Exception stack(0xc19c9fb0 to 0xc19c9ff8)
+            9fa0:                                     00000000
+00000000 00000000 00000000
+            9fc0: 00000000 00000000 00000000 00000000 00000000
+00000000 00000000 00000000
+            9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+
+            unreferenced object 0xc4134e00 (size 512):
+              comm "swapper", pid 1, jiffies 4294937296 (age 3541.930s)
+              hex dump (first 32 bytes):
+                00 4e 13 c4 00 4e 13 c4 ff ff ff 7f ff ff ff 7f
+.N...N..........
+                ff ff ff 7f 02 00 00 00 00 5f 13 c4 1c 4e 13 c4
+........._...N..
+              backtrace:
+                [<de1a3c34>] dev_pm_qos_constraints_allocate+0x10/0xcc
+                [<d21cf6e4>] dev_pm_qos_add_notifier+0x6c/0xd0
+                [<e04bbc90>] genpd_add_device+0x178/0x1c0
+                [<95067303>] of_genpd_add_device+0x34/0x4c
+                [<c334b97a>] board_staging_register_device+0xf8/0x118
+                [<01bd495a>] board_staging_register_devices+0x24/0x28
+                [<fb25a5d8>] runtime_board_check+0x2c/0x40
+                [<65aed679>] do_one_initcall+0xe0/0x278
+                [<97e3f4f7>] kernel_init_freeable+0x174/0x1c0
+                [<63c8fed0>] kernel_init+0x8/0x118
+                [<f704d96c>] ret_from_fork+0x14/0x38
+                [<00000000>] 0x0
+
+  3. RZ/A1 and RZ/A2: No issues.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
--- 
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
-
-~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-Simon says - in Latin please.
-~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-Thanks to Simon Glass for the translation =] 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
