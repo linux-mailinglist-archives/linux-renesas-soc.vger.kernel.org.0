@@ -2,35 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5126031A74C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Feb 2021 23:06:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0156631A7EC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Feb 2021 23:54:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbhBLWG2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Feb 2021 17:06:28 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41398 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229497AbhBLWG1 (ORCPT
+        id S232336AbhBLWmK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Feb 2021 17:42:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58246 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232140AbhBLWkJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Feb 2021 17:06:27 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0132264DE0;
-        Fri, 12 Feb 2021 22:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1613167547;
-        bh=x7+O4dfMkemD6U+vgZkpKlnW63NDjJ8hkv36eJK9x4o=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=utCEACe2van290abpiVInryUj9yVn2FwsXMbagw9hbUab72VorrpgY32/Amx4utiN
-         j7Mc9urIjizH+MO0kEXOEdRlO76JE8KDEfkf4VWZwpa5zwrsAHPR56JbVeQtLZm12M
-         bt5NlZBF9WzNhSn0NR7WBJh7jZ+hZ/mTGX3E9sSXjoSfOubGx2bNNkcKvhIvonnWu6
-         JniU8yhese97VZl+fQvPXwdJS917BMwsjIXpAOMxS4tvp7ZmpIAVtFA5fW1n1VvGsu
-         HrqDR1yu8d1pn1hjR0JDtDenwDYyBO+cHSWBDZDx/N3OrSRsy+traSF5EdAtnY+kyN
-         qSNMsCRFENbmg==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210212212630.GD179940@dell>
-References: <20210126124540.3320214-1-lee.jones@linaro.org> <161307643148.1254594.6590013599999468609@swboyd.mtv.corp.google.com> <20210211211054.GD4572@dell> <161309925025.1254594.6210738031889810500@swboyd.mtv.corp.google.com> <20210212092016.GF4572@dell> <161316374113.1254594.14156657225822268891@swboyd.mtv.corp.google.com> <20210212212503.GC179940@dell> <20210212212630.GD179940@dell>
-Subject: Re: [PATCH 00/21] [Set 2] Rid W=1 warnings from Clock
-From:   Stephen Boyd <sboyd@kernel.org>
+        Fri, 12 Feb 2021 17:40:09 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEA46C06178C
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Feb 2021 14:37:44 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id x4so1113562wmi.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Feb 2021 14:37:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=gabp5PA91SwinpJ0/myZDDPAWJJmDGhuF5vT4HNQofk=;
+        b=lzptYNv+Z/QkUjO1dor3sL5BlvgIRzJT0h3tMKe+AEsBnXH7z9s3DEjUf4ogNn07Bm
+         SYkfEK7DEk7HbO6bs2GfyVnUPJuIbwvSYRQZU3qm/ENvlPlqYZYeeFUmElt8hp9808Gh
+         jHiPsPRyuDq4vcSW3ZynoMmbn8t/Vf83Qeij8ATKKgXsvBiBStVp2M/aogaFGZo2G9l9
+         KOksv/RBoVdxTB+BnnfIFJzEKw94Qm6UwwU4X4q4w6Xrx3QHpWeTjpL/uS9dH4q0UvT/
+         nOAIOypn0sTekthhwXWei2O6M2wnbBdsYnwxj2Gp697y/os3Rxes6rNclui8jYxeeUvD
+         fA5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=gabp5PA91SwinpJ0/myZDDPAWJJmDGhuF5vT4HNQofk=;
+        b=Iz2dnWDMTLMZGuakO8i+JqslH/I7eldISvYP8MTQQySu8a9REIY5k7Rb+PF0q8+lxx
+         dIUtS+UM5aKYzEdiQ4d134VYrvJEAyi0NN1h1NgtCIwNHG85lK8xM4Env2y9FjJbypfW
+         s+aN3yOFL4zrCYnUfw4Gq0CPDR/xHBDhoB/RpgulWZOdEXJBxTbJxRiB0v/TiOHqB7Su
+         5YDC+pllPtpfDy/PSGDZAL56Gg+JvLGFjfHlast+UK9Un1aqyopSIOFMpfJh5iOVw3J1
+         +dYzxQoaFCrDUpFBPX/Lh7UF7+unIUP8DE0LBI/URaE9Mbn8lQkgoJMb4KKUuhbMRiNd
+         dcFA==
+X-Gm-Message-State: AOAM533DA15hSfOeUBdl6nwziS+V6+tAWYFlzoIuxQD7qYlyEsvnh7ib
+        ilYZybB3IeQtpnYIEc6mVB1kqg==
+X-Google-Smtp-Source: ABdhPJw/W7aXURMUdb+FiiPcMWZ20hidPBYo6T7ZCqELCNUFf+nZRpp16Lmp3XkUiPvFeKkrd7BkhQ==
+X-Received: by 2002:a1c:bd55:: with SMTP id n82mr4450894wmf.93.1613169462215;
+        Fri, 12 Feb 2021 14:37:42 -0800 (PST)
+Received: from dell ([91.110.221.187])
+        by smtp.gmail.com with ESMTPSA id l5sm11839112wrv.44.2021.02.12.14.37.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Feb 2021 14:37:41 -0800 (PST)
+Date:   Fri, 12 Feb 2021 22:37:39 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Stephen Boyd <sboyd@kernel.org>
 Cc:     linux-kernel@vger.kernel.org,
         Ahmad Fatoum <a.fatoum@pengutronix.de>,
         Andy Gross <agross@kernel.org>,
@@ -39,7 +60,7 @@ Cc:     linux-kernel@vger.kernel.org,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Boris BREZILLON <boris.brezillon@free-electrons.com>,
         Chen-Yu Tsai <wens@csie.org>,
-        Emilio =?utf-8?q?L=C3=B3pez?= <emilio@elopez.com.ar>,
+        Emilio =?iso-8859-1?Q?L=F3pez?= <emilio@elopez.com.ar>,
         Fabio Estevam <festevam@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Jan Kotas <jank@cadence.com>,
@@ -67,48 +88,83 @@ Cc:     linux-kernel@vger.kernel.org,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Shawn Guo <shawnguo@kernel.org>,
         Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
-        =?utf-8?q?S=C3=B6ren?= Brinkmann <soren.brinkmann@xilinx.com>,
+        =?iso-8859-1?Q?S=F6ren?= Brinkmann <soren.brinkmann@xilinx.com>,
         Tali Perry <tali.perry1@gmail.com>,
         Tero Kristo <kristo@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Tomer Maimon <tmaimon77@gmail.com>,
         Viresh Kumar <vireshk@kernel.org>
-To:     Lee Jones <lee.jones@linaro.org>
-Date:   Fri, 12 Feb 2021 14:05:45 -0800
-Message-ID: <161316754567.1254594.9542583200097699504@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Subject: Re: [PATCH 00/21] [Set 2] Rid W=1 warnings from Clock
+Message-ID: <20210212223739.GE179940@dell>
+References: <20210126124540.3320214-1-lee.jones@linaro.org>
+ <161307643148.1254594.6590013599999468609@swboyd.mtv.corp.google.com>
+ <20210211211054.GD4572@dell>
+ <161309925025.1254594.6210738031889810500@swboyd.mtv.corp.google.com>
+ <20210212092016.GF4572@dell>
+ <161316374113.1254594.14156657225822268891@swboyd.mtv.corp.google.com>
+ <20210212212503.GC179940@dell>
+ <20210212212630.GD179940@dell>
+ <161316754567.1254594.9542583200097699504@swboyd.mtv.corp.google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <161316754567.1254594.9542583200097699504@swboyd.mtv.corp.google.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Lee Jones (2021-02-12 13:26:30)
-> On Fri, 12 Feb 2021, Lee Jones wrote:
->=20
-> > The alternative is to not worry about it and review the slow drip of
-> > fixes that will occur as a result.  The issues I just fixed were built
-> > up over years.  They won't get to that level again.
-> >=20
-> > In my mind contributors should be compiling their submissions with W=3D1
-> > enabled by default.  I'm fairly sure the auto-builders do this now.
+On Fri, 12 Feb 2021, Stephen Boyd wrote:
 
-That's good.
+> Quoting Lee Jones (2021-02-12 13:26:30)
+> > On Fri, 12 Feb 2021, Lee Jones wrote:
+> > 
+> > > The alternative is to not worry about it and review the slow drip of
+> > > fixes that will occur as a result.  The issues I just fixed were built
+> > > up over years.  They won't get to that level again.
+> > > 
+> > > In my mind contributors should be compiling their submissions with W=1
+> > > enabled by default.  I'm fairly sure the auto-builders do this now.
+> 
+> That's good.
+> 
+> > > 
+> > > Once W=1 warnings are down to an acceptable level in the kernel as a
+> > > whole, we can provide some guidance in SubmittingPatches (or similar)
+> > > on how to enable them (hint: you add "W=1" on the compile line).
+> > > 
+> > > Enabling W=1 in the default build will only serve to annoy Linus IMHO.
+> > > If he wants them to be enabled by default, they wouldn't be W=1 in the
+> > > first place, they'd be W=0 which *is* the default build.
+> > 
+> > Just to add real quick - my advice is to enable them for yourself and
+> > send back any issues along with your normal review.  A W=1 issue is no
+> > different to a semantic or coding style one.
+> > 
+> 
+> I'd like to enable it for only files under drivers/clk/ but it doesn't
+> seem to work. I'm not asking to enable it at the toplevel Makefile. I'm
+> asking to enable it for drivers/clk/ so nobody has to think about it now
+> that you've done the hard work of getting the numbers in this directory
+> down to zero or close to zero.
 
-> >=20
-> > Once W=3D1 warnings are down to an acceptable level in the kernel as a
-> > whole, we can provide some guidance in SubmittingPatches (or similar)
-> > on how to enable them (hint: you add "W=3D1" on the compile line).
-> >=20
-> > Enabling W=3D1 in the default build will only serve to annoy Linus IMHO.
-> > If he wants them to be enabled by default, they wouldn't be W=3D1 in the
-> > first place, they'd be W=3D0 which *is* the default build.
->=20
-> Just to add real quick - my advice is to enable them for yourself and
-> send back any issues along with your normal review.  A W=3D1 issue is no
-> different to a semantic or coding style one.
->=20
+I'm not sure which one of us is confused.  Probably me, but ...
 
-I'd like to enable it for only files under drivers/clk/ but it doesn't
-seem to work. I'm not asking to enable it at the toplevel Makefile. I'm
-asking to enable it for drivers/clk/ so nobody has to think about it now
-that you've done the hard work of getting the numbers in this directory
-down to zero or close to zero.
+Even if you could enable it per-subsystem, how would that help you?
+
+How can you ensure that contributors see any new W=1 warnings, but
+Linus doesn't?  When Linus conducts his build-tests during the merge
+window, he is also going to build W=1 for drivers/clk.
+
+All that's going to achieve is put you in the firing line.
+
+From my PoV W=1 builds should be enabled during the development phase
+(i.e. contributor, auto-builder, maintainer).  By the time patches get
+make it into Mainline the review/testing stage is over and only the
+default W=0 warnings are meaningful.
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
