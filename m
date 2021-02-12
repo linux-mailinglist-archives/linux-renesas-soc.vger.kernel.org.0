@@ -2,204 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E7D531A667
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Feb 2021 22:00:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FB7C31A675
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Feb 2021 22:03:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbhBLU7P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Feb 2021 15:59:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36566 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231936AbhBLU6l (ORCPT
+        id S231743AbhBLVDI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Feb 2021 16:03:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58032 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231289AbhBLVDD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Feb 2021 15:58:41 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91218C061794
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Feb 2021 12:58:01 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id 133so760467ybd.5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Feb 2021 12:58:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CqAzPT6VwnPBuxPka3afIBXbnCQbD8+pdFwxBKcHhXQ=;
-        b=uBTJQG+mWgC2KaNYo1bb3HfZG5kNKJ7vb1CkEXXuyZyIlMIUmRy7u+Ui98xv5m6wXD
-         R7N5LfNkcmh1NQ9NxgRQP3cWOkQFo7SAC+qn3I64HrXBzaGyP8UoGVC/bj+K+cZ8nSWe
-         YQAtaHJyorTUUKIOxX53zOw5ATfxwx2KVYuQOmCF02rn7CG0N1rPqvKrBgWPiLi45FON
-         shvjdCt7F02vXc8OsQJNlQ5Dg8hPGX1Xh3uWdinc2aBX3WWsUPVTakWNa4yKxhzAKQdV
-         EuNXoz2GuhV1z+hCYh7JVx2iqHGoG2X6f6zTTF5209mcejt6xlzEddhC7ShsSohFBkLy
-         xwLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CqAzPT6VwnPBuxPka3afIBXbnCQbD8+pdFwxBKcHhXQ=;
-        b=CGgg5v3VI2ZceyOKJ153TqKOnPghPZ+OJy1LisD4p/bQHUlG7TtzOtUq07pYqmGAEq
-         /rp7+6fLAfnHeFWDaolOs0+cT7589MzSXT+SFhmyvtM6QurRUXMNQ1CmyAeigke1qfn3
-         iiLMD0ay0Glu0/jbtM6oIHXyz58BsUfgEuik3F2t4KR9gLL+rD9gHhsB8TnXhsRgNBco
-         zr2zb2TtTSjMxOBzvclGKq9YSTr9hdnxwpzQxZDsQJ3tfpYXWbsrL2LpOOnm/AJ7LekA
-         +aK/BkYaCuBzLSYLVUp5l0KCXSPiD9FGeu+siADz6DhJcaGWIwAfd3tJ184OIPZWC5+g
-         nxxQ==
-X-Gm-Message-State: AOAM532TYeDGAq3tN7EhMSehFia/tOsmT6qUtk/GjX+dxI980CMaAt3l
-        gWIgTZGWdYGrCNfNzSRPYyVBUeOh6IsfkqZ9LewDrQ==
-X-Google-Smtp-Source: ABdhPJwK0fc2ml/1MYUHRvi8x2ga/wmAbYgOqo2Dy3Txjf3hoDchCtA5qthJoSF2yZyW//AH/pAR//MQ+c+2yrZOeqg=
-X-Received: by 2002:a25:718b:: with SMTP id m133mr6949864ybc.412.1613163480367;
- Fri, 12 Feb 2021 12:58:00 -0800 (PST)
+        Fri, 12 Feb 2021 16:03:03 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 77F8864E05;
+        Fri, 12 Feb 2021 21:02:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613163742;
+        bh=W+5rNCA1AtqnGKfforyDrX1jEmPAq1AoeUYShAARidk=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=L8vv2t4t8eAuoCqn8NxiLKXPHOLn2qbZG/rTldBEck1qE3UJ9ZQgBMmDyAS+LCWPW
+         EzmQrYymjIjWzdM9L/7FXHZGGuj4mL3xtQEcEf8CqaYplO6L5RYs8XX06VCEcsrfdR
+         DnZefkSwJ3C/7GBHqDkPzplqR/1x05jRlJKJ6qT2qfEMeI8gZgeYtGj7iTUFb1gaWJ
+         0ewKJtGcnZgMY3nAWLZLIyhSM+nXjoN/Oz5tcLNPp2ONVxpr8E+MxgzJz7ExgeG7/5
+         lQhWIt1CShxke8FA18oo80Hy1k04ysgkM9gd+JOi/WRC9EeZrRZTWgw/1ZKPKae8Jz
+         RI+6N32IPbIKg==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
- <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
- <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com> <CAMuHMdVG97Zjr1WO0554h9eUZhfeyxwUfNYuAdPoacpznkA6-Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdVG97Zjr1WO0554h9eUZhfeyxwUfNYuAdPoacpznkA6-Q@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Fri, 12 Feb 2021 12:57:24 -0800
-Message-ID: <CAGETcx9GAyWQTb1kuUpjAcYyPGYtxxWMRe9u0o5UOSMrryTdvg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210212092016.GF4572@dell>
+References: <20210126124540.3320214-1-lee.jones@linaro.org> <161307643148.1254594.6590013599999468609@swboyd.mtv.corp.google.com> <20210211211054.GD4572@dell> <161309925025.1254594.6210738031889810500@swboyd.mtv.corp.google.com> <20210212092016.GF4572@dell>
+Subject: Re: [PATCH 00/21] [Set 2] Rid W=1 warnings from Clock
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Andy Gross <agross@kernel.org>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Boris BREZILLON <boris.brezillon@free-electrons.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Emilio =?utf-8?q?L=C3=B3pez?= <emilio@elopez.com.ar>,
+        Fabio Estevam <festevam@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jan Kotas <jank@cadence.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org, Loc Ho <lho@apm.com>,
+        Maxime Ripard <mripard@kernel.org>,
         Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Michal Simek <michal.simek@xilinx.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Nuvoton Technologies <tali.perry@nuvoton.com>,
+        NXP Linux Team <linux-imx@nxp.com>, openbmc@lists.ozlabs.org,
+        Patrick Venture <venture@google.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Rajan Vaja <rajan.vaja@xilinx.com>,
+        Rajeev Kumar <rajeev-dlh.kumar@st.com>,
+        Richard Woodruff <r-woodruff2@ti.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
+        =?utf-8?q?S=C3=B6ren?= Brinkmann <soren.brinkmann@xilinx.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Tero Kristo <kristo@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Viresh Kumar <vireshk@kernel.org>
+To:     Lee Jones <lee.jones@linaro.org>
+Date:   Fri, 12 Feb 2021 13:02:21 -0800
+Message-ID: <161316374113.1254594.14156657225822268891@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Feb 12, 2021 at 12:15 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Saravana,
->
-> On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
-> > On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > >   1. R-Car Gen2 (Koelsch), R-Car Gen3 (Salvator-X(S), Ebisu).
-> > >
-> > >       - Commit 2dfc564bda4a31bc ("soc: renesas: rcar-sysc: Mark device
-> > >         node OF_POPULATED after init") is no longer needed (but already
-> > >         queued for v5.12 anyway)
-> >
-> > Rob doesn't like the proliferation of OF_POPULATED and we don't need
-> > it anymore, so maybe work it out with him? It's a balance between some
-> > wasted memory (struct device(s)) vs not proliferating OF_POPULATED.
->
-> Rob: should it be reverted?  For v5.13?
-> I guess other similar "fixes" went in in the mean time.
->
-> > >       - Some devices are reprobed, despite their drivers returning
-> > >         a real error code, and not -EPROBE_DEFER:
-> >
-> > Sorry, it's not obvious from the logs below where "reprobing" is
-> > happening. Can you give more pointers please?
->
-> My log was indeed not a full log, but just the reprobes happening.
-> I'll send you a full log by private email.
->
-> > Also, thinking more about this, the only way I could see this happen is:
-> > 1. Device fails with error that's not -EPROBE_DEFER
-> > 2. It somehow gets added to a device link (with AUTOPROBE_CONSUMER
-> > flag) where it's a consumer.
-> > 3. The supplier probes and the device gets added to the deferred probe
-> > list again.
-> >
-> > But I can't see how this sequence can happen. Device links are created
-> > only when a device is added. And is the supplier isn't added yet, the
-> > consumer wouldn't have probed in the first place.
->
-> The full log doesn't show any evidence of the device being added
-> to a list in between the two probes.
->
-> > Other than "annoying waste of time" is this causing any other problems?
->
-> Probably not.  But see below.
->
-> > >       - The PCI reprobing leads to a memory leak, for which I've sent a fix
-> > >         "[PATCH] PCI: Fix memory leak in pci_register_io_range()"
-> > >         https://lore.kernel.org/linux-pci/20210202100332.829047-1-geert+renesas@glider.be/
-> >
-> > Wrt PCI reprobing,
-> > 1. Is this PCI never expected to probe, but it's being reattempted
-> > despite the NOT EPROBE_DEFER error? Or
->
-> There is no PCIe card present, so the failure is expected.
-> Later it is reprobed, which of course fails again.
->
-> > 2. The PCI was deferred probe when it should have probed and then when
-> > it's finally reattemped and it could succeed, we are hitting this mem
-> > leak issue?
->
-> I think the leak has always been there, but it was just exposed by
-> this unneeded reprobe.  I don't think a reprobe after that specific
-> error path had ever happened before.
->
-> > I'm basically trying to distinguish between "this stuff should never
-> > be retried" vs "this/it's suppliers got probe deferred with
-> > fw_devlink=on vs but didn't get probe deferred with
-> > fw_devlink=permissive and that's causing issues"
->
-> There should not be a probe deferral, as no -EPROBE_DEFER was
-> returned.
->
-> > >       - I2C on R-Car Gen3 does not seem to use DMA, according to
-> > >         /sys/kernel/debug/dmaengine/summary:
-> > >
-> > >             -dma4chan0    | e66d8000.i2c:tx
-> > >             -dma4chan1    | e66d8000.i2c:rx
-> > >             -dma5chan0    | e6510000.i2c:tx
-> >
-> > I think I need more context on the problem before I can try to fix it.
-> > I'm also very unfamiliar with that file. With fw_devlink=permissive,
-> > I2C was using DMA? If so, the next step is to see if the I2C relative
-> > probe order with DMA is getting changed and if so, why.
->
-> Yes, I plan to dig deeper to see what really happens...
+Quoting Lee Jones (2021-02-12 01:20:16)
+> On Thu, 11 Feb 2021, Stephen Boyd wrote:
+>=20
+> > Quoting Lee Jones (2021-02-11 13:10:54)
+> > > On Thu, 11 Feb 2021, Stephen Boyd wrote:
+> > >=20
+> > > > Quoting Lee Jones (2021-01-26 04:45:19)
+> > > > > This set is part of a larger effort attempting to clean-up W=3D1
+> > > > > kernel builds, which are currently overwhelmingly riddled with
+> > > > > niggly little warnings.
+> > > > >=20
+> > > > > This is the last set.  Clock is clean after this.
+> > > >=20
+> > > > Is it possible to slam in some patch that makes W=3D1 the default f=
+or the
+> > > > clk directory? I'm trying to avoid seeing this patch series again.
+> > >=20
+> > > One of my main goals of this project is that everyone (contributors,
+> > > maintainers auto-builder robots etc) will be enabling W=3D1 builds
+> > > *locally*.
+> > >=20
+> > > This isn't something you'll want to do at a global (i.e. in Mainline)
+> > > level.  That's kinda the point of W=3D1.
+> > >=20
+> >=20
+> > Agreed, but is it possible to pass W=3D1 in the drivers/clk/Makefile?
+>=20
+> That would circumvent the point of W=3D1.  Level-1 warnings are deemed,
+> and I'm paraphrasing/making this up "not worth rejecting pull-requests
+> over".  In contrast, if Linus catches any W=3D0 warnings at pull-time,
+> he will reject the pull-request as 'untested'.
+>=20
+> W=3D1 is defiantly something you'll want to enable locally though, and
+> subsequently push back on contributors submitting code adding new
+> ones.
+>=20
 
-Try fw_devlink.strict (you'll need IOMMU enabled too). If that fixes
-it and you also don't see this issue with fw_devlink=permissive, then
-it means there's probably some unnecessary probe deferral that we
-should try to avoid. At least, that's my hunch right now.
-
-Thanks,
-Saravana
-
->
-> > >       - On R-Mobile A1, I get a BUG and a memory leak:
-> > >
-> > >             BUG: spinlock bad magic on CPU#0, swapper/1
->
-> >
-> > Hmm... I looked at this in bits and pieces throughout the day. At
-> > least spent an hour looking at this. This doesn't make a lot of sense
-> > to me. I don't even touch anything in this code path AFAICT.  Are
-> > modules/kernel mixed up somehow? I need more info before I can help.
-> > Does reverting my pm domain change make any difference (assume it
-> > boots this far without it).
->
-> I plan to dig deeper to see what really happens...
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Why should I install a land mine for others to trip over? Won't that
+just take them more time because they won't know to compile with W=3D1 and
+then will have to go for another round of review while I push back on
+them submitting new warnings?
