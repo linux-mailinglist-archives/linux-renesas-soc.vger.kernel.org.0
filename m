@@ -2,224 +2,204 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D437731A316
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Feb 2021 17:50:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E7D531A667
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Feb 2021 22:00:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbhBLQto (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Feb 2021 11:49:44 -0500
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.221]:14531 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbhBLQtn (ORCPT
+        id S231932AbhBLU7P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Feb 2021 15:59:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36566 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231936AbhBLU6l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Feb 2021 11:49:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1613148349;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-        bh=2BosGdLEVca1vo7eADB7GO0sDSEP41E/Ts7Qp1qaAVk=;
-        b=VBEKsrdP7pmMT8UpBDBI+jc7EBHdaCRcvtTBv/+8tbYL2qt9D7D8/ozhFx0gHIKRxy
-        dBLyEUABRsSh2duT0BnkRqZyBGUk4BEVMp3snQhOZqVMswToAEAQuHtWpVYgUAh9YqKT
-        k0nhKEP17LXJaa1srdGGKy5cTEH2AYAtYNiX3Im+GZNrxqIfBBdzXx4fd/sMAqRv1YJ0
-        T1I6/BkJuXHWqA82EfgKItMRqSXFaDw2LM7lGf6ENcJfFtVz0//jZ3cI8rVnB/qAjqV2
-        KZlpP1E7NzAxfT3ALyqx8azTgwDvpl/FaVFpVBDOQMZaGR86BVkdCxhxn+O2cqCjaIfO
-        Cl+Q==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR9WZEaxOy"
-X-RZG-CLASS-ID: mo00
-Received: from groucho.site
-        by smtp.strato.de (RZmta 47.17.1 DYNA|AUTH)
-        with ESMTPSA id c05ce8x1CGjkMHz
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-        Fri, 12 Feb 2021 17:45:46 +0100 (CET)
-From:   Ulrich Hecht <uli+renesas@fpond.eu>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     wsa@the-dreams.de, geert@linux-m68k.org, linux-i2c@vger.kernel.org,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: [PATCH] i2c: rcar: implement atomic transfers
-Date:   Fri, 12 Feb 2021 17:45:41 +0100
-Message-Id: <20210212164541.8986-1-uli+renesas@fpond.eu>
-X-Mailer: git-send-email 2.20.1
+        Fri, 12 Feb 2021 15:58:41 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91218C061794
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Feb 2021 12:58:01 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id 133so760467ybd.5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Feb 2021 12:58:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CqAzPT6VwnPBuxPka3afIBXbnCQbD8+pdFwxBKcHhXQ=;
+        b=uBTJQG+mWgC2KaNYo1bb3HfZG5kNKJ7vb1CkEXXuyZyIlMIUmRy7u+Ui98xv5m6wXD
+         R7N5LfNkcmh1NQ9NxgRQP3cWOkQFo7SAC+qn3I64HrXBzaGyP8UoGVC/bj+K+cZ8nSWe
+         YQAtaHJyorTUUKIOxX53zOw5ATfxwx2KVYuQOmCF02rn7CG0N1rPqvKrBgWPiLi45FON
+         shvjdCt7F02vXc8OsQJNlQ5Dg8hPGX1Xh3uWdinc2aBX3WWsUPVTakWNa4yKxhzAKQdV
+         EuNXoz2GuhV1z+hCYh7JVx2iqHGoG2X6f6zTTF5209mcejt6xlzEddhC7ShsSohFBkLy
+         xwLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CqAzPT6VwnPBuxPka3afIBXbnCQbD8+pdFwxBKcHhXQ=;
+        b=CGgg5v3VI2ZceyOKJ153TqKOnPghPZ+OJy1LisD4p/bQHUlG7TtzOtUq07pYqmGAEq
+         /rp7+6fLAfnHeFWDaolOs0+cT7589MzSXT+SFhmyvtM6QurRUXMNQ1CmyAeigke1qfn3
+         iiLMD0ay0Glu0/jbtM6oIHXyz58BsUfgEuik3F2t4KR9gLL+rD9gHhsB8TnXhsRgNBco
+         zr2zb2TtTSjMxOBzvclGKq9YSTr9hdnxwpzQxZDsQJ3tfpYXWbsrL2LpOOnm/AJ7LekA
+         +aK/BkYaCuBzLSYLVUp5l0KCXSPiD9FGeu+siADz6DhJcaGWIwAfd3tJ184OIPZWC5+g
+         nxxQ==
+X-Gm-Message-State: AOAM532TYeDGAq3tN7EhMSehFia/tOsmT6qUtk/GjX+dxI980CMaAt3l
+        gWIgTZGWdYGrCNfNzSRPYyVBUeOh6IsfkqZ9LewDrQ==
+X-Google-Smtp-Source: ABdhPJwK0fc2ml/1MYUHRvi8x2ga/wmAbYgOqo2Dy3Txjf3hoDchCtA5qthJoSF2yZyW//AH/pAR//MQ+c+2yrZOeqg=
+X-Received: by 2002:a25:718b:: with SMTP id m133mr6949864ybc.412.1613163480367;
+ Fri, 12 Feb 2021 12:58:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210205222644.2357303-1-saravanak@google.com>
+ <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
+ <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com> <CAMuHMdVG97Zjr1WO0554h9eUZhfeyxwUfNYuAdPoacpznkA6-Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdVG97Zjr1WO0554h9eUZhfeyxwUfNYuAdPoacpznkA6-Q@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Fri, 12 Feb 2021 12:57:24 -0800
+Message-ID: <CAGETcx9GAyWQTb1kuUpjAcYyPGYtxxWMRe9u0o5UOSMrryTdvg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Implements atomic transfers. Tested by rebooting an r8a7790 Lager board
-after connecting the i2c-rcar controller to the PMIC in
-arch/arm/boot/dts/r8a7790-lager.dts like so:
+On Fri, Feb 12, 2021 at 12:15 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Saravana,
+>
+> On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
+> > On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > >   1. R-Car Gen2 (Koelsch), R-Car Gen3 (Salvator-X(S), Ebisu).
+> > >
+> > >       - Commit 2dfc564bda4a31bc ("soc: renesas: rcar-sysc: Mark device
+> > >         node OF_POPULATED after init") is no longer needed (but already
+> > >         queued for v5.12 anyway)
+> >
+> > Rob doesn't like the proliferation of OF_POPULATED and we don't need
+> > it anymore, so maybe work it out with him? It's a balance between some
+> > wasted memory (struct device(s)) vs not proliferating OF_POPULATED.
+>
+> Rob: should it be reverted?  For v5.13?
+> I guess other similar "fixes" went in in the mean time.
+>
+> > >       - Some devices are reprobed, despite their drivers returning
+> > >         a real error code, and not -EPROBE_DEFER:
+> >
+> > Sorry, it's not obvious from the logs below where "reprobing" is
+> > happening. Can you give more pointers please?
+>
+> My log was indeed not a full log, but just the reprobes happening.
+> I'll send you a full log by private email.
+>
+> > Also, thinking more about this, the only way I could see this happen is:
+> > 1. Device fails with error that's not -EPROBE_DEFER
+> > 2. It somehow gets added to a device link (with AUTOPROBE_CONSUMER
+> > flag) where it's a consumer.
+> > 3. The supplier probes and the device gets added to the deferred probe
+> > list again.
+> >
+> > But I can't see how this sequence can happen. Device links are created
+> > only when a device is added. And is the supplier isn't added yet, the
+> > consumer wouldn't have probed in the first place.
+>
+> The full log doesn't show any evidence of the device being added
+> to a list in between the two probes.
+>
+> > Other than "annoying waste of time" is this causing any other problems?
+>
+> Probably not.  But see below.
+>
+> > >       - The PCI reprobing leads to a memory leak, for which I've sent a fix
+> > >         "[PATCH] PCI: Fix memory leak in pci_register_io_range()"
+> > >         https://lore.kernel.org/linux-pci/20210202100332.829047-1-geert+renesas@glider.be/
+> >
+> > Wrt PCI reprobing,
+> > 1. Is this PCI never expected to probe, but it's being reattempted
+> > despite the NOT EPROBE_DEFER error? Or
+>
+> There is no PCIe card present, so the failure is expected.
+> Later it is reprobed, which of course fails again.
+>
+> > 2. The PCI was deferred probe when it should have probed and then when
+> > it's finally reattemped and it could succeed, we are hitting this mem
+> > leak issue?
+>
+> I think the leak has always been there, but it was just exposed by
+> this unneeded reprobe.  I don't think a reprobe after that specific
+> error path had ever happened before.
+>
+> > I'm basically trying to distinguish between "this stuff should never
+> > be retried" vs "this/it's suppliers got probe deferred with
+> > fw_devlink=on vs but didn't get probe deferred with
+> > fw_devlink=permissive and that's causing issues"
+>
+> There should not be a probe deferral, as no -EPROBE_DEFER was
+> returned.
+>
+> > >       - I2C on R-Car Gen3 does not seem to use DMA, according to
+> > >         /sys/kernel/debug/dmaengine/summary:
+> > >
+> > >             -dma4chan0    | e66d8000.i2c:tx
+> > >             -dma4chan1    | e66d8000.i2c:rx
+> > >             -dma5chan0    | e6510000.i2c:tx
+> >
+> > I think I need more context on the problem before I can try to fix it.
+> > I'm also very unfamiliar with that file. With fw_devlink=permissive,
+> > I2C was using DMA? If so, the next step is to see if the I2C relative
+> > probe order with DMA is getting changed and if so, why.
+>
+> Yes, I plan to dig deeper to see what really happens...
 
-		compatible = "i2c-demux-pinctrl";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pmic_irq_pins>;
--		i2c-parent = <&iic3>, <&i2c3>;
-+		i2c-parent = <&i2c3>, <&iic3>;
-		i2c-bus-name = "i2c-pwr";
-		#address-cells = <1>;
-		#size-cells = <0>;
+Try fw_devlink.strict (you'll need IOMMU enabled too). If that fixes
+it and you also don't see this issue with fw_devlink=permissive, then
+it means there's probably some unnecessary probe deferral that we
+should try to avoid. At least, that's my hunch right now.
 
-Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
----
- drivers/i2c/busses/i2c-rcar.c | 84 ++++++++++++++++++++++++++++++++---
- 1 file changed, 78 insertions(+), 6 deletions(-)
+Thanks,
+Saravana
 
-diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
-index 12f6d452c0f7..1f0c164f671a 100644
---- a/drivers/i2c/busses/i2c-rcar.c
-+++ b/drivers/i2c/busses/i2c-rcar.c
-@@ -141,6 +141,7 @@ struct rcar_i2c_priv {
- 	enum dma_data_direction dma_direction;
- 
- 	struct reset_control *rstc;
-+	bool atomic_xfer;
- 	int irq;
- 
- 	struct i2c_client *host_notify_client;
-@@ -353,7 +354,9 @@ static void rcar_i2c_prepare_msg(struct rcar_i2c_priv *priv)
- 			rcar_i2c_write(priv, ICMCR, RCAR_BUS_PHASE_START);
- 		rcar_i2c_write(priv, ICMSR, 0);
- 	}
--	rcar_i2c_write(priv, ICMIER, read ? RCAR_IRQ_RECV : RCAR_IRQ_SEND);
-+
-+	if (!priv->atomic_xfer)
-+		rcar_i2c_write(priv, ICMIER, read ? RCAR_IRQ_RECV : RCAR_IRQ_SEND);
- }
- 
- static void rcar_i2c_next_msg(struct rcar_i2c_priv *priv)
-@@ -418,7 +421,7 @@ static bool rcar_i2c_dma(struct rcar_i2c_priv *priv)
- 	int len;
- 
- 	/* Do various checks to see if DMA is feasible at all */
--	if (IS_ERR(chan) || msg->len < RCAR_MIN_DMA_LEN ||
-+	if (priv->atomic_xfer || IS_ERR(chan) || msg->len < RCAR_MIN_DMA_LEN ||
- 	    !(msg->flags & I2C_M_DMA_SAFE) || (read && priv->flags & ID_P_NO_RXDMA))
- 		return false;
- 
-@@ -646,7 +649,8 @@ static irqreturn_t rcar_i2c_irq(int irq, struct rcar_i2c_priv *priv, u32 msr)
- 	/* Nack */
- 	if (msr & MNR) {
- 		/* HW automatically sends STOP after received NACK */
--		rcar_i2c_write(priv, ICMIER, RCAR_IRQ_STOP);
-+		if (!priv->atomic_xfer)
-+			rcar_i2c_write(priv, ICMIER, RCAR_IRQ_STOP);
- 		priv->flags |= ID_NACK;
- 		goto out;
- 	}
-@@ -667,7 +671,8 @@ static irqreturn_t rcar_i2c_irq(int irq, struct rcar_i2c_priv *priv, u32 msr)
- 	if (priv->flags & ID_DONE) {
- 		rcar_i2c_write(priv, ICMIER, 0);
- 		rcar_i2c_write(priv, ICMSR, 0);
--		wake_up(&priv->wait);
-+		if (!priv->atomic_xfer)
-+			wake_up(&priv->wait);
- 	}
- 
- 	return IRQ_HANDLED;
-@@ -684,7 +689,8 @@ static irqreturn_t rcar_i2c_gen2_irq(int irq, void *ptr)
- 
- 	/* Only handle interrupts that are currently enabled */
- 	msr = rcar_i2c_read(priv, ICMSR);
--	msr &= rcar_i2c_read(priv, ICMIER);
-+	if (!priv->atomic_xfer)
-+		msr &= rcar_i2c_read(priv, ICMIER);
- 
- 	return rcar_i2c_irq(irq, priv, msr);
- }
-@@ -696,7 +702,8 @@ static irqreturn_t rcar_i2c_gen3_irq(int irq, void *ptr)
- 
- 	/* Only handle interrupts that are currently enabled */
- 	msr = rcar_i2c_read(priv, ICMSR);
--	msr &= rcar_i2c_read(priv, ICMIER);
-+	if (!priv->atomic_xfer)
-+		msr &= rcar_i2c_read(priv, ICMIER);
- 
- 	/*
- 	 * Clear START or STOP immediately, except for REPSTART after read or
-@@ -804,6 +811,8 @@ static int rcar_i2c_master_xfer(struct i2c_adapter *adap,
- 	int i, ret;
- 	long time_left;
- 
-+	priv->atomic_xfer = false;
-+
- 	pm_runtime_get_sync(dev);
- 
- 	/* Check bus state before init otherwise bus busy info will be lost */
-@@ -858,6 +867,68 @@ static int rcar_i2c_master_xfer(struct i2c_adapter *adap,
- 	return ret;
- }
- 
-+static int rcar_i2c_master_xfer_atomic(struct i2c_adapter *adap,
-+				struct i2c_msg *msgs,
-+				int num)
-+{
-+	struct rcar_i2c_priv *priv = i2c_get_adapdata(adap);
-+	struct device *dev = rcar_i2c_priv_to_dev(priv);
-+	unsigned long j;
-+	bool time_left;
-+	int ret;
-+
-+	priv->atomic_xfer = true;
-+
-+	pm_runtime_get_sync(dev);
-+
-+	/* Check bus state before init otherwise bus busy info will be lost */
-+	ret = rcar_i2c_bus_barrier(priv);
-+	if (ret < 0)
-+		goto out;
-+
-+	rcar_i2c_init(priv);
-+
-+	/* init first message */
-+	priv->msg = msgs;
-+	priv->msgs_left = num;
-+	priv->flags = (priv->flags & ID_P_MASK) | ID_FIRST_MSG;
-+	rcar_i2c_prepare_msg(priv);
-+
-+	j = jiffies + num * adap->timeout;
-+	do {
-+		u32 msr = rcar_i2c_read(priv, ICMSR);
-+
-+		msr &= (rcar_i2c_is_recv(priv) ? RCAR_IRQ_RECV : RCAR_IRQ_SEND) | RCAR_IRQ_STOP;
-+
-+		if (msr) {
-+			if (priv->devtype < I2C_RCAR_GEN3)
-+				rcar_i2c_gen2_irq(0, priv);
-+			else
-+				rcar_i2c_gen3_irq(0, priv);
-+		}
-+
-+		time_left = time_before_eq(jiffies, j);
-+	} while (!(priv->flags & ID_DONE) && time_left);
-+
-+	if (!time_left) {
-+		rcar_i2c_init(priv);
-+		ret = -ETIMEDOUT;
-+	} else if (priv->flags & ID_NACK) {
-+		ret = -ENXIO;
-+	} else if (priv->flags & ID_ARBLOST) {
-+		ret = -EAGAIN;
-+	} else {
-+		ret = num - priv->msgs_left; /* The number of transfer */
-+	}
-+out:
-+	pm_runtime_put(dev);
-+
-+	if (ret < 0 && ret != -ENXIO)
-+		dev_err(dev, "error %d : %x\n", ret, priv->flags);
-+
-+	return ret;
-+}
-+
- static int rcar_reg_slave(struct i2c_client *slave)
- {
- 	struct rcar_i2c_priv *priv = i2c_get_adapdata(slave->adapter);
-@@ -922,6 +993,7 @@ static u32 rcar_i2c_func(struct i2c_adapter *adap)
- 
- static const struct i2c_algorithm rcar_i2c_algo = {
- 	.master_xfer	= rcar_i2c_master_xfer,
-+	.master_xfer_atomic = rcar_i2c_master_xfer_atomic,
- 	.functionality	= rcar_i2c_func,
- 	.reg_slave	= rcar_reg_slave,
- 	.unreg_slave	= rcar_unreg_slave,
--- 
-2.20.1
-
+>
+> > >       - On R-Mobile A1, I get a BUG and a memory leak:
+> > >
+> > >             BUG: spinlock bad magic on CPU#0, swapper/1
+>
+> >
+> > Hmm... I looked at this in bits and pieces throughout the day. At
+> > least spent an hour looking at this. This doesn't make a lot of sense
+> > to me. I don't even touch anything in this code path AFAICT.  Are
+> > modules/kernel mixed up somehow? I need more info before I can help.
+> > Does reverting my pm domain change make any difference (assume it
+> > boots this far without it).
+>
+> I plan to dig deeper to see what really happens...
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
