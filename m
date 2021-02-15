@@ -2,64 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2076031C08B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Feb 2021 18:27:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42D0531C0EC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Feb 2021 18:47:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231321AbhBOR1E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Feb 2021 12:27:04 -0500
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:52557 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232242AbhBORZ3 (ORCPT
+        id S231190AbhBORqu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Feb 2021 12:46:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54534 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232184AbhBORpz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Feb 2021 12:25:29 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id ED6641C000E;
-        Mon, 15 Feb 2021 17:24:40 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] arm64: dts: renesas: eagle: Include eagle-gmsl
-Date:   Mon, 15 Feb 2021 18:24:47 +0100
-Message-Id: <20210215172447.2026514-5-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210215172447.2026514-1-jacopo+renesas@jmondi.org>
-References: <20210215172447.2026514-1-jacopo+renesas@jmondi.org>
+        Mon, 15 Feb 2021 12:45:55 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EAEA60C3D;
+        Mon, 15 Feb 2021 17:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613411111;
+        bh=H142txNXU7FRt9uW2Sv16n19CyrevXPqFbx8ThdGOrI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=uglK3kwezVaW8PF9O7FxFnlzq7edOQYRV4JhCChBfp7IC1sZiO5UIKu4xOQ6CEbW0
+         9xuJibheu2jwvY9Fk3sEeGOyqm9b9LEUm3T7vPODQumpsqGUaGbMWpwakK5tdZRLh1
+         FsNuf+PV84M6z3tZ3okItznTl+4JAB0yOYeo3t1y+v8MvauJ89KKKgCMB+tqVRnAiC
+         4rXdPqCkNqgMoVW068L3bL/2Z7i5JSJoqmsEdsMsvAQ5RAsgsjvO+7jHs+gsVpMxXY
+         BOgODid5IqWfH0ncdktLpmuQr59nm0hZpCcT8hBeZWUwySMhkBk8M9e+yLrhjzfbZC
+         lDA4fVbX9OE7g==
+Date:   Mon, 15 Feb 2021 09:45:09 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Stephen Boyd <sboyd@kernel.org>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Rajeev Kumar <rajeev-dlh.kumar@st.com>,
+        Jan Kotas <jank@cadence.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Fabio Estevam <festevam@gmail.com>, linux-clk@vger.kernel.org,
+        Boris BREZILLON <boris.brezillon@free-electrons.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Emilio =?UTF-8?B?TMOzcGV6?= <emilio@elopez.com.ar>,
+        Viresh Kumar <vireshk@kernel.org>, openbmc@lists.ozlabs.org,
+        Michal Simek <michal.simek@xilinx.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Nancy Yuen <yuenn@google.com>, Chen-Yu Tsai <wens@csie.org>,
+        Andy Gross <agross@kernel.org>, Loc Ho <lho@apm.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Richard Woodruff <r-woodruff2@ti.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-arm-msm@vger.kernel.org,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        =?UTF-8?B?U8O2cmVu?= Brinkmann <soren.brinkmann@xilinx.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Tero Kristo <kristo@kernel.org>,
+        Rajan Vaja <rajan.vaja@xilinx.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Nuvoton Technologies <tali.perry@nuvoton.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH 00/21] [Set 2] Rid W=1 warnings from Clock
+Message-ID: <20210215094509.0b1f0bbf@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20210215084952.GF179940@dell>
+References: <20210212092016.GF4572@dell>
+        <161316374113.1254594.14156657225822268891@swboyd.mtv.corp.google.com>
+        <20210212212503.GC179940@dell>
+        <20210212212630.GD179940@dell>
+        <161316754567.1254594.9542583200097699504@swboyd.mtv.corp.google.com>
+        <20210212223739.GE179940@dell>
+        <161317480301.1254594.16648868282165823277@swboyd.mtv.corp.google.com>
+        <YCf4kkMsX+Ymgy6N@lunn.ch>
+        <161333644244.1254594.4498059850307971318@swboyd.mtv.corp.google.com>
+        <YCmUOHTtc+j4eLkO@lunn.ch>
+        <20210215084952.GF179940@dell>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+On Mon, 15 Feb 2021 08:49:52 +0000 Lee Jones wrote:
+> > Jakub can explain how he added these checks.  
+> 
+> Yes, please share.
 
-Include the eagle-gmsl.dtsi to enable GMSL camera support on the
-Eagle-V3M platform.
-
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- arch/arm64/boot/dts/renesas/r8a77970-eagle.dts | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-index eb8f2b3a3bbd..f0ea65e1896d 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-@@ -404,3 +404,6 @@ &scif0 {
- 
- 	status = "okay";
- };
-+
-+/* FAKRA Overlay */
-+#include "eagle-gmsl.dtsi"
--- 
-2.30.0
-
+https://github.com/kuba-moo/nipa
