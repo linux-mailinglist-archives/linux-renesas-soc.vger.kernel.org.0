@@ -2,96 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42D0531C0EC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Feb 2021 18:47:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E10F31C182
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Feb 2021 19:29:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231190AbhBORqu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Feb 2021 12:46:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54534 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232184AbhBORpz (ORCPT
+        id S229925AbhBOS1z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Feb 2021 13:27:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48446 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229802AbhBOS1v (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Feb 2021 12:45:55 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EAEA60C3D;
-        Mon, 15 Feb 2021 17:45:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1613411111;
-        bh=H142txNXU7FRt9uW2Sv16n19CyrevXPqFbx8ThdGOrI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=uglK3kwezVaW8PF9O7FxFnlzq7edOQYRV4JhCChBfp7IC1sZiO5UIKu4xOQ6CEbW0
-         9xuJibheu2jwvY9Fk3sEeGOyqm9b9LEUm3T7vPODQumpsqGUaGbMWpwakK5tdZRLh1
-         FsNuf+PV84M6z3tZ3okItznTl+4JAB0yOYeo3t1y+v8MvauJ89KKKgCMB+tqVRnAiC
-         4rXdPqCkNqgMoVW068L3bL/2Z7i5JSJoqmsEdsMsvAQ5RAsgsjvO+7jHs+gsVpMxXY
-         BOgODid5IqWfH0ncdktLpmuQr59nm0hZpCcT8hBeZWUwySMhkBk8M9e+yLrhjzfbZC
-         lDA4fVbX9OE7g==
-Date:   Mon, 15 Feb 2021 09:45:09 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Stephen Boyd <sboyd@kernel.org>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rajeev Kumar <rajeev-dlh.kumar@st.com>,
-        Jan Kotas <jank@cadence.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Fabio Estevam <festevam@gmail.com>, linux-clk@vger.kernel.org,
-        Boris BREZILLON <boris.brezillon@free-electrons.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Emilio =?UTF-8?B?TMOzcGV6?= <emilio@elopez.com.ar>,
-        Viresh Kumar <vireshk@kernel.org>, openbmc@lists.ozlabs.org,
-        Michal Simek <michal.simek@xilinx.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Nancy Yuen <yuenn@google.com>, Chen-Yu Tsai <wens@csie.org>,
-        Andy Gross <agross@kernel.org>, Loc Ho <lho@apm.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Richard Woodruff <r-woodruff2@ti.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-arm-msm@vger.kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
-        Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        =?UTF-8?B?U8O2cmVu?= Brinkmann <soren.brinkmann@xilinx.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Tero Kristo <kristo@kernel.org>,
-        Rajan Vaja <rajan.vaja@xilinx.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Nuvoton Technologies <tali.perry@nuvoton.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 00/21] [Set 2] Rid W=1 warnings from Clock
-Message-ID: <20210215094509.0b1f0bbf@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20210215084952.GF179940@dell>
-References: <20210212092016.GF4572@dell>
-        <161316374113.1254594.14156657225822268891@swboyd.mtv.corp.google.com>
-        <20210212212503.GC179940@dell>
-        <20210212212630.GD179940@dell>
-        <161316754567.1254594.9542583200097699504@swboyd.mtv.corp.google.com>
-        <20210212223739.GE179940@dell>
-        <161317480301.1254594.16648868282165823277@swboyd.mtv.corp.google.com>
-        <YCf4kkMsX+Ymgy6N@lunn.ch>
-        <161333644244.1254594.4498059850307971318@swboyd.mtv.corp.google.com>
-        <YCmUOHTtc+j4eLkO@lunn.ch>
-        <20210215084952.GF179940@dell>
+        Mon, 15 Feb 2021 13:27:51 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 654AEC061756
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Feb 2021 10:27:11 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id c131so3245345ybf.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Feb 2021 10:27:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uZdfuvZKh6ztrTveUXeyEDkpyKAhS13j3dKVJUZWOmo=;
+        b=D1wwNuFr+0FpZniHfm2h3fZDPqNd00MWNhfBi5k8SLFxmWR02gpFyGqaWAJxK5wHLq
+         yC8+r0/Qj4PjOFCfBZPju5KVwPQFPWWM6tedamfW57Ie0kgx3DvCJ2ZDneu35lApe9I0
+         K8AhKRE0wq2U8HvWoP3fkP546PxdcEVs2X5cyKn7EXPnA0r0SzrUDKvR4D9KMYXhdsnv
+         bX+MfG+ZgUZ5007JZfbD+nfigpk4AUXEVqgm94bg4nks/kdRuHTWs5epatRHNR4guHcp
+         jflSa6JwEvOCochYqol7ikXPawB4hU32wkf12MRnQ0/lhBlq2xNiPfLoTtI3RA8ROU3g
+         jIcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uZdfuvZKh6ztrTveUXeyEDkpyKAhS13j3dKVJUZWOmo=;
+        b=dRahnpZuUexXAnX+yx2EaQ8d+308OvqyTgyR+6OB20WWi5c3ystRNPDZ3WlDn8c2vN
+         HrO7yC5zOW7BJMHeTelA03FU71VIn7NSh9Q4W9Sd0lgmKPOQQy+5lj/LECsoIs94A7Kg
+         dqHwmeIKasT7lV2XmxbkHSdMDDC+Z9dCzB1xX+WhiLeufoQvLOn1ZpdV52ZlwOKMgLfE
+         wC8cBIBeDEDauNladU3uSn11s5DjKXhHiReHk+Jlby6HoxsUQiFwORrfm+c0DLcP/Xps
+         c9plYr5I9RtEcDmMVeyXOxEMiGNCCuc6ApgYozrtQVJqzwpQGEDrJUR90pvNZD9ZkLcc
+         9veg==
+X-Gm-Message-State: AOAM532pktAZFSyNU47Zi+zaLy0iYLqbDT3FyyGMzKryAhXcn+Qh89H6
+        HXVFK/gDJSGMYGCJxkwCtmmitqS9NuEqPTMIuinqMw==
+X-Google-Smtp-Source: ABdhPJymB8VFqHaEfy3+cqkjsVG6qdmJtTdOYD0tnoDjZEEU0+MNAbjDITZYFZn/B3xUGD1RmKhzH+qUpw2eM3dHaUM=
+X-Received: by 2002:a05:6902:1025:: with SMTP id x5mr24333565ybt.96.1613413630483;
+ Mon, 15 Feb 2021 10:27:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20210215111619.2385030-1-geert+renesas@glider.be> <CAJZ5v0ikVbMX0R9e_=wOxKfJX5X322AipmpWy-7wVnWE7Ogc9A@mail.gmail.com>
+In-Reply-To: <CAJZ5v0ikVbMX0R9e_=wOxKfJX5X322AipmpWy-7wVnWE7Ogc9A@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Mon, 15 Feb 2021 10:26:34 -0800
+Message-ID: <CAGETcx94nNjduOuYKVBZOC9Gm4yfyb9x92ddznyxK4BnDby4PA@mail.gmail.com>
+Subject: Re: [PATCH] driver core: Fix double failed probing with fw_devlink=on
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 15 Feb 2021 08:49:52 +0000 Lee Jones wrote:
-> > Jakub can explain how he added these checks.  
-> 
-> Yes, please share.
+On Mon, Feb 15, 2021 at 6:59 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
+>
+> On Mon, Feb 15, 2021 at 12:16 PM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> >
+> > With fw_devlink=permissive, devices are added to the deferred probe
+> > pending list if their driver's .probe() method returns -EPROBE_DEFER.
+> >
+> > With fw_devlink=on, devices are added to the deferred probe pending list
+> > if they are determined to be a consumer,
 
-https://github.com/kuba-moo/nipa
+If they are determined to be a consumer or if they are determined to
+have a supplier that hasn't probed yet?
+
+> > which happens before their
+> > driver's .probe() method is called.  If the actual probe fails later
+> > (real failure, not -EPROBE_DEFER), the device will still be on the
+> > deferred probe pending list, and it will be probed again when deferred
+> > probing kicks in, which is futile.
+> >
+> > Fix this by explicitly removing the device from the deferred probe
+> > pending list in case of probe failures.
+> >
+> > Fixes: e590474768f1cc04 ("driver core: Set fw_devlink=on by default")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Good catch:
+>
+> Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+
+Geert,
+
+The issue is real and needs to be fixed. But I'm confused how this can
+happen. We won't even enter really_probe() if the driver isn't ready.
+We also won't get to run the driver's .probe() if the suppliers aren't
+ready. So how does the device get added to the deferred probe list
+before the driver is ready? Is this due to device_links_driver_bound()
+on the supplier?
+
+Can you give a more detailed step by step on the case you are hitting?
+
+Greg/Rafael,
+
+Let's hold off picking this patch till I get to take a closer look
+(within a day or two) please.
+
+-Saravana
+
+>
+> > ---
+> > Seen on various Renesas R-Car platforms, cfr.
+> > https://lore.kernel.org/linux-acpi/CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com
+> > ---
+> >  drivers/base/dd.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> > index 9179825ff646f4e3..91c4181093c43709 100644
+> > --- a/drivers/base/dd.c
+> > +++ b/drivers/base/dd.c
+> > @@ -639,11 +639,13 @@ static int really_probe(struct device *dev, struct device_driver *drv)
+> >         case -ENXIO:
+> >                 pr_debug("%s: probe of %s rejects match %d\n",
+> >                          drv->name, dev_name(dev), ret);
+> > +               driver_deferred_probe_del(dev);
+> >                 break;
+> >         default:
+> >                 /* driver matched but the probe failed */
+> >                 pr_warn("%s: probe of %s failed with error %d\n",
+> >                         drv->name, dev_name(dev), ret);
+> > +               driver_deferred_probe_del(dev);
+> >         }
+> >         /*
+> >          * Ignore errors returned by ->probe so that the next driver can try
+> > --
+> > 2.25.1
+> >
