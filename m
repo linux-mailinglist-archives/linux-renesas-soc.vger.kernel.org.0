@@ -2,100 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2300931BBBC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Feb 2021 16:01:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED9A831BC0C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Feb 2021 16:17:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230158AbhBOPAm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Feb 2021 10:00:42 -0500
-Received: from mail-oi1-f170.google.com ([209.85.167.170]:42037 "EHLO
-        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230382AbhBOO7t (ORCPT
+        id S230133AbhBOPPZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Feb 2021 10:15:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35136 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230203AbhBOPO4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Feb 2021 09:59:49 -0500
-Received: by mail-oi1-f170.google.com with SMTP id u66so7962810oig.9;
-        Mon, 15 Feb 2021 06:59:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1WJpZ9O/FoeicwL4UCLrmDh0RgytifRYxcFX1UoCRxE=;
-        b=BC3zpJKGcRQIpdScxn9naf2Ps6uqBtIlD45mDs+6iZziX6XMF1BEHwzxnGNQGz0NUQ
-         YHX+JAh1TsCwztgMo3wpKgTUcCnBaE52jil+/ODIKeAlnoaIjKO3nFXHyg2fZWy+LU7C
-         0vBTQYLo4K4I2pbk5AQozkEpeKgqJsbuH5JG3tCreR1kDI5RsZm5ucaIMXtF740DUFio
-         cz+r+3m4SoWCnfvz1MGE5ykxTL3IaqU8ltkQ4sWlEBhX3yrkHVkcd/Vvl/1LHWH1Zsmd
-         yJFS9aNRy+9BXgXRvBLa6VrM02CxJTb82q4ytxz2evNZkfM+8/KMqOzf9+zcdVCSOn6t
-         4phA==
-X-Gm-Message-State: AOAM532R89fuVG9lQhxn0OjFTncLTtXR8Yc01HhZ2G58u2A4sRZARyzp
-        IhFACm/2QvnKVhX6hwxc0shSau2I714rSahQR3Q=
-X-Google-Smtp-Source: ABdhPJxd8tpEbuaPWJqYrslxV6jJQ6R8HT+eQvaK/uBUprXuVs1u1BjcQP0r7Mzi+i10csNjwDuL4s1KenrxQTdo7DI=
-X-Received: by 2002:a05:6808:5cf:: with SMTP id d15mr8201933oij.69.1613401147730;
- Mon, 15 Feb 2021 06:59:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20210215111619.2385030-1-geert+renesas@glider.be>
-In-Reply-To: <20210215111619.2385030-1-geert+renesas@glider.be>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 15 Feb 2021 15:58:52 +0100
-Message-ID: <CAJZ5v0ikVbMX0R9e_=wOxKfJX5X322AipmpWy-7wVnWE7Ogc9A@mail.gmail.com>
-Subject: Re: [PATCH] driver core: Fix double failed probing with fw_devlink=on
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
+        Mon, 15 Feb 2021 10:14:56 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D667AC0613D6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Feb 2021 07:14:10 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed60:c5d6:9422:c618:ee58])
+        by albert.telenet-ops.be with bizsmtp
+        id VTE8240042PLE0706TE84E; Mon, 15 Feb 2021 16:14:09 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lBfZf-0079Q4-IO; Mon, 15 Feb 2021 16:14:07 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lBfZe-00AhgE-RK; Mon, 15 Feb 2021 16:14:06 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Saravana Kannan <saravanak@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         "Rafael J . Wysocki" <rafael@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] staging: board: Fix uninitialized spinlock when attaching genpd
+Date:   Mon, 15 Feb 2021 16:14:05 +0100
+Message-Id: <20210215151405.2551143-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Feb 15, 2021 at 12:16 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> With fw_devlink=permissive, devices are added to the deferred probe
-> pending list if their driver's .probe() method returns -EPROBE_DEFER.
->
-> With fw_devlink=on, devices are added to the deferred probe pending list
-> if they are determined to be a consumer, which happens before their
-> driver's .probe() method is called.  If the actual probe fails later
-> (real failure, not -EPROBE_DEFER), the device will still be on the
-> deferred probe pending list, and it will be probed again when deferred
-> probing kicks in, which is futile.
->
-> Fix this by explicitly removing the device from the deferred probe
-> pending list in case of probe failures.
->
-> Fixes: e590474768f1cc04 ("driver core: Set fw_devlink=on by default")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Armadillo-800-EVA with CONFIG_DEBUG_SPINLOCK=y:
 
-Good catch:
+    BUG: spinlock bad magic on CPU#0, swapper/1
+     lock: lcdc0_device+0x10c/0x308, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
+    CPU: 0 PID: 1 Comm: swapper Not tainted 5.11.0-rc5-armadillo-00036-gbbca04be7a80-dirty #287
+    Hardware name: Generic R8A7740 (Flattened Device Tree)
+    [<c010c3c8>] (unwind_backtrace) from [<c010a49c>] (show_stack+0x10/0x14)
+    [<c010a49c>] (show_stack) from [<c0159534>] (do_raw_spin_lock+0x20/0x94)
+    [<c0159534>] (do_raw_spin_lock) from [<c040858c>] (dev_pm_get_subsys_data+0x8c/0x11c)
+    [<c040858c>] (dev_pm_get_subsys_data) from [<c05fbcac>] (genpd_add_device+0x78/0x2b8)
+    [<c05fbcac>] (genpd_add_device) from [<c0412db4>] (of_genpd_add_device+0x34/0x4c)
+    [<c0412db4>] (of_genpd_add_device) from [<c0a1ea74>] (board_staging_register_device+0x11c/0x148)
+    [<c0a1ea74>] (board_staging_register_device) from [<c0a1eac4>] (board_staging_register_devices+0x24/0x28)
 
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+of_genpd_add_device() is called before platform_device_register(), as it
+needs to attach the genpd before the device is probed.  But the spinlock
+is only initialized when the device is registered.
 
-> ---
-> Seen on various Renesas R-Car platforms, cfr.
-> https://lore.kernel.org/linux-acpi/CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com
-> ---
->  drivers/base/dd.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index 9179825ff646f4e3..91c4181093c43709 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -639,11 +639,13 @@ static int really_probe(struct device *dev, struct device_driver *drv)
->         case -ENXIO:
->                 pr_debug("%s: probe of %s rejects match %d\n",
->                          drv->name, dev_name(dev), ret);
-> +               driver_deferred_probe_del(dev);
->                 break;
->         default:
->                 /* driver matched but the probe failed */
->                 pr_warn("%s: probe of %s failed with error %d\n",
->                         drv->name, dev_name(dev), ret);
-> +               driver_deferred_probe_del(dev);
->         }
->         /*
->          * Ignore errors returned by ->probe so that the next driver can try
-> --
-> 2.25.1
->
+Fix this by open-coding the spinlock initialization, cfr.
+device_pm_init_common() in the internal drivers/base code, and in the
+SuperH early platform code.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Exposed by fw_devlinks changing probe order.
+Masked before due to an unrelated wait context check failure, which
+disabled any further spinlock checks.
+https://lore.kernel.org/linux-acpi/CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com
+---
+ drivers/staging/board/board.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/board/board.c b/drivers/staging/board/board.c
+index cb6feb34dd401ae3..604612937f038e92 100644
+--- a/drivers/staging/board/board.c
++++ b/drivers/staging/board/board.c
+@@ -136,6 +136,7 @@ int __init board_staging_register_clock(const struct board_staging_clk *bsc)
+ static int board_staging_add_dev_domain(struct platform_device *pdev,
+ 					const char *domain)
+ {
++	struct device *dev = &pdev->dev;
+ 	struct of_phandle_args pd_args;
+ 	struct device_node *np;
+ 
+@@ -148,7 +149,11 @@ static int board_staging_add_dev_domain(struct platform_device *pdev,
+ 	pd_args.np = np;
+ 	pd_args.args_count = 0;
+ 
+-	return of_genpd_add_device(&pd_args, &pdev->dev);
++	/* Cfr. device_pm_init_common() */
++	spin_lock_init(&dev->power.lock);
++	dev->power.early_init = true;
++
++	return of_genpd_add_device(&pd_args, dev);
+ }
+ #else
+ static inline int board_staging_add_dev_domain(struct platform_device *pdev,
+-- 
+2.25.1
+
