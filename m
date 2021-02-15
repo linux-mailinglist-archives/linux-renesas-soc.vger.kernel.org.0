@@ -2,40 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B7D431B7E8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Feb 2021 12:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 165E231B96A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Feb 2021 13:39:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230003AbhBOLUc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Feb 2021 06:20:32 -0500
-Received: from mail-oi1-f173.google.com ([209.85.167.173]:39330 "EHLO
-        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbhBOLUZ (ORCPT
+        id S230190AbhBOMjM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Feb 2021 07:39:12 -0500
+Received: from mail-oo1-f41.google.com ([209.85.161.41]:36915 "EHLO
+        mail-oo1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230101AbhBOMjK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Feb 2021 06:20:25 -0500
-Received: by mail-oi1-f173.google.com with SMTP id l19so7380179oih.6;
-        Mon, 15 Feb 2021 03:20:09 -0800 (PST)
+        Mon, 15 Feb 2021 07:39:10 -0500
+Received: by mail-oo1-f41.google.com with SMTP id e17so1495390oow.4;
+        Mon, 15 Feb 2021 04:38:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=g+2l6KM1UP6n61yvg+ftleSaZOAPmTS96UBlT5bgVOw=;
-        b=EQX1VzOfpryADedahZgHDQ/na8KZ5NFdG8eGPrKMAjbAhkaibs/wx9FsgtbVTBrjh/
-         jFTxZYUORcw23zr8hRa6LVJBq9CRTVWOM2tQbcF3Oifqy9bPEfIOBLJKoLRpOz77xcad
-         YQ3PsgccOH96XkLEE3u8qvVEQum1CEeiq5VjZbxrS0eRdjQnz0ROIgptVGECQNHkGjHn
-         Kqw/PshVAswVrq0dktl3YuDwOARSvR9BAjoKR9r80tt74Ey9oEgJnQBf/hPspsPXFARM
-         GDYahSsuWANpZdTBuTDFLBwz24kO4g6Cdvv6tJHUnuM7UD9oXeRNb4XzPGrsDskAiNJA
-         0lLA==
-X-Gm-Message-State: AOAM5326cj/POgmd+sUbJmRp7UgbMeJFeqIosFN1FEAlLqLXZ5QXuWyB
-        3xGF4LAvNl1kxNBIZ9tFWzTmTkGaWBmuNdcJKOg=
-X-Google-Smtp-Source: ABdhPJzMI39m+KunbmWjRc0zXWvqEeHuECgd3ZsHjx+5rhHkVKdfXJ1QGr9mXD/zemLpBd0PNc0mqgI1Ax9YA4EUGXE=
-X-Received: by 2002:aca:d8c6:: with SMTP id p189mr8141707oig.54.1613387983592;
- Mon, 15 Feb 2021 03:19:43 -0800 (PST)
+        bh=YakQtSEFQoUcp92B7pBu7SXNAlj7zK9R9/BYJta3QcY=;
+        b=fYzbxOmHBPssdE8OpfNAVvZ3nwkzRi9LWYn9izc/3vUMrd9JZ8p7LCkghwoYcqPAlx
+         eokqIYxdKOagYeI6opI6H2zeaesDNM3N/VjHWTjHrKa39bouU0CN433W5wJjanxWZuG2
+         8AhqtSAIl7UUTFwpEdktYtl1H9myKKoCjNZWTvjYGmQfLndwRnJNtuU2I/Xs81V4eSH3
+         jOYhbzlmmhrU2qG+MO3UWLcIdBhBJzakASxvBFccF33L5aU82lSK78RAXxIG25toDC8T
+         /8QL8HfQmNuItwC2J5BxOFUpHAQ0KPeWDxDHx6PvPVPttUmQHDbsvSyZiE8RlEUL3GmN
+         ZTmQ==
+X-Gm-Message-State: AOAM532S1139ilrF6reLvhj065dwYkR+goL0YUZDverx1DeoRXhtUexg
+        DVJAzcaGXNZ4hKNmQE7vJ9ETuXyo3LhVfODmohY=
+X-Google-Smtp-Source: ABdhPJzsOaXkky53goutSDt4s3Qrndo6ZxhMZ+k2llX7tHWrnfhh68oTGJsqDIbrVVqlcPFpeGNGsoMWNtvUxybCm7w=
+X-Received: by 2002:a4a:3bcb:: with SMTP id s194mr10782339oos.1.1613392708214;
+ Mon, 15 Feb 2021 04:38:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com> <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
-In-Reply-To: <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
+References: <20210205222644.2357303-1-saravanak@google.com>
+ <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com> <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
+In-Reply-To: <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 15 Feb 2021 12:19:32 +0100
-Message-ID: <CAMuHMdUi-_LJBB7fYB9ugpcj0J+FWXrqn2u44n7MemmvwiWQWw@mail.gmail.com>
+Date:   Mon, 15 Feb 2021 13:38:16 +0100
+Message-ID: <CAMuHMdXduvBqjAqraXkEKErNJFyN6JNq5wqagc4yHHPpH5SPGQ@mail.gmail.com>
 Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
 To:     Saravana Kannan <saravanak@google.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -66,60 +67,90 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 11, 2021 at 2:00 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Fri, Feb 5, 2021 at 11:26 PM Saravana Kannan <saravanak@google.com> wrote:
-> > There are a lot of devices/drivers where they never have a struct device
-> > created for them or the driver initializes the hardware without ever
-> > binding to the struct device.
+Hi Saravana,
+
+On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
+> On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> >       - I2C on R-Car Gen3 does not seem to use DMA, according to
+> >         /sys/kernel/debug/dmaengine/summary:
 > >
-> > This series is intended to avoid any boot regressions due to such
-> > devices/drivers when fw_devlink=on and also address the handling of
-> > optional suppliers.
+> >             -dma4chan0    | e66d8000.i2c:tx
+> >             -dma4chan1    | e66d8000.i2c:rx
+> >             -dma5chan0    | e6510000.i2c:tx
+>
+> I think I need more context on the problem before I can try to fix it.
+> I'm also very unfamiliar with that file. With fw_devlink=permissive,
+> I2C was using DMA? If so, the next step is to see if the I2C relative
+> probe order with DMA is getting changed and if so, why.
 
->       - Some devices are reprobed, despite their drivers returning
->         a real error code, and not -EPROBE_DEFER:
->
->             renesas_wdt e6020000.watchdog: Watchdog blacklisted on r8a7791 ES1.*
->             (rwdt_probe() returns -ENODEV)
->
->             sh-pfc e6060000.pinctrl: pin GP_7_23 already requested by
-> ee090000.pci; cannot claim for e6590000.usb
->             sh-pfc e6060000.pinctrl: pin-247 (e6590000.usb) status -22
->             sh-pfc e6060000.pinctrl: could not request pin 247
-> (GP_7_23) from group usb0  on device sh-pfc
->             renesas_usbhs e6590000.usb: Error applying setting,
-> reverse things back
->             renesas_usbhs: probe of e6590000.usb failed with error -22
->
->             rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
->             rcar-pcie fe000000.pcie:       IO
-> 0x00fe100000..0x00fe1fffff -> 0x0000000000
->             rcar-pcie fe000000.pcie:      MEM
-> 0x00fe200000..0x00fe3fffff -> 0x00fe200000
->             rcar-pcie fe000000.pcie:      MEM
-> 0x0030000000..0x0037ffffff -> 0x0030000000
->             rcar-pcie fe000000.pcie:      MEM
-> 0x0038000000..0x003fffffff -> 0x0038000000
->             rcar-pcie fe000000.pcie:   IB MEM
-> 0x0040000000..0x00bfffffff -> 0x0040000000
->             rcar-pcie fe000000.pcie:   IB MEM
-> 0x0200000000..0x02ffffffff -> 0x0200000000
->             rcar-pcie fe000000.pcie: PCIe link down
->             (rcar_pcie_probe() returns -ENODEV)
->
->             xhci-hcd ee000000.usb: xHCI Host Controller
->             xhci-hcd ee000000.usb: new USB bus registered, assigned bus number 7
->             xhci-hcd ee000000.usb: Direct firmware load for
-> r8a779x_usb3_v3.dlmem failed with error -2
->             xhci-hcd ee000000.usb: can't setup: -2
->             xhci-hcd ee000000.usb: USB bus 7 deregistered
->             xhci-hcd: probe of ee000000.usb failed with error -2
+More detailed log:
 
-Consumers are added to the deferred probe pending list before
-they are probed, but not removed on probe failure.
-Patch sent
-"[PATCH] driver core: Fix double failed probing with fw_devlink=on"
-https://lore.kernel.org/linux-renesas-soc/20210215111619.2385030-1-geert+renesas@glider.be/
+    platform e66d8000.i2c: Linked as a consumer to e6150000.clock-controller
+    platform e66d8000.i2c: Linked as a sync state only consumer to e6055400.gpio
+
+Why is e66d8000.i2c not linked as a consumer to e6700000.dma-controller?
+
+    platform e6700000.dma-controller: Linked as a consumer to
+e6150000.clock-controller
+    platform e66d8000.i2c: Added to deferred list
+    platform e6700000.dma-controller: Added to deferred list
+
+    bus: 'platform': driver_probe_device: matched device
+e6700000.dma-controller with driver rcar-dmac
+    bus: 'platform': really_probe: probing driver rcar-dmac with
+device e6700000.dma-controller
+    platform e6700000.dma-controller: Driver rcar-dmac requests probe deferral
+
+    bus: 'platform': driver_probe_device: matched device e66d8000.i2c
+with driver i2c-rcar
+    bus: 'platform': really_probe: probing driver i2c-rcar with device
+e66d8000.i2c
+
+I2C becomes available...
+
+    i2c-rcar e66d8000.i2c: request_channel failed for tx (-517)
+    [...]
+
+but DMA is not available yet, so the driver falls back to PIO.
+
+    driver: 'i2c-rcar': driver_bound: bound to device 'e66d8000.i2c'
+    bus: 'platform': really_probe: bound device e66d8000.i2c to driver i2c-rcar
+
+    platform e6700000.dma-controller: Retrying from deferred list
+    bus: 'platform': driver_probe_device: matched device
+e6700000.dma-controller with driver rcar-dmac
+    bus: 'platform': really_probe: probing driver rcar-dmac with
+device e6700000.dma-controller
+    platform e6700000.dma-controller: Driver rcar-dmac requests probe deferral
+    platform e6700000.dma-controller: Added to deferred list
+    platform e6700000.dma-controller: Retrying from deferred list
+    bus: 'platform': driver_probe_device: matched device
+e6700000.dma-controller with driver rcar-dmac
+    bus: 'platform': really_probe: probing driver rcar-dmac with
+device e6700000.dma-controller
+    driver: 'rcar-dmac': driver_bound: bound to device 'e6700000.dma-controller'
+    bus: 'platform': really_probe: bound device
+e6700000.dma-controller to driver rcar-dmac
+
+DMA becomes available.
+
+Here userspace is entered. /sys/kernel/debug/dmaengine/summary shows
+that the I2C controllers do not have DMA channels allocated, as the
+kernel has performed no more I2C transfers after DMA became available.
+
+Using i2cdetect shows that DMA is used, which is good:
+
+    i2c-rcar e66d8000.i2c: got DMA channel for rx
+
+With permissive devlinks, the clock controller consumers are not added
+to the deferred probing list, and probe order is slightly different.
+The I2C controllers are still probed before the DMA controllers.
+But DMA becomes available a bit earlier, before the probing of the last
+I2C slave driver.  Hence /sys/kernel/debug/dmaengine/summary shows that
+some I2C transfers did use DMA.
+
+So the real issue is that e66d8000.i2c not linked as a consumer to
+e6700000.dma-controller.
 
 Gr{oetje,eeting}s,
 
