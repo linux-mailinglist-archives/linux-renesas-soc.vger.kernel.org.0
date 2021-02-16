@@ -2,195 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FD3031C720
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Feb 2021 09:06:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F1A431C746
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Feb 2021 09:22:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229744AbhBPIGX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Feb 2021 03:06:23 -0500
-Received: from mail-oi1-f173.google.com ([209.85.167.173]:41934 "EHLO
-        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229635AbhBPIGV (ORCPT
+        id S229635AbhBPIVp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Feb 2021 03:21:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57452 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229806AbhBPIVh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Feb 2021 03:06:21 -0500
-Received: by mail-oi1-f173.google.com with SMTP id v193so10377161oie.8;
-        Tue, 16 Feb 2021 00:06:05 -0800 (PST)
+        Tue, 16 Feb 2021 03:21:37 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5A53C0613D6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Feb 2021 00:20:50 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id u14so11927342wri.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Feb 2021 00:20:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=KKS3mm60WVea5SPhQi4hdtnoG3z+A2HjNVoJZwC0MIY=;
+        b=V+USs4SNTFDKkTKblk5EQSbgBy9+OQlZ7dMb5/oxFQ8yc930tIWzrfZeEYnXoEuEUX
+         8KyzcXaqo9XY2Pj2wNoXPdWT68qxIxf2c8fhkc9H3Sas+S+8ZEm+VLVTzO0LDz5bk9EF
+         rwGKBdpgyBRzhSD762tKTqJ5UwrKtFMj6udokMjDGhrDyuRqSYgyNbyk/xMr0kYHofjD
+         rQHOw5KHcQSff1rpA2z+dTbcTpfiPuuwWY9HPH6qq9Rowd/Jw4y5OHSicLNzs27EKLV8
+         8cRO/HOFzG3l4CvsDtG8VsV8EVbgs9ikc7BCqoX4peqYpnb9w4ktGh1DH6xiH54NlRCB
+         RrZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=83BrpC0oQ/cmeAj/lHKeDzK9StSyqlfuwywAdDjNejw=;
-        b=QBgBUBqgx1FN/5KM3VfFOpGjnuJqRT6RfKbqnFNNIUKXAxvOKKb6hhQNp6UoY2//d9
-         gH9b4zjKmunB8jgDTzJnHj5UkJ22QmdHCTgfoV4ubdn3MknMyfMZNmfTcLgyCH/mVZwz
-         wDgFAs0Uc89WRqE84ReBUia2b1YfWdQ2dHnmDfUbtXn2i71MQcgPyPEGmFwE09AwbpVn
-         moQ3RkGaBjggWRWfEZUeGiRSoqyPP2qKIVBAhFnOGtuIr4RvvBhVgSjpT84b5B0GXUXE
-         5e8BdVdVAxcJMt/Cz526LpfeyJA9AwH96YbaSfigvhtbwTe9Ql5Qa1RrBlepYly2ILPF
-         PKww==
-X-Gm-Message-State: AOAM533sr8FRE/LxLo2YI9f/zHqLnNj/hkQmACmwQPh1dC/tDUXsPSnY
-        zIyAN8KUIYNJ+vE+mSXdU8J2RS8R4Or1uz5LcrA=
-X-Google-Smtp-Source: ABdhPJzz+NpULZTIa3tjUW8686AiYK7eX+4Ie30gH/r1xHcs0vWPfv5qgwYUJGkxQKm1FzqrQsvfEXHLJ4R55M5RltI=
-X-Received: by 2002:aca:d8c6:: with SMTP id p189mr1857071oig.54.1613462740012;
- Tue, 16 Feb 2021 00:05:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
- <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
- <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
- <CAMuHMdXduvBqjAqraXkEKErNJFyN6JNq5wqagc4yHHPpH5SPGQ@mail.gmail.com> <CAGETcx_4FGa-rzLp6bjXbm4F4R6H2W78+nM_kN=XPz5hswzANA@mail.gmail.com>
-In-Reply-To: <CAGETcx_4FGa-rzLp6bjXbm4F4R6H2W78+nM_kN=XPz5hswzANA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 16 Feb 2021 09:05:28 +0100
-Message-ID: <CAMuHMdVodauqBmLMxsfi0kQtAFT8ruJ36LJL9YuQgqwQNKwHHg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=KKS3mm60WVea5SPhQi4hdtnoG3z+A2HjNVoJZwC0MIY=;
+        b=kqsfTBEfa79Sqx+Tdy8RkurzuQRgxfd6t4OvihcmnDxsurSaf3f23YHKw/hp/3Sell
+         BboaTtA0pRAucAteK6PTXglwfGo3JSZzMn0GMFSZlhDPmfUPVZJSr86LFLbAGkkcB/Sa
+         nd2G5nq7qVQ2hxoj5UuPSGKXE8F7R3fy9LJOy8Er0cVzWSkIBm4po8jVEBEI7RGt/kqY
+         1Yc9AzsIpG0GL97pUMrzvdWE31TynOMZyRgUnAkZz349fjka2FOrbvXOe8TozQ4sA54S
+         LwpI0ZwyhW2sNWAv60+6z6mp6PtgiAJ3x5t/oiv9M6VGOl/8iNwDUg3W9M3iVUlxEiKk
+         Px/w==
+X-Gm-Message-State: AOAM531QWrs8PeyBSv25ZrUKQe0aFRXUOn0xcT2jeY110QTbL+xGvkNT
+        uq3xJBPz9Ivmtasf6PNyZvKr8g==
+X-Google-Smtp-Source: ABdhPJzmArPGlwjG+vZMBP5b+78FxkLwYjxyYaijAK0x7nUBtsPckPTKlS5li+Bv3M/6zI/ofh8kxw==
+X-Received: by 2002:adf:ab11:: with SMTP id q17mr22837604wrc.192.1613463649320;
+        Tue, 16 Feb 2021 00:20:49 -0800 (PST)
+Received: from dell ([91.110.221.165])
+        by smtp.gmail.com with ESMTPSA id c22sm29673333wrb.91.2021.02.16.00.20.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Feb 2021 00:20:48 -0800 (PST)
+Date:   Tue, 16 Feb 2021 08:20:46 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Stephen Boyd <sboyd@kernel.org>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Rajeev Kumar <rajeev-dlh.kumar@st.com>,
+        Jan Kotas <jank@cadence.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Fabio Estevam <festevam@gmail.com>, linux-clk@vger.kernel.org,
+        Boris BREZILLON <boris.brezillon@free-electrons.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Emilio =?iso-8859-1?Q?L=F3pez?= <emilio@elopez.com.ar>,
+        Viresh Kumar <vireshk@kernel.org>, openbmc@lists.ozlabs.org,
+        Michal Simek <michal.simek@xilinx.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Nancy Yuen <yuenn@google.com>, Chen-Yu Tsai <wens@csie.org>,
+        Andy Gross <agross@kernel.org>, Loc Ho <lho@apm.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Richard Woodruff <r-woodruff2@ti.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-arm-msm@vger.kernel.org,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        =?iso-8859-1?Q?S=F6ren?= Brinkmann <soren.brinkmann@xilinx.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Tero Kristo <kristo@kernel.org>,
+        Rajan Vaja <rajan.vaja@xilinx.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Nuvoton Technologies <tali.perry@nuvoton.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH 00/21] [Set 2] Rid W=1 warnings from Clock
+Message-ID: <20210216082046.GA4803@dell>
+References: <20210212212503.GC179940@dell>
+ <20210212212630.GD179940@dell>
+ <161316754567.1254594.9542583200097699504@swboyd.mtv.corp.google.com>
+ <20210212223739.GE179940@dell>
+ <161317480301.1254594.16648868282165823277@swboyd.mtv.corp.google.com>
+ <YCf4kkMsX+Ymgy6N@lunn.ch>
+ <161333644244.1254594.4498059850307971318@swboyd.mtv.corp.google.com>
+ <YCmUOHTtc+j4eLkO@lunn.ch>
+ <20210215084952.GF179940@dell>
+ <20210215094509.0b1f0bbf@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210215094509.0b1f0bbf@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+On Mon, 15 Feb 2021, Jakub Kicinski wrote:
 
-On Mon, Feb 15, 2021 at 10:27 PM Saravana Kannan <saravanak@google.com> wrote:
-> On Mon, Feb 15, 2021 at 4:38 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
-> > > On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > >       - I2C on R-Car Gen3 does not seem to use DMA, according to
-> > > >         /sys/kernel/debug/dmaengine/summary:
-> > > >
-> > > >             -dma4chan0    | e66d8000.i2c:tx
-> > > >             -dma4chan1    | e66d8000.i2c:rx
-> > > >             -dma5chan0    | e6510000.i2c:tx
-> > >
-> > > I think I need more context on the problem before I can try to fix it.
-> > > I'm also very unfamiliar with that file. With fw_devlink=permissive,
-> > > I2C was using DMA? If so, the next step is to see if the I2C relative
-> > > probe order with DMA is getting changed and if so, why.
-> >
-> > More detailed log:
-> >
-> >     platform e66d8000.i2c: Linked as a consumer to e6150000.clock-controller
-> >     platform e66d8000.i2c: Linked as a sync state only consumer to e6055400.gpio
-> >
-> > Why is e66d8000.i2c not linked as a consumer to e6700000.dma-controller?
->
-> Because fw_devlink.strict=1 is not set and dma/iommu is considered an
-> "optional"/"driver decides" dependency.
+> On Mon, 15 Feb 2021 08:49:52 +0000 Lee Jones wrote:
+> > > Jakub can explain how he added these checks.  
+> > 
+> > Yes, please share.
+> 
+> https://github.com/kuba-moo/nipa
 
-Oh, I thought dma/iommu were considered mandatory initially,
-but dropped as dependencies in the late boot process?
+Thanks for this.
 
->
-> >     platform e6700000.dma-controller: Linked as a consumer to
-> > e6150000.clock-controller
->
-> Is this the only supplier of dma-controller?
-
-No, e6180000.system-controller is also a supplier.
-
-> >     platform e66d8000.i2c: Added to deferred list
-> >     platform e6700000.dma-controller: Added to deferred list
-> >
-> >     bus: 'platform': driver_probe_device: matched device
-> > e6700000.dma-controller with driver rcar-dmac
-> >     bus: 'platform': really_probe: probing driver rcar-dmac with
-> > device e6700000.dma-controller
-> >     platform e6700000.dma-controller: Driver rcar-dmac requests probe deferral
-> >
-> >     bus: 'platform': driver_probe_device: matched device e66d8000.i2c
-> > with driver i2c-rcar
-> >     bus: 'platform': really_probe: probing driver i2c-rcar with device
-> > e66d8000.i2c
-> >
-> > I2C becomes available...
-> >
-> >     i2c-rcar e66d8000.i2c: request_channel failed for tx (-517)
-> >     [...]
-> >
-> > but DMA is not available yet, so the driver falls back to PIO.
-> >
-> >     driver: 'i2c-rcar': driver_bound: bound to device 'e66d8000.i2c'
-> >     bus: 'platform': really_probe: bound device e66d8000.i2c to driver i2c-rcar
-> >
-> >     platform e6700000.dma-controller: Retrying from deferred list
-> >     bus: 'platform': driver_probe_device: matched device
-> > e6700000.dma-controller with driver rcar-dmac
-> >     bus: 'platform': really_probe: probing driver rcar-dmac with
-> > device e6700000.dma-controller
-> >     platform e6700000.dma-controller: Driver rcar-dmac requests probe deferral
-> >     platform e6700000.dma-controller: Added to deferred list
-> >     platform e6700000.dma-controller: Retrying from deferred list
-> >     bus: 'platform': driver_probe_device: matched device
-> > e6700000.dma-controller with driver rcar-dmac
-> >     bus: 'platform': really_probe: probing driver rcar-dmac with
-> > device e6700000.dma-controller
-> >     driver: 'rcar-dmac': driver_bound: bound to device 'e6700000.dma-controller'
-> >     bus: 'platform': really_probe: bound device
-> > e6700000.dma-controller to driver rcar-dmac
-> >
-> > DMA becomes available.
-> >
-> > Here userspace is entered. /sys/kernel/debug/dmaengine/summary shows
-> > that the I2C controllers do not have DMA channels allocated, as the
-> > kernel has performed no more I2C transfers after DMA became available.
-> >
-> > Using i2cdetect shows that DMA is used, which is good:
-> >
-> >     i2c-rcar e66d8000.i2c: got DMA channel for rx
-> >
-> > With permissive devlinks, the clock controller consumers are not added
-> > to the deferred probing list, and probe order is slightly different.
-> > The I2C controllers are still probed before the DMA controllers.
-> > But DMA becomes available a bit earlier, before the probing of the last
-> > I2C slave driver.
->
-> This seems like a race? I'm guessing it's two different threads
-> probing those two devices? And it just happens to work for
-> "permissive" assuming the boot timing doesn't change?
->
-> > Hence /sys/kernel/debug/dmaengine/summary shows that
-> > some I2C transfers did use DMA.
-> >
-> > So the real issue is that e66d8000.i2c not linked as a consumer to
-> > e6700000.dma-controller.
->
-> That's because fw_devlink.strict=1 isn't set. If you need DMA to be
-> treated as a mandatory supplier, you'll need to set the flag.
->
-> Is fw_devlink=on really breaking anything here? It just seems like
-> "permissive" got lucky with the timing and it could break at any point
-> in the future. Thought?
-
-I don't think there is a race.  fw_devlinks calling driver_deferred_probe_add()
-on all consumers has a big impact on probe order.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Oh, I see.  So you conduct tests locally, then post them up in a
+section called 'Checks' using the provided API.  I assume that
+Patchwork does not alert the user when something has gone awry?  Is
+this something Nipa does?
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
