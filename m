@@ -2,140 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6555831CACF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Feb 2021 14:00:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FE7B31CEAA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Feb 2021 18:09:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229945AbhBPM7g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Feb 2021 07:59:36 -0500
-Received: from mail-oo1-f44.google.com ([209.85.161.44]:33618 "EHLO
-        mail-oo1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229790AbhBPM7b (ORCPT
+        id S229913AbhBPRIo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Feb 2021 12:08:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57550 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229628AbhBPRIn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Feb 2021 07:59:31 -0500
-Received: by mail-oo1-f44.google.com with SMTP id f1so2260750oou.0;
-        Tue, 16 Feb 2021 04:59:13 -0800 (PST)
+        Tue, 16 Feb 2021 12:08:43 -0500
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A13D6C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Feb 2021 09:08:03 -0800 (PST)
+Received: by mail-yb1-xb35.google.com with SMTP id f4so11089112ybk.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Feb 2021 09:08:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EOoT/2ZRzWvEXcLxuZ6fIHpjifNSP30Dl3Nv/8J4jR4=;
+        b=WdCXyIRke16cMJsDa3zli6lc0UjF1wpzWcCkHwpauoeANh/CWtv98wK+NlR53jpmEX
+         fPUsPo82SM1O6aRxFbpsrJT1mwlDapMcy4Qaeqd7Mys422WEBikk+gmxH/XKf9inqEqi
+         FZ0g+OW/dTEtg7kiq5XU6pPJjXsFWS196dc0wPOzE7MKFPuMZJy6dzzF7YtZJHmHZLaU
+         go80z7YdKCWqvAK4Z+0DLZ40C/Oy1AFuRWSgcJadSe7GXBXTu3iXLx4MepBGcuunexFf
+         NL1IghxDsoc71++IbB58tXt/KXrRsnLMW4NBtz4QTQ3eJPKAyPwzoWVj1kFdqZlCmMDP
+         zVOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TVzLBkqKt0MyMwotNPEi8xMZ2SypGbVfWBR5eQRTmO0=;
-        b=TSrlLp/dLEvzVgYJtBCOI3GotDN81ZyYyNXCWTYNpHQgk7Li5hOwwdA5DI2aVSvN9u
-         QICOgn7PbSKOcD4TmUPyNR7oKuxBs3DRmjIHypg4EVgbNimg6pKuT5bwMw7moz4dwLlL
-         gjdt7k5aWaERMGI3+fJDXSrlHu2OJ9hawJ1IIJ519xcScgkh+VYkKXqvBJEeJYysa/jh
-         YXE+7Ldl1Zi4IScqJWUOTLySBilR7SJVmtB2c1olcSBMQ1p5so5ih9WB4v9f2GCIdtQX
-         90JznuDtxze58Ae7oSVog6crOzMwV4EJrKQef2q+3GOVSCtmHuJyt0kO8hHSu38Bx9ch
-         Kc3w==
-X-Gm-Message-State: AOAM533dFVUWMFTeNpqtYrlApLDE2W6QZi7whbG0yNmAx4DrvYCjd2vI
-        GNT/Gs4D//cYdXj1Xg9+ht5WAUkYOp5oeLp67ns=
-X-Google-Smtp-Source: ABdhPJxqORgG+iXS2MUSd76bl5TBZKlc/qcbt9O7R3tRFXJ0lESsAEHwXxj7DFW88YmAQPIcXwkV95yEjue34nqZXjY=
-X-Received: by 2002:a4a:ab08:: with SMTP id i8mr13952968oon.40.1613480328418;
- Tue, 16 Feb 2021 04:58:48 -0800 (PST)
+        bh=EOoT/2ZRzWvEXcLxuZ6fIHpjifNSP30Dl3Nv/8J4jR4=;
+        b=AgN5NS4V3NLdX1tn+ACLwluZT6jiq1orFG98tTzt37u9DtbxIofyed0PQuQRg1c4qg
+         PoSE2VbKNXANw8NM2pd7B1bYEIoPHUm4aJ4CeHmedavBy2z1WDp3KFDkvdr7YdyjsgSb
+         7Uap9d4/nuqPXIFuTy4SQfCN7HXlLkjBvsIVyE1vuXl6cTe/ofbz9AcPyPM+Rnu/9AS3
+         xgBJUjToBpaNasXCHgD3bHtLl3ZDEqswkYsi8N2LRfQz9RwpyppwVMP5HOHmokp+xTm1
+         q8XNS3rW7QZb2cMZcPRG3K3vPQdEXyHfWHch79vPXegzvgm3alY/0AhAd+WDHv7KRT0E
+         r25A==
+X-Gm-Message-State: AOAM53108Ihz79a85WXpOf1rJMIFF3KB2ylhlZjMCwKhSiOipN5279tO
+        WSIEyMsFk/zDpQbnxXnnQk/iGJF3m1mEjr2R84fzPg==
+X-Google-Smtp-Source: ABdhPJzgGS0xYNP+T4mgwBunRSL3eutPscSYXSMk0VP22h8l7fgIH6PBMZ7zYvpr6r2RlDhmuXBtz2bgCfSYUff5nFI=
+X-Received: by 2002:a25:3345:: with SMTP id z66mr31002234ybz.466.1613495282718;
+ Tue, 16 Feb 2021 09:08:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
- <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
- <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
- <CAMuHMdWFp_teT5Lgxe6BOpOb4UMM2_4FrKJm-2C6kuCH2YUMrw@mail.gmail.com> <CAGETcx9AZct4h0AdjbNzF5vjoYxT+M+zJ2ddsEN5SV9ALqV48A@mail.gmail.com>
-In-Reply-To: <CAGETcx9AZct4h0AdjbNzF5vjoYxT+M+zJ2ddsEN5SV9ALqV48A@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 16 Feb 2021 13:58:37 +0100
-Message-ID: <CAMuHMdULCQrjba0sM3wUFdPDTB4Txh3LVY-8ACq6P_vFJvk+SA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+References: <20210215111619.2385030-1-geert+renesas@glider.be>
+ <CAJZ5v0ikVbMX0R9e_=wOxKfJX5X322AipmpWy-7wVnWE7Ogc9A@mail.gmail.com>
+ <CAGETcx94nNjduOuYKVBZOC9Gm4yfyb9x92ddznyxK4BnDby4PA@mail.gmail.com>
+ <CAMuHMdWm9FiJHWTzGqqNa-ggt9WTpS6Hg2WthNW86p_WpvPUtw@mail.gmail.com> <CAGETcx8N5QmR5V_mrv5tHmARsnWrLbH+N_Ay_pBqV9HJkpHJzQ@mail.gmail.com>
+In-Reply-To: <CAGETcx8N5QmR5V_mrv5tHmARsnWrLbH+N_Ay_pBqV9HJkpHJzQ@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Tue, 16 Feb 2021 09:07:26 -0800
+Message-ID: <CAGETcx8nD7Ak8z7JEM1jUVdRRpUt=8BwGMix0ghv1QeDBLaGwA@mail.gmail.com>
+Subject: Re: [PATCH] driver core: Fix double failed probing with fw_devlink=on
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
-
-On Mon, Feb 15, 2021 at 10:57 PM Saravana Kannan <saravanak@google.com> wrote:
-> On Mon, Feb 15, 2021 at 7:16 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
-> > > On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > >   1. R-Car Gen2 (Koelsch), R-Car Gen3 (Salvator-X(S), Ebisu).
-> > > >
-> > > >       - Commit 2dfc564bda4a31bc ("soc: renesas: rcar-sysc: Mark device
-> > > >         node OF_POPULATED after init") is no longer needed (but already
-> > > >         queued for v5.12 anyway)
-> > >
-> > > Rob doesn't like the proliferation of OF_POPULATED and we don't need
-> > > it anymore, so maybe work it out with him? It's a balance between some
-> > > wasted memory (struct device(s)) vs not proliferating OF_POPULATED.
+On Mon, Feb 15, 2021 at 12:59 PM Saravana Kannan <saravanak@google.com> wrote:
+>
+> On Mon, Feb 15, 2021 at 11:08 AM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
 > >
-> > > >   2. SH/R-Mobile AG5 (kzm9g), APE6 (ape6evm), A1 (armadillo800-eva)
-> > > >
-> > > >       - "PATCH] soc: renesas: rmobile-sysc: Set OF_POPULATED and absorb
-> > > >         reset handling" is no longer needed
-> > > >         https://lore.kernel.org/linux-arm-kernel/20210205133319.1921108-1-geert+renesas@glider.be/
-> > >
-> > > Good to see more evidence that this series is fixing things at a more
-> > > generic level.
+> > Hi Saravana,
 > >
-> > I spoke too soon: if CONFIG_POWER_RESET_RMOBILE=n,
-> > booting fails again, as everything is waiting on the system controller,
-> > which never becomes available.
-> > Rcar-sysc doesn't suffer from this problem, cfr. above.
-> > Perhaps because the rmobile-sysc bindings use a hierarchical instead
-> > of a linear PM domain description, and thus consumers point to the
-> > children of the system controller node?
-> > Cfr. system-controller@e6180000 in arch/arm/boot/dts/r8a7740.dtsi.
+> > On Mon, Feb 15, 2021 at 7:27 PM Saravana Kannan <saravanak@google.com> wrote:
+> > > On Mon, Feb 15, 2021 at 6:59 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> > > > On Mon, Feb 15, 2021 at 12:16 PM Geert Uytterhoeven
+> > > > <geert+renesas@glider.be> wrote:
+> > > > > With fw_devlink=permissive, devices are added to the deferred probe
+> > > > > pending list if their driver's .probe() method returns -EPROBE_DEFER.
+> > > > >
+> > > > > With fw_devlink=on, devices are added to the deferred probe pending list
+> > > > > if they are determined to be a consumer,
+> > >
+> > > If they are determined to be a consumer or if they are determined to
+> > > have a supplier that hasn't probed yet?
+> >
+> > When the supplier has probed:
+> >
+> >     bus: 'platform': driver_probe_device: matched device
+> > e6150000.clock-controller with driver renesas-cpg-mssr
+> >     bus: 'platform': really_probe: probing driver renesas-cpg-mssr
+> > with device e6150000.clock-controller
+> >     PM: Added domain provider from /soc/clock-controller@e6150000
+> >     driver: 'renesas-cpg-mssr': driver_bound: bound to device
+> > 'e6150000.clock-controller'
+> >     platform e6055800.gpio: Added to deferred list
+> >     [...]
+> >     platform e6020000.watchdog: Added to deferred list
+> >     [...]
+> >     platform fe000000.pcie: Added to deferred list
+> >
+> > > > > which happens before their
+> > > > > driver's .probe() method is called.  If the actual probe fails later
+> > > > > (real failure, not -EPROBE_DEFER), the device will still be on the
+> > > > > deferred probe pending list, and it will be probed again when deferred
+> > > > > probing kicks in, which is futile.
+> > > > >
+> > > > > Fix this by explicitly removing the device from the deferred probe
+> > > > > pending list in case of probe failures.
+> > > > >
+> > > > > Fixes: e590474768f1cc04 ("driver core: Set fw_devlink=on by default")
+> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > >
+> > > > Good catch:
+> > > >
+> > > > Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > >
+> > > The issue is real and needs to be fixed. But I'm confused how this can
+> > > happen. We won't even enter really_probe() if the driver isn't ready.
+> > > We also won't get to run the driver's .probe() if the suppliers aren't
+> > > ready. So how does the device get added to the deferred probe list
+> > > before the driver is ready? Is this due to device_links_driver_bound()
+> > > on the supplier?
+> > >
+> > > Can you give a more detailed step by step on the case you are hitting?
+> >
+> > The device is added to the list due to device_links_driver_bound()
+> > calling driver_deferred_probe_add() on all consumer devices.
 >
-> Ok, I see what's going on. The problem is that the "power domain"
-> fwnode being registered is not the node that contains the "compatible"
-> property and becomes a device. So this patch[1] is not helping here.
-> Fix is to do something like this (to avoid using OF_POPULATED flag and
-> breaking reset):
+> Thanks for the explanation. Maybe add more details like this to the
+> commit text or in the code?
 >
-> diff --git a/drivers/soc/renesas/rmobile-sysc.c
-> b/drivers/soc/renesas/rmobile-sysc.c
-> index 9046b8c933cb..b7e66139ef7d 100644
-> --- a/drivers/soc/renesas/rmobile-sysc.c
-> +++ b/drivers/soc/renesas/rmobile-sysc.c
-> @@ -344,6 +344,7 @@ static int __init rmobile_init_pm_domains(void)
->                         of_node_put(np);
->                         break;
->                 }
-> +               fwnode_dev_initialized(&np->fwnode, true);
->         }
->
->         put_special_pds();
->
-> Can you give it a shot?
+> For the code:
+> Reviewed-by: Saravana Kanna <saravanak@google.com>
 
-Thanks, works.  Patch sent
-"[PATCH v2] soc: renesas: rmobile-sysc: Mark fwnode when PM domain is added"
-https://lore.kernel.org/linux-arm-kernel/20210216123958.3180014-1-geert+renesas@glider.be/
+Ugh... I just realized that I might have to give this a Nak because of
+bad locking in deferred_probe_work_func(). The unlock/lock inside the
+loop is a terrible hack. If we add this patch, we can end up modifying
+a linked list while it's being traversed and cause a crash or busy
+loop (you'll accidentally end up on an "empty list"). I ran into a
+similar issue during one of my unrelated refactors.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-Saravana
