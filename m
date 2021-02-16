@@ -2,97 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DF2631CAA3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Feb 2021 13:41:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D945831CAB1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Feb 2021 13:45:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbhBPMkv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Feb 2021 07:40:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56748 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229988AbhBPMkt (ORCPT
+        id S229790AbhBPMp0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Feb 2021 07:45:26 -0500
+Received: from mail-oi1-f173.google.com ([209.85.167.173]:41048 "EHLO
+        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229742AbhBPMpY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Feb 2021 07:40:49 -0500
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BBF1C0613D6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Feb 2021 04:40:03 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed60:c5d6:9422:c618:ee58])
-        by andre.telenet-ops.be with bizsmtp
-        id Vog02400c2PLE0701og0oF; Tue, 16 Feb 2021 13:40:01 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lBze4-007Pal-DB; Tue, 16 Feb 2021 13:40:00 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lBze3-00DLHK-Tg; Tue, 16 Feb 2021 13:39:59 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Saravana Kannan <saravanak@google.com>
-Cc:     Sebastian Reichel <sre@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] soc: renesas: rmobile-sysc: Mark fwnode when PM domain is added
-Date:   Tue, 16 Feb 2021 13:39:58 +0100
-Message-Id: <20210216123958.3180014-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 16 Feb 2021 07:45:24 -0500
+Received: by mail-oi1-f173.google.com with SMTP id v193so11061797oie.8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Feb 2021 04:45:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hZvZBQdQCvmhI6sD/De39AfrQz8gzNNIl2sxhpIVJcM=;
+        b=d0ud/g2w44V3Rx8/Ic2EurwN90yN0lhxSU5d7B+oLGAmMTruP4wbW42BgWcKmvJDnT
+         DWrHLY3jyskuNro95Zc3tacQLesp9HQsqpajCkaesxoB0MXRlaSGxbswQXwqfVAw5pg6
+         krs/oE3aQdYPXdNiLO1WoouzyDOenK3qyx7pUaSUyXHb6mHhwDfv2z6C7x3F5XbLepad
+         j9W8CmO1/A3e+lvsAaE4k5931h1c9iQnRoY7Rdz7ekG/WMEQgjoc7VkDm0NcGqLNX8iK
+         IMQs/pDM05eC+2PK5/8H4hGV++X2nyNcsbUAZ3pE1lNiVDhQs7m3s/iQFrMEL7tE7cI8
+         4cmQ==
+X-Gm-Message-State: AOAM531edlDlEBDXNe1oIOoP9Q0MFkE4TNWPHE52vJCcFoVU0BMxBS/z
+        PLpx+bhaBK70R/DY/6XeucKLYNsI2x9ECWXcQ5b/PwG6
+X-Google-Smtp-Source: ABdhPJwElkcJ3iXHFM228H+hyglH6HjnutEEbOyHvZp/lNA+Q9MQVlzxbgEypotzrkgcavC8AGB6h1PlDwTKPB3p0hs=
+X-Received: by 2002:a54:4e88:: with SMTP id c8mr2324390oiy.148.1613479482363;
+ Tue, 16 Feb 2021 04:44:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210215101754.6725-1-wsa+renesas@sang-engineering.com> <CAMuHMdWL7adaod2=F1wNBNnxx1FnUj=DQ2-pLO3Cq=JTB_DS0g@mail.gmail.com>
+In-Reply-To: <CAMuHMdWL7adaod2=F1wNBNnxx1FnUj=DQ2-pLO3Cq=JTB_DS0g@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 16 Feb 2021 13:44:31 +0100
+Message-ID: <CAMuHMdWkXryO1QMUAUGfH1PoA5yzXC-GBoQbtw1Fw3ZB3wNypQ@mail.gmail.com>
+Subject: Re: [PATCH RFT only] mmc: tmio: remove workaround for NON_REMOVABLE
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Currently, there are two drivers binding to the R-Mobile System
-Controller (SYSC):
-  - The rmobile-sysc driver registers PM domains from a core_initcall(),
-    and does not use a platform driver,
-  - The optional rmobile-reset driver registers a reset handler, and
-    does use a platform driver.
+Hi Wolfram,
 
-As fw_devlink only considers devices, commit bab2d712eeaf9d60 ("PM:
-domains: Mark fwnodes when their powerdomain is added/removed") works
-only for PM Domain drivers where the DT node is a real device node, and
-not for PM Domain drivers using a hierarchical representation inside a
-subnode.  Hence if fw_devlink is enabled, probing of on-chip devices
-that are part of the SYSC PM domain is deferred until the optional
-rmobile-reset driver has been bound.   If the rmobile-reset driver is
-not available, this will never happen, and thus lead to complete system
-boot failures.
+On Mon, Feb 15, 2021 at 11:35 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+> On Mon, Feb 15, 2021 at 11:18 AM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> > RPM handling has been improved twice since this comment, and also SCC
+> > handling has been improved a lot. Time to test if we the workaround can
+> > be removed!
+> >
+> > Not-yet-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > ---
+> >
+> > I'd be very grateful if you guys could have this patch boot-tested with
+> > your boardfarms. If the failure is still there, then it used to hang
+> > when detecting the eMMC. Maybe these days eMMC will just not show up.
+> > But hopefully all is well now. This always was difficult to trigger, so
+> > a wide test coverage would be highly appreciated. It works for me(tm),
+> > but that is not enough here.
+>
+> Thank you, I'll give it a try on tomorrow's renesas-drivers release.
 
-Fix this by explicitly marking the fwnode initialized.
+No regressions detected during booting, so
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Suggested-by: Saravana Kannan <saravanak@google.com>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-This is v2 of "soc: renesas: rmobile-sysc: Set OF_POPULATED and absorb
-reset handling".
-To be queued in renesas-devel as a fix for v5.12 if v5.12-rc1 will have
-fw_devlink enabled.
+Gr{oetje,eeting}s,
 
-v2:
-  - Call fwnode_dev_initialized() instead of setting OF_POPULATED,
-  - Drop reset handling move, as fwnode_dev_initialized() does not
-    prevent the rmobile-reset driver from binding against the same
-    device.
----
- drivers/soc/renesas/rmobile-sysc.c | 2 ++
- 1 file changed, 2 insertions(+)
+                        Geert
 
-diff --git a/drivers/soc/renesas/rmobile-sysc.c b/drivers/soc/renesas/rmobile-sysc.c
-index bf64d052f9245db5..204e6135180b919c 100644
---- a/drivers/soc/renesas/rmobile-sysc.c
-+++ b/drivers/soc/renesas/rmobile-sysc.c
-@@ -342,6 +342,8 @@ static int __init rmobile_init_pm_domains(void)
- 			of_node_put(np);
- 			break;
- 		}
-+
-+		fwnode_dev_initialized(&np->fwnode, true);
- 	}
- 
- 	put_special_pds();
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
