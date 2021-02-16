@@ -2,155 +2,161 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3432A31CED1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Feb 2021 18:17:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC0C831CF31
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Feb 2021 18:41:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbhBPRQy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Feb 2021 12:16:54 -0500
-Received: from mga02.intel.com ([134.134.136.20]:39879 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230391AbhBPRQx (ORCPT
+        id S229876AbhBPRkW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Feb 2021 12:40:22 -0500
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:33827 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229628AbhBPRkU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Feb 2021 12:16:53 -0500
-IronPort-SDR: XsZaQHhqA9SqtZOrtJ3jIC1z8x7RK+mPLvSTbhwCUiN+F5dAOz/C40ti7PmitIth3Bmq9010KM
- HvAvvfarorIg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="170085448"
-X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="170085448"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 09:16:11 -0800
-IronPort-SDR: cM5hcPbO1BoS3ntMzr2oVSpAGyS05MtYFbpP53zXclIHsXzFjrLDaFfaIaSz/cUggqoacnPSx4
- ffuxHSYuSP1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="512594538"
-Received: from lkp-server02.sh.intel.com (HELO cd560a204411) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 16 Feb 2021 09:16:10 -0800
-Received: from kbuild by cd560a204411 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lC3xJ-0008JB-CR; Tue, 16 Feb 2021 17:16:09 +0000
-Date:   Wed, 17 Feb 2021 01:16:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- 33c184d73b47952c64d3d29e808fb4b5379d5046
-Message-ID: <602bfdd1.tNt18skfXqsYofEA%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 16 Feb 2021 12:40:20 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 25223FF802;
+        Tue, 16 Feb 2021 17:39:27 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 00/16] media: i2c: GMSL reliability improvements
+Date:   Tue, 16 Feb 2021 18:39:27 +0100
+Message-Id: <20210216173943.106475-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 33c184d73b47952c64d3d29e808fb4b5379d5046  Merge tag 'v5.11' into renesas-devel
+Hello,
+  this series is based on the most recent media-master with the following
+patch applied on top: "media: i2c: rdamc21: Fix warning on u8 cast"
 
-elapsed time: 727m
+The series contains multiple changes:
 
-configs tested: 94
-configs skipped: 2
+- patches from [1-8] contain enhancements to the existing camera module
+  drivers. The first 7 patches apply to RDACM20 the same style comments
+  received on RDACM21. Nothing controversial should be there.
+  A cosmetic fix for the max9286 driver follows.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+- patch [9/16] contains a fixup for the RDACM21 camera module that is required
+  to avoid sporadic failures during the system initialization.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc                      tqm8xx_defconfig
-arm64                            alldefconfig
-arm                            pleb_defconfig
-mips                       capcella_defconfig
-arm                           efm32_defconfig
-arm                     eseries_pxa_defconfig
-sparc                            alldefconfig
-powerpc                      ppc6xx_defconfig
-mips                        workpad_defconfig
-mips                malta_qemu_32r6_defconfig
-arc                            hsdk_defconfig
-arm                        vexpress_defconfig
-powerpc                 mpc837x_rdb_defconfig
-powerpc                 mpc836x_rdk_defconfig
-sh                          rsk7264_defconfig
-sh                             espt_defconfig
-riscv                    nommu_virt_defconfig
-microblaze                      mmu_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a003-20210216
-i386                 randconfig-a005-20210216
-i386                 randconfig-a002-20210216
-i386                 randconfig-a006-20210216
-i386                 randconfig-a001-20210216
-i386                 randconfig-a004-20210216
-x86_64               randconfig-a003-20210216
-x86_64               randconfig-a002-20210216
-x86_64               randconfig-a004-20210216
-x86_64               randconfig-a001-20210216
-x86_64               randconfig-a005-20210216
-x86_64               randconfig-a006-20210216
-x86_64               randconfig-a016-20210215
-x86_64               randconfig-a013-20210215
-x86_64               randconfig-a012-20210215
-x86_64               randconfig-a015-20210215
-x86_64               randconfig-a014-20210215
-x86_64               randconfig-a011-20210215
-i386                 randconfig-a016-20210215
-i386                 randconfig-a014-20210215
-i386                 randconfig-a012-20210215
-i386                 randconfig-a013-20210215
-i386                 randconfig-a011-20210215
-i386                 randconfig-a015-20210215
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+- From patches [10/16] a rework of the GMSL camera initialization procedure
+  starts with 3 patches that prepare for the most substantial change on the
+  series.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+  The current initialization procedure for a GMSL chip looks like
+
+	MAX9282				RDACM2x
+
+	- probe()
+	- init()
+	- mux initialize()
+		- probe camera 1	- probe()
+					- init max9271
+					- init image sensor/ISP
+					- enable noise immunity
+		...
+
+	- camera 1 bound
+
+		- probe camera n	- probe()
+					- init max9271
+					- init image sensor/ISP
+					- enable noise immunity
+	- camera n bound
+	- all camera have probed
+		- Increase channel amplitude
+
+  This implies that all the initial configuration of the camera modules
+  which requires several I2C transactions to configure the image sensor and
+  the embedded ISP are run without noise immunity enabled.
+
+  On a test of 50 boot cycle the failure rate for the RDACM21 camera module
+  is around ~20% which is considerably bad.
+
+  This series implements a different mechanism that allows to run the
+  initialization of the camera module with noise immunity enabled, by splitting
+  the operations between the usual probe() method and the .init() subdev
+  core operation [1]
+
+  The new procedure looks like
+
+	MAX9282				RDACM2x
+
+	- probe()
+	- init()
+	- mux initialize()
+		- probe camera 1	- probe()
+					- init max9271
+					- enable noise immunity
+	- camera 1 bound
+	- increase channel amplitude
+	- camera 1.init()
+					- init image sensor/ISP
+	- restore initial channel amplitude
+
+		...
+		- probe camera n	- probe()
+					- init max9271
+					- enable noise immunity
+	- camera n bound
+	- increase channel amplitude
+	- camera n.init()
+					- init image sensor/ISP
+	- all camera have probed
+
+  This allows to run the image sensor/ISP initialization with noise immunity
+  enabled, as that's the part that requires the most I2C writes, being the
+  components programmed with register-value tables.
+
+  The same boot tests shows a failure percentage of 13%, considerably lower
+  than the current version. It also allows to increase the I2C bit rate to the
+  default 339 Kbps for which the setup/hold time are calibrated.
+
+  Bouns points: this helps isolating the MAX9271 initialization and will make
+  it easier making the max9271 a self-contained driver as suggested by Mauro.
+
+  [1] All good and glorious BUT: all of this relies on the usage of a subdev
+  operation that is considered deprecated. Is it an hard limitation ?
+
+  GMSL is kind of different beast compared to usual subdevices, so it might
+  make sense to make an exception in this case ?
+
+Thanks
+   j
+
+Jacopo Mondi (16):
+  media: i2c: rdacm20: Enable noise immunity
+  media: i2c: rdacm20: Embedded 'serializer' field
+  media: i2c: rdacm20: Replace goto with a loop
+  media: i2c: rdacm20: Report camera module name
+  media: i2c: rdacm20: Check return values
+  media: i2c: rdacm20: Re-work ov10635 reset
+  media: i2c: rdacm2x: Fix wake up delay
+  media: i2c: max9286: Adjust parameters indent
+  media: i2c: rdacm21: Re-work OV10640 initialization
+  media: i2c: max9286: Rename reverse_channel_mv
+  media: i2c: max9286: Cache channel amplitude
+  media: i2c: max9286: Define high channel amplitude
+  media: i2c: rdacm2x: Implement .init() subdev op
+  media: i2c: max9286: Initialize remotes when bound
+  media: i2c: max9286: Rework comments in .bound()
+  media: i2c: gmsl: Use 339Kbps I2C bit-rate
+
+ drivers/media/i2c/max9286.c |  67 ++++++++++------
+ drivers/media/i2c/rdacm20.c | 153 +++++++++++++++++++-----------------
+ drivers/media/i2c/rdacm21.c |  73 ++++++++++-------
+ 3 files changed, 167 insertions(+), 126 deletions(-)
+
+--
+2.30.0
+
