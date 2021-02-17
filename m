@@ -2,74 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54FE831D67C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Feb 2021 09:21:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED41231D6CA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Feb 2021 10:07:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231645AbhBQIUu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Feb 2021 03:20:50 -0500
-Received: from mail-ot1-f51.google.com ([209.85.210.51]:39271 "EHLO
-        mail-ot1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbhBQIUr (ORCPT
+        id S230045AbhBQJHC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Feb 2021 04:07:02 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:16507 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229619AbhBQJGh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Feb 2021 03:20:47 -0500
-Received: by mail-ot1-f51.google.com with SMTP id d7so11331657otq.6;
-        Wed, 17 Feb 2021 00:20:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4ODAFomA7HrrIMo0Cmhejdld+UvrDf30s1jNkKVd5CU=;
-        b=RDUh6pwOTIATokav8UyPvWee0izB5BPXT1W0UVLhqrJNeQtFGDW0A7rxOhnjJ56z+Q
-         hNSK8QQnN70vRcJG+3PW/JNblaRfy8BmdKmfA/PtM/p6Kq4xcu2JKVps0Tw9sw8mRYhs
-         jelg9Rl5YeD7XoRoxXeG03G4bx5hH0jlf9FrXA71RZnMQ+GwjdaCpCWs1RVypyxyUnsq
-         Y9MD8N7WkuNXk85pjrtBQ67b2nK0Bam+q7Bjg/YWrr1QCZho3tpQ6f9N4xZNYi/GIJF8
-         w/LMcD9mltyfGxVEMo3+ML3UF1B5EyC6TRD8tn45dHGwLle/i6pGUCcAtjIEDt+G7hBN
-         XJUQ==
-X-Gm-Message-State: AOAM531EKUq27VLL0yM8+QPAFAaMWbi/2PS/m1UG6QO/3pHI8rQNCk58
-        Q7C4S8Aqfokeaeso9SPTfSVP8Eq57pgaNi5+G6muFpJR
-X-Google-Smtp-Source: ABdhPJyKAN8M9BY1vd31PkK+F20XiPWL71kNEe+u3mzd11kEbWs0TTXPDHTkICbzdt6VeP2fLbMZwvCNXrCWRoQxnts=
-X-Received: by 2002:a05:6830:119:: with SMTP id i25mr17019987otp.107.1613550006189;
- Wed, 17 Feb 2021 00:20:06 -0800 (PST)
+        Wed, 17 Feb 2021 04:06:37 -0500
+X-IronPort-AV: E=Sophos;i="5.81,184,1610377200"; 
+   d="scan'208";a="72330546"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 17 Feb 2021 18:06:05 +0900
+Received: from localhost.localdomain (unknown [10.166.15.86])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6329040062B2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Feb 2021 18:06:05 +0900 (JST)
+From:   Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] arm64: dts: renesas: r8a77961-ulcb: add HDMI Display support
+Date:   Wed, 17 Feb 2021 18:06:03 +0900
+Message-Id: <20210217090603.1517-1-yuya.hamamachi.sx@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210216174146.106639-1-jacopo+renesas@jmondi.org> <20210216174146.106639-17-jacopo+renesas@jmondi.org>
-In-Reply-To: <20210216174146.106639-17-jacopo+renesas@jmondi.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 17 Feb 2021 09:19:55 +0100
-Message-ID: <CAMuHMdUENPfboGf86Bq_uGMS79vgzGn404_vY0pQSXJ3pwo4eA@mail.gmail.com>
-Subject: Re: [PATCH 16/16] media: i2c: gmsl: Use 339Kbps I2C bit-rate
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 16, 2021 at 6:41 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> With the camera modules initialization routines now running with
-> the noise immunity threshold enabled, it is possible to restore
-> the bit rate of the I2C transactions transported on the GMSL control
-> channel to 339 Kbps.
->
-> The 339 Kbps bit rate represents the default setting for the serializer
-> and the deserializer chips, and the setup/hold time and slave timeout
-> time in use are calibrate to support that rate.
+This patch enables HDMI Display on M3ULCB with R-Car M3-W+.
 
-calibrated
+Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
+---
+ arch/arm64/boot/dts/renesas/r8a77961-ulcb.dts | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961-ulcb.dts b/arch/arm64/boot/dts/renesas/r8a77961-ulcb.dts
+index 7c6e60f6f32d..294a055f117e 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961-ulcb.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77961-ulcb.dts
+@@ -30,3 +30,14 @@ memory@600000000 {
+ 		reg = <0x6 0x00000000 0x1 0x00000000>;
+ 	};
+ };
++
++&du {
++	clocks = <&cpg CPG_MOD 724>,
++		 <&cpg CPG_MOD 723>,
++		 <&cpg CPG_MOD 722>,
++		 <&versaclock5 1>,
++		 <&versaclock5 3>,
++		 <&versaclock5 2>;
++	clock-names = "du.0", "du.1", "du.2",
++		      "dclkin.0", "dclkin.1", "dclkin.2";
++};
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
