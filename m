@@ -2,104 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1C5331E178
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Feb 2021 22:36:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 527D031E309
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Feb 2021 00:35:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232295AbhBQVfP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Feb 2021 16:35:15 -0500
-Received: from mail-ot1-f43.google.com ([209.85.210.43]:42198 "EHLO
-        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232263AbhBQVe4 (ORCPT
+        id S232208AbhBQXdA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Feb 2021 18:33:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46928 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232120AbhBQXc7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Feb 2021 16:34:56 -0500
-Received: by mail-ot1-f43.google.com with SMTP id q4so7481otm.9;
-        Wed, 17 Feb 2021 13:34:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EQ9v6089nQbqVC+c1rW4xqBLyQdWLUpY3DAJ3Yx81jk=;
-        b=ppvijYF1r1Mf63eafp79wd5iS/EiD4zB/Rg8kY/7hY8vLg6JAIVr2WqMv53grPirmw
-         E0QHbUOIozvRHQuSevpzy0R2OH3+4Tl1s+c9P1xPX9FeimU3LbSOwFiZ6+Xi2b0Rj5Rv
-         RrI/rEnBz8jOIeqi23wutmsQKO7w9JGP2YJ36y5vOmqeQCOZrONVooPETBvZepXdHsCL
-         mTBCw7N7m8uD0aKqPCA/R/hrqyX4JzHvvW96C1RXJgz6LhFngbs0eMmj1+fWlITn9myF
-         ZIn5hwHW/eRPewaR3/uigYv4JSLo1S2nY1SFkgPlYvxBdOCNimSKP9hoVLqndqsvhEUL
-         Ai/Q==
-X-Gm-Message-State: AOAM530FjHAsARZIo1+ZJlCVS9pyi4arDfZvio7OdzafkqCIwnYHUy3d
-        aPN4rCo0ruLE/zpqpe3Sxv+Zf31bCQ==
-X-Google-Smtp-Source: ABdhPJzstcf+d2kGGdu0XTCP6MtQ3zVRGyK82Y9VTu1XAg3lIH8M0sXM4Lm39TdBZ3m97rf1coczew==
-X-Received: by 2002:a9d:3ec:: with SMTP id f99mr782221otf.299.1613597654870;
-        Wed, 17 Feb 2021 13:34:14 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id a28sm632901ook.24.2021.02.17.13.34.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Feb 2021 13:34:14 -0800 (PST)
-Received: (nullmailer pid 2803990 invoked by uid 1000);
-        Wed, 17 Feb 2021 21:34:13 -0000
-Date:   Wed, 17 Feb 2021 15:34:12 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     mazziesaccount@gmail.com, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-power@fi.rohmeurope.com, linux-arm-msm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [RFC PATCH 5/7] dt-bindings: regulator: bd9576 add FET
- ON-resistance for OCW
-Message-ID: <20210217213412.GA2800178@robh.at.kernel.org>
-References: <cover.1613042245.git.matti.vaittinen@fi.rohmeurope.com>
- <b7025d14fc8eb0eac95437ac62e74f64a7cf2b4c.1613042245.git.matti.vaittinen@fi.rohmeurope.com>
+        Wed, 17 Feb 2021 18:32:59 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6084C600EF;
+        Wed, 17 Feb 2021 23:32:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613604738;
+        bh=xr9Psu8shUX6MrhNK7Dr8wXIVyvf+IrCamxrpwOQW/M=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=QaHR5I0XO73Ikb3v5nZ0vwVyxs5fLYIK29epplaUB3jKbSbc5hVQ9DcBCV1OzRIiP
+         lg1+7dsIYdz5PXIrYrrBjX4mb6c0f5hIQ+/FGIhfcNgXCFFfciYd29tLZ0NAVk6wPI
+         1A7PxQcUCduGkvZJk0f0lXvxBy7EPl85f/qRAWbuzSRa4EsURkSw1bR1BI5efpc1mt
+         HI2QVZqKwvSOtCHxmgkeKIpsUmcDUZL+c8c+m+JzNICc7UyvHvraXVjj8qk5EB22Yy
+         Q/uuHitGLZcgv4PdJ7mfxnH4dYTAF3CCKRWu9m3l9aoUKvsezPuAqxSDRoj5sCOEk8
+         FwbtByEXdfv1A==
+Date:   Wed, 17 Feb 2021 17:32:16 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        John Garry <john.garry@huawei.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: Fix memory leak in pci_register_io_range()
+Message-ID: <20210217233216.GA924417@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b7025d14fc8eb0eac95437ac62e74f64a7cf2b4c.1613042245.git.matti.vaittinen@fi.rohmeurope.com>
+In-Reply-To: <20210202100332.829047-1-geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 11, 2021 at 02:35:41PM +0200, Matti Vaittinen wrote:
-> BD9576MUF provides over-current protection and detection. Current is
-> measured as voltage loss over external FET. Allow specifying FET's on
-> resistance so current monitoring limits can be converted to voltages.
+On Tue, Feb 02, 2021 at 11:03:32AM +0100, Geert Uytterhoeven wrote:
+> Kmemleak reports:
 > 
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+>     unreferenced object 0xc328de40 (size 64):
+>       comm "kworker/1:1", pid 21, jiffies 4294938212 (age 1484.670s)
+>       hex dump (first 32 bytes):
+>         00 00 00 00 00 00 00 00 e0 d8 fc eb 00 00 00 00  ................
+>         00 00 10 fe 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> 
+>     backtrace:
+>       [<ad758d10>] pci_register_io_range+0x3c/0x80
+>       [<2c7f139e>] of_pci_range_to_resource+0x48/0xc0
+>       [<f079ecc8>] devm_of_pci_get_host_bridge_resources.constprop.0+0x2ac/0x3ac
+>       [<e999753b>] devm_of_pci_bridge_init+0x60/0x1b8
+>       [<a895b229>] devm_pci_alloc_host_bridge+0x54/0x64
+>       [<e451ddb0>] rcar_pcie_probe+0x2c/0x644
+> 
+> In case a PCI host driver's probe is deferred, the same I/O range may be
+> allocated again, and be ignored, causing a memory leak.
+> 
+> Fix this by (a) letting logic_pio_register_range() return -EEXIST if the
+> passed range already exists, so pci_register_io_range() will free it,
+> and by (b) making pci_register_io_range() not consider -EEXIST an error
+> condition.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Applied to pci/enumeration for v5.12, thanks!
+
 > ---
->  .../devicetree/bindings/regulator/rohm,bd9576-regulator.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/pci/pci.c | 4 ++++
+>  lib/logic_pio.c   | 3 +++
+>  2 files changed, 7 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
-> index b6515a0cee62..ad3f57e9cd9b 100644
-> --- a/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
-> +++ b/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
-> @@ -27,6 +27,11 @@ patternProperties:
->        Properties for single regulator.
->      $ref: "regulator.yaml#"
->  
-> +    properties:
-> +      rohm,ocw-fet-ron-milliohms:
-
-We have '-ohms' and '-micro-ohms' already. Neither range works for you?
-
-> +      description: External FET's ON-resistance. Required if VoutS1 OCP/OCW is
-> +        to be set.
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 09b03cfba8894955..c651003e304a2b71 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -4037,6 +4037,10 @@ int pci_register_io_range(struct fwnode_handle *fwnode, phys_addr_t addr,
+>  	ret = logic_pio_register_range(range);
+>  	if (ret)
+>  		kfree(range);
 > +
->      required:
->        - regulator-name
+> +	/* Ignore duplicates due to deferred probing */
+> +	if (ret == -EEXIST)
+> +		ret = 0;
+>  #endif
 >  
+>  	return ret;
+> diff --git a/lib/logic_pio.c b/lib/logic_pio.c
+> index f32fe481b4922bc1..07b4b9a1f54b6bf5 100644
+> --- a/lib/logic_pio.c
+> +++ b/lib/logic_pio.c
+> @@ -28,6 +28,8 @@ static DEFINE_MUTEX(io_range_mutex);
+>   * @new_range: pointer to the IO range to be registered.
+>   *
+>   * Returns 0 on success, the error code in case of failure.
+> + * If the range already exists, -EEXIST will be returned, which should be
+> + * considered a success.
+>   *
+>   * Register a new IO range node in the IO range list.
+>   */
+> @@ -51,6 +53,7 @@ int logic_pio_register_range(struct logic_pio_hwaddr *new_range)
+>  	list_for_each_entry(range, &io_range_list, list) {
+>  		if (range->fwnode == new_range->fwnode) {
+>  			/* range already there */
+> +			ret = -EEXIST;
+>  			goto end_register;
+>  		}
+>  		if (range->flags == LOGIC_PIO_CPU_MMIO &&
 > -- 
-> 2.25.4
+> 2.25.1
 > 
-> 
-> -- 
-> Matti Vaittinen, Linux device drivers
-> ROHM Semiconductors, Finland SWDC
-> Kiviharjunlenkki 1E
-> 90220 OULU
-> FINLAND
-> 
-> ~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-> Simon says - in Latin please.
-> ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-> Thanks to Simon Glass for the translation =] 
