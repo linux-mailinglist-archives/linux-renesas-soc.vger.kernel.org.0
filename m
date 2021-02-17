@@ -2,113 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41BF631DED8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Feb 2021 19:10:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1C5331E178
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Feb 2021 22:36:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233050AbhBQSJR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Feb 2021 13:09:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43030 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233065AbhBQSJN (ORCPT
+        id S232295AbhBQVfP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Feb 2021 16:35:15 -0500
+Received: from mail-ot1-f43.google.com ([209.85.210.43]:42198 "EHLO
+        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232263AbhBQVe4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Feb 2021 13:09:13 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 254BD64E42;
-        Wed, 17 Feb 2021 18:08:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1613585312;
-        bh=mlVck3mitGbq4KsjHsg+Yp+wLuiTRge4SmXhwvupCJA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=pcpUB+bwniLXzIs+cBvLaPRAEjbhPwkCX4VK8YS1MQe3zULOCs4fJgwHYw7Uqo6We
-         gu5Z5Ji2v15gLmkbSOWs4bsN2PwW/6RAAYgicliuB3fHgpcP1Jx2XlrROvRpUS/F9H
-         bhmT6TbKs8+Lgqkb7Y4K5hcHMtuMsAjkmyGZ7XUfcVBaV9aKRFeEwI2wh4hXgPQ/yO
-         xfUcGFLc3bRSqJBkHyzgX53Ubi4iYZOrJk6iQfSHxMloXEsRah/REjZYCj0738UQ2E
-         eIURxqB8vya/y3sxmy0UoW4jXclmaE9h0FL1XeXDlv/1K2Ce7f3Il6dYkUHs7ri+Tc
-         slowUVQ5DxHkA==
-Date:   Wed, 17 Feb 2021 10:08:30 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Stephen Boyd <sboyd@kernel.org>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
+        Wed, 17 Feb 2021 16:34:56 -0500
+Received: by mail-ot1-f43.google.com with SMTP id q4so7481otm.9;
+        Wed, 17 Feb 2021 13:34:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EQ9v6089nQbqVC+c1rW4xqBLyQdWLUpY3DAJ3Yx81jk=;
+        b=ppvijYF1r1Mf63eafp79wd5iS/EiD4zB/Rg8kY/7hY8vLg6JAIVr2WqMv53grPirmw
+         E0QHbUOIozvRHQuSevpzy0R2OH3+4Tl1s+c9P1xPX9FeimU3LbSOwFiZ6+Xi2b0Rj5Rv
+         RrI/rEnBz8jOIeqi23wutmsQKO7w9JGP2YJ36y5vOmqeQCOZrONVooPETBvZepXdHsCL
+         mTBCw7N7m8uD0aKqPCA/R/hrqyX4JzHvvW96C1RXJgz6LhFngbs0eMmj1+fWlITn9myF
+         ZIn5hwHW/eRPewaR3/uigYv4JSLo1S2nY1SFkgPlYvxBdOCNimSKP9hoVLqndqsvhEUL
+         Ai/Q==
+X-Gm-Message-State: AOAM530FjHAsARZIo1+ZJlCVS9pyi4arDfZvio7OdzafkqCIwnYHUy3d
+        aPN4rCo0ruLE/zpqpe3Sxv+Zf31bCQ==
+X-Google-Smtp-Source: ABdhPJzstcf+d2kGGdu0XTCP6MtQ3zVRGyK82Y9VTu1XAg3lIH8M0sXM4Lm39TdBZ3m97rf1coczew==
+X-Received: by 2002:a9d:3ec:: with SMTP id f99mr782221otf.299.1613597654870;
+        Wed, 17 Feb 2021 13:34:14 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id a28sm632901ook.24.2021.02.17.13.34.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Feb 2021 13:34:14 -0800 (PST)
+Received: (nullmailer pid 2803990 invoked by uid 1000);
+        Wed, 17 Feb 2021 21:34:13 -0000
+Date:   Wed, 17 Feb 2021 15:34:12 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc:     mazziesaccount@gmail.com, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rajeev Kumar <rajeev-dlh.kumar@st.com>,
-        Jan Kotas <jank@cadence.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Fabio Estevam <festevam@gmail.com>, linux-clk@vger.kernel.org,
-        Boris BREZILLON <boris.brezillon@free-electrons.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Emilio =?UTF-8?B?TMOzcGV6?= <emilio@elopez.com.ar>,
-        Viresh Kumar <vireshk@kernel.org>, openbmc@lists.ozlabs.org,
-        Michal Simek <michal.simek@xilinx.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Nancy Yuen <yuenn@google.com>, Chen-Yu Tsai <wens@csie.org>,
-        Andy Gross <agross@kernel.org>, Loc Ho <lho@apm.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Richard Woodruff <r-woodruff2@ti.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-arm-msm@vger.kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
-        Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        =?UTF-8?B?U8O2cmVu?= Brinkmann <soren.brinkmann@xilinx.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Tero Kristo <kristo@kernel.org>,
-        Rajan Vaja <rajan.vaja@xilinx.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Nuvoton Technologies <tali.perry@nuvoton.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 00/21] [Set 2] Rid W=1 warnings from Clock
-Message-ID: <20210217100830.50db2195@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20210216082046.GA4803@dell>
-References: <20210212212503.GC179940@dell>
-        <20210212212630.GD179940@dell>
-        <161316754567.1254594.9542583200097699504@swboyd.mtv.corp.google.com>
-        <20210212223739.GE179940@dell>
-        <161317480301.1254594.16648868282165823277@swboyd.mtv.corp.google.com>
-        <YCf4kkMsX+Ymgy6N@lunn.ch>
-        <161333644244.1254594.4498059850307971318@swboyd.mtv.corp.google.com>
-        <YCmUOHTtc+j4eLkO@lunn.ch>
-        <20210215084952.GF179940@dell>
-        <20210215094509.0b1f0bbf@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-        <20210216082046.GA4803@dell>
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-power@fi.rohmeurope.com, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [RFC PATCH 5/7] dt-bindings: regulator: bd9576 add FET
+ ON-resistance for OCW
+Message-ID: <20210217213412.GA2800178@robh.at.kernel.org>
+References: <cover.1613042245.git.matti.vaittinen@fi.rohmeurope.com>
+ <b7025d14fc8eb0eac95437ac62e74f64a7cf2b4c.1613042245.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b7025d14fc8eb0eac95437ac62e74f64a7cf2b4c.1613042245.git.matti.vaittinen@fi.rohmeurope.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 16 Feb 2021 08:20:46 +0000 Lee Jones wrote:
-> On Mon, 15 Feb 2021, Jakub Kicinski wrote:
-> > On Mon, 15 Feb 2021 08:49:52 +0000 Lee Jones wrote:  
-> > > Yes, please share.  
-> > 
-> > https://github.com/kuba-moo/nipa  
+On Thu, Feb 11, 2021 at 02:35:41PM +0200, Matti Vaittinen wrote:
+> BD9576MUF provides over-current protection and detection. Current is
+> measured as voltage loss over external FET. Allow specifying FET's on
+> resistance so current monitoring limits can be converted to voltages.
 > 
-> Thanks for this.
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+>  .../devicetree/bindings/regulator/rohm,bd9576-regulator.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> Oh, I see.  So you conduct tests locally, then post them up in a
-> section called 'Checks' using the provided API.  
+> diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
+> index b6515a0cee62..ad3f57e9cd9b 100644
+> --- a/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
+> +++ b/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
+> @@ -27,6 +27,11 @@ patternProperties:
+>        Properties for single regulator.
+>      $ref: "regulator.yaml#"
+>  
+> +    properties:
+> +      rohm,ocw-fet-ron-milliohms:
 
-For some definition of "locally" - NIPA runs on a rented VM.
+We have '-ohms' and '-micro-ohms' already. Neither range works for you?
 
-> I assume that Patchwork does not alert the user when something has
-> gone awry?  Is this something Nipa does?
-
-The way we run it on netdev is maintainer-centric, IOW we see 
-the failures in patchwork and complain to people manually.
-The netdev mailing list gets too many messages as is, if NIPA 
-responded with results automatically (which is not that hard
-technically) my concern is that people would be more likely to
-send untested patches to the mailing list and rely on the bot.
+> +      description: External FET's ON-resistance. Required if VoutS1 OCP/OCW is
+> +        to be set.
+> +
+>      required:
+>        - regulator-name
+>  
+> -- 
+> 2.25.4
+> 
+> 
+> -- 
+> Matti Vaittinen, Linux device drivers
+> ROHM Semiconductors, Finland SWDC
+> Kiviharjunlenkki 1E
+> 90220 OULU
+> FINLAND
+> 
+> ~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
+> Simon says - in Latin please.
+> ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
+> Thanks to Simon Glass for the translation =] 
