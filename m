@@ -2,160 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D7B231D510
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Feb 2021 06:35:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2BBB31D5F7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Feb 2021 09:03:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231494AbhBQFeu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Feb 2021 00:34:50 -0500
-Received: from mga14.intel.com ([192.55.52.115]:8981 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231490AbhBQFeW (ORCPT
+        id S231684AbhBQIDT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Feb 2021 03:03:19 -0500
+Received: from mail-oi1-f170.google.com ([209.85.167.170]:42191 "EHLO
+        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231673AbhBQIDN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Feb 2021 00:34:22 -0500
-IronPort-SDR: /57+jPITo58oKL9dHstWCSCEw5lZTevsX7/rlRXS+/WQ39NTZScM5eULxkxgeVNIoJIjUbKms5
- lMiyyBZLdUTA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="182329065"
-X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="182329065"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 21:33:32 -0800
-IronPort-SDR: zoNgE5OExEABLOZAZfn3bPnJJDOn7QJxkqffV+dtch6eOkMCfrMChgw3un+TK9IjZG+NKQo+no
- 055Htn1Ido0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="361922903"
-Received: from lkp-server02.sh.intel.com (HELO cd560a204411) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 16 Feb 2021 21:33:30 -0800
-Received: from kbuild by cd560a204411 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lCFSs-0008mJ-3p; Wed, 17 Feb 2021 05:33:30 +0000
-Date:   Wed, 17 Feb 2021 13:32:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:master] BUILD SUCCESS
- 07dc3566ef81460e966b1e65e93fc9f6ab4c019b
-Message-ID: <602caa7f.AHFPaZeePhn6hOHe%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 17 Feb 2021 03:03:13 -0500
+Received: by mail-oi1-f170.google.com with SMTP id 6so4174496ois.9;
+        Wed, 17 Feb 2021 00:02:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oO/bxURdFtsjoHNwZsyAw7fJcaRuHY6JC4kqn3mb8GI=;
+        b=O5mcTUOBjvUfJkp/Fw6sI4U1otALbtgWG89h2yn+dIxeG9gAbRyPo1SiY2ii5HcRAF
+         nxznOR0RgBytpviwy3PYsp6yPw3T8pgscg3+pStbeS4bkS10P2/07A8agCXL1BfZQBe/
+         bbtvRSTY8OE4AJgQGu/BjMXjXzkFdALFp/z4Ft+VAfIcqWwGDiCp+NZnimXIPvsiPmlF
+         XUsv/R/PA7Iu3O8GfOjDSqyGBKJftnaeBpLOy8S+YtXvxJxw3cJgNobs/iJI5p2tDgkC
+         EDDPJxCr+YBmoYsI31pnOAU6u892gQiNxW2GHPrv836IncfVCWXitx5izC8VCCt/y9dQ
+         em/A==
+X-Gm-Message-State: AOAM533GhdLpurFe3pshHLOF5dqSU3M13Vwo1Iz0I+3jNWuh39Fxnoik
+        H3BB4dwHKcx02PzOQoPn7QrERroqGSkVCiUDFdyg9AOL
+X-Google-Smtp-Source: ABdhPJxlYZMJoIKkUeX5kbd7z0VgaHtRkAGb7Rn5GjcUX8sbbKkl+GOTRZNYJM7XiIF659mwoKMIgYElm+Vcv7PjqlQ=
+X-Received: by 2002:aca:d8c6:: with SMTP id p189mr5045960oig.54.1613548952534;
+ Wed, 17 Feb 2021 00:02:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20210216174146.106639-1-jacopo+renesas@jmondi.org> <20210216174146.106639-8-jacopo+renesas@jmondi.org>
+In-Reply-To: <20210216174146.106639-8-jacopo+renesas@jmondi.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 17 Feb 2021 09:02:21 +0100
+Message-ID: <CAMuHMdWbGohmE3m868U0QKer6TL2RUbjxy7o4M-f6zbn_db2mw@mail.gmail.com>
+Subject: Re: [PATCH 07/16] media: i2c: rdacm2x: Fix wake up delay
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: 07dc3566ef81460e966b1e65e93fc9f6ab4c019b  [LOCAL] arm64: defconfig: Update renesas_defconfig
+On Tue, Feb 16, 2021 at 6:41 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> The MAX9271 chip manual prescribes a delay of 5 milliseconds
+> after the chip exists from low power state.
 
-elapsed time: 724m
+exits
 
-configs tested: 97
-configs skipped: 4
+Gr{oetje,eeting}s,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+                        Geert
 
-gcc tested configs:
-arm                                 defconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-mips                           jazz_defconfig
-powerpc                        fsp2_defconfig
-csky                             alldefconfig
-arc                           tb10x_defconfig
-sh                           se7343_defconfig
-mips                         tb0287_defconfig
-arm                     eseries_pxa_defconfig
-arm                             rpc_defconfig
-powerpc                     sbc8548_defconfig
-sh                        apsh4ad0a_defconfig
-xtensa                    xip_kc705_defconfig
-arm64                            allyesconfig
-mips                            ar7_defconfig
-powerpc                     pseries_defconfig
-arm                        mvebu_v7_defconfig
-powerpc                     akebono_defconfig
-arm                          pxa3xx_defconfig
-powerpc                 linkstation_defconfig
-openrisc                            defconfig
-h8300                    h8300h-sim_defconfig
-powerpc                 mpc837x_mds_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a003-20210216
-i386                 randconfig-a005-20210216
-i386                 randconfig-a002-20210216
-i386                 randconfig-a006-20210216
-i386                 randconfig-a001-20210216
-i386                 randconfig-a004-20210216
-x86_64               randconfig-a016-20210215
-x86_64               randconfig-a013-20210215
-x86_64               randconfig-a012-20210215
-x86_64               randconfig-a015-20210215
-x86_64               randconfig-a014-20210215
-x86_64               randconfig-a011-20210215
-i386                 randconfig-a016-20210216
-i386                 randconfig-a014-20210216
-i386                 randconfig-a012-20210216
-i386                 randconfig-a013-20210216
-i386                 randconfig-a011-20210216
-i386                 randconfig-a015-20210216
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-clang tested configs:
-x86_64               randconfig-a003-20210215
-x86_64               randconfig-a002-20210215
-x86_64               randconfig-a001-20210215
-x86_64               randconfig-a004-20210215
-x86_64               randconfig-a005-20210215
-x86_64               randconfig-a006-20210215
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
