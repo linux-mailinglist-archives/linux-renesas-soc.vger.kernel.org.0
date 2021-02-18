@@ -2,78 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F1931E9A9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Feb 2021 13:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E716531EDD8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Feb 2021 19:04:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232402AbhBRMRj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Feb 2021 07:17:39 -0500
-Received: from www.zeus03.de ([194.117.254.33]:44460 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230110AbhBRLDt (ORCPT
+        id S230512AbhBRSCW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Feb 2021 13:02:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54224 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230256AbhBRPJY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Feb 2021 06:03:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version:content-type
-        :content-transfer-encoding; s=k1; bh=kD82ygGvqHgE5hga7QTnygYLBxS
-        EovlyZDwZAqroviA=; b=TEdeXcF6LQtrjVcEhG+fh4VYi+FuGPFJdhTebPYKMyl
-        luNHZ/Vh3F+8z39ntRW/++ovq7VqTox+/83gpWLQEmx3qaiFfpl+Mw7M9Sitw61f
-        zEwAxFc2bOJlTkBsOQEKOm5XBizxpUPyCXDvENwPBxB8WzngBvrJR/C5Hq0G2sZs
-        =
-Received: (qmail 897720 invoked from network); 18 Feb 2021 12:02:36 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Feb 2021 12:02:36 +0100
-X-UD-Smtp-Session: l3s3148p1@y9TsRZq7jKYgAwDPXxApAAF3+sXyxkl6
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] mmc: tmio: remove workaround for NON_REMOVABLE
-Date:   Thu, 18 Feb 2021 12:02:24 +0100
-Message-Id: <20210218110224.6910-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.0
+        Thu, 18 Feb 2021 10:09:24 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F5A2C0617A9;
+        Thu, 18 Feb 2021 07:06:09 -0800 (PST)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 546383E7;
+        Thu, 18 Feb 2021 16:06:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1613660765;
+        bh=dSBqhVkp/iAa5cgZEEnWPWhwlXHCmngOAaA5uAmLBNs=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=I7tWCKzD49p26ryzl1QeMEiSvCHKvWl9rbIEGioJtgnr+AvMalEvrkQNZ5B5teWD6
+         GvXB0w8YJYTWIyOBzS13TDcDYXRA0/5Vp3clfTxMEXxsHdvDi1FogO7txLbSXr38AY
+         BJ1nL82Gy9bjMhBNAt7U58M3kOOFEcp3TZ0c7mjg=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 10/16] media: i2c: max9286: Rename reverse_channel_mv
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
+ <20210216174146.106639-11-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <9e1cca71-e0f0-4d66-d3f5-268760c53eec@ideasonboard.com>
+Date:   Thu, 18 Feb 2021 15:06:01 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210216174146.106639-11-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-RPM handling has been improved twice since this comment, and also SCC
-handling has been improved a lot. All the testing we did (Geert's and
-Niklas' and Wolfram's board farms) with the workaround removed did not
-lead to problems, so it is time to get rid of it to the best of our
-knowledge.
+Hi Jacopo,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/mmc/host/tmio_mmc_core.c | 9 ---------
- 1 file changed, 9 deletions(-)
+On 16/02/2021 17:41, Jacopo Mondi wrote:
+> Rename the reverse_channel_mv variable to init_rev_chan_mv as
+> the next patches will cache the reverse channel amplitude in
+> a new driver variable.
+> 
 
-diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-index 49c2d406c48e..2478a91e84b2 100644
---- a/drivers/mmc/host/tmio_mmc_core.c
-+++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -1160,15 +1160,6 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
- 				  mmc->caps & MMC_CAP_NEEDS_POLL ||
- 				  !mmc_card_is_removable(mmc));
- 
--	/*
--	 * On Gen2+, eMMC with NONREMOVABLE currently fails because native
--	 * hotplug gets disabled. It seems RuntimePM related yet we need further
--	 * research. Since we are planning a PM overhaul anyway, let's enforce
--	 * for now the device being active by enabling native hotplug always.
--	 */
--	if (pdata->flags & TMIO_MMC_MIN_RCAR2)
--		_host->native_hotplug = true;
--
- 	/*
- 	 * While using internal tmio hardware logic for card detection, we need
- 	 * to ensure it stays powered for it to work.
--- 
-2.30.0
+I've been trying to figure out if we really do need two variables to
+store this now, but I can't see an easy way to factor out the
+initialisation value, and I like the idea of caching the current stored
+value.
+
+So
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 1d9951215868..1f14cd817fbf 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -163,7 +163,7 @@ struct max9286_priv {
+>  	unsigned int mux_channel;
+>  	bool mux_open;
+>  
+> -	u32 reverse_channel_mv;
+> +	u32 init_rev_chan_mv;
+>  
+>  	struct v4l2_ctrl_handler ctrls;
+>  	struct v4l2_ctrl *pixelrate;
+> @@ -563,7 +563,7 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+>  	 * - Disable auto-ack as communication on the control channel are now
+>  	 *   stable.
+>  	 */
+> -	if (priv->reverse_channel_mv < 170)
+> +	if (priv->init_rev_chan_mv < 170)
+>  		max9286_reverse_channel_setup(priv, 170);
+>  	max9286_check_config_link(priv, priv->source_mask);
+>  
+> @@ -971,7 +971,7 @@ static int max9286_setup(struct max9286_priv *priv)
+>  	 * only. This should be disabled after the mux is initialised.
+>  	 */
+>  	max9286_configure_i2c(priv, true);
+> -	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
+> +	max9286_reverse_channel_setup(priv, priv->init_rev_chan_mv);
+>  
+>  	/*
+>  	 * Enable GMSL links, mask unused ones and autodetect link
+> @@ -1236,9 +1236,9 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>  	if (of_property_read_u32(dev->of_node,
+>  				 "maxim,reverse-channel-microvolt",
+>  				 &reverse_channel_microvolt))
+> -		priv->reverse_channel_mv = 170;
+> +		priv->init_rev_chan_mv = 170;
+>  	else
+> -		priv->reverse_channel_mv = reverse_channel_microvolt / 1000U;
+> +		priv->init_rev_chan_mv = reverse_channel_microvolt / 1000U;
+>  
+>  	priv->route_mask = priv->source_mask;
+>  
+> 
 
