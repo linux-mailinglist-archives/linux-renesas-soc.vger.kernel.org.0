@@ -2,84 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93E9331E9A5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Feb 2021 13:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74F1931E9A9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Feb 2021 13:25:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232006AbhBRMRO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Feb 2021 07:17:14 -0500
-Received: from sauhun.de ([88.99.104.3]:46182 "EHLO pokefinder.org"
+        id S232402AbhBRMRj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Feb 2021 07:17:39 -0500
+Received: from www.zeus03.de ([194.117.254.33]:44460 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230133AbhBRKur (ORCPT
+        id S230110AbhBRLDt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Feb 2021 05:50:47 -0500
-Received: from localhost (p5486ca7f.dip0.t-ipconnect.de [84.134.202.127])
-        by pokefinder.org (Postfix) with ESMTPSA id 50F0A2C0448;
-        Thu, 18 Feb 2021 11:49:38 +0100 (CET)
-Date:   Thu, 18 Feb 2021 11:49:36 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
-        linux-i2c@vger.kernel.org
-Subject: Re: [PATCH] i2c: rcar: implement atomic transfers
-Message-ID: <20210218104936.GA890@ninjato>
-References: <20210212164541.8986-1-uli+renesas@fpond.eu>
+        Thu, 18 Feb 2021 06:03:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version:content-type
+        :content-transfer-encoding; s=k1; bh=kD82ygGvqHgE5hga7QTnygYLBxS
+        EovlyZDwZAqroviA=; b=TEdeXcF6LQtrjVcEhG+fh4VYi+FuGPFJdhTebPYKMyl
+        luNHZ/Vh3F+8z39ntRW/++ovq7VqTox+/83gpWLQEmx3qaiFfpl+Mw7M9Sitw61f
+        zEwAxFc2bOJlTkBsOQEKOm5XBizxpUPyCXDvENwPBxB8WzngBvrJR/C5Hq0G2sZs
+        =
+Received: (qmail 897720 invoked from network); 18 Feb 2021 12:02:36 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Feb 2021 12:02:36 +0100
+X-UD-Smtp-Session: l3s3148p1@y9TsRZq7jKYgAwDPXxApAAF3+sXyxkl6
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] mmc: tmio: remove workaround for NON_REMOVABLE
+Date:   Thu, 18 Feb 2021 12:02:24 +0100
+Message-Id: <20210218110224.6910-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3MwIy2ne0vdjdPXF"
-Content-Disposition: inline
-In-Reply-To: <20210212164541.8986-1-uli+renesas@fpond.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+RPM handling has been improved twice since this comment, and also SCC
+handling has been improved a lot. All the testing we did (Geert's and
+Niklas' and Wolfram's board farms) with the workaround removed did not
+lead to problems, so it is time to get rid of it to the best of our
+knowledge.
 
---3MwIy2ne0vdjdPXF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/mmc/host/tmio_mmc_core.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-Hi Uli,
+diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+index 49c2d406c48e..2478a91e84b2 100644
+--- a/drivers/mmc/host/tmio_mmc_core.c
++++ b/drivers/mmc/host/tmio_mmc_core.c
+@@ -1160,15 +1160,6 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
+ 				  mmc->caps & MMC_CAP_NEEDS_POLL ||
+ 				  !mmc_card_is_removable(mmc));
+ 
+-	/*
+-	 * On Gen2+, eMMC with NONREMOVABLE currently fails because native
+-	 * hotplug gets disabled. It seems RuntimePM related yet we need further
+-	 * research. Since we are planning a PM overhaul anyway, let's enforce
+-	 * for now the device being active by enabling native hotplug always.
+-	 */
+-	if (pdata->flags & TMIO_MMC_MIN_RCAR2)
+-		_host->native_hotplug = true;
+-
+ 	/*
+ 	 * While using internal tmio hardware logic for card detection, we need
+ 	 * to ensure it stays powered for it to work.
+-- 
+2.30.0
 
-> Implements atomic transfers. Tested by rebooting an r8a7790 Lager board
-> after connecting the i2c-rcar controller to the PMIC in
-> arch/arm/boot/dts/r8a7790-lager.dts like so:
->=20
-> 		compatible =3D "i2c-demux-pinctrl";
-> 		pinctrl-names =3D "default";
-> 		pinctrl-0 =3D <&pmic_irq_pins>;
-> -		i2c-parent =3D <&iic3>, <&i2c3>;
-> +		i2c-parent =3D <&i2c3>, <&iic3>;
-> 		i2c-bus-name =3D "i2c-pwr";
-> 		#address-cells =3D <1>;
-> 		#size-cells =3D <0>;
->=20
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-
-Doesn't apply against 5.11 or i2c/for-next. What is the base here?
-
-Regards,
-
-   Wolfram
-
-
---3MwIy2ne0vdjdPXF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAuRjwACgkQFA3kzBSg
-KbZm7w//aI9BB2FjjDihzkogx9Pyct2B8o7p/OaDSP3lmoqCqHbNwL9RDjTlyhDw
-Y2GrCuMITPmxIZhApiWpHe3n6OScbOdgKRCnzxXINGHEwfR6Gf/3r0m9DZGCu+yo
-YSeRSeLOmMksxa4GJaMR/ztKdb/gnqaHbssuZMijSQ2h6/KMxoNGdU8NX/yozms+
-PA8b0Mrq+JEUU85ddCTNMFx27Pr+n3iOu484XBcJXZvELVyFvlE7+9wpheClMlcU
-klqrbcxzPj1/6NEQY6sGD5tcfFwd6ApPwxa8MYf1HP9FD1ynJjugD6BSnXYsNyzA
-E3LC3+tJ7M3vkSM0zUD46IxDTZCDlkvoBzgkJFv2oHdFpM+GPzSHWz9VpFrQKnXM
-pgRzRmcRKv7C86FmipnqNzwY+A96zb/tW5D9m9+6lI7Q9cvnVRJHhc++33KRgiKb
-O2rej83z77YZ7s+929KZlFxbfEWvD3ZCwnDh0c8K1C5NaCJrtzVwM/hxnOc8AqDs
-OnHjTTGW/DBWDVCwV2DbT4hD30dSt4MWIYU2j4EsUE3ieGwioVhbnkPbpyOChU7l
-heVjkjz4Yd+6F3cJpne+E1euX/JK4Mdj2j7ZPxrcqR2CdOpRB7hvsTL9iUXk17tc
-zZZOWuwh5h+T9UgY1kcrCXjcVa8LQAmpePk8yHXgviMyQovwsB4=
-=l7d1
------END PGP SIGNATURE-----
-
---3MwIy2ne0vdjdPXF--
