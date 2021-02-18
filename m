@@ -2,100 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D970A31EDDD
+	by mail.lfdr.de (Postfix) with ESMTP id 68AC031EDDC
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Feb 2021 19:04:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234974AbhBRSCi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Feb 2021 13:02:38 -0500
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.221]:20498 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231815AbhBRQH7 (ORCPT
+        id S232730AbhBRSCf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Feb 2021 13:02:35 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33118 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233076AbhBRQEm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Feb 2021 11:07:59 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1613664221; cv=none;
-        d=strato.com; s=strato-dkim-0002;
-        b=Vr+bpIlbgwBOIeSYHrWF/w/qcu9diZESE0JHwH8xbOhTSTdZJcOVO/ovVzwUnAwSgf
-        NhX0mWubNWnrxHDIH4T1J/lxkefqfz092bzAkL2uXRO/SQJp2QgudD2yo+JIn7sXZNSF
-        zkjXQdyK75XXM/C5XHM3iehGJSFmeg8qVwb1u9NDP7DofCqZ1PLZfT4M//HECGH2Dovs
-        FkgmzJBk1in2kkCJPXe9sp2hCeuobZ6ll63YvB/erRJ+sVgUosVEBGMIykS1O5vpB0NG
-        sUHyTbD5o3EYZ9X8NKmPN5nnBooH4UIa5/4TAVGXi3DOAKX1PPAGXLYU7UQkPim+WOcN
-        UT9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1613664221;
-        s=strato-dkim-0002; d=strato.com;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-        From:Subject:Sender;
-        bh=dCcA+4UHDcZxfpa3Qd2giWQkgzUPwwUvFkfdkUk+cgY=;
-        b=DnDicTjdJT3bpA6orFMkwNnh+9ulKCNJyZune+kp7erFAYWvKcwfJ7QZGdrnhHejHj
-        nfXaIJzblvOB2IbMs7hDayAOfh65jLAvmLxIovoM/82is5pS42B/oUGfXqa0PZ83v+Tf
-        wb7XZuDPQ4DrOULMU154bkZJFOCnn/GczTK+HD5VBcD2ZfY3mnJv5lQd2B3GXIV0bk14
-        UgiB/S9kTjdzdKUI1QAgDbrQ5v2iZx8g52ur161pt28JJAyHAyRJA4DeZBCwlOgZVUSc
-        8p6vYuTfP/n6/UzF3AphWrWuMDrHYLCcvc51WfX8UlOEOtmi66V+NDfGaaSeA2l4NuFl
-        lCLQ==
-ARC-Authentication-Results: i=1; strato.com;
-        dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1613664221;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-        From:Subject:Sender;
-        bh=dCcA+4UHDcZxfpa3Qd2giWQkgzUPwwUvFkfdkUk+cgY=;
-        b=iHJA/8Y6LuJVOLofRabjqcVYmGlMpyNT8TABoHcIH33zAKXu2oB4Osnn2+ehuTrnH/
-        +YqBb1DvmbqQ3AeKzw0bBu0CLWy1gf6L71baKFHrOK+izIWnYmeTu4BsXEEDCSkjqLae
-        uQAWvrsisY9ZFNSAq71J+/woQwln2kXBSsWkefBkB3q9UIO92qVeNz4+FO9NdJ09axxj
-        23T7nvLFoeC0UGugan37aBOZtN/i+PqmYCuQJnkrHtLvdGzP9Q1rdVEE8oE1jMMHSFkp
-        HqOP5b8y9XN3iGVUU6j9pqIszc4N5nkL+LTe+Dd7UrlpjJPNVhDROfJ/70n01LxLlJMb
-        7viQ==
-Authentication-Results: strato.com;
-        dkim=none
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fGk/2qthug="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp03-01.back.ox.d0m.de
-        by smtp-ox.front (RZmta 47.18.0 AUTH)
-        with ESMTPSA id 20675ex1IG3f35x
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Thu, 18 Feb 2021 17:03:41 +0100 (CET)
-Date:   Thu, 18 Feb 2021 17:03:41 +0100 (CET)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Wolfram Sang <wsa@the-dreams.de>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
-        linux-i2c@vger.kernel.org
-Message-ID: <1817984199.148366.1613664221431@webmail.strato.com>
-In-Reply-To: <20210218104936.GA890@ninjato>
-References: <20210212164541.8986-1-uli+renesas@fpond.eu>
- <20210218104936.GA890@ninjato>
-Subject: Re: [PATCH] i2c: rcar: implement atomic transfers
+        Thu, 18 Feb 2021 11:04:42 -0500
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4BB93F0;
+        Thu, 18 Feb 2021 17:03:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1613664227;
+        bh=SLloweOlW3YyvTIFbGXuKXMzMH/hzXvlCc4Uv3Qfkbw=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=jsdokd8ueTpIyZ6oWK86J3Xl+7JRhHz0uqUipRlLgXKaKGKdCma8ALRQEthsLX6tA
+         Cx3vMHakIWeuSXHciPWdkc5TlKu3+jB+v6GMPFZepIHTlHFiTqh7tYBus8nuHDUYEF
+         f9fg0BIIivMrvU13VsXxEZE+8j4QkywyZqLiQMyc=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 15/16] media: i2c: max9286: Rework comments in .bound()
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210216174146.106639-1-jacopo+renesas@jmondi.org>
+ <20210216174146.106639-16-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <c1f9acd4-b5e6-1c57-8878-7d3e2d20b2a1@ideasonboard.com>
+Date:   Thu, 18 Feb 2021 16:03:44 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210216174146.106639-16-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.4-Rev18
-X-Originating-Client: open-xchange-appsuite
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
-> On 02/18/2021 11:49 AM Wolfram Sang <wsa@the-dreams.de> wrote:
-> > Implements atomic transfers. Tested by rebooting an r8a7790 Lager board
-> > after connecting the i2c-rcar controller to the PMIC in
-> > arch/arm/boot/dts/r8a7790-lager.dts like so:
-> > 
-> > 		compatible = "i2c-demux-pinctrl";
-> > 		pinctrl-names = "default";
-> > 		pinctrl-0 = <&pmic_irq_pins>;
-> > -		i2c-parent = <&iic3>, <&i2c3>;
-> > +		i2c-parent = <&i2c3>, <&iic3>;
-> > 		i2c-bus-name = "i2c-pwr";
-> > 		#address-cells = <1>;
-> > 		#size-cells = <0>;
-> > 
-> > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+On 16/02/2021 17:41, Jacopo Mondi wrote:
+> Re-phrase a comment in .bound() callback to make it clear we register
+> a subdev notifier and remove a redundant comment about disabling i2c
+> auto-ack.
 > 
-> Doesn't apply against 5.11 or i2c/for-next. What is the base here?
+> No functional changes intended.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 16 ++++++----------
+>  1 file changed, 6 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index c41284de89b6..aa01d5bb79ef 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -567,9 +567,9 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+>  	}
+>  
+>  	/*
+> -	 * We can only register v4l2_async_notifiers, which do not provide a
+> -	 * means to register a complete callback. bound_sources allows us to
+> -	 * identify when all remote serializers have completed their probe.
+> +	 * As we register a subdev notifiers we won't get a .complete() callback
+> +	 * here, so we have to use bound_sources to identify when all remote
+> +	 * serializers have probed.
 
-renesas-drivers-2021-02-09-v5.11-rc7
+s/subdev notifiers/subdev notifier/ ?
 
-CU
-Uli
+... I'm not sure that helps me ? :S
+
+>  	 */
+>  	if (priv->bound_sources != priv->source_mask) {
+>  		/*
+> @@ -583,16 +583,12 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+>  	/*
+>  	 * All enabled sources have probed and enabled their reverse control
+>  	 * channels:
+> +	 * - The reverse channel amplitude stays high
+
+Isn't this part of the previous patch?
+
+
+>  	 * - Verify all configuration links are properly detected
+> -	 * - Disable auto-ack as communication on the control channel are now
+> -	 *   stable.
+> +	 * - Disable auto-ack as communications on the control channel are now
+> +	 *   stable
+>  	 */
+>  	max9286_check_config_link(priv, priv->source_mask);
+> -
+> -	/*
+> -	 * Re-configure I2C with local acknowledge disabled after cameras have
+> -	 * probed.
+> -	 */
+>  	max9286_configure_i2c(priv, false);
+>  
+>  	return max9286_set_pixelrate(priv);
+> 
+
