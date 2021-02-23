@@ -2,95 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36CF2322799
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Feb 2021 10:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB99032288F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Feb 2021 11:09:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231910AbhBWJOe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Feb 2021 04:14:34 -0500
-Received: from mail-ot1-f50.google.com ([209.85.210.50]:37607 "EHLO
-        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231675AbhBWJO2 (ORCPT
+        id S232125AbhBWKHg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Feb 2021 05:07:36 -0500
+Received: from mail-ot1-f47.google.com ([209.85.210.47]:38818 "EHLO
+        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231653AbhBWKHb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Feb 2021 04:14:28 -0500
-Received: by mail-ot1-f50.google.com with SMTP id s6so14864946otk.4;
-        Tue, 23 Feb 2021 01:14:13 -0800 (PST)
+        Tue, 23 Feb 2021 05:07:31 -0500
+Received: by mail-ot1-f47.google.com with SMTP id s3so11806975otg.5;
+        Tue, 23 Feb 2021 02:07:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=earOzTSoESZMgCDtbmy/TeQboFDUK2ANNfrRO7IYBm8=;
-        b=J0ZZ6MFnbY3pYXvJgFKgaDM06+YHvzT+A+wEPG5fAIe373TPkLSYYtdsUJNZEIxWEr
-         3+geuoEBSPPbuJ4tW/m2bSv0q81LFSfukwxJZ1yBC+WxJFR6MMMJB9QdfLH+Mqjavk/X
-         G6Y+0l9VYpDntDsvPQI5xLq1NvfWytv3n8WDBoKOKLdPUlqy8RQlbvl1HXXueOxgqZyE
-         B38OUmDiVkP5E8CFv50ccN7EshqUAatjJU8z6ypMiu6LW8ar04bFmY0/K8q19t72x0er
-         JXJIzfBRL2KNmiT61wRxZTQqLrw/MSRASFrv7HcJNeZHXw9eVGpO8Y9Z2luUsntnnZot
-         6F2w==
-X-Gm-Message-State: AOAM532aO8V35/wBcSs0azUFiSBf8SrFiZv/KjkPeJilDPEExs9dXiaj
-        XEs++9YoYWm2sj2tX3nwdVD9Y9OYcp1EGwamEfE=
-X-Google-Smtp-Source: ABdhPJy7giY8UrB2BJzwsmPQNrZRlJ/8YK/5vtxBnbEt8YrhjCitO7AYHriAWe1SUd7UJvHTvGmhUJekCNkoC9Zo7ZI=
-X-Received: by 2002:a05:6830:148d:: with SMTP id s13mr19594789otq.250.1614071627930;
- Tue, 23 Feb 2021 01:13:47 -0800 (PST)
+        bh=qS91opuzKuj6UsKq1hsmw5SOC2S+9ux49qSaIDpiTMI=;
+        b=Gd7TRRQtQoJ2XzxnIVsXEB/N+kJqwCjxUJgXrE5/BPpoz0633ys4U+ol1EnL6p/Jrn
+         uFD2yCh529Zi5Yjmd82XxQsa7m/rn0Ceta81jcs30QzqhJ5xDY5Xa6cG6Xsw7u25Ih+H
+         zkiQRdPt6akQux9qedkuJBAFTycDJfecJXaD1JG3LRZ55s3nuWf/JZm51psFizGlExRe
+         eAaZyRIS6G7HepPvIxHioLPgArDcBzFC8FYz+ECEoGB/o1q04X/KD8zITJZWDNFNsETP
+         zKGTllydbaQvB65ZZNiNb+livfWUlOhPd/eRzo8+7b2tmE/c99xFKUf8m6Bytbbqh/7C
+         cVLg==
+X-Gm-Message-State: AOAM530NorxbYPEYvwsixbqiGcY98HK0KHGT7MMnVq7qQbxeYMKys4fH
+        3am/v++2kHCBjGg1Ukk61EF4wQTAUX+uC05DQR7DoT/0Y+I=
+X-Google-Smtp-Source: ABdhPJxl4hts8ZrGqFxgamuICFlj+A5QLe6yTwfz6wTl6XQ6+d3Un6bm7LFOHopxClf+6O5h4f8rDnG6eA3qElDO6/g=
+X-Received: by 2002:a9d:77d6:: with SMTP id w22mr20204993otl.145.1614074810420;
+ Tue, 23 Feb 2021 02:06:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20210219110556.1858969-1-m.tretter@pengutronix.de>
-In-Reply-To: <20210219110556.1858969-1-m.tretter@pengutronix.de>
+References: <20210222113955.7779-1-wsa+renesas@sang-engineering.com> <20210222113955.7779-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210222113955.7779-3-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 23 Feb 2021 10:13:36 +0100
-Message-ID: <CAMuHMdVcwcMezuRQU0TkwKGP9rWOmD6_gk9jC5ynj2aHij-qkA@mail.gmail.com>
-Subject: Re: [PATCH] Input: st1232 - add IDLE state as ready condition
-To:     m.tretter@pengutronix.de
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        andrej.valek@siemens.com,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 23 Feb 2021 11:06:39 +0100
+Message-ID: <CAMuHMdVFuof3C7JPw9BLUM0vBaiD+ZpUX2nSf8hiAZ4qw9doSQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/2] mmc: renesas_sdhi: do hard reset if possible
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Michael,
+Hi Wolfram,
+
+On Mon, Feb 22, 2021 at 12:41 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Some SDHI instances can be reset via the reset controller. If one is
+> found, use it instead of the custom reset.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Thanks for your patch!
 
-On Fri, Feb 19, 2021 at 12:06 PM Michael Tretter
-<m.tretter@pengutronix.de> wrote:
-> The st1232 can switch from NORMAL to IDLE state after the configured
-> idle time (by default 8 s). If the st1232 is not reset during probe, it
-> might already be ready but in IDLE state. Since it does not enter NORMAL
-> state in this case, probe fails.
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+
+> @@ -561,9 +563,16 @@ static int renesas_sdhi_prepare_hs400_tuning(struct mmc_host *mmc, struct mmc_io
+>  static void renesas_sdhi_reset(struct tmio_mmc_host *host)
+>  {
+>         struct renesas_sdhi *priv = host_to_priv(host);
+> +       int ret;
+>         u16 val;
 >
-> Fix the wait function to report the IDLE state as ready, too.
+> -       if (priv->scc_ctl) {
+> +       if (!IS_ERR(priv->rstc)) {
 
-Sorry for breaking your setup.  In fact I should have noticed, as I do
-have a second board (KZM-A9-GT) with an st1232 that does not have the
-reset line wired.  Unfortunately the display on that board is broken, so
-I don't test display-related features on that board.  I've just verified
-the touchscreen still works though, and does exhibit your problem.
+"if (priv->rstc)" if the reset is made optional.
 
-> Fixes: f605be6a57b4 ("Input: st1232 - wait until device is ready before reading resolution")
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-
-> --- a/drivers/input/touchscreen/st1232.c
-> +++ b/drivers/input/touchscreen/st1232.c
-> @@ -94,7 +94,7 @@ static int st1232_ts_wait_ready(struct st1232_ts_data *ts)
+> +               reset_control_reset(priv->rstc);
+> +               /* Unknown why but without polling reset status, it will hang */
+> +               read_poll_timeout(reset_control_status, ret, ret == 0, 1, 100,
+> +                                 false, priv->rstc);
+> +               priv->needs_adjust_hs400 = false;
+> +       } else if (priv->scc_ctl) {
+>                 renesas_sdhi_disable_scc(host->mmc);
+>                 renesas_sdhi_reset_hs400_mode(host, priv);
+>                 priv->needs_adjust_hs400 = false;
+> @@ -1076,6 +1085,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>         if (ret)
+>                 goto efree;
 >
->         for (retries = 10; retries; retries--) {
->                 error = st1232_ts_read_data(ts, REG_STATUS, 1);
-> -               if (!error && ts->read_buf[0] == (STATUS_NORMAL | ERROR_NONE))
-> +               if (!error && ts->read_buf[0] == (STATUS_NORMAL | STATUS_IDLE | ERROR_NONE))
+> +       priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
 
-NORMAL (0x0) and IDLE (0x4) are really two different states. Hence you
-cannot check for both using a bitmask, as that checks for IDLE only,
-breaking operation for devices that are in NORMAL state.
-The retry period is also much shorter than the default 8s it takes for
-the device to enter IDLE state, so probing fails on Armadillo-800-EVA.
+devm_reset_control_get_optional_exclusive()?
++ missing error handling (real errors and -EPROBE_DEFER).
 
-As Dmitry has already applied your fix, I have sent a new fix on top
-"[PATCH] Input: st1232 - Fix NORMAL vs. IDLE state handling"
-https://lore.kernel.org/r/20210223090201.1430542-1-geert+renesas@glider.be
+Perhaps you want to add a "select RESET_CONTROLLER" to "config
+MMC_SDHI"?
 
->                         return 0;
->
->                 usleep_range(1000, 2000);
+> +
+>         ver = sd_ctrl_read16(host, CTL_VERSION);
+>         /* GEN2_SDR104 is first known SDHI to use 32bit block count */
+>         if (ver < SDHI_VER_GEN2_SDR104 && mmc_data->max_blk_count > U16_MAX)
 
 Gr{oetje,eeting}s,
 
