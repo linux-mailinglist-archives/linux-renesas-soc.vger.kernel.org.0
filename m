@@ -2,172 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49402322A3B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Feb 2021 13:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B7CB322FAA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Feb 2021 18:31:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232519AbhBWMFR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Feb 2021 07:05:17 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:36431 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232817AbhBWMCE (ORCPT
+        id S233065AbhBWRbc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Feb 2021 12:31:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39960 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232786AbhBWRbc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Feb 2021 07:02:04 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id EWNHlxmb0fIMiEWNLluGpF; Tue, 23 Feb 2021 13:01:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1614081671; bh=1hLmo70e6QdzywjzHOXuJ1hUlzuPjRX05cJRBwMEB6I=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=FMCaBCmqpEBnU3Q9S/jXlcwisFIRrO1n6dtWcMQai0POjdZLnNfVQ+L9melF6apPF
-         fdTAJtLb1mG3bftbGTR1PL6HW5ghoRIsi6SJQaARvtoaAwU5K4eb3kg1tNWluwe5G7
-         iyK400JCQaCqA2SLekAe3Lqk5XOSK8gDBfbUaAztPwKTOczWVB9L2Lb+HaWbo/n00G
-         S4JR25FDp0hixtQwPX+SliWlolYnrZJsUxY5hFKibpC/dcjywWZqgf6T7OPqXOgID6
-         mtUc/o6IdN4HebQc3vQqL5kY8l9oIodDWB/lfRQ1l6j5/Ylrxb5hx/Gf6ExJmsgXk5
-         Q3cKPeWgG/E7Q==
-Subject: Re: [PATCH v2] media: i2c: adv7511: remove open coded version of
- SMBus block read
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20210127103357.5045-1-wsa+renesas@sang-engineering.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <bea536b1-9d81-3f41-8ca5-7fb075422290@xs4all.nl>
-Date:   Tue, 23 Feb 2021 13:01:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.1
+        Tue, 23 Feb 2021 12:31:32 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1161C06174A;
+        Tue, 23 Feb 2021 09:30:51 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id l2so2747385pgb.1;
+        Tue, 23 Feb 2021 09:30:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ijxpW2DfFdumChRgWUkTrxf7LLo5YSmp/Ds+GmDX32Y=;
+        b=LisSXAp23t1M5d+ce++duF5lbFrorV/pS3+pcFH1y0g6H3VTdEyIGjYJqx5SyNiF/k
+         kFISxxKE70c7wnt4KRlOG06H8343QPKy4p0KZGGLI/mpzgPMjuCZL5ES+WGg8Nmo9N6J
+         MWP3nG+obXoH7Kif5IumP7rEj7kcEKOM3vfNiR3dtX6WCTpDJR0cyyoJb6oCvYl80yYN
+         2dfD3ShbUBJlALA7uLz9DmpXPG4MJtzswCzWW52SZ2IEcMQE4F4b2ZEbTekK36gFy9Py
+         fmxyR/6qN5217Q7PlKvhHPBdWRZrh4FWG6+TOzNccAKd0B6LqzNbkfimcAA4ZtUhCjed
+         8VlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ijxpW2DfFdumChRgWUkTrxf7LLo5YSmp/Ds+GmDX32Y=;
+        b=iwharimmAzUDkTDFFnEnlkwNxO3uK/8LuWW3jaYUssWpwNQGxY8JYzlx0QAJTp10hV
+         pGfUlgwj29PUNZf8XYzC+KxEAt9rTqQMNrzMUOpUDeifugSydwxCcDxLrv9WjORXe5M0
+         MzBVApQj2dwNbdPyVWteajksYIm61z62we0CQBqpPy8MPNufiiWBF9KmqvpZos3pj6o7
+         MffjwulouaBx+XsULvEr06eu4feHBvOdiqIjagwWQTIFDAdAobj4D0fXblfUdlqAxOwE
+         e9JBrCtSsnoJotARnjLwvUtYLu1wVIiHqgefM2F8O5208A8h6KZQArWU8Yv+VMBvKLA0
+         Ut6g==
+X-Gm-Message-State: AOAM533wYPKD1mJR0oi5apJwrpJa5AVui+++hkhSMVsKQk1uAMEEiAPB
+        HMcRx4ZGI8YvuajROnHkphU=
+X-Google-Smtp-Source: ABdhPJyTlHF94TnxDS7Ft4GRk/BhOchJi+FoQyH1pL8kj9EXMk7iJcPcj6WpN3h3/hf0jR4cyOPMoQ==
+X-Received: by 2002:a63:e614:: with SMTP id g20mr13691663pgh.275.1614101451386;
+        Tue, 23 Feb 2021 09:30:51 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:703e:f61b:7159:b96b])
+        by smtp.gmail.com with ESMTPSA id 190sm844005pfv.155.2021.02.23.09.30.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Feb 2021 09:30:50 -0800 (PST)
+Date:   Tue, 23 Feb 2021 09:30:47 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andrej Valek <andrej.valek@siemens.com>,
+        linux-input@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: st1232 - Fix NORMAL vs. IDLE state handling
+Message-ID: <YDU7x/f4ez5nuFn5@google.com>
+References: <20210223090201.1430542-1-geert+renesas@glider.be>
+ <20210223102900.GA8833@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20210127103357.5045-1-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKR18NfCtNTh2IebkSTudHoupJrjs8VOfJOF0Z3JLTiColv51DxZ8YAvJGv1w9wJqios3z5H6MotvoHhHMT+UJnj70vDYYbaT0GTm1gC9tEpsFeq5l27
- hufbUMuV245wzUpQXHGwCY0gohgtJhK0K/VxEzbUcTJi4DnBOq4SfD4wtGhV3bELmiwmwjeLjKgN6+Eh+l0K1RahuV6HKl6UX1K1VU6bbqi0CcDl/KU1JJ5u
- rdQnkNLnbohvBBhg3BIjDsghIHYZYEFV7YOL/BAV+IInTl8Ez5vQPJfEJ5GRuvb+FZFy0RTNtcD1qKUnl9YX58XCZkp2wuJMH1cHlZKd4f4=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210223102900.GA8833@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-On 27/01/2021 11:33, Wolfram Sang wrote:
-> The open coded version differs from the one in the core in one way: the
-> buffer will be always copied back, even when the transfer failed. Be
-> more robust: use the block read from the I2C core and propagate a
-> potential errno further to the sanity checks.
+On Tue, Feb 23, 2021 at 11:29:00AM +0100, Michael Tretter wrote:
+> On Tue, 23 Feb 2021 10:02:01 +0100, Geert Uytterhoeven wrote:
+> > NORMAL (0x0) and IDLE (0x4) are really two different states.  Hence you
+> > cannot check for both using a bitmask, as that checks for IDLE only,
+> > breaking operation for devices that are in NORMAL state.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-This looks good.
-
-If you want to merge this, then you can add my:
-
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-If you want me to take it, then just let me know and I'll queue it up for 5.13.
-
-Regards,
-
-	Hans
-
-> ---
+> Thanks. I missed that the state is actually a value and not a bitfield.
 > 
-> Changes since v1:
-> * respect 'err' in more code paths
-> * updated comment
+> > 
+> > Fix the wait function to report either state as ready.
+> > 
+> > Fixes: 6524d8eac258452e ("Input: st1232 - add IDLE state as ready condition")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > 
->  drivers/media/i2c/adv7511-v4l2.c | 58 ++++++++++++++------------------
->  1 file changed, 26 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
-> index a3161d709015..9183003ae22d 100644
-> --- a/drivers/media/i2c/adv7511-v4l2.c
-> +++ b/drivers/media/i2c/adv7511-v4l2.c
-> @@ -214,36 +214,25 @@ static inline void adv7511_wr_and_or(struct v4l2_subdev *sd, u8 reg, u8 clr_mask
->  	adv7511_wr(sd, reg, (adv7511_rd(sd, reg) & clr_mask) | val_mask);
->  }
->  
-> -static int adv_smbus_read_i2c_block_data(struct i2c_client *client,
-> -					 u8 command, unsigned length, u8 *values)
-> -{
-> -	union i2c_smbus_data data;
-> -	int ret;
-> -
-> -	if (length > I2C_SMBUS_BLOCK_MAX)
-> -		length = I2C_SMBUS_BLOCK_MAX;
-> -	data.block[0] = length;
-> -
-> -	ret = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
-> -			     I2C_SMBUS_READ, command,
-> -			     I2C_SMBUS_I2C_BLOCK_DATA, &data);
-> -	memcpy(values, data.block + 1, length);
-> -	return ret;
-> -}
-> -
-> -static void adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
-> +static int adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
->  {
->  	struct adv7511_state *state = get_adv7511_state(sd);
->  	int i;
-> -	int err = 0;
->  
->  	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
->  
-> -	for (i = 0; !err && i < len; i += I2C_SMBUS_BLOCK_MAX)
-> -		err = adv_smbus_read_i2c_block_data(state->i2c_edid, i,
-> +	for (i = 0; i < len; i += I2C_SMBUS_BLOCK_MAX) {
-> +		s32 ret;
-> +
-> +		ret = i2c_smbus_read_i2c_block_data(state->i2c_edid, i,
->  						    I2C_SMBUS_BLOCK_MAX, buf + i);
-> -	if (err)
-> -		v4l2_err(sd, "%s: i2c read error\n", __func__);
-> +		if (ret < 0) {
-> +			v4l2_err(sd, "%s: i2c read error\n", __func__);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
->  }
->  
->  static inline int adv7511_cec_read(struct v4l2_subdev *sd, u8 reg)
-> @@ -1668,22 +1657,27 @@ static bool adv7511_check_edid_status(struct v4l2_subdev *sd)
->  	if (edidRdy & MASK_ADV7511_EDID_RDY) {
->  		int segment = adv7511_rd(sd, 0xc4);
->  		struct adv7511_edid_detect ed;
-> +		int err;
->  
->  		if (segment >= EDID_MAX_SEGM) {
->  			v4l2_err(sd, "edid segment number too big\n");
->  			return false;
->  		}
->  		v4l2_dbg(1, debug, sd, "%s: got segment %d\n", __func__, segment);
-> -		adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
-> -		adv7511_dbg_dump_edid(2, debug, sd, segment, &state->edid.data[segment * 256]);
-> -		if (segment == 0) {
-> -			state->edid.blocks = state->edid.data[0x7e] + 1;
-> -			v4l2_dbg(1, debug, sd, "%s: %d blocks in total\n", __func__, state->edid.blocks);
-> +		err = adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
-> +		if (!err) {
-> +			adv7511_dbg_dump_edid(2, debug, sd, segment, &state->edid.data[segment * 256]);
-> +			if (segment == 0) {
-> +				state->edid.blocks = state->edid.data[0x7e] + 1;
-> +				v4l2_dbg(1, debug, sd, "%s: %d blocks in total\n",
-> +					 __func__, state->edid.blocks);
-> +			}
->  		}
-> -		if (!edid_verify_crc(sd, segment) ||
-> -		    !edid_verify_header(sd, segment)) {
-> -			/* edid crc error, force reread of edid segment */
-> -			v4l2_err(sd, "%s: edid crc or header error\n", __func__);
-> +
-> +		if (err || !edid_verify_crc(sd, segment) || !edid_verify_header(sd, segment)) {
-> +			/* Couldn't read EDID or EDID is invalid. Force retry! */
-> +			if (!err)
-> +				v4l2_err(sd, "%s: edid crc or header error\n", __func__);
->  			state->have_monitor = false;
->  			adv7511_s_power(sd, false);
->  			adv7511_s_power(sd, true);
-> 
+> Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
 
+Applied, thank you.
+
+-- 
+Dmitry
