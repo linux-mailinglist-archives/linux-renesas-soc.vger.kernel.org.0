@@ -2,73 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 059773228C3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Feb 2021 11:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0172D3228D8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Feb 2021 11:30:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbhBWKV0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Feb 2021 05:21:26 -0500
-Received: from mail-ot1-f47.google.com ([209.85.210.47]:38996 "EHLO
-        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230459AbhBWKVY (ORCPT
+        id S230213AbhBWK3v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Feb 2021 05:29:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34094 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230008AbhBWK3q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Feb 2021 05:21:24 -0500
-Received: by mail-ot1-f47.google.com with SMTP id h22so6698451otr.6;
-        Tue, 23 Feb 2021 02:21:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w8nEdAaLe6eeQjEA1KVyS65nuSgIpVnfOfJ4wAmdRPY=;
-        b=bOgQoYfXAik9BXfFbxCS17sXAthDgEyBUgR0T/0WhExAv7CEzIE1TejfCVQMZvFxv8
-         EgReSzTBy49Byc268TDhJMjwQmDHDNb6cLv6gMYUc5uwyt3JnWa0LPFMl9tn66KHexfy
-         VDn1CKhAV10ankYGvJfvKzxwTc5LYvZibUBxoYUSJHCEckDNgSJRabKCbIU3r3EFZqah
-         nz0YqP8TT4TIxdng35QNjrKF3GC08rS6kjWD10whbpdvxc3EFbJkT+l6mAPtH3eiwhoD
-         DfTFrgnjCMd1od3oO0bSuKTOkNFIJTMnGHZxh0EQQ3FLVY7f5mpYRYxEJDR2k3aMJz/y
-         sbhw==
-X-Gm-Message-State: AOAM530/deXMKm4HL28dMQChUFjzPuLOla2KBpgazhyR9rE9lThhqgWU
-        CSJUqm5lV3HeCE6JBokI4cYIOpFxqLJSb2yiqc0=
-X-Google-Smtp-Source: ABdhPJyjyHEqT/E6ioJ6Ge6h1TdlColzaosg90L4oDPns+hNXOfC3wAm3oKjYYUlt+7tRHs45ptVah2goUXKgjg0VQs=
-X-Received: by 2002:a05:6830:148d:: with SMTP id s13mr19747426otq.250.1614075643614;
- Tue, 23 Feb 2021 02:20:43 -0800 (PST)
+        Tue, 23 Feb 2021 05:29:46 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BEC3C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Feb 2021 02:29:06 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1lEUwB-0007i8-GF; Tue, 23 Feb 2021 11:29:03 +0100
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1lEUw8-0003mA-W0; Tue, 23 Feb 2021 11:29:00 +0100
+Date:   Tue, 23 Feb 2021 11:29:00 +0100
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andrej Valek <andrej.valek@siemens.com>,
+        linux-input@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: st1232 - Fix NORMAL vs. IDLE state handling
+Message-ID: <20210223102900.GA8833@pengutronix.de>
+References: <20210223090201.1430542-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20210222113955.7779-1-wsa+renesas@sang-engineering.com>
- <20210222113955.7779-3-wsa+renesas@sang-engineering.com> <CAMuHMdVFuof3C7JPw9BLUM0vBaiD+ZpUX2nSf8hiAZ4qw9doSQ@mail.gmail.com>
- <20210223101709.GA2486@ninjato>
-In-Reply-To: <20210223101709.GA2486@ninjato>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 23 Feb 2021 11:20:32 +0100
-Message-ID: <CAMuHMdV0Js5ro4PKOr02nCVRfO158B-5kh+F6TsLzdrJq=40bg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/2] mmc: renesas_sdhi: do hard reset if possible
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210223090201.1430542-1-geert+renesas@glider.be>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:23:19 up 5 days, 13:47, 64 users,  load average: 0.03, 0.11, 0.20
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On Tue, 23 Feb 2021 10:02:01 +0100, Geert Uytterhoeven wrote:
+> NORMAL (0x0) and IDLE (0x4) are really two different states.  Hence you
+> cannot check for both using a bitmask, as that checks for IDLE only,
+> breaking operation for devices that are in NORMAL state.
 
-On Tue, Feb 23, 2021 at 11:17 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > Perhaps you want to add a "select RESET_CONTROLLER" to "config
-> > MMC_SDHI"?
->
-> Isn't "select" too strong for an optional feature? I'd think so.
+Thanks. I missed that the state is actually a value and not a bitfield.
 
-It depends.  Why would you want to use the reset controller instead
-of the custom reset in the first place?
+> 
+> Fix the wait function to report either state as ready.
+> 
+> Fixes: 6524d8eac258452e ("Input: st1232 - add IDLE state as ready condition")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Hmm, reminds me your patch doesn't explain the "why" part ;-)
+Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  drivers/input/touchscreen/st1232.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
+> index 885f0572488dd061..6abae665ca71d8ec 100644
+> --- a/drivers/input/touchscreen/st1232.c
+> +++ b/drivers/input/touchscreen/st1232.c
+> @@ -94,8 +94,13 @@ static int st1232_ts_wait_ready(struct st1232_ts_data *ts)
+>  
+>  	for (retries = 10; retries; retries--) {
+>  		error = st1232_ts_read_data(ts, REG_STATUS, 1);
+> -		if (!error && ts->read_buf[0] == (STATUS_NORMAL | STATUS_IDLE | ERROR_NONE))
+> -			return 0;
+> +		if (!error) {
+> +			switch (ts->read_buf[0]) {
+> +			case STATUS_NORMAL | ERROR_NONE:
+> +			case STATUS_IDLE | ERROR_NONE:
+> +				return 0;
+> +			}
+> +		}
+>  
+>  		usleep_range(1000, 2000);
+>  	}
+> -- 
+> 2.25.1
+> 
+> 
