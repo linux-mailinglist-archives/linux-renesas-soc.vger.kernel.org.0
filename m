@@ -2,108 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F794324FF3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Feb 2021 13:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 941663251FF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Feb 2021 16:15:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232008AbhBYMrh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Feb 2021 07:47:37 -0500
-Received: from mail-ot1-f48.google.com ([209.85.210.48]:38218 "EHLO
-        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229571AbhBYMrh (ORCPT
+        id S230174AbhBYPLj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Feb 2021 10:11:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40012 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229722AbhBYPLi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Feb 2021 07:47:37 -0500
-Received: by mail-ot1-f48.google.com with SMTP id s3so5528538otg.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Feb 2021 04:47:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tNGtEBRcJSdgmfCrpym3saAxZM10LXmg580WlkwnVGw=;
-        b=cVqTtYzjA8RXDqPAQQsQUWLGjil2rTUFFpHHgQYS1ioZgDKhcy7azZGPNGjzfNrgto
-         l9QcbOJ1aOzJyn3QGaq1HxNV3ldjgYeyzUjqtFYipd7m/OtJVYdlfaDs7s+0OMleCxil
-         H0VbCFUT4z5Harp9nGP5T3lGyH8HTFQIby5u1Lt1OqOCYrA1dZyQgaTEsqmnj1tfh7ls
-         A2f95TdBSjs7PPk5h8U/iya9x0PL7xiM6Iaif1orNhIO1ZHLhtFe1KMZeEWpo8ixwgPx
-         8u71YBZbkERuslFLfR2q1sZ+nkfhCT/gf3mZJogaYmTSf3YZrzUPs/5xgu7vdO0g1M50
-         VXCw==
-X-Gm-Message-State: AOAM533NRM+GYG1wXjy+Rv7CpJ2hiCvi8zP/IKbzBwFbHKQJebevZgNZ
-        I3hn1U4ZGVFXODa5DlCLWnxsfhSF+vkK6s8c+6s=
-X-Google-Smtp-Source: ABdhPJziweyiiEyi6h6R3Rg3gO/URI96RNyW7Ab+hcppeKYGofGffgWAYhKj+x+tH7HN4INewr338xCO9NuAmwKXfNg=
-X-Received: by 2002:a9d:328:: with SMTP id 37mr2097161otv.250.1614257216244;
- Thu, 25 Feb 2021 04:46:56 -0800 (PST)
+        Thu, 25 Feb 2021 10:11:38 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8508964F10;
+        Thu, 25 Feb 2021 15:10:56 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1lFII2-00Fscv-9C; Thu, 25 Feb 2021 15:10:54 +0000
+From:   Marc Zyngier <maz@kernel.org>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     Frank Wunderlich <frank-w@public-files.de>,
+        Thierry Reding <treding@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 00/13] PCI: MSI: Getting rid of msi_controller, and other cleanups
+Date:   Thu, 25 Feb 2021 15:10:10 +0000
+Message-Id: <20210225151023.3642391-1-maz@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <1614255382-6377-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1614255382-6377-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 25 Feb 2021 13:46:45 +0100
-Message-ID: <CAMuHMdWLBX89R+jZSZSofgL-ONhjFBBdMDwd44Tuu8BY46+GjA@mail.gmail.com>
-Subject: Re: [PATCH v3] arm64: dts: renesas: Add mmc aliases into board dts files
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: lorenzo.pieralisi@arm.com, bhelgaas@google.com, frank-w@public-files.de, treding@nvidia.com, tglx@linutronix.de, robh@kernel.org, will@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, ryder.lee@mediatek.com, marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com, michal.simek@xilinx.com, paul.walmsley@sifive.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+The msi_controller data structure was the first attempt at treating
+MSIs like any other interrupt. We replaced it a few years ago with the
+generic MSI framework, but as it turns out, some older drivers are
+still using it.
 
-Cc Ulf
+This series aims at converting these stragglers, drop msi_controller,
+and fix some other nits such as having ways for a host bridge to
+advertise whether it supports MSIs or not.
 
-On Thu, Feb 25, 2021 at 1:16 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> After the commit 7320915c8861 ("mmc: Set PROBE_PREFER_ASYNCHRONOUS
-> for drivers that existed in v4.14"), the order of /dev/mmcblkN
-> was not fixed in some SoCs which have multiple sdhi controllers.
-> So, we were hard to use an sdhi device as rootfs by using
-> the kernel parameter like "root=/dev/mmcblkNpM".
->
-> According to the discussion on a mainling list [1], we can add
-> mmc aliases to fix the issue. So, add such aliases into Renesas
-> arm64 board dts files.
->
-> [1]
-> https://lore.kernel.org/linux-arm-kernel/CAPDyKFptyEQNJu8cqzMt2WRFZcwEdjDiytMBp96nkoZyprTgmA@mail.gmail.com/
->
-> Fixes: 7320915c8861 ("mmc: Set PROBE_PREFER_ASYNCHRONOUS for drivers that existed in v4.14")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  Changes from v2:
->  - Set the aliases into board dts files for consistency with R-Car Gen2.
->  - Change the subject.
->  - Add Fixes tag.
+A few notes:
 
-Thanks for the update!
+- The Tegra patch is the result of back and forth work with Thierry: I
+  wrote the initial patch, which didn't work (I didn't have any HW at
+  the time). Thierry made it work, and I subsequently fixed a couple
+  of bugs/cleanups. I'm responsible for the result, so don't blame
+  Thierry for any of it! FWIW, I'm now running a Jetson TX2 with its
+  root fs over NVME, and MSIs are OK.
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+- RCAR is totally untested, though Marek had a go at a previous
+  version. More testing required.
 
-> --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> @@ -36,6 +36,9 @@
->                 serial0 = &scif2;
->                 serial1 = &hscif1;
->                 ethernet0 = &avb;
-> +               mmc0 = &sdhi0;
-> +               mmc1 = &sdhi2;
-> +               mmc2 = &sdhi3;
->         };
+- The xilinx stuff is *really* untested. Paul, if you have a RISC-V
+  board that uses it, could you please give it a go? Michal, same
+  thing for the stuff you have at hand...
 
-Looks like on Salvator-X(S) the two SD card slots are labeled
-SD0 and SD3, so the last one should be mmc3?
+- hyperv: I don't have access to such hypervisor, and no way to test
+  it. Help welcomed.
 
-What's most important? Getting the naming right, or matching the
-traditional naming?
+- The patches dealing with the advertising of MSI handling are the
+  result of a long discussion that took place here[1]. I took the
+  liberty to rejig Thomas' initial patches, and add what I needed for
+  the MSI domain stuff. Again, blame me if something is wrong, and not
+  Thomas.
 
-https://martinfowler.com/bliki/TwoHardThings.html
+Feedback welcome.
 
-Gr{oetje,eeting}s,
+	M.
 
-                        Geert
+[1] https://lore.kernel.org/r/20201031140330.83768-1-linux@fw-web.de
+
+Marc Zyngier (11):
+  PCI: tegra: Convert to MSI domains
+  PCI: rcar: Convert to MSI domains
+  PCI: xilinx: Convert to MSI domains
+  PCI: hyperv: Drop msi_controller structure
+  PCI: MSI: Drop use of msi_controller from core code
+  PCI: MSI: Kill msi_controller structure
+  PCI: MSI: Kill default_teardown_msi_irqs()
+  PCI: MSI: Let PCI host bridges declare their reliance on MSI domains
+  PCI: Make pci_host_common_probe() declare its reliance on MSI domains
+  PCI: MSI: Document the various ways of ending up with NO_MSI
+  PCI: quirks: Refactor advertising of the NO_MSI flag
+
+Thomas Gleixner (2):
+  PCI: MSI: Let PCI host bridges declare their lack of MSI handling
+  PCI: mediatek: Advertise lack of MSI handling
+
+ drivers/pci/controller/Kconfig           |   4 +-
+ drivers/pci/controller/pci-host-common.c |   1 +
+ drivers/pci/controller/pci-hyperv.c      |   4 -
+ drivers/pci/controller/pci-tegra.c       | 343 ++++++++++++-----------
+ drivers/pci/controller/pcie-mediatek.c   |   4 +
+ drivers/pci/controller/pcie-rcar-host.c  | 342 +++++++++++-----------
+ drivers/pci/controller/pcie-xilinx.c     | 238 +++++++---------
+ drivers/pci/msi.c                        |  46 +--
+ drivers/pci/probe.c                      |   4 +-
+ drivers/pci/quirks.c                     |  15 +-
+ include/linux/msi.h                      |  17 +-
+ include/linux/pci.h                      |   4 +-
+ 12 files changed, 463 insertions(+), 559 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.29.2
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
