@@ -2,66 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6A333265CC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Feb 2021 17:45:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69BC9326A35
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Feb 2021 23:51:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbhBZQoY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Feb 2021 11:44:24 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42122 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230258AbhBZQoV (ORCPT
+        id S229989AbhBZWuw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Feb 2021 17:50:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46106 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229769AbhBZWuw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Feb 2021 11:44:21 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 351F1AC6E;
-        Fri, 26 Feb 2021 16:43:38 +0000 (UTC)
-Date:   Fri, 26 Feb 2021 17:43:37 +0100
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for
- returned length from driver"
-Message-ID: <20210226174337.63a9c2a6@endymion>
-In-Reply-To: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
-References: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        Fri, 26 Feb 2021 17:50:52 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23ED1C061574;
+        Fri, 26 Feb 2021 14:50:12 -0800 (PST)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C14F0580;
+        Fri, 26 Feb 2021 23:50:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1614379810;
+        bh=9xbPoCselTfaNNlFq/iLq9ax7icwUScwxe77vp6/2sE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EgSG0elkYNBxRPWqVrss9X85CeI4D0IvYDkmaiVRjw55Exn3kCsdZJ42XbvBvOo2E
+         vQhi0iYxnEXTN0P1KvZQYtBW9DRfAroJ4goAxmPkYuPpkvEZW8gZkVY+eYvjAE4l+K
+         lss1SmybeDqocMBnZpA0K/+Prym5f8Kn4LGjiIGs=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 1/2] list: Add list_is_null() to check if a list_head has been initialized
+Date:   Sat, 27 Feb 2021 00:49:37 +0200
+Message-Id: <20210226224938.18166-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-On Tue,  9 Feb 2021 12:05:56 +0100, Wolfram Sang wrote:
-> This reverts commit 34806fc4e7090b34e32fa1110d546ab5ce01a6a0. It was
-> developed against an experimental kernel. The regular kernel does not
-> update the new message length to userspace, so the check is always false
-> positive. We can't change the kernel behaviour because it would break
-> the ABI. So revert this commit.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> Very embarrasing :( I am sorry for this. Jean, maybe this is worth a
-> 4.2.1. release?
+The new function checks if the list_head prev and next pointers are
+NULL, in order to see if a list_head that has been zeroed when allocated
+has been initialized with INIT_LIST_HEAD() or added to a list.
 
-Sorry for not catching this, I must say I did not remember exactly what
-the API was supposed to be, and I did not have any device to test the
-change.
+This can be used in cleanup functions that want to support being safely
+called when an object has not been initialized, to return immediately.
+In most cases other fields of the object can be checked for this
+purpose, but in some cases a list_head field is the only option.
 
-We don't usually do minor version updates for bug fixes. Instead, what
-I do is maintain a list of such "must have" fixes, that package
-maintainers can refer to. Look for "Recommended patches" at:
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ include/linux/list.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-https://i2c.wiki.kernel.org/index.php/I2C_Tools
-
-There's no section for version 4.2 yet, but we can add one as soon as
-the commit hits the public repository.
-
+diff --git a/include/linux/list.h b/include/linux/list.h
+index 85c92555e31f..e4fc6954de3b 100644
+--- a/include/linux/list.h
++++ b/include/linux/list.h
+@@ -29,6 +29,19 @@ static inline void INIT_LIST_HEAD(struct list_head *list)
+ 	list->prev = list;
+ }
+ 
++/**
++ * list_is_null - check if a list_head has been initialized
++ * @list: the list
++ *
++ * Check if the list_head prev and next pointers are NULL. This is useful to
++ * see if a list_head that has been zeroed when allocated has been initialized
++ * with INIT_LIST_HEAD() or added to a list.
++ */
++static inline bool list_is_null(struct list_head *list)
++{
++	return list->prev == NULL && list->next == NULL;
++}
++
+ #ifdef CONFIG_DEBUG_LIST
+ extern bool __list_add_valid(struct list_head *new,
+ 			      struct list_head *prev,
 -- 
-Jean Delvare
-SUSE L3 Support
+Regards,
+
+Laurent Pinchart
+
