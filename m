@@ -2,102 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B578F325F66
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Feb 2021 09:47:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 959E4325F75
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Feb 2021 09:52:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbhBZIqQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Feb 2021 03:46:16 -0500
-Received: from mail-ot1-f52.google.com ([209.85.210.52]:36144 "EHLO
-        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230135AbhBZIqM (ORCPT
+        id S229618AbhBZIwX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Feb 2021 03:52:23 -0500
+Received: from www.zeus03.de ([194.117.254.33]:36996 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229537AbhBZIwX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Feb 2021 03:46:12 -0500
-Received: by mail-ot1-f52.google.com with SMTP id 105so8438128otd.3;
-        Fri, 26 Feb 2021 00:45:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F36M/9eYWxF4USYUtVvAtqyb6eg9gU0Qrr2Aewe/K8c=;
-        b=YVUiFF7jdvtOuBeL3MgUX0c4xUB2ffiH1DKlXFBBoLDb+lFkpwcrOGh80iuA5VMkZc
-         Pv6RoGYAOIwb4oOXgAkl5qII28uJh1RdDlopohwusGpb82clWDIlxufXtTr7JfOXCuY5
-         maE7YH/ST28D5eQqLutbf6qMV+7sMixVWUwxizx9XZYrGt7axWOiehJXw5UOGvFsH+Va
-         vHF4rjOva7O1UTgK53+Oj8JE/g/ajZv7DurB+MafURVOATVU1i+FTHQJ+DjWSyaHM/ii
-         GNlju1tekblm/VliruJkOwYfZ4re3T6zW/NcIp1WrY9VcO02Fett2ahmTe3avYA1hZ4h
-         xfsQ==
-X-Gm-Message-State: AOAM532MCLliazzm0YMnNaJG8JIv+JzKcJ7tueF0fw6ikYV0C5chKMFV
-        WB4AiFCdtK10+WLc91tig39APx7OnVvj5iXkHZEiqjHf
-X-Google-Smtp-Source: ABdhPJyJJvroqSxowcJeL+lDs0oTjerURyQSh7F2XxCJmPc9nJ/uCEBaytxjFFYzbnkPYsyT2pMjSoxwiSaomGGpP+w=
-X-Received: by 2002:a9d:328:: with SMTP id 37mr1462410otv.250.1614329131806;
- Fri, 26 Feb 2021 00:45:31 -0800 (PST)
+        Fri, 26 Feb 2021 03:52:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=9+cm6ZeElC8MQVLgjwbYMABdcI9W
+        9UU7naI/i4nlMjw=; b=f2T2M48C38tdHHfSfjcHR6K7E0wBPcR58Sc/phRIAiHt
+        RHoM1+ma+A7bw1133oXUUMDhyWCpn46Gorky9KttEDwf4tCc0ipE1QrYHUySYV3k
+        r1bfUONA8UjjdX4cagmo5b9TSscFGRp3aDPUcUZbhAvVv/shvOfWNhDF7fW4vOo=
+Received: (qmail 3727257 invoked from network); 26 Feb 2021 09:51:40 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Feb 2021 09:51:40 +0100
+X-UD-Smtp-Session: l3s3148p1@KwgzYDm83qggAwDPXwklALhYvQZ7ym2x
+Date:   Fri, 26 Feb 2021 09:51:35 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 2/2] mmc: renesas_sdhi: use custom mask for TMIO_MASK_ALL
+Message-ID: <20210226085135.GA1014@ninjato>
+References: <20210223100830.25125-1-wsa+renesas@sang-engineering.com>
+ <20210223100830.25125-3-wsa+renesas@sang-engineering.com>
+ <TY2PR01MB36926EB1E0E6C0BE6978E725D89D9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-References: <20210225225147.29920-1-fabrizio.castro.jz@renesas.com> <20210225225147.29920-3-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20210225225147.29920-3-fabrizio.castro.jz@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 Feb 2021 09:45:20 +0100
-Message-ID: <CAMuHMdXNBeVK0ze8HSA=t5TTfhyuRz=+yLHMBioUbsuBxUoWyA@mail.gmail.com>
-Subject: Re: [PATCH 2/7] clk: renesas: r8a77965: Add DAB clock
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Dirk Behme <Dirk.Behme@de.bosch.com>,
-        Peter Erben <Peter.Erben@de.bosch.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="GvXjxJ+pjyke8COw"
+Content-Disposition: inline
+In-Reply-To: <TY2PR01MB36926EB1E0E6C0BE6978E725D89D9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
 
-On Thu, Feb 25, 2021 at 11:53 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> This patch adds the DAB clock to the R8A77965 SoC.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-
-Thanks for your patch!
-
-> --- a/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> @@ -250,6 +250,7 @@ static const struct mssr_mod_clk r8a77965_mod_clks[] __initconst = {
->         DEF_MOD("ssi2",                 1013,   MOD_CLK_ID(1005)),
->         DEF_MOD("ssi1",                 1014,   MOD_CLK_ID(1005)),
->         DEF_MOD("ssi0",                 1015,   MOD_CLK_ID(1005)),
-> +       DEF_MOD("dab",                  1016,   R8A77965_CLK_S0D6),
-
-Unfortunately this bit is not documented in the R-Car Gen3 Hardware
-User's Manual, so I have to trust you on this.
-
-While it's not unusual that the same module on R-Car E3 and M3-N
-has different parent clocks, it does strike me as odd that S0D6 on M3-N
-runs at 133 MHz, while S3D1 on E3 runs at 266 MHz.
-Probably it doesn't matter that much, as your driver doesn't care
-about the actual clock rate.
-
->         DEF_MOD("scu-all",              1017,   R8A77965_CLK_S3D4),
->         DEF_MOD("scu-dvc1",             1018,   MOD_CLK_ID(1017)),
->         DEF_MOD("scu-dvc0",             1019,   MOD_CLK_ID(1017)),
-
-Gr{oetje,eeting}s,
-
-                        Geert
+--GvXjxJ+pjyke8COw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> > -#define TMIO_MASK_INIT_RCAR2	0x8b7f031d /* Initial value for R-Car Gen=
+2+ */
+> > +#define TMIO_MASK_ALL_RCAR2	0x8b7f031d /* Initial value for R-Car Gen2=
++ */
+>=20
+> nit: Perhaps, we also have to change the comment "Initial value"?
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Good point, I will fix it. Thank you!
+
+
+--GvXjxJ+pjyke8COw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmA4tpMACgkQFA3kzBSg
+KbbJFQ/+KN/bfwmfWmYmaMN5aPrbsrkT7VlzrXPDYkyNe8mm2iahBqInWsKmp1zT
+prFWcqAqAVut7kpghK7Ek1/RUiv6R7YXx9yYPTsdWnlbwZifiMzI7Km02n0pdF8l
+iYySkU0phKBe7IphAPvy9JhrJwLcxxpMZx/SE3R/4hlheiiLk9+3aBmhsxbqryuZ
+jOoigXDtJZcP61My4JksdLERUYveRnSCbKvDhcF+U7MlChcvSNQvwnSLTWndhJ77
+teyRxcNknjLUZxT5jEfotlfHOBC7z1U49TcnZowiIpWXdApjNtyLIq2+4/439b/f
+w4sUKKzBKjwOlRN2Qhyux0BAF0umfYyyQ22VQAjuVwotTEMbo2tW7Pgja1Fd4D26
+dN02eft5w/y1QucOZpb4KF+6oAaX7gRTkbsjVCvtNt/tjIurOTavoLU1KYXJSkH7
+FP63seRj+cgR8Itf79WCx32jR1PnnaN3jUr1gvJjLb2g9kfn5hjmlkqLC1xBq635
+5MNK0FUkCCxO50kkNi71wqcODz+eoTiVgdFaeMGd6hnlcR8JszhdKhtLwcR2tV2h
+mxsLNRIhLxLWZTqSZehNqzmpvABbjUUn5ffT5ipP07CeXwMX/5C/aXzecJuRsN3F
+KHmMmo6+VkDaD+1cwE3QR0yDsxSrYvLoRFb4pvDuLDgznszEoQ4=
+=pFh9
+-----END PGP SIGNATURE-----
+
+--GvXjxJ+pjyke8COw--
