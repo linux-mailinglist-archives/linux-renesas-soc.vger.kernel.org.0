@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7D0632A633
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Mar 2021 17:41:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7141232A636
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Mar 2021 17:41:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349134AbhCBOLL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Mar 2021 09:11:11 -0500
-Received: from mga04.intel.com ([192.55.52.120]:62594 "EHLO mga04.intel.com"
+        id S1351295AbhCBOMR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Mar 2021 09:12:17 -0500
+Received: from mga09.intel.com ([134.134.136.24]:23636 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1346520AbhCAXtA (ORCPT
+        id S1346563AbhCAXtW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Mar 2021 18:49:00 -0500
-IronPort-SDR: 0Ro1jzCzRGfuMg17SSfxz7SuZfoLaH8GuwYfCjvi5nRkybZKN34gg0+qo2889wHUvSRaFhcGeZ
- bBRr+Dk06uHw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="184193636"
+        Mon, 1 Mar 2021 18:49:22 -0500
+IronPort-SDR: 46p3nbxqCDK0D5OKYwShUdgPc0njYN8XoLPTvacMOU2COeEZ+GpXD/Sdt9JpTA+Y9WkLR3AgCb
+ EhmoK9YNsa1w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="186749664"
 X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; 
-   d="scan'208";a="184193636"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 15:48:13 -0800
-IronPort-SDR: Ym3h5kJRNhM3EMwcyt1UuUFx88giuWnVVmthik56jv7Qv+pQhKPPFV7a5+2XDD5BjGFpf8wJbz
- bpE0Dl0TDNPw==
+   d="scan'208";a="186749664"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 15:48:41 -0800
+IronPort-SDR: FHVmudLvbCG2kXeh23XvZzE40OFBkJ9tOZ8IN3X6n+CwixkPG2L8+Chakjbk9cS/8PHRQBzqJ0
+ BcknIFJFX1oQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; 
-   d="scan'208";a="405852310"
+   d="scan'208";a="435539290"
 Received: from lkp-server01.sh.intel.com (HELO 16660e54978b) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 01 Mar 2021 15:48:11 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 01 Mar 2021 15:48:18 -0800
 Received: from kbuild by 16660e54978b with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1lGsGp-0004og-7Y; Mon, 01 Mar 2021 23:48:11 +0000
-Date:   Tue, 02 Mar 2021 07:47:22 +0800
+        id 1lGsGp-0004oa-6E; Mon, 01 Mar 2021 23:48:11 +0000
+Date:   Tue, 02 Mar 2021 07:47:25 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.13] BUILD SUCCESS
- 292e0f7520a565fe958e0256e0cd09ae1d9a2fcb
-Message-ID: <603d7d0a.Mk8ROMVEv2Zl0FkC%lkp@intel.com>
+Subject: [renesas-devel:master] BUILD SUCCESS
+ c28144dc9685de3293c3672e85b2f8f89b7615f4
+Message-ID: <603d7d0d.mKrSdsb/u1fmskr9%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,23 +44,23 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.13
-branch HEAD: 292e0f7520a565fe958e0256e0cd09ae1d9a2fcb  arm64: dts: renesas: r8a77961-ulcb: add HDMI Display support
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: c28144dc9685de3293c3672e85b2f8f89b7615f4  Merge branch 'renesas-next' into renesas-devel
 
-elapsed time: 720m
+elapsed time: 721m
 
-configs tested: 92
-configs skipped: 45
+configs tested: 95
+configs skipped: 2
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
 
 gcc tested configs:
-arm                                 defconfig
-arm64                               defconfig
 arm64                            allyesconfig
 arm                              allyesconfig
 arm                              allmodconfig
+arm                                 defconfig
+arm64                               defconfig
 arm                          moxart_defconfig
 m68k                            q40_defconfig
 powerpc                      katmai_defconfig
@@ -111,6 +111,9 @@ i386                               tinyconfig
 i386                                defconfig
 mips                             allyesconfig
 mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
 i386                 randconfig-a006-20210228
 i386                 randconfig-a005-20210228
 i386                 randconfig-a004-20210228
