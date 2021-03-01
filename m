@@ -2,90 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1FC6327957
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Mar 2021 09:36:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C174327A15
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Mar 2021 09:55:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233108AbhCAIfY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 1 Mar 2021 03:35:24 -0500
-Received: from mga05.intel.com ([192.55.52.43]:57185 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233110AbhCAIfN (ORCPT
+        id S233597AbhCAIyt convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 1 Mar 2021 03:54:49 -0500
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:41570 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233645AbhCAIvp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Mar 2021 03:35:13 -0500
-IronPort-SDR: 1er/7xRjkrEnUDQQiHHKvNBI3cS0DgoTKD54XCl3PzckuQ/aR1/XGgXlUyQfDnEsdUMkc8eEjl
- 2NkrwxeJE8Rw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9909"; a="271393088"
-X-IronPort-AV: E=Sophos;i="5.81,215,1610438400"; 
-   d="scan'208";a="271393088"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 00:33:18 -0800
-IronPort-SDR: 6BGOXUAqgvhmNQ0d5WoXKH1fHuucsPeWDsGuuDGiAro/r0Ui5Wfdhev1FTGEYN5967UVVhiIPX
- pQbo8oImVPRQ==
-X-IronPort-AV: E=Sophos;i="5.81,215,1610438400"; 
-   d="scan'208";a="366632610"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 00:33:12 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 3C2DF202DD;
-        Mon,  1 Mar 2021 10:33:08 +0200 (EET)
-Date:   Mon, 1 Mar 2021 10:33:08 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        mchehab@kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH 2/2] media: v4l2-async: Safely unregister an
- non-registered async subdev
-Message-ID: <20210301083308.GS3@paasikivi.fi.intel.com>
-References: <20210226224938.18166-1-laurent.pinchart@ideasonboard.com>
- <20210226224938.18166-2-laurent.pinchart@ideasonboard.com>
+        Mon, 1 Mar 2021 03:51:45 -0500
+Received: by mail-ot1-f52.google.com with SMTP id x9so11388221otp.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 01 Mar 2021 00:51:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=88mn0US+kUxVp+uc8KTAAvNnNhz+QTYUO9EjV5kMqU0=;
+        b=dho//Fd+Q08LxBmtNVeEhNtCEPS8CPdl3KkNkDTqqJo5tVIyuDCubZyz5HBXATeF76
+         /Dhl6A8Rpi9m98lVwIOe3hzBmFsA1ztmgNH8BMqm9ZbuUhSLpJzIJm/VUfx8cMdq1gIB
+         hV5UgScwf5h5B/TxZd8doS+5UcxT2fqwF0CAvVtvZBRxmPQrejIV7wuJiYg4XDmZvtd2
+         9rcctWtfRr2+bFrLB0mX9KYcJY8pbcd2BIn5EuWqFWNiMx4FfRaHsNMsfTITBIZF3cdI
+         N4C0RbVxzMnOipafQh2i6feopruPSUDkSHebKOTGKG8zSFKijoa2zA4cs7UDBTwCmHhv
+         Z/Jg==
+X-Gm-Message-State: AOAM532WDvXg0tHIErUtGsrBPJCnlq/x6PHCvUyf7HS7WUqrV/2dxMIg
+        QNQ9hby6bI7bXr8Kn/yZq3ehaV1eRYUhBEd+BVE=
+X-Google-Smtp-Source: ABdhPJwsiZO7pYGoUS9AgmjBCaBOsIMP4I71KJzLgA/TvpQLEHHP0LJnYvXC/rR6VVHkpi6DYPCs65tkZ5wW63OvmzE=
+X-Received: by 2002:a05:6830:244b:: with SMTP id x11mr11951037otr.19.1614588662023;
+ Mon, 01 Mar 2021 00:51:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210226224938.18166-2-laurent.pinchart@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1614255382-6377-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdWLBX89R+jZSZSofgL-ONhjFBBdMDwd44Tuu8BY46+GjA@mail.gmail.com>
+ <TY2PR01MB369202DF4D3EEC1085F6B00CD89D9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <TY2PR01MB3692F86C982DAA22761A3DDBD89A9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY2PR01MB3692F86C982DAA22761A3DDBD89A9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 1 Mar 2021 09:50:49 +0100
+Message-ID: <CAMuHMdXXBKe8Dzobfwf=L6O9=b5vDo2Z7JLpwPa2SH_cdK_uHA@mail.gmail.com>
+Subject: Re: [PATCH v3] arm64: dts: renesas: Add mmc aliases into board dts files
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Shimoda-san,
 
-On Sat, Feb 27, 2021 at 12:49:38AM +0200, Laurent Pinchart wrote:
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
-> Make the V4L2 async framework a bit more robust by allowing to
-> unregister a non-registered async subdev. Otherwise the
-> v4l2_async_cleanup() will attempt to delete the async subdev from the
-> subdev_list with the corresponding list_head not initialized.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Mon, Mar 1, 2021 at 4:13 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Yoshihiro Shimoda, Sent: Friday, February 26, 2021 10:02 AM
+> > > From: Geert Uytterhoeven, Sent: Thursday, February 25, 2021 9:47 PM
+> > > On Thu, Feb 25, 2021 at 1:16 PM Yoshihiro Shimoda
+> > > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > > --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+> > > > +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+> > > > @@ -36,6 +36,9 @@
+> > > >                 serial0 = &scif2;
+> > > >                 serial1 = &hscif1;
+> > > >                 ethernet0 = &avb;
+> > > > +               mmc0 = &sdhi0;
+> > > > +               mmc1 = &sdhi2;
+> > > > +               mmc2 = &sdhi3;
+> > > >         };
+> > >
+> > > Looks like on Salvator-X(S) the two SD card slots are labeled
+> > > SD0 and SD3, so the last one should be mmc3?
+> > >
+> > > What's most important? Getting the naming right, or matching the
+> > > traditional naming?
+> >
+> > Most important is stable these mmcblkN naming for using it on
+> > the "root=" parameter :)
+> >
+> > I don't have a strong opinion though, IMO, matching the traditional naming
+> > is better than board labeled because:
+> > - we don't need to add any alias into a board dts if the board is using one
+> >   sdhi/eMMC only like r8a77995-draak.dts.
+> > - also, the traditional naming is familiar to us.
+>
+> I'm afraid about changing my mind. But, may I use eMMC channel as mmc0?
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+“A wise man changes his mind sometimes, but a fool never."
 
-IMO this can be merged through another tree once the first patch is agreed
-on. Cc Hans and Mauro, too.
+> This mean that I'd like to change the aliases as below.
+>
+> +               mmc0 = &sdhi2;
+> +               mmc1 = &sdhi0;
+> +               mmc2 = &sdhi3;
+>
+> This is because it's easy to imagine mmcblk0 as eMMC
+> and super old kernels (v5.4 or or earlier) were probed as mmcblk0
+> so that we can use "root=/dev/mmcblk0pN" on the kernel parameter.
 
-> ---
->  drivers/media/v4l2-core/v4l2-async.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index 37cc0263b273..2347b7ac54d4 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -750,6 +750,9 @@ EXPORT_SYMBOL(v4l2_async_register_subdev);
->  
->  void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
->  {
-> +	if (list_is_null(&sd->async_list))
-> +		return;
-> +
->  	mutex_lock(&list_lock);
->  
->  	__v4l2_async_notifier_unregister(sd->subdev_notifier);
+Makes sense.  I had a look at my R-Car H3 ES1.0/Salvator-X boot logs,
+which shows the following history:
+
+  - v4.7..v4.9-rc8: mmc0 = SD0 mmc1 = SD3
+  - v4.8-rc7..v5.4-rc1: mmc0 = eMMC mmc1 = SD0 mmc2 = SD3
+  - v5.4-rc3..v5.11-rc7: mmc0 = SD0 mmc1 = eMMC mmc2 = SD3
+  - v5.9-rc7..v5.11: mmc0 = SD0 mmc1 = SD3 mmc2 = eMMC
+
+Note that (1) this includes both mainline and development kernels based
+on renesas-drivers, and (2) naming could be unstable, hence the
+overlapping ranges.
+
+So I'll be waiting for your v4...
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Kind regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Sakari Ailus
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
