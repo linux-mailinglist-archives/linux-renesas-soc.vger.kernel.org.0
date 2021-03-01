@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB41532A634
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Mar 2021 17:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E764632A632
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Mar 2021 17:41:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349474AbhCBOLs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Mar 2021 09:11:48 -0500
-Received: from mga09.intel.com ([134.134.136.24]:23599 "EHLO mga09.intel.com"
+        id S240469AbhCBOKj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Mar 2021 09:10:39 -0500
+Received: from mga07.intel.com ([134.134.136.100]:55578 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1346541AbhCAXtQ (ORCPT
+        id S1346519AbhCAXsy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Mar 2021 18:49:16 -0500
-IronPort-SDR: 7t+/+pUzMyBbAt5oI8xRWVmgv+h6zXHpEWQZt8IiJUznqWdBBZGqe9s+cGAkyNef05qX5o5tOd
- 4GGQCsuCScvw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="186749663"
+        Mon, 1 Mar 2021 18:48:54 -0500
+IronPort-SDR: iMmmAXaK1CuTDLif9NwOAjGaNB8Ru4E6RtGsb3rS5S1QVJyVr+ZOgphiuZbZwlP7zOVZtsHOLV
+ epkDB77GTa1Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9910"; a="250680908"
 X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; 
-   d="scan'208";a="186749663"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 15:48:41 -0800
-IronPort-SDR: 6E82LiunR7pxN36IPvHrUL1u5Hm7ofGoaZFQCc2NnSjDLs1MJvXnMEdTNt6AYvbk3Y49NM5oj8
- HO5FS0HDMnCw==
+   d="scan'208";a="250680908"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 15:48:13 -0800
+IronPort-SDR: 6EuuAb/u3xs2/ObFjqjVBlyOuCiERW6JiSLh0akGa/X+VgQXAJ0p8AR304n5MOVxuFTDcmyvUR
+ npioisYHOnvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; 
-   d="scan'208";a="435539284"
+   d="scan'208";a="427133020"
 Received: from lkp-server01.sh.intel.com (HELO 16660e54978b) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 01 Mar 2021 15:48:18 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 01 Mar 2021 15:48:11 -0800
 Received: from kbuild by 16660e54978b with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1lGsGo-0004oG-Q8; Mon, 01 Mar 2021 23:48:10 +0000
-Date:   Tue, 02 Mar 2021 07:47:30 +0800
+        id 1lGsGp-0004od-6s; Mon, 01 Mar 2021 23:48:11 +0000
+Date:   Tue, 02 Mar 2021 07:47:33 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- 3158164f15266c9acdb4d53ec2df89b4723dcde7
-Message-ID: <603d7d12.73uN2//NE0X3RyLO%lkp@intel.com>
+Subject: [renesas-devel:renesas-drivers-for-v5.13] BUILD SUCCESS
+ fb13bbd6c90ee4fb983c0e9a341bd2832a3857cf
+Message-ID: <603d7d15.dQyPmuz5IOA/nv85%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,8 +44,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 3158164f15266c9acdb4d53ec2df89b4723dcde7  Merge branches 'renesas-arm-dt-for-v5.13' and 'renesas-drivers-for-v5.13' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v5.13
+branch HEAD: fb13bbd6c90ee4fb983c0e9a341bd2832a3857cf  soc: renesas: rmobile-sysc: Mark fwnode when PM domain is added
 
 elapsed time: 721m
 
@@ -56,11 +56,11 @@ The following configs have been built successfully.
 More configs may be tested in the coming days.
 
 gcc tested configs:
+arm                                 defconfig
+arm64                               defconfig
 arm64                            allyesconfig
 arm                              allyesconfig
 arm                              allmodconfig
-arm                                 defconfig
-arm64                               defconfig
 arm                          moxart_defconfig
 m68k                            q40_defconfig
 powerpc                      katmai_defconfig
