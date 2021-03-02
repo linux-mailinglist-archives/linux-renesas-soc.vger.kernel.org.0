@@ -2,88 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BAF032B514
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Mar 2021 07:13:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49E3632B510
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Mar 2021 07:13:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238334AbhCCGFT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 Mar 2021 01:05:19 -0500
-Received: from mail-yb1-f171.google.com ([209.85.219.171]:37573 "EHLO
-        mail-yb1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350351AbhCBSpZ (ORCPT
+        id S238034AbhCCGFL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 Mar 2021 01:05:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54678 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1349854AbhCBRhJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Mar 2021 13:45:25 -0500
-Received: by mail-yb1-f171.google.com with SMTP id p193so21780902yba.4;
-        Tue, 02 Mar 2021 10:44:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MpNiiFnvCV60eMMYrHSzbuK2BLlpKg0lToCXPm/qLyA=;
-        b=QvJEHr7HWt4e+jVHbZgJaXGflGcW7fdQZNaTxNwSDMzgnYd8aYzeJyQHSJ1Jyt/mfl
-         t0cVQAVDroHTjIJ4V0B/qv/0BdeEqZcZPnpk3CJCqAJCDRhGNNtFf6C0LQ9V4U1Xd4OO
-         /Ioe99pRlmUYhX6dxb6ysVCpKgcEMY7u7OKR9y7PIWNhoqyMThBS3XT0xK6muOoyiqog
-         Xa60sH4FwpfYPq3Fgwnca9P5akyC6cBWTBM2TNPKuiliAnSIfa3s177LFmzXfOyNxycA
-         1W9J5kA2NJhUzEJRrLjs4xSIC1+XhIHL3z6l12bdq9yvurOMXxjME1KfkoLxGj6H06TO
-         g6VQ==
-X-Gm-Message-State: AOAM531FBE/2aT9ABo6tBjP/p+ZfTtBngPQU/zaK3UfPkrQo+4OjSLcb
-        Kaw9iQOtcQq1/G5Coym2E6JuU4UFGToapqHFhSOePrH4C1I=
-X-Google-Smtp-Source: ABdhPJzaIVG+VBlnAnse4ZYp+F3Z5KTEhgQqGDYqpX+qx+pYEUwpPZIuu6q8OUSkjXLzaWEJYGrfrE5E3BAI2t8nHxc=
-X-Received: by 2002:ab0:60b8:: with SMTP id f24mr12577728uam.58.1614702747813;
- Tue, 02 Mar 2021 08:32:27 -0800 (PST)
+        Tue, 2 Mar 2021 12:37:09 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D8C7364F32;
+        Tue,  2 Mar 2021 17:25:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614705943;
+        bh=wzxX6fB8ox2DNpZZ8LhGeG/FrKDK2EebFNNFbxqx7JM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=f1Pf6H+SbYeaOIFSpQ3JOAeTr6Dw84eJClIrlFPmfVDOpTWYy0yEAZTcnzidNGC2l
+         pGyIdR0imIsR7LHvGcERf65jjYy4s1cqkFR4kreAaK1YD807JajOAkxZYhQdSeTnyz
+         ShYqvpjXxT+IP5QBlY4aw2tPgLkXjEFMxfscxvC7Uc+VvDfsTc2cmnQPZ75I5l7ceZ
+         76EwYvMMbRScED51f1jE4G+Nmx5kO8uYzSv1xOz/NFwNlx29LnhicXpe9NaR/054Dp
+         nNFA17Q9A3GqtYGb5vIBTk3+yojRm3iIqLchlTqApSnIBeIu5yghp8KzUNgflhe80o
+         LQeQkz44p11Ew==
+Received: by earth.universe (Postfix, from userid 1000)
+        id A4ABB3C0C96; Tue,  2 Mar 2021 18:25:40 +0100 (CET)
+Date:   Tue, 2 Mar 2021 18:25:40 +0100
+From:   Sebastian Reichel <sre@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Saravana Kannan <saravanak@google.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] soc: renesas: rmobile-sysc: Set OF_POPULATED and absorb
+ reset handling
+Message-ID: <20210302172540.suq6m7cbulorp4at@earth.universe>
+References: <20210205133319.1921108-1-geert+renesas@glider.be>
+ <20210302154406.n4d6euiruwan4pm5@earth.universe>
+ <CAMuHMdULLDcRFhOQrGXuRxTcMeX5bc3fi-CkSSmrejSP6JUKWA@mail.gmail.com>
 MIME-Version: 1.0
-References: <7009ba70-4134-1acf-42b9-fa7e59b5d15d@omprussia.ru> <161463420785.14233.15454498386680107579.git-patchwork-notify@kernel.org>
-In-Reply-To: <161463420785.14233.15454498386680107579.git-patchwork-notify@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 2 Mar 2021 17:32:16 +0100
-Message-ID: <CAMuHMdU_v=0MDqR5rU6eqA0e7C16WN6g3zE2AKmB7JsNqa=xdw@mail.gmail.com>
-Subject: Re: [PATCH net 0/3] Fix TRSCER masks in the Ether driver
-To:     patchwork-bot+netdevbpf@kernel.org
-Cc:     Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="4kn6yoahxuaazce6"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdULLDcRFhOQrGXuRxTcMeX5bc3fi-CkSSmrejSP6JUKWA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Mar 1, 2021 at 10:38 PM <patchwork-bot+netdevbpf@kernel.org> wrote:
-> This series was applied to netdev/net.git (refs/heads/master):
->
-> On Sun, 28 Feb 2021 23:24:16 +0300 you wrote:
-> > Here are 3 patches against DaveM's 'net' repo. I'm fixing the TRSCER masks in
-> > the driver to match the manuals...
+
+--4kn6yoahxuaazce6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Geert,
+
+On Tue, Mar 02, 2021 at 05:18:21PM +0100, Geert Uytterhoeven wrote:
+> Hi Sebastian,
+>=20
+> On Tue, Mar 2, 2021 at 4:44 PM Sebastian Reichel <sre@kernel.org> wrote:
+> > On Fri, Feb 05, 2021 at 02:33:19PM +0100, Geert Uytterhoeven wrote:
+> > > Currently, there are two drivers binding to the R-Mobile System
+> > > Controller (SYSC):
+> > >   - The rmobile-sysc driver registers PM domains from a core_initcall=
+(),
+> > >     and does not use a platform driver,
+> > >   - The rmobile-reset driver registers a reset handler, and does use a
+> > >     platform driver.
+> > >
+> > > As fw_devlink only considers devices, it does not know that the
+> > > rmobile-sysc driver is ready.  Hence if fw_devlink is enabled, probing
+> > > of on-chip devices that are part of the SYSC PM domain is deferred un=
+til
+> > > the optional rmobile-reset has been bound, which may happen too late
+> > > (for e.g. the system timer on SoCs lacking an ARM architectured or
+> > > global timer), or not at all, leading to complete system boot failure=
+s.
+> > >
+> > > Fix this by:
+> > >   1. Setting the OF_POPULATED flag for the SYSC device node after
+> > >      successful initialization.
+> > >      This will make of_link_to_phandle() ignore the SYSC device node =
+as
+> > >      a dependency, making consumer devices probe again.
+> > >   2. Move reset handling from its own driver into the rmobile-sysc
+> > >      driver.
+> > >      This is needed because setting OF_POPULATED prevents the
+> > >      rmobile-reset driver from binding against the same device.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > To be queued in renesas-devel for v5.13.
 > >
-> > [1/3] sh_eth: fix TRSCER mask for SH771x
-> > [2/3] sh_eth: fix TRSCER mask for R7S72100
-> > [3/3] sh_eth: fix TRSCER mask for R7S9210
->
-> Here is the summary with links:
->   - [net,1/3] sh_eth: fix TRSCER mask for SH771x
->     https://git.kernel.org/netdev/net/c/8c91bc3d44df
->   - [net,2/3] sh_eth: fix TRSCER mask for R7S72100
->     https://git.kernel.org/netdev/net/c/75be7fb7f978
->   - [net,3/3] sh_eth: fix TRSCER mask for R7S9210
->     https://git.kernel.org/netdev/net/c/165bc5a4f30e
+> > Acked-by: Sebastian Reichel <sre@kernel.org>
+>=20
+> In the meantime, this has method been abandoned, and this patch was
+> superseded by "[PATCH v2] soc: renesas: rmobile-sysc: Mark fwnode when
+> PM domain is added"
+> https://lore.kernel.org/linux-arm-kernel/20210216123958.3180014-1-geert+r=
+enesas@glider.be/
 
-That was quick.  And as they're queued in net, not net-next, they
-missed today's renesas-drivers release, and all related testing...
+Ah I remember seeing that, wondering why I am being CC'd and
+ignoring it :)
 
-I applied them manually, and boot-tested rskrza1 (R7S72100) and
-rza2mevb (R7S9210) using nfsroot. Worked fine.
+Thanks for the pointer,
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+-- Sebastian
 
-Review will take a bit longer...
+--4kn6yoahxuaazce6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-                        Geert
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmA+dQcACgkQ2O7X88g7
++pqc/w//W5vDfGs22TY9mzvMDs2b5bphnJBFMWzL7KQhHEsNXGmHGPI+nYg6N+GE
+gm5J0W0AwhVRmO1EY2Qcd+ls79eCnd2tVer7JWHwKXiGMpGq5qd8KjL8EilYluUG
+62Rkc5mmECtq2qPqhqLblmdedJydoDbmENw3LlS6virxWx0MNSxe4ErF/BkNliqu
+sNJ1Qi2VS8e5rBAZDEXeg/ihZGaf1kWH41gnags1R+0QY1buu/MZz7I4Y1gzO9P9
+oLCKxkcppNqfWwYgmehExokEd+46fYclpQD3xeoG9kez80dnb2oiTh305ZmCMedv
+XtjcDyNfC3X+QqA69lJtPttfzbzOGFY81bph3suQAwZaNCsdocLjSE9JrONMmJCB
+y5g8iKBJbe0tzqo7t2V8ZeZyjGg7OyyxKInuiuhhPl3lrTfqtdVAGM3JorUJBU+R
+FYeJ6fgicIuBwt3zXxTJAlzAG3pFm7GEkeB93+d1342Nex4Pbzgizf0EHrXJUl/7
+b5O2O3/staEjsOKUMUDzNcvh1rkYKNSIQkMe/ohQB9JNOG8fSUXDDFPBFU0d9ap0
+4Fd+/QKJbtXWITKvL36JmpAFsXDhmnax580sFAdpALzTLftenYOldFy1aT4fksCD
+Nt9Wz0RQQy6u0t/XfjRJQGS5lZeIkVqOnfD0/WznHZeA2W66v8M=
+=8pjj
+-----END PGP SIGNATURE-----
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--4kn6yoahxuaazce6--
