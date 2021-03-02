@@ -2,369 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F303632A63A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Mar 2021 17:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73DC632A63D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Mar 2021 17:42:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351392AbhCBOQy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Mar 2021 09:16:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42338 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1575011AbhCBDwb (ORCPT
+        id S1444249AbhCBORB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Mar 2021 09:17:01 -0500
+Received: from foss.arm.com ([217.140.110.172]:49078 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1838377AbhCBKgK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Mar 2021 22:52:31 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52F7BC061756
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Mar 2021 19:51:50 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id p21so12972529pgl.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 01 Mar 2021 19:51:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=iDrO61SWMkp+LYDXsNb8CrJhW/FljP3um0b4FM4oQ3E=;
-        b=1zCNvYUSk+OZbAxaq7+b1GMy/KFeesxZBcBKaY+iPIflWpAGDJxSxJU8IiAzoNxdgT
-         4qd65PBMvXwZsmuyDMdo3oL97DPq3DyZx76s6XjLc1eVVSKCEo2ybXCR38a3bpZ4IZnA
-         00Jtv0Pm5pEoNu4C7wgGkLjzpyzzZbjTMfJhOeg24xQ8Md9eCGpSWf1P4SC7oxrB6/Tx
-         9/lHkXNV3RdXYXd3/3kkwEpoiNGskE2KO7eDq3y/2CdM3lS/VGZc/fHo7tjeDwhoZm9p
-         CDiwobk7MviL22H7aRLsc38bOZW12Q429rrvJm7t9DwK36laAIuilBbIK46V256zSQt3
-         i4Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=iDrO61SWMkp+LYDXsNb8CrJhW/FljP3um0b4FM4oQ3E=;
-        b=IzA/wQPUYo+2UumkwYT/c0MTNfR0nHuz/+fMAsp9kubu4Sb/SiSYDIIgslezIUsdOa
-         X5nmSFonRKVVw5Kc/CUhCdXwEU923NGMkUZQElPYknNNgHjZ5QZRjsH2N7fB5Mo4osOD
-         NChsz/rjAhEuRa+2duP8UXT5C4TVd+kAk6biW3AQlzZfI+p6diIKJwXntUYo/W7wQowp
-         IMLiRtGVfjLAH+x2OBzNM3qhoJiVQWmWP8MnAj4pF3dRZ4LEn2dxVLVatLBzDfJVGINl
-         vCfq9WVnSCQ4QB7k9Zqnke7I20sXT3gCkKkmtWK/cJUDdZmo416KXazSI8JT1UZwx4lw
-         P66A==
-X-Gm-Message-State: AOAM530JI1tuua5AwxNeSkxd1iV42P7RnF62vfuSe9CGMtRv7BM3Pnb3
-        F2HIcg11UedaRLVfLrif4pp7yWuUe+1zdw==
-X-Google-Smtp-Source: ABdhPJwYTo+ITdFmZdEDda7i6QjX/bpIGu0hmRDLVwgxnPjgwdRWSK5EQAf1bt0SqlIaCcVGPOsGlA==
-X-Received: by 2002:a63:5a02:: with SMTP id o2mr16222924pgb.202.1614657109587;
-        Mon, 01 Mar 2021 19:51:49 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id w1sm933488pjq.38.2021.03.01.19.51.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Mar 2021 19:51:49 -0800 (PST)
-Message-ID: <603db655.1c69fb81.af5a2.3267@mx.google.com>
-Date:   Mon, 01 Mar 2021 19:51:49 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 2 Mar 2021 05:36:10 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8851AED1;
+        Tue,  2 Mar 2021 02:35:24 -0800 (PST)
+Received: from [10.57.48.219] (unknown [10.57.48.219])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 25EFF3F73C;
+        Tue,  2 Mar 2021 02:35:20 -0800 (PST)
+Subject: Re: Aw: Re: Re: [PATCH 09/13] PCI: mediatek: Advertise lack of MSI
+ handling
+To:     Frank Wunderlich <frank-w@public-files.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Chuanjia Liu <chuanjia.liu@mediatek.com>
+Cc:     linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Will Deacon <will@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Rob Herring <robh@kernel.org>, Wei Liu <wei.liu@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        linux-mediatek@lists.infradead.org,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20210225151023.3642391-1-maz@kernel.org>
+ <20210225151023.3642391-10-maz@kernel.org>
+ <trinity-b7e2cf18-f0e6-4d88-8a80-de6758b5a91f-1614595396771@3c-app-gmx-bap67>
+ <b7721e2ff751cc9565a662cb713819e3@kernel.org>
+ <trinity-9fa6d24e-f9de-4741-bf44-86f6197b174d-1614600961297@3c-app-gmx-bap67>
+ <5afd1d656299d87c43bdf31b8ced2d5f@kernel.org>
+ <trinity-e6593a34-3e03-4154-a03c-f3aed01e33bf-1614607598428@3c-app-gmx-bap67>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <8b9c013a-b5d5-9b19-f28a-4af543e47fff@arm.com>
+Date:   Tue, 2 Mar 2021 10:35:14 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v5.12-rc1-379-gc28144dc9685d
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-Subject: renesas/master baseline: 260 runs,
- 8 regressions (v5.12-rc1-379-gc28144dc9685d)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+In-Reply-To: <trinity-e6593a34-3e03-4154-a03c-f3aed01e33bf-1614607598428@3c-app-gmx-bap67>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 260 runs, 8 regressions (v5.12-rc1-379-gc28144dc96=
-85d)
-
-Regressions Summary
--------------------
-
-platform              | arch  | lab           | compiler | defconfig       =
-             | regressions
-----------------------+-------+---------------+----------+-----------------=
--------------+------------
-imx8mp-evk            | arm64 | lab-nxp       | gcc-8    | defconfig+CON...=
-OMIZE_BASE=3Dy | 1          =
-
-meson-gxm-khadas-vim2 | arm64 | lab-baylibre  | gcc-8    | defconfig+CON...=
-BIG_ENDIAN=3Dy | 1          =
-
-meson-gxm-q200        | arm64 | lab-baylibre  | gcc-8    | defconfig+CON...=
-OMIZE_BASE=3Dy | 2          =
-
-qemu_arm-versatilepb  | arm   | lab-baylibre  | gcc-8    | versatile_defcon=
-fig          | 1          =
-
-qemu_arm-versatilepb  | arm   | lab-broonie   | gcc-8    | versatile_defcon=
-fig          | 1          =
-
-qemu_arm-versatilepb  | arm   | lab-cip       | gcc-8    | versatile_defcon=
-fig          | 1          =
-
-qemu_arm-versatilepb  | arm   | lab-collabora | gcc-8    | versatile_defcon=
-fig          | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/v5.1=
-2-rc1-379-gc28144dc9685d/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: v5.12-rc1-379-gc28144dc9685d
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      c28144dc9685de3293c3672e85b2f8f89b7615f4 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform              | arch  | lab           | compiler | defconfig       =
-             | regressions
-----------------------+-------+---------------+----------+-----------------=
--------------+------------
-imx8mp-evk            | arm64 | lab-nxp       | gcc-8    | defconfig+CON...=
-OMIZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/603d84eed9b7430c5baddcb7
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-nxp/basel=
-ine-imx8mp-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-nxp/basel=
-ine-imx8mp-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/603d84eed9b7430c5badd=
-cb8
-        new failure (last pass: renesas-devel-2021-02-15-v5.11) =
-
- =
-
-
-
-platform              | arch  | lab           | compiler | defconfig       =
-             | regressions
-----------------------+-------+---------------+----------+-----------------=
--------------+------------
-meson-gxm-khadas-vim2 | arm64 | lab-baylibre  | gcc-8    | defconfig+CON...=
-BIG_ENDIAN=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/603d7fdfb8ed261db7addcea
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_CPU_BIG_ENDIAN=3Dy
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm64/defconfig+CONFIG_CPU_BIG_ENDIAN=3Dy/gcc-8/lab-baylibre/=
-baseline-meson-gxm-khadas-vim2.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm64/defconfig+CONFIG_CPU_BIG_ENDIAN=3Dy/gcc-8/lab-baylibre/=
-baseline-meson-gxm-khadas-vim2.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64be/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/603d7fdfb8ed261db7add=
-ceb
-        new failure (last pass: renesas-devel-2021-02-15-v5.11) =
-
- =
-
-
-
-platform              | arch  | lab           | compiler | defconfig       =
-             | regressions
-----------------------+-------+---------------+----------+-----------------=
--------------+------------
-meson-gxm-q200        | arm64 | lab-baylibre  | gcc-8    | defconfig+CON...=
-OMIZE_BASE=3Dy | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/603d83e343c63dba1caddcf7
-
-  Results:     3 PASS, 2 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-baylibre/=
-baseline-meson-gxm-q200.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-baylibre/=
-baseline-meson-gxm-q200.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.dmesg.alert: https://kernelci.org/test/case/id/603d83e343c63db=
-a1caddcfb
-        new failure (last pass: renesas-devel-2021-02-15-v5.11)
-        8 lines
-
-    2021-03-02 00:16:02.265000+00:00  kern  :alert : Mem abort info:
-    2021-03-02 00:16:02.265000+00:00  kern  <8>[   16.674490] <LAVA_SIGNAL_=
-TESTCASE TEST_CASE_ID=3Dalert RESULT=3Dfail UNITS=3Dlines MEASUREMENT=3D8>
-    2021-03-02 00:16:02.265000+00:00  :alert :   ESR =3D 0x86000006
-    2021-03-02 00:16:02.265000+00:00  kern  :alert :   EC =3D 0x21: IABT (c=
-urrent EL), IL =3D 32 bits
-    2021-03-02 00:16:02.266000+00:00  kern  :alert :   SET =3D 0, FnV =3D 0
-    2021-03-02 00:16:02.266000+00:00  kern  :alert :   EA =3D 0, S1PTW =3D 0
-    2021-03-02 00:16:02.266000+00:00  kern  :alert : user pgtable: 4k pages=
-, 48-bit VAs, pgdp=3D0000000008452000   =
-
-
-  * baseline.dmesg.emerg: https://kernelci.org/test/case/id/603d83e343c63db=
-a1caddcfc
-        new failure (last pass: renesas-devel-2021-02-15-v5.11)
-        2 lines
-
-    2021-03-02 00:16:02.312000+00:00  c] pgd=3D0000000008453003<8>[   16.71=
-4714] <LAVA_SIGNAL_ENDRUN 0_dmesg 774632_1.5.2.4.1>
-    2021-03-02 00:16:02.312000+00:00  , p4d=3D0000000008453003, pud=3D00000=
-00008454003, pmd=3D0000000000000000
-    2021-03-02 00:16:02.312000+00:00  kern  :emerg : Internal error: Oops: =
-86000006 [#1] PREEMPT SMP
-    2021-03-02 00:16:02.312000+00:00  kern  :emerg : Code: bad PC value
-    2021-03-02 00:16:02.313000+00:00  + set +x
-    2021-03-02 00:16:02.417000+00:00  / # #   =
-
- =
-
-
-
-platform              | arch  | lab           | compiler | defconfig       =
-             | regressions
-----------------------+-------+---------------+----------+-----------------=
--------------+------------
-qemu_arm-versatilepb  | arm   | lab-baylibre  | gcc-8    | versatile_defcon=
-fig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/603d7e2aeec139d9a6addd0a
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm/versatile_defconfig/gcc-8/lab-baylibre/baseline-qemu_arm-=
-versatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm/versatile_defconfig/gcc-8/lab-baylibre/baseline-qemu_arm-=
-versatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/603d7e2aeec139d9a6add=
-d0b
-        failing since 103 days (last pass: renesas-devel-2020-11-10-v5.10-r=
-c3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
-
- =
-
-
-
-platform              | arch  | lab           | compiler | defconfig       =
-             | regressions
-----------------------+-------+---------------+----------+-----------------=
--------------+------------
-qemu_arm-versatilepb  | arm   | lab-broonie   | gcc-8    | versatile_defcon=
-fig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/603d7f317d4d1e9f37addcd4
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm/versatile_defconfig/gcc-8/lab-broonie/baseline-qemu_arm-v=
-ersatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm/versatile_defconfig/gcc-8/lab-broonie/baseline-qemu_arm-v=
-ersatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/603d7f317d4d1e9f37add=
-cd5
-        failing since 103 days (last pass: renesas-devel-2020-11-10-v5.10-r=
-c3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
-
- =
-
-
-
-platform              | arch  | lab           | compiler | defconfig       =
-             | regressions
-----------------------+-------+---------------+----------+-----------------=
--------------+------------
-qemu_arm-versatilepb  | arm   | lab-cip       | gcc-8    | versatile_defcon=
-fig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/603d7e8522a5293515addcc8
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm/versatile_defconfig/gcc-8/lab-cip/baseline-qemu_arm-versa=
-tilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm/versatile_defconfig/gcc-8/lab-cip/baseline-qemu_arm-versa=
-tilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/603d7e8522a5293515add=
-cc9
-        failing since 103 days (last pass: renesas-devel-2020-11-10-v5.10-r=
-c3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
-
- =
-
-
-
-platform              | arch  | lab           | compiler | defconfig       =
-             | regressions
-----------------------+-------+---------------+----------+-----------------=
--------------+------------
-qemu_arm-versatilepb  | arm   | lab-collabora | gcc-8    | versatile_defcon=
-fig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/603d7d37b605a9438faddcbb
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm/versatile_defconfig/gcc-8/lab-collabora/baseline-qemu_arm=
--versatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v5.12-rc1-379-g=
-c28144dc9685d/arm/versatile_defconfig/gcc-8/lab-collabora/baseline-qemu_arm=
--versatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/603d7d37b605a9438fadd=
-cbc
-        failing since 103 days (last pass: renesas-devel-2020-11-10-v5.10-r=
-c3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
-
- =20
+On 2021-03-01 14:06, Frank Wunderlich wrote:
+>> Gesendet: Montag, 01. März 2021 um 14:31 Uhr
+>> Von: "Marc Zyngier" <maz@kernel.org>
+>>
+>> Frank,
+>>
+>>>>> i guess it's a bug in ath10k driver or my r64 board (it is a v1.1
+>>>>> which has missing capacitors on tx lines).
+>>>>
+>>>> No, this definitely looks like a bug in the MTK PCIe driver,
+>>>> where the mutex is either not properly initialised, corrupted,
+>>>> or the wrong pointer is passed.
+>>>
+>>> but why does it happen only with the ath10k-card and not the mt7612 in
+>>> same slot?
+>>
+>> Does mt7612 use MSI? What we have here is a bogus mutex in the
+>> MTK PCIe driver, and the only way not to get there would be
+>> to avoid using MSIs.
+> 
+> i guess this card/its driver does not use MSI. Did not found anything in "datasheet" [1] or driver [2] about msi
+
+FWIW, no need to guess - `lspci -v` (as root) should tell you whether 
+the card has MSI (and/or MSI-X) capability, and whether it is enabled if so.
+
+Robin.
+
+>>>
+>>>> This r64 machine is supposed to have working MSIs, right?
+>>>
+>>> imho mt7622 have working MSI
+>>>
+>>>> Do you get the same issue without this series?
+>>>
+>>> tested 5.11.0 [1] without this series (but with your/thomas' patch
+>>> from discussion about my old patch) and got same trace. so this series
+>>> does not break anything here.
+>>
+>> Can you retest without any additional patch on top of 5.11?
+>> These two patches only affect platforms that do *not* have MSIs at all.
+> 
+> i can revert these 2, but still need patches for mt7622 pcie-support [3]...btw. i see that i miss these in 5.11-main...do not see traceback with them (have firmware not installed...)
+> 
+> root@bpi-r64:~# dmesg | grep ath
+> [    6.450765] ath10k_pci 0000:01:00.0: assign IRQ: got 146
+> [    6.661752] ath10k_pci 0000:01:00.0: enabling device (0000 -> 0002)
+> [    6.697811] ath10k_pci 0000:01:00.0: enabling bus mastering
+> [    6.721293] ath10k_pci 0000:01:00.0: pci irq msi oper_irq_mode 2 irq_mode 0 r
+> eset_mode 0
+> [    6.921030] ath10k_pci 0000:01:00.0: Failed to find firmware-N.bin (N between
+>   2 and 6) from ath10k/QCA988X/hw2.0: -2
+> [    6.931698] ath10k_pci 0000:01:00.0: could not fetch firmware files (-2)
+> [    6.940417] ath10k_pci 0000:01:00.0: could not probe fw (-2)
+> 
+> so traceback was caused by missing changes in mtk pcie-driver not yet upstream, added Chuanjia Liu
+> 
+>>>
+>>>>> Tried with an mt7612e, this seems to work without any errors.
+>>>>>
+>>>>> so for mt7622/mt7623
+>>>>>
+>>>>> Tested-by: Frank Wunderlich <frank-w@public-files.de>
+>>>>
+>>>> We definitely need to understand the above.
+>>>
+>>> there is a hardware-bug which may cause this...afair i saw this with
+>>> the card in r64 with earlier Kernel-versions where other cards work
+>>> (like the mt7612e).
+>>
+>> I don't think a HW bug affecting PCI would cause what we are seeing
+>> here, unless it results in memory corruption.
+> 
+> 
+> [1] https://www.asiarf.com/shop/wifi-wlan/wifi_mini_pcie/ws2433-wifi-11ac-mini-pcie-module-manufacturer/
+> [2] grep -Rni 'msi' drivers/net/wireless/mediatek/mt76/mt76x2/
+> [3] https://patchwork.kernel.org/project/linux-mediatek/list/?series=372885
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
