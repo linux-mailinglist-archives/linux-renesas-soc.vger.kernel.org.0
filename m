@@ -2,80 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DCC732B517
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Mar 2021 07:13:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C25432B516
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Mar 2021 07:13:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238296AbhCCGF3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 Mar 2021 01:05:29 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46252 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378901AbhCBVZT (ORCPT
+        id S238812AbhCCGFf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 Mar 2021 01:05:35 -0500
+Received: from mga03.intel.com ([134.134.136.65]:15511 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244123AbhCCDD0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Mar 2021 16:25:19 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76915ED;
-        Tue,  2 Mar 2021 22:24:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1614720252;
-        bh=qXQ4aWK8r2cIrs6bKobZUdP2h+7hplwrpL5umlYJRRk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cj0BQ54pYUSUcpDkAtO18nBsDfAJnd/kLmCvpxZtcDHnbI3WoWpPgx1DMvrmkX3ym
-         FTrUZpdrBnyCmfZ0N0ND0pIrDy9iEMtFbDV2lE/3q0t/4lxnGoZb9akNSz5k7ffTrc
-         x8MigyMjoi7l+sJzrDwWwlVN0zHs3E2tRlpr49pQ=
-Date:   Tue, 2 Mar 2021 23:23:44 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] drm: rcar-du: Use drmm_encoder_alloc() to manage encoder
-Message-ID: <YD6s4O75fTB7zSJh@pendragon.ideasonboard.com>
-References: <20210113170253.443820-1-kieran.bingham+renesas@ideasonboard.com>
- <CAMuHMdVwjWwcWR45BTAjL5Lp66s5coc_Jp1EcBF1ad7MJpY0Og@mail.gmail.com>
- <CAMuHMdV0fEsDWUok=MaxnTXxngMWa5PCEHHCUoBYrqurUEf=1Q@mail.gmail.com>
- <5252aceb-75f9-52d9-cba2-9ecc017698d8@ideasonboard.com>
+        Tue, 2 Mar 2021 22:03:26 -0500
+IronPort-SDR: Kb5rU86nCbGSQC5+7K1e7mHT8SdpaSJtKq9I/HZDQBDYVUJmzrLV9CY17Wa+SqhFyowOzK9GUM
+ 3W4mJIVty2YA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9911"; a="187139382"
+X-IronPort-AV: E=Sophos;i="5.81,218,1610438400"; 
+   d="scan'208";a="187139382"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2021 19:02:38 -0800
+IronPort-SDR: 3ILG+niBUZZySdYru++ilb1Y04JFpp19/ArSrtkTvVfWRPQ7N7qn9Xsufb/7r+exatreCoiDv8
+ Tei0VT6T2pIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,218,1610438400"; 
+   d="scan'208";a="435059153"
+Received: from lkp-server02.sh.intel.com (HELO 2482ff9f8ac0) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 02 Mar 2021 19:02:37 -0800
+Received: from kbuild by 2482ff9f8ac0 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lHHmW-0000r7-Iw; Wed, 03 Mar 2021 03:02:36 +0000
+Date:   Wed, 03 Mar 2021 11:01:46 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:master] BUILD SUCCESS
+ 22f1428c9cf59e471f251de633a5f14b2f12eb88
+Message-ID: <603efc1a.EkvE1U6TIa39TRN/%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5252aceb-75f9-52d9-cba2-9ecc017698d8@ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: 22f1428c9cf59e471f251de633a5f14b2f12eb88  [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-On Mon, Mar 01, 2021 at 11:52:26AM +0000, Kieran Bingham wrote:
-> On 01/03/2021 10:30, Geert Uytterhoeven wrote:
-> > On Thu, Jan 14, 2021 at 11:00 AM Geert Uytterhoeven wrote:
-> >> On Wed, Jan 13, 2021 at 6:02 PM Kieran Bingham wrote:
-> >>> The encoder allocation was converted to a DRM managed resource at the
-> >>> same time as the addition of a new helper drmm_encoder_alloc() which
-> >>> simplifies the same process.
-> >>>
-> >>> Convert the custom drm managed resource allocation of the encoder
-> >>> with the helper to simplify the implementation, and prevent hitting a
-> >>> WARN_ON() due to the handling the drm_encoder_init() call directly
-> >>> without registering a .destroy() function op.
-> >>>
-> >>> Fixes: f5f16725edbc ("drm: rcar-du: Use DRM-managed allocation for encoders")
-> >>> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >>
-> >> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >> As in "the WARNING from drm_encoder_init() is gone".
-> > 
-> > JFYI, the WARNING is now in v5.12-rc1, the fix isn't.
-> 
-> Does this patch go through you to get into the DRM tree? Or do I need to
-> re-send it to someone else?
+elapsed time: 730m
 
-I can send a pull request with this for the -fixes branch, but as
-there's a single patch, maybe David or Daniel could pick it up ?
+configs tested: 91
+configs skipped: 6
 
--- 
-Regards,
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Laurent Pinchart
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc                 mpc8540_ads_defconfig
+mips                      bmips_stb_defconfig
+sparc64                          alldefconfig
+arm                         vf610m4_defconfig
+sparc                       sparc32_defconfig
+sh                        sh7757lcr_defconfig
+mips                         bigsur_defconfig
+arm                        oxnas_v6_defconfig
+xtensa                  nommu_kc705_defconfig
+sh                        sh7763rdp_defconfig
+sh                          sdk7786_defconfig
+mips                     cu1000-neo_defconfig
+arm                        mvebu_v7_defconfig
+arm                           h5000_defconfig
+sh                            shmin_defconfig
+mips                         rt305x_defconfig
+sh                           se7750_defconfig
+sh                   sh7770_generic_defconfig
+arm                              alldefconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a005-20210302
+i386                 randconfig-a003-20210302
+i386                 randconfig-a002-20210302
+i386                 randconfig-a004-20210302
+i386                 randconfig-a006-20210302
+i386                 randconfig-a001-20210302
+i386                 randconfig-a016-20210302
+i386                 randconfig-a012-20210302
+i386                 randconfig-a014-20210302
+i386                 randconfig-a013-20210302
+i386                 randconfig-a011-20210302
+i386                 randconfig-a015-20210302
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a006-20210301
+x86_64               randconfig-a001-20210301
+x86_64               randconfig-a004-20210301
+x86_64               randconfig-a002-20210301
+x86_64               randconfig-a005-20210301
+x86_64               randconfig-a003-20210301
+x86_64               randconfig-a013-20210302
+x86_64               randconfig-a016-20210302
+x86_64               randconfig-a015-20210302
+x86_64               randconfig-a014-20210302
+x86_64               randconfig-a012-20210302
+x86_64               randconfig-a011-20210302
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
