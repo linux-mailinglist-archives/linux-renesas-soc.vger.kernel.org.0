@@ -2,105 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19A1232C623
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Mar 2021 02:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91D7432C638
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Mar 2021 02:02:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1441998AbhCDA1o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 Mar 2021 19:27:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50964 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1346063AbhCCLGj (ORCPT
+        id S1351478AbhCDA2B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 Mar 2021 19:28:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51316 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348866AbhCCNhW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 Mar 2021 06:06:39 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 37CBD64ED7;
-        Wed,  3 Mar 2021 11:04:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614769455;
-        bh=qBcjikzb/uMaAAucmFpDYe6ETsy8v04d/xZE4lmZH8c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lRfpRhBxL1llsZZUHtIpC/29r926UocjYO3DtucB+ubxP+Gns60XyLObW/NdiXVp+
-         W4ad3vNdouUYPaRqAxEsJPdxRk8C9U7uQgmv9O+Yl8aUu7VwFcxa1vKdm7JVdeMBbF
-         9rI8ZcSPUKEBrQJX3Qfiwe8IqhwXR5kJ8tswF+3AhWqwdTY0RiQ7T75B6YshhfYebL
-         5iNcqfUcOrQsskq7r3QDNt7d3ukrE6C6WYoxLg/mFu8sGfGzEUFId9pME6+THch9j9
-         A1d0uIjJGjsAyjmJYRUjHF4ej2b+RWj2DzR+Nkr8gJQEV5f3YiGEDXxvtT+jm0Pm6Z
-         OhG1Ly2B0IIQA==
-Date:   Wed, 3 Mar 2021 12:04:13 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] timekeeping: Allow runtime PM from
- change_clocksource()
-Message-ID: <20210303110413.GB3689@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-        John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20210211134318.323910-1-niklas.soderlund+renesas@ragnatech.se>
+        Wed, 3 Mar 2021 08:37:22 -0500
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BC43C0617AA
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Mar 2021 05:26:28 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:cd47:42a6:c822:e50b])
+        by michel.telenet-ops.be with bizsmtp
+        id bpSR2400M4huzR806pSRho; Wed, 03 Mar 2021 14:26:26 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lHRWD-004Ps0-EN; Wed, 03 Mar 2021 14:26:25 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lHRWC-00GWV3-Lp; Wed, 03 Mar 2021 14:26:24 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/6] pinctrl: renesas: Bias improvements and r8a7791 support
+Date:   Wed,  3 Mar 2021 14:26:13 +0100
+Message-Id: <20210303132619.3938128-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="rS8CxjVDS/+yyDmU"
-Content-Disposition: inline
-In-Reply-To: <20210211134318.323910-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+	Hi all,
 
---rS8CxjVDS/+yyDmU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch series improves the existing bias support in the Renesas Pin
+Function Controller driver, and adds pull-up and pull-down support for
+the R-Car M2-W and M2-N, and RZ/G1M and RZ/G1N SoCs.
 
-On Thu, Feb 11, 2021 at 02:43:18PM +0100, Niklas S=C3=B6derlund wrote:
-> The struct clocksource callbacks enable() and disable() are described as
-> a way to allow clock sources to enter a power save mode [1]. But using
-> runtime PM from these callbacks triggers a cyclic lockdep warning when
-> switching clock source using change_clocksource().
->=20
-> This change allows the new clocksource to be enabled() and the old one
-> to be disabled() without holding the timekeeper_lock. This solution is
-> modeled on timekeeping_resume() and timekeeping_suspend() where the
-> struct clocksource resume() and suspend() callbacks are called without
-> holding the timekeeper_lock.
->=20
-> Triggering and log of the deadlock warning,
->=20
->   # echo e60f0000.timer > /sys/devices/system/clocksource/clocksource0/cu=
-rrent_clocksource
+The latter has been tested on the Koelsch development board by measuring
+the voltages on the GP5_[0-3] pins when the software switches (SW2) are
+closed:
+  - With internal bias disabled, the 2kΩ external pull-down resistors
+    pull the GPIO lines all the way to GND,
+  - With internal pull-up enabled, the internal pull-up resistors and the
+    external pull-down resistors form a voltage divider, showing the
+    internal pull-up resistors have a value of ca. 45kΩ.
 
-=2E..
+To be queued in renesas-pinctrl-for-v5.13.
 
-I had the same issue when running 'clocksource-switch' from the Kernel
-selftests with a Renesas Falcon board using a R-Car V3U. This patch
-fixed the deadlock warning, so:
+Thanks for your comments!
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Geert Uytterhoeven (6):
+  pinctrl: renesas: Make sh_pfc_pin_to_bias_reg() static
+  pinctrl: renesas: Move R-Car bias helpers to sh_pfc.h
+  pinctrl: renesas: Factor out common R-Mobile bias handling
+  pinctrl: renesas: Add PORT_GP_CFG_7 macros
+  pinctrl: renesas: Add support for R-Car SoCs with pull-down only pins
+  pinctrl: renesas: r8a7791: Add bias pinconf support
 
+ drivers/pinctrl/renesas/core.c         |  20 --
+ drivers/pinctrl/renesas/core.h         |   8 -
+ drivers/pinctrl/renesas/pfc-r8a73a4.c  |  48 +--
+ drivers/pinctrl/renesas/pfc-r8a7740.c  |  46 +--
+ drivers/pinctrl/renesas/pfc-r8a7778.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a7791.c  | 387 ++++++++++++++++++++++++-
+ drivers/pinctrl/renesas/pfc-r8a7792.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77950.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77951.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a7796.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77965.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77970.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77980.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77990.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77995.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a779a0.c |   1 -
+ drivers/pinctrl/renesas/pfc-sh73a0.c   |  46 +--
+ drivers/pinctrl/renesas/pinctrl.c      | 109 +++++--
+ drivers/pinctrl/renesas/sh_pfc.h       |  24 +-
+ 19 files changed, 497 insertions(+), 202 deletions(-)
 
---rS8CxjVDS/+yyDmU
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmA/bSgACgkQFA3kzBSg
-KbZX0g//UsQj/6utoW/xm0s9S26Zm1IfbgHkXBZWfW1o1TNWn62IVw9aGRtYjN13
-nItMwUnH6eic/z8L/+2xQwH2ePQ6N9bjueHBJXWCCi+/0WoEjCryiR8z4E2nHyCh
-rROZsdAKaa2jWJCvJT0GctbZXkPx3PLQZ5wVx2PSg/+Egj5wZkph7RgWZnm92D/5
-w7oG0jLRAKaJjknh16zah0BHGtNsJaWiVnrM5If5CDe5H/WqLCOxp9sH5+MntaGZ
-drneQ92RpkcPsFyM6h4XzVUpUy0UU0VvU6h6xyFU4IZQCigvgmsY1SKZIv+zBS9A
-VXxi/0K9TKVcxfKs/D+p/NUzVknmtInNVVVYiAG+AuSQrU902rMGgsnhh2wWpIah
-yqcVgnfwQBFBPd32tt+vs9eql6WRegCh0ppjOkSKbuXh2ZGq+5wGU6wqozVYIhdf
-SNlWAytw64szTqfjyoqZlmrcp1ZBhRHLqFq5Pe0ooCQJKnPPrSHqRo/662p/Beef
-g1pEXQq39Mz9ISMer5yULLUA8gC2orN4ZpsZKoGSXypemI/Brxj9NIhnO9A6+xjc
-AjZTP3XyGPICFGnUPSgRmQH75aIFVTob2LVLPjb8k5OH4UfXSXfpLOwlttNNlSVs
-QLp5t2yF+EKZ+wfCWiyVHHXev8SDt31b9DydHSRllZEMQW8ZxHE=
-=Vsny
------END PGP SIGNATURE-----
+						Geert
 
---rS8CxjVDS/+yyDmU--
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
