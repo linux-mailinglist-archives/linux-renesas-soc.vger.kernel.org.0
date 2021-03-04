@@ -2,69 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7307F32CED5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Mar 2021 09:53:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D17E32CFAA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Mar 2021 10:31:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236860AbhCDIwp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Mar 2021 03:52:45 -0500
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:42307 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236850AbhCDIwa (ORCPT
+        id S237610AbhCDJaG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 Mar 2021 04:30:06 -0500
+Received: from www.zeus03.de ([194.117.254.33]:43656 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237605AbhCDJ3t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Mar 2021 03:52:30 -0500
-Received: by mail-vs1-f49.google.com with SMTP id v123so9962453vsv.9;
-        Thu, 04 Mar 2021 00:52:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BDI3GVzsclOwd12hM+WQtQ81DeT8ZdoQrDFqcDwcMEQ=;
-        b=heNtwQ8ZB1Xx1tY/7Xbkc8vSMBCo/ZdYjaIT4Xj46roEP4UAewkdpoe6Pi9oiBHFc8
-         FhpwEBTbOm9F0Ac/V6RN+EcvNAk2DFFq9/UO1J6S81KnqXRL4YBsVgUHoinAibOWb6oY
-         OG5oV7U2310fFXgbUmi03fM4Eas9/qcQELFxIeLBQ9ZygTMCNcPCff9lgdLGTUQvRmHc
-         qmE5I6mvEZbTHElzFwQNAw6v9CMCQDWMoO2igg0BYSmk9K94j0C1JkW5BzFVHKHqledX
-         pQO3912SeNzUWoYXzX6eM14MU7JCiKg8gc5LlbRUOcvtKjceaBaMBs23sBtL4VF6d9uu
-         rCiA==
-X-Gm-Message-State: AOAM530qtgOLeuboDfgDIHXpRVPhNZzlo/CFXqRzGYktlGQtaQbH0lrt
-        ed0w2n1BH97JmH7XxPv6CxhQg7KQEFr660IhH9o=
-X-Google-Smtp-Source: ABdhPJwjZmtIh0CFIAwuYhIQ8PgSynPMCx37GHCObbI0F0rEqTBraRWAW8fP80F5ifsnThMm+wQ/E4bfnAYjWgw6m+s=
-X-Received: by 2002:a67:f7c6:: with SMTP id a6mr1831304vsp.42.1614847910002;
- Thu, 04 Mar 2021 00:51:50 -0800 (PST)
+        Thu, 4 Mar 2021 04:29:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=8VDebSV70EU6MeZw/eFEPNeY3b0
+        jl26IjDn43vtbvj0=; b=tMW/l3t+IUpz0oKrL/6uZVUsW0UBnBuZetOlmwLDuF+
+        SB6BgS0ynwSI6m/J52BncOlkWpYWT1NvnBrPCUKoLwhuX+k/h8q7C0kYbcg9s0IZ
+        oer9rIq1pavrDcOFgzJXI1JbMhumQz3ukUrNOf3na9nryoymzrEEV73UWtrYnppw
+        =
+Received: (qmail 1778763 invoked from network); 4 Mar 2021 10:29:07 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Mar 2021 10:29:07 +0100
+X-UD-Smtp-Session: l3s3148p1@o6VkmbK8IoJQT+F6
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v2] mmc: renesas_sdhi: use custom mask for TMIO_MASK_ALL
+Date:   Thu,  4 Mar 2021 10:29:03 +0100
+Message-Id: <20210304092903.8534-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <7009ba70-4134-1acf-42b9-fa7e59b5d15d@omprussia.ru> <75bbbe07-60c0-c556-41fa-8a4ddd117f5a@omprussia.ru>
-In-Reply-To: <75bbbe07-60c0-c556-41fa-8a4ddd117f5a@omprussia.ru>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 4 Mar 2021 09:51:38 +0100
-Message-ID: <CAMuHMdV72Zqf4s8ouRM4stM0KfnPO3bWYHvFzd2PH8zUEPN1kA@mail.gmail.com>
-Subject: Re: [PATCH net 3/3] sh_eth: fix TRSCER mask for R7S9210
-To:     Sergey Shtylyov <s.shtylyov@omprussia.ru>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Feb 28, 2021 at 9:56 PM Sergey Shtylyov <s.shtylyov@omprussia.ru> wrote:
-> According  to the RZ/A2M Group User's Manual: Hardware, Rev. 2.00,
-> the TRSCER register has bit 9 reserved, hence we can't use the driver's
-> default TRSCER mask.  Add the explicit initializer for sh_eth_cpu_data::
-> trscer_err_mask for R7S9210.
->
-> Fixes: 6e0bb04d0e4f ("sh_eth: Add R7S9210 support")
-> Signed-off-by: Sergey Shtylyov <s.shtylyov@omprussia.ru>
+Populate the new member for custom mask values to make sure this value
+is applied whenever needed. Also, rename the define holding the value
+because this is not only about initialization anymore.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+Changes since v1:
+* removed outdated comment from header
+* added Shimoda-san's tags (thanks!)
 
-Gr{oetje,eeting}s,
+ drivers/mmc/host/renesas_sdhi_core.c | 3 ++-
+ drivers/mmc/host/tmio_mmc.h          | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-                        Geert
-
+diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+index a1de5c431f07..734442dacdfa 100644
+--- a/drivers/mmc/host/renesas_sdhi_core.c
++++ b/drivers/mmc/host/renesas_sdhi_core.c
+@@ -582,7 +582,7 @@ static void renesas_sdhi_reset(struct tmio_mmc_host *host)
+ 			       sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_RVSCNTL));
+ 	}
+ 
+-	sd_ctrl_write32_as_16_and_16(host, CTL_IRQ_MASK, TMIO_MASK_INIT_RCAR2);
++	sd_ctrl_write32_as_16_and_16(host, CTL_IRQ_MASK, TMIO_MASK_ALL_RCAR2);
+ 
+ 	if (sd_ctrl_read16(host, CTL_VERSION) >= SDHI_VER_GEN3_SD) {
+ 		val = sd_ctrl_read16(host, CTL_SD_MEM_CARD_OPT);
+@@ -1043,6 +1043,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+ 		host->ops.start_signal_voltage_switch =
+ 			renesas_sdhi_start_signal_voltage_switch;
+ 		host->sdcard_irq_setbit_mask = TMIO_STAT_ALWAYS_SET_27;
++		host->sdcard_irq_mask_all = TMIO_MASK_ALL_RCAR2;
+ 		host->reset = renesas_sdhi_reset;
+ 	}
+ 
+diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
+index 7d5201d6a006..f936aad945ce 100644
+--- a/drivers/mmc/host/tmio_mmc.h
++++ b/drivers/mmc/host/tmio_mmc.h
+@@ -100,8 +100,8 @@
+ 
+ /* Define some IRQ masks */
+ /* This is the mask used at reset by the chip */
+-#define TMIO_MASK_INIT_RCAR2	0x8b7f031d /* Initial value for R-Car Gen2+ */
+ #define TMIO_MASK_ALL           0x837f031d
++#define TMIO_MASK_ALL_RCAR2	0x8b7f031d
+ #define TMIO_MASK_READOP  (TMIO_STAT_RXRDY | TMIO_STAT_DATAEND)
+ #define TMIO_MASK_WRITEOP (TMIO_STAT_TXRQ | TMIO_STAT_DATAEND)
+ #define TMIO_MASK_CMD     (TMIO_STAT_CMDRESPEND | TMIO_STAT_CMDTIMEOUT | \
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.29.2
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
