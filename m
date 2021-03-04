@@ -2,184 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F158532D00E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Mar 2021 10:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC59032D134
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Mar 2021 11:53:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237837AbhCDJv1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Mar 2021 04:51:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59114 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237859AbhCDJu6 (ORCPT
+        id S239039AbhCDKwr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 Mar 2021 05:52:47 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:51057 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239060AbhCDKwi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Mar 2021 04:50:58 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C443C06175F
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Mar 2021 01:50:07 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:403a:b688:43fc:72a5])
-        by michel.telenet-ops.be with bizsmtp
-        id c9q1240020zmvuD069q16K; Thu, 04 Mar 2021 10:50:04 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lHkcK-004dMG-Ir; Thu, 04 Mar 2021 10:50:00 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lHkcK-00GnOs-3Z; Thu, 04 Mar 2021 10:50:00 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Chris Brandt <chris.brandt@renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] ARM: dts: rza2mevb: Upstream Linux requires SDRAM
-Date:   Thu,  4 Mar 2021 10:49:45 +0100
-Message-Id: <20210304094945.4003097-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Thu, 4 Mar 2021 05:52:38 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id HlaDlZiViOruFHlaGlFLCU; Thu, 04 Mar 2021 11:51:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1614855116; bh=Wkecd4VwZCDslytU0HlU9xUDkLjYHX8Tjk/u14Rdlq0=;
+        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=VEstxt8+/RPxi28WRLW3zpKkJx0u8YL9U72fbT6u6+3n2RIetRAgZ+2Qtl0WzWnUN
+         rapjSMbxTROp50cX35IGR04OkzTSu3gIMV45ed5yFMbhqKjhKYcdvZ1Zs+8k6AQxwB
+         tXFCWOHiW8ZFSp3/ZP8uC2Xf8/d5TfsP5Ypgrm3a8UcedIulXw/i72kdks5qE+IEBG
+         Z1tMFdQ6O4yoZRlQKIc2T0n5p1Ve3fJXvk3CPDcKb5nypuYprRJQtMem9rBnaTgh3S
+         I/E8fV6ya1FWDAkujyx2d0M6DgDGXj0M+dIbpiOKMZ6l42Ss3yQkCgECP5A7GvjkYk
+         rRhJbDT67TlvQ==
+Subject: Re: [PATCH v2] media: i2c: adv7511: remove open coded version of
+ SMBus block read
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20210127103357.5045-1-wsa+renesas@sang-engineering.com>
+ <bea536b1-9d81-3f41-8ca5-7fb075422290@xs4all.nl>
+Message-ID: <cadc7e6e-377f-db65-514e-7b2e6a40a0ae@xs4all.nl>
+Date:   Thu, 4 Mar 2021 11:51:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <bea536b1-9d81-3f41-8ca5-7fb075422290@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfCe+EB9+Iz4bvtP3GrDHH8PHByDsM0sKWi6CSKlOIjXOMZMUG/9fmOvboqEBEh113yLKV3sDQ3lQ+EYgah18zVeL0NHy/rOcE8wPP+Clo2yLJiO9s16J
+ R2y99ncbB3MCplG5jW14MTSBSVjnUh61qMSgJUMpk0SH7T0/tDUHZwZCBiJX2K6SuOFYBIWM7SJEH6QOW9qZvez97FBrNdkYTzXtW0w9cWqtXrmUsG3Ko8s1
+ 4MqRYtyRbM9t2cvcTuYfmoKU/qYMcWQgkVvSEa9wknyt1SZk8oFcLbK34pxeDfVToEpbHpmz8vnEVS66PKUa0Bhz6cX6hab9qUevxem5X1g=
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As upstream Linux does not support XIP (eXecute-In-Place) for ARMv7-A
-platforms that are part of the ARCH_MULTIPLATFORM framework, it cannot
-run in the 8 MiB of HyperRAM present on the RZ/A2M CPU board.  Hence the
-64 MiB of SDRAM on the sub-board needs to be enabled, which has the
-following ramifications:
-  - SCIF4 connected to the on-board USB-serial can no longer be used as
-    the serial console,
-  - Instead, SCIF2 is used as the serial console, by connecting a 3.3V
-    TTL USB-to-Serial adapter to the CMOS camera connector,
-  - The first Ethernet channel can no longer be used,
-  - USB Channel 1 loses the overcurrent input signal.
+Hi Wolfram,
 
-Based on the Linux-4.19 BSP for RZ/A2.
+On 23/02/2021 13:01, Hans Verkuil wrote:
+> Hi Wolfram,
+> 
+> On 27/01/2021 11:33, Wolfram Sang wrote:
+>> The open coded version differs from the one in the core in one way: the
+>> buffer will be always copied back, even when the transfer failed. Be
+>> more robust: use the block read from the I2C core and propagate a
+>> potential errno further to the sanity checks.
+>>
+>> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
+> This looks good.
+> 
+> If you want to merge this, then you can add my:
+> 
+> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+> If you want me to take it, then just let me know and I'll queue it up for 5.13.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-I'm happy to queue this in renesas-devel for v5.13, now commit
-0673cb3895121506 ("ARM: 9045/1: uncompress: Validate start of physical
-memory against passed DTB") has entered v5.12-rc1, after 2 years of
-development.
+I didn't hear back from you, so I'll pick it up for 5.13.
 
-v2:
-  - Drop RFC,
-  - Reword description.
----
- arch/arm/boot/dts/r7s9210-rza2mevb.dts | 55 +++++++++++++++-----------
- 1 file changed, 32 insertions(+), 23 deletions(-)
+Regards,
 
-diff --git a/arch/arm/boot/dts/r7s9210-rza2mevb.dts b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-index d062d02865e7dfbb..68498ce2aec0ebd9 100644
---- a/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-+++ b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-@@ -4,6 +4,28 @@
-  *
-  * Copyright (C) 2018 Renesas Electronics
-  *
-+ * As upstream Linux does not support XIP, it cannot run in 8 MiB of HyperRAM.
-+ * Hence the 64 MiB of SDRAM on the sub-board needs to be enabled, which has
-+ * the following ramifications:
-+ *   - SCIF4 connected to the on-board USB-serial can no longer be used as the
-+ *     serial console,
-+ *   - Instead, SCIF2 is used as the serial console, by connecting a 3.3V TTL
-+ *     USB-to-Serial adapter to the CMOS camera connector:
-+ *       - RXD = CN17-9,
-+ *       - TXD = CN17-10,
-+ *       - GND = CN17-2 or CN17-17,
-+ *   - The first Ethernet channel can no longer be used,
-+ *   - USB Channel 1 loses the overcurrent input signal.
-+ *
-+ * Please make sure your sub-board matches the following switch settings:
-+ *
-+ *           SW6                SW6-1 set to SDRAM
-+ *  ON                          SW6-2 set to Audio
-+ * +---------------------+      SW6-3 set to DRP
-+ * | =   =   = = =       |      SW6-4 set to CEU
-+ * |   =   =             |      SW6-5 set to Ether2
-+ * | 1 2 3 4 5 6 7 8 9 0 |      SW6-6 set to VDC6
-+ * +---------------------+      SW6-7 set to VDC6
-  */
- 
- /dts-v1/;
-@@ -17,9 +39,8 @@ / {
- 	compatible = "renesas,rza2mevb", "renesas,r7s9210";
- 
- 	aliases {
--		serial0 = &scif4;
--		ethernet0 = &ether0;
--		ethernet1 = &ether1;
-+		serial0 = &scif2;
-+		ethernet0 = &ether1;
- 	};
- 
- 	chosen {
-@@ -58,9 +79,9 @@ green {
- 		};
- 	};
- 
--	memory@40000000 {
-+	memory@c000000 {
- 		device_type = "memory";
--		reg = <0x40000000 0x00800000>;	 /* HyperRAM */
-+		reg = <0x0c000000 0x04000000>;	/* SDRAM */
- 	};
- };
- 
-@@ -72,17 +93,6 @@ &ehci1 {
- 	status = "okay";
- };
- 
--&ether0 {
--	pinctrl-names = "default";
--	pinctrl-0 = <&eth0_pins>;
--	status = "okay";
--	renesas,no-ether-link;
--	phy-handle = <&phy0>;
--	phy0: ethernet-phy@0 {
--		reg = <0>;
--	};
--};
--
- &ether1 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&eth1_pins>;
-@@ -142,9 +152,9 @@ keyboard_pins: keyboard {
- 	};
- 
- 	/* Serial Console */
--	scif4_pins: serial4 {
--		pinmux = <RZA2_PINMUX(PORT9, 0, 4)>,	/* TxD4 */
--			 <RZA2_PINMUX(PORT9, 1, 4)>;	/* RxD4 */
-+	scif2_pins: serial2 {
-+		pinmux = <RZA2_PINMUX(PORTE, 2, 3)>,	/* TxD2 */
-+			 <RZA2_PINMUX(PORTE, 1, 3)>;	/* RxD2 */
- 	};
- 
- 	sdhi0_pins: sdhi0 {
-@@ -165,8 +175,7 @@ usb0_pins: usb0 {
- 
- 	usb1_pins: usb1 {
- 		pinmux = <RZA2_PINMUX(PORTC, 0, 1)>,	/* VBUSIN1 */
--			 <RZA2_PINMUX(PORTC, 5, 1)>,	/* VBUSEN1 */
--			 <RZA2_PINMUX(PORT7, 5, 5)>;	/* OVRCUR1 */
-+			 <RZA2_PINMUX(PORTC, 5, 1)>;	/* VBUSEN1 */
- 	};
- };
- 
-@@ -176,9 +185,9 @@ &rtc_x1_clk {
- };
- 
- /* Serial Console */
--&scif4 {
-+&scif2 {
- 	pinctrl-names = "default";
--	pinctrl-0 = <&scif4_pins>;
-+	pinctrl-0 = <&scif2_pins>;
- 
- 	status = "okay";
- };
--- 
-2.25.1
+	Hans
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>> ---
+>>
+>> Changes since v1:
+>> * respect 'err' in more code paths
+>> * updated comment
+>>
+>>  drivers/media/i2c/adv7511-v4l2.c | 58 ++++++++++++++------------------
+>>  1 file changed, 26 insertions(+), 32 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
+>> index a3161d709015..9183003ae22d 100644
+>> --- a/drivers/media/i2c/adv7511-v4l2.c
+>> +++ b/drivers/media/i2c/adv7511-v4l2.c
+>> @@ -214,36 +214,25 @@ static inline void adv7511_wr_and_or(struct v4l2_subdev *sd, u8 reg, u8 clr_mask
+>>  	adv7511_wr(sd, reg, (adv7511_rd(sd, reg) & clr_mask) | val_mask);
+>>  }
+>>  
+>> -static int adv_smbus_read_i2c_block_data(struct i2c_client *client,
+>> -					 u8 command, unsigned length, u8 *values)
+>> -{
+>> -	union i2c_smbus_data data;
+>> -	int ret;
+>> -
+>> -	if (length > I2C_SMBUS_BLOCK_MAX)
+>> -		length = I2C_SMBUS_BLOCK_MAX;
+>> -	data.block[0] = length;
+>> -
+>> -	ret = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
+>> -			     I2C_SMBUS_READ, command,
+>> -			     I2C_SMBUS_I2C_BLOCK_DATA, &data);
+>> -	memcpy(values, data.block + 1, length);
+>> -	return ret;
+>> -}
+>> -
+>> -static void adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
+>> +static int adv7511_edid_rd(struct v4l2_subdev *sd, uint16_t len, uint8_t *buf)
+>>  {
+>>  	struct adv7511_state *state = get_adv7511_state(sd);
+>>  	int i;
+>> -	int err = 0;
+>>  
+>>  	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
+>>  
+>> -	for (i = 0; !err && i < len; i += I2C_SMBUS_BLOCK_MAX)
+>> -		err = adv_smbus_read_i2c_block_data(state->i2c_edid, i,
+>> +	for (i = 0; i < len; i += I2C_SMBUS_BLOCK_MAX) {
+>> +		s32 ret;
+>> +
+>> +		ret = i2c_smbus_read_i2c_block_data(state->i2c_edid, i,
+>>  						    I2C_SMBUS_BLOCK_MAX, buf + i);
+>> -	if (err)
+>> -		v4l2_err(sd, "%s: i2c read error\n", __func__);
+>> +		if (ret < 0) {
+>> +			v4l2_err(sd, "%s: i2c read error\n", __func__);
+>> +			return ret;
+>> +		}
+>> +	}
+>> +
+>> +	return 0;
+>>  }
+>>  
+>>  static inline int adv7511_cec_read(struct v4l2_subdev *sd, u8 reg)
+>> @@ -1668,22 +1657,27 @@ static bool adv7511_check_edid_status(struct v4l2_subdev *sd)
+>>  	if (edidRdy & MASK_ADV7511_EDID_RDY) {
+>>  		int segment = adv7511_rd(sd, 0xc4);
+>>  		struct adv7511_edid_detect ed;
+>> +		int err;
+>>  
+>>  		if (segment >= EDID_MAX_SEGM) {
+>>  			v4l2_err(sd, "edid segment number too big\n");
+>>  			return false;
+>>  		}
+>>  		v4l2_dbg(1, debug, sd, "%s: got segment %d\n", __func__, segment);
+>> -		adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
+>> -		adv7511_dbg_dump_edid(2, debug, sd, segment, &state->edid.data[segment * 256]);
+>> -		if (segment == 0) {
+>> -			state->edid.blocks = state->edid.data[0x7e] + 1;
+>> -			v4l2_dbg(1, debug, sd, "%s: %d blocks in total\n", __func__, state->edid.blocks);
+>> +		err = adv7511_edid_rd(sd, 256, &state->edid.data[segment * 256]);
+>> +		if (!err) {
+>> +			adv7511_dbg_dump_edid(2, debug, sd, segment, &state->edid.data[segment * 256]);
+>> +			if (segment == 0) {
+>> +				state->edid.blocks = state->edid.data[0x7e] + 1;
+>> +				v4l2_dbg(1, debug, sd, "%s: %d blocks in total\n",
+>> +					 __func__, state->edid.blocks);
+>> +			}
+>>  		}
+>> -		if (!edid_verify_crc(sd, segment) ||
+>> -		    !edid_verify_header(sd, segment)) {
+>> -			/* edid crc error, force reread of edid segment */
+>> -			v4l2_err(sd, "%s: edid crc or header error\n", __func__);
+>> +
+>> +		if (err || !edid_verify_crc(sd, segment) || !edid_verify_header(sd, segment)) {
+>> +			/* Couldn't read EDID or EDID is invalid. Force retry! */
+>> +			if (!err)
+>> +				v4l2_err(sd, "%s: edid crc or header error\n", __func__);
+>>  			state->have_monitor = false;
+>>  			adv7511_s_power(sd, false);
+>>  			adv7511_s_power(sd, true);
+>>
+> 
 
