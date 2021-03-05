@@ -2,130 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E137132E11B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Mar 2021 06:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0324F32EC1A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Mar 2021 14:30:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbhCEFFm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 5 Mar 2021 00:05:42 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:41320 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbhCEFFl (ORCPT
+        id S230051AbhCEN3s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 5 Mar 2021 08:29:48 -0500
+Received: from www.zeus03.de ([194.117.254.33]:43464 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230191AbhCEN3R (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 5 Mar 2021 00:05:41 -0500
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 12555IMB125585;
-        Thu, 4 Mar 2021 23:05:18 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1614920718;
-        bh=PswJzuVJEpo2V7rLJvAKEapfrXwbPZ/ywMR3JM+8zp4=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=galF1hDSGYo5AiK1GQzq18N9xdhnaKS4ZsR0R3liPXzfpbIUZGRU+Cd4uIiVBrll4
-         E8qqybUJ9EAVaswmX6XhFdiwwicUvxqTEDFCfrmdAlOyRDYB54onv2HyOevKg/MtWt
-         Bp1ibl5OdBNt4StefrvhdG4OGhgU8jl8ZxNi/jlM=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 12555IEt013649
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 4 Mar 2021 23:05:18 -0600
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 4 Mar
- 2021 23:05:18 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 4 Mar 2021 23:05:18 -0600
-Received: from a0393678-ssd.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 12554D9C116197;
-        Thu, 4 Mar 2021 23:05:11 -0600
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Nadeem Athani <nadeem@cadence.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: [PATCH v3 7/7] Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
-Date:   Fri, 5 Mar 2021 10:34:10 +0530
-Message-ID: <20210305050410.9201-8-kishon@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210305050410.9201-1-kishon@ti.com>
-References: <20210305050410.9201-1-kishon@ti.com>
+        Fri, 5 Mar 2021 08:29:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=KW+srCpULcFtgDnCcQFMGQbti33
+        KO94xV6SG6wzLUio=; b=s6sALbP4khYZVLthXFyymsc4aKJq9O3UWFNsCFDbLjS
+        zciHgJ/X2sh9nV2XSM/wA7X1HIvqNjkJwRsl+RbJwJ3LfLc7BxoW4zIYm7kwN28R
+        rsL1KwKXyPoJe5qs/dJ+4ci2/gBDfjVpygbQKcfaelomw1FzjmvJ4n7S/JBx9Fsc
+        =
+Received: (qmail 2234829 invoked from network); 5 Mar 2021 14:29:15 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2021 14:29:15 +0100
+X-UD-Smtp-Session: l3s3148p1@H/r3Ecq852Qut2cR
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Phong Hoang <phong.hoang.wz@renesas.com>
+Subject: [PATCH] clocksource: sh_cmt: use CMTOUT_IE only when supported
+Date:   Fri,  5 Mar 2021 14:28:59 +0100
+Message-Id: <20210305132859.8208-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Documentation to help users use PCI endpoint to create virtual
-functions using configfs. An endpoint function is designated as a
-virtual endpoint function device when it is linked to a physical
-endpoint function device (instead of a endpoint controller).
+CMTOUT_IE is only supported for older SoCs. Newer SoCs shall not set
+this bit. So, add a version check.
 
-Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+Reported-by: Phong Hoang <phong.hoang.wz@renesas.com>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- Documentation/PCI/endpoint/pci-endpoint-cfs.rst | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-index 696f8eeb4738..56fb33c5e8fd 100644
---- a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-+++ b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-@@ -43,6 +43,7 @@ entries corresponding to EPF driver will be created by the EPF core.
- 		.. <EPF Driver1>/
- 			... <EPF Device 11>/
- 			... <EPF Device 21>/
-+			... <EPF Device 31>/
- 		.. <EPF Driver2>/
- 			... <EPF Device 12>/
- 			... <EPF Device 22>/
-@@ -68,6 +69,7 @@ created)
- 				... subsys_vendor_id
- 				... subsys_id
- 				... interrupt_pin
-+			        ... <Symlink EPF Device 31>/
-                                 ... primary/
- 			                ... <Symlink EPC Device1>/
-                                 ... secondary/
-@@ -79,6 +81,13 @@ interface should be added in 'primary' directory and symlink of endpoint
- controller connected to secondary interface should be added in 'secondary'
- directory.
- 
-+The <EPF Device> directory can have a list of symbolic links
-+(<Symlink EPF Device 31>) to other <EPF Device>. These symbolic links should
-+be created by the user to represent the virtual functions that are bound to
-+the physical function. In the above directory structure <EPF Device 11> is a
-+physical function and <EPF Device 31> is a virtual function. An EPF device once
-+it's linked to another EPF device, cannot be linked to a EPC device.
-+
- EPC Device
- ==========
- 
-@@ -98,7 +107,8 @@ entries corresponding to EPC device will be created by the EPC core.
- 
- The <EPC Device> directory will have a list of symbolic links to
- <EPF Device>. These symbolic links should be created by the user to
--represent the functions present in the endpoint device.
-+represent the functions present in the endpoint device. Only <EPF Device>
-+that represents a physical function can be linked to a EPC device.
- 
- The <EPC Device> directory will also have a *start* field. Once
- "1" is written to this field, the endpoint device will be ready to
+Confirmed with datasheets and could successfully repeat Niklas' CMT
+tests on an R-Car M3N based Salvator-XS.
+
+ drivers/clocksource/sh_cmt.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/clocksource/sh_cmt.c b/drivers/clocksource/sh_cmt.c
+index c98f8851fd68..3b53c6cb1da9 100644
+--- a/drivers/clocksource/sh_cmt.c
++++ b/drivers/clocksource/sh_cmt.c
+@@ -143,6 +143,7 @@ struct sh_cmt_device {
+ #define SH_CMT32_CMCSR_SSIE		(1 << 10)
+ #define SH_CMT32_CMCSR_CMS		(1 << 9)
+ #define SH_CMT32_CMCSR_CMM		(1 << 8)
++/* CMTOUT_IE only for SH_CMT_32BIT and SH_CMT_48BIT */
+ #define SH_CMT32_CMCSR_CMTOUT_IE	(1 << 7)
+ #define SH_CMT32_CMCSR_CMR_NONE		(0 << 4)
+ #define SH_CMT32_CMCSR_CMR_DMA		(1 << 4)
+@@ -339,8 +340,9 @@ static int sh_cmt_enable(struct sh_cmt_channel *ch)
+ 		sh_cmt_write_cmcsr(ch, SH_CMT16_CMCSR_CMIE |
+ 				   SH_CMT16_CMCSR_CKS512);
+ 	} else {
+-		sh_cmt_write_cmcsr(ch, SH_CMT32_CMCSR_CMM |
+-				   SH_CMT32_CMCSR_CMTOUT_IE |
++		u32 cmtout = ch->cmt->info->model <= SH_CMT_48BIT ?
++			      SH_CMT32_CMCSR_CMTOUT_IE : 0;
++		sh_cmt_write_cmcsr(ch, cmtout | SH_CMT32_CMCSR_CMM |
+ 				   SH_CMT32_CMCSR_CMR_IRQ |
+ 				   SH_CMT32_CMCSR_CKS_RCLK8);
+ 	}
 -- 
-2.17.1
+2.29.2
 
