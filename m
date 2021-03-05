@@ -2,114 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D9A232ECE0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Mar 2021 15:15:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1CE032ECED
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Mar 2021 15:16:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbhCEOPO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 5 Mar 2021 09:15:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59484 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230415AbhCEOPM (ORCPT
+        id S231248AbhCEOQR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 5 Mar 2021 09:16:17 -0500
+Received: from www.zeus03.de ([194.117.254.33]:34612 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231151AbhCEOPp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 5 Mar 2021 09:15:12 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 338DCC061574;
-        Fri,  5 Mar 2021 06:15:12 -0800 (PST)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 94F8FCC;
-        Fri,  5 Mar 2021 15:15:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1614953710;
-        bh=Cbw6099cw1FB1FobLkAEAw3yWtepurQfxncP/jwuB7I=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=cSxv4MLvux3c+IsjnZe5QMAE+kF+28lDaW5MJjRvIoUc0Yw+7PiPhmMI0poF8+Ao8
-         OwbLoWJeIyLT2C2C73DeAuOWtSQDapLTtsrZ8y4WRYrrh/E7bpzXIOlov3F8UYO/Ui
-         JpJ2VGeArrebF/kvS0KHDE+PMO0Jbrry0+lGKEfE=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] arm64: dts: renesas: falcon: Add GP LEDs
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210304165300.295952-1-kieran.bingham+renesas@ideasonboard.com>
- <CAMuHMdWRe0HVzQD9U_8+35_HTaK28Ayb+9tsb8q5+3VNpYniHg@mail.gmail.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <17ee8b80-8522-7fb5-508d-6be18dea36d8@ideasonboard.com>
-Date:   Fri, 5 Mar 2021 14:15:08 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 5 Mar 2021 09:15:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=l+NCnkmBW6GUHne74p++MuxOz+5D
+        xZBxL3e3nPiwtms=; b=rIKVyKH3Bq62aYGC2FdhEUwQ4/mIxTcIR0dSKePya7MM
+        NXGp3jgLNTpfMu79KThaCPWTghhPrjrC8I/Ek7ZCFyzNeYRditt1x9zzneTF0r90
+        Fd+osSd5CvVpfVS7eCYPZiZGqkbzg6XtmoEBRhpAAAlPd6pbC/Bx82I7Rq2oNWQ=
+Received: (qmail 2247248 invoked from network); 5 Mar 2021 15:15:43 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2021 15:15:43 +0100
+X-UD-Smtp-Session: l3s3148p1@EPcxuMq8VplN91Vm
+Date:   Fri, 5 Mar 2021 15:15:43 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] arm64: dts: renesas: falcon: Add I2C EEPROMs and
+ sub-boards
+Message-ID: <20210305141543.GB1312@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+References: <20210304153257.4059277-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdWRe0HVzQD9U_8+35_HTaK28Ayb+9tsb8q5+3VNpYniHg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="WYTEVAkct0FjGQmd"
+Content-Disposition: inline
+In-Reply-To: <20210304153257.4059277-1-geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 05/03/2021 14:10, Geert Uytterhoeven wrote:
-> Hi Kieran,
-> 
-> On Thu, Mar 4, 2021 at 5:53 PM Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com> wrote:
->> Three general purpose LEDs are provided on the Falcon CPU board.
->>
->> Connect GP_LED1, GP_LED2, and GP_LED3 to the gpio-leds frameworks.
->> These LEDs are arranged in a block of four LEDs on the board itself, but
->> the fourth LED is as yet unidentified.
->>
->> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> Thanks for your patch!
-> 
->> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
->> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> 
-> I believe the LEDs are on the CPU board, so they belong in
-> r8a779a0-falcon-cpu.dtsi instead?
 
-Yes, I hadn't quite grasped the layouts of this new board yet.
+--WYTEVAkct0FjGQmd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sorry - I'll move it.
+On Thu, Mar 04, 2021 at 04:32:54PM +0100, Geert Uytterhoeven wrote:
+> 	Hi all,
+>=20
+> This patch series adds the device nodes for all I2C EEPROMs in the
+> Falcon board stack.  As some EEPROMs are located on sub-boards,
+> it also introduces individual .dtsi files for these sub-boards.
+> Note that (for now) these sub-boards don't have compatible values or
+> model strings, as I think this needs more discussion.
+>=20
+> This has been tested on the Falcon boards in Magnus' and Kieran's farms.
+> The EEPROM on the CPU board in Magnus' farm contains some data.
+> All other EEPROMs are present, but in pristine state (all ones).
+>=20
+> Changes compared to v1:
+>   - Move EEPROMs in sub-boards to separate .dtsi files and patches.
+>=20
 
+Checked the datasheets and tested, too, so:
 
-> 
->> @@ -20,6 +20,20 @@ aliases {
->>         chosen {
->>                 stdout-path = "serial0:115200n8";
->>         };
->> +
->> +       leds {
->> +               compatible = "gpio-leds";
->> +
->> +               led1 {
->> +                       gpios = <&gpio4 18 GPIO_ACTIVE_HIGH>;
-> 
-> Any need for other properties from
-> Documentation/devicetree/bindings/leds/common.yaml, like
-> color = <LED_COLOR_ID_GREEN>?
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Oh, I wasn't aware of those. But indeed the LED is green, so it seems
-appropriate.
-
-I'll test it out, and see if I can make it glow red (jokes).
+One minor question is: why do the labels in patches 2+3 have the "-id"
+suffix and patch 1 does not? Don't we want consistency here?
 
 
-> 
->> +               };
->> +               led2 {
->> +                       gpios = <&gpio4 19 GPIO_ACTIVE_HIGH>;
->> +               };
->> +               led3 {
->> +                       gpios = <&gpio4 20 GPIO_ACTIVE_HIGH>;
->> +               };
->> +       };
->>  };
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+--WYTEVAkct0FjGQmd
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBCPQ8ACgkQFA3kzBSg
+KbbZiw/7B5Oc+BXTdoAgF3/MDzjhNCKKHa6IUQF9j8fnTep2l5tL1t33xUN9GMxw
+I0nOXQ1WJ96STgAOArStQhUH/0PdhQ/AGpOSD7Iz7xz8giGePfRkRUR3oPjRJOym
+P8kxiI9qGkWP06D2JFfngoRaGmtGezD4Xa35PjiREVOCdYq74/f4M2Dif/TwpgvT
+4jFf6+3pF+3Tn1ciNzXRXW2OzvG+hI4wIH3kyykMYdFor3rNbxo0K/BL7b90uApU
+XTpXQK5MnFU2TM88O9okGVcOoE1bDUo+tvGgQt+ZrvKe2AKv9Uo9DZI1cY8/2AvY
+F6sdeLqR3GOUybRX5+g5U1htIlUqS3NBpqOYYQ5Tx8vUgqRCJGl9jt1UaRFKVhYG
+hCOYMknp8kvoZNhGOH2ciNg2r4lE10/tIx55WpIFOGXAOIvKJF+jsm7aKqGju7ac
+pF0dYThf5AjU9wV+1b+OyyjqTLg1CdAVClwFrAmwfIulL8yfTmN7/ANblYKHztNu
+Xk7NGK0ibwhNLjJaxsY1VSNANj+lHIo1eGkU5OQrF0exFXl5e+JiKSYbM/z9G0Rx
+GDLc+Dl1Nh3SUh4JGmgfGcZ5dhk/p5ir8tSB/GejiKwO+7cegIzIBGoUs03VXYg8
+mIDsmNr9+mkkv2f868kRJwLkHdWkeLWYOhODa2FmxVO7N6rkd+E=
+=EK0H
+-----END PGP SIGNATURE-----
+
+--WYTEVAkct0FjGQmd--
