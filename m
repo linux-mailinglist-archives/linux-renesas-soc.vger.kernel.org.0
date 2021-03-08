@@ -2,81 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C52832FEFE
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Mar 2021 06:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83EB23305B5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Mar 2021 02:56:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbhCGFms (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 7 Mar 2021 00:42:48 -0500
-Received: from www.zeus03.de ([194.117.254.33]:50496 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229814AbhCGFm2 (ORCPT
+        id S233571AbhCHB4F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 7 Mar 2021 20:56:05 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:8779 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232302AbhCHBzo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 7 Mar 2021 00:42:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=U6lXETupTp0O00QRiImB3ygl1PsF
-        T5toXhvOUzWJZj4=; b=n+6dWHBeNlgHRH65GkfjGKB/OwlhBDRthB/WEQLdhQhW
-        9th0CfKKrZ/Ee2MCHVcIcYNmJZaBDyVlLnKZqdGC6B4ZqfN0xqTs+IrPfWBLWE/U
-        TIAn+JZsbzaaX2rR3tBwJRZXkCXrxY5nwA2Sg+lE4vPlo4nCBSgzcOa3qMOszhY=
-Received: (qmail 2725566 invoked from network); 7 Mar 2021 06:42:27 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Mar 2021 06:42:27 +0100
-X-UD-Smtp-Session: l3s3148p1@KilEyOu8tpMgAwDPXywtALY32ShiDR6i
-Date:   Sun, 7 Mar 2021 06:42:26 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org, Jean Delvare <jdelvare@suse.de>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for
- returned length from driver"
-Message-ID: <20210307054226.GB977@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, Jean Delvare <jdelvare@suse.de>,
-        linux-renesas-soc@vger.kernel.org
-References: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="DBIVS5p969aUjpLe"
-Content-Disposition: inline
-In-Reply-To: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
+        Sun, 7 Mar 2021 20:55:44 -0500
+X-IronPort-AV: E=Sophos;i="5.81,231,1610377200"; 
+   d="scan'208";a="74141289"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 08 Mar 2021 10:55:42 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3D2E34009BE9;
+        Mon,  8 Mar 2021 10:55:42 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] usb: renesas_usbhs: Clear PIPECFG for re-enabling pipe with other EPNUM
+Date:   Mon,  8 Mar 2021 10:55:38 +0900
+Message-Id: <1615168538-26101-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+According to the datasheet, this controller has a restriction
+which "set an endpoint number so that combinations of the DIR bit and
+the EPNUM bits do not overlap.". However, since the udc core driver is
+possible to assign a bulk pipe as an interrupt endpoint, an endpoint
+number may not match the pipe number. After that, when user rebinds
+another gadget driver, this driver broke the restriction because
+the driver didn't clear any configuration in usb_ep_disable().
 
---DBIVS5p969aUjpLe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Example:
+ # modprobe g_ncm
+ Then, EP3 = pipe 3, EP4 = pipe 4, EP5 = pipe 6
+ # rmmod g_ncm
+ # modprobe g_hid
+ Then, EP3 = pipe 6, EP4 = pipe 7.
+ So, pipe 3 and pipe 6 are set as EP3.
 
-On Tue, Feb 09, 2021 at 12:05:56PM +0100, Wolfram Sang wrote:
-> This reverts commit 34806fc4e7090b34e32fa1110d546ab5ce01a6a0. It was
-> developed against an experimental kernel. The regular kernel does not
-> update the new message length to userspace, so the check is always false
-> positive. We can't change the kernel behaviour because it would break
-> the ABI. So revert this commit.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+So, clear PIPECFG register in usbhs_pipe_free().
 
-Applied to master.
+Fixes: dfb87b8bfe09 ("usb: renesas_usbhs: gadget: fix re-enabling pipe without re-connecting")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ drivers/usb/renesas_usbhs/pipe.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/usb/renesas_usbhs/pipe.c b/drivers/usb/renesas_usbhs/pipe.c
+index e7334b7..75fff2e 100644
+--- a/drivers/usb/renesas_usbhs/pipe.c
++++ b/drivers/usb/renesas_usbhs/pipe.c
+@@ -746,6 +746,8 @@ struct usbhs_pipe *usbhs_pipe_malloc(struct usbhs_priv *priv,
+ 
+ void usbhs_pipe_free(struct usbhs_pipe *pipe)
+ {
++	usbhsp_pipe_select(pipe);
++	usbhsp_pipe_cfg_set(pipe, 0xFFFF, 0);
+ 	usbhsp_put_pipe(pipe);
+ }
+ 
+-- 
+2.7.4
 
---DBIVS5p969aUjpLe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBEZ8IACgkQFA3kzBSg
-KbbJORAAr08QtwOfS0Ai9+jG3L82nqd1H/PMoUUf7MuMwqIY8TCWuHnASpp3i9Fl
-Zg18JKXiXhzg/hCIB3JQBLyKPwvqsRTknqqBxSw9U+F1+JRZg6aN7xsJHzjNk8oo
-Dte73hnGAnxTVqKqsWQsYmkRULjTlajLuajHVmyvSEKq5dVxJ7ohgiVzKXFjUJfX
-4Mvp4buhpUTe1AOfeF6naW9PVsTUrl5RYC+iYHKEIWsIsdc+sdNIjAGapaSNBF6J
-HV/RCiRoR8GQOcH6O/PmPSsIlZDAQFUSuigGtKhiqzr2w+eL/0yAhy2vTQrdnNCC
-DxWt7XJfc7ZPV6XaiURcj50RKcHuLSVx8QwFEfGyMQLFgZ9JriytOt+tbtnb0Joq
-VSIH/XVAnTCSMPczy+8VowTVxMnLWIjxpdROYESKgyXKjtsQFm3ShP9aYeSThFTp
-aEGF/NZZWEjcUhN4Eq+TbiScJFsFqdKQhOpw/kBeWfj0z/SVluD9stDcdFc2TFU/
-QeOwyD1JXOsW2Rfr5mesxhgn2DlH1FwofQeitiopSEa7tUdy89tXOMggfkIyeMLv
-Hx3BqgLJk5HR7zO4SnlkBy+fbyqcktSoWHgy5iNyNq54f84bCSlDPP8ZtJWSeDlH
-PZWn4tFZyhVA62EAfhYGWwk8kUpftjLHXCmdz80UUK7SyXIbTmk=
-=sP9D
------END PGP SIGNATURE-----
-
---DBIVS5p969aUjpLe--
