@@ -2,172 +2,214 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76F04330D29
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Mar 2021 13:14:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 398F2330F29
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Mar 2021 14:31:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229627AbhCHMOS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Mar 2021 07:14:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55396 "EHLO
+        id S229674AbhCHNar (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Mar 2021 08:30:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbhCHMOQ (ORCPT
+        with ESMTP id S229580AbhCHNag (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Mar 2021 07:14:16 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E1E9C06174A
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Mar 2021 04:14:16 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id v2so7629135lft.9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Mar 2021 04:14:16 -0800 (PST)
+        Mon, 8 Mar 2021 08:30:36 -0500
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 867B4C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Mar 2021 05:30:36 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id m6so7211228pfk.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Mar 2021 05:30:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=s2Ld6lzt2Y3YOsEwIYBOszzNyElsFMRtBbJhCpBobro=;
-        b=ghdJKH1rsFrI1AmUUIIHdA0GlLH+BTIgB6lkQQbqKrlRUSTe1AYqIBWCVgT2a8MB8X
-         3a2iwOF5OdWJf8CnZd5DIHoWtFlwHbgTW1Aht8ABBYoMqb4LxiFuQZEUyzJ2KSaUtsnn
-         M553iwMA4BrBzLNWSnvV+CS2z/5dSINCOXxhwB/ZTtdMfU/OIKrO+yscE/HNgbGwLMqv
-         SNWA85mxkoJmnMW+a3cS6T+t9QuBd+ZdG2VBBhnhm/KLXWT8q9SGI/Lrv17IHNv+IZ+L
-         cMLBHESW+A7uq2rjAM7y1TVEebjtyHQv9UIYxSLSMSkf07XFPRPFHK0lPambBE7gbgHq
-         0fxQ==
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=tzdaIc5sV7gTkh7/84F8KktIb6PPy28L+cwFjWTh5hk=;
+        b=iMAKqKUYW5Y4WRP8+kUXWqj5R5ydz1VoZtuvMC8Larz7zjtm2Z5rLFMt4vtESnKFfo
+         4jruSY0t8Sud8vqqISOBnOkpr1Ed36AACywu/wPutDrhUAsRUzL0qpeFaUEN/aeUYNG4
+         0zPi7inbv3Dv37SuYGzG7cdgnqCrqd+meUHtwdemBkf3Sq8fkLkOV89R3Q33pIox6yjc
+         Qc0v+60K8495uEKkS9HSHDWgrwveN0MvUq0R2de+j5Ixbu8CAFGiQN9qrBAEQ6jpXCD7
+         Uzd/sUhFr490vBz5uRlsCtMCHc0SBqHzUobbuCaTBBu4FFkB09UERLiMaOd+uGn0fk2m
+         vUWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=s2Ld6lzt2Y3YOsEwIYBOszzNyElsFMRtBbJhCpBobro=;
-        b=QvG97x/Wg5CCmLcxOat+a1h3sAB00TmGTUN2WGtGdAF6uDY36ZwuLT4svrzNXvmcEh
-         2quLBIcY5/FDqJLJ8GwHM6PTcP1omR2w1a5cx/gglfJgGii5N4ujfnw3M8ICrcgUzCQB
-         iwFOaE//2netUKnSV+ekbzEe2oOqiYwWrkjtYYGW+wGX8NpZJ0OTtkAvSAMfk20V/wc6
-         OVRmj+RUTHR+gIULQ2uURoebASScZtombsW37OWGBpA4XzaFYMfdWBrFTREweJBIuMFE
-         RnqZ+vAwZ96f6efkzpj4GAj7iZr21gTPq4XiMU10Mw2E0nEbwcI0SuQ6SiwWsktgN14+
-         z25Q==
-X-Gm-Message-State: AOAM533qcPR83q96UG/mN3mtfjH6VvXU2NwBBuxQXLRPMoq+YOPOFl70
-        CTgF510GrVNV1gB2VV7GkWlfr5jmfW4HAA==
-X-Google-Smtp-Source: ABdhPJxwCC3SWHq8sodaHV3nWQNwu/kAda27mIyTQoNJ3vTGKEABR/UmQ/BgD7nqoTPzXl0A8PCR9A==
-X-Received: by 2002:a19:7fc3:: with SMTP id a186mr13494430lfd.626.1615205654682;
-        Mon, 08 Mar 2021 04:14:14 -0800 (PST)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id y3sm1340190lfg.6.2021.03.08.04.14.14
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=tzdaIc5sV7gTkh7/84F8KktIb6PPy28L+cwFjWTh5hk=;
+        b=Mdj8VFM9hiJhEHzFrMaZTUAX9kdf2o0Zmnd9hnpbqHVcU8agfXKtb4q/equTJmqcco
+         ExbgcKVnEGJIXTTfUCwBeWrt/XWonjJB9yfdSpO0MCyLMtgrn34KhgYX0kSMx4glY3T4
+         gBz0g7CULx+sbGCZj3e23NO1ef/MWGU3yt43ofb2XDz8Ym9pR+AzOf++cQ/lRp8Mb1fF
+         4j9BKUvaVNpIEgOdKuJQmYLNgEXtoCGh+MaSpUsnqPBTF9rx0xirVAP/68Trng1OHgaw
+         JezmjQ0n+48Sn4/0kuxGFP38iepbr9sby9DLS4k+UR8oL8vfqavc1tDrXG8GaraT6oRb
+         0juw==
+X-Gm-Message-State: AOAM533AIDrbbTSeYlhhY9VUqGWv0jpJvps7+W31UqWyGbyLqlkj3uds
+        0i8DpWRsO3e7Lej3sbILDa5LJvIr4H1m53qv
+X-Google-Smtp-Source: ABdhPJxL7UFJhSkcWF9ATYdKjWy5IjUMwzYJcmHZHhIF7Nbb8G/+brxujMvl84JgWwGGn3f/fYp7LA==
+X-Received: by 2002:a62:8811:0:b029:1ef:2105:3594 with SMTP id l17-20020a6288110000b02901ef21053594mr20099250pfd.70.1615210235871;
+        Mon, 08 Mar 2021 05:30:35 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id d6sm10169146pfq.109.2021.03.08.05.30.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 04:14:14 -0800 (PST)
-Date:   Mon, 8 Mar 2021 13:14:13 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Phong Hoang <phong.hoang.wz@renesas.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a779a0: Add TMU support
-Message-ID: <YEYVFXb8+u5u0x9V@oden.dyn.berto.se>
-References: <20210305143259.12622-1-wsa+renesas@sang-engineering.com>
- <20210305143259.12622-3-wsa+renesas@sang-engineering.com>
+        Mon, 08 Mar 2021 05:30:35 -0800 (PST)
+Message-ID: <604626fb.1c69fb81.3722b.8ee9@mx.google.com>
+Date:   Mon, 08 Mar 2021 05:30:35 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210305143259.12622-3-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v5.12-rc2-14-g6f56f6c26099
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: next
+Subject: renesas/next igt-kms-rockchip: 2 runs,
+ 3 regressions (v5.12-rc2-14-g6f56f6c26099)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phong and Wolfram,
+renesas/next igt-kms-rockchip: 2 runs, 3 regressions (v5.12-rc2-14-g6f56f6c=
+26099)
 
-Thanks for this patch.
+Regressions Summary
+-------------------
 
-On 2021-03-05 15:32:58 +0100, Wolfram Sang wrote:
-> From: Phong Hoang <phong.hoang.wz@renesas.com>
-> 
-> This patch adds TMU{0|1|2|3|4} device nodes for R-Car V3U (r8a779a0) SoC.
-> 
-> Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
-> [wsa: rebased, double checked values]
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+platform         | arch  | lab           | compiler | defconfig | regressio=
+ns
+-----------------+-------+---------------+----------+-----------+----------=
+--
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 3        =
+  =
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-> ---
->  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 65 +++++++++++++++++++++++
->  1 file changed, 65 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> index 2762c8b75c4e..5e4332d85380 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> @@ -330,6 +330,71 @@ sysc: system-controller@e6180000 {
->  			#power-domain-cells = <1>;
->  		};
->  
-> +		tmu0: timer@e61e0000 {
-> +			compatible = "renesas,tmu-r8a779a0", "renesas,tmu";
-> +			reg = <0 0xe61e0000 0 0x30>;
-> +			interrupts = <GIC_SPI 512 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 513 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 514 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 713>;
-> +			clock-names = "fck";
-> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 713>;
-> +			status = "disabled";
-> +		};
-> +
-> +		tmu1: timer@e6fc0000 {
-> +			compatible = "renesas,tmu-r8a779a0", "renesas,tmu";
-> +			reg = <0 0xe6fc0000 0 0x30>;
-> +			interrupts = <GIC_SPI 504 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 505 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 714>;
-> +			clock-names = "fck";
-> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 714>;
-> +			status = "disabled";
-> +		};
-> +
-> +		tmu2: timer@e6fd0000 {
-> +			compatible = "renesas,tmu-r8a779a0", "renesas,tmu";
-> +			reg = <0 0xe6fd0000 0 0x30>;
-> +			interrupts = <GIC_SPI 508 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 509 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 510 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 715>;
-> +			clock-names = "fck";
-> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 715>;
-> +			status = "disabled";
-> +		};
-> +
-> +		tmu3: timer@e6fe0000 {
-> +			compatible = "renesas,tmu-r8a779a0", "renesas,tmu";
-> +			reg = <0 0xe6fe0000 0 0x30>;
-> +			interrupts = <GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 474 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 716>;
-> +			clock-names = "fck";
-> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 716>;
-> +			status = "disabled";
-> +		};
-> +
-> +		tmu4: timer@ffc00000 {
-> +			compatible = "renesas,tmu-r8a779a0", "renesas,tmu";
-> +			reg = <0 0xffc00000 0 0x30>;
-> +			interrupts = <GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 717>;
-> +			clock-names = "fck";
-> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 717>;
-> +			status = "disabled";
-> +		};
-> +
->  		i2c0: i2c@e6500000 {
->  			compatible = "renesas,i2c-r8a779a0",
->  				     "renesas,rcar-gen3-i2c";
-> -- 
-> 2.29.2
-> 
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/v5.12-=
+rc2-14-g6f56f6c26099/plan/igt-kms-rockchip/
 
--- 
-Regards,
-Niklas Söderlund
+  Test:     igt-kms-rockchip
+  Tree:     renesas
+  Branch:   next
+  Describe: v5.12-rc2-14-g6f56f6c26099
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      6f56f6c260995c9bcecd0b8a520d80b0d6c11007
+
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  a9bb32cfe1ee87ff831707dfdcbcae56f2b2a036
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  2107b0a53692fb329175bc16169c3699712187aa =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig | regressio=
+ns
+-----------------+-------+---------------+----------+-----------+----------=
+--
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 3        =
+  =
+
+
+  Details:     https://kernelci.org/test/plan/id/604615275e1528aa8caddcba
+
+  Results:     77 PASS, 19 FAIL, 138 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/v5.12-rc2-14-g6f5=
+6f6c26099/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk3399-gru-k=
+evin.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/v5.12-rc2-14-g6f5=
+6f6c26099/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk3399-gru-k=
+evin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-igt/=
+20210301.0/arm64/rootfs.cpio.gz =
+
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-B-ts-continuation-idle: https://kernel=
+ci.org/test/case/id/604615275e1528aa8caddd40
+        failing since 6 days (last pass: renesas-next-2021-01-29-v5.11-rc1,=
+ first fail: v5.12-rc1-12-g3158164f1526)
+
+    2021-03-08 12:13:55.494000+00:00  Pipe D does not exist or not enabled
+    2021-03-08 12:13:55.503000+00:00  Test requirement not met in function =
+igt_require_pipe, file ../lib/igt_kms.c:1910:
+    2021-03-08 12:13:55.510000+00:00  Test requirement: !(pipe >=3D display=
+->n_pipes || !display->pipes[pipe].enabled)
+    2021-03-08 12:13:55.514000+00:00  Pipe E does not exist or not enabled
+    2021-03-08 12:13:55.526000+00:00  Test requirement not met in function =
+igt_require_pipe, fi<6>[  149.021098] Console: switching to colour dummy de=
+vice 80x25
+    2021-03-08 12:13:55.528000+00:00  le ../lib/igt_kms.c:1910:
+    2021-03-08 12:13:55.537000+00:00  Test requirement: !(pipe >=3D display=
+-><14>[  149.032263] [IGT] kms_vblank: executing
+    2021-03-08 12:13:55.541000+00:00  n_pipes || !display->pipes[pipe].enab=
+led)
+    2021-03-08 12:13:55.551000+00:00  Pipe F does not exist<14>[  149.04401=
+7] [IGT] kms_vblank: starting subtest pipe-B-ts-continuation-idle
+    2021-03-08 12:13:55.553000+00:00   or not enabled =
+
+    ... (70 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-B-ts-continuation-dpms-suspend: https:=
+//kernelci.org/test/case/id/604615275e1528aa8caddd43
+        failing since 6 days (last pass: renesas-next-2021-01-29-v5.11-rc1,=
+ first fail: v5.12-rc1-12-g3158164f1526)
+
+    2021-03-08 12:14:00.602000+00:00  <14>[  154.103272] [IGT] kms_vblank: =
+executing
+    2021-03-08 12:14:00.619000+00:00  IGT-Version: 1.25-g2107b0a (aarch64) =
+(Linux: 5.12.0-rc2 aarch64)<14>[  154.110190] [IGT] kms_vblank: starting su=
+btest pipe-B-ts-continuation-dpms-suspend
+    2021-03-08 12:14:00.620000+00:00  =
+
+    2021-03-08 12:14:00.624000+00:00  Starting subtest: pipe-B-ts-continuat=
+ion-dpms-suspend
+    2021-03-08 12:14:01.534000+00:00  (kms_vblank:777) igt_kms-CRITICAL: Te=
+st assertion failure function igt_wait_for_vblank, file ../lib/igt_kms.c:42=
+40:
+    2021-03-08 12:14:01.544000+00:00  (kms_vblank:777) igt_kms-CRITICAL: Fa=
+iled assertion: __igt_vblank_wait(drm_fd, crtc_offset, 1) =3D=3D 0
+    2021-03-08 12:14:01.550000+00:00  (kms_vblank:777) igt_kms-CRITICAL: La=
+st errno: 22, Invalid argument
+    2021-03-08 12:14:01.552000+00:00  Stack trace:
+    2021-03-08 12:14:01.557000+00:00    #0 ../lib/igt_core.c:1726 __igt_fai=
+l_assert()
+    2021-03-08 12:14:01.560000+00:00    #1 [igt_wait_for_vblank+0x4c] =
+
+    ... (62 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-B-ts-continuation-modeset: https://ker=
+nelci.org/test/case/id/604615275e1528aa8caddd45
+        failing since 6 days (last pass: renesas-next-2021-01-29-v5.11-rc1,=
+ first fail: v5.12-rc1-12-g3158164f1526)
+
+    2021-03-08 12:14:05.489000+00:00  <14>[  158.990588] [IGT] kms_vblank: =
+executing
+    2021-03-08 12:14:05.504000+00:00  IGT-Version: 1.25-g2107b0a (aarch64) =
+(Linux: 5.12.0-rc2 aarch64)<14>[  158.996759] [IGT] kms_vblank: starting su=
+btest pipe-B-ts-continuation-modeset
+    2021-03-08 12:14:05.505000+00:00  =
+
+    2021-03-08 12:14:05.510000+00:00  Starting subtest: pipe-B-ts-continuat=
+ion-modeset
+    2021-03-08 12:14:06.437000+00:00  (kms_vblank:783) igt_kms-CRITICAL: Te=
+st assertion failure function igt_wait_for_vblank, file ../lib/igt_kms.c:42=
+40:
+    2021-03-08 12:14:06.447000+00:00  (kms_vblank:783) igt_kms-CRITICAL: Fa=
+iled assertion: __igt_vblank_wait(drm_fd, crtc_offset, 1) =3D=3D 0
+    2021-03-08 12:14:06.453000+00:00  (kms_vblank:783) igt_kms-CRITICAL: La=
+st errno: 22, Invalid argument
+    2021-03-08 12:14:06.454000+00:00  Stack trace:
+    2021-03-08 12:14:06.460000+00:00    #0 ../lib/igt_core.c:1726 __igt_fai=
+l_assert()
+    2021-03-08 12:14:06.463000+00:00    #1 [igt_wait_for_vblank+0x4c] =
+
+    ... (61 line(s) more)  =
+
+ =20
