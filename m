@@ -2,152 +2,214 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCB5E331144
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Mar 2021 15:53:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5463F33121E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Mar 2021 16:27:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbhCHOwy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Mar 2021 09:52:54 -0500
-Received: from mail-lj1-f170.google.com ([209.85.208.170]:38158 "EHLO
-        mail-lj1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbhCHOwe (ORCPT
+        id S231411AbhCHP0g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Mar 2021 10:26:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41186 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231484AbhCHP0Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Mar 2021 09:52:34 -0500
-Received: by mail-lj1-f170.google.com with SMTP id 2so16430696ljr.5;
-        Mon, 08 Mar 2021 06:52:32 -0800 (PST)
+        Mon, 8 Mar 2021 10:26:16 -0500
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B8E1C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Mar 2021 07:26:16 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id m6so7426946pfk.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Mar 2021 07:26:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=rDCGjxYjlYC7WtmHGhWKmTFrcaeb42L3F591zIwG1Tw=;
+        b=vC9iYLZVSdlVpQi580apW2m3kVX8pzgN8ME34csAA626yfTh+d2SUQ6UY72m4rzpo7
+         9/yXgnQtVNQY5NR+1wmeX0FIByA4AqZx0bYjTHSAdTPr7s8l3twRCE3URvo6IBpfWOxy
+         Iau4F1LhgQN5q9JWZrBVDvtJGZEH5bbiU9rDqwizTAGm26PH3r+q/yWVLV97fI+LSrb0
+         S3eSawySyjmttbRMuzE+IzVw+1ydJDcAwhSi+XFqwVPUChYg/H4ZcCAzXnYIff5w8rw+
+         fvtsaciUvQOGtnQLpakfGNp+W+yld+Tf0JQn2GtDrwE2ebV7fmA6abr06sSy3ENulp1e
+         OsTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:reply-to:to:cc
-         :in-reply-to:references:mime-version:date:user-agent
-         :content-transfer-encoding;
-        bh=WMzNMKgHpa+G4HfW7zckj8ZWhc6jqMkyy2g0cwRIC6c=;
-        b=fx8y8KPu2rvhOv5Rwkb54AOm6RQOqMegmJ0sMwK3T/xQ1dzZbE7bp76NJB8vNQrpAi
-         +GF8Pk1j0fHmzKXDatmOMKJ4oyOVXYtwfQfb1AL1Ibjb7EP4QsCxFAxqsBDyAhl90vCs
-         v+2YGtCGxm9bUHVgC+RmAKR1fOizoyQZwamxEH3EnVtCq5hRM1uFJhWB4zBQRWAF++Ai
-         7sZebmLB0CXlnyHHp6WGIgNkJIZmNuYJIK7QJTODOtVuocRPkM4Uo/JGw7JIo9f7sOjr
-         wa/BA0sRlGtMpA4sWI+jwuyUAO2sDQ84NcTqkECoCgb3wAJWJgyVtBxmzOwudj1IKhAZ
-         r2Wg==
-X-Gm-Message-State: AOAM532fw9a618d9DGgIFJKykHMUtVCg1CafL7zRjMkiGnih3M84QQR3
-        B8+QWOq2u3VH3HPJdAYl9MI=
-X-Google-Smtp-Source: ABdhPJz9K+inMO0/ELRvxkwbW9NLe79/FhnmG+R8exnZE/rZkEedkN2TdnmorwlqfccJWiMG2wd7ug==
-X-Received: by 2002:a2e:3206:: with SMTP id y6mr13673463ljy.208.1615215152340;
-        Mon, 08 Mar 2021 06:52:32 -0800 (PST)
-Received: from dc7vkhyyyyyyyyyyyyycy-3.rev.dnainternet.fi (dc7vkhyyyyyyyyyyyyycy-3.rev.dnainternet.fi. [2001:14ba:16e2:8300::4])
-        by smtp.gmail.com with ESMTPSA id z11sm1376445lfd.98.2021.03.08.06.52.31
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=rDCGjxYjlYC7WtmHGhWKmTFrcaeb42L3F591zIwG1Tw=;
+        b=rK0vWby9kbXtetNCr+we+BBlSaYJ+Mr7xWCrI/RZUFKfZDkybcKoNKUWVNC5iosoz/
+         pwdj5e/EBuZ+GrOBqfv2Vo69eYp9DsQ2gB71xyoHKKlLOZ6dJFWZ1449WYaQ3yzW1HUV
+         bEUSDUtCRtQ7DSAOhrxg5S3aMCNRLt+v0mZwPVgZ8WR84WPWRtncG4Mp7imSdpy5aRp8
+         4+ItlcZhpGVVCeFkTFKvTj53dU0tNQCjyoMHgvKxYkQLjF8+3wL0lb9mrttWWVhMCZmj
+         g4/y/VojYgcxpCdvWIZb4SYvbGHgjJNP57yAE90dDbs0COvbBvRpT/b3QmDWMXqoj6XS
+         CbZA==
+X-Gm-Message-State: AOAM532tenDDRv2a8JEOWHA2OEzgFoVO9HYhkGBYuFqB5wvgluO4boML
+        cU3yLIjKcmiV80N7vCEkK2RrCAhcptNg65HX
+X-Google-Smtp-Source: ABdhPJy/S8D5vW8oYJyl+1COPkc3peiT/vPL+MS8l9+87rvkqgwK+F4PdGwcc5T/4ucZvzvPCVbxcg==
+X-Received: by 2002:a63:1f1e:: with SMTP id f30mr21459227pgf.141.1615217175856;
+        Mon, 08 Mar 2021 07:26:15 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id gt22sm11130118pjb.35.2021.03.08.07.26.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 06:52:31 -0800 (PST)
-Message-ID: <29daa037a8097aeac032206480c0249bdd5d9e25.camel@fi.rohmeurope.com>
-Subject: Re: [PATCH v8 2/6] mfd: Support ROHM BD9576MUF and BD9573MUF
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Reply-To: matti.vaittinen@fi.rohmeurope.com
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-power@fi.rohmeurope.com, linux-watchdog@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20210308133614.GD4931@dell>
-References: <cover.1613031055.git.matti.vaittinen@fi.rohmeurope.com>
-         <560b9748094392493ebf7af11b6cc558776c4fd5.1613031055.git.matti.vaittinen@fi.rohmeurope.com>
-         <20210308133614.GD4931@dell>
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 08 Mar 2021 07:26:15 -0800 (PST)
+Message-ID: <60464217.1c69fb81.3b86b.b001@mx.google.com>
+Date:   Mon, 08 Mar 2021 07:26:15 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Date:   Mon, 08 Mar 2021 16:52:22 +0200
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v5.12-rc2-394-g4e589d84c742
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+Subject: renesas/master igt-kms-rockchip: 2 runs,
+ 3 regressions (v5.12-rc2-394-g4e589d84c742)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Lee,
+renesas/master igt-kms-rockchip: 2 runs, 3 regressions (v5.12-rc2-394-g4e58=
+9d84c742)
 
-On Mon, 2021-03-08 at 13:36 +0000, Lee Jones wrote:
-> On Thu, 11 Feb 2021, Matti Vaittinen wrote:
-> 
-> > Add core support for ROHM BD9576MUF and BD9573MUF PMICs which are
-> > mainly used to power the R-Car series processors.
-> > 
-> > Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> > ---
-> > Changes:
-> >  - Comments fixed based on suggestions from Lee
-> >  - Name of regulator cell changed as suggested by Lee
-> >  - Renamed MFD cell variables for better readability
-> >  - Aligned header definitions for better readability
-> > 
-> >  drivers/mfd/Kconfig              |  11 ++++
-> >  drivers/mfd/Makefile             |   1 +
-> >  drivers/mfd/rohm-bd9576.c        | 109
-> > +++++++++++++++++++++++++++++++
-> >  include/linux/mfd/rohm-bd957x.h  |  59 +++++++++++++++++
-> >  include/linux/mfd/rohm-generic.h |   2 +
-> >  5 files changed, 182 insertions(+)
-> >  create mode 100644 drivers/mfd/rohm-bd9576.c
-> >  create mode 100644 include/linux/mfd/rohm-bd957x.h
-> > 
-> > diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> > index bdfce7b15621..53c7c96283bd 100644
-> > --- a/drivers/mfd/Kconfig
-> > +++ b/drivers/mfd/Kconfig
-> > @@ -1998,6 +1998,17 @@ config MFD_ROHM_BD71828
-> >  	  Also included is a Coulomb counter, a real-time clock (RTC),
-> > and
-> >  	  a 32.768 kHz clock gate.
-> >  
-> > +config MFD_ROHM_BD957XMUF
-> > +	tristate "ROHM BD9576MUF and BD9573MUF Power Management ICs"
-> > +	depends on I2C=y
-> > +	depends on OF
-> > +	select REGMAP_I2C
-> > +	select MFD_CORE
-> > +	help
-> > +	  Select this option to get support for the ROHM BD9576MUF and
-> > +	  BD9573MUF Power Management ICs. BD9576 and BD9573 are
-> > primarily
-> > +	  designed to be used to power R-Car series processors.
-> > +
-> >  config MFD_STM32_LPTIMER
-> >  	tristate "Support for STM32 Low-Power Timer"
-> >  	depends on (ARCH_STM32 && OF) || COMPILE_TEST
-> > diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> > index 14fdb188af02..e58fae024bb2 100644
-> > --- a/drivers/mfd/Makefile
-> > +++ b/drivers/mfd/Makefile
-> > @@ -262,6 +262,7 @@ obj-$(CONFIG_RAVE_SP_CORE)	+= rave-sp.o
-> >  obj-$(CONFIG_MFD_ROHM_BD70528)	+= rohm-bd70528.o
-> >  obj-$(CONFIG_MFD_ROHM_BD71828)	+= rohm-bd71828.o
-> >  obj-$(CONFIG_MFD_ROHM_BD718XX)	+= rohm-bd718x7.o
-> > +obj-$(CONFIG_MFD_ROHM_BD957XMUF)	+= rohm-bd9576.o
-> >  obj-$(CONFIG_MFD_STMFX) 	+= stmfx.o
-> >  obj-$(CONFIG_MFD_KHADAS_MCU) 	+= khadas-mcu.o
-> >  
-> > diff --git a/drivers/mfd/rohm-bd9576.c b/drivers/mfd/rohm-bd9576.c
-> > new file mode 100644
-> > index 000000000000..efd439677c9e
-> > --- /dev/null
-> > +++ b/drivers/mfd/rohm-bd9576.c
-> > @@ -0,0 +1,109 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + * Copyright (C) 2020 ROHM Semiconductors
-> 
-> If you get a chance, could you please update these?
+Regressions Summary
+-------------------
 
-I'll respin the series as I'll add designated initializers for MFD
-regulator array cell as you suggested. So I'll update this at the same
-time.
-
-> 
-> > + * ROHM BD9576MUF and BD9573MUF PMIC driver
-> > + */
-> 
-> For my own reference (apply this as-is to your sign-off block):
-> 
->   Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
-> 
+platform         | arch  | lab           | compiler | defconfig | regressio=
+ns
+-----------------+-------+---------------+----------+-----------+----------=
+--
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 3        =
+  =
 
 
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/v5.1=
+2-rc2-394-g4e589d84c742/plan/igt-kms-rockchip/
+
+  Test:     igt-kms-rockchip
+  Tree:     renesas
+  Branch:   master
+  Describe: v5.12-rc2-394-g4e589d84c742
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      4e589d84c7429ff697e741961eda21ac05f0b7b8
+
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  a9bb32cfe1ee87ff831707dfdcbcae56f2b2a036
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  2107b0a53692fb329175bc16169c3699712187aa =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig | regressio=
+ns
+-----------------+-------+---------------+----------+-----------+----------=
+--
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 3        =
+  =
+
+
+  Details:     https://kernelci.org/test/plan/id/6046311c67d570be4caddcb1
+
+  Results:     77 PASS, 19 FAIL, 138 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/v5.12-rc2-394-g=
+4e589d84c742/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk3399-gr=
+u-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/v5.12-rc2-394-g=
+4e589d84c742/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk3399-gr=
+u-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-igt/=
+20210301.0/arm64/rootfs.cpio.gz =
+
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-B-ts-continuation-idle: https://kernel=
+ci.org/test/case/id/6046311d67d570be4caddd37
+        new failure (last pass: renesas-devel-2021-02-15-v5.11)
+
+    2021-03-08 14:13:14.727000+00:00  Test requirement: !(pipe >=3D display=
+->n_pipes || !display->pipes[pipe].enabled)
+    2021-03-08 14:13:14.731000+00:00  Pipe E does not exist or not enabled
+    2021-03-08 14:13:14.739000+00:00  Test requirement not met in function =
+igt_require_pipe, file ../lib/igt_kms.c:1910:
+    2021-03-08 14:13:14.749000+00:00  Test requirement: !(pipe >=3D display=
+<6>[  146.114272] Console: switching to colour dummy device 80x25
+    2021-03-08 14:13:14.753000+00:00  ->n_pipes || !display->pipes[pipe].en=
+abled)
+    2021-03-08 14:13:14.759000+00:00  Pipe F does not exi<14>[  146.125679]=
+ [IGT] kms_vblank: executing
+    2021-03-08 14:13:14.762000+00:00  st or not enabled
+    2021-03-08 14:13:14.774000+00:00  IGT-Version: 1.25-g2107b0a (aarch64) =
+(Linux: <14>[  146.137643] [IGT] kms_vblank: starting subtest pipe-B-ts-con=
+tinuation-idle
+    2021-03-08 14:13:14.776000+00:00  5.12.0-rc2 aarch64)
+    2021-03-08 14:13:14.780000+00:00  Starting subtest: pipe-B-ts-continuat=
+ion-idle =
+
+    ... (67 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-B-ts-continuation-dpms-suspend: https:=
+//kernelci.org/test/case/id/6046311d67d570be4caddd3a
+        new failure (last pass: renesas-devel-2021-02-15-v5.11)
+
+    2021-03-08 14:13:19.139000+00:00  <6>[  150.509258] Console: switching =
+to colour dummy device 80x25
+    2021-03-08 14:13:19.144000+00:00  <14>[  150.516248] [IGT] kms_vblank: =
+executing
+    2021-03-08 14:13:19.159000+00:00  IGT-Version: 1.25-g2107b0a (aarch64) =
+(Linux: 5.12.0-rc2 aarch64)<14>[  150.522704] [IGT] kms_vblank: starting su=
+btest pipe-B-ts-continuation-dpms-suspend
+    2021-03-08 14:13:19.160000+00:00  =
+
+    2021-03-08 14:13:19.165000+00:00  Starting subtest: pipe-B-ts-continuat=
+ion-dpms-suspend
+    2021-03-08 14:13:20.092000+00:00  (kms_vblank:779) igt_kms-CRITICAL: Te=
+st assertion failure function igt_wait_for_vblank, file ../lib/igt_kms.c:42=
+40:
+    2021-03-08 14:13:20.102000+00:00  (kms_vblank:779) igt_kms-CRITICAL: Fa=
+iled assertion: __igt_vblank_wait(drm_fd, crtc_offset, 1) =3D=3D 0
+    2021-03-08 14:13:20.109000+00:00  (kms_vblank:779) igt_kms-CRITICAL: La=
+st errno: 22, Invalid argument
+    2021-03-08 14:13:20.110000+00:00  Stack trace:
+    2021-03-08 14:13:20.115000+00:00    #0 ../lib/igt_core.c:1726 __igt_fai=
+l_assert() =
+
+    ... (63 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-B-ts-continuation-modeset: https://ker=
+nelci.org/test/case/id/6046311d67d570be4caddd3c
+        new failure (last pass: renesas-devel-2021-02-15-v5.11)
+
+    2021-03-08 14:13:23.324000+00:00  <6>[  154.694596] Console: switching =
+to colour dummy device 80x25
+    2021-03-08 14:13:23.330000+00:00  <14>[  154.701273] [IGT] kms_vblank: =
+executing
+    2021-03-08 14:13:23.344000+00:00  IGT-Version: 1.25-g2107b0a (aarch64) =
+(Linux: 5.12.0-rc2 aarch64)<14>[  154.707727] [IGT] kms_vblank: starting su=
+btest pipe-B-ts-continuation-modeset
+    2021-03-08 14:13:23.344000+00:00  =
+
+    2021-03-08 14:13:23.349000+00:00  Starting subtest: pipe-B-ts-continuat=
+ion-modeset
+    2021-03-08 14:13:24.279000+00:00  (kms_vblank:785) igt_kms-CRITICAL: Te=
+st assertion failure function igt_wait_for_vblank, file ../lib/igt_kms.c:42=
+40:
+    2021-03-08 14:13:24.289000+00:00  (kms_vblank:785) igt_kms-CRITICAL: Fa=
+iled assertion: __igt_vblank_wait(drm_fd, crtc_offset, 1) =3D=3D 0
+    2021-03-08 14:13:24.296000+00:00  (kms_vblank:785) igt_kms-CRITICAL: La=
+st errno: 22, Invalid argument
+    2021-03-08 14:13:24.297000+00:00  Stack trace:
+    2021-03-08 14:13:24.302000+00:00    #0 ../lib/igt_core.c:1726 __igt_fai=
+l_assert() =
+
+    ... (63 line(s) more)  =
+
+ =20
