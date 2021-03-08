@@ -2,64 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 278373309B0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Mar 2021 09:45:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF2BC330ABE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Mar 2021 11:00:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229843AbhCHIpN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Mar 2021 03:45:13 -0500
-Received: from mail-ua1-f46.google.com ([209.85.222.46]:42742 "EHLO
-        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbhCHIo7 (ORCPT
+        id S230519AbhCHKAW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Mar 2021 05:00:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56240 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230165AbhCHKAU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Mar 2021 03:44:59 -0500
-Received: by mail-ua1-f46.google.com with SMTP id o20so3069276uaj.9;
-        Mon, 08 Mar 2021 00:44:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=owwCORv4BLcbVhC0xUWnywi72Tinq+aKifrHa6Yxlwk=;
-        b=DfFN5tzVebpqH9V4aVu8y39QLy4hQia0S1X7xpDuvkO5ZKzKUDisg7od0idva4HTiO
-         YFusHB2R84Ng2YXqkPbjjoLGjTo0E4tvOBZBKjVPucg3OqGOoNx9uo0Cx/VKa/hEWOHg
-         ChOHlol7HTNLkJMpGt1ZdxRHGj9GJJrU75pF1I09L+ZX3ltCxOsRfx/U+H5Np4Z/2x8g
-         84euQlp7r3XkHum0zHn1Mhyb/GspLRldKMAGIPxHnLy8wr22TKal+uHrX1dGoVReD5+W
-         Jzj42WGtipr1foPmt9jfrli9DCGO0UM59uBXUzubCNkeY8xJAi9V0zox9uxzNLu0QZ+x
-         EnxQ==
-X-Gm-Message-State: AOAM531zgUM0HZ0KMH8MUUu1OKmIaPJQc32vnb81PO9oTnBYb8fwa7Pw
-        V1WhxGGJ19R8o52wQmEY7q7cF/6SyMWIFlAl4nY=
-X-Google-Smtp-Source: ABdhPJwUy62f9DERQowQ18mItx2Zii9uEg/QPjkhnBgQYWSZ5SJULZvhgURvHyFEEjTAIa2B8JtqsWG3243hodmNh1k=
-X-Received: by 2002:ab0:6045:: with SMTP id o5mr12332739ual.100.1615193098661;
- Mon, 08 Mar 2021 00:44:58 -0800 (PST)
+        Mon, 8 Mar 2021 05:00:20 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id C0EA364E92
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Mar 2021 10:00:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615197619;
+        bh=1BGABEqTY+gEq9N43lATy93EB2MkyIvTHu3p/Ugxg2Q=;
+        h=Subject:From:Date:To:From;
+        b=MLaHvMA5VmZIibLGXqYC+i1MXdEsahA/5lYg6YmpHSDd1MhOpAzzr+icyrZ3KhHUO
+         4LgLQHgnBpiKpINmOGZKw+BVw22sAngWxX6U0guFqHnqOpUo8+zdyZfBys+RXKgz/o
+         3QbbJgOROnKc9TmVWsKBsHIK06hub7Yrg0ohhkhWjiziWY07MpFtZ0qgBZOy577hhD
+         UepOtUr3ihpgnRl3LmtS9nH+8fxNTndf2TtCnale6BsU47b9sqo2Ocbo0lpGIaO99x
+         FSHlJhLvY3jDQIvF92V6fwNWgXKlK7p8JDOLJ+ZXpKKIECtqAY5484GVIf0J8oTusM
+         F26sLEkag+1BQ==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id AF4856098E
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Mar 2021 10:00:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210305142359.11992-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210305142359.11992-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Mar 2021 09:44:47 +0100
-Message-ID: <CAMuHMdUibg-bv_pwXf3v-KNpKMv-bZGtur0=AOgWahnMGQBmZw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: add r8a779a0 TMU support
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <161519761965.3691.9689998614340121271.git-patchwork-summary@kernel.org>
+Date:   Mon, 08 Mar 2021 10:00:19 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Mar 5, 2021 at 3:25 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hello:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (refs/heads/master):
 
-Gr{oetje,eeting}s,
+Patch: [v2] dts: remove c6x dts link
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=439885
+  Lore link: https://lore.kernel.org/r/20210301113920.3042-1-wsa+renesas@sang-engineering.com
+Patch: [v4] arm64: dts: renesas: Add mmc aliases into board dts files
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=439861
+  Lore link: https://lore.kernel.org/r/1614596786-22326-1-git-send-email-yoshihiro.shimoda.uh@renesas.com
 
-                        Geert
+Total patches: 2
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
