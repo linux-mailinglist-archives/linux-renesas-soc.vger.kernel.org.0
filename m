@@ -2,148 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5646331A14
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Mar 2021 23:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A486331A62
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Mar 2021 23:48:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229740AbhCHWQs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Mar 2021 17:16:48 -0500
-Received: from mail-io1-f54.google.com ([209.85.166.54]:39819 "EHLO
-        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231162AbhCHWQj (ORCPT
+        id S229971AbhCHWsB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Mar 2021 17:48:01 -0500
+Received: from mga07.intel.com ([134.134.136.100]:53978 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230039AbhCHWrg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Mar 2021 17:16:39 -0500
-Received: by mail-io1-f54.google.com with SMTP id o9so11736957iow.6;
-        Mon, 08 Mar 2021 14:16:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yDfNeOgarcWbV0lCdZdEtL+ke4trUeHbwFUg9YgPn5w=;
-        b=YXfY01fZPJw/ak92U450nFWXsOtQy20O2twS0R8c4ucSfoHcDEsGJHwpKeckLAsT0p
-         PRqpPgC7C7V/iD5nfeAMoKNWF37SGC4OCeKYfd9MbkvkEA+KDTM+uASR7REnMznjg0n9
-         7HckW+nBO4xR9yAVPKnIfDf9qk6f5bbNUl/305dPWA2Y7pMczef/S9vtprvAKOfqd31h
-         dEhDsyIenlkO6MTyrTaPbZhqS/V/sDKVTOG7Ee9KxBvwTE3x/EmYfUud1As6CVNAJOdt
-         sF9anylWiXmcn56MTD/gufEW4jyBm1zXXES4W5ZXmkvKT8BUvjJSiNNyP9StjARYOAiH
-         A7bA==
-X-Gm-Message-State: AOAM533mRA13Ge2jQOiOEQqxNCuU/Z2CVdySVKr81LIWB0iRIyrg1v3t
-        Vnet7jUw4idbIi11/j5ekw==
-X-Google-Smtp-Source: ABdhPJwfTqK4kd1U8YsJ4ZR+6IbYXSBdqRk+XkdbfryBA7PDTC7x1pOKaebcdXDsF98ups4gChUkAA==
-X-Received: by 2002:a5e:a508:: with SMTP id 8mr20636497iog.135.1615241798761;
-        Mon, 08 Mar 2021 14:16:38 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id w8sm6732072ilu.1.2021.03.08.14.16.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 14:16:38 -0800 (PST)
-Received: (nullmailer pid 3050032 invoked by uid 1000);
-        Mon, 08 Mar 2021 22:16:36 -0000
-Date:   Mon, 8 Mar 2021 15:16:36 -0700
-From:   Rob Herring <robh@kernel.org>
+        Mon, 8 Mar 2021 17:47:36 -0500
+IronPort-SDR: cF7Txo5/626JEyyYejUcId+MIfTLLLc+oytUBg8vr0kbMrdiU8X9/4warI1eUt3kOUJb4nN7TA
+ dIU0EENvYsVQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="252145872"
+X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
+   d="scan'208";a="252145872"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 14:47:33 -0800
+IronPort-SDR: 5ObmEG+EnndtcjiGq64yaHbvc9CjaLiPDPevIkoFCzBv0qDbAIeN3grxq4izW4ukpZ7glyqS6y
+ rxmfUB4lR6fQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
+   d="scan'208";a="509072342"
+Received: from lkp-server01.sh.intel.com (HELO 3e992a48ca98) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2021 14:47:31 -0800
+Received: from kbuild by 3e992a48ca98 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lJOex-0001C8-1t; Mon, 08 Mar 2021 22:47:31 +0000
+Date:   Tue, 09 Mar 2021 06:46:33 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH RFC] dt-bindings: arm: renesas: Document Renesas Falcon
- sub-boards
-Message-ID: <20210308221636.GA3031492@robh.at.kernel.org>
-References: <20210305133703.42179-1-geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:master] BUILD SUCCESS
+ 4e589d84c7429ff697e741961eda21ac05f0b7b8
+Message-ID: <6046a949.ANam9fIYbPH6APFd%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210305133703.42179-1-geert+renesas@glider.be>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Mar 05, 2021 at 02:37:03PM +0100, Geert Uytterhoeven wrote:
-> Add device tree bindings documentation for the Renesas R-Car V3U Falcon
-> CSI/DSI and Ethernet sub-boards.  These are plugged into the Falcon
-> BreakOut board to form the full Falcon board stack.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Marked as RFC
-> 
-> The Falcon board stack consists of 4 boards:
->   1. CPU board, containing the R-Car V3U SoC, and core system parts like
->      RAM, console, eMMC,
->   2. BreakOut board, providing power, an Ethernet PHY, and a backplane
->      where boards 1, 3, and 4 are plugged in,
->   3. CSI/DSI sub-board, providing 2 GMSL displays and 12 GMSL cameras,
->   4. Ethernet sub-board, providing 6 Ethernet PHYs.
-> 
-> As the BreakOut board provides power, the CPU board cannot be used
-> without the BreakOut board.  However, both the CSI/DSI and Ethernet
-> sub-boards are optional.  So that means we have to support 4 stacks of
-> board combinations (1+2, 1+2+3, 1+2+4, 1+2+3+4).
-> 
-> That sounds like a good target for fdtoverlay, right?
-> 
-> For now[1] the Falcon include hierarchy looks like this (supporting only
-> the full stack 1+2+3+4):
-> 
->     r8a779a0-falcon.dts
->     |-- r8a779a0-falcon-cpu.dtsi
->     |   `-- r8a779a0.dtsi
->     |-- r8a779a0-falcon-csi-dsi.dtsi
->     `-- r8a779a0-falcon-ethernet.dtsi
-> 
-> Traditionally, we augmented the "model" and "compatible" properties of
-> the root node in each additional layer:
-> 
->     r8a779a0.dtsi:
-> 	compatible = "renesas,r8a779a0";
-> 
->     r8a779a0-falcon-cpu.dtsi:
-> 	model = "Renesas Falcon CPU board";
-> 	compatible = "renesas,falcon-cpu", "renesas,r8a779a0";
-> 
->     r8a779a0-falcon.dts:
-> 	model = "Renesas Falcon CPU and Breakout boards based on r8a779a0";
-> 	compatible = "renesas,falcon-breakout", "renesas,falcon-cpu", "renesas,r8a779a0";
-> 
-> (Note: I haven't done that yet for the CSI/DSI and Ethernet sub-boards)
-> 
-> With a stack of 4 boards, some optional, this becomes a bit cumbersome.
-> But it is still doable when using .dts and .dtsi files, by just adding 3
-> more r8a779a0-falcon*.dts files.
-> 
-> So we can add model/compatible properties to the sub-boards:
-> 
->     r8a779a0-falcon-csi-dsi.dtsi
-> 	model = "Renesas Falcon CSI/DSI sub-board";
-> 	compatible = "renesas,falcon-csi-dsi";
-> 
->     r8a779a0-falcon-ethernet.dtsi:
-> 	model = "Renesas Falcon Ethernet sub-board";
-> 	compatible = "renesas,falcon-ethernet";
-> 
-> and update r8a779a0-falcon*dts to augment the properties.
-> 
-> However, this is currently not possible when using overlays, as applying
-> an overlay would override the properties in the underlying DTB, not
-> augment them.
-> 
-> Questions:
->   a. Should we document all possible combinations in the bindings file?
->      After this patch, we only have 1, 1+2, and 1+2+3+4 documented.
-> 
->   b. How to handle "model" and "compatible" properties for (sub)boards?
->      Perhaps fdtoverlay could combine the "model" and "compatible"
->      properties in the root nodes?  However, that is not always desired.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 4e589d84c7429ff697e741961eda21ac05f0b7b8  Merge branch 'renesas-next' into renesas-devel
 
-I think we just don't want to put sub-board compatibles in the root 
-compatible at least if they are optional, peripheral components like 
-this case seems to be. For something like a SoM plus baseboard I tend to 
-feel differently.
+elapsed time: 720m
 
-Do you really need it? I'd assume you could just check for the 
-components? Or we define connectors and under the connector we define a 
-top level compatible for the sub-board. This sounds like an eval or 
-validation board? Those tend to have every possible option and I'm not 
-sure we want to solve that before solving the simple cases.
+configs tested: 114
+configs skipped: 2
 
-Rob
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+mips                           ip28_defconfig
+mips                       capcella_defconfig
+arm                        mini2440_defconfig
+arm                           spitz_defconfig
+arm                          pxa168_defconfig
+s390                       zfcpdump_defconfig
+m68k                        m5407c3_defconfig
+mips                     loongson1c_defconfig
+sh                          lboxre2_defconfig
+arm                        shmobile_defconfig
+powerpc                 mpc832x_rdb_defconfig
+sh                        dreamcast_defconfig
+mips                          ath79_defconfig
+arc                          axs103_defconfig
+powerpc                       maple_defconfig
+arm                       omap2plus_defconfig
+sh                   sh7770_generic_defconfig
+sh                           se7343_defconfig
+arm                          simpad_defconfig
+m68k                          hp300_defconfig
+arm                          pxa3xx_defconfig
+powerpc                 mpc8313_rdb_defconfig
+sh                             espt_defconfig
+mips                  decstation_64_defconfig
+sh                              ul2_defconfig
+arm                        mvebu_v5_defconfig
+arm                           stm32_defconfig
+mips                         mpc30x_defconfig
+powerpc64                        alldefconfig
+mips                        bcm63xx_defconfig
+powerpc                 mpc834x_itx_defconfig
+parisc                           alldefconfig
+mips                           rs90_defconfig
+sparc64                             defconfig
+m68k                            mac_defconfig
+sh                           se7721_defconfig
+h8300                       h8s-sim_defconfig
+powerpc                      mgcoge_defconfig
+sh                             sh03_defconfig
+xtensa                  audio_kc705_defconfig
+arm                       aspeed_g4_defconfig
+sh                            titan_defconfig
+powerpc                       holly_defconfig
+mips                       bmips_be_defconfig
+xtensa                  nommu_kc705_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allmodconfig
+mips                             allyesconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a006-20210308
+x86_64               randconfig-a001-20210308
+x86_64               randconfig-a004-20210308
+x86_64               randconfig-a002-20210308
+x86_64               randconfig-a005-20210308
+x86_64               randconfig-a003-20210308
+i386                 randconfig-a005-20210308
+i386                 randconfig-a003-20210308
+i386                 randconfig-a002-20210308
+i386                 randconfig-a006-20210308
+i386                 randconfig-a004-20210308
+i386                 randconfig-a001-20210308
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a013-20210308
+x86_64               randconfig-a016-20210308
+x86_64               randconfig-a015-20210308
+x86_64               randconfig-a014-20210308
+x86_64               randconfig-a011-20210308
+x86_64               randconfig-a012-20210308
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
