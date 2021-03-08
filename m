@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A486331A62
+	by mail.lfdr.de (Postfix) with ESMTP id 5853F331A61
 	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Mar 2021 23:48:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbhCHWsB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Mar 2021 17:48:01 -0500
+        id S229627AbhCHWsD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Mar 2021 17:48:03 -0500
 Received: from mga07.intel.com ([134.134.136.100]:53978 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230039AbhCHWrg (ORCPT
+        id S229471AbhCHWrd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Mar 2021 17:47:36 -0500
-IronPort-SDR: cF7Txo5/626JEyyYejUcId+MIfTLLLc+oytUBg8vr0kbMrdiU8X9/4warI1eUt3kOUJb4nN7TA
- dIU0EENvYsVQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="252145872"
+        Mon, 8 Mar 2021 17:47:33 -0500
+IronPort-SDR: PRSSYDl5eXMG1YVumOc/ppVfkkZoe7iD9VGCwPuw+bkPrydR3h3uUUHJQlVJSUWb1x66aLITIn
+ DmnjdVjbhCkg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="252145868"
 X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
-   d="scan'208";a="252145872"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 14:47:33 -0800
-IronPort-SDR: 5ObmEG+EnndtcjiGq64yaHbvc9CjaLiPDPevIkoFCzBv0qDbAIeN3grxq4izW4ukpZ7glyqS6y
- rxmfUB4lR6fQ==
+   d="scan'208";a="252145868"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 14:47:32 -0800
+IronPort-SDR: uI4qeyVqRUwhVqeAQtSvzO5Tfus7AyNgGAlbEe3XdvMuMNMi6Tol5s9vMuyKm1NDpNqKKVjcF8
+ kjhBlLfHjBgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
-   d="scan'208";a="509072342"
+   d="scan'208";a="520088181"
 Received: from lkp-server01.sh.intel.com (HELO 3e992a48ca98) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2021 14:47:31 -0800
+  by orsmga004.jf.intel.com with ESMTP; 08 Mar 2021 14:47:31 -0800
 Received: from kbuild by 3e992a48ca98 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1lJOex-0001C8-1t; Mon, 08 Mar 2021 22:47:31 +0000
-Date:   Tue, 09 Mar 2021 06:46:33 +0800
+        id 1lJOex-0001C5-1G; Mon, 08 Mar 2021 22:47:31 +0000
+Date:   Tue, 09 Mar 2021 06:46:36 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- 4e589d84c7429ff697e741961eda21ac05f0b7b8
-Message-ID: <6046a949.ANam9fIYbPH6APFd%lkp@intel.com>
+Subject: [renesas-drivers:renesas-clk-for-v5.13] BUILD SUCCESS
+ 2e70d753789ccdef09cdedae4614b799458d5d04
+Message-ID: <6046a94c.7Qu0bDYLwMaJS4AI%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,10 +44,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 4e589d84c7429ff697e741961eda21ac05f0b7b8  Merge branch 'renesas-next' into renesas-devel
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.13
+branch HEAD: 2e70d753789ccdef09cdedae4614b799458d5d04  clk: renesas: r8a779a0: Add TMU clocks
 
-elapsed time: 720m
+elapsed time: 721m
 
 configs tested: 114
 configs skipped: 2
@@ -57,10 +57,10 @@ More configs may be tested in the coming days.
 
 gcc tested configs:
 arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
 arm                              allyesconfig
 arm                              allmodconfig
+arm64                            allyesconfig
+arm64                               defconfig
 mips                           ip28_defconfig
 mips                       capcella_defconfig
 arm                        mini2440_defconfig
