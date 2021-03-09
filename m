@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93F2333257E
+	by mail.lfdr.de (Postfix) with ESMTP id 398EF33257D
 	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Mar 2021 13:30:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229851AbhCIM3e convert rfc822-to-8bit (ORCPT
+        id S230035AbhCIM3f convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Mar 2021 07:29:34 -0500
-Received: from mail-vk1-f170.google.com ([209.85.221.170]:44352 "EHLO
-        mail-vk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230035AbhCIM3H (ORCPT
+        Tue, 9 Mar 2021 07:29:35 -0500
+Received: from mail-vk1-f180.google.com ([209.85.221.180]:38794 "EHLO
+        mail-vk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230150AbhCIM31 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Mar 2021 07:29:07 -0500
-Received: by mail-vk1-f170.google.com with SMTP id k1so2929063vkb.11
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Mar 2021 04:29:07 -0800 (PST)
+        Tue, 9 Mar 2021 07:29:27 -0500
+Received: by mail-vk1-f180.google.com with SMTP id 7so2939175vke.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Mar 2021 04:29:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=PRbv7/CdV798AFxDqr8fpQD6ZHrmxYT5FgPz23cYeqo=;
-        b=L4Fay303UvWH5V8nN+TzbcpR5VN3L8ItONPctpqRtLgi9Xy1UI1c28FCnCVG2MXhna
-         yh7T1mOarYiAXyPWVtUQUoANKnYsYRXTZFQSKnnQDaR3QJhCF4iZUQXhetUqccYoWjP0
-         HAiSb2Z2qFaTMggu8srgwzJVoHjh9P+1VTPUjCOtKo1PX62IF6I0dzdf13BtmUHGbVLN
-         ix7cq8JkjWck4tbSBtL78anPjXi5hTjKdOLfF0H63JkVoplOukYGEEAlNYs+BwQmGiB3
-         mw0Q/QGDggzKbGXkl+muG62jfr0/QTUnEJp3JsaxnrQTKEXwGjBgu+QCaerqSiar3N0k
-         7psg==
-X-Gm-Message-State: AOAM532YAbx8SOkN7dUVBBTDbBshbdxd1ZJb7E2N2oPtjdZLadv9Al6d
-        4x2E/vVvfGF8KtP2u0wuqt7ty+DGGpWKiboQ/Dk=
-X-Google-Smtp-Source: ABdhPJwfzkCZ5hbRBprCujfsAYmnr739EvWjvLXQIiLE7gpgXGw7CluORWogNUJk4NetPhYJcfuzizXEV7xfULIKkSw=
-X-Received: by 2002:a1f:2502:: with SMTP id l2mr16083272vkl.5.1615292946751;
- Tue, 09 Mar 2021 04:29:06 -0800 (PST)
+        bh=fC6Nw7HkfUsq382k++ZE9cBcOkJTGIz9ICdM08jhnWU=;
+        b=dLUouRbObl0xNuOUlvLeiw6bYUba1WWqPJ+7slp+hUw0DaklPeiSybM+/KoWOUsBQK
+         8yIJrosUioJSoJPQt/w5Ffm9JNJw1SEK6pUh+Tpb/4FBCRjJaBz/N5+UfHxtZ+sDr3qT
+         I4ay2RCygiJ3gjbePBL3TH+Lrd8/XkFN10vbsZZp3Ip12JdAsJfPOtKz5IQKTUel4175
+         OIK5UnTHf5dbaHjvux3X7Q1+oWsX/UXBlkTEW+l+Khj0bguPjYla/vTcnn17YD8TNNy2
+         9n9osN1k1FTbEKJADxswXhF2TOqeGqN9XyaQ8kns1HzumYPK+CVFZFMciNkcq9qMqFVe
+         SUoQ==
+X-Gm-Message-State: AOAM533+eyAfiWcK8seaNNRC3Xi6Gep48P5XT5GWgEuqut90nX9Sv8Kd
+        oSsBxulsZfYjRRth2bpj0yLdjpJq2YQ5Kt9NeoY=
+X-Google-Smtp-Source: ABdhPJwQ5RHxxp6HNUaarUEuDDBGkTXvOvRk3ZzPAEopYG+M+PXkCMyEE4Emh3OB9i53Yenpq3QTi7X2RKbZ6nS3I5M=
+X-Received: by 2002:a1f:1a51:: with SMTP id a78mr15950448vka.2.1615292966218;
+ Tue, 09 Mar 2021 04:29:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20210309114930.2433711-1-niklas.soderlund+renesas@ragnatech.se> <20210309114930.2433711-3-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20210309114930.2433711-3-niklas.soderlund+renesas@ragnatech.se>
+References: <20210309114930.2433711-1-niklas.soderlund+renesas@ragnatech.se> <20210309114930.2433711-4-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20210309114930.2433711-4-niklas.soderlund+renesas@ragnatech.se>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 9 Mar 2021 13:28:55 +0100
-Message-ID: <CAMuHMdX8=bx_eM+5M7=1NiBaDjQROG7tBovdPR7SPpyryVdjvQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] pinctrl: renesas: r8a7796: Add vin4_g8 and
+Date:   Tue, 9 Mar 2021 13:29:15 +0100
+Message-ID: <CAMuHMdXfjQs5qW=ywZnDpMMd7btEztMpAhV0d3pJkpH1Y4EOfg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] pinctrl: renesas: r8a77990: Add vin4_g8 and
  vin5_high8 pins
 To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
@@ -51,7 +51,7 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, Mar 9, 2021 at 12:49 PM Niklas Söderlund
 <niklas.soderlund+renesas@ragnatech.se> wrote:
-> This patch adds vin4_g8 and vin5_high8 support to the R8A7796 SoC.
+> This patch adds vin4_g8 and vin5_high8 support to the R8A77990 SoC.
 >
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
