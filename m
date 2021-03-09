@@ -2,62 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5BAA33257F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Mar 2021 13:30:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 024223325E6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Mar 2021 13:58:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230086AbhCIMaH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Mar 2021 07:30:07 -0500
-Received: from mail-ua1-f53.google.com ([209.85.222.53]:39645 "EHLO
-        mail-ua1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbhCIM3y (ORCPT
+        id S231162AbhCIM5a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Mar 2021 07:57:30 -0500
+Received: from mail-vs1-f49.google.com ([209.85.217.49]:42570 "EHLO
+        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231149AbhCIM5J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Mar 2021 07:29:54 -0500
-Received: by mail-ua1-f53.google.com with SMTP id t15so4459402ual.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Mar 2021 04:29:54 -0800 (PST)
+        Tue, 9 Mar 2021 07:57:09 -0500
+Received: by mail-vs1-f49.google.com with SMTP id v123so6708139vsv.9;
+        Tue, 09 Mar 2021 04:57:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Ni5CcSWlDxcvJxIb9zh1G4A5i9YgczGT35ZtrBWNEec=;
-        b=PvDLolMmYz0ohAQjyS2gijSkGw4S6y03wiJqLcSZverCLgzwa9mMKpwV8dMNloWpXL
-         6Qsrc85ImYENiKE0ue3eFWFqrRjh87XtvHH1ielm8o7aRFNCu9q1wJTJy1eVqYdoY1Bv
-         AXoIz9tQ5Y/9F53KMDHl+dTDtsNvI8hc4f5KS4QyeogrKU5G2eACifdc1SIZXCxelEs5
-         utz19X94t3GdRsD+4T9pcz8soS+C0LG9QqHJEIf6YJgpJBHg7YK7+MEmSw4TAqXerTAk
-         eg/VYkYmKWIW2B2mviC225JbSRy47XGcqIPeJmgfqpCZzPH3Gz9GTV6/BRNV26HeG6MR
-         Bh8w==
-X-Gm-Message-State: AOAM532kz/gE1U642qoHN0lwLa389YWvtOQ7OIlzgKIRGkOpU6E31nti
-        owe5Pn7KNCfX0cn227wpacjB2N96PV5KrKZERls=
-X-Google-Smtp-Source: ABdhPJxpV/kOwARxO7NVm+TGYLmy3cYqvTkd7MFoFMSsNBSj9w8pWKnT5sziA5jrD+U5bqtGrENCsqhAX2RjLd25CL8=
-X-Received: by 2002:ab0:3c8:: with SMTP id 66mr15677744uau.4.1615292993653;
- Tue, 09 Mar 2021 04:29:53 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=px5BYZa22n9NMnXf16F73lQRxJVbRAsWmLe25Nhfm2w=;
+        b=LAEc4gqKgaSggUIgWNPTd4rc0heuofE9qEuVFUb9pRI0NUjkK1I/LoffSORyhTG2z5
+         omoK3rZSxKsYJQu31htXwJ+ny551tDPDqiRT285CUqKKkPXtPLlZtlBnQ/rPQqmMV2QR
+         mhw9veos+aVd/c8rxOVd5YETHGfxI6nXwhuURiJdYKzjz9db/BISvvxRrsm5OYX5se/M
+         8lVVOS4Nsf9oKgU13LaEiHlTC3kMhnYvEsYSLnj0HBt/LP3ifvXPqPCara6G7nln4hgy
+         rVWVgB3WNYCMaawlEmo1/Rl7z4VrL5ttFdEHaMsRBg60q/i7M0T8ljQ6LJqJdmejYMNQ
+         xonQ==
+X-Gm-Message-State: AOAM533DqJF53D1UUBs4IyKl3nKIF/c5FLQ7r60fRkESKto11777bLxS
+        3o/N3tlrNFS7WrIjylV2RiEE7bGFR4LCXtS7+C4=
+X-Google-Smtp-Source: ABdhPJziJnda90WhLZPahYsKdMwM7ZR2lhFiK7H4I+V5Wa/keIAzAlTaNY+FaZDfzFzGTLm9KS7gnXVtC+5fVXkyon8=
+X-Received: by 2002:a67:fe90:: with SMTP id b16mr16703554vsr.40.1615294628945;
+ Tue, 09 Mar 2021 04:57:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20210309114930.2433711-1-niklas.soderlund+renesas@ragnatech.se> <20210309114930.2433711-5-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20210309114930.2433711-5-niklas.soderlund+renesas@ragnatech.se>
+References: <20210127132840.2019595-1-geert+renesas@glider.be> <20210209192041.GA4168680@robh.at.kernel.org>
+In-Reply-To: <20210209192041.GA4168680@robh.at.kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 9 Mar 2021 13:29:42 +0100
-Message-ID: <CAMuHMdWLeihi4ZafeTAHS_9MXB15FutDZa1qwtzwuF85HvNv2w@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] pinctrl: renesas: r8a77965: Add vin4_g8 and
- vin5_high8 pins
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Date:   Tue, 9 Mar 2021 13:56:57 +0100
+Message-ID: <CAMuHMdW+LKEWiygOb40mGDuLBucyF-xLcBgreA=txivGmjzdig@mail.gmail.com>
+Subject: Re: [PATCH] [RFC] dt-bindings: power: sysc-remobile: Convert to json-schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 9, 2021 at 12:49 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> This patch adds vin4_g8 and vin5_high8 support to the R8A77965 SoC.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Hi Rob,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl-for-v5.13.
+On Tue, Feb 9, 2021 at 8:20 PM Rob Herring <robh@kernel.org> wrote:
+> On Wed, Jan 27, 2021 at 02:28:40PM +0100, Geert Uytterhoeven wrote:
+> > Convert the Renesas R-Mobile System Controller (SYSC) Device Tree
+> > binding documentation to json-schema.
+> >
+> > Document missing properties.
+> > Drop consumer example, as it does not belong here.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > Marked RFC, as it does not check deeper levels than the first level of
+> > the "pm-domains" subnode.
+> >
+> > I think the reference in
+> >
+> >     additionalProperties:
+> >       $ref: "#/patternProperties"
+> >
+> > should become "#/patternProperties/0/additionalProperties", but that
+> > gives:
+> >
+> >     Unresolvable JSON pointer: 'patternProperties/0/additionalProperties'
+>
+> AFAIK, numbers only work on lists (such as 'allOf' values). So I think
+> you'd want '#/patternProperties/^pm-domains$/additionalProperties'.
+> However, regex's can have illegal characters. I think URI escaping them
+> would work, but that gets too readable and unmaintainable for my tastes.
+> The other way to do this is put the schema under a '$defs'. But in your
+> case, you have just a fixed string, so there's no need for it to be a
+> pattern. Just move it to 'properties'.
+
+Thank you, I've dropped the patternProperties/regex, and moved the
+section to properties.
+
+The result fails with:
+
+    Documentation/devicetree/bindings/power/renesas,sysc-rmobile.example.dt.yaml:
+system-controller@e6180000: pm-domains:c5:a4s@10: missing phandle tag
+in {'reg': [[10]], '#address-cells': [[1]], '#size-cells': [[0]],
+'#power-domain-cells': [[0]], 'a3sp@11': {'reg': [[11]],
+'#power-domain-cells': [[0]]}}
+    From schema:
+Documentation/devicetree/bindings/power/renesas,sysc-rmobile.yaml
+    Documentation/devicetree/bindings/power/renesas,sysc-rmobile.example.dt.yaml:
+system-controller@e6180000: pm-domains:c5:a4su@20: missing phandle tag
+in {'reg': [[20]], '#power-domain-cells': [[0]]}
+    From schema:
+Documentation/devicetree/bindings/power/renesas,sysc-rmobile.yaml
+
+Looking at Documentation/devicetree/bindings/power/renesas,sysc-rmobile.example.dt.yaml
+there's indeed no "phandle: [[0x1]]" generated, while there is in
+Documentation/devicetree/bindings/power/renesas,rcar-sysc.example.dt.yaml.
+
+Reading other responses from you, that error means that "phandle-array"
+should be used instead of "phandle".  The only question is where?
+
+Thanks again!
 
 Gr{oetje,eeting}s,
 
