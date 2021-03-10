@@ -2,155 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E3713347F2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 20:30:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CF46334918
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 21:48:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232944AbhCJTaI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Mar 2021 14:30:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48568 "EHLO mail.kernel.org"
+        id S231410AbhCJUro (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Mar 2021 15:47:44 -0500
+Received: from www.zeus03.de ([194.117.254.33]:53282 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233342AbhCJTaA (ORCPT
+        id S230491AbhCJUrO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Mar 2021 14:30:00 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0FA3F64EF6;
-        Wed, 10 Mar 2021 19:30:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615404600;
-        bh=e2Z2DQoJIeiblci+Xk9crwWl1In7MRqs54LMBzkItlg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=OnEKcfxiVfKnmrYB3LuZNSCzCJ5RObqvWa5z7S7UYzXT41zckhszQZK3URD5ZROrS
-         mr/AK9os9EhYoQ7PyJyRNqsjKNmTWZueZLoSXevk8tn+f21HuOQRWzC1bNzJKdX9nD
-         xlDbOAIJD6HeE8dQ1olV1H+X8urrhTauCwhKyfJV7cp/WWE5k1qMKvLUm08+e568+c
-         +Yu/chwpdBMmupaC0y+yM2u2jEZuFDM8RVe1Z32xuNAghxpQwKdrVXV5hygXNaa3yy
-         Xxq3HE2lNWKLQJ0FBFojwrg61Orlx6meI5fCKFT2m5ULbr+j0awHh8vAGTAKVnTtuB
-         brXStsZQ/nJvQ==
-Date:   Wed, 10 Mar 2021 13:29:58 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Frank Wunderlich <frank-w@public-files.de>,
-        Thierry Reding <treding@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 00/13] PCI: MSI: Getting rid of msi_controller, and other
- cleanups
-Message-ID: <20210310192958.GA2032926@bjorn-Precision-5520>
+        Wed, 10 Mar 2021 15:47:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=iRQS/3vRUM9mK4Of5TDd2Y/NoUUz
+        mLBVo4R9sf6UIYI=; b=HAmJkHozwgW2EB1TxMVdBQg8UmnA/xT0btD8kyv51aFS
+        IQbLDSW9hDjq3fM3QAuTqxAsScbtDEfBjv7QFdBz53z5VLtuoLYdxC8rwfy21R5d
+        l/NeuyD0vMaWm+HxvZG23VTNuKAooyoDxWyV8xpKnC73I2zbQSBH8SHxa0UrFbc=
+Received: (qmail 3981199 invoked from network); 10 Mar 2021 21:46:49 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Mar 2021 21:46:49 +0100
+X-UD-Smtp-Session: l3s3148p1@YdcQxDS9bKYgAwDPXwh3AMWGV3T2U+ZY
+Date:   Wed, 10 Mar 2021 21:46:48 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Jean Delvare <jdelvare@suse.de>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for
+ returned length from driver"
+Message-ID: <20210310204648.GA332643@ninjato>
+References: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
+ <20210226174337.63a9c2a6@endymion>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zYM0uCDKw75PZbzx"
 Content-Disposition: inline
-In-Reply-To: <20210225151023.3642391-1-maz@kernel.org>
+In-Reply-To: <20210226174337.63a9c2a6@endymion>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 25, 2021 at 03:10:10PM +0000, Marc Zyngier wrote:
-> The msi_controller data structure was the first attempt at treating
-> MSIs like any other interrupt. We replaced it a few years ago with the
-> generic MSI framework, but as it turns out, some older drivers are
-> still using it.
-> 
-> This series aims at converting these stragglers, drop msi_controller,
-> and fix some other nits such as having ways for a host bridge to
-> advertise whether it supports MSIs or not.
-> 
-> A few notes:
-> 
-> - The Tegra patch is the result of back and forth work with Thierry: I
->   wrote the initial patch, which didn't work (I didn't have any HW at
->   the time). Thierry made it work, and I subsequently fixed a couple
->   of bugs/cleanups. I'm responsible for the result, so don't blame
->   Thierry for any of it! FWIW, I'm now running a Jetson TX2 with its
->   root fs over NVME, and MSIs are OK.
-> 
-> - RCAR is totally untested, though Marek had a go at a previous
->   version. More testing required.
-> 
-> - The xilinx stuff is *really* untested. Paul, if you have a RISC-V
->   board that uses it, could you please give it a go? Michal, same
->   thing for the stuff you have at hand...
-> 
-> - hyperv: I don't have access to such hypervisor, and no way to test
->   it. Help welcomed.
-> 
-> - The patches dealing with the advertising of MSI handling are the
->   result of a long discussion that took place here[1]. I took the
->   liberty to rejig Thomas' initial patches, and add what I needed for
->   the MSI domain stuff. Again, blame me if something is wrong, and not
->   Thomas.
-> 
-> Feedback welcome.
-> 
-> 	M.
-> 
-> [1] https://lore.kernel.org/r/20201031140330.83768-1-linux@fw-web.de
-> 
-> Marc Zyngier (11):
->   PCI: tegra: Convert to MSI domains
->   PCI: rcar: Convert to MSI domains
->   PCI: xilinx: Convert to MSI domains
->   PCI: hyperv: Drop msi_controller structure
->   PCI: MSI: Drop use of msi_controller from core code
->   PCI: MSI: Kill msi_controller structure
->   PCI: MSI: Kill default_teardown_msi_irqs()
->   PCI: MSI: Let PCI host bridges declare their reliance on MSI domains
->   PCI: Make pci_host_common_probe() declare its reliance on MSI domains
->   PCI: MSI: Document the various ways of ending up with NO_MSI
->   PCI: quirks: Refactor advertising of the NO_MSI flag
-> 
-> Thomas Gleixner (2):
->   PCI: MSI: Let PCI host bridges declare their lack of MSI handling
->   PCI: mediatek: Advertise lack of MSI handling
 
-All looks good to me; I'm guessing Lorenzo will want to apply it or at
-least take a look since the bulk of this is in the native host
-drivers.
+--zYM0uCDKw75PZbzx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-s|PCI: MSI:|PCI/MSI:| above (I use "PCI/<FEATURE>:" and "PCI: <driver>:")
-s|PCI: hyperv:|PCI: hv:| to match previous practice
 
-Maybe:
+> We don't usually do minor version updates for bug fixes. Instead, what
+> I do is maintain a list of such "must have" fixes, that package
+> maintainers can refer to. Look for "Recommended patches" at:
+>=20
+> https://i2c.wiki.kernel.org/index.php/I2C_Tools
+>=20
+> There's no section for version 4.2 yet, but we can add one as soon as
+> the commit hits the public repository.
 
-  PCI: Refactor HT advertising of NO_MSI flag
+I added a section now for the 4.2 release. And (finally!) started
+cleaning up the wiki a little.
 
-since "HT" contains more information than "quirks"?
 
-In the 03/13 commit log, s/appaling/appalling/ :)
-In the patch, it sounds like the MSI capture address change might be
-separable into its own patch?  If it were separate, it would be easier
-to see the problem/fix and watch for it elsewhere.
+--zYM0uCDKw75PZbzx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+-----BEGIN PGP SIGNATURE-----
 
->  drivers/pci/controller/Kconfig           |   4 +-
->  drivers/pci/controller/pci-host-common.c |   1 +
->  drivers/pci/controller/pci-hyperv.c      |   4 -
->  drivers/pci/controller/pci-tegra.c       | 343 ++++++++++++-----------
->  drivers/pci/controller/pcie-mediatek.c   |   4 +
->  drivers/pci/controller/pcie-rcar-host.c  | 342 +++++++++++-----------
->  drivers/pci/controller/pcie-xilinx.c     | 238 +++++++---------
->  drivers/pci/msi.c                        |  46 +--
->  drivers/pci/probe.c                      |   4 +-
->  drivers/pci/quirks.c                     |  15 +-
->  include/linux/msi.h                      |  17 +-
->  include/linux/pci.h                      |   4 +-
->  12 files changed, 463 insertions(+), 559 deletions(-)
-> 
-> -- 
-> 2.29.2
-> 
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBJMDMACgkQFA3kzBSg
+KbYcAg/9FT/1o+sZxGgP4Vg+/OzXXx68jfRMOBlVbPYjPdAhSRitIVknwim9f5Va
+y7fMoJiWlR3/ZibcNv+KhhiP8OwU34lXxib6V70sRacvTtUoSU7VrpLWW2UgnES2
+IBW22fICQkc3wJoEFedM3GidCxPipJY3o30wrbCKFG1crKE2rQuteWGx1X/WD8vM
+dml7LcABmDW09WAfP5MS8AETTC8BP4u0K4BQAa+OdcQZTRcOEjqT9oUgwW26Wl9o
+9WS0WAVfKOc86rVCfaH4YFlnuFmOu8bWiEJOjlAl1XHfJq4NYydD+A0c8IHP0ohm
+UdAs9ymD3XYIsV0adXIrjsP75cvQcW62xykghnxeSuv1Ezp9TWq87IS+b3vOe0fo
+4dp5kJvIGcTvJ5Pq9O+smgmIDe7qY8A+MN7c9oDYWnbkTrHlZhNMtZCYDB5kZ6SA
+abMgyTUA160N/aeypy4b77MX164e1pboajNACGXspt1ZaoAXwXvktjUKjKOmFHVs
+Scnma7/H3x2KdLurtNfNJjPoN1UgId3pWkCr0o0hkm/g20g7QuEuBSJh+Y1mr8a2
+eWjbAjmT9B30R6q4F7+XxJvXvzSjLt7D0FN0cv5Fukp3v7YFDWyavzOzJeYaWCpQ
+MKTDoHiD/oAAkl6kikdbH5Ms6VXXO1DtaE3lfEmZby+q0vF4OOo=
+=o4wm
+-----END PGP SIGNATURE-----
+
+--zYM0uCDKw75PZbzx--
