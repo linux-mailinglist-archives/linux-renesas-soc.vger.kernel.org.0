@@ -2,179 +2,213 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FD2B333CD7
+	by mail.lfdr.de (Postfix) with ESMTP id 044F7333CD6
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 13:46:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231438AbhCJMqO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S232587AbhCJMqO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Wed, 10 Mar 2021 07:46:14 -0500
-Received: from mail-eopbgr1410122.outbound.protection.outlook.com ([40.107.141.122]:23451
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231880AbhCJMpm (ORCPT
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37394 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232673AbhCJMqJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Mar 2021 07:45:42 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JyswzTebY5T/j7p4dBLvnPNL8H+fgbR/zGcDNg0YvkRN0DsuyK6/W62BzWOgdoKHnjBnVslOEUsGKcpaI73Dpoo/5/OuVjR3qf08y/gh6rf/y/3t//otu4ofomuNutcqS08Eg7rw89ui85uB7qSy3VNCuDvVQLPVViH7ZZ/KYEoUgPjNqwdLhoRwFJsBXc4kXEz34wo87soxYWcNQqJYRSQ40PavgQSvCcAKLEHUpvIvpWI+CA+jIjYnOYb1n1tFdxbi470+U6XEbJA+Mxg8d2F9Rij321vyfh7ats43JCoW0CkXKSOfKD2TOnSPmW3a/dXBMyVNPX6qgl5+VnFD/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XzNBmCeNyCdku0yLtjvKxLULvIDXEucC1Vnb538lwQk=;
- b=CZBTEMPfvKYNErhRrN7ZSzgo8Wd1ZJ1eoPHe7UFd+RmE7zZuQofH1LQE0vQEG7WCy4fz/V8ub8ep9k3tJbCnsvt2mBhNhfv1fFQmhvexYxId2Iug8qqhk6LierBaV50FY7Vac68+8ek01cQ15v2kNxTOmOs36kSX/TvP/ALCBx+YZH94gtTRRcKzwN0GMOxmPmJE/btEfRa2Ot754YSS6T9a3+kiJLAaZ2aB2GdRk/3R2EqsZfyuXh/Z9EzkBT81iO/AkQc6ADyI+C++Ah56qznJOZZYhQX15pm7nV3zUZh9sVqrW8WUutyAtezHb+WNQYi6dcOsFv3OG9yMWm20FA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        Wed, 10 Mar 2021 07:46:09 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A62CC061760
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Mar 2021 04:46:09 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id ga23-20020a17090b0397b02900c0b81bbcd4so7170753pjb.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Mar 2021 04:46:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XzNBmCeNyCdku0yLtjvKxLULvIDXEucC1Vnb538lwQk=;
- b=XHIpE05jZFpkeEnIneALRJW0LwJwHXTtq9C2eoERTx0tiBBlN5JdAeiJb/Q8BKxEQi2vwiwG4xxiXubrhNjpbt5h625XscLIbrnfJX6LicOEk1/eu1jycLE8U+RWPmsRWoJ3vApYrGtQ3AE8DI9k9zNfcEdphfAV453coGDAnN8=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYCPR01MB6431.jpnprd01.prod.outlook.com (2603:1096:400:9a::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.2; Wed, 10 Mar
- 2021 12:45:41 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::cb4:9680:bb26:8f3f]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::cb4:9680:bb26:8f3f%4]) with mapi id 15.20.3912.027; Wed, 10 Mar 2021
- 12:45:40 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-Subject: RE: [PATCH 2/2] mmc: renesas_sdhi: do hard reset if possible
-Thread-Topic: [PATCH 2/2] mmc: renesas_sdhi: do hard reset if possible
-Thread-Index: AQHXFMXo4wNgQS9GTkW0a+Aab4SqFqp9FyLQ
-Date:   Wed, 10 Mar 2021 12:45:40 +0000
-Message-ID: <TY2PR01MB3692A6D95BD60A17AE698DF3D8919@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20210309092332.30705-1-wsa+renesas@sang-engineering.com>
- <20210309092332.30705-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210309092332.30705-3-wsa+renesas@sang-engineering.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: sang-engineering.com; dkim=none (message not signed)
- header.d=none;sang-engineering.com; dmarc=none action=none
- header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: b3b049f8-7b54-421b-fb55-08d8e3c269a4
-x-ms-traffictypediagnostic: TYCPR01MB6431:
-x-microsoft-antispam-prvs: <TYCPR01MB643190D743315A91EACE34BAD8919@TYCPR01MB6431.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GVpgoGNvsuu6IjXKJLlzedk4vYl85uQsplKwEiDKm5jdBa03XdFbn1oC9vIUO6u/FTpJUoJChh5b6XIhX27/r71kSO9Tm1jm2QsCFeH6WNrKsbgad+limthqEghza+Fk77HXyadBALtOpCJXS+jvd6qikRMiFlS9/39/0DQzY33R2KV8z/Q2xzQ7xjTzgyhODktjbOiIB6e3J9nbUedgEJoeYoEyakBvvQVxcKQqfhQXBBOB6lOf4s/fzl8vmrZrnp5+itTmrEjmur13Jpz0Ok8zTgCdFK5yV7LAp1qXZWvTcgSnYib2W0N1OFvX63RSQOGBEiXFsTbYAmKD9eU2k6sstFvq/bwUl8LBoJZ5h3fPahuoN407VDb/NqpXWMoL7S7ZolHM+z1KzbcbHfhhjkWxEggWXRK6XdnPUAX2SM6kOznSVDPTHt0Uqjm11xKCsrJhCZyM8FHfeaqo7hYq/Ja1u6QjVEQFZMOwqZE8Dr91q818F9OZQdsrIMQ2j2WW/6WXSU5qN8JEFJSIza2J6g==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(366004)(346002)(376002)(136003)(76116006)(5660300002)(478600001)(8936002)(4326008)(66946007)(66446008)(66476007)(66556008)(86362001)(64756008)(54906003)(316002)(26005)(55016002)(7696005)(52536014)(83380400001)(9686003)(6506007)(33656002)(8676002)(55236004)(186003)(2906002)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?HHTJALKi1pdLpyQsVLdxQf/jUn8/VXQmSMFmBRIu7Saq2zx5+AJpie1EsGx5?=
- =?us-ascii?Q?t/oF/YyfeiBdUDbsFgJNPRuQvcNXQLyAcv3/vEXQIYhRDdaTaKJJWFzM7YhV?=
- =?us-ascii?Q?178nd8XzJNh5ZVNfhR7Hd7jpXjU1AI2goulVGN1dRW1Sb9npQsVdLtB1A0tx?=
- =?us-ascii?Q?/2XN3tHTQVuaLXk3pfypUbvetHhAR4cXTF/ox8kW+42IbQCKVWABMcaxhQ8w?=
- =?us-ascii?Q?Ed+pKDA3Zpy8QE5G5ac4ESjPQvlFds20/LKak86Yb8aY/RoS3vUPp4bJsLyF?=
- =?us-ascii?Q?rcjnYJ92aNZtsMn2VMA1T4+fMzgTk5SGyZna+KXC3ULxDTMh5JZPmGzO9QYu?=
- =?us-ascii?Q?azNYHUY4W5t2XuLGIfni+304kgTyuIBRQHCES2OSouHV7DAbRE/iKw3kLfwq?=
- =?us-ascii?Q?CXZqNcJDqKmzY848jZ9+YpKsuoSdcsTiZQkfnxbdP5gY/mLKiu161AOjgb5K?=
- =?us-ascii?Q?JNV4DDDJpH+9POWSch2tOBlZgG0cEaOIieQZuZXs8Ivofld7liEPfpCn4QUd?=
- =?us-ascii?Q?LLDT0zfqnSJ3Hg+l1rDGp7yuEJsCgXTUmowPE90udt3WYmH0ngHFPf4FiXCM?=
- =?us-ascii?Q?Pb4efub0Yf4UBOIpilg2R1xb5cW9xIsw13r9uXGgUT32N3aNPK/2/At8vgOh?=
- =?us-ascii?Q?BlcibjUvXefvWghrGbmw7U+AJUwgTu0gjf9npj2yqWfWycvH6ioZD9jgHnyw?=
- =?us-ascii?Q?01CMz9P4kd1Nh+9LKg+PzLU1tu8nS2gVY/2RZXvpt5pJUHXn9eHY0KCBQVsS?=
- =?us-ascii?Q?DfuPVSVBsmGkHzDBAOTUIuICIzlVcYNSrUpMJXRRDfbFaCtyHNzpsdZPtwRV?=
- =?us-ascii?Q?7rYzNT5jIZK6apfAD3VFpSk3T24NnF7IlluR7lqWNkdIva/oIOj+Dnbf4io7?=
- =?us-ascii?Q?+2EQBWhVUiv0NAMrL1UnJR1/9iztbXMR65s3fFtG6OCevjgak2zW1lompZzP?=
- =?us-ascii?Q?ksP8RdLN+7Wz9oUbDuXcAhuzXWW84FCVUpXyjVEp5IJn9/7EX4xBSKjMrydw?=
- =?us-ascii?Q?xBNwIp+xdyfLTEMd0SKLYDCnhPunwYjeOcl3Icf9u0LVS2t8T8X5/zxXf6Bv?=
- =?us-ascii?Q?qqeV5ai85cShXcvUB120PAMbGb5NTdSyTa77+lbGAgde3E8cuaUbYVTdiG3m?=
- =?us-ascii?Q?tHWIaS1uQa8fCj0I8W4i+PebAc337sOenK+TX4iUqBfr6hFVSlA2VbcLMhjm?=
- =?us-ascii?Q?TjL25fj6nbCJqU8LulOZwzm6gyhPzHXMjehPyhoS7K7QpdxIuoEbQJmkXn6b?=
- =?us-ascii?Q?VQxY/uPeYgcwRjGDyVzMedVwJrxYFgXmRLEPkgMsko2LSC9huEpyLDLiU2sv?=
- =?us-ascii?Q?NgV5vcBeFTgIGYSf7lHcInXp?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=x5Xu+ybh/s/7f7GGDtKoiH3ZMF5H1dtpovl+BVZskjQ=;
+        b=Jlt0WWL3pcCefWGvykk/f2GRkhPNcdqHN4RxdwzKEyAOHvCVxFBd9aPmAira1QkXTg
+         i0p3MrCHLXj3Br+J0CjZP853T4STu2+yXfPOuRrBn52R26enZNzGNsflEaQbMTISoW56
+         ILav7Ox1zMwfNdPqXRic+9lS/ik6nmU4iv9xu20HCCFq8eJRHZJNxZQ8qErhKtPY6/gd
+         axwa84zqpRggETLJGekCjAeoLOXbt3P1OBF1noMweigvUEfZUqNyb50TmvZfjaEUMG1B
+         T/IKN73hr2xfPEGQKxv/DjlVSh/vdWz7hiiLAvKjllnnbm7IHWWK6NuubUnqx7XuJidu
+         +lqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=x5Xu+ybh/s/7f7GGDtKoiH3ZMF5H1dtpovl+BVZskjQ=;
+        b=Oyo1S2Athcpajy4z2r22q+J6m9SkT40kUU/PwVOON53v6RDmdFRey1r7tW4LwQk/NM
+         iXTvQ3xpI3aoF5mX1jyMo9KnkVss3Y0Hfv+6vzMsk1mDaCa2AuP+zUDevwHeVWdOHSeY
+         igpAoUfr7NJvDybI6qF/TS5LogTk7h8t7uxpwWrZp4rBL6qw/ZDE4tdNgwHbF3YOG5Oh
+         liNDznfY9CKZrGE8HR+S+Y/otohN9IYXHqts0rYpzqgDt7Qv7ZUtVfVpUsG4o3bbgn7h
+         yHzNR8jdT5MHDvOVzpICsLTcllcgGd75ZbC4kG9IK3An1r6kbqxG4ETdPeqyP3Lm5JU2
+         PGJQ==
+X-Gm-Message-State: AOAM531yIqfSvltgE4eSwqDRzBjsXn1+7i773upIOHGGzvrwbVMEek4X
+        RAMz5kAVAwoac5CyXTykmJT87Pa/57/ofFyx
+X-Google-Smtp-Source: ABdhPJxPA3HHJeCngoEhksqOcYX2EeBWYWZA9y3q8rICosdIEpj3jKpfbZiQKG5iDT6TKKg95uDc0Q==
+X-Received: by 2002:a17:902:8c97:b029:e2:8c58:153f with SMTP id t23-20020a1709028c97b02900e28c58153fmr2861588plo.79.1615380368692;
+        Wed, 10 Mar 2021 04:46:08 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id x7sm7231138pfp.23.2021.03.10.04.46.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Mar 2021 04:46:08 -0800 (PST)
+Message-ID: <6048bf90.1c69fb81.fa15b.0e5a@mx.google.com>
+Date:   Wed, 10 Mar 2021 04:46:08 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3b049f8-7b54-421b-fb55-08d8e3c269a4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2021 12:45:40.7216
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +keVWDWg9Bky1eHncuE2MaFrxOOW29RNSUq/vx8TOlNubhsd/Fd1F08QPyXn4zYaYk94Dxn18aGm7zNp4W7cXgmTis3gWL8iFer31GDJ0yhZ/DLaMNGR2bnXUYHiXz+L
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6431
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: v5.12-rc2-21-g604bd2d4786e9
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: next
+Subject: renesas/next igt-kms-rockchip: 1 runs,
+ 3 regressions (v5.12-rc2-21-g604bd2d4786e9)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san,
+renesas/next igt-kms-rockchip: 1 runs, 3 regressions (v5.12-rc2-21-g604bd2d=
+4786e9)
 
-Thank you for the patch!
+Regressions Summary
+-------------------
 
-> From: Wolfram Sang, Sent: Tuesday, March 9, 2021 6:24 PM
->=20
-> All recent SDHI instances can be reset via the reset controller. If one
-> is found, use it instead of the open coded reset. This is to get a
-> future-proof sane reset state.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-<snip>
-> @@ -561,9 +563,16 @@ static int renesas_sdhi_prepare_hs400_tuning(struct =
-mmc_host *mmc, struct mmc_io
->  static void renesas_sdhi_reset(struct tmio_mmc_host *host)
->  {
->  	struct renesas_sdhi *priv =3D host_to_priv(host);
-> +	int ret;
->  	u16 val;
->=20
-> -	if (priv->scc_ctl) {
-> +	if (priv->rstc) {
-> +		reset_control_reset(priv->rstc);
-> +		/* Unknown why but without polling reset status, it will hang */
-> +		read_poll_timeout(reset_control_status, ret, ret =3D=3D 0, 1, 100,
-> +				  false, priv->rstc);
-> +		priv->needs_adjust_hs400 =3D false;
+platform         | arch  | lab           | compiler | defconfig | regressio=
+ns
+-----------------+-------+---------------+----------+-----------+----------=
+--
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 3        =
+  =
 
-After we did hard reset here, sometimes tmio_mmc_reset_work() cannot recove=
-r
-again with "mmcblk0: recovery failed!" message... So, I investigated this
-issue and I found a reason.
 
-> +	} else if (priv->scc_ctl) {
->  		renesas_sdhi_disable_scc(host->mmc);
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/v5.12-=
+rc2-21-g604bd2d4786e9/plan/igt-kms-rockchip/
 
-I realized this renesas_sdhi_disable_scc() will set CLK_CTL_SCLKEN.
-So, the previous code can issue CMD13 after tmio_mmc_reset_work() was calle=
-d.
-But, after we applied this patch, the CMD13 failed because the clock was di=
-sabled.
-# In other words, if a controller doesn't have scc, the previous code canno=
-t issue
-# CMD13 in such a case, I guess.
+  Test:     igt-kms-rockchip
+  Tree:     renesas
+  Branch:   next
+  Describe: v5.12-rc2-21-g604bd2d4786e9
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      604bd2d4786e902a90a56db9427d5563bdf8c529
 
-So, before we apply this patch, we have to add ->set_clock() calling in
-tmio_mmc_reset_work() like below:
----
-diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_c=
-ore.c
-index eca767dcabba..a05ccfc7aa0d 100644
---- a/drivers/mmc/host/tmio_mmc_core.c
-+++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -222,6 +222,7 @@ static void tmio_mmc_reset_work(struct work_struct *wor=
-k)
- 	spin_unlock_irqrestore(&host->lock, flags);
-=20
- 	tmio_mmc_reset(host);
-+	host->set_clock(host, host->clk_cache);
-=20
- 	/* Ready for new calls */
- 	host->mrq =3D NULL;
----
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  a9bb32cfe1ee87ff831707dfdcbcae56f2b2a036
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  2107b0a53692fb329175bc16169c3699712187aa =
 
-Best regards,
-Yoshihiro Shimoda
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig | regressio=
+ns
+-----------------+-------+---------------+----------+-----------+----------=
+--
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 3        =
+  =
+
+
+  Details:     https://kernelci.org/test/plan/id/6048b2ecf231b3c19daddcbb
+
+  Results:     77 PASS, 19 FAIL, 138 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/v5.12-rc2-21-g604=
+bd2d4786e9/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk3399-gru-=
+kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/v5.12-rc2-21-g604=
+bd2d4786e9/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk3399-gru-=
+kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-igt/=
+20210301.0/arm64/rootfs.cpio.gz =
+
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-B-ts-continuation-idle: https://kernel=
+ci.org/test/case/id/6048b2ecf231b3c19daddcfb
+        failing since 8 days (last pass: renesas-next-2021-01-29-v5.11-rc1,=
+ first fail: v5.12-rc1-12-g3158164f1526)
+
+    2021-03-10 11:51:36.025000+00:00  Test requirement: !(pipe >=3D display=
+->n_pipes || !display->pipes[pipe].enabled)
+    2021-03-10 11:51:36.029000+00:00  Pipe E does not exist or not enabled
+    2021-03-10 11:51:36.037000+00:00  Test requirement not met in function =
+igt_require_pipe, file ../lib/igt_kms.c:1910:
+    2021-03-10 11:51:36.047000+00:00  Test requirement: !(pipe >=3D display=
+-><6>[  143.776511] Console: switching to colour dummy device 80x25
+    2021-03-10 11:51:36.051000+00:00  n_pipes || !display->pipes[pipe].enab=
+led)
+    2021-03-10 11:51:36.058000+00:00  Pipe F does not exist<14>[  143.78685=
+0] [IGT] kms_vblank: executing
+    2021-03-10 11:51:36.059000+00:00   or not enabled
+    2021-03-10 11:51:36.067000+00:00  <14>[  143.798565] [IGT] kms_vblank: =
+starting subtest pipe-B-ts-continuation-idle
+    2021-03-10 11:51:36.074000+00:00  IGT-Version: 1.25-g2107b0a (aarch64) =
+(Linux: 5.12.0-rc2 aarch64)
+    2021-03-10 11:51:36.078000+00:00  Starting subtest: pipe-B-ts-continuat=
+ion-idle =
+
+    ... (67 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-B-ts-continuation-dpms-suspend: https:=
+//kernelci.org/test/case/id/6048b2ecf231b3c19daddcfe
+        failing since 8 days (last pass: renesas-next-2021-01-29-v5.11-rc1,=
+ first fail: v5.12-rc1-12-g3158164f1526)
+
+    2021-03-10 11:51:41.138000+00:00  =
+
+    2021-03-10 11:51:41.144000+00:00  Starting subtest: pipe-B-ts-continuat=
+ion-dpms-suspend
+    2021-03-10 11:51:42.054000+00:00  (kms_vblank:778) igt_kms-CRITICAL: Te=
+st assertion failure function igt_wait_for_vblank, file ../lib/igt_kms.c:42=
+40:
+    2021-03-10 11:51:42.064000+00:00  (kms_vblank:778) igt_kms-CRITICAL: Fa=
+iled assertion: __igt_vblank_wait(drm_fd, crtc_offset, 1) =3D=3D 0
+    2021-03-10 11:51:42.070000+00:00  (kms_vblank:778) igt_kms-CRITICAL: La=
+st errno: 22, Invalid argument
+    2021-03-10 11:51:42.072000+00:00  Stack trace:
+    2021-03-10 11:51:42.077000+00:00    #0 ../lib/igt_core.c:1726 __igt_fai=
+l_assert()
+    2021-03-10 11:51:42.080000+00:00    #1 [igt_wait_for_vblank+0x4c]
+    2021-03-10 11:51:42.082000+00:00    #2 [<unknown>+0xc9c422e0]
+    2021-03-10 11:51:42.085000+00:00    #3 [<unknown>+0xc9c42ac8] =
+
+    ... (60 line(s) more)  =
+
+
+  * igt-kms-rockchip.kms_vblank.pipe-B-ts-continuation-modeset: https://ker=
+nelci.org/test/case/id/6048b2ecf231b3c19daddd00
+        failing since 8 days (last pass: renesas-next-2021-01-29-v5.11-rc1,=
+ first fail: v5.12-rc1-12-g3158164f1526)
+
+    2021-03-10 11:51:46.002000+00:00  <6>[  153.735223] Console: switching =
+to colour dummy device 80x25
+    2021-03-10 11:51:46.008000+00:00  <14>[  153.742661] [IGT] kms_vblank: =
+executing
+    2021-03-10 11:51:46.023000+00:00  IGT-Version: 1.25-g2107b0a (aarch64) =
+(Linux: 5.12.0-rc2 aarch64)<14>[  153.748896] [IGT] kms_vblank: starting su=
+btest pipe-B-ts-continuation-modeset
+    2021-03-10 11:51:46.023000+00:00  =
+
+    2021-03-10 11:51:46.028000+00:00  Starting subtest: pipe-B-ts-continuat=
+ion-modeset
+    2021-03-10 11:51:46.957000+00:00  (kms_vblank:784) igt_kms-CRITICAL: Te=
+st assertion failure function igt_wait_for_vblank, file ../lib/igt_kms.c:42=
+40:
+    2021-03-10 11:51:46.967000+00:00  (kms_vblank:784) igt_kms-CRITICAL: Fa=
+iled assertion: __igt_vblank_wait(drm_fd, crtc_offset, 1) =3D=3D 0
+    2021-03-10 11:51:46.974000+00:00  (kms_vblank:784) igt_kms-CRITICAL: La=
+st errno: 22, Invalid argument
+    2021-03-10 11:51:46.975000+00:00  Stack trace:
+    2021-03-10 11:51:46.979000+00:00    #0 ../lib/igt_core.c:1726 __igt_fai=
+l_assert() =
+
+    ... (62 line(s) more)  =
+
+ =20
