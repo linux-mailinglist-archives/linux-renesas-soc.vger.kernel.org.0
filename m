@@ -2,155 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8589B333D53
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 14:09:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93395333D71
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 14:15:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232747AbhCJNJD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Mar 2021 08:09:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42622 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232710AbhCJNIr (ORCPT
+        id S232493AbhCJNO4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Mar 2021 08:14:56 -0500
+Received: from mail-vs1-f49.google.com ([209.85.217.49]:35329 "EHLO
+        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231788AbhCJNO3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Mar 2021 08:08:47 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27188C061760;
-        Wed, 10 Mar 2021 05:08:47 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id 133so17764055ybd.5;
-        Wed, 10 Mar 2021 05:08:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AuIkG5mFalgNcUDwhfpUKnF07Cv7k5E48oJPkOG41VA=;
-        b=VYtNRqZ6X1ixEPGetG5UzE4NmdWJ+xCmwr86X9AhSM1nJWwpRZvdDqhxK6DX3MfIog
-         6ABMb4FuUquBo45lj1qEz/vnIo58z6QhfAuNU7DAmPf0a6Pw8WHHCCEl5Wwi12+rViVz
-         CCGErfTOIbrWVMk+4WEK6opS3ZUwC8oCYhtxR0Jn4N1mZBreYUma4aoPPTdCdKssRz0d
-         AT2eGOwqQCr6ssnwoCUUH/voPIDY0fTBo8LZ6LCcF1iazklGSTlqov9Opf8iHRsXNJeR
-         esdPHWUlidbCxaIOYcLio7mgb3coJ3tJpxCtKsb1R3emOZsm90I2S8EQxS3tH0L4NcKg
-         oFxA==
+        Wed, 10 Mar 2021 08:14:29 -0500
+Received: by mail-vs1-f49.google.com with SMTP id j12so6425172vsm.2;
+        Wed, 10 Mar 2021 05:14:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AuIkG5mFalgNcUDwhfpUKnF07Cv7k5E48oJPkOG41VA=;
-        b=bCvX7Fa/29JjJAA16n6Xmx75qLBoSTrou5yBZ2qQCMdlzErcC4AIMJRIRDnWjoJrPe
-         mNgnQAbL0Q3Xgcn3PyGYXLhGi+SMQTGno1mwtwzRxXj9uTteBmlD2TOhsQg/bvFatYGo
-         Kcq8B39gbOxM2apaLQwuc2f6QAbUs7n3CmeapiCNkEWzsbOiA4FAujgnGtZixi6do8Og
-         yNUsXDNqEeFyrljTLvPDmf7Xhr72HYT1hsImAaLvefvMYFpNCG6kRt3g91CHAtdxQPFP
-         gVDvkw4Qo6CR8JniFtGeZrreYClXCjSHfNHsejnxxSnCxS0umAlg9JDZUQ7//RHHf9WZ
-         OlEA==
-X-Gm-Message-State: AOAM533Q5DnL7j3iJp+Wn37we96O9xRNSYX11D5wgMkPiJ2gNtMgDCFq
-        y1MzQDPQtHfYjTjB27uVluNFnU3+3rEtHMurH8s=
-X-Google-Smtp-Source: ABdhPJwjZRLi35tc7kXY5jKQJUb/vWLh3EhoN40+47KDwF4/i1niwKOwlVJhgaZTIC9yWWuyRkKjp32svOyDCF/DZvo=
-X-Received: by 2002:a25:d54:: with SMTP id 81mr3736951ybn.401.1615381726302;
- Wed, 10 Mar 2021 05:08:46 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=53hH6CSEIzCBZULTLy/0ufaoot71sUUYvZJYMTqZQsk=;
+        b=kjBqV9Iz+drUkPbUiiHEgRANcyy72mEwhaV7h/ZNf25LjKPJS5d7g5WMNNmo85DEdE
+         Wd2m3mpJ8jLsalWD9SEVSZOHO98vWX2B9IVGOgsbnR2sDRXos7+G9l/kpfQqds4+gK5v
+         Vi1yL4n+ZT2AgvkJeQXEvEhvPe6qWO14tYCEngsO+quLAxSLgUcbZ3RBdHzwBorAjpHV
+         16DCeaodZbglxndCsiqWZ4flS80548iQpOlG0/PzZqY8Zo2JtzYYORu4H8TnwGmElEvx
+         iGJHueeZk1xmGR43wlIHL6k+iefkSn5u1NIYCdU6TeGgcnLiZbr0/5eYdUgcs3I3GaMv
+         blTw==
+X-Gm-Message-State: AOAM531KUnEyB96z9oWn1+P81lNWuPzaA+8qDBgZMiI74aes/PoCfFv6
+        Vt2TneZkuhX25ibBElgoPpqYF5+SnVEyzlbbzpY=
+X-Google-Smtp-Source: ABdhPJxXTFq+3iCRbvvQ2oB861mpT5qLn4uHTnoVD1B3v1h2bwafXVSu2qidRHsPHTbzghSrJTX0b6DQg4Yc2DpPQF8=
+X-Received: by 2002:a67:fe90:: with SMTP id b16mr1565916vsr.40.1615382068261;
+ Wed, 10 Mar 2021 05:14:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20210310122014.28353-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210310122014.28353-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <YEi+FBRbXBJch1DM@pendragon.ideasonboard.com> <CA+V-a8vPm7EM=MoxRt1nXnvpVVL5vQvSupd79GRNaGULpxS-kQ@mail.gmail.com>
- <YEjBc0rdAoaw+8lo@pendragon.ideasonboard.com>
-In-Reply-To: <YEjBc0rdAoaw+8lo@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 10 Mar 2021 13:08:20 +0000
-Message-ID: <CA+V-a8sSmQkXDf5CZZWKVipWWdKpE55DLLbOgktR-4VmQqmkWQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] media: i2c: imx219: Serialize during stream start/stop
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pavel Machek <pavel@denx.de>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20210310110716.3297544-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20210310110716.3297544-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 10 Mar 2021 14:14:17 +0100
+Message-ID: <CAMuHMdXJ1o5hfXKcx1OnGR2prbW0nA5+GdOUgRrS+nXD2-CNzA@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: thermal: rcar-gen3-thermal: Support five
+ TSC nodes on r8a779a0
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+On Wed, Mar 10, 2021 at 12:08 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> When adding support for V3U (r8a779a0) it was incorrectly recorded it
+> supports four nodes, while in fact it supports five. The fifth node is
+> named TSC0 and breaks the existing naming schema starting at 1. Work
+> around this by separately defining the reg property for V3U and others.
+>
+> Restore the maximum number of nodes to three for other compatibles as
+> it was before erroneously increasing it for V3U.
+>
+> Fixes: d7fdfb6541f3be88 ("dt-bindings: thermal: rcar-gen3-thermal: Add r8a779a0 support")
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> * Changes since v1
+> - The register layout for V3U is larger then for other SoCs, fix the
+>   example to reflect this. Thanks Geert for spotting this!
+> - Fix a bad copy-past in the register list in the example.
 
-On Wed, Mar 10, 2021 at 12:54 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Mar 10, 2021 at 12:46:39PM +0000, Lad, Prabhakar wrote:
-> > On Wed, Mar 10, 2021 at 12:40 PM Laurent Pinchart wrote:
-> > > On Wed, Mar 10, 2021 at 12:20:13PM +0000, Lad Prabhakar wrote:
-> > > > Serialize during stream start/stop in suspend/resume callbacks.
-> > >
-> > > Could you please explain why this is needed ?
-> > >
-> > The streaming variable in this driver has serialized access, but this
-> > wasn't taken care during suspend/resume callbacks.
->
-> But nothing that touches the streaming variable can run concurrently to
-> suspend/resume, isn't it ?
->
-You are right, we could drop this patch.
+Thanks for the update!
 
-> I'm actually even quite dubious about the need to start and stop
-> streaming during resume and suspend, the driver using the subdev should
-> start/stop the whole video pipeline at suspend/resume time.
->
-I see, do we have any documentation on how bridge/subdevs should
-behave on suspend/resume ?
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I did have a quick look at the omp3isp bridge driver and it does
-start/stop on resume/suspend callbacks.
+Gr{oetje,eeting}s,
 
-Cheers,
-Prabhakar
+                        Geert
 
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > ---
-> > > >  drivers/media/i2c/imx219.c | 5 +++++
-> > > >  1 file changed, 5 insertions(+)
-> > > >
-> > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > > > index f0cf1985a4dc..87c021de1460 100644
-> > > > --- a/drivers/media/i2c/imx219.c
-> > > > +++ b/drivers/media/i2c/imx219.c
-> > > > @@ -1172,8 +1172,10 @@ static int __maybe_unused imx219_suspend(struct device *dev)
-> > > >       struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > > >       struct imx219 *imx219 = to_imx219(sd);
-> > > >
-> > > > +     mutex_lock(&imx219->mutex);
-> > > >       if (imx219->streaming)
-> > > >               imx219_stop_streaming(imx219);
-> > > > +     mutex_unlock(&imx219->mutex);
-> > > >
-> > > >       return 0;
-> > > >  }
-> > > > @@ -1184,11 +1186,13 @@ static int __maybe_unused imx219_resume(struct device *dev)
-> > > >       struct imx219 *imx219 = to_imx219(sd);
-> > > >       int ret;
-> > > >
-> > > > +     mutex_lock(&imx219->mutex);
-> > > >       if (imx219->streaming) {
-> > > >               ret = imx219_start_streaming(imx219);
-> > > >               if (ret)
-> > > >                       goto error;
-> > > >       }
-> > > > +     mutex_unlock(&imx219->mutex);
-> > > >
-> > > >       return 0;
-> > > >
-> > > > @@ -1197,6 +1201,7 @@ static int __maybe_unused imx219_resume(struct device *dev)
-> > > >       imx219->streaming = false;
-> > > >       __v4l2_ctrl_grab(imx219->vflip, false);
-> > > >       __v4l2_ctrl_grab(imx219->hflip, false);
-> > > > +     mutex_unlock(&imx219->mutex);
-> > > >
-> > > >       return ret;
-> > > >  }
->
-> --
-> Regards,
->
-> Laurent Pinchart
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
