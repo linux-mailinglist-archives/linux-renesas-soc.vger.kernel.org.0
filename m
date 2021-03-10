@@ -2,130 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CD4E3342BD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 17:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA79C334376
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 17:46:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233393AbhCJQLf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Mar 2021 11:11:35 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:56020 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233404AbhCJQLO (ORCPT
+        id S233607AbhCJQpp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Mar 2021 11:45:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32990 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233518AbhCJQpN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Mar 2021 11:11:14 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 12AGAlIo078920;
-        Wed, 10 Mar 2021 10:10:47 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1615392647;
-        bh=PswJzuVJEpo2V7rLJvAKEapfrXwbPZ/ywMR3JM+8zp4=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=KDAlkGOAstSuJcAiMHjA66obcuo850UcsdlmDC3LGNPBYvYtza05Z6fkjfeYZ1B0Q
-         hDW/aNCdzzXYqoF43HqBYbDIAbbCNph+/9cBVbzcfWDQTYxzU2vN1oSSVAzCZURuvc
-         aYKZHlaoW25j5WdOS3zrliC85FmCXQcEEN2Ibr4k=
-Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 12AGAlux063711
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 10 Mar 2021 10:10:47 -0600
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 10
- Mar 2021 10:10:47 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Wed, 10 Mar 2021 10:10:47 -0600
-Received: from a0393678-ssd.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 12AG9ql0100440;
-        Wed, 10 Mar 2021 10:10:40 -0600
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Nadeem Athani <nadeem@cadence.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: [PATCH v4 7/7] Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
-Date:   Wed, 10 Mar 2021 21:39:43 +0530
-Message-ID: <20210310160943.7606-8-kishon@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210310160943.7606-1-kishon@ti.com>
-References: <20210310160943.7606-1-kishon@ti.com>
+        Wed, 10 Mar 2021 11:45:13 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7B39C061761
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Mar 2021 08:45:12 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id u4so34640085lfs.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Mar 2021 08:45:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=nOBjCUFcxCVA5GQgk+a+NIfPffE3GCzEuT7nurE+LHA=;
+        b=sTuebj4TbYIeMMfxFEYGN5sjXVsQJl/DPmn91gAChauzlN4hOqvy5LBM+2MwjzRBMM
+         x3LYWgOhQBbzbnvl7WyWz0KCnDNca18QkLLx/yPYXYLF1V7oDBS18kawJd1UXQETcn5k
+         5sgTWPo62stABrjdThQXKQLMrfvAxU5h2BrHcT5czyJu6lCVD6/pU9hxTMgswZc5x4sv
+         pmQtcC1PdgETm9nDueArLKEMrY9AUCcuXenK5SV4bhy3l5XzL4S/c0oBKhOMsNHLCW4B
+         WZF1+zsLF57ebiYIClewBcPSFq4fU+JaJroHX42w2P626WSMfzFcF+8zi0h00SUDoeGp
+         SF2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=nOBjCUFcxCVA5GQgk+a+NIfPffE3GCzEuT7nurE+LHA=;
+        b=Rp9unHBqmN/WSa9MK614yeVMvqc2CiZdN4FPCqbvw5Gzls+tY0QnnHq7FBgLm1DPxT
+         WDT7JQBXCyjMBPvSkezyH4GRkio25cswq2HwDHCQymzwKAmy0AE700VmoWQqQfRYdd7N
+         K0PmCeaConxvnJGcQ/xc18G4991pf1R9YfJBrocxPzIX42iqe0VfQJSHDv3C1+qVb2/i
+         /ctFlsfEo8UdPwyfTegoq9F/RkmS5YVj6Q9Nz++v9K/LloVEYdKxglWwaP63WEQ+Xf8S
+         nsnFIo9QWgk8NFQnXB38uuvVDJhuNVjcJbh0BclO3Va+05ErFR1vvzGx+y+w85le0bnY
+         E6ig==
+X-Gm-Message-State: AOAM533C0OQyCnqA/PfoPzjpr2yQL4U5KUNxxpbjhshoh5ERyUnHBNKs
+        KeQTp3MGSAfbhKfYmUKLKSNXBA==
+X-Google-Smtp-Source: ABdhPJwWmWoFQ4+vGSoxRE+HSTm7PoAMGMYHYbhtGaaKbX8tg1guCAiDxOH9L2weypAx/T2wVH1Ovw==
+X-Received: by 2002:a05:6512:39c2:: with SMTP id k2mr2382701lfu.69.1615394711305;
+        Wed, 10 Mar 2021 08:45:11 -0800 (PST)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id j20sm2312558lfb.306.2021.03.10.08.45.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Mar 2021 08:45:10 -0800 (PST)
+Date:   Wed, 10 Mar 2021 17:45:09 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] rcar-csi2: Do not try to recover after transfer
+ error
+Message-ID: <YEj3lTAZ7kYQ6X+s@oden.dyn.berto.se>
+References: <20210115002148.4079591-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210115002148.4079591-5-niklas.soderlund+renesas@ragnatech.se>
+ <3f40c6eb-ba13-ac99-bd08-3cea11563e9a@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3f40c6eb-ba13-ac99-bd08-3cea11563e9a@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Documentation to help users use PCI endpoint to create virtual
-functions using configfs. An endpoint function is designated as a
-virtual endpoint function device when it is linked to a physical
-endpoint function device (instead of a endpoint controller).
+Hi Hans,
 
-Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
----
- Documentation/PCI/endpoint/pci-endpoint-cfs.rst | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Thanks for your feedback.
 
-diff --git a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-index 696f8eeb4738..56fb33c5e8fd 100644
---- a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-+++ b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-@@ -43,6 +43,7 @@ entries corresponding to EPF driver will be created by the EPF core.
- 		.. <EPF Driver1>/
- 			... <EPF Device 11>/
- 			... <EPF Device 21>/
-+			... <EPF Device 31>/
- 		.. <EPF Driver2>/
- 			... <EPF Device 12>/
- 			... <EPF Device 22>/
-@@ -68,6 +69,7 @@ created)
- 				... subsys_vendor_id
- 				... subsys_id
- 				... interrupt_pin
-+			        ... <Symlink EPF Device 31>/
-                                 ... primary/
- 			                ... <Symlink EPC Device1>/
-                                 ... secondary/
-@@ -79,6 +81,13 @@ interface should be added in 'primary' directory and symlink of endpoint
- controller connected to secondary interface should be added in 'secondary'
- directory.
- 
-+The <EPF Device> directory can have a list of symbolic links
-+(<Symlink EPF Device 31>) to other <EPF Device>. These symbolic links should
-+be created by the user to represent the virtual functions that are bound to
-+the physical function. In the above directory structure <EPF Device 11> is a
-+physical function and <EPF Device 31> is a virtual function. An EPF device once
-+it's linked to another EPF device, cannot be linked to a EPC device.
-+
- EPC Device
- ==========
- 
-@@ -98,7 +107,8 @@ entries corresponding to EPC device will be created by the EPC core.
- 
- The <EPC Device> directory will have a list of symbolic links to
- <EPF Device>. These symbolic links should be created by the user to
--represent the functions present in the endpoint device.
-+represent the functions present in the endpoint device. Only <EPF Device>
-+that represents a physical function can be linked to a EPC device.
- 
- The <EPC Device> directory will also have a *start* field. Once
- "1" is written to this field, the endpoint device will be ready to
+On 2021-01-25 10:44:48 +0100, Hans Verkuil wrote:
+> On 15/01/2021 01:21, Niklas Söderlund wrote:
+> > Instead of restarting the R-Car CSI-2 receiver if a transmission error
+> > is detected inform the R-Car VIN driver of the error so it can stop the
+> > whole pipeline and inform user-space. This is done to reflect a updated
+> > usage recommendation in later versions of the datasheet.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 ++++++--------
+> >  1 file changed, 6 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > index 945d2eb8723367f0..a7212ecc46572a3b 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -773,21 +773,19 @@ static irqreturn_t rcsi2_irq(int irq, void *data)
+> >  
+> >  	rcsi2_write(priv, INTERRSTATE_REG, err_status);
+> >  
+> > -	dev_info(priv->dev, "Transfer error, restarting CSI-2 receiver\n");
+> > -
+> >  	return IRQ_WAKE_THREAD;
+> >  }
+> >  
+> >  static irqreturn_t rcsi2_irq_thread(int irq, void *data)
+> >  {
+> >  	struct rcar_csi2 *priv = data;
+> > +	struct v4l2_event event = {
+> > +		.type = V4L2_EVENT_EOS,
+> > +	};
+> >  
+> > -	mutex_lock(&priv->lock);
+> > -	rcsi2_stop(priv);
+> > -	usleep_range(1000, 2000);
+> > -	if (rcsi2_start(priv))
+> > -		dev_warn(priv->dev, "Failed to restart CSI-2 receiver\n");
+> > -	mutex_unlock(&priv->lock);
+> > +	dev_err(priv->dev, "Transfer error detected.\n");
+> 
+> You probably want to call vb2_queue_error() here. Typically once
+> something like this happens you have to restart everything and marking
+> the queue as 'error' will ensure that VIDIOC_QBUF will return an error
+> until the queue is reset (STREAMOFF).
+
+The CSI-2 driver is a bridge driver and does not deal with buffers.  
+Instead the idea here is to signal EOS so that the VIN driver (and 
+user-space) can detect it and indeed as you point out deal with 
+signaling vb2 error.
+
+I will respin this series as it needs to be rebased anyhow.
+
+> 
+> It doesn't hurt to also raise the EOS event, I'm fine with that.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > +
+> > +	v4l2_subdev_notify_event(&priv->subdev, &event);
+> >  
+> >  	return IRQ_HANDLED;
+> >  }
+> > 
+> 
+
 -- 
-2.17.1
-
+Regards,
+Niklas Söderlund
