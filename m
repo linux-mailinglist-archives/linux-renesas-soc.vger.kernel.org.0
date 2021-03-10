@@ -2,45 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 858A7333998
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 11:11:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A9103339B3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 11:12:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232608AbhCJKKO convert rfc822-to-8bit (ORCPT
+        id S232398AbhCJKLr convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Mar 2021 05:10:14 -0500
-Received: from mail-vs1-f52.google.com ([209.85.217.52]:41899 "EHLO
-        mail-vs1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232613AbhCJKJy (ORCPT
+        Wed, 10 Mar 2021 05:11:47 -0500
+Received: from mail-ua1-f51.google.com ([209.85.222.51]:37405 "EHLO
+        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232088AbhCJKLn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Mar 2021 05:09:54 -0500
-Received: by mail-vs1-f52.google.com with SMTP id s8so8414453vsc.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Mar 2021 02:09:54 -0800 (PST)
+        Wed, 10 Mar 2021 05:11:43 -0500
+Received: by mail-ua1-f51.google.com with SMTP id d3so5586788uap.4;
+        Wed, 10 Mar 2021 02:11:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=nQdLVeRcooTh1leexHg+LcVHN8wJsa1HfPZtOGJTqYU=;
-        b=OHlvTbCBk2IllcaLb3wJ7rYEFPOij5mU1gv2vmRYe7JCVNib1oGDkUqOfppWxo0c5J
-         Bz3z0Dw2M4qljOzeLFSWEBcQZiMhX/59OcUDNu+amhLMWp5MbroZg+Cn6k0XDRiZpDLN
-         wqlS4N0SzaCv0rKkSj+0snbIWCe/BYKNQ/+rwwMLGDbaNmuPcg/GMzfefs7dv4VQ6s6a
-         9z/wjnnCF2gJxXnm1jhNRQAP7eZN6yeA/9uC8V7yPtJDn4r1WWNWQetc/4wCakbz5S8X
-         cGMMzxoDPL0QGzgm/jxxBoAZyQ9M+qZ9pfJbSmyyVzYtSf/NyfMfbTtnsT7CsRrMTlfi
-         PEgw==
-X-Gm-Message-State: AOAM5331xRbrRdwhHUK4OQiCDD/K6hvdpE2Obky+m6eP/RyA2ROKGEGu
-        V6K8FjcKnwNw7mTWVl+ywsaY6yLCNY3LbEkKiLI=
-X-Google-Smtp-Source: ABdhPJwrsnohzfdKmgI1ntOfM8YW74D4PHm+F4/xV9w4cOE9tdgb6SEMdJcaVUCBGa1wJDUS9MwqlN8F7+9H+8TguxY=
-X-Received: by 2002:a67:f7c6:: with SMTP id a6mr1193422vsp.42.1615370993713;
- Wed, 10 Mar 2021 02:09:53 -0800 (PST)
+        bh=Vv+IhGQqOwrZwR8YmDLebZP3NhYU/Y7gNKwVOPMZ9Pk=;
+        b=pGAyk4ub32ynVv6qpIi9TAIEnJ2t4cK0Jc00UaoDWfZ3Ybpk1+SFNw96l84sgZhxL/
+         6Iib1praF0Z2UKTGoCCtEwan4Dp+K62c3Go/ckJJ838xui+QUO9WzSgXPw/gV2nfjuzp
+         TAxbjN3aEDRJtPuBgmhlfR2SYd9Pyre7ftmWVwNtkBRScbvJIdLw9ozMu2lfj7jyCYs6
+         wzzeiRzIoidk8KrTMMD+cUhz41ti9cwKxc+/+PnMjHoh1koPjHBJouprtN3a4so+n7g0
+         qINWhQoAR6/0I8/reomUsSv0qEM9UxicNj/oIofbOjNlQx+wweFbyHiXe7mcP2Kv+vHX
+         oDmQ==
+X-Gm-Message-State: AOAM533cY/l5IHKXucHzUnM/IUq+DErOZUWmCV4fhwdjgAetVcYl/LGB
+        iCvKtQKpYneLBIlpyKpQO9K8gm6Tb6AqEqJxPJvSioLb
+X-Google-Smtp-Source: ABdhPJyuEmL5cUU1NWZHjoxUevh5V6Ga6CzUQIVNbwqNxUUguBO/6ED2XjSfgC9drurniSfBPa5jT0xtfS6LnfD2KEM=
+X-Received: by 2002:ab0:3c8:: with SMTP id 66mr1153377uau.4.1615371102896;
+ Wed, 10 Mar 2021 02:11:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20210309162811.2624019-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20210309162811.2624019-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20210309162419.2621359-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20210309162419.2621359-1-niklas.soderlund+renesas@ragnatech.se>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 10 Mar 2021 11:09:42 +0100
-Message-ID: <CAMuHMdVG736E0ENtfic9vSaKEaU86VvRL=pmz8c-NgehdqE5iw@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: r8a779a0: Add thermal support
+Date:   Wed, 10 Mar 2021 11:11:31 +0100
+Message-ID: <CAMuHMdUwbeF1fbCAT0AzKUJ=XabTX4JL6yRNk3ydqq+n3-OZNA@mail.gmail.com>
+Subject: Re: [PATCH] thermal: rcar_gen3_thermal: Add support for up to five
+ TSC nodes
 To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -50,40 +52,34 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Niklas,
 
-On Tue, Mar 9, 2021 at 5:28 PM Niklas Söderlund
+On Tue, Mar 9, 2021 at 5:25 PM Niklas Söderlund
 <niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add support for thermal.
+> Add support for up to five TSC nodes. The new THCODE values are taken
+> from the example in the datasheet.
 >
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> * Changes since v1
-> - Add fifth TSC node.
 
-Thanks for the update!
+Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> @@ -260,6 +260,19 @@ sysc: system-controller@e6180000 {
->                         #power-domain-cells = <1>;
->                 };
+> --- a/drivers/thermal/rcar_gen3_thermal.c
+> +++ b/drivers/thermal/rcar_gen3_thermal.c
+> @@ -60,7 +60,7 @@
+>  #define MCELSIUS(temp) ((temp) * 1000)
+>  #define GEN3_FUSE_MASK 0xFFF
 >
-> +               tsc: thermal@e6190000 {
-> +                       compatible = "renesas,r8a779a0-thermal";
-> +                       reg = <0 0xe6190000 0 0x100>,
-> +                             <0 0xe6198000 0 0x100>,
-> +                             <0 0xe61a0000 0 0x100>,
-> +                             <0 0xe61a8000 0 0x100>,
-> +                             <0 0xe61b0000 0 0x100>;
+> -#define TSC_MAX_NUM    4
+> +#define TSC_MAX_NUM    5
 
-0x100 doesn't cover all registers. What about 0x200?
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> +                       clocks = <&cpg CPG_MOD 919>;
-> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 919>;
-> +                       #thermal-sensor-cells = <1>;
-> +               };
+> @@ -68,6 +68,7 @@ static const int thcodes[TSC_MAX_NUM][3] = {
+>         { 3393, 2795, 2216 },
+>         { 3389, 2805, 2237 },
+>         { 3415, 2694, 2195 },
+> +       { 3356, 2724, 2244 },
+>  };
 
-The rest looks good to me.
+I cannot comment on the actual values, though.
 
 Gr{oetje,eeting}s,
 
