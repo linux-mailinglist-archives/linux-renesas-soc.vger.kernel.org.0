@@ -2,81 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CF46334918
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 21:48:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3170336801
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Mar 2021 00:47:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231410AbhCJUro (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Mar 2021 15:47:44 -0500
-Received: from www.zeus03.de ([194.117.254.33]:53282 "EHLO mail.zeus03.de"
+        id S234036AbhCJXrP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Mar 2021 18:47:15 -0500
+Received: from mga09.intel.com ([134.134.136.24]:2181 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230491AbhCJUrO (ORCPT
+        id S233455AbhCJXqt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Mar 2021 15:47:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=iRQS/3vRUM9mK4Of5TDd2Y/NoUUz
-        mLBVo4R9sf6UIYI=; b=HAmJkHozwgW2EB1TxMVdBQg8UmnA/xT0btD8kyv51aFS
-        IQbLDSW9hDjq3fM3QAuTqxAsScbtDEfBjv7QFdBz53z5VLtuoLYdxC8rwfy21R5d
-        l/NeuyD0vMaWm+HxvZG23VTNuKAooyoDxWyV8xpKnC73I2zbQSBH8SHxa0UrFbc=
-Received: (qmail 3981199 invoked from network); 10 Mar 2021 21:46:49 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Mar 2021 21:46:49 +0100
-X-UD-Smtp-Session: l3s3148p1@YdcQxDS9bKYgAwDPXwh3AMWGV3T2U+ZY
-Date:   Wed, 10 Mar 2021 21:46:48 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Jean Delvare <jdelvare@suse.de>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for
- returned length from driver"
-Message-ID: <20210310204648.GA332643@ninjato>
-References: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
- <20210226174337.63a9c2a6@endymion>
+        Wed, 10 Mar 2021 18:46:49 -0500
+IronPort-SDR: Nm09tyVX+suOJot8fz2aREJ4+y4ecwqCCjXwPKJ0PhIBqrYlLZUynAqP2ezhpEdVeEwAdu9Vzh
+ cMAEOEndtTbA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="188682872"
+X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; 
+   d="scan'208";a="188682872"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2021 15:46:49 -0800
+IronPort-SDR: AZ37Qef4zOX6Gt4FSFLefn1K+Eakcy8KkZyRSTCX/fY74bmgzcDFMMlsPIPfwMf7qsjzfkBK2a
+ Npev+8Pvm8BA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; 
+   d="scan'208";a="431403214"
+Received: from lkp-server02.sh.intel.com (HELO ce64c092ff93) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 10 Mar 2021 15:46:48 -0800
+Received: from kbuild by ce64c092ff93 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lK8XP-0000SX-ME; Wed, 10 Mar 2021 23:46:47 +0000
+Date:   Thu, 11 Mar 2021 07:46:25 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:renesas-arm-dt-for-v5.13] BUILD SUCCESS
+ 596e6e1c03cadf93ab37d3cdea672a01889356cb
+Message-ID: <60495a51.9X9iJg3qxwOtjAu+%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="zYM0uCDKw75PZbzx"
-Content-Disposition: inline
-In-Reply-To: <20210226174337.63a9c2a6@endymion>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.13
+branch HEAD: 596e6e1c03cadf93ab37d3cdea672a01889356cb  arm64: dts: renesas: r8a779a0: Add TMU support
 
---zYM0uCDKw75PZbzx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 727m
 
+configs tested: 119
+configs skipped: 15
 
-> We don't usually do minor version updates for bug fixes. Instead, what
-> I do is maintain a list of such "must have" fixes, that package
-> maintainers can refer to. Look for "Recommended patches" at:
->=20
-> https://i2c.wiki.kernel.org/index.php/I2C_Tools
->=20
-> There's no section for version 4.2 yet, but we can add one as soon as
-> the commit hits the public repository.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I added a section now for the 4.2 release. And (finally!) started
-cleaning up the wiki a little.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+m68k                          hp300_defconfig
+powerpc                    adder875_defconfig
+powerpc                 mpc8313_rdb_defconfig
+powerpc                      ppc40x_defconfig
+mips                      pistachio_defconfig
+powerpc                 mpc837x_rdb_defconfig
+sh                          landisk_defconfig
+sh                          rsk7264_defconfig
+sh                          r7780mp_defconfig
+m68k                        mvme16x_defconfig
+powerpc                    mvme5100_defconfig
+sh                                  defconfig
+powerpc                 mpc832x_rdb_defconfig
+arm                       cns3420vb_defconfig
+m68k                       m5275evb_defconfig
+h8300                               defconfig
+mips                        bcm63xx_defconfig
+powerpc                     tqm8541_defconfig
+sh                          urquell_defconfig
+arc                    vdk_hs38_smp_defconfig
+m68k                       bvme6000_defconfig
+x86_64                              defconfig
+arm                        spear3xx_defconfig
+powerpc                     pq2fads_defconfig
+arc                 nsimosci_hs_smp_defconfig
+mips                            ar7_defconfig
+powerpc                     asp8347_defconfig
+powerpc                         wii_defconfig
+arm                       versatile_defconfig
+sh                         ap325rxa_defconfig
+mips                           jazz_defconfig
+arm                        multi_v5_defconfig
+m68k                        m5272c3_defconfig
+m68k                             allyesconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a005-20210309
+i386                 randconfig-a003-20210309
+i386                 randconfig-a002-20210309
+i386                 randconfig-a006-20210309
+i386                 randconfig-a004-20210309
+i386                 randconfig-a001-20210309
+x86_64               randconfig-a011-20210310
+x86_64               randconfig-a016-20210310
+x86_64               randconfig-a013-20210310
+x86_64               randconfig-a015-20210310
+x86_64               randconfig-a014-20210310
+x86_64               randconfig-a012-20210310
+x86_64               randconfig-a013-20210309
+x86_64               randconfig-a016-20210309
+x86_64               randconfig-a015-20210309
+x86_64               randconfig-a014-20210309
+x86_64               randconfig-a011-20210309
+x86_64               randconfig-a012-20210309
+i386                 randconfig-a016-20210308
+i386                 randconfig-a012-20210308
+i386                 randconfig-a014-20210308
+i386                 randconfig-a013-20210308
+i386                 randconfig-a011-20210308
+i386                 randconfig-a015-20210308
+i386                 randconfig-a016-20210309
+i386                 randconfig-a012-20210309
+i386                 randconfig-a014-20210309
+i386                 randconfig-a013-20210309
+i386                 randconfig-a011-20210309
+i386                 randconfig-a015-20210309
+x86_64               randconfig-a006-20210308
+x86_64               randconfig-a001-20210308
+x86_64               randconfig-a004-20210308
+x86_64               randconfig-a002-20210308
+x86_64               randconfig-a005-20210308
+x86_64               randconfig-a003-20210308
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-
---zYM0uCDKw75PZbzx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBJMDMACgkQFA3kzBSg
-KbYcAg/9FT/1o+sZxGgP4Vg+/OzXXx68jfRMOBlVbPYjPdAhSRitIVknwim9f5Va
-y7fMoJiWlR3/ZibcNv+KhhiP8OwU34lXxib6V70sRacvTtUoSU7VrpLWW2UgnES2
-IBW22fICQkc3wJoEFedM3GidCxPipJY3o30wrbCKFG1crKE2rQuteWGx1X/WD8vM
-dml7LcABmDW09WAfP5MS8AETTC8BP4u0K4BQAa+OdcQZTRcOEjqT9oUgwW26Wl9o
-9WS0WAVfKOc86rVCfaH4YFlnuFmOu8bWiEJOjlAl1XHfJq4NYydD+A0c8IHP0ohm
-UdAs9ymD3XYIsV0adXIrjsP75cvQcW62xykghnxeSuv1Ezp9TWq87IS+b3vOe0fo
-4dp5kJvIGcTvJ5Pq9O+smgmIDe7qY8A+MN7c9oDYWnbkTrHlZhNMtZCYDB5kZ6SA
-abMgyTUA160N/aeypy4b77MX164e1pboajNACGXspt1ZaoAXwXvktjUKjKOmFHVs
-Scnma7/H3x2KdLurtNfNJjPoN1UgId3pWkCr0o0hkm/g20g7QuEuBSJh+Y1mr8a2
-eWjbAjmT9B30R6q4F7+XxJvXvzSjLt7D0FN0cv5Fukp3v7YFDWyavzOzJeYaWCpQ
-MKTDoHiD/oAAkl6kikdbH5Ms6VXXO1DtaE3lfEmZby+q0vF4OOo=
-=o4wm
------END PGP SIGNATURE-----
-
---zYM0uCDKw75PZbzx--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
