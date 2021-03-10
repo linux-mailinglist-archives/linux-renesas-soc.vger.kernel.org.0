@@ -2,112 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 712B4333CB6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 13:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8E57333CBB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Mar 2021 13:41:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232073AbhCJMhB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Mar 2021 07:37:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35290 "EHLO
+        id S231666AbhCJMku (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Mar 2021 07:40:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231201AbhCJMg3 (ORCPT
+        with ESMTP id S230341AbhCJMkY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Mar 2021 07:36:29 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE959C061761
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Mar 2021 04:36:17 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id d3so33116353lfg.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Mar 2021 04:36:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=wvY76eg99jBTqNYFmy4gDh1iQNs6zhJ5b0p9932USQw=;
-        b=QRpTJn8ThdXUV39lDd8cnveIRC8086K9/qIj9AwNHSWl65IyxP9tIScbPeLKO+3E1J
-         y1XQ+pqMn2MCz0OCRk0p1Cqey8Lb54d+tVIV+7nsEVy8Lx/Cnvx605uodP/QM9THH4m7
-         hZwba0y+ue+6LRuqyI0C3B+D5XbyFNGcDj7sBRh8Ybj26mQCLklhmV94mQPUqgpnxFnq
-         FaZhKGksWphzJxNScyTGW9LIat3TTkRtSwFpRJ1VIANyheVHjbhBrAP0hWkgsd4htuQJ
-         gXOLFbpz8EX8D/GYxQa+ofz/YN4dyZ0uKl7dDFvEoeeUmgDuAmeKHgjmYMZo8YY/y60r
-         ZdhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=wvY76eg99jBTqNYFmy4gDh1iQNs6zhJ5b0p9932USQw=;
-        b=IWRQ/MyZJSii4y9Q0zrS4HEZkbx/GPHlyLBEVH2DqCkueEPNyNSO1Pbw5d3K2dutQA
-         QC2axMd1fpkdrWMlKMx7d7evHlgpEK00jc/Bfe0NEuL2suWp9wgFxiOsA+4EsnnkXn4Z
-         wLcNMfGSwpjZPVTzdDlYfPoJqi9odk0S3/i2ccIf92RBqUsiJtg9a8++Rb1YkIzETT/E
-         8hfeQC+B7ZolCYm2kdxLghsGXNbKsJuLSTbcI3UcIBCP7rZ+RnufWQcPc8Iz4HaXIROc
-         ycLB3xTnjIyKR9262zn/82uYZ/E1YoNG7tjhdOrT/GM93ZJDunMK7De1i5lY599hJMP+
-         q/uQ==
-X-Gm-Message-State: AOAM532DDoBaivBY8twktklMmm9QllIALIses3eEtrnKTrhpnFQtenCg
-        BwDsS6pz43TUf1urh0Ziv1obZw==
-X-Google-Smtp-Source: ABdhPJyF1X1wi9PasHv+1Zwkn73qFo8J6v+WdbE+N5nUdQLBatPlXXALEpSTIirwd8JIZCrmyt//sw==
-X-Received: by 2002:a05:6512:1054:: with SMTP id c20mr1884999lfb.170.1615379776478;
-        Wed, 10 Mar 2021 04:36:16 -0800 (PST)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id d21sm3145211ljo.55.2021.03.10.04.36.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 04:36:15 -0800 (PST)
-Date:   Wed, 10 Mar 2021 13:36:15 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        devicetree@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v2] dt-bindings: timer: renesas,tmu: Document missing
- Gen3 SoCs
-Message-ID: <YEi9P8Hr6O48nsR3@oden.dyn.berto.se>
-References: <20210211143102.350719-1-niklas.soderlund+renesas@ragnatech.se>
+        Wed, 10 Mar 2021 07:40:24 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEDB8C061760;
+        Wed, 10 Mar 2021 04:40:23 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07FCBF3;
+        Wed, 10 Mar 2021 13:40:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1615380021;
+        bh=L1Qfhi4dDxGV3PGZ3CwD9ZsY/EKffY6u6Z68u5bbnLo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gPNnaBR79mVacN8LMMQICbM2FlbqYsa0kYRZKfqnpUyWh4q6cwzeSdm35F92pzwr6
+         rah1HfARz0A45uDlgqcZ4TcOWE1sHds6pOD3yiUgLg4daxHTw/nY1/LowuPQ8uYiGP
+         /Ht1mRVvyI7UyHUn75cnQKoDOerwx51XWbl25NMo=
+Date:   Wed, 10 Mar 2021 14:39:48 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pavel Machek <pavel@denx.de>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 2/3] media: i2c: imx219: Serialize during stream
+ start/stop
+Message-ID: <YEi+FBRbXBJch1DM@pendragon.ideasonboard.com>
+References: <20210310122014.28353-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210310122014.28353-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210211143102.350719-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20210310122014.28353-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Deniel,
+Hi Prabhakar,
 
-Gentle ping on this and "[PATCH v2] dt-bindings: timer: renesas,cmt: 
-Document R8A77961" both are reviewed by both Rob and Geert ready to be 
-picked up.
+Thank you for the patch.
 
-On 2021-02-11 15:31:02 +0100, Niklas Söderlund wrote:
-> Add missing bindings for Gen3 SoCs.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, Mar 10, 2021 at 12:20:13PM +0000, Lad Prabhakar wrote:
+> Serialize during stream start/stop in suspend/resume callbacks.
+
+Could you please explain why this is needed ?
+
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->  Documentation/devicetree/bindings/timer/renesas,tmu.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/media/i2c/imx219.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-> index c54188731a1bd7c1..f0f0f121c355b159 100644
-> --- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-> +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-> @@ -28,8 +28,14 @@ properties:
->            - renesas,tmu-r8a774e1 # RZ/G2H
->            - renesas,tmu-r8a7778  # R-Car M1A
->            - renesas,tmu-r8a7779  # R-Car H1
-> +          - renesas,tmu-r8a7795  # R-Car H3
-> +          - renesas,tmu-r8a7796  # R-Car M3-W
-> +          - renesas,tmu-r8a77961 # R-Car M3-W+
-> +          - renesas,tmu-r8a77965 # R-Car M3-N
->            - renesas,tmu-r8a77970 # R-Car V3M
->            - renesas,tmu-r8a77980 # R-Car V3H
-> +          - renesas,tmu-r8a77990 # R-Car E3
-> +          - renesas,tmu-r8a77995 # R-Car D3
->        - const: renesas,tmu
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index f0cf1985a4dc..87c021de1460 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -1172,8 +1172,10 @@ static int __maybe_unused imx219_suspend(struct device *dev)
+>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>  	struct imx219 *imx219 = to_imx219(sd);
 >  
->    reg:
-> -- 
-> 2.30.0
-> 
+> +	mutex_lock(&imx219->mutex);
+>  	if (imx219->streaming)
+>  		imx219_stop_streaming(imx219);
+> +	mutex_unlock(&imx219->mutex);
+>  
+>  	return 0;
+>  }
+> @@ -1184,11 +1186,13 @@ static int __maybe_unused imx219_resume(struct device *dev)
+>  	struct imx219 *imx219 = to_imx219(sd);
+>  	int ret;
+>  
+> +	mutex_lock(&imx219->mutex);
+>  	if (imx219->streaming) {
+>  		ret = imx219_start_streaming(imx219);
+>  		if (ret)
+>  			goto error;
+>  	}
+> +	mutex_unlock(&imx219->mutex);
+>  
+>  	return 0;
+>  
+> @@ -1197,6 +1201,7 @@ static int __maybe_unused imx219_resume(struct device *dev)
+>  	imx219->streaming = false;
+>  	__v4l2_ctrl_grab(imx219->vflip, false);
+>  	__v4l2_ctrl_grab(imx219->hflip, false);
+> +	mutex_unlock(&imx219->mutex);
+>  
+>  	return ret;
+>  }
 
 -- 
 Regards,
-Niklas Söderlund
+
+Laurent Pinchart
