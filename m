@@ -2,108 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D539E33721B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Mar 2021 13:11:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CC26337303
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Mar 2021 13:49:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232919AbhCKMKs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Mar 2021 07:10:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57734 "EHLO
+        id S233071AbhCKMsm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Mar 2021 07:48:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233001AbhCKMKl (ORCPT
+        with ESMTP id S232940AbhCKMsk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Mar 2021 07:10:41 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A3DC061760
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Mar 2021 04:10:40 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id 18so39340662lff.6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Mar 2021 04:10:40 -0800 (PST)
+        Thu, 11 Mar 2021 07:48:40 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 216ABC061760
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Mar 2021 04:48:40 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id c76-20020a1c9a4f0000b029010c94499aedso13121528wme.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Mar 2021 04:48:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=6WQ2Uh7ZOAQINzgbxJVZJPF3m1HcFUAUJ1TDlBBkKGU=;
-        b=fnSJ5ej86s4V4r9U4SJ8ZESf0GGr65kdYnTpHxuPvMrZZM2a8V7V8kD2aUbI3WlWSE
-         reBjdpVpvYvbknHvJIFv8YxJrtq2wBbCPEGbE61oj9MnZMTYnH4DPRZ9mnDioh9apkLt
-         hohpS3IUsqUtQctDHBV2zGBWr+JRFRHABGIFSypEjaAzpjEcPwJxGTRmqlMOKCnYBbvY
-         2XqRn7UYfirpUEB31r/3YfejMEQrjxmkDbGAY8MTRzOdC+9fXQ3k6vExf31FhyTkXkrM
-         26t3E60ybFd1ZvpkAL975586gUuhFeSQykQvlMnTZecz7cCbTie0KWbYwHe+S9QS3bsq
-         mccg==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=jMNZouCo+1d5H2qWe/E7v+XNod/8+AQam22rkwP2KKA=;
+        b=QUHZ1BWWfdEGRB5rbq3mipANwBPkD+F2tpV4supyTsOy7VEZzRfN3rvu2yud2Kli9h
+         wF+QSGCF2/4/DH/pWNe644paV0E1njkJ/IJN0+pNKZYPaXXoAN7v513Wa6Z9ZfLpaP1X
+         tQ/Etby7JXq0/NQEo5yhhqT9pwulG2e16a7aINt4f4JKMJ/tZqIXOv1mDa6drsyA27n+
+         T82mR/jnw+DEyHUs8LvSo7xALMKzriAJQgcgERWxlWWKQx/Ts7FM0W3o4H9RQHNMWp1P
+         yxn0uYzcnzs874pz9rlLsMb631BtaGVx3w4qckyIa2a8reqQqnppEhWgDrtMLKSbTld4
+         4DIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=6WQ2Uh7ZOAQINzgbxJVZJPF3m1HcFUAUJ1TDlBBkKGU=;
-        b=oiwADmlmdUFE2Xnv0itxMYs22a6JkxE+cYZx1ybWkTWgTrd/eyc8lDgF6W2Sy1aG1K
-         b0AO7qLfmBRxP12C6jeWVwszs8xYqsKaPRFSviBHRbVQIZdce8wKFNu61hhtPWQ7y7Zh
-         aIw9+7sGQAHPku8gXHx9D2/PKKV0uBjznvhSi9TqGYZFNF6s4RYHQsxRCerrJ/kuVOmw
-         q5bOGbdcK3UplVXyXaTGKBrdc9qZ5Q/rWzVToEEvvIhj5Bac2HL7Z3gECx1gGCGCXGYn
-         kkHXQZWttS+ho1ucpK6ZlPS8uTz4HtJxX6PPQAkd6xMe4u8y7AKIftY+2uJP1w4wKv54
-         Dklw==
-X-Gm-Message-State: AOAM533CX8imG8WMFXR9Rk714E+X2KpT5AOfvZ0vafz+CyAuu66d/9vX
-        5iVzD9JS/IkmQ3TZRQCIwslQoxDtLDL9Zoac
-X-Google-Smtp-Source: ABdhPJz6SebrF7Fq9Ak8nU8uXD4GLzklZ6aTnlCi+eN90s+eykOW6giy7THR+Lp1cpEjQOJB/9DgJQ==
-X-Received: by 2002:a19:8048:: with SMTP id b69mr2196729lfd.458.1615464639071;
-        Thu, 11 Mar 2021 04:10:39 -0800 (PST)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id j2sm782133lfe.47.2021.03.11.04.10.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 04:10:38 -0800 (PST)
-Date:   Thu, 11 Mar 2021 13:10:37 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        devicetree@vger.kernel.org
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=jMNZouCo+1d5H2qWe/E7v+XNod/8+AQam22rkwP2KKA=;
+        b=mKgzzPwVpqu22wnjtcFC+g05yLEFSwIordEmp/1oZeCD6ZXSQaF2YbNEKJT4TbucX8
+         iZvCLIVraR2lgh7x7Cgd8LJ/goha2UzqbPzA28wNbdTow7TGPvjp2Udw/J32m5kpd/4t
+         gBP+8t3jFmMlcInu4cBYeNIdINiJkA5JgojvPqs8oMmN6MTgtRXRx0ZGngOHb266p1r3
+         NkWCBVNNbo/AEyE7hVprmePDED6N7ulivnZqJ06RFiLtmftqR44mCUhqHADkX+GQIQxG
+         jA8M9+arHwXBMZWTvsCvqqcZbFryepF+WQM5BWPiSeSHXT3XLqVradEU+L4mv2Rpmykp
+         lkJQ==
+X-Gm-Message-State: AOAM532P8DNBPQcLVijJKeTVGI9RGOyDrK5gHylM4bIYk9Vcou4baDpH
+        4o7Mb7Qf810XZgMhpBFycbU1Gg==
+X-Google-Smtp-Source: ABdhPJzuaxJPHXi3Nh525ggNHV50ohFSD47KiR8c7yxtF8V/4Ky8cAZWJ7CVoDWvCchokk1x9tx6bQ==
+X-Received: by 2002:a1c:a985:: with SMTP id s127mr7932529wme.158.1615466918578;
+        Thu, 11 Mar 2021 04:48:38 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:84cf:7f4d:d470:dfd4? ([2a01:e34:ed2f:f020:84cf:7f4d:d470:dfd4])
+        by smtp.googlemail.com with ESMTPSA id i17sm3723262wrp.77.2021.03.11.04.48.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Mar 2021 04:48:38 -0800 (PST)
+Subject: Re: [PATCH v2] dt-bindings: timer: renesas,cmt: Document R8A77961
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>, devicetree@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v2] dt-bindings: timer: renesas,cmt: Document R8A77961
-Message-ID: <YEoIvYLcPbzS6VMC@oden.dyn.berto.se>
 References: <20210211143344.352588-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <760cc031-f770-1aed-7ac7-02181e27b625@linaro.org>
+Date:   Thu, 11 Mar 2021 13:48:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20210211143344.352588-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Gentle ping.
-
-On 2021-02-11 15:33:44 +0100, Niklas Söderlund wrote:
+On 11/02/2021 15:33, Niklas SÃ¶derlund wrote:
 > Add missing bindings for M3-W+.
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
 > Reviewed-by: Rob Herring <robh@kernel.org>
 > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  Documentation/devicetree/bindings/timer/renesas,cmt.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-> index 428db3a21bb9c384..d16b5a243ed48eef 100644
-> --- a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-> +++ b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-> @@ -74,6 +74,7 @@ properties:
->                - renesas,r8a774e1-cmt0     # 32-bit CMT0 on RZ/G2H
->                - renesas,r8a7795-cmt0      # 32-bit CMT0 on R-Car H3
->                - renesas,r8a7796-cmt0      # 32-bit CMT0 on R-Car M3-W
-> +              - renesas,r8a77961-cmt0     # 32-bit CMT0 on R-Car M3-W+
->                - renesas,r8a77965-cmt0     # 32-bit CMT0 on R-Car M3-N
->                - renesas,r8a77970-cmt0     # 32-bit CMT0 on R-Car V3M
->                - renesas,r8a77980-cmt0     # 32-bit CMT0 on R-Car V3H
-> @@ -89,6 +90,7 @@ properties:
->                - renesas,r8a774e1-cmt1     # 48-bit CMT on RZ/G2H
->                - renesas,r8a7795-cmt1      # 48-bit CMT on R-Car H3
->                - renesas,r8a7796-cmt1      # 48-bit CMT on R-Car M3-W
-> +              - renesas,r8a77961-cmt1     # 48-bit CMT on R-Car M3-W+
->                - renesas,r8a77965-cmt1     # 48-bit CMT on R-Car M3-N
->                - renesas,r8a77970-cmt1     # 48-bit CMT on R-Car V3M
->                - renesas,r8a77980-cmt1     # 48-bit CMT on R-Car V3H
-> -- 
-> 2.30.0
-> 
+
+Applied, thanks
+
 
 -- 
-Regards,
-Niklas Söderlund
+<http://www.linaro.org/> Linaro.org â”‚ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
