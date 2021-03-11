@@ -2,74 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 593CF3370D1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Mar 2021 12:06:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B1773370F2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Mar 2021 12:15:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232568AbhCKLGL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Mar 2021 06:06:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43868 "EHLO
+        id S232597AbhCKLPP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Mar 2021 06:15:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232537AbhCKLGC (ORCPT
+        with ESMTP id S232607AbhCKLPD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Mar 2021 06:06:02 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ECB1C061574
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Mar 2021 03:06:02 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:7de2:4aac:7672:1000])
-        by xavier.telenet-ops.be with bizsmtp
-        id ez5x2400W0xVtAs01z5xyw; Thu, 11 Mar 2021 12:05:58 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lKJ8f-006rEY-Gw; Thu, 11 Mar 2021 12:05:57 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lKJ8f-00D6ko-4N; Thu, 11 Mar 2021 12:05:57 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: r8a77950: Drop operating points above 1.5 GHz
-Date:   Thu, 11 Mar 2021 12:05:52 +0100
-Message-Id: <20210311110552.3124180-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Thu, 11 Mar 2021 06:15:03 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFD1BC061760
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Mar 2021 03:15:02 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id v15so1396594wrx.4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Mar 2021 03:15:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Pfw8w/HowfodcVJewDtKiPaknmOGY7Z3Znp/juepW0w=;
+        b=pMq+mgbzgL0btaJAfs2U4scqRZM4N3inTNQB9QqD1R80YsX3h01j7q3/mPhPrinWi5
+         kL5nqsw5FEPv0Ot+Nj/smfEl9yl5oAGPhPPAo2C9EAlCEio1nj+hIv114TnXWpmLw5vV
+         9dCV5N01D8vvUWwncMq4DTRdIpy8z9nIgkhTSzFRH0WA4SLh16mBhweGKchyeUKzedLW
+         F/YYIwIrXUGxvO062rTgHjxiS5WrGyIYBPsSEi+2/umSpbWRaA1PfP6OSai2q4/EYld5
+         IM9R51W+kl4XcAkW+h3Dfjgj9wuO3ICIHa2Dv2YnbB3WcVISjaLf2ziHkOrpdQc2y1Ja
+         0QAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Pfw8w/HowfodcVJewDtKiPaknmOGY7Z3Znp/juepW0w=;
+        b=dlIxqRgTHpWTYwdUuTLf7du1OFcIoMRXv0xcBeNz3EuZuF6hmacnizuoUIHETJjHQu
+         yqaeNR5AwqNhxoTzOf2+kllmc7SqE0jBDZyj7vzB60WwdZRtq45Q1q3uPeO5G4JsiOcE
+         QYddJ8AS/2iETLMX6WOFK2GHUnI5Zm5vCiBJCK9vCu53Bs1MkZoB5w+ARgg8qTNuFacP
+         IRuuurNAVh5SU8WcKteBLGzlt5FQ8W9tA25/lLG5JOt8TRiS96EfLpVwqtWL+yQhYXgg
+         oTssmLJFZHSSE/vjWRnBksOgpwUajwyoE1YzMqAK85YTI4trZRL8ChVDZlmsBDXwwZmX
+         CiwA==
+X-Gm-Message-State: AOAM531KcUfVxnK7/V7/wr3ULcQQuOXGnssApad7/lkc2DON8Q+UprY4
+        v+wRMx5YVR5wMhkiLn2gBwjZdSoC91pA6A==
+X-Google-Smtp-Source: ABdhPJysBDa1s86qN51h3Y8q5+eEiPIVWUWb7o/PTc7iLX5D+Yf7kQ1fsu0+0dIGD/HOLt6vCPHgjw==
+X-Received: by 2002:a5d:638f:: with SMTP id p15mr8053813wru.220.1615461301559;
+        Thu, 11 Mar 2021 03:15:01 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:84cf:7f4d:d470:dfd4? ([2a01:e34:ed2f:f020:84cf:7f4d:d470:dfd4])
+        by smtp.googlemail.com with ESMTPSA id h22sm3638454wmb.36.2021.03.11.03.15.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Mar 2021 03:15:01 -0800 (PST)
+Subject: Re: [PATCH v2] dt-bindings: timer: renesas,cmt: add r8a779a0 CMT
+ support
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+References: <20210311090918.2197-1-wsa+renesas@sang-engineering.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <29b70ddb-5809-d2e8-a07f-0926590afa0c@linaro.org>
+Date:   Thu, 11 Mar 2021 12:15:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210311090918.2197-1-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The higher operating frequencies for the Cortex-A57 CPU cores, which
-were first documented in the R-Car Gen3 Hardware User's Manual revision
-0.54, apply to R-Car H3 ES2.0 (r8a77951).
+On 11/03/2021 10:09, Wolfram Sang wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 
-Play it safe and restrict R-Car H3 ES1.x to 1.5 GHz, by removing the
-"turbo-mode" entries from the operating points table inherited from
-r8a77951.dtsi.
+Applied, thanks
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- arch/arm64/boot/dts/renesas/r8a77950.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77950.dtsi b/arch/arm64/boot/dts/renesas/r8a77950.dtsi
-index d716c4386ae9f437..25b87da32eebb6dc 100644
---- a/arch/arm64/boot/dts/renesas/r8a77950.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77950.dtsi
-@@ -29,6 +29,11 @@ &audma1 {
- 	       <&ipmmu_mp1 30>, <&ipmmu_mp1 31>;
- };
- 
-+&cluster0_opp {
-+	/delete-node/ opp-1600000000;
-+	/delete-node/ opp-1700000000;
-+};
-+
- &du {
- 	renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd3 0>;
- };
 -- 
-2.25.1
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
