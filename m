@@ -2,98 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11536337397
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Mar 2021 14:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 158B33379A3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Mar 2021 17:41:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233372AbhCKNSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Mar 2021 08:18:08 -0500
-Received: from www.zeus03.de ([194.117.254.33]:33718 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233251AbhCKNRv (ORCPT
+        id S229673AbhCKQlS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Mar 2021 11:41:18 -0500
+Received: from mail-il1-f178.google.com ([209.85.166.178]:37497 "EHLO
+        mail-il1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229530AbhCKQlL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Mar 2021 08:17:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Zuc41uOmSE70Dv7hPr9k7hK184S7
-        1VttQC3DzyQ0e4c=; b=PKiuR3bQnNceDOqMnNgipBhoNXog7bAeF3SR11hAb0Cr
-        4O1fPZzHkJ20X50ipIq2tna8JsZqBCR3CFXx6T3oAgJjbx3WcIIHC4S+7MBhPhi9
-        YbfbZdphOoN3aDY7Bk3CZ5WudFwNcVPb7jjYGnX/G4I1zA1kKA+w30zc9IlKSJc=
-Received: (qmail 22202 invoked from network); 11 Mar 2021 14:17:49 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Mar 2021 14:17:49 +0100
-X-UD-Smtp-Session: l3s3148p1@OBUqnEK9bM8gARa4Rf6LAY0TkMkJSYgM
-Date:   Thu, 11 Mar 2021 14:17:48 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-Subject: Re: [PATCH 2/2] mmc: renesas_sdhi: do hard reset if possible
-Message-ID: <20210311131748.GG3566@ninjato>
-References: <20210309092332.30705-1-wsa+renesas@sang-engineering.com>
- <20210309092332.30705-3-wsa+renesas@sang-engineering.com>
- <TY2PR01MB3692A6D95BD60A17AE698DF3D8919@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="NY6JkbSqL3W9mApi"
-Content-Disposition: inline
-In-Reply-To: <TY2PR01MB3692A6D95BD60A17AE698DF3D8919@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+        Thu, 11 Mar 2021 11:41:11 -0500
+Received: by mail-il1-f178.google.com with SMTP id k2so19492431ili.4;
+        Thu, 11 Mar 2021 08:41:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=WJe+Al4qm0TlWJf1+/8W5HUdeHTdNJA3rf8BM2iIptk=;
+        b=AzJcO3wSF//A/H6wlYrvP1gsRK6NLXNJQbpM6PU25xBHeGT+z8VDjSSemb4FRQfVGw
+         0euEULDjyW4RtKpHDbVVCAowCwCPw+D3Pk3FBZa69gdzWILj2lQz4mOob9oZ++z1zgcp
+         fQJzXnQbz02sMZZK9zBQVbnDtJhEWKFC+gOsEcFGEmvKow2pGmo2GXybi5Rr852skOGr
+         LhZSzod/vXWl2r6orGg03QgChgqwVU0Nb9xLblkfmfYN/XjzAS6Hz/FuVC3RGunWqbYW
+         aSUO7z8nOM6qO+nPJl9jlUZIn4J197uzrJq/5LJyzd8uL5p2YiQ01GJPnDS3t66G9H7L
+         9Ohw==
+X-Gm-Message-State: AOAM532IvssVqgFHUi2HzELwlEgl0nWxRqrM0qRoxzF8RBzFAcDQRgFF
+        0X9y6ju8XkCAysDqP/zCwQ==
+X-Google-Smtp-Source: ABdhPJy5JH73VdS/BWpz9w3adZarKXeH/Kn/+riDA2p7RpMCJf639DgSqQxK8bSDmbnL693mxvBLDw==
+X-Received: by 2002:a05:6e02:1154:: with SMTP id o20mr7664202ill.236.1615480870559;
+        Thu, 11 Mar 2021 08:41:10 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id y18sm1588767ili.16.2021.03.11.08.41.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Mar 2021 08:41:08 -0800 (PST)
+Received: (nullmailer pid 841935 invoked by uid 1000);
+        Thu, 11 Mar 2021 16:41:02 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, mazziesaccount@gmail.com,
+        devicetree@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-power@fi.rohmeurope.com,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-arm-msm@vger.kernel.org
+In-Reply-To: <6793280eb1a3376a1aa4d408a8931202050c828d.1615454845.git.matti.vaittinen@fi.rohmeurope.com>
+References: <cover.1615454845.git.matti.vaittinen@fi.rohmeurope.com> <6793280eb1a3376a1aa4d408a8931202050c828d.1615454845.git.matti.vaittinen@fi.rohmeurope.com>
+Subject: Re: [RFC PATCH v3 5/7] dt-bindings: regulator: bd9576 add FET ON-resistance for OCW
+Date:   Thu, 11 Mar 2021 09:41:02 -0700
+Message-Id: <1615480862.535831.841934.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Thu, 11 Mar 2021 12:23:33 +0200, Matti Vaittinen wrote:
+> BD9576MUF provides over-current protection and detection. Current is
+> measured as voltage loss over external FET. Allow specifying FET's on
+> resistance so current monitoring limits can be converted to voltages.
+> 
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+> v3:
+>  - no changes
+> v2:
+>  - use standard micro-ohms suffix
+> 
+>  .../devicetree/bindings/regulator/rohm,bd9576-regulator.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
 
---NY6JkbSqL3W9mApi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Hi Shimoda-san,
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml:31:35: [error] empty value in block mapping (empty-values)
 
-> # In other words, if a controller doesn't have scc, the previous code cannot issue
-> # CMD13 in such a case, I guess.
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml: patternProperties:regulator-.+:properties:description: "External FET's ON-resistance. Required if VoutS1 OCP/OCW is to be set." is not of type 'object', 'boolean'
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml: patternProperties:regulator-.+:properties:rohm,ocw-fet-ron-micro-ohms: None is not of type 'object', 'boolean'
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml: patternProperties:regulator-.+:properties: {'enum': ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'deprecated', 'description', 'else', 'enum', 'if', 'items', 'maxItems', 'maximum', 'minItems', 'minimum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'propertyNames', 'required', 'then', 'unevaluatedProperties']} is not allowed for 'description'
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml: ignoring, error in schema: patternProperties: regulator-.+: properties: rohm,ocw-fet-ron-micro-ohms
+warning: no schema found in file: ./Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
 
-Makes sense.
+See https://patchwork.ozlabs.org/patch/1451051
 
->  	tmio_mmc_reset(host);
-> +	host->set_clock(host, host->clk_cache);
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-What about putting it into the reset function itself, so it will be
-always enabled (like for the scc_ctl case)?
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 473f155f6d3d..672953e3362d 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -572,6 +572,7 @@ static void renesas_sdhi_reset(struct tmio_mmc_host *host)
- 		read_poll_timeout(reset_control_status, ret, ret == 0, 1, 100,
- 				  false, priv->rstc);
- 		priv->needs_adjust_hs400 = false;
-+		renesas_sdhi_set_clock(host, host->clk_cache);
- 	} else if (priv->scc_ctl) {
- 		renesas_sdhi_disable_scc(host->mmc);
- 		renesas_sdhi_reset_hs400_mode(host, priv);
+pip3 install dtschema --upgrade
 
-If you agree, I will fold this into v2 of this series.
+Please check and re-submit.
 
-
---NY6JkbSqL3W9mApi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBKGHgACgkQFA3kzBSg
-KbaS7g/9FoG3ukHoorA2wS8kNpJh/fREYQwlD2hb93RE6Cn/79VFZnLnGhyHx4Nl
-IfK/ZJgITWRYrmLqeY5a42nfXd0I4K0IOtAJ/bTWr9xckh0dVxThevtlssQbDxrI
-pmiZuMdZ/QNEswdImm8fAnEWMyeqWAJ2Z5imaEH0dFnr6r4sqq79aLPitiIhnmdS
-GQewEGGwpNF/iZOd9y59PiV7APqNE2Z4soGjKkH7SljjWg8C2lZeh+B039kFzQbk
-9hx/xO3BXFyJ1MbIG5XqbTynEQa2lVr5jGsRoWoj73l+7buTAlbSx4tBJ/ixoTwL
-gphOQNNyG35YRQ/tDkLnq/4FGkosnN805OKSNnkZml0SdJkgd2LppC6sHs8iygsZ
-xiuO9Z2zirw7JFEK1u2HKr64A6xKFD++G2oUBN8Ab/dL2OHPc1KubExIq+hYbw3K
-CE6QZ7A8a7uDlMaGrDDTrcVINIVDygxQDj/AHIS8dPT3lmuQ3pPJS9/ZdL+L512H
-mLKNKfInt+xYO/JKjGBwD1fVrymMk0stIJl2EW+jyreIGWyw89ePixJNOuDKxcAJ
-raPZZz/puTIpAiXRec/RaHCFUqV9AxZP9YKWUHGGSDjubLcjY6YmRQY2jaaRQnJT
-Ckr4hLCGnr1LmvWPAhw6g1BTdfGYLyDvrUQCeeKh7OEJaUB57wM=
-=+ySm
------END PGP SIGNATURE-----
-
---NY6JkbSqL3W9mApi--
