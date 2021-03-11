@@ -2,87 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CC26337303
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Mar 2021 13:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11536337397
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Mar 2021 14:18:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233071AbhCKMsm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Mar 2021 07:48:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37732 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232940AbhCKMsk (ORCPT
+        id S233372AbhCKNSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Mar 2021 08:18:08 -0500
+Received: from www.zeus03.de ([194.117.254.33]:33718 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233251AbhCKNRv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Mar 2021 07:48:40 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 216ABC061760
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Mar 2021 04:48:40 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id c76-20020a1c9a4f0000b029010c94499aedso13121528wme.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Mar 2021 04:48:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jMNZouCo+1d5H2qWe/E7v+XNod/8+AQam22rkwP2KKA=;
-        b=QUHZ1BWWfdEGRB5rbq3mipANwBPkD+F2tpV4supyTsOy7VEZzRfN3rvu2yud2Kli9h
-         wF+QSGCF2/4/DH/pWNe644paV0E1njkJ/IJN0+pNKZYPaXXoAN7v513Wa6Z9ZfLpaP1X
-         tQ/Etby7JXq0/NQEo5yhhqT9pwulG2e16a7aINt4f4JKMJ/tZqIXOv1mDa6drsyA27n+
-         T82mR/jnw+DEyHUs8LvSo7xALMKzriAJQgcgERWxlWWKQx/Ts7FM0W3o4H9RQHNMWp1P
-         yxn0uYzcnzs874pz9rlLsMb631BtaGVx3w4qckyIa2a8reqQqnppEhWgDrtMLKSbTld4
-         4DIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jMNZouCo+1d5H2qWe/E7v+XNod/8+AQam22rkwP2KKA=;
-        b=mKgzzPwVpqu22wnjtcFC+g05yLEFSwIordEmp/1oZeCD6ZXSQaF2YbNEKJT4TbucX8
-         iZvCLIVraR2lgh7x7Cgd8LJ/goha2UzqbPzA28wNbdTow7TGPvjp2Udw/J32m5kpd/4t
-         gBP+8t3jFmMlcInu4cBYeNIdINiJkA5JgojvPqs8oMmN6MTgtRXRx0ZGngOHb266p1r3
-         NkWCBVNNbo/AEyE7hVprmePDED6N7ulivnZqJ06RFiLtmftqR44mCUhqHADkX+GQIQxG
-         jA8M9+arHwXBMZWTvsCvqqcZbFryepF+WQM5BWPiSeSHXT3XLqVradEU+L4mv2Rpmykp
-         lkJQ==
-X-Gm-Message-State: AOAM532P8DNBPQcLVijJKeTVGI9RGOyDrK5gHylM4bIYk9Vcou4baDpH
-        4o7Mb7Qf810XZgMhpBFycbU1Gg==
-X-Google-Smtp-Source: ABdhPJzuaxJPHXi3Nh525ggNHV50ohFSD47KiR8c7yxtF8V/4Ky8cAZWJ7CVoDWvCchokk1x9tx6bQ==
-X-Received: by 2002:a1c:a985:: with SMTP id s127mr7932529wme.158.1615466918578;
-        Thu, 11 Mar 2021 04:48:38 -0800 (PST)
-Received: from ?IPv6:2a01:e34:ed2f:f020:84cf:7f4d:d470:dfd4? ([2a01:e34:ed2f:f020:84cf:7f4d:d470:dfd4])
-        by smtp.googlemail.com with ESMTPSA id i17sm3723262wrp.77.2021.03.11.04.48.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Mar 2021 04:48:38 -0800 (PST)
-Subject: Re: [PATCH v2] dt-bindings: timer: renesas,cmt: Document R8A77961
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>, devicetree@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20210211143344.352588-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <760cc031-f770-1aed-7ac7-02181e27b625@linaro.org>
-Date:   Thu, 11 Mar 2021 13:48:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 11 Mar 2021 08:17:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Zuc41uOmSE70Dv7hPr9k7hK184S7
+        1VttQC3DzyQ0e4c=; b=PKiuR3bQnNceDOqMnNgipBhoNXog7bAeF3SR11hAb0Cr
+        4O1fPZzHkJ20X50ipIq2tna8JsZqBCR3CFXx6T3oAgJjbx3WcIIHC4S+7MBhPhi9
+        YbfbZdphOoN3aDY7Bk3CZ5WudFwNcVPb7jjYGnX/G4I1zA1kKA+w30zc9IlKSJc=
+Received: (qmail 22202 invoked from network); 11 Mar 2021 14:17:49 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Mar 2021 14:17:49 +0100
+X-UD-Smtp-Session: l3s3148p1@OBUqnEK9bM8gARa4Rf6LAY0TkMkJSYgM
+Date:   Thu, 11 Mar 2021 14:17:48 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
+Subject: Re: [PATCH 2/2] mmc: renesas_sdhi: do hard reset if possible
+Message-ID: <20210311131748.GG3566@ninjato>
+References: <20210309092332.30705-1-wsa+renesas@sang-engineering.com>
+ <20210309092332.30705-3-wsa+renesas@sang-engineering.com>
+ <TY2PR01MB3692A6D95BD60A17AE698DF3D8919@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20210211143344.352588-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="NY6JkbSqL3W9mApi"
+Content-Disposition: inline
+In-Reply-To: <TY2PR01MB3692A6D95BD60A17AE698DF3D8919@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/02/2021 15:33, Niklas Söderlund wrote:
-> Add missing bindings for M3-W+.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
 
-Applied, thanks
+--NY6JkbSqL3W9mApi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Shimoda-san,
+
+> # In other words, if a controller doesn't have scc, the previous code cannot issue
+> # CMD13 in such a case, I guess.
+
+Makes sense.
+
+>  	tmio_mmc_reset(host);
+> +	host->set_clock(host, host->clk_cache);
+
+What about putting it into the reset function itself, so it will be
+always enabled (like for the scc_ctl case)?
+
+diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+index 473f155f6d3d..672953e3362d 100644
+--- a/drivers/mmc/host/renesas_sdhi_core.c
++++ b/drivers/mmc/host/renesas_sdhi_core.c
+@@ -572,6 +572,7 @@ static void renesas_sdhi_reset(struct tmio_mmc_host *host)
+ 		read_poll_timeout(reset_control_status, ret, ret == 0, 1, 100,
+ 				  false, priv->rstc);
+ 		priv->needs_adjust_hs400 = false;
++		renesas_sdhi_set_clock(host, host->clk_cache);
+ 	} else if (priv->scc_ctl) {
+ 		renesas_sdhi_disable_scc(host->mmc);
+ 		renesas_sdhi_reset_hs400_mode(host, priv);
+
+If you agree, I will fold this into v2 of this series.
 
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+--NY6JkbSqL3W9mApi
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBKGHgACgkQFA3kzBSg
+KbaS7g/9FoG3ukHoorA2wS8kNpJh/fREYQwlD2hb93RE6Cn/79VFZnLnGhyHx4Nl
+IfK/ZJgITWRYrmLqeY5a42nfXd0I4K0IOtAJ/bTWr9xckh0dVxThevtlssQbDxrI
+pmiZuMdZ/QNEswdImm8fAnEWMyeqWAJ2Z5imaEH0dFnr6r4sqq79aLPitiIhnmdS
+GQewEGGwpNF/iZOd9y59PiV7APqNE2Z4soGjKkH7SljjWg8C2lZeh+B039kFzQbk
+9hx/xO3BXFyJ1MbIG5XqbTynEQa2lVr5jGsRoWoj73l+7buTAlbSx4tBJ/ixoTwL
+gphOQNNyG35YRQ/tDkLnq/4FGkosnN805OKSNnkZml0SdJkgd2LppC6sHs8iygsZ
+xiuO9Z2zirw7JFEK1u2HKr64A6xKFD++G2oUBN8Ab/dL2OHPc1KubExIq+hYbw3K
+CE6QZ7A8a7uDlMaGrDDTrcVINIVDygxQDj/AHIS8dPT3lmuQ3pPJS9/ZdL+L512H
+mLKNKfInt+xYO/JKjGBwD1fVrymMk0stIJl2EW+jyreIGWyw89ePixJNOuDKxcAJ
+raPZZz/puTIpAiXRec/RaHCFUqV9AxZP9YKWUHGGSDjubLcjY6YmRQY2jaaRQnJT
+Ckr4hLCGnr1LmvWPAhw6g1BTdfGYLyDvrUQCeeKh7OEJaUB57wM=
+=+ySm
+-----END PGP SIGNATURE-----
+
+--NY6JkbSqL3W9mApi--
