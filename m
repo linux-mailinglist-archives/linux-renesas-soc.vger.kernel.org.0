@@ -2,235 +2,204 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D96C6338FFA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Mar 2021 15:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F702339006
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Mar 2021 15:29:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231925AbhCLOZ5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Mar 2021 09:25:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58240 "EHLO
+        id S231462AbhCLO3K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Mar 2021 09:29:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231983AbhCLOZ3 (ORCPT
+        with ESMTP id S231179AbhCLO2x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Mar 2021 09:25:29 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4578CC061574
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Mar 2021 06:25:29 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id w8so5228440pjf.4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Mar 2021 06:25:29 -0800 (PST)
+        Fri, 12 Mar 2021 09:28:53 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F44C061762;
+        Fri, 12 Mar 2021 06:28:53 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id s21so5235242pjq.1;
+        Fri, 12 Mar 2021 06:28:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=QDA/vE1JH+nDTIUI65cMkDI4pMi9KhXrb0to16HZycI=;
-        b=KAMb5WPvyjPxb5j2m1v+e2mxLvHCZvVRZiRK1j9OnO2mCXPXc7mYgyhXl3HnKGl2O3
-         jHm7xfpT4IjeA834H25Hg1L+oSWnhO7OPvXzmGlDPGre4hnPk5qCC5VYrk+fM6MgvQmc
-         xRg6sHPqRzfWcxRXfT9QKMcSRk4AlSzj+2AgZVt4yhtIThydviz+J80bLxc2XyJFv/UM
-         OYXHeCG5vWbGDfjebGKJlqkmrZP6rAYIlcAigFMDPR0hT8OirZXsLQkxM+OZf9A06rpg
-         FFoZuir7+xGWgN/F/0J+3VIpgfIh1UtxmRLCN/vM/TD0rDTeF8QZSnIuY+vBWXBfl+Fa
-         aRSg==
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=1Lo7yd/PnM426H85p1I+R4RaKFFPMA2/dD1IRf/rqnw=;
+        b=q7Kbbcst6z5BfuObWBGBR+6Ok6LQDvVOXSN39H0yveBiTYDjHGVamD+YCt9qP2lUQF
+         jK1KkrhrA4wU5v1NGw7EaB1U3/7j9HmPgqJy1jep6q3GqKxKMyk/mukHnlZTQFKtGCV2
+         E89BPRvzEBHAZnGRw1o09IyRTRFGeEOsN7aoWP3w2qg5vg3xvT+7HboHXJeNAgn1p5l6
+         WsAzyy39t7FRqfKObG6m05At96Msja3xStcR/HQl9r3aFC9QRl0ZGIPZLS6Ammq6+SMX
+         GVAsbIThnC8bVtPeRwO0bflduG+DiX0XaHsE6vY+m3xtroS9+NpAzV50NQux/TNdpzz0
+         SkjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=QDA/vE1JH+nDTIUI65cMkDI4pMi9KhXrb0to16HZycI=;
-        b=NIjDkm+6iF9sPn7mGrfm5BgnoR9kG5s+rsiRtjiNvXCOaOqZpuSA36WqL09MvCQBgA
-         X6M+c3BNVY5XYIclUzfEADUUKzhFERRKtd5DFBwePgANfqBqC88wXNe9UZOM/KZMJvH4
-         XrPS2CU4adwAqohqqcLhR9vQDaEs65KXTVcFXEm3vXqURLn/yWIn9EZe15hXVj4JDJVt
-         CzFRK7xvfeXaYpcfY4ssDiRnMe40zGD6v/O+r0cXcvzof8fWagNCu7GcJEdEivvjrxjT
-         x16+ZAdjRD4DIlMREym30OXxvh5zkOJEOJBzPfKN78ph27S2AHf8ZN9CuyF2pBa5Ohfl
-         zcXA==
-X-Gm-Message-State: AOAM530p7ba8egx+9YNZ/xykcCZE2ReJTyUFjgG/Ktd+yxSTuR/D9o+7
-        mdyDuXzn0F1YK4QHwYz6VXq1g1tNJSiR1A==
-X-Google-Smtp-Source: ABdhPJwnTJQrMs8nSsyrjIe/rXzbWnmG4ZnH/Y86L0D1TX+sncQWjkev6ORHGqS9GCzCXNuZ21nYvA==
-X-Received: by 2002:a17:90a:bb8b:: with SMTP id v11mr14705143pjr.4.1615559128607;
-        Fri, 12 Mar 2021 06:25:28 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id v2sm2414459pjg.34.2021.03.12.06.25.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Mar 2021 06:25:28 -0800 (PST)
-Message-ID: <604b79d8.1c69fb81.49d64.5ea8@mx.google.com>
-Date:   Fri, 12 Mar 2021 06:25:28 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=1Lo7yd/PnM426H85p1I+R4RaKFFPMA2/dD1IRf/rqnw=;
+        b=bPkDOXEihxMmrBziHuSMiIXlQicmqiJeb5YSAy5sIB5rHNq4O85JN3yvI20LBNfFM7
+         qP1JV6EMmpTT7ljO8gZFzGllgE3PNGN7EboQu/7AmQ7lyJBz9i4qKE0NSFlOIw0fddr8
+         WRSlTrTyFhjTP/6pBofM0Q4Hj6eARjRESYFNmlLfiWVNoIat4h2eAxsw51voD5j6PSmS
+         nOWdLs/FJM+72+5vDYo3PWGQNWJ0xiXV2UJPbKDD3mR26Wj9OSafcEdsoLnEru5J5PMG
+         qsv/zZCUxix30LhL1/1IUMUJ2MpfgKIosT44cS9mLuw1VKxEn8Teyewvjluf98aFTmAz
+         /EvA==
+X-Gm-Message-State: AOAM533azaMzSc4phOzgXayp4A3C496azUnt3sfK2PSrUdCN+uU6jkcC
+        2qDwStKo7dvbzXd8Dn3AY0s+vmUf/LplJbQ2oK63AqSLjVA=
+X-Google-Smtp-Source: ABdhPJxFp4HyQtxeYU8wFIrQReEqUWp6sPJWmDShCPg+MIU0zhCeNdYillJpDrx6tyAYDPoiPDQG4bkmtBE42oy2vdk=
+X-Received: by 2002:a17:902:f686:b029:e5:de44:af60 with SMTP id
+ l6-20020a170902f686b02900e5de44af60mr13595242plg.64.1615559332462; Fri, 12
+ Mar 2021 06:28:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2021-03-12-v5.12-rc2
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-Subject: renesas/master baseline: 160 runs,
- 4 regressions (renesas-devel-2021-03-12-v5.12-rc2)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Fri, 12 Mar 2021 08:28:41 -0600
+Message-ID: <CAHCN7xJUnMP-uA03a5x4djp4_RPbiMnSWXMdconpAxV7pwgTGw@mail.gmail.com>
+Subject: Renesas RZ/G2M + Sony IMX290 Camera questions/issues
+To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>, mani@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 160 runs, 4 regressions (renesas-devel-2021-03-12-=
-v5.12-rc2)
+I have an IMX290 camera connected to an RZ/G2M SoC via the 4-channel CSI.
 
-Regressions Summary
--------------------
+&csi40 {
+    status = "okay";
 
-platform             | arch  | lab           | compiler | defconfig        =
-            | regressions
----------------------+-------+---------------+----------+------------------=
-------------+------------
-imx8mp-evk           | arm64 | lab-nxp       | gcc-8    | defconfig+CON...O=
-MIZE_BASE=3Dy | 1          =
+    ports {
+        port@0 {
+            reg = <0>;
+            csi40_in: endpoint {
+                clock-lanes = <0>;
+                data-lanes = <1 2 3 4>;
+                remote-endpoint = <&imx290_ep>;
+            };
+        };
+    };
+};
 
-qemu_arm-versatilepb | arm   | lab-broonie   | gcc-8    | versatile_defconf=
-ig          | 1          =
+On the I2C bus, I have
 
-qemu_arm-versatilepb | arm   | lab-cip       | gcc-8    | versatile_defconf=
-ig          | 1          =
+imx290: camera-sensor@1a {
+    compatible = "sony,imx290";
+    reg = <0x1a>;
+    reset-gpios = <&gpio_exp2 0 GPIO_ACTIVE_LOW>;
+    clocks = <&versaclock6_bb 1>;
+    clock-names = "xclk";
+    clock-frequency = <37125000>;
+    vdddo-supply = <&reg_cam0_en0>;
+    vdda-supply = <&reg_cam0_en1>;
+    vddd-supply = <&reg_cam0_en0>;
 
-qemu_arm-versatilepb | arm   | lab-collabora | gcc-8    | versatile_defconf=
-ig          | 1          =
+    port {
+        imx290_ep: endpoint {
+            data-lanes = <1 2 3 4>;
+            link-frequencies = /bits/ 64 <148500000 222750000>;
+            remote-endpoint = <&csi40_in>;
+        };
+    };
+};
 
+I configure the pipeline with:
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-03-12-v5.12-rc2/plan/baseline/
+media-ctl -l "'rcar_csi2 feaa0000.csi2':1 -> 'VIN0 output':0[1]"
 
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-03-12-v5.12-rc2
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      6ca7a993828c498b3c9b53e42709da961712a99d =
+I also have tried configuring the video formats in several different ways
 
+media-ctl --set-v4l2 "'imx290 2-001a':0[fmt:SRGGB12_1X12/1920x1080 field:none]"
+media-ctl --set-v4l2 "'rcar_csi2
+feaa0000.csi2':0[fmt:SRGGB12_1X12/1920x1080 field:none]"
+media-ctl --set-v4l2 "'rcar_csi2
+feaa0000.csi2':1[fmt:SRGGB12_1X12/1920x1080 field:none]"
 
+or
 
-Test Regressions
----------------- =
+media-ctl --set-v4l2 "'rcar_csi2
+feaa0000.csi2':0[fmt:UYVY8_2X8/1920x1080 field:none]"
+media-ctl --set-v4l2 "'rcar_csi2
+feaa0000.csi2':1[fmt:UYVY8_2X8/1920x1080 field:none]"
+media-ctl --set-v4l2 "'imx290 2-001a':0[fmt:UYVY8_2X8/1920x1080 field:non
 
+but no matter what I do when I attempt to stream, I get a broken pipe,
+even when I use fakesink as the target.
 
-
-platform             | arch  | lab           | compiler | defconfig        =
-            | regressions
----------------------+-------+---------------+----------+------------------=
-------------+------------
-imx8mp-evk           | arm64 | lab-nxp       | gcc-8    | defconfig+CON...O=
-MIZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/604b4360c99961be49addcb1
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-03-12-v5.12-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-nxp=
-/baseline-imx8mp-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-03-12-v5.12-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-nxp=
-/baseline-imx8mp-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/604b4360c99961be49add=
-cb2
-        new failure (last pass: v5.12-rc2-402-g439caa20adad) =
-
- =
-
-
-
-platform             | arch  | lab           | compiler | defconfig        =
-            | regressions
----------------------+-------+---------------+----------+------------------=
-------------+------------
-qemu_arm-versatilepb | arm   | lab-broonie   | gcc-8    | versatile_defconf=
-ig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/604b3f7bf8bd9b05e5addcb8
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-03-12-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-broonie/baseline-qemu=
-_arm-versatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-03-12-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-broonie/baseline-qemu=
-_arm-versatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/604b3f7bf8bd9b05e5add=
-cb9
-        failing since 114 days (last pass: renesas-devel-2020-11-10-v5.10-r=
-c3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
-
- =
-
-
-
-platform             | arch  | lab           | compiler | defconfig        =
-            | regressions
----------------------+-------+---------------+----------+------------------=
-------------+------------
-qemu_arm-versatilepb | arm   | lab-cip       | gcc-8    | versatile_defconf=
-ig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/604b3f5da80ef59855addccb
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-03-12-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-cip/baseline-qemu_arm=
--versatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-03-12-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-cip/baseline-qemu_arm=
--versatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/604b3f5da80ef59855add=
-ccc
-        failing since 114 days (last pass: renesas-devel-2020-11-10-v5.10-r=
-c3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
-
- =
-
+root@beacon-rzg2h:~# GST_DEBUG=2 gst-launch-1.0 -v v4l2src
+device=/dev/video1 ! video/x-raw,width=1920,height=1080 ! fakesink
+Setting pipeline to PAUSED ...
+Pipeline is live and does not need PREROLL ...
+Setting pipeline to PLAYING ...
+New clock: GstSystemClock
+0:00:03.727500390   501     0x10efd4f0 ERROR                v4l2src
+gstv4l2src.c:337:gst_v4l2src_get_input_size_info:<v4l2src0> Cropcap
+fail, CROPCAP has not supported
+/GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps =
+video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+framerate=(fraction)100/1, interlace-mode=(s1
+/GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:src: caps =
+video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+framerate=(fraction)100/1, interlace-m1
+/GstPipeline:pipeline0/GstFakeSink:fakesink0.GstPad:sink: caps =
+video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+framerate=(fraction)100/1, interlace-mode1
+/GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:sink: caps =
+video/x-raw, width=(int)1920, height=(int)1080, format=(string)YUY2,
+framerate=(fraction)100/1, interlace-1
+0:00:03.737388309   501     0x10efd4f0 WARN          v4l2bufferpool
+gstv4l2bufferpool.c:870:gst_v4l2_buffer_pool_start:<v4l2src0:pool:src>
+Uncertain or not enough buffers, enad
+0:00:03.740266641   501     0x10efd4f0 ERROR         v4l2bufferpool
+gstv4l2bufferpool.c:757:gst_v4l2_buffer_pool_streamon:<v4l2src0:pool:src>
+error with STREAMON 32 (Broken pi)
+0:00:03.740474842   501     0x10efd4f0 WARN          v4l2bufferpool
+gstv4l2bufferpool.c:1188:gst_v4l2_buffer_pool_poll:<v4l2src0> error:
+poll error 1: Broken pipe (32)
+0:00:03.740693123   501     0x10efd4f0 WARN                 v4l2src
+gstv4l2src.c:1020:gst_v4l2src_create:<v4l2src0> error: Failed to
+allocate a buffer
+0:00:03.740791643   501     0x10efd4f0 WARN                 basesrc
+gstbasesrc.c:2939:gst_base_src_loop:<v4l2src0> error: Internal data
+stream error.
+0:00:03.740822843   501     0x10efd4f0 WARN                 basesrc
+gstbasesrc.c:2939:gst_base_src_loop:<v4l2src0> error: streaming
+stopped, reason error (-5)
+ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Could
+not read from resource.
+Additional debug info:
+../../../git/sys/v4l2/gstv4l2bufferpool.c(1188):
+gst_v4l2_buffer_pool_poll ():
+/GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+poll error 1: Broken pipe (32)
+Execution ended after 0:00:00.013644415
+Setting pipeline to PAUSED ...
+Setting pipeline to READY ...
+0:00:03.741392965   501     0x10ec96c0 WARN          v4l2bufferpool
+gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+some buffers are still outstanding
+0:00:03.741428005   501     0x10ec96c0 WARN              bufferpool
+gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+stop failed
+0:00:03.743868095   501     0x10ec96c0 ERROR         v4l2bufferpool
+gstv4l2bufferpool.c:757:gst_v4l2_buffer_pool_streamon:<v4l2src0:pool:src>
+error with STREAMON 32 (Broken pi)
+0:00:03.744090576   501     0x10ec96c0 WARN          v4l2bufferpool
+gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+some buffers are still outstanding
+0:00:03.744123936   501     0x10ec96c0 WARN              bufferpool
+gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+stop failed
+0:00:03.744152376   501     0x10ec96c0 WARN          v4l2bufferpool
+gstv4l2bufferpool.c:1042:gst_v4l2_buffer_pool_stop:<v4l2src0:pool:src>
+some buffers are still outstanding
+0:00:03.744178296   501     0x10ec96c0 WARN              bufferpool
+gstbufferpool.c:567:gst_buffer_pool_set_active:<v4l2src0:pool:src>
+stop failed
+Setting pipeline to NULL ...
+Total time: 0.013650 seconds
+Freeing pipeline ...
 
 
-platform             | arch  | lab           | compiler | defconfig        =
-            | regressions
----------------------+-------+---------------+----------+------------------=
-------------+------------
-qemu_arm-versatilepb | arm   | lab-collabora | gcc-8    | versatile_defconf=
-ig          | 1          =
+I was hoping someone might have a suggestion as to what I might be missing.
+Ideally, I'd like to get two IMX290 cameras operational with one in
+4-lane mode and one in 2-lane mode.
 
+Might anyone have any suggestions?  According to the media-ctl
+--print-dot, the pipeline appears correct, but there is clearly
+something I am missing.
 
-  Details:     https://kernelci.org/test/plan/id/604b3f157dcf52f17caddcb1
+thanks for any suggestions,
 
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-03-12-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-collabora/baseline-qe=
-mu_arm-versatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-03-12-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-collabora/baseline-qe=
-mu_arm-versatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/604b3f157dcf52f17cadd=
-cb2
-        failing since 114 days (last pass: renesas-devel-2020-11-10-v5.10-r=
-c3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
-
- =20
+adam
