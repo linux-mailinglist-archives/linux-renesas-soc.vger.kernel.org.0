@@ -2,91 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 906A333893D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Mar 2021 10:51:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFA37338947
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Mar 2021 10:53:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232867AbhCLJvK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Mar 2021 04:51:10 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:33307 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233219AbhCLJui (ORCPT
+        id S233039AbhCLJxT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Mar 2021 04:53:19 -0500
+Received: from mail-vk1-f173.google.com ([209.85.221.173]:37498 "EHLO
+        mail-vk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232917AbhCLJww (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Mar 2021 04:50:38 -0500
-X-IronPort-AV: E=Sophos;i="5.81,243,1610377200"; 
-   d="scan'208";a="74972789"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 12 Mar 2021 18:50:36 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 26845400E9F2;
-        Fri, 12 Mar 2021 18:50:36 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, yusuke.goda.sx@renesas.com,
-        devicetree@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2 2/2] arm64: dts: renesas: r8a77961: Add CAN nodes
-Date:   Fri, 12 Mar 2021 18:50:30 +0900
-Message-Id: <20210312095030.534957-3-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210312095030.534957-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20210312095030.534957-1-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 12 Mar 2021 04:52:52 -0500
+Received: by mail-vk1-f173.google.com with SMTP id p62so1112937vkp.4;
+        Fri, 12 Mar 2021 01:52:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2AAoMuZNlimPYRL0sCsn3FgkDxNRBSXgtfFk8ci3BDI=;
+        b=XI2DPvcYY5WKR+/Uab61HF/ro9dvSAsiKz5XJ7q3iTRNFkcmCAsJtLBDiNrDt4X9dy
+         2tEiXytxbqJq1AbC0WJdiIF8M4u1kL0bsZjnEzcOCYdC6sQrHFBnAuFy4qyknElbDf8t
+         UIkO7hP3GxGmdD6N4JDZ5dZ+U3RoUFMKiqJhacKPtmmNTkYK5H+y3K9H6GU9R+aSFshw
+         RsGPqNz1mNRl4ZH0W55aptneGPoPqgBM2KVF/6bgaAhu6FiwDm1Ph50JnUZr67ozx4Ub
+         bpkU9iedOFNO+K2vI0NEhu+c+UlG1spUfYZes1kj47GbmH2UJRvt+4IBjXEw++jjQZgw
+         hudA==
+X-Gm-Message-State: AOAM532AInPbfZMVS4UihHuvum+PxkGKzd5aWsistXuyWfXlN4Cky+ev
+        PHiEsKSjilLyaa8Hwuxafo1FdqDVfnTMJx3r+euHV2L5
+X-Google-Smtp-Source: ABdhPJyCw5IKMPTvj+dhZQXwvNOBw4MllvdWvcZWGcTmpr+P/v5EG6eqVJitvR5ciXdCU1FqDupeq4e0NB3nP/kEv1I=
+X-Received: by 2002:a1f:2502:: with SMTP id l2mr7424852vkl.5.1615542771260;
+ Fri, 12 Mar 2021 01:52:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210312095030.534957-1-yoshihiro.shimoda.uh@renesas.com> <20210312095030.534957-2-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20210312095030.534957-2-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 12 Mar 2021 10:52:39 +0100
+Message-ID: <CAMuHMdW5jhxF26B13dUpVPzo+S35T3WxcaTXY1Q0iHnEGj2eqQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: net: can: rcar_can: Document r8a77961 support
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yusuke Goda <yusuke.goda.sx@renesas.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the device nodes for all CAN nodes on R-Car M3-W+.
+On Fri, Mar 12, 2021 at 10:50 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Document SoC specific bindings for R-Car M3-W+ (r8a77961) SoC.
+>
+> Also as R8A7796 is now called R8A77960 so that update those
+> references.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Tested-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 26 +++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index e8c31ebec097..d44b7fef1e8e 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -1155,13 +1155,35 @@ avb: ethernet@e6800000 {
- 		};
- 
- 		can0: can@e6c30000 {
-+			compatible = "renesas,can-r8a77961",
-+				     "renesas,rcar-gen3-can";
- 			reg = <0 0xe6c30000 0 0x1000>;
--			/* placeholder */
-+			interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 916>,
-+			       <&cpg CPG_CORE R8A77961_CLK_CANFD>,
-+			       <&can_clk>;
-+			clock-names = "clkp1", "clkp2", "can_clk";
-+			assigned-clocks = <&cpg CPG_CORE R8A77961_CLK_CANFD>;
-+			assigned-clock-rates = <40000000>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 916>;
-+			status = "disabled";
- 		};
- 
- 		can1: can@e6c38000 {
-+			compatible = "renesas,can-r8a77961",
-+				     "renesas,rcar-gen3-can";
- 			reg = <0 0xe6c38000 0 0x1000>;
--			/* placeholder */
-+			interrupts = <GIC_SPI 187 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 915>,
-+			       <&cpg CPG_CORE R8A77961_CLK_CANFD>,
-+			       <&can_clk>;
-+			clock-names = "clkp1", "clkp2", "can_clk";
-+			assigned-clocks = <&cpg CPG_CORE R8A77961_CLK_CANFD>;
-+			assigned-clock-rates = <40000000>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 915>;
-+			status = "disabled";
- 		};
- 
- 		pwm0: pwm@e6e30000 {
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
