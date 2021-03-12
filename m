@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3F1C33998D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Mar 2021 23:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1A9D33998A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Mar 2021 23:16:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235490AbhCLWQF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Mar 2021 17:16:05 -0500
-Received: from mga18.intel.com ([134.134.136.126]:13892 "EHLO mga18.intel.com"
+        id S235459AbhCLWPd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Mar 2021 17:15:33 -0500
+Received: from mga05.intel.com ([192.55.52.43]:64679 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235457AbhCLWPe (ORCPT
+        id S235442AbhCLWPF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Mar 2021 17:15:34 -0500
-IronPort-SDR: YhDa0MhKX0qneQ2+V5d3cPU/NMdDq0Oub3GGpLhnSw1I7gAecnoOfh+G4cNKGQizh06QY6uw+r
- jwbN80QJ/Djg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9921"; a="176486341"
+        Fri, 12 Mar 2021 17:15:05 -0500
+IronPort-SDR: rR9oIYDRNo8/kPlIScHXcnOdxvUsDJFwyFfF3lD8d995y4SUXnTrbfYtIEdX6XULFjOA6d647I
+ A04KS1nowvJw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9921"; a="273939895"
 X-IronPort-AV: E=Sophos;i="5.81,244,1610438400"; 
-   d="scan'208";a="176486341"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2021 14:15:02 -0800
-IronPort-SDR: +T+e2WXhRddhbMxZZ9rR6S3DdOygMzmu+jaIM94wuWWMRmJNRncBUZB3Cb1YbNe1Clx98ju4Vt
- B72r1PYVVlNg==
+   d="scan'208";a="273939895"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2021 14:14:57 -0800
+IronPort-SDR: 2UdYYabKxT5QXOWHUEvA6J2HrqkTx3M8SrJ5T64MGRGS6YhadkSWFNBBPF8wShv4+zYx6PlLDj
+ jS/58Ot4kTvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,244,1610438400"; 
-   d="scan'208";a="604086060"
+   d="scan'208";a="521560544"
 Received: from lkp-server02.sh.intel.com (HELO ce64c092ff93) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 12 Mar 2021 14:15:01 -0800
+  by orsmga004.jf.intel.com with ESMTP; 12 Mar 2021 14:14:56 -0800
 Received: from kbuild by ce64c092ff93 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1lKq3g-0001eG-LO; Fri, 12 Mar 2021 22:15:00 +0000
-Date:   Sat, 13 Mar 2021 06:14:29 +0800
+        id 1lKq3b-0001e7-LK; Fri, 12 Mar 2021 22:14:55 +0000
+Date:   Sat, 13 Mar 2021 06:14:31 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-defconfig-for-v5.13] BUILD SUCCESS
- c5929afafbafb1b0b9a14b07452a846cfca7a22e
-Message-ID: <604be7c5.QISI7+g//Tt/yrK+%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-dt-for-v5.13] BUILD SUCCESS
+ 92c406ed0a7f2810c4498e2b6bea81c6b61c03e8
+Message-ID: <604be7c7.++t++KXBkef6k+vd%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,8 +44,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-defconfig-for-v5.13
-branch HEAD: c5929afafbafb1b0b9a14b07452a846cfca7a22e  ARM: shmobile: defconfig: Refresh for v5.12-rc2
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.13
+branch HEAD: 92c406ed0a7f2810c4498e2b6bea81c6b61c03e8  arm64: dts: renesas: r8a77961: Add CAN nodes
 
 elapsed time: 722m
 
