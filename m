@@ -2,178 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7D0733A900
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Mar 2021 01:05:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DE2D33AA08
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Mar 2021 04:37:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229607AbhCOAEx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 14 Mar 2021 20:04:53 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55854 "EHLO
+        id S229570AbhCODgt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 14 Mar 2021 23:36:49 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57446 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbhCOAEd (ORCPT
+        with ESMTP id S229809AbhCODgr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 14 Mar 2021 20:04:33 -0400
+        Sun, 14 Mar 2021 23:36:47 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D559B908;
-        Mon, 15 Mar 2021 01:04:31 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 05A5D87A;
+        Mon, 15 Mar 2021 04:36:45 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615766672;
-        bh=zszDiqP6yC0I/5GQ2+4eppTy/tDQpXG5n9aXotdLhxQ=;
+        s=mail; t=1615779406;
+        bh=JMX/V3h6kFPGWMcfATCqZDWcBrZmOU12JQM5RTATxe8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PetKLJCpTn20fwCc5iDvmF33jjA/avbUnXeB9eBtzRJK1ArmBFO0fgsPtU/7Tj1x5
-         fVUYgDkuIh/lx8GFpQNW6GdOYtVCToZwpMgA41UbA64j5zpNB7RPhYib1WnJ7aShj8
-         Xfwn/pKr+qIc+PHRuU3NNCXDjpe130Efuh5HluiI=
-Date:   Mon, 15 Mar 2021 02:03:56 +0200
+        b=g3vhw6cT/yD1jXitfqa4VZZxfmF+vy3yP2ouB/pQ7MEFwoGwKoKmIXN4bOHR/ys3+
+         L5vbWTb8L+Wzahvl8atHedxc+akh/WgNQVoatHLg2r/9pbjp/5k44v8EsBcHObD19w
+         HwCDtHkdjXL3yHpaLDkI9EEJWnz0Ni+1cPCzzIJU=
+Date:   Mon, 15 Mar 2021 05:36:10 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pavel Machek <pavel@denx.de>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 2/2] media: i2c: imx219: Balance runtime PM use-count
-Message-ID: <YE6kbFmIrk2nyQv8@pendragon.ideasonboard.com>
-References: <20210311095205.8095-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210311095205.8095-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/2] media: v4l: vsp1: Fix bru null pointer access
+Message-ID: <YE7WKtXzxFdZL4Oh@pendragon.ideasonboard.com>
+References: <20210301120828.6945-1-biju.das.jz@bp.renesas.com>
+ <20210301120828.6945-2-biju.das.jz@bp.renesas.com>
+ <67dbb76a-db02-7a49-9b1d-0218d01c3173@ideasonboard.com>
+ <OS0PR01MB59225484E090C01FD25BAF3C86909@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210311095205.8095-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <OS0PR01MB59225484E090C01FD25BAF3C86909@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Biju,
 
-Thank you for the patch.
+On Thu, Mar 11, 2021 at 07:15:01AM +0000, Biju Das wrote:
+> > Subject: Re: [PATCH 1/2] media: v4l: vsp1: Fix bru null pointer access
+> > 
+> > Hi Biju,
+> > 
+> > On 01/03/2021 12:08, Biju Das wrote:
+> > > RZ/G2L SoC has only BRS. This patch fixes null pointer access,when
+> > > only BRS is enabled.
+> > >
+> > > Fixes: cbb7fa49c7466("media: v4l: vsp1: Rename BRU to BRx")
 
-On Thu, Mar 11, 2021 at 09:52:05AM +0000, Lad Prabhakar wrote:
-> Move incrementing/decrementing runtime PM count to
-> imx219_start_streaming()/imx219_stop_streaming() functions respectively.
+Given that RZ/G2L isn't supported in mainline, this is hardly a fix, is
+it ?
+
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > >  drivers/media/platform/vsp1/vsp1_drm.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/platform/vsp1/vsp1_drm.c
+> > > b/drivers/media/platform/vsp1/vsp1_drm.c
+> > > index 86d5e3f4b1ff..f6d2f47a4058 100644
+> > > --- a/drivers/media/platform/vsp1/vsp1_drm.c
+> > > +++ b/drivers/media/platform/vsp1/vsp1_drm.c
+> > > @@ -245,7 +245,7 @@ static int vsp1_du_pipeline_setup_brx(struct
+> > vsp1_device *vsp1,
+> > >  		brx = &vsp1->bru->entity;
+> > >  	else if (pipe->brx && !drm_pipe->force_brx_release)
+> > >  		brx = pipe->brx;
+> > > -	else if (!vsp1->bru->entity.pipe)
+> > > +	else if (vsp1_feature(vsp1, VSP1_HAS_BRU) &&
+> > > +!vsp1->bru->entity.pipe)
+> > >  		brx = &vsp1->bru->entity;
+> > >  	else
+> > >  		brx = &vsp1->brs->entity;
+> > 
+> > 
+> > The comments here describe that the choice to start at the BRU is
+> > arbitrary, so if we could confirm that there will always be a BRS
+> > otherwise, we could swap those to save an extra feature check.
 > 
-> This fixes an issue of unbalanced runtime PM count in resume callback
-> error path where streaming is stopped and runtime PM count is left
-> unbalanced.
-> 
-> Fixes: 1283b3b8f82b9 ("media: i2c: Add driver for Sony IMX219 sensor")
-> Reported-by: Pavel Machek <pavel@denx.de>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> As long as we are supporting composition(Multiple inputs with Blend and Raster operations)
+> There will be either BRU or BRS or both in R-Car Gen3|RZ/G2 SoC's. Currently this is
+> the case with all SoC variant of this families.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Given that the function is called vsp1_du_pipeline_setup_brx(), I think
+we can assume there will be either a BRU or a BRS :-)
 
-> ---
->  drivers/media/i2c/imx219.c | 32 +++++++++++++++++---------------
->  1 file changed, 17 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 82756cbfbaac..49ba39418360 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -1035,37 +1035,47 @@ static int imx219_start_streaming(struct imx219 *imx219)
->  	const struct imx219_reg_list *reg_list;
->  	int ret;
->  
-> +	ret = pm_runtime_get_sync(&client->dev);
-> +	if (ret < 0) {
-> +		pm_runtime_put_noidle(&client->dev);
-> +		return ret;
-> +	}
-> +
->  	/* Apply default values of current mode */
->  	reg_list = &imx219->mode->reg_list;
->  	ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
->  	if (ret) {
->  		dev_err(&client->dev, "%s failed to set mode\n", __func__);
-> -		return ret;
-> +		goto err_rpm_put;
->  	}
->  
->  	ret = imx219_set_framefmt(imx219);
->  	if (ret) {
->  		dev_err(&client->dev, "%s failed to set frame format: %d\n",
->  			__func__, ret);
-> -		return ret;
-> +		goto err_rpm_put;
->  	}
->  
->  	/* Apply customized values from user */
->  	ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
->  	if (ret)
-> -		return ret;
-> +		goto err_rpm_put;
->  
->  	/* set stream on register */
->  	ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
->  			       IMX219_REG_VALUE_08BIT, IMX219_MODE_STREAMING);
->  	if (ret)
-> -		return ret;
-> +		goto err_rpm_put;
->  
->  	/* vflip and hflip cannot change during streaming */
->  	__v4l2_ctrl_grab(imx219->vflip, true);
->  	__v4l2_ctrl_grab(imx219->hflip, true);
->  
->  	return 0;
-> +
-> +err_rpm_put:
-> +	pm_runtime_put(&client->dev);
-> +	return ret;
->  }
->  
->  static void imx219_stop_streaming(struct imx219 *imx219)
-> @@ -1081,12 +1091,13 @@ static void imx219_stop_streaming(struct imx219 *imx219)
->  
->  	__v4l2_ctrl_grab(imx219->vflip, false);
->  	__v4l2_ctrl_grab(imx219->hflip, false);
-> +
-> +	pm_runtime_put(&client->dev);
->  }
->  
->  static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
->  {
->  	struct imx219 *imx219 = to_imx219(sd);
-> -	struct i2c_client *client = v4l2_get_subdevdata(sd);
->  	int ret = 0;
->  
->  	mutex_lock(&imx219->mutex);
-> @@ -1096,22 +1107,15 @@ static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
->  	}
->  
->  	if (enable) {
-> -		ret = pm_runtime_get_sync(&client->dev);
-> -		if (ret < 0) {
-> -			pm_runtime_put_noidle(&client->dev);
-> -			goto err_unlock;
-> -		}
-> -
->  		/*
->  		 * Apply default & customized values
->  		 * and then start streaming.
->  		 */
->  		ret = imx219_start_streaming(imx219);
->  		if (ret)
-> -			goto err_rpm_put;
-> +			goto err_unlock;
->  	} else {
->  		imx219_stop_streaming(imx219);
-> -		pm_runtime_put(&client->dev);
->  	}
->  
->  	imx219->streaming = enable;
-> @@ -1120,8 +1124,6 @@ static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
->  
->  	return ret;
->  
-> -err_rpm_put:
-> -	pm_runtime_put(&client->dev);
->  err_unlock:
->  	mutex_unlock(&imx219->mutex);
->  
+How many RPF instances does the RG/G2L VSPD have ?
+
+> > But as we have both vsp1_feature(vsp1, VSP1_HAS_BRU) and
+> > vsp1_feature(vsp1, VSP1_HAS_BRS), I don't think that's the case.
+> > 
+> > I'd almost want to check for vsp1_feature(vsp1, VSP1_HAS_BRS) on the
+> > brs->entity line to keep the symmetry ... but it wouldn't be needed, as
+> > it should fall through. If there isn't a BRS there must be a BRU or we
+> > wouldn't be setting up a brx in the first place ;-)
+> > 
+> > So I think what you have is good.
+> > 
+> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 -- 
 Regards,
