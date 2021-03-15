@@ -2,145 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEF6833B138
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Mar 2021 12:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D5D533B2CE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Mar 2021 13:32:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbhCOLeI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Mar 2021 07:34:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41306 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229772AbhCOLdh (ORCPT
+        id S229505AbhCOMbp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Mar 2021 08:31:45 -0400
+Received: from www.zeus03.de ([194.117.254.33]:60804 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229792AbhCOMbV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Mar 2021 07:33:37 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 532D5C061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Mar 2021 04:33:37 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id s7so15153839plg.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Mar 2021 04:33:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=SK2CyJ0akmMFYaADpqyBVqjDyUPRabmr4aHnim1uGXg=;
-        b=MzGXl2DJgUsJFa4rO3hkuzW81/t/cYy7MkoDCDWoH0MvTXdqqdbINeerfkxRgqhrA/
-         fZjuxp1CG/QAzHtSjZzzdN+JYfFTN6D2Re0cb9RdqFAv86BYuCM2okwWJFOEBub/c9EC
-         xkUSaMyr9XU6puahj4FPeRUTb2+azpQipq8Iy484Q71l4yTYdodUKtZepUuHtFUAyARK
-         c70Vm2GE+1tsnzhKyZ7+NxvoH2iSvOYEClTidX9GVTwh3pjOeq+e9jEGyF7sdmUcy6jL
-         fd/+nKcCpzFZayBAThZjQ3Wm5W6kKMWCp9W6FxrhKtirqYP1sn9Oy89zBZZkfnIYCgrQ
-         Uz/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=SK2CyJ0akmMFYaADpqyBVqjDyUPRabmr4aHnim1uGXg=;
-        b=ZwWFODpMbfeTFpDDCnsurGvkxttxHBwlq3G1MBu/99qzMa2mCNyRzSNe2GY7fR0dpY
-         7A6Je7vkEttsIeB6brTauaxL0is/SFdsZNLaqfkiisvjvioFV+jfFqFot7sKkBsfxqPJ
-         WCGIddKA2FfswAbP0/3eYj2q4XMAin31TYOoAPxY+ZsC91VFQZkPix655Vk4TfZklhAp
-         +FPtzQWwTpPQH0JTJU4WDGOlwbcIRim15EGSdKDxk0Cr8631nm+XaXcWOqYfq4iEfU0i
-         uo9pVoxBMhGpLTE+TpXYB1SCP1tHhNc6JbN1+KeIrcvJ1ko4BPrdvvnALK31msZKM7qZ
-         KK0Q==
-X-Gm-Message-State: AOAM532XDUqgcN3k25ePft4k6clRUwbPYZbH96Dy8iFE/KzshuDLY8DT
-        WgNweHSKCRuHFn8kxa9BwCg1yqXZtAmrVA==
-X-Google-Smtp-Source: ABdhPJzuAEAWbAHLxwg2MWmw1Gf73d/+r9Lb8Uyd1YulK57k1rs/hPCHqCFxgdVPzPshywNCKfPmYA==
-X-Received: by 2002:a17:902:dac2:b029:e6:30a6:4c06 with SMTP id q2-20020a170902dac2b02900e630a64c06mr11240244plx.65.1615808016661;
-        Mon, 15 Mar 2021 04:33:36 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id co20sm11063906pjb.32.2021.03.15.04.33.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 04:33:36 -0700 (PDT)
-Message-ID: <604f4610.1c69fb81.a5e0c.9d3c@mx.google.com>
-Date:   Mon, 15 Mar 2021 04:33:36 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 15 Mar 2021 08:31:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=hyr2anXZBr9wlz34u3sUYM9zb0qk
+        Ivb8CxWQ0lYmBnc=; b=KVEhicLcnM6fLrHpxFTA0PYOHU0qjf1rbm17CZ1fTAZP
+        TCYYiPlvet35vD6LypeB94fQ3qEAcC6EqZrWfHnscN8kg6+ePkiihJ7GiIXWX/Ty
+        g2ba1lXAB017V6NI3NDmd3WvgZ+OxbQQzb09QsgDVn+96u+J6J9LXdk2ax1xIWk=
+Received: (qmail 1390144 invoked from network); 15 Mar 2021 13:31:19 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Mar 2021 13:31:19 +0100
+X-UD-Smtp-Session: l3s3148p1@C2w+bZK9noggARa4RYTzARykWRFxRPkz
+Date:   Mon, 15 Mar 2021 13:31:17 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
+Subject: Re: [PATCH 2/2] mmc: renesas_sdhi: do hard reset if possible
+Message-ID: <20210315123117.GC1182@ninjato>
+References: <20210309092332.30705-1-wsa+renesas@sang-engineering.com>
+ <20210309092332.30705-3-wsa+renesas@sang-engineering.com>
+ <TY2PR01MB3692A6D95BD60A17AE698DF3D8919@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <20210311131748.GG3566@ninjato>
+ <TY2PR01MB3692BAF4BB03CDFE3D904B98D86F9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2021-03-15-v5.12-rc3
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-Subject: renesas/master usb: 2 runs,
- 1 regressions (renesas-devel-2021-03-15-v5.12-rc3)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="qjNfmADvan18RZcF"
+Content-Disposition: inline
+In-Reply-To: <TY2PR01MB3692BAF4BB03CDFE3D904B98D86F9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master usb: 2 runs, 1 regressions (renesas-devel-2021-03-15-v5.12-r=
-c3)
 
-Regressions Summary
--------------------
-
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 1          =
+--qjNfmADvan18RZcF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-03-15-v5.12-rc3/plan/usb/
+> Adding the function itself seems OK. However, I checked the code, and then
+> adding hard reset into renesas_sdhi_reset() seems to break the following:
+> -----
+> commit 5b0739d76227fd5a3f02f014385bfa9c86e0404b
+> Author: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Date:   Thu Aug 20 15:25:37 2020 +0200
+>=20
+>     mmc: tmio: don't reset whole IP core when tuning fails
+>=20
+>     SDHI needs to reset the SCC only, not the whole IP core. So, if tuning
+>     fails, don't handle specifics in the generic TMIO core, but in the
+>     specific drivers. For SDHI, we need to move around the reset routine a
+>     bit. It is not modified.
+> ------
+>=20
+> So, perhaps, we have to fix renesas_sdhi_execute_tuning() somehow before
+> adding hard reset. But, what do you think?
 
-  Test:     usb
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-03-15-v5.12-rc3
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      7bd4543a30a76f48903e745f7b9decce1f019ece =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/604f3c0501b87d4260addccd
-
-  Results:     2 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-03-15-v5.12-rc3/arm/multi_v7_defconfig/gcc-8/lab-collabora/usb-rk3288-r=
-ock2-square.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-03-15-v5.12-rc3/arm/multi_v7_defconfig/gcc-8/lab-collabora/usb-rk3288-r=
-ock2-square.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0301.0/armhf/rootfs.cpio.gz =
+Thanks for the pointer, Shimoda-san! It seems it gets messy again, so
+time for getting clearer, I think. I will introduce a reset_scc funtion
+again which is seperate from reset_sdhi, so we have a clear distinction.
+Then, I will call reset_scc from renesas_sdhi_execute_tuning() and the
+rest stays with reset_sdhi. I have a prototype patch which I will test
+some more and  hopefully send out later.
 
 
+--qjNfmADvan18RZcF
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  * usb.compare-freeze: https://kernelci.org/test/case/id/604f3c0501b87d426=
-0addcd0
-        new failure (last pass: renesas-devel-2021-03-12-v5.12-rc2)
+-----BEGIN PGP SIGNATURE-----
 
-    2021-03-15 10:45:40.304000+00:00  + lsusb
-    2021-03-15 10:45:40.304000+00:00  + awk {print $6}
-    2021-03-15 10:45:40.304000+00:00  + sort
-    2021-03-15 10:45:40.304000+00:00  + seq 1 3
-    2021-03-15 10:45:40.304000+00:00  + /usr/sbin/rtcwake -d rtc0 -m freeze=
- -s 1
-    2021-03-15 10:45:40.305000+00:00  rtcwake: assuming RTC uses UTC ...
-    2021-03-15 10:45:40.305000+00:00  rtcwake: wakeup from \"freeze\" using=
- rtc0 at Mon Mar 15 10:45:42 2021
-    2021-03-15 10:45:40.362000+00:00  <6>[   18.692289] PM: suspend entry (=
-s2idle)
-    2021-03-15 10:45:40.363000+00:00  <6>[   18.696867] Filesystems sync: 0=
-.000 seconds
-    2021-03-15 10:45:40.363000+00:00  <6>[   18.703272] Freezing user space=
- processes ... (elapsed 0.001 seconds) done. =
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBPU5EACgkQFA3kzBSg
+KbbIIQ/9GZvkfcgYsJBpmXrnB0Mz3rVRJHujZSAscz0d+p2pFqiw1OI7Z9kvkmgC
+HfxPeacaSnIxxUmAfLvtb9vVQ8NxZvlWJYcNXYNHI9yz9+ZQ3R4CnTGpOec5nW4I
+L0IZzhtfmJh7n+brRrmAeOMz0wCYn8KG25nFBXLzfnyVUVB/C8Pobd3Je3uDxJX1
+evwRJ1GXPXQvUFgKyP5wAi/5/0OmO6S5A3j+K3gjKUYAs7Qcnh86NRox6rpLCjxh
+xOrmc3/QsOyFXgUxJ2zTcXr6bTcGmYgAkM0/mo6zMjrJcGfr7VlnMidokG3Eky62
+eLfOhLP8S85tqdtJ72b8+vcAUfkGYgEfdsmMySH2/Ry/7wGBxvLBCZ2MCZFPXsMP
+zy5uVdxlB0jmoQ1avFQ/wfu2zyLHzaPB5v4LLa2bfEm+LQB+utAsNjnIVhbAu+K2
+FbXXFQhU8PSRHZ89Mmoc86hpboQvz9+ILlNVZwpPJPdil5Nmz8UkYll8/kikO1dd
+54g4DdvNmM2l3HPSMGuzWJsoa/hdZE77sXXBhIR1aG/fYJ8a9AtvZtmnIeanO2uq
+xHmEGwsbSbtY+lnhGlSe5L3u3O69/wZ3CRKsRBmmjm0yIvU2ifr+68M573+l/KIQ
+T/8mhZqesNNDJW4gE1rGviA0sUP2dcA7Vr+nCfZeKKTd7vDbMIQ=
+=fE9+
+-----END PGP SIGNATURE-----
 
-    ... (149 line(s) more)  =
-
- =20
+--qjNfmADvan18RZcF--
