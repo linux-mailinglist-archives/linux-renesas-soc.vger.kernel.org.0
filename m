@@ -2,103 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3136633D46F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 13:57:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A797333D475
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 13:58:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234416AbhCPM4v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Mar 2021 08:56:51 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:51805 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233865AbhCPMzm (ORCPT
+        id S231906AbhCPM5f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Mar 2021 08:57:35 -0400
+Received: from www.zeus03.de ([194.117.254.33]:42532 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234460AbhCPM5S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Mar 2021 08:55:42 -0400
-Received: from uno.localdomain (host-79-22-58-175.retail.telecomitalia.it [79.22.58.175])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 9A26524000B;
-        Tue, 16 Mar 2021 12:55:36 +0000 (UTC)
-Date:   Tue, 16 Mar 2021 13:56:07 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/18] media: i2c: rdacm20: Enable noise immunity
-Message-ID: <20210316125607.lxhrgzahxvxfy6ll@uno.localdomain>
-References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
- <20210315131512.133720-3-jacopo+renesas@jmondi.org>
- <YE/TlmrLV4ejOjlF@pendragon.ideasonboard.com>
+        Tue, 16 Mar 2021 08:57:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=fDuLIWyfsKQi6O7j3bx0fRKXhjJz
+        ffnJfqve+YGpC2c=; b=vhRRZ3iHw/AnRHnbvhcDkK9sVoycFatXc8yLg4mUeV6G
+        yD9/vyNHbSnMJ69x2YfWIT5npHFYdDX+o3gutN5RTKshAQrZOEgQQ/5f8YG0+fhS
+        QtUlp3pU4Mi3PORDfbH61Q++tUSCytSPFiPSV2k2p1yN3Rf2P9egWfvpSg6v+cU=
+Received: (qmail 1779835 invoked from network); 16 Mar 2021 13:57:10 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Mar 2021 13:57:10 +0100
+X-UD-Smtp-Session: l3s3148p1@K1CF56a9xp0gARa4ReUdAWIPBxWmfbkD
+Date:   Tue, 16 Mar 2021 13:57:09 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH v2 3/3] mmc: renesas_sdhi: do hard reset if possible
+Message-ID: <20210316125709.GE1031@ninjato>
+References: <20210315145938.58565-1-wsa+renesas@sang-engineering.com>
+ <20210315145938.58565-4-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUw8wWh3ybsFUopKGMw-Zbcqr9bJBEGHAerL-Y226A0=w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="AjmyJqqohANyBN/e"
 Content-Disposition: inline
-In-Reply-To: <YE/TlmrLV4ejOjlF@pendragon.ideasonboard.com>
+In-Reply-To: <CAMuHMdUw8wWh3ybsFUopKGMw-Zbcqr9bJBEGHAerL-Y226A0=w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
 
-On Mon, Mar 15, 2021 at 11:37:26PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Mon, Mar 15, 2021 at 02:14:56PM +0100, Jacopo Mondi wrote:
-> > Enable the noise immunity threshold at the end of the rdacm20
-> > initialization routine.
-> >
-> > The rdacm20 camera module has been so far tested with a startup
-> > delay that allowed the embedded MCU to program the serializer. If
-> > the initialization routine is run before the MCU programs the
-> > serializer and the image sensor and their addresses gets changed
-> > by the rdacm20 driver it is required to manually enable the noise
-> > immunity threshold to make the communication on the control channel
-> > more reliable.
->
-> I'm still worried by the race with the MCU. Any update on dumping the
-> MCU configuration to check what it initializes ?
->
+--AjmyJqqohANyBN/e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Not yet, you're right ...
 
-I mainly focused on testing with rdacm21, what if I strip the rdacm20
-changes out from this series ? I will have to keep the init()
-operation introduction to maintain compatibility with max9286 changes,
-and in case of no regressions, we can keep the 8 seconds delay in the
-.dtsi. However it will break upstream support on Eagle for rdacm20 as
-we don't have a regulator where to insert the startup delay there, and
-a downstream patch that waits for 8 seconds in the deserializer driver
-should be used instead...
+> > +       select RESET_CONTROLLER
+>=20
+> ... if ARCH_RENESAS?
+>=20
+> While RESET_CONTROLLER can be enabled on SuperH (and compiles),
+> there are no reset drivers for SuperH, so it won't be used anyway.
 
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/i2c/rdacm20.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> > index 90eb73f0e6e9..f7fd5ae955d0 100644
-> > --- a/drivers/media/i2c/rdacm20.c
-> > +++ b/drivers/media/i2c/rdacm20.c
-> > @@ -541,7 +541,13 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
-> >
-> >  	dev_info(dev->dev, "Identified MAX9271 + OV10635 device\n");
-> >
-> > -	return 0;
-> > +	/*
-> > +	 * Set reverse channel high threshold to increase noise immunity.
-> > +	 *
-> > +	 * This should be compensated by increasing the reverse channel
-> > +	 * amplitude on the remote deserializer side.
-> > +	 */
-> > +	return max9271_set_high_threshold(&dev->serializer, true);
-> >  }
-> >
-> >  static int rdacm20_probe(struct i2c_client *client)
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Yeah, I also thought about it and decided against it. Because a new arch
+will then support resets out of the box while the overhead for old archs
+is negligible, I'd think.
+
+But no strong opinion here.
+
+
+--AjmyJqqohANyBN/e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBQqyEACgkQFA3kzBSg
+KbZcFA//aY/++eQqkxtdRtSkM7U0Dud7N+JZAlab1+AbS66TL4odJC7chBjs+3Do
+ZpYI33/NTPLYCEcKHwEhzcSx/jZW0lEzGREfbbsolJqykSB/bx3SGJBgV6UYW0m9
+/KH3EbuX2KfYFqYzNJgvQ/euwrJlO2OMplQ73hoiyhFRc5vqzZef0RNZ14MBPvWn
+ut22DG9ZnUoYSgEFDiIcNUiabK5dI43Jy1d6xY9/hEH2Nsx93c0EI1XvQMKMmyRg
+t/opgixvnFVvjsaYZCXEZpLUvKSwosrhaNWoLY59hDR/ZRwG5Kt7VbH3gip8/aFb
+BvM4pzFs2KbSCEMP3UfsfuUEbPvMyaanE7yqhUOMZP6yHyUUrjkSUAFlzkZfsEH4
+Eat23JlbaHvWiKThHHijWAfXXz1v/914OPFEVp0n1S37yuLtM9slPr4HumDxb2AU
+1sf+zQZfd8kEcjVrR+mYhUgvH/njTLmca5KKotEvgUJdEIWqVHTYtDLOz8Eoz7/G
+3GeeIL4zPs4bnL2Cd6YXgo0kU/R5ZIWm5HCKPFa9nIIBPpjykuD58oPhZb0KsNCB
+fo76IRhKkuhlIxd9APD+TqCZiJGot7C36uBajkrQqLYmu5r0c7AtBwWOy0J2mrh9
+zIWO59wL0Hm2e3Y3LDWhtqsVyRe8rokBrGRTJyYokJMXa5ENAAM=
+=QQ5u
+-----END PGP SIGNATURE-----
+
+--AjmyJqqohANyBN/e--
