@@ -2,129 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B647633D962
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 17:27:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1B7E33D9F9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 17:59:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235308AbhCPQ12 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Mar 2021 12:27:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49044 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236672AbhCPQ0u (ORCPT
+        id S236835AbhCPQ70 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Mar 2021 12:59:26 -0400
+Received: from www.zeus03.de ([194.117.254.33]:34346 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236945AbhCPQ7O (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Mar 2021 12:26:50 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B025C06174A
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Mar 2021 09:26:49 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:b1e0:9434:c5b6:aecd])
-        by laurent.telenet-ops.be with bizsmtp
-        id h4So240010UTkXy014SohF; Tue, 16 Mar 2021 17:26:48 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lMCWt-008ASu-Gk; Tue, 16 Mar 2021 17:26:47 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lMCWs-00AFW8-Kw; Tue, 16 Mar 2021 17:26:46 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Luca Ceresoli <luca@lucaceresoli.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Adam Ford <aford173@gmail.com>
-Cc:     linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v5] dt-bindings: clk: versaclock5: Miscellaneous fixes and improvements:
-Date:   Tue, 16 Mar 2021 17:26:43 +0100
-Message-Id: <20210316162643.2442885-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 16 Mar 2021 12:59:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=xnxLRviNEsqm+L6ZnN3FkL7WoprQ
+        smCN698dwCFC6JE=; b=pB1DhcvSvPEMjUd5EePpf07+VnXV1BEgoDjUEZXUAI3R
+        JbJkVRmRbSdjSOohUj2LkBvnrIs0YDu+0QW7+3EDK0AlJ5p83xQvwkR3aw+ppdwR
+        O4ZaJ+jWEsONUVswejZaegqpP/xhcpRwDRptx/+otgCz8Pfvzq4XHz9iziy1XAk=
+Received: (qmail 1856560 invoked from network); 16 Mar 2021 17:59:12 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Mar 2021 17:59:12 +0100
+X-UD-Smtp-Session: l3s3148p1@xOq2SKq9UOAgAwDPXwSnAAL15/1zCkoV
+Date:   Tue, 16 Mar 2021 17:59:05 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH v2 3/3] mmc: renesas_sdhi: do hard reset if possible
+Message-ID: <20210316165758.GA1110@ninjato>
+References: <20210315145938.58565-1-wsa+renesas@sang-engineering.com>
+ <20210315145938.58565-4-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUw8wWh3ybsFUopKGMw-Zbcqr9bJBEGHAerL-Y226A0=w@mail.gmail.com>
+ <20210316125709.GE1031@ninjato>
+ <CAMuHMdUm=h4MRfJUdZwBwfr2PxvB1Zk5PioBdq+9b_JjcR6U_g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="s2ZSL+KKDSLx8OML"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUm=h4MRfJUdZwBwfr2PxvB1Zk5PioBdq+9b_JjcR6U_g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-  - Remove unneeded references for "idt,xtal-load-femtofarads" and
-    "idt,slew-percent", as vendor specific properties having a standard
-    unit suffix don't need a type,
-  - Add missing "additionalProperties: false" for subnodes, to catch
-    typos in properties,
-  - Fix property names in example.
 
-Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Acked-by: Stephen Boyd <sboyd@kernel.org>
----
-This depends on dt-schema v2021.2.1.
+--s2ZSL+KKDSLx8OML
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-v4:
-  - Add Reviewed-by, Acked-by,
 
-v3:
-  - Drop references for "idt,voltage-microvolt" and "idt,slew-percent",
+> Enabling RESET_CONTROLLER on SH increases kernel size by ca. 4 KiB.
 
-v2:
-  - Settle on "idt,voltage-microvolt", cfr. commit 4b003f5fcadfa2d0
-    ('clk: vc5: Use "idt,voltage-microvolt" instead of
-    "idt,voltage-microvolts"'),
-  - Drop reference to clock.yaml, which is already applied
-    unconditionally,
-  - Drop removal of allOf around if condition, as it is unnecessary
-    churn.
+Well, I read this as "I insist on ARCH_RENESAS" ;) Will resend later or
+tomorrow.
 
-squash! dt-bindings: clk: versaclock5: Miscellaneous fixes and improvements:
 
-v5:
-  - Drop reference for "idt,xtal-load-femtofarads",
----
- .../devicetree/bindings/clock/idt,versaclock5.yaml     | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+--s2ZSL+KKDSLx8OML
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-index c268debe5b8d58cd..434212320c9aa7ab 100644
---- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-+++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-@@ -60,7 +60,6 @@ properties:
-     maxItems: 2
- 
-   idt,xtal-load-femtofarads:
--    $ref: /schemas/types.yaml#/definitions/uint32
-     minimum: 9000
-     maximum: 22760
-     description: Optional load capacitor for XTAL1 and XTAL2
-@@ -84,9 +83,10 @@ patternProperties:
-         enum: [ 1800000, 2500000, 3300000 ]
-       idt,slew-percent:
-         description: The Slew rate control for CMOS single-ended.
--        $ref: /schemas/types.yaml#/definitions/uint32
-         enum: [ 80, 85, 90, 100 ]
- 
-+    additionalProperties: false
-+
- required:
-   - compatible
-   - reg
-@@ -141,13 +141,13 @@ examples:
-             clock-names = "xin";
- 
-             OUT1 {
--                idt,drive-mode = <VC5_CMOSD>;
--                idt,voltage-microvolts = <1800000>;
-+                idt,mode = <VC5_CMOSD>;
-+                idt,voltage-microvolt = <1800000>;
-                 idt,slew-percent = <80>;
-             };
- 
-             OUT4 {
--                idt,drive-mode = <VC5_LVDS>;
-+                idt,mode = <VC5_LVDS>;
-             };
-         };
-     };
--- 
-2.25.1
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBQ49kACgkQFA3kzBSg
+KbamvRAAkYvxG8D4CeqaUEk7NFe7KDkv7NVbYxQuTCcFt+UZIJERZzuhaavAHdas
+97VBaET7bhwaFYxeDACQ5OLAEAMdJeTLHOWVv0BKgrogxG40WQnYreG4GzLX68hN
+EzycFTDkuG7FPefuAP77+TNqOaMP33VlQlnnKHpYwlBUjhdK2+A+tWN07yZ/rxgd
+RAXbp1fv9YbD9qWbKXoOuIQung7b4exEqfPX4SKZs3D0aAp9fxi+zKnYiSdC7dO1
+sn7htm9TUSkLGTzRzCzsmIpQp7wNGAmWB/JgFnwTnFugeEA5H2kjH9jcJcevYV0f
+F3yqku3vM0Pf2wNLmbm5GuA4LZ1BsfKtBVPzpUWFe31UhlyqgZPmaPvfPjCyn7Fj
+ARblHhmqU31uxv9QI8OoTsX7IKhGH6zgACITXdXSfnq9Dg4iek3hljFtY3Ku7dPm
+c97C5awi7lKZTB+tMp3ms4nh7g3RhX+vVdXuaVrswLqwn/qj5xah6HPNhx1RFe3Y
+IEdEkUS6j47RHBqiAQmYxAgP9EFNm8B5Up5IhcTKxgaQeWObQlOSI9SSw9rZXN12
+QE5hGVs0D9ENlWvoOYlRiZ15zeYXUn/mKzodfgSOOkjD4DF8zrnW+IAJHqe2lARh
+Wx5y62jiNQxnG/xhd/jbHL0/jnnvG/iHoWe4TSwoE0peoT63vVI=
+=t3Ab
+-----END PGP SIGNATURE-----
+
+--s2ZSL+KKDSLx8OML--
