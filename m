@@ -2,133 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A9E233D3C7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 13:26:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2FAC33D457
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 13:54:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230081AbhCPMZx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Mar 2021 08:25:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52970 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230492AbhCPMZe (ORCPT
+        id S231705AbhCPMxt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Mar 2021 08:53:49 -0400
+Received: from mail-vk1-f169.google.com ([209.85.221.169]:33409 "EHLO
+        mail-vk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232978AbhCPMxU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Mar 2021 08:25:34 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645FFC06174A
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Mar 2021 05:25:33 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id 30so12310401ple.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Mar 2021 05:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=JE90bXyyZAIGIyl94hhTvgaRv8YTDee26079BnzBgrY=;
-        b=R8EhgEgGXvUTXmoNAyfjgcrQqoZnXsyvDkSf+1ZyWKOWaeXpZgoLY3KF9AHef1f/Dt
-         SHB6BoxRi+Vq+MgJRXFD5OoaL8i0vJWMjPCdqn56gkyqIwT37M+Qok3qlay17e3qmgs5
-         dyo2oB0LV0Zr9W9od3defnzYJQz24cJpfFTHLJPT3SnSdrneLkGjXaZhhJIogEV8owzo
-         B3AvBioRW8zBxSAYFZKR2Em/gZzQy4eHD4ooEiwLV4L9ksWtHowH5rMwkMr7wKWPH0MU
-         KBQ9e1gKw8eefYwS0POj9caAQfRCLcQXstxTplw46WFULGkkqWFlsmcKryqi24k2GkWB
-         Rpdw==
+        Tue, 16 Mar 2021 08:53:20 -0400
+Received: by mail-vk1-f169.google.com with SMTP id b10so3558787vkl.0;
+        Tue, 16 Mar 2021 05:53:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=JE90bXyyZAIGIyl94hhTvgaRv8YTDee26079BnzBgrY=;
-        b=snKvqqS+65wnEpwZm60PWF/V5QP6226EdycE+dcWeqViROlthotvAQx1+kEil097O7
-         s7e4zqMmT4xKFDkjhSk137r1fgz29fKIRpkM3gQqWZKzxewEiWq7QS+1eb7Px1Hig+9N
-         ffg2iKhLC5vPZrlwHQJ+oyVAyFJUL7Jyi7KXULRxs2UveGggzWY7rX+EaTOI2rn//zM/
-         qyacjOBKvddFi48wnhFH9GvAqnKhM4i16GhtkU+uvrqEGOA/JPrSUp7ILr5lDmA5hVfx
-         c/2EVrBQz8SRKw2JcL5G4bPVTaFHYCCf4cLVBOZThcNT4J5XcRk3gCnnB0KQPRC5Q5XD
-         U8Iw==
-X-Gm-Message-State: AOAM531/uYZIIDAFlTGiMdxzOgyY90XjPS0EIA7JfWyOhnn+Wy9IBtoK
-        iaKc1jdQJvFQvhhRq1SC2ayHd+X8ioE6FA==
-X-Google-Smtp-Source: ABdhPJxRMgccjdSPHv4GwfelLoVYI2n1VLNrUYSEf3asZLQv2oBWWPUBS7IF0/KHv6tsfl8FKhjAbQ==
-X-Received: by 2002:a17:90a:5b0b:: with SMTP id o11mr4712486pji.18.1615897532843;
-        Tue, 16 Mar 2021 05:25:32 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id gk12sm2840447pjb.44.2021.03.16.05.25.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Mar 2021 05:25:32 -0700 (PDT)
-Message-ID: <6050a3bc.1c69fb81.332dd.6f8e@mx.google.com>
-Date:   Tue, 16 Mar 2021 05:25:32 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=89XmsMYO9u/e4dB2YkZDf1RWmbZiz/I21ljcsqnAdLs=;
+        b=Wvn48Ea/BSHPRU/s8okAJRTM1U5/3sEdhsuAyrSMkES3NrPzOLJbjHKYm4xz2spxCt
+         3n/5daiv6uoECPIjTmC6s5Wg7u0ExLb4w4m9NUAoCBAEL+2pOdcgEEN4cxzgYZcs4W5l
+         L3ia3VRFXlDWaVPaT/CwNAz8qvGtwleGT0u+21ZxJjh2tOGo7loP9X7R6+wCChE8bXrm
+         bxpbVMRqJ8FMYp4CyR4TY5M1/0CSsRHxp47weO6+5U4qOxmEL32+L5XO+N7SdRBQ1Tuf
+         AwCDWUbOu4cTiKg2s4ofqczC6cVXj4xByhPEECvlCf33khHRnNnCEjP2dUk39ALhlus+
+         VALg==
+X-Gm-Message-State: AOAM5307Ojaf1Xfqg0vkHjgZD00Z3B+H3A7DF+iDZQkmWnhmU1e2fHlF
+        1fB2ZkCZ3rMMh64uBzQHsHtxeKx3wbhKYoc51PjdhecxCRw=
+X-Google-Smtp-Source: ABdhPJwzWg7sH79v5xXWK/RGTQvBSf8wQ7ovU1d0YXRO0vY836tqqCbVp6WpcKvAlPP+E2KU9Fyz0dy8nveI+uEN9Ak=
+X-Received: by 2002:a1f:2502:: with SMTP id l2mr7465479vkl.5.1615899199563;
+ Tue, 16 Mar 2021 05:53:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-next-2021-03-16-v5.12-rc2
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: next
-Subject: renesas/next ltp-ipc: 10 runs,
- 1 regressions (renesas-next-2021-03-16-v5.12-rc2)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+References: <20210315145938.58565-1-wsa+renesas@sang-engineering.com> <20210315145938.58565-4-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210315145938.58565-4-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 16 Mar 2021 13:53:08 +0100
+Message-ID: <CAMuHMdUw8wWh3ybsFUopKGMw-Zbcqr9bJBEGHAerL-Y226A0=w@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] mmc: renesas_sdhi: do hard reset if possible
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next ltp-ipc: 10 runs, 1 regressions (renesas-next-2021-03-16-v5.12=
--rc2)
+Hi Wolfram,
 
-Regressions Summary
--------------------
+On Mon, Mar 15, 2021 at 4:00 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> All recent SDHI instances can be reset via the reset controller. If one
+> is found, use it instead of the open coded reset. This is to get a
+> future-proof sane reset state.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-platform   | arch | lab           | compiler | defconfig                   =
- | regressions
------------+------+---------------+----------+-----------------------------=
--+------------
-odroid-xu3 | arm  | lab-collabora | gcc-8    | multi_v7_defc...G_ARM_LPAE=
-=3Dy | 1          =
+Thanks for your patch!
 
+> --- a/drivers/mmc/host/Kconfig
+> +++ b/drivers/mmc/host/Kconfig
+> @@ -707,6 +707,7 @@ config MMC_SDHI
+>         tristate "Renesas SDHI SD/SDIO controller support"
+>         depends on SUPERH || ARCH_RENESAS || COMPILE_TEST
+>         select MMC_TMIO_CORE
+> +       select RESET_CONTROLLER
 
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-03-16-v5.12-rc2/plan/ltp-ipc/
+... if ARCH_RENESAS?
 
-  Test:     ltp-ipc
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2021-03-16-v5.12-rc2
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      ca7b445e2e7b0cd757c5c29249f37baf9ca71747
+While RESET_CONTROLLER can be enabled on SuperH (and compiles),
+there are no reset drivers for SuperH, so it won't be used anyway.
 
-  Test suite revisions:
-    ltp-tests
-      URL:  https://github.com/linux-test-project/ltp.git
-      SHA:  c4f669f13106862b6d8be38adf7825ae00ca7ac5 =
+>         help
+>           This provides support for the SDHI SD/SDIO controller found in
+>           Renesas SuperH, ARM and ARM64 based SoCs
 
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Test Regressions
----------------- =
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-
-platform   | arch | lab           | compiler | defconfig                   =
- | regressions
------------+------+---------------+----------+-----------------------------=
--+------------
-odroid-xu3 | arm  | lab-collabora | gcc-8    | multi_v7_defc...G_ARM_LPAE=
-=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6050a0b61c8c2f3e14addcb2
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-16-v5.12-rc2/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/=
-gcc-8/lab-collabora/ltp-ipc-odroid-xu3.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-16-v5.12-rc2/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/=
-gcc-8/lab-collabora/ltp-ipc-odroid-xu3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-ltp/=
-20210208.0/armhf/initrd.cpio.gz =
-
-
-
-  * ltp-ipc.login: https://kernelci.org/test/case/id/6050a0b61c8c2f3e14addc=
-b3
-        failing since 0 day (last pass: v5.12-rc2-14-g6f56f6c26099, first f=
-ail: v5.12-rc2-21-g604bd2d4786e9) =
-
- =20
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
