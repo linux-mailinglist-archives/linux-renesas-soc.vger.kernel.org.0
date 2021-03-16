@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 101EC33D03C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 09:58:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A3AB33D038
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 09:58:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235888AbhCPI5y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Mar 2021 04:57:54 -0400
-Received: from www.zeus03.de ([194.117.254.33]:33822 "EHLO mail.zeus03.de"
+        id S233070AbhCPI5z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Mar 2021 04:57:55 -0400
+Received: from www.zeus03.de ([194.117.254.33]:33834 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235875AbhCPI5X (ORCPT
+        id S235582AbhCPI5X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 16 Mar 2021 04:57:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=2jf7WpVhnhNxeK
-        oaj2cTy81yqf4BV+6pvdt6z9+A6xA=; b=chMCHRg5QaLIWo6XZXoutJ+fEPAN7q
-        EhMFybbycuqp0dffSDTnt0xKgmrRbiE7GzgfDgTlS/wyZK+jutar5LpBCTp4IN2x
-        rbE8iyBr1V/vpVg57bUBHh51FgDv9EvWESDL5McT2RL+0NPhmHNjC6cliWV3T/Pq
-        rbEVmbzztX/rM=
-Received: (qmail 1697738 invoked from network); 16 Mar 2021 09:57:21 +0100
+        :mime-version:content-transfer-encoding; s=k1; bh=1rxyPzF/KBHScf
+        8FUZZGAZ4mXvdSvnzxFslpRz19tHo=; b=Y57UHFHuf4XRhjrgCJYHUQCpfrkyxf
+        ivhdO6xCiMl+hW5Ex4H42h5KAdv7Bc3Cmc+/0gwueWZjdZvjCsMh0ys3ni23YGqH
+        2iDF+Am55brST/SkXhhU4ix92AKlbpjM/EgOD69DV/vPpiYH4jICgmYJMfVFyT8W
+        7Tm/umMl0pfvE=
+Received: (qmail 1697766 invoked from network); 16 Mar 2021 09:57:21 +0100
 Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Mar 2021 09:57:21 +0100
-X-UD-Smtp-Session: l3s3148p1@Kn7ijaO9dJwgARa4ReUdAWIPBxWmfbkD
+X-UD-Smtp-Session: l3s3148p1@N3jojaO9dpwgARa4ReUdAWIPBxWmfbkD
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-mmc@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Takeshi Saito <takeshi.saito.xv@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH RFT 1/2] mmc: tmio: restore bus width when resetting
-Date:   Tue, 16 Mar 2021 09:57:16 +0100
-Message-Id: <20210316085717.7276-2-wsa+renesas@sang-engineering.com>
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Takeshi Saito <takeshi.saito.xv@renesas.com>
+Subject: [PATCH RFT 2/2] mmc: tmio: always flag retune when resetting and a card is present
+Date:   Tue, 16 Mar 2021 09:57:17 +0100
+Message-Id: <20210316085717.7276-3-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210316085717.7276-1-wsa+renesas@sang-engineering.com>
 References: <20210316085717.7276-1-wsa+renesas@sang-engineering.com>
@@ -40,77 +40,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Takeshi Saito <takeshi.saito.xv@renesas.com>
+After reset, we manually flagged retune in runtime resume, but missed it
+in the workqueue. To fix that and avoid the problem in the future, let's
+flag retune in the reset handler directly whenever a card is present.
 
-Resetting the IP core will lose the bus width information and not all
-code paths recover it. So, make sure the latest bus width gets restored
-in the reset routine. For that, tmio_mmc_set_bus_width() is moved, but
-not modified.
-
-Signed-off-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
-[wsa: reworded commit message]
+Reported-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/mmc/host/tmio_mmc_core.c | 32 +++++++++++++++++---------------
- 1 file changed, 17 insertions(+), 15 deletions(-)
+ drivers/mmc/host/tmio_mmc_core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-index eca767dcabba..3755f606b8db 100644
+index 3755f606b8db..2e85e40f50f9 100644
 --- a/drivers/mmc/host/tmio_mmc_core.c
 +++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -164,6 +164,21 @@ static void tmio_mmc_enable_sdio_irq(struct mmc_host *mmc, int enable)
- 	}
- }
- 
-+static void tmio_mmc_set_bus_width(struct tmio_mmc_host *host,
-+				   unsigned char bus_width)
-+{
-+	u16 reg = sd_ctrl_read16(host, CTL_SD_MEM_CARD_OPT)
-+				& ~(CARD_OPT_WIDTH | CARD_OPT_WIDTH8);
-+
-+	/* reg now applies to MMC_BUS_WIDTH_4 */
-+	if (bus_width == MMC_BUS_WIDTH_1)
-+		reg |= CARD_OPT_WIDTH;
-+	else if (bus_width == MMC_BUS_WIDTH_8)
-+		reg |= CARD_OPT_WIDTH8;
-+
-+	sd_ctrl_write16(host, CTL_SD_MEM_CARD_OPT, reg);
-+}
-+
- static void tmio_mmc_reset(struct tmio_mmc_host *host)
- {
- 	/* FIXME - should we set stop clock reg here */
-@@ -177,6 +192,8 @@ static void tmio_mmc_reset(struct tmio_mmc_host *host)
- 	if (host->reset)
- 		host->reset(host);
- 
-+	tmio_mmc_set_bus_width(host, host->mmc->ios.bus_width);
-+
- 	if (host->pdata->flags & TMIO_MMC_SDIO_IRQ) {
+@@ -198,6 +198,9 @@ static void tmio_mmc_reset(struct tmio_mmc_host *host)
  		sd_ctrl_write16(host, CTL_SDIO_IRQ_MASK, host->sdio_irq_mask);
  		sd_ctrl_write16(host, CTL_TRANSACTION_CTL, 0x0001);
-@@ -874,21 +891,6 @@ static void tmio_mmc_power_off(struct tmio_mmc_host *host)
- 		host->set_pwr(host->pdev, 0);
+ 	}
++
++	if (host->mmc->card)
++		mmc_retune_needed(host->mmc);
  }
  
--static void tmio_mmc_set_bus_width(struct tmio_mmc_host *host,
--				   unsigned char bus_width)
--{
--	u16 reg = sd_ctrl_read16(host, CTL_SD_MEM_CARD_OPT)
--				& ~(CARD_OPT_WIDTH | CARD_OPT_WIDTH8);
+ static void tmio_mmc_reset_work(struct work_struct *work)
+@@ -1290,8 +1293,6 @@ int tmio_mmc_host_runtime_resume(struct device *dev)
+ 
+ 	tmio_mmc_enable_dma(host, true);
+ 
+-	mmc_retune_needed(host->mmc);
 -
--	/* reg now applies to MMC_BUS_WIDTH_4 */
--	if (bus_width == MMC_BUS_WIDTH_1)
--		reg |= CARD_OPT_WIDTH;
--	else if (bus_width == MMC_BUS_WIDTH_8)
--		reg |= CARD_OPT_WIDTH8;
--
--	sd_ctrl_write16(host, CTL_SD_MEM_CARD_OPT, reg);
--}
--
- static unsigned int tmio_mmc_get_timeout_cycles(struct tmio_mmc_host *host)
- {
- 	u16 val = sd_ctrl_read16(host, CTL_SD_MEM_CARD_OPT);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(tmio_mmc_host_runtime_resume);
 -- 
 2.30.0
 
