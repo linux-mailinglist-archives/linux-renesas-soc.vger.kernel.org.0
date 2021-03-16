@@ -2,128 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0E4733CE06
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 07:39:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAC2733CF5E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 09:11:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229754AbhCPGid (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Mar 2021 02:38:33 -0400
-Received: from mail-eopbgr1400130.outbound.protection.outlook.com ([40.107.140.130]:19136
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230020AbhCPGiF (ORCPT
+        id S234189AbhCPIL0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Mar 2021 04:11:26 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:40659 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234222AbhCPILS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Mar 2021 02:38:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EOePXiQPwQuQwT+nysbRQlERUgK3Hz0ZcMrnmj3JWaD4pcPM9+cbktPIoSxeEViD/xDwihnVUGoGxwRcDcOXPVsbgH4StO+3sFC6/HMSkqvV6b196TTTUef+OiIEXfkAWqFHO/WbGo5k//bBREcVZ7xTwXJq+jaP16+6Mx15F7cjs0zgNmB2SdP76aajy/XOdz6xK9opaP+lz0NuSnAbNleGLJ92UcGgQuEC//CVX8QwyJ1gee+jq/kARz1QmQbfST2d4oBg5lWBNAO7FRDyeoBw0UGUxh/9LAbFMIpAuyphk37eAdsw1x4T2Ww41I8lzdorQDTue52x0ROEflUTTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VBCyEqNgYPJIwNeqWJpYxCkC73VIfqjnc+em/NZ4JzU=;
- b=ZSwgu81sFyCu+6X81q2J4ryGBDZ1tCY4Blm+2KdVb1/Y/DtN/UZ1g0er7Br9mI2tKZAIuZ2t1wLmDohgAngXJzDaGvcXIZM+dkjem0kPUPOOyTrZVILnEY+e9z4y4tk/e99Yel7O6TehiY1RcLxccl8OR7t+stfDu0I3C8PyGhgffHM4OKXgKlXx0+ZYftIm2e8D9cvjXfPcsVw1Qdy3Hr0gtpDptvz71hdrukPEaQlzG/z/AwaLxSZu4mXaujMD+2rdNj/VG93NafCNqp+Kw4ye+h5hNioxuf/dBXJQZO6m428hHnduELALA9vegzaWgAja+wjhx++6aAHW0Q8vvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VBCyEqNgYPJIwNeqWJpYxCkC73VIfqjnc+em/NZ4JzU=;
- b=W1QSrwKGjTGKGsqblgUVPBp/HN8aQmWPPZk9X5eKdxSOP0eealtIcVJIxwsw7X7qQSdvWkgJhMLX98uxLiBJuRxy2Z4sXn0Y3c4r11IGv2W773dA8blKuah7Vj+tB3kVPkmlKYq40GxHultS0n8xHqx7CzIGLXLIv4v6Q5WVMTg=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYBPR01MB5405.jpnprd01.prod.outlook.com (2603:1096:404:802c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Tue, 16 Mar
- 2021 06:38:03 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::cb4:9680:bb26:8f3f]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::cb4:9680:bb26:8f3f%4]) with mapi id 15.20.3933.032; Tue, 16 Mar 2021
- 06:38:03 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 0/3] mmc: renesas_sdhi: reset via reset controller
-Thread-Topic: [PATCH v2 0/3] mmc: renesas_sdhi: reset via reset controller
-Thread-Index: AQHXGavWAVEjBLzSCEWIRJVFCiAX6aqGKg1Q
-Date:   Tue, 16 Mar 2021 06:38:02 +0000
-Message-ID: <TY2PR01MB3692AFFDCA9D12B0CD2374FED86B9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20210315145938.58565-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210315145938.58565-1-wsa+renesas@sang-engineering.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: sang-engineering.com; dkim=none (message not signed)
- header.d=none;sang-engineering.com; dmarc=none action=none
- header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 733ff465-cf80-40d6-0e4b-08d8e8460ca8
-x-ms-traffictypediagnostic: TYBPR01MB5405:
-x-microsoft-antispam-prvs: <TYBPR01MB5405733DBD0F585920AA8717D86B9@TYBPR01MB5405.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: pE+2X4MPPD2L8v6c7gAHa7wGHgt7HR/7AyzI12CRuGnLoZww8H2UvC+N18vwxG26OWnYthEnFbruaZDsFrkqQtorSSgR+qHc7kc+by/w+IHZ6tGA1uKKAt+3dQfP9qnhymabkMXEtjpozQQxt810GRPh6KFyjnkLkA1thCaS5OFVvt6LI3+BRL/tfhEjhnJuO3IfCI2rG2N2cwYD+0c/UElSco2AXlGQlaeV8hvkcjuELKAX+TYx/t7m7ISo0qfezrv/lkBeyhvRwJ6s+corblk371zgjybrg9oOJFCPQxVGXF1WXzZWTefpBE+0NG4mV1Hdqd15i8paSUYRyvctQTul4Q13Uw5/TpLkU3En8jfHxF878vClC35knRHvcdsOAvgPeoD0yQCV0qycT9WevVcDF8ikASdI+3ZKFnKiO+SoVYjOLRhheMFC0eRnTIOMray6CsaQoQB1T0wV/cBSevGPBB9WlZLDcS4q3Zl83eiLlouLBE7SSd1fNv7pnbqQLs1DpCRd8Mo+kpeAY4/BdMDVbLVUn6zfphJvurqgW49H7+esJZbVORcT8g6iEsJu
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(39860400002)(396003)(346002)(376002)(2906002)(8936002)(7696005)(8676002)(55236004)(55016002)(4744005)(9686003)(110136005)(6506007)(71200400001)(66946007)(316002)(186003)(4326008)(478600001)(5660300002)(26005)(76116006)(66476007)(52536014)(64756008)(66556008)(86362001)(66446008)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?utf-8?B?aFVvNy9rNDcwOHRhUUk2YWxWRlg1Wlhoemx0UTduUlBKMEdKT3RqK2xlRzNy?=
- =?utf-8?B?eHRrclhNNFlxUEF2S3VIODZxUVJvRitML01zeXRHSE5RNzhWK0c5WHJWL3l4?=
- =?utf-8?B?aVcwTnVmZGV3U3BkelRQZkpibE9uWi9hWnRIMk1PVlcwb3VkeVc0a3lmMU5w?=
- =?utf-8?B?b0t6cnArR3FRekkwWUNHSnUzNStwSlpmeVBGcWx4Y1hZYjhmT25WRVhHVGJw?=
- =?utf-8?B?Y3lnNFNndkZadGJxeU56aW9mRXAvS1A1dWk1bWZleXBKeGVoblNTTTMvd0I3?=
- =?utf-8?B?N1dsMnAvYlVsWHh4aGFoMWgrYXNHWEVTdUQwNjcwcU1MYUFrbDlDL2g1dHZi?=
- =?utf-8?B?S3dDV24zWmpMRWtRN0dnOEJ1T2UyZ2VENjN2b1V3UGNjcWhxNVhjVVYyQUNV?=
- =?utf-8?B?aStFM1djRkRtUmhNZFNTWjNWYkp6Q0JzMHpuelZsNDc0dTU5YU9JcXZ3SHJC?=
- =?utf-8?B?TG5DL0RIT3FzQXFjam5NRTFEUkpMekN6VGd3Rko0Y3hVS2o4ZUcreS9sVHRy?=
- =?utf-8?B?R0xBZ3RIUEhDUW5BK0tLVE1PaW5kVEJZb3ovOXFleDJ2MXIycm93WFhBOXBC?=
- =?utf-8?B?blVFYzVFRVRia0NubkN5SEV0elpTZ3lSbFJRSHdMUFloZXNCS0JOcEJVWWdC?=
- =?utf-8?B?engyZU5yTGNVY3h1cjQzNTFtOXVERzlCK0dGa0FjejNvT1B2TWhmeW10WGd2?=
- =?utf-8?B?STFYOG9uT05pUWJDa0IwenJlbzlqL1JNckszSzRVeHVGQ0YwamlqRE1tWHNp?=
- =?utf-8?B?WUR3YkpPbExKN0xXaStnbm54djY1TVZjVUdrak8wT3JtZE0yU2lvMWpJajh4?=
- =?utf-8?B?U0NTNjVHWkh4MFAvTFRFa3hrL2Qxb1hUS2JJSWkzc0hmVENwY01aSmR5eVdt?=
- =?utf-8?B?eEFkaXl5cTU1cWE1OTdtYmVBdnQyNmFGMmRhQzBXS3ZDL0JBKzRiV2NRdXZw?=
- =?utf-8?B?RGpBZGNJQ0ZRaUFPS01ienE2cVhTYlphbk50eHdJdy9EdGJqNTQ4d3I5aWM1?=
- =?utf-8?B?bWdpV29IU1FNdlhXNDhjakUzVUptVGVXditMRG9SOFhOKzdYOUxVWGVVT0I2?=
- =?utf-8?B?SmlmYlU1UzJuM21vOVN3eklrdjYvc3Jtek1zVzRnMnhrd1ZUT0h3Vzh4OEdv?=
- =?utf-8?B?RWNSRklIdkFIUDNrbUFsM2MrQThzVldReHEvc0FlOGpTTURCdE9RT0VnMUFP?=
- =?utf-8?B?SXoxZ3FBYlMvaDZjUGMvUGZuOVNLMno2RXh0bmF3NyszTDROekZRZ3prKzVB?=
- =?utf-8?B?VzhWeWZsZ1FVUGE0d21DTkJoNTdGQytoOGxvZEphTzI3N2JSN21IemFZMWZD?=
- =?utf-8?B?SGdHUFNuMmw4NjJoTUNkTkp6dlRnTTNxSnpkWW1ENXJDWCtMVHpwU2Y1Wldz?=
- =?utf-8?B?YzlXK2NjeVlWMXh5SEpPdFdiQjdPd0VqTStTMnFzY3J1bXBDSTVtSWY2cnR0?=
- =?utf-8?B?K2JjQ0kySGMzWDh1Rm50a3JzSVlaTXEyeGdUUmxyaWtPRU1YRU5jZEdHbS93?=
- =?utf-8?B?ZktSUkNMTDNSYVNUenRDZWFxVFI2UHhnaDVPREhaNWN0UjhTRGxsSFA0UXZY?=
- =?utf-8?B?V0k4TnpWOG13WWtMM3Fodll4clQ2NmZoWmR2N3hUZlB2RHNoaTk0dms5cWlH?=
- =?utf-8?B?S1JjWm53QXpDa1VDa0R6Wm9Jb2d3NVA5L1NJSnFIWW1uZFF1T04wdUZvc2l2?=
- =?utf-8?B?Q3ZBbnViOFh2WVUwVnZjNmRTblAwS1JneTFPMXhNNm5lYTJraU9CUjkzdERE?=
- =?utf-8?Q?6vlQUILnDfwa2tGCUU4T/u8hOtxi+2dTNv0y2Nt?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Tue, 16 Mar 2021 04:11:18 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id M4nIl0W2P4ywlM4nMlAC5O; Tue, 16 Mar 2021 09:11:16 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1615882276; bh=96NIcOrlYv32B056kK+dN/BjH4lJaED1Wc9o9skwZx0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=blzt7slQ7VvwpWEMlUdGxL2BvQWamzxwbPZNXFWnPXNpljAdneE+Dji9UJInHANTZ
+         Smw2Qt2IJK+/QhdlVSEBO+CPMywLal5yxUYSEQMobpVjvThiP7KwDEuDCQB3wDVVDK
+         qrFkubdTjE96Rc1bR5E45Uz0yOxhLn3rZkAzfILNQsGWCex1VHCDptQ3iTFBneQaB0
+         qVw+XVAGixTi8FNX3kZWbwJ2136/vpYGZ+Yd3O6Qay++m2dLjyxjMjOewJz8b2E5iz
+         pCxGy+5dZWElHzRKS15ZIB5BxSdjNALvsUIRi0g0/2wG3H1cEAmZgmzsPB7KsboHLX
+         p/HGqsGn2IYew==
+Subject: Re: [PATCH v3 1/2] rcar-vin: Stop stream when subdevice signal EOS
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+References: <20210310164527.3631395-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210310164527.3631395-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <5f769ff4-6fd9-fa2c-6f83-ae0013969f55@xs4all.nl>
+Date:   Tue, 16 Mar 2021 09:11:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 733ff465-cf80-40d6-0e4b-08d8e8460ca8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2021 06:38:02.7981
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OlBgI29LDGZh2ajx5W0Hpi38Ayweb2hkgYLL3s0CCHUlXy4aji4oD6vT2IdurR5+gGccHTn3txbjMtWUWeeF0NgTa3PknKugmF659p5YvElXNJaTq+5RzBu18olcZ70Y
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5405
+In-Reply-To: <20210310164527.3631395-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfCzwn8Z0UX4AYGDYjZfwX7/zDkHr0Yz3aFwJ90uW4UKkdmlYPr034WjpghsMmgtCDzRPyz4as56Ca4mt10tPUC1q4VMUNXTzoswG9pxzaJ7jSf5PPOmL
+ g2qgPjpiRxSGOhnKBLzgzAiS/XzR2gj2NQ7ghXzFsHOnav2DWHdAmbGjZqVzyodE+YObwhcPWNGupF85/Eo7h0CsIB3kCnsL5F5Xb/EMTxMH4i0E2jp51o9C
+ /6fPTjx8RuLeJxIBACg1HuYvxbVJtqCn7oLCEZUm1Kgq0whXmWuKnH+RzePlMddr87dRDvgnjC+J+xksxXrT7aDbpvVwyfX0xKQ0e3ly5U0YhHPcqBhHt3Ds
+ o9IKTmmZ
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgV29sZnJhbS1zYW4sDQoNCj4gRnJvbTogV29sZnJhbSBTYW5nLCBTZW50OiBUdWVzZGF5LCBN
-YXJjaCAxNiwgMjAyMSAxMjowMCBBTQ0KPiANCj4gVGhpcyBzZXJpZXMgZW5hYmxlcyBTREhJIHRv
-IGJlIHJlc2V0IHZpYSBhIHJlc2V0IGNvbnRyb2xsZXIuDQo+IFBsZWFzZSBsZXQgbWUga25vdyBh
-Ym91dCB5b3VyIChhbmQgQlNQIHRlYW0ncykgdGhvdWdodHMuDQo+IFRoZSBzZXJpZXMgaXMgYmFz
-ZWQgb24gbW1jL25leHQgYW5kIHRlc3RlZCBvbiBTYWx2YXRvci1YUyB3aXRoIFItQ2FyIEgzDQo+
-IEVTMi4wIHdpdGggd2hhdCBJIHRoaW5rIEkgY2FuIGRvIGxvY2FsbHkgaGVyZS4NCg0KVGhhbmsg
-eW91IGZvciB0aGUgcGF0Y2hlcyENCg0KUmV2aWV3ZWQtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5
-b3NoaWhpcm8uc2hpbW9kYS51aEByZW5lc2FzLmNvbT4NCg0KQWxzbywgSSB0ZXN0ZWQgb24gUi1D
-YXIgSDMgRVMzLjAgYW5kIEkgZGlkbid0IG9ic2VydmUgYW55IHJlZ3Jlc3Npb24uDQpTbywNCg0K
-VGVzdGVkLWJ5OiBZb3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNoaW1vZGEudWhAcmVuZXNh
-cy5jb20+DQoNCkJlc3QgcmVnYXJkcywNCllvc2hpaGlybyBTaGltb2RhDQoNCg==
+Hi Niklas,
+
+On 10/03/2021 17:45, Niklas Söderlund wrote:
+> When a subdevice signals end of stream stop the VIN in addition to
+> informing user-space of the event.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+> * Changes since v2
+> - Log using vin_dbg() instead of v4l2_info().
+> ---
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index 457a65bf6b664f05..76f6f46799e95791 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -969,9 +969,23 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
+>  static void rvin_notify_video_device(struct rvin_dev *vin,
+>  				     unsigned int notification, void *arg)
+>  {
+> +	const struct v4l2_event *event;
+> +
+>  	switch (notification) {
+>  	case V4L2_DEVICE_NOTIFY_EVENT:
+> -		v4l2_event_queue(&vin->vdev, arg);
+> +		event = arg;
+> +
+> +		switch (event->type) {
+> +		case V4L2_EVENT_EOS:
+
+This is not the right event for this. EVENT_EOS is specific to codecs and does
+not signal an error condition.
+
+I think we need a new event for this, I've seen similar situations with HDMI
+receivers. The SOURCE_CHANGE event was (ab)used for that, but I think a new
+event (V4L2_EVENT_XFER_ERROR?) should be created for these situations.
+
+> +			rvin_stop_streaming(vin);
+
+In addition to this you should call vb2_queue_error(), that's typically used
+in situations where there is an unrecoverable transfer error.
+
+Regards,
+
+	Hans
+
+> +			vin_dbg(vin,
+> +				"Subdevice signaled end of stream, stopping.\n");
+> +			break;
+> +		default:
+> +			break;
+> +		}
+> +
+> +		v4l2_event_queue(&vin->vdev, event);
+>  		break;
+>  	default:
+>  		break;
+> 
+
