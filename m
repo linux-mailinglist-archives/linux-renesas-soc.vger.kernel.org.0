@@ -2,77 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1B7E33D9F9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 17:59:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5017E33DD62
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 20:25:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236835AbhCPQ70 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Mar 2021 12:59:26 -0400
-Received: from www.zeus03.de ([194.117.254.33]:34346 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236945AbhCPQ7O (ORCPT
+        id S240380AbhCPTY5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Mar 2021 15:24:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240371AbhCPTYl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Mar 2021 12:59:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=xnxLRviNEsqm+L6ZnN3FkL7WoprQ
-        smCN698dwCFC6JE=; b=pB1DhcvSvPEMjUd5EePpf07+VnXV1BEgoDjUEZXUAI3R
-        JbJkVRmRbSdjSOohUj2LkBvnrIs0YDu+0QW7+3EDK0AlJ5p83xQvwkR3aw+ppdwR
-        O4ZaJ+jWEsONUVswejZaegqpP/xhcpRwDRptx/+otgCz8Pfvzq4XHz9iziy1XAk=
-Received: (qmail 1856560 invoked from network); 16 Mar 2021 17:59:12 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Mar 2021 17:59:12 +0100
-X-UD-Smtp-Session: l3s3148p1@xOq2SKq9UOAgAwDPXwSnAAL15/1zCkoV
-Date:   Tue, 16 Mar 2021 17:59:05 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH v2 3/3] mmc: renesas_sdhi: do hard reset if possible
-Message-ID: <20210316165758.GA1110@ninjato>
-References: <20210315145938.58565-1-wsa+renesas@sang-engineering.com>
- <20210315145938.58565-4-wsa+renesas@sang-engineering.com>
- <CAMuHMdUw8wWh3ybsFUopKGMw-Zbcqr9bJBEGHAerL-Y226A0=w@mail.gmail.com>
- <20210316125709.GE1031@ninjato>
- <CAMuHMdUm=h4MRfJUdZwBwfr2PxvB1Zk5PioBdq+9b_JjcR6U_g@mail.gmail.com>
+        Tue, 16 Mar 2021 15:24:41 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89008C06174A;
+        Tue, 16 Mar 2021 12:24:41 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EED088C8;
+        Tue, 16 Mar 2021 20:24:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1615922680;
+        bh=8IOV9swkrnF2YntaMgVClYDlrliiv5d39VZFWxuasgY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ADlB/ful233Uxf4OhdAYcDSV382Z7ChN1L8+YnD9HqIXosdb41veNcIn6x816wfIK
+         N078BmT6lK2ZC6Nobx5juZXZug7iY2kK0nF28TG682+XJfSl6rSIA7f/LKfRMLbzOE
+         7Yh1Nmx70W8dA2jfkBos+p98VH9y6BfDMUQp6kjU=
+Date:   Tue, 16 Mar 2021 21:24:03 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/18] media: i2c: rdacm20: Enable noise immunity
+Message-ID: <YFEF0/ev7bJ8ghN6@pendragon.ideasonboard.com>
+References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
+ <20210315131512.133720-3-jacopo+renesas@jmondi.org>
+ <YE/TlmrLV4ejOjlF@pendragon.ideasonboard.com>
+ <20210316125607.lxhrgzahxvxfy6ll@uno.localdomain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="s2ZSL+KKDSLx8OML"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUm=h4MRfJUdZwBwfr2PxvB1Zk5PioBdq+9b_JjcR6U_g@mail.gmail.com>
+In-Reply-To: <20210316125607.lxhrgzahxvxfy6ll@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Jacopo,
 
---s2ZSL+KKDSLx8OML
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Tue, Mar 16, 2021 at 01:56:07PM +0100, Jacopo Mondi wrote:
+> On Mon, Mar 15, 2021 at 11:37:26PM +0200, Laurent Pinchart wrote:
+> > On Mon, Mar 15, 2021 at 02:14:56PM +0100, Jacopo Mondi wrote:
+> > > Enable the noise immunity threshold at the end of the rdacm20
+> > > initialization routine.
+> > >
+> > > The rdacm20 camera module has been so far tested with a startup
+> > > delay that allowed the embedded MCU to program the serializer. If
+> > > the initialization routine is run before the MCU programs the
+> > > serializer and the image sensor and their addresses gets changed
+> > > by the rdacm20 driver it is required to manually enable the noise
+> > > immunity threshold to make the communication on the control channel
+> > > more reliable.
+> >
+> > I'm still worried by the race with the MCU. Any update on dumping the
+> > MCU configuration to check what it initializes ?
+> 
+> Not yet, you're right ...
+> 
+> I mainly focused on testing with rdacm21, what if I strip the rdacm20
+> changes out from this series ? I will have to keep the init()
+> operation introduction to maintain compatibility with max9286 changes,
+> and in case of no regressions, we can keep the 8 seconds delay in the
+> .dtsi. However it will break upstream support on Eagle for rdacm20 as
+> we don't have a regulator where to insert the startup delay there, and
+> a downstream patch that waits for 8 seconds in the deserializer driver
+> should be used instead...
 
+I don't think the rdacm20 changes need to wait. Even this one could be
+merged as-is, as long as we consider it to be a temporary workaround and
+don't build anything on top that would make it more difficult to address
+the issue properly (a TODO comment in the code could help).
 
-> Enabling RESET_CONTROLLER on SH increases kernel size by ca. 4 KiB.
+> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > >  drivers/media/i2c/rdacm20.c | 8 +++++++-
+> > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+> > > index 90eb73f0e6e9..f7fd5ae955d0 100644
+> > > --- a/drivers/media/i2c/rdacm20.c
+> > > +++ b/drivers/media/i2c/rdacm20.c
+> > > @@ -541,7 +541,13 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+> > >
+> > >  	dev_info(dev->dev, "Identified MAX9271 + OV10635 device\n");
+> > >
+> > > -	return 0;
+> > > +	/*
+> > > +	 * Set reverse channel high threshold to increase noise immunity.
+> > > +	 *
+> > > +	 * This should be compensated by increasing the reverse channel
+> > > +	 * amplitude on the remote deserializer side.
+> > > +	 */
+> > > +	return max9271_set_high_threshold(&dev->serializer, true);
+> > >  }
+> > >
+> > >  static int rdacm20_probe(struct i2c_client *client)
 
-Well, I read this as "I insist on ARCH_RENESAS" ;) Will resend later or
-tomorrow.
+-- 
+Regards,
 
-
---s2ZSL+KKDSLx8OML
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBQ49kACgkQFA3kzBSg
-KbamvRAAkYvxG8D4CeqaUEk7NFe7KDkv7NVbYxQuTCcFt+UZIJERZzuhaavAHdas
-97VBaET7bhwaFYxeDACQ5OLAEAMdJeTLHOWVv0BKgrogxG40WQnYreG4GzLX68hN
-EzycFTDkuG7FPefuAP77+TNqOaMP33VlQlnnKHpYwlBUjhdK2+A+tWN07yZ/rxgd
-RAXbp1fv9YbD9qWbKXoOuIQung7b4exEqfPX4SKZs3D0aAp9fxi+zKnYiSdC7dO1
-sn7htm9TUSkLGTzRzCzsmIpQp7wNGAmWB/JgFnwTnFugeEA5H2kjH9jcJcevYV0f
-F3yqku3vM0Pf2wNLmbm5GuA4LZ1BsfKtBVPzpUWFe31UhlyqgZPmaPvfPjCyn7Fj
-ARblHhmqU31uxv9QI8OoTsX7IKhGH6zgACITXdXSfnq9Dg4iek3hljFtY3Ku7dPm
-c97C5awi7lKZTB+tMp3ms4nh7g3RhX+vVdXuaVrswLqwn/qj5xah6HPNhx1RFe3Y
-IEdEkUS6j47RHBqiAQmYxAgP9EFNm8B5Up5IhcTKxgaQeWObQlOSI9SSw9rZXN12
-QE5hGVs0D9ENlWvoOYlRiZ15zeYXUn/mKzodfgSOOkjD4DF8zrnW+IAJHqe2lARh
-Wx5y62jiNQxnG/xhd/jbHL0/jnnvG/iHoWe4TSwoE0peoT63vVI=
-=t3Ab
------END PGP SIGNATURE-----
-
---s2ZSL+KKDSLx8OML--
+Laurent Pinchart
