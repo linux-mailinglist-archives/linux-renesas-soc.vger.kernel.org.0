@@ -2,165 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A882233D801
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 16:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDD0633D8D1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 17:12:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237286AbhCPPr3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Mar 2021 11:47:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39958 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237434AbhCPPrK (ORCPT
+        id S238492AbhCPQMU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Mar 2021 12:12:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34388 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235501AbhCPQLf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Mar 2021 11:47:10 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A438C061762
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Mar 2021 08:47:09 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:b1e0:9434:c5b6:aecd])
-        by albert.telenet-ops.be with bizsmtp
-        id h3n72400Z0UTkXy063n7qe; Tue, 16 Mar 2021 16:47:07 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lMBuV-0089ur-1h; Tue, 16 Mar 2021 16:47:07 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lMBuU-00AD5T-8V; Tue, 16 Mar 2021 16:47:06 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Hoang Vo <hoang.vo.eb@renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 3/3] arm64: dts: renesas: falcon: Move AVB0 to main DTS
-Date:   Tue, 16 Mar 2021 16:47:05 +0100
-Message-Id: <20210316154705.2433528-4-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210316154705.2433528-1-geert+renesas@glider.be>
-References: <20210316154705.2433528-1-geert+renesas@glider.be>
+        Tue, 16 Mar 2021 12:11:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F194765103;
+        Tue, 16 Mar 2021 16:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615911094;
+        bh=35SIT3iPQSjph5vWPQOGdeWgRxkk11sjoB9x+0CNOVA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=IbGjDn4wUtPbgNCiuXouRA0H4yd3h7EGYERiYXXuH+m9IwlDUNFMr75xQAYfD6hh2
+         sUKLCuWB0xVOqo4E8fHxeCAGLnoTTHS1t6U8+fQXOQJvceix+ktF+s9c9ovxpzSjKz
+         +jFH4B/ebge9GFBWnSfKOcAdGDXh5xCc0+gEpY3mdUGMIzCGiwmeXsK3+CXQroA/lM
+         l119q1DHeZGEDuzGXlqm9u8F9iu7PvfBo3L5e0lvJ3cMXFXyi5uencoor750wOn+PM
+         /1pNUgHgS0ISMxKH2Q4pE5dSHt6Ek3ZPSfpFru2c0jz6yIkt3RsEGcyt7AV6LkXZ39
+         3IPnZorPcgN1w==
+Received: by mail-ed1-f54.google.com with SMTP id z1so22212121edb.8;
+        Tue, 16 Mar 2021 09:11:33 -0700 (PDT)
+X-Gm-Message-State: AOAM530CwGIIpvCVTXOlCAHKWlL7kixtqYh6BY2irBM8bReHNkoGLICS
+        RyZJv/WGy0NIc8kNpbY3rHTWBIpP5oFfwa9wag==
+X-Google-Smtp-Source: ABdhPJyaz1jHP2gkVWlnV8xoLBHvVO2dfEQT1wx+qW2U9vhAWt7lnuWSVDSR1Cl7ERH1YphiAr/zB4WZbrFsPxMFl4M=
+X-Received: by 2002:aa7:c403:: with SMTP id j3mr36976488edq.137.1615911092488;
+ Tue, 16 Mar 2021 09:11:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210316140538.2403985-1-geert+renesas@glider.be>
+In-Reply-To: <20210316140538.2403985-1-geert+renesas@glider.be>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 16 Mar 2021 10:11:18 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK+B+FqoR8CVcWHyEjmnpKivsacppX=nw-4ZMWHemx=tA@mail.gmail.com>
+Message-ID: <CAL_JsqK+B+FqoR8CVcWHyEjmnpKivsacppX=nw-4ZMWHemx=tA@mail.gmail.com>
+Subject: Re: [PATCH v4] dt-bindings: clk: versaclock5: Miscellaneous fixes and improvements:
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The Ethernet PHY for the first AVB instance is located on the Falcon
-BreakOut board.  Hence move its description from the DTS file that
-describes the CPU board to the main Falcon DTS file.
+On Tue, Mar 16, 2021 at 8:05 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+>   - Remove unneeded reference for "idt,slew-percent", as vendor specific
+>     properties having a standard unit suffix don't need a type,
 
-Fixes: e8ac55a5e70a9522 ("arm64: dts: renesas: falcon: Add Ethernet-AVB0 support")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 34 -----------------
- .../boot/dts/renesas/r8a779a0-falcon.dts      | 37 +++++++++++++++++++
- 2 files changed, 37 insertions(+), 34 deletions(-)
+Care to also fix 'idt,xtal-load-femtofarads' which was recently added?
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-index 97d40e3e05ff3b1b..e9133f9348df8969 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-@@ -60,22 +60,6 @@ reg_3p3v: regulator-3p3v {
- 	};
- };
- 
--&avb0 {
--	pinctrl-0 = <&avb0_pins>;
--	pinctrl-names = "default";
--	phy-handle = <&phy0>;
--	tx-internal-delay-ps = <2000>;
--	status = "okay";
--
--	phy0: ethernet-phy@0 {
--		rxc-skew-ps = <1500>;
--		reg = <0>;
--		interrupt-parent = <&gpio4>;
--		interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
--		reset-gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
--	};
--};
--
- &extal_clk {
- 	clock-frequency = <16666666>;
- };
-@@ -136,24 +120,6 @@ &pfc {
- 	pinctrl-0 = <&scif_clk_pins>;
- 	pinctrl-names = "default";
- 
--	avb0_pins: avb0 {
--		mux {
--			groups = "avb0_link", "avb0_mdio", "avb0_rgmii", "avb0_txcrefclk";
--			function = "avb0";
--		};
--
--		pins_mdio {
--			groups = "avb0_mdio";
--			drive-strength = <21>;
--		};
--
--		pins_mii {
--			groups = "avb0_rgmii";
--			drive-strength = <21>;
--		};
--
--	};
--
- 	i2c0_pins: i2c0 {
- 		groups = "i2c0";
- 		function = "i2c0";
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-index 04cd2ae5b4f4892e..687f019e79f059a1 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-@@ -19,6 +19,22 @@ aliases {
- 	};
- };
- 
-+&avb0 {
-+	pinctrl-0 = <&avb0_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&phy0>;
-+	tx-internal-delay-ps = <2000>;
-+	status = "okay";
-+
-+	phy0: ethernet-phy@0 {
-+		rxc-skew-ps = <1500>;
-+		reg = <0>;
-+		interrupt-parent = <&gpio4>;
-+		interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
-+	};
-+};
-+
- &i2c0 {
- 	eeprom@51 {
- 		compatible = "rohm,br24g01", "atmel,24c01";
-@@ -27,3 +43,24 @@ eeprom@51 {
- 		pagesize = <8>;
- 	};
- };
-+
-+&pfc {
-+	avb0_pins: avb0 {
-+		mux {
-+			groups = "avb0_link", "avb0_mdio", "avb0_rgmii",
-+				 "avb0_txcrefclk";
-+			function = "avb0";
-+		};
-+
-+		pins_mdio {
-+			groups = "avb0_mdio";
-+			drive-strength = <21>;
-+		};
-+
-+		pins_mii {
-+			groups = "avb0_rgmii";
-+			drive-strength = <21>;
-+		};
-+
-+	};
-+};
--- 
-2.25.1
-
+>   - Add missing "additionalProperties: false" for subnodes, to catch
+>     typos in properties,
+>   - Fix property names in example.
+>
+> Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
+> ---
+> This depends on "[PATCH dt-schema 0/2] dt-schema: Add percentage", which
+> is part of dt-schema v2021.2.1.
+>
+> v4:
+>   - Add Reviewed-by, Acked-by,
+>
+> v3:
+>   - Drop references for "idt,voltage-microvolt" and "idt,slew-percent",
+>
+> v2:
+>   - Settle on "idt,voltage-microvolt", cfr. commit 4b003f5fcadfa2d0
+>     ('clk: vc5: Use "idt,voltage-microvolt" instead of
+>     "idt,voltage-microvolts"'),
+>   - Drop reference to clock.yaml, which is already applied
+>     unconditionally,
+>   - Drop removal of allOf around if condition, as it is unnecessary
+>     churn.
+> ---
+>  .../devicetree/bindings/clock/idt,versaclock5.yaml       | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+> index c268debe5b8d58cd..a7d00c552e3de161 100644
+> --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+> +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+> @@ -84,9 +84,10 @@ patternProperties:
+>          enum: [ 1800000, 2500000, 3300000 ]
+>        idt,slew-percent:
+>          description: The Slew rate control for CMOS single-ended.
+> -        $ref: /schemas/types.yaml#/definitions/uint32
+>          enum: [ 80, 85, 90, 100 ]
+>
+> +    additionalProperties: false
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -141,13 +142,13 @@ examples:
+>              clock-names = "xin";
+>
+>              OUT1 {
+> -                idt,drive-mode = <VC5_CMOSD>;
+> -                idt,voltage-microvolts = <1800000>;
+> +                idt,mode = <VC5_CMOSD>;
+> +                idt,voltage-microvolt = <1800000>;
+>                  idt,slew-percent = <80>;
+>              };
+>
+>              OUT4 {
+> -                idt,drive-mode = <VC5_LVDS>;
+> +                idt,mode = <VC5_LVDS>;
+>              };
+>          };
+>      };
+> --
+> 2.25.1
+>
