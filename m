@@ -2,114 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5017E33DD62
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 20:25:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76F0133E024
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 22:15:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240380AbhCPTY5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Mar 2021 15:24:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240371AbhCPTYl (ORCPT
+        id S232542AbhCPVPQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Mar 2021 17:15:16 -0400
+Received: from mga17.intel.com ([192.55.52.151]:51871 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232358AbhCPVOu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Mar 2021 15:24:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89008C06174A;
-        Tue, 16 Mar 2021 12:24:41 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EED088C8;
-        Tue, 16 Mar 2021 20:24:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615922680;
-        bh=8IOV9swkrnF2YntaMgVClYDlrliiv5d39VZFWxuasgY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ADlB/ful233Uxf4OhdAYcDSV382Z7ChN1L8+YnD9HqIXosdb41veNcIn6x816wfIK
-         N078BmT6lK2ZC6Nobx5juZXZug7iY2kK0nF28TG682+XJfSl6rSIA7f/LKfRMLbzOE
-         7Yh1Nmx70W8dA2jfkBos+p98VH9y6BfDMUQp6kjU=
-Date:   Tue, 16 Mar 2021 21:24:03 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/18] media: i2c: rdacm20: Enable noise immunity
-Message-ID: <YFEF0/ev7bJ8ghN6@pendragon.ideasonboard.com>
-References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
- <20210315131512.133720-3-jacopo+renesas@jmondi.org>
- <YE/TlmrLV4ejOjlF@pendragon.ideasonboard.com>
- <20210316125607.lxhrgzahxvxfy6ll@uno.localdomain>
+        Tue, 16 Mar 2021 17:14:50 -0400
+IronPort-SDR: 81EYqA3o8JoLvJ02Mb9EuD/WaZ2QxLJBiMBJDxR2BZct52AWnnt0DEk6v8RlaMIltli47ykQd5
+ hJnKuqzNcquA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="169250354"
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="169250354"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 14:14:50 -0700
+IronPort-SDR: 1IumarCmJRVRvguZeb4cgzfGrHNM3XwRmh/E8CRk/vzfePk8/7pr/LekHgN/6JSMhMDrHp2ml7
+ 8PQ2ljlMPUHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="405675844"
+Received: from lkp-server02.sh.intel.com (HELO 1c294c63cb86) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 16 Mar 2021 14:14:49 -0700
+Received: from kbuild by 1c294c63cb86 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lMH1c-0000JW-Ft; Tue, 16 Mar 2021 21:14:48 +0000
+Date:   Wed, 17 Mar 2021 05:14:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:renesas-arm-dt-for-v5.13] BUILD SUCCESS
+ c8aebc1346522d3569690867ce3996642ad52e01
+Message-ID: <60511fa7.NeYOqcKoqEzcPwwF%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210316125607.lxhrgzahxvxfy6ll@uno.localdomain>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.13
+branch HEAD: c8aebc1346522d3569690867ce3996642ad52e01  arm64: dts: renesas: r8a77980: Fix vin4-7 endpoint binding
 
-On Tue, Mar 16, 2021 at 01:56:07PM +0100, Jacopo Mondi wrote:
-> On Mon, Mar 15, 2021 at 11:37:26PM +0200, Laurent Pinchart wrote:
-> > On Mon, Mar 15, 2021 at 02:14:56PM +0100, Jacopo Mondi wrote:
-> > > Enable the noise immunity threshold at the end of the rdacm20
-> > > initialization routine.
-> > >
-> > > The rdacm20 camera module has been so far tested with a startup
-> > > delay that allowed the embedded MCU to program the serializer. If
-> > > the initialization routine is run before the MCU programs the
-> > > serializer and the image sensor and their addresses gets changed
-> > > by the rdacm20 driver it is required to manually enable the noise
-> > > immunity threshold to make the communication on the control channel
-> > > more reliable.
-> >
-> > I'm still worried by the race with the MCU. Any update on dumping the
-> > MCU configuration to check what it initializes ?
-> 
-> Not yet, you're right ...
-> 
-> I mainly focused on testing with rdacm21, what if I strip the rdacm20
-> changes out from this series ? I will have to keep the init()
-> operation introduction to maintain compatibility with max9286 changes,
-> and in case of no regressions, we can keep the 8 seconds delay in the
-> .dtsi. However it will break upstream support on Eagle for rdacm20 as
-> we don't have a regulator where to insert the startup delay there, and
-> a downstream patch that waits for 8 seconds in the deserializer driver
-> should be used instead...
+elapsed time: 723m
 
-I don't think the rdacm20 changes need to wait. Even this one could be
-merged as-is, as long as we consider it to be a temporary workaround and
-don't build anything on top that would make it more difficult to address
-the issue properly (a TODO comment in the code could help).
+configs tested: 121
+configs skipped: 18
 
-> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  drivers/media/i2c/rdacm20.c | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> > > index 90eb73f0e6e9..f7fd5ae955d0 100644
-> > > --- a/drivers/media/i2c/rdacm20.c
-> > > +++ b/drivers/media/i2c/rdacm20.c
-> > > @@ -541,7 +541,13 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
-> > >
-> > >  	dev_info(dev->dev, "Identified MAX9271 + OV10635 device\n");
-> > >
-> > > -	return 0;
-> > > +	/*
-> > > +	 * Set reverse channel high threshold to increase noise immunity.
-> > > +	 *
-> > > +	 * This should be compensated by increasing the reverse channel
-> > > +	 * amplitude on the remote deserializer side.
-> > > +	 */
-> > > +	return max9271_set_high_threshold(&dev->serializer, true);
-> > >  }
-> > >
-> > >  static int rdacm20_probe(struct i2c_client *client)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
--- 
-Regards,
+gcc tested configs:
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm64                            allyesconfig
+arm64                               defconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+mips                           ip27_defconfig
+nds32                             allnoconfig
+powerpc                      arches_defconfig
+sh                           se7343_defconfig
+powerpc                           allnoconfig
+alpha                            alldefconfig
+sh                   secureedge5410_defconfig
+arm                        magician_defconfig
+xtensa                       common_defconfig
+powerpc                        icon_defconfig
+powerpc                 mpc837x_rdb_defconfig
+arm                    vt8500_v6_v7_defconfig
+sh                           se7722_defconfig
+m68k                         apollo_defconfig
+sh                             espt_defconfig
+arm                      footbridge_defconfig
+powerpc                     taishan_defconfig
+arm                         shannon_defconfig
+m68k                            q40_defconfig
+powerpc                  storcenter_defconfig
+powerpc                 mpc837x_mds_defconfig
+arm                         mv78xx0_defconfig
+riscv             nommu_k210_sdcard_defconfig
+xtensa                          iss_defconfig
+powerpc                     tqm8540_defconfig
+arm                          moxart_defconfig
+powerpc                        fsp2_defconfig
+mips                        nlm_xlr_defconfig
+ia64                             alldefconfig
+arm                          imote2_defconfig
+arc                          axs103_defconfig
+powerpc                     tqm8541_defconfig
+sh                          sdk7786_defconfig
+powerpc                 mpc832x_mds_defconfig
+powerpc                mpc7448_hpc2_defconfig
+riscv                          rv32_defconfig
+sh                          rsk7201_defconfig
+powerpc                 mpc836x_rdk_defconfig
+powerpc                     powernv_defconfig
+m68k                       m5208evb_defconfig
+mips                      pistachio_defconfig
+sh                  sh7785lcr_32bit_defconfig
+arm                       aspeed_g5_defconfig
+arm                            dove_defconfig
+arm                  colibri_pxa270_defconfig
+arm                       multi_v4t_defconfig
+powerpc                     mpc5200_defconfig
+powerpc                 mpc8272_ads_defconfig
+powerpc                      obs600_defconfig
+xtensa                  audio_kc705_defconfig
+arm                          collie_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+arc                              allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+i386                 randconfig-a005-20210316
+i386                 randconfig-a003-20210316
+i386                 randconfig-a004-20210316
+i386                 randconfig-a006-20210316
+x86_64               randconfig-a016-20210316
+x86_64               randconfig-a015-20210316
+x86_64               randconfig-a011-20210316
+x86_64               randconfig-a013-20210316
+x86_64               randconfig-a014-20210316
+x86_64               randconfig-a012-20210316
+i386                 randconfig-a013-20210316
+i386                 randconfig-a016-20210316
+i386                 randconfig-a011-20210316
+i386                 randconfig-a012-20210316
+i386                 randconfig-a015-20210316
+i386                 randconfig-a014-20210316
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-Laurent Pinchart
+clang tested configs:
+x86_64               randconfig-a006-20210316
+x86_64               randconfig-a001-20210316
+x86_64               randconfig-a005-20210316
+x86_64               randconfig-a004-20210316
+x86_64               randconfig-a003-20210316
+x86_64               randconfig-a002-20210316
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
