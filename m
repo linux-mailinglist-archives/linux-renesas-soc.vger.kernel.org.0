@@ -2,144 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C42133E0B2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Mar 2021 22:39:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D2F033E632
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Mar 2021 02:34:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229618AbhCPVir (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Mar 2021 17:38:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60380 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbhCPViQ (ORCPT
+        id S229732AbhCQBdj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Mar 2021 21:33:39 -0400
+Received: from mga18.intel.com ([134.134.136.126]:17458 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229490AbhCQBdR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Mar 2021 17:38:16 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ED91C06174A;
-        Tue, 16 Mar 2021 14:38:16 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2858CD8B;
-        Tue, 16 Mar 2021 22:38:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1615930693;
-        bh=JLfYaUWMFQrrk1yH5XJnkvC7K7r5WIEAGtjhPVHoDp4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pVrLbpKGeRiWE8bSOFDxKwHARc+s/gXth1t1T80hYJBfQkk7VIylTcwoXA96bHWkt
-         LlBAdhroYFsegn5jn3gCmmz6dZO1IUW46WtY5S6gcWWwgRFmPbvCS7toLqcUA49i82
-         D3S1rQvy1x8R6Sy2MAS4+g2fOdYWpCYzX0rA2p7s=
-Date:   Tue, 16 Mar 2021 23:37:37 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 2/2] media: v4l: vsp1: Fix uif null pointer access
-Message-ID: <YFElIZacukBWa7YA@pendragon.ideasonboard.com>
-References: <20210301120828.6945-1-biju.das.jz@bp.renesas.com>
- <20210301120828.6945-3-biju.das.jz@bp.renesas.com>
- <133f8b63-3b84-c60a-725d-30b8d6df35dd@ideasonboard.com>
- <OS0PR01MB5922BE9F9D151623773CF53286919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <56c2d53e-8d1f-5b84-1480-5965ae9cbae2@ideasonboard.com>
- <OS0PR01MB5922ABCA7A782950B63DCA6686919@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <YE7XwWVZeOZ+HsYx@pendragon.ideasonboard.com>
- <c757d90e-da85-6862-36fc-2343795de4b4@xs4all.nl>
+        Tue, 16 Mar 2021 21:33:17 -0400
+IronPort-SDR: cTpSRv8C9k9Gbeccb1ObZqEVQWpK1sGdkeuHhtLpk4Mnfk8nyFd0CPVyt6O06E/yZvF1Qt5PtN
+ RRQMHNtCXCKQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="176963416"
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="176963416"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 18:33:16 -0700
+IronPort-SDR: 2m+csJ0r53jnYpZ6juuwPfw+gcJ4uFLO14RNiDj3ZO4fl3G1HRgP013gN+wB+B6bJkCP/gYyWA
+ 8Z4ZBLYV0pnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="449916187"
+Received: from lkp-server02.sh.intel.com (HELO 1c294c63cb86) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 16 Mar 2021 18:33:15 -0700
+Received: from kbuild by 1c294c63cb86 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lML3i-0000RP-Hn; Wed, 17 Mar 2021 01:33:14 +0000
+Date:   Wed, 17 Mar 2021 09:32:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:master] BUILD SUCCESS
+ f71e88e70372f43c4e9ed0dcfc82e4b43a224795
+Message-ID: <60515c2b.WkmcKX1A6gBOcKmw%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c757d90e-da85-6862-36fc-2343795de4b4@xs4all.nl>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Hans,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: f71e88e70372f43c4e9ed0dcfc82e4b43a224795  [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-On Tue, Mar 16, 2021 at 09:21:15AM +0100, Hans Verkuil wrote:
-> On 15/03/2021 04:42, Laurent Pinchart wrote:
-> > On Wed, Mar 10, 2021 at 02:50:23PM +0000, Biju Das wrote:
-> >>> On 10/03/2021 13:56, Biju Das wrote:
-> >>>> Thanks for the feedback.
-> >>>>> Subject: Re: [PATCH 2/2] media: v4l: vsp1: Fix uif null pointer
-> >>>>> access
-> >>>>>
-> >>>>> Hi Biju,
-> >>>>>
-> >>>>> On 01/03/2021 12:08, Biju Das wrote:
-> >>>>>> RZ/G2L SoC has no UIF. This patch fixes null pointer access, when
-> >>>>>> UIF module is not used.
-> >>>>>>
-> >>>>>> Fixes: 5e824f989e6e8("media: v4l: vsp1: Integrate DISCOM in display
-> >>>>>> pipeline")
-> >>>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >>>>>> ---
-> >>>>>>  drivers/media/platform/vsp1/vsp1_drm.c | 4 ++--
-> >>>>>>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/drivers/media/platform/vsp1/vsp1_drm.c
-> >>>>>> b/drivers/media/platform/vsp1/vsp1_drm.c
-> >>>>>> index f6d2f47a4058..06f74d410973 100644
-> >>>>>> --- a/drivers/media/platform/vsp1/vsp1_drm.c
-> >>>>>> +++ b/drivers/media/platform/vsp1/vsp1_drm.c
-> >>>>>> @@ -462,9 +462,9 @@ static int vsp1_du_pipeline_setup_inputs(struct
-> >>>>>> vsp1_device *vsp1,
-> >>>>>
-> >>>>>
-> >>>>> This looks like it complicates these conditionals more than we
-> >>>>> perhaps need to.
-> >>>>>
-> >>>>> What do you think about adding something above the block comment here?:
-> >>>>
-> >>>> It is much better.
-> >>>>
-> >>>> This patch is accepted in media tree[1]. So not sure, should I send a
-> >>>> follow up patch as optimization or drop this patch and send new one.
-> >>>
-> >>> Oh, I didn't realise these were in already. Sorry, I didn't see any review
-> >>> on the list, and it was the earliest I had got to them.
-> >>>
-> >>>> Please suggest.
-> >>>
-> >>> Up to you, I don't think this would get dropped now it's integrated.
-> >>> It's in, so if you want to update on top I believe that's fine.
-> >>
-> >> OK, Will send follow up patch as optimization.
-> > 
-> > That would be nice.
-> > 
-> > I don't think this patch should have been fast-tracked as a fix, as
-> > RZ/G2L isn't supported in mainline yet as far as I can tell.
-> > 
-> > Hans, next time, could we get a notification instead of a silent merge ?
-> 
-> My apologies, it seemed a trivial fix, but I should have checked with you.
-> 
-> I jumped the gun here :-(
+elapsed time: 723m
 
-No worries, it can happen :-)
+configs tested: 90
+configs skipped: 2
 
-> >>>>> 	if (!drm_pipe->uif)
-> >>>>> 		return 0;
-> >>>>>
-> >>>>>
-> >>>>>>  	 * make sure it is present in the pipeline's list of entities if it
-> >>>>>>  	 * wasn't already.
-> >>>>>>  	 */
-> >>>>>> -	if (!use_uif) {
-> >>>>>> +	if (drm_pipe->uif && !use_uif) {
-> >>>>>>  		drm_pipe->uif->pipe = NULL;
-> >>>>>> -	} else if (!drm_pipe->uif->pipe) {
-> >>>>>> +	} else if (drm_pipe->uif && !drm_pipe->uif->pipe) {>
-> >>>>> 	drm_pipe->uif->pipe = pipe;
-> >>>>>>  		list_add_tail(&drm_pipe->uif->list_pipe, &pipe->entities);
-> >>>>>>  	}
-> >>>>>>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
--- 
-Regards,
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+x86_64                           allyesconfig
+riscv                            allmodconfig
+i386                             allyesconfig
+riscv                            allyesconfig
+arm                         shannon_defconfig
+m68k                            q40_defconfig
+powerpc                 mpc837x_mds_defconfig
+sh                           se7712_defconfig
+powerpc                  storcenter_defconfig
+powerpc                 mpc8315_rdb_defconfig
+powerpc                     tqm8541_defconfig
+sh                          sdk7786_defconfig
+powerpc                 mpc832x_mds_defconfig
+powerpc                mpc7448_hpc2_defconfig
+riscv                          rv32_defconfig
+sh                          rsk7201_defconfig
+arm                       aspeed_g5_defconfig
+arm                            dove_defconfig
+arm                  colibri_pxa270_defconfig
+arm                       multi_v4t_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a001-20210316
+i386                 randconfig-a005-20210316
+i386                 randconfig-a002-20210316
+i386                 randconfig-a003-20210316
+i386                 randconfig-a004-20210316
+i386                 randconfig-a006-20210316
+x86_64               randconfig-a011-20210316
+x86_64               randconfig-a016-20210316
+x86_64               randconfig-a013-20210316
+x86_64               randconfig-a014-20210316
+x86_64               randconfig-a015-20210316
+x86_64               randconfig-a012-20210316
+i386                 randconfig-a013-20210316
+i386                 randconfig-a016-20210316
+i386                 randconfig-a011-20210316
+i386                 randconfig-a012-20210316
+i386                 randconfig-a015-20210316
+i386                 randconfig-a014-20210316
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-Laurent Pinchart
+clang tested configs:
+x86_64               randconfig-a006-20210316
+x86_64               randconfig-a001-20210316
+x86_64               randconfig-a005-20210316
+x86_64               randconfig-a004-20210316
+x86_64               randconfig-a003-20210316
+x86_64               randconfig-a002-20210316
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
