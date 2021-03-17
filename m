@@ -2,133 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5760333ECCD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Mar 2021 10:17:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0B5233ECD0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Mar 2021 10:17:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbhCQJQk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Mar 2021 05:16:40 -0400
-Received: from www.zeus03.de ([194.117.254.33]:58812 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229646AbhCQJQ2 (ORCPT
+        id S229646AbhCQJRK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Mar 2021 05:17:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43576 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229683AbhCQJQq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Mar 2021 05:16:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=C71qhKdn3sWV7t
-        fq0UnVJxA3J7qkIy3oBoGdl9lt8GQ=; b=HYBk+tUi62OG5ODHfDPw+cgy6ImDbT
-        jq4aOd08uNztN9rREG6VBIdHmaw/ZTrzPU5FHxTvH9DyTkjIwg3zugeovnwQGiUI
-        t78Xlpr+4oM85uKzILea63+TGGfx9YudohrcaRR3nkTG/6qXIpUaRO6WsZOPgcyV
-        7dr2E5Hi+QCc8=
-Received: (qmail 2082662 invoked from network); 17 Mar 2021 10:16:26 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Mar 2021 10:16:26 +0100
-X-UD-Smtp-Session: l3s3148p1@/P7677e91pEgARa4RUHsAfjwOo+4/zku
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v3 3/3] mmc: renesas_sdhi: do hard reset if possible
-Date:   Wed, 17 Mar 2021 10:16:22 +0100
-Message-Id: <20210317091622.31890-4-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210317091622.31890-1-wsa+renesas@sang-engineering.com>
-References: <20210317091622.31890-1-wsa+renesas@sang-engineering.com>
+        Wed, 17 Mar 2021 05:16:46 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C385C06175F
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Mar 2021 02:16:46 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id v9so1905899lfa.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Mar 2021 02:16:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=X7jkBuOrJJ0Jfs4Q9WqxpRDX/x4oukTABkzO4pd8+2k=;
+        b=Sv5rTsXop+2R+H/BzTiyvpnU0IfKFEMtqhG/bx/w+scdSayyo/sUZ1g7no97+iP/QT
+         WXUCCiwWnO0Ahy8lHMWnjj+Jpab96NWat6WDwBlGzr+POt/c0pht0qo0XLzMpWaTbz1Z
+         5I+qOoiTPxWtvDkUzekbd8Up0wTCBvvvpgtII/yZKfjtcJibDYlFDiqVwq0S+bVZduEz
+         7mtMv8SUFKfWbNBiuJNK0XKHIJlXdmDTTENikuzdTIFDI2IEdyXLP0U96ZYR/TR4W54l
+         CQ3EAUwimotIL1kXcwyWN0XVYlQs7pnXMbkCEHAX2RkRXo/jSK3NljTWlfUAmbpz3IhU
+         78DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=X7jkBuOrJJ0Jfs4Q9WqxpRDX/x4oukTABkzO4pd8+2k=;
+        b=RxPzFbRhr5jM9yYr08M6r7e8Y8y1nidTimgWx4iKSCAvhO3521a14SvO7ijyH/bAwk
+         72VQbxvV0xQ1FZ5/zTOc/O0y4iFENAQA8iHhJxQQdcoPvmzCzCmlz++TKCSzMvqxD9sv
+         nuYcKg3+6gRvH9TnAccUtGiu2ri9+KXC605l3Y9/PjF18lb3AbijxCw7T15Wm6WQC7iI
+         eUfiIV91g+ki/yzLLETkzkajeNi6ZnQ46qLR5NZ3fnkfKQVS9Xp+kc1Qm6o3ncACXQFP
+         hlFflsKx55MaFOavSOsRiWFCNslZocnCCElrttw2qd/x/zca9J8QCvs1bpmYH5ZmnFLN
+         UkXQ==
+X-Gm-Message-State: AOAM531s0r3rU8WlGfkZ6LWRTxuQR4XXfo1ELmcv8NxgMoQHtVSmqIum
+        RYRBU95wje0Xu6Hc2Gm062Yk2g==
+X-Google-Smtp-Source: ABdhPJxap3c0UAD11o46DdF4scYWeoAAMe0ywQ23CiddvAxSb9y2iifFQ7dL/jeYa5iu23KDxcd7WA==
+X-Received: by 2002:a05:6512:2026:: with SMTP id s6mr1774689lfs.43.1615972605070;
+        Wed, 17 Mar 2021 02:16:45 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id w13sm3465898ljw.2.2021.03.17.02.16.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Mar 2021 02:16:44 -0700 (PDT)
+Date:   Wed, 17 Mar 2021 10:16:44 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-csi2: Enable support for r8a77961
+Message-ID: <YFHI/O+twAJ8Unk4@oden.dyn.berto.se>
+References: <20210312132459.1754782-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210312132459.1754782-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-All recent SDHI instances can be reset via the reset controller. If one
-is found, use it instead of the open coded reset. This is to get a
-future-proof sane reset state.
+Hello,
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/mmc/host/Kconfig             |  1 +
- drivers/mmc/host/renesas_sdhi.h      |  2 ++
- drivers/mmc/host/renesas_sdhi_core.c | 17 ++++++++++++++++-
- 3 files changed, 19 insertions(+), 1 deletion(-)
+On 2021-03-12 14:24:59 +0100, Niklas Söderlund wrote:
+> Enable support for M3-W+ (r8a77961).
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
-index b236dfe2e879..2f6bc19d0e40 100644
---- a/drivers/mmc/host/Kconfig
-+++ b/drivers/mmc/host/Kconfig
-@@ -707,6 +707,7 @@ config MMC_SDHI
- 	tristate "Renesas SDHI SD/SDIO controller support"
- 	depends on SUPERH || ARCH_RENESAS || COMPILE_TEST
- 	select MMC_TMIO_CORE
-+	select RESET_CONTROLLER if ARCH_RENESAS
- 	help
- 	  This provides support for the SDHI SD/SDIO controller found in
- 	  Renesas SuperH, ARM and ARM64 based SoCs
-diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-index cb962c7883dc..53eded81a53e 100644
---- a/drivers/mmc/host/renesas_sdhi.h
-+++ b/drivers/mmc/host/renesas_sdhi.h
-@@ -70,6 +70,8 @@ struct renesas_sdhi {
- 	DECLARE_BITMAP(smpcmp, BITS_PER_LONG);
- 	unsigned int tap_num;
- 	unsigned int tap_set;
-+
-+	struct reset_control *rstc;
- };
- 
- #define host_to_priv(host) \
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index db753829eaf6..d36181b6f687 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -20,6 +20,7 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
-+#include <linux/iopoll.h>
- #include <linux/kernel.h>
- #include <linux/mfd/tmio.h>
- #include <linux/mmc/host.h>
-@@ -32,6 +33,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/reset.h>
- #include <linux/sh_dma.h>
- #include <linux/slab.h>
- #include <linux/sys_soc.h>
-@@ -572,10 +574,19 @@ static void renesas_sdhi_scc_reset(struct tmio_mmc_host *host, struct renesas_sd
- static void renesas_sdhi_reset(struct tmio_mmc_host *host)
- {
- 	struct renesas_sdhi *priv = host_to_priv(host);
-+	int ret;
- 	u16 val;
- 
--	if (priv->scc_ctl)
-+	if (priv->rstc) {
-+		reset_control_reset(priv->rstc);
-+		/* Unknown why but without polling reset status, it will hang */
-+		read_poll_timeout(reset_control_status, ret, ret == 0, 1, 100,
-+				  false, priv->rstc);
-+		priv->needs_adjust_hs400 = false;
-+		renesas_sdhi_set_clock(host, host->clk_cache);
-+	} else if (priv->scc_ctl) {
- 		renesas_sdhi_scc_reset(host, priv);
-+	}
- 
- 	sd_ctrl_write32_as_16_and_16(host, CTL_IRQ_MASK, TMIO_MASK_ALL_RCAR2);
- 
-@@ -1081,6 +1092,10 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 	if (ret)
- 		goto efree;
- 
-+	priv->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-+	if (IS_ERR(priv->rstc))
-+		return PTR_ERR(priv->rstc);
-+
- 	ver = sd_ctrl_read16(host, CTL_VERSION);
- 	/* GEN2_SDR104 is first known SDHI to use 32bit block count */
- 	if (ver < SDHI_VER_GEN2_SDR104 && mmc_data->max_blk_count > U16_MAX)
+I have off-band received a tag for this patch,
+
+Tested-by: LUU HOAI <hoai.luu.ub@renesas.com>
+
+> ---
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index e06cd512aba207a4..71ff20a165d66547 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -1164,6 +1164,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
+>  		.compatible = "renesas,r8a7796-csi2",
+>  		.data = &rcar_csi2_info_r8a7796,
+>  	},
+> +	{
+> +		.compatible = "renesas,r8a77961-csi2",
+> +		.data = &rcar_csi2_info_r8a7796,
+> +	},
+>  	{
+>  		.compatible = "renesas,r8a77965-csi2",
+>  		.data = &rcar_csi2_info_r8a77965,
+> -- 
+> 2.30.1
+> 
+
 -- 
-2.30.0
-
+Regards,
+Niklas Söderlund
