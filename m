@@ -2,111 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8932133EDFC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Mar 2021 11:05:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8CF333EE27
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Mar 2021 11:14:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230338AbhCQKEf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Mar 2021 06:04:35 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:37321 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbhCQKES (ORCPT
+        id S229686AbhCQKOK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Mar 2021 06:14:10 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:52705 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229747AbhCQKNp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Mar 2021 06:04:18 -0400
+        Wed, 17 Mar 2021 06:13:45 -0400
+X-Originating-IP: 79.22.58.175
 Received: from uno.localdomain (host-79-22-58-175.retail.telecomitalia.it [79.22.58.175])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id BCE96100007;
-        Wed, 17 Mar 2021 10:04:14 +0000 (UTC)
-Date:   Wed, 17 Mar 2021 11:04:45 +0100
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 54E8BC0006;
+        Wed, 17 Mar 2021 10:13:41 +0000 (UTC)
+Date:   Wed, 17 Mar 2021 11:14:12 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 12/18] media: i2c: rdacm21: Give more time to OV490 to
- boot
-Message-ID: <20210317100445.h3yqmrrnghq76mjb@uno.localdomain>
-References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
- <20210315131512.133720-13-jacopo+renesas@jmondi.org>
- <0826484e-8ae7-677e-6de2-8f019e9733fc@ideasonboard.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: max9286: Describe gpio-hog
+Message-ID: <20210317101412.srdzao52nxsvtq3r@uno.localdomain>
+References: <20210315163028.173148-1-jacopo+renesas@jmondi.org>
+ <20210315163028.173148-2-jacopo+renesas@jmondi.org>
+ <YE/cdBtSx3cDIqCY@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0826484e-8ae7-677e-6de2-8f019e9733fc@ideasonboard.com>
+In-Reply-To: <YE/cdBtSx3cDIqCY@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran, Laurent,
+Hi Laurent,
 
-On Mon, Mar 15, 2021 at 05:22:37PM +0000, Kieran Bingham wrote:
-> On 15/03/2021 13:15, Jacopo Mondi wrote:
-> > It has been observed through repeated testing (250 boots) that in the
-> > 10% of the cases the RDACM21 initialization sequence errors out due a
-> > timeout waiting for the OV490 firmware to complete its boot phase.
+On Tue, Mar 16, 2021 at 12:15:16AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Mon, Mar 15, 2021 at 05:30:25PM +0100, Jacopo Mondi wrote:
+> > The MAX9286 GMSL deserializer features gpio controller capabilities,
+> > as it provides 2 GPIO lines.
 > >
-> > Albeit being the current timeout relatively large (300-600 milliseconds),
-> > doubling it reduces the sporadic error rate down to 1 over an 80 boot
-> > sequences test run.
+> > As establishing a regulator that uses one of the GPIO lines and
+> > enabling/disabling it at run-time in the max9286 won't work due to
+> > a circular dependency on the gpio-controller/regulator creation, allow
+> > the usage of a gpio-hog for that purpose.
 > >
-> > The firmware boot delay is unfortunately not characterized in the camera
-> > module manual.
+> > The usage of the gpio-hog is required in designs where the MAX9286
+> > GPIO lines control the remote cameras power.
 > >
->
-> I wonder if we could characterize this alone by pulling this down until
-> we see failures increase, with all the other fixes in place...
->
-> I don't think that's required, but it might be something to check later
-> if we don't get rid of that 1/80 failure.
-
-This is actually driving me crazy :/
-
-I had another test run with a surprising 10% failures.
-All the failures were due to the ov490 firmware boot I'm trying to
-mitigate here.
-
-I went up to give it -6 seconds- and I still get failures in the same
-percentage. Another run of 20 boots gave 30% failures with the delay I
-have here in this patch. Just to make sure I was not going crazy I
-reduced the delay to 1msec and I get an 80% failure rate.
-
-Still, I've seen the 1 on 80 failures (I swear! I have logs! :)
-
-I've checked what the BSP does, and if after some 300 attempts the
-ov490 doesn't boot, they simply go an reset it.
-https://github.com/renesas-rcar/linux-bsp/commit/0cf6e36f5bf49e1c2aab87139ec5b588623c56f8#diff-d770cad7d6f04923d9e89dfe7da369bb3006776d6e4fb8ef79353d5fab3cd25aR827
-(sorry, I don't seem to be able to point you to the ov490.c#827 with
-an URL)
-
-I assume we don't want anything like this in an upstream driver, but
-I'm really running out of any plausible explanation :(
-
->
->
->
-> > Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
 > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 >
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> That's really a workaround until we can find a good solution, do we have
+> to officially support it in the DT bindings ?
 >
+
+That's an interesting question. The 'good' solution implies resolving
+the circular dependency on the regulator/gpio-controller creation and
+I feel like it might take a while to find a proper solution.
+
+In the meantime, all designs like Eagle that control the camera power
+through a MAX9286 gpio have to rely on this. I'll go with the majority
+here: either we add this and upstream the gmsl .dtsi for eagle, or we
+keep out-of-tree patches :/
+
 > > ---
-> >  drivers/media/i2c/rdacm21.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  .../bindings/media/i2c/maxim,max9286.yaml        | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
 > >
-> > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> > index 50a9b0d8255d..07cf077d8efd 100644
-> > --- a/drivers/media/i2c/rdacm21.c
-> > +++ b/drivers/media/i2c/rdacm21.c
-> > @@ -53,7 +53,7 @@
-> >  #define OV490_PID			0x8080300a
-> >  #define OV490_VER			0x8080300b
-> >  #define OV490_PID_TIMEOUT		20
-> > -#define OV490_OUTPUT_EN_TIMEOUT		300
-> > +#define OV490_OUTPUT_EN_TIMEOUT		600
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > index ee16102fdfe7..9038300e373c 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > @@ -177,6 +177,22 @@ properties:
 > >
-> >  #define OV490_GPIO0			BIT(0)
-> >  #define OV490_SPWDN0			BIT(0)
+> >      additionalProperties: false
 > >
+> > +patternProperties:
+> > +  "^(hog-[0-9]+|.+-hog(-[0-9]+)?)$":
+> > +    type: object
+> > +    properties:
+> > +      gpio-hog: true
+> > +      gpios: true
+> > +      output-low: true
+> > +      line-name: true
+> > +
+> > +    required:
+> > +      - gpio-hog
+> > +      - gpios
+> > +      - output-low
+> > +
+> > +    additionalProperties: false
+> > +
+> >  required:
+> >    - compatible
+> >    - reg
 >
+> --
+> Regards,
+>
+> Laurent Pinchart
