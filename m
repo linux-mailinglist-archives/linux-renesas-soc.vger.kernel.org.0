@@ -2,79 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E193340412
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Mar 2021 12:00:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC06134042C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Mar 2021 12:07:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230247AbhCRK7u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Mar 2021 06:59:50 -0400
-Received: from sauhun.de ([88.99.104.3]:40954 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230105AbhCRK7V (ORCPT
+        id S230243AbhCRLG6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Mar 2021 07:06:58 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49097 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230169AbhCRLGx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Mar 2021 06:59:21 -0400
-Received: from localhost (i577BC015.versanet.de [87.123.192.21])
-        by pokefinder.org (Postfix) with ESMTPSA id 0B6EE2C0640;
-        Thu, 18 Mar 2021 11:59:13 +0100 (CET)
-Date:   Thu, 18 Mar 2021 11:59:12 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
-        linux-i2c@vger.kernel.org
-Subject: Re: [PATCH] i2c: rcar: implement atomic transfers
-Message-ID: <20210318105912.GH974@ninjato>
-References: <20210212164541.8986-1-uli+renesas@fpond.eu>
+        Thu, 18 Mar 2021 07:06:53 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id MqUKlOrbN4XAGMqUNlIE1K; Thu, 18 Mar 2021 12:06:51 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1616065611; bh=FcT1xJRYYG3zTya3jrkfWF6NJWw6BvsK98mlp9kKcjc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=QdVSnxRaN0nB4jb90+F8yzawbcuBroe9sDjMeRs+JDHzKB6NfHy1NkOr/x39HssLJ
+         qqg+o9SbqwiZMEF4LYUQHFVHPrEMj6j97v58uLqtZaRGyjLGUeTXh5mEeAdMtQPENo
+         qqzhMitnv4AOSNQtzd1b5UfiXdp8r+CyxT7NHCmYWbsmI4LgAQSSuKnfF1TEZ9PZ6U
+         IHpob+6QBskEZGqRAOnQfYlh0x4ymaKyCcdkLv9jLvEnP6+39fEgO4gC5bN10HEUUI
+         N+YsmGKghybFParr0ChzWJFGo3RYaT3l3Cd0YXgLcBvA8sE/AZDNyLVFX0VWArw412
+         0zb4dKpJjRvbg==
+Subject: Re: [PATCH v2] media: i2c: adv7511: remove open coded version of
+ SMBus block read
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-media@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20210127103357.5045-1-wsa+renesas@sang-engineering.com>
+ <bea536b1-9d81-3f41-8ca5-7fb075422290@xs4all.nl>
+ <cadc7e6e-377f-db65-514e-7b2e6a40a0ae@xs4all.nl>
+ <20210318104330.GB974@ninjato>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <5f5ea721-c68b-f64e-4398-cd4521c18d77@xs4all.nl>
+Date:   Thu, 18 Mar 2021 12:06:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="MGu/vTNewDGZ7tmp"
-Content-Disposition: inline
-In-Reply-To: <20210212164541.8986-1-uli+renesas@fpond.eu>
+In-Reply-To: <20210318104330.GB974@ninjato>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfMcIoxqdXTLp+7KIKq07oM6sqgYOlI6Byn4y7u+Wjh3sMhHw/fDnhNwhe0+i6pHj5MJBZAkMWytRk+OV2wZ5vkNV4jv1SVfjZa5mcFJFZSMjHdV46ELw
+ Oli2Ugv6Tu/i/TIfrOg7EAFxG5I6MDcjE3YUQaMSR0cOqo6M/FQ9+5ou7TFe+mYd5MroA5rQJIauDHg1iyri/PVcEui4Fqiz0yY90MbGHqZ4q19W0Z3zdc56
+ eSKeAK2I+MghgViGso1N6rw/Qbw69xuPn9rRC5Gm24s6YesmBgcZRy2hexeJgT5RcchtNwrfg9Zl00PM4U7GrQdatScwXr/hAN/4+uoUbQk=
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 18/03/2021 11:43, Wolfram Sang wrote:
+> 
+>> I didn't hear back from you, so I'll pick it up for 5.13.
+> 
+> Thank you, Hans!
+> 
+> Can you pick up this one as well?
+> 
+> [PATCH 1/3] media: i2c: adv7842: remove open coded version of SMBus block write
+> 
 
---MGu/vTNewDGZ7tmp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ah, I thought you had picked that one up. Miscommunication.
 
-On Fri, Feb 12, 2021 at 05:45:41PM +0100, Ulrich Hecht wrote:
-> Implements atomic transfers. Tested by rebooting an r8a7790 Lager board
-> after connecting the i2c-rcar controller to the PMIC in
-> arch/arm/boot/dts/r8a7790-lager.dts like so:
->=20
-> 		compatible =3D "i2c-demux-pinctrl";
-> 		pinctrl-names =3D "default";
-> 		pinctrl-0 =3D <&pmic_irq_pins>;
-> -		i2c-parent =3D <&iic3>, <&i2c3>;
-> +		i2c-parent =3D <&i2c3>, <&iic3>;
-> 		i2c-bus-name =3D "i2c-pwr";
-> 		#address-cells =3D <1>;
-> 		#size-cells =3D <0>;
->=20
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+I've delegated it to myself in our patchwork system, so it should appear in a PR
+for 5.13 next week or so.
 
-Applied to for-next, thanks!
+Regards,
 
-
---MGu/vTNewDGZ7tmp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBTMoAACgkQFA3kzBSg
-KbZJzA//ZGZCpvJlr7Nz/v/JfDwmyh4coWWz8kqKFrsEWj95Q3yPiC5ji+aePeFD
-KE9fXiPWzYur6I+1+uRDnRVtgM1/Z+MnRj6pntjTFZs2b7wcoZmZlXOWflwMYjqy
-7C4k1t75JUNq9jXDIfxw/e7ueIOIdBgvP6bcGbQMLhmpCQGE/fzd6KUoYRB1eGWx
-mzQ00vCPXSr7jW9ZicUhgw93HbAVQs5AgujGQhExx82BNrK9elIsKfbCFSBIvgK8
-U6YJ2JnIUNrgmR2rGxBupiGAcF2/hhP8QpP6CrOM0KlCjADRyIYlLfAPExxWS/lP
-3OE16TURcU7FkSgWWUqzK8DuA9Exys60X0QtvXc1zxhEGV+LKXDh5vW2zff5ab88
-i8/FD0EDlh6sHDTYEQWZbPZhM5pEjscGE7orU2vbrTVE/2i8YavXQU5v0qA7k1YH
-yo1NzZKaTPkhj+bQ8lVzOavCgz7epVCGtK8DXwmN9f6rcBc4JR+EdDrwngmPc0eh
-Z7z1NSbiHIn+6zQi9cpTtRJhXoyI8YNWwSIGTy4G5SJVjU5VzDkl5XEThW9yqc73
-T61dORWau8pTmpWFNl2FYxOjdpzEWaI/c+digzxkiSzRyWW9HWT3a/T+ocEQHt1A
-ibPRSKrmqnPTmLKLcR0IuzRqWcKmRXvcuBbL/bepD2BOrIOTgDM=
-=XEOj
------END PGP SIGNATURE-----
-
---MGu/vTNewDGZ7tmp--
+	Hans
