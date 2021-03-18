@@ -2,93 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0815E340674
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Mar 2021 14:09:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF50F340EF4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Mar 2021 21:19:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231382AbhCRNJU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Mar 2021 09:09:20 -0400
-Received: from mail-vs1-f41.google.com ([209.85.217.41]:47084 "EHLO
-        mail-vs1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231244AbhCRNIx (ORCPT
+        id S232955AbhCRUSp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Mar 2021 16:18:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46272 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230495AbhCRUSR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Mar 2021 09:08:53 -0400
-Received: by mail-vs1-f41.google.com with SMTP id l22so1502354vsr.13;
-        Thu, 18 Mar 2021 06:08:52 -0700 (PDT)
+        Thu, 18 Mar 2021 16:18:17 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CCA0C06174A;
+        Thu, 18 Mar 2021 13:18:16 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id q13so6569384lfu.8;
+        Thu, 18 Mar 2021 13:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ltuUYSrQ22360MaVIawtGhACBKIcjgougcQE1G7wGAA=;
+        b=F4QeAGKDIThJPMctZAII2rO4TuJboOCM5+gHx2h5ZZLGvWTR2m3cYkw8GiPFbzWorw
+         eBEiACVn/CHdg8KNrzyrZhXRj1Xs4NCtig1WDImwfG8U4kEfw0GqoPAKX/DH0aEmsgWn
+         d2z/ItdvH/Kjjtv11TQX6JTa5sTbrwxh3yxG5/15WlyliExP2QXfOojF86epOAke1SMo
+         pWWJ95BHSEgUA2SJ1cCzXbAOJvvfLXBUSZOJ8X0O80CAF/LKsJQ+Lb/ixxQbPh0ur7gz
+         uY+MoEdGdu6Q/VI7ng+b0iHuugzUjIMsytAFVTyRryluWvYeow4XIQk16IGZ2GIqo9bY
+         COpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3W+gRU3tHOQftjVIDBjSp6oKqWWk/fcbiFHz3gji3RA=;
-        b=CKLH0megC93YIgSK38RvzBgRSunx8AfYLFKJEXOkUwzC+6uykuBEJQcrvkIrrPiRym
-         UBK9CtgPSuySJQZfk0262NzsI/l8ytFJg6V0I5+NR6BjEIGSOg9R7y3fNg9LCo10md1r
-         D5IV6uAca2FX+CEuKGLuwfp7zmkHdDiakw3WD0AFFvEl/mP2AKKm86QKssqATIpP4ONN
-         9sKccpUzMpj5eqo7fAhvzwGaI1Y1jYHE0BxEBmZFrWjMw6DzrC19xXvjfOLETMVhrAOB
-         gxguLwVnNFZatVUPU0T0YFxK5EYEEVgwzKvPWxquyZRNon3vxeGnqTfUhGPPIurAxD8L
-         JnJg==
-X-Gm-Message-State: AOAM531xD/d6M6HngzRvmAy4DFKzNi3MicdnCj35Y/5y7VW0U92rYx+1
-        ui9bQmLXvokyOTacitIQtipwFqI4tT90XcAg6XminUhR
-X-Google-Smtp-Source: ABdhPJwSYclVqk3CG+KwOsQJDNF/gnlOqbyQv3/6dPaqrdvn9b/kEKBWwIe28FgiQQb6nLHFTrMEdwstEC2d9ss4Ju8=
-X-Received: by 2002:a67:fe90:: with SMTP id b16mr6581294vsr.40.1616072932463;
- Thu, 18 Mar 2021 06:08:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210224115146.9131-1-aford173@gmail.com> <20210224115146.9131-5-aford173@gmail.com>
- <CAMuHMdW3SO7LemssHrGKkV0TUVNuT4oq1EfmJ-Js79=QBvNhqQ@mail.gmail.com> <CAHCN7xLtDyfB5h5rWTLpiUgWY==2KmxYCOQkVSeU8DV8KB-NKg@mail.gmail.com>
-In-Reply-To: <CAHCN7xLtDyfB5h5rWTLpiUgWY==2KmxYCOQkVSeU8DV8KB-NKg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Mar 2021 14:08:40 +0100
-Message-ID: <CAMuHMdV1e+bBapynOQwhuBpdBcpn-03hpOu4KAaK4GHhcdROEg@mail.gmail.com>
-Subject: Re: [PATCH V3 5/5] arm64: dts: renesas: beacon kits: Setup AVB refclk
-To:     Adam Ford <aford173@gmail.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc:     netdev <netdev@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ltuUYSrQ22360MaVIawtGhACBKIcjgougcQE1G7wGAA=;
+        b=Hk1UauNiQMriLnT4YEX6vThlKWBBInuOiVX6MqKXi93n0dhyrQW4UgeWrd707SfpiJ
+         BB8xEsbgAwqPfLv6CrZxSrttiSobxZzltELTYE45fPLH3cUiChgHOJGBHIhgIqOpHk1V
+         ef2Igqhhiz5wAWhIW4BVlb6Bvyd9H7D6aZB+UHaZpKgLj37FaIbUeRwLnZ1vCiVTHGxk
+         VbJ7EpdEAELHK+e9XaFm9BrELD2mC0zK2paeasK5gdZIjsycq0KaVrJdA4lQnS1v2Ypp
+         F1KZUg9rMI1SrCt7xNxh3MB+DCP0SfwI3nkPjCx2xRqzKbw1hfHJveKfgBlNBQVTJIEt
+         zr9A==
+X-Gm-Message-State: AOAM533j8wW4k932oAkLWpo6owJc7nuVF/P94wsmW6uQ2fUe3kd69AA4
+        Di0e16E5T/VrkpgjSH/6E3q1R/FHzvqbTA==
+X-Google-Smtp-Source: ABdhPJzYIMdkZTpuvxt9Flxzr5EurI1lzhhqeqrHUG6u0VPIbHFRPye5xR0H0zY6gseiO120h+WN3Q==
+X-Received: by 2002:a19:ec13:: with SMTP id b19mr6528756lfa.238.1616098694652;
+        Thu, 18 Mar 2021 13:18:14 -0700 (PDT)
+Received: from [192.168.1.101] ([178.176.79.185])
+        by smtp.gmail.com with ESMTPSA id q3sm353393lfr.33.2021.03.18.13.18.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Mar 2021 13:18:14 -0700 (PDT)
+Subject: Re: [PATCH V3 1/5] dt-bindings: net: renesas,etheravb: Add additional
+ clocks
+To:     Adam Ford <aford173@gmail.com>, netdev@vger.kernel.org
+Cc:     aford@beaconembedded.com,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210224115146.9131-1-aford173@gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <d2618a49-5314-af7a-0367-2519de78f957@gmail.com>
+Date:   Thu, 18 Mar 2021 23:18:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <20210224115146.9131-1-aford173@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
+Hi!
 
-On Thu, Mar 18, 2021 at 1:44 PM Adam Ford <aford173@gmail.com> wrote:
-> On Thu, Mar 4, 2021 at 2:04 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Wed, Feb 24, 2021 at 12:52 PM Adam Ford <aford173@gmail.com> wrote:
-> > > The AVB refererence clock assumes an external clock that runs
-> >
-> > reference
-> >
-> > > automatically.  Because the Versaclock is wired to provide the
-> > > AVB refclock, the device tree needs to reference it in order for the
-> > > driver to start the clock.
-> > >
-> > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > i.e. will queue in renesas-devel (with the typo fixed) once the DT
-> > bindings have been accepted.
-> >
->
-> Who do I need to ping to get the DT bindings accepted?  They have an
-> acked-by from Rob.
+On 2/24/21 2:51 PM, Adam Ford wrote:
 
-Sergei, can you please have a look at the DT binding change?
+> The AVB driver assumes there is an external crystal, but it could
+> be clocked by other means.  In order to enable a programmable
+> clock, it needs to be added to the clocks list and enabled in the
+> driver.  Since there currently only one clock, there is no
+> clock-names list either.
+> 
+> Update bindings to add the additional optional clock, and explicitly
+> name both of them.
+> 
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Rob Herring <robh@kernel.org>
 
-Thanks!
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
 
-Gr{oetje,eeting}s,
+[...]
 
-                        Geert
+PS: Sorry for the dalay reviewing...
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergei
