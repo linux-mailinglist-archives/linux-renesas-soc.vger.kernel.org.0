@@ -2,77 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D997340436
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Mar 2021 12:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD63C3405D6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Mar 2021 13:45:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbhCRLJJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Mar 2021 07:09:09 -0400
-Received: from www.zeus03.de ([194.117.254.33]:44158 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229649AbhCRLJB (ORCPT
+        id S231327AbhCRMo4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Mar 2021 08:44:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60180 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231345AbhCRMow (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Mar 2021 07:09:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Uh0xSe7vBl7CPzsQtEmGyApnxkwe
-        KUkmfv4AOAzOqqc=; b=Q1bZcfPzdSBAS3uk+3VV0bHBDxMfH2zZhrzVfFY7c3b5
-        rq9iKpsJnOya6c0xmEBJKaQSQgXfGFP7ESIKJhYdiCnHsO5hw60BcVBKnYxbNxbD
-        nKx8aAM+3ZKVD7EtefLk9T1LH9V8c4AJonYiajatEH6NqIsTk6YGGq0FZdttuaQ=
-Received: (qmail 386134 invoked from network); 18 Mar 2021 12:09:00 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Mar 2021 12:09:00 +0100
-X-UD-Smtp-Session: l3s3148p1@0oZZoM29NrwgARa4RaSzAQBVtUgvoxMO
-Date:   Thu, 18 Mar 2021 12:08:59 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] media: i2c: adv7511: remove open coded version of
- SMBus block read
-Message-ID: <20210318110859.GJ974@ninjato>
-References: <20210127103357.5045-1-wsa+renesas@sang-engineering.com>
- <bea536b1-9d81-3f41-8ca5-7fb075422290@xs4all.nl>
- <cadc7e6e-377f-db65-514e-7b2e6a40a0ae@xs4all.nl>
- <20210318104330.GB974@ninjato>
- <5f5ea721-c68b-f64e-4398-cd4521c18d77@xs4all.nl>
+        Thu, 18 Mar 2021 08:44:52 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD4C8C06174A;
+        Thu, 18 Mar 2021 05:44:52 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id l1so1247720plg.12;
+        Thu, 18 Mar 2021 05:44:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=r9rE0tJpznlr6Ns/VvU6BMZweoj02KtdTWNNDOyyeFE=;
+        b=G552MO7zcD7RYfTHJ4kCT7C874hod2hJkzRBsqtBJtRTU9px+61TW9VyaoADGYNtHZ
+         pTja+//z52v7Ek7xavQtHZ9sysyFA+ED73lFSadoEJncd3ApOhPldvH+Gk3lQplQ94xi
+         aeMfjPAHyzX61z1PmOGRN+5G71qMu5Yb3FOlAwP2W/ixGDLbtHuIIfWVW/u81FZ7WJN0
+         v/J3x5IrZGVsw+OCRb7OF0mX5l3ajZwIWQUNQPaXnA1897TU/klaxTfCpktTOorqiHFY
+         VZDkB/HNvTSvWjgm2Nw+gsw91s93ZQgBYMN77ZHH/PNHaO1pve+E0JgCNPblvpPBNp6M
+         Yk+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=r9rE0tJpznlr6Ns/VvU6BMZweoj02KtdTWNNDOyyeFE=;
+        b=fUWCs636gUec41SumMgQZ2ZVAOnt4rP0WHAyACfEprTZZi1/yUPNE4563RrXeGU0P9
+         GLlQV6WWBLfZ645V9ha+wPeAh4B0N+GTV1fOwDlO9WefKqnl7Ta9TuonB5x37D2hMYfb
+         f3quBePmTV3WqJyDlEsszZzLUNOEJv+eNcaACB8hNJRqsyCUFF9ry+ZPrnWx7dZ6ec5m
+         Xc5Aa+x+cl2BAGvU0WEdkrlo4WOR9wONgdZLQ0EqAAew5xuZ0o5rn13FZHL+/kZBK2lV
+         ++jhRQ2bo+tvGpZitgGE1m+fFyVaikOti0+BAwAx1wYTaB4vpOddEqcxIGUsT+2lkrL4
+         qpHQ==
+X-Gm-Message-State: AOAM5329Usb+4nft1hu8PvwjOEzbvvDkG+esHor5/Bq7a3x5pKZOfP6L
+        /ciDN6kpjZUuQL169SQhvGT1zMqenh3ryiK6HdU=
+X-Google-Smtp-Source: ABdhPJya+MwPUimZnTCuEi8Fb+6qYbFJpRxFCYiMhyPih+jRE1gLYp2PIvEqb8nl5AjfwDw72YJHd5TXk8M5r79+AT0=
+X-Received: by 2002:a17:90a:5d10:: with SMTP id s16mr4259176pji.126.1616071492251;
+ Thu, 18 Mar 2021 05:44:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="RUqJLqMNe5u4kDWT"
-Content-Disposition: inline
-In-Reply-To: <5f5ea721-c68b-f64e-4398-cd4521c18d77@xs4all.nl>
+References: <20210224115146.9131-1-aford173@gmail.com> <20210224115146.9131-5-aford173@gmail.com>
+ <CAMuHMdW3SO7LemssHrGKkV0TUVNuT4oq1EfmJ-Js79=QBvNhqQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdW3SO7LemssHrGKkV0TUVNuT4oq1EfmJ-Js79=QBvNhqQ@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Thu, 18 Mar 2021 07:44:41 -0500
+Message-ID: <CAHCN7xLtDyfB5h5rWTLpiUgWY==2KmxYCOQkVSeU8DV8KB-NKg@mail.gmail.com>
+Subject: Re: [PATCH V3 5/5] arm64: dts: renesas: beacon kits: Setup AVB refclk
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     netdev <netdev@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Thu, Mar 4, 2021 at 2:04 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> On Wed, Feb 24, 2021 at 12:52 PM Adam Ford <aford173@gmail.com> wrote:
+> > The AVB refererence clock assumes an external clock that runs
+>
+> reference
+>
+> > automatically.  Because the Versaclock is wired to provide the
+> > AVB refclock, the device tree needs to reference it in order for the
+> > driver to start the clock.
+> >
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel (with the typo fixed) once the DT
+> bindings have been accepted.
+>
 
---RUqJLqMNe5u4kDWT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Who do I need to ping to get the DT bindings accepted?  They have an
+acked-by from Rob.
 
+adam
 
-> I've delegated it to myself in our patchwork system, so it should appear in a PR
-> for 5.13 next week or so.
-
-Thank you!
-
-
---RUqJLqMNe5u4kDWT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIyBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBTNMcACgkQFA3kzBSg
-KbafSQ/4zLHfFL49Gfb1zTA2C2M3yVl0sWZSgDmtIskbMPJU2uNUBfBF7fRqWRia
-Rap686hqXl1Rwnbcepuy69+d0NPHXETQQ6H2AEMLks5u5Vjg8nSCVQ0RFoIKbpws
-jWVH7cCMWisHOg3wVdnz14I9h62Ynw4ay3i9IMnGu2nqXqwYKxadRewSIpVaptdT
-q0+97nbxadxUkZgatGAXQDrGeBkkJsk43rHNM8nVT3kcPizjoxZxUjo+fYIhJPRQ
-8xmJoNT0PK6biNkQiuQ1CEJdSDtz5/pV965pYMefZ+WCdi/lIWDrpYSdug7WKqgl
-ZJKktEzLTwcH/XcIgwc+A9GAfs7pZFhL2/6w+bTfazMpnjHKMKjUlLs+xP6X/veT
-6lrYyTIwWDwDDBrEalaVESHjlhQtBlmpMzG9nky5zA5kAFeHVF5FAtMOL5aC06XR
-Mt0PDXm+RPbhJcWLKuv1g3//38ap2pBNVGT8rTH/XLOFw2PKS/kpvUAKDHwjC2cw
-vUXvEf3Znu0tCBUvRX0QKllzq/jzal7BwRNOuJzu3IJhHdh1dUG3yb1IdkYOPncu
-EWf5fJyeZB6CkBwe2MOvyl6y47uCMKonZkl9yF4uTfOAXZQslDno6okJ/+b1nSYj
-8XH8grgrS+V48rmCouexufc4njsfJAqVTOItryN6UKW7TGiKpA==
-=3a3t
------END PGP SIGNATURE-----
-
---RUqJLqMNe5u4kDWT--
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
