@@ -2,133 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCA4E341177
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Mar 2021 01:30:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78A393417A5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Mar 2021 09:41:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230136AbhCSAaN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Mar 2021 20:30:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44240 "EHLO
+        id S234399AbhCSIkj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Mar 2021 04:40:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230032AbhCSAaM (ORCPT
+        with ESMTP id S234462AbhCSIkQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Mar 2021 20:30:12 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4416C06174A;
-        Thu, 18 Mar 2021 17:30:11 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C11864FD;
-        Fri, 19 Mar 2021 01:30:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616113808;
-        bh=pboaeMKHTDgjLNXZNqaz3Xz2QAKkiPLdavp8ny4Rd94=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HlDObiI9w07ButFQxP2J5mmxd2huoornXc96s3dE2HwtVAznilgT8QA4mGgG9xPzL
-         DKpWZ/F2O73jJCFSbwZUKaExLJH27JbvzzxFHFRa1VcCYmr23qa5xj7F4DXS3a9WRt
-         /gU3Iv39EQCTgJ2v6leIhT6fOyty9zBgfWENLjT0=
-Date:   Fri, 19 Mar 2021 02:29:30 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 12/18] media: i2c: rdacm21: Give more time to OV490 to
- boot
-Message-ID: <YFPwaoJUSxpPnbBM@pendragon.ideasonboard.com>
-References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
- <20210315131512.133720-13-jacopo+renesas@jmondi.org>
- <0826484e-8ae7-677e-6de2-8f019e9733fc@ideasonboard.com>
- <20210317100445.h3yqmrrnghq76mjb@uno.localdomain>
+        Fri, 19 Mar 2021 04:40:16 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC9DC06174A;
+        Fri, 19 Mar 2021 01:40:15 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id w37so8756050lfu.13;
+        Fri, 19 Mar 2021 01:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Xqvabz6cLoghFbRuwuIjapRhuEI02T8/6UJvViDDDg4=;
+        b=dH7skqon7lZvrh2iPIF3FFUqR6In9xtSazt8oCeUUsCMtMRh2QN1+YmuUXP+P/F9gp
+         rW0h3Koj3rtuCNwfz9HyJCpyAcRmW4SBr06Ql0ckpFZ93IvGFTYvvyT0/0CcW0V28/iU
+         sv2C42ZxhsnD4WoiDL88Vhxu1fUwqCcVh6Ho/4fXuTmp7lrS+9TuisqTmZWQox80hS2h
+         +N09kvgCcCuZhppMprHpXvd3pE9MhObd8r621DyBeZVL3hpzGa38/oXKBAvxScCOMK1S
+         uDSrz1UK7P5dVs6gJ8wWDB022wTNwsrGFvs625l2bgt2hNLJaJ8DBRcGR2eBhvCekSyF
+         D8dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Xqvabz6cLoghFbRuwuIjapRhuEI02T8/6UJvViDDDg4=;
+        b=XfasbMLrNh3N+lFPmu1EbyEX7cqIWU7mfw/s9DysSZW8OHVR+0xR00UP5ll4kepoGt
+         quxcI3ekpZrQyUipycgZNv90q8dPXFDrOsaK2Gqp6cNVINLwGFWFdy4jjnqU1I6Pz/4W
+         zmAXX4ZlB7HIi76pZ+dHeOh0wmdF74644Eu43F9G1Upr949peIow8G0wQ15/LtrUSJuO
+         KWUGe3EX/9HooRwyKD2ClD8v7wSc+2e0PCLdFbpKSV+ZNth4m/NOCXSsbkr9bn2KCnRX
+         5uOf/8bU3nXKoct0ysVcZmcpNXxBs2pH6A+WY5jIxG3aXyGHtsTLLJq2DPl5TFgg/WIb
+         IEaQ==
+X-Gm-Message-State: AOAM531MPbdha2wFRGugT8K7Vfc7OoqN+0EGHE6FWmOTGSkRjXGVq+pk
+        n4bhqBfd4+UIRwE7Tjdq/3PeJZUBSristQ==
+X-Google-Smtp-Source: ABdhPJzaEiTpP8fxRkGHbXTOslYlQloPXXz4F15mGUCXwMfTKndZzrbEpaeHYcMkKaOWeuUXIqcuRQ==
+X-Received: by 2002:a19:501b:: with SMTP id e27mr190844lfb.584.1616143213944;
+        Fri, 19 Mar 2021 01:40:13 -0700 (PDT)
+Received: from [192.168.1.100] ([178.176.79.146])
+        by smtp.gmail.com with ESMTPSA id d8sm535926lfg.96.2021.03.19.01.40.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Mar 2021 01:40:13 -0700 (PDT)
+Subject: Re: [PATCH V3 5/5] arm64: dts: renesas: beacon kits: Setup AVB refclk
+To:     Adam Ford <aford173@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     netdev <netdev@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210224115146.9131-1-aford173@gmail.com>
+ <20210224115146.9131-5-aford173@gmail.com>
+ <CAMuHMdW3SO7LemssHrGKkV0TUVNuT4oq1EfmJ-Js79=QBvNhqQ@mail.gmail.com>
+ <CAHCN7xLtDyfB5h5rWTLpiUgWY==2KmxYCOQkVSeU8DV8KB-NKg@mail.gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <2c9b5bb0-7229-43b4-adc6-dce8f96eac90@gmail.com>
+Date:   Fri, 19 Mar 2021 11:40:02 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210317100445.h3yqmrrnghq76mjb@uno.localdomain>
+In-Reply-To: <CAHCN7xLtDyfB5h5rWTLpiUgWY==2KmxYCOQkVSeU8DV8KB-NKg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+On 18.03.2021 15:44, Adam Ford wrote:
 
-On Wed, Mar 17, 2021 at 11:04:45AM +0100, Jacopo Mondi wrote:
-> On Mon, Mar 15, 2021 at 05:22:37PM +0000, Kieran Bingham wrote:
-> > On 15/03/2021 13:15, Jacopo Mondi wrote:
-> > > It has been observed through repeated testing (250 boots) that in the
-> > > 10% of the cases the RDACM21 initialization sequence errors out due a
-> > > timeout waiting for the OV490 firmware to complete its boot phase.
-> > >
-> > > Albeit being the current timeout relatively large (300-600 milliseconds),
-> > > doubling it reduces the sporadic error rate down to 1 over an 80 boot
-> > > sequences test run.
-> > >
-> > > The firmware boot delay is unfortunately not characterized in the camera
-> > > module manual.
-> >
-> > I wonder if we could characterize this alone by pulling this down until
-> > we see failures increase, with all the other fixes in place...
-> >
-> > I don't think that's required, but it might be something to check later
-> > if we don't get rid of that 1/80 failure.
+>>> The AVB refererence clock assumes an external clock that runs
+>>
+>> reference
+>>
+>>> automatically.  Because the Versaclock is wired to provide the
+>>> AVB refclock, the device tree needs to reference it in order for the
+>>> driver to start the clock.
+>>>
+>>> Signed-off-by: Adam Ford <aford173@gmail.com>
+>>
+>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> i.e. will queue in renesas-devel (with the typo fixed) once the DT
+>> bindings have been accepted.
+>>
 > 
-> This is actually driving me crazy :/
-> 
-> I had another test run with a surprising 10% failures.
-> All the failures were due to the ov490 firmware boot I'm trying to
-> mitigate here.
-> 
-> I went up to give it -6 seconds- and I still get failures in the same
-> percentage. Another run of 20 boots gave 30% failures with the delay I
-> have here in this patch. Just to make sure I was not going crazy I
-> reduced the delay to 1msec and I get an 80% failure rate.
-> 
-> Still, I've seen the 1 on 80 failures (I swear! I have logs! :)
-> 
-> I've checked what the BSP does, and if after some 300 attempts the
-> ov490 doesn't boot, they simply go an reset it.
-> https://github.com/renesas-rcar/linux-bsp/commit/0cf6e36f5bf49e1c2aab87139ec5b588623c56f8#diff-d770cad7d6f04923d9e89dfe7da369bb3006776d6e4fb8ef79353d5fab3cd25aR827
-> (sorry, I don't seem to be able to point you to the ov490.c#827 with
-> an URL)
+> Who do I need to ping to get the DT bindings accepted?  They have an
+> acked-by from Rob.
 
-It resets both the sensor and the OV490. It could be interested to try
-the latter selectively to see what happens.
+    Normally, the bindings get picked up by a subsystem maintainer... or Rob :-)
 
-I also suspect that the OV490 has debugging features (possibly including
-a RAM log buffer that we could read over I2C), but we're probably
-getting out of scope here.
+[...]
 
-> I assume we don't want anything like this in an upstream driver, but
-> I'm really running out of any plausible explanation :(
-
-As discussed, let's try the reset workaround, to see if it helps.
-
-I wonder if opening the camera and probing signals would be a useful
-option :-)
-
-> > > Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> >
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >
-> > > ---
-> > >  drivers/media/i2c/rdacm21.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> > > index 50a9b0d8255d..07cf077d8efd 100644
-> > > --- a/drivers/media/i2c/rdacm21.c
-> > > +++ b/drivers/media/i2c/rdacm21.c
-> > > @@ -53,7 +53,7 @@
-> > >  #define OV490_PID			0x8080300a
-> > >  #define OV490_VER			0x8080300b
-> > >  #define OV490_PID_TIMEOUT		20
-> > > -#define OV490_OUTPUT_EN_TIMEOUT		300
-> > > +#define OV490_OUTPUT_EN_TIMEOUT		600
-> > >
-> > >  #define OV490_GPIO0			BIT(0)
-> > >  #define OV490_SPWDN0			BIT(0)
-
--- 
-Regards,
-
-Laurent Pinchart
+MBR, Sergei
