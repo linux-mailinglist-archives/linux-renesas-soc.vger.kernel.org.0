@@ -2,88 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2FEA341F15
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Mar 2021 15:14:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8E3034202F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Mar 2021 15:54:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230136AbhCSON3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Mar 2021 10:13:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51664 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbhCSONK (ORCPT
+        id S230232AbhCSOxg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Mar 2021 10:53:36 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:46807 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230231AbhCSOxR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Mar 2021 10:13:10 -0400
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE7C8C06175F
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Mar 2021 07:13:09 -0700 (PDT)
-Received: by mail-vs1-xe2e.google.com with SMTP id b5so3551479vsl.9
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Mar 2021 07:13:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lK7Wu5em661YsAR1P2potPtShBWXtZV+d3VXeg7OZ/4=;
-        b=PuwPqedHM4wwnj/REp27vI/oK8PfMnDRpyeL08ngxS9vZmjitbH5wKYhe9Cc1b6aEB
-         WYY7u2oTBpF5/WjawVEDOQlpKUnM5JNc4GpG6EMXHxRQaMPuQZY+rkuoyFBRRTQOqEIg
-         QJyQp164IRzxayvhaKjA6k8UYyvrd/OWufy7gH045vrqO/mWWV/SXYO33xH1b+18bkoS
-         cYZipf1giPZKmDeuf+idECeI+r8Lep6S+/VKrwpTR+uzs9OVLcIvTX/YUtjJjJkli+2B
-         LfvIUCn//nOyTb4G2R1ciTaPFI9m+ymdnWjsziPlMoMyDRm9zghYE3t2QwqlHKdJm1cR
-         FM/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lK7Wu5em661YsAR1P2potPtShBWXtZV+d3VXeg7OZ/4=;
-        b=pthWmrroBQVm2iekQYnkZKcuzZJawRtjFt2H5Ku3FPToPvvwJkNF+DPmbRwZE6d+Sb
-         Sk87rMxjA5QLkusjbfugOt/dqtrqv+tmNZWchFwN4qDfCkiXo4Qu9cFRO+UyPiHK0Bgm
-         YJPUfMQvIUr5Hy1CCBk4ap28mUEHpmU35lardfjRV3njCCVlyYN2Z60Y5VfS/10rGA8n
-         J0ffivRlGtWby9UKi81mkfkFXzh3kSIF/4Pm3BKn1W+xpYiOTRsYuQSodtnPCICEBQFQ
-         +yIdCa6Wc7o4wPlB90WN2r8iSz83fm9EB7EEd/+3x8PANaRZkXzb0LdLJwaN9K71udVX
-         hcJA==
-X-Gm-Message-State: AOAM530F/fRJ3x3UfwC0witbWmASq7EhXy8CHmvLiHYn8RKPQ0KOqosX
-        pxBC4Fvng/NMrNLDoY6G35ArUtDrnbyFTCEAUIA0YfO4duRu3w==
-X-Google-Smtp-Source: ABdhPJyNpWg4z4tcFrSKHiEmVMgwRWPb64lSh15KFv9VTHU/nCdYRX3yO8gVoBDCVbF/xqquafwLoV54HttmqWVawTQ=
-X-Received: by 2002:a05:6102:7b0:: with SMTP id x16mr2733377vsg.34.1616163189000;
- Fri, 19 Mar 2021 07:13:09 -0700 (PDT)
+        Fri, 19 Mar 2021 10:53:17 -0400
+X-Originating-IP: 5.92.35.220
+Received: from uno.localdomain (mob-5-92-35-220.net.vodafone.it [5.92.35.220])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id E589FC0002;
+        Fri, 19 Mar 2021 14:53:12 +0000 (UTC)
+Date:   Fri, 19 Mar 2021 15:53:44 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/18] media: i2c: rdacm21: Give more time to OV490 to
+ boot
+Message-ID: <20210319145344.ffhrxakrczxzzchp@uno.localdomain>
+References: <20210315131512.133720-1-jacopo+renesas@jmondi.org>
+ <20210315131512.133720-13-jacopo+renesas@jmondi.org>
+ <0826484e-8ae7-677e-6de2-8f019e9733fc@ideasonboard.com>
+ <20210317100445.h3yqmrrnghq76mjb@uno.localdomain>
+ <YFPwaoJUSxpPnbBM@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20210317091622.31890-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210317091622.31890-1-wsa+renesas@sang-engineering.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Fri, 19 Mar 2021 15:12:32 +0100
-Message-ID: <CAPDyKFr2HCu+DLc5RhdNZhzyiuEggZhr_BMG39S7Gmnt2An0Aw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] mmc: renesas_sdhi: reset via reset controller
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YFPwaoJUSxpPnbBM@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 17 Mar 2021 at 10:17, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
+Hi Laurent,
+
+On Fri, Mar 19, 2021 at 02:29:30AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
 >
-> This series enables SDHI to be reset via a reset controller. The series
-> is based on mmc/next and tested on Salvator-XS with R-Car H3 ES2.0 with
-> what I think I can do locally here. Shimoda-san, tested, too (thanks!)
+> On Wed, Mar 17, 2021 at 11:04:45AM +0100, Jacopo Mondi wrote:
+> > On Mon, Mar 15, 2021 at 05:22:37PM +0000, Kieran Bingham wrote:
+> > > On 15/03/2021 13:15, Jacopo Mondi wrote:
+> > > > It has been observed through repeated testing (250 boots) that in the
+> > > > 10% of the cases the RDACM21 initialization sequence errors out due a
+> > > > timeout waiting for the OV490 firmware to complete its boot phase.
+> > > >
+> > > > Albeit being the current timeout relatively large (300-600 milliseconds),
+> > > > doubling it reduces the sporadic error rate down to 1 over an 80 boot
+> > > > sequences test run.
+> > > >
+> > > > The firmware boot delay is unfortunately not characterized in the camera
+> > > > module manual.
+> > >
+> > > I wonder if we could characterize this alone by pulling this down until
+> > > we see failures increase, with all the other fixes in place...
+> > >
+> > > I don't think that's required, but it might be something to check later
+> > > if we don't get rid of that 1/80 failure.
+> >
+> > This is actually driving me crazy :/
+> >
+> > I had another test run with a surprising 10% failures.
+> > All the failures were due to the ov490 firmware boot I'm trying to
+> > mitigate here.
+> >
+> > I went up to give it -6 seconds- and I still get failures in the same
+> > percentage. Another run of 20 boots gave 30% failures with the delay I
+> > have here in this patch. Just to make sure I was not going crazy I
+> > reduced the delay to 1msec and I get an 80% failure rate.
+> >
+> > Still, I've seen the 1 on 80 failures (I swear! I have logs! :)
+> >
+> > I've checked what the BSP does, and if after some 300 attempts the
+> > ov490 doesn't boot, they simply go an reset it.
+> > https://github.com/renesas-rcar/linux-bsp/commit/0cf6e36f5bf49e1c2aab87139ec5b588623c56f8#diff-d770cad7d6f04923d9e89dfe7da369bb3006776d6e4fb8ef79353d5fab3cd25aR827
+> > (sorry, I don't seem to be able to point you to the ov490.c#827 with
+> > an URL)
 >
-> Changes since v2:
-> * 'select' statement in Kconfig only for ARCH_RENESAS
-> * Shimoda-san's tags added
->
-> Wolfram Sang (3):
->   mmc: tmio: abort DMA before reset
->   mmc: renesas_sdhi: break SCC reset into own function
->   mmc: renesas_sdhi: do hard reset if possible
->
->  drivers/mmc/host/Kconfig             |  1 +
->  drivers/mmc/host/renesas_sdhi.h      |  2 ++
->  drivers/mmc/host/renesas_sdhi_core.c | 35 +++++++++++++++++++++-------
->  drivers/mmc/host/tmio_mmc_core.c     |  4 ++--
->  4 files changed, 32 insertions(+), 10 deletions(-)
+> It resets both the sensor and the OV490. It could be interested to try
+> the latter selectively to see what happens.
 >
 
-Applied for next, thanks!
+They do not make any difference :)
 
-Kind regards
-Uffe
+But..
+
+> I also suspect that the OV490 has debugging features (possibly including
+> a RAM log buffer that we could read over I2C), but we're probably
+> getting out of scope here.
+>
+> > I assume we don't want anything like this in an upstream driver, but
+> > I'm really running out of any plausible explanation :(
+>
+> As discussed, let's try the reset workaround, to see if it helps.
+>
+> I wonder if opening the camera and probing signals would be a useful
+> option :-)
+
+... I really think I've got something working (for real this time :)
+
+Basically, as patch "media: i2c: rdacm21: Fix OV10640 powerdown" of
+this series describes, the OV10640 power-up was broken before you
+spotted the usage of the wrong gpio pad and it was working because of
+an internal pull-up on the SPWDN line, which was erroneously left
+floating. Once that was fixed, the OV10640 was always identified
+correctly, leaving us with this puzzling "ov490 boot timeout error"
+that manifested with more or less the same frequency of the ov10640
+identification issue.
+
+In the current implementation we power up the OV490 and wait for its
+firmware to boot -before- powering up the ov10640 sensor. Most
+probably (or looking at the results I get noaw, most certainly) the
+OV490 firmware checks for the sensor to be available and probably
+tries to program it. So we're back to the issue we originally had when
+the sensor was powered because of the pull up resistor, failing to
+boot in case the sensor didn't startup correctly which happened in the
+20% of the cases.
+
+If I do power up the OV10640 -before- the OV490 all the firmware boot
+errors are now gone. I need to tune a bit the timeouts as after the
+OV490 boot the OV10640 requires some time before being accessible.
+Once I nail down the right timeouts I'll send v3. So far I got 0
+errors on 50 boot attempts, finally \o/
+
+Thanks for keep pushing, I would have swear this was an issue with the
+HW design and was very close to give up like a month ago!
+
+V3 out soon!
+
+Thanks
+   j
+
+
+>
+> > > > Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > >
+> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > >
+> > > > ---
+> > > >  drivers/media/i2c/rdacm21.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> > > > index 50a9b0d8255d..07cf077d8efd 100644
+> > > > --- a/drivers/media/i2c/rdacm21.c
+> > > > +++ b/drivers/media/i2c/rdacm21.c
+> > > > @@ -53,7 +53,7 @@
+> > > >  #define OV490_PID			0x8080300a
+> > > >  #define OV490_VER			0x8080300b
+> > > >  #define OV490_PID_TIMEOUT		20
+> > > > -#define OV490_OUTPUT_EN_TIMEOUT		300
+> > > > +#define OV490_OUTPUT_EN_TIMEOUT		600
+> > > >
+> > > >  #define OV490_GPIO0			BIT(0)
+> > > >  #define OV490_SPWDN0			BIT(0)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
