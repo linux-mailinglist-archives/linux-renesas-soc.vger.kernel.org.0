@@ -2,109 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78A393417A5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Mar 2021 09:41:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 133613417C2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Mar 2021 09:52:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234399AbhCSIkj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Mar 2021 04:40:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36386 "EHLO
+        id S230186AbhCSIwS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Mar 2021 04:52:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234462AbhCSIkQ (ORCPT
+        with ESMTP id S230071AbhCSIv5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Mar 2021 04:40:16 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC9DC06174A;
-        Fri, 19 Mar 2021 01:40:15 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id w37so8756050lfu.13;
-        Fri, 19 Mar 2021 01:40:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Xqvabz6cLoghFbRuwuIjapRhuEI02T8/6UJvViDDDg4=;
-        b=dH7skqon7lZvrh2iPIF3FFUqR6In9xtSazt8oCeUUsCMtMRh2QN1+YmuUXP+P/F9gp
-         rW0h3Koj3rtuCNwfz9HyJCpyAcRmW4SBr06Ql0ckpFZ93IvGFTYvvyT0/0CcW0V28/iU
-         sv2C42ZxhsnD4WoiDL88Vhxu1fUwqCcVh6Ho/4fXuTmp7lrS+9TuisqTmZWQox80hS2h
-         +N09kvgCcCuZhppMprHpXvd3pE9MhObd8r621DyBeZVL3hpzGa38/oXKBAvxScCOMK1S
-         uDSrz1UK7P5dVs6gJ8wWDB022wTNwsrGFvs625l2bgt2hNLJaJ8DBRcGR2eBhvCekSyF
-         D8dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=Xqvabz6cLoghFbRuwuIjapRhuEI02T8/6UJvViDDDg4=;
-        b=XfasbMLrNh3N+lFPmu1EbyEX7cqIWU7mfw/s9DysSZW8OHVR+0xR00UP5ll4kepoGt
-         quxcI3ekpZrQyUipycgZNv90q8dPXFDrOsaK2Gqp6cNVINLwGFWFdy4jjnqU1I6Pz/4W
-         zmAXX4ZlB7HIi76pZ+dHeOh0wmdF74644Eu43F9G1Upr949peIow8G0wQ15/LtrUSJuO
-         KWUGe3EX/9HooRwyKD2ClD8v7wSc+2e0PCLdFbpKSV+ZNth4m/NOCXSsbkr9bn2KCnRX
-         5uOf/8bU3nXKoct0ysVcZmcpNXxBs2pH6A+WY5jIxG3aXyGHtsTLLJq2DPl5TFgg/WIb
-         IEaQ==
-X-Gm-Message-State: AOAM531MPbdha2wFRGugT8K7Vfc7OoqN+0EGHE6FWmOTGSkRjXGVq+pk
-        n4bhqBfd4+UIRwE7Tjdq/3PeJZUBSristQ==
-X-Google-Smtp-Source: ABdhPJzaEiTpP8fxRkGHbXTOslYlQloPXXz4F15mGUCXwMfTKndZzrbEpaeHYcMkKaOWeuUXIqcuRQ==
-X-Received: by 2002:a19:501b:: with SMTP id e27mr190844lfb.584.1616143213944;
-        Fri, 19 Mar 2021 01:40:13 -0700 (PDT)
-Received: from [192.168.1.100] ([178.176.79.146])
-        by smtp.gmail.com with ESMTPSA id d8sm535926lfg.96.2021.03.19.01.40.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Mar 2021 01:40:13 -0700 (PDT)
-Subject: Re: [PATCH V3 5/5] arm64: dts: renesas: beacon kits: Setup AVB refclk
-To:     Adam Ford <aford173@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     netdev <netdev@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210224115146.9131-1-aford173@gmail.com>
- <20210224115146.9131-5-aford173@gmail.com>
- <CAMuHMdW3SO7LemssHrGKkV0TUVNuT4oq1EfmJ-Js79=QBvNhqQ@mail.gmail.com>
- <CAHCN7xLtDyfB5h5rWTLpiUgWY==2KmxYCOQkVSeU8DV8KB-NKg@mail.gmail.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <2c9b5bb0-7229-43b4-adc6-dce8f96eac90@gmail.com>
-Date:   Fri, 19 Mar 2021 11:40:02 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Fri, 19 Mar 2021 04:51:57 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B6BC06174A
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Mar 2021 01:51:56 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:207d:4b39:ec21:2531])
+        by baptiste.telenet-ops.be with bizsmtp
+        id i8rt2400B3CXdgx018rtWS; Fri, 19 Mar 2021 09:51:53 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lNArI-008kfs-PA; Fri, 19 Mar 2021 09:51:52 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lNArI-00BMy0-4d; Fri, 19 Mar 2021 09:51:52 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/3] Renesas ARM SoC updates for v5.13
+Date:   Fri, 19 Mar 2021 09:51:43 +0100
+Message-Id: <20210319085146.2709844-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAHCN7xLtDyfB5h5rWTLpiUgWY==2KmxYCOQkVSeU8DV8KB-NKg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 18.03.2021 15:44, Adam Ford wrote:
+	Hi soc folks,
 
->>> The AVB refererence clock assumes an external clock that runs
->>
->> reference
->>
->>> automatically.  Because the Versaclock is wired to provide the
->>> AVB refclock, the device tree needs to reference it in order for the
->>> driver to start the clock.
->>>
->>> Signed-off-by: Adam Ford <aford173@gmail.com>
->>
->> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> i.e. will queue in renesas-devel (with the typo fixed) once the DT
->> bindings have been accepted.
->>
-> 
-> Who do I need to ping to get the DT bindings accepted?  They have an
-> acked-by from Rob.
+This is my first pull request for the inclusion of Renesas SoC updates
+for v5.13.
 
-    Normally, the bindings get picked up by a subsystem maintainer... or Rob :-)
+It consists of 2 parts:
 
-[...]
+  [GIT PULL 1/3] Renesas ARM defconfig updates for v5.13
 
-MBR, Sergei
+    - Refresh shmobile_defconfig for v5.12-rc2.
+
+  [GIT PULL 2/3] Renesas ARM DT updates for v5.13
+
+    - OV7725 camera support for the iWave RainboW Qseven board (G21D), and
+      its camera expansion board,
+    - Add mmc aliases to fix /dev/mmcblkN order,
+    - HDMI Display support for the R-Car Starter Kit Pro with R-Car M3-W+,
+    - Support for running upstream kernels on the RZA2MEVB board, using
+      the SDRAM present on the sub-board,
+    - I2C EEPROM support for the Falcon development board,
+    - Timer, thermal sensor, and CAN support for the R-Car V3U SoC.
+    - Miscellaneous fixes and improvements.
+
+  [GIT PULL 3/3] Renesas driver updates for v5.13
+
+    - Prepare rmobile-sysc for fw_devlink=on,
+    - A minor cleanup.
+
+Thanks for pulling!
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
