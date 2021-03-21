@@ -2,130 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E29B342E56
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Mar 2021 17:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C04093431B4
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 09:35:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbhCTQZN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 20 Mar 2021 12:25:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49678 "EHLO
+        id S230047AbhCUH7I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 21 Mar 2021 03:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbhCTQYx (ORCPT
+        with ESMTP id S229996AbhCUH6i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 20 Mar 2021 12:24:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11B87C061574;
-        Sat, 20 Mar 2021 09:24:53 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25E098D3;
-        Sat, 20 Mar 2021 17:24:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616257489;
-        bh=nInQQvrkhlkfJ8ZjNLVB5LPKoCqesSs+QiwQULKudDs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=s4st2l9ajDflvAxV+bB4+XZ3+Dc0Y6YiyDWU4uPb5zfvRq4t8hAQkTW5w/flqFFNq
-         JKht7aMyT+sR0zun2zQNVpHKmefBQpURSe1G/5ZWKKE1PqSezXrX6rs0mikEEcpZue
-         yXNOEj6rCfyFCd3mJ9zevBryUam9yaJbBvScmqbA=
-Date:   Sat, 20 Mar 2021 18:24:09 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Sun, 21 Mar 2021 03:58:38 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B4A7C061574;
+        Sun, 21 Mar 2021 00:58:38 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id y18so7514470qky.11;
+        Sun, 21 Mar 2021 00:58:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w/FodDC12fPiOO8KW+LQzpBz2k4WggnFhqLfSXUOk7I=;
+        b=H0Tl3FAbKGNNdQY1nn7qXJAoUpOyIY1laxGMwhds2cDvmv77zy8ROW8tUBT/43pmWQ
+         JoE6R9uodvdFZuJpRRPcI7hAVNwpwhX1gjPkUuBm77PQXlqmqRuqBeg8SSxlwIwq73fv
+         tyutaF5pxdVXAA/8zpZmQXPMRI8jhs95LlW/rNVA6lfo6l74NpRBuZMwEqe3VkNcOM+i
+         8MaHIB5BBEEHBW2o+4bz+24yVyED2d5PPp66ZoADjtYOyesD1gzFwztPs3Q5y5JQX6Mh
+         wymI/gthKne2if6WGNTfWtpp/b8hq7ccDSt6RQuIuVQHi1vhUWN5hBUovoP5ywerYNEV
+         ghWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w/FodDC12fPiOO8KW+LQzpBz2k4WggnFhqLfSXUOk7I=;
+        b=biRay4HkuvwE67msl29/E6rdC7BY3idaHbXamUx8QontcpWLvrAqBgFqkfiF4y2bDT
+         LrNxwzdyXjzH4KARO7j7XSwNMRnO3uVF23RYKQ4QluYLM30tMj7S3jTdCshEpOo7ZsPM
+         h7uYMiUp8ClpinU4r9o9/uMGnH4vtc/12K8sLJtqntz5okR8e5PWKcnV5fodOkaK+NeP
+         7FZW1BxW6VcgtWy8BHpn4dHKCD5CfdqPxLXGeVO6PdvXINc4KPocxwjXN7eRtuDJr8zK
+         00oKmyUzjUmxEE6B8RWm89U93j0agizqet9IKAEkNflsfqD/vKO7eEVu+TEWJWMiFBFg
+         xIAw==
+X-Gm-Message-State: AOAM5330bozn+e/OJzzDEOWpwjydhW8HdtkY5BsHEqlAfabAK0iYTeJM
+        NWsjUEJZoFbq4ed+jLSc3O0=
+X-Google-Smtp-Source: ABdhPJxNLUvkzFIE3YzBjX0C4EvNEPKtpihnwmObFP1TJ19QdzliFLuYNnnzcn50yB9+IqaPAxZBfA==
+X-Received: by 2002:ae9:f81a:: with SMTP id x26mr5608819qkh.497.1616313517322;
+        Sun, 21 Mar 2021 00:58:37 -0700 (PDT)
+Received: from Slackware.localdomain ([156.146.55.204])
+        by smtp.gmail.com with ESMTPSA id d23sm8298626qka.125.2021.03.21.00.58.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Mar 2021 00:58:36 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 19/19] media: i2c: rdacm20: Re-work ov10635 reset
-Message-ID: <YFYhqXnxXIFJTYTM@pendragon.ideasonboard.com>
-References: <20210319164148.199192-1-jacopo+renesas@jmondi.org>
- <20210319164148.199192-20-jacopo+renesas@jmondi.org>
+Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] clk: renesas: Couple of spelling fixes
+Date:   Sun, 21 Mar 2021 13:28:13 +0530
+Message-Id: <20210321075813.9471-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210319164148.199192-20-jacopo+renesas@jmondi.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
 
-Thank you for the patch.
+s/suposed/supposed/
+s/concurent/concurrent/
 
-On Fri, Mar 19, 2021 at 05:41:48PM +0100, Jacopo Mondi wrote:
-> The OV10635 image sensor embedded in the camera module is currently
-> reset after the MAX9271 initialization with two long delays that were
-> most probably not correctly characterized.
-> 
-> Re-work the image sensor reset procedure by holding the chip in reset
-> during the MAX9271 configuration, removing the long sleep delays and
-> only wait after the chip exits from reset for 350-500 microseconds
-> interval, which is larger than the minimum (2048 * (1 / XVCLK)) timeout
-> characterized in the chip manual.
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/rdacm20.c | 29 +++++++++++++++++------------
->  1 file changed, 17 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> index 7ed3866b5335..7ba2d0249da8 100644
-> --- a/drivers/media/i2c/rdacm20.c
-> +++ b/drivers/media/i2c/rdacm20.c
-> @@ -454,6 +454,19 @@ static int rdacm20_init(struct v4l2_subdev *sd, unsigned int val)
->  	if (ret)
->  		return ret;
->  
-> +	/*
-> +	 * Hold OV10635 in reset during max9271 configuration. The reset signal
-> +	 * has to be asserted for at least 200 microseconds.
-> +	 */
-> +	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ drivers/clk/renesas/r9a06g032-clocks.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-enable and clear is very cnonfusing. How about mimicking the GPIO API,
-with direction_input(), direction_output() and set_value() functions ?
-It would also be nice if the polarity could be handled in a nicer way.
-There's no GPIO request API here, but maybe a max9271_gpio_set_flags() ?
+diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
+index 892e91b92f2c..1fe166e7f8bd 100644
+--- a/drivers/clk/renesas/r9a06g032-clocks.c
++++ b/drivers/clk/renesas/r9a06g032-clocks.c
+@@ -279,7 +279,7 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
+ 	/*
+ 	 * These are not hardware clocks, but are needed to handle the special
+ 	 * case where we have a 'selector bit' that doesn't just change the
+-	 * parent for a clock, but also the gate it's suposed to use.
++	 * parent for a clock, but also the gate it's supposed to use.
+ 	 */
+ 	{
+ 		.index = R9A06G032_UART_GROUP_012,
+@@ -311,7 +311,7 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
 
-> +	if (ret)
-> +		return ret;
-> +	usleep_range(200, 500);
-> +
->  	ret = max9271_configure_gmsl_link(&dev->serializer);
->  	if (ret)
->  		return ret;
-> @@ -468,22 +481,14 @@ static int rdacm20_init(struct v4l2_subdev *sd, unsigned int val)
->  	dev->serializer.client->addr = dev->addrs[0];
->  
->  	/*
-> -	 * Reset the sensor by cycling the OV10635 reset signal connected to the
-> -	 * MAX9271 GPIO1 and verify communication with the OV10635.
-> +	 * Release ov10635 from reset and initialize it. The image sensor
-> +	 * requires at least 2048 XVCLK cycles (85 micro-seconds at 24MHz)
-> +	 * before being available. Stay safe and wait up to 500 micro-seconds.
->  	 */
-> -	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> -	if (ret)
-> -		return ret;
-> -	usleep_range(10000, 15000);
-> -
->  	ret = max9271_set_gpios(&dev->serializer, MAX9271_GPIO1OUT);
->  	if (ret)
->  		return ret;
-> -	usleep_range(10000, 15000);
-> +	usleep_range(100, 500);
->  
->  	for (i = 0; i < OV10635_PID_TIMEOUT; ++i) {
->  		ret = ov10635_read16(dev, OV10635_PID);
+ struct r9a06g032_priv {
+ 	struct clk_onecell_data data;
+-	spinlock_t lock; /* protects concurent access to gates */
++	spinlock_t lock; /* protects concurrent access to gates */
+ 	void __iomem *reg;
+ };
 
--- 
-Regards,
+--
+2.30.1
 
-Laurent Pinchart
