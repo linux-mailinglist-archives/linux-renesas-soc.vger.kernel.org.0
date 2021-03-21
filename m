@@ -2,221 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A364E34325A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 13:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF8B93432D9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 15:04:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229784AbhCUMMn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 21 Mar 2021 08:12:43 -0400
-Received: from lists.levonline.com ([217.70.33.37]:46250 "EHLO
-        lists.levonline.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229897AbhCUMMU (ORCPT
+        id S229840AbhCUODz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 21 Mar 2021 10:03:55 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:35459 "EHLO
+        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229784AbhCUODe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 21 Mar 2021 08:12:20 -0400
-Received: from exc-halon1.levonline.com (exc-halon1.levonline.com [217.70.32.123])
-        by lists.levonline.com (Postfix) with ESMTP id 32E5A3A12E2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 21 Mar 2021 13:12:19 +0100 (CET)
-X-SA-score: -1
-X-Halon-ID: ae9e0758-8a3e-11eb-a51d-0050568168d4
-Received: from ormen1.djurnet.levonline.com (ormen1.djurnet.levonline.com [192.168.17.31])
-        by exc-halon1.levonline.com (Halon) with ESMTPS
-        id ae9e0758-8a3e-11eb-a51d-0050568168d4;
-        Sun, 21 Mar 2021 13:12:18 +0100 (CET)
-Received: from [127.0.0.1] (l193216.ppp.asahi-net.or.jp [218.219.193.216])
-        (authenticated bits=0)
-        by ormen1.djurnet.levonline.com (8.13.8/8.13.8) with ESMTP id 12LCCGxT028162;
-        Sun, 21 Mar 2021 13:12:17 +0100
-X-Origin-Levonline: b0359001
-From:   Magnus Damm <damm@opensource.se>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Magnus Damm <damm@opensource.se>, geert+renesas@glider.be
-Date:   Sun, 21 Mar 2021 20:38:51 +0900
-Message-Id: <161632673124.9191.8069161888906800635.sendpatchset@octo>
-In-Reply-To: <161632671592.9191.18170615656272399147.sendpatchset@octo>
-References: <161632671592.9191.18170615656272399147.sendpatchset@octo>
-Subject: [PATCH 2/2] UIO CMT test program
+        Sun, 21 Mar 2021 10:03:34 -0400
+Received: by mail-vs1-f53.google.com with SMTP id h25so6081020vso.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 21 Mar 2021 07:03:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3CoEhpeVuzp0f7Vdp/MjlgtUCu6lOeqoLw7JCcHsKIM=;
+        b=gx8XcoEfU6+IbT/cPlaXLgCkFuxVP6T/m2YVaZAgWpBPVWegXqI59rWj6LnUX/oYGT
+         s7eBTuPTBzUm3dZF2KwCS/eAAl0ouOovu915N2GfT5zuObqsh7SiVITkZkeV3BL11eGx
+         A9xkBxypw5Dpa2JNypjBHslyTRMesOBWfHlots03qCJOEksa37LhnDjzs5mYjm5AMWl2
+         j7phoAr1ITbqc3Bw9XD3PXsB/Ny/zqKu5EDrKoLDSf6x0UrPsnRMp/dnG4ASnGsx6gBV
+         PsdPgVkmb9Wzf/DifGJYNhQqwp9zvlp3PuEjP+PtUJwgscVHGE/UI38xhoAAwHN5pRe6
+         5QRQ==
+X-Gm-Message-State: AOAM530bGcWT4UdMI4z09pb9UZRGfIksvzvkV518IqcS0va2zu5b8NMl
+        l6J4sFTDzTCbWUyZeACIlJsJ0mnmR27o5b98YPrz0zpMm7k=
+X-Google-Smtp-Source: ABdhPJyyJ9w7cmbESFJ7kMlGn3i6FNTREwswhMhk3HEQYYk4VIDaTnJZqiLK4Y2JJyGxWd/7qWhUtIXUuGJfDDLf2Xc=
+X-Received: by 2002:a67:8883:: with SMTP id k125mr7175626vsd.18.1616335413860;
+ Sun, 21 Mar 2021 07:03:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <161632638364.9010.14149594685878279298.sendpatchset@octo>
+In-Reply-To: <161632638364.9010.14149594685878279298.sendpatchset@octo>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sun, 21 Mar 2021 15:03:22 +0100
+Message-ID: <CAMuHMdXxqu_BZYv=t-QQnxQW55MNdj46sdcqn7ibHUc_PFs7Kg@mail.gmail.com>
+Subject: Re: [PATCH/RFC] ARM: dts: kzm9g: Extend DTS with hints on how to build
+To:     Magnus Damm <damm@opensource.se>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---- /dev/null	2019-10-16 00:27:13.659405289 +0900
-+++ uio-cmt-test-20210321.c	2021-03-21 19:41:24.469083859 +0900
-@@ -0,0 +1,179 @@
-+/*
-+ * uio-cmt-test-20210321.c - UIO CMT example test code, 20210321 Magnus Damm
-+ *
-+ * A small linux program that programs the CMT timer and waits for IRQs
-+ *
-+ * Compile for Linux using:
-+ * $ cross-gcc -o uio-cmt-test uio-cmt-test.c
-+ * 
-+ * Designed to work with the Linux UIO kernel driver uio_pdrv_genirq.c
-+ */
-+
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <sys/types.h>
-+#include <sys/stat.h>
-+#include <sys/mman.h>
-+#include <fcntl.h>
-+
-+static int fgets_with_openclose(char *fname, char *buf, size_t maxlen) {
-+       FILE *fp;
-+
-+       if ((fp = fopen(fname, "r")) != NULL) {
-+               fgets(buf, maxlen, fp);
-+               fclose(fp);
-+               return strlen(buf);
-+       } else {
-+               return -1;
-+       }
-+}
-+
-+struct uio_device {
-+       char *name;
-+       char *path;
-+       int fd;
-+};
-+
-+#define MAXUIOIDS  100
-+#define MAXNAMELEN 256
-+
-+static int locate_uio_device(char *name, struct uio_device *udp)
-+{
-+       char fname[MAXNAMELEN], buf[MAXNAMELEN];
-+       int uio_id, i;
-+
-+       for (uio_id = 0; uio_id < MAXUIOIDS; uio_id++) {
-+               sprintf(fname, "/sys/class/uio/uio%d/name", uio_id);
-+               if (fgets_with_openclose(fname, buf, MAXNAMELEN) < 0)
-+                       continue;
-+               if (strncmp(name, buf, strlen(name)) == 0)
-+                       break;
-+       }
-+
-+       if (uio_id >= MAXUIOIDS)
-+               return -1;
-+
-+       udp->name = strdup(buf);
-+       udp->path = strdup(fname);
-+       udp->path[strlen(udp->path) - 4] = '\0';
-+
-+       sprintf(buf, "/dev/uio%d", uio_id);
-+       udp->fd = open(buf, O_RDWR|O_SYNC /*| O_NONBLOCK*/);
-+
-+       if (udp->fd < 0) {
-+               perror("open");
-+               return -1;
-+       }
-+
-+       return 0;
-+}
-+
-+/* offsets apply to sh73a0 */
-+#define CMT_CMSTR 0x000 /* start/stop register, some bits reserved as 1 */
-+#define CMT_CMSTR_CH0 (1 << 0) /* set bit to one to start channel */
-+#define CMT_CMCSR 0x10 /* 0x124 enables interrupts and selects CLK/8 */
-+#define CMT_CMCSR_CMF (1 << 15) /* clear bit to ack compare match event */
-+#define CMT_CMCNT 0x14 /* counting up, set to 0 */
-+#define CMT_CMCOR 0x18 /* match value, set to ~0 */
-+
-+struct uio_map {
-+       unsigned long address;
-+       unsigned long size;
-+       void *iomem;
-+};
-+
-+static int setup_uio_map(struct uio_device *udp, int nr, struct uio_map *ump)
-+{
-+       char fname[MAXNAMELEN], buf[MAXNAMELEN];
-+ 
-+       sprintf(fname, "%s/maps/map%d/addr", udp->path, nr);
-+       if (fgets_with_openclose(fname, buf, MAXNAMELEN) <= 0)
-+               return -1;
-+
-+       ump->address = strtoul(buf, NULL, 0);
-+
-+       sprintf(fname, "%s/maps/map%d/size", udp->path, nr);
-+       if (fgets_with_openclose(fname, buf, MAXNAMELEN) <= 0)
-+               return -1;
-+
-+       ump->size = strtoul(buf, NULL, 0);
-+
-+       ump->iomem = mmap(0, ump->size,
-+                         PROT_READ|PROT_WRITE, MAP_SHARED,
-+                         udp->fd, nr * getpagesize());
-+
-+       if (ump->iomem == MAP_FAILED)
-+               return -1;
-+
-+       return 0;
-+}
-+
-+struct uio_device uio_dev;
-+struct uio_map uio_mmio;
-+
-+int main(int argc, char *argv[])
-+{
-+	int k;
-+	int ret;
-+
-+	ret = locate_uio_device("timer", &uio_dev);
-+	if (ret < 0)
-+		return ret;
-+       
-+	printf("found matching UIO device at %s\n", uio_dev.path);
-+
-+	ret = setup_uio_map(&uio_dev, 0, &uio_mmio);
-+	if (ret < 0)
-+		return ret;
-+
-+	{
-+		unsigned long *cmstr = (uio_mmio.iomem + CMT_CMSTR);
-+		unsigned short *cmcsr = (uio_mmio.iomem + CMT_CMCSR);
-+		unsigned long *cmcor = (uio_mmio.iomem + CMT_CMCOR);
-+	  
-+		/* Stop timer channel */
-+		*cmstr &= ~CMT_CMSTR_CH0;
-+
-+		/* Initialize CMCSR */
-+		*cmcsr = 0x124;
-+
-+		/* Initialize CMCOR */
-+		*cmcor = (32768 / 8) * 2; /* interrupt after about 2s */
-+
-+		/* Enable interrupt in UIO driver */
-+		{
-+			unsigned long enable = 1;
-+			write(uio_dev.fd, &enable, sizeof(u_long));
-+		}
-+
-+		/* Start timer channel */
-+		*cmstr |= CMT_CMSTR_CH0;
-+
-+		/* test by processing 3 interrupts */
-+		for (k = 0; k < 3; k++) {
-+			/* Wait for interrupt */
-+			{
-+				unsigned long n_pending;
-+				read(uio_dev.fd, &n_pending, sizeof(u_long));
-+			}
-+
-+			printf("IRQ nr %d\n", k);
-+			
-+			/* ack match in CMCSR */
-+			*cmcsr &= ~CMT_CMCSR_CMF;
-+
-+			/* Enable interrupt in UIO driver */
-+			{
-+				unsigned long enable = 1;
-+				write(uio_dev.fd, &enable, sizeof(u_long));
-+			}
-+		}
-+
-+		/* Stop timer channel */
-+		*cmstr &= ~CMT_CMSTR_CH0;
-+	}
-+
-+	return 0;
-+}
+Hi Magnus,
+
+On Sun, Mar 21, 2021 at 1:06 PM Magnus Damm <damm@opensource.se> wrote:
+> From: Magnus Damm <damm+renesas@opensource.se>
+> Include hints in the DTS for KZM9G on how to build a kernel that may be booted
+> using the old on-board boot loader. Special handling includes:
+>  - The DTB needs to be appended to the zImage before generating the uImage
+>  - LOADADDR needs to be set to 0x48008000 to be able to generate an uImage
+>  - CONFIG_ATAGS=n is needed for the board to boot
+>
+> Perhaps there is a better place where this kind of information should be
+> placed? Many years ago the LOADADDR information used to be part of the kernel
+> makefiles (and make uImage just worked out of the box) but when going DTS
+> and zImage this seems to have been dropped. So these days special care is
+> needed to build a uImage file which is required by the boot loader.
+>
+> Not-Yet-Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+
+Thanks for your patch!
+
+> --- 0001/arch/arm/boot/dts/sh73a0-kzm9g.dts
+> +++ work/arch/arm/boot/dts/sh73a0-kzm9g.dts     2021-03-21 18:10:53.515741849 +0900
+> @@ -2,9 +2,24 @@
+>  /*
+>   * Device Tree Source for the KZM-A9-GT board
+>   *
+> - * Copyright (C) 2012 Horms Solutions Ltd.
+> + * The KZM9G board comes with on-board out-of-tree U-Boot from 2012 with:
+> + *  uImage support but without zImage support
+
+Funny, mine (which I never upgraded) has:
+
+    U-Boot 2013.01.-rc1 (Nov 15 2012 - 11:13:00)
+
+and does boot zImage, with appended DTB.
+
+> + *  one way or the other busted ATAGs
+> + *
+> + * Generate an uImage at the correct load address with apppended DTB like this:
+
+appended
+
+> + *  make ARCH=arm CROSS_COMPILE=_ uImage LOADADDR=0x48008000
+> + *  rm arch/arm/boot/zImage
+> + *  make ARCH=arm CROSS_COMPILE=_ dtbs zImage
+> + *  cat arch/arm/boot/dts/sh73a0-kzm9g.dtb >> arch/arm/boot/zImage
+> + *  $(cut -f 3- -d ' ' < arch/arm/boot/.uImage.cmd)
+> + *
+> + * For a working recent kernel (v5.10+) the following configuration is needed:
+> + *  CONFIG_ARM_APPENDED_DTB=y
+> + *  CONFIG_ATAGS=n
+>   *
+> - * Based on sh73a0-kzm9g.dts
+> + * The shmobile_defconfig works well after setting CONFIG_ATAGS=n
+
+Why CONFIG_ATAGS=n? I have CONFIG_ATAGS=y in my .config.
+
+IIRC, shmobile_defconfig works, if I change CONFIG_CMDLINE to match
+what I need, as U-Boot cannot update chosen/cmdline in an appended DTB.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
