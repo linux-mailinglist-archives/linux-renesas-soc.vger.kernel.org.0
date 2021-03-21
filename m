@@ -2,104 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22EE7343354
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 17:06:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 140163434ED
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 21:54:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbhCUQFX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 21 Mar 2021 12:05:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41266 "EHLO
+        id S231234AbhCUUxd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 21 Mar 2021 16:53:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229840AbhCUQFX (ORCPT
+        with ESMTP id S230218AbhCUUxB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 21 Mar 2021 12:05:23 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C0CAC061574;
-        Sun, 21 Mar 2021 09:05:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:References:
-        Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=bRZkMDyVjEHYQP3aS4EHghK5KTFY9dCEonp0Ggkl0WM=; b=I4tVtOwMges9O1MI9txjFLx9mD
-        F/fxTJGlxxEtOLPsLOChvC5Cp5Ey7c+zdT9h90Oh/NfUPfQ99N4MbtQwHtSvB2SVv5YzBTCNdONBM
-        tL1NBrLwU1BkxJN58FlX3BHA3d02x/IQ0stGwjYPCzI4WcocIUVNUPc/FpP+yw+wx8JqmBMeyLcS0
-        wbYQTHd+wyAMzMjbHvZfQHkpoPXyLZLnmT76+oWzXmwgQtDpZuEBPVdVhuoT9u//Pry4OMD3D1kda
-        Oo3tUQcNyk7UBy8fhN+qW40q1qw6eeyVpTjnNhdQdR8gk9i58pZGg2IQtmNTl++6fJ7dc9EqN6JkM
-        JUyXCy2Q==;
-Received: from rdunlap (helo=localhost)
-        by bombadil.infradead.org with local-esmtp (Exim 4.94 #2 (Red Hat Linux))
-        id 1lO0Zo-002OLF-QV; Sun, 21 Mar 2021 16:05:17 +0000
-Date:   Sun, 21 Mar 2021 09:05:16 -0700 (PDT)
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-cc:     renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Sun, 21 Mar 2021 16:53:01 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73368C061574;
+        Sun, 21 Mar 2021 13:53:01 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (213-243-181-26.bb.dnainternet.fi [213.243.181.26])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 161521B00046;
+        Sun, 21 Mar 2021 22:52:57 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1616359977;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2XRgUlb7NKEhKJeU8JI8swroZIl0jYCTbXWtgrWkwqk=;
+        b=Cy+4tNL3ckwus/R0F6ywxNsEeDwDGYNCGpCyoD80tzqBpeMY8zTpeGFRj2vBVB6R+w4Xt4
+        ItX5IVoJaAonp5GtVN1MB4rXaYyWf/Fgb5VR6P4DYlubOyvXdSqwygRFhuaqT+CeQzxiIL
+        V50PdJW7Bbewj0f+jVBW4MLu6OU6AZaVLWPKT46H3G+PMoUDjAMTc5AM17/hcjukhN0voO
+        dCJAH/zYcJJQxL18dHBPHXOboyYGOw5KqlrZp63RBEAWg59FF/InfrLSDmJbK6IhySbyKv
+        cUAjgJ8FIKrBqlR9/TmfoCDfuvE1NGJOe10f7rV8Qk7hP1Qk0FQjRQwwTUSttw==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1B654634C87;
+        Sun, 21 Mar 2021 22:49:31 +0200 (EET)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1lO54C-0004Fo-4k; Sun, 21 Mar 2021 22:52:56 +0200
+Date:   Sun, 21 Mar 2021 22:52:56 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] clk: renesas: Couple of spelling fixes
-In-Reply-To: <20210321075813.9471-1-unixbhaskar@gmail.com>
-Message-ID: <53201147-ac5a-c5a1-b6c0-240d9423c61@infradead.org>
-References: <20210321075813.9471-1-unixbhaskar@gmail.com>
+Subject: Re: [PATCH v3 05/19] media: v4l2-subdev: De-deprecate init() subdev
+ op
+Message-ID: <20210321205256.GE3@valkosipuli.retiisi.eu>
+References: <20210319164148.199192-1-jacopo+renesas@jmondi.org>
+ <20210319164148.199192-6-jacopo+renesas@jmondi.org>
+ <YFYX1KHi74XPEWLi@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210321_090516_880398_011AC1A0 
-X-CRM114-Status: GOOD (  15.01  )
-X-Spam-Score: -0.0 (/)
-X-Spam-Report: Spam detection software, running on the system "bombadil.infradead.org",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- Content preview:  On Sun, 21 Mar 2021, Bhaskar Chowdhury wrote: > > s/suposed/supposed/
-    > s/concurent/concurrent/ > > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-    Acked-by: Randy Dunlap <rdunlap@infradead.org> 
- Content analysis details:   (-0.0 points, 5.0 required)
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -0.0 NO_RELAYS              Informational: message was not relayed via SMTP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YFYX1KHi74XPEWLi@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1616359977; a=rsa-sha256;
+        cv=none;
+        b=Jv7JMz9B3XXJ2/BOIwoQ6ks7O6AJdKkJP8YuayhiU1poSssNHKGg8KLPB/YpeRTxcGPLpl
+        5ZQraxO6e3kH0ObEUJySyVuAS9qqRJ5zNrH1qKW8RZ0qm54ptDUEpt2rPUJM6bQ+VSB3hZ
+        s+Sq94A4whlJ9PA4wZ2+5iWRKFwYaQTSXwcvDYZsaELORfxSDQXH6tQHecCZRi4q2EXFPg
+        5+zALoIW4mSEgKmpY2QpKTZi4PrWjP6EmAnqZfPbaU9rg2PgqQqGHI9OaSSjpsBE9oBHMv
+        jgegE1xL2pSKTfeduNRdZrg/c6gx6bEa7PZc9cYp9Ulu9uKZB1m5k6mv1zFvJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1616359977;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2XRgUlb7NKEhKJeU8JI8swroZIl0jYCTbXWtgrWkwqk=;
+        b=SwXBroY3ZVNUxwqpQD6DnMW4S8V+mo+02X/IL+mFQIVGQa4L+4zSPvIGHoEPoKPucuPGVR
+        DEHbBObOhOVAKl8sjesSJ6w9nUOC7kt3ZjDKnOXXCmLuyMHjJG7R8xjuZJS2QhBeyRIJaz
+        fcMvgo/T+09Q1YdqiUe4qfhF9mqiZyZCYIvq17wVs4JuA7ejR/gKk9kNrukClH9zLBtFwq
+        TiB7oYQJjlbVcfs9X4egRUyj1sgNDK0fvmkPKwoU5MTuj3b2fe7vjh4oP6Bo+xTr6Ekyzw
+        8pjBXTveng4wo8j6K0pTJ6ZXQkqgoGbEiPg7frbXYJrJy3MbKUnTWg/57msKiA==
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Laurent and Jacopo,
 
+Thanks for cc'ing me.
 
-On Sun, 21 Mar 2021, Bhaskar Chowdhury wrote:
+On Sat, Mar 20, 2021 at 05:42:12PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+> 
+> Thank you for the patch.
+> 
+> CC'ing Sakari on v3 to get feedback.
+> 
+> On Fri, Mar 19, 2021 at 05:41:34PM +0100, Jacopo Mondi wrote:
+> > The init() subdev core operation is deemed to be deprecated for new
+> > subdevice drivers. However it could prove useful for complex
+> > architectures to defer operation that require access to the
+> > communication bus if said bus is not available (or fully configured)
+> > at the time when the subdevice probe() function is run.
+> > 
+> > As an example, the GMSL architecture requires the GMSL configuration
+> > link to be configured on the host side after the remote subdevice
+> > has completed its probe function. After the configuration on the host
+> > side has been performed, the subdevice registers can be accessed through
+> > the communication bus.
 
->
-> s/suposed/supposed/
-> s/concurent/concurrent/
->
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+What does the remote device's probe do that needs to be done before bus
+config on the host side?
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Alternatively, could the remote init() work be done at the time streaming
+is started?
 
+> > 
+> > In particular:
+> > 
+> > 	HOST			REMOTE
+> > 
+> > 	probe()
+> > 	   |
+> > 	   ---------------------> |
+> > 				  probe() {
+> > 				     bus config()
+> > 				  }
+> > 	   |<--------------------|
+> > 	v4l2 async bound {
+> > 	    bus config()
+> > 	    call subdev init()
+> > 	   |-------------------->|
+> > 				 init() {
+> > 				     access register on the bus()
+> > 				}
+> > 	   |<-------------------
+> > 	}
+> > 
+> > In the GMSL use case the bus configuration requires the enablement of the
+> > noise immunity threshold on the remote side which ensures reliability
+> > of communications in electrically noisy environments. After the subdevice
+> > has enabled the threshold at the end of its probe() sequence the host
+> > side shall compensate it with an higher signal amplitude. Once this
+> > sequence has completed the bus can be accessed with noise protection
+> > enabled and all the operations that require a considerable number of
+> > transactions on the bus (such as the image sensor configuration
+> > sequence) are run in the subdevice init() operation implementation.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  include/media/v4l2-subdev.h | 15 ++++++++++++---
+> >  1 file changed, 12 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index d0e9a5bdb08b..3068d9940669 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
+> >   *	each pin being configured.  This function could be called at times
+> >   *	other than just subdevice initialization.
+> >   *
+> > - * @init: initialize the sensor registers to some sort of reasonable default
+> > - *	values. Do not use for new drivers and should be removed in existing
+> > - *	drivers.
+> > + * @init: initialize the subdevice registers to some sort of reasonable default
+> > + *	values. Do not use for new drivers (and should be removed in existing
+> > + *	ones) for regular architectures where the image sensor is connected to
+> > + *	the host receiver. For more complex architectures where the subdevice
+> > + *	initialization should be deferred to the completion of the probe
+> > + *	sequence of some intermediate component, or the communication bus
+> > + *	requires configurations on the host side that depend on the completion
+> > + *	of the probe sequence of the remote subdevices, the usage of this
+> > + *	operation could be considered to allow the devices along the pipeline to
+> > + *	probe and register in the media graph and to defer any operation that
+> > + *	require actual access to the communication bus to their init() function
+> > + *	implementation.
+> >   *
+> >   * @load_fw: load firmware.
+> >   *
 
-> ---
-> drivers/clk/renesas/r9a06g032-clocks.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
-> index 892e91b92f2c..1fe166e7f8bd 100644
-> --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-> @@ -279,7 +279,7 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
-> 	/*
-> 	 * These are not hardware clocks, but are needed to handle the special
-> 	 * case where we have a 'selector bit' that doesn't just change the
-> -	 * parent for a clock, but also the gate it's suposed to use.
-> +	 * parent for a clock, but also the gate it's supposed to use.
-> 	 */
-> 	{
-> 		.index = R9A06G032_UART_GROUP_012,
-> @@ -311,7 +311,7 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
->
-> struct r9a06g032_priv {
-> 	struct clk_onecell_data data;
-> -	spinlock_t lock; /* protects concurent access to gates */
-> +	spinlock_t lock; /* protects concurrent access to gates */
-> 	void __iomem *reg;
-> };
->
-> --
-> 2.30.1
->
->
+-- 
+Kind regards,
+
+Sakari Ailus
