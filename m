@@ -2,273 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBBA73432F3
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 15:15:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22EE7343354
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 17:06:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbhCUOOb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 21 Mar 2021 10:14:31 -0400
-Received: from mail-ua1-f48.google.com ([209.85.222.48]:40879 "EHLO
-        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230170AbhCUOOC (ORCPT
+        id S229863AbhCUQFX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 21 Mar 2021 12:05:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41266 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229840AbhCUQFX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 21 Mar 2021 10:14:02 -0400
-Received: by mail-ua1-f48.google.com with SMTP id 97so4704444uav.7
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 21 Mar 2021 07:14:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ay4HOINfYrQzCRFsak1DkttsBbncmZSXA1bhNspucSY=;
-        b=qiWA+WKI5vExHbQYAEexX2a/r3jMdSJNXl4VtBtpi1DWKtCLwBCN+xwETMBKRxAp7Z
-         5m1lQhz7Bwj8hDvcI/e9ltyC10PE+uetF32erLl9S2AsdtJIEclTMarISo3RXxvX7iuC
-         argpqaCyve+j9qHlOllqFWTtEcNBsPNHtuz+TAN274Ld3GrnWsNyWYVJwePdG9rWnFKy
-         FFeUF640wzhriQnF/ZLlfNN5QhczJc3WyLWRVUhiIKdJT7t9EZJmilEmxMS604mDnHNP
-         h/AxXRq4WjY+MkLJ7VbZR7jKjY7cPX7baDsIPgd7ZDKNxCKrFNlRtbMbn0tCzm6idaLI
-         zxmA==
-X-Gm-Message-State: AOAM533G2ywCyEnidbFzLQoEBMYmJbapvf6CGUctRuqHNJSoCYgs+qrk
-        /hKalnCa88DicV5dSIL6hqu+molCIUZmfW/0s9EVVpVV
-X-Google-Smtp-Source: ABdhPJwNW8MscoaPg1YEviuBbaIeZaEWIcSeLVcEU7T6aB7Oh9nrJhhFUvhNX2hHDyhIwG/tYBhvxFdUXSwpRx4OsD4=
-X-Received: by 2002:ab0:64cf:: with SMTP id j15mr2914583uaq.4.1616336041772;
- Sun, 21 Mar 2021 07:14:01 -0700 (PDT)
+        Sun, 21 Mar 2021 12:05:23 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C0CAC061574;
+        Sun, 21 Mar 2021 09:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:References:
+        Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=bRZkMDyVjEHYQP3aS4EHghK5KTFY9dCEonp0Ggkl0WM=; b=I4tVtOwMges9O1MI9txjFLx9mD
+        F/fxTJGlxxEtOLPsLOChvC5Cp5Ey7c+zdT9h90Oh/NfUPfQ99N4MbtQwHtSvB2SVv5YzBTCNdONBM
+        tL1NBrLwU1BkxJN58FlX3BHA3d02x/IQ0stGwjYPCzI4WcocIUVNUPc/FpP+yw+wx8JqmBMeyLcS0
+        wbYQTHd+wyAMzMjbHvZfQHkpoPXyLZLnmT76+oWzXmwgQtDpZuEBPVdVhuoT9u//Pry4OMD3D1kda
+        Oo3tUQcNyk7UBy8fhN+qW40q1qw6eeyVpTjnNhdQdR8gk9i58pZGg2IQtmNTl++6fJ7dc9EqN6JkM
+        JUyXCy2Q==;
+Received: from rdunlap (helo=localhost)
+        by bombadil.infradead.org with local-esmtp (Exim 4.94 #2 (Red Hat Linux))
+        id 1lO0Zo-002OLF-QV; Sun, 21 Mar 2021 16:05:17 +0000
+Date:   Sun, 21 Mar 2021 09:05:16 -0700 (PDT)
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+cc:     renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clk: renesas: Couple of spelling fixes
+In-Reply-To: <20210321075813.9471-1-unixbhaskar@gmail.com>
+Message-ID: <53201147-ac5a-c5a1-b6c0-240d9423c61@infradead.org>
+References: <20210321075813.9471-1-unixbhaskar@gmail.com>
 MIME-Version: 1.0
-References: <161632671592.9191.18170615656272399147.sendpatchset@octo> <161632673124.9191.8069161888906800635.sendpatchset@octo>
-In-Reply-To: <161632673124.9191.8069161888906800635.sendpatchset@octo>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 21 Mar 2021 15:13:50 +0100
-Message-ID: <CAMuHMdV52cNa8+3NNQ6SyUC6-Nsx-sH3ksww__XAGPSGRJSSRg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] UIO CMT test program
-To:     Magnus Damm <damm@opensource.se>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210321_090516_880398_011AC1A0 
+X-CRM114-Status: GOOD (  15.01  )
+X-Spam-Score: -0.0 (/)
+X-Spam-Report: Spam detection software, running on the system "bombadil.infradead.org",
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ the administrator of that system for details.
+ Content preview:  On Sun, 21 Mar 2021, Bhaskar Chowdhury wrote: > > s/suposed/supposed/
+    > s/concurent/concurrent/ > > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+    Acked-by: Randy Dunlap <rdunlap@infradead.org> 
+ Content analysis details:   (-0.0 points, 5.0 required)
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -0.0 NO_RELAYS              Informational: message was not relayed via SMTP
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Magnus,
 
-Thanks for your patch!
 
-On Sun, Mar 21, 2021 at 1:12 PM Magnus Damm <damm@opensource.se> wrote:
-> --- /dev/null   2019-10-16 00:27:13.659405289 +0900
-> +++ uio-cmt-test-20210321.c     2021-03-21 19:41:24.469083859 +0900
-> @@ -0,0 +1,179 @@
-> +/*
-> + * uio-cmt-test-20210321.c - UIO CMT example test code, 20210321 Magnus Damm
-> + *
-> + * A small linux program that programs the CMT timer and waits for IRQs
-> + *
-> + * Compile for Linux using:
-> + * $ cross-gcc -o uio-cmt-test uio-cmt-test.c
-> + *
-> + * Designed to work with the Linux UIO kernel driver uio_pdrv_genirq.c
-> + */
-> +
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <unistd.h>
-> +#include <string.h>
-> +#include <sys/types.h>
-> +#include <sys/stat.h>
-> +#include <sys/mman.h>
-> +#include <fcntl.h>
-> +
-> +static int fgets_with_openclose(char *fname, char *buf, size_t maxlen) {
-> +       FILE *fp;
-> +
-> +       if ((fp = fopen(fname, "r")) != NULL) {
-> +               fgets(buf, maxlen, fp);
-> +               fclose(fp);
-> +               return strlen(buf);
+On Sun, 21 Mar 2021, Bhaskar Chowdhury wrote:
 
-If buf[] contains no terminating NUL character, this will read beyond the
-end of the buffer.
+>
+> s/suposed/supposed/
+> s/concurent/concurrent/
+>
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 
-> +       } else {
-> +               return -1;
-> +       }
-> +}
-> +
-> +struct uio_device {
-> +       char *name;
-> +       char *path;
-> +       int fd;
-> +};
-> +
-> +#define MAXUIOIDS  100
-> +#define MAXNAMELEN 256
-> +
-> +static int locate_uio_device(char *name, struct uio_device *udp)
-> +{
-> +       char fname[MAXNAMELEN], buf[MAXNAMELEN];
-> +       int uio_id, i;
-> +
-> +       for (uio_id = 0; uio_id < MAXUIOIDS; uio_id++) {
-> +               sprintf(fname, "/sys/class/uio/uio%d/name", uio_id);
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-asprintf()?
 
-> +               if (fgets_with_openclose(fname, buf, MAXNAMELEN) < 0)
-> +                       continue;
-> +               if (strncmp(name, buf, strlen(name)) == 0)
-> +                       break;
-> +       }
-> +
-> +       if (uio_id >= MAXUIOIDS)
-> +               return -1;
-> +
-> +       udp->name = strdup(buf);
-> +       udp->path = strdup(fname);
-> +       udp->path[strlen(udp->path) - 4] = '\0';
-> +
-> +       sprintf(buf, "/dev/uio%d", uio_id);
-
-asprintf()
-
-> +       udp->fd = open(buf, O_RDWR|O_SYNC /*| O_NONBLOCK*/);
-> +
-> +       if (udp->fd < 0) {
-> +               perror("open");
-> +               return -1;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +/* offsets apply to sh73a0 */
-> +#define CMT_CMSTR 0x000 /* start/stop register, some bits reserved as 1 */
-> +#define CMT_CMSTR_CH0 (1 << 0) /* set bit to one to start channel */
-> +#define CMT_CMCSR 0x10 /* 0x124 enables interrupts and selects CLK/8 */
-> +#define CMT_CMCSR_CMF (1 << 15) /* clear bit to ack compare match event */
-> +#define CMT_CMCNT 0x14 /* counting up, set to 0 */
-> +#define CMT_CMCOR 0x18 /* match value, set to ~0 */
-> +
-> +struct uio_map {
-> +       unsigned long address;
-> +       unsigned long size;
-> +       void *iomem;
-> +};
-> +
-> +static int setup_uio_map(struct uio_device *udp, int nr, struct uio_map *ump)
-> +{
-> +       char fname[MAXNAMELEN], buf[MAXNAMELEN];
-> +
-> +       sprintf(fname, "%s/maps/map%d/addr", udp->path, nr);
-
-asprintf()
-
-> +       if (fgets_with_openclose(fname, buf, MAXNAMELEN) <= 0)
-> +               return -1;
-> +
-> +       ump->address = strtoul(buf, NULL, 0);
-> +
-> +       sprintf(fname, "%s/maps/map%d/size", udp->path, nr);
-
-asprintf()
-
-> +       if (fgets_with_openclose(fname, buf, MAXNAMELEN) <= 0)
-> +               return -1;
-> +
-> +       ump->size = strtoul(buf, NULL, 0);
-> +
-> +       ump->iomem = mmap(0, ump->size,
-> +                         PROT_READ|PROT_WRITE, MAP_SHARED,
-> +                         udp->fd, nr * getpagesize());
-> +
-> +       if (ump->iomem == MAP_FAILED)
-> +               return -1;
-> +
-> +       return 0;
-> +}
-> +
-> +struct uio_device uio_dev;
-> +struct uio_map uio_mmio;
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +       int k;
-
-unsigned int
-
-> +       int ret;
-> +
-> +       ret = locate_uio_device("timer", &uio_dev);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       printf("found matching UIO device at %s\n", uio_dev.path);
-> +
-> +       ret = setup_uio_map(&uio_dev, 0, &uio_mmio);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       {
-> +               unsigned long *cmstr = (uio_mmio.iomem + CMT_CMSTR);
-> +               unsigned short *cmcsr = (uio_mmio.iomem + CMT_CMCSR);
-> +               unsigned long *cmcor = (uio_mmio.iomem + CMT_CMCOR);
-
-This is not portable across 32-bit/64-bit platforms.
-
-uint32_t *...
-
-> +
-> +               /* Stop timer channel */
-> +               *cmstr &= ~CMT_CMSTR_CH0;
-> +
-> +               /* Initialize CMCSR */
-> +               *cmcsr = 0x124;
-> +
-> +               /* Initialize CMCOR */
-> +               *cmcor = (32768 / 8) * 2; /* interrupt after about 2s */
-> +
-> +               /* Enable interrupt in UIO driver */
-> +               {
-> +                       unsigned long enable = 1;
-
-uint32_t
-
-> +                       write(uio_dev.fd, &enable, sizeof(u_long));
-> +               }
-> +
-> +               /* Start timer channel */
-> +               *cmstr |= CMT_CMSTR_CH0;
-> +
-> +               /* test by processing 3 interrupts */
-> +               for (k = 0; k < 3; k++) {
-> +                       /* Wait for interrupt */
-> +                       {
-> +                               unsigned long n_pending;
-
-uint32_t
-
-> +                               read(uio_dev.fd, &n_pending, sizeof(u_long));
-> +                       }
-> +
-> +                       printf("IRQ nr %d\n", k);
-> +
-> +                       /* ack match in CMCSR */
-> +                       *cmcsr &= ~CMT_CMCSR_CMF;
-> +
-> +                       /* Enable interrupt in UIO driver */
-> +                       {
-> +                               unsigned long enable = 1;
-> +                               write(uio_dev.fd, &enable, sizeof(u_long));
-> +                       }
-> +               }
-> +
-> +               /* Stop timer channel */
-> +               *cmstr &= ~CMT_CMSTR_CH0;
-> +       }
-> +
-> +       return 0;
-> +}
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+> drivers/clk/renesas/r9a06g032-clocks.c | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
+> index 892e91b92f2c..1fe166e7f8bd 100644
+> --- a/drivers/clk/renesas/r9a06g032-clocks.c
+> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
+> @@ -279,7 +279,7 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
+> 	/*
+> 	 * These are not hardware clocks, but are needed to handle the special
+> 	 * case where we have a 'selector bit' that doesn't just change the
+> -	 * parent for a clock, but also the gate it's suposed to use.
+> +	 * parent for a clock, but also the gate it's supposed to use.
+> 	 */
+> 	{
+> 		.index = R9A06G032_UART_GROUP_012,
+> @@ -311,7 +311,7 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
+>
+> struct r9a06g032_priv {
+> 	struct clk_onecell_data data;
+> -	spinlock_t lock; /* protects concurent access to gates */
+> +	spinlock_t lock; /* protects concurrent access to gates */
+> 	void __iomem *reg;
+> };
+>
+> --
+> 2.30.1
+>
+>
