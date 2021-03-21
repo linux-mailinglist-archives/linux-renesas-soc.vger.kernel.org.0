@@ -2,92 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 499CA343258
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 13:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 329A0343259
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 13:13:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbhCUMMI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 21 Mar 2021 08:12:08 -0400
-Received: from lists.levonline.com ([217.70.33.37]:46228 "EHLO
+        id S229886AbhCUMMl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 21 Mar 2021 08:12:41 -0400
+Received: from lists.levonline.com ([217.70.33.37]:46241 "EHLO
         lists.levonline.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbhCUMMG (ORCPT
+        with ESMTP id S229863AbhCUMMN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 21 Mar 2021 08:12:06 -0400
-X-Greylist: delayed 330 seconds by postgrey-1.27 at vger.kernel.org; Sun, 21 Mar 2021 08:12:06 EDT
+        Sun, 21 Mar 2021 08:12:13 -0400
 Received: from exc-halon1.levonline.com (exc-halon1.levonline.com [217.70.32.123])
-        by lists.levonline.com (Postfix) with ESMTP id A272C3A12E1
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 21 Mar 2021 13:12:03 +0100 (CET)
+        by lists.levonline.com (Postfix) with ESMTP id 6F27C3A12E2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 21 Mar 2021 13:12:11 +0100 (CET)
 X-SA-score: -1
-X-Halon-ID: a570bc42-8a3e-11eb-a51d-0050568168d4
+X-Halon-ID: a9ff634c-8a3e-11eb-a51d-0050568168d4
 Received: from ormen1.djurnet.levonline.com (ormen1.djurnet.levonline.com [192.168.17.31])
         by exc-halon1.levonline.com (Halon) with ESMTPS
-        id a570bc42-8a3e-11eb-a51d-0050568168d4;
-        Sun, 21 Mar 2021 13:12:03 +0100 (CET)
+        id a9ff634c-8a3e-11eb-a51d-0050568168d4;
+        Sun, 21 Mar 2021 13:12:11 +0100 (CET)
 Received: from [127.0.0.1] (l193216.ppp.asahi-net.or.jp [218.219.193.216])
         (authenticated bits=0)
-        by ormen1.djurnet.levonline.com (8.13.8/8.13.8) with ESMTP id 12LCC1Qi028107;
-        Sun, 21 Mar 2021 13:12:02 +0100
+        by ormen1.djurnet.levonline.com (8.13.8/8.13.8) with ESMTP id 12LCC9LU028139;
+        Sun, 21 Mar 2021 13:12:10 +0100
 X-Origin-Levonline: b0359001
 From:   Magnus Damm <damm@opensource.se>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Magnus Damm <damm@opensource.se>, geert+renesas@glider.be
-Date:   Sun, 21 Mar 2021 20:38:35 +0900
-Message-Id: <161632671592.9191.18170615656272399147.sendpatchset@octo>
-Subject: [PATCH 0/2] sh73a0 CMT1 test setup using UIO
+Date:   Sun, 21 Mar 2021 20:38:43 +0900
+Message-Id: <161632672360.9191.17012441985597645272.sendpatchset@octo>
+In-Reply-To: <161632671592.9191.18170615656272399147.sendpatchset@octo>
+References: <161632671592.9191.18170615656272399147.sendpatchset@octo>
+Subject: [PATCH 1/2] sh73a0 CMT1 device exposed via UIO
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-sh73a0 CMT test setup using UIO
+From: Magnus Damm <damm+renesas@opensource.se>
 
-[PATCH 1/2] sh73a0 CMT1 device exposed via UIO
-[PATCH 2/2] UIO CMT test program
-
-These two patches contain kernel and user space modificatons to allow some
-basic testing from user space of the CMT1 device included on the sh73a0 SoC.
-
-Similar code for other target platforms have been posted earlier as:
-[PATCH 0/2] r8a77961 CMT test setup using UIO
-[PATCH] r8a77965 CMT test setup using UIO
-
-This time the SoC-specific part has been adjusted to fit sh73a0 and the
-user space test program has been extended to wait for and ack multiple IRQs.
-
-For the kernel, simply apply the kernel patch (including a few debug printouts)
-and make sure to extend your kernel config with CONFIG_UIO_PDRV_GENIRQ=y.
-
-The following log shows how to execute the test program on the target:
-
-# ./uio-cmt-test
-found matching UIO device at /sys/class/uio/uio0/
-[   39.717894] irqcontrol 1
-[   41.718729] irqhandler 33
-IRQ nr 0
-[   41.721397] irqcontrol 1
-[   43.718968] irqhandler 33
-IRQ nr 1
-[   43.721614] irqcontrol 1
-[   45.719211] irqhandler 33
-IRQ nr 2
-[   45.721854] irqcontrol 1
-/ #
-
-Test program output and /proc/interrupts (with or without kernel debug output)
-may be used to verify that several interrupts have been delivered:
-
-/ # cat /proc/interrupts
-           CPU0       CPU1
-24:          0          0     GIC-0  27 Edge      gt
-25:       2629        168     GIC-0  29 Edge      twd
-31:          0          0     GIC-0  87 Level     arm-pmu
-32:          0          0     GIC-0  88 Level     arm-pmu
-33:          3          0     GIC-0  97 Level     timer
-
-The code applies on v5.10. Not for upstream merge.
+Modify the kernel slightly to expose CMT1 via UIO and print some
+IRQ-related messages from UIO for debugging purpose.
 
 Not-Yet-Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
 ---
- arch/arm/boot/dts/sh73a0.dtsi |    2
- drivers/uio/uio.c             |    3
- drivers/uio/uio_pdrv_genirq.c |   10 +-
- uio-cmt-test-20210321.c       |  179 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 190 insertions(+), 4 deletions(-)
+
+ arch/arm/boot/dts/sh73a0.dtsi |    2 +-
+ drivers/uio/uio.c             |    3 ++-
+ drivers/uio/uio_pdrv_genirq.c |   10 ++++++++--
+ 3 files changed, 11 insertions(+), 4 deletions(-)
+
+--- 0001/arch/arm/boot/dts/sh73a0.dtsi
++++ work/arch/arm/boot/dts/sh73a0.dtsi	2021-03-21 18:15:44.683760186 +0900
+@@ -99,7 +99,7 @@
+ 	};
+ 
+ 	cmt1: timer@e6138000 {
+-		compatible = "renesas,sh73a0-cmt1";
++		compatible = "uio_pdrv_genirq";
+ 		reg = <0xe6138000 0x200>;
+ 		interrupts = <GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>;
+ 		clocks = <&mstp3_clks SH73A0_CLK_CMT1>;
+--- 0001/drivers/uio/uio.c
++++ work/drivers/uio/uio.c	2021-03-21 18:14:34.880755790 +0900
+@@ -11,7 +11,7 @@
+  *
+  * Base Functions
+  */
+-
++#define DEBUG
+ #include <linux/module.h>
+ #include <linux/init.h>
+ #include <linux/poll.h>
+@@ -975,6 +975,7 @@ int __uio_register_device(struct module
+ 		 * FDs at the time of unregister and therefore may not be
+ 		 * freed until they are released.
+ 		 */
++		pr_debug("uio request_irq %lu\n", info->irq);
+ 		ret = request_irq(info->irq, uio_interrupt,
+ 				  info->irq_flags, info->name, idev);
+ 		if (ret) {
+--- 0001/drivers/uio/uio_pdrv_genirq.c
++++ work/drivers/uio/uio_pdrv_genirq.c	2021-03-21 18:15:03.120757568 +0900
+@@ -10,7 +10,7 @@
+  * Copyright (C) 2008 by Digi International Inc.
+  * All rights reserved.
+  */
+-
++#define DEBUG
+ #include <linux/platform_device.h>
+ #include <linux/uio_driver.h>
+ #include <linux/spinlock.h>
+@@ -66,6 +66,8 @@ static irqreturn_t uio_pdrv_genirq_handl
+ 	 * remember the state so we can allow user space to enable it later.
+ 	 */
+ 
++	pr_debug("irqhandler %d\n", irq);
++
+ 	spin_lock(&priv->lock);
+ 	if (!__test_and_set_bit(UIO_IRQ_DISABLED, &priv->flags))
+ 		disable_irq_nosync(irq);
+@@ -87,6 +89,8 @@ static int uio_pdrv_genirq_irqcontrol(st
+ 	 * with irq handler on SMP systems.
+ 	 */
+ 
++	pr_debug("irqcontrol %d\n", irq_on);
++	
+ 	spin_lock_irqsave(&priv->lock, flags);
+ 	if (irq_on) {
+ 		if (__test_and_clear_bit(UIO_IRQ_DISABLED, &priv->flags))
+@@ -172,6 +176,8 @@ static int uio_pdrv_genirq_probe(struct
+ 		}
+ 	}
+ 
++	pr_debug("uio irq %lu\n", uioinfo->irq);
++	
+ 	if (uioinfo->irq) {
+ 		struct irq_data *irq_data = irq_get_irq_data(uioinfo->irq);
+ 
+@@ -276,7 +282,7 @@ static const struct dev_pm_ops uio_pdrv_
+ 
+ #ifdef CONFIG_OF
+ static struct of_device_id uio_of_genirq_match[] = {
+-	{ /* This is filled with module_parm */ },
++	{ .compatible = "uio_pdrv_genirq", },
+ 	{ /* Sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, uio_of_genirq_match);
