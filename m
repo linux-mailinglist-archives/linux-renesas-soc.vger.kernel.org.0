@@ -2,86 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F3F434325D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 13:18:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 499CA343258
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Mar 2021 13:12:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230022AbhCUMRQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 21 Mar 2021 08:17:16 -0400
-Received: from lists.levonline.com ([217.70.33.37]:46353 "EHLO
+        id S229870AbhCUMMI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 21 Mar 2021 08:12:08 -0400
+Received: from lists.levonline.com ([217.70.33.37]:46228 "EHLO
         lists.levonline.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229784AbhCUMQb (ORCPT
+        with ESMTP id S229894AbhCUMMG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 21 Mar 2021 08:16:31 -0400
+        Sun, 21 Mar 2021 08:12:06 -0400
+X-Greylist: delayed 330 seconds by postgrey-1.27 at vger.kernel.org; Sun, 21 Mar 2021 08:12:06 EDT
 Received: from exc-halon1.levonline.com (exc-halon1.levonline.com [217.70.32.123])
-        by lists.levonline.com (Postfix) with ESMTP id 91DC13A12D7
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 21 Mar 2021 13:06:31 +0100 (CET)
+        by lists.levonline.com (Postfix) with ESMTP id A272C3A12E1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 21 Mar 2021 13:12:03 +0100 (CET)
 X-SA-score: -1
-X-Halon-ID: df705bee-8a3d-11eb-a51d-0050568168d4
+X-Halon-ID: a570bc42-8a3e-11eb-a51d-0050568168d4
 Received: from ormen1.djurnet.levonline.com (ormen1.djurnet.levonline.com [192.168.17.31])
         by exc-halon1.levonline.com (Halon) with ESMTPS
-        id df705bee-8a3d-11eb-a51d-0050568168d4;
-        Sun, 21 Mar 2021 13:06:31 +0100 (CET)
+        id a570bc42-8a3e-11eb-a51d-0050568168d4;
+        Sun, 21 Mar 2021 13:12:03 +0100 (CET)
 Received: from [127.0.0.1] (l193216.ppp.asahi-net.or.jp [218.219.193.216])
         (authenticated bits=0)
-        by ormen1.djurnet.levonline.com (8.13.8/8.13.8) with ESMTP id 12LC6TgF027154;
-        Sun, 21 Mar 2021 13:06:30 +0100
+        by ormen1.djurnet.levonline.com (8.13.8/8.13.8) with ESMTP id 12LCC1Qi028107;
+        Sun, 21 Mar 2021 13:12:02 +0100
 X-Origin-Levonline: b0359001
 From:   Magnus Damm <damm@opensource.se>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Magnus Damm <damm@opensource.se>, geert+renesas@glider.be
-Date:   Sun, 21 Mar 2021 20:33:03 +0900
-Message-Id: <161632638364.9010.14149594685878279298.sendpatchset@octo>
-Subject: [PATCH/RFC] ARM: dts: kzm9g: Extend DTS with hints on how to build
+Date:   Sun, 21 Mar 2021 20:38:35 +0900
+Message-Id: <161632671592.9191.18170615656272399147.sendpatchset@octo>
+Subject: [PATCH 0/2] sh73a0 CMT1 test setup using UIO
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Magnus Damm <damm+renesas@opensource.se>
+sh73a0 CMT test setup using UIO
 
-Include hints in the DTS for KZM9G on how to build a kernel that may be booted
-using the old on-board boot loader. Special handling includes:
- - The DTB needs to be appended to the zImage before generating the uImage
- - LOADADDR needs to be set to 0x48008000 to be able to generate an uImage
- - CONFIG_ATAGS=n is needed for the board to boot
+[PATCH 1/2] sh73a0 CMT1 device exposed via UIO
+[PATCH 2/2] UIO CMT test program
 
-Perhaps there is a better place where this kind of information should be
-placed? Many years ago the LOADADDR information used to be part of the kernel
-makefiles (and make uImage just worked out of the box) but when going DTS
-and zImage this seems to have been dropped. So these days special care is
-needed to build a uImage file which is required by the boot loader.
+These two patches contain kernel and user space modificatons to allow some
+basic testing from user space of the CMT1 device included on the sh73a0 SoC.
+
+Similar code for other target platforms have been posted earlier as:
+[PATCH 0/2] r8a77961 CMT test setup using UIO
+[PATCH] r8a77965 CMT test setup using UIO
+
+This time the SoC-specific part has been adjusted to fit sh73a0 and the
+user space test program has been extended to wait for and ack multiple IRQs.
+
+For the kernel, simply apply the kernel patch (including a few debug printouts)
+and make sure to extend your kernel config with CONFIG_UIO_PDRV_GENIRQ=y.
+
+The following log shows how to execute the test program on the target:
+
+# ./uio-cmt-test
+found matching UIO device at /sys/class/uio/uio0/
+[   39.717894] irqcontrol 1
+[   41.718729] irqhandler 33
+IRQ nr 0
+[   41.721397] irqcontrol 1
+[   43.718968] irqhandler 33
+IRQ nr 1
+[   43.721614] irqcontrol 1
+[   45.719211] irqhandler 33
+IRQ nr 2
+[   45.721854] irqcontrol 1
+/ #
+
+Test program output and /proc/interrupts (with or without kernel debug output)
+may be used to verify that several interrupts have been delivered:
+
+/ # cat /proc/interrupts
+           CPU0       CPU1
+24:          0          0     GIC-0  27 Edge      gt
+25:       2629        168     GIC-0  29 Edge      twd
+31:          0          0     GIC-0  87 Level     arm-pmu
+32:          0          0     GIC-0  88 Level     arm-pmu
+33:          3          0     GIC-0  97 Level     timer
+
+The code applies on v5.10. Not for upstream merge.
 
 Not-Yet-Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
 ---
-
- arch/arm/boot/dts/sh73a0-kzm9g.dts |   19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
---- 0001/arch/arm/boot/dts/sh73a0-kzm9g.dts
-+++ work/arch/arm/boot/dts/sh73a0-kzm9g.dts	2021-03-21 18:10:53.515741849 +0900
-@@ -2,9 +2,24 @@
- /*
-  * Device Tree Source for the KZM-A9-GT board
-  *
-- * Copyright (C) 2012 Horms Solutions Ltd.
-+ * The KZM9G board comes with on-board out-of-tree U-Boot from 2012 with:
-+ *  uImage support but without zImage support
-+ *  one way or the other busted ATAGs
-+ *
-+ * Generate an uImage at the correct load address with apppended DTB like this:
-+ *  make ARCH=arm CROSS_COMPILE=_ uImage LOADADDR=0x48008000
-+ *  rm arch/arm/boot/zImage
-+ *  make ARCH=arm CROSS_COMPILE=_ dtbs zImage
-+ *  cat arch/arm/boot/dts/sh73a0-kzm9g.dtb >> arch/arm/boot/zImage
-+ *  $(cut -f 3- -d ' ' < arch/arm/boot/.uImage.cmd)
-+ *
-+ * For a working recent kernel (v5.10+) the following configuration is needed:
-+ *  CONFIG_ARM_APPENDED_DTB=y
-+ *  CONFIG_ATAGS=n
-  *
-- * Based on sh73a0-kzm9g.dts
-+ * The shmobile_defconfig works well after setting CONFIG_ATAGS=n
-+ *
-+ * Copyright (C) 2012 Horms Solutions Ltd.
-  * Copyright (C) 2012 Renesas Solutions Corp.
-  */
- 
+ arch/arm/boot/dts/sh73a0.dtsi |    2
+ drivers/uio/uio.c             |    3
+ drivers/uio/uio_pdrv_genirq.c |   10 +-
+ uio-cmt-test-20210321.c       |  179 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 190 insertions(+), 4 deletions(-)
