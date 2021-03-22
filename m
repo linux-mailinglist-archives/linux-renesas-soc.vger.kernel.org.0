@@ -2,120 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E843344D92
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 18:40:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77A47344ECA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 19:47:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232089AbhCVRkF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Mar 2021 13:40:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34306 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230250AbhCVRj4 (ORCPT
+        id S231244AbhCVSqi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Mar 2021 14:46:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33154 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229984AbhCVSq1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Mar 2021 13:39:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1CA8C061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 10:39:55 -0700 (PDT)
-Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE64DFC8;
-        Mon, 22 Mar 2021 18:39:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616434793;
-        bh=DwD3F4x5cp/XSQu4YOLGOvg8/s/QrM6N5JWlP+Ey3Oo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=WU7GfQSlnbZRgBztR3Vc5NHskJVD2qIS11LRLYpWRZDLTpVzxtDHW2Pp2GlH/dxIB
-         SLjgOpAMTXRS0tnZzPSv4qWAduPkSHXxoLFCRksi292N3K1eWssOIhit1ORb/GEUWe
-         m3gmHrpFAHWEl486TnUzehyZDO1y1H3nwX8v8hMw=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v2] media: vsp1: Add support for the V3U VSPD
-Date:   Mon, 22 Mar 2021 17:39:49 +0000
-Message-Id: <20210322173949.1156393-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 22 Mar 2021 14:46:27 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9B64F619A0;
+        Mon, 22 Mar 2021 18:46:26 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1lOPZH-0038p5-J7; Mon, 22 Mar 2021 18:46:23 +0000
+From:   Marc Zyngier <maz@kernel.org>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     Frank Wunderlich <frank-w@public-files.de>,
+        Thierry Reding <treding@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, kernel-team@android.com
+Subject: [PATCH v2 00/15] PCI/MSI: Getting rid of msi_controller, and other cleanups
+Date:   Mon, 22 Mar 2021 18:45:59 +0000
+Message-Id: <20210322184614.802565-1-maz@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: lorenzo.pieralisi@arm.com, bhelgaas@google.com, frank-w@public-files.de, treding@nvidia.com, tglx@linutronix.de, robh@kernel.org, will@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com, mikelley@microsoft.com, wei.liu@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, ryder.lee@mediatek.com, marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com, michal.simek@xilinx.com, paul.walmsley@sifive.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The V3U provides two VSPD instances, with a new update to the version
-register to detect the new SoC.
+This is a respin of the series described at [1].
 
-Add the new version and model detection, and detail the features
-available in this module.
+* From v1:
+  - Extracted the changes dealing with the MSI capture address
+    for rcar and xilinx and moved them to separate patches
+  - Changed the rcar code to cope with c4e0fec2f7ee ("PCI: rcar: Always
+    allocate MSI addresses in 32bit space")
+  - Fixed rcar resume code
+  - Reworked commit messages
+  - Rebased onto v5.12-rc4
+  - Collected Acks, and TBs, with thanks.
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-This patch adds in the VSPd on the V3U, and successfully probes and can
-read and write to registers.
+[1] https://lore.kernel.org/r/20210225151023.3642391-1-maz@kernel.org
 
-However, as yet I have not been able to successfully validate the VSPD
-using the UAPI interface (by forcing .uapi = true)
+Marc Zyngier (13):
+  PCI: tegra: Convert to MSI domains
+  PCI: rcar: Don't allocate extra memory for the MSI capture address
+  PCI: rcar: Convert to MSI domains
+  PCI: xilinx: Don't allocate extra memory for the MSI capture address
+  PCI: xilinx: Convert to MSI domains
+  PCI: hv: Drop msi_controller structure
+  PCI/MSI: Drop use of msi_controller from core code
+  PCI/MSI: Kill msi_controller structure
+  PCI/MSI: Kill default_teardown_msi_irqs()
+  PCI/MSI: Let PCI host bridges declare their reliance on MSI domains
+  PCI/MSI: Make pci_host_common_probe() declare its reliance on MSI
+    domains
+  PCI/MSI: Document the various ways of ending up with NO_MSI
+  PCI: Refactor HT advertising of NO_MSI flag
 
-The observed symptoms show that the hardware halts at the first display
-list queued to the device.
+Thomas Gleixner (2):
+  PCI/MSI: Let PCI host bridges declare their lack of MSI handling
+  PCI: mediatek: Advertise lack of MSI handling
 
-Notably, however the display list has been processed, and the registers
-set by the display list are updated accordingly and can be read back,
-inferring that the display list was processed and the frame commenced.
+ drivers/pci/controller/Kconfig           |   4 +-
+ drivers/pci/controller/pci-host-common.c |   1 +
+ drivers/pci/controller/pci-hyperv.c      |   4 -
+ drivers/pci/controller/pci-tegra.c       | 343 ++++++++++++----------
+ drivers/pci/controller/pcie-mediatek.c   |   4 +
+ drivers/pci/controller/pcie-rcar-host.c  | 356 +++++++++++------------
+ drivers/pci/controller/pcie-xilinx.c     | 238 ++++++---------
+ drivers/pci/msi.c                        |  46 +--
+ drivers/pci/probe.c                      |   4 +-
+ drivers/pci/quirks.c                     |  15 +-
+ include/linux/msi.h                      |  17 +-
+ include/linux/pci.h                      |   4 +-
+ 12 files changed, 477 insertions(+), 559 deletions(-)
 
-Alas the frame never completes, and no interrupts are generated.
-
-Investigating this, I have seen that the CPG MSSR configures the FCPVD
-and VSPD on the R8A779A0_CLK_S3D1 clock, which appears to be a 266666656
-clock. This seems low, and I would expect the VSP to share the same
-clocking as the VIN/VSPX, which is on R8A779A0_CLK_S1D1.
-
-However, changing those clocks has no effect on the operation of the
-VSPD.
-
- drivers/media/platform/vsp1/vsp1_drv.c  | 10 ++++++++++
- drivers/media/platform/vsp1/vsp1_regs.h |  3 +++
- 2 files changed, 13 insertions(+)
-
-diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-index aa66e4f5f3f3..0a9812206b3f 100644
---- a/drivers/media/platform/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/vsp1/vsp1_drv.c
-@@ -785,6 +785,16 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 		.uif_count = 2,
- 		.wpf_count = 2,
- 		.num_bru_inputs = 5,
-+	}, {
-+		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
-+		.model = "VSP2-D",
-+		.gen = 3,
-+		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_EXT_DL,
-+		.lif_count = 1,
-+		.rpf_count = 5,
-+		.uif_count = 2,
-+		.wpf_count = 1,
-+		.num_bru_inputs = 5,
- 	},
- };
- 
-diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-index fe3130db1fa2..b378ea4451ce 100644
---- a/drivers/media/platform/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/vsp1/vsp1_regs.h
-@@ -766,6 +766,8 @@
- #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
-+#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
- #define VI6_IP_VERSION_SOC_V2H		(0x01 << 0)
-@@ -777,6 +779,7 @@
- #define VI6_IP_VERSION_SOC_D3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
-+#define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
- 
- /* -----------------------------------------------------------------------------
-  * RPF CLUT Registers
 -- 
-2.25.1
+2.29.2
 
