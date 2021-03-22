@@ -2,144 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08463344548
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 14:16:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBD4F344684
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 15:04:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231978AbhCVNPt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Mar 2021 09:15:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233635AbhCVNN3 (ORCPT
+        id S229728AbhCVOES (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Mar 2021 10:04:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47198 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230227AbhCVOEK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Mar 2021 09:13:29 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3AFC0613D9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 06:13:29 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id gb6so8435531pjb.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 06:13:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=IPwfVlFbWWBuG0S19Pwgj6t0UC1Ih9yQ/kIGlqHTSlo=;
-        b=vfCeTAQ+6q96a6RqaOzAOd18FxJJq6/8n4MXaMSFivniWLyo1IPJLqiy6wN6IZzyeg
-         cny86UzzDmEaQqMw00qezFcAjU4PUSZ2vkRq7dSAGAcs51a6hwyMr6e2I9gO9UgCUxQZ
-         CasEQ8RTOm6P/H93pmPTLs9C0xep8AMzPaMqhECLbc43OpRPXCoxU9QFAiJLIW1Jcj/w
-         yNobEImX0uKParweUYxfft2VxE+lNeMKXYBTxJSXYx+l9/3E2WG0ic2SjDsODeAU9c8a
-         oCO/5o0qHzoqJm8R2liF01XXj0aDnBFGMAuL6d+65AcXGDBJLNJ6XuqGxTuncQZj59YX
-         6svA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=IPwfVlFbWWBuG0S19Pwgj6t0UC1Ih9yQ/kIGlqHTSlo=;
-        b=OBIyiwM2pBq5ILCjx4Yi85n22ejW0PlOIdNC2KXaAKtkHmok2Lx1rXwWP+VBt7gh0T
-         chq1GvPYer23K0imCxah3rIgWh8hUr5uI8+nWu0uMy4KfRMKxxeEzDDj9krzqecOmv9+
-         DwOQSx0VQcvjk7RAFWpZMU3vedf+Y5EnJoSL60XsP7ISVHKBrRPlBnlQjbJchtDxsLfH
-         zckNc8qXkzu5hNT99yudF0adQVVvn+ZYFbRZCpZktcQDBgxJ/jJ7Uco/sfk89BVIWgau
-         5mNtpju7v0YURxD4b5gfGTxlEd7xy/n0Zje9opusMb8ZReKcWRfBp4fakr50DnApEm8L
-         99kg==
-X-Gm-Message-State: AOAM530T36l2tdsi3JPH/GVZ7m6BwakJNzOWAHd+ceHgZBTZLHGuFjLG
-        qKMeEpU3jmVdTKSBb5U23iRZBCs17HWyTA==
-X-Google-Smtp-Source: ABdhPJz8vnaaKpJ8u7G89WJ+hMxAAiGmoe24uHN7UGQJJG9om61rbqTY2lcTCev5spgs+oXfm2dEww==
-X-Received: by 2002:a17:902:d893:b029:e6:7a98:6919 with SMTP id b19-20020a170902d893b02900e67a986919mr27122804plz.58.1616418808876;
-        Mon, 22 Mar 2021 06:13:28 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id t16sm14056504pfc.204.2021.03.22.06.13.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 06:13:28 -0700 (PDT)
-Message-ID: <605897f8.1c69fb81.852e2.1fc3@mx.google.com>
-Date:   Mon, 22 Mar 2021 06:13:28 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-next-2021-03-22-v5.12-rc2
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: next
-Subject: renesas/next usb: 2 runs,
- 1 regressions (renesas-next-2021-03-22-v5.12-rc2)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+        Mon, 22 Mar 2021 10:04:10 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EAD966196C;
+        Mon, 22 Mar 2021 14:04:09 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1lOLA7-00351E-P3; Mon, 22 Mar 2021 14:04:07 +0000
+Date:   Mon, 22 Mar 2021 14:04:06 +0000
+Message-ID: <87mtuvgu95.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Thierry Reding <treding@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 03/13] PCI: xilinx: Convert to MSI domains
+In-Reply-To: <20210322122315.GB11469@e121166-lin.cambridge.arm.com>
+References: <20210225151023.3642391-1-maz@kernel.org>
+        <20210225151023.3642391-4-maz@kernel.org>
+        <20210322122315.GB11469@e121166-lin.cambridge.arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: lorenzo.pieralisi@arm.com, bhelgaas@google.com, frank-w@public-files.de, treding@nvidia.com, tglx@linutronix.de, robh@kernel.org, will@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, ryder.lee@mediatek.com, marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com, michal.simek@xilinx.com, paul.walmsley@sifive.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next usb: 2 runs, 1 regressions (renesas-next-2021-03-22-v5.12-rc2)
+Hi Lorenzo,
 
-Regressions Summary
--------------------
+On Mon, 22 Mar 2021 12:23:15 +0000,
+Lorenzo Pieralisi <lorenzo.pieralisi@arm.com> wrote:
+> 
+> On Thu, Feb 25, 2021 at 03:10:13PM +0000, Marc Zyngier wrote:
+> > In anticipation of the removal of the msi_controller structure, convert
+> > the ancient xilinx host controller driver to MSI domains.
+> > 
+> > We end-up with the usual two domain structure, the top one being a
+> > generic PCI/MSI domain, the bottom one being xilinx-specific and handling
+> > the actual HW interrupt allocation.
+> > 
+> > This allows us to fix some of the most appaling MSI programming, where
+> > the message programmed in the device is the virtual IRQ number instead
+> > of the allocated vector number. The allocator is also made safe with
+> > a mutex. This should allow support for MultiMSI, but I decided not to
+> > even try, since I cannot test it.
+> > 
+> > Also take the opportunity to get rid of the cargo-culted memory allocation
+> > for the MSI capture address. *ANY* sufficiently aligned address should
+> > be good enough, so use the physical address of the xilinx_pcie_host
+> > structure instead.
+> 
+> I'd agree with Bjorn that the MSI doorbell change is better split into
+> a separate patch, I can do it myself at merge if you agree.
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 1          =
+I need to respin the series as it now conflicts badly with the current
+state of the tree (rcar has introduced one subtle change that needs
+addressing). I'll post that later this week (hopefully tomorrow) with
+rcar and xilinx having the doorbell fix in separate patches.
 
+Thanks,
 
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-03-22-v5.12-rc2/plan/usb/
+	M.
 
-  Test:     usb
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2021-03-22-v5.12-rc2
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      7ad9aafe713bdca552efdf6309a196e4f3eec177 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/605891dd00813e0072addccb
-
-  Results:     2 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm/multi_v7_defconfig/gcc-8/lab-collabora/usb-rk3288-rock=
-2-square.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm/multi_v7_defconfig/gcc-8/lab-collabora/usb-rk3288-rock=
-2-square.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0315.0/armhf/rootfs.cpio.gz =
-
-
-
-  * usb.compare-freeze: https://kernelci.org/test/case/id/605891dd00813e007=
-2addcce
-        new failure (last pass: renesas-next-2021-03-16-v5.12-rc2)
-
-    2021-03-22 12:42:22.440000+00:00  + lsusb
-    2021-03-22 12:42:22.441000+00:00  + awk {print $6}
-    2021-03-22 12:42:22.441000+00:00  + sort
-    2021-03-22 12:42:22.441000+00:00  + seq 1 3
-    2021-03-22 12:42:22.442000+00:00  + /usr/sbin/rtcwake -d rtc0 -m freeze=
- -s 1
-    2021-03-22 12:42:22.442000+00:00  rtcwake: assuming RTC uses UTC ...
-    2021-03-22 12:42:22.443000+00:00  rtcwake: wakeup from \"freeze\" using=
- rtc0 at Mon Mar 22 12:42:24 2021
-    2021-03-22 12:42:22.498000+00:00  <6>[   19.487073] PM: suspend entry (=
-s2idle)
-    2021-03-22 12:42:22.498000+00:00  <6>[   19.491607] Filesystems sync: 0=
-.000 seconds
-    2021-03-22 12:42:22.498000+00:00  <6>[   19.498451] Freezing user space=
- processes ... (elapsed 0.001 seconds) done. =
-
-    ... (149 line(s) more)  =
-
- =20
+-- 
+Without deviation from the norm, progress is not possible.
