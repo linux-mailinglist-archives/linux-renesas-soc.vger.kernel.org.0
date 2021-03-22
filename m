@@ -2,463 +2,353 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9E89344B9F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 17:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB35F344C7A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 17:59:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231224AbhCVQg2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Mar 2021 12:36:28 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45324 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231565AbhCVQfw (ORCPT
+        id S230140AbhCVQ7I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Mar 2021 12:59:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39764 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229872AbhCVQ7D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Mar 2021 12:35:52 -0400
-Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B33D1253;
-        Mon, 22 Mar 2021 17:35:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616430945;
-        bh=3qqSJmnVXUGDcWBoywg4nRhpsizPlaj6ixCOB/eA0Kg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dT7nLk8y3o3XLAXagsfibNL4OiTJEM8ChlYl4pDYFNAiLd5V9kmK1ie5Ss+Qpq3NN
-         MUkbPyTkWd5/p1LROUxaFU9p33mu6wSMWA3leXNyV3+rSTTsY8s7ECqzaKrD09AT3C
-         tezCB61KdtxRoS/JyN1nWeKq3MVGLSp6ubCla2ig=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v5 10/10] drm: rcar-du: Centralise routing configuration in commit tail handler
-Date:   Mon, 22 Mar 2021 16:35:35 +0000
-Message-Id: <20210322163535.1090570-11-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210322163535.1090570-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20210322163535.1090570-1-kieran.bingham+renesas@ideasonboard.com>
+        Mon, 22 Mar 2021 12:59:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 79E106199F;
+        Mon, 22 Mar 2021 16:59:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616432342;
+        bh=8+KygxkShkMk+bfHgqtZjETbvsLjHD8m6Pv/IOtTIZc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rP0oY+ZK3efegSy4dpo9SsSYNL1FqRKgRbkXXOeNq11gKC6jlk5sHeYWccg5Z5APb
+         W9lbePZXwB6MkzuLU6KHdoBW9b3FjX9KloNxLhWJD4ChF7MXnJY+gdsrY0X6o+M5L9
+         fP1kJhL1BATmkXRLU+Y7pmE03UK/D14p6XAw/a4ALL9yHGlU78znGMhKyNv1CLuBOU
+         nJ4dlh2CalLQ/RBp9LDbhzoHV+XdUEpB0BdTPvGhs6VPjdnmzv4S8XYahOY8HRL4Ep
+         KRHiR25jJfVGkWNtz/kc5mBA3OHuULAjFpUah4kKt5XsdMtBbkTdks94wJ7kwW9Vo3
+         z8QPcwPeim1aQ==
+Received: by mail-ej1-f52.google.com with SMTP id l4so22438998ejc.10;
+        Mon, 22 Mar 2021 09:59:02 -0700 (PDT)
+X-Gm-Message-State: AOAM5327OE+L9sEv6gMJCQ/U2TSTyrt+R/sXKRqiNnmHOUgG8Rkyefsc
+        3B3u5qq1pdEhpVv6HeJ6worJkcLdNECGR80DdA==
+X-Google-Smtp-Source: ABdhPJx+ZVrbikvzBLwI5O1HX+4StZD894TXrw8K5gT8i2NMP4Dy0kEQb/1X0zijSVXfPuLy9KwZ4KbPGVr4TDscwao=
+X-Received: by 2002:a17:906:c405:: with SMTP id u5mr730903ejz.341.1616432340844;
+ Mon, 22 Mar 2021 09:59:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210317113130.2554368-1-geert+renesas@glider.be>
+In-Reply-To: <20210317113130.2554368-1-geert+renesas@glider.be>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 22 Mar 2021 10:58:48 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqL3NRDpzPbOxwvP6N+K76UXmrxs=e9-1rK-PbAKUx7f6w@mail.gmail.com>
+Message-ID: <CAL_JsqL3NRDpzPbOxwvP6N+K76UXmrxs=e9-1rK-PbAKUx7f6w@mail.gmail.com>
+Subject: Re: [PATCH v3] ARM: Parse kdump DT properties
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Simon Horman <horms@verge.net.au>,
+        Arnd Bergmann <arnd@arndb.de>, Stephen Boyd <sboyd@kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lukasz Stelmach <l.stelmach@samsung.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kexec@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Wed, Mar 17, 2021 at 5:31 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Parse the following DT properties in the crash dump kernel, to provide a
+> modern interface between kexec and the crash dump kernel:
+>   - linux,elfcorehdr: ELF core header segment, similar to the
+>     "elfcorehdr=" kernel parameter.
+>   - linux,usable-memory-range: Usable memory reserved for the crash dump
+>     kernel.
+>     This makes the memory reservation explicit.  If present, Linux no
+>     longer needs to mask the program counter, and rely on the "mem="
+>     kernel parameter to obtain the start and size of usable memory.
+>
+> For backwards compatibility, the traditional method to derive the start
+> of memory is still used if "linux,usable-memory-range" is absent, and
+> the "elfcorehdr=" and "mem=" kernel parameters are still parsed.
+>
+> Loosely based on the ARM64 version by Akashi Takahiro.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> The corresponding patch for kexec-tools is "[PATCH] arm: kdump: Add DT
+> properties to crash dump kernel's DTB", which is still valid:
+> https://lore.kernel.org/linux-arm-kernel/20200902154129.6358-1-geert+renesas@glider.be/
+>
+> v3:
+>   - Rebase on top of accepted solution for DTB memory information
+>     handling, which is part of v5.12-rc1,
+>
+> v2:
+>   - Rebase on top of reworked DTB memory information handling,
+> ---
+>  Documentation/devicetree/bindings/chosen.txt  |  4 +-
 
-Routing configuration for the DU is complex. Depending on the SoC
-generation various routing options are available:
+Note that I've been meaning to remove this file because dtschema has a
+schema replacing it.
 
-- The VSP to DU routing is not available on Gen1, is configurable on
-  Gen2 and is fixed on Gen3. When configurable, the routing affects both
-  CRTC groups but is set in a register of the first CRTC group.
-- The DU channel to DPAD output routing is explicitly configurable on
-  some SoCs of the Gen2 and Gen3 family. When configurable, the DPAD
-  outputs never offer routing options to CRTCs belonging to different
-  groups.
-- On all SoCs the routing of DU channels to DU pin controllers (internal
-  output of the DU channels) can be swapped within a group. This feature
-  is only used on Gen1 to control routing of the DPAD1 output.
+>  .../arm/boot/compressed/fdt_check_mem_start.c | 48 ++++++++--
+>  arch/arm/mm/init.c                            | 90 +++++++++++++++++++
+>  3 files changed, 134 insertions(+), 8 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
+> index 45e79172a646c537..ba75c58413667760 100644
+> --- a/Documentation/devicetree/bindings/chosen.txt
+> +++ b/Documentation/devicetree/bindings/chosen.txt
+> @@ -79,7 +79,7 @@ a different secondary CPU release mechanism)
+>  linux,usable-memory-range
+>  -------------------------
+>
+> -This property (arm64 only) holds a base address and size, describing a
+> +This property (arm and arm64 only) holds a base address and size, describing a
 
-Routing is thus handled at the group level, but for Gen2 hardware
-requires configuration of the DPAD0 and VSPD1 routing in the first group
-even when only the second group is enabled.
+I'd rather not have to change this again when RiscV gets around to
+copying kdump support.
 
-Routing at the group level is currently configured when applying CRTC
-configuration. Global routing is configured at the same time, and is
-additionally configured by the plane setup code to set VSPD1 routing.
-This results in code paths that are difficult to follow.
+>  limited region in which memory may be considered available for use by
+>  the kernel. Memory outside of this range is not available for use.
+>
+> @@ -106,7 +106,7 @@ respectively, of the root node.
+>  linux,elfcorehdr
+>  ----------------
+>
+> -This property (currently used only on arm64) holds the memory range,
+> +This property (currently used only on arm and arm64) holds the memory range,
+>  the address and the size, of the elf core header which mainly describes
+>  the panicked kernel's memory layout as PT_LOAD segments of elf format.
+>  e.g.
+> diff --git a/arch/arm/boot/compressed/fdt_check_mem_start.c b/arch/arm/boot/compressed/fdt_check_mem_start.c
+> index 62450d824c3ca180..9291a2661bdfe57f 100644
+> --- a/arch/arm/boot/compressed/fdt_check_mem_start.c
+> +++ b/arch/arm/boot/compressed/fdt_check_mem_start.c
+> @@ -55,16 +55,17 @@ static uint64_t get_val(const fdt32_t *cells, uint32_t ncells)
+>   * DTB, and, if out-of-range, replace it by the real start address.
+>   * To preserve backwards compatibility (systems reserving a block of memory
+>   * at the start of physical memory, kdump, ...), the traditional method is
+> - * always used if it yields a valid address.
+> + * used if it yields a valid address, unless the "linux,usable-memory-range"
+> + * property is present.
+>   *
+>   * Return value: start address of physical memory to use
+>   */
+>  uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
+>  {
+> -       uint32_t addr_cells, size_cells, base;
+> +       uint32_t addr_cells, size_cells, usable_base, base;
+>         uint32_t fdt_mem_start = 0xffffffff;
+> -       const fdt32_t *reg, *endp;
+> -       uint64_t size, end;
+> +       const fdt32_t *usable, *reg, *endp;
+> +       uint64_t size, usable_end, end;
+>         const char *type;
+>         int offset, len;
+>
+> @@ -80,6 +81,27 @@ uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
+>         if (addr_cells > 2 || size_cells > 2)
+>                 return mem_start;
+>
+> +       /*
+> +        * Usable memory in case of a crash dump kernel
+> +        * This property describes a limitation: memory within this range is
+> +        * only valid when also described through another mechanism
+> +        */
+> +       usable = get_prop(fdt, "/chosen", "linux,usable-memory-range",
+> +                         (addr_cells + size_cells) * sizeof(fdt32_t));
+> +       if (usable) {
+> +               size = get_val(usable + addr_cells, size_cells);
+> +               if (!size)
+> +                       return mem_start;
+> +
+> +               if (addr_cells > 1 && fdt32_ld(usable)) {
+> +                       /* Outside 32-bit address space */
+> +                       return mem_start;
+> +               }
+> +
+> +               usable_base = fdt32_ld(usable + addr_cells - 1);
+> +               usable_end = usable_base + size;
+> +       }
+> +
+>         /* Walk all memory nodes and regions */
+>         for (offset = fdt_next_node(fdt, -1, NULL); offset >= 0;
+>              offset = fdt_next_node(fdt, offset, NULL)) {
+> @@ -107,7 +129,20 @@ uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
+>
+>                         base = fdt32_ld(reg + addr_cells - 1);
+>                         end = base + size;
+> -                       if (mem_start >= base && mem_start < end) {
+> +                       if (usable) {
+> +                               /*
+> +                                * Clip to usable range, which takes precedence
+> +                                * over mem_start
+> +                                */
+> +                               if (base < usable_base)
+> +                                       base = usable_base;
+> +
+> +                               if (end > usable_end)
+> +                                       end = usable_end;
+> +
+> +                               if (end <= base)
+> +                                       continue;
+> +                       } else if (mem_start >= base && mem_start < end) {
+>                                 /* Calculated address is valid, use it */
+>                                 return mem_start;
+>                         }
+> @@ -123,7 +158,8 @@ uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
+>         }
+>
+>         /*
+> -        * The calculated address is not usable.
+> +        * The calculated address is not usable, or was overridden by the
+> +        * "linux,usable-memory-range" property.
+>          * Use the lowest usable physical memory address from the DTB instead,
+>          * and make sure this is a multiple of 2 MiB for phys/virt patching.
+>          */
+> diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
+> index 828a2561b2295813..d1ae15d9b29121e6 100644
+> --- a/arch/arm/mm/init.c
+> +++ b/arch/arm/mm/init.c
+> @@ -4,6 +4,7 @@
+>   *
+>   *  Copyright (C) 1995-2005 Russell King
+>   */
+> +#include <linux/crash_dump.h>
+>  #include <linux/kernel.h>
+>  #include <linux/errno.h>
+>  #include <linux/swap.h>
+> @@ -210,8 +211,95 @@ void check_cpu_icache_size(int cpuid)
+>  }
+>  #endif
+>
+> +#ifdef CONFIG_OF_EARLY_FLATTREE
+> +static int __init early_init_dt_scan_usablemem(unsigned long node,
+> +               const char *uname, int depth, void *data)
+> +{
+> +       struct memblock_region *usablemem = data;
+> +       const __be32 *reg;
+> +       int len;
+> +
+> +       if (depth != 1 || strcmp(uname, "chosen") != 0)
+> +               return 0;
 
-Simplify the routing configuration by performing it all directly, based
-on CRTC and CRTC group state. Group-level routing is moved to group
-setup as it only depends on the group state and the state of the CRTCs
-it contains. Global routing is moved to the commit tail handler, and
-based on global DU state.
+We have libfdt now, just get the '/chosen' node rather than using
+of_scan_flat_dt().
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-Changes since v3:
-- s/DPAD1/DPAD0/
-- s/VSP1D/VSPD1/
----
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c  |   3 +-
- drivers/gpu/drm/rcar-du/rcar_du_drv.h   |   1 -
- drivers/gpu/drm/rcar-du/rcar_du_group.c | 156 ++++++++++++++++--------
- drivers/gpu/drm/rcar-du/rcar_du_group.h |   3 +-
- drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  16 +--
- drivers/gpu/drm/rcar-du/rcar_du_plane.c |  10 +-
- 6 files changed, 116 insertions(+), 73 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 020eb75732a7..b5f07fd9c4be 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -747,9 +747,8 @@ int rcar_du_crtc_atomic_modeset(struct drm_device *dev,
- 		    !crtc_state->active)
- 			continue;
- 
--		/* Configure display timings and output routing. */
-+		/* Configure display timings. */
- 		rcar_du_crtc_set_display_timing(rcrtc);
--		rcar_du_group_set_routing(rcrtc->group);
- 
- 		if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
- 			rcar_du_vsp_modeset(rcrtc);
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index e792ba7f5145..ed0b57722f37 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -95,7 +95,6 @@ struct rcar_du_device {
- 	} props;
- 
- 	unsigned int dpad0_source;
--	unsigned int dpad1_source;
- 	unsigned int vspd1_sink;
- };
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-index fdd4a60f5f5e..368676507097 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-@@ -46,6 +46,10 @@ void rcar_du_group_write(struct rcar_du_group *rgrp, u32 reg, u32 data)
- 	rcar_du_write(rgrp->dev, rgrp->mmio_offset + reg, data);
- }
- 
-+/* -----------------------------------------------------------------------------
-+ * Static Group Setup
-+ */
-+
- static void rcar_du_group_setup_pins(struct rcar_du_group *rgrp)
- {
- 	u32 defr6 = DEFR6_CODE;
-@@ -59,37 +63,6 @@ static void rcar_du_group_setup_pins(struct rcar_du_group *rgrp)
- 	rcar_du_group_write(rgrp, DEFR6, defr6);
- }
- 
--static void rcar_du_group_setup_defr8(struct rcar_du_group *rgrp)
--{
--	struct rcar_du_device *rcdu = rgrp->dev;
--	u32 defr8 = DEFR8_CODE;
--
--	if (rcdu->info->gen < 3) {
--		defr8 |= DEFR8_DEFE8;
--
--		/*
--		 * On Gen2 the DEFR8 register for the first group also controls
--		 * RGB output routing to DPAD0 and VSPD1 routing to DU0/1/2 for
--		 * DU instances that support it.
--		 */
--		if (rgrp->index == 0) {
--			defr8 |= DEFR8_DRGBS_DU(rcdu->dpad0_source);
--			if (rgrp->dev->vspd1_sink == 2)
--				defr8 |= DEFR8_VSCS;
--		}
--	} else {
--		/*
--		 * On Gen3 VSPD routing can't be configured, and DPAD routing
--		 * is set in the group corresponding to the DPAD output (no Gen3
--		 * SoC has multiple DPAD sources belonging to separate groups).
--		 */
--		if (rgrp->index == rcdu->dpad0_source / 2)
--			defr8 |= DEFR8_DRGBS_DU(rcdu->dpad0_source);
--	}
--
--	rcar_du_group_write(rgrp, DEFR8, defr8);
--}
--
- static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
- {
- 	struct rcar_du_device *rcdu = rgrp->dev;
-@@ -163,10 +136,8 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
- 		 (rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0);
- 	rcar_du_group_write(rgrp, DEFR7, defr7);
- 
--	if (rcdu->info->gen >= 2) {
--		rcar_du_group_setup_defr8(rgrp);
-+	if (rcdu->info->gen >= 2)
- 		rcar_du_group_setup_didsr(rgrp);
--	}
- 
- 	if (rcdu->info->gen >= 3)
- 		rcar_du_group_write(rgrp, DEFR10, DEFR10_CODE | DEFR10_DEFE10);
-@@ -184,6 +155,10 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
- 	mutex_unlock(&rgrp->lock);
- }
- 
-+/* -----------------------------------------------------------------------------
-+ * Start & Stop
-+ */
-+
- static void __rcar_du_group_start_stop(struct rcar_du_group *rgrp, bool start)
- {
- 	struct rcar_du_device *rcdu = rgrp->dev;
-@@ -239,26 +214,63 @@ void rcar_du_group_restart(struct rcar_du_group *rgrp)
- 	__rcar_du_group_start_stop(rgrp, true);
- }
- 
-+/* -----------------------------------------------------------------------------
-+ * Input and Output Routing
-+ */
-+
-+static void rcar_du_group_setup_defr8(struct rcar_du_group *rgrp)
-+{
-+	struct rcar_du_device *rcdu = rgrp->dev;
-+	u32 defr8 = DEFR8_CODE;
-+
-+	if (rcdu->info->gen < 3) {
-+		defr8 |= DEFR8_DEFE8;
-+
-+		/*
-+		 * On Gen2 the DEFR8 register for the first group also controls
-+		 * RGB output routing to DPAD0 and VSPD1 routing to DU0/1/2 for
-+		 * DU instances that support it.
-+		 */
-+		if (rgrp->index == 0) {
-+			defr8 |= DEFR8_DRGBS_DU(rcdu->dpad0_source);
-+			if (rgrp->dev->vspd1_sink == 2)
-+				defr8 |= DEFR8_VSCS;
-+		}
-+	} else {
-+		/*
-+		 * On Gen3 VSPD routing can't be configured, and DPAD routing
-+		 * is set in the group corresponding to the DPAD output (no Gen3
-+		 * SoC has multiple DPAD sources belonging to separate groups).
-+		 */
-+		if (rgrp->index == rcdu->dpad0_source / 2)
-+			defr8 |= DEFR8_DRGBS_DU(rcdu->dpad0_source);
-+	}
-+
-+	rcar_du_group_write(rgrp, DEFR8, defr8);
-+}
-+
- int rcar_du_set_dpad0_vsp1_routing(struct rcar_du_device *rcdu)
- {
- 	struct rcar_du_group *rgrp;
- 	struct rcar_du_crtc *crtc;
--	unsigned int index;
- 	int ret;
- 
--	if (rcdu->info->gen < 2)
-+	/*
-+	 * Only Gen2 hardware has global routing not handled in the group that
-+	 * holds the corresponding CRTCs.
-+	 */
-+	if (rcdu->info->gen != 2)
- 		return 0;
- 
- 	/*
--	 * RGB output routing to DPAD0 and VSP1D routing to DU0/1/2 are
--	 * configured in the DEFR8 register of the first group on Gen2 and the
--	 * last group on Gen3. As this function can be called with the DU
--	 * channels of the corresponding CRTCs disabled, we need to enable the
--	 * group clock before accessing the register.
-+	 * RGB output routing to DPAD0 and VSPD1 routing to DU0/1/2 are
-+	 * configured in the DEFR8 register of the first group on Gen2. As this
-+	 * function can be called with the DU channels of the corresponding
-+	 * CRTCs disabled, we need to enable the group clock before accessing
-+	 * the register.
- 	 */
--	index = rcdu->info->gen < 3 ? 0 : DIV_ROUND_UP(rcdu->num_crtcs, 2) - 1;
--	rgrp = &rcdu->groups[index];
--	crtc = &rcdu->crtcs[index * 2];
-+	rgrp = &rcdu->groups[0];
-+	crtc = &rcdu->crtcs[0];
- 
- 	ret = clk_prepare_enable(crtc->clock);
- 	if (ret < 0)
-@@ -312,19 +324,33 @@ static void rcar_du_group_set_dpad_levels(struct rcar_du_group *rgrp)
- 	rcar_du_group_write(rgrp, DOFLR, doflr);
- }
- 
--int rcar_du_group_set_routing(struct rcar_du_group *rgrp)
-+static void rcar_du_group_set_routing(struct rcar_du_group *rgrp)
- {
- 	struct rcar_du_device *rcdu = rgrp->dev;
- 	u32 dorcr = rcar_du_group_read(rgrp, DORCR);
-+	bool sp1_to_pin2 = false;
- 
- 	dorcr &= ~(DORCR_PG2T | DORCR_DK2S | DORCR_PG2D_MASK);
- 
- 	/*
--	 * Set the DPAD1 pins sources. Select CRTC 0 if explicitly requested and
--	 * CRTC 1 in all other cases to avoid cloning CRTC 0 to DPAD0 and DPAD1
--	 * by default.
-+	 * Configure the superposition processor to pin controller routing.
-+	 * Hardcode the assignment, except on Gen1 where we use it to route the
-+	 * DU channels to DPAD1. There we route CRTC 0 to DPAD1 if explicitly
-+	 * requested, and CRTC 1 in all other cases to avoid cloning CRTC 0 to
-+	 * DPAD0 and DPAD1 by default.
- 	 */
--	if (rcdu->dpad1_source == rgrp->index * 2)
-+	if (rcdu->info->gen == 1 && rgrp->index == 0) {
-+		struct rcar_du_crtc_state *rstate;
-+		struct rcar_du_crtc *rcrtc;
-+
-+		rcrtc = &rcdu->crtcs[0];
-+		rstate = to_rcar_crtc_state(rcrtc->crtc.state);
-+
-+		if (rstate->outputs & BIT(RCAR_DU_OUTPUT_DPAD1))
-+			sp1_to_pin2 = true;
-+	}
-+
-+	if (sp1_to_pin2)
- 		dorcr |= DORCR_PG2D_DS1;
- 	else
- 		dorcr |= DORCR_PG2T | DORCR_DK2S | DORCR_PG2D_DS2;
-@@ -333,7 +359,7 @@ int rcar_du_group_set_routing(struct rcar_du_group *rgrp)
- 
- 	rcar_du_group_set_dpad_levels(rgrp);
- 
--	return rcar_du_set_dpad0_vsp1_routing(rgrp->dev);
-+	rcar_du_group_setup_defr8(rgrp);
- }
- 
- /* -----------------------------------------------------------------------------
-@@ -451,20 +477,36 @@ rcar_du_get_new_group_state(struct drm_atomic_state *state,
- int rcar_du_group_atomic_check(struct drm_device *dev,
- 			       struct drm_atomic_state *state)
- {
--	struct drm_crtc_state *crtc_state;
-+	static const u32 dpad_mask = BIT(RCAR_DU_OUTPUT_DPAD1)
-+				   | BIT(RCAR_DU_OUTPUT_DPAD0);
-+	struct drm_crtc_state *old_crtc_state;
-+	struct drm_crtc_state *new_crtc_state;
- 	struct drm_crtc *crtc;
- 	unsigned int i;
- 
--	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
-+	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
- 		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+		struct rcar_du_crtc_state *old_rcrtc_state;
-+		struct rcar_du_crtc_state *new_rcrtc_state;
- 		struct rcar_du_group_state *gstate;
- 
- 		gstate = rcar_du_get_group_state(state, rcrtc->group);
- 		if (IS_ERR(gstate))
- 			return PTR_ERR(gstate);
- 
--		if (crtc_state->active)
-+		if (new_crtc_state->active)
- 			gstate->enabled = true;
-+
-+		if (!new_crtc_state->active_changed &&
-+		    !new_crtc_state->connectors_changed)
-+			continue;
-+
-+		old_rcrtc_state = to_rcar_crtc_state(old_crtc_state);
-+		new_rcrtc_state = to_rcar_crtc_state(new_crtc_state);
-+
-+		if ((old_rcrtc_state->outputs & dpad_mask) !=
-+		    (new_rcrtc_state->outputs & dpad_mask))
-+			gstate->dpad_routing_changed = true;
- 	}
- 
- 	return 0;
-@@ -484,8 +526,14 @@ void rcar_du_group_atomic_setup(struct drm_device *dev,
- 		old_state = to_rcar_group_state(old_pstate);
- 		new_state = to_rcar_group_state(new_pstate);
- 
--		if (!old_state->enabled && new_state->enabled)
-+		if (!new_state->enabled)
-+			continue;
-+
-+		if (!old_state->enabled)
- 			rcar_du_group_setup(rgrp);
-+
-+		if (!old_state->enabled || new_state->dpad_routing_changed)
-+			rcar_du_group_set_routing(rgrp);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/rcar-du/rcar_du_group.h
-index c6e0ae79ede9..1364e2413095 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_group.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_group.h
-@@ -60,11 +60,13 @@ struct rcar_du_group {
-  * struct rcar_du_group_state - Driver-specific group state
-  * @state: base DRM private state
-  * @enabled: true if at least one CRTC in the group is enabled
-+ * @dpad_routing_changed: set if CRTC to DPAD output routing has changed
-  */
- struct rcar_du_group_state {
- 	struct drm_private_state state;
- 
- 	bool enabled;
-+	bool dpad_routing_changed;
- };
- 
- #define to_rcar_group_state(s) \
-@@ -75,7 +77,6 @@ void rcar_du_group_write(struct rcar_du_group *rgrp, u32 reg, u32 data);
- 
- void rcar_du_group_start_stop(struct rcar_du_group *rgrp, bool start);
- void rcar_du_group_restart(struct rcar_du_group *rgrp);
--int rcar_du_group_set_routing(struct rcar_du_group *rgrp);
- 
- int rcar_du_set_dpad0_vsp1_routing(struct rcar_du_device *rcdu);
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 8a0c26939de2..bef07bed0fb4 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -446,14 +446,14 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
- 	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_crtc *crtc;
-+	unsigned int vspd1_sink = rcdu->vspd1_sink;
-+	unsigned int dpad0_source = rcdu->dpad0_source;
- 	unsigned int i;
- 
- 	/*
--	 * Store RGB routing to DPAD0 and DPAD1, the hardware will be configured
--	 * when starting the CRTCs.
-+	 * Store RGB routing to DPAD0, the hardware will be configured when
-+	 * setting up the groups.
- 	 */
--	rcdu->dpad1_source = -1;
--
- 	for_each_new_crtc_in_state(old_state, crtc, crtc_state, i) {
- 		struct rcar_du_crtc_state *rcrtc_state =
- 			to_rcar_crtc_state(crtc_state);
-@@ -461,9 +461,6 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
- 
- 		if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD0))
- 			rcdu->dpad0_source = rcrtc->index;
--
--		if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD1))
--			rcdu->dpad1_source = rcrtc->index;
- 	}
- 
- 	/* Apply the atomic update. */
-@@ -474,6 +471,11 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
- 	rcar_du_crtc_atomic_modeset(dev, old_state);
- 	drm_atomic_helper_commit_planes(dev, old_state,
- 					DRM_PLANE_COMMIT_ACTIVE_ONLY);
-+
-+	if (rcdu->vspd1_sink != vspd1_sink ||
-+	    rcdu->dpad0_source != dpad0_source)
-+		rcar_du_set_dpad0_vsp1_routing(rcdu);
-+
- 	drm_atomic_helper_commit_modeset_enables(dev, old_state);
- 
- 	rcar_du_crtc_atomic_enter_standby(dev, old_state);
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index 862197be1e01..2c74c57c73d1 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -552,14 +552,8 @@ void __rcar_du_plane_setup(struct rcar_du_group *rgrp,
- 	if (rcdu->info->gen < 3)
- 		rcar_du_plane_setup_scanout(rgrp, state);
- 
--	if (state->source == RCAR_DU_PLANE_VSPD1) {
--		unsigned int vspd1_sink = rgrp->index ? 2 : 0;
--
--		if (rcdu->vspd1_sink != vspd1_sink) {
--			rcdu->vspd1_sink = vspd1_sink;
--			rcar_du_set_dpad0_vsp1_routing(rcdu);
--		}
--	}
-+	if (state->source == RCAR_DU_PLANE_VSPD1)
-+		rcdu->vspd1_sink = rgrp->index ? 2 : 0;
- }
- 
- int __rcar_du_plane_atomic_check(struct drm_plane *plane,
--- 
-2.25.1
+> +
+> +       reg = of_get_flat_dt_prop(node, "linux,usable-memory-range", &len);
+> +       if (!reg || (len < (dt_root_addr_cells + dt_root_size_cells)))
+> +               return 1;
+> +
+> +       usablemem->base = dt_mem_next_cell(dt_root_addr_cells, &reg);
+> +       usablemem->size = dt_mem_next_cell(dt_root_size_cells, &reg);
+> +       return 1;
+> +}
+> +
+> +static void __init fdt_enforce_memory_region(void)
+> +{
+> +       struct memblock_region reg = {
+> +               .size = 0,
+> +       };
+> +
+> +       of_scan_flat_dt(early_init_dt_scan_usablemem, &reg);
+> +
+> +       if (reg.size)
+> +               memblock_cap_memory_range(reg.base, reg.size);
 
+We should be able to do this in the DT core code. It doesn't matter
+that these properties are arm* only. Other arches won't find the
+properties.
+
+Also, note that there is now a drivers/of/kexec.c (in -next) though
+not sure if all this would go there or stay in fdt.c with the rest of
+the memory parsing.
+
+> +}
+> +
+> +#else
+> +static inline void fdt_enforce_memory_region(void) { }
+> +#endif
+> +
+> +#if defined(CONFIG_CRASH_DUMP) && defined(CONFIG_OF_EARLY_FLATTREE)
+> +static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
+> +               const char *uname, int depth, void *data)
+
+Same comments as above.
+
+> +{
+> +       const __be32 *reg;
+> +       int len;
+> +
+> +       if (depth != 1 || strcmp(uname, "chosen") != 0)
+> +               return 0;
+> +
+> +       reg = of_get_flat_dt_prop(node, "linux,elfcorehdr", &len);
+> +       if (!reg || (len < (dt_root_addr_cells + dt_root_size_cells)))
+> +               return 1;
+> +
+> +       elfcorehdr_addr = dt_mem_next_cell(dt_root_addr_cells, &reg);
+> +       elfcorehdr_size = dt_mem_next_cell(dt_root_size_cells, &reg);
+> +       return 1;
+> +}
+> +
+> +/*
+> + * reserve_elfcorehdr() - reserves memory for elf core header
+> + *
+> + * This function reserves the memory occupied by an elf core header
+> + * described in the device tree. This region contains all the
+> + * information about primary kernel's core image and is used by a dump
+> + * capture kernel to access the system memory on primary kernel.
+> + */
+> +static void __init reserve_elfcorehdr(void)
+> +{
+> +       of_scan_flat_dt(early_init_dt_scan_elfcorehdr, NULL);
+> +
+> +       if (!elfcorehdr_size)
+> +               return;
+> +
+> +       if (memblock_is_region_reserved(elfcorehdr_addr, elfcorehdr_size)) {
+> +               pr_warn("elfcorehdr is overlapped\n");
+> +               return;
+> +       }
+> +
+> +       memblock_reserve(elfcorehdr_addr, elfcorehdr_size);
+> +
+> +       pr_info("Reserving %llu KiB of memory at 0x%llx for elfcorehdr\n",
+> +               elfcorehdr_size >> 10, elfcorehdr_addr);
+> +}
+> +#else
+> +static inline void reserve_elfcorehdr(void) { }
+> +#endif
+> +
+>  void __init arm_memblock_init(const struct machine_desc *mdesc)
+>  {
+> +       /* Handle linux,usable-memory-range property */
+> +       fdt_enforce_memory_region();
+> +
+>         /* Register the kernel text, kernel data and initrd with memblock. */
+>         memblock_reserve(__pa(KERNEL_START), KERNEL_END - KERNEL_START);
+>
+> @@ -225,6 +313,8 @@ void __init arm_memblock_init(const struct machine_desc *mdesc)
+>
+>         early_init_fdt_scan_reserved_mem();
+>
+> +       reserve_elfcorehdr();
+> +
+>         /* reserve memory for DMA contiguous allocations */
+>         dma_contiguous_reserve(arm_dma_limit);
+>
+> --
+> 2.25.1
+>
