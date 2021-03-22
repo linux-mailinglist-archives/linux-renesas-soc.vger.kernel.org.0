@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB810343DA6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 11:21:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEA02343DDE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 11:30:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229829AbhCVKUg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Mar 2021 06:20:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51680 "EHLO
+        id S229990AbhCVK3y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Mar 2021 06:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229703AbhCVKUL (ORCPT
+        with ESMTP id S230022AbhCVK3b (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Mar 2021 06:20:11 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C7EC061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 03:20:10 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id w18so18643045edc.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 03:20:10 -0700 (PDT)
+        Mon, 22 Mar 2021 06:29:31 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41400C061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 03:29:31 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id o19so18622092edc.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 03:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=JxQycfZl4jSTbGYi2nkecQ4g9I4uNrlUDRaBTHk2Ti0=;
-        b=rn6m9hNN8Mz6OqugJhzoo1bEFFx4j4lKoJXSVe+1A6Y6EJcb2PvN1gIVrIPgBYYF+b
-         Udb+DaMhSruAfgVQaY8RqZpuqGxhcRs9qjHDX4Aue0DuxGduO2duB6o79fjaOvfbzN7A
-         5QJTL5Yxqn/Z4dcUZ7n8CGotsEEXinRaiJj0Q=
+        bh=tWnMXVoQRmHW9unHMINxWSWflwkHqDEbX/KH42wQ/b4=;
+        b=LpMSiaOlGl1lK89C+7KfYX3AeenMAoV1TZ+jJGN7Z5bir35JwiSkiM8nDJBsIiXDxm
+         /A7hvlSNTDNgacNg7ABbk4PIKReH7pcUYyl5AGJynJIbkImqpKPG52ZLHXO2IrmJHOr8
+         6IfUIKNcc4o84juyMjtEcAyS18bW40k8ttp9Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=JxQycfZl4jSTbGYi2nkecQ4g9I4uNrlUDRaBTHk2Ti0=;
-        b=cQHZ6XjPQJCH1KvGyLk0HzaOuyv10U9FKAJp663BBvmvBSEir3Jn5JQw/icpCeo+cu
-         HWT79TurL0EQx4GU3McakK6VkC62p/8cN3UBtzE91Z0as0Cpii+cgnOsDec5J0s5JBJy
-         Yo4wLwnz1AJ0NGQa4SiGApJ5LMJD+SvLpgDNbKbr5qzWTpHh3vwiZmiH2QThWh0S+jl8
-         +5jVjNBXQaxnBKFOEyG9vQdBEJfHKVOxoIG5jL0zi5I1/zmt2icJiHUZSPgOG2gfVgIe
-         TtQaqAiytsVwv/8UuxUcVo9tMrgDWmj5uPrWyZpodaPnpkcHyU19nkVZbGI6ScSPLjU7
-         lmmA==
-X-Gm-Message-State: AOAM530PcaDxIY2GmL8jkiXsqat4RGQHHnHYQczUvOrC63zT8DrRSGaO
-        cQ9f6XzCuTk5cTthb4tp6s3Rz3t2cKKb6WC6thaln41hdZY6vUAa
-X-Google-Smtp-Source: ABdhPJzBNauWmxsB4JWin1uuFzEirq0q9Gbf5fmcNqM8+uLxgvTBp0nDyl0nhbG36g5UIA6kLEnr1yLEcyj3tiu/NYA=
-X-Received: by 2002:a05:6402:22b5:: with SMTP id cx21mr24884079edb.27.1616408409172;
- Mon, 22 Mar 2021 03:20:09 -0700 (PDT)
+        bh=tWnMXVoQRmHW9unHMINxWSWflwkHqDEbX/KH42wQ/b4=;
+        b=lLacNxii65Q2xRvhB6aDvYUkryhZyV92HyNThWv7XSt2f+tPhnSw0enmUgoatrjRFj
+         FtXCuYmsJUOLXoXZuyq0+JmEh3Yo8yqRJu4BRx8jqkAgZioFT114HQ0XmprKnUv3jrv3
+         We9B7PXh3YNrumy+j6xCMZiuVmn+GjRTtymfPgieMkSC5nPi60z/fGhLMJkDFFBm/4lt
+         NRmYyFH4PN8EiW65NqqaN1EPDHGgvmFa3147JksSSs0nStmsLa5hIsaqn0JhwLwsxQWD
+         GSyngM2bhZl44VdzfUVJNuSsKycgV2iywZIPcGeDSNOD5lDD74AqQ48tvM02Qf/ArDuX
+         d8iw==
+X-Gm-Message-State: AOAM531nOPzJP4BlUHFBcPMNs2ohxK/tRelj0XBc1Xmy8EJIKrOrysls
+        4paYKd7MUz3dhnd3y21EDAzEv+DEVEgiZQG0n9/LFA==
+X-Google-Smtp-Source: ABdhPJw0TY8k6mLGDQKSpiTSydOSR3jb/VCtnFZ+EhA+xcwCeVMFa9ULPgzf8ayJZ7IWBMzjDkVyc8tdukz3VJj7DG4=
+X-Received: by 2002:aa7:d296:: with SMTP id w22mr25748187edq.150.1616408970070;
+ Mon, 22 Mar 2021 03:29:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com> <20210322030128.2283-6-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20210322030128.2283-6-laurent.pinchart+renesas@ideasonboard.com>
+References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com> <20210322030128.2283-3-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210322030128.2283-3-laurent.pinchart+renesas@ideasonboard.com>
 From:   Jagan Teki <jagan@amarulasolutions.com>
-Date:   Mon, 22 Mar 2021 15:49:57 +0530
-Message-ID: <CAMty3ZA58KZNGAv-OUhJv+sV0Hd6uGmVjm0gUXv83CMD8Vwfkw@mail.gmail.com>
-Subject: Re: [RFC PATCH 05/11] drm/bridge: ti-sn65dsi86: Wrap panel with panel-bridge
+Date:   Mon, 22 Mar 2021 15:59:18 +0530
+Message-ID: <CAMty3ZAZ8yXPzCzpi5Oubd7XH+ckKPhw_-Ceh=1a_PdNF8xFCg@mail.gmail.com>
+Subject: Re: [RFC PATCH 02/11] drm/bridge: ti-sn65dsi86: Make enable GPIO optional
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
@@ -65,12 +65,8 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Mon, Mar 22, 2021 at 8:32 AM Laurent Pinchart
 <laurent.pinchart+renesas@ideasonboard.com> wrote:
 >
-> To simplify interfacing with the panel, wrap it in a panel-bridge and
-> let the DRM bridge helpers handle chaining of operations.
->
-> This also prepares for support of DRM_BRIDGE_ATTACH_NO_CONNECTOR, which
-> requires all components in the display pipeline to be represented by
-> bridges.
+> The enable signal may not be controllable by the kernel. Make it
+> optional.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
