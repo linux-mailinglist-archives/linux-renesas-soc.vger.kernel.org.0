@@ -2,77 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E67E6343DE0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 11:31:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47B693440AB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 13:18:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbhCVKaa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Mar 2021 06:30:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53802 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbhCVK35 (ORCPT
+        id S230195AbhCVMSG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Mar 2021 08:18:06 -0400
+Received: from mail-vs1-f49.google.com ([209.85.217.49]:44697 "EHLO
+        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230114AbhCVMRo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Mar 2021 06:29:57 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A8BC061762
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 03:29:56 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id e14so2121831ejz.11
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 03:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=S6xuF+xvy/1OeP+r1oWkPTjodWuYCgRma3tgYNyZ6UA=;
-        b=F6jWpydB6AlIY1GvLRpNSU3YTfPY7nS9CheJIsq5dvQAJCLxfACC7/Ms8eXjeAcgsY
-         molw3Iiy9kjbYktZ+zJRolAmplpPDkB1SC7VZ59Z7ZoPNCsRmII9eZ20a5Q2CYJqx30c
-         b6LQpv5mGUMJoEdhLJSs+4puxa3SszSx019dQ=
+        Mon, 22 Mar 2021 08:17:44 -0400
+Received: by mail-vs1-f49.google.com with SMTP id v2so7317816vsq.11
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 05:17:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=S6xuF+xvy/1OeP+r1oWkPTjodWuYCgRma3tgYNyZ6UA=;
-        b=qN/jeXYxsXmWc4+GaF2xh/N+jpS3NDswcA8NwQz5D/i2BvmoooUhCjiNMHY6W928TP
-         5uK5kA2ue/+RbLAaL9htp7y5AdZbqQAwMnqzZyDHF/zRimJc6hmNsZpdOqRecwSPUmDG
-         uh0/dCJNYc/91DFUJmuxycbA30KEkFvPmR3HX+HEQ3R0e8RPS7R+kS76QcDAw65zB/G6
-         9yPoyRAFu4LYwb3DJERjzANG1LKRhZTYgPk7JJAj5YpcATvpq8YcmfAJOaraXC/ZPVls
-         lVGX+bpkcNO82KpdHBINByPQHyVIvqGcBLaIUw6dp/V8GoE+CV8wgEje1fMmOfEU9NLc
-         D6eg==
-X-Gm-Message-State: AOAM532myXQF4Cz1Ab0MxjfKrAWQqbOGr7FTYVZab2tPkd6cU9kxecUp
-        zCmqUomqgHk7SvseXh6KStDGZVnjBQ6BupenZHWoAw==
-X-Google-Smtp-Source: ABdhPJzFITwipwiUuIsCPLxRHKPpBq8+cjpPujK+kqZNNG835CwFf8f9D30pqauBb17ZvcfpdMlv84HvQasbHmIv8pM=
-X-Received: by 2002:a17:907:37a:: with SMTP id rs26mr18461737ejb.336.1616408994986;
- Mon, 22 Mar 2021 03:29:54 -0700 (PDT)
+        bh=QPgEpzU1+EhZmQwMgoUtTQpTOrmK2g2nAYsCnP+ZK2w=;
+        b=EhDGZDf+evVtAiLvbyqRf2yg9KReeMmg127CeTDQSKN0AJoN72hsnO99w8nSCUlf1Z
+         yRCgAXZ6egm6w2YHCy6E3yO8sALULJUwDya+mcDdGnIMznSYuDKccpjccYksQLXSpko7
+         /3V07+lhDdMTuPd8eslQ+c7jsm1Fi8LkP7pOPxqG3ID5+TUfxxknh9njWyIf62yDmA1W
+         20uBuuNXvHLTVfxLyKddYiqutHqW6AzZ5M3FofdyjmYMOz8a0BcVvw4KxvQzsry9zzPv
+         iAEnaSFMwibH2pETCmjVYlXe08VOdteuSpbGTBILnSsE1gj05Io/he8dBSRR3ULSXWnw
+         I+Mg==
+X-Gm-Message-State: AOAM530pwwVxgUin9urdcYGswOOEF3ohmp1S/fIWxjLWNLACnf0bRRu6
+        6C5VXbsVPcCt+i+7Ae5L4z+ygTZcVM12SyeGp2U=
+X-Google-Smtp-Source: ABdhPJwVpWGzwO18L28qFPoAsIXhxBH6cwNId9V4e47Iag3AKYxFvIfKgJVUUZMsFRnCrLQwRjfrVXfpCs5zgCYtcVg=
+X-Received: by 2002:a67:8883:: with SMTP id k125mr8816445vsd.18.1616415463497;
+ Mon, 22 Mar 2021 05:17:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com> <20210322030128.2283-2-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20210322030128.2283-2-laurent.pinchart+renesas@ideasonboard.com>
-From:   Jagan Teki <jagan@amarulasolutions.com>
-Date:   Mon, 22 Mar 2021 15:59:43 +0530
-Message-ID: <CAMty3ZCm42aQh+c2bdmj==Uc0KuEvTTBb_+8efvp8G+Oyem9Bw@mail.gmail.com>
-Subject: Re: [RFC PATCH 01/11] dt-bindings: drm/bridge: ti-sn65dsi8: Make
- enable GPIO optional
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>
+References: <20210319085146.2709844-1-geert+renesas@glider.be>
+In-Reply-To: <20210319085146.2709844-1-geert+renesas@glider.be>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 22 Mar 2021 13:17:31 +0100
+Message-ID: <CAMuHMdXEhw2ZWBk0mw+dENs0TAurHnvt35s6bMX19oQJMhHdXg@mail.gmail.com>
+Subject: Re: [GIT PULL 0/3] Renesas ARM SoC updates for v5.13
+To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 8:32 AM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
+On Fri, Mar 19, 2021 at 9:51 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> This is my first pull request for the inclusion of Renesas SoC updates
+> for v5.13.
 >
-> The SN65DSI86 EN pin can be hardwired to a high level, or connected to a
-> global reset signal, not controllable by the kernel. Make it optional in
-> those cases.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
+> It consists of 2 parts:
 
-Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
+Oops, 3 parts.  Sorry for that.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
