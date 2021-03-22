@@ -2,185 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA67534513A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 21:58:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 535EE34528C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 23:49:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbhCVU5s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Mar 2021 16:57:48 -0400
-Received: from mga12.intel.com ([192.55.52.136]:49394 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229614AbhCVU5o (ORCPT
+        id S230095AbhCVWtN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Mar 2021 18:49:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44148 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230151AbhCVWtI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Mar 2021 16:57:44 -0400
-IronPort-SDR: fz3SYAzkOQgHnsyGWSEbN1/VJIWiF7X+HaFm5IbCmNaAFgiGr9yqyMDF03fIg81KkZov0c5gH0
- T2bBsBqNpbdA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="169678572"
-X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="169678572"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 13:57:44 -0700
-IronPort-SDR: qtXSKqfwVPO1b2bbm5TXG4LpeeGj1+UrT10oCizbYiw9NQwscVuLbH/bjJ2ya0NP80GCG9lIwq
- t30xRUDQIqIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="513444586"
-Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 22 Mar 2021 13:57:43 -0700
-Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lORcN-0000FH-0y; Mon, 22 Mar 2021 20:57:43 +0000
-Date:   Tue, 23 Mar 2021 04:56:46 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
+        Mon, 22 Mar 2021 18:49:08 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79AF0C061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 15:49:08 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1271ED;
+        Mon, 22 Mar 2021 23:49:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1616453344;
+        bh=4RFJOVI/JUU0XaP7lRukOMPD5nO87FHU785YnsubArA=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=dmyTDmO3GXSf38hrBxOaNqIc04l8wmUCOsCLJsbtCfzGfIeVl5dCNBdnMUDjCkyTl
+         ncMl6Ru8lnwLWxnXF9XivVeFO/PPdgBZbFgouCEiwrMOeCSnIHdmx0CuOVIBrnGBWo
+         S778kZdU9+8fqOrcIyxCAkMO1T2LaVIs3cdRCq5c=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v2] media: vsp1: Add support for the V3U VSPD
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- 7ad9aafe713bdca552efdf6309a196e4f3eec177
-Message-ID: <6059048e.C2c69oGfHRysadv5%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+References: <20210322173949.1156393-1-kieran.bingham+renesas@ideasonboard.com>
+ <YFjrR4Cs0UhlPirb@pendragon.ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <ff85fdc9-e2ee-cb00-6deb-b93bc41efe8c@ideasonboard.com>
+Date:   Mon, 22 Mar 2021 22:49:01 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <YFjrR4Cs0UhlPirb@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 7ad9aafe713bdca552efdf6309a196e4f3eec177  Merge branch 'renesas-arm-dt-for-v5.13' into renesas-next
+Hi Laurent,
 
-elapsed time: 720m
+On 22/03/2021 19:08, Laurent Pinchart wrote:
+> Hi Kieran,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Mar 22, 2021 at 05:39:49PM +0000, Kieran Bingham wrote:
+>> The V3U provides two VSPD instances, with a new update to the version
+>> register to detect the new SoC.
+>>
+>> Add the new version and model detection, and detail the features
+>> available in this module.
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> ---
+>> This patch adds in the VSPd on the V3U, and successfully probes and can
+>> read and write to registers.
+>>
+>> However, as yet I have not been able to successfully validate the VSPD
+>> using the UAPI interface (by forcing .uapi = true)
+> 
+> Stupid question: while I have set .uapi to true to test VSPD instances
+> in Gen3 SoCs, this isn't something we routinely do, so maybe you should
+> first check on a Gen3 board if this hack still works ?
 
-configs tested: 122
-configs skipped: 3
+I did that already ;-)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Works on the H3 Salvator-XS.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-riscv                            allmodconfig
-x86_64                           allyesconfig
-i386                             allyesconfig
-riscv                            allyesconfig
-mips                     decstation_defconfig
-mips                         db1xxx_defconfig
-xtensa                  audio_kc705_defconfig
-arm                             ezx_defconfig
-powerpc                     ppa8548_defconfig
-sh                        edosk7705_defconfig
-sh                                  defconfig
-sh                          urquell_defconfig
-xtensa                    xip_kc705_defconfig
-m68k                        m5407c3_defconfig
-sh                        sh7757lcr_defconfig
-sh                          polaris_defconfig
-powerpc                      mgcoge_defconfig
-mips                      pic32mzda_defconfig
-powerpc                      arches_defconfig
-arm                            mmp2_defconfig
-riscv                               defconfig
-arm                            zeus_defconfig
-arm                        mvebu_v7_defconfig
-arm                          lpd270_defconfig
-s390                                defconfig
-arm                     eseries_pxa_defconfig
-arm                      tct_hammer_defconfig
-powerpc                      walnut_defconfig
-arm                      footbridge_defconfig
-mips                   sb1250_swarm_defconfig
-i386                                defconfig
-sh                          rsk7201_defconfig
-powerpc                  iss476-smp_defconfig
-arm                       cns3420vb_defconfig
-ia64                        generic_defconfig
-arm                           spitz_defconfig
-mips                            e55_defconfig
-openrisc                    or1ksim_defconfig
-mips                         tb0287_defconfig
-ia64                          tiger_defconfig
-mips                       capcella_defconfig
-riscv             nommu_k210_sdcard_defconfig
-mips                        nlm_xlp_defconfig
-arm                       versatile_defconfig
-arm                            dove_defconfig
-mips                        vocore2_defconfig
-mips                           ip28_defconfig
-powerpc                 mpc837x_mds_defconfig
-arm                          simpad_defconfig
-powerpc                 mpc8272_ads_defconfig
-mips                            gpr_defconfig
-sh                           se7619_defconfig
-powerpc                      ppc44x_defconfig
-powerpc                 mpc8315_rdb_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a004-20210322
-i386                 randconfig-a003-20210322
-i386                 randconfig-a001-20210322
-i386                 randconfig-a002-20210322
-i386                 randconfig-a006-20210322
-i386                 randconfig-a005-20210322
-x86_64               randconfig-a012-20210322
-x86_64               randconfig-a015-20210322
-x86_64               randconfig-a013-20210322
-x86_64               randconfig-a014-20210322
-x86_64               randconfig-a016-20210322
-x86_64               randconfig-a011-20210322
-i386                 randconfig-a014-20210322
-i386                 randconfig-a011-20210322
-i386                 randconfig-a015-20210322
-i386                 randconfig-a016-20210322
-i386                 randconfig-a012-20210322
-i386                 randconfig-a013-20210322
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
 
-clang tested configs:
-x86_64               randconfig-a002-20210322
-x86_64               randconfig-a003-20210322
-x86_64               randconfig-a001-20210322
-x86_64               randconfig-a006-20210322
-x86_64               randconfig-a004-20210322
-x86_64               randconfig-a005-20210322
+>> The observed symptoms show that the hardware halts at the first display
+>> list queued to the device.
+>>
+>> Notably, however the display list has been processed, and the registers
+>> set by the display list are updated accordingly and can be read back,
+>> inferring that the display list was processed and the frame commenced.
+>>
+>> Alas the frame never completes, and no interrupts are generated.
+>>
+>> Investigating this, I have seen that the CPG MSSR configures the FCPVD
+>> and VSPD on the R8A779A0_CLK_S3D1 clock, which appears to be a 266666656
+>> clock. This seems low, and I would expect the VSP to share the same
+>> clocking as the VIN/VSPX, which is on R8A779A0_CLK_S1D1.
+>>
+>> However, changing those clocks has no effect on the operation of the
+>> VSPD.
+>>
+>>  drivers/media/platform/vsp1/vsp1_drv.c  | 10 ++++++++++
+>>  drivers/media/platform/vsp1/vsp1_regs.h |  3 +++
+>>  2 files changed, 13 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+>> index aa66e4f5f3f3..0a9812206b3f 100644
+>> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+>> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+>> @@ -785,6 +785,16 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+>>  		.uif_count = 2,
+>>  		.wpf_count = 2,
+>>  		.num_bru_inputs = 5,
+>> +	}, {
+>> +		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
+>> +		.model = "VSP2-D",
+>> +		.gen = 3,
+>> +		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_EXT_DL,
+> 
+> Unless I'm mistaken, the V3U VSPD has no CLU. It has a CLUT in RPF2, but
+> that's a different feature.
+> 
+> The BSP code also sets VSP1_HAS_WPF_VFLIP here, but according to the
+> documentation, that's not correct, so I'd skip it for now.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Yes, I saw the incorrect VFLIP in the BSP, but I had not realised CLU !=
+CLUT ;-)
+
+I thought that was shorthand for it... Ooops. I'll update.
+
+
+
+> 
+> With this,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+>> +		.lif_count = 1,
+>> +		.rpf_count = 5,
+>> +		.uif_count = 2,
+>> +		.wpf_count = 1,
+>> +		.num_bru_inputs = 5,
+>>  	},
+>>  };
+>>  
+>> diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
+>> index fe3130db1fa2..b378ea4451ce 100644
+>> --- a/drivers/media/platform/vsp1/vsp1_regs.h
+>> +++ b/drivers/media/platform/vsp1/vsp1_regs.h
+>> @@ -766,6 +766,8 @@
+>>  #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
+>>  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
+>>  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
+>> +#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
+>> +
+>>  #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
+>>  #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
+>>  #define VI6_IP_VERSION_SOC_V2H		(0x01 << 0)
+>> @@ -777,6 +779,7 @@
+>>  #define VI6_IP_VERSION_SOC_D3		(0x04 << 0)
+>>  #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
+>>  #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
+>> +#define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
+>>  
+>>  /* -----------------------------------------------------------------------------
+>>   * RPF CLUT Registers
+> 
+
