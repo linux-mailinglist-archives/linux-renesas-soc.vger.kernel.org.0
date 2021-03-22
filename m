@@ -2,166 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C80A93443AC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 13:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 546A43443F6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 13:59:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231512AbhCVMx0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Mar 2021 08:53:26 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:60287 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232118AbhCVMvS (ORCPT
+        id S230362AbhCVMzu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Mar 2021 08:55:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56598 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231271AbhCVMxR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Mar 2021 08:51:18 -0400
-X-Originating-IP: 82.63.7.72
-Received: from uno.localdomain (host-82-63-7-72.business.telecomitalia.it [82.63.7.72])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 1D170E0010;
-        Mon, 22 Mar 2021 12:51:12 +0000 (UTC)
-Date:   Mon, 22 Mar 2021 13:51:44 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 05/19] media: v4l2-subdev: De-deprecate init() subdev
- op
-Message-ID: <20210322125144.xd4yky6jmaw56x4a@uno.localdomain>
-References: <20210319164148.199192-1-jacopo+renesas@jmondi.org>
- <20210319164148.199192-6-jacopo+renesas@jmondi.org>
- <YFYX1KHi74XPEWLi@pendragon.ideasonboard.com>
- <20210321205256.GE3@valkosipuli.retiisi.eu>
+        Mon, 22 Mar 2021 08:53:17 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A53B3C061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 05:53:16 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id e33so8560913pgm.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 05:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=lR5GEV2jeLGA3OcF54er6iTkEUls56JYoryQHJ10wBo=;
+        b=SP17s6D4BEc38gAROhSCrjLSmyJkRyrNoO0KkR+2rewku2Eei3oert+u0kwpico+q6
+         IwrpJEMA0Mf645NEaaMdrwGIVMGfxjFZN+U6BSkvoUV891Oc8BPDoEvDgwi28PQfax+J
+         wJqyE3v9MRaWPDaDnPKAzh1OfEVl/A+HjePQlqW9nQ8dH4M4gpXahxAFb/gMxB07bcML
+         cpDXaDeelPXNc8RxyiecfVOKlIExzefCiMUzipjXhavrBdZXRPnZa4eqqa4aS/iBioxc
+         fdap/1+MeDDcDqw2IRcKleket+W/KbS9+H7EA++sFuAvvMhhRE6tKMKfIPxylme24vw8
+         eb7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=lR5GEV2jeLGA3OcF54er6iTkEUls56JYoryQHJ10wBo=;
+        b=fcV7hdURNDMCcA2SsAHNNMktTr5glnaskz9hdjoX219D17kab9hP2Tw7IYXJSljM7G
+         LRH6NQK1ALpgFnBHjgBt5kR0Cs1AcEFR/PfxpW0o1EJFRsewP5Sd32yh6xAYtqdH8yR9
+         t0b+QSRtN/+7I+HxsJvkWzH7xxJMuGSSPnyj3AUd8wQzF5aIEpm5hoxNF48xScoMncVe
+         lFi9vk0yna55QQGfCAvISB6x0aebOUbeN+YW6uYxXxJbqmDINvqM7iK3i0vkU7WcCi8q
+         WOA0dV206C/275EUGJ5TttpYphQetC1P7OEV3DNlWOFkgilNukU37tX2yrXPz/qCILBw
+         TXjQ==
+X-Gm-Message-State: AOAM532ii2d+AP3bR6/yEGk0G/LWXZL10iXujtDVoo7+Y9mF3bfPyaNf
+        GCILdK86ui/NG97KWR6dCjBxLxdoQlP0rA==
+X-Google-Smtp-Source: ABdhPJyhDp0v4TPDYxTbxx0+8UZuvTdJjDWGmRRVBzX+GGSjF+FEwmJ4LykkPKwCcVkhqc8XZjCW/A==
+X-Received: by 2002:a63:141e:: with SMTP id u30mr23031131pgl.31.1616417596033;
+        Mon, 22 Mar 2021 05:53:16 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id cv3sm14745658pjb.9.2021.03.22.05.53.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 05:53:15 -0700 (PDT)
+Message-ID: <6058933b.1c69fb81.ac0e1.2936@mx.google.com>
+Date:   Mon, 22 Mar 2021 05:53:15 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210321205256.GE3@valkosipuli.retiisi.eu>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2021-03-22-v5.12-rc4
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+Subject: renesas/master cros-ec: 2 runs,
+ 1 regressions (renesas-devel-2021-03-22-v5.12-rc4)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
+renesas/master cros-ec: 2 runs, 1 regressions (renesas-devel-2021-03-22-v5.=
+12-rc4)
 
-On Sun, Mar 21, 2021 at 10:52:56PM +0200, Sakari Ailus wrote:
-> Hi Laurent and Jacopo,
->
-> Thanks for cc'ing me.
->
-> On Sat, Mar 20, 2021 at 05:42:12PM +0200, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > CC'ing Sakari on v3 to get feedback.
-> >
-> > On Fri, Mar 19, 2021 at 05:41:34PM +0100, Jacopo Mondi wrote:
-> > > The init() subdev core operation is deemed to be deprecated for new
-> > > subdevice drivers. However it could prove useful for complex
-> > > architectures to defer operation that require access to the
-> > > communication bus if said bus is not available (or fully configured)
-> > > at the time when the subdevice probe() function is run.
-> > >
-> > > As an example, the GMSL architecture requires the GMSL configuration
-> > > link to be configured on the host side after the remote subdevice
-> > > has completed its probe function. After the configuration on the host
-> > > side has been performed, the subdevice registers can be accessed through
-> > > the communication bus.
->
-> What does the remote device's probe do that needs to be done before bus
-> config on the host side?
+Regressions Summary
+-------------------
 
-A few lines here below:
+platform        | arch  | lab           | compiler | defconfig | regressions
+----------------+-------+---------------+----------+-----------+------------
+mt8173-elm-hana | arm64 | lab-collabora | gcc-8    | defconfig | 1          =
 
- In the GMSL use case the bus configuration requires the enablement of the
- noise immunity threshold on the remote side which ensures reliability
- of communications in electrically noisy environments. After the subdevice
- has enabled the threshold at the end of its probe() sequence the host
- side shall compensate it with an higher signal amplitude. Once this
- sequence has completed the bus can be accessed with noise protection
- enabled and all the operations that require a considerable number of
- transactions on the bus (such as the image sensor configuration
- sequence) are run in the subdevice init() operation implementation.
 
->
-> Alternatively, could the remote init() work be done at the time streaming
-> is started?
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-03-22-v5.12-rc4/plan/cros-ec/
 
-That would require programing the sensor, the embedded ISP at s_stream
-time which would take some time.
+  Test:     cros-ec
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-03-22-v5.12-rc4
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      98d704ec88d32a3ece2e35f14ee85c45fe9d5d9d
 
-I'll take this suggestion into account though and run some more tests.
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/cros-ec-tests.git
+      SHA:  e4c91962f6e19466c1e43629a2c6cd04ff012e06 =
 
-Thanks
-  j
 
->
-> > >
-> > > In particular:
-> > >
-> > > 	HOST			REMOTE
-> > >
-> > > 	probe()
-> > > 	   |
-> > > 	   ---------------------> |
-> > > 				  probe() {
-> > > 				     bus config()
-> > > 				  }
-> > > 	   |<--------------------|
-> > > 	v4l2 async bound {
-> > > 	    bus config()
-> > > 	    call subdev init()
-> > > 	   |-------------------->|
-> > > 				 init() {
-> > > 				     access register on the bus()
-> > > 				}
-> > > 	   |<-------------------
-> > > 	}
-> > >
-> > > In the GMSL use case the bus configuration requires the enablement of the
-> > > noise immunity threshold on the remote side which ensures reliability
-> > > of communications in electrically noisy environments. After the subdevice
-> > > has enabled the threshold at the end of its probe() sequence the host
-> > > side shall compensate it with an higher signal amplitude. Once this
-> > > sequence has completed the bus can be accessed with noise protection
-> > > enabled and all the operations that require a considerable number of
-> > > transactions on the bus (such as the image sensor configuration
-> > > sequence) are run in the subdevice init() operation implementation.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  include/media/v4l2-subdev.h | 15 ++++++++++++---
-> > >  1 file changed, 12 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > > index d0e9a5bdb08b..3068d9940669 100644
-> > > --- a/include/media/v4l2-subdev.h
-> > > +++ b/include/media/v4l2-subdev.h
-> > > @@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
-> > >   *	each pin being configured.  This function could be called at times
-> > >   *	other than just subdevice initialization.
-> > >   *
-> > > - * @init: initialize the sensor registers to some sort of reasonable default
-> > > - *	values. Do not use for new drivers and should be removed in existing
-> > > - *	drivers.
-> > > + * @init: initialize the subdevice registers to some sort of reasonable default
-> > > + *	values. Do not use for new drivers (and should be removed in existing
-> > > + *	ones) for regular architectures where the image sensor is connected to
-> > > + *	the host receiver. For more complex architectures where the subdevice
-> > > + *	initialization should be deferred to the completion of the probe
-> > > + *	sequence of some intermediate component, or the communication bus
-> > > + *	requires configurations on the host side that depend on the completion
-> > > + *	of the probe sequence of the remote subdevices, the usage of this
-> > > + *	operation could be considered to allow the devices along the pipeline to
-> > > + *	probe and register in the media graph and to defer any operation that
-> > > + *	require actual access to the communication bus to their init() function
-> > > + *	implementation.
-> > >   *
-> > >   * @load_fw: load firmware.
-> > >   *
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+
+Test Regressions
+---------------- =
+
+
+
+platform        | arch  | lab           | compiler | defconfig | regressions
+----------------+-------+---------------+----------+-----------+------------
+mt8173-elm-hana | arm64 | lab-collabora | gcc-8    | defconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60588212bcf4afbf1faddcc0
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-03-22-v5.12-rc4/arm64/defconfig/gcc-8/lab-collabora/cros-ec-mt8173-elm-=
+hana.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-03-22-v5.12-rc4/arm64/defconfig/gcc-8/lab-collabora/cros-ec-mt8173-elm-=
+hana.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-cros=
+-ec/20210315.0/arm64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/60588212bcf4afbf1faddc=
+c1
+        new failure (last pass: renesas-devel-2021-03-16-v5.12-rc3) =
+
+ =20
