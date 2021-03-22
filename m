@@ -2,548 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 832B3344984
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 16:44:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AF08344B91
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 17:36:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230369AbhCVPnp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Mar 2021 11:43:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230163AbhCVPn3 (ORCPT
+        id S231793AbhCVQfy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Mar 2021 12:35:54 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45308 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229692AbhCVQfl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Mar 2021 11:43:29 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5D89C061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 08:43:29 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id mz6-20020a17090b3786b02900c16cb41d63so8752255pjb.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 08:43:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=NFBLm0K6Z0C52aWZUv3DFAGjxm3nuR+voyaMcHNKkKE=;
-        b=HjQMQtARbDRHJmc39xdLqMfH6McxRAeny71epgiTdVOvsE/zqFKSO+mhPUi8/d8E9Z
-         FDBMaUA2kixvcV+SYvQr/LTFoFOePld9aaUmLUv28C1Ibwg2CsFy0fvNQ5eXc4Rw3U6/
-         RAq91fn+cJHG5DeAL8xpP+XYMCUioKgFxh4CFvjAi1E+rTtNwbXek+KiNnPZ+a/00kC0
-         qHJcWS8JR6iKrQKee4Q4ItZ4DYcgG1v0Uld+K0kd6BwYe67x8mUee7NgQFcDfTNFW61T
-         ZrTYVaAU7/uVczo1udw3KJeXcSIl3zr47Dmibo5o7LRNk57lfXswZGvUwgm/5vgoF5iu
-         kfKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=NFBLm0K6Z0C52aWZUv3DFAGjxm3nuR+voyaMcHNKkKE=;
-        b=dg+A5ZGDnGtcJcE4ShOAAnqCbQQtRX+spTnFTxR3Vfsb3LxLpQ7201NeVfQ/KgVsQp
-         +3lO4SqwQDuJogfNSmPXnEw4mEeh4Uep0FPMKdQkRK73ZceZ5y2KDdG9B0h5FETi9rzc
-         hJiQ5CnCJb3sWMKj8xneDtFecSnlDUn0hlAywx3V/C044zxwcCMWtDaYnYGLmcmSA2uF
-         aSBycEV1Dx4hPdIp1oKfmUKl5QlXhrN1k10k9l0zYTHB8+NpgX1S3NfLDHFKIS4RfFn+
-         7ECryj/X+Q/a04CX8unB7MvrzhTf3zR8Frxc3SOFpEW1boAeUISg7a6yYEQy/odjAzPB
-         kbXw==
-X-Gm-Message-State: AOAM532c8a9751eV3Tv3rRBEEuQ9duhywYJVy8aQSAjjcvBNLMP54rk/
-        D8VxBrtrrTo6Q/H8Z3raw/4duRO87yMDMA==
-X-Google-Smtp-Source: ABdhPJycJfZwQkP787DIAUHHD0lie6R7A/LxJzS7n+tdtiFMtlJ5DCJP/M1JeDS/4moG4VGiFPqX5Q==
-X-Received: by 2002:a17:902:8c92:b029:e6:60ad:6924 with SMTP id t18-20020a1709028c92b02900e660ad6924mr315904plo.16.1616427809010;
-        Mon, 22 Mar 2021 08:43:29 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id z192sm3248057pgz.94.2021.03.22.08.43.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 08:43:28 -0700 (PDT)
-Message-ID: <6058bb20.1c69fb81.38fd2.7cd3@mx.google.com>
-Date:   Mon, 22 Mar 2021 08:43:28 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 22 Mar 2021 12:35:41 -0400
+Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 904E1AD6;
+        Mon, 22 Mar 2021 17:35:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1616430939;
+        bh=8x6jVZUTB5hPvbUyMB446A1rKjbZZwJeBzpTgWHhG/E=;
+        h=From:To:Cc:Subject:Date:From;
+        b=sBvW+ZMV+zmycfi6uC2Gpv10wwYB9gxMxds6F3jUgWCuWBo5JDTUxb+OumcfnDsZZ
+         aQSd2gNE+bmf5ZLRw9W7Lf1QBaoy3HrG6KsvFHm8pkCJ/FXIE8Y6DC+sjDzMozsuJT
+         15ieDQX4mS/hSQIPvmpGTA3mOgTXY3G7sYtMeZ7A=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v5 00/10] drm: rcar-du: Rework CRTC and groups for atomic commits
+Date:   Mon, 22 Mar 2021 16:35:25 +0000
+Message-Id: <20210322163535.1090570-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-next-2021-03-22-v5.12-rc2
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: next
-Subject: renesas/next baseline: 287 runs,
- 13 regressions (renesas-next-2021-03-22-v5.12-rc2)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next baseline: 287 runs, 13 regressions (renesas-next-2021-03-22-v5=
-.12-rc2)
+This patch series refactors atomic commit tail handling in the R-Car DU
+driver to simplify the code flow, and open the door to further
+optimisations. This iteration rebases the previous work and fixes a bug
+reported by the build bots.
+
+The R-Car DU is a bit of a strange beast, with support for up to four
+CRTCs that share resources in groups of two CRTCs. Depending on the
+generation, planes can be shared (on Gen 1 and Gen 2), and output
+routing configuration is also handled at the group level to some extent.
+Furthermore, many configuration parameters, especially those related to
+routing or clock handling, require the whole group to be restarted to
+take effect, even when the parameter itself affects a single CRTC only.
+
+This hardware architecture is difficult to handle properly on the
+software side, and has resulted in group usage being reference-counted
+while CRTC usage only tracks the enabled state. Calls are then
+unbalanced and difficult to trace, especially for the configuration of
+output routing, and implementation of new shared resources is hindered.
+This patch series aims at solving this problem.
+
+The series starts with 4 patches that touch the API between the DU and
+VSP drivers. It became apparent that we need to split the configuration
+of the VSP to allow fine grain control of setting the mode configuration
+and enabling/disabling of the pipeline. To support the cross-component
+API, the new interface is added in patch 01/10, including an
+implementation of vsp1_du_setup_lif() to support the transition. Patch
+02/10 prepares for the new call flow that will call the atomic flush
+handler before enabling the pipeline. The DRM usage is adapted in patch
+03/10, before the call is removed entirely in patch 04/10.
+
+The next two patches convert CRTC clock handling and initial setup,
+potentially called from both the CRTC .atomic_begin() and
+.atomic_enable() operations, to a simpler code flow controlled by the
+commit tail handler. Patch 05/10 takes the CRTCs out of standby and put
+them back in standby respectively at the beginning and end of the commit
+tail handler, based on the CRTC atomic state instead of state
+information stored in the custom rcar_du_crtc structure. Patch 06/10
+then performs a similar change for the CRTC mode setting configuration.
+
+Finally, the last four patches introduce a DRM private object for the
+CRTC groups, along with an associated state. Patch 07/10 adds a helper
+macro to easily iterate over CRTC groups, and patch 08/10 adds the group
+private objects and empty states. Patches 09/10 and 10/10 respectively
+move the group setup and routing configuration under control of the
+commit tail handler, simplifying the configuration and moving state
+information from driver structures to state structures.
+
+More refactoring is expected, with plane assignment being moved to group
+states, and group restart being optimised to avoid flickering. Better
+configuration of pixel clocks could also be implemented on top of this
+series.
+
+The whole series has been tested on Salvator-XS with the DU test suite
+(http://git.ideasonboard.com/renesas/kms-tests.git).  No failure or
+change in behaviour has been noticed.
+
+Kieran Bingham (8):
+  media: vsp1: drm: Split vsp1_du_setup_lif()
+  drm: rcar-du: Convert to the new VSP atomic API
+  media: vsp1: drm: Remove vsp1_du_setup_lif()
+  drm: rcar-du: Handle CRTC standby from commit tail handler
+  drm: rcar-du: Handle CRTC configuration from commit tail handler
+  drm: rcar-du: Provide for_each_group helper
+  drm: rcar-du: Create a group state object
+  drm: rcar-du: Perform group setup from the atomic tail handler
+
+Laurent Pinchart (2):
+  media: vsp1: drm: Don't configure hardware when the pipeline is
+    disabled
+  drm: rcar-du: Centralise routing configuration in commit tail handler
+
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 160 ++++++----
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |   9 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h   |   6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_group.c | 390 +++++++++++++++++++-----
+ drivers/gpu/drm/rcar-du/rcar_du_group.h |  44 ++-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  63 ++--
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c |  10 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c   |  20 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.h   |   3 +
+ drivers/media/platform/vsp1/vsp1_drm.c  | 188 ++++++++----
+ drivers/media/platform/vsp1/vsp1_drm.h  |   2 +
+ include/media/vsp1.h                    |  25 +-
+ 12 files changed, 644 insertions(+), 276 deletions(-)
+
+-- 
+2.25.1
 
-Regressions Summary
--------------------
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-imx8mp-evk               | arm64 | lab-nxp       | gcc-8    | defconfig+CON=
-...OMIZE_BASE=3Dy | 1          =
-
-imx8mp-evk               | arm64 | lab-nxp       | gcc-8    | defconfig    =
-                | 1          =
-
-meson-gxl-s905d-p230     | arm64 | lab-baylibre  | gcc-8    | defconfig    =
-                | 1          =
-
-qemu_arm-versatilepb     | arm   | lab-baylibre  | gcc-8    | versatile_def=
-config          | 1          =
-
-qemu_arm-versatilepb     | arm   | lab-broonie   | gcc-8    | versatile_def=
-config          | 1          =
-
-qemu_arm-versatilepb     | arm   | lab-cip       | gcc-8    | versatile_def=
-config          | 1          =
-
-qemu_arm-versatilepb     | arm   | lab-collabora | gcc-8    | versatile_def=
-config          | 1          =
-
-r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip       | gcc-8    | defconfig+CON=
-...OMIZE_BASE=3Dy | 1          =
-
-r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip       | gcc-8    | defconfig    =
-                | 1          =
-
-r8a774b1-hihope-rzg2n-ex | arm64 | lab-cip       | gcc-8    | defconfig+CON=
-...OMIZE_BASE=3Dy | 1          =
-
-r8a774b1-hihope-rzg2n-ex | arm64 | lab-cip       | gcc-8    | defconfig    =
-                | 1          =
-
-r8a774c0-ek874           | arm64 | lab-cip       | gcc-8    | defconfig+CON=
-...OMIZE_BASE=3Dy | 1          =
-
-r8a774c0-ek874           | arm64 | lab-cip       | gcc-8    | defconfig    =
-                | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-03-22-v5.12-rc2/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2021-03-22-v5.12-rc2
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      7ad9aafe713bdca552efdf6309a196e4f3eec177 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-imx8mp-evk               | arm64 | lab-nxp       | gcc-8    | defconfig+CON=
-...OMIZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6058882ca157fa8175addcc6
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-nxp/ba=
-seline-imx8mp-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-nxp/ba=
-seline-imx8mp-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6058882ca157fa8175add=
-cc7
-        failing since 10 days (last pass: v5.12-rc2-21-g604bd2d4786e9, firs=
-t fail: renesas-next-2021-03-12-v5.12-rc2) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-imx8mp-evk               | arm64 | lab-nxp       | gcc-8    | defconfig    =
-                | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/605889e2a7ee4b5535addcb1
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig/gcc-8/lab-nxp/baseline-imx8mp-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig/gcc-8/lab-nxp/baseline-imx8mp-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/605889e2a7ee4b5535add=
-cb2
-        new failure (last pass: renesas-next-2021-03-16-v5.12-rc2) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-meson-gxl-s905d-p230     | arm64 | lab-baylibre  | gcc-8    | defconfig    =
-                | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/60589127b4733f7d77addcbb
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig/gcc-8/lab-baylibre/baseline-meson-gxl-s905=
-d-p230.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig/gcc-8/lab-baylibre/baseline-meson-gxl-s905=
-d-p230.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/60589127b4733f7d77add=
-cbc
-        new failure (last pass: v5.12-rc1-12-g3158164f1526) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-qemu_arm-versatilepb     | arm   | lab-baylibre  | gcc-8    | versatile_def=
-config          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6058819634699f4ab3addccb
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-baylibre/baseline-qemu_a=
-rm-versatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-baylibre/baseline-qemu_a=
-rm-versatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6058819634699f4ab3add=
-ccc
-        failing since 118 days (last pass: renesas-next-2020-11-10-v5.10-rc=
-1, first fail: renesas-next-2020-11-23-v5.10-rc1) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-qemu_arm-versatilepb     | arm   | lab-broonie   | gcc-8    | versatile_def=
-config          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/605881bcb2b4e72099addcb5
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-broonie/baseline-qemu_ar=
-m-versatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-broonie/baseline-qemu_ar=
-m-versatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/605881bcb2b4e72099add=
-cb6
-        failing since 118 days (last pass: renesas-next-2020-11-10-v5.10-rc=
-1, first fail: renesas-next-2020-11-23-v5.10-rc1) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-qemu_arm-versatilepb     | arm   | lab-cip       | gcc-8    | versatile_def=
-config          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/605882107cca2235c0addcc3
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-cip/baseline-qemu_arm-ve=
-rsatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-cip/baseline-qemu_arm-ve=
-rsatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/605882107cca2235c0add=
-cc4
-        failing since 118 days (last pass: renesas-next-2020-11-10-v5.10-rc=
-1, first fail: renesas-next-2020-11-23-v5.10-rc1) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-qemu_arm-versatilepb     | arm   | lab-collabora | gcc-8    | versatile_def=
-config          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6058b1c3ebabb34d59addcb3
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-collabora/baseline-qemu_=
-arm-versatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm/versatile_defconfig/gcc-8/lab-collabora/baseline-qemu_=
-arm-versatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6058b1c3ebabb34d59add=
-cb4
-        failing since 118 days (last pass: renesas-next-2020-11-10-v5.10-rc=
-1, first fail: renesas-next-2020-11-23-v5.10-rc1) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip       | gcc-8    | defconfig+CON=
-...OMIZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/605887b3d60ffaa421addcbb
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-cip/ba=
-seline-r8a774a1-hihope-rzg2m-ex.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-cip/ba=
-seline-r8a774a1-hihope-rzg2m-ex.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/605887b3d60ffaa421add=
-cbc
-        new failure (last pass: renesas-next-2021-01-29-v5.11-rc1) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip       | gcc-8    | defconfig    =
-                | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/60588941d4ea9fbb07addcd8
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig/gcc-8/lab-cip/baseline-r8a774a1-hihope-rzg=
-2m-ex.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig/gcc-8/lab-cip/baseline-r8a774a1-hihope-rzg=
-2m-ex.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/60588941d4ea9fbb07add=
-cd9
-        new failure (last pass: renesas-next-2021-01-29-v5.11-rc1) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-r8a774b1-hihope-rzg2n-ex | arm64 | lab-cip       | gcc-8    | defconfig+CON=
-...OMIZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/605887b12d1a3af18daddcc3
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-cip/ba=
-seline-r8a774b1-hihope-rzg2n-ex.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-cip/ba=
-seline-r8a774b1-hihope-rzg2n-ex.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/605887b12d1a3af18dadd=
-cc4
-        new failure (last pass: renesas-next-2021-01-29-v5.11-rc1) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-r8a774b1-hihope-rzg2n-ex | arm64 | lab-cip       | gcc-8    | defconfig    =
-                | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/60588941e13f9a7ac5addcd6
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig/gcc-8/lab-cip/baseline-r8a774b1-hihope-rzg=
-2n-ex.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig/gcc-8/lab-cip/baseline-r8a774b1-hihope-rzg=
-2n-ex.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/60588941e13f9a7ac5add=
-cd7
-        new failure (last pass: renesas-next-2021-01-29-v5.11-rc1) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-r8a774c0-ek874           | arm64 | lab-cip       | gcc-8    | defconfig+CON=
-...OMIZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/605887b22d1a3af18daddcc6
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-cip/ba=
-seline-r8a774c0-ek874.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-cip/ba=
-seline-r8a774c0-ek874.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/605887b22d1a3af18dadd=
-cc7
-        new failure (last pass: renesas-next-2021-01-29-v5.11-rc1) =
-
- =
-
-
-
-platform                 | arch  | lab           | compiler | defconfig    =
-                | regressions
--------------------------+-------+---------------+----------+--------------=
-----------------+------------
-r8a774c0-ek874           | arm64 | lab-cip       | gcc-8    | defconfig    =
-                | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6058897d86e18fabd7addcb1
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig/gcc-8/lab-cip/baseline-r8a774c0-ek874.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--03-22-v5.12-rc2/arm64/defconfig/gcc-8/lab-cip/baseline-r8a774c0-ek874.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6058897d86e18fabd7add=
-cb2
-        new failure (last pass: renesas-next-2021-01-29-v5.11-rc1) =
-
- =20
