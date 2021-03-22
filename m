@@ -2,162 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 535EE34528C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Mar 2021 23:49:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AE303452BA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Mar 2021 00:04:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230095AbhCVWtN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Mar 2021 18:49:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44148 "EHLO
+        id S230286AbhCVXET (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Mar 2021 19:04:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230151AbhCVWtI (ORCPT
+        with ESMTP id S230188AbhCVXDv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Mar 2021 18:49:08 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79AF0C061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 15:49:08 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1271ED;
-        Mon, 22 Mar 2021 23:49:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616453344;
-        bh=4RFJOVI/JUU0XaP7lRukOMPD5nO87FHU785YnsubArA=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=dmyTDmO3GXSf38hrBxOaNqIc04l8wmUCOsCLJsbtCfzGfIeVl5dCNBdnMUDjCkyTl
-         ncMl6Ru8lnwLWxnXF9XivVeFO/PPdgBZbFgouCEiwrMOeCSnIHdmx0CuOVIBrnGBWo
-         S778kZdU9+8fqOrcIyxCAkMO1T2LaVIs3cdRCq5c=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v2] media: vsp1: Add support for the V3U VSPD
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20210322173949.1156393-1-kieran.bingham+renesas@ideasonboard.com>
- <YFjrR4Cs0UhlPirb@pendragon.ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <ff85fdc9-e2ee-cb00-6deb-b93bc41efe8c@ideasonboard.com>
-Date:   Mon, 22 Mar 2021 22:49:01 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 22 Mar 2021 19:03:51 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3390C061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 16:03:48 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id f26so23172854ljp.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Mar 2021 16:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=61tEbvh74LDj1nEZ7Nq7agcoZyeFGc3J+dkuMdEJ70I=;
+        b=kKv3lNkdyc5YK/M1CPmZhT6zonZ6mdifqGJ5TFK4p0mFzb9E4Ic8GRf+r9PwWaamMp
+         ENCR11Tt1ceT4pczjAxtDqFXiO86AuxYhaf938aPLG5OVEkeQUga0/AyFkkgAf+lFK4u
+         15WC4ehChyEMFhKFpkPrslXUdttu1tXWpSXMUctINO5uL29uZMW/jkv0SUIGd7mRu9VU
+         6E6GxyfMvylnLO62AFeV1z+FkYYZGWRg4VHjDUl4lEY6+o0nqj8E1fFL0zgF1/lzlS2T
+         24+75bSFq3VjyfJ64EU3olObzlC2F8OLozbK3J31d/R5zzDLAcI5UxmbKVRNpLP1GQjZ
+         1iqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=61tEbvh74LDj1nEZ7Nq7agcoZyeFGc3J+dkuMdEJ70I=;
+        b=dbNg9U2VAg8t6cjGO4I+kQTRJJ4AZV2uI5Q1t4MMCSbC1K5hpnsJSsbmrM4xllP4Qr
+         kP0jbOzZiqj4eOkCACmBpIhOD8QTwrPLFTP35o0+NVLT/h5aOsmUo5D074Wt5gptVyVm
+         dbDtEl2NsVlACXgG8fT2W6qOae6AWPzsmJ7E/YqCQ6bpgTAPTyoXftLYLb1x5F+IVJ1s
+         rNfMC+OWrzBMvN6iO+9degUPLxBTO7ZXBrNPwsVFs+ismxzg1GjLWmC6/B+KHbqhgKzf
+         gn/pzP1xyDEDorEZGOEIE80VDEaoJblG1QUUm44x8zzLUcSxSoPp+gof11r6aDJxg0Ci
+         poaA==
+X-Gm-Message-State: AOAM531lokTMrprX+PUtTtruveQCAICgEDeJH+DcT8hnq+u3hpKygTNv
+        cQHi7XZuGOqvCSuOCEjMU7o65w==
+X-Google-Smtp-Source: ABdhPJzChmUgU7jxo/NeitSG+Z3egulpc25Kj6Qp8kUaSb5wmcG0tzkVdOle6ZrKftThjS1VMay+Tw==
+X-Received: by 2002:a2e:b4d0:: with SMTP id r16mr1081476ljm.324.1616454227238;
+        Mon, 22 Mar 2021 16:03:47 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id p6sm1695398lfc.71.2021.03.22.16.03.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 16:03:42 -0700 (PDT)
+Date:   Tue, 23 Mar 2021 00:03:41 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] ARM: dts: koelsch: Configure pull-up for SOFT_SW GPIO
+ keys
+Message-ID: <YFkiTUJ/xhVN7H+r@oden.dyn.berto.se>
+References: <20210303132941.3938516-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <YFjrR4Cs0UhlPirb@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210303132941.3938516-1-geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Geert,
 
-On 22/03/2021 19:08, Laurent Pinchart wrote:
-> Hi Kieran,
+Thanks for your work.
+
+On 2021-03-03 14:29:41 +0100, Geert Uytterhoeven wrote:
+> The GPIO pins connected to the 4 Software Switches ("SOFT_SW", SW2) do
+> not have external pull-up resistors, but rely on internal pull-ups being
+> enabled.  Fortunately this is satisfied by the initial state of these
+> pins.
 > 
-> Thank you for the patch.
+> Make this explicit by enabling bias-pull-up, to remove the dependency on
+> initial state and/or boot loader configuration.
 > 
-> On Mon, Mar 22, 2021 at 05:39:49PM +0000, Kieran Bingham wrote:
->> The V3U provides two VSPD instances, with a new update to the version
->> register to detect the new SoC.
->>
->> Add the new version and model detection, and detail the features
->> available in this module.
->>
->> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> ---
->> This patch adds in the VSPd on the V3U, and successfully probes and can
->> read and write to registers.
->>
->> However, as yet I have not been able to successfully validate the VSPD
->> using the UAPI interface (by forcing .uapi = true)
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+> To be queued in renesas-devel for v5.13.
 > 
-> Stupid question: while I have set .uapi to true to test VSPD instances
-> in Gen3 SoCs, this isn't something we routinely do, so maybe you should
-> first check on a Gen3 board if this hack still works ?
-
-I did that already ;-)
-
-Works on the H3 Salvator-XS.
-
-
->> The observed symptoms show that the hardware halts at the first display
->> list queued to the device.
->>
->> Notably, however the display list has been processed, and the registers
->> set by the display list are updated accordingly and can be read back,
->> inferring that the display list was processed and the frame commenced.
->>
->> Alas the frame never completes, and no interrupts are generated.
->>
->> Investigating this, I have seen that the CPG MSSR configures the FCPVD
->> and VSPD on the R8A779A0_CLK_S3D1 clock, which appears to be a 266666656
->> clock. This seems low, and I would expect the VSP to share the same
->> clocking as the VIN/VSPX, which is on R8A779A0_CLK_S1D1.
->>
->> However, changing those clocks has no effect on the operation of the
->> VSPD.
->>
->>  drivers/media/platform/vsp1/vsp1_drv.c  | 10 ++++++++++
->>  drivers/media/platform/vsp1/vsp1_regs.h |  3 +++
->>  2 files changed, 13 insertions(+)
->>
->> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
->> index aa66e4f5f3f3..0a9812206b3f 100644
->> --- a/drivers/media/platform/vsp1/vsp1_drv.c
->> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
->> @@ -785,6 +785,16 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->>  		.uif_count = 2,
->>  		.wpf_count = 2,
->>  		.num_bru_inputs = 5,
->> +	}, {
->> +		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
->> +		.model = "VSP2-D",
->> +		.gen = 3,
->> +		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_EXT_DL,
+> It is safe to apply this before R-Car M2-W bias support[1] has landed,
+> as pinctrl_bind_pins() does not consider -ENOTSUPP a fatal error.
 > 
-> Unless I'm mistaken, the V3U VSPD has no CLU. It has a CLUT in RPF2, but
-> that's a different feature.
+> [1] https://lore.kernel.org/r/20210303132619.3938128-1-geert+renesas@glider.be
+> ---
+>  arch/arm/boot/dts/r8a7791-koelsch.dts | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> The BSP code also sets VSP1_HAS_WPF_VFLIP here, but according to the
-> documentation, that's not correct, so I'd skip it for now.
-
-Yes, I saw the incorrect VFLIP in the BSP, but I had not realised CLU !=
-CLUT ;-)
-
-I thought that was shorthand for it... Ooops. I'll update.
-
-
-
-> 
-> With this,
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
->> +		.lif_count = 1,
->> +		.rpf_count = 5,
->> +		.uif_count = 2,
->> +		.wpf_count = 1,
->> +		.num_bru_inputs = 5,
->>  	},
->>  };
->>  
->> diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
->> index fe3130db1fa2..b378ea4451ce 100644
->> --- a/drivers/media/platform/vsp1/vsp1_regs.h
->> +++ b/drivers/media/platform/vsp1/vsp1_regs.h
->> @@ -766,6 +766,8 @@
->>  #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
->>  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
->>  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
->> +#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
->> +
->>  #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
->>  #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
->>  #define VI6_IP_VERSION_SOC_V2H		(0x01 << 0)
->> @@ -777,6 +779,7 @@
->>  #define VI6_IP_VERSION_SOC_D3		(0x04 << 0)
->>  #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
->>  #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
->> +#define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
->>  
->>  /* -----------------------------------------------------------------------------
->>   * RPF CLUT Registers
+> diff --git a/arch/arm/boot/dts/r8a7791-koelsch.dts b/arch/arm/boot/dts/r8a7791-koelsch.dts
+> index 751e07fb102cf454..c6c93c4452ee1e88 100644
+> --- a/arch/arm/boot/dts/r8a7791-koelsch.dts
+> +++ b/arch/arm/boot/dts/r8a7791-koelsch.dts
+> @@ -81,6 +81,9 @@ lbsc {
+>  	keyboard {
+>  		compatible = "gpio-keys";
+>  
+> +		pinctrl-0 = <&sw2_pins>;
+> +		pinctrl-names = "default";
+> +
+>  		key-1 {
+>  			gpios = <&gpio5 0 GPIO_ACTIVE_LOW>;
+>  			linux,code = <KEY_1>;
+> @@ -615,6 +618,11 @@ sound_clk_pins: sound_clk {
+>  		groups = "audio_clk_a";
+>  		function = "audio_clk";
+>  	};
+> +
+> +	sw2_pins: sw2 {
+> +		pins = "GP_5_0", "GP_5_1", "GP_5_2", "GP_5_3";
+> +		bias-pull-up;
+> +	};
+>  };
+>  
+>  &ether {
+> -- 
+> 2.25.1
 > 
 
+-- 
+Regards,
+Niklas Söderlund
