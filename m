@@ -2,68 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E7D6346288
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Mar 2021 16:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19F37346747
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Mar 2021 19:10:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232727AbhCWPOP convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Mar 2021 11:14:15 -0400
-Received: from mail-vs1-f52.google.com ([209.85.217.52]:42856 "EHLO
-        mail-vs1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232730AbhCWPOA (ORCPT
+        id S231580AbhCWSKI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Mar 2021 14:10:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43370 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231243AbhCWSJk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Mar 2021 11:14:00 -0400
-Received: by mail-vs1-f52.google.com with SMTP id b5so9563969vsl.9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Mar 2021 08:13:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=a7Pl9nSG4uW9tYNEQwsOEpynlc3KB3NNkAuclckmslA=;
-        b=X0V7qjiQ1Bt+0Fuy430pldWt6mOkrR9nySk9I1uaasasn9NmYoXAmMzUxP0CD4H4Rs
-         Xmxgz9WvyT1K+WzTXlnoPkjY9T/iDKVICshrLX7C1JlXBBuupGal306fGqGVbuW0MBTx
-         77s23uyps7EHjnFpNvE7IrdVZA+MvVv10vNsNyGZ21M1TfvBBfl9MfbGX8z7h1q3ocb5
-         MS8HxltEtStikcH2DP1KbRkhw5bBun9M6846APBJkRRc3mamqVSLUuBKCSAgdCMqF1NM
-         SLiA2Y/azKYNxuePnr1i04J7jgtR++ieObZGP0RVElb57g9Dc+13OIuMRunKdrB3ZpdE
-         VLfw==
-X-Gm-Message-State: AOAM532IkPfgagv5JJiD+XYXM16z6sUFI6DG8PZM0ertxEl6lMMb7OuZ
-        HDWSXSrv5RJ4ZLnNizCiN3E48noBvHaY57A6xu67zkoj
-X-Google-Smtp-Source: ABdhPJxiTIzr2ZM/RW16WWUiGCvuqpgHkpS0qX2l6KkH2LqMvaQ+yUi+L9APwow7rFgKrCN0jPsiFt5TNCFOGjMqk4g=
-X-Received: by 2002:a67:fe90:: with SMTP id b16mr4059345vsr.40.1616512439334;
- Tue, 23 Mar 2021 08:13:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210312131020.1747344-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20210312131020.1747344-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 23 Mar 2021 16:13:48 +0100
-Message-ID: <CAMuHMdXHzdDWH5-YTfA8GozAhWwzi8Rf3KRWZ_PFWpJEYkEvuw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77961: Add VIN and CSI-2 device nodes
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Tue, 23 Mar 2021 14:09:40 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9F0F36192B;
+        Tue, 23 Mar 2021 18:09:39 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1lOlTF-003MZw-KT; Tue, 23 Mar 2021 18:09:37 +0000
+Date:   Tue, 23 Mar 2021 18:09:36 +0000
+Message-ID: <87im5hkahr.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Thierry Reding <treding@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v2 12/15] PCI/MSI: Let PCI host bridges declare their reliance on MSI domains
+In-Reply-To: <6a2eaa5d-1d83-159f-69e5-c9e0a00a7b50@arm.com>
+References: <20210322184614.802565-1-maz@kernel.org>
+        <20210322184614.802565-13-maz@kernel.org>
+        <6a2eaa5d-1d83-159f-69e5-c9e0a00a7b50@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: robin.murphy@arm.com, lorenzo.pieralisi@arm.com, bhelgaas@google.com, frank-w@public-files.de, treding@nvidia.com, tglx@linutronix.de, robh@kernel.org, will@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com, mikelley@microsoft.com, wei.liu@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, ryder.lee@mediatek.com, marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com, michal.simek@xilinx.com, paul.walmsley@sifive.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Mar 12, 2021 at 2:10 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add device nodes for VIN and CSI-2 to R-Car M3-W+ r8a77961 device tree.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Hi Robin,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.13.
+On Tue, 23 Mar 2021 11:45:02 +0000,
+Robin Murphy <robin.murphy@arm.com> wrote:
+> 
+> On 2021-03-22 18:46, Marc Zyngier wrote:
+> > The new 'no_msi' attribute solves the problem of advertising the lack
+> > of MSI capability for host bridges that know for sure that there will
+> > be no MSI for their end-points.
+> > 
+> > However, there is a whole class of host bridges that cannot know
+> > whether MSIs will be provided or not, as they rely on other blocks
+> > to provide the MSI functionnality, using MSI domains.  This is
+> > the case for example on systems that use the ARM GIC architecture.
+> > 
+> > Introduce a new attribute ('msi_domain') indicating that implicit
+> > dependency, and use this property to set the NO_MSI flag when
+> > no MSI domain is found at probe time.
+> > 
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > ---
+> >   drivers/pci/probe.c | 2 +-
+> >   include/linux/pci.h | 1 +
+> >   2 files changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> > index 146bd85c037e..bac9f69a06a8 100644
+> > --- a/drivers/pci/probe.c
+> > +++ b/drivers/pci/probe.c
+> > @@ -925,7 +925,7 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
+> >   	device_enable_async_suspend(bus->bridge);
+> >   	pci_set_bus_of_node(bus);
+> >   	pci_set_bus_msi_domain(bus);
+> > -	if (bridge->no_msi)
+> > +	if (bridge->no_msi || (bridge->msi_domain && !bus->dev.msi_domain))
+> >   		bus->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
+> >     	if (!parent)
+> > diff --git a/include/linux/pci.h b/include/linux/pci.h
+> > index 48605cca82ae..d322d00db432 100644
+> > --- a/include/linux/pci.h
+> > +++ b/include/linux/pci.h
+> > @@ -551,6 +551,7 @@ struct pci_host_bridge {
+> >   	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
+> >   	unsigned int	size_windows:1;		/* Enable root bus sizing */
+> >   	unsigned int	no_msi:1;		/* Bridge has no MSI support */
+> > +	unsigned int	msi_domain:1;		/* Bridge wants MSI domain */
+> 
+> Aren't these really the same thing? Either way we're saying the bridge
+> itself doesn't handle MSIs, it's just in one case we're effectively
+> encoding a platform-specific assumption that an external domain won't
+> be provided. I can't help wondering whether that distinction is really
+> necessary...
 
-Gr{oetje,eeting}s,
+There is a subtle difference: no_msi indicates that there is no way
+*any* MSI can be dealt with whatsoever (maybe because the RC doesn't
+forward the corresponding TLPs?). msi_domain says "no MSI unless...".
 
-                        Geert
+We could implement the former with the latter, but I have the feeling
+that's not totally bullet proof. Happy to revisit this if you think it
+really matters.
+
+Thanks,
+
+	M.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Without deviation from the norm, progress is not possible.
