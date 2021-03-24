@@ -2,69 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C9BB3474E0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 10:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64138347539
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 11:01:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232578AbhCXJmp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Mar 2021 05:42:45 -0400
-Received: from mail-vk1-f182.google.com ([209.85.221.182]:34707 "EHLO
-        mail-vk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232724AbhCXJmh (ORCPT
+        id S233215AbhCXKAd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Mar 2021 06:00:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36254 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230105AbhCXKAL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Mar 2021 05:42:37 -0400
-Received: by mail-vk1-f182.google.com with SMTP id j15so5304968vkc.1;
-        Wed, 24 Mar 2021 02:42:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uTa3qcH8xY0ymAKQ1SS82CdjrmkKpFgPyzAvTe69dMk=;
-        b=PDKYNv5+NdZraUQgH1WAXJcEZKEWYYqI2UTSReK8c2xewYHlVtU5m0emx8As0qlmQ4
-         MW5n/mHzASSy7JzBr+OHE54u63A+WNrR7ojslK7L4Aiip6NY+ZgrjGVPpeL9VpGa15w6
-         i9VAlG1SqdnGsrKEjIY1DoK22ip5E1519zuJ26LT06gzpze2yIBnjLNyhijdZVYDr3vX
-         PPs5jjKOACu5KM3wO9HCH0WY5muYR+cGBpndDxGqG9R34o+RKjBgzczOeXsDzTMmyD/h
-         i8J3fALumQQY+tAQohM01DLUMI3Nrxy7srR1L3gdfPbDZulGAu5t8mJpi1Ih2Xs4lF4/
-         EDqQ==
-X-Gm-Message-State: AOAM530AvnioWkTBuWNTj6jPtJGmEDh2Toekaiyy90pWVUdbL66EITyS
-        j3pmpK1Hk3GBXKmw3kq94sAldr0qLg55d0dbCqo=
-X-Google-Smtp-Source: ABdhPJwO5caj4lj5o4nn5BtbfCAhNkQAu8ZO6C/WVbL+w1h9d5mLBYViz0c6DBWXQUCtZr8rGzQzc+54RrH+gkoykGQ=
-X-Received: by 2002:ac5:ce04:: with SMTP id j4mr884148vki.1.1616578956471;
- Wed, 24 Mar 2021 02:42:36 -0700 (PDT)
+        Wed, 24 Mar 2021 06:00:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id F30F9619E8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 10:00:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616580009;
+        bh=DlKFRAri5DF6Sv8AaeXloRBl+tHPkQOPEe59gzw+ZhU=;
+        h=Subject:From:Date:To:From;
+        b=o1mNzcRdg5rsSqxY2RS4pANy9ba6Hs8QhutCxk1zAsDk1gLf1blosEWiBdtPFvR0z
+         dNYdwdZpv0+XXakJcVak4XgCiq77RCVoePRBfjSEoiNiKeAUABU9nc7NI6VQ8XeO4k
+         VbTO7Cay/aHfOc/094uyE7xmR81Q8ud0qM27cKd0SNdMbf5AllV34eQC0v4+3BOZuT
+         LFoEmQ3w8vRoEYAy9OatHXRcyndQiNn5zHx7JSxnmHmFAFuNBMXh/Xu0XM3za1kz31
+         lmOdmlPRCXlRXmiIlJygY9l4U7pSj4VhYlpTyrFcr4EcQjRvnkz87xUKLgcEmzASv0
+         2N8xb8JwVyt7g==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id EDE746096E
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 10:00:08 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210321075813.9471-1-unixbhaskar@gmail.com>
-In-Reply-To: <20210321075813.9471-1-unixbhaskar@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 24 Mar 2021 10:42:25 +0100
-Message-ID: <CAMuHMdXxvq2uUJWuYJQFDqPzMU1hCWWtemjSS73VsJON4npBkQ@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: Couple of spelling fixes
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     renesas@glider.be, Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <161658000896.29452.1041095054418016356.git-patchwork-summary@kernel.org>
+Date:   Wed, 24 Mar 2021 10:00:08 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Mar 21, 2021 at 9:03 AM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
-> s/suposed/supposed/
-> s/concurent/concurrent/
->
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Hello:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.13.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (refs/heads/master):
 
-Gr{oetje,eeting}s,
+Patch: arm64: dts: renesas: r8a77961: Add VIN and CSI-2 device nodes
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=447027
+  Lore link: https://lore.kernel.org/r/20210312131020.1747344-1-niklas.soderlund+renesas@ragnatech.se
+Patch: ARM: dts: koelsch: Configure pull-up for SOFT_SW GPIO keys
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=441591
+  Lore link: https://lore.kernel.org/r/20210303132941.3938516-1-geert+renesas@glider.be
 
-                        Geert
+Total patches: 2
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
