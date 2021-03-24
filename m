@@ -2,61 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64138347539
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 11:01:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1DF53475D7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 11:22:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233215AbhCXKAd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Mar 2021 06:00:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36254 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230105AbhCXKAL (ORCPT
+        id S230452AbhCXKVu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Mar 2021 06:21:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232804AbhCXKVS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Mar 2021 06:00:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id F30F9619E8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 10:00:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616580009;
-        bh=DlKFRAri5DF6Sv8AaeXloRBl+tHPkQOPEe59gzw+ZhU=;
-        h=Subject:From:Date:To:From;
-        b=o1mNzcRdg5rsSqxY2RS4pANy9ba6Hs8QhutCxk1zAsDk1gLf1blosEWiBdtPFvR0z
-         dNYdwdZpv0+XXakJcVak4XgCiq77RCVoePRBfjSEoiNiKeAUABU9nc7NI6VQ8XeO4k
-         VbTO7Cay/aHfOc/094uyE7xmR81Q8ud0qM27cKd0SNdMbf5AllV34eQC0v4+3BOZuT
-         LFoEmQ3w8vRoEYAy9OatHXRcyndQiNn5zHx7JSxnmHmFAFuNBMXh/Xu0XM3za1kz31
-         lmOdmlPRCXlRXmiIlJygY9l4U7pSj4VhYlpTyrFcr4EcQjRvnkz87xUKLgcEmzASv0
-         2N8xb8JwVyt7g==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id EDE746096E
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 10:00:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 24 Mar 2021 06:21:18 -0400
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 535A0C061763
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 03:21:18 -0700 (PDT)
+Received: by mail-vs1-xe36.google.com with SMTP id e5so11048629vse.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 03:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Rai9ptA+xC3/Xny8ivCblg6SnvuofFN/hfASAUVEIaY=;
+        b=rarJ86KGS7v2+Yw3UgGnGrsYvjfihF4O+nb0O7Vgrh3C5fvOyNJ5LgMGSwTpXmyb66
+         umOw25twZS8UP8tB/lZwc+fNTtZ0N0SDightizjnoEQy6a/H1e3J9WtyRNQvXqQelBtN
+         OCp/fGEDxTuy9ZHDY3rTNsCLwxzstezONxnef0UDo18LbZt8XwoaPtCFywUTk5eOFBx/
+         n8Q8oHBfiAv6FnzUP2wNklX/kewvcpsfEDhtzr5vwpQJIGkqmntxjeGUQCsM0emLr5Sc
+         Y2CaOHBguTco4R7SMw72k3euQ2cr1DBvdmdbE/So4hdNNd3SGThn7fZflUVrL060/99m
+         I0oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Rai9ptA+xC3/Xny8ivCblg6SnvuofFN/hfASAUVEIaY=;
+        b=FMSb3YkFFEGUC9PS1Q5TwYkwhmtl5xf4bE64LFkIgQvsoVNk6C8kZitqmpbvZ72QWr
+         qddIb8hude3Zn6iM2GilwCXg/DdrF1IMYBYVin8+ec8/RRdcFdINUyCosLB6dLaZQZ8A
+         CX6ZtGlgwBhYziAwxVSKOhNHozLZIDlNJ7MJiuYfI/1oOLTyrKCxmPeRlGtsjNPsf5sV
+         +z7y9cRNQ/xVjwsOj+C4IbADJ+tggP37DLd/OB9JxbZlO6uGfCawryZRFqnFS83vQqn+
+         zGZNHRY01wljnT/QdwGHUfxfHE0W0utqa9mrPcUjp/4K1BENsaAdyktoTP2NbT0JAdkp
+         0P/Q==
+X-Gm-Message-State: AOAM531JaVaQO0bBhlrPSm/+cL39iEbD/itCDaHVZcuKmi8OeihDHgMA
+        DghzWCEbj7f9fIpwTTDlCcou2MrNIPdipEsSuzlrkw==
+X-Google-Smtp-Source: ABdhPJyeFiT+4f3vNk0w+3cOIxyfVF5oBZdNxtqnXYYRA1Gm7IkUZAEtbmPIP217xMPG1nqaZpPFIyJusF7YFCS3BLA=
+X-Received: by 2002:a67:77c1:: with SMTP id s184mr929694vsc.55.1616581277550;
+ Wed, 24 Mar 2021 03:21:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <161658000896.29452.1041095054418016356.git-patchwork-summary@kernel.org>
-Date:   Wed, 24 Mar 2021 10:00:08 +0000
-To:     linux-renesas-soc@vger.kernel.org
+References: <20210316085717.7276-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210316085717.7276-1-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 24 Mar 2021 11:20:41 +0100
+Message-ID: <CAPDyKFrKsZ3CSTF-eN_dSmcwmhETG5O4kg_qoNMYHA=-VizB4g@mail.gmail.com>
+Subject: Re: [PATCH RFT 0/2] mmc: tmio: make resets more robust
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On Tue, 16 Mar 2021 at 09:58, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Here are two more patches improving the robustness of resetting the IP
+> core. Patches are on top of mmc/next and this series "[PATCH v2 0/3]
+> mmc: renesas_sdhi: reset via reset controller", especially "[PATCH v2
+> 1/3] mmc: tmio: abort DMA before reset".
+>
+> Tested on Salvator-XS with H3 ES2.0 and M3-N. A branch for testing can
+> be found here:
+>
+> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/sdhi/for-5.13
+>
+> Some additional testing by Shimoda-san or the BSP team would be much
+> appreciated!
+>
+>    Wolfram
+>
+>
+> Takeshi Saito (1):
+>   mmc: tmio: restore bus width when resetting
+>
+> Wolfram Sang (1):
+>   mmc: tmio: always flag retune when resetting and a card is present
+>
+>  drivers/mmc/host/tmio_mmc_core.c | 37 +++++++++++++++++---------------
+>  1 file changed, 20 insertions(+), 17 deletions(-)
+>
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (refs/heads/master):
+Applied for next, thanks!
 
-Patch: arm64: dts: renesas: r8a77961: Add VIN and CSI-2 device nodes
-  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=447027
-  Lore link: https://lore.kernel.org/r/20210312131020.1747344-1-niklas.soderlund+renesas@ragnatech.se
-Patch: ARM: dts: koelsch: Configure pull-up for SOFT_SW GPIO keys
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=441591
-  Lore link: https://lore.kernel.org/r/20210303132941.3938516-1-geert+renesas@glider.be
-
-Total patches: 2
-
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Kind regards
+Uffe
