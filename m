@@ -2,63 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6717A3484E2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 23:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 655A73484E3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 23:48:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234062AbhCXWr0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Mar 2021 18:47:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45366 "EHLO
+        id S233680AbhCXWr7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Mar 2021 18:47:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234090AbhCXWrV (ORCPT
+        with ESMTP id S233555AbhCXWrw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Mar 2021 18:47:21 -0400
+        Wed, 24 Mar 2021 18:47:52 -0400
 Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C3BC06174A
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 15:47:20 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id o5so48866qkb.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 15:47:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37645C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 15:47:52 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id o5so49941qkb.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 15:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=8WdGt1t0T8Zm9fu1FD2a5P7lZ9YFS8pFD0IMcWsA6ng=;
-        b=isY5DCYNbVu/s92nJ7NtbWIJq7KSn6z6GsqA2Ent70ODNyDKcZnsLCDoP2EfDmu1I8
-         54glC6krK7SW1xwp8+qtFmk6JVhQdttu313b024myEqYQQcvEqqFb3jTp99VLBH/cCH3
-         Ys10NMAQBTlxHhfx9gQKrs8jVWOhxHmrVDw5I=
+        bh=5tU7UIZx5sKDtekqRNcff9UhagCgiik2vNQpD3Gxa/A=;
+        b=azsRpjl/Ug0WsvmhU4tfuZeghZrs95mO0pH1sy4ThKPdLz/lzRvtKeQMHtV9joh3Wl
+         CHYyKxdMkSifG3DrkMQuuXW0hqlRJTmgxgkxrbqilbwznuzn8m7g5vX/JujDv5Opok4J
+         Z9M9R93eZKBS7vZWwH6AKMzYLu0GdW33HEYsQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8WdGt1t0T8Zm9fu1FD2a5P7lZ9YFS8pFD0IMcWsA6ng=;
-        b=ru4zVIhjaJhnbbPkLN3HqkAT75aAp1XrSugKCo47TMh5OmvTt0w5LHwbxB0310UHBH
-         71fmvRkVzCTF/UYPkXoO7XfqCiyUcBDNMbdmy/rjd22VEFUHwqfDgpyj4h1WDUN/e45E
-         2MK3oWJPvKYSEnVXXlEBb5A7gDf+whdbCcxFmvNcPP80om2o2CjSKsD/wduigcbQiT71
-         VPIPHJRYAmqgEa/dgULYQLtHTHr+StkEFk2olzU/xS4lm3vH9K6hvz35lR8+eWwG8wLy
-         Ia4AyTbCD0u29VivMBj/HdjdXvyUGjl6NmZxnGylmxKYaIkup7cGTK8OOr6NQ5cDHXLH
-         DAmQ==
-X-Gm-Message-State: AOAM5321RO9DGJ7XEPSH5787s9HzgfSWx/6ztMNuC1s8uxAdgfinJvw6
-        /FVZTdMNMWheYm4CGWSZzZ1EAeg7/Bvocg==
-X-Google-Smtp-Source: ABdhPJynNUQpuugryDQKpD9uO3I9XPoRddiIV9ves6vWHWe6NNcwxfMmZ7RqNSeJl0N1U+gvpbFaLA==
-X-Received: by 2002:a05:620a:914:: with SMTP id v20mr5631665qkv.140.1616626039588;
-        Wed, 24 Mar 2021 15:47:19 -0700 (PDT)
+        bh=5tU7UIZx5sKDtekqRNcff9UhagCgiik2vNQpD3Gxa/A=;
+        b=HNh2D3coOmIdUN//D2CAZLynO8Y9DcK0rBC6PL8jwtE3Z2xQyzELT0+NbF1MzX8QwF
+         qiPWYMImKfzF84KaGrbbRW6Ynk8SD7QqwoHQVPHOTEhHNefPxC/kVGOwcl6Up9EKIkq+
+         /HyTI+btmrJBOzWHri9QZ3YyXYIl4yYroRlnPc5Kecatv3ZoltirF0ekOaMHhAqEu3qL
+         c+Eg6egap6IyaLvU2k30zjS0jhTHBbH55DtlSBpdLHYZ29y3n9yjwQ23V0etquDo6zz3
+         ML2qrTyYL35qLlVQz2g6x0aRmGrjXqfm4svaiKnLyKx7q374LEHuAYMEePRR3dz310zB
+         0DfQ==
+X-Gm-Message-State: AOAM532UmPd90hYE/h4vmhZf96rY8p0XEEsJ7dKhl7Fv4zFhhgzh4y9z
+        6nYc2xz9lXwGYmAHXx83jC3a2pRLKm3ydg==
+X-Google-Smtp-Source: ABdhPJwv6aGSrEtVN8puqP2F/tB4rWhSOwVvYIm3aB5R7WQdcMxn6D7MXTMCxca00oxE18AEtZa9tA==
+X-Received: by 2002:a37:6a47:: with SMTP id f68mr5550308qkc.12.1616626071003;
+        Wed, 24 Mar 2021 15:47:51 -0700 (PDT)
 Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id k8sm2343314qth.74.2021.03.24.15.47.18
+        by smtp.gmail.com with ESMTPSA id 18sm2987977qkr.77.2021.03.24.15.47.50
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Mar 2021 15:47:18 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id x189so286252ybg.5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 15:47:18 -0700 (PDT)
-X-Received: by 2002:a25:ab54:: with SMTP id u78mr8254860ybi.276.1616626038338;
- Wed, 24 Mar 2021 15:47:18 -0700 (PDT)
+        Wed, 24 Mar 2021 15:47:50 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id i9so292383ybp.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 15:47:50 -0700 (PDT)
+X-Received: by 2002:a5b:54a:: with SMTP id r10mr7029357ybp.476.1616626069874;
+ Wed, 24 Mar 2021 15:47:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com> <20210322030128.2283-11-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20210322030128.2283-11-laurent.pinchart+renesas@ideasonboard.com>
+References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com> <20210322030128.2283-12-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210322030128.2283-12-laurent.pinchart+renesas@ideasonboard.com>
 From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 24 Mar 2021 15:47:07 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Wwayx1Y-xv=RPuJbG+Q1wHrUWgh4P7wuzy_bAL=_FN0g@mail.gmail.com>
-Message-ID: <CAD=FV=Wwayx1Y-xv=RPuJbG+Q1wHrUWgh4P7wuzy_bAL=_FN0g@mail.gmail.com>
-Subject: Re: [RFC PATCH 10/11] drm/bridge: ti-sn65dsi86: Support DisplayPort
- (non-eDP) mode
+Date:   Wed, 24 Mar 2021 15:47:38 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XeUbw44OZ0H6hJhS3Pb7LgknVpKynHFxWpPx_qPQ6+QA@mail.gmail.com>
+Message-ID: <CAD=FV=XeUbw44OZ0H6hJhS3Pb7LgknVpKynHFxWpPx_qPQ6+QA@mail.gmail.com>
+Subject: Re: [RFC PATCH 11/11] drm/bridge: ti-sn65dsi86: Support hotplug detection
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
         linux-renesas-soc@vger.kernel.org,
@@ -77,100 +76,153 @@ Hi,
 On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart
 <laurent.pinchart+renesas@ideasonboard.com> wrote:
 >
-> Despite the SN65DSI86 being an eDP bridge, on some systems its output is
-> routed to a DisplayPort connector. Enable DisplayPort mode when the next
-> component in the display pipeline is not a panel, and disable eDP
-> features in that case.
+> When the SN65DSI86 is used in DisplayPort mode, its output is likely
+> routed to a DisplayPort connector, which can benefit from hotplug
+> detection. Support it in such cases, with polling mode only for now.
+>
+> The implementation is limited to the bridge operations, as the connector
+> operations are legacy and new users should use
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 32 ++++++++++++++++++++-------
->  1 file changed, 24 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 46 +++++++++++++++++++--------
+>  1 file changed, 33 insertions(+), 13 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index e2527d597ccb..f792227142a7 100644
+> index f792227142a7..72f6362adf44 100644
 > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -55,6 +55,7 @@
->  #define SN_LN_ASSIGN_REG                       0x59
->  #define  LN_ASSIGN_WIDTH                       2
->  #define SN_ENH_FRAME_REG                       0x5A
-> +#define  ASSR_CONTROL                          BIT(0)
->  #define  VSTREAM_ENABLE                                BIT(3)
->  #define  LN_POLRS_OFFSET                       4
->  #define  LN_POLRS_MASK                         0xf0
-> @@ -86,6 +87,8 @@
->  #define SN_DATARATE_CONFIG_REG                 0x94
->  #define  DP_DATARATE_MASK                      GENMASK(7, 5)
->  #define  DP_DATARATE(x)                                ((x) << 5)
-> +#define SN_TRAINING_SETTING_REG                        0x95
-> +#define  SCRAMBLE_DISABLE                      BIT(4)
->  #define SN_ML_TX_MODE_REG                      0x96
->  #define  ML_TX_MAIN_LINK_OFF                   0
->  #define  ML_TX_NORMAL_MODE                     BIT(0)
-> @@ -723,6 +726,11 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
->         regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
->                            DP_DATARATE_MASK, DP_DATARATE(dp_rate_idx));
->
-> +       /* For DisplayPort, use the standard DP scrambler seed. */
-> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-> +               regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG,
-> +                                  ASSR_CONTROL, 0);
-
-I don't actually know anything about DP scrambler seeds. However:
-
-1. From reading the docs, this field seems to be documented to be
-"read only" unless:
-
-1a) The "TEST2" pin is pulled high when you power on the bridge.
-1b) You set "ASSR_OVERRIDE" (page select to page 7, write to register
-0x16, page select back to page 0).
-
-I don't know if TEST2 is being pulled high in your hardware, but at
-least I can see that 1b) isn't done. So I'm guessing that this line is
-a no-op? If I had to guess from all the hoops they're making you jump
-through there's some sort of errata around standard scrambling on this
-bridge chip. Are you sure it works OK?
-
-
-2. The docs I see claim that this field is 2 bits big. It seems like
-it would be nice to honor. Yeah, it's silly because 0x11 and 0x10 are
-"reserved" so it's really more like a 1-bit field, but still seems
-like it would be better to set both bits, or at least add a comment
-explaining why you're not matching the datasheet.
-
-
-3. Your patch doesn't seem to touch the bit of code in
-ti_sn_bridge_enable() that says this:
-
-/**
- * The SN65DSI86 only supports ASSR Display Authentication method and
- * this method is enabled by default. An eDP panel must support this
- * authentication method. We need to enable this method in the eDP panel
- * at DisplayPort address 0x0010A prior to link training.
- */
-drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
-   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
-
-Won't that be a problem?
-
-
+> @@ -167,6 +167,8 @@ struct ti_sn_bridge {
+>         struct gpio_chip                gchip;
+>         DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
+>  #endif
 > +
->         /* enable DP PLL */
->         regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
+> +       bool                            no_hpd;
+
+This structure is documented by kernel-doc, but you didn't add your new member.
+
+
+>  };
 >
-> @@ -734,6 +742,11 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
->                 goto exit;
+>  static const struct regmap_range ti_sn_bridge_volatile_ranges[] = {
+> @@ -862,23 +864,28 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
+>         ti_sn_bridge_set_refclk_freq(pdata);
+>
+>         /*
+> -        * HPD on this bridge chip is a bit useless.  This is an eDP bridge
+> -        * so the HPD is an internal signal that's only there to signal that
+> -        * the panel is done powering up.  ...but the bridge chip debounces
+> -        * this signal by between 100 ms and 400 ms (depending on process,
+> -        * voltage, and temperate--I measured it at about 200 ms).  One
+> +        * As this is an eDP bridge, the output will be connected to a fixed
+> +        * panel in most systems. HPD is in that case only an internal signal
+> +        * to signal that the panel is done powering up. The bridge chip
+> +        * debounces this signal by between 100 ms and 400 ms (depending on
+> +        * process, voltage, and temperate--I measured it at about 200 ms). One
+>          * particular panel asserted HPD 84 ms after it was powered on meaning
+>          * that we saw HPD 284 ms after power on.  ...but the same panel said
+>          * that instead of looking at HPD you could just hardcode a delay of
+> -        * 200 ms.  We'll assume that the panel driver will have the hardcoded
+> -        * delay in its prepare and always disable HPD.
+> +        * 200 ms. HPD is thus a bit useless. For this type of use cases, we'll
+> +        * assume that the panel driver will have the hardcoded delay in its
+> +        * prepare and always disable HPD.
+>          *
+> -        * If HPD somehow makes sense on some future panel we'll have to
+> -        * change this to be conditional on someone specifying that HPD should
+> -        * be used.
+> +        * However, on some systems, the output is connected to a DisplayPort
+> +        * connector. HPD is needed in such cases. To accommodate both use
+> +        * cases, enable HPD only when requested.
+>          */
+> -       regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
+> -                          HPD_DISABLE);
+> +       if (pdata->no_hpd)
+> +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
+> +                                  HPD_DISABLE, HPD_DISABLE);
+> +       else
+> +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
+> +                                  HPD_DISABLE, 0);
+
+Optionally you could skip the "else". HPD enabled is the default state
+and, in general, we don't exhaustively init all registers and rely on
+the power-on defaults for ones we don't explicitly control.
+
+
+>  }
+>
+>  static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+> @@ -890,6 +897,15 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+>         pm_runtime_put_sync(pdata->dev);
+>  }
+>
+> +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
+> +{
+> +       struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+> +       int val;
+> +
+> +       regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
+> +       return val ? connector_status_connected : connector_status_disconnected;
+
+I would have expected that you would have used the interrupt signal,
+but I guess it just polls in this case. I suppose polling has the
+advantage that it's simpler... Maybe throw in a comment about why IRQ
+isn't being used?
+
+
+> +}
+> +
+>  static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
+>                                           struct drm_connector *connector)
+>  {
+> @@ -904,6 +920,7 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+>         .enable = ti_sn_bridge_enable,
+>         .disable = ti_sn_bridge_disable,
+>         .post_disable = ti_sn_bridge_post_disable,
+> +       .detect = ti_sn_bridge_detect,
+>         .get_edid = ti_sn_bridge_get_edid,
+>  };
+>
+> @@ -1327,6 +1344,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+>                 return ret;
 >         }
 >
-> +       /* For DisplayPort, disable scrambling mode. */
-> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-> +               regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_REG,
-> +                                  SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
+> +       pdata->no_hpd = of_property_read_bool(pdata->dev->of_node, "no-hpd");
+> +
+>         ti_sn_bridge_parse_lanes(pdata, client->dev.of_node);
+>
+>         ret = ti_sn_bridge_parse_regulators(pdata);
+> @@ -1365,7 +1384,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+>
+>         pdata->bridge.funcs = &ti_sn_bridge_funcs;
+>         pdata->bridge.of_node = client->dev.of_node;
+> -       pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
+> +       pdata->bridge.ops = (pdata->no_hpd ? 0 : DRM_BRIDGE_OP_DETECT)
 
-I'm assuming that this is the important part of your patch? Would be
-sorta nice to include the "why" in your comment. Why do you want to
-disable scrambling mode for DP but not for eDP? Maybe you care about
-compatibility but not EMI if you're hooking up to random DP things?
+Checking for "no_hpd" here is not the right test IIUC. You want to
+check for eDP vs. DP (AKA whether a panel is downstream of you or a
+connector). Specifically if downstream of you is a panel then (I
+believe) HPD won't assert until you turn on the panel and you won't
+turn on the panel (which happens in pre_enable, right?) until HPD
+fires, so you've got a chicken-and-egg problem. If downstream of you
+is a connector, though, then by definition HPD has to just work
+without pre_enable running so then you're OK.
+
+I guess then you'd need to figure out what to do if someone wants to
+use "HPD" on eDP. Do you need to put a polling loop in pre_enable
+then? Or you could just punt not support this case until someone needs
+it.
+
+
+> +                         | DRM_BRIDGE_OP_EDID;
+
+IMO somewhere in here if HPD is being used like this you should throw
+in a call to pm_runtime_get_sync(). I guess in your solution the
+regulators (for the bridge, not the panel) and enable pin are just
+left on all the time, but plausibly someone might want to build a
+system to use HPD and also have the enable pin and/or regulators
+controlled by this driver, right?
+
 
 -Doug
