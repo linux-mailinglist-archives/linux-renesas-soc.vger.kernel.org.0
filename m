@@ -2,150 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0711F34796D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 14:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A36DD3479FF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 14:56:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234881AbhCXNUR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Mar 2021 09:20:17 -0400
-Received: from foss.arm.com ([217.140.110.172]:33700 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234750AbhCXNTs (ORCPT
+        id S235810AbhCXNze (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Mar 2021 09:55:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42434 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235768AbhCXNzB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Mar 2021 09:19:48 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFA5D1FB;
-        Wed, 24 Mar 2021 06:19:46 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A55263F718;
-        Wed, 24 Mar 2021 06:19:43 -0700 (PDT)
-Date:   Wed, 24 Mar 2021 13:19:38 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Robin Murphy <robin.murphy@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Frank Wunderlich <frank-w@public-files.de>,
-        Thierry Reding <treding@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v2 12/15] PCI/MSI: Let PCI host bridges declare their
- reliance on MSI domains
-Message-ID: <20210324131938.GA16722@e121166-lin.cambridge.arm.com>
-References: <20210322184614.802565-1-maz@kernel.org>
- <20210322184614.802565-13-maz@kernel.org>
- <6a2eaa5d-1d83-159f-69e5-c9e0a00a7b50@arm.com>
- <87im5hkahr.wl-maz@kernel.org>
+        Wed, 24 Mar 2021 09:55:01 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38076C0613DE
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 06:55:01 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id o10so32115484lfb.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 06:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=PgS7FYres3Xdyh8t09n3C+beyG2Bh2b8GepXqA+1xpY=;
+        b=lCBHY8BB8T063LXXZ9vRbvvMUhIK0JGAWl71h3B+u9/v5t8MsH4ySiXzlx2ofgl0g+
+         /iDVrelvuS64bRKRLFCEwyrpPVCz3hWAdSHkT5f2vDrr9tL3DtcDh1a4EkSGGkVXgwNX
+         FG6trWltSICW9BD5xmZwY7QcDXxDVImMEJoVN1ifXJPWbCnBM+xRj2mv5UXr4lR+mlY9
+         au+cEqrdEHjf/aypETGW6PIJxUiwstzzZRq5tRn0CsDqvBHNwXKyDdlSxwjY2JuZkXVE
+         2SZYBE4LfVnWHjsS/vrDyk6TJ5fqYezlQvk+zRbcThlXzxpdmvWWf4+EBAHsFjqVTgNk
+         r0nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=PgS7FYres3Xdyh8t09n3C+beyG2Bh2b8GepXqA+1xpY=;
+        b=Mrp4AH89b/8de8AyNw/yzJT8ny25FpqxqsWDFz5PaWyPxBBFKna7zy67qGbAyzXCxr
+         7waLleFqXUPdB00oKA7enDl5vES9/VHBxK787Wh+GC67AWFoucXXWe313RDtX6ujxXk3
+         oVplgigeGeTqPFoQ9a4ksVobLgNMK+nXsm/vZ0XLqB8BzV7AKXhZUiEj3PUpp+xtTKa8
+         93OVWNkhPNyOmF8pX6vTS89WeJSqHomDobAMytDLMhdtqsA+vcRPAhMpUzan9B0C1tu1
+         zvtfgVc3MXVT/SEk/qAY4SFabWUb8WLpq2WpDWi0oHWMbZVpby5UM/R+sJsLHHk4U2Pk
+         bfuQ==
+X-Gm-Message-State: AOAM530TTOB4mYfZ+RIXst3D+veKwHyR1zLDxy4kj7/gHQzSqd+r2xnd
+        QR04x/bv2MTGeP1uduS6VMrDPw==
+X-Google-Smtp-Source: ABdhPJyGomK7csxLo/rj12Rh8zselonGvFz3iTpxlOJdH6lROKzCr+X4NiCtWKdchY7aEEo3BfUkBQ==
+X-Received: by 2002:a05:6512:1044:: with SMTP id c4mr2054177lfb.198.1616594099652;
+        Wed, 24 Mar 2021 06:54:59 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id f13sm319571ljm.25.2021.03.24.06.54.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 06:54:55 -0700 (PDT)
+Date:   Wed, 24 Mar 2021 14:54:55 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] media: rcar-csi2: Enable support for r8a77961
+Message-ID: <YFtEr9imzsbImk2y@oden.dyn.berto.se>
+References: <20210312132459.1754782-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdXbhzzYUwiXg8h2KPdTb-c5peogDK_saGvDir36zNAq4w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <87im5hkahr.wl-maz@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXbhzzYUwiXg8h2KPdTb-c5peogDK_saGvDir36zNAq4w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 23, 2021 at 06:09:36PM +0000, Marc Zyngier wrote:
-> Hi Robin,
+Hi Geert,
+
+Thanks for your feedback.
+
+On 2021-03-23 15:53:27 +0100, Geert Uytterhoeven wrote:
+> Hi Niklas,
 > 
-> On Tue, 23 Mar 2021 11:45:02 +0000,
-> Robin Murphy <robin.murphy@arm.com> wrote:
-> > 
-> > On 2021-03-22 18:46, Marc Zyngier wrote:
-> > > The new 'no_msi' attribute solves the problem of advertising the lack
-> > > of MSI capability for host bridges that know for sure that there will
-> > > be no MSI for their end-points.
-> > > 
-> > > However, there is a whole class of host bridges that cannot know
-> > > whether MSIs will be provided or not, as they rely on other blocks
-> > > to provide the MSI functionnality, using MSI domains.  This is
-> > > the case for example on systems that use the ARM GIC architecture.
-> > > 
-> > > Introduce a new attribute ('msi_domain') indicating that implicit
-> > > dependency, and use this property to set the NO_MSI flag when
-> > > no MSI domain is found at probe time.
-> > > 
-> > > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> > > Signed-off-by: Marc Zyngier <maz@kernel.org>
-> > > ---
-> > >   drivers/pci/probe.c | 2 +-
-> > >   include/linux/pci.h | 1 +
-> > >   2 files changed, 2 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> > > index 146bd85c037e..bac9f69a06a8 100644
-> > > --- a/drivers/pci/probe.c
-> > > +++ b/drivers/pci/probe.c
-> > > @@ -925,7 +925,7 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
-> > >   	device_enable_async_suspend(bus->bridge);
-> > >   	pci_set_bus_of_node(bus);
-> > >   	pci_set_bus_msi_domain(bus);
-> > > -	if (bridge->no_msi)
-> > > +	if (bridge->no_msi || (bridge->msi_domain && !bus->dev.msi_domain))
-> > >   		bus->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
-> > >     	if (!parent)
-> > > diff --git a/include/linux/pci.h b/include/linux/pci.h
-> > > index 48605cca82ae..d322d00db432 100644
-> > > --- a/include/linux/pci.h
-> > > +++ b/include/linux/pci.h
-> > > @@ -551,6 +551,7 @@ struct pci_host_bridge {
-> > >   	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
-> > >   	unsigned int	size_windows:1;		/* Enable root bus sizing */
-> > >   	unsigned int	no_msi:1;		/* Bridge has no MSI support */
-> > > +	unsigned int	msi_domain:1;		/* Bridge wants MSI domain */
-> > 
-> > Aren't these really the same thing? Either way we're saying the bridge
-> > itself doesn't handle MSIs, it's just in one case we're effectively
-> > encoding a platform-specific assumption that an external domain won't
-> > be provided. I can't help wondering whether that distinction is really
-> > necessary...
+> On Fri, Mar 12, 2021 at 2:26 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > Enable support for M3-W+ (r8a77961).
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > 
-> There is a subtle difference: no_msi indicates that there is no way
-> *any* MSI can be dealt with whatsoever (maybe because the RC doesn't
-> forward the corresponding TLPs?). msi_domain says "no MSI unless...".
+> Thanks for your patch!
 > 
-> We could implement the former with the latter, but I have the feeling
-> that's not totally bullet proof. Happy to revisit this if you think it
-> really matters.
-
-IIUC msi_domain == 1 means: this host bridge needs an msi_domain to enable
-MSIs, which in turn means that there are bridges that do _not_ require
-an msi_domain to enable MSIs. I don't know how other arches handle the 
-msi_domain pointer but I am asking whether making:
-
-if (bridge->no_msi || !bus->dev.msi_domain))
-	bus->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
-
-is a possibility (removing the need for the msi_domain flag).
-
-At least this looks more like an arch property than a host bridge
-specific property (eg patch [13] pci_host_common_probe() may be used on
-arches other than ARM where it is not necessary true that it requires an
-msi_domain to enable MSIs).
-
-I agree that's complicated to untangle - just asking if there is way
-to simplify it.
-
-Thanks,
-Lorenzo
-
-> Thanks,
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -1164,6 +1164,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
+> >                 .compatible = "renesas,r8a7796-csi2",
+> >                 .data = &rcar_csi2_info_r8a7796,
+> >         },
+> > +       {
+> > +               .compatible = "renesas,r8a77961-csi2",
+> > +               .data = &rcar_csi2_info_r8a7796,
 > 
-> 	M.
+> Hence CSI2 on R-Car M3-W+ is handled the same way as R-Car M3-W.
+> I don't know what this means for the driver, but according to Technical
+> Update TN-RCT-S0359A/E, R-Car M3-W+ supports lane settings 4/2/1 on
+> CSI40/41 (like most other R-Car Gen3 SoCs), while R-Car M3-W supports
+> only lane setting 4 on CSI40/41.
+
+This is a great find.
+
+The table TN-RCT-S0359A/E correct was not present in datasheets before 
+v0.80 so it have completely been missed. The trouble is that the current 
+driver does the wrong thing for M3-W (and allows 4/2/1 lanes) and this 
+this patch would be correct for M3-W+ while still leaving M3-W 
+incorrect.
+
+I will resping this series to first correct the M3-W behavior and then 
+add M3-W on-top.
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
 > 
 > -- 
-> Without deviation from the norm, progress is not possible.
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+-- 
+Regards,
+Niklas Söderlund
