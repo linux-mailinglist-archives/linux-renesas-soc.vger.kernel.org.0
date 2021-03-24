@@ -2,127 +2,255 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A36DD3479FF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 14:56:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C902347A05
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 14:57:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235810AbhCXNze (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Mar 2021 09:55:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42434 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235768AbhCXNzB (ORCPT
+        id S235699AbhCXN4h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Mar 2021 09:56:37 -0400
+Received: from mail-eopbgr770052.outbound.protection.outlook.com ([40.107.77.52]:45554
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235793AbhCXN4T (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Mar 2021 09:55:01 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38076C0613DE
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 06:55:01 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id o10so32115484lfb.9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 06:55:01 -0700 (PDT)
+        Wed, 24 Mar 2021 09:56:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UllG1U6PCB15oD7uRc49V7sBJMcZQxQiUU+6W6D/N1M/pKg3P+eRfzgmkiZ9G04MbqeXpNdicmdQtaTx+L//trkTwxsnT4TFohEXNwChw5/9tmvxja074PK10V1aSPAvaGH2o4RHEWze813i44+JTfvc86UtibRWpTWFhaPByh+2zKRFxS99+PVEtceBZYUImWvwDHpIPoTj67TfQBX1lXWFsdQlba8FuejzWXYDtW9Gai5ToRFrdoCBruYiepXM6D42Exd1q+UNz9LvybJ30CZk+x5K30fS6YA9jnWd8vRmaPwPGdwfAdHfkxT0C3182pAjsQDTbemPoatWSysz7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ma9VBPHSJAXFz8V/7f6vlUdnTsmXhusqfeS8VBf/+F8=;
+ b=WTFegcHr7dmqi5LZrw5wdfqdRlAd/7+gOhWykokZ9ZuQPNSJNTSiXxfmSUhKL78fEoIEJfSFdmHHtpJ1FCYfX8K6hU4jcWw9aIR/4Atx2ts7YvY3HscIVA1zvEHphTeIfOi2ROhON/jlr+lnnAtstu8GltyX+UEu3E5BUAq1CyLJBjLJacmZA0HeCw02tPey8LsDoNydgSaHOytUkiw5Vciujpa8YLflARwYLmpwpqkeqe/QHPyCjbe3w1CwOCdZga4iKlmU+ippXFe5RaucmkhmdK0v9FJDM/JsuALNgvSl6oys7QfSWHSQN2VDFm7Yxf54rflhasx7CaLVIExDKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=PgS7FYres3Xdyh8t09n3C+beyG2Bh2b8GepXqA+1xpY=;
-        b=lCBHY8BB8T063LXXZ9vRbvvMUhIK0JGAWl71h3B+u9/v5t8MsH4ySiXzlx2ofgl0g+
-         /iDVrelvuS64bRKRLFCEwyrpPVCz3hWAdSHkT5f2vDrr9tL3DtcDh1a4EkSGGkVXgwNX
-         FG6trWltSICW9BD5xmZwY7QcDXxDVImMEJoVN1ifXJPWbCnBM+xRj2mv5UXr4lR+mlY9
-         au+cEqrdEHjf/aypETGW6PIJxUiwstzzZRq5tRn0CsDqvBHNwXKyDdlSxwjY2JuZkXVE
-         2SZYBE4LfVnWHjsS/vrDyk6TJ5fqYezlQvk+zRbcThlXzxpdmvWWf4+EBAHsFjqVTgNk
-         r0nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=PgS7FYres3Xdyh8t09n3C+beyG2Bh2b8GepXqA+1xpY=;
-        b=Mrp4AH89b/8de8AyNw/yzJT8ny25FpqxqsWDFz5PaWyPxBBFKna7zy67qGbAyzXCxr
-         7waLleFqXUPdB00oKA7enDl5vES9/VHBxK787Wh+GC67AWFoucXXWe313RDtX6ujxXk3
-         oVplgigeGeTqPFoQ9a4ksVobLgNMK+nXsm/vZ0XLqB8BzV7AKXhZUiEj3PUpp+xtTKa8
-         93OVWNkhPNyOmF8pX6vTS89WeJSqHomDobAMytDLMhdtqsA+vcRPAhMpUzan9B0C1tu1
-         zvtfgVc3MXVT/SEk/qAY4SFabWUb8WLpq2WpDWi0oHWMbZVpby5UM/R+sJsLHHk4U2Pk
-         bfuQ==
-X-Gm-Message-State: AOAM530TTOB4mYfZ+RIXst3D+veKwHyR1zLDxy4kj7/gHQzSqd+r2xnd
-        QR04x/bv2MTGeP1uduS6VMrDPw==
-X-Google-Smtp-Source: ABdhPJyGomK7csxLo/rj12Rh8zselonGvFz3iTpxlOJdH6lROKzCr+X4NiCtWKdchY7aEEo3BfUkBQ==
-X-Received: by 2002:a05:6512:1044:: with SMTP id c4mr2054177lfb.198.1616594099652;
-        Wed, 24 Mar 2021 06:54:59 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id f13sm319571ljm.25.2021.03.24.06.54.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 06:54:55 -0700 (PDT)
-Date:   Wed, 24 Mar 2021 14:54:55 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] media: rcar-csi2: Enable support for r8a77961
-Message-ID: <YFtEr9imzsbImk2y@oden.dyn.berto.se>
-References: <20210312132459.1754782-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdXbhzzYUwiXg8h2KPdTb-c5peogDK_saGvDir36zNAq4w@mail.gmail.com>
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ma9VBPHSJAXFz8V/7f6vlUdnTsmXhusqfeS8VBf/+F8=;
+ b=mPVPVpnt242CMk7u5TsK81fEABamInPBxZM9ujWOaGT1KzXriaZsyHwirC7i5b9Tggcx7IYYwr4/R8nM1iQhy7KTxaCipCRBSquUa1FB5sFYeCar5mt79RAEHkGHAkFmGLfiqeNoX7RUIKbvlmzqfrICs3T5HP6kWwRe6fT0r8A=
+Received: from BYAPR02MB5559.namprd02.prod.outlook.com (2603:10b6:a03:a1::18)
+ by BYAPR02MB5429.namprd02.prod.outlook.com (2603:10b6:a03:99::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Wed, 24 Mar
+ 2021 13:56:16 +0000
+Received: from BYAPR02MB5559.namprd02.prod.outlook.com
+ ([fe80::2418:b7d2:cbb:27f]) by BYAPR02MB5559.namprd02.prod.outlook.com
+ ([fe80::2418:b7d2:cbb:27f%5]) with mapi id 15.20.3955.027; Wed, 24 Mar 2021
+ 13:56:16 +0000
+From:   Bharat Kumar Gogada <bharatku@xilinx.com>
+To:     Marc Zyngier <maz@kernel.org>
+CC:     "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Thierry Reding <treding@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Michal Simek <michals@xilinx.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "kernel-team@android.com" <kernel-team@android.com>
+Subject: RE: [PATCH v2 05/15] PCI: xilinx: Convert to MSI domains
+Thread-Topic: [PATCH v2 05/15] PCI: xilinx: Convert to MSI domains
+Thread-Index: AQHXH0vIUXC892kDXkW3zUak9HM8+aqTE3EQgAANhwCAAArBcA==
+Date:   Wed, 24 Mar 2021 13:56:16 +0000
+Message-ID: <BYAPR02MB5559590C1395C15205582976A5639@BYAPR02MB5559.namprd02.prod.outlook.com>
+References: <20210322184614.802565-1-maz@kernel.org>
+        <20210322184614.802565-6-maz@kernel.org>
+        <BYAPR02MB5559A0B0DA88866EDC7BDFE5A5639@BYAPR02MB5559.namprd02.prod.outlook.com>
+ <877dlwk805.wl-maz@kernel.org>
+In-Reply-To: <877dlwk805.wl-maz@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.50.129]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: a388b3a0-3cba-402d-98ce-08d8eecc983e
+x-ms-traffictypediagnostic: BYAPR02MB5429:
+x-ld-processed: 657af505-d5df-48d0-8300-c31994686c5c,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB5429BAB4DD62B44DA18CCE72A5639@BYAPR02MB5429.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WdJg/UkTD7+8URxl0VsYK0Y03V+knyrmOmTNRONz/qBAgPabt+aY3KrUrw0BNkxNOaEUeZzHKjjRQaVpd7x2uOcptVipZQI8/zraYxtbXNzJu5tygid98dReUEkSHk5N/pG61jKXaLdfGvIEM6vECRLGgtR9TvXbVxCV+w2NUGxIxzPp7v5boWC2lujQwK+fy5U/EZdyQ7HrX0jE/oGVy/SkhpqTYBzL7c602j0uqOmTzONt+QN3h2BNxIESvSEIT0OGYUUgj2BYu8xtSTVC5BCjljvpA9hW7pusiAWfclTR4jLzHbHcG3fl+e2or5n19UD4qp9Blgspry4mBRGBMZadW3r7+2ze6JZeP9vtXBGc3c/s3QTmRYoo+ngW8kgsrsgYiJPgYVx74ghb7JmXQi+45d8E2KIeW47N/QZU7rWmDSyzOCpBOJ4m/uYc+6MONSsgBtyDO6dln8PmxtZhu6Z/1RK5/Rl7K+Serp1/fvDIAztzb5nXO3KsnN+OdjtfILl8g1SMVmwrEmqo6wwNX64PyLDQCM+6ZpG2pK3S8rSnnA9MpDLFJeAio45gp1vHOknWw+vHCBPiFerdEGna4gQsN0jsoQhTVHp37KGAIfiYS2WuzHpt8wTmbl53vAiSt1IVYT4HR6K0BVqQw6OHyWJZND2GOkcVv2k2J6P3Brw=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR02MB5559.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(39860400002)(346002)(136003)(396003)(6916009)(4326008)(478600001)(66946007)(64756008)(76116006)(54906003)(66446008)(7696005)(38100700001)(8936002)(86362001)(66556008)(52536014)(5660300002)(55016002)(2906002)(83380400001)(71200400001)(316002)(33656002)(9686003)(186003)(8676002)(7416002)(66476007)(6506007)(26005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?CwCz9iBx19ly093Y32ZCmxPnp5bUFISqk6soD9jZRlhaMCE0dTKDnc9F7qyr?=
+ =?us-ascii?Q?4NwH72Xshat9crKQVTFWqTtX5Ugfy19hmM5Zs0YrPzahML32G1GOIRPp4Jmo?=
+ =?us-ascii?Q?fCUSPkYTxg31hFohiG92aPo5nE/Jp5m23KJyxLH9RP+0dSetzpigSi66Bdbl?=
+ =?us-ascii?Q?dzfxSI5fVtdgKJiQHYKPoHaraX1SJ4uKIYqdqM8FQmhPxQMxqap+S2hasJ4l?=
+ =?us-ascii?Q?bMCDWvaGnKDvjxX3MWt6kD79N31Q71nXAUMJDFzpAAYp8JjybPkqnNqUAbx0?=
+ =?us-ascii?Q?58RW8pkV7MgTe01CtgZJiK96acbymmBeoWaNDk6PekCLu2WsS+ZDPEb5zcJR?=
+ =?us-ascii?Q?B7XyIixW+Ef8xd+XDJojVczdD/TiXNOT9almZAS3SSI0wmIw/YwYVqOjoNZw?=
+ =?us-ascii?Q?0bttGHFvdP90Tt5cq3eaKPeZYKoWgrTdAdlNBdypKwIUBcqhJiKPAf3XAggN?=
+ =?us-ascii?Q?k1TGDT/O8YJPFeQWIq7Wgpn+li77RGB6ohujsirASHxHRbkCLAcrwZK7Mamz?=
+ =?us-ascii?Q?V3SQ/DohD2hqvyh/B+Bm3pgZWj6KohOl9oFgTrQ2juX0XmSxbSErEJ8BYdzL?=
+ =?us-ascii?Q?eI0S/nNu/xLx+2VVzbyO2ycps896RKZ8gu4IQpMFQO+SSftGL3qaqCn1Qa/i?=
+ =?us-ascii?Q?kNPBxIJtBTJKCgphQTbE74qwzzcI2Sj74D4j+GnPNq0jJfnHTwlvV+UxylZL?=
+ =?us-ascii?Q?y8kxO1aTEpaklB6YJ+xdo1czdRa2W+rdz4sQarHCYjaOnVYnYcHnEMVcuvfx?=
+ =?us-ascii?Q?t6M0yQyIy4WizHvNeuR3EJco9awTsqvzOJ0CP8GnlQICJph2/FEeKnd2J6K8?=
+ =?us-ascii?Q?qk4rUZglhFeKbtdZVVM2stXhLrKbd5ZdldC0obdDl+FKpIr+e1bjquy7dyXF?=
+ =?us-ascii?Q?n4OkWS19kntodaZM5wrJRQPQHq04MMUcNNPjq6lQ3ub0y+pSDJoAHvAj52qj?=
+ =?us-ascii?Q?9P097yJsTpZOC/8jn2UY8Za/TcXQ3KuQCWMU5HV1RRfbGAbhUI3ADFwd80bQ?=
+ =?us-ascii?Q?Xj4ejVQpCMVk1lnBojvGsVc799L7gy739JFMg/L238C+I4wSdKVZLQB6Mhsi?=
+ =?us-ascii?Q?zVmQSRrbVmG/relfKuRwPvh9H/wCB2T26zE5wSB4M2KQ4N2qNld0jGrG6lyC?=
+ =?us-ascii?Q?gORCNN/dM1IE4xocFkbbgj8xGueRCgpnVeUAb/s208bBkgjxVJk5rGaUOfyl?=
+ =?us-ascii?Q?jwTOTDpfjojIzkkim09eK/fsba516LJCO/hvEGJLvb8OStR34rkM0R/KvQyL?=
+ =?us-ascii?Q?7Q/cJA/jbbfRIlDBstsAK0iYZRl+yYDzZFABgu+bFx8vnq1fPV69V9fd2q1o?=
+ =?us-ascii?Q?og5qiPX0vJhOBpoJgq03IjE8?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXbhzzYUwiXg8h2KPdTb-c5peogDK_saGvDir36zNAq4w@mail.gmail.com>
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB5559.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a388b3a0-3cba-402d-98ce-08d8eecc983e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2021 13:56:16.5814
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sF6iO+SVrS+nD9WueX/IqrzeK3Jd+fsj7QFytRUl1raTRGI2hNDQoJME87yOa6BQ+hP9a2SeKxYNyAAt5LqSsw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5429
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thanks for your feedback.
-
-On 2021-03-23 15:53:27 +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Fri, Mar 12, 2021 at 2:26 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > Enable support for M3-W+ (r8a77961).
+> > Hi Marc,
 > >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > @@ -1164,6 +1164,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
-> >                 .compatible = "renesas,r8a7796-csi2",
-> >                 .data = &rcar_csi2_info_r8a7796,
-> >         },
-> > +       {
-> > +               .compatible = "renesas,r8a77961-csi2",
-> > +               .data = &rcar_csi2_info_r8a7796,
-> 
-> Hence CSI2 on R-Car M3-W+ is handled the same way as R-Car M3-W.
-> I don't know what this means for the driver, but according to Technical
-> Update TN-RCT-S0359A/E, R-Car M3-W+ supports lane settings 4/2/1 on
-> CSI40/41 (like most other R-Car Gen3 SoCs), while R-Car M3-W supports
-> only lane setting 4 on CSI40/41.
+> > Thanks for the patch.
+> >
+> > > Subject: [PATCH v2 05/15] PCI: xilinx: Convert to MSI domains
+> > >
+> > > In anticipation of the removal of the msi_controller structure,
+> > > convert the ancient xilinx host controller driver to MSI domains.
+> > >
+> > > We end-up with the usual two domain structure, the top one being a
+> > > generic PCI/MSI domain, the bottom one being xilinx-specific and
+> > > handling the actual HW interrupt allocation.
+> > >
+> > > This allows us to fix some of the most appalling MSI programming,
+> > > where the message programmed in the device is the virtual IRQ number
+> > > instead of the allocated vector number. The allocator is also made
+> > > safe with a mutex. This should allow support for MultiMSI, but I
+> > > decided not to even try, since I cannot test it.
+> > >
+> > > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > > ---
+> > >  drivers/pci/controller/Kconfig       |   2 +-
+> > >  drivers/pci/controller/pcie-xilinx.c | 234
+> > > +++++++++++----------------
+> > >  2 files changed, 97 insertions(+), 139 deletions(-)
+> > >
+> > > diff --git a/drivers/pci/controller/Kconfig
+> > > b/drivers/pci/controller/Kconfig index 5cc07d28a3a0..60045f7aafc5
+> > > 100644
+> > ...
+> >
+> >
+> > > +static struct irq_chip xilinx_msi_bottom_chip =3D {
+> > > +	.name			=3D "Xilinx MSI",
+> > > +	.irq_set_affinity 	=3D xilinx_msi_set_affinity,
+> > > +	.irq_compose_msi_msg	=3D xilinx_compose_msi_msg,
+> > > +};
+> > >
+> > I see a crash while testing MSI in handle_edge_irq [<c015bdd4>]
+> > (handle_edge_irq) from [<c0157164>] (generic_handle_irq+0x28/0x38)
+> > [<c0157164>] (generic_handle_irq) from [<c03a9714>]
+> > (xilinx_pcie_intr_handler+0x17c/0x2b0)
+> > [<c03a9714>] (xilinx_pcie_intr_handler) from [<c0157d94>]
+> > (__handle_irq_event_percpu+0x3c/0xc0)
+> > [<c0157d94>] (__handle_irq_event_percpu) from [<c0157e44>]
+> > (handle_irq_event_percpu+0x2c/0x7c)
+> > [<c0157e44>] (handle_irq_event_percpu) from [<c0157ecc>]
+> > (handle_irq_event+0x38/0x5c) [<c0157ecc>] (handle_irq_event) from
+> > [<c015bc8c>] (handle_fasteoi_irq+0x9c/0x114)
+>=20
+> Thanks for that. Can you please try the following patch and let me know i=
+f it
+> helps?
+>=20
+> Thanks,
+>=20
+> 	M.
+>=20
+> diff --git a/drivers/pci/controller/pcie-xilinx.c b/drivers/pci/controlle=
+r/pcie-
+> xilinx.c
+> index ad9abf405167..14001febf59a 100644
+> --- a/drivers/pci/controller/pcie-xilinx.c
+> +++ b/drivers/pci/controller/pcie-xilinx.c
+> @@ -194,8 +194,18 @@ static struct pci_ops xilinx_pcie_ops =3D {
+>=20
+>  /* MSI functions */
+>=20
+> +static void xilinx_msi_top_irq_ack(struct irq_data *d) {
+> +	/*
+> +	 * xilinx_pcie_intr_handler() will have performed the Ack.
+> +	 * Eventually, this should be fixed and the Ack be moved in
+> +	 * the respective callbacks for INTx and MSI.
+> +	 */
+> +}
+> +
+>  static struct irq_chip xilinx_msi_top_chip =3D {
+>  	.name		=3D "PCIe MSI",
+> +	.irq_ack	=3D xilinx_msi_top_irq_ack,
+>  };
+>=20
+>  static int xilinx_msi_set_affinity(struct irq_data *d, const struct cpum=
+ask
+> *mask, bool force) @@ -206,7 +216,7 @@ static int
+> xilinx_msi_set_affinity(struct irq_data *d, const struct cpumask *mas  st=
+atic
+> void xilinx_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)  =
+{
+>  	struct xilinx_pcie_port *pcie =3D irq_data_get_irq_chip_data(data);
+> -	phys_addr_t pa =3D virt_to_phys(pcie);
+> +	phys_addr_t pa =3D ALIGN_DOWN(virt_to_phys(pcie), SZ_4K);
+>=20
+>  	msg->address_lo =3D lower_32_bits(pa);
+>  	msg->address_hi =3D upper_32_bits(pa);
+> @@ -468,7 +478,7 @@ static int xilinx_pcie_init_irq_domain(struct
+> xilinx_pcie_port *port)
+>=20
+>  	/* Setup MSI */
+>  	if (IS_ENABLED(CONFIG_PCI_MSI)) {
+> -		phys_addr_t pa =3D virt_to_phys(port);
+> +		phys_addr_t pa =3D ALIGN_DOWN(virt_to_phys(port), SZ_4K);
+>=20
+>  		ret =3D xilinx_allocate_msi_domains(port);
+>  		if (ret)
+>=20
+Thanks Marc.
+With above patch now everything works fine, tested a Samsung NVMe SSD.=20
+tst~# lspci
+00:00.0 PCI bridge: Xilinx Corporation Device 0706
+01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD=
+ Controller 172Xa/172Xb (rev 01)
 
-This is a great find.
-
-The table TN-RCT-S0359A/E correct was not present in datasheets before 
-v0.80 so it have completely been missed. The trouble is that the current 
-driver does the wrong thing for M3-W (and allows 4/2/1 lanes) and this 
-this patch would be correct for M3-W+ while still leaving M3-W 
-incorrect.
-
-I will resping this series to first correct the M3-W behavior and then 
-add M3-W on-top.
-
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
--- 
 Regards,
-Niklas Söderlund
+Bharat
