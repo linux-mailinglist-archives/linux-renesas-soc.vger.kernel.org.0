@@ -2,117 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46007346DB1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 00:04:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1875F3473E9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 09:48:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234129AbhCWXDl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Mar 2021 19:03:41 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45128 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234127AbhCWXDh (ORCPT
+        id S234448AbhCXIrf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Mar 2021 04:47:35 -0400
+Received: from mail-ua1-f46.google.com ([209.85.222.46]:39693 "EHLO
+        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234385AbhCXIr2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Mar 2021 19:03:37 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 290D2510;
-        Wed, 24 Mar 2021 00:03:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616540616;
-        bh=iUuZGWZxmpZLF4RuxEGDzAwOuCZh48VN9LgUyEIq51A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Oi5pPXPd3K8zXaayOxHal03kZqGh5aNDKmTtvxt7KwcWcpsLdMbaTgWvib1W7YeCT
-         F9Db0FNWzFNl/hKVf9r2lis1rAdQK8CnMdcXy6g7DXWWekrIXS3S+hokDI98Xm8Doz
-         bTJMtDS8/PBLfr9Af4FMxVaW/kZeEugMdWwG8QL4=
-Date:   Wed, 24 Mar 2021 01:02:54 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Wed, 24 Mar 2021 04:47:28 -0400
+Received: by mail-ua1-f46.google.com with SMTP id x8so7598808ual.6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 01:47:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FX4YhcRrTtOWfNjjlu3aaCWI7W5SveqcMlD13s6eqt4=;
+        b=BKzrPJdw6upniCqgfW7/15IR8WjOx2q3GHhWaNb78TgI8uSEkXrUK4hhCXqfjJJHL4
+         UJiVmF0RW5TWRty2BUTLHMyLQZPzwZTd93ztmwFLVANuufbngPMnlcIDXl8pyK86cAtD
+         4zJKBu5539qoPQyGIk0xHRs7wmFsRa60TC9FD9IMoy1rsXRGc1ysjuJUACvImxylDfEi
+         xrLw4mmBY7BjalAF3uVr5tqoBn5/I3eJINR5bGZpQZ+oL1VyrMytq4+bIEldecUW9CDO
+         iqC4rGndxblLYGzLRFSc9c53V7A3luUkh5JBkcuedF8e59KeGeyfubV9SzT2QaI7QvsV
+         Ec9w==
+X-Gm-Message-State: AOAM532l/UVWzszq5bv4v+BZW+TJclibtZ+qb7wyyTvCK/2NqRlyOx2T
+        fdJPnlfN2tl1+qOjGl3oUJefvpyydgjqaM1jo0c=
+X-Google-Smtp-Source: ABdhPJzP29xmBlDCp4PFhnPQFJUSoC4K4pGWei3p2zPlq3uAtPKdMIyVbFffA1UwuYpP1Imr6vLGx3hKMvY6yrJqsTQ=
+X-Received: by 2002:ab0:6954:: with SMTP id c20mr895926uas.106.1616575636198;
+ Wed, 24 Mar 2021 01:47:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-5-laurent.pinchart+renesas@ideasonboard.com> <CAD=FV=UDd9LC-sMEk0hn10roeM+Cz6VNekcZomkQXLhfw0-4wA@mail.gmail.com>
+In-Reply-To: <CAD=FV=UDd9LC-sMEk0hn10roeM+Cz6VNekcZomkQXLhfw0-4wA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 24 Mar 2021 09:47:05 +0100
+Message-ID: <CAMuHMdXarCH4rP56HA5hxZ5heyotMD+_KraHu5r35baOe=MHug@mail.gmail.com>
+Subject: Re: [RFC PATCH 04/11] drm/bridge: ti-sn65dsi86: Use bitmask to store
+ valid rates
 To:     Doug Anderson <dianders@chromium.org>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-renesas-soc@vger.kernel.org,
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Andrzej Hajda <a.hajda@samsung.com>,
         Neil Armstrong <narmstrong@baylibre.com>,
         Jonas Karlman <jonas@kwiboo.se>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [RFC PATCH 03/11] drm/bridge: ti-sn65dsi86: Unregister AUX
- adapter in remove()
-Message-ID: <YFpznvA/m3KfEEqz@pendragon.ideasonboard.com>
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-4-laurent.pinchart+renesas@ideasonboard.com>
- <CAD=FV=W-+aS25wtnSmF8tWSDHTdNCjbFj0x02-1iqZ2p5qYzyA@mail.gmail.com>
- <YFpgfBW+U5R6urk0@pendragon.ideasonboard.com>
- <CAD=FV=W76DXDsy_Ug5cQUVUfz18MzYp92hPKOiRm3Hf1jknPgQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=W76DXDsy_Ug5cQUVUfz18MzYp92hPKOiRm3Hf1jknPgQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Doug,
 
-On Tue, Mar 23, 2021 at 03:55:05PM -0700, Doug Anderson wrote:
-> On Tue, Mar 23, 2021 at 2:42 PM Laurent Pinchart wrote:
-> > On Tue, Mar 23, 2021 at 02:08:42PM -0700, Doug Anderson wrote:
-> > > On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
-> > > >
-> > > > The AUX adapter registered in probe() need to be unregistered in
-> > > > remove(). Do so.
-> > > >
-> > > > Fixes: b814ec6d4535 ("drm/bridge: ti-sn65dsi86: Implement AUX channel")
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > ---
-> > > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > index da78a12e58b5..c45420a50e73 100644
-> > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > > @@ -1307,6 +1307,9 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
-> > > >                 return -EINVAL;
-> > > >
-> > > >         kfree(pdata->edid);
-> > > > +
-> > > > +       drm_dp_aux_unregister(&pdata->aux);
-> > > > +
-> > > >         ti_sn_debugfs_remove(pdata);
-> > > >
-> > > >         of_node_put(pdata->host_node);
-> > >
-> > > Good catch. One question, though. I know DRM sometimes has different
-> > > conventions than the rest of the kernel, but I always look for the
-> > > "remove" to be backwards of probe. That means that your code (and
-> > > probably most of the remove function) should come _after_ the
-> > > drm_bridge_remove(), right?  ...since drm_bridge_add() was the last
-> > > thing in probe then drm_bridge_remove() should be the first thing in
-> > > remove?
+On Tue, Mar 23, 2021 at 10:10 PM Doug Anderson <dianders@chromium.org> wrote:
+> On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart
+> <laurent.pinchart+renesas@ideasonboard.com> wrote:
 > >
-> > I agree in theory, yes. However, in practice, if you remove a bridge
-> > that is currently in use, all hell will break lose. And if the bridge
-> > isn't being used, it makes no difference. Still, it's worth changing the
-> > order of operations to move drm_bridge_remove() first, as it won't hurt
-> > in any case and is logically better. It's not an issue introduced by
-> > this series though, so how how about it on top, or in parallel ?
-> 
-> Sure, it can be a separate patch. I'd kinda prefer it be a patch
-> _before_ ${SUBJECT} patch, though. Specifically it's harder for me to
-> reason about whether your new function call is in the right place and
-> won't cause any problems with the order being all jumbled. If we fix
-> the order first then it's easy to reason about your patch.
-> 
-> > You can
-> > even submit a patch if you want :-)
-> 
-> Happy to post it up if it won't cause more confusion w/ you posting
-> your next version and trying to figure out what to base it on (since
-> it will definitely conflict with your series).
+> > The valid rates are stored in an array of 8 booleans. Replace it with a
+> > bitmask to save space.
+>
+> I'm curious: do you have evidence that this does anything useful? I
+> guess you're expecting it to save .text space, right? Stack usage and
+> execution time differences should be irrelevant--it's not in a
+> critical section and the difference should be tiny anyway. As far as
+> .text segment goes, it's not obvious to me that the compiler will use
+> fewer instructions to manipulate bits compared to booleans.
+>
+> Doing a super simple "ls -ah" on vmlinux (unstripped):
+>
+> Before: 224820232 bytes
+> After: 224820376 bytes
+>
+> ...so your change made it _bigger_.   OK, so running "strip
+> --strip-debug" on those:
+>
+> Before: 26599464 bytes
+> After: 26599464 bytes
 
-I'll need quite a bit of time before v2, as I'd like to test it, and
-that requires finishing support for the DSI bridge and the display
-controller :-) Please feel free to post a patch if you have time, I
-think it could get merged in drm-misc quite quickly.
+I've been surprised by the counter-intuitive impact of similar changes
+before, too.  The result may also differ a lot between arm32 or arm64.
+
+> ...so exactly the same. I tried finding some evidence using "readelf -ah":
+>
+> Before:
+>   [ 2] .text             PROGBITS         ffffffc010010000  00020000
+>        0000000000b03508  0000000000000000 WAX       0     0     65536
+>   [ 3] .rodata           PROGBITS         ffffffc010b20000  00b30000
+>        00000000002e84b3  0000000000000000 WAMS       0     0     4096
+>
+> After:
+>   [ 2] .text             PROGBITS         ffffffc010010000  00020000
+>        0000000000b03508  0000000000000000 WAX       0     0     65536
+>   [ 3] .rodata           PROGBITS         ffffffc010b20000  00b30000
+>        00000000002e84b3  0000000000000000 WAMS       0     0     4096
+>
+> Maybe you have some evidence showing an improvement? Ah, OK. I
+> disassembled ti_sn_bridge_enable() and your patch saves 12 bytes, but
+> I guess maybe alignment washes it out in reality...
+
+Yes, arm64 is bad w.r.t. this.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
