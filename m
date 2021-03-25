@@ -2,227 +2,213 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 655A73484E3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Mar 2021 23:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F9F03487D5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Mar 2021 05:14:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233680AbhCXWr7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Mar 2021 18:47:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45480 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233555AbhCXWrw (ORCPT
+        id S229461AbhCYENu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Mar 2021 00:13:50 -0400
+Received: from mail-dm6nam10on2081.outbound.protection.outlook.com ([40.107.93.81]:19424
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229448AbhCYENt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Mar 2021 18:47:52 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37645C06174A
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 15:47:52 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id o5so49941qkb.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 15:47:52 -0700 (PDT)
+        Thu, 25 Mar 2021 00:13:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iq7rb+0aWuy4gF12MWGJ6t4xTrY8+q/SjPDOUUH0uiNAODDC1ECC9G+cHoGLbQSmOpn4j83E/wyBNTIei+PJz+O80gRY8fPrQAOKwHkMmLO37VmrWy6QDtUHG13Zlwi8ggHa7exZZ/D8jYtmAEME/lITDCnAqzS50re/xSE+CI6Sj4c05HwD2Gip9zco7UMjQvpaFAmKihPKaX1FD6WUJWIJPlLQjNstVvh27uWmjeynY5NqxWu8NsuH3yArw499LcpuKp5I6AR3d9PwPoO9nbtFPDuO8Mh5VyOOxI45TmMPEqjCxi7+5GVj3koVXLiRNXz07t4nTPXWBR7KrTMkTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ym/zs6GXH76u5X6/xkOkadV2vByg5V50D5RcKgXBJyM=;
+ b=GK1MWP4be1vESPT5L4xhEwDkUIrtGxVjH7ZENP+OrVRjFX/CQ5nK5Sk7VCE8bIx7pbPVeN68Djeln58IxIJBJf12q0tTDVrsl++KsGWCWJX2LACz5bj3xRfJ8oTk5IJNh37xban7YZm7H7ZZD8T2bHjHDyem24CVSSif93hW0lg2Sm3Yo9uoqlZj4spbOCZ2X8MvIWNyRHnYqJsX5yaWV5qGjtCay8SXrg3277M2k+CfJ/R2jds4fwgrq9hBjMhtvTz7jT10UIa+45OeoXZmCeXulgNX5mk4XS8VD+anL96VaIg/OtrIKFPQPA62QGbKfohYaz16oCFN1kmwGLBbeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5tU7UIZx5sKDtekqRNcff9UhagCgiik2vNQpD3Gxa/A=;
-        b=azsRpjl/Ug0WsvmhU4tfuZeghZrs95mO0pH1sy4ThKPdLz/lzRvtKeQMHtV9joh3Wl
-         CHYyKxdMkSifG3DrkMQuuXW0hqlRJTmgxgkxrbqilbwznuzn8m7g5vX/JujDv5Opok4J
-         Z9M9R93eZKBS7vZWwH6AKMzYLu0GdW33HEYsQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5tU7UIZx5sKDtekqRNcff9UhagCgiik2vNQpD3Gxa/A=;
-        b=HNh2D3coOmIdUN//D2CAZLynO8Y9DcK0rBC6PL8jwtE3Z2xQyzELT0+NbF1MzX8QwF
-         qiPWYMImKfzF84KaGrbbRW6Ynk8SD7QqwoHQVPHOTEhHNefPxC/kVGOwcl6Up9EKIkq+
-         /HyTI+btmrJBOzWHri9QZ3YyXYIl4yYroRlnPc5Kecatv3ZoltirF0ekOaMHhAqEu3qL
-         c+Eg6egap6IyaLvU2k30zjS0jhTHBbH55DtlSBpdLHYZ29y3n9yjwQ23V0etquDo6zz3
-         ML2qrTyYL35qLlVQz2g6x0aRmGrjXqfm4svaiKnLyKx7q374LEHuAYMEePRR3dz310zB
-         0DfQ==
-X-Gm-Message-State: AOAM532UmPd90hYE/h4vmhZf96rY8p0XEEsJ7dKhl7Fv4zFhhgzh4y9z
-        6nYc2xz9lXwGYmAHXx83jC3a2pRLKm3ydg==
-X-Google-Smtp-Source: ABdhPJwv6aGSrEtVN8puqP2F/tB4rWhSOwVvYIm3aB5R7WQdcMxn6D7MXTMCxca00oxE18AEtZa9tA==
-X-Received: by 2002:a37:6a47:: with SMTP id f68mr5550308qkc.12.1616626071003;
-        Wed, 24 Mar 2021 15:47:51 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id 18sm2987977qkr.77.2021.03.24.15.47.50
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Mar 2021 15:47:50 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id i9so292383ybp.4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Mar 2021 15:47:50 -0700 (PDT)
-X-Received: by 2002:a5b:54a:: with SMTP id r10mr7029357ybp.476.1616626069874;
- Wed, 24 Mar 2021 15:47:49 -0700 (PDT)
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ym/zs6GXH76u5X6/xkOkadV2vByg5V50D5RcKgXBJyM=;
+ b=PUdzJPd6PESzi/s+2+3V/XpRftzu2c2qdydbQSYRgWxVP+4+03HjxRvFdAOAU/dh5JfudY9V0JJjDb2z8l++rrmyiOiOkQr+2qethyt5p09RXD5dklcb0eELOLSXSCI8nqhhrtSh2GHmXwvUaPTqEAbIDDFLH9dZo5SzBKTFu+c=
+Received: from BYAPR02MB5559.namprd02.prod.outlook.com (2603:10b6:a03:a1::18)
+ by BY5PR02MB6450.namprd02.prod.outlook.com (2603:10b6:a03:1b4::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Thu, 25 Mar
+ 2021 04:13:45 +0000
+Received: from BYAPR02MB5559.namprd02.prod.outlook.com
+ ([fe80::2418:b7d2:cbb:27f]) by BYAPR02MB5559.namprd02.prod.outlook.com
+ ([fe80::2418:b7d2:cbb:27f%5]) with mapi id 15.20.3955.027; Thu, 25 Mar 2021
+ 04:13:45 +0000
+From:   Bharat Kumar Gogada <bharatku@xilinx.com>
+To:     Marc Zyngier <maz@kernel.org>
+CC:     "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Thierry Reding <treding@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Michal Simek <michals@xilinx.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "kernel-team@android.com" <kernel-team@android.com>
+Subject: RE: [PATCH v2 05/15] PCI: xilinx: Convert to MSI domains
+Thread-Topic: [PATCH v2 05/15] PCI: xilinx: Convert to MSI domains
+Thread-Index: AQHXH0vIUXC892kDXkW3zUak9HM8+aqTE3EQgAANhwCAAArBcIAADnoAgADhkxA=
+Date:   Thu, 25 Mar 2021 04:13:45 +0000
+Message-ID: <BYAPR02MB555950A0F187D36B1EA16E58A5629@BYAPR02MB5559.namprd02.prod.outlook.com>
+References: <20210322184614.802565-1-maz@kernel.org>
+        <20210322184614.802565-6-maz@kernel.org>
+        <BYAPR02MB5559A0B0DA88866EDC7BDFE5A5639@BYAPR02MB5559.namprd02.prod.outlook.com>
+        <877dlwk805.wl-maz@kernel.org>
+        <BYAPR02MB5559590C1395C15205582976A5639@BYAPR02MB5559.namprd02.prod.outlook.com>
+ <874kh0k3tn.wl-maz@kernel.org>
+In-Reply-To: <874kh0k3tn.wl-maz@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.50.129]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: f47583b4-eeb9-4f27-61f0-08d8ef446228
+x-ms-traffictypediagnostic: BY5PR02MB6450:
+x-ld-processed: 657af505-d5df-48d0-8300-c31994686c5c,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR02MB6450C2E06828D50EF318E0A6A5629@BY5PR02MB6450.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 7bdx78r8hOVqLpxrW9wbSEIWAsXL7EwD9L8SJOZXsDF5lBfvn8LyEfu9EUjLKeuEShtUz3y6nILOzfysJqgTigAl/tk5UaxeHykpCZgstSwmsJ4XM3nLSvCdiDraGrLJv/B7XhHxtF0qgWvLffksCYUHCQTHl5ZGMjKu2QUMxAOdp6kwFaBJuHpugCxd1la1w0pAHGc5Uf0KWGM44JSPIrySpevAG5JybnT8mGK6ATpfnQXykN3uIVcDIBqtlq7TNIMOvFew3pCCv/na80YVFm7sPS7AT8X0IgaXysAAlOEPL8T93B7C2gq2JiLWXJMzYqwkcpnjCkLRFmbXQcGv94Bc7DfEDzUvAi9F4yd/W6H9JnGcjm5HNg3uAL/hI22hQ9SaHRuzoT4p8WjFm5LUpWINS9T6MBoeBhHHamR2zkbQwkbaKGHge2h94YIgBj9V719nZgKc4WNIBGHuPFk08HXTEjqdwgjbRypZ/Rp05xTFbrntAWjhG2GxeaQxusfIJGZSHW6qroWyYJg7cttqkqVaYSrwoeNSsu14Bv/SOFR7dARLup+ozoU6kN3Ncb0jzwwUBbdAUtSKJz7VnXtxtpveLdS6M6YV0ZHSaqOT1QkGlmQa3PtKkgUVXpZuSxYc5pcPXap8L/1drRRujSoB3EIOxaDaWEP1EhAXQW0J0RY=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR02MB5559.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(396003)(366004)(136003)(346002)(86362001)(7696005)(38100700001)(5660300002)(4326008)(6506007)(55016002)(71200400001)(6916009)(52536014)(8676002)(8936002)(9686003)(7416002)(2906002)(76116006)(66556008)(66476007)(64756008)(33656002)(54906003)(66946007)(186003)(316002)(478600001)(66446008)(26005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?C//sewGlZGB2UB3YTVcdz7EtWz6J1G9ieUhsDyQt86pO2UXIVitLLNfmzmyL?=
+ =?us-ascii?Q?FquS9KEpFt2hY8K3v83L/h2cC8p+VGa6IFf+ltnjaPfw9vVm8IS9LyujpNIh?=
+ =?us-ascii?Q?MgpH+R6P/BVnoT2uXvXVgJ9kZXlZ2p92vbnE3YzIDAtrZT23KD1mw0Iv2141?=
+ =?us-ascii?Q?38dwbpuB6rAIb6uZgSlL/hEmN3BAOLRnE2TSOIp6EEMElgs2s8OUlO0wBuYe?=
+ =?us-ascii?Q?+l2ZneBbzoFTUbfBZlg1ENCy4+tqRG6m5lyzU1qabi5EnqJu2hJNtpz43KYO?=
+ =?us-ascii?Q?UAhTRh4sUshWU/Cq/G5nNGrsMt9R6gSfRHE1tXugMfPZFFjMTbdhoZKAklvj?=
+ =?us-ascii?Q?EmMz+RtM7tGLh5vYzuOke+A/sM6/XDKKoOEXgIr4CCx1vpHb1bcKX7Ez6BEP?=
+ =?us-ascii?Q?piGBYpL5QLKRhw1FOWVVUp8N3vqAyEuAqT2lBFFWd7uYdjuWSMdftvx4uhOv?=
+ =?us-ascii?Q?NGkycuJp3PLb4+bmAljbza4Jj3HDB5hUSlOjAemZGbAHR/eb3lhqiTRFM5Vy?=
+ =?us-ascii?Q?rgQXD6zulL3Saw0WT88ZKuXKxD7zStv1C1MDB31eQ3P/4v5v4wA/JQlFjw9n?=
+ =?us-ascii?Q?AZ0QxmzjeHoi0yJL8a6Kjc3X6r0dR242D+F8bexa1ye0lBs67lFXZAjM88jj?=
+ =?us-ascii?Q?R4qQshN5WNgqTccqKkk+XilzfLjeabyqwhwYdmTu7lnA29615CarsEyPK+cI?=
+ =?us-ascii?Q?vOmCEGaQGJ83iqhMJM8wqWZyv3hrRf5n/8vHu7iwxQxfR4bEKLy7MYdHcpwF?=
+ =?us-ascii?Q?TJbX3siPt/WXH6jcIXX6xKZVdbGhhTDugV77PW2CFVeo3zPlfFaBRSdPphyr?=
+ =?us-ascii?Q?yLknKBsLg5Qf5ONOwb7MNK+4p1+0IlIYvM8Lv6GellmLsmb1HrH23e+4UGnN?=
+ =?us-ascii?Q?CB2w5mPaIxeoLFynTmURut7GXRgeNHZ7Q7a9WFhAhC4Ok6KN1Dn8JgPKFpEY?=
+ =?us-ascii?Q?pqjxJNuL2uVnC1kR19xRr2mP/pHMo45618IQwR9YtabdZYn+D/3KG5M6jf53?=
+ =?us-ascii?Q?IP7gXcQz5p+5P17RrW/fE8zhNEpq/uOqZYQulZUBDAmShHrrfhJqwKAmb5EO?=
+ =?us-ascii?Q?A4mx5zd9x7seh7hqqk8FfkBcf33j5Pf5p0SSTp+9RIouM2I24KjLPZQRQ7Kq?=
+ =?us-ascii?Q?WVoNrJzqkpKwyve0bnwu1rr6exzfeWXmUGkS4o0+Cw5mtT18z8QHffVkfvKW?=
+ =?us-ascii?Q?qmI6ZBNBTKVysDn13qzUk/68fmjEvj55G+oGJj1fISiTrOsQqStdC6CLXEfp?=
+ =?us-ascii?Q?MjfQ+R1mSxAqd8hDCt+iy3LJQO4CODzeDGxvkt/OmdLnDLRVT2i6A80CswDz?=
+ =?us-ascii?Q?vh4GS0jS0wLRD0V4bBDYHgSW?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com> <20210322030128.2283-12-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20210322030128.2283-12-laurent.pinchart+renesas@ideasonboard.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 24 Mar 2021 15:47:38 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XeUbw44OZ0H6hJhS3Pb7LgknVpKynHFxWpPx_qPQ6+QA@mail.gmail.com>
-Message-ID: <CAD=FV=XeUbw44OZ0H6hJhS3Pb7LgknVpKynHFxWpPx_qPQ6+QA@mail.gmail.com>
-Subject: Re: [RFC PATCH 11/11] drm/bridge: ti-sn65dsi86: Support hotplug detection
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB5559.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f47583b4-eeb9-4f27-61f0-08d8ef446228
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Mar 2021 04:13:45.3655
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ScqB5RpmHBMusJgDXgTrAbPnbcWOr/eyf1VPbFv0nPKoREV70Nle3J2sqobeRxoyDZUy/CHGo1qzYLTIfoQOnQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6450
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+> Subject: Re: [PATCH v2 05/15] PCI: xilinx: Convert to MSI domains
+>=20
+> On Wed, 24 Mar 2021 13:56:16 +0000,
+> Bharat Kumar Gogada <bharatku@xilinx.com> wrote:
+>=20
+> > > Thanks for that. Can you please try the following patch and let me
+> > > know if it helps?
+> > >
+> > > Thanks,
+> > >
+> > > 	M.
+> > >
+> > > diff --git a/drivers/pci/controller/pcie-xilinx.c
+> > > b/drivers/pci/controller/pcie- xilinx.c index
+> > > ad9abf405167..14001febf59a 100644
+> > > --- a/drivers/pci/controller/pcie-xilinx.c
+> > > +++ b/drivers/pci/controller/pcie-xilinx.c
+> > > @@ -194,8 +194,18 @@ static struct pci_ops xilinx_pcie_ops =3D {
+> > >
+> > >  /* MSI functions */
+> > >
+> > > +static void xilinx_msi_top_irq_ack(struct irq_data *d) {
+> > > +	/*
+> > > +	 * xilinx_pcie_intr_handler() will have performed the Ack.
+> > > +	 * Eventually, this should be fixed and the Ack be moved in
+> > > +	 * the respective callbacks for INTx and MSI.
+> > > +	 */
+> > > +}
+> > > +
+> > >  static struct irq_chip xilinx_msi_top_chip =3D {
+> > >  	.name		=3D "PCIe MSI",
+> > > +	.irq_ack	=3D xilinx_msi_top_irq_ack,
+> > >  };
+> > >
+> > >  static int xilinx_msi_set_affinity(struct irq_data *d, const struct
+> > > cpumask *mask, bool force) @@ -206,7 +216,7 @@ static int
+> > > xilinx_msi_set_affinity(struct irq_data *d, const struct cpumask
+> > > *mas  static void xilinx_compose_msi_msg(struct irq_data *data, struc=
+t
+> msi_msg *msg)  {
+> > >  	struct xilinx_pcie_port *pcie =3D irq_data_get_irq_chip_data(data);
+> > > -	phys_addr_t pa =3D virt_to_phys(pcie);
+> > > +	phys_addr_t pa =3D ALIGN_DOWN(virt_to_phys(pcie), SZ_4K);
+> > >
+> > >  	msg->address_lo =3D lower_32_bits(pa);
+> > >  	msg->address_hi =3D upper_32_bits(pa); @@ -468,7 +478,7 @@ static
+> > > int xilinx_pcie_init_irq_domain(struct
+> > > xilinx_pcie_port *port)
+> > >
+> > >  	/* Setup MSI */
+> > >  	if (IS_ENABLED(CONFIG_PCI_MSI)) {
+> > > -		phys_addr_t pa =3D virt_to_phys(port);
+> > > +		phys_addr_t pa =3D ALIGN_DOWN(virt_to_phys(port), SZ_4K);
+> > >
+> > >  		ret =3D xilinx_allocate_msi_domains(port);
+> > >  		if (ret)
+> > >
+> > Thanks Marc.
+> > With above patch now everything works fine, tested a Samsung NVMe SSD.
+> > tst~# lspci
+> > 00:00.0 PCI bridge: Xilinx Corporation Device 0706
+> > 01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd
+> > NVMe SSD Controller 172Xa/172Xb (rev 01)
+>=20
+> Great, thanks for giving it a shot. Can I take this as a Tested-by:
+> tag?
+>=20
+Yes.=20
 
-On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
->
-> When the SN65DSI86 is used in DisplayPort mode, its output is likely
-> routed to a DisplayPort connector, which can benefit from hotplug
-> detection. Support it in such cases, with polling mode only for now.
->
-> The implementation is limited to the bridge operations, as the connector
-> operations are legacy and new users should use
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 46 +++++++++++++++++++--------
->  1 file changed, 33 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index f792227142a7..72f6362adf44 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -167,6 +167,8 @@ struct ti_sn_bridge {
->         struct gpio_chip                gchip;
->         DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
->  #endif
-> +
-> +       bool                            no_hpd;
-
-This structure is documented by kernel-doc, but you didn't add your new member.
-
-
->  };
->
->  static const struct regmap_range ti_sn_bridge_volatile_ranges[] = {
-> @@ -862,23 +864,28 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
->         ti_sn_bridge_set_refclk_freq(pdata);
->
->         /*
-> -        * HPD on this bridge chip is a bit useless.  This is an eDP bridge
-> -        * so the HPD is an internal signal that's only there to signal that
-> -        * the panel is done powering up.  ...but the bridge chip debounces
-> -        * this signal by between 100 ms and 400 ms (depending on process,
-> -        * voltage, and temperate--I measured it at about 200 ms).  One
-> +        * As this is an eDP bridge, the output will be connected to a fixed
-> +        * panel in most systems. HPD is in that case only an internal signal
-> +        * to signal that the panel is done powering up. The bridge chip
-> +        * debounces this signal by between 100 ms and 400 ms (depending on
-> +        * process, voltage, and temperate--I measured it at about 200 ms). One
->          * particular panel asserted HPD 84 ms after it was powered on meaning
->          * that we saw HPD 284 ms after power on.  ...but the same panel said
->          * that instead of looking at HPD you could just hardcode a delay of
-> -        * 200 ms.  We'll assume that the panel driver will have the hardcoded
-> -        * delay in its prepare and always disable HPD.
-> +        * 200 ms. HPD is thus a bit useless. For this type of use cases, we'll
-> +        * assume that the panel driver will have the hardcoded delay in its
-> +        * prepare and always disable HPD.
->          *
-> -        * If HPD somehow makes sense on some future panel we'll have to
-> -        * change this to be conditional on someone specifying that HPD should
-> -        * be used.
-> +        * However, on some systems, the output is connected to a DisplayPort
-> +        * connector. HPD is needed in such cases. To accommodate both use
-> +        * cases, enable HPD only when requested.
->          */
-> -       regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
-> -                          HPD_DISABLE);
-> +       if (pdata->no_hpd)
-> +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
-> +                                  HPD_DISABLE, HPD_DISABLE);
-> +       else
-> +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
-> +                                  HPD_DISABLE, 0);
-
-Optionally you could skip the "else". HPD enabled is the default state
-and, in general, we don't exhaustively init all registers and rely on
-the power-on defaults for ones we don't explicitly control.
-
-
->  }
->
->  static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
-> @@ -890,6 +897,15 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
->         pm_runtime_put_sync(pdata->dev);
->  }
->
-> +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
-> +{
-> +       struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
-> +       int val;
-> +
-> +       regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
-> +       return val ? connector_status_connected : connector_status_disconnected;
-
-I would have expected that you would have used the interrupt signal,
-but I guess it just polls in this case. I suppose polling has the
-advantage that it's simpler... Maybe throw in a comment about why IRQ
-isn't being used?
-
-
-> +}
-> +
->  static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
->                                           struct drm_connector *connector)
->  {
-> @@ -904,6 +920,7 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
->         .enable = ti_sn_bridge_enable,
->         .disable = ti_sn_bridge_disable,
->         .post_disable = ti_sn_bridge_post_disable,
-> +       .detect = ti_sn_bridge_detect,
->         .get_edid = ti_sn_bridge_get_edid,
->  };
->
-> @@ -1327,6 +1344,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
->                 return ret;
->         }
->
-> +       pdata->no_hpd = of_property_read_bool(pdata->dev->of_node, "no-hpd");
-> +
->         ti_sn_bridge_parse_lanes(pdata, client->dev.of_node);
->
->         ret = ti_sn_bridge_parse_regulators(pdata);
-> @@ -1365,7 +1384,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
->
->         pdata->bridge.funcs = &ti_sn_bridge_funcs;
->         pdata->bridge.of_node = client->dev.of_node;
-> -       pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
-> +       pdata->bridge.ops = (pdata->no_hpd ? 0 : DRM_BRIDGE_OP_DETECT)
-
-Checking for "no_hpd" here is not the right test IIUC. You want to
-check for eDP vs. DP (AKA whether a panel is downstream of you or a
-connector). Specifically if downstream of you is a panel then (I
-believe) HPD won't assert until you turn on the panel and you won't
-turn on the panel (which happens in pre_enable, right?) until HPD
-fires, so you've got a chicken-and-egg problem. If downstream of you
-is a connector, though, then by definition HPD has to just work
-without pre_enable running so then you're OK.
-
-I guess then you'd need to figure out what to do if someone wants to
-use "HPD" on eDP. Do you need to put a polling loop in pre_enable
-then? Or you could just punt not support this case until someone needs
-it.
-
-
-> +                         | DRM_BRIDGE_OP_EDID;
-
-IMO somewhere in here if HPD is being used like this you should throw
-in a call to pm_runtime_get_sync(). I guess in your solution the
-regulators (for the bridge, not the panel) and enable pin are just
-left on all the time, but plausibly someone might want to build a
-system to use HPD and also have the enable pin and/or regulators
-controlled by this driver, right?
-
-
--Doug
+Regards,
+Bharat
