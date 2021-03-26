@@ -2,32 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2545134A2F0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Mar 2021 09:06:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B63D34A5D1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Mar 2021 11:51:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229889AbhCZIGF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Mar 2021 04:06:05 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:1565 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229812AbhCZIFi (ORCPT
+        id S229986AbhCZKuu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Mar 2021 06:50:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60786 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229915AbhCZKue (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Mar 2021 04:05:38 -0400
-X-IronPort-AV: E=Sophos;i="5.81,279,1610377200"; 
-   d="scan'208";a="76145330"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Mar 2021 17:00:34 +0900
-Received: from localhost.localdomain (unknown [10.166.15.86])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8DC9841F6EC2;
-        Fri, 26 Mar 2021 17:00:34 +0900 (JST)
-From:   Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
-To:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
-        bhelgaas@google.com, robh+dt@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com
-Subject: [PATCH v3] dt-bindings: pci: rcar-pci-ep: Document r8a7795
-Date:   Fri, 26 Mar 2021 17:00:13 +0900
-Message-Id: <20210326080013.31773-1-yuya.hamamachi.sx@renesas.com>
+        Fri, 26 Mar 2021 06:50:34 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E052FC0613B3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Mar 2021 03:50:17 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:5cae:bca6:def7:9f08])
+        by xavier.telenet-ops.be with bizsmtp
+        id kyqD2400C53vE1T01yqD50; Fri, 26 Mar 2021 11:50:14 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lPk2f-00AWWZ-7m; Fri, 26 Mar 2021 11:50:13 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lPk2e-006bak-Gt; Fri, 26 Mar 2021 11:50:12 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Dien Pham <dien.pham.ry@renesas.com>,
+        Yusuke Goda <yusuke.goda.sx@renesas.com>,
+        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/2] arm64: dts: renesas: Add cpu-supply properties for DVFS
+Date:   Fri, 26 Mar 2021 11:50:07 +0100
+Message-Id: <20210326105009.1574424-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -35,34 +44,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document the support for R-Car PCIe EP on R8A7795 SoC device.
+	Hi all,
 
-Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Changes from v2:
-- Add Lad-san's Acked-by
-- https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210209074840.21254-1-yuya.hamamachi.sx@renesas.com/
-Changes from v1:
-- Add Geert-san's Reviewed-by.
-- https://patchwork.kernel.org/project/linux-renesas-soc/patch/20201125073303.19057-2-yuya.hamamachi.sx@renesas.com/
+This patch series adds the cpu-supply properties to the a57_0 nodes on
+the Salvator-X(S) and ULCB development boards, so Dynamic Voltage and
+Frequency Scaling (DVFS) can change the CPU core voltages.
+This is a prerequisite for enabling CPU boost modes.
 
- Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml | 1 +
- 1 file changed, 1 insertion(+)
+To be queued in renesas-devel for 5.13.
 
-diff --git a/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-index 295840cf612f..32a3b7665ff5 100644
---- a/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-+++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-@@ -19,6 +19,7 @@ properties:
-           - renesas,r8a774b1-pcie-ep     # RZ/G2N
-           - renesas,r8a774c0-pcie-ep     # RZ/G2E
-           - renesas,r8a774e1-pcie-ep     # RZ/G2H
-+          - renesas,r8a7795-pcie-ep      # R-Car H3
-       - const: renesas,rcar-gen3-pcie-ep # R-Car Gen3 and RZ/G2
- 
-   reg:
+Dien Pham (1):
+  arm64: dts: renesas: salvator-common: Add cpu-supply property to a57_0
+    node
+
+Yusuke Goda (1):
+  arm64: dts: renesas: ulcb: Add cpu-supply property to a57_0 node
+
+ arch/arm64/boot/dts/renesas/salvator-common.dtsi | 4 ++++
+ arch/arm64/boot/dts/renesas/ulcb.dtsi            | 4 ++++
+ 2 files changed, 8 insertions(+)
+
 -- 
 2.25.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
