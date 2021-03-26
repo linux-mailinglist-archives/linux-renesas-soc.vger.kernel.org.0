@@ -2,225 +2,225 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0E8A34A5E3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Mar 2021 11:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A206434A61C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Mar 2021 12:07:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229758AbhCZKzG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Mar 2021 06:55:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33492 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbhCZKys (ORCPT
+        id S229994AbhCZLHD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Mar 2021 07:07:03 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:39405 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230027AbhCZLGk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Mar 2021 06:54:48 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6C8C0613B1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Mar 2021 03:54:47 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:5cae:bca6:def7:9f08])
-        by andre.telenet-ops.be with bizsmtp
-        id kyum2400M53vE1T01yumVY; Fri, 26 Mar 2021 11:54:46 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lPk73-00AWZz-T7; Fri, 26 Mar 2021 11:54:45 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lPk73-006bgh-3v; Fri, 26 Mar 2021 11:54:45 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: Zero init clk_init_data
-Date:   Fri, 26 Mar 2021 11:54:34 +0100
-Message-Id: <20210326105434.1574796-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 26 Mar 2021 07:06:40 -0400
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 4AA12240003;
+        Fri, 26 Mar 2021 11:06:36 +0000 (UTC)
+Date:   Fri, 26 Mar 2021 12:07:06 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 13/19] media: i2c: rdacm21: Power up OV10640 before
+ OV490
+Message-ID: <20210326110706.qcu5ptxqeem3stot@uno.localdomain>
+References: <20210319164148.199192-1-jacopo+renesas@jmondi.org>
+ <20210319164148.199192-14-jacopo+renesas@jmondi.org>
+ <YFYfcwniGswxy9KI@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YFYfcwniGswxy9KI@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As clk_core_populate_parent_map() checks clk_init_data.num_parents
-first, and checks clk_init_data.parent_names[] before
-clk_init_data.parent_data[] and clk_init_data.parent_hws[], leaving the
-latter uninitialized doesn't do harm for now.  However, it is better to
-play it safe, and initialize all clk_init_data structures to zeroes, to
-avoid any current and future members containing uninitialized data.
+Hi Laurent,
 
-Remove a few explicit zero initializers, which are now superfluous.
+On Sat, Mar 20, 2021 at 06:14:43PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Fri, Mar 19, 2021 at 05:41:42PM +0100, Jacopo Mondi wrote:
+> > The current RDACM21 initialization routine powers up the
+> > OV10640 image sensor after the OV490 ISP. The ISP is programmed with
+> > a firmware loaded from an embedded EEPROM that (most probably) tries
+>
+> It's actually a serial flash, not an EEPROM.
+>
+> > to interact and program also the image sensor connected to the ISP.
+> >
+> > As described in commit ccb26c5742f5 ("media: i2c: rdacm21: Fix OV10640
+>
+> That commit ID won't be valid anymore once the patches get merged,
+> unless they are pulled instead of cherry-picked, which is currently not
+> done in the Linux media subsystem. I'd drop it an only mention the
+> commit's subject.
+>
+> > powerup") the image sensor powerdown signal is kept high by an internal
+> > pull up resistor and occasionally fails to startup correctly if the
+> > powerdown line is not asserted explicitly. Failures in the OV10640
+> > startup causes the OV490 firmware to fail to boot correctly resulting in
+> > the camera module initialization to fail consequentially.
+> >
+> > Fix this by powering up the OV10640 image sensor before testing the
+> > OV490 firmware boot completion, by splitting the ov10640_initialize()
+> > function in an ov10640_power_up() one and an ov10640_check_id() one.
+> >
+> > Also make sure the OV10640 identification procedure gives enough time to
+> > the image sensor to resume after the programming phase performed by the
+> > OV490 firmware by repeating the ID read procedure,
+>
+> s/,/./
+>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-clk for v5.13.
+I'll rework
 
- drivers/clk/renesas/clk-div6.c            | 3 +--
- drivers/clk/renesas/clk-mstp.c            | 2 +-
- drivers/clk/renesas/r9a06g032-clocks.c    | 8 ++++----
- drivers/clk/renesas/rcar-cpg-lib.c        | 2 +-
- drivers/clk/renesas/rcar-gen2-cpg.c       | 3 +--
- drivers/clk/renesas/rcar-gen3-cpg.c       | 2 +-
- drivers/clk/renesas/rcar-usb2-clock-sel.c | 5 +----
- drivers/clk/renesas/renesas-cpg-mssr.c    | 2 +-
- 8 files changed, 11 insertions(+), 16 deletions(-)
+> >
+> > This commit fixes a sporadic start-up error triggered by a failure to
+> > detect the OV490 firmware boot completion:
+> > rdacm21 8-0054: Timeout waiting for firmware boot
+> >
+> > Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  drivers/media/i2c/rdacm21.c | 46 ++++++++++++++++++++++++++-----------
+> >  1 file changed, 32 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> > index 3f38c465b348..3763eb690d74 100644
+> > --- a/drivers/media/i2c/rdacm21.c
+> > +++ b/drivers/media/i2c/rdacm21.c
+> > @@ -69,6 +69,7 @@
+> >  #define OV490_ISP_VSIZE_LOW		0x80820062
+> >  #define OV490_ISP_VSIZE_HIGH		0x80820063
+> >
+> > +#define OV10640_PID_TIMEOUT		20
+> >  #define OV10640_ID_HIGH			0xa6
+> >  #define OV10640_CHIP_ID			0x300a
+> >  #define OV10640_PIXEL_RATE		55000000
+> > @@ -314,10 +315,8 @@ static int rdacm21_get_fmt(struct v4l2_subdev *sd,
+> >  	return 0;
+> >  }
+> >
+> > -static int ov10640_initialize(struct rdacm21_device *dev)
+> > +static void ov10640_power_up(struct rdacm21_device *dev)
+> >  {
+> > -	u8 val;
+> > -
+> >  	/* Enable GPIO0#0 (reset) and GPIO1#0 (pwdn) as output lines. */
+> >  	ov490_write_reg(dev, OV490_GPIO_SEL0, OV490_GPIO0);
+> >  	ov490_write_reg(dev, OV490_GPIO_SEL1, OV490_SPWDN0);
+> > @@ -332,18 +331,35 @@ static int ov10640_initialize(struct rdacm21_device *dev)
+> >  	usleep_range(1500, 3000);
+> >  	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_GPIO0);
+> >  	usleep_range(3000, 5000);
+> > +}
+> >
+> > -	/* Read OV10640 ID to test communications. */
+> > -	ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR, OV490_SCCB_SLAVE_READ);
+> > -	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH, OV10640_CHIP_ID >> 8);
+> > -	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, OV10640_CHIP_ID & 0xff);
+> > -
+> > -	/* Trigger SCCB slave transaction and give it some time to complete. */
+> > -	ov490_write_reg(dev, OV490_HOST_CMD, OV490_HOST_CMD_TRIGGER);
+> > -	usleep_range(1000, 1500);
+> > +static int ov10640_check_id(struct rdacm21_device *dev)
+> > +{
+> > +	unsigned int i;
+> > +	u8 val;
+> >
+> > -	ov490_read_reg(dev, OV490_SCCB_SLAVE0_DIR, &val);
+> > -	if (val != OV10640_ID_HIGH) {
+> > +	/* Read OV10640 ID to test communications. */
+> > +	for (i = 0; i < OV10640_PID_TIMEOUT; ++i) {
+>
+> OV10640_PID_TIMEOUT is used in this function only, I would have made it
+> local.
+>
 
-diff --git a/drivers/clk/renesas/clk-div6.c b/drivers/clk/renesas/clk-div6.c
-index 5ca183e701667b46..8fb68e703a6bab8c 100644
---- a/drivers/clk/renesas/clk-div6.c
-+++ b/drivers/clk/renesas/clk-div6.c
-@@ -216,7 +216,7 @@ struct clk * __init cpg_div6_register(const char *name,
- 				      struct raw_notifier_head *notifiers)
- {
- 	unsigned int valid_parents;
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 	struct div6_clock *clock;
- 	struct clk *clk;
- 	unsigned int i;
-@@ -267,7 +267,6 @@ struct clk * __init cpg_div6_register(const char *name,
- 	/* Register the clock. */
- 	init.name = name;
- 	init.ops = &cpg_div6_clock_ops;
--	init.flags = 0;
- 	init.parent_names = parent_names;
- 	init.num_parents = valid_parents;
- 
-diff --git a/drivers/clk/renesas/clk-mstp.c b/drivers/clk/renesas/clk-mstp.c
-index a9e91d9b3cdcb135..6e3c4a9c16b07ae9 100644
---- a/drivers/clk/renesas/clk-mstp.c
-+++ b/drivers/clk/renesas/clk-mstp.c
-@@ -151,7 +151,7 @@ static struct clk * __init cpg_mstp_clock_register(const char *name,
- 	const char *parent_name, unsigned int index,
- 	struct mstp_clock_group *group)
- {
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 	struct mstp_clock *clock;
- 	struct clk *clk;
- 
-diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
-index 892e91b92f2c80f5..77beb876fd7423fd 100644
---- a/drivers/clk/renesas/r9a06g032-clocks.c
-+++ b/drivers/clk/renesas/r9a06g032-clocks.c
-@@ -504,7 +504,7 @@ r9a06g032_register_gate(struct r9a06g032_priv *clocks,
- {
- 	struct clk *clk;
- 	struct r9a06g032_clk_gate *g;
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 
- 	g = kzalloc(sizeof(*g), GFP_KERNEL);
- 	if (!g)
-@@ -674,7 +674,7 @@ r9a06g032_register_div(struct r9a06g032_priv *clocks,
- {
- 	struct r9a06g032_clk_div *div;
- 	struct clk *clk;
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 	unsigned int i;
- 
- 	div = kzalloc(sizeof(*div), GFP_KERNEL);
-@@ -758,7 +758,7 @@ r9a06g032_register_bitsel(struct r9a06g032_priv *clocks,
- {
- 	struct clk *clk;
- 	struct r9a06g032_clk_bitsel *g;
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 	const char *names[2];
- 
- 	/* allocate the gate */
-@@ -849,7 +849,7 @@ r9a06g032_register_dualgate(struct r9a06g032_priv *clocks,
- {
- 	struct r9a06g032_clk_dualgate *g;
- 	struct clk *clk;
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 
- 	/* allocate the gate */
- 	g = kzalloc(sizeof(*g), GFP_KERNEL);
-diff --git a/drivers/clk/renesas/rcar-cpg-lib.c b/drivers/clk/renesas/rcar-cpg-lib.c
-index 7e7e5d1341d5e80c..5678768ee1f2ca58 100644
---- a/drivers/clk/renesas/rcar-cpg-lib.c
-+++ b/drivers/clk/renesas/rcar-cpg-lib.c
-@@ -226,7 +226,7 @@ struct clk * __init cpg_sd_clk_register(const char *name,
- 	void __iomem *base, unsigned int offset, const char *parent_name,
- 	struct raw_notifier_head *notifiers, bool skip_first)
- {
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 	struct sd_clock *clock;
- 	struct clk *clk;
- 	u32 val;
-diff --git a/drivers/clk/renesas/rcar-gen2-cpg.c b/drivers/clk/renesas/rcar-gen2-cpg.c
-index d4fa3dc3e2a2632f..edae874fa2b63369 100644
---- a/drivers/clk/renesas/rcar-gen2-cpg.c
-+++ b/drivers/clk/renesas/rcar-gen2-cpg.c
-@@ -137,7 +137,7 @@ static struct clk * __init cpg_z_clk_register(const char *name,
- 					      const char *parent_name,
- 					      void __iomem *base)
- {
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 	struct cpg_z_clk *zclk;
- 	struct clk *clk;
- 
-@@ -147,7 +147,6 @@ static struct clk * __init cpg_z_clk_register(const char *name,
- 
- 	init.name = name;
- 	init.ops = &cpg_z_clk_ops;
--	init.flags = 0;
- 	init.parent_names = &parent_name;
- 	init.num_parents = 1;
- 
-diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
-index 17826599e9dd0e02..caa0f9414e45fe73 100644
---- a/drivers/clk/renesas/rcar-gen3-cpg.c
-+++ b/drivers/clk/renesas/rcar-gen3-cpg.c
-@@ -143,7 +143,7 @@ static struct clk * __init cpg_z_clk_register(const char *name,
- 					      unsigned int div,
- 					      unsigned int offset)
- {
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 	struct cpg_z_clk *zclk;
- 	struct clk *clk;
- 
-diff --git a/drivers/clk/renesas/rcar-usb2-clock-sel.c b/drivers/clk/renesas/rcar-usb2-clock-sel.c
-index 3abafd78f7c8a570..34a85dc95beb87a9 100644
---- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
-+++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
-@@ -144,7 +144,7 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
- 	struct device_node *np = dev->of_node;
- 	struct usb2_clock_sel_priv *priv;
- 	struct clk *clk;
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 	int ret;
- 
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-@@ -188,9 +188,6 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
- 
- 	init.name = "rcar_usb2_clock_sel";
- 	init.ops = &usb2_clock_sel_clock_ops;
--	init.flags = 0;
--	init.parent_names = NULL;
--	init.num_parents = 0;
- 	priv->hw.init = &init;
- 
- 	clk = clk_register(NULL, &priv->hw);
-diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index bffbc3d2faf5fa16..fc531d35b269d3cd 100644
---- a/drivers/clk/renesas/renesas-cpg-mssr.c
-+++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -408,7 +408,7 @@ static void __init cpg_mssr_register_mod_clk(const struct mssr_mod_clk *mod,
- 	struct mstp_clock *clock = NULL;
- 	struct device *dev = priv->dev;
- 	unsigned int id = mod->id;
--	struct clk_init_data init;
-+	struct clk_init_data init = {};
- 	struct clk *parent, *clk;
- 	const char *parent_name;
- 	unsigned int i;
--- 
-2.25.1
+I don't think a local variable is better. The timeout is a read-only
+constant which is better defined as a macro than a variable.
 
+> > +		ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR,
+> > +				OV490_SCCB_SLAVE_READ);
+> > +		ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH,
+> > +				OV10640_CHIP_ID >> 8);
+> > +		ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW,
+> > +				OV10640_CHIP_ID & 0xff);
+> > +
+> > +		/*
+> > +		 * Trigger SCCB slave transaction and give it some time
+> > +		 * to complete.
+> > +		 */
+> > +		ov490_write_reg(dev, OV490_HOST_CMD, OV490_HOST_CMD_TRIGGER);
+> > +		usleep_range(1000, 1500);
+>
+> It would make sense to create an ov490_sensor_read() function to
+> encapsulate all this.
+>
+
+Maybe on top when we'll have more users
+
+> It would also be nicer to poll an OV490 register instead of sleeping
+> blindly. That likely requires the OV490 application note (referenced in
+> the datasheet), which we don't have. It may be useful to try and get
+> hold of that. I still feel there may be something a bit fishy, but way
+> less than before.
+>
+> > +
+> > +		ov490_read_reg(dev, OV490_SCCB_SLAVE0_DIR, &val);
+> > +		if (val == OV10640_ID_HIGH)
+> > +			break;
+> > +		usleep_range(1000, 1500);
+> > +	}
+>
+> Blank line ?
+>
+
+There isn't one intentionally as the two blocks are tightly coupled.
+
+> > +	if (i == OV10640_PID_TIMEOUT) {
+> >  		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
+> >  		return -ENODEV;
+> >  	}
+> > @@ -359,6 +375,8 @@ static int ov490_initialize(struct rdacm21_device *dev)
+> >  	unsigned int i;
+> >  	int ret;
+> >
+> > +	ov10640_power_up(dev);
+>
+> On top of this series, error handling of OV490 writes would make sense.
+>
+
+Maybe on top, yes
+
+Is there anything major I should do to get a tag here ?
+
+Thanks
+  j
+
+
+> > +
+> >  	/*
+> >  	 * Read OV490 Id to test communications. Give it up to 40msec to
+> >  	 * exit from reset.
+> > @@ -396,7 +414,7 @@ static int ov490_initialize(struct rdacm21_device *dev)
+> >  		return -ENODEV;
+> >  	}
+> >
+> > -	ret = ov10640_initialize(dev);
+> > +	ret = ov10640_check_id(dev);
+> >  	if (ret)
+> >  		return ret;
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
