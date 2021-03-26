@@ -2,27 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA76E349E6C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Mar 2021 02:08:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62931349EDA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Mar 2021 02:41:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230044AbhCZBHl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Mar 2021 21:07:41 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60814 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbhCZBHf (ORCPT
+        id S229893AbhCZBlS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Mar 2021 21:41:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55036 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230218AbhCZBkt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Mar 2021 21:07:35 -0400
+        Thu, 25 Mar 2021 21:40:49 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F34C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Mar 2021 18:40:49 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A104443;
-        Fri, 26 Mar 2021 02:07:34 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67754D88;
+        Fri, 26 Mar 2021 02:40:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1616720854;
-        bh=y74YFIeevRlwE5RBrGfsHg2CMgmPqzDERAKQwOXXbc0=;
+        s=mail; t=1616722847;
+        bh=h2FwEu3drCj/idGlDm1Qh/fxBEzSyoFGaJm6KvdDxQE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZyDBfJBQsNXY9WijS1gOvie5Oh77sykQAXa+bjfobuMfwy7swT/SFr+vRoAhWqbeE
-         q3XKBxVndZctpeIM6HBbGsJ75q9w1KOTvWlCEYWQEK5fW/pltovSyq4v98NBPkegKa
-         fP6pJpg5I4VkfeNr3i3OeYLLGreDDIfoZkJrtPaU=
-Date:   Fri, 26 Mar 2021 03:06:51 +0200
+        b=LvYrBilg3KRhou0l4UfF9AgnycCSaFGf82r2zP+fz/NcYbT2Fd0H0Kh+yXQk10ZCi
+         FQ1PSyE4rm09dF5NN314Zvmm6LCpUABd+1dUPa6PljY7Q1dmX3F5+mLdnFgvXDzBIR
+         DFZ8m+7yfX/htLr9y7D5R1VBTxtkXv5m4VXvHPx4=
+Date:   Fri, 26 Mar 2021 03:40:04 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Doug Anderson <dianders@chromium.org>
 Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
@@ -32,86 +35,135 @@ Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
         Jonas Karlman <jonas@kwiboo.se>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [RFC PATCH 05/11] drm/bridge: ti-sn65dsi86: Wrap panel with
- panel-bridge
-Message-ID: <YF0zq3fPbxqx++5Z@pendragon.ideasonboard.com>
+Subject: Re: [RFC PATCH 08/11] drm/bridge: ti-sn65dsi86: Implement bridge
+ connector operations
+Message-ID: <YF07dHgNlK1RqVUA@pendragon.ideasonboard.com>
 References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-6-laurent.pinchart+renesas@ideasonboard.com>
- <CAD=FV=VFwphwow7W_v7XHn+1dQHq0zwT-TyJyp9BaFgcs_t9VQ@mail.gmail.com>
+ <20210322030128.2283-9-laurent.pinchart+renesas@ideasonboard.com>
+ <CAD=FV=UPqg0CnA1ZFR70Ym+m6ROemdFbYwk_=C3+SemP1X9hYw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=VFwphwow7W_v7XHn+1dQHq0zwT-TyJyp9BaFgcs_t9VQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=UPqg0CnA1ZFR70Ym+m6ROemdFbYwk_=C3+SemP1X9hYw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Doug,
 
-On Wed, Mar 24, 2021 at 03:44:39PM -0700, Doug Anderson wrote:
+On Wed, Mar 24, 2021 at 03:46:28PM -0700, Doug Anderson wrote:
 > On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
 > >
-> > To simplify interfacing with the panel, wrap it in a panel-bridge and
-> > let the DRM bridge helpers handle chaining of operations.
-> >
-> > This also prepares for support of DRM_BRIDGE_ATTACH_NO_CONNECTOR, which
-> > requires all components in the display pipeline to be represented by
-> > bridges.
+> > Implement the bridge connector-related .get_edid() operation, and report
+> > the related bridge capabilities and type. The .get_edid() operation is
+> > implemented with the same backend as the EDID retrieval from the
+> > connector .get_modes() operation.
 > >
 > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > > ---
-> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 30 +++++++++++++++++++--------
-> >  1 file changed, 21 insertions(+), 9 deletions(-)
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 30 ++++++++++++++++++++++-----
+> >  1 file changed, 25 insertions(+), 5 deletions(-)
 > >
 > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > index 1d1be791d5ba..c21a7f7d452b 100644
+> > index dc300fab4319..6f6e075544e8 100644
 > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > @@ -124,6 +124,7 @@
-> >   * @edid:         Detected EDID of eDP panel.
-> >   * @refclk:       Our reference clock.
-> >   * @panel:        Our panel.
-> > + * @next_bridge:  The next bridge.
+> > @@ -261,6 +261,18 @@ static void ti_sn_debugfs_remove(struct ti_sn_bridge *pdata)
+> >         pdata->debugfs = NULL;
+> >  }
+> >
+> > +static struct edid *__ti_sn_bridge_get_edid(struct ti_sn_bridge *pdata,
+> > +                                           struct drm_connector *connector)
+> > +{
+> > +       struct edid *edid;
+> > +
+> > +       pm_runtime_get_sync(pdata->dev);
+> > +       edid = drm_get_edid(connector, &pdata->aux.ddc);
+> > +       pm_runtime_put(pdata->dev);
 > 
-> To make it easier for folks who don't work with DRM all day, could you
-> somehow clarify which direction "next" is talking about. AKA the next
-> "outward" (towards the sink) or the next "inward" (toward the source)?
-
-Sure, I'll expand the comment.
-
-> >   * @enable_gpio:  The GPIO we toggle to enable the bridge.
-> >   * @supplies:     Data for bulk enabling/disabling our regulators.
-> >   * @dp_lanes:     Count of dp_lanes we're using.
-> > @@ -152,6 +153,7 @@ struct ti_sn_bridge {
-> >         struct mipi_dsi_device          *dsi;
-> >         struct clk                      *refclk;
-> >         struct drm_panel                *panel;
-> > +       struct drm_bridge               *next_bridge;
+> As mentioned in my patch [1], the above is a bit iffy for eDP.
+> Specifically just doing a pm_runtime_get_sync() isn't enough to
+> actually be able to read the EDID. We also need to do any panel power
+> sequencing and potentially set the "ignore HPD" bit in the bridge to
+> actually read the EDID.
 > 
-> There's no reason to store the "panel" pointer anymore, right? It can
-> just be a local variable in probe?
+> I'll try to find some time to make this better--let's see if I get
+> distracted before I manage it.
 
-Good point, I'll fix that.
+I've replied to your review of 05/11 with a possible solution. Fingers
+crossed :-)
 
-> > @@ -850,8 +856,6 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
-> >          */
-> >         regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
-> >                            HPD_DISABLE);
-> > -
-> > -       drm_panel_prepare(pdata->panel);
+> > +
+> > +       return edid;
+> > +}
+> > +
+> >  /* -----------------------------------------------------------------------------
+> >   * DRM Connector Operations
+> >   */
+> > @@ -277,11 +289,8 @@ static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+> >         struct edid *edid = pdata->edid;
+> >         int num, ret;
+> >
+> > -       if (!edid) {
+> > -               pm_runtime_get_sync(pdata->dev);
+> > -               edid = pdata->edid = drm_get_edid(connector, &pdata->aux.ddc);
+> > -               pm_runtime_put(pdata->dev);
+> > -       }
+> > +       if (!edid)
+> > +               edid = pdata->edid = __ti_sn_bridge_get_edid(pdata, connector);
 > 
-> Ugh, I guess conflicts with my EDID patch [1] which assumes that this
-> function will directly turn the panel on. I'll see if I can find some
-> solution...
+> It feels weird to me that we are now exposing the get_edid() function
+> directly but we still need to implement get_modes(). I guess this is
+> because we might need to fallback to the hardcoded modes? ...but that
+> seems like it would be a common pattern for eDP bridges...
+
+Bridges are moving from creating the connector internally to providing a
+set of bridge operations to support connector creation externally (by
+the drm_bridge_connector helper, or by display drivers directly if
+needed). During the transition, both need to be implemented, hence the
+bridge .get_edid() operation for the new model, and the connector
+.get_modes() operation for the old model.
+
+> >         if (edid && drm_edid_is_valid(edid)) {
+> >                 ret = drm_connector_update_edid_property(connector, edid);
+> > @@ -871,12 +880,21 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+> >         pm_runtime_put_sync(pdata->dev);
+> >  }
+> >
+> > +static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
+> > +                                         struct drm_connector *connector)
+> > +{
+> > +       struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+> > +
+> > +       return __ti_sn_bridge_get_edid(pdata, connector);
+> > +}
+> > +
+> >  static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+> >         .attach = ti_sn_bridge_attach,
+> >         .pre_enable = ti_sn_bridge_pre_enable,
+> >         .enable = ti_sn_bridge_enable,
+> >         .disable = ti_sn_bridge_disable,
+> >         .post_disable = ti_sn_bridge_post_disable,
+> > +       .get_edid = ti_sn_bridge_get_edid,
+> >  };
+> >
+> >  /* -----------------------------------------------------------------------------
+> > @@ -1335,6 +1353,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+> >
+> >         pdata->bridge.funcs = &ti_sn_bridge_funcs;
+> >         pdata->bridge.of_node = client->dev.of_node;
+> > +       pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
+> > +       pdata->bridge.type = DRM_MODE_CONNECTOR_eDP;
+> 
+> Even with the few comments above, I think this is still fine to move
+> us in the right direction. Unless I manage to fix up the EDID reading
+> (in which case your patch would conflict and would need to be
+> tweaked), then:
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 
 > 
 > [1] https://lore.kernel.org/r/20210304155144.3.I60a7fb23ce4589006bc95c64ab8d15c74b876e68@changeid/
-
-Would using the drm_bridge_connector help ? It's a helper that creates a
-connector based on a chain of bridges. It implements the .get_modes()
-connector operation (see drm_bridge_connector_get_modes()), based on the
-.get_edid() operation provided by the bridges. As it has a full view of
-the chain, it could enable bridges prior to reading the EDID, and then
-power them off, including the panel-bridge.
 
 -- 
 Regards,
