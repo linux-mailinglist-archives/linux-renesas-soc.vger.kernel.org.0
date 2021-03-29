@@ -2,67 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB2C634CCE8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Mar 2021 11:21:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBE8F34D04A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Mar 2021 14:46:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231490AbhC2JUo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Mar 2021 05:20:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53922 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231297AbhC2JUX (ORCPT
+        id S231139AbhC2Mpi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Mar 2021 08:45:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50906 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231363AbhC2MpN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Mar 2021 05:20:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8CFDB61933
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Mar 2021 09:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617009622;
-        bh=EZO7MLIREcau7g49TJ2KHc6Xnqe27F/K3vuqlXHzFAs=;
-        h=Subject:From:Date:To:From;
-        b=t4GBYAIoelxR+xxXcxaoEueW5JSgpex5Iu7p9UE9L0ZIkV8vBAWVBrqllx8mUXw6q
-         e3fMRAWRrQ7LFBoJ9dwJeiQikvfrlwGyO6TEv5A9xUCMVFlZ7KSgv13kg4vS5FnFmr
-         VijyVp7260tG34DLdl/hIjIGCYKA2g+bcOqzpRHkcmpp5vV5IkItpRt6zSvClXW0cW
-         AeshYioWslsWDD89rhTDMkhJCHmzzv4Abwcud0UJ6ZJHMWalOI3ltVxoeyDR53XVvt
-         hvMTR9D3A2k9cw/4JO4zhPCRsZWKEIgD2hf21syzOfN+gSOM86DW2l/d4JQ59KkAWU
-         jbwNbQDRy9QBg==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 7ABBF609D4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Mar 2021 09:20:22 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 29 Mar 2021 08:45:13 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF319C061574;
+        Mon, 29 Mar 2021 05:45:12 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a7so19240756ejs.3;
+        Mon, 29 Mar 2021 05:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PRjvtr4F64Lfhlb500oBv4oKg6yHpyCw2SlD0qWwryU=;
+        b=XK57e1dCm3jZAiJj1Hq1O9xpkLK+sjO6QIX20Xy5urts752G58q13Ey2E0AbxR6mEN
+         QObTaMS54TQo3/dDAl4CyiTympMoqOcljosYp9tPC3bqJawZa6pM6wSiyRbqkp4Yda+z
+         4Lsc9n+65sP7ibXp/gmHA/XOka3nVOcuTELm2/GIP4lYvabNKHe9YNQOd+JKK5G+rJ8u
+         LfkY94E/MfXvXhRPnqbMwvJkA62+sGivKE1c5tl/nK1rlBqIZNjGKJ8uwHC4v8GsKo1G
+         t6hsxWNYQsjkXIlxmP6IdUGxqN11vN4sxKJmiom6aixIUr1o10xC1JFWO4B8gXaouxqY
+         dhOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PRjvtr4F64Lfhlb500oBv4oKg6yHpyCw2SlD0qWwryU=;
+        b=jC/7d7znEN9F9TO9/BtgjG8rQTS6YPZt7dYqiJZKQVBY240RPNZhh3yNARQUJ88CvX
+         tLcvzoFHKGdEldhZzAwlOkuJPetHfJZ6nnZ+V/0wBkrP1f+QwJb3yuBJm+OriOPOlxF+
+         frsoJhDR0oIdWBhfzCPgQFsZCXb+BNCRjXlUs1v2Ev3TcrOwE7PTTkvb7U4VuOQcPYmh
+         nxeYUr2ORUBnA7/x2BJBuWsxW+vuAZkvn0mOScpW89VoepERXzMyKcosEONvHPRm23t1
+         xl8pCiRRspHp8dSbXb9W27C7BHluCpiLaKMMU7DTsNzVYhV3lS1l45wlM7Xpo3iMAXmN
+         UN1Q==
+X-Gm-Message-State: AOAM533H2oz5g1RaTNZy8FTtyviNL/EFNLbuhK4hmu4rIQ2GnDRSvKg/
+        0CpaMhyZCfeCdoOvsFF0Q9VgKjWyHF+XRCoAlU4=
+X-Google-Smtp-Source: ABdhPJzLjyvBi3ljZHfxd7NFG8eK4gJgPcDHpB4gdejVWYO7wINAxWSv/i65H/7AETTy1a3ouUk2ejg0NE7896GNpfU=
+X-Received: by 2002:a17:906:ae8d:: with SMTP id md13mr28348994ejb.275.1617021911347;
+ Mon, 29 Mar 2021 05:45:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <161700962244.14698.2571953977294579325.git-patchwork-summary@kernel.org>
-Date:   Mon, 29 Mar 2021 09:20:22 +0000
-To:     linux-renesas-soc@vger.kernel.org
+References: <20210224115146.9131-1-aford173@gmail.com> <20210224115146.9131-4-aford173@gmail.com>
+ <CAMuHMdXjQV7YrW5T_P4tkJk_d44NNTQ8Eu7v2ReESjg6R3tvfw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXjQV7YrW5T_P4tkJk_d44NNTQ8Eu7v2ReESjg6R3tvfw@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Mon, 29 Mar 2021 07:45:00 -0500
+Message-ID: <CAHCN7xLWDx_AjtN7=moJ6VFsimuf16AJOhrxEryvdw5VnKsJwA@mail.gmail.com>
+Subject: Re: [PATCH V3 4/5] net: ethernet: ravb: Enable optional refclk
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     netdev <netdev@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On Thu, Mar 4, 2021 at 2:08 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Adam,
+>
+> On Wed, Feb 24, 2021 at 12:52 PM Adam Ford <aford173@gmail.com> wrote:
+> > For devices that use a programmable clock for the AVB reference clock,
+> > the driver may need to enable them.  Add code to find the optional clock
+> > and enable it when available.
+> >
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+>
+> Thanks for your patch!
+>
+> > --- a/drivers/net/ethernet/renesas/ravb_main.c
+> > +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> > @@ -2148,6 +2148,13 @@ static int ravb_probe(struct platform_device *pdev)
+> >                 goto out_release;
+> >         }
+> >
+> > +       priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
+> > +       if (IS_ERR(priv->refclk)) {
+> > +               error = PTR_ERR(priv->refclk);
+> > +               goto out_release;
+> > +       }
+> > +       clk_prepare_enable(priv->refclk);
+> > +
+>
+> Shouldn't the reference clock be disabled in case of any failure below?
+>
+I'll generate a V4.
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (refs/heads/master):
+Should I just regenerate this patch since it seems like the rest are
+OK, or should I regenerate the whole series?
 
-Patch: arm64: dts: renesas: r8a779a0: Fix pmu node
-  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=455109
-  Lore link: https://lore.kernel.org/r/20210325041949.925777-1-yoshihiro.shimoda.uh@renesas.com
-Patch: drm: rcar-du: Use drmm_encoder_alloc() to manage encoder
-  Submitter: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=414039
-  Lore link: https://lore.kernel.org/r/20210113170253.443820-1-kieran.bingham+renesas@ideasonboard.com
-Series: arm64: dts: renesas: r8a779a0: Add VSP support
-  Submitter: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=453141
-  Lore link: https://lore.kernel.org/r/20210322172919.1154686-1-kieran.bingham+renesas@ideasonboard.com
-    Patches: [v2,1/2] arm64: dts: renesas: r8a779a0: Add FCPVD support
-             [v2,2/2] arm64: dts: renesas: r8a779a0: Add VSPD support
-
-Total patches: 4
-
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+adam
+> >         ndev->max_mtu = 2048 - (ETH_HLEN + VLAN_HLEN + ETH_FCS_LEN);
+> >         ndev->min_mtu = ETH_MIN_MTU;
+> >
+> > @@ -2260,6 +2267,9 @@ static int ravb_remove(struct platform_device *pdev)
+> >         if (priv->chip_id != RCAR_GEN2)
+> >                 ravb_ptp_stop(ndev);
+> >
+> > +       if (priv->refclk)
+> > +               clk_disable_unprepare(priv->refclk);
+> > +
+> >         dma_free_coherent(ndev->dev.parent, priv->desc_bat_size, priv->desc_bat,
+> >                           priv->desc_bat_dma);
+> >         /* Set reset mode */
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
