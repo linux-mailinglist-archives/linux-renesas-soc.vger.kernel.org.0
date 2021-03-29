@@ -2,63 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94FED34BE0F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Mar 2021 20:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 358C034C4EE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Mar 2021 09:29:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231164AbhC1SHe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 28 Mar 2021 14:07:34 -0400
-Received: from mail.hanoi.gov.vn ([113.160.32.33]:31610 "EHLO
-        mx01.hanoi.gov.vn" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbhC1SHR (ORCPT
+        id S231184AbhC2H3Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Mar 2021 03:29:16 -0400
+Received: from mail-ua1-f43.google.com ([209.85.222.43]:44018 "EHLO
+        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230322AbhC2H2n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 28 Mar 2021 14:07:17 -0400
-X-Greylist: delayed 474 seconds by postgrey-1.27 at vger.kernel.org; Sun, 28 Mar 2021 14:07:01 EDT
-Received: from mx01.hanoi.gov.vn (localhost [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 30259EC3D8;
-        Mon, 29 Mar 2021 00:57:51 +0700 (+07)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hanoi.gov.vn;
-        s=default; t=1616954272;
-        bh=FuW10Z6fSdeNlf/0u/BQ1jcwkjYBw0uHUPQgn0LGo7I=; h=Date:From:To;
-        b=R9blPfqJCHUsZAyZxsyyryS61fl4krmBjYKWM6eGGwB8ZdbTBVPL1mmKOmZXMqNlA
-         7CEqA0MXgUAy+X4oK/wthh4vC9Xoov1Ce8tjf/qJvnL7KGsGNVg9ic0krGeHrdNzGM
-         5cIEKsz0emmHL/izbEfCtadst3HYllOJWdonlm5o=
-X-IMSS-DKIM-Authentication-Result: mx01.hanoi.gov.vn; sigcount=0
-Received: from mx01.hanoi.gov.vn (localhost [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 50FCBEC3DD;
-        Mon, 29 Mar 2021 00:57:49 +0700 (+07)
-Received: from mail.hanoi.gov.vn (mail.hanoi.gov.vn [10.1.1.25])
-        by mx01.hanoi.gov.vn (Postfix) with ESMTPS;
-        Mon, 29 Mar 2021 00:57:49 +0700 (+07)
-Received: from mail.hanoi.gov.vn (localhost [127.0.0.1])
-        by mail.hanoi.gov.vn (Postfix) with ESMTPS id 02AFC7F41B42;
-        Mon, 29 Mar 2021 00:57:44 +0700 (+07)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.hanoi.gov.vn (Postfix) with ESMTP id 08FE47F41B5D;
-        Mon, 29 Mar 2021 00:57:41 +0700 (+07)
-Received: from mail.hanoi.gov.vn ([127.0.0.1])
-        by localhost (mail.hanoi.gov.vn [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 1D3oZsOAVsx3; Mon, 29 Mar 2021 00:57:36 +0700 (+07)
-Received: from mail.hanoi.gov.vn (mail.hanoi.gov.vn [10.1.1.25])
-        by mail.hanoi.gov.vn (Postfix) with ESMTP id 478CE7F41B59;
-        Mon, 29 Mar 2021 00:57:33 +0700 (+07)
-Date:   Mon, 29 Mar 2021 00:57:33 +0700 (ICT)
-From:   Mackenzie Scott <ttptqd_thanhoai@hanoi.gov.vn>
-Reply-To: Mackenzie Scott <propack@propck.net>
-Message-ID: <354204758.25920932.1616954253215.JavaMail.zimbra@hanoi.gov.vn>
-Subject: Congratulations ($ 100,800,000.00)
+        Mon, 29 Mar 2021 03:28:43 -0400
+Received: by mail-ua1-f43.google.com with SMTP id b7so3626264uam.10;
+        Mon, 29 Mar 2021 00:28:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dvbWeiO/clTTMNAnX8lNGcmJO6+fNShyOgdR5/QqtBI=;
+        b=aWum01dQlKLWW7MmYbZYQrEyGZDMA2voISMn5NhyTpLLDYCfdaIuCiVs6UcvNBmLZ8
+         3758HhiwNb15CZKqksAv4kXB1L6rmdrnRymCY+5eVvHnW7YQZoUp5/t6BvSJfG8cKs8q
+         e8uythQYslVMufmWhVSfw1+48SWFHA2b1O+MykL6RmK1XC/bJypE/D5jZ8UI3G7PZgZr
+         UYPn+aP9+Bq5PfeIEuUVdAX6YsxPTDko063EkVOODHm0ocAm74rqZ4WnSdQ5QUF8xHx5
+         heLtolisXgAtcHGZeHUBGn+s6ybGvgTMSHW+l8uCoWi9lZure6jUzokXBw2WWHYviiI3
+         vpzQ==
+X-Gm-Message-State: AOAM533MF4Yd3wYHPh+uSEJGHqEcH+ODE9ZXWJfJNADXA848ia1dsGoh
+        RxCWOukQjj0vB01SB2Hc8nG8zmSeK5IcEoS6TVnyHRkR
+X-Google-Smtp-Source: ABdhPJxRJZb0+HfOZj6Fiup/boinTl1lnnkCjy1tUsJc4fi574Gx+jzft8S3NIHMRUPhr3qxhwITbJmF1sACKxL5sr8=
+X-Received: by 2002:ab0:6954:: with SMTP id c20mr13903558uas.106.1617002922749;
+ Mon, 29 Mar 2021 00:28:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.107.80.217]
-X-Mailer: Zimbra 8.8.15_GA_3894 (zclient/8.8.15_GA_3894)
-Thread-Index: ao/APhyKX+JH1nE2Rn/kAmnh2LEgkw==
-Thread-Topic: Congratulations ($ 100,800,000.00)
-To:     undisclosed-recipients:;
-X-TM-AS-GCONF: 00
+References: <20210322172919.1154686-1-kieran.bingham+renesas@ideasonboard.com> <20210322172919.1154686-2-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20210322172919.1154686-2-kieran.bingham+renesas@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 29 Mar 2021 09:28:31 +0200
+Message-ID: <CAMuHMdVp9R=MZUkvJ=wH-5Lu=BWCGcOF7gJJuZv+aC_J99FMEw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r8a779a0: Add FCPVD support
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Mon, Mar 22, 2021 at 6:29 PM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+> Provide FCPVD support for the V3U.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.13.
 
-Hello,i&#39;m Mackenzie Scott,Ex-wife of Amazon founder i&#39;m donating $4 billion to charities,individuals,universities across the Globe from my divorce funds,i&#39;m donating part of it to provide immediate support to people suffering economically during the COVID-19 pandemic,i have a donation worth $100,800,000.00 Dollars for you,you can contact me for more information if you&#39;re interested.
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
