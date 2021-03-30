@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA26834E109
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Mar 2021 08:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17D5A34E150
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Mar 2021 08:39:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbhC3GL0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Mar 2021 02:11:26 -0400
-Received: from mga17.intel.com ([192.55.52.151]:9924 "EHLO mga17.intel.com"
+        id S230248AbhC3GjF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Mar 2021 02:39:05 -0400
+Received: from mga14.intel.com ([192.55.52.115]:56926 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229479AbhC3GLT (ORCPT
+        id S230223AbhC3Gic (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Mar 2021 02:11:19 -0400
-IronPort-SDR: abikgA/8d2vjfdCWW0e6BrenGmFP1nreEAbSBvR8WbfO2dwERlpQMuGfwOhj+0QvC6Z1L//Ctz
- j84gH0Hyr3zQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="171715789"
+        Tue, 30 Mar 2021 02:38:32 -0400
+IronPort-SDR: cSwFBq/ZdfLxfHprqqqWaeCu9PrGcD+qENpnWK+q18nb4Tmjf0O+DboaykR6KDM83l0+ssyRz9
+ K2n/2w22JMJA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="191171282"
 X-IronPort-AV: E=Sophos;i="5.81,290,1610438400"; 
-   d="scan'208";a="171715789"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 23:11:18 -0700
-IronPort-SDR: 0FrlcXmuUbx0BEKOf841MgPfeRbYrBCirD8Vv4mKc23vjNuRMmyW+Xvx9A/27gfwZt3J2WpB62
- nuvX1H0VT+gQ==
+   d="scan'208";a="191171282"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 23:38:24 -0700
+IronPort-SDR: P4LvPr4WBPYhcZ4CdK2gD43+MjNg6fu5N9D6zyztZMf8Vv+xSYVVe3XQkpxde7rgj5/YhUKGLf
+ GfN9Bq99vioQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,290,1610438400"; 
-   d="scan'208";a="595350973"
+   d="scan'208";a="378391220"
 Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 29 Mar 2021 23:11:16 -0700
+  by orsmga006.jf.intel.com with ESMTP; 29 Mar 2021 23:38:22 -0700
 Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1lR7au-000561-45; Tue, 30 Mar 2021 06:11:16 +0000
-Date:   Tue, 30 Mar 2021 14:11:00 +0800
+        id 1lR817-000571-TL; Tue, 30 Mar 2021 06:38:21 +0000
+Date:   Tue, 30 Mar 2021 14:38:13 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- d084e52e5b7b16d25a5e32c4625fb205a2b272d8
-Message-ID: <6062c0f4.MWDtFSVQ3EchtWqh%lkp@intel.com>
+Subject: [renesas-devel:master] BUILD SUCCESS
+ bb48e88392ae845729086cf17d765fd2a3a60f2a
+Message-ID: <6062c755.WakbDs0r5gZqYMLf%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,12 +44,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: d084e52e5b7b16d25a5e32c4625fb205a2b272d8  Merge branch 'renesas-arm-dt-for-v5.13' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: bb48e88392ae845729086cf17d765fd2a3a60f2a  Merge branch 'renesas-next', tag 'v5.12-rc5' into renesas-devel
 
-elapsed time: 1167m
+elapsed time: 1195m
 
-configs tested: 156
+configs tested: 107
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -65,82 +65,36 @@ x86_64                           allyesconfig
 riscv                            allmodconfig
 i386                             allyesconfig
 riscv                            allyesconfig
-arm64                            alldefconfig
-xtensa                              defconfig
-powerpc                 mpc837x_rdb_defconfig
-powerpc               mpc834x_itxgp_defconfig
-arc                            hsdk_defconfig
-sh                            hp6xx_defconfig
-powerpc                      makalu_defconfig
-m68k                       m5208evb_defconfig
-powerpc                 mpc832x_mds_defconfig
-arm                         vf610m4_defconfig
-arm                        cerfcube_defconfig
-arm                          lpd270_defconfig
-m68k                        stmark2_defconfig
-powerpc                    sam440ep_defconfig
-powerpc                  storcenter_defconfig
-parisc                           allyesconfig
-arm                          simpad_defconfig
-powerpc                 mpc834x_itx_defconfig
-mips                         tb0219_defconfig
-mips                            ar7_defconfig
-arm                     am200epdkit_defconfig
-arm                          pxa910_defconfig
-arm                          collie_defconfig
 xtensa                generic_kc705_defconfig
+powerpc                 mpc8540_ads_defconfig
+m68k                        mvme16x_defconfig
+mips                    maltaup_xpa_defconfig
+powerpc                      ppc40x_defconfig
+sh                   rts7751r2dplus_defconfig
 arm                         lpc18xx_defconfig
 powerpc                     rainier_defconfig
+m68k                          atari_defconfig
+sh                            titan_defconfig
+powerpc                        cell_defconfig
 powerpc                   motionpro_defconfig
 mips                           gcw0_defconfig
 arm                          gemini_defconfig
 nios2                            allyesconfig
 powerpc                     ppa8548_defconfig
 mips                         cobalt_defconfig
-powerpc                  mpc885_ads_defconfig
-arm                       aspeed_g4_defconfig
-arm                       cns3420vb_defconfig
-sh                           sh2007_defconfig
-sh                        edosk7760_defconfig
-mips                           xway_defconfig
-arm                          exynos_defconfig
-arm                         shannon_defconfig
-powerpc                     akebono_defconfig
-arm                         socfpga_defconfig
-m68k                          atari_defconfig
-arc                    vdk_hs38_smp_defconfig
-sparc64                             defconfig
-arm                         hackkit_defconfig
-m68k                             alldefconfig
-parisc                generic-64bit_defconfig
-riscv                    nommu_virt_defconfig
-alpha                               defconfig
-xtensa                  cadence_csp_defconfig
-arc                          axs101_defconfig
-powerpc                      chrp32_defconfig
-arm                      pxa255-idp_defconfig
-powerpc                 canyonlands_defconfig
-sh                           se7724_defconfig
-m68k                        m5407c3_defconfig
-arm                          pcm027_defconfig
-mips                           rs90_defconfig
-powerpc                      ppc40x_defconfig
-sh                        dreamcast_defconfig
-xtensa                    xip_kc705_defconfig
-arm                         lpc32xx_defconfig
-arm                       spear13xx_defconfig
-arm                      jornada720_defconfig
 powerpc                     mpc5200_defconfig
+powerpc                  mpc885_ads_defconfig
 mips                     loongson1b_defconfig
 mips                     decstation_defconfig
 sh                         apsh4a3a_defconfig
 arm                         assabet_defconfig
+sh                           se7724_defconfig
 mips                         bigsur_defconfig
 csky                             alldefconfig
 mips                        nlm_xlp_defconfig
-mips                      pic32mzda_defconfig
-mips                        jmr3927_defconfig
-m68k                       m5275evb_defconfig
+sh                          r7785rp_defconfig
+arm                          pcm027_defconfig
+arm                        mvebu_v7_defconfig
 ia64                             allmodconfig
 ia64                                defconfig
 ia64                             allyesconfig
@@ -152,14 +106,16 @@ arc                              allyesconfig
 nds32                             allnoconfig
 nds32                               defconfig
 csky                                defconfig
+alpha                               defconfig
 alpha                            allyesconfig
+xtensa                           allyesconfig
 h8300                            allyesconfig
 arc                                 defconfig
-xtensa                           allyesconfig
 sh                               allmodconfig
 parisc                              defconfig
 s390                             allyesconfig
 s390                             allmodconfig
+parisc                           allyesconfig
 s390                                defconfig
 sparc                            allyesconfig
 sparc                               defconfig
@@ -181,12 +137,6 @@ i386                 randconfig-a001-20210329
 i386                 randconfig-a002-20210329
 i386                 randconfig-a006-20210329
 i386                 randconfig-a005-20210329
-i386                 randconfig-a004-20210330
-i386                 randconfig-a006-20210330
-i386                 randconfig-a003-20210330
-i386                 randconfig-a002-20210330
-i386                 randconfig-a001-20210330
-i386                 randconfig-a005-20210330
 i386                 randconfig-a014-20210329
 i386                 randconfig-a011-20210329
 i386                 randconfig-a015-20210329
@@ -194,6 +144,7 @@ i386                 randconfig-a016-20210329
 i386                 randconfig-a013-20210329
 i386                 randconfig-a012-20210329
 riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
 riscv                             allnoconfig
 riscv                               defconfig
 riscv                          rv32_defconfig
