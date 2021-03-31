@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49F6734F5A8
+	by mail.lfdr.de (Postfix) with ESMTP id 9514434F5A9
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Mar 2021 03:00:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229626AbhCaA74 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Mar 2021 20:59:56 -0400
-Received: from mga12.intel.com ([192.55.52.136]:20063 "EHLO mga12.intel.com"
+        id S230284AbhCaA7z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Mar 2021 20:59:55 -0400
+Received: from mga11.intel.com ([192.55.52.93]:63368 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229662AbhCaA7Y (ORCPT
+        id S229626AbhCaA7Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 30 Mar 2021 20:59:24 -0400
-IronPort-SDR: C99N7vtcSZPPC0b1mBAPJawVTEYyPuUcqynPQotio23CQjBgZvfX5a9s/t1eOCO9HRAFsw7fvX
- JgpFa1tOumdA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9939"; a="171297582"
+IronPort-SDR: iKNKWVZrTdn3kGzxa9KANNcPR0t4+a5rTopp7JBwGaBphw+3GQfzLRdl5T6wuzusxqOANel3Oh
+ l8Pf8mvT9f0g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9939"; a="188627787"
 X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; 
-   d="scan'208";a="171297582"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2021 17:59:23 -0700
-IronPort-SDR: an+QtQSBAeAcnYpdhA9M3Yrs1pNTIc/LF0267GrvbEb9AF+IpDkPg1+uWXjXESp3RNI2rko2a0
- dDt/2/TCHvHQ==
+   d="scan'208";a="188627787"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2021 17:59:24 -0700
+IronPort-SDR: fvji+HKVSe4Srrs9MyK84Uh4qFT3WG3GEfK6QgAt6b7vzRIFBBOltO6Oxw3b0ctEZOINfNYpRj
+ u3uEEZ0BKX9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; 
-   d="scan'208";a="606966144"
+   d="scan'208";a="378696226"
 Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Mar 2021 17:59:22 -0700
+  by orsmga006.jf.intel.com with ESMTP; 30 Mar 2021 17:59:22 -0700
 Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1lRPCb-0005Z8-Tg; Wed, 31 Mar 2021 00:59:21 +0000
-Date:   Wed, 31 Mar 2021 08:58:31 +0800
+        id 1lRPCb-0005Z5-T1; Wed, 31 Mar 2021 00:59:21 +0000
+Date:   Wed, 31 Mar 2021 08:58:38 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:renesas-clk-for-v5.13] BUILD SUCCESS
- f2fb4fe62390b293bc6edc04cc7002940c441359
-Message-ID: <6063c937.yurilGjg85hUvmZj%lkp@intel.com>
+Subject: [renesas-drivers:topic/rcar3-z-boost-v1] BUILD SUCCESS
+ c31c0561b1b44355a63410a378067c575a66d8e6
+Message-ID: <6063c93e.UhfavsmUj43RmNwe%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,12 +44,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.13
-branch HEAD: f2fb4fe62390b293bc6edc04cc7002940c441359  clk: renesas: Zero init clk_init_data
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/rcar3-z-boost-v1
+branch HEAD: c31c0561b1b44355a63410a378067c575a66d8e6  clk: renesas: rcar-gen3: Add boost support to Z clocks
 
 elapsed time: 731m
 
-configs tested: 191
+configs tested: 179
 configs skipped: 4
 
 The following configs have been built successfully.
@@ -95,11 +95,6 @@ sparc64                             defconfig
 powerpc                  storcenter_defconfig
 arm                          pxa910_defconfig
 powerpc                     kilauea_defconfig
-m68k                         apollo_defconfig
-arm                         s3c6400_defconfig
-mips                     cu1000-neo_defconfig
-ia64                         bigsur_defconfig
-h8300                               defconfig
 powerpc                     redwood_defconfig
 arm                       aspeed_g5_defconfig
 mips                malta_qemu_32r6_defconfig
@@ -122,10 +117,7 @@ m68k                          amiga_defconfig
 sh                               j2_defconfig
 arm                        magician_defconfig
 arm                          exynos_defconfig
-arm                       mainstone_defconfig
-sh                          landisk_defconfig
-arm                   milbeaut_m10v_defconfig
-m68k                           sun3_defconfig
+h8300                               defconfig
 arm                  colibri_pxa300_defconfig
 powerpc                      katmai_defconfig
 mips                             allmodconfig
@@ -135,6 +127,9 @@ arm                     davinci_all_defconfig
 sh                                  defconfig
 powerpc                      ep88xc_defconfig
 sh                            hp6xx_defconfig
+powerpc                    ge_imp3a_defconfig
+powerpc                          allmodconfig
+arm                          simpad_defconfig
 powerpc                    sam440ep_defconfig
 mips                          rm200_defconfig
 arm                           u8500_defconfig
@@ -153,18 +148,16 @@ mips                         cobalt_defconfig
 sh                               alldefconfig
 arm                        spear6xx_defconfig
 mips                          malta_defconfig
+sh                   secureedge5410_defconfig
+m68k                            mac_defconfig
+ia64                      gensparse_defconfig
+powerpc                     skiroot_defconfig
 mips                            ar7_defconfig
+mips                     cu1000-neo_defconfig
 sparc                       sparc64_defconfig
 sh                           se7619_defconfig
-s390                       zfcpdump_defconfig
-arm                      tct_hammer_defconfig
-m68k                        mvme147_defconfig
 arm                    vt8500_v6_v7_defconfig
 mips                        qi_lb60_defconfig
-riscv                          rv32_defconfig
-powerpc                     asp8347_defconfig
-mips                          rb532_defconfig
-arm                           h5000_defconfig
 powerpc                    socrates_defconfig
 powerpc                        fsp2_defconfig
 arm                         s5pv210_defconfig
@@ -172,17 +165,12 @@ m68k                       bvme6000_defconfig
 powerpc                      ppc40x_defconfig
 arm                            mps2_defconfig
 sh                     magicpanelr2_defconfig
-mips                         rt305x_defconfig
-powerpc                   motionpro_defconfig
-sparc64                          alldefconfig
-sh                            migor_defconfig
-mips                   sb1250_swarm_defconfig
 mips                           xway_defconfig
 powerpc                       ppc64_defconfig
 mips                        bcm47xx_defconfig
 powerpc                      ppc44x_defconfig
-mips                malta_kvm_guest_defconfig
 powerpc                       ebony_defconfig
+sh                            migor_defconfig
 mips                       lemote2f_defconfig
 ia64                             allmodconfig
 ia64                                defconfig
@@ -209,7 +197,6 @@ sparc                            allyesconfig
 sparc                               defconfig
 mips                             allyesconfig
 powerpc                          allyesconfig
-powerpc                          allmodconfig
 powerpc                           allnoconfig
 x86_64               randconfig-a004-20210330
 x86_64               randconfig-a003-20210330
@@ -219,10 +206,10 @@ x86_64               randconfig-a005-20210330
 x86_64               randconfig-a006-20210330
 i386                 randconfig-a004-20210330
 i386                 randconfig-a006-20210330
-i386                 randconfig-a005-20210330
 i386                 randconfig-a003-20210330
 i386                 randconfig-a002-20210330
 i386                 randconfig-a001-20210330
+i386                 randconfig-a005-20210330
 i386                 randconfig-a015-20210330
 i386                 randconfig-a011-20210330
 i386                 randconfig-a014-20210330
@@ -232,6 +219,7 @@ i386                 randconfig-a012-20210330
 riscv                    nommu_virt_defconfig
 riscv                             allnoconfig
 riscv                               defconfig
+riscv                          rv32_defconfig
 um                               allmodconfig
 um                                allnoconfig
 um                               allyesconfig
