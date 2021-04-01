@@ -2,105 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 558A8351BBE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Apr 2021 20:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0023F351E4A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Apr 2021 20:53:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235246AbhDASK6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Apr 2021 14:10:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234323AbhDASDW (ORCPT
+        id S238019AbhDASh6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Apr 2021 14:37:58 -0400
+Received: from foss.arm.com ([217.140.110.172]:46726 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240340AbhDASaH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Apr 2021 14:03:22 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB3F2C05BD2D
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Apr 2021 06:01:43 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:7c3c:adbc:7a1a:b85f])
-        by baptiste.telenet-ops.be with bizsmtp
-        id nR1h240034A7w6i01R1haJ; Thu, 01 Apr 2021 15:01:41 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lRwxA-00CBkG-La; Thu, 01 Apr 2021 15:01:40 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lRwx9-003mtQ-MW; Thu, 01 Apr 2021 15:01:39 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4/5] clk: renesas: div6: Consider all parents for requested rate
-Date:   Thu,  1 Apr 2021 15:01:37 +0200
-Message-Id: <60e639692b462f99e0b6ab868c3675b3d97dbdb0.1617281699.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1617281699.git.geert+renesas@glider.be>
-References: <cover.1617281699.git.geert+renesas@glider.be>
+        Thu, 1 Apr 2021 14:30:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4AD3D6E;
+        Thu,  1 Apr 2021 04:27:53 -0700 (PDT)
+Received: from e123427-lin.arm.com (unknown [10.57.56.129])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D3193F694;
+        Thu,  1 Apr 2021 04:27:49 -0700 (PDT)
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>, Marc Zyngier <maz@kernel.org>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Michal Simek <michal.simek@xilinx.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>, linux-pci@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-tegra@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bharat Kumar Gogada <bharatku@xilinx.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        linux-mediatek@lists.infradead.org,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        linux-hyperv@vger.kernel.org, Will Deacon <will@kernel.org>,
+        kernel-team@android.com, Michael Kelley <mikelley@microsoft.com>,
+        linux-kernel@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 00/14] PCI/MSI: Getting rid of msi_controller, and other cleanups
+Date:   Thu,  1 Apr 2021 12:27:42 +0100
+Message-Id: <161727636757.32506.11592578621890085687.b4-ty@arm.com>
+X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20210330151145.997953-1-maz@kernel.org>
+References: <20210330151145.997953-1-maz@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Currently the .determine_rate() callback considers only the current
-parent clock, limiting the range of achievable clock rates on DIV6
-clocks with multiple parents, as found on SH/R-Mobile SoCs.
+On Tue, 30 Mar 2021 16:11:31 +0100, Marc Zyngier wrote:
+> This is a respin of the series described at [1].
+> 
+> * From v2 [2]:
+>   - Fixed the Xilinx driver, thanks to Bharat for testing it
+>   - Dropped the no_msi attribute, and solely rely on msi_domain, which
+>     has the same effect for the only platform that was using it.
+>   - Fixed compilation on architectures that do not select the generic
+>     MSI support
+> 
+> [...]
 
-Extend the callback to consider all available parent clocks.
+I have applied it to pci/msi and should be moved into -next shortly
+for further testing/visibility, thanks a lot for putting it together.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/clk/renesas/clk-div6.c | 35 +++++++++++++++++++++++++++++++---
- 1 file changed, 32 insertions(+), 3 deletions(-)
+[01/14] PCI: tegra: Convert to MSI domains
+        https://git.kernel.org/lpieralisi/pci/c/973a28677e
+[02/14] PCI: rcar: Don't allocate extra memory for the MSI capture address
+        https://git.kernel.org/lpieralisi/pci/c/c244dc15dc
+[03/14] PCI: rcar: Convert to MSI domains
+        https://git.kernel.org/lpieralisi/pci/c/516286287d
+[04/14] PCI: xilinx: Don't allocate extra memory for the MSI capture address
+        https://git.kernel.org/lpieralisi/pci/c/cc8cf90738
+[05/14] PCI: xilinx: Convert to MSI domains
+        https://git.kernel.org/lpieralisi/pci/c/b66873599e
+[06/14] PCI: hv: Drop msi_controller structure
+        https://git.kernel.org/lpieralisi/pci/c/65b131816a
+[07/14] PCI/MSI: Drop use of msi_controller from core code
+        https://git.kernel.org/lpieralisi/pci/c/54729d2a7a
+[08/14] PCI/MSI: Kill msi_controller structure
+        https://git.kernel.org/lpieralisi/pci/c/27278a3fac
+[09/14] PCI/MSI: Kill default_teardown_msi_irqs()
+        https://git.kernel.org/lpieralisi/pci/c/f68f571db9
+[10/14] PCI/MSI: Let PCI host bridges declare their reliance on MSI domains
+        https://git.kernel.org/lpieralisi/pci/c/419150a4ff
+[11/14] PCI/MSI: Make pci_host_common_probe() declare its reliance on MSI domains
+        https://git.kernel.org/lpieralisi/pci/c/98be0634c8
+[12/14] PCI: mediatek: Advertise lack of built-in MSI handling
+        https://git.kernel.org/lpieralisi/pci/c/77cbd88c90
+[13/14] PCI/MSI: Document the various ways of ending up with NO_MSI
+        https://git.kernel.org/lpieralisi/pci/c/44ec480daf
+[14/14] PCI: Refactor HT advertising of NO_MSI flag
+        https://git.kernel.org/lpieralisi/pci/c/18d56e5afe
 
-diff --git a/drivers/clk/renesas/clk-div6.c b/drivers/clk/renesas/clk-div6.c
-index 3af65ef5690e3d84..a9ac2a83c1d0daa0 100644
---- a/drivers/clk/renesas/clk-div6.c
-+++ b/drivers/clk/renesas/clk-div6.c
-@@ -103,10 +103,39 @@ static unsigned int cpg_div6_clock_calc_div(unsigned long rate,
- static int cpg_div6_clock_determine_rate(struct clk_hw *hw,
- 					 struct clk_rate_request *req)
- {
--	unsigned int div = cpg_div6_clock_calc_div(req->rate,
--						   req->best_parent_rate);
-+	unsigned long prate, calc_rate, diff, best_rate, best_prate;
-+	unsigned int num_parents = clk_hw_get_num_parents(hw);
-+	struct clk_hw *parent, *best_parent = NULL;
-+	unsigned long min_diff = ULONG_MAX;
-+	unsigned int i, div;
-+
-+	for (i = 0; i < num_parents; i++) {
-+		parent = clk_hw_get_parent_by_index(hw, i);
-+		if (!parent)
-+			continue;
-+
-+		prate = clk_hw_get_rate(parent);
-+		if (!prate)
-+			continue;
-+
-+		div = cpg_div6_clock_calc_div(req->rate, prate);
-+		calc_rate = prate / div;
-+		diff = calc_rate > req->rate ? calc_rate - req->rate
-+					     : req->rate - calc_rate;
-+		if (diff < min_diff) {
-+			best_rate = calc_rate;
-+			best_parent = parent;
-+			best_prate = prate;
-+			min_diff = diff;
-+		}
-+	}
-+
-+	if (!best_parent)
-+		return -EINVAL;
- 
--	req->rate = req->best_parent_rate / div;
-+	req->best_parent_rate = best_prate;
-+	req->best_parent_hw = best_parent;
-+	req->rate = best_rate;
- 	return 0;
- }
- 
--- 
-2.25.1
-
+Thanks,
+Lorenzo
