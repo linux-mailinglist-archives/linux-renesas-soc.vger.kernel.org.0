@@ -2,122 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D595335141E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Apr 2021 13:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E0135177B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Apr 2021 19:47:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233744AbhDALDi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Apr 2021 07:03:38 -0400
-Received: from foss.arm.com ([217.140.110.172]:36788 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229612AbhDALDL (ORCPT
+        id S234471AbhDARmR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Apr 2021 13:42:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57240 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234630AbhDARic (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Apr 2021 07:03:11 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A88BD6E;
-        Thu,  1 Apr 2021 04:03:10 -0700 (PDT)
-Received: from lpieralisi (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A619F3F694;
-        Thu,  1 Apr 2021 04:03:06 -0700 (PDT)
-Date:   Thu, 1 Apr 2021 12:03:01 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Frank Wunderlich <frank-w@public-files.de>,
-        Thierry Reding <treding@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Bharat Kumar Gogada <bharatku@xilinx.com>,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v3 03/14] PCI: rcar: Convert to MSI domains
-Message-ID: <20210401110301.GA31407@lpieralisi>
-References: <20210330151145.997953-1-maz@kernel.org>
- <20210330151145.997953-4-maz@kernel.org>
- <20210401101957.GA30653@lpieralisi>
- <87y2e2p9wk.wl-maz@kernel.org>
+        Thu, 1 Apr 2021 13:38:32 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C35EC05BD28
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Apr 2021 06:01:43 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:7c3c:adbc:7a1a:b85f])
+        by xavier.telenet-ops.be with bizsmtp
+        id nR1g2400J4A7w6i01R1gp5; Thu, 01 Apr 2021 15:01:40 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lRwxA-00CBkC-04; Thu, 01 Apr 2021 15:01:40 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lRwx9-003mt8-IY; Thu, 01 Apr 2021 15:01:39 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/5] clk: renesas: div6: .determine_rate() conversion and improvements
+Date:   Thu,  1 Apr 2021 15:01:33 +0200
+Message-Id: <cover.1617281699.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87y2e2p9wk.wl-maz@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 11:38:19AM +0100, Marc Zyngier wrote:
-> On Thu, 01 Apr 2021 11:19:57 +0100,
-> Lorenzo Pieralisi <lorenzo.pieralisi@arm.com> wrote:
-> > 
-> > On Tue, Mar 30, 2021 at 04:11:34PM +0100, Marc Zyngier wrote:
-> > 
-> > [...]
-> > 
-> > > +static void rcar_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
-> > > +{
-> > > +	struct rcar_msi *msi = irq_data_get_irq_chip_data(data);
-> > > +	unsigned long pa = virt_to_phys(msi);
-> > >  
-> > > -	hwirq = rcar_msi_alloc_region(msi, nvec);
-> > > -	if (hwirq < 0)
-> > > -		return -ENOSPC;
-> > > +	/* Use the msi structure as the PA for the MSI doorbell */
-> > > +	msg->address_lo = lower_32_bits(pa);
-> > > +	msg->address_hi = upper_32_bits(pa);
-> > 
-> > I don't think this change is aligned with the previous patch (is it ?),
-> > the PA address we are using here is different from the one programmed
-> > into the controller registers - either that or I am missing something,
-> > please let me know.
-> 
-> Err. You are right. This looks like a bad case of broken conflict
-> resolution on my part.
-> 
-> The following snippet should fix it. Let me know if you want me to
-> resend the whole thing or whether you are OK with applying this by
-> hand.
+	Hi Mike, Stephen,
 
-I will apply it and merge the whole series into -next, thanks for
-implementing it !
+This patch series converts the Renesas DIV6 clock driver from the old
+.round_rate() callback to the newer .determine_rate() callback, and
+improves the driver to switch parent clocks.
 
-Lorenzo
+This has been tested on R-Car Gen2, R-Car Gen3, SH-Mobile AG5, R-Mobile
+A1, and R-Mobile APE6.
 
-> Thanks,
-> 
-> 	M.
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-> index f7331ad0d6dc..765cf2b45e24 100644
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
-> @@ -573,11 +573,10 @@ static int rcar_msi_set_affinity(struct irq_data *d, const struct cpumask *mask,
->  static void rcar_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
->  {
->  	struct rcar_msi *msi = irq_data_get_irq_chip_data(data);
-> -	unsigned long pa = virt_to_phys(msi);
-> +	struct rcar_pcie *pcie = &msi_to_host(msi)->pcie;
->  
-> -	/* Use the msi structure as the PA for the MSI doorbell */
-> -	msg->address_lo = lower_32_bits(pa);
-> -	msg->address_hi = upper_32_bits(pa);
-> +	msg->address_lo = rcar_pci_read_reg(pcie, PCIEMSIALR) & ~MSIFE;
-> +	msg->address_hi = rcar_pci_read_reg(pcie, PCIEMSIAUR);
->  	msg->data = data->hwirq;
->  }
->  
-> 
-> -- 
-> Without deviation from the norm, progress is not possible.
+I plan to queue this series in renesas-clk for v5.14.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (5):
+  clk: renesas: div6: Use clamp() instead of clamp_t()
+  clk: renesas: div6: Simplify src mask handling
+  clk: renesas: div6: Switch to .determine_rate()
+  clk: renesas: div6: Consider all parents for requested rate
+  clk: renesas: div6: Implement range checking
+
+ drivers/clk/renesas/clk-div6.c | 80 +++++++++++++++++++++++-----------
+ 1 file changed, 54 insertions(+), 26 deletions(-)
+
+-- 
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
