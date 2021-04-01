@@ -2,121 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 725CD351774
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Apr 2021 19:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C6F3351780
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Apr 2021 19:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234473AbhDARmQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Apr 2021 13:42:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57106 "EHLO
+        id S234671AbhDARmS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Apr 2021 13:42:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234273AbhDARgs (ORCPT
+        with ESMTP id S234737AbhDARje (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Apr 2021 13:36:48 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A17C05BD32
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Apr 2021 06:03:29 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:7c3c:adbc:7a1a:b85f])
-        by andre.telenet-ops.be with bizsmtp
-        id nR3T2400c4A7w6i01R3TwL; Thu, 01 Apr 2021 15:03:28 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lRwyt-00CBlT-Ei; Thu, 01 Apr 2021 15:03:27 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lRwys-003mwo-TQ; Thu, 01 Apr 2021 15:03:26 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Gareth Williams <gareth.williams.jx@renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: r9a06g032: Switch to .determine_rate()
-Date:   Thu,  1 Apr 2021 15:03:24 +0200
-Message-Id: <7a384d02b85cdaac4a0e2b357582c8244b9a6f98.1617282116.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Thu, 1 Apr 2021 13:39:34 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E8F5C05BD36
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Apr 2021 06:08:07 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id m12so2710022lfq.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 01 Apr 2021 06:08:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kgXD3U/DrQ9vSxCEaPsInQj0EAhn8kdogWYjyNQBOE4=;
+        b=KE3cKfhcFR48eqKLC026k68pj4XXeu75rKpuzgjr/cCOeB3a2ZoW36SGUE4+5fJ2Kg
+         anl1T6Ry7ODVw+cyx2r1T6RHnx5kkzvXPZPGKI/WinOkm3cxHCJYDKa47N7RMBmg7W4o
+         bT5zsLP/Ud06DHmEe7NDDOvxnTDhyg1EfC+zGD+QJKaaFK6GMJr9QI5VTH7yhehh0ZRB
+         8jsBc2SewYPaNHJ6kej06LXk7XfXSAiPhQfS9i2LVStwmZfSGw69eirzZd0H+DeFfmaV
+         +Tj7OUgjmT6L8z/J7Ndvo0Fs7o0gWpUXH8ddz91BF+gO0bZ66D+xNFhJTvSJKD8cniuS
+         5M8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kgXD3U/DrQ9vSxCEaPsInQj0EAhn8kdogWYjyNQBOE4=;
+        b=sGpUq6tmIAbiDiX5aMl7xP+Srk/5GcJ0OW2hjfNSAZkM59shzkVm4XgZlMESUn41JT
+         /Cb4W12LoQ114rNdPs3XtqGvLlQ042+bRDgMNeL/+YSw+C8yyKAoziA9YjQfmL+nikf5
+         02d5cDymus07IAXiWyZXR4JUaGU1Zvu0foaXLEPa07e52dgiEL2XupE82fgWvAueRhpJ
+         oA0JFSVOepifX8sWqCjz1VHSEtP1ev6Wos7E48FFHEUmNJylmljGZ6/iDM2zYvKnV89f
+         7DmL/6DSOfs2KzdS2k4AXxRJJ41BqPsmcfCrgIvD6SZEM8NejsTcqoxQeZ0n4591B3ks
+         n/JA==
+X-Gm-Message-State: AOAM532xuya+2Hq6AaKJrk1QFioiTD3unXdd9Fiz2Lx09iUbUL1e7Vmr
+        YzvUTjU3aueXW6y6b0ctPzKEmc5eCDPzvcE6L9UfgQ==
+X-Google-Smtp-Source: ABdhPJzQC9jNQb6dsL7WniFLh6CGPL6/0Y6vVpiVvZ6eUfNUk61mYIzybCiFhSxh0pYAScadm4UZ9/cr5T+ZjZHLenU=
+X-Received: by 2002:a05:6512:243:: with SMTP id b3mr5550624lfo.529.1617282485530;
+ Thu, 01 Apr 2021 06:08:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210330085655.12615-1-wsa+renesas@sang-engineering.com> <20210330085655.12615-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210330085655.12615-2-wsa+renesas@sang-engineering.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 1 Apr 2021 15:07:54 +0200
+Message-ID: <CACRpkdbABbvxRLGhzmiQ8kTmwHsRqevvmDpfLKv-dUhEHVpF6g@mail.gmail.com>
+Subject: Re: [PATCH RFC/RFT 1/1] misc: add simple logic analyzer using polling
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As the .round_rate() callback returns a long clock rate, it cannot
-return clock rates that do not fit in signed long, but do fit in
-unsigned long.  Hence switch the divider clocks on RZ/N1 from the old
-.round_rate() callback to the newer .determine_rate() callback, which
-does not suffer from this limitation.
+On Tue, Mar 30, 2021 at 10:58 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 
-Note that range checking is not yet implemented.
+> This is a simple logic analyzer using GPIO polling. It comes with a
+> script to isolate a CPU for polling. While this is definately not a
+> production level analyzer, it can be a helpful first view when remote
+> debugging. Read the documentation for details.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Compile-tested only due to lack of hardware.
+I am a great supporter of this idea.
 
-To be queued in renesas-clk for v5.14.
----
- drivers/clk/renesas/r9a06g032-clocks.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+When we created gpiod_get_array_value() and friends, the idea
+was exactly to be able to do things like this. It's a good way to
+utilize the fact that several GPIO lines can often be read from a single
+register read.
 
-diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
-index 71b11443f6fc3801..c99942f0e4d4c751 100644
---- a/drivers/clk/renesas/r9a06g032-clocks.c
-+++ b/drivers/clk/renesas/r9a06g032-clocks.c
-@@ -604,20 +604,19 @@ r9a06g032_div_clamp_div(struct r9a06g032_clk_div *clk,
- 	return div;
- }
- 
--static long
--r9a06g032_div_round_rate(struct clk_hw *hw,
--			 unsigned long rate, unsigned long *prate)
-+static int
-+r9a06g032_div_determine_rate(struct clk_hw *hw, struct clk_rate_request *req)
- {
- 	struct r9a06g032_clk_div *clk = to_r9a06g032_div(hw);
--	u32 div = DIV_ROUND_UP(*prate, rate);
-+	u32 div = DIV_ROUND_UP(req->best_parent_rate, req->rate);
- 
- 	pr_devel("%s %pC %ld (prate %ld) (wanted div %u)\n", __func__,
--		 hw->clk, rate, *prate, div);
-+		 hw->clk, req->rate, req->best_parent_rate, div);
- 	pr_devel("   min %d (%ld) max %d (%ld)\n",
--		 clk->min, DIV_ROUND_UP(*prate, clk->min),
--		clk->max, DIV_ROUND_UP(*prate, clk->max));
-+		 clk->min, DIV_ROUND_UP(req->best_parent_rate, clk->min),
-+		 clk->max, DIV_ROUND_UP(req->best_parent_rate, clk->max));
- 
--	div = r9a06g032_div_clamp_div(clk, rate, *prate);
-+	div = r9a06g032_div_clamp_div(clk, req->rate, req->best_parent_rate);
- 	/*
- 	 * this is a hack. Currently the serial driver asks for a clock rate
- 	 * that is 16 times the baud rate -- and that is wildly outside the
-@@ -630,11 +629,13 @@ r9a06g032_div_round_rate(struct clk_hw *hw,
- 	if (clk->index == R9A06G032_DIV_UART ||
- 	    clk->index == R9A06G032_DIV_P2_PG) {
- 		pr_devel("%s div uart hack!\n", __func__);
--		return clk_get_rate(hw->clk);
-+		req->rate = clk_get_rate(hw->clk);
-+		return 0;
- 	}
-+	req->rate = DIV_ROUND_UP(req->best_parent_rate, div);
- 	pr_devel("%s %pC %ld / %u = %ld\n", __func__, hw->clk,
--		 *prate, div, DIV_ROUND_UP(*prate, div));
--	return DIV_ROUND_UP(*prate, div);
-+		 req->best_parent_rate, div, req->rate);
-+	return 0;
- }
- 
- static int
-@@ -663,7 +664,7 @@ r9a06g032_div_set_rate(struct clk_hw *hw,
- 
- static const struct clk_ops r9a06g032_clk_div_ops = {
- 	.recalc_rate = r9a06g032_div_recalc_rate,
--	.round_rate = r9a06g032_div_round_rate,
-+	.determine_rate = r9a06g032_div_determine_rate,
- 	.set_rate = r9a06g032_div_set_rate,
- };
- 
--- 
-2.25.1
+> +    i2c-analyzer {
+> +            compatible = "gpio-logic-analyzer";
+> +            probe-gpios = <&gpio6 21 GPIO_OPEN_DRAIN>, <&gpio6 4 GPIO_OPEN_DRAIN>;
+> +            probe-names = "SCL", "SDA";
+> +    };
+> +
+> +The binding documentation is in the ``misc`` folder of the Kernel binding
+> +documentation.
+(...)
+> +++ b/Documentation/devicetree/bindings/misc/gpio-logic-analyzer.yaml
 
+When other debugging tools for GPIO got DT bindings it was concluded that
+it is possible to create bindings like this for debugging without even
+specifying
+any formal bindings. They are just for debugging after all.
+
+Personally I like the bindings anyway.
+
+> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+
+I would consider housing this tool under drivers/gpio actually.
+We have other funky things like gpio-sim and gpio-aggregator
+so why not.
+
+I would create a Kconfig menu with "GPIO hardware hacking tools".
+
+But Bartosz would need to agree on that idea.
+
+> +config GPIO_LOGIC_ANALYZER
+> +       tristate "Simple GPIO logic analyzer"
+> +       depends on GPIOLIB || COMPILE_TEST
+> +       help
+
+depends on EXPERT
+
+I would say. Definitely not something for the average user.
+
+Yours,
+Linus Walleij
