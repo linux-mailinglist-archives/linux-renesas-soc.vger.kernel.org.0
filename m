@@ -2,38 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD73A352A4D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Apr 2021 13:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A61C7352A57
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Apr 2021 13:46:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235207AbhDBLnX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Apr 2021 07:43:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38384 "EHLO
+        id S234448AbhDBLq0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Apr 2021 07:46:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235200AbhDBLnW (ORCPT
+        with ESMTP id S229599AbhDBLq0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Apr 2021 07:43:22 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5539EC061788
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Apr 2021 04:43:20 -0700 (PDT)
+        Fri, 2 Apr 2021 07:46:26 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F75EC0613E6
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Apr 2021 04:46:24 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:7c3c:adbc:7a1a:b85f])
-        by albert.telenet-ops.be with bizsmtp
-        id nnjJ2400c4A7w6i06njJcG; Fri, 02 Apr 2021 13:43:18 +0200
+        by andre.telenet-ops.be with bizsmtp
+        id nnmP240034A7w6i01nmPNi; Fri, 02 Apr 2021 13:46:23 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lSICs-00CRWr-AY; Fri, 02 Apr 2021 13:43:18 +0200
+        id 1lSIFq-00CRbQ-Mr; Fri, 02 Apr 2021 13:46:22 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lSICr-004CaP-Oc; Fri, 02 Apr 2021 13:43:17 +0200
+        id 1lSIFq-004Cfe-2N; Fri, 02 Apr 2021 13:46:22 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v5.13 (take two)
-Date:   Fri,  2 Apr 2021 13:43:06 +0200
-Message-Id: <cover.1617363608.git.geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: sh-pfc: Updates for v5.13 (take two)
+Date:   Fri,  2 Apr 2021 13:46:19 +0200
+Message-Id: <cover.1617363828.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -41,44 +40,58 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Mike, Stephen,
+	Hi Linus,
 
-The following changes since commit 0eedab655ec1817d450085dcb12219726cb415ff:
+The following changes since commit f7adcca27edf05fc1f061a9e5de059fe179f0e1c:
 
-  clk: renesas: r8a779a0: Add CMT clocks (2021-03-12 09:23:24 +0100)
+  pinctrl: renesas: r8a77965: Add vin4_g8 and vin5_high8 pins (2021-03-10 10:50:26 +0100)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v5.13-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.13-tag2
 
-for you to fetch changes up to f2fb4fe62390b293bc6edc04cc7002940c441359:
+for you to fetch changes up to 61232cd6efca6e4d2705993850d014343ba604c4:
 
-  clk: renesas: Zero init clk_init_data (2021-03-30 09:58:27 +0200)
+  pinctrl: renesas: r8a7791: Add bias pinconf support (2021-03-24 10:38:29 +0100)
 
 ----------------------------------------------------------------
-clk: renesas: Updates for v5.13 (take two)
+pinctrl: renesas: Updates for v5.13 (take two)
 
-  - Spelling fixes,
-  - Zero init clk_init_data.
+  - Add bias support for the R-Car M2-W and M2-N, and RZ/G1M and RZ/G1N
+    SoCs,
+  - Miscellaneous cleanups and improvements.
 
 Thanks for pulling!
 
 ----------------------------------------------------------------
-Bhaskar Chowdhury (1):
-      clk: renesas: Couple of spelling fixes
+Geert Uytterhoeven (6):
+      pinctrl: renesas: Make sh_pfc_pin_to_bias_reg() static
+      pinctrl: renesas: Move R-Car bias helpers to sh_pfc.h
+      pinctrl: renesas: Factor out common R-Mobile bias handling
+      pinctrl: renesas: Add PORT_GP_CFG_7 macros
+      pinctrl: renesas: Add support for R-Car SoCs with pull-down only pins
+      pinctrl: renesas: r8a7791: Add bias pinconf support
 
-Geert Uytterhoeven (1):
-      clk: renesas: Zero init clk_init_data
-
- drivers/clk/renesas/clk-div6.c            |  3 +--
- drivers/clk/renesas/clk-mstp.c            |  2 +-
- drivers/clk/renesas/r9a06g032-clocks.c    | 12 ++++++------
- drivers/clk/renesas/rcar-cpg-lib.c        |  2 +-
- drivers/clk/renesas/rcar-gen2-cpg.c       |  3 +--
- drivers/clk/renesas/rcar-gen3-cpg.c       |  2 +-
- drivers/clk/renesas/rcar-usb2-clock-sel.c |  5 +----
- drivers/clk/renesas/renesas-cpg-mssr.c    |  2 +-
- 8 files changed, 13 insertions(+), 18 deletions(-)
+ drivers/pinctrl/renesas/core.c         |  20 --
+ drivers/pinctrl/renesas/core.h         |   8 -
+ drivers/pinctrl/renesas/pfc-r8a73a4.c  |  48 +---
+ drivers/pinctrl/renesas/pfc-r8a7740.c  |  46 +---
+ drivers/pinctrl/renesas/pfc-r8a7778.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a7791.c  | 387 +++++++++++++++++++++++++++++++--
+ drivers/pinctrl/renesas/pfc-r8a7792.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77950.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77951.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a7796.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77965.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77970.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77980.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77990.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77995.c |   1 -
+ drivers/pinctrl/renesas/pfc-r8a779a0.c |   1 -
+ drivers/pinctrl/renesas/pfc-sh73a0.c   |  46 +---
+ drivers/pinctrl/renesas/pinctrl.c      | 109 ++++++++--
+ drivers/pinctrl/renesas/sh_pfc.h       |  24 +-
+ 19 files changed, 497 insertions(+), 202 deletions(-)
 
 Gr{oetje,eeting}s,
 
