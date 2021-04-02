@@ -2,118 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0105A3521D5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Apr 2021 23:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A8B33526FE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Apr 2021 09:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234211AbhDAVph (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Apr 2021 17:45:37 -0400
-Received: from www.zeus03.de ([194.117.254.33]:54028 "EHLO mail.zeus03.de"
+        id S233521AbhDBHkL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Apr 2021 03:40:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60220 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234902AbhDAVpg (ORCPT
+        id S229684AbhDBHkJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Apr 2021 17:45:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=0re/4MhL/HVSNQlJ26P2awZytOoB
-        TZt9SWkXNDLXpXg=; b=UelA4teuQjS5OAMHUdyUHY0u1WQXlz7ul/8OSE9VS99a
-        1p0kZlVayGtboNEwx/aiKMa9yeocX2V5VRkRHqkB4RwKFXk971XeVPXjiu2iAMM/
-        q7eZZ38+3keT5NMMUH/nofj4WTd3a3wlA+eMiCnXwxBykKVLNaOFha8U21X0am8=
-Received: (qmail 1102382 invoked from network); 1 Apr 2021 23:45:33 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Apr 2021 23:45:33 +0200
-X-UD-Smtp-Session: l3s3148p1@msp2JvC+HI0gAwDPXw1NAMt9GTaBIvNo
-Date:   Thu, 1 Apr 2021 23:45:28 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH RFC/RFT 1/1] misc: add simple logic analyzer using polling
-Message-ID: <20210401214528.GA892@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-References: <20210330085655.12615-1-wsa+renesas@sang-engineering.com>
- <20210330085655.12615-2-wsa+renesas@sang-engineering.com>
- <CACRpkdbABbvxRLGhzmiQ8kTmwHsRqevvmDpfLKv-dUhEHVpF6g@mail.gmail.com>
+        Fri, 2 Apr 2021 03:40:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 3E6D7610FC
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Apr 2021 07:40:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617349208;
+        bh=xJVYu61FmKPDngb4V5yqaPal562QwXyupgZylFSiwFU=;
+        h=Subject:From:Date:To:From;
+        b=klCp+im0CV0vNrkhT1Vsc9A4ea8bWP7R9emspZUw1CssRq2J9tgkAg9oDWAC8ZqBZ
+         XfF+s1Au9pq2IKxyhp3lqpi4xT2BXHwpV5zrn1TX3SILoMBGO3JwmMiOs/ehtagiYi
+         AVbC3oVGuer7P3u3tmwfUjllxQ/u/GAqXASHsG6Tz6WiN0a+lbdxSWgJn5RXSkqHnw
+         kFGUs3NPq55S1KzuMfXWmSJJvYiHJ1dIkDfmv78V14c3Gk4CD2H8GQ5tdPctL4sKSt
+         UszI04Gsgh774GO8YIplidAvOhg+azAWUZbMOz/txFG4NiC1T23j2cmbUb18POmlHl
+         cpAXdePmOlB6Q==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 25CB2609CC
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Apr 2021 07:40:08 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="envbJBWh7q8WU6mo"
-Content-Disposition: inline
-In-Reply-To: <CACRpkdbABbvxRLGhzmiQ8kTmwHsRqevvmDpfLKv-dUhEHVpF6g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <161734920809.8163.1354723953038982341.git-patchwork-summary@kernel.org>
+Date:   Fri, 02 Apr 2021 07:40:08 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello:
 
---envbJBWh7q8WU6mo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (refs/heads/master):
 
-Hi Linus,
+Series: arm64: dts: renesas: Add cpu-supply properties for DVFS
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=456103
+  Lore link: https://lore.kernel.org/r/20210326105009.1574424-1-geert+renesas@glider.be
+    Patches: [1/2] arm64: dts: renesas: salvator-common: Add cpu-supply property to a57_0 node
+             [2/2] arm64: dts: renesas: ulcb: Add cpu-supply property to a57_0 node
+Patch: arm64: dts: renesas: r8a77950: Drop operating points above 1.5 GHz
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=446169
+  Lore link: https://lore.kernel.org/r/20210311110552.3124180-1-geert+renesas@glider.be
 
-> I am a great supporter of this idea.
+Total patches: 3
 
-Great, thanks!
-
-> When other debugging tools for GPIO got DT bindings it was concluded that
-> it is possible to create bindings like this for debugging without even
-> specifying
-> any formal bindings. They are just for debugging after all.
-
-So, I remove the yaml file and add the bindings to the documenation,
-then? Makes sense to me because it is for debugging and not really
-official.
-
-> I would consider housing this tool under drivers/gpio actually.
-> We have other funky things like gpio-sim and gpio-aggregator
-> so why not.
-
-Heh, my first draft was placed in drivers/gpio. I'd be happy to have it
-there.
-
-> I would create a Kconfig menu with "GPIO hardware hacking tools".
->=20
-> But Bartosz would need to agree on that idea.
-
-Since he agreed, I'll update this in v2.
-
-> > +config GPIO_LOGIC_ANALYZER
-> > +       tristate "Simple GPIO logic analyzer"
-> > +       depends on GPIOLIB || COMPILE_TEST
-> > +       help
->=20
-> depends on EXPERT
-
-Yes, good point!
-
-All the best,
-
-   Wolfram
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
---envbJBWh7q8WU6mo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBmPvMACgkQFA3kzBSg
-KbYdLA/+IU2QMANxwSFRdg2A9RK83WiwfbmbESqKoyLf/8u/F0JwkANKUW11ECxO
-whmec/QfqCFWNQxyJEA50B+M5/hRfl4cRJFfzXR8tXJrRjA06hw9NAibzlHtOLoX
-y5dq89MeMwnkJi0oZAE4s+CobDvuHLRU0XHW5IaQDKoai4TK+WTla5dmqbUmGvXK
-zo0jLm+EPS8lWBxZBLTd0jYqQMFJKhNUQ+1nQmDVc6t4H9lpHMeDow3wCcXqUgpI
-10Lydp0sqX7gaMJ0O/x3W/X0/XzuRwS9kgNLeTx6qJbkJCN9uarfOaUa4ho5jneW
-PCWxE0AB9YEyKLlvRS9NptlOpeLo1pz+kqvwnymk9FTciKi7+ei7JKCtN6LH+X6K
-TUtfg9/iYQtW4i55CCWsGs+4JYnlrmFkzFKlv2d62kJ+TFh3tPa6iKYOAMoWJISs
-oyFKLLfWZ5y98i5qifaVaa8PCwdTzQW7l52VlR/XOCFXVc4lET77UveFrMNe/5ZB
-5vzgNhQVzYgIWDQHO2bz445oUp5ZEvOKTaT98FrZnjfSSpW9CX29v2ej6bJEH8aG
-WpThl2pNgZaR7PewhLPMETS+q9ixNhkwGqlPDLTP3ftDYdC03nNDM4wChFpQV5d/
-b1yFsmOAwIRUd+xhf8EZO39Vgx7pqf0FG3Iq+D0nysRwq/Mrq4c=
-=9CKg
------END PGP SIGNATURE-----
-
---envbJBWh7q8WU6mo--
