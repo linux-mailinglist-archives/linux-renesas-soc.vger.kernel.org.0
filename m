@@ -2,104 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A61C7352A57
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Apr 2021 13:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8F03352E08
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Apr 2021 19:11:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234448AbhDBLq0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Apr 2021 07:46:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39048 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229599AbhDBLq0 (ORCPT
+        id S235581AbhDBRLy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Apr 2021 13:11:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37614 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234759AbhDBRLy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Apr 2021 07:46:26 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F75EC0613E6
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Apr 2021 04:46:24 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:7c3c:adbc:7a1a:b85f])
-        by andre.telenet-ops.be with bizsmtp
-        id nnmP240034A7w6i01nmPNi; Fri, 02 Apr 2021 13:46:23 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lSIFq-00CRbQ-Mr; Fri, 02 Apr 2021 13:46:22 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lSIFq-004Cfe-2N; Fri, 02 Apr 2021 13:46:22 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: sh-pfc: Updates for v5.13 (take two)
-Date:   Fri,  2 Apr 2021 13:46:19 +0200
-Message-Id: <cover.1617363828.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 2 Apr 2021 13:11:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6219961152;
+        Fri,  2 Apr 2021 17:11:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617383512;
+        bh=YZ3G/97YtIoywVZIaPwmVWW1AObOMDr0oGWxrhfqG1g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aPVRh6JSQNFNZ/Jt7JInaJIqkE/HzQ/rtPaeFvEpEYhdObfuwqq3bzp9Y70vgFnVm
+         4646UPA+P6SFk/+ptF8FGx1u1gpgrzSKt10QOFb88JGpgjoZ2HbJUlAym1gLU0SiC1
+         I/EQfkRwJ/ZlIHVJjRIswdtey+LN+ERP6uCAYT0fQPzzAubHbapziAwqSMyiqwxgj7
+         me6X2PRGug4B0b0u/HQqrKVRKYwWV08K8xPUOhSBEZPaK2dfmp4Xes2QCEKUciBgHa
+         qCc6NKumng7RGUvvm7t2au+5fKQqtEcPRCeJpnosCk/vSm0ihFgOa3ESdvIVyqqArT
+         gHzYgI/H2SE8w==
+Date:   Fri, 2 Apr 2021 18:11:39 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc:     mazziesaccount@gmail.com, Liam Girdwood <lgirdwood@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-power@fi.rohmeurope.com, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [RFC PATCH v3 3/7] regulator: IRQ based event/error notification
+ helpers
+Message-ID: <20210402171139.GB5402@sirena.org.uk>
+References: <cover.1615454845.git.matti.vaittinen@fi.rohmeurope.com>
+ <0acca88796cab147398dbc346b3ea9728a9e3238.1615454845.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="DBIVS5p969aUjpLe"
+Content-Disposition: inline
+In-Reply-To: <0acca88796cab147398dbc346b3ea9728a9e3238.1615454845.git.matti.vaittinen@fi.rohmeurope.com>
+X-Cookie: Dammit Jim, I'm an actor, not a doctor.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
 
-The following changes since commit f7adcca27edf05fc1f061a9e5de059fe179f0e1c:
+--DBIVS5p969aUjpLe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  pinctrl: renesas: r8a77965: Add vin4_g8 and vin5_high8 pins (2021-03-10 10:50:26 +0100)
+On Thu, Mar 11, 2021 at 12:22:36PM +0200, Matti Vaittinen wrote:
 
-are available in the Git repository at:
+> @@ -0,0 +1,423 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2021 ROHM Semiconductors
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.13-tag2
+Please make the entire comment a C++ one so things look more consistent.
 
-for you to fetch changes up to 61232cd6efca6e4d2705993850d014343ba604c4:
+> +static void regulator_notifier_isr_work(struct work_struct *work)
+> +{
 
-  pinctrl: renesas: r8a7791: Add bias pinconf support (2021-03-24 10:38:29 +0100)
+> +	if (d->fatal_cnt && h->retry_cnt > d->fatal_cnt) {
+> +		if (d->die)
+> +			ret = d->die(rid);
+> +		else
+> +			BUG();
+> +
+> +		/*
+> +		 * If the 'last resort' IC recovery failed we will have
+> +		 * nothing else left to do...
+> +		 */
+> +		BUG_ON(ret);
 
-----------------------------------------------------------------
-pinctrl: renesas: Updates for v5.13 (take two)
+This isn't good...  we should be trying to provide more system level
+handling of this, if nothing else it's quite possibly not a software bug
+here but rather a hardware failure.  An explicit message about what
+happened would be more likely to be understood as a hardware failure,
+and something which allows handling such as initiating a system shutdown
+would be good as well - I'm not sure if there's any existing mechanism
+to plumb userspace into, or perhaps some sort of policy configurable via
+sysfs.  That could be built on later though, I think the main thing here
+is that the logging should be clearer and distinguishable from a random
+software fault which is what BUG_ON() looks like.  The backtrace and
+whatnot that BUG_ON() provides aren't useful here and the message isn't
+going to be very distinctive, some custom prints will attract more
+attention.
 
-  - Add bias support for the R-Car M2-W and M2-N, and RZ/G1M and RZ/G1N
-    SoCs,
-  - Miscellaneous cleanups and improvements.
+> +	/* Disable IRQ if HW keeps line asserted */
+> +	if (d->irq_off_ms)
+> +		disable_irq_nosync(irq);
+> +	/*
+> +	 * IRQ seems to be for us. Let's fire correct notifiers / store error
 
-Thanks for pulling!
+Missing blank lines in the file.
 
-----------------------------------------------------------------
-Geert Uytterhoeven (6):
-      pinctrl: renesas: Make sh_pfc_pin_to_bias_reg() static
-      pinctrl: renesas: Move R-Car bias helpers to sh_pfc.h
-      pinctrl: renesas: Factor out common R-Mobile bias handling
-      pinctrl: renesas: Add PORT_GP_CFG_7 macros
-      pinctrl: renesas: Add support for R-Car SoCs with pull-down only pins
-      pinctrl: renesas: r8a7791: Add bias pinconf support
+> + * This structure is passed to map_event and renable for reporting reulator
 
- drivers/pinctrl/renesas/core.c         |  20 --
- drivers/pinctrl/renesas/core.h         |   8 -
- drivers/pinctrl/renesas/pfc-r8a73a4.c  |  48 +---
- drivers/pinctrl/renesas/pfc-r8a7740.c  |  46 +---
- drivers/pinctrl/renesas/pfc-r8a7778.c  |   1 -
- drivers/pinctrl/renesas/pfc-r8a7791.c  | 387 +++++++++++++++++++++++++++++++--
- drivers/pinctrl/renesas/pfc-r8a7792.c  |   1 -
- drivers/pinctrl/renesas/pfc-r8a77950.c |   1 -
- drivers/pinctrl/renesas/pfc-r8a77951.c |   1 -
- drivers/pinctrl/renesas/pfc-r8a7796.c  |   1 -
- drivers/pinctrl/renesas/pfc-r8a77965.c |   1 -
- drivers/pinctrl/renesas/pfc-r8a77970.c |   1 -
- drivers/pinctrl/renesas/pfc-r8a77980.c |   1 -
- drivers/pinctrl/renesas/pfc-r8a77990.c |   1 -
- drivers/pinctrl/renesas/pfc-r8a77995.c |   1 -
- drivers/pinctrl/renesas/pfc-r8a779a0.c |   1 -
- drivers/pinctrl/renesas/pfc-sh73a0.c   |  46 +---
- drivers/pinctrl/renesas/pinctrl.c      | 109 ++++++++--
- drivers/pinctrl/renesas/sh_pfc.h       |  24 +-
- 19 files changed, 497 insertions(+), 202 deletions(-)
+regulator.
 
-Gr{oetje,eeting}s,
+--DBIVS5p969aUjpLe
+Content-Type: application/pgp-signature; name="signature.asc"
 
-						Geert
+-----BEGIN PGP SIGNATURE-----
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmBnUEoACgkQJNaLcl1U
+h9AZ2Qf9FKDfBsBEi1RJMy2x3lRPmLjdNeIDsae0HYA/8z/Xnsg+bL+co2BYSFx/
++wh1NJuNyjY64qKyPD9qNf+4d0I1Cfo0krXcA9fm/wOHMch0RFKyUNwaZxYlUDcW
++bbLI/uVevW0XHwBfwdc/VSlpeVHTAqZnqBnCjEaR8twPSvoYJk4ekLMMsA9auQ4
+/98Lkyfv0yZM12lHXBK/D+9mJ8EnoA6sAJLqiWuwl8d4lqq5AWP01BpHQ1r6Au8G
+vtpCndYpx+ST700AqypZO+PbwqqZ6+eWDaPIBvhI+SczibZBzDNvtJpFE3/xEo2/
+ozrQZ/eKkvGRUlfrtivVni8ErcvY0A==
+=Rhqr
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+--DBIVS5p969aUjpLe--
