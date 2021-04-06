@@ -2,141 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C96B8354D4A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Apr 2021 09:06:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51694354D75
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Apr 2021 09:12:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237873AbhDFHGz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Apr 2021 03:06:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58756 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238404AbhDFHGz (ORCPT
+        id S233242AbhDFHM0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Apr 2021 03:12:26 -0400
+Received: from mail-lf1-f51.google.com ([209.85.167.51]:33554 "EHLO
+        mail-lf1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232596AbhDFHM0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Apr 2021 03:06:55 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DFC5C06174A
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Apr 2021 00:06:48 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id c204so6002031pfc.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Apr 2021 00:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=94L1tjkW7g+Eq+M+79wQOnbZil94B5iZq8DLzBDp7p8=;
-        b=VCdZ9/OwMzPcKAXpZbL50lsH+g0wIp5BqcQNsM1eV+xWlQEldI22HrghXj9Ny/s+TM
-         byVQ0VQTrT5KZ6rV0AXUcTs5TQYBuR1ESLCzVQp66s/fhyz2Z/AwO5ptXnIakdM6ZtH4
-         2RhmrTrnVp7XI7n2nwwj8yIQ+f1wsyazN+ZRfgkvc4c27xg6OMzbgBvsyQFIoPtncDHw
-         QFwhw4o2Mj0GIohxbSbLtxthkd5h5s5cVrZxSkQ7UpVJqMA4WnwMK/vjjV9AwMYCShxd
-         QDxyg2aOomMw7B7kJLTsk3lpAtcT5KcXqio0U4qPKUtLNmkwaz/mUV3MWeGqVrrsPDrY
-         aaYg==
+        Tue, 6 Apr 2021 03:12:26 -0400
+Received: by mail-lf1-f51.google.com with SMTP id o126so21175914lfa.0;
+        Tue, 06 Apr 2021 00:12:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=94L1tjkW7g+Eq+M+79wQOnbZil94B5iZq8DLzBDp7p8=;
-        b=XeJPgVqVb6lOjQI80EneQY8CQezjJk025NnSv67BlT7absHzIfxSHI1COi+lO+wDCf
-         gl6R87ghBZ2cIin3hRsQFze6D9MXF70ApNYVqgei8rXsrIyLp36KfroA2XShnypMoFv5
-         V1lhz6Fz+ov46Jjg2UhaXa+mAyQ5qszNQAkAOeAnrZ1hVlzuwq8vvGIWd7RApDPLiRxh
-         KpLKHq3bsfk3zQdLBhPw7RuS/A0zUwtF7WVwwyid79RmUWrmdjY/m3U3+WX2WPzCL9Wb
-         Uh6Hg38AOwiWxuHUuVq7SPFTN7pyj/7W9FXIqlnRQawNe7BlhPluaeYYRZ9nCJ60mU+T
-         /P8Q==
-X-Gm-Message-State: AOAM532zqSaKBeUvy8SDBITjsYquK4ZqTZ54iyazgA1dDG3WNWUWRySL
-        kyEskGMqN5aObj/IeIEMEiXuZ5L4z/IkbLr0
-X-Google-Smtp-Source: ABdhPJyvJuZFTX+llOZL/y0zQ59qS2nFyoooNxKc6KwDOsrplGAXhFSJJVV783tPiCHcqKRwZxtBeg==
-X-Received: by 2002:aa7:9605:0:b029:20e:b183:fc89 with SMTP id q5-20020aa796050000b029020eb183fc89mr26060496pfg.70.1617692807662;
-        Tue, 06 Apr 2021 00:06:47 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id r1sm1440831pjo.26.2021.04.06.00.06.47
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=JWpXtPxwcYaLcWPTdbUVcJYF2Cxw1aQmYGh7DtSPh6A=;
+        b=shCj0T0v6vvkn/65E42vMQ/yB85zRiCtzkerQU5ryMdf0mWHoLaqmSoHY7VUO0H/vK
+         JvmIgYAslTz2NWTsH4OfD4d6J8GGmppNaawVX9KG5BcDnm7njpsXSR2RoQVl700edgxK
+         Meo27+gymVqadY+lg9xo0h2gJPoyVvIdM8o4YDgOVAP64dekIa4jGfQ8Gz9swIbybP43
+         OakaaZORTUK5EZRoleHjaZdQnT/c0M73E4Ziz6ZSQzQ87Y3+72LlPq8P/hQxDHzyb1gL
+         CgHPs+VGWbMPJ0y2O3RPCDtYJhqRSudKSy3HFCSVsMwFPHhAaIbenofO2LQGY2DWsaHg
+         pj0A==
+X-Gm-Message-State: AOAM532W9ucMIH3S3zTzo230mOXSZgmz2UQ7x0do0qrdyCQZFRQdkKb9
+        JfCo3wvkYSZLs16p+MFq3HQ=
+X-Google-Smtp-Source: ABdhPJyi5TE1Cg+HM5nSC/YkyOREx2cRJrXa+bx0pgOVuESbM3ahI8wKz/U1y5n/g39HgW5ueEzP9w==
+X-Received: by 2002:a19:c54:: with SMTP id 81mr19628292lfm.401.1617693137223;
+        Tue, 06 Apr 2021 00:12:17 -0700 (PDT)
+Received: from localhost.localdomain (dc7vkhyyyyyyyyyyyyydy-3.rev.dnainternet.fi. [2001:14ba:16e2:8300::6])
+        by smtp.gmail.com with ESMTPSA id r3sm2049130lfn.122.2021.04.06.00.12.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 00:06:47 -0700 (PDT)
-Message-ID: <606c0887.1c69fb81.cbd6.4d37@mx.google.com>
-Date:   Tue, 06 Apr 2021 00:06:47 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 06 Apr 2021 00:12:16 -0700 (PDT)
+Date:   Tue, 6 Apr 2021 10:12:09 +0300
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Matti Vaittinen <mazziesaccount@gmail.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-power@fi.rohmeurope.com, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 0/7] Extend regulator notification support
+Message-ID: <cover.1617690965.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-devel-2021-04-05-v5.12-rc6
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-Subject: renesas/master sleep: 3 runs,
- 2 regressions (renesas-devel-2021-04-05-v5.12-rc6)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master sleep: 3 runs, 2 regressions (renesas-devel-2021-04-05-v5.12=
--rc6)
+Extend regulator notification support
 
-Regressions Summary
--------------------
+This series extends the regulator notification and error flag support. Initial
+discussion on the topic can be found here:
+https://lore.kernel.org/lkml/6046836e22b8252983f08d5621c35ececb97820d.camel@fi.rohmeurope.com/
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 2          =
+This series is built on top of the BD9576MUF support patch series v9
+which is currently in MFD tree at immutable branch ib-mfd-watchdog-5.13
+https://lore.kernel.org/lkml/cover.1615219345.git.matti.vaittinen@fi.rohmeurope.com/
+(The series should apply without those patches but there is compile time
+dependency to definitions brought in at the last patch of the BD9576
+series. This should be Ok though as there is a Kconfig dependency in
+BD9576 regulator driver)
+
+In a nutshell - the series adds:
+
+1. WARNING level events/error flags. (Patch 2)
+  Current regulator 'ERROR' event notifications for over/under
+  voltage, over current and over temperature are used to indicate
+  condition where monitored entity is so badly "off" that it actually
+  indicates a hardware error which can not be recovered. The most
+  typical hanling for that is believed to be a (graceful)
+  system-shutdown. Here we add set of 'WARNING' level flags to allow
+  sending notifications to consumers before things are 'that badly off'
+  so that consumer drivers can implement recovery-actions.
+2. Device-tree properties for specifying limit values. (Patches 1, 4)
+  Add limits for above mentioned 'ERROR' and 'WARNING' levels (which
+  send notifications to consumers) and also for a 'PROTECTION' level
+  (which will be used to immediately shut-down the regulator(s) W/O
+  informing consumer drivers. Typically implemented by hardware).
+  Property parsing is implemented in regulator core which then calls
+  callback operations for limit setting from the IC drivers. A
+  warning is emitted if protection is requested by device tree but the
+  underlying IC does not support configuring requested protection.
+3. Helpers which can be registered by IC. (Patch 3)
+  Target is to avoid implementing IRQ handling and IRQ storm protection
+  in each IC driver. (Many of the ICs implementin these IRQs do not allow
+  masking or acking the IRQ but keep the IRQ asserted for the whole
+  duration of problem keeping the processor in IRQ handling loop).
+
+The helper was attempted to be done so it could be used to implement
+roughly same logic as is used in qcom-labibb regulator. This means
+amongst other things a safety shut-down if IC registers are not readable.
+Using these shut-down retry counters are optional. The idea is that the
+helper could be also used by simpler ICs which do not provide status
+register(s) which can be used to check if error is still active.
+
+ICs which do not have such status register can simply omit the 'renable'
+callback (and retry-counts etc) - and helper assumes the situation is Ok
+and re-enables IRQ after given time period. If problem persists the
+handler is ran again and another notification is sent - but at least the
+delay allows processor to avoid IRQ loop.
+
+Patch 6 takes this notification support in use at BD9576MUF.
+Patch 7 is related to MFD change which is not really related to the RFC
+here. It was added to this series in order to avoid potential conflicts.
+
+Changelog v4:
+   - rebased on v5.12-rc6
+   - dropped RFC
+   - fix external FET DT-binding.
+   - improve prints for cases when expecting HW failure.
+   - styling and typos
+Changelog v3:
+  Regulator core:
+   - Fix dangling pointer access at regulator_irq_helper()
+  stpmic1_regulator:
+   - fix function prototype (compile error)
+  bd9576-regulator:
+   - Update over current limits to what was given in new data-sheet
+     (REV00K)
+   - Allow over-current monitoring without external FET. Set limits to
+     values given in data-sheet (REV00K).
+
+Changelog v2:
+  Generic:
+  - rebase on v5.12-rc2 + BD9576 series
+  - Split devm variant of delayed wq to own series
+  Regulator framework:
+  - Provide non devm variant of IRQ notification helpers
+  - shorten dt-property names as suggested by Rob
+  - unconditionally call map_event in IRQ handling and require it to be
+    populated
+  BD9576 regulators:
+  - change the FET resistance property to micro-ohms
+  - fix voltage computation in OC limit setting
+
+--
+
+Matti Vaittinen (7):
+  dt_bindings: Add protection limit properties
+  regulator: add warning flags
+  regulator: IRQ based event/error notification helpers
+  regulator: add property parsing and callbacks to set protection limits
+  dt-bindings: regulator: bd9576 add FET ON-resistance for OCW
+  regulator: bd9576: Support error reporting
+  regulator: bd9576: Fix the driver name in id table
+
+ .../bindings/regulator/regulator.yaml         |   82 ++
+ .../regulator/rohm,bd9576-regulator.yaml      |    6 +
+ drivers/regulator/Makefile                    |    2 +-
+ drivers/regulator/bd9576-regulator.c          | 1060 +++++++++++++++--
+ drivers/regulator/core.c                      |  146 ++-
+ drivers/regulator/irq_helpers.c               |  431 +++++++
+ drivers/regulator/of_regulator.c              |   58 +
+ drivers/regulator/qcom-labibb-regulator.c     |   10 +-
+ drivers/regulator/qcom_spmi-regulator.c       |    6 +-
+ drivers/regulator/stpmic1_regulator.c         |   20 +-
+ include/linux/regulator/consumer.h            |   14 +
+ include/linux/regulator/driver.h              |  176 ++-
+ include/linux/regulator/machine.h             |   26 +
+ 13 files changed, 1895 insertions(+), 142 deletions(-)
+ create mode 100644 drivers/regulator/irq_helpers.c
+
+-- 
+2.25.4
 
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-04-05-v5.12-rc6/plan/sleep/
+-- 
+Matti Vaittinen, Linux device drivers
+ROHM Semiconductors, Finland SWDC
+Kiviharjunlenkki 1E
+90220 OULU
+FINLAND
 
-  Test:     sleep
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-04-05-v5.12-rc6
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      ea0aa7f2e67d781466efc1f9867e42062aa6e685 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/606bf4f66ea157341bdac6ee
-
-  Results:     2 PASS, 14 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-04-05-v5.12-rc6/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288=
--rock2-square.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-04-05-v5.12-rc6/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288=
--rock2-square.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0324.0/armhf/rootfs.cpio.gz =
-
-
-
-  * sleep.rtcwake-mem-1: https://kernelci.org/test/case/id/606bf4f66ea15734=
-1bdac6f1
-        new failure (last pass: renesas-devel-2021-04-02-v5.12-rc5)
-
-    2021-04-06 05:43:15.395000+00:00  rtcwake: read rt<4>[   19.425374] rtc=
--hym8563 0-0051: no valid clock/calendar values available
-    2021-04-06 05:43:15.395000+00:00  c time failed: Invalid argument
-    2021-04-06 05:43:15.396000+00:00  rtcwake: assuming RTC uses UTC .<4>[ =
-  19.445779] rtc-hym8563 0-0051: no valid clock/calendar values available
-    2021-04-06 05:43:15.396000+00:00  ..
-    2021-04-06 05:43:15.397000+00:00  rtcwake: read rtc time failed: Invali=
-d argument   =
-
-
-  * sleep.rtcwake-mem-2: https://kernelci.org/test/case/id/606bf4f66ea15734=
-1bdac6f2
-        new failure (last pass: renesas-devel-2021-04-02-v5.12-rc5) =
-
- =20
+~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
+Simon says - in Latin please.
+~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
+Thanks to Simon Glass for the translation =] 
