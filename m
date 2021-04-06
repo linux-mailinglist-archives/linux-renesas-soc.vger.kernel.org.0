@@ -2,32 +2,31 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FEC4355835
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Apr 2021 17:38:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1E5A355E7C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Apr 2021 00:09:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345851AbhDFPiA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Apr 2021 11:38:00 -0400
-Received: from ssl.serverraum.org ([176.9.125.105]:58707 "EHLO
+        id S230234AbhDFWJy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Apr 2021 18:09:54 -0400
+Received: from ssl.serverraum.org ([176.9.125.105]:57467 "EHLO
         ssl.serverraum.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243939AbhDFPhy (ORCPT
+        with ESMTP id S229958AbhDFWJy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Apr 2021 11:37:54 -0400
+        Tue, 6 Apr 2021 18:09:54 -0400
 Received: from mwalle01.fritz.box (unknown [IPv6:2a02:810c:c200:2e91:fa59:71ff:fe9b:b851])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ssl.serverraum.org (Postfix) with ESMTPSA id 1165E22253;
-        Tue,  6 Apr 2021 17:37:42 +0200 (CEST)
+        by ssl.serverraum.org (Postfix) with ESMTPSA id 1A8F622235;
+        Wed,  7 Apr 2021 00:09:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
-        t=1617723464;
+        t=1617746983;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lACUh6+pO6Mh+0/uWp/aTCFDfW7S2kCGechEIv6LxiY=;
-        b=BzCGx5SN0jEHC8+qmmZDOwoUgfLCkVr2Bh3VdVahuCWxROBxMtqgptKfIa6bJEmq/EtSNw
-        xbTAmCcHgGRkO6HOTDaNFGM66muyr5PV40PdpKWguXRFitmNaJGctJFf2VWVACHE8N7ZeX
-        sP/zgBXVPofopSD6ybGoDe+vesSQZOk=
+         content-transfer-encoding:content-transfer-encoding;
+        bh=nxEW2PujxHUk6M1X/+HLIMOdJBR/2jMAcclop6BOCK8=;
+        b=rY4ENVKmPeKKZzNKjl8i/SpA+m0c7PNBaggO3LmY75nxL9Jd+3TGuhNz6P4taqSouNt5Fl
+        baSwlWDEBseKj83xhDukmdOEu8uyypEhWVZeLhcuaT/4rg9AdNTWMpa8BMM0U33Os2tPCN
+        YXtdhJDpQhxH6LvrgU2KMyfKTIgrHiM=
 From:   Michael Walle <michael@walle.cc>
 To:     ath9k-devel@qca.qualcomm.com, UNGLinuxDriver@microchip.com,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -115,100 +114,137 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         Michael Walle <michael@walle.cc>
-Subject: [PATCH net-next v2 2/2] of: net: fix of_get_mac_addr_nvmem() for PCI and DSA nodes
-Date:   Tue,  6 Apr 2021 17:37:25 +0200
-Message-Id: <20210406153725.10059-3-michael@walle.cc>
+Subject: [PATCH net-next v3 0/2] of: net: support non-platform devices in of_get_mac_address()
+Date:   Wed,  7 Apr 2021 00:09:19 +0200
+Message-Id: <20210406220921.24313-1-michael@walle.cc>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210406153725.10059-1-michael@walle.cc>
-References: <20210406153725.10059-1-michael@walle.cc>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-of_get_mac_address() already supports fetching the MAC address by an
-nvmem provider. But until now, it was just working for platform devices.
-Esp. it was not working for DSA ports and PCI devices. It gets more
-common that PCI devices have a device tree binding since SoCs contain
-integrated root complexes.
+of_get_mac_address() is commonly used to fetch the MAC address
+from the device tree. It also supports reading it from a NVMEM
+provider. But the latter is only possible for platform devices,
+because only platform devices are searched for a matching device
+node.
 
-Use the nvmem of_* binding to fetch the nvmem cells by a struct
-device_node. We still have to try to read the cell by device first
-because there might be a nvmem_cell_lookup associated with that device.
+Add a second method to fetch the NVMEM cell by a device tree node
+instead of a "struct device".
 
-Signed-off-by: Michael Walle <michael@walle.cc>
----
-Please note, that I've kept the nvmem_get_mac_address() which operates
-on a device. The new of_get_mac_addr_nvmem() is almost identical and
-there are no users of the former function right now, but it seems to be
-the "newer" version to get the MAC address for a "struct device". Thus
-I've kept it. Please advise, if I should kill it though.
+Moreover, the NVMEM subsystem will return dynamically allocated
+data which has to be freed after use. Currently, this is handled
+by allocating a device resource manged buffer to store the MAC
+address. of_get_mac_address() then returns a pointer to this
+buffer. Without a device, this trick is not possible anymore.
+Thus, change the of_get_mac_address() API to have the caller
+supply a buffer.
 
- drivers/of/of_net.c | 37 +++++++++++++++++++++++++++++++------
- 1 file changed, 31 insertions(+), 6 deletions(-)
+It was considered to use the network device to attach the buffer
+to, but then the order matters and netdev_register() has to be
+called before of_get_mac_address(). No driver does it this way.
 
-diff --git a/drivers/of/of_net.c b/drivers/of/of_net.c
-index 2344ad7fff5e..2323c6063eaf 100644
---- a/drivers/of/of_net.c
-+++ b/drivers/of/of_net.c
-@@ -11,6 +11,7 @@
- #include <linux/phy.h>
- #include <linux/export.h>
- #include <linux/device.h>
-+#include <linux/nvmem-consumer.h>
- 
- /**
-  * of_get_phy_mode - Get phy mode for given device_node
-@@ -56,18 +57,42 @@ static int of_get_mac_addr(struct device_node *np, const char *name, u8 *addr)
- 	return -ENODEV;
- }
- 
--static int of_get_mac_addr_nvmem(struct device_node *np, u8 addr)
-+static int of_get_mac_addr_nvmem(struct device_node *np, u8 *addr)
- {
- 	struct platform_device *pdev = of_find_device_by_node(np);
-+	struct nvmem_cell *cell;
-+	const void *mac;
-+	size_t len;
- 	int ret;
- 
--	if (!pdev)
--		return -ENODEV;
-+	/* Try lookup by device first, there might be a nvmem_cell_lookup
-+	 * associated with a given device.
-+	 */
-+	if (pdev) {
-+		ret = nvmem_get_mac_address(&pdev->dev, addr);
-+		put_device(&pdev->dev);
-+		return ret;
-+	}
-+
-+	cell = of_nvmem_cell_get(np, "mac-address");
-+	if (IS_ERR(cell))
-+		return PTR_ERR(cell);
-+
-+	mac = nvmem_cell_read(cell, &len);
-+	nvmem_cell_put(cell);
-+
-+	if (IS_ERR(mac))
-+		return PTR_ERR(mac);
-+
-+	if (len != ETH_ALEN || !is_valid_ether_addr(mac)) {
-+		kfree(mac);
-+		return -EINVAL;
-+	}
- 
--	ret = nvmem_get_mac_address(&pdev->dev, addr);
--	put_device(&pdev->dev);
-+	ether_addr_copy(addr, mac);
-+	kfree(mac);
- 
--	return ret;
-+	return 0;
- }
- 
- /**
+changes since v2:
+ - fixed of_get_mac_addr_nvmem() signature, which was accidentially
+   fixed in patch 2/2 again
+
+changes since v1:
+ - fixed stmmac_probe_config_dt() for !CONFIG_OF
+ - added missing queue in patch subject
+
+Michael Walle (2):
+  of: net: pass the dst buffer to of_get_mac_address()
+  of: net: fix of_get_mac_addr_nvmem() for PCI and DSA nodes
+
+ arch/arm/mach-mvebu/kirkwood.c                |  3 +-
+ arch/powerpc/sysdev/tsi108_dev.c              |  5 +-
+ drivers/net/ethernet/aeroflex/greth.c         |  6 +-
+ drivers/net/ethernet/allwinner/sun4i-emac.c   | 10 +--
+ drivers/net/ethernet/altera/altera_tse_main.c |  7 +-
+ drivers/net/ethernet/arc/emac_main.c          |  8 +-
+ drivers/net/ethernet/atheros/ag71xx.c         |  7 +-
+ drivers/net/ethernet/broadcom/bcm4908_enet.c  |  7 +-
+ drivers/net/ethernet/broadcom/bcmsysport.c    |  7 +-
+ drivers/net/ethernet/broadcom/bgmac-bcma.c    | 10 +--
+ .../net/ethernet/broadcom/bgmac-platform.c    | 11 ++-
+ drivers/net/ethernet/cadence/macb_main.c      | 11 +--
+ .../net/ethernet/cavium/octeon/octeon_mgmt.c  |  8 +-
+ .../net/ethernet/cavium/thunder/thunder_bgx.c |  5 +-
+ drivers/net/ethernet/davicom/dm9000.c         | 10 +--
+ drivers/net/ethernet/ethoc.c                  |  6 +-
+ drivers/net/ethernet/ezchip/nps_enet.c        |  7 +-
+ drivers/net/ethernet/freescale/fec_main.c     |  7 +-
+ drivers/net/ethernet/freescale/fec_mpc52xx.c  |  7 +-
+ drivers/net/ethernet/freescale/fman/mac.c     |  9 +-
+ .../ethernet/freescale/fs_enet/fs_enet-main.c |  5 +-
+ drivers/net/ethernet/freescale/gianfar.c      |  8 +-
+ drivers/net/ethernet/freescale/ucc_geth.c     |  5 +-
+ drivers/net/ethernet/hisilicon/hisi_femac.c   |  7 +-
+ drivers/net/ethernet/hisilicon/hix5hd2_gmac.c |  7 +-
+ drivers/net/ethernet/lantiq_xrx200.c          |  7 +-
+ drivers/net/ethernet/marvell/mv643xx_eth.c    |  5 +-
+ drivers/net/ethernet/marvell/mvneta.c         |  6 +-
+ .../ethernet/marvell/prestera/prestera_main.c | 11 +--
+ drivers/net/ethernet/marvell/pxa168_eth.c     |  9 +-
+ drivers/net/ethernet/marvell/sky2.c           |  8 +-
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c   | 11 +--
+ drivers/net/ethernet/micrel/ks8851_common.c   |  7 +-
+ drivers/net/ethernet/microchip/lan743x_main.c |  5 +-
+ drivers/net/ethernet/nxp/lpc_eth.c            |  4 +-
+ drivers/net/ethernet/qualcomm/qca_spi.c       | 10 +--
+ drivers/net/ethernet/qualcomm/qca_uart.c      |  9 +-
+ drivers/net/ethernet/renesas/ravb_main.c      | 12 +--
+ drivers/net/ethernet/renesas/sh_eth.c         |  5 +-
+ .../ethernet/samsung/sxgbe/sxgbe_platform.c   | 13 +--
+ drivers/net/ethernet/socionext/sni_ave.c      | 10 +--
+ .../ethernet/stmicro/stmmac/dwmac-anarion.c   |  2 +-
+ .../stmicro/stmmac/dwmac-dwc-qos-eth.c        |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-generic.c   |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-imx.c   |  2 +-
+ .../stmicro/stmmac/dwmac-intel-plat.c         |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-ipq806x.c   |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-lpc18xx.c   |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-mediatek.c  |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-meson.c |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-meson8b.c   |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-oxnas.c |  2 +-
+ .../stmicro/stmmac/dwmac-qcom-ethqos.c        |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-rk.c    |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-socfpga.c   |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-sti.c   |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-stm32.c |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-sunxi.c |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-visconti.c  |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h  |  2 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |  4 +-
+ .../ethernet/stmicro/stmmac/stmmac_platform.c | 14 +--
+ .../ethernet/stmicro/stmmac/stmmac_platform.h |  2 +-
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      | 19 ++---
+ drivers/net/ethernet/ti/cpsw.c                |  7 +-
+ drivers/net/ethernet/ti/cpsw_new.c            |  7 +-
+ drivers/net/ethernet/ti/davinci_emac.c        |  8 +-
+ drivers/net/ethernet/ti/netcp_core.c          |  7 +-
+ drivers/net/ethernet/wiznet/w5100-spi.c       |  8 +-
+ drivers/net/ethernet/wiznet/w5100.c           |  2 +-
+ drivers/net/ethernet/xilinx/ll_temac_main.c   |  6 +-
+ .../net/ethernet/xilinx/xilinx_axienet_main.c | 11 +--
+ drivers/net/ethernet/xilinx/xilinx_emaclite.c |  8 +-
+ drivers/net/wireless/ath/ath9k/init.c         |  5 +-
+ drivers/net/wireless/mediatek/mt76/eeprom.c   |  9 +-
+ .../net/wireless/ralink/rt2x00/rt2x00dev.c    |  6 +-
+ drivers/of/of_net.c                           | 85 ++++++++++++-------
+ drivers/staging/octeon/ethernet.c             | 10 +--
+ drivers/staging/wfx/main.c                    |  7 +-
+ include/linux/of_net.h                        |  6 +-
+ include/net/dsa.h                             |  2 +-
+ net/dsa/dsa2.c                                |  2 +-
+ net/dsa/slave.c                               |  2 +-
+ net/ethernet/eth.c                            | 11 +--
+ 85 files changed, 241 insertions(+), 362 deletions(-)
+
 -- 
 2.20.1
 
