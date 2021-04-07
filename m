@@ -2,178 +2,248 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B11043560E8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Apr 2021 03:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 251AC3562D0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Apr 2021 07:02:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347790AbhDGBpp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Apr 2021 21:45:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49826 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235801AbhDGBpo (ORCPT
+        id S1344986AbhDGFCY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Apr 2021 01:02:24 -0400
+Received: from mail-lf1-f53.google.com ([209.85.167.53]:45708 "EHLO
+        mail-lf1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244465AbhDGFCY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Apr 2021 21:45:44 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 112F9C06174A;
-        Tue,  6 Apr 2021 18:45:36 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id s11so11767572pfm.1;
-        Tue, 06 Apr 2021 18:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=w25lwMo3bZrfNfXLpALA+4I29YoJZak3FyajA6HeC94=;
-        b=CIChkHRrI3lQGQaVgR3g6LW6mtE7yO24xnIbA3eBb2OBsSB2LpEOsEMe8qhA6ppB4/
-         GFg8WBsRxrdBL+opf48EhryRN/JKtLSyUf8TtU4rVTRQa0D+2XsyLYjF95V4ZrkFFl1U
-         5mLtoliRkEQSihgjqgixl9vUQ0ZABFHT2oc60rmHwJ60bV8gTNkz1J4AlAZwO+5B+DuQ
-         +5lul+5kAwz6HwmSJjNChHm4+EocR2sBxC3baPIbPs036zqFQh7Ew01atfiMB7d3C/Ow
-         PUNTNMFbHGoK1bfa8ixotxlbsKJ3STRzqpF8jldPfQ8ke/3eiY6H4rtWu1h0K8XYB2Vv
-         rgqQ==
+        Wed, 7 Apr 2021 01:02:24 -0400
+Received: by mail-lf1-f53.google.com with SMTP id g8so26347679lfv.12;
+        Tue, 06 Apr 2021 22:02:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:message-id:subject:from:reply-to:to:cc
+         :in-reply-to:references:mime-version:date:user-agent
          :content-transfer-encoding;
-        bh=w25lwMo3bZrfNfXLpALA+4I29YoJZak3FyajA6HeC94=;
-        b=ZU0MW/s3N/7mB5Ayf5VDrKVTUrik4K9iobD9tc/ZWORPPvbn/zH+/D4i+SJVqSFM4a
-         dwN/VELsTEWH8S99XU9n9Yj2VFouj19HAsdMa0SPpkZvtDNCoaSR4tXxIag3RLCEXhXQ
-         AL6QraKB6px6+xtll74L2QnJyf0DhnOvpVXUanllljPyhQmqFahJosEnamEa5w24Pyn7
-         P5emqEaCFH/IlrMxpkVQg8jK0RcfanJcBmldzB/h//HyFZ287Spbewo5ljK/FeBp4rwu
-         dTuUKgPAj6D6xFMe1FEzgXC+V6aeJ33tj7/34h9YEYhqSgd766l4OLL9g2nhFQB5zG75
-         WgnQ==
-X-Gm-Message-State: AOAM53078O9EpPUub+LZpigFibuCj7s8bqxtFeANemtsfgOj+cUJk9DF
-        TUSVnc1h//NUruXFJ+T/o1g=
-X-Google-Smtp-Source: ABdhPJyjkdVdAMZsiQs6PYIHXwhXVO+uLzcp0Xe8vbkVPgJP52Fozx3Xafo1rzDkv0TO669OyIEiUA==
-X-Received: by 2002:a63:fb12:: with SMTP id o18mr948658pgh.438.1617759935548;
-        Tue, 06 Apr 2021 18:45:35 -0700 (PDT)
-Received: from [10.230.29.202] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id o13sm20193959pgv.40.2021.04.06.18.45.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Apr 2021 18:45:34 -0700 (PDT)
-Subject: Re: [PATCH net-next v3 2/2] of: net: fix of_get_mac_addr_nvmem() for
- PCI and DSA nodes
-To:     Michael Walle <michael@walle.cc>, ath9k-devel@qca.qualcomm.com,
-        UNGLinuxDriver@microchip.com, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        netdev@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-amlogic@lists.infradead.org, linux-oxnas@groups.io,
-        linux-omap@vger.kernel.org, linux-wireless@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Andreas Larsson <andreas@gaisler.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Joyce Ooi <joyce.ooi@intel.com>,
-        Chris Snook <chris.snook@gmail.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Sunil Goutham <sgoutham@marvell.com>,
-        Fugang Duan <fugang.duan@nxp.com>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Vadym Kochan <vkochan@marvell.com>,
-        Taras Chornyi <tchornyi@marvell.com>,
-        Mirko Lindner <mlindner@marvell.com>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Bryan Whitehead <bryan.whitehead@microchip.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Byungho An <bh74.an@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Wingman Kwok <w-kwok2@ti.com>,
-        Murali Karicheri <m-karicheri2@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Stanislaw Gruszka <stf_xl@wp.pl>,
-        Helmut Schaa <helmut.schaa@googlemail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
+        bh=Y660N962CfSq0r1Gv5yA7k9zDEwgph8j+14Pl9hIqdA=;
+        b=XvodzsqrEAJiKZB/PqqO3qA4ZRYxRpspOTT0RRWQzrUAJbQr8HjRhy3xye7CqTz2ZO
+         WjpQLYGi5U3YswtHXdYasH0sydYqabVpycw9AlQIDm9sR1fszfQUqahJl71IP8EwcMPz
+         YRXcVhHsi+D6u5coKH+vPye+GsU8Cdaf20t9MyuEGH9yzwYaZwVnwllx5fxUiAIHQRIs
+         qRAy0/L59sGjYAWPr/gJODiMP3gpO//AI7IiJfHsX9Q7aFiHtSAB2bFI6/Ai//QU9I3B
+         I/Now3tD0+MwqRcdsGZi1MU3jnOYvdH6PzpkF7VJk7gMs3r1cOsdHbUfN9JEl3Te2X17
+         8d6g==
+X-Gm-Message-State: AOAM531tiIq0POx5GMFips9YlEdG6MAWNmqEshY+ELiHJ8nLPPKofZ1S
+        rtXy/JnYEEafmaITfSriUx0=
+X-Google-Smtp-Source: ABdhPJxUDLjnSysUCjbwr6Gn6YxY6BUuP8kyDq9XwjAZkPvdnpLBkDrgShBuZTBq0hMIDhAX+AUZyw==
+X-Received: by 2002:a05:6512:130e:: with SMTP id x14mr1205143lfu.321.1617771733894;
+        Tue, 06 Apr 2021 22:02:13 -0700 (PDT)
+Received: from dc7vkhyyyyyyyyyyyyydy-3.rev.dnainternet.fi (dc7vkhyyyyyyyyyyyyydy-3.rev.dnainternet.fi. [2001:14ba:16e2:8300::6])
+        by smtp.gmail.com with ESMTPSA id m24sm2365395lfq.184.2021.04.06.22.02.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Apr 2021 22:02:13 -0700 (PDT)
+Message-ID: <55397166b1c4107efc2a013635f63af142d9b187.camel@fi.rohmeurope.com>
+Subject: Re: [PATCH v4 3/7] regulator: IRQ based event/error notification
+ helpers
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Reply-To: matti.vaittinen@fi.rohmeurope.com
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>
-References: <20210406220921.24313-1-michael@walle.cc>
- <20210406220921.24313-3-michael@walle.cc>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <70b649a4-4b1f-3e95-a6b9-23a00bbaf122@gmail.com>
-Date:   Tue, 6 Apr 2021 18:45:26 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-power@fi.rohmeurope.com" <linux-power@fi.rohmeurope.com>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+In-Reply-To: <CAHp75VeoTVNDemV0qRA4BTVqOVfyR9UKGWhHgfeat8zVVGcu_Q@mail.gmail.com>
+References: <cover.1617690965.git.matti.vaittinen@fi.rohmeurope.com>
+         <2b87b4637fde2225006cc122bc855efca0dcd7f1.1617692184.git.matti.vaittinen@fi.rohmeurope.com>
+         <CAHp75VeoTVNDemV0qRA4BTVqOVfyR9UKGWhHgfeat8zVVGcu_Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 MIME-Version: 1.0
-In-Reply-To: <20210406220921.24313-3-michael@walle.cc>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Date:   Wed, 07 Apr 2021 08:02:04 +0300
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Morning Andy,
 
+Thanks for the review! By the way, is it me or did your mail-client
+spill this out using HTML?
 
-On 4/6/2021 3:09 PM, Michael Walle wrote:
-> of_get_mac_address() already supports fetching the MAC address by an
-> nvmem provider. But until now, it was just working for platform devices.
-> Esp. it was not working for DSA ports and PCI devices. It gets more
-> common that PCI devices have a device tree binding since SoCs contain
-> integrated root complexes.
+On Wed, 2021-04-07 at 01:44 +0300, Andy Shevchenko wrote:
+> On Tuesday, April 6, 2021, Matti Vaittinen <
+> matti.vaittinen@fi.rohmeurope.com> wrote:
+
+> > +static void die_loudly(const char *msg)
+> > +{
+> > +       pr_emerg(msg);
 > 
-> Use the nvmem of_* binding to fetch the nvmem cells by a struct
-> device_node. We still have to try to read the cell by device first
-> because there might be a nvmem_cell_lookup associated with that device.
-> 
-> Signed-off-by: Michael Walle <michael@walle.cc>
-> ---
-> Please note, that I've kept the nvmem_get_mac_address() which operates
-> on a device. The new of_get_mac_addr_nvmem() is almost identical and
-> there are no users of the former function right now, but it seems to be
-> the "newer" version to get the MAC address for a "struct device". Thus
-> I've kept it. Please advise, if I should kill it though.
+> Oh là là, besides build bot complaints, this has serious security
+> implications. Never do like this.
+ 
+I'm not even trying to claim that was correct. And I did send a fixup -
+sorry for this. I don't intend to do this again.
 
-Nit: if you need to resubmit you could rephrase the subject such that
-the limitation of of_get_mac_addr_nvmem() is lifted to include all kinds
-of devices, and no longer just platform_device instances as before.
--- 
-Florian
+Now, when this is said - If you have a minute, please educate me.
+Assuming we know all the callers and that all the callers use this as
+
+die_loudly("foobarfoo\n");
+- what is the exploit mechanism?
+
+> > +       BUG();
+> > +}
+> > +
+
+
+> > +/**
+> > + * regulator_irq_helper - register IRQ based regulator event/error
+> > notifier
+> > + *
+> > + * @dev:               device to which lifetime the helper's
+> > lifetime is
+> > + *                     bound.
+> > + * @d:                 IRQ helper descriptor.
+> > + * @irq:               IRQ used to inform events/errors to be
+> > notified.
+> > + * @irq_flags:         Extra IRQ flags to be OR's with the default
+> > IRQF_ONESHOT
+> > + *                     when requesting the (threaded) irq.
+> > + * @common_errs:       Errors which can be flagged by this IRQ for
+> > all rdevs.
+> > + *                     When IRQ is re-enabled these errors will be
+> > cleared
+> > + *                     from all associated regulators
+> > + * @per_rdev_errs:     Optional error flag array describing errors
+> > specific
+> > + *                     for only some of the regulators. These
+> > errors will be
+> > + *                     or'ed with common erros. If this is given
+> > the array
+> > + *                     should contain rdev_amount flags. Can be
+> > set to NULL
+> > + *                     if there is no regulator specific error
+> > flags for this
+> > + *                     IRQ.
+> > + * @rdev:              Array of regulators associated with this
+> > IRQ.
+> > + * @rdev_amount:       Amount of regulators associated wit this
+> > IRQ.
+> > + */
+> > +void *regulator_irq_helper(struct device *dev,
+> > +                           const struct regulator_irq_desc *d, int
+> > irq,
+> > +                           int irq_flags, int common_errs, int
+> > *per_rdev_errs,
+> > +                           struct regulator_dev **rdev, int
+> > rdev_amount)
+> > +{
+> > +       struct regulator_irq *h;
+> > +       int ret;
+> > +
+> > +       if (!rdev_amount || !d || !d->map_event || !d->name)
+> > +               return ERR_PTR(-EINVAL);
+> > +
+> > +       if (irq <= 0) {
+> > +               dev_err(dev, "No IRQ\n");
+> > +               return ERR_PTR(-EINVAL);
+> 
+> Why shadowing error code? Negative IRQ is anything but “no IRQ”.
+
+This was a good point. The irq is passed here as parameter. From this
+function's perspective the negative irq is invalid parameter - we don't
+know how the caller has obtained it. Print could show the value
+contained in irq though.
+
+Now that you pointed this out I am unsure if this check is needed here.
+If we check it, then I still think we should report -EINVAL for invalid
+parameter. Other option is to just call the request_threaded_irq() -
+log the IRQ request failure and return what request_threaded_irq()
+returns. Do you think that would make sense?
+
+> > +
+> > +/**
+> > + * regulator_irq_helper_cancel - drop IRQ based regulator
+> > event/error notifier
+> > + *
+> > + * @handle:            Pointer to handle returned by a successful
+> > call to
+> > + *                     regulator_irq_helper(). Will be NULLed upon
+> > return.
+> > + *
+> > + * The associated IRQ is released and work is cancelled when the
+> > function
+> > + * returns.
+> > + */
+> > +void regulator_irq_helper_cancel(void **handle)
+> > +{
+> > +       if (handle && *handle) {
+> 
+> Can handle ever be NULL here ? (Yes, I understand that you export
+> this)
+
+To tell the truth - I am not sure. I *guess* that if we allow this to
+be NULL, then one *could* implement a driver for IC where IRQs are
+optional, in a way that when IRQs are supported the pointer to handle
+is valid, when IRQs aren't supported the pointer is NULL. (Why) do you
+think we should skip the check?
+
+>  
+> > +               struct regulator_irq *h = *handle;
+> > +
+> > +               free_irq(h->irq, h);
+> > +               if (h->desc.irq_off_ms)
+> > +                       cancel_delayed_work_sync(&h->isr_work);
+> > +
+> > +               h = NULL;
+> > +       }
+> > +}
+> > +EXPORT_SYMBOL_GPL(regulator_irq_helper_cancel);
+> > +
+> > +static void regulator_irq_helper_drop(struct device *dev, void
+> > *res)
+> > +{
+> > +       regulator_irq_helper_cancel(res);
+> > +}
+> > +
+> > +void *devm_regulator_irq_helper(struct device *dev,
+> > +                                const struct regulator_irq_desc
+> > *d, int irq,
+> > +                                int irq_flags, int common_errs,
+> > +                                int *per_rdev_errs,
+> > +                                struct regulator_dev **rdev, int
+> > rdev_amount)
+> > +{
+> > +       void **ptr;
+> > +
+> > +       ptr = devres_alloc(regulator_irq_helper_drop, sizeof(*ptr),
+> > GFP_KERNEL);
+> > +       if (!ptr)
+> > +               return ERR_PTR(-ENOMEM);
+> > +
+> > +       *ptr = regulator_irq_helper(dev, d, irq, irq_flags,
+> > common_errs,
+> > +                                   per_rdev_errs, rdev,
+> > rdev_amount);
+> > +
+> > +       if (IS_ERR(*ptr))
+> > +               devres_free(ptr);
+> > +       else
+> > +               devres_add(dev, ptr);
+> > +
+> > +       return *ptr;
+> 
+> Why not to use devm_add_action{_or_reset}()?
+
+I just followed the same approach that has been used in other regulator
+functions. (drivers/regulator/devres.c)
+OTOH, the devm_add_action makes this little bit simpler so I'll convert
+to use it.
+
+Mark, do you have a reason of not using devm_add_action() in devres.c?
+Should devm_add_action() be used in some other functions there? And
+should this be moved to devres.c?
+
+Best Regards
+	Matti Vaittinen
+
+
