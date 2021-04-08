@@ -2,73 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF4F357D02
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Apr 2021 09:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C064357D44
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Apr 2021 09:24:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbhDHHKA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Apr 2021 03:10:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46618 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229506AbhDHHJ7 (ORCPT
+        id S229510AbhDHHY2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Apr 2021 03:24:28 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:26720 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229506AbhDHHY2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Apr 2021 03:09:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 561D661159;
-        Thu,  8 Apr 2021 07:09:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617865788;
-        bh=H5glC+vfELVo/toFGRJmLSWGcysIQJlPM8zDXfnp934=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=f6Ze47cwM+Q9yBg7hTOqFdsdmDTVyfBoNVcjjq71LB9C7iQD/BdIU/+VgQ7p+m6uQ
-         2DEp1qKL4hPhDt9w2WdTGEuRI1ORRQ6wBiEDp9GWcLQXX6mJtugmLNEEuIMmKjTgZO
-         RHH1iLtBGpWJRiJylkZWWfCfFDcSFm35D5GOCzDuOLuS5595IFezzdsXReMOP9AP7R
-         /CEk/WuSavqvfP9mrd+h6Glet/ncW4iH09H1sm8B283kE9cODIfv/MEY/bIc4Fczvq
-         S8A4pCg3GhWFCkDKEVVfokYGZNwWOP8awisJmnwOOXJBs36mjzwWz3JG1Ij1JI03UT
-         FkzrUwZQBKz/w==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <7a384d02b85cdaac4a0e2b357582c8244b9a6f98.1617282116.git.geert+renesas@glider.be>
-References: <7a384d02b85cdaac4a0e2b357582c8244b9a6f98.1617282116.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] clk: renesas: r9a06g032: Switch to .determine_rate()
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Gareth Williams <gareth.williams.jx@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Thu, 08 Apr 2021 00:09:47 -0700
-Message-ID: <161786578706.3790633.4008870643384680138@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+        Thu, 8 Apr 2021 03:24:28 -0400
+Received: from localhost.localdomain (unknown [10.192.24.118])
+        by mail-app2 (Coremail) with SMTP id by_KCgC3v2+Sr25gmiHdAA--.48607S4;
+        Thu, 08 Apr 2021 15:24:06 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] PCI: rcar: Fix runtime PM imbalance in rcar_pcie_ep_probe
+Date:   Thu,  8 Apr 2021 15:24:02 +0800
+Message-Id: <20210408072402.15069-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgC3v2+Sr25gmiHdAA--.48607S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrZrW3JFykZrWrWr4fZrykAFb_yoWDuFc_u3
+        45ZFnrCr45WFy7Kry7t3W5Zr9Y9342qw1UGa1rt3W3AFySyrn8XrWkXFWDZr4fWa15Cr1j
+        yr909FWxCa4DujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbsAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2
+        jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
+        x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWU
+        AwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
+        8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY
+        0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+        1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+        14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+        IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVW3JVWrJr1lIxAIcVC2
+        z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+        UI43ZEXa7VUbE_M3UUUUU==
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0JBlZdtTTcOgAKsm
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2021-04-01 06:03:24)
-> diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas=
-/r9a06g032-clocks.c
-> index 71b11443f6fc3801..c99942f0e4d4c751 100644
-> --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-> @@ -630,11 +629,13 @@ r9a06g032_div_round_rate(struct clk_hw *hw,
->         if (clk->index =3D=3D R9A06G032_DIV_UART ||
->             clk->index =3D=3D R9A06G032_DIV_P2_PG) {
->                 pr_devel("%s div uart hack!\n", __func__);
-> -               return clk_get_rate(hw->clk);
-> +               req->rate =3D clk_get_rate(hw->clk);
+pm_runtime_get_sync() will increase the runtime PM counter
+even it returns an error. Thus a pairing decrement is needed
+to prevent refcount leak. Fix this by replacing this API with
+pm_runtime_resume_and_get(), which will not change the runtime
+PM counter on error.
 
-Can this use clk_hw_get_rate()? Or it needs to be clk_get_rate() to make
-sure the rate doesn't change while querying the framework... from the
-framework? Another patch is preferred if you're interested in making the
-change.
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+ drivers/pci/controller/pcie-rcar-ep.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +               return 0;
->         }
-> +       req->rate =3D DIV_ROUND_UP(req->best_parent_rate, div);
->         pr_devel("%s %pC %ld / %u =3D %ld\n", __func__, hw->clk,
-> -                *prate, div, DIV_ROUND_UP(*prate, div));
-> -       return DIV_ROUND_UP(*prate, div);
-> +                req->best_parent_rate, div, req->rate);
-> +       return 0;
->  }
-> =20
->  static int
+diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
+index b4a288e24aaf..c91d85b15129 100644
+--- a/drivers/pci/controller/pcie-rcar-ep.c
++++ b/drivers/pci/controller/pcie-rcar-ep.c
+@@ -492,9 +492,9 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
+ 	pcie->dev = dev;
+ 
+ 	pm_runtime_enable(dev);
+-	err = pm_runtime_get_sync(dev);
++	err = pm_runtime_resume_and_get(dev);
+ 	if (err < 0) {
+-		dev_err(dev, "pm_runtime_get_sync failed\n");
++		dev_err(dev, "pm_runtime_resume_and_get failed\n");
+ 		goto err_pm_disable;
+ 	}
+ 
+-- 
+2.17.1
+
