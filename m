@@ -2,80 +2,201 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C064357D44
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Apr 2021 09:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6B3A357DF3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Apr 2021 10:21:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbhDHHY2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Apr 2021 03:24:28 -0400
-Received: from mail.zju.edu.cn ([61.164.42.155]:26720 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229506AbhDHHY2 (ORCPT
+        id S229566AbhDHIVz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Apr 2021 04:21:55 -0400
+Received: from mail-lf1-f48.google.com ([209.85.167.48]:46962 "EHLO
+        mail-lf1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229539AbhDHIVy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Apr 2021 03:24:28 -0400
-Received: from localhost.localdomain (unknown [10.192.24.118])
-        by mail-app2 (Coremail) with SMTP id by_KCgC3v2+Sr25gmiHdAA--.48607S4;
-        Thu, 08 Apr 2021 15:24:06 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] PCI: rcar: Fix runtime PM imbalance in rcar_pcie_ep_probe
-Date:   Thu,  8 Apr 2021 15:24:02 +0800
-Message-Id: <20210408072402.15069-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: by_KCgC3v2+Sr25gmiHdAA--.48607S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrZrW3JFykZrWrWr4fZrykAFb_yoWDuFc_u3
-        45ZFnrCr45WFy7Kry7t3W5Zr9Y9342qw1UGa1rt3W3AFySyrn8XrWkXFWDZr4fWa15Cr1j
-        yr909FWxCa4DujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbsAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2
-        jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
-        x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWU
-        AwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
-        8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY
-        0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-        1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-        14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
-        IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVW3JVWrJr1lIxAIcVC2
-        z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
-        UI43ZEXa7VUbE_M3UUUUU==
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0JBlZdtTTcOgAKsm
+        Thu, 8 Apr 2021 04:21:54 -0400
+Received: by mail-lf1-f48.google.com with SMTP id 12so2468371lfq.13;
+        Thu, 08 Apr 2021 01:21:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:reply-to:to:cc
+         :in-reply-to:references:mime-version:date:user-agent
+         :content-transfer-encoding;
+        bh=jzItxJ2CxTj3c6iH3S2M44zuyWAHzz/0wn+lYYep9xk=;
+        b=CEZKNWb3CovnBrOhMfI6JNS8XSuDYolN3oHLoIjoUrNp8N+GmWh+SjWjNLTvczFv8c
+         FuNhPHZgYX6qA5T1HX7PBBwxRJ5bmWQxPI43ejEmU1DpfvuyFk30xtFgqgtmKLbpKIZF
+         3QidTmri47C8XNeYCBS9idfobS0/pJsNL0fK4PXBfIHDqqsSm5M4AHtWbSwNpMc2SF3c
+         4xD+7xNFrgEQdDPKWE7zz+tVkwewGqRz0PQqOF3XXlabKce35GP09/wr2pSZN10piB+m
+         WAeVqvd19jFfG0qQkquyUy4372m/LNp/2clfbWxF8cNODM1mz1evtuXqtr3bzsZQ+Gfi
+         XunQ==
+X-Gm-Message-State: AOAM531vzmEJlbKZeXJABhzn9Y7Hiesu4FBXetjfJyvEMkmaJxG0Bguc
+        /GaXlksUqwJkNbW2EA6qs4c=
+X-Google-Smtp-Source: ABdhPJzixoIgclWtUBc8bQOPfb33XxmdzHge9dlbikIJQZy4L9LiJwGi3K7LUsmqGmbB7+figlfUmg==
+X-Received: by 2002:ac2:43c6:: with SMTP id u6mr5416226lfl.341.1617870102448;
+        Thu, 08 Apr 2021 01:21:42 -0700 (PDT)
+Received: from dc7vkhyyyyyyyyyyyyydy-3.rev.dnainternet.fi (dc7vkhyyyyyyyyyyyyydy-3.rev.dnainternet.fi. [2001:14ba:16e2:8300::6])
+        by smtp.gmail.com with ESMTPSA id k25sm180092ljc.81.2021.04.08.01.21.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 01:21:41 -0700 (PDT)
+Message-ID: <23c73081365fddce2950c101a51fc2baaaa37aa5.camel@fi.rohmeurope.com>
+Subject: Re: [PATCH v6 3/8] regulator: IRQ based event/error notification
+ helpers
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Reply-To: matti.vaittinen@fi.rohmeurope.com
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-power <linux-power@fi.rohmeurope.com>,
+        linux-arm-msm@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+In-Reply-To: <CAHp75VcHeiQgvZ5e+Dz+gpKghCo5RSTQLsyHGGSgdVQbVu2t+g@mail.gmail.com>
+References: <cover.1617789229.git.matti.vaittinen@fi.rohmeurope.com>
+         <0862bbb6813891594f56700808d08160b6635bf4.1617789229.git.matti.vaittinen@fi.rohmeurope.com>
+         <CAHp75VcHeiQgvZ5e+Dz+gpKghCo5RSTQLsyHGGSgdVQbVu2t+g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Date:   Thu, 08 Apr 2021 11:21:31 +0300
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-pm_runtime_get_sync() will increase the runtime PM counter
-even it returns an error. Thus a pairing decrement is needed
-to prevent refcount leak. Fix this by replacing this API with
-pm_runtime_resume_and_get(), which will not change the runtime
-PM counter on error.
+Hello Andy,
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
- drivers/pci/controller/pcie-rcar-ep.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, 2021-04-07 at 16:21 +0300, Andy Shevchenko wrote:
+> On Wed, Apr 7, 2021 at 1:04 PM Matti Vaittinen
+> <matti.vaittinen@fi.rohmeurope.com> wrote:
+> > Provide helper function for IC's implementing regulator
+> > notifications
+> > when an IRQ fires. The helper also works for IRQs which can not be
+> > acked.
+> > Helper can be set to disable the IRQ at handler and then re-
+> > enabling it
+> > on delayed work later. The helper also adds
+> > regulator_get_error_flags()
+> > errors in cache for the duration of IRQ disabling.
+> 
+> Thanks for an update, my comments below. After addressing them, feel
+> free to add
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
-index b4a288e24aaf..c91d85b15129 100644
---- a/drivers/pci/controller/pcie-rcar-ep.c
-+++ b/drivers/pci/controller/pcie-rcar-ep.c
-@@ -492,9 +492,9 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
- 	pcie->dev = dev;
- 
- 	pm_runtime_enable(dev);
--	err = pm_runtime_get_sync(dev);
-+	err = pm_runtime_resume_and_get(dev);
- 	if (err < 0) {
--		dev_err(dev, "pm_runtime_get_sync failed\n");
-+		dev_err(dev, "pm_runtime_resume_and_get failed\n");
- 		goto err_pm_disable;
- 	}
- 
--- 
-2.17.1
+I (eventually) disagreed with couple of points here and haven't changed
+those. Please see list below.
+
+I still do think you did a really good job reviewing this - and you
+should get the recognition from that work. Thus I'd nevertheless would
+like to add your Reviewed-by to the next version. Please let me know if
+you think it's ok. (I have the v7 ready but I'll wait until the next
+Monday before sending it to see if this brings more discussion).
+
+> > +/**
+> > + * devm_regulator_irq_helper - resource managed registration of
+> > IRQ based
+> > + * regulator event/error notifier
+> > + *
+> > + * @dev:               device to which lifetime the helper's
+> > lifetime is
+> > + *                     bound.
+> > + * @d:                 IRQ helper descriptor.
+> > + * @irq:               IRQ used to inform events/errors to be
+> > notified.
+> > + * @irq_flags:         Extra IRQ flags to be OR's with the default
+> > IRQF_ONESHOT
+> > + *                     when requesting the (threaded) irq.
+> > + * @common_errs:       Errors which can be flagged by this IRQ for
+> > all rdevs.
+> > + *                     When IRQ is re-enabled these errors will be
+> > cleared
+> > + *                     from all associated regulators
+> > + * @per_rdev_errs:     Optional error flag array describing errors
+> > specific
+> > + *                     for only some of the regulators. These
+> > errors will be
+> > + *                     or'ed with common errors. If this is given
+> > the array
+> > + *                     should contain rdev_amount flags. Can be
+> > set to NULL
+> > + *                     if there is no regulator specific error
+> > flags for this
+> > + *                     IRQ.
+> > + * @rdev:              Array of regulators associated with this
+> > IRQ.
+> > + * @rdev_amount:       Amount of regulators associated wit this
+> > IRQ.
+> 
+> Can you describe, please, the return value meaning. It will be good
+> also to move detailed descriptions (expectations?) of the fields to
+> the Description section, here.
+
+I added the return-value documentation as you suggested. For parameter
+descriptions I still think the best and clearest place is in parameter
+description.
+
+> 
+> > + */
+> > +void *devm_regulator_irq_helper(struct device *dev,
+> > +                               const struct regulator_irq_desc *d,
+> > int irq,
+> > +                               int irq_flags, int common_errs,
+> > +                               int *per_rdev_errs,
+> > +                               struct regulator_dev **rdev, int
+> > rdev_amount)
+> 
+> I didn't get why you need the ** pointer instead of plain pointer.
+> 
+
+This I replied to earlier - I did change the parameter documentation a
+bit to explain this:
+"@rdev: Array of pointers to regulators associated with this IRQ"
+
+> > +#include <linux/regmap.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/spinlock.h>
+> 
+> + Blank line? I would separate group of generic headers with
+> particular to the subsystem
+
+I haven't seen this practice in other parts of regulator subsystem (and
+I personally fail to see the value).
+
+> > +/**
+> > + * struct regulator_irq_data - regulator error/notification status
+> > date
+> > + *
+> > + * @states:    Status structs for each of the associated
+> > regulators.
+> > + * @num_states:        Amount of associated regulators.
+> > + * @data:      Driver data pointer given at regulator_irq_desc.
+> > + * @opaque:    Value storage for IC driver. Core does not update
+> > this. ICs
+> > + *             may want to store status register value here at
+> > map_event and
+> > + *             compare contents at renable to see if new problems
+> > have been
+> 
+> re-enable / reenable
+> 
+> > + *             added to status. If that is the case it may be
+> > desirable to
+> > + *             return REGULATOR_ERROR_CLEARED and not
+> > REGULATOR_ERROR_ON to
+> > + *             allow IRQ fire again and to generate notifications
+> > also for
+> > + *             the new issues.
+> > + *
+> > + * This structure is passed to map_event and renable for reporting
+> > regulator
+> 
+> Ditto.
+
+'renable' refers to the callback name. I tried to clarify that in
+comments though.
+"compare contents at 'renable' callback to see..." and "This structure
+is passed to 'map_event' and 'renable' callbacks for..."
+
+Best Regards
+	Matti Vaittinen
 
