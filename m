@@ -2,121 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2072A35A293
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 18:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46B0835A411
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 18:54:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233859AbhDIQEy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Apr 2021 12:04:54 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.21]:20206 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232796AbhDIQEy (ORCPT
+        id S234174AbhDIQzB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Apr 2021 12:55:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48996 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234006AbhDIQy6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Apr 2021 12:04:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1617984277; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=UT1mfGtxwkDDQMfXny4EECvRq7uhnxKYoS3LfNwwkYnguh1ZZcvBzZ3A4CZrY+PLA1
-    FJphqHT9nh0pG6UzwBXS1ub90UF8sPb3TqzmDIIf9RLhTfzjvmxs9ZU6Gxt7KQtgdJEu
-    OgoA57gjkNd9J7lwsHqeWo23zuBmJaymu+Lh8nTdAQ88dxLUpqZwwuuwUR+aepoLps8E
-    z/d/QbkuZEmILvzvTy5WjzH3HGdzxEPbDlLd1qWbZuyFuNUDw3qC8wqFf8D+qZ+IWCvs
-    v4QK5CPlEbCR3qH5MtNz0HoiDiPikZHJG+TUUNDggsTWn1xqezKQTsnO8WpexKqIHiaK
-    pPpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1617984277;
-    s=strato-dkim-0002; d=strato.com;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=PWECKl1/J3SGQk9puybBr9ahv+6Be2q/C9Zl23P0y+g=;
-    b=E1035uKw34pGnRoROT+ogTzyh3EYAhN2E109cSIO9eLQ8WkwDMv2MGhWlMt2oTeKOv
-    mzsoQIayOstwkGX5ZEywu7qPo/zYusbw6E9RFlt96r0kenxyLbLE2VQcXRuoHykEwi2i
-    TjYe3mMEa+4NROOSDlnR9IuHuWi3vNwgmfgcyZkgOsF0fgvKWQFndkYEOWujjfsv7vo4
-    TXpZ4u/jMKzeXXeYEy1DsVEkhudE6jH1yxUflx23EKQWjMn0FTN6v9f4lLHZuRThMV7O
-    X9J5eLwbA4E/kYO20uSfzurvHh8ilcELtu/lOOD9Qp3nxCl0joTVnvlVwrXy2JZQpMuA
-    VMvw==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1617984277;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=PWECKl1/J3SGQk9puybBr9ahv+6Be2q/C9Zl23P0y+g=;
-    b=JrHmVV1HHNUpdGpU7exLpkExqQFc7Ne+Z9jziTIC/DgTvT6gJlgj8SpYeRluhKBDgc
-    JEebgyo2lmBj8kx7ZXu9/LToUQqoc2thNozzyNOq9IK0h+1YXNWNVxJP8tTOPscLQxWJ
-    1nHSngi6JcSWluC9jQr+Rf5qsjOwgoDhy+4aNn+0J4/VYda6RoNBAsQsd/nuG9+a9rfP
-    VapbFnBrBNwzXvEYr8gJMm6mBvbVBmyUo10xjbySWnb14VC2Tnoiu9wO1+cSbQTS9zSz
-    jsFTz5m6mR8eV5ESBiVy8umsv2VmVXPPh/pY5JU4hApAep+KMt6MmOtx3X0MNfR+x+vM
-    L66A==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fGl/w2B+Io="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp02-03.back.ox.d0m.de
-    by smtp-ox.front (RZmta 47.24.0 AUTH)
-    with ESMTPSA id m01edax39G4bAyS
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-    Fri, 9 Apr 2021 18:04:37 +0200 (CEST)
-Date:   Fri, 9 Apr 2021 18:04:37 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     "wsa@kernel.org" <wsa@kernel.org>,
-        "geert@linux-m68k.org" <geert@linux-m68k.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>
-Message-ID: <785709679.143677.1617984277200@webmail.strato.com>
-In-Reply-To: <OSAPR01MB3683F5855937833872F4FE23D8739@OSAPR01MB3683.jpnprd01.prod.outlook.com>
-References: <20210409082524.3480-1-uli+renesas@fpond.eu>
- <OSAPR01MB3683F5855937833872F4FE23D8739@OSAPR01MB3683.jpnprd01.prod.outlook.com>
-Subject: RE: [PATCH] serial: sh-sci: correct units in comment about DMA
- timeout
+        Fri, 9 Apr 2021 12:54:58 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E2078610CA;
+        Fri,  9 Apr 2021 16:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617987285;
+        bh=S1rreXn8cUdARnJpVN+EF5Cjzr8UniPQ8ZF/vXZxug8=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=WQn88ieIhX6uiBORRqI2/sDT5FE5w9MqbJzV84QCcLDepb9D3J+86hFwyi3+urJOw
+         +WlwM6cvEz1OK1flZLZIuXbr2WKVdeWCn9nflxkUnJCs7AlaKVtU6D4QeZOjOqHIiK
+         ljwX/s8UcS3kNOQa1+sE0gfnaj6Xi3b/r5NkQqHYaLEPfQK0myli5n3BnYN72euD4f
+         RuL1j3dg3j6R+LIDJmHR9cnVeW5N+BQIfw1OkzcUChpYyHZGx3DoCb8m9RLwRGqHy2
+         LjhNrG3t3mbVHuMQ2f05HkyVXWxQuASwHJKppYaxphPqkqAalIGMO6682DlFQovrNz
+         oRIMhhw4ym/Eg==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.4-Rev21
-X-Originating-Client: open-xchange-appsuite
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210409095150.2294437-1-yebin10@huawei.com>
+References: <20210409095150.2294437-1-yebin10@huawei.com>
+Subject: Re: [PATCH -next] clk: renesas: r8a77970: Use DEFINE_SPINLOCK() for spinlock
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, Hulk Robot <hulkci@huawei.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>, yebin10@huawei.com
+Date:   Fri, 09 Apr 2021 09:54:43 -0700
+Message-ID: <161798728363.3790633.9588461531050943158@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Quoting Ye Bin (2021-04-09 02:51:50)
+> spinlock can be initialized automatically with DEFINE_SPINLOCK()
+> rather than explicitly calling spin_lock_init().
+>=20
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Ye Bin <yebin10@huawei.com>
+> ---
 
-> On 04/09/2021 2:16 PM Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
-> Thank you for the patch!
-> 
-> > From: Ulrich Hecht, Sent: Friday, April 9, 2021 5:25 PM
-> > 
-> > Since the transition to hrtimers, the calculation does not involve jiffies
-> > any longer, which has led to confusion. State the times in ms instead.
-> 
-> IIUC, the unit of rx_timeout was changed from milliseconds to microseconds
-> when hrtimer is used.
-
-D'oh!
-
-> So, almost all comments was not needed.
-> 
-> Also, I'm wondering if the following condition is not needed or not.
-> This is because this was "20ms". But, perhaps, the driver will not
-> set rx_timeout to "20us" or small.
-> 
->         if (s->rx_timeout < 20)
->                 s->rx_timeout = 20;
-
-A more helpful version of the comment is in 3089f381fbaf5:
-
-/*
- * Calculate delay for 1.5 DMA buffers: see
- * drivers/serial/serial_core.c::uart_update_timeout(). With 10 bits
- * (CS8), 250Hz, 115200 baud and 64 bytes FIFO, the above function
- * calculates 1 jiffie for the data plus 5 jiffies for the "slop(e)."
- * Then below we calculate 3 jiffies (12ms) for 1.5 DMA buffers (3 FIFO
- * sizes), but it has been found out experimentally, that this is not
- * enough: the driver too often needlessly runs on a DMA timeout. 20ms
- * as a minimum seem to work perfectly.
- */
-
-I think we still want that, but it should of course be 20000, not 20.
-
-CU
-Uli
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
