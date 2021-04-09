@@ -2,181 +2,161 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D6A0359215
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 04:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6762B3592FB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 05:20:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232692AbhDIClv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Apr 2021 22:41:51 -0400
-Received: from mail-eopbgr1400111.outbound.protection.outlook.com ([40.107.140.111]:30426
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232616AbhDIClv (ORCPT
+        id S233121AbhDIDUb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Apr 2021 23:20:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51106 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232960AbhDIDUa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Apr 2021 22:41:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i7UjrHNZbHyRx1M3LwVuJij22AKNIgajsKu73EFZ5RCx87GE8B+NE3VwJoo0RMOswX9km2b2sgNWr5+uTG6x97Y75FEVsXuiNnBYwQ482gqEAGA46m1DWfW01HtA9hh9HGAP/+hQmpjtok+eH2GOQUHNBGiSn5FN/kgoygEKaCJ3iAEOUoqWzYcNHvbu9CWsfxYoeK6PYkS62lRnTpJ4rkcmc7OU5RKOkL+/0eGl8et2Dz9BQuOsTzz5vTc0L/E8F2q8Sv23MRnHYTeMI0ezJNUi53lR3KrGD8R2hQ/z0O/ViQr+NAx1Ji4mOFwnhjx1+ndRQn/mi/q/IruxP4CQoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fo0VDCCUrXnQLtMotYrCIjpWDnyG3gMZgROnjiBNS24=;
- b=dB3CPohfzQXWNcX1916CJOVGfB8Ylon/TTy8pevixGwwZHnveTRzvngnX4HR5v/Rm685smMeC4zGMweeafhbtq5k1XV8tAWQpBOEEgRaIbz6I6CPJA0umbUHdCP/TN0eMcG3H45i8ljW8H0a54/C/Oxtbd8wnaMmcFTmn+ZX7q1y/qjSkH+zd7SelNFrJ8ta/MAslWsPS/g39apdACG5yW1E0nXWIAddsdiuksv6mex1dSjN0oQjL4DVDZKjm/Slw6BSNlfBo1ztMse/DLl2FfEQ7LcmSG/iWJOvWmsnJmx/mUk9zelgOKN5JX9xtJfIL9k8T3Gr/vudbqLSjQ8K/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        Thu, 8 Apr 2021 23:20:30 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 959F0C061763
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Apr 2021 20:20:18 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id b17so2833700pgh.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Apr 2021 20:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fo0VDCCUrXnQLtMotYrCIjpWDnyG3gMZgROnjiBNS24=;
- b=GaV8O2F24mip/VLDlJnBvIOQEDJwo9cRXUZm9LiTpJ4iBqoHqNfHkCzHe1DK3sDljv1UihabRbO87b1YXdL+ey+kO7DjuYqXQewRsoR+PSkhv56OyFzzva+wX79dIp3icyBjW5VCwkJKUNAY8n9oVb+UzLCzAy3YbcgwGly7l3g=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYXPR01MB1549.jpnprd01.prod.outlook.com (2603:1096:403:c::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.29; Fri, 9 Apr
- 2021 02:41:34 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::e413:c5f8:a40a:a349]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::e413:c5f8:a40a:a349%4]) with mapi id 15.20.3999.032; Fri, 9 Apr 2021
- 02:41:34 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-CC:     "linux-renesas-soc@vger.kernel.org" 
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=OCOuP77KzsERfjtLD3+g0QTNYiI6uzbUte1pk8VLigc=;
+        b=fs6OIzMHI1Ukfun/q5z5kfC91OWHpE3PcQFCPRODEkoEe2j/xEt8Lplg7E+tcAaQ97
+         0q9SYV703eJz04xUzhlXRrvjdcKy1rgUVEd5C+nwUNq4HN6QVapc45uVFOQMiG5UtaR0
+         IpVgH0IQ0TtYgrnVa/m3OwpnwYk1FsC6uHBjE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=OCOuP77KzsERfjtLD3+g0QTNYiI6uzbUte1pk8VLigc=;
+        b=QR3O9f2WxjZscuWR4hnEBB6eKPPGAqpmY/Y1xef04Cj5g6WbIVDa6WIOJrUuftIPUY
+         8G2h91Bsy+8rRV7sxxt6S3Og1BkGpl0lvo6UT5unYYvNzdi6TdmJg+hFptS9syVZEQXD
+         9CnJyGIJPoC2DwiXMEqZkOGTiHhe++UqQE4fdIXpOjOtnzUhgcTp5lTfQWeBwXzRST8S
+         kQ85IknMG6bDD75rzC2MOfxA0Ax+CdF9P4c16kKAY7HzcX69ucYu1g1dgzMp8i7t4mK7
+         NmPcgmSzB4X8vr2n7OIfTDK3qRQ+stQrdA9gAQJVvmBE7vj22LVGwgaDP0lQQ99CeYcP
+         b75w==
+X-Gm-Message-State: AOAM533NhRufjzk8OQyFK/0ajJRenUbxrT0FQk4ktyv5QfEm5yLGDS1d
+        +Edqlotj0cC3fyaO/+E7VgNv4A==
+X-Google-Smtp-Source: ABdhPJzC0bLiabjaxIzlhcuh3ox2ZRB+HbY3l9M8hv1k1EI9wdS1NnBB85gLT5oog9ql76p4icDRyw==
+X-Received: by 2002:a63:9dcb:: with SMTP id i194mr10564176pgd.87.1617938417994;
+        Thu, 08 Apr 2021 20:20:17 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id j205sm683087pfd.214.2021.04.08.20.20.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 20:20:17 -0700 (PDT)
+Date:   Thu, 8 Apr 2021 20:20:16 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
+        "agross@kernel.org" <agross@kernel.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        linux-power <linux-power@fi.rohmeurope.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-Subject: RE: [PATCH RFC/RFT] mmc: tmio: always restore irq register
-Thread-Topic: [PATCH RFC/RFT] mmc: tmio: always restore irq register
-Thread-Index: AQHXK8MZX5fXt7xro0uB46211W0EZqqrejvA
-Date:   Fri, 9 Apr 2021 02:41:34 +0000
-Message-ID: <TY2PR01MB3692C98A87BA89D0E910807ED8739@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20210407153126.37285-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210407153126.37285-1-wsa+renesas@sang-engineering.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: sang-engineering.com; dkim=none (message not signed)
- header.d=none;sang-engineering.com; dmarc=none action=none
- header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 95d6460c-5374-4bfa-3b41-08d8fb00fd83
-x-ms-traffictypediagnostic: TYXPR01MB1549:
-x-microsoft-antispam-prvs: <TYXPR01MB154961377C3BCE24EFB59030D8739@TYXPR01MB1549.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: PBBhCtQgTHu4XmJ9YNfY2YQLIAggzxmXqm6+qUnGFoUshLKl1M2dQgAbQBuyJbP18cW8TRnywgEWJKREhO/70Bhxz3AU86znQ0GcmsEtWt1XWo1m4KznfulPd6oqX4qj3m79hpyUNbkPxmz5ljh59FHF3NecYD7YLlbRtjwm2bOMaty8enRWKFhAItHt/Idx+Ufbuj5vSwnFcJNbxLMkXjBCP6FLm0Jzoe8MXhcqFa2lXvmksRz9TbSGuLAZpBCGKKPkpddBSycPKXNLSZuQIkhWkwn+CSWUwVMKmdAleSXirAq+VN6wz1tp8oIH1xUPTm6O7sFWHtQjUUcVqFCGMqd1jk8kiXB9ZF4eWf/Nc9lZBNMrAPtZuu0DErvFfYejHPK1t005PJKbe2tat1SJMgz47TTE0rr0A+CpK8J/qKbqawg10e47TRx8ay7JzmDQokjsVipoiSkKqOThK4sgafA0JE98XYRL1jd8akZceURpZER1ORwpxCtCR3f+E1mR+GYsB99ZlM5VHS1LGR+DQZGc1DlHmwlA4faOmHUOjxcb1qYmkNR3nNQnZFhm1PS4Yk1LVggKaCpcAwlHWFPZrHjKaH2cK6rsECnF6ZNExUDdRztMkOaTMsXNQ5Qw4Q2A0OdVKinAOvm5H5UWashVoygKAIaV4WmXSHXALexrmBc=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(39860400002)(346002)(136003)(366004)(66476007)(66446008)(6506007)(66556008)(2906002)(64756008)(26005)(38100700001)(66946007)(52536014)(186003)(4326008)(7696005)(316002)(86362001)(54906003)(55016002)(55236004)(8936002)(71200400001)(76116006)(83380400001)(33656002)(9686003)(478600001)(8676002)(5660300002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?JIaAYtreK40GcphHH9QOGveT+h/onVVp6VGO3ni/yw/EjpkTLxm7JxhMz9oy?=
- =?us-ascii?Q?5azfF9pWltnziTlczryyNulhUSyxcVMOf313FToVoHUtkahp/6pzuHUH6X4Z?=
- =?us-ascii?Q?/4EKJZ+gbYJ2+R+P6gOo3apxrItg53335xObHVIrbhUvxVM5ai+G8uwqd2e/?=
- =?us-ascii?Q?u0L/+ijWQU6o3lQ9UitgsqtIPdiOYC0T44+miRaX2R2JC5HnGBXBzkoMmxqF?=
- =?us-ascii?Q?TjNLkg4ppvDlJeHB076wuzKDNMUj9cmGdZtL4hT36Y8Ibws/9e5SfmfdiSbV?=
- =?us-ascii?Q?S+NVk5x1T4EOYZk5j7xdF+ODMxmN79nalqmvO/6cWLppnoz7UdL6uz3B+Iqv?=
- =?us-ascii?Q?8dKAb5yswKiAM5T2R9+vn13UnD8mRk6znJThM0Byxw6f/rMvGeDoDmDLtKIB?=
- =?us-ascii?Q?akIEYaf/1x4HbQa8ICMon5C58Dfr2o9WVwPTPWO8ATvTPtTuFyQ8lt+ZDPHQ?=
- =?us-ascii?Q?hsd5x7pnDJhn1wMLQDLx74X4G9kpIlgemUvZ5OcXn3/1naiMa4A0MIxlDiN6?=
- =?us-ascii?Q?thGzUwRFalrAqHqyM6NHnCx20/zu7cUemxwQqJ/4vGt/A8TVf1zvIlIy5l0N?=
- =?us-ascii?Q?GWoPb3Elzv/DtjjLkio/9eMBULhBYNUWBS9PZUrgJcHSB/ap8hnqDvshE09/?=
- =?us-ascii?Q?88ObXHXGnUyrKHyClpk6tWKozwTHmNHIQly4ogh0hfmF/vXdeFDs/e+B1WZB?=
- =?us-ascii?Q?OWF+KaXZrefvWlv2LLXcW3aHOFAT0fi+Nz35ymC7bPhtjbCeDA7NW91DPsZU?=
- =?us-ascii?Q?ztOMwzQJ0tzkuuwVYSMNX22k53Ca7aDwALBXCbOrl/D1mVPmzl6KSu3GYIWj?=
- =?us-ascii?Q?gisPHqNzC0QUyU7wgX3k21AJu5bEkvN9GHfeMOa01Ef0H8MWVD1xPviKxd/7?=
- =?us-ascii?Q?PtkxbA/K3M7PI8fGtIz7D6NAAUae+sfSz5GdHQCGWItZvsGOlrPOKXDskffe?=
- =?us-ascii?Q?imVIQwE2Ey8NHUF4KTi0/tTvfkIbDQshFVxsi4qfNFadz/3y8urOAofDhpR/?=
- =?us-ascii?Q?y6qNt8Xqul7YjM5se5lcmooNlfVHMc0hdrR9nSfRqjGMBuhCr7tyerBa/Vmp?=
- =?us-ascii?Q?KD0Opoo5KqGMtDzBKZl9L3C7NIJ4Meh8tRB7qDiKI2QxQF3bF/F5x6GeDReB?=
- =?us-ascii?Q?wxv0ML9pknBiS8xYek3WIeO0Z5fSCUJerEGNESKiBBifZ0c20t/EtCSuYYoy?=
- =?us-ascii?Q?hT34yefC6HrwtAAP/lZVK/o3ETJz6f2suCG5wrvFVNAX5ibQDp9uY5wrCgeJ?=
- =?us-ascii?Q?2yEvlU695n9Vyk30SqLZUnxKNzWF6aE5Co8oMWogi7GRlc+t3ZZ04Qv9II1T?=
- =?us-ascii?Q?i7vbgb3SCSHsIipC0kZQkVPR?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>
+Subject: Re: [PATCH v4 3/7] regulator: IRQ based event/error notification
+ helpers
+Message-ID: <202104082015.4DADF9DC48@keescook>
+References: <cover.1617690965.git.matti.vaittinen@fi.rohmeurope.com>
+ <2b87b4637fde2225006cc122bc855efca0dcd7f1.1617692184.git.matti.vaittinen@fi.rohmeurope.com>
+ <CAHp75VeoTVNDemV0qRA4BTVqOVfyR9UKGWhHgfeat8zVVGcu_Q@mail.gmail.com>
+ <55397166b1c4107efc2a013635f63af142d9b187.camel@fi.rohmeurope.com>
+ <CAHp75VeK+Oq9inOLcSSsq+FjaaPC5D=EMt4vLf97uR1BmpW2Zw@mail.gmail.com>
+ <42210c909c55f7672e4a4a9bfd34553a6f4c8146.camel@fi.rohmeurope.com>
+ <CAHp75VeX8H5E6GfVHxgu_6R+zbvmFV8fT9tO-nsm1nB3N4NF_A@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95d6460c-5374-4bfa-3b41-08d8fb00fd83
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2021 02:41:34.3463
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Kjff0f+pRiR+rlsCjqEi8Vc3csHRpxIG5UPMmMftAz+YVDV3yoMkJeDGE9UW0L9Pdb129GRs3yXXtjtphKTrxJv5AaPDmAfVDrUAdP1t8ZadZy5Uci0jsEr//dlS8ZZ5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1549
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VeX8H5E6GfVHxgu_6R+zbvmFV8fT9tO-nsm1nB3N4NF_A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san,
+On Wed, Apr 07, 2021 at 03:50:15PM +0300, Andy Shevchenko wrote:
+> On Wed, Apr 7, 2021 at 12:49 PM Vaittinen, Matti
+> <Matti.Vaittinen@fi.rohmeurope.com> wrote:
+> > On Wed, 2021-04-07 at 12:10 +0300, Andy Shevchenko wrote:
+> > > On Wed, Apr 7, 2021 at 8:02 AM Matti Vaittinen
+> > > <matti.vaittinen@fi.rohmeurope.com> wrote:
+> > > > On Wed, 2021-04-07 at 01:44 +0300, Andy Shevchenko wrote:
+> > > > > On Tuesday, April 6, 2021, Matti Vaittinen <
+> > > > > matti.vaittinen@fi.rohmeurope.com> wrote:
+> 
+> Kees, there are two non-security guys discussing potential security
+> matters. Perhaps you may shed a light on this and tell which of our
+> stuff is risky and which is not and your recommendations on it.
 
-Thank you for the patch!
+Hi!
 
-> From: Wolfram Sang, Sent: Thursday, April 8, 2021 12:31 AM
->=20
-> Currently, only SDHI on R-Car Gen2+ reinitializes the irq register
-> during reset but it should be done on all instances. We can move it from
-> the SDHI driver to the TMIO core, because we now have the
-> 'sd_irq_mask_all' variable which carries the proper value to use. That
-> also means we can remove the initialization from tmio_mmc_probe()
-> because it calls tmio_mmc_reset(), too. We only move that
-> tmio_mmc_reset() call there a little to ensure 'sd_irq_mask_all' is
-> properly set.
+> > > > > > +       pr_emerg(msg);
+> > > > >
+> > > > > Oh là là, besides build bot complaints, this has serious security
+> > > > > implications. Never do like this.
+> > > >
+> > > > I'm not even trying to claim that was correct. And I did send a
+> > > > fixup -
+> > > > sorry for this. I don't intend to do this again.
+> > > >
+> > > > Now, when this is said - If you have a minute, please educate me.
+> > > > Assuming we know all the callers and that all the callers use this
+> > > > as
+> > > >
+> > > > die_loudly("foobarfoo\n");
+> > > > - what is the exploit mechanism?
 
-Yes, this is my expectation. However...
+I may not be following the thread exactly, here, but normally the issue
+is just one of robustness and code maintainability. You can't be sure all
+future callers will always pass in a const string, so better to always do:
 
-> Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->=20
-> Shimoda-san, I think this is the implementation of what we discussed. It
-> passes my tests on a Renesas H3 ES2.0. I'd be happy if you or the BSP
-> team could run their additional checks with this patch. Thank you and
-> kind regards!
->=20
->  drivers/mmc/host/renesas_sdhi_core.c |  2 --
->  drivers/mmc/host/tmio_mmc_core.c     | 11 ++++++-----
->  2 files changed, 6 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/rene=
-sas_sdhi_core.c
-> index d36181b6f687..635bf31a6735 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -588,8 +588,6 @@ static void renesas_sdhi_reset(struct tmio_mmc_host *=
-host)
->  		renesas_sdhi_scc_reset(host, priv);
->  	}
->=20
-> -	sd_ctrl_write32_as_16_and_16(host, CTL_IRQ_MASK, TMIO_MASK_ALL_RCAR2);
-> -
->  	if (sd_ctrl_read16(host, CTL_VERSION) >=3D SDHI_VER_GEN3_SD) {
->  		val =3D sd_ctrl_read16(host, CTL_SD_MEM_CARD_OPT);
->  		val |=3D CARD_OPT_EXTOP;
-> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc=
-_core.c
-> index 0c474d78b186..bcd26056d47a 100644
-> --- a/drivers/mmc/host/tmio_mmc_core.c
-> +++ b/drivers/mmc/host/tmio_mmc_core.c
-> @@ -192,6 +192,9 @@ static void tmio_mmc_reset(struct tmio_mmc_host *host=
-)
->  	if (host->reset)
->  		host->reset(host);
->=20
-> +	host->sdcard_irq_mask =3D sd_ctrl_read16_and_16_as_32(host, CTL_IRQ_MAS=
-K);
-> +	tmio_mmc_disable_mmc_irqs(host, host->sdcard_irq_mask_all);
-> +
+	pr_whatever("%s\n", string_var);
 
-This code could not resolve my concern. This code still read
-CTL_IRQ_MASK at first. So, if the register value is incorrect
-(when "host->reset" didn't exist), the sdcard_irq_mask value
-will be not expected value.
+> > > Not a security guy, but my understanding is that this code may be
+> > > used
+> > > as a gadget in ROP technique of attacks.
 
-So, I'm thinking we should write CTL_IRQ_MASK with sdcard_irq_mask_all
-by using sd_ctrl_write32_as_16_and_16() instead of using
-tmio_mmc_disable_mmc_irqs() at first.
+The primary concern is with giving an attacker control over a format
+string (which can be used to expose kernel memory). It used to be much
+more serious when the kernel still implemented %n, which would turn such
+things into a potential memory _overwrite_. We removed %n a long time
+ago now. :)
 
-Best regards,
-Yoshihiro Shimoda
+> > Thanks Andy. It'd be interesting to learn more details as I am not a
+> > security expert either :)
+> >
+> > > In that case msg can be anything. On top of that, somebody may
+> > > mistakenly (inadvertently) put the code that allows user controller
+> > > input to go to this path.
+> >
+> > Yes. This is a good reason to not to do this - but I was interested in
+> > knowing if there is a potential risk even if:
+> >
+> > > > all the callers use this
+> > > > as
+> > > >
+> > > > die_loudly("foobarfoo\n");
+> 
+> I don't see direct issues, only indirect ones, for example, if by some
+> reason the memory of this message appears writable. So, whoever
+> controls the format string of printf() controls a lot. That's why it's
+> preferable to spell out exact intentions in the explicit format
+> string.
 
+Right.
+
+> > > > > > +       BUG();
+> > > > > > +}
+
+This, though, are you sure you want to use BUG()? Linus gets upset about
+such things:
+https://www.kernel.org/doc/html/latest/process/deprecated.html#bug-and-bug-on
+
+-- 
+Kees Cook
