@@ -2,93 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DBA0359E4D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 14:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B74D6359E6F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 14:16:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233610AbhDIMG4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Apr 2021 08:06:56 -0400
-Received: from mail-eopbgr1400097.outbound.protection.outlook.com ([40.107.140.97]:15392
+        id S231402AbhDIMQ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Apr 2021 08:16:29 -0400
+Received: from mail-eopbgr1400132.outbound.protection.outlook.com ([40.107.140.132]:52605
         "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233009AbhDIMGz (ORCPT
+        id S229801AbhDIMQ2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Apr 2021 08:06:55 -0400
+        Fri, 9 Apr 2021 08:16:28 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q/KbXwUbHGvweDNdEG56Yn2bAHk3MeHqXTlwl7F2F/OEK3FgZzJxHnie/tv5OS/ZwXIYW6MsOQnUgTDAGi9FZ5eCh2ZyXquPAB8CsHTRyzoU/r8Ha3QcuFMzaUhqfwqgB69CisRZe4dWzmLVCVTmtr50PBiVBhbpEM8Y3BMhOYURgIMpdnD5lb+g7DgNadbsmoQt81P5newrmbpMzbmeY4fxyj6H3ojj3rYTnNdYIAesrJqx0ATbzS9EoBO0ABPtGkJ6SuWfPp+DPsMUw6RaHDkwgPE3v6zI56OIIKkIPZaiMu2qWPhnL5EqoF0z27AX6Eg9ehVIXxXhyNy25oTCUw==
+ b=m1ad25Lv6JKEMGm8R/CqN2ttc0JfC3jS1u7BkgeOy833dgziEOK7ih5Ili0cbBa6OFkJEeAu09ypc8ugOTV9eYEFDCMzx0/8Z+BVhM0+3OkPQM5L7St/2xfuGEqQqJQq00VD+OMHgy4UHRKIHslebKiXwH/XEx+ky0Y7qVW/Vsu3mOR0LR3RFkVAgJnVmkKHJEgyFBAIzeVFUDNzbfsbnRrXDs6NfioCT5BtB60W8nAmf7Uc8Vw+eBmiAZM8Vt0IKto5M/8bfH8Nt4Zply2wZPIV0ge1RMSTsdDRsy78dITIrIfpQJNz4kvFgrntsRBVCxKqrjF5JNYAmauTjfQauw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=98XX11090SGn9P0L+2Kpa5jk7WBMF9816vhd08YZ6OQ=;
- b=EdbHo007ElyVNGHbNvicWzCFX5JV6yF/oGzt9erUkN/t5pK8x9JQLOcVBjXcTZ552td4jdj+KdneC1nca07R06k/TyWLLup7zvFjSyLiIrQq1kk3zmjUkDjs/RN79eNVjBztJT5fd/crzkJybard4WkksbOarO6LFHlWtJyuPA4WKbr4ptCS7frLfBESgr2YAQOhn4+RtI13X1dPtOurQLiq4m6IvT4Z56Pfcd+wZQy6ZrHyQ8vMzx3QquDvBb4+qRUL/X6EN20V7x3cjtE1emBGx/ozE5oyqPBivOQmvUY7smIX9q7na7EP4HvjmZvy1QwABmzUNvlAkLL386iXzQ==
+ bh=HKNLiedp4pkjaORtvf0fCftHxdFB7FY5n48BOhUnBRg=;
+ b=Onc6svTmQrTVsMzK5u/B2twYrONNEr+VIvUOmwjtsm3Y/RKxS/ZShfYawqLuvNE08v+56z4kWqMgXapexSk3C8L1eqV/Txh4NbqxG9uCFrV75no5/3iBlrXSWjd4U9oWenW9qX5wSjnC+W4PUz9b1vQeIB5PtTltjMD+STEDyuNkjUjnLsbJhI5iS9Vv7yizzmsQ/meJ0sWnPYqAATjGixISFyJaVDtTVQMkATrfxg9BgjDouSDIUNVtpSrP+QEhZ/dRoy3WLY6XXkS3Y1cL29YPDPltcisKTmbDo11xcNX1ZIQIcOYMdw2/KwUGdqWP3B5fxAth4V2bJ5eB8xZDMA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=98XX11090SGn9P0L+2Kpa5jk7WBMF9816vhd08YZ6OQ=;
- b=ZA9fQAMN47e3zNPONgdn75iUKH6+v/Z30mzQA/aoVPpnYAZsKaBa8P3u3YXvbRqnrLUEQ6fzBwinpe/OfDOiOBU+HeOaS+8L0QmkaOpAlr4eQfu+HToTbswplNbOJ9STPginLixhrj4mQ6I5y2G9DRam2kF5uDgTOfDvK/aLma0=
+ bh=HKNLiedp4pkjaORtvf0fCftHxdFB7FY5n48BOhUnBRg=;
+ b=NUWk3PMyckzkQdU9ugW6IUjJVLoBiUZa8iXCazSA+V545LJY06MwwcxL9IemL+/H9HzVZsD98LN8q8j5z1egPgYwQ7as5gaubfcCOPKIwlJx3jImTiOmF7A8jcSS5BUXwS+H7ITEjbY0HCvX9Ovm85Zjk8eClV0b+uvmfgqOJds=
 Received: from OSAPR01MB3683.jpnprd01.prod.outlook.com (2603:1096:604:33::12)
- by OSBPR01MB4166.jpnprd01.prod.outlook.com (2603:1096:604:43::15) with
+ by OS3PR01MB5941.jpnprd01.prod.outlook.com (2603:1096:604:b4::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17; Fri, 9 Apr
- 2021 12:06:40 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.18; Fri, 9 Apr
+ 2021 12:16:13 +0000
 Received: from OSAPR01MB3683.jpnprd01.prod.outlook.com
  ([fe80::7de7:7e65:a509:e3a0]) by OSAPR01MB3683.jpnprd01.prod.outlook.com
  ([fe80::7de7:7e65:a509:e3a0%4]) with mapi id 15.20.4020.017; Fri, 9 Apr 2021
- 12:06:40 +0000
+ 12:16:13 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-CC:     "linux-renesas-soc@vger.kernel.org" 
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+CC:     "wsa@kernel.org" <wsa@kernel.org>,
+        "geert@linux-m68k.org" <geert@linux-m68k.org>,
+        "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-Subject: RE: [PATCH RFT v2] mmc: renesas_sdhi: enable WAIT_WHILE_BUSY
-Thread-Topic: [PATCH RFT v2] mmc: renesas_sdhi: enable WAIT_WHILE_BUSY
-Thread-Index: AQHXLSUuSEx6czrS00qppUC98YBy46qsFuPg
-Date:   Fri, 9 Apr 2021 12:06:39 +0000
-Message-ID: <OSAPR01MB3683B0F4D59B09713568CF18D8739@OSAPR01MB3683.jpnprd01.prod.outlook.com>
-References: <20210409094606.4317-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210409094606.4317-1-wsa+renesas@sang-engineering.com>
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>
+Subject: RE: [PATCH] serial: sh-sci: correct units in comment about DMA
+ timeout
+Thread-Topic: [PATCH] serial: sh-sci: correct units in comment about DMA
+ timeout
+Thread-Index: AQHXLRntrh8Gv0OgbkS+n0L/AKIa2KqsF3DQ
+Date:   Fri, 9 Apr 2021 12:16:13 +0000
+Message-ID: <OSAPR01MB3683F5855937833872F4FE23D8739@OSAPR01MB3683.jpnprd01.prod.outlook.com>
+References: <20210409082524.3480-1-uli+renesas@fpond.eu>
+In-Reply-To: <20210409082524.3480-1-uli+renesas@fpond.eu>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: sang-engineering.com; dkim=none (message not signed)
- header.d=none;sang-engineering.com; dmarc=none action=none
- header.from=renesas.com;
+authentication-results: fpond.eu; dkim=none (message not signed)
+ header.d=none;fpond.eu; dmarc=none action=none header.from=renesas.com;
 x-originating-ip: [124.210.22.195]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8f16042d-2c7b-4e31-28d0-08d8fb4feee0
-x-ms-traffictypediagnostic: OSBPR01MB4166:
-x-microsoft-antispam-prvs: <OSBPR01MB416632434DDFAAED78F80970D8739@OSBPR01MB4166.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-office365-filtering-correlation-id: e020e15b-810e-48dc-df5c-08d8fb514498
+x-ms-traffictypediagnostic: OS3PR01MB5941:
+x-microsoft-antispam-prvs: <OS3PR01MB5941CD6B02EB8F8BE679571DD8739@OS3PR01MB5941.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Rfrv9s3oyfBrdCJ8zBasXsKrXL3mI0BBo3zqnuUI/tWgHpUEx7RnjCOG3hEniuWPDqmaTHZl6DeUA0o44x7vphg5RFyIodL6lHyJ4w9wtNzsQiy650IBk6obFtCLqb1fjvKWrcqu16MPIoWA2T45XlpNoy3js+vTG7Z/KzdQkZja1X9yDNsrXPxIykK0NRyi2LsV7kEQKFTOjkb7qXYYqWqT3RqA+jwxWFDUEO+UD2aSxNufxrD2tbnMjsBXmZSuagtt/23T6yj2lGvAzJiV031a4iQlI++YXCcmaua2rM/+TF2DYSpaWCj4vVb+IqJ66we2B+R2RlskOB+aceNdTZbVmMprYXqffSAWFTD7wepMwmSN8LNRMFlRR0lTFfzvtg88lRhJvGl14RDeKFhF+6f9TQgwlGKWoA2vJ4UtE564zqIq2TXIZ4deUA9HrgVdy5Tuxz+DEgvyjo8vs09XXsNvGofwzxlqeEBa1L9xOM6dJt4oo4Yojyau+o4xHzku/AOpyDih5IAk9UcHPlHTrNyt0ER5NPmkhc5g0zZQkqpBxaKTK4kGDrw9zdXtUEPKelN8MF1IaGyudubTtTlA922MJBdBBm/caBEDIkEJn+q+YIV2uoX+B78pqJw20HSnTbroHEytNG1DOpqgoXMPVwIxWsgZTBqwlikEfGA4n0Y=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB3683.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(39860400002)(346002)(136003)(366004)(8936002)(4744005)(52536014)(38100700001)(186003)(71200400001)(7696005)(4326008)(55016002)(6506007)(54906003)(26005)(66556008)(66476007)(64756008)(9686003)(2906002)(5660300002)(66446008)(8676002)(55236004)(76116006)(86362001)(66946007)(316002)(33656002)(478600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?WBE9MSNKeHKvMCRgMcT9mSQ5Q10UPTYkQIiJBYRGozuS4r9nyorfpGaHSRad?=
- =?us-ascii?Q?fiN6ttiSBXW5qqfji9nHJjwFZMLa1+PklhDyu3gWEN4eacg1RONrmIQrt15G?=
- =?us-ascii?Q?6RZNTFvYRrltFXkByOvT+Z0Uz5zLszeE0Le/IIN5fMeYavSiht1iCm52hmUX?=
- =?us-ascii?Q?BW1T6fbslgrbrm/ShbdxwlUfgHBJyBm90T57VCoPCnTsMe7QR3jvW63LU8e5?=
- =?us-ascii?Q?TIQ5YyjPe6sDtNc+6I4kj2XQPAkoL9PLdOaDDxCahj6jKdM/qyDwg6Lo/M/8?=
- =?us-ascii?Q?OUfyH4f1CyQOv/zqQ+cRPPbUFwt0X/A51xNMQAyhA+P/pAUg/E2pvsQns0wW?=
- =?us-ascii?Q?XEnSh2+pVRtEemTR2YDfQXujGNipzrVZMK1DPcc6wBKis1TO38T5gBZGz9ve?=
- =?us-ascii?Q?bl4PFcXKH8mZoNq8HMgZbF82EeZoaQYBKGuoRkPNYym5yLSfFfBibgNj6P3l?=
- =?us-ascii?Q?BXY/sH1MzQ5TEDon+0NDmPeddl8uREVOI+kZZovXWTqI3eK5y7H5+XqHriGR?=
- =?us-ascii?Q?j/7q6ORwcTHvK4aXT1jgge5qysMARpOONR1rMcODO8gxydrsXIcbMIYjYIi1?=
- =?us-ascii?Q?In6tulVtoI/4ssetoXdkBGI4IE1eQbLioMp0/ZKVSiVUA4qdDgT48OTCUD0X?=
- =?us-ascii?Q?37VP+Mh+0o3v3EmD4D/OiQmxS4cSJVQ7gFn/FgIUnU0wcdyA5vEXrkOwMeGS?=
- =?us-ascii?Q?cFSZdQmpk9mTq+btp1mEYpaqMevgEJm0mBEDCpaZj4t9l7n8odxFpFEJHzqt?=
- =?us-ascii?Q?duzWXc2iDkZL7LI5IDWU2sgNMb90J/SM3xZlCrTQstZVc1g2nApjAsPYNI/a?=
- =?us-ascii?Q?y4AUVr0AzYyixs+brrDHttg4atxwPoPlLcWRahZ5fYTuZF6tRUZ15HcKvNdX?=
- =?us-ascii?Q?qmjL01XhA+fy2FR161/0mskhK3c4xVHJQ2CfLjAx3OHhBxUPxywlKZ8Fc/26?=
- =?us-ascii?Q?A6V03ECbkBrRWnX62ezVUrcA1JTV34E2o8jXrKspzrCtHNLfGtl+Qlo3n8Xa?=
- =?us-ascii?Q?klAAL37WzfdEl7q96MJz9CKoeDi6/zw6e2A0G2EF+fraoKE5SYZxBiC1mUcA?=
- =?us-ascii?Q?Uv8P5i74d9EN+35p04HufufftyeFNymg2GRn9ou7ffxuyfuLc2Tcz+XYQupg?=
- =?us-ascii?Q?0muT7D0KN9wzhq2Z1Krj2lBU3QmxwA5salUYNmSHEgZUzjtKti2rx2KktKyW?=
- =?us-ascii?Q?St2GPl4qt41RuWCHQ3NNldm2CTtlTH6j2Pg22MPtyZX1Gh2/QL3NjdEp6Hxi?=
- =?us-ascii?Q?Y3/3xhPbw7Go1uFnE2a+edKDh6UsDhkTN1dAAaBkRC0i8KFQoRYu4c9NEfcm?=
- =?us-ascii?Q?tDRvzv6oNAcNLoB2pFATtEZP?=
+x-microsoft-antispam-message-info: TrARUpbqnhZfxMC8VXBBfemiMu7+ZWAOlqtItDyKIZ/2iTsq+9670lpqcOsrXvJP4NfVrc00x11oUlZqWIJ26muJ49NRiPdkPah3y7q+1lpQ9yBsvyYbbmyUJ32cFgLYOxclW4Z6XAzZ1t5pwxvK+VQlN1x4sixKzwl+Q+79I7PYtbLcRX+Y1lpO4sdnj3ni7dZqa+2dNbNxyfs3/hdUgNXHDuX7IYQ3rwyshYBxZEZlRhER98OwbiV+ydqGohENzB9hSag6981zy9Y7u+iIFk11ISWAN4MghaKhKAcanMMuJ78E2uhAR+zIAhbZmJjB5Ieh39SCnb3DKLRHK/OaltReD4oQsqLRfQ8LpL/VJ6D6+6r72BhWKcd/GlgSSIrfzfogKimbbbrh5JDxFj0z9XM4VKz8vTHp+r2HLZoxnGBBAo7onbLVIDd+LHwBuf5bkYcF2eb4FK1skxBuxaPY/vH7oS0EfCXapgrUFSiWYgTqi96MGCtofZ09WANHjVGLiuLxN+ZJ+DCbXnwabbRaIujW3VVWtE51OpWEVJR5pQalgroXVtRmpV3Z2zRHQfzGHFT8IWVvZhvOFnfbKLNytUAllodCE5I351EZUn1BEf+DS4ArGwbnAVFsUjGqIOwlWDwxL/aAW3z3FqPDtDAmXBTqY94f8r4/rcOLDPtoOQw=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB3683.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(396003)(376002)(39860400002)(366004)(52536014)(33656002)(66946007)(2906002)(478600001)(7696005)(66476007)(76116006)(66556008)(4326008)(66446008)(64756008)(6506007)(54906003)(5660300002)(55236004)(8676002)(86362001)(8936002)(316002)(26005)(71200400001)(38100700001)(55016002)(186003)(9686003)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?Z35suKG/DXKTwpbbCq0hYBULnvytVygXGy34yZJkN4tSkAg/8QnS/NyHNNwY?=
+ =?us-ascii?Q?OfuwykpGebk/FvS/5FYn3YTi/Hfl+eRor9R+hz78zpWN+W8liyfijKDVbizA?=
+ =?us-ascii?Q?qrbvaW1IpWZWhHL9GqBsyr2sl/06916aOF7pVRIOsKW3173/HaAu9GTOh/QL?=
+ =?us-ascii?Q?7cm6XP2pV0irO8/jjnu3KhVeEvqav59Gx0DCrhc5SArkWcheRliUgoBptgTs?=
+ =?us-ascii?Q?7vEbIiGzvZF38pIQoAfVkvtxyVT5HDJAvj4ACHcPSHLMtRDQnfmcVCvno2Td?=
+ =?us-ascii?Q?Bc6UsQyvT+ha4Ql3QN3fbIgXL71ll1V/uzs+qLtcirfQaSpwhOlIHzYWunKu?=
+ =?us-ascii?Q?b+cTJ1n6X5nkXOuRCtzOEBGxdiZog+e+4iNrcRgVY9j60AuGV8Qjls46y8bU?=
+ =?us-ascii?Q?enYKsss40mIe+Q6gRpbaO+RHe5XSv/jMoZ0cocAESX8S8IVvAwHPAclIMTdM?=
+ =?us-ascii?Q?jXpLWgNfoWqh/jO5r7jFb/casFzydNNcdAX2yUUITZ8pNsjrvBBGZmVLfLN5?=
+ =?us-ascii?Q?6Ix2a5pen7OaXANjCQpg/5sd6a3TSTNDADtVcRrURnHh458QerKRBFVFl2nQ?=
+ =?us-ascii?Q?MLFJxVVJa32RsW+9hEsXoV46iAmCpbibzQW1cnGsm3dP+su+WMt5eAU1Eg//?=
+ =?us-ascii?Q?Vi6SrXgvcvREwbmb2j0NAjHwuBBJbxL101g1bthESm2Lt8GiHdX2mvtwiagO?=
+ =?us-ascii?Q?Sykjcu6XT32Dg9xrUKtEHOHd6P/7gntoTLLgCz2UmeMIphKyv+H0mjTDYbty?=
+ =?us-ascii?Q?LdaODoInXCUXeZhV82OSu7PmYw715ggkCMboTWakoJmgaowCkLSUrJpNEsZd?=
+ =?us-ascii?Q?/CkD+jQjQ9HwvWuwHipLY1NRDoCU/IJQvXG2R1vZFz07rLm6utfdLOrStt6s?=
+ =?us-ascii?Q?zmwtslF4i2WQ4CX27yhwUW8cbAnZi/DpHRmkwRk94cBMA1RjpMv4W8SUJeTV?=
+ =?us-ascii?Q?0d8kB0cKc0PGnLF3PEfapRamvEouS1QxlCdEv4vLE1MTGV5//kXtV6YwkNtH?=
+ =?us-ascii?Q?5Fz0X6grA1P+FIM7bEcmeYwx9OL9LilJkjzE641Cev0qIFhLUd5ds4i1yRV/?=
+ =?us-ascii?Q?xtKqoU950x+jp4U2/Vd09dyYprLtifp0GbMCRx9jPGz01EE0eNeO2ouOn9NM?=
+ =?us-ascii?Q?UsWzwxtx7LGpC6c6JOTJ8CULXqF57RhAVOS7pzoeB+AEKX0ZWDPypAdrIO4Q?=
+ =?us-ascii?Q?CCu3OliGk1unzokbdwvKjtRAxSDSJCw49PLLEmeJFbFkzwNzZhCJpkJX6Ouz?=
+ =?us-ascii?Q?hbVv5PcV6QkYU0RlCYbe4dK6yX5mC2s7soLneojoGb1J1rP9AeT++3QDJ1Lh?=
+ =?us-ascii?Q?6vx9Ov/+y7vyOViwgBvFkivg?=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -96,36 +99,68 @@ MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB3683.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f16042d-2c7b-4e31-28d0-08d8fb4feee0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2021 12:06:40.0132
+X-MS-Exchange-CrossTenant-Network-Message-Id: e020e15b-810e-48dc-df5c-08d8fb514498
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2021 12:16:13.3467
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3Oaffwedp6H9ni9AbIPdXrhq1B5/Den3mIWdfZjzcOTt4QlSSzXiBt4T+KOEBq746xoHYOZJwaYQhXmOBpB+PvnpjVmLYLWUGivx+QyWdPfCZ5BywHMmDJIHOmsE8RLi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4166
+X-MS-Exchange-CrossTenant-userprincipalname: W6rMoQd5RHeVM7paZGCFiq9cyBl9ezcG1aGFsFp7+zbCgTG4xBAEKC6NdEMXWKFgJnPqc+7jr1Do+QdCltTJUPWMUf7XKPgUUX0FPchhsy2fn4l8QrfVlAGXKUc4p48m
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5941
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san,
-
-> From: Wolfram Sang, Sent: Friday, April 9, 2021 6:46 PM
->=20
-> Now that we got the timeout handling in the driver correct, we can use
-> this capability to avoid polling via the MMC core.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi Ulrich-san,
 
 Thank you for the patch!
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> From: Ulrich Hecht, Sent: Friday, April 9, 2021 5:25 PM
+>=20
+> Since the transition to hrtimers, the calculation does not involve jiffie=
+s
+> any longer, which has led to confusion. State the times in ms instead.
 
-And, I tested on my environment (R-Car H3 ES3.0) and I didn't
-observe any regression. So,
+IIUC, the unit of rx_timeout was changed from milliseconds to microseconds
+when hrtimer is used. So, almost all comments was not needed.
 
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Also, I'm wondering if the following condition is not needed or not.
+This is because this was "20ms". But, perhaps, the driver will not
+set rx_timeout to "20us" or small.
+
+        if (s->rx_timeout < 20)
+                s->rx_timeout =3D 20;
 
 Best regards,
 Yoshihiro Shimoda
+
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> ---
+>  drivers/tty/serial/sh-sci.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+> index e3af97a59856..c4ce4cd120ba 100644
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -2613,11 +2613,11 @@ static void sci_set_termios(struct uart_port *por=
+t, struct ktermios *termios,
+>  	 * Calculate delay for 2 DMA buffers (4 FIFO).
+>  	 * See serial_core.c::uart_update_timeout().
+>  	 * With 10 bits (CS8), 250Hz, 115200 baud and 64 bytes FIFO, the above
+> -	 * function calculates 1 jiffie for the data plus 5 jiffies for the
+> -	 * "slop(e)." Then below we calculate 5 jiffies (20ms) for 2 DMA
+> -	 * buffers (4 FIFO sizes), but when performing a faster transfer, the
+> -	 * value obtained by this formula is too small. Therefore, if the value
+> -	 * is smaller than 20ms, use 20ms as the timeout value for DMA.
+> +	 * function calculates 4ms for the data plus 20ms for the "slop(e)."
+> +	 * Then below we calculate 20ms for 2 DMA buffers (4 FIFO sizes),
+> +	 * but when performing a faster transfer, the value obtained by this
+> +	 * formula is too small. Therefore, if the value is smaller than
+> +	 * 20ms, use 20ms as the timeout value for DMA.
+>  	 */
+>  	s->rx_frame =3D (10000 * bits) / (baud / 100);
+>  #ifdef CONFIG_SERIAL_SH_SCI_DMA
+> --
+> 2.20.1
 
