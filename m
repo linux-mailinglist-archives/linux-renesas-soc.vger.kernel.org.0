@@ -2,90 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6A3F359958
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 11:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9538B3599B5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 11:46:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232435AbhDIJho (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Apr 2021 05:37:44 -0400
-Received: from www.zeus03.de ([194.117.254.33]:47008 "EHLO mail.zeus03.de"
+        id S231638AbhDIJq0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Apr 2021 05:46:26 -0400
+Received: from www.zeus03.de ([194.117.254.33]:49644 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232042AbhDIJho (ORCPT
+        id S231402AbhDIJqX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Apr 2021 05:37:44 -0400
+        Fri, 9 Apr 2021 05:46:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=C3Hrh9uQqNgl/Dm9ETQHS0pl2/Qn
-        lcWtGE9+76bqfuk=; b=dFcbLLf8Tc2b9ZOAs6VLqcvIhm/SbnJUYUnBCHZrII/o
-        TPxpPJgpCLXcUpHDiLERVIZDOvsqhCtt3ub1ayoGAHH0Q19OUN8QqZXcHgAGYYGg
-        Ovg5rOtZrwOfgcaWuqnZelSNNGhZXIHQ4mpDpedVEx0TlYoqPlTGk7SrywjAkhk=
-Received: (qmail 3721288 invoked from network); 9 Apr 2021 11:37:29 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Apr 2021 11:37:29 +0200
-X-UD-Smtp-Session: l3s3148p1@mYpt6Ya/drMgARa4RVM+AT5wAMFZBfoZ
-Date:   Fri, 9 Apr 2021 11:37:26 +0200
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=0Mu+/ALnJs4s2b3c+YHbQJNQv4k
+        +Ikwow96fnquIaUw=; b=sVVlDbV55MjRLh5C6H2SJPshtWuvzaUc//CQMhBMhG3
+        7kGEsmDfU1ZEZ39S+7g5Eki9DSZ+16V7/Nnx866SGRlPjW5rnj+pNjbKGAwfH1e6
+        MaUKUc6fHnq0ZQQjEGcz1UVmHZGJ1LPck4D6cHUCutakOJck1Y+8YUtPBdz+nDBI
+        =
+Received: (qmail 3723855 invoked from network); 9 Apr 2021 11:46:09 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Apr 2021 11:46:09 +0200
+X-UD-Smtp-Session: l3s3148p1@/82SCIe/6LMgARa4RVM+AT5wAMFZBfoZ
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-Subject: Re: [PATCH RFT] mmc: renesas_sdhi: enable WAIT_WHILE_BUSY
-Message-ID: <20210409093726.GA879@ninjato>
-References: <20210408133420.2900-1-wsa+renesas@sang-engineering.com>
- <TY2PR01MB36920CDE15B59DD55825B2E5D8739@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH RFT v2] mmc: renesas_sdhi: enable WAIT_WHILE_BUSY
+Date:   Fri,  9 Apr 2021 11:46:06 +0200
+Message-Id: <20210409094606.4317-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="0F1p//8PRICkK4MW"
-Content-Disposition: inline
-In-Reply-To: <TY2PR01MB36920CDE15B59DD55825B2E5D8739@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Now that we got the timeout handling in the driver correct, we can use
+this capability to avoid polling via the MMC core.
 
---0F1p//8PRICkK4MW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
+Change since v1:
+* moved wrongly set flags from tmio_flags to capabilities
 
-> > +			  TMIO_MMC_HAVE_CBSY | MMC_CAP_WAIT_WHILE_BUSY,
->=20
-> We should add MMC_CAP_WAIT_WHILE_BUSY to .capabilities, not .tmio_flags.
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c | 4 ++--
+ drivers/mmc/host/renesas_sdhi_sys_dmac.c      | 8 +++++---
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-Ouch, can I have a brown paper bag, please!
+diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+index ff97f15e317c..e8f4863d8f1a 100644
+--- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
++++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+@@ -97,7 +97,7 @@ static const struct renesas_sdhi_of_data of_rza2_compatible = {
+ 			  TMIO_MMC_HAVE_CBSY,
+ 	.tmio_ocr_mask	= MMC_VDD_32_33,
+ 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
+-			  MMC_CAP_CMD23,
++			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
+ 	.bus_shift	= 2,
+ 	.scc_offset	= 0 - 0x1000,
+ 	.taps		= rcar_gen3_scc_taps,
+@@ -111,7 +111,7 @@ static const struct renesas_sdhi_of_data of_rcar_gen3_compatible = {
+ 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
+ 			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
+ 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
+-			  MMC_CAP_CMD23,
++			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
+ 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT | MMC_CAP2_MERGE_CAPABLE,
+ 	.bus_shift	= 2,
+ 	.scc_offset	= 0x1000,
+diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
+index c5f789675302..ffa64211f4de 100644
+--- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
++++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
+@@ -33,12 +33,14 @@ static const struct renesas_sdhi_of_data of_rz_compatible = {
+ 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_32BIT_DATA_PORT |
+ 			  TMIO_MMC_HAVE_CBSY,
+ 	.tmio_ocr_mask	= MMC_VDD_32_33,
+-	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ,
++	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
++			  MMC_CAP_WAIT_WHILE_BUSY,
+ };
+ 
+ static const struct renesas_sdhi_of_data of_rcar_gen1_compatible = {
+ 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL,
+-	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ,
++	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
++			  MMC_CAP_WAIT_WHILE_BUSY,
+ 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT,
+ };
+ 
+@@ -58,7 +60,7 @@ static const struct renesas_sdhi_of_data of_rcar_gen2_compatible = {
+ 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
+ 			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
+ 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
+-			  MMC_CAP_CMD23,
++			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
+ 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT,
+ 	.dma_buswidth	= DMA_SLAVE_BUSWIDTH_4_BYTES,
+ 	.dma_rx_offset	= 0x2000,
+-- 
+2.30.0
 
->=20
-> >  	.tmio_ocr_mask	=3D MMC_VDD_32_33,
-> >  	.capabilities	=3D MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
-> >  			  MMC_CAP_CMD23,
-> > @@ -111,7 +111,7 @@ static const struct renesas_sdhi_of_data of_rcar_ge=
-n3_compatible =3D {
-> >  	.tmio_flags	=3D TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
-> >  			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
-> >  	.capabilities	=3D MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
-> > -			  MMC_CAP_CMD23,
-> > +			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
-
-At least for the machines I could test, I did it correctly :/
-
-
---0F1p//8PRICkK4MW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmBwIFIACgkQFA3kzBSg
-KbZECRAAhx6oFb29Lf8U2obo70DKsKAsfUHSoqzI30tCcyT06/VN+JMvGaUBG8id
-T5hOKT8GgIr4HquqOXFBXkX/iX6E0GYOYnN2FOumM6zs5AcqffDgn7fJNW5mv3rq
-OMghxEAVQC5ssFO6M7UnrhXE84yGAqdTeItlzqNcxS9W93vQXepsrU9eQ/MiXIRh
-Xt/xYs4sH3u6RFaYeDeaqnvuKk8lfAzEYrP1PoHGwHohj+pq4lAT6Yw65WWsNMqJ
-22iHknB/SLUrk7q/1h6Xr7tKpwnDe2L6ApJabFMuDSuoAUWmHcTeWjMh9OOSjQkx
-lDDM+3SPWtWSyxfTJSS6XnPYfEQ5QDb10r3zi1GC0i0dOYhzu8mGG0xHzH76IH22
-Koe0+pvvJcgJAVxP39JSsLpzcZDwblordt4mw5hi/g9rGFkcdpJzRmiI5X3ATdVC
-WzpAbMy3kyAgxJWCJ+iF2OXxe+lMVKvV7JVj+DXj8hcTfgo65wet/sBW8hlUDbxZ
-Zkro/JjQ2nBrARFqgXYzLPcJ82boN/gznwnmC2CALoeZNCrO92v0z9tyOMQwbHBE
-oWk3j3w8jdVVLnPXliHPsMugKeBF7/x/73H3RkHEGpN6Nn29ZJOvODgOkTd5N+uG
-og4hL4EVWq4qBHDtFr08WQoFWpq/QiLqAcHLnEufYWmPdgcjbxw=
-=ggzD
------END PGP SIGNATURE-----
-
---0F1p//8PRICkK4MW--
