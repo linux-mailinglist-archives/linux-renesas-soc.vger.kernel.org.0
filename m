@@ -2,106 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9538B3599B5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 11:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E98B73599A7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 11:43:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231638AbhDIJq0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Apr 2021 05:46:26 -0400
-Received: from www.zeus03.de ([194.117.254.33]:49644 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231402AbhDIJqX (ORCPT
+        id S233175AbhDIJoC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Apr 2021 05:44:02 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:16556 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233267AbhDIJnu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Apr 2021 05:46:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=0Mu+/ALnJs4s2b3c+YHbQJNQv4k
-        +Ikwow96fnquIaUw=; b=sVVlDbV55MjRLh5C6H2SJPshtWuvzaUc//CQMhBMhG3
-        7kGEsmDfU1ZEZ39S+7g5Eki9DSZ+16V7/Nnx866SGRlPjW5rnj+pNjbKGAwfH1e6
-        MaUKUc6fHnq0ZQQjEGcz1UVmHZGJ1LPck4D6cHUCutakOJck1Y+8YUtPBdz+nDBI
-        =
-Received: (qmail 3723855 invoked from network); 9 Apr 2021 11:46:09 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Apr 2021 11:46:09 +0200
-X-UD-Smtp-Session: l3s3148p1@/82SCIe/6LMgARa4RVM+AT5wAMFZBfoZ
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH RFT v2] mmc: renesas_sdhi: enable WAIT_WHILE_BUSY
-Date:   Fri,  9 Apr 2021 11:46:06 +0200
-Message-Id: <20210409094606.4317-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.0
+        Fri, 9 Apr 2021 05:43:50 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FGtS35Wttz19L9v;
+        Fri,  9 Apr 2021 17:41:23 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.498.0; Fri, 9 Apr 2021
+ 17:43:25 +0800
+From:   Ye Bin <yebin10@huawei.com>
+To:     <yebin10@huawei.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+CC:     <linux-renesas-soc@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>, Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH -next] clk: renesas: r8a77970: Use DEFINE_SPINLOCK() for spinlock
+Date:   Fri, 9 Apr 2021 17:51:50 +0800
+Message-ID: <20210409095150.2294437-1-yebin10@huawei.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.127.227]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Now that we got the timeout handling in the driver correct, we can use
-this capability to avoid polling via the MMC core.
+spinlock can be initialized automatically with DEFINE_SPINLOCK()
+rather than explicitly calling spin_lock_init().
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Ye Bin <yebin10@huawei.com>
 ---
+ drivers/clk/renesas/r8a77970-cpg-mssr.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Change since v1:
-* moved wrongly set flags from tmio_flags to capabilities
-
- drivers/mmc/host/renesas_sdhi_internal_dmac.c | 4 ++--
- drivers/mmc/host/renesas_sdhi_sys_dmac.c      | 8 +++++---
- 2 files changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-index ff97f15e317c..e8f4863d8f1a 100644
---- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-@@ -97,7 +97,7 @@ static const struct renesas_sdhi_of_data of_rza2_compatible = {
- 			  TMIO_MMC_HAVE_CBSY,
- 	.tmio_ocr_mask	= MMC_VDD_32_33,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
--			  MMC_CAP_CMD23,
-+			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
- 	.bus_shift	= 2,
- 	.scc_offset	= 0 - 0x1000,
- 	.taps		= rcar_gen3_scc_taps,
-@@ -111,7 +111,7 @@ static const struct renesas_sdhi_of_data of_rcar_gen3_compatible = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
- 			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
--			  MMC_CAP_CMD23,
-+			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
- 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT | MMC_CAP2_MERGE_CAPABLE,
- 	.bus_shift	= 2,
- 	.scc_offset	= 0x1000,
-diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-index c5f789675302..ffa64211f4de 100644
---- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-@@ -33,12 +33,14 @@ static const struct renesas_sdhi_of_data of_rz_compatible = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_32BIT_DATA_PORT |
- 			  TMIO_MMC_HAVE_CBSY,
- 	.tmio_ocr_mask	= MMC_VDD_32_33,
--	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ,
-+	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
-+			  MMC_CAP_WAIT_WHILE_BUSY,
+diff --git a/drivers/clk/renesas/r8a77970-cpg-mssr.c b/drivers/clk/renesas/r8a77970-cpg-mssr.c
+index 0f59c84229a8..7b153c6f299c 100644
+--- a/drivers/clk/renesas/r8a77970-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a77970-cpg-mssr.c
+@@ -47,7 +47,7 @@ enum clk_ids {
+ 	MOD_CLK_BASE
  };
  
- static const struct renesas_sdhi_of_data of_rcar_gen1_compatible = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL,
--	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ,
-+	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
-+			  MMC_CAP_WAIT_WHILE_BUSY,
- 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT,
- };
+-static spinlock_t cpg_lock;
++static DEFINE_SPINLOCK(cpg_lock);
  
-@@ -58,7 +60,7 @@ static const struct renesas_sdhi_of_data of_rcar_gen2_compatible = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
- 			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
--			  MMC_CAP_CMD23,
-+			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
- 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT,
- 	.dma_buswidth	= DMA_SLAVE_BUSWIDTH_4_BYTES,
- 	.dma_rx_offset	= 0x2000,
--- 
-2.30.0
+ static const struct clk_div_table cpg_sd0h_div_table[] = {
+ 	{  0,  2 }, {  1,  3 }, {  2,  4 }, {  3,  6 },
+@@ -212,8 +212,6 @@ static int __init r8a77970_cpg_mssr_init(struct device *dev)
+ 	if (error)
+ 		return error;
+ 
+-	spin_lock_init(&cpg_lock);
+-
+ 	cpg_pll_config = &cpg_pll_configs[CPG_PLL_CONFIG_INDEX(cpg_mode)];
+ 
+ 	return rcar_gen3_cpg_init(cpg_pll_config, CLK_EXTALR, cpg_mode);
 
