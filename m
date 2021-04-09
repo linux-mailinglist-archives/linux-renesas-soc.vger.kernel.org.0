@@ -2,79 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CCDD35A648
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 20:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD5735A72C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 21:33:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234662AbhDISyh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Apr 2021 14:54:37 -0400
-Received: from mail-oi1-f170.google.com ([209.85.167.170]:40826 "EHLO
-        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234375AbhDISyf (ORCPT
+        id S234861AbhDITdu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Apr 2021 15:33:50 -0400
+Received: from mxout02.lancloud.ru ([45.84.86.82]:45208 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234705AbhDITdt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Apr 2021 14:54:35 -0400
-Received: by mail-oi1-f170.google.com with SMTP id i3so6772244oik.7;
-        Fri, 09 Apr 2021 11:54:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GY2ZIMSCa1542Fs+HNLef7VCC347ObH1e8pWTctJXMQ=;
-        b=Qq66H+jLXKfIJOJu6W2mkoWTR7C1vGZipTRxUEnqqc8Zgg2SfmfmitdHDlF37zySnc
-         nVRlzrleGHNgBh9G1bSbmTdcy6+omLFSF9BSZKtfHUMt69sSsa1LQMwCIEeSvvoicWgx
-         tg8VMOGqtYEjEJ6TJVAntCYw8Yb7jiG8nxPoF6ij31KyPo/jfMzGbFptZ8TtS4Fb7UQ7
-         B7cQBtlpaPfQUp/61MiDgeosKlaNWaTc58eeYczbfq+S5hPBFKFyF+ZGBwEzGUAusJnE
-         Ozkqdx/w1NVYLoDadUoj4HzT1iKTjFJ4VC8olnVj/F92d/yulmzC99lp9ydsWCegOLHP
-         5GOg==
-X-Gm-Message-State: AOAM530xMa0kQvqdFBiXIvD7bROONLZxiZrKFH37zl32wV9rAM4ID66C
-        /5bZbXqUoYnnxFyN+w4f6Q==
-X-Google-Smtp-Source: ABdhPJwapWPb6jZVTQC3id73t1pC8EJSkrYVUO4SqQYnuT/h/9sS/sbetzD9aOayty17IT7Mum3skw==
-X-Received: by 2002:aca:ed04:: with SMTP id l4mr10753460oih.27.1617994461922;
-        Fri, 09 Apr 2021 11:54:21 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id v65sm680011oib.42.2021.04.09.11.54.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 11:54:21 -0700 (PDT)
-Received: (nullmailer pid 3955465 invoked by uid 1000);
-        Fri, 09 Apr 2021 18:54:20 -0000
-Date:   Fri, 9 Apr 2021 13:54:20 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,drif: Fix fck
- definition
-Message-ID: <20210409185420.GA3955417@robh.at.kernel.org>
-References: <20210408202436.3706-1-fabrizio.castro.jz@renesas.com>
+        Fri, 9 Apr 2021 15:33:49 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru DC9052295719
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH] i2c: rcar: add IRQ check
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        <linux-i2c@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <8a05ea84-28e6-4d76-4f6d-55fb0a0cdf24@omprussia.ru>
+ <20210408210448.GG1900@kunai>
+From:   Sergey Shtylyov <s.shtylyov@omprussia.ru>
+Organization: Open Mobile Platform, LLC
+Message-ID: <570dbccf-ccb4-05ac-742b-f443f82e12de@omprussia.ru>
+Date:   Fri, 9 Apr 2021 22:33:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210408202436.3706-1-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20210408210448.GG1900@kunai>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1908.lancloud.ru (fd00:f066::208)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 08 Apr 2021 21:24:36 +0100, Fabrizio Castro wrote:
-> dt_binding_check reports the below error with the latest schema:
-> 
-> Documentation/devicetree/bindings/media/renesas,drif.yaml:
->   properties:clock-names:maxItems: False schema does not allow 1
-> Documentation/devicetree/bindings/media/renesas,drif.yaml:
->   ignoring, error in schema: properties: clock-names: maxItems
-> 
-> This patch fixes the problem.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> ---
->  Documentation/devicetree/bindings/media/renesas,drif.yaml | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
+On 4/9/21 12:04 AM, Wolfram Sang wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+>> +	priv->irq = ret = platform_get_irq(pdev, 0);
+> 
+> Please no double assignments. Otherwise good catch!
+
+   OK, I'll come back with 5 more patches for the similar problems. :-)
+
+MBR, Sergei
