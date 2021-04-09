@@ -2,52 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46B0835A411
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 18:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CCDD35A648
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 20:54:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234174AbhDIQzB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Apr 2021 12:55:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48996 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234006AbhDIQy6 (ORCPT
+        id S234662AbhDISyh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Apr 2021 14:54:37 -0400
+Received: from mail-oi1-f170.google.com ([209.85.167.170]:40826 "EHLO
+        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234375AbhDISyf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Apr 2021 12:54:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E2078610CA;
-        Fri,  9 Apr 2021 16:54:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617987285;
-        bh=S1rreXn8cUdARnJpVN+EF5Cjzr8UniPQ8ZF/vXZxug8=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=WQn88ieIhX6uiBORRqI2/sDT5FE5w9MqbJzV84QCcLDepb9D3J+86hFwyi3+urJOw
-         +WlwM6cvEz1OK1flZLZIuXbr2WKVdeWCn9nflxkUnJCs7AlaKVtU6D4QeZOjOqHIiK
-         ljwX/s8UcS3kNOQa1+sE0gfnaj6Xi3b/r5NkQqHYaLEPfQK0myli5n3BnYN72euD4f
-         RuL1j3dg3j6R+LIDJmHR9cnVeW5N+BQIfw1OkzcUChpYyHZGx3DoCb8m9RLwRGqHy2
-         LjhNrG3t3mbVHuMQ2f05HkyVXWxQuASwHJKppYaxphPqkqAalIGMO6682DlFQovrNz
-         oRIMhhw4ym/Eg==
-Content-Type: text/plain; charset="utf-8"
+        Fri, 9 Apr 2021 14:54:35 -0400
+Received: by mail-oi1-f170.google.com with SMTP id i3so6772244oik.7;
+        Fri, 09 Apr 2021 11:54:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GY2ZIMSCa1542Fs+HNLef7VCC347ObH1e8pWTctJXMQ=;
+        b=Qq66H+jLXKfIJOJu6W2mkoWTR7C1vGZipTRxUEnqqc8Zgg2SfmfmitdHDlF37zySnc
+         nVRlzrleGHNgBh9G1bSbmTdcy6+omLFSF9BSZKtfHUMt69sSsa1LQMwCIEeSvvoicWgx
+         tg8VMOGqtYEjEJ6TJVAntCYw8Yb7jiG8nxPoF6ij31KyPo/jfMzGbFptZ8TtS4Fb7UQ7
+         B7cQBtlpaPfQUp/61MiDgeosKlaNWaTc58eeYczbfq+S5hPBFKFyF+ZGBwEzGUAusJnE
+         Ozkqdx/w1NVYLoDadUoj4HzT1iKTjFJ4VC8olnVj/F92d/yulmzC99lp9ydsWCegOLHP
+         5GOg==
+X-Gm-Message-State: AOAM530xMa0kQvqdFBiXIvD7bROONLZxiZrKFH37zl32wV9rAM4ID66C
+        /5bZbXqUoYnnxFyN+w4f6Q==
+X-Google-Smtp-Source: ABdhPJwapWPb6jZVTQC3id73t1pC8EJSkrYVUO4SqQYnuT/h/9sS/sbetzD9aOayty17IT7Mum3skw==
+X-Received: by 2002:aca:ed04:: with SMTP id l4mr10753460oih.27.1617994461922;
+        Fri, 09 Apr 2021 11:54:21 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id v65sm680011oib.42.2021.04.09.11.54.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 11:54:21 -0700 (PDT)
+Received: (nullmailer pid 3955465 invoked by uid 1000);
+        Fri, 09 Apr 2021 18:54:20 -0000
+Date:   Fri, 9 Apr 2021 13:54:20 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH] media: dt-bindings: media: renesas,drif: Fix fck
+ definition
+Message-ID: <20210409185420.GA3955417@robh.at.kernel.org>
+References: <20210408202436.3706-1-fabrizio.castro.jz@renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210409095150.2294437-1-yebin10@huawei.com>
-References: <20210409095150.2294437-1-yebin10@huawei.com>
-Subject: Re: [PATCH -next] clk: renesas: r8a77970: Use DEFINE_SPINLOCK() for spinlock
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, Hulk Robot <hulkci@huawei.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>, yebin10@huawei.com
-Date:   Fri, 09 Apr 2021 09:54:43 -0700
-Message-ID: <161798728363.3790633.9588461531050943158@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210408202436.3706-1-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Ye Bin (2021-04-09 02:51:50)
-> spinlock can be initialized automatically with DEFINE_SPINLOCK()
-> rather than explicitly calling spin_lock_init().
->=20
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Ye Bin <yebin10@huawei.com>
+On Thu, 08 Apr 2021 21:24:36 +0100, Fabrizio Castro wrote:
+> dt_binding_check reports the below error with the latest schema:
+> 
+> Documentation/devicetree/bindings/media/renesas,drif.yaml:
+>   properties:clock-names:maxItems: False schema does not allow 1
+> Documentation/devicetree/bindings/media/renesas,drif.yaml:
+>   ignoring, error in schema: properties: clock-names: maxItems
+> 
+> This patch fixes the problem.
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 > ---
+>  Documentation/devicetree/bindings/media/renesas,drif.yaml | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
 
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
