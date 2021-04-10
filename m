@@ -2,50 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AD5735A72C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Apr 2021 21:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 485FA35ABD4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Apr 2021 10:14:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234861AbhDITdu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Apr 2021 15:33:50 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:45208 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234705AbhDITdt (ORCPT
+        id S229943AbhDJIOv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 10 Apr 2021 04:14:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60898 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229494AbhDJIOt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Apr 2021 15:33:49 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru DC9052295719
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH] i2c: rcar: add IRQ check
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        <linux-i2c@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-References: <8a05ea84-28e6-4d76-4f6d-55fb0a0cdf24@omprussia.ru>
- <20210408210448.GG1900@kunai>
-From:   Sergey Shtylyov <s.shtylyov@omprussia.ru>
-Organization: Open Mobile Platform, LLC
-Message-ID: <570dbccf-ccb4-05ac-742b-f443f82e12de@omprussia.ru>
-Date:   Fri, 9 Apr 2021 22:33:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Sat, 10 Apr 2021 04:14:49 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C22D8C061762;
+        Sat, 10 Apr 2021 01:14:33 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id g17so9384886ejp.8;
+        Sat, 10 Apr 2021 01:14:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
+         :user-agent:mime-version;
+        bh=iFkUvHDAIonvghUhNjShz3kgfmi52q6g6pOPNuEyy2Q=;
+        b=ibzlsCZHwQG6TRiEh3aMXUzAQE0TGDic//8r3jxOv44J1MESfnvguYGuE/VDdzBvgB
+         IYQk213UuqP2aTA7DdIpxb/5qkGqV9tWVNKeRZf8/7d7TkpeGfbWiITwE2H9L8uRXwKG
+         lEC0BrG7RWKkbgWBohSy+pKeosbJfK8ok+2plwlYIjmlszp+kXYDwIfq3FK7AH6zyNDP
+         OeJ83DWqUA/7ChRqZqUoL1E4ebKFmNVvgLKrO4vaGDQ5qOfLeSpmGhNT0V0zOOphzstF
+         omHFlnG6T6mlVENn4El0PoWsUvkj4wF7ndpjxxfYIXo6GfcrGmsngMGTZAekoaEZ+bF8
+         1cJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:references:date
+         :in-reply-to:message-id:user-agent:mime-version;
+        bh=iFkUvHDAIonvghUhNjShz3kgfmi52q6g6pOPNuEyy2Q=;
+        b=e66oCHI69Rnqs8mFYOWs6HNOSY7EWuH2IPf058fMmqrGvVcTOz511XnSbWNzcRAvjk
+         EU+w6ApbOPR76tQRVJTCky8fFRMmpNAKO1kKOWNq3m9PwdAiHYH6J+AmoMnZcalEwfan
+         hYA8aqaijtCizLCMZO76JQG5mQsttuMeVBW5F1wLASfn90CZ+7mLj3kodieMUei03Uoh
+         OIkmHD5jPowNI/mAPG1yh8jCX6krFJamA0MCgdbNEIiUdiSoN9B4uLlaTP5WZ0kHjm13
+         usD0d0GIozskgaoL4t/CQuw38RoVHH9BZST7vkDIH+dpDzO2QyasAAYvTYq+IgxooOTy
+         C55w==
+X-Gm-Message-State: AOAM531NjU9V2yko5/r+IWHaBNzt/QhmebkJ7dpimIXjuHeERrNiy9rG
+        rTpf1GEOP4o0RGkRfbQc67FUWW0b6Zw=
+X-Google-Smtp-Source: ABdhPJxXFT1AjQCeqSyg+7+b2oqkH1uyI+9DgyPOMO5o3onKySUKphQI37H0tMrS0IQPrdOhjGXGAA==
+X-Received: by 2002:a17:906:c290:: with SMTP id r16mr385717ejz.241.1618042472430;
+        Sat, 10 Apr 2021 01:14:32 -0700 (PDT)
+Received: from dell.be.48ers.dk (d51A5BC31.access.telenet.be. [81.165.188.49])
+        by smtp.gmail.com with ESMTPSA id hz24sm2303254ejc.119.2021.04.10.01.14.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Apr 2021 01:14:31 -0700 (PDT)
+Sender: Peter Korsgaard <jacmet@gmail.com>
+Received: from peko by dell.be.48ers.dk with local (Exim 4.92)
+        (envelope-from <peter@korsgaard.com>)
+        id 1lV8lD-0004eI-6W; Sat, 10 Apr 2021 10:14:31 +0200
+From:   Peter Korsgaard <peter@korsgaard.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Jean Delvare <jdelvare@suse.de>, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for returned length from driver"
+References: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
+        <20210226174337.63a9c2a6@endymion> <20210310204648.GA332643@ninjato>
+Date:   Sat, 10 Apr 2021 10:14:31 +0200
+In-Reply-To: <20210310204648.GA332643@ninjato> (Wolfram Sang's message of
+        "Wed, 10 Mar 2021 21:46:48 +0100")
+Message-ID: <87tuoe5zfc.fsf@dell.be.48ers.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210408210448.GG1900@kunai>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1908.lancloud.ru (fd00:f066::208)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 4/9/21 12:04 AM, Wolfram Sang wrote:
+>>>>> "Wolfram" == Wolfram Sang <wsa+renesas@sang-engineering.com> writes:
 
->> +	priv->irq = ret = platform_get_irq(pdev, 0);
-> 
-> Please no double assignments. Otherwise good catch!
+ >> We don't usually do minor version updates for bug fixes. Instead, what
+ >> I do is maintain a list of such "must have" fixes, that package
+ >> maintainers can refer to. Look for "Recommended patches" at:
+ >> 
+ >> https://i2c.wiki.kernel.org/index.php/I2C_Tools
+ >> 
+ >> There's no section for version 4.2 yet, but we can add one as soon as
+ >> the commit hits the public repository.
 
-   OK, I'll come back with 5 more patches for the similar problems. :-)
+ > I added a section now for the 4.2 release. And (finally!) started
+ > cleaning up the wiki a little.
 
-MBR, Sergei
+Thanks! As a packager, I must say that this way of handling bugfixes
+isn't great - I only just noticed this now by accident.
+
+What is the issue with making bugfix releases?
+
+-- 
+Bye, Peter Korsgaard
