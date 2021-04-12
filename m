@@ -2,190 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBFB335C624
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Apr 2021 14:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 960D935C62F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Apr 2021 14:26:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240874AbhDLMYq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Apr 2021 08:24:46 -0400
-Received: from mail-lj1-f172.google.com ([209.85.208.172]:42822 "EHLO
-        mail-lj1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240245AbhDLMYp (ORCPT
+        id S239097AbhDLM1B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Apr 2021 08:27:01 -0400
+Received: from mail-vs1-f46.google.com ([209.85.217.46]:34596 "EHLO
+        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240913AbhDLM07 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Apr 2021 08:24:45 -0400
-Received: by mail-lj1-f172.google.com with SMTP id l22so7743374ljc.9;
-        Mon, 12 Apr 2021 05:24:27 -0700 (PDT)
+        Mon, 12 Apr 2021 08:26:59 -0400
+Received: by mail-vs1-f46.google.com with SMTP id h20so6541434vsu.1;
+        Mon, 12 Apr 2021 05:26:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:reply-to:to:cc
-         :in-reply-to:references:mime-version:date:user-agent
-         :content-transfer-encoding;
-        bh=5PHG89rkHmtJu5sjeUoGT1FTEcW/fFE95LEXIAesfmA=;
-        b=Hx8/r/C/Vjj1KvpHowxonVLON7SDT3jnLCtpA1V800HksR9zcpDZPhrM5GFYnAUs3R
-         s8lgoHTaPI46Ro0WDk9WDwnk+5MjulHOGgMygoxLX9bgzsEZJZ+WfgxmIdewieOnap7E
-         xpDNmBGStJ5vowEzHuFHiaGt8uzAoigy5jMNKVdO7ef7LTkxy70UqAxNJObNTCA3eaQl
-         y4FXq7xbmGDO+GX+prd7URP12xKypJuo4ambvzcTMTu2g3OAWQ/D/IwC+jO8Yj0wa41g
-         ZqbvZR7FhdCDwmoRdBLmnI6FlZ9Sm3RujhA4nGZDIUp28Kzw14H5ighIqeNZhJ9K30O+
-         US+A==
-X-Gm-Message-State: AOAM531b+mo4vYmUBbAsSKz4IvdSg7acGbM9hzDD4Fb2oEbHv2oELvsj
-        uX/lUMj9s0NDX/+dF+GPKeo=
-X-Google-Smtp-Source: ABdhPJz+wZQrXWFGN32X3FcPKz0599Hnf7JphhvJy0mUmk0MZJyizU/mixod1C8XADcLGi19XpK7qg==
-X-Received: by 2002:a2e:588:: with SMTP id 130mr15431771ljf.28.1618230266591;
-        Mon, 12 Apr 2021 05:24:26 -0700 (PDT)
-Received: from dc7vkhyyyyyyyyyyyyydy-3.rev.dnainternet.fi (dc7vkhyyyyyyyyyyyyydy-3.rev.dnainternet.fi. [2001:14ba:16e2:8300::6])
-        by smtp.gmail.com with ESMTPSA id m6sm1203846lfu.308.2021.04.12.05.24.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 05:24:25 -0700 (PDT)
-Message-ID: <882c4561ebc20313098312bb9cfae60736d69475.camel@fi.rohmeurope.com>
-Subject: Re: [PATCH v4 3/7] regulator: IRQ based event/error notification
- helpers
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Reply-To: matti.vaittinen@fi.rohmeurope.com
-To:     Kees Cook <keescook@chromium.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     "agross@kernel.org" <agross@kernel.org>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        linux-power <linux-power@fi.rohmeurope.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-In-Reply-To: <dbd6a71b1b907de004d23d2ea4b15045320f1ae1.camel@fi.rohmeurope.com>
-References: <cover.1617690965.git.matti.vaittinen@fi.rohmeurope.com>
-         <2b87b4637fde2225006cc122bc855efca0dcd7f1.1617692184.git.matti.vaittinen@fi.rohmeurope.com>
-         <CAHp75VeoTVNDemV0qRA4BTVqOVfyR9UKGWhHgfeat8zVVGcu_Q@mail.gmail.com>
-         <55397166b1c4107efc2a013635f63af142d9b187.camel@fi.rohmeurope.com>
-         <CAHp75VeK+Oq9inOLcSSsq+FjaaPC5D=EMt4vLf97uR1BmpW2Zw@mail.gmail.com>
-         <42210c909c55f7672e4a4a9bfd34553a6f4c8146.camel@fi.rohmeurope.com>
-         <CAHp75VeX8H5E6GfVHxgu_6R+zbvmFV8fT9tO-nsm1nB3N4NF_A@mail.gmail.com>
-         <202104082015.4DADF9DC48@keescook>
-         <dbd6a71b1b907de004d23d2ea4b15045320f1ae1.camel@fi.rohmeurope.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OfXpOHN1nC0M88ZM/W8jBlWqk14043GyOoIo/T+w7WQ=;
+        b=MVxWwJGNF5g5W4Qo0mqsXzgWb+hiaEL1iNTfLiZHEnvVsCueGTT/3s9Xb9zXhVrP9Z
+         KYOrjibtfgbTL1SMACiRtFQ3+Yj/hrHGXx++3XTxQwFD71plLvmlQD7VEKnhi0wHPrPc
+         UWDQUmaLlMetUZ26tK4fObOYleeR9eruqEdmGabpiy9VX/Sn1UJCNB/vcaScJwtZnp/2
+         xARyeyWPXQ7zOlxg21IKmswSfRL9jyP8K4Fyctp0G2XlfsPcUnMwqquLgbVQnZT6QJse
+         PVr/GplZu1LNq67PaAK0nVNVtEcIYSOaspnVfCX57gGfSY0cnNwRwgpjKYXKvNrMNw9X
+         pn1Q==
+X-Gm-Message-State: AOAM532mvP/VkDZ+w0dDXivg94PU8F7naya8hfZ7kq6ASjh3YrO9JaP/
+        s3M+WgBO6b5foVCmt3Z8hTWbovQ99svPRVYpZns=
+X-Google-Smtp-Source: ABdhPJzZDP1u8g+AzCQjZKX7IXjS4HfBHXSz+bFEGx6fJfhtpstjMRIHPLJWdxxBuHrGC0e5nOX0204lLlpgbPEq5es=
+X-Received: by 2002:a67:7d02:: with SMTP id y2mr19915858vsc.18.1618230400971;
+ Mon, 12 Apr 2021 05:26:40 -0700 (PDT)
 MIME-Version: 1.0
-Date:   Mon, 12 Apr 2021 15:24:16 +0300
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
-Content-Transfer-Encoding: 7bit
+References: <20210411185030.8818-1-marek.vasut@gmail.com>
+In-Reply-To: <20210411185030.8818-1-marek.vasut@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 12 Apr 2021 14:26:29 +0200
+Message-ID: <CAMuHMdWFoOrh9jNKY-NL4_dnC_eGkK5AndLoOf0g5Sg4AEctZg@mail.gmail.com>
+Subject: Re: [PATCH V5] PCI: rcar: Add L1 link state fix into data abort hook
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     linux-pci <linux-pci@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Marek,
 
-On Fri, 2021-04-09 at 10:08 +0300, Matti Vaittinen wrote:
-> On Thu, 2021-04-08 at 20:20 -0700, Kees Cook wrote:
-> > On Wed, Apr 07, 2021 at 03:50:15PM +0300, Andy Shevchenko wrote:
-> > > On Wed, Apr 7, 2021 at 12:49 PM Vaittinen, Matti
-> > > <Matti.Vaittinen@fi.rohmeurope.com> wrote:
-> > > > On Wed, 2021-04-07 at 12:10 +0300, Andy Shevchenko wrote:
-> > > > > On Wed, Apr 7, 2021 at 8:02 AM Matti Vaittinen
-> > > > > <matti.vaittinen@fi.rohmeurope.com> wrote:
-> > > > > > On Wed, 2021-04-07 at 01:44 +0300, Andy Shevchenko wrote:
-> > > > > > > On Tuesday, April 6, 2021, Matti Vaittinen <
-> > > > > > > matti.vaittinen@fi.rohmeurope.com> wrote:
-> > > > > > > > +       BUG();
-> > > > > > > > +}
-> > 
-> > This, though, are you sure you want to use BUG()? Linus gets upset
-> > about
-> > such things:
-> > https://www.kernel.org/doc/html/latest/process/deprecated.html#bug-and-bug-on
-> > 
-> 
-> I see. I am unsure of what would be the best action in the regulator
-> case we are handling here. To give the context, we assume here a
-> situation where power has gone out of regulation and the hardware is
-> probably failing. First countermeasure to protect what is left of HW
-> is
-> to shut-down the failing regulator. BUG() was called here as a last
-> resort if shutting the power via regulator interface was not
-> implemented or working.
-> 
-> Eg, we try to take what ever last measure we can to minimize the HW
-> damage - and BUG() was used for this in the qcom driver where I stole
-> the idea. Judging the comment related to BUG() in asm-generic/bug.h
-> 
-> /*
->  * Don't use BUG() or BUG_ON() unless there's really no way out; one
->  
-> * example might be detecting data structure corruption in the middle
->  *
-> of an operation that can't be backed out of.  If the (sub)system
->  * can
-> somehow continue operating, perhaps with reduced functionality,
->  * it's
-> probably not BUG-worthy.
->  *
->  * If you're tempted to BUG(), think
-> again:  is completely giving up
->  * really the *only* solution?  There
-> are usually better options, where
->  * users don't need to reboot ASAP and
-> can mostly shut down cleanly.
->  */
-> https://elixir.bootlin.com/linux/v5.12-rc6/source/include/asm-generic/bug.h#L55
-> 
-> this really might be valid use-case.
-> 
-> To me the real question is what happens after the BUG() - and if
-> there
-> is any generic handling or if it is platform/board specific? Does it
-> actually have any chance to save the HW?
-> 
-> Mark already pointed that we might need to figure a way to punt a
-> "failing event" to the user-space to initiate better "safety
-> shutdown".
-> Such event does not currently exist so I think the main use-case here
-> is to do logging and potentially prevent enabling any further actions
-> in the failing HW.
-> 
-> So - any better suggestions?
-> 
+On Sun, Apr 11, 2021 at 8:50 PM <marek.vasut@gmail.com> wrote:
+> From: Marek Vasut <marek.vasut+renesas@gmail.com>
+>
+> The R-Car PCIe controller is capable of handling L0s/L1 link states.
+> While the controller can enter and exit L0s link state, and exit L1
+> link state, without any additional action from the driver, to enter
+> L1 link state, the driver must complete the link state transition by
+> issuing additional commands to the controller.
+>
+> The problem is, this transition is not atomic. The controller sets
+> PMEL1RX bit in PMSR register upon reception of PM_ENTER_L1 DLLP from
+> the PCIe card, but then the controller enters some sort of inbetween
+> state. The driver must detect this condition and complete the link
+> state transition, by setting L1IATN bit in PMCTLR and waiting for
+> the link state transition to complete.
+>
+> If a PCIe access happens inside this window, where the controller
+> is between L0 and L1 link states, the access generates a fault and
+> the ARM 'imprecise external abort' handler is invoked.
+>
+> Just like other PCI controller drivers, here we hook the fault handler,
+> perform the fixup to help the controller enter L1 link state, and then
+> restart the instruction which triggered the fault. Since the controller
+> is in L1 link state now, the link can exit from L1 link state to L0 and
+> successfully complete the access.
+>
+> While it was suggested to disable L1 link state support completely on
+> the controller level, this would not prevent the L1 link state entry
+> initiated by the link partner. This happens e.g. in case a PCIe card
+> enters D3Hot state, which could be initiated from pci_set_power_state()
+> if the card indicates D3Hot support, which in turn means link must enter
+> L1 state. So instead, fix up the L1 link state after all.
+>
+> Note that this fixup is applicable only to Aarch32 R-Car controllers,
+> the Aarch64 R-Car perform the same fixup in TFA, see TFA commit [1]
+> 0969397f2 ("rcar_gen3: plat: Prevent PCIe hang during L1X config access")
+> [1] https://github.com/ARM-software/arm-trusted-firmware/commit/0969397f295621aa26b3d14b76dd397d22be58bf
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-Maybe we should take same approach as is taken in thermal_core? Quoting
-the thermal documentation:
-
-"On an event of critical trip temperature crossing. Thermal
-framework             
-allows the system to shutdown gracefully by calling
-orderly_poweroff().          
-In the event of a failure of orderly_poweroff() to shut down the
-system          
-we are in danger of keeping the system alive at undesirably
-high                 
-temperatures. To mitigate this high risk scenario we program a
-work              
-queue to fire after a pre-determined number of seconds to
-start                  
-an emergency shutdown of the device using the
-kernel_power_off()                 
-function. In case kernel_power_off() fails then
-finally                          
-emergency_restart() is called in the worst case."
-
-Maybe this 'hardware protection, in-kernel, emergency HW saving
-shutdown' - logic, should be pulled out of thermal_core.c (or at least
-exported) for (other parts like) the regulators to use?
-
-I don't like the idea relying in the user-space to be in shape it can
-handle the situation. I may be mistaken but I think a quick action
-might be required. Hence the in-kernel handling does not sound so bad
-to me.
-
-I am open to all education and suggestions. Meanwhile I am planning to
-just convert the BUG() to WARN(). I don't claim I know how BUG() is
-implemented on each platform - but my understanding is that it does not
-guarantee any power to be cut but just halts the calling process(?). I
-guess this does not guarantee what happens next - maybe it even keeps
-the power enabled and end up just deadlocking the system by reserved
-locks? I think thermal guys have been pondering this scenario for
-severe temperature protection shutdown so I would like to hear your
-opinions.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 
-Best Regards
-Matti Vaittinen
+> V5: - Add mutex around rcar_pcie_aarch32_abort_handler()
 
+spinlock (used as a mutex ;-)
+
+>     - Update commit message again to point out issues with L1/D3Hot states
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
