@@ -2,115 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F1E735BFC2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Apr 2021 11:20:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07A5235C0F4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Apr 2021 11:23:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237429AbhDLJGk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Apr 2021 05:06:40 -0400
-Received: from mail-vs1-f43.google.com ([209.85.217.43]:37589 "EHLO
-        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239393AbhDLJCr (ORCPT
+        id S239576AbhDLJS0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Apr 2021 05:18:26 -0400
+Received: from mail-vs1-f45.google.com ([209.85.217.45]:36816 "EHLO
+        mail-vs1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240331AbhDLJOm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Apr 2021 05:02:47 -0400
-Received: by mail-vs1-f43.google.com with SMTP id 2so6264518vsh.4;
-        Mon, 12 Apr 2021 02:02:29 -0700 (PDT)
+        Mon, 12 Apr 2021 05:14:42 -0400
+Received: by mail-vs1-f45.google.com with SMTP id k124so6297063vsk.3;
+        Mon, 12 Apr 2021 02:14:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=w0nzjzfCk4z/DdLip364m435OvUY4gxFoWEexjtunJU=;
-        b=sJb4HvFHls/K0miarzNokuya7Jg6kF3OhflM9ibdCnsPNh2q4zCp8UeKXIX/vDdceA
-         Drw7Oa0ynTF85R2nfk+lMS+zb8GlvazZs/NQg9g4pUbPVNsAH4wk2Qc7ArpooiE+stxR
-         pjUgyJxphJkyzCtCVNnb2TphFh4sZgcVEreWXqbvHEJw7Ay4y3XcRcMyN9JW80ScwnAo
-         hQiU566czmZjPoGoZpyViKV1bS94YZ6GfPN2AHcILFbGPLSmQAtX+zsWvh/xmhl81blc
-         ybWPpwY/2eilfIQcWJysdFKnmI6h1iQ3kI5AnbqoD/mRdqz0sVHNjALK/Nueq+hF0qyq
-         +aSw==
-X-Gm-Message-State: AOAM530LleXCVfjV4YldwMWpJC9WmCMXTiEijUki1g4T3hj7qHl6QbVH
-        7T5LNbkVQGYr1vNMJl6BVM+dKuUPXKp6UfgdRRw=
-X-Google-Smtp-Source: ABdhPJxPezqnGLgade3Fg9fCpJVbM8VsEsOkFluSzHkUwjr3zbmXkNKrQ+8OVtBaJ9BEKnKX3UuVpjWBCY0a0EWWBbM=
-X-Received: by 2002:a67:f5ca:: with SMTP id t10mr18301625vso.40.1618218149193;
- Mon, 12 Apr 2021 02:02:29 -0700 (PDT)
+        bh=RMA9dfTx2fDCdvWiIgA/n2H9xfZQRXkjWDrKCptCOcI=;
+        b=Rl8wjxIQxIEzw55HpBAfsJub80L5s4x/OFfj5eoS8o542A4zE5X6KympE4Y6vFifHq
+         KG1KKYJetbF93RQ+7nmkGAG8iU65nhNPBvBIJ3ECisAZbsUiNaOa3HGVJxmV6k1GVeCA
+         4KB8I+seuUoJCuWsZgQyNOmluPtkR8JrNNrgCo+5iKNKnAWN+TxvMD3iXIixvqoooNaj
+         +8wB2M3W3egpqcpkqjhcRH6hvd2/tnKc/dQi+SCJTlLQXqTs+j/Ax6biHMUVPz/UsxDy
+         HVw98+r0vU5RP+izZh7UTRhTxEswCYAqjDjPLJ/jB7/9E7r7YeGsJqACIIS0C0eo5ddJ
+         aivQ==
+X-Gm-Message-State: AOAM532goTnY4HoDtBiy05ZSS81ShBKY4UVETF+ZZiQI2HvhGupfvmMH
+        XqE4V2/iEx0RrRTd1M/hQRxV3dMT/QL5a4a0vIc=
+X-Google-Smtp-Source: ABdhPJyccA87XencHrCAMYR5yNnNEecqXlW4UfCBCdYDLR1fIpeCPEsdoxJpXqZh+OYmwRKYRilBGtcty1t3aJsEnPc=
+X-Received: by 2002:a67:2082:: with SMTP id g124mr4015580vsg.40.1618218862505;
+ Mon, 12 Apr 2021 02:14:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210412075053.28727-1-dinghao.liu@zju.edu.cn>
-In-Reply-To: <20210412075053.28727-1-dinghao.liu@zju.edu.cn>
+References: <7a384d02b85cdaac4a0e2b357582c8244b9a6f98.1617282116.git.geert+renesas@glider.be>
+ <161786578706.3790633.4008870643384680138@swboyd.mtv.corp.google.com>
+In-Reply-To: <161786578706.3790633.4008870643384680138@swboyd.mtv.corp.google.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 12 Apr 2021 11:02:17 +0200
-Message-ID: <CAMuHMdVBh7D+QH4ikiAbG8b0UGmH__43MhKwXXAMwYS5JUPy8Q@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: rcar-usb2-clock-sel: Fix error handling in rcar_usb2_clock_sel_probe
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc:     Kangjie Lu <kjlu@umn.edu>,
+Date:   Mon, 12 Apr 2021 11:14:11 +0200
+Message-ID: <CAMuHMdXXgkjvzUfMHNYjN7HKu8BK7s6xkeq6iULtyPb+PwGMEg@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: r9a06g032: Switch to .determine_rate()
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Gareth Williams <gareth.williams.jx@renesas.com>,
         Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        linux-clk <linux-clk@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Dinghao,
+Hi Stephen,
 
-On Mon, Apr 12, 2021 at 9:51 AM Dinghao Liu <dinghao.liu@zju.edu.cn> wrote:
-> When clk_get_rate() fails, a pairing PM usage counter decrement
-> and disable is required to prevent refcount leak. It's the same
-> for the subsequent error paths. When of_clk_add_hw_provider()
-> fails, we need to unregister clk_hw.
+On Thu, Apr 8, 2021 at 9:09 AM Stephen Boyd <sboyd@kernel.org> wrote:
+> Quoting Geert Uytterhoeven (2021-04-01 06:03:24)
+> > diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
+> > index 71b11443f6fc3801..c99942f0e4d4c751 100644
+> > --- a/drivers/clk/renesas/r9a06g032-clocks.c
+> > +++ b/drivers/clk/renesas/r9a06g032-clocks.c
+> > @@ -630,11 +629,13 @@ r9a06g032_div_round_rate(struct clk_hw *hw,
+> >         if (clk->index == R9A06G032_DIV_UART ||
+> >             clk->index == R9A06G032_DIV_P2_PG) {
+> >                 pr_devel("%s div uart hack!\n", __func__);
+> > -               return clk_get_rate(hw->clk);
+> > +               req->rate = clk_get_rate(hw->clk);
 >
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> Can this use clk_hw_get_rate()? Or it needs to be clk_get_rate() to make
+> sure the rate doesn't change while querying the framework... from the
+> framework? Another patch is preferred if you're interested in making the
+> change.
 
-Thanks for your patch, which looks correct to me.
-
-> --- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
-> +++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
-> @@ -180,7 +180,8 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
->
->         if (!priv->extal && !priv->xtal) {
->                 dev_err(dev, "This driver needs usb_extal or usb_xtal\n");
-> -               return -ENOENT;
-> +               ret = -ENOENT;
-> +               goto pm_put;
->         }
-
-As the code above doesn't rely on the device being powered yet, you
-could move the pm_runtime_{enable,get_sync}() calls below the clock
-checks instead.
-
->
->         platform_set_drvdata(pdev, priv);
-> @@ -194,10 +195,23 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
->         priv->hw.init = &init;
->
->         clk = clk_register(NULL, &priv->hw);
-> -       if (IS_ERR(clk))
-> -               return PTR_ERR(clk);
-> +       if (IS_ERR(clk)) {
-> +               ret = PTR_ERR(clk);
-> +               goto pm_put;
-> +       }
-> +
-> +       ret = of_clk_add_hw_provider(np, of_clk_hw_simple_get, &priv->hw);
-> +       if (ret)
-> +               goto clk_unregister;
-> +
-> +       return 0;
->
-> -       return of_clk_add_hw_provider(np, of_clk_hw_simple_get, &priv->hw);
-> +clk_unregister:
-> +       clk_hw_unregister(&priv->hw);
-
-The error path can be simplified by replacing the call to clk_register()
-by a call to devm_clk_register(), to match the style of the other
-initialization steps.
-
-> +pm_put:
-> +       pm_runtime_put(dev);
-> +       pm_runtime_disable(dev);
-> +       return ret;
-
-This part has to stay, of course.
-
->  }
+Probably it can.  But as I don't have access to the hardware, I try to
+be conservative.
 
 Gr{oetje,eeting}s,
 
