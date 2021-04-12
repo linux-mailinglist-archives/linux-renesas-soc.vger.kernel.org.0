@@ -2,74 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07A5235C0F4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Apr 2021 11:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C085535C195
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Apr 2021 11:31:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239576AbhDLJS0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Apr 2021 05:18:26 -0400
-Received: from mail-vs1-f45.google.com ([209.85.217.45]:36816 "EHLO
-        mail-vs1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240331AbhDLJOm (ORCPT
+        id S239823AbhDLJbf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Apr 2021 05:31:35 -0400
+Received: from mail-vk1-f169.google.com ([209.85.221.169]:44856 "EHLO
+        mail-vk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240962AbhDLJZH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Apr 2021 05:14:42 -0400
-Received: by mail-vs1-f45.google.com with SMTP id k124so6297063vsk.3;
-        Mon, 12 Apr 2021 02:14:22 -0700 (PDT)
+        Mon, 12 Apr 2021 05:25:07 -0400
+Received: by mail-vk1-f169.google.com with SMTP id r196so2712183vkd.11;
+        Mon, 12 Apr 2021 02:24:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RMA9dfTx2fDCdvWiIgA/n2H9xfZQRXkjWDrKCptCOcI=;
-        b=Rl8wjxIQxIEzw55HpBAfsJub80L5s4x/OFfj5eoS8o542A4zE5X6KympE4Y6vFifHq
-         KG1KKYJetbF93RQ+7nmkGAG8iU65nhNPBvBIJ3ECisAZbsUiNaOa3HGVJxmV6k1GVeCA
-         4KB8I+seuUoJCuWsZgQyNOmluPtkR8JrNNrgCo+5iKNKnAWN+TxvMD3iXIixvqoooNaj
-         +8wB2M3W3egpqcpkqjhcRH6hvd2/tnKc/dQi+SCJTlLQXqTs+j/Ax6biHMUVPz/UsxDy
-         HVw98+r0vU5RP+izZh7UTRhTxEswCYAqjDjPLJ/jB7/9E7r7YeGsJqACIIS0C0eo5ddJ
-         aivQ==
-X-Gm-Message-State: AOAM532goTnY4HoDtBiy05ZSS81ShBKY4UVETF+ZZiQI2HvhGupfvmMH
-        XqE4V2/iEx0RrRTd1M/hQRxV3dMT/QL5a4a0vIc=
-X-Google-Smtp-Source: ABdhPJyccA87XencHrCAMYR5yNnNEecqXlW4UfCBCdYDLR1fIpeCPEsdoxJpXqZh+OYmwRKYRilBGtcty1t3aJsEnPc=
-X-Received: by 2002:a67:2082:: with SMTP id g124mr4015580vsg.40.1618218862505;
- Mon, 12 Apr 2021 02:14:22 -0700 (PDT)
+        bh=4SHMD1oGY2Yw0vxxws1zV6FhECO5igomD0LqhlWJBF8=;
+        b=U9rJIP1Z42ohACpM92IwMW0zGBMherp+60Ss/2DKTq0no3192Joz6L4q1pdqsQzerI
+         dObVJayqOWX54jJehgD0QPNsHkSx/R8vTh+NhwObvqF5AjkSK15zBr/PRdYeQthsy9Fl
+         tdxLnuWK55JJairDk5I3NMF7OqVUcukme17LDaAcESd9MBebhezMekafENCYg5hi9oOs
+         0yC+z5xnrL+hdrF2CMa91+/lw0xzbBSlSMDwA5HnQ47K4kBJ12f9tPbYRGwxTVhaWc1g
+         Niq9i0MeA6RCbzyTYiCLicD9NO/wLmPYgN9tjrwVrKkL5dXTq9/GlNi4vuADqJ1qGxt6
+         RJ/w==
+X-Gm-Message-State: AOAM5324wF/NT9Jy1laVWdRm6r+1wAjLcCLO7XBo1HL23ztuGcAa+h9U
+        CLLwjksHpuLheHUEfaXR9A5/2IAVeoLMayOIDlE=
+X-Google-Smtp-Source: ABdhPJz6H4I3RfTPV/+7eF6tq81iKBSPmhvjZbF2f9wIdDzpLsNpwUoIjlx4y7xBgY5IurLpS5eDhYdCxqR8sPk+a3g=
+X-Received: by 2002:a1f:2502:: with SMTP id l2mr18469108vkl.5.1618219488852;
+ Mon, 12 Apr 2021 02:24:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <7a384d02b85cdaac4a0e2b357582c8244b9a6f98.1617282116.git.geert+renesas@glider.be>
- <161786578706.3790633.4008870643384680138@swboyd.mtv.corp.google.com>
-In-Reply-To: <161786578706.3790633.4008870643384680138@swboyd.mtv.corp.google.com>
+References: <20210409095150.2294437-1-yebin10@huawei.com>
+In-Reply-To: <20210409095150.2294437-1-yebin10@huawei.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 12 Apr 2021 11:14:11 +0200
-Message-ID: <CAMuHMdXXgkjvzUfMHNYjN7HKu8BK7s6xkeq6iULtyPb+PwGMEg@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r9a06g032: Switch to .determine_rate()
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Gareth Williams <gareth.williams.jx@renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
+Date:   Mon, 12 Apr 2021 11:24:37 +0200
+Message-ID: <CAMuHMdUBS2wk7pSC2+8rxsf_-ixMB30FwODDZsH6QE0-QGx=Qg@mail.gmail.com>
+Subject: Re: [PATCH -next] clk: renesas: r8a77970: Use DEFINE_SPINLOCK() for spinlock
+To:     Ye Bin <yebin10@huawei.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
+        linux-clk <linux-clk@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org, Hulk Robot <hulkci@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Stephen,
+Hi Ye,
 
-On Thu, Apr 8, 2021 at 9:09 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> Quoting Geert Uytterhoeven (2021-04-01 06:03:24)
-> > diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
-> > index 71b11443f6fc3801..c99942f0e4d4c751 100644
-> > --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> > +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-> > @@ -630,11 +629,13 @@ r9a06g032_div_round_rate(struct clk_hw *hw,
-> >         if (clk->index == R9A06G032_DIV_UART ||
-> >             clk->index == R9A06G032_DIV_P2_PG) {
-> >                 pr_devel("%s div uart hack!\n", __func__);
-> > -               return clk_get_rate(hw->clk);
-> > +               req->rate = clk_get_rate(hw->clk);
+On Fri, Apr 9, 2021 at 11:43 AM Ye Bin <yebin10@huawei.com> wrote:
+> spinlock can be initialized automatically with DEFINE_SPINLOCK()
+> rather than explicitly calling spin_lock_init().
 >
-> Can this use clk_hw_get_rate()? Or it needs to be clk_get_rate() to make
-> sure the rate doesn't change while querying the framework... from the
-> framework? Another patch is preferred if you're interested in making the
-> change.
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Ye Bin <yebin10@huawei.com>
 
-Probably it can.  But as I don't have access to the hardware, I try to
-be conservative.
+Thanks for your patch, which looks correct to me.
+
+> --- a/drivers/clk/renesas/r8a77970-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a77970-cpg-mssr.c
+> @@ -47,7 +47,7 @@ enum clk_ids {
+>         MOD_CLK_BASE
+>  };
+>
+> -static spinlock_t cpg_lock;
+> +static DEFINE_SPINLOCK(cpg_lock);
+
+I think a better fix would be to start using the common cpg_lock, by #including
+rcar-cpg-lib.h.
+
+>
+>  static const struct clk_div_table cpg_sd0h_div_table[] = {
+>         {  0,  2 }, {  1,  3 }, {  2,  4 }, {  3,  6 },
+> @@ -212,8 +212,6 @@ static int __init r8a77970_cpg_mssr_init(struct device *dev)
+>         if (error)
+>                 return error;
+>
+> -       spin_lock_init(&cpg_lock);
+> -
+>         cpg_pll_config = &cpg_pll_configs[CPG_PLL_CONFIG_INDEX(cpg_mode)];
+>
+>         return rcar_gen3_cpg_init(cpg_pll_config, CLK_EXTALR, cpg_mode);
 
 Gr{oetje,eeting}s,
 
