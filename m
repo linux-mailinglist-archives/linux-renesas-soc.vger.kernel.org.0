@@ -2,174 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45EE335D4E9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Apr 2021 03:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 167EF35D8EC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Apr 2021 09:33:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238378AbhDMBk0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Apr 2021 21:40:26 -0400
-Received: from mga17.intel.com ([192.55.52.151]:24374 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237115AbhDMBk0 (ORCPT
+        id S239187AbhDMHdz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Apr 2021 03:33:55 -0400
+Received: from mail-ua1-f44.google.com ([209.85.222.44]:45913 "EHLO
+        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237567AbhDMHdy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Apr 2021 21:40:26 -0400
-IronPort-SDR: LRVj4Ax2BLDL0VQE7NJ1T8sA/Z2EaiGZTlM6XYHgPWpFHaBNi2aT/mfs9HiqpCLOxXS53SKlF7
- M73c0t7VkI+Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,9952"; a="174413940"
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="174413940"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 18:40:05 -0700
-IronPort-SDR: /0nW/hjSMs9lN0FsD3+CWmG8VehmGP8gU2wxhoDMG8LLtDDOMOb5GaSRzxlQ9N0vctJOv/xblU
- AAPdYcl7Hh1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="450210482"
-Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 12 Apr 2021 18:40:04 -0700
-Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lW827-0000kR-Jh; Tue, 13 Apr 2021 01:40:03 +0000
-Date:   Tue, 13 Apr 2021 09:39:05 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- 9e681b617b0ea7601b4b2764a26e6fbfe7dd13ed
-Message-ID: <6074f639.IwyH4aciHI/lMA4t%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 13 Apr 2021 03:33:54 -0400
+Received: by mail-ua1-f44.google.com with SMTP id f4so5020807uad.12;
+        Tue, 13 Apr 2021 00:33:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=u6UFjwuyKnQpqmhtaDp8WV1qw1jwfIy1yUFgiKaV5UY=;
+        b=tAh9slfyuOEcT93M35aK8CW7kqkE59vjDhsIWtgA16D7CtT7P64dq42H+tG2P6RyBv
+         UbWmiVAkgT9HfXmVMBDCDQthz2yOXZXegr9ooDPF5i3koP4STM/G31DPf/MUpmmJbNpa
+         G5Q4JlctLMKHQSjgjsxFkkTH22TbHzkNZZcAofHDxpYDnpG6XeAMsNMR+oZDcw2cNxs+
+         ZphSk7dqlcgBWoir0UvduT9Oc6LePr0CmcGF6iAH6D20gVc9u0kbG23DWlwgQTsCEpTh
+         e1vrjSPekmkMjfOvQ2GH05WPY/NgXUGkFagme4PPB/57Vq2JkCVQjljmX/HHEGsXJNWO
+         kJVg==
+X-Gm-Message-State: AOAM5306Y7SccntUKGCEAryVOc5FxmjKuxs4wpzvvGWzhJyVsJ4V1ZPW
+        7Ub/e5s7ofiKL53fB5V3XRo9B2c5CuPUtU6eCLfcsktoX4I=
+X-Google-Smtp-Source: ABdhPJzftKnn6TOjbesfeLhixPr7pqyQbLq0YkT7ZLi3DpLJBP2roway01ukDACwhunwhZgE9cRvfVZzumXQp/dxKLA=
+X-Received: by 2002:ab0:3157:: with SMTP id e23mr21121382uam.106.1618299215073;
+ Tue, 13 Apr 2021 00:33:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20210412132619.7896-1-aford173@gmail.com> <20210412132619.7896-2-aford173@gmail.com>
+In-Reply-To: <20210412132619.7896-2-aford173@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 13 Apr 2021 09:33:23 +0200
+Message-ID: <CAMuHMdU5RfTGs3SCvJX9epKBLOo6o1BQMng49RjrBn+P7QOSeg@mail.gmail.com>
+Subject: Re: [PATCH V4 2/2] net: ethernet: ravb: Enable optional refclk
+To:     Adam Ford <aford173@gmail.com>
+Cc:     netdev <netdev@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 9e681b617b0ea7601b4b2764a26e6fbfe7dd13ed  Merge tag 'v5.12-rc7' into renesas-devel
+Hi Adam,
 
-elapsed time: 723m
+On Mon, Apr 12, 2021 at 3:27 PM Adam Ford <aford173@gmail.com> wrote:
+> For devices that use a programmable clock for the AVB reference clock,
+> the driver may need to enable them.  Add code to find the optional clock
+> and enable it when available.
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+>
+> ---
+> V4:  Eliminate the NULL check when disabling refclk, and add a line
+>      to disable the refclk if there is a failure after it's been
+>      initialized.
 
-configs tested: 111
-configs skipped: 2
+Thanks for the update!
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2148,6 +2148,13 @@ static int ravb_probe(struct platform_device *pdev)
+>                 goto out_release;
+>         }
+>
+> +       priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
+> +       if (IS_ERR(priv->refclk)) {
+> +               error = PTR_ERR(priv->refclk);
+> +               goto out_release;
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-riscv                            allmodconfig
-x86_64                           allyesconfig
-riscv                            allyesconfig
-arc                          axs101_defconfig
-arc                         haps_hs_defconfig
-arm                           stm32_defconfig
-mips                             allmodconfig
-mips                           ci20_defconfig
-sh                        sh7757lcr_defconfig
-arm                         shannon_defconfig
-i386                             allyesconfig
-powerpc                     powernv_defconfig
-arm                        realview_defconfig
-ia64                          tiger_defconfig
-powerpc                     tqm8555_defconfig
-sh                          urquell_defconfig
-powerpc                 linkstation_defconfig
-mips                      malta_kvm_defconfig
-arm                             rpc_defconfig
-powerpc                      ppc64e_defconfig
-arm                        oxnas_v6_defconfig
-arm                         hackkit_defconfig
-sh                          rsk7264_defconfig
-powerpc                        warp_defconfig
-arm                             ezx_defconfig
-arm                          imote2_defconfig
-powerpc                       maple_defconfig
-um                                allnoconfig
-m68k                         apollo_defconfig
-arm                        multi_v5_defconfig
-arm                        mini2440_defconfig
-arm                         lpc32xx_defconfig
-m68k                           sun3_defconfig
-m68k                        m5272c3_defconfig
-powerpc                      ppc44x_defconfig
-nios2                            alldefconfig
-arm                            qcom_defconfig
-powerpc                        cell_defconfig
-mips                        bcm63xx_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a003-20210412
-i386                 randconfig-a001-20210412
-i386                 randconfig-a006-20210412
-i386                 randconfig-a005-20210412
-i386                 randconfig-a004-20210412
-i386                 randconfig-a002-20210412
-x86_64               randconfig-a014-20210412
-x86_64               randconfig-a015-20210412
-x86_64               randconfig-a011-20210412
-x86_64               randconfig-a013-20210412
-x86_64               randconfig-a012-20210412
-x86_64               randconfig-a016-20210412
-i386                 randconfig-a015-20210412
-i386                 randconfig-a014-20210412
-i386                 randconfig-a013-20210412
-i386                 randconfig-a012-20210412
-i386                 randconfig-a016-20210412
-i386                 randconfig-a011-20210412
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+Note that this will call clk_disable_unprepare() in case of failure, which is
+fine, as that function is a no-op in case of a failed clock.
 
-clang tested configs:
-x86_64               randconfig-a003-20210412
-x86_64               randconfig-a002-20210412
-x86_64               randconfig-a001-20210412
-x86_64               randconfig-a005-20210412
-x86_64               randconfig-a006-20210412
-x86_64               randconfig-a004-20210412
+> +       }
+> +       clk_prepare_enable(priv->refclk);
+> +
+>         ndev->max_mtu = 2048 - (ETH_HLEN + VLAN_HLEN + ETH_FCS_LEN);
+>         ndev->min_mtu = ETH_MIN_MTU;
+>
+> @@ -2244,6 +2251,7 @@ static int ravb_probe(struct platform_device *pdev)
+>         if (chip_id != RCAR_GEN2)
+>                 ravb_ptp_stop(ndev);
+>  out_release:
+> +       clk_disable_unprepare(priv->refclk);
+>         free_netdev(ndev);
+>
+>         pm_runtime_put(&pdev->dev);
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
