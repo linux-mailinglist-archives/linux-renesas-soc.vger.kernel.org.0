@@ -2,106 +2,183 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7A3C35DA46
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Apr 2021 10:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 536A835DBFC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Apr 2021 11:57:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243394AbhDMIqs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Apr 2021 04:46:48 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.20]:31527 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243269AbhDMIqq (ORCPT
+        id S237595AbhDMJ5R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Apr 2021 05:57:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231548AbhDMJ5R (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Apr 2021 04:46:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1618303573; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=UNLwXAFowvzkpoknwlLaUr0/O30ckBbWbRLC0RhsGy6G35aJkjFBQkSf0F015KjE+o
-    AIrk0OA8fJ9eKVUx8dLUMe8qU7G9BIdDhg+ma2Bqck94D4su8JIAPe2aOpShGkp4REfE
-    f6Mkgl1VMeNzU3CvxOKf1Sw9PjzdQzQr8IspuU7lFXYWluatOwFRUw99mG+98j/Xv252
-    wC+MTRtATeERXoyw498iXgEeISs1SjuTFI2eSrk515ZxpSVR6OljYDCtfLH4dmCbBm0U
-    jPc2nk3emDAfvbWhuwm5lE7XLTnOR62SIC85rGHkyt71BAOUET+Zeb6WSNZq1eTQvygz
-    pafw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1618303573;
-    s=strato-dkim-0002; d=strato.com;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=UszZM0lxzcT1TucYYh81PlY6CI1II6hKqZ0KtEwG5JI=;
-    b=AdcrTIm0QGglFhn3sR++Xn2cexUhH1UpTuKYO1pPv8BIgaJw8EdvCfzZHdlw0T+FVB
-    7trGuvdlHJVKqqRa/BvEwDAo0kFTm8zxhJjR8Bxi3Bf69q5jrUBLw5b58e/g2vzqq3pQ
-    0NOrMTYHhh5S8ifuDIyEV3rcsR85nwZY65xz0XkA6JgYvlgQ2VYsGREyO0UWz03CKKj7
-    IJDcsqpefIIs6Ctv2aXjvZs87roCH4WlqT9bowTPv0Yw4/sK9j6XVDK15huA2Hc26aZ4
-    y30QolZ8WMRna1to5dQSTHomcuTNsHpunpZ9oe8+jXhmEFIkR+RZ+tOm2QNmJOuyhSy4
-    1D8Q==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1618303573;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=UszZM0lxzcT1TucYYh81PlY6CI1II6hKqZ0KtEwG5JI=;
-    b=Wc3yoPEoK6vmST9hChb9UB8rzSA//PWU+d7G3fQmercRwjOQfc5QK4izIyx2D/Byqa
-    C0miNznC4Q/baeNOCPcm3VhZJryy16pOFLAaYIoqUx05SrAymYWt0W4o97PXrgoumXUg
-    ZJFlSxQYiuLzgk+pTziWSXmVkyoVtdnrXnbPrjMi5LTpjgSwl1Lt1iKutUzK1MUMuikh
-    EGpnaW/BrP5bAlkCK0KUYkm+W9LzpFE20CryACMh+CkKFmjzRD5zuoSrrc8grZvHW6Q6
-    DPnkJF2/V8dfVHWZE2nLpWapfBAV95kikG52/83E+g6wBOHsPY8bpd8WeN62F5Sq+QVY
-    wBJg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR82FZd1Lc+g=="
-X-RZG-CLASS-ID: mo00
-Received: from groucho.site
-    by smtp.strato.de (RZmta 47.24.0 DYNA|AUTH)
-    with ESMTPSA id m01edax3D8kDOQO
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Tue, 13 Apr 2021 10:46:13 +0200 (CEST)
-From:   Ulrich Hecht <uli+renesas@fpond.eu>
-To:     linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org
-Cc:     wsa@kernel.org, geert@linux-m68k.org,
-        yoshihiro.shimoda.uh@renesas.com,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: [PATCH] serial: sh-sci: remove obsolete latency workaround
-Date:   Tue, 13 Apr 2021 10:46:11 +0200
-Message-Id: <20210413084611.27242-1-uli+renesas@fpond.eu>
-X-Mailer: git-send-email 2.20.1
+        Tue, 13 Apr 2021 05:57:17 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA35C061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Apr 2021 02:56:57 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1lWFmp-0003l5-Ho; Tue, 13 Apr 2021 11:56:47 +0200
+Received: from [IPv6:2a03:f580:87bc:d400:d93:7b32:b325:ef5e] (unknown [IPv6:2a03:f580:87bc:d400:d93:7b32:b325:ef5e])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits)
+         client-signature RSA-PSS (4096 bits))
+        (Client CN "mkl@blackshift.org", Issuer "StartCom Class 1 Client CA" (not verified))
+        (Authenticated sender: mkl@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 9196760DB47;
+        Tue, 13 Apr 2021 09:56:45 +0000 (UTC)
+Subject: Re: [PATCH v3] dt-bindings: net: can: rcar_can: Document r8a77961
+ support
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        wg@grandegger.com
+Cc:     davem@davemloft.net, kuba@kernel.org, robh+dt@kernel.org,
+        linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20210409000020.2317696-1-yoshihiro.shimoda.uh@renesas.com>
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+Autocrypt: addr=mkl@pengutronix.de; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <00ed27cf-f43e-334f-d7c7-0e1d196640d0@pengutronix.de>
+Date:   Tue, 13 Apr 2021 11:56:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210409000020.2317696-1-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="80pny2FN6gKJ5tZHI6B5tIHrwyRFcCBHQ"
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since the transition to hrtimers there is no more need to set a minimum
-RX timeout to work around latency issues.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--80pny2FN6gKJ5tZHI6B5tIHrwyRFcCBHQ
+Content-Type: multipart/mixed; boundary="lq6QyrMWuAfxX95EiohGyKJZGQNxXp84c";
+ protected-headers="v1"
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, wg@grandegger.com
+Cc: davem@davemloft.net, kuba@kernel.org, robh+dt@kernel.org,
+ linux-can@vger.kernel.org, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Message-ID: <00ed27cf-f43e-334f-d7c7-0e1d196640d0@pengutronix.de>
+Subject: Re: [PATCH v3] dt-bindings: net: can: rcar_can: Document r8a77961
+ support
+References: <20210409000020.2317696-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20210409000020.2317696-1-yoshihiro.shimoda.uh@renesas.com>
 
-Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
----
- drivers/tty/serial/sh-sci.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+--lq6QyrMWuAfxX95EiohGyKJZGQNxXp84c
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index e3af97a59856..ef37fdf37612 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -2609,21 +2609,10 @@ static void sci_set_termios(struct uart_port *port, struct ktermios *termios,
- 		udelay(DIV_ROUND_UP(10 * 1000000, baud));
- 	}
- 
--	/*
--	 * Calculate delay for 2 DMA buffers (4 FIFO).
--	 * See serial_core.c::uart_update_timeout().
--	 * With 10 bits (CS8), 250Hz, 115200 baud and 64 bytes FIFO, the above
--	 * function calculates 1 jiffie for the data plus 5 jiffies for the
--	 * "slop(e)." Then below we calculate 5 jiffies (20ms) for 2 DMA
--	 * buffers (4 FIFO sizes), but when performing a faster transfer, the
--	 * value obtained by this formula is too small. Therefore, if the value
--	 * is smaller than 20ms, use 20ms as the timeout value for DMA.
--	 */
-+	/* Calculate delay for 2 DMA buffers (4 FIFO). */
- 	s->rx_frame = (10000 * bits) / (baud / 100);
- #ifdef CONFIG_SERIAL_SH_SCI_DMA
- 	s->rx_timeout = s->buf_len_rx * 2 * s->rx_frame;
--	if (s->rx_timeout < 20)
--		s->rx_timeout = 20;
- #endif
- 
- 	if ((termios->c_cflag & CREAD) != 0)
--- 
-2.20.1
+On 4/9/21 2:00 AM, Yoshihiro Shimoda wrote:
+> Document SoC specific bindings for R-Car M3-W+ (r8a77961) SoC.
+>=20
+> Also as R8A7796 is now called R8A77960 so that update those
+> references.
+>=20
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+Added to latest pull request.
+
+Tnx,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+
+--lq6QyrMWuAfxX95EiohGyKJZGQNxXp84c--
+
+--80pny2FN6gKJ5tZHI6B5tIHrwyRFcCBHQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmB1atoACgkQqclaivrt
+76kA3wf+Pilp2xNeO0//92ahLJklfruOnsMnUm27k26earWFMw47KNoMjCi/GCQ+
+OwdSeeT4J7Etio1roUgdWFD1hP+6I4+lgevddnHaFUS/DYRFRpLb7a6KlGJ5VldV
+bw4kBjGnq9aTEyDmxB4tDJ3Rwwi8hHgZe62AEqT9XsvUOKzl9OhUpPe8LvIFFHRU
+M2/96EWTdB3qPKbwPFG3QGzUC1a83yAlSqYIAbkwoLCprpaZnnxOjDEudtFyMxJN
+t/ECXqwXAxaXQCRoql91BY7SWvjCPKaZXU39bMsenrvcuCYomXJ9KMB3N7Yvsm5t
+kw6jvM7QXBLXu3fozsW/bTiGZY3afg==
+=k7YO
+-----END PGP SIGNATURE-----
+
+--80pny2FN6gKJ5tZHI6B5tIHrwyRFcCBHQ--
