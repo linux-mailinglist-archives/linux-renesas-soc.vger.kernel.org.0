@@ -2,287 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D94B135E6AC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Apr 2021 20:49:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 869FE35E86E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Apr 2021 23:40:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347841AbhDMSte (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Apr 2021 14:49:34 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:49665 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1347885AbhDMStb (ORCPT
+        id S1345569AbhDMVke (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Apr 2021 17:40:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43730 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232542AbhDMVkd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Apr 2021 14:49:31 -0400
-X-Halon-ID: ed30f914-9c88-11eb-b966-005056917a89
-Authorized-sender: niklas.soderlund@fsdn.se
-Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de [84.172.85.33])
-        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
-        id ed30f914-9c88-11eb-b966-005056917a89;
-        Tue, 13 Apr 2021 20:49:07 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/2] arm64: dts: renesas: falcon-csi-dsi: Add and connect MAX96712
-Date:   Tue, 13 Apr 2021 20:48:44 +0200
-Message-Id: <20210413184844.2606086-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210413184844.2606086-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20210413184844.2606086-1-niklas.soderlund+renesas@ragnatech.se>
+        Tue, 13 Apr 2021 17:40:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id B20D2613B6;
+        Tue, 13 Apr 2021 21:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618350012;
+        bh=toVub+slEHyxpan1zl2EKjAs+n9L+DqJjmVyXdpSda8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=pRV3XRV88aPlnwLClx5LDM21mdefxIbRGFcsOMAWKDGAPSf1o7HWMcUJArQ3XXTo2
+         omQ7Z2UBYmJ/4VEgdmDWMtz3nLyeoWfPZMbM/epzVuNn/dfLkNcaqGX/sQ3OpMjUBS
+         bAKgZugFWBnTeaINp8LqtfjdEpx90+cwvi+asWJoSAi80GbrFagrnhafBEMs9d/q64
+         V1GuK22jWWyeImHuDUYrsXisI7HOHaVrq3GZpA1n6OF84dCG4EQ57enrHgZGDRNpgk
+         +wx2yJOLG9rxC5gEKrr9mBBot2pLRQqzLRJSzYPRKCwgwQuIOp0m7AJtIXo8z3kOIr
+         TcOoK6hf+PaXg==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 9A519609B9;
+        Tue, 13 Apr 2021 21:40:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4 0/2] of: net: support non-platform devices in
+ of_get_mac_address()
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <161835001262.18297.4500601910911096840.git-patchwork-notify@kernel.org>
+Date:   Tue, 13 Apr 2021 21:40:12 +0000
+References: <20210412174718.17382-1-michael@walle.cc>
+In-Reply-To: <20210412174718.17382-1-michael@walle.cc>
+To:     Michael Walle <michael@walle.cc>
+Cc:     ath9k-devel@qca.qualcomm.com, UNGLinuxDriver@microchip.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org, linux-oxnas@groups.io,
+        linux-omap@vger.kernel.org, linux-wireless@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+        andrew@lunn.ch, gregory.clement@bootlin.com,
+        sebastian.hesselbarth@gmail.com, linux@armlinux.org.uk,
+        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
+        andreas@gaisler.com, davem@davemloft.net, kuba@kernel.org,
+        mripard@kernel.org, wens@csie.org, jernej.skrabec@siol.net,
+        joyce.ooi@intel.com, chris.snook@gmail.com, rafal@milecki.pl,
+        bcm-kernel-feedback-list@broadcom.com, f.fainelli@gmail.com,
+        nicolas.ferre@microchip.com, claudiu.beznea@microchip.com,
+        sgoutham@marvell.com, fugang.duan@nxp.com, madalin.bucur@nxp.com,
+        pantelis.antoniou@gmail.com, claudiu.manoil@nxp.com,
+        leoyang.li@nxp.com, yisen.zhuang@huawei.com,
+        salil.mehta@huawei.com, hauke@hauke-m.de,
+        thomas.petazzoni@bootlin.com, vkochan@marvell.com,
+        tchornyi@marvell.com, mlindner@marvell.com,
+        stephen@networkplumber.org, nbd@nbd.name, john@phrozen.org,
+        sean.wang@mediatek.com, Mark-MC.Lee@mediatek.com,
+        matthias.bgg@gmail.com, bryan.whitehead@microchip.com,
+        vz@mleia.com, sergei.shtylyov@gmail.com, bh74.an@samsung.com,
+        hayashi.kunihiko@socionext.com, peppe.cavallaro@st.com,
+        alexandre.torgue@st.com, joabreu@synopsys.com,
+        mcoquelin.stm32@gmail.com, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, khilman@baylibre.com, narmstrong@baylibre.com,
+        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+        vkoul@kernel.org, nobuhiro1.iwamatsu@toshiba.co.jp,
+        grygorii.strashko@ti.com, w-kwok2@ti.com, m-karicheri2@ti.com,
+        michal.simek@xilinx.com, radhey.shyam.pandey@xilinx.com,
+        kvalo@codeaurora.org, lorenzo.bianconi83@gmail.com,
+        ryder.lee@mediatek.com, stf_xl@wp.pl, helmut.schaa@googlemail.com,
+        hkallweit1@gmail.com, robh+dt@kernel.org, frowand.list@gmail.com,
+        gregkh@linuxfoundation.org, jerome.pouiller@silabs.com,
+        vivien.didelot@gmail.com, olteanv@gmail.com
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The sub-board contains three MAX96712 connected to the main-board using
-I2C and CSI-2, record the connections. Also enable all nodes (VIN, CSI-2
-and ISP) that are part of the downstream video capture pipeline.
+Hello:
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- .../dts/renesas/r8a779a0-falcon-csi-dsi.dtsi  | 229 ++++++++++++++++++
- 1 file changed, 229 insertions(+)
+This series was applied to netdev/net-next.git (refs/heads/master):
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-csi-dsi.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-csi-dsi.dtsi
-index 928b182a76901276..fa17ceb143f47fd4 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-csi-dsi.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-csi-dsi.dtsi
-@@ -34,3 +34,232 @@ pca9654_c: gpio@23 {
- 		#gpio-cells = <2>;
- 	};
- };
-+
-+&i2c1 {
-+	gmsl0: gmsl-deserializer@49 {
-+		compatible = "maxim,max96712";
-+		reg = <0x49>;
-+		enable-gpios = <&pca9654_a 0 GPIO_ACTIVE_HIGH>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@4 {
-+				reg = <4>;
-+				max96712_out0: endpoint {
-+					clock-lanes = <0>;
-+					data-lanes = <1 2 3 4>;
-+					remote-endpoint = <&csi40_in>;
-+				};
-+			};
-+		};
-+	};
-+
-+	gmsl1: gmsl-deserializer@4b {
-+		compatible = "maxim,max96712";
-+		reg = <0x4b>;
-+		enable-gpios = <&pca9654_b 0 GPIO_ACTIVE_HIGH>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@4 {
-+				reg = <4>;
-+				max96712_out1: endpoint {
-+					clock-lanes = <0>;
-+					data-lanes = <1 2 3 4>;
-+					lane-polarities = <0 0 0 0 1>;
-+					remote-endpoint = <&csi42_in>;
-+				};
-+			};
-+		};
-+	};
-+
-+	gmsl2: gmsl-deserializer@6b {
-+		compatible = "maxim,max96712";
-+		reg = <0x6b>;
-+		enable-gpios = <&pca9654_c 0 GPIO_ACTIVE_HIGH>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@4 {
-+				reg = <4>;
-+				max96712_out2: endpoint {
-+					clock-lanes = <0>;
-+					data-lanes = <1 2 3 4>;
-+					lane-polarities = <0 0 0 0 1>;
-+					remote-endpoint = <&csi43_in>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&csi40 {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			csi40_in: endpoint {
-+				clock-lanes = <0>;
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&max96712_out0>;
-+			};
-+		};
-+	};
-+};
-+
-+&csi42 {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			csi42_in: endpoint {
-+				clock-lanes = <0>;
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&max96712_out1>;
-+			};
-+		};
-+	};
-+};
-+
-+&csi43 {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			csi43_in: endpoint {
-+				clock-lanes = <0>;
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&max96712_out2>;
-+			};
-+		};
-+	};
-+};
-+
-+&isp0 {
-+	status = "okay";
-+};
-+
-+&isp2 {
-+	status = "okay";
-+};
-+
-+&isp3 {
-+	status = "okay";
-+};
-+
-+&vin00 {
-+	status = "okay";
-+};
-+
-+&vin01 {
-+	status = "okay";
-+};
-+
-+&vin02 {
-+	status = "okay";
-+};
-+
-+&vin03 {
-+	status = "okay";
-+};
-+
-+&vin04 {
-+	status = "okay";
-+};
-+
-+&vin05 {
-+	status = "okay";
-+};
-+
-+&vin06 {
-+	status = "okay";
-+};
-+
-+&vin07 {
-+	status = "okay";
-+};
-+
-+&vin16 {
-+	status = "okay";
-+};
-+
-+&vin17 {
-+	status = "okay";
-+};
-+
-+&vin18 {
-+	status = "okay";
-+};
-+
-+&vin19 {
-+	status = "okay";
-+};
-+
-+&vin20 {
-+	status = "okay";
-+};
-+
-+&vin21 {
-+	status = "okay";
-+};
-+
-+&vin22 {
-+	status = "okay";
-+};
-+
-+&vin23 {
-+	status = "okay";
-+};
-+
-+&vin24 {
-+	status = "okay";
-+};
-+
-+&vin25 {
-+	status = "okay";
-+};
-+
-+&vin26 {
-+	status = "okay";
-+};
-+
-+&vin27 {
-+	status = "okay";
-+};
-+
-+&vin28 {
-+	status = "okay";
-+};
-+
-+&vin29 {
-+	status = "okay";
-+};
-+
-+&vin30 {
-+	status = "okay";
-+};
-+
-+&vin31 {
-+	status = "okay";
-+};
--- 
-2.31.1
+On Mon, 12 Apr 2021 19:47:16 +0200 you wrote:
+> of_get_mac_address() is commonly used to fetch the MAC address
+> from the device tree. It also supports reading it from a NVMEM
+> provider. But the latter is only possible for platform devices,
+> because only platform devices are searched for a matching device
+> node.
+> 
+> Add a second method to fetch the NVMEM cell by a device tree node
+> instead of a "struct device".
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v4,1/2] of: net: pass the dst buffer to of_get_mac_address()
+    https://git.kernel.org/netdev/net-next/c/83216e3988cd
+  - [net-next,v4,2/2] of: net: fix of_get_mac_addr_nvmem() for non-platform devices
+    https://git.kernel.org/netdev/net-next/c/f10843e04a07
+
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
