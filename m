@@ -2,105 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DC1A35F940
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Apr 2021 18:52:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DE8D35FA27
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Apr 2021 20:01:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232246AbhDNQuE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Apr 2021 12:50:04 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35408 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232143AbhDNQuD (ORCPT
+        id S1351424AbhDNSAT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Apr 2021 14:00:19 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:37687 "EHLO
+        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234303AbhDNSAS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Apr 2021 12:50:03 -0400
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0934F88C;
-        Wed, 14 Apr 2021 18:49:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618418980;
-        bh=dmJqvtAu20k6uHA9vLOp5QC4mYsESyJYOScJUJjXNZs=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=B3ccg4yVp40KQopQ1JJo6fScBbqzdrk9REOT6GcwouBqZEK9BVxcW2WdAVXux/X1Q
-         vEqLxQzSiK+qhnnXOTaL5lyme080z2uzXihfTo4ebGO/OpM7FaBxItVJQr4NfT/iwM
-         L2TAd4EFx65K+U65JF19rOTOtZIjhybqPLH5h1e0=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v4 08/17] media: i2c: rdacm21: Add dealy after OV490 reset
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210412093451.14198-1-jacopo+renesas@jmondi.org>
- <20210412093451.14198-9-jacopo+renesas@jmondi.org>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <e47bbf9b-5ba0-d4a4-ee64-0724d6d55957@ideasonboard.com>
-Date:   Wed, 14 Apr 2021 17:49:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 14 Apr 2021 14:00:18 -0400
+Received: by mail-vs1-f53.google.com with SMTP id 2so10774755vsh.4;
+        Wed, 14 Apr 2021 10:59:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LrQhYoofWK1qIE+Puebb8490xY7FtwOJErFPSvGIMtY=;
+        b=shBio9KXJcxBAmzKpdwcUWISMSsYL8M3tQO4z507KY7PgFMkaEswmzkin+rxfTFEUw
+         gE4FBQTec8Moz+tuk7xwCZCQ694Dh34mYn1t3vrNYsTp6XtEo/yIyTOEObyybO6aZjIV
+         +skifyO2nWsM3Z3ijX7gtDpYLtrtzg1JcaveBJzpODOGN1jTKKSRu1aEEGN4IlnfJbct
+         HDplDg8Oc8YQmB06F4JvM8/oyHSW8KbX3UCwkBx7/t2JOamu5s6mlW8VE7omAkYl9bCY
+         w1K2Og6Ug5L+vhdghyXYyoYkr0GknFN1TD18kRjMYxcz+FPdZERqV7nRsbZQvmly1iK3
+         7FQg==
+X-Gm-Message-State: AOAM531LqaKLI8iIRXD0m1UWr3iM/H2WaoPWUOy+C92HVyEXlTNx93N6
+        YjP0GApOe3SOjqCOX6O3o7/nOGUzO3Vp2eRPr8yBXqhjj/o=
+X-Google-Smtp-Source: ABdhPJyeOsV8TPzm4qfYRpIEOQxrAj6kXLid0sqN/BtkYP2cUAkLDMXrOtYnopbrTca5CncxrQqmj9wtMiDHf/+FZD8=
+X-Received: by 2002:a67:80c4:: with SMTP id b187mr29655934vsd.42.1618423195054;
+ Wed, 14 Apr 2021 10:59:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210412093451.14198-9-jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20210412132619.7896-1-aford173@gmail.com> <20210412132619.7896-2-aford173@gmail.com>
+ <CAMuHMdU5RfTGs3SCvJX9epKBLOo6o1BQMng49RjrBn+P7QOSeg@mail.gmail.com> <CAHCN7xKp1Lp+KAHwo_GobZoDKQCV9_7Yx2ZNKmTzkkShRBzm_Q@mail.gmail.com>
+In-Reply-To: <CAHCN7xKp1Lp+KAHwo_GobZoDKQCV9_7Yx2ZNKmTzkkShRBzm_Q@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 14 Apr 2021 19:59:43 +0200
+Message-ID: <CAMuHMdUhwyR8F6PeE1WEtaEtEPrnm0qFtGJ1rGqTJDYSotK8PA@mail.gmail.com>
+Subject: Re: [PATCH V4 2/2] net: ethernet: ravb: Enable optional refclk
+To:     Adam Ford <aford173@gmail.com>
+Cc:     netdev <netdev@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hi Adam,
 
-There's still a s/dealy/delay/ in $SUBJECT
+On Wed, Apr 14, 2021 at 3:08 PM Adam Ford <aford173@gmail.com> wrote:
+> On Tue, Apr 13, 2021 at 2:33 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Mon, Apr 12, 2021 at 3:27 PM Adam Ford <aford173@gmail.com> wrote:
+> > > For devices that use a programmable clock for the AVB reference clock,
+> > > the driver may need to enable them.  Add code to find the optional clock
+> > > and enable it when available.
+> > >
+> > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> > >
+> > > ---
+> > > V4:  Eliminate the NULL check when disabling refclk, and add a line
+> > >      to disable the refclk if there is a failure after it's been
+> > >      initialized.
+> >
+> > Thanks for the update!
+> >
+> > > --- a/drivers/net/ethernet/renesas/ravb_main.c
+> > > +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> > > @@ -2148,6 +2148,13 @@ static int ravb_probe(struct platform_device *pdev)
+> > >                 goto out_release;
+> > >         }
+> > >
+> > > +       priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
+> > > +       if (IS_ERR(priv->refclk)) {
+> > > +               error = PTR_ERR(priv->refclk);
+> > > +               goto out_release;
+> >
+> > Note that this will call clk_disable_unprepare() in case of failure, which is
+> > fine, as that function is a no-op in case of a failed clock.
+>
+> Geert,
+>
+> A bot reported that if I jump to out_release may try to free a clock
+> if some instances where priv isn't defined.
 
-On 12/04/2021 10:34, Jacopo Mondi wrote:
-> Add a delay after the OV490 chip is put in reset state. The reset
-> signal shall be held for at least 250 useconds.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+As priv is allocated using alloc_etherdev_mqs(), priv->refclk is
+NULL initially, but priv itself may indeed not be initialized when the first
+"goto out_release" is taken.  Sorry for missing that.
 
-I added this on v3...
+> Currently, the priv->clk isn't freed either.  I have heard some
+> back-and-forth discussions in other threads on whether or not devm
+> functions auto free or not.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+The devm_clk_get_optional() will be undone automatically, so there
+is no need to handle that explicitly.
 
-> ---
->  drivers/media/i2c/rdacm21.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> index 553e3f03752b..6be8ce130e78 100644
-> --- a/drivers/media/i2c/rdacm21.c
-> +++ b/drivers/media/i2c/rdacm21.c
-> @@ -469,7 +469,10 @@ static int rdacm21_initialize(struct rdacm21_device *dev)
->  	if (ret)
->  		return ret;
->  
-> -	/* Enable GPIO1 and hold OV490 in reset during max9271 configuration. */
-> +	/*
-> +	 * Enable GPIO1 and hold OV490 in reset during max9271 configuration.
-> +	 * The reset signal has to be asserted for at least 250 useconds.
+> I'm fine with sending a V5 to make the free for the refclock happen
+> only when the priv has successfully initialized.  Should I also add
 
+As this patch has been applied to net-next, you''ll have to send
+a follow-up fix patch, not a v5.
 
-Is it worth mentioning here that it is asserted to active low? Just to
-make it clear that holding it low for 250 uS is the desired effect?
+> one for freeing priv->clk and change all the other goto out_release
+> commands to point to this new section?
 
-It might not be worth it - but perhaps that was the reason for some
-confusion here.
+No, not for priv->clk, due to devm_*().
 
-Eitherway RB tag still stands I think.
+> I am thinking it would like something like:
+>
+> free_refclk:
+>     clk_disable_unprepare(priv->refclk);
 
---
-Kieran
+OK.
 
-> +	 */
->  	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
->  	if (ret)
->  		return ret;
-> @@ -477,6 +480,7 @@ static int rdacm21_initialize(struct rdacm21_device *dev)
->  	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
->  	if (ret)
->  		return ret;
-> +	usleep_range(250, 500);
->  
->  	ret = max9271_configure_gmsl_link(&dev->serializer);
->  	if (ret)
-> 
+> free_clk;
+>     clk_disable_unprepare(priv->clk);
 
+NAK, as priv->clk is not enabled in ravb_probe().
+
+> out_release:
+>     free_netdev(ndev);
+>     ....
+
+OK.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
