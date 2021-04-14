@@ -2,89 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3744835EF9A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Apr 2021 10:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDD6135F45E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Apr 2021 14:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348278AbhDNI25 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Apr 2021 04:28:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39182 "EHLO
+        id S240213AbhDNM5A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Apr 2021 08:57:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239774AbhDNI2e (ORCPT
+        with ESMTP id S233716AbhDNM5A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Apr 2021 04:28:34 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DACC061574;
-        Wed, 14 Apr 2021 01:28:09 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id n138so31876513lfa.3;
-        Wed, 14 Apr 2021 01:28:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2jYkASAoW5sIyhWoTgPddOYjjE+zdkKqEacR93B79V0=;
-        b=fNY1MWj+x//TkUYB7eRIvbHfrPxMD6grgtPDZbKFBJpGw4iHDym0A2Awf3F0PddtTB
-         ql3HYXP/oZlewRNIFNkKG08B3t7aMkY7TqpxIJLjf3jPZcSf4NBKx/4JLbTdKM6YamAd
-         QVoaVyGUN+66VRXuWfUN0rR9jszuZLJMcxP6HSnPOwSOQl9oU6bC0JbYtOOiGB2vNM/w
-         21cOdAYKKb/+S8f4CQqDXsbVjLafuovGkN0QsCkYANVmoE66A1FaEc4dIAHCl/en/Ehy
-         ndISh4l1cPRviOAAE45HBDUOgh2cAtT9UjIM5A7id7wPdL84GB/zNa/FrcMq20AON69G
-         hTNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=2jYkASAoW5sIyhWoTgPddOYjjE+zdkKqEacR93B79V0=;
-        b=RUSEvC9AGCpKbiWPMABcE8CblLvwOdrOztyH8KTP13raY5u4D6/QHyXe84b4eP1osL
-         JIzsvXQ3hwSq6s1i+guPI0qTRoWKsMrkt+o1fhLmkQ6X5eOluWYH4ObZVLqsv0zJQiqE
-         rlwnLf6hbhCSWTdJj7MkPHBtKtQ/Ybk8CXccva1bzqNDqYlXsoD+8P0Q0EkBhGo2F1JO
-         16Z800IEFdAH+JyEoVcxV262yuzIuXLgtRaEdiIch++HaezJGROlN4kZV6xfkg2t2HHq
-         PPPm/6OBh/zgn9sKG0jwGDdrv83hcjUgiVtFCDiVQkybWfzAvX/SL9VBPaEh7pG5P4CC
-         gCXw==
-X-Gm-Message-State: AOAM533W4fAwy9mDa6PcOIYw0/NhszNeE9n4pGjonQ32P9iF/dm7gidZ
-        Eo85LLtMKIcI+H3Ff8mc4sHKWQiZ1HY=
-X-Google-Smtp-Source: ABdhPJwe3b6ast9wwGRLwdrWSll9+SEkiHf8L9AUM9QJK7X0nnT5fpOAg5wkYtY14zv5z2PxZJuD5A==
-X-Received: by 2002:a05:6512:3d18:: with SMTP id d24mr24458461lfv.204.1618388888124;
-        Wed, 14 Apr 2021 01:28:08 -0700 (PDT)
-Received: from [192.168.1.100] ([31.173.85.95])
-        by smtp.gmail.com with ESMTPSA id v3sm3675584ljg.77.2021.04.14.01.28.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Apr 2021 01:28:07 -0700 (PDT)
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,vin: Add r8a779a0
- support
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20210413173810.2561909-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <62b0a5ab-1b6c-3532-72af-bba23f82ff41@gmail.com>
-Date:   Wed, 14 Apr 2021 11:28:00 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+        Wed, 14 Apr 2021 08:57:00 -0400
+Received: from ssl.serverraum.org (ssl.serverraum.org [IPv6:2a01:4f8:151:8464::1:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07E99C061574;
+        Wed, 14 Apr 2021 05:56:38 -0700 (PDT)
+Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ssl.serverraum.org (Postfix) with ESMTPSA id E331F22236;
+        Wed, 14 Apr 2021 14:56:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
+        t=1618404993;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nIqcTyZ0aGklq+mdSHotuPklBOhZa+ud8+bN5Q5+CPw=;
+        b=VZL40Qx/ZFqrvlYpNa+CpUnri3A5IcdLrj+2SxpxVHAI8fYpizPcSIOU0o4IGsNgU2L8zb
+        buzdqfa91h/T+Kc3jCccsyXkXKwvO0deOpvm1xgmDARKkJkG9wKdcW8QSFZ/zWqZRgSGou
+        k2tTqyTzN0TuoPWxydGMvbSU0aMYGjo=
 MIME-Version: 1.0
-In-Reply-To: <20210413173810.2561909-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 14 Apr 2021 14:56:30 +0200
+From:   Michael Walle <michael@walle.cc>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     kbuild@lists.01.org, ath9k-devel@qca.qualcomm.com,
+        UNGLinuxDriver@microchip.com, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        netdev@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org, lkp@intel.com,
+        kbuild-all@lists.01.org
+Subject: Re: [PATCH net-next v2 1/2] of: net: pass the dst buffer to
+ of_get_mac_address()
+In-Reply-To: <20210414053336.GQ6021@kadam>
+References: <20210414053336.GQ6021@kadam>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <cf5c86dd6492b9c1907ea69e2d660eb2@walle.cc>
+X-Sender: michael@walle.cc
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 13.04.2021 20:38, Niklas Söderlund wrote:
+Hi Dan,
 
-> Document support for the VIN module in the Renesas V3U (r8a779a0) SoC.
-> The V3U is different from other SoCs as it have 32 instead of 16 VIN
-
-    Only V3H has 16 VINs, no?
-
-> instances. The VIN instances are also connected to a new IP the R-Car
-> ISP Channel Selector.
+Am 2021-04-14 07:33, schrieb Dan Carpenter:
+> url:
+> https://github.com/0day-ci/linux/commits/Michael-Walle/of-net-support-non-platform-devices-in-of_get_mac_address/20210406-234030
+> base:
+> https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
+> cc0626c2aaed8e475efdd85fa374b497a7192e35
+> config: x86_64-randconfig-m001-20210406 (attached as .config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> 
+> smatch warnings:
+> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2069 axienet_probe()
+> warn: passing a valid pointer to 'PTR_ERR'
+> 
+> vim +/PTR_ERR +2069 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+> 
+> 522856cefaf09d Robert Hancock      2019-06-06  2060  	/* Check for
+> Ethernet core IRQ (optional) */
+> 522856cefaf09d Robert Hancock      2019-06-06  2061  	if (lp->eth_irq 
+> <= 0)
+> 522856cefaf09d Robert Hancock      2019-06-06  2062
+> 		dev_info(&pdev->dev, "Ethernet core IRQ not defined\n");
+> 522856cefaf09d Robert Hancock      2019-06-06  2063
+> 8a3b7a252dca9f Daniel Borkmann     2012-01-19  2064  	/* Retrieve the
+> MAC address */
+> 411b125c6ace1f Michael Walle       2021-04-06  2065  	ret =
+> of_get_mac_address(pdev->dev.of_node, mac_addr);
+> 411b125c6ace1f Michael Walle       2021-04-06  2066  	if (!ret) {
+> 411b125c6ace1f Michael Walle       2021-04-06  2067
+> 		axienet_set_mac_address(ndev, mac_addr);
+> 411b125c6ace1f Michael Walle       2021-04-06  2068  	} else {
+> d05a9ed5c3a773 Robert Hancock      2019-06-06 @2069
+> 		dev_warn(&pdev->dev, "could not find MAC address property: %ld\n",
+> d05a9ed5c3a773 Robert Hancock      2019-06-06  2070  			 
+> PTR_ERR(mac_addr));
+> 
+>   ^^^^^^^^^^^^^^^^^
+> This should print "ret".
 
-[...]
+Thanks, this was fixed (in the now merged) v4. I forgot
+to add you to that huge CC list. Sorry for that.
 
-MBR, Sergei
+-michael
