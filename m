@@ -2,96 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EB8335FDDF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 00:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FA7135FE36
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 01:10:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235722AbhDNWej (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Apr 2021 18:34:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55652 "EHLO
+        id S232032AbhDNXLH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Apr 2021 19:11:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234713AbhDNWeY (ORCPT
+        with ESMTP id S229747AbhDNXLF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Apr 2021 18:34:24 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84211C061756
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Apr 2021 15:34:01 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id u4so24961820ljo.6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Apr 2021 15:34:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=oEM4GLfY3N+b425KFSxZgcAidy5uKGPHGopRtHJBSVQ=;
-        b=e68c8bJ3NeOnzmJijEMvO2UwsROIVSx00DPRyldtlVqI2m5MgLUq5Jbbl6jWxBj89l
-         Ditp4Hkahu2jav1BC4jfSi3XatTGyUkI80ndwVuwyR+0v+PqlkDWHUTPHhD7wpx43HhR
-         715FEOSasF6FcV8FRV58Xir9UMHVNeJYqutZWqktsQVk7QHwHn8h6+tKJ6Z/61mfBj8X
-         3uILKZAooL2lykgT0RB5Nws2l9ln+jAasB8MD/rdct2OEG6ZiGrtyTKisaKbm/vJg88F
-         4vCCaa6Ct037CNVuKczVuCGPnjVoPQjszFWK1SJmFHRhim2BwoDSSuwxzwraUgW/FyzK
-         RJmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=oEM4GLfY3N+b425KFSxZgcAidy5uKGPHGopRtHJBSVQ=;
-        b=k1E3nPjrsuof2mDxtId8NxoXRgbKCbEqADnQ58lSkn2UGidwZtAoBLIhAiU8dntuDN
-         cq7DW6iLTZgcH0+0/cDQKODpcyiqAKu1+9dRf7rWDfPeoPl3U98FQswcNCmrxl1Kuszf
-         HTriTui8LO8hUjfPQfRWOsnDLLFs24IzDoJlLTdxJmAJWn7VAbuAwblnwDXGW/awHVkL
-         ZenuOodFDS/7u9SONAlpxkQBo/IkQCJpWPEbJSBBtpD9o4cZEn+HEtEAWcMMSnotOYlF
-         8mw5+zdnN14oAl+ozQpNr0cPy8b4ZzP6nzQRRKo/roUCHT5wCeflDfbP7iYDmHk5cdie
-         PIYw==
-X-Gm-Message-State: AOAM532/dGG/FfRz9yqzMETGMn2AaB8VFdRHSVBwqgDOY981Q+7TNy2Y
-        ML7SCRBVTj5ID9q4ndyaqHBcBA==
-X-Google-Smtp-Source: ABdhPJwJ8SvOu1cLSNV79Ecm8l7P1TkS4uMSlPO8PqcBRUY7Fw1drd9DGVL7Wy+13C5/gYZi8D/XvA==
-X-Received: by 2002:a2e:8713:: with SMTP id m19mr109555lji.207.1618439639997;
-        Wed, 14 Apr 2021 15:33:59 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id i17sm254278lja.22.2021.04.14.15.33.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 15:33:59 -0700 (PDT)
-Date:   Thu, 15 Apr 2021 00:33:58 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,vin: Add r8a779a0
- support
-Message-ID: <YHdt1v8VBmv0U3MF@oden.dyn.berto.se>
-References: <20210413173810.2561909-1-niklas.soderlund+renesas@ragnatech.se>
- <62b0a5ab-1b6c-3532-72af-bba23f82ff41@gmail.com>
+        Wed, 14 Apr 2021 19:11:05 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140F7C061574;
+        Wed, 14 Apr 2021 16:10:42 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C41CA51E;
+        Thu, 15 Apr 2021 01:10:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1618441840;
+        bh=29CH3AwVUqaKvqkhxjku+Htx2LUlRYQ+AO+dMqCsA58=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mGslc9aqMB6PaIH8tffi7OfHiF+HuzLRcaMubAPwSBeSPrq6SmeHN01WGLCkTn6Q7
+         wPcBZ5wtQoF63NYNJZdMHrbjA8pnI2td7ny48zSYwCAgRVH7BMuNCMm6asUypdXmjr
+         V8JKmy6gHUXbNpIoJtmaJ9C/jZuarZ4qXYFVhJu4=
+Date:   Thu, 15 Apr 2021 02:10:38 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 08/17] media: i2c: rdacm21: Add dealy after OV490 reset
+Message-ID: <YHd2bjUlkMjNQEDR@pendragon.ideasonboard.com>
+References: <20210412093451.14198-1-jacopo+renesas@jmondi.org>
+ <20210412093451.14198-9-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <62b0a5ab-1b6c-3532-72af-bba23f82ff41@gmail.com>
+In-Reply-To: <20210412093451.14198-9-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
+Hi Jacopo,
 
-On 2021-04-14 11:28:00 +0300, Sergei Shtylyov wrote:
-> On 13.04.2021 20:38, Niklas Söderlund wrote:
-> 
-> > Document support for the VIN module in the Renesas V3U (r8a779a0) SoC.
-> > The V3U is different from other SoCs as it have 32 instead of 16 VIN
-> 
->    Only V3H has 16 VINs, no?
+Thank you for the patch.
 
-You are correct, most Gen3 have 8 and V3H have 16 and now V3U with 32.  
-Will fix in a v2.
+On Mon, Apr 12, 2021 at 11:34:42AM +0200, Jacopo Mondi wrote:
+> Add a delay after the OV490 chip is put in reset state. The reset
+> signal shall be held for at least 250 useconds.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
+With s/dealy/delay/ in the subject line,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/rdacm21.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> > instances. The VIN instances are also connected to a new IP the R-Car
-> > ISP Channel Selector.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> [...]
-> 
-> MBR, Sergei
+> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> index 553e3f03752b..6be8ce130e78 100644
+> --- a/drivers/media/i2c/rdacm21.c
+> +++ b/drivers/media/i2c/rdacm21.c
+> @@ -469,7 +469,10 @@ static int rdacm21_initialize(struct rdacm21_device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* Enable GPIO1 and hold OV490 in reset during max9271 configuration. */
+> +	/*
+> +	 * Enable GPIO1 and hold OV490 in reset during max9271 configuration.
+> +	 * The reset signal has to be asserted for at least 250 useconds.
+> +	 */
+>  	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>  	if (ret)
+>  		return ret;
+> @@ -477,6 +480,7 @@ static int rdacm21_initialize(struct rdacm21_device *dev)
+>  	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>  	if (ret)
+>  		return ret;
+> +	usleep_range(250, 500);
+>  
+>  	ret = max9271_configure_gmsl_link(&dev->serializer);
+>  	if (ret)
 
 -- 
 Regards,
-Niklas Söderlund
+
+Laurent Pinchart
