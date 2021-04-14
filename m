@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EE8E35FE9C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 01:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67F4B35FE9F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 01:50:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbhDNXt7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Apr 2021 19:49:59 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:39018 "EHLO
+        id S230046AbhDNXuw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Apr 2021 19:50:52 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:39030 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbhDNXt4 (ORCPT
+        with ESMTP id S229927AbhDNXuv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Apr 2021 19:49:56 -0400
+        Wed, 14 Apr 2021 19:50:51 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0668951E;
-        Thu, 15 Apr 2021 01:49:32 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FD1751E;
+        Thu, 15 Apr 2021 01:50:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618444173;
-        bh=maEzBvGMuDEyKhs1+ZmoEDGzwZUPGHCa9+Tdnfx7dms=;
+        s=mail; t=1618444228;
+        bh=gzdv7RFtTP+niMA8X4CVpgspHawRxrCAUzVuR8hZfjg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sbIB5D5xur3u6Cqc0N/8J9oNg0xRMhxFDhp+EH21T8XckWld8byIfWpKBqFKPudRp
-         6hex2szYOlOGAiRsWUKF3i50KJF8diahCzY8wdcOuY/YrHJfcuv2ulFUEDtXKv9P9H
-         gNIfZP9A1gESq0M9NzHNLBnk/8HywNcgSHoGwBZI=
-Date:   Thu, 15 Apr 2021 02:49:32 +0300
+        b=Ph8SV2WZjDhSGXKIwE7VqRWwUKiKVyYNUgF7ZYUY8uT5ADZGuzZPofpjTd7DI9bau
+         Erk3vl89VwTzQbu0wVxATZPdcBPOlh82X3BTxDhDtTcVjbp2FXjtUmgFyb3Qj7zwgg
+         Nyel8n6jdSai7yU4tXG9bMXUUiI9dTzoQXGWdYqI=
+Date:   Thu, 15 Apr 2021 02:50:27 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -31,183 +31,49 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/5] arm64: dts: renesas: eagle: Enable MAX9286
-Message-ID: <YHd/jPcQC44DjGwV@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 5/5] arm64: dts: renesas: eagle: Include eagle-gmsl
+Message-ID: <YHd/w6cda5kr2Y0N@pendragon.ideasonboard.com>
 References: <20210414135128.180980-1-jacopo+renesas@jmondi.org>
- <20210414135128.180980-4-jacopo+renesas@jmondi.org>
+ <20210414135128.180980-6-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210414135128.180980-4-jacopo+renesas@jmondi.org>
+In-Reply-To: <20210414135128.180980-6-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo and Kieran,
+Hi Jacopo,
 
 Thank you for the patch.
 
-On Wed, Apr 14, 2021 at 03:51:26PM +0200, Jacopo Mondi wrote:
+On Wed, Apr 14, 2021 at 03:51:28PM +0200, Jacopo Mondi wrote:
 > From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 > 
-> Enable the MAX9286 GMSL deserializer on the Eagle-V3M board.
-> 
-> Connected cameras should be defined in a device-tree overlay or included
-> after these definitions.
-> 
+> Include the eagle-gmsl.dtsi to enable GMSL camera support on the
+> Eagle-V3M platform.
+
+This is useful for quick testing, but as I don't expect everybody to
+have cameras connected to the Eagle board, it should really be handled
+as an overlay.
+
 > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  .../arm64/boot/dts/renesas/r8a77970-eagle.dts | 119 ++++++++++++++++++
->  1 file changed, 119 insertions(+)
+>  arch/arm64/boot/dts/renesas/r8a77970-eagle.dts | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
 > diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-> index 874a7fc2730b..d2b6368d1e72 100644
+> index d2b6368d1e72..9b8dfb5132fb 100644
 > --- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
 > +++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-> @@ -6,6 +6,8 @@
->   * Copyright (C) 2017 Cogent Embedded, Inc.
->   */
+> @@ -391,3 +391,6 @@ &scif0 {
 >  
-> +#include <dt-bindings/gpio/gpio.h>
-> +
->  /dts-v1/;
->  #include "r8a77970.dtsi"
->  
-> @@ -188,6 +190,11 @@ i2c0_pins: i2c0 {
->  		function = "i2c0";
->  	};
->  
-> +	i2c3_pins: i2c3 {
-> +		groups = "i2c3_a";
-> +		function = "i2c3";
-> +	};
-> +
->  	qspi0_pins: qspi0 {
->  		groups = "qspi0_ctrl", "qspi0_data4";
->  		function = "qspi0";
-> @@ -266,6 +273,118 @@ &rwdt {
 >  	status = "okay";
 >  };
->  
-> +&csi40 {
-> +	status = "okay";
 > +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		port@0 {
-> +			reg = <0>;
-> +
-> +			csi40_in: endpoint {
-> +				clock-lanes = <0>;
-> +				data-lanes = <1 2 3 4>;
-> +				remote-endpoint = <&max9286_out0>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&i2c3 {
-> +	pinctrl-0 = <&i2c3_pins>;
-> +	pinctrl-names = "default";
-> +
-> +	status = "okay";
-> +	clock-frequency = <400000>;
-> +
-> +	gmsl: gmsl-deserializer@48 {
-> +		compatible = "maxim,max9286";
-> +		reg = <0x48>;
-> +
-> +		maxim,gpio-poc = <0 GPIO_ACTIVE_LOW>;
-> +
-> +		/* eagle-pca9654-max9286-pwdn */
-> +		enable-gpios = <&io_expander 0 GPIO_ACTIVE_HIGH>;
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +				max9286_in0: endpoint {
-> +				};
-> +			};
-> +
-> +			port@1 {
-> +				reg = <1>;
-> +				max9286_in1: endpoint {
-> +				};
-> +			};
-> +
-> +			port@2 {
-> +				reg = <2>;
-> +				max9286_in2: endpoint {
-> +				};
-> +			};
-> +
-> +			port@3 {
-> +				reg = <3>;
-> +				max9286_in3: endpoint {
-> +				};
-> +			};
-> +
-> +			port@4 {
-> +				reg = <4>;
-> +				max9286_out0: endpoint {
-> +					clock-lanes = <0>;
-> +					data-lanes = <1 2 3 4>;
-> +					remote-endpoint = <&csi40_in>;
-> +				};
-> +			};
-> +		};
-> +
-> +		i2c-mux {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			i2c@0 {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +				reg = <0>;
-> +
-> +				status = "disabled";
-> +			};
-> +
-> +			i2c@1 {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +				reg = <1>;
-> +
-> +				status = "disabled";
-> +			};
-> +
-> +			i2c@2 {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +				reg = <2>;
-> +
-> +				status = "disabled";
-> +			};
-> +
-> +			i2c@3 {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +				reg = <3>;
-> +
-> +				status = "disabled";
-> +			};
-> +		};
-> +	};
-> +};
-> +
->  &scif0 {
->  	pinctrl-0 = <&scif0_pins>;
->  	pinctrl-names = "default";
+> +/* FAKRA Overlay */
+> +#include "eagle-gmsl.dtsi"
 
 -- 
 Regards,
