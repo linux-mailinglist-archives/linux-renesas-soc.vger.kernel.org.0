@@ -2,105 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C44A035ECCC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Apr 2021 08:01:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3744835EF9A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Apr 2021 10:46:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348978AbhDNGAn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Apr 2021 02:00:43 -0400
-Received: from mail-lf1-f42.google.com ([209.85.167.42]:38733 "EHLO
-        mail-lf1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345214AbhDNGAm (ORCPT
+        id S1348278AbhDNI25 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Apr 2021 04:28:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39182 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239774AbhDNI2e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Apr 2021 02:00:42 -0400
-Received: by mail-lf1-f42.google.com with SMTP id j18so31240981lfg.5;
-        Tue, 13 Apr 2021 23:00:20 -0700 (PDT)
+        Wed, 14 Apr 2021 04:28:34 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DACC061574;
+        Wed, 14 Apr 2021 01:28:09 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id n138so31876513lfa.3;
+        Wed, 14 Apr 2021 01:28:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2jYkASAoW5sIyhWoTgPddOYjjE+zdkKqEacR93B79V0=;
+        b=fNY1MWj+x//TkUYB7eRIvbHfrPxMD6grgtPDZbKFBJpGw4iHDym0A2Awf3F0PddtTB
+         ql3HYXP/oZlewRNIFNkKG08B3t7aMkY7TqpxIJLjf3jPZcSf4NBKx/4JLbTdKM6YamAd
+         QVoaVyGUN+66VRXuWfUN0rR9jszuZLJMcxP6HSnPOwSOQl9oU6bC0JbYtOOiGB2vNM/w
+         21cOdAYKKb/+S8f4CQqDXsbVjLafuovGkN0QsCkYANVmoE66A1FaEc4dIAHCl/en/Ehy
+         ndISh4l1cPRviOAAE45HBDUOgh2cAtT9UjIM5A7id7wPdL84GB/zNa/FrcMq20AON69G
+         hTNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=f4Q2DJD3DV7OkSynlanBwzkwssjVc6YxaICi84VA+UM=;
-        b=GzXOtX86BXEK5eU33ZzhWkwTVyiyu/enlgxl/SrAjfoZHK9ZP46dMovN2X0plumsln
-         0zvT9TmBmMv5ynh6lctYA/MMBmJ2F1b6hsHNNm102j+BLH039w2BrTntcY3hUOZCtFpD
-         srDlrmiMqM+x+GlbsLRpct8w9k7JV3opj9PCEwGc3JiH4mKyo3CDgbpZoZONA73wjJjy
-         gDhgWXfJXmvEKnaPNj+GcQVpw6KJhfuNhZnplQeieTUHYy+e/RjJtVGCj3YtWSqpnRBK
-         m+vC2V8CUwPBslDHGjWVB0V1wLCm6+iH7Zb9uXuZX81mLnm5AxgAgx+O6wbZBmsG6BZB
-         7nZQ==
-X-Gm-Message-State: AOAM531YTaVw7UueU6BUfUyio4JouUBXikoT1+nxMjt4OS07fq8QpEom
-        k9v7KbYgoW34JZx7363VK7c=
-X-Google-Smtp-Source: ABdhPJxKujG2wBrfUHPrlF/DdKRjT4FEXoJGh7s/PjOzpD3Sui6yZtGoMKr3dOoVNeNzWZ9WEYzYdg==
-X-Received: by 2002:a19:6906:: with SMTP id e6mr18423553lfc.385.1618380020330;
-        Tue, 13 Apr 2021 23:00:20 -0700 (PDT)
-Received: from localhost.localdomain (dc7vkhyyyyyyyyyyyyydy-3.rev.dnainternet.fi. [2001:14ba:16e2:8300::6])
-        by smtp.gmail.com with ESMTPSA id k9sm2285172lfg.64.2021.04.13.23.00.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 23:00:19 -0700 (PDT)
-Date:   Wed, 14 Apr 2021 09:00:13 +0300
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     Matti Vaittinen <mazziesaccount@gmail.com>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     Mark Brown <broonie@kernel.org>, Kees Cook <keescook@chromium.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "agross@kernel.org" <agross@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        linux-power <linux-power@fi.rohmeurope.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-Subject: [PATCH v7 9/9] MAINTAINERS: Add reviewer for regulator irq_helpers
-Message-ID: <5a544430d447fb9a261eee8c5856a586dcab55f1.1618377272.git.matti.vaittinen@fi.rohmeurope.com>
-References: <cover.1618377272.git.matti.vaittinen@fi.rohmeurope.com>
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=2jYkASAoW5sIyhWoTgPddOYjjE+zdkKqEacR93B79V0=;
+        b=RUSEvC9AGCpKbiWPMABcE8CblLvwOdrOztyH8KTP13raY5u4D6/QHyXe84b4eP1osL
+         JIzsvXQ3hwSq6s1i+guPI0qTRoWKsMrkt+o1fhLmkQ6X5eOluWYH4ObZVLqsv0zJQiqE
+         rlwnLf6hbhCSWTdJj7MkPHBtKtQ/Ybk8CXccva1bzqNDqYlXsoD+8P0Q0EkBhGo2F1JO
+         16Z800IEFdAH+JyEoVcxV262yuzIuXLgtRaEdiIch++HaezJGROlN4kZV6xfkg2t2HHq
+         PPPm/6OBh/zgn9sKG0jwGDdrv83hcjUgiVtFCDiVQkybWfzAvX/SL9VBPaEh7pG5P4CC
+         gCXw==
+X-Gm-Message-State: AOAM533W4fAwy9mDa6PcOIYw0/NhszNeE9n4pGjonQ32P9iF/dm7gidZ
+        Eo85LLtMKIcI+H3Ff8mc4sHKWQiZ1HY=
+X-Google-Smtp-Source: ABdhPJwe3b6ast9wwGRLwdrWSll9+SEkiHf8L9AUM9QJK7X0nnT5fpOAg5wkYtY14zv5z2PxZJuD5A==
+X-Received: by 2002:a05:6512:3d18:: with SMTP id d24mr24458461lfv.204.1618388888124;
+        Wed, 14 Apr 2021 01:28:08 -0700 (PDT)
+Received: from [192.168.1.100] ([31.173.85.95])
+        by smtp.gmail.com with ESMTPSA id v3sm3675584ljg.77.2021.04.14.01.28.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Apr 2021 01:28:07 -0700 (PDT)
+Subject: Re: [PATCH] media: dt-bindings: media: renesas,vin: Add r8a779a0
+ support
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20210413173810.2561909-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <62b0a5ab-1b6c-3532-72af-bba23f82ff41@gmail.com>
+Date:   Wed, 14 Apr 2021 11:28:00 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1618377272.git.matti.vaittinen@fi.rohmeurope.com>
+In-Reply-To: <20210413173810.2561909-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add a reviewer entry for the regulator irq_helpers.
+On 13.04.2021 20:38, Niklas Söderlund wrote:
 
-Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
----
-Changelog:
- v6:
-  - New patch
----
- MAINTAINERS | 4 ++++
- 1 file changed, 4 insertions(+)
+> Document support for the VIN module in the Renesas V3U (r8a779a0) SoC.
+> The V3U is different from other SoCs as it have 32 instead of 16 VIN
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7fdc513392f4..c917d85feccd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19228,6 +19228,10 @@ F:	include/dt-bindings/regulator/
- F:	include/linux/regulator/
- K:	regulator_get_optional
- 
-+VOLTAGE AND CURRENT REGULATOR IRQ HELPERS
-+R:	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+F:	drivers/regulator/irq_helpers.c
-+
- VRF
- M:	David Ahern <dsahern@kernel.org>
- L:	netdev@vger.kernel.org
--- 
-2.25.4
+    Only V3H has 16 VINs, no?
 
+> instances. The VIN instances are also connected to a new IP the R-Car
+> ISP Channel Selector.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
--- 
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
+[...]
 
-~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-Simon says - in Latin please.
-~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-Thanks to Simon Glass for the translation =] 
+MBR, Sergei
