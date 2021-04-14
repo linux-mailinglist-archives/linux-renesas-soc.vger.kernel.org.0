@@ -2,143 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DE8D35FA27
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Apr 2021 20:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FBF835FC03
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Apr 2021 21:55:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351424AbhDNSAT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Apr 2021 14:00:19 -0400
-Received: from mail-vs1-f53.google.com ([209.85.217.53]:37687 "EHLO
-        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234303AbhDNSAS (ORCPT
+        id S1353555AbhDNTzU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Apr 2021 15:55:20 -0400
+Received: from mail-vk1-f173.google.com ([209.85.221.173]:41621 "EHLO
+        mail-vk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1353541AbhDNTzS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Apr 2021 14:00:18 -0400
-Received: by mail-vs1-f53.google.com with SMTP id 2so10774755vsh.4;
-        Wed, 14 Apr 2021 10:59:55 -0700 (PDT)
+        Wed, 14 Apr 2021 15:55:18 -0400
+Received: by mail-vk1-f173.google.com with SMTP id o17so4672219vko.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Apr 2021 12:54:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LrQhYoofWK1qIE+Puebb8490xY7FtwOJErFPSvGIMtY=;
-        b=shBio9KXJcxBAmzKpdwcUWISMSsYL8M3tQO4z507KY7PgFMkaEswmzkin+rxfTFEUw
-         gE4FBQTec8Moz+tuk7xwCZCQ694Dh34mYn1t3vrNYsTp6XtEo/yIyTOEObyybO6aZjIV
-         +skifyO2nWsM3Z3ijX7gtDpYLtrtzg1JcaveBJzpODOGN1jTKKSRu1aEEGN4IlnfJbct
-         HDplDg8Oc8YQmB06F4JvM8/oyHSW8KbX3UCwkBx7/t2JOamu5s6mlW8VE7omAkYl9bCY
-         w1K2Og6Ug5L+vhdghyXYyoYkr0GknFN1TD18kRjMYxcz+FPdZERqV7nRsbZQvmly1iK3
-         7FQg==
-X-Gm-Message-State: AOAM531LqaKLI8iIRXD0m1UWr3iM/H2WaoPWUOy+C92HVyEXlTNx93N6
-        YjP0GApOe3SOjqCOX6O3o7/nOGUzO3Vp2eRPr8yBXqhjj/o=
-X-Google-Smtp-Source: ABdhPJyeOsV8TPzm4qfYRpIEOQxrAj6kXLid0sqN/BtkYP2cUAkLDMXrOtYnopbrTca5CncxrQqmj9wtMiDHf/+FZD8=
-X-Received: by 2002:a67:80c4:: with SMTP id b187mr29655934vsd.42.1618423195054;
- Wed, 14 Apr 2021 10:59:55 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=2OeXz2Jnb4laeSJFSDPreC3xu1dTJoNg0iDqWvO4U7Y=;
+        b=r86Stfq5lKymIdRmGi7urE111igD2H4wHpD12S+yGaJuTawapkl47mWLj62ngBGYY3
+         qASvaxy63vbAA2PObFCMG1PhuXw+ZJuIY+7Pfsxcoey9VNZG1xkxvN94V06bvCAfI3y2
+         QEHejSRrDOFxPw+qDaGf+2Dq7/F+JBln8qb064iL/n3zIDHRWef7H7VOpT2CmE9bgyV0
+         EYaYOezTNA8YmEI5Yk+cKWuzsKoZ+ISyNfYYbYJE1wC9hRnSR/J1e4YLBiQ8+JXVe3QV
+         AL9EYjBVa/KpLkE9hS7E/2x2LInr5XMPqSong7IXtip0Fkddb5sMb6FNnL7j3XYsa88b
+         6x0A==
+X-Gm-Message-State: AOAM531vfJXOmo/S5uKjk9ZQnWGCB0oqFNwE57SSN81Bdm2Dy3Nm5SjE
+        WjrO9I/2AQB8xIfGKkUQsT6tVlp9/Q1LOvbXe270dvtX
+X-Google-Smtp-Source: ABdhPJynwPF+qbk+wIFQacPOt/97PQlBNTQD5i0q9uhumyPSaN+4pY/TNgAxUubkpiG8cOOJMHjJuzCHTPgomixdjKc=
+X-Received: by 2002:ac5:cc76:: with SMTP id w22mr16572748vkm.1.1618430094928;
+ Wed, 14 Apr 2021 12:54:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210412132619.7896-1-aford173@gmail.com> <20210412132619.7896-2-aford173@gmail.com>
- <CAMuHMdU5RfTGs3SCvJX9epKBLOo6o1BQMng49RjrBn+P7QOSeg@mail.gmail.com> <CAHCN7xKp1Lp+KAHwo_GobZoDKQCV9_7Yx2ZNKmTzkkShRBzm_Q@mail.gmail.com>
-In-Reply-To: <CAHCN7xKp1Lp+KAHwo_GobZoDKQCV9_7Yx2ZNKmTzkkShRBzm_Q@mail.gmail.com>
+References: <20210413181447.2588084-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20210413181447.2588084-1-niklas.soderlund+renesas@ragnatech.se>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 14 Apr 2021 19:59:43 +0200
-Message-ID: <CAMuHMdUhwyR8F6PeE1WEtaEtEPrnm0qFtGJ1rGqTJDYSotK8PA@mail.gmail.com>
-Subject: Re: [PATCH V4 2/2] net: ethernet: ravb: Enable optional refclk
-To:     Adam Ford <aford173@gmail.com>
-Cc:     netdev <netdev@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 14 Apr 2021 21:54:43 +0200
+Message-ID: <CAMuHMdU68TrCR2LemSQGg7uFaTEiTqFG3vDwu0zx1+3g3JuxYQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: falcon-csi-dsi: Add GPIO extenders
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
+Hi Niklas,
 
-On Wed, Apr 14, 2021 at 3:08 PM Adam Ford <aford173@gmail.com> wrote:
-> On Tue, Apr 13, 2021 at 2:33 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Mon, Apr 12, 2021 at 3:27 PM Adam Ford <aford173@gmail.com> wrote:
-> > > For devices that use a programmable clock for the AVB reference clock,
-> > > the driver may need to enable them.  Add code to find the optional clock
-> > > and enable it when available.
-> > >
-> > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> > >
-> > > ---
-> > > V4:  Eliminate the NULL check when disabling refclk, and add a line
-> > >      to disable the refclk if there is a failure after it's been
-> > >      initialized.
-> >
-> > Thanks for the update!
-> >
-> > > --- a/drivers/net/ethernet/renesas/ravb_main.c
-> > > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> > > @@ -2148,6 +2148,13 @@ static int ravb_probe(struct platform_device *pdev)
-> > >                 goto out_release;
-> > >         }
-> > >
-> > > +       priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
-> > > +       if (IS_ERR(priv->refclk)) {
-> > > +               error = PTR_ERR(priv->refclk);
-> > > +               goto out_release;
-> >
-> > Note that this will call clk_disable_unprepare() in case of failure, which is
-> > fine, as that function is a no-op in case of a failed clock.
+Thanks for your patch!
+
+On Tue, Apr 13, 2021 at 8:17 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> We need to configure its GPIOs to power on the MAX96712.
+
+... their GPIOs ... MAX96712s?
+
 >
-> Geert,
->
-> A bot reported that if I jump to out_release may try to free a clock
-> if some instances where priv isn't defined.
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-As priv is allocated using alloc_etherdev_mqs(), priv->refclk is
-NULL initially, but priv itself may indeed not be initialized when the first
-"goto out_release" is taken.  Sorry for missing that.
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-csi-dsi.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-csi-dsi.dtsi
+> @@ -12,4 +12,25 @@ eeprom@52 {
+>                 reg = <0x52>;
+>                 pagesize = <8>;
+>         };
+> +
+> +       pca9654_a: gpio@21 {
 
-> Currently, the priv->clk isn't freed either.  I have heard some
-> back-and-forth discussions in other threads on whether or not devm
-> functions auto free or not.
+Please obey numerical sort order by unit-address.
 
-The devm_clk_get_optional() will be undone automatically, so there
-is no need to handle that explicitly.
+> +               compatible = "onnn,pca9654";
+> +               reg = <0x21>;
+> +               gpio-controller;
+> +               #gpio-cells = <2>;
+> +       };
+> +
+> +       pca9654_b: gpio@22 {
+> +               compatible = "onnn,pca9654";
+> +               reg = <0x22>;
+> +               gpio-controller;
+> +               #gpio-cells = <2>;
+> +       };
+> +
+> +       pca9654_c: gpio@23 {
+> +               compatible = "onnn,pca9654";
+> +               reg = <0x23>;
+> +               gpio-controller;
+> +               #gpio-cells = <2>;
+> +       };
 
-> I'm fine with sending a V5 to make the free for the refclock happen
-> only when the priv has successfully initialized.  Should I also add
-
-As this patch has been applied to net-next, you''ll have to send
-a follow-up fix patch, not a v5.
-
-> one for freeing priv->clk and change all the other goto out_release
-> commands to point to this new section?
-
-No, not for priv->clk, due to devm_*().
-
-> I am thinking it would like something like:
->
-> free_refclk:
->     clk_disable_unprepare(priv->refclk);
-
-OK.
-
-> free_clk;
->     clk_disable_unprepare(priv->clk);
-
-NAK, as priv->clk is not enabled in ravb_probe().
-
-> out_release:
->     free_netdev(ndev);
->     ....
-
-OK.
-
-Thanks!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+No need to resend, will queue in renesas-devel for v5.14 with the above
+fixed.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
