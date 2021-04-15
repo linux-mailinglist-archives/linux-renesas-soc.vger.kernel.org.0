@@ -2,317 +2,561 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3BCA35FEB0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 02:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 512E435FFB4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 03:47:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230378AbhDOABW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Apr 2021 20:01:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46248 "EHLO
+        id S229450AbhDOBrk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Apr 2021 21:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230363AbhDOABV (ORCPT
+        with ESMTP id S229449AbhDOBrk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Apr 2021 20:01:21 -0400
+        Wed, 14 Apr 2021 21:47:40 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C6DFC061574;
-        Wed, 14 Apr 2021 17:00:59 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F52151E;
-        Thu, 15 Apr 2021 02:00:57 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF2AEC061574
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Apr 2021 18:47:17 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A8C2651E;
+        Thu, 15 Apr 2021 03:47:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618444857;
-        bh=fm3K/7qYN/h/SZQMNfBTmltjSZNJfyOqx0GhaMvN27s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IAQ2ExJhcZlh8SSRpg6mXSZmqXxBqRpNNOvs4jSfHtN6vKway+5L5J9ULIoTnjw6J
-         n050heOdHpeiJFgqgy8JsY60naS6hzZyiL0hhekQ/ex6PN/XgPb1Z/2kYIz1tMp9NS
-         Yi9YfJJV/D9KB15HtcbCVwrE1GPPCeVTzM7KVbu0=
-Date:   Thu, 15 Apr 2021 03:00:56 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] media: i2c: max9286: Use "maxim,gpio-poc" property
-Message-ID: <YHeCOCkn1YvYR09E@pendragon.ideasonboard.com>
-References: <20210414135128.180980-1-jacopo+renesas@jmondi.org>
- <20210414135128.180980-3-jacopo+renesas@jmondi.org>
+        s=mail; t=1618451235;
+        bh=PTt02K9YXDCxYCTdIW9o/+5R1YX/qGgLS26eD70JlMc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lBVPm3xDZuJ8k3j4ToluVDyxyd9oD74mYhGA+EBgLwXtdpmg0SBUTiUIXxpPo0lS+
+         YArfDuFizPG2eewfAVF+CmNLR8XF4+IS3KJEdZ+LJUKuCdQ7ZYeeixZpVbWZ8T7I7J
+         HeUCxGh7Uhbs66L0dQ3HVMk86xIUSxVMFxfN0CJQ=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Edmund Dea <edmund.j.dea@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Chen-Yu Tsai <wens@csie.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+        Stephen Boyd <swboyd@chromium.org>
+Subject: [PATCH] drm/bridge: Centralize error message when bridge attach fails
+Date:   Thu, 15 Apr 2021 04:47:10 +0300
+Message-Id: <20210415014710.4033-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.28.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210414135128.180980-3-jacopo+renesas@jmondi.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Being informed of a failure to attach a bridge is useful, and many
+drivers prints an error message in that case. Move the message to
+drm_bridge_attach() to avoid code duplication.
 
-Thank you for the patch.
+Suggested-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  9 +--------
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |  5 +----
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  1 -
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      | 10 +---------
+ drivers/gpu/drm/drm_bridge.c                       | 10 ++++++++++
+ drivers/gpu/drm/exynos/exynos_dp.c                 |  5 +----
+ drivers/gpu/drm/exynos/exynos_hdmi.c               |  5 +----
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c       |  9 +--------
+ drivers/gpu/drm/imx/dcss/dcss-kms.c                |  5 +----
+ drivers/gpu/drm/imx/imx-ldb.c                      |  4 +---
+ drivers/gpu/drm/imx/parallel-display.c             |  5 +----
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  4 +---
+ drivers/gpu/drm/kmb/kmb_dsi.c                      |  1 -
+ drivers/gpu/drm/mcde/mcde_dsi.c                    |  9 +--------
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 |  4 +---
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |  5 +----
+ drivers/gpu/drm/omapdrm/omap_drv.c                 |  6 +-----
+ drivers/gpu/drm/rockchip/rockchip_lvds.c           |  5 +----
+ drivers/gpu/drm/rockchip/rockchip_rgb.c            |  5 +----
+ drivers/gpu/drm/sti/sti_dvo.c                      |  4 +---
+ drivers/gpu/drm/sun4i/sun4i_lvds.c                 |  4 +---
+ drivers/gpu/drm/sun4i/sun4i_rgb.c                  |  4 +---
+ drivers/gpu/drm/tegra/rgb.c                        |  5 +----
+ drivers/gpu/drm/tidss/tidss_kms.c                  |  4 +---
+ drivers/gpu/drm/tilcdc/tilcdc_external.c           |  4 +---
+ drivers/gpu/drm/vc4/vc4_dsi.c                      |  4 +---
+ 26 files changed, 33 insertions(+), 103 deletions(-)
 
-On Wed, Apr 14, 2021 at 03:51:25PM +0200, Jacopo Mondi wrote:
-> The 'maxim,gpio-poc' property is used when the remote camera
-> power-over-coax is controlled by one of the MAX9286 gpio lines,
-> to instruct the driver about which line to use and what the line
-> polarity is.
-> 
-> Add to the max9286 driver support for parsing the newly introduce
-s/introduce/introduced/
-
-> property and use it if available in place of the usual supply, as it is
-> not possible to establish one as consumer of the max9286 gpio
-> controller.
-> 
-> If the new property is present, no gpio controller is registered and
-> 'poc-supply' is ignored.
-> 
-> In order to maximize code re-use, break out the max9286 gpio handling
-> function so that they can be used by the gpio controller through the
-> gpio-consumer API, or directly by the driver code.
-> 
-> Wrap the power up and power down routines to their own function to
-> be able to use either the gpio line directly or the supply. This will
-> make it easier to control the remote camera power at run time.
-
-I would have split the patch in two, with a first patch that refactors
-the code, and a second one that extends it, but that's no big deal.
-
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/max9286.c | 125 +++++++++++++++++++++++++++---------
->  1 file changed, 96 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 6fd4d59fcc72..0c125f7b3d9b 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -15,6 +15,7 @@
->  #include <linux/fwnode.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/gpio/driver.h>
-> +#include <linux/gpio/machine.h>
->  #include <linux/i2c.h>
->  #include <linux/i2c-mux.h>
->  #include <linux/module.h>
-> @@ -165,6 +166,9 @@ struct max9286_priv {
->  
->  	u32 reverse_channel_mv;
->  
-> +	u32 gpio_poc;
-> +	u32 gpio_poc_flags;
-> +
->  	struct v4l2_ctrl_handler ctrls;
->  	struct v4l2_ctrl *pixelrate;
->  
-> @@ -1022,20 +1026,27 @@ static int max9286_setup(struct max9286_priv *priv)
->  	return 0;
->  }
->  
-> -static void max9286_gpio_set(struct gpio_chip *chip,
-> -			     unsigned int offset, int value)
-> +static int max9286_gpio_set(struct max9286_priv *priv, unsigned int offset,
-> +			    int value)
->  {
-> -	struct max9286_priv *priv = gpiochip_get_data(chip);
-> -
->  	if (value)
->  		priv->gpio_state |= BIT(offset);
->  	else
->  		priv->gpio_state &= ~BIT(offset);
->  
-> -	max9286_write(priv, 0x0f, MAX9286_0X0F_RESERVED | priv->gpio_state);
-> +	return max9286_write(priv, 0x0f,
-> +			     MAX9286_0X0F_RESERVED | priv->gpio_state);
-> +}
-> +
-> +static void max9286_gpiochip_set(struct gpio_chip *chip,
-> +				 unsigned int offset, int value)
-> +{
-> +	struct max9286_priv *priv = gpiochip_get_data(chip);
-> +
-> +	max9286_gpio_set(priv, offset, value);
->  }
->  
-> -static int max9286_gpio_get(struct gpio_chip *chip, unsigned int offset)
-> +static int max9286_gpiochip_get(struct gpio_chip *chip, unsigned int offset)
->  {
->  	struct max9286_priv *priv = gpiochip_get_data(chip);
->  
-> @@ -1055,8 +1066,8 @@ static int max9286_register_gpio(struct max9286_priv *priv)
->  	gpio->of_node = dev->of_node;
->  	gpio->ngpio = 2;
->  	gpio->base = -1;
-> -	gpio->set = max9286_gpio_set;
-> -	gpio->get = max9286_gpio_get;
-> +	gpio->set = max9286_gpiochip_set;
-> +	gpio->get = max9286_gpiochip_get;
->  	gpio->can_sleep = true;
->  
->  	/* GPIO values default to high */
-> @@ -1069,6 +1080,75 @@ static int max9286_register_gpio(struct max9286_priv *priv)
->  	return ret;
->  }
->  
-> +static int max9286_parse_gpios(struct max9286_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	u32 gpio_poc[2];
-> +	int ret;
-> +
-> +	/*
-> +	 * Parse the "gpio-poc" vendor property. If the camera power is
-> +	 * controlled by one of the MAX9286 gpio lines, do not register
-> +	 * the gpio controller and ignore 'poc-supply'.
-> +	 */
-> +	ret = of_property_read_u32_array(dev->of_node,
-> +					 "maxim,gpio-poc", gpio_poc, 2);
-> +	if (!ret) {
-> +		priv->gpio_poc = gpio_poc[0];
-> +		priv->gpio_poc_flags = gpio_poc[1];
-> +		if ((priv->gpio_poc != 0 && priv->gpio_poc != 1) ||
-
-You could simply test priv->gpio_poc > 1.
-
-> +		    (priv->gpio_poc_flags != GPIO_ACTIVE_HIGH &&
-> +		     priv->gpio_poc_flags != GPIO_ACTIVE_LOW)) {
-> +			dev_err(dev, "Invalid 'gpio-poc': (%u %u)\n",
-> +				priv->gpio_poc, priv->gpio_poc_flags);
-> +			return -EINVAL;
-> +		}
-> +
-> +		/* GPIO values default to high */
-> +		priv->gpio_state = BIT(0) | BIT(1);
-
-Why is that ?
-
-> +		priv->regulator = NULL;
-
-As priv is initialized to 0, you can skip this.
-
-> +
-> +		return 0;
-> +	}
-> +
-> +	ret = max9286_register_gpio(priv);
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv->regulator = devm_regulator_get(dev, "poc");
-> +	if (IS_ERR(priv->regulator)) {
-> +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> +			dev_err(dev, "Unable to get PoC regulator (%ld)\n",
-> +				PTR_ERR(priv->regulator));
-> +		return PTR_ERR(priv->regulator);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
-> +{
-> +	int ret;
-> +
-> +	/* If "poc-gpio" is used, toggle the line and do not use regulator. */
-> +	if (!priv->regulator)
-> +		return max9286_gpio_set(priv, priv->gpio_poc,
-> +					enable ^ priv->gpio_poc_flags);
-> +
-> +	/* Otherwise PoC is controlled using a regulator. */
-> +	if (enable) {
-> +		ret = regulator_enable(priv->regulator);
-> +		if (ret < 0) {
-> +			dev_err(&priv->client->dev, "Unable to turn PoC on\n");
-
-As error message when max9286_gpio_set() fails (at least in the enable
-case) would be good too. Bonus points if there's a single dev_err()
-call.
-
-> +			return ret;
-> +		}
-> +
-> +		return 0;
-> +	}
-> +
-> +	return regulator_disable(priv->regulator);
-> +}
-> +
->  static int max9286_init(struct device *dev)
->  {
->  	struct max9286_priv *priv;
-> @@ -1078,17 +1158,14 @@ static int max9286_init(struct device *dev)
->  	client = to_i2c_client(dev);
->  	priv = i2c_get_clientdata(client);
->  
-> -	/* Enable the bus power. */
-> -	ret = regulator_enable(priv->regulator);
-> -	if (ret < 0) {
-> -		dev_err(&client->dev, "Unable to turn PoC on\n");
-> +	ret = max9286_poc_enable(priv, true);
-> +	if (ret)
->  		return ret;
-> -	}
->  
->  	ret = max9286_setup(priv);
->  	if (ret) {
->  		dev_err(dev, "Unable to setup max9286\n");
-> -		goto err_regulator;
-> +		goto err_poc_disable;
->  	}
->  
->  	/*
-> @@ -1098,7 +1175,7 @@ static int max9286_init(struct device *dev)
->  	ret = max9286_v4l2_register(priv);
->  	if (ret) {
->  		dev_err(dev, "Failed to register with V4L2\n");
-> -		goto err_regulator;
-> +		goto err_poc_disable;
->  	}
->  
->  	ret = max9286_i2c_mux_init(priv);
-> @@ -1114,8 +1191,8 @@ static int max9286_init(struct device *dev)
->  
->  err_v4l2_register:
->  	max9286_v4l2_unregister(priv);
-> -err_regulator:
-> -	regulator_disable(priv->regulator);
-> +err_poc_disable:
-> +	max9286_poc_enable(priv, false);
->  
->  	return ret;
->  }
-> @@ -1286,20 +1363,10 @@ static int max9286_probe(struct i2c_client *client)
->  	 */
->  	max9286_configure_i2c(priv, false);
->  
-> -	ret = max9286_register_gpio(priv);
-> +	ret = max9286_parse_gpios(priv);
->  	if (ret)
->  		goto err_powerdown;
->  
-> -	priv->regulator = devm_regulator_get(&client->dev, "poc");
-> -	if (IS_ERR(priv->regulator)) {
-> -		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> -			dev_err(&client->dev,
-> -				"Unable to get PoC regulator (%ld)\n",
-> -				PTR_ERR(priv->regulator));
-> -		ret = PTR_ERR(priv->regulator);
-> -		goto err_powerdown;
-> -	}
-> -
->  	ret = max9286_parse_dt(priv);
->  	if (ret)
->  		goto err_powerdown;
-> @@ -1326,7 +1393,7 @@ static int max9286_remove(struct i2c_client *client)
->  
->  	max9286_v4l2_unregister(priv);
->  
-> -	regulator_disable(priv->regulator);
-> +	max9286_poc_enable(priv, false);
->  
->  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
->  
-
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index f115233b1cb9..081c98b2990f 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1583,7 +1583,6 @@ static int analogix_dp_create_bridge(struct drm_device *drm_dev,
+ 				     struct analogix_dp_device *dp)
+ {
+ 	struct drm_bridge *bridge;
+-	int ret;
+ 
+ 	bridge = devm_kzalloc(drm_dev->dev, sizeof(*bridge), GFP_KERNEL);
+ 	if (!bridge) {
+@@ -1596,13 +1595,7 @@ static int analogix_dp_create_bridge(struct drm_device *drm_dev,
+ 	bridge->driver_private = dp;
+ 	bridge->funcs = &analogix_dp_bridge_funcs;
+ 
+-	ret = drm_bridge_attach(dp->encoder, bridge, NULL, 0);
+-	if (ret) {
+-		DRM_ERROR("failed to attach drm bridge\n");
+-		return -EINVAL;
+-	}
+-
+-	return 0;
++	return drm_bridge_attach(dp->encoder, bridge, NULL, 0);
+ }
+ 
+ static int analogix_dp_dt_parse_pdata(struct analogix_dp_device *dp)
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 23283ba0c4f9..702040922beb 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1411,11 +1411,8 @@ static int anx7625_bridge_attach(struct drm_bridge *bridge,
+ 		err = drm_bridge_attach(bridge->encoder,
+ 					ctx->pdata.panel_bridge,
+ 					&ctx->bridge, flags);
+-		if (err) {
+-			DRM_DEV_ERROR(dev,
+-				      "Fail to attach panel bridge: %d\n", err);
++		if (err)
+ 			return err;
+-		}
+ 	}
+ 
+ 	ctx->bridge_attached = 1;
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index dda4fa9a1a08..fac3ec4f7239 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -3490,7 +3490,6 @@ struct dw_hdmi *dw_hdmi_bind(struct platform_device *pdev,
+ 	ret = drm_bridge_attach(encoder, &hdmi->bridge, NULL, 0);
+ 	if (ret) {
+ 		dw_hdmi_remove(hdmi);
+-		DRM_ERROR("Failed to initialize bridge with drm\n");
+ 		return ERR_PTR(ret);
+ 	}
+ 
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index 6b268f9445b3..7900da1d4325 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -1229,15 +1229,7 @@ EXPORT_SYMBOL_GPL(dw_mipi_dsi_remove);
+  */
+ int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct drm_encoder *encoder)
+ {
+-	int ret;
+-
+-	ret = drm_bridge_attach(encoder, &dsi->bridge, NULL, 0);
+-	if (ret) {
+-		DRM_ERROR("Failed to initialize bridge with drm\n");
+-		return ret;
+-	}
+-
+-	return ret;
++	return drm_bridge_attach(encoder, &dsi->bridge, NULL, 0);
+ }
+ EXPORT_SYMBOL_GPL(dw_mipi_dsi_bind);
+ 
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 64f0effb52ac..e689fc7a2275 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -28,6 +28,7 @@
+ #include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_encoder.h>
++#include <drm/drm_print.h>
+ 
+ #include "drm_crtc_internal.h"
+ 
+@@ -225,6 +226,15 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 	bridge->dev = NULL;
+ 	bridge->encoder = NULL;
+ 	list_del(&bridge->chain_node);
++
++#ifdef CONFIG_OF
++	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
++		  bridge->of_node, encoder->name, ret);
++#else
++	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
++		  encoder->name, ret);
++#endif
++
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_bridge_attach);
+diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
+index 9ac51b6ab34b..27664f663c5a 100644
+--- a/drivers/gpu/drm/exynos/exynos_dp.c
++++ b/drivers/gpu/drm/exynos/exynos_dp.c
+@@ -109,11 +109,8 @@ static int exynos_dp_bridge_attach(struct analogix_dp_plat_data *plat_data,
+ 	if (dp->ptn_bridge) {
+ 		ret = drm_bridge_attach(&dp->encoder, dp->ptn_bridge, bridge,
+ 					0);
+-		if (ret) {
+-			DRM_DEV_ERROR(dp->dev,
+-				      "Failed to attach bridge to drm\n");
++		if (ret)
+ 			return ret;
+-		}
+ 	}
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 39fa5d3b01ef..26a00999cb3b 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -970,11 +970,8 @@ static int hdmi_create_connector(struct drm_encoder *encoder)
+ 	drm_connector_helper_add(connector, &hdmi_connector_helper_funcs);
+ 	drm_connector_attach_encoder(connector, encoder);
+ 
+-	if (hdata->bridge) {
++	if (hdata->bridge)
+ 		ret = drm_bridge_attach(encoder, hdata->bridge, NULL, 0);
+-		if (ret)
+-			DRM_DEV_ERROR(hdata->dev, "Failed to attach bridge\n");
+-	}
+ 
+ 	cec_fill_conn_info_from_drm(&conn_info, connector);
+ 
+diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+index 00e87c290796..d79745917fc9 100644
+--- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
++++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+@@ -769,16 +769,9 @@ static int dsi_bridge_init(struct drm_device *dev, struct dw_dsi *dsi)
+ {
+ 	struct drm_encoder *encoder = &dsi->encoder;
+ 	struct drm_bridge *bridge = dsi->bridge;
+-	int ret;
+ 
+ 	/* associate the bridge to dsi encoder */
+-	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+-	if (ret) {
+-		DRM_ERROR("failed to attach external bridge\n");
+-		return ret;
+-	}
+-
+-	return 0;
++	return drm_bridge_attach(encoder, bridge, NULL, 0);
+ }
+ 
+ static int dsi_bind(struct device *dev, struct device *master, void *data)
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+index b549ce5e7607..a82272147d3d 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+@@ -94,11 +94,8 @@ static int dcss_kms_bridge_connector_init(struct dcss_kms_dev *kms)
+ 
+ 	ret = drm_bridge_attach(encoder, bridge, NULL,
+ 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-	if (ret < 0) {
+-		dev_err(ddev->dev, "Unable to attach bridge %pOF\n",
+-			bridge->of_node);
++	if (ret < 0)
+ 		return ret;
+-	}
+ 
+ 	kms->connector = drm_bridge_connector_init(ddev, encoder);
+ 	if (IS_ERR(kms->connector)) {
+diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
+index ffdc492c5bc5..d5f8cb03775a 100644
+--- a/drivers/gpu/drm/imx/imx-ldb.c
++++ b/drivers/gpu/drm/imx/imx-ldb.c
+@@ -460,10 +460,8 @@ static int imx_ldb_register(struct drm_device *drm,
+ 
+ 	if (imx_ldb_ch->bridge) {
+ 		ret = drm_bridge_attach(encoder, imx_ldb_ch->bridge, NULL, 0);
+-		if (ret) {
+-			DRM_ERROR("Failed to initialize bridge with drm\n");
++		if (ret)
+ 			return ret;
+-		}
+ 	} else {
+ 		/*
+ 		 * We want to add the connector whenever there is no bridge
+diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
+index e0412e694fd9..a8aba0141ce7 100644
+--- a/drivers/gpu/drm/imx/parallel-display.c
++++ b/drivers/gpu/drm/imx/parallel-display.c
+@@ -294,11 +294,8 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	if (imxpd->next_bridge) {
+ 		ret = drm_bridge_attach(encoder, imxpd->next_bridge, bridge, 0);
+-		if (ret < 0) {
+-			dev_err(imxpd->dev, "failed to attach bridge: %d\n",
+-				ret);
++		if (ret < 0)
+ 			return ret;
+-		}
+ 	} else {
+ 		drm_connector_helper_add(connector,
+ 					 &imx_pd_connector_helper_funcs);
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index 29742ec5ab95..2d89ec1608f7 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -1036,10 +1036,8 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 		drm_encoder_helper_add(encoder, &ingenic_drm_encoder_helper_funcs);
+ 
+ 		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+-		if (ret) {
+-			dev_err(dev, "Unable to attach bridge\n");
++		if (ret)
+ 			return ret;
+-		}
+ 	}
+ 
+ 	drm_for_each_encoder(encoder, drm) {
+diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
+index 4b5d82af84b3..12935aca7ee0 100644
+--- a/drivers/gpu/drm/kmb/kmb_dsi.c
++++ b/drivers/gpu/drm/kmb/kmb_dsi.c
+@@ -1441,7 +1441,6 @@ int kmb_dsi_encoder_init(struct drm_device *dev, struct kmb_dsi *kmb_dsi)
+ 	ret = drm_bridge_attach(encoder, adv_bridge, NULL,
+ 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 	if (ret) {
+-		DRM_ERROR("failed to attach bridge to MIPI\n");
+ 		drm_encoder_cleanup(encoder);
+ 		return ret;
+ 	}
+diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
+index b3fd3501c412..51adace2611f 100644
+--- a/drivers/gpu/drm/mcde/mcde_dsi.c
++++ b/drivers/gpu/drm/mcde/mcde_dsi.c
+@@ -1052,7 +1052,6 @@ static int mcde_dsi_bridge_attach(struct drm_bridge *bridge,
+ {
+ 	struct mcde_dsi *d = bridge_to_mcde_dsi(bridge);
+ 	struct drm_device *drm = bridge->dev;
+-	int ret;
+ 
+ 	if (!drm_core_check_feature(drm, DRIVER_ATOMIC)) {
+ 		dev_err(d->dev, "we need atomic updates\n");
+@@ -1060,13 +1059,7 @@ static int mcde_dsi_bridge_attach(struct drm_bridge *bridge,
+ 	}
+ 
+ 	/* Attach the DSI bridge to the output (panel etc) bridge */
+-	ret = drm_bridge_attach(bridge->encoder, d->bridge_out, bridge, flags);
+-	if (ret) {
+-		dev_err(d->dev, "failed to attach the DSI bridge\n");
+-		return ret;
+-	}
+-
+-	return 0;
++	return drm_bridge_attach(bridge->encoder, d->bridge_out, bridge, flags);
+ }
+ 
+ static const struct drm_bridge_funcs mcde_dsi_bridge_funcs = {
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index bea91c81626e..18c161f89fec 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -610,10 +610,8 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
+ 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-	if (ret) {
+-		dev_err(dev, "Failed to attach bridge: %d\n", ret);
++	if (ret)
+ 		goto err_cleanup;
+-	}
+ 
+ 	dpi->connector = drm_bridge_connector_init(drm_dev, &dpi->encoder);
+ 	if (IS_ERR(dpi->connector)) {
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+index dea46d66e712..d0963e5a0ab9 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+@@ -1284,11 +1284,8 @@ static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge,
+ 	if (hdmi->next_bridge) {
+ 		ret = drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
+ 					bridge, flags);
+-		if (ret) {
+-			dev_err(hdmi->dev,
+-				"Failed to attach external bridge: %d\n", ret);
++		if (ret)
+ 			return ret;
+-		}
+ 	}
+ 
+ 	mtk_cec_set_hpd_event(hdmi->cec_dev, mtk_hdmi_hpd_event, hdmi->dev);
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index 8632139e0f01..f86e20578143 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -290,12 +290,8 @@ static int omap_modeset_init(struct drm_device *dev)
+ 			ret = drm_bridge_attach(pipe->encoder,
+ 						pipe->output->bridge, NULL,
+ 						DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-			if (ret < 0) {
+-				dev_err(priv->dev,
+-					"unable to attach bridge %pOF\n",
+-					pipe->output->bridge->of_node);
++			if (ret < 0)
+ 				return ret;
+-			}
+ 		}
+ 
+ 		id = omap_display_id(pipe->output);
+diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+index bd5ba10822c2..b541271e66d9 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
++++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+@@ -636,11 +636,8 @@ static int rockchip_lvds_bind(struct device *dev, struct device *master,
+ 		}
+ 	} else {
+ 		ret = drm_bridge_attach(encoder, lvds->bridge, NULL, 0);
+-		if (ret) {
+-			DRM_DEV_ERROR(drm_dev->dev,
+-				      "failed to attach bridge: %d\n", ret);
++		if (ret)
+ 			goto err_free_encoder;
+-		}
+ 	}
+ 
+ 	pm_runtime_enable(dev);
+diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c b/drivers/gpu/drm/rockchip/rockchip_rgb.c
+index c079714477d8..d691d9bef8e7 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
++++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
+@@ -143,11 +143,8 @@ struct rockchip_rgb *rockchip_rgb_init(struct device *dev,
+ 	rgb->bridge = bridge;
+ 
+ 	ret = drm_bridge_attach(encoder, rgb->bridge, NULL, 0);
+-	if (ret) {
+-		DRM_DEV_ERROR(drm_dev->dev,
+-			      "failed to attach bridge: %d\n", ret);
++	if (ret)
+ 		goto err_free_encoder;
+-	}
+ 
+ 	return rgb;
+ 
+diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
+index ddb4184f0726..b6ee8a82e656 100644
+--- a/drivers/gpu/drm/sti/sti_dvo.c
++++ b/drivers/gpu/drm/sti/sti_dvo.c
+@@ -463,10 +463,8 @@ static int sti_dvo_bind(struct device *dev, struct device *master, void *data)
+ 	drm_bridge_add(bridge);
+ 
+ 	err = drm_bridge_attach(encoder, bridge, NULL, 0);
+-	if (err) {
+-		DRM_ERROR("Failed to attach bridge\n");
++	if (err)
+ 		return err;
+-	}
+ 
+ 	dvo->bridge = bridge;
+ 	connector->encoder = encoder;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_lvds.c b/drivers/gpu/drm/sun4i/sun4i_lvds.c
+index ac570437172e..6716e895ae8a 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_lvds.c
++++ b/drivers/gpu/drm/sun4i/sun4i_lvds.c
+@@ -142,10 +142,8 @@ int sun4i_lvds_init(struct drm_device *drm, struct sun4i_tcon *tcon)
+ 
+ 	if (bridge) {
+ 		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+-		if (ret) {
+-			dev_err(drm->dev, "Couldn't attach our bridge\n");
++		if (ret)
+ 			goto err_cleanup_connector;
+-		}
+ 	}
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_rgb.c b/drivers/gpu/drm/sun4i/sun4i_rgb.c
+index e172426eb7e9..dfb6acc42f02 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_rgb.c
++++ b/drivers/gpu/drm/sun4i/sun4i_rgb.c
+@@ -234,10 +234,8 @@ int sun4i_rgb_init(struct drm_device *drm, struct sun4i_tcon *tcon)
+ 
+ 	if (rgb->bridge) {
+ 		ret = drm_bridge_attach(encoder, rgb->bridge, NULL, 0);
+-		if (ret) {
+-			dev_err(drm->dev, "Couldn't attach our bridge\n");
++		if (ret)
+ 			goto err_cleanup_connector;
+-		}
+ 	}
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
+index 4142a56ca764..606c78a2b988 100644
+--- a/drivers/gpu/drm/tegra/rgb.c
++++ b/drivers/gpu/drm/tegra/rgb.c
+@@ -275,11 +275,8 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
+ 	if (output->bridge) {
+ 		err = drm_bridge_attach(&output->encoder, output->bridge,
+ 					NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-		if (err) {
+-			dev_err(output->dev, "failed to attach bridge: %d\n",
+-				err);
++		if (err)
+ 			return err;
+-		}
+ 
+ 		connector = drm_bridge_connector_init(drm, &output->encoder);
+ 		if (IS_ERR(connector)) {
+diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
+index 95f8e0f78e32..666e527a0acf 100644
+--- a/drivers/gpu/drm/tidss/tidss_kms.c
++++ b/drivers/gpu/drm/tidss/tidss_kms.c
+@@ -227,10 +227,8 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
+ 		}
+ 
+ 		ret = drm_bridge_attach(enc, pipes[i].bridge, NULL, 0);
+-		if (ret) {
+-			dev_err(tidss->dev, "bridge attach failed: %d\n", ret);
++		if (ret)
+ 			return ret;
+-		}
+ 	}
+ 
+ 	/* create overlay planes of the leftover planes */
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/drm/tilcdc/tilcdc_external.c
+index b177525588c1..7594cf6e186e 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_external.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_external.c
+@@ -93,10 +93,8 @@ int tilcdc_attach_bridge(struct drm_device *ddev, struct drm_bridge *bridge)
+ 	priv->external_encoder->possible_crtcs = BIT(0);
+ 
+ 	ret = drm_bridge_attach(priv->external_encoder, bridge, NULL, 0);
+-	if (ret) {
+-		dev_err(ddev->dev, "drm_bridge_attach() failed %d\n", ret);
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	tilcdc_crtc_set_panel_info(priv->crtc, &panel_info_default);
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+index a55256ed0955..a185027911ce 100644
+--- a/drivers/gpu/drm/vc4/vc4_dsi.c
++++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+@@ -1646,10 +1646,8 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
+ 	drm_encoder_helper_add(dsi->encoder, &vc4_dsi_encoder_helper_funcs);
+ 
+ 	ret = drm_bridge_attach(dsi->encoder, dsi->bridge, NULL, 0);
+-	if (ret) {
+-		dev_err(dev, "bridge attach failed: %d\n", ret);
++	if (ret)
+ 		return ret;
+-	}
+ 	/* Disable the atomic helper calls into the bridge.  We
+ 	 * manually call the bridge pre_enable / enable / etc. calls
+ 	 * from our driver, since we need to sequence them within the
 -- 
 Regards,
 
 Laurent Pinchart
+
