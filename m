@@ -2,97 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 095D3361063
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 18:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA6BA361075
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 18:53:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232759AbhDOQsY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Apr 2021 12:48:24 -0400
-Received: from mail-ua1-f42.google.com ([209.85.222.42]:46852 "EHLO
-        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231137AbhDOQsX (ORCPT
+        id S234209AbhDOQxf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Apr 2021 12:53:35 -0400
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:40462 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233583AbhDOQxf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Apr 2021 12:48:23 -0400
-Received: by mail-ua1-f42.google.com with SMTP id v23so7666483uaq.13;
-        Thu, 15 Apr 2021 09:48:00 -0700 (PDT)
+        Thu, 15 Apr 2021 12:53:35 -0400
+Received: by mail-ot1-f50.google.com with SMTP id w31-20020a9d36220000b02901f2cbfc9743so23170172otb.7;
+        Thu, 15 Apr 2021 09:53:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VhOHyEkJWSCegG8VqaGpE9OM1BwPr0/49vR9DHNMwQU=;
-        b=WV7xSGVTiDwrq31QYUqHhMC1hVu9QhKS/o5VplO3x31Wfw0goT2FA5/3Jd6E0G98yY
-         MOMOLeSBawce81Nk1Qty3J0fseGdcqselxglzPRVtrdU2gPPMqBXWOBe7k1d8rJ/SJj+
-         4n/qCJxv6SFghNyHF2rVAlGEwW0YY4SiD6SHZzhPDS4m0hfB/teU+IEPabcnWvEswf6z
-         UTYLVpuyn9WnAChuHAJj6ZufhjcGxm7KiI0WML1HC3eL6znpMapV0frOHYwmgkCfScfd
-         kJIC/DLnPFDjaV+kA2mb1Jvprjz0I2hsr/w0ZN2A6dOEOLpBQ8xupzz+XscYEtvhI/qz
-         vLQw==
-X-Gm-Message-State: AOAM5333UWNvBBkPqNJ7UDsgUk4xMi12ZC9BhFAnLW1IqbGKZKqGxeda
-        3AoJRSVSoPUATe+j/qWERDhX+K5EZGdPym4pA3U=
-X-Google-Smtp-Source: ABdhPJy4XhcdlU/Mzd5/oe+kRlCGdzAOK95Pj8Cfh3/I6gQ3zXgI+WQ3j0tPVOWGRXcyo8ADu78ENCG3l5wjTFl5O0w=
-X-Received: by 2002:a9f:262c:: with SMTP id 41mr2962732uag.4.1618505279787;
- Thu, 15 Apr 2021 09:47:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210415122602.87697-1-jacopo+renesas@jmondi.org>
- <20210415122602.87697-5-jacopo+renesas@jmondi.org> <YHhR/YR6Ecp6yU4D@pendragon.ideasonboard.com>
-In-Reply-To: <YHhR/YR6Ecp6yU4D@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 15 Apr 2021 18:47:48 +0200
-Message-ID: <CAMuHMdWXM=0W_GbJpOqCUhTKzjaYu9S81M9u=j+8KM0sFG7Atw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/7] arm64: dts: renesas: r8a77970: Add csi40 port@0
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BkPRrq2X8pI/PWJmFc2vGqD8uKorT4TSwv8nxW2F7tY=;
+        b=mLM4E9i5RJbZ9q2A9jXK5SdM41xPUevZ88cip6A74u8QQp9uWQvfZIO1AtkvIurWbQ
+         5DZWW/w3nvWTfGY4xQg0hU9RFosxRzB3jjgIGLtN72WRMjpdcj8Tp3GNRjPIyPO6wBjP
+         M0Ofbdf72ZWPQT9sEpgYIsLremdhlHVsQUZEQGtcDkcUqNfopMF7pdq2mb7+Op0hLyWL
+         N7yKhAhq1UK9HoIYeXhJaGKASINRvVYpNbhC93KqTut9cYooXGLJonIyb/PIyasXCX+f
+         ovImRHd15kwBUr9EikQLnMpc8JHyYM6wrbIFG+mcz9nJZQ3oEsftsbiS2btow5UpkOYz
+         VFjg==
+X-Gm-Message-State: AOAM5324M9ksdDGrkM9+HYh1Ic4fKrEtS8P0vyyMzdYpmHTtGiTP2jCk
+        ujlIPu7wnnpsKmRVH0uCEA==
+X-Google-Smtp-Source: ABdhPJzA7edpjMrFZYgGmlpgqiNAm4TmvK2c2cIzF1IKc+l7PY5NsWG3cwQmqz49K5TQdDTwZW6aSQ==
+X-Received: by 2002:a9d:a2a:: with SMTP id 39mr147491otg.371.1618505591354;
+        Thu, 15 Apr 2021 09:53:11 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id t19sm788585otm.40.2021.04.15.09.53.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 09:53:10 -0700 (PDT)
+Received: (nullmailer pid 1551645 invoked by uid 1000);
+        Thu, 15 Apr 2021 16:53:09 -0000
+Date:   Thu, 15 Apr 2021 11:53:09 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset="UTF-8"
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/7] dt-bindings: media: max9286: Define
+ 'maxim,gpio-poc'
+Message-ID: <20210415165309.GA1535842@robh.at.kernel.org>
+References: <20210415122602.87697-1-jacopo+renesas@jmondi.org>
+ <20210415122602.87697-3-jacopo+renesas@jmondi.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210415122602.87697-3-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+On Thu, Apr 15, 2021 at 02:25:57PM +0200, Jacopo Mondi wrote:
+> Define a new vendor property in the maxim,max9286 binding schema.
+> 
+> The new property allows to declare that the remote camera
+> power-over-coax is controlled by one of the MAX9286 gpio lines.
+> 
+> As it is currently not possible to establish a regulator as consumer
+> of the MAX9286 gpio controller for this purpose, the property allows to
+> declare that the camera power is controlled by the MAX9286 directly.
+> 
+> The property accepts a gpio-index (0 or 1) and one line polarity
+> flag as defined by dt-bindings/gpio/gpio.h.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  .../bindings/media/i2c/maxim,max9286.yaml     | 71 ++++++++++++++++++-
+>  1 file changed, 70 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> index 0e7162998b77..e2422241b7d0 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> @@ -70,6 +70,28 @@ properties:
+>        a remote serializer whose high-threshold noise immunity is not enabled
+>        is 100000 micro volts
+>  
+> +  maxim,gpio-poc:
+> +    $ref: '/schemas/types.yaml#/definitions/uint32-array'
+> +    minItems: 2
+> +    maxItems: 2
+> +    description: |
+> +      Index of the MAX9286 gpio output line (0 or 1) that controls Power over
+> +      Coax to the cameras and its associated polarity flag.
+> +
+> +      The property accepts an array of two unsigned integers, the first being
+> +      the gpio line index (0 or 1) and the second being the gpio line polarity
+> +      flag (GPIO_ACTIVE_HIGH or GPIO_ACTIVE_LOW) as defined in
+> +      <include/dt-bindings/gpio/gpio.h>.
+> +
+> +      When the remote cameras power is controlled by one of the MAX9286 gpio
+> +      lines, this property has to be used to specify which line among the two
+> +      available ones controls the remote camera power enablement.
+> +
+> +      When this property is used it is not possible to register a gpio
+> +      controller as the gpio lines are controlled directly by the MAX9286 and
+> +      not available for consumers, nor the 'poc-supply' property should be
+> +      specified.
+> +
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>  
+> @@ -182,7 +204,20 @@ required:
+>    - reg
+>    - ports
+>    - i2c-mux
+> -  - gpio-controller
+> +
+> +# If 'maxim,gpio-poc' is present, then 'poc-supply' and 'gpio-controller'
+> +# are not allowed.
+> +if:
+> +  required:
+> +    - maxim,gpio-poc
+> +then:
+> +  allOf:
+> +    - not:
+> +        required:
+> +          - poc-supply
+> +    - not:
+> +        required:
+> +          - gpio-controller
 
-On Thu, Apr 15, 2021 at 4:47 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Thu, Apr 15, 2021 at 02:25:59PM +0200, Jacopo Mondi wrote:
-> > Declare port@0 in the csi40 device node and leave it un-connected.
-> > Each board .dts file will connect the port as it requires.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->
-> The port exists at the hardware level, so including it here sounds good.
-> The DT binding even makes the port mandatory :-)
+I did tell you to do it this way on irc, but looking at it again, it's 
+slightly more concise to do:
 
-But the latter is subject to change?
+     properties:
+       poc-supply: false
+       gpio-controller: false
 
-[PATCH] media: dt-bindings: media: renesas,csi2: Node port@0 is not mandatory
-https://lore.kernel.org/linux-devicetree/20210413155346.2471776-1-niklas.soderlund+renesas@ragnatech.se/
+Note that 'properties' in the 'if' doesn't work because a schema 
+for a property evaluates as true when the property is not present.
 
-> > --- a/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-> > @@ -1106,6 +1106,10 @@ ports {
-> >                               #address-cells = <1>;
-> >                               #size-cells = <0>;
-> >
-> > +                             port@0 {
-> > +                                     reg = <0>;
-> > +                             };
-> > +
-> >                               port@1 {
-> >                                       #address-cells = <1>;
-> >                                       #size-cells = <0>;
-\
-Gr{oetje,eeting}s,
+Either way,
 
-                        Geert
+Reviewed-by: Rob Herring <robh@kernel.org>
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
