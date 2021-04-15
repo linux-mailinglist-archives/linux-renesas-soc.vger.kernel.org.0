@@ -2,74 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7CDB361051
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 18:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A61D236105F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 18:46:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233343AbhDOQlU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Apr 2021 12:41:20 -0400
-Received: from mail-oi1-f172.google.com ([209.85.167.172]:38427 "EHLO
-        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231549AbhDOQlU (ORCPT
+        id S233829AbhDOQqg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Apr 2021 12:46:36 -0400
+Received: from foss.arm.com ([217.140.110.172]:50672 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231137AbhDOQqg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Apr 2021 12:41:20 -0400
-Received: by mail-oi1-f172.google.com with SMTP id b3so10110083oie.5;
-        Thu, 15 Apr 2021 09:40:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dh6Hzw7XfX4iLLFMGRwMXFpZg5W5zi3GUatMnRfdmGo=;
-        b=H8qeILvt4WEqK1cVbLaHeo62aX8raTuXIElg5nLJ9xMhE7odoJzkQ0HvfC8qO06cZx
-         hzodZfjx+/fWvtV8qiWe71zrzUFuM1azUUGMOoEWj+vo5HaS6/mvBx6/Y0Rn3h6cQ43K
-         TwN7Di4xp6otUjnfIk8VFSRQli/kCJa+vQDtf3e9vtoABQED+nZr0UQcF4nKwURqJ0yd
-         V2mbsd1Ju2qMHQqjAqjQ7gJdHvFouT4u6Jmw6J/LgLnd7gNZpUT2SZOD9isNDAIkQer+
-         MtDBo+DnSUZxrR383QDgr0bWeXnVVEGXFI8VEI97rJuIj1m9KMmWf+APvTKY6pmrkzAe
-         1UDw==
-X-Gm-Message-State: AOAM530R0VN4tSko2ntAi73PYyFkGLBO6cqWNC3DDGaPU7nXoR/9P3j4
-        qmOfvMl+3ibBW1w3fwa5mA==
-X-Google-Smtp-Source: ABdhPJwEEiOfqXSA5esTahIR3xyzY2Ca6n6fKJOW78QLHWNBkvIBfQBdgCCjx6ir3UpFh2z9yQTdiA==
-X-Received: by 2002:aca:4188:: with SMTP id o130mr3171382oia.101.1618504856991;
-        Thu, 15 Apr 2021 09:40:56 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id b12sm730303oti.17.2021.04.15.09.40.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 09:40:56 -0700 (PDT)
-Received: (nullmailer pid 1535706 invoked by uid 1000);
-        Thu, 15 Apr 2021 16:40:55 -0000
-Date:   Thu, 15 Apr 2021 11:40:55 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thu, 15 Apr 2021 12:46:36 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB1B111B3;
+        Thu, 15 Apr 2021 09:46:12 -0700 (PDT)
+Received: from lpieralisi (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C9FCC3FA35;
+        Thu, 15 Apr 2021 09:46:11 -0700 (PDT)
+Date:   Thu, 15 Apr 2021 17:46:06 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     marek.vasut@gmail.com
+Cc:     linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 1/7] dt-bindings: media: max9286: Re-indent example
-Message-ID: <20210415164055.GA1535655@robh.at.kernel.org>
-References: <20210415122602.87697-1-jacopo+renesas@jmondi.org>
- <20210415122602.87697-2-jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH V5] PCI: rcar: Add L1 link state fix into data abort hook
+Message-ID: <20210415164606.GA32085@lpieralisi>
+References: <20210411185030.8818-1-marek.vasut@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210415122602.87697-2-jacopo+renesas@jmondi.org>
+In-Reply-To: <20210411185030.8818-1-marek.vasut@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 15 Apr 2021 14:25:56 +0200, Jacopo Mondi wrote:
-> The dt-bindings examples are usually indented with 4 spaces.
-> 
-> The maxim,max9286 schema has the example indented with only
-> 2 spaces, re-indent it.
-> 
-> Cosmetic change only.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  .../bindings/media/i2c/maxim,max9286.yaml     | 214 +++++++++---------
->  1 file changed, 107 insertions(+), 107 deletions(-)
-> 
+On Sun, Apr 11, 2021 at 08:50:30PM +0200, marek.vasut@gmail.com wrote:
 
-Acked-by: Rob Herring <robh@kernel.org>
+[...]
+
+> +#ifdef CONFIG_ARM
+> +static DEFINE_SPINLOCK(pmsr_lock);
+> +static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+> +		unsigned int fsr, struct pt_regs *regs)
+> +{
+> +	unsigned long flags;
+> +	int ret = 1;
+
+I think we should return 1 only if the condition that triggered
+the fault can't be fixed. If it is fixed on another core we
+should not return 1 so ret should be set according to the PMSR
+register state IIUC.
+
+Lorenzo
+
+> +	u32 pmsr;
+> +
+> +	spin_lock_irqsave(&pmsr_lock, flags);
+> +
+> +	if (!pcie_base || !__clk_is_enabled(pcie_bus_clk))
+> +		goto unlock_exit;
+> +
+> +	pmsr = readl(pcie_base + PMSR);
+> +
+> +	/*
+> +	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
+> +	 * the PCIe controller is not in L1 link state. If true, apply
+> +	 * fix, which will put the controller into L1 link state, from
+> +	 * which it can return to L0s/L0 on its own.
+> +	 */
+> +	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
+> +		writel(L1IATN, pcie_base + PMCTLR);
+> +		while (!(readl(pcie_base + PMSR) & L1FAEG))
+> +			;
+> +		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+> +		ret = 0;
+> +	}
+> +
+> +unlock_exit:
+> +	spin_unlock_irqrestore(&pmsr_lock, flags);
+> +	return ret;
+> +}
+> +
+> +static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
+> +	{ .compatible = "renesas,pcie-r8a7779" },
+> +	{ .compatible = "renesas,pcie-r8a7790" },
+> +	{ .compatible = "renesas,pcie-r8a7791" },
+> +	{ .compatible = "renesas,pcie-rcar-gen2" },
+> +	{},
+> +};
+> +
+> +static int __init rcar_pcie_init(void)
+> +{
+> +	if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
+> +#ifdef CONFIG_ARM_LPAE
+> +		hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> +				"asynchronous external abort");
+> +#else
+> +		hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> +				"imprecise external abort");
+> +#endif
+> +	}
+> +
+> +	return platform_driver_register(&rcar_pcie_driver);
+> +}
+> +device_initcall(rcar_pcie_init);
+> +#else
+>  builtin_platform_driver(rcar_pcie_driver);
+> +#endif
+> diff --git a/drivers/pci/controller/pcie-rcar.h b/drivers/pci/controller/pcie-rcar.h
+> index d4c698b5f821..9bb125db85c6 100644
+> --- a/drivers/pci/controller/pcie-rcar.h
+> +++ b/drivers/pci/controller/pcie-rcar.h
+> @@ -85,6 +85,13 @@
+>  #define  LTSMDIS		BIT(31)
+>  #define  MACCTLR_INIT_VAL	(LTSMDIS | MACCTLR_NFTS_MASK)
+>  #define PMSR			0x01105c
+> +#define  L1FAEG			BIT(31)
+> +#define  PMEL1RX		BIT(23)
+> +#define  PMSTATE		GENMASK(18, 16)
+> +#define  PMSTATE_L1		(3 << 16)
+> +#define PMCTLR			0x011060
+> +#define  L1IATN			BIT(31)
+> +
+>  #define MACS2R			0x011078
+>  #define MACCGSPSETR		0x011084
+>  #define  SPCNGRSN		BIT(31)
+> -- 
+> 2.30.2
+> 
