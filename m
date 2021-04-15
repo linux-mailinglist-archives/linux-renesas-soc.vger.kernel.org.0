@@ -2,86 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B11D360C21
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 16:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7CDB361051
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 18:40:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233517AbhDOOrv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Apr 2021 10:47:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233052AbhDOOrv (ORCPT
+        id S233343AbhDOQlU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Apr 2021 12:41:20 -0400
+Received: from mail-oi1-f172.google.com ([209.85.167.172]:38427 "EHLO
+        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231549AbhDOQlU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Apr 2021 10:47:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B97C061574;
-        Thu, 15 Apr 2021 07:47:28 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B9D5C89A;
-        Thu, 15 Apr 2021 16:47:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618498046;
-        bh=Qt+bhzs/93o6wBx0emPldtNgrinS8ZG6nYZ/56Vl7tE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IYjUec1OtrBoWVfShOjB/r32/1dvQkO2pyFJ82DU12t0qCfL100+yQEypc8qgzK1L
-         dHN18CE6vSNmvo0ZGq7q1XKkOiB9vuMdfOgQZVC7DP+1ViY43NPpaRtRtT+/LVEXK/
-         bUEr+dqGJp2awIpW+CjXR24/gGJ03d9im915Url0=
-Date:   Thu, 15 Apr 2021 17:47:25 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Thu, 15 Apr 2021 12:41:20 -0400
+Received: by mail-oi1-f172.google.com with SMTP id b3so10110083oie.5;
+        Thu, 15 Apr 2021 09:40:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dh6Hzw7XfX4iLLFMGRwMXFpZg5W5zi3GUatMnRfdmGo=;
+        b=H8qeILvt4WEqK1cVbLaHeo62aX8raTuXIElg5nLJ9xMhE7odoJzkQ0HvfC8qO06cZx
+         hzodZfjx+/fWvtV8qiWe71zrzUFuM1azUUGMOoEWj+vo5HaS6/mvBx6/Y0Rn3h6cQ43K
+         TwN7Di4xp6otUjnfIk8VFSRQli/kCJa+vQDtf3e9vtoABQED+nZr0UQcF4nKwURqJ0yd
+         V2mbsd1Ju2qMHQqjAqjQ7gJdHvFouT4u6Jmw6J/LgLnd7gNZpUT2SZOD9isNDAIkQer+
+         MtDBo+DnSUZxrR383QDgr0bWeXnVVEGXFI8VEI97rJuIj1m9KMmWf+APvTKY6pmrkzAe
+         1UDw==
+X-Gm-Message-State: AOAM530R0VN4tSko2ntAi73PYyFkGLBO6cqWNC3DDGaPU7nXoR/9P3j4
+        qmOfvMl+3ibBW1w3fwa5mA==
+X-Google-Smtp-Source: ABdhPJwEEiOfqXSA5esTahIR3xyzY2Ca6n6fKJOW78QLHWNBkvIBfQBdgCCjx6ir3UpFh2z9yQTdiA==
+X-Received: by 2002:aca:4188:: with SMTP id o130mr3171382oia.101.1618504856991;
+        Thu, 15 Apr 2021 09:40:56 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id b12sm730303oti.17.2021.04.15.09.40.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 09:40:56 -0700 (PDT)
+Received: (nullmailer pid 1535706 invoked by uid 1000);
+        Thu, 15 Apr 2021 16:40:55 -0000
+Date:   Thu, 15 Apr 2021 11:40:55 -0500
+From:   Rob Herring <robh@kernel.org>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
         Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/7] arm64: dts: renesas: r8a77970: Add csi40 port@0
-Message-ID: <YHhR/YR6Ecp6yU4D@pendragon.ideasonboard.com>
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 1/7] dt-bindings: media: max9286: Re-indent example
+Message-ID: <20210415164055.GA1535655@robh.at.kernel.org>
 References: <20210415122602.87697-1-jacopo+renesas@jmondi.org>
- <20210415122602.87697-5-jacopo+renesas@jmondi.org>
+ <20210415122602.87697-2-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210415122602.87697-5-jacopo+renesas@jmondi.org>
+In-Reply-To: <20210415122602.87697-2-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
-
-Thank you for the patch.
-
-On Thu, Apr 15, 2021 at 02:25:59PM +0200, Jacopo Mondi wrote:
-> Declare port@0 in the csi40 device node and leave it un-connected.
-> Each board .dts file will connect the port as it requires.
+On Thu, 15 Apr 2021 14:25:56 +0200, Jacopo Mondi wrote:
+> The dt-bindings examples are usually indented with 4 spaces.
+> 
+> The maxim,max9286 schema has the example indented with only
+> 2 spaces, re-indent it.
+> 
+> Cosmetic change only.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-The port exists at the hardware level, so including it here sounds good.
-The DT binding even makes the port mandatory :-)
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  arch/arm64/boot/dts/renesas/r8a77970.dtsi | 4 ++++
->  1 file changed, 4 insertions(+)
+>  .../bindings/media/i2c/maxim,max9286.yaml     | 214 +++++++++---------
+>  1 file changed, 107 insertions(+), 107 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77970.dtsi b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-> index 5a5d5649332a..e8f6352c3665 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-> @@ -1106,6 +1106,10 @@ ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
->  
-> +				port@0 {
-> +					reg = <0>;
-> +				};
-> +
->  				port@1 {
->  					#address-cells = <1>;
->  					#size-cells = <0>;
 
--- 
-Regards,
-
-Laurent Pinchart
+Acked-by: Rob Herring <robh@kernel.org>
