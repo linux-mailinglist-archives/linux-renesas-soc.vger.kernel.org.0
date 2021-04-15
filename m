@@ -2,102 +2,217 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFB96360212
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 07:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AB313602C1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Apr 2021 08:53:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230383AbhDOF45 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Apr 2021 01:56:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56828 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230204AbhDOF4z (ORCPT
+        id S230507AbhDOGyH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Apr 2021 02:54:07 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:35971 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229933AbhDOGyH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Apr 2021 01:56:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2CE7161438;
-        Thu, 15 Apr 2021 05:56:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618466193;
-        bh=3fzthbp7nuGaPQSsU6zvqYA3EtaWh+VRhxhMhMglxdM=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=dMnupegfHy0DR72uTufXhuZye7H3L7plOsVcp9ZnYnL1NiZN15O3TnZ+mDIjaGXaM
-         kE4V7+7Ss4T91maqR/TfI+6ehBfik0EGETXz2fG6Zow/CJuHz83YpjHj2vZ7wk4UP7
-         vuEG5NNFZ0Qv7OFnt+RaHtWZK6hokFLkQcNETZ4rOCjLwxL1uOI7CWXLlLrzSZWHWS
-         LWlxTUHlEEHgJUf6tQ4WAcQt78JztFGIjdJW1oiCZOLXLO5h7IqcHH+mHU+FO8aARu
-         sNjQIyR3pqLCvVtwJ41gVSAiMG3RumNCgHzo6FroPtE0JYnuGnf2XEAjCIFI0t96Mm
-         dMuz5X0pRd9QA==
-Subject: Re: [PATCH] drm/bridge: Centralize error message when bridge attach
- fails
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>, Jyri Sarha <jyri.sarha@iki.fi>,
-        Stephen Boyd <swboyd@chromium.org>
-References: <20210415014710.4033-1-laurent.pinchart+renesas@ideasonboard.com>
-From:   Tomi Valkeinen <tomba@kernel.org>
-Message-ID: <0aafd2a9-d4e9-0684-f26d-a478f9e59105@kernel.org>
-Date:   Thu, 15 Apr 2021 08:56:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Thu, 15 Apr 2021 02:54:07 -0400
+X-Originating-IP: 93.61.96.190
+Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id F114E60008;
+        Thu, 15 Apr 2021 06:53:41 +0000 (UTC)
+Date:   Thu, 15 Apr 2021 08:54:20 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/5] dt-bindings: media: max9286: Define
+ 'maxim,gpio-poc'
+Message-ID: <20210415065420.lbba2hig4p2ynx6c@uno.localdomain>
+References: <20210414135128.180980-1-jacopo+renesas@jmondi.org>
+ <20210414135128.180980-2-jacopo+renesas@jmondi.org>
+ <YHd/AKIfxIHhTjWO@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20210415014710.4033-1-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YHd/AKIfxIHhTjWO@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15/04/2021 04:47, Laurent Pinchart wrote:
-> Being informed of a failure to attach a bridge is useful, and many
-> drivers prints an error message in that case. Move the message to
-> drm_bridge_attach() to avoid code duplication.
-> 
-> Suggested-by: Stephen Boyd <swboyd@chromium.org>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->   drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  9 +--------
->   drivers/gpu/drm/bridge/analogix/anx7625.c          |  5 +----
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  1 -
->   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      | 10 +---------
->   drivers/gpu/drm/drm_bridge.c                       | 10 ++++++++++
->   drivers/gpu/drm/exynos/exynos_dp.c                 |  5 +----
->   drivers/gpu/drm/exynos/exynos_hdmi.c               |  5 +----
->   drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c       |  9 +--------
->   drivers/gpu/drm/imx/dcss/dcss-kms.c                |  5 +----
->   drivers/gpu/drm/imx/imx-ldb.c                      |  4 +---
->   drivers/gpu/drm/imx/parallel-display.c             |  5 +----
->   drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  4 +---
->   drivers/gpu/drm/kmb/kmb_dsi.c                      |  1 -
->   drivers/gpu/drm/mcde/mcde_dsi.c                    |  9 +--------
->   drivers/gpu/drm/mediatek/mtk_dpi.c                 |  4 +---
->   drivers/gpu/drm/mediatek/mtk_hdmi.c                |  5 +----
->   drivers/gpu/drm/omapdrm/omap_drv.c                 |  6 +-----
->   drivers/gpu/drm/rockchip/rockchip_lvds.c           |  5 +----
->   drivers/gpu/drm/rockchip/rockchip_rgb.c            |  5 +----
->   drivers/gpu/drm/sti/sti_dvo.c                      |  4 +---
->   drivers/gpu/drm/sun4i/sun4i_lvds.c                 |  4 +---
->   drivers/gpu/drm/sun4i/sun4i_rgb.c                  |  4 +---
->   drivers/gpu/drm/tegra/rgb.c                        |  5 +----
->   drivers/gpu/drm/tidss/tidss_kms.c                  |  4 +---
->   drivers/gpu/drm/tilcdc/tilcdc_external.c           |  4 +---
->   drivers/gpu/drm/vc4/vc4_dsi.c                      |  4 +---
->   26 files changed, 33 insertions(+), 103 deletions(-)
+Hi Laurent,
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On Thu, Apr 15, 2021 at 02:47:12AM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Wed, Apr 14, 2021 at 03:51:24PM +0200, Jacopo Mondi wrote:
+> > Define a new vendor property in the maxim,max9286 binding schema.
+> >
+> > The new property allows to declare that the remote camera
+> > power-over-coax is controlled by one of the MAX9286 gpio lines.
+> >
+> > As it is currently not possible to establish a regulator as consumer
+> > of the MAX9286 gpio controller for this purpose, the property allows to
+> > declare that the camera power is controlled by the MAX9286 directly.
+> >
+> > The property accepts a gpio-index (0 or 1) and one line polarity
+> > flag as defined by dt-bindings/gpio/gpio.h.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  .../bindings/media/i2c/maxim,max9286.yaml     | 53 ++++++++++++++++++-
+> >  1 file changed, 52 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > index ee16102fdfe7..480a491f3744 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > @@ -70,6 +70,24 @@ properties:
+> >        a remote serializer whose high-threshold noise immunity is not enabled
+> >        is 100000 micro volts
+> >
+> > +  maxim,gpio-poc:
+>
+> I would have written poc-gpio to match the order of the GPIO bindings
+> syntax.
+>
 
-  Tomi
+That's what I had :) but then the property gets matched against the
+gpio schema and I get complains because it expects a phandle as first
+argument... Maybe there's a way I've missed to prevent the property to
+be matched with *-gpio ?
 
+> > +    $ref: '/schemas/types.yaml#/definitions/uint32-array'
+> > +    minItems: 2
+> > +    maxItems: 2
+> > +    description: |
+> > +      Identifier of gpio line that controls Power over Coax to the cameras and
+>
+> I'd write "Index of the MAX9286 GPIO output that ..." to make it clear
+> that this is not a generic GPIO.
+>
+
+Ack
+
+> > +      the associated polarity flag (GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW)
+> > +      as defined in <include/dt-bindings/gpio/gpio.h>.
+> > +
+> > +      When the remote cameras power is controlled by one of the MAX9286 gpio
+> > +      lines, this property has to be used to specify which line among the two
+> > +      available ones controls the remote camera power enablement.
+> > +
+> > +      When this property is used it is not possible to register a gpio
+> > +      controller as the gpio lines are controlled directly by the MAX9286 and
+> > +      not available for consumers, nor the 'poc-supply' property should be
+> > +      specified.
+>
+> Only one of the two lines would be controlled directly. Shouldn't we
+> still register a GPIO controller for the other line ?
+
+I considered that and thought it was a bit of an overkill (and I also
+had a bit of troubles identifying how to register only gpio #1, as it
+would be identified as gpio #0 if the actual #0 is not registered)
+
+>
+> Could you also mention somewhere that the first item in the array should
+> be 0 or 1 ? It may be hard to express in a YAML schema, so I'm fine just
+> documenting it in the description.
+>
+
+Sure, I tried identifying how to express that with yaml and failed :)
+
+> I've been wondering whether this would be a common enough issue that it
+> could justify support in the GPIO core to handle consumer-provider
+> loops, but even if that happens at some point in the future, I think the
+> proposal here is good enough and we won't need to switch.
+>
+
+Please note that with the suggestion offline from rob I will add to
+the next version:
+
+# If 'maxim,gpio-poc' is present, then 'poc-supply' and 'gpio-controller'
+# are not allowed.
+if:
+  required:
+    - maxim,gpio-poc
+then:
+  allOf:
+    - not:
+        required:
+          - poc-supply
+    - not:
+        required:
+          - gpio-controller
+
+> > +
+> >    ports:
+> >      $ref: /schemas/graph.yaml#/properties/ports
+> >
+> > @@ -182,7 +200,6 @@ required:
+> >    - reg
+> >    - ports
+> >    - i2c-mux
+> > -  - gpio-controller
+> >
+> >  additionalProperties: false
+> >
+> > @@ -327,4 +344,38 @@ examples:
+> >            };
+> >          };
+> >        };
+> > +
+> > +      /*
+> > +       * Example of a deserializer that controls the camera Power over Coax
+> > +       * through one of its gpio lines.
+> > +       */
+> > +      gmsl-deserializer@6c {
+> > +        compatible = "maxim,max9286";
+> > +        reg = <0x6c>;
+> > +        enable-gpios = <&gpio 14 GPIO_ACTIVE_HIGH>;
+> > +
+> > +        /*
+> > +         * The remote camera power is controlled by MAX9286 GPIO line #0.
+> > +         * No 'poc-supply' nor 'gpio-controller' are specified.
+> > +         */
+> > +        maxim,gpio-poc = <0 GPIO_ACTIVE_LOW>;
+> > +
+> > +        /*
+> > +         * Do not describe connections as they're the same as in the previous
+> > +         * example.
+> > +         */
+> > +        ports {
+> > +          #address-cells = <1>;
+> > +          #size-cells = <0>;
+> > +
+> > +          port@4 {
+> > +            reg = <4>;
+> > +          };
+> > +        };
+> > +
+> > +        i2c-mux {
+> > +          #address-cells = <1>;
+> > +          #size-cells = <0>;
+> > +        };
+> > +      };
+> >      };
+>
+> It's customary to indent DT examples with 4 spaces. The existing
+> examples use two spaces, so maybe a patch on top of this would be useful
+> to increase readability ?
+>
+
+Ah weird! I can add a patch before this one!
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+
+Thanks
+   j
+
+> --
+> Regards,
+>
+> Laurent Pinchart
