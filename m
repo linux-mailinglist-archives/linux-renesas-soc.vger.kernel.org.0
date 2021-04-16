@@ -2,245 +2,215 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E04A3623BF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Apr 2021 17:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 824E6362AFD
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Apr 2021 00:18:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236315AbhDPPVk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Apr 2021 11:21:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45386 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240740AbhDPPUS (ORCPT
+        id S232618AbhDPWS5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Apr 2021 18:18:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34954 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230056AbhDPWS4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Apr 2021 11:20:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 126B76124B;
-        Fri, 16 Apr 2021 15:19:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618586393;
-        bh=pSsgz6SFE9awjWhpCd9doKdNFULnoUddJE0eDHwlPEw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UxAqG9OtRb+QQxIjEDiDCQjDyuQCAA2d4ZFOE0N0q01hfecceetNP30Wn2cpoOVE9
-         WzIl3RlQROaX8eslzhr1HB02OC63p5qRAgAuwInnYgmiv5fbcBC9TWTmYo232GGxlq
-         zl187zQg298hyuS7vBp9IbYu6DRnXQnCKamPIPA4bmh5K0mikLKCBT6to2dCP1x8ty
-         zZx9ADxRCSv4iMzbDba1VKhTd/WRazgU+F/ual3PjLXwH8R3NcS540TNXA2d3csxLQ
-         52sEoFTMSZBaj5Io5xR7NND2H/FGQQX/xOraxhVAgnOADPCX7A2gJRiZJ6UQi8EIca
-         qbHUW/1etaTZw==
-Received: by mail-qv1-f50.google.com with SMTP id dp18so8964626qvb.5;
-        Fri, 16 Apr 2021 08:19:53 -0700 (PDT)
-X-Gm-Message-State: AOAM532l1zBWHnAq4t2Jj5dnVbng16I/pUevkfmsOrp4a9gX2OyAZlsE
-        nsvKvN+kzewR/ABkKCT91eKm6uDkXmC8UEFLuQ==
-X-Google-Smtp-Source: ABdhPJwFV5j0PpR0OOvbKTHrtQGM0/UHlnjLPz7IjIHFauq3IAwfsuj1+lSbzphYfDXiggRtdMYLzMTYnQvOIyCHQj8=
-X-Received: by 2002:ad4:5a07:: with SMTP id ei7mr8951384qvb.50.1618586391992;
- Fri, 16 Apr 2021 08:19:51 -0700 (PDT)
+        Fri, 16 Apr 2021 18:18:56 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C061C061574;
+        Fri, 16 Apr 2021 15:18:31 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B55C51E;
+        Sat, 17 Apr 2021 00:18:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1618611507;
+        bh=IuCnAAJS5v6qKyuXjBEuQoVksOGIAcJ5BWO3jyoj2DA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iP5IfDiRuTia/H1IW666sZLLlxVIs388+xasJ/C7VoWAN6txU3k2gyxSflbo6ZSRz
+         C2JPY3mYmNXTievNnInM0detPIu1xst2hkHoqGZHCLOu+xNHJ+NdC4TfT1ckvixql5
+         bY7GJmpB1gQMb6YTNjoVp8jQtrLCZ+7kaZG5JuPE=
+Date:   Sat, 17 Apr 2021 01:18:25 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/5] media: i2c: max9286: Use "maxim,gpio-poc" property
+Message-ID: <YHoNMXQWd5XyeI/I@pendragon.ideasonboard.com>
+References: <20210414135128.180980-1-jacopo+renesas@jmondi.org>
+ <20210414135128.180980-3-jacopo+renesas@jmondi.org>
+ <YHeCOCkn1YvYR09E@pendragon.ideasonboard.com>
+ <20210415065848.xgisi5cpcxvnxzb4@uno.localdomain>
+ <YHiQfcHoyyvSwFsp@pendragon.ideasonboard.com>
+ <20210416074307.mtd7bcv3yj6zekt6@uno.localdomain>
 MIME-Version: 1.0
-References: <20210412174718.17382-1-michael@walle.cc> <20210412174718.17382-3-michael@walle.cc>
- <730d603b12e590c56770309b4df2bd668f7afbe3.camel@kernel.crashing.org> <8157eba9317609294da80472622deb28@walle.cc>
-In-Reply-To: <8157eba9317609294da80472622deb28@walle.cc>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 16 Apr 2021 10:19:40 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLrx6nFZrKiEtm2a1vDvQGG+FkpGtJCG2osM8hhGo3P=Q@mail.gmail.com>
-Message-ID: <CAL_JsqLrx6nFZrKiEtm2a1vDvQGG+FkpGtJCG2osM8hhGo3P=Q@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 2/2] of: net: fix of_get_mac_addr_nvmem() for
- non-platform devices
-To:     Michael Walle <michael@walle.cc>
-Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        netdev <netdev@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ARM/STM32 ARCHITECTURE" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        linux-oxnas@groups.io, linux-omap <linux-omap@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Andreas Larsson <andreas@gaisler.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Joyce Ooi <joyce.ooi@intel.com>,
-        Chris Snook <chris.snook@gmail.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Sunil Goutham <sgoutham@marvell.com>,
-        Fugang Duan <fugang.duan@nxp.com>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Vadym Kochan <vkochan@marvell.com>,
-        Taras Chornyi <tchornyi@marvell.com>,
-        Mirko Lindner <mlindner@marvell.com>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Bryan Whitehead <bryan.whitehead@microchip.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Byungho An <bh74.an@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Wingman Kwok <w-kwok2@ti.com>,
-        Murali Karicheri <m-karicheri2@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Stanislaw Gruszka <stf_xl@wp.pl>,
-        Helmut Schaa <helmut.schaa@googlemail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210416074307.mtd7bcv3yj6zekt6@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 2:30 AM Michael Walle <michael@walle.cc> wrote:
->
-> Am 2021-04-16 05:24, schrieb Benjamin Herrenschmidt:
-> > On Mon, 2021-04-12 at 19:47 +0200, Michael Walle wrote:
-> >>
-> >>  /**
-> >>   * of_get_phy_mode - Get phy mode for given device_node
-> >> @@ -59,15 +60,39 @@ static int of_get_mac_addr(struct device_node *np,
-> >> const char *name, u8 *addr)
-> >>  static int of_get_mac_addr_nvmem(struct device_node *np, u8 *addr)
-> >>  {
-> >>         struct platform_device *pdev = of_find_device_by_node(np);
-> >> +       struct nvmem_cell *cell;
-> >> +       const void *mac;
-> >> +       size_t len;
-> >>         int ret;
-> >>
-> >> -       if (!pdev)
-> >> -               return -ENODEV;
-> >> +       /* Try lookup by device first, there might be a
-> >> nvmem_cell_lookup
-> >> +        * associated with a given device.
-> >> +        */
-> >> +       if (pdev) {
-> >> +               ret = nvmem_get_mac_address(&pdev->dev, addr);
-> >> +               put_device(&pdev->dev);
-> >> +               return ret;
-> >> +       }
-> >> +
+Hi Jacopo,
+
+On Fri, Apr 16, 2021 at 09:43:07AM +0200, Jacopo Mondi wrote:
+> On Thu, Apr 15, 2021 at 10:14:05PM +0300, Laurent Pinchart wrote:
+> > > > > +		/* GPIO values default to high */
+> > > > > +		priv->gpio_state = BIT(0) | BIT(1);
+> > > >
+> > > > Why is that ?
+> > > >
+> > > As the set/get functions of gpiochip use the gpio_state and I wanted
+> > > to use the same functions for the internal gpio handling I used
+> > > gpio_state in gpio_set(). My thinking was that in this way altering
+> > > the gpio line would be visibile to gpio consumers... which we don't
+> > > have as I won't register the gpio-controller :)
 > >
-> > This smells like the wrong band aid :)
-> >
-> > Any struct device can contain an OF node pointer these days.
->
-> But not all nodes might have an associated device, see DSA for example.
+> > My question was why they default to high here, when they default to low
+> > when there's a gpio-controller property.
+> 
+> Oh, got it now... the two output lines are high by default :)
+> Why do you say "they default to low when there's a gpio-controller
+> property" ? When does that requirement come from ?
 
-I believe what Ben is saying and what I said earlier is going from dev
--> OF node is right and OF node -> dev is wrong. If you only have an
-OF node, then use an of_* function.
+My bad, I thought they were set to 0 in that case, but they're not.
 
-> And as the name suggests of_get_mac_address() operates on a node. So
-> if a driver calls of_get_mac_address() it should work on the node. What
-> is wrong IMHO, is that the ethernet drivers where the corresponding
-> board
-> has a nvmem_cell_lookup registered is calling of_get_mac_address(node).
-> It should rather call eth_get_mac_address(dev) in the first place.
->
-> One would need to figure out if there is an actual device (with an
-> assiciated of_node), then call eth_get_mac_address(dev) and if there
-> isn't a device call of_get_mac_address(node).
+How about moving this initialization from max9286_register_gpio() to the
+beginning of this function, as it's shared by both cases ?
 
-Yes, I think we're all in agreement.
+> > > > > +		priv->regulator = NULL;
+> > > >
+> > > > As priv is initialized to 0, you can skip this.
+> > >
+> > > Yes, I liked it explicit as it is used as flag, but it is not
+> > > required...
+> > >
+> > > > > +
+> > > > > +		return 0;
+> > > > > +	}
+> > > > > +
+> > > > > +	ret = max9286_register_gpio(priv);
+> > > > > +	if (ret)
+> > > > > +		return ret;
+> > > > > +
+> > > > > +	priv->regulator = devm_regulator_get(dev, "poc");
+> > > > > +	if (IS_ERR(priv->regulator)) {
+> > > > > +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
+> > > > > +			dev_err(dev, "Unable to get PoC regulator (%ld)\n",
+> > > > > +				PTR_ERR(priv->regulator));
+> > > > > +		return PTR_ERR(priv->regulator);
+> > > > > +	}
+> > > > > +
+> > > > > +	return 0;
+> > > > > +}
+> > > > > +
+> > > > > +static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
+> > > > > +{
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	/* If "poc-gpio" is used, toggle the line and do not use regulator. */
+> > > > > +	if (!priv->regulator)
+> > > > > +		return max9286_gpio_set(priv, priv->gpio_poc,
+> > > > > +					enable ^ priv->gpio_poc_flags);
+> > > > > +
+> > > > > +	/* Otherwise PoC is controlled using a regulator. */
+> > > > > +	if (enable) {
+> > > > > +		ret = regulator_enable(priv->regulator);
+> > > > > +		if (ret < 0) {
+> > > > > +			dev_err(&priv->client->dev, "Unable to turn PoC on\n");
+> > > >
+> > > > As error message when max9286_gpio_set() fails (at least in the enable
+> > > > case) would be good too. Bonus points if there's a single dev_err()
+> > > > call.
+> > >
+> > > I'll see how it looks like
+> > >
+> > > > > +			return ret;
+> > > > > +		}
+> > > > > +
+> > > > > +		return 0;
+> > > > > +	}
+> > > > > +
+> > > > > +	return regulator_disable(priv->regulator);
+> > > > > +}
+> > > > > +
+> > > > >  static int max9286_init(struct device *dev)
+> > > > >  {
+> > > > >  	struct max9286_priv *priv;
+> > > > > @@ -1078,17 +1158,14 @@ static int max9286_init(struct device *dev)
+> > > > >  	client = to_i2c_client(dev);
+> > > > >  	priv = i2c_get_clientdata(client);
+> > > > >
+> > > > > -	/* Enable the bus power. */
+> > > > > -	ret = regulator_enable(priv->regulator);
+> > > > > -	if (ret < 0) {
+> > > > > -		dev_err(&client->dev, "Unable to turn PoC on\n");
+> > > > > +	ret = max9286_poc_enable(priv, true);
+> > > > > +	if (ret)
+> > > > >  		return ret;
+> > > > > -	}
+> > > > >
+> > > > >  	ret = max9286_setup(priv);
+> > > > >  	if (ret) {
+> > > > >  		dev_err(dev, "Unable to setup max9286\n");
+> > > > > -		goto err_regulator;
+> > > > > +		goto err_poc_disable;
+> > > > >  	}
+> > > > >
+> > > > >  	/*
+> > > > > @@ -1098,7 +1175,7 @@ static int max9286_init(struct device *dev)
+> > > > >  	ret = max9286_v4l2_register(priv);
+> > > > >  	if (ret) {
+> > > > >  		dev_err(dev, "Failed to register with V4L2\n");
+> > > > > -		goto err_regulator;
+> > > > > +		goto err_poc_disable;
+> > > > >  	}
+> > > > >
+> > > > >  	ret = max9286_i2c_mux_init(priv);
+> > > > > @@ -1114,8 +1191,8 @@ static int max9286_init(struct device *dev)
+> > > > >
+> > > > >  err_v4l2_register:
+> > > > >  	max9286_v4l2_unregister(priv);
+> > > > > -err_regulator:
+> > > > > -	regulator_disable(priv->regulator);
+> > > > > +err_poc_disable:
+> > > > > +	max9286_poc_enable(priv, false);
+> > > > >
+> > > > >  	return ret;
+> > > > >  }
+> > > > > @@ -1286,20 +1363,10 @@ static int max9286_probe(struct i2c_client *client)
+> > > > >  	 */
+> > > > >  	max9286_configure_i2c(priv, false);
+> > > > >
+> > > > > -	ret = max9286_register_gpio(priv);
+> > > > > +	ret = max9286_parse_gpios(priv);
+> > > > >  	if (ret)
+> > > > >  		goto err_powerdown;
+> > > > >
+> > > > > -	priv->regulator = devm_regulator_get(&client->dev, "poc");
+> > > > > -	if (IS_ERR(priv->regulator)) {
+> > > > > -		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
+> > > > > -			dev_err(&client->dev,
+> > > > > -				"Unable to get PoC regulator (%ld)\n",
+> > > > > -				PTR_ERR(priv->regulator));
+> > > > > -		ret = PTR_ERR(priv->regulator);
+> > > > > -		goto err_powerdown;
+> > > > > -	}
+> > > > > -
+> > > > >  	ret = max9286_parse_dt(priv);
+> > > > >  	if (ret)
+> > > > >  		goto err_powerdown;
+> > > > > @@ -1326,7 +1393,7 @@ static int max9286_remove(struct i2c_client *client)
+> > > > >
+> > > > >  	max9286_v4l2_unregister(priv);
+> > > > >
+> > > > > -	regulator_disable(priv->regulator);
+> > > > > +	max9286_poc_enable(priv, false);
+> > > > >
+> > > > >  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
+> > > > >
 
-> But I don't know if that is easy to figure out. Well, one could start
-> with just the device where nvmem_cell_lookup is used. Then we could
-> drop the workaround above.
+-- 
+Regards,
 
-Start with the ones just passing dev.of_node directly:
-
-$ git grep 'of_get_mac_address(.*of_node)'
-drivers/net/ethernet/aeroflex/greth.c:          addr =
-of_get_mac_address(ofdev->dev.of_node);
-drivers/net/ethernet/altera/altera_tse_main.c:  macaddr =
-of_get_mac_address(pdev->dev.of_node);
-drivers/net/ethernet/arc/emac_main.c:   mac_addr =
-of_get_mac_address(dev->of_node);
-drivers/net/ethernet/broadcom/bgmac-bcma.c:             mac =
-of_get_mac_address(bgmac->dev->of_node);
-drivers/net/ethernet/cavium/octeon/octeon_mgmt.c:       mac =
-of_get_mac_address(pdev->dev.of_node);
-drivers/net/ethernet/ethoc.c:           mac =
-of_get_mac_address(pdev->dev.of_node);
-drivers/net/ethernet/ezchip/nps_enet.c: mac_addr =
-of_get_mac_address(dev->of_node);
-drivers/net/ethernet/freescale/fs_enet/fs_enet-main.c:  mac_addr =
-of_get_mac_address(ofdev->dev.of_node);
-drivers/net/ethernet/marvell/pxa168_eth.c:              mac_addr =
-of_get_mac_address(pdev->dev.of_node);
-drivers/net/ethernet/marvell/sky2.c:    iap =
-of_get_mac_address(hw->pdev->dev.of_node);
-drivers/net/ethernet/mediatek/mtk_eth_soc.c:    mac_addr =
-of_get_mac_address(mac->of_node);
-drivers/net/ethernet/microchip/lan743x_main.c:  mac_addr =
-of_get_mac_address(pdev->dev.of_node);
-drivers/net/ethernet/qualcomm/qca_spi.c:        mac =
-of_get_mac_address(spi->dev.of_node);
-drivers/net/ethernet/qualcomm/qca_uart.c:       mac =
-of_get_mac_address(serdev->dev.of_node);
-drivers/net/ethernet/wiznet/w5100-spi.c:        const void *mac =
-of_get_mac_address(spi->dev.of_node);
-drivers/net/ethernet/xilinx/xilinx_axienet_main.c:      mac_addr =
-of_get_mac_address(pdev->dev.of_node);
-drivers/net/ethernet/xilinx/xilinx_emaclite.c:  mac_address =
-of_get_mac_address(ofdev->dev.of_node);
-drivers/net/wireless/ralink/rt2x00/rt2x00dev.c: mac_addr =
-of_get_mac_address(rt2x00dev->dev->of_node);
-drivers/staging/octeon/ethernet.c:              mac =
-of_get_mac_address(priv->of_node);
-drivers/staging/wfx/main.c:             macaddr =
-of_get_mac_address(wdev->dev->of_node);
-net/ethernet/eth.c:             addr = of_get_mac_address(dev->of_node);
-
-Then this will find most of the rest:
-git grep -W 'of_get_mac_address([a-z]*)'| grep -E '(node|np)'
-
-Rob
+Laurent Pinchart
