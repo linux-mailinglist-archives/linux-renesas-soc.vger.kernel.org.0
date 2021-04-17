@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 406FB362DCF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Apr 2021 06:59:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D35C0362DE3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Apr 2021 07:32:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235632AbhDQE5r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 17 Apr 2021 00:57:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36426 "EHLO
+        id S230206AbhDQFdF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 17 Apr 2021 01:33:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbhDQE5r (ORCPT
+        with ESMTP id S230050AbhDQFdE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 17 Apr 2021 00:57:47 -0400
+        Sat, 17 Apr 2021 01:33:04 -0400
 Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 491C7C06175F
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Apr 2021 21:57:14 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id m9so15792002wrx.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Apr 2021 21:57:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2901C061574
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Apr 2021 22:32:37 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id j5so27632685wrn.4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Apr 2021 22:32:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JrhmhIl/zhGbk6XFbxC+wKuQyPiAESBYDekvQYnTwUo=;
-        b=kTENIkt3ohnfY8gzDt9X9UpyWfrG2z+vcRKHpiVcW37n2oW6MxYYRforPRt0I/4Vq6
-         u8Lffpmzm85G7upERi/9EcMjIE3G4xAVRqBmTi3gUbwkx09ej1uxI0SvcxXL+Pf4nphc
-         0IQcI+rVpHRGaqwFXkCDqBQSUQCPTWF5EQD2qn0MoJUw2acoz0OIE4Fuga6iVMjgCQ7i
-         xR/NlQJgxgsmLlui/aDmOqoDbPE060sdl9Fyv4U2ieQ14l371ZGLNDJptHz7hyCAaQ4P
-         tEq3CqomTDQM1L2xAgIokyu0W64+VkosDXPANrnV3gh+fejePG2/Mf+ZYTXSbuIPmHIs
-         dipg==
+        bh=Yel8kZ2Tma5qDHkl5VF5hUJv3VRyJBHjD01XcbFMm7o=;
+        b=FQeRAuHlScrBu6MaDSe9PflLWcLWOp7EliDRc9b5tvICvRAMo75ftKKbT1k1wZ6eJN
+         rW+6UpKSlakpb0vJdaoOyAXDMLYZMbRxMsjqRTOazR5LHZ4gbH/1045yCfA8YpV5osKA
+         2qJ3BMMT92CpfwV7WxWhg9xFX6V7xXrZX/d1UOas4dtwL8cDN+L4OC2CiGzsPZNrcEj3
+         IIQTBaeApIn/e36fWpvlutCVAS3oaXzYDLCyXl50k3hamJSDkB3FWoUGaMAyJkozGGns
+         CNYjbms2JALKoPLg+gNdtLKkblqV1L1ymmzQ6m81wNUY2FSdsIoDZz+UwzlOR9n0NHHl
+         MTtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=JrhmhIl/zhGbk6XFbxC+wKuQyPiAESBYDekvQYnTwUo=;
-        b=WD5LkeGXl0u/r9tNxqmffCOi5kCqjgd1iJMQPfvC0RGtfnl6GKtgWnqimy6lrlDjah
-         7vjKBojR7ZOxxDg2l7OsjhvAt+aB2nmu4gl0iz/5rvmxD0sCoduOHVjIkW9bzvykf6pf
-         p5u2IJU//6KlcJIwDEhoBlPOwXeBqO5B7qY10mWclxAcoslWNYroJkBr3Oc488lWkUj+
-         Ja1CHjQOlZUHzEo9Y6cWaYWuFycXDJ0+VPy5w+S2uudfTUGYRBHdLZvE4A0nN0ZfypXU
-         1sGLT6IO5zDFQOm+IaWI7wIDApI7bcUQ6WiQEe80Lje208aVdcJ6BWEgtcxiUFv85+7F
-         vdUA==
-X-Gm-Message-State: AOAM533ajfABH8AvnVkDYjiY5oFaL9q8pzkhC6CCjtqs8gaOdoAIJXX5
-        5T/bIefqcAge3uHSBFJhDeugpg==
-X-Google-Smtp-Source: ABdhPJwdlA0oLxm64mxca7Gh2rEvsG06SVMGsYf7lk9AZu4FeXneCvbU8Tt+uVhYxvDI91e4aX7SXA==
-X-Received: by 2002:adf:efc9:: with SMTP id i9mr2414964wrp.173.1618635432685;
-        Fri, 16 Apr 2021 21:57:12 -0700 (PDT)
+        bh=Yel8kZ2Tma5qDHkl5VF5hUJv3VRyJBHjD01XcbFMm7o=;
+        b=Jx/VDKzYo8kPlGSXcqjsAcANERi3/jinStqPtr57D1LK1ujPKBcOx85F1Ygj9nlwl1
+         gJ9lKIUdbdhmkF64YLtTTAPYcF6jlFjtXBIAvbU4UgtK/hfvBrvFQTqeIHOuZuaX//Wy
+         w58i1dhAQtEEYqJnmCSJB6auvuGSQeC8DK1EPGC9XWYDPQbzqjP37US2//LgZbTFdB3G
+         IRd3/R1Uggf86V3ICE/OK485TxKkkG5hUFxvckNO0D0gks/wRzf9QzwrfLUJr/hxe7ba
+         4tvnStEzolKu+qQ42yRXBvmakEnzi7qWPC/pqNucchuU+wcgd2yefG7RW9kcsSO2Z8Hm
+         z8kg==
+X-Gm-Message-State: AOAM530rs6ovRYfZ8WJm3eQsdsqtB+OixgOvYDDeFaeXK0VOOx8MfSDE
+        gwXOL7qh7+SmUt93gq86Mojv8A==
+X-Google-Smtp-Source: ABdhPJw61fNpL5fSjrTieaEhqFpiY7r82WcRE8yKeIbtOkcHwNUSzz6t/vjSZhernYbDulhiaFEzTQ==
+X-Received: by 2002:a5d:6d41:: with SMTP id k1mr2702788wri.66.1618637556090;
+        Fri, 16 Apr 2021 22:32:36 -0700 (PDT)
 Received: from ?IPv6:2a01:e34:ed2f:f020:689d:e652:825c:501e? ([2a01:e34:ed2f:f020:689d:e652:825c:501e])
-        by smtp.googlemail.com with ESMTPSA id x25sm11567040wmj.34.2021.04.16.21.57.10
+        by smtp.googlemail.com with ESMTPSA id y17sm13822381wrq.76.2021.04.16.22.32.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Apr 2021 21:57:12 -0700 (PDT)
+        Fri, 16 Apr 2021 22:32:35 -0700 (PDT)
 Subject: Re: [PATCH v7 2/9] reboot: thermal: Export hardware protection
  shutdown
 To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
@@ -79,8 +79,8 @@ Cc:     Mark Brown <broonie@kernel.org>, Kees Cook <keescook@chromium.org>,
 References: <cover.1618377272.git.matti.vaittinen@fi.rohmeurope.com>
  <adf417797006c996605a03c8bacfb4961e8f0b42.1618377272.git.matti.vaittinen@fi.rohmeurope.com>
 From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <7e231384-77c9-d32d-a0e0-63b735072b2d@linaro.org>
-Date:   Sat, 17 Apr 2021 06:57:10 +0200
+Message-ID: <ce0918d9-bedb-e48f-5779-c0ef47c6909d@linaro.org>
+Date:   Sat, 17 Apr 2021 07:32:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -120,19 +120,14 @@ On 14/04/2021 07:52, Matti Vaittinen wrote:
 > no odd corner-cases have been tested).
 > 
 > Any testing for thermal shutdown is appreciated.
-
-You can test it easily by enabling the option CONFIG_THERMAL_EMULATION
-
-Then in any thermal zone:
-
-Assuming the critical temp is below the one specified in the command:
-
-echo 100000 > /sys/class/thermal/thermal_zone0/emul_temp
-
 > ---
 >  drivers/thermal/thermal_core.c | 63 ++-----------------------
 >  include/linux/reboot.h         |  1 +
 >  kernel/reboot.c                | 86 ++++++++++++++++++++++++++++++++++
+
+Please send a patch implementing the reboot/shutdown and then another
+one replacing the thermal shutdown code by a call to the new API.
+
 >  3 files changed, 91 insertions(+), 59 deletions(-)
 > 
 > diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
@@ -325,11 +320,34 @@ echo 100000 > /sys/class/thermal/thermal_zone0/emul_temp
 > +	spin_lock_irqsave(&poweroff_lock, flags);
 > +	if (prot_power_off_triggered) {
 > +		spin_unlock(&poweroff_lock);
+
+Why not spin_unlock_irqrestore() ?
+
 > +		return;
 > +	}
 > +	prot_power_off_triggered = true;
 > +	spin_unlock_irqrestore(&poweroff_lock, flags);
-> +
+
+Why not take the spin_lock definitively for all the procedure ?
+
+eg.
+
+{
+	...
+
+	pr_emerg( ... );
+
+	if (spin_trylock(&lock))
+		return;
+
+	hw_failure_emergency_poweroff(ms_until_forced);
+
+	orderly_poweroff(true);
+}
+
+No need of prot_power_off_triggered and the spin_lock can be declared
+static inside the function.
+
 > +	/*
 > +	 * Queue a backup emergency shutdown in the event of
 > +	 * orderly_poweroff failure
