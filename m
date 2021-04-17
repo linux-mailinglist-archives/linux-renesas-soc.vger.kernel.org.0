@@ -2,215 +2,352 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 824E6362AFD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Apr 2021 00:18:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 406FB362DCF
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Apr 2021 06:59:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232618AbhDPWS5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Apr 2021 18:18:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34954 "EHLO
+        id S235632AbhDQE5r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 17 Apr 2021 00:57:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230056AbhDPWS4 (ORCPT
+        with ESMTP id S230205AbhDQE5r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Apr 2021 18:18:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C061C061574;
-        Fri, 16 Apr 2021 15:18:31 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B55C51E;
-        Sat, 17 Apr 2021 00:18:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618611507;
-        bh=IuCnAAJS5v6qKyuXjBEuQoVksOGIAcJ5BWO3jyoj2DA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iP5IfDiRuTia/H1IW666sZLLlxVIs388+xasJ/C7VoWAN6txU3k2gyxSflbo6ZSRz
-         C2JPY3mYmNXTievNnInM0detPIu1xst2hkHoqGZHCLOu+xNHJ+NdC4TfT1ckvixql5
-         bY7GJmpB1gQMb6YTNjoVp8jQtrLCZ+7kaZG5JuPE=
-Date:   Sat, 17 Apr 2021 01:18:25 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] media: i2c: max9286: Use "maxim,gpio-poc" property
-Message-ID: <YHoNMXQWd5XyeI/I@pendragon.ideasonboard.com>
-References: <20210414135128.180980-1-jacopo+renesas@jmondi.org>
- <20210414135128.180980-3-jacopo+renesas@jmondi.org>
- <YHeCOCkn1YvYR09E@pendragon.ideasonboard.com>
- <20210415065848.xgisi5cpcxvnxzb4@uno.localdomain>
- <YHiQfcHoyyvSwFsp@pendragon.ideasonboard.com>
- <20210416074307.mtd7bcv3yj6zekt6@uno.localdomain>
+        Sat, 17 Apr 2021 00:57:47 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 491C7C06175F
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Apr 2021 21:57:14 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id m9so15792002wrx.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Apr 2021 21:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=JrhmhIl/zhGbk6XFbxC+wKuQyPiAESBYDekvQYnTwUo=;
+        b=kTENIkt3ohnfY8gzDt9X9UpyWfrG2z+vcRKHpiVcW37n2oW6MxYYRforPRt0I/4Vq6
+         u8Lffpmzm85G7upERi/9EcMjIE3G4xAVRqBmTi3gUbwkx09ej1uxI0SvcxXL+Pf4nphc
+         0IQcI+rVpHRGaqwFXkCDqBQSUQCPTWF5EQD2qn0MoJUw2acoz0OIE4Fuga6iVMjgCQ7i
+         xR/NlQJgxgsmLlui/aDmOqoDbPE060sdl9Fyv4U2ieQ14l371ZGLNDJptHz7hyCAaQ4P
+         tEq3CqomTDQM1L2xAgIokyu0W64+VkosDXPANrnV3gh+fejePG2/Mf+ZYTXSbuIPmHIs
+         dipg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JrhmhIl/zhGbk6XFbxC+wKuQyPiAESBYDekvQYnTwUo=;
+        b=WD5LkeGXl0u/r9tNxqmffCOi5kCqjgd1iJMQPfvC0RGtfnl6GKtgWnqimy6lrlDjah
+         7vjKBojR7ZOxxDg2l7OsjhvAt+aB2nmu4gl0iz/5rvmxD0sCoduOHVjIkW9bzvykf6pf
+         p5u2IJU//6KlcJIwDEhoBlPOwXeBqO5B7qY10mWclxAcoslWNYroJkBr3Oc488lWkUj+
+         Ja1CHjQOlZUHzEo9Y6cWaYWuFycXDJ0+VPy5w+S2uudfTUGYRBHdLZvE4A0nN0ZfypXU
+         1sGLT6IO5zDFQOm+IaWI7wIDApI7bcUQ6WiQEe80Lje208aVdcJ6BWEgtcxiUFv85+7F
+         vdUA==
+X-Gm-Message-State: AOAM533ajfABH8AvnVkDYjiY5oFaL9q8pzkhC6CCjtqs8gaOdoAIJXX5
+        5T/bIefqcAge3uHSBFJhDeugpg==
+X-Google-Smtp-Source: ABdhPJwdlA0oLxm64mxca7Gh2rEvsG06SVMGsYf7lk9AZu4FeXneCvbU8Tt+uVhYxvDI91e4aX7SXA==
+X-Received: by 2002:adf:efc9:: with SMTP id i9mr2414964wrp.173.1618635432685;
+        Fri, 16 Apr 2021 21:57:12 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:689d:e652:825c:501e? ([2a01:e34:ed2f:f020:689d:e652:825c:501e])
+        by smtp.googlemail.com with ESMTPSA id x25sm11567040wmj.34.2021.04.16.21.57.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Apr 2021 21:57:12 -0700 (PDT)
+Subject: Re: [PATCH v7 2/9] reboot: thermal: Export hardware protection
+ shutdown
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Matti Vaittinen <mazziesaccount@gmail.com>
+Cc:     Mark Brown <broonie@kernel.org>, Kees Cook <keescook@chromium.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "agross@kernel.org" <agross@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        linux-power <linux-power@fi.rohmeurope.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Matteo Croce <mcroce@microsoft.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        linux-pm@vger.kernel.org
+References: <cover.1618377272.git.matti.vaittinen@fi.rohmeurope.com>
+ <adf417797006c996605a03c8bacfb4961e8f0b42.1618377272.git.matti.vaittinen@fi.rohmeurope.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <7e231384-77c9-d32d-a0e0-63b735072b2d@linaro.org>
+Date:   Sat, 17 Apr 2021 06:57:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <adf417797006c996605a03c8bacfb4961e8f0b42.1618377272.git.matti.vaittinen@fi.rohmeurope.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210416074307.mtd7bcv3yj6zekt6@uno.localdomain>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
-
-On Fri, Apr 16, 2021 at 09:43:07AM +0200, Jacopo Mondi wrote:
-> On Thu, Apr 15, 2021 at 10:14:05PM +0300, Laurent Pinchart wrote:
-> > > > > +		/* GPIO values default to high */
-> > > > > +		priv->gpio_state = BIT(0) | BIT(1);
-> > > >
-> > > > Why is that ?
-> > > >
-> > > As the set/get functions of gpiochip use the gpio_state and I wanted
-> > > to use the same functions for the internal gpio handling I used
-> > > gpio_state in gpio_set(). My thinking was that in this way altering
-> > > the gpio line would be visibile to gpio consumers... which we don't
-> > > have as I won't register the gpio-controller :)
-> >
-> > My question was why they default to high here, when they default to low
-> > when there's a gpio-controller property.
+On 14/04/2021 07:52, Matti Vaittinen wrote:
+> Thermal core contains a logic for safety shutdown. System is attempted to
+> be powered off if temperature exceeds safety limits.
 > 
-> Oh, got it now... the two output lines are high by default :)
-> Why do you say "they default to low when there's a gpio-controller
-> property" ? When does that requirement come from ?
+> Currently this can be also utilized by regulator subsystem as a final
+> protection measure if PMICs report dangerous over-voltage, over-current or
+> over-temperature and if per regulator counter measures fail or do not
+> exist.
+> 
+> Move this logic to kernel/reboot.c and export the functionality for other
+> subsystems to use. Also replace the mutex with a spinlock to allow using
+> the function from any context.
+> 
+> Also the EMIF bus code has implemented a safety shut-down. EMIF does not
+> attempt orderly_poweroff at all. Thus the EMIF code is not converted to use
+> this new function.
+> 
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+> Changelog
+>  v7:
+>   - new patch
+> 
+> Please note - this patch has received only a minimal amount of testing.
+> (The new API call was tested to shut-down my system at driver probe but
+> no odd corner-cases have been tested).
+> 
+> Any testing for thermal shutdown is appreciated.
 
-My bad, I thought they were set to 0 in that case, but they're not.
+You can test it easily by enabling the option CONFIG_THERMAL_EMULATION
 
-How about moving this initialization from max9286_register_gpio() to the
-beginning of this function, as it's shared by both cases ?
+Then in any thermal zone:
 
-> > > > > +		priv->regulator = NULL;
-> > > >
-> > > > As priv is initialized to 0, you can skip this.
-> > >
-> > > Yes, I liked it explicit as it is used as flag, but it is not
-> > > required...
-> > >
-> > > > > +
-> > > > > +		return 0;
-> > > > > +	}
-> > > > > +
-> > > > > +	ret = max9286_register_gpio(priv);
-> > > > > +	if (ret)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	priv->regulator = devm_regulator_get(dev, "poc");
-> > > > > +	if (IS_ERR(priv->regulator)) {
-> > > > > +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> > > > > +			dev_err(dev, "Unable to get PoC regulator (%ld)\n",
-> > > > > +				PTR_ERR(priv->regulator));
-> > > > > +		return PTR_ERR(priv->regulator);
-> > > > > +	}
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > > +static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
-> > > > > +{
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	/* If "poc-gpio" is used, toggle the line and do not use regulator. */
-> > > > > +	if (!priv->regulator)
-> > > > > +		return max9286_gpio_set(priv, priv->gpio_poc,
-> > > > > +					enable ^ priv->gpio_poc_flags);
-> > > > > +
-> > > > > +	/* Otherwise PoC is controlled using a regulator. */
-> > > > > +	if (enable) {
-> > > > > +		ret = regulator_enable(priv->regulator);
-> > > > > +		if (ret < 0) {
-> > > > > +			dev_err(&priv->client->dev, "Unable to turn PoC on\n");
-> > > >
-> > > > As error message when max9286_gpio_set() fails (at least in the enable
-> > > > case) would be good too. Bonus points if there's a single dev_err()
-> > > > call.
-> > >
-> > > I'll see how it looks like
-> > >
-> > > > > +			return ret;
-> > > > > +		}
-> > > > > +
-> > > > > +		return 0;
-> > > > > +	}
-> > > > > +
-> > > > > +	return regulator_disable(priv->regulator);
-> > > > > +}
-> > > > > +
-> > > > >  static int max9286_init(struct device *dev)
-> > > > >  {
-> > > > >  	struct max9286_priv *priv;
-> > > > > @@ -1078,17 +1158,14 @@ static int max9286_init(struct device *dev)
-> > > > >  	client = to_i2c_client(dev);
-> > > > >  	priv = i2c_get_clientdata(client);
-> > > > >
-> > > > > -	/* Enable the bus power. */
-> > > > > -	ret = regulator_enable(priv->regulator);
-> > > > > -	if (ret < 0) {
-> > > > > -		dev_err(&client->dev, "Unable to turn PoC on\n");
-> > > > > +	ret = max9286_poc_enable(priv, true);
-> > > > > +	if (ret)
-> > > > >  		return ret;
-> > > > > -	}
-> > > > >
-> > > > >  	ret = max9286_setup(priv);
-> > > > >  	if (ret) {
-> > > > >  		dev_err(dev, "Unable to setup max9286\n");
-> > > > > -		goto err_regulator;
-> > > > > +		goto err_poc_disable;
-> > > > >  	}
-> > > > >
-> > > > >  	/*
-> > > > > @@ -1098,7 +1175,7 @@ static int max9286_init(struct device *dev)
-> > > > >  	ret = max9286_v4l2_register(priv);
-> > > > >  	if (ret) {
-> > > > >  		dev_err(dev, "Failed to register with V4L2\n");
-> > > > > -		goto err_regulator;
-> > > > > +		goto err_poc_disable;
-> > > > >  	}
-> > > > >
-> > > > >  	ret = max9286_i2c_mux_init(priv);
-> > > > > @@ -1114,8 +1191,8 @@ static int max9286_init(struct device *dev)
-> > > > >
-> > > > >  err_v4l2_register:
-> > > > >  	max9286_v4l2_unregister(priv);
-> > > > > -err_regulator:
-> > > > > -	regulator_disable(priv->regulator);
-> > > > > +err_poc_disable:
-> > > > > +	max9286_poc_enable(priv, false);
-> > > > >
-> > > > >  	return ret;
-> > > > >  }
-> > > > > @@ -1286,20 +1363,10 @@ static int max9286_probe(struct i2c_client *client)
-> > > > >  	 */
-> > > > >  	max9286_configure_i2c(priv, false);
-> > > > >
-> > > > > -	ret = max9286_register_gpio(priv);
-> > > > > +	ret = max9286_parse_gpios(priv);
-> > > > >  	if (ret)
-> > > > >  		goto err_powerdown;
-> > > > >
-> > > > > -	priv->regulator = devm_regulator_get(&client->dev, "poc");
-> > > > > -	if (IS_ERR(priv->regulator)) {
-> > > > > -		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> > > > > -			dev_err(&client->dev,
-> > > > > -				"Unable to get PoC regulator (%ld)\n",
-> > > > > -				PTR_ERR(priv->regulator));
-> > > > > -		ret = PTR_ERR(priv->regulator);
-> > > > > -		goto err_powerdown;
-> > > > > -	}
-> > > > > -
-> > > > >  	ret = max9286_parse_dt(priv);
-> > > > >  	if (ret)
-> > > > >  		goto err_powerdown;
-> > > > > @@ -1326,7 +1393,7 @@ static int max9286_remove(struct i2c_client *client)
-> > > > >
-> > > > >  	max9286_v4l2_unregister(priv);
-> > > > >
-> > > > > -	regulator_disable(priv->regulator);
-> > > > > +	max9286_poc_enable(priv, false);
-> > > > >
-> > > > >  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-> > > > >
+Assuming the critical temp is below the one specified in the command:
+
+echo 100000 > /sys/class/thermal/thermal_zone0/emul_temp
+
+> ---
+>  drivers/thermal/thermal_core.c | 63 ++-----------------------
+>  include/linux/reboot.h         |  1 +
+>  kernel/reboot.c                | 86 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 91 insertions(+), 59 deletions(-)
+> 
+> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
+> index 996c038f83a4..b1444845af38 100644
+> --- a/drivers/thermal/thermal_core.c
+> +++ b/drivers/thermal/thermal_core.c
+> @@ -36,10 +36,8 @@ static LIST_HEAD(thermal_governor_list);
+>  
+>  static DEFINE_MUTEX(thermal_list_lock);
+>  static DEFINE_MUTEX(thermal_governor_lock);
+> -static DEFINE_MUTEX(poweroff_lock);
+>  
+>  static atomic_t in_suspend;
+> -static bool power_off_triggered;
+>  
+>  static struct thermal_governor *def_governor;
+>  
+> @@ -327,70 +325,18 @@ static void handle_non_critical_trips(struct thermal_zone_device *tz, int trip)
+>  		       def_governor->throttle(tz, trip);
+>  }
+>  
+> -/**
+> - * thermal_emergency_poweroff_func - emergency poweroff work after a known delay
+> - * @work: work_struct associated with the emergency poweroff function
+> - *
+> - * This function is called in very critical situations to force
+> - * a kernel poweroff after a configurable timeout value.
+> - */
+> -static void thermal_emergency_poweroff_func(struct work_struct *work)
+> -{
+> -	/*
+> -	 * We have reached here after the emergency thermal shutdown
+> -	 * Waiting period has expired. This means orderly_poweroff has
+> -	 * not been able to shut off the system for some reason.
+> -	 * Try to shut down the system immediately using kernel_power_off
+> -	 * if populated
+> -	 */
+> -	WARN(1, "Attempting kernel_power_off: Temperature too high\n");
+> -	kernel_power_off();
+> -
+> -	/*
+> -	 * Worst of the worst case trigger emergency restart
+> -	 */
+> -	WARN(1, "Attempting emergency_restart: Temperature too high\n");
+> -	emergency_restart();
+> -}
+> -
+> -static DECLARE_DELAYED_WORK(thermal_emergency_poweroff_work,
+> -			    thermal_emergency_poweroff_func);
+> -
+> -/**
+> - * thermal_emergency_poweroff - Trigger an emergency system poweroff
+> - *
+> - * This may be called from any critical situation to trigger a system shutdown
+> - * after a known period of time. By default this is not scheduled.
+> - */
+> -static void thermal_emergency_poweroff(void)
+> +void thermal_zone_device_critical(struct thermal_zone_device *tz)
+>  {
+> -	int poweroff_delay_ms = CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS;
+>  	/*
+>  	 * poweroff_delay_ms must be a carefully profiled positive value.
+> -	 * Its a must for thermal_emergency_poweroff_work to be scheduled
+> +	 * Its a must for forced_emergency_poweroff_work to be scheduled.
+>  	 */
+> -	if (poweroff_delay_ms <= 0)
+> -		return;
+> -	schedule_delayed_work(&thermal_emergency_poweroff_work,
+> -			      msecs_to_jiffies(poweroff_delay_ms));
+> -}
+> +	int poweroff_delay_ms = CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS;
+>  
+> -void thermal_zone_device_critical(struct thermal_zone_device *tz)
+> -{
+>  	dev_emerg(&tz->device, "%s: critical temperature reached, "
+>  		  "shutting down\n", tz->type);
+>  
+> -	mutex_lock(&poweroff_lock);
+> -	if (!power_off_triggered) {
+> -		/*
+> -		 * Queue a backup emergency shutdown in the event of
+> -		 * orderly_poweroff failure
+> -		 */
+> -		thermal_emergency_poweroff();
+> -		orderly_poweroff(true);
+> -		power_off_triggered = true;
+> -	}
+> -	mutex_unlock(&poweroff_lock);
+> +	hw_protection_shutdown("Temperature too high", poweroff_delay_ms);
+>  }
+>  EXPORT_SYMBOL(thermal_zone_device_critical);
+>  
+> @@ -1549,7 +1495,6 @@ static int __init thermal_init(void)
+>  	ida_destroy(&thermal_cdev_ida);
+>  	mutex_destroy(&thermal_list_lock);
+>  	mutex_destroy(&thermal_governor_lock);
+> -	mutex_destroy(&poweroff_lock);
+>  	return result;
+>  }
+>  postcore_initcall(thermal_init);
+> diff --git a/include/linux/reboot.h b/include/linux/reboot.h
+> index 3734cd8f38a8..af907a3d68d1 100644
+> --- a/include/linux/reboot.h
+> +++ b/include/linux/reboot.h
+> @@ -79,6 +79,7 @@ extern char poweroff_cmd[POWEROFF_CMD_PATH_LEN];
+>  
+>  extern void orderly_poweroff(bool force);
+>  extern void orderly_reboot(void);
+> +void hw_protection_shutdown(const char *reason, int ms_until_forced);
+>  
+>  /*
+>   * Emergency restart, callable from an interrupt handler.
+> diff --git a/kernel/reboot.c b/kernel/reboot.c
+> index a6ad5eb2fa73..1b5fa6d213d4 100644
+> --- a/kernel/reboot.c
+> +++ b/kernel/reboot.c
+> @@ -518,6 +518,92 @@ void orderly_reboot(void)
+>  }
+>  EXPORT_SYMBOL_GPL(orderly_reboot);
+>  
+> +/**
+> + * hw_failure_emergency_poweroff_func - emergency poweroff work after a known delay
+> + * @work: work_struct associated with the emergency poweroff function
+> + *
+> + * This function is called in very critical situations to force
+> + * a kernel poweroff after a configurable timeout value.
+> + */
+> +static void hw_failure_emergency_poweroff_func(struct work_struct *work)
+> +{
+> +	/*
+> +	 * We have reached here after the emergency shutdown waiting period has
+> +	 * expired. This means orderly_poweroff has not been able to shut off
+> +	 * the system for some reason.
+> +	 *
+> +	 * Try to shut down the system immediately using kernel_power_off
+> +	 * if populated
+> +	 */
+> +	WARN(1, "Hardware protection timed-out. Trying forced poweroff\n");
+> +	kernel_power_off();
+> +
+> +	/*
+> +	 * Worst of the worst case trigger emergency restart
+> +	 */
+> +	WARN(1,
+> +	     "Hardware protection shutdown failed. Trying emergency restart\n");
+> +	emergency_restart();
+> +}
+> +
+> +static DECLARE_DELAYED_WORK(hw_failure_emergency_poweroff_work,
+> +			    hw_failure_emergency_poweroff_func);
+> +
+> +/**
+> + * hw_failure_emergency_poweroff - Trigger an emergency system poweroff
+> + *
+> + * This may be called from any critical situation to trigger a system shutdown
+> + * after a given period of time. If time is negative this is not scheduled.
+> + */
+> +static void hw_failure_emergency_poweroff(int poweroff_delay_ms)
+> +{
+> +	if (poweroff_delay_ms <= 0)
+> +		return;
+> +	schedule_delayed_work(&hw_failure_emergency_poweroff_work,
+> +			      msecs_to_jiffies(poweroff_delay_ms));
+> +}
+> +
+> +static bool prot_power_off_triggered;
+> +static DEFINE_SPINLOCK(poweroff_lock);
+> +
+> +/**
+> + * hw_protection_shutdown - Trigger an emergency system poweroff
+> + *
+> + * @reason:		Reason of emergency shutdown to be printed.
+> + * @ms_until_forced:	Time to wait for orderly shutdown before tiggering a
+> + *			forced shudown. Negative value disables the forced
+> + *			shutdown.
+> + *
+> + * Initiate an emergency system shutdown in order to protect hardware from
+> + * further damage. Usage examples include a thermal protection or a voltage or
+> + * current regulator failures.
+> + * NOTE: The request is ignored if protection shutdown is already pending even
+> + * if the previous request has given a large timeout for forced shutdown.
+> + * Can be called from any context.
+> + */
+> +void hw_protection_shutdown(const char *reason, int ms_until_forced)
+> +{
+> +	unsigned long flags;
+> +
+> +	pr_emerg("HARDWARE PROTECTION shutdown (%s)\n", reason);
+> +
+> +	spin_lock_irqsave(&poweroff_lock, flags);
+> +	if (prot_power_off_triggered) {
+> +		spin_unlock(&poweroff_lock);
+> +		return;
+> +	}
+> +	prot_power_off_triggered = true;
+> +	spin_unlock_irqrestore(&poweroff_lock, flags);
+> +
+> +	/*
+> +	 * Queue a backup emergency shutdown in the event of
+> +	 * orderly_poweroff failure
+> +	 */
+> +	hw_failure_emergency_poweroff(ms_until_forced);
+> +	orderly_poweroff(true);
+> +}
+> +EXPORT_SYMBOL_GPL(hw_protection_shutdown);
+> +
+>  static int __init reboot_setup(char *str)
+>  {
+>  	for (;;) {
+> 
+
 
 -- 
-Regards,
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-Laurent Pinchart
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
