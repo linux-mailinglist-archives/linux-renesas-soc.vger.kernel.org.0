@@ -2,232 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07EC2364E97
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Apr 2021 01:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96A00364ED3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Apr 2021 01:43:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230152AbhDSXZz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Apr 2021 19:25:55 -0400
-Received: from mga09.intel.com ([134.134.136.24]:63452 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229723AbhDSXZy (ORCPT
+        id S232704AbhDSXnx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Apr 2021 19:43:53 -0400
+Received: from gw.atmark-techno.com ([13.115.124.170]:42776 "EHLO
+        gw.atmark-techno.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232633AbhDSXnw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Apr 2021 19:25:54 -0400
-IronPort-SDR: SqVk2ZAu5MNcT+YzLjb2N/CpEmlW19kc/MH4Z4gPOGWYthG25St3Fnf5ePpu5IF5c6FGtt7eLR
- Ps4JHQYETvNA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="195528904"
-X-IronPort-AV: E=Sophos;i="5.82,235,1613462400"; 
-   d="scan'208";a="195528904"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2021 16:25:23 -0700
-IronPort-SDR: 8GJW1rW4028bNsQ3kTsLCuaknNEThAPkZDm3v+cW1yvG2r9TzdXLPz0V0LUn+wbjhyl9VYJaVV
- C9/YEwuryEjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,235,1613462400"; 
-   d="scan'208";a="534303234"
-Received: from lkp-server01.sh.intel.com (HELO a48ff7ddd223) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 19 Apr 2021 16:25:21 -0700
-Received: from kbuild by a48ff7ddd223 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lYdGb-0001xe-2b; Mon, 19 Apr 2021 23:25:21 +0000
-Date:   Tue, 20 Apr 2021 07:25:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.14] BUILD SUCCESS
- 7f9ea367e21bee52345ec49192f0c45876fc97b9
-Message-ID: <607e115d.ZaFF7jmc0Ocu/bSB%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 19 Apr 2021 19:43:52 -0400
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+        by gw.atmark-techno.com (Postfix) with ESMTPS id 8082B804BF
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Apr 2021 08:43:09 +0900 (JST)
+Received: by mail-oi1-f200.google.com with SMTP id n8-20020acad6080000b029018733b9e4b1so1281090oig.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Apr 2021 16:43:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YfTDNxUjME1kzwn4ONpBlmaWp5uEs0PGjlewRbiJ8O0=;
+        b=CZN7vo8PkhblL9KSyLP5r3tsBLNWZq1wojXIkDZ/NdByjwQOMulvSyTKv9hcHvKYvD
+         XfAjmR9VW9yOpzbyLWIpSi4FifaqYjYdZj+6kojzlOTnuJkpUs2EONlEcmwCIVXuDyzG
+         jBmIkzKLH50uKpw/7x1mN2vauQBJC4JB5xbPw6whZvaKoFFweK0C0etj1LMrUIzhSdXW
+         PeZ3WOSGm1SllbuX4PXuddDWU+rJWnmCDUV2YYm2NesOytKLh6rwoJI8KOXszSC9AjJk
+         7QNOrcEMN+rlslY+IXWec7miDnpwK+dkJu3FA986o6eNJ7zrOwLxckxJdYMkzwKCTEi0
+         AARQ==
+X-Gm-Message-State: AOAM533tZyFVWoaB9XSEZIH+mMYzAlb5tV3yD/E0YN6UoVk3R/OWwCod
+        +IQKhjuZHsBk9qMLFV+vzOz4wKDo0vFuuAaLibRix2si7TFylWITqctQBZJA+7qfrEcaSoW/n0M
+        sXJl1+HRJC9ZNaGG9SaBlvi0HlcYz537ozVc=
+X-Received: by 2002:a17:90a:1c1:: with SMTP id 1mr1708168pjd.190.1618875776929;
+        Mon, 19 Apr 2021 16:42:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRGNIqy2AO5m9iOwuC4N09BxordE8LmUXYTIIeyniOtbCQKfA0MKaQl391n1ZLV3YIJOra8w==
+X-Received: by 2002:a17:90a:1c1:: with SMTP id 1mr1708139pjd.190.1618875776711;
+        Mon, 19 Apr 2021 16:42:56 -0700 (PDT)
+Received: from pc-0115 (76.125.194.35.bc.googleusercontent.com. [35.194.125.76])
+        by smtp.gmail.com with ESMTPSA id r3sm8384971pgn.82.2021.04.19.16.42.55
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Apr 2021 16:42:55 -0700 (PDT)
+Received: from martinet by pc-0115 with local (Exim 4.94)
+        (envelope-from <martinet@pc-0115>)
+        id 1lYdXa-002mPj-58; Tue, 20 Apr 2021 08:42:54 +0900
+Date:   Tue, 20 Apr 2021 08:42:44 +0900
+From:   Dominique MARTINET <dominique.martinet@atmark-techno.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Alice Guo (OSS)" <alice.guo@oss.nxp.com>,
+        gregkh <gregkh@linuxfoundation.org>,
+        Rafael Wysocki <rafael@kernel.org>,
+        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+        aymen.sghaier@nxp.com, Herbert Xu <herbert@gondor.apana.org.au>,
+        David Miller <davem@davemloft.net>,
+        Tony Lindgren <tony@atomide.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        peter.ujfalusi@gmail.com, Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kevin Hilman <khilman@baylibre.com>, tomba@kernel.org,
+        jyri.sarha@iki.fi, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Kishon <kishon@ti.com>, Jakub Kicinski <kuba@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Roy Pledge <Roy.Pledge@nxp.com>, Leo Li <leoyang.li@nxp.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>, Felipe Balbi <balbi@kernel.org>,
+        Tony Prisk <linux@prisktech.co.nz>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>, dmaengine@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:ARM/Amlogic Meson SoC support" 
+        <linux-amlogic@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        linux-phy@lists.infradead.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-staging@lists.linux.dev,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>
+Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use
+ soc_device_match
+Message-ID: <YH4VdPNO9cdzc5MD@atmark-techno.com>
+References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
+ <20210419042722.27554-4-alice.guo@oss.nxp.com>
+ <YH0O907dfGY9jQRZ@atmark-techno.com>
+ <CAMuHMdVY1SLZ0K30T2pimyrR6Mm=VoSTO=L-xxCy2Bj7_kostw@mail.gmail.com>
+ <YH1OeFy+SepIYYG0@atmark-techno.com>
+ <CAK8P3a1Mu2F0irDDCL-50HiHth29iYFL5b7WHZ=UX6W7zzoxAg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a1Mu2F0irDDCL-50HiHth29iYFL5b7WHZ=UX6W7zzoxAg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.14
-branch HEAD: 7f9ea367e21bee52345ec49192f0c45876fc97b9  arm64: dts: renesas: falcon-csi-dsi: Add GPIO extenders
+Arnd Bergmann wrote on Mon, Apr 19, 2021 at 02:16:36PM +0200:
+> In some cases, you can use the device_link infrastructure to deal
+> with dependencies between devices. Not sure if this would help
+> in your case, but have a look at device_link_add() etc in drivers/base/core.c
 
-elapsed time: 720m
+I'll need to actually try to convince myself but if creating the link
+forces driver registration then it should be workable.
 
-configs tested: 169
-configs skipped: 93
+> > In this particular case the problem is that since 7d981405d0fd ("soc:
+> > imx8m: change to use platform driver") the soc probe tries to use the
+> > nvmem driver for ocotp fuses for imx8m devices, which isn't ready yet.
+> > So soc loading gets pushed back to the end of the list because it gets
+> > defered and other drivers relying on soc_device_match get confused
+> > because they wrongly think a device doesn't match a quirk when it
+> > actually does.
+> >
+> > If there is a way to ensure the nvmem driver gets loaded before the soc,
+> > that would also solve the problem nicely, and avoid the need to mess
+> > with all the ~50 drivers which use it.
+> >
+> > Is there a way to control in what order drivers get loaded? Something in
+> > the dtb perhaps?
+> 
+> For built-in drivers, load order depends on the initcall level and
+> link order (how things are lined listed in the Makefile hierarchy).
+> 
+> For loadable modules, this is up to user space in the end.
+> 
+> Which of the drivers in this scenario are loadable modules?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+All the drivers involved in my case are built-in (nvmem, soc and final
+soc_device_match consumer e.g. caam_jr that crashes the kernel if soc is
+not identified properly).
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-i386                             allyesconfig
-riscv                            allyesconfig
-powerpc                     mpc5200_defconfig
-m68k                          atari_defconfig
-arc                    vdk_hs38_smp_defconfig
-powerpc                     kmeter1_defconfig
-openrisc                 simple_smp_defconfig
-m68k                        mvme16x_defconfig
-powerpc                 mpc832x_mds_defconfig
-mips                           xway_defconfig
-sh                             espt_defconfig
-sparc64                          alldefconfig
-powerpc                   motionpro_defconfig
-sh                         ap325rxa_defconfig
-nds32                             allnoconfig
-mips                      pic32mzda_defconfig
-sh                      rts7751r2d1_defconfig
-xtensa                         virt_defconfig
-arm                            mmp2_defconfig
-arm                           omap1_defconfig
-arm                        multi_v5_defconfig
-powerpc                     tqm8540_defconfig
-sh                           se7206_defconfig
-powerpc                      ep88xc_defconfig
-powerpc                     sbc8548_defconfig
-mips                            gpr_defconfig
-arm                         orion5x_defconfig
-sh                          rsk7201_defconfig
-powerpc                 mpc836x_rdk_defconfig
-arm                     davinci_all_defconfig
-h8300                     edosk2674_defconfig
-arm                       multi_v4t_defconfig
-mips                          ath79_defconfig
-sh                         ecovec24_defconfig
-powerpc                 mpc834x_itx_defconfig
-xtensa                    smp_lx200_defconfig
-arm                        mini2440_defconfig
-arm                        neponset_defconfig
-mips                        bcm63xx_defconfig
-powerpc                 mpc837x_rdb_defconfig
-sh                           se7750_defconfig
-sh                         apsh4a3a_defconfig
-sparc                       sparc32_defconfig
-um                               alldefconfig
-m68k                        m5272c3_defconfig
-powerpc                         ps3_defconfig
-xtensa                           allyesconfig
-powerpc                 mpc832x_rdb_defconfig
-sparc                       sparc64_defconfig
-riscv             nommu_k210_sdcard_defconfig
-sh                            hp6xx_defconfig
-powerpc                 linkstation_defconfig
-sh                          sdk7786_defconfig
-s390                             allmodconfig
-arm                        vexpress_defconfig
-alpha                            alldefconfig
-arm                            lart_defconfig
-powerpc                          g5_defconfig
-powerpc                      bamboo_defconfig
-mips                        nlm_xlr_defconfig
-arm                    vt8500_v6_v7_defconfig
-mips                     cu1830-neo_defconfig
-powerpc                      cm5200_defconfig
-arm                      pxa255-idp_defconfig
-s390                             alldefconfig
-powerpc                      arches_defconfig
-xtensa                          iss_defconfig
-sh                  sh7785lcr_32bit_defconfig
-arm                      integrator_defconfig
-mips                      fuloong2e_defconfig
-parisc                generic-64bit_defconfig
-mips                        maltaup_defconfig
-arm                           h5000_defconfig
-powerpc                     mpc83xx_defconfig
-arm                         hackkit_defconfig
-powerpc                     ep8248e_defconfig
-xtensa                       common_defconfig
-h8300                               defconfig
-m68k                         amcore_defconfig
-mips                        jmr3927_defconfig
-mips                       capcella_defconfig
-powerpc                        warp_defconfig
-alpha                            allyesconfig
-mips                        bcm47xx_defconfig
-ia64                             allmodconfig
-powerpc                 xes_mpc85xx_defconfig
-ia64                                defconfig
-powerpc                      katmai_defconfig
-powerpc                       ppc64_defconfig
-powerpc                     kilauea_defconfig
-mips                      maltaaprp_defconfig
-arm                        spear3xx_defconfig
-riscv                    nommu_virt_defconfig
-nios2                         3c120_defconfig
-sh                          landisk_defconfig
-arm                          pcm027_defconfig
-arm                          imote2_defconfig
-arm                          gemini_defconfig
-arm                          exynos_defconfig
-powerpc                 mpc834x_mds_defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a003-20210419
-x86_64               randconfig-a001-20210419
-x86_64               randconfig-a005-20210419
-x86_64               randconfig-a002-20210419
-x86_64               randconfig-a006-20210419
-x86_64               randconfig-a004-20210419
-i386                 randconfig-a003-20210419
-i386                 randconfig-a001-20210419
-i386                 randconfig-a006-20210419
-i386                 randconfig-a005-20210419
-i386                 randconfig-a004-20210419
-i386                 randconfig-a002-20210419
-i386                 randconfig-a015-20210419
-i386                 randconfig-a013-20210419
-i386                 randconfig-a014-20210419
-i386                 randconfig-a016-20210419
-i386                 randconfig-a012-20210419
-i386                 randconfig-a011-20210419
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+I frankly don't like the idea of moving nvmem/ above soc/ in
+drivers/Makefile as a "solution" to this (especially as there is one
+that seems to care about what soc they run on...), so I'll have a look
+at links first, hopefully that will work out.
 
-clang tested configs:
-x86_64               randconfig-a014-20210419
-x86_64               randconfig-a015-20210419
-x86_64               randconfig-a013-20210419
-x86_64               randconfig-a011-20210419
-x86_64               randconfig-a012-20210419
-x86_64               randconfig-a016-20210419
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Thanks,
+-- 
+Dominique
