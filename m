@@ -2,316 +2,216 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D699363640
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Apr 2021 17:01:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F95F363A6E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Apr 2021 06:27:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbhDRPB2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 18 Apr 2021 11:01:28 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:57593 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229691AbhDRPB1 (ORCPT
+        id S229627AbhDSE2H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Apr 2021 00:28:07 -0400
+Received: from mail-eopbgr00061.outbound.protection.outlook.com ([40.107.0.61]:63985
+        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229473AbhDSE2C (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 18 Apr 2021 11:01:27 -0400
-X-Originating-IP: 5.92.65.68
-Received: from uno.localdomain (mob-5-92-65-68.net.vodafone.it [5.92.65.68])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 867391BF206;
-        Sun, 18 Apr 2021 15:00:53 +0000 (UTC)
-Date:   Sun, 18 Apr 2021 17:01:33 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/7] media: i2c: max9286: Use "maxim,gpio-poc" property
-Message-ID: <20210418150133.cql5qnnqj4p4fu6c@uno.localdomain>
-References: <20210415122602.87697-1-jacopo+renesas@jmondi.org>
- <20210415122602.87697-4-jacopo+renesas@jmondi.org>
- <YHiRwr+2PzJmoTaQ@pendragon.ideasonboard.com>
+        Mon, 19 Apr 2021 00:28:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BIfUylbF1u6g42Ih0vw50xP6D7xRSLWW2I9zIv8xpPfI+8QTA+Yvqs8rcEhgkShhN1F5VCTfikyuN00lU7MYQpLyAi61zSBXde+lBtKtZ91KF4JkDryrkKImQc4jtArTgkvv22rGSlWBi+316rG07ozzVX8yH+lrNaB4Y76q0iQ4zUQW6K3d9JzIJkWsU1QsvjfqMy2v6XzsDlch5VnExSBZi1Fditx7GwrKrLI7E/sfpEmjrnivx/IpLa9EXSocY6lD/yML7X4WAKNF1EY300fyMYpWitucXgZ/XL8CLbbwDx1OQw7Fi2QoTb2TSXTWyC1GIFPgb1qOvwl4cLPWlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EGsFEeNS52w1ZRf0E7RmTdDzsa/XGegT9oBy+olcLfY=;
+ b=hGFFrgJo2nl82ALdcCWukVL33RkUM6iFcTbkS0Q6cbKM62pdvYnFsqLLOtlF+2o2VdYauLw4dwP2SOeHtc3aZK7MlLjtddm7LhJTrWTkIj6VkevHMcvevTOm0Iaa1xW8T6J+3i8PR8ODJ/vsRcMpNN5h52SiwRYematUkUoYYgadgMtAVfcWh/leBm2L8Tg51aG1SFFROj7+y2jsXIW81DOM/gOKW31vHMKMqX6qmnynX8F75iYwa4zb9oeycrCf1V0DNBxu5cGiiQ81HZj1l4KbQ6UDlERn6Pd76e3un4zKWXsAtWQNRqdFc0IAvJ55fTvey3xfXI4mXsOkubJDog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EGsFEeNS52w1ZRf0E7RmTdDzsa/XGegT9oBy+olcLfY=;
+ b=j+dOYrXfIk7Kfa0Fobi8pj2zSP1kRkdYvZPRfIcM8F+/XY2p5O6m146Lg8uw11qr8f1XCxfgzTkNhGiUBKIwzqfro+IOGzrsiOB/EFGQjxCT+tmokcK5gMw090mHbYn4cAawbUShERe9QsYw1J905qk2uPKxj/G1mOjHNwIbMt4=
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=oss.nxp.com;
+Received: from AM6PR04MB6053.eurprd04.prod.outlook.com (2603:10a6:20b:b9::10)
+ by AS8PR04MB7912.eurprd04.prod.outlook.com (2603:10a6:20b:2ae::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Mon, 19 Apr
+ 2021 04:27:06 +0000
+Received: from AM6PR04MB6053.eurprd04.prod.outlook.com
+ ([fe80::b034:690:56aa:7b18]) by AM6PR04MB6053.eurprd04.prod.outlook.com
+ ([fe80::b034:690:56aa:7b18%4]) with mapi id 15.20.4042.024; Mon, 19 Apr 2021
+ 04:26:59 +0000
+From:   "Alice Guo (OSS)" <alice.guo@oss.nxp.com>
+To:     gregkh@linuxfoundation.org, rafael@kernel.org,
+        horia.geanta@nxp.com, aymen.sghaier@nxp.com,
+        herbert@gondor.apana.org.au, davem@davemloft.net, tony@atomide.com,
+        geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+        vkoul@kernel.org, peter.ujfalusi@gmail.com, a.hajda@samsung.com,
+        narmstrong@baylibre.com, robert.foss@linaro.org, airlied@linux.ie,
+        daniel@ffwll.ch, khilman@baylibre.com, tomba@kernel.org,
+        jyri.sarha@iki.fi, joro@8bytes.org, will@kernel.org,
+        mchehab@kernel.org, ulf.hansson@linaro.org,
+        adrian.hunter@intel.com, kishon@ti.com, kuba@kernel.org,
+        linus.walleij@linaro.org, Roy.Pledge@nxp.com, leoyang.li@nxp.com,
+        ssantosh@kernel.org, matthias.bgg@gmail.com, edubezval@gmail.com,
+        j-keerthy@ti.com, balbi@kernel.org, linux@prisktech.co.nz,
+        stern@rowland.harvard.edu, wim@linux-watchdog.org,
+        linux@roeck-us.net
+Cc:     linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-staging@lists.linux.dev,
+        linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject: [RFC v1 PATCH 0/3] support soc_device_match to return -EPROBE_DEFER
+Date:   Mon, 19 Apr 2021 12:27:19 +0800
+Message-Id: <20210419042722.27554-1-alice.guo@oss.nxp.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [119.31.174.71]
+X-ClientProxiedBy: AM0PR02CA0207.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28f::14) To AM6PR04MB6053.eurprd04.prod.outlook.com
+ (2603:10a6:20b:b9::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YHiRwr+2PzJmoTaQ@pendragon.ideasonboard.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from nxf55104-OptiPlex-7060.ap.freescale.net (119.31.174.71) by AM0PR02CA0207.eurprd02.prod.outlook.com (2603:10a6:20b:28f::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.19 via Frontend Transport; Mon, 19 Apr 2021 04:26:40 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9896ff12-c5b4-421f-f9a1-08d902eb5f30
+X-MS-TrafficTypeDiagnostic: AS8PR04MB7912:
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR04MB7912513CE4C6A5F1A16187D3A3499@AS8PR04MB7912.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AK1XnEs7EIU/2ApqujL4ENEsdD7cfE1FbgcvAaPgea6Hbv0vJgmkFlrJQc9Zwe0hRvg6ODWJqw7DeYSJRkwBUI6Dg9CvBg76tQsc/zECgFN9N0rU1PraAub2z1SmPXooxUEKWedxX5mry6PHesrXtLa56siBXEvmuwr/ay92Ty2P7nHxHjCjlwvncBhFzscBGAd2Tlz6ly4vsWI7jjwFt5zemq9s1tZzujO+pRaFFN0jLicObMUjXbOCYpNjld7qp3nLx4wkcfdipmjFsCJXiTk+x7LXtjQ3SFz3tJFe1/gciMsGU9oMwC2wF7hUdL1RdpiZLDgJVep6zFnA56/ISZh0nJOUfxYyH5cueA1KZK3QNB6PMI7kZ0ex8+hoQL0dXjtTG6c4tOkauz1CuRnqiQ/2rBiwXb+SekuC44XZa1J4ady1C9t8Mg9honhFO5TtLtkNxiEbL90A14r7TxjM2Q61qy6OxOtFSpF1+lPl2Gkvxu+yivq0TNugxczd2YY6WAE1PONiwqP0D3oJlk28nEJrxZ1QsCEJrWIDpRmBdvt7cHDmn2IGnX0rbRNtHwm5Vj50Bwo2EmrqFvgMs/NwPESfADARD49yW+UCIFJAQxRl681Nbj7s55lka7wcQkZinoUggVYz1CbaryPIzm2Z/V/Nb1WtEpnxWWjL8aF5R7M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(136003)(396003)(366004)(39860400002)(1076003)(66946007)(7406005)(478600001)(52116002)(66556008)(66476007)(2906002)(7366002)(7416002)(8936002)(921005)(8676002)(4326008)(5660300002)(16526019)(26005)(38100700002)(83380400001)(956004)(2616005)(38350700002)(6486002)(6666004)(6506007)(6512007)(186003)(316002)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aVdtSGVXV002Y2NaaDlsL2RhYzBTbFFsLzI0RnNqcmI3U2hjTTg1LzQvMEFx?=
+ =?utf-8?B?VE0ySXJiSmRSNEVPMG9SZ1p4OUxzb3hSbGkwK1VuZmJzcExSUkVXbmp1dUR1?=
+ =?utf-8?B?WlNoVFVCdmFpdEZ5KzNjV3ZhdkwrUG10L3IzQ3ViMndabVJPMHVjTUlLb210?=
+ =?utf-8?B?OTdnNFhLVUd6TEpwajVpdzdFaFRzVTVaTXUvMWFwa1J3V0RuS3FBalV6bkMw?=
+ =?utf-8?B?REtXbEh0RGR4cGlxMHpxN1ZmNFBmT3dBR285Q2k2QjZUSU9mUDZ4VzgvelpR?=
+ =?utf-8?B?bVhwVGZsT0hITTdha09TVnoyYnZCWVQvdUFhemJibnB4UXp1UTd3Z21xWHNO?=
+ =?utf-8?B?S2VDRm1oandzWHpTVjc0Qks2NFpuYmsxaUpRRlMyTTVhVHNvTXVJN0cvZURD?=
+ =?utf-8?B?c294ODZVaDdHb2ZRaVRNQXV4N1B4dmgxcHM5NXh4UFRVYWlGdTRmeTYwVjRX?=
+ =?utf-8?B?elpNU3VUMzNud2UrNFlxRFpQUytHVmorOFRRb2N6dlVMQ0t4Vmdua2lVQy80?=
+ =?utf-8?B?dWRZMDBJdWNZRjJZRlVRWlZKczdaK1hPSFlxOWJ0cC94aFo0eEk4czhkZDA2?=
+ =?utf-8?B?Q0NCdExiWXFGb1B3U3YyeXFRYjZjdmpTM1RJYTZIaVhiY1JTRDFVcXNobUIr?=
+ =?utf-8?B?Q3dDS2xHTHNZd1A5dy9rS29Jc0MvSVhMeU9LeFU1WllrSi9ZVFNoQWJvcHNw?=
+ =?utf-8?B?NlpKOFZXdnd1Y2YzcEJoOW1JYTVMRFhwcjdJQUlKRUp1S1RPUmd5L0R5cXAz?=
+ =?utf-8?B?WVRSbnRsNmZUM2hTeVRHdFdpdCtIMkJkZ0x2aitSdTJPVjNCTVRaU0w1dzBR?=
+ =?utf-8?B?SnNqZHBVREdVb25lVHVzTlpZSFcxMjRGb2JZNFhvU1hjc0tXWHk3clJMTEt5?=
+ =?utf-8?B?YVdqNEp0NENmT0RTcTNFZ3dWUjc4Z0UwUkdTSGdKeUNXRi94ZEI0RFQrTTdW?=
+ =?utf-8?B?UVVZY1pTSVpyMkg5VEZVM1hMUmdXTWF4WDJ3UTN3dEZzRmpEQUhrMTNtY2tM?=
+ =?utf-8?B?dHVOSitKdWpYWWcybmprNUl1N2Eyclp1T29rUlRsVnNIdzJmeVBSdjloTVhN?=
+ =?utf-8?B?RXk2cXZIR2RsQ2pBMHRreUw1TnBLYUZOWENzSGtTUXlnZlFnSDJUNXR1QzVV?=
+ =?utf-8?B?YVJlbXZFMFVFTXZjOVRtQlJlMkJXTzNad0NPRjlkRGd5UzlXdGRMd2FEdUFk?=
+ =?utf-8?B?bTJSVGVueTk1Q290MmFSN1dkSzlCYWxhVnhqZUdYb3Q1RTQ1eldkbkdVa1N6?=
+ =?utf-8?B?TXovZERmclBxY0xjemkrbUNHVjRNMU1GOW4vMXFjc3pnR0wrd201dmpqSllU?=
+ =?utf-8?B?SVIxV2Y2MlhaU2svdzVvMldRcUdyK2hRVitkUUpPeVd1S2hNNlRxMkpSUDE1?=
+ =?utf-8?B?OUY0UEFoUmNEMWVCdS9aeUFURG56bngrYWVSMUJoTFhSMmVqdjAvM05mblVn?=
+ =?utf-8?B?bVYxYm5LeWNXbWNGeHFZQXdBZlZHd2JXbTFhWVNWR2taTzZnQTZQV2hVOFhJ?=
+ =?utf-8?B?QjMyYXNTcy9ab0x3eHdhS3lUd2pQUkJZWXFocU14Q2tTTGFwY3ZvZWlzYkpk?=
+ =?utf-8?B?ZkFwMXI0VHlxRXZ5SkdtZW1iMW04blZWTlVuWWRtV1MydkdTYUp4UDF0ZkVq?=
+ =?utf-8?B?V3hJSm1UQ0Jqc2xqSkNXZ2ZWT05JdVBKQStUVzI5RWRwU2dvRVcybXh5cWFy?=
+ =?utf-8?B?TllJSDNqVENVSExBZmVSd3g0NzJvenVsUUZVU3dpbGhISjd6WmlmYytnNEpN?=
+ =?utf-8?Q?QGHOnxCgvOAwMkAbgHRHefjr/WYqcT969phCLa9?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9896ff12-c5b4-421f-f9a1-08d902eb5f30
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6053.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2021 04:26:59.4616
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1IYHRUj96ZFPUGM224m5kKukwj6GivUjSaU/anOesbfoQxqSi1R6BEaAG0+PdVaFc474JX9J+PecEtTuEmLjOw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7912
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+From: Alice Guo <alice.guo@nxp.com>
 
-On Thu, Apr 15, 2021 at 10:19:30PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Thu, Apr 15, 2021 at 02:25:58PM +0200, Jacopo Mondi wrote:
-> > The 'maxim,gpio-poc' property is used when the remote camera
-> > power-over-coax is controlled by one of the MAX9286 gpio lines,
-> > to instruct the driver about which line to use and what the line
-> > polarity is.
-> >
-> > Add to the max9286 driver support for parsing the newly introduced
-> > property and use it if available in place of the usual supply, as it is
-> > not possible to establish one as consumer of the max9286 gpio
-> > controller.
-> >
-> > If the new property is present, no gpio controller is registered and
-> > 'poc-supply' is ignored.
-> >
-> > In order to maximize code re-use, break out the max9286 gpio handling
-> > function so that they can be used by the gpio controller through the
-> > gpio-consumer API, or directly by the driver code.
-> >
-> > Wrap the power up and power down routines to their own function to
-> > be able to use either the gpio line directly or the supply. This will
-> > make it easier to control the remote camera power at run time.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/i2c/max9286.c | 119 ++++++++++++++++++++++++++++--------
-> >  1 file changed, 93 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > index 6fd4d59fcc72..a8b37783d2ef 100644
-> > --- a/drivers/media/i2c/max9286.c
-> > +++ b/drivers/media/i2c/max9286.c
-> > @@ -15,6 +15,7 @@
-> >  #include <linux/fwnode.h>
-> >  #include <linux/gpio/consumer.h>
-> >  #include <linux/gpio/driver.h>
-> > +#include <linux/gpio/machine.h>
-> >  #include <linux/i2c.h>
-> >  #include <linux/i2c-mux.h>
-> >  #include <linux/module.h>
-> > @@ -165,6 +166,9 @@ struct max9286_priv {
-> >
-> >  	u32 reverse_channel_mv;
-> >
-> > +	u32 gpio_poc;
-> > +	u32 gpio_poc_flags;
-> > +
-> >  	struct v4l2_ctrl_handler ctrls;
-> >  	struct v4l2_ctrl *pixelrate;
-> >
-> > @@ -1022,8 +1026,19 @@ static int max9286_setup(struct max9286_priv *priv)
-> >  	return 0;
-> >  }
-> >
-> > -static void max9286_gpio_set(struct gpio_chip *chip,
-> > -			     unsigned int offset, int value)
-> > +static int max9286_gpio_set(struct max9286_priv *priv, unsigned int offset,
-> > +			    int value)
-> > +{
-> > +	int ret = max9286_read(priv, 0x0f);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = value ? (ret & 0x3) | BIT(offset) : (ret & 0x3) & ~BIT(offset);
-> > +	return max9286_write(priv, 0x0f, MAX9286_0X0F_RESERVED | ret);
-> > +}
->
-> Was there anything wrong with v3, sharing the implementation between the
+In patch "soc: imx8m: change to use platform driver", change soc-imx8m.c to use
+module platform driver and use NVMEM APIs to ocotp register, the reason is that
+directly reading ocotp egister causes kexec kernel hang because kernel will
+disable unused clks after kernel boots up. This patch makes the SoC driver
+ready. This patch makes the SoC driver ready later than before, and causes device
+depends on soc_device_match() for initialization are affected, resulting in
+kernel boot error.
 
-Yes, my understanding that your comment about not mixing the two
-cases as they're mutually exclusive  :)
+CAAM driver is one of these affected drivers. It uses soc_device_match() to find
+the first matching entry of caam_imx_soc_table, if none of them match, the next
+instruction will be executed without any processing because CAAM driver is used
+not only on i.MX and LS, but also PPC and Vybrid. We hope that
+soc_device_match() could support to return -EPROBE_DEFER(or some other error
+code, e.g. -ENODEV, but not NULL) in case of “no SoC device registered” to SoC
+bus. We tried it and updated all the code that is using soc_device_match()
+throughout the tree.
 
-I found that it actually made sense, as my reasoning was to support
-both at the same time, but it was actually not possible. I then
-thought it was a good idea to keep them separate....
+Alice Guo (3):
+  drivers: soc: add support for soc_device_match returning -EPROBE_DEFER
+  caam: add defer probe when the caam driver cannot identify SoC
+  driver: update all the code that use soc_device_match
 
-> gpio-controller and non gpio-controller cases ? In particular, caching
-> the state locally seems better, max9286_read() goes over I2C and is thus
-> slow.
+ drivers/base/soc.c                            |  5 +++++
+ drivers/bus/ti-sysc.c                         |  2 +-
+ drivers/clk/renesas/r8a7795-cpg-mssr.c        |  4 +++-
+ drivers/clk/renesas/rcar-gen2-cpg.c           |  2 +-
+ drivers/clk/renesas/rcar-gen3-cpg.c           |  2 +-
+ drivers/crypto/caam/ctrl.c                    |  3 +++
+ drivers/dma/fsl-dpaa2-qdma/dpaa2-qdma.c       |  7 ++++++-
+ drivers/dma/ti/k3-psil.c                      |  3 +++
+ drivers/dma/ti/k3-udma.c                      |  2 +-
+ drivers/gpu/drm/bridge/nwl-dsi.c              |  2 +-
+ drivers/gpu/drm/meson/meson_drv.c             |  4 +++-
+ drivers/gpu/drm/omapdrm/dss/dispc.c           |  2 +-
+ drivers/gpu/drm/omapdrm/dss/dpi.c             |  4 +++-
+ drivers/gpu/drm/omapdrm/dss/dsi.c             |  3 +++
+ drivers/gpu/drm/omapdrm/dss/dss.c             |  3 +++
+ drivers/gpu/drm/omapdrm/dss/hdmi4_core.c      |  3 +++
+ drivers/gpu/drm/omapdrm/dss/venc.c            |  4 +++-
+ drivers/gpu/drm/omapdrm/omap_drv.c            |  3 +++
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  4 +++-
+ drivers/gpu/drm/rcar-du/rcar_lvds.c           |  2 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c           |  4 +++-
+ drivers/iommu/ipmmu-vmsa.c                    |  7 +++++--
+ drivers/media/platform/rcar-vin/rcar-core.c   |  2 +-
+ drivers/media/platform/rcar-vin/rcar-csi2.c   |  2 +-
+ drivers/media/platform/vsp1/vsp1_uif.c        |  4 +++-
+ drivers/mmc/host/renesas_sdhi_core.c          |  2 +-
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c |  2 +-
+ drivers/mmc/host/sdhci-of-esdhc.c             | 21 ++++++++++++++-----
+ drivers/mmc/host/sdhci-omap.c                 |  2 +-
+ drivers/mmc/host/sdhci_am654.c                |  2 +-
+ drivers/net/ethernet/renesas/ravb_main.c      |  4 +++-
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      |  2 +-
+ drivers/net/ethernet/ti/cpsw.c                |  2 +-
+ drivers/net/ethernet/ti/cpsw_new.c            |  2 +-
+ drivers/phy/ti/phy-omap-usb2.c                |  4 +++-
+ drivers/pinctrl/renesas/core.c                |  2 +-
+ drivers/pinctrl/renesas/pfc-r8a7790.c         |  5 ++++-
+ drivers/pinctrl/renesas/pfc-r8a7794.c         |  5 ++++-
+ drivers/soc/fsl/dpio/dpio-driver.c            | 13 ++++++++----
+ drivers/soc/renesas/r8a774c0-sysc.c           |  5 ++++-
+ drivers/soc/renesas/r8a7795-sysc.c            |  2 +-
+ drivers/soc/renesas/r8a77990-sysc.c           |  5 ++++-
+ drivers/soc/ti/k3-ringacc.c                   |  2 +-
+ drivers/staging/mt7621-pci/pci-mt7621.c       |  2 +-
+ drivers/thermal/rcar_gen3_thermal.c           |  4 +++-
+ drivers/thermal/ti-soc-thermal/ti-bandgap.c   | 10 +++++++--
+ drivers/usb/gadget/udc/renesas_usb3.c         |  2 +-
+ drivers/usb/host/ehci-platform.c              |  4 +++-
+ drivers/usb/host/xhci-rcar.c                  |  2 +-
+ drivers/watchdog/renesas_wdt.c                |  2 +-
+ 50 files changed, 139 insertions(+), 52 deletions(-)
 
-At the expense of an additional i2c read... The gpio is only toggled
-at power-up/down, so I considered this acceptable...
+-- 
+2.17.1
 
-Both solutions are ok with me, I can restore the usage of gpio->state
-or keep what I have here...
-
-The only argument in favour of using gpio->state is that it paves the
-way for the usage of 'gpio-poc' and for registering a gpio-controller
-on the other gpio line at the same time, in future.. I think I'll
-switch back to that solution then...
-
-Thanks
-  j
->
-> > +
-> > +static void max9286_gpiochip_set(struct gpio_chip *chip,
-> > +				 unsigned int offset, int value)
-> >  {
-> >  	struct max9286_priv *priv = gpiochip_get_data(chip);
-> >
-> > @@ -1035,7 +1050,7 @@ static void max9286_gpio_set(struct gpio_chip *chip,
-> >  	max9286_write(priv, 0x0f, MAX9286_0X0F_RESERVED | priv->gpio_state);
-> >  }
-> >
-> > -static int max9286_gpio_get(struct gpio_chip *chip, unsigned int offset)
-> > +static int max9286_gpiochip_get(struct gpio_chip *chip, unsigned int offset)
-> >  {
-> >  	struct max9286_priv *priv = gpiochip_get_data(chip);
-> >
-> > @@ -1055,8 +1070,8 @@ static int max9286_register_gpio(struct max9286_priv *priv)
-> >  	gpio->of_node = dev->of_node;
-> >  	gpio->ngpio = 2;
-> >  	gpio->base = -1;
-> > -	gpio->set = max9286_gpio_set;
-> > -	gpio->get = max9286_gpio_get;
-> > +	gpio->set = max9286_gpiochip_set;
-> > +	gpio->get = max9286_gpiochip_get;
-> >  	gpio->can_sleep = true;
-> >
-> >  	/* GPIO values default to high */
-> > @@ -1069,6 +1084,71 @@ static int max9286_register_gpio(struct max9286_priv *priv)
-> >  	return ret;
-> >  }
-> >
-> > +static int max9286_parse_gpios(struct max9286_priv *priv)
-> > +{
-> > +	struct device *dev = &priv->client->dev;
-> > +	u32 gpio_poc[2];
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Parse the "gpio-poc" vendor property. If the camera power is
-> > +	 * controlled by one of the MAX9286 gpio lines, do not register
-> > +	 * the gpio controller and ignore 'poc-supply'.
-> > +	 */
-> > +	ret = of_property_read_u32_array(dev->of_node,
-> > +					 "maxim,gpio-poc", gpio_poc, 2);
-> > +	if (!ret) {
-> > +		priv->gpio_poc = gpio_poc[0];
-> > +		priv->gpio_poc_flags = gpio_poc[1];
-> > +		if (priv->gpio_poc > 1 ||
-> > +		    (priv->gpio_poc_flags != GPIO_ACTIVE_HIGH &&
-> > +		     priv->gpio_poc_flags != GPIO_ACTIVE_LOW)) {
-> > +			dev_err(dev, "Invalid 'gpio-poc': (%u %u)\n",
-> > +				priv->gpio_poc, priv->gpio_poc_flags);
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		return 0;
-> > +	}
-> > +
-> > +	ret = max9286_register_gpio(priv);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	priv->regulator = devm_regulator_get(dev, "poc");
-> > +	if (IS_ERR(priv->regulator)) {
-> > +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> > +			dev_err(dev, "Unable to get PoC regulator (%ld)\n",
-> > +				PTR_ERR(priv->regulator));
-> > +		return PTR_ERR(priv->regulator);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
-> > +{
-> > +	int ret;
-> > +
-> > +	/* If "poc-gpio" is used, toggle the line and do not use regulator. */
-> > +	if (enable)
-> > +		ret = priv->regulator
-> > +		    ? regulator_enable(priv->regulator)
-> > +		    : max9286_gpio_set(priv, priv->gpio_poc,
-> > +				       enable ^ priv->gpio_poc_flags);
-> > +	else
-> > +		ret = priv->regulator
-> > +		    ? regulator_disable(priv->regulator)
-> > +		    : max9286_gpio_set(priv, priv->gpio_poc,
-> > +				       enable ^ priv->gpio_poc_flags);
-> > +
-> > +	if (ret < 0)
-> > +		dev_err(&priv->client->dev, "Unable to turn PoC %s\n",
-> > +			enable ? "on" : "off");
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  static int max9286_init(struct device *dev)
-> >  {
-> >  	struct max9286_priv *priv;
-> > @@ -1078,17 +1158,14 @@ static int max9286_init(struct device *dev)
-> >  	client = to_i2c_client(dev);
-> >  	priv = i2c_get_clientdata(client);
-> >
-> > -	/* Enable the bus power. */
-> > -	ret = regulator_enable(priv->regulator);
-> > -	if (ret < 0) {
-> > -		dev_err(&client->dev, "Unable to turn PoC on\n");
-> > +	ret = max9286_poc_enable(priv, true);
-> > +	if (ret)
-> >  		return ret;
-> > -	}
-> >
-> >  	ret = max9286_setup(priv);
-> >  	if (ret) {
-> >  		dev_err(dev, "Unable to setup max9286\n");
-> > -		goto err_regulator;
-> > +		goto err_poc_disable;
-> >  	}
-> >
-> >  	/*
-> > @@ -1098,7 +1175,7 @@ static int max9286_init(struct device *dev)
-> >  	ret = max9286_v4l2_register(priv);
-> >  	if (ret) {
-> >  		dev_err(dev, "Failed to register with V4L2\n");
-> > -		goto err_regulator;
-> > +		goto err_poc_disable;
-> >  	}
-> >
-> >  	ret = max9286_i2c_mux_init(priv);
-> > @@ -1114,8 +1191,8 @@ static int max9286_init(struct device *dev)
-> >
-> >  err_v4l2_register:
-> >  	max9286_v4l2_unregister(priv);
-> > -err_regulator:
-> > -	regulator_disable(priv->regulator);
-> > +err_poc_disable:
-> > +	max9286_poc_enable(priv, false);
-> >
-> >  	return ret;
-> >  }
-> > @@ -1286,20 +1363,10 @@ static int max9286_probe(struct i2c_client *client)
-> >  	 */
-> >  	max9286_configure_i2c(priv, false);
-> >
-> > -	ret = max9286_register_gpio(priv);
-> > +	ret = max9286_parse_gpios(priv);
-> >  	if (ret)
-> >  		goto err_powerdown;
-> >
-> > -	priv->regulator = devm_regulator_get(&client->dev, "poc");
-> > -	if (IS_ERR(priv->regulator)) {
-> > -		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> > -			dev_err(&client->dev,
-> > -				"Unable to get PoC regulator (%ld)\n",
-> > -				PTR_ERR(priv->regulator));
-> > -		ret = PTR_ERR(priv->regulator);
-> > -		goto err_powerdown;
-> > -	}
-> > -
-> >  	ret = max9286_parse_dt(priv);
-> >  	if (ret)
-> >  		goto err_powerdown;
-> > @@ -1326,7 +1393,7 @@ static int max9286_remove(struct i2c_client *client)
-> >
-> >  	max9286_v4l2_unregister(priv);
-> >
-> > -	regulator_disable(priv->regulator);
-> > +	max9286_poc_enable(priv, false);
-> >
-> >  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-> >
->
-> --
-> Regards,
->
-> Laurent Pinchart
