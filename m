@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAC903640ED
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Apr 2021 13:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A8333640F1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Apr 2021 13:50:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238931AbhDSLuL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Apr 2021 07:50:11 -0400
-Received: from mail-lf1-f41.google.com ([209.85.167.41]:42792 "EHLO
-        mail-lf1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238914AbhDSLuG (ORCPT
+        id S238617AbhDSLub (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Apr 2021 07:50:31 -0400
+Received: from mail-lf1-f45.google.com ([209.85.167.45]:44759 "EHLO
+        mail-lf1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238879AbhDSLub (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Apr 2021 07:50:06 -0400
-Received: by mail-lf1-f41.google.com with SMTP id z13so38422070lfd.9;
-        Mon, 19 Apr 2021 04:49:36 -0700 (PDT)
+        Mon, 19 Apr 2021 07:50:31 -0400
+Received: by mail-lf1-f45.google.com with SMTP id i10so19563839lfe.11;
+        Mon, 19 Apr 2021 04:49:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=jd8ZqQr7aA+TfxalG5Zpojil8sxWCY4+ctswmpE1Z1Q=;
-        b=jXQ8MSwq9PfcDQVqc90MHB1699FOt7j/4n5k7E5puQDEXqtVJ+wtwP/gzOV+M/d6wG
-         X+DaksaUIYRFd0hbORlDNfKgWdmHb710aLW7HD0g7ydCoZRpzIkYEEBd8YVYj4wAJLJK
-         7MbIc+KbXZmOAVP6W9hJW9Qv+Oi2pyx/H7JtwTOu9KAvq47JaXkZbM8Z9mGtc0pFDvr1
-         Qph1LPTIy1+dn+u4CRfJyMAUwkO7albZf6F44wzlE+oEk5bsiUeudeDlGvhk8E6L578f
-         bX/Y9TccTVgWzUNkFncvzviJMXH3A+oHwpX5miLtcYiDdIdZfB0vNLcejMMC9/nXtDiY
-         uO1A==
-X-Gm-Message-State: AOAM532P+qiQMvhg9yMRm9GEnZgMC/NDixl89/n9ukflZdQXpEehoaZ8
-        cilxWBHkDYATWkp2KbD/kxk=
-X-Google-Smtp-Source: ABdhPJyFuwzrHLSm7DTsZU0JJPCmu1/xXK1hF4dMaPRI7Zfs3r/1hX4dbdT0xNJVAkEIRjcPMdeP4A==
-X-Received: by 2002:ac2:5f1b:: with SMTP id 27mr11709672lfq.425.1618832975571;
-        Mon, 19 Apr 2021 04:49:35 -0700 (PDT)
+        bh=PF17I0NH3tYVAA1Iv/q8DPWO007JsrI/3wrjpR3VDTQ=;
+        b=G3HV/M8M5F+pcvaJRkQvOIRVTPdwGH3F2kM8Xl+KEjzPO2kEa5X0w3Js91y1CmPWS+
+         yEJ77WaaX4JR9TMzJTGDcqF4awkrWgHTbE5uRwAmWwLE55ei6v2f0992nk9pC8w+sR63
+         m8wb/dIp2DaG5MmvS8CsV5TTnBHtpO046hrl1+o8AiQVWEdOAHhPSK0QaItdKYHJ34NE
+         W0keYg1iFszk9YI+yiCyYVW8lNXORJelSaL/KfiO2TdzdXdScLfLIYSN34rv5PvgJUCg
+         k3rBBm0DSKfkxtGIaMHzIzdjckik4OtwK5Kb4Y5h9B39/L9SOCCy3eJagpR23wenNDv7
+         WceQ==
+X-Gm-Message-State: AOAM530og4LLlPnCjfeIjLr7STqiD331sbscyU/JGdfP5xRbRRxsdcUH
+        0sDBXIj4luHCHGLs/AGe4ZY=
+X-Google-Smtp-Source: ABdhPJw2LdZwxyIVT/FHARbZCd64TVLOgAK93f/IhsfWYiRxJskvM21mc2X+ozY/W6Cd0LLOA7F1+A==
+X-Received: by 2002:a19:f241:: with SMTP id d1mr2742579lfk.26.1618832998670;
+        Mon, 19 Apr 2021 04:49:58 -0700 (PDT)
 Received: from localhost.localdomain (dc7vkhyyyyyyyyyyyyydy-3.rev.dnainternet.fi. [2001:14ba:16e2:8300::6])
-        by smtp.gmail.com with ESMTPSA id j11sm1803022lfg.257.2021.04.19.04.49.34
+        by smtp.gmail.com with ESMTPSA id a30sm1803727lfi.47.2021.04.19.04.49.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 04:49:35 -0700 (PDT)
-Date:   Mon, 19 Apr 2021 14:49:27 +0300
+        Mon, 19 Apr 2021 04:49:58 -0700 (PDT)
+Date:   Mon, 19 Apr 2021 14:49:52 +0300
 From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
         Matti Vaittinen <mazziesaccount@gmail.com>
@@ -51,19 +51,9 @@ Cc:     Mark Brown <broonie@kernel.org>, Kees Cook <keescook@chromium.org>,
         "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
         "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
         "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Matteo Croce <mcroce@microsoft.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        linux-pm@vger.kernel.org
-Subject: [PATCH v8 03/10] thermal: Use generic HW-protection shutdown API
-Message-ID: <3b62226e320ab412357e102baf6d628e354a0b61.1618832466.git.matti.vaittinen@fi.rohmeurope.com>
+        "robh+dt@kernel.org" <robh+dt@kernel.org>
+Subject: [PATCH v8 04/10] regulator: add warning flags
+Message-ID: <8085635fc4b6586ae41f7fa4a3cd1d3374bc9e6d.1618832466.git.matti.vaittinen@fi.rohmeurope.com>
 References: <cover.1618832466.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -73,124 +63,58 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The hardware shutdown function was exported from kernel/reboot for
-other subsystems to use. Logic is copied from the thermal_core. The
-protection mutex is replaced by an atomic_t to allow calls also from
-an IRQ context.
+Add 'warning' level events and error flags to regulator core.
+Current regulator core notifications are used to inform consumers
+about errors where HW is misbehaving in such way it is assumed to
+be broken/unrecoverable.
 
-Use the exported API instead of implementing own just for the
-thermal_core.
+There are PMICs which are designed for system(s) that may have use
+for regulator indications sent before HW is damaged so that some
+board/consumer specific recovery-event can be performed while
+continuing most of the normal operations.
+
+Add new WARNING level events and notifications to be used for
+that purpose.
 
 Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-
 ---
-Changelog:
-v8:
- - new patch (change added in v7, splitted in own patch at v8)
-
-Use the exported API instead
+No changes since RFC-v2
 ---
- drivers/thermal/thermal_core.c | 63 +++-------------------------------
- 1 file changed, 4 insertions(+), 59 deletions(-)
+ include/linux/regulator/consumer.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-index 996c038f83a4..b1444845af38 100644
---- a/drivers/thermal/thermal_core.c
-+++ b/drivers/thermal/thermal_core.c
-@@ -36,10 +36,8 @@ static LIST_HEAD(thermal_governor_list);
+diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
+index 20e84a84fb77..f72ca73631be 100644
+--- a/include/linux/regulator/consumer.h
++++ b/include/linux/regulator/consumer.h
+@@ -119,6 +119,16 @@ struct regulator_dev;
+ #define REGULATOR_EVENT_PRE_DISABLE		0x400
+ #define REGULATOR_EVENT_ABORT_DISABLE		0x800
+ #define REGULATOR_EVENT_ENABLE			0x1000
++/*
++ * Following notifications should be emitted only if detected condition
++ * is such that the HW is likely to still be working but consumers should
++ * take a recovery action to prevent problems esacalating into errors.
++ */
++#define REGULATOR_EVENT_UNDER_VOLTAGE_WARN	0x2000
++#define REGULATOR_EVENT_OVER_CURRENT_WARN	0x4000
++#define REGULATOR_EVENT_OVER_VOLTAGE_WARN	0x8000
++#define REGULATOR_EVENT_OVER_TEMP_WARN		0x10000
++#define REGULATOR_EVENT_WARN_MASK		0x1E000
  
- static DEFINE_MUTEX(thermal_list_lock);
- static DEFINE_MUTEX(thermal_governor_lock);
--static DEFINE_MUTEX(poweroff_lock);
+ /*
+  * Regulator errors that can be queried using regulator_get_error_flags
+@@ -138,6 +148,10 @@ struct regulator_dev;
+ #define REGULATOR_ERROR_FAIL			BIT(4)
+ #define REGULATOR_ERROR_OVER_TEMP		BIT(5)
  
- static atomic_t in_suspend;
--static bool power_off_triggered;
++#define REGULATOR_ERROR_UNDER_VOLTAGE_WARN	BIT(6)
++#define REGULATOR_ERROR_OVER_CURRENT_WARN	BIT(7)
++#define REGULATOR_ERROR_OVER_VOLTAGE_WARN	BIT(8)
++#define REGULATOR_ERROR_OVER_TEMP_WARN		BIT(9)
  
- static struct thermal_governor *def_governor;
- 
-@@ -327,70 +325,18 @@ static void handle_non_critical_trips(struct thermal_zone_device *tz, int trip)
- 		       def_governor->throttle(tz, trip);
- }
- 
--/**
-- * thermal_emergency_poweroff_func - emergency poweroff work after a known delay
-- * @work: work_struct associated with the emergency poweroff function
-- *
-- * This function is called in very critical situations to force
-- * a kernel poweroff after a configurable timeout value.
-- */
--static void thermal_emergency_poweroff_func(struct work_struct *work)
--{
--	/*
--	 * We have reached here after the emergency thermal shutdown
--	 * Waiting period has expired. This means orderly_poweroff has
--	 * not been able to shut off the system for some reason.
--	 * Try to shut down the system immediately using kernel_power_off
--	 * if populated
--	 */
--	WARN(1, "Attempting kernel_power_off: Temperature too high\n");
--	kernel_power_off();
--
--	/*
--	 * Worst of the worst case trigger emergency restart
--	 */
--	WARN(1, "Attempting emergency_restart: Temperature too high\n");
--	emergency_restart();
--}
--
--static DECLARE_DELAYED_WORK(thermal_emergency_poweroff_work,
--			    thermal_emergency_poweroff_func);
--
--/**
-- * thermal_emergency_poweroff - Trigger an emergency system poweroff
-- *
-- * This may be called from any critical situation to trigger a system shutdown
-- * after a known period of time. By default this is not scheduled.
-- */
--static void thermal_emergency_poweroff(void)
-+void thermal_zone_device_critical(struct thermal_zone_device *tz)
- {
--	int poweroff_delay_ms = CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS;
- 	/*
- 	 * poweroff_delay_ms must be a carefully profiled positive value.
--	 * Its a must for thermal_emergency_poweroff_work to be scheduled
-+	 * Its a must for forced_emergency_poweroff_work to be scheduled.
- 	 */
--	if (poweroff_delay_ms <= 0)
--		return;
--	schedule_delayed_work(&thermal_emergency_poweroff_work,
--			      msecs_to_jiffies(poweroff_delay_ms));
--}
-+	int poweroff_delay_ms = CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS;
- 
--void thermal_zone_device_critical(struct thermal_zone_device *tz)
--{
- 	dev_emerg(&tz->device, "%s: critical temperature reached, "
- 		  "shutting down\n", tz->type);
- 
--	mutex_lock(&poweroff_lock);
--	if (!power_off_triggered) {
--		/*
--		 * Queue a backup emergency shutdown in the event of
--		 * orderly_poweroff failure
--		 */
--		thermal_emergency_poweroff();
--		orderly_poweroff(true);
--		power_off_triggered = true;
--	}
--	mutex_unlock(&poweroff_lock);
-+	hw_protection_shutdown("Temperature too high", poweroff_delay_ms);
- }
- EXPORT_SYMBOL(thermal_zone_device_critical);
- 
-@@ -1549,7 +1495,6 @@ static int __init thermal_init(void)
- 	ida_destroy(&thermal_cdev_ida);
- 	mutex_destroy(&thermal_list_lock);
- 	mutex_destroy(&thermal_governor_lock);
--	mutex_destroy(&poweroff_lock);
- 	return result;
- }
- postcore_initcall(thermal_init);
+ /**
+  * struct pre_voltage_change_data - Data sent with PRE_VOLTAGE_CHANGE event
 -- 
 2.25.4
 
