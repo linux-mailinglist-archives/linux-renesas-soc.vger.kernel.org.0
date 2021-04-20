@@ -2,133 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83C7E36500F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Apr 2021 04:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FFD53650E4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Apr 2021 05:33:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231759AbhDTCBy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Apr 2021 22:01:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56960 "EHLO
+        id S229648AbhDTDdr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Apr 2021 23:33:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbhDTCBy (ORCPT
+        with ESMTP id S229508AbhDTDdr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Apr 2021 22:01:54 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9CB1C061763
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Apr 2021 19:01:23 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id p12so25550037pgj.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Apr 2021 19:01:23 -0700 (PDT)
+        Mon, 19 Apr 2021 23:33:47 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66580C06174A;
+        Mon, 19 Apr 2021 20:33:16 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id k17so3756004edr.7;
+        Mon, 19 Apr 2021 20:33:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=LlFYROiz629P24Lfh0wmKvqKCL0wk7OZmlOkXhVWrtE=;
-        b=EwPmSFH9fu79OjizKA4AUXac3f+vcrDehff6hYHPZFNnGN3F51/xjjbsbAAAfJJ2vV
-         4by5i6Lpo4sg8uJWgdKymCPM2veK+4nplWRRy6ZDdOOpjKA0JgKSpced3Bd7qJQxNfhm
-         E6TQEh5OJJZwsZ7o6IsWXtOznlrZ9NVPYKsAnFgDyfOXww1FuK9WtN0tAqqT1TFf25K/
-         a/hBIv9QLwx5inHOkLtYTLVbzHjbgTf3+E9AIbIqyXWsBugizUjhkoMFyymo+73Wu7Z4
-         y2RU6RgV7bIpLOvuEkCAchsrpqyuQM4XY+XEMkQJXIZhcn9FQyqADX9OkBljYfLAx8iX
-         YSwA==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lfSWPoNQHoy2n1intU3LcdvNNV3gtVsZpBy2B8GfaFk=;
+        b=aZUbYjCAjxOn2sQ1zudu3xjH2eve7n4UhLosKL3z5XtkdP9W6MtXSK5QpRnxIQidBo
+         VqJcudb4C9ipBzJ7djiokHvrZPuCucgfndCx5HurEqyLgmhWY0zjqifgrpEzE85NMQCG
+         7f2eV9qjWgqat+1+6mfc3xMni/cIPvENQTbsJCQbSHigRyvgnoTa5rOj5VZHkPBVFkpB
+         fFPrBFdA4ku77RGUk+c45omhWi+NfcXdA49L+1uGm229KdZWa7hXpxeQBcJyqRQOi+WP
+         2NUmk6fYIWqGVGSs9D9OAwFt0kNmPDV+R/BOHmh87ZYKRG4Q1T4+jCWofJTRtPayeZe8
+         1rYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=LlFYROiz629P24Lfh0wmKvqKCL0wk7OZmlOkXhVWrtE=;
-        b=Ho2YcIExV4UI4V9XzAwMLuY8SZ6lZ6d5QAqbijctRjzXqVxitip7zuJ4XFmoQB1YaY
-         7ZVZ5tM0voFD3CRlj5cRzjXAEd4dny3524axS1oW2nibQ87WEn4lrj8Xkf/CNnkd7yRc
-         yNtnCRUhPhwBzYkT62B1/sGKFoXJ6wUmkyJFazc9JUBZgLKb+v2DW/IQGA5B+hvzlsuP
-         WXX7awnJW1AuyLg/wYyaU1pOqHPiKf1FqqbYueymMdGsjTpm85z/eF6AC0sXhj34shrT
-         255Vrx3QAVUGXxtPD34FDhUKTvQ5vsjjVm10TxdVWJkXIzMIQO2d0ELt2nz7fEjyFPEg
-         Q+mw==
-X-Gm-Message-State: AOAM533gy3mfNF1MfVVmaDahes/9Nmk4f6+nOZpFC7g8xG+csgXkwzvW
-        qffX35/30vOH90vR3i2QdnBgMxWz/8PBqeuj
-X-Google-Smtp-Source: ABdhPJxsg/aEiVUhT5akgA4wmjX8akPaPICJ2ROWDqXCVnwaapLjU+80dJ2LWEkN89+Vs4JdN7SjYA==
-X-Received: by 2002:a63:40c1:: with SMTP id n184mr14490430pga.219.1618884083290;
-        Mon, 19 Apr 2021 19:01:23 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id e190sm13356071pfe.3.2021.04.19.19.01.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 19:01:23 -0700 (PDT)
-Message-ID: <607e35f3.1c69fb81.37305.3c85@mx.google.com>
-Date:   Mon, 19 Apr 2021 19:01:23 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lfSWPoNQHoy2n1intU3LcdvNNV3gtVsZpBy2B8GfaFk=;
+        b=ppGTdfnizllBKjtC5VGpglmdgVD9ALydAM1wl2u0Lv5sUPXwkaYRGNFDqYyjfoS/kF
+         e7VP574s3od6z50t3pzaVJmvilkyS2vLXPNVjiilQxZX1mWN93Fzswd5Gca27ZrqKguv
+         DqhTcszT9feJvTNBhsH+GHF8yML5MbKCbeTWbpUP0y5Isc/1Nzvrb0p6OD28QF8RlZr0
+         orArvKkRjz8o0CM/jO2yQKTTpJYpr4aae96HfnpkOCkVBPn9WNrOiOFAs67AARTrenAw
+         QY5YDUzp5pH4o3WM9TLrbg7O+XJACifcjcs2RT091YD12+BzYXLe7m1B9puRKsJU4JDY
+         /Q1Q==
+X-Gm-Message-State: AOAM532InPuRRHE+U8/Ib2VddlAng8mSueZtDynB+UyaUOBfgZQFS8eS
+        OTDo0cB4ixWfWKkNUSZl9+0gVGCPX/nVwDaE5gg=
+X-Google-Smtp-Source: ABdhPJzAzpucWx4ETz4/sy2d0XTjM8gyFLIRFAHt/G9Pw9nZgXyCsdewIbOaT+9q9+VwvrhA7uws6Ut8jEG29a5pazk=
+X-Received: by 2002:aa7:cc98:: with SMTP id p24mr29372685edt.187.1618889593171;
+ Mon, 19 Apr 2021 20:33:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2021-04-19-v5.12-rc8
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-Subject: renesas/master ltp-ipc: 10 runs,
- 1 regressions (renesas-devel-2021-04-19-v5.12-rc8)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+References: <20210417132329.6886-1-aford173@gmail.com> <20210419.154545.1437529237095871426.davem@davemloft.net>
+In-Reply-To: <20210419.154545.1437529237095871426.davem@davemloft.net>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Mon, 19 Apr 2021 22:33:00 -0500
+Message-ID: <CAHCN7x+T78s+dDbVErG_wKH409cmn76B8aPioJuSJ8aApj37XQ@mail.gmail.com>
+Subject: Re: [PATCH] net: ethernet: ravb: Fix release of refclk
+To:     David Miller <davem@davemloft.net>
+Cc:     netdev <netdev@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master ltp-ipc: 10 runs, 1 regressions (renesas-devel-2021-04-19-v5=
-.12-rc8)
+On Mon, Apr 19, 2021 at 5:45 PM David Miller <davem@davemloft.net> wrote:
+>
+> From: Adam Ford <aford173@gmail.com>
+> Date: Sat, 17 Apr 2021 08:23:29 -0500
+>
+> > The call to clk_disable_unprepare() can happen before priv is
+> > initialized. This means moving clk_disable_unprepare out of
+> > out_release into a new label.
+> >
+> > Fixes: 8ef7adc6beb2("net: ethernet: ravb: Enable optional refclk")
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+> Thjis does not apply cleanly, please rebbase and resubmit.
 
-Regressions Summary
--------------------
+Which branch should I use as the rebase?  I used net-next because
+that's where the bug is, but I know it changes frequently.
 
-platform   | arch | lab           | compiler | defconfig          | regress=
-ions
------------+------+---------------+----------+--------------------+--------=
-----
-odroid-xu3 | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | 1      =
-    =
+>
+> Please fix the formatting of your Fixes tag while you are at it, thank you.
 
+no problem.  Sorry about that
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-04-19-v5.12-rc8/plan/ltp-ipc/
-
-  Test:     ltp-ipc
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-04-19-v5.12-rc8
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      a07b5a56e02f9a237f18f2335bd7f029b63739e3
-
-  Test suite revisions:
-    ltp-tests
-      URL:  https://github.com/linux-test-project/ltp.git
-      SHA:  3e0e60074495e1c350b634848e5dd1f7993ec2ef =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform   | arch | lab           | compiler | defconfig          | regress=
-ions
------------+------+---------------+----------+--------------------+--------=
-----
-odroid-xu3 | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | 1      =
-    =
-
-
-  Details:     https://kernelci.org/test/plan/id/607e34eac489a5dd119b77c3
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-04-19-v5.12-rc8/arm/multi_v7_defconfig/gcc-8/lab-collabora/ltp-ipc-odro=
-id-xu3.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-04-19-v5.12-rc8/arm/multi_v7_defconfig/gcc-8/lab-collabora/ltp-ipc-odro=
-id-xu3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-ltp/=
-20210324.0/armhf/initrd.cpio.gz =
-
-
-
-  * ltp-ipc.login: https://kernelci.org/test/case/id/607e34eac489a5dd119b77=
-c4
-        failing since 12 days (last pass: renesas-devel-2021-03-24-v5.12-rc=
-4, first fail: renesas-devel-2021-04-05-v5.12-rc6) =
-
- =20
+adam
