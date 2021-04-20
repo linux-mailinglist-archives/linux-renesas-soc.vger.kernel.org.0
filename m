@@ -2,77 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B36553652CF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Apr 2021 09:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A2463654D3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Apr 2021 11:08:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbhDTHFP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Apr 2021 03:05:15 -0400
-Received: from mail-vs1-f42.google.com ([209.85.217.42]:35610 "EHLO
-        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230018AbhDTHFO (ORCPT
+        id S231285AbhDTJIU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Apr 2021 05:08:20 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:42069 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231250AbhDTJIS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Apr 2021 03:05:14 -0400
-Received: by mail-vs1-f42.google.com with SMTP id g20so18880948vst.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Apr 2021 00:04:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7HYgMozY5TPpisalV4DDLOPSuABu8EfxNwjbK5kSqRc=;
-        b=eV5X2zCbkodc38iEtP5mG051GcBQH79tIWk7jHx9+BF9xMkOB/ZrP3lGgoMykmH9Qr
-         m/CJbwvzwgHfm6A7SNlt7D7PLzyKP2QeLlu/knhYM3VqReoY9VX/Ln0IsvPX25YXIR9j
-         EuwKgN8zvrFTqsf8SVVRxwzkLDLgrzQZb1PuOzzN+VwFiLO3i4vFy5u9EwUkWaPct+29
-         +5FZLJpFs0yyBopijy4aErvlPRmuEv7ppUexjWibUYWde4LtGmvK0hGJZr1lnTQzn6sr
-         4KSDUm8wUcazK32z0em2WLBNf32k7r43H3wLYqMd9j/a3e5bdvlb2Kb65vQP4Y19RzUe
-         +hNQ==
-X-Gm-Message-State: AOAM531oy2Tj0I5Lnv5wBHDxvvJV6X2na+gzZLReOAkRy3BDjYfTDjP0
-        1z2Q6XVJWLsaX3g+DR5KrcJ8gtfD6JDmYs88jJ6hrIi/
-X-Google-Smtp-Source: ABdhPJwvrvsapHDY2VYpt1OdAAbROuJtoTsgPMXdx28DEVj2oigojUlDCxsxVKCaT0G/wHMPbnUKKo6DQMLyZbnVojA=
-X-Received: by 2002:a67:7c8c:: with SMTP id x134mr18029916vsc.40.1618902282002;
- Tue, 20 Apr 2021 00:04:42 -0700 (PDT)
+        Tue, 20 Apr 2021 05:08:18 -0400
+Received: from mail-wr1-f47.google.com ([209.85.221.47]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1M3lLh-1lYVNL03GN-000snS; Tue, 20 Apr 2021 11:07:44 +0200
+Received: by mail-wr1-f47.google.com with SMTP id e7so27820771wrs.11;
+        Tue, 20 Apr 2021 02:07:43 -0700 (PDT)
+X-Gm-Message-State: AOAM530bK2/Zhpk5hISNbBeQuJc8bwXLZL3Op5+Z3jB4wVxrjl+Sao6S
+        C+gjr8AN0THF/N2eQjocMKwjVco4O5LSgtigO90=
+X-Google-Smtp-Source: ABdhPJwSiNwlZ27l6d0oeVOJMjBIBpaEf6fV+Kr02yQOCGa6DdHdokE+eIs4+TiyDD+ybgS8jO4hGYikHl0QAhmuRDs=
+X-Received: by 2002:adf:db4f:: with SMTP id f15mr19571156wrj.99.1618909652608;
+ Tue, 20 Apr 2021 02:07:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210419143858.39401-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210419143858.39401-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 20 Apr 2021 09:04:30 +0200
-Message-ID: <CAMuHMdXd25JBitCXQaxXvtpT2GUm02BNk2y4s+wOOfNew2FEUA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: condor: switch eMMC bus to 1V8
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20210419042722.27554-1-alice.guo@oss.nxp.com> <20210419042722.27554-4-alice.guo@oss.nxp.com>
+ <YH0O907dfGY9jQRZ@atmark-techno.com> <CAMuHMdVY1SLZ0K30T2pimyrR6Mm=VoSTO=L-xxCy2Bj7_kostw@mail.gmail.com>
+ <YH1OeFy+SepIYYG0@atmark-techno.com> <CAK8P3a1Mu2F0irDDCL-50HiHth29iYFL5b7WHZ=UX6W7zzoxAg@mail.gmail.com>
+ <YH4VdPNO9cdzc5MD@atmark-techno.com>
+In-Reply-To: <YH4VdPNO9cdzc5MD@atmark-techno.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 20 Apr 2021 11:07:16 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1GjeHyMCworQYVtp5U0uu2B9VBHmf9y0hGn-o8aKSJZw@mail.gmail.com>
+Message-ID: <CAK8P3a1GjeHyMCworQYVtp5U0uu2B9VBHmf9y0hGn-o8aKSJZw@mail.gmail.com>
+Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use soc_device_match
+To:     Dominique MARTINET <dominique.martinet@atmark-techno.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Alice Guo (OSS)" <alice.guo@oss.nxp.com>,
+        gregkh <gregkh@linuxfoundation.org>,
+        Rafael Wysocki <rafael@kernel.org>,
+        =?UTF-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>,
+        aymen.sghaier@nxp.com, Herbert Xu <herbert@gondor.apana.org.au>,
+        David Miller <davem@davemloft.net>,
+        Tony Lindgren <tony@atomide.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        peter.ujfalusi@gmail.com, Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kevin Hilman <khilman@baylibre.com>, tomba@kernel.org,
+        jyri.sarha@iki.fi, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Kishon <kishon@ti.com>, Jakub Kicinski <kuba@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Roy Pledge <Roy.Pledge@nxp.com>, Leo Li <leoyang.li@nxp.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>, Felipe Balbi <balbi@kernel.org>,
+        Tony Prisk <linux@prisktech.co.nz>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>, dmaengine@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:ARM/Amlogic Meson SoC support" 
+        <linux-amlogic@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        linux-phy@lists.infradead.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-staging@lists.linux.dev,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:ltcVWPzbOzdUu0wQVBbKGnNxKoc98HAW0duSMZcYgv925OTLSOo
+ ZELSDbcdcLSNH6jcDj67BsKk30EPrQcQ8Efw82x799k6bMj9s2S+m69ZiBVlhuvUlnJi1KE
+ D7RnoNvLskVAUP5tUpp+AzAQkOM4ikGI/bBCnIU1DkH5GwBwAgWr5giBTyb98Y4I7MSVa9V
+ glR/dmIR70ry9QtHaxTJQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:m62Jwkt4Q9A=:KANWiBROdRHMBQ5xLHe3U2
+ hzC4pqyCkSOIDCpwHHpdfePw/DSVMWP11cjA9UAjvJaYaBXCZ5ZviOUZuds+WAtiQuHxsqgvG
+ nZi4yzXKiBDbdqpDmqSnJSLdXBr5QaacWl8ByR2QA/IPJEKeZxqlFpXmUIRvvw9yILmSAgAwm
+ kTxiSk1xsoLYt4eUP9X1BKjgUadX4/EsohQRwshD6awFocrh/vn5To8p+UeSEy9M6vG6ayoc3
+ KzloVi0GVUYRFc1NPbKUAVnYQJMIhG77x+Cm3slvPquhclTau9xa2jEDlsYf9AmTY1xTPSiJr
+ /g5TniSnhP8grlfVciwqdoi923h7Wd+xuUOomDfXdzWsGmOnj0YXIDpS+jnskS4OcxhO+FRMn
+ FzZZ9kkBvKQlYDBBlVJSIXMDuM+k11tV7v8z5yaqgg7dlymVRjd+HCL64OR8G/W0vIDw4rPr2
+ pp7HSGeYD00x82SkyzleiGe82V3CUweY4dnSbInIp/X4AIhFXsZWIlACLNsg0WEDBBic9FOVB
+ pe4HnvYTumVgpgOpu+WBCL4nBvUWvDUeLp2H0ZtwDqDlJhW2cPSYgGYmEkc9JgZOSAjBhucWB
+ ySMJnPpH3XQziDvSrylbWsiz0S5V3jaD6fnbfN05zGkdzDFwrWIH2hlbOI7PqXh7Y+r9HScxY
+ jsF4=
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 6:07 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> The eMMC card has two supplies, VCC and VCCQ. The VCC supplies the NAND
-> array and the VCCQ supplies the bus. On Condor, the VCC is connected to
-> 3.3V rail, while the VCCQ is connected to 1.8V rail. Adjust the pinmux
-> to match the bus, which is always operating in 1.8V mode.
+On Tue, Apr 20, 2021 at 1:44 AM Dominique MARTINET
+<dominique.martinet@atmark-techno.com> wrote:
+> Arnd Bergmann wrote on Mon, Apr 19, 2021 at 02:16:36PM +0200:
+> > For built-in drivers, load order depends on the initcall level and
+> > link order (how things are lined listed in the Makefile hierarchy).
+> >
+> > For loadable modules, this is up to user space in the end.
+> >
+> > Which of the drivers in this scenario are loadable modules?
 >
-> While at it, deduplicate the pinmux entries, which are now the same for
-> both default and UHS modes. We still need the two pinctrl entries to
-> match the bindings though.
->
-> Thanks to Marek Vasut for this commit description from 5f65328df3f5.
+> All the drivers involved in my case are built-in (nvmem, soc and final
+> soc_device_match consumer e.g. caam_jr that crashes the kernel if soc is
+> not identified properly).
 
-... from commit 5f65328df3f5cd25 ("arm64: dts: renesas: Switch eMMC
-bus to 1V8 on Salvator-X and ULCB")
+Ok, in that case you may have a chance to just adapt the initcall
+levels. This is somewhat fragile if someone else already relies
+on a particular order, but it's an easy one-line change to change
+a driver e.g. from module_init() or device_initcall() to arch_initcall().
 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> I frankly don't like the idea of moving nvmem/ above soc/ in
+> drivers/Makefile as a "solution" to this (especially as there is one
+> that seems to care about what soc they run on...), so I'll have a look
+> at links first, hopefully that will work out.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.14, with the above augmented.
+Right, that would be way more fragile.
 
-Gr{oetje,eeting}s,
+I think the main problem in this case is the caam driver that really
+should not look into the particular SoC type or even machine
+compatible string. This is something we can do as a last resort
+for compatibility with busted devicetree files, but it appears that
+this driver does it as the primary method for identifying different
+hardware revisions. I would suggest fixing the binding so that
+each SoC that includes one of these devices has a soc specific
+compatible string associated with the device that the driver can
+use as the primary way of identifying the device.
 
-                        Geert
+We probably need to keep the old logic around for old dtb files,
+but there can at least be a comment next to that table that
+discourages people from adding more entries there.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+      Arnd
