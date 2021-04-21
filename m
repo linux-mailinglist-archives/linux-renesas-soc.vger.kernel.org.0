@@ -2,96 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FBB0366A9F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Apr 2021 14:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E67A366AD4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Apr 2021 14:31:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238860AbhDUMTW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Apr 2021 08:19:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56518 "EHLO
+        id S239776AbhDUMbj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Apr 2021 08:31:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238807AbhDUMTV (ORCPT
+        with ESMTP id S238576AbhDUMbi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Apr 2021 08:19:21 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ECD1C06174A
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Apr 2021 05:18:48 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id e7so49008731edu.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Apr 2021 05:18:47 -0700 (PDT)
+        Wed, 21 Apr 2021 08:31:38 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88D99C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Apr 2021 05:31:05 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id d27so9741485lfv.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Apr 2021 05:31:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q8uhuAw715JZRQqO+E3WmMwPMMQ5nc0EpXioav40hkQ=;
-        b=swXbBmMXEgEp9VGI+qOfr3Q2M++5buNiMKq0I/i9pXUuGeFBrR4HU/8JytrLsQ4j4R
-         9wEB4qK5c4I1OkVuKmRD+rcVV/3Db4ARAnG0UfsVNu9McR4MYCnqjDBPXOjacERzxS/F
-         9FLXqI6owzkqD48vV1REtejGZ8QQpBn30fpZgavQJ1J7d+ru0cggIY2c75xwZSx1uwR3
-         2ZMKJGD0aN6KZSeRDRM5GomhQ6aV65u81HD78RFQZRTkr92HWCX75+WEKSY4zJ+mZi5I
-         TXG12N68dISDzmNA+uoWE0ZJtXjFi/U87G0FiHjlvqk9Scm8J+JGF+qJ1nV3bJlGRHKU
-         vF5Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=i3Tcr4PCdw/0rP4VM3hbtBcRyZ8BylNBEH0Nga70ISs=;
+        b=Db/mbQL5GHMY/2Na7XjhO6X9FlrNHhP+vcVTz46eckXqmV+FVXqyNYehAYH8l+ZC6z
+         X26g2+ksd3DOLWloPJG95Eea7Nw/czs2jDOttl/5habmzQmx4l64CVmJTjCpBnCkfFf/
+         S7PUP1KDUpDBUIrxJiM3IvSiSFe4npbAcrVqFoOJ9JiShDtGAKJiNLUs185zj7RB0xvw
+         ulTPwGxThY2rWRIRsC0Klnh5jGTlkmLt0AuroFwkdWjJxjT9gHP4iGp71nAbT8vFLYim
+         Yks6Oy07rFkMbHcuXye4gBtJmFZHTQuyAMyT4JoQpFbz3b9r8E/okHNZ+UaAWV2VIdxK
+         ilXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q8uhuAw715JZRQqO+E3WmMwPMMQ5nc0EpXioav40hkQ=;
-        b=fR3o/2cIu1QNbu2YdSpPaweyzgU/cG/Q09hf9pnOm4lBMMPv5y2BVCHx5fir6ickN6
-         J0IvR7rJrqRFeXjHBpfU1oFT/ATR5Z+NSkRKVj+tNwYeh0F3e7csx8DSXGrF9jfs+KEE
-         4n3TA5IA1fWGBnHpF6alRB9A1vjySFmvskYc+kCSAXJrpkH0WAgh4Xk/etaHTsAz8wHd
-         0WVf2XOChuFtQSIkACnXC2tIad82Dt8JJAyZC0vfnMJZkvic+Aj6/8j+Jsi1kaHo6Sse
-         btO+Wc0Gl8DDF4tzu+L5gOYo2nxhSxZcciczPxJayVQ4GnVHZxexz3arYC/S7kOqVz7n
-         hK1A==
-X-Gm-Message-State: AOAM530ZCRXidYeUjVidIeV4wIs7U+LcZzqpJg2gQUyv4PcsawPvSXd0
-        y39m6MWC4qr7SCEsKsHCvwRkRg==
-X-Google-Smtp-Source: ABdhPJw4fSw0I7mEZhZOmXY0XxJV4b+alhgWohtqUVXf8AEOSZSV7Vg4bIucb0doN6gjhpcaMQOsNQ==
-X-Received: by 2002:a05:6402:2054:: with SMTP id bc20mr37316562edb.334.1619007526837;
-        Wed, 21 Apr 2021 05:18:46 -0700 (PDT)
-Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de. [84.172.85.33])
-        by smtp.googlemail.com with ESMTPSA id hs26sm2232758ejc.23.2021.04.21.05.18.45
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=i3Tcr4PCdw/0rP4VM3hbtBcRyZ8BylNBEH0Nga70ISs=;
+        b=aCGb//o9L4atcqBQCqXdHlQGpUse8lVlyo7YO1RBQ0tbNv8SfCR7iEFjav4gwVDLSe
+         dYcYrCBzzA4qCCn3o4xY6PXFctavtQlVYXHwoqGeVBON/CyfVQWgsp75ayvU/+aD6zt8
+         jd1L5tjAcsBZzghvU0qsJDdGzEW2xkx3fADde8P2pZk9MyrhZ+fkInv9KP5hxrRoStCY
+         VeBDPlpYJgVo2D308mHkl7/ACB8wUFipVgPa9lTarv7oqRQlCuyDaV61RU0hnYPRPxZ4
+         zFtWwz8KqcrMHqLktoaClcfneDTPwm0QkHZoI3gyR2frsXcr5U2zZ0KDnW0kcWG5TANZ
+         09SQ==
+X-Gm-Message-State: AOAM5325Kc12Mc8HB0CUaEfax4Umw+gthZy/CFks8NW46wnTpRHODSbC
+        qOEMBoFc9v1YgHVvZm5xmqffFg==
+X-Google-Smtp-Source: ABdhPJw9RickldUu1hZROkFGOjkKFxNfUwCza5ewJ1NUNjTvkQ74YHXRa09ayNox8Um13FCug/guHg==
+X-Received: by 2002:ac2:4d10:: with SMTP id r16mr18764470lfi.643.1619008264092;
+        Wed, 21 Apr 2021 05:31:04 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id c23sm197431ljr.73.2021.04.21.05.31.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 05:18:46 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        Wed, 21 Apr 2021 05:31:03 -0700 (PDT)
+Date:   Wed, 21 Apr 2021 14:31:02 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2] yavta: Fix usage documentation for --field option
-Date:   Wed, 21 Apr 2021 14:18:38 +0200
-Message-Id: <20210421121838.3060973-1-niklas.soderlund@ragnatech.se>
-X-Mailer: git-send-email 2.31.1
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: media: renesas,csi2: Node port@0 is
+ not mandatory
+Message-ID: <YIAbBoqEAZONAYii@oden.dyn.berto.se>
+References: <20210413155346.2471776-1-niklas.soderlund+renesas@ragnatech.se>
+ <YHiPWPTjWeEQ522E@pendragon.ideasonboard.com>
+ <YHlFWvVBps2vYnPM@oden.dyn.berto.se>
+ <YH/zyzfgpmXvkDpB@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YH/zyzfgpmXvkDpB@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The --field option takes an argument selecting the field order. Update
-the usage text to reflect this.
+Hi Laurent and Geert,
 
-Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v1
-- List all valid filed values.
----
- yavta.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On 2021-04-21 12:43:39 +0300, Laurent Pinchart wrote:
+> Hi Niklas,
+> 
+> On Fri, Apr 16, 2021 at 10:05:46AM +0200, Niklas Söderlund wrote:
+> > On 2021-04-15 22:09:12 +0300, Laurent Pinchart wrote:
+> > > On Tue, Apr 13, 2021 at 05:53:46PM +0200, Niklas Söderlund wrote:
+> > > > When converting the binding to use the video-interfaces schemas the node
+> > > > port@0 was incorrectly made a mandatory property.
+> > > > 
+> > > > The port@0 node describes which CSI-2 transmitter the R-Car CSI-2
+> > > > receiver is connected too. Not all boards connects all CSI-2 receivers
+> > > > to an CSI-2 transmitter.
+> > > 
+> > > Ports are properties of the device, they should always be there,
+> > > regardless of connections. It's the endpoints that describe connections.
+> > 
+> > I understand what you are saying and if that is the way things are done 
+> > I'm fine with it. As this was brought to light by a recent change in the 
+> > bindings I wish to understand if this was always the case the bindings 
+> > have been wrong all along or not.
+> > 
+> > I only ask as because if we keep the port@0 mandatory there will be 
+> > board files that needs to add empty port@0 nodes as we know they are not 
+> > used. And as the media bindings are already quiet large for some Renesas 
+> > boards I want to understand this before spewing out a lot of patches 
+> > adding empty nodes ;-)
+> 
+> In my opinion port@0 should be in the SoC .dtsi, not in the board .dts.
+> Individual boards can then add endpoints when the CSI-2 receiver is
+> connected. Would that make sense for you ?
 
-diff --git a/yavta.c b/yavta.c
-index 4e5b62a96eb66f8d..1129ab245966384b 100644
---- a/yavta.c
-+++ b/yavta.c
-@@ -2290,7 +2290,9 @@ static void usage(const char *argv0)
- 	printf("    --enum-formats		Enumerate formats\n");
- 	printf("    --enum-inputs		Enumerate inputs\n");
- 	printf("    --fd                        Use a numeric file descriptor insted of a device\n");
--	printf("    --field			Interlaced format field order\n");
-+	printf("    --field field		Set the format field order\n");
-+	printf("\tValid values for field are none, top, bottom, interlaced, seq-tb, seq-bt\n");
-+	printf("\talternate, interlaced-tb and interlaced-bt.\n");
- 	printf("    --log-status		Log device status\n");
- 	printf("    --no-query			Don't query capabilities on open\n");
- 	printf("    --offset			User pointer buffer offset from page start\n");
+I think this is a case of pragmatism vs being technically correct, and 
+of course 'technically correct' being the best kind of correct ;-)
+
+Any of the two options works for me as long as we fix the DT validation 
+errors that currently exists. Laurent seems to prefers keeping the 
+port@0 mandatory and adding empty port@0 nodes to dtsi files.
+
+@Geert: Does this work for you?
+
+> 
+> > > > Fixes: 066a94e28a23e04c ("media: dt-bindings: media: Use graph and video-interfaces schemas")
+> > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/media/renesas,csi2.yaml | 1 -
+> > > >  1 file changed, 1 deletion(-)
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> > > > index 20396f1be9993461..395484807dd5ed47 100644
+> > > > --- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> > > > +++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> > > > @@ -78,7 +78,6 @@ properties:
+> > > >            modules connected the CSI-2 receiver.
+> > > >  
+> > > >      required:
+> > > > -      - port@0
+> > > >        - port@1
+> > > >  
+> > > >  required:
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+
 -- 
-2.31.1
-
+Regards,
+Niklas Söderlund
