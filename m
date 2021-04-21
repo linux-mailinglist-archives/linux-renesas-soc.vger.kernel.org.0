@@ -2,112 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B04FB366D90
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Apr 2021 16:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 655F7366E1F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Apr 2021 16:25:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243249AbhDUOFu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Apr 2021 10:05:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52194 "EHLO
+        id S238901AbhDUO0W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Apr 2021 10:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235887AbhDUOFt (ORCPT
+        with ESMTP id S237528AbhDUO0V (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Apr 2021 10:05:49 -0400
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5B25C06174A;
-        Wed, 21 Apr 2021 07:05:16 -0700 (PDT)
-Received: by mail-il1-x129.google.com with SMTP id b17so35010414ilh.6;
-        Wed, 21 Apr 2021 07:05:16 -0700 (PDT)
+        Wed, 21 Apr 2021 10:26:21 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2D69C06174A;
+        Wed, 21 Apr 2021 07:25:47 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id x20so36845126lfu.6;
+        Wed, 21 Apr 2021 07:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GdeaFJmr4R41Y4E4yOhKBfoqcgTi2vEOzTdmvFZZ1W4=;
-        b=RcoadoWUmxnJ5L8BlTXlGBhA4FNExzqGlIz7mByRLnBOKRZRwuRPCcrRUgNhrfX+1s
-         noqMbB3gBPbwuPBGSsiy/XCeAR/VfWH5wb99GJ17BhnMt7lmylH8iplFm1HbPAhDNUYi
-         hy+RpBYJqznTyBRWP6Z3cBbHNaWoNMC1bFlKe8m6lpbr/lMS7oNakgqos3vN1G3ji5QR
-         /zebHGIxKxdjYQlgCUMlalJ0rz2ogiXQ1Z4SBjpGpQgspq5Glayg4HED9LkcTPmUkxVs
-         VRRNxF0fuEBN5BmI+z0t/mI7Q2m2lAg1hgL5GePNn9TQqZm7XlIHBe7qWmjeZpybPI0q
-         kPdg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lbp80Z2/m16q78yp5xUIMHweqZaqCt6hIC8nVbgvRUI=;
+        b=l5sPqpJYICsJQGVW0x1RPcyFCm/bo4zkcOyfWXw8t9rOB7jcs8RtfpPWAgXbhByrwZ
+         i1yq3SLLH5PnHkBzTPgRdVpdFkzNCKi5jCjs7PF2A4oWcoNojcnZXkfcERBQtsiQ8eiP
+         aw4przHk0A4XQLPbqhYIgGu35d7ahd3jqo9R5tRQ6N7uKVl7n+SDfDbA8cgw6sNv9RzC
+         bXi2pvcDEBhkS8ExEibnT0Fd9BLwKzQs8h0KPUFAnYAT6TieFyH811UtRL6UQUNnoM1d
+         uFOYbowgplrKLsbOlNcAcq1kTSJTJ2Y0ycO7i+7BHp872FG7kf/wScnbCUyoOzIcxteS
+         czqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=GdeaFJmr4R41Y4E4yOhKBfoqcgTi2vEOzTdmvFZZ1W4=;
-        b=Zit1uBzex0+mOocrnntsSou4u1OVkvECesye4d3WiXz+cMX+a85Vzc3ejq5eX8BGxB
-         GkjC32JUbv2nG1cKteZmjuO6hp4nNuDbefHsjl7BcnzomTV/0F2zVBVPCt4TBJsumAv4
-         YGy0/yWHeCEDkjqwQfoIIbcA5YMQnGDSN8v/EoyjW4JP3DKBoDMrsKBcyo5V+7CD/8IC
-         Q7Wx7Qb3f6Hf+8uDaVjLXhIuCwDsTPuO6sUzpxIfdecZFid6jJwW7hMEXtXVInSyo46r
-         ThEqUqkBYmhg+qVWVMGOAiaDu+yszAOEhunfYxigBQoOnPv0ECT1gwa96r60goq1sdcu
-         FJgw==
-X-Gm-Message-State: AOAM530nAw1yvwVmHDlnp6XMhvVJ1UhacVOTTppcc9ggEFMgAyt75f74
-        4bf6Cc59EMvYFJJE0t4kMNJjAtAMvtgh4A==
-X-Google-Smtp-Source: ABdhPJwLodEVa6Czgm9eQIHN2PN0CF/mqTMydiUl0kBlWBvDLygFW2dpIfawdzmbN7hw6gtjwbmshw==
-X-Received: by 2002:a92:d70c:: with SMTP id m12mr26807944iln.216.1619013915515;
-        Wed, 21 Apr 2021 07:05:15 -0700 (PDT)
-Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:1b3b:2123:669a:3ca8])
-        by smtp.gmail.com with ESMTPSA id x8sm1133302iov.7.2021.04.21.07.05.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 07:05:14 -0700 (PDT)
-From:   Adam Ford <aford173@gmail.com>
-To:     netdev@vger.kernel.org
-Cc:     aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
+        bh=lbp80Z2/m16q78yp5xUIMHweqZaqCt6hIC8nVbgvRUI=;
+        b=Sd8EB3hSF8x2xvzJcnsJEKfQK9MV/PhPKb0FAul7TqXzLgfgGniXcUU3c6h3m8FV9v
+         0cqQI1TqCSokhVZPkACUf2RUZq4Ikg9bMygAeu9Y/gR5bi7vBrdAMZ4zzjPpiCjJ7AKK
+         +ob5DMyb1RlhKYqoa+RFFRcKDu/6/E7rE6HezvxOM9GjdRW/dhqymWfxeqZ/N3JAmCO1
+         He79zNG9d0SqzCC8L8z0hcnG9RSVVUX9OVqgu6ZFiDMWvGJJMYi3BBt5gpsk2MQGKVgn
+         gCpBeVvNl0dv6Vb2vYRHdByq0o5LfmV9C6W1cVZWVdEfkWPq56YvUHabxb+fit4ZixQq
+         jnpQ==
+X-Gm-Message-State: AOAM530VvsHH7NxAf6cs/IrRDvqzgqyk7aO/JWhRT2h15uU+scnAh0BW
+        G9kZfL9DDfXtJP2vhK0yYW8wbwqSrkA=
+X-Google-Smtp-Source: ABdhPJxibOjfoGZApiCpR+P+jRW7w2w89HoaUN6PTu6njNc8WfS3bJvmUfmeHQMHZSlZz/3paQ8KWA==
+X-Received: by 2002:a05:6512:b26:: with SMTP id w38mr19512765lfu.152.1619015146177;
+        Wed, 21 Apr 2021 07:25:46 -0700 (PDT)
+Received: from [192.168.1.102] ([31.173.86.146])
+        by smtp.gmail.com with ESMTPSA id u6sm229441ljj.82.2021.04.21.07.25.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Apr 2021 07:25:45 -0700 (PDT)
+Subject: Re: [PATCH] net: ethernet: ravb: Fix release of refclk
+To:     Adam Ford <aford173@gmail.com>, netdev@vger.kernel.org
+Cc:     aford@beaconembedded.com, "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] net: ethernet: ravb: Fix release of refclk
-Date:   Wed, 21 Apr 2021 09:05:05 -0500
-Message-Id: <20210421140505.30756-1-aford173@gmail.com>
-X-Mailer: git-send-email 2.25.1
+References: <20210421140505.30756-1-aford173@gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <3937a792-8985-10c1-b818-af2fbc2241df@gmail.com>
+Date:   Wed, 21 Apr 2021 17:25:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210421140505.30756-1-aford173@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The call to clk_disable_unprepare() can happen before priv is
-initialized. This means moving clk_disable_unprepare out of
-out_release into a new label.
+On 4/21/21 5:05 PM, Adam Ford wrote:
 
-Fixes: 8ef7adc6beb2 ("net: ethernet: ravb: Enable optional refclk")
-Signed-off-by: Adam Ford <aford173@gmail.com>
----
-V2:  Rebase on net-next/master, fix fixes tag, change name of label
-     from out_unprepare_refclk to out_disable_refclk
+> The call to clk_disable_unprepare() can happen before priv is
+> initialized.
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 8c84c40ab9a0..9e5dad41cdc9 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2173,7 +2173,7 @@ static int ravb_probe(struct platform_device *pdev)
- 	/* Set GTI value */
- 	error = ravb_set_gti(ndev);
- 	if (error)
--		goto out_release;
-+		goto out_disable_refclk;
- 
- 	/* Request GTI loading */
- 	ravb_modify(ndev, GCCR, GCCR_LTI, GCCR_LTI);
-@@ -2192,7 +2192,7 @@ static int ravb_probe(struct platform_device *pdev)
- 			"Cannot allocate desc base address table (size %d bytes)\n",
- 			priv->desc_bat_size);
- 		error = -ENOMEM;
--		goto out_release;
-+		goto out_disable_refclk;
- 	}
- 	for (q = RAVB_BE; q < DBAT_ENTRY_NUM; q++)
- 		priv->desc_bat[q].die_dt = DT_EOS;
-@@ -2252,8 +2252,9 @@ static int ravb_probe(struct platform_device *pdev)
- 	/* Stop PTP Clock driver */
- 	if (chip_id != RCAR_GEN2)
- 		ravb_ptp_stop(ndev);
--out_release:
-+out_disable_refclk:
- 	clk_disable_unprepare(priv->refclk);
-+out_release:
- 	free_netdev(ndev);
- 
- 	pm_runtime_put(&pdev->dev);
--- 
-2.25.1
+   This still doesn't make sense for me...
 
+> This means moving clk_disable_unprepare out of
+                                         ^ call
+> out_release into a new label.
+> 
+> Fixes: 8ef7adc6beb2 ("net: ethernet: ravb: Enable optional refclk")
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+
+
+[...]
+
+MBR, Sergei
