@@ -2,110 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 950F9366AEE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Apr 2021 14:38:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B04FB366D90
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Apr 2021 16:05:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234216AbhDUMjH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Apr 2021 08:39:07 -0400
-Received: from mail-vs1-f42.google.com ([209.85.217.42]:33386 "EHLO
-        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238447AbhDUMiz (ORCPT
+        id S243249AbhDUOFu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Apr 2021 10:05:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235887AbhDUOFt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Apr 2021 08:38:55 -0400
-Received: by mail-vs1-f42.google.com with SMTP id k19so7990711vsg.0;
-        Wed, 21 Apr 2021 05:38:22 -0700 (PDT)
+        Wed, 21 Apr 2021 10:05:49 -0400
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5B25C06174A;
+        Wed, 21 Apr 2021 07:05:16 -0700 (PDT)
+Received: by mail-il1-x129.google.com with SMTP id b17so35010414ilh.6;
+        Wed, 21 Apr 2021 07:05:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GdeaFJmr4R41Y4E4yOhKBfoqcgTi2vEOzTdmvFZZ1W4=;
+        b=RcoadoWUmxnJ5L8BlTXlGBhA4FNExzqGlIz7mByRLnBOKRZRwuRPCcrRUgNhrfX+1s
+         noqMbB3gBPbwuPBGSsiy/XCeAR/VfWH5wb99GJ17BhnMt7lmylH8iplFm1HbPAhDNUYi
+         hy+RpBYJqznTyBRWP6Z3cBbHNaWoNMC1bFlKe8m6lpbr/lMS7oNakgqos3vN1G3ji5QR
+         /zebHGIxKxdjYQlgCUMlalJ0rz2ogiXQ1Z4SBjpGpQgspq5Glayg4HED9LkcTPmUkxVs
+         VRRNxF0fuEBN5BmI+z0t/mI7Q2m2lAg1hgL5GePNn9TQqZm7XlIHBe7qWmjeZpybPI0q
+         kPdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6ALp4ZieNZZ/Ge8Ck+QEaMFcRz5+PoS2G+LjWU70FyA=;
-        b=cbQacpdmULEeC8FwKazMuMPkF4LBWPoup5XG3rA1/pkgeZafOvlaLIfZvDYhy9p5hC
-         hEYfnAomQxlrnTQwcrJZ2iu7gg3FkDXelsA9oP+2rsd3TYH7Cvbye/WOP/aot9Wqjo7E
-         0+UCkdRXExLyitvmJuJGc5xB97zwHDNzDcgEI+NORyMsk/kYuQ21KlLrftzYlL3zOSaR
-         EBfQ2mL3KK0eYA4MCGwFUswVhHUKkixnz3U9BLZoAOLSdenEyFmu8kEtBUMv6FWqXo54
-         g4EwCm49PsXUW3UP+ZwTgquYPJJf3Nae5H6hsaBV2pH+4EsEUIMkC5FN8l/8jcXkpK3N
-         Or/g==
-X-Gm-Message-State: AOAM530cFDFQYpYoYmYf7xryUYS3emxcVeeP9zEyyFFUlPFGGRjPCuEv
-        zwpnAHFChRVp7CSlzOh1K8Z6/fCzZe1ILg+hy0ryeSZu
-X-Google-Smtp-Source: ABdhPJxCa92hyV2QXrUDmNrbi9fPbCWQyb2GtX+ATD7zl2J88K+uhBVzhTODAbNWn/MYolnGB7uJN4epBz1tKa7KzaM=
-X-Received: by 2002:a67:7c8c:: with SMTP id x134mr24769126vsc.40.1619008702371;
- Wed, 21 Apr 2021 05:38:22 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GdeaFJmr4R41Y4E4yOhKBfoqcgTi2vEOzTdmvFZZ1W4=;
+        b=Zit1uBzex0+mOocrnntsSou4u1OVkvECesye4d3WiXz+cMX+a85Vzc3ejq5eX8BGxB
+         GkjC32JUbv2nG1cKteZmjuO6hp4nNuDbefHsjl7BcnzomTV/0F2zVBVPCt4TBJsumAv4
+         YGy0/yWHeCEDkjqwQfoIIbcA5YMQnGDSN8v/EoyjW4JP3DKBoDMrsKBcyo5V+7CD/8IC
+         Q7Wx7Qb3f6Hf+8uDaVjLXhIuCwDsTPuO6sUzpxIfdecZFid6jJwW7hMEXtXVInSyo46r
+         ThEqUqkBYmhg+qVWVMGOAiaDu+yszAOEhunfYxigBQoOnPv0ECT1gwa96r60goq1sdcu
+         FJgw==
+X-Gm-Message-State: AOAM530nAw1yvwVmHDlnp6XMhvVJ1UhacVOTTppcc9ggEFMgAyt75f74
+        4bf6Cc59EMvYFJJE0t4kMNJjAtAMvtgh4A==
+X-Google-Smtp-Source: ABdhPJwLodEVa6Czgm9eQIHN2PN0CF/mqTMydiUl0kBlWBvDLygFW2dpIfawdzmbN7hw6gtjwbmshw==
+X-Received: by 2002:a92:d70c:: with SMTP id m12mr26807944iln.216.1619013915515;
+        Wed, 21 Apr 2021 07:05:15 -0700 (PDT)
+Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:1b3b:2123:669a:3ca8])
+        by smtp.gmail.com with ESMTPSA id x8sm1133302iov.7.2021.04.21.07.05.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Apr 2021 07:05:14 -0700 (PDT)
+From:   Adam Ford <aford173@gmail.com>
+To:     netdev@vger.kernel.org
+Cc:     aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] net: ethernet: ravb: Fix release of refclk
+Date:   Wed, 21 Apr 2021 09:05:05 -0500
+Message-Id: <20210421140505.30756-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210413155346.2471776-1-niklas.soderlund+renesas@ragnatech.se>
- <YHiPWPTjWeEQ522E@pendragon.ideasonboard.com> <YHlFWvVBps2vYnPM@oden.dyn.berto.se>
- <YH/zyzfgpmXvkDpB@pendragon.ideasonboard.com> <YIAbBoqEAZONAYii@oden.dyn.berto.se>
-In-Reply-To: <YIAbBoqEAZONAYii@oden.dyn.berto.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 21 Apr 2021 14:38:11 +0200
-Message-ID: <CAMuHMdUiqhjm49cg0UMjk3qxgVZYQM0RAHbefvh8mdj58qDr4A@mail.gmail.com>
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,csi2: Node port@0 is
- not mandatory
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+The call to clk_disable_unprepare() can happen before priv is
+initialized. This means moving clk_disable_unprepare out of
+out_release into a new label.
 
-On Wed, Apr 21, 2021 at 2:31 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2021-04-21 12:43:39 +0300, Laurent Pinchart wrote:
-> > On Fri, Apr 16, 2021 at 10:05:46AM +0200, Niklas Söderlund wrote:
-> > > On 2021-04-15 22:09:12 +0300, Laurent Pinchart wrote:
-> > > > On Tue, Apr 13, 2021 at 05:53:46PM +0200, Niklas Söderlund wrote:
-> > > > > When converting the binding to use the video-interfaces schemas the node
-> > > > > port@0 was incorrectly made a mandatory property.
-> > > > >
-> > > > > The port@0 node describes which CSI-2 transmitter the R-Car CSI-2
-> > > > > receiver is connected too. Not all boards connects all CSI-2 receivers
-> > > > > to an CSI-2 transmitter.
-> > > >
-> > > > Ports are properties of the device, they should always be there,
-> > > > regardless of connections. It's the endpoints that describe connections.
-> > >
-> > > I understand what you are saying and if that is the way things are done
-> > > I'm fine with it. As this was brought to light by a recent change in the
-> > > bindings I wish to understand if this was always the case the bindings
-> > > have been wrong all along or not.
-> > >
-> > > I only ask as because if we keep the port@0 mandatory there will be
-> > > board files that needs to add empty port@0 nodes as we know they are not
-> > > used. And as the media bindings are already quiet large for some Renesas
-> > > boards I want to understand this before spewing out a lot of patches
-> > > adding empty nodes ;-)
-> >
-> > In my opinion port@0 should be in the SoC .dtsi, not in the board .dts.
-> > Individual boards can then add endpoints when the CSI-2 receiver is
-> > connected. Would that make sense for you ?
->
-> I think this is a case of pragmatism vs being technically correct, and
-> of course 'technically correct' being the best kind of correct ;-)
->
-> Any of the two options works for me as long as we fix the DT validation
-> errors that currently exists. Laurent seems to prefers keeping the
-> port@0 mandatory and adding empty port@0 nodes to dtsi files.
->
-> @Geert: Does this work for you?
+Fixes: 8ef7adc6beb2 ("net: ethernet: ravb: Enable optional refclk")
+Signed-off-by: Adam Ford <aford173@gmail.com>
+---
+V2:  Rebase on net-next/master, fix fixes tag, change name of label
+     from out_unprepare_refclk to out_disable_refclk
 
-Yes, that's fine for me. Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 8c84c40ab9a0..9e5dad41cdc9 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -2173,7 +2173,7 @@ static int ravb_probe(struct platform_device *pdev)
+ 	/* Set GTI value */
+ 	error = ravb_set_gti(ndev);
+ 	if (error)
+-		goto out_release;
++		goto out_disable_refclk;
+ 
+ 	/* Request GTI loading */
+ 	ravb_modify(ndev, GCCR, GCCR_LTI, GCCR_LTI);
+@@ -2192,7 +2192,7 @@ static int ravb_probe(struct platform_device *pdev)
+ 			"Cannot allocate desc base address table (size %d bytes)\n",
+ 			priv->desc_bat_size);
+ 		error = -ENOMEM;
+-		goto out_release;
++		goto out_disable_refclk;
+ 	}
+ 	for (q = RAVB_BE; q < DBAT_ENTRY_NUM; q++)
+ 		priv->desc_bat[q].die_dt = DT_EOS;
+@@ -2252,8 +2252,9 @@ static int ravb_probe(struct platform_device *pdev)
+ 	/* Stop PTP Clock driver */
+ 	if (chip_id != RCAR_GEN2)
+ 		ravb_ptp_stop(ndev);
+-out_release:
++out_disable_refclk:
+ 	clk_disable_unprepare(priv->refclk);
++out_release:
+ 	free_netdev(ndev);
+ 
+ 	pm_runtime_put(&pdev->dev);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
