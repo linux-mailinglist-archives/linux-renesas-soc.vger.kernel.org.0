@@ -2,230 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39BEB367BC6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Apr 2021 10:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3F6D367D22
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Apr 2021 11:03:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235259AbhDVILU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Apr 2021 04:11:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37200 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235004AbhDVILT (ORCPT
+        id S229938AbhDVJET (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Apr 2021 05:04:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42118 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230316AbhDVJEQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Apr 2021 04:11:19 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51593C06138C
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Apr 2021 01:10:45 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id i21-20020a05600c3555b029012eae2af5d4so2690947wmq.4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Apr 2021 01:10:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uhXyqG4ZxdDjqBkhxOQCYD5Nv2NYVdHJqhq6nBUFFjA=;
-        b=peQPash9fIBmLfV68tEd9Ko7OwA7IV6eCox5z+H9i0paF3ymnAUJemE9GMsA41Cvis
-         UAbkuo+BpLfbYpIo5NYpWtv7RoPKn2bcRh0K6rzL267NKx+/892K9Wt//CGf+x1fWPV8
-         QZG+BujQyMxRY+DvGSoV6lSBzcI8uMNMCf4cvrNf1zlAjeJpi8+CGr0+pquPpIchbIAp
-         dBV1ONdjlfWd/ElAKgz/AycD9zrqxux+j0dk51vc2MysITnPA6PL56j8ytE1qgHShdJb
-         Q7vo4aAL+Wz8Ga9HjnpuVotTu0LD+h1iNPBtHig0Gahc77sU7TWuKej4IjIMFLPTy8ok
-         DMiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uhXyqG4ZxdDjqBkhxOQCYD5Nv2NYVdHJqhq6nBUFFjA=;
-        b=gFtooOnzPXjt6YUlc20CkaZbedUD6/VZMLMxGGKRkkfy2WufD4Fc0APsV/IXvlpzEj
-         1vH6gQZBOb8rMicdPbcDW8mlQJKKnJJCrrnxBU2bGKn+Y8MV5E5s5GCjUOkEoaR66Maj
-         B/jq/DSEa7mJkskZdLW0tl3D6Moe5fuEz/DnvjfPdzmRrT8zS7F41KTUQrDalPEsADLN
-         8eLZ6FlrWpJdBL20EenRM8/bXwTdP7fSfWEtb02DCd4AQwXoJtzWSeMP0PZBfZDk8wIF
-         xrFvnx1I1Qgh6t4/Efb7iA9Pvs+zObln5dl7PrRVEy+CDV7pwA0ntKqb1Oj/YWPfGIPD
-         Vycw==
-X-Gm-Message-State: AOAM530SwQM1oPpSOP9wURQ7amx+XboyWezUBmrlf+U299BZKspqaN9x
-        0U1LbLXTtY1a+I/iRDzBJSuabg==
-X-Google-Smtp-Source: ABdhPJy3MRve6nSvRcYP4R4E/S5ASqa10CVolMkQ95QtOHVjaJKShKsN4+WXAPZX3OX+dWzAqn6YhA==
-X-Received: by 2002:a1c:2646:: with SMTP id m67mr7810522wmm.71.1619079043796;
-        Thu, 22 Apr 2021 01:10:43 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:e88d:2580:c20:b786? ([2a01:e34:ed2f:f020:e88d:2580:c20:b786])
-        by smtp.googlemail.com with ESMTPSA id k11sm5010954wmj.1.2021.04.22.01.10.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Apr 2021 01:10:43 -0700 (PDT)
-Subject: Re: [PATCH v8 03/10] thermal: Use generic HW-protection shutdown API
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>
-Cc:     Mark Brown <broonie@kernel.org>, Kees Cook <keescook@chromium.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "agross@kernel.org" <agross@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        linux-power <linux-power@fi.rohmeurope.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Matteo Croce <mcroce@microsoft.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        linux-pm@vger.kernel.org
-References: <cover.1618832466.git.matti.vaittinen@fi.rohmeurope.com>
- <3b62226e320ab412357e102baf6d628e354a0b61.1618832466.git.matti.vaittinen@fi.rohmeurope.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <c9b61f91-301b-92a2-f5e7-e8b8e2373040@linaro.org>
-Date:   Thu, 22 Apr 2021 10:10:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 22 Apr 2021 05:04:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B1F461428;
+        Thu, 22 Apr 2021 09:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619082222;
+        bh=kOWQRTM3XWNMCkgPqM3/yz/0ND8MnHE7ApbWuhF7kNk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KI5I1b5+fKyD+23wRiFyiS2DQTo12S0lIBGNugxJwRjitycdwkXOGO+cl8XFLalL9
+         9N2QmoRYyF2lHbpNoSYXPnrRSL4VSg6FnpsGWMUzzILh3EnQFo4OcA7pIEOBlExgkr
+         ynEUXWwaA1b6tNgD6e85+sCz0DFKzp3/Fz532PPpuE2amH6cfpC0+TaIFsfAwGtRH2
+         JhUxuNlLqu0U+9MxSvy3ggKdRFZwWz6BN2nHhKiXzzbUS0QdVRFL3EuE8ZLuQCB6wF
+         KOQHiSQIv8th9BpI2F3kQ7WE7/7C7e3fa0If6roAejLx6CQsiABnNJ7D2L5+85Phg7
+         TosFc5lfGG7Rw==
+Date:   Thu, 22 Apr 2021 11:03:36 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kangjie Lu <kjlu@umn.edu>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH 073/190] Revert "media: rcar_drif: fix a memory
+ disclosure"
+Message-ID: <20210422110336.1d67678d@coco.lan>
+In-Reply-To: <c8dbe373-8910-5b34-ce71-cad1bcab2d71@xs4all.nl>
+References: <20210421130105.1226686-1-gregkh@linuxfoundation.org>
+        <20210421130105.1226686-74-gregkh@linuxfoundation.org>
+        <CAMuHMdVFf3_jo+oGPm4THhan3bVZx99omkG1LnAp=B4JTKhChA@mail.gmail.com>
+        <YICXdauWkNRezHgX@pendragon.ideasonboard.com>
+        <CAMuHMdXN_j49MeEv2wUW5JOeYbJYU7Gj1FtEv7s744mo0x1rWA@mail.gmail.com>
+        <c8dbe373-8910-5b34-ce71-cad1bcab2d71@xs4all.nl>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <3b62226e320ab412357e102baf6d628e354a0b61.1618832466.git.matti.vaittinen@fi.rohmeurope.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 19/04/2021 13:49, Matti Vaittinen wrote:
-> The hardware shutdown function was exported from kernel/reboot for
-> other subsystems to use. Logic is copied from the thermal_core. The
-> protection mutex is replaced by an atomic_t to allow calls also from
-> an IRQ context.
+Em Thu, 22 Apr 2021 09:29:36 +0200
+Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
+
+> On 22/04/2021 08:57, Geert Uytterhoeven wrote:
+> > Hi Laurent,
+> > 
+> > On Wed, Apr 21, 2021 at 11:22 PM Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:  
+> >> On Wed, Apr 21, 2021 at 08:58:22PM +0200, Geert Uytterhoeven wrote:  
+> >>> On Wed, Apr 21, 2021 at 3:06 PM Greg Kroah-Hartman wrote:  
+> >>>> This reverts commit d39083234c60519724c6ed59509a2129fd2aed41.
+> >>>>
+> >>>> Commits from @umn.edu addresses have been found to be submitted in "bad
+> >>>> faith" to try to test the kernel community's ability to review "known
+> >>>> malicious" changes.  The result of these submissions can be found in a
+> >>>> paper published at the 42nd IEEE Symposium on Security and Privacy
+> >>>> entitled, "Open Source Insecurity: Stealthily Introducing
+> >>>> Vulnerabilities via Hypocrite Commits" written by Qiushi Wu (University
+> >>>> of Minnesota) and Kangjie Lu (University of Minnesota).
+> >>>>
+> >>>> Because of this, all submissions from this group must be reverted from
+> >>>> the kernel tree and will need to be re-reviewed again to determine if
+> >>>> they actually are a valid fix.  Until that work is complete, remove this
+> >>>> change to ensure that no problems are being introduced into the
+> >>>> codebase.
+> >>>>
+> >>>> Cc: Kangjie Lu <kjlu@umn.edu>
+> >>>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> >>>> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> >>>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> >>>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>  
+> >>>
+> >>> Upon a second look, I still see nothing wrong with the original commit.
+> >>> However, as I'm no v4l expert, I'd like to defer to the experts for final
+> >>> judgement.  
+> >>
+> >> It seems fine to me, but it also seems unneeded, as the V4L2 core clears
+> >> the whole f->fmt union before calling this operation. The revert will
+> >> this improve performance very slightly.  
+> > 
+> > Hmm, that means very recent commit f12b81e47f48940a ("media: core
+> > headers: fix kernel-doc warnings") is not fully correct, as it added
+> > kerneldoc stating this is the responsibility of the driver:
+> > 
+> > + * @reserved:          drivers and applications must zero this array  
 > 
-> Use the exported API instead of implementing own just for the
-> thermal_core.
-
-Can you update the documentation:
-
-Documentation/driver-api/thermal/sysfs-api.rst
-
-5. thermal_emergency_poweroff
-
-Thanks
-  -- Daniel
-
-
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> Actually, it is the V4L2 core used by the driver that zeroes this. So
+> drivers don't need to do this, it's done for them. It used to be the
+> responsibility of the driver itself, but this was all moved to the core
+> framework a long time ago since, duh!, drivers always forgot this :-)
 > 
-> ---
-> Changelog:
-> v8:
->  - new patch (change added in v7, splitted in own patch at v8)
+> > 
+> > Anyway, it doesn't look like this umn.edu patch introduced a bug.  
 > 
-> Use the exported API instead
-> ---
->  drivers/thermal/thermal_core.c | 63 +++-------------------------------
->  1 file changed, 4 insertions(+), 59 deletions(-)
-> 
-> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-> index 996c038f83a4..b1444845af38 100644
-> --- a/drivers/thermal/thermal_core.c
-> +++ b/drivers/thermal/thermal_core.c
-> @@ -36,10 +36,8 @@ static LIST_HEAD(thermal_governor_list);
->  
->  static DEFINE_MUTEX(thermal_list_lock);
->  static DEFINE_MUTEX(thermal_governor_lock);
-> -static DEFINE_MUTEX(poweroff_lock);
->  
->  static atomic_t in_suspend;
-> -static bool power_off_triggered;
->  
->  static struct thermal_governor *def_governor;
->  
-> @@ -327,70 +325,18 @@ static void handle_non_critical_trips(struct thermal_zone_device *tz, int trip)
->  		       def_governor->throttle(tz, trip);
->  }
->  
-> -/**
-> - * thermal_emergency_poweroff_func - emergency poweroff work after a known delay
-> - * @work: work_struct associated with the emergency poweroff function
-> - *
-> - * This function is called in very critical situations to force
-> - * a kernel poweroff after a configurable timeout value.
-> - */
-> -static void thermal_emergency_poweroff_func(struct work_struct *work)
-> -{
-> -	/*
-> -	 * We have reached here after the emergency thermal shutdown
-> -	 * Waiting period has expired. This means orderly_poweroff has
-> -	 * not been able to shut off the system for some reason.
-> -	 * Try to shut down the system immediately using kernel_power_off
-> -	 * if populated
-> -	 */
-> -	WARN(1, "Attempting kernel_power_off: Temperature too high\n");
-> -	kernel_power_off();
-> -
-> -	/*
-> -	 * Worst of the worst case trigger emergency restart
-> -	 */
-> -	WARN(1, "Attempting emergency_restart: Temperature too high\n");
-> -	emergency_restart();
-> -}
-> -
-> -static DECLARE_DELAYED_WORK(thermal_emergency_poweroff_work,
-> -			    thermal_emergency_poweroff_func);
-> -
-> -/**
-> - * thermal_emergency_poweroff - Trigger an emergency system poweroff
-> - *
-> - * This may be called from any critical situation to trigger a system shutdown
-> - * after a known period of time. By default this is not scheduled.
-> - */
-> -static void thermal_emergency_poweroff(void)
-> +void thermal_zone_device_critical(struct thermal_zone_device *tz)
->  {
-> -	int poweroff_delay_ms = CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS;
->  	/*
->  	 * poweroff_delay_ms must be a carefully profiled positive value.
-> -	 * Its a must for thermal_emergency_poweroff_work to be scheduled
-> +	 * Its a must for forced_emergency_poweroff_work to be scheduled.
->  	 */
-> -	if (poweroff_delay_ms <= 0)
-> -		return;
-> -	schedule_delayed_work(&thermal_emergency_poweroff_work,
-> -			      msecs_to_jiffies(poweroff_delay_ms));
-> -}
-> +	int poweroff_delay_ms = CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS;
->  
-> -void thermal_zone_device_critical(struct thermal_zone_device *tz)
-> -{
->  	dev_emerg(&tz->device, "%s: critical temperature reached, "
->  		  "shutting down\n", tz->type);
->  
-> -	mutex_lock(&poweroff_lock);
-> -	if (!power_off_triggered) {
-> -		/*
-> -		 * Queue a backup emergency shutdown in the event of
-> -		 * orderly_poweroff failure
-> -		 */
-> -		thermal_emergency_poweroff();
-> -		orderly_poweroff(true);
-> -		power_off_triggered = true;
-> -	}
-> -	mutex_unlock(&poweroff_lock);
-> +	hw_protection_shutdown("Temperature too high", poweroff_delay_ms);
->  }
->  EXPORT_SYMBOL(thermal_zone_device_critical);
->  
-> @@ -1549,7 +1495,6 @@ static int __init thermal_init(void)
->  	ida_destroy(&thermal_cdev_ida);
->  	mutex_destroy(&thermal_list_lock);
->  	mutex_destroy(&thermal_governor_lock);
-> -	mutex_destroy(&poweroff_lock);
->  	return result;
->  }
->  postcore_initcall(thermal_init);
-> 
+> I haven't seen any bugs introduced by the media patches from umn.edu.
 
+Hi Greg,
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+I also double-checked all media revert patches from:
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+	git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git umn.edu-reverts
+
+currently on this patch:
+	6f4747a872ad Revert "ethtool: fix a potential missing-check bug"
+
+That's a summary of what I found:
+
+All of those should be dropped from your tree:
+
+	84fdb5856edd	Revert "media: si2165: fix a missing check of return value"
+	867043f2206e	Revert "media: video-mux: fix null pointer dereferences"
+	78ae4b621297	Revert "media: cx231xx: replace BUG_ON with recovery code"
+	5be328a55817	Revert "media: saa7146: Avoid using BUG_ON as an assertion"
+	81ce83158d22	Revert "media: davinci/vpfe_capture.c: Avoid BUG_ON for register failure"
+	3319b39504b8	Revert "media: media/saa7146: fix incorrect assertion in saa7146_buffer_finish"
+	b393f7cb29a2	Revert "media: rcar-vin: Fix a reference count leak."
+	197bc5d03682	Revert "media: rcar-vin: Fix a reference count leak."
+	2fd9cf68bbb6	Revert "media: rockchip/rga: Fix a reference count leak."
+	d1e4614eca24	Revert "media: platform: fcp: Fix a reference count leak."
+	416e8a6ae07f	Revert "media: camss: Fix a reference count leak."
+	06b793ae497b	Revert "media: s5p-mfc: Fix a reference count leak"
+	8f9fc14a7cc9	Revert "media: stm32-dcmi: Fix a reference count leak"
+	556e1f86ba24	Revert "media: ti-vpe: Fix a missing check and reference count leak"
+	5f5b1722ad0d	Revert "media: exynos4-is: Fix a reference count leak"
+	f4c758c6c1cb	Revert "media: exynos4-is: Fix a reference count leak due to pm_runtime_get_sync"
+	beb717878c73	Revert "media: exynos4-is: Fix several reference count leaks due to pm_runtime_get_sync
+	7066ec748bfd	Revert "media: sti: Fix reference count leaks"
+	cdd117093b19	Revert "media: st-delta: Fix reference count leak in delta_run_work"
+
+As, after my re-check, they all seem to be addressing real issues. So,
+NACK on those.
+
+This patch (073/190):
+
+	899ab4671bc0	Revert "media: rcar_drif: fix a memory disclosure"
+
+While it doesn't hurt, it is useless, as the media core already
+prevents memory disclosure. So, it should be reverted.
+
+So, for patch 073/190:
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Thanks,
+Mauro
