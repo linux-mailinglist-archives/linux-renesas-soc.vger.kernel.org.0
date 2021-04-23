@@ -2,70 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94022368E77
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Apr 2021 10:08:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB074368EB5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Apr 2021 10:16:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241188AbhDWIIl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Apr 2021 04:08:41 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:32356 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229456AbhDWIIl (ORCPT
+        id S241383AbhDWIQw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Apr 2021 04:16:52 -0400
+Received: from mail-ua1-f43.google.com ([209.85.222.43]:40916 "EHLO
+        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229456AbhDWIQn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Apr 2021 04:08:41 -0400
-Received: by ajax-webmail-mail-app3 (Coremail) ; Fri, 23 Apr 2021 16:07:51
- +0800 (GMT+08:00)
-X-Originating-IP: [10.192.224.61]
-Date:   Fri, 23 Apr 2021 16:07:51 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   dinghao.liu@zju.edu.cn
-To:     "Geert Uytterhoeven" <geert@linux-m68k.org>
-Cc:     "Kangjie Lu" <kjlu@umn.edu>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        "Michael Turquette" <mturquette@baylibre.com>,
-        "Stephen Boyd" <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>
+        Fri, 23 Apr 2021 04:16:43 -0400
+Received: by mail-ua1-f43.google.com with SMTP id 33so14992487uaa.7;
+        Fri, 23 Apr 2021 01:16:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=em5cBkyIOctbiBIb5XOHeNIoZhZ0Au6He4zk5hvtim0=;
+        b=ZE2+dqiahsK5K3oJo/94WYdBSojK6e8rIK4gA+DJBwQKYbLYVcdudeysRoosK3XJkh
+         gdIMNCOIDGHDejRH4j+a3aFsNlledXSrWy2XYS/k5BJDkdRWKjgTNXMspvp9Y2X+4dh7
+         IkNlRBbnxt0LEnnoUwQAfYXU+yCd+KHpxSmTT2/fICjweVAItq4DDC41AGukNWn5RXHr
+         6SuLEg396d7g5IZfRk+4GWj95vZXgHdNVyj3z0eSmo42wl98a7RTXbBHXEreZ9MFc1G0
+         BTCGySMaM5TVAKx/k24E4qNuE26952OxPGz1JPvH+uCrDBIw1FNzsiP+pjLN0bCtPRA/
+         834g==
+X-Gm-Message-State: AOAM5309TCYd7DNf09nz9pHb+ZgTAZ7I+3jUW2jnjdVnZrO8yO6xzjPx
+        SxQyzIAsZHN/afVlEJb/dbG/MMaFKhRJLZA/+ng=
+X-Google-Smtp-Source: ABdhPJzs7QQ9wDVIOqECoab5U4QfcaGoOvpaRh485U6lD/Rn12Wu8XQlF6Eq19fXg6cwpPDX0gyfdAuxSqblikx+7Ek=
+X-Received: by 2002:ab0:2c16:: with SMTP id l22mr2051057uar.100.1619165766905;
+ Fri, 23 Apr 2021 01:16:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210415073338.22287-1-dinghao.liu@zju.edu.cn>
+ <CAMuHMdVgtZkO3FfLOph41cXXJbSuc16UX1Z+fD0_iNN7nM-GtA@mail.gmail.com> <2fd8490f.73bcd.178fdc55590.Coremail.dinghao.liu@zju.edu.cn>
+In-Reply-To: <2fd8490f.73bcd.178fdc55590.Coremail.dinghao.liu@zju.edu.cn>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 23 Apr 2021 10:15:55 +0200
+Message-ID: <CAMuHMdUdDYo9CYWCgJvYLibBef-4NvM5aHHWbB2NP6ie22U=SA@mail.gmail.com>
 Subject: Re: Re: [PATCH] [v3] clk: renesas: rcar-usb2-clock-sel: Fix error
  handling in rcar_usb2_clock_sel_probe
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2021 www.mailtech.cn zju.edu.cn
-In-Reply-To: <CAMuHMdVgtZkO3FfLOph41cXXJbSuc16UX1Z+fD0_iNN7nM-GtA@mail.gmail.com>
-References: <20210415073338.22287-1-dinghao.liu@zju.edu.cn>
- <CAMuHMdVgtZkO3FfLOph41cXXJbSuc16UX1Z+fD0_iNN7nM-GtA@mail.gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
-Message-ID: <2fd8490f.73bcd.178fdc55590.Coremail.dinghao.liu@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cC_KCgC3nz5XgIJgP42CAQ--.54673W
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgcEBlZdtTjJMQAAs5
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
+Cc:     Kangjie Lu <kjlu@umn.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-PiBIaSBEaW5naGFvLAo+IAo+IE9uIFRodSwgQXByIDE1LCAyMDIxIGF0IDk6MzMgQU0gRGluZ2hh
-byBMaXUgPGRpbmdoYW8ubGl1QHpqdS5lZHUuY24+IHdyb3RlOgo+ID4gVGhlIGVycm9yIGhhbmRs
-aW5nIHBhdGhzIGFmdGVyIHBtX3J1bnRpbWVfZ2V0X3N5bmMoKSBoYXMgbm8KPiA+IHJlZmNvdW50
-IGRlY3JlbWVudCwgd2hpY2ggbGVhZHMgdG8gcmVmY291bnQgbGVhay4KPiA+Cj4gPiBTaWduZWQt
-b2ZmLWJ5OiBEaW5naGFvIExpdSA8ZGluZ2hhby5saXVAemp1LmVkdS5jbj4KPiA+IC0tLQo+ID4K
-PiA+IENoYW5nZWxvZzoKPiA+Cj4gPiB2MjogLSBNb3ZlIHRoZSBwb3NpdGlvbiBvZiBwbV9ydW50
-aW1lX2VuYWJsZSxfZ2V0X3N5bmMoKS4KPiA+ICAgICAgIFVzZSBkZXZtX2Nsa19yZWdpc3Rlcigp
-IHRvIHNpbXBsaWZ5IGVycm9yIGhhbmRsaW5nLgo+IAo+IFRoYW5rcyBmb3IgdGhlIHVwZGF0ZSEK
-PiAKPiA+IC0tLSBhL2RyaXZlcnMvY2xrL3JlbmVzYXMvcmNhci11c2IyLWNsb2NrLXNlbC5jCj4g
-PiArKysgYi9kcml2ZXJzL2Nsay9yZW5lc2FzL3JjYXItdXNiMi1jbG9jay1zZWwuYwo+ID4gQEAg
-LTEzMSw3ICsxMzEsNiBAQCBzdGF0aWMgaW50IHJjYXJfdXNiMl9jbG9ja19zZWxfcmVtb3ZlKHN0
-cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gPiAgICAgICAgIHN0cnVjdCB1c2IyX2Nsb2Nr
-X3NlbF9wcml2ICpwcml2ID0gcGxhdGZvcm1fZ2V0X2RydmRhdGEocGRldik7Cj4gCj4gICAgIHdh
-cm5pbmc6IHVudXNlZCB2YXJpYWJsZSDigJhwcml24oCZIFstV3VudXNlZC12YXJpYWJsZV0KPiAK
-PiBIYXZlIHlvdSBjb21waWxlZCB0aGlzPwo+IAoKVGhpcyBpcyBteSBjYXJlbGVzc25lc3MsIHRo
-YW5rcyBmb3IgcG9pbnRpbmcgb3V0IHRoaXMuIFdoZW4gd2UgdXNlIApkZXZtX2Nsa19od19yZWdp
-c3RlcigpLCB3ZSB3aWxsIG5vdCBuZWVkIHRvIHVucmVnaXN0ZXIgcHJpdi0+aHcgaW4gCnJjYXJf
-dXNiMl9jbG9ja19zZWxfcmVtb3ZlKCkuIFNvIEkgdGhpbmsgaXQncyBva2F5IHRvIHJlbW92ZSAK
-cGxhdGZvcm1fZ2V0X2RydmRhdGEoKSBpbiBpdCB0byBlbGltaW5hdGUgdGhpcyB3YXJuaW5nLgoK
-RG8geW91IG5lZWQgYSBuZXcgdmVyc2lvbiBvZiBwYXRjaCB0byBmaXggdGhpcyB3YXJuaW5nPwoK
-UmVnYXJkcywKRGluZ2hhbw==
+Hi Dinghao,
+
+On Fri, Apr 23, 2021 at 10:08 AM <dinghao.liu@zju.edu.cn> wrote:
+> > On Thu, Apr 15, 2021 at 9:33 AM Dinghao Liu <dinghao.liu@zju.edu.cn> wrote:
+> > > The error handling paths after pm_runtime_get_sync() has no
+> > > refcount decrement, which leads to refcount leak.
+> > >
+> > > Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> > > ---
+> > >
+> > > Changelog:
+> > >
+> > > v2: - Move the position of pm_runtime_enable,_get_sync().
+> > >       Use devm_clk_register() to simplify error handling.
+> >
+> > Thanks for the update!
+> >
+> > > --- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
+> > > +++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
+> > > @@ -131,7 +131,6 @@ static int rcar_usb2_clock_sel_remove(struct platform_device *pdev)
+> > >         struct usb2_clock_sel_priv *priv = platform_get_drvdata(pdev);
+> >
+> >     warning: unused variable ‘priv’ [-Wunused-variable]
+> >
+> > Have you compiled this?
+> >
+>
+> This is my carelessness, thanks for pointing out this. When we use
+> devm_clk_hw_register(), we will not need to unregister priv->hw in
+> rcar_usb2_clock_sel_remove(). So I think it's okay to remove
+> platform_get_drvdata() in it to eliminate this warning.
+>
+> Do you need a new version of patch to fix this warning?
+
+I'll remove that line while applying, so no need to fix and resend.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
