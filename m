@@ -2,82 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8991C368F75
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Apr 2021 11:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FE50368FF7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Apr 2021 12:01:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230032AbhDWJge convert rfc822-to-8bit (ORCPT
+        id S230122AbhDWKBg convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Apr 2021 05:36:34 -0400
-Received: from mail-vs1-f43.google.com ([209.85.217.43]:35535 "EHLO
-        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbhDWJge (ORCPT
+        Fri, 23 Apr 2021 06:01:36 -0400
+Received: from mail-vs1-f54.google.com ([209.85.217.54]:35776 "EHLO
+        mail-vs1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230036AbhDWKBf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Apr 2021 05:36:34 -0400
-Received: by mail-vs1-f43.google.com with SMTP id g20so24355417vst.2;
-        Fri, 23 Apr 2021 02:35:56 -0700 (PDT)
+        Fri, 23 Apr 2021 06:01:35 -0400
+Received: by mail-vs1-f54.google.com with SMTP id g20so24382630vst.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Apr 2021 03:00:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ZlsnD+/yMmsZHwVBAU+yyMMtrgUWUBC70Kuq95HkFpg=;
-        b=Mtr7gPfTtwxlLlqibhFaL6VO+jvOUyQAyWDM8JzP5JkkmP5yij0YA+2zSZF5bG4j+x
-         hYji7X6b/xPZYEcGozws2LlBMc4BqIMkpcs0XZu3b1PN64Rm9gKsb5Mroz69oJARGiWt
-         mBiyu+wDvSWLVhXwhWHl+RW41a/+cMw40JOThuqHjg5sKuVS++aOohJEWNR+3b4gqabM
-         1pRANNwXejW66mjqvOomW9gEe6GCvrlXfWQhx+NuQd5QnRgmRlTV3Yx0aLVJJX0AiJ1k
-         VG3GQW4EloehyuVbQkavcMBZhP80OMjGzd3BIV+6TIQJgekF2GxqHI2fQZ+LdahUtPe5
-         XAMA==
-X-Gm-Message-State: AOAM530LCTluOXc064taKrxB5Zh19ecsRLD/Fn3sJgE51gDXBXru9afT
-        w2q8PRJjobm174jm9ank+IlhuNd0tETQgXUFE7U=
-X-Google-Smtp-Source: ABdhPJzgFUpnjKealiX1Us6N/axnBjG1ohxe0Jm/07slQ5sbQF5zE9pYnmWk5bvlBLkBlDIvJeLFU1ElIS9n1ZrORws=
-X-Received: by 2002:a05:6102:814:: with SMTP id g20mr2455801vsb.42.1619170556142;
- Fri, 23 Apr 2021 02:35:56 -0700 (PDT)
+        bh=3mdPITiGyNQKtY+bn/TrJgLhjE0h+E3CGLWoEkiVycE=;
+        b=razc3XCcUeK839JLEcFtPXOMaEnHS0+cPlM7qlIBeW/w/Jayt7Rt7MxG/GnieBPdcL
+         uni+c+WqTUu4SEuoS5Yi7Y2kTDNCtuo102sJQo9qe+/wDGqXeMSsJUsF8yDSPM4W8Lb9
+         fLLcoYsIdVyjTxcKKlL81tNsDei3Ul5TclfWw+dB8fh6FyKk9Fx6GzcSjAN8PnJh56dj
+         JcuZvn6xH+5CiC57CG5UENIzHVF6qFJlHAnWGHn5WR3cEXcyzDX8dA4KwUhQm31FK3Je
+         fq/8EQoJiQoxlFzWSGTgcTyxiC+p3JRiiemYfmUi8IeTtXTua3SICSnSgoMzZEOlK+xb
+         EzUQ==
+X-Gm-Message-State: AOAM531iZziUspyG7nM38rdV7giJnlRD9Bo1rSA9bMcx0/nefv7h01Xh
+        oaIbsDAvD98hLP0LAz5vJmyhKBBo+4PZjorbIczsrBeQ
+X-Google-Smtp-Source: ABdhPJzez11TTI2NzkkIw+mf2mxVxQAQYfrgAC9NY/C3YIdVql4SVF5UGqXlz64pZad69vn/bKoUDxI9qomtqIWuAYg=
+X-Received: by 2002:a67:8745:: with SMTP id j66mr2485068vsd.18.1619172058907;
+ Fri, 23 Apr 2021 03:00:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210329223220.1139211-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20210329223220.1139211-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20210413184844.2606086-1-niklas.soderlund+renesas@ragnatech.se> <20210413184844.2606086-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20210413184844.2606086-2-niklas.soderlund+renesas@ragnatech.se>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 23 Apr 2021 11:35:45 +0200
-Message-ID: <CAMuHMdWFy=hS8=f3s+tims1pJnvnXn76n5SCp+v+mbM8Gi5hvA@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r8a779a0: Add ISPCS clocks
+Date:   Fri, 23 Apr 2021 12:00:47 +0200
+Message-ID: <CAMuHMdVtqf_32zE7GPA17OWTv63ovMma9xGFQ-FZP33OgbqEew@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r8a779a0: Add and connect all
+ CSI-2, ISP and VIN nodes
 To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-clk <linux-clk@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
-
-On Tue, Mar 30, 2021 at 12:33 AM Niklas Söderlund
+On Tue, Apr 13, 2021 at 8:49 PM Niklas Söderlund
 <niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add support for the ISPCS clocks on V3U.
+> The V3U have 32 VIN, 4 CSI-2 and 4 ISP nodes that interact with each
+> other for video capture. Add all nodes and record how they are
+> interconnected.
 >
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Thanks for your patch!
+> @@ -1137,6 +2001,415 @@ vspd1: vsp@fea28000 {
+>                         renesas,fcp = <&fcpvd1>;
+>                 };
+>
+> +               csi40: csi2@feaa0000 {
+> +                       compatible = "renesas,r8a779a0-csi2";
+> +                       reg = <0 0xfeaa0000 0 0x10000>;
+> +                       interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 331>;
+> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> +                       resets = <&cpg 331>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
 
-> --- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> @@ -180,6 +180,10 @@ static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
->         DEF_MOD("i2c4",         522,    R8A779A0_CLK_S1D4),
->         DEF_MOD("i2c5",         523,    R8A779A0_CLK_S1D4),
->         DEF_MOD("i2c6",         524,    R8A779A0_CLK_S1D4),
-> +       DEF_MOD("ispcs0",       612,    R8A779A0_CLK_S1D1),
-> +       DEF_MOD("ispcs1",       613,    R8A779A0_CLK_S1D1),
-> +       DEF_MOD("ispcs2",       614,    R8A779A0_CLK_S1D1),
-> +       DEF_MOD("ispcs3",       615,    R8A779A0_CLK_S1D1),
+Missing required port@0.
+Same for the other CSI nodes.
 
-Unfortunately the parent clock is not explicitly documented in the
-hardware manual.  But S1D1 does match max. 479 Mpixel/s.
-
->         DEF_MOD("msi0",         618,    R8A779A0_CLK_MSO),
->         DEF_MOD("msi1",         619,    R8A779A0_CLK_MSO),
->         DEF_MOD("msi2",         620,    R8A779A0_CLK_MSO),
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.14.
+> +                               port@1 {
+> +                                       reg = <1>;
+> +                                       csi40isp0: endpoint {
+> +                                               remote-endpoint = <&isp0csi40>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
 
 Gr{oetje,eeting}s,
 
