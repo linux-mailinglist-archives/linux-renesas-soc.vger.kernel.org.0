@@ -2,157 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D14036809B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Apr 2021 14:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC2C6368E18
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Apr 2021 09:47:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236416AbhDVMi0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Apr 2021 08:38:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236379AbhDVMiE (ORCPT
+        id S240881AbhDWHrn convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Apr 2021 03:47:43 -0400
+Received: from mail-vk1-f181.google.com ([209.85.221.181]:45583 "EHLO
+        mail-vk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230125AbhDWHrn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Apr 2021 08:38:04 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C83D0C06138B
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Apr 2021 05:37:23 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id d21so33164538edv.9
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Apr 2021 05:37:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JR/ohowrtLcV5EoexnHkmXA7g/K6wA5k0ODCUc55MrQ=;
-        b=EbTfS0OnjfPIo8CLI7Kw06qjI6nTvLfrOHGtaa4Z05qvmuPT+49XZcfL5GQ72Uf0Wp
-         He5gTnnscXYAyWJbY2iKC05Y4WTZ7WyhTG3SJ8suG5gc+9GUsYLl7F0tjJK0dMYCh/uM
-         bZ5AucQtsAlqOA1Q7MA9V68HIcCz/h2sWb5tfB21zfK4P2mqzIjk4jVa5f2YAo1tpIgE
-         KqKkfA2c1UE0glKTmGNhaxaVx1YWndHzX7X2LgJlPRAu0q5Pdo6r2hZlTYQJU/jckorU
-         NclYU9LFqEDHmqO3uBXA/BgyzUivg5/5ZfQ/bpvfcE191xDLHgZZbwbtvZHxsO0U0uUH
-         QZpw==
+        Fri, 23 Apr 2021 03:47:43 -0400
+Received: by mail-vk1-f181.google.com with SMTP id u23so6302764vkl.12;
+        Fri, 23 Apr 2021 00:47:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JR/ohowrtLcV5EoexnHkmXA7g/K6wA5k0ODCUc55MrQ=;
-        b=iq5tebrYygIyEkPcl6N1k45hF6kRLnEVaIRiAMNTZAeuFmNww7RSdndEUO7/p/xjPT
-         30cEM0MClBl8b5q7hzu5OLwV7Y5sZGlf5VBYmop4lHs4BViif4XkHSQ3tJkpvi2+N99l
-         9WaR6TEV8iHW80y2FZ+fpYiFXfv49Io+UeAKwJpry74S6xX0p5/sU2HwjjT3PHsvu4EZ
-         1NrB+i4rlqRc9uEvUm+JuFBExfs+pGrnjPU6RwCMlnxdW5tt6Mo7FF7ndTobx+YZ3NBo
-         RbWXRP4mEwFMgRbRRUlb4k+GKL45DF1xzPUgfp1KLxSmjYw6qvTyXnfm9geTucub+aHU
-         XcWA==
-X-Gm-Message-State: AOAM533WedO/TpE/s9XbfKsLdZFfRv8Zfrw+dOP3iCudWItyHJddFLqc
-        +Bj1BeaCSbprSv7Kp7CZkc09Yg==
-X-Google-Smtp-Source: ABdhPJxAGETdhJq7JPBmmn3ZILGHdiFweVYF3EwOakSG1KETyfslEpfS8Tj8qpsB2rHK2mGdehIS+g==
-X-Received: by 2002:a05:6402:785:: with SMTP id d5mr3599891edy.134.1619095042545;
-        Thu, 22 Apr 2021 05:37:22 -0700 (PDT)
-Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de. [84.172.85.33])
-        by smtp.googlemail.com with ESMTPSA id p24sm2064275edt.5.2021.04.22.05.37.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Apr 2021 05:37:22 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-kernel@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Phong Hoang <phong.hoang.wz@renesas.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] clocksource: sh_cmt: Fix wrong setting if don't request IRQ for clock source channel
-Date:   Thu, 22 Apr 2021 14:34:43 +0200
-Message-Id: <20210422123443.73334-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=DOftMGZ26u8aDShr9MM94hOHRtPJOC5C7SHCNKRrakg=;
+        b=EPP8zelfYQyQwOsO8U6/D81jZacZRXaza9lIe/yZTNlzC4hYiIgyew8qfPn/7C5w3/
+         7X7T1WGT4+C0cTgfHilrZuqsWqUmDh5+dj9A/N06PtKIVCLsaRhp9HCuuSmWILDbfBcL
+         ldBHREs2P42AztFnf9FE7cxDzqsUT0V02hKnqLAYXy8iqhjJak2PUOLz1iyvVD7N9Qdh
+         odYuUjrMP2o6kz1lvvYnaeiwQjs6veSFGlPSDaMxhLp1CBU8jhSHM/DV4AECJ+6LEb6M
+         A7FEozEtpRMRsXIZmJLSz2hUc55AlRYrv14sCRI0UsVlGLSN9mE4O4bnXCQKtuvNZ0zS
+         rSpw==
+X-Gm-Message-State: AOAM531Nqeg2UQr6pUDtEBC+k9KrUNMJAZB5J2DKHl/fWPCcOURxSAsl
+        8G7m3Hir53NHgEWnRgsI9phQL5fnGwkxVZyoC2Q=
+X-Google-Smtp-Source: ABdhPJzQOXljPbDIPIMMTXxljP477uqkL8QHnn/bbME4AXbk3cJgQQWE7Q4Mor788MHzFPFkruj4RHwBPuEDEH4Wr2M=
+X-Received: by 2002:a1f:2504:: with SMTP id l4mr1959677vkl.5.1619164026406;
+ Fri, 23 Apr 2021 00:47:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210415073338.22287-1-dinghao.liu@zju.edu.cn>
+In-Reply-To: <20210415073338.22287-1-dinghao.liu@zju.edu.cn>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 23 Apr 2021 09:46:55 +0200
+Message-ID: <CAMuHMdVgtZkO3FfLOph41cXXJbSuc16UX1Z+fD0_iNN7nM-GtA@mail.gmail.com>
+Subject: Re: [PATCH] [v3] clk: renesas: rcar-usb2-clock-sel: Fix error
+ handling in rcar_usb2_clock_sel_probe
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
+Cc:     Kangjie Lu <kjlu@umn.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Phong Hoang <phong.hoang.wz@renesas.com>
+Hi Dinghao,
 
-If CMT instance has at least two channels, one channel will be used
-as a clock source and another one used as a clock event device.
-In that case, IRQ is not requested for clock source channel so
-sh_cmt_clock_event_program_verify() might work incorrectly.
-Besides, when a channel is only used for clock source, don't need to
-re-set the next match_value since it should be maximum timeout as
-it still is.
+On Thu, Apr 15, 2021 at 9:33 AM Dinghao Liu <dinghao.liu@zju.edu.cn> wrote:
+> The error handling paths after pm_runtime_get_sync() has no
+> refcount decrement, which leads to refcount leak.
+>
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+>
+> Changelog:
+>
+> v2: - Move the position of pm_runtime_enable,_get_sync().
+>       Use devm_clk_register() to simplify error handling.
 
-On the other hand, due to no IRQ, total_cycles is not counted up
-when reaches compare match time (timer counter resets to zero),
-so sh_cmt_clocksource_read() returns unexpected value.
-Therefore, use 64-bit clocksoure's mask for 32-bit or 16-bit variants
-will also lead to wrong delta calculation. Hence, this mask should
-correspond to timer counter width, and above function just returns
-the raw value of timer counter register.
+Thanks for the update!
 
-Fixes: bfa76bb12f23 ("clocksource: sh_cmt: Request IRQ for clock event device only")
-Fixes: 37e7742c55ba ("clocksource/drivers/sh_cmt: Fix clocksource width for 32-bit machines")
-Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/clocksource/sh_cmt.c | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
+> --- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
+> +++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
+> @@ -131,7 +131,6 @@ static int rcar_usb2_clock_sel_remove(struct platform_device *pdev)
+>         struct usb2_clock_sel_priv *priv = platform_get_drvdata(pdev);
 
-diff --git a/drivers/clocksource/sh_cmt.c b/drivers/clocksource/sh_cmt.c
-index c98f8851fd680454..cadd09ad1a0946b9 100644
---- a/drivers/clocksource/sh_cmt.c
-+++ b/drivers/clocksource/sh_cmt.c
-@@ -578,7 +578,8 @@ static int sh_cmt_start(struct sh_cmt_channel *ch, unsigned long flag)
- 	ch->flags |= flag;
- 
- 	/* setup timeout if no clockevent */
--	if ((flag == FLAG_CLOCKSOURCE) && (!(ch->flags & FLAG_CLOCKEVENT)))
-+	if (ch->cmt->num_channels == 1 &&
-+	    flag == FLAG_CLOCKSOURCE && (!(ch->flags & FLAG_CLOCKEVENT)))
- 		__sh_cmt_set_next(ch, ch->max_match_value);
-  out:
- 	raw_spin_unlock_irqrestore(&ch->lock, flags);
-@@ -620,20 +621,25 @@ static struct sh_cmt_channel *cs_to_sh_cmt(struct clocksource *cs)
- static u64 sh_cmt_clocksource_read(struct clocksource *cs)
- {
- 	struct sh_cmt_channel *ch = cs_to_sh_cmt(cs);
--	unsigned long flags;
- 	u32 has_wrapped;
--	u64 value;
--	u32 raw;
- 
--	raw_spin_lock_irqsave(&ch->lock, flags);
--	value = ch->total_cycles;
--	raw = sh_cmt_get_counter(ch, &has_wrapped);
-+	if (ch->cmt->num_channels == 1) {
-+		unsigned long flags;
-+		u64 value;
-+		u32 raw;
- 
--	if (unlikely(has_wrapped))
--		raw += ch->match_value + 1;
--	raw_spin_unlock_irqrestore(&ch->lock, flags);
-+		raw_spin_lock_irqsave(&ch->lock, flags);
-+		value = ch->total_cycles;
-+		raw = sh_cmt_get_counter(ch, &has_wrapped);
- 
--	return value + raw;
-+		if (unlikely(has_wrapped))
-+			raw += ch->match_value + 1;
-+		raw_spin_unlock_irqrestore(&ch->lock, flags);
-+
-+		return value + raw;
-+	}
-+
-+	return sh_cmt_get_counter(ch, &has_wrapped);
- }
- 
- static int sh_cmt_clocksource_enable(struct clocksource *cs)
-@@ -696,7 +702,7 @@ static int sh_cmt_register_clocksource(struct sh_cmt_channel *ch,
- 	cs->disable = sh_cmt_clocksource_disable;
- 	cs->suspend = sh_cmt_clocksource_suspend;
- 	cs->resume = sh_cmt_clocksource_resume;
--	cs->mask = CLOCKSOURCE_MASK(sizeof(u64) * 8);
-+	cs->mask = CLOCKSOURCE_MASK(ch->cmt->info->width);
- 	cs->flags = CLOCK_SOURCE_IS_CONTINUOUS;
- 
- 	dev_info(&ch->cmt->pdev->dev, "ch%u: used as clock source\n",
+    warning: unused variable ‘priv’ [-Wunused-variable]
+
+Have you compiled this?
+
+>
+>         of_clk_del_provider(dev->of_node);
+> -       clk_hw_unregister(&priv->hw);
+>         pm_runtime_put(dev);
+>         pm_runtime_disable(dev);
+>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v5.14, with the above fixed.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.31.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
