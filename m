@@ -2,82 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD3E5369F62
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Apr 2021 08:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6E3B36A017
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Apr 2021 10:10:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237501AbhDXGrO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 24 Apr 2021 02:47:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35870 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237218AbhDXGql (ORCPT
+        id S233180AbhDXIL1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 24 Apr 2021 04:11:27 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:55305 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233135AbhDXILZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 24 Apr 2021 02:46:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EFFA56195A;
-        Sat, 24 Apr 2021 06:45:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619246734;
-        bh=HzlriyHzqlZAHsYOJEVourXS9CSW2DolwRX6O+Dbyqk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GVrdrc5OimlaxC6opChoqdFRAlbPB1BNRFjPJXeW7rKz4/Y8Ubpb7IR1AeWIue7EE
-         1AbE8wwsAvIrb/rdYUuFZT51Sa2LZ/MzgioT/y4N+0MXNzjmOSBPQKR/rja63+eWvY
-         YT1TD1WSOR32R6OQ5zLWWTdxj0AVD0g9vdqvREINu9JXeTFxJ4clU9+L3zJu48mIy/
-         ydwGOPHeKgA2HcTfQWnRg96aoZDlcAJ27Rt20akKuCU1q5jzkkARtrpkjsHse4NXTP
-         b0Ich01R3n2qDuVgWCzpasiBZjx0cu1HYSgX1OQzGXXVVA1fzImiMQtNKkjc8D2TxU
-         mmk4jhLsCgZqA==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1laC2n-004Jih-Kx; Sat, 24 Apr 2021 08:45:33 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        Sat, 24 Apr 2021 04:11:25 -0400
+X-Originating-IP: 93.61.96.190
+Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 9E13040004;
+        Sat, 24 Apr 2021 08:10:39 +0000 (UTC)
+Date:   Sat, 24 Apr 2021 10:11:21 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 78/78] media: vsp1: use pm_runtime_resume_and_get()
-Date:   Sat, 24 Apr 2021 08:45:28 +0200
-Message-Id: <967b4268e89ebd073af3f68898aa7de66a23d9e6.1619191723.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 06/78] media: renesas-ceu: fix pm_runtime_get_sync()
+ usage count
+Message-ID: <20210424081121.smppo4ly5p3fxto2@uno.localdomain>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
+ <29ba3fafde4d2643fae49789e6b378d6b1fd51f5.1619191723.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <29ba3fafde4d2643fae49789e6b378d6b1fd51f5.1619191723.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-added pm_runtime_resume_and_get() in order to automatically handle
-dev->power.usage_count decrement on errors.
+Hi Mauro,
 
-Use the new API, in order to cleanup the error check logic.
+On Sat, Apr 24, 2021 at 08:44:16AM +0200, Mauro Carvalho Chehab wrote:
+> The pm_runtime_get_sync() internally increments the
+> dev->power.usage_count without decrementing it, even on errors.
+> replace it by the new pm_runtime_resume_and_get(), introduced by:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/platform/vsp1/vsp1_drv.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Nit: 'Replace' as it follows a full stop ?
 
-diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-index aa66e4f5f3f3..c2bdb6629657 100644
---- a/drivers/media/platform/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/vsp1/vsp1_drv.c
-@@ -561,11 +561,9 @@ int vsp1_device_get(struct vsp1_device *vsp1)
- {
- 	int ret;
- 
--	ret = pm_runtime_get_sync(vsp1->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(vsp1->dev);
-+	ret = pm_runtime_resume_and_get(vsp1->dev);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	return 0;
- }
--- 
-2.30.2
+> commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> in order to properly decrement the usage counter and avoid memory
+> leaks.
+>
+> While here, check if the PM runtime was caught at open time.
 
+Nit: Maybe "PM runtime error ..." or something similar as I'm missing the
+subject of the phrase.
+
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/media/platform/renesas-ceu.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
+> index cd137101d41e..965a7259e707 100644
+> --- a/drivers/media/platform/renesas-ceu.c
+> +++ b/drivers/media/platform/renesas-ceu.c
+> @@ -1099,7 +1099,10 @@ static int ceu_open(struct file *file)
+>
+>  	mutex_lock(&ceudev->mlock);
+>  	/* Causes soft-reset and sensor power on on first open */
+> -	pm_runtime_get_sync(ceudev->dev);
+> +	ret = pm_runtime_resume_and_get(ceudev->dev);
+> +	if (ret < 0)
+> +		return ret;
+
+The mutex should be released before returning
+
+> +
+>  	mutex_unlock(&ceudev->mlock);
+>
+>  	return 0;
+> --
+> 2.30.2
+>
