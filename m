@@ -2,96 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63ACD36C435
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Apr 2021 12:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60D1A36C515
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Apr 2021 13:29:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238511AbhD0KgL convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Apr 2021 06:36:11 -0400
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:36834 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239366AbhD0KfV (ORCPT
+        id S235319AbhD0Lag (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Apr 2021 07:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43026 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230270AbhD0Lag (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:35:21 -0400
-Received: by mail-vs1-f49.google.com with SMTP id k124so29830268vsk.3;
-        Tue, 27 Apr 2021 03:34:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=S0cJtJfc534Em5VnHNzsiz6oCj7KRpx2g8W8LK2sYfU=;
-        b=YMHISJQw3EzyLp/seKWlOOIYJwk9bwgZN1oPnb48I0mp1cDgampmTrhHbMCj2q+AH9
-         fZFxR+88qF/ptVBAF6vBEwIKR67hiJELkP4MyDVzjhfCe4crKYnzdkDzpGfYBUq4hkSX
-         LBi28eMFdLyRADaj6xxvfzTxct6WTA+69msOEuXBJ9uzX6LH+RJPRpa+zmOxYLXvI/cP
-         uGZzSAPB23n4x6Kdmiv5mYbEqZEm5hf4At8h4dL91sqtucvDahFhli+Y94WRdhqtOb8q
-         me4p5FRTjJWRJG7nyMLFmrDWkodBmC5/GNSOjF4JFQZ80f3P9sqU4Hy2ECdkOqtfAle6
-         mrxA==
-X-Gm-Message-State: AOAM531zbpAvH58aZSj/HFh0a/UfL70CgE0z+ArVP42Jb4q6mbY9BRNT
-        JxdgqQfyO1+zM7TooObruRzHwPoPKoHbpDWFNnICVzDM
-X-Google-Smtp-Source: ABdhPJwMaT63hz5rFbbWxt3corYksraj1MZ36zfgaDtOrUqvChKXeNvWs9w4pVdaXjDdqymixFHz3lbdGePYuG17oG4=
-X-Received: by 2002:a67:fc57:: with SMTP id p23mr17130308vsq.40.1619519678259;
- Tue, 27 Apr 2021 03:34:38 -0700 (PDT)
+        Tue, 27 Apr 2021 07:30:36 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC47C061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Apr 2021 04:29:52 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:91bb:828d:42f8:4e5f])
+        by michel.telenet-ops.be with bizsmtp
+        id xnVp2400H2ZBlDX06nVpBv; Tue, 27 Apr 2021 13:29:50 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lbLuW-000qtX-Kz; Tue, 27 Apr 2021 13:29:48 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lbLuW-00G6PU-7s; Tue, 27 Apr 2021 13:29:48 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] Renesas ARM DT updates for v5.13 (take three)
+Date:   Tue, 27 Apr 2021 13:29:43 +0200
+Message-Id: <cover.1619522726.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1619519080.git.mchehab+huawei@kernel.org> <85d92ba9e709ef00673a3e0e11769b121745e9cb.1619519080.git.mchehab+huawei@kernel.org>
-In-Reply-To: <85d92ba9e709ef00673a3e0e11769b121745e9cb.1619519080.git.mchehab+huawei@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 27 Apr 2021 12:34:27 +0200
-Message-ID: <CAMuHMdWARHzOYud0_Evvbia2FLGS6djHVcC8HOGxRjCcHFRYgg@mail.gmail.com>
-Subject: Re: [PATCH v3 78/79] media: rcar-vin: use pm_runtime_resume_and_get()
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linuxarm <linuxarm@huawei.com>, mauro.chehab@huawei.com,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 12:28 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
-> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> added pm_runtime_resume_and_get() in order to automatically handle
-> dev->power.usage_count decrement on errors.
->
-> Use the new API, in order to cleanup the error check logic.
->
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+	Hi arm-soc folks,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The following changes since commit 2b35ca2fe605f85aa1a52c713571baf04a5f434a:
 
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -408,6 +408,12 @@ static void rcsi2_enter_standby(struct rcar_csi2 *priv)
->
->  static void rcsi2_exit_standby(struct rcar_csi2 *priv)
->  {
-> +       /*
-> +        * The code at rcsi2_enter_standby() assumes
-> +        * inconditionally that PM runtime usage count was
+  arm64: dts: renesas: ulcb: Add cpu-supply property to a57_0 node (2021-04-02 09:22:35 +0200)
 
-unconditionally
+are available in the Git repository at:
 
-> +        * incremented. So, it shouldn't use pm_runtime_resume_and_get()
-> +        * here.
-> +        */
->         pm_runtime_get_sync(priv->dev);
->         reset_control_deassert(priv->rstc);
->  }
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-dt-for-v5.13-tag3
+
+for you to fetch changes up to 0a96c05995ef1085f9c5e6bf005a04915dd2ec6f:
+
+  arm64: dts: renesas: Add port@0 node for all CSI-2 nodes to dtsi (2021-04-27 09:09:03 +0200)
+
+----------------------------------------------------------------
+Renesas ARM DT updates for v5.13 (take three)
+
+  - Fix DT schema validation errors related to CSI-2.
+
+Note that I have rebased my branch to add Laurent's review tags, but the
+actual contents are identical to what is included in next-20210427.
+
+Thanks for pulling!
+
+----------------------------------------------------------------
+Niklas Söderlund (2):
+      arm64: dts: renesas: aistarvision-mipi-adapter-2.1: Fix CSI40 ports
+      arm64: dts: renesas: Add port@0 node for all CSI-2 nodes to dtsi
+
+ .../hihope-rzg2-ex-aistarvision-mipi-adapter-2.1.dtsi        |  2 --
+ arch/arm64/boot/dts/renesas/r8a774a1.dtsi                    |  8 ++++++++
+ arch/arm64/boot/dts/renesas/r8a774b1.dtsi                    |  8 ++++++++
+ arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts      |  2 +-
+ arch/arm64/boot/dts/renesas/r8a774c0.dtsi                    |  4 ++++
+ arch/arm64/boot/dts/renesas/r8a774e1.dtsi                    |  8 ++++++++
+ arch/arm64/boot/dts/renesas/r8a77950.dtsi                    |  4 ++++
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi                    | 12 ++++++++++++
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi                    |  8 ++++++++
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi                    |  8 ++++++++
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi                    |  8 ++++++++
+ arch/arm64/boot/dts/renesas/r8a77970.dtsi                    |  4 ++++
+ arch/arm64/boot/dts/renesas/r8a77980.dtsi                    |  8 ++++++++
+ arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts               |  2 --
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi                    |  4 ++++
+ arch/arm64/boot/dts/renesas/salvator-common.dtsi             |  3 ---
+ 16 files changed, 85 insertions(+), 8 deletions(-)
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
