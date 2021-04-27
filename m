@@ -2,150 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52E7836BC71
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Apr 2021 02:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E937336BC97
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Apr 2021 02:20:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234458AbhD0AFf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Apr 2021 20:05:35 -0400
-Received: from gate.crashing.org ([63.228.1.57]:52976 "EHLO gate.crashing.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233919AbhD0AFe (ORCPT
+        id S232235AbhD0AVd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Apr 2021 20:21:33 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40210 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232022AbhD0AVd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Apr 2021 20:05:34 -0400
-Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 13QNi8nL025548;
-        Mon, 26 Apr 2021 18:44:08 -0500
-Message-ID: <3677398ebb77f334abb4899770db633d9658fe82.camel@kernel.crashing.org>
-Subject: Re: [PATCH net-next v4 2/2] of: net: fix of_get_mac_addr_nvmem()
- for non-platform devices
-From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To:     Michael Walle <michael@walle.cc>, Rob Herring <robh+dt@kernel.org>
-Cc:     QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel@vger.kernel.org,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        netdev <netdev@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ARM/STM32 ARCHITECTURE" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        linux-oxnas@groups.io, linux-omap <linux-omap@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Andreas Larsson <andreas@gaisler.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Joyce Ooi <joyce.ooi@intel.com>,
-        Chris Snook <chris.snook@gmail.com>,
-        =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>,
-        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Sunil Goutham <sgoutham@marvell.com>,
-        Fugang Duan <fugang.duan@nxp.com>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Vadym Kochan <vkochan@marvell.com>,
-        Taras Chornyi <tchornyi@marvell.com>,
-        Mirko Lindner <mlindner@marvell.com>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Bryan Whitehead <bryan.whitehead@microchip.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Byungho An <bh74.an@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Wingman Kwok <w-kwok2@ti.com>,
-        Murali Karicheri <m-karicheri2@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Stanislaw Gruszka <stf_xl@wp.pl>,
-        Helmut Schaa <helmut.schaa@googlemail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?ISO-8859-1?Q?J=E9r=F4me?= Pouiller <jerome.pouiller@silabs.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>
-Date:   Tue, 27 Apr 2021 09:44:07 +1000
-In-Reply-To: <108f268a35843368466004f7fe5f9f88@walle.cc>
-References: <20210412174718.17382-1-michael@walle.cc>
-         <20210412174718.17382-3-michael@walle.cc>
-         <730d603b12e590c56770309b4df2bd668f7afbe3.camel@kernel.crashing.org>
-         <8157eba9317609294da80472622deb28@walle.cc>
-         <CAL_JsqLrx6nFZrKiEtm2a1vDvQGG+FkpGtJCG2osM8hhGo3P=Q@mail.gmail.com>
-         <108f268a35843368466004f7fe5f9f88@walle.cc>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Mon, 26 Apr 2021 20:21:33 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2F3CE9;
+        Tue, 27 Apr 2021 02:20:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1619482850;
+        bh=SsYng8p4/DWVJHPXxOwhEBr9lEqOetHERd1YMFTQf+Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qn4cohmgWFEyqpxXFYEz+0RHjjioig5/KGEyDUP0PfFQiGZdGm4MqrPaUdeaaMolC
+         IdQci2BZpbom49I9umBnS32WryLFDeGf17Lhrf7QFq4NmB7NHKizJ1luRyohCs51Xf
+         HcGfLjWOTfJxRvSV5LeA5cwvnssui4zivwcgvWpA=
+Date:   Tue, 27 Apr 2021 03:20:42 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: aistarvision-mipi-adapter-2.1:
+ Fix CSI40 ports
+Message-ID: <YIdY2jGGO7Ghwmn7@pendragon.ideasonboard.com>
+References: <20210421150221.3202955-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210421150221.3202955-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210421150221.3202955-2-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 2021-04-26 at 12:54 +0200, Michael Walle wrote:
-> Before I'll try to come up with a patch for this, I'd like to get
-> your opinion on it.
+Hi Niklas,
+
+Thank you for the patch.
+
+On Wed, Apr 21, 2021 at 05:02:20PM +0200, Niklas Söderlund wrote:
+> Fix the DTS schema by explicitly stating that the input is port@0. This
+> fixes a schema validation error but have no runtime effect as the
+> default port number is 0 if not specified.
 > 
-> (1) replacing of_get_mac_address(node) with eth_get_mac_address(dev)
->      might sometimes lead to confusing comments like in
->      drivers/net/ethernet/allwinner/sun4i-emac.c:
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->      /* Read MAC-address from DT */
->      ret = of_get_mac_address(np, ndev->dev_addr);
+> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+> index e7b4a929bb174840..2e3d1981cac48144 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+> @@ -33,7 +33,7 @@ &csi40 {
+>  	status = "okay";
+>  
+>  	ports {
+> -		port {
+> +		port@0 {
+>  			csi40_in: endpoint {
+>  				clock-lanes = <0>;
+>  				data-lanes = <1 2>;
 
-You could leave it or turn it into "from platform", doesn't matter...
+-- 
+Regards,
 
-> (2) What do you think of eth_get_mac_address(ndev). That is, the
-
-Not sure what you mean, eth_platform_get_mac_address() takes the
-address as an argument. I think what you want is a consolidated
-nvmem_get_mac_address + eth_platform_get_mac_address that takes a
-device, which would have no requirement of the bus_type at all.
-
-Cheers,
-Ben.
-
+Laurent Pinchart
