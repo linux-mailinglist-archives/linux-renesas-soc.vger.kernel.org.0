@@ -2,122 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 044C336C369
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Apr 2021 12:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7431936C3F7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Apr 2021 12:32:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237707AbhD0K2Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Apr 2021 06:28:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48204 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235736AbhD0K2K (ORCPT
+        id S238593AbhD0KcH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Apr 2021 06:32:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57676 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238600AbhD0KbK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:28:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 710496140C;
-        Tue, 27 Apr 2021 10:27:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619519236;
-        bh=ef7IZ30lWjyFTV9EZRM5TkDA3zgk8AfGs9/mdIqlXQw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NnefXPyXnuIWijAghbwvELrHTqlZiXq/Qbhds+I7GeJnKGtoCKf2ygzYDTZNy6YJH
-         2luLrgK+JSAXl1nhkLDiBsca1EOO6cDy5SY0dOwxcHCwLS6IB31X3GKE3T5EG+IOAC
-         UZOd0/61C+DeJfvW4H+JlCKDxW34nCrPW5kY51imcJFadO5LSDFMeOXnjvxkkQy/6C
-         uiCsJ48DrsdwrcUyjBvJSJaKKHfhV6K5AxCB7dFvwwrwWy/hCKIRliym7/4UfefdUp
-         I9fQBOjuLGVs1afchnLn2NrNZ0ISkkx9umhOZnksf+PUBatrAPl6u7Y/6aqvxFbsxZ
-         PciS3pLnkJ+iA==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lbKvz-000o2z-RN; Tue, 27 Apr 2021 12:27:15 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 78/79] media: rcar-vin: use pm_runtime_resume_and_get()
-Date:   Tue, 27 Apr 2021 12:27:08 +0200
-Message-Id: <85d92ba9e709ef00673a3e0e11769b121745e9cb.1619519080.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1619519080.git.mchehab+huawei@kernel.org>
-References: <cover.1619519080.git.mchehab+huawei@kernel.org>
+        Tue, 27 Apr 2021 06:31:10 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC958C061760
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Apr 2021 03:30:03 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:91bb:828d:42f8:4e5f])
+        by andre.telenet-ops.be with bizsmtp
+        id xmW02400p2ZBlDX01mW03p; Tue, 27 Apr 2021 12:30:00 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lbKye-000q5E-Bo
+        for linux-renesas-soc@vger.kernel.org; Tue, 27 Apr 2021 12:30:00 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lbKyd-00G5rH-Iw
+        for linux-renesas-soc@vger.kernel.org; Tue, 27 Apr 2021 12:29:59 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2021-04-27-v5.12
+Date:   Tue, 27 Apr 2021 12:29:59 +0200
+Message-Id: <20210427102959.3835724-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-added pm_runtime_resume_and_get() in order to automatically handle
-dev->power.usage_count decrement on errors.
+I have pushed renesas-drivers-2021-04-27-v5.12 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Use the new API, in order to cleanup the error check logic.
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 6 ++++++
- drivers/media/platform/rcar-vin/rcar-dma.c  | 6 ++----
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 6 ++----
- 3 files changed, 10 insertions(+), 8 deletions(-)
+Today's version is based on renesas-devel-2021-04-26-v5.12.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index e06cd512aba2..ce8e84f9e3d9 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -408,6 +408,12 @@ static void rcsi2_enter_standby(struct rcar_csi2 *priv)
- 
- static void rcsi2_exit_standby(struct rcar_csi2 *priv)
- {
-+	/*
-+	 * The code at rcsi2_enter_standby() assumes
-+	 * inconditionally that PM runtime usage count was
-+	 * incremented. So, it shouldn't use pm_runtime_resume_and_get()
-+	 * here.
-+	 */
- 	pm_runtime_get_sync(priv->dev);
- 	reset_control_deassert(priv->rstc);
- }
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index f30dafbdf61c..f5f722ab1d4e 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1458,11 +1458,9 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- 	u32 vnmc;
- 	int ret;
- 
--	ret = pm_runtime_get_sync(vin->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(vin->dev);
-+	ret = pm_runtime_resume_and_get(vin->dev);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	/* Make register writes take effect immediately. */
- 	vnmc = rvin_read(vin, VNMC_REG);
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 457a65bf6b66..b1e9f86caa5c 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -870,11 +870,9 @@ static int rvin_open(struct file *file)
- 	struct rvin_dev *vin = video_drvdata(file);
- 	int ret;
- 
--	ret = pm_runtime_get_sync(vin->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(vin->dev);
-+	ret = pm_runtime_resume_and_get(vin->dev);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	ret = mutex_lock_interruptible(&vin->lock);
- 	if (ret)
--- 
-2.30.2
+Included branches with driver code:
+  - renesas-clk-for-v5.14
+  - renesas-pinctrl-for-v5.13
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/v3u/timers-v1-minimal
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/logic-analyzer-for-geert
 
+Included fixes:
+  - WIP soc: v3u: allow WDT reset
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
