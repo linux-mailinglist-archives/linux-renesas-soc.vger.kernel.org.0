@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A08A136C272
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Apr 2021 12:14:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68E6436C2C5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Apr 2021 12:15:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235510AbhD0KOm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Apr 2021 06:14:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35230 "EHLO mail.kernel.org"
+        id S235495AbhD0KP4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Apr 2021 06:15:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34660 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235415AbhD0KOg (ORCPT
+        id S235745AbhD0KPJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:14:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 918DE6141E;
-        Tue, 27 Apr 2021 10:13:51 +0000 (UTC)
+        Tue, 27 Apr 2021 06:15:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E67F61948;
+        Tue, 27 Apr 2021 10:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619518431;
-        bh=WqKoYQevkaStNcKaOzNIvfyWSTMDPdaJk89Ynu0GOzk=;
+        s=k20201202; t=1619518433;
+        bh=4l0wYnfzYi1h956EsgOdlzJmS/W0qfvo5eSm9fSkn9o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LoUuZ1TaQvQ5CxmEUPAH4lqIsqWPje2SWXVaMT/ZtNuDfR3nTI8ZWAsmwr41p2IMM
-         3z5seHicv+2UAiVd2MiUEchixXZRWwMB+hqJI78+10zMnyEU29EAhOhtUinvb8MGoq
-         ixDj4arF48KriUB2ZlDwz59DGcaI77Eb661OQ3kRbGm0dh27eMsHsnxTR5djV4sSx1
-         aa6pT5jaxD+42cb2avrORk2voD1zCEF+Gzm9xQh/g/wH5DZhiDbL4Axet3h3E08OuX
-         L/ZcTQiacEtoeseaM0YCvjBIStKyG5ImGvs+LialnnAcTyRvuiLvRUskwOkyICBiv0
-         O3Uc5it5DhGIg==
+        b=dTj5/2g+IuretA4WWeKDmoFHFHBjS15TGHAABgAT6vT1tjWvN2eyDuu49l3Gwt2da
+         TOXSj3AYurMZUu47PRrPLR35UWjYK1oTF2OQDM0SVSYM+x/rcSfkQUw/n+2AfIlvJU
+         sCDCyJRycpNzbyQygvFVMBA1eNdadXIBsGULVeG/GTQzugoKvlBwSoKD+dE4938M9e
+         qu9YoMveKc1YY7XA2veI4VIhBc7zsPnRTgp6zqZshJN77GRIa3/Tn4TlwACTv9yljW
+         bZGUqzbVtPGxv4fSb7BDDauM28XU+hupk7UJ6AmARKC7KIgEvXMxMmo6sLbaYu3QeI
+         NhNi5KFGegjVA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKiy-000j5A-MC; Tue, 27 Apr 2021 12:13:48 +0200
+        id 1lbKj1-000j7v-R6; Tue, 27 Apr 2021 12:13:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 12/79] media: renesas-ceu: Properly check for PM errors
-Date:   Tue, 27 Apr 2021 12:12:39 +0200
-Message-Id: <442ba0816c3977dddf01212659443ee13f90bd5d.1619518193.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 69/79] media: rcar-fcp: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:13:36 +0200
+Message-Id: <64bb917e946815f1c77bf2bb36614ff950a98631.1619518193.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619518193.git.mchehab+huawei@kernel.org>
 References: <cover.1619518193.git.mchehab+huawei@kernel.org>
@@ -48,42 +48,35 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Right now, the driver just assumes that PM runtime resume
-worked, but it may fail.
+Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+added pm_runtime_resume_and_get() in order to automatically handle
+dev->power.usage_count decrement on errors.
 
-Well, the pm_runtime_get_sync() internally increments the
-dev->power.usage_count without decrementing it, even on errors.
-
-So, using it is tricky. Let's replace it by the new
-pm_runtime_resume_and_get(), introduced by:
-commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-and return an error if something bad happens.
-
-This should ensure that the PM runtime usage_count will be
-properly decremented if an error happens at open time.
+Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/renesas-ceu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/rcar-fcp.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
-index cd137101d41e..17f01b6e3fe0 100644
---- a/drivers/media/platform/renesas-ceu.c
-+++ b/drivers/media/platform/renesas-ceu.c
-@@ -1099,10 +1099,10 @@ static int ceu_open(struct file *file)
+diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
+index 5c03318ae07b..de76af58013c 100644
+--- a/drivers/media/platform/rcar-fcp.c
++++ b/drivers/media/platform/rcar-fcp.c
+@@ -101,11 +101,9 @@ int rcar_fcp_enable(struct rcar_fcp_device *fcp)
+ 	if (!fcp)
+ 		return 0;
  
- 	mutex_lock(&ceudev->mlock);
- 	/* Causes soft-reset and sensor power on on first open */
--	pm_runtime_get_sync(ceudev->dev);
-+	ret = pm_runtime_resume_and_get(ceudev->dev);
- 	mutex_unlock(&ceudev->mlock);
+-	ret = pm_runtime_get_sync(fcp->dev);
+-	if (ret < 0) {
+-		pm_runtime_put_noidle(fcp->dev);
++	ret = pm_runtime_resume_and_get(fcp->dev);
++	if (ret < 0)
+ 		return ret;
+-	}
  
--	return 0;
-+	return ret;
+ 	return 0;
  }
- 
- static int ceu_release(struct file *file)
 -- 
 2.30.2
 
