@@ -2,117 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7431936C3F7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Apr 2021 12:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63ACD36C435
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Apr 2021 12:35:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238593AbhD0KcH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Apr 2021 06:32:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238600AbhD0KbK (ORCPT
+        id S238511AbhD0KgL convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Apr 2021 06:36:11 -0400
+Received: from mail-vs1-f49.google.com ([209.85.217.49]:36834 "EHLO
+        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239366AbhD0KfV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:31:10 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC958C061760
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Apr 2021 03:30:03 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:91bb:828d:42f8:4e5f])
-        by andre.telenet-ops.be with bizsmtp
-        id xmW02400p2ZBlDX01mW03p; Tue, 27 Apr 2021 12:30:00 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lbKye-000q5E-Bo
-        for linux-renesas-soc@vger.kernel.org; Tue, 27 Apr 2021 12:30:00 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lbKyd-00G5rH-Iw
-        for linux-renesas-soc@vger.kernel.org; Tue, 27 Apr 2021 12:29:59 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2021-04-27-v5.12
-Date:   Tue, 27 Apr 2021 12:29:59 +0200
-Message-Id: <20210427102959.3835724-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 27 Apr 2021 06:35:21 -0400
+Received: by mail-vs1-f49.google.com with SMTP id k124so29830268vsk.3;
+        Tue, 27 Apr 2021 03:34:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=S0cJtJfc534Em5VnHNzsiz6oCj7KRpx2g8W8LK2sYfU=;
+        b=YMHISJQw3EzyLp/seKWlOOIYJwk9bwgZN1oPnb48I0mp1cDgampmTrhHbMCj2q+AH9
+         fZFxR+88qF/ptVBAF6vBEwIKR67hiJELkP4MyDVzjhfCe4crKYnzdkDzpGfYBUq4hkSX
+         LBi28eMFdLyRADaj6xxvfzTxct6WTA+69msOEuXBJ9uzX6LH+RJPRpa+zmOxYLXvI/cP
+         uGZzSAPB23n4x6Kdmiv5mYbEqZEm5hf4At8h4dL91sqtucvDahFhli+Y94WRdhqtOb8q
+         me4p5FRTjJWRJG7nyMLFmrDWkodBmC5/GNSOjF4JFQZ80f3P9sqU4Hy2ECdkOqtfAle6
+         mrxA==
+X-Gm-Message-State: AOAM531zbpAvH58aZSj/HFh0a/UfL70CgE0z+ArVP42Jb4q6mbY9BRNT
+        JxdgqQfyO1+zM7TooObruRzHwPoPKoHbpDWFNnICVzDM
+X-Google-Smtp-Source: ABdhPJwMaT63hz5rFbbWxt3corYksraj1MZ36zfgaDtOrUqvChKXeNvWs9w4pVdaXjDdqymixFHz3lbdGePYuG17oG4=
+X-Received: by 2002:a67:fc57:: with SMTP id p23mr17130308vsq.40.1619519678259;
+ Tue, 27 Apr 2021 03:34:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1619519080.git.mchehab+huawei@kernel.org> <85d92ba9e709ef00673a3e0e11769b121745e9cb.1619519080.git.mchehab+huawei@kernel.org>
+In-Reply-To: <85d92ba9e709ef00673a3e0e11769b121745e9cb.1619519080.git.mchehab+huawei@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 27 Apr 2021 12:34:27 +0200
+Message-ID: <CAMuHMdWARHzOYud0_Evvbia2FLGS6djHVcC8HOGxRjCcHFRYgg@mail.gmail.com>
+Subject: Re: [PATCH v3 78/79] media: rcar-vin: use pm_runtime_resume_and_get()
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linuxarm <linuxarm@huawei.com>, mauro.chehab@huawei.com,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2021-04-27-v5.12 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+On Tue, Apr 27, 2021 at 12:28 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> added pm_runtime_resume_and_get() in order to automatically handle
+> dev->power.usage_count decrement on errors.
+>
+> Use the new API, in order to cleanup the error check logic.
+>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Today's version is based on renesas-devel-2021-04-26-v5.12.
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -408,6 +408,12 @@ static void rcsi2_enter_standby(struct rcar_csi2 *priv)
+>
+>  static void rcsi2_exit_standby(struct rcar_csi2 *priv)
+>  {
+> +       /*
+> +        * The code at rcsi2_enter_standby() assumes
+> +        * inconditionally that PM runtime usage count was
 
-Included branches with driver code:
-  - renesas-clk-for-v5.14
-  - renesas-pinctrl-for-v5.13
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/v3u/timers-v1-minimal
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/logic-analyzer-for-geert
+unconditionally
 
-Included fixes:
-  - WIP soc: v3u: allow WDT reset
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: defconfig: Update renesas_defconfig
-
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://github.com/bzolnier/linux.git#fbdev-for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+> +        * incremented. So, it shouldn't use pm_runtime_resume_and_get()
+> +        * here.
+> +        */
+>         pm_runtime_get_sync(priv->dev);
+>         reset_control_deassert(priv->rstc);
+>  }
 
 Gr{oetje,eeting}s,
 
-						Geert
+                        Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+                                -- Linus Torvalds
