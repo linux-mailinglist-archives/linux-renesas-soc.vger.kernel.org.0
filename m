@@ -2,136 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3679736D587
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Apr 2021 12:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD0BF36D9AC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Apr 2021 16:37:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239129AbhD1KPp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Apr 2021 06:15:45 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:7032 "EHLO
-        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239073AbhD1KPn (ORCPT
+        id S239805AbhD1OhO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Apr 2021 10:37:14 -0400
+Received: from mail-ua1-f46.google.com ([209.85.222.46]:46673 "EHLO
+        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239209AbhD1OhO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Apr 2021 06:15:43 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13SACgG9012679;
-        Wed, 28 Apr 2021 10:14:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=I+MVSz17rMFhUANJ9vAyQofowEWDVcDjmcFL0J5BcrE=;
- b=uaOHEwiNVwraQynnCPG2JzUVkXn9TRJB98bwFw0nuDEWf2bDE8FmmhWwy27Gv5J3VgGA
- uewrbjmbZEziXm8mvrKV3ViaWtSgLiYoaaF42HTk3qioV7dpMwQvSgxqhLbQCkVd/3Fw
- LVJdAJMwZzS019v20hv+Fmbni5XnEu+n0Zh32LH6VtypyYkOVAkTHzHoCZo9BAHC59iD
- 2k+gys9jMuwtzx/BQy+ly/lwxGeCA/WDfXiZIQN9VANI6J5sGWPFV0QM9JmSbGHuQcE6
- i6y9ZOrDpCpOAddMtZl/IOGGZmYnYPEWSyqoK+WyRvAh0cOfYCsePDN3Gw1Qw/s/HJKR fg== 
-Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 385s92h72h-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 28 Apr 2021 10:14:17 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 13SACmXR045815;
-        Wed, 28 Apr 2021 10:14:16 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by aserp3020.oracle.com with ESMTP id 384b5884ge-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 28 Apr 2021 10:14:16 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13SAA2xH035177;
-        Wed, 28 Apr 2021 10:14:15 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3020.oracle.com with ESMTP id 384b5884e6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 28 Apr 2021 10:14:15 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13SADmYk022121;
-        Wed, 28 Apr 2021 10:13:48 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 28 Apr 2021 03:13:47 -0700
-Date:   Wed, 28 Apr 2021 13:13:25 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Shawn Tu <shawnx.tu@intel.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Heiko Stuebner <heiko@sntech.de>, linuxarm@huawei.com,
-        Todor Tomov <todor.too@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-        Andy Gross <agross@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devel@driverdev.osuosl.org, Jacopo Mondi <jacopo@jmondi.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-tegra@vger.kernel.org,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-samsung-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        mauro.chehab@huawei.com,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
-        Dan Scally <djrscally@gmail.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 00/78] media: use pm_runtime_resume_and_get() instead of
- pm_runtime_get_sync()
-Message-ID: <20210428101325.GS1981@kadam>
-References: <cover.1619191723.git.mchehab+huawei@kernel.org>
+        Wed, 28 Apr 2021 10:37:14 -0400
+Received: by mail-ua1-f46.google.com with SMTP id v23so19788244uaq.13;
+        Wed, 28 Apr 2021 07:36:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ebn3gqZWholSixRs2pG5TobMq2hnLDUwAQR5/Khu4nc=;
+        b=eERugtZFOP202OCD0PCAyD9C1KtmD7aER2U+q92/oQJ2JXfDZuUy+y1OFVroMn6oK1
+         /q1mlp2G/pYu/UW5W4y4QVN8edtDHgCzq1K2czuWC2rHen0EilVxqqI5kXL6QxJ72jnv
+         C4OSMe/wJINpsTdRee9ASX2LW5tcB8n5+iwwfORrut8KFRxWxAyq4cofTs28l3kyLLi5
+         fGQ2rfFBuKPrgfbsuO742anqpVeV+qkrH1ppc2zX100XgG91z5L0bl0pvG/lR0qDH5SO
+         RzQDluk/oCzatRR0XBzpzj7NkVBJ6oMdR2bHDD5ajRwMYuhK2Jd2KzVkpwgDAYR5AIsr
+         VLdA==
+X-Gm-Message-State: AOAM532nXTDc3boUiqQDRz+qO/ZSNX08dMAqPjse9ocNAP2vo2Y6ET+R
+        AnVtaj9AXfB+ov8Jv8BMZr97raJTInYPikT9tve95ysR5PU=
+X-Google-Smtp-Source: ABdhPJwUatWDsVLWaKfcODXGfntt6k65wAc/HgmLKSVwqyayTIfPoUGtSH7CGqXabeNrvPeitGp/bA9yp0EYJcGcyD4=
+X-Received: by 2002:a9f:262c:: with SMTP id 41mr24223522uag.4.1619620588733;
+ Wed, 28 Apr 2021 07:36:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: PoS6K8hnvvMeqfO7ySCrEgnWsFEWRPaW
-X-Proofpoint-GUID: PoS6K8hnvvMeqfO7ySCrEgnWsFEWRPaW
+References: <20210317091622.31890-1-wsa+renesas@sang-engineering.com> <20210317091622.31890-4-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210317091622.31890-4-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 28 Apr 2021 16:36:17 +0200
+Message-ID: <CAMuHMdU6=rTHjvcgK8GBzd3OL_9YFqV77=KsAEGJvAVapnhsOQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] mmc: renesas_sdhi: do hard reset if possible
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There was a Smatch check for these bugs.  This was a good source of
-recurring Reported-by tags for me.  ;)  Thanks for doing this.
+Hi Wolfram,
 
-regards,
-dan carpenter
+On Wed, Mar 17, 2021 at 10:17 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> All recent SDHI instances can be reset via the reset controller. If one
+> is found, use it instead of the open coded reset. This is to get a
+> future-proof sane reset state.
+>
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+Thanks for your patch, which is now commit b4d86f37eacb7246 ("mmc:
+renesas_sdhi: do hard reset if possible") in mmc/next.
+
+This breaks SDHI on koelsch (R-Car M2-W).
+In v5.10, v5.11, and v512, it works fine:
+
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    mmc0: new ultra high speed SDR104 SDHC card at address aaaa
+    mmcblk0: mmc0:aaaa SM32G 29.7 GiB
+      mmcblk0: p1
+
+Note that I do see one timeout during identification.
+
+After b4d86f37eacb7246 (bisected), it fails:
+
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    [...]
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    mmc0: tuning execution failed: -5
+    mmc0: error -5 whilst initialising SD card
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    [...]
+
+Given the single timeout I see with older kernels, the issue may be that the
+harder reset causes that timeout to repeat ad infinitum?
+
+With renesas-drivers-2021-04-27-v5.12, I saw various different timeouts:
+
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    sh_mobile_sdhi ee140000.mmc: timeout waiting for hardware interrupt (CMD0)
+    sh_mobile_sdhi ee140000.mmc: timeout waiting for hardware interrupt (CMD5)
+    sh_mobile_sdhi ee140000.mmc: timeout waiting for hardware interrupt (CMD52)
+    sh_mobile_sdhi ee140000.mmc: timeout waiting for hardware interrupt (CMD55)
+    sh_mobile_sdhi ee140000.mmc: timeout waiting for hardware interrupt (CMD8)
+
+(ee100000 is the SD104 slot, ee140000 is the SDR50 slot).
+
+The card is a brand new SanDisk Extreme 32GB A1 microSD card in the
+microSD adapter that came with the card (Conrad 1553726).
+
+On R-Car H3 ES2.0 (Salvator-XS), the card works fine, without any timeouts:
+
+    mmc1: new ultra high speed SDR104 SDHC card at address aaaa
+    mmcblk1: mmc1:aaaa SM32G 29.7 GiB
+     mmcblk1: p1
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
