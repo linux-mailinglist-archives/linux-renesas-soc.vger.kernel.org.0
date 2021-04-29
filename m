@@ -2,38 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AAA836EAA3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Apr 2021 14:39:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33CE436EAAF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Apr 2021 14:41:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233011AbhD2MkF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Apr 2021 08:40:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44100 "EHLO
+        id S233614AbhD2MmH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Apr 2021 08:42:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232657AbhD2MkF (ORCPT
+        with ESMTP id S231343AbhD2MmH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Apr 2021 08:40:05 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7679AC06138B
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Apr 2021 05:39:18 -0700 (PDT)
+        Thu, 29 Apr 2021 08:42:07 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA515C06138B
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Apr 2021 05:41:19 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d4dd:70b4:3264:8d97])
-        by albert.telenet-ops.be with bizsmtp
-        id ycfE2400Q4p6Y3806cfEhq; Thu, 29 Apr 2021 14:39:15 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id ychJ240084p6Y3801chJt7; Thu, 29 Apr 2021 14:41:18 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lc5wo-001F5N-9j; Thu, 29 Apr 2021 14:39:14 +0200
+        id 1lc5yn-001F5h-LY; Thu, 29 Apr 2021 14:41:17 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lc5wn-009VUP-Rb; Thu, 29 Apr 2021 14:39:13 +0200
+        id 1lc5yn-009Vd9-5y; Thu, 29 Apr 2021 14:41:17 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: r8a7796[01]: Fix OPP table entry voltages
-Date:   Thu, 29 Apr 2021 14:39:12 +0200
-Message-Id: <b9e9db907514790574429b83d070c823b36085ef.1619699909.git.geert+renesas@glider.be>
+Subject: [PATCH] ARM: dts: r8a7779, marzen: Fix DU clock names
+Date:   Thu, 29 Apr 2021 14:41:15 +0200
+Message-Id: <9d5e1b371121883b3b3e10a3df43802a29c6a9da.1619699965.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -41,74 +42,49 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Correct the voltages in the "Power Optimized" (<= 1.5 GHz) Cortex-A57
-operating point table entries for the R-Car M3-W and M3-W+ SoCs from
-0.82V to 0.83V, as per the R-Car Gen3 EC Manual Errata for Revision
-0.53.
+"make dtbs_check" complains:
 
-Based on a patch for R-Car M3-W in the BSP by Takeshi Kihara
-<takeshi.kihara.df@renesas.com>.
+    arch/arm/boot/dts/r8a7779-marzen.dt.yaml: display@fff80000: clock-names:0: 'du.0' was expected
 
-Fixes: da7e3113344fda50 ("arm64: dts: renesas: r8a7796: Add OPPs table for cpu devices")
-Fixes: f51746ad7d1ff6b4 ("arm64: dts: renesas: Add Renesas R8A77961 SoC support")
+Change the first clock name to match the DT bindings.
+This has no effect on actual operation, as the Display Unit driver in
+Linux does not use the first clock name on R-Car H1, but just grabs the
+first clock.
+
+Fixes: 665d79aa47cb3983 ("ARM: shmobile: marzen: Add DU external pixel clock to DT")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 To be queued in renesas-devel for v5.14.
 
- arch/arm64/boot/dts/renesas/r8a77960.dtsi | 6 +++---
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ arch/arm/boot/dts/r8a7779-marzen.dts | 2 +-
+ arch/arm/boot/dts/r8a7779.dtsi       | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-index 63bb395a6a64499a..2bd8169735d351b2 100644
---- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-@@ -63,17 +63,17 @@ cluster0_opp: opp_table0 {
+diff --git a/arch/arm/boot/dts/r8a7779-marzen.dts b/arch/arm/boot/dts/r8a7779-marzen.dts
+index d2240b89ee52929b..46584532349590d1 100644
+--- a/arch/arm/boot/dts/r8a7779-marzen.dts
++++ b/arch/arm/boot/dts/r8a7779-marzen.dts
+@@ -145,7 +145,7 @@ &du {
+ 	status = "okay";
  
- 		opp-500000000 {
- 			opp-hz = /bits/ 64 <500000000>;
--			opp-microvolt = <820000>;
-+			opp-microvolt = <830000>;
- 			clock-latency-ns = <300000>;
- 		};
- 		opp-1000000000 {
- 			opp-hz = /bits/ 64 <1000000000>;
--			opp-microvolt = <820000>;
-+			opp-microvolt = <830000>;
- 			clock-latency-ns = <300000>;
- 		};
- 		opp-1500000000 {
- 			opp-hz = /bits/ 64 <1500000000>;
--			opp-microvolt = <820000>;
-+			opp-microvolt = <830000>;
- 			clock-latency-ns = <300000>;
- 			opp-suspend;
- 		};
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index c8b73108a4c8185d..3c73ee47791542a9 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -52,17 +52,17 @@ cluster0_opp: opp_table0 {
+ 	clocks = <&mstp1_clks R8A7779_CLK_DU>, <&x3_clk>;
+-	clock-names = "du", "dclkin.0";
++	clock-names = "du.0", "dclkin.0";
  
- 		opp-500000000 {
- 			opp-hz = /bits/ 64 <500000000>;
--			opp-microvolt = <820000>;
-+			opp-microvolt = <830000>;
- 			clock-latency-ns = <300000>;
- 		};
- 		opp-1000000000 {
- 			opp-hz = /bits/ 64 <1000000000>;
--			opp-microvolt = <820000>;
-+			opp-microvolt = <830000>;
- 			clock-latency-ns = <300000>;
- 		};
- 		opp-1500000000 {
- 			opp-hz = /bits/ 64 <1500000000>;
--			opp-microvolt = <820000>;
-+			opp-microvolt = <830000>;
- 			clock-latency-ns = <300000>;
- 			opp-suspend;
- 		};
+ 	ports {
+ 		port@0 {
+diff --git a/arch/arm/boot/dts/r8a7779.dtsi b/arch/arm/boot/dts/r8a7779.dtsi
+index 74d7e9084eabe173..3c5fcdfe16b87182 100644
+--- a/arch/arm/boot/dts/r8a7779.dtsi
++++ b/arch/arm/boot/dts/r8a7779.dtsi
+@@ -463,6 +463,7 @@ du: display@fff80000 {
+ 		reg = <0xfff80000 0x40000>;
+ 		interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+ 		clocks = <&mstp1_clks R8A7779_CLK_DU>;
++		clock-names = "du.0";
+ 		power-domains = <&sysc R8A7779_PD_ALWAYS_ON>;
+ 		status = "disabled";
+ 
 -- 
 2.25.1
 
