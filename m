@@ -2,42 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E442536EABA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Apr 2021 14:44:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45EF036EABF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Apr 2021 14:45:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235751AbhD2MpB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Apr 2021 08:45:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45206 "EHLO
+        id S236133AbhD2Mpx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Apr 2021 08:45:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231490AbhD2MpB (ORCPT
+        with ESMTP id S233668AbhD2Mpw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Apr 2021 08:45:01 -0400
+        Thu, 29 Apr 2021 08:45:52 -0400
 Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74FC7C06138D
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Apr 2021 05:44:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 384C6C06138C
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Apr 2021 05:45:06 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d4dd:70b4:3264:8d97])
         by michel.telenet-ops.be with bizsmtp
-        id yckC240074p6Y3806ckCb8; Thu, 29 Apr 2021 14:44:12 +0200
+        id ycl52400Z4p6Y3806cl5la; Thu, 29 Apr 2021 14:45:05 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lc61b-001F8j-Ko; Thu, 29 Apr 2021 14:44:11 +0200
+        id 1lc62T-001F8t-CX; Thu, 29 Apr 2021 14:45:05 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lc61b-009VlG-6N; Thu, 29 Apr 2021 14:44:11 +0200
+        id 1lc62S-009VoE-O1; Thu, 29 Apr 2021 14:45:04 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>
+Cc:     linux-ide@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: PCI: rcar-pci-host: Document missing R-Car H1 support
-Date:   Thu, 29 Apr 2021 14:44:09 +0200
-Message-Id: <fb0bb969cd0e5872ab5eac70e070242c0d8a5b81.1619700202.git.geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: ata: renesas,rcar-sata: Make power-domains and resets required
+Date:   Thu, 29 Apr 2021 14:45:03 +0200
+Message-Id: <ca35d7d837b155c69232a1c25060737b4c87720f.1619700260.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -45,54 +41,35 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-scripts/checkpatch.pl -f drivers/pci/controller/pcie-rcar-host.c:
+The "power-domains" property is present on all supported platforms.
+The "resets" property is present on all but R-Car H1.
 
-    WARNING: DT compatible string "renesas,pcie-r8a7779" appears un-documented -- check ./Documentation/devicetree/bindings/
-    #853: FILE: drivers/pci/controller/pcie-rcar-host.c:853:
-    +	{ .compatible = "renesas,pcie-r8a7779",
-
-Re-add the compatible value for R-Car H1, which was lost during the
-json-schema conversion.  Make the "resets" property optional on R-Car
-H1, as it is not present yet on R-Car Gen1 SoCs.
-
-Fixes: 0d69ce3c2c63d4db ("dt-bindings: PCI: rcar-pci-host: Convert bindings to json-schema")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-This was never enabled in the upstream r8a7779.dtsi, but the Linux
-driver does support it.
----
- .../devicetree/bindings/pci/rcar-pci-host.yaml       | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/ata/renesas,rcar-sata.yaml    | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/pci/rcar-pci-host.yaml b/Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
-index 4a2bcc0158e2d49a..8fdfbc763d704532 100644
---- a/Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
-+++ b/Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
-@@ -17,6 +17,7 @@ allOf:
- properties:
-   compatible:
-     oneOf:
-+      - const: renesas,pcie-r8a7779       # R-Car H1
-       - items:
-           - enum:
-               - renesas,pcie-r8a7742      # RZ/G1H
-@@ -74,7 +75,16 @@ required:
+diff --git a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+index 2ad2444f10423eae..c4e4a9eab658056d 100644
+--- a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
++++ b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+@@ -54,6 +54,17 @@ required:
+   - reg
+   - interrupts
    - clocks
-   - clock-names
-   - power-domains
--  - resets
++  - power-domains
 +
 +if:
 +  not:
 +    properties:
 +      compatible:
 +        contains:
-+          const: renesas,pcie-r8a7779
++          const: renesas,sata-r8a7779
 +then:
 +  required:
 +    - resets
  
- unevaluatedProperties: false
+ additionalProperties: false
  
 -- 
 2.25.1
