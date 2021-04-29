@@ -2,255 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5227836ED34
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Apr 2021 17:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACD8636ED75
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Apr 2021 17:34:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233779AbhD2PRv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Apr 2021 11:17:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36092 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233420AbhD2PRs (ORCPT
+        id S233148AbhD2Pey (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Apr 2021 11:34:54 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54162 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232989AbhD2Pey (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Apr 2021 11:17:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DADC8613F8;
-        Thu, 29 Apr 2021 15:17:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619709421;
-        bh=0TF/rgI+kIrUM4ucLgyoRQVNDZwjwMCttPCbdF1J2ts=;
+        Thu, 29 Apr 2021 11:34:54 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56048DA8;
+        Thu, 29 Apr 2021 17:34:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1619710446;
+        bh=G2OeB8Ead5OG71/Ox0v6t4IIlF7AKAPhIY2E4Icvgjg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TNblwH+As0w11JRNen3DEa/sKtquJO7N/ed+Wi2cPt5DPo/pzApjHeB4CYlT9czKN
-         RFJnIUjSlU/iXNkujkJ9GfUIBpZYvUPaxBLDLGXBQdVlv5qb6mSpE1DcETxlBJLjdH
-         3g63qgtE3JXAaoo4Aq3ZJQdiRo/RBYWmOp0+Glxzsc1YjsicyiOaSi7GIhQYDFx0Ss
-         xxX7tIodOuoDf+uK3PdOkr9EHdavuGSGLxTjoqehEjaUHaupkr1YkvsH7C4pSmGQvt
-         kJLY88R3n7qjm+eBETbZXRLROLJk7BZhgXtoeO/pKC8+dHkhcGgjRgK0xEL1TOs1c0
-         knRtXQpP0PexA==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1lc8Ph-0006kM-4M; Thu, 29 Apr 2021 17:17:13 +0200
-Date:   Thu, 29 Apr 2021 17:17:13 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Shawn Tu <shawnx.tu@intel.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Heiko Stuebner <heiko@sntech.de>, linuxarm@huawei.com,
-        Todor Tomov <todor.too@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-        Andy Gross <agross@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devel@driverdev.osuosl.org, Jacopo Mondi <jacopo@jmondi.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-tegra@vger.kernel.org,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-samsung-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        mauro.chehab@huawei.com,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
-        Dan Scally <djrscally@gmail.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v4 00/79] Address some issues with PM runtime at media
- subsystem
-Message-ID: <YIrN+VEY9Sf+eztR@hovoldconsulting.com>
-References: <cover.1619621413.git.mchehab+huawei@kernel.org>
- <YImEMN/POW5C8lG7@hovoldconsulting.com>
- <20210429121215.64a7cbdb@coco.lan>
+        b=u9vAKicB+0P7Fec19DtfsVyuNo+7pOkBQ/8dq3eJHa4d+1Lb7eeaDU9G00rh2i6kc
+         BGmasLDjINj4kgYUAJi+6A2sBreCTI8wATZESzHQKLUrZMTVrLrMojtwvcCg2LfVJI
+         I3I1c+evAo/6g+KI1NM2+J0aaIOeVlJ0PYYEN0Yg=
+Date:   Thu, 29 Apr 2021 18:34:00 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] ARM: dts: r8a7779, marzen: Fix DU clock names
+Message-ID: <YIrR6NGTKA6z/wNE@pendragon.ideasonboard.com>
+References: <9d5e1b371121883b3b3e10a3df43802a29c6a9da.1619699965.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210429121215.64a7cbdb@coco.lan>
+In-Reply-To: <9d5e1b371121883b3b3e10a3df43802a29c6a9da.1619699965.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 12:18:16PM +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 28 Apr 2021 17:50:08 +0200
-> Johan Hovold <johan@kernel.org> escreveu:
+Hi Geert,
+
+Thank you for the patch.
+
+On Thu, Apr 29, 2021 at 02:41:15PM +0200, Geert Uytterhoeven wrote:
+> "make dtbs_check" complains:
 > 
-> > On Wed, Apr 28, 2021 at 04:51:21PM +0200, Mauro Carvalho Chehab wrote:
+>     arch/arm/boot/dts/r8a7779-marzen.dt.yaml: display@fff80000: clock-names:0: 'du.0' was expected
 > 
-> > > 1. despite its name, this is actually a PM runtime resume call,
-> > >    but some developers didn't seem to realize that, as I got this
-> > >    pattern on some drivers:
-> > > 
-> > >         pm_runtime_get_sync(&client->dev);
-> > >         pm_runtime_disable(&client->dev);
-> > >         pm_runtime_set_suspended(&client->dev);
-> > >         pm_runtime_put_noidle(&client->dev);
-> > > 
-> > >    It makes no sense to resume PM just to suspend it again ;-)  
-> > 
-> > This is perfectly alright. Take a look at ov7740_remove() for example:
-> > 
-> > 	pm_runtime_get_sync(&client->dev);
-> > 	pm_runtime_disable(&client->dev);
-> > 	pm_runtime_set_suspended(&client->dev);
-> > 	pm_runtime_put_noidle(&client->dev);
-> > 	
-> > 	ov7740_set_power(ov7740, 0);
-> > 
-> > There's an explicit power-off after balancing the PM count and this will
-> > work regardless of the power state when entering this function.
+> Change the first clock name to match the DT bindings.
+> This has no effect on actual operation, as the Display Unit driver in
+> Linux does not use the first clock name on R-Car H1, but just grabs the
+> first clock.
+
+The driver agrees with that statement. I haven't tested it though.
+
+> Fixes: 665d79aa47cb3983 ("ARM: shmobile: marzen: Add DU external pixel clock to DT")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+> To be queued in renesas-devel for v5.14.
 > 
-> Ok, but this should equally work:
+>  arch/arm/boot/dts/r8a7779-marzen.dts | 2 +-
+>  arch/arm/boot/dts/r8a7779.dtsi       | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 > 
->  	pm_runtime_disable(&client->dev);
->  	pm_runtime_set_suspended(&client->dev);
->  	
->  	ov7740_set_power(ov7740, 0);
-> 
-> as there's no additional cleanup made on this particular driver
-> between pm_runtime_get_sync() and pm_runtime_put_noidle().
+> diff --git a/arch/arm/boot/dts/r8a7779-marzen.dts b/arch/arm/boot/dts/r8a7779-marzen.dts
+> index d2240b89ee52929b..46584532349590d1 100644
+> --- a/arch/arm/boot/dts/r8a7779-marzen.dts
+> +++ b/arch/arm/boot/dts/r8a7779-marzen.dts
+> @@ -145,7 +145,7 @@ &du {
+>  	status = "okay";
+>  
+>  	clocks = <&mstp1_clks R8A7779_CLK_DU>, <&x3_clk>;
+> -	clock-names = "du", "dclkin.0";
+> +	clock-names = "du.0", "dclkin.0";
+>  
+>  	ports {
+>  		port@0 {
+> diff --git a/arch/arm/boot/dts/r8a7779.dtsi b/arch/arm/boot/dts/r8a7779.dtsi
+> index 74d7e9084eabe173..3c5fcdfe16b87182 100644
+> --- a/arch/arm/boot/dts/r8a7779.dtsi
+> +++ b/arch/arm/boot/dts/r8a7779.dtsi
+> @@ -463,6 +463,7 @@ du: display@fff80000 {
+>  		reg = <0xfff80000 0x40000>;
+>  		interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+>  		clocks = <&mstp1_clks R8A7779_CLK_DU>;
+> +		clock-names = "du.0";
+>  		power-domains = <&sysc R8A7779_PD_ALWAYS_ON>;
+>  		status = "disabled";
+>  
 
-No, that would break the driver as I pointed out to you yesterday:
+-- 
+Regards,
 
-	https://lore.kernel.org/r/YImG1klSPkFSaS3a@hovoldconsulting.com
-
-If the device is already suspended when remove is called then you'll
-end up with an unbalanced call to ov7740_set_power() that will try to
-disable an already disabled clock.
-
-> > So this has nothing to do with pm_runtime_get_sync() per se.
-> 
-> Yes, but some patches on this series are cleaning up the driver release
-> logic.
-
-You mentioned this example as an argument against using
-pm_runtime_get_sync(), which I don't think makes sense.
-
-> > > 2. Usual *_get() methods only increment their use count on success,
-> > >    but pm_runtime_get_sync() increments it unconditionally. Due to
-> > >    that, several drivers were mistakenly not calling
-> > >    pm_runtime_put_noidle() when it fails;  
-> > 
-> > Sure, but pm_runtime_get_async() also works this way. You just won't be
-> > notified if the async resume fails.
-> 
-> Granted, it makes sense along the pm_runtime kAPI.
-> 
-> It is inconsistent with the behavior of kobject_get*() and other
-> *_get*() methods that are based or inspired on it, as, on those, the
-> operations are atomic: either everything succeeds and it doesn't return
-> an error, or the usage counter is not incremented and the object
-> state doesn't change after the call.
-
-Right, and I'm aware that some people have overlooked this. But its not
-the end of the world since hardly any driver can handle resume failures
-properly anyway. 
-
-This is mostly just an exercise to shut up static checkers.
-
-> > > 3. The name of the new variant is a lot clearer:
-> > > 	pm_runtime_resume_and_get()
-> > >     As its same clearly says that this is a PM runtime resume function,
-> > >     that also increments the usage counter on success;  
-> > 
-> > It also introduced an inconsistency in the API and does not pair as well
-> > with the pm_runtime_put variants.
-> 
-> Agreed. A name that would be more consistent with PM runtime would
-> probably be:
-> 
-> 	pm_runtime_resume_if_get()
-
-Naw, since the get part always succeeds.
-
-It should start with pm_runtime_get, but pm_runtime_get_sync() is
-unfortunately taken.
-
-> as there are already:
-> 
-> 	pm_runtime_get_if_in_use()
-> 	pm_runtime_get_if_active()
-> 
-> But any such discussions are out of the scope of this patchset ;-)
-
-Right.
-
-> > > 4. Consistency: we did similar changes subsystem wide with
-> > >    for instance strlcpy() and strcpy() that got replaced by
-> > >    strscpy(). Having all drivers using the same known-to-be-safe
-> > >    methods is a good thing;  
-> > 
-> > It's not known to be safe; there are ways to get also this interface
-> > wrong as for example this series has shown.
-> 
-> Very true. Yet, it is a lot simpler to use functions that won't change
-> the state of the objects when returning an error, as this is by far
-> the most common pattern within the Kernel.
-
-A resume failure does change the state (and needs to be recovered from),
-but I get what you're saying.
-
-> Human brains are trained to identify certain patterns. When there's
-> something using a similar pattern, but with a different behavior, 
-> our brains are more subject to fail identifying problems.
-
-Sure. But I'm not sure that having two interfaces with different
-semantics to do the job is doing us any favours here. But again, that
-discussion has already been had.
-
-And I realise that this is partly also your motive here (even if the old
-interface isn't going to go away).
-
-> > > compile-tested only.
-> > > Patches 1 to 7 fix some issues that already exists at the current
-> > > PM runtime code;
-> > > 
-> > > patches 8 to 20 fix some usage_count problems that still exists
-> > > at the media subsystem;
-> > > 
-> > > patches 21 to 78 repaces pm_runtime_get_sync() by 
-> > > pm_runtime_resume_and_get();
-> > > 
-> > > Patch 79 (and a hunk on patch 78) documents the two exceptions
-> > > where pm_runtime_get_sync() will still be used for now.
-
-80 patches in one series (posted to lkml) is a bit excessive. Perhaps
-you can break it up in a fixes part and one or more cleanups parts?
-
-Johan
+Laurent Pinchart
