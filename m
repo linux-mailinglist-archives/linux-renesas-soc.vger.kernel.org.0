@@ -2,79 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9718A36EAD5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Apr 2021 14:48:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88A9236EB63
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Apr 2021 15:33:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233731AbhD2Msp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Apr 2021 08:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46106 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235908AbhD2Msp (ORCPT
+        id S233701AbhD2Ndv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Apr 2021 09:33:51 -0400
+Received: from www.zeus03.de ([194.117.254.33]:47018 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232867AbhD2Ndu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Apr 2021 08:48:45 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63B0C06138C
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Apr 2021 05:47:58 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d4dd:70b4:3264:8d97])
-        by albert.telenet-ops.be with bizsmtp
-        id ycny2400J4p6Y3806cnyRw; Thu, 29 Apr 2021 14:47:58 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lc65F-001FCA-V3; Thu, 29 Apr 2021 14:47:57 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lc65F-009Vyy-5n; Thu, 29 Apr 2021 14:47:57 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: display: renesas,du: Add missing power-domains property
-Date:   Thu, 29 Apr 2021 14:47:56 +0200
-Message-Id: <600d42256515f180bc84b72e8bdb5c5d9126ab62.1619700459.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Thu, 29 Apr 2021 09:33:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=CP0MsfiW4TwTPXP2snL9wYMUZgEn
+        Ou3gTlVsX0cV9xc=; b=x13UhEd7gl6CVxzqpOTitQ+nqLRumy6IbGPbhldUj4L2
+        mWdt2LAGg8BBQLnlnoBgOL+kETNBQIUhyg66iBJcoF21yt9W+dbA64qK4XviaDyW
+        sSLzPSGOBrCeMiTvP0us7idMd1BdtaLF9wwUTblyZMY9tGXVMh3OwCygzZDGUkE=
+Received: (qmail 3376977 invoked from network); 29 Apr 2021 15:33:02 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Apr 2021 15:33:02 +0200
+X-UD-Smtp-Session: l3s3148p1@kqGniBzBxMEgAwDPXwxpAF/ybNvA09JQ
+Date:   Thu, 29 Apr 2021 15:32:58 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH renesas-drivers] dt-bindings: misc: Fix logic analyzer
+ bindings
+Message-ID: <20210429133258.GA6746@ninjato>
+References: <8194aceb415e0585c0224bca0f5cbf3447105e99.1619688572.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="mP3DRpeJDSE+ciuQ"
+Content-Disposition: inline
+In-Reply-To: <8194aceb415e0585c0224bca0f5cbf3447105e99.1619688572.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-"make dtbs_check" complains:
 
-    arch/arm/boot/dts/r8a7779-marzen.dt.yaml: display@fff80000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-    arch/arm64/boot/dts/renesas/r8a77970-v3msk.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-    arch/arm64/boot/dts/renesas/r8a77970-eagle.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-    arch/arm64/boot/dts/renesas/r8a77980-condor.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-    arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+--mP3DRpeJDSE+ciuQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fix this by documenting the power-domains property.
 
-Fixes: 99d66127fad25ebb ("dt-bindings: display: renesas,du: Convert binding to YAML")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- Documentation/devicetree/bindings/display/renesas,du.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+> Fix this by correcting the indentation of the "required" block, and
+> adding the missing include.
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-index e955034da53b86e2..0dad87cdd8735542 100644
---- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-+++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-@@ -51,6 +51,9 @@ properties:
-   resets: true
-   reset-names: true
- 
-+  power-domains:
-+    maxItems: 1
-+
-   ports:
-     $ref: /schemas/graph.yaml#/properties/port
-     description: |
--- 
-2.25.1
+Thank you! But this file is going to be removed in v2. I agree with
+LinusW and the GPIO crowd that bindings for debugging do not need to be
+"official".
 
+
+--mP3DRpeJDSE+ciuQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCKtYUACgkQFA3kzBSg
+KbajTw//RF4bkYYK5cM/xzsMMMwPbOmY/4GwQlqEpLb1B36zBq25YRZb6sitbOBd
+rBeEnXQCJQIdivP8Ru8LmbdzVBSeOQP9NMY/rNC5S7I4InPERKjLh+/qKTiNEX35
+EFg/0DxYyfgnL4bVh6VfSdUoFkhmJxK6NIUQ2wBPe3E+sgCaLsY+ZtojBoVmZyM0
+VABle/yiDTcIakKCf/SVeDlDqRuqsm9jyztPb+6q8O/vRe+MkUx85xCS7eS3HFJG
+O9xl9sM7Xu7aVwjrZrUuQNX2VPi2VpYo6D/pn6i6Sy8VV9yzYC6jEIzG4WyKUxuc
+0qau+iKTekK3eOxnD0Q9pSMUve0hm0xLBndQWZ8S9axdrlEfBDYtc+t36RsCNyVP
+qI9iBNvTOWWD7CMOn6jhlnFXxNiuBljA6xetpolh+wX3zwzBZrCZv0m1dRsSnWZf
+dQ4gU4IkVcM2KkYm9zxV/7vHhO9NesbRkf9j3/cS/kRSqi3Py7QIEL36XIqHpjLK
+oIg1MJONpT/zQq5WT5XZC2DINalFmBkJbs0g3u6KgCBbuM0a/gjGEsBm5T9EnhJ+
+K1yTQtTpHt4km5cBX4OlBrcxJVhxmIQ2jwQMmYiPu/P/2r7AWQ5kGK/ufwGqCPQR
+U8SzuDC+5hiVWCx7Eu9r6zv14PUNLWI8P9XE8ViR+VPR4vVAce0=
+=SHJO
+-----END PGP SIGNATURE-----
+
+--mP3DRpeJDSE+ciuQ--
