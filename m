@@ -2,106 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4569B36EEC9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Apr 2021 19:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17D9636FA2B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Apr 2021 14:31:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240748AbhD2RXc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Apr 2021 13:23:32 -0400
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:36561 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233333AbhD2RXc (ORCPT
+        id S230034AbhD3McC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Apr 2021 08:32:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49140 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229864AbhD3McB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Apr 2021 13:23:32 -0400
-Received: by mail-vs1-f49.google.com with SMTP id k124so34148262vsk.3;
-        Thu, 29 Apr 2021 10:22:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IipN+JHy/GHloboiBlg+J8C/w+MqkgnZBETYvu9afi8=;
-        b=rke32GBk6TkFq+48hVdARfaNBx9Uo/jcxhwMOQAmLPbE0wNBBalhVxVqWYlUtwqHWq
-         +gV3L+R5qZNiQanLxhZPRUsxwJ6WW/6D+39jcHrUSGx4/2/Y9wYYq7i8009nZdD3wHFx
-         GRuRrLR3KEL570Zi5buT6F4Lycq5/zTs3AOUSBxB5n7Rt9iPRBFaRxbnkbVngXUBzUhM
-         0ZLAjtIOK3zLpaeQKNJmyFo6R3y5z9mxJs08NwotcwUQdD1hcfs7wS3wbZ7+Ut9/3GwA
-         2Ffg169cDt4Im5aoH8kb3ClT0vltOQCgQafgsZSQV9JsMmWSN4gtP3EkIjglv6EC+oHm
-         AYYw==
-X-Gm-Message-State: AOAM531RnSlKRjesse6qwik2ecQTcVS5oO5zoS3u9bJ1TtFkAiDERdT1
-        4bTJW9YQebVf3/OLoyG+K7F706UZ6xI/6ug3/uY=
-X-Google-Smtp-Source: ABdhPJwntEMdXe4iH454WyGzfl3NxgkqigXREwYM2E5ls823gHlXZ8uCvDYYfvETE8D1NZwkQY/9uYdAvPkQ3+7ShVU=
-X-Received: by 2002:a67:f614:: with SMTP id k20mr1510686vso.42.1619716965113;
- Thu, 29 Apr 2021 10:22:45 -0700 (PDT)
+        Fri, 30 Apr 2021 08:32:01 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4316EC06138B
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Apr 2021 05:31:13 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d4dd:70b4:3264:8d97])
+        by baptiste.telenet-ops.be with bizsmtp
+        id z0X92400C4p6Y38010X9HE; Fri, 30 Apr 2021 14:31:09 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lcSIX-001ec7-14; Fri, 30 Apr 2021 14:31:09 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lcSIW-00BdbL-KL; Fri, 30 Apr 2021 14:31:08 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 00/12] pinctrl: renesas: Add more bias pinconf support
+Date:   Fri, 30 Apr 2021 14:30:54 +0200
+Message-Id: <cover.1619785375.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <600d42256515f180bc84b72e8bdb5c5d9126ab62.1619700459.git.geert+renesas@glider.be>
- <YIrXxWbJ2LmcoQn1@pendragon.ideasonboard.com>
-In-Reply-To: <YIrXxWbJ2LmcoQn1@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 29 Apr 2021 19:22:33 +0200
-Message-ID: <CAMuHMdUe0wA-BXXiJKuSjCrPFwbs3V4x6O=OAvTsmgYKt8bMHA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: renesas,du: Add missing
- power-domains property
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+	Hi all,
 
-On Thu, Apr 29, 2021 at 5:59 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Thu, Apr 29, 2021 at 02:47:56PM +0200, Geert Uytterhoeven wrote:
-> > "make dtbs_check" complains:
-> >
-> >     arch/arm/boot/dts/r8a7779-marzen.dt.yaml: display@fff80000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >     arch/arm64/boot/dts/renesas/r8a77970-v3msk.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >     arch/arm64/boot/dts/renesas/r8a77970-eagle.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >     arch/arm64/boot/dts/renesas/r8a77980-condor.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >     arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >
-> > Fix this by documenting the power-domains property.
-> >
-> > Fixes: 99d66127fad25ebb ("dt-bindings: display: renesas,du: Convert binding to YAML")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  Documentation/devicetree/bindings/display/renesas,du.yaml | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > index e955034da53b86e2..0dad87cdd8735542 100644
-> > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > @@ -51,6 +51,9 @@ properties:
-> >    resets: true
-> >    reset-names: true
-> >
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
->
-> Mind if I move this just before resets: ? I can handle it when applying.
+This patch series add bias pinconf support to the R-Car Gen2, R-Car
+Gen3, RZ/G1, and RZ/G2 SoCs that do not have it yet, preceded by a two
+fixes and three cleanups.
 
-Probably you will start minding once you have read the (out-of-context)
-comment above all grouped ": true" properties above....
+This has not been formally tested in the field, but did pass my
+work-in-progress bias registers checks in the Renesas pinctrl checker,
+which I hope to post soon.
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I hope to queue this in renesas-pinctrl for v5.14.
 
-Thanks!
+Thanks for your comments!
+
+Geert Uytterhoeven (12):
+  pinctrl: renesas: r8a7796: Add missing bias for PRESET# pin
+  pinctrl: renesas: r8a77990: JTAG pins do not have pull-down
+    capabilities
+  pinctrl: renesas: r8a77990: Drop bogus PUEN_ prefixes in comments
+  pinctrl: renesas: r8a7778: Remove unused PORT_GP_PUP_1() macro
+  pinctrl: renesas: r8a779{51,6,65}: Reduce non-functional differences
+  pinctrl: renesas: r8a77470: Add bias pinconf support
+  pinctrl: renesas: r8a7790: Add bias pinconf support
+  pinctrl: renesas: r8a7792: Add bias pinconf support
+  pinctrl: renesas: r8a7794: Add bias pinconf support
+  pinctrl: renesas: r8a77970: Add bias pinconf support
+  pinctrl: renesas: r8a77980: Add bias pinconf support
+  pinctrl: renesas: r8a77995: Add bias pinconf support
+
+ drivers/pinctrl/renesas/pfc-r8a77470.c | 346 ++++++++++++++--
+ drivers/pinctrl/renesas/pfc-r8a7778.c  |   3 -
+ drivers/pinctrl/renesas/pfc-r8a7790.c  | 301 +++++++++++++-
+ drivers/pinctrl/renesas/pfc-r8a7792.c  | 533 ++++++++++++++++++++++++-
+ drivers/pinctrl/renesas/pfc-r8a7794.c  | 360 ++++++++++++++++-
+ drivers/pinctrl/renesas/pfc-r8a77951.c |   4 +-
+ drivers/pinctrl/renesas/pfc-r8a7796.c  |  10 +-
+ drivers/pinctrl/renesas/pfc-r8a77965.c |  79 ++--
+ drivers/pinctrl/renesas/pfc-r8a77970.c | 175 +++++++-
+ drivers/pinctrl/renesas/pfc-r8a77980.c | 209 +++++++++-
+ drivers/pinctrl/renesas/pfc-r8a77990.c |  16 +-
+ drivers/pinctrl/renesas/pfc-r8a77995.c | 246 +++++++++++-
+ 12 files changed, 2138 insertions(+), 144 deletions(-)
+
+-- 
+2.25.1
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
