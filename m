@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17D9636FA2B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Apr 2021 14:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE24336FA32
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Apr 2021 14:31:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230034AbhD3McC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Apr 2021 08:32:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49140 "EHLO
+        id S232142AbhD3McI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Apr 2021 08:32:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229864AbhD3McB (ORCPT
+        with ESMTP id S231766AbhD3McG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Apr 2021 08:32:01 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4316EC06138B
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Apr 2021 05:31:13 -0700 (PDT)
+        Fri, 30 Apr 2021 08:32:06 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDD5DC06138E
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Apr 2021 05:31:17 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d4dd:70b4:3264:8d97])
-        by baptiste.telenet-ops.be with bizsmtp
-        id z0X92400C4p6Y38010X9HE; Fri, 30 Apr 2021 14:31:09 +0200
+        by andre.telenet-ops.be with bizsmtp
+        id z0XF2400M4p6Y38010XFUc; Fri, 30 Apr 2021 14:31:16 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lcSIX-001ec7-14; Fri, 30 Apr 2021 14:31:09 +0200
+        id 1lcSId-001ecC-Fj; Fri, 30 Apr 2021 14:31:15 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lcSIW-00BdbL-KL; Fri, 30 Apr 2021 14:31:08 +0200
+        id 1lcSIc-00BduX-VR; Fri, 30 Apr 2021 14:31:14 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
 Subject: [PATCH 00/12] pinctrl: renesas: Add more bias pinconf support
-Date:   Fri, 30 Apr 2021 14:30:54 +0200
+Date:   Fri, 30 Apr 2021 14:30:59 +0200
 Message-Id: <cover.1619785375.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
