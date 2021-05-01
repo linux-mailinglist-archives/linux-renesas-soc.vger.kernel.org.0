@@ -2,150 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 273BF370028
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Apr 2021 20:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C868370621
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 May 2021 09:10:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230395AbhD3SHg convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Apr 2021 14:07:36 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2980 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbhD3SHg (ORCPT
+        id S229512AbhEAHK7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 1 May 2021 03:10:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39388 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229510AbhEAHK7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Apr 2021 14:07:36 -0400
-Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.200])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FX0Xx1hhHz6wlJb;
-        Sat,  1 May 2021 02:01:05 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 30 Apr 2021 20:06:46 +0200
-Received: from localhost (10.52.125.96) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 30 Apr
- 2021 19:06:45 +0100
-Date:   Fri, 30 Apr 2021 19:05:10 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
-        Niklas =?ISO-8859-1?Q?S?= =?ISO-8859-1?Q?=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v4 77/79] media: rcar-vin: use
- pm_runtime_resume_and_get()
-Message-ID: <20210430190510.0000298d@Huawei.com>
-In-Reply-To: <c0c8f8b07af20c354b946819f5dcdf9f5129654e.1619621413.git.mchehab+huawei@kernel.org>
-References: <cover.1619621413.git.mchehab+huawei@kernel.org>
-        <c0c8f8b07af20c354b946819f5dcdf9f5129654e.1619621413.git.mchehab+huawei@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+        Sat, 1 May 2021 03:10:59 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2763C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  1 May 2021 00:10:09 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id b23so474115lfv.8
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 01 May 2021 00:10:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=mgS/jedG9c60ewkc9VFKhKsRQTsVeF9ApdL3c2JgQbE=;
+        b=x1Y/XJyK63PLlR7UCR9wcI14WPV8qBGwk0c9rKbJSWJqavxb6l+r0jMFtXY6Z92TpC
+         YovGBcn6l6gZeyC/IWkDUr4YajMp4BSpUxfi9cUAdGQtEs1w0nNiB/Ihp4j20zgjouwV
+         Z6TXrdNQYqT/Zv/rJLoamt3nXVY15gA8xcorSJkkScJWQ5HN9lEpGwWusT7bF0KtIpCX
+         eIUEJZPJOMTZvLTv/KViyYnc1SBaguTP71C+oohllEnC1OwvhDZuVC649YPW6gkmLyvR
+         VvE+Viaxcep4O/LLOTrHy/B2ehsGd4baeAJBDU3FYJwKGtb/H3S2P8DSZjKwpak+da4y
+         FKCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=mgS/jedG9c60ewkc9VFKhKsRQTsVeF9ApdL3c2JgQbE=;
+        b=pfMQTSLMRF7mZRg34U20269AL+DMU558AbcwguZfvCSULN4kGvJpQw8t5NpZ74LM6G
+         RUFhKmslVwShs0Q1mY+5l/qgaK3HL4nwmSdS1+e52Fx/EPgKkgEX5bDNT/nmgwYA7SXj
+         /kMJPCVkKpcfkMlLGnhtAO+OQ/yre2ESkyUe8IYAg1JBgfHtzbAgTm4hITJx9rcmChYI
+         HvrplOROWlySu6LQFCRkW3NxisqoYqcLpDHmXCljnct0ako11XqoKW+4TOH/fzLZkUbt
+         fERNwYHgOrmBJecSnA49PDIgHtkH6YzzbIfYxzejcdBnEQkGNWfqTdB4oMjM2n2zcTLY
+         HdnA==
+X-Gm-Message-State: AOAM533FO5Gfq157w9PHkBYjBBGKquwtuvBriysXwwBEChjfuacHWQtT
+        gqwwIcAkX8P3pWzDeC4DOU3zyw1Ht8i2yQ==
+X-Google-Smtp-Source: ABdhPJy5pMdtvkD3sEOMsH65lDHtOuPJBcP5G1anWH4n6A0oJzOpcnM400K+zoK6AvBe8N8P1XG0xQ==
+X-Received: by 2002:a19:818e:: with SMTP id c136mr2464789lfd.440.1619853008198;
+        Sat, 01 May 2021 00:10:08 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id d26sm279415lfa.118.2021.05.01.00.10.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 May 2021 00:10:07 -0700 (PDT)
+Date:   Sat, 1 May 2021 09:10:06 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/5] ARM: dts: koelsch: Rename sw2 to keyboard
+Message-ID: <YIz+zsKtbfNZqmr4@oden.dyn.berto.se>
+References: <cover.1619785905.git.geert+renesas@glider.be>
+ <3d718cf69e21b1ceea0c29c0e841b9bdda44533d.1619785905.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [10.52.125.96]
-X-ClientProxiedBy: lhreml721-chm.china.huawei.com (10.201.108.72) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3d718cf69e21b1ceea0c29c0e841b9bdda44533d.1619785905.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 28 Apr 2021 16:52:38 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Hi Geert,
 
-> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> added pm_runtime_resume_and_get() in order to automatically handle
-> dev->power.usage_count decrement on errors.
+Thanks for your work.
+
+On 2021-04-30 15:10:51 +0200, Geert Uytterhoeven wrote:
+> Rename "sw2_pins" and "sw2" to "keyboard_pins" resp. "keyboard", to
+> comply with generic name recommendations.
 > 
-> Use the new API, in order to cleanup the error check logic.
-> 
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Trivial thing inline.  Doesn't matter though if you prefer it as is.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 15 ++++++++++++---
->  drivers/media/platform/rcar-vin/rcar-dma.c  |  6 ++----
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  6 ++----
->  3 files changed, 16 insertions(+), 11 deletions(-)
+>  arch/arm/boot/dts/r8a7791-koelsch.dts | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index e06cd512aba2..436fb17f73ea 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -406,10 +406,17 @@ static void rcsi2_enter_standby(struct rcar_csi2 *priv)
->  	pm_runtime_put(priv->dev);
->  }
+> diff --git a/arch/arm/boot/dts/r8a7791-koelsch.dts b/arch/arm/boot/dts/r8a7791-koelsch.dts
+> index 61e881bbbf6ee5aa..2a8b6fd9095cceba 100644
+> --- a/arch/arm/boot/dts/r8a7791-koelsch.dts
+> +++ b/arch/arm/boot/dts/r8a7791-koelsch.dts
+> @@ -81,7 +81,7 @@ lbsc {
+>  	keyboard {
+>  		compatible = "gpio-keys";
 >  
-> -static void rcsi2_exit_standby(struct rcar_csi2 *priv)
-> +static int rcsi2_exit_standby(struct rcar_csi2 *priv)
->  {
-> -	pm_runtime_get_sync(priv->dev);
-> +	int ret;
-> +
-> +	ret = pm_runtime_resume_and_get(priv->dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
->  	reset_control_deassert(priv->rstc);
-> +
-> +	return ret;
+> -		pinctrl-0 = <&sw2_pins>;
+> +		pinctrl-0 = <&keyboard_pins>;
+>  		pinctrl-names = "default";
+>  
+>  		key-1 {
+> @@ -622,7 +622,7 @@ sound_clk_pins: sound_clk {
+>  		function = "audio_clk";
+>  	};
+>  
+> -	sw2_pins: sw2 {
+> +	keyboard_pins: keyboard {
+>  		pins = "GP_5_0", "GP_5_1", "GP_5_2", "GP_5_3";
+>  		bias-pull-up;
+>  	};
+> -- 
+> 2.25.1
+> 
 
-Maybe return 0; to make it easy to see this returns <= 0;
-ret will always be 0 here anyway.
-
->  }
->  
->  static int rcsi2_wait_phy_start(struct rcar_csi2 *priv,
-> @@ -657,7 +664,9 @@ static int rcsi2_start(struct rcar_csi2 *priv)
->  {
->  	int ret;
->  
-> -	rcsi2_exit_standby(priv);
-> +	ret = rcsi2_exit_standby(priv);
-> +	if (ret < 0)
-> +		return ret;
->  
->  	ret = rcsi2_start_receiver(priv);
->  	if (ret) {
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index f30dafbdf61c..f5f722ab1d4e 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -1458,11 +1458,9 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
->  	u32 vnmc;
->  	int ret;
->  
-> -	ret = pm_runtime_get_sync(vin->dev);
-> -	if (ret < 0) {
-> -		pm_runtime_put_noidle(vin->dev);
-> +	ret = pm_runtime_resume_and_get(vin->dev);
-> +	if (ret < 0)
->  		return ret;
-> -	}
->  
->  	/* Make register writes take effect immediately. */
->  	vnmc = rvin_read(vin, VNMC_REG);
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 457a65bf6b66..b1e9f86caa5c 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -870,11 +870,9 @@ static int rvin_open(struct file *file)
->  	struct rvin_dev *vin = video_drvdata(file);
->  	int ret;
->  
-> -	ret = pm_runtime_get_sync(vin->dev);
-> -	if (ret < 0) {
-> -		pm_runtime_put_noidle(vin->dev);
-> +	ret = pm_runtime_resume_and_get(vin->dev);
-> +	if (ret < 0)
->  		return ret;
-> -	}
->  
->  	ret = mutex_lock_interruptible(&vin->lock);
->  	if (ret)
-
+-- 
+Regards,
+Niklas Söderlund
