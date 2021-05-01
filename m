@@ -2,69 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E41E370625
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 May 2021 09:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D16AD37062B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 May 2021 09:19:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbhEAHNY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 1 May 2021 03:13:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39886 "EHLO
+        id S229640AbhEAHT6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 1 May 2021 03:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229640AbhEAHNV (ORCPT
+        with ESMTP id S229510AbhEAHT6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 1 May 2021 03:13:21 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90FBAC06138B
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  1 May 2021 00:12:30 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id h36so485374lfv.7
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 01 May 2021 00:12:30 -0700 (PDT)
+        Sat, 1 May 2021 03:19:58 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E01FEC06174A
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  1 May 2021 00:19:08 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 12so471707lfq.13
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 01 May 2021 00:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=4n8PnFMxRKbESLRVtklUC+mzYEhjvtrXPmh+ZhuEABg=;
-        b=zvezNe4rMrJEdq7f1o9Cg88axbpUrKCtzCZu8+vEsAK08b97RUd1RMNt0gZTJtQmlu
-         OCgzHL+BoNim9mRh60Z75mz02CAxqQGqoLP3Paee+5TzbC2lVm/ipI/gw9O8gfRlrc8d
-         wXE4m1J0CBN+wOgaywKUMS7U9LIhbUtQ+8b+JtieuL2Qv54aVAm2J0CtIEOUKR+XI0Mq
-         E6wG/KRtG9d3gQZjsUE4qERdJYIX2OgZenNm3AeRZIoQ6w3+ZyUitK/JghAh8Qx2PcWF
-         aF17xV0J0hxgKVVDCMai305qq91VBfIX3CCo22Nimi8s5OTGKMHow21U3n4kuC3l1sbd
-         kOVA==
+        bh=HpRAh0AKr1YDJaa0KEpbsEbW9xmFbeMhwVrzvKzXJx0=;
+        b=Nb1J9iTPaupIu47FDL7UQYumq6kbOgLe8SvlsPOxiyYo/jIgLezGneWjtdrZtuGSdG
+         XqmBemOQv8A6N4Rbt2YiHcLUIt8qlXLagWxL6aG6mMm7yzRiJaclNc+anJrkXGCVlWwQ
+         zxvQyHXhL9QjVxi98D9xdW8WW29imnDvn4TeMpvNnekm7OsSQGE2d+bpOKFxpX4FHc4b
+         Zmn35NE9NYHmwmajhCbm9oIBtdgyBlId7xwBLE4ga7vg1yL6Akj7Hjsz6dGsOknv3sC/
+         K2WygbrZkOTrTA2+h1TDQ1AJ97EIYC1zFyn1VcC0SzRI0FyWLIwd7TMKbNGqlRl6K/iX
+         Y9lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=4n8PnFMxRKbESLRVtklUC+mzYEhjvtrXPmh+ZhuEABg=;
-        b=r+6Gc6/2/YgODVGbKMXEjsLS+hmkkOZLMZ3fX30yavU31qCbnxrlM7Lbm0iVYB+3TW
-         XeftOq0TY3K6Ng80AKNw8NdKnyNmKdqTZz2XKJ8z6BA4quh/j7rt3wFCE2trGAtCYvKF
-         NOc6LoYWLpM+ZMMaXDOB6k+aztqY3mqb8oCimO+4vlSggIJmfurf35Y+/jqQ9wAD/Nw9
-         tQBQKPx+8WoDc3jxhSTrIJoH/LzqNSIZ4QQcJjPd20Pa1Scu0/GbxLMLcD7/y+8ZYFGv
-         F2M0BhEEuA14ypcWuexQl/w8adS60D/Ds6Qj8+jO33KC7EKRpzjK2EmVHKcuVS4tTRKp
-         Zutw==
-X-Gm-Message-State: AOAM531xDE4inidnmVoRAU82VoVg54eWhxTV9v8WqPEVIBnWxohE5AgF
-        moSiHWCAANclbAyDXxJF5GcvOg==
-X-Google-Smtp-Source: ABdhPJyF7232HlmsDjj2EdMWbaNIHFAdbe/oCkBGYE/+dBB8mxcM9k/d26g2B0y+Ft/aOy0oBTqRPQ==
-X-Received: by 2002:a05:6512:681:: with SMTP id t1mr6194559lfe.325.1619853148954;
-        Sat, 01 May 2021 00:12:28 -0700 (PDT)
+        bh=HpRAh0AKr1YDJaa0KEpbsEbW9xmFbeMhwVrzvKzXJx0=;
+        b=UL803D4z1Ga5A1mhCrsJXNYZ1/BTUHXR4BhhbswY71D2K8pcGi3Eeo8sDMz6rmmwOm
+         kK+79kJJMCvQbBONHN0G0GUbrkDK5EbzsuNb+UGsjAf3ytxg5yYLj/KEnxEw6x3mIb7f
+         p4Hs9hSKQ2W04zHh2PiskQZsjGqO3kLnT+yUDG9kueU/+GS1QFMesABqi8NfYGCCjpwp
+         3wpKrSwlW4RwVxJKukB9mQC+qEkQpqJS04UromLJs3BWQEjGpATnUs0FUtw4NuegADzr
+         MRWD6Zm468SS0Tb/CnUsXklVUuSTr3QBfX+hgrkIDyMXhLZhraB8SxncVER8zD+ziOW/
+         bAmA==
+X-Gm-Message-State: AOAM532hJdLI3EQWk76xG7i2WtqkFR7rUxE4JYiLLWKM9X9dj7565M78
+        wCLBJre+a5RpjqpF0Y2CscEbpA==
+X-Google-Smtp-Source: ABdhPJz/htm2R2SlOuTkn9+pj3//7ImcHUBGYra66Vij+YA02Pc6ejc2l5G4FT3g6Iswnpou4eCb0w==
+X-Received: by 2002:ac2:5049:: with SMTP id a9mr6035770lfm.662.1619853547243;
+        Sat, 01 May 2021 00:19:07 -0700 (PDT)
 Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id w4sm497387lfu.105.2021.05.01.00.12.27
+        by smtp.gmail.com with ESMTPSA id l14sm500592lfc.58.2021.05.01.00.19.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 May 2021 00:12:28 -0700 (PDT)
-Date:   Sat, 1 May 2021 09:12:27 +0200
+        Sat, 01 May 2021 00:19:06 -0700 (PDT)
+Date:   Sat, 1 May 2021 09:19:06 +0200
 From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund@ragnatech.se>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 01/12] pinctrl: renesas: r8a7796: Add missing bias for
- PRESET# pin
-Message-ID: <YIz/W/gHSBAlmvDZ@oden.dyn.berto.se>
+Subject: Re: [PATCH 02/12] pinctrl: renesas: r8a77990: JTAG pins do not have
+ pull-down capabilities
+Message-ID: <YI0A6pv0AtN0xUMK@oden.dyn.berto.se>
 References: <cover.1619785375.git.geert+renesas@glider.be>
- <c479de5b3f235c2f7d5faea9e7e08e6fccb135df.1619785375.git.geert+renesas@glider.be>
+ <da4b2d69955840a506412f1e8099607a0da97ecc.1619785375.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c479de5b3f235c2f7d5faea9e7e08e6fccb135df.1619785375.git.geert+renesas@glider.be>
+In-Reply-To: <da4b2d69955840a506412f1e8099607a0da97ecc.1619785375.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -73,41 +73,38 @@ Hi Geert,
 
 Thanks for your work.
 
-On 2021-04-30 14:31:00 +0200, Geert Uytterhoeven wrote:
-> R-Car Gen3 Hardware Manual Errata for Rev. 0.52 of Nov 30, 2016, added
-> the configuration bit for bias pull-down control for the PRESET# pin on
-> R-Car M3-W.  Add driver support for controlling pull-down on this pin.
+On 2021-04-30 14:31:01 +0200, Geert Uytterhoeven wrote:
+> Hence remove the SH_PFC_PIN_CFG_PULL_DOWN flags from their pin
+> descriptions.
 > 
-> Fixes: 2d40bd24274d2577 ("pinctrl: sh-pfc: r8a7796: Add bias pinconf support")
+> Fixes: 83f6941a42a5e773 ("pinctrl: sh-pfc: r8a77990: Add bias pinconf support")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  drivers/pinctrl/renesas/pfc-r8a7796.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/pinctrl/renesas/pfc-r8a77990.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/pinctrl/renesas/pfc-r8a7796.c b/drivers/pinctrl/renesas/pfc-r8a7796.c
-> index 44e9d2eea484ad5d..bbb1b436ded3123f 100644
-> --- a/drivers/pinctrl/renesas/pfc-r8a7796.c
-> +++ b/drivers/pinctrl/renesas/pfc-r8a7796.c
-> @@ -67,6 +67,7 @@
->  	PIN_NOGP_CFG(QSPI1_MOSI_IO0, "QSPI1_MOSI_IO0", fn, CFG_FLAGS),	\
->  	PIN_NOGP_CFG(QSPI1_SPCLK, "QSPI1_SPCLK", fn, CFG_FLAGS),	\
->  	PIN_NOGP_CFG(QSPI1_SSL, "QSPI1_SSL", fn, CFG_FLAGS),		\
-> +	PIN_NOGP_CFG(PRESET_N, "PRESET#", fn, SH_PFC_PIN_CFG_PULL_DOWN),\
->  	PIN_NOGP_CFG(RPC_INT_N, "RPC_INT#", fn, CFG_FLAGS),		\
->  	PIN_NOGP_CFG(RPC_RESET_N, "RPC_RESET#", fn, CFG_FLAGS),		\
->  	PIN_NOGP_CFG(RPC_WP_N, "RPC_WP#", fn, CFG_FLAGS),		\
-> @@ -6218,7 +6219,7 @@ static const struct pinmux_bias_reg pinmux_bias_regs[] = {
->  		[ 4] = RCAR_GP_PIN(6, 29),	/* USB30_OVC */
->  		[ 5] = RCAR_GP_PIN(6, 30),	/* GP6_30 */
->  		[ 6] = RCAR_GP_PIN(6, 31),	/* GP6_31 */
-> -		[ 7] = SH_PFC_PIN_NONE,
-> +		[ 7] = PIN_PRESET_N,		/* PRESET# */
->  		[ 8] = SH_PFC_PIN_NONE,
->  		[ 9] = SH_PFC_PIN_NONE,
->  		[10] = SH_PFC_PIN_NONE,
+> diff --git a/drivers/pinctrl/renesas/pfc-r8a77990.c b/drivers/pinctrl/renesas/pfc-r8a77990.c
+> index d040eb3e305daf40..eeebbab4dd811f9c 100644
+> --- a/drivers/pinctrl/renesas/pfc-r8a77990.c
+> +++ b/drivers/pinctrl/renesas/pfc-r8a77990.c
+> @@ -53,10 +53,10 @@
+>  	PIN_NOGP_CFG(FSCLKST_N, "FSCLKST_N", fn, CFG_FLAGS),		\
+>  	PIN_NOGP_CFG(MLB_REF, "MLB_REF", fn, CFG_FLAGS),		\
+>  	PIN_NOGP_CFG(PRESETOUT_N, "PRESETOUT_N", fn, CFG_FLAGS),	\
+> -	PIN_NOGP_CFG(TCK, "TCK", fn, CFG_FLAGS),			\
+> -	PIN_NOGP_CFG(TDI, "TDI", fn, CFG_FLAGS),			\
+> -	PIN_NOGP_CFG(TMS, "TMS", fn, CFG_FLAGS),			\
+> -	PIN_NOGP_CFG(TRST_N, "TRST_N", fn, CFG_FLAGS)
+> +	PIN_NOGP_CFG(TCK, "TCK", fn, SH_PFC_PIN_CFG_PULL_UP),		\
+> +	PIN_NOGP_CFG(TDI, "TDI", fn, SH_PFC_PIN_CFG_PULL_UP),		\
+> +	PIN_NOGP_CFG(TMS, "TMS", fn, SH_PFC_PIN_CFG_PULL_UP),		\
+> +	PIN_NOGP_CFG(TRST_N, "TRST_N", fn, SH_PFC_PIN_CFG_PULL_UP)
+>  
+>  /*
+>   * F_() : just information
 > -- 
 > 2.25.1
 > 
