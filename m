@@ -2,164 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4EAA372C24
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 May 2021 16:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98D2B372C43
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 May 2021 16:41:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231205AbhEDOhC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 May 2021 10:37:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59600 "EHLO
+        id S230307AbhEDOmY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 May 2021 10:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231208AbhEDOhB (ORCPT
+        with ESMTP id S231467AbhEDOmY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 May 2021 10:37:01 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E767C06138B
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 May 2021 07:36:05 -0700 (PDT)
+        Tue, 4 May 2021 10:42:24 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76785C061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 May 2021 07:41:29 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:1ca1:e52f:3ec5:3ac5])
-        by andre.telenet-ops.be with bizsmtp
-        id 0ec4250013aEpPb01ec4m0; Tue, 04 May 2021 16:36:04 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id 0ehT250083aEpPb06ehT2T; Tue, 04 May 2021 16:41:28 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ldw9b-002nk2-Iv; Tue, 04 May 2021 16:36:03 +0200
+        id 1ldwEo-002nql-QG; Tue, 04 May 2021 16:41:26 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ldw9a-00HQAI-FA; Tue, 04 May 2021 16:36:02 +0200
+        id 1ldwEo-00HQGb-CF; Tue, 04 May 2021 16:41:26 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Chris Brandt <chris.brandt@renesas.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 6/6] dt-bindings: i2c: renesas,iic-emev2: Convert to json-schema
-Date:   Tue,  4 May 2021 16:35:58 +0200
-Message-Id: <3a72f4353b24c4d790a216bfde1b284800b3029a.1620138454.git.geert+renesas@glider.be>
+Subject: [PATCH/RFC 0/2] ARM: dts: rcar-gen1: Correct internal delay for i2c[123]
+Date:   Tue,  4 May 2021 16:41:23 +0200
+Message-Id: <cover.1620138979.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1620138454.git.geert+renesas@glider.be>
-References: <cover.1620138454.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert the Renesas EMMA Mobile EV2 IIC Interface (IIC) Device Tree
-binding documentation to json-schema.
+	Hi all,
 
-Document missing properties.
-Update the example to match reality.
+This patch series lowers the internal delays for the second to fourth
+I2C instances on R-Car Gen1 SoCs, to match the Hardware User's Manuals.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../bindings/i2c/renesas,iic-emev2.txt        | 22 --------
- .../bindings/i2c/renesas,iic-emev2.yaml       | 54 +++++++++++++++++++
- MAINTAINERS                                   |  2 +-
- 3 files changed, 55 insertions(+), 23 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/i2c/renesas,iic-emev2.txt
- create mode 100644 Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
+This is untested, because these I2C instances are not used in upstream
+DTS files, and due to lack of direct hardware access for measurements.
 
-diff --git a/Documentation/devicetree/bindings/i2c/renesas,iic-emev2.txt b/Documentation/devicetree/bindings/i2c/renesas,iic-emev2.txt
-deleted file mode 100644
-index 5ed1ea1c7e14a9cd..0000000000000000
---- a/Documentation/devicetree/bindings/i2c/renesas,iic-emev2.txt
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Device tree configuration for Renesas EMEV2 IIC controller
--
--Required properties:
--- compatible      : "renesas,iic-emev2"
--- reg             : address start and address range size of device
--- interrupts      : specifier for the IIC controller interrupt
--- clocks          : phandle to the IP core SCLK
--- clock-names     : must be "sclk"
--- #address-cells  : should be <1>
--- #size-cells     : should be <0>
--
--Example:
--
--	iic0: i2c@e0070000 {
--		#address-cells = <1>;
--		#size-cells = <0>;
--		compatible = "renesas,iic-emev2";
--		reg = <0xe0070000 0x28>;
--		interrupts = <0 32 IRQ_TYPE_EDGE_RISING>;
--		clocks = <&iic0_sclk>;
--		clock-names = "sclk";
--	};
-diff --git a/Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml b/Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
-new file mode 100644
-index 0000000000000000..17c1102562be98e7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
-@@ -0,0 +1,54 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/i2c/renesas,iic-emev2.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas EMMA Mobile EV2 IIC Interface
-+
-+maintainers:
-+  - Wolfram Sang <wsa+renesas@sang-engineering.com>
-+
-+allOf:
-+  - $ref: /schemas/i2c/i2c-controller.yaml#
-+
-+properties:
-+  compatible:
-+    const: renesas,iic-emev2
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    const: sclk
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - '#address-cells'
-+  - '#size-cells'
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    iic0: i2c@e0070000 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            compatible = "renesas,iic-emev2";
-+            reg = <0xe0070000 0x28>;
-+            interrupts = <GIC_SPI 32 IRQ_TYPE_EDGE_RISING>;
-+            clocks = <&iic0_sclk>;
-+            clock-names = "sclk";
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ea519a8ffc6a9356..c9e5749a4402c441 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15431,7 +15431,7 @@ F:	drivers/clk/renesas/
- RENESAS EMEV2 I2C DRIVER
- M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
- S:	Supported
--F:	Documentation/devicetree/bindings/i2c/renesas,iic-emev2.txt
-+F:	Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
- F:	drivers/i2c/busses/i2c-emev2.c
- 
- RENESAS ETHERNET DRIVERS
+If both patches are accepted, I'll probably squash them together while
+applying.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (2):
+  ARM: dts: r8a7778: Correct internal delay for i2c[123]
+  ARM: dts: r8a7779: Correct internal delay for i2c[123]
+
+ arch/arm/boot/dts/r8a7778.dtsi | 3 +++
+ arch/arm/boot/dts/r8a7779.dtsi | 3 +++
+ 2 files changed, 6 insertions(+)
+
 -- 
 2.25.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
