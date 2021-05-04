@@ -2,77 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2511E372B97
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 May 2021 16:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3D07372C25
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 May 2021 16:36:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231392AbhEDOGq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 May 2021 10:06:46 -0400
-Received: from mail-ot1-f52.google.com ([209.85.210.52]:38513 "EHLO
-        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231336AbhEDOGq (ORCPT
+        id S231217AbhEDOhD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 May 2021 10:37:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59604 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231234AbhEDOhB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 May 2021 10:06:46 -0400
-Received: by mail-ot1-f52.google.com with SMTP id q7-20020a9d57870000b02902a5c2bd8c17so7634188oth.5;
-        Tue, 04 May 2021 07:05:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dJ098IqVRr87l/DzRCJEGpPHQTJM6HZjM/MT07n97Yo=;
-        b=Ol8gVmNCIC8fBjoRNQKLqSNicnO1abGzWxniRhtQJhurqrJhiUtrA3OHBQhP0lPcDK
-         5NcIK90XMGfHzvGFxbwRkMfib/UUi7zy+54ehfo7/7HDQLcfRenjM7N5K7WNxT0LglmG
-         T/gVL2bcXHI29sjCSsFpHjhRHtk9woKRF3ZifDZH2sHMw7YbVnA5JifzOYOTq5g6SwIs
-         Ly+W5Xx147rUFz0iUdkT/1kYmhQsJizSTXtMBpMK66otdnNjY55Fpzcj13KKnX/ezQQQ
-         VpugOsz5YDdaGqmTDJYUjdMtsheDBHXkDxaAQPpgAx5hP35TEib4D6G2rfntSTDTt/OL
-         YwdA==
-X-Gm-Message-State: AOAM5321nqL1Q5+IUJkXNo7axKwN9ZiCvaSaTAiBYrxcQOu2bHIt7qVB
-        Ia1U90O8p5foHaHibNUwRNzcB0BLrQ==
-X-Google-Smtp-Source: ABdhPJxIh1SpbK1ACKxULPdmeBkX4mc41//B0xuWCwcREZv6iqdtkBiwfuxUB/wXkhAIL4Au2olafQ==
-X-Received: by 2002:a05:6830:2004:: with SMTP id e4mr19573122otp.78.1620137151151;
-        Tue, 04 May 2021 07:05:51 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id e11sm249249ook.20.2021.05.04.07.05.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 May 2021 07:05:49 -0700 (PDT)
-Received: (nullmailer pid 4063078 invoked by uid 1000);
-        Tue, 04 May 2021 14:05:48 -0000
-Date:   Tue, 4 May 2021 09:05:48 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Adam Ford <aford173@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        netdev@vger.kernel.org,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH] dt-bindings: net: renesas,etheravb: Fix optional second
- clock name
-Message-ID: <20210504140548.GA4063024@robh.at.kernel.org>
-References: <b3d91c9f70a15792ad19c87e4ea35fc876600fae.1620118901.git.geert+renesas@glider.be>
+        Tue, 4 May 2021 10:37:01 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BF41C06138D
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 May 2021 07:36:05 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:1ca1:e52f:3ec5:3ac5])
+        by baptiste.telenet-ops.be with bizsmtp
+        id 0ec32500M3aEpPb01ec3xL; Tue, 04 May 2021 16:36:03 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ldw9a-002njw-UA; Tue, 04 May 2021 16:36:02 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ldw9a-00HQ9q-9i; Tue, 04 May 2021 16:36:02 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Chris Brandt <chris.brandt@renesas.com>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/6] dt-bindings: i2c: renesas: Convert to json-schema
+Date:   Tue,  4 May 2021 16:35:52 +0200
+Message-Id: <cover.1620138454.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b3d91c9f70a15792ad19c87e4ea35fc876600fae.1620118901.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 04 May 2021 11:03:00 +0200, Geert Uytterhoeven wrote:
-> If the optional "clock-names" property is present, but the optional TXC
-> reference clock is not, "make dtbs_check" complains:
-> 
->     ethernet@e6800000: clock-names: ['fck'] is too short
-> 
-> Fix this by declaring that a single clock name is valid.
-> While at it, drop the superfluous upper limit on the number of clocks,
-> as it is implied by the list of descriptions.
-> 
-> Fixes: 6f43735b6da64bd4 ("dt-bindings: net: renesas,etheravb: Add additional clocks")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Documentation/devicetree/bindings/net/renesas,etheravb.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+	Hi all,
 
-Applied, thanks!
+This patch series converts the DT bindings for the various I2C
+controllers found in Renesas SoCs to json-schema, after a small cleanup
+to ease the conversion.
+
+The trickiest part is the conversion for renesas,iic, as it's not clear
+to me which IIC instances have the automatic transmission registers and
+which don't.  Whatever the outcome, passing validation for this variant
+will require DTS changes.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (6):
+  i2c: rcar: Drop "renesas,i2c-rcar"
+  dt-bindings: i2c: renesas,i2c: Drop "renesas,i2c-rcar"
+  dt-bindings: i2c: renesas,i2c: Convert to json-schema
+  [RFC] dt-bindings: i2c: renesas,iic: Convert to json-schema
+  dt-bindings: i2c: renesas,riic: Convert to json-schema
+  dt-bindings: i2c: renesas,iic-emev2: Convert to json-schema
+
+ .../devicetree/bindings/i2c/renesas,i2c.txt   |  67 --------
+ .../bindings/i2c/renesas,iic-emev2.txt        |  22 ---
+ .../bindings/i2c/renesas,iic-emev2.yaml       |  54 ++++++
+ .../devicetree/bindings/i2c/renesas,iic.txt   |  72 --------
+ .../bindings/i2c/renesas,rcar-i2c.yaml        | 158 +++++++++++++++++
+ .../devicetree/bindings/i2c/renesas,riic.txt  |  32 ----
+ .../devicetree/bindings/i2c/renesas,riic.yaml |  83 +++++++++
+ .../bindings/i2c/renesas,rmobile-iic.yaml     | 160 ++++++++++++++++++
+ MAINTAINERS                                   |   8 +-
+ drivers/i2c/busses/i2c-rcar.c                 |   1 -
+ 10 files changed, 459 insertions(+), 198 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/i2c/renesas,i2c.txt
+ delete mode 100644 Documentation/devicetree/bindings/i2c/renesas,iic-emev2.txt
+ create mode 100644 Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
+ delete mode 100644 Documentation/devicetree/bindings/i2c/renesas,iic.txt
+ create mode 100644 Documentation/devicetree/bindings/i2c/renesas,rcar-i2c.yaml
+ delete mode 100644 Documentation/devicetree/bindings/i2c/renesas,riic.txt
+ create mode 100644 Documentation/devicetree/bindings/i2c/renesas,riic.yaml
+ create mode 100644 Documentation/devicetree/bindings/i2c/renesas,rmobile-iic.yaml
+
+-- 
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
