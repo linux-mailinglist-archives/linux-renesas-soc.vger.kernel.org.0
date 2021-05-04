@@ -2,72 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D19A3372C89
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 May 2021 16:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E5C4372E3A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 May 2021 18:47:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231698AbhEDOxB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 May 2021 10:53:01 -0400
-Received: from mail-ua1-f47.google.com ([209.85.222.47]:36479 "EHLO
-        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231411AbhEDOxB (ORCPT
+        id S231713AbhEDQsQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 May 2021 12:48:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60984 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231651AbhEDQsQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 May 2021 10:53:01 -0400
-Received: by mail-ua1-f47.google.com with SMTP id x9so3134378uao.3;
-        Tue, 04 May 2021 07:52:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ONxxA94L/DFfNepn9scIskMZLJRvjvT6cEz2I+VT/8s=;
-        b=WgohuM7Nt6/432eXf59xGO1/oaztYqpM8a++vJd4N+mLIU0bZWKTgO/WIdfN14lrjg
-         aME34iukdhRP0FLlfIsAZ9146fwk1YmC+x/BfePVpgFKijNlYDm6IWiBmpuBIOf9VHNb
-         h9O79cr3Ka97FhtHLNDt1pIV/heE/RtlUFiVJgc8jpKr/evChjldJZ9bRh4bMdMUbUCe
-         WuoNKY0MdjeU6J35vWGqnnxZMRJplENvTt1DmWyJTDpi0/JfQhRJZARxpdB3xA5txV8u
-         62Htu/OR0g8QYcYzCHAzq52Rl8V9KKNLCH/527peck7ARTI9MpBVz6wvwDoxfOFCaih8
-         /g8g==
-X-Gm-Message-State: AOAM5319LUm1qtK/zeGbL1YsLo4+uEhJVWa3aFFijL6D2zcKvBlaXMiT
-        4DGPcfSQFbKqgatTzfcN6uY4hi1uLqQQHCRihc4yOMUF
-X-Google-Smtp-Source: ABdhPJyCXylNli8GA4LMdFuIZ3G0g+Te6dWV4C/k3adk4lSIon/fWKFdq83BA0LFtrsANaqBFk5scP5KMBEj9T4k43k=
-X-Received: by 2002:ab0:3157:: with SMTP id e23mr20150790uam.106.1620139924982;
- Tue, 04 May 2021 07:52:04 -0700 (PDT)
+        Tue, 4 May 2021 12:48:16 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 529D3C061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 May 2021 09:47:19 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 05E99580;
+        Tue,  4 May 2021 18:47:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1620146836;
+        bh=HZBWdIAE24TsMi3WzAwcMDQHYFa615RbODQWsNEc5s0=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=puRnk0fCvMmznm9US3izZY3ZMoXSh9E0sttHxTe5IWKiZAb/O7YY7CyQddaJoZbTs
+         /pLJJ4OmNS054LDHrzdKekuTZ/8mveGpNuG/T/Ck3iNN1Yta7xzCTvOB00BUuebdgx
+         vB8UjakzEkCT1Vq8ar4qL86oPvMncHn34mzQXORQ=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] arm64: dts: renesas: eagle: Add x1 clock
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Valentine Barshak <valentine.barshak@cogentembedded.com>
+References: <75a66bae21937da1c69e8024ce61b35aad4ac9b8.1620119570.git.geert+renesas@glider.be>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <b0017f77-5d83-9cd2-c826-9fbede1748d8@ideasonboard.com>
+Date:   Tue, 4 May 2021 17:47:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <cover.1620138454.git.geert+renesas@glider.be> <CAL_JsqKTYq0T6RP6oR928HmADSeoJREoF+RMAHNm+YGigiS4AQ@mail.gmail.com>
-In-Reply-To: <CAL_JsqKTYq0T6RP6oR928HmADSeoJREoF+RMAHNm+YGigiS4AQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 4 May 2021 16:51:53 +0200
-Message-ID: <CAMuHMdU63bHpERqYL7mV1futq6bjCZ9O_N5ymsLQ+RZt1dYPFA@mail.gmail.com>
-Subject: Re: [PATCH 0/6] dt-bindings: i2c: renesas: Convert to json-schema
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <75a66bae21937da1c69e8024ce61b35aad4ac9b8.1620119570.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hi Geert, Valentine,
 
-On Tue, May 4, 2021 at 4:42 PM Rob Herring <robh+dt@kernel.org> wrote:
-> On Tue, May 4, 2021 at 9:36 AM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > This patch series converts the DT bindings for the various I2C
-> > controllers found in Renesas SoCs to json-schema, after a small cleanup
-> > to ease the conversion.
->
-> You missed the DT list. Can you resend please.
+On 04/05/2021 10:14, Geert Uytterhoeven wrote:
+> From: Valentine Barshak <valentine.barshak@cogentembedded.com>
+> 
+> This adds X1 clock which supplies a frequency of 148.5 MHz.
+> This clock is connected to the external dot clock input signal.
+> 
+> Signed-off-by: Valentine Barshak <valentine.barshak@cogentembedded.com>
+> [geert: Verified schematics]
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Untested due to lack of hardware
 
-Oops. Thanks for notifying me, done.
+Tested on my Eagle-V3M with running the DU tests:
 
-Gr{oetje,eeting}s,
+  Testing composition on CRTC 46: SUCCESS
+  Testing connector HDMI-A-1: SUCCESS
+  Testing plane formats: SUCCESS
+  Testing legacy mode set on connector HDMI-A-1: SUCCESS
+  Testing modes on connector HDMI-A-1: SUCCESS
+  Testing atomic mode set on connector HDMI-A-1: SUCCESS
+  Testing page flip on connector HDMI-A-1: SUCCESS
+  Testing plane positioning boundaries: SUCCESS
 
-                        Geert
+and verifying that the output visible was as expected.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  arch/arm64/boot/dts/renesas/r8a77970-eagle.dts | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
+> index 874a7fc2730b00db..5c84681703edad2e 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
+> @@ -73,6 +73,12 @@ memory@48000000 {
+>  		/* first 128MB is reserved for secure area. */
+>  		reg = <0x0 0x48000000 0x0 0x38000000>;
+>  	};
+> +
+> +	x1_clk: x1-clock {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <148500000>;
+> +	};
+>  };
+>  
+>  &avb {
+> @@ -104,6 +110,8 @@ channel0 {
+>  };
+>  
+>  &du {
+> +	clocks = <&cpg CPG_MOD 724>, <&x1_clk>;
+> +	clock-names = "du.0", "dclkin.0";
+>  	status = "okay";
+>  };
+>  
+> 
+
