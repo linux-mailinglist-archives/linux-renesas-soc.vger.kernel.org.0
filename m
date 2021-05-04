@@ -2,78 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D51D137220C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 May 2021 22:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D04B83727B6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 May 2021 11:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229620AbhECUx5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 May 2021 16:53:57 -0400
-Received: from mail-ot1-f54.google.com ([209.85.210.54]:36683 "EHLO
-        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbhECUx4 (ORCPT
+        id S230055AbhEDJEH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 May 2021 05:04:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229814AbhEDJEG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 May 2021 16:53:56 -0400
-Received: by mail-ot1-f54.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso6354734otn.3;
-        Mon, 03 May 2021 13:53:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=f8RDeY6rU/O7UGBkZst+Pj0wnhGP4S/ZmW7eY0KJBR4=;
-        b=SrDRHq4tuqBD6Au94xBb2p+5AOy1klHR1TDM3teFNF6KIqaKykt27K8Q91oFdf2IWm
-         7ljC5ioZ2d1x/UR9/41aGKGsSU/wZ/l7jv8zlQdsfQkTkZYD0F+eQ1TnuJSODvJOyFQI
-         gIDbdDGRpZW+fv0XmTqZ/idq3m0AHfevhM2yBVU25cNasS9D3wBZV3gEwwfuseCHWs5N
-         heG6/cHDibqRj97ux8o1lJbqKwLeCxsST2+3F0XN5tEUB7/9BnfUnKcwAV/wXSYdoe0p
-         sznbqTfoVSjtAlVuqoPtSt0+PJPOacrMmvF2hYVz5/YgU3GVzbAaA9izFMBL2ciwOSXW
-         2CXQ==
-X-Gm-Message-State: AOAM530v3flqumrO7O8hXVjy+z8GFUTHTAjsaOGSae/fltYDC1RXRSqM
-        wv7iC1hGyl6AucJpsZr6DU5OPlvMPQ==
-X-Google-Smtp-Source: ABdhPJyYx+D8CXse8tsdmIgX0/OVAOGsEQfvIZJ8AUeEtlp4tZwUkm+8LzFXK2YD1AMNdOTB6ObF9A==
-X-Received: by 2002:a9d:b87:: with SMTP id 7mr16356866oth.107.1620075181880;
-        Mon, 03 May 2021 13:53:01 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id z9sm230382otj.44.2021.05.03.13.53.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 May 2021 13:53:01 -0700 (PDT)
-Received: (nullmailer pid 2380104 invoked by uid 1000);
-        Mon, 03 May 2021 20:53:00 -0000
-Date:   Mon, 3 May 2021 15:53:00 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] dt-bindings: display: renesas, du: Add missing
- power-domains property
-Message-ID: <20210503205300.GA2379757@robh.at.kernel.org>
-References: <600d42256515f180bc84b72e8bdb5c5d9126ab62.1619700459.git.geert+renesas@glider.be>
+        Tue, 4 May 2021 05:04:06 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C84BC06174A
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 May 2021 02:03:12 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:1ca1:e52f:3ec5:3ac5])
+        by baptiste.telenet-ops.be with bizsmtp
+        id 0Z35250023aEpPb01Z356l; Tue, 04 May 2021 11:03:08 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ldqxM-002izR-Lk; Tue, 04 May 2021 11:03:04 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ldqxM-00H6vk-2r; Tue, 04 May 2021 11:03:04 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Adam Ford <aford173@gmail.com>
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: net: renesas,etheravb: Fix optional second clock name
+Date:   Tue,  4 May 2021 11:03:00 +0200
+Message-Id: <b3d91c9f70a15792ad19c87e4ea35fc876600fae.1620118901.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <600d42256515f180bc84b72e8bdb5c5d9126ab62.1619700459.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 29 Apr 2021 14:47:56 +0200, Geert Uytterhoeven wrote:
-> "make dtbs_check" complains:
-> 
->     arch/arm/boot/dts/r8a7779-marzen.dt.yaml: display@fff80000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
->     arch/arm64/boot/dts/renesas/r8a77970-v3msk.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
->     arch/arm64/boot/dts/renesas/r8a77970-eagle.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
->     arch/arm64/boot/dts/renesas/r8a77980-condor.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
->     arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dt.yaml: display@feb00000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 
-> Fix this by documenting the power-domains property.
-> 
-> Fixes: 99d66127fad25ebb ("dt-bindings: display: renesas,du: Convert binding to YAML")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Documentation/devicetree/bindings/display/renesas,du.yaml | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+If the optional "clock-names" property is present, but the optional TXC
+reference clock is not, "make dtbs_check" complains:
 
-Applied, thanks!
+    ethernet@e6800000: clock-names: ['fck'] is too short
+
+Fix this by declaring that a single clock name is valid.
+While at it, drop the superfluous upper limit on the number of clocks,
+as it is implied by the list of descriptions.
+
+Fixes: 6f43735b6da64bd4 ("dt-bindings: net: renesas,etheravb: Add additional clocks")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/devicetree/bindings/net/renesas,etheravb.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+index fe72a5598addf89c..005868f703a6e2cd 100644
+--- a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
++++ b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+@@ -51,12 +51,12 @@ properties:
+ 
+   clocks:
+     minItems: 1
+-    maxItems: 2
+     items:
+       - description: AVB functional clock
+       - description: Optional TXC reference clock
+ 
+   clock-names:
++    minItems: 1
+     items:
+       - const: fck
+       - const: refclk
+-- 
+2.25.1
+
