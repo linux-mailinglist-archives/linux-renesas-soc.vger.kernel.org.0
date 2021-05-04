@@ -2,78 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36265372A8C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 May 2021 14:59:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2511E372B97
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 May 2021 16:05:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230418AbhEDNAw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 May 2021 09:00:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36664 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230447AbhEDNAw (ORCPT
+        id S231392AbhEDOGq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 May 2021 10:06:46 -0400
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:38513 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231336AbhEDOGq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 May 2021 09:00:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 38441613B4;
-        Tue,  4 May 2021 12:59:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1620133197;
-        bh=AIFPmLnNsK7vOKv1yx0o9Xn8B02nNKPnP50cKazVY6A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iKlxRckIoMOOKYphL+NTr+8fD/IMXWO9Y7BvR08dNq6Cu9QIqTQWOy1rIoRyHC1gG
-         ilbkvqTJWSSSPiUBnGJqnGm9V+5bteBbihlhy9oV3CUOFctumLasfjrvxeliFvybHZ
-         ea6A7j6wR8gbws1f/4D5vE8+Fa1xkD40NAURfiRo=
-Date:   Tue, 4 May 2021 14:59:55 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH] debugfs: only accept read attributes for blobs
-Message-ID: <YJFFSxOh2M27vtX+@kroah.com>
-References: <20210504121721.43385-1-wsa+renesas@sang-engineering.com>
+        Tue, 4 May 2021 10:06:46 -0400
+Received: by mail-ot1-f52.google.com with SMTP id q7-20020a9d57870000b02902a5c2bd8c17so7634188oth.5;
+        Tue, 04 May 2021 07:05:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dJ098IqVRr87l/DzRCJEGpPHQTJM6HZjM/MT07n97Yo=;
+        b=Ol8gVmNCIC8fBjoRNQKLqSNicnO1abGzWxniRhtQJhurqrJhiUtrA3OHBQhP0lPcDK
+         5NcIK90XMGfHzvGFxbwRkMfib/UUi7zy+54ehfo7/7HDQLcfRenjM7N5K7WNxT0LglmG
+         T/gVL2bcXHI29sjCSsFpHjhRHtk9woKRF3ZifDZH2sHMw7YbVnA5JifzOYOTq5g6SwIs
+         Ly+W5Xx147rUFz0iUdkT/1kYmhQsJizSTXtMBpMK66otdnNjY55Fpzcj13KKnX/ezQQQ
+         VpugOsz5YDdaGqmTDJYUjdMtsheDBHXkDxaAQPpgAx5hP35TEib4D6G2rfntSTDTt/OL
+         YwdA==
+X-Gm-Message-State: AOAM5321nqL1Q5+IUJkXNo7axKwN9ZiCvaSaTAiBYrxcQOu2bHIt7qVB
+        Ia1U90O8p5foHaHibNUwRNzcB0BLrQ==
+X-Google-Smtp-Source: ABdhPJxIh1SpbK1ACKxULPdmeBkX4mc41//B0xuWCwcREZv6iqdtkBiwfuxUB/wXkhAIL4Au2olafQ==
+X-Received: by 2002:a05:6830:2004:: with SMTP id e4mr19573122otp.78.1620137151151;
+        Tue, 04 May 2021 07:05:51 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id e11sm249249ook.20.2021.05.04.07.05.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 May 2021 07:05:49 -0700 (PDT)
+Received: (nullmailer pid 4063078 invoked by uid 1000);
+        Tue, 04 May 2021 14:05:48 -0000
+Date:   Tue, 4 May 2021 09:05:48 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Adam Ford <aford173@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        netdev@vger.kernel.org,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [PATCH] dt-bindings: net: renesas,etheravb: Fix optional second
+ clock name
+Message-ID: <20210504140548.GA4063024@robh.at.kernel.org>
+References: <b3d91c9f70a15792ad19c87e4ea35fc876600fae.1620118901.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210504121721.43385-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <b3d91c9f70a15792ad19c87e4ea35fc876600fae.1620118901.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 04, 2021 at 02:17:20PM +0200, Wolfram Sang wrote:
-> Blobs can only be read. So, keep only 'read' file attributes because the
-> others will not work and only confuse users.
+On Tue, 04 May 2021 11:03:00 +0200, Geert Uytterhoeven wrote:
+> If the optional "clock-names" property is present, but the optional TXC
+> reference clock is not, "make dtbs_check" complains:
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>     ethernet@e6800000: clock-names: ['fck'] is too short
+> 
+> Fix this by declaring that a single clock name is valid.
+> While at it, drop the superfluous upper limit on the number of clocks,
+> as it is implied by the list of descriptions.
+> 
+> Fixes: 6f43735b6da64bd4 ("dt-bindings: net: renesas,etheravb: Add additional clocks")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
+>  Documentation/devicetree/bindings/net/renesas,etheravb.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I was confused for a second, thinking blobs can be written to. I will
-> fix the few in-kernel users doing it wrong seperately.
-> 
->  fs/debugfs/file.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-> index 686e0ad28788..d6aa6e04b7af 100644
-> --- a/fs/debugfs/file.c
-> +++ b/fs/debugfs/file.c
-> @@ -890,7 +890,8 @@ static const struct file_operations fops_blob = {
->  /**
->   * debugfs_create_blob - create a debugfs file that is used to read a binary blob
->   * @name: a pointer to a string containing the name of the file to create.
-> - * @mode: the permission that the file should have
-> + * @mode: the read permission that the file should have (other permissions are
-> + * 	  masked out)
->   * @parent: a pointer to the parent dentry for this file.  This should be a
->   *          directory dentry if set.  If this parameter is %NULL, then the
->   *          file will be created in the root of the debugfs filesystem.
-> @@ -914,7 +915,7 @@ struct dentry *debugfs_create_blob(const char *name, umode_t mode,
->  				   struct dentry *parent,
->  				   struct debugfs_blob_wrapper *blob)
->  {
-> -	return debugfs_create_file_unsafe(name, mode, parent, blob, &fops_blob);
-> +	return debugfs_create_file_unsafe(name, mode & S_IRUGO, parent, blob, &fops_blob);
 
-Can you use an octal number for this?  I think checkpatch.pl will
-complain here.
-
-thanks,
-
-greg k-h
+Applied, thanks!
