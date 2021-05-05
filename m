@@ -2,98 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BB2137328C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 May 2021 00:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70458373566
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 May 2021 09:13:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231464AbhEDWu6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 May 2021 18:50:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57240 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229694AbhEDWu6 (ORCPT
+        id S229684AbhEEHOY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 May 2021 03:14:24 -0400
+Received: from www.zeus03.de ([194.117.254.33]:50220 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229482AbhEEHOX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 May 2021 18:50:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27E5FC061574
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 May 2021 15:50:02 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C52B6547;
-        Wed,  5 May 2021 00:49:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1620168599;
-        bh=GIPHEBRIqki5oQp9DUwT7jymxyOfDGp5qTJ6QvgbZWM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=k72uZVPvXvGiHdi8A6CRgoEftmwb8pmKIE0DDUgBCWuwblboJToGBkYz+mOzIcKwZ
-         NSZthh8zrLPa6xq8xjMe8bJ56SnO5O03knA942l7OR5spHidIR0Li9uULbTynv461y
-         gx6VJVQi/76lspQO2nskxoRX5GwxuCCixj59gj3Q=
-Date:   Wed, 5 May 2021 01:49:54 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Wed, 5 May 2021 03:14:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=tU/9Tu1LPJ8IbXSp6KGzWXrq7iJv
+        FP9Px27Quq1K9Hw=; b=uUOzXV+FpZESd8+JT9BGDPV8GmMixtDs1TsUFsdEhahG
+        LYOjRmNTDEe9FpjjzIGHqPwoTf/uiqLYA2kkOnRNd4QKFYDiT+XcyiMw2dp0Zvwx
+        XmUl6d6GxfwLxeXWSonOkJDetbrzdyqPGLtT3ytpO7QIEhk5/8qrPWGdfJQFQNI=
+Received: (qmail 1676812 invoked from network); 5 May 2021 09:13:26 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 May 2021 09:13:26 +0200
+X-UD-Smtp-Session: l3s3148p1@2zIo7o/B3qIgAwDPXwRNAK21Lx9NnZcs
+Date:   Wed, 5 May 2021 09:13:23 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Valentine Barshak <valentine.barshak@cogentembedded.com>
-Subject: Re: [PATCH] arm64: dts: renesas: eagle: Add x1 clock
-Message-ID: <YJHPku7cS++j9Rw1@pendragon.ideasonboard.com>
-References: <75a66bae21937da1c69e8024ce61b35aad4ac9b8.1620119570.git.geert+renesas@glider.be>
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH/RFC 1/2] ARM: dts: r8a7778: Correct internal delay for
+ i2c[123]
+Message-ID: <20210505071323.GA1009@ninjato>
+References: <cover.1620138979.git.geert+renesas@glider.be>
+ <1eac63f15a776e492ff8a2d8447c5e1019982dd1.1620138979.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
 Content-Disposition: inline
-In-Reply-To: <75a66bae21937da1c69e8024ce61b35aad4ac9b8.1620119570.git.geert+renesas@glider.be>
+In-Reply-To: <1eac63f15a776e492ff8a2d8447c5e1019982dd1.1620138979.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert and Valentine,
 
-Thank you for the patch.
+--yrj/dFKFPuw6o+aM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 04, 2021 at 11:14:34AM +0200, Geert Uytterhoeven wrote:
-> From: Valentine Barshak <valentine.barshak@cogentembedded.com>
-> 
-> This adds X1 clock which supplies a frequency of 148.5 MHz.
-> This clock is connected to the external dot clock input signal.
-> 
-> Signed-off-by: Valentine Barshak <valentine.barshak@cogentembedded.com>
-> [geert: Verified schematics]
+On Tue, May 04, 2021 at 04:41:24PM +0200, Geert Uytterhoeven wrote:
+> According to the R-Car M1A Hardware User's Manual Rev. 1.00, the LSI
+> internal delay for I2C instances 1 to 3 is 5 ns (typ.), which differs
+> from the default 50 ns as specified for instance 0.
+>=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I wonder if we shouldn't also specify the 50ns for IIC0 because it is
+describing the HW instead of relying on the Linux-only default value in
+the driver? Other than that:
 
-> ---
-> Untested due to lack of hardware
-> ---
->  arch/arm64/boot/dts/renesas/r8a77970-eagle.dts | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-> index 874a7fc2730b00db..5c84681703edad2e 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-> @@ -73,6 +73,12 @@ memory@48000000 {
->  		/* first 128MB is reserved for secure area. */
->  		reg = <0x0 0x48000000 0x0 0x38000000>;
->  	};
-> +
-> +	x1_clk: x1-clock {
-> +		compatible = "fixed-clock";
-> +		#clock-cells = <0>;
-> +		clock-frequency = <148500000>;
-> +	};
->  };
->  
->  &avb {
-> @@ -104,6 +110,8 @@ channel0 {
->  };
->  
->  &du {
-> +	clocks = <&cpg CPG_MOD 724>, <&x1_clk>;
-> +	clock-names = "du.0", "dclkin.0";
->  	status = "okay";
->  };
->  
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
--- 
-Regards,
 
-Laurent Pinchart
+--yrj/dFKFPuw6o+aM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCSRY8ACgkQFA3kzBSg
+KbYUVQ//bA+lZkesLj0UgTumvnuVKp+S9cPrCY9JgMyuYOUz4Et61K1ai9OO+mGb
+FlvPeDa2+zUzyu9TvD326w9tsU4m5Yy8U39iJvKZkbWD1P2xP2t+m75Kzo5V7HlZ
+H6kiiqUD+hpw4zlgRRFlTiuehtcy+I0FKjB9XDUBqRsitDT3VlaTV3uY9jv0END7
+IIKQjpAlRpVeibVKaDa0bISX+k/2N5hCObk+Tks20K5G1sZL2IZDLtOjiR9ZVP/8
+9vXI44KoyTa2wZIum6F/Cj2mAYbK41ScllQ0Ft0nbmHZdHheu7JxLysQe/cfWb/2
+dXCQ4vpO0mC9pTSMU9wTaHiS4wAIhI98ov4qIARvl5xncG5vQ+eUUbTZTwqMIC+e
+Bg1Fqb2pAlpQTYKjBNRhNQId5rw1Brhig+buV9vRuFk16z31iCIKxWJhUmYP6wM5
+oXC6ZIB00mhlijtcW6aZGGR8p2nlUIvKfe3R2uvEx3w9qKsMPTmw23SM8DCmjAwY
+E63/GBdwLD41Y2SaTEit9OXwpg5/vjXJesU7VHr1Il1raoadfe6HCINp8fhinM/M
+2CwmoXTGHj+44QWEFt+nqzddC3RyUEnpO6jHcg4uxHyHLO2B9ZFPx2dBJoo8M6Lm
+fkAxGQSOeYMM0D3kvVCGQ5WbK3/MOJas4BC4GbpsNWl/25M8HMM=
+=uB7y
+-----END PGP SIGNATURE-----
+
+--yrj/dFKFPuw6o+aM--
