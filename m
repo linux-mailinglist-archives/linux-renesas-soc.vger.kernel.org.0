@@ -2,117 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DC1D373B46
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 May 2021 14:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9599F373CC3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 May 2021 15:56:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232370AbhEEMdy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 May 2021 08:33:54 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3024 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbhEEMdx (ORCPT
+        id S233563AbhEEN5u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 May 2021 09:57:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58942 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233178AbhEEN5s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 May 2021 08:33:53 -0400
-Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FZwnL147Bz70gJ2;
-        Wed,  5 May 2021 20:21:58 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 5 May 2021 14:32:55 +0200
-Received: from localhost (10.52.120.138) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 5 May 2021
- 13:32:54 +0100
-Date:   Wed, 5 May 2021 13:31:15 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 13/25] media: rcar_fdp1: fix pm_runtime_get_sync() usage
- count
-Message-ID: <20210505133115.00007bd1@Huawei.com>
-In-Reply-To: <372d88637707ececab77fffaae49d455d90cf24f.1620207353.git.mchehab+huawei@kernel.org>
-References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-        <372d88637707ececab77fffaae49d455d90cf24f.1620207353.git.mchehab+huawei@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+        Wed, 5 May 2021 09:57:48 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9B7DC061574
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 May 2021 06:56:51 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id t4so3080710ejo.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 May 2021 06:56:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=WrAactbuPcMnbVemiRGAIchu2fVgNXyZIdK4C1D1axg=;
+        b=tHhdtxd71so3vvNj0D/6ZM6+edfEdUewx2GSxFI/hilN3XsPtDi+W6YBs/6ofYax/2
+         fmZ5xJ8UmKw1oOyhiX0OB3ur6Q4DSOmz8nMjfy4RMPUa8+UtYpk+FN20x/1CmvZi/m9W
+         YCWgH5hfdlEKCwrYPTG6TO21ul1YQ1QVQaWw7SrwChb8vFVpIwJsowtZ9qhBk0mcA04N
+         JNsTrgIRHiq51vHeGjgOvjceARUYUUfSpx2KYO+hLWVc3fUcLVEN5UAQcMm0rd5VrcRT
+         4baFmKTFtA9dUVLA6eNnR40YsFzqw2hXNI9ITIEg10uXjdohaHAHiKbQ1laUzAJ6yqBA
+         Ewrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=WrAactbuPcMnbVemiRGAIchu2fVgNXyZIdK4C1D1axg=;
+        b=SF8NYjwI3YoYM/XNNaU1Bu9JGaKAeXJzQ9pgSP87bgFvwQ5fD1ivIb0owSq7xL38b/
+         I6iHxillYL1OGDpfyp2jHKNAqueXp2VovND7p7ZVV+37WETiyhy/JWYezssJ7wvdorDl
+         /akIthhSHGbVATk5zYBoKo2i4t+1ioKajjRHCAt0nhRLfw7m0CvFrFjINmyt+jvcZNxZ
+         FFilWFO73GC7taRJy3S1+1nrzmkIx7TqVF4h8LTlh3+KAjd2xaiabIUZQlk5fgJjVWb9
+         VIfTwscTcrgXA5RU+WWecH1KL5VvIaIOvJBbi/El/0+0Shetwtvflx0huAE4JE2pler1
+         icFg==
+X-Gm-Message-State: AOAM531zdlhy0S0u3hGBF8WMs9xmxNymKCf7ARIWpXAE5y4KJRrcdOrE
+        Mv23uvX3AOyytejwmt2IiGd0LrzyQVxsgKrPnGs=
+X-Google-Smtp-Source: ABdhPJzH/ZxGDKkxr8ecoNwWcLHCZyPndz/ImqV5/g0tWZDCMQG6DzZ4y06d9qoYF+fq/l4KYYB4E/1iFgXSik0Q1hk=
+X-Received: by 2002:a17:907:110f:: with SMTP id qu15mr26746636ejb.378.1620223010435;
+ Wed, 05 May 2021 06:56:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.120.138]
-X-ClientProxiedBy: lhreml725-chm.china.huawei.com (10.201.108.76) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Received: by 2002:a05:6402:176b:0:0:0:0 with HTTP; Wed, 5 May 2021 06:56:49
+ -0700 (PDT)
+Reply-To: azizissa11011@gmail.com
+From:   "Mr.Aziz Issa" <jamesduru1001@gmail.com>
+Date:   Wed, 5 May 2021 13:56:49 +0000
+Message-ID: <CAJrYsNxPwyabQsJbqaty9M+xjoLqePThrgtk_mwY1GgkcxCFbw@mail.gmail.com>
+Subject: Greeting to you,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 5 May 2021 11:42:03 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+From Mr.Aziz Issa
+Bill And Exchange Manager
+Freeaing International Dept
+Ouagadougou Burkina Faso
+West Africa
+MY DIRECT LINE : +226 72 21 62 99
+MY CONTACT E-MAIL ID: azizissa11011@gmail.com
 
-> The pm_runtime_get_sync() internally increments the
-> dev->power.usage_count without decrementing it, even on errors.
-> Replace it by the new pm_runtime_resume_and_get(), introduced by:
-> commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> in order to properly decrement the usage counter, avoiding
-> a potential PM usage counter leak.
-> 
-> Also, right now, the driver is ignoring any troubles when
-> trying to do PM resume. So, add the proper error handling
-> for the code.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  drivers/media/platform/rcar_fdp1.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
-> index d26413fa5205..89aac60066d9 100644
-> --- a/drivers/media/platform/rcar_fdp1.c
-> +++ b/drivers/media/platform/rcar_fdp1.c
-> @@ -2135,7 +2135,9 @@ static int fdp1_open(struct file *file)
->  	}
->  
->  	/* Perform any power management required */
-> -	pm_runtime_get_sync(fdp1->dev);
-> +	ret = pm_runtime_resume_and_get(fdp1->dev);
-> +	if (ret < 0)
-> +		goto error_pm;
->  
->  	v4l2_fh_add(&ctx->fh);
->  
-> @@ -2145,6 +2147,8 @@ static int fdp1_open(struct file *file)
->  	mutex_unlock(&fdp1->dev_mutex);
->  	return 0;
->  
-> +error_pm:
-> +       v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
->  error_ctx:
->  	v4l2_ctrl_handler_free(&ctx->hdl);
->  	kfree(ctx);
-> @@ -2352,7 +2356,9 @@ static int fdp1_probe(struct platform_device *pdev)
->  
->  	/* Power up the cells to read HW */
->  	pm_runtime_enable(&pdev->dev);
-> -	pm_runtime_get_sync(fdp1->dev);
-> +	ret = pm_runtime_resume_and_get(fdp1->dev);
-> +	if (ret < 0)
-> +		goto disable_pm;
->  
->  	hw_version = fdp1_read(fdp1, FD1_IP_INTDATA);
->  	switch (hw_version) {
-> @@ -2381,6 +2387,9 @@ static int fdp1_probe(struct platform_device *pdev)
->  
->  	return 0;
->  
-> +disable_pm:
-> +	pm_runtime_disable(fdp1->dev);
-> +
->  release_m2m:
->  	v4l2_m2m_release(fdp1->m2m_dev);
->  
+Greeting to you,
 
+With due respect to your person and much sincerity of purpose, It=E2=80=99s=
+ my
+pleasure to write you today, I am Mr.Aziz Issa,I work in a Banque
+International Du Burkina Faso (B.O.A) Bank. I hope that you will not
+expose or betray this trust and confident that am about to repose in
+you for the benefit of our both families.
+
+Am in need of your help as a foreigner to transfer (($10.5m US
+dollars)(Ten Million five hundred thousand US Dollars)) into your
+account,The fund is for late .Robert William, a Germany nationality.
+whom died on December 2014 in plane crash with Airbus A320 Plane.
+living nobody as the next of kin to the fund. Risk is completely 100%
+free for this transaction.
+
+Please I will like you to keep this proposal as a top secret or delete
+it from your mail box, if you are not interested.
+
+I agree that 50% of this money will be for you as a foreign partner,
+in respect to the provision of a foreign account,and 50% will be for
+me
+
+Also know that immediately this fund is transfered to your account, I
+will resign from my work and come over to your country  for the
+sharing of the money and for you to help me and direct me on what is
+profitable that i can invest my own share of the money on it in your
+country.
+
+Please you should call me immediately (+226 72 21 62 99) as soon as
+you receive this letter for more explanation.  .
+
+Yours faithfully,
+Mr.Aziz Issa.
+MY DIRECT LINE : +226 72 21 62 99
