@@ -2,98 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8E323735A3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 May 2021 09:33:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B80913735B6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 May 2021 09:41:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231680AbhEEHeZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 May 2021 03:34:25 -0400
-Received: from www.zeus03.de ([194.117.254.33]:56660 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230490AbhEEHeZ (ORCPT
+        id S231279AbhEEHmc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 May 2021 03:42:32 -0400
+Received: from mail-vk1-f172.google.com ([209.85.221.172]:45789 "EHLO
+        mail-vk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229741AbhEEHmc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 May 2021 03:34:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=n+2Vkq69Ma0baKgAusTP+dM7AsG4
-        s/PvcQYkwjGihNI=; b=yL6xSahmqNq86F+/Td2b6qqDiBPHcc3zdYK4E1HCzSye
-        xpZNp7SS6WmZZhdQrgKIPIRf0SO0DTwqHq6L93SoMqhDMvk69KVNGz84zUV1iPje
-        DuKtes8ny+nupsPvwMjabJrZDdCJkdJi0N/j3RADOyRpCKR3DvUNLQDnWow7jWc=
-Received: (qmail 1683845 invoked from network); 5 May 2021 09:33:28 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 May 2021 09:33:28 +0200
-X-UD-Smtp-Session: l3s3148p1@4WfuNZDB+KIgAwDPXwRNAK21Lx9NnZcs
-Date:   Wed, 5 May 2021 09:33:27 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH/RFC 4/6] dt-bindings: i2c: renesas,iic: Convert to
- json-schema
-Message-ID: <20210505073327.GE1009@ninjato>
-References: <cover.1620138454.git.geert+renesas@glider.be>
- <ecfaf6be5e8c285db2bcc823bb1dd89931fa5c29.1620138454.git.geert+renesas@glider.be>
+        Wed, 5 May 2021 03:42:32 -0400
+Received: by mail-vk1-f172.google.com with SMTP id u23so283649vkl.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 May 2021 00:41:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FxmIwdarWvGp9lvWIXyTK6sz+Izpg+iuQJ3oaH5SLE4=;
+        b=GYoyZ3US43bW9EbDyRm5MMUsNcjxN6H1sCS2KSYQ7VhLPrxzvVd2+uXFpn7hJ71XvF
+         y4sWbMNRtgpVqh+xE1mHcC7wW8MBoNhcm6SGjbdw630A4T+PQNaL3HwXGxoR6B13xaz8
+         huSQ0k1sLf6e6z/XmTZX1X22fCgezgQ9OmCRpPbxBabL3+1C9GhmsHttxJmOtT8jmS4A
+         wGC4dGqZ/AgbeAFOKtsOxTyJz3YN+Y0tWqsA5l/QcDuYECF0NWOzH9Alq7rZSnzSDP7v
+         pPwElkN4ICyDX0bXa+QuNKE+Mc05UpP8Mm9UUTR2ZMkdV2W0vIzaomSUfN1qvZmxTZR8
+         WQOA==
+X-Gm-Message-State: AOAM532AiHq2QG8IX5QjV7Ill2vfLp3rEpj+q+wsbTCaQMMrQx8ygcnI
+        y46kgZfYzqa+tsylWnccDFl/2mHgpd8PUA55+m4QPrM7FiQ=
+X-Google-Smtp-Source: ABdhPJwK+tcZn2lvBS2OqqVSW+Q/A45XepiekwiPEyw4AW8QCZEE2jLG8//q7PG3RiCfFBCyRA/tBh2AnF3NPzksrLE=
+X-Received: by 2002:a1f:1f81:: with SMTP id f123mr17500365vkf.6.1620200496107;
+ Wed, 05 May 2021 00:41:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OZkY3AIuv2LYvjdk"
-Content-Disposition: inline
-In-Reply-To: <ecfaf6be5e8c285db2bcc823bb1dd89931fa5c29.1620138454.git.geert+renesas@glider.be>
+References: <cover.1620138979.git.geert+renesas@glider.be> <1eac63f15a776e492ff8a2d8447c5e1019982dd1.1620138979.git.geert+renesas@glider.be>
+ <20210505071323.GA1009@ninjato>
+In-Reply-To: <20210505071323.GA1009@ninjato>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 5 May 2021 09:41:24 +0200
+Message-ID: <CAMuHMdXWQ0CR0QpYeVJ9TWTUf8M7K=QZ+5z4-JTJgutq_ndBng@mail.gmail.com>
+Subject: Re: [PATCH/RFC 1/2] ARM: dts: r8a7778: Correct internal delay for i2c[123]
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Wolfram,
 
---OZkY3AIuv2LYvjdk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, May 5, 2021 at 9:13 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> On Tue, May 04, 2021 at 04:41:24PM +0200, Geert Uytterhoeven wrote:
+> > According to the R-Car M1A Hardware User's Manual Rev. 1.00, the LSI
+> > internal delay for I2C instances 1 to 3 is 5 ns (typ.), which differs
+> > from the default 50 ns as specified for instance 0.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> I wonder if we shouldn't also specify the 50ns for IIC0 because it is
+> describing the HW instead of relying on the Linux-only default value in
+> the driver? Other than that:
 
+With the json-schema bindings, we do have:
 
-> Possible alternative interpretations of the note are:
->   - Only IIC3 has the automatic transmission registers.  But the
->     automatic transmission feature is not useful as the SoCs lack DVFS
->     support.
+    +  i2c-scl-internal-delay-ns:
+    +    default: 50
 
-I immediately thought "yeah, this is it", but had to do some resarch
-where my assumption comes from. I found it in older H2 datasheets
-(v0.9). Here in 56.1:
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-"Automatic transmission for PMIC control: The IIC3 module of the R-Car
-H2 and M2 supports automatic data transmission under PMIC control
-(DVFS)."
+Thanks!
 
-Or table 56.8:
+Gr{oetje,eeting}s,
 
-"Registers of IIC Command for Automatic Transmission Mode (IIC3 only)
-[R-CarH2, M2, and V2H]"
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-This all is a strong indication for IIC3 only. Which SoCs that have is
-still confusing. Table 56.8 mentions V2H but 56.1 doesn't. Then again, I
-could imagine that V2H has it but simply DVFS is not advertised for V2H.
-And in the later documents, DVFS advertisement was removed for H2 and M2
-as well.
-
-(PS: sorry for replying to the "wrong" thread, I accidently deleted the
-"correct" one)
-
-
---OZkY3AIuv2LYvjdk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCSSkcACgkQFA3kzBSg
-KbbANA/+M9SYVRW57FmBoC9xEcS/fuRxt4P8tSuDsj64qIcNSST9GzEj4HhEfvop
-X4n/p7SSrxPXHlmtKjdtnTlS8415uWFngrkADW7p9BggZhswcth058YEeSSvsjmM
-HmjQhWGLSOsJyAL3SO1MMRK6QpYfZz/lUjMX1XHV/199SFUpJid8hhlf6BMEI0TA
-5h0EC5Dx1wa34A+Jk1HJOkc52Zw2U1dr8CE48kDv1alPy7J88KFtzrYgPDIU3mfa
-mbiCGbhZqbK9veZpV0LZijTajphNOpZWkx6srtgpqGearOfYdMBQV/JJKMVAxaaa
-d8O8zTI1uCKZmyPzr6zU2AbX0XMOQhZOXlfDDUSz79ggeVVT5yKkUeQWl0IvxjJl
-rIpO+baAFZyUD8+oNV4IYPTrIQiRoLFxQojtfZeKyo5sAUlNW8akHeeHOW27o6Bk
-e6hk9nSRUH9I8fFlaPo1Lqcyv8jqV8mrWdkLeP1q3Nak7/W+fD9pS+G7ZmRkTKWk
-hbtUvDzf4F7GvdkzBlMWvREF/d9tqAA4PrWzPBYNfjdba/FWxy4V7TzV+ap3/Kkl
-lTnCb/iQtze1dk3du9pubzBTniDWW5hquHryjKpERXX6ZWRs610YYeIvU4joryO/
-kjAZcRDY78rld4ZHNnmlGEUukiqQF9ypijm1gXVg6YcPKIb4ncc=
-=CfDC
------END PGP SIGNATURE-----
-
---OZkY3AIuv2LYvjdk--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
