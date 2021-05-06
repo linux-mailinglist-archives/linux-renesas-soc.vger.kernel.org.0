@@ -2,140 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7B9F3756E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 May 2021 17:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 645DC375828
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 May 2021 18:05:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235603AbhEFP2F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 May 2021 11:28:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40884 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235572AbhEFP1y (ORCPT
+        id S235735AbhEFQG0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 May 2021 12:06:26 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59936 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235156AbhEFQG0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 May 2021 11:27:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1DDF76196A;
-        Thu,  6 May 2021 15:26:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620314784;
-        bh=oIZOpIBwHVlxuxb+tCGyZiRaE6QdZqQvQMPRN2jFRlM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ntpQ8FKKSJlYAsJZTCOuH7ldiQm0MPXlRmH8jpLDdcbWgWcUYdA+MORhShscEpkHC
-         ap7SMCycuucfepxEhkhF86Zg5cIb0pyGCsEzL9qKYDGPAHaZaa90bXXNbj59DzJqok
-         hNA4cs+gJ9Fjrez1JROHsVM/aTvWwjlmoL4hSa4TANTBOR2NL2rMvSHs4K4Mwozu9g
-         P2/Duj9FHqnvFRJfESCy03w9LstJHAeena9F4K/CHkZiWMPVCKgeXzByw2OwE7VfUr
-         Grz4EwcYfifJS4b3H0DG3zVgUliGAbT6Ye7aR4Sybbk9RwclRh8UFQps7Gi8JzB4g7
-         AIXWSEAoE6bzQ==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1left8-000SCZ-ED; Thu, 06 May 2021 17:26:06 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        Thu, 6 May 2021 12:06:26 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F28A089D;
+        Thu,  6 May 2021 18:05:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1620317126;
+        bh=2U1Dc9zab4QRWiNZr3/84dglVSbQJ3JHyXd0uu8J9wI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Xb20e9iznVCNxcl2KfXL8EyVRKGxQycbZ81UG2VI4d49RcEFVhL3y3lt+mjyeB96g
+         t/jwvg25Guo0iudQKeJbrhwzhkDDYkrar3V7NOknCdd90f6T0p+40y8F05HUMEbFY1
+         6PDVywIVlbGIB2lXeg2O1qmcyQBMmlVsZulBWc6k=
+Date:   Thu, 6 May 2021 19:05:21 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v5 24/25] media: rcar-vin: use pm_runtime_resume_and_get()
-Date:   Thu,  6 May 2021 17:26:02 +0200
-Message-Id: <9d28be9ebbf8343b6a7ed9c84b27d0cfa3b4d243.1620314616.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1620314616.git.mchehab+huawei@kernel.org>
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 16/25] media: rcar-fcp: use pm_runtime_resume_and_get()
+Message-ID: <YJQTwXSoTGpqZUnF@pendragon.ideasonboard.com>
 References: <cover.1620314616.git.mchehab+huawei@kernel.org>
+ <256365d690c780e9e89cba369ebaac805f0ec256.1620314616.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <256365d690c780e9e89cba369ebaac805f0ec256.1620314616.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-added pm_runtime_resume_and_get() in order to automatically handle
-dev->power.usage_count decrement on errors.
+Hi Mauro,
 
-Use the new API, in order to cleanup the error check logic.
+Thank you for the patch.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 15 ++++++++++++---
- drivers/media/platform/rcar-vin/rcar-dma.c  |  6 ++----
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  6 ++----
- 3 files changed, 16 insertions(+), 11 deletions(-)
+On Thu, May 06, 2021 at 05:25:54PM +0200, Mauro Carvalho Chehab wrote:
+> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> added pm_runtime_resume_and_get() in order to automatically handle
+> dev->power.usage_count decrement on errors.
+> 
+> Use the new API, in order to cleanup the error check logic.
+> 
+> As a bonus, pm_runtime_resume_and_get() always return 0 on success.
+> So, the code can be simplified.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index e06cd512aba2..99bf814eb2a7 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -406,10 +406,17 @@ static void rcsi2_enter_standby(struct rcar_csi2 *priv)
- 	pm_runtime_put(priv->dev);
- }
- 
--static void rcsi2_exit_standby(struct rcar_csi2 *priv)
-+static int rcsi2_exit_standby(struct rcar_csi2 *priv)
- {
--	pm_runtime_get_sync(priv->dev);
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(priv->dev);
-+	if (ret < 0)
-+		return ret;
-+
- 	reset_control_deassert(priv->rstc);
-+
-+	return 0;
- }
- 
- static int rcsi2_wait_phy_start(struct rcar_csi2 *priv,
-@@ -657,7 +664,9 @@ static int rcsi2_start(struct rcar_csi2 *priv)
- {
- 	int ret;
- 
--	rcsi2_exit_standby(priv);
-+	ret = rcsi2_exit_standby(priv);
-+	if (ret < 0)
-+		return ret;
- 
- 	ret = rcsi2_start_receiver(priv);
- 	if (ret) {
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index f30dafbdf61c..f5f722ab1d4e 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1458,11 +1458,9 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- 	u32 vnmc;
- 	int ret;
- 
--	ret = pm_runtime_get_sync(vin->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(vin->dev);
-+	ret = pm_runtime_resume_and_get(vin->dev);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	/* Make register writes take effect immediately. */
- 	vnmc = rvin_read(vin, VNMC_REG);
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 457a65bf6b66..b1e9f86caa5c 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -870,11 +870,9 @@ static int rvin_open(struct file *file)
- 	struct rvin_dev *vin = video_drvdata(file);
- 	int ret;
- 
--	ret = pm_runtime_get_sync(vin->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(vin->dev);
-+	ret = pm_runtime_resume_and_get(vin->dev);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	ret = mutex_lock_interruptible(&vin->lock);
- 	if (ret)
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/platform/rcar-fcp.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
+> index 5c03318ae07b..a3a7afc03d7b 100644
+> --- a/drivers/media/platform/rcar-fcp.c
+> +++ b/drivers/media/platform/rcar-fcp.c
+> @@ -101,13 +101,7 @@ int rcar_fcp_enable(struct rcar_fcp_device *fcp)
+>  	if (!fcp)
+>  		return 0;
+>  
+> -	ret = pm_runtime_get_sync(fcp->dev);
+> -	if (ret < 0) {
+> -		pm_runtime_put_noidle(fcp->dev);
+> -		return ret;
+> -	}
+> -
+> -	return 0;
+> +	return pm_runtime_resume_and_get(fcp->dev);
+>  }
+>  EXPORT_SYMBOL_GPL(rcar_fcp_enable);
+>  
+
 -- 
-2.30.2
+Regards,
 
+Laurent Pinchart
