@@ -2,181 +2,185 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01AB2375645
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 May 2021 17:12:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AFAF3756F3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 May 2021 17:27:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234955AbhEFPNH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 May 2021 11:13:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33862 "EHLO mail.kernel.org"
+        id S235651AbhEFP2M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 May 2021 11:28:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40896 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234888AbhEFPNH (ORCPT
+        id S235214AbhEFP1z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 May 2021 11:13:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7452D61041;
-        Thu,  6 May 2021 15:12:00 +0000 (UTC)
+        Thu, 6 May 2021 11:27:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2403A61584;
+        Thu,  6 May 2021 15:26:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620313928;
-        bh=5pyBiTEHvMxAj8e/yO3yGgrWonLAEYO6vTvkoiWBA6I=;
-        h=Date:From:Cc:Subject:In-Reply-To:References:From;
-        b=gCHwiMQxRg/34kpnWeUtVHGRkYuqPEOIQkZjVTbPZZPFy2jqZ6oslJA4TOQa+gcHd
-         Z0NptbjOm1CDOQB3ZQKMyntN6xQ5y7grAgI5pG3HJhrWpTilFGoxYfvmb6EoYj445K
-         CQ0uc3Z4NuK9pz7n4SC/EZcPlSxDibZYfzeHq83K3HcpNS0SlwJvX6wThXiW6AEk2u
-         hMwzEy9DylBCX+jg+CvlvqsbQ2ABQrFVf8X1Vi88Uh4ZWYq9UGScRPv8ih+Dd5UE7z
-         mmJ11YeiM3YEzKEgUBlxxi6W4vsOo94Lj61ii0dn8Sbwu0SCHHobKO2iHWqCOgTTiV
-         lZpsKjD8tnxqw==
-Date:   Thu, 6 May 2021 17:11:57 +0200
+        s=k20201202; t=1620314800;
+        bh=PvMAY6Y2fz/EvEn1dyCRJ72V76RqJb8t+KOlunBx8UY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WnFjjXi6QufHdKAf0NrxvIr88fq46S7vbtcI30ddxj18mrch8A+v1YNh2H9MQqftF
+         xbggOG7JOxwSWbQTzeyT2oG4vE9DQQlDsqvm2Shs6WHwvcQtkEff1vL1xmCenTDUxz
+         DDU2AwYzImtlNSUjehesEzHx7hlo+/ZKRBsRPbb9i9aumHNHqJTJUYvJFv8/Qa6aLG
+         H5cs5YZDguj3bStGcWFq7Fsc7w2JID15ILH4nlzjsa4uOXBi6Sc5apsyWSH8ooG3GB
+         bkXTuVqCSd6zl0UkdjlpxZOrap35ifdCt681cypv2r3raeYR+W9YzcVfw734dX4O9c
+         P34nCnsFHocGA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1left7-000SB2-KN; Thu, 06 May 2021 17:26:05 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Andy Gross <agross@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Andy Gross <agross@kernel.org>, Benoit Parrot <bparrot@ti.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Chen-Yu Tsai <wens@csie.org>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Fabio Estevam <festevam@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        Jacob Chen <jacob-chen@iotwrt.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Maxime Ripard <mripard@kernel.org>,
         NXP Linux Team <linux-imx@nxp.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Philipp Zabel <p.zabel@pengutronix.de>,
+        Robert Foss <robert.foss@linaro.org>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Shawn Guo <shawnguo@kernel.org>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Steve Longerbeam <slongerbeam@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Todor Tomov <todor.too@gmail.com>,
+        Yong Zhi <yong.zhi@intel.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         linux-rockchip@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 00/25] Fix some PM runtime issues at the media subsystem
-Message-ID: <20210506171157.678f5c15@coco.lan>
-In-Reply-To: <cover.1620207353.git.mchehab+huawei@kernel.org>
-References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: [PATCH v5 00/25] media: use pm_runtime_resume_and_get() on non-i2c drivers
+Date:   Thu,  6 May 2021 17:25:38 +0200
+Message-Id: <cover.1620314616.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Em Wed,  5 May 2021 11:41:50 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Dealing with PM runtime (RPM) is different than dealing with other kAPIs used
+on media, as most pm_runtime_get_*() functions won't return to the the state
+before the call if an error rises. They, instead, increment an usage_count.
 
-> As part of an effort to cleanup pm_runtime*get* calls, I detected a number
-> of issues at the media subsystem.
-> 
-> Most of the patches here were submitted previously at:
-> 
-> 	https://lore.kernel.org/linux-media/cover.1619621413.git.mchehab+huawei@kernel.org/
-> 
-> This series contain just the bug fixes and other related issues that are
-> present with the current code on media.
+Due to that, there were several bugs on media. Just on this review, we found
+24 such errors.
 
-Series merged on my stage tree, at:
-	https://git.linuxtv.org/media_stage.git/log/
+So, let's use pm_runtime_resume_and_get() whenever possible, as it
+has two advantages over :
 
-I'll be merging it at media_tree (either for 5.13 or 5.14) after the
-end of the merge window (likely next week).
+1. On errors, it decrements the usage count;
+2. It always return zero on success or an error code. This prevents a
+   common error pattern of checking if ret is not zero to identify
+   for errors.
 
-Please let me know if you find any problems on it.
+There are however a few places where calls to pm_runtime_get_sync()
+are kept. On several of those, a comment was added, in order to
+help preventing trivial patches that could try to change them.
 
-PS.: please notice that my stage tree can be rebased.
+PS.: This series was submitted already together with the fix patches
+at:
 
-Regards,
-Mauro
+   	https://lore.kernel.org/linux-media/cover.1619621413.git.mchehab+huawei@kernel.org/
 
-> 
-> It address the points from the existing reviews. I also did my own
-> set of reviews, in order to avoid regressions.
-> 
-> Changes from v4 of the previous changeset:
-> 
-> - reworked i2c/css RPM get logic;
-> - dropped two patches that could cause regressions;
-> - am437x: keep using pm_runtime_get_sync on suspend/resume;
-> - atmel: fix the returned code and add a print on failures at start streaming;
-> - simplify some checks for return code > 0;
-> - mdk-vcodec: properly handle RPM errors at device on logic;
-> - venus: rework venus_sys_error_handler() logic;
-> - sti/delta: fix an issue at the error checking logic.
-> 
-> Mauro Carvalho Chehab (25):
->   staging: media: rkvdec: fix pm_runtime_get_sync() usage count
->   staging: media: imx7-mipi-csis: fix pm_runtime_get_sync() usage count
->   media: venus: Rework error fail recover logic
->   media: s5p_cec: decrement usage count if disabled
->   media: i2c: ccs-core: return the right error code at suspend
->   media: i2c: imx334: fix the pm runtime get logic
->   media: exynos-gsc: don't resume at remove time
->   media: atmel: properly get pm_runtime
->   media: hantro: do a PM resume earlier
->   media: marvel-ccic: fix some issues when getting pm_runtime
->   media: mdk-mdp: fix pm_runtime_get_sync() usage count
->   media: rcar_fdp1: simplify error check logic at fdp_open()
->   media: rcar_fdp1: fix pm_runtime_get_sync() usage count
->   media: renesas-ceu: Properly check for PM errors
->   media: s5p: fix pm_runtime_get_sync() usage count
->   media: am437x: fix pm_runtime_get_sync() usage count
->   media: sh_vou: fix pm_runtime_get_sync() usage count
->   media: mtk-vcodec: fix PM runtime get logic
->   media: s5p-jpeg: fix pm_runtime_get_sync() usage count
->   media: sti/delta: use pm_runtime_resume_and_get()
->   media: sunxi: fix pm_runtime_get_sync() usage count
->   media: sti/bdisp: fix pm_runtime_get_sync() usage count
->   media: exynos4-is: fix pm_runtime_get_sync() usage count
->   media: exynos-gsc: fix pm_runtime_get_sync() usage count
->   media: i2c: ccs-core: fix pm_runtime_get_sync() usage count
-> 
->  drivers/media/cec/platform/s5p/s5p_cec.c      |  7 ++-
->  drivers/media/i2c/ccs/ccs-core.c              | 41 ++++++++-----
->  drivers/media/i2c/imx334.c                    |  7 ++-
->  drivers/media/platform/am437x/am437x-vpfe.c   | 15 ++++-
->  drivers/media/platform/atmel/atmel-isc-base.c | 30 +++++++---
->  drivers/media/platform/atmel/atmel-isi.c      | 19 ++++--
->  drivers/media/platform/exynos-gsc/gsc-core.c  | 11 ++--
->  drivers/media/platform/exynos-gsc/gsc-m2m.c   |  4 +-
->  .../media/platform/exynos4-is/fimc-capture.c  |  6 +-
->  drivers/media/platform/exynos4-is/fimc-is.c   |  4 +-
->  .../platform/exynos4-is/fimc-isp-video.c      |  3 +-
->  drivers/media/platform/exynos4-is/fimc-isp.c  |  7 +--
->  drivers/media/platform/exynos4-is/fimc-lite.c |  5 +-
->  drivers/media/platform/exynos4-is/fimc-m2m.c  |  5 +-
->  drivers/media/platform/exynos4-is/media-dev.c |  9 +--
->  drivers/media/platform/exynos4-is/mipi-csis.c | 10 ++--
->  .../media/platform/marvell-ccic/mcam-core.c   |  9 ++-
->  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |  6 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  4 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  8 ++-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  2 +-
->  drivers/media/platform/qcom/venus/core.c      | 59 +++++++++++++++----
->  drivers/media/platform/rcar_fdp1.c            | 28 ++++++---
->  drivers/media/platform/renesas-ceu.c          |  4 +-
->  drivers/media/platform/s5p-jpeg/jpeg-core.c   |  5 +-
->  drivers/media/platform/sh_vou.c               |  6 +-
->  drivers/media/platform/sti/bdisp/bdisp-v4l2.c |  7 ++-
->  drivers/media/platform/sti/delta/delta-v4l2.c |  8 +--
->  .../sunxi/sun8i-rotate/sun8i_rotate.c         |  2 +-
->  drivers/staging/media/hantro/hantro_drv.c     |  7 ++-
->  drivers/staging/media/imx/imx7-mipi-csis.c    |  7 +--
->  drivers/staging/media/rkvdec/rkvdec.c         |  2 +-
->  32 files changed, 220 insertions(+), 127 deletions(-)
-> 
+I opted to break it on 3 parts, in order to make easier to review.
+
+This is the third (and final) part.
+
+Mauro Carvalho Chehab (25):
+  staging: media: imx7-mipi-csis: use pm_runtime_resume_and_get()
+  staging: media: atomisp: use pm_runtime_resume_and_get()
+  staging: media: ipu3: use pm_runtime_resume_and_get()
+  staging: media: cedrus_video: use pm_runtime_resume_and_get()
+  staging: media: tegra-vde: use pm_runtime_resume_and_get()
+  staging: media: tegra-video: use pm_runtime_resume_and_get()
+  media: rockchip/rga: use pm_runtime_resume_and_get()
+  media: sti/hva: use pm_runtime_resume_and_get()
+  media: ipu3: use pm_runtime_resume_and_get()
+  media: coda: use pm_runtime_resume_and_get()
+  media: mtk-jpeg: use pm_runtime_resume_and_get()
+  media: camss: use pm_runtime_resume_and_get()
+  media: venus: core: use pm_runtime_resume_and_get()
+  media: venus: vdec: use pm_runtime_resume_and_get()
+  media: venus: venc: use pm_runtime_resume_and_get()
+  media: rcar-fcp: use pm_runtime_resume_and_get()
+  media: rkisp1: use pm_runtime_resume_and_get()
+  media: s3c-camif: use pm_runtime_resume_and_get()
+  media: s5p-mfc: use pm_runtime_resume_and_get()
+  media: stm32: use pm_runtime_resume_and_get()
+  media: sunxi: use pm_runtime_resume_and_get()
+  media: ti-vpe: use pm_runtime_resume_and_get()
+  media: vsp1: use pm_runtime_resume_and_get()
+  media: rcar-vin: use pm_runtime_resume_and_get()
+  media: hantro: use pm_runtime_resume_and_get()
+
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  3 +--
+ drivers/media/platform/coda/coda-common.c     |  7 ++++---
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   |  4 ++--
+ .../media/platform/qcom/camss/camss-csid.c    |  6 ++----
+ .../media/platform/qcom/camss/camss-csiphy.c  |  6 ++----
+ .../media/platform/qcom/camss/camss-ispif.c   |  6 ++----
+ drivers/media/platform/qcom/camss/camss-vfe.c |  5 +++--
+ .../media/platform/qcom/venus/pm_helpers.c    |  3 +--
+ drivers/media/platform/qcom/venus/vdec.c      |  6 +++---
+ drivers/media/platform/qcom/venus/venc.c      |  5 +++--
+ drivers/media/platform/rcar-fcp.c             |  8 +------
+ drivers/media/platform/rcar-vin/rcar-csi2.c   | 15 ++++++++++---
+ drivers/media/platform/rcar-vin/rcar-dma.c    |  6 ++----
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   |  6 ++----
+ drivers/media/platform/rockchip/rga/rga-buf.c |  3 +--
+ drivers/media/platform/rockchip/rga/rga.c     |  4 +++-
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |  3 +--
+ .../media/platform/s3c-camif/camif-capture.c  |  2 +-
+ drivers/media/platform/s3c-camif/camif-core.c |  5 +++--
+ drivers/media/platform/s5p-mfc/s5p_mfc_pm.c   |  6 ++----
+ drivers/media/platform/sti/hva/hva-hw.c       | 17 ++++++++-------
+ drivers/media/platform/stm32/stm32-dcmi.c     |  5 +++--
+ .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |  6 ++++--
+ drivers/media/platform/ti-vpe/cal-video.c     |  4 +++-
+ drivers/media/platform/ti-vpe/cal.c           |  8 ++++---
+ drivers/media/platform/ti-vpe/vpe.c           |  8 +++----
+ drivers/media/platform/vsp1/vsp1_drv.c        | 10 +--------
+ .../staging/media/atomisp/pci/atomisp_fops.c  |  6 +++---
+ drivers/staging/media/hantro/hantro_drv.c     |  5 ++---
+ drivers/staging/media/imx/imx7-mipi-csis.c    |  7 +++----
+ drivers/staging/media/ipu3/ipu3.c             |  3 +--
+ .../staging/media/sunxi/cedrus/cedrus_video.c |  6 ++----
+ drivers/staging/media/tegra-vde/vde.c         | 21 ++++++++++++++++---
+ drivers/staging/media/tegra-video/csi.c       |  3 +--
+ drivers/staging/media/tegra-video/vi.c        |  3 +--
+ 35 files changed, 110 insertions(+), 111 deletions(-)
+
+-- 
+2.30.2
 
 
-
-Thanks,
-Mauro
