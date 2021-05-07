@@ -2,279 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79648376C04
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 May 2021 00:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84367376C53
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 May 2021 00:14:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbhEGWGg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 May 2021 18:06:36 -0400
-Received: from mail-ot1-f42.google.com ([209.85.210.42]:40489 "EHLO
-        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbhEGWGf (ORCPT
+        id S230024AbhEGWOy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 May 2021 18:14:54 -0400
+Received: from mail-ot1-f54.google.com ([209.85.210.54]:46775 "EHLO
+        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229849AbhEGWOx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 May 2021 18:06:35 -0400
-Received: by mail-ot1-f42.google.com with SMTP id c28-20020a9d615c0000b02902dde7c8833eso4230571otk.7;
-        Fri, 07 May 2021 15:05:35 -0700 (PDT)
+        Fri, 7 May 2021 18:14:53 -0400
+Received: by mail-ot1-f54.google.com with SMTP id d3-20020a9d29030000b029027e8019067fso9165497otb.13;
+        Fri, 07 May 2021 15:13:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=XEQLV31v3vyi7ju/vzUI7BaZGEEK8wa7dNNPeGbjJFU=;
-        b=bQIwszjKYsHAz0oqwgtDsq2EdEMnuEhkZFHzIZXd2ViBr0J8EEbWUYucm7veeh1+4i
-         QgE3vtrIk8EoOeEkStnlD0t9QRqVd1CfC471r8gEG4TvDWkb+wR0jlUpG8UvV+XAn4Gp
-         RlziK+7MGFUHgcCXlbcC9WibmwBsP7g1GE+vtVLyqvbu4pvkeE5+62tB0IeEkvjdukMF
-         vNCbzG9l1tBJGYYNk62ni9tlqZBKXQMCUyLfQd1AcFxkvHsHkhb8pKhCx1fW0xUPWIeX
-         gh4+MhwFlWoC9byY4qz5vhL0F4bCobYXZtX7iryOl1A4y7vd77HaQh/sbBz0aSUD2gkv
-         lFaQ==
-X-Gm-Message-State: AOAM532ubAB4bBPU8utPlTJjxFTkfmkai/DxAx5CTASaezHD0QppguOk
-        QQTHDGFhCpAWorndR8Dc0A==
-X-Google-Smtp-Source: ABdhPJxQsmKYiRhMFm4+R6Qv36mIfVEC9PrqSGL8UtbOZXqEO/WtJ3TZ9NDWUkNrP3mMSphWfqL9ew==
-X-Received: by 2002:a9d:74c6:: with SMTP id a6mr10026422otl.290.1620425135019;
-        Fri, 07 May 2021 15:05:35 -0700 (PDT)
+        bh=p+JwTxvkP5L75f+W39v35nFwuY+Fa/AUNZlHVWen03w=;
+        b=N68CyN/lfLgasqijHDypNjWxffDvjq+8WvB2ZE4Lk8mc1LVgfIo7b4oMnolPESUiXV
+         CUHtvAf17ZQKVUthL+7+LWO5497AmXSU64hI2LkEt0dF2kikkB4bm5wpkeB+f0g2nW1t
+         eNR9SPMRVfnu/1Mt0Dci+yY1eyxC/kNL54lad++dktmn6Ssh5GfpBNiW+CdZsUVbZYLi
+         rDAMyBIbUb5ib5QzaLHxTPnje5VEbk2wVcp8vOF5e7aluscYD+xczUR4UDnhhXhAHu4c
+         kru0FXK8ZZRzY214/K0qNsI1BlOzvMX/IuiqILSK8IAVrwLiB6tEPqNOEEQxn8o88wmJ
+         28cg==
+X-Gm-Message-State: AOAM532nKNvvybvJ8pHSTNbTd6nsRreUGGqW4x7/FlmPMDxf426Up/E2
+        iiQhPft7Ot27jnos0txtzw==
+X-Google-Smtp-Source: ABdhPJwJXZ/u8YQCpF44jVtSE26QxC86aijJjzgs3C1XhultyjIZL4g2ByHBMktyIbqIrQNvlNWZmw==
+X-Received: by 2002:a9d:5382:: with SMTP id w2mr9900695otg.153.1620425632197;
+        Fri, 07 May 2021 15:13:52 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id u24sm1462310otg.73.2021.05.07.15.05.33
+        by smtp.gmail.com with ESMTPSA id n98sm1453330ota.24.2021.05.07.15.13.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 May 2021 15:05:33 -0700 (PDT)
-Received: (nullmailer pid 2977673 invoked by uid 1000);
-        Fri, 07 May 2021 22:05:32 -0000
-Date:   Fri, 7 May 2021 17:05:32 -0500
+        Fri, 07 May 2021 15:13:51 -0700 (PDT)
+Received: (nullmailer pid 2990988 invoked by uid 1000);
+        Fri, 07 May 2021 22:13:50 -0000
+Date:   Fri, 7 May 2021 17:13:50 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: mmc: renesas,mmcif: Convert to json-schema
-Message-ID: <20210507220532.GA2974418@robh.at.kernel.org>
-References: <1207254b45a0efa65d9d9e3d951fdabfe5b48101.1620206845.git.geert+renesas@glider.be>
+Cc:     linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Gareth Williams <gareth.williams.jx@renesas.com>
+Subject: Re: [PATCH] dt-bindings: spi: dw-apb-ssi: Integrate Renesas RZ/N1
+ SPI controller
+Message-ID: <20210507221350.GA2990934@robh.at.kernel.org>
+References: <aef15aa119ed02487ded4691141678bc1040c3b4.1620301936.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1207254b45a0efa65d9d9e3d951fdabfe5b48101.1620206845.git.geert+renesas@glider.be>
+In-Reply-To: <aef15aa119ed02487ded4691141678bc1040c3b4.1620301936.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 05, 2021 at 11:28:22AM +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas Multi Media Card Interface (MMCIF) Device Tree
-> binding documentation to json-schema.
+On Thu, 06 May 2021 13:52:59 +0200, Geert Uytterhoeven wrote:
+> Originally, the Renesas RZ/N1 SPI Controller DT bindings were not
+> integrated in the main DT bindings for the Synopsys DesignWare
+> Synchronous Serial Interface, but in its own file, as the RZ/N1
+> controller has additional registers for software CS control and DMA.
 > 
-> Document missing properties.
-> Update the example to match reality.
+> As so far DMA is not supported on RZ/N1, and json-schema can handle any
+> possible differences fine, integrate the RZ/N1 compatible values in the
+> main DT bindings for the Synopsys DW SSI.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  .../devicetree/bindings/mmc/renesas,mmcif.txt |  53 -------
->  .../bindings/mmc/renesas,mmcif.yaml           | 136 ++++++++++++++++++
->  2 files changed, 136 insertions(+), 53 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/mmc/renesas,mmcif.txt
->  create mode 100644 Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml
+> There are no upstream users of this binding, but it validates the
+> following (modified) example taken from the RZ/N1 BSP[1] fine:
 > 
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,mmcif.txt b/Documentation/devicetree/bindings/mmc/renesas,mmcif.txt
-> deleted file mode 100644
-> index 291532ac0446fc71..0000000000000000
-> --- a/Documentation/devicetree/bindings/mmc/renesas,mmcif.txt
-> +++ /dev/null
-> @@ -1,53 +0,0 @@
-> -* Renesas Multi Media Card Interface (MMCIF) Controller
-> -
-> -This file documents differences between the core properties in mmc.txt
-> -and the properties used by the MMCIF device.
-> -
-> -
-> -Required properties:
-> -
-> -- compatible: should be "renesas,mmcif-<soctype>", "renesas,sh-mmcif" as a
-> -  fallback. Examples with <soctype> are:
-> -	- "renesas,mmcif-r7s72100" for the MMCIF found in r7s72100 SoCs
-> -	- "renesas,mmcif-r8a73a4" for the MMCIF found in r8a73a4 SoCs
-> -	- "renesas,mmcif-r8a7740" for the MMCIF found in r8a7740 SoCs
-> -	- "renesas,mmcif-r8a7742" for the MMCIF found in r8a7742 SoCs
-> -	- "renesas,mmcif-r8a7743" for the MMCIF found in r8a7743 SoCs
-> -	- "renesas,mmcif-r8a7744" for the MMCIF found in r8a7744 SoCs
-> -	- "renesas,mmcif-r8a7745" for the MMCIF found in r8a7745 SoCs
-> -	- "renesas,mmcif-r8a7778" for the MMCIF found in r8a7778 SoCs
-> -	- "renesas,mmcif-r8a7790" for the MMCIF found in r8a7790 SoCs
-> -	- "renesas,mmcif-r8a7791" for the MMCIF found in r8a7791 SoCs
-> -	- "renesas,mmcif-r8a7793" for the MMCIF found in r8a7793 SoCs
-> -	- "renesas,mmcif-r8a7794" for the MMCIF found in r8a7794 SoCs
-> -	- "renesas,mmcif-sh73a0" for the MMCIF found in sh73a0 SoCs
-> -
-> -- interrupts: Some SoCs have only 1 shared interrupt, while others have either
-> -  2 or 3 individual interrupts (error, int, card detect). Below is the number
-> -  of interrupts for each SoC:
-> -    1: r8a73a4, r8a7742, r8a7743, r8a7744, r8a7745, r8a7778, r8a7790, r8a7791,
-> -       r8a7793, r8a7794
-> -    2: r8a7740, sh73a0
-> -    3: r7s72100
-> -
-> -- clocks: reference to the functional clock
-> -
-> -- dmas: reference to the DMA channels, one per channel name listed in the
-> -  dma-names property.
-> -- dma-names: must contain "tx" for the transmit DMA channel and "rx" for the
-> -  receive DMA channel.
-> -- max-frequency: Maximum operating clock frequency, driver uses default clock
-> -  frequency if it is not set.
-> -
-> -
-> -Example: R8A7790 (R-Car H2) MMCIF0
-> -
-> -	mmcif0: mmc@ee200000 {
-> -		compatible = "renesas,mmcif-r8a7790", "renesas,sh-mmcif";
-> -		reg = <0 0xee200000 0 0x80>;
-> -		interrupts = <0 169 IRQ_TYPE_LEVEL_HIGH>;
-> -		clocks = <&mstp3_clks R8A7790_CLK_MMCIF0>;
-> -		dmas = <&dmac0 0xd1>, <&dmac0 0xd2>;
-> -		dma-names = "tx", "rx";
-> -		max-frequency = <97500000>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml b/Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml
-> new file mode 100644
-> index 0000000000000000..a0eb819ccdf5d684
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml
-> @@ -0,0 +1,136 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mmc/renesas,mmcif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas Multi Media Card Interface (MMCIF) Controller
-> +
-> +maintainers:
-> +  - Wolfram Sang <wsa+renesas@sang-engineering.com>
-> +
-> +allOf:
-> +  - $ref: "mmc-controller.yaml"
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-
-Don't need oneOf with a single entry. Otherwise,
+>     spi0: spi@50005000 {
+> 	    compatible = "renesas,r9a06g032-spi", "renesas,rzn1-spi";
+> 	    reg = <0x50005000 0x400>;
+> 	    interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
+> 	    clock-names = "ssi_clk", "pclk";
+> 	    clocks = <&sysctrl R9A06G032_CLK_SPI0>, <&sysctrl R9A06G032_HCLK_SPI0>;
+> 	    #address-cells = <1>;
+> 	    #size-cells = <0>;
+> 	    spi-max-frequency = <12500000>;
+> 	    num-cs = <4>;
+>     };
+> 
+> [1] https://github.com/renesas-rz/rzn1_linux/blob/rzn1-stable-v4.19/arch/arm/boot/dts/rzn1.dtsi
+> ---
+>  .../devicetree/bindings/spi/renesas,rzn1-spi.txt      | 11 -----------
+>  .../devicetree/bindings/spi/snps,dw-apb-ssi.yaml      |  6 ++++++
+>  2 files changed, 6 insertions(+), 11 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/spi/renesas,rzn1-spi.txt
+> 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
-
-> +          - enum:
-> +              - renesas,mmcif-r7s72100 # RZ/A1H
-> +              - renesas,mmcif-r8a73a4  # R-Mobile APE6
-> +              - renesas,mmcif-r8a7740  # R-Mobile A1
-> +              - renesas,mmcif-r8a7742  # RZ/G1H
-> +              - renesas,mmcif-r8a7743  # RZ/G1M
-> +              - renesas,mmcif-r8a7744  # RZ/G1N
-> +              - renesas,mmcif-r8a7745  # RZ/G1E
-> +              - renesas,mmcif-r8a7778  # R-Car M1A
-> +              - renesas,mmcif-r8a7790  # R-Car H2
-> +              - renesas,mmcif-r8a7791  # R-Car M2-W
-> +              - renesas,mmcif-r8a7793  # R-Car M2-N
-> +              - renesas,mmcif-r8a7794  # R-Car E2
-> +              - renesas,mmcif-sh73a0   # SH-Mobile AG5
-> +          - const: renesas,sh-mmcif
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts: true
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  dmas:
-> +    minItems: 2
-> +    maxItems: 4
-> +    description:
-> +      Must contain a list of pairs of references to DMA specifiers, one for
-> +      transmission, and one for reception.
-> +
-> +  dma-names:
-> +    minItems: 2
-> +    maxItems: 4
-> +    items:
-> +      enum:
-> +        - tx
-> +        - rx
-> +
-> +  max-frequency: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - power-domains
-> +
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        const: renesas,mmcif-r7s72100
-> +then:
-> +  properties:
-> +    interrupts:
-> +      items:
-> +        - description: Error interrupt
-> +        - description: Normal operation interrupt
-> +        - description: Card detection interrupt
-> +else:
-> +  if:
-> +    properties:
-> +      compatible:
-> +        contains:
-> +          enum:
-> +            - renesas,mmcif-r8a7740
-> +            - renesas,mmcif-sh73a0
-> +  then:
-> +    properties:
-> +      interrupts:
-> +        items:
-> +          - description: Error interrupt
-> +          - description: Normal operation interrupt
-> +  else:
-> +    if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,mmcif-r8a73a4
-> +              - renesas,mmcif-r8a7778
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          maxItems: 1
-> +    else:
-> +      properties:
-> +        interrupts:
-> +          maxItems: 1
-> +      required:
-> +        - resets
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7790-sysc.h>
-> +
-> +    mmcif0: mmc@ee200000 {
-> +            compatible = "renesas,mmcif-r8a7790", "renesas,sh-mmcif";
-> +            reg = <0xee200000 0x80>;
-> +            interrupts = <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 315>;
-> +            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> +            resets = <&cpg 315>;
-> +            dmas = <&dmac0 0xd1>, <&dmac0 0xd2>, <&dmac1 0xd1>, <&dmac1 0xd2>;
-> +            dma-names = "tx", "rx", "tx", "rx";
-> +            max-frequency = <97500000>;
-> +    };
-> -- 
-> 2.25.1
-> 
