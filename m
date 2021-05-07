@@ -2,75 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21D81375C7E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 May 2021 22:57:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B33253760BB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 May 2021 08:56:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229784AbhEFU6W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 May 2021 16:58:22 -0400
-Received: from mail-ot1-f51.google.com ([209.85.210.51]:42538 "EHLO
-        mail-ot1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbhEFU6V (ORCPT
+        id S234546AbhEGG5y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 May 2021 02:57:54 -0400
+Received: from mail-ua1-f50.google.com ([209.85.222.50]:40781 "EHLO
+        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232974AbhEGG5x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 May 2021 16:58:21 -0400
-Received: by mail-ot1-f51.google.com with SMTP id g15-20020a9d128f0000b02902a7d7a7bb6eso6101118otg.9;
-        Thu, 06 May 2021 13:57:20 -0700 (PDT)
+        Fri, 7 May 2021 02:57:53 -0400
+Received: by mail-ua1-f50.google.com with SMTP id 33so2526372uaa.7;
+        Thu, 06 May 2021 23:56:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Bp5RtdBBe2ku1w14VHF5wWt/pMonE6P5FU8yha9Qjiw=;
-        b=PNl0NpCB5vT5w9EnGu3sLyDabryPmReu9O2f/Cuk7C/fgPWVlVArVUvaJUnYAiSAPC
-         dIBv4G+bj2aJQsOtA3XbbzwaOOfPkhql8UVFQw+z/q+Gysk7CMD5mNVT+A+6+so66W0j
-         F6vjqWKfPHLxegiVLCYUrG0dBUTlN/aKiasCPVSbHgG7n5CM1kErx+JwcgQqAdJ6rmg7
-         6jjNngPl/p/iuif9/2CQvppDjWjwulUamV4d7zxFWvxxMTvD2E/7MwAXZYOwE2XjFfK8
-         StVLAleWRYQ7d1COYXC9I+62Y63pUCStS0CDTwagIpzB1LBSzuiDQEcdciX1YN/o0kML
-         dAwg==
-X-Gm-Message-State: AOAM533YTuxUMXttF912o0o1glr2mu1lF4QVR0rcyAsDRWyPzwMCIoyV
-        zQsVM2mMVt86OzeB9rxNQg==
-X-Google-Smtp-Source: ABdhPJxGWV9UXRuzfIx+dZRZ51NNQHx3iD/Z5WX9PfNcGr1bWcFyXenYzfJcadHL3ofARshMGMHmQw==
-X-Received: by 2002:a9d:6a18:: with SMTP id g24mr5166911otn.368.1620334640613;
-        Thu, 06 May 2021 13:57:20 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id z9sm818582otj.44.2021.05.06.13.57.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 13:57:20 -0700 (PDT)
-Received: (nullmailer pid 789013 invoked by uid 1000);
-        Thu, 06 May 2021 20:57:19 -0000
-Date:   Thu, 6 May 2021 15:57:19 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ye20i1nLyErkfusT6LVogGCOz0LglqHJoFvU8uj64UI=;
+        b=p138PyNgU6kMnnUuByNC4CYBEa/Cd7Kd2zJObpLNtj8qaTHwgdf6fxroJv7IQjgDBY
+         LGUmZ5liiczLj1SIesx0O6fEezcEBZ3TMN5wKkItDeHIWluygadket2mKNNYjVLNSY90
+         mK2NPDdodYq1vYl7bSUyXp6AUJTBcqOz5jedTksrZ+m31NuSE+kxKp9fAEsV/MVdKH65
+         pBaqXGwI40mRpnMJ65dN6j0rUHxlItSGDmu73AAT7hY6PsbouZ4PhIjRoBHOWwa9vS+p
+         d4+vxP/T07GeD3HkXlF0GrlYc4uFQhzZ1RCIAj+KqE0Xva66JjHcczCmgamcOyaWNrxg
+         zryg==
+X-Gm-Message-State: AOAM530AkZTw8VIrC9qNv2bVjo1tQiDHwiiX30IoKwP3vH3z4AXDGCjG
+        uCjVWLLtymh5wTZMBfgEe58c5HcNKFk87KsHd60=
+X-Google-Smtp-Source: ABdhPJxZOKNiNGbotHxvD4HMLfuzc4Sit041T5Yaofr8+xurSaUIXG4sCtBtAPQQYt716gkVgnRbv7PGm2tAbPUSJ58=
+X-Received: by 2002:ab0:45e8:: with SMTP id u95mr7553240uau.106.1620370612802;
+ Thu, 06 May 2021 23:56:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1620138454.git.geert+renesas@glider.be> <e1bb5790675b6f4a518c6a9cbc22eb7452a2f78c.1620138454.git.geert+renesas@glider.be>
+ <20210506205611.GA785508@robh.at.kernel.org>
+In-Reply-To: <20210506205611.GA785508@robh.at.kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 7 May 2021 08:56:41 +0200
+Message-ID: <CAMuHMdUh=Cne==VAqv_DRXZpB7cOyRJehaq-mOWQb__DUk1Orw@mail.gmail.com>
+Subject: Re: [PATCH 5/6] dt-bindings: i2c: renesas,riic: Convert to json-schema
+To:     Rob Herring <robh@kernel.org>
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Chris Brandt <chris.brandt@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 6/6] dt-bindings: i2c: renesas,iic-emev2: Convert to
- json-schema
-Message-ID: <20210506205719.GA788962@robh.at.kernel.org>
-References: <cover.1620138454.git.geert+renesas@glider.be>
- <3a72f4353b24c4d790a216bfde1b284800b3029a.1620138454.git.geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3a72f4353b24c4d790a216bfde1b284800b3029a.1620138454.git.geert+renesas@glider.be>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 04 May 2021 16:51:13 +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas EMMA Mobile EV2 IIC Interface (IIC) Device Tree
-> binding documentation to json-schema.
-> 
-> Document missing properties.
-> Update the example to match reality.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../bindings/i2c/renesas,iic-emev2.txt        | 22 --------
->  .../bindings/i2c/renesas,iic-emev2.yaml       | 54 +++++++++++++++++++
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 55 insertions(+), 23 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/i2c/renesas,iic-emev2.txt
->  create mode 100644 Documentation/devicetree/bindings/i2c/renesas,iic-emev2.yaml
-> 
+Hi Rob,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Thu, May 6, 2021 at 10:56 PM Rob Herring <robh@kernel.org> wrote:
+> On Tue, May 04, 2021 at 04:51:12PM +0200, Geert Uytterhoeven wrote:
+> > Convert the Renesas RZ/A I2C Bus Interface (RIIC) Device Tree binding
+> > documentation to json-schema.
+> >
+> > Document missing properties.
+> > Update the example to match reality.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
+
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+>
+> Don't need oneOf here with only 1 entry. Otherwise,
+
+Thanks, dropping for v2.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
