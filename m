@@ -2,83 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B83D376C6B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 May 2021 00:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B31E9376C78
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 May 2021 00:22:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbhEGWUI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 May 2021 18:20:08 -0400
-Received: from mail-ot1-f42.google.com ([209.85.210.42]:44970 "EHLO
-        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbhEGWUG (ORCPT
+        id S229786AbhEGWXD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 May 2021 18:23:03 -0400
+Received: from mail-ot1-f48.google.com ([209.85.210.48]:34454 "EHLO
+        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229470AbhEGWXD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 May 2021 18:20:06 -0400
-Received: by mail-ot1-f42.google.com with SMTP id r26-20020a056830121ab02902a5ff1c9b81so9197445otp.11;
-        Fri, 07 May 2021 15:19:05 -0700 (PDT)
+        Fri, 7 May 2021 18:23:03 -0400
+Received: by mail-ot1-f48.google.com with SMTP id u25-20020a0568302319b02902ac3d54c25eso9240144ote.1;
+        Fri, 07 May 2021 15:22:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=fwadNbV8+KkUs8qFmkpXR6d10ttjnqJmvX8UqFQkIKY=;
-        b=MEF1wbeEDG5NtiFRz01zBckm4QDsjY8KUdbZXQ8w3glwb0OO6u43YHZRJKjBz0A18d
-         T6cQ7Qli5GfZMRt3Jg6ABj89X2qYadLFb2xh66b8raIEHQkrYj1z2RFVaqsZRWRNJTVR
-         d1oksobaHo9qxtV2z09w0DsxzCfIR2m0hQZQmf/ptHWKyQuuhnmc9+ePgPdkdYNYlmBY
-         dXHYLEzBETXDuT6mu6Ay86SxqX+vok3Yo1/eA6SqPgwhlBVgc/o/Rq0LBU8MwFZn/TfE
-         xYQANrqLLP8GalH4be9NoJJ88/UbF1QTGunZ7/RIbbwxa5GGPXODAcoeU2tMp97G3mIN
-         /KtQ==
-X-Gm-Message-State: AOAM531xGUmEIFofXUSsRZFJ5zX4sInK/vLs5EmH4fNhX+gd9uLeItkb
-        1H5j7/R+8o8BIJJ9rJsN/Q==
-X-Google-Smtp-Source: ABdhPJyCcbQmiRpJd2CqQnKjgYiRFopMfH1qEjpjVeMf60tjrz3OfcABPWEyfBk+W1ThZPQ79aHO6g==
-X-Received: by 2002:a9d:5c11:: with SMTP id o17mr10079687otk.178.1620425944844;
-        Fri, 07 May 2021 15:19:04 -0700 (PDT)
+        bh=wJE+TC+b5jLMRQ3EZL0NyaJOHHWlrS4m1edurMUIrWE=;
+        b=MIhLDolfsp+f/RFpcJwh8LacbmOvY4i7L/+iQTjK2DQUPAd2aMIu5HYiQRTHTnQXC8
+         EncsxGfTcRTbiUSIuY6lzaygbk3g1LC4pG5xIIjB507rvFcP6PgmHBOw6WUs7snKK937
+         d8vmcep1OlsfwEjZM6hhMkxO+XZNgZbADMLmDQhHCXTEQi0oq4QHfFpQ21iscF2ZlePO
+         7w9+dQS0IjmIBcmoEvV24V0CWzVToDLfDSHxfD/F0wu6yIIi5ex3+ah3Gm3VDzFaf764
+         Ptu7X+7aOt4wBQHP+i/MGnBrXpPbD4hsCqRbh6OpFSFCbW3VfJ+04KlDsZu3WhXaW9i3
+         SCLA==
+X-Gm-Message-State: AOAM532n65HcIosU/60GatY4a9mh0SV3pkarsUvcCBH9wCtxcueOWO21
+        tT8ewQ9UBrsYSqRB/s5iHA==
+X-Google-Smtp-Source: ABdhPJy+am6NARFsVfyMVq93tpVSfof2No3lbd73Pco+c4GCQHZ+rd7ceY+/jkcCkJUIgJ8gYXqAmA==
+X-Received: by 2002:a9d:6359:: with SMTP id y25mr10422588otk.103.1620426121281;
+        Fri, 07 May 2021 15:22:01 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 186sm1322592oof.14.2021.05.07.15.19.03
+        by smtp.gmail.com with ESMTPSA id f30sm1366213ooh.10.2021.05.07.15.21.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 May 2021 15:19:04 -0700 (PDT)
-Received: (nullmailer pid 2999408 invoked by uid 1000);
-        Fri, 07 May 2021 22:19:03 -0000
-Date:   Fri, 7 May 2021 17:19:03 -0500
+        Fri, 07 May 2021 15:21:59 -0700 (PDT)
+Received: (nullmailer pid 3004259 invoked by uid 1000);
+        Fri, 07 May 2021 22:21:57 -0000
+Date:   Fri, 7 May 2021 17:21:57 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Jakub Kicinski <kuba@kernel.org>, devicetree@vger.kernel.org,
-        "David S . Miller" <davem@davemloft.net>,
-        Ulrich Hecht <uli+renesas@fpond.eu>, netdev@vger.kernel.org,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        linux-can@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: can: rcar_canfd: Convert to json-schema
-Message-ID: <20210507221903.GA2999378@robh.at.kernel.org>
-References: <cover.1620323639.git.geert+renesas@glider.be>
- <905134c87f72e2d8e37c309e0ce28ecd7d4f3992.1620323639.git.geert+renesas@glider.be>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        uclinux-h8-devel@lists.sourceforge.jp, linux-pwm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: pwm: renesas,tpu-pwm: Improve
+ json-schema
+Message-ID: <20210507222157.GA3000824@robh.at.kernel.org>
+References: <cover.1620375445.git.geert+renesas@glider.be>
+ <82dcf4b87f2b2149bb2e238c7fd654ca2397230e.1620375445.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <905134c87f72e2d8e37c309e0ce28ecd7d4f3992.1620323639.git.geert+renesas@glider.be>
+In-Reply-To: <82dcf4b87f2b2149bb2e238c7fd654ca2397230e.1620375445.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 06 May 2021 19:55:54 +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas R-Car CAN FD Controller Device Tree binding
-> documentation to json-schema.
-> 
-> Document missing properties.
-> The CANFD clock needs to be configured for the maximum frequency on
-> R-Car V3M and V3H, too.
-> Update the example to match reality.
+On Fri, May 07, 2021 at 10:25:12AM +0200, Geert Uytterhoeven wrote:
+>   - Include the general PWM controller schema,
+>   - Make clocks, power-domains, and resets properties required.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> I have listed Fabrizio as the maintainer, as Ramesh is no longer
-> available.  Fabrizio: Please scream if this is inappropriate ;-)
-> ---
->  .../bindings/net/can/rcar_canfd.txt           | 107 ---------------
->  .../bindings/net/can/renesas,rcar-canfd.yaml  | 122 ++++++++++++++++++
->  2 files changed, 122 insertions(+), 107 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/net/can/rcar_canfd.txt
->  create mode 100644 Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
+>  .../bindings/pwm/renesas,tpu-pwm.yaml         | 19 ++++++++++++++++++-
+>  1 file changed, 18 insertions(+), 1 deletion(-)
 > 
+> diff --git a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+> index aa9a4570c9068226..3a072ee29815c695 100644
+> --- a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+> @@ -58,8 +58,25 @@ required:
+>    - compatible
+>    - reg
+>    - '#pwm-cells'
+> +  - clocks
+> +  - power-domains
+>  
+> -additionalProperties: false
+> +allOf:
+> +  - $ref: pwm.yaml#
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+This doesn't add any other properties, so you can keep 
+'additionalProperties: false'. 
+
+> +
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - renesas,tpu-r8a73a4
+> +                - renesas,tpu-r8a7740
+> +    then:
+> +      required:
+> +        - resets
+> +
+> +unevaluatedProperties: false
+>  
+>  examples:
+>    - |
+> -- 
+> 2.25.1
+> 
