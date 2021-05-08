@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B31E9376C78
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 May 2021 00:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AC4137729A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 May 2021 17:26:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbhEGWXD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 May 2021 18:23:03 -0400
-Received: from mail-ot1-f48.google.com ([209.85.210.48]:34454 "EHLO
-        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbhEGWXD (ORCPT
+        id S229583AbhEHP1Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 8 May 2021 11:27:24 -0400
+Received: from mail-oo1-f46.google.com ([209.85.161.46]:43619 "EHLO
+        mail-oo1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229500AbhEHP1X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 May 2021 18:23:03 -0400
-Received: by mail-ot1-f48.google.com with SMTP id u25-20020a0568302319b02902ac3d54c25eso9240144ote.1;
-        Fri, 07 May 2021 15:22:01 -0700 (PDT)
+        Sat, 8 May 2021 11:27:23 -0400
+Received: by mail-oo1-f46.google.com with SMTP id p6-20020a4adc060000b02901f9a8fc324fso2595698oov.10;
+        Sat, 08 May 2021 08:26:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=wJE+TC+b5jLMRQ3EZL0NyaJOHHWlrS4m1edurMUIrWE=;
-        b=MIhLDolfsp+f/RFpcJwh8LacbmOvY4i7L/+iQTjK2DQUPAd2aMIu5HYiQRTHTnQXC8
-         EncsxGfTcRTbiUSIuY6lzaygbk3g1LC4pG5xIIjB507rvFcP6PgmHBOw6WUs7snKK937
-         d8vmcep1OlsfwEjZM6hhMkxO+XZNgZbADMLmDQhHCXTEQi0oq4QHfFpQ21iscF2ZlePO
-         7w9+dQS0IjmIBcmoEvV24V0CWzVToDLfDSHxfD/F0wu6yIIi5ex3+ah3Gm3VDzFaf764
-         Ptu7X+7aOt4wBQHP+i/MGnBrXpPbD4hsCqRbh6OpFSFCbW3VfJ+04KlDsZu3WhXaW9i3
-         SCLA==
-X-Gm-Message-State: AOAM532n65HcIosU/60GatY4a9mh0SV3pkarsUvcCBH9wCtxcueOWO21
-        tT8ewQ9UBrsYSqRB/s5iHA==
-X-Google-Smtp-Source: ABdhPJy+am6NARFsVfyMVq93tpVSfof2No3lbd73Pco+c4GCQHZ+rd7ceY+/jkcCkJUIgJ8gYXqAmA==
-X-Received: by 2002:a9d:6359:: with SMTP id y25mr10422588otk.103.1620426121281;
-        Fri, 07 May 2021 15:22:01 -0700 (PDT)
+        bh=PJuzoZjZ+35ZvoZz1WXKKIkFjYgYLeq2LztuwL/J6dY=;
+        b=E6oFEdxi83hpQPDPDyqmY0Tqp/jrX5eCFmX87NuKwj3whEQLA5ReqSXp2xP3Q8fcJv
+         7u207jsbOhm30jEqifitM/AfCMSnDkX4Md+WX8sHZKNBkyzG16nlql4bYgtR55/6wuFt
+         Pbl0+dqMKu2fNhVBlPlhc0vxvYIXdw943CCMf/MQ1geuLQ89jQOeDX6vBm4s90w2shGq
+         0qKpEMHF/er3NdyhPmeIymWL+Zk7KlLXH/sNi1ZmJZM9/PC/+EaUR/qQUjaQT+0wbNuO
+         ypINNYefVy1SWZopzfIR8u8ogGoKMBT9MYYmSQGpwGUSBKTmANbjxuIjES49xgOWdQRS
+         DNeQ==
+X-Gm-Message-State: AOAM530wV45so9TRh/p32cFjfr3iFzG+02Owy+Sl3GNjtVrtwJ9pdIpx
+        4TPc5RN63EE41t19DonyGQ==
+X-Google-Smtp-Source: ABdhPJy+XsVTuzV3ooxkmcD3lo3jcZgydV/5UpiGSCAtMz4wvPNZ10X+WiV0VbrIdmwafHTnLt43Sw==
+X-Received: by 2002:a4a:250e:: with SMTP id g14mr12148349ooa.31.1620487581441;
+        Sat, 08 May 2021 08:26:21 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id f30sm1366213ooh.10.2021.05.07.15.21.58
+        by smtp.gmail.com with ESMTPSA id x65sm529593otb.59.2021.05.08.08.26.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 May 2021 15:21:59 -0700 (PDT)
-Received: (nullmailer pid 3004259 invoked by uid 1000);
-        Fri, 07 May 2021 22:21:57 -0000
-Date:   Fri, 7 May 2021 17:21:57 -0500
+        Sat, 08 May 2021 08:26:20 -0700 (PDT)
+Received: (nullmailer pid 445043 invoked by uid 1000);
+        Sat, 08 May 2021 15:26:18 -0000
+Date:   Sat, 8 May 2021 10:26:18 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
@@ -49,63 +49,164 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         uclinux-h8-devel@lists.sourceforge.jp, linux-pwm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: pwm: renesas,tpu-pwm: Improve
+Subject: Re: [PATCH 2/2] dt-bindings: timer: renesas,tpu: Convert to
  json-schema
-Message-ID: <20210507222157.GA3000824@robh.at.kernel.org>
+Message-ID: <20210508152618.GA3004584@robh.at.kernel.org>
 References: <cover.1620375445.git.geert+renesas@glider.be>
- <82dcf4b87f2b2149bb2e238c7fd654ca2397230e.1620375445.git.geert+renesas@glider.be>
+ <29c1e39d396b0060213379264747ecf30d4c7ca8.1620375445.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <82dcf4b87f2b2149bb2e238c7fd654ca2397230e.1620375445.git.geert+renesas@glider.be>
+In-Reply-To: <29c1e39d396b0060213379264747ecf30d4c7ca8.1620375445.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, May 07, 2021 at 10:25:12AM +0200, Geert Uytterhoeven wrote:
->   - Include the general PWM controller schema,
->   - Make clocks, power-domains, and resets properties required.
+On Fri, May 07, 2021 at 10:25:13AM +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas H8/300 Timer Pulse Unit Device Tree binding
+> documentation to json-schema.
+> 
+> Correct clock-names, as "peripheral_clk" is the name of the supplier,
+> and all users use "fck".
+> 
+> Note that there are two different bindings for the TPU, both using
+> "renesas,tpu": this one for using the TPU as a clock source (used on
+> H8/300), and a second use for using the TPU as a PWM controller (used on
+> ARM).  To avoid conflicts, both bindings are marked with the appropriate
+> "select" logic, to check for the absence respectively presence of the
+> "#pwm-cells" property.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  .../bindings/pwm/renesas,tpu-pwm.yaml         | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
+> I have listed Sato-san as the maintainer, as he wrote the original
+> driver and bindings.
+> Sato-san: Please scream if this is inappropriate ;-)
+> ---
+>  .../bindings/pwm/renesas,tpu-pwm.yaml         | 10 ++++
+>  .../devicetree/bindings/timer/renesas,tpu.txt | 21 -------
+>  .../bindings/timer/renesas,tpu.yaml           | 56 +++++++++++++++++++
+>  3 files changed, 66 insertions(+), 21 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/timer/renesas,tpu.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/renesas,tpu.yaml
 > 
 > diff --git a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
-> index aa9a4570c9068226..3a072ee29815c695 100644
+> index 3a072ee29815c695..f8bc8c5905daa14c 100644
 > --- a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
 > +++ b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
-> @@ -58,8 +58,25 @@ required:
->    - compatible
->    - reg
->    - '#pwm-cells'
+> @@ -9,6 +9,16 @@ title: Renesas R-Car Timer Pulse Unit PWM Controller
+>  maintainers:
+>    - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>  
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: renesas,tpu
+> +    '#pwm-cells': true
+
+You can drop this line. The schema is still true if not present which is 
+why 'required' is needed.
+
+With that,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+
+> +  required:
+> +    - compatible
+> +    - '#pwm-cells'
+> +
+>  properties:
+>    compatible:
+>      items:
+> diff --git a/Documentation/devicetree/bindings/timer/renesas,tpu.txt b/Documentation/devicetree/bindings/timer/renesas,tpu.txt
+> deleted file mode 100644
+> index 1d46f9de4feb8a84..0000000000000000
+> --- a/Documentation/devicetree/bindings/timer/renesas,tpu.txt
+> +++ /dev/null
+> @@ -1,21 +0,0 @@
+> -* Renesas H8/300 Timer Pulse Unit
+> -
+> -The TPU is a 16bit timer/counter with configurable clock inputs and
+> -programmable compare match.
+> -This implementation support only cascade mode.
+> -
+> -Required Properties:
+> -
+> -  - compatible: must contain "renesas,tpu"
+> -  - reg: base address and length of the registers block in 2 channel.
+> -  - clocks: a list of phandle, one for each entry in clock-names.
+> -  - clock-names: must contain "peripheral_clk" for the functional clock.
+> -
+> -
+> -Example:
+> -	tpu: tpu@ffffe0 {
+> -		compatible = "renesas,tpu";
+> -		reg = <0xffffe0 16>, <0xfffff0 12>;
+> -		clocks = <&pclk>;
+> -		clock-names = "peripheral_clk";
+> -	};
+> diff --git a/Documentation/devicetree/bindings/timer/renesas,tpu.yaml b/Documentation/devicetree/bindings/timer/renesas,tpu.yaml
+> new file mode 100644
+> index 0000000000000000..01554dff23d8a954
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/timer/renesas,tpu.yaml
+> @@ -0,0 +1,56 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/timer/renesas,tpu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas H8/300 Timer Pulse Unit
+> +
+> +maintainers:
+> +  - Yoshinori Sato <ysato@users.sourceforge.jp>
+> +
+> +description:
+> +  The TPU is a 16bit timer/counter with configurable clock inputs and
+> +  programmable compare match.
+> +  This implementation supports only cascade mode.
+> +
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: renesas,tpu
+> +    '#pwm-cells': false
+> +  required:
+> +    - compatible
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,tpu
+> +
+> +  reg:
+> +    items:
+> +      - description: First channel
+> +      - description: Second channel
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: fck
+> +
+> +required:
+> +  - compatible
+> +  - reg
 > +  - clocks
-> +  - power-domains
->  
-> -additionalProperties: false
-> +allOf:
-> +  - $ref: pwm.yaml#
-
-This doesn't add any other properties, so you can keep 
-'additionalProperties: false'. 
-
+> +  - clock-names
 > +
-> +  - if:
-> +      not:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              enum:
-> +                - renesas,tpu-r8a73a4
-> +                - renesas,tpu-r8a7740
-> +    then:
-> +      required:
-> +        - resets
+> +additionalProperties: false
 > +
-> +unevaluatedProperties: false
->  
->  examples:
->    - |
+> +examples:
+> +  - |
+> +    tpu: tpu@ffffe0 {
+> +            compatible = "renesas,tpu";
+> +            reg = <0xffffe0 16>, <0xfffff0 12>;
+> +            clocks = <&pclk>;
+> +            clock-names = "fck";
+> +    };
 > -- 
 > 2.25.1
 > 
