@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D007378A72
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 May 2021 14:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4448C378A74
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 May 2021 14:02:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235392AbhEJLoQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 May 2021 07:44:16 -0400
-Received: from mail-lj1-f173.google.com ([209.85.208.173]:46650 "EHLO
-        mail-lj1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234758AbhEJLa6 (ORCPT
+        id S235622AbhEJLoY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 May 2021 07:44:24 -0400
+Received: from mail-lf1-f50.google.com ([209.85.167.50]:40844 "EHLO
+        mail-lf1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236185AbhEJLbS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 May 2021 07:30:58 -0400
-Received: by mail-lj1-f173.google.com with SMTP id e11so6808017ljn.13;
-        Mon, 10 May 2021 04:29:52 -0700 (PDT)
+        Mon, 10 May 2021 07:31:18 -0400
+Received: by mail-lf1-f50.google.com with SMTP id c3so22806670lfs.7;
+        Mon, 10 May 2021 04:30:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=UpkFAE5UhJWQQx5RiN+jpUzZA6jUd/dBUxTtcF2h63I=;
-        b=NJnSn/9dziclOorI70puc8GwPb0RZH0IEsH6p20GDLdj0N6zM/5aTZjmZTFFDDv4bs
-         d86LTM0bO9fkRilFvxOFJIAJ1I0RXXIuSjB9GmNScWHqSlqBFAovvSIJCQpVtNnOIYxY
-         +fs16huVr14rqiRiz3NNxNMoW4QDROctu9tuleL6V9jsJmXE2jrykXWCjd0tAHvS/9ke
-         mYK9e7rwz2QDubMOTb4qCooQbPeDB/DCjX3qiNH8NH+xXAy0r3wNOT8+CKumAcHngxgp
-         P5To1fQ44HiL43n7J3vxbfmPn+q8O2Ozxl1JDTMWN5gBElIdc37SK+SZgZbD76mdFEXJ
-         0tMA==
-X-Gm-Message-State: AOAM533hT+fraGdp+oCjCwc1vaVil1P/50Dl9//adov77VKoFAHT7lFo
-        zDQwzl/F12h1bYKrARXIkDk=
-X-Google-Smtp-Source: ABdhPJxU54mNpCOZNImHkFT1IWZMOIOs4tewZTbcvRRaXDVzmNFHADdPdCcSYKExpe6snTRFsJtMlg==
-X-Received: by 2002:a2e:2a02:: with SMTP id q2mr19326234ljq.73.1620646191558;
-        Mon, 10 May 2021 04:29:51 -0700 (PDT)
+        bh=nljcLRxfvKQmNeJA+p04B9LJ74kQgO1ZTVN6RhAGwQc=;
+        b=lkwPKv2x3Y1lHUqXnGM1gxSgzXn3ykjxeSXCwqbyXoJZx6riYfe9Gc45UOw8Wv0UFG
+         yozd2lIUobd4jhsRADhVNcMm2Mhu+TzPnljy96bj9A/kVUIItim1DRGy5N+N7B/vylxr
+         fJ7V5nffFfYrTZv/Rg5njH1t9frGO91iIiy8BVyzec82kJ/4nHu4Knn2fbOot/qZxDmq
+         ljEIh3Hmhn0JSGglRqBTEn+PG7Qe4WYLmBw7HRK9sXf8KlhNiyjYpb7qDGIw6iKe5a1t
+         2pdDqIUCOOg307Xlrl7Buyp0AHWrDE+bs94xUgEzUCyaBF4OTtoVoSNlZX07Xxxf2+cO
+         BXFQ==
+X-Gm-Message-State: AOAM5307madLoMujoy829vYzKyurDQO9KMOqUnl7DvUVRYfBMeiM2Jfj
+        QwYbuw+ivVlBh4Az1tpksHs=
+X-Google-Smtp-Source: ABdhPJxVZB4tZoVgib8wd2dDz2AVVk/H0QBAE1cWHy5/y8RPUl/+5hua3Eg6wd7KFOAfQ+OFJtyrSQ==
+X-Received: by 2002:a05:6512:c04:: with SMTP id z4mr16296251lfu.167.1620646210466;
+        Mon, 10 May 2021 04:30:10 -0700 (PDT)
 Received: from localhost.localdomain (dc7vkhyyyyyyyyyyyyyby-3.rev.dnainternet.fi. [2001:14ba:16e2:8300::2])
-        by smtp.gmail.com with ESMTPSA id l25sm1394934ljb.50.2021.05.10.04.29.50
+        by smtp.gmail.com with ESMTPSA id c26sm310145lfv.63.2021.05.10.04.30.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 04:29:50 -0700 (PDT)
-Date:   Mon, 10 May 2021 14:29:44 +0300
+        Mon, 10 May 2021 04:30:09 -0700 (PDT)
+Date:   Mon, 10 May 2021 14:30:03 +0300
 From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
         Matti Vaittinen <mazziesaccount@gmail.com>
@@ -52,13 +52,13 @@ Cc:     Mark Brown <broonie@kernel.org>, Kees Cook <keescook@chromium.org>,
         "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
         "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
         "robh+dt@kernel.org" <robh+dt@kernel.org>
-Subject: [PATCH v9 05/10] regulator: IRQ based event/error notification
- helpers
-Message-ID: <a22cf56239512f52ae5927f226e79d890d7a1240.1620645507.git.matti.vaittinen@fi.rohmeurope.com>
+Subject: [PATCH v9 06/10] regulator: add property parsing and callbacks to
+ set protection limits
+Message-ID: <5def4cd885a7477c457fb265ace97be271cc1478.1620645507.git.matti.vaittinen@fi.rohmeurope.com>
 References: <cover.1620645507.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="huq684BweRXVnRxX"
+        protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
 Content-Disposition: inline
 In-Reply-To: <cover.1620645507.git.matti.vaittinen@fi.rohmeurope.com>
 Precedence: bulk
@@ -66,761 +66,496 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---huq684BweRXVnRxX
+--a8Wt8u1KmwUX3Y2C
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Provide helper function for IC's implementing regulator notifications
-when an IRQ fires. The helper also works for IRQs which can not be acked.
-Helper can be set to disable the IRQ at handler and then re-enabling it
-on delayed work later. The helper also adds regulator_get_error_flags()
-errors in cache for the duration of IRQ disabling.
+Add DT property parsing code and setting callback for regulator over/under
+voltage, over-current and temperature error limits.
 
 Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
 ---
-v9:
- - Fix the notification error number
-v7 (mostly more fixes pointed by Andy)
- - fix regulator error_flags query
- - grammar/typos
- - do not BUG() but attempt to shut-down the system
- - use BITS_PER_TYPE()
-v6 (fix issues noted by Andy):
- - remove unnecessary variable
- - use BIT(foo) instead of 1 << foo
- - use devm_add_action_or_reset()
- - do not check the irq parameter validity, leave that to
-   request_threaded_irq()
- - put resource-managed function in devres.c
- - fix the kerneldocs for the new IRQ helpers
-v5:
- - fix the pr_emerg print
-v4:
- - Comment block styling
- - Added prints to point the potential HW failure before BUG()
- - Corrected typo from kerneldoc
- - added missing newlines
+No changes since RFC-v3
 ---
- drivers/regulator/Makefile       |   2 +-
- drivers/regulator/core.c         |  29 ++-
- drivers/regulator/devres.c       |  52 ++++
- drivers/regulator/irq_helpers.c  | 398 +++++++++++++++++++++++++++++++
- include/linux/regulator/driver.h | 135 +++++++++++
- 5 files changed, 608 insertions(+), 8 deletions(-)
- create mode 100644 drivers/regulator/irq_helpers.c
+ drivers/regulator/core.c                  | 122 +++++++++++++++++++++-
+ drivers/regulator/of_regulator.c          |  58 ++++++++++
+ drivers/regulator/qcom-labibb-regulator.c |  10 +-
+ drivers/regulator/qcom_spmi-regulator.c   |   6 +-
+ drivers/regulator/stpmic1_regulator.c     |  20 +++-
+ include/linux/regulator/driver.h          |  41 +++++++-
+ include/linux/regulator/machine.h         |  26 +++++
+ 7 files changed, 274 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 580b015296ea..534fc0163bc4 100644
---- a/drivers/regulator/Makefile
-+++ b/drivers/regulator/Makefile
-@@ -4,7 +4,7 @@
- #
-=20
-=20
--obj-$(CONFIG_REGULATOR) +=3D core.o dummy.o fixed-helper.o helpers.o devre=
-s.o
-+obj-$(CONFIG_REGULATOR) +=3D core.o dummy.o fixed-helper.o helpers.o devre=
-s.o irq_helpers.o
- obj-$(CONFIG_OF) +=3D of_regulator.o
- obj-$(CONFIG_REGULATOR_FIXED_VOLTAGE) +=3D fixed.o
- obj-$(CONFIG_REGULATOR_VIRTUAL_CONSUMER) +=3D virtual.o
 diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-index f192bf19492e..87f53f5fbbd0 100644
+index 87f53f5fbbd0..e40cb8c338dc 100644
 --- a/drivers/regulator/core.c
 +++ b/drivers/regulator/core.c
-@@ -4380,22 +4380,36 @@ unsigned int regulator_get_mode(struct regulator *r=
-egulator)
- }
- EXPORT_SYMBOL_GPL(regulator_get_mode);
+@@ -1315,6 +1315,52 @@ static int machine_constraints_current(struct regula=
+tor_dev *rdev,
 =20
-+static int rdev_get_cached_err_flags(struct regulator_dev *rdev)
+ static int _regulator_do_enable(struct regulator_dev *rdev);
+=20
++static int notif_set_limit(struct regulator_dev *rdev,
++			   int (*set)(struct regulator_dev *, int, int, bool),
++			   int limit, int severity)
++{
++	bool enable;
++
++	if (limit =3D=3D REGULATOR_NOTIF_LIMIT_DISABLE) {
++		enable =3D false;
++		limit =3D 0;
++	} else {
++		enable =3D true;
++	}
++
++	if (limit =3D=3D REGULATOR_NOTIF_LIMIT_ENABLE)
++		limit =3D 0;
++
++	return set(rdev, limit, severity, enable);
++}
++
++static int handle_notify_limits(struct regulator_dev *rdev,
++			int (*set)(struct regulator_dev *, int, int, bool),
++			struct notification_limit *limits)
 +{
 +	int ret =3D 0;
 +
-+	if (rdev->use_cached_err) {
-+		spin_lock(&rdev->err_lock);
-+		ret =3D rdev->cached_err;
-+		spin_unlock(&rdev->err_lock);
-+	}
++	if (!set)
++		return -EOPNOTSUPP;
++
++	if (limits->prot)
++		ret =3D notif_set_limit(rdev, set, limits->prot,
++				      REGULATOR_SEVERITY_PROT);
++	if (ret)
++		return ret;
++
++	if (limits->err)
++		ret =3D notif_set_limit(rdev, set, limits->err,
++				      REGULATOR_SEVERITY_ERR);
++	if (ret)
++		return ret;
++
++	if (limits->warn)
++		ret =3D notif_set_limit(rdev, set, limits->warn,
++				      REGULATOR_SEVERITY_WARN);
++
 +	return ret;
 +}
-+
- static int _regulator_get_error_flags(struct regulator_dev *rdev,
- 					unsigned int *flags)
- {
--	int ret;
-+	int cached_flags, ret =3D 0;
-=20
- 	regulator_lock(rdev);
-=20
--	/* sanity check */
--	if (!rdev->desc->ops->get_error_flags) {
-+	cached_flags =3D rdev_get_cached_err_flags(rdev);
-+
-+	if (rdev->desc->ops->get_error_flags)
-+		ret =3D rdev->desc->ops->get_error_flags(rdev, flags);
-+	else if (!rdev->use_cached_err)
- 		ret =3D -EINVAL;
--		goto out;
--	}
-=20
--	ret =3D rdev->desc->ops->get_error_flags(rdev, flags);
--out:
-+	*flags |=3D cached_flags;
-+
- 	regulator_unlock(rdev);
-+
- 	return ret;
- }
-=20
-@@ -5228,6 +5242,7 @@ regulator_register(const struct regulator_desc *regul=
-ator_desc,
- 		goto rinse;
+ /**
+  * set_machine_constraints - sets regulator constraints
+  * @rdev: regulator source
+@@ -1400,9 +1446,27 @@ static int set_machine_constraints(struct regulator_=
+dev *rdev)
+ 		}
  	}
- 	device_initialize(&rdev->dev);
-+	spin_lock_init(&rdev->err_lock);
 =20
- 	/*
- 	 * Duplicate the config so the driver could override it after
-diff --git a/drivers/regulator/devres.c b/drivers/regulator/devres.c
-index 3091210889e3..a8de0aa88bad 100644
---- a/drivers/regulator/devres.c
-+++ b/drivers/regulator/devres.c
-@@ -481,3 +481,55 @@ void devm_regulator_unregister_notifier(struct regulat=
-or *regulator,
- 		WARN_ON(rc);
- }
- EXPORT_SYMBOL_GPL(devm_regulator_unregister_notifier);
-+
-+static void regulator_irq_helper_drop(void *res)
-+{
-+	regulator_irq_helper_cancel(&res);
-+}
-+
-+/**
-+ * devm_regulator_irq_helper - resource managed registration of IRQ based
-+ * regulator event/error notifier
-+ *
-+ * @dev:		device to which lifetime the helper's lifetime is
-+ *			bound.
-+ * @d:			IRQ helper descriptor.
-+ * @irq:		IRQ used to inform events/errors to be notified.
-+ * @irq_flags:		Extra IRQ flags to be OR'ed with the default
-+ *			IRQF_ONESHOT when requesting the (threaded) irq.
-+ * @common_errs:	Errors which can be flagged by this IRQ for all rdevs.
-+ *			When IRQ is re-enabled these errors will be cleared
-+ *			from all associated regulators
-+ * @per_rdev_errs:	Optional error flag array describing errors specific
-+ *			for only some of the regulators. These errors will be
-+ *			or'ed with common errors. If this is given the array
-+ *			should contain rdev_amount flags. Can be set to NULL
-+ *			if there is no regulator specific error flags for this
-+ *			IRQ.
-+ * @rdev:		Array of pointers to regulators associated with this
-+ *			IRQ.
-+ * @rdev_amount:	Amount of regulators associated with this IRQ.
-+ *
-+ * Return: handle to irq_helper or an ERR_PTR() encoded error code.
-+ */
-+void *devm_regulator_irq_helper(struct device *dev,
-+				const struct regulator_irq_desc *d, int irq,
-+				int irq_flags, int common_errs,
-+				int *per_rdev_errs,
-+				struct regulator_dev **rdev, int rdev_amount)
-+{
-+	void *ptr;
-+	int ret;
-+
-+	ptr =3D regulator_irq_helper(dev, d, irq, irq_flags, common_errs,
-+				    per_rdev_errs, rdev, rdev_amount);
-+	if (IS_ERR(ptr))
-+		return ptr;
-+
-+	ret =3D devm_add_action_or_reset(dev, regulator_irq_helper_drop, ptr);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return ptr;
-+}
-+EXPORT_SYMBOL_GPL(devm_regulator_irq_helper);
-diff --git a/drivers/regulator/irq_helpers.c b/drivers/regulator/irq_helper=
-s.c
-new file mode 100644
-index 000000000000..d771688a4c64
---- /dev/null
-+++ b/drivers/regulator/irq_helpers.c
-@@ -0,0 +1,398 @@
-+// SPDX-License-Identifier: GPL-2.0
-+//
-+// Copyright (C) 2021 ROHM Semiconductors
-+// regulator IRQ based event notification helpers
-+//
-+// Logic has been partially adapted from qcom-labibb driver.
-+//
-+// Author: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/reboot.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+#include <linux/spinlock.h>
-+#include <linux/regulator/driver.h>
-+
-+#define REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS 10000
-+
-+struct regulator_irq {
-+	struct regulator_irq_data rdata;
-+	struct regulator_irq_desc desc;
-+	int irq;
-+	int retry_cnt;
-+	struct delayed_work isr_work;
-+};
-+
-+/*
-+ * Should only be called from threaded handler to prevent potential deadlo=
-ck
-+ */
-+static void rdev_flag_err(struct regulator_dev *rdev, int err)
-+{
-+	spin_lock(&rdev->err_lock);
-+	rdev->cached_err |=3D err;
-+	spin_unlock(&rdev->err_lock);
-+}
-+
-+static void rdev_clear_err(struct regulator_dev *rdev, int err)
-+{
-+	spin_lock(&rdev->err_lock);
-+	rdev->cached_err &=3D ~err;
-+	spin_unlock(&rdev->err_lock);
-+}
-+
-+static void regulator_notifier_isr_work(struct work_struct *work)
-+{
-+	struct regulator_irq *h;
-+	struct regulator_irq_desc *d;
-+	struct regulator_irq_data *rid;
-+	int ret =3D 0;
-+	int tmo, i;
-+	int num_rdevs;
-+
-+	h =3D container_of(work, struct regulator_irq,
-+			    isr_work.work);
-+	d =3D &h->desc;
-+	rid =3D &h->rdata;
-+	num_rdevs =3D rid->num_states;
-+
-+reread:
-+	if (d->fatal_cnt && h->retry_cnt > d->fatal_cnt) {
-+		if (!d->die)
-+			return hw_protection_shutdown("Regulator HW failure? - no IC recovery",
-+						      REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
-+		ret =3D d->die(rid);
-+		/*
-+		 * If the 'last resort' IC recovery failed we will have
-+		 * nothing else left to do...
-+		 */
-+		if (ret)
-+			return hw_protection_shutdown("Regulator HW failure. IC recovery failed=
-",
-+						      REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
-+
-+		/*
-+		 * If h->die() was implemented we assume recovery has been
-+		 * attempted (probably regulator was shut down) and we
-+		 * just enable IRQ and bail-out.
-+		 */
-+		goto enable_out;
-+	}
-+	if (d->renable) {
-+		ret =3D d->renable(rid);
-+
-+		if (ret =3D=3D REGULATOR_FAILED_RETRY) {
-+			/* Driver could not get current status */
-+			h->retry_cnt++;
-+			if (!d->reread_ms)
-+				goto reread;
-+
-+			tmo =3D d->reread_ms;
-+			goto reschedule;
-+		}
-+
-+		if (ret) {
-+			/*
-+			 * IC status reading succeeded. update error info
-+			 * just in case the renable changed it.
-+			 */
-+			for (i =3D 0; i < num_rdevs; i++) {
-+				struct regulator_err_state *stat;
-+				struct regulator_dev *rdev;
-+
-+				stat =3D &rid->states[i];
-+				rdev =3D stat->rdev;
-+				rdev_clear_err(rdev, (~stat->errors) &
-+						      stat->possible_errs);
-+			}
-+			h->retry_cnt++;
-+			/*
-+			 * The IC indicated problem is still ON - no point in
-+			 * re-enabling the IRQ. Retry later.
-+			 */
-+			tmo =3D d->irq_off_ms;
-+			goto reschedule;
-+		}
-+	}
-+
 +	/*
-+	 * Either IC reported problem cleared or no status checker was provided.
-+	 * If problems are gone - good. If not - then the IRQ will fire again
-+	 * and we'll have a new nice loop. In any case we should clear error
-+	 * flags here and re-enable IRQs.
-+	 */
-+	for (i =3D 0; i < num_rdevs; i++) {
-+		struct regulator_err_state *stat;
-+		struct regulator_dev *rdev;
-+
-+		stat =3D &rid->states[i];
-+		rdev =3D stat->rdev;
-+		rdev_clear_err(rdev, stat->possible_errs);
-+	}
-+
-+	/*
-+	 * Things have been seemingly successful =3D> zero retry-counter.
-+	 */
-+	h->retry_cnt =3D 0;
-+
-+enable_out:
-+	enable_irq(h->irq);
-+
-+	return;
-+
-+reschedule:
-+	if (!d->high_prio)
-+		mod_delayed_work(system_wq, &h->isr_work,
-+				 msecs_to_jiffies(tmo));
-+	else
-+		mod_delayed_work(system_highpri_wq, &h->isr_work,
-+				 msecs_to_jiffies(tmo));
-+}
-+
-+static irqreturn_t regulator_notifier_isr(int irq, void *data)
-+{
-+	struct regulator_irq *h =3D data;
-+	struct regulator_irq_desc *d;
-+	struct regulator_irq_data *rid;
-+	unsigned long rdev_map =3D 0;
-+	int num_rdevs;
-+	int ret, i, j;
-+
-+	d =3D &h->desc;
-+	rid =3D &h->rdata;
-+	num_rdevs =3D rid->num_states;
-+
-+	if (d->fatal_cnt)
-+		h->retry_cnt++;
-+
-+	/*
-+	 * we spare a few cycles by not clearing statuses prior to this call.
-+	 * The IC driver must initialize the status buffers for rdevs
-+	 * which it indicates having active events via rdev_map.
++	 * Existing logic does not warn if over_current_protection is given as
++	 * a constraint but driver does not support that. I think we should
++	 * warn about this type of issues as it is possible someone changes
++	 * PMIC on board to another type - and the another PMIC's driver does
++	 * not support setting protection. Board composer may happily believe
++	 * the DT limits are respected - especially if the new PMIC HW also
++	 * supports protection but the driver does not. I won't change the logic
++	 * without hearing more experienced opinion on this though.
 +	 *
-+	 * Maybe we should just to be on a safer side(?)
++	 * If warning is seen as a good idea then we can merge handling the
++	 * over-curret protection and detection and get rid of this special
++	 * handling.
 +	 */
-+	ret =3D d->map_event(irq, rid, &rdev_map);
+ 	if (rdev->constraints->over_current_protection
+ 		&& ops->set_over_current_protection) {
+-		ret =3D ops->set_over_current_protection(rdev);
++		int lim =3D rdev->constraints->over_curr_limits.prot;
 +
-+	/*
-+	 * If status reading fails (which is unlikely) we don't ack/disable
-+	 * IRQ but just increase fail count and retry when IRQ fires again.
-+	 * If retry_count exceeds the given safety limit we call IC specific die
-+	 * handler which can try disabling regulator(s).
-+	 *
-+	 * If no die handler is given we will just bug() as a last resort.
-+	 *
-+	 * We could try disabling all associated rdevs - but we might shoot
-+	 * ourselves in the head and leave the problematic regulator enabled. So
-+	 * if IC has no die-handler populated we just assume the regulator
-+	 * can't be disabled.
-+	 */
-+	if (unlikely(ret =3D=3D REGULATOR_FAILED_RETRY))
-+		goto fail_out;
-+
-+	h->retry_cnt =3D 0;
-+	/*
-+	 * Let's not disable IRQ if there were no status bits for us. We'd
-+	 * better leave spurious IRQ handling to genirq
-+	 */
-+	if (ret || !rdev_map)
-+		return IRQ_NONE;
-+
-+	/*
-+	 * Some events are bogus if the regulator is disabled. Skip such events
-+	 * if all relevant regulators are disabled
-+	 */
-+	if (d->skip_off) {
-+		for_each_set_bit(i, &rdev_map, num_rdevs) {
-+			struct regulator_dev *rdev;
-+			const struct regulator_ops *ops;
-+
-+			rdev =3D rid->states[i].rdev;
-+			ops =3D rdev->desc->ops;
-+
-+			/*
-+			 * If any of the flagged regulators is enabled we do
-+			 * handle this
-+			 */
-+			if (ops->is_enabled(rdev))
-+				break;
-+		}
-+		if (i =3D=3D num_rdevs)
-+			return IRQ_NONE;
-+	}
-+
-+	/* Disable IRQ if HW keeps line asserted */
-+	if (d->irq_off_ms)
-+		disable_irq_nosync(irq);
-+
-+	/*
-+	 * IRQ seems to be for us. Let's fire correct notifiers / store error
-+	 * flags
-+	 */
-+	for_each_set_bit(i, &rdev_map, num_rdevs) {
-+		unsigned long evt;
-+		struct regulator_err_state *stat;
-+		struct regulator_dev *rdev;
-+
-+		stat =3D &rid->states[i];
-+		rdev =3D stat->rdev;
-+
-+		for_each_set_bit(j, &stat->notifs, BITS_PER_TYPE(stat->notifs))
-+			evt =3D  BIT(j);
-+			pr_dbg("Sending regulator notification EVT 0x%lx\r\n",
-+			       stat->notifs, evt);
-+			regulator_notifier_call_chain(rdev, evt, NULL);
-+
-+		rdev_flag_err(rdev, stat->errors);
-+	}
-+
-+	if (d->irq_off_ms) {
-+		if (!d->high_prio)
-+			schedule_delayed_work(&h->isr_work,
-+					      msecs_to_jiffies(d->irq_off_ms));
-+		else
-+			mod_delayed_work(system_highpri_wq,
-+					 &h->isr_work,
-+					 msecs_to_jiffies(d->irq_off_ms));
-+	}
-+
-+	return IRQ_HANDLED;
-+
-+fail_out:
-+	if (d->fatal_cnt && h->retry_cnt > d->fatal_cnt) {
-+		/* If we have no recovery, just try shut down straight away */
-+		if (!d->die) {
-+			hw_protection_shutdown("Regulator failure. Retry count exceeded",
-+					       REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
-+		} else {
-+			ret =3D d->die(rid);
-+			/* If die() failed shut down as a last attempt to save the HW */
-+			if (ret)
-+				hw_protection_shutdown("Regulator failure. Recovery failed",
-+						       REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
-+		}
-+	}
-+
-+	return IRQ_NONE;
-+}
-+
-+static int init_rdev_state(struct device *dev, struct regulator_irq *h,
-+			   struct regulator_dev **rdev, int common_err,
-+			   int *rdev_err, int rdev_amount)
-+{
-+	int i;
-+
-+	h->rdata.states =3D devm_kzalloc(dev, sizeof(*h->rdata.states) *
-+				       rdev_amount, GFP_KERNEL);
-+	if (!h->rdata.states)
-+		return -ENOMEM;
-+
-+	h->rdata.num_states =3D rdev_amount;
-+	h->rdata.data =3D h->desc.data;
-+
-+	for (i =3D 0; i < rdev_amount; i++) {
-+		h->rdata.states[i].possible_errs =3D common_err;
-+		if (rdev_err)
-+			h->rdata.states[i].possible_errs |=3D *rdev_err++;
-+		h->rdata.states[i].rdev =3D *rdev++;
-+	}
-+
-+	return 0;
-+}
-+
-+static void init_rdev_errors(struct regulator_irq *h)
-+{
-+	int i;
-+
-+	for (i =3D 0; i < h->rdata.num_states; i++)
-+		if (h->rdata.states[i].possible_errs)
-+			h->rdata.states[i].rdev->use_cached_err =3D true;
-+}
-+
-+/**
-+ * regulator_irq_helper - register IRQ based regulator event/error notifier
-+ *
-+ * @dev:		device providing the IRQs
-+ * @d:			IRQ helper descriptor.
-+ * @irq:		IRQ used to inform events/errors to be notified.
-+ * @irq_flags:		Extra IRQ flags to be OR'ed with the default
-+ *			IRQF_ONESHOT when requesting the (threaded) irq.
-+ * @common_errs:	Errors which can be flagged by this IRQ for all rdevs.
-+ *			When IRQ is re-enabled these errors will be cleared
-+ *			from all associated regulators
-+ * @per_rdev_errs:	Optional error flag array describing errors specific
-+ *			for only some of the regulators. These errors will be
-+ *			or'ed with common errors. If this is given the array
-+ *			should contain rdev_amount flags. Can be set to NULL
-+ *			if there is no regulator specific error flags for this
-+ *			IRQ.
-+ * @rdev:		Array of pointers to regulators associated with this
-+ *			IRQ.
-+ * @rdev_amount:	Amount of regulators associated with this IRQ.
-+ *
-+ * Return: handle to irq_helper or an ERR_PTR() encoded error code.
-+ */
-+void *regulator_irq_helper(struct device *dev,
-+			   const struct regulator_irq_desc *d, int irq,
-+			   int irq_flags, int common_errs, int *per_rdev_errs,
-+			   struct regulator_dev **rdev, int rdev_amount)
-+{
-+	struct regulator_irq *h;
-+	int ret;
-+
-+	if (!rdev_amount || !d || !d->map_event || !d->name)
-+		return ERR_PTR(-EINVAL);
-+
-+	h =3D devm_kzalloc(dev, sizeof(*h), GFP_KERNEL);
-+	if (!h)
-+		return ERR_PTR(-ENOMEM);
-+
-+	h->irq =3D irq;
-+	h->desc =3D *d;
-+
-+	ret =3D init_rdev_state(dev, h, rdev, common_errs, per_rdev_errs,
-+			      rdev_amount);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	init_rdev_errors(h);
-+
-+	if (h->desc.irq_off_ms)
-+		INIT_DELAYED_WORK(&h->isr_work, regulator_notifier_isr_work);
-+
-+	ret =3D request_threaded_irq(h->irq, NULL, regulator_notifier_isr,
-+				   IRQF_ONESHOT | irq_flags, h->desc.name, h);
++		ret =3D ops->set_over_current_protection(rdev, lim,
++						       REGULATOR_SEVERITY_PROT,
++						       true);
+ 		if (ret < 0) {
+ 			rdev_err(rdev, "failed to set over current protection: %pe\n",
+ 				 ERR_PTR(ret));
+@@ -1410,6 +1474,62 @@ static int set_machine_constraints(struct regulator_=
+dev *rdev)
+ 		}
+ 	}
+=20
++	if (rdev->constraints->over_current_detection)
++		ret =3D handle_notify_limits(rdev,
++					   ops->set_over_current_protection,
++					   &rdev->constraints->over_curr_limits);
 +	if (ret) {
-+		dev_err(dev, "Failed to request IRQ %d\n", irq);
-+
-+		return ERR_PTR(ret);
++		if (ret !=3D -EOPNOTSUPP) {
++			rdev_err(rdev, "failed to set over current limits: %pe\n",
++				 ERR_PTR(ret));
++			return ret;
++		}
++		rdev_warn(rdev,
++			  "IC does not support requested over-current limits\n");
 +	}
 +
-+	return h;
-+}
-+EXPORT_SYMBOL_GPL(regulator_irq_helper);
++	if (rdev->constraints->over_voltage_detection)
++		ret =3D handle_notify_limits(rdev,
++					   ops->set_over_voltage_protection,
++					   &rdev->constraints->over_voltage_limits);
++	if (ret) {
++		if (ret !=3D -EOPNOTSUPP) {
++			rdev_err(rdev, "failed to set over voltage limits %pe\n",
++				 ERR_PTR(ret));
++			return ret;
++		}
++		rdev_warn(rdev,
++			  "IC does not support requested over voltage limits\n");
++	}
 +
-+/**
-+ * regulator_irq_helper_cancel - drop IRQ based regulator event/error noti=
-fier
-+ *
-+ * @handle:		Pointer to handle returned by a successful call to
-+ *			regulator_irq_helper(). Will be NULLed upon return.
-+ *
-+ * The associated IRQ is released and work is cancelled when the function
-+ * returns.
-+ */
-+void regulator_irq_helper_cancel(void **handle)
++	if (rdev->constraints->under_voltage_detection)
++		ret =3D handle_notify_limits(rdev,
++					   ops->set_under_voltage_protection,
++					   &rdev->constraints->under_voltage_limits);
++	if (ret) {
++		if (ret !=3D -EOPNOTSUPP) {
++			rdev_err(rdev, "failed to set under voltage limits %pe\n",
++				 ERR_PTR(ret));
++			return ret;
++		}
++		rdev_warn(rdev,
++			  "IC does not support requested under voltage limits\n");
++	}
++
++	if (rdev->constraints->over_temp_detection)
++		ret =3D handle_notify_limits(rdev,
++					   ops->set_thermal_protection,
++					   &rdev->constraints->temp_limits);
++	if (ret) {
++		if (ret !=3D -EOPNOTSUPP) {
++			rdev_err(rdev, "failed to set temperature limits %pe\n",
++				 ERR_PTR(ret));
++			return ret;
++		}
++		rdev_warn(rdev,
++			  "IC does not support requested temperature limits\n");
++	}
++
+ 	if (rdev->constraints->active_discharge && ops->set_active_discharge) {
+ 		bool ad_state =3D (rdev->constraints->active_discharge =3D=3D
+ 			      REGULATOR_ACTIVE_DISCHARGE_ENABLE) ? true : false;
+diff --git a/drivers/regulator/of_regulator.c b/drivers/regulator/of_regula=
+tor.c
+index 49f6c05fee34..f54d4f176882 100644
+--- a/drivers/regulator/of_regulator.c
++++ b/drivers/regulator/of_regulator.c
+@@ -21,6 +21,62 @@ static const char *const regulator_states[PM_SUSPEND_MAX=
+ + 1] =3D {
+ 	[PM_SUSPEND_MAX]	=3D "regulator-state-disk",
+ };
+=20
++static void fill_limit(int *limit, int val)
 +{
-+	if (handle && *handle) {
-+		struct regulator_irq *h =3D *handle;
-+
-+		free_irq(h->irq, h);
-+		if (h->desc.irq_off_ms)
-+			cancel_delayed_work_sync(&h->isr_work);
-+
-+		h =3D NULL;
-+	}
++	if (val)
++		if (val =3D=3D 1)
++			*limit =3D REGULATOR_NOTIF_LIMIT_ENABLE;
++		else
++			*limit =3D val;
++	else
++		*limit =3D REGULATOR_NOTIF_LIMIT_DISABLE;
 +}
-+EXPORT_SYMBOL_GPL(regulator_irq_helper_cancel);
++
++static void of_get_regulator_prot_limits(struct device_node *np,
++				struct regulation_constraints *constraints)
++{
++	u32 pval;
++	int i;
++	static const char *const props[] =3D {
++		"regulator-oc-%s-microamp",
++		"regulator-ov-%s-microvolt",
++		"regulator-temp-%s-kelvin",
++		"regulator-uv-%s-microvolt",
++	};
++	struct notification_limit *limits[] =3D {
++		&constraints->over_curr_limits,
++		&constraints->over_voltage_limits,
++		&constraints->temp_limits,
++		&constraints->under_voltage_limits,
++	};
++	bool set[4] =3D {0};
++
++	/* Protection limits: */
++	for (i =3D 0; i < ARRAY_SIZE(props); i++) {
++		char prop[255];
++		bool found;
++		int j;
++		static const char *const lvl[] =3D {
++			"protection", "error", "warn"
++		};
++		int *l[] =3D {
++			&limits[i]->prot, &limits[i]->err, &limits[i]->warn,
++		};
++
++		for (j =3D 0; j < ARRAY_SIZE(lvl); j++) {
++			snprintf(prop, 255, props[i], lvl[j]);
++			found =3D !of_property_read_u32(np, prop, &pval);
++			if (found)
++				fill_limit(l[j], pval);
++			set[i] |=3D found;
++		}
++	}
++	constraints->over_current_detection =3D set[0];
++	constraints->over_voltage_detection =3D set[1];
++	constraints->over_temp_detection =3D set[2];
++	constraints->under_voltage_detection =3D set[3];
++}
++
+ static int of_get_regulation_constraints(struct device *dev,
+ 					struct device_node *np,
+ 					struct regulator_init_data **init_data,
+@@ -188,6 +244,8 @@ static int of_get_regulation_constraints(struct device =
+*dev,
+ 	constraints->over_current_protection =3D of_property_read_bool(np,
+ 					"regulator-over-current-protection");
+=20
++	of_get_regulator_prot_limits(np, constraints);
++
+ 	for (i =3D 0; i < ARRAY_SIZE(regulator_states); i++) {
+ 		switch (i) {
+ 		case PM_SUSPEND_MEM:
+diff --git a/drivers/regulator/qcom-labibb-regulator.c b/drivers/regulator/=
+qcom-labibb-regulator.c
+index de25e3279b4b..b3da0dc58782 100644
+--- a/drivers/regulator/qcom-labibb-regulator.c
++++ b/drivers/regulator/qcom-labibb-regulator.c
+@@ -307,13 +307,21 @@ static irqreturn_t qcom_labibb_ocp_isr(int irq, void =
+*chip)
+ 	return IRQ_HANDLED;
+ }
+=20
+-static int qcom_labibb_set_ocp(struct regulator_dev *rdev)
++static int qcom_labibb_set_ocp(struct regulator_dev *rdev, int lim,
++			       int severity, bool enable)
+ {
+ 	struct labibb_regulator *vreg =3D rdev_get_drvdata(rdev);
+ 	char *ocp_irq_name;
+ 	u32 irq_flags =3D IRQF_ONESHOT;
+ 	int irq_trig_low, ret;
+=20
++	/*
++	 * labibb supports only protection - and does not support setting
++	 * limit. Furthermore, we don't support disabling protection.
++	 */
++	if (lim || severity !=3D REGULATOR_SEVERITY_PROT || !enable)
++		return -EINVAL;
++
+ 	/* If there is no OCP interrupt, there's nothing to set */
+ 	if (vreg->ocp_irq <=3D 0)
+ 		return -EINVAL;
+diff --git a/drivers/regulator/qcom_spmi-regulator.c b/drivers/regulator/qc=
+om_spmi-regulator.c
+index 95677c51c1fa..41424a3366d0 100644
+--- a/drivers/regulator/qcom_spmi-regulator.c
++++ b/drivers/regulator/qcom_spmi-regulator.c
+@@ -595,11 +595,15 @@ static int spmi_regulator_vs_enable(struct regulator_=
+dev *rdev)
+ 	return regulator_enable_regmap(rdev);
+ }
+=20
+-static int spmi_regulator_vs_ocp(struct regulator_dev *rdev)
++static int spmi_regulator_vs_ocp(struct regulator_dev *rdev, int lim_uA,
++				 int severity, bool enable)
+ {
+ 	struct spmi_regulator *vreg =3D rdev_get_drvdata(rdev);
+ 	u8 reg =3D SPMI_VS_OCP_OVERRIDE;
+=20
++	if (lim_uA || !enable || severity !=3D REGULATOR_SEVERITY_PROT)
++		return -EINVAL;
++
+ 	return spmi_vreg_write(vreg, SPMI_VS_REG_OCP, &reg, 1);
+ }
+=20
+diff --git a/drivers/regulator/stpmic1_regulator.c b/drivers/regulator/stpm=
+ic1_regulator.c
+index cf10fdb72e32..2d7597c76e4a 100644
+--- a/drivers/regulator/stpmic1_regulator.c
++++ b/drivers/regulator/stpmic1_regulator.c
+@@ -32,7 +32,8 @@ struct stpmic1_regulator_cfg {
+=20
+ static int stpmic1_set_mode(struct regulator_dev *rdev, unsigned int mode);
+ static unsigned int stpmic1_get_mode(struct regulator_dev *rdev);
+-static int stpmic1_set_icc(struct regulator_dev *rdev);
++static int stpmic1_set_icc(struct regulator_dev *rdev, int lim, int severi=
+ty,
++			   bool enable);
+ static unsigned int stpmic1_map_mode(unsigned int mode);
+=20
+ enum {
+@@ -491,11 +492,26 @@ static int stpmic1_set_mode(struct regulator_dev *rde=
+v, unsigned int mode)
+ 				  STPMIC1_BUCK_MODE_LP, value);
+ }
+=20
+-static int stpmic1_set_icc(struct regulator_dev *rdev)
++static int stpmic1_set_icc(struct regulator_dev *rdev, int lim, int severi=
+ty,
++			   bool enable)
+ {
+ 	struct stpmic1_regulator_cfg *cfg =3D rdev_get_drvdata(rdev);
+ 	struct regmap *regmap =3D rdev_get_regmap(rdev);
+=20
++	/*
++	 * The code seems like one bit in a register controls whether OCP is
++	 * enabled. So we might be able to turn it off here is if that
++	 * was requested. I won't support this because I don't have the HW.
++	 * Feel free to try and implement if you have the HW and need kernel
++	 * to disable this.
++	 *
++	 * Also, I don't know if limit can be configured or if we support
++	 * error/warning instead of protect. So I just keep existing logic
++	 * and assume no.
++	 */
++	if (lim || severity !=3D REGULATOR_SEVERITY_PROT || !enable)
++		return -EINVAL;
++
+ 	/* enable switch off in case of over current */
+ 	return regmap_update_bits(regmap, cfg->icc_reg, cfg->icc_mask,
+ 				  cfg->icc_mask);
 diff --git a/include/linux/regulator/driver.h b/include/linux/regulator/dri=
 ver.h
-index 4ea520c248e9..be301b28838a 100644
+index be301b28838a..eb979b810639 100644
 --- a/include/linux/regulator/driver.h
 +++ b/include/linux/regulator/driver.h
-@@ -413,6 +413,128 @@ struct regulator_config {
- 	struct gpio_desc *ena_gpiod;
+@@ -40,6 +40,15 @@ enum regulator_status {
+ 	REGULATOR_STATUS_UNDEFINED,
  };
 =20
-+/**
-+ * struct regulator_err_state - regulator error/notification status
-+ *
-+ * @rdev:		Regulator which status the struct indicates.
-+ * @notifs:		Events which have occurred on the regulator.
-+ * @errors:		Errors which are active on the regulator.
-+ * @possible_errs:	Errors which can be signaled (by given IRQ).
-+ */
-+struct regulator_err_state {
-+	struct regulator_dev *rdev;
-+	unsigned long notifs;
-+	unsigned long errors;
-+	int possible_errs;
++enum regulator_detection_severity {
++	/* Hardware shut down voltage outputs if condition is detected */
++	REGULATOR_SEVERITY_PROT,
++	/* Hardware is probably damaged/inoperable */
++	REGULATOR_SEVERITY_ERR,
++	/* Hardware is still recoverable but recovery action must be taken */
++	REGULATOR_SEVERITY_WARN,
 +};
 +
-+/**
-+ * struct regulator_irq_data - regulator error/notification status date
-+ *
-+ * @states:	Status structs for each of the associated regulators.
-+ * @num_states:	Amount of associated regulators.
-+ * @data:	Driver data pointer given at regulator_irq_desc.
-+ * @opaque:	Value storage for IC driver. Core does not update this. ICs
-+ *		may want to store status register value here at map_event and
-+ *		compare contents at 'renable' callback to see if new problems
-+ *		have been added to status. If that is the case it may be
-+ *		desirable to return REGULATOR_ERROR_CLEARED and not
-+ *		REGULATOR_ERROR_ON to allow IRQ fire again and to generate
-+ *		notifications also for the new issues.
-+ *
-+ * This structure is passed to 'map_event' and 'renable' callbacks for
-+ * reporting regulator status to core.
-+ */
-+struct regulator_irq_data {
-+	struct regulator_err_state *states;
-+	int num_states;
-+	void *data;
-+	long opaque;
-+};
-+
-+/**
-+ * struct regulator_irq_desc - notification sender for IRQ based events.
-+ *
-+ * @name:	The visible name for the IRQ
-+ * @fatal_cnt:	If this IRQ is used to signal HW damaging condition it may =
-be
-+ *		best to shut-down regulator(s) or reboot the SOC if error
-+ *		handling is repeatedly failing. If fatal_cnt is given the IRQ
-+ *		handling is aborted if it fails for fatal_cnt times and die()
-+ *		callback (if populated) or BUG() is called to try to prevent
-+ *		further damage.
-+ * @reread_ms:	The time which is waited before attempting to re-read status
-+ *		at the worker if IC reading fails. Immediate re-read is done
-+ *		if time is not specified.
-+ * @irq_off_ms:	The time which IRQ is kept disabled before re-evaluating t=
-he
-+ *		status for devices which keep IRQ disabled for duration of the
-+ *		error. If this is not given the IRQ is left enabled and renable
-+ *		is not called.
-+ * @skip_off:	If set to true the IRQ handler will attempt to check if any =
-of
-+ *		the associated regulators are enabled prior to taking other
-+ *		actions. If no regulators are enabled and this is set to true
-+ *		a spurious IRQ is assumed and IRQ_NONE is returned.
-+ * @high_prio:	Boolean to indicate that high priority WQ should be used.
-+ * @data:	Driver private data pointer which will be passed as such to
-+ *		the renable, map_event and die callbacks in regulator_irq_data.
-+ * @die:	Protection callback. If IC status reading or recovery actions
-+ *		fail fatal_cnt times this callback or BUG() is called. This
-+ *		callback should implement a final protection attempt like
-+ *		disabling the regulator. If protection succeeded this may
-+ *		return 0. If anything else is returned the core assumes final
-+ *		protection failed and calls BUG() as a last resort.
-+ * @map_event:	Driver callback to map IRQ status into regulator devices wi=
-th
-+ *		events / errors. NOTE: callback MUST initialize both the
-+ *		errors and notifs for all rdevs which it signals having
-+ *		active events as core does not clean the map data.
-+ *		REGULATOR_FAILED_RETRY can be returned to indicate that the
-+ *		status reading from IC failed. If this is repeated for
-+ *		fatal_cnt times the core will call die() callback or BUG()
-+ *		as a last resort to protect the HW.
-+ * @renable:	Optional callback to check status (if HW supports that) before
-+ *		re-enabling IRQ. If implemented this should clear the error
-+ *		flags so that errors fetched by regulator_get_error_flags()
-+ *		are updated. If callback is not implemented then errors are
-+ *		assumed to be cleared and IRQ is re-enabled.
-+ *		REGULATOR_FAILED_RETRY can be returned to
-+ *		indicate that the status reading from IC failed. If this is
-+ *		repeated for 'fatal_cnt' times the core will call die()
-+ *		callback or BUG() as a last resort to protect the HW.
-+ *		Returning zero indicates that the problem in HW has been solved
-+ *		and IRQ will be re-enabled. Returning REGULATOR_ERROR_ON
-+ *		indicates the error condition is still active and keeps IRQ
-+ *		disabled. Please note that returning REGULATOR_ERROR_ON does
-+ *		not retrigger evaluating what events are active or resending
-+ *		notifications. If this is needed you probably want to return
-+ *		zero and allow IRQ to retrigger causing events to be
-+ *		re-evaluated and re-sent.
-+ *
-+ * This structure is used for registering regulator IRQ notification helpe=
-r.
-+ */
-+struct regulator_irq_desc {
-+	const char *name;
-+	int irq_flags;
-+	int fatal_cnt;
-+	int reread_ms;
-+	int irq_off_ms;
-+	bool skip_off;
-+	bool high_prio;
-+	void *data;
-+
-+	int (*die)(struct regulator_irq_data *rid);
-+	int (*map_event)(int irq, struct regulator_irq_data *rid,
-+			  unsigned long *dev_mask);
-+	int (*renable)(struct regulator_irq_data *rid);
-+};
-+
-+/*
-+ * Return values for regulator IRQ helpers.
-+ */
-+enum {
-+	REGULATOR_ERROR_CLEARED,
-+	REGULATOR_FAILED_RETRY,
-+	REGULATOR_ERROR_ON,
-+};
-+
- /*
-  * struct coupling_desc
+ /* Initialize struct linear_range for regulators */
+ #define REGULATOR_LINEAR_RANGE(_min_uV, _min_sel, _max_sel, _step_uV)	\
+ {									\
+@@ -78,8 +87,25 @@ enum regulator_status {
+  * @get_current_limit: Get the configured limit for a current-limited regu=
+lator.
+  * @set_input_current_limit: Configure an input limit.
   *
-@@ -477,6 +599,9 @@ struct regulator_dev {
+- * @set_over_current_protection: Support capability of automatically shutt=
+ing
+- *                               down when detecting an over current event.
++ * @set_over_current_protection: Support enabling of and setting limits fo=
+r over
++ *	current situation detection. Detection can be configured for three
++ *	levels of severity.
++ *	REGULATOR_SEVERITY_PROT should automatically shut down the regulator(s).
++ *	REGULATOR_SEVERITY_ERR should indicate that over-current situation is
++ *		caused by an unrecoverable error but HW does not perform
++ *		automatic shut down.
++ *	REGULATOR_SEVERITY_WARN should indicate situation where hardware is
++ *		still believed to not be damaged but that a board sepcific
++ *		recovery action is needed. If lim_uA is 0 the limit should not
++ *		be changed but the detection should just be enabled/disabled as
++ *		is requested.
++ * @set_over_voltage_protection: Support enabling of and setting limits fo=
+r over
++ *	voltage situation detection. Detection can be configured for same
++ *	severities as over current protection.
++ * @set_under_voltage_protection: Support enabling of and setting limits f=
+or
++ *	under situation detection.
++ * @set_thermal_protection: Support enabling of and setting limits for over
++ *	temperature situation detection.
+  *
+  * @set_active_discharge: Set active discharge enable/disable of regulator=
+s.
+  *
+@@ -143,8 +169,15 @@ struct regulator_ops {
+ 	int (*get_current_limit) (struct regulator_dev *);
 =20
- 	/* time when this regulator was disabled last time */
- 	ktime_t last_off;
-+	int cached_err;
-+	bool use_cached_err;
-+	spinlock_t err_lock;
+ 	int (*set_input_current_limit) (struct regulator_dev *, int lim_uA);
+-	int (*set_over_current_protection) (struct regulator_dev *);
+-	int (*set_active_discharge) (struct regulator_dev *, bool enable);
++	int (*set_over_current_protection)(struct regulator_dev *, int lim_uA,
++					   int severity, bool enable);
++	int (*set_over_voltage_protection)(struct regulator_dev *, int lim_uV,
++					   int severity, bool enable);
++	int (*set_under_voltage_protection)(struct regulator_dev *, int lim_uV,
++					    int severity, bool enable);
++	int (*set_thermal_protection)(struct regulator_dev *, int lim,
++				      int severity, bool enable);
++	int (*set_active_discharge)(struct regulator_dev *, bool enable);
+=20
+ 	/* enable/disable regulator */
+ 	int (*enable) (struct regulator_dev *);
+diff --git a/include/linux/regulator/machine.h b/include/linux/regulator/ma=
+chine.h
+index 8a56f033b6cd..68b4a514a410 100644
+--- a/include/linux/regulator/machine.h
++++ b/include/linux/regulator/machine.h
+@@ -83,6 +83,14 @@ struct regulator_state {
+ 	bool changeable;
  };
 =20
- struct regulator_dev *
-@@ -491,6 +616,16 @@ void devm_regulator_unregister(struct device *dev, str=
-uct regulator_dev *rdev);
++#define REGULATOR_NOTIF_LIMIT_DISABLE -1
++#define REGULATOR_NOTIF_LIMIT_ENABLE -2
++struct notification_limit {
++	int prot;
++	int err;
++	int warn;
++};
++
+ /**
+  * struct regulation_constraints - regulator operating constraints.
+  *
+@@ -100,6 +108,11 @@ struct regulator_state {
+  * @ilim_uA: Maximum input current.
+  * @system_load: Load that isn't captured by any consumer requests.
+  *
++ * @over_curr_limits:		Limits for acting on over current.
++ * @over_voltage_limits:	Limits for acting on over voltage.
++ * @under_voltage_limits:	Limits for acting on under voltage.
++ * @temp_limits:		Limits for acting on over temperature.
++
+  * @max_spread: Max possible spread between coupled regulators
+  * @max_uV_step: Max possible step change in voltage
+  * @valid_modes_mask: Mask of modes which may be configured by consumers.
+@@ -116,6 +129,11 @@ struct regulator_state {
+  * @pull_down: Enable pull down when regulator is disabled.
+  * @over_current_protection: Auto disable on over current event.
+  *
++ * @over_current_detection: Configure over current limits.
++ * @over_voltage_detection: Configure over voltage limits.
++ * @under_voltage_detection: Configure under voltage limits.
++ * @over_temp_detection: Configure over temperature limits.
++ *
+  * @input_uV: Input voltage for regulator when supplied by another regulat=
+or.
+  *
+  * @state_disk: State for regulator when system is suspended in disk mode.
+@@ -172,6 +190,10 @@ struct regulation_constraints {
+ 	struct regulator_state state_disk;
+ 	struct regulator_state state_mem;
+ 	struct regulator_state state_standby;
++	struct notification_limit over_curr_limits;
++	struct notification_limit over_voltage_limits;
++	struct notification_limit under_voltage_limits;
++	struct notification_limit temp_limits;
+ 	suspend_state_t initial_state; /* suspend state to set at init */
 =20
- int regulator_notifier_call_chain(struct regulator_dev *rdev,
- 				  unsigned long event, void *data);
-+void *devm_regulator_irq_helper(struct device *dev,
-+				const struct regulator_irq_desc *d, int irq,
-+				int irq_flags, int common_errs,
-+				int *per_rdev_errs, struct regulator_dev **rdev,
-+				int rdev_amount);
-+void *regulator_irq_helper(struct device *dev,
-+			   const struct regulator_irq_desc *d, int irq,
-+			   int irq_flags, int common_errs, int *per_rdev_errs,
-+			   struct regulator_dev **rdev, int rdev_amount);
-+void regulator_irq_helper_cancel(void **handle);
+ 	/* mode to set on startup */
+@@ -193,6 +215,10 @@ struct regulation_constraints {
+ 	unsigned soft_start:1;	/* ramp voltage slowly */
+ 	unsigned pull_down:1;	/* pull down resistor when regulator off */
+ 	unsigned over_current_protection:1; /* auto disable on over current */
++	unsigned over_current_detection:1; /* notify on over current */
++	unsigned over_voltage_detection:1; /* notify on over voltage */
++	unsigned under_voltage_detection:1; /* notify on under voltage */
++	unsigned over_temp_detection:1; /* notify on over temperature */
+ };
 =20
- void *rdev_get_drvdata(struct regulator_dev *rdev);
- struct device *rdev_get_dev(struct regulator_dev *rdev);
+ /**
 --=20
 2.25.4
 
@@ -837,19 +572,19 @@ Simon says - in Latin please.
 ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
 Thanks to Simon Glass for the translation =3D]=20
 
---huq684BweRXVnRxX
+--a8Wt8u1KmwUX3Y2C
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmCZGSgACgkQeFA3/03a
-ocXcCAf/Yuq5bwPztItR+72/DWNv3hOKlglVeIDHjwmYYSRHFKVi6sTfOotbtebN
-7zlf663EAdMdhX1UlX4SzpjsCj1fTaQX+1ioju6dC7QSzpagZT0gtN2nPI7LmYDM
-99N1yeL2wHMBCH7+RvR9hAz1ay7zTh8/TSpCuOzln+U+SUUvs04mjhNcpTXBtQTX
-JAmORtS8ur1rykOIeGMR30FJyiRx2DCLZEz0qeZ1qp4rPUNDGkl90wHpOnAqpM8Y
-13n5Lj4oUkbFhpuLm58tpcsKxy02oGgUiQSamnQlc7P1ZBApVIT82sRBbFOfYTUb
-nUDU2S0u2WWM0dHLL54TxFvrdPMDVQ==
-=nrkw
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmCZGTsACgkQeFA3/03a
+ocVZ7ggAxVwsGE2cOkGlBvpkN/l5m4sqTJEr4kPQDixgIfTBxW0UcL9Lcbj5RzXW
+unU5MQ52t2Jgp2GyW8CsoPCJ4VxFzktgZxqaQPK59ZbbdTRftfJKoaEcB8ydfVNY
+wE6UjqYSPzwBkyPBHgqLSCue0NQJBU/Z7VLyyPwcw34AOA0xoSK+FNdYiAvTFyKO
+58J8TQN09u1EqOfeO2c9Ptv/LWSfH/tCBpRvWuPWfMgc1343a1JCZG7XSajKEtd5
+cKKrYuy+4M5tcIX8eKT33ckKTQWp0Qv+HuGtbMiyYVsPuZBFeQJM0XkippxGDMNb
+fwMzvAWCRkOHeuvomEL8N6J7sFdtqg==
+=xcIp
 -----END PGP SIGNATURE-----
 
---huq684BweRXVnRxX--
+--a8Wt8u1KmwUX3Y2C--
