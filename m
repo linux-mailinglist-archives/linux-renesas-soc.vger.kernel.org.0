@@ -2,198 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5722F37A2A0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 May 2021 10:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0363237A2B4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 May 2021 10:55:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231191AbhEKIwn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 May 2021 04:52:43 -0400
-Received: from mail-eopbgr1410112.outbound.protection.outlook.com ([40.107.141.112]:37861
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231162AbhEKIwj (ORCPT
+        id S231145AbhEKI44 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 May 2021 04:56:56 -0400
+Received: from www.zeus03.de ([194.117.254.33]:54212 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230465AbhEKI4v (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 May 2021 04:52:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l5jbGigr2GGGuHHHkl3B/9cM4oA1aT5jkj+IKGH1iZKGTxkv+Q2BVD9andJMBnjSQZCxrIEEFVQJFNpXMYjFvw09GSwijAc2gAr44lVWSZqJ60c8hPIOZnOxHZqckVi733Y5pwSgtgjddUKAV6y+VUwmrPx2o1nZzrDXi917bD1edjkp8SCnwhEYB6PL1LvBx1PjP+q8lBWyVHiZ5+IpTCQBBrSW0lwaUyQDIoX2M8G4mBwi4Xyy3Us3GkwKFE4ECDy5T62akGTWRFMUzfgjvhIQ+FTDFi4dyZAS3P3Rq384EZ9Lt1WuUFAVewoaYEcIAmtr2yR+MUCKlq+/9sKbNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KIEU7rnNNYaHDewmSxYSN0FOMJOEafVezuPyuxNoAEA=;
- b=l+HjitCw+Uv82KIqQ+sq+O0QC10QJfICWywDtOIEaNRAyHU6vClZFbVJlAuUgugfnSK1MC0WhSKfzgto3o07ZFbZNLyAVSEsrST/xg4/bB32Rhf75gAjVKug5iJgaUC3pr5RrNqCWBxNWy3iE2Sx43MZKh8Scxu+TIV2bvm7vSl0yCoLynQ4sHEaVr8d47Avd2xHDqVL2UtizQPRJyDXcamZqTTPkksap5IxwjDgZDUwOWU236aGHbOzj+mOh5RxQ1W8MR3ervkOGKFi1PsCMDFUmCk6qm/ET9iD8j3mFSqVdlXzT+QTm14xxIsOVmqKBmwXgi6BdzIzcu0PqgoTBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KIEU7rnNNYaHDewmSxYSN0FOMJOEafVezuPyuxNoAEA=;
- b=ReiknLBbQOxt/+6g3L/0TyRTen3e4ne0sfxaGbYx7jNtLiNso5Dvr0f8TJvaf7JTX6Zx/f4nJWJCBhjMZg5aKNqiu/fTF6uLXd2omynNzgeoH+fVW9JTWXZnb42VEG1juGUTu3xo2eLyCxYcjxtZv2hiCc+H707yB/Mssgd2I/o=
-Received: from OSAPR01MB2737.jpnprd01.prod.outlook.com (2603:1096:603:38::21)
- by OS3PR01MB6292.jpnprd01.prod.outlook.com (2603:1096:604:f0::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25; Tue, 11 May
- 2021 08:51:27 +0000
-Received: from OSAPR01MB2737.jpnprd01.prod.outlook.com
- ([fe80::48dd:a7cb:a2b2:8d46]) by OSAPR01MB2737.jpnprd01.prod.outlook.com
- ([fe80::48dd:a7cb:a2b2:8d46%6]) with mapi id 15.20.4108.032; Tue, 11 May 2021
- 08:51:26 +0000
-From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] dt-bindings: media: renesas,drif: Use graph schema
-Thread-Topic: [PATCH] dt-bindings: media: renesas,drif: Use graph schema
-Thread-Index: AQHXRdv/jnc1n9IF/0+AWGHP9QP/dKrd+MIw
-Date:   Tue, 11 May 2021 08:51:26 +0000
-Message-ID: <OSAPR01MB27373779BEED96CA812710BEC2539@OSAPR01MB2737.jpnprd01.prod.outlook.com>
-References: <20210510203514.603471-1-robh@kernel.org>
-In-Reply-To: <20210510203514.603471-1-robh@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [2.28.163.2]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bf61f38c-3531-4277-83ca-08d91459f679
-x-ms-traffictypediagnostic: OS3PR01MB6292:
-x-microsoft-antispam-prvs: <OS3PR01MB629227C7CF040894EC8CA855C2539@OS3PR01MB6292.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: oa57LrHHfrPuHUYIk/Fxn2P1EHOBhEeshdFeFS9OAPDf5BytTqEDou/Gq2M5ToWigjlf+odeswR0oPHkwsBpSK/brEdf0Zlf0r9u7qdokQlomG5mD9ZsdAeNCpsNfsW7qMgAwC53qsvjag93dIFKFi2VAV8aHF6liECizO2t6Q8r0WTs4k2s87thdzhaPENvofX6ZI41gvDokA+Vb5+tfCIVX4VP/14G8cE1YHZkujzcDD2wJ20p3pJjWP6DJCGeQ8ciN3OTis12gszqJp/Sdzw77TSs/GN3t1QdXnDHfF9fnCnuIaKi4SHdDei4WhG5EqWiAGYbGxwLJzRtf/fEChYvrUfucKKEYZ1mX608uPi8FNwaM+x3Xj+acDPc//MVBhChmQgUMHITK90vLHglW5kzG9TXygqheLRHbR1npFVo/+ThIVFug7K+4NWzGzwAa3xtJwvkQGLlirt5JznmB16Aimo6eJa0ot+cQqZfCTlEY1w2z0UrgmYgDRD+u+1VtXxOpmtCW05PnDWj93yLpAZbjjHKZ02jR0lJIGRNSWVoHpVJhsMegxHOMQX5HgZuHK+HGArUNaUyV8irUzQqWFCFrfdtiDJVpIA+ftJmzG8=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2737.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(498600001)(186003)(76116006)(4326008)(33656002)(110136005)(71200400001)(53546011)(52536014)(6506007)(5660300002)(86362001)(66946007)(66556008)(64756008)(66476007)(66446008)(8936002)(38100700002)(7696005)(26005)(55016002)(9686003)(122000001)(2906002)(54906003)(8676002)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?kWjPP6cykMxJJPkapfKImzAlWS22JxKgQc28sho3xlWfHyB/OUtwFU5aLk8Y?=
- =?us-ascii?Q?CHjvlaAzSi4tUcgkxh9RovvL8U+5rYMdvLzX6fQGcGVWzRUr/Ozm45rcg0rL?=
- =?us-ascii?Q?CFPDYf1JvSsuk283YniWFWtVJaDtiCt/5KRVBEzx/sxgDU9u3MRo0dtAhrTI?=
- =?us-ascii?Q?WMq35Dxz8PfKzH6GrlkUHmXvhxynyJnFlrf/3pAd0hMR4rXGwks2oHXQ2EoB?=
- =?us-ascii?Q?bO1rpv6iAxA/fySFpejDRUBLSYa8eufBWS/upHQ1y1RCDTYHxulxwaJ0QNhB?=
- =?us-ascii?Q?UVp0N08zhpzy40514BI/0TTZyErmyDAys9bgr+PT4Qh0JAj5GFPhr3UQt9xV?=
- =?us-ascii?Q?nOjGi+2LaPSTrMnOGzomDl613ahOpqdCtMjSfAZmMwgxa1NrA/QnNcmOxs6l?=
- =?us-ascii?Q?+MOohWDH4ffa8+E7VSNsGmFrBhgBVaf0cMjKdwPSf0dsGfWxJvWbIsDXknTl?=
- =?us-ascii?Q?APC1NC1ApUuEtvC9J0g/o0QHhvI1Cn5pZmT3QFA7dXvvPwdH5yLndhs25ocO?=
- =?us-ascii?Q?9eoqE1Iczhp2yKvPyLfcP95MOkANrHHDdmS2cZ8d9yOfR+CzjGkUbWLZegyh?=
- =?us-ascii?Q?/Hoq71XArfIgNIsqHJiJqTdyCMDr+zNA/LbVksIWC94oOvaj4NTeamG58c9b?=
- =?us-ascii?Q?no+F4LdtqS42arJR+H5sXoIKyWllbgaxIzo1ZbGh35usjcWTzm8UTwJZ97nW?=
- =?us-ascii?Q?xnliQK4hH62N93jYBhOKsF2u4P4a4jvINHmY/RrKCDg/TJboAV+j6iU761JZ?=
- =?us-ascii?Q?kWrH+yyud239IR3O0stAexVBUoTPRee4lmxFOpnWx0LrSM7RoAklWk86NCcc?=
- =?us-ascii?Q?5L0RLCf9l6jxn0yL/nOLO7AuokZQytlJnNPDfLyYO/4xw8F7DtMrSg7FCxLS?=
- =?us-ascii?Q?Ncm53IzRk8VDrb/PsiEap7aJlkLUozaBlMJQqYj52LxAZmUw2HbmOBOulvCb?=
- =?us-ascii?Q?f7kjqCKuqSMqJIUqpCmMeFF5ryPXb/LkUDrnoUmoNGkXUBm0cn1EicB+CvC7?=
- =?us-ascii?Q?Fdc/PsGagd8KCP0uvPjZ69ipUC79v05ZMwRHQxIvJQtMWqrcuBCrVKlWBIUT?=
- =?us-ascii?Q?m604q42IUiLYIvasQEmHgMVDGE3wEcpUUgB4rnhsi9sewaPByLIIw1Z2wTEs?=
- =?us-ascii?Q?VomB9htguaiOGcVz0PRh6uuubNzEbZpM/kEt6jtqG/LcETWLxBh7NhnXb8E+?=
- =?us-ascii?Q?dgRyP2yqnWTH3E0kXq7FZCpTl1SDn31M/CloTaqcq/OI2ApX55efDrQYotHZ?=
- =?us-ascii?Q?ZpEMWyFUlt8JAfPTO6GkGGZJ5/5tgw6xIQZRVR/09H+0T/PN2kcO8oitygnG?=
- =?us-ascii?Q?L0w=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 11 May 2021 04:56:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=9/r3WR2GJKuGYHB/YuczIJ77GObb
+        ztDumERdUwyRs00=; b=z2A7cL+slOUFRcYm4xVBBIjs85MJp0hj1avGvW5w3xNB
+        nh/ZeWhM+X9q4Ln0gRFgUGxWpGaHxmHzPPhZp7uzY1drrJnGqXsgwvBqMlfdJ9wQ
+        JTS1PNm6KPtkJinUslLTiWckcFOJl/ch/WavcVLQTwokR2jPSaiUblspN8Xp8mQ=
+Received: (qmail 83918 invoked from network); 11 May 2021 10:55:39 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 May 2021 10:55:39 +0200
+X-UD-Smtp-Session: l3s3148p1@xu/oDgrCurYgARa4Re6cAYZUKhEpjHpf
+Date:   Tue, 11 May 2021 10:55:38 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+        Linh Phung <linh.phung.jy@renesas.com>,
+        linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] serial: sh-sci: Fix off-by-one error in FIFO threshold
+ register setting
+Message-ID: <20210511085538.GC1626@ninjato>
+References: <5eff320aef92ffb33d00e57979fd3603bbb4a70f.1620648218.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB2737.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf61f38c-3531-4277-83ca-08d91459f679
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2021 08:51:26.7530
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: X4SCgC41IRxHCmhn6LfU5e504wBoTEzwR8gw5+p9tOankVHPjUj7jPsnSIX2IDhVJiXoh+LBczDDBeiP67TGuBPO9CYYkxEOFRAKyUj0uKM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6292
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="bAmEntskrkuBymla"
+Content-Disposition: inline
+In-Reply-To: <5eff320aef92ffb33d00e57979fd3603bbb4a70f.1620648218.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
 
-thank you for your patch.
+--bAmEntskrkuBymla
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> From: Rob Herring <robh@kernel.org>
-> Sent: 10 May 2021 21:35
-> Subject: [PATCH] dt-bindings: media: renesas,drif: Use graph schema
+On Mon, May 10, 2021 at 02:07:55PM +0200, Geert Uytterhoeven wrote:
+> The Receive FIFO Data Count Trigger field (RTRG[6:0]) in the Receive
+> FIFO Data Count Trigger Register (HSRTRGR) of HSCIF can only hold values
+> ranging from 0-127.  As the FIFO size is equal to 128 on HSCIF, the user
+> can write an out-of-range value, touching reserved bits.
 >=20
-> Convert the renesas,drif binding schema to use the graph schema. The
-> binding referred to video-interfaces.txt, but it doesn't actually use any
-> properties from it as 'sync-active' is a custom property. As 'sync-active=
-'
-> is custom, it needs a type definition.
+> Fix this by limiting the trigger value to the FIFO size minus one.
+> Reverse the order of the checks, to avoid rx_trig becoming zero if the
+> FIFO size is one.
 >=20
-> Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Ramesh Shanmugasundaram <rashanmu@gmail.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-
-Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-
-Best regards,
-Fab
-
+> Note that this change has no impact on other SCIF variants, as their
+> maximum supported trigger value is lower than the FIFO size anyway, and
+> the code below takes care of enforcing these limits.
+>=20
+> Reported-by: Linh Phung <linh.phung.jy@renesas.com>
+> Fixes: a380ed461f66d1b8 ("serial: sh-sci: implement FIFO threshold regist=
+er setting")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  .../bindings/media/renesas,drif.yaml          | 20 +++++++------------
->  1 file changed, 7 insertions(+), 13 deletions(-)
+> Compile-tested only.
 >=20
-> diff --git a/Documentation/devicetree/bindings/media/renesas,drif.yaml
-> b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-> index f1bdaeab4053..ce505a7c006a 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,drif.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-> @@ -99,32 +99,26 @@ properties:
->        Indicates that the channel acts as primary among the bonded
-> channels.
->=20
->    port:
-> -    type: object
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    unevaluatedProperties: false
->      description:
-> -      Child port node corresponding to the data input, in accordance wit=
-h
-> the
-> -      video interface bindings defined in
-> -      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -      The port node must contain at least one endpoint.
-> +      Child port node corresponding to the data input. The port node mus=
-t
-> +      contain at least one endpoint.
->=20
->      properties:
->        endpoint:
-> -        type: object
-> +        $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +        unevaluatedProperties: false
->=20
->          properties:
-> -          remote-endpoint:
-> -            description:
-> -              A phandle to the remote tuner endpoint subnode in remote
-> node
-> -              port.
-> -
->            sync-active:
-> +            $ref: /schemas/types.yaml#/definitions/uint32
->              enum: [0, 1]
->              description:
->                Indicates sync signal polarity, 0/1 for low/high
-> respectively.
->                This property maps to SYNCAC bit in the hardware manual.
-> The
->                default is 1 (active high).
->=20
-> -        additionalProperties: false
-> -
->  required:
->    - compatible
->    - reg
-> --
-> 2.27.0
+> The BSP contains a different patch[1], which masks the value to write by
+> 0x7f.  This is IMHO incorrect, as it would set the trigger value to zero
+> when 128 is requested.
 
+Makes also sense to me to have the trigger at fifosize-1 to have one
+spare byte to handle latencies.
+
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--bAmEntskrkuBymla
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCaRoUACgkQFA3kzBSg
+KbZIww/7BCwSz3Jan50yJDGD/Irve955aHy+A1C9i7WCzPLAj9Gmz05HMly79GzJ
+rmHLRePPBn838ziBp3D05jCP/UvOVWuaiPEgB9crRCs8Up7zDj+7PgMMxRt8DJaq
+2fex2g88hFtll0B+XPLkgXf3ln3h7aa2/cgzoZQx1NdZmlJnfw9sAbq0pitXJFF0
+Yml3Yv3bYg5la1Aqb4AlEf6RjYG+iKRiBQzavZsw69GQZK4I3EcPxGUWiz00MJ9g
+aL+z9TXfF1Bf1WNErQe3KCLZUQvsv2c5P1synXuwAVU9jMJT+7caoUNt5W1nT97F
+5ziiz3UfdMedNZ9yTIxRvqHOhoz4YNcMv4ljCXhhJ1mHtOnPW27On4Xh/pDu997M
+k8bkzJ7vk2FyJojOKiXErKm15H/I5riwGAYdLlL/fc5lgnENKQ+ZK21NSzDwH/wY
+5i7XLefov9sW5RN451ULhhp7AIaBTEWG+7LTt6c6ZX9VMOgTZJqmB12Kdn9xkjsH
+nrtgF/KjnPBEeHbJ2XbIgEA+QIjqNAw+sNIMLgqu4dqqeMTyyb+5dO12xRi+L9f4
+zewTpp3tNenw9sZeiLpHuUVNLqEtUqPmuFHVYgRbCBrA5SFR/YJdVArhTEB7y3ll
+I7VkUMfMx5u1t8jD1Io73zRQGTaq9Rs6zedvmv3c8sm+DI/9hRc=
+=d93D
+-----END PGP SIGNATURE-----
+
+--bAmEntskrkuBymla--
