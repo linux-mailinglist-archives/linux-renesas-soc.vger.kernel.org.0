@@ -2,136 +2,296 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4AE237A450
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 May 2021 12:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68FCC37A553
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 May 2021 12:57:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230146AbhEKKI7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 May 2021 06:08:59 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.51]:29960 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231416AbhEKKI6 (ORCPT
+        id S231522AbhEKK6m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 May 2021 06:58:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231540AbhEKK6j (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 May 2021 06:08:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1620727671; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=X3Xjne8RvmLRXs6P8qSQY1+JkwLUsku2pdjMA/S+5+BHMxKgASX6lws0u2Xd0rKv3x
-    XWLQNjMxWzSENyzF8ANt9+jkDMGmRoqdIYhKcE/g36plPb3gc0EyhEd2PUqIVbwAoM3g
-    KijZfaYNG97gJPesGAENKU5ACQ8rgyqp5RzUSoy1yTp0So9ei0j5WQds9owx6w/Em2Hb
-    wZFyPf5Qs3Bd2nJGkO3NCyLgwuDy7hfKDVRG9Ttj+lrCASYHPiBpQ5ahsNR7TAkDEibS
-    vS+HYy4Aoz4mnKzMgZpiN0D1tPPKfs1Qx4EkRu590Rzs9xn3oILwrJD97fRirwfMnpUe
-    m6pA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1620727671;
-    s=strato-dkim-0002; d=strato.com;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=4pslrDftx0Hdb3brI/L/wdGy5h+2gdgtEccq8OHzqTw=;
-    b=lYWpUTBIV0984hBwvWKn61wzQJ0HgnSgfS9RVFntpc0TJ50IwUg72yBBJPYS5DcZkq
-    q9ZjHBhNySz3BHvQJfcTzugcGo2iABzHwwPTzUXeNO+qlLdiHpu/cs/x/bqIIlTqW55O
-    sOLd+yU8/fGYHrLE442kM4kGWAFswu/rVEd29Z1DsWii6fErYRWTcnWh16kKVWZrGgUK
-    6Ixa+5LtfP9NiKnLnboy2E6WPHfBJrcE/IJAbicrODb4RRZEqLw3H/iF83aF7tnxNpWn
-    DyP6SheSBn1Fvy+x3TNi4pctF9o/62P+1kfHdfoIKvQ68+Aah0PACI7yCVbUQ1IYwqsi
-    nqoQ==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1620727671;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=4pslrDftx0Hdb3brI/L/wdGy5h+2gdgtEccq8OHzqTw=;
-    b=Ns4RjhqLAZsvvC1po9XW+TPYiV83wkGyFalWg5Uwv05jMFmp0BK4HDjGO2CJ7A7wTD
-    RVwfwzXpunGBcQd5X+0mqqSQ+Wr5fgYGmu2NuWGQo4AZ0G/LfNooiyZDhpOLYLDZTFb7
-    nDMgy56uHJyVZbOcHkE0LLl9pr0VdMOH2dVs4KHrZ3LeUovG0hQAwJxmUHPkIvZ7x5SW
-    GtOU7Vx4vDkWVQ/skM7aaGwQNgn8S2a4maZ990hVniy2VAG1g9rU+SVAgpWkttC/TPE/
-    sDyfKizRpJh/DO19mbOGFK9zKPWk5gj3C1UsZb8T93BaXhwfYJQV4tA/z3NWekn5GxEV
-    2GyA==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCv/x28jVM="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp06-01.back.ox.d0m.de
-    by smtp-ox.front (RZmta 47.25.6 AUTH)
-    with ESMTPSA id v052c3x4BA7p0IZ
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-    Tue, 11 May 2021 12:07:51 +0200 (CEST)
-Date:   Tue, 11 May 2021 12:07:51 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linh Phung <linh.phung.jy@renesas.com>
-Cc:     linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Message-ID: <1158014321.1245232.1620727671192@webmail.strato.com>
-In-Reply-To: <5eff320aef92ffb33d00e57979fd3603bbb4a70f.1620648218.git.geert+renesas@glider.be>
-References: <5eff320aef92ffb33d00e57979fd3603bbb4a70f.1620648218.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] serial: sh-sci: Fix off-by-one error in FIFO threshold
- register setting
+        Tue, 11 May 2021 06:58:39 -0400
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05CAC061761
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 May 2021 03:57:33 -0700 (PDT)
+Received: by mail-vs1-xe2d.google.com with SMTP id x188so4376188vsx.12
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 May 2021 03:57:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ey6AztPlStF+EHQEBxICZNmYDnr7gnn/OgJP3awQWRU=;
+        b=oBVycJADQl/R5cnvsrr+Iz1eB2LUXKXbtFN1CtmKUyBBleJ3AaSHFTqOMlRm61ep+d
+         t+fgqWs8hxLoMkEncV29fIoYT0KLNxabEEK6s8lR3JXoVjjdObh0M9dZYrMMrnuxIAP/
+         FoNtO6b4CONjz5w8Bt0ICUDEqATkvImXskCsDCC38MoyeljVXvKiP5GdDqebduvs1T39
+         e8DKD/GPyw+P+WlmPn+pHt2DqX9bdH0vL18slkSIwuChEaTsfEImeonmeJU3yDC6Jma2
+         B61O/leBSgC3tdeb4t1Pdm+LyLdo7Ca+UUzNfXVY0osjoB7dG8gqI4IN9/6f1Ng4t4xt
+         IwHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ey6AztPlStF+EHQEBxICZNmYDnr7gnn/OgJP3awQWRU=;
+        b=A0AC9d5T2NJdQsskCn3mukEyJMWd/W/U3V1Zjtw3CVh46TmuDkFR7v/JRDMu3kfvI8
+         dah0kVDDxFNp9aOYxtVFHY4AJiKSu2NVTECV1AauYZfo5US7Pdx2mrWioyUMG9QO6oZm
+         skUed5IXqfgFRTy6YImT5ydKO7ZmIatHgeudYWHdth7UD2DHTPyEWkjMfhTgMZeSzfJl
+         1wh18+jlFSdvw+3LcmUDEMmpPwX8cOmDgACsUQ7P3TMuaEs9+Elc9zv5X5gU5aeoDAqO
+         87zv3lJHpBG2azSy85krIHCye8CkJZyHH4/sZnILNraic4QDP7kg2G4VIP5eKyH9HLz3
+         N9bA==
+X-Gm-Message-State: AOAM5313D3/tNcA+uMamhTC6VARaHylSDTcckQUz5MSKR2mLA8COJUht
+        1qn8yPPhCvwzIyOBfzSApoHFaqOaqbH0mn05tUn0IQ==
+X-Google-Smtp-Source: ABdhPJw3qzDFl/gzmZd3gitN57mXa5ygDpx3w85ykxyCQl8YfsZ3EEzsfVHZ1UeVnTiS8kESOiSjCdHDQF6QIXii014=
+X-Received: by 2002:a05:6102:505:: with SMTP id l5mr20495237vsa.55.1620730652897;
+ Tue, 11 May 2021 03:57:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.4-Rev22
-X-Originating-Client: open-xchange-appsuite
+References: <04b97315fed0f4f512356b68f9f5bb6ed7adc41f.1620648698.git.geert+renesas@glider.be>
+In-Reply-To: <04b97315fed0f4f512356b68f9f5bb6ed7adc41f.1620648698.git.geert+renesas@glider.be>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Tue, 11 May 2021 12:56:55 +0200
+Message-ID: <CAPDyKFqO6fkiwAmrGibpeZAyyeGbDHD03GVc34CPJhEWS2O9XQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: mmc: renesas,mmcif: Convert to json-schema
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
-> On 05/10/2021 2:07 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> 
->  
-> The Receive FIFO Data Count Trigger field (RTRG[6:0]) in the Receive
-> FIFO Data Count Trigger Register (HSRTRGR) of HSCIF can only hold values
-> ranging from 0-127.  As the FIFO size is equal to 128 on HSCIF, the user
-> can write an out-of-range value, touching reserved bits.
-> 
-> Fix this by limiting the trigger value to the FIFO size minus one.
-> Reverse the order of the checks, to avoid rx_trig becoming zero if the
-> FIFO size is one.
-> 
-> Note that this change has no impact on other SCIF variants, as their
-> maximum supported trigger value is lower than the FIFO size anyway, and
-> the code below takes care of enforcing these limits.
-> 
-> Reported-by: Linh Phung <linh.phung.jy@renesas.com>
-> Fixes: a380ed461f66d1b8 ("serial: sh-sci: implement FIFO threshold register setting")
+On Mon, 10 May 2021 at 14:13, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Convert the Renesas Multi Media Card Interface (MMCIF) Device Tree
+> binding documentation to json-schema.
+>
+> Document missing properties.
+> Update the example to match reality.
+>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+
+Applied for next, thanks!
+
+Kind regards
+Uffe
+
+
 > ---
-> Compile-tested only.
-> 
-> The BSP contains a different patch[1], which masks the value to write by
-> 0x7f.  This is IMHO incorrect, as it would set the trigger value to zero
-> when 128 is requested.
-> 
-> [1] "serial: sh-sci: Using mask when writing to HSRTRGR"
->     https://github.com/renesas-rcar/linux-bsp/commit/9915223f41c7d680aaaed12971601dc038ce76a3
+> v2:
+>   - Drop unneeded oneOf,
+>   - Add Reviewed-by.
 > ---
->  drivers/tty/serial/sh-sci.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-> index ef37fdf37612f82f..4baf1316ea729931 100644
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -1023,10 +1023,10 @@ static int scif_set_rtrg(struct uart_port *port, int rx_trig)
->  {
->  	unsigned int bits;
->  
-> +	if (rx_trig >= port->fifosize)
-> +		rx_trig = port->fifosize - 1;
->  	if (rx_trig < 1)
->  		rx_trig = 1;
-> -	if (rx_trig >= port->fifosize)
-> -		rx_trig = port->fifosize;
->  
->  	/* HSCIF can be set to an arbitrary level. */
->  	if (sci_getreg(port, HSRTRGR)->size) {
-> -- 
+>  .../devicetree/bindings/mmc/renesas,mmcif.txt |  53 -------
+>  .../bindings/mmc/renesas,mmcif.yaml           | 135 ++++++++++++++++++
+>  2 files changed, 135 insertions(+), 53 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/mmc/renesas,mmcif.txt
+>  create mode 100644 Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/renesas,mmcif.txt b/Documentation/devicetree/bindings/mmc/renesas,mmcif.txt
+> deleted file mode 100644
+> index 291532ac0446fc71..0000000000000000
+> --- a/Documentation/devicetree/bindings/mmc/renesas,mmcif.txt
+> +++ /dev/null
+> @@ -1,53 +0,0 @@
+> -* Renesas Multi Media Card Interface (MMCIF) Controller
+> -
+> -This file documents differences between the core properties in mmc.txt
+> -and the properties used by the MMCIF device.
+> -
+> -
+> -Required properties:
+> -
+> -- compatible: should be "renesas,mmcif-<soctype>", "renesas,sh-mmcif" as a
+> -  fallback. Examples with <soctype> are:
+> -       - "renesas,mmcif-r7s72100" for the MMCIF found in r7s72100 SoCs
+> -       - "renesas,mmcif-r8a73a4" for the MMCIF found in r8a73a4 SoCs
+> -       - "renesas,mmcif-r8a7740" for the MMCIF found in r8a7740 SoCs
+> -       - "renesas,mmcif-r8a7742" for the MMCIF found in r8a7742 SoCs
+> -       - "renesas,mmcif-r8a7743" for the MMCIF found in r8a7743 SoCs
+> -       - "renesas,mmcif-r8a7744" for the MMCIF found in r8a7744 SoCs
+> -       - "renesas,mmcif-r8a7745" for the MMCIF found in r8a7745 SoCs
+> -       - "renesas,mmcif-r8a7778" for the MMCIF found in r8a7778 SoCs
+> -       - "renesas,mmcif-r8a7790" for the MMCIF found in r8a7790 SoCs
+> -       - "renesas,mmcif-r8a7791" for the MMCIF found in r8a7791 SoCs
+> -       - "renesas,mmcif-r8a7793" for the MMCIF found in r8a7793 SoCs
+> -       - "renesas,mmcif-r8a7794" for the MMCIF found in r8a7794 SoCs
+> -       - "renesas,mmcif-sh73a0" for the MMCIF found in sh73a0 SoCs
+> -
+> -- interrupts: Some SoCs have only 1 shared interrupt, while others have either
+> -  2 or 3 individual interrupts (error, int, card detect). Below is the number
+> -  of interrupts for each SoC:
+> -    1: r8a73a4, r8a7742, r8a7743, r8a7744, r8a7745, r8a7778, r8a7790, r8a7791,
+> -       r8a7793, r8a7794
+> -    2: r8a7740, sh73a0
+> -    3: r7s72100
+> -
+> -- clocks: reference to the functional clock
+> -
+> -- dmas: reference to the DMA channels, one per channel name listed in the
+> -  dma-names property.
+> -- dma-names: must contain "tx" for the transmit DMA channel and "rx" for the
+> -  receive DMA channel.
+> -- max-frequency: Maximum operating clock frequency, driver uses default clock
+> -  frequency if it is not set.
+> -
+> -
+> -Example: R8A7790 (R-Car H2) MMCIF0
+> -
+> -       mmcif0: mmc@ee200000 {
+> -               compatible = "renesas,mmcif-r8a7790", "renesas,sh-mmcif";
+> -               reg = <0 0xee200000 0 0x80>;
+> -               interrupts = <0 169 IRQ_TYPE_LEVEL_HIGH>;
+> -               clocks = <&mstp3_clks R8A7790_CLK_MMCIF0>;
+> -               dmas = <&dmac0 0xd1>, <&dmac0 0xd2>;
+> -               dma-names = "tx", "rx";
+> -               max-frequency = <97500000>;
+> -       };
+> diff --git a/Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml b/Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml
+> new file mode 100644
+> index 0000000000000000..c36ba561c3875ad3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml
+> @@ -0,0 +1,135 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mmc/renesas,mmcif.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas Multi Media Card Interface (MMCIF) Controller
+> +
+> +maintainers:
+> +  - Wolfram Sang <wsa+renesas@sang-engineering.com>
+> +
+> +allOf:
+> +  - $ref: "mmc-controller.yaml"
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,mmcif-r7s72100 # RZ/A1H
+> +          - renesas,mmcif-r8a73a4  # R-Mobile APE6
+> +          - renesas,mmcif-r8a7740  # R-Mobile A1
+> +          - renesas,mmcif-r8a7742  # RZ/G1H
+> +          - renesas,mmcif-r8a7743  # RZ/G1M
+> +          - renesas,mmcif-r8a7744  # RZ/G1N
+> +          - renesas,mmcif-r8a7745  # RZ/G1E
+> +          - renesas,mmcif-r8a7778  # R-Car M1A
+> +          - renesas,mmcif-r8a7790  # R-Car H2
+> +          - renesas,mmcif-r8a7791  # R-Car M2-W
+> +          - renesas,mmcif-r8a7793  # R-Car M2-N
+> +          - renesas,mmcif-r8a7794  # R-Car E2
+> +          - renesas,mmcif-sh73a0   # SH-Mobile AG5
+> +      - const: renesas,sh-mmcif
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts: true
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  dmas:
+> +    minItems: 2
+> +    maxItems: 4
+> +    description:
+> +      Must contain a list of pairs of references to DMA specifiers, one for
+> +      transmission, and one for reception.
+> +
+> +  dma-names:
+> +    minItems: 2
+> +    maxItems: 4
+> +    items:
+> +      enum:
+> +        - tx
+> +        - rx
+> +
+> +  max-frequency: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - power-domains
+> +
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: renesas,mmcif-r7s72100
+> +then:
+> +  properties:
+> +    interrupts:
+> +      items:
+> +        - description: Error interrupt
+> +        - description: Normal operation interrupt
+> +        - description: Card detection interrupt
+> +else:
+> +  if:
+> +    properties:
+> +      compatible:
+> +        contains:
+> +          enum:
+> +            - renesas,mmcif-r8a7740
+> +            - renesas,mmcif-sh73a0
+> +  then:
+> +    properties:
+> +      interrupts:
+> +        items:
+> +          - description: Error interrupt
+> +          - description: Normal operation interrupt
+> +  else:
+> +    if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,mmcif-r8a73a4
+> +              - renesas,mmcif-r8a7778
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          maxItems: 1
+> +    else:
+> +      properties:
+> +        interrupts:
+> +          maxItems: 1
+> +      required:
+> +        - resets
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/r8a7790-sysc.h>
+> +
+> +    mmcif0: mmc@ee200000 {
+> +            compatible = "renesas,mmcif-r8a7790", "renesas,sh-mmcif";
+> +            reg = <0xee200000 0x80>;
+> +            interrupts = <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD 315>;
+> +            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
+> +            resets = <&cpg 315>;
+> +            dmas = <&dmac0 0xd1>, <&dmac0 0xd2>, <&dmac1 0xd1>, <&dmac1 0xd2>;
+> +            dma-names = "tx", "rx", "tx", "rx";
+> +            max-frequency = <97500000>;
+> +    };
+> --
 > 2.25.1
-
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-
-CU
-Uli
+>
