@@ -2,296 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68FCC37A553
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 May 2021 12:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DF8337A7E5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 May 2021 15:41:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231522AbhEKK6m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 May 2021 06:58:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57268 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231540AbhEKK6j (ORCPT
+        id S231432AbhEKNmm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 May 2021 09:42:42 -0400
+Received: from leibniz.telenet-ops.be ([195.130.137.77]:44028 "EHLO
+        leibniz.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229921AbhEKNml (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 May 2021 06:58:39 -0400
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05CAC061761
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 May 2021 03:57:33 -0700 (PDT)
-Received: by mail-vs1-xe2d.google.com with SMTP id x188so4376188vsx.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 May 2021 03:57:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ey6AztPlStF+EHQEBxICZNmYDnr7gnn/OgJP3awQWRU=;
-        b=oBVycJADQl/R5cnvsrr+Iz1eB2LUXKXbtFN1CtmKUyBBleJ3AaSHFTqOMlRm61ep+d
-         t+fgqWs8hxLoMkEncV29fIoYT0KLNxabEEK6s8lR3JXoVjjdObh0M9dZYrMMrnuxIAP/
-         FoNtO6b4CONjz5w8Bt0ICUDEqATkvImXskCsDCC38MoyeljVXvKiP5GdDqebduvs1T39
-         e8DKD/GPyw+P+WlmPn+pHt2DqX9bdH0vL18slkSIwuChEaTsfEImeonmeJU3yDC6Jma2
-         B61O/leBSgC3tdeb4t1Pdm+LyLdo7Ca+UUzNfXVY0osjoB7dG8gqI4IN9/6f1Ng4t4xt
-         IwHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ey6AztPlStF+EHQEBxICZNmYDnr7gnn/OgJP3awQWRU=;
-        b=A0AC9d5T2NJdQsskCn3mukEyJMWd/W/U3V1Zjtw3CVh46TmuDkFR7v/JRDMu3kfvI8
-         dah0kVDDxFNp9aOYxtVFHY4AJiKSu2NVTECV1AauYZfo5US7Pdx2mrWioyUMG9QO6oZm
-         skUed5IXqfgFRTy6YImT5ydKO7ZmIatHgeudYWHdth7UD2DHTPyEWkjMfhTgMZeSzfJl
-         1wh18+jlFSdvw+3LcmUDEMmpPwX8cOmDgACsUQ7P3TMuaEs9+Elc9zv5X5gU5aeoDAqO
-         87zv3lJHpBG2azSy85krIHCye8CkJZyHH4/sZnILNraic4QDP7kg2G4VIP5eKyH9HLz3
-         N9bA==
-X-Gm-Message-State: AOAM5313D3/tNcA+uMamhTC6VARaHylSDTcckQUz5MSKR2mLA8COJUht
-        1qn8yPPhCvwzIyOBfzSApoHFaqOaqbH0mn05tUn0IQ==
-X-Google-Smtp-Source: ABdhPJw3qzDFl/gzmZd3gitN57mXa5ygDpx3w85ykxyCQl8YfsZ3EEzsfVHZ1UeVnTiS8kESOiSjCdHDQF6QIXii014=
-X-Received: by 2002:a05:6102:505:: with SMTP id l5mr20495237vsa.55.1620730652897;
- Tue, 11 May 2021 03:57:32 -0700 (PDT)
+        Tue, 11 May 2021 09:42:41 -0400
+X-Greylist: delayed 489 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 May 2021 09:42:41 EDT
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 4Fff4M01hCzMqh30
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 May 2021 15:32:51 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:e198:948:10e7:36f7])
+        by laurent.telenet-ops.be with bizsmtp
+        id 3RXq2500R2cXdMW01RXqxy; Tue, 11 May 2021 15:31:50 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lgSUI-004l9S-EX
+        for linux-renesas-soc@vger.kernel.org; Tue, 11 May 2021 15:31:50 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lgSUH-00BJ8J-NG
+        for linux-renesas-soc@vger.kernel.org; Tue, 11 May 2021 15:31:49 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2021-05-11-v5.13-rc1
+Date:   Tue, 11 May 2021 15:31:49 +0200
+Message-Id: <20210511133149.2695112-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <04b97315fed0f4f512356b68f9f5bb6ed7adc41f.1620648698.git.geert+renesas@glider.be>
-In-Reply-To: <04b97315fed0f4f512356b68f9f5bb6ed7adc41f.1620648698.git.geert+renesas@glider.be>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 11 May 2021 12:56:55 +0200
-Message-ID: <CAPDyKFqO6fkiwAmrGibpeZAyyeGbDHD03GVc34CPJhEWS2O9XQ@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: mmc: renesas,mmcif: Convert to json-schema
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 10 May 2021 at 14:13, Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Convert the Renesas Multi Media Card Interface (MMCIF) Device Tree
-> binding documentation to json-schema.
->
-> Document missing properties.
-> Update the example to match reality.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+I have pushed renesas-drivers-2021-05-11-v5.13-rc1 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Applied for next, thanks!
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-Kind regards
-Uffe
+Today's version is based on renesas-devel-2021-05-11-v5.13-rc1.
 
+Included branches with driver code:
+  - renesas-clk
+  - renesas-pinctrl
+  - topic/rcar-pinconf-v1
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/v3u/timers-v1-minimal
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/logic-analyzer-for-geert
 
-> ---
-> v2:
->   - Drop unneeded oneOf,
->   - Add Reviewed-by.
-> ---
->  .../devicetree/bindings/mmc/renesas,mmcif.txt |  53 -------
->  .../bindings/mmc/renesas,mmcif.yaml           | 135 ++++++++++++++++++
->  2 files changed, 135 insertions(+), 53 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/mmc/renesas,mmcif.txt
->  create mode 100644 Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml
->
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,mmcif.txt b/Documentation/devicetree/bindings/mmc/renesas,mmcif.txt
-> deleted file mode 100644
-> index 291532ac0446fc71..0000000000000000
-> --- a/Documentation/devicetree/bindings/mmc/renesas,mmcif.txt
-> +++ /dev/null
-> @@ -1,53 +0,0 @@
-> -* Renesas Multi Media Card Interface (MMCIF) Controller
-> -
-> -This file documents differences between the core properties in mmc.txt
-> -and the properties used by the MMCIF device.
-> -
-> -
-> -Required properties:
-> -
-> -- compatible: should be "renesas,mmcif-<soctype>", "renesas,sh-mmcif" as a
-> -  fallback. Examples with <soctype> are:
-> -       - "renesas,mmcif-r7s72100" for the MMCIF found in r7s72100 SoCs
-> -       - "renesas,mmcif-r8a73a4" for the MMCIF found in r8a73a4 SoCs
-> -       - "renesas,mmcif-r8a7740" for the MMCIF found in r8a7740 SoCs
-> -       - "renesas,mmcif-r8a7742" for the MMCIF found in r8a7742 SoCs
-> -       - "renesas,mmcif-r8a7743" for the MMCIF found in r8a7743 SoCs
-> -       - "renesas,mmcif-r8a7744" for the MMCIF found in r8a7744 SoCs
-> -       - "renesas,mmcif-r8a7745" for the MMCIF found in r8a7745 SoCs
-> -       - "renesas,mmcif-r8a7778" for the MMCIF found in r8a7778 SoCs
-> -       - "renesas,mmcif-r8a7790" for the MMCIF found in r8a7790 SoCs
-> -       - "renesas,mmcif-r8a7791" for the MMCIF found in r8a7791 SoCs
-> -       - "renesas,mmcif-r8a7793" for the MMCIF found in r8a7793 SoCs
-> -       - "renesas,mmcif-r8a7794" for the MMCIF found in r8a7794 SoCs
-> -       - "renesas,mmcif-sh73a0" for the MMCIF found in sh73a0 SoCs
-> -
-> -- interrupts: Some SoCs have only 1 shared interrupt, while others have either
-> -  2 or 3 individual interrupts (error, int, card detect). Below is the number
-> -  of interrupts for each SoC:
-> -    1: r8a73a4, r8a7742, r8a7743, r8a7744, r8a7745, r8a7778, r8a7790, r8a7791,
-> -       r8a7793, r8a7794
-> -    2: r8a7740, sh73a0
-> -    3: r7s72100
-> -
-> -- clocks: reference to the functional clock
-> -
-> -- dmas: reference to the DMA channels, one per channel name listed in the
-> -  dma-names property.
-> -- dma-names: must contain "tx" for the transmit DMA channel and "rx" for the
-> -  receive DMA channel.
-> -- max-frequency: Maximum operating clock frequency, driver uses default clock
-> -  frequency if it is not set.
-> -
-> -
-> -Example: R8A7790 (R-Car H2) MMCIF0
-> -
-> -       mmcif0: mmc@ee200000 {
-> -               compatible = "renesas,mmcif-r8a7790", "renesas,sh-mmcif";
-> -               reg = <0 0xee200000 0 0x80>;
-> -               interrupts = <0 169 IRQ_TYPE_LEVEL_HIGH>;
-> -               clocks = <&mstp3_clks R8A7790_CLK_MMCIF0>;
-> -               dmas = <&dmac0 0xd1>, <&dmac0 0xd2>;
-> -               dma-names = "tx", "rx";
-> -               max-frequency = <97500000>;
-> -       };
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml b/Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml
-> new file mode 100644
-> index 0000000000000000..c36ba561c3875ad3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,mmcif.yaml
-> @@ -0,0 +1,135 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mmc/renesas,mmcif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas Multi Media Card Interface (MMCIF) Controller
-> +
-> +maintainers:
-> +  - Wolfram Sang <wsa+renesas@sang-engineering.com>
-> +
-> +allOf:
-> +  - $ref: "mmc-controller.yaml"
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,mmcif-r7s72100 # RZ/A1H
-> +          - renesas,mmcif-r8a73a4  # R-Mobile APE6
-> +          - renesas,mmcif-r8a7740  # R-Mobile A1
-> +          - renesas,mmcif-r8a7742  # RZ/G1H
-> +          - renesas,mmcif-r8a7743  # RZ/G1M
-> +          - renesas,mmcif-r8a7744  # RZ/G1N
-> +          - renesas,mmcif-r8a7745  # RZ/G1E
-> +          - renesas,mmcif-r8a7778  # R-Car M1A
-> +          - renesas,mmcif-r8a7790  # R-Car H2
-> +          - renesas,mmcif-r8a7791  # R-Car M2-W
-> +          - renesas,mmcif-r8a7793  # R-Car M2-N
-> +          - renesas,mmcif-r8a7794  # R-Car E2
-> +          - renesas,mmcif-sh73a0   # SH-Mobile AG5
-> +      - const: renesas,sh-mmcif
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts: true
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  dmas:
-> +    minItems: 2
-> +    maxItems: 4
-> +    description:
-> +      Must contain a list of pairs of references to DMA specifiers, one for
-> +      transmission, and one for reception.
-> +
-> +  dma-names:
-> +    minItems: 2
-> +    maxItems: 4
-> +    items:
-> +      enum:
-> +        - tx
-> +        - rx
-> +
-> +  max-frequency: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - power-domains
-> +
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        const: renesas,mmcif-r7s72100
-> +then:
-> +  properties:
-> +    interrupts:
-> +      items:
-> +        - description: Error interrupt
-> +        - description: Normal operation interrupt
-> +        - description: Card detection interrupt
-> +else:
-> +  if:
-> +    properties:
-> +      compatible:
-> +        contains:
-> +          enum:
-> +            - renesas,mmcif-r8a7740
-> +            - renesas,mmcif-sh73a0
-> +  then:
-> +    properties:
-> +      interrupts:
-> +        items:
-> +          - description: Error interrupt
-> +          - description: Normal operation interrupt
-> +  else:
-> +    if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,mmcif-r8a73a4
-> +              - renesas,mmcif-r8a7778
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          maxItems: 1
-> +    else:
-> +      properties:
-> +        interrupts:
-> +          maxItems: 1
-> +      required:
-> +        - resets
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7790-sysc.h>
-> +
-> +    mmcif0: mmc@ee200000 {
-> +            compatible = "renesas,mmcif-r8a7790", "renesas,sh-mmcif";
-> +            reg = <0xee200000 0x80>;
-> +            interrupts = <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 315>;
-> +            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> +            resets = <&cpg 315>;
-> +            dmas = <&dmac0 0xd1>, <&dmac0 0xd2>, <&dmac1 0xd1>, <&dmac1 0xd2>;
-> +            dma-names = "tx", "rx", "tx", "rx";
-> +            max-frequency = <97500000>;
-> +    };
-> --
-> 2.25.1
->
+Included fixes:
+  - WIP soc: v3u: allow WDT reset
+  - dt-bindings: misc: Fix logic analyzer bindings
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
