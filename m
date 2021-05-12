@@ -2,131 +2,199 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8007637B7B7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 May 2021 10:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E14F37BA01
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 May 2021 12:07:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230111AbhELIV0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 May 2021 04:21:26 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50322 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229968AbhELIV0 (ORCPT
+        id S230272AbhELKIz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 May 2021 06:08:55 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:46596 "EHLO
+        mail03.asahi-net.or.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230217AbhELKIy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 May 2021 04:21:26 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1620807617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Vza9DD+KUbiRtLfI0mIL3ImF5EprHsvwKgA+ti787LI=;
-        b=SEUCFz0zu0Zp1BQ9xz1mNFPtDYhbTNwQhQo77/WPTDUSYSs9YYUUH3rHkmMfCEgx7RVIJp
-        dwIeahyOWnteniGqdd3VuYtW/CarKwLYLktS4+AtvvPlDD3WewhKIPFriqz5n56j3P2hbq
-        S4D13UGTFc3ksE8v03AOtcpvvI1r4nc=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 28C1BAF2C;
-        Wed, 12 May 2021 08:20:17 +0000 (UTC)
-Date:   Wed, 12 May 2021 10:20:16 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     Matti Vaittinen <mazziesaccount@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "agross@kernel.org" <agross@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        linux-power <linux-power@fi.rohmeurope.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        Wed, 12 May 2021 06:08:54 -0400
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp [153.127.30.23])
+        (Authenticated sender: PQ4Y-STU)
+        by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 5090F2135D;
+        Wed, 12 May 2021 19:00:16 +0900 (JST)
+Received: from yo-satoh-debian.ysato.ml (v096177.dynamic.ppp.asahi-net.or.jp [124.155.96.177])
+        by sakura.ysato.name (Postfix) with ESMTPSA id E21241C00E3;
+        Wed, 12 May 2021 19:00:15 +0900 (JST)
+Date:   Wed, 12 May 2021 19:00:15 +0900
+Message-ID: <87im3o6zm8.wl-ysato@users.sourceforge.jp>
+From:   Yoshinori Sato <ysato@users.sourceforge.jp>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Matteo Croce <mcroce@microsoft.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v9 02/10] reboot: Add hardware protection power-off
-Message-ID: <YJuPwAZroVZ/w633@alley>
-References: <cover.1620645507.git.matti.vaittinen@fi.rohmeurope.com>
- <97260f8e150abb898a262fade25860609b460912.1620645507.git.matti.vaittinen@fi.rohmeurope.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <97260f8e150abb898a262fade25860609b460912.1620645507.git.matti.vaittinen@fi.rohmeurope.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 2/2] dt-bindings: timer: renesas,tpu: Convert to json-schema
+In-Reply-To: <1c33e62c3a74979c3ca9580176e6cf89384caea9.1620648868.git.geert+renesas@glider.be>
+References: <cover.1620648868.git.geert+renesas@glider.be>
+        <1c33e62c3a74979c3ca9580176e6cf89384caea9.1620648868.git.geert+renesas@glider.be>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL/10.8 EasyPG/1.0.0 Emacs/27
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon 2021-05-10 14:28:30, Matti Vaittinen wrote:
-> There can be few cases when we need to shut-down the system in order to
-> protect the hardware. Currently this is done at east by the thermal core
-> when temperature raises over certain limit.
+On Mon, 10 May 2021 21:18:35 +0900,
+Geert Uytterhoeven wrote:
 > 
-> Some PMICs can also generate interrupts for example for over-current or
-> over-voltage, voltage drops, short-circuit, ... etc. On some systems
-> these are a sign of hardware failure and only thing to do is try to
-> protect the rest of the hardware by shutting down the system.
+> Convert the Renesas H8/300 Timer Pulse Unit Device Tree binding
+> documentation to json-schema.
 > 
-> Add shut-down logic which can be used by all subsystems instead of
-> implementing the shutdown in each subsystem. The logic is stolen from
-> thermal_core with difference of using atomic_t instead of a mutex in
-> order to allow calls directly from IRQ context.
+> Correct clock-names, as "peripheral_clk" is the name of the supplier,
+> and all users use "fck".
 > 
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> Note that there are two different bindings for the TPU, both using
+> "renesas,tpu": this one for using the TPU as a clock source (used on
+> H8/300), and a second use for using the TPU as a PWM controller (used on
+> ARM).  To avoid conflicts, both bindings are marked with the appropriate
+> "select" logic, to check for the absence respectively presence of the
+> "#pwm-cells" property.
 > 
-> diff --git a/kernel/reboot.c b/kernel/reboot.c
-> index a6ad5eb2fa73..5da8c80a2647 100644
-> --- a/kernel/reboot.c
-> +++ b/kernel/reboot.c
-> @@ -518,6 +519,85 @@ void orderly_reboot(void)
->  }
->  EXPORT_SYMBOL_GPL(orderly_reboot);
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> v2:
+>   - Drop unneeded "'#pwm-cells': true" from "select" section in
+>     renesas,tpu-pwm.yaml,
+>   - Add Reviewed-by.
+> 
+> I have listed Sato-san as the maintainer, as he wrote the original
+> driver and bindings.
+> Sato-san: Please scream if this is inappropriate ;-)
+> ---
+>  .../bindings/pwm/renesas,tpu-pwm.yaml         |  9 +++
+>  .../devicetree/bindings/timer/renesas,tpu.txt | 21 -------
+>  .../bindings/timer/renesas,tpu.yaml           | 56 +++++++++++++++++++
+>  3 files changed, 65 insertions(+), 21 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/timer/renesas,tpu.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/renesas,tpu.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+> index 7c99e42ad780c2cd..81ccb2110162c3eb 100644
+> --- a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+> @@ -9,6 +9,15 @@ title: Renesas R-Car Timer Pulse Unit PWM Controller
+>  maintainers:
+>    - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 >  
-> +/**
-> + * hw_failure_emergency_poweroff_func - emergency poweroff work after a known delay
-> + * @work: work_struct associated with the emergency poweroff function
-> + *
-> + * This function is called in very critical situations to force
-> + * a kernel poweroff after a configurable timeout value.
-> + */
-> +static void hw_failure_emergency_poweroff_func(struct work_struct *work)
-> +{
-> +	/*
-> +	 * We have reached here after the emergency shutdown waiting period has
-> +	 * expired. This means orderly_poweroff has not been able to shut off
-> +	 * the system for some reason.
-> +	 *
-> +	 * Try to shut down the system immediately using kernel_power_off
-> +	 * if populated
-> +	 */
-> +	WARN(1, "Hardware protection timed-out. Trying forced poweroff\n");
-> +	kernel_power_off();
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: renesas,tpu
+> +  required:
+> +    - compatible
+> +    - '#pwm-cells'
+> +
+>  properties:
+>    compatible:
+>      items:
+> diff --git a/Documentation/devicetree/bindings/timer/renesas,tpu.txt b/Documentation/devicetree/bindings/timer/renesas,tpu.txt
+> deleted file mode 100644
+> index 1d46f9de4feb8a84..0000000000000000
+> --- a/Documentation/devicetree/bindings/timer/renesas,tpu.txt
+> +++ /dev/null
+> @@ -1,21 +0,0 @@
+> -* Renesas H8/300 Timer Pulse Unit
+> -
+> -The TPU is a 16bit timer/counter with configurable clock inputs and
+> -programmable compare match.
+> -This implementation support only cascade mode.
+> -
+> -Required Properties:
+> -
+> -  - compatible: must contain "renesas,tpu"
+> -  - reg: base address and length of the registers block in 2 channel.
+> -  - clocks: a list of phandle, one for each entry in clock-names.
+> -  - clock-names: must contain "peripheral_clk" for the functional clock.
+> -
+> -
+> -Example:
+> -	tpu: tpu@ffffe0 {
+> -		compatible = "renesas,tpu";
+> -		reg = <0xffffe0 16>, <0xfffff0 12>;
+> -		clocks = <&pclk>;
+> -		clock-names = "peripheral_clk";
+> -	};
+> diff --git a/Documentation/devicetree/bindings/timer/renesas,tpu.yaml b/Documentation/devicetree/bindings/timer/renesas,tpu.yaml
+> new file mode 100644
+> index 0000000000000000..01554dff23d8a954
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/timer/renesas,tpu.yaml
+> @@ -0,0 +1,56 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/timer/renesas,tpu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas H8/300 Timer Pulse Unit
+> +
+> +maintainers:
+> +  - Yoshinori Sato <ysato@users.sourceforge.jp>
+> +
+> +description:
+> +  The TPU is a 16bit timer/counter with configurable clock inputs and
+> +  programmable compare match.
+> +  This implementation supports only cascade mode.
+> +
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: renesas,tpu
+> +    '#pwm-cells': false
+> +  required:
+> +    - compatible
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,tpu
+> +
+> +  reg:
+> +    items:
+> +      - description: First channel
+> +      - description: Second channel
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: fck
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    tpu: tpu@ffffe0 {
+> +            compatible = "renesas,tpu";
+> +            reg = <0xffffe0 16>, <0xfffff0 12>;
+> +            clocks = <&pclk>;
+> +            clock-names = "fck";
+> +    };
+> -- 
+> 2.25.1
+> 
 
-WARN() look like an overkill here. It prints many lines that are not
-much useful in this case. The function is called from well-known
-context (workqueue worker).
+Acked-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Also be aware that "panic_on_warn" commandline option will trigger
-panic() here.
-
-
-> +	/*
-> +	 * Worst of the worst case trigger emergency restart
-> +	 */
-> +	WARN(1,
-> +	     "Hardware protection shutdown failed. Trying emergency restart\n");
-> +	emergency_restart();
-
-Two consecutive WARN() calls are even less useful. They are eye
-catching but it is hard to find the only useful line with
-the custom message.
-
-Best Regards,
-Petr
+-- 
+Yosinori Sato
