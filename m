@@ -2,254 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E0D537F1C4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 May 2021 05:51:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F93F37F434
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 May 2021 10:35:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230109AbhEMDwR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 May 2021 23:52:17 -0400
-Received: from mga18.intel.com ([134.134.136.126]:53341 "EHLO mga18.intel.com"
+        id S232006AbhEMIgQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 May 2021 04:36:16 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39336 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230104AbhEMDwQ (ORCPT
+        id S232017AbhEMIgD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 May 2021 23:52:16 -0400
-IronPort-SDR: xfDMi4RucS754xjB9OCjv+/7ri4IdiNg3qsHCoTQZOu83Eq0aV3jVPlcVuOUmcnR/YonvUloZR
- I4InBuaQPPYQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9982"; a="187285203"
-X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; 
-   d="scan'208";a="187285203"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 20:51:06 -0700
-IronPort-SDR: /QeiZhUwXvHovxtogsd62UiAnEvfAvMAHPc1LLdznaoMOir1yIqzf0YJZ/z1kYfkL+du1QxtTd
- CCUydtJcCH4A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,296,1613462400"; 
-   d="scan'208";a="469748455"
-Received: from lkp-server01.sh.intel.com (HELO ddd90b05c979) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 12 May 2021 20:51:04 -0700
-Received: from kbuild by ddd90b05c979 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lh2NM-00005b-1S; Thu, 13 May 2021 03:51:04 +0000
-Date:   Thu, 13 May 2021 11:50:49 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:renesas-pinctrl-for-v5.14] BUILD SUCCESS
- 904ec4bebc1df908a943bf3178f6c633672ce47b
-Message-ID: <609ca219.WfzGCFCzWSG8ZzhG%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 13 May 2021 04:36:03 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1620894892; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mMbyojh6a77y/n4n2x5m5FSvtbZLYhRvkKdMCE0XqIo=;
+        b=f6iDbhj56ru9OVo+GW8gX1a7hFo49kjc71l/SieGk8e/McEB2FQaWhtotl1rQHP0FsuzSZ
+        peEKBaqtnxuV5XgmYts9dYJQ6slqQkQYduFsx0O6YRi04bZShvTWaNbjyAxKSW4Y23n82D
+        35S4vaiboE50cwddR8FkRM/h57FbY/Q=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id ED2EEAD9F;
+        Thu, 13 May 2021 08:34:51 +0000 (UTC)
+Date:   Thu, 13 May 2021 10:34:51 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     "josef@toxicpanda.com" <josef@toxicpanda.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        linux-power <linux-power@fi.rohmeurope.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+        "rui.zhang@intel.com" <rui.zhang@intel.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "kai.heng.feng@canonical.com" <kai.heng.feng@canonical.com>,
+        "mcroce@microsoft.com" <mcroce@microsoft.com>,
+        "amitk@kernel.org" <amitk@kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
+        "agross@kernel.org" <agross@kernel.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>,
+        rostedt@goodmis.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v9 02/10] reboot: Add hardware protection power-off
+Message-ID: <YJzkq+NPW4ZMB8AF@alley>
+References: <cover.1620645507.git.matti.vaittinen@fi.rohmeurope.com>
+ <97260f8e150abb898a262fade25860609b460912.1620645507.git.matti.vaittinen@fi.rohmeurope.com>
+ <YJuPwAZroVZ/w633@alley>
+ <2149df3f542d25ce15d049e81d6188bb7198478c.camel@fi.rohmeurope.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <2149df3f542d25ce15d049e81d6188bb7198478c.camel@fi.rohmeurope.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.14
-branch HEAD: 904ec4bebc1df908a943bf3178f6c633672ce47b  pinctrl: renesas: r8a779{51,6,65}: Reduce non-functional differences
+On Wed 2021-05-12 12:00:46, Vaittinen, Matti wrote:
+> On Wed, 2021-05-12 at 10:20 +0200, Petr Mladek wrote:
+> > On Mon 2021-05-10 14:28:30, Matti Vaittinen wrote:
+> > > There can be few cases when we need to shut-down the system in
+> > > order to
+> > > protect the hardware. Currently this is done at east by the thermal
+> > > core
+> > > when temperature raises over certain limit.
+> > > 
+> > > Some PMICs can also generate interrupts for example for over-
+> > > current or
+> > > over-voltage, voltage drops, short-circuit, ... etc. On some
+> > > systems
+> > > these are a sign of hardware failure and only thing to do is try to
+> > > protect the rest of the hardware by shutting down the system.
+> > > 
+> > > Add shut-down logic which can be used by all subsystems instead of
+> > > implementing the shutdown in each subsystem. The logic is stolen
+> > > from
+> > > thermal_core with difference of using atomic_t instead of a mutex
+> > > in
+> > > order to allow calls directly from IRQ context.
+> > > 
+> > > Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> > > 
+> > > diff --git a/kernel/reboot.c b/kernel/reboot.c
+> > > index a6ad5eb2fa73..5da8c80a2647 100644
+> > > --- a/kernel/reboot.c
+> > > +++ b/kernel/reboot.c
+> > > @@ -518,6 +519,85 @@ void orderly_reboot(void)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(orderly_reboot);
+> > >  
+> > > +/**
+> > > + * hw_failure_emergency_poweroff_func - emergency poweroff work
+> > > after a known delay
+> > > + * @work: work_struct associated with the emergency poweroff
+> > > function
+> > > + *
+> > > + * This function is called in very critical situations to force
+> > > + * a kernel poweroff after a configurable timeout value.
+> > > + */
+> > > +static void hw_failure_emergency_poweroff_func(struct work_struct
+> > > *work)
+> > > +{
+> > > +	/*
+> > > +	 * We have reached here after the emergency shutdown waiting
+> > > period has
+> > > +	 * expired. This means orderly_poweroff has not been able to
+> > > shut off
+> > > +	 * the system for some reason.
+> > > +	 *
+> > > +	 * Try to shut down the system immediately using
+> > > kernel_power_off
+> > > +	 * if populated
+> > > +	 */
+> > > +	WARN(1, "Hardware protection timed-out. Trying forced
+> > > poweroff\n");
+> > > +	kernel_power_off();
+> > 
+> > WARN() look like an overkill here. It prints many lines that are not
+> > much useful in this case. The function is called from well-known
+> > context (workqueue worker).
+> 
+> This was the existing code which I stole from the thermal_core. I kind
+> of think that eye-catching WARN is actually a good choice here. Doing
+> autonomous power-off without a WARNing does not sound good to me :)
+> 
+> > Also be aware that "panic_on_warn" commandline option will trigger
+> > panic() here.
+> 
+> Hmm.. If panic() hangs the system that might indeed be a problem. Now
+> we are (again) on a territory which I don't know well. I'd appreciate
+> any input from thermal folks and Mark. I don't like the idea of making
+> extreme things like power-off w/o well visible log-trace. Thus I would
+> like to have WARN()-like eye-catcher, even if the call-trace was not
+> too varying. It will at least point to this worker. Any better
+> suggestions than WARN()?
 
-elapsed time: 2294m
+Heh, it might make sense to create a system wide API for these. I am
+sure that WARN() is mis-used this way on many other locations.
 
-configs tested: 191
-configs skipped: 2
+There already are two locations that use another eye-catching text.
+A common API might help to avoid duplication of the common parts,
+see
+https://lore.kernel.org/lkml/20210305194206.3165917-2-elver@google.com/
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Well, it might be out of scope for this patchset.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-i386                             allyesconfig
-openrisc                  or1klitex_defconfig
-m68k                          amiga_defconfig
-mips                           xway_defconfig
-sh                           se7712_defconfig
-arm                          collie_defconfig
-powerpc                     ppa8548_defconfig
-arm                           h3600_defconfig
-mips                         db1xxx_defconfig
-arm                        multi_v5_defconfig
-powerpc                     kmeter1_defconfig
-sh                           se7780_defconfig
-arm                        spear3xx_defconfig
-powerpc                      obs600_defconfig
-mips                     decstation_defconfig
-mips                             allyesconfig
-arm                           sunxi_defconfig
-h8300                     edosk2674_defconfig
-powerpc                        fsp2_defconfig
-xtensa                           alldefconfig
-powerpc                     tqm8560_defconfig
-arm                        multi_v7_defconfig
-arm                        clps711x_defconfig
-powerpc                  storcenter_defconfig
-powerpc                     stx_gp3_defconfig
-xtensa                  cadence_csp_defconfig
-sh                           se7721_defconfig
-sh                          polaris_defconfig
-mips                           ip27_defconfig
-sh                           se7751_defconfig
-arm                            pleb_defconfig
-powerpc                     pseries_defconfig
-arm                       aspeed_g4_defconfig
-mips                      malta_kvm_defconfig
-parisc                generic-32bit_defconfig
-powerpc                     sequoia_defconfig
-sh                           se7619_defconfig
-mips                        workpad_defconfig
-arm                         bcm2835_defconfig
-arm                        spear6xx_defconfig
-arc                          axs101_defconfig
-powerpc                      ep88xc_defconfig
-mips                        jmr3927_defconfig
-um                            kunit_defconfig
-powerpc                 mpc8315_rdb_defconfig
-openrisc                            defconfig
-sparc64                             defconfig
-arm                        neponset_defconfig
-powerpc                  mpc866_ads_defconfig
-sh                 kfr2r09-romimage_defconfig
-powerpc                      bamboo_defconfig
-riscv                             allnoconfig
-s390                                defconfig
-m68k                       m5475evb_defconfig
-mips                      bmips_stb_defconfig
-arm                          ep93xx_defconfig
-mips                        nlm_xlr_defconfig
-riscv                               defconfig
-nios2                         3c120_defconfig
-xtensa                    xip_kc705_defconfig
-powerpc                    socrates_defconfig
-powerpc                    mvme5100_defconfig
-mips                            e55_defconfig
-riscv                    nommu_k210_defconfig
-sh                          rsk7264_defconfig
-powerpc                       holly_defconfig
-mips                         mpc30x_defconfig
-mips                  decstation_64_defconfig
-powerpc                 mpc834x_itx_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                        keystone_defconfig
-powerpc                 mpc836x_mds_defconfig
-ia64                                defconfig
-powerpc                      tqm8xx_defconfig
-arm                            xcep_defconfig
-arm                        vexpress_defconfig
-sh                         ecovec24_defconfig
-arm                       imx_v4_v5_defconfig
-sh                                  defconfig
-arm                           tegra_defconfig
-mips                     cu1830-neo_defconfig
-sh                           se7722_defconfig
-riscv                    nommu_virt_defconfig
-mips                             allmodconfig
-powerpc                     pq2fads_defconfig
-arm                           sama5_defconfig
-powerpc                   lite5200b_defconfig
-mips                     loongson1c_defconfig
-mips                          malta_defconfig
-m68k                          sun3x_defconfig
-powerpc64                        alldefconfig
-arm                         lpc18xx_defconfig
-arm                       mainstone_defconfig
-powerpc                     tqm8555_defconfig
-sh                            hp6xx_defconfig
-mips                malta_qemu_32r6_defconfig
-xtensa                       common_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a003-20210512
-x86_64               randconfig-a004-20210512
-x86_64               randconfig-a001-20210512
-x86_64               randconfig-a005-20210512
-x86_64               randconfig-a002-20210512
-x86_64               randconfig-a006-20210512
-i386                 randconfig-a003-20210512
-i386                 randconfig-a001-20210512
-i386                 randconfig-a005-20210512
-i386                 randconfig-a004-20210512
-i386                 randconfig-a002-20210512
-i386                 randconfig-a006-20210512
-i386                 randconfig-a003-20210511
-i386                 randconfig-a001-20210511
-i386                 randconfig-a002-20210511
-i386                 randconfig-a006-20210511
-i386                 randconfig-a005-20210511
-i386                 randconfig-a004-20210511
-x86_64               randconfig-a012-20210511
-x86_64               randconfig-a015-20210511
-x86_64               randconfig-a011-20210511
-x86_64               randconfig-a013-20210511
-x86_64               randconfig-a016-20210511
-x86_64               randconfig-a014-20210511
-i386                 randconfig-a016-20210511
-i386                 randconfig-a014-20210511
-i386                 randconfig-a011-20210511
-i386                 randconfig-a015-20210511
-i386                 randconfig-a012-20210511
-i386                 randconfig-a013-20210511
-i386                 randconfig-a016-20210512
-i386                 randconfig-a014-20210512
-i386                 randconfig-a011-20210512
-i386                 randconfig-a015-20210512
-i386                 randconfig-a012-20210512
-i386                 randconfig-a013-20210512
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                              defconfig
-x86_64                                  kexec
-x86_64                    rhel-8.3-kselftests
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-
-clang tested configs:
-x86_64               randconfig-a003-20210511
-x86_64               randconfig-a004-20210511
-x86_64               randconfig-a001-20210511
-x86_64               randconfig-a005-20210511
-x86_64               randconfig-a002-20210511
-x86_64               randconfig-a006-20210511
-x86_64               randconfig-a015-20210512
-x86_64               randconfig-a012-20210512
-x86_64               randconfig-a011-20210512
-x86_64               randconfig-a013-20210512
-x86_64               randconfig-a016-20210512
-x86_64               randconfig-a014-20210512
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Best Regards,
+Petr
