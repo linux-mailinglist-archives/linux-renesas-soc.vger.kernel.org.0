@@ -2,104 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DAF8380D9D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 May 2021 17:53:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83E383810BC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 May 2021 21:28:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234721AbhENPyl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 May 2021 11:54:41 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.25]:24362 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233914AbhENPyl (ORCPT
+        id S230178AbhENT3Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 May 2021 15:29:25 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:15521 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229524AbhENT3Z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 May 2021 11:54:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1621007605; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=C4MrA3vome47a+ac6S5FU8cV3uHSTucUPG55PGiSEg+BfOCCS85nqBlqXHQSaZyZMp
-    9nfC2vJFvBMJ0nDPXS/RkyBCyGKzV6GmyYWwKrfcACQzti684FlQcuLfIJYeQNc2nOn0
-    WMfhM0Uln4g+kG9LrmLG5G2isdT9P8MZ9EPXPN7Y3ZsAPk1hpCam7Uns9CZEi97TtFbS
-    7+thtUixNkyBiXPcpqrJsz/bTeqrjq4J6mcsAfm0ZUq43XCPkiXrmJXXe/n/ygozNrs6
-    Z9R6RpYO9LFEurLn2jEkpXJ0YX3zzdgdHIUW74qeIrbK/6DlEogEwxOQOuT6HX4ds0w9
-    r1xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1621007605;
-    s=strato-dkim-0002; d=strato.com;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=tur7A0kVwKDrMD3sFXmJgneyeEJDMFyMOdHGfAiq8ws=;
-    b=FEA/Hccheo8sP7nhqoeOb7HePeUo3ayXYT3c/+vqjRCQQWYQFmGP+pWd1Us+zhCo7H
-    GoRpvNFr70Ax1hx/h1FOg0ANHCWC6QIh8s2aMF5exq+f6pHof/qgPPja7cWP+xkqrvtL
-    6vrx2MaIWLKEhypXUnXAdtxl2QXCCKhWhXwpO4Jbi/pxnq3+LZVPFwNc1EARtfGoEU5w
-    TPomgvI5vN1F5eYne3wTB2WSePhD5AoWXF/NO9Cy/Am7ojXbvvi/PbFQVcF6TM4UBb0J
-    BIIR4P6okSc9qRYnwiigKxIFBexxNa23xGxv4la/bF7uAOfqSUZwkCmx3OjjPXL+rd/H
-    wcaw==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1621007605;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=tur7A0kVwKDrMD3sFXmJgneyeEJDMFyMOdHGfAiq8ws=;
-    b=d1ST0JRe+mfG9OyswOIog6RrKbIAnD0QbefBGMxF7OSb4AMdRbA0ifRAyT84Dyh4by
-    XKUb/9XDgN1HkvqrBLQHEDtt/BmVvOW3gckOrm6Vbode+O/IK0uudkM6oS861QSQoCxc
-    XTbfYMIbmdw1gqdNdZgHnaqUAnpHyN0BKzfxS1A0F/93oLglI5kDVvMoXsYu1uhFFJm3
-    bavg9hZl4JmYf7+OYLvaF7AZZ5h8D8F1tkfa+13C96QfXXKwlr3QLahw0FGxHs8ItU2k
-    FGrsO25jEHznJdi1DqaTZ0Ujfyb7ProBBnQ8Em+2PxYY3eM06DbIabdtBBIx86rjnFv9
-    MZZg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR82tZd8hHUZE="
-X-RZG-CLASS-ID: mo00
-Received: from groucho.site
-    by smtp.strato.de (RZmta 47.25.8 DYNA|AUTH)
-    with ESMTPSA id 5052b9x4EFrP0Iy
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Fri, 14 May 2021 17:53:25 +0200 (CEST)
-From:   Ulrich Hecht <uli+renesas@fpond.eu>
-To:     linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org
-Cc:     wsa@kernel.org, ulf.hansson@linaro.org,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: [PATCH] mmc: renesas_sdhi: increase suspend/resume latency limit
-Date:   Fri, 14 May 2021 17:53:18 +0200
-Message-Id: <20210514155318.16812-1-uli+renesas@fpond.eu>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 14 May 2021 15:29:25 -0400
+X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 May 2021 15:29:24 EDT
+X-IronPort-AV: E=Sophos;i="5.82,300,1613401200"; 
+   d="scan'208";a="81147945"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 15 May 2021 04:23:07 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D8EC34010906;
+        Sat, 15 May 2021 04:23:03 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: [PATCH 00/16] Add new Renesas RZ/G2L SoC and Renesas RZ/G2L SMARC EVK support
+Date:   Fri, 14 May 2021 20:22:02 +0100
+Message-Id: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The TMIO core sets a very low latency limit (100 us), but when using R-Car
-SDHI hosts with SD cards, I have observed typical latencies of around 20-30
-ms. This prevents runtime PM from working properly, and the devices remain
-on continuously.
+Hi All,
 
-This patch sets the default latency limit to 100 ms to avoid that.
+This patch series adds initial support for Renesas RZ/G2L SoC and
+Renesas RZ/G2L SMARC EVK.
 
-Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
----
- drivers/mmc/host/renesas_sdhi_core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+The RZ/G2L SoC includes a single/dual Cortex-A55 CPU including
+below list of IP's:
+* Cortex-M33
+* 3D Graphics engine (Arm Mali-G31)
+* Video Codec (H.264)
+* Camera interface (MIPI-CSI or Parallel-IF)
+* Display interface (MIPI-DSI or Parallel-IF)
+* USB2.0 interface 2ch, SD interface 2ch
+* CAN interface (CAN-FD)
+* Giga bit Ethernet 2ch
 
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 635bf31a6735..4f41616cc6bb 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -32,6 +32,7 @@
- #include <linux/pinctrl/pinctrl-state.h>
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
-+#include <linux/pm_qos.h>
- #include <linux/regulator/consumer.h>
- #include <linux/reset.h>
- #include <linux/sh_dma.h>
-@@ -1147,6 +1148,9 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 		host->ops.hs400_complete = renesas_sdhi_hs400_complete;
- 	}
- 
-+	/* keep tmio_mmc_host_probe() from setting latency limit too low */
-+	dev_pm_qos_expose_latency_limit(&pdev->dev, 100000);
-+
- 	ret = tmio_mmc_host_probe(host);
- 	if (ret < 0)
- 		goto edisclk;
+Initial patches enables minimal peripherals on Renesas RZ/G2L
+SMARC EVK and booted via initramfs.
+* Documentation for RZ/G2{L,LC,UL} SoC variants
+* SoC identification support
+* CPG core support
+* Minimal SoC DTSi
+* Minimal DTS for SMARC EVK
+
+Patches are based on top of [1] master branch.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/
+
+Links for SoC and EVK:
+[*] https://www.renesas.com/us/en/products/microcontrollers-microprocessors/
+rz-arm-based-high-end-32-64-bit-mpus/rzg2l-general-purpose-microprocessors-
+dual-core-arm-cortex-a55-12-ghz-cpus-3d-graphics-and-video-codec
+[*] https://www.renesas.com/us/en/products/microcontrollers-microprocessors/
+rz-arm-based-high-end-32-64-bit-mpus/rzg2lc-general-purpose-microprocessors-
+dual-core-arm-cortex-a55-12-ghz-cpus-3d-graphics
+[*] https://renesas.info/wiki/RZ-G/RZ-G2L_SMARC
+
+Cheers,
+Prabhakar
+
+Biju Das (1):
+  serial: sh-sci: Add support for RZ/G2L SoC
+
+Lad Prabhakar (15):
+  dt-bindings: arm: renesas: Document Renesas RZ/G2UL SoC
+  dt-bindings: arm: renesas: Document Renesas RZ/G2{L,LC} SoC variants
+  dt-bindings: arm: renesas: Document SMARC EVK
+  soc: renesas: Add ARCH_R9A07G044{L,LC} for the new RZ/G2{L,LC} SoC's
+  arm64: defconfig: Enable ARCH_R9A07G044{L,LC}
+  dt-bindings: arm: renesas,prr: Add new compatible string for
+    RZ/G{L,LC,UL}
+  soc: renesas: Add support to read LSI DEVID register
+  soc: renesas: Add support to identify RZ/G2{L,LC} SoC's
+  dt-bindings: serial: renesas,scif: Document r9a07g044 bindings
+  dt-bindings: clock: renesas: Document RZ/G2L SoC CPG driver
+  clk: renesas: Define RZ/G2L CPG Clock Definitions
+  clk: renesas: Add CPG core wrapper for RZ/G2L SoC
+  clk: renesas: Add support for R9A07G044L SoC
+  arm64: dts: renesas: Add initial DTSI for RZ/G2{L,LC} SoC's
+  arm64: dts: renesas: Add initial device tree for RZ/G2L SMARC EVK
+
+ .../devicetree/bindings/arm/renesas,prr.yaml  |   6 +-
+ .../devicetree/bindings/arm/renesas.yaml      |  18 +
+ .../bindings/clock/renesas,rzg2l-cpg.yaml     |  80 ++
+ .../bindings/serial/renesas,scif.yaml         |   4 +
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ arch/arm64/boot/dts/renesas/g2l-smarc.dtsi    |  27 +
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    |  70 ++
+ arch/arm64/boot/dts/renesas/r9a07g044l.dtsi   |  21 +
+ arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi  |  43 +
+ .../boot/dts/renesas/r9a07g044l2-smarc.dts    |  21 +
+ arch/arm64/boot/dts/renesas/r9a07g044l2.dtsi  |  62 ++
+ arch/arm64/configs/defconfig                  |   2 +
+ drivers/clk/renesas/Kconfig                   |  12 +
+ drivers/clk/renesas/Makefile                  |   2 +
+ drivers/clk/renesas/r9a07g044l-cpg.c          | 372 +++++++
+ drivers/clk/renesas/renesas-rzg2l-cpg.c       | 964 ++++++++++++++++++
+ drivers/clk/renesas/renesas-rzg2l-cpg.h       | 223 ++++
+ drivers/soc/renesas/Kconfig                   |  10 +
+ drivers/soc/renesas/renesas-soc.c             |  33 +-
+ drivers/tty/serial/sh-sci.c                   |  11 +
+ drivers/tty/serial/sh-sci.h                   |   1 +
+ include/dt-bindings/clock/r9a07g044l-cpg.h    |  89 ++
+ 22 files changed, 2070 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
+ create mode 100644 arch/arm64/boot/dts/renesas/g2l-smarc.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l2.dtsi
+ create mode 100644 drivers/clk/renesas/r9a07g044l-cpg.c
+ create mode 100644 drivers/clk/renesas/renesas-rzg2l-cpg.c
+ create mode 100644 drivers/clk/renesas/renesas-rzg2l-cpg.h
+ create mode 100644 include/dt-bindings/clock/r9a07g044l-cpg.h
+
 -- 
-2.20.1
+2.17.1
 
