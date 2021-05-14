@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06F0838108C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 May 2021 21:24:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FCCE38108F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 May 2021 21:24:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234030AbhENTZC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 May 2021 15:25:02 -0400
+        id S233101AbhENTZK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 May 2021 15:25:10 -0400
 Received: from relmlor1.renesas.com ([210.160.252.171]:53998 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233970AbhENTZA (ORCPT
+        by vger.kernel.org with ESMTP id S234052AbhENTZE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 May 2021 15:25:00 -0400
+        Fri, 14 May 2021 15:25:04 -0400
 X-IronPort-AV: E=Sophos;i="5.82,300,1613401200"; 
-   d="scan'208";a="81343881"
+   d="scan'208";a="81343886"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 15 May 2021 04:23:48 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 15 May 2021 04:23:52 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8C0CC4010906;
-        Sat, 15 May 2021 04:23:44 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 9A9AE4010906;
+        Sat, 15 May 2021 04:23:48 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
@@ -36,9 +36,9 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH 10/16] serial: sh-sci: Add support for RZ/G2L SoC
-Date:   Fri, 14 May 2021 20:22:12 +0100
-Message-Id: <20210514192218.13022-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 11/16] dt-bindings: clock: renesas: Document RZ/G2L SoC CPG driver
+Date:   Fri, 14 May 2021 20:22:13 +0100
+Message-Id: <20210514192218.13022-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -46,87 +46,102 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Document the device tree bindings of the Renesas RZ/G2L SoC clock
+driver in Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml.
 
-Add serial support for RZ/G2L SoC with earlycon and
-extended mode register support.
-
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/tty/serial/sh-sci.c | 11 +++++++++++
- drivers/tty/serial/sh-sci.h |  1 +
- 2 files changed, 12 insertions(+)
+ .../bindings/clock/renesas,rzg2l-cpg.yaml     | 80 +++++++++++++++++++
+ 1 file changed, 80 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
 
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index ef37fdf37612..872a2c3b11c4 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -306,6 +306,7 @@ static const struct sci_port_params sci_port_params[SCIx_NR_REGTYPES] = {
- 			[SCFDR]		= { 0x0E, 16 },
- 			[SCSPTR]	= { 0x10, 16 },
- 			[SCLSR]		= { 0x12, 16 },
-+			[SEMR]		= { 0x14, 8 },
- 		},
- 		.fifosize = 16,
- 		.overrun_reg = SCLSR,
-@@ -2527,6 +2528,8 @@ static void sci_set_termios(struct uart_port *port, struct ktermios *termios,
- 			case 27: smr_val |= SCSMR_SRC_27; break;
- 			}
- 		smr_val |= cks;
-+		if (sci_getreg(port, SEMR)->size)
-+			serial_port_out(port, SEMR, 0);
- 		serial_port_out(port, SCSCR, scr_val | s->hscif_tot);
- 		serial_port_out(port, SCSMR, smr_val);
- 		serial_port_out(port, SCBRR, brr);
-@@ -2561,6 +2564,8 @@ static void sci_set_termios(struct uart_port *port, struct ktermios *termios,
- 		scr_val = s->cfg->scscr & (SCSCR_CKE1 | SCSCR_CKE0);
- 		smr_val |= serial_port_in(port, SCSMR) &
- 			   (SCSMR_CKEDG | SCSMR_SRC_MASK | SCSMR_CKS);
-+		if (sci_getreg(port, SEMR)->size)
-+			serial_port_out(port, SEMR, 0);
- 		serial_port_out(port, SCSCR, scr_val | s->hscif_tot);
- 		serial_port_out(port, SCSMR, smr_val);
- 	}
-@@ -3170,6 +3175,10 @@ static const struct of_device_id of_sci_match[] = {
- 		.compatible = "renesas,scif-r7s9210",
- 		.data = SCI_OF_DATA(PORT_SCIF, SCIx_RZ_SCIFA_REGTYPE),
- 	},
-+	{
-+		.compatible = "renesas,scif-r9a07g044",
-+		.data = SCI_OF_DATA(PORT_SCIF, SCIx_RZ_SCIFA_REGTYPE),
-+	},
- 	/* Family-specific types */
- 	{
- 		.compatible = "renesas,rcar-gen1-scif",
-@@ -3452,6 +3461,7 @@ static int __init rzscifa_early_console_setup(struct earlycon_device *device,
- 	port_cfg.regtype = SCIx_RZ_SCIFA_REGTYPE;
- 	return early_console_setup(device, PORT_SCIF);
- }
+diff --git a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
+new file mode 100644
+index 000000000000..463d6667951b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/clock/renesas,rzg2l-cpg.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 +
- static int __init scifa_early_console_setup(struct earlycon_device *device,
- 					  const char *opt)
- {
-@@ -3471,6 +3481,7 @@ static int __init hscif_early_console_setup(struct earlycon_device *device,
- OF_EARLYCON_DECLARE(sci, "renesas,sci", sci_early_console_setup);
- OF_EARLYCON_DECLARE(scif, "renesas,scif", scif_early_console_setup);
- OF_EARLYCON_DECLARE(scif, "renesas,scif-r7s9210", rzscifa_early_console_setup);
-+OF_EARLYCON_DECLARE(scif, "renesas,scif-r9a07g044", rzscifa_early_console_setup);
- OF_EARLYCON_DECLARE(scifa, "renesas,scifa", scifa_early_console_setup);
- OF_EARLYCON_DECLARE(scifb, "renesas,scifb", scifb_early_console_setup);
- OF_EARLYCON_DECLARE(hscif, "renesas,hscif", hscif_early_console_setup);
-diff --git a/drivers/tty/serial/sh-sci.h b/drivers/tty/serial/sh-sci.h
-index c0dfe4382898..c0ae78632dda 100644
---- a/drivers/tty/serial/sh-sci.h
-+++ b/drivers/tty/serial/sh-sci.h
-@@ -31,6 +31,7 @@ enum {
- 	SCCKS,				/* BRG Clock Select Register */
- 	HSRTRGR,			/* Rx FIFO Data Count Trigger Register */
- 	HSTTRGR,			/* Tx FIFO Data Count Trigger Register */
-+	SEMR,				/* Serial extended mode register */
- 
- 	SCIx_NR_REGS,
- };
++title: Renesas RZ/G2L Clock Pulse Generator / Module Stop and Software Reset
++
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++
++description: |
++  On Renesas RZ/G2L SoC, the CPG (Clock Pulse Generator) and MSTP
++  (Module Stop and Software Reset) share the same register block.
++
++  They provide the following functionalities:
++    - The CPG block generates various core clocks,
++    - The MSTP block provides two functions:
++        1. Module Stop, providing a Clock Domain to control the clock supply
++           to individual SoC devices,
++        2. Reset Control, to perform a software reset of individual SoC devices.
++
++properties:
++  compatible:
++    const: renesas,r9a07g044l-cpg  # RZ/G2L
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: extal
++
++  '#clock-cells':
++    description: |
++      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
++        and a core clock reference, as defined in
++        <dt-bindings/clock/*-cpg-mssr.h>
++      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
++        a module number, as defined in the datasheet.
++    const: 2
++
++  '#power-domain-cells':
++    description:
++      SoC devices that are part of the CPG/MSTP Clock Domain and can be
++      power-managed through Module Stop should refer to the CPG device node
++      in their "power-domains" property, as documented by the generic PM Domain
++      bindings in Documentation/devicetree/bindings/power/power-domain.yaml.
++    const: 0
++
++  '#reset-cells':
++    description:
++      The single reset specifier cell must be the module number, as defined in
++      the datasheet.
++    const: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - '#clock-cells'
++  - '#power-domain-cells'
++  - '#reset-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    cpg: clock-controller@11010000 {
++            compatible = "renesas,r9a07g044l-cpg";
++            reg = <0x11010000 0x10000>;
++            clocks = <&extal_clk>;
++            clock-names = "extal";
++            #clock-cells = <2>;
++            #power-domain-cells = <0>;
++            #reset-cells = <1>;
++    };
 -- 
 2.17.1
 
