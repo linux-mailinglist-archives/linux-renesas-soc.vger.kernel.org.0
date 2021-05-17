@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58B4F38296F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 12:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C227382985
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 12:09:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230157AbhEQKJJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 May 2021 06:09:09 -0400
-Received: from mail-ua1-f46.google.com ([209.85.222.46]:40618 "EHLO
-        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231658AbhEQKJI (ORCPT
+        id S236264AbhEQKK6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 May 2021 06:10:58 -0400
+Received: from mail-vs1-f52.google.com ([209.85.217.52]:36538 "EHLO
+        mail-vs1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236224AbhEQKK4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 May 2021 06:09:08 -0400
-Received: by mail-ua1-f46.google.com with SMTP id z14so814770uan.7;
-        Mon, 17 May 2021 03:07:51 -0700 (PDT)
+        Mon, 17 May 2021 06:10:56 -0400
+Received: by mail-vs1-f52.google.com with SMTP id d13so2828305vso.3;
+        Mon, 17 May 2021 03:09:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9xseL2+XE1J6V0vqH7pxR1BitLaPIz05W/5hwHbzwlk=;
-        b=UqYdlo7zG/K7N1s6fdO1Uvd5Q7p4Z46qSiEUNHiisdhN1uzlPtbILONgCjhBUjFgDV
-         jJHJ6vcbt8KXKgRFBQEKO0uv7RTbNtB8vJBgBmduI/4ANBeKXq1t7Qupi60bLiE4ntIj
-         V1vOIJ7i0F/aAzNmwti9F1+UNtviMxE8W2Yz1YsTqaBucwmpzQEaOZ1+FXW3wLX9Jzxs
-         LEpBhVwd90+7L1CldS6J8xJw4BPGFFCoWo3/VMMnzen+846TtPkqFX8OGqDG9bRjN6Yj
-         zuehJ+VV/8Om+haFYTtZywIk9wn0DSA4nKhc83zr41MCiZoN9va9TscVY3ncM6xxRwfb
-         z3UA==
-X-Gm-Message-State: AOAM533XLR1qbiMlm7e5ITWxWuugfkRoRIwwNDfKwVD9loG2HhGzch/a
-        jxvnjZwXrYaiVV+3KYKcpRgYS3A7G5FRcliMSvA=
-X-Google-Smtp-Source: ABdhPJyOeqHUlARITC2WUqRxSoVofkxcJZsWewLwfS1XCXOH2n3sJhCmm08dH0bx8P9A8SpcGijPw/m9NHGCw1Z4KD8=
-X-Received: by 2002:ab0:59cb:: with SMTP id k11mr38558443uad.100.1621246071083;
- Mon, 17 May 2021 03:07:51 -0700 (PDT)
+        bh=e6iGJcGcTtYBC7B9R84xOrj6qAa4tF3fGN/GCOKLHbU=;
+        b=fOWOOhoq8mfwtjP5wmBdIDt1ZarUE5PM1dMp53jiPk4AgJKxaYgVfD5fOhQB5vsm3J
+         hByT34pEe4zI5pQ9d5R3ZAkO8YfWfbPhiYP+xDFNQjSyPbB+XtV7ahJAAIbV7cnz68Ia
+         hGrPTnZBoU/hSXZcdLlRJDWd4elSNmVVdGMj6YGOKvlu9Hstgtt3ACjluhyZK/wg/HEy
+         RhxP+FffdpNj9RqGqjmvxqUldUjCT+NjArhUXDJ/AcxHzlPT1kvGdKQF04HXNGnhyana
+         n0cclH9xa4b2UAGrP8Obl4IuzoHebd8682eeiLDnyVEyLV7cPp/LwzRqBDen1JLOB3Pb
+         JjNw==
+X-Gm-Message-State: AOAM533CnWACYL7wGDTZ4He5y55UWJ4afDe3KGB1zIHUbdCM2L52HzNr
+        gWTs4o+Jicor/T4VaT+fKvXRn4rYFDWFn5QqS4Q=
+X-Google-Smtp-Source: ABdhPJx4hV6xEa6RglTPK6Qyvqqt6ANlmCYxeq/e5G5A1AUa4NWnqYRm++zrYEcRGiB4xDeEHITlHLT3VYwOoeQ539U=
+X-Received: by 2002:a67:f84f:: with SMTP id b15mr9555646vsp.40.1621246167982;
+ Mon, 17 May 2021 03:09:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210513114617.30191-1-aford173@gmail.com> <20210513114617.30191-2-aford173@gmail.com>
-In-Reply-To: <20210513114617.30191-2-aford173@gmail.com>
+References: <20210513114617.30191-1-aford173@gmail.com> <20210513114617.30191-3-aford173@gmail.com>
+In-Reply-To: <20210513114617.30191-3-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 17 May 2021 12:07:38 +0200
-Message-ID: <CAMuHMdWVR0q046fYeCOsTVsnRGm7EcmWL5wDNG5pZ-_qE5c96A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: beacon: Fix USB ref clock references
+Date:   Mon, 17 May 2021 12:09:16 +0200
+Message-ID: <CAMuHMdXB=R_CZ-tdzbdcVsGtgUoYU7LTmaSeErcLzHuAUm+-Lw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: defconfig: Enable usb2_clksel for rcar3 and RZ/G2
 To:     Adam Ford <aford173@gmail.com>
 Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Adam Ford-BE <aford@beaconembedded.com>,
@@ -53,35 +53,15 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
-
-Thanks for your patch!
-
 On Thu, May 13, 2021 at 1:46 PM Adam Ford <aford173@gmail.com> wrote:
-> The RZ/G2 boards expect there to be a external clock reference for
-
-an
-
-> USB2 EHCI controllers.  For the Beacon boards, this reference clock
-> is controlled by a programmable verasaclock.  Because the RZ/G2
-
-versaclock
-
-> family have a special clock driver when using an external clock,
-
-has
-
-> the third clock reference in the EHCI node needs to point to this
-> special clock, called usb2_clksel.
->
-> Since the usb2_clksel does not keep the usb_extal clock enabled,
-> the 4th clock entry for the EHCI nodes needs to reference it to
-> keep the clock running and make USB functional.
+> There is a clock driver that's needed when using an external
+> USB reference clock called usb2_clksel.
+> Enable it in the defconfig.
 >
 > Signed-off-by: Adam Ford <aford173@gmail.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.14, with the above fixed.
+i.e. will queue in renesas-devel for v5.14.
 
 Gr{oetje,eeting}s,
 
