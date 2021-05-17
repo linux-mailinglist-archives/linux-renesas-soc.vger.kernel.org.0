@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36F92386D2E
+	by mail.lfdr.de (Postfix) with ESMTP id 129DD386D2D
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 May 2021 00:48:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237094AbhEQWtd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 May 2021 18:49:33 -0400
-Received: from mga06.intel.com ([134.134.136.31]:4229 "EHLO mga06.intel.com"
+        id S238536AbhEQWte (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 May 2021 18:49:34 -0400
+Received: from mga05.intel.com ([192.55.52.43]:61934 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238532AbhEQWtd (ORCPT
+        id S241756AbhEQWtd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Mon, 17 May 2021 18:49:33 -0400
-IronPort-SDR: cAkTqDFzD1zsq6uD3U5y+pwi+Kb+ejg1My1aELtzbNWqteBVeLEuUTKm0gds27BJlVPklC0fZl
- EyC6ryPOVRHQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="261813755"
+IronPort-SDR: iOlUHE50+FBrIcRWiNgo03yXrkw6Ky1yo79dGf9JXAAuQf4uFbNL+6dJpZSIxWB/rqb2FgOJzW
+ LF2fyricXxsg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="286112089"
 X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; 
-   d="scan'208";a="261813755"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2021 15:48:15 -0700
-IronPort-SDR: a1KDcMicU6+ttPgdNqhT6vOA4ayeS4Njnmm9OGYYzxAjzW1fOXUX9lky1XP1uwGTmdZN/rqonH
- A+bnwsY/sUmg==
+   d="scan'208";a="286112089"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2021 15:48:16 -0700
+IronPort-SDR: WshrsgGH0es6U6qiG2qLsO8k48UhF3ZBPm5AiDTDUcXdvFmhm1lZoFTiKDdnS0DTVrac9rdjUy
+ RUlEEJnqgI3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,307,1613462400"; 
-   d="scan'208";a="438382751"
+   d="scan'208";a="439138219"
 Received: from lkp-server01.sh.intel.com (HELO ddd90b05c979) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 17 May 2021 15:48:14 -0700
+  by orsmga008.jf.intel.com with ESMTP; 17 May 2021 15:48:15 -0700
 Received: from kbuild by ddd90b05c979 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1lim21-0001wm-Sp; Mon, 17 May 2021 22:48:13 +0000
-Date:   Tue, 18 May 2021 06:47:25 +0800
+        id 1lim22-0001x1-GO; Mon, 17 May 2021 22:48:14 +0000
+Date:   Tue, 18 May 2021 06:47:27 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-defconfig-for-v5.14] BUILD SUCCESS
- 8d09cdab05e63d8d7fbe5c2e8b82a65646709c57
-Message-ID: <60a2f27d.GrnvdDZP6EpH0WCd%lkp@intel.com>
+Subject: [renesas-devel:next] BUILD SUCCESS
+ 943db114cf998d030df260dfab3248894cc38719
+Message-ID: <60a2f27f.n6A7t/BdavXCDe5u%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,13 +44,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-defconfig-for-v5.14
-branch HEAD: 8d09cdab05e63d8d7fbe5c2e8b82a65646709c57  ARM: shmobile: defconfig: Refresh for v5.13-rc1
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: 943db114cf998d030df260dfab3248894cc38719  Merge branch 'renesas-arm-defconfig-for-v5.14' into renesas-next
 
 elapsed time: 724m
 
-configs tested: 140
-configs skipped: 80
+configs tested: 143
+configs skipped: 2
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -82,6 +82,11 @@ arc                    vdk_hs38_smp_defconfig
 m68k                         amcore_defconfig
 arm                        keystone_defconfig
 um                                  defconfig
+powerpc                     mpc5200_defconfig
+nios2                            allyesconfig
+mips                     loongson1c_defconfig
+powerpc                   currituck_defconfig
+sh                             shx3_defconfig
 sh                      rts7751r2d1_defconfig
 powerpc                      pasemi_defconfig
 nios2                         10m50_defconfig
@@ -90,7 +95,6 @@ sh                           se7619_defconfig
 sh                          urquell_defconfig
 powerpc                      arches_defconfig
 mips                    maltaup_xpa_defconfig
-sh                             shx3_defconfig
 powerpc                        cell_defconfig
 arm                           u8500_defconfig
 arm                          iop32x_defconfig
@@ -136,7 +140,6 @@ nios2                               defconfig
 arc                              allyesconfig
 nds32                             allnoconfig
 nds32                               defconfig
-nios2                            allyesconfig
 csky                                defconfig
 alpha                               defconfig
 alpha                            allyesconfig
