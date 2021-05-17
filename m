@@ -2,139 +2,236 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3B5E3836AE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 17:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1FAF383B39
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 19:25:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242761AbhEQPfU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 May 2021 11:35:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54920 "EHLO
+        id S237875AbhEQR0r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 May 2021 13:26:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243845AbhEQPdF (ORCPT
+        with ESMTP id S231681AbhEQR0r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 May 2021 11:33:05 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7BADC05BD02
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 May 2021 07:35:01 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id u21so9480315ejo.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 May 2021 07:35:01 -0700 (PDT)
+        Mon, 17 May 2021 13:26:47 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B523C061573
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 May 2021 10:25:30 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id gb21-20020a17090b0615b029015d1a863a91so7721pjb.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 May 2021 10:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qAO2FUm0dY9lNhwbBsHwbCEgof7mfDL+I1zM8Q/QjZ4=;
-        b=cpIZGV4JjFuIrzTEp13KAJHZNiDrPp8cM6LgvzOAFxkAMid1cqMVk8LWhthpkkipSS
-         ZUwtt4pomD4ZD08pXRSuYUNSVGqOZ7b0fdu1nbnUVJ+P3qgfMXDb+SXbYOwkh2i0lXbo
-         lLOb+tsIwBk2GBUHFWaoHNms4uE6DaX4sfP2orgt5QDwk6AkcxCINtJFm+6iyw7RloEa
-         rySbDjKHx+T5IK4HtQ+EzVEh0198GdZbjFlSGcP3h5Y7TAawl7wGHe9RRppvRX0sPom0
-         n7Kvryyn92lU1v0lMjcuZJVTvBPDiJJ0IOEafvrn3+YnCXzqmojhHjCF9sbHnWO6jNTr
-         LLKQ==
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=yI+rcqHRI4hp8CptVI2JO/WMq6ixwhq074fbpODKgAE=;
+        b=qAYFHQ4KcRSlZVGSfywRG73qV42BNMkXtWgnMij2wNcvmay2JLTuPZ9otXUnAD/l+Q
+         g0yIY+CITzfCSSnHG+XIfmEy9rONERXAABVICYTHZ+AF3tc2fuofJxh/bj6rS6hDdxDt
+         ybspfNI1wJ7ZMHT2xoG4SB6bH7kdoqO71p6WzgZzuB2Q5uxH6K3kVmiJS/4i0txccW58
+         2NdtXAJQT6jRvGMEzfeABT/bC6bnsBmAM1lRmbkYCVCr5iZP5uMnEfHC2J1TuDzgBfku
+         8pvFUQ6nSqUWFWNnry7wiChcCIakx4t+Hk5/UZjQ2QqoKhWkLEJujvI95gzpOhMSKAdR
+         /cPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qAO2FUm0dY9lNhwbBsHwbCEgof7mfDL+I1zM8Q/QjZ4=;
-        b=nUS3HOrT2p/9r6fi/wFhvWTccxPBcSdo9zBPU13mdfq9rPt9axdtSvxyW1ksnqQxHs
-         C6YLh8nU1+m/1cnwkZUpEWaTipojRXkxmib8WnthnbX+wQWSI7DQ3ZWAPGDIjk4v6vkI
-         jNbPQ4g7UUtkp2atJvA8igjvbw5eXrz16Lnc+/1N7HiF3IQQSgKsXmkriqd8V+5c0LR9
-         Ex6I9bcGHzVQJjeqcKzDE0e40AtSAKJ06c/V6AvqquIFKmstguayRlom72wswYNuK3n+
-         TWlttP4cyzEFyMO0utEOpulUQ0GfHL+7HsDrzAUPhYi0w1ZtDVKyV8KmxeqWskw55zpQ
-         ATng==
-X-Gm-Message-State: AOAM533YkZC6tQHyfojcQG0qC2+rKZdEpm64VpZ3+itnUpQSLFfpgL66
-        JCmlEw37LR5ITC+Ag+Rn5skH+03T9HktZs4R0paC3SHStwo=
-X-Google-Smtp-Source: ABdhPJyCItkLkOgAXyd3b7iB+Nlr8zeIzvzqQG4tHRp5Q4C9r1msHXKBPMAXwTRC9KXXXCKUhh9OyfxpgmpH7cqEfro=
-X-Received: by 2002:a17:906:22c6:: with SMTP id q6mr201844eja.275.1621262100390;
- Mon, 17 May 2021 07:35:00 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=yI+rcqHRI4hp8CptVI2JO/WMq6ixwhq074fbpODKgAE=;
+        b=GssVCUj9cFnIjrQvtCyn7LjjZheXxKCFY8iW4a+r7n7JbCO3N6eFrCgqaYJbUX3xjs
+         PLyr87dUGxOSlwU4bpBedI5zrcCZWwACGFZ3a5XFejXZPtxagxNNv2Zkqm+JwjQ7rl9x
+         YlZzPoGQfqayouaIN4zqZH848wtfSi9wQp9oRaxcBU+cWrMfm1dFQYmgK2ciIB58Xst5
+         syaaIymEHnno7nau8MzEgH6Sfjm0YpKScTFNGXijfslc8PC2AXhb2iNDASEfxKTauzlI
+         Xy07lnhrGX4eh7FHGRKxQrqVdiy9JFH9yMwgsJqDhfEsixUCPK9JvmEYsbnvr240nJba
+         aSDQ==
+X-Gm-Message-State: AOAM530mJYSqOnQVeyEY4gslwRiaV2XdSdLAIXZEp6V0DXN72he3YBFP
+        1ljkyul7HZxoycXWHBhZfhwaWoVzsABnVPEp
+X-Google-Smtp-Source: ABdhPJyZEOLL2+oO14aSa8jDfHJH+cSpoqSDjPoV2TdWvfnAPW+lFNIdKaSiytZol/A/fmJ7Z5dZew==
+X-Received: by 2002:a17:90a:d904:: with SMTP id c4mr528447pjv.123.1621272329816;
+        Mon, 17 May 2021 10:25:29 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id b124sm14915pfa.27.2021.05.17.10.25.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 May 2021 10:25:29 -0700 (PDT)
+Message-ID: <60a2a709.1c69fb81.7c162.0133@mx.google.com>
+Date:   Mon, 17 May 2021 10:25:29 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <CAHCN7xKjHramQ=p74+jtLP0vV6=cTjMv-b7ad83W3R50aWc=rQ@mail.gmail.com>
- <CAMuHMdUsTouu0LAC0sD8cW-P1WCE0DcPMSR5iBaos_H2oOHLiA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUsTouu0LAC0sD8cW-P1WCE0DcPMSR5iBaos_H2oOHLiA@mail.gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Mon, 17 May 2021 09:34:49 -0500
-Message-ID: <CAHCN7x+PLtntxuxTMkQ27BnvnTc6mc1GjvRr9m_y=xSvWUE=HQ@mail.gmail.com>
-Subject: Re: RZ/G2 Lossy Compression Memory Question
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-next-2021-05-17-v5.13-rc1
+X-Kernelci-Branch: next
+X-Kernelci-Report-Type: test
+Subject: renesas/next baseline-nfs: 14 runs,
+ 4 regressions (renesas-next-2021-05-17-v5.13-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 17, 2021 at 8:05 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Adam,
->
-> On Mon, May 17, 2021 at 2:50 PM Adam Ford <aford173@gmail.com> wrote:
-> > The bootloader/TF-A configuration we're using is based on the 4.19 CIP
-> > kernel that Renesas released.  TF-A, we allocate some memory for the
->
-> Where can I find this BSP?
-> rcar-3.9.x is based on v4.14, and rcar-4.0.x on v5.4.  I don't know about
-> BSPs using a kernel version in between.
+renesas/next baseline-nfs: 14 runs, 4 regressions (renesas-next-2021-05-17-=
+v5.13-rc1)
 
-Their URL is:
-https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-cortex-a-mpus/rzg-linux-platform/rzg-marketplace/verified-linux-package/rzg2-vlp-eva
+Regressions Summary
+-------------------
 
-They have a github repo with  a Yocto recipe which includes references
-to the CIP kernel and their list of patches:
-https://github.com/renesas-rz/meta-rzg2/tree/BSP-1.0.6/recipes-kernel/linux
+platform                  | arch  | lab             | compiler | defconfig =
+         | regressions
+--------------------------+-------+-----------------+----------+-----------=
+---------+------------
+dove-cubox                | arm   | lab-pengutronix | gcc-8    | multi_v7_d=
+efconfig | 1          =
+
+meson-gxm-q200            | arm64 | lab-baylibre    | gcc-8    | defconfig =
+         | 1          =
+
+sun7i-a20-olinuxino-lime2 | arm   | lab-baylibre    | gcc-8    | multi_v7_d=
+efconfig | 1          =
+
+sun7i-a20-olinuxino-lime2 | arm   | lab-baylibre    | gcc-8    | sunxi_defc=
+onfig    | 1          =
 
 
->
-> > lossy compression and this memory is not available for Linux.  I'd
-> > prefer to not have to use a special TF-A for the mainline Linux, but
-> > what appears to be happening is that Linux doesn't know about the
-> > reserved memory, so memory corruption happens.
-> >
-> > The Renesas CIP kernel uses the following to define the space
-> >
-> > /* device specific region for Lossy Decompression */
-> > lossy_decompress: linux,lossy_decompress@54000000 {
-> >      no-map;
-> >      reg = <0x00000000 0x54000000 0x0 0x03000000>;
-> > };
->
-> That is, inside a "reserved-memory" node.
->
-> > Then uses the following to carve it out so Linux doesn't think it can use it.
-> >
-> > mmngr {
-> >      compatible = "renesas,mmngr";
-> >      memory-region = <&mmp_reserved>, <&lossy_decompress>;
-> > };
-> >
-> > Unfortunately, renesas,mmngr doesn't exist upstream.
-> >
-> > I thought about changing the memory node to break it up, but it seems
-> > like a hack.
-> >
-> > What is the best suggestion for blocking this memory area from Linux
-> > while still appearing to show the full memory size?
->
-> I think "renesas,mmngr" is a red herring, as both rcar-3.9.x and
-> rcar-4.0.x use that compatible value in DTS files, but don't include
-> a driver.
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2021-05-17-v5.13-rc1/plan/baseline-nfs/
 
-That seems true for the 4.19-CIP kernel as well.
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2021-05-17-v5.13-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      943db114cf998d030df260dfab3248894cc38719 =
 
->
-> Does it work if you manually add the reserved-memory node and the
-> relevant subnodes to your DTS file?
 
-I'll give the reserved memory node a try.  The extra "renesas,mmngr"
-threw me off.
 
-Thanks for the suggestion.
+Test Regressions
+---------------- =
 
-adam
 
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+
+platform                  | arch  | lab             | compiler | defconfig =
+         | regressions
+--------------------------+-------+-----------------+----------+-----------=
+---------+------------
+dove-cubox                | arm   | lab-pengutronix | gcc-8    | multi_v7_d=
+efconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60a271f87462e967fcb3afba
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-05-17-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-pengutronix/baseline-nfs-=
+dove-cubox.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-05-17-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-pengutronix/baseline-nfs-=
+dove-cubox.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0503.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60a271f87462e967f=
+cb3afbb
+        failing since 20 days (last pass: renesas-next-2021-04-02-v5.12-rc2=
+, first fail: renesas-next-2021-04-02-v5.12-rc2-3-g0bacf4d3d276) =
+
+ =
+
+
+
+platform                  | arch  | lab             | compiler | defconfig =
+         | regressions
+--------------------------+-------+-----------------+----------+-----------=
+---------+------------
+meson-gxm-q200            | arm64 | lab-baylibre    | gcc-8    | defconfig =
+         | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60a2755a9b6663f794b3afa3
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-05-17-v5.13-rc1/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-meson-gxm-=
+q200.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-05-17-v5.13-rc1/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-meson-gxm-=
+q200.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0503.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60a2755a9b6663f79=
+4b3afa4
+        failing since 44 days (last pass: renesas-next-2020-10-26-v5.10-rc1=
+, first fail: renesas-next-2021-04-02-v5.12-rc2) =
+
+ =
+
+
+
+platform                  | arch  | lab             | compiler | defconfig =
+         | regressions
+--------------------------+-------+-----------------+----------+-----------=
+---------+------------
+sun7i-a20-olinuxino-lime2 | arm   | lab-baylibre    | gcc-8    | multi_v7_d=
+efconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60a29286e07b1f55eab3afa2
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-05-17-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun=
+7i-a20-olinuxino-lime2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-05-17-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun=
+7i-a20-olinuxino-lime2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0503.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60a29286e07b1f55e=
+ab3afa3
+        failing since 56 days (last pass: v5.12-rc2-14-g6f56f6c26099, first=
+ fail: renesas-next-2021-03-22-v5.12-rc2) =
+
+ =
+
+
+
+platform                  | arch  | lab             | compiler | defconfig =
+         | regressions
+--------------------------+-------+-----------------+----------+-----------=
+---------+------------
+sun7i-a20-olinuxino-lime2 | arm   | lab-baylibre    | gcc-8    | sunxi_defc=
+onfig    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60a290a69c1a86702ab3afac
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: sunxi_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-05-17-v5.13-rc1/arm/sunxi_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun7i-=
+a20-olinuxino-lime2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-05-17-v5.13-rc1/arm/sunxi_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun7i-=
+a20-olinuxino-lime2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0503.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60a290a69c1a86702=
+ab3afad
+        failing since 16 days (last pass: renesas-next-2021-04-02-v5.12-rc2=
+, first fail: renesas-next-2021-04-02-v5.12-rc2-3-g0bacf4d3d276) =
+
+ =20
