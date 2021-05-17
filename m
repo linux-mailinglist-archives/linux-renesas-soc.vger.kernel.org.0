@@ -2,123 +2,212 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43A79382B63
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 13:44:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31D6D382B6F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 13:46:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236751AbhEQLp7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 May 2021 07:45:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229681AbhEQLp7 (ORCPT
+        id S229845AbhEQLrw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 May 2021 07:47:52 -0400
+Received: from mail-vs1-f47.google.com ([209.85.217.47]:46742 "EHLO
+        mail-vs1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229772AbhEQLrv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 May 2021 07:45:59 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEFDDC06174A
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 May 2021 04:44:41 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id j10so8291984lfb.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 May 2021 04:44:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=zey77zJy5RVWOhA+DdNIaCVb7wJapM77X61QFGGKNqQ=;
-        b=B1er58LCWRRQeezfHO/NxtMNJl0Kq85F9+pQJX4B2jDte85jIody1Lrm++zY+9uYM0
-         7vWo1ZGxKMm1GJ4YCNDr72mjH4Ye8TqhRptgEfr+eYawh9cktp/HRxRwoJ0DNYTKw697
-         OSWn5VXjz9sbGSsYy10x7Dr02tm0Rdt7ErvH12q/RxYPaGySfKF1fqfy7sGojP9uE6Jq
-         sTPKo9HE+jFruY1BV/Ucb17XWz9OW4KUPEqXKH7pbKkVRZs+MxuJeMfhT23KM2frU2ei
-         hGW7vp00WPUH+7bI9aOnW4e3kNGDfVbHr8JKaAsUiKO/8yi44dt95rFvOKztKFAjCC3W
-         lnqQ==
+        Mon, 17 May 2021 07:47:51 -0400
+Received: by mail-vs1-f47.google.com with SMTP id t6so2913796vsp.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 May 2021 04:46:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=zey77zJy5RVWOhA+DdNIaCVb7wJapM77X61QFGGKNqQ=;
-        b=ISfBIY2Bs3W4kj5W+f0T29xNuhuEwQg2Y6xlnaoU6pG6a+ws9mcE3Y+HYZ5j+HKF6V
-         QvMxGTs32onab1YnoO55x8EytcZ2qv/CTgI5/IJb3IuVWmipd3uIle8ruq6VqP9gAKGT
-         qF2iABLZxjjtAUpZsVqgCO5rbDtBT191LS81curTFe53+jCIbC7HwpWItXWmuiORxjT2
-         4WXNvVNgY/RW9cOZV2SFa3XJtwfTGDXAh0ZlfxHxjEQTganaje2ecRhnjgruR8qVUqZx
-         Vn+pCX9vHU1qUg8SZ1L0h13lPz1AVH2qC6pooJWpXqL2/34I7W0hwkSWwx0HiPXkyk/B
-         MZrw==
-X-Gm-Message-State: AOAM532kuRRcKPxuDFUQJie8m9zheQPjpQ3WDm4ufD1PBBnLIVxK+hL4
-        rlGLcq1XRasFc9KW5rIpgSclFn9la8QGJw==
-X-Google-Smtp-Source: ABdhPJw5u2zpWaAPtH+fow/yZvEbGYKM8vNhv4j8gzoCAm28djgSLxcv09KrNHZbQpZm5hckO+ofVw==
-X-Received: by 2002:a05:6512:10c8:: with SMTP id k8mr43016193lfg.325.1621251880268;
-        Mon, 17 May 2021 04:44:40 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id m4sm2849801ljc.20.2021.05.17.04.44.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 04:44:39 -0700 (PDT)
-Date:   Mon, 17 May 2021 13:44:39 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LUU HOAI <hoai.luu.ub@renesas.com>
-Subject: Re: [PATCH v2] media: rcar-csi2: Enable support for r8a77961
-Message-ID: <YKJXJ0ZnEXFuuecz@oden.dyn.berto.se>
-References: <20210513140914.742677-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdXnduG8q4tmXTgOEgHdyqqVQgXs7s93rif_4yQ-foJGWw@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eW2rAY7/OvKCg+FQMYyiolPKahjO2Fi5wMv60BOA6HE=;
+        b=FaMBqNRDck+TLt68kDEMq6SCKBrKpV6EOZZ0wmjyqxqRXs+BHvGkVxhIn0rJ5pPGJm
+         vyCWje4CjM25pYY6vKRzWJa9UXKGImMUHJqvCicqW8tvGj7Ut3a8Mu2fBqcXjxLEWuRg
+         MqfEPcwVb6uTGLx9bV9Nk+rscM7zvvqcP7HdCvzNfGQ8kXENFJySZximQE4BjIDUcZGD
+         CpPXcx8BMbXjy8QlFUf9ieGO6YY/45U/jlDhXYTmFmtZy4XA2S6fCFI1vP1BTlhkmCUj
+         RW3kIobfAuvuYxG7xOmrObvBXCEZfpH6eeLL+gdgCyMYExFoetTGWwQVNZAb7SlR37CB
+         OqZw==
+X-Gm-Message-State: AOAM531GNKhhinGIDSwG04bWifDKMtDcsdB1guSaXVIHz4d24T2oWGdS
+        HVNaSpTdWpRw5LfyB9gGI7JMi4XVx/+bxnEX6ZW+d2Zt
+X-Google-Smtp-Source: ABdhPJzqwou83kWyRCMPXRR+2nwLOKEPzYJC8NsQHhVJ06tjg+Dxdgs/jxTeWqYqJnhTpCoT2o9vxwoUevsH1toGyws=
+X-Received: by 2002:a67:fb52:: with SMTP id e18mr10292765vsr.18.1621251995072;
+ Mon, 17 May 2021 04:46:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXnduG8q4tmXTgOEgHdyqqVQgXs7s93rif_4yQ-foJGWw@mail.gmail.com>
+References: <87k0nyci2t.wl-kuninori.morimoto.gx@renesas.com> <87fsymci1d.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87fsymci1d.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 17 May 2021 13:46:23 +0200
+Message-ID: <CAMuHMdXUEOMn9x3Ga6czmw2NaAzT3LQGqxp-qmkcEuDSxd40uw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: r8a77995: draak: Add R-Car Sound support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Magnus <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        hoai.luu.ub@renesas.com,
+        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
+        Harunobu Kurokawa <harunobu.kurokawa.dn@renesas.com>,
+        Khiem Nguyen <khiem.nguyen.xt@renesas.com>,
+        Hien Dang <hien.dang.eb@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Morimoto-san,
 
-On 2021-05-17 11:51:48 +0200, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Thu, May 13, 2021 at 4:10 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > Enable support for M3-W+ (r8a77961).
-> >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Tested-by: LUU HOAI <hoai.luu.ub@renesas.com>
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> > ---
-> > * Changes since v1
-> > - Do not piggy back on the M3-W (r8a7796) quirks as they are different.
-> 
-> But for now they're still handled the same way...
-> 
-> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > @@ -1112,6 +1112,11 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7796 = {
-> >         .num_channels = 4,
-> >  };
-> >
-> > +static const struct rcar_csi2_info rcar_csi2_info_r8a77961 = {
-> > +       .hsfreqrange = hsfreqrange_m3w_h3es1,
-> > +       .num_channels = 4,
-> > +};
-> 
-> ... as rcar_csi2_info_r8a77961 has the same contents as rcar_csi2_info_r8a7796?
+On Mon, May 17, 2021 at 2:37 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>
+> This patch adds R-Car Sound support for D3 draak.
 
-Yes the structures are currently the same but the one added here is 
-correct while rcar_csi2_info_r8a7796 will need a new qurik field added 
-in a different patch.
+Thanks for your patch!
 
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> One note is that it is using different clock definition style
+> from ulcb/salvator boards to avoid verbose clocks settings
+> on rcar_sound node (see ulcb.dtsi  rcar_sound::clocks).
+>
+> cs2000 and ADG are closs connected, and needs each other.
 
--- 
-Regards,
-Niklas Söderlund
+cross connected?
+need
+
+> ulcb/salvator boards assume drivers are probed cs2000 -> rcar_sound.
+> This draak board assumes drivers are probed rcar_sound -> cs2000.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>  .../arm64/boot/dts/renesas/r8a77995-draak.dts | 103 ++++++++++++++++++
+>  1 file changed, 103 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+> index 6783c3ad0856..591fad289802 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+> @@ -6,6 +6,11 @@
+>   * Copyright (C) 2017 Glider bvba
+>   */
+>
+> +/*
+> + * This assumes...
+> + *     SW60 : 2-1
+
+Perhaps this comment should be extended (why is this SW60
+setting needed?), and moved to the audio block below?
+
+> + */
+> +
+>  /dts-v1/;
+>  #include "r8a77995.dtsi"
+
+> @@ -347,6 +366,39 @@ eeprom@50 {
+>                 reg = <0x50>;
+>                 pagesize = <8>;
+>         };
+> +
+> +       ak4613: codec@10 {
+> +               compatible = "asahi-kasei,ak4613";
+> +               #sound-dai-cells = <0>;
+> +               reg = <0x10>;
+> +               clocks = <&rcar_sound 0>; /* audio_clkout */
+> +
+> +               asahi-kasei,in1-single-end;
+> +               asahi-kasei,in2-single-end;
+> +               asahi-kasei,out1-single-end;
+> +               asahi-kasei,out2-single-end;
+> +               asahi-kasei,out3-single-end;
+> +               asahi-kasei,out4-single-end;
+> +               asahi-kasei,out5-single-end;
+> +               asahi-kasei,out6-single-end;
+> +
+> +               port {
+> +                       ak4613_endpoint: endpoint {
+> +                               remote-endpoint = <&rsnd_for_ak4613>;
+> +                       };
+> +               };
+
+The "port" node seems to be missing from the ak4613 DT bindings:
+
+    arch/arm64/boot/dts/renesas/r8a77995-draak.dt.yaml: codec@10:
+'port' does not match any of the regexes:
+'^asahi-kasei,in[1-2]-single-end$',
+'^asahi-kasei,out[1-6]-single-end$', 'pinctrl-[0-9]+'
+    From schema: Documentation/devicetree/bindings/sound/ak4613.yaml
+
+> +&rcar_sound {
+> +       pinctrl-0 = <&sound_pins>, <&sound_clk_pins>;
+> +       pinctrl-names = "default";
+> +
+> +       /* Single DAI */
+> +       #sound-dai-cells = <0>;
+
+arch/arm64/boot/dts/renesas/r8a77995-draak.dt.yaml: sound@ec500000:
+'dais' is a required property
+        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+
+As this error is reported for all Renesas boards, perhaps the bindings
+should be fixed instead?
+
+> +
+> +       /* audio_clkout0/1 */
+> +       #clock-cells = <1>;
+> +       clock-frequency = <12288000 11289600>;
+> +
+> +       status = "okay";
+> +
+> +       ports {
+> +               rsnd_port0: port {
+> +                       rsnd_for_ak4613: endpoint {
+> +                               remote-endpoint = <&ak4613_endpoint>;
+> +                               dai-format = "left_j";
+> +                               bitclock-master = <&rsnd_for_ak4613>;
+> +                               frame-master = <&rsnd_for_ak4613>;
+> +                               playback = <&ssi3>, <&src5>, <&dvc0>;
+> +                               capture  = <&ssi4>, <&src6>, <&dvc1>;
+> +                       };
+> +               };
+> +       };
+
+arch/arm64/boot/dts/renesas/r8a77995-draak.dt.yaml: sound@ec500000:
+'ports' does not match any of the regexes: '^rcar_sound,ctu$',
+'^rcar_sound,dai$', '^rcar_sound,dvc$', '^rcar_sound,mix$',
+'^rcar_sound,src$', '^rcar_sound,ssi$', '^rcar_sound,ssiu$',
+'pinctrl-[0-9]+'
+        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+
+> +};
+> +
+> +&ssi4 {
+> +       shared-pin;
+> +};
+> +
+>  &pfc {
+>         avb0_pins: avb {
+>                 groups = "avb0_link", "avb0_mdio", "avb0_mii";
+> @@ -449,6 +541,17 @@ sdhi2_pins_uhs: sd2_uhs {
+>                 power-source = <1800>;
+>         };
+>
+> +       sound_pins: sound {
+> +               groups = "ssi34_ctrl", "ssi3_data", "ssi4_data_a";
+> +               function = "ssi";
+> +       };
+> +
+> +       sound_clk_pins: sound-clk {
+> +               groups = "audio_clk_a", "audio_clk_b",
+> +                        "audio_clkout", "audio_clkout1";
+> +               function = "audio_clk";
+> +       };
+> +
+
+Pin control looks good to me.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
