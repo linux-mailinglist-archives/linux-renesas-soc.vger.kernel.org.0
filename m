@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7870238225E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 02:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DACD6382259
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 02:36:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229624AbhEQAnH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 16 May 2021 20:43:07 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:46840 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229459AbhEQAnF (ORCPT
+        id S229486AbhEQAiL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 16 May 2021 20:38:11 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:39677 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229459AbhEQAiL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 16 May 2021 20:43:05 -0400
-Date:   17 May 2021 09:36:45 +0900
+        Sun, 16 May 2021 20:38:11 -0400
+Date:   17 May 2021 09:36:55 +0900
 X-IronPort-AV: E=Sophos;i="5.82,306,1613401200"; 
-   d="scan'208";a="81299777"
+   d="scan'208";a="81491290"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 17 May 2021 09:36:45 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 17 May 2021 09:36:55 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 83FC04142B9D;
-        Mon, 17 May 2021 09:36:45 +0900 (JST)
-Message-ID: <87im3ici1u.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 145564142B7C;
+        Mon, 17 May 2021 09:36:55 +0900 (JST)
+Message-ID: <87h7j2ci1k.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 1/3] clk: renesas: r8a77995: Add ZA2 clock
+Subject: [PATCH 2/3] arm64: dts: renesas: r8a77995: add R-Car Sound support
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Magnus <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
@@ -41,42 +41,220 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Implement support for the ZA2 clock which is needed
-for R-Car Sound.
+This patch adds R-Car Sound and Audio-DMAC support for D3.
+
+1st note is that D3 doesn't have audio-clk-c, but is
+required from driver. This patch uses null-clk for it.
+
+2nd note is that D3 has SSI3/4 and SRC5/6 only, but driver
+requres from SSI0/SRC0. This patch has disabled SSI/SRC for it.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- drivers/clk/renesas/r8a77995-cpg-mssr.c | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi | 176 ++++++++++++++++++++++
+ 1 file changed, 176 insertions(+)
 
-diff --git a/drivers/clk/renesas/r8a77995-cpg-mssr.c b/drivers/clk/renesas/r8a77995-cpg-mssr.c
-index 9cfd00cf4e69..8fb84ed6fe08 100644
---- a/drivers/clk/renesas/r8a77995-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a77995-cpg-mssr.c
-@@ -35,6 +35,7 @@ enum clk_ids {
- 	CLK_PLL0D2,
- 	CLK_PLL0D3,
- 	CLK_PLL0D5,
-+	CLK_PLL0D24,
- 	CLK_PLL1D2,
- 	CLK_PE,
- 	CLK_S0,
-@@ -62,6 +63,7 @@ static const struct cpg_core_clk r8a77995_core_clks[] __initconst = {
- 	DEF_FIXED(".pll0d2",   CLK_PLL0D2,         CLK_PLL0,       2, 1),
- 	DEF_FIXED(".pll0d3",   CLK_PLL0D3,         CLK_PLL0,       3, 1),
- 	DEF_FIXED(".pll0d5",   CLK_PLL0D5,         CLK_PLL0,       5, 1),
-+	DEF_FIXED(".pll0d24",  CLK_PLL0D24,        CLK_PLL0,      24, 1),
- 	DEF_FIXED(".pll1d2",   CLK_PLL1D2,         CLK_PLL1,       2, 1),
- 	DEF_FIXED(".pe",       CLK_PE,             CLK_PLL0D3,     4, 1),
- 	DEF_FIXED(".s0",       CLK_S0,             CLK_PLL1,       2, 1),
-@@ -75,6 +77,7 @@ static const struct cpg_core_clk r8a77995_core_clks[] __initconst = {
- 	DEF_RATE(".oco",       CLK_OCO,            8 * 1000 * 1000),
+diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+index 2319271c881b..0950f39711eb 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+@@ -43,6 +43,33 @@ L2_CA53: cache-controller-1 {
+ 		};
+ 	};
  
- 	/* Core Clock Outputs */
-+	DEF_FIXED("za2",       R8A77995_CLK_ZA2,   CLK_PLL0D24,    1, 1),
- 	DEF_FIXED("z2",        R8A77995_CLK_Z2,    CLK_PLL0D3,     1, 1),
- 	DEF_FIXED("ztr",       R8A77995_CLK_ZTR,   CLK_PLL1,       6, 1),
- 	DEF_FIXED("zt",        R8A77995_CLK_ZT,    CLK_PLL1,       4, 1),
++	/*
++	 * The external audio clocks are configured as 0 Hz fixed frequency
++	 * clocks by default.
++	 * Boards that provide audio clocks should override them.
++	 */
++	audio_clk_a: audio_clk_a {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <0>;
++	};
++
++	audio_clk_b: audio_clk_b {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <0>;
++	};
++
++	/*
++	 * R8A77995 doesn't have audio_clk_c, * but is required from driver.
++	 * Create NULL clock for it.
++	 */
++	null_clk: null_clk {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <0>;
++	};
++
+ 	extal_clk: extal {
+ 		compatible = "fixed-clock";
+ 		#clock-cells = <0>;
+@@ -642,6 +669,48 @@ dmac2: dma-controller@e7310000 {
+ 			       <&ipmmu_ds1 22>, <&ipmmu_ds1 23>;
+ 		};
+ 
++		audma0: dma-controller@ec700000 {
++			compatible = "renesas,dmac-r8a77995",
++				     "renesas,rcar-dmac";
++			reg = <0 0xec700000 0 0x10000>;
++			interrupts = <GIC_SPI 350 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 320 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 321 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 322 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 323 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 324 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 325 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 326 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 327 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 328 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 329 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 331 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 332 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 333 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 334 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 335 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "error",
++					"ch0", "ch1", "ch2", "ch3",
++					"ch4", "ch5", "ch6", "ch7",
++					"ch8", "ch9", "ch10", "ch11",
++					"ch12", "ch13", "ch14", "ch15";
++			clocks = <&cpg CPG_MOD 502>;
++			clock-names = "fck";
++			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
++			resets = <&cpg 502>;
++			#dma-cells = <1>;
++			dma-channels = <16>;
++			iommus = <&ipmmu_mp 0>, <&ipmmu_mp 1>,
++				 <&ipmmu_mp 2>, <&ipmmu_mp 3>,
++				 <&ipmmu_mp 4>, <&ipmmu_mp 5>,
++				 <&ipmmu_mp 6>, <&ipmmu_mp 7>,
++				 <&ipmmu_mp 8>, <&ipmmu_mp 9>,
++				 <&ipmmu_mp 10>, <&ipmmu_mp 11>,
++				 <&ipmmu_mp 12>, <&ipmmu_mp 13>,
++				 <&ipmmu_mp 14>, <&ipmmu_mp 15>;
++		};
++
+ 		ipmmu_ds0: iommu@e6740000 {
+ 			compatible = "renesas,ipmmu-r8a77995";
+ 			reg = <0 0xe6740000 0 0x1000>;
+@@ -1258,6 +1327,113 @@ prr: chipid@fff00044 {
+ 			compatible = "renesas,prr";
+ 			reg = <0 0xfff00044 0 4>;
+ 		};
++
++		rcar_sound: sound@ec500000 {
++			/*
++			 * #sound-dai-cells is required
++			 *
++			 * Single DAI : #sound-dai-cells = <0>;	<&rcar_sound>;
++			 * Multi  DAI : #sound-dai-cells = <1>;	<&rcar_sound N>;
++			 */
++			/*
++			 * #clock-cells is required for audio_clkout0/1/2/3
++			 *
++			 * clkout	: #clock-cells = <0>;	<&rcar_sound>;
++			 * clkout0/1/2/3: #clock-cells = <1>;	<&rcar_sound N>;
++			 */
++			compatible =  "renesas,rcar_sound-r8a77995", "renesas,rcar_sound-gen3";
++			reg =	<0 0xec500000 0 0x1000>, /* SCU */
++				<0 0xec5a0000 0 0x100>,  /* ADG */
++				<0 0xec540000 0 0x1000>, /* SSIU */
++				<0 0xec541000 0 0x280>,  /* SSI */
++				<0 0xec740000 0 0x200>;  /* Audio DMAC peri peri*/
++			reg-names = "scu", "adg", "ssiu", "ssi", "audmapp";
++
++			clocks = <&cpg CPG_MOD 1005>,
++				 <&cpg CPG_MOD 1011>, <&cpg CPG_MOD 1012>,
++				 <&cpg CPG_MOD 1025>, <&cpg CPG_MOD 1026>,
++				 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
++				 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
++				 <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
++				 <&audio_clk_a>, <&audio_clk_b>, <&null_clk>, /* clk_c is NULL */
++				 <&cpg CPG_CORE R8A77995_CLK_ZA2>;
++			clock-names = "ssi-all",
++				      "ssi.4", "ssi.3",
++				      "src.6", "src.5",
++				      "mix.1", "mix.0",
++				      "ctu.1", "ctu.0",
++				      "dvc.0", "dvc.1",
++				      "clk_a", "clk_b", "clk_c", "clk_i"; /* clk_c is NULL */
++			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
++			resets = <&cpg 1005>,
++				 <&cpg 1011>, <&cpg 1012>;
++			reset-names = "ssi-all",
++				      "ssi.4", "ssi.3";
++			status = "disabled";
++
++			rcar_sound,ctu {
++				ctu00: ctu-0 { };
++				ctu01: ctu-1 { };
++				ctu02: ctu-2 { };
++				ctu03: ctu-3 { };
++				ctu10: ctu-4 { };
++				ctu11: ctu-5 { };
++				ctu12: ctu-6 { };
++				ctu13: ctu-7 { };
++			};
++
++			rcar_sound,dvc {
++				dvc0: dvc-0 {
++					dmas = <&audma0 0xbc>;
++					dma-names = "tx";
++				};
++				dvc1: dvc-1 {
++					dmas = <&audma0 0xbe>;
++					dma-names = "tx";
++				};
++			};
++
++			rcar_sound,mix {
++				mix0: mix-0 { };
++				mix1: mix-1 { };
++			};
++
++			rcar_sound,src {
++				src0: src-0 { status = "disabled"; };
++				src1: src-1 { status = "disabled"; };
++				src2: src-2 { status = "disabled"; };
++				src3: src-3 { status = "disabled"; };
++				src4: src-4 { status = "disabled"; };
++				src5: src-5 {
++					interrupts = <GIC_SPI 357 IRQ_TYPE_LEVEL_HIGH>;
++					dmas = <&audma0 0x8f>, <&audma0 0xb2>;
++					dma-names = "rx", "tx";
++				};
++				src6: src-6 {
++					interrupts = <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>;
++					dmas = <&audma0 0x91>, <&audma0 0xb4>;
++					dma-names = "rx", "tx";
++				};
++			};
++
++			rcar_sound,ssi {
++				ssi0: ssi-0 { status = "disabled"; };
++				ssi1: ssi-1 { status = "disabled"; };
++				ssi2: ssi-2 { status = "disabled"; };
++				ssi3: ssi-3 {
++					interrupts = <GIC_SPI 373 IRQ_TYPE_LEVEL_HIGH>;
++					dmas = <&audma0 0x07>, <&audma0 0x08>,
++					       <&audma0 0x6f>, <&audma0 0x70>;
++					dma-names = "rx", "tx", "rxu", "txu";
++				};
++				ssi4: ssi-4 {
++					interrupts = <GIC_SPI 374 IRQ_TYPE_LEVEL_HIGH>;
++					dmas = <&audma0 0x09>, <&audma0 0x0a>,
++					       <&audma0 0x71>, <&audma0 0x72>;
++					dma-names = "rx", "tx", "rxu", "txu";
++				};
++			};
++		};
+ 	};
+ 
+ 	thermal-zones {
 -- 
 2.25.1
 
