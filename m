@@ -2,246 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAEA2382B1E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 13:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43A79382B63
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 13:44:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236736AbhEQLfL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 May 2021 07:35:11 -0400
-Received: from mail-vs1-f46.google.com ([209.85.217.46]:37830 "EHLO
-        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236712AbhEQLfL (ORCPT
+        id S236751AbhEQLp7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 May 2021 07:45:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229681AbhEQLp7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 May 2021 07:35:11 -0400
-Received: by mail-vs1-f46.google.com with SMTP id s15so2930702vsi.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 May 2021 04:33:55 -0700 (PDT)
+        Mon, 17 May 2021 07:45:59 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEFDDC06174A
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 May 2021 04:44:41 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id j10so8291984lfb.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 May 2021 04:44:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=zey77zJy5RVWOhA+DdNIaCVb7wJapM77X61QFGGKNqQ=;
+        b=B1er58LCWRRQeezfHO/NxtMNJl0Kq85F9+pQJX4B2jDte85jIody1Lrm++zY+9uYM0
+         7vWo1ZGxKMm1GJ4YCNDr72mjH4Ye8TqhRptgEfr+eYawh9cktp/HRxRwoJ0DNYTKw697
+         OSWn5VXjz9sbGSsYy10x7Dr02tm0Rdt7ErvH12q/RxYPaGySfKF1fqfy7sGojP9uE6Jq
+         sTPKo9HE+jFruY1BV/Ucb17XWz9OW4KUPEqXKH7pbKkVRZs+MxuJeMfhT23KM2frU2ei
+         hGW7vp00WPUH+7bI9aOnW4e3kNGDfVbHr8JKaAsUiKO/8yi44dt95rFvOKztKFAjCC3W
+         lnqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WnV2YQeZDTz7S03Lwh6WBC1uU8C22+RO61rF7rJA6fs=;
-        b=sW+Io/qBsOCDVO1kEz1GQH3nzf6zn0rS4G4YtH1H6DneiNjVmnqpBRWbk/wEVVhV6/
-         fdVJHQjgyCpwLtzrriSQIin9ZNGJSPIuxkAKi4tKiRCH65vMrP2xMQJQMsS3ggvAHWHN
-         vF19W2hO407SjPUIEMsFd6NyaYUgicAyM5MPrIONqdaLdkpZV2qNkDpGrTFuiUZPzLl7
-         W1lc7aubtrdtOHF5qND7WDddv0E+INiUnWvrUzgl8vl3gF7VW9hufQT5kZuRtvAlKqVf
-         NqRpLhuDOqi7+nbI5+j1GFR0d/KXPGstINX6P6vMusl6LQzQsT0b9HFK111x94Xk/OIV
-         OH/g==
-X-Gm-Message-State: AOAM531+zUnUopmVD9n8OZ9t7HbyNhhmZyIjeHhLfbe5lRxY6e7xFFXu
-        PobkDIZC+1mwSSDiIPHntWpZf3vvWy+hz38AIKs=
-X-Google-Smtp-Source: ABdhPJxV5UAbMkQfVsPJ8gVvwwg2pjRm4vw+F902eVcQiQc/lSRfbPbHBKjfJyok97X3s9xpduVn0yGs0To3808VZ1Y=
-X-Received: by 2002:a67:3c2:: with SMTP id 185mr50141867vsd.42.1621251231170;
- Mon, 17 May 2021 04:33:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <87k0nyci2t.wl-kuninori.morimoto.gx@renesas.com> <87h7j2ci1k.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87h7j2ci1k.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 17 May 2021 13:33:39 +0200
-Message-ID: <CAMuHMdXtnSenYk3sE6Pp89YeuUf=RsU5ueOLKX3ip9j1NMBKCQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77995: add R-Car Sound support
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Magnus <magnus.damm@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=zey77zJy5RVWOhA+DdNIaCVb7wJapM77X61QFGGKNqQ=;
+        b=ISfBIY2Bs3W4kj5W+f0T29xNuhuEwQg2Y6xlnaoU6pG6a+ws9mcE3Y+HYZ5j+HKF6V
+         QvMxGTs32onab1YnoO55x8EytcZ2qv/CTgI5/IJb3IuVWmipd3uIle8ruq6VqP9gAKGT
+         qF2iABLZxjjtAUpZsVqgCO5rbDtBT191LS81curTFe53+jCIbC7HwpWItXWmuiORxjT2
+         4WXNvVNgY/RW9cOZV2SFa3XJtwfTGDXAh0ZlfxHxjEQTganaje2ecRhnjgruR8qVUqZx
+         Vn+pCX9vHU1qUg8SZ1L0h13lPz1AVH2qC6pooJWpXqL2/34I7W0hwkSWwx0HiPXkyk/B
+         MZrw==
+X-Gm-Message-State: AOAM532kuRRcKPxuDFUQJie8m9zheQPjpQ3WDm4ufD1PBBnLIVxK+hL4
+        rlGLcq1XRasFc9KW5rIpgSclFn9la8QGJw==
+X-Google-Smtp-Source: ABdhPJw5u2zpWaAPtH+fow/yZvEbGYKM8vNhv4j8gzoCAm28djgSLxcv09KrNHZbQpZm5hckO+ofVw==
+X-Received: by 2002:a05:6512:10c8:: with SMTP id k8mr43016193lfg.325.1621251880268;
+        Mon, 17 May 2021 04:44:40 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id m4sm2849801ljc.20.2021.05.17.04.44.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 May 2021 04:44:39 -0700 (PDT)
+Date:   Mon, 17 May 2021 13:44:39 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        hoai.luu.ub@renesas.com,
-        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
-        Harunobu Kurokawa <harunobu.kurokawa.dn@renesas.com>,
-        Khiem Nguyen <khiem.nguyen.xt@renesas.com>,
-        Hien Dang <hien.dang.eb@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        LUU HOAI <hoai.luu.ub@renesas.com>
+Subject: Re: [PATCH v2] media: rcar-csi2: Enable support for r8a77961
+Message-ID: <YKJXJ0ZnEXFuuecz@oden.dyn.berto.se>
+References: <20210513140914.742677-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdXnduG8q4tmXTgOEgHdyqqVQgXs7s93rif_4yQ-foJGWw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXnduG8q4tmXTgOEgHdyqqVQgXs7s93rif_4yQ-foJGWw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi Geert,
 
-Thanks for your patch!
+On 2021-05-17 11:51:48 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Thu, May 13, 2021 at 4:10 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > Enable support for M3-W+ (r8a77961).
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Tested-by: LUU HOAI <hoai.luu.ub@renesas.com>
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> > ---
+> > * Changes since v1
+> > - Do not piggy back on the M3-W (r8a7796) quirks as they are different.
+> 
+> But for now they're still handled the same way...
+> 
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -1112,6 +1112,11 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7796 = {
+> >         .num_channels = 4,
+> >  };
+> >
+> > +static const struct rcar_csi2_info rcar_csi2_info_r8a77961 = {
+> > +       .hsfreqrange = hsfreqrange_m3w_h3es1,
+> > +       .num_channels = 4,
+> > +};
+> 
+> ... as rcar_csi2_info_r8a77961 has the same contents as rcar_csi2_info_r8a7796?
 
-On Mon, May 17, 2021 at 2:36 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->
-> This patch adds R-Car Sound and Audio-DMAC support for D3.
->
-> 1st note is that D3 doesn't have audio-clk-c, but is
-> required from driver. This patch uses null-clk for it.
->
-> 2nd note is that D3 has SSI3/4 and SRC5/6 only, but driver
-> requres from SSI0/SRC0. This patch has disabled SSI/SRC for it.
+Yes the structures are currently the same but the one added here is 
+correct while rcar_csi2_info_r8a7796 will need a new qurik field added 
+in a different patch.
 
-I think it would be better to fix the driver instead.
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  arch/arm64/boot/dts/renesas/r8a77995.dtsi | 176 ++++++++++++++++++++++
->  1 file changed, 176 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-> index 2319271c881b..0950f39711eb 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-> @@ -43,6 +43,33 @@ L2_CA53: cache-controller-1 {
->                 };
->         };
->
-> +       /*
-> +        * The external audio clocks are configured as 0 Hz fixed frequency
-> +        * clocks by default.
-> +        * Boards that provide audio clocks should override them.
-> +        */
-> +       audio_clk_a: audio_clk_a {
-
-Please use alphabetical sort order when adding nodes without unit
-addresses.
-
-> +               compatible = "fixed-clock";
-> +               #clock-cells = <0>;
-> +               clock-frequency = <0>;
-> +       };
-> +
-> +       audio_clk_b: audio_clk_b {
-> +               compatible = "fixed-clock";
-> +               #clock-cells = <0>;
-> +               clock-frequency = <0>;
-> +       };
-> +
-> +       /*
-> +        * R8A77995 doesn't have audio_clk_c, * but is required from driver.
-> +        * Create NULL clock for it.
-> +        */
-> +       null_clk: null_clk {
-> +               compatible = "fixed-clock";
-> +               #clock-cells = <0>;
-> +               clock-frequency = <0>;
-> +       };
-
-Please do not add nodes not matching the hardware description, but fix
-the driver instead. ("DT describes hardware, not software policy").
-
-> +
->         extal_clk: extal {
->                 compatible = "fixed-clock";
->                 #clock-cells = <0>;
-> @@ -642,6 +669,48 @@ dmac2: dma-controller@e7310000 {
->                                <&ipmmu_ds1 22>, <&ipmmu_ds1 23>;
->                 };
->
-> +               audma0: dma-controller@ec700000 {
-
-Please use numerical sort order when adding nodes with unit addresses.
-
-> @@ -1258,6 +1327,113 @@ prr: chipid@fff00044 {
->                         compatible = "renesas,prr";
->                         reg = <0 0xfff00044 0 4>;
->                 };
-> +
-> +               rcar_sound: sound@ec500000 {
-
-Please use numerical sort order when adding nodes with unit addresses.
-
-> +                       /*
-> +                        * #sound-dai-cells is required
-> +                        *
-> +                        * Single DAI : #sound-dai-cells = <0>; <&rcar_sound>;
-> +                        * Multi  DAI : #sound-dai-cells = <1>; <&rcar_sound N>;
-> +                        */
-> +                       /*
-> +                        * #clock-cells is required for audio_clkout0/1/2/3
-> +                        *
-> +                        * clkout       : #clock-cells = <0>;   <&rcar_sound>;
-> +                        * clkout0/1/2/3: #clock-cells = <1>;   <&rcar_sound N>;
-> +                        */
-> +                       compatible =  "renesas,rcar_sound-r8a77995", "renesas,rcar_sound-gen3";
-> +                       reg =   <0 0xec500000 0 0x1000>, /* SCU */
-> +                               <0 0xec5a0000 0 0x100>,  /* ADG */
-> +                               <0 0xec540000 0 0x1000>, /* SSIU */
-> +                               <0 0xec541000 0 0x280>,  /* SSI */
-> +                               <0 0xec740000 0 0x200>;  /* Audio DMAC peri peri*/
-> +                       reg-names = "scu", "adg", "ssiu", "ssi", "audmapp";
-> +
-> +                       clocks = <&cpg CPG_MOD 1005>,
-> +                                <&cpg CPG_MOD 1011>, <&cpg CPG_MOD 1012>,
-> +                                <&cpg CPG_MOD 1025>, <&cpg CPG_MOD 1026>,
-> +                                <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
-> +                                <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
-> +                                <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
-> +                                <&audio_clk_a>, <&audio_clk_b>, <&null_clk>, /* clk_c is NULL */
-> +                                <&cpg CPG_CORE R8A77995_CLK_ZA2>;
-> +                       clock-names = "ssi-all",
-> +                                     "ssi.4", "ssi.3",
-> +                                     "src.6", "src.5",
-> +                                     "mix.1", "mix.0",
-> +                                     "ctu.1", "ctu.0",
-> +                                     "dvc.0", "dvc.1",
-> +                                     "clk_a", "clk_b", "clk_c", "clk_i"; /* clk_c is NULL */
-> +                       power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 1005>,
-> +                                <&cpg 1011>, <&cpg 1012>;
-> +                       reset-names = "ssi-all",
-> +                                     "ssi.4", "ssi.3";
-
-arch/arm64/boot/dts/renesas/r8a77995-draak.dt.yaml: sound@ec500000:
-resets: [[4, 1005], [4, 1011], [4, 1012]] is too short
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-arch/arm64/boot/dts/renesas/r8a77995-draak.dt.yaml: sound@ec500000:
-reset-names: ['ssi-all', 'ssi.4', 'ssi.3'] is too short
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-
-As the DTS is correct, the DT bindings should be updated.
-
-> +                       rcar_sound,src {
-> +                               src0: src-0 { status = "disabled"; };
-> +                               src1: src-1 { status = "disabled"; };
-> +                               src2: src-2 { status = "disabled"; };
-> +                               src3: src-3 { status = "disabled"; };
-> +                               src4: src-4 { status = "disabled"; };
-
-Please drop nonexistent src channels.
-
-> +                               src5: src-5 {
-> +                                       interrupts = <GIC_SPI 357 IRQ_TYPE_LEVEL_HIGH>;
-> +                                       dmas = <&audma0 0x8f>, <&audma0 0xb2>;
-> +                                       dma-names = "rx", "tx";
-> +                               };
-> +                               src6: src-6 {
-> +                                       interrupts = <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>;
-> +                                       dmas = <&audma0 0x91>, <&audma0 0xb4>;
-> +                                       dma-names = "rx", "tx";
-> +                               };
-> +                       };
-> +
-> +                       rcar_sound,ssi {
-> +                               ssi0: ssi-0 { status = "disabled"; };
-> +                               ssi1: ssi-1 { status = "disabled"; };
-> +                               ssi2: ssi-2 { status = "disabled"; };
-
-Please drop nonexistent ssi channels.
-
-> +                               ssi3: ssi-3 {
-> +                                       interrupts = <GIC_SPI 373 IRQ_TYPE_LEVEL_HIGH>;
-> +                                       dmas = <&audma0 0x07>, <&audma0 0x08>,
-> +                                              <&audma0 0x6f>, <&audma0 0x70>;
-> +                                       dma-names = "rx", "tx", "rxu", "txu";
-> +                               };
-> +                               ssi4: ssi-4 {
-> +                                       interrupts = <GIC_SPI 374 IRQ_TYPE_LEVEL_HIGH>;
-> +                                       dmas = <&audma0 0x09>, <&audma0 0x0a>,
-> +                                              <&audma0 0x71>, <&audma0 0x72>;
-> +                                       dma-names = "rx", "tx", "rxu", "txu";
-> +                               };
-> +                       };
-> +               };
->         };
->
->         thermal-zones {
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Regards,
+Niklas Söderlund
