@@ -2,83 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ED223828D3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 11:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E98E0382966
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 May 2021 12:06:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232050AbhEQJxS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 May 2021 05:53:18 -0400
-Received: from mail-vs1-f52.google.com ([209.85.217.52]:40683 "EHLO
-        mail-vs1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229474AbhEQJxS (ORCPT
+        id S236378AbhEQKHp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 May 2021 06:07:45 -0400
+Received: from mail-vk1-f172.google.com ([209.85.221.172]:38860 "EHLO
+        mail-vk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236457AbhEQKHc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 May 2021 05:53:18 -0400
-Received: by mail-vs1-f52.google.com with SMTP id o192so2780542vsd.7;
-        Mon, 17 May 2021 02:52:00 -0700 (PDT)
+        Mon, 17 May 2021 06:07:32 -0400
+Received: by mail-vk1-f172.google.com with SMTP id v188so1227626vkf.5;
+        Mon, 17 May 2021 03:06:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MYWhLCGDlcd6D8Z4xh0ec24MABNFcRQopm1qOI1sbhU=;
-        b=lzkeQ1TQvWPGFhP+W/Pk4jVUaJ5bscoZc/OiZ7Dp8u4PRAesCaCxyVNAGzoNP2rXsm
-         4psKztI1xTv6O6UwA8or1O2+hueFDPs4utrySRXr613Wh8ltz/Ye+K7lhv663IZ553hF
-         aeRTU/tfxGne0bi0fjU+Qmh4kQQHLnNCf9gHQ/CKmm0K1qmYAGm5jdasWZLZYphXYUoN
-         cAaTtpPzZPWW+oVJv4fqBq9tT0whIPyz2QNPzqK5z0TlC2H640v66Ve96tp7c0hQNWn4
-         DqH1itqXszykTxA03Zd+g37/xjjdfSV71lMTD6b0a0YT96r7BjPMNiTL/Bq59eg3mBlT
-         FAIQ==
-X-Gm-Message-State: AOAM532EyCvOEyXCpr1ZZk8ZjKEOUSwpFmwxJ+NrLXN0VvDryWQKvsZ1
-        lqEIVCzjyml6Oyr+31uhueIMLXMZYXKnEedmzJO9ywgB4J4=
-X-Google-Smtp-Source: ABdhPJyADzOth5fOo91dVZ84XkRcwe4ji7fS58goTOcVqwWQjRBxpniHG9fQFe3Wsi5wxHj75jWdWs6sJg3GnXvT7Xk=
-X-Received: by 2002:a67:fb52:: with SMTP id e18mr9965897vsr.18.1621245120564;
- Mon, 17 May 2021 02:52:00 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=3GIvUHbLf7bHSRqm2WLTNacDJxM/viGmccF85dLQBwA=;
+        b=kgj66GhWBF9lSl5RZ1+KN1t42gwt17XKys+bussDhr8+eyDsLWQ3nUBueSqPlbzBLk
+         JmU/MmuWb4K+aNWFOPEAYY+wxWFdmTnMoqYVO17U5ZAfLp0If9EXRsiaHSPifs+jJroe
+         036Ht7fQSOTaIkIkCgCumFRsoRZ7GuNskSEFUzk24E/IXeWp1KMba4TEOYKyCdlGPNO0
+         KOG0lcbwNYovgC+JQEnPqnnOmBond/4ireIKo8wbUwAqnSHg4rGzJ/jhLQ1onQTWCfsj
+         1rIWr16EHCVx6bLOA+mv/uHcKCmTdsqLevaSPETStGtiszQGOJ8E87v1gdH5K2tDUwMr
+         cQnA==
+X-Gm-Message-State: AOAM530Ydd+lFTvxoGkf9wm9zWQdSJFvJslTnsK2b9Jq/YtQsuzXSGHu
+        UgGztXq1bPkV1GhAZJP6KAYMiQMgzAp7kwH9hP7kKZBqVn4=
+X-Google-Smtp-Source: ABdhPJzSuMIbh1shCp6BdMEcK0rCBCq1qUwTtUHKlfzDdiILXCroLjHVOs+3ObXQvUWmkW1diQnXIjz/O7+UgWA0tmI=
+X-Received: by 2002:a1f:eac1:: with SMTP id i184mr1956195vkh.2.1621245974394;
+ Mon, 17 May 2021 03:06:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210513140914.742677-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20210513140914.742677-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20210513114617.30191-1-aford173@gmail.com>
+In-Reply-To: <20210513114617.30191-1-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 17 May 2021 11:51:48 +0200
-Message-ID: <CAMuHMdXnduG8q4tmXTgOEgHdyqqVQgXs7s93rif_4yQ-foJGWw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: rcar-csi2: Enable support for r8a77961
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+Date:   Mon, 17 May 2021 12:06:02 +0200
+Message-ID: <CAMuHMdXXHbRzRhSZqkh=QaHmndSyjyk5BQrz5-PRVHBLb+qHMw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] arm64: dts: renesas: beacon: Fix USB extal reference
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LUU HOAI <hoai.luu.ub@renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Adam,
 
-On Thu, May 13, 2021 at 4:10 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Enable support for M3-W+ (r8a77961).
+Thanks for your patch!
+
+On Thu, May 13, 2021 at 1:46 PM Adam Ford <aford173@gmail.com> wrote:
+> The USB extal clock reference isn't associated to a crystal, it's
+> assoicated to a programmable clock, so remove the extal reference,
+
+associated
+
+> add the usb2_clksel.  Since usb_extal is referenced by the versaclock,
+> reference it here so the usb2_clksel can get the proper clock speed
+> of 50MHz.
 >
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Tested-by: LUU HOAI <hoai.luu.ub@renesas.com>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> ---
-> * Changes since v1
-> - Do not piggy back on the M3-W (r8a7796) quirks as they are different.
-
-But for now they're still handled the same way...
-
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -1112,6 +1112,11 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7796 = {
->         .num_channels = 4,
->  };
->
-> +static const struct rcar_csi2_info rcar_csi2_info_r8a77961 = {
-> +       .hsfreqrange = hsfreqrange_m3w_h3es1,
-> +       .num_channels = 4,
-> +};
-
-... as rcar_csi2_info_r8a77961 has the same contents as rcar_csi2_info_r8a7796?
+i.e. will queue in renesas-devel for v5.14, with the above fixed.
 
 Gr{oetje,eeting}s,
 
