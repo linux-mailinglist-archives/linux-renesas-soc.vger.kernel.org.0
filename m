@@ -2,70 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0ADB388E8E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 May 2021 15:03:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FEB8388F03
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 May 2021 15:26:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353504AbhESNEU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 May 2021 09:04:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49550 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242028AbhESNET (ORCPT
+        id S1353634AbhESN1a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 May 2021 09:27:30 -0400
+Received: from www.zeus03.de ([194.117.254.33]:51248 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1353661AbhESN12 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 May 2021 09:04:19 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8796C061760
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 May 2021 06:02:59 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:c161:a89e:52bd:1787])
-        by laurent.telenet-ops.be with bizsmtp
-        id 6d2y25007446CkP01d2yG4; Wed, 19 May 2021 15:02:58 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ljLqj-007FLT-N7; Wed, 19 May 2021 15:02:57 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ljLqi-007dcy-U4; Wed, 19 May 2021 15:02:56 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: net: renesas,ether: Update Sergei's email address
-Date:   Wed, 19 May 2021 15:02:53 +0200
-Message-Id: <15fb12769fcfeac8c761bf860ad94b9b223d3f9c.1621429311.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Wed, 19 May 2021 09:27:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=D4WTcDSnFA5CD6imsXF4T5RU9Bl
+        RhYKlVSgW61z0jYA=; b=E/gBYmjhyzzAegIXyLarHyk6myV2BewRfPIeqJ2tvzu
+        L7MiP/YORhFU44P2Yh7xqysTBVN3qnar8yMfr7kb+nGicZTrYI5uYX8t56wgW5aR
+        u+/cXrbxPRyYGeztwlM5FbhCULcDezLnJs6UkwsIC39KrQus746iaryOeTOtiIaQ
+        =
+Received: (qmail 3334756 invoked from network); 19 May 2021 15:26:07 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 May 2021 15:26:07 +0200
+X-UD-Smtp-Session: l3s3148p1@3WfhxK7CNMwgAwDPXwaBAEltFu20ukzh
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [RFC PATCH v2 0/1] gpio: add simple logic analyzer using polling
+Date:   Wed, 19 May 2021 15:25:27 +0200
+Message-Id: <20210519132528.4394-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Update Sergei's email address, as per commit 534a8bf0ccdd7b3f
-("MAINTAINERS: switch to my private email for Renesas Ethernet
-drivers").
+The bravery continues with the second RFC for the in-kernel logic
+analyzer based on GPIO polling with local irqs disabled. Besides the
+driver, there is also a script which isolates a CPU to achieve the best
+possible result. I am aware of the latency limitations. However, the
+intention is only for debugging. Especially for remote debugging and to
+get a first impression, this has already been useful. Documentation is
+within the patch, to get a better idea what this is all about.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- Documentation/devicetree/bindings/net/renesas,ether.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes since RFC v1:
 
-diff --git a/Documentation/devicetree/bindings/net/renesas,ether.yaml b/Documentation/devicetree/bindings/net/renesas,ether.yaml
-index 8ce5ed8a58dd76e6..c101a1ec846ea8e9 100644
---- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
-+++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
-@@ -10,7 +10,7 @@ allOf:
-   - $ref: ethernet-controller.yaml#
- 
- maintainers:
--  - Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-+  - Sergei Shtylyov <sergei.shtylyov@gmail.com>
- 
- properties:
-   compatible:
+* moved from misc/ to gpio/. Thanks to Linus and Bartosz for offering a
+  home for this
+* renamed from "simple logic analyzer" to "sloppy logic analyzer"
+  everywhere to make its limitations crystal clear
+* moved the parser for trigger data from the kernel into the script.
+  Much cleaner kernel code but passing binary data now. We'll see...
+* all gpios now must be named. This removes ugly fallback code and
+  allows to use generic device properties instead of OF properties only.
+* added and updated documentation
+* triggers are also now checked at sample speed, not full speed
+* replaced pr_* printouts with dev_*
+* removed bashisms in the script (tested with bash, dash, and busybox
+  ash)
+* depends on EXPERT now
+* small bugfixes, refactoring, cleanups all around
+
+Thanks to Andy, Linus, Randy, and Ulrich for suggestions and testing.
+
+A branch with preparation for the Renesas Salvator-XS boards is here:
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/gpio-logic-analyzer-v2
+
+The documentation is also available online on the elinux wiki:
+https://elinux.org/Kernel_GPIO_Logic_analyzer
+
+Looking forward to comments and especially further tests with different
+use cases than mine. I have looked enough at the code, fresh view would
+really help. And still, if somebody has a pointer how to detect if a
+task was requested to be killed (while irqs and preemption are
+disabled), I'd appreciate that to avoid the currently unkillable
+sub-process.
+
+All the best,
+
+   Wolfram
+
+Wolfram Sang (1):
+  misc: add sloppy logic analyzer using polling
+
+ .../dev-tools/gpio-sloppy-logic-analyzer.rst  |  72 ++++
+ Documentation/dev-tools/index.rst             |   1 +
+ drivers/gpio/Kconfig                          |  17 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-sloppy-logic-analyzer.c     | 317 ++++++++++++++++++
+ tools/gpio/gpio-sloppy-logic-analyzer         | 200 +++++++++++
+ 6 files changed, 608 insertions(+)
+ create mode 100644 Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
+ create mode 100644 drivers/gpio/gpio-sloppy-logic-analyzer.c
+ create mode 100755 tools/gpio/gpio-sloppy-logic-analyzer
+
 -- 
-2.25.1
+2.30.2
 
