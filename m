@@ -2,315 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 158073891DE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 May 2021 16:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DAC238927F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 May 2021 17:23:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354640AbhESOun (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 May 2021 10:50:43 -0400
-Received: from mga09.intel.com ([134.134.136.24]:19175 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1348649AbhESOum (ORCPT
+        id S1346830AbhESPZM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 May 2021 11:25:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54022 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346350AbhESPZM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 May 2021 10:50:42 -0400
-IronPort-SDR: s1zXu38+/EsCiz/ZESP40oxDynbMKw+VdOk68RsMXEO2Wc9+vwdgVTgCzVC6VgixheaMsKxHfG
- gmsdawP3lvyQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="201040553"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
-   d="scan'208";a="201040553"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 07:49:22 -0700
-IronPort-SDR: S/qcyX91iz6L8YqXIX4rN0f4cH1BC9cYrGprRXK1dIfzG+lz87iVDYi++60xM8NivkmqMaOcgt
- sLemi1SywjkQ==
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
-   d="scan'208";a="474652345"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 07:49:20 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ljNVe-00DFl9-8D; Wed, 19 May 2021 17:49:18 +0300
-Date:   Wed, 19 May 2021 17:49:18 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
-Subject: Re: [RFC PATCH v2 1/1] misc: add sloppy logic analyzer using polling
-Message-ID: <YKUlbsWhT45l5Zm0@smile.fi.intel.com>
-References: <20210519132528.4394-1-wsa+renesas@sang-engineering.com>
- <20210519132528.4394-2-wsa+renesas@sang-engineering.com>
+        Wed, 19 May 2021 11:25:12 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2709AC06175F;
+        Wed, 19 May 2021 08:23:52 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id b12so8881307ljp.1;
+        Wed, 19 May 2021 08:23:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=vZqm6PyudcGSEfI1UhpCQCBW48YlXZO5HgZI4Wx4nO8=;
+        b=Bsctn8IQ8TOypJMZcrD/cP56fNtLPDpC28hi+wdXT9RBsG8uT+pybRIExKqiv2U1h2
+         1CeaRLl/wW7jCOX8ZsWirRAoh7p42CGKhcdKM2prNT9yFdkZ6QpbCUnsvkK4ybNvCKDX
+         RcxIz5E1rqHDlkFnSHiZBkPUELDwaqZ1SbpQ/8IaGJe/v56qWqHHnNxHY2YtXT9C9t7c
+         DKa17i2LeupTM24mzs0xOUc07K6cwDvlt72gvhHlhWU3iU0s//4eyzpE9ZteA+5YIRfB
+         WBwn9ikxKsRuCiDgoqw0Px2szd5FnnijEAq9vY5uK1gFrDbcq5o0M6UCSiH0jLsG4ZbC
+         4Lcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vZqm6PyudcGSEfI1UhpCQCBW48YlXZO5HgZI4Wx4nO8=;
+        b=tCsn+K10uEdWyegAzv1JVOi19cnsxzCTj/ZosDcvwn/yMZg9rFQcMnJTJUwDnyGZa7
+         SZO1KwN8/yuKewKh7Z5pNnJfqiWa8pIsRl4KBXKOSWusYT/unN5r24TbvhbX+n7u1uLz
+         P6Gdm2yiB04QZfJo8SC9Ogn0C/P4Tx6I4VuEy1t7Hs5FWK1v9dARva2jwndM5yr5hZ41
+         sMmg4ta+6Q+rewYD9HH6F/EbSlPdHLIxnV9hjn7UoAIGiCG14vY2CLpfAXEi98g2g4J7
+         cBOZYvs8QRBqn3WZiF4zTiV2KDaGnnDT1HhUDt+Q5NotJOZG1h03pS6L/RxRhh8QdyAY
+         lFeQ==
+X-Gm-Message-State: AOAM532cNSvWQBQUJwi2WYYqQnwJGEdeBbCr2elZFEeYxjN18BET30Nm
+        byw/DbdqIGVYWvfH8OV3uTZ/qOQjFMo=
+X-Google-Smtp-Source: ABdhPJwSEN1RWsujXeRoEt2h6tX8IMiUPrIOJqBqMey8M27eLZbjedEBzGK7nMIxWzRtlTKukSMyCA==
+X-Received: by 2002:a2e:a7cb:: with SMTP id x11mr9284749ljp.143.1621437830321;
+        Wed, 19 May 2021 08:23:50 -0700 (PDT)
+Received: from [192.168.1.102] ([31.173.83.229])
+        by smtp.gmail.com with ESMTPSA id y3sm1982lfl.34.2021.05.19.08.23.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 May 2021 08:23:50 -0700 (PDT)
+Subject: Re: [PATCH] dt-bindings: net: renesas,ether: Update Sergei's email
+ address
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <15fb12769fcfeac8c761bf860ad94b9b223d3f9c.1621429311.git.geert+renesas@glider.be>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <ac381693-628c-e298-ca82-a6c6d70690e5@gmail.com>
+Date:   Wed, 19 May 2021 18:23:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210519132528.4394-2-wsa+renesas@sang-engineering.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <15fb12769fcfeac8c761bf860ad94b9b223d3f9c.1621429311.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 19, 2021 at 03:25:28PM +0200, Wolfram Sang wrote:
-> This is a sloppy logic analyzer using GPIOs. It comes with a script to
-> isolate a CPU for polling. While this is definately not a production
-> level analyzer, it can be a helpful first view when remote debugging.
-> Read the documentation for details.
-
-Thanks for an update!
-
-My comments below.
-
-...
-
-> +Tell the kernel which GPIOs are used as probes. For a DT based system, you need
-
-'DT' -> 'Device Tree'
-
-> +to use the following bindings. Because these bindings are only for debugging,
-> +there is no official yaml file::
-
-'yaml file' -> 'device tree schema' or so
-
-> +    i2c-analyzer {
-> +            compatible = "gpio-sloppy-logic-analyzer";
-> +            probe-gpios = <&gpio6 21 GPIO_OPEN_DRAIN>, <&gpio6 4 GPIO_OPEN_DRAIN>;
-> +            probe-names = "SCL", "SDA";
-> +    };
-
-'For ACPI one may use PRP0001 approach with the following ASL excerpt example::
-
-    Device (GSLA) {
-        Name (_HID, "PRP0001")
-        Name (_DDN, "GPIO sloppy logic analyzer")
-        Name (_CRS, ResourceTemplate () {
-            GpioIo(Exclusive, PullNone, 0, 0, IoRestrictionNone,
-                "\\_SB.PCI0.GPIO", 0, ResourceConsumer, , ) { 13 }
-            PinConfig(Exclusive, 0x07, 0, "\\_SB.PCI0.GPIO", 0, ResourceConsumer, ) { 7 }
-            GpioIo(Exclusive, PullNone, 0, 0, IoRestrictionNone,
-                "\\_SB.PCI0.GPIO", 0, ResourceConsumer, , ) { 12 }
-            PinConfig(Exclusive, 0x07, 0, "\\_SB.PCI0.GPIO", 0, ResourceConsumer, ) { 6 }
-        })
-
-        Name (_DSD, Package () {
-            ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
-            Package () {
-                Package () { "compatible", Package () { "gpio-sloppy-logic-analyzer" } },
-                Package () {
-                    "probe-gpios", Package () {
-                        ^GSLA, 0, 0, 0,
-                        ^GSLA, 1, 0, 0,
-                    },
-                Package () {
-                    "probe-names", Package () {
-                        "SCL",
-                        "SDA",
-                    },
-            }
-        })
-
-Note, that pin configuration uses pin numbering space, while GPIO resources
-are in GPIO numbering space, which may be different in ACPI. In other words,
-there is no guarantee that GPIO and pins are mapped 1:1, that's why there are
-two different pairs in the example, i.e. {13,12} GPIO vs. {7,6} pin.
-
-Yet pin configuration support in Linux kernel is subject to implement.'
-
-> +maximum of 8 probes are supported. 32 are likely possible but are not
-> +implemented yet.
-
-...
-
-> + * Copyright (C) Wolfram Sang <wsa@sang-engineering.com>
-> + * Copyright (C) Renesas Electronics Corporation
-
-No years?
-
-...
-
-> +#include <linux/of.h>
-
-Nothing from this header is used here. You meant mod_devicetable.h.
-
-...
-
-> +#define GPIO_LA_NAME "gpio-sloppy-logic-analyzer"
-> +#define GPIO_LA_DEFAULT_BUF_SIZE SZ_256K
-> +/* can be increased but then we need to extend the u8 buffers */
-> +#define GPIO_LA_MAX_PROBES 8
-> +#define GPIO_LA_NUM_TESTS 1024
-
-I prefer TAB indentation of the values for better reading, but it's up to you.
-
-...
-
-> +#define gpio_la_get_array(d, sptr) gpiod_get_array_value((d)->ndescs, (d)->desc, \
-> +							 (d)->info, sptr);
-
-Can we put it like
-
-#define gpio_la_get_array(d, sptr)					\
-	gpiod_get_array_value((d)->ndescs, (d)->desc, (d)->info, sptr)
-
-?
-
-Also I believe the semicolon is redundant here.
-
-...
-
-> +struct gpio_la_poll_priv {
-> +	struct mutex lock;
-> +	u32 buf_idx;
-> +	unsigned long ndelay;
-> +	struct gpio_descs *descs;
-> +	struct debugfs_blob_wrapper blob;
-
-> +	struct dentry *debug_dir, *blob_dent;
-
-One member per line, please.
-
-> +	struct debugfs_blob_wrapper meta;
-> +	unsigned long gpio_acq_delay;
-> +	struct device *dev;
-
-> +	unsigned int trig_len;
-
-On 64-bit arch you may save 4 bytes by moving this to be together with u32
-member above.
-
-> +	u8 *trig_data;
-> +};
-
-> +static struct dentry *gpio_la_poll_debug_dir;
-
-I have seen the idea of looking up the debugfs entry. That said, do we actually
-need this global variable?
-
-...
-
-> +static int fops_capture_set(void *data, u64 val)
-> +{
-> +	struct gpio_la_poll_priv *priv = data;
-> +	u8 *la_buf = priv->blob.data;
-
-> +	unsigned long state = 0;
-
-Seems redundant assignment.
-
-> +	int i, ret;
-
-> +}
-
-...
-
-> +	if (count == 0 || count > 2048 || count & 1)
-
-Isn't it guaranteed by kernfs code that you never get here if count == 0?
-
-> +		return -EINVAL;
-
-...
-
-> +	ret = device_property_read_string_array(dev, "probe-names", gpio_names,
-> +						priv->descs->ndescs);
-> +	if (ret >= 0 && ret != priv->descs->ndescs)
-> +		ret = -ENOSTR;
-> +	if (ret < 0) {
-> +		dev_err(dev, "error naming the GPIOs: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	for (i = 0; i < priv->descs->ndescs; i++) {
-> +		unsigned int add_len;
-> +
-> +		if (gpiod_cansleep(priv->descs->desc[i]))
-> +			return -EREMOTE;
-> +
-> +		gpiod_set_consumer_name(priv->descs->desc[i], gpio_names[i]);
-> +
-> +		/* '10' is length of 'probe00=\n\0' */
-> +		add_len = strlen(gpio_names[i]) + 10;
-> +		meta = devm_krealloc(dev, meta, meta_len + add_len, GFP_KERNEL);
-
-First of all, this realloc() pattern *) is bad. While it's tricky and has side
-effects (i.e. it has no leaks) better not to use it to avoid confusion.
-
-*) foo = realloc(foo, ...); is 101 mistake.
-
-> +		if (!meta)
-> +			return -ENOMEM;
-> +		snprintf(meta + meta_len, add_len, "probe%02d=%s\n", i + 1, gpio_names[i]);
-> +		/* ' - 1' to skip the NUL terminator */
-> +		meta_len += add_len - 1;
-> +	}
-
-
-But second, all your use is based on:
- - all strings are of equal lengths
- - all or none will go
-
-Hence, why not to use regular devm_kcalloc() before loop?
-
-...
-
-> +#! /bin/sh
-
-Space is not needed (and actually unusual to have here).
-
-On top of that, try to add -efu and see what would break :-)
-
-...
-
-> +init_cpu()
-> +{
-> +	local CPU OLDMASK
-
-Local variables a better to be in lower letters.
-
-> +	CPU="$1"
-> +	[ ! -d $CPUSETDIR ] && mkdir $CPUSETDIR
-
-[ -d ... ] || ...
-
-> +	mount | grep -q $CPUSETDIR || mount -t cpuset cpuset $CPUSETDIR
-> +	[ ! -d $LACPUSETDIR ] && mkdir $LACPUSETDIR
-
-Ditto.
-
-> +}
-
-...
-
-> +			# Check if we could parse something and the channel number fits
-> +			[ $chan != $c -a $chan -le $MAX_CHANS ] 2> /dev/null || { echo "Syntax error: $c" && exit 1; }
-
-Why 2>/dev/null ?
-
-...
-
-> +		[ $val1 -ne $val2 ] &&	TRIGGER_BINDAT="$TRIGGER_BINDAT$(printf '\\%o\\%o' $mask $val2)"
-
-One space is enough.
-
-...
-
-> +[ $SAMPLEFREQ -eq 0 ] &&
-
- echo "Invalid sample frequency" && exit 1
-
-This kind of stuff deserves an exit function, like
-
-# my_exit(code, msg)
-my_exit()
-{
-  local code="$1"; shift
-  local msg="$1"; shift
-
-  echo "$msg"
-  exit $code
-}
-
-(Yeah, yeah, after -efu you will discover that && is not an equivalent to if-then-fi)
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Hello!
+
+On 5/19/21 4:02 PM, Geert Uytterhoeven wrote:
+
+> Update Sergei's email address, as per commit 534a8bf0ccdd7b3f
+> ("MAINTAINERS: switch to my private email for Renesas Ethernet
+> drivers").
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  Documentation/devicetree/bindings/net/renesas,ether.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/renesas,ether.yaml b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+> index 8ce5ed8a58dd76e6..c101a1ec846ea8e9 100644
+> --- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
+> +++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+> @@ -10,7 +10,7 @@ allOf:
+>    - $ref: ethernet-controller.yaml#
+>  
+>  maintainers:
+> -  - Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+> +  - Sergei Shtylyov <sergei.shtylyov@gmail.com>
+
+Acked-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+
+[...]
+
+MBR, Sergei
