@@ -2,103 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A82823890C1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 May 2021 16:26:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A50BA3890CD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 May 2021 16:28:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242711AbhESO1U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 May 2021 10:27:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49628 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240243AbhESO1U (ORCPT
+        id S1347530AbhESOaF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 May 2021 10:30:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41006 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241764AbhESOaE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 May 2021 10:27:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BCFD4611BD;
-        Wed, 19 May 2021 14:25:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621434360;
-        bh=6yfdFVgTRSm3LiFgn0MQ2bYc4DYpvun17cnYBqZ0po0=;
+        Wed, 19 May 2021 10:30:04 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067CEC06175F;
+        Wed, 19 May 2021 07:28:45 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 865D2BA7;
+        Wed, 19 May 2021 16:28:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1621434522;
+        bh=0+5VCbtkiIDim7GlHlKBCPXn/uByoOsuGrJFJo6ix8c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bVDzAPD17U8TZ7Bz3V6QJiduJoagQ7QcsSdO/BSjLz7KWTnpa5iVe9R98WccROWwU
-         Gu80MgVPSwZo4NygXSTHe+uGwEFf0J7pVZMACfoR8PvROJnVmkUv0RGlJUNsEmrR1U
-         QRZzeVT2b4DpeiDwgYHmEQfz+cRc2z0JgT8N1tuEZMxFh6iyqS/C4VtGwFw76Zw3X1
-         sUDcI1QeMBEez7O9KVFENU8PhMRRbDxNPb7rc0qvqkDApCBL7AlUuvRpsKXHjyVDVy
-         Cfoi++iG2FXNsCra1m/yy3X7wMZH5vLPp0IWP+rJdSLx0aGDVEVPsDbp3flcBRCXq8
-         bRpGBY/h336Gw==
-Date:   Wed, 19 May 2021 16:25:57 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        ulf.hansson@linaro.org
-Subject: Re: [PATCH] mmc: renesas_sdhi: increase suspend/resume latency limit
-Message-ID: <YKUf9TVcKetApd1J@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        ulf.hansson@linaro.org
-References: <20210514155318.16812-1-uli+renesas@fpond.eu>
+        b=N07SYwlMZ0d8nSWLEP/hcdWm/19/O7cGfcs7RxFAvNwJrEHirifa96Nku4hcp2z3v
+         8KCVRsL3Nu06bFbYTxFukhVmXyBgSzfph0VQZd0ZXslFEiJqoPTnyLJN2eoA6OkHyB
+         WYjJE93WnmnuKi/JRfcXRtKowNDrN7MpfkC7zUss=
+Date:   Wed, 19 May 2021 17:28:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: renesas,jpu: Convert to json-schema
+Message-ID: <YKUgmGeFtcJn6KeV@pendragon.ideasonboard.com>
+References: <ded1a61cbaa39fa7a15efdaa2fdfa4fdb307b930.1621429165.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="9gvrP1qfpxRahseQ"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210514155318.16812-1-uli+renesas@fpond.eu>
+In-Reply-To: <ded1a61cbaa39fa7a15efdaa2fdfa4fdb307b930.1621429165.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Geert,
 
---9gvrP1qfpxRahseQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch.
 
-Hi Uli,
+On Wed, May 19, 2021 at 03:00:56PM +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas JPEG Processing Unit Device Tree binding
+> documentation to json-schema.
+> 
+> Document missing properties.
+> Update the example to match reality.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Fri, May 14, 2021 at 05:53:18PM +0200, Ulrich Hecht wrote:
-> The TMIO core sets a very low latency limit (100 us), but when using R-Car
-> SDHI hosts with SD cards, I have observed typical latencies of around 20-=
-30
-> ms. This prevents runtime PM from working properly, and the devices remain
-> on continuously.
->=20
-> This patch sets the default latency limit to 100 ms to avoid that.
->=20
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Well, yes, I can confirm that this helps wrt the "always-enabled" clock.
-However, when removing UHS cards, I now see this regression:
+> ---
+> I have listed Mikhail as the maintainer, as he wrote the original driver
+> and bindings.  Mikhail: Please scream if this is inappropriate ;-)
+> ---
+>  .../devicetree/bindings/media/renesas,jpu.txt | 25 -------
+>  .../bindings/media/renesas,jpu.yaml           | 65 +++++++++++++++++++
+>  2 files changed, 65 insertions(+), 25 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/renesas,jpu.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,jpu.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,jpu.txt b/Documentation/devicetree/bindings/media/renesas,jpu.txt
+> deleted file mode 100644
+> index d3436e5190f9196a..0000000000000000
+> --- a/Documentation/devicetree/bindings/media/renesas,jpu.txt
+> +++ /dev/null
+> @@ -1,25 +0,0 @@
+> -* Renesas JPEG Processing Unit
+> -
+> -The JPEG processing unit (JPU) incorporates the JPEG codec with an encoding
+> -and decoding function conforming to the JPEG baseline process, so that the JPU
+> -can encode image data and decode JPEG data quickly.
+> -
+> -Required properties:
+> -- compatible: "renesas,jpu-<soctype>", "renesas,rcar-gen2-jpu" as fallback.
+> -	Examples with soctypes are:
+> -	  - "renesas,jpu-r8a7790" for R-Car H2
+> -	  - "renesas,jpu-r8a7791" for R-Car M2-W
+> -	  - "renesas,jpu-r8a7792" for R-Car V2H
+> -	  - "renesas,jpu-r8a7793" for R-Car M2-N
+> -
+> -  - reg: Base address and length of the registers block for the JPU.
+> -  - interrupts: JPU interrupt specifier.
+> -  - clocks: A phandle + clock-specifier pair for the JPU functional clock.
+> -
+> -Example: R8A7790 (R-Car H2) JPU node
+> -	jpeg-codec@fe980000 {
+> -		compatible = "renesas,jpu-r8a7790", "renesas,rcar-gen2-jpu";
+> -		reg = <0 0xfe980000 0 0x10300>;
+> -		interrupts = <0 272 IRQ_TYPE_LEVEL_HIGH>;
+> -		clocks = <&mstp1_clks R8A7790_CLK_JPU>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/media/renesas,jpu.yaml b/Documentation/devicetree/bindings/media/renesas,jpu.yaml
+> new file mode 100644
+> index 0000000000000000..2f55968e864fe2f5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,jpu.yaml
+> @@ -0,0 +1,65 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/renesas,jpu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas JPEG Processing Unit
+> +
+> +maintainers:
+> +  - Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
+> +
+> +description:
+> +  The JPEG processing unit (JPU) incorporates the JPEG codec with an encoding
+> +  and decoding function conforming to the JPEG baseline process, so that the
+> +  JPU can encode image data and decode JPEG data quickly.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,jpu-r8a7790      # R-Car H2
+> +          - renesas,jpu-r8a7791      # R-Car M2-W
+> +          - renesas,jpu-r8a7792      # R-Car V2H
+> +          - renesas,jpu-r8a7793      # R-Car M2-N
+> +      - const: renesas,rcar-gen2-jpu # R-Car Gen2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - power-domains
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/r8a7790-sysc.h>
+> +
+> +    jpeg-codec@fe980000 {
+> +            compatible = "renesas,jpu-r8a7790", "renesas,rcar-gen2-jpu";
+> +            reg = <0xfe980000 0x10300>;
+> +            interrupts = <GIC_SPI 272 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD 106>;
+> +            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
+> +            resets = <&cpg 106>;
+> +    };
 
-[    8.659916] mmcblk2: mmc2:0001 00000 29.8 GiB=20
-[    8.677304]  mmcblk2: p1
-[    9.622918] mmc2: tuning execution failed: -5
-[    9.627385] mmc2: card 0001 removed
+-- 
+Regards,
 
-It is interesting to see the "execution failed" error when *removing*
-the card. Before removing, access to the card seems fine. I haven't
-checked further, so I can't say yet if this is a related or seperate but
-now undiscovered issue.
-
-Thanks for the work so far!
-
-   Wolfram
-
---9gvrP1qfpxRahseQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmClH/EACgkQFA3kzBSg
-KbYNGhAAoeW+mQOJt9GrEDU3PzlG21py9TLWf/+zFylvZ496n8/PjjiUhAlfrQyB
-8H/0TVPhwnql952CNljp7XTlvwrVy3I24EpdS67PXSPr5G73ZEDGEOcs70A2XDnn
-WZTgk2s08KEnxOjfezStkHpeqs9VzpN2N1Le1jme7VniBQDlwAG+2WF2yk/UiQy3
-gmZXiT74F/a51L/+0Gz0P/WLwcVvsXP5FhRI6ZzfP5Y1UB23Q0z80k/BRmm7DbsI
-XZwhyPm3xinZsRg2Lr6H2vz5AZbRsbnN8PRa7MlsCIkoYBid9T31drOAfL3xS0Pn
-TgA/MJ6f3TuhneKvtkt/Ue6vPmTPLlDdv0ngesIq3kBwKHofkuUqDNkw3s+JfOmA
-hprFhPzqNilkFix227bTaxIHV+Ez0D45S2R+Q/gg2vNlEeryhdZ5pfkXBxQbJnTn
-1DnKPFjNhuD7KTd3d9/jxBVacYK4aAqNlyzh0+o+qU0A1LZhTcNjDjcZlbxT2wdr
-ok3OmIwDcULmaKl5Flmv1+06HeMa7kM/sP+78/AG/tNrVqAe1fHlHF/8/tllGbUa
-i3/sPJhqDeKgT/BYCW5PcFdfmkvUOU35T5331oXti0WRbf0IYRpDaVgT2h/Q6C+k
-LjMDFj2Hxx6qC7wFgfir0v3AsH3D8qrMZ6OepZKcl9JZxHaEZE4=
-=0fIV
------END PGP SIGNATURE-----
-
---9gvrP1qfpxRahseQ--
+Laurent Pinchart
