@@ -2,80 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DAC238927F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 May 2021 17:23:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1963038978A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 May 2021 22:10:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346830AbhESPZM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 May 2021 11:25:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54022 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346350AbhESPZM (ORCPT
+        id S232892AbhESULb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 May 2021 16:11:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49994 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232864AbhESULa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 May 2021 11:25:12 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2709AC06175F;
-        Wed, 19 May 2021 08:23:52 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id b12so8881307ljp.1;
-        Wed, 19 May 2021 08:23:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vZqm6PyudcGSEfI1UhpCQCBW48YlXZO5HgZI4Wx4nO8=;
-        b=Bsctn8IQ8TOypJMZcrD/cP56fNtLPDpC28hi+wdXT9RBsG8uT+pybRIExKqiv2U1h2
-         1CeaRLl/wW7jCOX8ZsWirRAoh7p42CGKhcdKM2prNT9yFdkZ6QpbCUnsvkK4ybNvCKDX
-         RcxIz5E1rqHDlkFnSHiZBkPUELDwaqZ1SbpQ/8IaGJe/v56qWqHHnNxHY2YtXT9C9t7c
-         DKa17i2LeupTM24mzs0xOUc07K6cwDvlt72gvhHlhWU3iU0s//4eyzpE9ZteA+5YIRfB
-         WBwn9ikxKsRuCiDgoqw0Px2szd5FnnijEAq9vY5uK1gFrDbcq5o0M6UCSiH0jLsG4ZbC
-         4Lcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vZqm6PyudcGSEfI1UhpCQCBW48YlXZO5HgZI4Wx4nO8=;
-        b=tCsn+K10uEdWyegAzv1JVOi19cnsxzCTj/ZosDcvwn/yMZg9rFQcMnJTJUwDnyGZa7
-         SZO1KwN8/yuKewKh7Z5pNnJfqiWa8pIsRl4KBXKOSWusYT/unN5r24TbvhbX+n7u1uLz
-         P6Gdm2yiB04QZfJo8SC9Ogn0C/P4Tx6I4VuEy1t7Hs5FWK1v9dARva2jwndM5yr5hZ41
-         sMmg4ta+6Q+rewYD9HH6F/EbSlPdHLIxnV9hjn7UoAIGiCG14vY2CLpfAXEi98g2g4J7
-         cBOZYvs8QRBqn3WZiF4zTiV2KDaGnnDT1HhUDt+Q5NotJOZG1h03pS6L/RxRhh8QdyAY
-         lFeQ==
-X-Gm-Message-State: AOAM532cNSvWQBQUJwi2WYYqQnwJGEdeBbCr2elZFEeYxjN18BET30Nm
-        byw/DbdqIGVYWvfH8OV3uTZ/qOQjFMo=
-X-Google-Smtp-Source: ABdhPJwSEN1RWsujXeRoEt2h6tX8IMiUPrIOJqBqMey8M27eLZbjedEBzGK7nMIxWzRtlTKukSMyCA==
-X-Received: by 2002:a2e:a7cb:: with SMTP id x11mr9284749ljp.143.1621437830321;
-        Wed, 19 May 2021 08:23:50 -0700 (PDT)
-Received: from [192.168.1.102] ([31.173.83.229])
-        by smtp.gmail.com with ESMTPSA id y3sm1982lfl.34.2021.05.19.08.23.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 May 2021 08:23:50 -0700 (PDT)
+        Wed, 19 May 2021 16:11:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id B142D61363;
+        Wed, 19 May 2021 20:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621455009;
+        bh=YUy2bzxwS1O7akO+aDYOgRvz95Vr3MgoLXF4XLOK8jU=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=TKxiNJ+r0WR1GDM2jFgGs/GbFrP5Mv7lIt9dHm98R+56+hSs83930megSLg3JTq82
+         WK9isM+2pnYMWqcPlrnhF0VloYKj1wXgGVpD83JsEDHj7IG+kq80I64y7BlCF5OX51
+         dsrMlCLCB4mkiuQx1upo3VVzHMm59Q3eA6IifIQA+gZTMY58TpgrpB+43fB5drrTH1
+         qT1S191i+2VnYU3xmXCW0TzWSyvv0z6inwelY0+xwVptgxnsG/wd+A+Q11TcGRO5HA
+         dRqD+7ju3ZoQMh8tIdS4+LW1wx+lkTAluPR+UtKIczNd9XJVqi9lD6Ye9HKG5UghDe
+         vCZDhgnTC5HVw==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id A6E8660A56;
+        Wed, 19 May 2021 20:10:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Subject: Re: [PATCH] dt-bindings: net: renesas,ether: Update Sergei's email
  address
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <162145500967.9091.18142980397422047683.git-patchwork-notify@kernel.org>
+Date:   Wed, 19 May 2021 20:10:09 +0000
 References: <15fb12769fcfeac8c761bf860ad94b9b223d3f9c.1621429311.git.geert+renesas@glider.be>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <ac381693-628c-e298-ca82-a6c6d70690e5@gmail.com>
-Date:   Wed, 19 May 2021 18:23:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
 In-Reply-To: <15fb12769fcfeac8c761bf860ad94b9b223d3f9c.1621429311.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     davem@davemloft.net, kuba@kernel.org, robh+dt@kernel.org,
+        sergei.shtylyov@gmail.com, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hello:
 
-On 5/19/21 4:02 PM, Geert Uytterhoeven wrote:
+This patch was applied to netdev/net.git (refs/heads/master):
 
+On Wed, 19 May 2021 15:02:53 +0200 you wrote:
 > Update Sergei's email address, as per commit 534a8bf0ccdd7b3f
 > ("MAINTAINERS: switch to my private email for Renesas Ethernet
 > drivers").
@@ -84,20 +58,14 @@ On 5/19/21 4:02 PM, Geert Uytterhoeven wrote:
 > ---
 >  Documentation/devicetree/bindings/net/renesas,ether.yaml | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/renesas,ether.yaml b/Documentation/devicetree/bindings/net/renesas,ether.yaml
-> index 8ce5ed8a58dd76e6..c101a1ec846ea8e9 100644
-> --- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
-> +++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
-> @@ -10,7 +10,7 @@ allOf:
->    - $ref: ethernet-controller.yaml#
->  
->  maintainers:
-> -  - Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-> +  - Sergei Shtylyov <sergei.shtylyov@gmail.com>
 
-Acked-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Here is the summary with links:
+  - dt-bindings: net: renesas,ether: Update Sergei's email address
+    https://git.kernel.org/netdev/net/c/d5b3bd6ab541
 
-[...]
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-MBR, Sergei
+
