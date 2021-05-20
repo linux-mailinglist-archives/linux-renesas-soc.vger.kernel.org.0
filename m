@@ -2,109 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA56D389E43
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 May 2021 08:50:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8C9538AD1A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 May 2021 13:56:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230426AbhETGwR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 May 2021 02:52:17 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35674 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230417AbhETGwR (ORCPT
+        id S243908AbhETLxe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 May 2021 07:53:34 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:3624 "EHLO
+        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237124AbhETLv0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 May 2021 02:52:17 -0400
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA75BE0C;
-        Thu, 20 May 2021 08:50:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621493455;
-        bh=EGZEdkoUZi5SbGzCp812RFJqbdXrCIa1P1uZ3KuRAHc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YemBHZyOCsZTYmTEv5pX/iqpmfO2XDtF19E5fxO4XHz014UQMTqzssuUw3gkG1nkR
-         0Zz35xDp8bhXiO5NvVpDMacz4R5z9oIInFUlpf4BXRXEljwTo97qNDYxjmRfUXfETB
-         o2Xf8qoX8KQnqR17meeFV9qt3hVF/xv9kSGJ14g0=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v3 4/4] drm: rcar-du: Use drm_bridge_connector_init() helper
-Date:   Thu, 20 May 2021 09:50:46 +0300
-Message-Id: <20210520065046.28978-5-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.28.1
-In-Reply-To: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
+        Thu, 20 May 2021 07:51:26 -0400
+Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.60])
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Fm7Jw5xrrzmWbL;
+        Thu, 20 May 2021 19:47:44 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 20 May 2021 19:50:01 +0800
+Received: from thunder-town.china.huawei.com (10.174.177.72) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 20 May 2021 19:50:01 +0800
+From:   Zhen Lei <thunder.leizhen@huawei.com>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Ramesh Shanmugasundaram" <rashanmu@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-renesas-soc <linux-renesas-soc@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>
+CC:     Zhen Lei <thunder.leizhen@huawei.com>
+Subject: [PATCH 1/1] media: dt-bindings: media: renesas,drif: Fix a dt_binding_check warning
+Date:   Thu, 20 May 2021 19:49:53 +0800
+Message-ID: <20210520114953.8206-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.177.72]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Use the drm_bridge_connector_init() helper to create a drm_connector for
-each output, instead of relying on the bridge drivers doing so. Attach
-the bridges with the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to instruct
-them not to create a connector.
+The value of the property 'clock-names' is a constant string, so the
+'maxItems: 1' is not needed, should be removed. Otherwise, the following
+warning is reported:
+properties:clock-names:maxItems: False schema does not allow 1
+ignoring, error in schema: properties: clock-names: maxItems
+warning: no schema found in file: xxx/bindings/media/renesas,drif.yaml
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
-Changes since v2:
+ Documentation/devicetree/bindings/media/renesas,drif.yaml | 1 -
+ 1 file changed, 1 deletion(-)
 
-- Declare ret variable
----
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 26 ++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-index ca3761772211..0daa8bba50f5 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-@@ -11,6 +11,7 @@
- #include <linux/slab.h>
+diff --git a/Documentation/devicetree/bindings/media/renesas,drif.yaml b/Documentation/devicetree/bindings/media/renesas,drif.yaml
+index f1bdaeab4053..b7f07062922f 100644
+--- a/Documentation/devicetree/bindings/media/renesas,drif.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
+@@ -67,7 +67,6 @@ properties:
+     maxItems: 1
  
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_modeset_helper_vtables.h>
-@@ -53,7 +54,9 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 			 struct device_node *enc_node)
- {
- 	struct rcar_du_encoder *renc;
-+	struct drm_connector *connector;
- 	struct drm_bridge *bridge;
-+	int ret;
+   clock-names:
+-    maxItems: 1
+     items:
+       - const: fck
  
- 	/*
- 	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
-@@ -103,9 +106,22 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 
- 	renc->output = output;
- 
--	/*
--	 * Attach the bridge to the encoder. The bridge will create the
--	 * connector.
--	 */
--	return drm_bridge_attach(&renc->base, bridge, NULL, 0);
-+	/* Attach the bridge to the encoder. */
-+	ret = drm_bridge_attach(&renc->base, bridge, NULL,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+	if (ret) {
-+		dev_err(rcdu->dev, "failed to attach bridge for output %u\n",
-+			output);
-+		return ret;
-+	}
-+
-+	/* Create the connector for the chain of bridges. */
-+	connector = drm_bridge_connector_init(&rcdu->ddev, &renc->base);
-+	if (IS_ERR(connector)) {
-+		dev_err(rcdu->dev,
-+			"failed to created connector for output %u\n", output);
-+		return PTR_ERR(connector);
-+	}
-+
-+	return drm_connector_attach_encoder(connector, &renc->base);
- }
 -- 
-Regards,
+2.21.1
 
-Laurent Pinchart
 
