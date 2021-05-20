@@ -2,70 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1963038978A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 May 2021 22:10:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DA0E389E40
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 May 2021 08:50:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232892AbhESULb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 May 2021 16:11:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49994 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232864AbhESULa (ORCPT
+        id S229547AbhETGwP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 May 2021 02:52:15 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35664 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229534AbhETGwO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 May 2021 16:11:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id B142D61363;
-        Wed, 19 May 2021 20:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621455009;
-        bh=YUy2bzxwS1O7akO+aDYOgRvz95Vr3MgoLXF4XLOK8jU=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=TKxiNJ+r0WR1GDM2jFgGs/GbFrP5Mv7lIt9dHm98R+56+hSs83930megSLg3JTq82
-         WK9isM+2pnYMWqcPlrnhF0VloYKj1wXgGVpD83JsEDHj7IG+kq80I64y7BlCF5OX51
-         dsrMlCLCB4mkiuQx1upo3VVzHMm59Q3eA6IifIQA+gZTMY58TpgrpB+43fB5drrTH1
-         qT1S191i+2VnYU3xmXCW0TzWSyvv0z6inwelY0+xwVptgxnsG/wd+A+Q11TcGRO5HA
-         dRqD+7ju3ZoQMh8tIdS4+LW1wx+lkTAluPR+UtKIczNd9XJVqi9lD6Ye9HKG5UghDe
-         vCZDhgnTC5HVw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id A6E8660A56;
-        Wed, 19 May 2021 20:10:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 20 May 2021 02:52:14 -0400
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98C1FD31;
+        Thu, 20 May 2021 08:50:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1621493452;
+        bh=v3Vu6quVKrr1NnYuMwDm2STCc4CKzv9XPpREFWKebSs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cvjSm5wfQudgmwFSJRE1+molF48g9H2Jm6WKAlHKqUY6AbIi/8G3JFXTetIBrTZHR
+         lxNk/fI9/m6JsXy7wSThexHZNK5dvzZIOxgNGoXPHjDG2JILuVIukqT1RvBYHvpUkM
+         NFem5hZCst77F2S7qo5WmDQRvU1Yip39/X3/6yH8=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v3 0/4] Converter R-Car DU to the DRM bridge connector helper
+Date:   Thu, 20 May 2021 09:50:42 +0300
+Message-Id: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.28.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] dt-bindings: net: renesas,ether: Update Sergei's email
- address
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162145500967.9091.18142980397422047683.git-patchwork-notify@kernel.org>
-Date:   Wed, 19 May 2021 20:10:09 +0000
-References: <15fb12769fcfeac8c761bf860ad94b9b223d3f9c.1621429311.git.geert+renesas@glider.be>
-In-Reply-To: <15fb12769fcfeac8c761bf860ad94b9b223d3f9c.1621429311.git.geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     davem@davemloft.net, kuba@kernel.org, robh+dt@kernel.org,
-        sergei.shtylyov@gmail.com, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hello,
 
-This patch was applied to netdev/net.git (refs/heads/master):
+This patch series converts the R-Car DU driver to use the DRM bridge
+connector helper drm_bridge_connector_init().
 
-On Wed, 19 May 2021 15:02:53 +0200 you wrote:
-> Update Sergei's email address, as per commit 534a8bf0ccdd7b3f
-> ("MAINTAINERS: switch to my private email for Renesas Ethernet
-> drivers").
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Documentation/devicetree/bindings/net/renesas,ether.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+The bulk of the v1 series was converting the adv7511, simple-bridge and
+dw-hdmi drivers to make connector creation optional (through the
+DRM_BRIDGE_ATTACH_NO_CONNECTOR flag), and have already been merged. v2
+included the remaining patches and has bitrotten. v3 rebased the code
+and should be ready for merge.
 
-Here is the summary with links:
-  - dt-bindings: net: renesas,ether: Update Sergei's email address
-    https://git.kernel.org/netdev/net/c/d5b3bd6ab541
+Patch 1/4 adds support to the dw-hdmi driver to attach to a downstream
+bridge if one is specified in DT. As the DT port number corresponding to
+the video output differs between platforms that integrate the dw-hdmi
+(some of them even don't have a video output port, which should probably
+be fixed, but that's out of scope for this series), the port number has
+to be specified by the platform glue layer.
 
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Patch 2/4 then addresses the rcar-lvds driver. Instead of implementing
+direct support for DRM_BRIDGE_ATTACH_NO_CONNECTOR, it simply removes
+code that shouldn't have been in the driver in the first place by
+switching to the panel bridge helper.
 
+Patch 3/4 specifies the port number in the R-Car dw-hdmi glue layer, as
+required by 1/4.
+
+Patch 4/4 finally makes use of the drm_bridge_connector_init() helper.
+
+The series has been tested on the Renesas R-Car Salvator-XS and Draak
+boards with the VGA, HDMI and LVDS outputs.
+
+Laurent Pinchart (4):
+  drm: bridge: dw-hdmi: Attach to next bridge if available
+  drm: rcar-du: lvds: Convert to DRM panel bridge helper
+  drm: rcar-du: dw-hdmi: Set output port number
+  drm: rcar-du: Use drm_bridge_connector_init() helper
+
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c |  54 +++++++++-
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  26 ++++-
+ drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c    |   1 +
+ drivers/gpu/drm/rcar-du/rcar_lvds.c       | 120 +++-------------------
+ include/drm/bridge/dw_hdmi.h              |   2 +
+ 5 files changed, 89 insertions(+), 114 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
 
