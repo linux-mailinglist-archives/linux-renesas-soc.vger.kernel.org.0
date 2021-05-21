@@ -2,65 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6785538C594
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 13:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E439338C6C8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 14:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232818AbhEULXY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 May 2021 07:23:24 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33452 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231127AbhEULXX (ORCPT
+        id S232336AbhEUMsg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 May 2021 08:48:36 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3620 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229915AbhEUMse (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 May 2021 07:23:23 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 7CBC9AC11;
-        Fri, 21 May 2021 11:21:59 +0000 (UTC)
-Date:   Fri, 21 May 2021 13:21:58 +0200
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Peter Korsgaard <peter@korsgaard.com>, linux-i2c@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for
- returned length from driver"
-Message-ID: <20210521132158.6e0689c0@endymion>
-In-Reply-To: <20210413125433.GA9879@kunai>
-References: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
-        <20210226174337.63a9c2a6@endymion>
-        <20210310204648.GA332643@ninjato>
-        <87tuoe5zfc.fsf@dell.be.48ers.dk>
-        <20210413125433.GA9879@kunai>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        Fri, 21 May 2021 08:48:34 -0400
+Received: from dggems701-chm.china.huawei.com (unknown [172.30.72.60])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FmmVx4b81zQqdl;
+        Fri, 21 May 2021 20:43:37 +0800 (CST)
+Received: from dggemi762-chm.china.huawei.com (10.1.198.148) by
+ dggems701-chm.china.huawei.com (10.3.19.178) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Fri, 21 May 2021 20:47:07 +0800
+Received: from linux-lmwb.huawei.com (10.175.103.112) by
+ dggemi762-chm.china.huawei.com (10.1.198.148) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Fri, 21 May 2021 20:47:06 +0800
+From:   Zou Wei <zou_wei@huawei.com>
+To:     <marek.vasut+renesas@gmail.com>,
+        <yoshihiro.shimoda.uh@renesas.com>, <lorenzo.pieralisi@arm.com>,
+        <robh@kernel.org>, <kw@linux.com>, <bhelgaas@google.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Zou Wei <zou_wei@huawei.com>
+Subject: [PATCH -next] PCI: rcar: Fix PM reference leak in rcar_pcie_ep_probe()
+Date:   Fri, 21 May 2021 21:05:54 +0800
+Message-ID: <1621602354-109955-1-git-send-email-zou_wei@huawei.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.112]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggemi762-chm.china.huawei.com (10.1.198.148)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+pm_runtime_get_sync will increment pm usage counter even it failed.
+Forgetting to putting operation will result in reference leak here.
+Fix it by replacing it with pm_runtime_resume_and_get to keep usage
+counter balanced.
 
-On Tue, 13 Apr 2021 14:54:33 +0200, Wolfram Sang wrote:
-> >  > I added a section now for the 4.2 release. And (finally!) started
-> >  > cleaning up the wiki a little.  
-> > 
-> > Thanks! As a packager, I must say that this way of handling bugfixes
-> > isn't great - I only just noticed this now by accident.
-> > 
-> > What is the issue with making bugfix releases?  
-> 
-> Instead of a minor 4.2.1 we could maybe also simply do a 4.3?
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
+---
+ drivers/pci/controller/pcie-rcar-ep.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sounds reasonable, saves the need to change the process. Sure it feels
-strange to make a new release with only 2 commits since the previous
-release, OTOH we have a regression in one of the tools, which is
-something rare (thankfully) and problematic enough to justify a rush of
-schedule.
-
-I'll take care of that ASAP if that's OK with you. If you have any
-other change that should make it into 4.3, now is the time to commit it.
-
+diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
+index b4a288e..8a8c46c 100644
+--- a/drivers/pci/controller/pcie-rcar-ep.c
++++ b/drivers/pci/controller/pcie-rcar-ep.c
+@@ -492,7 +492,7 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
+ 	pcie->dev = dev;
+ 
+ 	pm_runtime_enable(dev);
+-	err = pm_runtime_get_sync(dev);
++	err = pm_runtime_resume_and_get(dev);
+ 	if (err < 0) {
+ 		dev_err(dev, "pm_runtime_get_sync failed\n");
+ 		goto err_pm_disable;
 -- 
-Jean Delvare
-SUSE L3 Support
+2.6.2
+
