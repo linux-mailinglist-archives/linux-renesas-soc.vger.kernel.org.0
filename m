@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CE3E38C7DA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 15:25:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2C8B38C7E1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 15:25:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234524AbhEUN0c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 May 2021 09:26:32 -0400
-Received: from mail-vs1-f41.google.com ([209.85.217.41]:40557 "EHLO
-        mail-vs1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233797AbhEUN0b (ORCPT
+        id S235115AbhEUN0x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 May 2021 09:26:53 -0400
+Received: from mail-ua1-f44.google.com ([209.85.222.44]:39680 "EHLO
+        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235065AbhEUN0t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 May 2021 09:26:31 -0400
-Received: by mail-vs1-f41.google.com with SMTP id o192so10332784vsd.7;
-        Fri, 21 May 2021 06:25:07 -0700 (PDT)
+        Fri, 21 May 2021 09:26:49 -0400
+Received: by mail-ua1-f44.google.com with SMTP id f20so2645685uax.6;
+        Fri, 21 May 2021 06:25:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cN1SbxJ6jb3NaPylRh/NVFKU6vsuWdd5PlEtgCJN1oM=;
-        b=SMqcu7EEbOxuwsjUSrkqdw4zO0diCjZQsTcaofj2K28qxyJdUlK117LVhIC80OsYe5
-         WpWBkkuXJFYlAzmr/WREM3Q0wIOjb4FdqpDg6JOjLbuRarLUGxUsGYigGLUTZ5HG1011
-         V2oCuQPj7nWUTcWBJ2crrpFso4tEn5tXJRRgK2c19QNzgyhTZh9SPnXwipIku0txSzdV
-         vcwaDPg8lpEZELUdzXHHQXa+ANzJGxahYAe5ZkZEQ1Sk77bnRRHQ/P30SbC2CfEHcGvv
-         OOtjFxYml7qg9pSJbAeif8xW7jB6w7Cg7rnKyowtPkw+Ykjjm41x6NuDsVwZNTbmFzOo
-         +ONQ==
-X-Gm-Message-State: AOAM531WtGpc2qm9uGDcIKGDLpfRMSepUMvfU+sU/ipNoOqLTS4PeJj1
-        6Clhzqu2M8Q/67fuBvOkAWxyA5HOe+o02BHhElk=
-X-Google-Smtp-Source: ABdhPJyo82tIL2YL3mxccwXRX3dklKLv6XZakyPXfGfT903sNbH4qrlf2CO09NEUmgIi7KAU8a6XgqMPLXrwHzJKWqg=
-X-Received: by 2002:a67:3c2:: with SMTP id 185mr10012391vsd.42.1621603507423;
- Fri, 21 May 2021 06:25:07 -0700 (PDT)
+        bh=qRbyj4hnpbc3k4A+KkiBSK4Wsj0BDOQJgU/wtF8JLXs=;
+        b=ZMJDUr9wrzvQ01Ap2KydoU1IRPUxTJJfxNuWvEAClHKvAbxQ+YdGEg32F4Iu8vCCgD
+         KVVRICXM/PCRmnFb+A1YueR8y2Nxf3ZV3qodbMiYIQqGJ1V5KD3hgilSGtJq0L0IAP0u
+         wR+H2sAKy43fTjQyUNc8lje9AolJFroHevCP278WMdHWEv2JJyFEKGlFeIP2hrOniDWp
+         SjZMYBsF367rtoPZyE/ytCQKVSFfg2gnteC1xkbNrFoHojU7yItK42OawFlZAET9mb8q
+         IsF+3QTFeka9g3Z9AVmVRSl+ij28L/D4t/oystWrkB4es61CeIVSH37jq3KJn2xiROUf
+         k0RA==
+X-Gm-Message-State: AOAM533XeeQFH3A50lDhqYF/sulOzs8Q2vS2E8BxV3/R0mb5xCZ2FQ1Q
+        c6qN91DG+6LRORxbHqTdfoUQOyPR5Y+pHOqzUF4=
+X-Google-Smtp-Source: ABdhPJyU3JXc2pJRQaqnYUFEIxzdDLSIk2Lov0ZJRGoLvieGJIGh6qYVS7spCooqh0dW7Qf4KPPcxKvwjlON0x8ake4=
+X-Received: by 2002:ab0:f5:: with SMTP id 108mr10706159uaj.106.1621603525425;
+ Fri, 21 May 2021 06:25:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210514192218.13022-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210514192218.13022-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210514192218.13022-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210514192218.13022-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 May 2021 15:24:56 +0200
-Message-ID: <CAMuHMdX=1QOtxp2Wa6bBdBLLL6QP8R8cofsO9etE-n+qBG3MtA@mail.gmail.com>
-Subject: Re: [PATCH 03/16] dt-bindings: arm: renesas: Document SMARC EVK
+Date:   Fri, 21 May 2021 15:25:13 +0200
+Message-ID: <CAMuHMdVOTfV9XBo0t0CxGU1=Zo3VjFioDaDU1rdX8Hb6Pvz-Zw@mail.gmail.com>
+Subject: Re: [PATCH 04/16] soc: renesas: Add ARCH_R9A07G044{L,LC} for the new
+ RZ/G2{L,LC} SoC's
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -65,35 +66,47 @@ Hi Prabhakar,
 
 On Fri, May 14, 2021 at 9:23 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document Renesas SMARC EVK boards which are based on RZ/G2L (R9A07G044L)
-> SoC. The SMARC EVK consists of RZ/G2L SoM module and SMARC carrier board,
-> the SoM module sits on top of carrier board.
+> Add ARCH_R9A07G044{L,LC} as a configuration symbol for the new Renesas
+> RZ/G2{L,LC} SoC's.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
 
-> --- a/Documentation/devicetree/bindings/arm/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-> @@ -310,6 +310,9 @@ properties:
+Thanks for your patch!
+
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -279,6 +279,16 @@ config ARCH_R8A774B1
+>         help
+>           This enables support for the Renesas RZ/G2N SoC.
 >
->        - description: RZ/G2{L,LC} (R9A07G044)
->          items:
-> +          - enum:
-> +              - renesas,smarc-r9a07g044l1 # SMARC EVK with single Cortex-A55
-> +              - renesas,smarc-r9a07g044l2 # SMARC EVK with dual Cortex-A55
->            - enum:
->                - renesas,r9a07g044c1 # Single Cortex-A55 RZ/G2LC
->                - renesas,r9a07g044c2 # Dual Cortex-A55 RZ/G2LC
+> +config ARCH_R9A07G044L
+> +       bool "ARM64 Platform support for RZ/G2L SoC"
 
-Likewise, do we care (at the top level) if this is a board with an SoC
-die that has one or two Cortex-A55 cores enabled?
+Please drop the "SoC", for consistency with other entries.
+
+> +       help
+> +         This enables support for the Renesas RZ/G2L SoC.
+> +
+> +config ARCH_R9A07G044LC
+> +       bool "ARM64 Platform support for RZ/G2LC SoC"
+
+Likewise.
+
+> +       help
+> +         This enables support for the Renesas RZ/G2LC SoC.
+> +
+>  endif # ARM64
+
+Given LSI DEVID is the same, do we need both, or can we do with a
+single ARCH_R9A07G044?
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
