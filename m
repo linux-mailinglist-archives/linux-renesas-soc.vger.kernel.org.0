@@ -2,56 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 738F938CD9B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 20:38:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1035238CDAA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 20:43:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238842AbhEUSju (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 May 2021 14:39:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41922 "EHLO
+        id S235476AbhEUSo1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 May 2021 14:44:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbhEUSjs (ORCPT
+        with ESMTP id S229755AbhEUSo0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 May 2021 14:39:48 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E1CC061574;
-        Fri, 21 May 2021 11:38:24 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id y2so28715963ybq.13;
-        Fri, 21 May 2021 11:38:24 -0700 (PDT)
+        Fri, 21 May 2021 14:44:26 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C084BC061574;
+        Fri, 21 May 2021 11:43:01 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id r7so6699844ybs.10;
+        Fri, 21 May 2021 11:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=olQZoZywvM5Y52kkIexHOvGtbXaTwbR42GcPh6oe6xs=;
-        b=UgzUkAWR+ddmD0U+NcVtqPFVk+5y+o2fEFxfbeRjGOLPg42jie6iU6hxBD4+/ewgVq
-         UIBmBNZutkxKVW1a0l2HbXMI4d3F9upe04/M5fXSARDHDkwHR2fMBdlsK+m4qHwy1NLU
-         bzSVvdWHMJgpB/rgwlw+zrG/glpvwtIvymRKm7pJkxLgx1fRPkQrWrfugYIbjv2sSrjl
-         c4J42fysX2yNsq6LrGoXqNV3hU2oYR38KW04JLXfzn9qISlLyuRcSh8NybDeMDo5axQU
-         mHTnDY7PS5inh94o6TYa+/2qvcN6RxRpMy+2LI6nCqgJwIPMdsX82IHmt+3KsUdV8qkh
-         uJpA==
+        bh=FWtdDuSKaLUXcujU5F4tqzi/gqM6kON5tve8kEsdyNo=;
+        b=oFxbMftNWJ/GrWSWgc0sb7gWv1HTAhWnUuVXEKqalJyRj62kNebG8XmVsnB0Q2PS1Y
+         MHYLKuqkAlkmBWwr0rUN5kymp0o6uzPZQ2AZO66bxFqOcFYyfJoTNlL73/G9VfGaotyb
+         7dTe82F6XHdtAHbM+AvVsd7Hc/rJkLZWy8DUMUTCz3AWaHIF5fxxJiACB7ogLzcaV+Nn
+         ZYOAqZduCavvmh8KmnkSvXKhdptCHamimTmDSIMBl22f3enWC3tetrvrN5dgiwWth6Db
+         ixsMDKq6NyHbwQF/3cJuepUEmLVnSWcPu1u4NMX2SiBW/+Q6lqGaZMR1usc0FgTR4V0l
+         MrpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=olQZoZywvM5Y52kkIexHOvGtbXaTwbR42GcPh6oe6xs=;
-        b=hr76vgyhKbJJLjLV056djo4asoNl+k/MhscTPecwIV12sITGH8MtwpS8BVdHxL4Lag
-         LlCOkqfiWnN6pztVXZDSG3pRiox/on9HP99DTncNpCcY21SNTbWfEZK0jWtVISZn4UCd
-         2h723z2guZvhyHjAhIf+NgEgboEwOu60u8BwICQVrFAh6w4EUWQbafmQoLuX+69sb6/0
-         Cn4qAP1Kc0s6EtdUmBeAO/w4OoXmMoNobVux7Zl5kkoPDGCMQLF+cyEPmLAvz0muoyhE
-         i4lQ90RcPZw9MVPbZU7TlAvE4O7SKZeZK41HTQIwJfzBO/Sbhe466y+99KW/F5w+3CfZ
-         9VJQ==
-X-Gm-Message-State: AOAM532uQh4rJ7gOz7D91njPDCdd3Ir4Ll/Da+enXgtXK9se4skZy7vU
-        IXWdTz2iyon81G89KLaFcBFABDM4ELMJS2R5j8c=
-X-Google-Smtp-Source: ABdhPJwtnKYsildB4JiaI/0BdF9vgryKdln/lTVgnl/dt7wD6r5Eet/3fFCECsk4pa9QTbYmSy4lKYeJ0NE3zo2Bh1I=
-X-Received: by 2002:a25:a522:: with SMTP id h31mr18133967ybi.426.1621622304013;
- Fri, 21 May 2021 11:38:24 -0700 (PDT)
+        bh=FWtdDuSKaLUXcujU5F4tqzi/gqM6kON5tve8kEsdyNo=;
+        b=TDtdITLeM4Ag5Byo8CGC1XHV/YmBleZqO36P8RTl0a9v/S292BW7Fvk76qYGC2U2UB
+         lhouZGz/vmLW+L+1p9Zkw/jugLkYDrdKwObq1iOVW5e22OpJ4ndGQN/fmS/9upDYrrbi
+         vjZcfdVuq7f+5WMkHbXHh4uH9qdgrjI+2DxIBcgkOU8HWcDpfCP9n2/aRSOGC/Qq6nh3
+         fkZjsauRYfBqxRJrEQZyWl9Lo7JMkPNS1B7BF0fuYWISYmE3AGlxFGKLdrbBVONoNcoT
+         7szedb6ndBvkfKOLNj/3OziStjaNY0Z9+FU+n9PXqUmBSse8kuNmm/ngp0e6IfJ38U39
+         kpiQ==
+X-Gm-Message-State: AOAM532mE1MJxnoTFfjTiOnX6CRuX4AhU4BR8bzV9xRlXYnOy0SKbGcI
+        WMMVT0AUZ9Jj/UxXQ9FHp86H9/xFacgOLKko2pA=
+X-Google-Smtp-Source: ABdhPJw7Ho+BnwKzS9opX/ah1rN3NfhTEL7mMbkREE72S2PvJVZGoSa1QSqPlIv08eHOhsje4FZ4s7m5L9h8qEttD3A=
+X-Received: by 2002:a25:208:: with SMTP id 8mr15530089ybc.47.1621622581067;
+ Fri, 21 May 2021 11:43:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210514192218.13022-13-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXPfpp3omsx8MjQ9W4mFmW0KJ1GcHXx+y5DcXobxLcw_A@mail.gmail.com>
-In-Reply-To: <CAMuHMdXPfpp3omsx8MjQ9W4mFmW0KJ1GcHXx+y5DcXobxLcw_A@mail.gmail.com>
+ <20210514192218.13022-12-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUqpycW5mkX3nNn=q9TCp9gS9EZKTs0qwUAW+T+Ggh=8A@mail.gmail.com>
+In-Reply-To: <CAMuHMdUqpycW5mkX3nNn=q9TCp9gS9EZKTs0qwUAW+T+Ggh=8A@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 21 May 2021 19:37:58 +0100
-Message-ID: <CA+V-a8u17VLbHEL2PBUU-9sDuvgpW8zoCO5tCDd=K-eRLNhRUg@mail.gmail.com>
-Subject: Re: [PATCH 12/16] clk: renesas: Define RZ/G2L CPG Clock Definitions
+Date:   Fri, 21 May 2021 19:42:35 +0100
+Message-ID: <CA+V-a8u-dqrzsVfZ2MiBrANM+=RaBG=rZLcbG38Rc--wEpOaCg@mail.gmail.com>
+Subject: Re: [PATCH 11/16] dt-bindings: clock: renesas: Document RZ/G2L SoC
+ CPG driver
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -80,45 +81,99 @@ Hi Geert,
 
 Thank you for the review.
 
-On Fri, May 21, 2021 at 4:19 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Fri, May 21, 2021 at 4:04 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
 > Hi Prabhakar,
 >
 > On Fri, May 14, 2021 at 9:23 PM Lad Prabhakar
 > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Define RZ/G2L (R9A07G044) Clock Pulse Generator Core Clock
-> > and module clock outputs.
+> > Document the device tree bindings of the Renesas RZ/G2L SoC clock
+> > driver in Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  include/dt-bindings/clock/r9a07g044l-cpg.h | 89 ++++++++++++++++++++++
-> >  1 file changed, 89 insertions(+)
-> >  create mode 100644 include/dt-bindings/clock/r9a07g044l-cpg.h
-> >
-> > diff --git a/include/dt-bindings/clock/r9a07g044l-cpg.h b/include/dt-bindings/clock/r9a07g044l-cpg.h
-> > new file mode 100644
-> > index 000000000000..2bc13f4e575b
+>
+> Thanks for your patch!
+>
 > > --- /dev/null
-> > +++ b/include/dt-bindings/clock/r9a07g044l-cpg.h
+> > +++ b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
+> > @@ -0,0 +1,80 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: "http://devicetree.org/schemas/clock/renesas,rzg2l-cpg.yaml#"
+> > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > +
+> > +title: Renesas RZ/G2L Clock Pulse Generator / Module Stop and Software Reset
 >
-> I think the filename should be r9a07g044-cpg.h, as this is
-> shared by RZ/G2L ('044l) and RZ/G2LC ('044c).
+> (Module Standby Mode
+> > +
+> > +maintainers:
+> > +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> > +
+> > +description: |
+> > +  On Renesas RZ/G2L SoC, the CPG (Clock Pulse Generator) and MSTP
+> > +  (Module Stop and Software Reset) share the same register block.
+> > +
+> > +  They provide the following functionalities:
+> > +    - The CPG block generates various core clocks,
+> > +    - The MSTP block provides two functions:
+> > +        1. Module Stop, providing a Clock Domain to control the clock supply
+> > +           to individual SoC devices,
+> > +        2. Reset Control, to perform a software reset of individual SoC devices.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: renesas,r9a07g044l-cpg  # RZ/G2L
 >
-Agreed will rename that.
+> renesas,r9a07g044-cpg?
+>
+As some IP blocks present in RZ/G2L aren't present in RZ/G2LC clock
+handling will differ so as a result SoC specific compatible string is
+added.
+
+> I believe it's the same block on RZ/G2L ('044l) and RZ/G2LC ('044c).
+>
+> > +  '#clock-cells':
+> > +    description: |
+> > +      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
+> > +        and a core clock reference, as defined in
+> > +        <dt-bindings/clock/*-cpg-mssr.h>
+>
+> <dt-bindings/clock/r9a07g044l-cpg.h>
+>
+Indeed
+
+> > +      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
+> > +        a module number, as defined in the datasheet.
+>
+> Also in <dt-bindings/clock/r9a07g044l-cpg.h>?
+>
+Agreed.
+
+> > +    const: 2
+> > +
+> > +  '#power-domain-cells':
+> > +    description:
+> > +      SoC devices that are part of the CPG/MSTP Clock Domain and can be
+> > +      power-managed through Module Stop should refer to the CPG device node
+> > +      in their "power-domains" property, as documented by the generic PM Domain
+> > +      bindings in Documentation/devicetree/bindings/power/power-domain.yaml.
+> > +    const: 0
+> > +
+> > +  '#reset-cells':
+> > +    description:
+> > +      The single reset specifier cell must be the module number, as defined in
+> > +      the datasheet.
+>
+> Also in <dt-bindings/clock/r9a07g044l-cpg.h>?
+>
+Agreed.
 
 Cheers,
 Prabhakar
 
-> > @@ -0,0 +1,89 @@
-> > +/* SPDX-License-Identifier: GPL-2.0
-> > + *
-> > + * Copyright (C) 2021 Renesas Electronics Corp.
-> > + */
-> > +#ifndef __DT_BINDINGS_CLOCK_R9A07G044_CPG_H__
-> > +#define __DT_BINDINGS_CLOCK_R9A07G044_CPG_H__
->
-> The include guards are fine ;-)
+> > +    const: 1
 >
 > Gr{oetje,eeting}s,
 >
