@@ -2,43 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4363E38C9DE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 17:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BBCB38C9F2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 17:19:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237335AbhEUPRh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 May 2021 11:17:37 -0400
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:37532 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230420AbhEUPRg (ORCPT
+        id S234198AbhEUPVN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 May 2021 11:21:13 -0400
+Received: from mail-ua1-f50.google.com ([209.85.222.50]:41682 "EHLO
+        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232766AbhEUPVM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 May 2021 11:17:36 -0400
-Received: by mail-vs1-f49.google.com with SMTP id s15so10543895vsi.4;
-        Fri, 21 May 2021 08:16:12 -0700 (PDT)
+        Fri, 21 May 2021 11:21:12 -0400
+Received: by mail-ua1-f50.google.com with SMTP id 105so6766090uak.8;
+        Fri, 21 May 2021 08:19:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ZjH8fPaY2o8f5Ib7RZj1gMaw/NXIuKmhbkZfvqyPn5I=;
-        b=dRW1OjE8TagNGSJDR2DxP6jYLjWeKzOyuq3D6bbbGn+k4KN5Y7z9klnx7t5PIxxpry
-         DvcSE8/K+dDQvux8XxitZWGtBp6cMMBXf3gdBSwElSvuQnc/kc9Yp1dcpshJ6dy0xUZX
-         uryDBXiDjlOjZbEbo7x9F/tiBvlxIPhfdIeu756Ue11tDXv/Pxj0mXSk8oZMWyxhUFrl
-         Mc1J+0OEWACgFd+6bXBLOkhrGPevvS1PL2GgLI/zGCpSdbEC8NisCjQz4AQ4qV2ikuZT
-         x2qoG46QNM6EWS/22oxKXDQD59IMj4ox//W8Wa5iz8QRmpxrM2KpoulyQ77rY9xihwrV
-         qzVA==
-X-Gm-Message-State: AOAM532mfk0T2fCR10PN+iadsQoehj4TdunBU6AhGlKdby2vKPBMpZUH
-        BBwvfFteuJucDx2+BfR7AoSQjDK34JDj//5KvBM=
-X-Google-Smtp-Source: ABdhPJx8Ajdh/v2OoW95fXlR3EdAJCqsWTRUG9iGhYqfk38ZBsPFymjTEjfn+Kf+9AyJ7sOkWVT6IygojHInYWXe4/Q=
-X-Received: by 2002:a67:fb52:: with SMTP id e18mr11430842vsr.18.1621610171231;
- Fri, 21 May 2021 08:16:11 -0700 (PDT)
+        bh=CaGnLwqlOlyhl0AWwuELPMnCurKFWAPWY7fD9j7KWdQ=;
+        b=IEU+LUkC/6sShvqrDPNRrVXS1S1keSHH6L1GmkN8gyHZsTpGpwDZgyOWEwwMr/Xo2M
+         Q+MmYNHg2zWYsiV4zcRz+zTT0ohfMcMoCbaF1QoEmHccMXFTJpzsZGBy6XWCs6b+kNNj
+         m4xTYHIDOqaHVYFf3zcj6WcWkAt11lsRRi6m7wDgKwm1dRAnmPUtkvifz5yYp8iq3tA1
+         K7tgNbaRsOzkvQWWWWgIRYPrFbMguZQP6Rbuq5SQgTXkY4orhhsqvNOn1cgM7QCGzWqc
+         OjWSf5Aw1I04UH4FZcrLw3L4jgCiq6Z5AQhehibafRm9hM4k/7yjW0yAt3AlznoYseT3
+         hANQ==
+X-Gm-Message-State: AOAM530/2hq9kUWAKmqWV/uX2v5xQZ0dQdjQZhpQOsO/7tYC3EkDsLG+
+        o8Pd1xvNDFSozXZ0idsE7D2o9L/h774rBzxwzqo=
+X-Google-Smtp-Source: ABdhPJxtovmRj7Gh/Y3mZB1El4cZvhybaYa7JI1zkW9soJ7q+xDYjJJiwZAVnA8hsC98Zhg4VNqsctMbBpXtJH1//DU=
+X-Received: by 2002:a9f:24b4:: with SMTP id 49mr1636978uar.100.1621610388488;
+ Fri, 21 May 2021 08:19:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210514192218.13022-10-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXh7GBjPOXDNb8iB1Pr9g7o_Z35wCbfeFgqFY4=jC1a_A@mail.gmail.com>
-In-Reply-To: <CAMuHMdXh7GBjPOXDNb8iB1Pr9g7o_Z35wCbfeFgqFY4=jC1a_A@mail.gmail.com>
+References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210514192218.13022-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210514192218.13022-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 May 2021 17:15:59 +0200
-Message-ID: <CAMuHMdXG_OfUSJpE1FBEF4uXurMmt7dw2sEc4UFyOD8=XGk0Cw@mail.gmail.com>
-Subject: Re: [PATCH 09/16] dt-bindings: serial: renesas,scif: Document
- r9a07g044 bindings
+Date:   Fri, 21 May 2021 17:19:37 +0200
+Message-ID: <CAMuHMdXPfpp3omsx8MjQ9W4mFmW0KJ1GcHXx+y5DcXobxLcw_A@mail.gmail.com>
+Subject: Re: [PATCH 12/16] clk: renesas: Define RZ/G2L CPG Clock Definitions
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -65,42 +63,36 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Prabhakar,
 
-On Fri, May 21, 2021 at 3:26 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Fri, May 14, 2021 at 9:23 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Document R9A07G044 SoC variants, common compatiable string
-> > "renesas,scif-r9a07g044" is added for RZ/G2L and RZ/G2LC SoC.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Fri, May 14, 2021 at 9:23 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Define RZ/G2L (R9A07G044) Clock Pulse Generator Core Clock
+> and module clock outputs.
 >
-> Thanks for your patch!
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  include/dt-bindings/clock/r9a07g044l-cpg.h | 89 ++++++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+>  create mode 100644 include/dt-bindings/clock/r9a07g044l-cpg.h
 >
-> > --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > @@ -64,6 +64,10 @@ properties:
-> >            - const: renesas,rcar-gen3-scif # R-Car Gen3 and RZ/G2
-> >            - const: renesas,scif           # generic SCIF compatible UART
-> >
-> > +      - items:
-> > +          - enum:
-> > +              - renesas,scif-r9a07g044      # RZ/G2{L,LC}
-> > +
-> >    reg:
-> >      maxItems: 1
->
-> Looks good to me.
->
-> Do interrupts and interrupt-names need to be updated?
-> The SCIF node added in "[PATCH 15/16] arm64: dts: renesas: Add initial
-> DTSI for RZ/G2{L,LC} SoC's" has 5 interrupts, while the bindings
-> support only 1, 4, or 6 interrupts.
+> diff --git a/include/dt-bindings/clock/r9a07g044l-cpg.h b/include/dt-bindings/clock/r9a07g044l-cpg.h
+> new file mode 100644
+> index 000000000000..2bc13f4e575b
+> --- /dev/null
+> +++ b/include/dt-bindings/clock/r9a07g044l-cpg.h
 
-According to the SoC interrupt mapping, "tei" and "dri" share an
-interrupt, so 6 interrupts is correct, and this part of the binding
-does not need an update.
+I think the filename should be r9a07g044-cpg.h, as this is
+shared by RZ/G2L ('044l) and RZ/G2LC ('044c).
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> @@ -0,0 +1,89 @@
+> +/* SPDX-License-Identifier: GPL-2.0
+> + *
+> + * Copyright (C) 2021 Renesas Electronics Corp.
+> + */
+> +#ifndef __DT_BINDINGS_CLOCK_R9A07G044_CPG_H__
+> +#define __DT_BINDINGS_CLOCK_R9A07G044_CPG_H__
+
+The include guards are fine ;-)
 
 Gr{oetje,eeting}s,
 
