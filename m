@@ -2,74 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51DF038B7DA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 May 2021 21:51:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C016738C582
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 13:16:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237875AbhETTwg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 May 2021 15:52:36 -0400
-Received: from mail-ot1-f54.google.com ([209.85.210.54]:40956 "EHLO
-        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233763AbhETTwf (ORCPT
+        id S233049AbhEULR1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 May 2021 07:17:27 -0400
+Received: from mx2.suse.de ([195.135.220.15]:59200 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232470AbhEULR0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 May 2021 15:52:35 -0400
-Received: by mail-ot1-f54.google.com with SMTP id 80-20020a9d08560000b0290333e9d2b247so5384388oty.7;
-        Thu, 20 May 2021 12:51:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=z+yhOjbsBoUsoRAX3pVk+Y6W6RVZumyS5Slc0RGFsiU=;
-        b=byrBixqK8R7bAqV+WUbZtXgF9vIQ1ADnnOvQkdPV5ovPki+mBa8/639M33H8IHZ+Pf
-         gg7z8L5m727WPP7G8z7alr4od/1f3LJT8rjQY/1L9mddAjtBn57/USQd/wGb/xoudPOh
-         iquIllTAER1EU4hvDyCK1mbOVofjcjYUTsbBGHQp8o4P3YD7uUi/X7z5GQ8UNBfzdp56
-         VyU6hcJGKTU6YmERJZjcpu/6CThiLcvxukapD9Iwd9C0tqaI3xJ4u/1fUfpY9PXsBZhN
-         ydm05X7lMmW0poO86bnDdOADzmgMudDB3/SzIeisylHUTwDUxsf/UwU00cokGeOwEswQ
-         OnAQ==
-X-Gm-Message-State: AOAM533ZmLfoqWhByZunKEjcyimtERFxvISG1xsosZz9QMlaxR4taE2R
-        GSQg2gaW1fTlUSs4D2Mm0Q==
-X-Google-Smtp-Source: ABdhPJxbU20XZZGrNt1CE9lnxSYsaA5mNvyGkTA2Z65qjPwIaUY8ZXXRxGIxl5HMZIsPRC4EsX8XqQ==
-X-Received: by 2002:a05:6830:1591:: with SMTP id i17mr5194508otr.181.1621540273628;
-        Thu, 20 May 2021 12:51:13 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id b81sm741597oia.19.2021.05.20.12.51.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 12:51:13 -0700 (PDT)
-Received: (nullmailer pid 1831763 invoked by uid 1000);
-        Thu, 20 May 2021 19:51:12 -0000
-Date:   Thu, 20 May 2021 14:51:12 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: renesas,imr: Convert to json-schema
-Message-ID: <20210520195112.GA1831696@robh.at.kernel.org>
-References: <353c2d181ceb6a5dfc553f88a201c6b18ee6914d.1621429265.git.geert+renesas@glider.be>
+        Fri, 21 May 2021 07:17:26 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C73D0AAFD;
+        Fri, 21 May 2021 11:16:01 +0000 (UTC)
+Date:   Fri, 21 May 2021 13:16:00 +0200
+From:   Jean Delvare <jdelvare@suse.de>
+To:     Peter Korsgaard <peter@korsgaard.com>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for
+ returned length from driver"
+Message-ID: <20210521131600.416c5ca7@endymion>
+In-Reply-To: <87tuoe5zfc.fsf@dell.be.48ers.dk>
+References: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
+        <20210226174337.63a9c2a6@endymion>
+        <20210310204648.GA332643@ninjato>
+        <87tuoe5zfc.fsf@dell.be.48ers.dk>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <353c2d181ceb6a5dfc553f88a201c6b18ee6914d.1621429265.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 19 May 2021 15:01:43 +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas R-Car Image Renderer Tree binding documentation to
-> json-schema.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> I have listed Sergei as the maintainer, as he wrote the original
-> bindings.  Sergei: Please scream if this is inappropriate ;-)
-> ---
->  .../devicetree/bindings/media/renesas,imr.txt | 31 ---------
->  .../bindings/media/renesas,imr.yaml           | 66 +++++++++++++++++++
->  2 files changed, 66 insertions(+), 31 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/renesas,imr.txt
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,imr.yaml
-> 
+Hi Peter,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Sat, 10 Apr 2021 10:14:31 +0200, Peter Korsgaard wrote:
+> >>>>> "Wolfram" == Wolfram Sang <wsa+renesas@sang-engineering.com> writes:  
+> 
+>  >> We don't usually do minor version updates for bug fixes. Instead, what
+>  >> I do is maintain a list of such "must have" fixes, that package
+>  >> maintainers can refer to. Look for "Recommended patches" at:
+>  >> 
+>  >> https://i2c.wiki.kernel.org/index.php/I2C_Tools
+>  >> 
+>  >> There's no section for version 4.2 yet, but we can add one as soon as
+>  >> the commit hits the public repository.  
+> 
+>  > I added a section now for the 4.2 release. And (finally!) started
+>  > cleaning up the wiki a little.  
+> 
+> Thanks! As a packager, I must say that this way of handling bugfixes
+> isn't great - I only just noticed this now by accident.
+> 
+> What is the issue with making bugfix releases?
+
+The main issue is that making releases (bugfix or not) takes time. Even
+though it's partly automated, there are still a number of manual steps
+involved, and you can't afford getting them wrong. So as far as I am
+concerned, making a release is always a time of stress.
+
+Making a bugfix release would also require a change in my process, as
+we would need a new branch in git to cherry pick the fixes that need to
+go into the bugfix release.
+
+Second issue is that I chose to go for 2-number versions for i2c tools
+v4. Doing bugfix releases with 3 numbers now means mixing 2-number
+versions with 3-number versions which can lead to confusion (for
+sorting order, if nothing else). Maybe I should have gone for 3-number
+versions, but as I did not have the intention to make bugfix releases
+in the first place, this seemed overkill. And I still think it is, as I
+believe - if memory serves - it is the first time we face a regression
+in i2c-tools since I started managing the project. i2c-tools is a small
+project with few commits, I simply don't want to make the process
+around it more complex than needed.
+
+I must say I'm surprised to see requests for more frequent and/or
+bugfix releases when the world has moved to CD/CI and some projects
+have abandoned the very notion of version number. If you can't be
+bothered with checking the recommended fixes on top of the latest
+release, then maybe just use the latest git snapshot always?
+
+-- 
+Jean Delvare
+SUSE L3 Support
