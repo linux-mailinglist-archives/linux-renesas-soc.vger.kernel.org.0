@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 115DE38C7FA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 15:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED03638C800
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 15:27:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235376AbhEUN2I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 May 2021 09:28:08 -0400
-Received: from mail-vs1-f53.google.com ([209.85.217.53]:47010 "EHLO
-        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235511AbhEUN1l (ORCPT
+        id S235201AbhEUN2j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 May 2021 09:28:39 -0400
+Received: from mail-vk1-f174.google.com ([209.85.221.174]:42624 "EHLO
+        mail-vk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233813AbhEUN2V (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 May 2021 09:27:41 -0400
-Received: by mail-vs1-f53.google.com with SMTP id q6so6141926vsp.13;
-        Fri, 21 May 2021 06:26:18 -0700 (PDT)
+        Fri, 21 May 2021 09:28:21 -0400
+Received: by mail-vk1-f174.google.com with SMTP id m129so4284671vkh.9;
+        Fri, 21 May 2021 06:26:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KTNce2cszMXlNJlPN56sLwNhveQoSMqLG5LwksSMoTU=;
-        b=ENnUIbslz8qKVkYVuEROcAj2bxFR7thL4Y35g4IL3uLlclR8mhVUIkGp7DTvp9CjQA
-         GyyoSC/83XQweG/VK9/6vnDRlzz2wLANnKxrr/wKNyYJ48lx3VB75iKhR1Fv2nG5EiFA
-         rK1p0rI9n5YVd0kvbwfZEXMmYTwUt8mOO5YfeODVWtcVAgGG9K/lJkwmat4H9XE+QRK4
-         X9qhfNKjg/qvh3bhFwewJfpG4UeYP/ohairb4CVriy2CeOx/8U7jcJy11jV4Hds/aSwe
-         2g3gxfPs2Rybdhj77K6TTEgtdgRo9O/kROTZSSkNK8wtuTGVryhOFG7wUCVd0/F2kc0Y
-         tWew==
-X-Gm-Message-State: AOAM5307lhDQ8ooMqiGQlPuaD/w7VUGy8ObsEuhDuFZQKoHERMr5yhhy
-        H1UzQ0nyuZWcSYtHHeSu1m72vsTXahm5GGMHkXM=
-X-Google-Smtp-Source: ABdhPJyJehJzeUaz+NrL6SG9j+k4bwd6SEysdJmgVMw8ra1pk7SUSekFSoa2JH7G8P7nX0bzISgmx2uTUoueta7fh0g=
-X-Received: by 2002:a67:3c2:: with SMTP id 185mr10020833vsd.42.1621603577877;
- Fri, 21 May 2021 06:26:17 -0700 (PDT)
+        bh=nALjNO1NNzuBgJsBKkuRLfzdmUfp2pocRq1SvmK+pwE=;
+        b=YUJFx5Zmykk5cG0kxcCgQY0g0TaNYgRTnTOEDLcZLbsfElzudVxkBfN/p4W1BBCWAx
+         J4a0JCxtrPS0YKnTmlQuAFoVOMpEcCzBQaBegg3BsWL4V8WzHUAiJkTLV/2UKL1GxvnQ
+         /q7CsSabHnonJqyBHsjIYyJKdMLt8gamDNjMyD8+KrSx6GK8TJWK5sneQXO2OAGqMbfN
+         IqClszA5uXHGTYZ8d9I/oUo+C4kX/2Fm8E7y+/GAOYsbRQHqANYYoef/uyEBL2ez1GZU
+         PBA7qDIazQWIEAvZrDl+LE/wlBhULbnev2xjs61eqmHORxungV5VwOlpmFPPKkmBvzxZ
+         3q3A==
+X-Gm-Message-State: AOAM533PeIEcix13lrA26nenKW2clpCJnAOVMBHofBTa/j9YrPMcZwOn
+        W35+GsqV+wNxSP2MeuYFTV5FaSEJtoYi5cD5110=
+X-Google-Smtp-Source: ABdhPJygoEQwq7jd+zWCduTRNR1S0jH3r5s+WptgfvrzjUs6HpafzgXjDNeh7jnILhWaxTadyffP3VHnsfRzwl6y/KY=
+X-Received: by 2002:a1f:d8c3:: with SMTP id p186mr9636190vkg.1.1621603617121;
+ Fri, 21 May 2021 06:26:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210514192218.13022-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210514192218.13022-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210514192218.13022-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210514192218.13022-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 May 2021 15:26:05 +0200
-Message-ID: <CAMuHMdXh7GBjPOXDNb8iB1Pr9g7o_Z35wCbfeFgqFY4=jC1a_A@mail.gmail.com>
-Subject: Re: [PATCH 09/16] dt-bindings: serial: renesas,scif: Document
- r9a07g044 bindings
+Date:   Fri, 21 May 2021 15:26:45 +0200
+Message-ID: <CAMuHMdXNzvTW920fJ2fKDWe=+CppfRdThKudTh51EW4fY2eRFg@mail.gmail.com>
+Subject: Re: [PATCH 10/16] serial: sh-sci: Add support for RZ/G2L SoC
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -56,7 +55,8 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Chris Brandt <Chris.Brandt@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -66,38 +66,74 @@ Hi Prabhakar,
 
 On Fri, May 14, 2021 at 9:23 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document R9A07G044 SoC variants, common compatiable string
-> "renesas,scif-r9a07g044" is added for RZ/G2L and RZ/G2LC SoC.
+> From: Biju Das <biju.das.jz@bp.renesas.com>
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Add serial support for RZ/G2L SoC with earlycon and
+> extended mode register support.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> @@ -64,6 +64,10 @@ properties:
->            - const: renesas,rcar-gen3-scif # R-Car Gen3 and RZ/G2
->            - const: renesas,scif           # generic SCIF compatible UART
->
-> +      - items:
-> +          - enum:
-> +              - renesas,scif-r9a07g044      # RZ/G2{L,LC}
-> +
->    reg:
->      maxItems: 1
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -306,6 +306,7 @@ static const struct sci_port_params sci_port_params[SCIx_NR_REGTYPES] = {
+>                         [SCFDR]         = { 0x0E, 16 },
+>                         [SCSPTR]        = { 0x10, 16 },
+>                         [SCLSR]         = { 0x12, 16 },
+> +                       [SEMR]          = { 0x14, 8 },
 
-Looks good to me.
+This is the parameter section for RZ/T and RZ/A2.  Please update the
+comments above, to say this also applies to RZ/G2L.
+I can confirm the documentation for RZ/T1 and RZ/A2 agrees about the
+existence and behavior of SEMR.
 
-Do interrupts and interrupt-names need to be updated?
-The SCIF node added in "[PATCH 15/16] arm64: dts: renesas: Add initial
-DTSI for RZ/G2{L,LC} SoC's" has 5 interrupts, while the bindings
-support only 1, 4, or 6 interrupts.
+>                 },
+>                 .fifosize = 16,
+>                 .overrun_reg = SCLSR,
+> @@ -2527,6 +2528,8 @@ static void sci_set_termios(struct uart_port *port, struct ktermios *termios,
+>                         case 27: smr_val |= SCSMR_SRC_27; break;
+>                         }
+>                 smr_val |= cks;
+> +               if (sci_getreg(port, SEMR)->size)
+> +                       serial_port_out(port, SEMR, 0);
+
+As this is done in both branches of the if() statement, I think it
+should be moved up.
+
+>                 serial_port_out(port, SCSCR, scr_val | s->hscif_tot);
+>                 serial_port_out(port, SCSMR, smr_val);
+>                 serial_port_out(port, SCBRR, brr);
+> @@ -2561,6 +2564,8 @@ static void sci_set_termios(struct uart_port *port, struct ktermios *termios,
+>                 scr_val = s->cfg->scscr & (SCSCR_CKE1 | SCSCR_CKE0);
+>                 smr_val |= serial_port_in(port, SCSMR) &
+>                            (SCSMR_CKEDG | SCSMR_SRC_MASK | SCSMR_CKS);
+> +               if (sci_getreg(port, SEMR)->size)
+> +                       serial_port_out(port, SEMR, 0);
+
+(else branch)
+
+>                 serial_port_out(port, SCSCR, scr_val | s->hscif_tot);
+>                 serial_port_out(port, SCSMR, smr_val);
+>         }
+> @@ -3170,6 +3175,10 @@ static const struct of_device_id of_sci_match[] = {
+>                 .compatible = "renesas,scif-r7s9210",
+>                 .data = SCI_OF_DATA(PORT_SCIF, SCIx_RZ_SCIFA_REGTYPE),
+>         },
+> +       {
+> +               .compatible = "renesas,scif-r9a07g044",
+> +               .data = SCI_OF_DATA(PORT_SCIF, SCIx_RZ_SCIFA_REGTYPE),
+> +       },
+>         /* Family-specific types */
+>         {
+>                 .compatible = "renesas,rcar-gen1-scif",
+
+The rest looks good to me.
 
 Gr{oetje,eeting}s,
 
                         Geert
-
 
 --
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
