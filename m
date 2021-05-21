@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C709938C9B8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 17:03:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73D9238C9BE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 17:04:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232080AbhEUPFJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 May 2021 11:05:09 -0400
-Received: from mail-vk1-f177.google.com ([209.85.221.177]:45925 "EHLO
-        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231597AbhEUPFI (ORCPT
+        id S237268AbhEUPGB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 May 2021 11:06:01 -0400
+Received: from mail-vs1-f42.google.com ([209.85.217.42]:33330 "EHLO
+        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232206AbhEUPF5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 May 2021 11:05:08 -0400
-Received: by mail-vk1-f177.google.com with SMTP id f10so3407345vkm.12;
-        Fri, 21 May 2021 08:03:44 -0700 (PDT)
+        Fri, 21 May 2021 11:05:57 -0400
+Received: by mail-vs1-f42.google.com with SMTP id f11so10532033vst.0;
+        Fri, 21 May 2021 08:04:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0qKJJd3cjJ7hCdvfk4pXNc41G7VhVnNbJwfnymFvfO0=;
-        b=Tl3Xo7szpvzEzqM6T2WmNqLcOIZypMJ+yZJP3O7nIkRn9mkXE4s1czbeAJ9/8soAqI
-         zkbWqdRrUCg9b6rTTPIbDDnTbuC+Id573A3K8+2MKoOGcfGxtXkahrZCWYIg5x7Wwbj3
-         M+GDB2Cy2Qp8ROGUwBmGyWkFyant/iCbb8vx2bPctgrgB3O/fupfEaKFTZfhITM7KhIQ
-         FumTVF7tDtzy2CyMGcOoRAyf10k+r+2pFPoNoWh68r/r3YgLczXEU8NmFVLTx/fRN+dv
-         dDrG+hax00HFGptyB1eEgIMpGhav8mL5BbEcH7ZZ24//TIaP8bUanOEB6fViEWfL0A6V
-         t25A==
-X-Gm-Message-State: AOAM532h/jsOBybQZpJAhIWAfL28OHjttn4DNqK9fTdR1lkaJl2fGMjn
-        vvlVQ9DyvxwFfXWySCGZ7/WbQIAKulyMensHOHQ=
-X-Google-Smtp-Source: ABdhPJyo1NE5VHb9Iugn9gQsHSpjwptYqStSj76L9UD3F6tMbb4gbDvM+9CiAN94X2nH4ClmjJSV9MXwn7eFkeKS5Ik=
-X-Received: by 2002:a1f:9505:: with SMTP id x5mr8258938vkd.6.1621609424111;
- Fri, 21 May 2021 08:03:44 -0700 (PDT)
+        bh=PXuG7KOO5W95jEf2lKiMIqjS8B2a0VXsDtOORCzbLU4=;
+        b=W1fsRgNXKReewuM5WHUHe/BmicWBng6XOGSGubvctnyErALZMnYzzOe1v1GPSP+tM1
+         NebFjvzRLPJVK+LtlEvtrNaPsKnM0U0NDQ7dHdXQE4YUmVoJaIvMHPam/IiAmu+JKK1l
+         C7UVaoht9AKLLKB3lV8CjbDc8TtA3Kexo9LBXq+JYVJXxpd/OnkXIt9sRq7X+GXmx+fy
+         h0Tcaiv/yyGqCmi6kL+o58Jd0WOBVXhiNV0pmO38Sd8kqy2lgFz7LAwA35qgbdVIHItR
+         AmQJs870NahPXzhh/DtOJlsI7GoAb7FdFIJY4xVswUZW8KcNilxsL0SM+bIyOwjkQw0r
+         MVkg==
+X-Gm-Message-State: AOAM533BP2sE9aP9fgWlyJgjBKmUS4sQG3DDRApQmRrYHs2HXrekWiV6
+        puQclfbdRPAKNkqyIESqX6jGNomdmbjjZgN5ZNo=
+X-Google-Smtp-Source: ABdhPJxLCsyebn71tdhuirdA3IxpgHUG0Q3VXGlmAMZm5PbspFWdB+sXj9tCZwpMGlNMbRxZQmyKcXIv6nlgRtRprhs=
+X-Received: by 2002:a05:6102:392:: with SMTP id m18mr11126386vsq.40.1621609473060;
+ Fri, 21 May 2021 08:04:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210514192218.13022-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210514192218.13022-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210514192218.13022-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210514192218.13022-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 May 2021 17:03:32 +0200
-Message-ID: <CAMuHMdWheV1Y7jh9R32XVrcbDTYFaGEVPVOsf8GWdsZ6CA-c9Q@mail.gmail.com>
-Subject: Re: [PATCH 12/16] clk: renesas: Define RZ/G2L CPG Clock Definitions
+Date:   Fri, 21 May 2021 17:04:21 +0200
+Message-ID: <CAMuHMdUqpycW5mkX3nNn=q9TCp9gS9EZKTs0qwUAW+T+Ggh=8A@mail.gmail.com>
+Subject: Re: [PATCH 11/16] dt-bindings: clock: renesas: Document RZ/G2L SoC
+ CPG driver
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -63,125 +64,82 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Prabhakar,
 
-Thanks for your patch!
-
 On Fri, May 14, 2021 at 9:23 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Define RZ/G2L (R9A07G044) Clock Pulse Generator Core Clock
-
-(see Table 8.5 ("Clock List"))
-
-> and module clock outputs.
-
+> Document the device tree bindings of the Renesas RZ/G2L SoC clock
+> driver in Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml.
+>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  include/dt-bindings/clock/r9a07g044l-cpg.h | 89 ++++++++++++++++++++++
->  1 file changed, 89 insertions(+)
->  create mode 100644 include/dt-bindings/clock/r9a07g044l-cpg.h
->
-> diff --git a/include/dt-bindings/clock/r9a07g044l-cpg.h b/include/dt-bindings/clock/r9a07g044l-cpg.h
-> new file mode 100644
-> index 000000000000..2bc13f4e575b
+
+Thanks for your patch!
+
 > --- /dev/null
-> +++ b/include/dt-bindings/clock/r9a07g044l-cpg.h
-> @@ -0,0 +1,89 @@
-> +/* SPDX-License-Identifier: GPL-2.0
-> + *
-> + * Copyright (C) 2021 Renesas Electronics Corp.
-> + */
-> +#ifndef __DT_BINDINGS_CLOCK_R9A07G044_CPG_H__
-> +#define __DT_BINDINGS_CLOCK_R9A07G044_CPG_H__
+> +++ b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
+> @@ -0,0 +1,80 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/clock/renesas,rzg2l-cpg.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 > +
-> +#include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +title: Renesas RZ/G2L Clock Pulse Generator / Module Stop and Software Reset
+
+(Module Standby Mode
 > +
-> +/* R9A07G044 CPG Core Clocks */
-> +#define R9A07G044_CLK_I                        0
-> +#define R9A07G044_CLK_I2               1
-> +#define R9A07G044_CLK_G                        2
-> +#define R9A07G044_CLK_S0               3
-> +#define R9A07G044_CLK_S1               4
-> +#define R9A07G044_CLK_SPI0             5
-> +#define R9A07G044_CLK_SPI1             6
-> +#define R9A07G044_CLK_SD0              7
-> +#define R9A07G044_CLK_SD1              8
-> +#define R9A07G044_CLK_M0               9
-> +#define R9A07G044_CLK_M1               10
-> +#define R9A07G044_CLK_M2               11
-> +#define R9A07G044_CLK_M3               12
-> +#define R9A07G044_CLK_M4               13
-> +#define R9A07G044_CLK_HP               14
-> +#define R9A07G044_CLK_TSU              15
-> +#define R9A07G044_CLK_ZT               16
-> +#define R9A07G044_CLK_P0               17
-> +#define R9A07G044_CLK_P1               18
-> +#define R9A07G044_CLK_P2               19
-> +#define R9A07G044_CLK_AT               20
-> +#define R9A07G044_OSCCLK               21
-
-Looks good to me.
-
+> +maintainers:
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
 > +
-> +/* R9A07G044 Module Clocks */
-> +#define R9A07G044_CLK_GIC600           0
-> +#define R9A07G044_CLK_IA55             1
-> +#define R9A07G044_CLK_SYC              2
-> +#define R9A07G044_CLK_DMAC             3
-> +#define R9A07G044_CLK_SYSC             4
-> +#define R9A07G044_CLK_MTU              5
-> +#define R9A07G044_CLK_GPT              6
-> +#define R9A07G044_CLK_ETH0             7
-> +#define R9A07G044_CLK_ETH1             8
-> +#define R9A07G044_CLK_I2C0             9
-> +#define R9A07G044_CLK_I2C1             10
-> +#define R9A07G044_CLK_I2C2             11
-> +#define R9A07G044_CLK_I2C3             12
-> +#define R9A07G044_CLK_SCIF0            13
-> +#define R9A07G044_CLK_SCIF1            14
-> +#define R9A07G044_CLK_SCIF2            15
-> +#define R9A07G044_CLK_SCIF3            16
-> +#define R9A07G044_CLK_SCIF4            17
-> +#define R9A07G044_CLK_SCI0             18
-> +#define R9A07G044_CLK_SCI1             19
-> +#define R9A07G044_CLK_GPIO             20
-> +#define R9A07G044_CLK_SDHI0            21
-> +#define R9A07G044_CLK_SDHI1            22
-> +#define R9A07G044_CLK_USB0             23
-> +#define R9A07G044_CLK_USB1             24
-> +#define R9A07G044_CLK_CANFD            25
-> +#define R9A07G044_CLK_SSI0             26
-> +#define R9A07G044_CLK_SSI1             27
-> +#define R9A07G044_CLK_SSI2             28
-> +#define R9A07G044_CLK_SSI3             29
-> +#define R9A07G044_CLK_MHU              30
-> +#define R9A07G044_CLK_OSTM0            31
-> +#define R9A07G044_CLK_OSTM1            32
-> +#define R9A07G044_CLK_OSTM2            33
-> +#define R9A07G044_CLK_WDT0             34
-> +#define R9A07G044_CLK_WDT1             35
-> +#define R9A07G044_CLK_WDT2             36
-> +#define R9A07G044_CLK_WDT_PON          37
-> +#define R9A07G044_CLK_GPU              38
-> +#define R9A07G044_CLK_ISU              39
-> +#define R9A07G044_CLK_H264             40
-> +#define R9A07G044_CLK_CRU              41
-> +#define R9A07G044_CLK_MIPI_DSI         42
-> +#define R9A07G044_CLK_LCDC             43
-> +#define R9A07G044_CLK_SRC              44
-> +#define R9A07G044_CLK_RSPI0            45
-> +#define R9A07G044_CLK_RSPI1            46
-> +#define R9A07G044_CLK_RSPI2            47
-> +#define R9A07G044_CLK_ADC              48
-> +#define R9A07G044_CLK_TSU_PCLK         49
-> +#define R9A07G044_CLK_SPI              50
-> +#define R9A07G044_CLK_MIPI_DSI_V       51
-> +#define R9A07G044_CLK_MIPI_DSI_PIN     52
-
-Are these also listed in the Hardware User's Manual?
-Or is this your own list?
-
+> +description: |
+> +  On Renesas RZ/G2L SoC, the CPG (Clock Pulse Generator) and MSTP
+> +  (Module Stop and Software Reset) share the same register block.
 > +
-> +#endif /* __DT_BINDINGS_CLOCK_R9A07G044_CPG_H__ */
+> +  They provide the following functionalities:
+> +    - The CPG block generates various core clocks,
+> +    - The MSTP block provides two functions:
+> +        1. Module Stop, providing a Clock Domain to control the clock supply
+> +           to individual SoC devices,
+> +        2. Reset Control, to perform a software reset of individual SoC devices.
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,r9a07g044l-cpg  # RZ/G2L
+
+renesas,r9a07g044-cpg?
+
+I believe it's the same block on RZ/G2L ('044l) and RZ/G2LC ('044c).
+
+> +  '#clock-cells':
+> +    description: |
+> +      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
+> +        and a core clock reference, as defined in
+> +        <dt-bindings/clock/*-cpg-mssr.h>
+
+<dt-bindings/clock/r9a07g044l-cpg.h>
+
+> +      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
+> +        a module number, as defined in the datasheet.
+
+Also in <dt-bindings/clock/r9a07g044l-cpg.h>?
+
+> +    const: 2
+> +
+> +  '#power-domain-cells':
+> +    description:
+> +      SoC devices that are part of the CPG/MSTP Clock Domain and can be
+> +      power-managed through Module Stop should refer to the CPG device node
+> +      in their "power-domains" property, as documented by the generic PM Domain
+> +      bindings in Documentation/devicetree/bindings/power/power-domain.yaml.
+> +    const: 0
+> +
+> +  '#reset-cells':
+> +    description:
+> +      The single reset specifier cell must be the module number, as defined in
+> +      the datasheet.
+
+Also in <dt-bindings/clock/r9a07g044l-cpg.h>?
+
+> +    const: 1
 
 Gr{oetje,eeting}s,
 
