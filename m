@@ -2,57 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 779B038CBFB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 19:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E425F38CD2A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 20:21:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231204AbhEURXA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 May 2021 13:23:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52490 "EHLO
+        id S233317AbhEUSXB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 May 2021 14:23:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230048AbhEURW7 (ORCPT
+        with ESMTP id S231726AbhEUSXA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 May 2021 13:22:59 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AD3AC061574;
-        Fri, 21 May 2021 10:21:35 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id g38so28413914ybi.12;
-        Fri, 21 May 2021 10:21:35 -0700 (PDT)
+        Fri, 21 May 2021 14:23:00 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC7AC061574;
+        Fri, 21 May 2021 11:21:37 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id w1so17377578ybt.1;
+        Fri, 21 May 2021 11:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=SSt6zYcmfrW8VRHKDZwqwYPhG1/8NCxmTwtrQFl+xI8=;
-        b=IgEt9OlHc77C1gVVvtwwENks34nttH0X1zD1bzNVPa3LLp8NLPtLfes6clpPJ0Zs5g
-         281PzVP/mhZZ9Bk/6zsO3VCe6mSmC0Y9qGbi6e1MXCal40++K7HKL/b1bZFZXFtcfmtx
-         a80gvpDVA7FIrt4BJj6FHf/ycr1NRxo0kDzPlfLYTAZktLbNzuYzki/tGodor095+B4R
-         yw1dtr7QvycgtL7O4gKVaEom4ouY4i0jzYgQ1zT5N8uLLl0LG6Ohb7Um8a0EJNQSfat3
-         7OEP2AUanD3AeugImIX9421M4ywHxKAWXu162ebalr30yuvtwFKskPeznd1hcT9XtopQ
-         cesg==
+        bh=SNr1AlAWjbURkDNkMBPm+j+8zno+WRBAtQ1awt0lpEk=;
+        b=CuIVR6FG7TvH+3ts4H/CBIy+7p4gVqF+12mC7QjIPhVQMrYeaQB5u9BUUqtAwOlZxq
+         CFffa5JMcwhnW85h5rL1rGXL1ZKKWK9UW3mLtgI5L+WeJ1Oi2/mfmJNjJx1x0GXCF4FW
+         fpJrc3pFkUFv9LavWfngX76Xz1ncT8njudk+fgz30FLdUshXfsH1j7IO4Tl10Da/HG5Y
+         KHovnY0aG0msX+l/MBSnZt+kQHYEkjQ7VPIU0ALo3T96D0XNEpyo8+7osA/l0kUpQjew
+         aKPQzJHedalkyAVH0ePaD4fAvlSaiJwECeuSBMieEjVKsi1j6n30ZLb/SyP0FsMQMupT
+         PPIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SSt6zYcmfrW8VRHKDZwqwYPhG1/8NCxmTwtrQFl+xI8=;
-        b=FISmMutNAv/dTeVlUtYfK/tTvwg8SS+He89u/do546wKSwm5AWCuQNTdTeSyRrExNC
-         uvuNQWL4XEIH8JgNn6CzNDDSIFjH3FWbhEE10xigjZjUmq398nRTCdwsSzx/WNqTuQoi
-         nWPf8TiHQPXKtVHsZJrWPkWo1mFXnT5dorMtJEeVNj9+3VWp9nmLAiWkzEOMV6S12wy9
-         QlRSsOglR8+hC34BwVjgKaBXfdtObSDcIgd9XXUB0iqBVF2rfyAssfX1N2AlY34zj3h4
-         qzo/YVP1qC+s7+EfCKNjPGt+Hm7fXhnxCPtSKp+joRovHvQUr1aKMjiLQR/1TOgM+LXV
-         8Mxg==
-X-Gm-Message-State: AOAM532EhrFCpAy0z35GxJaE3x1DpMx2InZel/ooMZxTwnBgnFYizUai
-        3rpZRvUi0kQ5LAzogEB1E3YqBN1X1Rg8DIZ7Ba0=
-X-Google-Smtp-Source: ABdhPJwzhoGli6kwjHJBWYuxjCMjfCMslBCXvlDHF8usa+Cqez/ZjREqBiiGBy3lczIp8NrQQ+PYvZM7JcAvcZ4b/jg=
-X-Received: by 2002:a25:50c2:: with SMTP id e185mr3417747ybb.222.1621617694555;
- Fri, 21 May 2021 10:21:34 -0700 (PDT)
+        bh=SNr1AlAWjbURkDNkMBPm+j+8zno+WRBAtQ1awt0lpEk=;
+        b=S/nTQ703Shf5s7Gn8q1EYnJCEoOOkeRhjf+xnaVWr77VZsS5k0CUaqTuyDWFhxL2q2
+         0HFIx6clbqYiiYBNV1qVgKYoJ81pLKqZW+0ZjqkuSoFXOTrzMaYpTFsJGRc5+EKTNstG
+         T0nLntItJm31crFxke8EPyYHHeV79AsQh6VGnbcQaAhjQy5tqZsuGYfyOmKrEkJi1XSU
+         vFTfTHGgAo/H5FG7RWKawcqrg1oEjRDrPa2sjRmSTCS4g4OZhK1hEeNkNryec/4VBGVi
+         IjxHaED1H1eyF9nM4exuXQSjZxnSVtpShEhkCsSJjfTT7VCgz4aexoXGfmeLzw0QjfXL
+         SqrQ==
+X-Gm-Message-State: AOAM530/gk7nzJQv9nvP6ueAp/L83Nkz8nwY6NPUYYhXx5+Yr0o/32T9
+        wrhgiafABwPYQPZA02ArP5F4X/S8id3lGDNWhf0=
+X-Google-Smtp-Source: ABdhPJwX+TyzvMJ9UQaDzoql/G/nXuhsMgzOlaA/l19HXtJIJObl0NNIu4fY7nFzH71NwlvdiTvFhXOCboQHbbnbvlU=
+X-Received: by 2002:a25:f20f:: with SMTP id i15mr16055169ybe.119.1621621296645;
+ Fri, 21 May 2021 11:21:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210514192218.13022-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVOTfV9XBo0t0CxGU1=Zo3VjFioDaDU1rdX8Hb6Pvz-Zw@mail.gmail.com>
-In-Reply-To: <CAMuHMdVOTfV9XBo0t0CxGU1=Zo3VjFioDaDU1rdX8Hb6Pvz-Zw@mail.gmail.com>
+ <20210514192218.13022-17-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXZEB6JretasVj7xpN2Gbp2y9dHh_Eiq03BEevRK8Zy9Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdXZEB6JretasVj7xpN2Gbp2y9dHh_Eiq03BEevRK8Zy9Q@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 21 May 2021 18:21:08 +0100
-Message-ID: <CA+V-a8to86aG-1eB38OfaydJ7U0g4p1x8biRfBSnOa1S2g3bvA@mail.gmail.com>
-Subject: Re: [PATCH 04/16] soc: renesas: Add ARCH_R9A07G044{L,LC} for the new
- RZ/G2{L,LC} SoC's
+Date:   Fri, 21 May 2021 19:21:10 +0100
+Message-ID: <CA+V-a8s+nae_PaHXo2=1Ongyxv_V_NJphKVJoX_WJHnukYPPxw@mail.gmail.com>
+Subject: Re: [PATCH 16/16] arm64: dts: renesas: Add initial device tree for
+ RZ/G2L SMARC EVK
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -81,62 +81,49 @@ Hi Geert,
 
 Thank you for the review.
 
-On Fri, May 21, 2021 at 2:25 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Fri, May 21, 2021 at 4:41 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
 > Hi Prabhakar,
 >
-> On Fri, May 14, 2021 at 9:23 PM Lad Prabhakar
+> On Fri, May 14, 2021 at 9:24 PM Lad Prabhakar
 > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Add ARCH_R9A07G044{L,LC} as a configuration symbol for the new Renesas
-> > RZ/G2{L,LC} SoC's.
+> > Add basic support for RZ/G2L SMARC EVK (based on R9A07G044L2):
+> > - memory
+> > - External input clock
+> > - SCIF
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 >
 > Thanks for your patch!
 >
-> > --- a/drivers/soc/renesas/Kconfig
-> > +++ b/drivers/soc/renesas/Kconfig
-> > @@ -279,6 +279,16 @@ config ARCH_R8A774B1
-> >         help
-> >           This enables support for the Renesas RZ/G2N SoC.
+> > --- a/arch/arm64/boot/dts/renesas/Makefile
+> > +++ b/arch/arm64/boot/dts/renesas/Makefile
+> > @@ -62,3 +62,5 @@ dtb-$(CONFIG_ARCH_R8A77990) += r8a77990-ebisu.dtb
+> >  dtb-$(CONFIG_ARCH_R8A77995) += r8a77995-draak.dtb
 > >
-> > +config ARCH_R9A07G044L
-> > +       bool "ARM64 Platform support for RZ/G2L SoC"
->
-> Please drop the "SoC", for consistency with other entries.
->
-Oops will do that.
-
-> > +       help
-> > +         This enables support for the Renesas RZ/G2L SoC.
+> >  dtb-$(CONFIG_ARCH_R8A779A0) += r8a779a0-falcon.dtb
 > > +
-> > +config ARCH_R9A07G044LC
-> > +       bool "ARM64 Platform support for RZ/G2LC SoC"
+> > +dtb-$(CONFIG_ARCH_R9A07G044L) += r9a07g044l2-smarc.dtb
+> > diff --git a/arch/arm64/boot/dts/renesas/g2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/g2l-smarc.dtsi
+> > new file mode 100644
+> > index 000000000000..9b95d73fb798
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/renesas/g2l-smarc.dtsi
 >
-> Likewise.
+> rzg2l-smarc?
 >
-will do.
-
-> > +       help
-> > +         This enables support for the Renesas RZ/G2LC SoC.
-> > +
-> >  endif # ARM64
->
-> Given LSI DEVID is the same, do we need both, or can we do with a
-> single ARCH_R9A07G044?
->
-The reason behind adding separate configs was in case if we wanted to
-just build an image for RZ/G2L and not RZ/G2LC this would increase
-image size and also build unneeded dtb's.
+Agreed will do.
 
 Cheers,
 Prabhakar
 
+> The rest looks good to me (taking into account compatible value
+> discussions).
+>
 > Gr{oetje,eeting}s,
 >
 >                         Geert
->
 >
 > --
 > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
