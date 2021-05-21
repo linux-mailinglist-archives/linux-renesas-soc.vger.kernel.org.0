@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C857238C7ED
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 15:26:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 115DE38C7FA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 May 2021 15:26:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235340AbhEUN1c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 May 2021 09:27:32 -0400
-Received: from mail-vs1-f43.google.com ([209.85.217.43]:43584 "EHLO
-        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231601AbhEUN1K (ORCPT
+        id S235376AbhEUN2I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 May 2021 09:28:08 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:47010 "EHLO
+        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235511AbhEUN1l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 May 2021 09:27:10 -0400
-Received: by mail-vs1-f43.google.com with SMTP id n1so8885179vsr.10;
-        Fri, 21 May 2021 06:25:47 -0700 (PDT)
+        Fri, 21 May 2021 09:27:41 -0400
+Received: by mail-vs1-f53.google.com with SMTP id q6so6141926vsp.13;
+        Fri, 21 May 2021 06:26:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=b6PugjoAaJt+l80R28svGGy/E47HBQC4C74ypfx68hc=;
-        b=Vc2UnRAIcP6SYvBeDiK3g4lY7FIZTNgxxtW3XQGSmGt4Kv4PruyirVoC5fxtv+C4cb
-         fwcouNbSvmTjiNasd24LjiulBcavV8lzNVtKy9BSLKMXciF7xXSDlZsIu4cUKx/ii6Gw
-         qtsLTPTBbKkzss/pPx9RAgw6RRChNNgZ8aAS0FmUO12wXG3o9Akx05rEXeY6/lznpZbR
-         u9S0okOCVQWeU/NRlbd7wAVxtk5XQzK7j0/xpTfXV4xDvvHVL+uUcQ04fz3+hbBdgXVU
-         XWCNevrM+2DEU21tceMrflAQDC3rmsHAP+TuM9hQUxgSgxz/Bh1uhPoA0zQGM67uD0R/
-         ZMUw==
-X-Gm-Message-State: AOAM532ksfyL8E/qqqQM6GnqPVX3sQJKchQSAgHmG45/GKIxCQ1L6llr
-        a+AOgBKn1hEz/qEUBfBd+heNlkiy5DIDfJj6CaY=
-X-Google-Smtp-Source: ABdhPJxEH3kZKLf8SMB6v9o7mwBYSIk9ws1qQLFEyBIXhU52GxAxOiTv0cchQy/EJ/jvaJlpuo0OcIdXm94XTK/+Kpg=
-X-Received: by 2002:a67:fb52:: with SMTP id e18mr10648951vsr.18.1621603546669;
- Fri, 21 May 2021 06:25:46 -0700 (PDT)
+        bh=KTNce2cszMXlNJlPN56sLwNhveQoSMqLG5LwksSMoTU=;
+        b=ENnUIbslz8qKVkYVuEROcAj2bxFR7thL4Y35g4IL3uLlclR8mhVUIkGp7DTvp9CjQA
+         GyyoSC/83XQweG/VK9/6vnDRlzz2wLANnKxrr/wKNyYJ48lx3VB75iKhR1Fv2nG5EiFA
+         rK1p0rI9n5YVd0kvbwfZEXMmYTwUt8mOO5YfeODVWtcVAgGG9K/lJkwmat4H9XE+QRK4
+         X9qhfNKjg/qvh3bhFwewJfpG4UeYP/ohairb4CVriy2CeOx/8U7jcJy11jV4Hds/aSwe
+         2g3gxfPs2Rybdhj77K6TTEgtdgRo9O/kROTZSSkNK8wtuTGVryhOFG7wUCVd0/F2kc0Y
+         tWew==
+X-Gm-Message-State: AOAM5307lhDQ8ooMqiGQlPuaD/w7VUGy8ObsEuhDuFZQKoHERMr5yhhy
+        H1UzQ0nyuZWcSYtHHeSu1m72vsTXahm5GGMHkXM=
+X-Google-Smtp-Source: ABdhPJyJehJzeUaz+NrL6SG9j+k4bwd6SEysdJmgVMw8ra1pk7SUSekFSoa2JH7G8P7nX0bzISgmx2uTUoueta7fh0g=
+X-Received: by 2002:a67:3c2:: with SMTP id 185mr10020833vsd.42.1621603577877;
+ Fri, 21 May 2021 06:26:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210514192218.13022-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210514192218.13022-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210514192218.13022-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210514192218.13022-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 May 2021 15:25:34 +0200
-Message-ID: <CAMuHMdXhNz7jGdKYvCVWt-X0EWaFUk67f+4G9+aVGGL3W73-eA@mail.gmail.com>
-Subject: Re: [PATCH 06/16] dt-bindings: arm: renesas,prr: Add new compatible
- string for RZ/G{L,LC,UL}
+Date:   Fri, 21 May 2021 15:26:05 +0200
+Message-ID: <CAMuHMdXh7GBjPOXDNb8iB1Pr9g7o_Z35wCbfeFgqFY4=jC1a_A@mail.gmail.com>
+Subject: Re: [PATCH 09/16] dt-bindings: serial: renesas,scif: Document
+ r9a07g044 bindings
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -66,39 +66,33 @@ Hi Prabhakar,
 
 On Fri, May 14, 2021 at 9:23 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> RZ/G2{L,LC,UL} SoC's have LSI_DEVID register to retrieve SoC product and
-> revision information.
->
-> RZ/G{L,LC,UL} SoC's have 28-bit product-id compared to other R-Car and
-> RZ/G2{E,H,M,N} SoC's hence a new compatible string "renesas,devid" is
-> added.
+> Document R9A07G044 SoC variants, common compatiable string
+> "renesas,scif-r9a07g044" is added for RZ/G2L and RZ/G2LC SoC.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/arm/renesas,prr.yaml
-> +++ b/Documentation/devicetree/bindings/arm/renesas,prr.yaml
-> @@ -12,14 +12,16 @@ maintainers:
+> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> @@ -64,6 +64,10 @@ properties:
+>            - const: renesas,rcar-gen3-scif # R-Car Gen3 and RZ/G2
+>            - const: renesas,scif           # generic SCIF compatible UART
 >
->  description: |
->    Most Renesas ARM SoCs have a Product Register or Boundary Scan ID
-> -  Register that allows to retrieve SoC product and revision information.
-> -  If present, a device node for this register should be added.
-> +  Register or LSI Device ID Register that allows to retrieve SoC product
-> +  and revision information. If present, a device node for this register
-> +  should be added.
+> +      - items:
+> +          - enum:
+> +              - renesas,scif-r9a07g044      # RZ/G2{L,LC}
+> +
+>    reg:
+>      maxItems: 1
 
-Note that this register does not seem to be documented, so I have to
-trust you on this.
+Looks good to me.
 
-However, from looking at the LSI DEVID register address, this does not
-seem to be a lone register (like the Product Register on other SoCs),
-but to be part of the System Controller (SYSC).  Hence I think there
-should be separate bindings for the whole SYSC block instead.
-You can still read the LSI DEVID register from renesas_soc_init(),
-using the SYSC node.
+Do interrupts and interrupt-names need to be updated?
+The SCIF node added in "[PATCH 15/16] arm64: dts: renesas: Add initial
+DTSI for RZ/G2{L,LC} SoC's" has 5 interrupts, while the bindings
+support only 1, 4, or 6 interrupts.
 
 Gr{oetje,eeting}s,
 
