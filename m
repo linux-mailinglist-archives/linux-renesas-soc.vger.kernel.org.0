@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E71A738F5F4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 May 2021 00:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C36538F5F5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 May 2021 00:58:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbhEXW7t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 May 2021 18:59:49 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:25759 "EHLO
+        id S229674AbhEXW74 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 May 2021 18:59:56 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:2069 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229668AbhEXW7s (ORCPT
+        by vger.kernel.org with ESMTP id S229668AbhEXW7z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 May 2021 18:59:48 -0400
-Date:   25 May 2021 07:58:19 +0900
+        Mon, 24 May 2021 18:59:55 -0400
+Date:   25 May 2021 07:58:26 +0900
 X-IronPort-AV: E=Sophos;i="5.82,327,1613401200"; 
-   d="scan'208";a="82282376"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 25 May 2021 07:58:19 +0900
+   d="scan'208";a="82282384"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 25 May 2021 07:58:26 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3460140FD4E9;
-        Tue, 25 May 2021 07:58:19 +0900 (JST)
-Message-ID: <87pmxfoi2c.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 52491400F94B;
+        Tue, 25 May 2021 07:58:26 +0900 (JST)
+Message-ID: <87o8czoi25.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 2/3] arm64: dts: renesas: r8a77995: add R-Car Sound support
+Subject: [PATCH v2 3/3] arm64: dts: renesas: r8a77995: draak: Add R-Car Sound support
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Magnus <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
@@ -38,208 +38,171 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-This patch adds R-Car Sound and Audio-DMAC support for D3.
-One note is that D3's SSI0-2 and SRC0-4 are not connected.
+This patch adds R-Car Sound support for D3 draak.
+
+One note is that it is using different clock definition style
+from ulcb/salvator boards to avoid verbose clocks settings
+on rcar_sound node (see ulcb.dtsi  rcar_sound::clocks).
+
+cs2000 and ADG are cross connected, and need each other.
+ulcb/salvator boards assume drivers are probed cs2000 -> rcar_sound.
+This draak board assumes drivers are probed rcar_sound -> cs2000.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r8a77995.dtsi | 166 ++++++++++++++++++++++
- 1 file changed, 166 insertions(+)
+ .../arm64/boot/dts/renesas/r8a77995-draak.dts | 111 ++++++++++++++++++
+ 1 file changed, 111 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-index 2319271c881b..fa17c75d75fa 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-@@ -15,6 +15,23 @@ / {
- 	#address-cells = <2>;
- 	#size-cells = <2>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+index 6783c3ad0856..d4b5e0377445 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+@@ -156,11 +156,25 @@ adv7123_out: endpoint {
+ 		};
+ 	};
  
-+	/*
-+	 * The external audio clocks are configured as 0 Hz fixed frequency
-+	 * clocks by default.
-+	 * Boards that provide audio clocks should override them.
-+	 */
-+	audio_clk_a: audio_clk_a {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <0>;
++	sound_card: sound {
++		compatible = "audio-graph-card";
++
++		dais = <&rsnd_port0	/* ak4613 */
++			/* HDMI is not yet supported */
++		>;
 +	};
 +
-+	audio_clk_b: audio_clk_b {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <0>;
-+	};
-+
- 	/* External CAN clock - to be overridden by boards that provide it */
- 	can_clk: can {
+ 	x12_clk: x12 {
  		compatible = "fixed-clock";
-@@ -675,6 +692,113 @@ ipmmu_mm: iommu@e67b0000 {
- 			#iommu-cells = <1>;
- 		};
+ 		#clock-cells = <0>;
+ 		clock-frequency = <74250000>;
+ 	};
++
++	x19_clk: x19 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <24576000>;
++	};
+ };
  
-+		rcar_sound: sound@ec500000 {
-+			/*
-+			 * #sound-dai-cells is required
-+			 *
-+			 * Single DAI : #sound-dai-cells = <0>;	<&rcar_sound>;
-+			 * Multi  DAI : #sound-dai-cells = <1>;	<&rcar_sound N>;
-+			 */
-+			/*
-+			 * #clock-cells is required for audio_clkout0/1/2/3
-+			 *
-+			 * clkout	: #clock-cells = <0>;	<&rcar_sound>;
-+			 * clkout0/1/2/3: #clock-cells = <1>;	<&rcar_sound N>;
-+			 */
-+			compatible =  "renesas,rcar_sound-r8a77995", "renesas,rcar_sound-gen3";
-+			reg =	<0 0xec500000 0 0x1000>, /* SCU */
-+				<0 0xec5a0000 0 0x100>,  /* ADG */
-+				<0 0xec540000 0 0x1000>, /* SSIU */
-+				<0 0xec541000 0 0x280>,  /* SSI */
-+				<0 0xec740000 0 0x200>;  /* Audio DMAC peri peri*/
-+			reg-names = "scu", "adg", "ssiu", "ssi", "audmapp";
+ &avb {
+@@ -347,6 +361,39 @@ eeprom@50 {
+ 		reg = <0x50>;
+ 		pagesize = <8>;
+ 	};
 +
-+			clocks = <&cpg CPG_MOD 1005>,
-+				 <&cpg CPG_MOD 1011>, <&cpg CPG_MOD 1012>,
-+				 <&cpg CPG_MOD 1025>, <&cpg CPG_MOD 1026>,
-+				 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
-+				 <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
-+				 <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
-+				 <&audio_clk_a>, <&audio_clk_b>,
-+				 <&cpg CPG_CORE R8A77995_CLK_ZA2>;
-+			clock-names = "ssi-all",
-+				      "ssi.4", "ssi.3",
-+				      "src.6", "src.5",
-+				      "mix.1", "mix.0",
-+				      "ctu.1", "ctu.0",
-+				      "dvc.0", "dvc.1",
-+				      "clk_a", "clk_b", "clk_i";
-+			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-+			resets = <&cpg 1005>,
-+				 <&cpg 1011>, <&cpg 1012>;
-+			reset-names = "ssi-all",
-+				      "ssi.4", "ssi.3";
-+			status = "disabled";
++	ak4613: codec@10 {
++		compatible = "asahi-kasei,ak4613";
++		#sound-dai-cells = <0>;
++		reg = <0x10>;
++		clocks = <&rcar_sound 0>; /* audio_clkout */
 +
-+			rcar_sound,ctu {
-+				ctu00: ctu-0 { };
-+				ctu01: ctu-1 { };
-+				ctu02: ctu-2 { };
-+				ctu03: ctu-3 { };
-+				ctu10: ctu-4 { };
-+				ctu11: ctu-5 { };
-+				ctu12: ctu-6 { };
-+				ctu13: ctu-7 { };
-+			};
++		asahi-kasei,in1-single-end;
++		asahi-kasei,in2-single-end;
++		asahi-kasei,out1-single-end;
++		asahi-kasei,out2-single-end;
++		asahi-kasei,out3-single-end;
++		asahi-kasei,out4-single-end;
++		asahi-kasei,out5-single-end;
++		asahi-kasei,out6-single-end;
 +
-+			rcar_sound,dvc {
-+				dvc0: dvc-0 {
-+					dmas = <&audma0 0xbc>;
-+					dma-names = "tx";
-+				};
-+				dvc1: dvc-1 {
-+					dmas = <&audma0 0xbe>;
-+					dma-names = "tx";
-+				};
-+			};
-+
-+			rcar_sound,mix {
-+				mix0: mix-0 { };
-+				mix1: mix-1 { };
-+			};
-+
-+			rcar_sound,src {
-+				src0: src-0 { status = "disabled"; };
-+				src1: src-1 { status = "disabled"; };
-+				src2: src-2 { status = "disabled"; };
-+				src3: src-3 { status = "disabled"; };
-+				src4: src-4 { status = "disabled"; };
-+				src5: src-5 {
-+					interrupts = <GIC_SPI 357 IRQ_TYPE_LEVEL_HIGH>;
-+					dmas = <&audma0 0x8f>, <&audma0 0xb2>;
-+					dma-names = "rx", "tx";
-+				};
-+				src6: src-6 {
-+					interrupts = <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>;
-+					dmas = <&audma0 0x91>, <&audma0 0xb4>;
-+					dma-names = "rx", "tx";
-+				};
-+			};
-+
-+			rcar_sound,ssi {
-+				ssi0: ssi-0 { status = "disabled"; };
-+				ssi1: ssi-1 { status = "disabled"; };
-+				ssi2: ssi-2 { status = "disabled"; };
-+				ssi3: ssi-3 {
-+					interrupts = <GIC_SPI 373 IRQ_TYPE_LEVEL_HIGH>;
-+					dmas = <&audma0 0x07>, <&audma0 0x08>,
-+					       <&audma0 0x6f>, <&audma0 0x70>;
-+					dma-names = "rx", "tx", "rxu", "txu";
-+				};
-+				ssi4: ssi-4 {
-+					interrupts = <GIC_SPI 374 IRQ_TYPE_LEVEL_HIGH>;
-+					dmas = <&audma0 0x09>, <&audma0 0x0a>,
-+					       <&audma0 0x71>, <&audma0 0x72>;
-+					dma-names = "rx", "tx", "rxu", "txu";
-+				};
++		port {
++			ak4613_endpoint: endpoint {
++				remote-endpoint = <&rsnd_for_ak4613>;
 +			};
 +		};
++	};
 +
- 		ipmmu_mp: iommu@ec670000 {
- 			compatible = "renesas,ipmmu-r8a77995";
- 			reg = <0 0xec670000 0 0x1000>;
-@@ -683,6 +807,48 @@ ipmmu_mp: iommu@ec670000 {
- 			#iommu-cells = <1>;
- 		};
++	cs2000: clk-multiplier@4f {
++		#clock-cells = <0>;
++		compatible = "cirrus,cs2000-cp";
++		reg = <0x4f>;
++		clocks = <&rcar_sound 1>, <&x19_clk>; /* audio_clkout_1, x19 */
++		clock-names = "clk_in", "ref_clk";
++
++		assigned-clocks = <&cs2000>;
++		assigned-clock-rates = <24576000>; /* 1/1 divide */
++	};
+ };
  
-+		audma0: dma-controller@ec700000 {
-+			compatible = "renesas,dmac-r8a77995",
-+				     "renesas,rcar-dmac";
-+			reg = <0 0xec700000 0 0x10000>;
-+			interrupts = <GIC_SPI 350 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 320 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 321 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 322 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 323 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 324 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 325 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 326 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 327 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 328 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 329 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 331 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 332 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 333 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 334 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 335 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "error",
-+					"ch0", "ch1", "ch2", "ch3",
-+					"ch4", "ch5", "ch6", "ch7",
-+					"ch8", "ch9", "ch10", "ch11",
-+					"ch12", "ch13", "ch14", "ch15";
-+			clocks = <&cpg CPG_MOD 502>;
-+			clock-names = "fck";
-+			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-+			resets = <&cpg 502>;
-+			#dma-cells = <1>;
-+			dma-channels = <16>;
-+			iommus = <&ipmmu_mp 0>, <&ipmmu_mp 1>,
-+				 <&ipmmu_mp 2>, <&ipmmu_mp 3>,
-+				 <&ipmmu_mp 4>, <&ipmmu_mp 5>,
-+				 <&ipmmu_mp 6>, <&ipmmu_mp 7>,
-+				 <&ipmmu_mp 8>, <&ipmmu_mp 9>,
-+				 <&ipmmu_mp 10>, <&ipmmu_mp 11>,
-+				 <&ipmmu_mp 12>, <&ipmmu_mp 13>,
-+				 <&ipmmu_mp 14>, <&ipmmu_mp 15>;
-+		};
+ &i2c1 {
+@@ -391,6 +438,59 @@ &ohci0 {
+ 	status = "okay";
+ };
+ 
++&audio_clk_a {
++	/*
++	 * This is same as cs2000,
++	 * but needed to avoid cs2000/rcar_sound probe dead-lock
++	 */
 +
- 		ipmmu_pv0: iommu@fd800000 {
- 			compatible = "renesas,ipmmu-r8a77995";
- 			reg = <0 0xfd800000 0 0x1000>;
++	clock-frequency = <24576000>;
++};
++
++&audio_clk_b {
++	/*
++	 * X11 is connected to VI4_FIELD/SCIF_CLK/AUDIO_CLKB,
++	 * and R-Car Sound uses AUDIO_CLKB.
++	 * Note is that schematic indicates VI4_FIELD conection only
++	 * not AUDIO_CLKB at SoC page.
++	 * And this VI4_FIELD/SCIF_CLK/AUDIO_CLKB is connected to SW60.
++	 * SW60 should be 1-2.
++	 */
++
++	clock-frequency = <22579200>;
++};
++
++&rcar_sound {
++	pinctrl-0 = <&sound_pins>, <&sound_clk_pins>;
++	pinctrl-names = "default";
++
++	/* Single DAI */
++	#sound-dai-cells = <0>;
++
++	/* audio_clkout0/1 */
++	#clock-cells = <1>;
++	clock-frequency = <12288000 11289600>;
++
++	status = "okay";
++
++	ports {
++		rsnd_port0: port {
++			rsnd_for_ak4613: endpoint {
++				remote-endpoint = <&ak4613_endpoint>;
++				dai-format = "left_j";
++				bitclock-master = <&rsnd_for_ak4613>;
++				frame-master = <&rsnd_for_ak4613>;
++				playback = <&ssi3>, <&src5>, <&dvc0>;
++				capture  = <&ssi4>, <&src6>, <&dvc1>;
++			};
++		};
++	};
++};
++
++&ssi4 {
++	shared-pin;
++};
++
+ &pfc {
+ 	avb0_pins: avb {
+ 		groups = "avb0_link", "avb0_mdio", "avb0_mii";
+@@ -449,6 +549,17 @@ sdhi2_pins_uhs: sd2_uhs {
+ 		power-source = <1800>;
+ 	};
+ 
++	sound_pins: sound {
++		groups = "ssi34_ctrl", "ssi3_data", "ssi4_data_a";
++		function = "ssi";
++	};
++
++	sound_clk_pins: sound-clk {
++		groups = "audio_clk_a", "audio_clk_b",
++			 "audio_clkout", "audio_clkout1";
++		function = "audio_clk";
++	};
++
+ 	usb0_pins: usb0 {
+ 		groups = "usb0";
+ 		function = "usb0";
 -- 
 2.25.1
 
