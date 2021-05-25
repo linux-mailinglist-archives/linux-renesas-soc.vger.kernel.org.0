@@ -2,90 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC4F38FD59
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 May 2021 11:03:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1DB638FD94
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 May 2021 11:15:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231190AbhEYJFM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 May 2021 05:05:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45642 "EHLO mail.kernel.org"
+        id S232091AbhEYJRE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 May 2021 05:17:04 -0400
+Received: from www.zeus03.de ([194.117.254.33]:45932 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230437AbhEYJFL (ORCPT
+        id S232464AbhEYJQ6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 May 2021 05:05:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DB3A2613F7;
-        Tue, 25 May 2021 09:03:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621933422;
-        bh=REyNORGfAxSeIaU9THUqQrLTEFZLcDHWp7MLn3Mg0Dk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U+X+txtMXe2Cezy7uAjCLBxK9R85dt3GBFQTenZ3vykwhKz13tOxyqfvjwyVWI0TU
-         rwhbEbijOnypIIPF/EOqAP2QB4xnvUL0nzFQofDt/FGN2geS1bBqkq0uaAADOzRzg4
-         qsXYyV4rVUM1ox+sU4btihidIWe9xzYDARf/odiWYGo+dDOsGkD5pIBwwaz9CIYZbt
-         i4+1TnzGnQ5F/MBfAmxHYJXNeIq7HMYPwAHbH3rVgSbbU4n+g9aTN0etfpZe0vlJgt
-         9R396EPpmlGavfq8lRSRfONpdSK/QIkAuLxA6cElbmgYzt8JCXE7OZzw5DgyvfPr63
-         2ZQCsntGHI1nA==
-Date:   Tue, 25 May 2021 11:03:35 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 09/12] pinctrl: renesas: r8a7794: Add bias pinconf support
-Message-ID: <YKy9Z1JKxexcrr8D@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-References: <cover.1619785375.git.geert+renesas@glider.be>
- <f78da2ba937ce98ae9196f4ee54149a5214fd545.1619785375.git.geert+renesas@glider.be>
+        Tue, 25 May 2021 05:16:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=N32Jaoqsed33jOQOjK+g7guRATu
+        YdbNDg1Jq5cVVl/o=; b=JVSwsPww0EwLtzvO3pgp4+j5C/eM1F82rD+qJY4eHMj
+        GszIi0mrhGl2C2iauvC4o2FGgRJkDj0a93E3IxMSYwpUDMFvIAXyvUjX8l+I2hyJ
+        3vCB8owuiQkh9tkMQrIBLNLEhdrr+PF849l3jMrFiLmNLdRgFxKR2aS+bglY9N0c
+        =
+Received: (qmail 1177944 invoked from network); 25 May 2021 11:15:19 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 May 2021 11:15:19 +0200
+X-UD-Smtp-Session: l3s3148p1@SroH9yPDmpQgARa4RYtfAdx6+N0ksazW
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] ARM: dts: alt: add SW2 as GPIO keys
+Date:   Tue, 25 May 2021 11:15:12 +0200
+Message-Id: <20210525091512.29119-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="cwnO65bnqa+SMNQs"
-Content-Disposition: inline
-In-Reply-To: <f78da2ba937ce98ae9196f4ee54149a5214fd545.1619785375.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+SW2 on Alt is connected as on Lager board. So, use the same GPIO
+settings.
 
---cwnO65bnqa+SMNQs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ arch/arm/boot/dts/r8a7794-alt.dts | 42 +++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-On Fri, Apr 30, 2021 at 02:31:08PM +0200, Geert Uytterhoeven wrote:
-> Implement support for pull-up (most pins) and pull-down (ASEBRK#/ACK)
-> handling for R-Car E2 and RZ/G1E SoCs, using the common R-Car bias
-> handling.
->=20
-> Note that on RZ/G1E, the "ASEBRK#/ACK" pin is called "ACK", but the code
-> doesn't handle that naming difference.  Hence users should use the R-Car
-> naming in DTS files.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+diff --git a/arch/arm/boot/dts/r8a7794-alt.dts b/arch/arm/boot/dts/r8a7794-alt.dts
+index f9dba5688d3f..f330d796a772 100644
+--- a/arch/arm/boot/dts/r8a7794-alt.dts
++++ b/arch/arm/boot/dts/r8a7794-alt.dts
+@@ -8,6 +8,7 @@
+ /dts-v1/;
+ #include "r8a7794.dtsi"
+ #include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
+ 
+ / {
+ 	model = "Alt";
+@@ -94,6 +95,42 @@ lbsc {
+ 		#size-cells = <1>;
+ 	};
+ 
++	keyboard {
++		compatible = "gpio-keys";
++
++		pinctrl-0 = <&keyboard_pins>;
++		pinctrl-names = "default";
++
++		one {
++			linux,code = <KEY_1>;
++			label = "SW2-1";
++			wakeup-source;
++			debounce-interval = <20>;
++			gpios = <&gpio3 9 GPIO_ACTIVE_LOW>;
++		};
++		two {
++			linux,code = <KEY_2>;
++			label = "SW2-2";
++			wakeup-source;
++			debounce-interval = <20>;
++			gpios = <&gpio3 10 GPIO_ACTIVE_LOW>;
++		};
++		three {
++			linux,code = <KEY_3>;
++			label = "SW2-3";
++			wakeup-source;
++			debounce-interval = <20>;
++			gpios = <&gpio3 11 GPIO_ACTIVE_LOW>;
++		};
++		four {
++			linux,code = <KEY_4>;
++			label = "SW2-4";
++			wakeup-source;
++			debounce-interval = <20>;
++			gpios = <&gpio3 12 GPIO_ACTIVE_LOW>;
++		};
++	};
++
+ 	vga-encoder {
+ 		compatible = "adi,adv7123";
+ 
+@@ -319,6 +356,11 @@ usb1_pins: usb1 {
+ 		groups = "usb1";
+ 		function = "usb1";
+ 	};
++
++	keyboard_pins: keyboard {
++		pins = "GP_3_9", "GP_3_10", "GP_3_11", "GP_3_12";
++		bias-pull-up;
++	};
+ };
+ 
+ &cmt0 {
+-- 
+2.30.2
 
-Tested on my Alt board with SW2 switches (DTS addition soon to be sent):
-
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-
---cwnO65bnqa+SMNQs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCsvWIACgkQFA3kzBSg
-Kba8Ig//Rrt7raksICqZJonKRNpeBzlO+wgNIBimQzq9uKPVcm2MI/dqolYt8gCd
-X9AsISxFxy4G6iJMHviF8BuAUByPEGL7dcZ1YbOl0IIJrqH+i1VxcYNExSMxLMq1
-lP6sScqYYB7pXRlUNGAdF4lARd7ZQOUgGKVcsrVHtGujHwamsZZr3K54OnKwSZUu
-z9P+Spw3hmXgtmczoigD1ot6ofkcuXIGaS43921oQTc+QDY+Eou2/1qCO+VHnzD0
-NfZVBL8DjglXC5xmyqnN97gcsehREmCe500K6ulf4f/IFyeq0jKXaD40uErVs3YJ
-geuRmSchyO27CBErzV18JYj9qJgqqzjByLpzSXJ2vvh5DNEUnZ22IIILXvTA9LoM
-JJrmQc+UDoh/tfpw4gFCvPFzKx51txnZrHlFsZ6iF/VBoFQkDjkp8cYXpqg/PGy8
-CIdvL/sSJF1MSRxZSeeU9GBly9pFcmd7MZB5hQgRiUeJuF9S/Mnnc7+XCzTYiIyv
-nDRIo42CjyuXPZX4o9OYrRGq9MixfPUdKXLiJSFPsvfDA4Y9mbSY+p9p3C2073BW
-BruxmlCmTgLmO3zMjCzJ3CXU+DOEOr5VixossjQ7PT3eDIIr4ceEyX2QdemYsqFl
-0D632EtvIyigqIhMC4i6MflfokFB4ZNMUnWEYDzgbQxjSssasUs=
-=brvR
------END PGP SIGNATURE-----
-
---cwnO65bnqa+SMNQs--
