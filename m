@@ -2,145 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19E803900D8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 May 2021 14:23:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98CF43901A0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 May 2021 15:05:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232230AbhEYMZE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 May 2021 08:25:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46772 "EHLO
+        id S232862AbhEYNHD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 May 2021 09:07:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232179AbhEYMZE (ORCPT
+        with ESMTP id S232996AbhEYNHC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 May 2021 08:25:04 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 927D7C061756
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 May 2021 05:23:33 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id v14so19875102pgi.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 May 2021 05:23:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=oYX1cgNtMv1XfZGQFJ22L4/AUv80i9yLmyMF4Ype1cE=;
-        b=JMELf2SdHRpGMUJBAmmcv9e/ypqV/6wlcvhTY4I7c83HPudTfKzUxBebqphv79HMck
-         NleJpoYOM/p6vqlc9wM8WnNJ5YslFAahcfY/Kb8x4+V2aPTb1au8gedbza6cfvoGZyGo
-         L4U0MFBocUE4aC720xZ2m/gKhcOX+2iE+9z6bM6UpPpKEKajg7X75O+R8rO/nHTy+Gq4
-         RKTGD1iJOeMGtXVbPxjlJPfHy7bZQ/yuCqWNTcBVL89qpxHURanCaV5UJq1o3Wh/9Sz5
-         0GE+2hVqf39wzEkEmZZULgBB6Jw9dzbqPzVQjxkGWGZzIJbMM5WSeeX6a/6bmX9aGJPp
-         QRiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=oYX1cgNtMv1XfZGQFJ22L4/AUv80i9yLmyMF4Ype1cE=;
-        b=g6hvJmTqO9JXiE/VPsJ6S54kJTO1onrmVQrAVD/r5XS4z75U7pHmPdiDcM0QWfRBPO
-         Zzzh/9lr4hRPumtPQPwjEKGRiUZaSr6tM6m6qs1b8/IUU/qY9aX0paXgQmajM2VI1qF8
-         +iJgPS8AYBy4AW5/EmZRdl0kPhMBGWqJTpBa5mOpngw8LxeD1dVyWDfbc2YhE8igneO8
-         XXxlA8TFO4ntnX3WywqTU/8hOOLuYEje3X2WwtzWSTzVWyx5WTUfcpv1d+tGRqyWiUCY
-         bDR1M0SX/oZe8sSR34hbgnC2T6xDCKtdLKyr1aix3nu3g4yRv6k25nFFMA7MpNVaeCCB
-         8tvQ==
-X-Gm-Message-State: AOAM531hEv9L9Z/DIGQCsktkhzYhQ5/Vo1r4+tudxsef6aL1CbjUr/nu
-        pWk63vTqzZ49z+2QnNKDSJPSW+N0PQsNHg7Z
-X-Google-Smtp-Source: ABdhPJyjasL8Q+opt7tCpxlFE+KrQ6/79HkdfLkLpt2E45HxA3V7D1kbij4pOeRkmQZcGO8nqUgN+Q==
-X-Received: by 2002:a62:8fcf:0:b029:2e8:f2ba:38e7 with SMTP id n198-20020a628fcf0000b02902e8f2ba38e7mr7654109pfd.1.1621945412788;
-        Tue, 25 May 2021 05:23:32 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id z187sm886161pfb.149.2021.05.25.05.23.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 05:23:32 -0700 (PDT)
-Message-ID: <60acec44.1c69fb81.7da18.1f33@mx.google.com>
-Date:   Tue, 25 May 2021 05:23:32 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 25 May 2021 09:07:02 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75410C061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 May 2021 06:05:32 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d8ed:c948:a7ff:27e4])
+        by albert.telenet-ops.be with bizsmtp
+        id 915W250030QkFpL0615Wsp; Tue, 25 May 2021 15:05:30 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1llWkT-009M1f-Or
+        for linux-renesas-soc@vger.kernel.org; Tue, 25 May 2021 15:05:29 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1llWkT-004tYs-B7
+        for linux-renesas-soc@vger.kernel.org; Tue, 25 May 2021 15:05:29 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2021-05-25-v5.13-rc3
+Date:   Tue, 25 May 2021 15:05:29 +0200
+Message-Id: <20210525130529.1166847-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-devel-2021-05-25-v5.13-rc3
-X-Kernelci-Branch: master
-X-Kernelci-Report-Type: test
-Subject: renesas/master usb: 1 runs,
- 1 regressions (renesas-devel-2021-05-25-v5.13-rc3)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master usb: 1 runs, 1 regressions (renesas-devel-2021-05-25-v5.13-r=
-c3)
+I have pushed renesas-drivers-2021-05-25-v5.13-rc3 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Regressions Summary
--------------------
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 1          =
+Today's version is based on renesas-devel-2021-05-25-v5.13-rc3.
 
+Included branches with driver code:
+  - renesas-clk
+  - renesas-pinctrl
+  - topic/rcar-pinconf-v1
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/v3u/timers-v1-minimal
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-05-25-v5.13-rc3/plan/usb/
+Included fixes:
+  - WIP soc: v3u: allow WDT reset
+  - misc: add sloppy logic analyzer using polling
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-  Test:     usb
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-05-25-v5.13-rc3
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      d6e14d563167f1d9eb028bfec40b214368fc5c82 =
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
 
+Gr{oetje,eeting}s,
 
+						Geert
 
-Test Regressions
----------------- =
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/60acdc779154ba0f9fb3afb1
-
-  Results:     2 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-05-25-v5.13-rc3/arm/multi_v7_defconfig/gcc-8/lab-collabora/usb-rk3288-r=
-ock2-square.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-05-25-v5.13-rc3/arm/multi_v7_defconfig/gcc-8/lab-collabora/usb-rk3288-r=
-ock2-square.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0503.0/armhf/rootfs.cpio.gz =
-
-
-
-  * usb.compare-freeze: https://kernelci.org/test/case/id/60acdc779154ba0f9=
-fb3afb4
-        new failure (last pass: renesas-devel-2021-05-11-v5.13-rc1)
-
-    2021-05-25 11:11:01.233000+00:00  + lsusb
-    2021-05-25 11:11:01.234000+00:00  + awk {print $6}
-    2021-05-25 11:11:01.234000+00:00  + sort
-    2021-05-25 11:11:01.234000+00:00  + seq 1 3
-    2021-05-25 11:11:01.234000+00:00  + /usr/sbin/rtcwake -d rtc0 -m freeze=
- -s 1
-    2021-05-25 11:11:01.234000+00:00  rtcwake: assuming RTC uses UTC ...
-    2021-05-25 11:11:01.235000+00:00  rtcwake: wakeup from \"freeze\" using=
- rtc0 at Tue May 25 11:11:03 2021
-    2021-05-25 11:11:01.291000+00:00  <6>[   13.532689] PM: suspend entry (=
-s2idle)
-    2021-05-25 11:11:01.292000+00:00  <6>[   13.537331] Filesystems sync: 0=
-.000 seconds
-    2021-05-25 11:11:01.292000+00:00  <6>[   13.544734] Freezing user space=
- processes ... (elapsed 0.001 seconds) done. =
-
-    ... (130 line(s) more)  =
-
- =20
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
