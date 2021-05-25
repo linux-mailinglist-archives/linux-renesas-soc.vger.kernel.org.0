@@ -2,87 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5DF2390A1C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 May 2021 21:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28702390A96
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 May 2021 22:36:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233014AbhEYT5d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 May 2021 15:57:33 -0400
-Received: from www.zeus03.de ([194.117.254.33]:52232 "EHLO mail.zeus03.de"
+        id S233332AbhEYUht (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 May 2021 16:37:49 -0400
+Received: from www.zeus03.de ([194.117.254.33]:36722 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232176AbhEYT5d (ORCPT
+        id S233344AbhEYUht (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 May 2021 15:57:33 -0400
+        Tue, 25 May 2021 16:37:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=RTERJTAUGz55gohxy1sQFWVxiYXg
-        l3wS8wA9sEQUOek=; b=Q68aPfxw0kVsAWGmjbm1ujGnhBExXXsLUGnrtC70FZCp
-        /mBrB7oiFNr3CKBnY5L8yyOFmW7e1GKwM3AUnRH4tbFUEALhcUGoK7+KRU9w8UfR
-        x0w9f3ti5LnbPHDiIPL4kt5EXCLN+e3aPmOwY7e1VMXTkSrRho4KLSz/4xWXmmQ=
-Received: (qmail 1371509 invoked from network); 25 May 2021 21:56:01 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 May 2021 21:56:01 +0200
-X-UD-Smtp-Session: l3s3148p1@fgRe6izDgtwgAwDPXxHuAKg5HweM3jRU
-Date:   Tue, 25 May 2021 21:56:01 +0200
+        :content-type:in-reply-to; s=k1; bh=4Siig0ZdmDeZkvLkh70DL0A+cdl0
+        oIQXSWBY2PK2Pv4=; b=dPcvhB/OvzgWgKr5Xog6iWFhG9CgtN8LJXCMN7XUTIAp
+        apAjDgE8V9en5WiUK3vIYx8oZkl+EDHNz8QVCh7cLqeOtFPK1ychi0RxX3II2Ys+
+        nDihUoTH3u9l4cmfiJ+xPhpLc0NkSkn1wYdUJZzuo5VX+DuEf+AjIjm7pg18cCo=
+Received: (qmail 1380845 invoked from network); 25 May 2021 22:36:16 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 May 2021 22:36:16 +0200
+X-UD-Smtp-Session: l3s3148p1@bfZLei3DMt0gAwDPXxHuAKg5HweM3jRU
+Date:   Tue, 25 May 2021 22:36:16 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] i2c: sh_mobile: Use new clock calculation formulas for
- RZ/G2E
-Message-ID: <YK1WUY5WRxwIUrx5@kunai>
+To:     Jean Delvare <jdelvare@suse.de>
+Cc:     Peter Korsgaard <peter@korsgaard.com>, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for
+ returned length from driver"
+Message-ID: <YK1fwC4aR5RKTPcB@kunai>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <2a1f0271cc00bf2821aa8b6609c452a9823980f6.1620299581.git.geert+renesas@glider.be>
- <YK1WHQEwXO+aFUwK@kunai>
+        Jean Delvare <jdelvare@suse.de>,
+        Peter Korsgaard <peter@korsgaard.com>, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
+ <20210226174337.63a9c2a6@endymion>
+ <20210310204648.GA332643@ninjato>
+ <87tuoe5zfc.fsf@dell.be.48ers.dk>
+ <20210413125433.GA9879@kunai>
+ <20210521132158.6e0689c0@endymion>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="81aOl7oPFZ/tLSM9"
+        protocol="application/pgp-signature"; boundary="cZLVD47e/zI65E/b"
 Content-Disposition: inline
-In-Reply-To: <YK1WHQEwXO+aFUwK@kunai>
+In-Reply-To: <20210521132158.6e0689c0@endymion>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---81aOl7oPFZ/tLSM9
+--cZLVD47e/zI65E/b
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, May 25, 2021 at 09:55:09PM +0200, Wolfram Sang wrote:
-> On Thu, May 06, 2021 at 01:15:40PM +0200, Geert Uytterhoeven wrote:
-> > When switching the Gen3 SoCs to the new clock calculation formulas, the
-> > match entry for RZ/G2E added in commit 51243b73455f2d12 ("i2c:
-> > sh_mobile: Add support for r8a774c0 (RZ/G2E)") was forgotten.
-> >=20
-> > Fixes: e8a27567509b2439 ("i2c: sh_mobile: use new clock calculation for=
-mulas for Gen3")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->=20
-> Applied to for-next, thanks!
-
-Geez, too fast again; applied to for-current.
 
 
---81aOl7oPFZ/tLSM9
+> release, OTOH we have a regression in one of the tools, which is
+> something rare (thankfully) and problematic enough to justify a rush of
+> schedule.
+
+Yeah. Sorry about the regression!
+
+> I'll take care of that ASAP if that's OK with you. If you have any
+> other change that should make it into 4.3, now is the time to commit it.
+
+Thank you. I don't have any patches left but I will review the ones
+waiting in patchwork right now.
+
+
+--cZLVD47e/zI65E/b
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCtVlEACgkQFA3kzBSg
-KbZLrQ/8DFecIhypieNqzva7DiQsQcFTnUl+3chGRs3OLqwH2Phx6oSJjuXSgClo
-HEgUr0ZeeDAF8Kn4GovdPmsliyPOOzsBmQp5CY8BK9MI+VyBXIOM3FWpvPq7wTAf
-fpc4L6EsTICryY830brBiivWbQi77FTtSIGKwg1E5Y807e3Wm2rb+du5AORSYp3s
-6d0qHkr4I3VYaCYd7CUvm4VqiIgHq+ERUjVeU6e7o2I88x0Qs7arrFt/nWFyPild
-KFxs0BICo517v6eLzjUgmEQMV8rrlLAsqcBoQrxbhWO7SQKsF4PHq4+oUFtOhANH
-vLaM9Lj0bMI94m+EKAUMlQn4JHJxHEoen6YjS2LdEGBHdSuHL8yY/OK4+bWyzMtD
-gEPmxjZ+iR4ypbZdvQWFTkJxNi79AJq6LRbzDa1N1wD4Kus/uFMw3TcaL8JTC+p7
-cHBbvKo+i5AMZcRTv1nQg82r773+pRZsdWtxrZDxdDQZihY1N1qDUlRXxceFOmcK
-cfRHEdkpP25jnwkTqr1CyJ7JV3adgxWjZDPQrxb01LUwE1NBcXQFRheryiMzyUKI
-EsaOJ1mJecI/AJFXga7y/Ud/wxY0Aae0Ar7X+OIPYXRZD87M/EQawIe9Rw+dHI/t
-ChDBUrSHgDlhcDP/HiXoNlnPjhHfD1dNAQb/4HAn4B1u4YerJKU=
-=4cag
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCtX8AACgkQFA3kzBSg
+KbbS2A/+KFVjU09Qwp7IkZR747xGagVLJIHWLDEsD/xbZXg5mJOGZvqO5twyeTxZ
+nldkGDYBfgGkBNNzeXW/vvqV5ZbkCjs4g4bf9Hgmw5j5bG0fa7AEE/kOHJJa3Q4T
+mDlta2V41YHBgtwARkIHXfzEG3FZz3TWYsfNc1QIoz+J8se7tru2ugj6L8LbByfn
++NjN/IenvYYx17JbL1g9pcXEA0HhoSVl1tPkG69nNXNts0Z4gmjfPfsZGKl+Jbgh
+JZdgBYaoib1asToYIxz/37VBxd1VwBbgcdlQn0YKk/BNjYjv8QzSE40IzFDOCOWb
+uH3ymXh4T+7oj+NifvQFmic3semo5DrYQQVgkKUTBAjeW7HBWSPgQNmYcR6Pzdgg
+GsmW8nxF10qO0tRWrOnabwSZOUhoOmc3Y4CO4l1nd+rWtUuZgW2A/G3Fg0IDK3LK
+z2e6h9FGvBThb4RJq3inHCE+BNykc4LXfg0S987cW+7E6lLLz6vNa48mxRwSXPFT
+/Gc3Vgk6OeDXK1cLhPx1RZ8J9XiIlEHGBJknfrETr7i+AnNVLn7cdPlXWwSV437K
+hh0EsIMi0U5IABRQRsWTY/bp1JRUL90O+Dc615+bG7f6zyFodENBU3L1oWKJDVzG
+PmunQ/1WdVfbbVvGo59bVDsdmmrwhzVBYwFjaC3iM/w7LEP7ha0=
+=qzqe
 -----END PGP SIGNATURE-----
 
---81aOl7oPFZ/tLSM9--
+--cZLVD47e/zI65E/b--
