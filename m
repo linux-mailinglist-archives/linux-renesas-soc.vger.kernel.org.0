@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD1CE390C3A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 May 2021 00:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE775390C3D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 May 2021 00:30:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232866AbhEYWbn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S232873AbhEYWbn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Tue, 25 May 2021 18:31:43 -0400
-Received: from mga12.intel.com ([192.55.52.136]:38670 "EHLO mga12.intel.com"
+Received: from mga02.intel.com ([134.134.136.20]:6878 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232840AbhEYWbm (ORCPT
+        id S230328AbhEYWbm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 25 May 2021 18:31:42 -0400
-IronPort-SDR: UYBXwpQBBQCDMSh3sB6s+KqBdRxsRwPd/PpcVj+eAeSWXqSBhMFonnMBa11iD92r03L5BWJgTT
- tfZEODqCphqA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="181961944"
+IronPort-SDR: 6o2eDaxdOipCZgiXCiMWLGsuOaLY5Qx0lmwrSa39zzwgKRl0jgAIBYSCWADdUTF3TJ7uOawO6c
+ qSqWMipcqWsw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="189441491"
 X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; 
-   d="scan'208";a="181961944"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2021 15:30:11 -0700
-IronPort-SDR: vHxg/MuBXvCDB3Itw3uijjw59clRnYSgNbscvaKrUD+TAF5ukuKnHeXnRgcK0u9Wz0ZYkRxmF6
- dPsmiCxutxDw==
+   d="scan'208";a="189441491"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2021 15:30:11 -0700
+IronPort-SDR: mtX4Gs0zIj8dFcgYiNRlwVa0mHaxCCFIz6/v1JneVruDJM9qp9IKdI6tKZXPAsVh+KzMARiM8L
+ jnSYwqdFmTKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; 
-   d="scan'208";a="546947047"
+   d="scan'208";a="435870610"
 Received: from lkp-server02.sh.intel.com (HELO 1ec8406c5392) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 25 May 2021 15:30:09 -0700
+  by orsmga007.jf.intel.com with ESMTP; 25 May 2021 15:30:09 -0700
 Received: from kbuild by 1ec8406c5392 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1llfYv-0001rP-8c; Tue, 25 May 2021 22:30:09 +0000
-Date:   Wed, 26 May 2021 06:29:17 +0800
+        id 1llfYv-0001rE-6j; Tue, 25 May 2021 22:30:09 +0000
+Date:   Wed, 26 May 2021 06:29:19 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- 1931e709c701ea2913e8714f9658bea8cd5e361f
-Message-ID: <60ad7a3d.6Zx28cuO82uLwZG1%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-dt-for-v5.14] BUILD SUCCESS
+ a499e40a397c17a40af8a5f8ef408fe63be4c257
+Message-ID: <60ad7a3f.5STXWqqMgQzzUS92%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,13 +44,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 1931e709c701ea2913e8714f9658bea8cd5e361f  Merge branches 'renesas-arm-defconfig-for-v5.14' and 'renesas-arm-dt-for-v5.14' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.14
+branch HEAD: a499e40a397c17a40af8a5f8ef408fe63be4c257  ARM: dts: renesas: Move enable-method to CPU nodes
 
 elapsed time: 732m
 
-configs tested: 160
-configs skipped: 3
+configs tested: 155
+configs skipped: 64
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -87,12 +87,6 @@ arm                            lart_defconfig
 mips                malta_qemu_32r6_defconfig
 powerpc                     tqm8555_defconfig
 arm                          simpad_defconfig
-h8300                       h8s-sim_defconfig
-arm                         axm55xx_defconfig
-powerpc                 mpc8540_ads_defconfig
-powerpc                    mvme5100_defconfig
-sh                          sdk7786_defconfig
-mips                       rbtx49xx_defconfig
 alpha                            alldefconfig
 um                           x86_64_defconfig
 arm                         s3c6400_defconfig
@@ -114,6 +108,7 @@ arm                          iop32x_defconfig
 arm                            pleb_defconfig
 arm                       multi_v4t_defconfig
 powerpc                     ppa8548_defconfig
+arm                         axm55xx_defconfig
 m68k                        m5307c3_defconfig
 ia64                          tiger_defconfig
 arm                        vexpress_defconfig
@@ -144,10 +139,10 @@ sh                          rsk7203_defconfig
 parisc                generic-32bit_defconfig
 i386                                defconfig
 powerpc                 mpc837x_rdb_defconfig
-x86_64                            allnoconfig
 ia64                             allmodconfig
 ia64                                defconfig
 ia64                             allyesconfig
+x86_64                            allnoconfig
 m68k                             allmodconfig
 m68k                                defconfig
 m68k                             allyesconfig
