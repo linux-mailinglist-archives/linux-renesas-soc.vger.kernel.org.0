@@ -2,93 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4383938FB85
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 May 2021 09:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F77338FB98
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 May 2021 09:23:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229963AbhEYHT2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 May 2021 03:19:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58250 "EHLO mail.kernel.org"
+        id S231573AbhEYHY4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 May 2021 03:24:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59586 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229726AbhEYHT1 (ORCPT
+        id S229963AbhEYHYz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 May 2021 03:19:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D7253613D6;
-        Tue, 25 May 2021 07:17:57 +0000 (UTC)
+        Tue, 25 May 2021 03:24:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B9BFD61419;
+        Tue, 25 May 2021 07:23:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621927078;
-        bh=Csca58SKBbbmyZOo4ioYPVoHavciv/JHoixjbdFh4lE=;
+        s=k20201202; t=1621927406;
+        bh=y4ikNb/ViSQgZNMZnW1LhEQXIkR+0dv/bn5f46qxtgs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mT6COolUtYWstHM2SZhPwdUYUsn0sxf9l8VQoFAoqhV368R1TbBQE8ElxkKKm6j5+
-         33dyRBq/haNtQijg2C/1BCj3Vtp7LlaFVkTmY3EbA9nC2NdGqnu80mADRrgjwJTVwi
-         FQcOdZ94XkGDJnV3FHp1G4Tn8X8aARXMzPpT9JdZJ/fq6FmK/owZEJf85jX8Paf0Of
-         +ItpzrCH1QDETr28/lhuqiKdWsRldlnawiXPd47AWUcX9xsFXHJdCe7ln7x0737v7i
-         j9rXqYF0MvODOStrJLr5nt6MOBS0nDvjJVkz+FyqqiRpRJ8lm0r3MrsoDFhhM9YWzr
-         pBIxZKqDT0kEg==
-Date:   Tue, 25 May 2021 09:17:55 +0200
+        b=Shfx5v7WOZtj2KfgKITq76KYV90j9vFvz60XpbnHc8vLS/SC+dhPQkd9VOpNexCVH
+         u6QeKE1tcDUXOadTq0auNkCrzdcBb0tOVMG06X2Rrym8qGNja92nZ5mrG2GbhoAzUy
+         V51cDYwfARz4XKpqpYvQscUnOCXkFg8l+qGTkKExEdYF9paXdZHKLTv3u+TheWUQ4C
+         b61gH4M9UWesOGOGIF3b2TTc5c9k4kYIjPAvn4R5Ddn8FSt/cJNocsqV6XnJ2Ig2EM
+         F1wOhoVZteFTjiHRIN+tZLXVFJxxfv/YBUdMiqWDwzsszU9XCwrN0JSoT14JaPEl/z
+         KZWxUMnpXvwCA==
+Date:   Tue, 25 May 2021 09:23:23 +0200
 From:   Wolfram Sang <wsa@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/5] ARM: dts: lager: Configure pull-up for SOFT_SW GPIO
- keys
-Message-ID: <YKykoyZC+MG9HT/7@ninjato>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 07/12] pinctrl: renesas: r8a7790: Add bias pinconf support
+Message-ID: <YKyl63x7lIWaG57x@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <cover.1619785905.git.geert+renesas@glider.be>
- <9fae3c0c2c0000f6b43c9ce87fe64a594b30a7da.1619785905.git.geert+renesas@glider.be>
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+References: <cover.1619785375.git.geert+renesas@glider.be>
+ <dde6e0b36a4e4494039a3466df208b5ec5c594ee.1619785375.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ozaJuRsl1SftqsRa"
+        protocol="application/pgp-signature"; boundary="RHDWKFLuLHEbLYX4"
 Content-Disposition: inline
-In-Reply-To: <9fae3c0c2c0000f6b43c9ce87fe64a594b30a7da.1619785905.git.geert+renesas@glider.be>
+In-Reply-To: <dde6e0b36a4e4494039a3466df208b5ec5c594ee.1619785375.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---ozaJuRsl1SftqsRa
+--RHDWKFLuLHEbLYX4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 30, 2021 at 03:10:52PM +0200, Geert Uytterhoeven wrote:
-> The GPIO pins connected to the 4 Software Switches (SW2) do not have
-> external pull-up resistors, but rely on internal pull-ups being enabled.
-> Fortunately this is satisfied by the initial state of these pins.
+On Fri, Apr 30, 2021 at 02:31:06PM +0200, Geert Uytterhoeven wrote:
+> Implement support for pull-up (most pins) and pull-down (ASEBRK#/ACK)
+> handling for R-Car H2 and RZ/G1H SoCs, using the common R-Car bias
+> handling.
 >=20
-> Make this explicit by enabling bias-pull-up, to remove the dependency on
-> initial state and/or boot loader configuration.
+> Note that on RZ/G1H, the "ASEBRK#/ACK" pin is called "ACK", but the code
+> doesn't handle that naming difference.  Hence users should use the R-Car
+> naming in DTS files.
 >=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Works fine on my Lager board:
+Works fine with the SW-keys (SW2) on my Lager using the additional DTS
+update you sent, too:
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---ozaJuRsl1SftqsRa
+--RHDWKFLuLHEbLYX4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCspJ8ACgkQFA3kzBSg
-KbaR2g/+I/RzXJkcETu4VKzgYPIJOB87fOIqSbhGkyPU4TWqNhagOijRxWEdFXHK
-yfhOxQlxaORicGGf8QcmuYsuN2anHONRO02MSHkEykQMiGNCeTdpe87k9w1BHBkV
-EcxELtkvjPX+J5XU3Npwt+AlpL1kUSBq8XyatDv6KR62AGQYopiMSACNzGR+dFJo
-YaG5gwoaZAlbSyZvSlBIToIZUXRE9JCevfsxYaQh+sLdhvchOT+gScJvTlTGQ4nS
-Z8PyKthIOzw8S+XKvPFAOztAqTGz7l0S7ZzkC9wN88tpYeQGdM3s7F33t6MCj56n
-vVDeTxnG9HTvii7PYTQw7dnbL8M4EYkQc3YStIqEpuQi4dIIC9rQffvQrE6HVq1Y
-VN7zGvXgnMTz+PoY35L+mLUzKETFApZW/E+TFT1TDPpX3NVF8y5r34W9ILFu1/Q+
-+RgTGQwcWTYNh7PG6imJB4IaJ6EEV+xo1XmEh6PU8cGrmFtVaO+fjzqvdf3qASzD
-BU6FmSSG5w2XeiYx66IWvZkeMO8ECEXgodsaZ5/+Ew4+XrDxs5b38AKB/T9JCyr7
-oqIHq3Yl+CRZpV4WOO26AoOuvhuAouKS5ZjXJSldrRPzxiNTLIYBlsdSBEfd7wrN
-a/Evp4BrfUDVKrv/RvsVi5GsaQ5PI2aGDzQr1FMO+tG4ORGg1Z8=
-=OxC6
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCspesACgkQFA3kzBSg
+KbaPrBAAqMyUb+Snr3LDSxp2WhngtasqM5OGxNoUth8ZPHm5zrb0pEPdSaSX9Pop
+g/pl1vohypLAyHYWivPX4q4lRIvS8Q9a5J/Y8EUOoD7JlPYHAqKDTr321FUOctqV
+UmjduxHeRlzuYEVfin+PYJkHcQigpTHani0WgqnnGP41FbPp8I8dOeZo094BWkzL
+vbYK7b6Vk1tJQHSL61/IKOk9ZQGCpbL0qqjJgTk0pEyPPZEaZavCUccofXiO2TbY
+11Y+Dzh/rOxnxiMN+VcaVTKjSsSC/tYcpSuaoL0598jugA28FcjCIOe+543pB0M/
+TeAUVV0oXztDlyJElrk9oWOPmzdiwureYHvyLWbuMptkh/Jr+dXWMjMfHcE4/j+Z
+SGLAb9rwB2Gno8063FT1Je87+VVTJPIP+2Pt3YrT0YKewS7SgrgQYWgmGAnpRADH
+hjoVwJdWOikbhqMowQUqTlUSaPZzMttXaOqHt0sRIeHo3sodMAhQejvdpWygsIb1
+rsO7PINj7Yo/J5F9pLP2n7kmJonRrSmxnAWbCwCp5EbhRYc+DNP08//sZ8xAOjiD
+1Lwx3F7UNvzodl/PQAO/M2jszmHb95RqC1/OKfTMWY6MnhESZhYcn1yx2KwcOfUT
+6p72V8vd/AY0lOlfToxHZ2P57QeNPBDlGHkQFgWR8ru0Y+IXraE=
+=q7Rz
 -----END PGP SIGNATURE-----
 
---ozaJuRsl1SftqsRa--
+--RHDWKFLuLHEbLYX4--
