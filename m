@@ -2,169 +2,210 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6948C391771
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 May 2021 14:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 823FD391AAD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 May 2021 16:48:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233505AbhEZMhj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 May 2021 08:37:39 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:40364 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233488AbhEZMhg (ORCPT
+        id S234957AbhEZOtm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 May 2021 10:49:42 -0400
+Received: from mail-ua1-f46.google.com ([209.85.222.46]:41542 "EHLO
+        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234893AbhEZOtm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 May 2021 08:37:36 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 14QCZGMg006614;
-        Wed, 26 May 2021 07:35:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1622032516;
-        bh=3bBG8BqrGtdkKHvGc5OmGFJ5N2skyD9sMRW9+N98L+o=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=AQQjUuHvb8tTt9TCk++YgygGukBZ1fpcROn+F1ysRMsZzDJlEX0FrdQbmad2L/qjQ
-         9juB1F7EyXkcx6CWnoRy8xUMOahaq6+yrOb77px7qAdK+hOZ3aDXIzjOkS7fdpnaCm
-         Qy8QFYLy2i6fJu4xaJfbryxViplR6b1RVXNC8pho=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 14QCZFBC103444
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 26 May 2021 07:35:15 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 26
- May 2021 07:35:15 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Wed, 26 May 2021 07:35:15 -0500
-Received: from [10.250.138.168] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 14QCYxVx038658;
-        Wed, 26 May 2021 07:35:01 -0500
-Subject: Re: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        <yoshihiro.shimoda.uh@renesas.com>, <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>,
-        Jesper Nilsson <jesper.nilsson@axis.com>,
-        Minghuan Lian <minghuan.Lian@nxp.com>,
-        Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>
-CC:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210517074723.10212-1-kishon@ti.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <11f417e8-6bc5-93dd-f915-04b352bc61d1@ti.com>
-Date:   Wed, 26 May 2021 18:04:58 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 26 May 2021 10:49:42 -0400
+Received: by mail-ua1-f46.google.com with SMTP id 105so905474uak.8;
+        Wed, 26 May 2021 07:48:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ylnTZPq3+ze+TGLTY2mrWfCbd/vE+r5fhyKK1lOY+Mc=;
+        b=EdaltyescWZljJQOF/q+DPnBw7Y5X4GE2dIIOgURcUmsnBB5ET94nTWn4dZHYd6ELf
+         17s1/Kbe/CS/klsyNauBKdrCre1E4r5DE5xxsbtG/DkOXvdAWPLp5evDO+tpwjOD4q3u
+         fYXugxDF6F+5diFC8BVqyfOpQJ29wNuBc/DjrOey2Ynk4Dik9q9wNJ/I2CO/DGDXhfg6
+         jW5oXYJRgRicMuweWgQyEf2+9Q/0to81ewWoBqTHbZ2dS1tdi0nWH2oZvm+Me9ci0nVj
+         5+7/wVGYl6+mNJIdnGLnH3bbeZqzBUTD4KFQzKxi+5EU9Hsg1BD3GLUaqeJU1iEsPztP
+         LmQw==
+X-Gm-Message-State: AOAM533bnfjJKtdPW+y8nembrLO+R/3ZYrvCCPys6prazQg3VD/0OI1s
+        lnwXfnUc1EMU1FydtRewZqoawcy6JKUQZ+PpGko=
+X-Google-Smtp-Source: ABdhPJxybmaI9gniqBmGtWHou7ZayOIDh+er2tJlRdFGyu64kbLHSCsjsHLUqUwdJMKMykAP0oipBoCIFgr79+3RD8U=
+X-Received: by 2002:ab0:2a8b:: with SMTP id h11mr33538192uar.4.1622040490016;
+ Wed, 26 May 2021 07:48:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210517074723.10212-1-kishon@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <cover.1620138454.git.geert+renesas@glider.be> <ecfaf6be5e8c285db2bcc823bb1dd89931fa5c29.1620138454.git.geert+renesas@glider.be>
+ <20210505073327.GE1009@ninjato>
+In-Reply-To: <20210505073327.GE1009@ninjato>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 26 May 2021 16:47:58 +0200
+Message-ID: <CAMuHMdX3jw_Cm4hrg4QLr5H45nydmdbJzd7Rd-HY-rncOoKxvQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 4/6] dt-bindings: i2c: renesas,iic: Convert to json-schema
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi All,
+On Wed, May 5, 2021 at 9:33 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > Possible alternative interpretations of the note are:
+> >   - Only IIC3 has the automatic transmission registers.  But the
+> >     automatic transmission feature is not useful as the SoCs lack DVFS
+> >     support.
+>
+> I immediately thought "yeah, this is it", but had to do some resarch
+> where my assumption comes from. I found it in older H2 datasheets
+> (v0.9). Here in 56.1:
+>
+> "Automatic transmission for PMIC control: The IIC3 module of the R-Car
+> H2 and M2 supports automatic data transmission under PMIC control
+> (DVFS)."
+>
+> Or table 56.8:
+>
+> "Registers of IIC Command for Automatic Transmission Mode (IIC3 only)
+> [R-CarH2, M2, and V2H]"
+>
+>
+> This all is a strong indication for IIC3 only. Which SoCs that have is
+> still confusing. Table 56.8 mentions V2H but 56.1 doesn't. Then again, I
+> could imagine that V2H has it but simply DVFS is not advertised for V2H.
+> And in the later documents, DVFS advertisement was removed for H2 and M2
+> as well.
 
-On 17/05/21 1:17 pm, Kishon Vijay Abraham I wrote:
-> Patch series
-> *) Adds support to add virtual functions to enable endpoint controller
->    which supports SR-IOV capability
-> *) Add support in Cadence endpoint driver to configure virtual functions
-> *) Enable pci_endpoint_test driver to create pci_device for virtual
->    functions
-> 
-> v1 of the patch series can be found at [1]
-> v2 of the patch series can be found at [2]
-> v3 of the patch series can be found at [3]
-> v4 of the patch series can be found at [4]
-> v5 of the patch series can be found at [5]
-> 
-> Here both physical functions and virtual functions use the same
-> pci_endpoint_test driver and existing pcitest utility can be used
-> to test virtual functions as well.
+From off-list experiments checking for the presence of automatic
+transmission registers by writing to them, and seeing if they retain their
+values, we know that all IIC instances checked on R-Car Gen2
+SoCs do have these registers.  The same is true for R-Car E3, which
+is explicitly documented _not_ to have the registers...
+In addition, Wolfram tried transmitting something on R-Car H2 from
+the U-Boot prompt, and noticed the ICINT.ADTE bit is set afterwards,
+indicating success.
 
-I request to help test this series in your platform either with SR-IOV
-capability or without SR-IOV capability to make sure there are no
-regressions.
+So I went one step further, and hooked up a logic analyzer, to see
+if anything is actually transmitted.
 
-Thanks in advance for the help!
+Koelsch (R-Car M2-W):
 
-Best Regards
-Kishon
+  - IIC1 (I2C8) IIC1_SCL_C (GP6_22) EXIO Connector C pin 37
+                IIC1_SDA_C (GP6_23) EXIO Connector C pin 39
 
-> 
-> Changes from v5:
-> *) Rebased to 5.13-rc1
-> 
-> Changes from v4:
-> *) Added a fix in Cadence driver which was overwriting BAR configuration
->    of physical function.
-> *) Didn't include Tom's Acked-by since Cadence driver is modified in
->    this revision.
-> 
-> Changes from v3:
-> *) Fixed Rob's comment and added his Reviewed-by as suggested by him.
-> 
-> Changes from v2:
-> *) Fixed DT binding documentation comment by Rob
-> *) Fixed the error check in pci-epc-core.c
-> 
-> Changes from v1:
-> *) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
->    binding for EP)
-> 
-> [1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
-> [2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
-> [3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
-> [4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
-> [5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
-> 
-> Kishon Vijay Abraham I (7):
->   dt-bindings: PCI: pci-ep: Add binding to specify virtual function
->   PCI: endpoint: Add support to add virtual function in endpoint core
->   PCI: endpoint: Add support to link a physical function to a virtual
->     function
->   PCI: endpoint: Add virtual function number in pci_epc ops
->   PCI: cadence: Add support to configure virtual functions
->   misc: pci_endpoint_test: Populate sriov_configure ops to configure
->     SR-IOV device
->   Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
-> 
->  .../PCI/endpoint/pci-endpoint-cfs.rst         |  12 +-
->  .../devicetree/bindings/pci/pci-ep.yaml       |   7 +
->  drivers/misc/pci_endpoint_test.c              |   1 +
->  .../pci/controller/cadence/pcie-cadence-ep.c  | 285 ++++++++++++++----
->  drivers/pci/controller/cadence/pcie-cadence.h |   7 +
->  .../pci/controller/dwc/pcie-designware-ep.c   |  36 +--
->  drivers/pci/controller/pcie-rcar-ep.c         |  19 +-
->  drivers/pci/controller/pcie-rockchip-ep.c     |  18 +-
->  drivers/pci/endpoint/functions/pci-epf-ntb.c  |  79 +++--
->  drivers/pci/endpoint/functions/pci-epf-test.c |  66 ++--
->  drivers/pci/endpoint/pci-ep-cfs.c             |  24 ++
->  drivers/pci/endpoint/pci-epc-core.c           | 130 +++++---
->  drivers/pci/endpoint/pci-epf-core.c           | 144 ++++++++-
->  include/linux/pci-epc.h                       |  57 ++--
->  include/linux/pci-epf.h                       |  16 +-
->  15 files changed, 684 insertions(+), 217 deletions(-)
-> 
+    # Configure pinctrl for IIC1
+    mw.l e6060000 f77fffff
+    mw.l e6060098 08800000
+    mw.l e6060000 ffffedff
+    mw.l e6060058 00001200
+    mw.l e6060000 3000c0c0
+    mw.l e606001c cfff3f3f
+
+    # Enable IIC0-2 clocks in SMSTPCR3
+    mw e615013c ff7bfffe
+
+    # Reset using ICCR clears all ICINT flags
+    mw.b e6510004 1
+
+    # Set up clock (ICC[LH])
+    mw.b e6510010 0x69
+    mw.b e6510014 0x1e
+
+    # Write dummy data to ICATD00
+    mw.b e6510100 bf
+
+    # ICSTART.AutoStart = 1
+    mw.b e6510070 80
+
+    # Logic Analyzer says: S / P / P / P => broken?
+
+    # Check ICINT; 01 => ADTE
+    md.b e6510054 1
+
+
+  - IIC3 (I2C6 DVFS) IIC3_SCL EXIO Connector C pin 19
+                     IIC3_SDA EXIO Connector C pin 21
+
+    # Enable IIC3 clock in SMSTPCR9
+    mw e6150994 fbffffff
+
+    # Reset using ICCR clears all ICINT flags
+    mw.b e60b0004 1
+
+    # Set up clock (ICC[LH])
+    mw.b e60b0010 0x1b
+    mw.b e60b0014 0x14
+
+    # Write dummy data to ICATD00
+    mw.b e60b0100 de
+
+    # ICSTART.AutoStart = 1
+    mw.b e60b0070 80
+
+    # Logic Analyzer: S / Address: 0x6f / W / NACK => Good!
+
+    # Check ICINT; 01 => ADTE
+    md.b e60b0054 1
+
+
+Ebisu (R-Car E3):
+
+  - IIC (DVFS) IIC_SCL EXIO Connector D pin 75
+               IIC_SDA EXIO Connector D pin 77
+
+    # Enable IIC clock in SMSTPCR9
+    mw e6150994 fbffffff
+
+    # Reset using ICCR clears all ICINT flags
+    mw.b e60b0004 1
+
+    # Set up clock (ICC[LH])
+    mw.b e60b0010 0x1b
+    mw.b e60b0014 0x14
+
+    # Write dummy data to ICATD00
+    mw.b e60b0100 ad
+
+    # ICSTART.AutoStart = 1
+    mw.b e60b0070 80
+
+    # Logic Analyzer: S / Address: 0x56 / R / NACK => Good!
+
+    # Check ICINT; 01 => ADTE
+    md.b e60b0054 1
+
+
+Preliminary conclusions:
+  1. Automatic transmission works on the last IIC instance on R-Car
+     Gen2, which was originally intended for DVFS (which is not
+     implemented, as of Hardware User's Manual Rev. 2.00).
+     It works partially/not on other IIC instances. Perhaps I did
+     something wrong in my setup?
+
+  2. Despite the Hardware User's Manual stating the single IIC instance
+     on R-Car E3 does not have the automatic transmission registers,
+     the feature seems to be present and working.  So we can declare
+     it to be compatible with the generic version.
+
+As the Linux (or other OS?) i2c driver doesn't use automatic
+transmission, and it's very unlikely it ever will (anyone with a
+use case?), I'm inclined to simplify, and declare all IIC instances
+compatible with the generic version.
+If we ever want to implement support for automatic transmission,
+we can still differentiate by the SoC-specific compatible values,
+as they are present anyway, and may have to resort to checking
+e.g. instance base addresses anyway.
+
+Thoughts? Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
