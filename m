@@ -2,52 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09BC2390EC6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 May 2021 05:17:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6948C391771
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 May 2021 14:36:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231365AbhEZDTH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 May 2021 23:19:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47914 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230288AbhEZDTH (ORCPT
+        id S233505AbhEZMhj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 May 2021 08:37:39 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:40364 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233488AbhEZMhg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 May 2021 23:19:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 66A9C6117A;
-        Wed, 26 May 2021 03:17:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621999056;
-        bh=TrXEsxH1oqdjXsBvGLftWDrNBimOjyF2F6/YiV1Df8M=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=i/gQQTOydRtSjv02/yJEOPIAI1JCkqjfFtHoi23o6EY6OcdmTf71JMUYAHoYtZ2cK
-         0ndYqonsrBiJVnGeE+L5K3fgUo9R0IItX+VDApwKjwWZaexCo8MhERfkk68OGENxr4
-         d5YU0a2ffJtlkCyf5fz5No6T826YXvL8pRGhlTjjm9gH87UkLfq1/zlZmRG5Cc7W2m
-         LQtQzBq/WoxTlBCwxZePW6nhT06AH3TZrEn70y2bs/Ey8MWmJoc1W4G25wbmnuk5kj
-         pkxasB+JQesLEOTginuWb3K281HacOgIvnHk84sbhCipCoAsEdwJbvB8714mPnkNf4
-         N9ybUCHE6PIdA==
-Content-Type: text/plain; charset="utf-8"
+        Wed, 26 May 2021 08:37:36 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 14QCZGMg006614;
+        Wed, 26 May 2021 07:35:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1622032516;
+        bh=3bBG8BqrGtdkKHvGc5OmGFJ5N2skyD9sMRW9+N98L+o=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=AQQjUuHvb8tTt9TCk++YgygGukBZ1fpcROn+F1ysRMsZzDJlEX0FrdQbmad2L/qjQ
+         9juB1F7EyXkcx6CWnoRy8xUMOahaq6+yrOb77px7qAdK+hOZ3aDXIzjOkS7fdpnaCm
+         Qy8QFYLy2i6fJu4xaJfbryxViplR6b1RVXNC8pho=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 14QCZFBC103444
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 26 May 2021 07:35:15 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 26
+ May 2021 07:35:15 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Wed, 26 May 2021 07:35:15 -0500
+Received: from [10.250.138.168] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 14QCYxVx038658;
+        Wed, 26 May 2021 07:35:01 -0500
+Subject: Re: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        <yoshihiro.shimoda.uh@renesas.com>, <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>,
+        Jesper Nilsson <jesper.nilsson@axis.com>,
+        Minghuan Lian <minghuan.Lian@nxp.com>,
+        Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>
+CC:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+References: <20210517074723.10212-1-kishon@ti.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <11f417e8-6bc5-93dd-f915-04b352bc61d1@ti.com>
+Date:   Wed, 26 May 2021 18:04:58 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <97dde75fe3ff27b9639c59a43cddbd9d5c405d0c.1620119700.git.geert+renesas@glider.be>
-References: <cover.1620119700.git.geert+renesas@glider.be> <97dde75fe3ff27b9639c59a43cddbd9d5c405d0c.1620119700.git.geert+renesas@glider.be>
-Subject: Re: [PATCH 2/2] clk: renesas: cpg-mssr: Make srstclr[] comment block consistent
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Tue, 25 May 2021 20:17:35 -0700
-Message-ID: <162199905528.4130789.16655172434627088109@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+In-Reply-To: <20210517074723.10212-1-kishon@ti.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2021-05-04 02:17:22)
-> Make the style of the comment block for the Software Reset Clearing
-> Register offsets consistent with the comment blocks for the other
-> register offsets.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
+Hi All,
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+On 17/05/21 1:17 pm, Kishon Vijay Abraham I wrote:
+> Patch series
+> *) Adds support to add virtual functions to enable endpoint controller
+>    which supports SR-IOV capability
+> *) Add support in Cadence endpoint driver to configure virtual functions
+> *) Enable pci_endpoint_test driver to create pci_device for virtual
+>    functions
+> 
+> v1 of the patch series can be found at [1]
+> v2 of the patch series can be found at [2]
+> v3 of the patch series can be found at [3]
+> v4 of the patch series can be found at [4]
+> v5 of the patch series can be found at [5]
+> 
+> Here both physical functions and virtual functions use the same
+> pci_endpoint_test driver and existing pcitest utility can be used
+> to test virtual functions as well.
+
+I request to help test this series in your platform either with SR-IOV
+capability or without SR-IOV capability to make sure there are no
+regressions.
+
+Thanks in advance for the help!
+
+Best Regards
+Kishon
+
+> 
+> Changes from v5:
+> *) Rebased to 5.13-rc1
+> 
+> Changes from v4:
+> *) Added a fix in Cadence driver which was overwriting BAR configuration
+>    of physical function.
+> *) Didn't include Tom's Acked-by since Cadence driver is modified in
+>    this revision.
+> 
+> Changes from v3:
+> *) Fixed Rob's comment and added his Reviewed-by as suggested by him.
+> 
+> Changes from v2:
+> *) Fixed DT binding documentation comment by Rob
+> *) Fixed the error check in pci-epc-core.c
+> 
+> Changes from v1:
+> *) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
+>    binding for EP)
+> 
+> [1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
+> [2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
+> [3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
+> [4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
+> [5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
+> 
+> Kishon Vijay Abraham I (7):
+>   dt-bindings: PCI: pci-ep: Add binding to specify virtual function
+>   PCI: endpoint: Add support to add virtual function in endpoint core
+>   PCI: endpoint: Add support to link a physical function to a virtual
+>     function
+>   PCI: endpoint: Add virtual function number in pci_epc ops
+>   PCI: cadence: Add support to configure virtual functions
+>   misc: pci_endpoint_test: Populate sriov_configure ops to configure
+>     SR-IOV device
+>   Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
+> 
+>  .../PCI/endpoint/pci-endpoint-cfs.rst         |  12 +-
+>  .../devicetree/bindings/pci/pci-ep.yaml       |   7 +
+>  drivers/misc/pci_endpoint_test.c              |   1 +
+>  .../pci/controller/cadence/pcie-cadence-ep.c  | 285 ++++++++++++++----
+>  drivers/pci/controller/cadence/pcie-cadence.h |   7 +
+>  .../pci/controller/dwc/pcie-designware-ep.c   |  36 +--
+>  drivers/pci/controller/pcie-rcar-ep.c         |  19 +-
+>  drivers/pci/controller/pcie-rockchip-ep.c     |  18 +-
+>  drivers/pci/endpoint/functions/pci-epf-ntb.c  |  79 +++--
+>  drivers/pci/endpoint/functions/pci-epf-test.c |  66 ++--
+>  drivers/pci/endpoint/pci-ep-cfs.c             |  24 ++
+>  drivers/pci/endpoint/pci-epc-core.c           | 130 +++++---
+>  drivers/pci/endpoint/pci-epf-core.c           | 144 ++++++++-
+>  include/linux/pci-epc.h                       |  57 ++--
+>  include/linux/pci-epf.h                       |  16 +-
+>  15 files changed, 684 insertions(+), 217 deletions(-)
+> 
