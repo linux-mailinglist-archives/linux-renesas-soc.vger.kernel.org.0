@@ -2,44 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C196392CAB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 May 2021 13:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D894392CB9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 May 2021 13:30:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232402AbhE0LaK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 May 2021 07:30:10 -0400
-Received: from mail-vs1-f43.google.com ([209.85.217.43]:34356 "EHLO
-        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbhE0LaK (ORCPT
+        id S233296AbhE0Lbd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 May 2021 07:31:33 -0400
+Received: from mail-ua1-f44.google.com ([209.85.222.44]:33465 "EHLO
+        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233044AbhE0Lbb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 May 2021 07:30:10 -0400
-Received: by mail-vs1-f43.google.com with SMTP id x13so192023vsh.1;
-        Thu, 27 May 2021 04:28:35 -0700 (PDT)
+        Thu, 27 May 2021 07:31:31 -0400
+Received: by mail-ua1-f44.google.com with SMTP id c6so29901uat.0;
+        Thu, 27 May 2021 04:29:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=33GSI50sxu92I8IBITQZbN0A1jxl04eHMvNt/IrTGXc=;
-        b=aa/oY4yZZUa8yyXmF5vkq6/da72PygoCYSVxB+IllQhHK/kLZAfUSjONkqHi1kSPIs
-         JD0GxiavafwGTiiLykML129586f2Df2i9Z0WuuqiHGuGYOQDowNAWmKP80+6G+FmUxwu
-         uzXcGx3Zs0YKlk7B4CqXqxiTWTLJW6HwOTUKRFeDVaoWd5Eq8G4X4Q16BlFKgU44mMaW
-         6s/rZFDbXZFPoLoNQAN5EP/OPG95YX2Y35SLjdkR+7OHjco3Y6iggLe45VXYNYcwRe98
-         uvbPqlm73+ytGDaGM7GuxKNq57oq5XG8QMo4Zlz+k75nEARDQYNLAMV5bA8O5JzU0QLT
-         fozw==
-X-Gm-Message-State: AOAM530Fty12jBHE7NFvAEQzcvkuDSz+K6Dcr+1uvMmKSg6yWaP7R/dB
-        wRlZkucADDwfjgo3EcdgUSe1E3vt00ZtuhwCqIg=
-X-Google-Smtp-Source: ABdhPJw7dGjhkE2M0QJo1TMHQN5dIq1LOERf9w53NN4gy0CAFSv/lT9VSrQegZJtzjXjzQqnotB7VDTxF3be56GaASM=
-X-Received: by 2002:a67:4386:: with SMTP id q128mr1725781vsa.40.1622114915482;
- Thu, 27 May 2021 04:28:35 -0700 (PDT)
+        bh=4s2CSTG9vi+vLVdGlcoUOiNvjm5f1IzjvzNeN2//YSA=;
+        b=H1ttFigXxTWmDaI9yFUjaq1FWIVw7dULutA7pPIRrM8J8KhqOnbj0B+5krQz5N/3iR
+         el2z/nE+14ytH4DqiwtAna7pYRrdgaFzGnfCqHdL99Mse0QJ1A0EeZD6kOx4u45jnAVN
+         4ad3YTIBjc4Qq4KJibUoMwOgfSFk8o/gvh9j0+4f2NlyPncXCWcUG4ud6T4NGdT0TkYF
+         5VHJC8h2sY2uBbaiZFSl911YPLqFPfRiZdPuP4RLKjL67FQAbFzSysmTRTQ6hUoaAlcD
+         8NeaNPQ//IMxrtWpcaM4MMbCXW13syiVZ29UBHr1ysyyngShUWLtyDuSsx15xbYozDkH
+         JNIA==
+X-Gm-Message-State: AOAM532u14ONtXEZcrjhFifqDRDCtPn9wPXzDrSX1oBXfXE9u/FjdmVH
+        SrP50bAwF/h1rjf9CdQO5jqQ42XJl2DNXRfxSok=
+X-Google-Smtp-Source: ABdhPJwwvgVZz7RlABNPzgpJPYcMGcUihUCr/TwHmo7U2MFE5g+i4/PgG8aawKP1goeRBrVGSoRiKaoZSZ3rGkjEQyE=
+X-Received: by 2002:a1f:9505:: with SMTP id x5mr1443751vkd.6.1622114997309;
+ Thu, 27 May 2021 04:29:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210514192218.13022-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdXdATYWRGL9PMkR_Fj-m-E5GUuPbHq0hZ_Mh=ceedF=RA@mail.gmail.com> <CA+V-a8uNB-RyyweQ--vjdiA1NRB7_-VRYBPq9YUxFT4pFRTKBA@mail.gmail.com>
-In-Reply-To: <CA+V-a8uNB-RyyweQ--vjdiA1NRB7_-VRYBPq9YUxFT4pFRTKBA@mail.gmail.com>
+ <20210514192218.13022-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdU40pLb3LvEghkT0pryLtHdXj+U1R7Y7L6-_6euVohyUw@mail.gmail.com> <CA+V-a8tFsAO2yYqURT1gYS14_Eax1VqJ1YbgcnfZADtOMLXFMA@mail.gmail.com>
+In-Reply-To: <CA+V-a8tFsAO2yYqURT1gYS14_Eax1VqJ1YbgcnfZADtOMLXFMA@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 27 May 2021 13:28:24 +0200
-Message-ID: <CAMuHMdWKdrn7ikT_qRrb0pVYxk3g7MgVk+qwJER61gbesQiPHA@mail.gmail.com>
-Subject: Re: [PATCH 02/16] dt-bindings: arm: renesas: Document Renesas
- RZ/G2{L,LC} SoC variants
+Date:   Thu, 27 May 2021 13:29:45 +0200
+Message-ID: <CAMuHMdWc-ZdrpsOu_QhUvh7D3ap7ZC4LM_vKwnLnGCAEmAoryA@mail.gmail.com>
+Subject: Re: [PATCH 01/16] dt-bindings: arm: renesas: Document Renesas RZ/G2UL SoC
 To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -66,55 +65,55 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Prabhakar,
 
-On Fri, May 21, 2021 at 7:10 PM Lad, Prabhakar
+On Fri, May 21, 2021 at 6:54 PM Lad, Prabhakar
 <prabhakar.csengg@gmail.com> wrote:
 > On Fri, May 21, 2021 at 2:23 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 > > On Fri, May 14, 2021 at 9:23 PM Lad Prabhakar
 > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > Add device tree bindings documentation for Renesas RZ/G2{L,LC}
-> > > SoC variants.
+> > > Add device tree bindings documentation for Renesas RZ/G2UL SoC.
 > > >
 > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > > Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
 > >
+> > Thanks for your patch!
+> >
 > > > --- a/Documentation/devicetree/bindings/arm/renesas.yaml
 > > > +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-> > > @@ -308,6 +308,15 @@ properties:
-> > >                - renesas,r9a07g043u11 # Single Cortex-A55 RZ/G2UL
-> > >            - const: renesas,r9a07g043
+> > > @@ -302,6 +302,12 @@ properties:
+> > >                - renesas,rzn1d400-db # RZN1D-DB (RZ/N1D Demo Board for the RZ/N1D 400 pins package)
+> > >            - const: renesas,r9a06g032
 > > >
-> > > +      - description: RZ/G2{L,LC} (R9A07G044)
+> > > +      - description: RZ/G2UL (R9A07G043)
 > > > +        items:
 > > > +          - enum:
-> > > +              - renesas,r9a07g044c1 # Single Cortex-A55 RZ/G2LC
-> > > +              - renesas,r9a07g044c2 # Dual Cortex-A55 RZ/G2LC
-> > > +              - renesas,r9a07g044l1 # Single Cortex-A55 RZ/G2L
-> > > +              - renesas,r9a07g044l2 # Dual Cortex-A55 RZ/G2L
+> > > +              - renesas,r9a07g043u11 # Single Cortex-A55 RZ/G2UL
 > >
-> > Given the LSI DEVID is the same for all four, and presumably they're
-> > thus the same die with different packaging, do we need these four
-> > compatible values?
+> > Is there any specific reason you're including the final "1", unlike the
+> > RZ/G2{L,LC} binding?
 > >
-> Yes the LSI DEVID is the same for all the above, so as to
-> differentiate between each SoC's, these compatible strings are added.
+> To be consistent with the RZ/G2L family of SoC's "1" is appended to
+> the compatible string.
 
-OK, especially for single-core versus dual-core, this can be useful,
-if "integration issues" pop up depending on the number of cores
-or other functionality being present.
+No, for RZ/G2L you have:
 
-> * For example some IP blocks which are present on RZ/G2L aren't
-> present in RZ/G2LC.
+    renesas,r9a07g044c1 for r9a07g044c12
+    renesas,r9a07g044c2 for r9a07g044c22
+    renesas,r9a07g044l1 for r9a07g044l13 and r9a07g044l14
+    renesas,r9a07g044l2 for r9a07g044l23 and r9a07g044l24
 
-That'll be handled by the .dtsi, right?
+i.e. the compatible value lacks the final digit.
 
-> * Adding this to DTS gives an opportunity to stop booting if the wrong
-> DTB is loaded into the board.
+For RZ/G2UL, I do not know if we have to distinguish between
+r9a07g043u11 and r9a07g043u12.
 
-This only works for SoCs with different LSI DEVIDs.
-As all four above have the same LSI DEVID, you can only distinguish
-them by the main compatible value.  It does not protect against
-loading an RZ/G2LC DTB on an RZ/G2L board or vice versa.
+> > As RZ/G2UL is always single-core, perhaps this compatible value can be
+> > dropped?
+> >
+> Do agree with you.
+
+In light of the continued discussion for [PATCH 02/16], perhaps it's
+good to keep it anyway?
 
 Gr{oetje,eeting}s,
 
