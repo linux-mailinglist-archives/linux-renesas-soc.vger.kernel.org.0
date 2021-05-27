@@ -2,45 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F2EF392D21
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 May 2021 13:51:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93C5B392D28
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 May 2021 13:52:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234223AbhE0LxV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 May 2021 07:53:21 -0400
-Received: from mail-vs1-f53.google.com ([209.85.217.53]:46926 "EHLO
-        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233633AbhE0LxU (ORCPT
+        id S234281AbhE0Lxr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 May 2021 07:53:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40496 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233825AbhE0Lxq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 May 2021 07:53:20 -0400
-Received: by mail-vs1-f53.google.com with SMTP id q6so193958vsp.13;
-        Thu, 27 May 2021 04:51:46 -0700 (PDT)
+        Thu, 27 May 2021 07:53:46 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 571DAC061574;
+        Thu, 27 May 2021 04:52:13 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id r7so236212ybs.10;
+        Thu, 27 May 2021 04:52:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3ztHqaJd8TZGg8MpcMneObhMgohg69m32H8qjFRoVWg=;
+        b=n0huFgbY3EuP++q2YDLUKvv6fsD71uqrbC6f/7lPdNA6UmRYfrTY/UL+54ImTfl0oe
+         /OPLpxQ2bJ3Pvuc4HwWWQ3/kmi116fgdqq+52UwhZaN1s2G/IDnT83LLvUphy574glt2
+         sJbli/a5PBCF9VdOXL2DNp62UVH2E5FoZS0hgOvpGN2kW0NyuTkmhu0f+VMZseS/xruW
+         WIE37TY9JDfOIMKzFZPi0DWhi2Mm7sxVEsCvihTVfcsXWyylmPMf4W1B6jXeTMW9PCQn
+         hXxJzZ74zFBWGmnQnMQgDPjLCDSRow2mYo0FcPLc46tdd2U6RbpAwVs4lBHs3eYnbN1a
+         cIjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MM60L9FmmGnYkH2rt7ny47piYs431Ioz2GCSUlGaeqE=;
-        b=CIYR31ckj4nJRttIoy4DKFw1Njvey2COxtYXcDavbYawdCcYGkSHpR2hycwhj2gpcs
-         BmDu4cETa9Z4gti8ttZhemjYAalipQJp7HnSZ6h5j24yspIQ8MarrDsW484JodGUV2+3
-         ma0MG2lojQg0uUtOm4nWIeF/tPZQAmA8UJSKVbWt+cs7d20PDvu8AcY0JbAH/GwTjjK0
-         dIsXEC0lMVWTxrpN0ZKiJ26ntzWEVih5OYg5Zs2faO8f46I98G7cVQPO6Z3oS3JAdl2K
-         OG9IIxOjvqVCOmNdRLWrKZ5izHdlD3l9pKOF9ANk1t6Q1yOApLdFKJnohfpZdLtL6ksf
-         5AwQ==
-X-Gm-Message-State: AOAM5330oIqisu4/A0Ncl/qQeRzSwL0JVwOIacKufBuHPBqie1WD4XjX
-        XDiFIMjvUigPYdDNfpwzOeKc04IqNal45NLLfs8=
-X-Google-Smtp-Source: ABdhPJxdT6Go/4lKzNa9clhVsl87svarjZxvF1z+VMaXuZrbE7cM9wmKD1Qd9B5Cem0E3381sUR0AvU66boLwv5/ucM=
-X-Received: by 2002:a67:8713:: with SMTP id j19mr1815177vsd.3.1622116306388;
- Thu, 27 May 2021 04:51:46 -0700 (PDT)
+        bh=3ztHqaJd8TZGg8MpcMneObhMgohg69m32H8qjFRoVWg=;
+        b=YWiZU4w9FSxwYOF9em8WvmXnfFgGNIdrU5RPFk+v+CGp5mUSMsBWmmtZZZLgOoNfYI
+         /HeHkiNiPUPOHZy9Ejs+/bsdiT6n8R0W9nNy5Hu12EbDuTwhTzXHQRRG9czbziKk6AyQ
+         8ChOWvmoFUq2Xkqa9B1pxYn8FxiDXP4TryFhQILBga1ux/BoWGDouZ9Sy7w2zkWNqkAN
+         HCzDdLlsC3c6flwvuA+0OZtF/p0O6yD5eGt/exFNhwfQuRHSeJcCGGxLWliLsUbd2ugN
+         /0bBdU8D5ulLzZlfn341QgKXnthtGbqGk9LXQ/jASkYZTqChkZCnuImNFR4oZlRlSs+7
+         gOgA==
+X-Gm-Message-State: AOAM531PxMp29xgxNBayu9NXFPISZu6IZ/Arz5QAtfOEQEInozvOCoP7
+        xpe0qXSezNnZD1CHI6opYXkGUzCnwI8ARHmuF2U=
+X-Google-Smtp-Source: ABdhPJzmSdh/2yuDgX+UGFst4MfR74s636tsnw14IC+qBQu5iC3o1HDP0MYdVUDDkqC63A5AmMqf6+tVrkFBeA8SWY8=
+X-Received: by 2002:a25:26c3:: with SMTP id m186mr3875079ybm.47.1622116332651;
+ Thu, 27 May 2021 04:52:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210514192218.13022-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdUqpycW5mkX3nNn=q9TCp9gS9EZKTs0qwUAW+T+Ggh=8A@mail.gmail.com> <CA+V-a8u-dqrzsVfZ2MiBrANM+=RaBG=rZLcbG38Rc--wEpOaCg@mail.gmail.com>
-In-Reply-To: <CA+V-a8u-dqrzsVfZ2MiBrANM+=RaBG=rZLcbG38Rc--wEpOaCg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 27 May 2021 13:51:34 +0200
-Message-ID: <CAMuHMdW0fihLr8_fOzvQ6=WjfR11T2K8UXsKrDCb4JvF79wM_w@mail.gmail.com>
-Subject: Re: [PATCH 11/16] dt-bindings: clock: renesas: Document RZ/G2L SoC
- CPG driver
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+ <20210514192218.13022-16-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUNdZvPfU1Zu_F2CyneX-m3hGwwsp+TrYR3+ZjGfHxP-g@mail.gmail.com>
+In-Reply-To: <CAMuHMdUNdZvPfU1Zu_F2CyneX-m3hGwwsp+TrYR3+ZjGfHxP-g@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 27 May 2021 12:51:46 +0100
+Message-ID: <CA+V-a8vPn3S8tO-Rd0VCwBQm7GV9vhDy6ug9iDPS=WKZhea5UA@mail.gmail.com>
+Subject: Re: [PATCH 15/16] arm64: dts: renesas: Add initial DTSI for
+ RZ/G2{L,LC} SoC's
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -64,69 +77,64 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Geert,
 
-On Fri, May 21, 2021 at 8:43 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Fri, May 21, 2021 at 4:04 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Fri, May 14, 2021 at 9:23 PM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > Document the device tree bindings of the Renesas RZ/G2L SoC clock
-> > > driver in Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Thu, May 27, 2021 at 12:17 PM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Fri, May 14, 2021 at 9:24 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add initial DTSI for RZ/G2{L,LC} SoC's.
 > >
-> > Thanks for your patch!
+> > File structure:
+> > r9a07g044.dtsi  => RZ/G2L family SoC common parts
+> > r9a07g044l.dtsi => Specific to RZ/G2L (R9A07G044L) SoC
+> > r9a07g044l1.dtsi => Specific to RZ/G2L (R9A07G044L single cortex A55) SoC
+> > r9a07g044l2.dtsi => Specific to RZ/G2L (R9A07G044L dual cortex A55) SoC
 > >
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-> > > @@ -0,0 +1,80 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: "http://devicetree.org/schemas/clock/renesas,rzg2l-cpg.yaml#"
-> > > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> > > +
-> > > +title: Renesas RZ/G2L Clock Pulse Generator / Module Stop and Software Reset
-> >
-> > (Module Standby Mode
-> > > +
-> > > +maintainers:
-> > > +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> > > +
-> > > +description: |
-> > > +  On Renesas RZ/G2L SoC, the CPG (Clock Pulse Generator) and MSTP
-> > > +  (Module Stop and Software Reset) share the same register block.
-> > > +
-> > > +  They provide the following functionalities:
-> > > +    - The CPG block generates various core clocks,
-> > > +    - The MSTP block provides two functions:
-> > > +        1. Module Stop, providing a Clock Domain to control the clock supply
-> > > +           to individual SoC devices,
-> > > +        2. Reset Control, to perform a software reset of individual SoC devices.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: renesas,r9a07g044l-cpg  # RZ/G2L
-> >
-> > renesas,r9a07g044-cpg?
-> >
-> As some IP blocks present in RZ/G2L aren't present in RZ/G2LC clock
-> handling will differ so as a result SoC specific compatible string is
-> added.
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> > @@ -0,0 +1,70 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Device Tree Source for the RZ/G2L and RZ/G2LC common SoC parts
+> > + *
+> > + * Copyright (C) 2021 Renesas Electronics Corp.
+> > + */
+> > +
+> > +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +#include <dt-bindings/clock/r9a07g044l-cpg.h>
+> > +
+> > +/ {
+> > +       compatible = "renesas,r9a07g044";
+>
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
+> > @@ -0,0 +1,43 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Device Tree Source for the RZ/G2L R9A07G044L1 common parts
+> > + *
+> > + * Copyright (C) 2021 Renesas Electronics Corp.
+> > + */
+> > +
+> > +/dts-v1/;
+> > +#include "r9a07g044l.dtsi"
+> > +
+> > +/ {
+> > +       compatible = "renesas,r9a07g044l1";
+>
+> This overwrites the main compatible value set by r9a07g044.dtsi before.
+> As per your bindings, you want both:
+>
+>     compatible = "renesas,r9a07g044l1", "renesas,r9a07g044".
+>
+Agreed will fix that in next respin.
 
-The RZ/G2L Hardware User's Manual Rev. 0.41 doesn't mention any
-differences between the CPG on RZ/G2L and RZ/G2LC.  So I think it's
-safe to have a single driver for both members.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
