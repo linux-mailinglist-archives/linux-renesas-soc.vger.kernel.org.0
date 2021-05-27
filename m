@@ -2,108 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C91BB392FF6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 May 2021 15:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8F1F39305B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 May 2021 16:00:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236535AbhE0NoY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 May 2021 09:44:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38176 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236533AbhE0NoY (ORCPT
+        id S235992AbhE0OBn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 May 2021 10:01:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49456 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235576AbhE0OBm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 May 2021 09:44:24 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF5FEC061574
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 May 2021 06:42:50 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:751e:82a3:f2a2:3459])
-        by albert.telenet-ops.be with bizsmtp
-        id 9pik2500a20MPSF06pik4g; Thu, 27 May 2021 15:42:46 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lmGHc-009win-80; Thu, 27 May 2021 15:42:44 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lmGHb-006YND-La; Thu, 27 May 2021 15:42:43 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: Add missing opp-suspend properties
-Date:   Thu, 27 May 2021 15:42:42 +0200
-Message-Id: <45a061c3b0463aac7d10664f47c4afdd999da50d.1619699721.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Thu, 27 May 2021 10:01:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 72AC4613C5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 May 2021 14:00:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622124009;
+        bh=ere2oLl8AEq5RwUxWMD2w37pHgfGNJP7p9aogoXE9/w=;
+        h=Subject:From:Date:To:From;
+        b=MXDAeVWZDptPxwbAu2c/FfPh34ZcNEUiKOFm9/EKJzu4c7qFt0gWHr86RXlyO/3dp
+         ypEzUvgjBmds/3eRuiIJMzSw64AfHvMz1NCdLdDoU1UOipWW7RmW7ChuAf0WUqyDk/
+         hd6KURTPiXT/I3yk2kwCcjC2osuI4mbiNutRo9VpmE+aTB2O7xZEr/LhR69ikoVK6/
+         /E4fFoJBZAZZ26GKUPzbEZGnLreU1uv5t8z/FcjNA9q/FzsQBdsSFsUyiwaJNGCqnB
+         4gRZp8UUO7mO6TNys4SxnzdF1HeuuEOyCv6hhglD80XD8es2W3tcJuQ0l6yIEzDq0Q
+         1Vsv2Nd5O0yZg==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 60B0160BCF
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 May 2021 14:00:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <162212400933.31262.18378546576303083346.git-patchwork-summary@kernel.org>
+Date:   Thu, 27 May 2021 14:00:09 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Tag the highest "Power Optimized" (1.5 GHz) Cortex-A57 operating point
-table entries for the RZ/G2M, R-Car M3-W and M3-W+ SoCs with the
-"opp-suspend" property.  This makes sure the system will enter suspend
-in the same performance state as it will be resumed by the firmware
-later, avoiding state inconsistencies after resume.
+Hello:
 
-Based on a patch for R-Car M3-W in the BSP by Takeshi Kihara
-<takeshi.kihara.df@renesas.com>.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (refs/heads/master):
 
-Fixes: 800037e815b91d8c ("arm64: dts: renesas: r8a774a1: Add operating points")
-Fixes: da7e3113344fda50 ("arm64: dts: renesas: r8a7796: Add OPPs table for cpu devices")
-Fixes: f51746ad7d1ff6b4 ("arm64: dts: renesas: Add Renesas R8A77961 SoC support")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Somehow I failed to send this patch, which is a contextual dependency for
-"[PATCH] arm64: dts: renesas: r8a7796[01]: Fix OPP table entry voltages"
-https://lore.kernel.org/r/b9e9db907514790574429b83d070c823b36085ef.1619699909.git.geert+renesas@glider.be/
+Patch: ARM: dts: alt: add SW2 as GPIO keys
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=488011
+  Lore link: https://lore.kernel.org/r/20210525091512.29119-1-wsa+renesas@sang-engineering.com
 
-To be queued in renesas-devel for v5.14.
+Total patches: 1
 
- arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 1 +
- arch/arm64/boot/dts/renesas/r8a77960.dtsi | 1 +
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 1 +
- 3 files changed, 3 insertions(+)
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-index c3d312af6fe95f2c..78c121a89f11b8ae 100644
---- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-@@ -76,6 +76,7 @@ opp-1500000000 {
- 			opp-hz = /bits/ 64 <1500000000>;
- 			opp-microvolt = <820000>;
- 			clock-latency-ns = <300000>;
-+			opp-suspend;
- 		};
- 	};
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-index d21be2f195b3be18..63bb395a6a64499a 100644
---- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-@@ -75,6 +75,7 @@ opp-1500000000 {
- 			opp-hz = /bits/ 64 <1500000000>;
- 			opp-microvolt = <820000>;
- 			clock-latency-ns = <300000>;
-+			opp-suspend;
- 		};
- 		opp-1600000000 {
- 			opp-hz = /bits/ 64 <1600000000>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index 941f18e5f5d29cda..c8b73108a4c8185d 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -64,6 +64,7 @@ opp-1500000000 {
- 			opp-hz = /bits/ 64 <1500000000>;
- 			opp-microvolt = <820000>;
- 			clock-latency-ns = <300000>;
-+			opp-suspend;
- 		};
- 		opp-1600000000 {
- 			opp-hz = /bits/ 64 <1600000000>;
--- 
-2.25.1
 
