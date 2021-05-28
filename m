@@ -2,108 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E175394399
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 May 2021 15:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A9263943E8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 May 2021 16:15:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235676AbhE1Nx0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 May 2021 09:53:26 -0400
-Received: from www.zeus03.de ([194.117.254.33]:57010 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235876AbhE1Nx0 (ORCPT
+        id S235340AbhE1OQs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 May 2021 10:16:48 -0400
+Received: from mail-ua1-f41.google.com ([209.85.222.41]:41638 "EHLO
+        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230080AbhE1OQs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 May 2021 09:53:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=nU0ILsvL1e7YkX+Q6Ium0QVVH0WE
-        +8p12XWu7kbQ4Z4=; b=CtOSCC26lJEJAI5FBtolb1D4QokvistWYY7olov2uqRN
-        WrG2R5/92SCcjIGzhHq3FyU6IWx+XVFnhmsSj5ervVvXlOoD7XUqzaFFh2HALiRT
-        bFLtQZTRSEo06Wn48SRTNHcPLxN1t1XJeSPDFcvHVxILH9nngaWZf48t5OKa/9U=
-Received: (qmail 2391605 invoked from network); 28 May 2021 15:51:50 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 May 2021 15:51:50 +0200
-X-UD-Smtp-Session: l3s3148p1@cadsLWTDDOEgAwDPXwoXAEGfoBQqamfc
-Date:   Fri, 28 May 2021 15:51:48 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Fri, 28 May 2021 10:16:48 -0400
+Received: by mail-ua1-f41.google.com with SMTP id g34so2203418uah.8;
+        Fri, 28 May 2021 07:15:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=qBo7OeIX4Ym22FQ+QNowtCfIZyHTAuCXsUMFxid9Jlw=;
+        b=sVQyOeJ7UVTJM8YpFfJf/ld0wI87HPT5M5P2LTNxCVvOYD2ac8M1dEBc2pzggMm0RU
+         tYaDZju7bS3sRmAFleKgKJapsz+UOWm7EhJmxSI2sTsTREcsCdnJGvidvIIZRf4ejFo0
+         CTYnL26CcTHMAUTaKDIPRYRPTVpfSqCPdPhkvao/ScbLH0oGTZ59bw7mWWIbIYX6alqd
+         eRzslY8JUOhOe38EuCEfEOuvKqxP7nkrSYHLAsTlItfT1dr851LjdvxjfvQolcw1QKHe
+         7/UFOh8WyjlIn8BgTzVNU/UrYAl975/BaGck8U+xl0H8T9HL7qSbacFSZrZaMXi/Efxc
+         c7aQ==
+X-Gm-Message-State: AOAM531NRgWv9rUvN0vCmeDQyJK1UYzrSg3U7zyQbuGkjnt4JYoZb/Qs
+        hT7NvtKuthANZYmtd1avjKHkUtCMO0LXyjjgJ4c=
+X-Google-Smtp-Source: ABdhPJzivupCL8G870iZ6lPRvpqaM8xb7SKT8hcQYpeOkiuVxE6lfutGg2ALVN95bnJJ4xuriujHuU3lcW2PODdIYaE=
+X-Received: by 2002:ab0:284a:: with SMTP id c10mr3352249uaq.106.1622211310248;
+ Fri, 28 May 2021 07:15:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1620138454.git.geert+renesas@glider.be> <ecfaf6be5e8c285db2bcc823bb1dd89931fa5c29.1620138454.git.geert+renesas@glider.be>
+ <20210505073327.GE1009@ninjato> <CAMuHMdX3jw_Cm4hrg4QLr5H45nydmdbJzd7Rd-HY-rncOoKxvQ@mail.gmail.com>
+ <YLD1dCO8O6uZppEV@kunai>
+In-Reply-To: <YLD1dCO8O6uZppEV@kunai>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 28 May 2021 16:14:58 +0200
+Message-ID: <CAMuHMdWsX=jaZVpbMeFp0kgKppbTyE9RwUX7oWNabcP3m9EQbA@mail.gmail.com>
+Subject: Re: [PATCH/RFC 4/6] dt-bindings: i2c: renesas,iic: Convert to json-schema
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Chris Brandt <chris.brandt@renesas.com>,
         Linux I2C <linux-i2c@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>
-Subject: Re: [PATCH/RFC 4/6] dt-bindings: i2c: renesas,iic: Convert to
- json-schema
-Message-ID: <YLD1dCO8O6uZppEV@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
-References: <cover.1620138454.git.geert+renesas@glider.be>
- <ecfaf6be5e8c285db2bcc823bb1dd89931fa5c29.1620138454.git.geert+renesas@glider.be>
- <20210505073327.GE1009@ninjato>
- <CAMuHMdX3jw_Cm4hrg4QLr5H45nydmdbJzd7Rd-HY-rncOoKxvQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5GjH/ziWN9sQFeFH"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdX3jw_Cm4hrg4QLr5H45nydmdbJzd7Rd-HY-rncOoKxvQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Wolfram,
 
---5GjH/ziWN9sQFeFH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, May 28, 2021 at 3:51 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > In addition, Wolfram tried transmitting something on R-Car H2 from
+> > the U-Boot prompt, and noticed the ICINT.ADTE bit is set afterwards,
+> > indicating success.
+>
+> Note that I tested this basic test on E2 as well.
+>
+> > As the Linux (or other OS?) i2c driver doesn't use automatic
+> > transmission, and it's very unlikely it ever will (anyone with a
+> > use case?), I'm inclined to simplify, and declare all IIC instances
+> > compatible with the generic version.
+> > If we ever want to implement support for automatic transmission,
+> > we can still differentiate by the SoC-specific compatible values,
+> > as they are present anyway, and may have to resort to checking
+> > e.g. instance base addresses anyway.
+> >
+> > Thoughts? Thanks!
+>
+> I agree. So, if nobody speaks up in the next days, I will apply this
+> patch as is.
 
-Hi Geert,
+Actually I'm more inclined to drop the special handling for the compatible
+values in the fourth set of items.  I.e. move them to the second and third
+set, and update the DTS files....
 
-> In addition, Wolfram tried transmitting something on R-Car H2 from
-> the U-Boot prompt, and noticed the ICINT.ADTE bit is set afterwards,
-> indicating success.
+> Thanks for your investigating!
 
-Note that I tested this basic test on E2 as well.
+You're welcome.
+Have a nice weekend!
 
-> As the Linux (or other OS?) i2c driver doesn't use automatic
-> transmission, and it's very unlikely it ever will (anyone with a
-> use case?), I'm inclined to simplify, and declare all IIC instances
-> compatible with the generic version.
-> If we ever want to implement support for automatic transmission,
-> we can still differentiate by the SoC-specific compatible values,
-> as they are present anyway, and may have to resort to checking
-> e.g. instance base addresses anyway.
->=20
-> Thoughts? Thanks!
+Gr{oetje,eeting}s,
 
-I agree. So, if nobody speaks up in the next days, I will apply this
-patch as is.
+                        Geert
 
-Thanks for your investigating!
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-   Wolfram
-
-
---5GjH/ziWN9sQFeFH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCw9XQACgkQFA3kzBSg
-Kba/HhAAtJgl3fiOwtLIOh1PQZjPGi28Q8kpmhka3f4ADiMw/NE8NKiNPPQdyQvU
-5Z4PTqnNUANvgRK5DDdNJmtTwDgnEm74kqmk+ONlu7BaoAbqsXJlcrxzRV0Rrdl4
-qUgxJD6B/m9hKs7yN5a04I7knUvtjRcEQ+mIPfkapDZApPOCfUnY6/InqahteOEl
-1HhNUgTVmAgLzKMm4VMyxXwM39EH2iyAti7l2Iab6lDiu6j/YrVK83ezN2B+EEgq
-oOqRcM/uH8Veucoa3BSnzplw+fwJx9nGDJsTx90OinjUK7WIAxEW3+rPsYNM91OG
-iIqL7cBjAh+ce9pGLUFnir5mu2wMOlRRqclkZ6r5GqAgkK1MxG50BNENXA8bxMx4
-MCAv3EMpTxrc2lJnDNUFPXFIDiyrIF+9WxOy4JvZuvVQa1+Faka+9KoYzfsrrQD4
-PhMs300u5bZm8nkXgu6SdUR3hSHO7eaXQCBHGvhqk6jpzCiWWhJcj0XTHSVRa35/
-cnITW1vQGYAhsv5wf49XDNttxlPIkfWrDRNrph73okanfaAMqYBWovSqkpPFkCIP
-btuleyL8nsC3xpz/qEFqOs6SmR3y23Ur4PKEqIOU5t/c4aIl4DjYx5tUs0c8p9+2
-Q8oBRhwvXDn4TexaWIV6xtK3JWkZ8h10/LvxT2mM99ryU3ukV3k=
-=OhYB
------END PGP SIGNATURE-----
-
---5GjH/ziWN9sQFeFH--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
