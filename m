@@ -2,147 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 233DB393D23
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 May 2021 08:33:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5974C393E2E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 May 2021 09:51:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233765AbhE1Gf2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 May 2021 02:35:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38898 "EHLO
+        id S233879AbhE1HxY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 May 2021 03:53:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbhE1Gf1 (ORCPT
+        with ESMTP id S229608AbhE1HxX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 May 2021 02:35:27 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D9BC061574
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 May 2021 23:33:53 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id s25so3826897ljo.11
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 May 2021 23:33:53 -0700 (PDT)
+        Fri, 28 May 2021 03:53:23 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0823FC061574;
+        Fri, 28 May 2021 00:51:48 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id z38so4335149ybh.5;
+        Fri, 28 May 2021 00:51:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Wp4A+xDRdTw8eNosv/yKNhhsYPrK+AroKbWEnOgZO3c=;
-        b=IfC4opZQkmWIgGRMkLX6NCbQb1UUyVNb+l2r4e3hmSxIAjaIJSHYNmgkZVLw2gUzZw
-         uxDaDbNqZAQWB1wDSAHJ6RwYeeCucJu8EZvGwzw+MYAYCePNVyI8frv/RAwOWW2Hy2Yk
-         8QwTlEx70CqTx/rYnop3GBf+Vy3OdBqttTOmlGfqXoSWIDQu2P0SBwFlD9ov07l6pElQ
-         T8Xe8vwpLKn4C8rCeKyCgLDzFyz6a0s1iIQael+2eladrhdmWcCjtw4FlUIZOsUOhsPB
-         AWiDrHF9YJo8xhOeT8iA/ReSZwB9vWS23KnNk3HRgUqlbodvR5EwUeyOrAGTv8HniRSz
-         PJ+w==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QjtThE/GvdTTwDHRzO7RqKpnpwomxf3ZkcySrQwdFO8=;
+        b=n96WUpjFckScqSNEnzFn0eCPHUzD52Jb779iKMf6j4qX7rctUuS2QMGfQEka+3Aaao
+         gsVWRAKAqq30ZATI9czY8QsgfLhzH56Vv44Rv9nwBY4fQ+zsM5na1I6P9uOlMjmX8pWy
+         AARR1E7AtcEVgxIKPqvby0Yy4FjOX7dc4HrmyLooeiLESkSX9Klv2Evt/AWUI3PILGCR
+         pRz8FplnRR0nt9A4/+vPlQRg3ApKzzmC7ZwUxysTCwZr65xWYXgQAdYrfEGs9IeRukCB
+         qRYZ8gQBEyrxMAvmyW/vQtP3+KipaH6yWHfTIa8n2wFAmSxss13C0G/HNplcR+ji1j2Q
+         EZMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Wp4A+xDRdTw8eNosv/yKNhhsYPrK+AroKbWEnOgZO3c=;
-        b=C3X6A1khtqI9cf3e7Vf+6Tsr75FwdyvT7/s99iJlmUwuNBgs3RemqhwoE6hoF5zbV8
-         nbD5wxHqPVCOc215bTUHh/8rJkZsiR1MYl8kqv3Dn03UK54XM5b4K2Lnq+BFksO2SjTp
-         +dIpNe8kRQUXqsYeRwp3YWtHoclsduVnzTtrv+7tNx+6fxy7vz580od8x5H1oaqmKZQu
-         Fmj3zsdJvldniiMN+BqfO/Y3eHqCR9vWXbm6Qw+S1zQ2V9VWmStbN4ZTuk5LxpRjgddx
-         nzBTNq5/HHX4DD7a+9bn94fI1QFRaDCJ5y/xFf5unq+BO3spwIwR6o/2eXY8ma9d41qG
-         WvBw==
-X-Gm-Message-State: AOAM530jA5nc/jXOCbxqigOS7yX5pRAVWywEe+sRKWjz4xZfwU5Ia+Qr
-        yiqi4MJb/+1u8H2HNCVp0h26Ug==
-X-Google-Smtp-Source: ABdhPJzULijxvePwPYEx/rtEikuQ6p7AgkPhQih3wbBtXvtX7c3K7RW4JZeryoIFKs/koBTvzHPNWQ==
-X-Received: by 2002:a2e:9d43:: with SMTP id y3mr5151501ljj.85.1622183631832;
-        Thu, 27 May 2021 23:33:51 -0700 (PDT)
-Received: from localhost (h-62-63-236-217.A463.priv.bahnhof.se. [62.63.236.217])
-        by smtp.gmail.com with ESMTPSA id a15sm92496lfg.112.2021.05.27.23.33.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 23:33:51 -0700 (PDT)
-Date:   Fri, 28 May 2021 08:33:50 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: dts: renesas: Add missing opp-suspend properties
-Message-ID: <YLCOzlbK1UEwhKfX@oden.dyn.berto.se>
-References: <45a061c3b0463aac7d10664f47c4afdd999da50d.1619699721.git.geert+renesas@glider.be>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QjtThE/GvdTTwDHRzO7RqKpnpwomxf3ZkcySrQwdFO8=;
+        b=PBTiciQyk3kuxOh7AsZg1lnRircMQDWGyuknajiYNuvM3nz/iI4wLqWCNy0fUuF1Z7
+         fylo8kfZpysU2oA900gS04FMe0i0EyIezMUoi9YnE8eltU1p/s+6BA8hzsy002rsGFUA
+         5GIZMb47038/cJajWULmMFQz8bV3XXjed9gP0BkGHGbbu7fhEkCBcyflAscbZaTEVzdh
+         d02C0IVgT3qwi/FOJGE/dzcin1hm2YLcD0/xAKZDZKpZaE2XlMyM+Po0qfQylCu4BirX
+         N0kUUyJbAfqJaAlvowfUCTXXXtn+guw/htWHdMEET25uBKfR4FUQ8kqsfV7EWr3XUICp
+         gKEQ==
+X-Gm-Message-State: AOAM531Qs3/9eg0NHJ6uLkRkLYMgBqVgQSgLw4bo8RwMNYqOlDrGUfXG
+        EBWCZpLBFfGgWWHYeoT+Xstpev8b7nqRWqAOCWc=
+X-Google-Smtp-Source: ABdhPJwWq5KIWkIdAqgVVIgQeSChmW1pD4dENRG4Yvitazs2XGQp+jjE4SAk+lUsFx4YIMAmVUhb3uFSCgiX1n1lv5U=
+X-Received: by 2002:a25:26c3:: with SMTP id m186mr9924697ybm.47.1622188307294;
+ Fri, 28 May 2021 00:51:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <45a061c3b0463aac7d10664f47c4afdd999da50d.1619699721.git.geert+renesas@glider.be>
+References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210514192218.13022-14-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXd==dM2QJN5gg0ka_7-HDQbeKZK66nmyASFJAnsVsSQA@mail.gmail.com>
+In-Reply-To: <CAMuHMdXd==dM2QJN5gg0ka_7-HDQbeKZK66nmyASFJAnsVsSQA@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 28 May 2021 08:51:21 +0100
+Message-ID: <CA+V-a8vHQLCL+V0f7bKZOKhtgo9_Rsqy_YjBOa_gCvgZMmBLnA@mail.gmail.com>
+Subject: Re: [PATCH 13/16] clk: renesas: Add CPG core wrapper for RZ/G2L SoC
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Geert,
 
-Thanks for your patch.
+On Thu, May 27, 2021 at 1:04 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Fri, May 14, 2021 at 9:24 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add CPG core wrapper for RZ/G2L family.
+> >
+> > Based on a patch in the BSP by Binh Nguyen
+> > <binh.nguyen.jz@renesas.com>.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> > --- /dev/null
+> > +++ b/drivers/clk/renesas/renesas-rzg2l-cpg.c
+>
+> > +static int rzg2l_mod_clock_endisable(struct clk_hw *hw, bool enable)
+> > +{
+> > +       struct mstp_clock *clock = to_mod_clock(hw);
+> > +       struct cpg_mssr_priv *priv = clock->priv;
+> > +       unsigned int reg = MSSR_OFF(clock->bit) * 4;
+>
+> The "* 4" here makes it difficult to review the module clock tables.
+>
+> E.g.
+>
+>        DEF_MOD("gic",          R9A07G044_CLK_GIC600,
+>                                R9A07G044_CLK_P1,
+>                                MSSR(5, BIT(0), (BIT(0) | BIT(1)))),
+>
+> The "5" means the CLK_ON_GIC600 register is at offset CLK_ON_R(5 * 4)
+>  = 0x514.  Removing the "* 4" means you could use
+> "MSSR(0x14, BIT(0), (BIT(0) | BIT(1))" instead.
+>
+> Unless it has unpleasant side effects, I'd even consider putting
+> the full CLK_ON offset there, i.e.
+> "MSSR(0x514, BIT(0), (BIT(0) | BIT(1))" and change the macros like:
+>
+>     #define CLK_ON_R(reg)          (reg)
+>     #define CLK_MON_R(reg)         (0x680 - 0x500 + (reg))
+>
+OK will do that.
 
-On 2021-05-27 15:42:42 +0200, Geert Uytterhoeven wrote:
-> Tag the highest "Power Optimized" (1.5 GHz) Cortex-A57 operating point
-> table entries for the RZ/G2M, R-Car M3-W and M3-W+ SoCs with the
-> "opp-suspend" property.  This makes sure the system will enter suspend
-> in the same performance state as it will be resumed by the firmware
-> later, avoiding state inconsistencies after resume.
-> 
-> Based on a patch for R-Car M3-W in the BSP by Takeshi Kihara
-> <takeshi.kihara.df@renesas.com>.
-> 
-> Fixes: 800037e815b91d8c ("arm64: dts: renesas: r8a774a1: Add operating points")
-> Fixes: da7e3113344fda50 ("arm64: dts: renesas: r8a7796: Add OPPs table for cpu devices")
-> Fixes: f51746ad7d1ff6b4 ("arm64: dts: renesas: Add Renesas R8A77961 SoC support")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > --- /dev/null
+> > +++ b/drivers/clk/renesas/renesas-rzg2l-cpg.h
+>
+> > +#define CLK_ON_R(reg)          (0x500 + reg)
+> > +#define CLK_MON_R(reg)         (0x680 + reg)
+> > +#define CLK_RST_R(reg)         (0x800 + reg)
+> > +#define CLK_MRST_R(reg)                (0x980 + reg)
+>
+> The last three don't seem to be documented?
+>
+I have asked Chris to send the document across.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
-> Somehow I failed to send this patch, which is a contextual dependency for
-> "[PATCH] arm64: dts: renesas: r8a7796[01]: Fix OPP table entry voltages"
-> https://lore.kernel.org/r/b9e9db907514790574429b83d070c823b36085ef.1619699909.git.geert+renesas@glider.be/
-> 
-> To be queued in renesas-devel for v5.14.
-> 
->  arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 1 +
->  arch/arm64/boot/dts/renesas/r8a77960.dtsi | 1 +
->  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 1 +
->  3 files changed, 3 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> index c3d312af6fe95f2c..78c121a89f11b8ae 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> @@ -76,6 +76,7 @@ opp-1500000000 {
->  			opp-hz = /bits/ 64 <1500000000>;
->  			opp-microvolt = <820000>;
->  			clock-latency-ns = <300000>;
-> +			opp-suspend;
->  		};
->  	};
->  
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-> index d21be2f195b3be18..63bb395a6a64499a 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-> @@ -75,6 +75,7 @@ opp-1500000000 {
->  			opp-hz = /bits/ 64 <1500000000>;
->  			opp-microvolt = <820000>;
->  			clock-latency-ns = <300000>;
-> +			opp-suspend;
->  		};
->  		opp-1600000000 {
->  			opp-hz = /bits/ 64 <1600000000>;
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> index 941f18e5f5d29cda..c8b73108a4c8185d 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> @@ -64,6 +64,7 @@ opp-1500000000 {
->  			opp-hz = /bits/ 64 <1500000000>;
->  			opp-microvolt = <820000>;
->  			clock-latency-ns = <300000>;
-> +			opp-suspend;
->  		};
->  		opp-1600000000 {
->  			opp-hz = /bits/ 64 <1600000000>;
-> -- 
-> 2.25.1
-> 
-
--- 
-Regards,
-Niklas Söderlund
+Cheers,
+Prabhakar
