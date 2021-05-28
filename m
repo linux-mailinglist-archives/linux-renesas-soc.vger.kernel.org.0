@@ -2,89 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A115393E42
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 May 2021 09:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69552393E60
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 May 2021 10:03:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235049AbhE1H6L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 May 2021 03:58:11 -0400
-Received: from www.zeus03.de ([194.117.254.33]:48776 "EHLO mail.zeus03.de"
+        id S235714AbhE1IFQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 May 2021 04:05:16 -0400
+Received: from www.zeus03.de ([194.117.254.33]:50652 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233879AbhE1H6L (ORCPT
+        id S229719AbhE1IFL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 May 2021 03:58:11 -0400
+        Fri, 28 May 2021 04:05:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=4a1UWrijKizQqJvpr+0ZFECRLopE
-        gw+Uj6Vi9O92d0c=; b=hP1YZ/dAaYXRIyv5tlrdlyaHf5AF/AZ7jmFBI4N1InUW
-        ETf6Fn5LtRX/VQrUwK2znw/VtYtg7jLK9JtCXvSnCLJQi7Tp3cw7/8OqTSqBwBii
-        UiQNHZWOFLro4N7dQYk4dxu/2dPfTtJ35iuE5sIa1+qdFEyi9XFiV+4tEJRZ1es=
-Received: (qmail 2272518 invoked from network); 28 May 2021 09:56:35 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 May 2021 09:56:35 +0200
-X-UD-Smtp-Session: l3s3148p1@GJ/6Nl/Dgt4gAwDPXwoXAEGfoBQqamfc
-Date:   Fri, 28 May 2021 09:56:35 +0200
+        :content-type:in-reply-to; s=k1; bh=VXoMljVzEVECXgf9hg23lFboUn+W
+        cDV1QOZKJ8wCwiw=; b=lgsBQ9tct0/9jmHNfPbqEzEAkyAuccG9HDUIr9BOemcf
+        2r/FVjPp2cjBcAmpWaOB70nUcQIOz+XGHWNRlOVZkjVIf2pGuHeOCcEa0+j4ic2P
+        3f1ZwqIYu8SpzJEICwmDcDRAl5QEARIs/UOmmWqouyPstLaqJInP3cWk9f0fDl4=
+Received: (qmail 2275190 invoked from network); 28 May 2021 10:03:35 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 May 2021 10:03:35 +0200
+X-UD-Smtp-Session: l3s3148p1@6HEJUF/D3N4gAwDPXwoXAEGfoBQqamfc
+Date:   Fri, 28 May 2021 10:03:35 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Rob Herring <robh@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 5/6] dt-bindings: i2c: renesas,riic: Convert to
- json-schema
-Message-ID: <YLCiM7La9lIKy7Bf@kunai>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>
+Subject: Re: [PATCH 0/2] ARM: dts: r8a7745,r8a7794: Remove generic compatible
+ strings from iic blocks
+Message-ID: <YLCj11FAJuIyTnIC@kunai>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <cover.1620138454.git.geert+renesas@glider.be>
- <e1bb5790675b6f4a518c6a9cbc22eb7452a2f78c.1620138454.git.geert+renesas@glider.be>
- <20210506205611.GA785508@robh.at.kernel.org>
- <CAMuHMdUh=Cne==VAqv_DRXZpB7cOyRJehaq-mOWQb__DUk1Orw@mail.gmail.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>
+References: <cover.1620139307.git.geert+renesas@glider.be>
+ <CAMuHMdWJ40hcw9L=MAKH0dTByjW_a8NbLxZ6GDV81MiH+gAk3Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="NHQajp+U+fGrk2qL"
+        protocol="application/pgp-signature"; boundary="T/jI5RAeG32tZ8Av"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUh=Cne==VAqv_DRXZpB7cOyRJehaq-mOWQb__DUk1Orw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWJ40hcw9L=MAKH0dTByjW_a8NbLxZ6GDV81MiH+gAk3Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---NHQajp+U+fGrk2qL
+--T/jI5RAeG32tZ8Av
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
 
-> > Don't need oneOf here with only 1 entry. Otherwise,
->=20
-> Thanks, dropping for v2.
+> While drivers/i2c/busses/i2c-sh_mobile.c already has a match entry for
+> "renesas,iic-r8a7794", it does not have one for "renesas,iic-r8a7745"
+> yet.  Hence patch 2/2 depends on a to-be-sent patch to update the
+> driver.
 
-Waiting for v2 here.
+For the record, this patch was never sent because we are still
+investigating the presence of those registers in IIC revisions.
 
 
---NHQajp+U+fGrk2qL
+--T/jI5RAeG32tZ8Av
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCwojMACgkQFA3kzBSg
-KbYApw//bLXJRANWg/cuJgdRW8B6ruGEN3TzvEj7hKhBkTOoTqQ7jevz9Pq3PQpP
-iUAvUlW3c9zPHjDrKxyClF4u+yjJ5tL6fc9ugerzsegMuJEOySGNDv14rHgacfoA
-4vu3Z0kB8pseaYQhmmb977bA717FHqRVnABTVsTItNkHUJUsFUs1zUB1dSnTW0J4
-mI8uiHCPNhq2+mnuQqKKUl8znBMrIZBMj0nWWRbhKNpeK6aWB7uDhv5IkiQ22Ioj
-cSLqafIqxOcbN5IDXW5uJtwfDdl6n1Hg+SBGiKLZ+f7+yW5qwXvQ/XuoeqAaZU8S
-7looQrVkFqK7R6012KvV/VA/BQehWlRSw9qJVRRYT1SStkoizHVti0UBSX5tDELu
-C50XrR4NMW54Dq5kuLh93PfT1M+or4v7j/UjT2wBKnRrH+lPFfcAj7n0XU2YafL0
-Jog6S+ki3mfflISSZBIZoF2/JwBQ+WYoiaE02Nu8sNaGYFsOD+K49EJaP+4WfHg6
-F79cnLml1O4B2VYTcGx0FaukKkpbmGe++hIHCDIwjtkcR5m06AVTi41LylVGTmt3
-snYDrN4NYKscyNE410RJIdMF+Mc6gwYbKgWXtRjldqRSza2jRkhWVJAwSIj3FPKp
-Zihi9ScGRkRyuaLPf5eYggz+lp/J2Otven0bcU+QwDWitSpBstk=
-=GvxI
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCwo9cACgkQFA3kzBSg
+KbYPAg/8D4Yj2kaT4/LWhAoixE3PjUzuhzmQyhYj/UietofbPwyRtrftEW/lr0jR
+SLRKVZK3Uc1C+tN594MiKDqhW7EO0a4bNN/PJmjtN8qlU21pmqFZdzHIwN/64NYe
+MTw2cNlQXtvEDPpu+yTTAQSUFCXxBtYt4XwI2e8yr02zEGvgvg50oi1kzZAeVMaQ
+vc93IaotHhtdOu2W8ljx/3DObrIw3TptnZlXZofqQlgdD+YU7TXw50NrWMPu4Hv3
+cSUk4fzsU5DQGlkkgSArHRp8UnHJEWe0YsXe8PsZ/Ff7axIw+sWVfKHDRRlFBkpD
+VOP2LfXcL5qImv6isnteDoXzED6jXROX14/PLOW7MfjgQiHynIiuqKm2xEPSQsuu
+JShoiYA/EGE0/QaoREOpoi5o+SGU99ast92TTiv32s2blq0LAayFmSr/dNaJS1J1
+Cf1CwLHdoAH8hC0O8sefBZHwFuLrP/4lCHlosjjxyZbLkuf21kb4TjFPwFj7hpfK
+rTdEd6pISSXghRqR2Ewi1+S5gdZldX2MIj+rkU1yf7J3uSQL8/u9VZ0/LOWFw4Ww
+6dHw+PkwDFfUijNyrcQPWfzZaAuNzFhftxpyDvw8wQxCfLS6r28ylm8HH1NLcyuz
+OiPRCVquq3d+/F06tW7Am6RBy1ZYlqiO+4swW2auwoM1xQloteg=
+=hniX
 -----END PGP SIGNATURE-----
 
---NHQajp+U+fGrk2qL--
+--T/jI5RAeG32tZ8Av--
