@@ -2,137 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5974C393E2E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 May 2021 09:51:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64546393E3A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 May 2021 09:56:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233879AbhE1HxY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 May 2021 03:53:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56386 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbhE1HxX (ORCPT
+        id S235473AbhE1H5g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 May 2021 03:57:36 -0400
+Received: from www.zeus03.de ([194.117.254.33]:48562 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235049AbhE1H5f (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 May 2021 03:53:23 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0823FC061574;
-        Fri, 28 May 2021 00:51:48 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id z38so4335149ybh.5;
-        Fri, 28 May 2021 00:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QjtThE/GvdTTwDHRzO7RqKpnpwomxf3ZkcySrQwdFO8=;
-        b=n96WUpjFckScqSNEnzFn0eCPHUzD52Jb779iKMf6j4qX7rctUuS2QMGfQEka+3Aaao
-         gsVWRAKAqq30ZATI9czY8QsgfLhzH56Vv44Rv9nwBY4fQ+zsM5na1I6P9uOlMjmX8pWy
-         AARR1E7AtcEVgxIKPqvby0Yy4FjOX7dc4HrmyLooeiLESkSX9Klv2Evt/AWUI3PILGCR
-         pRz8FplnRR0nt9A4/+vPlQRg3ApKzzmC7ZwUxysTCwZr65xWYXgQAdYrfEGs9IeRukCB
-         qRYZ8gQBEyrxMAvmyW/vQtP3+KipaH6yWHfTIa8n2wFAmSxss13C0G/HNplcR+ji1j2Q
-         EZMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QjtThE/GvdTTwDHRzO7RqKpnpwomxf3ZkcySrQwdFO8=;
-        b=PBTiciQyk3kuxOh7AsZg1lnRircMQDWGyuknajiYNuvM3nz/iI4wLqWCNy0fUuF1Z7
-         fylo8kfZpysU2oA900gS04FMe0i0EyIezMUoi9YnE8eltU1p/s+6BA8hzsy002rsGFUA
-         5GIZMb47038/cJajWULmMFQz8bV3XXjed9gP0BkGHGbbu7fhEkCBcyflAscbZaTEVzdh
-         d02C0IVgT3qwi/FOJGE/dzcin1hm2YLcD0/xAKZDZKpZaE2XlMyM+Po0qfQylCu4BirX
-         N0kUUyJbAfqJaAlvowfUCTXXXtn+guw/htWHdMEET25uBKfR4FUQ8kqsfV7EWr3XUICp
-         gKEQ==
-X-Gm-Message-State: AOAM531Qs3/9eg0NHJ6uLkRkLYMgBqVgQSgLw4bo8RwMNYqOlDrGUfXG
-        EBWCZpLBFfGgWWHYeoT+Xstpev8b7nqRWqAOCWc=
-X-Google-Smtp-Source: ABdhPJwWq5KIWkIdAqgVVIgQeSChmW1pD4dENRG4Yvitazs2XGQp+jjE4SAk+lUsFx4YIMAmVUhb3uFSCgiX1n1lv5U=
-X-Received: by 2002:a25:26c3:: with SMTP id m186mr9924697ybm.47.1622188307294;
- Fri, 28 May 2021 00:51:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210514192218.13022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210514192218.13022-14-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXd==dM2QJN5gg0ka_7-HDQbeKZK66nmyASFJAnsVsSQA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXd==dM2QJN5gg0ka_7-HDQbeKZK66nmyASFJAnsVsSQA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 28 May 2021 08:51:21 +0100
-Message-ID: <CA+V-a8vHQLCL+V0f7bKZOKhtgo9_Rsqy_YjBOa_gCvgZMmBLnA@mail.gmail.com>
-Subject: Re: [PATCH 13/16] clk: renesas: Add CPG core wrapper for RZ/G2L SoC
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fri, 28 May 2021 03:57:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=TRrNhEM28j0tW8rfbV/wDGPaK4AI
+        H0duCAcURt1t5RM=; b=h8Qm3bVnBhL1jok5pHIkpSCZOTKDAVjG6NK8OolRGu7j
+        2eTBqqibJWD1sB5J09UDwG+xEKQKRrf4eHH6xmLN7yTgy3qQBov2SeNTLF9eVA8X
+        5N031ScMxWWAyylWhby0ctrCGgHYRCYDwTLmGZtja/oGqF22AGu20e9y7x/a2Sk=
+Received: (qmail 2272086 invoked from network); 28 May 2021 09:55:59 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 May 2021 09:55:59 +0200
+X-UD-Smtp-Session: l3s3148p1@4ovPNF/Det4gAwDPXwoXAEGfoBQqamfc
+Date:   Fri, 28 May 2021 09:55:58 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/6] i2c: rcar: Drop "renesas,i2c-rcar"
+Message-ID: <YLCiDlXof6tv3FkV@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Chris Brandt <chris.brandt@renesas.com>, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <cover.1620138454.git.geert+renesas@glider.be>
+ <a847c1866a006b4a4fb24ce4c97131493696c524.1620138454.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="nbOHwkaqOaI42V6K"
+Content-Disposition: inline
+In-Reply-To: <a847c1866a006b4a4fb24ce4c97131493696c524.1620138454.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
 
-On Thu, May 27, 2021 at 1:04 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, May 14, 2021 at 9:24 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Add CPG core wrapper for RZ/G2L family.
-> >
-> > Based on a patch in the BSP by Binh Nguyen
-> > <binh.nguyen.jz@renesas.com>.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->
-> > --- /dev/null
-> > +++ b/drivers/clk/renesas/renesas-rzg2l-cpg.c
->
-> > +static int rzg2l_mod_clock_endisable(struct clk_hw *hw, bool enable)
-> > +{
-> > +       struct mstp_clock *clock = to_mod_clock(hw);
-> > +       struct cpg_mssr_priv *priv = clock->priv;
-> > +       unsigned int reg = MSSR_OFF(clock->bit) * 4;
->
-> The "* 4" here makes it difficult to review the module clock tables.
->
-> E.g.
->
->        DEF_MOD("gic",          R9A07G044_CLK_GIC600,
->                                R9A07G044_CLK_P1,
->                                MSSR(5, BIT(0), (BIT(0) | BIT(1)))),
->
-> The "5" means the CLK_ON_GIC600 register is at offset CLK_ON_R(5 * 4)
->  = 0x514.  Removing the "* 4" means you could use
-> "MSSR(0x14, BIT(0), (BIT(0) | BIT(1))" instead.
->
-> Unless it has unpleasant side effects, I'd even consider putting
-> the full CLK_ON offset there, i.e.
-> "MSSR(0x514, BIT(0), (BIT(0) | BIT(1))" and change the macros like:
->
->     #define CLK_ON_R(reg)          (reg)
->     #define CLK_MON_R(reg)         (0x680 - 0x500 + (reg))
->
-OK will do that.
+--nbOHwkaqOaI42V6K
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > --- /dev/null
-> > +++ b/drivers/clk/renesas/renesas-rzg2l-cpg.h
->
-> > +#define CLK_ON_R(reg)          (0x500 + reg)
-> > +#define CLK_MON_R(reg)         (0x680 + reg)
-> > +#define CLK_RST_R(reg)         (0x800 + reg)
-> > +#define CLK_MRST_R(reg)                (0x980 + reg)
->
-> The last three don't seem to be documented?
->
-I have asked Chris to send the document across.
+On Tue, May 04, 2021 at 04:35:53PM +0200, Geert Uytterhoeven wrote:
+> The compatible value "renesas,i2c-rcar" was deprecated in commit
+> ad4a8dc3fec6485b ("i2c: rcar: Add per-Generation fallback bindings"),
+> and never had any users in upstream Linux.  Drop its match entry from
+> the driver.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Cheers,
-Prabhakar
+Applied to for-next, thanks!
+
+
+--nbOHwkaqOaI42V6K
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCwog4ACgkQFA3kzBSg
+Kba6sBAAsUVCGBrfKNnzwm45uyOxVmiw6cNayaS0atmGM+PKDv3eb6E1qLx1etIz
+tQtnDJ36AmbdJt7tBahsjqObDyp6uXbovvVAm9u2nNiCkOMwqIn6884qNux+Foqu
+jrbR3OOb3eL9oBRWIIKknODB4xkb/OXwQvHxVKOxfDglfuRSb/eodzyr2JnqafoY
+df+v5zUgE50f7g5CD4sRcJBap8vHpC9EdAkmEgdmONsnn8Cyo5/oalXNbYKO1AKj
+IBBHL/wJHdS7vmjdEqrbR0XJZ9jJ/cZ1OeK0V0+pdYRhD2KZ840nidyndsHcVKh0
+Z40AZ/PseKxaCFCpJ/KUM9z10Cuo6EKfRIVYm86F0ki5ZEw4eCtcdyw1E0nhvJ+b
+7PeyE3oMFQ/HRKNdgRAaLrwHYCkP1t8c+InqLpVztAbUhmCTKSosoK6M1x/7afVy
+j3Vps3xX9RSS/sZjOFWnpP24Bs4Zme7PtGukMCU2YdSJ4mA5UfKSVRo153IA/uRu
+xozvDLU7EQN8BK4aNjhuLG+i4w2t8Bu4yBUdOdrplPZXUn6HmDiiwheFnjQerfdd
+EiDuy2dN3FHLN2lZqAJ6A9FWz2tXTO0HNCXv/GH7cyIyJ4U2y8T7au6tNYAbd8Ek
+Lfl3k3rI5SmjLk/9P2OxWNlNOZHz5r6HmymkwUs9v37me0wJyQU=
+=MifB
+-----END PGP SIGNATURE-----
+
+--nbOHwkaqOaI42V6K--
