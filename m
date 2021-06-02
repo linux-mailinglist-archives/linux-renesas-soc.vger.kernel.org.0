@@ -2,81 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B0CC398879
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jun 2021 13:41:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EDC53988B1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jun 2021 13:57:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229641AbhFBLnE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Jun 2021 07:43:04 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:8537 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229482AbhFBLnB (ORCPT
+        id S229641AbhFBL64 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Jun 2021 07:58:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52182 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229524AbhFBL6x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Jun 2021 07:43:01 -0400
-X-IronPort-AV: E=Sophos;i="5.83,242,1616425200"; 
-   d="scan'208";a="83039392"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 02 Jun 2021 20:41:17 +0900
-Received: from localhost.localdomain (unknown [10.166.14.185])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C79154238403;
-        Wed,  2 Jun 2021 20:41:17 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     gregkh@linuxfoundation.org, jirislaby@kernel.org
-Cc:     linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] serial: sh-sci: Stop dmaengine transfer in sci_stop_tx()
-Date:   Wed,  2 Jun 2021 20:41:08 +0900
-Message-Id: <20210602114108.510527-1-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 2 Jun 2021 07:58:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E4C32613AA;
+        Wed,  2 Jun 2021 11:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1622635030;
+        bh=6CjIyfv7G12jEh5uO0m+gLajWf57EkvIGneqfDb7WxE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=zgk2M3KfzgG51hxVeV66u7MTRrujUGSn3qncmm1pc9JAqp++Be3K6nHpUFBm8LeOC
+         HU+Hm/1IfRkf6kjyVFBgOTV6UTKneIXTCkeCD/14rIofTMGgpjsd2E25/nfY3T0U20
+         3qVGRUY1zai/Ze2hcFoTrDBK3YKVrrfAY72VnlAY=
+Date:   Wed, 2 Jun 2021 13:57:07 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     jirislaby@kernel.org, linux-serial@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] serial: sh-sci: Stop dmaengine transfer in sci_stop_tx()
+Message-ID: <YLdyE/Jf/YcSz7AE@kroah.com>
+References: <20210602114108.510527-1-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210602114108.510527-1-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Stop dmaengine transfer in sci_stop_tx(). Otherwise, the following
-message is possible output when system enters suspend and while
-transferring data, because clearing TIE bit in SCSCR is not able to
-stop any dmaengine transfer.
+On Wed, Jun 02, 2021 at 08:41:08PM +0900, Yoshihiro Shimoda wrote:
+> Stop dmaengine transfer in sci_stop_tx(). Otherwise, the following
+> message is possible output when system enters suspend and while
+> transferring data, because clearing TIE bit in SCSCR is not able to
+> stop any dmaengine transfer.
+> 
+>     sh-sci e6550000.serial: ttySC1: Unable to drain transmitter
+> 
+> Notes that this patch uses dmaengine_terminate_async() so that
+> we can apply this patch into longterm kernel v4.9.x or later.
+> 
+> Fixes: 73a19e4c0301 ("serial: sh-sci: Add DMA support.")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  drivers/tty/serial/sh-sci.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+> index 4baf1316ea72..e7130be48946 100644
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -600,6 +600,9 @@ static void sci_start_tx(struct uart_port *port)
+>  static void sci_stop_tx(struct uart_port *port)
+>  {
+>  	unsigned short ctrl;
+> +#ifdef CONFIG_SERIAL_SH_SCI_DMA
+> +	struct sci_port *s = to_sci_port(port);
+> +#endif
 
-    sh-sci e6550000.serial: ttySC1: Unable to drain transmitter
+Please do not put #ifdef in .c files, this should be possible without
+that.
 
-Notes that this patch uses dmaengine_terminate_async() so that
-we can apply this patch into longterm kernel v4.9.x or later.
+thanks,
 
-Fixes: 73a19e4c0301 ("serial: sh-sci: Add DMA support.")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/tty/serial/sh-sci.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index 4baf1316ea72..e7130be48946 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -600,6 +600,9 @@ static void sci_start_tx(struct uart_port *port)
- static void sci_stop_tx(struct uart_port *port)
- {
- 	unsigned short ctrl;
-+#ifdef CONFIG_SERIAL_SH_SCI_DMA
-+	struct sci_port *s = to_sci_port(port);
-+#endif
- 
- 	/* Clear TIE (Transmit Interrupt Enable) bit in SCSCR */
- 	ctrl = serial_port_in(port, SCSCR);
-@@ -610,6 +613,13 @@ static void sci_stop_tx(struct uart_port *port)
- 	ctrl &= ~SCSCR_TIE;
- 
- 	serial_port_out(port, SCSCR, ctrl);
-+
-+#ifdef CONFIG_SERIAL_SH_SCI_DMA
-+	if (s->chan_tx && !dma_submit_error(s->cookie_tx)) {
-+		dmaengine_terminate_async(s->chan_tx);
-+		s->cookie_tx = -EINVAL;
-+	}
-+#endif
- }
- 
- static void sci_start_rx(struct uart_port *port)
--- 
-2.25.1
-
+greg k-h
