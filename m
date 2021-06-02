@@ -2,83 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4745039830E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jun 2021 09:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B0CC398879
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Jun 2021 13:41:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231617AbhFBHgY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Jun 2021 03:36:24 -0400
-Received: from www.zeus03.de ([194.117.254.33]:36376 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231590AbhFBHgY (ORCPT
+        id S229641AbhFBLnE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Jun 2021 07:43:04 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:8537 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229482AbhFBLnB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Jun 2021 03:36:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=unNYibepvut6tLpKDUESbTSD11S
-        J/DCM/TpYf8hSBq4=; b=LFCc5FW1XI0Kjxw09UIoxZrlfcf2PA9rRindPHAoFFk
-        isbOLkJVkX3p9q13Hl5rRydwxJNllk+/pCY8nUO+9JxYauwolUG1g8xPogXUBnce
-        ZXgRgGnYvWxDLeioZPNGEwY3fiPERyFQv/yQCSaGMdBs7yNEXnU2L47AhSMEQWPY
-        =
-Received: (qmail 594059 invoked from network); 2 Jun 2021 09:34:40 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Jun 2021 09:34:40 +0200
-X-UD-Smtp-Session: l3s3148p1@Hl7OfcPDCIcgARa4RcfgAY/i/QRA3j/I
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] mmc: renesas_sdhi: abort tuning when timeout detected
-Date:   Wed,  2 Jun 2021 09:34:35 +0200
-Message-Id: <20210602073435.5955-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        Wed, 2 Jun 2021 07:43:01 -0400
+X-IronPort-AV: E=Sophos;i="5.83,242,1616425200"; 
+   d="scan'208";a="83039392"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 02 Jun 2021 20:41:17 +0900
+Received: from localhost.localdomain (unknown [10.166.14.185])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C79154238403;
+        Wed,  2 Jun 2021 20:41:17 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc:     linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] serial: sh-sci: Stop dmaengine transfer in sci_stop_tx()
+Date:   Wed,  2 Jun 2021 20:41:08 +0900
+Message-Id: <20210602114108.510527-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-We have to bring the eMMC from sending-data state back to transfer state
-once we detected a CRC error (timeout) during tuning. So, send a stop
-command via mmc_abort_tuning().
+Stop dmaengine transfer in sci_stop_tx(). Otherwise, the following
+message is possible output when system enters suspend and while
+transferring data, because clearing TIE bit in SCSCR is not able to
+stop any dmaengine transfer.
 
-Fixes: 4f11997773b6 ("mmc: tmio: Add tuning support")
-Reported-by Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+    sh-sci e6550000.serial: ttySC1: Unable to drain transmitter
+
+Notes that this patch uses dmaengine_terminate_async() so that
+we can apply this patch into longterm kernel v4.9.x or later.
+
+Fixes: 73a19e4c0301 ("serial: sh-sci: Add DMA support.")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
+ drivers/tty/serial/sh-sci.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Ulf, I'd think that mmc_abort_tuning() should be named
-mmc_abort_tuning_cmd() instead. Because we don't actually abort the
-tuning as a whole in this function. What do you think? I can prepare a
-patch if you agree.
-
- drivers/mmc/host/renesas_sdhi_core.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 635bf31a6735..9029308c4a0f 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -692,14 +692,19 @@ static int renesas_sdhi_execute_tuning(struct mmc_host *mmc, u32 opcode)
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index 4baf1316ea72..e7130be48946 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -600,6 +600,9 @@ static void sci_start_tx(struct uart_port *port)
+ static void sci_stop_tx(struct uart_port *port)
+ {
+ 	unsigned short ctrl;
++#ifdef CONFIG_SERIAL_SH_SCI_DMA
++	struct sci_port *s = to_sci_port(port);
++#endif
  
- 	/* Issue CMD19 twice for each tap */
- 	for (i = 0; i < 2 * priv->tap_num; i++) {
-+		int cmd_error;
+ 	/* Clear TIE (Transmit Interrupt Enable) bit in SCSCR */
+ 	ctrl = serial_port_in(port, SCSCR);
+@@ -610,6 +613,13 @@ static void sci_stop_tx(struct uart_port *port)
+ 	ctrl &= ~SCSCR_TIE;
+ 
+ 	serial_port_out(port, SCSCR, ctrl);
 +
- 		/* Set sampling clock position */
- 		sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TAPSET, i % priv->tap_num);
++#ifdef CONFIG_SERIAL_SH_SCI_DMA
++	if (s->chan_tx && !dma_submit_error(s->cookie_tx)) {
++		dmaengine_terminate_async(s->chan_tx);
++		s->cookie_tx = -EINVAL;
++	}
++#endif
+ }
  
--		if (mmc_send_tuning(mmc, opcode, NULL) == 0)
-+		if (mmc_send_tuning(mmc, opcode, &cmd_error) == 0)
- 			set_bit(i, priv->taps);
- 
- 		if (sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP) == 0)
- 			set_bit(i, priv->smpcmp);
-+
-+		if (cmd_error)
-+			mmc_abort_tuning(mmc, opcode);
- 	}
- 
- 	ret = renesas_sdhi_select_tuning(host);
+ static void sci_start_rx(struct uart_port *port)
 -- 
-2.30.2
+2.25.1
 
