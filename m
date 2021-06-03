@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A88DA39ADC0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 00:19:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A80AC39ADC5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 00:19:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231328AbhFCWUg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Jun 2021 18:20:36 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:9907 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230265AbhFCWUg (ORCPT
+        id S231357AbhFCWUl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Jun 2021 18:20:41 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:3962 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230265AbhFCWUl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Jun 2021 18:20:36 -0400
+        Thu, 3 Jun 2021 18:20:41 -0400
 X-IronPort-AV: E=Sophos;i="5.83,246,1616425200"; 
-   d="scan'208";a="83182177"
+   d="scan'208";a="83343569"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 04 Jun 2021 07:18:50 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 04 Jun 2021 07:18:54 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0DDA3410B534;
-        Fri,  4 Jun 2021 07:18:46 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2963C410B534;
+        Fri,  4 Jun 2021 07:18:50 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -36,9 +36,9 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 10/12] serial: sh-sci: Add support for RZ/G2L SoC
-Date:   Thu,  3 Jun 2021 23:17:56 +0100
-Message-Id: <20210603221758.10305-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 11/12] arm64: dts: renesas: Add initial DTSI for RZ/G2{L,LC} SoC's
+Date:   Thu,  3 Jun 2021 23:17:57 +0100
+Message-Id: <20210603221758.10305-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -46,88 +46,177 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Add initial DTSI for RZ/G2{L,LC} SoC's.
 
-Add serial support for RZ/G2L SoC with earlycon and
-extended mode register support.
+File structure:
+r9a07g044.dtsi  => RZ/G2L family SoC common parts
+r9a07g044l1.dtsi => Specific to RZ/G2L (R9A07G044L single cortex A55) SoC
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/tty/serial/sh-sci.c | 12 +++++++++++-
- drivers/tty/serial/sh-sci.h |  1 +
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi   | 119 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi |  25 ++++
+ 2 files changed, 144 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
 
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index ef37fdf37612..798ccd88251f 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -289,7 +289,7 @@ static const struct sci_port_params sci_port_params[SCIx_NR_REGTYPES] = {
- 	},
- 
- 	/*
--	 * The "SCIFA" that is in RZ/T and RZ/A2.
-+	 * The "SCIFA" that is in RZ/A2, RZ/G2L and RZ/T.
- 	 * It looks like a normal SCIF with FIFO data, but with a
- 	 * compressed address space. Also, the break out of interrupts
- 	 * are different: ERI/BRI, RXI, TXI, TEI, DRI.
-@@ -306,6 +306,7 @@ static const struct sci_port_params sci_port_params[SCIx_NR_REGTYPES] = {
- 			[SCFDR]		= { 0x0E, 16 },
- 			[SCSPTR]	= { 0x10, 16 },
- 			[SCLSR]		= { 0x12, 16 },
-+			[SEMR]		= { 0x14, 8 },
- 		},
- 		.fifosize = 16,
- 		.overrun_reg = SCLSR,
-@@ -2514,6 +2515,9 @@ static void sci_set_termios(struct uart_port *port, struct ktermios *termios,
- 	if (termios->c_cflag & PARENB)
- 		bits++;
- 
-+	if (sci_getreg(port, SEMR)->size)
-+		serial_port_out(port, SEMR, 0);
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+new file mode 100644
+index 000000000000..b2dbf6543d98
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+@@ -0,0 +1,119 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Device Tree Source for the RZ/G2L and RZ/G2LC common SoC parts
++ *
++ * Copyright (C) 2021 Renesas Electronics Corp.
++ */
 +
- 	if (best_clk >= 0) {
- 		if (port->type == PORT_SCIFA || port->type == PORT_SCIFB)
- 			switch (srr + 1) {
-@@ -3170,6 +3174,10 @@ static const struct of_device_id of_sci_match[] = {
- 		.compatible = "renesas,scif-r7s9210",
- 		.data = SCI_OF_DATA(PORT_SCIF, SCIx_RZ_SCIFA_REGTYPE),
- 	},
-+	{
-+		.compatible = "renesas,scif-r9a07g044",
-+		.data = SCI_OF_DATA(PORT_SCIF, SCIx_RZ_SCIFA_REGTYPE),
-+	},
- 	/* Family-specific types */
- 	{
- 		.compatible = "renesas,rcar-gen1-scif",
-@@ -3452,6 +3460,7 @@ static int __init rzscifa_early_console_setup(struct earlycon_device *device,
- 	port_cfg.regtype = SCIx_RZ_SCIFA_REGTYPE;
- 	return early_console_setup(device, PORT_SCIF);
- }
++#include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/clock/r9a07g044-cpg.h>
 +
- static int __init scifa_early_console_setup(struct earlycon_device *device,
- 					  const char *opt)
- {
-@@ -3471,6 +3480,7 @@ static int __init hscif_early_console_setup(struct earlycon_device *device,
- OF_EARLYCON_DECLARE(sci, "renesas,sci", sci_early_console_setup);
- OF_EARLYCON_DECLARE(scif, "renesas,scif", scif_early_console_setup);
- OF_EARLYCON_DECLARE(scif, "renesas,scif-r7s9210", rzscifa_early_console_setup);
-+OF_EARLYCON_DECLARE(scif, "renesas,scif-r9a07g044", rzscifa_early_console_setup);
- OF_EARLYCON_DECLARE(scifa, "renesas,scifa", scifa_early_console_setup);
- OF_EARLYCON_DECLARE(scifb, "renesas,scifb", scifb_early_console_setup);
- OF_EARLYCON_DECLARE(hscif, "renesas,hscif", hscif_early_console_setup);
-diff --git a/drivers/tty/serial/sh-sci.h b/drivers/tty/serial/sh-sci.h
-index c0dfe4382898..c0ae78632dda 100644
---- a/drivers/tty/serial/sh-sci.h
-+++ b/drivers/tty/serial/sh-sci.h
-@@ -31,6 +31,7 @@ enum {
- 	SCCKS,				/* BRG Clock Select Register */
- 	HSRTRGR,			/* Rx FIFO Data Count Trigger Register */
- 	HSTTRGR,			/* Tx FIFO Data Count Trigger Register */
-+	SEMR,				/* Serial extended mode register */
- 
- 	SCIx_NR_REGS,
- };
++/ {
++	compatible = "renesas,r9a07g044";
++	#address-cells = <2>;
++	#size-cells = <2>;
++
++	extal_clk: extal {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		/* This value must be overridden by the board */
++		clock-frequency = <0>;
++	};
++
++	psci {
++		compatible = "arm,psci-1.0", "arm,psci-0.2";
++		method = "smc";
++	};
++
++	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		cpu-map {
++			cluster0 {
++				core0 {
++					cpu = <&cpu0>;
++				};
++				core1 {
++					cpu = <&cpu1>;
++				};
++			};
++		};
++
++		cpu0: cpu@0 {
++			compatible = "arm,cortex-a55";
++			reg = <0>;
++			device_type = "cpu";
++			next-level-cache = <&L3_CA55>;
++			enable-method = "psci";
++		};
++
++		cpu1: cpu@100 {
++			compatible = "arm,cortex-a55";
++			reg = <0x100>;
++			device_type = "cpu";
++			next-level-cache = <&L3_CA55>;
++			enable-method = "psci";
++		};
++
++		L3_CA55: cache-controller-0 {
++			compatible = "cache";
++			cache-unified;
++			cache-size = <0x40000>;
++		};
++	};
++
++	soc: soc {
++		compatible = "simple-bus";
++		interrupt-parent = <&gic>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++
++		scif0: serial@1004b800 {
++			compatible = "renesas,scif-r9a07g044";
++			reg = <0 0x1004b800 0 0x400>;
++			interrupts = <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 382 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 383 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 381 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 384 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 384 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "eri", "rxi", "txi",
++					  "bri", "dri", "tei";
++			clocks = <&cpg CPG_MOD R9A07G044_CLK_SCIF0>;
++			clock-names = "fck";
++			power-domains = <&cpg>;
++			resets = <&cpg R9A07G044_CLK_SCIF0>;
++			status = "disabled";
++		};
++
++		cpg: clock-controller@11010000 {
++			compatible = "renesas,r9a07g044-cpg";
++			reg = <0 0x11010000 0 0x10000>;
++			clocks = <&extal_clk>;
++			clock-names = "extal";
++			#clock-cells = <2>;
++			#reset-cells = <1>;
++			#power-domain-cells = <0>;
++		};
++
++		gic: interrupt-controller@11900000 {
++			compatible = "arm,gic-v3";
++			#interrupt-cells = <3>;
++			#address-cells = <0>;
++			interrupt-controller;
++			reg = <0x0 0x11900000 0 0x40000>,
++			      <0x0 0x11940000 0 0x60000>;
++			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
++		};
++	};
++
++	timer {
++		compatible = "arm,armv8-timer";
++		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>;
++	};
++};
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
+new file mode 100644
+index 000000000000..02f6da806696
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
+@@ -0,0 +1,25 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Device Tree Source for the RZ/G2L R9A07G044L1 common parts
++ *
++ * Copyright (C) 2021 Renesas Electronics Corp.
++ */
++
++/dts-v1/;
++#include "r9a07g044.dtsi"
++
++/ {
++	compatible = "renesas,r9a07g044l1", "renesas,r9a07g044";
++
++	cpus {
++		/delete-node/ cpu-map;
++		/delete-node/ cpu@100;
++	};
++
++	timer {
++		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
++	};
++};
 -- 
 2.17.1
 
