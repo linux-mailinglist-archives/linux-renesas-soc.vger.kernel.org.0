@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40DC8399A17
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jun 2021 07:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81F45399A1A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jun 2021 07:40:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbhFCFmh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Jun 2021 01:42:37 -0400
-Received: from mail-lj1-f170.google.com ([209.85.208.170]:41621 "EHLO
-        mail-lj1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229685AbhFCFmh (ORCPT
+        id S229685AbhFCFmj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Jun 2021 01:42:39 -0400
+Received: from mail-lf1-f52.google.com ([209.85.167.52]:33600 "EHLO
+        mail-lf1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229738AbhFCFmi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Jun 2021 01:42:37 -0400
-Received: by mail-lj1-f170.google.com with SMTP id p20so5570501ljj.8;
-        Wed, 02 Jun 2021 22:40:35 -0700 (PDT)
+        Thu, 3 Jun 2021 01:42:38 -0400
+Received: by mail-lf1-f52.google.com with SMTP id a5so7045955lfm.0;
+        Wed, 02 Jun 2021 22:40:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=xN6aRvmLaxYX9MgFx3rl1k896x6TvWvZBw9T/Adkpys=;
-        b=dZJp8Lph4MkUtwVsM2IFPUvKnF9H4RICkvkQ0cEcSyZZkqhghdxhhm6v4j5lB5GZIS
-         XpvfaOFpXyUJSUISjYIKcmCJb5cYWN/z8bg095d4lxCzvokYKd0iJf1rCkeQJa2oYUnn
-         ifnAvtbYVvXnkJCgd3y3C+CUYm7nhFKh+O917Te0ra44BGl2xi6+rOrceA3m3Af8EXnm
-         WJx61g9A++Y2JaHcLtRg/YWzKJq0Fq3kDqu+u54HOMlqg7KsqWx1Yum/4GrsVLbR6Qoh
-         9TFscC/Mz2T4x6Bjgu+G4zf4KD0w3tHG8ZdvZubDA62UUJ6pzHJs+DlU1YJLd2yZTY8+
-         /jjQ==
-X-Gm-Message-State: AOAM533r/AJYPkIucRsnUTze63ZXDrYFNw9E8iOlnexL+njY2VQVFkNH
-        kD9mEc1QUQDwe3Sznfwb2dU=
-X-Google-Smtp-Source: ABdhPJztgpHdkeWIAkRr8Arcj0pDsNjuimLDkg7ufI+zadKkf0DVK4fcxreOBgk+2YNOdhphj62HBg==
-X-Received: by 2002:a2e:a443:: with SMTP id v3mr27425834ljn.251.1622698835107;
-        Wed, 02 Jun 2021 22:40:35 -0700 (PDT)
+        bh=Ne1WWYaCz65VdAFxTqyE7mZ4II+d9O5bnHyG1KNO9ao=;
+        b=rllPTt9yXlLbdYDVXD/IrGc4zDp1OkdGD3wnd6wW7gpKpucWcsEP1Q4Wb67qlmHNf2
+         bOUfIGdt5uTNnJbfd6wBmzwL4XV3mQ2lfp5E3tH8CBqMjxcbL+qVJFioTnsQWVdQpLYZ
+         Dn2kZRBSP6K3ELLfieDxRviwbRFxg7FiSxvFtnDzTzt1VVf65JNI/N8JiSxSJDO9GzYJ
+         raYA8JNd1DP/Da+HhbJ4b+w/wi1iFTl1RC/ZXsp61GQpBsCl1Ed0MHRdr8MjKsxQ8so7
+         6D+RdHoHktGkyKIuVf9p9p7CEsVa7Tk/wRoJYRmKf7H3yhC5TGDc7IPqpYXjCOLMIYAJ
+         zaAA==
+X-Gm-Message-State: AOAM532o13FIv7O+Qq+lvVS6XEbMGWxu/1Qs/QAsCHWjmFQ+TS7K7OMv
+        Dc+ZSjG8jF0kOPo44fcerqs=
+X-Google-Smtp-Source: ABdhPJxFQnRk+OrsSMmQSfI6rnJotjROrRNP5Eozx9NckB7ER95WTv+coYn8QFo/ngLkmUgT/n7qxg==
+X-Received: by 2002:a05:6512:68e:: with SMTP id t14mr24206418lfe.624.1622698852327;
+        Wed, 02 Jun 2021 22:40:52 -0700 (PDT)
 Received: from localhost.localdomain (dc7vkhyyyyyyyyyyyyycy-3.rev.dnainternet.fi. [2001:14ba:16e2:8300::4])
-        by smtp.gmail.com with ESMTPSA id w16sm203550lfn.183.2021.06.02.22.40.33
+        by smtp.gmail.com with ESMTPSA id q127sm233306ljq.88.2021.06.02.22.40.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 22:40:34 -0700 (PDT)
-Date:   Thu, 3 Jun 2021 08:40:28 +0300
+        Wed, 02 Jun 2021 22:40:51 -0700 (PDT)
+Date:   Thu, 3 Jun 2021 08:40:45 +0300
 From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
         Matti Vaittinen <mazziesaccount@gmail.com>
@@ -51,13 +51,23 @@ Cc:     Mark Brown <broonie@kernel.org>, Kees Cook <keescook@chromium.org>,
         "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
         "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
         "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-Subject: [PATCH RESEND v10 01/11] dt_bindings: Add protection limit properties
-Message-ID: <ae2c6056d5ed1334912d27e736d23c9151065433.1622628333.git.matti.vaittinen@fi.rohmeurope.com>
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Matteo Croce <mcroce@microsoft.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        linux-pm@vger.kernel.org
+Subject: [PATCH RESEND v10 02/11] reboot: Add hardware protection power-off
+Message-ID: <e83ec1ca9408f90c857ea9dcdc57b14d9037b03f.1622628333.git.matti.vaittinen@fi.rohmeurope.com>
 References: <cover.1622628333.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="LQksG6bCIzRHxTLp"
+        protocol="application/pgp-signature"; boundary="gBBFr7Ir9EOA20Yy"
 Content-Disposition: inline
 In-Reply-To: <cover.1622628333.git.matti.vaittinen@fi.rohmeurope.com>
 Precedence: bulk
@@ -65,155 +75,162 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---LQksG6bCIzRHxTLp
+--gBBFr7Ir9EOA20Yy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Support specifying protection/error/warning limits for regulator
-over current, over temperature and over/under voltage.
+There can be few cases when we need to shut-down the system in order to
+protect the hardware. Currently this is done at least by the thermal core
+when temperature raises over certain limit.
 
-Most of the PMICs support only "protection" feature but few
-setups do also support error/warning level indications.
+Some PMICs can also generate interrupts for example for over-current or
+over-voltage, voltage drops, short-circuit, ... etc. On some systems
+these are a sign of hardware failure and only thing to do is try to
+protect the rest of the hardware by shutting down the system.
 
-On many ICs most of the protection limits can't actually be set.
-But for example the ampere limit for over-current protection on ROHM
-BD9576 can be configured - or feature can be completely disabled.
-
-Provide limit setting for all protections/errors for the sake of
-the completeness and do that using own properties for all so that
-not all users would need to set all levels when only one or few are
-supported.
+Add shut-down logic which can be used by all subsystems instead of
+implementing the shutdown in each subsystem. The logic is stolen from
+thermal_core with difference of using atomic_t instead of a mutex in
+order to allow calls directly from IRQ context and changing the WARN()
+to pr_emerg() as discussed here:
+https://lore.kernel.org/lkml/YJuPwAZroVZ%2Fw633@alley/
+and here:
+https://lore.kernel.org/linux-iommu/20210331093104.383705-4-geert+renesas@g=
+lider.be/
 
 Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
-No changes since RFC-v2
----
- .../bindings/regulator/regulator.yaml         | 82 +++++++++++++++++++
- 1 file changed, 82 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/regulator/regulator.yaml b/D=
-ocumentation/devicetree/bindings/regulator/regulator.yaml
-index 6d0bc9cd4040..a6ae9ecae5cc 100644
---- a/Documentation/devicetree/bindings/regulator/regulator.yaml
-+++ b/Documentation/devicetree/bindings/regulator/regulator.yaml
-@@ -117,6 +117,88 @@ properties:
-     description: Enable over current protection.
-     type: boolean
+Changelog:
+v10: (changes suggested by Petr Mladek and Geert)
+ - replace WARN() by pr_emerg()
+v8: (changes suggested by Daniel Lezcano)
+ - replace a protection implemented by a flag + spin_lock_irqsave() with
+   simple atomic_dec_and_test().
+ - Split thermal-core changes and adding the new API to separate patches
+v7:
+ - New patch
+---
+ include/linux/reboot.h |  1 +
+ kernel/reboot.c        | 79 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 80 insertions(+)
+
+diff --git a/include/linux/reboot.h b/include/linux/reboot.h
+index 3734cd8f38a8..af907a3d68d1 100644
+--- a/include/linux/reboot.h
++++ b/include/linux/reboot.h
+@@ -79,6 +79,7 @@ extern char poweroff_cmd[POWEROFF_CMD_PATH_LEN];
 =20
-+  regulator-oc-protection-microamp:
-+    description: Set over current protection limit. This is a limit where
-+      hardware performs emergency shutdown. Zero can be passed to disable
-+      protection and value '1' indicates that protection should be enabled=
- but
-+      limit setting can be omitted.
+ extern void orderly_poweroff(bool force);
+ extern void orderly_reboot(void);
++void hw_protection_shutdown(const char *reason, int ms_until_forced);
+=20
+ /*
+  * Emergency restart, callable from an interrupt handler.
+diff --git a/kernel/reboot.c b/kernel/reboot.c
+index a6ad5eb2fa73..f7440c0c7e43 100644
+--- a/kernel/reboot.c
++++ b/kernel/reboot.c
+@@ -7,6 +7,7 @@
+=20
+ #define pr_fmt(fmt)	"reboot: " fmt
+=20
++#include <linux/atomic.h>
+ #include <linux/ctype.h>
+ #include <linux/export.h>
+ #include <linux/kexec.h>
+@@ -518,6 +519,84 @@ void orderly_reboot(void)
+ }
+ EXPORT_SYMBOL_GPL(orderly_reboot);
+=20
++/**
++ * hw_failure_emergency_poweroff_func - emergency poweroff work after a kn=
+own delay
++ * @work: work_struct associated with the emergency poweroff function
++ *
++ * This function is called in very critical situations to force
++ * a kernel poweroff after a configurable timeout value.
++ */
++static void hw_failure_emergency_poweroff_func(struct work_struct *work)
++{
++	/*
++	 * We have reached here after the emergency shutdown waiting period has
++	 * expired. This means orderly_poweroff has not been able to shut off
++	 * the system for some reason.
++	 *
++	 * Try to shut down the system immediately using kernel_power_off
++	 * if populated
++	 */
++	pr_emerg("Hardware protection timed-out. Trying forced poweroff\n");
++	kernel_power_off();
 +
-+  regulator-oc-error-microamp:
-+    description: Set over current error limit. This is a limit where part =
-of
-+      the hardware propably is malfunctional and damage prevention is requ=
-ested.
-+      Zero can be passed to disable error detection and value '1' indicates
-+      that detection should be enabled but limit setting can be omitted.
++	/*
++	 * Worst of the worst case trigger emergency restart
++	 */
++	pr_emerg("Hardware protection shutdown failed. Trying emergency restart\n=
+");
++	emergency_restart();
++}
 +
-+  regulator-oc-warn-microamp:
-+    description: Set over current warning limit. This is a limit where har=
-dware
-+      is assumed still to be functional but approaching limit where it gets
-+      damaged. Recovery actions should be initiated. Zero can be passed to
-+      disable detection and value '1' indicates that detection should
-+      be enabled but limit setting can be omitted.
++static DECLARE_DELAYED_WORK(hw_failure_emergency_poweroff_work,
++			    hw_failure_emergency_poweroff_func);
 +
-+  regulator-ov-protection-microvolt:
-+    description: Set over voltage protection limit. This is a limit where
-+      hardware performs emergency shutdown. Zero can be passed to disable
-+      protection and value '1' indicates that protection should be enabled=
- but
-+      limit setting can be omitted. Limit is given as microvolt offset from
-+      voltage set to regulator.
++/**
++ * hw_failure_emergency_poweroff - Trigger an emergency system poweroff
++ *
++ * This may be called from any critical situation to trigger a system shut=
+down
++ * after a given period of time. If time is negative this is not scheduled.
++ */
++static void hw_failure_emergency_poweroff(int poweroff_delay_ms)
++{
++	if (poweroff_delay_ms <=3D 0)
++		return;
++	schedule_delayed_work(&hw_failure_emergency_poweroff_work,
++			      msecs_to_jiffies(poweroff_delay_ms));
++}
 +
-+  regulator-ov-error-microvolt:
-+    description: Set over voltage error limit. This is a limit where part =
-of
-+      the hardware propably is malfunctional and damage prevention is requ=
-ested
-+      Zero can be passed to disable error detection and value '1' indicates
-+      that detection should be enabled but limit setting can be omitted. L=
-imit
-+      is given as microvolt offset from voltage set to regulator.
++/**
++ * hw_protection_shutdown - Trigger an emergency system poweroff
++ *
++ * @reason:		Reason of emergency shutdown to be printed.
++ * @ms_until_forced:	Time to wait for orderly shutdown before tiggering a
++ *			forced shudown. Negative value disables the forced
++ *			shutdown.
++ *
++ * Initiate an emergency system shutdown in order to protect hardware from
++ * further damage. Usage examples include a thermal protection or a voltag=
+e or
++ * current regulator failures.
++ * NOTE: The request is ignored if protection shutdown is already pending =
+even
++ * if the previous request has given a large timeout for forced shutdown.
++ * Can be called from any context.
++ */
++void hw_protection_shutdown(const char *reason, int ms_until_forced)
++{
++	static atomic_t allow_proceed =3D ATOMIC_INIT(1);
 +
-+  regulator-ov-warn-microvolt:
-+    description: Set over voltage warning limit. This is a limit where har=
-dware
-+      is assumed still to be functional but approaching limit where it gets
-+      damaged. Recovery actions should be initiated. Zero can be passed to
-+      disable detection and value '1' indicates that detection should
-+      be enabled but limit setting can be omitted. Limit is given as micro=
-volt
-+      offset from voltage set to regulator.
++	pr_emerg("HARDWARE PROTECTION shutdown (%s)\n", reason);
 +
-+  regulator-uv-protection-microvolt:
-+    description: Set over under voltage protection limit. This is a limit =
-where
-+      hardware performs emergency shutdown. Zero can be passed to disable
-+      protection and value '1' indicates that protection should be enabled=
- but
-+      limit setting can be omitted. Limit is given as microvolt offset from
-+      voltage set to regulator.
++	/* Shutdown should be initiated only once. */
++	if (!atomic_dec_and_test(&allow_proceed))
++		return;
 +
-+  regulator-uv-error-microvolt:
-+    description: Set under voltage error limit. This is a limit where part=
- of
-+      the hardware propably is malfunctional and damage prevention is requ=
-ested
-+      Zero can be passed to disable error detection and value '1' indicates
-+      that detection should be enabled but limit setting can be omitted. L=
-imit
-+      is given as microvolt offset from voltage set to regulator.
++	/*
++	 * Queue a backup emergency shutdown in the event of
++	 * orderly_poweroff failure
++	 */
++	hw_failure_emergency_poweroff(ms_until_forced);
++	orderly_poweroff(true);
++}
++EXPORT_SYMBOL_GPL(hw_protection_shutdown);
 +
-+  regulator-uv-warn-microvolt:
-+    description: Set over under voltage warning limit. This is a limit whe=
-re
-+      hardware is assumed still to be functional but approaching limit whe=
-re
-+      it gets damaged. Recovery actions should be initiated. Zero can be p=
-assed
-+      to disable detection and value '1' indicates that detection should
-+      be enabled but limit setting can be omitted. Limit is given as micro=
-volt
-+      offset from voltage set to regulator.
-+
-+  regulator-temp-protection-kelvin:
-+    description: Set over temperature protection limit. This is a limit wh=
-ere
-+      hardware performs emergency shutdown. Zero can be passed to disable
-+      protection and value '1' indicates that protection should be enabled=
- but
-+      limit setting can be omitted.
-+
-+  regulator-temp-error-kelvin:
-+    description: Set over temperature error limit. This is a limit where p=
-art of
-+      the hardware propably is malfunctional and damage prevention is requ=
-ested
-+      Zero can be passed to disable error detection and value '1' indicates
-+      that detection should be enabled but limit setting can be omitted.
-+
-+  regulator-temp-warn-kelvin:
-+    description: Set over temperature warning limit. This is a limit where
-+      hardware is assumed still to be functional but approaching limit whe=
-re it
-+      gets damaged. Recovery actions should be initiated. Zero can be pass=
-ed to
-+      disable detection and value '1' indicates that detection should
-+      be enabled but limit setting can be omitted.
-+
-   regulator-active-discharge:
-     description: |
-       tristate, enable/disable active discharge of regulators. The values =
-are:
+ static int __init reboot_setup(char *str)
+ {
+ 	for (;;) {
 --=20
 2.25.4
 
@@ -230,19 +247,19 @@ Simon says - in Latin please.
 ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
 Thanks to Simon Glass for the translation =3D]=20
 
---LQksG6bCIzRHxTLp
+--gBBFr7Ir9EOA20Yy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmC4a0wACgkQeFA3/03a
-ocWVAggAlyRu8D4cdebvOBCcDmG8VGrvD8kp29EseKgiErN1qJxgQhAgv6CdHAAL
-LDXAwJNirK1cn0s+z/HDRHakEf/4s6vEcXjOWWHpgb9cSPGhwXt+0N8amzu6i34J
-OAonS3aessE+MNmKvb3fW36w885AqeJyBMnhe9eGshqUQ5jug+DfQBSNIF9XQf7G
-znrNSqPWTX3Hz96/AXEE7cSK0RKUg0QvSiPuz1j157cRKejs52FqLhWtfcaAZUHc
-z/Xa5T675kytvUxcP33LvwywhLv87oEg7sxghI9DgEFFwgg0XW69ctQkSk/CopHw
-A9FS72Ms4Ut7XZ+glxuZQkfnP91oKQ==
-=1oUw
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmC4a10ACgkQeFA3/03a
+ocXOLgf/ZNhv5TcFiTD+yfchGHzXDRLKSTBYqXGCYVTCdxRvCM61bGfSoHHbW0+w
+XZAywsRI0EosQbFSnIdpzKOwsw5Zs+DyuyARIKrTY1mesGKc7zg56Hf85LEYNUd8
+fR0KJGoTrTedCPLIZgdnL3TIF+VeK3AzKFyzympSTuMGLbBzOWtAwpdboNJgga2F
+Ux1dRWkOeaKsQPEU1c6Os/5l3T4DggpCxH2FlJfBBBTCj4WIvlvVVQj/vr3PcfVg
+Z6l1mb31UWv/yUsX3qv6TTXaebzT1NjTyL/O0eGbs5D364cQY8B2bf2MxbbOhkr7
+BtTlfJGcPy2ElBzzKWEg+Q9QBsJYpw==
+=KJ8E
 -----END PGP SIGNATURE-----
 
---LQksG6bCIzRHxTLp--
+--gBBFr7Ir9EOA20Yy--
