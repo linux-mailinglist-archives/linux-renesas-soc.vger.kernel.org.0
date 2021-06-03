@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BE6139ADA1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 00:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C1D939ADA6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 00:18:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231176AbhFCWUM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Jun 2021 18:20:12 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:8051 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230265AbhFCWUL (ORCPT
+        id S230468AbhFCWUQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Jun 2021 18:20:16 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:50413 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230265AbhFCWUQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Jun 2021 18:20:11 -0400
+        Thu, 3 Jun 2021 18:20:16 -0400
 X-IronPort-AV: E=Sophos;i="5.83,246,1616425200"; 
-   d="scan'208";a="83343539"
+   d="scan'208";a="83182153"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 04 Jun 2021 07:18:26 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 04 Jun 2021 07:18:30 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5B5FE410B534;
-        Fri,  4 Jun 2021 07:18:22 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7135D410B53D;
+        Fri,  4 Jun 2021 07:18:26 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -36,9 +36,9 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 04/12] soc: renesas: Add ARCH_R9A07G044 for the new RZ/G2L SoC's
-Date:   Thu,  3 Jun 2021 23:17:50 +0100
-Message-Id: <20210603221758.10305-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 05/12] arm64: defconfig: Enable ARCH_R9A07G044
+Date:   Thu,  3 Jun 2021 23:17:51 +0100
+Message-Id: <20210603221758.10305-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -46,31 +46,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add ARCH_R9A07G044 as a configuration symbol for the new Renesas
-RZ/G2L SoC variants.
+Enable the Renesas RZ/G2L SoC variants in the ARM64 defconfig.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/soc/renesas/Kconfig | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index b70bbc38efc6..71b44c31b012 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -279,6 +279,11 @@ config ARCH_R8A774B1
- 	help
- 	  This enables support for the Renesas RZ/G2N SoC.
- 
-+config ARCH_R9A07G044
-+	bool "ARM64 Platform support for RZ/G2L"
-+	help
-+	  This enables support for the Renesas RZ/G2L SoC variants.
-+
- endif # ARM64
- 
- config RST_RCAR
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index c1110fc20cdb..756fb464b107 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1044,6 +1044,7 @@ CONFIG_ARCH_R8A77980=y
+ CONFIG_ARCH_R8A77990=y
+ CONFIG_ARCH_R8A77995=y
+ CONFIG_ARCH_R8A779A0=y
++CONFIG_ARCH_R9A07G044=y
+ CONFIG_ROCKCHIP_PM_DOMAINS=y
+ CONFIG_ARCH_TEGRA_132_SOC=y
+ CONFIG_ARCH_TEGRA_210_SOC=y
 -- 
 2.17.1
 
