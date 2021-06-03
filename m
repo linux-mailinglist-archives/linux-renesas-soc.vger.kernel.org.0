@@ -2,89 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5544739A4AC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Jun 2021 17:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C710D39AD8D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 00:18:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229726AbhFCPhf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Jun 2021 11:37:35 -0400
-Received: from www.zeus03.de ([194.117.254.33]:50152 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229769AbhFCPhe (ORCPT
+        id S230445AbhFCWT5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Jun 2021 18:19:57 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:11651 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230265AbhFCWT4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Jun 2021 11:37:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=HoO02iAoah4iyPfuEGbKOdaYaZDS
-        OmC8gNjkeB5S6cg=; b=yYCCSCNNPUKUIKp0gDtJz11Ls95Avww9BNztv/VjezFT
-        h40knpbw5bhPJkrosSzzZX7KdYJ4sXeoJBsQ/dTahCMc6u4L9o7KG68rjBjoHM9H
-        1h+SZSfqnYI8y56wInR4iY6sBBIBctFdvYD4pb2O5iu2rdQwp09snUCgeWtJ0tE=
-Received: (qmail 1065094 invoked from network); 3 Jun 2021 17:35:47 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jun 2021 17:35:47 +0200
-X-UD-Smtp-Session: l3s3148p1@+undU97DIOogAwDPXwscAYTGTECNYrAp
-Date:   Thu, 3 Jun 2021 17:35:39 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] docs: fault-injection: fix non-working usage of negative
- values
-Message-ID: <YLj2jJi/iuskaemH@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20210603125841.27436-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdVLzzK-hsaEO4mEkOeCnzKuXgORanB+GGnHZjonwQAD9w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xsayXCEajoqZ5ApB"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVLzzK-hsaEO4mEkOeCnzKuXgORanB+GGnHZjonwQAD9w@mail.gmail.com>
+        Thu, 3 Jun 2021 18:19:56 -0400
+X-IronPort-AV: E=Sophos;i="5.83,246,1616425200"; 
+   d="scan'208";a="83343527"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 04 Jun 2021 07:18:09 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D3E93410B534;
+        Fri,  4 Jun 2021 07:18:05 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-serial@vger.kernel.org
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 00/12] Add new Renesas RZ/G2L SoC and Renesas RZ/G2L SMARC EVK support
+Date:   Thu,  3 Jun 2021 23:17:46 +0100
+Message-Id: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi All,
 
---xsayXCEajoqZ5ApB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This patch series adds initial support for Renesas RZ/G2L SoC and
+Renesas RZ/G2L SMARC EVK.
 
+Initial patches enables minimal peripherals on Renesas RZ/G2L
+SMARC EVK and booted via initramfs.
+* Documentation for RZ/G2{L,LC,UL} SoC variants
+* SoC identification support
+* CPG core support
+* Minimal SoC DTSi
+* Minimal DTS for SMARC EVK
 
-Yeah, I also assume that it used to work at some time. Didn't bother to
-investigate, though.
+Changes for v2:
+* Included type-2 RZ/G2Ul SoC in binding doc
+* Added single entry for SMARC EVK "renesas,smarc-evk"
+* Renamed ARCH_R9A07G044L to ARCH_R9A07G044 and
+  dropped ARCH_R9A07G044LC config
+* Dropped SoC identification changes will post them as
+  separate patch.
+* Updated comment in sh-sci.c
+* Binding documentation patch for serial driver has been
+  accepted so dropped the patch from this series
+* Incorporated changes requested by Geert for CPG core
+* Fixed dtbs_check errors
+* Dropped 'clock-names'/'clocks'/'power-domains'/'resets'
+  properties from GIC node and will include them in a separate
+  patch along with arm,gic-v3.yaml binding updates
+* Included ACK's from Rob
 
-> The code uses debugfs_create_atomic_t(), and atomic_t is signed, so
-> I'd expect negative numbers to work.
+Patches are based on top of [1] master branch.
 
-In debugfs, it is all cast from unsigned long long to something. Check
-simple_attr_write() where the value is obtained with kstrtoull. The code
-fix would be to not use simple_attr, I think. I opted for the doc fix.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/
 
+Cheers,
+Prabhakar
 
---xsayXCEajoqZ5ApB
-Content-Type: application/pgp-signature; name="signature.asc"
+Biju Das (1):
+  serial: sh-sci: Add support for RZ/G2L SoC
 
------BEGIN PGP SIGNATURE-----
+Lad Prabhakar (11):
+  dt-bindings: arm: renesas: Document Renesas RZ/G2UL SoC
+  dt-bindings: arm: renesas: Document Renesas RZ/G2{L,LC} SoC variants
+  dt-bindings: arm: renesas: Document SMARC EVK
+  soc: renesas: Add ARCH_R9A07G044 for the new RZ/G2L SoC's
+  arm64: defconfig: Enable ARCH_R9A07G044
+  clk: renesas: Define RZ/G2L CPG Clock Definitions
+  dt-bindings: clock: renesas: Document RZ/G2L SoC CPG driver
+  clk: renesas: Add CPG core wrapper for RZ/G2L SoC
+  clk: renesas: Add support for R9A07G044 SoC
+  arm64: dts: renesas: Add initial DTSI for RZ/G2{L,LC} SoC's
+  arm64: dts: renesas: Add initial device tree for RZ/G2L SMARC EVK
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmC49ssACgkQFA3kzBSg
-Kbao8Q/+LF9SZhQeDCn7kYs60anHQ8OFvWFcxW1TpZNY6+NfDLcB1GwBa43FS3Gr
-Xr6qgUHLtaHlCP+z4uKa7coDWf4Z1BoWFCsK8xDbOL8qk/NPGc8yBevHQNhz0YQ7
-ST68n1cgClfLD0BCFDjE1Kq0j3T5jSI3CbykR546PzLOoEZO9LGKYXjU2FT1+RdU
-IyqtKrT8yMeOBKtqNLJoafD59IL173uH2QN7k5QLJkYvliB15TnG/HTSxvJ6KlZx
-D1H647iSR3SzaN2wfq+8Sl0fgEC+drGuDg8FJrrBISZ/Kygfyvm95LxGGGJrYC1p
-/BrIrO7o4ZCAHtxGdpmO+gdKxwxEWW0LJJofr/9CYZM/Ox5oMrPqZxZWIGkSBpUh
-ZtaCEVucILAf8T7ESjxt7hiP9ktcj3WZeVvmnzYEiTFrEnwEfc9EYmD4+RiLp9sf
-E9zU6HWizDZar7tZZCSvS1n5g+3cZTC0Nz5ctgcWx6F1ihiay5J8BsrAqkenqnS8
-tJAzx63aKMZOQLNh+lCYYGqxkBxT/KJqDBd5aZuOkegv4OMitP8Co772YPMSMEZW
-ANnufOcZEa2aCCN7aWj5OCCZTKqlSy52+LdbUNAkLFosQGGNIfcOJXmHlN45xCLC
-dirsOkmPOgniSszfGoopiOH7j2u6H5tWuPp3AP0zSuCXTiYxooQ=
-=XZA9
------END PGP SIGNATURE-----
+ .../devicetree/bindings/arm/renesas.yaml      |  18 +
+ .../bindings/clock/renesas,rzg2l-cpg.yaml     |  80 ++
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 119 +++
+ arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi  |  25 +
+ .../boot/dts/renesas/r9a07g044l2-smarc.dts    |  21 +
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  |  27 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/Kconfig                   |   9 +
+ drivers/clk/renesas/Makefile                  |   2 +
+ drivers/clk/renesas/r9a07g044-cpg.c           | 372 +++++++
+ drivers/clk/renesas/renesas-rzg2l-cpg.c       | 979 ++++++++++++++++++
+ drivers/clk/renesas/renesas-rzg2l-cpg.h       | 217 ++++
+ drivers/soc/renesas/Kconfig                   |   5 +
+ drivers/tty/serial/sh-sci.c                   |  12 +-
+ drivers/tty/serial/sh-sci.h                   |   1 +
+ include/dt-bindings/clock/r9a07g044-cpg.h     |  89 ++
+ 17 files changed, 1978 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+ create mode 100644 drivers/clk/renesas/r9a07g044-cpg.c
+ create mode 100644 drivers/clk/renesas/renesas-rzg2l-cpg.c
+ create mode 100644 drivers/clk/renesas/renesas-rzg2l-cpg.h
+ create mode 100644 include/dt-bindings/clock/r9a07g044-cpg.h
 
---xsayXCEajoqZ5ApB--
+-- 
+2.17.1
+
