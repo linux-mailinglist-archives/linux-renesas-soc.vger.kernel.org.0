@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B27BA39B385
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 09:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F64F39B388
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 09:03:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229907AbhFDHEz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Jun 2021 03:04:55 -0400
-Received: from mga11.intel.com ([192.55.52.93]:52994 "EHLO mga11.intel.com"
+        id S229896AbhFDHFL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Jun 2021 03:05:11 -0400
+Received: from mga04.intel.com ([192.55.52.120]:36699 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229882AbhFDHEz (ORCPT
+        id S229882AbhFDHFK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Jun 2021 03:04:55 -0400
-IronPort-SDR: l0g+CD9S9P3U885bwBh4qkGkGkyJ8+aEaAdyDHP+NuHb3sjWz4p2EkowZdu8PJ35JhGna7A/Ki
- FBLLIgHKR0WQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="201217585"
+        Fri, 4 Jun 2021 03:05:10 -0400
+IronPort-SDR: oc7jnSCpzWe2TQTuCq/Q3/Y0Sp3g6BH3R5Qhpks3WAe1oyh4n1VCxW/MTEu6Gw69eA6uwNqFZp
+ 3bUwqR1GI5Dw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="202379724"
 X-IronPort-AV: E=Sophos;i="5.83,247,1616482800"; 
-   d="scan'208";a="201217585"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2021 00:03:09 -0700
-IronPort-SDR: QuIJ2aIvzAXvd0BxcDmv4lckoUZ2felVuAiXTUi5dkcJ+EWYgma6MX/QHqiWSYP8ZfrpX5qM/A
- /yB3rvFLJrrg==
+   d="scan'208";a="202379724"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2021 00:03:09 -0700
+IronPort-SDR: oXKLl4dGjjgKZWPMyTeT3WMJgCV7OpTE2F85HUeBvgcsBpdWlaP1aTSBKRNnySkdypaquW8w6f
+ fE0B7w1cC8Lw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,247,1616482800"; 
-   d="scan'208";a="439119599"
+   d="scan'208";a="448162022"
 Received: from lkp-server02.sh.intel.com (HELO 1ec8406c5392) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 04 Jun 2021 00:03:08 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 04 Jun 2021 00:03:08 -0700
 Received: from kbuild by 1ec8406c5392 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1lp3rH-0006l5-LL; Fri, 04 Jun 2021 07:03:07 +0000
-Date:   Fri, 04 Jun 2021 15:02:22 +0800
+        id 1lp3rH-0006lB-MS; Fri, 04 Jun 2021 07:03:07 +0000
+Date:   Fri, 04 Jun 2021 15:02:39 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:renesas-pinctrl-for-v5.14] BUILD SUCCESS
- 85a242cdcd44da30c28ba71f26e487c0ebabba47
-Message-ID: <60b9cffe.nmPoATY4nSDd87dY%lkp@intel.com>
+Subject: [renesas-devel:next] BUILD SUCCESS
+ acad452912fc6a5cd2171fbe6af0ecbb3aad265c
+Message-ID: <60b9d00f.QVcSQabvAONwt9C6%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,12 +44,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.14
-branch HEAD: 85a242cdcd44da30c28ba71f26e487c0ebabba47  pinctrl: renesas: r8a77995: Add bias pinconf support
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: acad452912fc6a5cd2171fbe6af0ecbb3aad265c  Merge branch 'renesas-arm-dt-for-v5.14' into renesas-next
 
-elapsed time: 5600m
+elapsed time: 5589m
 
-configs tested: 253
+configs tested: 258
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -97,6 +97,9 @@ arc                      axs103_smp_defconfig
 sparc                       sparc64_defconfig
 arm                         assabet_defconfig
 powerpc                        cell_defconfig
+m68k                          hp300_defconfig
+sh                            titan_defconfig
+m68k                           sun3_defconfig
 powerpc                    ge_imp3a_defconfig
 powerpc                          allyesconfig
 arm                         s3c6400_defconfig
@@ -122,9 +125,18 @@ mips                          malta_defconfig
 powerpc                     tqm8540_defconfig
 sh                            migor_defconfig
 arm                         orion5x_defconfig
+arc                     haps_hs_smp_defconfig
+mips                           ip32_defconfig
+sh                     sh7710voipgw_defconfig
+mips                        vocore2_defconfig
+sh                           se7780_defconfig
 powerpc                     ep8248e_defconfig
 riscv                    nommu_virt_defconfig
 powerpc                 mpc836x_mds_defconfig
+mips                           gcw0_defconfig
+arm                     eseries_pxa_defconfig
+powerpc                      katmai_defconfig
+xtensa                  cadence_csp_defconfig
 mips                     loongson1c_defconfig
 parisc                generic-32bit_defconfig
 sh                          rsk7201_defconfig
@@ -133,15 +145,9 @@ arm                        spear3xx_defconfig
 sh                          rsk7264_defconfig
 powerpc                      ppc40x_defconfig
 openrisc                            defconfig
-mips                           ip32_defconfig
 sh                           se7619_defconfig
 mips                        nlm_xlp_defconfig
 arm                          imote2_defconfig
-sh                           se7750_defconfig
-powerpc                     tqm8541_defconfig
-mips                  maltasmvp_eva_defconfig
-powerpc                 mpc8313_rdb_defconfig
-sh                           se7712_defconfig
 s390                       zfcpdump_defconfig
 powerpc                      tqm8xx_defconfig
 powerpc                    socrates_defconfig
@@ -149,6 +155,7 @@ arm                           spitz_defconfig
 mips                    maltaup_xpa_defconfig
 nios2                            alldefconfig
 mips                         bigsur_defconfig
+powerpc                 mpc8313_rdb_defconfig
 arm                          ep93xx_defconfig
 xtensa                  audio_kc705_defconfig
 riscv                               defconfig
@@ -173,6 +180,7 @@ powerpc                  mpc866_ads_defconfig
 mips                            ar7_defconfig
 mips                      bmips_stb_defconfig
 arm                  colibri_pxa270_defconfig
+powerpc                     tqm8541_defconfig
 m68k                         apollo_defconfig
 powerpc64                           defconfig
 m68k                       m5249evb_defconfig
@@ -182,9 +190,9 @@ sh                               alldefconfig
 arm                             rpc_defconfig
 arm                    vt8500_v6_v7_defconfig
 mips                        workpad_defconfig
-sh                               allmodconfig
 arm                        mini2440_defconfig
 mips                            e55_defconfig
+sh                               allmodconfig
 m68k                        mvme16x_defconfig
 mips                            gpr_defconfig
 mips                   sb1250_swarm_defconfig
@@ -192,15 +200,14 @@ powerpc                      chrp32_defconfig
 arm                            mps2_defconfig
 sh                           se7721_defconfig
 arm                  colibri_pxa300_defconfig
-m68k                          hp300_defconfig
 arm                       imx_v4_v5_defconfig
 sparc64                          alldefconfig
 arm                           viper_defconfig
 sh                        sh7757lcr_defconfig
-nios2                               defconfig
+arm                          moxart_defconfig
 um                           x86_64_defconfig
 mips                       capcella_defconfig
-arm                          moxart_defconfig
+nios2                               defconfig
 arm                          gemini_defconfig
 powerpc                     tqm5200_defconfig
 powerpc                 canyonlands_defconfig
@@ -215,6 +222,7 @@ mips                       rbtx49xx_defconfig
 powerpc                      walnut_defconfig
 arm                        spear6xx_defconfig
 mips                         mpc30x_defconfig
+mips                  maltasmvp_eva_defconfig
 arm                      footbridge_defconfig
 s390                             alldefconfig
 sh                   rts7751r2dplus_defconfig
@@ -222,11 +230,7 @@ powerpc                     kilauea_defconfig
 mips                           rs90_defconfig
 powerpc                     mpc5200_defconfig
 arm                        vexpress_defconfig
-mips                        vocore2_defconfig
 sh                        edosk7705_defconfig
-arm                           h3600_defconfig
-mips                        omega2p_defconfig
-powerpc                          allmodconfig
 xtensa                         virt_defconfig
 mips                     loongson2k_defconfig
 powerpc                          g5_defconfig
@@ -253,6 +257,7 @@ sparc                            allyesconfig
 sparc                               defconfig
 mips                             allyesconfig
 mips                             allmodconfig
+powerpc                          allmodconfig
 powerpc                           allnoconfig
 x86_64               randconfig-a006-20210531
 x86_64               randconfig-a003-20210531
