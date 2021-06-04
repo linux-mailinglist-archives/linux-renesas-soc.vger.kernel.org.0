@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA34B39BF53
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 20:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 770FB39BF57
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 20:09:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229878AbhFDSL1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Jun 2021 14:11:27 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:12884 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229726AbhFDSL1 (ORCPT
+        id S230022AbhFDSL3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Jun 2021 14:11:29 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:6354 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229726AbhFDSL3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Jun 2021 14:11:27 -0400
+        Fri, 4 Jun 2021 14:11:29 -0400
 X-IronPort-AV: E=Sophos;i="5.83,248,1616425200"; 
-   d="scan'208";a="83439026"
+   d="scan'208";a="83279183"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Jun 2021 03:09:39 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 05 Jun 2021 03:09:42 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E24F540C7B95;
-        Sat,  5 Jun 2021 03:09:37 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3138A40C7B95;
+        Sat,  5 Jun 2021 03:09:40 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -28,46 +28,85 @@ Cc:     linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 0/3] SoC identification support for RZ/G2L
-Date:   Fri,  4 Jun 2021 19:09:30 +0100
-Message-Id: <20210604180933.16754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 1/3] dt-bindings: power: renesas,rzg2l-sysc: Add DT binding documentation for SYSC controller
+Date:   Fri,  4 Jun 2021 19:09:31 +0100
+Message-Id: <20210604180933.16754-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210604180933.16754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210604180933.16754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi All,
+Add DT binding documentation for SYSC controller found on
+RZ/G2{L,LC,UL} SoC's.
 
-This patch series adds support for RZ/G2{L,LC} SoC
-identification.
+SYSC block contains the LSI_DEVID register which is used to retrieve
+SoC product information.
 
-SoC identification register is part of SYSC block and
-currently no driver is added for SYSC block so just the
-basic properties are added in binding documentation (and will
-updated with the required properties once the dirver is in
-place) and this node is used in renesas-soc.c for SoC
-identification.
-
-This patches series is dependent on [1].
-
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=493701
-
-Cheers,
-Prabhakar
-
-Lad Prabhakar (3):
-  dt-bindings: power: renesas,rzg2l-sysc: Add DT binding documentation
-    for SYSC controller
-  soc: renesas: Add support to read LSI DEVID register of RZ/G2{L,LC}
-    SoC's
-  arm64: dts: renesas: r9a07g044: Add SYSC node to RZ/G2L SoC DTSI
-
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
  .../bindings/power/renesas,rzg2l-sysc.yaml    | 50 +++++++++++++++++++
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 10 ++++
- drivers/soc/renesas/renesas-soc.c             | 34 ++++++++++++-
- 3 files changed, 93 insertions(+), 1 deletion(-)
+ 1 file changed, 50 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
 
+diff --git a/Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
+new file mode 100644
+index 000000000000..616a5139644f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
+@@ -0,0 +1,50 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/power/renesas,rzg2l-sysc.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Renesas RZ/G2L System Controller (SYSC)
++
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++
++description:
++  The RZ/G2L System Controller (SYSC) performs system control of the LSI and
++  supports following functions,
++  - External terminal state capture function
++  - 34-bit address space access function
++  - Low power consumption control
++  - WDT stop control
++
++properties:
++  compatible:
++    enum:
++      - renesas,r9a07g044-sysc # RZ/G2{L,LC}
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    minItems: 4
++    maxItems: 4
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    // System Controller node
++    sysc: system-controller@11020000 {
++            compatible = "renesas,r9a07g044-sysc";
++            reg = <0x11020000 0x10000>;
++            interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
++    };
 -- 
 2.17.1
 
