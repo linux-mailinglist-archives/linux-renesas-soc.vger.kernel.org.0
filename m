@@ -2,71 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7572B39BF5C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 20:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22E7A39C05E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 21:21:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbhFDSLe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Jun 2021 14:11:34 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:6354 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230173AbhFDSLd (ORCPT
+        id S229972AbhFDTXH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Jun 2021 15:23:07 -0400
+Received: from www.zeus03.de ([194.117.254.33]:37358 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229929AbhFDTXG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Jun 2021 14:11:33 -0400
-X-IronPort-AV: E=Sophos;i="5.83,248,1616425200"; 
-   d="scan'208";a="83279190"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Jun 2021 03:09:46 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B735240C7B97;
-        Sat,  5 Jun 2021 03:09:44 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 3/3] arm64: dts: renesas: r9a07g044: Add SYSC node to RZ/G2L SoC DTSI
-Date:   Fri,  4 Jun 2021 19:09:33 +0100
-Message-Id: <20210604180933.16754-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210604180933.16754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20210604180933.16754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 4 Jun 2021 15:23:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=UIcpbPfwoP5mNySIfoZrqu8LeRve
+        9Bkq/PE7sZLTal4=; b=B/iP2JeE8FWIdYq6AX//cjvgGT8tXrWjtFAm27L/LQs8
+        bAOJgzemh+OFnJWwJvH6ckrs+3t/sR7YLI7BlnI5yZ8gZasanimx/OASS3y+O11Y
+        w+BWTTGJtNXwOwJPk8VP+e2rMRLofpRITkkjb42YQ7Y0lLmGOksCpjY12y+25tA=
+Received: (qmail 1467812 invoked from network); 4 Jun 2021 21:21:18 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Jun 2021 21:21:18 +0200
+X-UD-Smtp-Session: l3s3148p1@byiYmPXDZKtUhs97
+Date:   Fri, 4 Jun 2021 21:21:17 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Jean Delvare <jdelvare@suse.de>
+Cc:     Peter Korsgaard <peter@korsgaard.com>, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for
+ returned length from driver"
+Message-ID: <YLp9Lc5Ondu3Gicg@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Peter Korsgaard <peter@korsgaard.com>, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20210209110556.18814-1-wsa+renesas@sang-engineering.com>
+ <20210226174337.63a9c2a6@endymion>
+ <20210310204648.GA332643@ninjato>
+ <87tuoe5zfc.fsf@dell.be.48ers.dk>
+ <20210413125433.GA9879@kunai>
+ <20210521132158.6e0689c0@endymion>
+ <YK1fwC4aR5RKTPcB@kunai>
+ <20210602110332.73f9cbc1@endymion>
+ <YLew8cFWTRQKrBuk@kunai>
+ <20210604155708.14159db0@endymion>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="NpjlibQHeb7b2BBQ"
+Content-Disposition: inline
+In-Reply-To: <20210604155708.14159db0@endymion>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add SYSC node to RZ/G2L (R9A07G044) SoC DTSI
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+--NpjlibQHeb7b2BBQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index b2dbf6543d98..6515177bce29 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -98,6 +98,16 @@
- 			#power-domain-cells = <0>;
- 		};
- 
-+		sysc: system-controller@11020000 {
-+			compatible = "renesas,r9a07g044-sysc";
-+			reg = <0 0x11020000 0 0x10000>;
-+			interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
-+
- 		gic: interrupt-controller@11900000 {
- 			compatible = "arm,gic-v3";
- 			#interrupt-cells = <3>;
--- 
-2.17.1
 
+> Yes I do care. Apparently I wasn't Cc'd on that thread so I wasn't even
+> aware that patch existed. It would be very nice if you could bump the
+> thread to me (unless there's a way to retrieve it from patchwork that I
+> didn't find?)
+
+Sadly, I can't send the whole thread. I thought a had a local archive
+collected via gmane, but it seems this is not as complete as I hoped for
+:( You can download the patch itself as mbox, however. Check the upper
+right corner of the patchwork page. Or search for "mbox".
+
+> If we only want *one* I2C block read at a specified offset then i2cget
+> seems more appropriate indeed.
+
+I don't have a clear opinion here. On the one hand, if we want just one
+block read, this is more a "get" than a "dump". On the other hand,
+i2cdump already has a range-parameter. So, from a user perspective,
+keeping i2cget to single values and update the range parameter in
+i2cdump might be least confusing?
+
+
+--NpjlibQHeb7b2BBQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmC6fSkACgkQFA3kzBSg
+KbaR/A/+JumQj2zHEeDfbo3gDSY2T5kM9+Lr2XooLOazNY5HkojNZuyyHYJhGH/f
+ajwE76IOvrgCFlCOQwMj859PkitEu6XeR/Xevf1euGEKtWuYp3BRgPJBtMdoPGLe
+mRUvXuGOSDHFBJhdTv8bdCJEEkvvlC+v3ERbl7zq8y6ubU7RURV5F6Sva/qm//Zj
+e+N7SWOYlC21MiyBC+nVpQ4SDMGd02k/QIQ1svzt3NEqOTCywG4LCYnLdsNaAvD1
+aWYiNk4O8A2v3uvz1jfCcwWkIk5Gg33J/tVn6qmNlJGO5pu/ldPHCUbapm64GjRY
+CmXNu2vI3VADvCBA1qm4W1B26TSI/SHhfje+QzFsF3ict7XYoOe4wEo5LRVKh8FD
+GHQNetE+9xZHhx9fBrSWJkCQ4ZWQWpxh+rqz5qiP98ELINKeyvpdP5Mhel3bmFi7
+PQSRTtDBtLpKbf11AMtVY41LeYp3lkK44bNOGo+IWQiAj8kMspspUBtQASNkh4Uv
+eiK/BGmXvI35BlweJuj4ot1IePfGO3ek3m00mxgzOu0SerI/Pka/Vf4zaLcM9keE
+wIGMCFz6A3zIy9lVZCPQ1PY5BHhFkHYCUB4kGbhW+vNwnDNYRAI2aA9rTBdebc58
+D06uQWzLqQnXs3bFfVxdk89ciZiJq1NKljHT4CX/zrj1PT7QCQA=
+=l8cP
+-----END PGP SIGNATURE-----
+
+--NpjlibQHeb7b2BBQ--
