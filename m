@@ -2,130 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45AFE39BCCC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 18:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D42639BD63
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 18:39:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbhFDQPu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Jun 2021 12:15:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbhFDQPu (ORCPT
+        id S229690AbhFDQku (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Jun 2021 12:40:50 -0400
+Received: from mail-ej1-f53.google.com ([209.85.218.53]:34681 "EHLO
+        mail-ej1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230465AbhFDQjL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Jun 2021 12:15:50 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8EBEC061767
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Jun 2021 09:14:03 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id i10so14924375lfj.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Jun 2021 09:14:03 -0700 (PDT)
+        Fri, 4 Jun 2021 12:39:11 -0400
+Received: by mail-ej1-f53.google.com with SMTP id g8so15482350ejx.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Jun 2021 09:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=LvA0Er8AskDavuezV8RiKUwzdr6yicLLRj9IkJ+LjuY=;
-        b=t09snEHxZfS0dvM4kwlDaIMrXgVcoYhGT6KvyuPjHpYlwB4OzhqbQOwOdsNVtz1IbB
-         468+uOAoZZqCg3QOBf2krkDM+09v5DFNx9jc9m7c5cTBkvdQ1y8Ww51wC75jyhQMbNjy
-         eLSbpREsKT4UhVnDbZkItDZNZObwFsPE/ec4LAMt9ivkV+odqMoLn18Y8P1FxYzQK5m+
-         U1Nfag5qLBYVmMQhPWfKGCgsUrWtN8dUf1AZqzKMftTOVWse0nh9bIxvNEFOkOUjFOBq
-         7M3npJumkxNrHQDrwu3wD00MofxHFOULsiy5dcitYonncL5wW6Qgejly5BoxOQDDSxsv
-         muiA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hmysv7a9uwPwQNbREOH2krp23T9dJn3Iq9cIImmKCLQ=;
+        b=m9jtZO3yG6ZEMJNeajliOsgZjkEB78LTWXPNYYz6IVpAPZNTC8nQgEuzGUIHvZRR3B
+         U3R6NqKCGOaGHfFlFLn4rsD92BNBUIuB1Wcw6nfz+OUgaHa5aO3HpzU/DFBxuqTHDOkC
+         jnFYU39MD50BFi2SUAK+m+I2X7/wzjp1EZ0BfrZoo9Vzx5yfVD0QTGzvB1DWnSjPGPVJ
+         hRWfNcQyHYCZmliU91TsGSJRkynAxwxE65AKTcJHbvjYM/9+oDd5ptmqyBEgGO7+mj7G
+         AZxf2EID/PcmSoZYAE6sRWx0nrvkuxqB2bFsJeKTelGfkJwOEz3nFJIe0DYe01740CTC
+         jvyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=LvA0Er8AskDavuezV8RiKUwzdr6yicLLRj9IkJ+LjuY=;
-        b=gfOS9B7/R/IaP9aYwQZlMCF6eZuijAKyianXT7QeOBYrEfuKPKMDig7nERLCMqIbrD
-         lCeL/1/ufAIQ/dWXTkzEj9QU3W1+CgRrJZ1KAGVxhSYlB5xInWaDLzGt174qYliEQMIC
-         iqlykgf8VgdcBA5E5aM5NjVxID8cxHpIghAfT5/ZPjLY9+1SPSUgf2zPi7p8pKmvBHGK
-         NIeGV+WXAtZPXg+P6hs8t3z0nxxjBx7XGhguRJ1oBVJeXlMz7AOTbDScXrFz6ZlkAxrx
-         FRTWHNzObowff3lgxBvJUCjk+xg+43SoFDgl/KH8m3zXIhJiHeHcjx2UfL25F9lczBD9
-         RzzA==
-X-Gm-Message-State: AOAM533wKxM0/gQxWJJanFbt8ekKkYfSA+suafe9fR+RxdnLwCcZbGzp
-        JpfeG0GH67CvHnkxwFLtCqxTkg==
-X-Google-Smtp-Source: ABdhPJwylHQ8+iVbW/SeT4vHq++HTlmIOEXyZLUdhZb+SKK07ZvBq9l9qfeVUU2bkJ8LNmhOI91HEQ==
-X-Received: by 2002:ac2:515d:: with SMTP id q29mr3338076lfd.535.1622823241964;
-        Fri, 04 Jun 2021 09:14:01 -0700 (PDT)
-Received: from localhost (h-62-63-236-217.A463.priv.bahnhof.se. [62.63.236.217])
-        by smtp.gmail.com with ESMTPSA id l22sm519659ljh.64.2021.06.04.09.14.00
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hmysv7a9uwPwQNbREOH2krp23T9dJn3Iq9cIImmKCLQ=;
+        b=AHT1sjTV7DF31v2ZnX0I1OTjKzVF44dVD97QYYMqe91tKv15qQgoKuQOqFsiN78gwD
+         fOMJGLu3Q5fYp6aSI0PobV8LM8SixF/AfSLEcOPnsC38qjz511of6nl6Jsrrh8QX9XPm
+         W53W04KTmEXnQVV4mEaG4Gr0VmubEhitp57EVFpOwDwCnXMLT0k35pwykmcZXlh85fz6
+         tuU97UkVLLXZM65DEEqJyhsk4W33mZGZrwI76SnekVutOqNKlS+KrlL7HLjDj6QG4rYM
+         qTlxFY9zlWV+hdbOFoDIg0RTJM4mhbjU0LrbLbRG+4m2p2RJK/Slek5hl0Xx8oQ1D8j7
+         0OTw==
+X-Gm-Message-State: AOAM531ZwzTHEECzI7jK7dLx0AzBW2YUoM9cXvxR8bjFrhXCR/iYAUQ5
+        cKFW3af8LluwhqyC8dl+EHzJhQ==
+X-Google-Smtp-Source: ABdhPJxG1LwD1PKOobDKiRS7DLdpIjSMKjOEJnoyI3Qkk8BlTuXYX0b/0nu/AlvRZdPdb2OX2DJw5w==
+X-Received: by 2002:a17:906:8a55:: with SMTP id gx21mr5045362ejc.179.1622824573803;
+        Fri, 04 Jun 2021 09:36:13 -0700 (PDT)
+Received: from bismarck.berto.se (p4fca2710.dip0.t-ipconnect.de. [79.202.39.16])
+        by smtp.googlemail.com with ESMTPSA id p10sm2959576edy.86.2021.06.04.09.36.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jun 2021 09:14:00 -0700 (PDT)
-Date:   Fri, 4 Jun 2021 18:13:59 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Takeshi Saito <takeshi.saito.xv@renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mmc: renesas_sdhi: Fix HS400 on R-Car M3-W+
-Message-ID: <YLpRR7f/T88G8VRv@oden.dyn.berto.se>
-References: <ee8af5d631f5331139ffea714539030d97352e93.1622811525.git.geert+renesas@glider.be>
+        Fri, 04 Jun 2021 09:36:13 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v2] media: dt-bindings: media: renesas,csi2: Add r8a779a0 support
+Date:   Fri,  4 Jun 2021 18:35:49 +0200
+Message-Id: <20210604163549.2871010-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ee8af5d631f5331139ffea714539030d97352e93.1622811525.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Add support for R-Car V3U.
 
-Thanks for your work.
+Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/media/renesas,csi2.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 2021-06-04 14:59:43 +0200, Geert Uytterhoeven wrote:
-> R-Car M3-W ES3.0 is marketed as R-Car M3-W+ (R8A77961), and has its own
-> compatible value "renesas,r8a77961".
-> 
-> Hence using soc_device_match() with soc_id = "r8a7796" and revision =
-> "ES3.*" does not actually match running on an R-Car M3-W+ SoC.
-> 
-> Fix this by matching with soc_id = "r8a77961" instead.
-> 
-> Fixes: a38c078fea0b1393 ("mmc: renesas_sdhi: Avoid bad TAP in HS400")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
-> Boot-tested on Salvator-XS with R-Car M3-W+ ES3.0.
-> No difference seen in eMMC/SHHC detection:
-> 
->     mmc0: new HS400 MMC card at address 0001
->     mmcblk0: mmc0:0001 BGSD4R 29.1 GiB
->     mmcblk0boot0: mmc0:0001 BGSD4R 31.9 MiB
->     mmcblk0boot1: mmc0:0001 BGSD4R 31.9 MiB
->     mmcblk0rpmb: mmc0:0001 BGSD4R 4.00 MiB, chardev (247:0)
->      mmcblk0: p1
->     mmc1: new ultra high speed SDR104 SDHC card at address aaaa
->     mmcblk1: mmc1:aaaa SL16G 14.8 GiB
->      mmcblk1: p1
->     mmc2: new ultra high speed SDR104 SDHC card at address aaaa
->     mmcblk2: mmc2:aaaa SL32G 29.7 GiB
->      mmcblk2: p1
-> ---
->  drivers/mmc/host/renesas_sdhi_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index 635bf31a67359f10..b719eda6b8619453 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -939,7 +939,7 @@ static const struct soc_device_attribute sdhi_quirks_match[]  = {
->  	{ .soc_id = "r8a7795", .revision = "ES3.*", .data = &sdhi_quirks_bad_taps2367 },
->  	{ .soc_id = "r8a7796", .revision = "ES1.[012]", .data = &sdhi_quirks_4tap_nohs400 },
->  	{ .soc_id = "r8a7796", .revision = "ES1.*", .data = &sdhi_quirks_r8a7796_es13 },
-> -	{ .soc_id = "r8a7796", .revision = "ES3.*", .data = &sdhi_quirks_bad_taps1357 },
-> +	{ .soc_id = "r8a77961", .data = &sdhi_quirks_bad_taps1357 },
->  	{ .soc_id = "r8a77965", .data = &sdhi_quirks_r8a77965 },
->  	{ .soc_id = "r8a77980", .data = &sdhi_quirks_nohs400 },
->  	{ .soc_id = "r8a77990", .data = &sdhi_quirks_r8a77990 },
-> -- 
-> 2.25.1
-> 
-
+diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+index 23703b767f5b66f4..e6a036721082cdec 100644
+--- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+@@ -30,6 +30,7 @@ properties:
+           - renesas,r8a77970-csi2 # R-Car V3M
+           - renesas,r8a77980-csi2 # R-Car V3H
+           - renesas,r8a77990-csi2 # R-Car E3
++          - renesas,r8a779a0-csi2 # R-Car V3U
+ 
+   reg:
+     maxItems: 1
 -- 
-Regards,
-Niklas Söderlund
+2.31.1
+
