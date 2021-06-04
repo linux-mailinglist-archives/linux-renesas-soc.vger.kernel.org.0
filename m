@@ -2,98 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2236D39C083
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 21:38:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E602A39C148
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Jun 2021 22:24:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230435AbhFDTkg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Jun 2021 15:40:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38862 "EHLO mail.kernel.org"
+        id S231384AbhFDU0Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Jun 2021 16:26:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60044 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230421AbhFDTkg (ORCPT
+        id S231330AbhFDU0Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Jun 2021 15:40:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5070061417;
-        Fri,  4 Jun 2021 19:38:49 +0000 (UTC)
+        Fri, 4 Jun 2021 16:26:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E5F85611AE;
+        Fri,  4 Jun 2021 20:24:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622835529;
-        bh=BMvhvMm4CS6SkbcLH6tRFN72rFuBUAdyYFInvitnhxo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Mq65Z03//DFCbGu/wvm6LZBEm5gHb0XDQsHIS86rJ0DseZGOjmjxbVMgqhEJIf6lp
-         NNBQvaSLjsjEXyvGe4DT58ySsqT42YUdKRITu/ysajoEa1SD4x/g50AhPwCly4bHxv
-         abnmDecodI/ofeh/MUIwShzmYf6ZDjNhJy647z6b3P0pvSY9nsg1c54rp/prBccn0G
-         UUJftN3cLWrBa5YTcVEQWx0NkDJGljOrJY1aK/Odhm8HSQwAWzlvEcvqd09ttkdBrh
-         1BykoI1M3j9YoiIkbnyUJgfjr0CZ8YbNxdi4Nlz5IG4dGVq+/6/7BSfwVG4CvLrXsr
-         0XxUPq6Tb+NhQ==
-Received: by mail-ed1-f42.google.com with SMTP id f5so7404075eds.0;
-        Fri, 04 Jun 2021 12:38:49 -0700 (PDT)
-X-Gm-Message-State: AOAM531EPVWuRpHTvttDZnzGqbIwHv5M5aeb214q9hNa2hkx1ZKzcnRf
-        dQKh2LLEiy47bJYJKdHsCEiUCRPikIRFmchzMA==
-X-Google-Smtp-Source: ABdhPJwAtWTmsO5thBF7oJ6AXBvU5ffREBwKmS+FE1kSBnOskP3Sef/q82G/J9MMdwfceCiFRgqVkUQznXl50uMlMsQ=
-X-Received: by 2002:aa7:cb19:: with SMTP id s25mr6552231edt.194.1622835527894;
- Fri, 04 Jun 2021 12:38:47 -0700 (PDT)
+        s=k20201202; t=1622838277;
+        bh=61I3hmP3XUh1Obq9MlMzvs0U63jKhNt0yiD0RDZ5uNc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NZDgwbTQqu7Rzfbzhc0RZ3loJWhRtGMa2ZEIhZv2yTkXzBcJq4h0x6MUUxmFO88wh
+         E5Yr9obBVKNhMsK7QSWlqHiy0Lrr05UfkwVH39LXQdmVVdE/R5/q85q/eaiLv66yhl
+         pgKpqHITIR+DxTK0JmACnyU8IaQTSIlPQDtsa7p4cnTpUcNW7CMZeczmNN/916Avp5
+         YW7lhF9pQhQtncnQca6NvVPR+dBO3uVZ7cp1fET8k1LB/wNGQh8ClWDm6wjZ4auBzU
+         GMbc3bFlp53KhLsjaSHTPgfbyY2f4+AOobRTJP/0huXm8ZvGSidZNHQibB7d3qEczq
+         yOftFEsGER68g==
+Date:   Fri, 4 Jun 2021 22:24:33 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Chris Brandt <chris.brandt@renesas.com>, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: Add linux-renesas-soc to the Renesas I2C
+ entries
+Message-ID: <YLqMAakDTMa5+iGM@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Brandt <chris.brandt@renesas.com>, linux-i2c@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <0449ef7469a14d8ea25df6b06b3f230cc95ebd7d.1622559592.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20210408202436.3706-1-fabrizio.castro.jz@renesas.com>
- <20210409185420.GA3955417@robh.at.kernel.org> <CAL_JsqL5tzJhMzTyyTDnVh=doDknepkk8R0McKsj4U2aqSMFAw@mail.gmail.com>
- <YIhvPCzWOah2kFk7@pendragon.ideasonboard.com>
-In-Reply-To: <YIhvPCzWOah2kFk7@pendragon.ideasonboard.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 4 Jun 2021 14:38:36 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJU6NGGtHUqfNrRqg5Km5n35LviUrazoU2dL82vB-+BvQ@mail.gmail.com>
-Message-ID: <CAL_JsqJU6NGGtHUqfNrRqg5Km5n35LviUrazoU2dL82vB-+BvQ@mail.gmail.com>
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,drif: Fix fck definition
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vP7uQtcQ2UDzMsf+"
+Content-Disposition: inline
+In-Reply-To: <0449ef7469a14d8ea25df6b06b3f230cc95ebd7d.1622559592.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 3:08 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Rob,
->
-> On Tue, Apr 27, 2021 at 01:02:57PM -0500, Rob Herring wrote:
-> > On Fri, Apr 9, 2021 at 1:54 PM Rob Herring wrote:
-> > > On Thu, 08 Apr 2021 21:24:36 +0100, Fabrizio Castro wrote:
-> > > > dt_binding_check reports the below error with the latest schema:
-> > > >
-> > > > Documentation/devicetree/bindings/media/renesas,drif.yaml:
-> > > >   properties:clock-names:maxItems: False schema does not allow 1
-> > > > Documentation/devicetree/bindings/media/renesas,drif.yaml:
-> > > >   ignoring, error in schema: properties: clock-names: maxItems
-> > > >
-> > > > This patch fixes the problem.
-> > > >
-> > > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/media/renesas,drif.yaml | 4 +---
-> > > >  1 file changed, 1 insertion(+), 3 deletions(-)
-> > > >
-> > >
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> >
-> > Still failing in linux-next...
->
-> Sorry, as a standalone fix, I incorrectly thought you'd merge it.
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> and applied to my tree. I'll send a pull request to linux-media when the
-> merge window closes.
 
-Still failing in linux-next. It's also a failure in Linus' tree, so it
-needs to go in as a fix.
+--vP7uQtcQ2UDzMsf+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rob
+On Tue, Jun 01, 2021 at 05:03:54PM +0200, Geert Uytterhoeven wrote:
+> The people on linux-renesas-soc are interested in changes to the Renesas
+> I2C drivers and their DT bindings.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Applied to for-next, thanks!
+
+
+--vP7uQtcQ2UDzMsf+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmC6i/wACgkQFA3kzBSg
+KbZNjRAAhuhRMnRvqe3nUc6roPWR26C4vxfY5NgkjJPpWsJic640apt9UwmfY3Tm
+aQtd0whOhPX7FBkxk2g3ixSp1zS2If7YGV6fgae72xLMeaGudau+ojMp0gTezQmQ
+VMDFBJObgZuPLauPhWjSvJBR8DiFowNswToziBD7QbBt6MEZat3Wl6qS5Bu47xUA
+D/9Lg85PkP8OiV0g+dQ51wRgscxF2gw1FFn4qAEWcnpREEsDBket3HbcWGVSktfS
+i/QSQbMUxsHZ2kbC61bdiEi/mqf3Ko7AZ4sACjEfSr+fP0Wmrj0MjiatU0zjCbD2
+IpOWDYkexjm9UlAE43fKfP9K0QWikG5BzHqqFCCtzlo+4BAmq+di6Je/hTOkSQnE
+yNWWGoVIihjB0vSXc0UKmWLEsu5J8cWZDhdIpVS3yaah9PEbQcO0r0+0xydGrTCv
+xHMiJcCHROMlOn9DmBJe+REkhOBUQx/QCqIngask1m2H/ZUyYMnRvUkz8WfdfiCK
+L3CNSa5XzOSIyl4Zysd5YmKQeszLspiXhXqX70yh3MyAuCemelxFNUQhPz3BTfFr
+umcbFcsFpj7k7YiORqnuy6bqlCKqI8pOi4eBz5f8tEyo4dWHLwwtxaSoFOeE4pPW
+UZ9h1UUK7kbKChpk4x9g0hipZFExg0bpnFpuhCKxZ2D+0xhnaNs=
+=Jv53
+-----END PGP SIGNATURE-----
+
+--vP7uQtcQ2UDzMsf+--
