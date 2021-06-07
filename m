@@ -2,51 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F7339DE56
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jun 2021 16:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAFE139DE55
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Jun 2021 16:06:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbhFGOIj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Jun 2021 10:08:39 -0400
-Received: from mail-pj1-f48.google.com ([209.85.216.48]:39604 "EHLO
-        mail-pj1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230193AbhFGOIi (ORCPT
+        id S230193AbhFGOHz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Jun 2021 10:07:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230233AbhFGOHz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Jun 2021 10:08:38 -0400
-Received: by mail-pj1-f48.google.com with SMTP id o17-20020a17090a9f91b029015cef5b3c50so12007530pjp.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Jun 2021 07:06:47 -0700 (PDT)
+        Mon, 7 Jun 2021 10:07:55 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D105C061766
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Jun 2021 07:05:48 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id h12so10320279pfe.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Jun 2021 07:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20150623.gappssmtp.com; s=20150623;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=rqdDdmp1gIwrQTnubh0EAquRE9Qpm/eTLg8PWrqoAhg=;
-        b=Q1Fswh/A8cvMtFzQSQKw44AhrjFqJtP8XTsObB/clgvxj6RnZU/B7QvhAgMlIn9Uat
-         n2tWZvoDSIykmRic/hG7n6zKv85B1rnM7qjAEZkFIED1vFezfi9QOBzkq7bLOdjpb82b
-         SgTM5EQJFj6EbYgtDEjfoqRD5A+aVRRAzV83iwI4Zz0iFlMBiR93W5P0niHPXeu4ORUT
-         golxEHXDfj1yTh/GjtR3A2udamDKS/1ai1V7Y89ro1rskQIPcoAhj4OPhKw5gay19pBe
-         cWZ7f0wqSlGoDpwbvgNvVJJp49QDerFp2cILYuCa9aORNEYOm6CLSBgqOC/RXYNTbkE5
-         7Pow==
+        bh=bw1/zojokGe8SVAV4XN//ljBXzh58ohcIcRx2MFeWlI=;
+        b=w+iGOiUbAr0e/hgiPG3oEi2cGTminH7l7vAqCyVpTnujWHm60tGjO+VoMw/1FZml4A
+         dmWBeGNnfWaicYfcruv3hjIbWh1h8pAXrf/C9Jh9LSdhEdPEVb8MbGxHy8vRucUeoWTg
+         +grCoBGdLPZ6/YaG4XeQotI8qpWI/5ZiXeTYW3kNYYp7kFVcEUMhhp2u7p2FrLTEZBGf
+         wcoZc9/FfXGPp02oiYyGMS8d8L351tWHcTt8SqDFAzsGfQwd+TYqK/YX7X0wiZwyyzTX
+         89krUiNa3TQeNpSgC1sCJoms/xY+elfZl2sRvTAsRKogfKk4fGlhnzZ85aZ0IQnZjkK3
+         ykVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=rqdDdmp1gIwrQTnubh0EAquRE9Qpm/eTLg8PWrqoAhg=;
-        b=o62DV+o0Wph+2cinf2MUvM5es4iBQrt6dSpK/mRslO5fZNvIe0/ESqw2qlBT1fAXdg
-         B6Ec2Pm0kj5dUTVbZywpke+K76FX+PtZekpoxwuOe/fFcfAh99MMEGgxOJGNFkc8/doY
-         6s4OiZ6poZ4xAIBvvsv1IJPw/YX4sp0P9T7Q1Xab6EeMOGa+g/B5kjNE+ao9uMRUfKl5
-         jsm+qQOEMjqKllIP6+Pv0Uxf/H5RWesKyfonXsrWdoOMBCmvhVLwLEh+g0q/JGZLgSL2
-         0+YpW46lfGnt5eFOQSZUYO4TpV8jxZLvRKtW4s+bEBleQ4NA98i6JNgyxB+fqx9tjmYX
-         ZKlw==
-X-Gm-Message-State: AOAM533BrZ50nGSxWxv3V8fhgTT/Jks2kZtfJv4JSQHrg6J15LQvWlGJ
-        +h9fMgAldOApQFa8W8tkVupiiRW45I6isOVX
-X-Google-Smtp-Source: ABdhPJwAJTzgKZ6kwLnSNDkaL7vOt/yEjfltwj6nZtggazlrMFTddrmKGsriPsoraXsmqbtzMxh1pQ==
-X-Received: by 2002:a17:902:6b04:b029:10d:8c9e:5f56 with SMTP id o4-20020a1709026b04b029010d8c9e5f56mr18145584plk.8.1623074747150;
+        bh=bw1/zojokGe8SVAV4XN//ljBXzh58ohcIcRx2MFeWlI=;
+        b=ioqm1yK+ube9HFxw1skPOr528DQB8SJnMgij3s5b8HE066ydOsLE01TuyhtjIiQMOD
+         bRZPwpfRLP04F2Wtr7aexntkUsTWDqkXa0V8LNk0xgx9sN5vSA1N19RdQAcdUSWidui4
+         88VpqDW4vLan7m2SJJ/zasGK1LY8OjJ468dtneBbm2/zfBjFTdO7QqgOHb8etu9/ZIiw
+         3PXNNcWcc1TWE80KLgLaGwIjMkLtzhnAloxJO6T+NPblBBQyI2b1GO2ApG9LTDgS3l3p
+         XM/fsNYIu5y/DcUkJdtyRmCXhOjnXIRTS+JqO3IBZ+N6yN69tLytuVHyNWgVyirz8P7o
+         dFyg==
+X-Gm-Message-State: AOAM533D4xGBpwMiOFhCkDmLRDkv14GtAFQ/M728zUZPOUGimusDC7e5
+        C4N/rJfTw3vppxBj99OYawmTWjIClUP4uk0g
+X-Google-Smtp-Source: ABdhPJzLHJcBbcpHTUpYxqMLkV6TLY6d2KdyGtSOx4syPyQQP0fJtYz4STXvcFQUY0LmosNSsADx7Q==
+X-Received: by 2002:a63:58e:: with SMTP id 136mr13478175pgf.206.1623074747865;
         Mon, 07 Jun 2021 07:05:47 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id c21sm8336754pfi.44.2021.06.07.07.05.46
+        by smtp.gmail.com with ESMTPSA id i2sm12225679pjj.25.2021.06.07.07.05.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jun 2021 07:05:46 -0700 (PDT)
-Message-ID: <60be27ba.1c69fb81.e97fd.9780@mx.google.com>
-Date:   Mon, 07 Jun 2021 07:05:46 -0700 (PDT)
+        Mon, 07 Jun 2021 07:05:47 -0700 (PDT)
+Message-ID: <60be27bb.1c69fb81.48c72.55a3@mx.google.com>
+Date:   Mon, 07 Jun 2021 07:05:47 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -54,16 +57,16 @@ X-Kernelci-Kernel: renesas-next-2021-06-07-v5.13-rc1
 X-Kernelci-Report-Type: test
 X-Kernelci-Tree: renesas
 X-Kernelci-Branch: next
-Subject: renesas/next igt-kms-rockchip: 2 runs,
- 1 regressions (renesas-next-2021-06-07-v5.13-rc1)
+Subject: renesas/next sleep: 10 runs,
+ 2 regressions (renesas-next-2021-06-07-v5.13-rc1)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next igt-kms-rockchip: 2 runs, 1 regressions (renesas-next-2021-06-=
-07-v5.13-rc1)
+renesas/next sleep: 10 runs, 2 regressions (renesas-next-2021-06-07-v5.13-r=
+c1)
 
 Regressions Summary
 -------------------
@@ -73,27 +76,19 @@ regressions
 ------------------+------+---------------+----------+--------------------+-=
 -----------
 rk3288-veyron-jaq | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | =
-1          =
+2          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-06-07-v5.13-rc1/plan/igt-kms-rockchip/
+s-next-2021-06-07-v5.13-rc1/plan/sleep/
 
-  Test:     igt-kms-rockchip
+  Test:     sleep
   Tree:     renesas
   Branch:   next
   Describe: renesas-next-2021-06-07-v5.13-rc1
   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
 evel.git
-  SHA:      e1833059a1c5dac43b9e7352890ec727247341e0
-
-  Test suite revisions:
-    drm
-      URL:  git://anongit.freedesktop.org/mesa/drm
-      SHA:  4c8365183ec52e9309ecae45c725aa315562854d
-    igt-gpu-tools
-      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
-      SHA:  8eeb9c130e75d4063d0dc2ed69c8acde66b6b5d0 =
+  SHA:      e1833059a1c5dac43b9e7352890ec727247341e0 =
 
 
 
@@ -107,52 +102,79 @@ regressions
 ------------------+------+---------------+----------+--------------------+-=
 -----------
 rk3288-veyron-jaq | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | =
-1          =
+2          =
 
 
-  Details:     https://kernelci.org/test/plan/id/60be23c6cc9dd333820c0e1e
+  Details:     https://kernelci.org/test/plan/id/60be209f5cc221f9230c0e00
 
-  Results:     92 PASS, 3 FAIL, 139 SKIP
+  Results:     21 PASS, 2 FAIL, 0 SKIP
   Full config: multi_v7_defconfig
   Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
   Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--06-07-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-collabora/igt-kms-rockchi=
-p-rk3288-veyron-jaq.txt
+-06-07-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288-ve=
+yron-jaq.txt
   HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--06-07-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-collabora/igt-kms-rockchi=
-p-rk3288-veyron-jaq.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-igt/=
-20210520.0/armhf/rootfs.cpio.gz =
+-06-07-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288-ve=
+yron-jaq.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0520.0/armhf/rootfs.cpio.gz =
 
 
 
-  * igt-kms-rockchip.kms_vblank.pipe-A-ts-continuation-suspend: https://ker=
-nelci.org/test/case/id/60be23c6cc9dd333820c0e8f
+  * sleep.rtcwake-mem-2: https://kernelci.org/test/case/id/60be209f5cc221f9=
+230c0e05
         failing since 12 days (last pass: renesas-next-2021-05-11-v5.13-rc1=
 , first fail: renesas-next-2021-05-25-v5.13-rc1)
 
-    2021-06-07 13:47:23.048000+00:00  <14>[  168.378635] [IGT] kms_vblank: =
-executing
-    2021-06-07 13:47:23.065000+00:00  IGT-Version: 1.26-g8eeb9c1 (arm) (Lin=
-ux: 5.13.0-rc3 armv7l)<14>[  168.384907] [IGT] kms_vblank: starting subtest=
- pipe-A-ts-continuation-suspend
-    2021-06-07 13:47:23.065000+00:00  =
-
-    2021-06-07 13:47:23.066000+00:00  Starting subtest: pipe-A-ts-continuat=
-ion-suspend
-    2021-06-07 13:47:23.124000+00:00  Beginning pipe-A-ts-continuation-susp=
-end on pipe A, connector eDP-1
-    2021-06-07 13:47:23.149000+00:00  [cmd] rtcwake: assuming RTC uses UTC =
-...
-    2021-06-07 13:47:23.158000+00:00  rtcwake: wakeup from \"mem\" using /d=
-ev/rtc0 at Mon Jun  7 13:47:39 2021
-    2021-06-07 13:47:23.176000+00:00  <6>[  168.503659] PM: suspend entry (=
+    2021-06-07 13:32:43.014000+00:00  rtcwake: wakeup from \"mem\" using rt=
+c0 at Mon Jun  7 13:32:49 2021
+    2021-06-07 13:32:43.024000+00:00  <6>[   82.562105] PM: suspend entry (=
 deep)
-    2021-06-07 13:47:23.176000+00:00  <6>[  168.508037] Filesystems sync: 0=
+    2021-06-07 13:32:43.046000+00:00  <6>[   82.583955] Filesystems sync: 0=
 .000 seconds
-    2021-06-07 13:47:23.191000+00:00  <6>[  168.513771] Freezing user space=
- processes ... (elapsed 0.001 seconds) done. =
+    2021-06-07 13:32:43.060000+00:00  <6>[   82.592393] Freezing user space=
+ processes ... (elapsed 0.001 seconds) done.
+    2021-06-07 13:32:43.066000+00:00  <6>[   82.604790] OOM killer disabled.
+    2021-06-07 13:32:43.268000+00:00  <6>[   82.611759] Freezing remaining =
+freezable tasks ... =
 
-    ... (102 line(s) more)  =
+    2021-06-07 13:32:43.292000+00:00  <6>[   82.804194] usb 2-1: new high-s=
+peed USB device number 4 using dwc2
+    2021-06-07 13:32:48.608000+00:00  <3>[   88.144242] usb 2-1: device des=
+criptor read/64, error -110
+    2021-06-07 13:33:03.075000+00:00  <4>[  102.615870] =
+
+    2021-06-07 13:33:03.102000+00:00  <3>[  102.634343] Freezing of tasks f=
+ailed after 20.004 seconds (0 tasks refusing to freeze, wq_busy=3D1): =
+
+    ... (23 line(s) more)  =
+
+
+  * sleep.rtcwake-mem-3: https://kernelci.org/test/case/id/60be209f5cc221f9=
+230c0e06
+        failing since 12 days (last pass: renesas-next-2021-05-11-v5.13-rc1=
+, first fail: renesas-next-2021-05-25-v5.13-rc1)
+
+    2021-06-07 13:33:03.587000+00:00  rtcwake: wakeup from \"mem\" using rt=
+c0 at Mon Jun  7 13:33:10 2021
+    2021-06-07 13:33:03.597000+00:00  <6>[  103.135727] PM: suspend entry (=
+deep)
+    2021-06-07 13:33:03.607000+00:00  <6>[  103.144479] Filesystems sync: 0=
+.000 seconds
+    2021-06-07 13:33:03.621000+00:00  <6>[  103.154287] Freezing user space=
+ processes ... (elapsed 0.001 seconds) done.
+    2021-06-07 13:33:03.629000+00:00  <6>[  103.168005] OOM killer disabled.
+    2021-06-07 13:33:04.047000+00:00  <6>[  103.176221] Freezing remaining =
+freezable tasks ... =
+
+    2021-06-07 13:33:04.066000+00:00  <3>[  103.584204] usb 2-1: device des=
+criptor read/64, error -110
+    2021-06-07 13:33:04.409000+00:00  <6>[  103.944178] usb 2-1: new high-s=
+peed USB device number 5 using dwc2
+    2021-06-07 13:33:09.648000+00:00  <3>[  109.184224] usb 2-1: device des=
+criptor read/64, error -110
+    2021-06-07 13:33:23.647000+00:00  <4>[  123.189337]  =
+
+    ... (21 line(s) more)  =
 
  =20
