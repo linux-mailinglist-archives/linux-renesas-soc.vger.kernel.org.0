@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7B4939E969
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jun 2021 00:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCA0C39E96C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jun 2021 00:16:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231160AbhFGWRY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Jun 2021 18:17:24 -0400
-Received: from mga18.intel.com ([134.134.136.126]:6320 "EHLO mga18.intel.com"
+        id S231271AbhFGWSY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Jun 2021 18:18:24 -0400
+Received: from mga03.intel.com ([134.134.136.65]:54051 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231184AbhFGWRX (ORCPT
+        id S231184AbhFGWSY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Jun 2021 18:17:23 -0400
-IronPort-SDR: 3rApL6YiNHjRwqlc4hb7kup1cdMwq5gcFHmN5U+FPU9fM08tG3qfb1pOHui2QXfWmn/xQHPC4d
- U4EsN/HD1Scw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="192052069"
+        Mon, 7 Jun 2021 18:18:24 -0400
+IronPort-SDR: ue5rJS+gCvt3eqaCzDAh5BRfgTAb2+uiReimrmiPz8QzjHfVSoi24RKHN3Fn6hoS/cUq+eEU90
+ GnEWYrLkFhCg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="204749138"
 X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; 
-   d="scan'208";a="192052069"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 15:15:31 -0700
-IronPort-SDR: QoBJKYG3l5zTaGvcSguXNjQba410SA+2Y9P+GN0O1lByp5lX+5/P5ibtYPb/OQ8t93ATUXF0+O
- 5lZ6WmKkSjqg==
+   d="scan'208";a="204749138"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 15:16:31 -0700
+IronPort-SDR: w7c6jHJjoNnIUvWbiROU92MRD+76h5y2mnblaPQ3pJSs+CNK8B0DsGEX/VXRAbCPsJHYy0gyVX
+ PZORjmn8edJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; 
-   d="scan'208";a="481700133"
+   d="scan'208";a="413180997"
 Received: from lkp-server02.sh.intel.com (HELO 1ec8406c5392) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 07 Jun 2021 15:15:30 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 07 Jun 2021 15:16:30 -0700
 Received: from kbuild by 1ec8406c5392 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1lqNWr-0008Xa-Hp; Mon, 07 Jun 2021 22:15:29 +0000
-Date:   Tue, 08 Jun 2021 06:15:26 +0800
+        id 1lqNXp-0008Xm-KE; Mon, 07 Jun 2021 22:16:29 +0000
+Date:   Tue, 08 Jun 2021 06:15:29 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- e1833059a1c5dac43b9e7352890ec727247341e0
-Message-ID: <60be9a7e.L13CgtSbiPpM7zar%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-dt-for-v5.14] BUILD SUCCESS
+ 1771a33b34421050c7b830f0a8af703178ba9d36
+Message-ID: <60be9a81.Cm9IiwU3Q5i8Fe3i%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,13 +44,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: e1833059a1c5dac43b9e7352890ec727247341e0  Merge branch 'renesas-arm-dt-for-v5.14' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.14
+branch HEAD: 1771a33b34421050c7b830f0a8af703178ba9d36  arm64: dts: renesas: r8a779a0: Drop power-domains property from GIC node
 
 elapsed time: 730m
 
-configs tested: 225
-configs skipped: 3
+configs tested: 222
+configs skipped: 79
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -85,10 +85,6 @@ powerpc                    sam440ep_defconfig
 m68k                         amcore_defconfig
 arm                           viper_defconfig
 sh                     sh7710voipgw_defconfig
-s390                          debug_defconfig
-mips                             allyesconfig
-mips                            e55_defconfig
-powerpc                 mpc85xx_cds_defconfig
 mips                         tb0219_defconfig
 sh                ecovec24-romimage_defconfig
 arm                            mmp2_defconfig
@@ -242,6 +238,7 @@ i386                             allyesconfig
 sparc                            allyesconfig
 sparc                               defconfig
 i386                                defconfig
+mips                             allyesconfig
 mips                             allmodconfig
 powerpc                          allyesconfig
 powerpc                           allnoconfig
