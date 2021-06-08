@@ -2,134 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C468E39F4CD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jun 2021 13:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A6AE39F626
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jun 2021 14:13:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230190AbhFHLVA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Jun 2021 07:21:00 -0400
-Received: from mail-lj1-f178.google.com ([209.85.208.178]:34646 "EHLO
-        mail-lj1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231882AbhFHLU7 (ORCPT
+        id S232217AbhFHMPt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Jun 2021 08:15:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57754 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231993AbhFHMPt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Jun 2021 07:20:59 -0400
-Received: by mail-lj1-f178.google.com with SMTP id bn21so26510014ljb.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Jun 2021 04:18:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=CqWp9m/g1GxCZk/aIRL+aDRtEt1RKhMuS6t58RhnXHs=;
-        b=PBRNTH8Gy7WP+Z5rxgsi9lhz2jaNM0VQnb+zVNhaJFEonxG/fjCjq1PtXWDGXHmZsr
-         f9ld/ZXcP4enHqA2PsaXFQripxkCokpH3RksBBNnxJOntIXsnEtDtA8Ja+66nVySOsi/
-         xD81MXKoz6K7PCVr0cC2fbGlgTPCw73VIdYyeX1GxaQTDhi/oLsm2fhk/jBKKl64M2SP
-         frOB6ifEj8WmCfnrvWmAcqlQMsQjOa+wMFmZxzd3YZ/Nrh07D63xjfOADFtmyCcaYLPb
-         A5Mnj3OonrbqrsLR9mTQBlu5Ee0N4VWiY5gsx3m3MLKE4eA5MtaF9Gpi3qBQUkCp4UWo
-         9y7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=CqWp9m/g1GxCZk/aIRL+aDRtEt1RKhMuS6t58RhnXHs=;
-        b=JFa5mwvbwtvyRNTYYXnU+JEusjQ/SV7lZm3C1bcTKT38Dci57vUSXVHj0dXalh7PNN
-         QrjQbB+iU16TeqkF5smGeckmLW5jrdvs/rCxteFWSmerV+5eejJsQfS3uh0upmjDuSBL
-         0LhwHvzUxVLyBCSbMiVpVwACHa3Z3ORcnMEqtD+uFLFZePgdc1JLALUw2QRClQSI+ybY
-         p5msfMoSTeNvIZ55/Ym6QM0wY9V0S+8uEgpqD16KvwxCSJNWKUGKZHic2KMyPakOl2Vs
-         jki/K3t1h9tiLPaI8tSnymTNTYySjqxU26vEMNUQ+t7KVIafpA+JcFfzsEga/D8RcNhb
-         QRsw==
-X-Gm-Message-State: AOAM532jfG7VOyyzsnlWRiIDmXs8oy7TRV66DNG1iSpomsOeybFDxkYV
-        I9EhW7E0lgDXwuqUTcS5kqkZhw==
-X-Google-Smtp-Source: ABdhPJxKC6WpuEiTGagGnq2Ve6xS8VrT0TXC0ZC5lims8C6jBjzv0w6w/RczkqNLBFveXcJYto7vog==
-X-Received: by 2002:a05:651c:1057:: with SMTP id x23mr17624521ljm.467.1623151069700;
-        Tue, 08 Jun 2021 04:17:49 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id q15sm1576172lfk.217.2021.06.08.04.17.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 04:17:49 -0700 (PDT)
-Date:   Tue, 8 Jun 2021 13:17:48 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 0/4] arm64: dts: renesas: salvator-x(s): Factor out
- common optional parts
-Message-ID: <YL9R3DUV+iZocvn+@oden.dyn.berto.se>
-References: <cover.1623087028.git.geert+renesas@glider.be>
+        Tue, 8 Jun 2021 08:15:49 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 059ABC061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Jun 2021 05:13:55 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:c184:ea65:c3d6:a616])
+        by albert.telenet-ops.be with bizsmtp
+        id EcDu2500A1G4u2S06cDuQ7; Tue, 08 Jun 2021 14:13:54 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lqacD-00EQq6-W5
+        for linux-renesas-soc@vger.kernel.org; Tue, 08 Jun 2021 14:13:54 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lqacD-009fYn-KM
+        for linux-renesas-soc@vger.kernel.org; Tue, 08 Jun 2021 14:13:53 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2021-06-08-v5.13-rc5
+Date:   Tue,  8 Jun 2021 14:13:53 +0200
+Message-Id: <20210608121353.2304666-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1623087028.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+I have pushed renesas-drivers-2021-06-08-v5.13-rc5 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Thanks for your work.
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-On 2021-06-07 19:39:01 +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> The Renesas Salvator-X(S) family of boards are available with different
-> SiP options (R-Car H3 ES1.x, H3 ES2.0+, M3-W, M3-W+, M3-N).  To reduce
-> duplication of board descriptions, the parts common to all SoC and board
-> combinations are already factored out into salvator-common.dtsi,
-> salvator-x.dtsi, and salvator-xs.dtsi.  Still, there are a few board
-> features that are not common to all combos, as the corresponding support
-> is not present on all SoCs.
-> 
-> Hence this patch series moves out support for the second HDMI channel,
-> the SATA interface, and the third and fourth USB channels to
-> salvator-common.dtsi and/or salvator-xs.dtsi.  As these are not present
-> on all SoCs, its descriptions are protected by SOC_HAS_* preprocessor
-> symbols, defined in SoC-specific .dtsi files.
-> 
-> This series causes no changes in the generated DTB, except for the
-> enablement of the SATA device node on Salvator-X board with an R-Car
-> M3-N SiP, cfr. the comments in [PATCH 2/4].
-> 
-> Thanks for your comments!
+Today's version is based on renesas-devel-2021-06-07-v5.13-rc5.
 
-With a bit more of logic in dts files we might get back to board files 
-;-) For the whole series,
+Included branches with driver code:
+  - renesas-clk
+  - renesas-pinctrl
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/v3u/timers-v1-minimal
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Included fixes:
+  - WIP soc: v3u: allow WDT reset
+  - misc: add sloppy logic analyzer using polling
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-> 
-> Geert Uytterhoeven (4):
->   arm64: dts: renesas: salvator-x(s): Factor out HDMI1 parts
->   arm64: dts: renesas: salvator-x(s): Factor out SATA parts
->   arm64: dts: renesas: salvator-x(s): Factor out USB ch2 parts
->   arm64: dts: renesas: salvator-xs: Factor out USB ch3 parts
-> 
->  .../boot/dts/renesas/r8a77950-salvator-x.dts  |  73 -----------
->  arch/arm64/boot/dts/renesas/r8a77950.dtsi     |   2 +
->  .../boot/dts/renesas/r8a77951-salvator-x.dts  |  73 -----------
->  .../boot/dts/renesas/r8a77951-salvator-xs.dts | 122 ------------------
->  arch/arm64/boot/dts/renesas/r8a77951.dtsi     |   5 +
->  .../boot/dts/renesas/r8a77965-salvator-xs.dts |  14 --
->  arch/arm64/boot/dts/renesas/r8a77965.dtsi     |   2 +
->  .../boot/dts/renesas/salvator-common.dtsi     |  76 ++++++++++-
->  arch/arm64/boot/dts/renesas/salvator-xs.dtsi  |  56 ++++++++
->  9 files changed, 140 insertions(+), 283 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
-> Gr{oetje,eeting}s,
-> 
-> 						Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
-> 							    -- Linus Torvalds
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
 
--- 
-Regards,
-Niklas Söderlund
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
