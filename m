@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6496E39FA07
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jun 2021 17:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1EC539FA58
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jun 2021 17:24:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233815AbhFHPKv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Jun 2021 11:10:51 -0400
-Received: from mail-vs1-f43.google.com ([209.85.217.43]:37629 "EHLO
-        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233538AbhFHPKu (ORCPT
+        id S231760AbhFHPZz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Jun 2021 11:25:55 -0400
+Received: from mail-vs1-f54.google.com ([209.85.217.54]:40943 "EHLO
+        mail-vs1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231830AbhFHPZi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Jun 2021 11:10:50 -0400
-Received: by mail-vs1-f43.google.com with SMTP id f21so9319456vsl.4;
-        Tue, 08 Jun 2021 08:08:57 -0700 (PDT)
+        Tue, 8 Jun 2021 11:25:38 -0400
+Received: by mail-vs1-f54.google.com with SMTP id b1so9339230vsh.7;
+        Tue, 08 Jun 2021 08:23:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kDiaD0QpBOMcE0PMxzMhL3MWciIvjsNbxKoMrmcmJ1E=;
-        b=DVIaPQiMT2f6/br4gxxxljYR9VsAw4ZfIxPyT2aAhnwyi3mPEWB7PhWXxg4kAH1kGK
-         oo86pgy8/CzYjycUqzFS10DmvMcWZTrX4h8RBLoz+4vu9MzOvWunrPT+oF26UvsL9Tz2
-         ugxtYYzsrHSqWyHh40yrf2CgZa9Kdz779HvYKVlylIRKM/eqxWgdrRX8PYRdhPQBjfMT
-         FwzKgZswvbvYWp07vf4eecz2/8vI7VwAPl2awEAZqmO9V2nwYy0P8u+Cm236mH/gg9tb
-         EyDC3zEMzLZMBjTAwVP9KA/DyOHi/JtXjQbahdtoWdDAdlaT5Jv4StvlUSKZ4J1BaeNo
-         zguA==
-X-Gm-Message-State: AOAM532ryh2M3DYsGVgV3a/f7Rf8iA/RnXdchhfaD2PZAt+z2aDstZ6l
-        9F/w2gXxVjBDtVKnh5FXYlUWsSdj/z2gtZSAX1o=
-X-Google-Smtp-Source: ABdhPJxAAAqyrSL7AqH/7wFzHGB8g+Yzzx+HqBzJkZEZm1+whye88TFNXKhkrTDet/pSlZsQRcuT0CIkeZGOE4ejWC4=
-X-Received: by 2002:a05:6102:c4c:: with SMTP id y12mr658970vss.18.1623164936724;
- Tue, 08 Jun 2021 08:08:56 -0700 (PDT)
+        bh=eLtAXNvdTwsCQkdXR6zInVT34PWj9yNdT1iQLsuVGcU=;
+        b=UiCRGtg3unQzaRelZEzj3xSjbjycJyTyBZ4hIlX6TZSl3jc4ZnHrIVw3nbVs0R2adQ
+         Xzde7XqYwu89ob5rCcNV4VRFMf9JCFwTntZyBj/oGJn2v3dQDw/jFWCCO4MOk3zpQxLq
+         aywuOGo5dJBTld7TY3ndYD4M67/aTPkurcVEDaZbP0jc2rN72SAkf1Qg2525ecWzL51r
+         6yUorskANEzYS8ewicTIi3CUFTylBrdMZbe6nTc7gPXcFAHhcW5cjsxYaiNpp81xslKh
+         fFY1FEoUtl6fTpuvzQG8RmFlQHW9tCnHfcvIfGfcX7nG8L1Qk7AG2rgFGr8MCjxuTee6
+         /Hgw==
+X-Gm-Message-State: AOAM531FCOBF40wypyacxeqizDFH1tuakBiqcYAq/xSpCCMb0QjWWt38
+        bBqrum06eSLyYm1XcQ5wrNARSHM6GWZ1BZ7kEZ8=
+X-Google-Smtp-Source: ABdhPJy2G4x1+3g6k8M7MspEWuFkyDUzrUpWcbY6zb6G+KomiRlPbUGVcJ3aH/+CUrzg5TDctjse8O/AD7JNA2Dmw7o=
+X-Received: by 2002:a05:6102:c4c:: with SMTP id y12mr759222vss.18.1623165824596;
+ Tue, 08 Jun 2021 08:23:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210603221758.10305-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210603221758.10305-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210603221758.10305-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210603221758.10305-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Jun 2021 17:08:45 +0200
-Message-ID: <CAMuHMdX9En43TvWt_e5JyUOd7rV2AhMJsFqGi9OUnPs00jc=AQ@mail.gmail.com>
-Subject: Re: [PATCH v2 07/12] dt-bindings: clock: renesas: Document RZ/G2L SoC
- CPG driver
+Date:   Tue, 8 Jun 2021 17:23:33 +0200
+Message-ID: <CAMuHMdUHEmGarOrvTjR4wzUPK+tzh0bx9Vy2o=3LthAh2BvXxQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/12] dt-bindings: arm: renesas: Document Renesas
+ RZ/G2UL SoC
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -62,98 +62,23 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
 On Fri, Jun 4, 2021 at 12:18 AM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document the device tree bindings of the Renesas RZ/G2L SoC clock
-> driver in Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml.
+> Add device tree bindings documentation for Renesas RZ/G2UL SoC.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
 > Acked-by: Rob Herring <robh@kernel.org>
 
-IIRC, Rob gave his R-b, not his A-b.
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-> @@ -0,0 +1,80 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/clock/renesas,rzg2l-cpg.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Renesas RZ/G2L Clock Pulse Generator / Module Standby Mode
-> +
-> +maintainers:
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description: |
-> +  On Renesas RZ/G2L SoC, the CPG (Clock Pulse Generator) and Module
-> +  Standby Mode share the same register block.
-> +
-> +  They provide the following functionalities:
-> +    - The CPG block generates various core clocks,
-> +    - The Module Standby Mode block provides two functions:
-> +        1. Module Stop, providing a Clock Domain to control the clock supply
-> +           to individual SoC devices,
-> +        2. Reset Control, to perform a software reset of individual SoC devices.
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,r9a07g044-cpg  # RZ/G2{L,LC,UL}
-
-Shouldn't RZ/G2UL use renesas,r9a07g043-cpg?
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: extal
-> +
-> +  '#clock-cells':
-> +    description: |
-> +      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
-> +        and a core clock reference, as defined in
-> +        <dt-bindings/clock/r9a07g044l-cpg.h>
-
-r9a07g044-cpg.h
-
-> +      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
-> +        a module number, as defined in the <dt-bindings/clock/r9a07g044l-cpg.h>.
-
-r9a07g044-cpg.h
-
-> +    const: 2
-> +
-> +  '#power-domain-cells':
-> +    description:
-> +      SoC devices that are part of the CPG/Module Standby Mode Clock Domain and
-> +      can be power-managed through Module Stop should refer to the CPG device
-
-Module Standby
-
-> +      node in their "power-domains" property, as documented by the generic PM
-> +      Domain bindings in Documentation/devicetree/bindings/power/power-domain.yaml.
-> +    const: 0
-> +
-> +  '#reset-cells':
-> +    description:
-> +      The single reset specifier cell must be the module number, as defined in
-> +      the <dt-bindings/clock/r9a07g044l-cpg.h>.
-
-r9a07g044-cpg.h
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
