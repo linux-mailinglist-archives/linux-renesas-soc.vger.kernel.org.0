@@ -2,89 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD1D839F68F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jun 2021 14:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07FCF39F784
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jun 2021 15:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232580AbhFHM2Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Jun 2021 08:28:24 -0400
-Received: from www.zeus03.de ([194.117.254.33]:60558 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232577AbhFHM2V (ORCPT
+        id S232792AbhFHNTn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Jun 2021 09:19:43 -0400
+Received: from mail-ua1-f47.google.com ([209.85.222.47]:40466 "EHLO
+        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232876AbhFHNTm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Jun 2021 08:28:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=UJB2R7z6c1JLI0tSU2WWCmcB3EKC
-        ULo2n4qIA0VITwM=; b=RngtwJXSKxV5UvquuZoUPn1G86Dw2SlIXSDcJR1tAFZQ
-        qkScdfcVEqA9g+02vkhqODonz2MLHKKmdndCnpcoSDdqFCeCwUj9f5Uw2p3NRvwa
-        0QOYNhnp1HWAIlTdt7gtkjV74+J78Qyh4GQRVCp6R3m/helf2pSalqBUZe4Uj7Y=
-Received: (qmail 1102873 invoked from network); 8 Jun 2021 14:26:26 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Jun 2021 14:26:26 +0200
-X-UD-Smtp-Session: l3s3148p1@jGRPREDErKBQT+F6
-Date:   Tue, 8 Jun 2021 14:26:26 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Jean Delvare <jdelvare@suse.de>
-Cc:     Peter Korsgaard <peter@korsgaard.com>, linux-i2c@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH i2c-tools] Revert "tools: i2ctransfer: add check for
- returned length from driver"
-Message-ID: <YL9h8ojf2t8eWaFR@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Peter Korsgaard <peter@korsgaard.com>, linux-i2c@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20210310204648.GA332643@ninjato>
- <87tuoe5zfc.fsf@dell.be.48ers.dk>
- <20210413125433.GA9879@kunai>
- <20210521132158.6e0689c0@endymion>
- <YK1fwC4aR5RKTPcB@kunai>
- <20210602110332.73f9cbc1@endymion>
- <YLew8cFWTRQKrBuk@kunai>
- <20210604155708.14159db0@endymion>
- <YLp9Lc5Ondu3Gicg@kunai>
- <20210608142211.6aa9ad4f@endymion>
+        Tue, 8 Jun 2021 09:19:42 -0400
+Received: by mail-ua1-f47.google.com with SMTP id d18so314943ual.7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Jun 2021 06:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4sO61Fkn/5IZX7W/Hmal8+XrneLbVYOvRH8YqKEmick=;
+        b=u5X7PMHHxL3yE7d6dDQP52QGHBPyUln/TF1+tYPm7hIJV5NS/siaFMa+EJvG5B6SUv
+         9uWqqz1mLMoL9FiF0M8alQtkXuCYj7Ak4B2NjW8L2fZ5fthcJdI0alkX2JaQ8hpFBuCd
+         roWb/7b6b5KtalM2aHBlCnUP1FjtpZmC6P4lfu8fOUKqmTZfCxGHCySaGXM6SLN9l1ov
+         KY7RdtDwBuhsCYifz5RpCYX9ZA3cxGRvFdocWq971svs+ClMMn5A3kurizygj9cVYJME
+         wcbdjgJ5cDNYoTZnyddLArCEAJ/k0jDU4lztqSKQPjnUH8hZ2Z9GdI7ZLNQD/hlvJ63c
+         hR9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4sO61Fkn/5IZX7W/Hmal8+XrneLbVYOvRH8YqKEmick=;
+        b=bOsGft/FS8OlIQwB00+WQ6q6fwhxNQTiiLl2mjfKawyTOmbZ/0P7XjuPhYmucBXnuz
+         Zs1YD7T+pB7oeLcY3v8BaC9UebnNZ+rtq8/ZtPmCdl+prhsBa9hc7vPMLC+Q6UTUYj9L
+         GO9HMgfWSCAgt+dnoJSliZwAZGuzgq6aG0iYBI/qXmR8Ra7zNdf0m3Lb/kVmPplCDUE7
+         sJEjtNpgLmSIYl2cLs8oPztvGgD+cEJndAIxAf4DOTme1ypSkTqp73vrTwMc9jBZDIfs
+         +4BVKGLwix1AtxEGKZAmXD3pbSAjrMXjfAe1bK+DOd0ObV5gElvHm0EK7BJDD3EjluC8
+         NGvA==
+X-Gm-Message-State: AOAM533E0HcapuTG5ECTAbwCU0QPoynkNhJ2iBI5MaEhPfmn59mS8o8T
+        YDI097yWva0wvwUD+SvbvC/jjRt4BGqMzh33HBP+RA==
+X-Google-Smtp-Source: ABdhPJxbw2jKLpHRrw+vUe65U9pKZtC9zHtDLfFBHJxqmwFLCCreieH+pOXs86lypO+JJcM7bCuwjtDO0H6EO9ZZjVU=
+X-Received: by 2002:ab0:d8f:: with SMTP id i15mr12633857uak.104.1623158209542;
+ Tue, 08 Jun 2021 06:16:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="NKrBx0tGQtTcsss0"
-Content-Disposition: inline
-In-Reply-To: <20210608142211.6aa9ad4f@endymion>
+References: <20210602073435.5955-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210602073435.5955-1-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Tue, 8 Jun 2021 15:16:12 +0200
+Message-ID: <CAPDyKFo0jP-0yZd-89J7v4xdcBnH5H5yGa_s4a-hw=mkHxOrxg@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: abort tuning when timeout detected
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Wed, 2 Jun 2021 at 09:34, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> We have to bring the eMMC from sending-data state back to transfer state
+> once we detected a CRC error (timeout) during tuning. So, send a stop
+> command via mmc_abort_tuning().
+>
+> Fixes: 4f11997773b6 ("mmc: tmio: Add tuning support")
+> Reported-by Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
---NKrBx0tGQtTcsss0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied for fixes and by adding a stable tag, thanks!
+
+> ---
+>
+> Ulf, I'd think that mmc_abort_tuning() should be named
+> mmc_abort_tuning_cmd() instead. Because we don't actually abort the
+> tuning as a whole in this function. What do you think? I can prepare a
+> patch if you agree.
+
+Good point.
+
+I have no strong opinion, but perhaps mmc_send_abort_tuning() is more
+consistent with other function names?
+
+Kind regards
+Uffe
 
 
-> So I'm actually tempted to add the feature to *both* tools. Crestez's
-> patch would be the base for the i2cget implementation, to which I would
-> happily add SMBus block read support. For i2cdump, it's about adding
-> support for register range to the "i" mode. I took a quick look already
-> and it seems fairly trivial to implement.
-
-Sounds good. Let's take this road then. I am convinced :)
-
-
---NKrBx0tGQtTcsss0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmC/Ye4ACgkQFA3kzBSg
-KbbS3xAAo+Kcu8c7EL/zhVaDuTwy6NRoJwdN4AqFSfWWAuasMTbbvdGKiGlE3lsl
-1z9a7fIjVKwEq8GUVNlKcZfDL93ceED6ZJ6JiGnAONdESEenUp1sIj0wDspCnc2Z
-WXh2y4QHROdYGLCa3CgsDQ/PMr52JsakgOi+DrfbySjdDUFlSZr8Sxkt5IXebT/Y
-8RkkY/OQ33A40NlzC3o2TGQqWsXqzL+JAV74dpRIerpTMXoEiVOEClZD2YYGxii1
-agQvEIp/2jiolVy3IdXZEp7KHrkvfRxSdb6rjR+JrukIQFitUcrl9KijgdLRKetq
-TisjQtAUsQiDKL6ho5qelZfDm36lz829ssVfeYsvOUZl8YexYVqz51rUjG9yRujA
-ZaqGyIvGGPOqT/dzMTG4zBfbjDoY8Qpl/VsvRhtN423tYRm6rJbUuHUXyIL+5/q8
-cxB5TGbndZN7OgQa3mJ5lc0mo8fCNGcMbT7rRxrXgA96hp4Kn1oivaGXqQEzHATz
-2uWEBYHn/u0khWX6y1ig61UXcBJfQqf4leW0X08td69/+u/nEfudf51lLyczEG6W
-3WFDvEPALD/ICuYzj1cCl2XjwkbVIGx3KAf+Z7zH6BXuIZGpemTkI11oL0QZHPbo
-H6KPte7O8hOG+uLBu9clsNnL4IWP/DQ3ttczpggUcnzkr3odn2A=
-=pMFx
------END PGP SIGNATURE-----
-
---NKrBx0tGQtTcsss0--
+>
+>  drivers/mmc/host/renesas_sdhi_core.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index 635bf31a6735..9029308c4a0f 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -692,14 +692,19 @@ static int renesas_sdhi_execute_tuning(struct mmc_host *mmc, u32 opcode)
+>
+>         /* Issue CMD19 twice for each tap */
+>         for (i = 0; i < 2 * priv->tap_num; i++) {
+> +               int cmd_error;
+> +
+>                 /* Set sampling clock position */
+>                 sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TAPSET, i % priv->tap_num);
+>
+> -               if (mmc_send_tuning(mmc, opcode, NULL) == 0)
+> +               if (mmc_send_tuning(mmc, opcode, &cmd_error) == 0)
+>                         set_bit(i, priv->taps);
+>
+>                 if (sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP) == 0)
+>                         set_bit(i, priv->smpcmp);
+> +
+> +               if (cmd_error)
+> +                       mmc_abort_tuning(mmc, opcode);
+>         }
+>
+>         ret = renesas_sdhi_select_tuning(host);
+> --
+> 2.30.2
+>
