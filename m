@@ -2,44 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 943CC39FA6C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jun 2021 17:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 899CB39FA84
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Jun 2021 17:25:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231363AbhFHP0Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Jun 2021 11:26:16 -0400
-Received: from mail-vs1-f51.google.com ([209.85.217.51]:45039 "EHLO
-        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232034AbhFHP0E (ORCPT
+        id S230475AbhFHP05 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Jun 2021 11:26:57 -0400
+Received: from mail-ua1-f46.google.com ([209.85.222.46]:42752 "EHLO
+        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232455AbhFHP02 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Jun 2021 11:26:04 -0400
-Received: by mail-vs1-f51.google.com with SMTP id x13so2656121vsf.11;
-        Tue, 08 Jun 2021 08:24:10 -0700 (PDT)
+        Tue, 8 Jun 2021 11:26:28 -0400
+Received: by mail-ua1-f46.google.com with SMTP id w5so11694546uaq.9;
+        Tue, 08 Jun 2021 08:24:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Wx/M/vTCLzfAljvUsfDDC4hJP/0AZQpZIen1/HK/Vmc=;
-        b=PsnzhnDMDSVuw79UxY+VunKzhIipArXAZpMTDaXC66NWUTW3Hl507CXlJgq1ITWFWj
-         p0Z42BjmrQh0eWmVXn/Za1DAdSZXcWTxQPVWJN1TKu8TwGXK5e4o6VuSZZhl80JzHmpk
-         bINq570xRWq3RLNLiypaytCnkViHyrLbSI3ZUBUzSEhNFj7PB329HnOgrIuWASDLGzFb
-         ohvXM8+dvxUa/gQNVYmtFAXUMGnHhlsN1ge7//viGDnGx2DV3P4iQ9LVyOseEHMBn979
-         NAvUM2mdjErCWXVrsWrncwc3sz0eYAl2GrIWU5Ux5zv/Dfazcnrk00+yqmhDU34v487a
-         3mqg==
-X-Gm-Message-State: AOAM531kJd5WHGVZi1fmSeX4IrNIup4PTfe8LRPkExJNNB/8c3Afk29a
-        e32MzBeUr1HkhSScCXxjvViH8zoUJuK+5CpuNwI=
-X-Google-Smtp-Source: ABdhPJxUTGTA7RWZ/pMIrdZXxg8bzFtl4gl22fyPZdmiPQjuEV1RWdBcq833Nq8NonhQ83nFtMW9StC/w//jKatGSc4=
-X-Received: by 2002:a67:efd6:: with SMTP id s22mr394812vsp.3.1623165850476;
- Tue, 08 Jun 2021 08:24:10 -0700 (PDT)
+        bh=IBGR5ejB/dxl/FW55EzoAlwiWItXDc9ITlsShJNBY9w=;
+        b=l3En7gXGLsUjzG+MreMzl6V/z+3xW8ZzWzsp5Fxs7M33J+h31MaaGVPSLdKR7veWio
+         l/lvqm2spGiTsSijU5uihLysd8zwlVS05WWDpxgUKsb5NxuBUdz1e/03LLgILDq+XcSE
+         NixjIe98mzdafibGB7mkqocVLXPkQD4dAqwg0Xf1TBHHhqSFi2Sz8haVohlbDgITnCZ4
+         NWmgN5eoBunPpGQzX6pWfL1jcIc9XqVMrzNTH8KU9QcTKTg26WBwwowfRCt8s5kUeA7n
+         GBIOdacaNa2MRcG0JUIex06swmfDDw1L51uoGyo3vOEg5Rv42kv1ZYW8PGE5Z8PEmofJ
+         /dEA==
+X-Gm-Message-State: AOAM530jmaG5J+IZF26sNMYxdKCSHYGHJdhNW8A6lqlw1T0QgJGO2aVY
+        dwRftKpEJo1A3SRTkUv5fovTCvAn7i+KIma1ZPE=
+X-Google-Smtp-Source: ABdhPJw3bFt52EWfQSJxaDegrbjgh/Y/tlHQw5DPNKV8+7btGc0HyEv6h40v0XQgtiM/7LfCVT8LvYK3loF5OK87f0k=
+X-Received: by 2002:ab0:b09:: with SMTP id b9mr8529551uak.58.1623165863831;
+ Tue, 08 Jun 2021 08:24:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210603221758.10305-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210603221758.10305-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210603221758.10305-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210603221758.10305-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Jun 2021 17:23:59 +0200
-Message-ID: <CAMuHMdXgMEB3YKJipbSmXuVE-BAwhHJ1JxOBRqziVYXAn18ZnQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/12] dt-bindings: arm: renesas: Document SMARC EVK
+Date:   Tue, 8 Jun 2021 17:24:12 +0200
+Message-ID: <CAMuHMdW6Cv9N2qMSSB2-QAV6x5mJCQPHZmm2pWhhBeo7c3R_ug@mail.gmail.com>
+Subject: Re: [PATCH v2 04/12] soc: renesas: Add ARCH_R9A07G044 for the new
+ RZ/G2L SoC's
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -64,14 +64,11 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Fri, Jun 4, 2021 at 12:18 AM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document Renesas SMARC EVK board which are based on RZ/G2L (R9A07G044)
-> SoC. The SMARC EVK consists of RZ/G2L SoM module and SMARC carrier board,
-> the SoM module sits on top of carrier board.
+> Add ARCH_R9A07G044 as a configuration symbol for the new Renesas
+> RZ/G2L SoC variants.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
-> Acked-by: Rob Herring <robh@kernel.org>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
