@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4348F3A19CB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 17:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9A6A3A19D3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 17:34:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238377AbhFIPfh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Jun 2021 11:35:37 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:33258 "EHLO
+        id S239060AbhFIPfw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Jun 2021 11:35:52 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:27851 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S237318AbhFIPfW (ORCPT
+        by vger.kernel.org with ESMTP id S239101AbhFIPfa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Jun 2021 11:35:22 -0400
+        Wed, 9 Jun 2021 11:35:30 -0400
 X-IronPort-AV: E=Sophos;i="5.83,261,1616425200"; 
-   d="scan'208";a="83733823"
+   d="scan'208";a="83733829"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 10 Jun 2021 00:33:26 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 10 Jun 2021 00:33:30 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 884394009102;
-        Thu, 10 Jun 2021 00:33:23 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 22DC1400911A;
+        Thu, 10 Jun 2021 00:33:26 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -34,9 +34,9 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 09/11] clk: renesas: Add support for R9A07G044 SoC
-Date:   Wed,  9 Jun 2021 16:32:28 +0100
-Message-Id: <20210609153230.6967-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 10/11] arm64: dts: renesas: Add initial DTSI for RZ/G2{L,LC} SoC's
+Date:   Wed,  9 Jun 2021 16:32:29 +0100
+Message-Id: <20210609153230.6967-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210609153230.6967-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210609153230.6967-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -44,219 +44,200 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Define the clock outputs supported by RZ/G2L (R9A07G044) SoC
-and bind it with RZ/G2L CPG core.
+Add initial DTSI for RZ/G2{L,LC} SoC's.
 
-Based on a patch in the BSP by Binh Nguyen
-<binh.nguyen.jz@renesas.com>.
+File structure:
+r9a07g044.dtsi  => RZ/G2L family SoC common parts
+r9a07g044l1.dtsi => RZ/G2L R9A07G044L1 SoC specific parts
+r9a07g044l2.dtsi => RZ/G2L R9A07G044L2 SoC specific parts
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/clk/renesas/Kconfig             |   5 +
- drivers/clk/renesas/Makefile            |   1 +
- drivers/clk/renesas/r9a07g044-cpg.c     | 127 ++++++++++++++++++++++++
- drivers/clk/renesas/renesas-rzg2l-cpg.c |   6 ++
- drivers/clk/renesas/renesas-rzg2l-cpg.h |   2 +
- 5 files changed, 141 insertions(+)
- create mode 100644 drivers/clk/renesas/r9a07g044-cpg.c
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi   | 120 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi |  25 ++++
+ arch/arm64/boot/dts/renesas/r9a07g044l2.dtsi |  13 ++
+ 3 files changed, 158 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l2.dtsi
 
-diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
-index a067428cb7af..916c7d227e25 100644
---- a/drivers/clk/renesas/Kconfig
-+++ b/drivers/clk/renesas/Kconfig
-@@ -32,6 +32,7 @@ config CLK_RENESAS
- 	select CLK_R8A77995 if ARCH_R8A77995
- 	select CLK_R8A779A0 if ARCH_R8A779A0
- 	select CLK_R9A06G032 if ARCH_R9A06G032
-+	select CLK_R9A07G044 if ARCH_R9A07G044
- 	select CLK_SH73A0 if ARCH_SH73A0
- 
- if CLK_RENESAS
-@@ -156,6 +157,10 @@ config CLK_R9A06G032
- 	help
- 	  This is a driver for R9A06G032 clocks
- 
-+config CLK_R9A07G044
-+	bool "RZ/G2L clock support" if COMPILE_TEST
-+	select CLK_RZG2L
-+
- config CLK_SH73A0
- 	bool "SH-Mobile AG5 clock support" if COMPILE_TEST
- 	select CLK_RENESAS_CPG_MSTP
-diff --git a/drivers/clk/renesas/Makefile b/drivers/clk/renesas/Makefile
-index a9c299686b4a..5c6c5c721d98 100644
---- a/drivers/clk/renesas/Makefile
-+++ b/drivers/clk/renesas/Makefile
-@@ -29,6 +29,7 @@ obj-$(CONFIG_CLK_R8A77990)		+= r8a77990-cpg-mssr.o
- obj-$(CONFIG_CLK_R8A77995)		+= r8a77995-cpg-mssr.o
- obj-$(CONFIG_CLK_R8A779A0)		+= r8a779a0-cpg-mssr.o
- obj-$(CONFIG_CLK_R9A06G032)		+= r9a06g032-clocks.o
-+obj-$(CONFIG_CLK_R9A07G044)		+= r9a07g044-cpg.o
- obj-$(CONFIG_CLK_SH73A0)		+= clk-sh73a0.o
- 
- # Family
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
 new file mode 100644
-index 000000000000..50b5269586a4
+index 000000000000..6a103a62eccb
 --- /dev/null
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+@@ -0,0 +1,120 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +/*
-+ * RZ/G2L CPG driver
++ * Device Tree Source for the RZ/G2L and RZ/G2LC common SoC parts
 + *
 + * Copyright (C) 2021 Renesas Electronics Corp.
 + */
 +
-+#include <linux/clk-provider.h>
-+#include <linux/device.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+
++#include <dt-bindings/interrupt-controller/arm-gic.h>
 +#include <dt-bindings/clock/r9a07g044-cpg.h>
 +
-+#include "renesas-rzg2l-cpg.h"
++/ {
++	compatible = "renesas,r9a07g044";
++	#address-cells = <2>;
++	#size-cells = <2>;
 +
-+enum clk_ids {
-+	/* Core Clock Outputs exported to DT */
-+	LAST_DT_CORE_CLK = R9A07G044_OSCCLK,
++	/* clock can be either from exclk or crystal oscillator (XIN/XOUT) */
++	extal_clk: extal {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		/* This value must be overridden by the board */
++		clock-frequency = <0>;
++	};
 +
-+	/* External Input Clocks */
-+	CLK_EXTAL,
++	psci {
++		compatible = "arm,psci-1.0", "arm,psci-0.2";
++		method = "smc";
++	};
 +
-+	/* Internal Core Clocks */
-+	CLK_OSC_DIV1000,
-+	CLK_PLL1,
-+	CLK_PLL2,
-+	CLK_PLL2_DIV2,
-+	CLK_PLL2_DIV16,
-+	CLK_PLL2_DIV20,
-+	CLK_PLL3,
-+	CLK_PLL3_DIV2,
-+	CLK_PLL3_DIV4,
-+	CLK_PLL3_DIV8,
-+	CLK_PLL4,
-+	CLK_PLL5,
-+	CLK_PLL5_DIV2,
-+	CLK_PLL6,
++	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
 +
-+	/* Module Clocks */
-+	MOD_CLK_BASE,
++		cpu-map {
++			cluster0 {
++				core0 {
++					cpu = <&cpu0>;
++				};
++				core1 {
++					cpu = <&cpu1>;
++				};
++			};
++		};
++
++		cpu0: cpu@0 {
++			compatible = "arm,cortex-a55";
++			reg = <0>;
++			device_type = "cpu";
++			next-level-cache = <&L3_CA55>;
++			enable-method = "psci";
++		};
++
++		cpu1: cpu@100 {
++			compatible = "arm,cortex-a55";
++			reg = <0x100>;
++			device_type = "cpu";
++			next-level-cache = <&L3_CA55>;
++			enable-method = "psci";
++		};
++
++		L3_CA55: cache-controller-0 {
++			compatible = "cache";
++			cache-unified;
++			cache-size = <0x40000>;
++		};
++	};
++
++	soc: soc {
++		compatible = "simple-bus";
++		interrupt-parent = <&gic>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++
++		scif0: serial@1004b800 {
++			compatible = "renesas,scif-r9a07g044";
++			reg = <0 0x1004b800 0 0x400>;
++			interrupts = <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 382 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 383 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 381 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 384 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 384 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "eri", "rxi", "txi",
++					  "bri", "dri", "tei";
++			clocks = <&cpg CPG_MOD R9A07G044_CLK_SCIF0>;
++			clock-names = "fck";
++			power-domains = <&cpg>;
++			resets = <&cpg R9A07G044_CLK_SCIF0>;
++			status = "disabled";
++		};
++
++		cpg: clock-controller@11010000 {
++			compatible = "renesas,r9a07g044-cpg";
++			reg = <0 0x11010000 0 0x10000>;
++			clocks = <&extal_clk>;
++			clock-names = "extal";
++			#clock-cells = <2>;
++			#reset-cells = <1>;
++			#power-domain-cells = <0>;
++		};
++
++		gic: interrupt-controller@11900000 {
++			compatible = "arm,gic-v3";
++			#interrupt-cells = <3>;
++			#address-cells = <0>;
++			interrupt-controller;
++			reg = <0x0 0x11900000 0 0x40000>,
++			      <0x0 0x11940000 0 0x60000>;
++			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
++		};
++	};
++
++	timer {
++		compatible = "arm,armv8-timer";
++		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>;
++	};
 +};
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
+new file mode 100644
+index 000000000000..9d89d4590358
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
+@@ -0,0 +1,25 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Device Tree Source for the RZ/G2L R9A07G044L1 SoC specific parts
++ *
++ * Copyright (C) 2021 Renesas Electronics Corp.
++ */
 +
-+/* Divider tables */
-+static const struct clk_div_table dtable_3b[] = {
-+	{0, 1},
-+	{1, 2},
-+	{2, 4},
-+	{3, 8},
-+	{4, 32},
++/dts-v1/;
++#include "r9a07g044.dtsi"
++
++/ {
++	compatible = "renesas,r9a07g044l1", "renesas,r9a07g044";
++
++	cpus {
++		/delete-node/ cpu-map;
++		/delete-node/ cpu@100;
++	};
++
++	timer {
++		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
++	};
 +};
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044l2.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044l2.dtsi
+new file mode 100644
+index 000000000000..91dc10b2cdbb
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r9a07g044l2.dtsi
+@@ -0,0 +1,13 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Device Tree Source for the RZ/G2L R9A07G044L2 SoC specific parts
++ *
++ * Copyright (C) 2021 Renesas Electronics Corp.
++ */
 +
-+static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
-+	/* External Clock Inputs */
-+	DEF_INPUT("extal", CLK_EXTAL),
++/dts-v1/;
++#include "r9a07g044.dtsi"
 +
-+	/* Internal Core Clocks */
-+	DEF_FIXED(".osc", R9A07G044_OSCCLK, CLK_EXTAL, 1, 1),
-+	DEF_FIXED(".osc_div1000", CLK_OSC_DIV1000, CLK_EXTAL, 1, 1000),
-+	DEF_SAMPLL(".pll1", CLK_PLL1, CLK_EXTAL, PLL146_CONF(0)),
-+	DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 133, 2),
-+	DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 133, 2),
-+
-+	DEF_FIXED(".pll2_div2", CLK_PLL2_DIV2, CLK_PLL2, 1, 2),
-+	DEF_FIXED(".pll2_div16", CLK_PLL2_DIV16, CLK_PLL2, 1, 16),
-+	DEF_FIXED(".pll2_div20", CLK_PLL2_DIV20, CLK_PLL2, 1, 20),
-+
-+	DEF_FIXED(".pll3_div2", CLK_PLL3_DIV2, CLK_PLL3, 1, 2),
-+	DEF_FIXED(".pll3_div4", CLK_PLL3_DIV4, CLK_PLL3, 1, 4),
-+	DEF_FIXED(".pll3_div8", CLK_PLL3_DIV8, CLK_PLL3, 1, 8),
-+
-+	/* Core output clk */
-+	DEF_FIXED("I", R9A07G044_CLK_I, CLK_PLL1, 1, 1),
-+	DEF_DIV("P0", R9A07G044_CLK_P0, CLK_PLL2_DIV16, DIVPL2A,
-+		dtable_3b, CLK_DIVIDER_HIWORD_MASK),
-+	DEF_FIXED("TSU", R9A07G044_CLK_TSU, CLK_PLL2_DIV20, 1, 1),
-+	DEF_DIV("P1", R9A07G044_CLK_P1, CLK_PLL3_DIV8,
-+		DIVPL3B, dtable_3b, CLK_DIVIDER_HIWORD_MASK),
++/ {
++	compatible = "renesas,r9a07g044l2", "renesas,r9a07g044";
 +};
-+
-+static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
-+	DEF_MOD("gic",		R9A07G044_CLK_GIC600,
-+				R9A07G044_CLK_P1,
-+				0x514, BIT(0), (BIT(0) | BIT(1))),
-+	DEF_MOD("ia55",		R9A07G044_CLK_IA55,
-+				R9A07G044_CLK_P1,
-+				0x518, (BIT(0) | BIT(1)), BIT(0)),
-+	DEF_MOD("scif0",	R9A07G044_CLK_SCIF0,
-+				R9A07G044_CLK_P0,
-+				0x584, BIT(0), BIT(0)),
-+	DEF_MOD("scif1",	R9A07G044_CLK_SCIF1,
-+				R9A07G044_CLK_P0,
-+				0x584, BIT(1), BIT(1)),
-+	DEF_MOD("scif2",	R9A07G044_CLK_SCIF2,
-+				R9A07G044_CLK_P0,
-+				0x584, BIT(2), BIT(2)),
-+	DEF_MOD("scif3",	R9A07G044_CLK_SCIF3,
-+				R9A07G044_CLK_P0,
-+				0x584, BIT(3), BIT(3)),
-+	DEF_MOD("scif4",	R9A07G044_CLK_SCIF4,
-+				R9A07G044_CLK_P0,
-+				0x584, BIT(4), BIT(4)),
-+	DEF_MOD("sci0",		R9A07G044_CLK_SCI0,
-+				R9A07G044_CLK_P0,
-+				0x588, BIT(0), BIT(0)),
-+};
-+
-+static const unsigned int r9a07g044_crit_mod_clks[] __initconst = {
-+	MOD_CLK_BASE + R9A07G044_CLK_GIC600,
-+};
-+
-+const struct rzg2l_cpg_info r9a07g044_cpg_info = {
-+	/* Core Clocks */
-+	.core_clks = r9a07g044_core_clks,
-+	.num_core_clks = ARRAY_SIZE(r9a07g044_core_clks),
-+	.last_dt_core_clk = LAST_DT_CORE_CLK,
-+	.num_total_core_clks = MOD_CLK_BASE,
-+
-+	/* Critical Module Clocks */
-+	.crit_mod_clks = r9a07g044_crit_mod_clks,
-+	.num_crit_mod_clks = ARRAY_SIZE(r9a07g044_crit_mod_clks),
-+
-+	/* Module Clocks */
-+	.mod_clks = r9a07g044_mod_clks,
-+	.num_mod_clks = ARRAY_SIZE(r9a07g044_mod_clks),
-+	.num_hw_mod_clks = R9A07G044_CLK_MIPI_DSI_PIN + 1,
-+};
-diff --git a/drivers/clk/renesas/renesas-rzg2l-cpg.c b/drivers/clk/renesas/renesas-rzg2l-cpg.c
-index 9e860d55c916..ef308cb2368f 100644
---- a/drivers/clk/renesas/renesas-rzg2l-cpg.c
-+++ b/drivers/clk/renesas/renesas-rzg2l-cpg.c
-@@ -723,6 +723,12 @@ static int __init rzg2l_cpg_probe(struct platform_device *pdev)
- }
- 
- static const struct of_device_id rzg2l_cpg_match[] = {
-+#ifdef CONFIG_CLK_R9A07G044
-+	{
-+		.compatible = "renesas,r9a07g044-cpg",
-+		.data = &r9a07g044_cpg_info,
-+	},
-+#endif
- 	{ /* sentinel */ }
- };
- 
-diff --git a/drivers/clk/renesas/renesas-rzg2l-cpg.h b/drivers/clk/renesas/renesas-rzg2l-cpg.h
-index 8ff0047ffeb9..3948bdd8afc9 100644
---- a/drivers/clk/renesas/renesas-rzg2l-cpg.h
-+++ b/drivers/clk/renesas/renesas-rzg2l-cpg.h
-@@ -131,4 +131,6 @@ struct rzg2l_cpg_info {
- 	unsigned int num_crit_mod_clks;
- };
- 
-+extern const struct rzg2l_cpg_info r9a07g044_cpg_info;
-+
- #endif
 -- 
 2.17.1
 
