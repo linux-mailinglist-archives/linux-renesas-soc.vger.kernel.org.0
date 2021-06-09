@@ -2,120 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FA613A1999
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 17:30:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF33E3A19A5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 17:32:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236513AbhFIPci (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Jun 2021 11:32:38 -0400
-Received: from mail-vs1-f51.google.com ([209.85.217.51]:38629 "EHLO
-        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232656AbhFIPch (ORCPT
+        id S236257AbhFIPew (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Jun 2021 11:34:52 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:53196 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231691AbhFIPev (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Jun 2021 11:32:37 -0400
-Received: by mail-vs1-f51.google.com with SMTP id x8so144332vso.5;
-        Wed, 09 Jun 2021 08:30:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5VIIkzelMv7/CVp57eQ28eIePtVGukMPb/+T/jS9W/o=;
-        b=TMB4eVHvBJgo1R3Lqjb+tYkqUAOxdirBt53RwELF4QPeHYDJF2ut9U00Kx6CQ8MeQr
-         3lPGBs6ysLaaorbHfpavanbVbulC42CuAPc/nwLQW8xt/Qj8ueR1wzsX7BF1ihjLZ9Qs
-         nr/Hn6yNcmwBpI+paFzR3nUlx/fykZ83JgHasPYymlCQtr9Qx9URiSBwHLmncRIWDpq0
-         QeYCjwbCIhIPrlG4Tjrxch5r/EjzdjlhQ6wNRC4dKif+/SkWkuFV1+fhReK2hDfFDwbA
-         PSlz0D/ujcZcy5p9Uk2pmxsFIPNcRAPVPP3VyOzChPtfHrO4DVBXhqG9jycRVHfN9/uQ
-         jaew==
-X-Gm-Message-State: AOAM533EuKzQ9TLQgq1NMzeP0a1+T9vnKX9Zw2aqGZoOOQ/lMnCjNFxy
-        Ryg0j655BT5gX2O312xdpbqC4+7W6xYCbgJccO8=
-X-Google-Smtp-Source: ABdhPJzLvtMpkpYCQsS5rtqBsZHNCQ1AwyEOm4fpK+Q1sAWXkOVxaVe/oFCRLQe0boUJaNRrPxXofC8QcNUFBf7zW1M=
-X-Received: by 2002:a67:efd6:: with SMTP id s22mr728988vsp.3.1623252636626;
- Wed, 09 Jun 2021 08:30:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210609014902.271237-1-yoshihiro.shimoda.uh@renesas.com> <ac930164-6150-4358-8fe9-ab87654f68ce@gmail.com>
-In-Reply-To: <ac930164-6150-4358-8fe9-ab87654f68ce@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Jun 2021 17:30:25 +0200
-Message-ID: <CAMuHMdW9oV80QdZmgwJBF99jnw56XuTSkanjHCdBY+h4jAVGew@mail.gmail.com>
-Subject: Re: [PATCH v3] serial: sh-sci: Stop dmaengine transfer in sci_stop_tx()
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 9 Jun 2021 11:34:51 -0400
+X-IronPort-AV: E=Sophos;i="5.83,261,1616425200"; 
+   d="scan'208";a="83886951"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 10 Jun 2021 00:32:54 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4DD6040090FB;
+        Thu, 10 Jun 2021 00:32:51 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 00/11] Add new Renesas RZ/G2L SoC and Renesas RZ/G2L SMARC EVK support
+Date:   Wed,  9 Jun 2021 16:32:19 +0100
+Message-Id: <20210609153230.6967-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
+Hi All,
 
-On Wed, Jun 9, 2021 at 5:09 PM Sergei Shtylyov
-<sergei.shtylyov@gmail.com> wrote:
-> On 6/9/21 4:49 AM, Yoshihiro Shimoda wrote:
-> > Stop dmaengine transfer in sci_stop_tx(). Otherwise, the following
-> > message is possible output when system enters suspend and while
-> > transferring data, because clearing TIE bit in SCSCR is not able to
-> > stop any dmaengine transfer.
-> >
-> >     sh-sci e6550000.serial: ttySC1: Unable to drain transmitter
-> >
-> > Note that this patch uses dmaengine_terminate_async() so that
-> > we can apply this patch into longterm kernel v4.9.x or later.
-> >
-> > Fixes: 73a19e4c0301 ("serial: sh-sci: Add DMA support.")
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  Changes from v2:
-> >  - Don't use a macro.
-> >  - Revise the commit descrption.
-> >  https://lore.kernel.org/linux-renesas-soc/20210604095704.756190-1-yoshihiro.shimoda.uh@renesas.com/
-> >
-> >  Changes from v1:
-> >  - Don't put #ifdef in the .c file.
-> >  - Update the commit description.
-> >  https://lore.kernel.org/linux-renesas-soc/20210602114108.510527-1-yoshihiro.shimoda.uh@renesas.com/
-> >
-> >  drivers/tty/serial/sh-sci.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-> > index 4baf1316ea72..2d5487bf6855 100644
-> > --- a/drivers/tty/serial/sh-sci.c
-> > +++ b/drivers/tty/serial/sh-sci.c
-> > @@ -610,6 +610,14 @@ static void sci_stop_tx(struct uart_port *port)
-> >       ctrl &= ~SCSCR_TIE;
-> >
-> >       serial_port_out(port, SCSCR, ctrl);
-> > +
-> > +#ifdef CONFIG_SERIAL_SH_SCI_DMA
->
->    Why not use IS_ENABLED() instead? Gets rid of #ifdef. :-)
->
-> > +     if (to_sci_port(port)->chan_tx &&
-> > +         !dma_submit_error(to_sci_port(port)->cookie_tx)) {
-> > +             dmaengine_terminate_async(to_sci_port(port)->chan_tx);
-> > +             to_sci_port(port)->cookie_tx = -EINVAL;
+This patch series adds initial support for Renesas RZ/G2L SoC and
+Renesas RZ/G2L SMARC EVK.
 
-Because chan_tx and cookie_tx do not exist if CONFIG_SERIAL_SH_SCI_DMA
-is disabled.
+Initial patches enables minimal peripherals on Renesas RZ/G2L
+SMARC EVK and booted via initramfs.
+* Documentation for RZ/G2{L,LC,UL} SoC variants
+* SoC identification support
+* CPG core support
+* Minimal SoC DTSi
+* Minimal DTS for SMARC EVK
 
-Yes, that's why all the DMA code in this driver (.c file) is protected by
-#ifdef CONFIG_SERIAL_SH_SCI_DMA.
+Changes for v3:
+* Updated tag from Rob for CPG binding doc
+* Included RB tags from Geert
+* Added description for clock-names property in CPG binding doc
+* Dropped serial driver patch (already merged)
+* Fixed CPG core issues for USB/ADC IP
+* Added r9a07g044l2.dtsi
 
-> > +     }
-> > +#endif
-> >  }
-> >
-> >  static void sci_start_rx(struct uart_port *port)
+Changes for v2:
+* Included type-2 RZ/G2Ul SoC in binding doc
+* Added single entry for SMARC EVK "renesas,smarc-evk"
+* Renamed ARCH_R9A07G044L to ARCH_R9A07G044 and
+  dropped ARCH_R9A07G044LC config
+* Dropped SoC identification changes will post them as
+  separate patch.
+* Updated comment in sh-sci.c
+* Binding documentation patch for serial driver has been
+  accepted so dropped the patch from this series
+* Incorporated changes requested by Geert for CPG core
+* Fixed dtbs_check errors
+* Dropped 'clock-names'/'clocks'/'power-domains'/'resets'
+  properties from GIC node and will include them in a separate
+  patch along with arm,gic-v3.yaml binding updates
+* Included ACK's from Rob
 
-Gr{oetje,eeting}s,
+Patches are based on top of [1] master branch.
 
-                        Geert
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (11):
+  dt-bindings: arm: renesas: Document Renesas RZ/G2UL SoC
+  dt-bindings: arm: renesas: Document Renesas RZ/G2{L,LC} SoC variants
+  dt-bindings: arm: renesas: Document SMARC EVK
+  soc: renesas: Add ARCH_R9A07G044 for the new RZ/G2L SoC's
+  arm64: defconfig: Enable ARCH_R9A07G044
+  clk: renesas: Define RZ/G2L CPG Clock Definitions
+  dt-bindings: clock: renesas: Document RZ/G2L SoC CPG driver
+  clk: renesas: Add CPG core wrapper for RZ/G2L SoC
+  clk: renesas: Add support for R9A07G044 SoC
+  arm64: dts: renesas: Add initial DTSI for RZ/G2{L,LC} SoC's
+  arm64: dts: renesas: Add initial device tree for RZ/G2L SMARC EVK
+
+ .../devicetree/bindings/arm/renesas.yaml      |  18 +
+ .../bindings/clock/renesas,rzg2l-cpg.yaml     |  83 ++
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 120 +++
+ arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi  |  25 +
+ .../boot/dts/renesas/r9a07g044l2-smarc.dts    |  21 +
+ arch/arm64/boot/dts/renesas/r9a07g044l2.dtsi  |  13 +
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  |  27 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/Kconfig                   |  10 +
+ drivers/clk/renesas/Makefile                  |   2 +
+ drivers/clk/renesas/r9a07g044-cpg.c           | 127 +++
+ drivers/clk/renesas/renesas-rzg2l-cpg.c       | 750 ++++++++++++++++++
+ drivers/clk/renesas/renesas-rzg2l-cpg.h       | 136 ++++
+ drivers/soc/renesas/Kconfig                   |   5 +
+ include/dt-bindings/clock/r9a07g044-cpg.h     |  89 +++
+ 16 files changed, 1429 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l2.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+ create mode 100644 drivers/clk/renesas/r9a07g044-cpg.c
+ create mode 100644 drivers/clk/renesas/renesas-rzg2l-cpg.c
+ create mode 100644 drivers/clk/renesas/renesas-rzg2l-cpg.h
+ create mode 100644 include/dt-bindings/clock/r9a07g044-cpg.h
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
