@@ -2,44 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFEA73A0CBD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 08:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A66083A0D02
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 09:01:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231660AbhFIGyl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Jun 2021 02:54:41 -0400
-Received: from mail-vs1-f48.google.com ([209.85.217.48]:41733 "EHLO
-        mail-vs1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233737AbhFIGyl (ORCPT
+        id S236912AbhFIHDn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Jun 2021 03:03:43 -0400
+Received: from mail-vs1-f44.google.com ([209.85.217.44]:43748 "EHLO
+        mail-vs1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233367AbhFIHDn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Jun 2021 02:54:41 -0400
-Received: by mail-vs1-f48.google.com with SMTP id c1so5879517vsh.8;
-        Tue, 08 Jun 2021 23:52:34 -0700 (PDT)
+        Wed, 9 Jun 2021 03:03:43 -0400
+Received: by mail-vs1-f44.google.com with SMTP id s22so12305917vsl.10;
+        Wed, 09 Jun 2021 00:01:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TSoKY793QQP8Lg3KOL1Eq+qF4VFHd0Ap3iIktbWFwKI=;
-        b=KSVubdfoeAuqOuX9m1upjOWdRs5t7BQLckzSDREAF52bbf+XY+1MhrVOdGB+zLX2F4
-         Q2VciOI8NLZ3i02+nLZ3Vn5OqDcbw6NMfQ325qRHZcqzAADV1/yRZqBjY7coSBvpcZCA
-         X9wvq2D4Lt5dpc1a2YgS5Q3ELL32/CtmAFj2gIyxH/ZULg30y3R+tDHm+hhOvK5HoIiL
-         /GJDPH/A1NZ45uq8Z4kq9GrRc8MNy0B+ewC2nJjv/AWdjuM7ZBeuNV4YAi5WfiZXf/GX
-         gc+oBWvOlmcKMpfJvx87uNmGl2TsEul8JjIRsZNsQuecXwZc79oyawYEB0ssmqn4v05B
-         WjZw==
-X-Gm-Message-State: AOAM530REf3fVdLLE1/0voOCgthYnteHP4zISfoa26/O4jRpxbRkFGwO
-        FKQl1vjsk7iIHxoo0oxF+LcdbnWnM3QNnLvkfq8ZUA/SNgt6Cg==
-X-Google-Smtp-Source: ABdhPJygZr/3LQ/D9FOyetVDM2EZnw/62aS6ccgNDCfA/ODtwcs1rC1hedtwimbImN81NOV5Bk77rEP4L35DofRZdSM=
-X-Received: by 2002:a05:6102:c4c:: with SMTP id y12mr3828568vss.18.1623221553803;
- Tue, 08 Jun 2021 23:52:33 -0700 (PDT)
+        bh=nPGO9/KeQ6w5z6ANe/Ck93Gtpb7H7AIw4HClfuQsFoo=;
+        b=gfUfk/M9ZiaEH6d00jzUW5HkxmUYg+9z12QXae0gpi9LhvI8iYZglgL7TGOxkbWRwY
+         1A1zd5vzyHjTaaNcwwFic6wBsbUxcCqPGW/NWzHRRJnJ1U5jpXCXXC8m2B7jSRQx4UD0
+         YHimnYnkYLOOZysuMZVuXG3tpj7rD5NzhQkkANaPbZwUWblCx9C999A5BRekBQLrckuV
+         j6mMe2hDMgnl8mVqMOGy3jvtQyxeDRir5GoXaowfZnGzlucD2NAf69JwWS17BO4rvZQt
+         aICZ96Su9FNwszMjC0vhGnuqMjT0MCwdc1IG7EGDMEyTh3RLn3aU2JnCOxmSu0oXru76
+         CgOQ==
+X-Gm-Message-State: AOAM5310ClW0Vh+5aEeBYaRFT5z/qy0I7uIWYca1SiqvQppIzakhodP8
+        rAaOYBkmNH0pgp5eYLFJpOgrS8+6OHZjUu4qt28=
+X-Google-Smtp-Source: ABdhPJxBssBLQH4Oyat2dIV6cv0p73zA6BcP2IGB+Q2mCpR4KfIXGirrxOnXNb/TVnJ5/pLQtR73NbH4+H+nNqXUZU0=
+X-Received: by 2002:a05:6102:c4c:: with SMTP id y12mr3842919vss.18.1623222093214;
+ Wed, 09 Jun 2021 00:01:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210603221758.10305-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210603221758.10305-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210603221758.10305-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210603221758.10305-12-prabhakar.mahadev-lad.rj@bp.renesas.com> <OS0PR01MB592232BFAF59D5C81CCBE6C7863B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB592232BFAF59D5C81CCBE6C7863B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Jun 2021 08:52:22 +0200
-Message-ID: <CAMuHMdW8Nn2q06J0F+zFCFFSGz5TEGus46gc++oKAb8-gKi5fQ@mail.gmail.com>
+Date:   Wed, 9 Jun 2021 09:01:21 +0200
+Message-ID: <CAMuHMdWCVsMOnURjS8BP9KW=nYW6q9hEfdb_x5_hLei=1DWp3g@mail.gmail.com>
 Subject: Re: [PATCH v2 11/12] arm64: dts: renesas: Add initial DTSI for
  RZ/G2{L,LC} SoC's
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Michael Turquette <mturquette@baylibre.com>,
@@ -49,44 +50,52 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jiri Slaby <jirislaby@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Biju,
 
-On Fri, Jun 4, 2021 at 12:18 AM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add initial DTSI for RZ/G2{L,LC} SoC's.
+On Fri, Jun 4, 2021 at 3:55 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: [PATCH v2 11/12] arm64: dts: renesas: Add initial DTSI for
+> > RZ/G2{L,LC} SoC's
+> >
+> > Add initial DTSI for RZ/G2{L,LC} SoC's.
+> >
+> > File structure:
+> > r9a07g044.dtsi  => RZ/G2L family SoC common parts r9a07g044l1.dtsi =>
+> > Specific to RZ/G2L (R9A07G044L single cortex A55) SoC
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+
+> > +             cpg: clock-controller@11010000 {
+> > +                     compatible = "renesas,r9a07g044-cpg";
+> > +                     reg = <0 0x11010000 0 0x10000>;
 >
-> File structure:
-> r9a07g044.dtsi  => RZ/G2L family SoC common parts
-> r9a07g044l1.dtsi => Specific to RZ/G2L (R9A07G044L single cortex A55) SoC
+> What about WDTOVF_RST(0xB10) and WDTRST_SEL(0xB14) registers, this registers to be handled by WDT driver.
+> Unfortunately it is in CPG block.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> So do we need to map the entire CPG registers or up to 0xB00?
+>
+> Geert, Prabhakar: Any thoughts?
 
-Thanks for your patch!
-
-> ---
->  arch/arm64/boot/dts/renesas/r9a07g044.dtsi   | 119 +++++++++++++++++++
->  arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi |  25 ++++
->  2 files changed, 144 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044.dtsi
->  create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
-
-Don't you still want an r9a07g044l2.dtsi, for symmetry, and to add the
-"renesas,r9a07g044l2" root compatible value?
+As the registers are part of the CPG block, I think they should be
+covered by the CPG node.  You can handle them in the CPG driver, through
+functions called from the WDT driver (cfr. rcar_rst_read_mode_pins()).
 
 Gr{oetje,eeting}s,
 
