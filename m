@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAD4A3A0DA3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 09:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95EB73A0DB8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 09:27:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235851AbhFIHWE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Jun 2021 03:22:04 -0400
-Received: from mail-ua1-f46.google.com ([209.85.222.46]:44653 "EHLO
-        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235514AbhFIHWE (ORCPT
+        id S233039AbhFIH3Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Jun 2021 03:29:25 -0400
+Received: from mail-vs1-f51.google.com ([209.85.217.51]:38895 "EHLO
+        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230221AbhFIH3Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Jun 2021 03:22:04 -0400
-Received: by mail-ua1-f46.google.com with SMTP id 68so12507766uao.11;
-        Wed, 09 Jun 2021 00:20:01 -0700 (PDT)
+        Wed, 9 Jun 2021 03:29:24 -0400
+Received: by mail-vs1-f51.google.com with SMTP id x8so12353492vso.5;
+        Wed, 09 Jun 2021 00:27:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+vEzEWwPPQJal1lECMJPyuIxAIHK1BCu2t3MQxt0rxY=;
-        b=sYwjgBoieHcFXaPk6rIEHoibhcn7kyte9ZNeFPdfNBWTgN+sf2+2DpQQSYyh+F3GIb
-         s7KQU7GZ3lQAqKD1yWBC6E6sTvxLetG2QxOUo8tKwX9OUFN9RBLc+lNY5nN1chVh4dfv
-         IS+BHqT8SSfHdpxN9O6FGUhgyZRZGu605zdsNlJgT3D0PcE2sISfVC5W9EQvHBu4QbA0
-         w7VeyEDAioTc6WPxrgBQLbCzH8Ng9nAbXdL1F2So3hAm46h6hppLUUIwvnBw/tiA4lK2
-         7/T2eTHHDePR7dNjNJdH7VyjOh9Rl+d4DeOnP6tQSSeqrQ+NC+Hv75UdeQ+PXDvpc9MT
-         NK5Q==
-X-Gm-Message-State: AOAM533MrCZxWIHJ2XArQNaogLbpk4jvK0SD41ai3hJIz5In9UScPrNd
-        B9/qInTp5TK8YS2QZ21GwadrnP1dEkgiSkXOmiQ=
-X-Google-Smtp-Source: ABdhPJxsYvKyembJ2mLXNHZGsICwfLodPU5UwBt7P7NkAoNmB4qdcXulBtZF+Mnm+hCeYXrbJzyCAQDvqbTMan04IVc=
-X-Received: by 2002:ab0:2a4e:: with SMTP id p14mr8581199uar.2.1623223200990;
- Wed, 09 Jun 2021 00:20:00 -0700 (PDT)
+        bh=nWNpzXGRyCGRE/T+VmaA6oH+l9WqaV/Ah1VoOoi8rDk=;
+        b=OM7/mwsLDWu9Bi3GDZiXBCo90xdVImQGQLQF7dH3HKWKufMpkZFeoEWT/eMRJVvZXB
+         5oPK+cOSaEQ0Uh8sMMZxfwwvWYd/YBX3S0Gs4d5957LaRxItNMA7pjeYvXTTSkcRJqzN
+         lAysbIWNU1BlHZK71RnRk26+q4It0QDZyE2hVjw/3Qw7vPDqIoP1QCJLUItpQmusvXJD
+         vzZN8+Nna0CrRWgjoszJdOewH8hJxPp+yEGjIodxT/GDKWqE4F0XS73gWi0NRr3PPxvz
+         r/alPK5Tx2JzMFUgq4+KgFDsyUanT+Jy9Ek2T+SNv5Oo3uOSgxaiE+1hq2aklkxdgKMr
+         4ddg==
+X-Gm-Message-State: AOAM5313Gt902dbZM/lQ43C0gomUJ6HUZKLH9RfZK2iIP5b1MmnDGyFL
+        9Nm9vsAUL05dpp54cqgVRwkPJBic0XH2dr/16E6nvzNi526MBw==
+X-Google-Smtp-Source: ABdhPJxRBcZfyGdvJxRstRs7Opkp9as+0vaZOjoxAlvkppxwAy0BA5T7tOpNPuM9ZrrqvGbj2LS3FrBdiwdN+Px/dek=
+X-Received: by 2002:a05:6102:2011:: with SMTP id p17mr3979601vsr.40.1623223636944;
+ Wed, 09 Jun 2021 00:27:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210604180933.16754-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210604180933.16754-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210604180933.16754-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210604180933.16754-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210604180933.16754-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210604180933.16754-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Jun 2021 09:19:50 +0200
-Message-ID: <CAMuHMdUTvCpZ97U_S_GmMy9nHuEDYcD3PBqhNVecFsHzk74xNQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: power: renesas,rzg2l-sysc: Add DT
- binding documentation for SYSC controller
+Date:   Wed, 9 Jun 2021 09:27:05 +0200
+Message-ID: <CAMuHMdVkKhD3kU-DtPzrGfNf4Sn5Ht09Z1N0scwx1XJoG-F6Mg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] soc: renesas: Add support to read LSI DEVID register
+ of RZ/G2{L,LC} SoC's
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -52,66 +52,65 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakr,
+Hi Prabhakar,
 
 On Fri, Jun 4, 2021 at 8:09 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add DT binding documentation for SYSC controller found on
-> RZ/G2{L,LC,UL} SoC's.
->
-> SYSC block contains the LSI_DEVID register which is used to retrieve
-> SoC product information.
+> Add support for reading the LSI DEVID register which is present in
+> SYSC block of RZ/G2{L,LC} SoC's.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../bindings/power/renesas,rzg2l-sysc.yaml    | 50 +++++++++++++++++++
->  1 file changed, 50 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
+
+Thanks for your patch!
+
+> --- a/drivers/soc/renesas/renesas-soc.c
+> +++ b/drivers/soc/renesas/renesas-soc.c
+> @@ -56,6 +56,11 @@ static const struct renesas_family fam_rzg2 __initconst __maybe_unused = {
+>         .reg    = 0xfff00044,           /* PRR (Product Register) */
+>  };
 >
-> diff --git a/Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
-> new file mode 100644
-> index 000000000000..616a5139644f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
-> @@ -0,0 +1,50 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/power/renesas,rzg2l-sysc.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Renesas RZ/G2L System Controller (SYSC)
-> +
-> +maintainers:
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description:
-> +  The RZ/G2L System Controller (SYSC) performs system control of the LSI and
-> +  supports following functions,
-> +  - External terminal state capture function
-> +  - 34-bit address space access function
-> +  - Low power consumption control
-> +  - WDT stop control
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,r9a07g044-sysc # RZ/G2{L,LC}
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    minItems: 4
-> +    maxItems: 4
+> +static const struct renesas_family fam_rzg2l __initconst __maybe_unused = {
+> +       .name   = "RZ/G2L",
+> +       .reg    = 0x11020a04,
 
-For multiple interrupts, you may want to add descriptions, and
-interrupt-names.
+Please don't add hardcoded register addresses for new SoCs (i.e. drop
+".reg").  The "renesas,r9a07g044-sysc" is always present.
+And if it were missing, the hardcoded fallback would lead into the
+classic CCCR/PRR scheme, which is not correct for RZ/G2L...
 
-The reset looks good to me, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> @@ -348,6 +361,25 @@ static int __init renesas_soc_init(void)
+>                 goto done;
+>         }
+>
+> +       np = of_find_compatible_node(NULL, NULL, "renesas,r9a07g044-sysc");
+> +       if (np) {
+> +               of_node_put(np);
+> +               chipid = ioremap(family->reg, 4);
 
+Just use of_iomap(np, 0)...
+
+> +
+> +               if (chipid) {
+> +                       product = readl(chipid);
+
+... and add the DEVID offset within the SYSC block here.
+
+> +                       iounmap(chipid);
+> +
+> +                       if (soc->id && (product & 0xfffffff) != soc->id) {
+> +                               pr_warn("SoC mismatch (product = 0x%x)\n",
+> +                                       product);
+> +                               return -ENODEV;
+> +                       }
+> +               }
+> +
+> +               goto done;
+> +       }
+> +
+>         /* Try PRR first, then hardcoded fallback */
+>         np = of_find_compatible_node(NULL, NULL, "renesas,prr");
+>         if (np) {
 
 Gr{oetje,eeting}s,
 
