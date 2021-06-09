@@ -2,78 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 193763A08DC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 03:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E275A3A09A0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 03:49:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232027AbhFIBGN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Jun 2021 21:06:13 -0400
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:44603 "EHLO
-        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230303AbhFIBGN (ORCPT
+        id S233040AbhFIBvD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Jun 2021 21:51:03 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:11578 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231438AbhFIBvD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Jun 2021 21:06:13 -0400
-Received: by mail-oi1-f176.google.com with SMTP id a26so2791340oie.11;
-        Tue, 08 Jun 2021 18:04:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QHpQfhrLgwKNLV3ivBE+3b0dPjMmP/5BQ7SbDecHwUo=;
-        b=ZXxDpmYP7vzA7aMvjj6+paqkkZ0r+ThDDCECy5Jn5YipD1gGJyWp0y31P61kxt2YNJ
-         4haEVyLEZeYtgZ/OcTfvpkwisTip2SlYRQkyMLsd7j3OHLRgYaW9ejDL13Ij/A27gmnA
-         HPxbCUS++jxq+I6YtxlYoF138s8/Woo32eLAdR25U9LdnAL2LplLNd2+GX40EPM5lPfz
-         hvLt4qpc+sHSn65Fnn6juFUhyiPvMaz+WjIgAuvaMFhfIk94wM3Uwu/C2BS9r0dXRAfS
-         Xr9Q2KBO2sHBmL6Uz8BgTOl+3uuY5Gf6+VDwwUJ5/Ebsmmgb4VyLzbmOJlHgf6XtFRhY
-         fYfw==
-X-Gm-Message-State: AOAM533tcHrsxRyIZqzjwJn66U1TVBkQJjFv+AIlb+iPHnA0ZcqN46Tk
-        xuJyh0oxG18vt1DZDiFvrQruOuE5yw==
-X-Google-Smtp-Source: ABdhPJw4gAos93VhNhqfo0KsKL7P6oMULhao9gZBHasZhpw4yX4fTm1ueTNM9Muj0MrTxxRw8hPxtQ==
-X-Received: by 2002:aca:5c04:: with SMTP id q4mr4592082oib.11.1623200659290;
-        Tue, 08 Jun 2021 18:04:19 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 102sm3428828otf.37.2021.06.08.18.04.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 18:04:17 -0700 (PDT)
-Received: (nullmailer pid 2011104 invoked by uid 1000);
-        Wed, 09 Jun 2021 01:04:16 -0000
-Date:   Tue, 8 Jun 2021 20:04:16 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-media@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,drif: Fix fck
- definition
-Message-ID: <20210609010416.GA2010770@robh.at.kernel.org>
-References: <20210408202436.3706-1-fabrizio.castro.jz@renesas.com>
+        Tue, 8 Jun 2021 21:51:03 -0400
+X-IronPort-AV: E=Sophos;i="5.83,259,1616425200"; 
+   d="scan'208";a="83658098"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 09 Jun 2021 10:49:08 +0900
+Received: from localhost.localdomain (unknown [10.166.14.185])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 585A94148452;
+        Wed,  9 Jun 2021 10:49:08 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc:     linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3] serial: sh-sci: Stop dmaengine transfer in sci_stop_tx()
+Date:   Wed,  9 Jun 2021 10:49:02 +0900
+Message-Id: <20210609014902.271237-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210408202436.3706-1-fabrizio.castro.jz@renesas.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 08 Apr 2021 21:24:36 +0100, Fabrizio Castro wrote:
-> dt_binding_check reports the below error with the latest schema:
-> 
-> Documentation/devicetree/bindings/media/renesas,drif.yaml:
->   properties:clock-names:maxItems: False schema does not allow 1
-> Documentation/devicetree/bindings/media/renesas,drif.yaml:
->   ignoring, error in schema: properties: clock-names: maxItems
-> 
-> This patch fixes the problem.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> ---
->  Documentation/devicetree/bindings/media/renesas,drif.yaml | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
+Stop dmaengine transfer in sci_stop_tx(). Otherwise, the following
+message is possible output when system enters suspend and while
+transferring data, because clearing TIE bit in SCSCR is not able to
+stop any dmaengine transfer.
 
-Applied, thanks!
+    sh-sci e6550000.serial: ttySC1: Unable to drain transmitter
+
+Note that this patch uses dmaengine_terminate_async() so that
+we can apply this patch into longterm kernel v4.9.x or later.
+
+Fixes: 73a19e4c0301 ("serial: sh-sci: Add DMA support.")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ Changes from v2:
+ - Don't use a macro.
+ - Revise the commit descrption.
+ https://lore.kernel.org/linux-renesas-soc/20210604095704.756190-1-yoshihiro.shimoda.uh@renesas.com/
+
+ Changes from v1:
+ - Don't put #ifdef in the .c file.
+ - Update the commit description.
+ https://lore.kernel.org/linux-renesas-soc/20210602114108.510527-1-yoshihiro.shimoda.uh@renesas.com/
+
+ drivers/tty/serial/sh-sci.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index 4baf1316ea72..2d5487bf6855 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -610,6 +610,14 @@ static void sci_stop_tx(struct uart_port *port)
+ 	ctrl &= ~SCSCR_TIE;
+ 
+ 	serial_port_out(port, SCSCR, ctrl);
++
++#ifdef CONFIG_SERIAL_SH_SCI_DMA
++	if (to_sci_port(port)->chan_tx &&
++	    !dma_submit_error(to_sci_port(port)->cookie_tx)) {
++		dmaengine_terminate_async(to_sci_port(port)->chan_tx);
++		to_sci_port(port)->cookie_tx = -EINVAL;
++	}
++#endif
+ }
+ 
+ static void sci_start_rx(struct uart_port *port)
+-- 
+2.25.1
+
