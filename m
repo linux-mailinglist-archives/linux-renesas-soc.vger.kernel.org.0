@@ -2,100 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DA603A1A4A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 17:58:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BD8E3A1B14
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 18:37:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234424AbhFIQAH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Jun 2021 12:00:07 -0400
-Received: from mail-vs1-f51.google.com ([209.85.217.51]:38700 "EHLO
-        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233575AbhFIQAG (ORCPT
+        id S229519AbhFIQju (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Jun 2021 12:39:50 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:61208 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231934AbhFIQjs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Jun 2021 12:00:06 -0400
-Received: by mail-vs1-f51.google.com with SMTP id x8so195194vso.5;
-        Wed, 09 Jun 2021 08:57:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eoJtWHTY9D4MPvxk9n7gKkmyyHPN7V7mUcBlJqd6sSw=;
-        b=gV6gsG8fnD2VmrscSXDkwgr6X11r0JcTZZL2PhQMo9KBPW0uIDJYVb+GuU2G+ZTb5W
-         LOeypJCWLM90kccZ36psVfnEV7bWLpBarNMX5aun+zw6gtdQf2T+vDLq5EtpVRlvuV8z
-         vweqG6aSQyCKHu4RAs1sNZXclJSYKVl8kTY99jGZ3lWc3p6N68S7GAIw7y41wQnuxTj6
-         Hv2xhWBEktN6dnfOEEKQLwfd26rXrPnoY7HyWWP+9Ed/zsvlZEPirKDEeVXMvj3uQG2v
-         tZD8hyx2QyphU6Z3GvlUIG0eXimL+oJFxmISxTcxuf8Dpei0x9wxLOWH63imPIr0b0tg
-         8UkA==
-X-Gm-Message-State: AOAM532KU3AbBtt7CRDFFd1tkTQdQ6k7AUO3la7eEbJEUczAqX6j4P5i
-        etPYOY/y8iZid9wmayyd1dMePG2p80hnzDwgjlc=
-X-Google-Smtp-Source: ABdhPJwmSh/SJ+NZzcFDhxWRy5iXzTG1mfR+aQ4RsmpRZ4CTPyWGJvwhozh1PTFfxBX/CdOheEppwS3UXswSQEAo0iY=
-X-Received: by 2002:a67:3c2:: with SMTP id 185mr927502vsd.42.1623254275141;
- Wed, 09 Jun 2021 08:57:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210604180933.16754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210604180933.16754-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVkKhD3kU-DtPzrGfNf4Sn5Ht09Z1N0scwx1XJoG-F6Mg@mail.gmail.com> <CA+V-a8tOMtS59OoWVK-c=zy2iK_nv_16Xu+2DBcUQPTq7nCa1Q@mail.gmail.com>
-In-Reply-To: <CA+V-a8tOMtS59OoWVK-c=zy2iK_nv_16Xu+2DBcUQPTq7nCa1Q@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Jun 2021 17:57:43 +0200
-Message-ID: <CAMuHMdXQkqyQtXEPWTuAF9LG0HFPEJEWLuME_X0ejrs0G4J4Uw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] soc: renesas: Add support to read LSI DEVID register
- of RZ/G2{L,LC} SoC's
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Wed, 9 Jun 2021 12:39:48 -0400
+X-IronPort-AV: E=Sophos;i="5.83,261,1616425200"; 
+   d="scan'208";a="83736868"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 10 Jun 2021 01:37:51 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7998B40A2A52;
+        Thu, 10 Jun 2021 01:37:49 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/3] SoC identification support for RZ/G2L
+Date:   Wed,  9 Jun 2021 17:37:14 +0100
+Message-Id: <20210609163717.3083-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi All,
 
-On Wed, Jun 9, 2021 at 5:50 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Wed, Jun 9, 2021 at 8:27 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Fri, Jun 4, 2021 at 8:09 PM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > Add support for reading the LSI DEVID register which is present in
-> > > SYSC block of RZ/G2{L,LC} SoC's.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/drivers/soc/renesas/renesas-soc.c
-> > > +++ b/drivers/soc/renesas/renesas-soc.c
-> > > @@ -56,6 +56,11 @@ static const struct renesas_family fam_rzg2 __initconst __maybe_unused = {
-> > >         .reg    = 0xfff00044,           /* PRR (Product Register) */
-> > >  };
-> > >
-> > > +static const struct renesas_family fam_rzg2l __initconst __maybe_unused = {
-> > > +       .name   = "RZ/G2L",
-> > > +       .reg    = 0x11020a04,
-> >
-> > Please don't add hardcoded register addresses for new SoCs (i.e. drop
-> > ".reg").  The "renesas,r9a07g044-sysc" is always present.
-> > And if it were missing, the hardcoded fallback would lead into the
-> > classic CCCR/PRR scheme, which is not correct for RZ/G2L...
-> >
-> I wanted to avoid iomap for the entire sysc block for just a single register.
+This patch series adds support for RZ/G2{L,LC} SoC
+identification.
 
-The mapping will be rounded up to PAGE_SIZE anyway
-(I know, SYSC is 64 KiB, hence larger than the typical page size).
+SoC identification register is part of SYSC block and
+currently no driver is added for SYSC block so just the
+basic properties are added in binding documentation (and will
+updated with the required properties once the driver is in
+place) and this node is used in renesas-soc.c for SoC
+identification.
 
-Gr{oetje,eeting}s,
+Patches are based on top of [1] master branch and is dependent on
+patch series [2].
 
-                        Geert
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/
+[2] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=497355
+
+Changes for v2:
+* Added description for multiple interrupts in SYSC binding doc
+* Added interrupt-names property in SYSC binding doc
+* Update dtsi to included interrupt-names property for SYSC node
+* Mapped entire SYSC block to read the device id
+* Included RB tag for patch 1, 3
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (3):
+  dt-bindings: power: renesas,rzg2l-sysc: Add DT binding documentation
+    for SYSC controller
+  soc: renesas: Add support to read LSI DEVID register of RZ/G2{L,LC}
+    SoC's
+  arm64: dts: renesas: r9a07g044: Add SYSC node to RZ/G2L SoC DTSI
+
+ .../bindings/power/renesas,rzg2l-sysc.yaml    | 63 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 12 ++++
+ drivers/soc/renesas/renesas-soc.c             | 33 +++++++++-
+ 3 files changed, 107 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
