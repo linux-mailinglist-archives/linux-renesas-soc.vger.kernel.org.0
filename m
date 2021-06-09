@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC1753A1B16
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 18:37:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 649343A1B1A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Jun 2021 18:38:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232025AbhFIQju (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Jun 2021 12:39:50 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:37427 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231991AbhFIQjt (ORCPT
+        id S232900AbhFIQjw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Jun 2021 12:39:52 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:28273 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232146AbhFIQjv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Jun 2021 12:39:49 -0400
+        Wed, 9 Jun 2021 12:39:51 -0400
 X-IronPort-AV: E=Sophos;i="5.83,261,1616425200"; 
-   d="scan'208";a="83736873"
+   d="scan'208";a="83889904"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 10 Jun 2021 01:37:53 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 10 Jun 2021 01:37:55 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B918C40A2B81;
-        Thu, 10 Jun 2021 01:37:51 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 04F3C40A2A52;
+        Thu, 10 Jun 2021 01:37:53 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
@@ -28,9 +28,9 @@ Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 1/3] dt-bindings: power: renesas,rzg2l-sysc: Add DT binding documentation for SYSC controller
-Date:   Wed,  9 Jun 2021 17:37:15 +0100
-Message-Id: <20210609163717.3083-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 2/3] soc: renesas: Add support to read LSI DEVID register of RZ/G2{L,LC} SoC's
+Date:   Wed,  9 Jun 2021 17:37:16 +0100
+Message-Id: <20210609163717.3083-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210609163717.3083-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210609163717.3083-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -38,89 +38,87 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add DT binding documentation for SYSC controller found on
-RZ/G2{L,LC,UL} SoC's.
-
-SYSC block contains the LSI_DEVID register which is used to retrieve
-SoC product information.
+Add support for reading the LSI DEVID register which is present in
+SYSC block of RZ/G2{L,LC} SoC's.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- .../bindings/power/renesas,rzg2l-sysc.yaml    | 63 +++++++++++++++++++
- 1 file changed, 63 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
+ drivers/soc/renesas/renesas-soc.c | 33 ++++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml b/Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
-new file mode 100644
-index 000000000000..49f95065a274
---- /dev/null
-+++ b/Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/power/renesas,rzg2l-sysc.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
+index 0f8eff4a641a..8310fce7714e 100644
+--- a/drivers/soc/renesas/renesas-soc.c
++++ b/drivers/soc/renesas/renesas-soc.c
+@@ -56,6 +56,10 @@ static const struct renesas_family fam_rzg2 __initconst __maybe_unused = {
+ 	.reg	= 0xfff00044,		/* PRR (Product Register) */
+ };
+ 
++static const struct renesas_family fam_rzg2l __initconst __maybe_unused = {
++	.name	= "RZ/G2L",
++};
 +
-+title: Renesas RZ/G2L System Controller (SYSC)
+ static const struct renesas_family fam_shmobile __initconst __maybe_unused = {
+ 	.name	= "SH-Mobile",
+ 	.reg	= 0xe600101c,		/* CCCR (Common Chip Code Register) */
+@@ -64,7 +68,7 @@ static const struct renesas_family fam_shmobile __initconst __maybe_unused = {
+ 
+ struct renesas_soc {
+ 	const struct renesas_family *family;
+-	u8 id;
++	u32 id;
+ };
+ 
+ static const struct renesas_soc soc_rz_a1h __initconst __maybe_unused = {
+@@ -131,6 +135,11 @@ static const struct renesas_soc soc_rz_g2h __initconst __maybe_unused = {
+ 	.id	= 0x4f,
+ };
+ 
++static const struct renesas_soc soc_rz_g2l __initconst __maybe_unused = {
++	.family = &fam_rzg2l,
++	.id     = 0x841c447,
++};
 +
-+maintainers:
-+  - Geert Uytterhoeven <geert+renesas@glider.be>
+ static const struct renesas_soc soc_rcar_m1a __initconst __maybe_unused = {
+ 	.family	= &fam_rcar_gen1,
+ };
+@@ -299,6 +308,9 @@ static const struct of_device_id renesas_socs[] __initconst = {
+ #ifdef CONFIG_ARCH_R8A779A0
+ 	{ .compatible = "renesas,r8a779a0",	.data = &soc_rcar_v3u },
+ #endif
++#if defined(CONFIG_ARCH_R9A07G044)
++	{ .compatible = "renesas,r9a07g044",	.data = &soc_rz_g2l },
++#endif
+ #ifdef CONFIG_ARCH_SH73A0
+ 	{ .compatible = "renesas,sh73a0",	.data = &soc_shmobile_ag5 },
+ #endif
+@@ -348,6 +360,25 @@ static int __init renesas_soc_init(void)
+ 		goto done;
+ 	}
+ 
++	np = of_find_compatible_node(NULL, NULL, "renesas,r9a07g044-sysc");
++	if (np) {
++		chipid = of_iomap(np, 0);
++		of_node_put(np);
 +
-+description:
-+  The RZ/G2L System Controller (SYSC) performs system control of the LSI and
-+  supports following functions,
-+  - External terminal state capture function
-+  - 34-bit address space access function
-+  - Low power consumption control
-+  - WDT stop control
++		if (chipid) {
++			product = readl(chipid + 0x0a04);
++			iounmap(chipid);
 +
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,r9a07g044-sysc # RZ/G2{L,LC}
++			if (soc->id && (product & 0xfffffff) != soc->id) {
++				pr_warn("SoC mismatch (product = 0x%x)\n",
++					product);
++				return -ENODEV;
++			}
++		}
 +
-+  reg:
-+    maxItems: 1
++		goto done;
++	}
 +
-+  interrupts:
-+    items:
-+      - description: CA55/CM33 Sleep/Software Standby Mode request interrupt
-+      - description: CA55 Software Standby Mode release request interrupt
-+      - description: CM33 Software Standby Mode release request interrupt
-+      - description: CA55 ACE Asynchronous Bridge Master/Slave interface deny request interrupt
-+
-+  interrupt-names:
-+    items:
-+      - const: sys_lpm_int
-+      - const: sys_ca55stbydone_int
-+      - const: sys_cm33stbyr_int
-+      - const: sys_ca55_deny
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    // System Controller node
-+    sysc: system-controller@11020000 {
-+            compatible = "renesas,r9a07g044-sysc";
-+            reg = <0x11020000 0x10000>;
-+            interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
-+            interrupt-names = "sys_lpm_int", "sys_ca55stbydone_int",
-+                              "sys_cm33stbyr_int", "sys_ca55_deny";
-+    };
+ 	/* Try PRR first, then hardcoded fallback */
+ 	np = of_find_compatible_node(NULL, NULL, "renesas,prr");
+ 	if (np) {
 -- 
 2.17.1
 
