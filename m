@@ -2,43 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D01393A2BA7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 14:32:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16E343A2BAF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 14:34:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbhFJMeG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 08:34:06 -0400
-Received: from mail-vs1-f43.google.com ([209.85.217.43]:39543 "EHLO
-        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbhFJMeF (ORCPT
+        id S229941AbhFJMgK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Jun 2021 08:36:10 -0400
+Received: from mail-vs1-f45.google.com ([209.85.217.45]:38540 "EHLO
+        mail-vs1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229937AbhFJMgJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 08:34:05 -0400
-Received: by mail-vs1-f43.google.com with SMTP id 68so1757739vsu.6;
-        Thu, 10 Jun 2021 05:32:09 -0700 (PDT)
+        Thu, 10 Jun 2021 08:36:09 -0400
+Received: by mail-vs1-f45.google.com with SMTP id x8so1764300vso.5;
+        Thu, 10 Jun 2021 05:34:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+I6PMDrwwUFeeqyDEHB3lJWQDbkfBlmBHWHv+TnD4hE=;
-        b=MQvAyl4VB65/Cp6Ll2UPPejtDDaXpKqpluZMc1U0Z3Cc5V56e+7RzuWDOGdQV32/cg
-         kUdnxuqHQu51D3ROIC12NcJL/X9hAbzm5g/Lk1yflat56M2bXumTaYgXH2WgZu937y7p
-         6noOFfOR6EYUE8p7cvHeqCXTkoAaDH4lANZJTRmoT6g/LVwqyzCat8NWeG/+fC/oxEVC
-         IPQthZFUVtxR6ePzhvBAyjSjH1y4g4eO+vpLz/mfnPm7auSiWsvfy0/25nT9Mcg8FFhx
-         2B3s6EDa+/2feUWIzTDmdam/brsfRBi4+8q81G6oYOHFGgZQMkFFiqspIYL46DJ1rIsZ
-         amDQ==
-X-Gm-Message-State: AOAM531BiqCG57M5i4N4hnBjGYabhQBi/joUggZfxtmfyp5b3uCL2IU6
-        RgQjkWpyP1CMuyxfDMgkHJvD9h4noZVRxhxWzcI=
-X-Google-Smtp-Source: ABdhPJz2OmxSqu3WLgARdW0PGVUepO42xYbIQsxHyBeX3+3gfDbCRiyYozfWIa+7UtB3TcOfYToxyYgQ99r1JyCqW/4=
-X-Received: by 2002:a05:6102:2011:: with SMTP id p17mr3731904vsr.40.1623328327052;
- Thu, 10 Jun 2021 05:32:07 -0700 (PDT)
+        bh=XcGnFi3G5x2Sch7dDLtQQ+JlG+Fv9b3m7v0WJT6/z68=;
+        b=Akh/EjBttnjhrWNmv61VH5PsbucjUJ7GNiWrrRGMalNMRJLKC+5vQpKzGr70YfklNe
+         6Z0D/cDNbFIYO9pseapfCqc1+vs5FkjYXoG3wVVMXLdNbHbnkUTDzgf4LO7tZU9Kv2mt
+         Mkip/rnLoqSQCkjXGRvS1HDYhcDxTIAr8p8Lm4bFCYzMGWrdOQ/6PF1Ymqy80/iZ6Tb3
+         o1OZtS9apn70yxX0iVIUUo0vOOkbKd6wAlhZFuw8fuuc2pMrMna+fznMotbGvcKooNz5
+         XY8mF0XZrXyeY4J6wS/05P5dJ8/WmxmaUgKwhGHYWkDknM/qGk9cQdaTjpYTZYfa2NEf
+         M/Sw==
+X-Gm-Message-State: AOAM532zLtJebHqI9gkXx9UBFXd11Yj9kVQQ2hRmxwhsoPduWzwn8ujB
+        tnUZm/pgRvNC7nfRd4DWF2XSvneebX6ctliFO7Q=
+X-Google-Smtp-Source: ABdhPJzmbjjXRl4XQOFYUcklOmO/KV9+auNrwWvD76LCznklLOeassh4ikQLViK02pST7b2lu6q9V4TGpHzm0BxYk04=
+X-Received: by 2002:a05:6102:c4c:: with SMTP id y12mr4173492vss.18.1623328453196;
+ Thu, 10 Jun 2021 05:34:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210609153230.6967-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210609153230.6967-8-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWcJGHxjQgHWPVsgvtsz=y0=y0QTocf879MvidrpEZDgQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWcJGHxjQgHWPVsgvtsz=y0=y0QTocf879MvidrpEZDgQ@mail.gmail.com>
+References: <20210609153230.6967-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210609153230.6967-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210609153230.6967-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Jun 2021 14:31:56 +0200
-Message-ID: <CAMuHMdWSjhv95vFFfg=+R6uw2u3g0Y6BTy0tipXx+kfqqttR_g@mail.gmail.com>
-Subject: Re: [PATCH v3 07/11] dt-bindings: clock: renesas: Document RZ/G2L SoC
- CPG driver
+Date:   Thu, 10 Jun 2021 14:34:02 +0200
+Message-ID: <CAMuHMdVCF2Oq5WVLoKT6r1PT7KASJGGJ2CQz5Xw7twS-NwgC3g@mail.gmail.com>
+Subject: Re: [PATCH v3 10/11] arm64: dts: renesas: Add initial DTSI for
+ RZ/G2{L,LC} SoC's
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -60,20 +59,20 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 10, 2021 at 2:30 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Wed, Jun 9, 2021 at 5:33 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Document the device tree bindings of the Renesas RZ/G2L SoC clock
-> > driver in Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
+On Wed, Jun 9, 2021 at 5:33 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add initial DTSI for RZ/G2{L,LC} SoC's.
 >
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v5.14.
+> File structure:
+> r9a07g044.dtsi  => RZ/G2L family SoC common parts
+> r9a07g044l1.dtsi => RZ/G2L R9A07G044L1 SoC specific parts
+> r9a07g044l2.dtsi => RZ/G2L R9A07G044L2 SoC specific parts
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-renesas-clk-for-v5.14, of course
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.14.
 
 Gr{oetje,eeting}s,
 
