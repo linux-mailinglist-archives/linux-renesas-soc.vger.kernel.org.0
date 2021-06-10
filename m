@@ -2,41 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4D2F3A2BA4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 14:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D01393A2BA7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 14:32:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230199AbhFJMdh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 08:33:37 -0400
-Received: from mail-vs1-f43.google.com ([209.85.217.43]:37421 "EHLO
+        id S230238AbhFJMeG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Jun 2021 08:34:06 -0400
+Received: from mail-vs1-f43.google.com ([209.85.217.43]:39543 "EHLO
         mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbhFJMdg (ORCPT
+        with ESMTP id S229937AbhFJMeF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 08:33:36 -0400
-Received: by mail-vs1-f43.google.com with SMTP id f21so1766705vsl.4;
-        Thu, 10 Jun 2021 05:31:28 -0700 (PDT)
+        Thu, 10 Jun 2021 08:34:05 -0400
+Received: by mail-vs1-f43.google.com with SMTP id 68so1757739vsu.6;
+        Thu, 10 Jun 2021 05:32:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=08jpqaqjMBquAJbVxUlmQz04OQKPoM0VYJHIDUfmrEo=;
-        b=EmapAsN5AgCLnk5whgzMRd1Af/6RS6V4R3Bq7c2ItD/1FNwzySfglqsokQjquIILI1
-         5muSDGQh/DPjt+2Dq597ZOn6utXNdj0Sr8UiBkjk3y5MqQkHE+n+xosD+GUVW+ILiOv3
-         Qv29r1ypFHPY+hlUodoX24jBIR3RF6Ciu+Y7/hgW3Sb8TObGne5tV+DDwdCXK19l/htL
-         i1msgl0t96o4fiXEaO1y0n3n3JrHIRazju9pUIOxlXOS4zsF1gyR0qh5KcI6KKWbImDv
-         c50WTBLeJE4SY/0gJNT71Kmm7eYAE2eQjoM46zmCazo4J8S3znuh/09vcmHDlHseD2ef
-         Z1Pw==
-X-Gm-Message-State: AOAM530ZLO3+HGeQ1YPrd3C48iUhUhzuUHycEC7suRSKKoUjzOoJmk49
-        MI7+Rm+qgSz0zUJTuWtw0h+n1DHkCVB1Ux1ojgo=
-X-Google-Smtp-Source: ABdhPJwQNrgjh3H9DPIVwXAmbg3JYZlI9gIJnCLIRt8n+YCXFKPj4IVYMRKkvUPWz4GutkNh6nzAUsTow4Fthc79Nlk=
-X-Received: by 2002:a67:efd6:: with SMTP id s22mr4393021vsp.3.1623328287879;
- Thu, 10 Jun 2021 05:31:27 -0700 (PDT)
+        bh=+I6PMDrwwUFeeqyDEHB3lJWQDbkfBlmBHWHv+TnD4hE=;
+        b=MQvAyl4VB65/Cp6Ll2UPPejtDDaXpKqpluZMc1U0Z3Cc5V56e+7RzuWDOGdQV32/cg
+         kUdnxuqHQu51D3ROIC12NcJL/X9hAbzm5g/Lk1yflat56M2bXumTaYgXH2WgZu937y7p
+         6noOFfOR6EYUE8p7cvHeqCXTkoAaDH4lANZJTRmoT6g/LVwqyzCat8NWeG/+fC/oxEVC
+         IPQthZFUVtxR6ePzhvBAyjSjH1y4g4eO+vpLz/mfnPm7auSiWsvfy0/25nT9Mcg8FFhx
+         2B3s6EDa+/2feUWIzTDmdam/brsfRBi4+8q81G6oYOHFGgZQMkFFiqspIYL46DJ1rIsZ
+         amDQ==
+X-Gm-Message-State: AOAM531BiqCG57M5i4N4hnBjGYabhQBi/joUggZfxtmfyp5b3uCL2IU6
+        RgQjkWpyP1CMuyxfDMgkHJvD9h4noZVRxhxWzcI=
+X-Google-Smtp-Source: ABdhPJz2OmxSqu3WLgARdW0PGVUepO42xYbIQsxHyBeX3+3gfDbCRiyYozfWIa+7UtB3TcOfYToxyYgQ99r1JyCqW/4=
+X-Received: by 2002:a05:6102:2011:: with SMTP id p17mr3731904vsr.40.1623328327052;
+ Thu, 10 Jun 2021 05:32:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210609153230.6967-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210609153230.6967-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210609153230.6967-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210609153230.6967-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210609153230.6967-8-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWcJGHxjQgHWPVsgvtsz=y0=y0QTocf879MvidrpEZDgQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWcJGHxjQgHWPVsgvtsz=y0=y0QTocf879MvidrpEZDgQ@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Jun 2021 14:31:16 +0200
-Message-ID: <CAMuHMdXyTAnV7sPZaWBbp1fQAkEdZc-kvwiHQB0iMJOL7zJfRQ@mail.gmail.com>
-Subject: Re: [PATCH v3 06/11] clk: renesas: Define RZ/G2L CPG Clock Definitions
+Date:   Thu, 10 Jun 2021 14:31:56 +0200
+Message-ID: <CAMuHMdWSjhv95vFFfg=+R6uw2u3g0Y6BTy0tipXx+kfqqttR_g@mail.gmail.com>
+Subject: Re: [PATCH v3 07/11] dt-bindings: clock: renesas: Document RZ/G2L SoC
+ CPG driver
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -58,17 +60,20 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 9, 2021 at 5:33 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Define RZ/G2L (R9A07G044) Clock Pulse Generator Core Clock
-> and module clock outputs, as listed in Table 8.3 ("Clock List")
-> of the RZ/G2L Hardware User's Manual (Rev.0.42, Feb.2021).
+On Thu, Jun 10, 2021 at 2:30 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Wed, Jun 9, 2021 at 5:33 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Document the device tree bindings of the Renesas RZ/G2L SoC clock
+> > driver in Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v5.14.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.14.
+renesas-clk-for-v5.14, of course
 
 Gr{oetje,eeting}s,
 
