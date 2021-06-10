@@ -2,113 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 289803A24E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 09:02:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A6F63A250C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 09:09:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229802AbhFJHEG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 03:04:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56406 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229778AbhFJHEE (ORCPT
+        id S230001AbhFJHLp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Jun 2021 03:11:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60792 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229788AbhFJHLp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 03:04:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E1E6961374;
-        Thu, 10 Jun 2021 07:01:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623308514;
-        bh=kH4pnvJ0MpZOy3As+Jz/LPNcbVZsxfO3CyyE6Knr5Vc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GSDwBMIza/j1wufCVzOT+v6HFmmoDgj/KPuTWQ8QCWxjiIPxBUbjWb8tzOiSraTh5
-         Eqh1K/JiPsIdxQ5jm+Is+PIqZSCDGy2XQlQGDWfQVxF4qpZCHoWhDI7QmNK29niNAh
-         VP6OBNd7UDRc5p+iAWwr5ezIvJBcpY9NMdk5FYP0=
-Date:   Thu, 10 Jun 2021 09:01:52 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v3] serial: sh-sci: Stop dmaengine transfer in
- sci_stop_tx()
-Message-ID: <YMG44NgJVTB5tbfI@kroah.com>
-References: <20210609014902.271237-1-yoshihiro.shimoda.uh@renesas.com>
- <ac930164-6150-4358-8fe9-ab87654f68ce@gmail.com>
- <CAMuHMdW9oV80QdZmgwJBF99jnw56XuTSkanjHCdBY+h4jAVGew@mail.gmail.com>
- <TY2PR01MB369260DF38C0FC6E58D65362D8359@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <CAMuHMdU23gB8Bap3qoypXkJhu=jwS-MQ=mu-CdzqijoWzc4rOg@mail.gmail.com>
+        Thu, 10 Jun 2021 03:11:45 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230B8C061574
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Jun 2021 00:09:48 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:a946:bccb:b1a1:3055])
+        by albert.telenet-ops.be with bizsmtp
+        id FK9j250030wnyou06K9jcq; Thu, 10 Jun 2021 09:09:44 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lrEow-00FAQa-Le; Thu, 10 Jun 2021 09:09:42 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lrEow-00B8dc-5T; Thu, 10 Jun 2021 09:09:42 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Luca Ceresoli <luca@lucaceresoli.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Adam Ford <aford173@gmail.com>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v6] dt-bindings: clk: versaclock5: Miscellaneous fixes and improvements:
+Date:   Thu, 10 Jun 2021 09:09:40 +0200
+Message-Id: <46310530171886c6ccf4046518e07510274a506c.1623308843.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdU23gB8Bap3qoypXkJhu=jwS-MQ=mu-CdzqijoWzc4rOg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 10, 2021 at 08:58:04AM +0200, Geert Uytterhoeven wrote:
-> Hi Shimoda-san,
-> 
-> On Thu, Jun 10, 2021 at 2:50 AM Yoshihiro Shimoda
-> <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > From: Geert Uytterhoeven, Sent: Thursday, June 10, 2021 12:30 AM
-> > > On Wed, Jun 9, 2021 at 5:09 PM Sergei Shtylyov
-> > > <sergei.shtylyov@gmail.com> wrote:
-> > > > On 6/9/21 4:49 AM, Yoshihiro Shimoda wrote:
-> > > > > Stop dmaengine transfer in sci_stop_tx(). Otherwise, the following
-> > > > > message is possible output when system enters suspend and while
-> > > > > transferring data, because clearing TIE bit in SCSCR is not able to
-> > > > > stop any dmaengine transfer.
-> > > > >
-> > > > >     sh-sci e6550000.serial: ttySC1: Unable to drain transmitter
-> > > > >
-> > > > > Note that this patch uses dmaengine_terminate_async() so that
-> > > > > we can apply this patch into longterm kernel v4.9.x or later.
-> > > > >
-> > > > > Fixes: 73a19e4c0301 ("serial: sh-sci: Add DMA support.")
-> > > > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > > > ---
-> > > > >
-> > > > >  drivers/tty/serial/sh-sci.c | 8 ++++++++
-> > > > >  1 file changed, 8 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-> > > > > index 4baf1316ea72..2d5487bf6855 100644
-> > > > > --- a/drivers/tty/serial/sh-sci.c
-> > > > > +++ b/drivers/tty/serial/sh-sci.c
-> > > > > @@ -610,6 +610,14 @@ static void sci_stop_tx(struct uart_port *port)
-> > > > >       ctrl &= ~SCSCR_TIE;
-> > > > >
-> > > > >       serial_port_out(port, SCSCR, ctrl);
-> > > > > +
-> > > > > +#ifdef CONFIG_SERIAL_SH_SCI_DMA
-> > > >
-> > > >    Why not use IS_ENABLED() instead? Gets rid of #ifdef. :-)
-> > > >
-> > > > > +     if (to_sci_port(port)->chan_tx &&
-> > > > > +         !dma_submit_error(to_sci_port(port)->cookie_tx)) {
-> > > > > +             dmaengine_terminate_async(to_sci_port(port)->chan_tx);
-> > > > > +             to_sci_port(port)->cookie_tx = -EINVAL;
-> > >
-> > > Because chan_tx and cookie_tx do not exist if CONFIG_SERIAL_SH_SCI_DMA
-> > > is disabled.
-> >
-> > This is a nit though, chan_tx always exists.
-> 
-> I stand corrected, only cookie_tx depends on CONFIG_SERIAL_SH_SCI_DMA.
-> 
-> > > Yes, that's why all the DMA code in this driver (.c file) is protected by
-> > > #ifdef CONFIG_SERIAL_SH_SCI_DMA.
-> >
-> > I'm thinking we have to remove #ifdef from sh-sci.c file at first...
-> 
-> While I don't disagree that would be worthwhile, do we really need
-> to refactor a driver first, before a fix that follows the existing
-> driver style can be applied (and backported)?
+  - Add missing "additionalProperties: false" for subnodes, to catch
+    typos in properties,
+  - Fix property names in example.
 
-No we do not.  Sorry if this usage is already in the driver, might as
-well keep it there, I thought this was an exception and was being added
-for the first time here.
+Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+---
+This depends on dt-schema v2021.2.1.
 
-thanks,
+v6:
+  - Rebase on top of commit c17611592d9635c4 ("dt-bindings: More
+    removals of type references on common properties"), which already
+    removed unneeded references for "idt,xtal-load-femtofarads" and
+    "idt,slew-percent",
 
-greg k-h
+v5:
+  - Drop reference for "idt,xtal-load-femtofarads",
+
+v4:
+  - Add Reviewed-by, Acked-by,
+
+v3:
+  - Drop references for "idt,voltage-microvolt" and "idt,slew-percent",
+
+v2:
+  - Settle on "idt,voltage-microvolt", cfr. commit 4b003f5fcadfa2d0
+    ('clk: vc5: Use "idt,voltage-microvolt" instead of
+    "idt,voltage-microvolts"'),
+  - Drop reference to clock.yaml, which is already applied
+    unconditionally,
+  - Drop removal of allOf around if condition, as it is unnecessary
+    churn.
+---
+ .../devicetree/bindings/clock/idt,versaclock5.yaml        | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+index 28675b0b80f1ba53..434212320c9aa7ab 100644
+--- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
++++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+@@ -85,6 +85,8 @@ patternProperties:
+         description: The Slew rate control for CMOS single-ended.
+         enum: [ 80, 85, 90, 100 ]
+ 
++    additionalProperties: false
++
+ required:
+   - compatible
+   - reg
+@@ -139,13 +141,13 @@ examples:
+             clock-names = "xin";
+ 
+             OUT1 {
+-                idt,drive-mode = <VC5_CMOSD>;
+-                idt,voltage-microvolts = <1800000>;
++                idt,mode = <VC5_CMOSD>;
++                idt,voltage-microvolt = <1800000>;
+                 idt,slew-percent = <80>;
+             };
+ 
+             OUT4 {
+-                idt,drive-mode = <VC5_LVDS>;
++                idt,mode = <VC5_LVDS>;
+             };
+         };
+     };
+-- 
+2.25.1
+
