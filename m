@@ -2,71 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BD5F3A260A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 10:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED10C3A271E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 10:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230167AbhFJIEH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 04:04:07 -0400
-Received: from mail-ua1-f46.google.com ([209.85.222.46]:33483 "EHLO
-        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbhFJIDv (ORCPT
+        id S230137AbhFJIfh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Jun 2021 04:35:37 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:34864 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229823AbhFJIfh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 04:03:51 -0400
-Received: by mail-ua1-f46.google.com with SMTP id l12so987197uai.0;
-        Thu, 10 Jun 2021 01:01:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ivptTvFqsGgv3Qpbq3w6D+6jEW1CoeV1H1Uh7PcLfwQ=;
-        b=gsG0hicAD3+g3oXtGZpQ0GX7L6mYk71kjRQablYA0L0vFaXXGxCtbsrMnwiMiq0Kbs
-         YUSw1rAAUkX7dLApuCSA3828hWKyasqB9sNNEQaahQutyfeIbJhD6cHIOHGTsM+JyngE
-         rFNU8pQPg1kGvVXNsrxIfNO2eSjfmV3wgxDdRKSaHPOuAYaxWL8xRtA1IQ+STlG9H4jt
-         ZvIWnOUVtO8/FGsUJYv5Uk6EmX73Bh5NbPUbSKbG87XuMDUwFEOREHvEroIIbdR6I0uz
-         cqelXRrGLe81+jb8q4HX+7KWSw3JZj4PzqmsHEJkY0jeiTC4U8j8nRJCPzOWLscXPsN2
-         vsHQ==
-X-Gm-Message-State: AOAM531lyeZ1iRjh5z9zn/Lkz9nn4RDRiExhnJeGkvCzWsot/dd7QhlI
-        Ui0nGcF2NeTuzWoJLe8DJ6VMZhKD7Rz0O84wotU4un1pAwc=
-X-Google-Smtp-Source: ABdhPJzotoLpVM39K0bOjJ2XYffSMcHlm2zUiy03JPPBOPdQt4B0/4Dn2C8vlGyCaTGiFC9VQ4kTgbMl5iuUI3vSqk8=
-X-Received: by 2002:ab0:484b:: with SMTP id c11mr3202139uad.100.1623312101666;
- Thu, 10 Jun 2021 01:01:41 -0700 (PDT)
+        Thu, 10 Jun 2021 04:35:37 -0400
+Received: from [77.244.183.192] (port=63482 helo=[192.168.178.41])
+        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1lrG8B-000FMr-2O; Thu, 10 Jun 2021 10:33:39 +0200
+Subject: Re: [PATCH v6] dt-bindings: clk: versaclock5: Miscellaneous fixes and
+ improvements:
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Adam Ford <aford173@gmail.com>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Sean Anderson <sean.anderson@seco.com>
+References: <46310530171886c6ccf4046518e07510274a506c.1623308843.git.geert+renesas@glider.be>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <ec070c68-5b5e-0366-434e-9d9b571e95a8@lucaceresoli.net>
+Date:   Thu, 10 Jun 2021 10:33:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <cover.1619785375.git.geert+renesas@glider.be> <b4c9cd68f9728eb9ebc8526ee238013ddf1e1407.1619785375.git.geert+renesas@glider.be>
-In-Reply-To: <b4c9cd68f9728eb9ebc8526ee238013ddf1e1407.1619785375.git.geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Jun 2021 10:01:30 +0200
-Message-ID: <CAMuHMdUg23z7w3ZkqiMgq67r+0d7Bfm1PM+jwKyWEFtWDv+koA@mail.gmail.com>
-Subject: Re: [PATCH 12/12] pinctrl: renesas: r8a77995: Add bias pinconf support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <46310530171886c6ccf4046518e07510274a506c.1623308843.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 30, 2021 at 2:31 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Implement support for pull-up (most pins, excl. DU_DOTCLKIN0) and
-> pull-down (most pins, excl. JTAG) handling for the R-Car D3 SoC, using
-> the common R-Car bias handling.
->
-> Note that the documentation of the LSI pin pull-up/down control Register
-> 2 (PUD2) in the R-Car Gen3 Hardware User's Manual Rev. 2.20 seems to
-> have mixed up the bits for the NFRE# and NFWE# pins: their definition is
-> inconsistent with the documentation of the corresponding bits in the LSI
-> pin pull-enable register 2(PUEN2), and the bit order in Rev. 0.7 of the
-> R-Car D3 pinfunction spreadsheet, so I have used the latter.
+Hi Geert, All,
 
-It was confirmed that the documentation is correct. Will fix in v2...
+On 10/06/21 09:09, Geert Uytterhoeven wrote:
+>   - Add missing "additionalProperties: false" for subnodes, to catch
+>     typos in properties,
+>   - Fix property names in example.
+> 
+> Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
 
-Gr{oetje,eeting}s,
+Thanks for resending.
 
-                        Geert
+In the meanwhile this patch has got shorter and shorter, and now I
+realize it has now become identical (except for an empty line
+difference) to patch "dt-bindings: clk: vc5: Fix example" send by Sean
+Anderson on June 7 and Reviewed-by me yesterday.
+
+To the maintainer: either one can be applied, it's technically
+identical. If it were me I'd choose this one as it's out since way longer.
+
+Thanks everybody for your patience.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Luca
