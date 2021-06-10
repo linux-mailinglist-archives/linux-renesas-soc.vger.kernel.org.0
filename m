@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1DF43A2B5D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 14:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA7463A2B7B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 14:26:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230265AbhFJMYR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 08:24:17 -0400
-Received: from mail-ua1-f54.google.com ([209.85.222.54]:42761 "EHLO
-        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230130AbhFJMYR (ORCPT
+        id S230238AbhFJM2g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Jun 2021 08:28:36 -0400
+Received: from mail-ua1-f53.google.com ([209.85.222.53]:36417 "EHLO
+        mail-ua1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230001AbhFJM2d (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 08:24:17 -0400
-Received: by mail-ua1-f54.google.com with SMTP id w5so1194197uaq.9;
-        Thu, 10 Jun 2021 05:22:20 -0700 (PDT)
+        Thu, 10 Jun 2021 08:28:33 -0400
+Received: by mail-ua1-f53.google.com with SMTP id p9so1210263uar.3;
+        Thu, 10 Jun 2021 05:26:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GHImRfBQYLoz3d/i2ivFXTZfIrG8e8ycwCeg8K/SaiY=;
-        b=t0g2XOIVo6nyrSlEBemjJI4Ix+9+B1pDNeQbBBRuEKOpES0yAawHiyE3KuTloHZ+R0
-         tcgSiyraERWjHNrj5RiDwohXet9SUWDALt8ccqHnN/O1RlBk8F429yYupr0Yb/QsFOou
-         +XiW/IwvICslSgD3fMznnD/I2tQM93miV44zWexmvCGWUzY02iDe7TNi5MsFhtlYPRXs
-         od4oEoyRqPTo+1WUwo1z08mugIosvxEIDfAv4kdVFwEDtVZfgodSZg1Mm2s79yoWO2ra
-         xUiUrp+JEi/NodfbTzKhjttlCjPME+bv/m2J1A9zPNN9tYa2CMi/6eWx48toXqddxo2s
-         YKIQ==
-X-Gm-Message-State: AOAM530Bgd0e7/PZxgU1+AqJEi3B/3127XjmgxrNFLrXImEiqRMDmtSE
-        VSvCF4T9pSljgYR9FAjMkmw+Cx44muf3ma0gu4A=
-X-Google-Smtp-Source: ABdhPJw8UipGhmaBBsSwyshnKJEMcNPGGI4TUltcMxoq/ilmmyOmBEd8pDYi8K6oMEVXDwhrjC22r0+D7Mf//KWyLuU=
-X-Received: by 2002:ab0:2a4e:: with SMTP id p14mr3957154uar.2.1623327740301;
- Thu, 10 Jun 2021 05:22:20 -0700 (PDT)
+        bh=Ppd1Jz5aBQsbrPJtjVVbRRcX70U5zYeai4zzqRqUEIM=;
+        b=MsAyqJ2DyhrecQG31PSwWA8Fgy7etaErJqZNCzMLUru1ZJowHGBOhhyu2XWP/LS6dr
+         zF4uNSfvcqie1/erJFPgiymNnzyQ5gHUqIksDeaBAL4UaNU+KhRNP9nkmIndks4Kkh+s
+         p6+EeubfyFG0NaLzrEZ4BHC8XnckdsX2fNpE+7K1DR0QXEr7UnYWb1pWl4t2wSAmY1Kd
+         uWPGW1ZkK57iluo5aGqgVAZiP0NbD1i9IKeXzEe2udThJGJ5BivZBM6fFOaa6Mgr1yhS
+         EvEA6kliimZafsw/tPNmjpDN5spFdlpJ3zle8MGM4ZolLbo/IPD23AszaF53hhmhVjtL
+         0tgA==
+X-Gm-Message-State: AOAM530pB+xwNOUV5sBsGTpyhcMB+CaEDqhv2d6yaRbGmcnbQUOG73ks
+        Fv3S1ujzSW/7TYuDt6zASbZGcwS9O2c0hYj7m/uMez3cFyk=
+X-Google-Smtp-Source: ABdhPJwL2HfQFWxduhZTBOzYv1lmqfHraGJHjKlwBl+vYAp4R7ciWH6Rc65GOkfbE5uz/+F4ZwEeGsUdZDgTzSeYahg=
+X-Received: by 2002:ab0:708c:: with SMTP id m12mr4164941ual.4.1623327989993;
+ Thu, 10 Jun 2021 05:26:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210609163717.3083-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210609163717.3083-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210609163717.3083-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210609163717.3083-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210609163717.3083-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210609163717.3083-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Jun 2021 14:22:09 +0200
-Message-ID: <CAMuHMdVL-6dykmxb9PozWap3iTJEwuNQBgvvJwxHNGEu=r2WOg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: power: renesas,rzg2l-sysc: Add DT
- binding documentation for SYSC controller
+Date:   Thu, 10 Jun 2021 14:26:19 +0200
+Message-ID: <CAMuHMdV++2DxhUG+9huDpZAvJ+D9K66ythvJiNTozWE52ZW1Xw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] soc: renesas: Add support to read LSI DEVID
+ register of RZ/G2{L,LC} SoC's
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -52,73 +52,22 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
 On Wed, Jun 9, 2021 at 6:37 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add DT binding documentation for SYSC controller found on
-> RZ/G2{L,LC,UL} SoC's.
->
-> SYSC block contains the LSI_DEVID register which is used to retrieve
-> SoC product information.
+> Add support for reading the LSI DEVID register which is present in
+> SYSC block of RZ/G2{L,LC} SoC's.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thanks for the update!
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/renesas,rzg2l-sysc.yaml
-> @@ -0,0 +1,63 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/power/renesas,rzg2l-sysc.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Renesas RZ/G2L System Controller (SYSC)
-> +
-> +maintainers:
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description:
-> +  The RZ/G2L System Controller (SYSC) performs system control of the LSI and
-> +  supports following functions,
-> +  - External terminal state capture function
-> +  - 34-bit address space access function
-> +  - Low power consumption control
-> +  - WDT stop control
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,r9a07g044-sysc # RZ/G2{L,LC}
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: CA55/CM33 Sleep/Software Standby Mode request interrupt
-> +      - description: CA55 Software Standby Mode release request interrupt
-> +      - description: CM33 Software Standby Mode release request interrupt
-> +      - description: CA55 ACE Asynchronous Bridge Master/Slave interface deny request interrupt
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: sys_lpm_int
-> +      - const: sys_ca55stbydone_int
-> +      - const: sys_cm33stbyr_int
-> +      - const: sys_ca55_deny
-
-The "sys_" prefixes feel superfluous to me.
-If you don't mind, I can remove them while applying (also from example
-and .dtsi).
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.14.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
