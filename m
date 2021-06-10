@@ -2,49 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA7463A2B7B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 14:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA5273A2B9E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 14:30:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbhFJM2g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 08:28:36 -0400
-Received: from mail-ua1-f53.google.com ([209.85.222.53]:36417 "EHLO
-        mail-ua1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbhFJM2d (ORCPT
+        id S230307AbhFJMcq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Jun 2021 08:32:46 -0400
+Received: from mail-vs1-f42.google.com ([209.85.217.42]:46898 "EHLO
+        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230130AbhFJMcp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 08:28:33 -0400
-Received: by mail-ua1-f53.google.com with SMTP id p9so1210263uar.3;
-        Thu, 10 Jun 2021 05:26:30 -0700 (PDT)
+        Thu, 10 Jun 2021 08:32:45 -0400
+Received: by mail-vs1-f42.google.com with SMTP id z15so1745106vsn.13;
+        Thu, 10 Jun 2021 05:30:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ppd1Jz5aBQsbrPJtjVVbRRcX70U5zYeai4zzqRqUEIM=;
-        b=MsAyqJ2DyhrecQG31PSwWA8Fgy7etaErJqZNCzMLUru1ZJowHGBOhhyu2XWP/LS6dr
-         zF4uNSfvcqie1/erJFPgiymNnzyQ5gHUqIksDeaBAL4UaNU+KhRNP9nkmIndks4Kkh+s
-         p6+EeubfyFG0NaLzrEZ4BHC8XnckdsX2fNpE+7K1DR0QXEr7UnYWb1pWl4t2wSAmY1Kd
-         uWPGW1ZkK57iluo5aGqgVAZiP0NbD1i9IKeXzEe2udThJGJ5BivZBM6fFOaa6Mgr1yhS
-         EvEA6kliimZafsw/tPNmjpDN5spFdlpJ3zle8MGM4ZolLbo/IPD23AszaF53hhmhVjtL
-         0tgA==
-X-Gm-Message-State: AOAM530pB+xwNOUV5sBsGTpyhcMB+CaEDqhv2d6yaRbGmcnbQUOG73ks
-        Fv3S1ujzSW/7TYuDt6zASbZGcwS9O2c0hYj7m/uMez3cFyk=
-X-Google-Smtp-Source: ABdhPJwL2HfQFWxduhZTBOzYv1lmqfHraGJHjKlwBl+vYAp4R7ciWH6Rc65GOkfbE5uz/+F4ZwEeGsUdZDgTzSeYahg=
-X-Received: by 2002:ab0:708c:: with SMTP id m12mr4164941ual.4.1623327989993;
- Thu, 10 Jun 2021 05:26:29 -0700 (PDT)
+        bh=MY8WKRn2GArViRUc7bu5Utce7nrvaxhUEO/qAgCvVVQ=;
+        b=BMiX/dWpodU/8iGyWfARFady0i9PE9BeEGW/GUMhioGBeKMBwLXz3wUPL57exeNmZS
+         NoSGVef1FYC6YBHiFCijNFqcrkJxKCEW6usOZ8cXDscL0rPbCQP/EMoPlEO6lu0It/Lf
+         r4herY2efNzMwEOA8UmhzNb8cgbo6rNWpHkNW0PMXdAXvBheMFJu3QDaZ6JasyCgbij5
+         g7sZ8xnx13IRyINyx0uA3gHCh6GFVum0aB4Ac9ceMeLr5v6QcCI25vcAORX1Ta8m36oI
+         9rSfrSuAfhiRet8DbD+HE6Px0E+bVIoNR6zEY/j5wlO4atsZRKOGkU9bhR4UxpTtp0As
+         xvvQ==
+X-Gm-Message-State: AOAM531vDGc0tknE9O32l8+EsA+/MQ2bkVBJ8i2NLM/9JSMB7sWqXTzZ
+        4UhD3mI0mGZmiWG1quryz9U0tDt6nyoFMmegLKM=
+X-Google-Smtp-Source: ABdhPJzUHkDQLE/1DEZ9wffgvMmXoWFgooq0Mjku7tNI2zXV1nEKtR9HvdAkcHPbXH0RU8CrNdhe+6n1afqegsY4Qgc=
+X-Received: by 2002:a05:6102:2011:: with SMTP id p17mr3724515vsr.40.1623328247559;
+ Thu, 10 Jun 2021 05:30:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210609163717.3083-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210609163717.3083-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210609163717.3083-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210609153230.6967-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210609153230.6967-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210609153230.6967-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Jun 2021 14:26:19 +0200
-Message-ID: <CAMuHMdV++2DxhUG+9huDpZAvJ+D9K66ythvJiNTozWE52ZW1Xw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] soc: renesas: Add support to read LSI DEVID
- register of RZ/G2{L,LC} SoC's
+Date:   Thu, 10 Jun 2021 14:30:36 +0200
+Message-ID: <CAMuHMdWcJGHxjQgHWPVsgvtsz=y0=y0QTocf879MvidrpEZDgQ@mail.gmail.com>
+Subject: Re: [PATCH v3 07/11] dt-bindings: clock: renesas: Document RZ/G2L SoC
+ CPG driver
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -52,13 +59,14 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 9, 2021 at 6:37 PM Lad Prabhakar
+On Wed, Jun 9, 2021 at 5:33 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add support for reading the LSI DEVID register which is present in
-> SYSC block of RZ/G2{L,LC} SoC's.
+> Document the device tree bindings of the Renesas RZ/G2L SoC clock
+> driver in Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.14.
