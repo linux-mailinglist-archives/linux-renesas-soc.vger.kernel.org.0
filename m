@@ -2,75 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EECD3A2865
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 11:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F0DA3A29E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 13:08:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbhFJJjk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 05:39:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37432 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230184AbhFJJji (ORCPT
+        id S230051AbhFJLK0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Jun 2021 07:10:26 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:40195 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229961AbhFJLK0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 05:39:38 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AB19C061283
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Jun 2021 02:37:41 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:a946:bccb:b1a1:3055])
-        by albert.telenet-ops.be with bizsmtp
-        id FMdf2500R0wnyou06MdfEr; Thu, 10 Jun 2021 11:37:39 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lrH86-00FDXD-Sl; Thu, 10 Jun 2021 11:37:38 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lrH86-00BTmq-0K; Thu, 10 Jun 2021 11:37:38 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 14/14] arm64: dts: renesas: r8a779m3: Add Cortex-A57 2 GHz opp
-Date:   Thu, 10 Jun 2021 11:37:27 +0200
-Message-Id: <6dbc16b1345913cb42d8824d1c0f7f5be7645cf9.1623315732.git.geert+renesas@glider.be>
+        Thu, 10 Jun 2021 07:10:26 -0400
+X-IronPort-AV: E=Sophos;i="5.83,263,1616425200"; 
+   d="scan'208";a="83829546"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 10 Jun 2021 20:08:29 +0900
+Received: from localhost.localdomain (unknown [10.166.14.185])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 25EF2421A8A0;
+        Thu, 10 Jun 2021 20:08:29 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc:     linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v4] serial: sh-sci: Stop dmaengine transfer in sci_stop_tx()
+Date:   Thu, 10 Jun 2021 20:08:06 +0900
+Message-Id: <20210610110806.277932-1-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1623315732.git.geert+renesas@glider.be>
-References: <cover.1623315732.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add a preliminary operating point for running the Cortex-A57 CPU cores
-on R-Car M3e-2G at 2 GHz.
+Stop dmaengine transfer in sci_stop_tx(). Otherwise, the following
+message is possible output when system enters suspend and while
+transferring data, because clearing TIE bit in SCSCR is not able to
+stop any dmaengine transfer.
 
-The opp-microvolt value depends on a future update of the Electrical
-Characteristics for R-Car M3e-2G.
+    sh-sci e6550000.serial: ttySC1: Unable to drain transmitter
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Note that this driver has already used some #ifdef in the .c file
+so that this patch also uses #ifdef to fix the issue. Otherwise,
+build errors happens if the CONFIG_SERIAL_SH_SCI_DMA is disabled.
+
+Fixes: 73a19e4c0301 ("serial: sh-sci: Add DMA support.")
+Cc: <stable@vger.kernel.org> # v4.9+
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r8a779m3.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Changes from v3:
+ - Add a description why the patch need #ifdef.
+ - Add Cc: stable ML tag.
+ https://lore.kernel.org/linux-renesas-soc/20210609014902.271237-1-yoshihiro.shimoda.uh@renesas.com/
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m3.dtsi b/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
-index 65bb6188ccf5470a..fa5e8ffdf7343739 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
-@@ -10,3 +10,12 @@
- / {
- 	compatible = "renesas,r8a779m3", "renesas,r8a77961";
- };
+ Changes from v2:
+ - Don't use a macro.
+ - Revise the commit descrption.
+ https://lore.kernel.org/linux-renesas-soc/20210604095704.756190-1-yoshihiro.shimoda.uh@renesas.com/
+
+ Changes from v1:
+ - Don't put #ifdef in the .c file.
+ - Update the commit description.
+ https://lore.kernel.org/linux-renesas-soc/20210602114108.510527-1-yoshihiro.shimoda.uh@renesas.com/
+
+ drivers/tty/serial/sh-sci.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index 4baf1316ea72..2d5487bf6855 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -610,6 +610,14 @@ static void sci_stop_tx(struct uart_port *port)
+ 	ctrl &= ~SCSCR_TIE;
+ 
+ 	serial_port_out(port, SCSCR, ctrl);
 +
-+&cluster0_opp {
-+	opp-2000000000 {
-+		opp-hz = /bits/ 64 <2000000000>;
-+		opp-microvolt = <1020000>;	// FIXME TBC
-+		clock-latency-ns = <300000>;
-+		turbo-mode;
-+	};
-+};
++#ifdef CONFIG_SERIAL_SH_SCI_DMA
++	if (to_sci_port(port)->chan_tx &&
++	    !dma_submit_error(to_sci_port(port)->cookie_tx)) {
++		dmaengine_terminate_async(to_sci_port(port)->chan_tx);
++		to_sci_port(port)->cookie_tx = -EINVAL;
++	}
++#endif
+ }
+ 
+ static void sci_start_rx(struct uart_port *port)
 -- 
 2.25.1
 
