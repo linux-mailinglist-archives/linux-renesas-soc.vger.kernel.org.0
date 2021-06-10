@@ -2,333 +2,201 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 300243A2EBA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 16:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 979F63A302B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Jun 2021 18:07:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231374AbhFJO6b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 10:58:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51868 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231339AbhFJO6a (ORCPT
+        id S230289AbhFJQJT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Jun 2021 12:09:19 -0400
+Received: from mail-eopbgr80044.outbound.protection.outlook.com ([40.107.8.44]:59105
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230117AbhFJQJS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 10:58:30 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 377F0C061574;
-        Thu, 10 Jun 2021 07:56:34 -0700 (PDT)
-Received: from deskari.lan (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1173E8D4;
-        Thu, 10 Jun 2021 16:56:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623336990;
-        bh=SxEgL8cnLpb/jRlWgIpmg8TG8eHiIpa6PqahE1+yfYo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=i/ZTfIZCBdUt08Ou/la3+E1RRfVNCCGWKugSMFIm6n1Pf4FfRR+QYvuIDoVHu/4HR
-         nojyo9LdzeqRj/ubUvTKI6/klykqWoGnBgYFZfW6ElzMxulG5zr/4tSmoGZwIAFhMt
-         cSU0kP4EectyzL7nrMPmBjVW+MwR/RLeJfsyGu0I=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pavel Machek <pavel@ucw.cz>, Shawn Tu <shawnx.tu@intel.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Heungjun Kim <riverful.kim@samsung.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Petr Cvek <petrcvekcz@gmail.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Mickael Guene <mickael.guene@st.com>,
-        Mats Randgaard <matrandg@cisco.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Andy Walls <awalls@md.metrocast.net>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Dan Scally <djrscally@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>
-Subject: [PATCH v5 0/9] media: v4l2-subdev: add subdev-wide state struct
-Date:   Thu, 10 Jun 2021 17:55:57 +0300
-Message-Id: <20210610145606.3468235-1-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 10 Jun 2021 12:09:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c0k5nIkOuUI5vsffjTDiRujqcUmPHWpDFeuLa8pAnGCTg32lXH8AmVzqpNuo4uSMbXdQZ1RPJpShtRO2Flh2z3BqK6W++9uckoDDACcOgSqphhZatHcYeCrqYw/g2ymE07xNssuPN5hcG8K3jGVJv57yRNcdfNZZUhyjj1PMoPG4ReXY/1pj1QjXj/2jn3K8U5tDAGNKMnbOjQgpjWD3PUdrykYNMKieq2a0uy+SobikZVGagOzrM5RGENGoGXPJBOncv7iw+E9KQc85Z9Z1RKxLENvxzgeo/PL1Am1f5lnDkmvevtp7yONKUrH0EpYkA1vGz0oq2GuvacYh5ADPbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vdWzEfQfKcI2CmYDEyKHyd+jPw+4/vxMDL4JYPbGPDI=;
+ b=dpxcfUSKJQn+Hj6ymLpKPF5DcZglUAHrYQuSRdsj5t4Fzb8L9AeDhlNfkjZMtmWuw92FSRVkCYaBlwasNLvTsm9eec2wR8yrdrMIaxJhBV3Nbpwy5b/iwuNj7Fk5bOsuOuJuSrGMKjOPLEomU0bo3hMfNSbfpucJ3yB1cEe5XhO6sOjj18gXxNFAh7uOu42kTdLIMYTrPpx8HPiyPB3J1lADfS2h5wrZduVQPqi0q2UEljbkiRXTpm1kRNJd9VJ+/6DGNhvWbZXvPB1DeGNzq52f0bK7HMWL097BGSi3EQdC/3Dk+sb/qroOumw8PmA4crnlTcNEs5Vq2GQwJJctIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=secospa.onmicrosoft.com; s=selector2-secospa-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vdWzEfQfKcI2CmYDEyKHyd+jPw+4/vxMDL4JYPbGPDI=;
+ b=Zto8EcnSFkrCAEum8ob7q+DmS0ir4mPPlcW9jjGccI6jPvkJ1OBhOlD6cDvy5hEw1pZMipGJS6xJ0Kd8ZJH7IvXDe5s0EbG2ViXbbUQj+Y7NbpMwwW8Ex8piXo84pDHzRxl9eHAbKv0fZnK0gVguiXIMedkrZsB0BAT2cZHdMFk=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=seco.com;
+Received: from DB7PR03MB4523.eurprd03.prod.outlook.com (2603:10a6:10:19::27)
+ by DB8PR03MB6203.eurprd03.prod.outlook.com (2603:10a6:10:140::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20; Thu, 10 Jun
+ 2021 16:07:19 +0000
+Received: from DB7PR03MB4523.eurprd03.prod.outlook.com
+ ([fe80::40d5:3554:c709:6b1b]) by DB7PR03MB4523.eurprd03.prod.outlook.com
+ ([fe80::40d5:3554:c709:6b1b%5]) with mapi id 15.20.4219.022; Thu, 10 Jun 2021
+ 16:07:18 +0000
+Subject: Re: [PATCH v6] dt-bindings: clk: versaclock5: Miscellaneous fixes and
+ improvements:
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Adam Ford <aford173@gmail.com>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
+References: <46310530171886c6ccf4046518e07510274a506c.1623308843.git.geert+renesas@glider.be>
+From:   Sean Anderson <sean.anderson@seco.com>
+Message-ID: <cc489743-1228-9f4f-5c2a-1763e9b40431@seco.com>
+Date:   Thu, 10 Jun 2021 12:07:12 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <46310530171886c6ccf4046518e07510274a506c.1623308843.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [50.195.82.171]
+X-ClientProxiedBy: BL1P223CA0024.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c4::29) To DB7PR03MB4523.eurprd03.prod.outlook.com
+ (2603:10a6:10:19::27)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.27.1.65] (50.195.82.171) by BL1P223CA0024.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:2c4::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 16:07:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c937e143-8cd2-4a42-8e1f-08d92c29d26d
+X-MS-TrafficTypeDiagnostic: DB8PR03MB6203:
+X-Microsoft-Antispam-PRVS: <DB8PR03MB6203300A974F9B5D6AADE4DB96359@DB8PR03MB6203.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:576;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mYIZJegcV7/ejZNZHkjLcQ9HwNcGO7bHPD1Wvym9LrdoNdosDjlQRTy084KEMQC/NQrTc8o3l/mlUPpLfr99mQY7leMmSzAfkjlQ6TexnfcLGlUVzY6SOjjSMUxEZ49EGg7uNmKok9Y2t8NhBSk6ZEEWijLg6NnyuvasG1PGBILvtYu+FYH7mLzBHb4f9FFC0EhEJwcQMJjrSWUQ2DgX0dNAU+sGAl772Mck2hli0sSrrr3/SsXHPdz33O5AtkwmVbIaNByDeXd1N98dI8le6OOtaKurUEdOPQINY8wOv5uXjd/XxzpkoN1N1yzEjtIqajr/2HDavIuk9M/kihYJGcRmE72YPCV+OL6THjhYLzjwq5NG6m8Ue80+dgM2c2a2vJEovEJyHvHj9vnUWhMiq8o+809vn0ky8vYWhZX4cQpp/Yjh7jB200rnudUjRYe/i+ck+evn6H49uWa3U3k/C4Kr5Au5az7dx+Z+mranydbDQtbjoLi5Mgl44X6V5LwddcafxsEM2IeauJL5FDFcaqSWBT2gB/ga+O8GPfcPU14vwJ9mxpWo058mgUrPQSBf2u30GCrxqaJgiLCIP4j3K3j60tYQXq1vw4ajGR/wUQwf/6z7ZvyVBnfq8OPPbvSDh8w38lR3FyK8hzHGPKdDDpcRjMxFkp3NR3e+THLiaPR4dZIfIkU1toLzy2C14952EYMXJ2fOzMvsUNI88bqpJQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4523.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(346002)(376002)(39850400004)(366004)(136003)(5660300002)(2906002)(31686004)(52116002)(8936002)(186003)(86362001)(53546011)(16526019)(110136005)(16576012)(6486002)(316002)(54906003)(478600001)(38350700002)(956004)(6666004)(4326008)(26005)(7416002)(36756003)(66476007)(66946007)(83380400001)(66556008)(44832011)(38100700002)(8676002)(31696002)(2616005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SktPcDhpYzM1bUMyUDkxMXc4SmNGNkwwRm5WWGoxdCtteHNyTnprYkkzV29N?=
+ =?utf-8?B?SHp4OWFpYTdLTk1uUytIRjVrZ3lzZ1NxM0lPRUNHVmpMb09oc25aeVhPTzZD?=
+ =?utf-8?B?QVFSZHRBNEhSV2ladHJsNjhJY0R0YVQzd2t6aWtQcURTaTcrTlBJWmI4TWs3?=
+ =?utf-8?B?VTlWc3BNWmF4ZVlueUlvcjV5SWo3RVp0am9MUTBJRjBNa2YvVGhnSjl4M3BG?=
+ =?utf-8?B?QzhWUlUwR29PUm5zL0NLbjZFYUVhQ3NkVnJNWTgvWlZieWdaYjY1TDlrZitC?=
+ =?utf-8?B?SnlFc0JrK0JuWDRzSXlyeUlyZkpyK0krZXBFWlZLSjB2SWU2UENpUmxBaXR4?=
+ =?utf-8?B?cGQxS3JhejlJYUtqQ1dXNzNLYkV0OGhOSUQ0ZTRzcUVXM1ZkYjhSejk5MEJ1?=
+ =?utf-8?B?QVE2dUMyVmVhbHJ6T20rRy9YS0RKREZBYUFPdElEZkZMdWpqdm5oYWkrZFl4?=
+ =?utf-8?B?dXYwcnd6VXR6Sk10RHdQS3BhZ0d4V1ZZc2FXbVVGNXZwY3plUTVYRXA0M2hp?=
+ =?utf-8?B?anR0a3krNUdvNEJyMERJeVl2VVpEMzVSb1lzd2xoODdwUnMrb204dS9YbXlh?=
+ =?utf-8?B?VnRPbXVLOWErdEgrN0FtbjcrSXlMUzhZU0xpaDBGWVhXYndIejdUWGJwSWpv?=
+ =?utf-8?B?N0ZrZ3p0MXloaGI2NVhJMVpHbE5WTlZ0eE9Ob3dpbHE1NnljcXBnYVZjQ1k4?=
+ =?utf-8?B?bzVJOEhWVUFSVnZTSW5Kai9zbCtndGFPeS9tdERiTm5GSThpTnZnZmcydnlI?=
+ =?utf-8?B?eEROSmlQM3QrMkdKRkpVYUFxOEdlVlR4MS9KMENGTkdNVlppNnluejhIK1B4?=
+ =?utf-8?B?M3pad0h6VTNFTzVYZ2ZNcVRZYU9CZVQrL1FtVkp4Vlp6TXl6cE9rMW1uQzB1?=
+ =?utf-8?B?UWM5RGtMMXNqcTJOczhwTENGeHRvSS9tUGlPcm1oUnlXSFNNcmM1dDlJSW4x?=
+ =?utf-8?B?aTNreUZhdjhTcFRMY1g3ajFDaW9zaGM4d2tsc0lnRG5SOHdoUE00b25OdTdh?=
+ =?utf-8?B?UVVwSFJSMmN5L2VlYzVVdkN0QTdXS3R4ajJGREdOYjlmTERoYnFEaElMbnU5?=
+ =?utf-8?B?MVFtaGdEbENETkY0bFllWkV5Y0hUMFIzeFY0akIvZ25BK1N3M2s2d2hBMkpB?=
+ =?utf-8?B?VHl4VjQ1dXdRa2ZwdmREb1lzTmRhMFAvTGRoKzlNWU5tdHVCRUlvcitLakZp?=
+ =?utf-8?B?SElxTHF2RG5DYThGMmZyTVJkVHJ3Smo5RXhqNGFFS0h2UWp6ZkVtcEErQmFV?=
+ =?utf-8?B?RjU0ZVhieC8yZm9RUFhKS1U0cU40czZ5dzBsVVAvYTlCTm9vMUNMaE1valVL?=
+ =?utf-8?B?SFlXUVROQlhPWlYraWpCTTh6anlCOW9UTFhHNzNab3h6ZDNzdkV2YnJhc0NW?=
+ =?utf-8?B?Z3hBVjVlcVdxeFZ2YnZCcGluelc2RGt2aW9KY2l0TzNzMFJUMlM1M3AxNVA4?=
+ =?utf-8?B?eGlSd0c0T1JxUGwwdCtSVkhYK2tuemdTQ2xNNGlxMTk4OGwyWFZZTkhyUjF0?=
+ =?utf-8?B?cGdyM2RyWHlBcFU4ZHJPNS9YZnh0ZUxyTEpJMStWd2FGWUlVZElVWG5FNUV1?=
+ =?utf-8?B?anJNbjF1NTZmVXRwMjdwaFRjeDhrTGp5TVhZV043d012cmxRRmE2Y0NOYytQ?=
+ =?utf-8?B?aHN6Wk1RS21qVURDWlhyd0ZvM3BWVkdYd2lSVXhVbTZFZmk3Y3N4eWtFSWlY?=
+ =?utf-8?B?K1RtcWppU3dlRnIyRE9rRi9uRGp5T3ZTbjc0bUdocEp1c0RqdFVBSVhRaHkv?=
+ =?utf-8?Q?RUoKPyaBQjJUyd7YVmEt23WMJ2xKSDOYcPADBdx?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c937e143-8cd2-4a42-8e1f-08d92c29d26d
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4523.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 16:07:18.8930
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HgbqGGE6NG3qbE0KmD3f3ci6ViBQLZHDmbwOQttBGgw2INwueC7k8GS36ZuGtcrjyaGAix1PrSPDqa+MpL3s/w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR03MB6203
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
 
-v5 of the series. No content changes compared to v4, but the series is
-split into smaller parts to enable reviews.
 
-The split is artificial, and all the patches need to be squashed into
-one before merging.
 
-The point of the series is explained in "media: v4l2-subdev: add
-subdev-wide state struct", but for easier reviews I add it partially
-here:
+On 6/10/21 3:09 AM, Geert Uytterhoeven wrote:
+ >    - Add missing "additionalProperties: false" for subnodes, to catch
+ >      typos in properties,
+ >    - Fix property names in example.
+ >
+ > Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
+ > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+ > Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
+ > Reviewed-by: Rob Herring <robh@kernel.org>
+ > Acked-by: Stephen Boyd <sboyd@kernel.org>
+ > ---
+ > This depends on dt-schema v2021.2.1.
+ >
+ > v6:
+ >    - Rebase on top of commit c17611592d9635c4 ("dt-bindings: More
+ >      removals of type references on common properties"), which already
+ >      removed unneeded references for "idt,xtal-load-femtofarads" and
+ >      "idt,slew-percent",
+ >
+ > v5:
+ >    - Drop reference for "idt,xtal-load-femtofarads",
+ >
+ > v4:
+ >    - Add Reviewed-by, Acked-by,
+ >
+ > v3:
+ >    - Drop references for "idt,voltage-microvolt" and "idt,slew-percent",
+ >
+ > v2:
+ >    - Settle on "idt,voltage-microvolt", cfr. commit 4b003f5fcadfa2d0
+ >      ('clk: vc5: Use "idt,voltage-microvolt" instead of
+ >      "idt,voltage-microvolts"'),
+ >    - Drop reference to clock.yaml, which is already applied
+ >      unconditionally,
+ >    - Drop removal of allOf around if condition, as it is unnecessary
+ >      churn.
+ > ---
+ >   .../devicetree/bindings/clock/idt,versaclock5.yaml        | 8 +++++---
+ >   1 file changed, 5 insertions(+), 3 deletions(-)
+ >
+ > diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+ > index 28675b0b80f1ba53..434212320c9aa7ab 100644
+ > --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+ > +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
+ > @@ -85,6 +85,8 @@ patternProperties:
+ >           description: The Slew rate control for CMOS single-ended.
+ >           enum: [ 80, 85, 90, 100 ]
+ >
+ > +    additionalProperties: false
+ > +
+ >   required:
+ >     - compatible
+ >     - reg
+ > @@ -139,13 +141,13 @@ examples:
+ >               clock-names = "xin";
+ >
+ >               OUT1 {
+ > -                idt,drive-mode = <VC5_CMOSD>;
+ > -                idt,voltage-microvolts = <1800000>;
+ > +                idt,mode = <VC5_CMOSD>;
+ > +                idt,voltage-microvolt = <1800000>;
+ >                   idt,slew-percent = <80>;
+ >               };
+ >
+ >               OUT4 {
+ > -                idt,drive-mode = <VC5_LVDS>;
+ > +                idt,mode = <VC5_LVDS>;
+ >               };
+ >           };
+ >       };
+ >
 
-We have 'struct v4l2_subdev_pad_config' which contains configuration for
-a single pad used for the TRY functionality, and an array of those
-structs is passed to various v4l2_subdev_pad_ops.
+I lost an hour the other day tracking down why my clocks weren't
+configured correctly because I had copied my base configuration from the
+example here.
 
-I was working on subdev internal routing between pads, and realized that
-there's no way to add TRY functionality for routes, which is not pad
-specific configuration. Adding a separate struct for try-route config
-wouldn't work either, as e.g. set-fmt needs to know the try-route
-configuration to propagate the settings.
-
-This patch adds a new struct, 'struct v4l2_subdev_state' (which at the
-moment only contains the v4l2_subdev_pad_config array) and the new
-struct is used in most of the places where v4l2_subdev_pad_config was
-used. All v4l2_subdev_pad_ops functions taking v4l2_subdev_pad_config
-are changed to instead take v4l2_subdev_state.
-
- Tomi
-
-Tomi Valkeinen (9):
-  media: v4l2-subdev: add subdev-wide state struct
-  media: s5k5baf: changes for subdev-wide state struct
-  media: s3c-camif: changes for subdev-wide state struct
-  media: i2c: changes for subdev-wide state struct
-  media: pci: changes for subdev-wide state struct
-  media: platform: changes for subdev-wide state struct
-  media: test-drivers: changes for subdev-wide state struct
-  media: usb: changes for subdev-wide state struct
-  media: staging: changes for subdev-wide state struct
-
- drivers/media/i2c/adv7170.c                   |   6 +-
- drivers/media/i2c/adv7175.c                   |   6 +-
- drivers/media/i2c/adv7180.c                   |  18 +--
- drivers/media/i2c/adv7183.c                   |   8 +-
- drivers/media/i2c/adv748x/adv748x-afe.c       |  13 +-
- drivers/media/i2c/adv748x/adv748x-csi2.c      |  14 +-
- drivers/media/i2c/adv748x/adv748x-hdmi.c      |  13 +-
- drivers/media/i2c/adv7511-v4l2.c              |  10 +-
- drivers/media/i2c/adv7604.c                   |  12 +-
- drivers/media/i2c/adv7842.c                   |  12 +-
- drivers/media/i2c/ak881x.c                    |   6 +-
- drivers/media/i2c/ccs/ccs-core.c              |  84 ++++++-----
- drivers/media/i2c/cx25840/cx25840-core.c      |   2 +-
- drivers/media/i2c/et8ek8/et8ek8_driver.c      |  23 +--
- drivers/media/i2c/hi556.c                     |  15 +-
- drivers/media/i2c/imx208.c                    |  19 +--
- drivers/media/i2c/imx214.c                    |  37 ++---
- drivers/media/i2c/imx219.c                    |  30 ++--
- drivers/media/i2c/imx258.c                    |  19 +--
- drivers/media/i2c/imx274.c                    |  38 ++---
- drivers/media/i2c/imx290.c                    |  20 +--
- drivers/media/i2c/imx319.c                    |  18 +--
- drivers/media/i2c/imx334.c                    |  28 ++--
- drivers/media/i2c/imx355.c                    |  18 +--
- drivers/media/i2c/m5mols/m5mols_core.c        |  21 ++-
- drivers/media/i2c/max9286.c                   |  17 ++-
- drivers/media/i2c/ml86v7667.c                 |   4 +-
- drivers/media/i2c/mt9m001.c                   |  18 +--
- drivers/media/i2c/mt9m032.c                   |  38 ++---
- drivers/media/i2c/mt9m111.c                   |  18 +--
- drivers/media/i2c/mt9p031.c                   |  45 +++---
- drivers/media/i2c/mt9t001.c                   |  44 +++---
- drivers/media/i2c/mt9t112.c                   |  14 +-
- drivers/media/i2c/mt9v011.c                   |   6 +-
- drivers/media/i2c/mt9v032.c                   |  44 +++---
- drivers/media/i2c/mt9v111.c                   |  23 +--
- drivers/media/i2c/noon010pc30.c               |  19 ++-
- drivers/media/i2c/ov02a10.c                   |  17 ++-
- drivers/media/i2c/ov13858.c                   |  18 +--
- drivers/media/i2c/ov2640.c                    |  16 +-
- drivers/media/i2c/ov2659.c                    |  14 +-
- drivers/media/i2c/ov2680.c                    |  23 +--
- drivers/media/i2c/ov2685.c                    |  10 +-
- drivers/media/i2c/ov2740.c                    |  15 +-
- drivers/media/i2c/ov5640.c                    |  14 +-
- drivers/media/i2c/ov5645.c                    |  38 ++---
- drivers/media/i2c/ov5647.c                    |  26 ++--
- drivers/media/i2c/ov5648.c                    |  14 +-
- drivers/media/i2c/ov5670.c                    |  19 +--
- drivers/media/i2c/ov5675.c                    |  15 +-
- drivers/media/i2c/ov5695.c                    |  15 +-
- drivers/media/i2c/ov6650.c                    |  28 ++--
- drivers/media/i2c/ov7251.c                    |  39 ++---
- drivers/media/i2c/ov7670.c                    |  17 ++-
- drivers/media/i2c/ov772x.c                    |  12 +-
- drivers/media/i2c/ov7740.c                    |  17 ++-
- drivers/media/i2c/ov8856.c                    |  15 +-
- drivers/media/i2c/ov8865.c                    |  14 +-
- drivers/media/i2c/ov9640.c                    |   8 +-
- drivers/media/i2c/ov9650.c                    |  17 ++-
- drivers/media/i2c/ov9734.c                    |  15 +-
- drivers/media/i2c/rdacm20.c                   |   4 +-
- drivers/media/i2c/rdacm21.c                   |   4 +-
- drivers/media/i2c/rj54n1cb0c.c                |  12 +-
- drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  55 +++----
- drivers/media/i2c/s5k4ecgx.c                  |  22 +--
- drivers/media/i2c/s5k5baf.c                   |  49 +++---
- drivers/media/i2c/s5k6a3.c                    |  19 ++-
- drivers/media/i2c/s5k6aa.c                    |  39 ++---
- drivers/media/i2c/saa6752hs.c                 |   6 +-
- drivers/media/i2c/saa7115.c                   |   2 +-
- drivers/media/i2c/saa717x.c                   |   2 +-
- drivers/media/i2c/sr030pc30.c                 |   8 +-
- drivers/media/i2c/st-mipid02.c                |  21 +--
- drivers/media/i2c/tc358743.c                  |   8 +-
- drivers/media/i2c/tda1997x.c                  |  14 +-
- drivers/media/i2c/tvp514x.c                   |  12 +-
- drivers/media/i2c/tvp5150.c                   |  20 +--
- drivers/media/i2c/tvp7002.c                   |  11 +-
- drivers/media/i2c/tw9910.c                    |  10 +-
- drivers/media/i2c/vs6624.c                    |   8 +-
- drivers/media/pci/cx18/cx18-av-core.c         |   2 +-
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  17 ++-
- drivers/media/pci/saa7134/saa7134-empress.c   |   5 +-
- drivers/media/platform/atmel/atmel-isc-base.c |  19 ++-
- drivers/media/platform/atmel/atmel-isi.c      |  19 ++-
- drivers/media/platform/cadence/cdns-csi2tx.c  |  14 +-
- .../media/platform/exynos4-is/fimc-capture.c  |  22 +--
- drivers/media/platform/exynos4-is/fimc-isp.c  |  37 +++--
- drivers/media/platform/exynos4-is/fimc-lite.c |  39 ++---
- drivers/media/platform/exynos4-is/mipi-csis.c |  17 ++-
- .../media/platform/marvell-ccic/mcam-core.c   |   5 +-
- drivers/media/platform/omap3isp/ispccdc.c     |  85 ++++++-----
- drivers/media/platform/omap3isp/ispccp2.c     |  49 +++---
- drivers/media/platform/omap3isp/ispcsi2.c     |  41 ++---
- drivers/media/platform/omap3isp/isppreview.c  |  69 +++++----
- drivers/media/platform/omap3isp/ispresizer.c  |  70 +++++----
- drivers/media/platform/pxa_camera.c           |   5 +-
- .../media/platform/qcom/camss/camss-csid.c    |  35 ++---
- .../media/platform/qcom/camss/camss-csiphy.c  |  40 ++---
- .../media/platform/qcom/camss/camss-ispif.c   |  36 ++---
- drivers/media/platform/qcom/camss/camss-vfe.c |  84 ++++++-----
- drivers/media/platform/rcar-vin/rcar-csi2.c   |   8 +-
- drivers/media/platform/rcar-vin/rcar-v4l2.c   |  10 +-
- drivers/media/platform/renesas-ceu.c          |   7 +-
- .../platform/rockchip/rkisp1/rkisp1-isp.c     | 112 ++++++++------
- .../platform/rockchip/rkisp1/rkisp1-resizer.c |  95 +++++++-----
- .../media/platform/s3c-camif/camif-capture.c  |  18 +--
- drivers/media/platform/stm32/stm32-dcmi.c     |  14 +-
- .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |  16 +-
- drivers/media/platform/ti-vpe/cal-camerarx.c  |  35 +++--
- drivers/media/platform/via-camera.c           |   5 +-
- drivers/media/platform/video-mux.c            |  22 +--
- drivers/media/platform/vsp1/vsp1_brx.c        |  34 +++--
- drivers/media/platform/vsp1/vsp1_clu.c        |  13 +-
- drivers/media/platform/vsp1/vsp1_entity.c     |  59 ++++----
- drivers/media/platform/vsp1/vsp1_entity.h     |  20 +--
- drivers/media/platform/vsp1/vsp1_histo.c      |  51 ++++---
- drivers/media/platform/vsp1/vsp1_hsit.c       |  14 +-
- drivers/media/platform/vsp1/vsp1_lif.c        |  13 +-
- drivers/media/platform/vsp1/vsp1_lut.c        |  13 +-
- drivers/media/platform/vsp1/vsp1_rwpf.c       |  32 ++--
- drivers/media/platform/vsp1/vsp1_rwpf.h       |   2 +-
- drivers/media/platform/vsp1/vsp1_sru.c        |  22 +--
- drivers/media/platform/vsp1/vsp1_uds.c        |  22 +--
- drivers/media/platform/vsp1/vsp1_uif.c        |  27 ++--
- .../media/platform/xilinx/xilinx-csi2rxss.c   |  26 ++--
- drivers/media/platform/xilinx/xilinx-tpg.c    |  25 +--
- drivers/media/platform/xilinx/xilinx-vip.c    |  12 +-
- drivers/media/platform/xilinx/xilinx-vip.h    |   4 +-
- .../media/test-drivers/vimc/vimc-debayer.c    |  20 +--
- drivers/media/test-drivers/vimc/vimc-scaler.c |  36 ++---
- drivers/media/test-drivers/vimc/vimc-sensor.c |  16 +-
- drivers/media/usb/go7007/s2250-board.c        |   2 +-
- drivers/media/v4l2-core/v4l2-subdev.c         | 142 ++++++++++--------
- .../media/atomisp/i2c/atomisp-gc0310.c        |  10 +-
- .../media/atomisp/i2c/atomisp-gc2235.c        |  10 +-
- .../media/atomisp/i2c/atomisp-mt9m114.c       |  12 +-
- .../media/atomisp/i2c/atomisp-ov2680.c        |  10 +-
- .../media/atomisp/i2c/atomisp-ov2722.c        |  10 +-
- .../media/atomisp/i2c/ov5693/atomisp-ov5693.c |  10 +-
- .../staging/media/atomisp/pci/atomisp_cmd.c   |  33 ++--
- .../staging/media/atomisp/pci/atomisp_csi2.c  |  28 ++--
- .../staging/media/atomisp/pci/atomisp_csi2.h  |   2 +-
- .../staging/media/atomisp/pci/atomisp_file.c  |  14 +-
- .../staging/media/atomisp/pci/atomisp_fops.c  |   6 +-
- .../media/atomisp/pci/atomisp_subdev.c        |  64 ++++----
- .../media/atomisp/pci/atomisp_subdev.h        |   9 +-
- .../staging/media/atomisp/pci/atomisp_tpg.c   |  12 +-
- drivers/staging/media/imx/imx-ic-prp.c        |  19 +--
- drivers/staging/media/imx/imx-ic-prpencvf.c   |  31 ++--
- drivers/staging/media/imx/imx-media-csi.c     |  82 +++++-----
- drivers/staging/media/imx/imx-media-utils.c   |   4 +-
- drivers/staging/media/imx/imx-media-vdic.c    |  24 +--
- drivers/staging/media/imx/imx-media.h         |   2 +-
- drivers/staging/media/imx/imx6-mipi-csi2.c    |  12 +-
- drivers/staging/media/imx/imx7-media-csi.c    |  33 ++--
- drivers/staging/media/imx/imx7-mipi-csis.c    |  34 +++--
- drivers/staging/media/ipu3/ipu3-v4l2.c        |  26 ++--
- drivers/staging/media/omap4iss/iss_csi2.c     |  37 ++---
- drivers/staging/media/omap4iss/iss_ipipe.c    |  37 ++---
- drivers/staging/media/omap4iss/iss_ipipeif.c  |  47 +++---
- drivers/staging/media/omap4iss/iss_resizer.c  |  39 ++---
- drivers/staging/media/tegra-video/csi.c       |  10 +-
- drivers/staging/media/tegra-video/vi.c        |  24 +--
- include/media/v4l2-subdev.h                   |  74 +++++----
- 166 files changed, 2162 insertions(+), 1802 deletions(-)
-
--- 
-2.25.1
-
+Reviewed-by: Sean Anderson <sean.anderson@seco.com>
