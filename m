@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AC3E3A42A4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 15:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 629713A4309
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 15:30:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231747AbhFKNDt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Jun 2021 09:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35068 "EHLO
+        id S229517AbhFKNcJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Jun 2021 09:32:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231691AbhFKNDt (ORCPT
+        with ESMTP id S229529AbhFKNcI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Jun 2021 09:03:49 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF656C061574
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jun 2021 06:01:50 -0700 (PDT)
+        Fri, 11 Jun 2021 09:32:08 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EB59C0613A2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jun 2021 06:30:10 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:2411:a261:8fe2:b47f])
-        by michel.telenet-ops.be with bizsmtp
-        id Fp1o2500U25eH3q06p1oj9; Fri, 11 Jun 2021 15:01:49 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id FpW82500P25eH3q06pW8XV; Fri, 11 Jun 2021 15:30:08 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lrgnE-00FgBg-Da; Fri, 11 Jun 2021 15:01:48 +0200
+        id 1lrhEe-00Fgkx-5u; Fri, 11 Jun 2021 15:30:08 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lrgnD-00Clw3-Rh; Fri, 11 Jun 2021 15:01:47 +0200
+        id 1lrhEd-00CnbF-Nc; Fri, 11 Jun 2021 15:30:07 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das@bp.renesas.com>, Eric Nelson <eric@nelint.com>,
-        linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Bastian Hecht <hechtb@gmail.com>,
+        Martin Kepplinger <martink@posteo.de>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: rtc: nxp,pcf8563: Absorb pcf85263/pcf85363 bindings
-Date:   Fri, 11 Jun 2021 15:01:45 +0200
-Message-Id: <e4f48d97f0e16d78a796f02b77ea3a0018904185.1623416431.git.geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: input: touchscreen: st1232: Convert to json-schema
+Date:   Fri, 11 Jun 2021 15:30:05 +0200
+Message-Id: <fbba650cff07780c28ad6dd8dbef5cc1451b7762.1623418065.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,55 +44,107 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The NXP PCF85263/PCF85363 Real Time Clock is very similar to the NXP
-PCF8563.
+Convert the Sitronix st1232/st1633 touchscreen controller Device Tree
+binding documentation to json-schema.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- .../devicetree/bindings/rtc/nxp,pcf8563.yaml    |  4 +++-
- .../devicetree/bindings/rtc/pcf85363.txt        | 17 -----------------
- 2 files changed, 3 insertions(+), 18 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/rtc/pcf85363.txt
+ .../input/touchscreen/sitronix,st1232.yaml    | 50 +++++++++++++++++++
+ .../input/touchscreen/sitronix-st1232.txt     | 28 -----------
+ 2 files changed, 50 insertions(+), 28 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/sitronix-st1232.txt
 
-diff --git a/Documentation/devicetree/bindings/rtc/nxp,pcf8563.yaml b/Documentation/devicetree/bindings/rtc/nxp,pcf8563.yaml
-index a542b6c7ff4445b5..a98b72752349fa6b 100644
---- a/Documentation/devicetree/bindings/rtc/nxp,pcf8563.yaml
-+++ b/Documentation/devicetree/bindings/rtc/nxp,pcf8563.yaml
-@@ -17,8 +17,10 @@ properties:
-     enum:
-       - epson,rtc8564
-       - microcrystal,rv8564
--      - nxp,pcf8563
-       - nxp,pca8565
-+      - nxp,pcf8563
-+      - nxp,pcf85263
-+      - nxp,pcf85363
- 
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/rtc/pcf85363.txt b/Documentation/devicetree/bindings/rtc/pcf85363.txt
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+new file mode 100644
+index 0000000000000000..1d8ca19fd37ae3fc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+@@ -0,0 +1,50 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sitronix st1232 or st1633 touchscreen controller
++
++maintainers:
++  - Bastian Hecht <hechtb@gmail.com>
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    enum:
++      - sitronix,st1232
++      - sitronix,st1633
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  gpios:
++    description: A phandle to the reset GPIO
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            touchscreen@55 {
++                    compatible = "sitronix,st1232";
++                    reg = <0x55>;
++                    interrupts = <2 0>;
++                    gpios = <&gpio1 166 0>;
++            };
++    };
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/sitronix-st1232.txt b/Documentation/devicetree/bindings/input/touchscreen/sitronix-st1232.txt
 deleted file mode 100644
-index 94adc1cf93d9b10b..0000000000000000
---- a/Documentation/devicetree/bindings/rtc/pcf85363.txt
+index 019373253b28c08c..0000000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/sitronix-st1232.txt
 +++ /dev/null
-@@ -1,17 +0,0 @@
--NXP PCF85263/PCF85363 Real Time Clock
--============================
+@@ -1,28 +0,0 @@
+-* Sitronix st1232 or st1633 touchscreen controller
 -
 -Required properties:
--- compatible: Should contain "nxp,pcf85263" or "nxp,pcf85363".
--- reg: I2C address for chip.
+-- compatible: must contain one of
+-  * "sitronix,st1232"
+-  * "sitronix,st1633"
+-- reg: I2C address of the chip
+-- interrupts: interrupt to which the chip is connected
 -
 -Optional properties:
--- interrupts: IRQ line for the RTC (not implemented).
+-- gpios: a phandle to the reset GPIO
+-
+-For additional optional properties see: touchscreen.txt
 -
 -Example:
 -
--pcf85363: pcf85363@51 {
--	compatible = "nxp,pcf85363";
--	reg = <0x51>;
--};
+-	i2c@00000000 {
+-		/* ... */
 -
+-		touchscreen@55 {
+-			compatible = "sitronix,st1232";
+-			reg = <0x55>;
+-			interrupts = <2 0>;
+-			gpios = <&gpio1 166 0>;
+-		};
+-
+-		/* ... */
+-	};
 -- 
 2.25.1
 
