@@ -2,37 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 654103A471A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 18:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BF843A471E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 18:56:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230322AbhFKQ6d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Jun 2021 12:58:33 -0400
+        id S230488AbhFKQ6f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Jun 2021 12:58:35 -0400
 Received: from relmlor1.renesas.com ([210.160.252.171]:14102 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229548AbhFKQ6d (ORCPT
+        by vger.kernel.org with ESMTP id S229548AbhFKQ6f (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Jun 2021 12:58:33 -0400
+        Fri, 11 Jun 2021 12:58:35 -0400
 X-IronPort-AV: E=Sophos;i="5.83,265,1616425200"; 
-   d="scan'208";a="84115095"
+   d="scan'208";a="84115100"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 12 Jun 2021 01:56:34 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 12 Jun 2021 01:56:36 +0900
 Received: from localhost.localdomain (unknown [10.226.92.121])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id BFD1B400C448;
-        Sat, 12 Jun 2021 01:56:31 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A3AD7400C4C6;
+        Sat, 12 Jun 2021 01:56:34 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/5] dt-bindings: i2c: renesas,riic: Document RZ/G2L I2C controller
-Date:   Fri, 11 Jun 2021 17:56:20 +0100
-Message-Id: <20210611165624.30749-2-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 2/5] drivers: clk: renesas: r9a07g044-cpg: Add I2C Clocks
+Date:   Fri, 11 Jun 2021 17:56:21 +0100
+Message-Id: <20210611165624.30749-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210611165624.30749-1-biju.das.jz@bp.renesas.com>
 References: <20210611165624.30749-1-biju.das.jz@bp.renesas.com>
@@ -40,58 +38,37 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document RZ/G2L I2C controller bindings.
+Add I2C{0,1,2.3} clock entries.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- .../devicetree/bindings/i2c/renesas,riic.yaml | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ drivers/clk/renesas/r9a07g044-cpg.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
-index 2d6378164958..52d92ec7ec0b 100644
---- a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
-+++ b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
-@@ -4,7 +4,7 @@
- $id: http://devicetree.org/schemas/i2c/renesas,riic.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Renesas RZ/A I2C Bus Interface (RIIC)
-+title: Renesas RZ/A and RZ/G2L I2C Bus Interface (RIIC)
- 
- maintainers:
-   - Chris Brandt <chris.brandt@renesas.com>
-@@ -17,9 +17,10 @@ properties:
-   compatible:
-     items:
-       - enum:
--          - renesas,riic-r7s72100 # RZ/A1H
--          - renesas,riic-r7s9210  # RZ/A2M
--      - const: renesas,riic-rz    # RZ/A
-+          - renesas,riic-r7s72100   # RZ/A1H
-+          - renesas,riic-r7s9210    # RZ/A2M
-+          - renesas,riic-r9a07g044  # RZ/G2{L,LC}
-+      - const: renesas,riic-rz      # RZ/A or RZ/G2L
- 
-   reg:
-     maxItems: 1
-@@ -56,6 +57,16 @@ required:
-   - '#address-cells'
-   - '#size-cells'
- 
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - renesas,riic-r9a07g044
-+then:
-+  required:
-+    - resets
-+
- unevaluatedProperties: false
- 
- examples:
+diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
+index 2d2bc78b84a2..c3136da53614 100644
+--- a/drivers/clk/renesas/r9a07g044-cpg.c
++++ b/drivers/clk/renesas/r9a07g044-cpg.c
+@@ -94,6 +94,18 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
+ 	DEF_MOD("usb1",		R9A07G044_CLK_USB1,
+ 				R9A07G044_CLK_P1,
+ 				0x578, (BIT(1) | BIT(3)), (BIT(1) | BIT(3))),
++	DEF_MOD("i2c0",		R9A07G044_CLK_I2C0,
++				R9A07G044_CLK_P0,
++				0x580, BIT(0), BIT(0)),
++	DEF_MOD("i2c1",		R9A07G044_CLK_I2C1,
++				R9A07G044_CLK_P0,
++				0x580, BIT(1), BIT(1)),
++	DEF_MOD("i2c2",		R9A07G044_CLK_I2C2,
++				R9A07G044_CLK_P0,
++				0x580, BIT(2), BIT(2)),
++	DEF_MOD("i2c3",		R9A07G044_CLK_I2C3,
++				R9A07G044_CLK_P0,
++				0x580, BIT(3), BIT(3)),
+ 	DEF_MOD("scif0",	R9A07G044_CLK_SCIF0,
+ 				R9A07G044_CLK_P0,
+ 				0x584, BIT(0), BIT(0)),
 -- 
 2.17.1
 
