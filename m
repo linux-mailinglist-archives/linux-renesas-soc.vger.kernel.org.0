@@ -2,167 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CF233A3BEF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 08:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EDED3A3D63
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 09:41:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231224AbhFKGQW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Jun 2021 02:16:22 -0400
-Received: from mga12.intel.com ([192.55.52.136]:51220 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230406AbhFKGQV (ORCPT
+        id S231593AbhFKHnz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Jun 2021 03:43:55 -0400
+Received: from mail-vk1-f181.google.com ([209.85.221.181]:45805 "EHLO
+        mail-vk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231584AbhFKHny (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Jun 2021 02:16:21 -0400
-IronPort-SDR: aPtgTGGxGJYWZQ+V34HDEZpYkdKJaqbzUTKwjvrMP0D7eTxvWrhMVK28o+ugLDU6AP0Eq4mJ0Q
- chKPwbsp6OhA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185160442"
-X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="185160442"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 23:14:23 -0700
-IronPort-SDR: J0RkFeg3TbRmOA1vksM6Zzb9jbMU3xaY46QEB0aEjePdyjO8H3Gbg71A6Goc4JQEHGmO8+2+M0
- GIKdcp7/cMxw==
-X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="450657291"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 23:14:15 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 23EA42036A;
-        Fri, 11 Jun 2021 09:14:13 +0300 (EEST)
-Date:   Fri, 11 Jun 2021 09:14:13 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pavel Machek <pavel@ucw.cz>, Shawn Tu <shawnx.tu@intel.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Heungjun Kim <riverful.kim@samsung.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Petr Cvek <petrcvekcz@gmail.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Mickael Guene <mickael.guene@st.com>,
-        Mats Randgaard <matrandg@cisco.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Andy Walls <awalls@md.metrocast.net>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Dan Scally <djrscally@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, Jacopo Mondi <jacopo@jmondi.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>
-Subject: Re: [PATCH v5 0/9] media: v4l2-subdev: add subdev-wide state struct
-Message-ID: <20210611061413.GM3@paasikivi.fi.intel.com>
-References: <20210610145606.3468235-1-tomi.valkeinen@ideasonboard.com>
+        Fri, 11 Jun 2021 03:43:54 -0400
+Received: by mail-vk1-f181.google.com with SMTP id az3so2337756vkb.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jun 2021 00:41:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=7BMBgcaQkIy6hi8BSu350kxdTkBNAY3Dq0E/7PDsLj8=;
+        b=iG1cQQIMcHuwSWQ+rNsUs9g7wtXLSpwIinjlEQ8VM1UofbRvvDwgkCbkyfezeYtr1a
+         22zlobVGclILohJ7MizBhY6PpUGOctvY19f0ssO/lNLwiVgCtNdb1ZKXeV39JmrMHGN4
+         KnsxW1NfQ2pbq69yRsPOm6VCSHLq53nEXLKYa5bRzZSuybdUVMjZzeno1MYtqqVTbhKF
+         YTl78XXAbNcQWcOGrzbyUXyFjxSvH6How0CYwgz4CQB3lKAw6HToDQDpRnds/1Z/mN9G
+         VaWbwcAcLnstIbmS3007HYqXrxaCk8O7BGYNZTYAC3HU40fM1XBcPb+DSYMJf+WzUVwP
+         671A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=7BMBgcaQkIy6hi8BSu350kxdTkBNAY3Dq0E/7PDsLj8=;
+        b=Q1yf4zlYqMRHUMg6nn1vFwD9BZPwUSvjZHLUN1F2wA6xHvIiAsmLyDGIolXYI1PgSU
+         SX9pcv/4qIVseLx5AbptTBgPAAkbaXrnAM+OnVmW61Scp/9eL4n9h0S5u6PKE8O80PtV
+         KPos3sMFco/uGwjSx0APffe3cyRBOVH1ON7Q3vYps8V6oyPhvo2vvqJAEnN0YnSwlEWW
+         4FqAFOAu+2qp+5OvLvLMxvWgKu+Fq49ieaTXkZzCUDjTwyCN6t0E3FgnAS2E0WGuhvqY
+         xn3lT5rG/Nk6d+Y33OCkjddlUxmZvUrRPHsDe1XCsBoPrMiJ+wicjbKZNkE5OZ+lAkSX
+         DL4Q==
+X-Gm-Message-State: AOAM530rcmw4Iud4zBS7TWTI8LL0MAZeMDsPFGGypAy+xDTDEbFurkSP
+        jDNeE6yqlC+AnfGCE+hIxbQ57O9m67r0WR/3G/PfW9WhbDHp/w==
+X-Google-Smtp-Source: ABdhPJzYFjnUJfjcecFeffgyAl+T1TTZtfAeYeSZF4bDlzBX1j7sW3LDiD+cf0qyzf++dPRhruwXOCBYPAB7oVBgQZI=
+X-Received: by 2002:ac5:c7c3:: with SMTP id e3mr8051851vkn.6.1623397256690;
+ Fri, 11 Jun 2021 00:40:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210610145606.3468235-1-tomi.valkeinen@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210608180620.40059-1-wsa+renesas@sang-engineering.com> <YL/voNtxiqvoQYOS@oden.dyn.berto.se>
+In-Reply-To: <YL/voNtxiqvoQYOS@oden.dyn.berto.se>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Fri, 11 Jun 2021 09:40:20 +0200
+Message-ID: <CAPDyKFqEzvCibcNBK5vUYHA=x981PrANPUUWReX6jXaYAD65Eg@mail.gmail.com>
+Subject: Re: [RFC PATCH] mmc: improve function name when aborting a tuning cmd
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Moi,
+On Wed, 9 Jun 2021 at 00:33, Niklas S=C3=B6derlund
+<niklas.soderlund@ragnatech.se> wrote:
+>
+> Hallo Wolfram,
+>
+> Thanks for your work.
+>
+> On 2021-06-08 20:06:20 +0200, Wolfram Sang wrote:
+> > 'mmc_abort_tuning()' made me think tuning gets completely aborted.
+> > However, it sends only a STOP cmd to cancel the current tuning cmd.
+> > Tuning process may still continue after that. So, rename the function t=
+o
+> > 'mmc_send_abort_tuning()' to better reflect all this.
+> >
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>
+> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se=
+>
 
-On Thu, Jun 10, 2021 at 05:55:57PM +0300, Tomi Valkeinen wrote:
-> Hi,
-> 
-> v5 of the series. No content changes compared to v4, but the series is
-> split into smaller parts to enable reviews.
-> 
-> The split is artificial, and all the patches need to be squashed into
-> one before merging.
-> 
-> The point of the series is explained in "media: v4l2-subdev: add
-> subdev-wide state struct", but for easier reviews I add it partially
-> here:
-> 
-> We have 'struct v4l2_subdev_pad_config' which contains configuration for
-> a single pad used for the TRY functionality, and an array of those
-> structs is passed to various v4l2_subdev_pad_ops.
-> 
-> I was working on subdev internal routing between pads, and realized that
-> there's no way to add TRY functionality for routes, which is not pad
-> specific configuration. Adding a separate struct for try-route config
-> wouldn't work either, as e.g. set-fmt needs to know the try-route
-> configuration to propagate the settings.
-> 
-> This patch adds a new struct, 'struct v4l2_subdev_state' (which at the
-> moment only contains the v4l2_subdev_pad_config array) and the new
-> struct is used in most of the places where v4l2_subdev_pad_config was
-> used. All v4l2_subdev_pad_ops functions taking v4l2_subdev_pad_config
-> are changed to instead take v4l2_subdev_state.
+Applied for next, thanks!
 
-Thanks for the update.
+Kind regards
+Uffe
 
-For the set:
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
--- 
-Terveisin,
-
-Sakari Ailus
+>
+> > ---
+> >
+> > Ulf, here is the patch we discussed earlier today. Based on mmc/next.
+> >
+> >  drivers/mmc/core/mmc_ops.c           | 4 ++--
+> >  drivers/mmc/host/renesas_sdhi_core.c | 2 +-
+> >  drivers/mmc/host/sdhci.c             | 2 +-
+> >  include/linux/mmc/host.h             | 2 +-
+> >  4 files changed, 5 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/mmc/core/mmc_ops.c b/drivers/mmc/core/mmc_ops.c
+> > index 3c58f6d0f482..973756ed4016 100644
+> > --- a/drivers/mmc/core/mmc_ops.c
+> > +++ b/drivers/mmc/core/mmc_ops.c
+> > @@ -700,7 +700,7 @@ int mmc_send_tuning(struct mmc_host *host, u32 opco=
+de, int *cmd_error)
+> >  }
+> >  EXPORT_SYMBOL_GPL(mmc_send_tuning);
+> >
+> > -int mmc_abort_tuning(struct mmc_host *host, u32 opcode)
+> > +int mmc_send_abort_tuning(struct mmc_host *host, u32 opcode)
+> >  {
+> >       struct mmc_command cmd =3D {};
+> >
+> > @@ -723,7 +723,7 @@ int mmc_abort_tuning(struct mmc_host *host, u32 opc=
+ode)
+> >
+> >       return mmc_wait_for_cmd(host, &cmd, 0);
+> >  }
+> > -EXPORT_SYMBOL_GPL(mmc_abort_tuning);
+> > +EXPORT_SYMBOL_GPL(mmc_send_abort_tuning);
+> >
+> >  static int
+> >  mmc_send_bus_test(struct mmc_card *card, struct mmc_host *host, u8 opc=
+ode,
+> > diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/re=
+nesas_sdhi_core.c
+> > index baab4c2e1b53..e49ca0f7fe9a 100644
+> > --- a/drivers/mmc/host/renesas_sdhi_core.c
+> > +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> > @@ -704,7 +704,7 @@ static int renesas_sdhi_execute_tuning(struct mmc_h=
+ost *mmc, u32 opcode)
+> >                       set_bit(i, priv->smpcmp);
+> >
+> >               if (cmd_error)
+> > -                     mmc_abort_tuning(mmc, opcode);
+> > +                     mmc_send_abort_tuning(mmc, opcode);
+> >       }
+> >
+> >       ret =3D renesas_sdhi_select_tuning(host);
+> > diff --git a/drivers/mmc/host/sdhci.c b/drivers/mmc/host/sdhci.c
+> > index bf238ade1602..6aaf5c3ce34c 100644
+> > --- a/drivers/mmc/host/sdhci.c
+> > +++ b/drivers/mmc/host/sdhci.c
+> > @@ -2680,7 +2680,7 @@ void sdhci_abort_tuning(struct sdhci_host *host, =
+u32 opcode)
+> >
+> >       sdhci_end_tuning(host);
+> >
+> > -     mmc_abort_tuning(host->mmc, opcode);
+> > +     mmc_send_abort_tuning(host->mmc, opcode);
+> >  }
+> >  EXPORT_SYMBOL_GPL(sdhci_abort_tuning);
+> >
+> > diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
+> > index c7e7b43600e9..0abd47e9ef9b 100644
+> > --- a/include/linux/mmc/host.h
+> > +++ b/include/linux/mmc/host.h
+> > @@ -632,6 +632,6 @@ static inline enum dma_data_direction mmc_get_dma_d=
+ir(struct mmc_data *data)
+> >  }
+> >
+> >  int mmc_send_tuning(struct mmc_host *host, u32 opcode, int *cmd_error)=
+;
+> > -int mmc_abort_tuning(struct mmc_host *host, u32 opcode);
+> > +int mmc_send_abort_tuning(struct mmc_host *host, u32 opcode);
+> >
+> >  #endif /* LINUX_MMC_HOST_H */
+> > --
+> > 2.30.2
+> >
+>
+> --
+> Regards,
+> Niklas S=C3=B6derlund
