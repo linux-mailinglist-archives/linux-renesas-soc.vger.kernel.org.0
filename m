@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4F6C3A41E2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 14:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AC3E3A42A4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 15:01:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231509AbhFKMWW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Jun 2021 08:22:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54076 "EHLO
+        id S231747AbhFKNDt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Jun 2021 09:03:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231193AbhFKMWV (ORCPT
+        with ESMTP id S231691AbhFKNDt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Jun 2021 08:22:21 -0400
+        Fri, 11 Jun 2021 09:03:49 -0400
 Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE73C0617AF
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jun 2021 05:20:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF656C061574
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jun 2021 06:01:50 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:2411:a261:8fe2:b47f])
         by michel.telenet-ops.be with bizsmtp
-        id FoLL2500425eH3q06oLLgv; Fri, 11 Jun 2021 14:20:21 +0200
+        id Fp1o2500U25eH3q06p1oj9; Fri, 11 Jun 2021 15:01:49 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lrg95-00FfOh-Lm; Fri, 11 Jun 2021 14:20:19 +0200
+        id 1lrgnE-00FgBg-Da; Fri, 11 Jun 2021 15:01:48 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lrg94-00Cgtb-Tc; Fri, 11 Jun 2021 14:20:18 +0200
+        id 1lrgnD-00Clw3-Rh; Fri, 11 Jun 2021 15:01:47 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Gilad Ben-Yossef <gilad@benyossef.com>
-Cc:     linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
+To:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das@bp.renesas.com>, Eric Nelson <eric@nelint.com>,
+        linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: crypto: ccree: Convert to json-schema
-Date:   Fri, 11 Jun 2021 14:20:17 +0200
-Message-Id: <ab361a862755e281f5fef67b3f678d66ae201781.1623413974.git.geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: rtc: nxp,pcf8563: Absorb pcf85263/pcf85363 bindings
+Date:   Fri, 11 Jun 2021 15:01:45 +0200
+Message-Id: <e4f48d97f0e16d78a796f02b77ea3a0018904185.1623416431.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,110 +44,55 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert the Arm TrustZone CryptoCell cryptographic engine Device Tree
-binding documentation to json-schema.
-
-Document missing properties.
-Update the example to match reality.
+The NXP PCF85263/PCF85363 Real Time Clock is very similar to the NXP
+PCF8563.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- .../bindings/crypto/arm,cryptocell.yaml       | 53 +++++++++++++++++++
- .../bindings/crypto/arm-cryptocell.txt        | 25 ---------
- 2 files changed, 53 insertions(+), 25 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml
- delete mode 100644 Documentation/devicetree/bindings/crypto/arm-cryptocell.txt
+ .../devicetree/bindings/rtc/nxp,pcf8563.yaml    |  4 +++-
+ .../devicetree/bindings/rtc/pcf85363.txt        | 17 -----------------
+ 2 files changed, 3 insertions(+), 18 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/rtc/pcf85363.txt
 
-diff --git a/Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml b/Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml
-new file mode 100644
-index 0000000000000000..9c97874a6dbd1db9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml
-@@ -0,0 +1,53 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/crypto/arm,cryptocell.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Arm TrustZone CryptoCell cryptographic engine
-+
-+maintainers:
-+  - Gilad Ben-Yossef <gilad@benyossef.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - arm,cryptocell-713-ree
-+      - arm,cryptocell-703-ree
-+      - arm,cryptocell-712-ree
-+      - arm,cryptocell-710-ree
-+      - arm,cryptocell-630p-ree
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  dma-coherent: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    arm_cc712: crypto@80000000 {
-+            compatible = "arm,cryptocell-712-ree";
-+            reg = <0x80000000 0x10000>;
-+            interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
-+    };
-diff --git a/Documentation/devicetree/bindings/crypto/arm-cryptocell.txt b/Documentation/devicetree/bindings/crypto/arm-cryptocell.txt
+diff --git a/Documentation/devicetree/bindings/rtc/nxp,pcf8563.yaml b/Documentation/devicetree/bindings/rtc/nxp,pcf8563.yaml
+index a542b6c7ff4445b5..a98b72752349fa6b 100644
+--- a/Documentation/devicetree/bindings/rtc/nxp,pcf8563.yaml
++++ b/Documentation/devicetree/bindings/rtc/nxp,pcf8563.yaml
+@@ -17,8 +17,10 @@ properties:
+     enum:
+       - epson,rtc8564
+       - microcrystal,rv8564
+-      - nxp,pcf8563
+       - nxp,pca8565
++      - nxp,pcf8563
++      - nxp,pcf85263
++      - nxp,pcf85363
+ 
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/rtc/pcf85363.txt b/Documentation/devicetree/bindings/rtc/pcf85363.txt
 deleted file mode 100644
-index 6130e6eb4af89135..0000000000000000
---- a/Documentation/devicetree/bindings/crypto/arm-cryptocell.txt
+index 94adc1cf93d9b10b..0000000000000000
+--- a/Documentation/devicetree/bindings/rtc/pcf85363.txt
 +++ /dev/null
-@@ -1,25 +0,0 @@
--Arm TrustZone CryptoCell cryptographic engine
+@@ -1,17 +0,0 @@
+-NXP PCF85263/PCF85363 Real Time Clock
+-============================
 -
 -Required properties:
--- compatible: Should be one of -
--   "arm,cryptocell-713-ree"
--   "arm,cryptocell-703-ree"
--   "arm,cryptocell-712-ree"
--   "arm,cryptocell-710-ree"
--   "arm,cryptocell-630p-ree"
--- reg: Base physical address of the engine and length of memory mapped region.
--- interrupts: Interrupt number for the device.
+-- compatible: Should contain "nxp,pcf85263" or "nxp,pcf85363".
+-- reg: I2C address for chip.
 -
 -Optional properties:
--- clocks: Reference to the crypto engine clock.
--- dma-coherent: Present if dma operations are coherent.
+-- interrupts: IRQ line for the RTC (not implemented).
 -
--Examples:
+-Example:
 -
--       arm_cc712: crypto@80000000 {
--               compatible = "arm,cryptocell-712-ree";
--               interrupt-parent = <&intc>;
--               interrupts = < 0 30 4 >;
--               reg = < 0x80000000 0x10000 >;
+-pcf85363: pcf85363@51 {
+-	compatible = "nxp,pcf85363";
+-	reg = <0x51>;
+-};
 -
--       };
 -- 
 2.25.1
 
