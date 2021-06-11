@@ -2,197 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D390C3A39CA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 04:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CF233A3BEF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 08:14:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230365AbhFKCdh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 22:33:37 -0400
-Received: from mail-pf1-f181.google.com ([209.85.210.181]:43698 "EHLO
-        mail-pf1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbhFKCdg (ORCPT
+        id S231224AbhFKGQW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Jun 2021 02:16:22 -0400
+Received: from mga12.intel.com ([192.55.52.136]:51220 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230406AbhFKGQV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 22:33:36 -0400
-Received: by mail-pf1-f181.google.com with SMTP id m7so3202747pfa.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Jun 2021 19:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=5+4mccgjYxkfF/MHu3bAD11Y0T9lP302dfwIRkZ01C4=;
-        b=Iq5/Tnnj16e67PjtYaNrKeb38wwu8BkhgUbKTqleyKbrSHbYo8pOplaoKWeQ2MrpNN
-         pqEk8XiInctvk+3EOX7L3eJWeD7fmjeThQ9D05Zo9dEuTHqsB6jm/mz8YHgebnsAH+hP
-         MEnkPQ7qfWTZnsYZjaYJBrWxNG3IczpOrW0o5wX5JVJCXYgnl6ROJeynSHfDxfoOBNfZ
-         cXRC8PWq7FEvdv3IJjpkoxi9/zk5U387rMp/IMED9/+V3GBhGdGDFt8e9gcSuu45zL6V
-         9fyhYS6dznbvScLOnMz1FGW+U4/PKgkeWFaUpYGG9g7hA11Q33I3PV1hZ58/6D4CPh16
-         5t0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=5+4mccgjYxkfF/MHu3bAD11Y0T9lP302dfwIRkZ01C4=;
-        b=unIUzL+ZJRPUr5o5ir+EO+cGexncbVAV64k4FAWbwCHizbLIPsEo0+aUPIIafoVLJP
-         MGrb3cicSPvAqeKvMR2xVW0nsvSPpJRR82JEGTjNVl/FTmjQW2lJF83g9pyw5pm1AT6J
-         pdOLV4N26k/810m9ZbJskVsihFUvOGp1WAEz0NXiL5giO0t1xFQUXW7HeCRVpGivQ2FW
-         wNL1igYJ1bwPy1dEac9dqJsp24yiDZEt2P08wbh9/6KIjmMM+uHQfNdylBEhdNA0RqZo
-         P96RupmzM/uqWTyxBfhvIq5gJUbkDUEAJ4Z0XDcnMeTl5DdYEiM3oGcP/eiMCroCUQr0
-         VPrw==
-X-Gm-Message-State: AOAM533Xg/BtBPBrd+iqxOzJRK2Qa9Lil9tq0QKzZ0dlGcyufKqCr4oL
-        bMiG0wiOUbt/iZusoIIEWkBfHsd+iXk16lRT
-X-Google-Smtp-Source: ABdhPJyJ+A77mObMVRPGayoEYFH0mHsVDjsj7mhsMoVD8huI7G+QicIdD4FnsnKQRXjkQEcrVaF0wQ==
-X-Received: by 2002:a65:484c:: with SMTP id i12mr1361307pgs.390.1623378626968;
-        Thu, 10 Jun 2021 19:30:26 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id p13sm3610354pfn.171.2021.06.10.19.30.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 19:30:26 -0700 (PDT)
-Message-ID: <60c2cac2.1c69fb81.608ca.c9cc@mx.google.com>
-Date:   Thu, 10 Jun 2021 19:30:26 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 11 Jun 2021 02:16:21 -0400
+IronPort-SDR: aPtgTGGxGJYWZQ+V34HDEZpYkdKJaqbzUTKwjvrMP0D7eTxvWrhMVK28o+ugLDU6AP0Eq4mJ0Q
+ chKPwbsp6OhA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185160442"
+X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
+   d="scan'208";a="185160442"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 23:14:23 -0700
+IronPort-SDR: J0RkFeg3TbRmOA1vksM6Zzb9jbMU3xaY46QEB0aEjePdyjO8H3Gbg71A6Goc4JQEHGmO8+2+M0
+ GIKdcp7/cMxw==
+X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
+   d="scan'208";a="450657291"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 23:14:15 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 23EA42036A;
+        Fri, 11 Jun 2021 09:14:13 +0300 (EEST)
+Date:   Fri, 11 Jun 2021 09:14:13 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pavel Machek <pavel@ucw.cz>, Shawn Tu <shawnx.tu@intel.com>,
+        Ricardo Ribalda <ribalda@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Heungjun Kim <riverful.kim@samsung.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Petr Cvek <petrcvekcz@gmail.com>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Mickael Guene <mickael.guene@st.com>,
+        Mats Randgaard <matrandg@cisco.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Andy Walls <awalls@md.metrocast.net>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Jacopo Mondi <jacopo@jmondi.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>
+Subject: Re: [PATCH v5 0/9] media: v4l2-subdev: add subdev-wide state struct
+Message-ID: <20210611061413.GM3@paasikivi.fi.intel.com>
+References: <20210610145606.3468235-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2021-06-10-v5.13-rc5
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-Subject: renesas/master baseline-nfs: 53 runs,
- 3 regressions (renesas-devel-2021-06-10-v5.13-rc5)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210610145606.3468235-1-tomi.valkeinen@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline-nfs: 53 runs, 3 regressions (renesas-devel-2021-06-=
-10-v5.13-rc5)
+Moi,
 
-Regressions Summary
--------------------
+On Thu, Jun 10, 2021 at 05:55:57PM +0300, Tomi Valkeinen wrote:
+> Hi,
+> 
+> v5 of the series. No content changes compared to v4, but the series is
+> split into smaller parts to enable reviews.
+> 
+> The split is artificial, and all the patches need to be squashed into
+> one before merging.
+> 
+> The point of the series is explained in "media: v4l2-subdev: add
+> subdev-wide state struct", but for easier reviews I add it partially
+> here:
+> 
+> We have 'struct v4l2_subdev_pad_config' which contains configuration for
+> a single pad used for the TRY functionality, and an array of those
+> structs is passed to various v4l2_subdev_pad_ops.
+> 
+> I was working on subdev internal routing between pads, and realized that
+> there's no way to add TRY functionality for routes, which is not pad
+> specific configuration. Adding a separate struct for try-route config
+> wouldn't work either, as e.g. set-fmt needs to know the try-route
+> configuration to propagate the settings.
+> 
+> This patch adds a new struct, 'struct v4l2_subdev_state' (which at the
+> moment only contains the v4l2_subdev_pad_config array) and the new
+> struct is used in most of the places where v4l2_subdev_pad_config was
+> used. All v4l2_subdev_pad_ops functions taking v4l2_subdev_pad_config
+> are changed to instead take v4l2_subdev_state.
 
-platform            | arch  | lab             | compiler | defconfig       =
-   | regressions
---------------------+-------+-----------------+----------+-----------------=
----+------------
-dove-cubox          | arm   | lab-pengutronix | gcc-8    | multi_v7_defconf=
-ig | 1          =
+Thanks for the update.
 
-meson-gxm-q200      | arm64 | lab-baylibre    | gcc-8    | defconfig       =
-   | 1          =
+For the set:
 
-r8a77950-salvator-x | arm64 | lab-baylibre    | gcc-8    | defconfig       =
-   | 1          =
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
+-- 
+Terveisin,
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-06-10-v5.13-rc5/plan/baseline-nfs/
-
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-06-10-v5.13-rc5
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      6f432b447a92822b48f7e674cec725b179c1fbde =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform            | arch  | lab             | compiler | defconfig       =
-   | regressions
---------------------+-------+-----------------+----------+-----------------=
----+------------
-dove-cubox          | arm   | lab-pengutronix | gcc-8    | multi_v7_defconf=
-ig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/60c290b9bdd6bb72290c0df5
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-06-10-v5.13-rc5/arm/multi_v7_defconfig/gcc-8/lab-pengutronix/baseline-n=
-fs-dove-cubox.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-06-10-v5.13-rc5/arm/multi_v7_defconfig/gcc-8/lab-pengutronix/baseline-n=
-fs-dove-cubox.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0520.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/60c290b9bdd6bb722=
-90c0df6
-        failing since 44 days (last pass: renesas-devel-2021-04-12-v5.12-rc=
-7, first fail: v5.12-451-gae657abc971d2) =
-
- =
-
-
-
-platform            | arch  | lab             | compiler | defconfig       =
-   | regressions
---------------------+-------+-----------------+----------+-----------------=
----+------------
-meson-gxm-q200      | arm64 | lab-baylibre    | gcc-8    | defconfig       =
-   | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/60c29b810033cb57460c0e07
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-06-10-v5.13-rc5/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-meson-g=
-xm-q200.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-06-10-v5.13-rc5/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-meson-g=
-xm-q200.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0520.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/60c29b810033cb574=
-60c0e08
-        failing since 135 days (last pass: renesas-devel-2021-01-04-v5.11-r=
-c2, first fail: renesas-devel-2021-01-26-v5.11-rc5) =
-
- =
-
-
-
-platform            | arch  | lab             | compiler | defconfig       =
-   | regressions
---------------------+-------+-----------------+----------+-----------------=
----+------------
-r8a77950-salvator-x | arm64 | lab-baylibre    | gcc-8    | defconfig       =
-   | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/60c297bc45585469e80c0e1b
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-06-10-v5.13-rc5/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-r8a7795=
-0-salvator-x.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-06-10-v5.13-rc5/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-r8a7795=
-0-salvator-x.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0520.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/60c297bc45585469e=
-80c0e1c
-        failing since 14 days (last pass: renesas-devel-2021-05-25-v5.13-rc=
-3, first fail: renesas-devel-2021-05-27-v5.13-rc3) =
-
- =20
+Sakari Ailus
