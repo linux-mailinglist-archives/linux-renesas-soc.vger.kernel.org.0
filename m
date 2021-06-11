@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3E7F3A3986
+	by mail.lfdr.de (Postfix) with ESMTP id 0CC963A3982
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 04:05:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231184AbhFKCHh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 22:07:37 -0400
-Received: from mga03.intel.com ([134.134.136.65]:27145 "EHLO mga03.intel.com"
+        id S230356AbhFKCHf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Jun 2021 22:07:35 -0400
+Received: from mga17.intel.com ([192.55.52.151]:36882 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231187AbhFKCHg (ORCPT
+        id S231150AbhFKCHe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 22:07:36 -0400
-IronPort-SDR: XbnnLWpl/yrO6aSq0WwE9skQSGblb7Q/p6iQliPA5sG4/VnT4vz5w2TpBK51IuwQzQ5RFMMaVi
- SB+I67ex7lOA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="205475720"
+        Thu, 10 Jun 2021 22:07:34 -0400
+IronPort-SDR: PtZb5TC2/F2Br/oxTlnPdZQRHiooaqVpWiwXzW3lujKT62O0QV4htKw8nF8bZX1g7L6NEa8pAy
+ 4EX+6jpzK9yw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185818795"
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="205475720"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 19:05:38 -0700
-IronPort-SDR: nfegMDLaR4+Jitp+YNwl7DfM02ef9D5rHlDAlv/+ojbxItJBhDbLHYhng0Be+nqofN+SvaPk9a
- zwGAk7auZr1g==
+   d="scan'208";a="185818795"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 19:05:37 -0700
+IronPort-SDR: ew6Kl3K0zg0IYoqy+w072K3kAZj6rEPce2FA80Kns4QyhweabtGE0MGHByfXDI8z/MwQ71EQVj
+ Iz2pEOC86jMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="441426417"
+   d="scan'208";a="470477334"
 Received: from lkp-server02.sh.intel.com (HELO 3cb98b298c7e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 10 Jun 2021 19:05:37 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 10 Jun 2021 19:05:36 -0700
 Received: from kbuild by 3cb98b298c7e with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1lrWYD-0000O0-1R; Fri, 11 Jun 2021 02:05:37 +0000
-Date:   Fri, 11 Jun 2021 10:05:01 +0800
+        id 1lrWYC-0000Nr-9B; Fri, 11 Jun 2021 02:05:36 +0000
+Date:   Fri, 11 Jun 2021 10:05:04 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-drivers-for-v5.14] BUILD SUCCESS
- 187cd57db09355fd169c661fa1c44bda06b013e8
-Message-ID: <60c2c4cd.3pZ4vloz3Ouae3dj%lkp@intel.com>
+Subject: [renesas-devel:renesas-dt-bindings-for-v5.14] BUILD SUCCESS
+ 972f67be8929ac095df6a8bbce738b4f39e984cb
+Message-ID: <60c2c4d0.1lahD5Q8W2jHhUBa%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,12 +44,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v5.14
-branch HEAD: 187cd57db09355fd169c661fa1c44bda06b013e8  soc: renesas: Add support to read LSI DEVID register of RZ/G2{L,LC} SoC's
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dt-bindings-for-v5.14
+branch HEAD: 972f67be8929ac095df6a8bbce738b4f39e984cb  dt-bindings: power: renesas,rzg2l-sysc: Add DT binding documentation for SYSC controller
 
 elapsed time: 723m
 
-configs tested: 211
+configs tested: 213
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -71,15 +71,10 @@ arc                    vdk_hs38_smp_defconfig
 arm                         vf610m4_defconfig
 m68k                           sun3_defconfig
 mips                        nlm_xlp_defconfig
-mips                           gcw0_defconfig
-sh                 kfr2r09-romimage_defconfig
-arm                  colibri_pxa270_defconfig
-mips                       lemote2f_defconfig
-sh                           se7705_defconfig
-powerpc                     rainier_defconfig
-mips                          ath25_defconfig
-ia64                            zx1_defconfig
-arc                        nsimosci_defconfig
+powerpc                  mpc885_ads_defconfig
+arm                         lpc18xx_defconfig
+arm                          pxa910_defconfig
+xtensa                  cadence_csp_defconfig
 arm                  colibri_pxa300_defconfig
 arm                         bcm2835_defconfig
 arm                      tct_hammer_defconfig
@@ -93,7 +88,6 @@ powerpc                 mpc836x_mds_defconfig
 arm                        clps711x_defconfig
 sparc                            alldefconfig
 sh                   sh7770_generic_defconfig
-arm                          pxa910_defconfig
 sh                          lboxre2_defconfig
 arm                       mainstone_defconfig
 arm                           sama5_defconfig
@@ -139,6 +133,9 @@ sh                               alldefconfig
 powerpc                 mpc8272_ads_defconfig
 h8300                               defconfig
 sh                           se7619_defconfig
+mips                         tb0287_defconfig
+powerpc                    mvme5100_defconfig
+arm                       cns3420vb_defconfig
 sh                         ap325rxa_defconfig
 powerpc                     asp8347_defconfig
 arm                        oxnas_v6_defconfig
@@ -165,10 +162,13 @@ powerpc                 xes_mpc85xx_defconfig
 powerpc                 mpc8313_rdb_defconfig
 powerpc                        cell_defconfig
 powerpc                 mpc85xx_cds_defconfig
+parisc                generic-64bit_defconfig
+powerpc                       holly_defconfig
+powerpc                     tqm8555_defconfig
 mips                         db1xxx_defconfig
 sh                               j2_defconfig
-powerpc                      pmac32_defconfig
 powerpc                          allmodconfig
+powerpc                      pmac32_defconfig
 mips                         rt305x_defconfig
 powerpc                      tqm8xx_defconfig
 nios2                         3c120_defconfig
@@ -184,8 +184,10 @@ arm                            mps2_defconfig
 powerpc                 mpc832x_rdb_defconfig
 sh                          r7780mp_defconfig
 powerpc                      walnut_defconfig
+arc                        nsimosci_defconfig
+mips                      maltasmvp_defconfig
+arm                           sunxi_defconfig
 powerpc                 linkstation_defconfig
-powerpc                    mvme5100_defconfig
 powerpc                   lite5200b_defconfig
 powerpc                      ppc44x_defconfig
 x86_64                            allnoconfig
