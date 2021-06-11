@@ -2,95 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1968C3A482E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 19:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7337E3A4895
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 20:23:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230313AbhFKR55 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Jun 2021 13:57:57 -0400
-Received: from mail-il1-f171.google.com ([209.85.166.171]:39594 "EHLO
-        mail-il1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230035AbhFKR54 (ORCPT
+        id S231209AbhFKSZg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Jun 2021 14:25:36 -0400
+Received: from mail-vs1-f49.google.com ([209.85.217.49]:40575 "EHLO
+        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230313AbhFKSZf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Jun 2021 13:57:56 -0400
-Received: by mail-il1-f171.google.com with SMTP id j14so3135918ila.6;
-        Fri, 11 Jun 2021 10:55:43 -0700 (PDT)
+        Fri, 11 Jun 2021 14:25:35 -0400
+Received: by mail-vs1-f49.google.com with SMTP id b1so4261172vsh.7;
+        Fri, 11 Jun 2021 11:23:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=eS7FoRD0YGUsWFSvjA1QCJvmsWkR4OAgwFy2PP5WSik=;
-        b=ExK0KnhyDgr1mHze7TtcUu0i8B5Tkk/RYOuOXh9+A6/aB6J+bZq9EL8l0BygNMfCgw
-         RFS5aDDu7FOH8hXJ+X5mwwyzlhLn7HxDtp1CYwoGGJs3+CllgYeArocTNNV05ezqozBX
-         aWr0/BJB7juUH9HDgoivtCQ2/K+QMsuYeSKB1Ro4B6y6hqMcdZ1o/SNoOccGsyzZRAWK
-         4ev2aagrCDMjagxjMFp8LCi3/klZqb2bSn0CoVtkaBQSzVCIr8gKs8D3+XdLGdBWHvZM
-         GNRhDgvf+F5h8llWM0F2Mer/CaSQCUWyARJRElCv/UoP+aJWvOLHfWpOOoclpFsYma6D
-         SBFA==
-X-Gm-Message-State: AOAM531dOUbAAbqjGSj6QcRtE0CI6mUpvQSgGq+lm3yCKVVU/8bE3xw8
-        haE6vd0Vj3eq5EW8c7ApQw==
-X-Google-Smtp-Source: ABdhPJwh4rmlDzrOw1v2SpR3LQ7g2YDOFobuL3xpaUvLChd9WlR1HaFFk0rRQsoHkYBQQY3NAGj4BQ==
-X-Received: by 2002:a92:c546:: with SMTP id a6mr3809792ilj.39.1623434142862;
-        Fri, 11 Jun 2021 10:55:42 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id m7sm3988523ilu.75.2021.06.11.10.55.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 10:55:42 -0700 (PDT)
-Received: (nullmailer pid 1208943 invoked by uid 1000);
-        Fri, 11 Jun 2021 17:55:33 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>, dmaengine@vger.kernel.org
-In-Reply-To: <20210611113642.18457-2-biju.das.jz@bp.renesas.com>
-References: <20210611113642.18457-1-biju.das.jz@bp.renesas.com> <20210611113642.18457-2-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 1/5] dt-bindings: dma: Document RZ/G2L bindings
-Date:   Fri, 11 Jun 2021 11:55:33 -0600
-Message-Id: <1623434133.974776.1208942.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/QyKO2sWDPRuH+xh/7ic5xA0q4lXz7dWRKEZ89NMiBc=;
+        b=s3vIxum2BL2xN+cTiHzvZzFCguayWxjbWpyFChiofj4QTNiStqXSMOx2y3ictR/qaX
+         ay6QOxKU94H2ATS8hnkBBt8i8iK7sl+ObtgdiRZAF6ijEQEjkIH2F2c67Q59eAnh8FpH
+         1LdW3VOC9LTePnatXADlIFrgbzc3QkT/PtGyItbtFM0aeXJXIdo8tsmHb45Jk3zQIglU
+         sep2aBwYfegT95kS5FsqZv+ba7XVVoli9MGEZbd2R6m7Dw/EJ5enzuZ7oAeEajF72cpb
+         zkIX9VdTul6c1rZxkCXQKuS2JYaoBcHMmpBtTog9tSyfMKMSr017BHRXqmAClDC7IFuH
+         0ISw==
+X-Gm-Message-State: AOAM530a/pjdUhdJgG+gq58KuzN/AnhLPPpgLzGUlHyhawEkL2MTXNk5
+        PW+bhDDnw68yVOsZ344TceRhzQgNRHf4jtSh6dAUL/sr4UUWgw==
+X-Google-Smtp-Source: ABdhPJxKpLIukv3+hXCAEtgy5XgKF+PqMiSYY3kcEcOkNqeN7r/uF4Q0MaxqvPfExI0gyVzU4ZW2v8c/1jmbKuNVq2k=
+X-Received: by 2002:a05:6102:c4c:: with SMTP id y12mr11191098vss.18.1623435801977;
+ Fri, 11 Jun 2021 11:23:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
+ <9b1b2a44-348e-5453-d767-d5c69a0869a7@denx.de>
+In-Reply-To: <9b1b2a44-348e-5453-d767-d5c69a0869a7@denx.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 11 Jun 2021 20:23:10 +0200
+Message-ID: <CAMuHMdXE0kipUm6wqHsrFurFkviU_nRJJB7cg6z1XwEvpEewGQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
+ ili2xxx bindings
+To:     Marek Vasut <marex@denx.de>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Joe Hung <joe_hung@ilitek.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 11 Jun 2021 12:36:38 +0100, Biju Das wrote:
-> Document RZ/G2L DMAC bindings.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../bindings/dma/renesas,rz-dmac.yaml         | 132 ++++++++++++++++++
->  1 file changed, 132 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> 
+Hi Marek,
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+On Fri, Jun 11, 2021 at 4:20 PM Marek Vasut <marex@denx.de> wrote:
+> On 6/11/21 3:54 PM, Geert Uytterhoeven wrote:
+> > While Linux uses a different driver, the Ilitek
+> > ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller Device Tree
+> > binding documentation is very similar.
+> >
+> >    - Drop the fixed reg value, as some controllers use a different
+> >      address,
+> >    - Make reset-gpios optional, as it is not always wired.
+>
+> It looks like there are now two drivers for the same hardware,
+> drivers/input/touchscreen/ili210x.c
+> drivers/input/touchscreen/ilitek_ts_i2c.c
+> The ilitek_ts_i2c (newer) seems to be derived from the ilitek example
+> code / driver, while the ili210x was written from scratch as far as I
+> can tell.
 
-yamllint warnings/errors:
+I'm not so sure they're for the same hardware, but you may know better?
+https://www.displayvisions.us/fileadmin/html-seiten/eng/pdf/zubehoer/ILITek_TP_Programming_Guide_V1.50.pdf
+lists only Ilitek parts handled by ilitek_ts_i2c.c.
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/dma/renesas,rz-dmac.example.dts:20:18: fatal error: dt-bindings/clock/r9a07g044-cpg.h: No such file or directory
-   20 |         #include <dt-bindings/clock/r9a07g044-cpg.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.lib:380: Documentation/devicetree/bindings/dma/renesas,rz-dmac.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1416: dt_binding_check] Error 2
-\ndoc reference errors (make refcheckdocs):
+Gr{oetje,eeting}s,
 
-See https://patchwork.ozlabs.org/patch/1490917
+                        Geert
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
