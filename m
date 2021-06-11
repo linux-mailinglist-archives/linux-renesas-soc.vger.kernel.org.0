@@ -2,54 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 472323A382E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 02:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 184B13A3830
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 02:01:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbhFKACk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Jun 2021 20:02:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59380 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbhFKACk (ORCPT
+        id S230205AbhFKADk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Jun 2021 20:03:40 -0400
+Received: from mail-pf1-f171.google.com ([209.85.210.171]:45898 "EHLO
+        mail-pf1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229578AbhFKADj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Jun 2021 20:02:40 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02184C0617A6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Jun 2021 17:00:31 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id mp5-20020a17090b1905b029016dd057935fso4744982pjb.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Jun 2021 17:00:30 -0700 (PDT)
+        Thu, 10 Jun 2021 20:03:39 -0400
+Received: by mail-pf1-f171.google.com with SMTP id d16so2933544pfn.12
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Jun 2021 17:01:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20150623.gappssmtp.com; s=20150623;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=1bX6tHq35ZR7cpMCYnxqQ9NCycHCzLNHDri9+q7bPGs=;
-        b=UI4tBXsYnTlVxOql9pNHQvDrOefpO2LH+gpkLNOAAtLLgVnWuhWsv/cBgDCeJGD7hA
-         JpjdHrXBWZ/mvkPpPWaJIniyHUY2Zz3NsaNQitnA/2aqYGP1QPfFQvJBrurkKwBhO8zB
-         561dy12izhnXY1evF8LDON1yOdKrumCV6a+Z52IrdiQ0Sjxhf+nqCltLNasxCHfl8d50
-         IBOqEe5L5eUA/CfczyxZb22U+qq8508b98Y8Vd4RWP0FNt/yFJ2SDwzNyXCPYszlH4/b
-         eoGFSxwPC/49mHOEKRoa2JmUwF5iBCbdG9x2t0Ehh35Ah+9wLxJZ//XgXRDb2tuyypXi
-         7low==
+        bh=oD5zAA4O29u22zpFrX9fJXyrX80jT9p/I1uHdmLy6qA=;
+        b=PYOEitwUaU3IT0WAa2y9GK5lyoZsXNrzHbm16BvVWj6qNklppU8QOv36Tp4QuyEHQj
+         qELEbgQtk5In5JkDUWJrPr4Gq8zV0klhErigZHLH8U2EF87WENRLq3fOmo0Yg8dI9q+x
+         vj/ptUvml67GRe2NbBGvDt9IC6jWsb/D8leu2IGa5LSBYKWCexdzvDoHiHF3HqJ1qRUg
+         DL4gwR7MONF11e7NqxHuMyJ2vv3zl2xfzO3/W73egdTRE5m/XxHBKjS/mSTIBEm5tKul
+         oSF2w/j0io/NB+qA4ZuIR7ZiCFv9Ak/Dhe1aYLodlR8ofiJ1kMTQmZrSVuEWNBf0OwNv
+         ZYFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=1bX6tHq35ZR7cpMCYnxqQ9NCycHCzLNHDri9+q7bPGs=;
-        b=Ce8kQMNSRe2c+5O1upAsW41VBspUwU9o/+bk2eGN6hcTns0lU2Td85uQm6fwCjzYqt
-         ZZ8dE9QHvUeqrpmyuASz9ucdaLFOIi/fiWmX/0X5dAnBQNDa9zkfulM2DqzEPbl+N7PM
-         Ui5qcbA6HJUmSv6rZDhwqyK/Qc/I5fy3uFXdu0D/4nCvxWpsjTBBSe2FuKcx2stCIEmO
-         l+NlPOz7ctvROwJ70Zdnxql5lVtlfS2x6LVscReR+joNVLmQOx9iOJh8HJcdF8doMxft
-         q3XWfeY+ZBOp2I9WTZj/mA+iwsLQedZwMioWGkYN+zMQ95zYgojYUQwbPKjolXexFLWy
-         3Zeg==
-X-Gm-Message-State: AOAM530O65/x4ymYxzvDGXfME9ssV6+aNE2P9NlAhh0Ojuf2S93tmFcR
-        Jd7XdxAxJZYnCWAk9+2gVlXU2GefgxzDwTe6
-X-Google-Smtp-Source: ABdhPJzu+S9EDXkcAG5uLFq34cGccZgPgcRRgGxZq2oR8qjK8+QcaHtRFW4uA7ftmosHDOXECI7g0g==
-X-Received: by 2002:a17:90a:f085:: with SMTP id cn5mr6026151pjb.141.1623369628580;
-        Thu, 10 Jun 2021 17:00:28 -0700 (PDT)
+        bh=oD5zAA4O29u22zpFrX9fJXyrX80jT9p/I1uHdmLy6qA=;
+        b=W0+DtdJLOLpbX6CsUDpZ2TmOCijt5GKH0Wzm5j77+eC93cKp2ps5uCo1fbotEN3iYS
+         1l7ANRauvXGxLurjrMjaWHtE9AO21D+sSmhERK9vlr5rVm50tEOogV+HatCuAzBcSBrV
+         hGwsttxqj43+9RAYq8oe03E0Jqr0l/eGKtCIwpCz+AvW+3iZ2ZVI/Q0kTQM4z88OQaDt
+         xyrxQ85hK6g8rxVqDhYhfpSGBgFoHz3IPhkwTTQtJfi3fsK+qB55LkkAzw1I7yO5/Uh4
+         bGpTB7GmbjrP1lOxNGqSevydFd0/iK1BGxL+wLbi4Veh5Y9CgAWfQP21DlfKXMTWs0qs
+         bGWg==
+X-Gm-Message-State: AOAM5321KHMPFOUGDBy7wQK77SI+EMX6rGMvNZ4T7eOx4XOpU0FPjYjY
+        XOGEJyTnKT/bxmyl8EiPd7OMrud91F+FHxDB
+X-Google-Smtp-Source: ABdhPJwWwaoMg7Xbz0rz/nS+Fl7KZj9njY4GwwkHqFTphReiMKeelnLw1E0f2Jovi4RnwLGifGXvtQ==
+X-Received: by 2002:a63:6841:: with SMTP id d62mr843367pgc.7.1623369626160;
+        Thu, 10 Jun 2021 17:00:26 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id i16sm3340005pji.30.2021.06.10.17.00.28
+        by smtp.gmail.com with ESMTPSA id x28sm3310976pff.201.2021.06.10.17.00.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 17:00:28 -0700 (PDT)
-Message-ID: <60c2a79c.1c69fb81.ba50d.b1a5@mx.google.com>
-Date:   Thu, 10 Jun 2021 17:00:28 -0700 (PDT)
+        Thu, 10 Jun 2021 17:00:25 -0700 (PDT)
+Message-ID: <60c2a799.1c69fb81.d5947.addd@mx.google.com>
+Date:   Thu, 10 Jun 2021 17:00:25 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -57,38 +54,47 @@ X-Kernelci-Kernel: renesas-devel-2021-06-10-v5.13-rc5
 X-Kernelci-Report-Type: test
 X-Kernelci-Tree: renesas
 X-Kernelci-Branch: master
-Subject: renesas/master usb: 3 runs,
- 1 regressions (renesas-devel-2021-06-10-v5.13-rc5)
+Subject: renesas/master cros-ec: 6 runs,
+ 2 regressions (renesas-devel-2021-06-10-v5.13-rc5)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master usb: 3 runs, 1 regressions (renesas-devel-2021-06-10-v5.13-r=
-c5)
+renesas/master cros-ec: 6 runs, 2 regressions (renesas-devel-2021-06-10-v5.=
+13-rc5)
 
 Regressions Summary
 -------------------
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 1          =
+platform                  | arch   | lab           | compiler | defconfig  =
+                  | regressions
+--------------------------+--------+---------------+----------+------------=
+------------------+------------
+asus-C523NA-A20057-coral  | x86_64 | lab-collabora | gcc-8    | x86_64_defc=
+on...6-chromebook | 1          =
+
+hp-x360-12b-n4000-octopus | x86_64 | lab-collabora | gcc-8    | x86_64_defc=
+on...6-chromebook | 1          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-06-10-v5.13-rc5/plan/usb/
+sas-devel-2021-06-10-v5.13-rc5/plan/cros-ec/
 
-  Test:     usb
+  Test:     cros-ec
   Tree:     renesas
   Branch:   master
   Describe: renesas-devel-2021-06-10-v5.13-rc5
   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
 evel.git
-  SHA:      6f432b447a92822b48f7e674cec725b179c1fbde =
+  SHA:      6f432b447a92822b48f7e674cec725b179c1fbde
+
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/cros-ec-tests.git
+      SHA:  e4c91962f6e19466c1e43629a2c6cd04ff012e06 =
 
 
 
@@ -97,55 +103,64 @@ Test Regressions
 
 
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-8    | multi_v7_defconfig =
-| 1          =
+platform                  | arch   | lab           | compiler | defconfig  =
+                  | regressions
+--------------------------+--------+---------------+----------+------------=
+------------------+------------
+asus-C523NA-A20057-coral  | x86_64 | lab-collabora | gcc-8    | x86_64_defc=
+on...6-chromebook | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/60c29394d9886977260c0e2f
+  Details:     https://kernelci.org/test/plan/id/60c291ae222844f2350c0df5
 
-  Results:     2 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-8 (gcc (Debian 8.3.0-6) 8.3.0)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-06-10-v5.13-rc5/arm/multi_v7_defconfig/gcc-8/lab-collabora/usb-rk3288-r=
-ock2-square.txt
+021-06-10-v5.13-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collab=
+ora/cros-ec-asus-C523NA-A20057-coral.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-06-10-v5.13-rc5/arm/multi_v7_defconfig/gcc-8/lab-collabora/usb-rk3288-r=
-ock2-square.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0520.0/armhf/rootfs.cpio.gz =
+021-06-10-v5.13-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collab=
+ora/cros-ec-asus-C523NA-A20057-coral.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-cros=
+-ec/20210520.0/amd64/rootfs.cpio.gz =
 
 
 
-  * usb.compare-freeze: https://kernelci.org/test/case/id/60c29394d98869772=
-60c0e32
-        failing since 10 days (last pass: renesas-devel-2021-05-27-v5.13-rc=
-3, first fail: renesas-devel-2021-05-31-v5.13-rc4)
+  * cros-ec.login: https://kernelci.org/test/case/id/60c291ae222844f2350c0d=
+f6
+        new failure (last pass: renesas-devel-2021-06-07-v5.13-rc5) =
 
-    2021-06-10 22:29:57.759000+00:00  <6>[   16.117102] PM: suspend entry (=
-s2idle)
-    2021-06-10 22:29:57.759000+00:00  <6>[   16.121681] Filesystems sync: 0=
-.000 seconds
-    2021-06-10 22:29:57.759000+00:00  <6>[   16.129799] Freezing user space=
- processes ... (elapsed 0.001 seconds) done.
-    2021-06-10 22:29:57.759000+00:00  <6>[   16.139195] OOM killer disabled.
-    2021-06-10 22:29:57.760000+00:00  <6>[   16.143103] Freezing remaining =
-freezable tasks ... (elapsed 0.001 seconds) done.
-    2021-06-10 22:29:57.760000+00:00  <6>[   16.152824] printk: Suspending =
-console(s) (use no_console_suspend to debug)
-    2021-06-10 22:30:00.652000+00:00  <6>[   16.216023] rk_gmac-dwmac ff290=
-000.ethernet eth0: Link is Down
-    2021-06-10 22:30:00.652000+00:00  <6>[   18.095722] rk_gmac-dwmac ff290=
-000.ethernet: init for RGMII
-    2021-06-10 22:30:00.652000+00:00  <6>[   18.095757] rk_gmac-dwmac ff290=
-000.ethernet eth0: configuring for phy/rgmii link mode
-    2021-06-10 22:30:00.653000+00:00  <6>[   18.100964] rk_gmac-dwmac ff290=
-000.ethernet eth0: No Safety Features support found =
+ =
 
-    ... (106 line(s) more)  =
+
+
+platform                  | arch   | lab           | compiler | defconfig  =
+                  | regressions
+--------------------------+--------+---------------+----------+------------=
+------------------+------------
+hp-x360-12b-n4000-octopus | x86_64 | lab-collabora | gcc-8    | x86_64_defc=
+on...6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60c290fd75da0820730c0e81
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-8 (gcc (Debian 8.3.0-6) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-06-10-v5.13-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collab=
+ora/cros-ec-hp-x360-12b-n4000-octopus.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-06-10-v5.13-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collab=
+ora/cros-ec-hp-x360-12b-n4000-octopus.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-cros=
+-ec/20210520.0/amd64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/60c290fd75da0820730c0e=
+82
+        new failure (last pass: renesas-devel-2021-06-07-v5.13-rc5) =
 
  =20
