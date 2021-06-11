@@ -2,170 +2,183 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EDED3A3D63
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 09:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 128173A3DA1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 09:57:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231593AbhFKHnz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Jun 2021 03:43:55 -0400
-Received: from mail-vk1-f181.google.com ([209.85.221.181]:45805 "EHLO
-        mail-vk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231584AbhFKHny (ORCPT
+        id S231646AbhFKH72 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Jun 2021 03:59:28 -0400
+Received: from mail-lj1-f171.google.com ([209.85.208.171]:42834 "EHLO
+        mail-lj1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231270AbhFKH7Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Jun 2021 03:43:54 -0400
-Received: by mail-vk1-f181.google.com with SMTP id az3so2337756vkb.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jun 2021 00:41:57 -0700 (PDT)
+        Fri, 11 Jun 2021 03:59:24 -0400
+Received: by mail-lj1-f171.google.com with SMTP id r16so8420228ljk.9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jun 2021 00:57:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=7BMBgcaQkIy6hi8BSu350kxdTkBNAY3Dq0E/7PDsLj8=;
-        b=iG1cQQIMcHuwSWQ+rNsUs9g7wtXLSpwIinjlEQ8VM1UofbRvvDwgkCbkyfezeYtr1a
-         22zlobVGclILohJ7MizBhY6PpUGOctvY19f0ssO/lNLwiVgCtNdb1ZKXeV39JmrMHGN4
-         KnsxW1NfQ2pbq69yRsPOm6VCSHLq53nEXLKYa5bRzZSuybdUVMjZzeno1MYtqqVTbhKF
-         YTl78XXAbNcQWcOGrzbyUXyFjxSvH6How0CYwgz4CQB3lKAw6HToDQDpRnds/1Z/mN9G
-         VaWbwcAcLnstIbmS3007HYqXrxaCk8O7BGYNZTYAC3HU40fM1XBcPb+DSYMJf+WzUVwP
-         671A==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=vTcxauL5jl+18iQ2FlJa+h0e7Ha9Fv75p607nBeKKsw=;
+        b=E3knXo+RDhL3HQVz3DuFOl8UGg3FVSXFrSjorrXK+JN1Uyi02NncUEcRjMU9QjcdVE
+         BJhzK/au1SG6nK/O2bWr7PFDSpU9ZTKTB0XjhjmLucIezX56CpdBlh2VZWXXcCaGzLVL
+         JfgFQsaBNhQ8N/EcXVNtRR9bJU6fORt0GO2KRFUEP7kNws4gzy77oh7ITSc+VA3HNT91
+         YjJztKF/N5/h3u8Omok1fgROr0DYmFI+1SdXDQlwPnYm/pzO/ePwH9ZpU2agX6+M/QCQ
+         wSjxBLMcITyt/Qz/+4ud2MTZrHVRrtO71109yVQLY1WghI4hhltwYZ86wS26qK/n0mPS
+         qR/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7BMBgcaQkIy6hi8BSu350kxdTkBNAY3Dq0E/7PDsLj8=;
-        b=Q1yf4zlYqMRHUMg6nn1vFwD9BZPwUSvjZHLUN1F2wA6xHvIiAsmLyDGIolXYI1PgSU
-         SX9pcv/4qIVseLx5AbptTBgPAAkbaXrnAM+OnVmW61Scp/9eL4n9h0S5u6PKE8O80PtV
-         KPos3sMFco/uGwjSx0APffe3cyRBOVH1ON7Q3vYps8V6oyPhvo2vvqJAEnN0YnSwlEWW
-         4FqAFOAu+2qp+5OvLvLMxvWgKu+Fq49ieaTXkZzCUDjTwyCN6t0E3FgnAS2E0WGuhvqY
-         xn3lT5rG/Nk6d+Y33OCkjddlUxmZvUrRPHsDe1XCsBoPrMiJ+wicjbKZNkE5OZ+lAkSX
-         DL4Q==
-X-Gm-Message-State: AOAM530rcmw4Iud4zBS7TWTI8LL0MAZeMDsPFGGypAy+xDTDEbFurkSP
-        jDNeE6yqlC+AnfGCE+hIxbQ57O9m67r0WR/3G/PfW9WhbDHp/w==
-X-Google-Smtp-Source: ABdhPJzYFjnUJfjcecFeffgyAl+T1TTZtfAeYeSZF4bDlzBX1j7sW3LDiD+cf0qyzf++dPRhruwXOCBYPAB7oVBgQZI=
-X-Received: by 2002:ac5:c7c3:: with SMTP id e3mr8051851vkn.6.1623397256690;
- Fri, 11 Jun 2021 00:40:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210608180620.40059-1-wsa+renesas@sang-engineering.com> <YL/voNtxiqvoQYOS@oden.dyn.berto.se>
-In-Reply-To: <YL/voNtxiqvoQYOS@oden.dyn.berto.se>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Fri, 11 Jun 2021 09:40:20 +0200
-Message-ID: <CAPDyKFqEzvCibcNBK5vUYHA=x981PrANPUUWReX6jXaYAD65Eg@mail.gmail.com>
-Subject: Re: [RFC PATCH] mmc: improve function name when aborting a tuning cmd
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=vTcxauL5jl+18iQ2FlJa+h0e7Ha9Fv75p607nBeKKsw=;
+        b=ea2lLhF8rkVOhtkw1OHglO6/99OrAekcm52K4ydCFSKtqwizl12ctcvd0wmUKhXkFQ
+         mgMSDda4zoxoIXNZOB8VIx5wPCvMSqbXs/VLhQoyjxhrxsW44uPPY+6CuISrUnmE7Q41
+         xm3P3Dv77FX/XiMQWvKdJLWNlQFuSsJZOdYldKdUwbhnLcZflzx+ws4Lfavf2YMMe5Hv
+         RkI1XZvpusuoH4GdX7R/CK6u6vln+8buJqYVraczrLVcfdnyQP7MFaOvkKA4uZz94e8m
+         5EKvDLTcO3jSvcobJ1MtI7tzj0nBLUleZUO6VzHPrdEzWafg5pIOxhZflKw6xaJZ1a5/
+         2wqg==
+X-Gm-Message-State: AOAM531f5HW1JpRqdSH8NUjV7eMgdYCLg1F/ViCnzcKUZx824FtJmfN6
+        SvSEjgspOpttTlMC6wADuvkhQA==
+X-Google-Smtp-Source: ABdhPJyBisS/kC9406e3SVe1NmqKtN1v3aVbLucdGmpyN1Zq4bSMbwJE/cKr8pBZ5IDdYPivM+wGXQ==
+X-Received: by 2002:a2e:9d09:: with SMTP id t9mr2034766lji.213.1623398184938;
+        Fri, 11 Jun 2021 00:56:24 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id w18sm517239lft.166.2021.06.11.00.56.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jun 2021 00:56:23 -0700 (PDT)
+Date:   Fri, 11 Jun 2021 09:56:23 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Phong Hoang <phong.hoang.wz@renesas.com>
+Subject: Re: [PATCH] clocksource: sh_cmt: Fix wrong setting if don't request
+ IRQ for clock source channel
+Message-ID: <YMMXJz4IwFJU4vEF@oden.dyn.berto.se>
+References: <20210422123443.73334-1-niklas.soderlund+renesas@ragnatech.se>
+ <7cf6444a-1dc4-a2bb-8fef-696e0b2b6f23@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7cf6444a-1dc4-a2bb-8fef-696e0b2b6f23@linaro.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 9 Jun 2021 at 00:33, Niklas S=C3=B6derlund
-<niklas.soderlund@ragnatech.se> wrote:
->
-> Hallo Wolfram,
->
-> Thanks for your work.
->
-> On 2021-06-08 20:06:20 +0200, Wolfram Sang wrote:
-> > 'mmc_abort_tuning()' made me think tuning gets completely aborted.
-> > However, it sends only a STOP cmd to cancel the current tuning cmd.
-> > Tuning process may still continue after that. So, rename the function t=
-o
-> > 'mmc_send_abort_tuning()' to better reflect all this.
-> >
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
->
-> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se=
->
+Hi Daniel,
 
-Applied for next, thanks!
+On 2021-06-10 14:45:05 +0200, Daniel Lezcano wrote:
+> On 22/04/2021 14:34, Niklas Söderlund wrote:
+> > From: Phong Hoang <phong.hoang.wz@renesas.com>
+> > 
+> > If CMT instance has at least two channels, one channel will be used
+> > as a clock source and another one used as a clock event device.
+> > In that case, IRQ is not requested for clock source channel so
+> > sh_cmt_clock_event_program_verify() might work incorrectly.
+> > Besides, when a channel is only used for clock source, don't need to
+> > re-set the next match_value since it should be maximum timeout as
+> > it still is.
+> > 
+> > On the other hand, due to no IRQ, total_cycles is not counted up
+> > when reaches compare match time (timer counter resets to zero),
+> > so sh_cmt_clocksource_read() returns unexpected value.
+> > Therefore, use 64-bit clocksoure's mask for 32-bit or 16-bit variants
+> > will also lead to wrong delta calculation. Hence, this mask should
+> > correspond to timer counter width, and above function just returns
+> > the raw value of timer counter register.
+> 
+> I'm not getting the 'ch->cmt->num_channels == 1' change, can you explain?
 
-Kind regards
-Uffe
+My understanding is that if more then one channel is available the 
+channel used as clocksource is used without an interrupt. This was not 
+addressed in the patches listed as fixes. This patch fixes this multi 
+channel use-case while still retaining the old behavior for for the case 
+where only one channel is available (ch->cmt->num_channels == 
+1).
 
-
->
+> 
+> > Fixes: bfa76bb12f23 ("clocksource: sh_cmt: Request IRQ for clock event device only")
+> > Fixes: 37e7742c55ba ("clocksource/drivers/sh_cmt: Fix clocksource width for 32-bit machines")
+> > Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > > ---
-> >
-> > Ulf, here is the patch we discussed earlier today. Based on mmc/next.
-> >
-> >  drivers/mmc/core/mmc_ops.c           | 4 ++--
-> >  drivers/mmc/host/renesas_sdhi_core.c | 2 +-
-> >  drivers/mmc/host/sdhci.c             | 2 +-
-> >  include/linux/mmc/host.h             | 2 +-
-> >  4 files changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/mmc/core/mmc_ops.c b/drivers/mmc/core/mmc_ops.c
-> > index 3c58f6d0f482..973756ed4016 100644
-> > --- a/drivers/mmc/core/mmc_ops.c
-> > +++ b/drivers/mmc/core/mmc_ops.c
-> > @@ -700,7 +700,7 @@ int mmc_send_tuning(struct mmc_host *host, u32 opco=
-de, int *cmd_error)
-> >  }
-> >  EXPORT_SYMBOL_GPL(mmc_send_tuning);
-> >
-> > -int mmc_abort_tuning(struct mmc_host *host, u32 opcode)
-> > +int mmc_send_abort_tuning(struct mmc_host *host, u32 opcode)
+> >  drivers/clocksource/sh_cmt.c | 30 ++++++++++++++++++------------
+> >  1 file changed, 18 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/drivers/clocksource/sh_cmt.c b/drivers/clocksource/sh_cmt.c
+> > index c98f8851fd680454..cadd09ad1a0946b9 100644
+> > --- a/drivers/clocksource/sh_cmt.c
+> > +++ b/drivers/clocksource/sh_cmt.c
+> > @@ -578,7 +578,8 @@ static int sh_cmt_start(struct sh_cmt_channel *ch, unsigned long flag)
+> >  	ch->flags |= flag;
+> >  
+> >  	/* setup timeout if no clockevent */
+> > -	if ((flag == FLAG_CLOCKSOURCE) && (!(ch->flags & FLAG_CLOCKEVENT)))
+> > +	if (ch->cmt->num_channels == 1 &&
+> > +	    flag == FLAG_CLOCKSOURCE && (!(ch->flags & FLAG_CLOCKEVENT)))
+> >  		__sh_cmt_set_next(ch, ch->max_match_value);
+> >   out:
+> >  	raw_spin_unlock_irqrestore(&ch->lock, flags);
+> > @@ -620,20 +621,25 @@ static struct sh_cmt_channel *cs_to_sh_cmt(struct clocksource *cs)
+> >  static u64 sh_cmt_clocksource_read(struct clocksource *cs)
 > >  {
-> >       struct mmc_command cmd =3D {};
-> >
-> > @@ -723,7 +723,7 @@ int mmc_abort_tuning(struct mmc_host *host, u32 opc=
-ode)
-> >
-> >       return mmc_wait_for_cmd(host, &cmd, 0);
+> >  	struct sh_cmt_channel *ch = cs_to_sh_cmt(cs);
+> > -	unsigned long flags;
+> >  	u32 has_wrapped;
+> > -	u64 value;
+> > -	u32 raw;
+> >  
+> > -	raw_spin_lock_irqsave(&ch->lock, flags);
+> > -	value = ch->total_cycles;
+> > -	raw = sh_cmt_get_counter(ch, &has_wrapped);
+> > +	if (ch->cmt->num_channels == 1) {
+> 
+> 
+> 
+> > +		unsigned long flags;
+> > +		u64 value;
+> > +		u32 raw;
+> >  
+> > -	if (unlikely(has_wrapped))
+> > -		raw += ch->match_value + 1;
+> > -	raw_spin_unlock_irqrestore(&ch->lock, flags);
+> > +		raw_spin_lock_irqsave(&ch->lock, flags);
+> > +		value = ch->total_cycles;
+> > +		raw = sh_cmt_get_counter(ch, &has_wrapped);
+> >  
+> > -	return value + raw;
+> > +		if (unlikely(has_wrapped))
+> > +			raw += ch->match_value + 1;
+> > +		raw_spin_unlock_irqrestore(&ch->lock, flags);
+> > +
+> > +		return value + raw;
+> > +	}
+> > +
+> > +	return sh_cmt_get_counter(ch, &has_wrapped);
 > >  }
-> > -EXPORT_SYMBOL_GPL(mmc_abort_tuning);
-> > +EXPORT_SYMBOL_GPL(mmc_send_abort_tuning);
-> >
-> >  static int
-> >  mmc_send_bus_test(struct mmc_card *card, struct mmc_host *host, u8 opc=
-ode,
-> > diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/re=
-nesas_sdhi_core.c
-> > index baab4c2e1b53..e49ca0f7fe9a 100644
-> > --- a/drivers/mmc/host/renesas_sdhi_core.c
-> > +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> > @@ -704,7 +704,7 @@ static int renesas_sdhi_execute_tuning(struct mmc_h=
-ost *mmc, u32 opcode)
-> >                       set_bit(i, priv->smpcmp);
-> >
-> >               if (cmd_error)
-> > -                     mmc_abort_tuning(mmc, opcode);
-> > +                     mmc_send_abort_tuning(mmc, opcode);
-> >       }
-> >
-> >       ret =3D renesas_sdhi_select_tuning(host);
-> > diff --git a/drivers/mmc/host/sdhci.c b/drivers/mmc/host/sdhci.c
-> > index bf238ade1602..6aaf5c3ce34c 100644
-> > --- a/drivers/mmc/host/sdhci.c
-> > +++ b/drivers/mmc/host/sdhci.c
-> > @@ -2680,7 +2680,7 @@ void sdhci_abort_tuning(struct sdhci_host *host, =
-u32 opcode)
-> >
-> >       sdhci_end_tuning(host);
-> >
-> > -     mmc_abort_tuning(host->mmc, opcode);
-> > +     mmc_send_abort_tuning(host->mmc, opcode);
-> >  }
-> >  EXPORT_SYMBOL_GPL(sdhci_abort_tuning);
-> >
-> > diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
-> > index c7e7b43600e9..0abd47e9ef9b 100644
-> > --- a/include/linux/mmc/host.h
-> > +++ b/include/linux/mmc/host.h
-> > @@ -632,6 +632,6 @@ static inline enum dma_data_direction mmc_get_dma_d=
-ir(struct mmc_data *data)
-> >  }
-> >
-> >  int mmc_send_tuning(struct mmc_host *host, u32 opcode, int *cmd_error)=
-;
-> > -int mmc_abort_tuning(struct mmc_host *host, u32 opcode);
-> > +int mmc_send_abort_tuning(struct mmc_host *host, u32 opcode);
-> >
-> >  #endif /* LINUX_MMC_HOST_H */
-> > --
-> > 2.30.2
-> >
->
-> --
-> Regards,
-> Niklas S=C3=B6derlund
+> >  
+> >  static int sh_cmt_clocksource_enable(struct clocksource *cs)
+> > @@ -696,7 +702,7 @@ static int sh_cmt_register_clocksource(struct sh_cmt_channel *ch,
+> >  	cs->disable = sh_cmt_clocksource_disable;
+> >  	cs->suspend = sh_cmt_clocksource_suspend;
+> >  	cs->resume = sh_cmt_clocksource_resume;
+> > -	cs->mask = CLOCKSOURCE_MASK(sizeof(u64) * 8);
+> > +	cs->mask = CLOCKSOURCE_MASK(ch->cmt->info->width);
+> >  	cs->flags = CLOCK_SOURCE_IS_CONTINUOUS;
+> >  
+> >  	dev_info(&ch->cmt->pdev->dev, "ch%u: used as clock source\n",
+> > 
+> 
+> 
+> -- 
+> <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+> 
+> Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+> <http://twitter.com/#!/linaroorg> Twitter |
+> <http://www.linaro.org/linaro-blog/> Blog
+
+-- 
+Regards,
+Niklas Söderlund
