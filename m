@@ -2,92 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CFE73A4AC6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Jun 2021 23:50:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C9AF3A4BA0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jun 2021 02:09:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbhFKVv7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Jun 2021 17:51:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbhFKVv6 (ORCPT
+        id S230179AbhFLALI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Jun 2021 20:11:08 -0400
+Received: from mail-lf1-f44.google.com ([209.85.167.44]:37414 "EHLO
+        mail-lf1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230051AbhFLALI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Jun 2021 17:51:58 -0400
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63DBFC061574;
-        Fri, 11 Jun 2021 14:50:00 -0700 (PDT)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 8B0368047F;
-        Fri, 11 Jun 2021 23:49:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1623448196;
-        bh=J1w1Qy+UZUBMOkVepzUoEUawid8tPfM8riAKr4+3hes=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=kOfhTWKNaDLvYWOSRk0HwKPzXaTTm/qgE84IOw6w4DueqrI17o6U8z8Vp7csa0qvs
-         VlA7aUY0tfosX4im3hXbtGrge+XzfhY9C31t4BsdFeutIe91PlKCXA7YkoddwvUg4f
-         WsGkofi6CF5oDgZMo6zrstCNesofWdfkd5ZXx0Jr1A9NbHXy3wUQBq70pLH8oRo8c5
-         hUBi2Ls06XeJ0GUG19FLeK2Jq5b+/Q3MklOXt85rHap7IN9FKjPTBCqQtpFJdhaXGQ
-         ypKbjZpHlHeNxQWiXvQdtrpormvDVivTScvcoS2qFgYm2WILtjF2Fu0TC22aKfxbDs
-         4Kujj0O3oFCfQ==
-Subject: Re: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
- ili2xxx bindings
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, Joe Hung <joe_hung@ilitek.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
- <9b1b2a44-348e-5453-d767-d5c69a0869a7@denx.de>
- <CAMuHMdXE0kipUm6wqHsrFurFkviU_nRJJB7cg6z1XwEvpEewGQ@mail.gmail.com>
- <YMOsRzfDnZ/iApwD@google.com>
-From:   Marek Vasut <marex@denx.de>
-Message-ID: <9d901eb1-6408-6b4f-1377-03c394d440c4@denx.de>
-Date:   Fri, 11 Jun 2021 23:49:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Fri, 11 Jun 2021 20:11:08 -0400
+Received: by mail-lf1-f44.google.com with SMTP id p7so11021856lfg.4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Jun 2021 17:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ppEre27gtFRgGig3TkXUC0tbQLY4TVyqTp6cicpd92Q=;
+        b=fRVB2ivrbnamfM+8biPdwCJYeeT+cxjgi5gXm1PjRFIIGXLDfjoEw3SY+Mtw6SdpGZ
+         Y+cRE3xpRvo+Re4jeatTiRX2OzZTbGcity0ej7RJKpqXm1p9JGMuArs5fTlRo5MWTgN+
+         mWpLiG4/UUHt7/Rpn2pvG7xICQbvw+5KfZT2E9Y/NHWaNh1GfIkFpP+olYUcUf9by7l/
+         GU4Sc3dsTPyDM377EnAJwhvh+mIT5sIODCWPa00JweWEZPWI1c9VZOL/ZVW8tRZQctTo
+         Y4uyfNk7cnheVKpxPakL5A8aulU49VoPZAV+CQ5QaRzYrB0XeVGBSJMdSi++O8rGKIfv
+         29ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ppEre27gtFRgGig3TkXUC0tbQLY4TVyqTp6cicpd92Q=;
+        b=TifJqQQ9Y8HwVQln3dw/rZw8EmffGlzMmHznARIDim/Kxspslm9HP7QMkTRbxwYGB6
+         qTgLv4GsNygUalNIct0MucYSWdN5BdQ0hJwuvYZQbj5vFpdrHh8gqWlCXLsbAfQ3WDmg
+         RCh7cEJSKnpt3Bmcid+RTuJ2/OToJRuDIb+9pn0I+UkmqJIjkJGmsKHhuHfvanWwN0mB
+         cuiu8YgifG/C/TToickAe2Zu6OttUQwOVDefaKhl61wDlGpmqWQdky7TXB8RfI1q6sUq
+         bBA3WOYWA7PQj1YpcEkOJmqG20ovZWq6VyPOSzN/We9uKHEz1Kgi/ohoPjuS9/xDUKYY
+         6tzQ==
+X-Gm-Message-State: AOAM530JpeUGfWDgRUMbXXJvT0MeLYr9oo8xbAuBuAmbA2jEgF59Cia4
+        iLmNWXWovgerov0ckQsUwj8LBNGH+fPmM5rOBsIzRqZmkG4=
+X-Google-Smtp-Source: ABdhPJyMz2BLs51NlUhpX8WpKPmABESRW7dHKxpz+iUqfe7x85+NK5FqS0Ag1y+xvGCmykEMpcbnve1/i1KxakOMrw4=
+X-Received: by 2002:a05:6512:20c9:: with SMTP id u9mr4118847lfr.291.1623456475596;
+ Fri, 11 Jun 2021 17:07:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YMOsRzfDnZ/iApwD@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+References: <cover.1623404609.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1623404609.git.geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 12 Jun 2021 02:07:44 +0200
+Message-ID: <CACRpkdbwomRRHc=GAh1p_=1V1Xm+yQjvim5577-+wB7ykoMx_g@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: sh-pfc: Updates for v5.14 (take two)
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 6/11/21 8:32 PM, Dmitry Torokhov wrote:
+On Fri, Jun 11, 2021 at 11:47 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Hi,
+> The following changes since commit 904ec4bebc1df908a943bf3178f6c633672ce47b:
+>
+>   pinctrl: renesas: r8a779{51,6,65}: Reduce non-functional differences (2021-05-11 10:04:42 +0200)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.14-tag2
+>
+> for you to fetch changes up to c3975a73ca9410519cf62531f640b68d69b0d798:
+>
+>   pinctrl: renesas: r8a77980: Add bias pinconf support (2021-05-31 10:50:29 +0200)
 
->>> On 6/11/21 3:54 PM, Geert Uytterhoeven wrote:
->>>> While Linux uses a different driver, the Ilitek
->>>> ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller Device Tree
->>>> binding documentation is very similar.
->>>>
->>>>     - Drop the fixed reg value, as some controllers use a different
->>>>       address,
->>>>     - Make reset-gpios optional, as it is not always wired.
->>>
->>> It looks like there are now two drivers for the same hardware,
->>> drivers/input/touchscreen/ili210x.c
->>> drivers/input/touchscreen/ilitek_ts_i2c.c
->>> The ilitek_ts_i2c (newer) seems to be derived from the ilitek example
->>> code / driver, while the ili210x was written from scratch as far as I
->>> can tell.
->>
->> I'm not so sure they're for the same hardware, but you may know better?
->> https://www.displayvisions.us/fileadmin/html-seiten/eng/pdf/zubehoer/ILITek_TP_Programming_Guide_V1.50.pdf
->> lists only Ilitek parts handled by ilitek_ts_i2c.c.
-> 
-> Ilitek folks said that the new driver is for their "Lego" series
-> controllers, whereas ili210x.c is for older hardware.
-
-The older driver also supports 251x . What exactly is "Lego" series ?
-In fact, is there documentation for the different ILI2xxx touchscreen 
-controllers ? So far, all the information I had was pulled from the 
-various forks of downstream example code.
+Pulled in, thanks!
+Yours,
+Linus Walleij
