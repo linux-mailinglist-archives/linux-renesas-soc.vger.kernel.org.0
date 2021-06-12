@@ -2,363 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9A303A4DC0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jun 2021 10:47:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 284783A4E9C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Jun 2021 14:17:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230459AbhFLIt4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 12 Jun 2021 04:49:56 -0400
-Received: from mail-wr1-f48.google.com ([209.85.221.48]:45614 "EHLO
-        mail-wr1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbhFLItz (ORCPT
+        id S231235AbhFLMTw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 12 Jun 2021 08:19:52 -0400
+Received: from mail-eopbgr1410094.outbound.protection.outlook.com ([40.107.141.94]:9920
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230470AbhFLMTv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 12 Jun 2021 04:49:55 -0400
-Received: by mail-wr1-f48.google.com with SMTP id z8so8490796wrp.12
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Jun 2021 01:47:56 -0700 (PDT)
+        Sat, 12 Jun 2021 08:19:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cVRuDFcJ8B6+PRJpyb3K1yEsuJlb/FqctT3LwA7ybqN/v4ZwDFcVrqsCeDMmRwDaiJvJ0Vqxu6sgFXlztr9VV+YNnSIW/X/bUSmAFiwDijOAF0NjKKeCVQnU8+TeJV2lG/HGQ+8TYLWx65Wr7onm56NuvVEPp2+cL9e1c9Pp9Kq/K9H8D29kQpX0Ti3I0dKQYlvfZ8W/tTXB5KaP3JEIyniDXiM7OOZTJrX5aWKkbzvLMoZ9GI8T8bKmblbk/wl5mYU5+OFqT4Ba37u7E8m1v0On/R6Z6QCLjzS5pePaBCp2+55jB2bD6ZT/pM2FstUQqndJcLZ6J1+u070Z6Bzv0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6uoA99zVu2HtE7wj+RED9BbgMzaTc/KNBh2WLRMF1js=;
+ b=oW9GL5vqJ0HuG+QgSup1Oljgbp87Q/4H8fi27CNPOrUTGzPl+Uq8PVj8GUwbMW6w/X1NOFIeC0xJFwgbR7ROaBTOKvclc8JLleMYUNFbkqiuMhGW4nYYaoAoWVv0puRbeaacUOfpYNXg6e5GEHLppCvixzg1LfyybL6jUFe35EsD6H3Ywrstr8Qg4j5F3hUImR0QWQ6rNIcfgIp4Sx0ZhBZeUm6+wk4g6kF9e2NHpZdTSLEAueHgDENow9FYwW0mKvR6Uc6lJhYC7nITqRylfne7igX2PSNmQ3ebg8KSuoCTuADnMhJTK7wfj3AiDD9dCnIy3uhGRFzL6WWxXYBvgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/qt5BQynGfvNaT+yj3SmlySMLgYAimFmFGZBR0UchmE=;
-        b=Ro2YQ8Mr2xB2x6/Z96YB9OT1WKfQk1K2yCtT2H2rr+tMaQVfZZhocmG1mietxhGQk7
-         Nh+JsHbNO2nuZQann6Xnww51UK6EOrihr/mTgJTOn17BTzSeLZU/9gRPfTZS7w1y0el2
-         L5AYKUkP30GeWjPv1LFslTmah5l2tyQS6xy7ZE+vC8qGh3dbQKWvxUDsz49UGoUYWtfE
-         MknXMg8AHWN5p0pXPZ/wkLfSaGU+p2oUlu3nqo5IaHQtUzzmbFMrRh3K4uSZDJDdmXIH
-         DP7LaaElCOKcoYgpCKu4KhGLYLA34+IejqdjOXfR+smFUzUCOan/x1dyP3Pta8m6gUj3
-         oiXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/qt5BQynGfvNaT+yj3SmlySMLgYAimFmFGZBR0UchmE=;
-        b=fDxyF1QQzfX60m28WUMZijDq25BJHWS7QPf+nEGu2Qy7BfljTR/0XOIJRwEhPNRv3i
-         j7u5hSnK5LrwXS0yyU/G8diAPxTxBOr4NuYI+4jKrZLwZnq12K2w1jCO7Ixtztcz8poz
-         QWx40kltmOrkmt8ZDjAN50xWeBCqzYAwsAbfOzSjWRaK5pFA707goJaXEwjR3pz6bCuR
-         hxquT21/YoSVDmoLc05zwSKQc100IEzJjIpPORq3rgKDtkN49F401CmP0kJROXAlwmWM
-         vGzIUoPDJzMoqM3qRbQ8EWjoNPqA7pTd6viH8UpyIw4KP7M4vBIzMlWiY3vgUFq9XSdn
-         z3TQ==
-X-Gm-Message-State: AOAM533fkeCY4aUlusc617BNx6D3rmNE4NCPqihT/jCNydoHyi59gfK1
-        e2Iu+RrG7/xEIKBAoBsDmqzpxA==
-X-Google-Smtp-Source: ABdhPJwNaG1CTrDj7NwYZckAkeKR/yEQ1Nz7dpyZZ0lCjpypKEG0ygBBxDWUewogS4U1eUZSZzefnA==
-X-Received: by 2002:a05:6000:1282:: with SMTP id f2mr8035833wrx.67.1623487615837;
-        Sat, 12 Jun 2021 01:46:55 -0700 (PDT)
-Received: from bismarck.berto.se (p4fca2710.dip0.t-ipconnect.de. [79.202.39.16])
-        by smtp.googlemail.com with ESMTPSA id x18sm9541404wrw.19.2021.06.12.01.46.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:46:55 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2] rcar-csi2: Add r8a779a0 support
-Date:   Sat, 12 Jun 2021 10:46:29 +0200
-Message-Id: <20210612084629.1265204-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.31.1
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6uoA99zVu2HtE7wj+RED9BbgMzaTc/KNBh2WLRMF1js=;
+ b=Vuqsd3skB0hxhod+j+Ptqs1ru8zUnQc5zazUMZ2D8DzhjDyvVxzSNDMWHxZy9IHci8Gm+IgMJteybbJM6nAvKDEW9bDOtuVLAej481n220MAIDFnIie7MFt9dbAfbRBb2xor9aTH3+FS88mDBA2peVjCS5sbnrkwLCv1ItijKtI=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSZPR01MB6891.jpnprd01.prod.outlook.com (2603:1096:604:134::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.24; Sat, 12 Jun
+ 2021 12:17:49 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b834:5e50:2ce8:9ae0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b834:5e50:2ce8:9ae0%3]) with mapi id 15.20.4219.024; Sat, 12 Jun 2021
+ 12:17:48 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>
+Subject: RE: [PATCH 1/5] dt-bindings: dma: Document RZ/G2L bindings
+Thread-Topic: [PATCH 1/5] dt-bindings: dma: Document RZ/G2L bindings
+Thread-Index: AQHXXrYS1Y35K9bUV02GRKgFCWvED6sPGIaAgAAWuBA=
+Date:   Sat, 12 Jun 2021 12:17:48 +0000
+Message-ID: <OS0PR01MB5922350291F1EB3B64661B1F86339@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20210611113642.18457-1-biju.das.jz@bp.renesas.com>
+ <20210611113642.18457-2-biju.das.jz@bp.renesas.com>
+ <1623434133.974776.1208942.nullmailer@robh.at.kernel.org>
+In-Reply-To: <1623434133.974776.1208942.nullmailer@robh.at.kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=bp.renesas.com;
+x-originating-ip: [86.139.26.177]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a1a7c50f-35ee-4f1c-ab57-08d92d9c17eb
+x-ms-traffictypediagnostic: OSZPR01MB6891:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSZPR01MB689165847A4EFD4FEC0F2E0486339@OSZPR01MB6891.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: LfXKr/UGKEZOoapeI02jLGJKxo7HeQX60wUcrcPfLA1n77fQUsVkRb/7MKwGtRPe27BWFCdLK8YYU4cK+wfXbaiMbhX8doihbZu4TuysKFtOm2tiJC+b7mcHwyZJYXmYtTndBdM9rqEfLOayzTJOro4509AuL+qzxM5G3ZmPlIYpUj+ycwadutTP4d5PM3qA80jkUBvoEaMWmsH40tW3GVSw9JKbpDePNLdqQ6JXKm2d4VINJo281OfpQ2jZ9G4Cu3db44voIZxxsODm7U3P7Aje4ScAHh9POqlHoErLAynxv9vQPlQLLDdYRopuMgvg1JKr2cTxEhNbEmScbAeNgEndIjIERnKu5oiOkUJaDQLi3ze4gZngSZCRwbGmdnvA6lLEUCBGLJaOeNJBNT+8zgSffi69qdqNLGG5SjFCp7ZNd5pCobr1fungY3igV2KtsMEOO1bMMIWi9V/XNe5gzTSyxMZ+X6U652PKrUZWNubDYjJUVausScnBY9+NT26uvBqZUrufMgIuvY1FUgmmr6EN5pTtTr4khh1BlrLBbAOy01IzaMq7HzMigxmUi+jD6Jvk54p0SyfbMnJZbitlhDKdR8d7UwI1xb87FUitPexayF/TAjD1O5X3T3ZGHKqwFyBovtq2I30FnLCzqRh3WfcgbM0xH5TsEU0pF5O3CKqJI8g1sDGgY9+B4PhpQsiGQZW4UJ1CNp2wO2Sr15KtPw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(396003)(136003)(39830400003)(376002)(9686003)(8676002)(54906003)(186003)(8936002)(71200400001)(83380400001)(26005)(966005)(7696005)(52536014)(66556008)(66476007)(33656002)(316002)(45080400002)(478600001)(38100700002)(122000001)(55016002)(86362001)(66446008)(64756008)(66946007)(4326008)(2906002)(6916009)(6506007)(76116006)(5660300002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?W7xADwnQP8Bxj/hPcAdZMBIfAVVp3GnImAArIdDMcKSbXxsIlTizfMbda389?=
+ =?us-ascii?Q?esw5JbGyLIabFIzSg8NdN/K3cMESEu7CHbSadNwLwngE8xe6zt9WWFETNKKv?=
+ =?us-ascii?Q?2YPPFY+gpxp6CYoqXunqofG+hEPUvu7FAXg8spvZoO6B/+2mfmXSM77Hq2aF?=
+ =?us-ascii?Q?j+R0VxTSRZFcnNpOX9Lb0FHcIru5QTo8LHfu5uFuxiTwPPTvBpvFj0CFq3EK?=
+ =?us-ascii?Q?/AkN/96DkPU29qtz8E86ZpiSdM8GpRRK0V23d2O4FTUKo/RS9xc7Eras93qc?=
+ =?us-ascii?Q?zvAI4yxx4A1E44zq/kwQMrz9WEUir7Dxrh1SXkmZccIwsOB9SEHQH4yhy+CS?=
+ =?us-ascii?Q?RahtwFhTB1A4hI7Q4qoqkVvwZbmscYjCN0aBp8fY1tKr4dndz+3KhNh6HiMm?=
+ =?us-ascii?Q?XbBuGp34JoDwBhqH5jSVtG1HO7BSaGSP4vdGr9QYB0J6Wb+s6UYkg4nx+2wl?=
+ =?us-ascii?Q?5td1TRzCmudXjZNZV2HJrqbULGZy45DE90aLM8YFCGKzj84boQmSj5dvakRi?=
+ =?us-ascii?Q?GJ4shTmG7jLCSLtnRhhDYCtQPVMsDTzIpUNYF5NkHe/ZDra/1oajaZo7kBvE?=
+ =?us-ascii?Q?lZ517QijJI4XGsMkS1TMMnd//gGHlIlf6ImIc4kvqZHJmqGFcB51L5M1de6+?=
+ =?us-ascii?Q?B3FoyifDANAcV4hL7JvFcyqDibEKYvuCQ/c8Lm71yzLx70kXU3m8Pabk8XIw?=
+ =?us-ascii?Q?gv+k0nl2tRhsmveT2xePYwXojQ87WHI05EWCqkYmyR1qE6gjIjT/BYm7KVbq?=
+ =?us-ascii?Q?IKSDGt6uxegppEofHk6Xnw7ArXZ6UkPX0PkpQa7i4p1jJO5UeurYknWMyBqd?=
+ =?us-ascii?Q?3HHPFed6+BFQq6O86ManasGa8KCkgo50sWbcBFcqjc/kRU2UZt7x/9KmaI45?=
+ =?us-ascii?Q?UXTYybWLbWxdlU8yh8NkA7QxBwQ6/898qcmdpqwKUHg/tHQpVhVquhJD1PHf?=
+ =?us-ascii?Q?NOOBmPU1xuGtOKEkKBY4+Myrwn+R7fCnInPZSI6EVaisDn+PJRfzwBjr4fAF?=
+ =?us-ascii?Q?XAN3CPDJ6BMk1j/w8jbVoOQOHiaXLDcMqKqypMbQd0h4PfnABX40Sh4D0cmZ?=
+ =?us-ascii?Q?bRMcryolpeR/RJadoAr/5qLv7Krmr1jN26v6UWmOezFvF2HcuCnRDiI2SyQ5?=
+ =?us-ascii?Q?lRwDPSuC4AO+tI6o0VQCfkSke8dcnjo88vGAPjAUc2Pc731tN9ouS3UD7StZ?=
+ =?us-ascii?Q?1XdMrHwNQp2zSwh+2ag7Vf8beY8TyFP5nQrxZGH3HOGr4SydUqVoVmGnO6Ln?=
+ =?us-ascii?Q?9PO8o9A9kQvQMcCBLuwyHA+jIeQr63RO1ttalnVpcnXkWOVpf5VfrZgMiD9Q?=
+ =?us-ascii?Q?1Ak=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1a7c50f-35ee-4f1c-ab57-08d92d9c17eb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2021 12:17:48.6097
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6oEHYwK9Fh/ysf1gpuzAemf6dIGH1VYxQDTQ7UwkNNGmY5c6w4C/qIz/vgLQnKTOUpVm6KbKszCK+fmn9M+BIYtzr6Q6AxgrGtzGWlbGH+I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6891
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for the R-Car V3U (r8a779a0) to the driver. The V3U have the
-CSI-2 modules connected to ISPs instead of directly to the R-Car VIN DMA
-engines.
 
-The ISP performs channel selection based on CSI-2 VC/DT pairs and routes
-the video data. This requires the R-Car CSI-2 media entity to modeled
-differently then on other SoCs as it on the V3U only have a single
-source pad connected to the ISP.
+Hi Rob,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 191 +++++++++++++++++++-
- 1 file changed, 185 insertions(+), 6 deletions(-)
+Thanks for the review.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index b87d5453e41881e0..a79eb1fcc1449bf9 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -126,6 +126,12 @@ struct rcar_csi2;
- #define PHTW_CWEN			BIT(8)
- #define PHTW_TESTDIN_CODE(n)		((n & 0xff))
- 
-+#define PHYFRX_REG			0x64
-+#define PHYFRX_FORCERX_MODE_3		BIT(3)
-+#define PHYFRX_FORCERX_MODE_2		BIT(2)
-+#define PHYFRX_FORCERX_MODE_1		BIT(1)
-+#define PHYFRX_FORCERX_MODE_0		BIT(0)
-+
- struct phtw_value {
- 	u16 data;
- 	u16 code;
-@@ -136,6 +142,31 @@ struct rcsi2_mbps_reg {
- 	u16 reg;
- };
- 
-+static const struct rcsi2_mbps_reg phtw_mbps_v3u[] = {
-+	{ .mbps = 1500, .reg = 0xcc },
-+	{ .mbps = 1550, .reg = 0x1d },
-+	{ .mbps = 1600, .reg = 0x27 },
-+	{ .mbps = 1650, .reg = 0x30 },
-+	{ .mbps = 1700, .reg = 0x39 },
-+	{ .mbps = 1750, .reg = 0x42 },
-+	{ .mbps = 1800, .reg = 0x4b },
-+	{ .mbps = 1850, .reg = 0x55 },
-+	{ .mbps = 1900, .reg = 0x5e },
-+	{ .mbps = 1950, .reg = 0x67 },
-+	{ .mbps = 2000, .reg = 0x71 },
-+	{ .mbps = 2050, .reg = 0x79 },
-+	{ .mbps = 2100, .reg = 0x83 },
-+	{ .mbps = 2150, .reg = 0x8c },
-+	{ .mbps = 2200, .reg = 0x95 },
-+	{ .mbps = 2250, .reg = 0x9e },
-+	{ .mbps = 2300, .reg = 0xa7 },
-+	{ .mbps = 2350, .reg = 0xb0 },
-+	{ .mbps = 2400, .reg = 0xba },
-+	{ .mbps = 2450, .reg = 0xc3 },
-+	{ .mbps = 2500, .reg = 0xcc },
-+	{ /* sentinel */ },
-+};
-+
- static const struct rcsi2_mbps_reg phtw_mbps_h3_v3h_m3n[] = {
- 	{ .mbps =   80, .reg = 0x86 },
- 	{ .mbps =   90, .reg = 0x86 },
-@@ -200,6 +231,72 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
- #define PHYPLL_REG			0x68
- #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
- 
-+static const struct rcsi2_mbps_reg hsfreqrange_v3u[] = {
-+	{ .mbps =   80, .reg = 0x00 },
-+	{ .mbps =   90, .reg = 0x10 },
-+	{ .mbps =  100, .reg = 0x20 },
-+	{ .mbps =  110, .reg = 0x30 },
-+	{ .mbps =  120, .reg = 0x01 },
-+	{ .mbps =  130, .reg = 0x11 },
-+	{ .mbps =  140, .reg = 0x21 },
-+	{ .mbps =  150, .reg = 0x31 },
-+	{ .mbps =  160, .reg = 0x02 },
-+	{ .mbps =  170, .reg = 0x12 },
-+	{ .mbps =  180, .reg = 0x22 },
-+	{ .mbps =  190, .reg = 0x32 },
-+	{ .mbps =  205, .reg = 0x03 },
-+	{ .mbps =  220, .reg = 0x13 },
-+	{ .mbps =  235, .reg = 0x23 },
-+	{ .mbps =  250, .reg = 0x33 },
-+	{ .mbps =  275, .reg = 0x04 },
-+	{ .mbps =  300, .reg = 0x14 },
-+	{ .mbps =  325, .reg = 0x25 },
-+	{ .mbps =  350, .reg = 0x35 },
-+	{ .mbps =  400, .reg = 0x05 },
-+	{ .mbps =  450, .reg = 0x16 },
-+	{ .mbps =  500, .reg = 0x26 },
-+	{ .mbps =  550, .reg = 0x37 },
-+	{ .mbps =  600, .reg = 0x07 },
-+	{ .mbps =  650, .reg = 0x18 },
-+	{ .mbps =  700, .reg = 0x28 },
-+	{ .mbps =  750, .reg = 0x39 },
-+	{ .mbps =  800, .reg = 0x09 },
-+	{ .mbps =  850, .reg = 0x19 },
-+	{ .mbps =  900, .reg = 0x29 },
-+	{ .mbps =  950, .reg = 0x3a },
-+	{ .mbps = 1000, .reg = 0x0a },
-+	{ .mbps = 1050, .reg = 0x1a },
-+	{ .mbps = 1100, .reg = 0x2a },
-+	{ .mbps = 1150, .reg = 0x3b },
-+	{ .mbps = 1200, .reg = 0x0b },
-+	{ .mbps = 1250, .reg = 0x1b },
-+	{ .mbps = 1300, .reg = 0x2b },
-+	{ .mbps = 1350, .reg = 0x3c },
-+	{ .mbps = 1400, .reg = 0x0c },
-+	{ .mbps = 1450, .reg = 0x1c },
-+	{ .mbps = 1500, .reg = 0x2c },
-+	{ .mbps = 1550, .reg = 0x3d },
-+	{ .mbps = 1600, .reg = 0x0d },
-+	{ .mbps = 1650, .reg = 0x1d },
-+	{ .mbps = 1700, .reg = 0x2e },
-+	{ .mbps = 1750, .reg = 0x3e },
-+	{ .mbps = 1800, .reg = 0x0e },
-+	{ .mbps = 1850, .reg = 0x1e },
-+	{ .mbps = 1900, .reg = 0x2f },
-+	{ .mbps = 1950, .reg = 0x3f },
-+	{ .mbps = 2000, .reg = 0x0f },
-+	{ .mbps = 2050, .reg = 0x40 },
-+	{ .mbps = 2100, .reg = 0x41 },
-+	{ .mbps = 2150, .reg = 0x42 },
-+	{ .mbps = 2200, .reg = 0x43 },
-+	{ .mbps = 2300, .reg = 0x45 },
-+	{ .mbps = 2350, .reg = 0x46 },
-+	{ .mbps = 2400, .reg = 0x47 },
-+	{ .mbps = 2450, .reg = 0x48 },
-+	{ .mbps = 2500, .reg = 0x49 },
-+	{ /* sentinel */ },
-+};
-+
- static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
- 	{ .mbps =   80, .reg = 0x00 },
- 	{ .mbps =   90, .reg = 0x10 },
-@@ -353,6 +450,7 @@ struct rcar_csi2_info {
- 	unsigned int csi0clkfreqrange;
- 	unsigned int num_channels;
- 	bool clear_ulps;
-+	bool use_isp;
- };
- 
- struct rcar_csi2 {
-@@ -607,9 +705,12 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 	rcsi2_write(priv, PHTC_REG, 0);
- 
- 	/* Configure */
--	rcsi2_write(priv, VCDT_REG, vcdt);
--	if (vcdt2)
--		rcsi2_write(priv, VCDT2_REG, vcdt2);
-+	if (!priv->info->use_isp) {
-+		rcsi2_write(priv, VCDT_REG, vcdt);
-+		if (vcdt2)
-+			rcsi2_write(priv, VCDT2_REG, vcdt2);
-+	}
-+
- 	/* Lanes are zero indexed. */
- 	rcsi2_write(priv, LSWAP_REG,
- 		    LSWAP_L0SEL(priv->lane_swap[0] - 1) |
-@@ -634,6 +735,11 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 		rcsi2_write(priv, CSI0CLKFCPR_REG,
- 			    CSI0CLKFREQRANGE(priv->info->csi0clkfreqrange));
- 
-+	if (priv->info->use_isp)
-+		rcsi2_write(priv, PHYFRX_REG,
-+			    PHYFRX_FORCERX_MODE_3 | PHYFRX_FORCERX_MODE_2 |
-+			    PHYFRX_FORCERX_MODE_1 | PHYFRX_FORCERX_MODE_0);
-+
- 	rcsi2_write(priv, PHYCNT_REG, phycnt);
- 	rcsi2_write(priv, LINKCNT_REG, LINKCNT_MONITOR_EN |
- 		    LINKCNT_REG_MONI_PACT_EN | LINKCNT_ICLK_NONSTOP);
-@@ -645,6 +751,9 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 	if (ret)
- 		return ret;
- 
-+	if (priv->info->use_isp)
-+		rcsi2_write(priv, PHYFRX_REG, 0);
-+
- 	/* Run post PHY start initialization, if needed. */
- 	if (priv->info->phy_post_init) {
- 		ret = priv->info->phy_post_init(priv);
-@@ -1061,6 +1170,62 @@ static int rcsi2_phy_post_init_v3m_e3(struct rcar_csi2 *priv)
- 	return rcsi2_phtw_write_array(priv, step1);
- }
- 
-+static int rcsi2_init_phtw_v3u(struct rcar_csi2 *priv,
-+			       unsigned int mbps)
-+{
-+	/* In case of 1500Mbps or less */
-+	static const struct phtw_value step1[] = {
-+		{ .data = 0xcc, .code = 0xe2 },
-+		{ /* sentinel */ },
-+	};
-+
-+	static const struct phtw_value step2[] = {
-+		{ .data = 0x01, .code = 0xe3 },
-+		{ .data = 0x11, .code = 0xe4 },
-+		{ .data = 0x01, .code = 0xe5 },
-+		{ /* sentinel */ },
-+	};
-+
-+	/* In case of 1500Mbps or less */
-+	static const struct phtw_value step3[] = {
-+		{ .data = 0x38, .code = 0x08 },
-+		{ /* sentinel */ },
-+	};
-+
-+	static const struct phtw_value step4[] = {
-+		{ .data = 0x01, .code = 0x00 },
-+		{ .data = 0x4b, .code = 0xac },
-+		{ .data = 0x03, .code = 0x00 },
-+		{ .data = 0x80, .code = 0x07 },
-+		{ /* sentinel */ },
-+	};
-+
-+	int ret;
-+
-+	if (mbps != 0 && mbps <= 1500)
-+		ret = rcsi2_phtw_write_array(priv, step1);
-+	else
-+		ret = rcsi2_phtw_write_mbps(priv, mbps, phtw_mbps_v3u, 0xe2);
-+	if (ret)
-+		return ret;
-+
-+	ret = rcsi2_phtw_write_array(priv, step2);
-+	if (ret)
-+		return ret;
-+
-+	if (mbps != 0 && mbps <= 1500) {
-+		ret = rcsi2_phtw_write_array(priv, step3);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = rcsi2_phtw_write_array(priv, step4);
-+	if (ret)
-+		return ret;
-+
-+	return ret;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Platform Device Driver.
-  */
-@@ -1153,6 +1318,14 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77990 = {
- 	.num_channels = 2,
- };
- 
-+static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
-+	.init_phtw = rcsi2_init_phtw_v3u,
-+	.hsfreqrange = hsfreqrange_v3u,
-+	.csi0clkfreqrange = 0x20,
-+	.clear_ulps = true,
-+	.use_isp = true,
-+};
-+
- static const struct of_device_id rcar_csi2_of_table[] = {
- 	{
- 		.compatible = "renesas,r8a774a1-csi2",
-@@ -1198,6 +1371,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
- 		.compatible = "renesas,r8a77990-csi2",
- 		.data = &rcar_csi2_info_r8a77990,
- 	},
-+	{
-+		.compatible = "renesas,r8a779a0-csi2",
-+		.data = &rcar_csi2_info_r8a779a0,
-+	},
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, rcar_csi2_of_table);
-@@ -1218,7 +1395,7 @@ static int rcsi2_probe(struct platform_device *pdev)
- {
- 	const struct soc_device_attribute *attr;
- 	struct rcar_csi2 *priv;
--	unsigned int i;
-+	unsigned int i, num_pads;
- 	int ret;
- 
- 	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-@@ -1263,11 +1440,13 @@ static int rcsi2_probe(struct platform_device *pdev)
- 	priv->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
- 	priv->subdev.entity.ops = &rcar_csi2_entity_ops;
- 
-+	num_pads = priv->info->use_isp ? 2 : NR_OF_RCAR_CSI2_PAD;
-+
- 	priv->pads[RCAR_CSI2_SINK].flags = MEDIA_PAD_FL_SINK;
--	for (i = RCAR_CSI2_SOURCE_VC0; i < NR_OF_RCAR_CSI2_PAD; i++)
-+	for (i = RCAR_CSI2_SOURCE_VC0; i < num_pads; i++)
- 		priv->pads[i].flags = MEDIA_PAD_FL_SOURCE;
- 
--	ret = media_entity_pads_init(&priv->subdev.entity, NR_OF_RCAR_CSI2_PAD,
-+	ret = media_entity_pads_init(&priv->subdev.entity, num_pads,
- 				     priv->pads);
- 	if (ret)
- 		goto error;
--- 
-2.31.1
+> Subject: Re: [PATCH 1/5] dt-bindings: dma: Document RZ/G2L bindings
+>=20
+> On Fri, 11 Jun 2021 12:36:38 +0100, Biju Das wrote:
+> > Document RZ/G2L DMAC bindings.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  .../bindings/dma/renesas,rz-dmac.yaml         | 132 ++++++++++++++++++
+> >  1 file changed, 132 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> >
+>=20
+> My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>=20
+> yamllint warnings/errors:
+>=20
+> dtschema/dtc warnings/errors:
+> Documentation/devicetree/bindings/dma/renesas,rz-dmac.example.dts:20:18:
+> fatal error: dt-bindings/clock/r9a07g044-cpg.h: No such file or directory
+>    20 |         #include <dt-bindings/clock/r9a07g044-cpg.h>
+>       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> compilation terminated.
+> make[1]: *** [scripts/Makefile.lib:380:
+> Documentation/devicetree/bindings/dma/renesas,rz-dmac.example.dt.yaml]
+> Error 1
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [Makefile:1416: dt_binding_check] Error 2 \ndoc reference error=
+s
+> (make refcheckdocs):
+>=20
+> See
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.ozlabs.org%2Fpatch%2F1490917&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.rene=
+sas
+> .com%7C0b0cf26acc004dba607508d92d0222fe%7C53d82571da1947e49cb4625a166a4a2=
+a
+> %7C0%7C0%7C637590309476730777%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDA=
+i
+> LCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DlZ%2F0v=
+9D4
+> 9djAW8E4sA3zcHOFs4x%2F073f40FkAGZJ0ZI%3D&amp;reserved=3D0
+>=20
+> This check can fail if there are any dependencies. The base for a patch
+> series is generally the most recent rc1.
+
+Sorry, The dependency patch is just queued. Next time, I will make sure
+dependency patch is in the most recent rc1 before posting.
+
+>=20
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+>=20
+> pip3 install dtschema --upgrade
+>=20
+> Please check and re-submit.
+
+Sure will check and re-submit.
+
+Regards,
+Biju
 
