@@ -2,154 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 810983A55F1
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Jun 2021 03:13:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 254183A593E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Jun 2021 17:09:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231580AbhFMBPw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 12 Jun 2021 21:15:52 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38506 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbhFMBPw (ORCPT
+        id S231841AbhFMPLM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Jun 2021 11:11:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231887AbhFMPLL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 12 Jun 2021 21:15:52 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BE2EE436;
-        Sun, 13 Jun 2021 03:13:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623546830;
-        bh=E4Gc/QsUaHVbAbV+RVx7BikI//M8UMAmG7NKfGiSVII=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iacO8BE2s7wefwqrLKy6Cg31XiRAO/rm4eGvTcvQujm1aQyPekiyUWNg9JkwQjy0N
-         L+EEvsb0eOPl7Q+6H70VCfEm6ry38Jb75AilAhit/ef2SBEmm/Ks3x1l2fXlYTqxCH
-         1lI0LBLIWEuUEQ8gRFgslM07n2VLIOagSqNYLEmE=
-Date:   Sun, 13 Jun 2021 04:13:30 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 01/14] dt-bindings: arm: renesas: Document R-Car H3e-2G
- and M3e-2G SoCs and boards
-Message-ID: <YMVbupt4pqdl2FOc@pendragon.ideasonboard.com>
-References: <cover.1623315732.git.geert+renesas@glider.be>
- <f79841c1881f8b9a2c10fadb3d3ad6cb5fccc6a5.1623315732.git.geert+renesas@glider.be>
+        Sun, 13 Jun 2021 11:11:11 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA41CC061574
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 13 Jun 2021 08:09:09 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id nd37so4496694ejc.3
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 13 Jun 2021 08:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IsFPGPRtyZEIQpz+krVUmYKB4TQmq9ynXdMydNWeOZQ=;
+        b=vXHFjnlEk1iBCVrvvKiNv7dfwQLL7WFAV7vEVWbfatw6BeYeEyI8tvU26HCrln5BE5
+         1YHvAW78Wfh8RWJigjn37KvZuKgvVmRWAtMz6AzjF7gCSE1Bd2BsW52kjMflNZ5pIcQr
+         XGTztyQKgz3nrOLDK1hAMiLebyujgYH7owjMdPIwLwcVIkkXm3FH0VAXvfWxqPu/Gwta
+         9bIYjmpuwOk/KhkdsZyZBNmJSFN/BmklhRGz+SsGWyUaD+7iOmEhsnliKEA/2gn98zXB
+         HhTkyX06YlWjqc3oC3kpUKSDx42l/WKEftTBNbujpo6/GWfgHzlyGHHaa75HUDIo12Ne
+         c+Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IsFPGPRtyZEIQpz+krVUmYKB4TQmq9ynXdMydNWeOZQ=;
+        b=s5ApFutXLGhml7XBAtU0R2q8ZqrBxITit48zSoJ0rg7VFX6CJeiXvGSMhQ4vO2lS03
+         +gp02iZrZslk3Aunnru8vaegT1L//AfSpd0dzvl9c3mr+bXE2B2twzsJOrP5lQyjwHPc
+         yVwL1iDCLGp4WdIBI7h4ltfnb1YcgJ3J2wRQBRoSqeJwkdEK5oX1PPKwci6ECmx9yH2X
+         fATgCt6kNTntdXLD4KW/Mgb+NLwc6ZeBvaEa6GWI0410M93z0loJJKQ9vYb1fyXV1yAh
+         +dlxhNT9wqWPHu9NWhP7uQ8N6pyd6oTi0FY+H4ZOtsbWgRTJ/C2kTjMUMpBzrntLixWg
+         YpzQ==
+X-Gm-Message-State: AOAM531tgLbccTJbqOKB7GCxCip7MqknGuTaBa8by/5kiLCUpBOLd4Zf
+        QAfJ83YxwZ7b8UyTxfbjDNGO8Q==
+X-Google-Smtp-Source: ABdhPJyPrEsu73jUXa3yP/ywswb98s4qPb0GygrMIFlz6zLrjD/WP0aRE0w9SwpmJSwPD8UAY8VLvQ==
+X-Received: by 2002:a17:906:fa13:: with SMTP id lo19mr11962105ejb.468.1623596948266;
+        Sun, 13 Jun 2021 08:09:08 -0700 (PDT)
+Received: from bismarck.berto.se (p4fca2710.dip0.t-ipconnect.de. [79.202.39.16])
+        by smtp.googlemail.com with ESMTPSA id h26sm5014367ejx.25.2021.06.13.08.09.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Jun 2021 08:09:07 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3] media: v4l2-fwnode: Simplify v4l2_async_nf_parse_fwnode_endpoints()
+Date:   Sun, 13 Jun 2021 17:08:47 +0200
+Message-Id: <20210613150847.774978-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f79841c1881f8b9a2c10fadb3d3ad6cb5fccc6a5.1623315732.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+There are only one user left of __v4l2_async_notifier_parse_fwnode_ep()
+since [1], v4l2_async_notifier_parse_fwnode_endpoints(). The two
+functions can be merged.
 
-Thank you for the patch.
+The merge of the two highlights a dead code block conditioned by the
+argument 'has_port' that always is false and can therefor be removed.
 
-On Thu, Jun 10, 2021 at 11:37:14AM +0200, Geert Uytterhoeven wrote:
-> Document the compatible values for the R-Car H3e-2G (R8A779M1) and
-> M3e-2G (R8A779M3) SoCs.  These are different gradings of the R-Car H3
-> ES3.0 (R8A77951) and M3-W+ (R8A77961) SoCs.
-> 
-> All R-Car Gen3e on-SoC devices are identical to the devices on the
-> corresponding R-Car Gen3 SoCs, and thus just use the compatible values
-> for the latter.  The root compatible properties do gain an additional
-> value, to sort out integration issues if they ever arise.
-> 
-> Document the use of these SoCs on the Salvator-XS and ULCB (with and
-> without Kingfisher) development boards.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+1. commit 0ae426ebd0dcef81 ("media: v4l2-fwnode: Remove v4l2_async_notifier_parse_fwnode_endpoints_by_port()")
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+* Changes since v2
+- Extend commit message to describe that the dead code removed is created
+  by the merge of the two functions.
+- The rename of the effected function never made it upstream, rebase
+  this patch to latest media-tree so it can be picked-up without the
+  rename.
 
-(Copying a comment from another e-mail)
+* Changes since v1
+- Rebased on Sakari's branch which renames
+  v4l2_async_notifier_parse_fwnode_endpoints() to
+  v4l2_async_nf_parse_fwnode_endpoints).
+---
+ drivers/media/v4l2-core/v4l2-fwnode.c | 33 ++++-----------------------
+ 1 file changed, 5 insertions(+), 28 deletions(-)
 
-I however wonder if we haven't messed up the board compatible strings
-somehow (unrelated to this patch). Aren't compatible strings supposed to
-be ordered from most specific to most generic, with a more specific
-compatible string being a strict subset of a more generic string ?
-Looking at, for example,
-
-        compatible = "renesas,salvator-xs", "renesas,r8a779m1", "renesas,r8a7795";
-
-the rule is upheld by renesas,r8a779m1 being a subset of the more
-generic renesas,r8a7795, but that's not the case for
-renesas,salvator-xs.
-
-> ---
->  .../devicetree/bindings/arm/renesas.yaml      | 50 +++++++++++++++----
->  1 file changed, 39 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
-> index 5fd0696a9f91f383..a01dd064bf16632a 100644
-> --- a/Documentation/devicetree/bindings/arm/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-> @@ -238,17 +238,29 @@ properties:
->            - const: renesas,r8a77961
->  
->        - description: Kingfisher (SBEV-RCAR-KF-M03)
-> -        items:
-> -          - const: shimafuji,kingfisher
-> -          - enum:
-> -              - renesas,h3ulcb
-> -              - renesas,m3ulcb
-> -              - renesas,m3nulcb
-> -          - enum:
-> -              - renesas,r8a7795
-> -              - renesas,r8a7796
-> -              - renesas,r8a77961
-> -              - renesas,r8a77965
-> +        oneOf:
-> +          - items:
-> +              - const: shimafuji,kingfisher
-> +              - enum:
-> +                  - renesas,h3ulcb
-> +                  - renesas,m3ulcb
-> +                  - renesas,m3nulcb
-> +              - enum:
-> +                  - renesas,r8a7795
-> +                  - renesas,r8a7796
-> +                  - renesas,r8a77961
-> +                  - renesas,r8a77965
-> +          - items:
-> +              - const: shimafuji,kingfisher
-> +              - enum:
-> +                  - renesas,h3ulcb
-> +                  - renesas,m3ulcb
-> +              - enum:
-> +                  - renesas,r8a779m1
-> +                  - renesas,r8a779m3
-> +              - enum:
-> +                  - renesas,r8a7795
-> +                  - renesas,r8a77961
->  
->        - description: R-Car M3-N (R8A77965)
->          items:
-> @@ -296,6 +308,22 @@ properties:
->            - const: renesas,falcon-cpu
->            - const: renesas,r8a779a0
->  
-> +      - description: R-Car H3e-2G (R8A779M1)
-> +        items:
-> +          - enum:
-> +              - renesas,h3ulcb      # H3ULCB (R-Car Starter Kit Premier)
-> +              - renesas,salvator-xs # Salvator-XS (Salvator-X 2nd version)
-> +          - const: renesas,r8a779m1
-> +          - const: renesas,r8a7795
-> +
-> +      - description: R-Car M3e-2G (R8A779M3)
-> +        items:
-> +          - enum:
-> +              - renesas,m3ulcb      # M3ULCB (R-Car Starter Kit Pro)
-> +              - renesas,salvator-xs # Salvator-XS (Salvator-X 2nd version)
-> +          - const: renesas,r8a779m3
-> +          - const: renesas,r8a77961
-> +
->        - description: RZ/N1D (R9A06G032)
->          items:
->            - enum:
-
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 843259c304bb5857..60ef0e11af51850c 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -839,13 +839,11 @@ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+ 	return ret == -ENOTCONN ? 0 : ret;
+ }
+ 
+-static int
+-__v4l2_async_notifier_parse_fwnode_ep(struct device *dev,
+-				      struct v4l2_async_notifier *notifier,
+-				      size_t asd_struct_size,
+-				      unsigned int port,
+-				      bool has_port,
+-				      parse_endpoint_func parse_endpoint)
++int
++v4l2_async_notifier_parse_fwnode_endpoints(struct device *dev,
++					   struct v4l2_async_notifier *notifier,
++					   size_t asd_struct_size,
++					   parse_endpoint_func parse_endpoint)
+ {
+ 	struct fwnode_handle *fwnode;
+ 	int ret = 0;
+@@ -863,16 +861,6 @@ __v4l2_async_notifier_parse_fwnode_ep(struct device *dev,
+ 		if (!is_available)
+ 			continue;
+ 
+-		if (has_port) {
+-			struct fwnode_endpoint ep;
+-
+-			ret = fwnode_graph_parse_endpoint(fwnode, &ep);
+-			if (ret)
+-				break;
+-
+-			if (ep.port != port)
+-				continue;
+-		}
+ 
+ 		ret = v4l2_async_notifier_fwnode_parse_endpoint(dev,
+ 								notifier,
+@@ -887,17 +875,6 @@ __v4l2_async_notifier_parse_fwnode_ep(struct device *dev,
+ 
+ 	return ret;
+ }
+-
+-int
+-v4l2_async_notifier_parse_fwnode_endpoints(struct device *dev,
+-					   struct v4l2_async_notifier *notifier,
+-					   size_t asd_struct_size,
+-					   parse_endpoint_func parse_endpoint)
+-{
+-	return __v4l2_async_notifier_parse_fwnode_ep(dev, notifier,
+-						     asd_struct_size, 0,
+-						     false, parse_endpoint);
+-}
+ EXPORT_SYMBOL_GPL(v4l2_async_notifier_parse_fwnode_endpoints);
+ 
+ /*
 -- 
-Regards,
+2.32.0
 
-Laurent Pinchart
