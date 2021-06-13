@@ -2,155 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 254183A593E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Jun 2021 17:09:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39C423A5A31
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Jun 2021 21:43:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231841AbhFMPLM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Jun 2021 11:11:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35522 "EHLO
+        id S231803AbhFMTpQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Jun 2021 15:45:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231887AbhFMPLL (ORCPT
+        with ESMTP id S231788AbhFMTpP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 13 Jun 2021 11:11:11 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA41CC061574
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 13 Jun 2021 08:09:09 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id nd37so4496694ejc.3
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 13 Jun 2021 08:09:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IsFPGPRtyZEIQpz+krVUmYKB4TQmq9ynXdMydNWeOZQ=;
-        b=vXHFjnlEk1iBCVrvvKiNv7dfwQLL7WFAV7vEVWbfatw6BeYeEyI8tvU26HCrln5BE5
-         1YHvAW78Wfh8RWJigjn37KvZuKgvVmRWAtMz6AzjF7gCSE1Bd2BsW52kjMflNZ5pIcQr
-         XGTztyQKgz3nrOLDK1hAMiLebyujgYH7owjMdPIwLwcVIkkXm3FH0VAXvfWxqPu/Gwta
-         9bIYjmpuwOk/KhkdsZyZBNmJSFN/BmklhRGz+SsGWyUaD+7iOmEhsnliKEA/2gn98zXB
-         HhTkyX06YlWjqc3oC3kpUKSDx42l/WKEftTBNbujpo6/GWfgHzlyGHHaa75HUDIo12Ne
-         c+Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IsFPGPRtyZEIQpz+krVUmYKB4TQmq9ynXdMydNWeOZQ=;
-        b=s5ApFutXLGhml7XBAtU0R2q8ZqrBxITit48zSoJ0rg7VFX6CJeiXvGSMhQ4vO2lS03
-         +gp02iZrZslk3Aunnru8vaegT1L//AfSpd0dzvl9c3mr+bXE2B2twzsJOrP5lQyjwHPc
-         yVwL1iDCLGp4WdIBI7h4ltfnb1YcgJ3J2wRQBRoSqeJwkdEK5oX1PPKwci6ECmx9yH2X
-         fATgCt6kNTntdXLD4KW/Mgb+NLwc6ZeBvaEa6GWI0410M93z0loJJKQ9vYb1fyXV1yAh
-         +dlxhNT9wqWPHu9NWhP7uQ8N6pyd6oTi0FY+H4ZOtsbWgRTJ/C2kTjMUMpBzrntLixWg
-         YpzQ==
-X-Gm-Message-State: AOAM531tgLbccTJbqOKB7GCxCip7MqknGuTaBa8by/5kiLCUpBOLd4Zf
-        QAfJ83YxwZ7b8UyTxfbjDNGO8Q==
-X-Google-Smtp-Source: ABdhPJyPrEsu73jUXa3yP/ywswb98s4qPb0GygrMIFlz6zLrjD/WP0aRE0w9SwpmJSwPD8UAY8VLvQ==
-X-Received: by 2002:a17:906:fa13:: with SMTP id lo19mr11962105ejb.468.1623596948266;
-        Sun, 13 Jun 2021 08:09:08 -0700 (PDT)
-Received: from bismarck.berto.se (p4fca2710.dip0.t-ipconnect.de. [79.202.39.16])
-        by smtp.googlemail.com with ESMTPSA id h26sm5014367ejx.25.2021.06.13.08.09.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jun 2021 08:09:07 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3] media: v4l2-fwnode: Simplify v4l2_async_nf_parse_fwnode_endpoints()
-Date:   Sun, 13 Jun 2021 17:08:47 +0200
-Message-Id: <20210613150847.774978-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.32.0
+        Sun, 13 Jun 2021 15:45:15 -0400
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAC95C061574;
+        Sun, 13 Jun 2021 12:43:13 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 2070480412;
+        Sun, 13 Jun 2021 21:43:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1623613388;
+        bh=+mfGQ/TWK4Pg8XN7ph4PE9cUaE57WSFl8YmuDW3L1eU=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=S7Si6KXOSsOVaFBsj9TdI5VgI4j/WdBNMY/WLD33I+BjARLSSdITauNealUQobAaA
+         Z8frtGwGyzbpK0PFpQIy1hRTK+saOhPxlHXgVaBd44mzNN0FxIofVlABsWLq2V5E19
+         sWnQSvMGZaypFL5kWkoJDZBK4Vw4JmAA3onZOZR5FfaagNQza9vleovskuWt6fIlVB
+         YCNw8Qo4Oed/9WhV/hUEsymsgDcctpKwzXiTx67KMd+slWYKR+iEKigC51WpHLvvHw
+         NkmdVgQtu3dKCafm1j5bmBMfKiUx0nCAn+TS1kwh9QDylG+/iZgx1Iv9CFOGEskagJ
+         ZHUBelrxFfSRg==
+Subject: Re: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
+ ili2xxx bindings
+To:     =?UTF-8?B?Sm9lIEh1bmcgKOa0qumKmOmZvSk=?= <joe_hung@ilitek.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        =?UTF-8?B?THVjYSBIc3UgKOW+kOWYiemNiik=?= <luca_hsu@ilitek.com>
+References: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
+ <9b1b2a44-348e-5453-d767-d5c69a0869a7@denx.de>
+ <CAMuHMdXE0kipUm6wqHsrFurFkviU_nRJJB7cg6z1XwEvpEewGQ@mail.gmail.com>
+ <YMOsRzfDnZ/iApwD@google.com> <9d901eb1-6408-6b4f-1377-03c394d440c4@denx.de>
+ <b30e65d0847949b497c635dd1d5035ac@ilitek.com>
+From:   Marek Vasut <marex@denx.de>
+Message-ID: <c9850c77-523e-3f25-a771-dc6e84ae8bde@denx.de>
+Date:   Sun, 13 Jun 2021 21:43:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <b30e65d0847949b497c635dd1d5035ac@ilitek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There are only one user left of __v4l2_async_notifier_parse_fwnode_ep()
-since [1], v4l2_async_notifier_parse_fwnode_endpoints(). The two
-functions can be merged.
+On 6/12/21 7:52 AM, Joe Hung (洪銘陽) wrote:
+> Hi Marek,
 
-The merge of the two highlights a dead code block conditioned by the
-argument 'has_port' that always is false and can therefor be removed.
+Hi,
 
-1. commit 0ae426ebd0dcef81 ("media: v4l2-fwnode: Remove v4l2_async_notifier_parse_fwnode_endpoints_by_port()")
+> I'm the committer of "ilitek_ts_i2c.c" driver.
+> The so-called "Lego" series was listed below, as listed in ilitek_ts_i2c.yaml
+> It's the newer series with different protocol and control flow to ILITEK IC FW.
+> 
+> - ilitek,ili2130
+> - ilitek,ili2131
+> - ilitek,ili2132
+> - ilitek,ili2316
+> - ilitek,ili2322
+> - ilitek,ili2323
+> - ilitek,ili2326
+> - ilitek,ili2520
+> - ilitek,ili2521
+> 
+>> The older driver also supports 251x . What exactly is "Lego" series ?
+> More specifically, Lego series support "252x", not "2510".
+> The older driver support 210x and 251x, which has older protocol.
+> 
+>> In fact, is there documentation for the different ILI2xxx touchscreen controllers ? So far, all the information I had was pulled from the various forks of downstream example code.
+> If it need for a doc. to distinguish it, I am glad to support/arrange, and where should I put those description to ?
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v2
-- Extend commit message to describe that the dead code removed is created
-  by the merge of the two functions.
-- The rename of the effected function never made it upstream, rebase
-  this patch to latest media-tree so it can be picked-up without the
-  rename.
-
-* Changes since v1
-- Rebased on Sakari's branch which renames
-  v4l2_async_notifier_parse_fwnode_endpoints() to
-  v4l2_async_nf_parse_fwnode_endpoints).
----
- drivers/media/v4l2-core/v4l2-fwnode.c | 33 ++++-----------------------
- 1 file changed, 5 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index 843259c304bb5857..60ef0e11af51850c 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -839,13 +839,11 @@ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
- 	return ret == -ENOTCONN ? 0 : ret;
- }
- 
--static int
--__v4l2_async_notifier_parse_fwnode_ep(struct device *dev,
--				      struct v4l2_async_notifier *notifier,
--				      size_t asd_struct_size,
--				      unsigned int port,
--				      bool has_port,
--				      parse_endpoint_func parse_endpoint)
-+int
-+v4l2_async_notifier_parse_fwnode_endpoints(struct device *dev,
-+					   struct v4l2_async_notifier *notifier,
-+					   size_t asd_struct_size,
-+					   parse_endpoint_func parse_endpoint)
- {
- 	struct fwnode_handle *fwnode;
- 	int ret = 0;
-@@ -863,16 +861,6 @@ __v4l2_async_notifier_parse_fwnode_ep(struct device *dev,
- 		if (!is_available)
- 			continue;
- 
--		if (has_port) {
--			struct fwnode_endpoint ep;
--
--			ret = fwnode_graph_parse_endpoint(fwnode, &ep);
--			if (ret)
--				break;
--
--			if (ep.port != port)
--				continue;
--		}
- 
- 		ret = v4l2_async_notifier_fwnode_parse_endpoint(dev,
- 								notifier,
-@@ -887,17 +875,6 @@ __v4l2_async_notifier_parse_fwnode_ep(struct device *dev,
- 
- 	return ret;
- }
--
--int
--v4l2_async_notifier_parse_fwnode_endpoints(struct device *dev,
--					   struct v4l2_async_notifier *notifier,
--					   size_t asd_struct_size,
--					   parse_endpoint_func parse_endpoint)
--{
--	return __v4l2_async_notifier_parse_fwnode_ep(dev, notifier,
--						     asd_struct_size, 0,
--						     false, parse_endpoint);
--}
- EXPORT_SYMBOL_GPL(v4l2_async_notifier_parse_fwnode_endpoints);
- 
- /*
--- 
-2.32.0
-
+I think the older ili251x has protocol V5 and the lego series has 
+protocol V6 or something like that, right ? If that's the case, maybe it 
+would be useful to clarify that and that the protocols are incompatible, 
+so others don't get confused by those two drivers.
