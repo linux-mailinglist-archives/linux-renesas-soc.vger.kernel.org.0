@@ -2,118 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4495B3A5E21
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 10:12:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 148123A5EB4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 10:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232557AbhFNIOW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Jun 2021 04:14:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57728 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232530AbhFNIOW (ORCPT
+        id S232528AbhFNJAn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Jun 2021 05:00:43 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:41387 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232657AbhFNJAn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Jun 2021 04:14:22 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E7D1C061767
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Jun 2021 01:12:20 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id m9so14243110ybo.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Jun 2021 01:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=benyossef-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mWyjbWjzwsMzLa72tEccwSl/HTbQ8uYhU7FshMhUYXk=;
-        b=wF/amHlTXPSifjsx29vDTMCcB25wEeN9P1V4iPallH3kXnTuyXKasGEW59PwI0a1Ii
-         SzcUAujoKBfQL2n197j47NGgP654C53MPZrDWdDTJxAE6Kpj2DolR9OyYF4Yb7xhTna9
-         DLEZgUGmzMqXlVpxTmHhD8UIH6NsOKvRm4Tj699FHuh00jTi2cu+HFfSy5JBEleeIHTh
-         LqiQvBHJrDCy6kw/6Qn6miztadNXGqI8CS8ajln803juRxBsNduitZZZ5slB6U03S31G
-         KFSbsXLvl4AkSxQ3ewYPqbCLZNJNSTKnAshl77HzDQCfeC1komrWfr/KF+piYqAuEeug
-         92Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mWyjbWjzwsMzLa72tEccwSl/HTbQ8uYhU7FshMhUYXk=;
-        b=an1VgLHq0SiqvIAoQ70wCUwkxgImvVKg9SToXJd/bhetch65xHjitNg8EPFhUY6kCR
-         /GbHq4GerVGtSm6ohg4k1yySTORiG9shvu1YqqmxN2PRlx47iQy3lfIs/I8xHBNtU2qg
-         8DoIH3zR+DddKenoj/A/d4sqI63X1kcw7GKlt40upZ/5h9pi5hy8TrtkK1DjK8n8zex7
-         ZdpTCcjYsWywMxoel9P1VC6cAuDO1T4t2mkjHwIu5jhYzZ+JX62Ox0qep6BSwh8r+M7M
-         5ekJE6/VXkgicHEGCLCb9Ku9XXZPf6jMcNicIZcuFcHHOCCkQdzSxeoq7zhZr+uYoLvs
-         ReEw==
-X-Gm-Message-State: AOAM5323DqDCNtCUedWY2UusMpgUlT0QvhZi+voEJwWEaxSXTn+g5lzF
-        vmaFd08GDDpOW7+lN2k4SIDmcfvJ9Vf9Qr5JNZS2Fg==
-X-Google-Smtp-Source: ABdhPJwQ9d5siEs5Akj35O3tddxVGr5DulDlHhnxJY3FR00Ad4FvUDQ3hD3iPqJQY2/NYG+4RMc/IqBeeV2aG+e87i8=
-X-Received: by 2002:a25:db86:: with SMTP id g128mr24390370ybf.193.1623658339326;
- Mon, 14 Jun 2021 01:12:19 -0700 (PDT)
+        Mon, 14 Jun 2021 05:00:43 -0400
+X-Greylist: delayed 430 seconds by postgrey-1.27 at vger.kernel.org; Mon, 14 Jun 2021 05:00:43 EDT
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id siJZlb5ZFhqltsiJclm6MC; Mon, 14 Jun 2021 10:51:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623660689; bh=+H5uVlIFNhykOXsC5lcJztNlsLEis8cXwhsHsGpQVBM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=sRWKwmvG7ZZx4G6NyEPJevdP1zfXTscMM7a4uRE+d/MCRRN86ZQ+x4DIHbV02Hi4E
+         6CQyLeAMR+m2mV6BMycQ8ILSRnZzcGGS5zLBGO3+e5j6rNpvlDQj/PeyX9a28wYFQh
+         Ngo33I2mplQYkdcAyBj6ymkYbmoVxYsbZKlPWnKCSgTp76NEEncV1PuPNcC94UaTZE
+         W9lpluwB8grgWx4PlKqYCR2eivijqJr87Qbm2+NQ4pQPMQMSCjU8mpkRmp7zD/rYPb
+         GEVgoqozWA+YLbxRj8Rn6s2j/8etlNPnS0S7aQHiqe1CdyXg/OA1K8oDSARQVsU1Z8
+         VPw516I7GDJ4w==
+Subject: Re: [PATCH v4 16/17] media: v4l2-subdev: De-deprecate init() subdev
+ op
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+References: <20210412093451.14198-1-jacopo+renesas@jmondi.org>
+ <20210412093451.14198-17-jacopo+renesas@jmondi.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <2ad9747e-7e2d-2c95-a98b-b6b0e7534e42@xs4all.nl>
+Date:   Mon, 14 Jun 2021 10:51:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <ab361a862755e281f5fef67b3f678d66ae201781.1623413974.git.geert+renesas@glider.be>
-In-Reply-To: <ab361a862755e281f5fef67b3f678d66ae201781.1623413974.git.geert+renesas@glider.be>
-From:   Gilad Ben-Yossef <gilad@benyossef.com>
-Date:   Mon, 14 Jun 2021 11:12:08 +0300
-Message-ID: <CAOtvUMe0tnTq9uuhs1u3USxFJR=nkbdR+7D18MU0acurRwzLFw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: crypto: ccree: Convert to json-schema
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Ofir Drang <Ofir.Drang@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210412093451.14198-17-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfDfU7v0cY3T1PcpmbPx7u+dbBQhnVFqgDAD4lNxgvusljxV1IJzKzzfP6uPRjP4bj56HYOVI/AZr1LVqx7B1CLPMIco6RqR+RIFUYj7O91ClS40crQId
+ f5GXfMGqoGUUwZLUp0ZyDWW4WPX9Dwi7sKQojH2zkCeAhQt8SgqyyswISQsm3leiQycwjU3GffX8NnMOEaWfswJF5VRP5dJXRYI7zAF+EHKTgG7qOhFgMpxy
+ gp+LthCsmoSFmWkis3HRQ7Ku/qX1/aNCUn79R9ib6kPqpqJkJ8oY9FfZLfSnt0riOWClJ8k+iH/DfsNqx8U3dMuhdkHUm2Y3Q27LFLjyX7VP0CM8RVfzTEhK
+ EWrmL3cmODtFMq/4HYqD/Z1HjtMnnV1rBa8H3m+MIIpf7l+hsXzWaCcsUDFDKBthARYevL86ifMDq+tf5KH7ZGF6wBddJ20FOaK4twD2Rj8YzgdKZ8L9F8L7
+ nNVM5JvX+dqpq3t22Jh9ZMIfSmPzW9gh1t7E6BIsYLSaGI9Xl6wNAwZ6N22wgZ43z6Qwc4nI5ZqjdRWYd2jkuKbwJLC2h/JeujfmRqi14+U6pUUZPLRbziwL
+ xeMVxGhs2vAaWLRTRTxKV/v+
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thank you for taking the initiative to do this.
-
-On Fri, Jun 11, 2021 at 3:20 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Convert the Arm TrustZone CryptoCell cryptographic engine Device Tree
-> binding documentation to json-schema.
->
-> Document missing properties.
-> Update the example to match reality.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 12/04/2021 11:34, Jacopo Mondi wrote:
+> The init() subdev core operation is deemed to be deprecated for new
+> subdevice drivers. However it could prove useful for complex
+> architectures to defer operation that require access to the
+> communication bus if said bus is not available (or fully configured)
+> at the time when the subdevice probe() function is run.
+> 
+> As an example, the GMSL architecture requires the GMSL configuration
+> link to be configured on the host side after the remote subdevice
+> has completed its probe function. After the configuration on the host
+> side has been performed, the subdevice registers can be accessed through
+> the communication bus.
+> 
+> In particular:
+> 
+> 	HOST			REMOTE
+> 
+> 	probe()
+> 	   |
+> 	   ---------------------> |
+> 				  probe() {
+> 				     bus config()
+> 				  }
+> 	   |<--------------------|
+> 	v4l2 async bound {
+> 	    bus config()
+> 	    call subdev init()
+> 	   |-------------------->|
+> 				 init() {
+> 				     access register on the bus()
+> 				}
+> 	   |<-------------------
+> 	}
+> 
+> In the GMSL use case the bus configuration requires the enablement of the
+> noise immunity threshold on the remote side which ensures reliability
+> of communications in electrically noisy environments. After the subdevice
+> has enabled the threshold at the end of its probe() sequence the host
+> side shall compensate it with an higher signal amplitude. Once this
+> sequence has completed the bus can be accessed with noise protection
+> enabled and all the operations that require a considerable number of
+> transactions on the bus (such as the image sensor configuration
+> sequence) are run in the subdevice init() operation implementation.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  .../bindings/crypto/arm,cryptocell.yaml       | 53 +++++++++++++++++++
->  .../bindings/crypto/arm-cryptocell.txt        | 25 ---------
->  2 files changed, 53 insertions(+), 25 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/crypto/arm,cryptoce=
-ll.yaml
->  delete mode 100644 Documentation/devicetree/bindings/crypto/arm-cryptoce=
-ll.txt
->
-> diff --git a/Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml=
- b/Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml
-> new file mode 100644
-> index 0000000000000000..9c97874a6dbd1db9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml
-> @@ -0,0 +1,53 @@
+>  include/media/v4l2-subdev.h | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index d0e9a5bdb08b..3068d9940669 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
+>   *	each pin being configured.  This function could be called at times
+>   *	other than just subdevice initialization.
+>   *
+> - * @init: initialize the sensor registers to some sort of reasonable default
+> - *	values. Do not use for new drivers and should be removed in existing
+> - *	drivers.
+> + * @init: initialize the subdevice registers to some sort of reasonable default
+> + *	values. Do not use for new drivers (and should be removed in existing
+> + *	ones) for regular architectures where the image sensor is connected to
+> + *	the host receiver. For more complex architectures where the subdevice
+> + *	initialization should be deferred to the completion of the probe
+> + *	sequence of some intermediate component, or the communication bus
+> + *	requires configurations on the host side that depend on the completion
+> + *	of the probe sequence of the remote subdevices, the usage of this
+> + *	operation could be considered to allow the devices along the pipeline to
+> + *	probe and register in the media graph and to defer any operation that
+> + *	require actual access to the communication bus to their init() function
+> + *	implementation.
 
-I am fine with the change as a whole except this line:
+I don't like de-deprecating init. It was deprecated for a good reason, and
+I'd like to keep it that way.
 
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+There are two alternatives: one is a bit quick-and-dirty, the other is a hint
+towards a more generic solution (just a hint since it will require more research):
 
-Please keep it as as the rest of the ccree driver:
-# SPDX-License-Identifier: GPL-2.0
+1) Quick-and-dirty: use the core callback op to create a custom INIT callback.
+This depends on this patch:
 
-This is not because I care about the difference so much but because
-otherwise I need to authorize the change with my employer legal
-department.
+https://patchwork.linuxtv.org/project/linux-media/patch/20210610214305.4170835-8-arnd@kernel.org/
 
-Thanks,
-Gilad
+This will make it clear to the reader that this is a highly specific interaction
+between two drivers that are tightly coupled. It works in the current situation,
+but not if we want to make this more generic.
 
+2) Subdev drivers can implement the registered() op which is called by
+v4l2_device_register_subdev(). This in turn is called from v4l2_async_match_notify().
 
---=20
-Gilad Ben-Yossef
-Chief Coffee Drinker
+What you want is that when max9286 calls v4l2_async_subdev_notifier_register, it
+can set a flag or something indicating that initialization has to be postponed.
+Then, when v4l2_async_match_notify() calls the register() callback, that flag can
+be read. If false, then the register() callback will initialize the device, if
+true then that won't happen. Instead, it will do that when the max9286 calls a
+post_register() callback.
 
-values of =CE=B2 will give rise to dom!
+This is a lot more work (and research, since this is just a brainstorm from my
+side), but it is a way towards making this a generic solution.
+
+Regards,
+
+	Hans
+
+>   *
+>   * @load_fw: load firmware.
+>   *
+> --
+> 2.31.1
+> 
+
