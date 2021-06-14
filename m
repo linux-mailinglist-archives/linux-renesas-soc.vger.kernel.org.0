@@ -2,49 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C8A43A6653
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 14:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 077D03A6687
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 14:27:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233234AbhFNMSC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Jun 2021 08:18:02 -0400
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:34602 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232559AbhFNMSC (ORCPT
+        id S233076AbhFNM3H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Jun 2021 08:29:07 -0400
+Received: from mail-vs1-f51.google.com ([209.85.217.51]:34759 "EHLO
+        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233381AbhFNM3G (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Jun 2021 08:18:02 -0400
-Received: by mail-ua1-f50.google.com with SMTP id c17so5363413uao.1;
-        Mon, 14 Jun 2021 05:15:59 -0700 (PDT)
+        Mon, 14 Jun 2021 08:29:06 -0400
+Received: by mail-vs1-f51.google.com with SMTP id q2so7679186vsr.1;
+        Mon, 14 Jun 2021 05:26:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=loqqI6RxxyMEMBLFi5At6xP/oGgu8uAPBdsEXUU+FCw=;
-        b=XcTSHhpn0/7Q3803MnHsTknRq+UAYQCSqQlhDGix8O3UVpjb6Rvs69pJzaAUAStqht
-         UmwBaolqLEuBQbBKfOrYLZH51oaOUJlCoI50m/gt6HPHJUQ8rjfDBKlfkGBccJOzwFde
-         J1Eww0MxoeHZQ7o68zCHKN8jfATD00GUHphxS/YnH3fNlX2jxP+NJUKNMQuj9Pkl+Bix
-         ViufEANQ+JcSHF+ess3tETGsBf625TBkdtPGLDt+VpBmzqU5C+x60t0n0N1e83zZTDOx
-         o16TO4myxtjXDvoLFITvRROXdh9usikYEnSioXhmw7fJIhM2akfIxVa0xGTP0mt8WE12
-         fpKg==
-X-Gm-Message-State: AOAM5301RRbnKN5efWewhI68StAdd7R4KbgvcFMmEBmoxwR8lqgPn3ln
-        gVm6NzTP0vM5n3RR+VVg11MqsTGad6YLj1Flz9A=
-X-Google-Smtp-Source: ABdhPJwIbzJ/kYYtMGKzZWhsOZ8o/6gE82MHfNvTdOC/XoMENQNFPIi3fHjUmE5A3meYX9g7DIHb62RwkYlpvw0YItE=
-X-Received: by 2002:ab0:b09:: with SMTP id b9mr11062690uak.58.1623672958927;
- Mon, 14 Jun 2021 05:15:58 -0700 (PDT)
+        bh=L711Ag5/juTcjNB1RgOqhXyWwY1X5qNPuCaA8YLk/r8=;
+        b=NrUWrxh8hk650QJWgyCAS/BJmxGxUPkLZkDqPh1jfT6wrIGaX5XWkT4Az1iKWTaRoK
+         oyXX2F+WxmAFRsTfpXhd4LpCxlKo8rS4Hxrc8g70cFlkY0bPSbjFrMNHHMZkbesmlaD5
+         MB8VybkRJZPMvCcBK71Ggvt7afPzxkA8G3kGLWmIgptgmN63NkfVp89i54FkLP9dg5kd
+         RbZV/d04sf6cTgteJ1C6cE1HEZQJW0srnfVmJ5kN64acq13IAEGCmOl/FwvWa75nozz4
+         pQwKbgA/8t61IHhsIgEv4rQGbNRlD/td0NaHSX19SLAVKe7ZhHmtih3z1slG8+tdswxK
+         VRuA==
+X-Gm-Message-State: AOAM530EBsI3eSTVPfWMyQwYIFxqRDBnBf/qpc7sLtJ1WSFs41mAW5wd
+        +vlLkrGQWyaYYf6Qw3oNU4zbi77dB96iRBKqfgLvfb4UIv44qw==
+X-Google-Smtp-Source: ABdhPJzJzMoR7QaIUWLeMNtZpbsPkPwFzSXE3b+XiGq9/GotFfq9AlOUR3wi0QAgWIicTFKnkDCP+HM79VqTbqvBkEs=
+X-Received: by 2002:a05:6102:2011:: with SMTP id p17mr16867962vsr.40.1623673611590;
+ Mon, 14 Jun 2021 05:26:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210611113642.18457-1-biju.das.jz@bp.renesas.com> <20210611113642.18457-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210611113642.18457-5-biju.das.jz@bp.renesas.com>
+References: <20210611134642.24029-1-biju.das.jz@bp.renesas.com> <20210611134642.24029-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210611134642.24029-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Jun 2021 14:15:47 +0200
-Message-ID: <CAMuHMdUthmAbwNrBKeEBzqBUN6HYR=Fuz5ALpK+iGY_kUQpV1A@mail.gmail.com>
-Subject: Re: [PATCH 4/5] arm64: dts: renesas: r9a07g044: Add DMAC support
+Date:   Mon, 14 Jun 2021 14:26:40 +0200
+Message-ID: <CAMuHMdXpOGWLMXph9OGeZqZiy33O_y5z2XfAf0YzQgb4q_8+rA@mail.gmail.com>
+Subject: Re: [PATCH 2/6] drivers: clk: renesas: r9a07g044-cpg: Add USB clocks
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
@@ -53,74 +52,37 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Fri, Jun 11, 2021 at 1:36 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add DMAC support to RZ/G2L SoC DT.
+On Fri, Jun 11, 2021 at 3:46 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add clock entries for USB{0,1}.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> @@ -8,6 +8,10 @@
->  #include <dt-bindings/interrupt-controller/arm-gic.h>
->  #include <dt-bindings/clock/r9a07g044-cpg.h>
->
-> +#define CH_CFG(reqd, loen, hien, lvl, am, sds, dds, tm) \
-> +       ((((tm) << 22) | ((dds) << 16) | ((sds) << 12) | ((am) << 8) | \
-> +       ((lvl) << 6) | ((hien) << 5) | ((loen) << 4) | ((reqd) << 3)) & 0x004FF778)
-> +
+> --- a/drivers/clk/renesas/r9a07g044-cpg.c
+> +++ b/drivers/clk/renesas/r9a07g044-cpg.c
+> @@ -88,6 +88,12 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
+>         DEF_MOD("dmac",         R9A07G044_CLK_DMAC,
+>                                 R9A07G044_CLK_P1,
+>                                 0x52c, (BIT(0) | BIT(1)), (BIT(0) | BIT(1))),
+> +       DEF_MOD("usb0",         R9A07G044_CLK_USB0,
+> +                               R9A07G044_CLK_P1,
+> +                               0x578, (BIT(0) | BIT(2) | BIT(3)), (BIT(0) | BIT(2) | BIT(3))),
+> +       DEF_MOD("usb1",         R9A07G044_CLK_USB1,
+> +                               R9A07G044_CLK_P1,
+> +                               0x578, (BIT(1) | BIT(3)), (BIT(1) | BIT(3))),
+>         DEF_MOD("scif0",        R9A07G044_CLK_SCIF0,
+>                                 R9A07G044_CLK_P0,
+>                                 0x584, BIT(0), BIT(0)),
 
-I assume the above will be removed?
+While the above matches the datasheet, I see a problem with the
+implementation. As BIT(3) of the CPG_{CLKON,CLKMON,RST}_USB is shared by
+the two USB2.0 channels, disabling USB_PCLK or asserting USB_PRESETN
+will affect both channels.  So it looks like you need special handling
+to make sure that doesn't happen while the other channel is in use.
 
->  / {
->         compatible = "renesas,r9a07g044";
->         #address-cells = <2>;
-> @@ -111,6 +115,40 @@
->                         status = "disabled";
->                 };
->
-> +               dmac: dma-controller@11820000 {
-> +                       compatible = "renesas,dmac-r9a07g044",
-> +                                    "renesas,rz-dmac";
-> +                       reg = <0 0x11820000 0 0x10000>,
-> +                             <0 0x11830000 0 0x10000>;
-> +                       interrupts = <GIC_SPI 125 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 126 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 127 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 128 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 129 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 130 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 131 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 132 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 133 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 134 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 135 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 136 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 137 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 138 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 139 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 140 IRQ_TYPE_EDGE_RISING>,
-> +                                    <GIC_SPI 141 IRQ_TYPE_EDGE_RISING>;
-> +                       interrupt-names = "ch0", "ch1", "ch2", "ch3",
-> +                                         "ch4", "ch5", "ch6", "ch7",
-> +                                         "ch8", "ch9", "ch10", "ch11",
-> +                                         "ch12", "ch13", "ch14", "ch15",
-> +                                         "error";
-> +                       clocks = <&cpg CPG_MOD R9A07G044_CLK_DMAC>;
-> +                       power-domains = <&cpg>;
-> +                       resets = <&cpg R9A07G044_CLK_DMAC>;
-> +                       #dma-cells = <1>;
-> +                       dma-channels = <16>;
-> +               };
-> +
->                 gic: interrupt-controller@11900000 {
->                         compatible = "arm,gic-v3";
->                         #interrupt-cells = <3>;
-
-The rest looks good to me, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Or am I missing something?
 
 Gr{oetje,eeting}s,
 
