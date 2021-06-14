@@ -2,87 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 429173A6F54
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 21:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E2043A71A9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 23:59:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234594AbhFNTpo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Jun 2021 15:45:44 -0400
-Received: from mail-vs1-f52.google.com ([209.85.217.52]:42546 "EHLO
-        mail-vs1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234188AbhFNTpn (ORCPT
+        id S231136AbhFNWBM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Jun 2021 18:01:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42462 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230230AbhFNWBL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Jun 2021 15:45:43 -0400
-Received: by mail-vs1-f52.google.com with SMTP id l25so8444138vsb.9;
-        Mon, 14 Jun 2021 12:43:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BdTUwFo6njgUQ7I8qlXNhzKLMBIH5mb/X2ww4eJb12Y=;
-        b=uCCuKHZ6dGkWP2HlSJ2avUlX9qvahHFUY5BRoaSKmgfb9GnNGDrHmi7fnG6eHjVsw3
-         +mvC4FwCRs3j7rp2xpEoAugl/L/lg9UV+3xnMG6zLUwXJAodwdRTXydsK76zcloYFJZZ
-         Tk1QG1OwCrL757eIK6rRmPSSrP8+n5IlOcPORCy/rs2TvTIT+t0Rv9TxKlScnIn8ptlV
-         krA6zGkyiLM+KucFeRy9TKl39YvzxXS1zhkmk8vWkN9vQOFUAcP5DAEmlk1TMQwbGijo
-         O7VRZvcwRfb/lW1nOQD0BRUYocFwAOOokCFDaQu4fkqmbXUggl1l1ZAf2aYFf+y/syEO
-         G6pw==
-X-Gm-Message-State: AOAM532QMIRTB3m0gq6Is99TnBQbT2tY/lTVpZW/DJ6Lmem4YRz/JfIV
-        Rpqgje1HsKN3l6Cbx+p1ih7beAA6ukOA9zdC1KmftKU2WcM=
-X-Google-Smtp-Source: ABdhPJxQNk1Sgfs48mae1DeSigWbl1e3Wt7CB5qRmsh1T3V/olcbX2Nwzyiz+Hzp/NdIjqBQs0/7CejskGLOd+rpkys=
-X-Received: by 2002:a67:3c2:: with SMTP id 185mr1342993vsd.42.1623699820072;
- Mon, 14 Jun 2021 12:43:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210614193253.10011-1-biju.das.jz@bp.renesas.com> <20210614193253.10011-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210614193253.10011-3-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Jun 2021 21:43:29 +0200
-Message-ID: <CAMuHMdXOxZRPwPokO8xa2nSUi91sBwwdjXHy5_a6hbGCZk6fRw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] i2c: riic: Add RZ/G2L support
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Chris Brandt <chris.brandt@renesas.com>,
+        Mon, 14 Jun 2021 18:01:11 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95380C061767
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Jun 2021 14:59:08 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 641C1734;
+        Mon, 14 Jun 2021 21:58:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 641C1734
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1623707930; bh=QvgES27n86KPd9I0ZT9pqgdnCHoghIgGrrGRyghhwfM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=TX9D9cpQBvt7tuVZbAaARy8BqRcqAFqsqYNBO1T1oybzUO+5ykUGV/w/A0mzbFSH0
+         7L/EDxVApRhC0Rvn4fvC5zjhJ9Vtq6Yj22qMgGTUVcP/8XwWtyyGZb93YuBo+qLkWS
+         Fvxtmc4SunfdEq2JbBDfbBN/WNI/V3BBPXJ7Cb9JYk819qxd1G3f1xTIQ5AUyak4Jj
+         6cUU8T3893FGyVvmGpnyjeGEmAWw0qJOsvUT8xhiiJ5dvLZjXrpqEdke0gNIWbVoP+
+         Qi1kuBkAQ+zCeLkEX9uP4KtnkCaSwY+9OAIQTvdts19XGzt27JKpQfvWGui+vvb4dk
+         rd6yZDoQQEOaw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Khalil Blaiech <kblaiech@mellanox.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Yicong Yang <yangyicong@hisilicon.com>,
-        =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <bence98@sch.bme.hu>,
-        Mike Rapoport <rppt@kernel.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: fault-injection: fix non-working usage of
+ negative values
+In-Reply-To: <20210603125841.27436-1-wsa+renesas@sang-engineering.com>
+References: <20210603125841.27436-1-wsa+renesas@sang-engineering.com>
+Date:   Mon, 14 Jun 2021 15:58:49 -0600
+Message-ID: <87eed4152e.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 9:33 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> RZ/G2L i2c controller is compatible with RZ/A i2c controller.
-> By default IP is in reset state, so need to perform release
-> reset before accessing any register.
+Wolfram Sang <wsa+renesas@sang-engineering.com> writes:
+
+> Fault injection uses debugfs in a way that the provided values via sysfs
+> are interpreted as u64. Providing negative numbers results in an error:
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> /sys/kernel/debug/fail_function# echo -1 > times
+> sh: write error: Invalid argument
+>
+> Update the docs and examples to use "printf %#x <val>" in these cases.
+> For "retval", reword the paragraph a little and fix a typo.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
-> v1->v2
->   * Changed to devm_reset_control_get_exclusive API for reset_control_get.
->   * Updated KCONFIG to enable RESET_CONTROLLER only if it is RZ/G2L SoC.
->   * Filled .data for RIIC_RZ_A.
+>  .../fault-injection/fault-injection.rst       | 24 +++++++++++--------
+>  1 file changed, 14 insertions(+), 10 deletions(-)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Applied, thanks.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+jon
