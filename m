@@ -2,83 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 064CF3A6F31
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 21:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 429173A6F54
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 21:43:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235150AbhFNTgo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Jun 2021 15:36:44 -0400
-Received: from mail-ua1-f54.google.com ([209.85.222.54]:37675 "EHLO
-        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234496AbhFNTgl (ORCPT
+        id S234594AbhFNTpo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Jun 2021 15:45:44 -0400
+Received: from mail-vs1-f52.google.com ([209.85.217.52]:42546 "EHLO
+        mail-vs1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234188AbhFNTpn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Jun 2021 15:36:41 -0400
-Received: by mail-ua1-f54.google.com with SMTP id f34so5848754uae.4;
-        Mon, 14 Jun 2021 12:34:37 -0700 (PDT)
+        Mon, 14 Jun 2021 15:45:43 -0400
+Received: by mail-vs1-f52.google.com with SMTP id l25so8444138vsb.9;
+        Mon, 14 Jun 2021 12:43:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uq7E6GSXmDmR7Ci2QWGfr1j5wPqeA+nlSHiUUuXZytE=;
-        b=Vy+SLtFrM48CadSy/ifa8/arMGdyEzTf2qljHdLbHHUileTwyzU/QJAqdB0iI2AhG+
-         Fkuin5UhojE8zNBJqlJgCl/zSnqLAU31atFdE52YlQAW2O/Z2lWv8uLUprQWjwEdoL0V
-         uydEjgQKfOPNiktl5qvXKm8a2YGvTAYxVlkNzBfwbeSy/G+PKojGqvtnQep3qibTpuIX
-         pmomFFe66MVQ/bXQtna3n7oNlC7RtY1z9ExSkKc8RvG8ZZo5ztZQOcIvPcxtAX1NgZ0E
-         /J5ejwVzldXjaCnGjGN0nVvrPPCBkdgW9TsXeGwci9800j4XN1FvTqxyWyhQVzAjQeHb
-         58OA==
-X-Gm-Message-State: AOAM530MtL2Ru47HJSEthbqOzfZZOnXsZrZDZR5KDfta0nwwSSddyG6B
-        7ATa00O9xuwXptXjWSjxE3awIWl1dX0eqabbsxaZlHY+qpJ0HQ==
-X-Google-Smtp-Source: ABdhPJydsEaZTh7jIulmyPjF4vQ8RW12D0VF/foTJHeWkbLrkPNkSyJO0chYQ8mQqt45RRbNsNMA9yaRbjfGSbJgMSE=
-X-Received: by 2002:ab0:63d9:: with SMTP id i25mr14149810uap.106.1623699276761;
- Mon, 14 Jun 2021 12:34:36 -0700 (PDT)
+        bh=BdTUwFo6njgUQ7I8qlXNhzKLMBIH5mb/X2ww4eJb12Y=;
+        b=uCCuKHZ6dGkWP2HlSJ2avUlX9qvahHFUY5BRoaSKmgfb9GnNGDrHmi7fnG6eHjVsw3
+         +mvC4FwCRs3j7rp2xpEoAugl/L/lg9UV+3xnMG6zLUwXJAodwdRTXydsK76zcloYFJZZ
+         Tk1QG1OwCrL757eIK6rRmPSSrP8+n5IlOcPORCy/rs2TvTIT+t0Rv9TxKlScnIn8ptlV
+         krA6zGkyiLM+KucFeRy9TKl39YvzxXS1zhkmk8vWkN9vQOFUAcP5DAEmlk1TMQwbGijo
+         O7VRZvcwRfb/lW1nOQD0BRUYocFwAOOokCFDaQu4fkqmbXUggl1l1ZAf2aYFf+y/syEO
+         G6pw==
+X-Gm-Message-State: AOAM532QMIRTB3m0gq6Is99TnBQbT2tY/lTVpZW/DJ6Lmem4YRz/JfIV
+        Rpqgje1HsKN3l6Cbx+p1ih7beAA6ukOA9zdC1KmftKU2WcM=
+X-Google-Smtp-Source: ABdhPJxQNk1Sgfs48mae1DeSigWbl1e3Wt7CB5qRmsh1T3V/olcbX2Nwzyiz+Hzp/NdIjqBQs0/7CejskGLOd+rpkys=
+X-Received: by 2002:a67:3c2:: with SMTP id 185mr1342993vsd.42.1623699820072;
+ Mon, 14 Jun 2021 12:43:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1623315732.git.geert+renesas@glider.be> <fda1bc3516ac98084089b5565b486a0a41b3a62c.1623315732.git.geert+renesas@glider.be>
- <YMej3BSjxeiRxLWg@pendragon.ideasonboard.com>
-In-Reply-To: <YMej3BSjxeiRxLWg@pendragon.ideasonboard.com>
+References: <20210614193253.10011-1-biju.das.jz@bp.renesas.com> <20210614193253.10011-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210614193253.10011-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Jun 2021 21:34:25 +0200
-Message-ID: <CAMuHMdU2OvMvwKD+Y=f7iwARBT_YXfG3qBEeuiZhyFsNhS7_KQ@mail.gmail.com>
-Subject: Re: [PATCH 07/14] arm64: dts: renesas: Add support for Salvator-XS
- with R-Car H3e-2G
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+Date:   Mon, 14 Jun 2021 21:43:29 +0200
+Message-ID: <CAMuHMdXOxZRPwPokO8xa2nSUi91sBwwdjXHy5_a6hbGCZk6fRw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] i2c: riic: Add RZ/G2L support
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Khalil Blaiech <kblaiech@mellanox.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Yicong Yang <yangyicong@hisilicon.com>,
+        =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <bence98@sch.bme.hu>,
+        Mike Rapoport <rppt@kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
-
-On Mon, Jun 14, 2021 at 8:46 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Thu, Jun 10, 2021 at 11:37:20AM +0200, Geert Uytterhoeven wrote:
-> > Add support for the Renesas Salvator-X 2nd version development
-> > board equipped with an R-Car H3e-2G SiP.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- a/arch/arm64/boot/dts/renesas/Makefile
-> > +++ b/arch/arm64/boot/dts/renesas/Makefile
-> > @@ -62,3 +62,5 @@ dtb-$(CONFIG_ARCH_R8A77990) += r8a77990-ebisu.dtb
-> >  dtb-$(CONFIG_ARCH_R8A77995) += r8a77995-draak.dtb
-> >
-> >  dtb-$(CONFIG_ARCH_R8A779A0) += r8a779a0-falcon.dtb
-> > +
-> > +dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-salvator-xs.dtb
+On Mon, Jun 14, 2021 at 9:33 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> RZ/G2L i2c controller is compatible with RZ/A i2c controller.
+> By default IP is in reset state, so need to perform release
+> reset before accessing any register.
 >
-> How about preserving the alphabetical order of the Kconfig symbols ?
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2
+>   * Changed to devm_reset_control_get_exclusive API for reset_control_get.
+>   * Updated KCONFIG to enable RESET_CONTROLLER only if it is RZ/G2L SoC.
+>   * Filled .data for RIIC_RZ_A.
 
-At the expense of breaking alphabetical order of the DTB file names?
-
-I agree both make sense. Do we need a vote? ;-)
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
