@@ -2,99 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09EFC3A6822
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 15:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA3953A6855
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 15:48:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233482AbhFNNlB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Jun 2021 09:41:01 -0400
-Received: from mail-vs1-f47.google.com ([209.85.217.47]:43755 "EHLO
-        mail-vs1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233831AbhFNNlA (ORCPT
+        id S233668AbhFNNu1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Jun 2021 09:50:27 -0400
+Received: from mail-vs1-f46.google.com ([209.85.217.46]:44699 "EHLO
+        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233389AbhFNNu1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Jun 2021 09:41:00 -0400
-Received: by mail-vs1-f47.google.com with SMTP id s22so7778446vsl.10;
-        Mon, 14 Jun 2021 06:38:57 -0700 (PDT)
+        Mon, 14 Jun 2021 09:50:27 -0400
+Received: by mail-vs1-f46.google.com with SMTP id x13so7796139vsf.11;
+        Mon, 14 Jun 2021 06:48:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Srsjp840VggaoNkzRjTFCPDT+rmpC0UhVopX3aik3tM=;
-        b=ude9YwTzulrzvW8p9+p7rWmJBERKZaQwHgW/DUGUqvONYWua5DNHbnFW84ANNC0iKp
-         T0T/35jCLavrodZiDwQavAOckis5KTwAfW2G6wEuZ63ormu7jG9sJ7QLHAfuC4dd67Yx
-         QdFKTNotKzRrTxQvIfzmyVgDsuY9IwaIplxJ8lJH7ejtqI2Rbvza4mxKJ2EdkBWDXmxt
-         /F6D1MwkvTsmAjpUQe9eH/90IoT/UQUW9W4sJE0+U2Am6Sc+pI8rU+7sFdSYPPH2Adar
-         kpxRJbFK/JdlDbxz8c3WDl01sAZGJ+pUgXnWjPqHLtmX3+ygk/xlOTiNiVHIhtrioELg
-         ec2Q==
-X-Gm-Message-State: AOAM533JwfbqvTdYuf1+XOdAqJkqUOcxmxyctuTYgmMdEy2eD9yEcHlS
-        79wDbdJkUgGADh7Wn5xHfTwAWtCZH70wthXDKgo=
-X-Google-Smtp-Source: ABdhPJx97oky1ZwrJX0c/4Qy2YcGcngumr5Im3ypUrm2ZoEwxbiukdVchCQuPF42TLlsZqwZ1ZxefRjSGVCG5YJe760=
-X-Received: by 2002:a67:3c2:: with SMTP id 185mr17785480vsd.42.1623677937099;
- Mon, 14 Jun 2021 06:38:57 -0700 (PDT)
+        bh=GcUfUlFIX4X4dWFAdI2Q98BKdpaJeSWFg0rExRnnbb8=;
+        b=OWqhB7ncZVWiVKD5R5J5J2TDaczs5eO0RSiZLuQ6qdfY+Mw+Tr2H4BHW1JjvUZNifR
+         uGbEqbS4a8AQ84ejMO5UpigrCinNhkonrS/0jSRpwXE13yAHv/JTazKrIFOEli2eW1DK
+         ncObJIq1B/q0nGl57neeJ9NrV4rgdzIkk1K4iKBY4bqfrPhVhNcNYQRKNXCnq+WD6ALa
+         eebujpFkdTmG9FxsFsaaPIxrYsQ+Me497rGNoy6ZeR1aRBZwiyVbPEXlw4+bUvGbCv3q
+         G2qdIE9wOZc+lyQpu65031AqQQzLF2b5c9ngAUwZMqI9PLMe2VPgCr9Xe+xaHTv7e6i4
+         VycQ==
+X-Gm-Message-State: AOAM530AKFo55iNd1w6BGuZML+1NpCHcmil8CWLl/t/3MGTxmJmk2ltl
+        /mxKBJnRUTCDM48HTic7a9ygScqtn4pTnYRTi6gUiu5nEMU2ZQ==
+X-Google-Smtp-Source: ABdhPJwCC2KVGlegTOg8+zG7cvtNxNdCnuGV8omrsx/Fg0zaZVvX3ewGZ5uUKPOCYJy2uY1ILtvKNyaobuXRc7PF90s=
+X-Received: by 2002:a67:efd6:: with SMTP id s22mr18250891vsp.3.1623678495006;
+ Mon, 14 Jun 2021 06:48:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210611165624.30749-1-biju.das.jz@bp.renesas.com>
- <20210611165624.30749-4-biju.das.jz@bp.renesas.com> <67e00c18b71875a0aaa7a8a02b2b0507f5d7a575.camel@pengutronix.de>
-In-Reply-To: <67e00c18b71875a0aaa7a8a02b2b0507f5d7a575.camel@pengutronix.de>
+References: <20210611113642.18457-1-biju.das.jz@bp.renesas.com>
+ <20210611113642.18457-5-biju.das.jz@bp.renesas.com> <CAMuHMdUthmAbwNrBKeEBzqBUN6HYR=Fuz5ALpK+iGY_kUQpV1A@mail.gmail.com>
+ <OS0PR01MB59227529257477835867FEFA86319@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59227529257477835867FEFA86319@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Jun 2021 15:38:45 +0200
-Message-ID: <CAMuHMdX_-93MGi9X-m8PdMgjWDp=azP0mN+M7ReyokDqEbTVBQ@mail.gmail.com>
-Subject: Re: [PATCH 3/5] i2c: riic: Add RZ/G2L support
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Khalil Blaiech <kblaiech@mellanox.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <bence98@sch.bme.hu>,
-        Yicong Yang <yangyicong@hisilicon.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Date:   Mon, 14 Jun 2021 15:48:03 +0200
+Message-ID: <CAMuHMdX2CR=3wpQbAXsmCBw=jWy7OQG7ur0MhTxaoVkz413Jcg@mail.gmail.com>
+Subject: Re: [PATCH 4/5] arm64: dts: renesas: r9a07g044: Add DMAC support
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Philipp,
+Hi Biju,
 
-On Mon, Jun 14, 2021 at 3:27 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> On Fri, 2021-06-11 at 17:56 +0100, Biju Das wrote:
-> > RZ/G2L i2c controller is compatible with RZ/A i2c controller.
-> > By default IP is in reset state, so need to perform release
-> > reset before accessing any register.
+On Mon, Jun 14, 2021 at 3:02 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH 4/5] arm64: dts: renesas: r9a07g044: Add DMAC support
+> > On Fri, Jun 11, 2021 at 1:36 PM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > Add DMAC support to RZ/G2L SoC DT.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/i2c/busses/Kconfig    |  1 +
-> >  drivers/i2c/busses/i2c-riic.c | 21 +++++++++++++++++++++
-> >  2 files changed, 22 insertions(+)
+> > Thanks for your patch!
 > >
-> > diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-> > index 281a65d9b44b..5da09288b461 100644
-> > --- a/drivers/i2c/busses/Kconfig
-> > +++ b/drivers/i2c/busses/Kconfig
-> > @@ -941,6 +941,7 @@ config I2C_QUP
-> >  config I2C_RIIC
-> >       tristate "Renesas RIIC adapter"
-> >       depends on ARCH_RENESAS || COMPILE_TEST
-> > +     select RESET_CONTROLLER
+> > > --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> > > @@ -8,6 +8,10 @@
+> > >  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > >  #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > >
+> > > +#define CH_CFG(reqd, loen, hien, lvl, am, sds, dds, tm) \
+> > > +       ((((tm) << 22) | ((dds) << 16) | ((sds) << 12) | ((am) << 8) | \
+> > > +       ((lvl) << 6) | ((hien) << 5) | ((loen) << 4) | ((reqd) << 3))
+> > > +& 0x004FF778)
+> > > +
+> >
+> > I assume the above will be removed?
 >
-> There's no need for this. The reset API defines inline stubs so this can
-> be compiled without RESET_CONTROLLER enabled.
+> Basically the macro simplifies the channel configuration values in Table 16.4 page 569 of the hardware manual.
+>
+> Client driver will use MID+RID, and pass (Src address or dest address along with the channel configuration values
+> For configuring DMA channel.
+>
+> For eg:-
+>
+>                 ssi0: ssi@10049c00 {
+>                         compatible = "renesas,r9a07g044-ssi",
+>                                      "renesas,rz-ssi";
+>                         reg = <0 0x10049c00 0 0x400>;
+>                         interrupts = <GIC_SPI 326 IRQ_TYPE_LEVEL_HIGH>,
+>                                      <GIC_SPI 327 IRQ_TYPE_EDGE_RISING>,
+>                                      <GIC_SPI 328 IRQ_TYPE_EDGE_RISING>;
+>                         interrupt-names = "int", "rx", "tx";
+>                         clocks = <&cpg CPG_MOD R9A07G044_CLK_SSI0>,
+>                                  <&audio_clk1>,
+>                                  <&audio_clk2>;
+>                         clock-names = "ssi", "audio_clk1", "audio_clk2";
+>                         resets = <&cpg R9A07G044_CLK_SSI0>;
+>                         dmas = <&dmac 0x255 0x10049c18 CH_CFG(0x1,0x0,0x1,0x0,0x2,0x1,0x1,0x0)>,
+>                                <&dmac 0x256 0x10049c1c CH_CFG(0x0,0x0,0x1,0x0,0x2,0x1,0x1,0x0)>;
+>                         dma-names = "tx", "rx";
+>                         power-domains = <&cpg>;
+>                         #sound-dai-cells = <0>;
+>                         status = "disabled";
+>                 };
+>
+> Please let me know your thoughts on this.
 
-AFAIK, the issue is that RIIC on RZ/G2L requires reset support,
-so it must be enabled when building a kernel for RZ/G2L.
-As RZ/A does not need or use it, and may run from SRAM, I'd like to
-leave it disabled when building a kernel not including RZ/G2L support.
+How will this work with (existing) drivers?
+E.g. drivers/tty/serial/sh-sci.c:sci_request_dma_chan() already knows the
+source and destination addresses.
+The other CHCFG bits may be new, though.
 
 Gr{oetje,eeting}s,
 
