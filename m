@@ -2,62 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C4E3A66A4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 14:33:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0723E3A66BC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 14:38:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232968AbhFNMfI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Jun 2021 08:35:08 -0400
-Received: from mail-ua1-f52.google.com ([209.85.222.52]:34367 "EHLO
-        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232809AbhFNMfI (ORCPT
+        id S233076AbhFNMkk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Jun 2021 08:40:40 -0400
+Received: from mail-ua1-f54.google.com ([209.85.222.54]:44587 "EHLO
+        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233023AbhFNMki (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Jun 2021 08:35:08 -0400
-Received: by mail-ua1-f52.google.com with SMTP id c17so5381382uao.1;
-        Mon, 14 Jun 2021 05:32:56 -0700 (PDT)
+        Mon, 14 Jun 2021 08:40:38 -0400
+Received: by mail-ua1-f54.google.com with SMTP id e7so1338878uaj.11;
+        Mon, 14 Jun 2021 05:38:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=CEFwGKLbEgGfMJcaaL7Ls1kPKbVf05uz7xjyJakpttw=;
-        b=G3EEkLVRaTYwX6IOjgDxiiNmo5eUBV12J/EpecFy1zYJrOpAz+bS3nP2YECW/nMHEV
-         JmpO9pPgXVinxP1kyqysZJGC2PVdx17GQlleepRwRODFFyxF6CGXKCWQxCXA+qPYsmqW
-         F2iubT50IHn7bttglVxwsgRHh/pqPNnUoIzNGO2a9iX9YyO7JwK8IrLZUgHf0qf+OKLm
-         a5ocF55OdDlbf9+VzO/RcWBevQW8t4s5SHFAMJcc4Le5Wc5oY0MgP+FByzbzcu+W1i8P
-         Y9J0nNkYwCJa7YTVZgEhjv0oQ3eMtmFRGlv7qWybI/OiTzWmrWuEbA4AUzL5e1A9kuur
-         wM+w==
-X-Gm-Message-State: AOAM530tdA7v1DNkyBcXwsT/6N2niDyL27FB5lY9XMq3dTGNz1lVGdVB
-        y8Z8NEmvvjq5uwc/w/3l4ZwG+Cu9uNx1WZEHuOA=
-X-Google-Smtp-Source: ABdhPJz8NHYZSrdHnQGG700V75mhrUJyxgoNq8eb1bPXuRPGJ3ZTMrbo+3HFqEbHtQGRH8i2pY5g5vrwNJq7+c78rCA=
-X-Received: by 2002:ab0:71d9:: with SMTP id n25mr11398181uao.2.1623673975719;
- Mon, 14 Jun 2021 05:32:55 -0700 (PDT)
+        bh=OvZoV5ZvCwgOZO5i1pZIEG1t7OHbYFkezPxKRjXkMck=;
+        b=mv8VPseM3QYrcq9y22g4EU6hs+4THtpRN1LxrgZ/vDybnuPBuNpkhXFNElOL9yleBY
+         unmPHkCfv9rcpOThpAz6upWJ3/y83LKsAXZxkghwoCxTe9Fs8F+Zb7LMBlh8NkvyHg91
+         lJREaNcFXTFt+VyvXtL6uGKYUoikNyKV3uUpQ//Y/Dku53aCTv4sWSpDarLEqTXzOj3Z
+         tGGeuk96+4yIu7pczLYiAlDpEqSr83sSiRf2fgFs4kcoOxK1defsrZY2TxV1upvKTUHI
+         oDTQfFdEWoTZaBF6lEOT+8f+SjxQo/dzB6UTeo5IPUD/pAH8+Rm6N4DoLjl1KXX0Z+4W
+         Kwng==
+X-Gm-Message-State: AOAM530tgh1t8vKttGB4AsElgt+8Xk+VAUEfLSNF8GK24qhD7E0oRWBy
+        EAhFRFZdGyp5mus24ufj9Mb0FzOb450oEMxSKXN6xzlZv69V3g==
+X-Google-Smtp-Source: ABdhPJzp5CiHc8rTp6N0GqZD/yH1UJa6Qov4HyfgO5s3kpV0pS3vIo6n+cALEJ+WGENLepzP6N2w80gzsAMbFlnhxio=
+X-Received: by 2002:ab0:708c:: with SMTP id m12mr11714187ual.4.1623674314900;
+ Mon, 14 Jun 2021 05:38:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210611165624.30749-1-biju.das.jz@bp.renesas.com> <20210611165624.30749-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210611165624.30749-3-biju.das.jz@bp.renesas.com>
+References: <20210611165624.30749-1-biju.das.jz@bp.renesas.com> <20210611165624.30749-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210611165624.30749-4-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Jun 2021 14:32:44 +0200
-Message-ID: <CAMuHMdUJcpPKYyE=Z+exc=0BVE7FXqJ=W+mrBvhqKVy56e0QUA@mail.gmail.com>
-Subject: Re: [PATCH 2/5] drivers: clk: renesas: r9a07g044-cpg: Add I2C Clocks
+Date:   Mon, 14 Jun 2021 14:38:23 +0200
+Message-ID: <CAMuHMdWWgehDTxTcm8=ooq2-4BkY0jgo+hwfrM_PHc6iw6aP8A@mail.gmail.com>
+Subject: Re: [PATCH 3/5] i2c: riic: Add RZ/G2L support
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Khalil Blaiech <kblaiech@mellanox.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <bence98@sch.bme.hu>,
+        Yicong Yang <yangyicong@hisilicon.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Biju,
+
 On Fri, Jun 11, 2021 at 6:56 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add I2C{0,1,2.3} clock entries.
+> RZ/G2L i2c controller is compatible with RZ/A i2c controller.
+> By default IP is in reset state, so need to perform release
+> reset before accessing any register.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.15.
+Thanks for your patch!
+
+> --- a/drivers/i2c/busses/Kconfig
+> +++ b/drivers/i2c/busses/Kconfig
+> @@ -941,6 +941,7 @@ config I2C_QUP
+>  config I2C_RIIC
+>         tristate "Renesas RIIC adapter"
+>         depends on ARCH_RENESAS || COMPILE_TEST
+> +       select RESET_CONTROLLER
+
+if ARCH_R9A07G044?
+
+> --- a/drivers/i2c/busses/i2c-riic.c
+> +++ b/drivers/i2c/busses/i2c-riic.c
+_kzalloc(&pdev->dev, sizeof(*riic), GFP_KERNEL);
+>         if (!riic)
+> @@ -412,6 +421,17 @@ static int riic_i2c_probe(struct platform_device *pdev)
+>                 return PTR_ERR(riic->clk);
+>         }
+>
+> +       type = (enum riic_type)of_device_get_match_data(&pdev->dev);
+> +       if (type == RIIC_RZ_G2L) {
+> +               rstc = devm_reset_control_get(&pdev->dev, NULL);
+> +               if (IS_ERR(rstc)) {
+> +                       dev_err(&pdev->dev, "Error: missing reset ctrl\n");
+> +                       return PTR_ERR(rstc);
+> +               }
+> +
+> +               reset_control_deassert(rstc);
+
+Just wondering: does it harm if the driver is unloaded or unbounded,
+and rebound while the I2C controller is not in reset state?
+
+> +       }
+> +
+>         for (i = 0; i < ARRAY_SIZE(riic_irqs); i++) {
+>                 res = platform_get_resource(pdev, IORESOURCE_IRQ, riic_irqs[i].res_num);
+>                 if (!res)
+> @@ -472,6 +492,7 @@ static int riic_i2c_remove(struct platform_device *pdev)
+>  }
+>
+>  static const struct of_device_id riic_i2c_dt_ids[] = {
+> +       { .compatible = "renesas,riic-r9a07g044", .data = (void *)RIIC_RZ_G2L },
+>         { .compatible = "renesas,riic-rz" },
+
+Please fill in .data, to avoid relying implicitly on RIIC_RZ_A being zero.
+
+>         { /* Sentinel */ },
+>  };
 
 Gr{oetje,eeting}s,
 
