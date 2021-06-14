@@ -2,699 +2,242 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E2893A6729
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 14:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6A0B3A672D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 14:54:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234008AbhFNMyQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Jun 2021 08:54:16 -0400
-Received: from mail-lj1-f172.google.com ([209.85.208.172]:43539 "EHLO
-        mail-lj1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234028AbhFNMxn (ORCPT
+        id S232967AbhFNM4J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Jun 2021 08:56:09 -0400
+Received: from mail-eopbgr1400097.outbound.protection.outlook.com ([40.107.140.97]:16293
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232901AbhFNM4I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Jun 2021 08:53:43 -0400
-Received: by mail-lj1-f172.google.com with SMTP id r14so19897654ljd.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Jun 2021 05:51:40 -0700 (PDT)
+        Mon, 14 Jun 2021 08:56:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EuZFsxrdTJGYsaUoMYCoJTYrKC8may2jiCtsxXRQvrriS+7n9nN8Cdp/uMUZElAh4nDvI0Ukt+Rjtq52UjvhDHFvATzJYUzcvCU6JW5mh9fDtioFy3IgaexBZVRvBwl2CM/nwL6vEWfCYez9CfbneL4nFreD029g7ORvX8UDAFrP9JrRU5EVnGq1EbRWuk1f7MuQgaw4fprVv+1NoVg/J2NdLv5Bs1XssRvlvP+gL3xoRylG+UJGXcGvM+Ypm+iQzdox5A7l3vuQAlh4qVEvEoOqMf5yXPsH2H/CKO3FZAeFcIhdVq3QUR9D0gitBYpa8JUROK5EXHP6Rjs+dviUZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tUrm29er9fIZ5k4h1XWh991PYwky8HH6aibPA/rR9bI=;
+ b=PFgYNuWeA2kA9eLQSQnclW0jJfM+XcRAt26UwLW0ix4TVUAw/Zu3LM/KuVipqnE+lUVV4miVZYAb4e7R8CCIN+KBpTk6ku3IegCS8HencKvI2MlKXOFHv1igVEicXSra93/bHVzMw4x0b2qs7cGwLnjQhLTCd9YiguKECFLKZDsvUu8+OYpBcDZJS7aA8tE9h0ajya0lQt9c/VMZCHH39cJUJm8C6QVBMM37OO+RjaNRchmY0w7DDfvyWVvL21iH1evxBVoXDLwo03qoxUvZRVjHBGa/W6e19Y0u6HaviW0g20L7mA4+mOv8ZhzdjBgwIZ1nrMztMlVCsMH4370EVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=L0mqJOz3k0CmhV6KOmU2Q8CGXZMZdDMiWKUjd+oT6KY=;
-        b=aOQB/ax2kho58yI8zfKx+n7E7MWaltI7mZPxqxjPagK7T3llBuGrfdDfwAa/V4bnQr
-         8AtgGJ2SkDgJQIK0kHTLBV6bOEk3TnvxrrccySEKasH3Fb9e2ZMozVTuvjEpGI4AtHA/
-         jZPggWxh6eLUoQjm89SbU2lzL3zSq4ex7V3+Ar+VjiwSWE1sEG5eQv1LhPJd5oVYM0g2
-         cFZtRn3oHUIbnNxLcyeKPKt8TA4kXx/HhLHxACu1BYQmiHEgD2ZMRrATz2x72voNyfhS
-         i1jRX9IOiEs2yyAUcx5cy69oysrzC6R8WwC0miZhotTSQ0X33tMEv34bt146ODH/yDCF
-         PzMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=L0mqJOz3k0CmhV6KOmU2Q8CGXZMZdDMiWKUjd+oT6KY=;
-        b=ST3dDFhNfWhSxbgyohNVi6LjjqvhPwnFU6c597N4tdXxU3F5/S1t1Cd4Z2NShCBbio
-         3LHM4GL6VNuBHdyJST084pCJvrXSDc1VhZNCfnhdsI+R2CkDJHBjMh5AFbUjbHHaGn7F
-         ax6I06HXnwHEW+0OERAIaE0Xw9yiOCT+LhMeIk/ZDnddrINiT8/hv1HDIul5+2vE5pQ7
-         JZW3uXeLmyRKpIdnrXx4cWPL+ZkLmGX7ym0XB2y19zV0418rC+rdbeaZC16QhEJbw4P2
-         haImzj8ROtQ9S+dZpOM/GGcZyjeHo+USoiJpiQi+UfbvbfaLMsOnuXtGdwdk6MCpMOZS
-         9xFQ==
-X-Gm-Message-State: AOAM532PplabZfAXSn6aYIT80P4nLrRiXxyOUdi+ZeTVB43cIrZeHgoa
-        NmObBBXv/kJ9h4/dyx4Xdyrx670FVbmX+N+u
-X-Google-Smtp-Source: ABdhPJwWe4FRZQYvQEZnANX49XBAr4ejsk6XhVhgKE+MJHQFsp+K/4EfA2h1njKIYRfr46tcLaFzTg==
-X-Received: by 2002:a2e:8059:: with SMTP id p25mr13426924ljg.69.1623675039288;
-        Mon, 14 Jun 2021 05:50:39 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id h12sm1800894ljg.59.2021.06.14.05.50.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 05:50:38 -0700 (PDT)
-Date:   Mon, 14 Jun 2021 14:50:37 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] media: rcar-isp: Add Renesas R-Car Image Signal
- Processor driver
-Message-ID: <YMdQnW0IfhVYDItu@oden.dyn.berto.se>
-References: <20210512081912.3976565-1-niklas.soderlund+renesas@ragnatech.se>
- <0af0c180-1ee5-0ae3-cc9a-6cfaeab65e8e@xs4all.nl>
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tUrm29er9fIZ5k4h1XWh991PYwky8HH6aibPA/rR9bI=;
+ b=nRZAt2piEeGFL77lCHZDXa4tfVzWpd9vSYCuDcRGWG1h2tzAfWaEiljS2Cim0T0ZOgrpDosayT/KBLqA0t3QwFFkoGCnI0YqirTMWGn6eJZWF+hjbbAF9iBlk1uwqwkM6nBU6yPwFWArD4ctf7JuCmlQbZWWgvS+51yBQ8+mRhY=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSBPR01MB4021.jpnprd01.prod.outlook.com (2603:1096:604:4f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.24; Mon, 14 Jun
+ 2021 12:54:02 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b834:5e50:2ce8:9ae0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b834:5e50:2ce8:9ae0%3]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
+ 12:54:02 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: RE: [PATCH 1/5] dt-bindings: dma: Document RZ/G2L bindings
+Thread-Topic: [PATCH 1/5] dt-bindings: dma: Document RZ/G2L bindings
+Thread-Index: AQHXXrYS1Y35K9bUV02GRKgFCWvED6sTb4CAgAAIHiA=
+Date:   Mon, 14 Jun 2021 12:54:02 +0000
+Message-ID: <OS0PR01MB5922B2355864A98B14C6DE6D86319@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20210611113642.18457-1-biju.das.jz@bp.renesas.com>
+ <20210611113642.18457-2-biju.das.jz@bp.renesas.com>
+ <CAMuHMdUQRHtVFhqmgi5EE2TNobspM3tNTP10gz-yPDJSK31ytA@mail.gmail.com>
+In-Reply-To: <CAMuHMdUQRHtVFhqmgi5EE2TNobspM3tNTP10gz-yPDJSK31ytA@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linux-m68k.org; dkim=none (message not signed)
+ header.d=none;linux-m68k.org; dmarc=none action=none
+ header.from=bp.renesas.com;
+x-originating-ip: [193.141.219.20]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bdac68df-0814-4bb6-8ffc-08d92f337c27
+x-ms-traffictypediagnostic: OSBPR01MB4021:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSBPR01MB4021CF88E27F55B971145A6C86319@OSBPR01MB4021.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZYuIulsLlsdMhZRRpufCJzCOZEcP7YETLYbbpXHjwQD6kovAT+NqQb+A7nHymXybq1uSnWGW8D/Lx5ZCYly3hdPpNGFvtnePkucgrY6o9DoM2cgy/FlF8sdBOexik5BNuERWgog+S4RLhiFkD33FcdxmuA8Xm6fM98FjWi5ONbkxZn9T1r1hcrV2NJ3SyBZ6o4ytmpxS/RSgpLCj7lWDk09E64++FHFq56z2z/FadyuisKK0Do0khnivpYI2Yop/D3KWW/l1mCcz4+mCxKQaoKBHjeGIb7CQRYBmK09TXwpLimtbcI6O+Sk6pp3iDSCkV7Oqj+JdMiLshIhMvX+ruE39NdlXOUwvgXKtsl8Ym6Ck1jXnWnePU+gFU0b6Q/hI711273LUVdZ+B00ODiDOquMzZGFx/W95uALZ5hE9yHb/B4B767+3ITpaST8eaRyDBKOAr24fAbmBOe+TLeE+jVxOlShTE5Nrjj8lHRbVwJM/xYuXX28Tz1aMxPNAbPrSgcVBz7tkPv88y17xBfhALQMt0oo/YRzoAVNc9mLVAczU4dFMX5+a9yDCA/3OSsMZJ+2/DU2zB6E+pWEIWnyweNHG/FUF/Lm89qUUsI/s67fMXbIpGYhp4RurOG8jLjY93n92TtvMtLmnaSFsfFrSTM7oRxoP37+o2iHrRxKqGDlqIY6DMvfNWxvAQt+CFlVLLflUy8VDr4wEuVSauGCU5w==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(346002)(136003)(39860400002)(376002)(83380400001)(8676002)(64756008)(54906003)(66446008)(66476007)(86362001)(66556008)(66946007)(2906002)(8936002)(71200400001)(55016002)(5660300002)(316002)(45080400002)(478600001)(52536014)(9686003)(6506007)(53546011)(76116006)(4326008)(7696005)(26005)(38100700002)(186003)(33656002)(6916009)(122000001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?H8LuPAPYFHOotVOD0wp+C++8y1oo9Y4yYxcUUhXIDxpuZEsIvOow3xU7BiMu?=
+ =?us-ascii?Q?nW62j+1JRa+593eOloUtoupuC88OdkJXHiUU4G2ak+GUjqRtNILiK9lgDZRz?=
+ =?us-ascii?Q?wYOQWbW9TbLYjfSeZqkgEneVtUn6zXemxgJtnd4ZBgu0yds8saA71LB8DH3n?=
+ =?us-ascii?Q?L48gYnEn5mG6B0ihmU8XIPz8QLlNr4jxM76vAWAQLFhqSVJHWkhKt4OAs9nu?=
+ =?us-ascii?Q?w9yMuWAY7OZuNICed2j4vfESUCFSpoZzwST2v5/D9D3rWcBmWrGFDAwwE1ye?=
+ =?us-ascii?Q?u1WQgCUgj+/tDqvLqxjheeRlupMIHWX5ATp2QE7Ql7KfHkhQKJjsEfqx47Zp?=
+ =?us-ascii?Q?xyy2c8Py26x6Dhj52fhJLLQ6UsdtIWv+oldAPAOPrT+1PE4Ej1sAuC9VEUOt?=
+ =?us-ascii?Q?GPQeF7+e5JahgOdoy2qR0XOoOLLnOFuQhcIWj7SGI0nP2t9I++vSLubR7D1s?=
+ =?us-ascii?Q?K5nlOe+tNg5LAna9tCG7CbzOVfFEKrtuaOGgAr2rDTSUMG0MiRTY6CvF8qNY?=
+ =?us-ascii?Q?ErOWhioErTcZLwz5XqUfx7KKDLZq26JDysWJMKjmJw1EyXf7By7c/vavTguf?=
+ =?us-ascii?Q?HNr7fsMuePjOVi/r9mai3u6fzmDD8IuT5FCsrJdAgnf1a9KdMTJ/NWf3FFTX?=
+ =?us-ascii?Q?0af++KUB/9T92/M25NwZmKmlVUSw4HHU0cTA/UXJ3P3bcgek1zHK/ZHiwxbA?=
+ =?us-ascii?Q?07MfYOF5FqTW965YwWWrOXNzCeCNVGiTGhLp5eSTcAlkRHBLNLfulha63kf+?=
+ =?us-ascii?Q?Na7BC/CIBF+l4z7qk7Mx50dyh2ymxjg2vVLMfjfxf4EgIb/jIajnobGR2HKT?=
+ =?us-ascii?Q?jauapM1rWUambIc6GPDxIBjWoikh7+H7xIf0fUm+ICLs2T0uVpteW8Funfzq?=
+ =?us-ascii?Q?DbtsZFmFVjRYioX1uFBSCz5adZZvackQg+00dYE3GuuqQhNNJonFd0bR2oAg?=
+ =?us-ascii?Q?5rxNVu5Kmud7ALgIX8n7SlSAw7TcKFNhqpgsmvR9rsHQdTISXeXbluTIPUzf?=
+ =?us-ascii?Q?I9N7J14436lQCBV6CeDW5EE3LpcpxcRn4oDP/UeUpfZePz3PxlGCkczSYzJ5?=
+ =?us-ascii?Q?DWJDVXdvmSq49NkXpy/TQBQish4fHB+kjE72/Xj2IMPzTRpEWZhJYio1mICe?=
+ =?us-ascii?Q?vF+4i+myXilBEjQlaP5+VFxxAfzP/39LeqbnY8IlMRPY8YeUsoHPJVJ090xH?=
+ =?us-ascii?Q?fqfsa7N3/fm3loHKXP3agC6Ms8EkzDSJBu6LXXnPfhAGYsX1KL94OXjBfvSi?=
+ =?us-ascii?Q?byjDlyYzKNi/9J6uewZ8jm+GkkEEl/SSuWdDHOiQ0I9fHBCrDgQoIkiSJnrk?=
+ =?us-ascii?Q?0WtS9U2ES50hyyqzT6f3KMhT?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0af0c180-1ee5-0ae3-cc9a-6cfaeab65e8e@xs4all.nl>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bdac68df-0814-4bb6-8ffc-08d92f337c27
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2021 12:54:02.0340
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eoGDIWm0BGgQPlauI54cgYWPz69X/F+TT3L4FeEk3UwHI7op47F+jVxo4XfI2Y3VLFq1Kzm5gue911P+a1jI4pmLRu+gHCjZSTB6BccqAAc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4021
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Hans,
+Hi Geert,
 
-Thanks for your feedback.
+Thanks for the feedback.
 
-On 2021-06-14 14:29:32 +0200, Hans Verkuil wrote:
-> On 12/05/2021 10:19, Niklas Söderlund wrote:
-> > Add a V4L2 driver for Renesas R-Car Image Signal Processor. The driver
-> > supports the R-Car V3U SoC where the ISP IP sits between the R-Car CSI-2
-> > receiver and VIN and filters the CSI-2 data based on VC/DT and directs
-> > the video stream to different VIN IPs.
-> 
-> Is ISP the right name for this? Based on the description above, it is not
-> really what I would consider an ISP.
-
-Yes this models an ISP so the name is correct. But your observation is 
-correct it does not (yet) expose any real ISP functionality. I only have 
-documentation for the features exposed in this patch and unfortunately 
-the ISP is needed on some SoCs to enable video capture. Maybe in the 
-future more features can be added.
-
-> 
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  MAINTAINERS                       |   1 +
-> >  drivers/media/platform/Kconfig    |  16 +
-> >  drivers/media/platform/Makefile   |   1 +
-> >  drivers/media/platform/rcar-isp.c | 500 ++++++++++++++++++++++++++++++
-> >  4 files changed, 518 insertions(+)
-> >  create mode 100644 drivers/media/platform/rcar-isp.c
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index c35a9c93da84f4f7..03f3d52e03596f66 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11400,6 +11400,7 @@ T:	git git://linuxtv.org/media_tree.git
-> >  F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> >  F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
-> >  F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > +F:	drivers/media/platform/rcar-isp.c
-> >  F:	drivers/media/platform/rcar-vin/
-> >  
-> >  MEDIA DRIVERS FOR RENESAS - VSP1
-> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> > index 157c924686e4b61b..a8777d5dd6bc3ec1 100644
-> > --- a/drivers/media/platform/Kconfig
-> > +++ b/drivers/media/platform/Kconfig
-> > @@ -200,6 +200,22 @@ config VIDEO_TI_CAL_MC
-> >  
-> >  endif # VIDEO_TI_CAL
-> >  
-> > +config VIDEO_RCAR_ISP
-> > +	tristate "R-Car Image Signal Processor (ISP)"
-> > +	depends on VIDEO_V4L2 && OF
-> > +	depends on ARCH_RENESAS || COMPILE_TEST
-> > +	select MEDIA_CONTROLLER
-> > +	select VIDEO_V4L2_SUBDEV_API
-> > +	select RESET_CONTROLLER
-> > +	select V4L2_FWNODE
-> > +	help
-> > +	  Support for Renesas R-Car Image Signal Processor (ISP).
-> > +	  Enable this to support the Renesas R-Car Image Signal
-> > +	  Processor (ISP).
-> > +
-> > +	  To compile this driver as a module, choose M here: the
-> > +	  module will be called rcar-isp.
-> > +
-> >  endif # V4L_PLATFORM_DRIVERS
-> >  
-> >  menuconfig V4L_MEM2MEM_DRIVERS
-> > diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> > index eedc14aafb32c2fa..8ae543f6ef764c48 100644
-> > --- a/drivers/media/platform/Makefile
-> > +++ b/drivers/media/platform/Makefile
-> > @@ -63,6 +63,7 @@ obj-$(CONFIG_VIDEO_AM437X_VPFE)		+= am437x/
-> >  
-> >  obj-$(CONFIG_VIDEO_XILINX)		+= xilinx/
-> >  
-> > +obj-$(CONFIG_VIDEO_RCAR_ISP)		+= rcar-isp.o
-> >  obj-$(CONFIG_VIDEO_RCAR_VIN)		+= rcar-vin/
-> >  
-> >  obj-$(CONFIG_VIDEO_ATMEL_ISC)		+= atmel/
-> > diff --git a/drivers/media/platform/rcar-isp.c b/drivers/media/platform/rcar-isp.c
-> > new file mode 100644
-> > index 0000000000000000..bf6a376354ece89d
+> -----Original Message-----
+> Subject: Re: [PATCH 1/5] dt-bindings: dma: Document RZ/G2L bindings
+>=20
+> Hi Biju,
+>=20
+> On Fri, Jun 11, 2021 at 1:36 PM Biju Das <biju.das.jz@bp.renesas.com>
+> wrote:
+> > Document RZ/G2L DMAC bindings.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Thanks for your patch!
+>=20
 > > --- /dev/null
-> > +++ b/drivers/media/platform/rcar-isp.c
-> > @@ -0,0 +1,500 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Driver for Renesas R-Car ISP Channel Selector
-> > + *
-> > + * Copyright (C) 2021 Renesas Electronics Corp.
-> > + */
+> > +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > @@ -0,0 +1,132 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id:
+> > +https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdev=
+i
+> > +cetree.org%2Fschemas%2Fdma%2Frenesas%2Crz-dmac.yaml%23&amp;data=3D04%7=
+C
+> > +01%7Cbiju.das.jz%40bp.renesas.com%7C4b547e10cbe64b6f4d8508d92f2da0c0%
+> > +7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C637592695286846809%7CUnk
+> > +nown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW
+> > +wiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3D5Jh%2FxPaia5ZOY0CrViQCcrNtzuDejp8w=
+o
+> > +Nrx9iO0ht8%3D&amp;reserved=3D0
+> > +$schema:
+> > +https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdev=
+i
+> > +cetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=3D04%7C01%7Cbiju.das=
+.
+> > +jz%40bp.renesas.com%7C4b547e10cbe64b6f4d8508d92f2da0c0%7C53d82571da19
+> > +47e49cb4625a166a4a2a%7C0%7C0%7C637592695286846809%7CUnknown%7CTWFpbGZ
+> > +sb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%
+> > +3D%7C1000&amp;sdata=3D5qQ1PljM3e4Bn4%2FjdldYUHRBQL3jArJgRIAdLnhJraw%3D=
+&
+> > +amp;reserved=3D0
 > > +
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_runtime.h>
-> > +#include <linux/reset.h>
+> > +title: Renesas RZ/G2L DMA Controller
 > > +
-> > +#include <media/v4l2-subdev.h>
+> > +maintainers:
+> > +  - Biju Das <biju.das.jz@bp.renesas.com>
 > > +
-> > +#define ISPINPUTSEL0_REG				0x0008
-> > +#define ISPINPUTSEL0_SEL_CSI0				BIT(31)
+> > +allOf:
+> > +  - $ref: "dma-controller.yaml#"
 > > +
-> > +#define ISPSTART_REG					0x0014
-> > +#define ISPSTART_START					0xffff
-> > +#define ISPSTART_STOP					0x0000
-> > +
-> > +#define ISPPROCMODE_DT_REG(n)				(0x1100 + (0x4 * n))
-> > +#define ISPPROCMODE_DT_PROC_MODE_VC3(pm)		(((pm) & 0x3f) << 24)
-> > +#define ISPPROCMODE_DT_PROC_MODE_VC2(pm)		(((pm) & 0x3f) << 16)
-> > +#define ISPPROCMODE_DT_PROC_MODE_VC1(pm)		(((pm) & 0x3f) << 8)
-> > +#define ISPPROCMODE_DT_PROC_MODE_VC0(pm)		((pm) & 0x3f)
-> > +
-> > +#define ISPCS_FILTER_ID_CH_REG(n)			(0x3000 + (0x0100 * n))
-> > +
-> > +#define ISPCS_DT_CODE03_CH_REG(n)			(0x3008 + (0x100 * n))
-> > +#define ISPCS_DT_CODE03_EN3				BIT(31)
-> > +#define ISPCS_DT_CODE03_DT3(dt)				(((dt) & 0x3f) << 24)
-> > +#define ISPCS_DT_CODE03_EN2				BIT(23)
-> > +#define ISPCS_DT_CODE03_DT2(dt)				(((dt) & 0x3f) << 16)
-> > +#define ISPCS_DT_CODE03_EN1				BIT(15)
-> > +#define ISPCS_DT_CODE03_DT1(dt)				(((dt) & 0x3f) << 8)
-> > +#define ISPCS_DT_CODE03_EN0				BIT(7)
-> > +#define ISPCS_DT_CODE03_DT0(dt)				((dt) & 0x3f)
-> > +
-> > +struct rcar_isp_format {
-> > +	u32 code;
-> > +	unsigned int datatype;
-> > +	unsigned int procmode;
-> > +};
-> > +
-> > +static const struct rcar_isp_format rcar_isp_formats[] = {
-> > +	{ .code = MEDIA_BUS_FMT_RGB888_1X24,	.datatype = 0x24, .procmode = 0x15 },
-> > +	{ .code = MEDIA_BUS_FMT_Y10_1X10,	.datatype = 0x2b, .procmode = 0x10 },
-> > +	{ .code = MEDIA_BUS_FMT_UYVY8_1X16,	.datatype = 0x1e, .procmode = 0x0c },
-> > +	{ .code = MEDIA_BUS_FMT_YUYV8_1X16,	.datatype = 0x1e, .procmode = 0x0c },
-> > +	{ .code = MEDIA_BUS_FMT_UYVY8_2X8,	.datatype = 0x1e, .procmode = 0x0c },
-> > +	{ .code = MEDIA_BUS_FMT_YUYV10_2X10,	.datatype = 0x1e, .procmode = 0x0c },
-> > +};
-> > +
-> > +static const struct rcar_isp_format *risp_code_to_fmt(unsigned int code)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(rcar_isp_formats); i++)
-> > +		if (rcar_isp_formats[i].code == code)
-> > +			return &rcar_isp_formats[i];
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> > +enum rcar_isp_input {
-> > +	RISP_CSI_INPUT0,
-> > +	RISP_CSI_INPUT1,
-> > +};
-> > +
-> > +enum rcar_isp_pads {
-> > +	RCAR_ISP_SINK,
-> > +	RCAR_ISP_PORT0,
-> > +	RCAR_ISP_PORT1,
-> > +	RCAR_ISP_PORT2,
-> > +	RCAR_ISP_PORT3,
-> > +	RCAR_ISP_PORT4,
-> > +	RCAR_ISP_PORT5,
-> > +	RCAR_ISP_PORT6,
-> > +	RCAR_ISP_PORT7,
-> > +	RCAR_ISP_MAX_PAD,
-> > +};
-> > +
-> > +struct rcar_isp {
-> > +	struct device *dev;
-> > +	void __iomem *base;
-> > +	struct reset_control *rstc;
-> > +
-> > +	enum rcar_isp_input csi_input;
-> > +
-> > +	struct v4l2_subdev subdev;
-> > +	struct media_pad pads[RCAR_ISP_MAX_PAD];
-> > +
-> > +	struct v4l2_async_notifier notifier;
-> > +	struct v4l2_subdev *remote;
-> > +	unsigned int remote_pad;
-> > +
-> > +	struct v4l2_mbus_framefmt mf;
-> > +
-> > +	struct mutex lock;
-> > +	int stream_count;
-> > +};
-> > +
-> > +static inline struct rcar_isp *sd_to_isp(struct v4l2_subdev *sd)
-> > +{
-> > +	return container_of(sd, struct rcar_isp, subdev);
-> > +}
-> > +
-> > +static inline struct rcar_isp *notifier_to_isp(struct v4l2_async_notifier *n)
-> > +{
-> > +	return container_of(n, struct rcar_isp, notifier);
-> > +}
-> > +
-> > +static void risp_write(struct rcar_isp *isp, u32 offset, u32 value)
-> > +{
-> > +	iowrite32(value, isp->base + offset);
-> > +}
-> > +
-> > +static u32 risp_read(struct rcar_isp *isp, u32 offset)
-> > +{
-> > +	return ioread32(isp->base + offset);
-> > +}
-> > +
-> > +static int risp_s_power(struct v4l2_subdev *sd, int on)
-> > +{
-> > +	struct rcar_isp *isp = sd_to_isp(sd);
-> > +	int ret;
-> > +
-> > +	if (on) {
-> > +		ret = pm_runtime_get_sync(isp->dev);
-> > +		if (ret < 0)
-> > +			return ret;
-> > +
-> > +		ret = reset_control_deassert(isp->rstc);
-> > +		if (ret < 0)
-> > +			return ret;
-> > +	} else {
-> > +		reset_control_assert(isp->rstc);
-> > +		pm_runtime_put(isp->dev);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct v4l2_subdev_core_ops risp_core_ops = {
-> > +	.s_power = risp_s_power,
-> > +};
-> > +
-> > +static int risp_remote_code(struct rcar_isp *isp)
-> > +{
-> > +	struct v4l2_subdev_format fmt = {
-> > +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> > +	};
-> > +
-> > +	fmt.pad = isp->remote_pad;
-> > +	if (v4l2_subdev_call(isp->remote, pad, get_fmt, NULL, &fmt))
-> > +		return -EPIPE;
-> > +
-> > +	return fmt.format.code;
-> > +}
-> > +
-> > +static int risp_start(struct rcar_isp *isp)
-> > +{
-> > +	const struct rcar_isp_format *format;
-> > +	unsigned int vc;
-> > +	u32 sel_csi = 0;
-> > +
-> > +	format = risp_code_to_fmt(risp_remote_code(isp));
-> > +	if (!format) {
-> > +		dev_err(isp->dev, "Unsupported bus format\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/* Select CSI-2 input source. */
-> > +	if (isp->csi_input == RISP_CSI_INPUT1)
-> > +		sel_csi = ISPINPUTSEL0_SEL_CSI0;
-> > +
-> > +	risp_write(isp, ISPINPUTSEL0_REG,
-> > +		   risp_read(isp, ISPINPUTSEL0_REG) | sel_csi);
-> > +
-> > +	/* Configure Channel Selector. */
-> > +	for (vc = 0; vc < 4; vc++) {
-> > +		u8 ch = vc + 4;
-> > +		u8 dt = format->datatype;
-> > +
-> > +		risp_write(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
-> > +		risp_write(isp, ISPCS_DT_CODE03_CH_REG(ch),
-> > +			   ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
-> > +			   ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
-> > +			   ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
-> > +			   ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
-> > +	}
-> > +
-> > +	/* Setup processing method. */
-> > +	risp_write(isp, ISPPROCMODE_DT_REG(format->datatype),
-> > +		   ISPPROCMODE_DT_PROC_MODE_VC3(format->procmode) |
-> > +		   ISPPROCMODE_DT_PROC_MODE_VC2(format->procmode) |
-> > +		   ISPPROCMODE_DT_PROC_MODE_VC1(format->procmode) |
-> > +		   ISPPROCMODE_DT_PROC_MODE_VC0(format->procmode));
-> > +
-> > +	/* Start ISP. */
-> > +	risp_write(isp, ISPSTART_REG, ISPSTART_START);
-> > +
-> > +	return v4l2_subdev_call(isp->remote, video, s_stream, 1);
-> > +}
-> > +
-> > +static void risp_stop(struct rcar_isp *isp)
-> > +{
-> > +	v4l2_subdev_call(isp->remote, video, s_stream, 0);
-> > +
-> > +	/* Stop ISP. */
-> > +	risp_write(isp, ISPSTART_REG, ISPSTART_STOP);
-> > +}
-> > +
-> > +static int risp_s_stream(struct v4l2_subdev *sd, int enable)
-> > +{
-> > +	struct rcar_isp *isp = sd_to_isp(sd);
-> > +	int ret = 0;
-> > +
-> > +	mutex_lock(&isp->lock);
-> > +
-> > +	if (!isp->remote) {
-> > +		ret = -ENODEV;
-> > +		goto out;
-> > +	}
-> > +
-> > +	if (enable && isp->stream_count == 0) {
-> > +		ret = risp_start(isp);
-> > +		if (ret)
-> > +			goto out;
-> > +	} else if (!enable && isp->stream_count == 1) {
-> > +		risp_stop(isp);
-> > +	}
-> > +
-> > +	isp->stream_count += enable ? 1 : -1;
-> > +out:
-> > +	mutex_unlock(&isp->lock);https://qa-deploy.rd.cisco.com/gates/7/results/86270
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static const struct v4l2_subdev_video_ops risp_video_ops = {
-> > +	.s_stream = risp_s_stream,
-> > +};
-> > +
-> > +static int risp_set_pad_format(struct v4l2_subdev *sd,
-> > +			       struct v4l2_subdev_pad_config *cfg,
-> > +			       struct v4l2_subdev_format *format)
-> 
-> This prototype will change very soon (I hope) as soon as
-> 
-> https://patchwork.linuxtv.org/project/linux-media/cover/20210610145606.3468235-1-tomi.valkeinen@ideasonboard.com/
-> 
-> is merged (PR is outstanding).
-> 
-> Once that is merged, this patch will have to be rebased and a v3 posted.
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - renesas,dmac-r9a07g044  # RZ/G2{L,LC}
+>=20
+> Please use "renesas,r9a07g044-dmac".
 
-Thanks for the heads-up, I will rebase and resend once it's merged.
+OK. Will change.
 
-> 
-> > +{
-> > +	struct rcar_isp *isp = sd_to_isp(sd);
-> > +	struct v4l2_mbus_framefmt *framefmt;
-> > +
-> > +	if (!risp_code_to_fmt(format->format.code))
-> > +		format->format.code = rcar_isp_formats[0].code;
-> > +
-> > +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > +		isp->mf = format->format;
-> > +	} else {
-> > +		framefmt = v4l2_subdev_get_try_format(sd, cfg, 0);
-> > +		*framefmt = format->format;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int risp_get_pad_format(struct v4l2_subdev *sd,
-> > +			       struct v4l2_subdev_pad_config *cfg,
-> > +			       struct v4l2_subdev_format *format)
-> > +{
-> > +	struct rcar_isp *isp = sd_to_isp(sd);
-> > +
-> > +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > +		format->format = isp->mf;
-> > +	else
-> > +		format->format = *v4l2_subdev_get_try_format(sd, cfg, 0);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct v4l2_subdev_pad_ops risp_pad_ops = {
-> > +	.set_fmt = risp_set_pad_format,
-> > +	.get_fmt = risp_get_pad_format,
-> > +};
-> > +
-> > +static const struct v4l2_subdev_ops rcar_isp_subdev_ops = {
-> > +	.core	= &risp_core_ops,
-> > +	.video	= &risp_video_ops,
-> > +	.pad	= &risp_pad_ops,
-> > +};
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Async handling and registration of subdevices and links
-> > + */
-> > +
-> > +static int risp_notify_bound(struct v4l2_async_notifier *notifier,
-> > +			     struct v4l2_subdev *subdev,
-> > +			     struct v4l2_async_subdev *asd)
-> > +{
-> > +	struct rcar_isp *isp = notifier_to_isp(notifier);
-> > +	int pad;
-> > +
-> > +	pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
-> > +					  MEDIA_PAD_FL_SOURCE);
-> > +	if (pad < 0) {
-> > +		dev_err(isp->dev, "Failed to find pad for %s\n", subdev->name);
-> > +		return pad;
-> > +	}
-> > +
-> > +	isp->remote = subdev;
-> > +	isp->remote_pad = pad;
-> > +
-> > +	dev_dbg(isp->dev, "Bound %s pad: %d\n", subdev->name, pad);
-> > +
-> > +	return media_create_pad_link(&subdev->entity, pad,
-> > +				     &isp->subdev.entity, 0,
-> > +				     MEDIA_LNK_FL_ENABLED |
-> > +				     MEDIA_LNK_FL_IMMUTABLE);
-> > +}
-> > +
-> > +static void risp_notify_unbind(struct v4l2_async_notifier *notifier,
-> > +			       struct v4l2_subdev *subdev,
-> > +			       struct v4l2_async_subdev *asd)
-> > +{
-> > +	struct rcar_isp *isp = notifier_to_isp(notifier);
-> > +
-> > +	isp->remote = NULL;
-> > +
-> > +	dev_dbg(isp->dev, "Unbind %s\n", subdev->name);
-> > +}
-> > +
-> > +static const struct v4l2_async_notifier_operations risp_notify_ops = {
-> > +	.bound = risp_notify_bound,
-> > +	.unbind = risp_notify_unbind,
-> > +};
-> > +
-> > +static int risp_parse_dt(struct rcar_isp *isp)
-> > +{
-> > +	struct v4l2_async_subdev *asd;
-> > +	struct fwnode_handle *fwnode;
-> > +	struct fwnode_handle *ep;
-> > +	unsigned int id;
-> > +	int ret;
-> > +
-> > +	for (id = 0; id < 2; id++) {
-> > +		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(isp->dev),
-> > +						     0, id, 0);
-> > +		if (ep)
-> > +			break;
-> > +	}
-> > +
-> > +	if (!ep) {
-> > +		dev_err(isp->dev, "Not connected to subdevice\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (id == 1)
-> > +		isp->csi_input = RISP_CSI_INPUT1;
-> > +
-> > +	fwnode = fwnode_graph_get_remote_endpoint(ep);
-> > +	fwnode_handle_put(ep);
-> > +
-> > +	dev_dbg(isp->dev, "Found '%pOF'\n", to_of_node(fwnode));
-> > +
-> > +	v4l2_async_notifier_init(&isp->notifier);
-> > +	isp->notifier.ops = &risp_notify_ops;
-> > +
-> > +	asd = v4l2_async_notifier_add_fwnode_subdev(&isp->notifier, fwnode,
-> > +						    struct v4l2_async_subdev);
-> > +	fwnode_handle_put(fwnode);
-> > +	if (IS_ERR(asd))
-> > +		return PTR_ERR(asd);
-> > +
-> > +	ret = v4l2_async_subdev_notifier_register(&isp->subdev, &isp->notifier);
-> > +	if (ret)
-> > +		v4l2_async_notifier_cleanup(&isp->notifier);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Platform Device Driver
-> > + */
-> > +
-> > +static const struct media_entity_operations risp_entity_ops = {
-> > +	.link_validate = v4l2_subdev_link_validate,
-> > +};
-> > +
-> > +static int risp_probe_resources(struct rcar_isp *isp,
-> > +				struct platform_device *pdev)
-> > +{
-> > +	struct resource *res;
-> > +
-> > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > +	isp->base = devm_ioremap_resource(&pdev->dev, res);
-> > +	if (IS_ERR(isp->base))
-> > +		return PTR_ERR(isp->base);
-> > +
-> > +	isp->rstc = devm_reset_control_get(&pdev->dev, NULL);
-> > +
-> > +	return PTR_ERR_OR_ZERO(isp->rstc);
-> > +}
-> > +
-> > +static const struct of_device_id risp_of_id_table[] = {
-> > +	{ .compatible = "renesas,r8a779a0-isp" },
-> > +	{ /* sentinel */ },
-> > +};
-> > +MODULE_DEVICE_TABLE(of, risp_of_id_table);
-> > +
-> > +static int risp_probe(struct platform_device *pdev)
-> > +{
-> > +	struct rcar_isp *isp;
-> > +	unsigned int i;
-> > +	int ret;
-> > +
-> > +	isp = devm_kzalloc(&pdev->dev, sizeof(*isp), GFP_KERNEL);
-> > +	if (!isp)
-> > +		return -ENOMEM;
-> > +
-> > +	isp->dev = &pdev->dev;
-> > +
-> > +	mutex_init(&isp->lock);
-> > +	isp->stream_count = 0;
-> > +
-> > +	ret = risp_probe_resources(isp, pdev);
-> > +	if (ret) {
-> > +		dev_err(isp->dev, "Failed to get resources\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	platform_set_drvdata(pdev, isp);
-> > +
-> > +	ret = risp_parse_dt(isp);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	isp->subdev.owner = THIS_MODULE;
-> > +	isp->subdev.dev = &pdev->dev;
-> > +	v4l2_subdev_init(&isp->subdev, &rcar_isp_subdev_ops);
-> > +	v4l2_set_subdevdata(&isp->subdev, &pdev->dev);
-> > +	snprintf(isp->subdev.name, V4L2_SUBDEV_NAME_SIZE, "%s %s",
-> > +		 KBUILD_MODNAME, dev_name(&pdev->dev));
-> > +	isp->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > +
-> > +	isp->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
-> 
-> Similar question to the one at the top: is this really a pixel formatter?
-> 
-> It really feels more like a routing device.
+> > +      - const: renesas,rz-dmac
+>=20
+> Does this need many changes for RZ/A1H and RZ/A2M?
 
-It can be a pixel formatter.
+It will work on both RZ/A1H and RZ/A2M. I have n't tested since I don't hav=
+e the board.
+There is some difference in MID bit size. Other wise both identical.
 
-> 
-> I wonder if this series isn't relevant for this driver:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/cover/20210524104408.599645-1-tomi.valkeinen@ideasonboard.com/
+=20
+> > +  renesas,rz-dmac-slavecfg:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +    description: |
+> > +      DMA configuration for a slave channel. Each channel must have an
+> array of
+> > +      3 items as below.
+> > +      first item in the array is MID+RID
+>=20
+> Already in dmas.
+>=20
+> > +      second item in the array is slave src or dst address
+>=20
+> As pointed out by Rob, already known by the slave driver.
+>=20
+> > +      third item in the array is channel configuration value.
+>=20
+> What exactly is this?
+> Does the R-Car DMAC have this too? If yes, how does its driver handle it?
 
-Maybe, all the internal routes are static so there is no need to expose 
-an API to modify the routing. But as any device that deals with 
-multiplexed links it will benefit once Tomi's work is in in as the 
-formats between all the devices in the media graph can be validated.
+On R-CAR DMAC, we have only MID + RID values. Where as here we have channel=
+ configuration value With different set of parameter as mentioned in Table =
+16.4.
 
-Given that the internal routing series have been on the list for years I 
-rather not wait for it and I would prefers to as I add support for the 
-new API once it's done. I will need to add support for the R-Car CSI-2 
-receiver as well for this new API once its merged.
+Please see Page 569, Table 16.4 On-Chip Module requests section.=20
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > +	isp->subdev.entity.ops = &risp_entity_ops;
-> > +
-> > +	isp->pads[RCAR_ISP_SINK].flags = MEDIA_PAD_FL_SINK;
-> > +	for (i = RCAR_ISP_PORT0; i < RCAR_ISP_MAX_PAD; i++)
-> > +		isp->pads[i].flags = MEDIA_PAD_FL_SOURCE;
-> > +
-> > +	ret = media_entity_pads_init(&isp->subdev.entity, RCAR_ISP_MAX_PAD,
-> > +				     isp->pads);
-> > +	if (ret)
-> > +		goto error;
-> > +
-> > +	pm_runtime_enable(&pdev->dev);
-> > +
-> > +	ret = v4l2_async_register_subdev(&isp->subdev);
-> > +	if (ret < 0)
-> > +		goto error;
-> > +
-> > +	dev_info(isp->dev, "Using CSI-2 input: %u\n", isp->csi_input);
-> > +
-> > +	return 0;
-> > +error:
-> > +	v4l2_async_notifier_unregister(&isp->notifier);
-> > +	v4l2_async_notifier_cleanup(&isp->notifier);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int risp_remove(struct platform_device *pdev)
-> > +{
-> > +	struct rcar_isp *isp = platform_get_drvdata(pdev);
-> > +
-> > +	v4l2_async_notifier_unregister(&isp->notifier);
-> > +	v4l2_async_notifier_cleanup(&isp->notifier);
-> > +	v4l2_async_unregister_subdev(&isp->subdev);
-> > +
-> > +	pm_runtime_disable(&pdev->dev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static struct platform_driver rcar_isp_driver = {
-> > +	.driver = {
-> > +		.name = "rcar-isp",
-> > +		.of_match_table = risp_of_id_table,
-> > +	},
-> > +	.probe = risp_probe,
-> > +	.remove = risp_remove,
-> > +};
-> > +
-> > +module_platform_driver(rcar_isp_driver);
-> > +
-> > +MODULE_AUTHOR("Niklas Söderlund <niklas.soderlund@ragnatech.se>");
-> > +MODULE_DESCRIPTION("Renesas R-Car ISP Channel Selector driver");
-> > +MODULE_LICENSE("GPL");
-> > 
-> 
+For eg:- as per Rob's suggestion, I have modelled the driver with the below=
+ entries in ALSA driver for playback/record use case.
 
--- 
+dmas =3D <&dmac 0x255 0x10049c18 CH_CFG(0x1,0x0,0x1,0x0,0x2,0x1,0x1,0x0)>,
+       <&dmac 0x256 0x10049c1c CH_CFG(0x0,0x0,0x1,0x0,0x2,0x1,0x1,0x0)>;
+dma-names =3D "tx", "rx";
+
+Using first parameter, it gets dmac channel. using second and third paramet=
+er it configures=20
+the channel.
+
 Regards,
-Niklas Söderlund
+Biju
+
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-
+> m68k.org
+>=20
+> In personal conversations with technical people, I call myself a hacker.
+> But when I'm talking to journalists I just say "programmer" or something
+> like that.
+>                                 -- Linus Torvalds
