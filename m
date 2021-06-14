@@ -2,127 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA3953A6855
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 15:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F033E3A6902
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 16:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233668AbhFNNu1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Jun 2021 09:50:27 -0400
-Received: from mail-vs1-f46.google.com ([209.85.217.46]:44699 "EHLO
-        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233389AbhFNNu1 (ORCPT
+        id S232995AbhFNOcB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Jun 2021 10:32:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56404 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232978AbhFNOcA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Jun 2021 09:50:27 -0400
-Received: by mail-vs1-f46.google.com with SMTP id x13so7796139vsf.11;
-        Mon, 14 Jun 2021 06:48:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GcUfUlFIX4X4dWFAdI2Q98BKdpaJeSWFg0rExRnnbb8=;
-        b=OWqhB7ncZVWiVKD5R5J5J2TDaczs5eO0RSiZLuQ6qdfY+Mw+Tr2H4BHW1JjvUZNifR
-         uGbEqbS4a8AQ84ejMO5UpigrCinNhkonrS/0jSRpwXE13yAHv/JTazKrIFOEli2eW1DK
-         ncObJIq1B/q0nGl57neeJ9NrV4rgdzIkk1K4iKBY4bqfrPhVhNcNYQRKNXCnq+WD6ALa
-         eebujpFkdTmG9FxsFsaaPIxrYsQ+Me497rGNoy6ZeR1aRBZwiyVbPEXlw4+bUvGbCv3q
-         G2qdIE9wOZc+lyQpu65031AqQQzLF2b5c9ngAUwZMqI9PLMe2VPgCr9Xe+xaHTv7e6i4
-         VycQ==
-X-Gm-Message-State: AOAM530AKFo55iNd1w6BGuZML+1NpCHcmil8CWLl/t/3MGTxmJmk2ltl
-        /mxKBJnRUTCDM48HTic7a9ygScqtn4pTnYRTi6gUiu5nEMU2ZQ==
-X-Google-Smtp-Source: ABdhPJwCC2KVGlegTOg8+zG7cvtNxNdCnuGV8omrsx/Fg0zaZVvX3ewGZ5uUKPOCYJy2uY1ILtvKNyaobuXRc7PF90s=
-X-Received: by 2002:a67:efd6:: with SMTP id s22mr18250891vsp.3.1623678495006;
- Mon, 14 Jun 2021 06:48:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210611113642.18457-1-biju.das.jz@bp.renesas.com>
- <20210611113642.18457-5-biju.das.jz@bp.renesas.com> <CAMuHMdUthmAbwNrBKeEBzqBUN6HYR=Fuz5ALpK+iGY_kUQpV1A@mail.gmail.com>
- <OS0PR01MB59227529257477835867FEFA86319@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59227529257477835867FEFA86319@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Jun 2021 15:48:03 +0200
-Message-ID: <CAMuHMdX2CR=3wpQbAXsmCBw=jWy7OQG7ur0MhTxaoVkz413Jcg@mail.gmail.com>
-Subject: Re: [PATCH 4/5] arm64: dts: renesas: r9a07g044: Add DMAC support
+        Mon, 14 Jun 2021 10:32:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79CC2C061574;
+        Mon, 14 Jun 2021 07:29:57 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 924CBA59;
+        Mon, 14 Jun 2021 16:29:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623680993;
+        bh=ItYUbNE1wkEmOLKTUmXApXsK2mUUF//5SSNCNuwzBbE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Qiqu8Wbe4qwcsIr7AZp7ivE6vXi5FF1di15cbmWxutpYnHjDHn9PLEahEFahvRxsB
+         dtcDhCltP+S4pw1BsHPz+fuyO/8iuDpLEDSb1/tPzTHmJUxUtP5AMByDes771T3AB+
+         nncT0Z83XXXsXAXyOWMAoge6Ld5KjQX6UQLpWwEk=
+Date:   Mon, 14 Jun 2021 17:29:33 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 1/5] dt-bindings: dma: Document RZ/G2L bindings
+Message-ID: <YMdnzdCvX/ur9qVr@pendragon.ideasonboard.com>
+References: <20210611113642.18457-1-biju.das.jz@bp.renesas.com>
+ <20210611113642.18457-2-biju.das.jz@bp.renesas.com>
+ <CAMuHMdUQRHtVFhqmgi5EE2TNobspM3tNTP10gz-yPDJSK31ytA@mail.gmail.com>
+ <OS0PR01MB5922B2355864A98B14C6DE6D86319@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB5922B2355864A98B14C6DE6D86319@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
-
-On Mon, Jun 14, 2021 at 3:02 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH 4/5] arm64: dts: renesas: r9a07g044: Add DMAC support
+On Mon, Jun 14, 2021 at 12:54:02PM +0000, Biju Das wrote:
+> > -----Original Message-----
+> > Subject: Re: [PATCH 1/5] dt-bindings: dma: Document RZ/G2L bindings
+> > 
+> > Hi Biju,
+> > 
 > > On Fri, Jun 11, 2021 at 1:36 PM Biju Das <biju.das.jz@bp.renesas.com>
 > > wrote:
-> > > Add DMAC support to RZ/G2L SoC DT.
+> > > Document RZ/G2L DMAC bindings.
 > > >
 > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
+> > 
 > > Thanks for your patch!
-> >
-> > > --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> > > @@ -8,6 +8,10 @@
-> > >  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > >  #include <dt-bindings/clock/r9a07g044-cpg.h>
-> > >
-> > > +#define CH_CFG(reqd, loen, hien, lvl, am, sds, dds, tm) \
-> > > +       ((((tm) << 22) | ((dds) << 16) | ((sds) << 12) | ((am) << 8) | \
-> > > +       ((lvl) << 6) | ((hien) << 5) | ((loen) << 4) | ((reqd) << 3))
-> > > +& 0x004FF778)
+> > 
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > > @@ -0,0 +1,132 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > > +---
+> > > +$id:
+> > > +https://jpn01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevi
+> > > +cetree.org%2Fschemas%2Fdma%2Frenesas%2Crz-dmac.yaml%23&amp;data=04%7C
+> > > +01%7Cbiju.das.jz%40bp.renesas.com%7C4b547e10cbe64b6f4d8508d92f2da0c0%
+> > > +7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C637592695286846809%7CUnk
+> > > +nown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW
+> > > +wiLCJXVCI6Mn0%3D%7C1000&amp;sdata=5Jh%2FxPaia5ZOY0CrViQCcrNtzuDejp8wo
+> > > +Nrx9iO0ht8%3D&amp;reserved=0
+> > > +$schema:
+> > > +https://jpn01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevi
+> > > +cetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=04%7C01%7Cbiju.das.
+> > > +jz%40bp.renesas.com%7C4b547e10cbe64b6f4d8508d92f2da0c0%7C53d82571da19
+> > > +47e49cb4625a166a4a2a%7C0%7C0%7C637592695286846809%7CUnknown%7CTWFpbGZ
+> > > +sb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%
+> > > +3D%7C1000&amp;sdata=5qQ1PljM3e4Bn4%2FjdldYUHRBQL3jArJgRIAdLnhJraw%3D&
+> > > +amp;reserved=0
+
+*sigh*
+
 > > > +
-> >
-> > I assume the above will be removed?
->
-> Basically the macro simplifies the channel configuration values in Table 16.4 page 569 of the hardware manual.
->
-> Client driver will use MID+RID, and pass (Src address or dest address along with the channel configuration values
-> For configuring DMA channel.
->
-> For eg:-
->
->                 ssi0: ssi@10049c00 {
->                         compatible = "renesas,r9a07g044-ssi",
->                                      "renesas,rz-ssi";
->                         reg = <0 0x10049c00 0 0x400>;
->                         interrupts = <GIC_SPI 326 IRQ_TYPE_LEVEL_HIGH>,
->                                      <GIC_SPI 327 IRQ_TYPE_EDGE_RISING>,
->                                      <GIC_SPI 328 IRQ_TYPE_EDGE_RISING>;
->                         interrupt-names = "int", "rx", "tx";
->                         clocks = <&cpg CPG_MOD R9A07G044_CLK_SSI0>,
->                                  <&audio_clk1>,
->                                  <&audio_clk2>;
->                         clock-names = "ssi", "audio_clk1", "audio_clk2";
->                         resets = <&cpg R9A07G044_CLK_SSI0>;
->                         dmas = <&dmac 0x255 0x10049c18 CH_CFG(0x1,0x0,0x1,0x0,0x2,0x1,0x1,0x0)>,
->                                <&dmac 0x256 0x10049c1c CH_CFG(0x0,0x0,0x1,0x0,0x2,0x1,0x1,0x0)>;
->                         dma-names = "tx", "rx";
->                         power-domains = <&cpg>;
->                         #sound-dai-cells = <0>;
->                         status = "disabled";
->                 };
->
-> Please let me know your thoughts on this.
+> > > +title: Renesas RZ/G2L DMA Controller
+> > > +
+> > > +maintainers:
+> > > +  - Biju Das <biju.das.jz@bp.renesas.com>
+> > > +
+> > > +allOf:
+> > > +  - $ref: "dma-controller.yaml#"
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +          - renesas,dmac-r9a07g044  # RZ/G2{L,LC}
+> > 
+> > Please use "renesas,r9a07g044-dmac".
+> 
+> OK. Will change.
+> 
+> > > +      - const: renesas,rz-dmac
+> > 
+> > Does this need many changes for RZ/A1H and RZ/A2M?
+> 
+> It will work on both RZ/A1H and RZ/A2M. I have n't tested since I don't have the board.
+> There is some difference in MID bit size. Other wise both identical.
+> 
+>  
+> > > +  renesas,rz-dmac-slavecfg:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > > +    description: |
+> > > +      DMA configuration for a slave channel. Each channel must have an
+> > array of
+> > > +      3 items as below.
+> > > +      first item in the array is MID+RID
+> > 
+> > Already in dmas.
+> > 
+> > > +      second item in the array is slave src or dst address
+> > 
+> > As pointed out by Rob, already known by the slave driver.
+> > 
+> > > +      third item in the array is channel configuration value.
+> > 
+> > What exactly is this?
 
-How will this work with (existing) drivers?
-E.g. drivers/tty/serial/sh-sci.c:sci_request_dma_chan() already knows the
-source and destination addresses.
-The other CHCFG bits may be new, though.
+What would prevent the DMA client from passing the configuration to the
+DMA channel through the DMA engine API, just like it passes the slave
+source or destination address ?
 
-Gr{oetje,eeting}s,
-
-                        Geert
+> > Does the R-Car DMAC have this too? If yes, how does its driver handle it?
+> 
+> On R-CAR DMAC, we have only MID + RID values. Where as here we have channel configuration value With different set of parameter as mentioned in Table 16.4.
+> 
+> Please see Page 569, Table 16.4 On-Chip Module requests section. 
+> 
+> For eg:- as per Rob's suggestion, I have modelled the driver with the below entries in ALSA driver for playback/record use case.
+> 
+> dmas = <&dmac 0x255 0x10049c18 CH_CFG(0x1,0x0,0x1,0x0,0x2,0x1,0x1,0x0)>,
+>        <&dmac 0x256 0x10049c1c CH_CFG(0x0,0x0,0x1,0x0,0x2,0x1,0x1,0x0)>;
+> dma-names = "tx", "rx";
+> 
+> Using first parameter, it gets dmac channel. using second and third parameter it configures 
+> the channel.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
