@@ -2,211 +2,210 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56A813A5F8A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 11:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 356E63A64E5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Jun 2021 13:30:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232658AbhFNJ5i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Jun 2021 05:57:38 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:45413 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232579AbhFNJ5i (ORCPT
+        id S233264AbhFNLa0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Jun 2021 07:30:26 -0400
+Received: from mail-vs1-f46.google.com ([209.85.217.46]:46956 "EHLO
+        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235177AbhFNL2E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Jun 2021 05:57:38 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id sjJalbW64hqltsjJdlmPc3; Mon, 14 Jun 2021 11:55:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623664533; bh=h1QaFllNSMbEspZsTu9vh7/Sp9Elx95/sHYX7TXVj+s=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=WNIOST+fYRM8X7g/AzZpvCTmfVTkVppgJbVsKZTZpxHEPaDSVlwhXuWizfAa4TJma
-         GvxXAw8EtvG1vjK9xpAKVfVfExbE+ySO9mP6ljElcgf3qZiRiPWTJepbW9eVy6TTXF
-         bATbamLNT3MmkyNiJHJ8eGLqBlMfK9ebRK8lxPNdj9omUymc7U5fd+AIp1bpBZ5CSC
-         j2dtwg3LagIcTSRYFogD9NDBFNcmbs2uZKMd4LL5IA1E3slI/ysGcPYX3rx6C9trPE
-         vwbamu7QzIm8yu76WLpNGaeK1ToE4rq/7Q5x7UwZQr4qemm8aRM8Aj5AytHsyQXlp1
-         EGOiVJ3gFW0Iw==
-Subject: Re: [PATCH v4 16/17] media: v4l2-subdev: De-deprecate init() subdev
- op
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-References: <20210412093451.14198-1-jacopo+renesas@jmondi.org>
- <20210412093451.14198-17-jacopo+renesas@jmondi.org>
- <2ad9747e-7e2d-2c95-a98b-b6b0e7534e42@xs4all.nl>
- <20210614094548.ufd6qczjj5zpkbfb@uno.localdomain>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <07c42c41-138a-7e48-a320-4a9e8873a168@xs4all.nl>
-Date:   Mon, 14 Jun 2021 11:55:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        Mon, 14 Jun 2021 07:28:04 -0400
+Received: by mail-vs1-f46.google.com with SMTP id z15so7572398vsn.13;
+        Mon, 14 Jun 2021 04:26:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bTSBYN8rB77+u8stbTCtFfsGhQZ+9hrV0blh5vsPcM8=;
+        b=ezfqobBGAdJB13yM1iqFmzhfLj1eiHKSsXk0wJZW/qdKnIMRYpSlt4EeoD4p1Te+/0
+         RwZ/5WsLSl+QyVz05GUgTThT1ig20uIEv5zY69qZuxIkT+ye5MOaf7yVIN3j8kkZu36D
+         jnn7sekopbE3YfaxWuDEOusSIR8MI8Ivj1WKtG/qsKcyevszwE0YCKohwuhbR1ereG/5
+         57R0W/iAKQ8mwN7k397DwmYYEy3BTwTxYlbu4azpS9cIVob00rF6fQwrLaSD438cWoGt
+         hfgEoYiELc3B9P42HAJsKbqUVHsjFn2UtbUYQJYjJtPwnHqaRAogkko1KZEWA/9jNO7L
+         zJpA==
+X-Gm-Message-State: AOAM533V9HCMOE/ND1mDclQ+ewLP6073GnfmlSabN4xcgUlSYe+Tz1wn
+        xbNqPZb3HjVLdCkQFKlCxMtOII1OMk8ner9A800=
+X-Google-Smtp-Source: ABdhPJwSoUdv+XJJLXAM5AiN9UYILuhDhY0u4gOSBJcrU4V9hU8do+W5mFGvy3VYfZ0rv4e8VJ/o9fS1xYBPYDhZo38=
+X-Received: by 2002:a05:6102:2011:: with SMTP id p17mr16631993vsr.40.1623669960839;
+ Mon, 14 Jun 2021 04:26:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210614094548.ufd6qczjj5zpkbfb@uno.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOXFssleaqyRgfZHQbYetbMYLLh5KQhaxxbwXoDSuGRuper5ubsze1tunY4NVu5lVjgYsBJ+AIt5YGXQdaE8ZE1/bnMJsICrQQWyuUaAiYm8M+FxPqlZ
- DH2QJgswbJ/QVeW7fUETr0gh2o+/hqKaRCteUU7Gc75zl0KXtI0nhwujyo256MYCovlxSiJ432qOtNQfh/LZ04eezSB14LIQg6P8faMZi0YXlfoSpp40ZMWV
- ycfDoi5jOxsim6RhTBIufYHEgyX42ddALUnZNskOusHLjD5Zyd1xjqSISvzLtEToJhafMZpxFffZ9/9Qry1z9+XNSGFSK9whVT+CRSwYFTXLQY0s4RJOBKFl
- yj9VbAPj9MdqiJF0zKTRHDVMrpqE+hN9lCyLYhtU+xWoxEEqVVEwHKfTSqVW0LoH5N+nmdD9bgss1m3SfAaCxYKndFaz5WIwGco8z8BCMMsFeVhOGKUzhP7S
- zGeeFjPTEmdHlYyRnikJTpdt58sIRbfviQpeIp3wIdpmQPXAxlPTsPOWwf9IMTCsATIhlH0Q+L8y7FUiWwgwUU+dqwW05Bhnf3jtvlHwa36MIkNWiQ42g+5F
- A5UAwNPiX/uOR7/df3W1v6cBIVwT/WqHR/Qs0RLR8fs69g==
+References: <cover.1623315732.git.geert+renesas@glider.be> <f79841c1881f8b9a2c10fadb3d3ad6cb5fccc6a5.1623315732.git.geert+renesas@glider.be>
+ <YMVbupt4pqdl2FOc@pendragon.ideasonboard.com>
+In-Reply-To: <YMVbupt4pqdl2FOc@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 14 Jun 2021 13:25:49 +0200
+Message-ID: <CAMuHMdXvB7dfcoCXOuE_oTCxaBqQyA8RVGm7SVy8iTmccvG95A@mail.gmail.com>
+Subject: Re: [PATCH 01/14] dt-bindings: arm: renesas: Document R-Car H3e-2G
+ and M3e-2G SoCs and boards
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 14/06/2021 11:45, Jacopo Mondi wrote:
-> Hi Hans,
->    thanks for your reply
-> 
-> On Mon, Jun 14, 2021 at 10:51:25AM +0200, Hans Verkuil wrote:
->> On 12/04/2021 11:34, Jacopo Mondi wrote:
->>> The init() subdev core operation is deemed to be deprecated for new
->>> subdevice drivers. However it could prove useful for complex
->>> architectures to defer operation that require access to the
->>> communication bus if said bus is not available (or fully configured)
->>> at the time when the subdevice probe() function is run.
->>>
->>> As an example, the GMSL architecture requires the GMSL configuration
->>> link to be configured on the host side after the remote subdevice
->>> has completed its probe function. After the configuration on the host
->>> side has been performed, the subdevice registers can be accessed through
->>> the communication bus.
->>>
->>> In particular:
->>>
->>> 	HOST			REMOTE
->>>
->>> 	probe()
->>> 	   |
->>> 	   ---------------------> |
->>> 				  probe() {
->>> 				     bus config()
->>> 				  }
->>> 	   |<--------------------|
->>> 	v4l2 async bound {
->>> 	    bus config()
->>> 	    call subdev init()
->>> 	   |-------------------->|
->>> 				 init() {
->>> 				     access register on the bus()
->>> 				}
->>> 	   |<-------------------
->>> 	}
->>>
->>> In the GMSL use case the bus configuration requires the enablement of the
->>> noise immunity threshold on the remote side which ensures reliability
->>> of communications in electrically noisy environments. After the subdevice
->>> has enabled the threshold at the end of its probe() sequence the host
->>> side shall compensate it with an higher signal amplitude. Once this
->>> sequence has completed the bus can be accessed with noise protection
->>> enabled and all the operations that require a considerable number of
->>> transactions on the bus (such as the image sensor configuration
->>> sequence) are run in the subdevice init() operation implementation.
->>>
->>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->>> ---
->>>  include/media/v4l2-subdev.h | 15 ++++++++++++---
->>>  1 file changed, 12 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->>> index d0e9a5bdb08b..3068d9940669 100644
->>> --- a/include/media/v4l2-subdev.h
->>> +++ b/include/media/v4l2-subdev.h
->>> @@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
->>>   *	each pin being configured.  This function could be called at times
->>>   *	other than just subdevice initialization.
->>>   *
->>> - * @init: initialize the sensor registers to some sort of reasonable default
->>> - *	values. Do not use for new drivers and should be removed in existing
->>> - *	drivers.
->>> + * @init: initialize the subdevice registers to some sort of reasonable default
->>> + *	values. Do not use for new drivers (and should be removed in existing
->>> + *	ones) for regular architectures where the image sensor is connected to
->>> + *	the host receiver. For more complex architectures where the subdevice
->>> + *	initialization should be deferred to the completion of the probe
->>> + *	sequence of some intermediate component, or the communication bus
->>> + *	requires configurations on the host side that depend on the completion
->>> + *	of the probe sequence of the remote subdevices, the usage of this
->>> + *	operation could be considered to allow the devices along the pipeline to
->>> + *	probe and register in the media graph and to defer any operation that
->>> + *	require actual access to the communication bus to their init() function
->>> + *	implementation.
->>
->> I don't like de-deprecating init. It was deprecated for a good reason, and
->> I'd like to keep it that way.
-> 
-> I see, fair enough :)
-> 
->>
->> There are two alternatives: one is a bit quick-and-dirty, the other is a hint
->> towards a more generic solution (just a hint since it will require more research):
->>
->> 1) Quick-and-dirty: use the core callback op to create a custom INIT callback.
->> This depends on this patch:
->>
->> https://patchwork.linuxtv.org/project/linux-media/patch/20210610214305.4170835-8-arnd@kernel.org/
->>
->> This will make it clear to the reader that this is a highly specific interaction
->> between two drivers that are tightly coupled. It works in the current situation,
->> but not if we want to make this more generic.
-> 
-> Depends what you mean with 'generic' :) I think such a solution would
-> slightly abuse a generic API like 'command' is, but the GMSL
-> deserializers/serializers are tighly coupled by definition, so this is
-> less a concern, as long as we have a single driver for the whole
-> camera module. If we're going to split it in 3 subdev drivers then
-> yes, they will all have to implement .command() and they can be used
-> with in isolation with a generic receiver driver.
-> 
->>
->> 2) Subdev drivers can implement the registered() op which is called by
->> v4l2_device_register_subdev(). This in turn is called from v4l2_async_match_notify().
->>
->> What you want is that when max9286 calls v4l2_async_subdev_notifier_register, it
->> can set a flag or something indicating that initialization has to be postponed.
->> Then, when v4l2_async_match_notify() calls the register() callback, that flag can
->> be read. If false, then the register() callback will initialize the device, if
->> true then that won't happen. Instead, it will do that when the max9286 calls a
->> post_register() callback.
-> 
-> 2 questions to help me better understand this:
-> 1) s/register()/registered() in this paragraph ?
+Hi Laurent,
 
-Yes, sorry.
+On Sun, Jun 13, 2021 at 3:13 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Thu, Jun 10, 2021 at 11:37:14AM +0200, Geert Uytterhoeven wrote:
+> > Document the compatible values for the R-Car H3e-2G (R8A779M1) and
+> > M3e-2G (R8A779M3) SoCs.  These are different gradings of the R-Car H3
+> > ES3.0 (R8A77951) and M3-W+ (R8A77961) SoCs.
+> >
+> > All R-Car Gen3e on-SoC devices are identical to the devices on the
+> > corresponding R-Car Gen3 SoCs, and thus just use the compatible values
+> > for the latter.  The root compatible properties do gain an additional
+> > value, to sort out integration issues if they ever arise.
+> >
+> > Document the use of these SoCs on the Salvator-XS and ULCB (with and
+> > without Kingfisher) development boards.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> 2) $ git grep post_register drivers/media/ include/media/
->    gives me back nothing.
-> 
->    Are you suggesting a new operation ?
+Thanks!
 
-Yes, that would be a new op.
+> I however wonder if we haven't messed up the board compatible strings
+> somehow (unrelated to this patch). Aren't compatible strings supposed to
+> be ordered from most specific to most generic, with a more specific
+> compatible string being a strict subset of a more generic string ?
+> Looking at, for example,
+>
+>         compatible = "renesas,salvator-xs", "renesas,r8a779m1", "renesas,r8a7795";
+>
+> the rule is upheld by renesas,r8a779m1 being a subset of the more
+> generic renesas,r8a7795, but that's not the case for
+> renesas,salvator-xs.
 
-Regards,
+That's a very interesting comment.  Originally, we had lists like:
 
-	Hans
+    compatible = "renesas,koelsch", "renesas,r8a7791";
 
-> 
-> Thanks
->    j
-> 
->>
->> This is a lot more work (and research, since this is just a brainstorm from my
->> side), but it is a way towards making this a generic solution.
->>
->> Regards,
->>
->> 	Hans
->>
->>>   *
->>>   * @load_fw: load firmware.
->>>   *
->>> --
->>> 2.31.1
->>>
->>
+with the Koelsch board indeed being a specialization of an R-Car
+M2-W-based system. Later, we reused that system for the Salvator-X
+board with an R-Car H3 SiP:
 
+    compatible = "renesas,salvator-x", "renesas,r8a7795";
+
+That scheme became "broken" with the introduction of the R-Car M3-W
+SiP, which was also mounted on a Salvator-X board, leading to:
+
+    compatible = "renesas,salvator-x", "renesas,r8a7796";
+
+Note that we did have a similar case for R-Car M2-W and R-Car M2-N on
+the Koelsch resp. Gose boards: from the schematics (I haven't seen
+a Gose), it looks identical to Koelsch, with parts not supported by
+R-Car M2-N (like the second SDRAM bank) marked "Do not stuff".
+But in this case the boards were assigned different names, thus
+leading to different compatible values.
+
+With Salvator-X(S), it was easier to support multiple SoCs, as they
+are mounted on SiPs, with differences like the different number of
+memory channels hidden in the SiP, and handled at a different level
+(these days memory layout information flows from ATF to U-Boot to
+the DTB passed to the kernel).
+
+Would you feel more comfortable if we had introduced more
+board-specific compatible values, like "renesas,r8a7796-salvator-x",
+and had used
+
+    compatible = "renesas,r8a7795-salvator-x", "renesas,salvator-x",
+"renesas,r8a7795";
+
+or
+
+    compatible = "renesas,r8a7795-salvator-x", "renesas,r8a7795";
+
+?
+
+If the need ever arises, Linux can still identify the exact combination
+by checking for both the board- and the SoC-specific values.
+So far we didn't have that need for Salvator-X(S) yet (we do have
+board-specific checks in
+arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c).
+
+> > --- a/Documentation/devicetree/bindings/arm/renesas.yaml
+> > +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
+> > @@ -238,17 +238,29 @@ properties:
+> >            - const: renesas,r8a77961
+> >
+> >        - description: Kingfisher (SBEV-RCAR-KF-M03)
+> > -        items:
+> > -          - const: shimafuji,kingfisher
+> > -          - enum:
+> > -              - renesas,h3ulcb
+> > -              - renesas,m3ulcb
+> > -              - renesas,m3nulcb
+> > -          - enum:
+> > -              - renesas,r8a7795
+> > -              - renesas,r8a7796
+> > -              - renesas,r8a77961
+> > -              - renesas,r8a77965
+> > +        oneOf:
+> > +          - items:
+> > +              - const: shimafuji,kingfisher
+> > +              - enum:
+> > +                  - renesas,h3ulcb
+> > +                  - renesas,m3ulcb
+> > +                  - renesas,m3nulcb
+> > +              - enum:
+> > +                  - renesas,r8a7795
+> > +                  - renesas,r8a7796
+> > +                  - renesas,r8a77961
+> > +                  - renesas,r8a77965
+> > +          - items:
+> > +              - const: shimafuji,kingfisher
+> > +              - enum:
+> > +                  - renesas,h3ulcb
+> > +                  - renesas,m3ulcb
+> > +              - enum:
+> > +                  - renesas,r8a779m1
+> > +                  - renesas,r8a779m3
+> > +              - enum:
+> > +                  - renesas,r8a7795
+> > +                  - renesas,r8a77961
+> >
+> >        - description: R-Car M3-N (R8A77965)
+> >          items:
+> > @@ -296,6 +308,22 @@ properties:
+> >            - const: renesas,falcon-cpu
+> >            - const: renesas,r8a779a0
+> >
+> > +      - description: R-Car H3e-2G (R8A779M1)
+> > +        items:
+> > +          - enum:
+> > +              - renesas,h3ulcb      # H3ULCB (R-Car Starter Kit Premier)
+> > +              - renesas,salvator-xs # Salvator-XS (Salvator-X 2nd version)
+> > +          - const: renesas,r8a779m1
+> > +          - const: renesas,r8a7795
+> > +
+> > +      - description: R-Car M3e-2G (R8A779M3)
+> > +        items:
+> > +          - enum:
+> > +              - renesas,m3ulcb      # M3ULCB (R-Car Starter Kit Pro)
+> > +              - renesas,salvator-xs # Salvator-XS (Salvator-X 2nd version)
+> > +          - const: renesas,r8a779m3
+> > +          - const: renesas,r8a77961
+> > +
+> >        - description: RZ/N1D (R9A06G032)
+> >          items:
+> >            - enum:
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
