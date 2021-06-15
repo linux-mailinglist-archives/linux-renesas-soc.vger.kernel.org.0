@@ -2,198 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACFF93A7EAF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Jun 2021 15:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEA833A8340
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Jun 2021 16:51:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbhFONJy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Jun 2021 09:09:54 -0400
-Received: from mga07.intel.com ([134.134.136.100]:10438 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230261AbhFONJx (ORCPT
+        id S231181AbhFOOxu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Jun 2021 10:53:50 -0400
+Received: from mail-ua1-f46.google.com ([209.85.222.46]:39629 "EHLO
+        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230208AbhFOOxt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Jun 2021 09:09:53 -0400
-IronPort-SDR: yuhbi1wGBTT4+QfG4cRv/vy3mQWT78TvtF3Xksx7Rfm6g+nBGHcbbV1vqCt+EvntVLdGirjtE7
- 7GAxe0rZ1Y4w==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="269834463"
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; 
-   d="scan'208";a="269834463"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2021 06:07:46 -0700
-IronPort-SDR: g9nPB19JxgpIcOO+uvS+s9elXJ8GvIJ6txlikOnIpZdb10lnLDXNUyg7hJ16+EHPRa2vux2P/2
- Vc8qGvS8eJSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; 
-   d="scan'208";a="421118971"
-Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 15 Jun 2021 06:07:45 -0700
-Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lt8nB-0000SN-3S; Tue, 15 Jun 2021 13:07:45 +0000
-Date:   Tue, 15 Jun 2021 21:07:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- 62ebef21d49093d77b84633283806c94630e3694
-Message-ID: <60c8a61e.OD5ruonnJNo8yrpU%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 15 Jun 2021 10:53:49 -0400
+Received: by mail-ua1-f46.google.com with SMTP id c10so6771849uan.6;
+        Tue, 15 Jun 2021 07:51:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VRuDeOUfZ6B0u10ffnqTPMqKC8c9Vta/YzdAIyumZr4=;
+        b=nGB42WUcJGGEgEnVnicySd1EuOPCyqkDJV8+S+d92WWQ7l7SiNuPBP7N9xhEPEEmmX
+         /vHQMglWoQGDe2VhugJ48FZJhoi59uVo9ORF84Bxo89ottxpehC8q6SgWI2Vv5JU2AfY
+         G+IItPP71cFmZgaiyw3QRnq50elnJr2TYjYHUctkRdBM3GSFY2Q7ASauNCgOwx1AlKFa
+         otO3LHnUctOVGUn5YRsVtIjaISJ0pJ8yyeIQOB90KnOAp/S+PprOXEW0HsQ3729tLEva
+         yofPimzYDKXZhrZCN19lJ2CIkhpVkPH2n16I87w43W12n9i3NMokeT/7wRwQzGAHfluu
+         qQJw==
+X-Gm-Message-State: AOAM533ageoz5zc/SqzIhKtHkHb4nWdAhnMvSCKF/1yq9WGpx0rr6P32
+        njQGmpMyYy9BkEHXMWrwup1/UboIRIafWKg6NEU=
+X-Google-Smtp-Source: ABdhPJyMlEwcIPhRuOKgllmjsxF0JpzWIGKXY3MQGgAhU31dK3Mc0jsRrYJl2Yc0tBi6Y8M6CDuHe5zvmJbjZnwnuDg=
+X-Received: by 2002:ab0:63d9:: with SMTP id i25mr18418485uap.106.1623768704802;
+ Tue, 15 Jun 2021 07:51:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20210317113130.2554368-1-geert+renesas@glider.be> <CAL_JsqL3NRDpzPbOxwvP6N+K76UXmrxs=e9-1rK-PbAKUx7f6w@mail.gmail.com>
+In-Reply-To: <CAL_JsqL3NRDpzPbOxwvP6N+K76UXmrxs=e9-1rK-PbAKUx7f6w@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 15 Jun 2021 16:51:33 +0200
+Message-ID: <CAMuHMdUdB-Ux9UpeaN3H0_UWDH7_9r3s72ZP01++XzOvrwavHg@mail.gmail.com>
+Subject: Re: [PATCH v3] ARM: Parse kdump DT properties
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Simon Horman <horms@verge.net.au>,
+        Arnd Bergmann <arnd@arndb.de>, Stephen Boyd <sboyd@kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lukasz Stelmach <l.stelmach@samsung.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kexec@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 62ebef21d49093d77b84633283806c94630e3694  Merge tag 'v5.13-rc6' into renesas-devel
+Hi Rob,
 
-elapsed time: 1569m
+On Mon, Mar 22, 2021 at 5:59 PM Rob Herring <robh+dt@kernel.org> wrote:
+> On Wed, Mar 17, 2021 at 5:31 AM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> > Parse the following DT properties in the crash dump kernel, to provide a
+> > modern interface between kexec and the crash dump kernel:
+> >   - linux,elfcorehdr: ELF core header segment, similar to the
+> >     "elfcorehdr=" kernel parameter.
+> >   - linux,usable-memory-range: Usable memory reserved for the crash dump
+> >     kernel.
+> >     This makes the memory reservation explicit.  If present, Linux no
+> >     longer needs to mask the program counter, and rely on the "mem="
+> >     kernel parameter to obtain the start and size of usable memory.
+> >
+> > For backwards compatibility, the traditional method to derive the start
+> > of memory is still used if "linux,usable-memory-range" is absent, and
+> > the "elfcorehdr=" and "mem=" kernel parameters are still parsed.
+> >
+> > Loosely based on the ARM64 version by Akashi Takahiro.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-configs tested: 135
-configs skipped: 2
+> > --- a/arch/arm/mm/init.c
+> > +++ b/arch/arm/mm/init.c
+> > @@ -4,6 +4,7 @@
+> >   *
+> >   *  Copyright (C) 1995-2005 Russell King
+> >   */
+> > +#include <linux/crash_dump.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/errno.h>
+> >  #include <linux/swap.h>
+> > @@ -210,8 +211,95 @@ void check_cpu_icache_size(int cpuid)
+> >  }
+> >  #endif
+> >
+> > +#ifdef CONFIG_OF_EARLY_FLATTREE
+> > +static int __init early_init_dt_scan_usablemem(unsigned long node,
+> > +               const char *uname, int depth, void *data)
+> > +{
+> > +       struct memblock_region *usablemem = data;
+> > +       const __be32 *reg;
+> > +       int len;
+> > +
+> > +       if (depth != 1 || strcmp(uname, "chosen") != 0)
+> > +               return 0;
+>
+> We have libfdt now, just get the '/chosen' node rather than using
+> of_scan_flat_dt().
+>
+>
+> > +
+> > +       reg = of_get_flat_dt_prop(node, "linux,usable-memory-range", &len);
+> > +       if (!reg || (len < (dt_root_addr_cells + dt_root_size_cells)))
+> > +               return 1;
+> > +
+> > +       usablemem->base = dt_mem_next_cell(dt_root_addr_cells, &reg);
+> > +       usablemem->size = dt_mem_next_cell(dt_root_size_cells, &reg);
+> > +       return 1;
+> > +}
+> > +
+> > +static void __init fdt_enforce_memory_region(void)
+> > +{
+> > +       struct memblock_region reg = {
+> > +               .size = 0,
+> > +       };
+> > +
+> > +       of_scan_flat_dt(early_init_dt_scan_usablemem, &reg);
+> > +
+> > +       if (reg.size)
+> > +               memblock_cap_memory_range(reg.base, reg.size);
+>
+> We should be able to do this in the DT core code. It doesn't matter
+> that these properties are arm* only. Other arches won't find the
+> properties.
+>
+> Also, note that there is now a drivers/of/kexec.c (in -next) though
+> not sure if all this would go there or stay in fdt.c with the rest of
+> the memory parsing.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+It's gonna be the latter, as that file handles the FDT during early
+kernel startup, for both normal and kdump kernels.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arc                              allyesconfig
-sh                          kfr2r09_defconfig
-powerpc                 mpc85xx_cds_defconfig
-arm                        spear3xx_defconfig
-m68k                          hp300_defconfig
-ia64                                defconfig
-powerpc                     tqm8560_defconfig
-mips                        vocore2_defconfig
-mips                         cobalt_defconfig
-mips                        bcm63xx_defconfig
-powerpc                     powernv_defconfig
-powerpc                 mpc832x_mds_defconfig
-arm                         s3c2410_defconfig
-arm                         nhk8815_defconfig
-powerpc                    klondike_defconfig
-csky                             alldefconfig
-powerpc                 mpc837x_mds_defconfig
-arm                       spear13xx_defconfig
-arm                          pxa910_defconfig
-powerpc                 mpc8315_rdb_defconfig
-powerpc                      chrp32_defconfig
-nios2                         10m50_defconfig
-arm                           omap1_defconfig
-csky                                defconfig
-sh                     magicpanelr2_defconfig
-mips                         bigsur_defconfig
-sh                             sh03_defconfig
-powerpc                     taishan_defconfig
-arm                          ixp4xx_defconfig
-mips                        nlm_xlp_defconfig
-mips                      malta_kvm_defconfig
-arm                          pcm027_defconfig
-powerpc                      ppc40x_defconfig
-arm                          simpad_defconfig
-sh                          rsk7201_defconfig
-powerpc                 mpc8272_ads_defconfig
-powerpc                      walnut_defconfig
-m68k                        mvme16x_defconfig
-arm                         mv78xx0_defconfig
-arm                            dove_defconfig
-mips                      maltasmvp_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a002-20210613
-i386                 randconfig-a006-20210613
-i386                 randconfig-a001-20210613
-i386                 randconfig-a004-20210613
-i386                 randconfig-a005-20210613
-i386                 randconfig-a003-20210613
-i386                 randconfig-a002-20210614
-i386                 randconfig-a006-20210614
-i386                 randconfig-a004-20210614
-i386                 randconfig-a001-20210614
-i386                 randconfig-a005-20210614
-i386                 randconfig-a003-20210614
-i386                 randconfig-a015-20210613
-i386                 randconfig-a013-20210613
-i386                 randconfig-a016-20210613
-i386                 randconfig-a014-20210613
-i386                 randconfig-a012-20210613
-i386                 randconfig-a011-20210613
-i386                 randconfig-a015-20210614
-i386                 randconfig-a013-20210614
-i386                 randconfig-a016-20210614
-i386                 randconfig-a012-20210614
-i386                 randconfig-a014-20210614
-i386                 randconfig-a011-20210614
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                            kunit_defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+Despite the name, drivers/of/kexec.c is not for kexec, but for
+kexec_file.  This is the "new" fancy syscall that prepares the DTB
+for the new kernel itself, unlike the classic kexec syscall, where
+userspace is responsible for preparing the DTB for the new kernel.
 
-clang tested configs:
-x86_64               randconfig-b001-20210614
-x86_64               randconfig-a001-20210614
-x86_64               randconfig-a004-20210614
-x86_64               randconfig-a002-20210614
-x86_64               randconfig-a003-20210614
-x86_64               randconfig-a006-20210614
-x86_64               randconfig-a005-20210614
-x86_64               randconfig-a015-20210615
-x86_64               randconfig-a011-20210615
-x86_64               randconfig-a012-20210615
-x86_64               randconfig-a014-20210615
-x86_64               randconfig-a016-20210615
-x86_64               randconfig-a013-20210615
-x86_64               randconfig-a015-20210613
-x86_64               randconfig-a011-20210613
-x86_64               randconfig-a014-20210613
-x86_64               randconfig-a012-20210613
-x86_64               randconfig-a013-20210613
-x86_64               randconfig-a016-20210613
+> > +#if defined(CONFIG_CRASH_DUMP) && defined(CONFIG_OF_EARLY_FLATTREE)
+> > +static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
+> > +               const char *uname, int depth, void *data)
+>
+> Same comments as above.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+This one can indeed be handled easily by drivers/of/fdt.c.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
