@@ -2,147 +2,198 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B69D93A7BB6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Jun 2021 12:25:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACFF93A7EAF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Jun 2021 15:07:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231486AbhFOK1I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Jun 2021 06:27:08 -0400
-Received: from mail-ua1-f52.google.com ([209.85.222.52]:46630 "EHLO
-        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231384AbhFOK1I (ORCPT
+        id S229977AbhFONJy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Jun 2021 09:09:54 -0400
+Received: from mga07.intel.com ([134.134.136.100]:10438 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230261AbhFONJx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Jun 2021 06:27:08 -0400
-Received: by mail-ua1-f52.google.com with SMTP id p1so6480384uam.13;
-        Tue, 15 Jun 2021 03:25:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xslGpHfV+IcRpIJzyLdYtz16ALOn8/WMq83lttKXk9M=;
-        b=uNIEzrrnOkv4NRA1OpNlrHcRSJU6nWcNY/hE9Hd8gAhfGAD8WyMxuvpWy5Bfb6lfgG
-         V2yT9MGOdey/xmMMN/URml1hv+oGyYljPOQ+kJuQlf4fwYz4vM0Ut5StoC0rfR8l17BS
-         msj/UeBH6XWFeUqo7jq1PVW9CI0+7XE3PtxBMId6KHPoWtVjQiDaTVi+XnxqXgGP1Bfx
-         0KsnVBGXoHCAtKtQybd8AET24JStAk5fUgKyTg+ljssP3M9tr60hFoEVuD/EtAZTikII
-         s2VB0pf4ZSVzCTFkQ/fYNap3i5ndtimlpGfmBZexAQiky2RywY0BxbrYBPa3uAkyWcLw
-         i9IA==
-X-Gm-Message-State: AOAM532wVgQhUtnBe2ec6eqq5E2H1qJVq4XVj7AgRWsalQ9l22/EQcrN
-        Uj0RMRmj5H9cUQcsOSARuufR+fWWXO++xJwTsvA=
-X-Google-Smtp-Source: ABdhPJyjgVMHJnMLTjlpbIOMYr4+M09yxQ0L9lR/lFuPp93QPmgg6JeGX67T5wRbLTCXJkamVTyUZ8yI9DPKwvUTPTw=
-X-Received: by 2002:ab0:b09:: with SMTP id b9mr16490374uak.58.1623752703257;
- Tue, 15 Jun 2021 03:25:03 -0700 (PDT)
+        Tue, 15 Jun 2021 09:09:53 -0400
+IronPort-SDR: yuhbi1wGBTT4+QfG4cRv/vy3mQWT78TvtF3Xksx7Rfm6g+nBGHcbbV1vqCt+EvntVLdGirjtE7
+ 7GAxe0rZ1Y4w==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="269834463"
+X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; 
+   d="scan'208";a="269834463"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2021 06:07:46 -0700
+IronPort-SDR: g9nPB19JxgpIcOO+uvS+s9elXJ8GvIJ6txlikOnIpZdb10lnLDXNUyg7hJ16+EHPRa2vux2P/2
+ Vc8qGvS8eJSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; 
+   d="scan'208";a="421118971"
+Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 15 Jun 2021 06:07:45 -0700
+Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lt8nB-0000SN-3S; Tue, 15 Jun 2021 13:07:45 +0000
+Date:   Tue, 15 Jun 2021 21:07:42 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:master] BUILD SUCCESS
+ 62ebef21d49093d77b84633283806c94630e3694
+Message-ID: <60c8a61e.OD5ruonnJNo8yrpU%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20210611134642.24029-1-biju.das.jz@bp.renesas.com>
- <20210611134642.24029-3-biju.das.jz@bp.renesas.com> <CAMuHMdXpOGWLMXph9OGeZqZiy33O_y5z2XfAf0YzQgb4q_8+rA@mail.gmail.com>
- <CAMuHMdV=AcCgwJqiEoUyK9cDnyT-arOVSNFS5Z1xxXQ7PeZzkg@mail.gmail.com>
- <YMh3eD55uP3XfEFI@pendragon.ideasonboard.com> <CAMuHMdV46wrvUNwhQ11VVutHrw6SmpnQv4S1RiDoL+KKzkUrHA@mail.gmail.com>
- <YMh5jWeONR6s+bwU@pendragon.ideasonboard.com>
-In-Reply-To: <YMh5jWeONR6s+bwU@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 15 Jun 2021 12:24:52 +0200
-Message-ID: <CAMuHMdXHN-ThgpED0wUcWQjWyinnxQC8Yp_st-CWGpUj6mGmxw@mail.gmail.com>
-Subject: Re: [PATCH 2/6] drivers: clk: renesas: r9a07g044-cpg: Add USB clocks
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 62ebef21d49093d77b84633283806c94630e3694  Merge tag 'v5.13-rc6' into renesas-devel
 
-On Tue, Jun 15, 2021 at 11:57 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Jun 15, 2021 at 11:53:37AM +0200, Geert Uytterhoeven wrote:
-> > On Tue, Jun 15, 2021 at 11:49 AM Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > > On Tue, Jun 15, 2021 at 10:58:57AM +0200, Geert Uytterhoeven wrote:
-> > > > On Mon, Jun 14, 2021 at 2:26 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > On Fri, Jun 11, 2021 at 3:46 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > > > > Add clock entries for USB{0,1}.
-> > > > > >
-> > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > >
-> > > > > Thanks for your patch!
-> > > > >
-> > > > > > --- a/drivers/clk/renesas/r9a07g044-cpg.c
-> > > > > > +++ b/drivers/clk/renesas/r9a07g044-cpg.c
-> > > > > > @@ -88,6 +88,12 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
-> > > > > >         DEF_MOD("dmac",         R9A07G044_CLK_DMAC,
-> > > > > >                                 R9A07G044_CLK_P1,
-> > > > > >                                 0x52c, (BIT(0) | BIT(1)), (BIT(0) | BIT(1))),
-> > > > > > +       DEF_MOD("usb0",         R9A07G044_CLK_USB0,
-> > > > > > +                               R9A07G044_CLK_P1,
-> > > > > > +                               0x578, (BIT(0) | BIT(2) | BIT(3)), (BIT(0) | BIT(2) | BIT(3))),
-> > > > > > +       DEF_MOD("usb1",         R9A07G044_CLK_USB1,
-> > > > > > +                               R9A07G044_CLK_P1,
-> > > > > > +                               0x578, (BIT(1) | BIT(3)), (BIT(1) | BIT(3))),
-> > > > > >         DEF_MOD("scif0",        R9A07G044_CLK_SCIF0,
-> > > > > >                                 R9A07G044_CLK_P0,
-> > > > > >                                 0x584, BIT(0), BIT(0)),
-> > > > >
-> > > > > While the above matches the datasheet, I see a problem with the
-> > > > > implementation. As BIT(3) of the CPG_{CLKON,CLKMON,RST}_USB is shared by
-> > > > > the two USB2.0 channels, disabling USB_PCLK or asserting USB_PRESETN
-> > > > > will affect both channels.  So it looks like you need special handling
-> > > > > to make sure that doesn't happen while the other channel is in use.
-> > > > >
-> > > > > Or am I missing something?
-> > > >
-> > > > I'm getting the impression we do have to model the individual bits
-> > > > as separate clocks (and resets).  That would solve the problem with
-> > > > the shared USB_PCLK, as the clock framework will take care of keeping
-> > > > it enabled when at least one channel is in use.
-> > > >
-> > > > Besides USB, SDHI has 4 clock bits, which we definitely don't want
-> > > > to control together, as the card detect clock must not be stopped
-> > > > while suspended.
-> > > > However, the exception to the rule is Ethernet: each channel has
-> > > > 2 clocks, but only a single bit to control, so this needs a custom
-> > > > single-gate-for-dual-clock driver.
-> > >
-> > > Does it ? Can't the same clock be referenced twice in DT ?
-> >
-> > Yes, you can reference the same clock twice. But what's the point?
-> > If they're two different clocks, DT should reference two different
-> > clocks.  But the single bit should correspond to the ORed value of
-> > the two clock enable states.
-> >
-> > Or do you mean something different?
->
-> If the device has two clock inputs, I'd model the two clocks separately
-> in the DT bindings. If those two clocks are gated by the same bit in an
-> SoC, we have two options to model the integration:
->
-> - Create a driver that registers different clocks with the same gating
->   bit. We'll have two clocks to reference in DT.
+elapsed time: 1569m
 
-OK, that's what I suggested.
+configs tested: 135
+configs skipped: 2
 
-> - Model both clocks as a single clock in the clock driver, and reference
->   that clock twice in DT. This is simpler, but only works if the
->   consumer doesn't need to query the clock rate.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Modelling them as a single clock is how the current RZ/G2L clock
-driver would implement it. But why bother referencing it twice in DT?
-renesas,ether*.yaml (assuming the Ethernet block is compatible)
-documents a single clock only (ignoring optional refclk), and the driver
-doesn't care about the clock rate.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arc                              allyesconfig
+sh                          kfr2r09_defconfig
+powerpc                 mpc85xx_cds_defconfig
+arm                        spear3xx_defconfig
+m68k                          hp300_defconfig
+ia64                                defconfig
+powerpc                     tqm8560_defconfig
+mips                        vocore2_defconfig
+mips                         cobalt_defconfig
+mips                        bcm63xx_defconfig
+powerpc                     powernv_defconfig
+powerpc                 mpc832x_mds_defconfig
+arm                         s3c2410_defconfig
+arm                         nhk8815_defconfig
+powerpc                    klondike_defconfig
+csky                             alldefconfig
+powerpc                 mpc837x_mds_defconfig
+arm                       spear13xx_defconfig
+arm                          pxa910_defconfig
+powerpc                 mpc8315_rdb_defconfig
+powerpc                      chrp32_defconfig
+nios2                         10m50_defconfig
+arm                           omap1_defconfig
+csky                                defconfig
+sh                     magicpanelr2_defconfig
+mips                         bigsur_defconfig
+sh                             sh03_defconfig
+powerpc                     taishan_defconfig
+arm                          ixp4xx_defconfig
+mips                        nlm_xlp_defconfig
+mips                      malta_kvm_defconfig
+arm                          pcm027_defconfig
+powerpc                      ppc40x_defconfig
+arm                          simpad_defconfig
+sh                          rsk7201_defconfig
+powerpc                 mpc8272_ads_defconfig
+powerpc                      walnut_defconfig
+m68k                        mvme16x_defconfig
+arm                         mv78xx0_defconfig
+arm                            dove_defconfig
+mips                      maltasmvp_defconfig
+x86_64                            allnoconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a002-20210613
+i386                 randconfig-a006-20210613
+i386                 randconfig-a001-20210613
+i386                 randconfig-a004-20210613
+i386                 randconfig-a005-20210613
+i386                 randconfig-a003-20210613
+i386                 randconfig-a002-20210614
+i386                 randconfig-a006-20210614
+i386                 randconfig-a004-20210614
+i386                 randconfig-a001-20210614
+i386                 randconfig-a005-20210614
+i386                 randconfig-a003-20210614
+i386                 randconfig-a015-20210613
+i386                 randconfig-a013-20210613
+i386                 randconfig-a016-20210613
+i386                 randconfig-a014-20210613
+i386                 randconfig-a012-20210613
+i386                 randconfig-a011-20210613
+i386                 randconfig-a015-20210614
+i386                 randconfig-a013-20210614
+i386                 randconfig-a016-20210614
+i386                 randconfig-a012-20210614
+i386                 randconfig-a014-20210614
+i386                 randconfig-a011-20210614
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                            kunit_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-Gr{oetje,eeting}s,
+clang tested configs:
+x86_64               randconfig-b001-20210614
+x86_64               randconfig-a001-20210614
+x86_64               randconfig-a004-20210614
+x86_64               randconfig-a002-20210614
+x86_64               randconfig-a003-20210614
+x86_64               randconfig-a006-20210614
+x86_64               randconfig-a005-20210614
+x86_64               randconfig-a015-20210615
+x86_64               randconfig-a011-20210615
+x86_64               randconfig-a012-20210615
+x86_64               randconfig-a014-20210615
+x86_64               randconfig-a016-20210615
+x86_64               randconfig-a013-20210615
+x86_64               randconfig-a015-20210613
+x86_64               randconfig-a011-20210613
+x86_64               randconfig-a014-20210613
+x86_64               randconfig-a012-20210613
+x86_64               randconfig-a013-20210613
+x86_64               randconfig-a016-20210613
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
