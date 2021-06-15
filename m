@@ -2,138 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B3183A7992
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Jun 2021 10:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D14C3A79AE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Jun 2021 10:59:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231209AbhFOI4T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Jun 2021 04:56:19 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:29801 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231224AbhFOI4T (ORCPT
+        id S230502AbhFOJBN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Jun 2021 05:01:13 -0400
+Received: from mail-vs1-f45.google.com ([209.85.217.45]:44007 "EHLO
+        mail-vs1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230455AbhFOJBM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Jun 2021 04:56:19 -0400
-X-IronPort-AV: E=Sophos;i="5.83,275,1616425200"; 
-   d="scan'208";a="84276847"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 15 Jun 2021 17:54:14 +0900
-Received: from localhost.localdomain (unknown [10.226.92.147])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9AE2241EB34E;
-        Tue, 15 Jun 2021 17:54:10 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Khalil Blaiech <kblaiech@mellanox.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Yicong Yang <yangyicong@hisilicon.com>,
-        =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <bence98@sch.bme.hu>,
-        Mike Rapoport <rppt@kernel.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-i2c@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Tue, 15 Jun 2021 05:01:12 -0400
+Received: by mail-vs1-f45.google.com with SMTP id s22so9369589vsl.10;
+        Tue, 15 Jun 2021 01:59:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=izvYy7Sc0VI9xdiId3+4IwhNeyVRCCQq1Dzhvww+mfM=;
+        b=Hxia41UHfkB817Zq32Oy3Bg4ZIbKmcj6gjXzZNxTFH8L0RFAfUFl7POkxe/qGRxqjb
+         q86igcHb/YaZ7mTOuyP6MJe67VouhaATXNTCMLPq9Uhodbr2OGTGKiiFBfdd/sPuuIMo
+         0FkG4jWYndeZas+6xNLpOatfTHeEJM15fbwFLl5/juIAwdd/i7BeW3eR5g4uTypOG/P/
+         cddcGaYrPwTu68c++lVAwRkAAh/0k81vjXduKeX6nOA0saQQWC6GbbAmaAmygQxbSyyj
+         GgOZHMX+zAraUespGb0LX7xvZjiRgqhIbxztLTCW4oz3PyxO++Ul5yCkxKUgTnizw7lX
+         FLBA==
+X-Gm-Message-State: AOAM5309obUo41Haddnk3M6W1wwcddddBlCoWqmTP0H2/DkIGjszzWbh
+        XSZdTIFXv5b2DRQ7ccOJ+nOeonzJFE0MocRocCHuJ65J/TEcAg==
+X-Google-Smtp-Source: ABdhPJwF15eJQMRbtDbtjpIe0EX758jxacGhS7hqIfuudsn8sr7nFD/sOCFLnGCByomrfdgQ7oH8A0kmeMCwY8tM2EU=
+X-Received: by 2002:a67:efd6:: with SMTP id s22mr3860831vsp.3.1623747548208;
+ Tue, 15 Jun 2021 01:59:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210611134642.24029-1-biju.das.jz@bp.renesas.com>
+ <20210611134642.24029-3-biju.das.jz@bp.renesas.com> <CAMuHMdXpOGWLMXph9OGeZqZiy33O_y5z2XfAf0YzQgb4q_8+rA@mail.gmail.com>
+In-Reply-To: <CAMuHMdXpOGWLMXph9OGeZqZiy33O_y5z2XfAf0YzQgb4q_8+rA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 15 Jun 2021 10:58:57 +0200
+Message-ID: <CAMuHMdV=AcCgwJqiEoUyK9cDnyT-arOVSNFS5Z1xxXQ7PeZzkg@mail.gmail.com>
+Subject: Re: [PATCH 2/6] drivers: clk: renesas: r9a07g044-cpg: Add USB clocks
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 2/2] i2c: riic: Add RZ/G2L support
-Date:   Tue, 15 Jun 2021 09:54:00 +0100
-Message-Id: <20210615085400.4251-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210615085400.4251-1-biju.das.jz@bp.renesas.com>
-References: <20210615085400.4251-1-biju.das.jz@bp.renesas.com>
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-RZ/G2L i2c controller is compatible with RZ/A i2c controller.
-By default IP is in reset state, so need to perform release
-reset before accessing any register.
+Hi Biju,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
----
-v2->v3:
-  * Dropped select for "RESET_CONTROLLER" from i2c KCONFIG
-  * Added Rb tags from Philipp and Geert.
-v1->v2
-  * Changed to devm_reset_control_get_exclusive API for reset_control_get.
-  * Updated KCONFIG to enable RESET_CONTROLLER only if it is RZ/G2L SoC.
-  * Filled .data for RIIC_RZ_A.
----
- drivers/i2c/busses/i2c-riic.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+On Mon, Jun 14, 2021 at 2:26 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Fri, Jun 11, 2021 at 3:46 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Add clock entries for USB{0,1}.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/drivers/clk/renesas/r9a07g044-cpg.c
+> > +++ b/drivers/clk/renesas/r9a07g044-cpg.c
+> > @@ -88,6 +88,12 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
+> >         DEF_MOD("dmac",         R9A07G044_CLK_DMAC,
+> >                                 R9A07G044_CLK_P1,
+> >                                 0x52c, (BIT(0) | BIT(1)), (BIT(0) | BIT(1))),
+> > +       DEF_MOD("usb0",         R9A07G044_CLK_USB0,
+> > +                               R9A07G044_CLK_P1,
+> > +                               0x578, (BIT(0) | BIT(2) | BIT(3)), (BIT(0) | BIT(2) | BIT(3))),
+> > +       DEF_MOD("usb1",         R9A07G044_CLK_USB1,
+> > +                               R9A07G044_CLK_P1,
+> > +                               0x578, (BIT(1) | BIT(3)), (BIT(1) | BIT(3))),
+> >         DEF_MOD("scif0",        R9A07G044_CLK_SCIF0,
+> >                                 R9A07G044_CLK_P0,
+> >                                 0x584, BIT(0), BIT(0)),
+>
+> While the above matches the datasheet, I see a problem with the
+> implementation. As BIT(3) of the CPG_{CLKON,CLKMON,RST}_USB is shared by
+> the two USB2.0 channels, disabling USB_PCLK or asserting USB_PRESETN
+> will affect both channels.  So it looks like you need special handling
+> to make sure that doesn't happen while the other channel is in use.
+>
+> Or am I missing something?
 
-diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
-index 4eccc0f69861..78b84445ee6a 100644
---- a/drivers/i2c/busses/i2c-riic.c
-+++ b/drivers/i2c/busses/i2c-riic.c
-@@ -42,8 +42,10 @@
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/reset.h>
- 
- #define RIIC_ICCR1	0x00
- #define RIIC_ICCR2	0x04
-@@ -86,6 +88,11 @@
- 
- #define RIIC_INIT_MSG	-1
- 
-+enum riic_type {
-+	RIIC_RZ_A,
-+	RIIC_RZ_G2L,
-+};
-+
- struct riic_dev {
- 	void __iomem *base;
- 	u8 *buf;
-@@ -395,7 +402,9 @@ static int riic_i2c_probe(struct platform_device *pdev)
- 	struct i2c_adapter *adap;
- 	struct resource *res;
- 	struct i2c_timings i2c_t;
-+	struct reset_control *rstc;
- 	int i, ret;
-+	enum riic_type type;
- 
- 	riic = devm_kzalloc(&pdev->dev, sizeof(*riic), GFP_KERNEL);
- 	if (!riic)
-@@ -412,6 +421,17 @@ static int riic_i2c_probe(struct platform_device *pdev)
- 		return PTR_ERR(riic->clk);
- 	}
- 
-+	type = (enum riic_type)of_device_get_match_data(&pdev->dev);
-+	if (type == RIIC_RZ_G2L) {
-+		rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-+		if (IS_ERR(rstc)) {
-+			dev_err(&pdev->dev, "Error: missing reset ctrl\n");
-+			return PTR_ERR(rstc);
-+		}
-+
-+		reset_control_deassert(rstc);
-+	}
-+
- 	for (i = 0; i < ARRAY_SIZE(riic_irqs); i++) {
- 		res = platform_get_resource(pdev, IORESOURCE_IRQ, riic_irqs[i].res_num);
- 		if (!res)
-@@ -472,7 +492,8 @@ static int riic_i2c_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id riic_i2c_dt_ids[] = {
--	{ .compatible = "renesas,riic-rz" },
-+	{ .compatible = "renesas,riic-r9a07g044", .data = (void *)RIIC_RZ_G2L },
-+	{ .compatible = "renesas,riic-rz", .data = (void *)RIIC_RZ_A },
- 	{ /* Sentinel */ },
- };
- 
+I'm getting the impression we do have to model the individual bits
+as separate clocks (and resets).  That would solve the problem with
+the shared USB_PCLK, as the clock framework will take care of keeping
+it enabled when at least one channel is in use.
+
+Besides USB, SDHI has 4 clock bits, which we definitely don't want
+to control together, as the card detect clock must not be stopped
+while suspended.
+However, the exception to the rule is Ethernet: each channel has
+2 clocks, but only a single bit to control, so this needs a custom
+single-gate-for-dual-clock driver.
+
+Perhaps merging the clock binding definitions and initial driver for
+v5.14 was a bit premature...
+Anyway, we'll have 6 rcs after v5.14-rc1 to get it right ;-)
+
+What do you think?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.17.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
