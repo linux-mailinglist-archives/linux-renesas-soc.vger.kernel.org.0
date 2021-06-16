@@ -2,78 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7932A3AA2CF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jun 2021 20:02:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A27F73AA4A5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jun 2021 21:51:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231459AbhFPSEw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Jun 2021 14:04:52 -0400
-Received: from mail-io1-f44.google.com ([209.85.166.44]:45820 "EHLO
-        mail-io1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230291AbhFPSEw (ORCPT
+        id S232597AbhFPTxu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Jun 2021 15:53:50 -0400
+Received: from mail-io1-f49.google.com ([209.85.166.49]:34720 "EHLO
+        mail-io1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230330AbhFPTxt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Jun 2021 14:04:52 -0400
-Received: by mail-io1-f44.google.com with SMTP id k5so114576iow.12;
-        Wed, 16 Jun 2021 11:02:46 -0700 (PDT)
+        Wed, 16 Jun 2021 15:53:49 -0400
+Received: by mail-io1-f49.google.com with SMTP id 5so510888ioe.1;
+        Wed, 16 Jun 2021 12:51:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=BwJG53yeIKpwmHLQ3ka5oXerXYUJ0GJWceYTPITcxG0=;
-        b=G8PF7SVH8texhIx/BwQMUBT1Aphw9z5PnDHCCL1aTjXU96D0FuREqEDB9UnhliKmg6
-         3DAq/HtKgf05HThVja7f9KwOLsCpgWfBcigMob9kmmY4DhETBrRmKhmXsW2wBgG8SwQN
-         Gj7A2eevXaTaB16gAeluc9va7iIxJMYJpcOGNNE39ycYWUGfei4BCjQp3V681gk+RI+F
-         fo3uypFb5CxfT4iiDCPGAFxFdbX6NHr5eU+tNNNYZ2YbT2kqgWV1fqG2rzImbnchv/f8
-         uc9YRgZU1Hjx9B5cGmk+ssEThD5kXCCHP1JA7xMAr/k68ol6XAkdf8yHXTT0Mu18p67r
-         sjdA==
-X-Gm-Message-State: AOAM533f29xGc1Z9Ia+Jz5SLdxMKpanrVSgbWkdSnAohkj38f034UpLY
-        1fVmnOgVarF7wEc5JBqYeyg0mYNyTg==
-X-Google-Smtp-Source: ABdhPJyNJ4hbhowQxMaqjBKIJh8+VQAdyz5O3aEnc7NVjg6pZ3FhmJ+XTvjahMVuYHzbCajW+WmBVw==
-X-Received: by 2002:a02:cc89:: with SMTP id s9mr575167jap.43.1623866565691;
-        Wed, 16 Jun 2021 11:02:45 -0700 (PDT)
+        bh=yAXx4Yopw3r7pNvhfDacMKh0R4jB110M44nYaT+APq8=;
+        b=PetY5yG8zZak3nlSWbFpGoRLWDvTUT3m8pJBDK+/BiXjv36xEvRyOpLJG6p5/DXq3P
+         4o5XmIoFCGubPZMkAmNGLxsaKIWlq/rAkUCdCHP7aHbzVaBQmAGEu9O0pN8thDHBD6yy
+         UZlL81KaFXI/Jhjb/DcfZx/IV3Q9s8S3qVuJofiyebYC0USiDG0MIUm1vVK9CWS6RMGB
+         JTB6Suvi++KaO/MNGAWtHdlKJAA3Qr4m4I6ddB6RX5gDhNwRWhIsU+5ki6D/knRMaZyx
+         elczHFMEGZzL7BdxpBfjfhTKIPSs0PP01Gj4j+VQF2pllO65nts+YLAcCCFXXkRTJAUl
+         fQIA==
+X-Gm-Message-State: AOAM530Cd2fqTXhqI77tp0eLr3IQ2UwOFdpcWarpa3VAQUCj6C5XlWO0
+        F7PmDsx2xKrpNU0scwEdsg==
+X-Google-Smtp-Source: ABdhPJyX6BfPXir16dVhawr9dvOqj80SsmOX4PTfx6pfj5l1Q8ml1djko9j3NoR3WeeFwv2mc3wTiQ==
+X-Received: by 2002:a6b:f914:: with SMTP id j20mr768281iog.127.1623873102310;
+        Wed, 16 Jun 2021 12:51:42 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id d7sm1397131ilv.79.2021.06.16.11.02.44
+        by smtp.gmail.com with ESMTPSA id o10sm1610031ilc.75.2021.06.16.12.51.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 11:02:44 -0700 (PDT)
-Received: (nullmailer pid 3626047 invoked by uid 1000);
-        Wed, 16 Jun 2021 18:02:43 -0000
-Date:   Wed, 16 Jun 2021 12:02:43 -0600
+        Wed, 16 Jun 2021 12:51:41 -0700 (PDT)
+Received: (nullmailer pid 3828441 invoked by uid 1000);
+        Wed, 16 Jun 2021 19:51:37 -0000
+Date:   Wed, 16 Jun 2021 13:51:37 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, Joe Hung <joe_hung@ilitek.com>,
-        devicetree@vger.kernel.org, Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
- ili2xxx bindings
-Message-ID: <20210616180243.GA3624758@robh.at.kernel.org>
-References: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH] dt-bindings: rtc: ti,bq32k: Convert to json-schema
+Message-ID: <20210616195137.GA3828379@robh.at.kernel.org>
+References: <42d9c71b4ee1f120e0cdcf6b266547d29d1fb9a4.1623851377.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
+In-Reply-To: <42d9c71b4ee1f120e0cdcf6b266547d29d1fb9a4.1623851377.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 11 Jun 2021 15:54:27 +0200, Geert Uytterhoeven wrote:
-> While Linux uses a different driver, the Ilitek
-> ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller Device Tree
-> binding documentation is very similar.
+On Wed, 16 Jun 2021 15:51:43 +0200, Geert Uytterhoeven wrote:
+> Convert the TI BQ32000 I2C Serial Real-Time Clock Device Tree binding
+> documentation to json-schema.
 > 
->   - Drop the fixed reg value, as some controllers use a different
->     address,
->   - Make reset-gpios optional, as it is not always wired.
+> Document missing properties.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  .../bindings/input/ilitek,ili2xxx.txt         | 27 -------------------
->  .../input/touchscreen/ilitek_ts_i2c.yaml      |  7 +++--
->  2 files changed, 5 insertions(+), 29 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
+>  .../devicetree/bindings/rtc/ti,bq32000.yaml   | 49 +++++++++++++++++++
+>  .../devicetree/bindings/rtc/ti,bq32k.txt      | 18 -------
+>  2 files changed, 49 insertions(+), 18 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/rtc/ti,bq32000.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/rtc/ti,bq32k.txt
 > 
-
-One driver or 2, I don't care from a binding perspective if sharing 
-works.
 
 Reviewed-by: Rob Herring <robh@kernel.org>
