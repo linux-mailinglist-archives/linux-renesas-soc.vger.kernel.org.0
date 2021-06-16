@@ -2,70 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 339603A97E7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jun 2021 12:42:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 894223A98ED
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jun 2021 13:14:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232478AbhFPKoW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Jun 2021 06:44:22 -0400
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:42257 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232443AbhFPKoT (ORCPT
+        id S229563AbhFPLQj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Jun 2021 07:16:39 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:36685 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229546AbhFPLQj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Jun 2021 06:44:19 -0400
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.94)
-          with esmtps (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1ltSzq-002My5-Iz; Wed, 16 Jun 2021 12:42:10 +0200
-Received: from suse-laptop.physik.fu-berlin.de ([160.45.32.140])
-          by inpost2.zedat.fu-berlin.de (Exim 4.94)
-          with esmtpsa (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1ltSzq-002Bca-Cr; Wed, 16 Jun 2021 12:42:10 +0200
-Subject: Re: [PATCH 0/3] Remove shdma DT support
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <cover.1623405675.git.geert+renesas@glider.be>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Message-ID: <0c6bdd6a-826c-6831-1477-3a1e782cced3@physik.fu-berlin.de>
-Date:   Wed, 16 Jun 2021 12:42:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1623405675.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 160.45.32.140
+        Wed, 16 Jun 2021 07:16:39 -0400
+X-IronPort-AV: E=Sophos;i="5.83,277,1616425200"; 
+   d="scan'208";a="84538440"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 16 Jun 2021 20:14:31 +0900
+Received: from localhost.localdomain (unknown [10.226.93.117])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1356A421789D;
+        Wed, 16 Jun 2021 20:14:28 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Vinod Koul <vkoul@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, dmaengine@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: dma: Document RZ/G2L bindings
+Date:   Wed, 16 Jun 2021 11:55:57 +0100
+Message-Id: <20210616105557.9321-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert!
+Document RZ/G2L DMAC bindings.
 
-On 6/11/21 12:18 PM, Geert Uytterhoeven wrote:
-> Hence this series removes the Renesas SHDMA Device Tree bindings, the
-> SHDMA DMA multiplexer driver, and the corresponding description in the
-> R-Mobile APE6 DTS.
-Do these changes make life harder in case we want to convert SH to device
-tree as already prepared by Yoshinori Sato? [1]
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Note:-  This patch has dependency on #include <dt-bindings/clock/r9a07g044-cpg.h> file which will be in 
+next 5.14-rc1 release.
 
-Adrian
+v1->v2:
+  * Made interrupt names in defined order
+  * Removed src address and channel configuration from dma-cells.
+  * Changed the compatibele string to "renesas,r9a07g044-dmac".
+  * 
+v1:-
+  * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210611113642.18457-2-biju.das.jz@bp.renesas.com/
+---
+ .../bindings/dma/renesas,rz-dmac.yaml         | 118 ++++++++++++++++++
+ 1 file changed, 118 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
 
-> [1] https://lore.kernel.org/patchwork/cover/693910/
-
+diff --git a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+new file mode 100644
+index 000000000000..0389050aadf6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+@@ -0,0 +1,118 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas RZ/G2L DMA Controller
++
++maintainers:
++  - Biju Das <biju.das.jz@bp.renesas.com>
++
++allOf:
++  - $ref: "dma-controller.yaml#"
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,r9a07g044-dmac # RZ/G2{L,LC}
++      - const: renesas,rz-dmac
++
++  reg:
++    items:
++      - description: Control and channel register block
++      - description: DMA extended resource selector block
++
++  interrupts:
++    maxItems: 17
++
++  interrupt-names:
++    items:
++      - const: ch0
++      - const: ch1
++      - const: ch2
++      - const: ch3
++      - const: ch4
++      - const: ch5
++      - const: ch6
++      - const: ch7
++      - const: ch8
++      - const: ch9
++      - const: ch10
++      - const: ch11
++      - const: ch12
++      - const: ch13
++      - const: ch14
++      - const: ch15
++      - const: error
++
++  clocks:
++    maxItems: 1
++
++  '#dma-cells':
++    const: 1
++    description:
++      The cell specifies the MID/RID of the DMAC port connected to
++      the DMA client.
++
++  dma-channels:
++    const: 16
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - interrupt-names
++  - clocks
++  - '#dma-cells'
++  - dma-channels
++  - power-domains
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/r9a07g044-cpg.h>
++
++    dmac: dma-controller@11820000 {
++        compatible = "renesas,r9a07g044-dmac",
++                     "renesas,rz-dmac";
++        reg = <0x11820000 0x10000>,
++              <0x11830000 0x10000>;
++        interrupts = <GIC_SPI 125 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 126 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 127 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 128 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 129 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 130 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 131 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 132 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 133 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 134 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 135 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 136 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 137 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 138 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 139 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 140 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 141 IRQ_TYPE_EDGE_RISING>;
++        interrupt-names = "ch0", "ch1", "ch2", "ch3",
++                          "ch4", "ch5", "ch6", "ch7",
++                          "ch8", "ch9", "ch10", "ch11",
++                          "ch12", "ch13", "ch14", "ch15",
++                          "error";
++        clocks = <&cpg CPG_MOD R9A07G044_CLK_DMAC>;
++        power-domains = <&cpg>;
++        resets = <&cpg R9A07G044_CLK_DMAC>;
++        #dma-cells = <1>;
++        dma-channels = <16>;
++    };
 -- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+2.17.1
+
