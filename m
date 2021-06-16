@@ -2,112 +2,192 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 346533AA604
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jun 2021 23:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 682263AA7B1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 01:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233951AbhFPVSo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Jun 2021 17:18:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43912 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233836AbhFPVSn (ORCPT
+        id S234780AbhFPXtv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Jun 2021 19:49:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232372AbhFPXtv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Jun 2021 17:18:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EEB65613DF;
-        Wed, 16 Jun 2021 21:16:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623878197;
-        bh=g0jleB/kEeeiGGDNq1Chp/dzNVZGcHFtnZ8EpEOi+lg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=LhfE3ydVx732Lk8ZAGuNehW4CtJ7CP+EGLJaXRG5cqlco3TT1Gxm25PByaM8S2Vlj
-         JHemkB/lt6CQ3kew15b0BZ18wY/qYbY3Jeheb+nsx6k1Vwn00wrS5/yP67dcDGdeMi
-         61KBaUNQ2/xrB4xa9TT1Jb4iRgmjyqxVHebUXgRnPz58nZVCt/c7C8Sis0EC7f/BeZ
-         o1AbmvKAmk3rEp4zs2aVS5lO3zjYB+fOOdhCED/AFQVBvz282hhrsMk7WIhRKKnflV
-         HTsyLyPOAD9md50qvx8h9WQ2W+/ARkK4dMZ5pWU53893wMqEW0mFTKEz40V+6FzNvk
-         5/bHuiY3CTipA==
-Date:   Wed, 16 Jun 2021 16:16:30 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: Re: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
-Message-ID: <20210616211630.GA3007203@bjorn-Precision-5520>
+        Wed, 16 Jun 2021 19:49:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E607C061574;
+        Wed, 16 Jun 2021 16:47:44 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2AC0AE53;
+        Thu, 17 Jun 2021 01:47:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623887260;
+        bh=IS0q+M3hWc7M1JZSrutIxVUhjhUtPGpGzVZceEQYkIA=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=IFoKq4dXc50CqvijCEGfwTbelpg2qKjnVOEEHHNGiuOooGN4zqP5rtDl9Gkqeb1jw
+         n4KTn6QZsO//wNEXXmjTOaULgfqNy/6eNj6P7ltQlnawfWLhda4XMXdxb8O4tVF+Nb
+         sdpZqng2WUqml5JgSPBiVwT4KS1Vy76Lor+6ZdxI=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v5 10/15] media: i2c: rdacm21: Power up OV10640 before
+ OV490
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210616124616.49249-1-jacopo+renesas@jmondi.org>
+ <20210616124616.49249-11-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <75213041-b4d3-2760-6b21-460ca7885574@ideasonboard.com>
+Date:   Thu, 17 Jun 2021 00:47:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d5bcf443-a0ee-fda5-5c5c-d69d25b53bb9@ti.com>
+In-Reply-To: <20210616124616.49249-11-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 16, 2021 at 07:35:33PM +0530, Kishon Vijay Abraham I wrote:
-> Hi Lorenzo, Bjorn,
-> 
-> On 17/05/21 1:17 pm, Kishon Vijay Abraham I wrote:
-> > Patch series
-> > *) Adds support to add virtual functions to enable endpoint controller
-> >    which supports SR-IOV capability
-> > *) Add support in Cadence endpoint driver to configure virtual functions
-> > *) Enable pci_endpoint_test driver to create pci_device for virtual
-> >    functions
-> > 
-> > v1 of the patch series can be found at [1]
-> > v2 of the patch series can be found at [2]
-> > v3 of the patch series can be found at [3]
-> > v4 of the patch series can be found at [4]
-> > v5 of the patch series can be found at [5]
-> > 
-> > Here both physical functions and virtual functions use the same
-> > pci_endpoint_test driver and existing pcitest utility can be used
-> > to test virtual functions as well.
-> > 
-> > Changes from v5:
-> > *) Rebased to 5.13-rc1
-> > 
-> > Changes from v4:
-> > *) Added a fix in Cadence driver which was overwriting BAR configuration
-> >    of physical function.
-> > *) Didn't include Tom's Acked-by since Cadence driver is modified in
-> >    this revision.
-> > 
-> > Changes from v3:
-> > *) Fixed Rob's comment and added his Reviewed-by as suggested by him.
-> > 
-> > Changes from v2:
-> > *) Fixed DT binding documentation comment by Rob
-> > *) Fixed the error check in pci-epc-core.c
-> > 
-> > Changes from v1:
-> > *) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
-> >    binding for EP)
-> > 
-> > [1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
-> > [2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
-> > [3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
-> > [4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
-> > [5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
-> 
-> Can this series be merged for 5.14? It already includes Ack from Rob for
-> dt-binding changes and Ack from Tom for Cadence driver changes.
+Hi Jacopo,
 
-Sorry, I think this was assigned to me in patchwork, but Lorenzo
-usually takes care of the endpoint stuff.  He's away this week, but no
-doubt will look at it when he returns.
+Hrm - this seems to be the only one in this series without my RB tag, so
+lets take a look.
 
-Bjorn
+
+On 16/06/2021 13:46, Jacopo Mondi wrote:
+> The current RDACM21 initialization routine powers up the OV10640 image
+> sensor after the OV490 ISP. The ISP is programmed with a firmare loaded
+
+s/firmare/firmware/
+
+> from an embedded serial flash that (most probably) tries to interact and
+> program also the image sensor connected to the ISP.
+> 
+> As described in commit "media: i2c: rdacm21: Fix OV10640 powerup" the
+> image sensor powerdown signal is kept high by an internal pull up
+> resistor and occasionally fails to startup correctly if the powerdown
+> line is not asserted explicitely. Failures in the OV10640 startup causes
+
+s/explicitely/explicitly/
+
+
+> the OV490 firmware to fail to boot correctly resulting in the camera
+> module initialization to fail consequentially.
+> 
+> Fix this by powering up the OV10640 image sensor before testing the
+> OV490 firmware boot completion, by splitting the ov10640_initialize()
+> function in an ov10640_power_up() one and an ov10640_check_id() one.
+> 
+> Also make sure the OV10640 identification procedure gives enough time to
+> the image sensor to resume after the programming phase performed by the
+> OV490 firmware by repeating the ID read procedure.
+> 
+> This commit fixes a sporadic start-up error triggered by a failure to
+> detect the OV490 firmware boot completion:
+> rdacm21 8-0054: Timeout waiting for firmware boot
+> 
+> Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/rdacm21.c | 46 ++++++++++++++++++++++++++-----------
+>  1 file changed, 32 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> index 7c0a4a84340a..43c41cb800a4 100644
+> --- a/drivers/media/i2c/rdacm21.c
+> +++ b/drivers/media/i2c/rdacm21.c
+> @@ -69,6 +69,7 @@
+>  #define OV490_ISP_VSIZE_LOW		0x80820062
+>  #define OV490_ISP_VSIZE_HIGH		0x80820063
+>  
+> +#define OV10640_PID_TIMEOUT		20
+>  #define OV10640_ID_HIGH			0xa6
+>  #define OV10640_CHIP_ID			0x300a
+>  #define OV10640_PIXEL_RATE		55000000
+> @@ -329,10 +330,8 @@ static const struct v4l2_subdev_ops rdacm21_subdev_ops = {
+>  	.pad		= &rdacm21_subdev_pad_ops,
+>  };
+>  
+> -static int ov10640_initialize(struct rdacm21_device *dev)
+> +static void ov10640_power_up(struct rdacm21_device *dev)
+>  {
+> -	u8 val;
+> -
+>  	/* Enable GPIO0#0 (reset) and GPIO1#0 (pwdn) as output lines. */
+>  	ov490_write_reg(dev, OV490_GPIO_SEL0, OV490_GPIO0);
+>  	ov490_write_reg(dev, OV490_GPIO_SEL1, OV490_SPWDN0);
+> @@ -347,18 +346,35 @@ static int ov10640_initialize(struct rdacm21_device *dev)
+>  	usleep_range(1500, 3000);
+>  	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_GPIO0);
+>  	usleep_range(3000, 5000);
+> +}
+>  
+> -	/* Read OV10640 ID to test communications. */
+> -	ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR, OV490_SCCB_SLAVE_READ);
+> -	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH, OV10640_CHIP_ID >> 8);
+> -	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, OV10640_CHIP_ID & 0xff);
+> -
+> -	/* Trigger SCCB slave transaction and give it some time to complete. */
+> -	ov490_write_reg(dev, OV490_HOST_CMD, OV490_HOST_CMD_TRIGGER);
+> -	usleep_range(1000, 1500);
+> +static int ov10640_check_id(struct rdacm21_device *dev)
+> +{
+> +	unsigned int i;
+> +	u8 val;
+>  
+> -	ov490_read_reg(dev, OV490_SCCB_SLAVE0_DIR, &val);
+> -	if (val != OV10640_ID_HIGH) {
+> +	/* Read OV10640 ID to test communications. */
+> +	for (i = 0; i < OV10640_PID_TIMEOUT; ++i) {
+> +		ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR,
+> +				OV490_SCCB_SLAVE_READ);
+> +		ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH,
+> +				OV10640_CHIP_ID >> 8);
+> +		ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW,
+> +				OV10640_CHIP_ID & 0xff);
+> +
+> +		/*
+> +		 * Trigger SCCB slave transaction and give it some time
+> +		 * to complete.
+> +		 */
+> +		ov490_write_reg(dev, OV490_HOST_CMD, OV490_HOST_CMD_TRIGGER);
+> +		usleep_range(1000, 1500);
+> +
+> +		ov490_read_reg(dev, OV490_SCCB_SLAVE0_DIR, &val);
+> +		if (val == OV10640_ID_HIGH)
+> +			break;
+> +		usleep_range(1000, 1500);
+> +	}
+> +	if (i == OV10640_PID_TIMEOUT) {
+>  		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
+>  		return -ENODEV;
+>  	}
+> @@ -374,6 +390,8 @@ static int ov490_initialize(struct rdacm21_device *dev)
+>  	unsigned int i;
+>  	int ret;
+>  
+> +	ov10640_power_up(dev);
+> +
+>  	/*
+>  	 * Read OV490 Id to test communications. Give it up to 40msec to
+>  	 * exit from reset.
+> @@ -411,7 +429,7 @@ static int ov490_initialize(struct rdacm21_device *dev)
+>  		return -ENODEV;
+>  	}
+>  
+> -	ret = ov10640_initialize(dev);
+> +	ret = ov10640_check_id(dev);
+>  	if (ret)
+>  		return ret;
+>  
+> 
+
