@@ -2,124 +2,196 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7DFE3A9CF3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jun 2021 16:06:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42F723A9E90
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jun 2021 17:06:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233622AbhFPOIV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Jun 2021 10:08:21 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:42120 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233420AbhFPOIU (ORCPT
+        id S234389AbhFPPIf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Jun 2021 11:08:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33744 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234432AbhFPPIc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Jun 2021 10:08:20 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 15GE5f8W117835;
-        Wed, 16 Jun 2021 09:05:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1623852341;
-        bh=qJ2GnQxd+yS6ISLDIaGuRDIGnMu21lKltpoDuOcviVs=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=Y9lT3fiGcNzub92cli5OVPZlfJJkKpeM+luPVBsr3MFOO6ZPHHHJVpQ+nkPKYeZGc
-         Oigl/gNPm6mvRw7bjJe5x+TOImMI9XtSlzgnK3dGiblZxaNItnhloXDa+TP398uVTd
-         GrMY0JrzySfFxPP8q/iiHvxNcpR1bO38e/T6BowE=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 15GE5fR8015784
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 16 Jun 2021 09:05:41 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 16
- Jun 2021 09:05:40 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Wed, 16 Jun 2021 09:05:40 -0500
-Received: from [10.250.233.239] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 15GE5XZj082268;
-        Wed, 16 Jun 2021 09:05:34 -0500
-Subject: Re: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>
-CC:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210517074723.10212-1-kishon@ti.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <d5bcf443-a0ee-fda5-5c5c-d69d25b53bb9@ti.com>
-Date:   Wed, 16 Jun 2021 19:35:33 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 16 Jun 2021 11:08:32 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80A6AC061760
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Jun 2021 08:06:25 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id b13so3484997ybk.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Jun 2021 08:06:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=benyossef-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=WnfyWeDtfp9wJ03e/Pygdz8GkYlJkHUmw4KuNZkZtsI=;
+        b=p3V/tsAvBKNW1/fLQw1cxjbLxmkzY+NCFM6sFUd5MYQR/I99nfYHtTeZ6GX29HX2fP
+         7B98Hz0iPFw7ln3a7oZUSV0D7wBHs3Nx8bP1yD75PLFbtaitHUMldchawAE3t6u9Gr4D
+         +thcqYz5DsdBNhUKylMKadu7gU+x9Y8f2HR9pkqCG44mo9Eiw3E0Ef0UBgaALPUnEwZM
+         OMSgYp3yI11h4BO8U2bJwEZbzXXy3AGA4tyIzRoWlJw5Et2h2p95BbZaXl2/0i99CK6D
+         VK4iEQKVOgzlpWTXxuWr4K4Kh5NwNdhEEHtoPFEUOX+aMGa4KVLNyO/kl/oNBYMPHM53
+         BQJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WnfyWeDtfp9wJ03e/Pygdz8GkYlJkHUmw4KuNZkZtsI=;
+        b=W5aJk5iEyJcNe9e/DJLjnvVoLuOMo1eZGiH7reRdWenYt3dmMPVzTX+k9KHlUNU5Wp
+         xhFC7V2BcmZjRVKojEvM6RHOO6e8j/0A37YLIqroUx3m/nsntnqZkC3SU93OwT6KYqFL
+         1X5qxVnsAZyM+/5TiHZxkw9glZpUBQAHeQ1ohLb+B4+RQcii0G2kDypJH7VbMeivQ3Rv
+         yq4kLB8w3Ylnk9sOrogZ02djMh3Z+UWORtBGBMLbDKawB1fzNN/+5cwq7VLtyyl2FFHA
+         Vx57Dq1aSr/MTMoaxJdefWf7IWG24CFyfdoQaGC64mI5V+lsTeSNFfd8KSZhUh0yvHtD
+         41vA==
+X-Gm-Message-State: AOAM531YYMBK1bup6s7V1Ca/QpO+MV9it+Y2aKdHBn7/7XSqTAEgQ9H9
+        VdBvDGnGrIB1ARm4FHyyhO/YYKE44NOy9isjFMotwA==
+X-Google-Smtp-Source: ABdhPJxsvfFKJlCl0Fv1Q0JQBOSrY9fTTPwXdoG5i6bwF+xZjcAotFA7K4MfWyuapR5FEhTmK4mSmAAff0KtXHI/vxk=
+X-Received: by 2002:a25:8088:: with SMTP id n8mr196816ybk.375.1623855984676;
+ Wed, 16 Jun 2021 08:06:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210517074723.10212-1-kishon@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <b4e3ac1e393dd3ec9d6086e3d216bf9d0fdfc0e8.1623835679.git.geert+renesas@glider.be>
+In-Reply-To: <b4e3ac1e393dd3ec9d6086e3d216bf9d0fdfc0e8.1623835679.git.geert+renesas@glider.be>
+From:   Gilad Ben-Yossef <gilad@benyossef.com>
+Date:   Wed, 16 Jun 2021 18:06:13 +0300
+Message-ID: <CAOtvUMcJzide=sinBSMGocKhyErECE3e0H-KGDX9RhXHeVhK4w@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: crypto: ccree: Convert to json-schema
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lorenzo, Bjorn,
+On Wed, Jun 16, 2021 at 12:29 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Convert the Arm TrustZone CryptoCell cryptographic engine Device Tree
+> binding documentation to json-schema.
+>
+> Document missing properties.
+> Update the example to match reality.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>   - Use "SPDX-License-Identifier: GPL-2.0", as requested by Gilad.
 
-On 17/05/21 1:17 pm, Kishon Vijay Abraham I wrote:
-> Patch series
-> *) Adds support to add virtual functions to enable endpoint controller
->    which supports SR-IOV capability
-> *) Add support in Cadence endpoint driver to configure virtual functions
-> *) Enable pci_endpoint_test driver to create pci_device for virtual
->    functions
-> 
-> v1 of the patch series can be found at [1]
-> v2 of the patch series can be found at [2]
-> v3 of the patch series can be found at [3]
-> v4 of the patch series can be found at [4]
-> v5 of the patch series can be found at [5]
-> 
-> Here both physical functions and virtual functions use the same
-> pci_endpoint_test driver and existing pcitest utility can be used
-> to test virtual functions as well.
-> 
-> Changes from v5:
-> *) Rebased to 5.13-rc1
-> 
-> Changes from v4:
-> *) Added a fix in Cadence driver which was overwriting BAR configuration
->    of physical function.
-> *) Didn't include Tom's Acked-by since Cadence driver is modified in
->    this revision.
-> 
-> Changes from v3:
-> *) Fixed Rob's comment and added his Reviewed-by as suggested by him.
-> 
-> Changes from v2:
-> *) Fixed DT binding documentation comment by Rob
-> *) Fixed the error check in pci-epc-core.c
-> 
-> Changes from v1:
-> *) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
->    binding for EP)
-> 
-> [1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
-> [2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
-> [3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
-> [4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
-> [5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
+Acked-by: Gilad Ben Yossef <gilad@benyossef.com>
 
-Can this series be merged for 5.14? It already includes Ack from Rob for
-dt-binding changes and Ack from Tom for Cadence driver changes.
 
-Thanks
-Kishon
+
+> ---
+>  .../bindings/crypto/arm,cryptocell.yaml       | 53 +++++++++++++++++++
+>  .../bindings/crypto/arm-cryptocell.txt        | 25 ---------
+>  2 files changed, 53 insertions(+), 25 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/crypto/arm,cryptoce=
+ll.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/crypto/arm-cryptoce=
+ll.txt
+>
+> diff --git a/Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml=
+ b/Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml
+> new file mode 100644
+> index 0000000000000000..b8331863ee754988
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml
+> @@ -0,0 +1,53 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/crypto/arm,cryptocell.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Arm TrustZone CryptoCell cryptographic engine
+> +
+> +maintainers:
+> +  - Gilad Ben-Yossef <gilad@benyossef.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - arm,cryptocell-713-ree
+> +      - arm,cryptocell-703-ree
+> +      - arm,cryptocell-712-ree
+> +      - arm,cryptocell-710-ree
+> +      - arm,cryptocell-630p-ree
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  dma-coherent: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    arm_cc712: crypto@80000000 {
+> +            compatible =3D "arm,cryptocell-712-ree";
+> +            reg =3D <0x80000000 0x10000>;
+> +            interrupts =3D <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/crypto/arm-cryptocell.txt =
+b/Documentation/devicetree/bindings/crypto/arm-cryptocell.txt
+> deleted file mode 100644
+> index 6130e6eb4af89135..0000000000000000
+> --- a/Documentation/devicetree/bindings/crypto/arm-cryptocell.txt
+> +++ /dev/null
+> @@ -1,25 +0,0 @@
+> -Arm TrustZone CryptoCell cryptographic engine
+> -
+> -Required properties:
+> -- compatible: Should be one of -
+> -   "arm,cryptocell-713-ree"
+> -   "arm,cryptocell-703-ree"
+> -   "arm,cryptocell-712-ree"
+> -   "arm,cryptocell-710-ree"
+> -   "arm,cryptocell-630p-ree"
+> -- reg: Base physical address of the engine and length of memory mapped r=
+egion.
+> -- interrupts: Interrupt number for the device.
+> -
+> -Optional properties:
+> -- clocks: Reference to the crypto engine clock.
+> -- dma-coherent: Present if dma operations are coherent.
+> -
+> -Examples:
+> -
+> -       arm_cc712: crypto@80000000 {
+> -               compatible =3D "arm,cryptocell-712-ree";
+> -               interrupt-parent =3D <&intc>;
+> -               interrupts =3D < 0 30 4 >;
+> -               reg =3D < 0x80000000 0x10000 >;
+> -
+> -       };
+> --
+> 2.25.1
+>
+
+
+--=20
+Gilad Ben-Yossef
+Chief Coffee Drinker
+
+values of =CE=B2 will give rise to dom!
