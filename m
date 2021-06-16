@@ -2,71 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53F343AA2C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jun 2021 19:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18E873AA2C6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Jun 2021 19:59:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231502AbhFPSAz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Jun 2021 14:00:55 -0400
-Received: from mail-io1-f53.google.com ([209.85.166.53]:47004 "EHLO
-        mail-io1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231319AbhFPSAz (ORCPT
+        id S231442AbhFPSBm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Jun 2021 14:01:42 -0400
+Received: from mail-il1-f170.google.com ([209.85.166.170]:44752 "EHLO
+        mail-il1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231132AbhFPSBm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Jun 2021 14:00:55 -0400
-Received: by mail-io1-f53.google.com with SMTP id b14so95006iow.13;
-        Wed, 16 Jun 2021 10:58:47 -0700 (PDT)
+        Wed, 16 Jun 2021 14:01:42 -0400
+Received: by mail-il1-f170.google.com with SMTP id i17so3074804ilj.11;
+        Wed, 16 Jun 2021 10:59:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=lsCEWFAyd6sFNPZrRpU+nHEexyUYwQnz5xbDSvPsuhI=;
-        b=AO6pdSddXmcK1oZ58HVLdxykSYyXCBH9dOXqZ4Q34yFwXnhL66YoMZ4IoZmiw4Dfa7
-         iwHbBmlpQ8c+KOZoCbRn6a1nhqUPZK6SC7BUabSm/DiyE8qtt5I0LKpH/FTvN/nzUvKH
-         Ac7XnTOgPkknYJIXpT35UIbfnTeS5YMg8RnqGOcBJTB0WSnRmYNI1MGMTmMyMAyp3NlU
-         2c8l7w8tO8zYiMu+YEny0eLe0p7Ljk+ntc41r4FENKm63wcefn+E1I+hMlB/qISWGvpE
-         LGLLCzndhIo0EnCiscStC1/nmJzIhhCzM1t6YmS7Cj5s7CZOGWOFHDpXVAT+hSNyun/k
-         Jecg==
-X-Gm-Message-State: AOAM533jmOiz9Wvn12BKGN6J49nePZyaJBqrlgFmoxqm4PjUp75pnS7M
-        ZbzUmKUzxQaaZFHhfbap3bpRUS7R1A==
-X-Google-Smtp-Source: ABdhPJzn08JzGsjEi40/SYzXj8xShFLKLTEpIMTpSU6Rgkq5EV0d4J2gm0PPgcQ/RXte6fqQhMts+A==
-X-Received: by 2002:a6b:b554:: with SMTP id e81mr482359iof.163.1623866327443;
-        Wed, 16 Jun 2021 10:58:47 -0700 (PDT)
+        bh=j9SmZxPSI2qUfWBcun3ygFdWzUnGyDuFt5UnogfIBwE=;
+        b=gBCfxGhxDzaTp1j3tpYssIJNfe1zm+lp7z6kkNJJ/qC6/Zspm9wcSXChPzqeJ0jqnw
+         IcDxjGY2pIzjhhzgIsDCO5BGj3m61R9N4TSsvXbxpeIjXYwD8E8igtTGjUa6zrAwjRPx
+         cm/jhdNxGJ3zaK4EJb3QNC76uT4bqkgMmHwbZ4lnfque79n2u/mp2SdnlsMxqCNg+qqY
+         LVbThDL0GhjqKOGO+vmiUe0/APpAyZHR0RyajEUyv7D3fKWNf63s/8ZScNtbcjl21Zww
+         SEciz5Mu5fnfAOjqThNSAReTJcpvy3OZQ0eqSLFnb0Hyi0Y6PBFgzdB9KWjH5kx6o4UH
+         LIAA==
+X-Gm-Message-State: AOAM531ES3GXn4SAH/Xx0VV6C75PDYpCFQTR9yeJqrDDw3hTbZjnHCwe
+        9INezeyDvQjXP9ALUaRRXg==
+X-Google-Smtp-Source: ABdhPJyvs049QViHsiiDRXycQt85Q1vCcx2xRfD8GKvhUHQzV+YRljkf9/kctzPqq53psMMyJ7c30Q==
+X-Received: by 2002:a05:6e02:1be1:: with SMTP id y1mr643472ilv.204.1623866374432;
+        Wed, 16 Jun 2021 10:59:34 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id n20sm1526418ioo.23.2021.06.16.10.58.45
+        by smtp.gmail.com with ESMTPSA id r8sm1476111ile.25.2021.06.16.10.59.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 10:58:46 -0700 (PDT)
-Received: (nullmailer pid 3619554 invoked by uid 1000);
-        Wed, 16 Jun 2021 17:58:44 -0000
-Date:   Wed, 16 Jun 2021 11:58:44 -0600
+        Wed, 16 Jun 2021 10:59:33 -0700 (PDT)
+Received: (nullmailer pid 3620651 invoked by uid 1000);
+        Wed, 16 Jun 2021 17:59:30 -0000
+Date:   Wed, 16 Jun 2021 11:59:30 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-rtc@vger.kernel.org, Biju Das <biju.das@bp.renesas.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Eric Nelson <eric@nelint.com>, devicetree@vger.kernel.org,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
+Cc:     Martin Kepplinger <martink@posteo.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, Bastian Hecht <hechtb@gmail.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: rtc: nxp,pcf8563: Absorb pcf85263/pcf85363
- bindings
-Message-ID: <20210616175844.GA3619453@robh.at.kernel.org>
-References: <e4f48d97f0e16d78a796f02b77ea3a0018904185.1623416431.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] dt-bindings: input: touchscreen: st1232: Convert to
+ json-schema
+Message-ID: <20210616175930.GA3620599@robh.at.kernel.org>
+References: <fbba650cff07780c28ad6dd8dbef5cc1451b7762.1623418065.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e4f48d97f0e16d78a796f02b77ea3a0018904185.1623416431.git.geert+renesas@glider.be>
+In-Reply-To: <fbba650cff07780c28ad6dd8dbef5cc1451b7762.1623418065.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 11 Jun 2021 15:01:45 +0200, Geert Uytterhoeven wrote:
-> The NXP PCF85263/PCF85363 Real Time Clock is very similar to the NXP
-> PCF8563.
+On Fri, 11 Jun 2021 15:30:05 +0200, Geert Uytterhoeven wrote:
+> Convert the Sitronix st1232/st1633 touchscreen controller Device Tree
+> binding documentation to json-schema.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  .../devicetree/bindings/rtc/nxp,pcf8563.yaml    |  4 +++-
->  .../devicetree/bindings/rtc/pcf85363.txt        | 17 -----------------
->  2 files changed, 3 insertions(+), 18 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/rtc/pcf85363.txt
+>  .../input/touchscreen/sitronix,st1232.yaml    | 50 +++++++++++++++++++
+>  .../input/touchscreen/sitronix-st1232.txt     | 28 -----------
+>  2 files changed, 50 insertions(+), 28 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/sitronix-st1232.txt
 > 
 
-Applied, thanks!
+Reviewed-by: Rob Herring <robh@kernel.org>
