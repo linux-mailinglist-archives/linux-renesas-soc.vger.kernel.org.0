@@ -2,78 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3D653AAD83
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 09:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF3A3AADD9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 09:41:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbhFQH1o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Jun 2021 03:27:44 -0400
-Received: from mail-vk1-f179.google.com ([209.85.221.179]:37871 "EHLO
-        mail-vk1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229580AbhFQH1o (ORCPT
+        id S229693AbhFQHnR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Jun 2021 03:43:17 -0400
+Received: from mail-vs1-f45.google.com ([209.85.217.45]:37471 "EHLO
+        mail-vs1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229666AbhFQHnQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Jun 2021 03:27:44 -0400
-Received: by mail-vk1-f179.google.com with SMTP id l194so170072vkl.4;
-        Thu, 17 Jun 2021 00:25:37 -0700 (PDT)
+        Thu, 17 Jun 2021 03:43:16 -0400
+Received: by mail-vs1-f45.google.com with SMTP id f21so2493569vsl.4;
+        Thu, 17 Jun 2021 00:41:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zuMKieSKmxG8G6e6NnP+NFsUXpSpwVQagRUZS8Xpj8k=;
-        b=I9uHIsCd6ondXROIgg49yhGYOV2GftdPVe6DTFuRw8UcuxxmFCOKDPobFWMPXLQG4q
-         2Yzs+VwMS3pKGm1bwAanoWgMJs7p0g4kZBKF7Rq8o7MuAuYmyXd2OKFpQVG+IKPLbFf4
-         kve/Ordw8ewvuXr3YxYZrNTZ4+7y1lzm/2fwt/ZUvDGzh2RXzdZOqS/HGOmANJ3U7gRP
-         CojbMmacP6jAbCnW/rFwfWqqIY1tfTkCn3MhrUSlMUeOHRDVIOl1LDdM5CF/BV2y4pWu
-         bHOV1GMwYByfc8dluLZA+MQu9Qnyt/NxFgyHwun+IBYvBq0KPVXusCrm5tBGdtVuVNFQ
-         Mbtg==
-X-Gm-Message-State: AOAM531imwkhloaIumr7/xOmhmhmm/YFYKKc6JdZmAkw26/zwV54Rnh5
-        ZjGovSr7it71hGH3yRgzsUyAz3UR95OocNukyGPYRxO6/Ww=
-X-Google-Smtp-Source: ABdhPJzvCpVvadOl5WBHs+OiHYrT1fMnEQBf7jr+r1np8fr/EHlXA1Fd1ytjxUmUwLxpeLdoTw49gmUR6k1uT3/63L8=
-X-Received: by 2002:a1f:9505:: with SMTP id x5mr2913477vkd.6.1623914736731;
- Thu, 17 Jun 2021 00:25:36 -0700 (PDT)
+        bh=mEGYEeCbT5Y3uQ9ge9kDdnlguyAqVWsX/tNFbsNf0Go=;
+        b=Moqa9taiDTiQWwD0gOSFHENLtdB9DzuM4IbaIWtH2cLaJoDIq2WEQJgDOEttfG9HE9
+         lRhYL8SNCBFnZOLD3mfKKfGat6QHHfpqxGijJ8/hlVyoV9Xsh3MzU2dFgr4SRqYtll8i
+         14hKvcxcutYtKGkrEK04PE5Gy7k6kfpz8WkN+xtN1cp3KSi9hxbNadRR6+p1XRbmkSqe
+         C30OicRfMa3R2DtYATveMUtVVSFt1iGYV/A5MUDtbwWoIXgHeWe5Sh0uoOsLQ33BzdEX
+         GP1/oLvXEjON1FtCKJQOWR6TC1dEKc/CLNQmWSk8RJwrFQhNWo4APX1T7lt8Yq3vUwiW
+         OB/w==
+X-Gm-Message-State: AOAM533wxcYjILP9NfEQGqrjtO3UHSigkTZpxITSxvgXH9yOcZAlQE9U
+        vRIFg8uZ+uVCmm9tT9D14pmLnTXTTm22L7mLkd+TWzKMnbLIVg==
+X-Google-Smtp-Source: ABdhPJyHZxhvEExJJyJ3FbSwGF668SvWyL06uTu3qETPTb/srzA8PVzp9Tn2bLHdvfcixgGT2j6f4leexfxLrEfBZGw=
+X-Received: by 2002:a67:3c2:: with SMTP id 185mr3196825vsd.42.1623915668798;
+ Thu, 17 Jun 2021 00:41:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <1623896524-102058-1-git-send-email-yang.lee@linux.alibaba.com>
-In-Reply-To: <1623896524-102058-1-git-send-email-yang.lee@linux.alibaba.com>
+References: <20210419142345.53152-1-jacopo+renesas@jmondi.org>
+ <20210419142345.53152-7-jacopo+renesas@jmondi.org> <YMqXjZREJbIEJxs5@pendragon.ideasonboard.com>
+In-Reply-To: <YMqXjZREJbIEJxs5@pendragon.ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 17 Jun 2021 09:25:25 +0200
-Message-ID: <CAMuHMdX53h16UuaC8VobKX20_3dQS1Ve+3a8oqX-oYeT6vTi5w@mail.gmail.com>
-Subject: Re: [PATCH -next v2] clk: renesas: fix return value and unused assignment
-To:     Yang Li <yang.lee@linux.alibaba.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+Date:   Thu, 17 Jun 2021 09:40:57 +0200
+Message-ID: <CAMuHMdWULq9GTsWgVnyrBL2_pK4dT5kuAHS=4i7zPX0Hu51L7g@mail.gmail.com>
+Subject: Re: [PATCH v5 6/7] arm64: dts: renesas: eagle: Add GMSL .dtsi
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 17, 2021 at 4:22 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
-> Currently the function returns NULL on error, so exact error code is lost.
-> This patch changes return convention of the function to use ERR_PTR()
-> on error instead.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Hi Jacopo,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.15.
-
-> --- a/drivers/clk/renesas/renesas-rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/renesas-rzg2l-cpg.c
-> @@ -182,8 +182,7 @@ static unsigned long rzg2l_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
->
->         pll_clk = devm_kzalloc(dev, sizeof(*pll_clk), GFP_KERNEL);
->         if (!pll_clk) {
-> -               clk = ERR_PTR(-ENOMEM);
-> -               return NULL;
-> +               return ERR_PTR(-ENOMEM);
->         }
-
-I'll drop the curly braces while applying.
+On Thu, Jun 17, 2021 at 2:30 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Apr 19, 2021 at 04:23:44PM +0200, Jacopo Mondi wrote:
+> > From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> >
+> > Describe the FAKRA connector available on Eagle board that allows
+> > connecting GMSL camera modules such as IMI RDACM20 and RDACM21.
+> >
+> > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
 >
->         parent_name = __clk_get_name(parent);
+> This won't scale when we'll support more than two different cameras, but
+> we'll switch to overlays then :-)
+
+FTR, overlay support has landed upstream.
+Still not sure about .dts vs .dtso...
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+The DT parts are still pending acceptance of "maxim,gpio-poc", right?
 
 Gr{oetje,eeting}s,
 
