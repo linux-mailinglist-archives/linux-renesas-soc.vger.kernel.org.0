@@ -2,172 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBD033AAC73
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 08:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A6653AAD65
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 09:23:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbhFQGhW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Jun 2021 02:37:22 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:35407 "EHLO mout01.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229580AbhFQGhW (ORCPT
+        id S230392AbhFQHZL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Jun 2021 03:25:11 -0400
+Received: from mail-ua1-f42.google.com ([209.85.222.42]:40638 "EHLO
+        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231157AbhFQHY7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Jun 2021 02:37:22 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 89075240027
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Jun 2021 08:35:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1623911713; bh=Rix5p6l8HyutxEZr8GYcwxQSpTiMNmdvzeXhAkc/AME=;
-        h=Subject:From:To:Cc:Date:From;
-        b=EDrws93aNSb3qb7Jqr9jusfmok/e8fMoF1w3EZxbPb2GkEZX1M25vIywS6S3FU2Xu
-         XU+aoAdXmDkTu+yat+MZs/fvr4WzW09v0AtGxR4U6fbLrzXRCAun6M+0InOk4jkbad
-         oIQj+r7UqADZF35h7x8z3qP0gSpveEGmKhvUOy6joYx+hisZ9TU4tF/bh2QY6Vn+7c
-         8ceDwYY+qBs4YM7PoyiPHCy51XUgLysjwkd181r0vDcqFP4aB5DUudHVYnyfmTOhbr
-         nbwXtR7rgp3/W5ohzO0cb1O2r2G4Zi65KAaY1nlSS1rpfhUoXQGCDifWzH2yEr+suQ
-         qRK+vjnn45PYw==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4G5C3N2bGNz6tm9;
-        Thu, 17 Jun 2021 08:35:12 +0200 (CEST)
-Message-ID: <4765dc6042a4c9fad7c33ffde9e802bcbace6282.camel@posteo.de>
-Subject: Re: [PATCH] dt-bindings: input: touchscreen: st1232: Convert to
- json-schema
-From:   Martin Kepplinger <martink@posteo.de>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Bastian Hecht <hechtb@gmail.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Date:   Thu, 17 Jun 2021 06:35:02 +0000
-In-Reply-To: <fbba650cff07780c28ad6dd8dbef5cc1451b7762.1623418065.git.geert+renesas@glider.be>
-References: <fbba650cff07780c28ad6dd8dbef5cc1451b7762.1623418065.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 17 Jun 2021 03:24:59 -0400
+Received: by mail-ua1-f42.google.com with SMTP id r9so403792ual.7;
+        Thu, 17 Jun 2021 00:22:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cEv8QQ6il/6NkwppAWjKCYYqz8xPWh7pjmkGPTD+a34=;
+        b=WFcpUkbVv+huLPjolyFl3pyD2jSXz1EWKtHwdFT3O2mTkgoRO08UNFW1d1g1QRSdOl
+         9ii3T/CI0a5aZVOaqVf851Blx7iw3DpUSiRg1TlBPLKXqsaZOlu2RkRqHRzj/DayM/wi
+         rFLLPeLTsDddM0SYS8fw8ic7BM/LHgTwbg/cf7xwhA8RGuGiQWk23f1dQkAeYG1Ra6YQ
+         ac/VVlR+eCCvsL/dmZ4fUu2MjUu9j9RfhttkttK2M53YcpF+kq3ovcOs5qIq7NYnllRD
+         N9+ZW4z9Co9l+Pj34abGVa+6cWBrLe8dZ/dMO/kFdO5vRBNIHJfQu9WSp7fCf7szKo8n
+         lOnQ==
+X-Gm-Message-State: AOAM530Kn0kW8iHFqMpEKqf/mS56bdsSsI0Pq32BrtmoD3eRqa2ZjJOW
+        LEyS+YC64dVRoWnrDPWi5uo8ZlBlB3krUu0aGbpv4AeXt+2yvg==
+X-Google-Smtp-Source: ABdhPJwMcA0YpYRPCJAZ9bnGz/2Pg25idgRHpclYxTS0kaMVMyFb5dPU4W1UkU43d9V5qdplDXdplYoI8kdY08U/tJ4=
+X-Received: by 2002:ab0:70b3:: with SMTP id q19mr3877741ual.2.1623914572130;
+ Thu, 17 Jun 2021 00:22:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <2da75fd2e971dfab8dd05a2a28bb1d6d9cbe5adb.1619700420.git.geert+renesas@glider.be>
+ <YIrU+tdcfQ/6ODRz@pendragon.ideasonboard.com> <YMqsAkFfAU02t4oD@pendragon.ideasonboard.com>
+In-Reply-To: <YMqsAkFfAU02t4oD@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 17 Jun 2021 09:22:40 +0200
+Message-ID: <CAMuHMdWe-84ga-f4GC7h+jZnAPu5ayvV=xnB7mNgQs3XqRVW=w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: renesas,du: Make resets optional on
+ R-Car H1
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Am Freitag, dem 11.06.2021 um 15:30 +0200 schrieb Geert Uytterhoeven:
-> Convert the Sitronix st1232/st1633 touchscreen controller Device Tree
-> binding documentation to json-schema.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../input/touchscreen/sitronix,st1232.yaml    | 50
-> +++++++++++++++++++
->  .../input/touchscreen/sitronix-st1232.txt     | 28 -----------
->  2 files changed, 50 insertions(+), 28 deletions(-)
->  create mode 100644
-> Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.y
-> aml
->  delete mode 100644
-> Documentation/devicetree/bindings/input/touchscreen/sitronix-
-> st1232.txt
-> 
-> diff --git
-> a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232
-> .yaml
-> b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232
-> .yaml
-> new file mode 100644
-> index 0000000000000000..1d8ca19fd37ae3fc
-> --- /dev/null
-> +++
-> b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232
-> .yaml
-> @@ -0,0 +1,50 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id:
-> http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sitronix st1232 or st1633 touchscreen controller
-> +
-> +maintainers:
-> +  - Bastian Hecht <hechtb@gmail.com>
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - sitronix,st1232
-> +      - sitronix,st1633
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  gpios:
-> +    description: A phandle to the reset GPIO
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            touchscreen@55 {
-> +                    compatible = "sitronix,st1232";
-> +                    reg = <0x55>;
-> +                    interrupts = <2 0>;
-> +                    gpios = <&gpio1 166 0>;
-> +            };
-> +    };
-> diff --git
-> a/Documentation/devicetree/bindings/input/touchscreen/sitronix-
-> st1232.txt
-> b/Documentation/devicetree/bindings/input/touchscreen/sitronix-
-> st1232.txt
-> deleted file mode 100644
-> index 019373253b28c08c..0000000000000000
-> --- a/Documentation/devicetree/bindings/input/touchscreen/sitronix-
-> st1232.txt
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -* Sitronix st1232 or st1633 touchscreen controller
-> -
-> -Required properties:
-> -- compatible: must contain one of
-> -  * "sitronix,st1232"
-> -  * "sitronix,st1633"
-> -- reg: I2C address of the chip
-> -- interrupts: interrupt to which the chip is connected
-> -
-> -Optional properties:
-> -- gpios: a phandle to the reset GPIO
-> -
-> -For additional optional properties see: touchscreen.txt
-> -
-> -Example:
-> -
-> -       i2c@00000000 {
-> -               /* ... */
-> -
-> -               touchscreen@55 {
-> -                       compatible = "sitronix,st1232";
-> -                       reg = <0x55>;
-> -                       interrupts = <2 0>;
-> -                       gpios = <&gpio1 166 0>;
-> -               };
-> -
-> -               /* ... */
-> -       };
+Hi Laurent,
 
-Acked-by: Martin Kepplinger <martink@posteo.de>
+On Thu, Jun 17, 2021 at 3:57 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Thu, Apr 29, 2021 at 06:47:06PM +0300, Laurent Pinchart wrote:
+> > On Thu, Apr 29, 2021 at 02:47:31PM +0200, Geert Uytterhoeven wrote:
+> > > The "resets" property is not present on R-Car Gen1 SoCs.
+> > > Supporting it would require migrating from renesas,cpg-clocks to
+> > > renesas,cpg-mssr.
+> > >
+> > > Reflect this in the DT bindings by removing the global "required:
+> > > resets".  All SoCs that do have "resets" properties already have
+> > > SoC-specific rules making it required.
+> >
+> > Should we drop the
+> >
+> >         resets:
+> >         maxItems: 1
+> >
+> > from renesas,du-r8a7779 then ? And maybe the
+> >
+> >   resets: true
+> >
+> > in the general case ?
+>
+> Any opinion on this ?
 
-thank you!
+Oops, I did reply to this on April 29, but accidentally dropped
+all CCs, which made it disappear from your radar, too?
 
+| R-Car H1 does have a reset controller, we just don't have support for
+| it in the DT bindings and Linux driver yet.  So from that point of view
+| it makes sense to keep it.
+|
+| Of course we can remove it, and re-add it later if we ever add support,
+| as at that time we probably will want to change the bindings anyway
+| to make it required again.
+
+And you replied on April 30, also in private:
+
+|> R-Car H1 does have a reset controller, we just don't have support for
+| > it in the DT bindings and Linux driver yet.  So from that point of view
+| > it makes sense to keep it.
+|
+| Not sure what we would "keep", given that there's no reset controller
+| available :-)
+|
+| > Of course we can remove it, and re-add it later if we ever add support,
+| > as at that time we probably will want to change the bindings anyway
+| > to make it required again.
+|
+| Let's not bother. I doubt H1 will get support for a reset controller as
+| that's an old platform, and the DT bindings thus don't matter too much.
+| I'll take this patch as-is.
+|
+| Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> > > Fixes: 99d66127fad25ebb ("dt-bindings: display: renesas,du: Convert binding to YAML")
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > >  Documentation/devicetree/bindings/display/renesas,du.yaml | 1 -
+> > >  1 file changed, 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > index 552a99ce4f1280d7..e955034da53b86e2 100644
+> > > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > @@ -89,7 +89,6 @@ required:
+> > >    - reg
+> > >    - clocks
+> > >    - interrupts
+> > > -  - resets
+> > >    - ports
+> > >
+> > >  allOf:
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
