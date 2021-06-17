@@ -2,192 +2,316 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 682263AA7B1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 01:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D94D3AA7DA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 02:02:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234780AbhFPXtv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Jun 2021 19:49:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37052 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232372AbhFPXtv (ORCPT
+        id S234835AbhFQAEr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Jun 2021 20:04:47 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35550 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230481AbhFQAEr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Jun 2021 19:49:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E607C061574;
-        Wed, 16 Jun 2021 16:47:44 -0700 (PDT)
+        Wed, 16 Jun 2021 20:04:47 -0400
 Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2AC0AE53;
-        Thu, 17 Jun 2021 01:47:40 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA888E53;
+        Thu, 17 Jun 2021 02:02:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623887260;
-        bh=IS0q+M3hWc7M1JZSrutIxVUhjhUtPGpGzVZceEQYkIA=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=IFoKq4dXc50CqvijCEGfwTbelpg2qKjnVOEEHHNGiuOooGN4zqP5rtDl9Gkqeb1jw
-         n4KTn6QZsO//wNEXXmjTOaULgfqNy/6eNj6P7ltQlnawfWLhda4XMXdxb8O4tVF+Nb
-         sdpZqng2WUqml5JgSPBiVwT4KS1Vy76Lor+6ZdxI=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v5 10/15] media: i2c: rdacm21: Power up OV10640 before
- OV490
+        s=mail; t=1623888159;
+        bh=vMpmdDeMy2cFwrutYp/XAGNd7WXv6nEqX7IEH7vlbE0=;
+        h=Reply-To:To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=DQyAOhrLj17rDAkGY2g7FvRunX4VyJrAFVP2j8MtsgVlKp29u37ypTi2yENnKZxY+
+         HPxA6nO+WWwk3KfSf8o8mf8y9SakScWbU9wv9GxDzOf6zTZp7HdlR9NKnaCvDZ8x95
+         v2GgQccwHWEK3OfcqivI5DJMP6Ej8JAIoyG9QUGU=
+Reply-To: kieran.bingham@ideasonboard.com
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210616124616.49249-1-jacopo+renesas@jmondi.org>
- <20210616124616.49249-11-jacopo+renesas@jmondi.org>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210419142345.53152-1-jacopo+renesas@jmondi.org>
+ <20210419142345.53152-4-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Organization: Ideas on Board
-Message-ID: <75213041-b4d3-2760-6b21-460ca7885574@ideasonboard.com>
-Date:   Thu, 17 Jun 2021 00:47:35 +0100
+Subject: Re: [PATCH v5 3/7] media: i2c: max9286: Use "maxim,gpio-poc" property
+Message-ID: <fea0f6e4-cd24-4c2e-1470-d86957408254@ideasonboard.com>
+Date:   Thu, 17 Jun 2021 01:02:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210616124616.49249-11-jacopo+renesas@jmondi.org>
+In-Reply-To: <20210419142345.53152-4-jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Jacopo,
 
-Hrm - this seems to be the only one in this series without my RB tag, so
-lets take a look.
-
-
-On 16/06/2021 13:46, Jacopo Mondi wrote:
-> The current RDACM21 initialization routine powers up the OV10640 image
-> sensor after the OV490 ISP. The ISP is programmed with a firmare loaded
-
-s/firmare/firmware/
-
-> from an embedded serial flash that (most probably) tries to interact and
-> program also the image sensor connected to the ISP.
+On 19/04/2021 15:23, Jacopo Mondi wrote:
+> The 'maxim,gpio-poc' property is used when the remote camera
+> power-over-coax is controlled by one of the MAX9286 gpio lines,
+> to instruct the driver about which line to use and what the line
+> polarity is.
 > 
-> As described in commit "media: i2c: rdacm21: Fix OV10640 powerup" the
-> image sensor powerdown signal is kept high by an internal pull up
-> resistor and occasionally fails to startup correctly if the powerdown
-> line is not asserted explicitely. Failures in the OV10640 startup causes
+> Add to the max9286 driver support for parsing the newly introduced
+> property and use it if available in place of the usual supply, as it is
+> not possible to establish one as consumer of the max9286 gpio
+> controller.
+> 
+> If the new property is present, no gpio controller is registered and
+> 'poc-supply' is ignored.
+> 
+> In order to maximize code re-use, break out the max9286 gpio handling
+> function so that they can be used by the gpio controller through the
+> gpio-consumer API, or directly by the driver code.
+> 
+> Wrap the power up and power down routines to their own function to
+> be able to use either the gpio line directly or the supply. This will
+> make it easier to control the remote camera power at run time.
 
-s/explicitely/explicitly/
+I think I've seen Laurent's despair at the auxillary device bus already,
+but I can't help but feel it might be a way to register the gpio and
+regulator fully without having to handle any probe deferrals and allow
+the GPIO chip to be used as it's own regulator. (I.e. solve the issues I
+was facing last time I looked at it)
+
+But that said however, it's only a hypothesis having not yet fully
+investigated the option. It seems a shame to have to expose multiple
+ways of powering up the cameras, but I guess ultimately it's how the
+hardware is connected.
+
+Have we confirmed that the start up delays are no longer needed for the
+RDACM20 cameras? (which we've previously exposed as a regulator power up
+delay?)
+
+How would this handle those delays if required?
 
 
-> the OV490 firmware to fail to boot correctly resulting in the camera
-> module initialization to fail consequentially.
-> 
-> Fix this by powering up the OV10640 image sensor before testing the
-> OV490 firmware boot completion, by splitting the ov10640_initialize()
-> function in an ov10640_power_up() one and an ov10640_check_id() one.
-> 
-> Also make sure the OV10640 identification procedure gives enough time to
-> the image sensor to resume after the programming phase performed by the
-> OV490 firmware by repeating the ID read procedure.
-> 
-> This commit fixes a sporadic start-up error triggered by a failure to
-> detect the OV490 firmware boot completion:
-> rdacm21 8-0054: Timeout waiting for firmware boot
-> 
-> Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/media/i2c/rdacm21.c | 46 ++++++++++++++++++++++++++-----------
->  1 file changed, 32 insertions(+), 14 deletions(-)
+>  drivers/media/i2c/max9286.c | 125 +++++++++++++++++++++++++++---------
+>  1 file changed, 94 insertions(+), 31 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> index 7c0a4a84340a..43c41cb800a4 100644
-> --- a/drivers/media/i2c/rdacm21.c
-> +++ b/drivers/media/i2c/rdacm21.c
-> @@ -69,6 +69,7 @@
->  #define OV490_ISP_VSIZE_LOW		0x80820062
->  #define OV490_ISP_VSIZE_HIGH		0x80820063
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 6fd4d59fcc72..99160aa68a5f 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/fwnode.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/gpio/driver.h>
+> +#include <linux/gpio/machine.h>
+>  #include <linux/i2c.h>
+>  #include <linux/i2c-mux.h>
+>  #include <linux/module.h>
+> @@ -165,6 +166,9 @@ struct max9286_priv {
 >  
-> +#define OV10640_PID_TIMEOUT		20
->  #define OV10640_ID_HIGH			0xa6
->  #define OV10640_CHIP_ID			0x300a
->  #define OV10640_PIXEL_RATE		55000000
-> @@ -329,10 +330,8 @@ static const struct v4l2_subdev_ops rdacm21_subdev_ops = {
->  	.pad		= &rdacm21_subdev_pad_ops,
->  };
+>  	u32 reverse_channel_mv;
 >  
-> -static int ov10640_initialize(struct rdacm21_device *dev)
-> +static void ov10640_power_up(struct rdacm21_device *dev)
+> +	u32 gpio_poc;
+> +	u32 gpio_poc_flags;
+> +
+>  	struct v4l2_ctrl_handler ctrls;
+>  	struct v4l2_ctrl *pixelrate;
+>  
+> @@ -1022,20 +1026,27 @@ static int max9286_setup(struct max9286_priv *priv)
+>  	return 0;
+>  }
+>  
+> -static void max9286_gpio_set(struct gpio_chip *chip,
+> -			     unsigned int offset, int value)
+> +static int max9286_gpio_set(struct max9286_priv *priv, unsigned int offset,
+> +			    int value)
 >  {
-> -	u8 val;
+> -	struct max9286_priv *priv = gpiochip_get_data(chip);
 > -
->  	/* Enable GPIO0#0 (reset) and GPIO1#0 (pwdn) as output lines. */
->  	ov490_write_reg(dev, OV490_GPIO_SEL0, OV490_GPIO0);
->  	ov490_write_reg(dev, OV490_GPIO_SEL1, OV490_SPWDN0);
-> @@ -347,18 +346,35 @@ static int ov10640_initialize(struct rdacm21_device *dev)
->  	usleep_range(1500, 3000);
->  	ov490_write_reg(dev, OV490_GPIO_OUTPUT_VALUE0, OV490_GPIO0);
->  	usleep_range(3000, 5000);
+>  	if (value)
+>  		priv->gpio_state |= BIT(offset);
+>  	else
+>  		priv->gpio_state &= ~BIT(offset);
+>  
+> -	max9286_write(priv, 0x0f, MAX9286_0X0F_RESERVED | priv->gpio_state);
+> +	return max9286_write(priv, 0x0f,
+> +			     MAX9286_0X0F_RESERVED | priv->gpio_state);
 > +}
->  
-> -	/* Read OV10640 ID to test communications. */
-> -	ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR, OV490_SCCB_SLAVE_READ);
-> -	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH, OV10640_CHIP_ID >> 8);
-> -	ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW, OV10640_CHIP_ID & 0xff);
-> -
-> -	/* Trigger SCCB slave transaction and give it some time to complete. */
-> -	ov490_write_reg(dev, OV490_HOST_CMD, OV490_HOST_CMD_TRIGGER);
-> -	usleep_range(1000, 1500);
-> +static int ov10640_check_id(struct rdacm21_device *dev)
+> +
+> +static void max9286_gpiochip_set(struct gpio_chip *chip,
+> +				 unsigned int offset, int value)
 > +{
-> +	unsigned int i;
-> +	u8 val;
+> +	struct max9286_priv *priv = gpiochip_get_data(chip);
+> +
+> +	max9286_gpio_set(priv, offset, value);
+>  }
 >  
-> -	ov490_read_reg(dev, OV490_SCCB_SLAVE0_DIR, &val);
-> -	if (val != OV10640_ID_HIGH) {
-> +	/* Read OV10640 ID to test communications. */
-> +	for (i = 0; i < OV10640_PID_TIMEOUT; ++i) {
-> +		ov490_write_reg(dev, OV490_SCCB_SLAVE0_DIR,
-> +				OV490_SCCB_SLAVE_READ);
-> +		ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_HIGH,
-> +				OV10640_CHIP_ID >> 8);
-> +		ov490_write_reg(dev, OV490_SCCB_SLAVE0_ADDR_LOW,
-> +				OV10640_CHIP_ID & 0xff);
+> -static int max9286_gpio_get(struct gpio_chip *chip, unsigned int offset)
+> +static int max9286_gpiochip_get(struct gpio_chip *chip, unsigned int offset)
+>  {
+>  	struct max9286_priv *priv = gpiochip_get_data(chip);
+>  
+> @@ -1055,16 +1066,81 @@ static int max9286_register_gpio(struct max9286_priv *priv)
+>  	gpio->of_node = dev->of_node;
+>  	gpio->ngpio = 2;
+>  	gpio->base = -1;
+> -	gpio->set = max9286_gpio_set;
+> -	gpio->get = max9286_gpio_get;
+> +	gpio->set = max9286_gpiochip_set;
+> +	gpio->get = max9286_gpiochip_get;
+>  	gpio->can_sleep = true;
+>  
+> +	ret = devm_gpiochip_add_data(dev, gpio, priv);
+> +	if (ret)
+> +		dev_err(dev, "Unable to create gpio_chip\n");
 > +
-> +		/*
-> +		 * Trigger SCCB slave transaction and give it some time
-> +		 * to complete.
-> +		 */
-> +		ov490_write_reg(dev, OV490_HOST_CMD, OV490_HOST_CMD_TRIGGER);
-> +		usleep_range(1000, 1500);
+> +	return ret;
+> +}
 > +
-> +		ov490_read_reg(dev, OV490_SCCB_SLAVE0_DIR, &val);
-> +		if (val == OV10640_ID_HIGH)
-> +			break;
-> +		usleep_range(1000, 1500);
+> +static int max9286_parse_gpios(struct max9286_priv *priv)
+> +{
+> +	struct device *dev = &priv->client->dev;
+> +	u32 gpio_poc[2];
+> +	int ret;
+> +
+>  	/* GPIO values default to high */
+>  	priv->gpio_state = BIT(0) | BIT(1);
+>  
+> -	ret = devm_gpiochip_add_data(dev, gpio, priv);
+> +	/*
+> +	 * Parse the "gpio-poc" vendor property. If the camera power is
+> +	 * controlled by one of the MAX9286 gpio lines, do not register
+> +	 * the gpio controller and ignore 'poc-supply'.
+> +	 */
+> +	ret = of_property_read_u32_array(dev->of_node,
+> +					 "maxim,gpio-poc", gpio_poc, 2);
+> +	if (!ret) {
+> +		priv->gpio_poc = gpio_poc[0];
+> +		priv->gpio_poc_flags = gpio_poc[1];
+> +		if (priv->gpio_poc > 1 ||
+> +		    (priv->gpio_poc_flags != GPIO_ACTIVE_HIGH &&
+> +		     priv->gpio_poc_flags != GPIO_ACTIVE_LOW)) {
+> +			dev_err(dev, "Invalid 'gpio-poc': (%u %u)\n",
+> +				priv->gpio_poc, priv->gpio_poc_flags);
+> +			return -EINVAL;
+> +		}
+> +
+> +		return 0;
 > +	}
-> +	if (i == OV10640_PID_TIMEOUT) {
->  		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
->  		return -ENODEV;
->  	}
-> @@ -374,6 +390,8 @@ static int ov490_initialize(struct rdacm21_device *dev)
->  	unsigned int i;
->  	int ret;
->  
-> +	ov10640_power_up(dev);
 > +
->  	/*
->  	 * Read OV490 Id to test communications. Give it up to 40msec to
->  	 * exit from reset.
-> @@ -411,7 +429,7 @@ static int ov490_initialize(struct rdacm21_device *dev)
->  		return -ENODEV;
+> +	ret = max9286_register_gpio(priv);
+>  	if (ret)
+> -		dev_err(dev, "Unable to create gpio_chip\n");
+> +		return ret;
+> +
+> +	priv->regulator = devm_regulator_get(dev, "poc");
+> +	if (IS_ERR(priv->regulator)) {
+> +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
+> +			dev_err(dev, "Unable to get PoC regulator (%ld)\n",
+> +				PTR_ERR(priv->regulator));
+> +		return PTR_ERR(priv->regulator);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
+> +{
+> +	int ret;
+> +
+> +	/* If "poc-gpio" is used, toggle the line and do not use regulator. */
+> +	if (enable)
+> +		ret = priv->regulator
+> +		    ? regulator_enable(priv->regulator)
+> +		    : max9286_gpio_set(priv, priv->gpio_poc,
+> +				       enable ^ priv->gpio_poc_flags);
+> +	else
+> +		ret = priv->regulator
+> +		    ? regulator_disable(priv->regulator)
+> +		    : max9286_gpio_set(priv, priv->gpio_poc,
+> +				       enable ^ priv->gpio_poc_flags);
+> +
+> +	if (ret < 0)
+> +		dev_err(&priv->client->dev, "Unable to turn PoC %s\n",
+> +			enable ? "on" : "off");
+>  
+>  	return ret;
+>  }
+> @@ -1078,17 +1154,14 @@ static int max9286_init(struct device *dev)
+>  	client = to_i2c_client(dev);
+>  	priv = i2c_get_clientdata(client);
+>  
+> -	/* Enable the bus power. */
+> -	ret = regulator_enable(priv->regulator);
+> -	if (ret < 0) {
+> -		dev_err(&client->dev, "Unable to turn PoC on\n");
+> +	ret = max9286_poc_enable(priv, true);
+> +	if (ret)
+>  		return ret;
+> -	}
+>  
+>  	ret = max9286_setup(priv);
+>  	if (ret) {
+>  		dev_err(dev, "Unable to setup max9286\n");
+> -		goto err_regulator;
+> +		goto err_poc_disable;
 >  	}
 >  
-> -	ret = ov10640_initialize(dev);
-> +	ret = ov10640_check_id(dev);
+>  	/*
+> @@ -1098,7 +1171,7 @@ static int max9286_init(struct device *dev)
+>  	ret = max9286_v4l2_register(priv);
+>  	if (ret) {
+>  		dev_err(dev, "Failed to register with V4L2\n");
+> -		goto err_regulator;
+> +		goto err_poc_disable;
+>  	}
+>  
+>  	ret = max9286_i2c_mux_init(priv);
+> @@ -1114,8 +1187,8 @@ static int max9286_init(struct device *dev)
+>  
+>  err_v4l2_register:
+>  	max9286_v4l2_unregister(priv);
+> -err_regulator:
+> -	regulator_disable(priv->regulator);
+> +err_poc_disable:
+> +	max9286_poc_enable(priv, false);
+>  
+>  	return ret;
+>  }
+> @@ -1286,20 +1359,10 @@ static int max9286_probe(struct i2c_client *client)
+>  	 */
+>  	max9286_configure_i2c(priv, false);
+>  
+> -	ret = max9286_register_gpio(priv);
+> +	ret = max9286_parse_gpios(priv);
 >  	if (ret)
->  		return ret;
+>  		goto err_powerdown;
+>  
+> -	priv->regulator = devm_regulator_get(&client->dev, "poc");
+> -	if (IS_ERR(priv->regulator)) {
+> -		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
+> -			dev_err(&client->dev,
+> -				"Unable to get PoC regulator (%ld)\n",
+> -				PTR_ERR(priv->regulator));
+> -		ret = PTR_ERR(priv->regulator);
+> -		goto err_powerdown;
+> -	}
+> -
+>  	ret = max9286_parse_dt(priv);
+>  	if (ret)
+>  		goto err_powerdown;
+> @@ -1326,7 +1389,7 @@ static int max9286_remove(struct i2c_client *client)
+>  
+>  	max9286_v4l2_unregister(priv);
+>  
+> -	regulator_disable(priv->regulator);
+> +	max9286_poc_enable(priv, false);
+>  
+>  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
 >  
 > 
 
+-- 
+Regards
+--
+Kieran
