@@ -2,107 +2,185 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ECC83AAB64
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 07:50:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6207A3AABC0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 08:18:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbhFQFwW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Jun 2021 01:52:22 -0400
-Received: from www.zeus03.de ([194.117.254.33]:43652 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229729AbhFQFwV (ORCPT
+        id S229846AbhFQGU4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Jun 2021 02:20:56 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:38111 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229515AbhFQGUz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Jun 2021 01:52:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=txV8Finzg7rGGU0YURmRHYvLobGc
-        EfiaKSowZNWDJVY=; b=HjNWC/Evgt4kqDKXfI5VamHFThUEmLCRh7Y2yPlH73TP
-        K7opLL7qwa2VR5I9SQRq15TdsaJDrJEdPMaTXgdldKz7RAnQyvZSwhMJEr6ELNFj
-        DtoEfnRUwXYKhA/OCmoDlPnxkkStBczp0vFas8gDwMwqt+DThYbbF4dIsAFHGkQ=
-Received: (qmail 212463 invoked from network); 17 Jun 2021 07:50:11 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jun 2021 07:50:11 +0200
-X-UD-Smtp-Session: l3s3148p1@I0PDx+/EVM4gAwDPXxG6AGBCCTPRmR7s
-Date:   Thu, 17 Jun 2021 07:50:11 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     netdev@vger.kernel.org,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michael Walle <michael@walle.cc>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] sh_eth: Avoid memcpy() over-reading of ETH_SS_STATS
-Message-ID: <YMrik9LBVYvu3Xkw@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Kees Cook <keescook@chromium.org>, netdev@vger.kernel.org,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michael Walle <michael@walle.cc>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-References: <20210616195333.1231715-1-keescook@chromium.org>
+        Thu, 17 Jun 2021 02:20:55 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id tlMQlmuimhg8ZtlMTlShud; Thu, 17 Jun 2021 08:18:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623910726; bh=6HmWS6ynFzcb3UWknvmVlnIFSb1h9WntxYhD/ZWpF34=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=qBJReWXZezuzQcDtMbd0KgJ+8DwUXaWEeXL8Ja7ZhY5UPvjQBnvX6KJV1SAfn5Vob
+         ObcXaK+rhtmyxTUN4T/gdB5Pkp0hBEXUWvc3zQY1zZj/ur3ajp6DIVNPkAuXjMWSzB
+         lYR9lBUjjk8Gb50il+fIfOvRi2QjNsf/n2xdbPBkv6R0yRo1NqVw5mngajPGeC2Mm7
+         nTJy+egUQWAwNKerwbaTMjlBN9jDqqJUfN92U4TIYR8AJ7S1BGPXmIfNv3m7Z1MTLr
+         MZFeQ+6wtAv03dbwHNfclY21Zk1ZqDYoFw15ezWzdtLROd1PnJHc9Wo5/iWw8yi03V
+         dBiUMcMFUgLnA==
+Subject: Re: [PATCH v5 12/15] media: i2c: rdacm20: Embed 'serializer' field
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210616124616.49249-1-jacopo+renesas@jmondi.org>
+ <20210616124616.49249-13-jacopo+renesas@jmondi.org>
+ <YMqTyFvxer0vjsKT@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <1e6e5cd0-82b1-db7a-ec70-ebb8831c11c4@xs4all.nl>
+Date:   Thu, 17 Jun 2021 08:18:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OZ12UJaMUBfcACI+"
-Content-Disposition: inline
-In-Reply-To: <20210616195333.1231715-1-keescook@chromium.org>
+In-Reply-To: <YMqTyFvxer0vjsKT@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKc9TqgYXNnwKK3A9jTVqfgmUnrCdOL1KDLjWDjAPZOnmsVcOjCr/buMwniKu0PgQ51CsqEVlLpC9qzgVKJpF6FvIWRQnv/D4eqDbsxmGLQwwsgWWa6b
+ wXDcuqMiS7M6HHFoXweEyq6yFynYqAHwcnHC3NsC7Zv4ZTVFVYcCRI8hC/pGeHe1DRRGQAAeR6gOimTu7i9+QhmSxxJKZZpnW1fGgLPP1JUAUx9B1S2KQG3M
+ 8PMobmPj+r7kkKQT5ng27G1l9vYg8usiBvGRgZpU5FYP+xBk4vtJP/bNMpqtBSHA1H8RTv2UiZZxACabgNnkTMy94H183DhS5lY+72BnPhNJoJ8TjUYGcfSx
+ /OF+Wp+4rfeupzZjXwLpPd3GDW5WzvqHM03BBls8aI/XWe7HPEdAhkQ5Jc1fjBPSuTdD62p942ymJP1pVa1xT2V/es+VxtNFIp3nF3KRg3yb4ltCt/yxPxJc
+ ZH1Vq9zj/L0k7N0JOO59eMhZtH/bYBBptbnMg16sHT+woS5DQ869CyupXRXnqK0ZF/cGCfffhcngtmiMy/KE65ANxn0x0H/lZlCP7Q==
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 17/06/2021 02:14, Laurent Pinchart wrote:
+> Hi Jacopo,
+> 
+> Thank you for the patch.
+> 
+> This should be moved before 11/15 to avoid a bisection breakage (or
+> 11/15 should be fixed, and this patch updated accordingly).
 
---OZ12UJaMUBfcACI+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Good catch!
 
-On Wed, Jun 16, 2021 at 12:53:33PM -0700, Kees Cook wrote:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memcpy(), memmove(), and memset(), avoid
-> intentionally reading across neighboring array fields.
->=20
-> The memcpy() is copying the entire structure, not just the first array.
-> Adjust the source argument so the compiler can do appropriate bounds
-> checking.
->=20
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+Jacopo, I dropped the PR I made. It you just want to swap patch 11 and 12,
+then I can do that, if you want more extensive changes, then I need a v6.
 
-For the record:
+Let me know what you want.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+	Hans
 
+> 
+> On Wed, Jun 16, 2021 at 02:46:13PM +0200, Jacopo Mondi wrote:
+>> There's no reason to allocate dynamically the 'serializer' field in
+>> the driver structure.
+>>
+>> Embed the field and adjust all its users in the driver.
+>>
+>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> ---
+>>  drivers/media/i2c/rdacm20.c | 36 +++++++++++++++---------------------
+>>  1 file changed, 15 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+>> index 5e0314a2b1ca..029af8fd7485 100644
+>> --- a/drivers/media/i2c/rdacm20.c
+>> +++ b/drivers/media/i2c/rdacm20.c
+>> @@ -312,7 +312,7 @@ static const struct ov10635_reg {
+>>  
+>>  struct rdacm20_device {
+>>  	struct device			*dev;
+>> -	struct max9271_device		*serializer;
+>> +	struct max9271_device		serializer;
+>>  	struct i2c_client		*sensor;
+>>  	struct v4l2_subdev		sd;
+>>  	struct media_pad		pad;
+>> @@ -399,7 +399,7 @@ static int rdacm20_s_stream(struct v4l2_subdev *sd, int enable)
+>>  {
+>>  	struct rdacm20_device *dev = sd_to_rdacm20(sd);
+>>  
+>> -	return max9271_set_serial_link(dev->serializer, enable);
+>> +	return max9271_set_serial_link(&dev->serializer, enable);
+>>  }
+>>  
+>>  static int rdacm20_enum_mbus_code(struct v4l2_subdev *sd,
+>> @@ -455,10 +455,10 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+>>  	unsigned int retry = 3;
+>>  	int ret;
+>>  
+>> -	max9271_wake_up(dev->serializer);
+>> +	max9271_wake_up(&dev->serializer);
+>>  
+>>  	/* Serial link disabled during config as it needs a valid pixel clock. */
+>> -	ret = max9271_set_serial_link(dev->serializer, false);
+>> +	ret = max9271_set_serial_link(&dev->serializer, false);
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> @@ -466,35 +466,35 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+>>  	 *  Ensure that we have a good link configuration before attempting to
+>>  	 *  identify the device.
+>>  	 */
+>> -	max9271_configure_i2c(dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
+>> -					       MAX9271_I2CSLVTO_1024US |
+>> -					       MAX9271_I2CMSTBT_105KBPS);
+>> +	max9271_configure_i2c(&dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
+>> +						MAX9271_I2CSLVTO_1024US |
+>> +						MAX9271_I2CMSTBT_105KBPS);
+>>  
+>> -	max9271_configure_gmsl_link(dev->serializer);
+>> +	max9271_configure_gmsl_link(&dev->serializer);
+>>  
+>> -	ret = max9271_verify_id(dev->serializer);
+>> +	ret = max9271_verify_id(&dev->serializer);
+>>  	if (ret < 0)
+>>  		return ret;
+>>  
+>> -	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
+>> +	ret = max9271_set_address(&dev->serializer, dev->addrs[0]);
+>>  	if (ret < 0)
+>>  		return ret;
+>> -	dev->serializer->client->addr = dev->addrs[0];
+>> +	dev->serializer.client->addr = dev->addrs[0];
+>>  
+>>  	/*
+>>  	 * Reset the sensor by cycling the OV10635 reset signal connected to the
+>>  	 * MAX9271 GPIO1 and verify communication with the OV10635.
+>>  	 */
+>> -	ret = max9271_enable_gpios(dev->serializer, MAX9271_GPIO1OUT);
+>> +	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> -	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPIO1OUT);
+>> +	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>>  	if (ret)
+>>  		return ret;
+>>  	usleep_range(10000, 15000);
+>>  
+>> -	ret = max9271_set_gpios(dev->serializer, MAX9271_GPIO1OUT);
+>> +	ret = max9271_set_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>>  	if (ret)
+>>  		return ret;
+>>  	usleep_range(10000, 15000);
+>> @@ -564,13 +564,7 @@ static int rdacm20_probe(struct i2c_client *client)
+>>  	if (!dev)
+>>  		return -ENOMEM;
+>>  	dev->dev = &client->dev;
+>> -
+>> -	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
+>> -				       GFP_KERNEL);
+>> -	if (!dev->serializer)
+>> -		return -ENOMEM;
+>> -
+>> -	dev->serializer->client = client;
+>> +	dev->serializer.client = client;
+>>  
+>>  	ret = of_property_read_u32_array(client->dev.of_node, "reg",
+>>  					 dev->addrs, 2);
+> 
 
---OZ12UJaMUBfcACI+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDK4pIACgkQFA3kzBSg
-KbYVvg//dtV8RU8D/hpGH2BEQIDcYy8gwypQ8GJLk2kiWH1H9M2CjnQciapF/8l0
-WeMMCSD70iVw9nTNT0DMv64M8LxpPTYS9fEMmbtfEn45Yb25ax3TPyiAT4FxA3yB
-iQN+m7Q9FbdZfEQzH7itu9AMtCqZZPB5BeWLM8NLDrPgkZEV4wCKxDk3f49Gx8mD
-3K0pvPEbn5yiqrmhkADYND75RT9cJX4pzLdQuRnSFRd8WLvOJCaze+zGrwdVsa22
-kgWuXT9U8IxuXPUaW2JbV/DzjTHbin5kmmWl3jcJgjSWDeNJ8F0l4W3Ydp3UMLtW
-mBmohFQZMfxM6414ZPg4GTmq/rUIMc2tePgqPWmFMzGE/EA7ShsXXwbuhAtO3WH3
-VpL3QvmIqG1zZW7IXGBQ/xbyjjIwvS7LKVGv9KovEcfikJ4VjCQhoDmJ9YvPttsp
-8ZujPnk6cQMAAvdQFzNKSxHhwaLynu4eKpUS1h8H31Hg0CY3P1IdLLuZ1Qfvm+ZY
-HVdp1JUSbzhCnkkiUaIC6QgzxcAGIOqY3yORuWJ+IDMeBKf/KmRUEofkkxN1ZCht
-0Cqcvep3wJHZjBetRgLAonjmIaApw6nMzH09oy6NAhqYB4LM0LJdbmaDnR4UMRwH
-FxmptOJGqgzguBOjKYsQblJs1dFWvcBfc6CoIwrORAw344klKjs=
-=GZHy
------END PGP SIGNATURE-----
-
---OZ12UJaMUBfcACI+--
