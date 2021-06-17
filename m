@@ -2,257 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45E463AA823
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 02:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7EF93AA8CE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 03:57:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232854AbhFQAce (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Jun 2021 20:32:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231322AbhFQAce (ORCPT
+        id S230455AbhFQB7v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Jun 2021 21:59:51 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36978 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229951AbhFQB7v (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Jun 2021 20:32:34 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91EBCC061574;
-        Wed, 16 Jun 2021 17:30:27 -0700 (PDT)
+        Wed, 16 Jun 2021 21:59:51 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10257E53;
-        Thu, 17 Jun 2021 02:30:26 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06283E53;
+        Thu, 17 Jun 2021 03:57:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623889826;
-        bh=JBDmNnImH82BqV+2ZChPRpqr7p0yLYXLmBnOswUqrwo=;
+        s=mail; t=1623895063;
+        bh=Z2N2k77gMr7nNxeA63YorzCdihQE805EO/4rjphda/Y=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=v9lJ/R6if8PMlIj3BcExEbbI4OiRFQt96oudUfepQyJ6uQ3qp1so6mMZAj2eztCTk
-         z6Hx8GW84GS86U4LWp3dl0VFHu0pGwI9yRLLmNijX74V7trZCaUq3/rGZdMiukvJAU
-         /dA4LuyQ51huvBBvE8dnvV6W1GQI893MX9D46Cdo=
-Date:   Thu, 17 Jun 2021 03:30:05 +0300
+        b=QhrGW8xJk6uG4Qp+7P1PILIBKn7UU21vAVLfq/RoU/V8qiVOAwSG3e0INOVv/nZKU
+         fH4dIQCXPgRr2ZGxqzw43vZyCWyhOZ0d8dXa7M5Y7rqDe2P/ndQO0SOA8vwG3O4rGz
+         6HY8FGkFjrL8oqtbHYbFQ4aeQ6+ErqcaYvNagSgI=
+Date:   Thu, 17 Jun 2021 04:57:22 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 6/7] arm64: dts: renesas: eagle: Add GMSL .dtsi
-Message-ID: <YMqXjZREJbIEJxs5@pendragon.ideasonboard.com>
-References: <20210419142345.53152-1-jacopo+renesas@jmondi.org>
- <20210419142345.53152-7-jacopo+renesas@jmondi.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH] dt-bindings: display: renesas,du: Make resets optional
+ on R-Car H1
+Message-ID: <YMqsAkFfAU02t4oD@pendragon.ideasonboard.com>
+References: <2da75fd2e971dfab8dd05a2a28bb1d6d9cbe5adb.1619700420.git.geert+renesas@glider.be>
+ <YIrU+tdcfQ/6ODRz@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210419142345.53152-7-jacopo+renesas@jmondi.org>
+In-Reply-To: <YIrU+tdcfQ/6ODRz@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo and Kieran,
+Hi Geert,
 
-Thank you for the patch.
-
-On Mon, Apr 19, 2021 at 04:23:44PM +0200, Jacopo Mondi wrote:
-> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+On Thu, Apr 29, 2021 at 06:47:06PM +0300, Laurent Pinchart wrote:
+> On Thu, Apr 29, 2021 at 02:47:31PM +0200, Geert Uytterhoeven wrote:
+> > The "resets" property is not present on R-Car Gen1 SoCs.
+> > Supporting it would require migrating from renesas,cpg-clocks to
+> > renesas,cpg-mssr.
+> > 
+> > Reflect this in the DT bindings by removing the global "required:
+> > resets".  All SoCs that do have "resets" properties already have
+> > SoC-specific rules making it required.
 > 
-> Describe the FAKRA connector available on Eagle board that allows
-> connecting GMSL camera modules such as IMI RDACM20 and RDACM21.
+> Should we drop the
 > 
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  arch/arm64/boot/dts/renesas/eagle-gmsl.dtsi | 178 ++++++++++++++++++++
->  1 file changed, 178 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/renesas/eagle-gmsl.dtsi
+>         resets:
+> 	  maxItems: 1
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/eagle-gmsl.dtsi b/arch/arm64/boot/dts/renesas/eagle-gmsl.dtsi
-> new file mode 100644
-> index 000000000000..d2e48dc3e820
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/eagle-gmsl.dtsi
-> @@ -0,0 +1,178 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Device Tree Source (overlay) for the Eagle V3M GMSL connectors
-> + *
-> + * Copyright (C) 2017 Ideas on Board <kieran.bingham@ideasonboard.com>
-> + * Copyright (C) 2021 Jacopo Mondi <jacopo+renesas@jmondi.org>
-> + *
-> + * This overlay allows you to define GMSL cameras connected to the FAKRA
-> + * connectors on the Eagle-V3M (or compatible) board.
-> + *
-> + * The following cameras are currently supported: RDACM20 and RDACM21.
-> + *
-> + * The board .dts files that include this select which cameras are in use
-> + * by specifying the camera model with:
-> + *
-> + * #define GMSL_CAMERA_RDACM20
-> + * or
-> + * #define GMSL_CAMERA_RDACM21
-> + *
-> + * And which cameras are connected to the board by defining:
-> + * #define GMSL_CAMERA_0
-> + * #define GMSL_CAMERA_1
-> + * #define GMSL_CAMERA_2
-> + * #define GMSL_CAMERA_3
-> + */
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +
-> +/* Validate the board file settings. */
-> +#if !defined(GMSL_CAMERA_RDACM20) && !defined(GMSL_CAMERA_RDACM21)
-> +#error "Camera model should be defined by the board file"
-> +#endif
-> +
-> +#if defined(GMSL_CAMERA_RDACM20) && defined(GMSL_CAMERA_RDACM21)
-> +#error "A single camera model should be selected"
-> +#endif
+> from renesas,du-r8a7779 then ? And maybe the
+> 
+>   resets: true
+> 
+> in the general case ?
 
-This won't scale when we'll support more than two different cameras, but
-we'll switch to overlays then :-)
+Any opinion on this ?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
-> +#if !defined(GMSL_CAMERA_0) && !defined(GMSL_CAMERA_1) && \
-> +    !defined(GMSL_CAMERA_2) && !defined(GMSL_CAMERA_3)
-> +#error "At least one camera should be selected"
-> +#endif
-> +
-> +#if defined(GMSL_CAMERA_RDACM20)
-> +#define GMSL_CAMERA_MODEL "imi,rdacm20"
-> +#elif defined(GMSL_CAMERA_RDACM21)
-> +#define GMSL_CAMERA_MODEL "imi,rdacm21"
-> +#endif
-> +
-> +&vin0 {
-> +	status = "okay";
-> +};
-> +
-> +&vin1 {
-> +	status = "okay";
-> +};
-> +
-> +&vin2 {
-> +	status = "okay";
-> +};
-> +
-> +&vin3 {
-> +	status = "okay";
-> +};
-> +
-> +&gmsl {
-> +	status = "okay";
-> +
-> +#if defined(GMSL_CAMERA_RDACM21)
-> +	maxim,reverse-channel-microvolt = <100000>;
-> +#endif
-> +
-> +	ports {
-> +#ifdef GMSL_CAMERA_0
-> +		port@0 {
-> +			max9286_in0: endpoint {
-> +				remote-endpoint = <&fakra_con0>;
-> +			};
-> +		};
-> +#endif
-> +
-> +#ifdef GMSL_CAMERA_1
-> +		port@1 {
-> +			max9286_in1: endpoint{
-> +				remote-endpoint = <&fakra_con1>;
-> +			};
-> +
-> +		};
-> +#endif
-> +
-> +#ifdef GMSL_CAMERA_2
-> +		port@2 {
-> +			max9286_in2: endpoint {
-> +				remote-endpoint = <&fakra_con2>;
-> +			};
-> +
-> +		};
-> +#endif
-> +
-> +#ifdef GMSL_CAMERA_3
-> +		port@3 {
-> +			max9286_in3: endpoint {
-> +				remote-endpoint = <&fakra_con3>;
-> +			};
-> +
-> +		};
-> +#endif
-> +	};
-> +
-> +	i2c-mux {
-> +#ifdef GMSL_CAMERA_0
-> +		i2c@0 {
-> +			status = "okay";
-> +
-> +			camera@51 {
-> +				compatible = GMSL_CAMERA_MODEL;
-> +				reg = <0x51>, <0x61>;
-> +
-> +				port {
-> +					fakra_con0: endpoint {
-> +						remote-endpoint = <&max9286_in0>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +#endif
-> +
-> +#ifdef GMSL_CAMERA_1
-> +		i2c@1 {
-> +			status = "okay";
-> +
-> +			camera@52 {
-> +				compatible = GMSL_CAMERA_MODEL;
-> +				reg = <0x52>, <0x62>;
-> +
-> +				port {
-> +					fakra_con1: endpoint {
-> +						remote-endpoint = <&max9286_in1>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +#endif
-> +
-> +#ifdef GMSL_CAMERA_2
-> +		i2c@2 {
-> +			status = "okay";
-> +
-> +			camera@53 {
-> +				compatible = GMSL_CAMERA_MODEL;
-> +				reg = <0x53>, <0x63>;
-> +
-> +				port {
-> +					fakra_con2: endpoint {
-> +						remote-endpoint = <&max9286_in2>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +#endif
-> +
-> +#ifdef GMSL_CAMERA_3
-> +		i2c@3 {
-> +			status = "okay";
-> +
-> +			camera@54 {
-> +				compatible = GMSL_CAMERA_MODEL;
-> +				reg = <0x54>, <0x64>;
-> +
-> +				port {
-> +					fakra_con3: endpoint {
-> +						remote-endpoint = <&max9286_in3>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +#endif
-> +	};
-> +};
+> > Fixes: 99d66127fad25ebb ("dt-bindings: display: renesas,du: Convert binding to YAML")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  Documentation/devicetree/bindings/display/renesas,du.yaml | 1 -
+> >  1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > index 552a99ce4f1280d7..e955034da53b86e2 100644
+> > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > @@ -89,7 +89,6 @@ required:
+> >    - reg
+> >    - clocks
+> >    - interrupts
+> > -  - resets
+> >    - ports
+> >  
+> >  allOf:
 
 -- 
 Regards,
