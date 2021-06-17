@@ -2,99 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26A6E3AB644
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 16:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9ABF3AB675
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 16:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230381AbhFQOph (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Jun 2021 10:45:37 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:27644 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230137AbhFQOpf (ORCPT
+        id S232097AbhFQOuu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Jun 2021 10:50:50 -0400
+Received: from mail-ua1-f51.google.com ([209.85.222.51]:40508 "EHLO
+        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231759AbhFQOuu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Jun 2021 10:45:35 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15HEbqKL002390;
-        Thu, 17 Jun 2021 14:43:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=wAcbJnx1x71iJuQU0HLdHw5W4AppwtpoquFw06EnwxU=;
- b=zbDAjfQB3l7kmFRZOmC8FL1pNvUnEQX7AdCnFnUermBedr1x/6pS8D8vzmBi0W233tRC
- xXNs/W669HKVWn3Nb+hE08cnvXzZ1xU7R1EiFNAPaytMGnGy180BsQtE58S2b/Zkv4m/
- f4sXSaC5lzZNYrDBNa1BzzeWMt6Od6GuxxOv9Z9lha2KeRxeGs55r3TWVJL0UsDpOXE+
- Rj6T0Xo/ZrqVNAYR7f/0iOD4my1kzqLV9BBheX4mvw5JJD4NUudMD+llcv09EmG3sc+T
- IVMqm4w8pj+A41X2t7tFY/bg7ualNY36FeMWVIm/K+z4Z7kmMyC6CLOfv6MT3ZX90aCO Yw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 397w1y18af-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 17 Jun 2021 14:43:22 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15HEataO074970;
-        Thu, 17 Jun 2021 14:43:21 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3030.oracle.com with ESMTP id 396waq7w4u-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 17 Jun 2021 14:43:21 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15HEhKh8093902;
-        Thu, 17 Jun 2021 14:43:20 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 396waq7w3w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 17 Jun 2021 14:43:20 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15HEhIbd021506;
-        Thu, 17 Jun 2021 14:43:18 GMT
-Received: from kadam (/102.222.70.252)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 17 Jun 2021 07:43:18 -0700
-Date:   Thu, 17 Jun 2021 17:43:12 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
-Subject: Re: [bug report] clk: renesas: Add CPG core wrapper for RZ/G2L SoC
-Message-ID: <20210617144312.GQ1901@kadam>
-References: <YMtP/QHWljGcv3JX@mwanda>
- <OSZPR01MB7019B7DD71AB6E3FE04AE51CAA0E9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+        Thu, 17 Jun 2021 10:50:50 -0400
+Received: by mail-ua1-f51.google.com with SMTP id r9so830473ual.7;
+        Thu, 17 Jun 2021 07:48:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DLTXApXv60sqdh5K9ydoNzUe24XMsQP0xX4ggOlS8M4=;
+        b=rXVEycDSLOwi+50quGoNBO2fCJuAFr3CkFCCGD795Cc5+Pb55893uAsDAp6A4OfQV6
+         NduCVGPtKb5wr7y0eUIjmRFcXVJrjR57s20XoQzjCKWbz9ztuVnLKLCWw1VVhf4ibcmb
+         Br43dedHoODk6I2RGrawXBYW8gQCeAP5sKj8rYKOcIuebesxLeGC+OVhKmnDC/8FHZBX
+         gZpUfakoqCfAVbA2uUR12+o4/XD+zeXlYs3SMHlPGIxima4Km7zv29zWA+9sM95/HYNF
+         pwplIRYkandUlJpEqNc98n7p10ZIDA5PkifIeg4yL+nwJZ+W8ZtCef8hOLL3JWxOLzCE
+         aB7Q==
+X-Gm-Message-State: AOAM531K2GiOckorPyS37ru+EOy8i4ryK41bHW3C6WUi3XANeJf37PLj
+        pOBctkjtf5BXBDmSroFskuteoxPVk71MBiCz1/4=
+X-Google-Smtp-Source: ABdhPJy+EUCoZIZHnb1pLH4PfGavFmnh2lM9r2zalq/xyPsKZhU9c98PXlA1TkXHaih4yvdy6NzxlwMBqTJs51DzL0s=
+X-Received: by 2002:ab0:63d9:: with SMTP id i25mr5817183uap.106.1623941320943;
+ Thu, 17 Jun 2021 07:48:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OSZPR01MB7019B7DD71AB6E3FE04AE51CAA0E9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: gP1pfO13Ph73QMGN-QIQbzFTxgzQxInJ
-X-Proofpoint-GUID: gP1pfO13Ph73QMGN-QIQbzFTxgzQxInJ
+References: <YMtYs7LVveYH4eRe@mwanda>
+In-Reply-To: <YMtYs7LVveYH4eRe@mwanda>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 17 Jun 2021 16:48:28 +0200
+Message-ID: <CAMuHMdVUGHpoRJ0na3cwxEBnWkNr1pN+tdWZ7XzzncPeNGqHZw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] clk: renesas: fix a double free on error
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 17, 2021 at 02:14:06PM +0000, Prabhakar Mahadev Lad wrote:
-> >    223                          dev_err(dev, "Invalid %s clock index %u\n", type, clkidx);
-> >    224                          return ERR_PTR(-EINVAL);
-> >    225                  }
-> >    226                  clk = priv->clks[clkidx];
-> >    227                  break;
-> >    228
-> >    229          case CPG_MOD:
-> >    230                  type = "module";
-> >    231                  if (clkidx > priv->num_mod_clks) {
-> >                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > 
-> > Smatch did not catch it, but this condition is definitely off by one. ;)
-> > 
-> Good catch this definitely needs to be if (clkidx > (priv->num_mod_clks - 1)
+On Thu, Jun 17, 2021 at 4:14 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> The "pll_clk" and "clock" pointers are allocated with devm_kzalloc() so
+> freeing them with kfree() will lead to a double free.  This would only
+> happen if probe failed, and the system is not bootable.
+>
+> Fixes: ef3c613ccd68 ("clk: renesas: Add CPG core wrapper for RZ/G2L SoC")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> V2: Fix "pll_clk" as well.
 
-The size - 1 format is riskier because there is a potential for
-underflow.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v5.15.
 
-Imagine that in the future priv->num_mod_clks is zero.
-"priv->num_mod_clks - 1" is now UINT_MAX and any value of "clkidx" is
-accepted.  In this case, you know that the value of num_mod_clks if 57
-but it took me some time to figure that out and ensure that it couldn't
-be zero.
+Gr{oetje,eeting}s,
 
-regards,
-dan carpenter
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
