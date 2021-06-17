@@ -2,200 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC5A83AAE9A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 10:19:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B9833AB099
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Jun 2021 11:57:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230047AbhFQIVy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Jun 2021 04:21:54 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:49377 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229842AbhFQIVx (ORCPT
+        id S232053AbhFQKAB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Jun 2021 06:00:01 -0400
+Received: from [103.120.28.226] ([103.120.28.226]:17747 "EHLO
+        UPCDCDAMX02.upcl.org" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231132AbhFQJ75 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Jun 2021 04:21:53 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 5E077240002;
-        Thu, 17 Jun 2021 08:19:41 +0000 (UTC)
-Date:   Thu, 17 Jun 2021 10:20:30 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 12/15] media: i2c: rdacm20: Embed 'serializer' field
-Message-ID: <20210617082030.lgtr3thsngt3zhem@uno.localdomain>
-References: <20210616124616.49249-1-jacopo+renesas@jmondi.org>
- <20210616124616.49249-13-jacopo+renesas@jmondi.org>
- <YMqTyFvxer0vjsKT@pendragon.ideasonboard.com>
- <1e6e5cd0-82b1-db7a-ec70-ebb8831c11c4@xs4all.nl>
- <20210617074222.4lbcewsydre4b2nb@uno.localdomain>
- <1c460f30-91d3-25a3-78dd-7108bfa24d7c@xs4all.nl>
+        Thu, 17 Jun 2021 05:59:57 -0400
+X-Greylist: delayed 509 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Jun 2021 05:59:47 EDT
+Received: from UPCDCDAMX02.upcl.org (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CE69E8B12E;
+        Thu, 17 Jun 2021 13:26:35 +0530 (IST)
+Received: from UPCDCDAMX02.upcl.org (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 715804AFEC;
+        Thu, 17 Jun 2021 12:50:14 +0530 (IST)
+Received: from User (unknown [210.212.82.37])
+        by UPCDCDAMX02.upcl.org (Postfix) with SMTP;
+        Thu, 17 Jun 2021 12:50:14 +0530 (IST)
+Reply-To: <marielthiago102@gmail.com>
+From:   "Mariel Thiago" <info@infotools.in>
+Subject: Re:: Please contact me it's very urgent.
+Date:   Thu, 17 Jun 2021 07:20:41 -0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1c460f30-91d3-25a3-78dd-7108bfa24d7c@xs4all.nl>
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20210617072014.715804AFEC@UPCDCDAMX02.upcl.org>
+To:     undisclosed-recipients:;
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSVA-9.1.0.1960-8.6.0.1013-26224.006
+X-TM-AS-Result: No-2.497-5.0-31-10
+X-imss-scan-details: No-2.497-5.0-31-10
+X-TMASE-Version: IMSVA-9.1.0.1960-8.6.1013-26224.006
+X-TMASE-Result: 10-2.496900-10.000000
+X-TMASE-MatchedRID: PEpoWB/n4wPoJ7ZHxnJI6/6CJzEkJBKDVOXpHWpii+ddyparHcc9UIhu
+        TvsiBEc/JfjcKHKDDk8K4MBRf7I7puawzjZNF/+9gM4D72plZiep43A0ENmZJqRrhpwKFLjUkZO
+        l7WKIImpu9tOD27u7FNTHX+rg7MGt505jRA97RdWRSAi45KhHyaxczqyf2GA9LHdIgRft8S1QSp
+        LfxZGQcl8vMu11r33KXPP583vQDYF3yrRBFBiPVS2s/H4x5wHg3QfwsVk0UbuGrPnef/I+ej6N5
+        5/6MNSnpdDo0PaPyGFHwD2XNKdI8sVZh7bvPcyg0m3qDro1rgcxP1evyC/00KVBBtW+D6/IR7CD
+        JBvMFOms6dZMAot5Yg==
+X-IMSS-DKIM-White-List: No
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
-On Thu, Jun 17, 2021 at 10:12:26AM +0200, Hans Verkuil wrote:
-> On 17/06/2021 09:42, Jacopo Mondi wrote:
-> > Hello,
-> >
-> > On Thu, Jun 17, 2021 at 08:18:42AM +0200, Hans Verkuil wrote:
-> >> On 17/06/2021 02:14, Laurent Pinchart wrote:
-> >>> Hi Jacopo,
-> >>>
-> >>> Thank you for the patch.
-> >>>
-> >>> This should be moved before 11/15 to avoid a bisection breakage (or
-> >>> 11/15 should be fixed, and this patch updated accordingly).
-> >>
-> >> Good catch!
-> >
-> > Good catch indeed... Sorry about this I shuffled patches around
-> > multiple times and missed this one
-> >
-> >>
-> >> Jacopo, I dropped the PR I made. It you just want to swap patch 11 and 12,
-> >> then I can do that, if you want more extensive changes, then I need a v6.
-> >>
-> >> Let me know what you want.
-> >
-> > I think swapping 11 and 12 is enough, thanks for handling it.
-> > (BTW there's one additional tag from Kieran to collect which is not in
-> > v5. Would you like a v6 for that ?)
->
-> Updated the PR and added Kieran's tag. So no need for you to do anything.
-
-Thanks a lot then and sorry for hiccup
-
->
-> Regards,
->
-> 	Hans
->
-> >
-> > Thanks
-> >   j
-> >
-> >>
-> >> 	Hans
-> >>
-> >>>
-> >>> On Wed, Jun 16, 2021 at 02:46:13PM +0200, Jacopo Mondi wrote:
-> >>>> There's no reason to allocate dynamically the 'serializer' field in
-> >>>> the driver structure.
-> >>>>
-> >>>> Embed the field and adjust all its users in the driver.
-> >>>>
-> >>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> >>>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>> ---
-> >>>>  drivers/media/i2c/rdacm20.c | 36 +++++++++++++++---------------------
-> >>>>  1 file changed, 15 insertions(+), 21 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> >>>> index 5e0314a2b1ca..029af8fd7485 100644
-> >>>> --- a/drivers/media/i2c/rdacm20.c
-> >>>> +++ b/drivers/media/i2c/rdacm20.c
-> >>>> @@ -312,7 +312,7 @@ static const struct ov10635_reg {
-> >>>>
-> >>>>  struct rdacm20_device {
-> >>>>  	struct device			*dev;
-> >>>> -	struct max9271_device		*serializer;
-> >>>> +	struct max9271_device		serializer;
-> >>>>  	struct i2c_client		*sensor;
-> >>>>  	struct v4l2_subdev		sd;
-> >>>>  	struct media_pad		pad;
-> >>>> @@ -399,7 +399,7 @@ static int rdacm20_s_stream(struct v4l2_subdev *sd, int enable)
-> >>>>  {
-> >>>>  	struct rdacm20_device *dev = sd_to_rdacm20(sd);
-> >>>>
-> >>>> -	return max9271_set_serial_link(dev->serializer, enable);
-> >>>> +	return max9271_set_serial_link(&dev->serializer, enable);
-> >>>>  }
-> >>>>
-> >>>>  static int rdacm20_enum_mbus_code(struct v4l2_subdev *sd,
-> >>>> @@ -455,10 +455,10 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
-> >>>>  	unsigned int retry = 3;
-> >>>>  	int ret;
-> >>>>
-> >>>> -	max9271_wake_up(dev->serializer);
-> >>>> +	max9271_wake_up(&dev->serializer);
-> >>>>
-> >>>>  	/* Serial link disabled during config as it needs a valid pixel clock. */
-> >>>> -	ret = max9271_set_serial_link(dev->serializer, false);
-> >>>> +	ret = max9271_set_serial_link(&dev->serializer, false);
-> >>>>  	if (ret)
-> >>>>  		return ret;
-> >>>>
-> >>>> @@ -466,35 +466,35 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
-> >>>>  	 *  Ensure that we have a good link configuration before attempting to
-> >>>>  	 *  identify the device.
-> >>>>  	 */
-> >>>> -	max9271_configure_i2c(dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
-> >>>> -					       MAX9271_I2CSLVTO_1024US |
-> >>>> -					       MAX9271_I2CMSTBT_105KBPS);
-> >>>> +	max9271_configure_i2c(&dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
-> >>>> +						MAX9271_I2CSLVTO_1024US |
-> >>>> +						MAX9271_I2CMSTBT_105KBPS);
-> >>>>
-> >>>> -	max9271_configure_gmsl_link(dev->serializer);
-> >>>> +	max9271_configure_gmsl_link(&dev->serializer);
-> >>>>
-> >>>> -	ret = max9271_verify_id(dev->serializer);
-> >>>> +	ret = max9271_verify_id(&dev->serializer);
-> >>>>  	if (ret < 0)
-> >>>>  		return ret;
-> >>>>
-> >>>> -	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
-> >>>> +	ret = max9271_set_address(&dev->serializer, dev->addrs[0]);
-> >>>>  	if (ret < 0)
-> >>>>  		return ret;
-> >>>> -	dev->serializer->client->addr = dev->addrs[0];
-> >>>> +	dev->serializer.client->addr = dev->addrs[0];
-> >>>>
-> >>>>  	/*
-> >>>>  	 * Reset the sensor by cycling the OV10635 reset signal connected to the
-> >>>>  	 * MAX9271 GPIO1 and verify communication with the OV10635.
-> >>>>  	 */
-> >>>> -	ret = max9271_enable_gpios(dev->serializer, MAX9271_GPIO1OUT);
-> >>>> +	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> >>>>  	if (ret)
-> >>>>  		return ret;
-> >>>>
-> >>>> -	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPIO1OUT);
-> >>>> +	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> >>>>  	if (ret)
-> >>>>  		return ret;
-> >>>>  	usleep_range(10000, 15000);
-> >>>>
-> >>>> -	ret = max9271_set_gpios(dev->serializer, MAX9271_GPIO1OUT);
-> >>>> +	ret = max9271_set_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> >>>>  	if (ret)
-> >>>>  		return ret;
-> >>>>  	usleep_range(10000, 15000);
-> >>>> @@ -564,13 +564,7 @@ static int rdacm20_probe(struct i2c_client *client)
-> >>>>  	if (!dev)
-> >>>>  		return -ENOMEM;
-> >>>>  	dev->dev = &client->dev;
-> >>>> -
-> >>>> -	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
-> >>>> -				       GFP_KERNEL);
-> >>>> -	if (!dev->serializer)
-> >>>> -		return -ENOMEM;
-> >>>> -
-> >>>> -	dev->serializer->client = client;
-> >>>> +	dev->serializer.client = client;
-> >>>>
-> >>>>  	ret = of_property_read_u32_array(client->dev.of_node, "reg",
-> >>>>  					 dev->addrs, 2);
-> >>>
-> >>
->
+ I think I have something huge you might be interested in.
