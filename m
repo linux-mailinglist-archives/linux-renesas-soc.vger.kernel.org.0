@@ -2,112 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 043A23AC683
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 10:51:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99F0F3AC7C6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 11:37:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230335AbhFRIyF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Jun 2021 04:54:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53704 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbhFRIyF (ORCPT
+        id S232543AbhFRJjA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Jun 2021 05:39:00 -0400
+Received: from www.zeus03.de ([194.117.254.33]:38838 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232605AbhFRJjA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Jun 2021 04:54:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C25FC061574;
-        Fri, 18 Jun 2021 01:51:56 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED5A39E2;
-        Fri, 18 Jun 2021 10:51:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624006314;
-        bh=hQUo8DwHO+tQhJOPDPy0YoUUC+505MJXlaAzlDU0TRM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SW73oHrQgZooWCoWzajTCIkAF8Z5FCYOY15yl4CPuvbxV0ccV3ravMF0lGHkoqp8u
-         LESEP7FqQdFMA4/83CtrjZmjTSsXZ6aBXhbGWp5YBUv6VBZX3LGVEdzMm9/TmVFtCP
-         ZRa0v8OVpNRfJh4FlldQQXrmkfZydHO+QiLPHduU=
-Date:   Fri, 18 Jun 2021 11:51:30 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Fri, 18 Jun 2021 05:39:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=YPMwCSoOK4+3h4WMQzIehTDluXtP
+        Y4I7iaF3OF2jXBA=; b=cw6P9IiQE/OyhJE+SeEEfTd1t4zORN6DOjylUTc1J6zu
+        +IbWggJtuMu/7oOQ2LcjzqCnxyZwmzn+gBULJWTnTS0PbuUR44K7ZJ3ZwJvJmFbf
+        +zOEaNMMO22/e9zf9loYecP9dHYwfUsmJP9LCAJMroq72jxJizECMoCNfxn9q7o=
+Received: (qmail 671146 invoked from network); 18 Jun 2021 11:36:49 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Jun 2021 11:36:49 +0200
+X-UD-Smtp-Session: l3s3148p1@c3oaEAfFJLQgAwDPXwaEABQIKHLDvKpZ
+Date:   Fri, 18 Jun 2021 11:36:48 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Michal Simek <michal.simek@xilinx.com>,
-        alexandre.torgue@foss.st.com,
-        Collabora Kernel ML <kernel@collabora.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Wei Xu <xuwei5@hisilicon.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Marek Vasut <marex@denx.de>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [RESEND PATCH v4 3/3] dt-bindings: drm: bridge: adi,adv7511.txt:
- convert to yaml
-Message-ID: <YMxekschULB87LKa@pendragon.ideasonboard.com>
-References: <20210615131333.2272473-1-ricardo.canuelo@collabora.com>
- <20210615131333.2272473-4-ricardo.canuelo@collabora.com>
- <CAMuHMdU8ZC3LrhVLnZgOc_ZtNNcHbAHjEgP_5QpF8UEsbatGgA@mail.gmail.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH v3 3/3] mmc: renesas_sdhi: do hard reset if possible
+Message-ID: <YMxpMKH39aYs4Zaz@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20210317091622.31890-1-wsa+renesas@sang-engineering.com>
+ <20210317091622.31890-4-wsa+renesas@sang-engineering.com>
+ <CAMuHMdU6=rTHjvcgK8GBzd3OL_9YFqV77=KsAEGJvAVapnhsOQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="o+Y/X1RJGwghOxm6"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdU8ZC3LrhVLnZgOc_ZtNNcHbAHjEgP_5QpF8UEsbatGgA@mail.gmail.com>
+In-Reply-To: <CAMuHMdU6=rTHjvcgK8GBzd3OL_9YFqV77=KsAEGJvAVapnhsOQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+
+--o+Y/X1RJGwghOxm6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
 Hi Geert,
 
-On Fri, Jun 18, 2021 at 09:55:38AM +0200, Geert Uytterhoeven wrote:
-> On Tue, Jun 15, 2021 at 3:15 PM Ricardo Cañuelo wrote:
-> > Convert the ADV7511/11w/13/33/35 DT bindings to json-schema. The
-> > original binding has been split into two files: adi,adv7511.yaml for
-> > ADV7511/11W/13 and adi,adv7533.yaml for ADV7533/35.
-> >
-> > Signed-off-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Thanks for your patch, which is now commit cfe34bb7a770c5d8
-> ("dt-bindings: drm: bridge: adi,adv7511.txt: convert to yaml")
-> in robh/for-next.
-> 
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/adi,adv7511.yaml
-> 
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - ports
-> > +  - adi,input-depth
-> > +  - adi,input-colorspace
-> > +  - adi,input-clock
-> > +  - avdd-supply
-> > +  - dvdd-supply
-> > +  - pvdd-supply
-> > +  - dvdd-3v-supply
-> > +  - bgvdd-supply
-> 
-> This causes lots of failures like:
-> 
->     arm/boot/dts/r8a7743-iwg20d-q7-dbcm-ca.dt.yaml: hdmi@39:
-> 'avdd-supply' is a required property
-> 
-> Should all supplies be required?
-> Looking at the driver, missing supplies are automatically replaced by
-> dummy regulators by the regulator framework.
+> In v5.10, v5.11, and v512, it works fine:
+>=20
+>     sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (=
+CMD19)
+>     mmc0: new ultra high speed SDR104 SDHC card at address aaaa
+>     mmcblk0: mmc0:aaaa SM32G 29.7 GiB
+>       mmcblk0: p1
+>=20
+> Note that I do see one timeout during identification.
+>=20
+> After b4d86f37eacb7246 (bisected), it fails:
+>=20
+>     sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (=
+CMD19)
+>     sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (=
+CMD19)
+>     [...]
+>     sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (=
+CMD19)
+>     mmc0: tuning execution failed: -5
+>     mmc0: error -5 whilst initialising SD card
+>     sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (=
+CMD19)
+>     sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (=
+CMD19)
+>     [...]
+>=20
+> Given the single timeout I see with older kernels, the issue may be that =
+the
+> harder reset causes that timeout to repeat ad infinitum?
 
-Generally speaking, I like DT bindings to be descriptive of the
-hardware, and thus require power supplies that are needed for the device
-to function, even if they are fixed supplies.
+I can confirm this. I also found a SanDisk card which shows the same
+issue on my Lager board. However, I wouldn't say this patch breaks
+things in a way that a revert is a good solution.
 
-This being said, I think there's also room to group some power supplies
-together in the bindings, when they are not meant by the device to be
-controlled separately. In this specific case, we also need to take into
-account that the adv7511 and adv7533 have different supplies.
+The card does not really work "fine". During probe we get one timeout,
+and when trying to read from the card, more follow. Already before this
+patch. There seems to be a state where an initial command fails and only
+the retry suceeds. The hard reset in deed seems to cause an endless loop
+here. However, the proper fix is to find out why this first command
+fails, especially only with some cards. My Samsung one works 100% fine.
 
--- 
-Regards,
+And if we fix this, then the hard reset is still good for Gen2 as well.
 
-Laurent Pinchart
+Makes sense?
+
+All the best,
+
+   Wolfram
+
+
+--o+Y/X1RJGwghOxm6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDMaTAACgkQFA3kzBSg
+KbaVPxAAmmy4USWZyF724xuUZFSzeCZmrYDczhaXPpF+Axx2e3+Vqq1kDMCxkxSy
+ZJa3nqZuY7adaPpbpCoKwMGT3BUgl9N39GkugclTCQ1rhnkr2TABlmlLGcd+68Kg
++ge2iDc27KRPd32istBEU7BNovfgWp9KfO0pfXQ6v+30VpIMjImdOueLe72fIlkR
+G/NAF1pye3SvwDCPlL9Im10IWd2RLy36rIeAq23m8Pcf0GtmT5M9jE5f87BsAWqW
+20Woa+zM8WTpl2p2sXTIg6gTUnc16kyrQ5hJf862WgA6xm0760BmjDmVVbOVzIkF
+Gg7yZkbdnoluhByeNICMKLVnNIf1NhoB6C34MBTsfp9/KW6Xf5A+Hsmmll7RO/yr
+2vqZji9CYRko08R9cgEhMOP8wK3rX4Kw2oBVzB9iNeRqFiR4c0lfTz3OEmMKGcRY
+1Hmv7Wth0nyciiGLnwSVeVvKONOa9wkr6214D3OxsjNuW3i/QTVRrfE2nGJmsSnQ
+lRdNWLCTNjr/1JeGp606+8a1H9W3Yy6XSGpOJy9WUbDmBsNSiodldyyRIqm5/gTJ
+me2Dbi58/+5tdnuhg4xr16PK59IxOqYdW+W44ii4ylxTmehmywMudSLxTNILAhqO
+fvqrd/7rCpeK650KxvDNJYDfmW23cdmJMq9WRUUx+lM4hh+RJN4=
+=iagi
+-----END PGP SIGNATURE-----
+
+--o+Y/X1RJGwghOxm6--
