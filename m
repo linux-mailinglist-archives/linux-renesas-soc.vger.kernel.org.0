@@ -2,58 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 314FD3AC919
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 12:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8778F3AC938
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 12:53:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233174AbhFRKsj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Jun 2021 06:48:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51446 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231367AbhFRKsj (ORCPT
+        id S233628AbhFRKzx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Jun 2021 06:55:53 -0400
+Received: from mail-vk1-f172.google.com ([209.85.221.172]:46594 "EHLO
+        mail-vk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233744AbhFRKzq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Jun 2021 06:48:39 -0400
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com [IPv6:2607:f8b0:4864:20::931])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 362B4C061574
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Jun 2021 03:46:30 -0700 (PDT)
-Received: by mail-ua1-x931.google.com with SMTP id v17so3210971uar.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Jun 2021 03:46:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CpD+Q5kU9ExZS+Yyb/2wyekLg8hGOlid4qrn2mysX88=;
-        b=B1WaCiqMIWHn+Py8IGz4tcQS5fMljich/pg8OBTFtWjfvMXfs2F/e8Va1oRtjm1L1k
-         mziLnN5BQllbtDJBWDfh6mR/hIBtN+f2I8yNZ/PUbASsXGVWiQMnbEvqHS+1hpnKFMee
-         hpsz38laqP3pHhInRWlurLlC2avT8Ct/f17rR1hNHg3k1jQQUc6Xxy1wfQAMHY69pzqJ
-         czn+C4yiXUFOJ69GA/ARtzct1dxKN3M8NL8Nn/6AHoWLXAsm0ogAaM7vrmymN6Flba31
-         l7hRiO6pM9xx5FUaqWDyobTCq1sgwn98yawH4na0fVwDDgcPpXQT/ozORDORiGsjlHO/
-         osOQ==
+        Fri, 18 Jun 2021 06:55:46 -0400
+Received: by mail-vk1-f172.google.com with SMTP id 184so2036270vkz.13;
+        Fri, 18 Jun 2021 03:53:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CpD+Q5kU9ExZS+Yyb/2wyekLg8hGOlid4qrn2mysX88=;
-        b=htuJixZw9kiLQ+bQ2RxGSWtUT8xS/I2SmnMdHqv/WDrBtoQZKQeH9X2ktk+250Pg0o
-         lK04Dkgv+YyMl3JP0pohyOUiTNOzvMCrisj6Z5F4FlEd2G4aIg3smqul9iyEcQYE0Hao
-         rx2jVGguzlwJtObI+KuXZtT+9h8EUkLl+63UmnbNyd6QB9/qhVzFAeMnuUYNLlvLNr1p
-         yityaA2/VeZoxGlnMbkYpkmQ1UUbYi2COnt7mFxDFsWKWIHfElL14opLwlb521506745
-         weziY6DC4kZTyqeByRu1DlLMQaCPF+YEoRI+cAk6NRaARyDDfTFxNMp5FN9npToq/q8J
-         GR9Q==
-X-Gm-Message-State: AOAM533X+i7tL3itg/IHihzKpEKwYS+6nIs/gPk1MCtVlhh2jO9hzCin
-        HGIAFv2ywnCCQQL66/OG8nhmxTJPV+cYXw/6A+o75A==
-X-Google-Smtp-Source: ABdhPJz5q6uSmZIgqvH4cM/wxmk7wx6QFt+Me6npRtBFZ8w2cwkJ4ghB58Q7g3uDPxZcnewIjO457WJRXdMtnZORwZo=
-X-Received: by 2002:ab0:d8f:: with SMTP id i15mr11168909uak.104.1624013189435;
- Fri, 18 Jun 2021 03:46:29 -0700 (PDT)
+         :message-id:subject:to;
+        bh=sYxRfw3d4qaZ6McrYDOsqlLWoh2fC/NDUP03irOL83Q=;
+        b=ZzNwhJK4RTzHugsxA4Ln4XN0emPIu+CpNgl2Vow2uD3cnyvbI3jYuXLZS0eLld34AM
+         Exwke0hnCsGkImURv8q37vYoZ2ls1iMRJ1IwASsfc4yn5Cw8iFXBS6p3dXBe5EF3TKon
+         O7GRwWk3UIzLiVcsKEjOwx52ecB4VnklX0QRiQKk/a/0lI9yDWM4CdfklZqdvBzyetGg
+         F1JOxGGvDYKmj4g0BwGQwx8k3YprUFxi459vTMG8KXZJtf7JIpZnY3xw4DXE61mWKk7G
+         mMK6DLF1b6Ywk2GZWeF9ibZvUx4w4lIu8XOFyhjuMlxCSCVnLi0RMbECht9s+PhC9oym
+         IIiA==
+X-Gm-Message-State: AOAM532aoc9T3tGjP9deH/PIBp3Cebg+Vv4LxzgYuDyDB0CLH3Osk47E
+        4SUBykGvCS8wYc78YBvNoI3TrnXkc7ks5B3ab/c=
+X-Google-Smtp-Source: ABdhPJw75HBvQFIABtCnmnhIxHN01rtAFDlpJonWMok5IRC+aCrZDzRnUhOarwgCk3EKXzqfeROzfnBa/ez6Ma6YGqs=
+X-Received: by 2002:a1f:ac45:: with SMTP id v66mr5421719vke.1.1624013616586;
+ Fri, 18 Jun 2021 03:53:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210618073950.46154-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210618073950.46154-1-wsa+renesas@sang-engineering.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Fri, 18 Jun 2021 12:45:52 +0200
-Message-ID: <CAPDyKFqNcAomh145-MH8LMKnGDi3zCFASMh-U5DK-xM1rwJqHg@mail.gmail.com>
-Subject: Re: [RFC PATCH] mmc: disable retuning when tuning
+References: <20210317091622.31890-1-wsa+renesas@sang-engineering.com>
+ <20210317091622.31890-4-wsa+renesas@sang-engineering.com> <CAMuHMdU6=rTHjvcgK8GBzd3OL_9YFqV77=KsAEGJvAVapnhsOQ@mail.gmail.com>
+ <YMxpMKH39aYs4Zaz@ninjato> <CAMuHMdW1wr3j8DgL34V3RiHX9qmqo3tfSWxo3VBwHCO1XFMGGg@mail.gmail.com>
+ <YMxt9JA0q1HGwS34@ninjato>
+In-Reply-To: <YMxt9JA0q1HGwS34@ninjato>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 18 Jun 2021 12:53:25 +0200
+Message-ID: <CAMuHMdV3fLJBoKOafrOPFnF+_nU+GCFz3V6XpJabBhSPJtLK3g@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] mmc: renesas_sdhi: do hard reset if possible
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Adrian Hunter <adrian.hunter@intel.com>
-Cc:     linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -61,59 +49,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 18 Jun 2021 at 09:39, Wolfram Sang
+Hi Wolfram,
+
+On Fri, Jun 18, 2021 at 11:57 AM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
+> > BTW, does it work (really) fine on R-Car Gen3? Mine does.
 >
-> It might be that something goes wrong during tuning so the MMC core will
-> immediately trigger a retune. In our case it was:
+> Yes, mine does, too. So, I first wondered if the difference is an older
+> SCC variant. But when I let the timeouts run for a while, I get a DMA
+> problem. Which could also be the difference between Gen2 and Gen3 here:
 >
->  - we sent a tuning block
->  - there was an error so we need to send an abort cmd to the eMMC
->  - the abort cmd had a CRC error
->  - retune was set by the MMC core
->
-> This lead to a vicious circle causing a performance regression of 75%.
-> So, disable retuning while we tune. Let the tuning complete and see then
-> if it worked out or not.
->
-> Reported-by Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> Hi Ulf, this patch is marked as RFC because I think this is a generic
-> issue. Lots of things could happen in the driver callback which cause a
-> retune, so I'd think it makes sense to deactivate it globally here. If
-> you think this is a driver specific issue, just let me know. I can
-> provide a small patch to create the issue for SDHI hardware, created
-> by Shimoda-san. We couldn't think of an easy way to reproduce it with
-> the fault injector, sadly. Let me know if you want to see that patch.
+> [   53.328284] WARNING: CPU: 0 PID: 743 at kernel/dma/debug.c:498 add_dma_entry+0x158/0x180
+> [   53.336397] DMA-API: exceeded 7 overlapping mappings of cacheline 0x011807bc
 
-This certainly makes sense to me! We should probably tag this (or
-something along this change) for stable.
+Someone's forgetting to clean up DMA mappings?
 
-However, I would like to get some input from Adrian about this as
-well, so I have looped him in.
+Gr{oetje,eeting}s,
 
-Kind regards
-Uffe
+                        Geert
 
->
->  drivers/mmc/core/core.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
-> index b039dcff17f8..54f0814f110c 100644
-> --- a/drivers/mmc/core/core.c
-> +++ b/drivers/mmc/core/core.c
-> @@ -927,6 +927,8 @@ int mmc_execute_tuning(struct mmc_card *card)
->         if (!host->ops->execute_tuning)
->                 return 0;
->
-> +       mmc_retune_disable(host);
-> +
->         if (host->cqe_on)
->                 host->cqe_ops->cqe_off(host);
->
-> --
-> 2.30.2
->
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
