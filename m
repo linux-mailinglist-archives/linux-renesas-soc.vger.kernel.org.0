@@ -2,141 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B77F3AC83C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 11:58:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD4A3AC8B2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 12:22:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233278AbhFRKA4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Jun 2021 06:00:56 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:33508 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233213AbhFRKAz (ORCPT
+        id S233538AbhFRKYM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Jun 2021 06:24:12 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:57241 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230329AbhFRKYB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Jun 2021 06:00:55 -0400
-X-IronPort-AV: E=Sophos;i="5.83,283,1616425200"; 
-   d="scan'208";a="84638784"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Jun 2021 18:58:45 +0900
-Received: from localhost.localdomain (unknown [10.226.93.115])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id BAA74401A453;
-        Fri, 18 Jun 2021 18:58:43 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 7/7] arm64: dts: renesas: r9a07g044: Add I2C nodes
-Date:   Fri, 18 Jun 2021 10:58:23 +0100
-Message-Id: <20210618095823.19885-8-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210618095823.19885-1-biju.das.jz@bp.renesas.com>
-References: <20210618095823.19885-1-biju.das.jz@bp.renesas.com>
+        Fri, 18 Jun 2021 06:24:01 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id uBd9lCbRQhqltuBdDl4lQQ; Fri, 18 Jun 2021 12:21:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1624011707; bh=XZ6lmmj6mFLoYrteU10UHsdLg3t5r9MlCkdOEPx+iys=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=FjT7K/AE+OKMKmnYv1NnQKSTg4Ldf1JkWQpy3F15ah9CkklmSdEg+Fm4d2aDF4tLn
+         AA/IOYCo5liW8NoD53oEykSqyS9YAMjyZDzJVHGwdRfKowfk63QLfqnhnZ/IxyigX/
+         4S3tOwR03TfaltdCsILDRj74eRVHcZD4iVCJLpIxqdNBLMBCw0tYLKaMiDIa7if9U5
+         ktdWI88CXJm7sVSvVytDJsjz3SfD2jB54V5h0m4hWO44P0+NjzdPY/Kxh3PAtlqCgt
+         wx5jXJT+ssI+LlP/fsC5yJ5HCESddpD//H+EDQsLxaKsZ+OxDx7Hfk2WUB1Iz0QSs1
+         V9fVKrPQusViw==
+Subject: Re: [RFC 0/4] media: Introduce post_register() subdev operation
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20210617171611.80542-1-jacopo+renesas@jmondi.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <c97229bf-84a0-f5ba-b5fc-a14b563c2684@xs4all.nl>
+Date:   Fri, 18 Jun 2021 12:21:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210617171611.80542-1-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfOomyovm5iMH+qP+/KMiqCpaGFX4qCTSWNK6QPIKvNkFYA6tyAP6Quby5K82EpeM3iqtVuXQcYVsZExYsFrILlQEKo3rdP4cw60mBOaq5fNRuA0C2bvL
+ KpIz2ByMXKUVUBE0W9W/kuQSpRdVmCiNFDhd9fis7Dt8KPS8NY/d/TqnHWg7ZXBP6QX4ctZ1z13Oute/VSgSI38WYFJUWz1NXmJsCDYU0pNtzeYj3DUWjgA2
+ 63tJhVkiY+Hh+4AUt1rGNQOtEfaj38Tb3M45IG+8Xxxg0yAntP5tis4vihSHKf9E
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add I2C{0,1,2,3} nodes to RZ/G2 (R9A07G044) SoC DTSI.
+On 17/06/2021 19:16, Jacopo Mondi wrote:
+> Hello Hans,
+>    this is the result of the discussion we had yesterday, sent out just to
+> have a taste of how it looks like.
+> 
+> I won't pretend I like the outcome: it feels a bit hackish and meant to support
+> this precise use case.
+> 
+> Compared to the proposal to resurect 'init()' it indeed has the advantage that
+> the subdevice driver works in both deffered and non-deferred mode, but the
+> notifier flags seems really custom.
+> 
+> Also, being the new flag part of the notifier it won't be available for i2c
+> subdevs.
+> 
+> What do you think ? Does the result match your understanding ?
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 80 ++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+That's what I came up with, yes. I think some of the names can be improved,
+but otherwise the mechanism is what I had in mind.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 544f040a4e1d..b573ce88f4da 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -89,6 +89,86 @@
- 			status = "disabled";
- 		};
- 
-+		i2c0: i2c@10058000 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
-+			reg = <0 0x10058000 0 0x400>;
-+			interrupts = <GIC_SPI 350  IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 348 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 349 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 352 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 353 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 355 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_I2C0_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G044_I2C0_PCLK>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		i2c1: i2c@10058400 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
-+			reg = <0 0x10058400 0 0x400>;
-+			interrupts = <GIC_SPI 358  IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 356 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 357 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 361 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 359 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 362 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_I2C1_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G044_I2C1_PCLK>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		i2c2: i2c@10058800 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
-+			reg = <0 0x10058800 0 0x400>;
-+			interrupts = <GIC_SPI 366  IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 368 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 369 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 367 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 370 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 371 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_I2C2_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G044_I2C2_PCLK>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		i2c3: i2c@10058c00 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
-+			reg = <0 0x10058c00 0 0x400>;
-+			interrupts = <GIC_SPI 374  IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 372 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 373 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 376 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 375 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_I2C3_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G044_I2C3_PCLK>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
- 		cpg: clock-controller@11010000 {
- 			compatible = "renesas,r9a07g044-cpg";
- 			reg = <0 0x11010000 0 0x10000>;
--- 
-2.17.1
+Regards,
+
+	Hans
+
+> 
+> Thanks
+>   j
+> 
+> Jacopo Mondi (4):
+>   media: v4l2-subdev: Introduce post_register() core op
+>   media: v4l2-async: Add notifier flags
+>   media: v4l2-async: Call post_register() subdev op
+>   media: i2c: gmsl: Defer camera intialization
+> 
+>  drivers/media/i2c/max9286.c          | 21 ++++++--
+>  drivers/media/i2c/rdacm20.c          | 81 ++++++++++++++++------------
+>  drivers/media/v4l2-core/v4l2-async.c | 11 ++++
+>  include/media/v4l2-async.h           | 10 ++++
+>  include/media/v4l2-subdev.h          |  3 ++
+>  5 files changed, 89 insertions(+), 37 deletions(-)
+> 
+> --
+> 2.31.1
+> 
 
