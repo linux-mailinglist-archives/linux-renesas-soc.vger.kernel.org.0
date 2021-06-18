@@ -2,122 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAA803ACB5D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 14:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 999793ACF61
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 17:45:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231536AbhFRMxg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Jun 2021 08:53:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51220 "EHLO
+        id S234865AbhFRPrt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Jun 2021 11:47:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232968AbhFRMxg (ORCPT
+        with ESMTP id S230334AbhFRPrs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Jun 2021 08:53:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2756FC061574
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Jun 2021 05:51:27 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FD013F0;
-        Fri, 18 Jun 2021 14:51:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624020685;
-        bh=KJm+J+BTv4m1TRyyNIseZwkTG2drcKLmT9QhRTJq5fM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ahFTmRGY0fnW+ptm+HbMBBUTEXDD6daW8zcP3P56hPYoI2nWgD5cKRUejIoZ6GAjl
-         yiWFJeutCJqPsC0RIaeNAhKRTIeQUvGcawADcZ7pF2EqIIbyZTJCNTCmDNWKOf3cHf
-         dVQymRqAZ4OiECp3vgN/76E8TRg1ARsJ7jcU+teo=
-Date:   Fri, 18 Jun 2021 15:51:02 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Ulrich Hecht <uli@fpond.eu>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>
-Subject: Re: [PATCH v3 4/4] arm64: dts: renesas: r8a77995: draak: Enable HDMI
- display output
-Message-ID: <YMyWtvRdKT2NtAPW@pendragon.ideasonboard.com>
-References: <20180925163337.31212-1-laurent.pinchart+renesas@ideasonboard.com>
- <20180925163337.31212-5-laurent.pinchart+renesas@ideasonboard.com>
- <CAMuHMdWX+HxXMB63BKpHcCh7fXAJRt9LfMFjbqM+zEvrK31MfQ@mail.gmail.com>
- <1451402408.292378.1624017668638@webmail.strato.com>
- <CAMuHMdV6TWUVwbBOfeDGTE28DUY609Nfd2bV3WU9+G4Ei-VfAA@mail.gmail.com>
- <YMyQbICEdv2Y7s3B@pendragon.ideasonboard.com>
- <CAMuHMdVFncZic92+u+huODrAYH1=CcL1XD-QSNC0hDGb7ege3g@mail.gmail.com>
+        Fri, 18 Jun 2021 11:47:48 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C4A7C061574
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Jun 2021 08:45:39 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id p7so17326497lfg.4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Jun 2021 08:45:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=hI/AIoMYcsbWwQZzlxldm/7Wor5CVzpcwkOGpLBOXqU=;
+        b=YY/DCc4m6+1gq+Hqf9irgXlg5qtJ8Yf8SsiZOCB0mj/I+L4qUUSf2tmy3TdV2bljtI
+         02tfXLX+so0O5yT7sF94FBSDl3tu/Elkc+wqCZS86z+XFFoQKenuNMO/NH8c0Klrtbly
+         18tZQQAeBF3MPA1HSYcWaU1HGfgMOgLphs2ISwYjt+yVawhDIA7mlt2X8hN7gr/XPpyN
+         VZaNf41A16fEFiQLVEKY4wn67w0nNzS3do5F+BJTcSa7VXLMTj0Omsl5YJSYiXhggBs1
+         xlBn7eycWIes/A+FLXkJNaV9MQ7V1v58Z2MKah70cqJaT3hGCCsSGLH5e9Q38Chrq/0P
+         lKcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=hI/AIoMYcsbWwQZzlxldm/7Wor5CVzpcwkOGpLBOXqU=;
+        b=qbFdfbqR2sCnB47HC4t5g66q9F0/MXmD16UM3hPj0/Sbek+xqMLjt8p0ZJMVlOL1cn
+         AyliR6hLciwQOvMayEIjzVicxSnO0LFojaI+oeMOL3IvNWLZwiASUvHBDUwLy1aYL9by
+         bB6eaB9z0VaE58l7oSxm1hgpJgRlfHIWe9TPDXwTbzY0gsBzj+SCSgAEHWMMdHKZRXHB
+         fiviP7LG30XI0YNwKNSPKBMspy44gUdMn/NZlPjQYDARWvPiPRlnwJCT8tRc3oy0CvV7
+         H2wgH5gxwAb5nJQ7M/dReAdtcZBOCSQxZr0sjDuDqi6E9fAHuLtD5oqjyyy/vmPyzgAD
+         kjlQ==
+X-Gm-Message-State: AOAM530VvoSTWpe7yKIPMl5LrdTeHNfkKfi2fNllvAzWG8pdvpSjnReZ
+        wxfw58bhidk9/4abcILsDWjUcI8ZJ7q2Eg==
+X-Google-Smtp-Source: ABdhPJwympTU/v9gIC9U5a9SwnuXEXhipI4asCeO727dmg/hkmtIwUjyi0O1M47iXn3dNMACuQaUNg==
+X-Received: by 2002:ac2:4c0e:: with SMTP id t14mr3655362lfq.555.1624031137578;
+        Fri, 18 Jun 2021 08:45:37 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id q17sm1093857ljp.3.2021.06.18.08.45.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jun 2021 08:45:36 -0700 (PDT)
+Date:   Fri, 18 Jun 2021 17:45:35 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] clk: renesas: rzg2: Rename i2c-dvfs to iic-pmic
+Message-ID: <YMy/n4Vo5B/viefi@oden.dyn.berto.se>
+References: <3e549b41989ff2797b998a1c749c9f607845f44a.1624016693.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVFncZic92+u+huODrAYH1=CcL1XD-QSNC0hDGb7ege3g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3e549b41989ff2797b998a1c749c9f607845f44a.1624016693.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Geert,
 
-On Fri, Jun 18, 2021 at 02:48:18PM +0200, Geert Uytterhoeven wrote:
-> On Fri, Jun 18, 2021 at 2:24 PM Laurent Pinchart wrote:
-> > On Fri, Jun 18, 2021 at 02:07:48PM +0200, Geert Uytterhoeven wrote:
-> > > On Fri, Jun 18, 2021 at 2:01 PM Ulrich Hecht wrote:
-> > > > > On 06/18/2021 10:05 AM Geert Uytterhoeven wrote:
-> > > > > On Tue, Sep 25, 2018 at 6:34 PM Laurent Pinchart wrote:
-> > > > > > From: Ulrich Hecht <uli+renesas@fpond.eu>
-> > > > > >
-> > > > > > Adds LVDS decoder, HDMI encoder and connector for the Draak board.
-> > > > > >
-> > > > > > The LVDS0 and LVDS1 encoders can use the DU_DOTCLKIN0, DU_DOTCLKIN1 and
-> > > > > > EXTAL externals clocks. Two of them are provided to the SoC on the Draak
-> > > > > > board, hook them up in DT.
-> > > > > >
-> > > > > > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > > Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > >
-> > > > > > --- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
-> > > > > > +++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
-> > > > >
-> > > > > > @@ -190,6 +225,43 @@
-> > > > > >
-> > > > > >         };
-> > > > > >
-> > > > > > +       hdmi-encoder@39 {
-> > > > > > +               compatible = "adi,adv7511w";
-> > > > > > +               reg = <0x39>, <0x3f>, <0x38>, <0x3c>;
-> > > > > > +               reg-names = "main", "edid", "packet", "cec";
-> > > > > > +               interrupt-parent = <&gpio1>;
-> > > > > > +               interrupts = <28 IRQ_TYPE_LEVEL_LOW>;
-> > > > > > +
-> > > > > > +               /* Depends on LVDS */
-> > > > > > +               max-clock = <135000000>;
-> > > > > > +               min-vrefresh = <50>;
-> > > > >
-> > > > > Where do these two come from? They fail to validate with commit
-> > > > > cfe34bb7a770c5d8 ("dt-bindings: drm: bridge: adi,adv7511.txt: convert
-> > > > > to yaml").
-> > > > > I can't find where it is used in the driver, nor in the driver history.
-> > > >
-> > > > I have found a prototype patch in my archives that uses these
-> > > > properties. I guess the patch itself didn't make it into the final
-> > > > series, but the properties inadvertently did. I vaguely remember
-> > > > this was supposed to work around an issue with modes that use a
-> > > > higher clock than supported by one of the parts in the display
-> > > > pipeline.
-> > >
-> > > Thanks, I already suspected something like that...
-> >
-> > Sounds like a BSP attempt to model limitations of the DU and/or the PCB
-> > and implement them in the adv7511 driver. There's similar code in the
-> > VGA encoder driver that really doesn't belong there.
-> >
-> > > > I would say that if there are no issues with HDMI output, both the
-> > > > patch and the properties are obsolete.
-> > >
-> > > Anyone with a Draak to verify?
-> >
-> > I don't carry Ulrich's patch in my branch, and last time I checked, HDMI
-> > output was functional. Do you want me to retest ?
-> 
-> I guess no re-testing is needed, and the properties can just be removed.
+Thanks for your work.
 
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On 2021-06-18 13:46:21 +0200, Geert Uytterhoeven wrote:
+> As RZ/G2 SoCs do not support DVFS, the "iic-dvfs" module was renamed to
+> "iic-pmic" in the RZ/G Series, 2nd Generation User’s Manual: Hardware
+> Rev. 1.00.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+> To be queued in renesas-clk for v5.15.
+> 
+>  drivers/clk/renesas/r8a774a1-cpg-mssr.c | 2 +-
+>  drivers/clk/renesas/r8a774b1-cpg-mssr.c | 2 +-
+>  drivers/clk/renesas/r8a774c0-cpg-mssr.c | 2 +-
+>  drivers/clk/renesas/r8a774e1-cpg-mssr.c | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/clk/renesas/r8a774a1-cpg-mssr.c b/drivers/clk/renesas/r8a774a1-cpg-mssr.c
+> index 4a43ebec7d5e297e..39b185d8e95745f4 100644
+> --- a/drivers/clk/renesas/r8a774a1-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a774a1-cpg-mssr.c
+> @@ -210,7 +210,7 @@ static const struct mssr_mod_clk r8a774a1_mod_clks[] __initconst = {
+>  	DEF_MOD("rpc-if",		 917,	R8A774A1_CLK_RPCD2),
+>  	DEF_MOD("i2c6",			 918,	R8A774A1_CLK_S0D6),
+>  	DEF_MOD("i2c5",			 919,	R8A774A1_CLK_S0D6),
+> -	DEF_MOD("i2c-dvfs",		 926,	R8A774A1_CLK_CP),
+> +	DEF_MOD("iic-pmic",		 926,	R8A774A1_CLK_CP),
+>  	DEF_MOD("i2c4",			 927,	R8A774A1_CLK_S0D6),
+>  	DEF_MOD("i2c3",			 928,	R8A774A1_CLK_S0D6),
+>  	DEF_MOD("i2c2",			 929,	R8A774A1_CLK_S3D2),
+> diff --git a/drivers/clk/renesas/r8a774b1-cpg-mssr.c b/drivers/clk/renesas/r8a774b1-cpg-mssr.c
+> index 6f04c40fe237a255..af602d83c8ceeb91 100644
+> --- a/drivers/clk/renesas/r8a774b1-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a774b1-cpg-mssr.c
+> @@ -206,7 +206,7 @@ static const struct mssr_mod_clk r8a774b1_mod_clks[] __initconst = {
+>  	DEF_MOD("rpc-if",		 917,	R8A774B1_CLK_RPCD2),
+>  	DEF_MOD("i2c6",			 918,	R8A774B1_CLK_S0D6),
+>  	DEF_MOD("i2c5",			 919,	R8A774B1_CLK_S0D6),
+> -	DEF_MOD("i2c-dvfs",		 926,	R8A774B1_CLK_CP),
+> +	DEF_MOD("iic-pmic",		 926,	R8A774B1_CLK_CP),
+>  	DEF_MOD("i2c4",			 927,	R8A774B1_CLK_S0D6),
+>  	DEF_MOD("i2c3",			 928,	R8A774B1_CLK_S0D6),
+>  	DEF_MOD("i2c2",			 929,	R8A774B1_CLK_S3D2),
+> diff --git a/drivers/clk/renesas/r8a774c0-cpg-mssr.c b/drivers/clk/renesas/r8a774c0-cpg-mssr.c
+> index ed3a2cf0e0bb26d2..5b938eb2df255afb 100644
+> --- a/drivers/clk/renesas/r8a774c0-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a774c0-cpg-mssr.c
+> @@ -210,7 +210,7 @@ static const struct mssr_mod_clk r8a774c0_mod_clks[] __initconst = {
+>  	DEF_MOD("rpc-if",		 917,	R8A774C0_CLK_RPCD2),
+>  	DEF_MOD("i2c6",			 918,	R8A774C0_CLK_S3D2),
+>  	DEF_MOD("i2c5",			 919,	R8A774C0_CLK_S3D2),
+> -	DEF_MOD("i2c-dvfs",		 926,	R8A774C0_CLK_CP),
+> +	DEF_MOD("iic-pmic",		 926,	R8A774C0_CLK_CP),
+>  	DEF_MOD("i2c4",			 927,	R8A774C0_CLK_S3D2),
+>  	DEF_MOD("i2c3",			 928,	R8A774C0_CLK_S3D2),
+>  	DEF_MOD("i2c2",			 929,	R8A774C0_CLK_S3D2),
+> diff --git a/drivers/clk/renesas/r8a774e1-cpg-mssr.c b/drivers/clk/renesas/r8a774e1-cpg-mssr.c
+> index b96c486abb448003..40c71466df37bd96 100644
+> --- a/drivers/clk/renesas/r8a774e1-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a774e1-cpg-mssr.c
+> @@ -219,7 +219,7 @@ static const struct mssr_mod_clk r8a774e1_mod_clks[] __initconst = {
+>  	DEF_MOD("i2c6",			 918,	R8A774E1_CLK_S0D6),
+>  	DEF_MOD("i2c5",			 919,	R8A774E1_CLK_S0D6),
+>  	DEF_MOD("adg",			 922,	R8A774E1_CLK_S0D1),
+> -	DEF_MOD("i2c-dvfs",		 926,	R8A774E1_CLK_CP),
+> +	DEF_MOD("iic-pmic",		 926,	R8A774E1_CLK_CP),
+>  	DEF_MOD("i2c4",			 927,	R8A774E1_CLK_S0D6),
+>  	DEF_MOD("i2c3",			 928,	R8A774E1_CLK_S0D6),
+>  	DEF_MOD("i2c2",			 929,	R8A774E1_CLK_S3D2),
+> -- 
+> 2.25.1
+> 
 
 -- 
 Regards,
-
-Laurent Pinchart
+Niklas Söderlund
