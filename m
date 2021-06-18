@@ -2,104 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14CA03AC8E9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 12:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA5913AC8FE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 12:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232657AbhFRKgs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Jun 2021 06:36:48 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.24]:14253 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232620AbhFRKgr (ORCPT
+        id S233387AbhFRKnJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Jun 2021 06:43:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49146 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232317AbhFRKnJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Jun 2021 06:36:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1624012470;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=/dVcbnREEYcZgxJ0g1I1q/NVGHK7J/3QRwomRLsRMhA=;
-    b=pzJYy2KeYxIh9tWW/0uWDIAiic4XYjuskn6Nnei2mX0jzVvg3Q3t91e4gNgbJO6j/5
-    I7X1X2pMxz4Ri1HBZTJwUR38euE8VxN3NoceMWjEySJIs3D/MBTJyAPwylTyGMCm2uB5
-    GHGYwXzsuptAVM4h4RjWOZ+KsJh7r2GzJMYSmpltnbdYC57zFmD+TDPqc1pCkH1wbhhT
-    MHGP75T6VNw34atSr+ENpAD4d+TefsF8nVSfrP0xMu0mW+Go9HJqdxQ06iMbQOGrxbCr
-    XKP2IZg1Nxk3dreRfsWFVy+j/YyjXe5bqqt9BicpgO5gnpGUhOamiEX/D2xjtokKnWzQ
-    xRNg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fGk/2mpg+g="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp03-03.back.ox.d0m.de
-    by smtp-ox.front (RZmta 47.27.3 AUTH)
-    with ESMTPSA id x09e06x5IAYU46k
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-    Fri, 18 Jun 2021 12:34:30 +0200 (CEST)
-Date:   Fri, 18 Jun 2021 12:34:30 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Message-ID: <1933675781.264632.1624012470082@webmail.strato.com>
-In-Reply-To: <20210618082317.58408-1-wsa+renesas@sang-engineering.com>
-References: <20210618082317.58408-1-wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH] mmc: disable tuning when checking card presence
+        Fri, 18 Jun 2021 06:43:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B8F40613EE;
+        Fri, 18 Jun 2021 10:40:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624012860;
+        bh=97aa9h+v0rYjZf4kK6kzUPY706Shq0YBWoJvZidGtuY=;
+        h=Date:From:To:Subject:References:In-Reply-To:From;
+        b=U/DEuoneXf0sW5AiR03ACEfxxE+QNZcVHCnKIGSXTTIjjmWG56ozu5lr+bwB2FvrE
+         G7HzMf3DRj9tfP1n8RJ9H/YrtMlwfHm7gZ6qwjEoo964yxTgf0cggYJdl2+JBBBg2+
+         sWjiOgcDe4/D10m7qoTXZ+ii0Um3q2L8rbXfhjBa43/G70FBbfnrCQRjpjCk7ksqqC
+         XI3JG362XNhijcRK8FemWpMzXvdrfqjVO9f7ywFmDBzxtwggmbY38b4mNOg4oVCldw
+         fdBX6owB72i1Ad9a9J7LetwT5gSpACjgbY5s+wbY4NjWvTFHTDX8V6IRPX73/hKDJn
+         y3513mhwVvpEQ==
+Date:   Fri, 18 Jun 2021 12:40:49 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Ulrich Hecht <uli@fpond.eu>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        ulf.hansson@linaro.org
+Subject: Re: [PATCH] mmc: renesas_sdhi: increase suspend/resume latency limit
+Message-ID: <YMx4MSW6H6pH7GIv@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Ulrich Hecht <uli@fpond.eu>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        ulf.hansson@linaro.org
+References: <20210514155318.16812-1-uli+renesas@fpond.eu>
+ <YKUf9TVcKetApd1J@ninjato>
+ <461686971.488794.1622648414815@webmail.strato.com>
+ <YMxWjsAQNt9DG0Ef@ninjato>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.4-Rev25
-X-Originating-Client: open-xchange-appsuite
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vTTn4+9ekWgc4QDc"
+Content-Disposition: inline
+In-Reply-To: <YMxWjsAQNt9DG0Ef@ninjato>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
-> On 06/18/2021 10:23 AM Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
-> 
->  
-> When we use the alive callback, we expect a command to fail if the card
-> is not present. We should not trigger a retune then which will confuse
-> users with a failed retune on a removed card:
-> 
->  mmc2: tuning execution failed: -5
->  mmc2: card 0001 removed
-> 
-> Disable retuning in this code path.
-> 
-> Reported-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  drivers/mmc/core/core.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
-> index 54f0814f110c..eb792dd845a3 100644
-> --- a/drivers/mmc/core/core.c
-> +++ b/drivers/mmc/core/core.c
-> @@ -2088,6 +2088,9 @@ int _mmc_detect_card_removed(struct mmc_host *host)
->  	if (!host->card || mmc_card_removed(host->card))
->  		return 1;
->  
-> +	/* we expect a failure if the card is removed */
-> +	mmc_retune_disable(host);
-> +
->  	ret = host->bus_ops->alive(host);
->  
->  	/*
-> @@ -2107,6 +2110,8 @@ int _mmc_detect_card_removed(struct mmc_host *host)
->  		pr_debug("%s: card remove detected\n", mmc_hostname(host));
->  	}
->  
-> +	mmc_retune_enable(host);
-> +
->  	return ret;
->  }
->  
-> -- 
-> 2.30.2
+--vTTn4+9ekWgc4QDc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-CU
-Uli
+> is finally suspending the device. I will also add do additional
+> suspend/resume tests before I say Tested-by.
+
+So, I could not find a regression. I checked that RPM disables the clock
+between reads and reenables them properly when needed. Also,
+suspend/resume works, even when the resume happens in the middle of a
+transfer. No issues with bus width etc. Looks good.
+
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--vTTn4+9ekWgc4QDc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDMeC0ACgkQFA3kzBSg
+Kbbxgw//ZhuXhhU4f8XYwqRGyfFgBUnfTZT5jJWOgMGYlR/5rUIQfOgKuoBJHmVS
+nZ45llnzYxUeiylBIUhhGSclwZLOrzP0IEt6fY4PyTxj6v4mGWmWk06svC+33Id8
+JhCMtiEYGh/QFaIaMRY0D9Ge8d2vRIxQgKjGPEfz7QLSY4WI29MWMMoC/ud7w2eP
+6VL0+AiTJ7CY+Ngu8yjSnh/GosVli5m48wWb12PmYB6tJVS9sbUiolySBveG9A33
+NrU98gBPvTMCQXeWl3ecBXKcBcMDHZEvldEJIvibuFLbba2FjflBeDdbHVgf+cPt
+F2AVGA6h8lLduRzvFGQ1wxWgnJarurbLca/y5qmX+ElgZW2XiwYrPzjUuD5r+uN7
+BpU95NMkMDKzSx2WNz/u9QveJS4kxG7B3ZMdYZ40+DCZ+DIkS4MyRMVoEo796YAU
+1/RV7hLvK4cMmsX03BgN7SUmhtVceSrGmsT1Bmh4E3AnaWnLHLxdPM4pkAEOzYTT
+f4hp0Yv85ev2XWrXOrY81pS9WHQ335n3weGGyqjoE0Oqi83/kOzZ9flY9zoFNEc6
+T9BlBM4l1w3nkJOVPJJF+bZ6qrZVaSpRDIzhxxPn0ZuTxlEsrD4M4gTUVjfr9Q/U
+NPJ8igoCPNuJMTTkQjsTzLypKW1yR4lSpoaWRmxtZIQHfPDW/ng=
+=ZjyO
+-----END PGP SIGNATURE-----
+
+--vTTn4+9ekWgc4QDc--
