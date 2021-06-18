@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C25C33AC837
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 11:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B77F3AC83C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 11:58:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233184AbhFRKAx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Jun 2021 06:00:53 -0400
+        id S233278AbhFRKA4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Jun 2021 06:00:56 -0400
 Received: from relmlor2.renesas.com ([210.160.252.172]:33508 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232796AbhFRKAx (ORCPT
+        by vger.kernel.org with ESMTP id S233213AbhFRKAz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Jun 2021 06:00:53 -0400
+        Fri, 18 Jun 2021 06:00:55 -0400
 X-IronPort-AV: E=Sophos;i="5.83,283,1616425200"; 
-   d="scan'208";a="84638776"
+   d="scan'208";a="84638784"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Jun 2021 18:58:43 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 18 Jun 2021 18:58:45 +0900
 Received: from localhost.localdomain (unknown [10.226.93.115])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4E09A401BC16;
-        Fri, 18 Jun 2021 18:58:41 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id BAA74401A453;
+        Fri, 18 Jun 2021 18:58:43 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 6/7] drivers: clk: renesas: r9a07g044-cpg: Add DMAC clocks
-Date:   Fri, 18 Jun 2021 10:58:22 +0100
-Message-Id: <20210618095823.19885-7-biju.das.jz@bp.renesas.com>
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 7/7] arm64: dts: renesas: r9a07g044: Add I2C nodes
+Date:   Fri, 18 Jun 2021 10:58:23 +0100
+Message-Id: <20210618095823.19885-8-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210618095823.19885-1-biju.das.jz@bp.renesas.com>
 References: <20210618095823.19885-1-biju.das.jz@bp.renesas.com>
@@ -38,47 +38,105 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add DMAC clock entry in CPG driver.
+Add I2C{0,1,2,3} nodes to RZ/G2 (R9A07G044) SoC DTSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a07g044-cpg.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 80 ++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
 
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index c7be8ede494d..bdede1d28086 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -37,6 +37,7 @@ enum clk_ids {
- 	CLK_PLL5,
- 	CLK_PLL5_DIV2,
- 	CLK_PLL6,
-+	CLK_P1_DIV2,
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+index 544f040a4e1d..b573ce88f4da 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+@@ -89,6 +89,86 @@
+ 			status = "disabled";
+ 		};
  
- 	/* Module Clocks */
- 	MOD_CLK_BASE,
-@@ -86,6 +87,7 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 	DEF_FIXED("TSU", R9A07G044_CLK_TSU, CLK_PLL2_DIV20, 1, 1),
- 	DEF_DIV("P1", R9A07G044_CLK_P1, CLK_PLL3_DIV8,
- 		DIVPL3B, dtable_3b, CLK_DIVIDER_HIWORD_MASK),
-+	DEF_FIXED("P1_DIV2", CLK_P1_DIV2, R9A07G044_CLK_P1, 1, 2),
- 	DEF_DIV("P2", R9A07G044_CLK_P2, CLK_PLL3_DIV16,
- 		DIVPL3A, dtable_3a, CLK_DIVIDER_HIWORD_MASK),
- };
-@@ -100,6 +102,12 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
- 	DEF_MOD("ia55_clk",	R9A07G044_IA55_CLK,
- 				R9A07G044_CLK_P1,
- 				0x518, BIT(1), BIT(0)),
-+	DEF_MOD("dmac_aclk",	R9A07G044_DMAC_ACLK,
-+				R9A07G044_CLK_P1,
-+				0x52c, BIT(0), BIT(0)),
-+	DEF_MOD("dmac_pclk",	R9A07G044_DMAC_PCLK,
-+				CLK_P1_DIV2,
-+				0x52c, BIT(1), BIT(1)),
- 	DEF_MOD("i2c0",		R9A07G044_I2C0_PCLK,
- 				R9A07G044_CLK_P0,
- 				0x580, BIT(0), BIT(0)),
++		i2c0: i2c@10058000 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
++			reg = <0 0x10058000 0 0x400>;
++			interrupts = <GIC_SPI 350  IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 348 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 349 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 352 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 353 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 355 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_I2C0_PCLK>;
++			clock-frequency = <100000>;
++			resets = <&cpg R9A07G044_I2C0_PCLK>;
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
++
++		i2c1: i2c@10058400 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
++			reg = <0 0x10058400 0 0x400>;
++			interrupts = <GIC_SPI 358  IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 356 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 357 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 361 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 359 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 362 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_I2C1_PCLK>;
++			clock-frequency = <100000>;
++			resets = <&cpg R9A07G044_I2C1_PCLK>;
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
++
++		i2c2: i2c@10058800 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
++			reg = <0 0x10058800 0 0x400>;
++			interrupts = <GIC_SPI 366  IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 368 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 369 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 367 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 370 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 371 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_I2C2_PCLK>;
++			clock-frequency = <100000>;
++			resets = <&cpg R9A07G044_I2C2_PCLK>;
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
++
++		i2c3: i2c@10058c00 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
++			reg = <0 0x10058c00 0 0x400>;
++			interrupts = <GIC_SPI 374  IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 372 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 373 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 376 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 375 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_I2C3_PCLK>;
++			clock-frequency = <100000>;
++			resets = <&cpg R9A07G044_I2C3_PCLK>;
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
++
+ 		cpg: clock-controller@11010000 {
+ 			compatible = "renesas,r9a07g044-cpg";
+ 			reg = <0 0x11010000 0 0x10000>;
 -- 
 2.17.1
 
