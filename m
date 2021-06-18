@@ -2,107 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C6F83AC5BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 10:05:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B91BA3AC5CD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 10:17:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232082AbhFRIHn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Jun 2021 04:07:43 -0400
-Received: from mail-vk1-f177.google.com ([209.85.221.177]:33448 "EHLO
-        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231877AbhFRIHm (ORCPT
+        id S231846AbhFRITa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Jun 2021 04:19:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38368 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229848AbhFRIT3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Jun 2021 04:07:42 -0400
-Received: by mail-vk1-f177.google.com with SMTP id j19so1979516vkj.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Jun 2021 01:05:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UkeNYeyS7jeygefv31Kc95a1m86KH7EaECxU89wx/r4=;
-        b=tCGBuGsWJHL8+Ln/zkx7/gM7BqLFb3aNvmZVye8GR3D5BSzskQhtKpTiGOp4jDhlGc
-         jXeddtssszstXKhf3lmzEwmvbOten0Yitw3WeUSaACqym/lsx5u6SnC7J5qAL8DdplRS
-         mwD8rz6+2Mvr2fnHQcgLNahagt9YWfr2O4rG1QkHgSjXJ6Quc/2mFYx4zzqZw5uRcFPk
-         tWkhTMOmGeTBO2LNT92yCRSNrfGr2fjsfhyQKsmWoz99zhsg+wi7AwJZgNGKqTZlT2k9
-         CCFbfe//8t2G0ifeSBUZuoWB6pnD54vUVw7HiB1CVnVGWgzkH+AnHHjUnKUHEdBX4tUG
-         whyg==
-X-Gm-Message-State: AOAM530ID1IEUlZuVvkpV6qeqlKkfcHtkouOXe/+cnSGjc2dHJKhexLS
-        9lHXhgyQzysCeedAKD1fkHKqeNg8TDUjih+4ywI=
-X-Google-Smtp-Source: ABdhPJz2SVqip1zzlENCFchvRkz7tvxlJ/9pQpBzKUNepZ3OTTWlC3Da5XnnWg+LjoH7XVYh4vowe606JW4FDYmW7I4=
-X-Received: by 2002:ac5:cf08:: with SMTP id y8mr4727768vke.2.1624003532133;
- Fri, 18 Jun 2021 01:05:32 -0700 (PDT)
+        Fri, 18 Jun 2021 04:19:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 67EBD6120D;
+        Fri, 18 Jun 2021 08:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624004241;
+        bh=jqwS6iDBiJXSOWn/05eobs8QF6Gg9eW5WUiwoOfUIa4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jhf7C8VzVSchlCEIeQOR7U3OO6zieoOka6lQ8vvro2HaZT5jCj6eqCSB4qZvkH3Iv
+         fUY/47GwLxsXDGrHzTWYMlJWH9OrVqsufMvwysPKaNS5xv145buMHsToVnhHtpB9i6
+         3UMtrwjzWdUQYpuy83iqBvOdqnDpzTyBhbGgPqq1csUN6i6pyaEJqPjP4i2S7xOl8m
+         DG/R3KfaVT+RKXDUKd4Ie/tHBCvy9ueYIXHXG0LR06L7T3mZPGym50gK6kBkZnLyV/
+         lzXjdoOc0cx4QP77ybNxAUpoPQiZ0aFNLW8R9DiJ0Y6Ms1yt8rdCmmQxHjwqZPOBpJ
+         2+S88klk3Sb8g==
+Date:   Fri, 18 Jun 2021 10:17:18 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Ulrich Hecht <uli@fpond.eu>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
+        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        ulf.hansson@linaro.org
+Subject: Re: [PATCH] mmc: renesas_sdhi: increase suspend/resume latency limit
+Message-ID: <YMxWjsAQNt9DG0Ef@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Ulrich Hecht <uli@fpond.eu>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        ulf.hansson@linaro.org
+References: <20210514155318.16812-1-uli+renesas@fpond.eu>
+ <YKUf9TVcKetApd1J@ninjato>
+ <461686971.488794.1622648414815@webmail.strato.com>
 MIME-Version: 1.0
-References: <20180925163337.31212-1-laurent.pinchart+renesas@ideasonboard.com> <20180925163337.31212-5-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20180925163337.31212-5-laurent.pinchart+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 18 Jun 2021 10:05:21 +0200
-Message-ID: <CAMuHMdWX+HxXMB63BKpHcCh7fXAJRt9LfMFjbqM+zEvrK31MfQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] arm64: dts: renesas: r8a77995: draak: Enable HDMI
- display output
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="SqUlJqbQK6D0nCb9"
+Content-Disposition: inline
+In-Reply-To: <461686971.488794.1622648414815@webmail.strato.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent, Ulrich,
 
-On Tue, Sep 25, 2018 at 6:34 PM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
-> From: Ulrich Hecht <uli+renesas@fpond.eu>
->
-> Adds LVDS decoder, HDMI encoder and connector for the Draak board.
->
-> The LVDS0 and LVDS1 encoders can use the DU_DOTCLKIN0, DU_DOTCLKIN1 and
-> EXTAL externals clocks. Two of them are provided to the SoC on the Draak
-> board, hook them up in DT.
->
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+--SqUlJqbQK6D0nCb9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> --- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+Hi Uli,
 
-> @@ -190,6 +225,43 @@
->
->         };
->
-> +       hdmi-encoder@39 {
-> +               compatible = "adi,adv7511w";
-> +               reg = <0x39>, <0x3f>, <0x38>, <0x3c>;
-> +               reg-names = "main", "edid", "packet", "cec";
-> +               interrupt-parent = <&gpio1>;
-> +               interrupts = <28 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +               /* Depends on LVDS */
-> +               max-clock = <135000000>;
-> +               min-vrefresh = <50>;
+> _mmc_detect_card_removed() calls mmc_sd_alive(), which tries to send a
+> command to the SD card to see if it's still there, which in turn
+> triggers the retune. IOW, this is expected to fail, and the error
+> message is misleading.
 
-Where do these two come from? They fail to validate with commit
-cfe34bb7a770c5d8 ("dt-bindings: drm: bridge: adi,adv7511.txt: convert
-to yaml").
-I can't find where it is used in the driver, nor in the driver history.
-Perhaps it was set in some obscure place, and is no longer needed since
-commit 67793bd3b3948dc8 ("drm/bridge: adv7511: Fix low refresh rate
-selection")?
+This makes perfect sense to me. I disabled tuning in
+_mmc_detect_card_removed() and the message is gone, of course. I'll send
+a patch right away. With that sorted out, the patch works for me nicely
+and we have *finally* RPM kicking in for SDHI. Looks good to me.
 
-> +
-> +               adi,input-depth = <8>;
-> +               adi,input-colorspace = "rgb";
-> +               adi,input-clock = "1x";
-> +               adi,input-style = <1>;
-> +               adi,input-justification = "evenly";
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Gr{oetje,eeting}s,
+However, I'd appreciate if Shimoda-san could also test this against his
+test-suite to make sure there are no other issues unearthed now that RPM
+is finally suspending the device. I will also add do additional
+suspend/resume tests before I say Tested-by.
 
-                        Geert
+Good work so far, thanks!
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--SqUlJqbQK6D0nCb9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDMVooACgkQFA3kzBSg
+KbbUNw//bZOUNLwYhEu/NNPDSabO0WHMinTTgEGvHPbQCBLh60N/jSSo3+OeFOQx
+w+VO+ZMP1IU8woWU3x+f/M3VxTnNwOcMbfHoUsWMyLfJuwXtx0uPL70VdrH8u2ay
+VDs5uvbBasdaYYVbZIjvFRzpTKeyH528/Lup9BduLEXd0tRx97kTEthmGL+G0kfi
+H9TOASaAjoOneA8AxRQrYNvIOz62D6oALYqdku4hW0lpI5kG2+g+W+oC/Vk4pEhF
+ZD1IIldtmfITPpC4d+paCkOqHrXrK6aFnBqK89qjV5bHFvBFlb9URTDsnW+kh2DW
+PVcpC8GFC9vRo///KWtzYrAm8UBRkacVw/EN5vPZVV64vjJ2PVOWxoLaBxPmkQy/
+XO9Cs1wX4ZN80osuH+V2Jdix9nqI/x95n5BK4tkKpBk9YLqzOALsisYcy9bEdcSo
+eGdMNZrxaQ1GtrKaF4nU62tL3Sjsfbe3O149uYRSxid/0MF2HibtcUy7vXviZO9f
+cmlP34OXHY71N3hLTLKdO0n68RsCjfJPBUS63urevGM8YWznkSWKWmgWfxcuEmpO
+5JFEBMn6AqN2dgY6ggNSgspq01DUD+rLfJ+bct0nl9NQV8N26FmvUJeAXOd16ymI
+y3hylGAuu5ka937FpYxx1KRofbLMDh/n4g0Tab1d3aqYta3oGxc=
+=iLIO
+-----END PGP SIGNATURE-----
+
+--SqUlJqbQK6D0nCb9--
