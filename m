@@ -2,75 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8778F3AC938
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 12:53:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C64A33AC95E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 13:04:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233628AbhFRKzx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Jun 2021 06:55:53 -0400
-Received: from mail-vk1-f172.google.com ([209.85.221.172]:46594 "EHLO
-        mail-vk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233744AbhFRKzq (ORCPT
+        id S233634AbhFRLGa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Jun 2021 07:06:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55354 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233606AbhFRLG1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Jun 2021 06:55:46 -0400
-Received: by mail-vk1-f172.google.com with SMTP id 184so2036270vkz.13;
-        Fri, 18 Jun 2021 03:53:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=sYxRfw3d4qaZ6McrYDOsqlLWoh2fC/NDUP03irOL83Q=;
-        b=ZzNwhJK4RTzHugsxA4Ln4XN0emPIu+CpNgl2Vow2uD3cnyvbI3jYuXLZS0eLld34AM
-         Exwke0hnCsGkImURv8q37vYoZ2ls1iMRJ1IwASsfc4yn5Cw8iFXBS6p3dXBe5EF3TKon
-         O7GRwWk3UIzLiVcsKEjOwx52ecB4VnklX0QRiQKk/a/0lI9yDWM4CdfklZqdvBzyetGg
-         F1JOxGGvDYKmj4g0BwGQwx8k3YprUFxi459vTMG8KXZJtf7JIpZnY3xw4DXE61mWKk7G
-         mMK6DLF1b6Ywk2GZWeF9ibZvUx4w4lIu8XOFyhjuMlxCSCVnLi0RMbECht9s+PhC9oym
-         IIiA==
-X-Gm-Message-State: AOAM532aoc9T3tGjP9deH/PIBp3Cebg+Vv4LxzgYuDyDB0CLH3Osk47E
-        4SUBykGvCS8wYc78YBvNoI3TrnXkc7ks5B3ab/c=
-X-Google-Smtp-Source: ABdhPJw75HBvQFIABtCnmnhIxHN01rtAFDlpJonWMok5IRC+aCrZDzRnUhOarwgCk3EKXzqfeROzfnBa/ez6Ma6YGqs=
-X-Received: by 2002:a1f:ac45:: with SMTP id v66mr5421719vke.1.1624013616586;
- Fri, 18 Jun 2021 03:53:36 -0700 (PDT)
+        Fri, 18 Jun 2021 07:06:27 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AC79C061280
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Jun 2021 04:04:16 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:104a:f93d:b771:fc40])
+        by laurent.telenet-ops.be with bizsmtp
+        id Jb4C2500J47PYg101b4CXF; Fri, 18 Jun 2021 13:04:13 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1luCIG-000yA4-8t; Fri, 18 Jun 2021 13:04:12 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1luCIF-007GWL-Lu; Fri, 18 Jun 2021 13:04:11 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/5] renesas,iic: Fixes and DT binding to json-schema conversion
+Date:   Fri, 18 Jun 2021 13:04:06 +0200
+Message-Id: <cover.1624013644.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210317091622.31890-1-wsa+renesas@sang-engineering.com>
- <20210317091622.31890-4-wsa+renesas@sang-engineering.com> <CAMuHMdU6=rTHjvcgK8GBzd3OL_9YFqV77=KsAEGJvAVapnhsOQ@mail.gmail.com>
- <YMxpMKH39aYs4Zaz@ninjato> <CAMuHMdW1wr3j8DgL34V3RiHX9qmqo3tfSWxo3VBwHCO1XFMGGg@mail.gmail.com>
- <YMxt9JA0q1HGwS34@ninjato>
-In-Reply-To: <YMxt9JA0q1HGwS34@ninjato>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 18 Jun 2021 12:53:25 +0200
-Message-ID: <CAMuHMdV3fLJBoKOafrOPFnF+_nU+GCFz3V6XpJabBhSPJtLK3g@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] mmc: renesas_sdhi: do hard reset if possible
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+	Hi all,
 
-On Fri, Jun 18, 2021 at 11:57 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > BTW, does it work (really) fine on R-Car Gen3? Mine does.
->
-> Yes, mine does, too. So, I first wondered if the difference is an older
-> SCC variant. But when I let the timeouts run for a while, I get a DMA
-> problem. Which could also be the difference between Gen2 and Gen3 here:
->
-> [   53.328284] WARNING: CPU: 0 PID: 743 at kernel/dma/debug.c:498 add_dma_entry+0x158/0x180
-> [   53.336397] DMA-API: exceeded 7 overlapping mappings of cacheline 0x011807bc
+According to the Hardware User's Manual, automatic transmission for PMIC
+control (DVFS) is not available on RZ/G1, R-Car E3, and RZ/G2E SoC.
+Thanks to various experiments by Wolfram (thanks a lot!) and me, we
+devised this really means that support for automatic DVFS is not
+present, while the IIC automatic transmission feature itself is still
+available, albeit not super useful.
 
-Someone's forgetting to clean up DMA mappings?
+Hence this patch series updates the renesas,iic DT bindings and DTS
+files to always consider all variants and instances compatible with the
+family-specific and generic versions, and converts the bindings to
+json-schema.
 
-Gr{oetje,eeting}s,
+Changes compared to v1[1][2]:
+    - Consider all variants and instances compatible with the
+      family-specific and generic versions.
 
-                        Geert
+I plan to queue patches 2-4 in renesas-devel for v5.15.
+
+Thanks for your comments!
+
+[1] "[PATCH/RFC 4/6] dt-bindings: i2c: renesas,iic: Convert to json-schema"
+    https://lore.kernel.org/r/ecfaf6be5e8c285db2bcc823bb1dd89931fa5c29.1620138454.git.geert+renesas@glider.be
+[2] "[PATCH 0/2] ARM: dts: r8a7745,r8a7794: Remove generic compatible
+    strings from iic blocks"
+    https://lore.kernel.org/r/cover.1620139307.git.geert+renesas@glider.be
+
+Geert Uytterhoeven (5):
+  dt-bindings: i2c: renesas,iic: Always declare generic compatibility
+  ARM: dts: rzg1: Add generic compatible strings to IIC nodes
+  arm64: dts: renesas: r8a774c0: Add generic compatible string to IIC
+    node
+  arm64: dts: renesas: r8a77990: Add generic compatible string to IIC
+    node
+  dt-bindings: i2c: renesas,iic: Convert to json-schema
+
+ .../devicetree/bindings/i2c/renesas,iic.txt   |  72 ---------
+ .../bindings/i2c/renesas,rmobile-iic.yaml     | 149 ++++++++++++++++++
+ MAINTAINERS                                   |   2 +-
+ arch/arm/boot/dts/r8a7742.dtsi                |   4 +-
+ arch/arm/boot/dts/r8a7743.dtsi                |   4 +-
+ arch/arm/boot/dts/r8a7744.dtsi                |   4 +-
+ arch/arm64/boot/dts/renesas/r8a774c0.dtsi     |   6 +-
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi     |   6 +-
+ 8 files changed, 167 insertions(+), 80 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/i2c/renesas,iic.txt
+ create mode 100644 Documentation/devicetree/bindings/i2c/renesas,rmobile-iic.yaml
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
