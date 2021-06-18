@@ -2,127 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16ED63AD042
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 18:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9411F3AD255
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Jun 2021 20:43:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233773AbhFRQYV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Jun 2021 12:24:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42800 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231898AbhFRQYV (ORCPT
+        id S234989AbhFRSpc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Jun 2021 14:45:32 -0400
+Received: from www.zeus03.de ([194.117.254.33]:58654 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230377AbhFRSpc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Jun 2021 12:24:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73F8CC061574;
-        Fri, 18 Jun 2021 09:22:11 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B688E3F0;
-        Fri, 18 Jun 2021 18:22:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624033328;
-        bh=IPVdtd67zPx2N3xgN8+fedqL+w9xqQtUSwdNV5S7Q70=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KyrIXghLwsRe5JMRdOKteSrE/Jl2Q1y5AVw3EzNxCEvSfp15Fr40Yz3o9Sc3BIwlC
-         JO8NBZfpJT7CvAk4Onn2pBxrOyWoKujQEThnueuxJqiUCrF4/hPI5mbg3R109S7nV6
-         zeTRaVlkqRk3M0NYhK1dQ6+zCyy6lBRPruCGw91w=
-Date:   Fri, 18 Jun 2021 19:21:45 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH] media: vsp1: Fix WPF macro names
-Message-ID: <YMzIGSYHrYV2tTQ7@pendragon.ideasonboard.com>
-References: <20210618161041.444987-1-kieran.bingham@ideasonboard.com>
+        Fri, 18 Jun 2021 14:45:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=I5gdECBkz7zsIYjLY7ohPiNWkV6x
+        wkX2+Y6NoWm8fng=; b=wO5lfvOq7pqz/jbHsrbPokfTv5J1e0hQPKfysJwqqsy4
+        OR3pPv+nAmaTjP9QqGpmqi1+jYT6iqhXUDFlDNb1K0tusc9l+A5NxF2TC5AS7VVz
+        kACTElzfBnWgQ9jWf7ejDw0RQTJg/zbCZTpY1WcO+s7weFGAC90gTQrSa6SvwFk=
+Received: (qmail 806836 invoked from network); 18 Jun 2021 20:43:20 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Jun 2021 20:43:20 +0200
+X-UD-Smtp-Session: l3s3148p1@0cpjsg7F0oogAwDPXwaEAFEHweBlyxQF
+Date:   Fri, 18 Jun 2021 20:43:16 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] renesas,iic: Fixes and DT binding to json-schema
+ conversion
+Message-ID: <YMzpRBecpbwwEhyI@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <cover.1624013644.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6oYIEDPASqLcVoDU"
 Content-Disposition: inline
-In-Reply-To: <20210618161041.444987-1-kieran.bingham@ideasonboard.com>
+In-Reply-To: <cover.1624013644.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
 
-Thank you for the patch.
+--6oYIEDPASqLcVoDU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Jun 18, 2021 at 05:10:41PM +0100, Kieran Bingham wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> The WPF IRQ enable and status macros have been incorrectly named WFP.
-> Fix them accordingly, and update all uses of the macros.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Hi Geert,
 
-Wow, and all this time it has escaped our eyes.
+> I plan to queue patches 2-4 in renesas-devel for v5.15.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I like the series! So, I will queue patches 1+5. For the rest:
 
-Feel free to push. Oh, wait... I'm too used to libcamera :-)
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-> ---
->  drivers/media/platform/vsp1/vsp1_drv.c  | 4 ++--
->  drivers/media/platform/vsp1/vsp1_regs.h | 8 ++++----
->  drivers/media/platform/vsp1/vsp1_wpf.c  | 2 +-
->  3 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-> index de442d6c9926..1018786d0437 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -44,7 +44,7 @@
->  
->  static irqreturn_t vsp1_irq_handler(int irq, void *data)
->  {
-> -	u32 mask = VI6_WFP_IRQ_STA_DFE | VI6_WFP_IRQ_STA_FRE;
-> +	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
->  	struct vsp1_device *vsp1 = data;
->  	irqreturn_t ret = IRQ_NONE;
->  	unsigned int i;
-> @@ -59,7 +59,7 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
->  		status = vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
->  		vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
->  
-> -		if (status & VI6_WFP_IRQ_STA_DFE) {
-> +		if (status & VI6_WPF_IRQ_STA_DFE) {
->  			vsp1_pipeline_frame_end(wpf->entity.pipe);
->  			ret = IRQ_HANDLED;
->  		}
-> diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-> index fe3130db1fa2..97942436868c 100644
-> --- a/drivers/media/platform/vsp1/vsp1_regs.h
-> +++ b/drivers/media/platform/vsp1/vsp1_regs.h
-> @@ -32,12 +32,12 @@
->  #define VI6_STATUS_SYS_ACT(n)		BIT((n) + 8)
->  
->  #define VI6_WPF_IRQ_ENB(n)		(0x0048 + (n) * 12)
-> -#define VI6_WFP_IRQ_ENB_DFEE		BIT(1)
-> -#define VI6_WFP_IRQ_ENB_FREE		BIT(0)
-> +#define VI6_WPF_IRQ_ENB_DFEE		BIT(1)
-> +#define VI6_WPF_IRQ_ENB_FREE		BIT(0)
->  
->  #define VI6_WPF_IRQ_STA(n)		(0x004c + (n) * 12)
-> -#define VI6_WFP_IRQ_STA_DFE		BIT(1)
-> -#define VI6_WFP_IRQ_STA_FRE		BIT(0)
-> +#define VI6_WPF_IRQ_STA_DFE		BIT(1)
-> +#define VI6_WPF_IRQ_STA_FRE		BIT(0)
->  
->  #define VI6_DISP_IRQ_ENB(n)		(0x0078 + (n) * 60)
->  #define VI6_DISP_IRQ_ENB_DSTE		BIT(8)
-> diff --git a/drivers/media/platform/vsp1/vsp1_wpf.c b/drivers/media/platform/vsp1/vsp1_wpf.c
-> index 208498fa6ed7..94e91d7bb56c 100644
-> --- a/drivers/media/platform/vsp1/vsp1_wpf.c
-> +++ b/drivers/media/platform/vsp1/vsp1_wpf.c
-> @@ -342,7 +342,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
->  	/* Enable interrupts. */
->  	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_STA(index), 0);
->  	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index),
-> -			   VI6_WFP_IRQ_ENB_DFEE);
-> +			   VI6_WPF_IRQ_ENB_DFEE);
->  
->  	/*
->  	 * Configure writeback for display pipelines (the wpf writeback flag is
+Thanks for doing this!
 
--- 
-Regards,
+Have a nice weekend,
 
-Laurent Pinchart
+   Wolfram
+
+
+--6oYIEDPASqLcVoDU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDM6T8ACgkQFA3kzBSg
+Kba5Rg//XovZVRBMxn5UrFi49mJVf8UgjGy6jcI0DgsiEUX/1R2xzZajXJSRng9K
+DdiG7+XlXYEv6lXLS/KxZz8OBqakmRCxCxoUH50jjUG11BWhZ4uipmULaP2pZgvm
+qkD6mLxbafU4t83UNSbWPc5ZLQ5rPE3AGfN4qSHnE/7tEjG9fzhYupjfNj7oew43
+SQdmn1P2Dn5JWUU2gAXkoSxuL9HqSvv2OTpQoeFKvPaJWEpWVoThJWgTDDrbT7sE
+DYhHWZcwl+ZlI94yq3pRfjQFTIS+AFZZJGIfW5LsOAxQO9fTHn0/c1WHAxaQpS8R
+wCn/LFNLpbcb0mW+BcxM7nuEkxp57K7FjaSgU40nfW9FJ6oBHraGLWfVHveKam1W
+581/QGOwRZIlTQiX5QVZ7cly1YXPBPTAwJSXb/v4wg2dPRD208IBe9nioZmLx9XH
+i++c0o3ft9T/UnxzXKhuuzm2OAzIYwh8Rtk+fiY0Qs/JSQ991bkmi+F46QmiIN8K
+Ca1igV08Pdzj6aKSZkV8qoARl1dQ66fGVDbXFfJ4+bN3vo7QqOeopZHk4Z6G2feN
+KiOPJU0ojjLQcndMABFh9E5K8u5q2/GylAmQhHJR+iMzz5H2UecV32aPyLfn8vZE
+Zrzzdls2a0xmoWwQ0jVPDhhvhwvAm7sfOUe8cnyLjhxnO5ZDGO0=
+=FOJc
+-----END PGP SIGNATURE-----
+
+--6oYIEDPASqLcVoDU--
