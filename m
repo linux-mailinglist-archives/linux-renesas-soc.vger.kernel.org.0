@@ -2,92 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30CFB3AE064
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Jun 2021 22:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0149B3AE078
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Jun 2021 22:55:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbhFTUo2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 20 Jun 2021 16:44:28 -0400
-Received: from www.zeus03.de ([194.117.254.33]:50920 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229915AbhFTUo2 (ORCPT
+        id S230146AbhFTU6C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 20 Jun 2021 16:58:02 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:32794 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229845AbhFTU6B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 20 Jun 2021 16:44:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=q4kklcMSCjeEZDRjP4J0pXWVCBBy
-        8pf2UT874XhCs34=; b=ZcM7c4rFxYQWsv5x4HbTNE3VDCivh/I/GJr+VjwchRRa
-        qfV2tFBR7r4JTkOHm2KWASFjgUdZz0ozltARvxErxudJ1CY/cCOt+D/A8npzffCP
-        9i3cC2FtuvrD0xUqJKWw8gCYV53oDd3+He1/zpqcMvf/tOkvIRxDV2dVoTsBAyA=
-Received: (qmail 1498487 invoked from network); 20 Jun 2021 22:42:14 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Jun 2021 22:42:14 +0200
-X-UD-Smtp-Session: l3s3148p1@mQV6lzjFvKAgAwDPXzseADJuEzJK6i8P
-Date:   Sun, 20 Jun 2021 22:42:13 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Sun, 20 Jun 2021 16:58:01 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 8BC201C0B82; Sun, 20 Jun 2021 22:55:47 +0200 (CEST)
+Date:   Sun, 20 Jun 2021 22:55:47 +0200
+From:   Pavel Machek <pavel@ucw.cz>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 5/5] dt-bindings: i2c: renesas,iic: Convert to
- json-schema
-Message-ID: <YM+oJa0XQUXv6oU/@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>
-References: <cover.1624013699.git.geert+renesas@glider.be>
- <8fc6fdb175d65306e601a4209944a99e1e6fcb09.1624013699.git.geert+renesas@glider.be>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-rtc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: rtc: ti,bq32k: Convert to json-schema
+Message-ID: <20210620205546.GA17070@amd>
+References: <42d9c71b4ee1f120e0cdcf6b266547d29d1fb9a4.1623851377.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nNEq9FDnwdehK7cS"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="y0ulUmNC+osPPQO6"
 Content-Disposition: inline
-In-Reply-To: <8fc6fdb175d65306e601a4209944a99e1e6fcb09.1624013699.git.geert+renesas@glider.be>
+In-Reply-To: <42d9c71b4ee1f120e0cdcf6b266547d29d1fb9a4.1623851377.git.geert+renesas@glider.be>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---nNEq9FDnwdehK7cS
+--y0ulUmNC+osPPQO6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 18, 2021 at 01:04:11PM +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas R-Mobile I2C Bus Interface (IIC) Device Tree binding
+Hi!
+
+> Convert the TI BQ32000 I2C Serial Real-Time Clock Device Tree binding
 > documentation to json-schema.
 >=20
 > Document missing properties.
-> R-Mobile A1 and SH-Mobile have multiple interrupts.
-> Update the example to match reality.
 >=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Applied to for-next, thanks!
+> index 0000000000000000..392bd71bd1bee25c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/rtc/ti,bq32000.yaml
+> @@ -0,0 +1,49 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/rtc/ti,bq32000.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI BQ32000 I2C Serial Real-Time Clock
+> +
+> +maintainers:
+> +  - Pavel Machek <pavel@ucw.cz>
 
+I'm not sure why I'm listed here, but I probably should not be. I
+don't have access to that hardware any more.
 
---nNEq9FDnwdehK7cS
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--y0ulUmNC+osPPQO6
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDPqCQACgkQFA3kzBSg
-KbYCqw/+MQaqPvtGgBaK6TjJgAhsIqknfi978bFzU/JthXHRohVUwKuFpkrXY7U1
-6hfnOxB2OR8FcASt06anQ7yeAZmx58EJU0DN5iwEvYolwb6O6eoAeGV3uR8cRxVu
-xfFigO2g+s8fsdhoFgQOgAC5G5mjJWm1HXLSTAh4yXkJD344SUcb7KauK78SokH5
-y+7U/DGnZGTqpRXPHurMoSR9Yy5KnU/YjNSIbdS3ELbMOv1oh47mPERqR1y47fwx
-EdqbvNjx31mIraW0reTUE4DXZfzJNnxUHERZscz7cdSZmMKNgURHJsrdgaFcfKTK
-1qZUxcJQnh1JD5JIb3NsmKDXlA7eene07gNQJ29FzlLP+czqDFePZ7okuwK1WNqg
-4WZjhBPMWXOF83AqzxwBzFRlf0KXHE+v8E7Ph4MHohqFcfG0BFulBMaKW1zx1VJq
-BFTCZO0zluczQH29W8zy9jPeg4RJrSq+o/LFQqouklTxGJvBuxfgG9ULENYjwhWc
-hlHFQhleR2C1Jl7/U/t6u0wD4H5Dd7Ohu1TDuIh243XfBjPJpubvAXHvkXjHAdTB
-R0uNpZWFSXMfPLI9/Cu6a5J43/9C1BuaJ+Qt9/uzyPNOdyLK7Ygr9yyVkfIIh9mg
-flhYLCjgO+6tgMQUlQmEeKQqnu5ljbPC46wqdq/bbGboajNRrPY=
-=S18R
+iEYEARECAAYFAmDPq1IACgkQMOfwapXb+vII/ACfeeS/6nYeSpaDAuJ7dFSn9p7Z
+fDcAnjkOxmjx5fnxYNKT8tDw7G8wlyc9
+=J16w
 -----END PGP SIGNATURE-----
 
---nNEq9FDnwdehK7cS--
+--y0ulUmNC+osPPQO6--
