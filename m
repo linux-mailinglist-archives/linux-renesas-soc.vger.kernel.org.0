@@ -2,51 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF0883AE058
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Jun 2021 22:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 626B43AE05C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Jun 2021 22:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229901AbhFTUhz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 20 Jun 2021 16:37:55 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:42365 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230204AbhFTUhx (ORCPT
+        id S229915AbhFTUoI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 20 Jun 2021 16:44:08 -0400
+Received: from www.zeus03.de ([194.117.254.33]:50778 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229897AbhFTUoI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 20 Jun 2021 16:37:53 -0400
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 0A739240005;
-        Sun, 20 Jun 2021 20:35:38 +0000 (UTC)
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Rob Herring <robh+dt@kernel.org>,
+        Sun, 20 Jun 2021 16:44:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=oGBDtaLCRYxKLuiNto47hLrUe6iq
+        IFEyq3rpq71mPPw=; b=Ya4JIrn7xQfJhGVbRb0futYX5TQvnfaaFCwYZyYroYyl
+        lwXcS22qLFHHzLdmYuY8hp+Ky4EQRYYiT/IkkCQENoihgpWBwvmBUXA8Ex/YE8WB
+        MwLnYHbDDI+mIC2176gT4UU3Au+2a4alcfGC1iyWx6nYM5VXKtXzM/vzkng3Xvs=
+Received: (qmail 1498167 invoked from network); 20 Jun 2021 22:41:52 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Jun 2021 22:41:52 +0200
+X-UD-Smtp-Session: l3s3148p1@U3gJljjFtqAgAwDPXzseADJuEzJK6i8P
+Date:   Sun, 20 Jun 2021 22:41:48 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rtc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: rtc: ti,bq32k: Convert to json-schema
-Date:   Sun, 20 Jun 2021 22:35:37 +0200
-Message-Id: <162422133368.1091383.6886477741733498842.b4-ty@bootlin.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <42d9c71b4ee1f120e0cdcf6b266547d29d1fb9a4.1623851377.git.geert+renesas@glider.be>
-References: <42d9c71b4ee1f120e0cdcf6b266547d29d1fb9a4.1623851377.git.geert+renesas@glider.be>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: i2c: renesas,riic: Document RZ/G2L
+ I2C controller
+Message-ID: <YM+oDO6MiTdwTopm@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20210615085400.4251-1-biju.das.jz@bp.renesas.com>
+ <20210615085400.4251-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="yWTRkghC0kLYN4EP"
+Content-Disposition: inline
+In-Reply-To: <20210615085400.4251-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 16 Jun 2021 15:51:43 +0200, Geert Uytterhoeven wrote:
-> Convert the TI BQ32000 I2C Serial Real-Time Clock Device Tree binding
-> documentation to json-schema.
-> 
-> Document missing properties.
 
-Applied, thanks!
+--yWTRkghC0kLYN4EP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1/1] dt-bindings: rtc: ti,bq32k: Convert to json-schema
-      commit: 4a7e7408688de048bffa5e0e00d246b5f854bcf7
+On Tue, Jun 15, 2021 at 09:53:59AM +0100, Biju Das wrote:
+> Document RZ/G2L I2C controller bindings.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Best regards,
--- 
-Alexandre Belloni <alexandre.belloni@bootlin.com>
+Applied to for-next, thanks!
+
+
+--yWTRkghC0kLYN4EP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDPqAQACgkQFA3kzBSg
+KbacnQ/9HliN5XI+gKNE0BXrLs01J0lK5nKzsRWtHuFbLfy4tjU+YXrs1VN7jTI0
+Xaj+wiOCWkm4GiFc+RvUBw0/GhYX9iVMwtEhl4ZZjOIEQMUX4PNvxM7gIiTaMznq
+NHZ0ThLwr0eCIW/tIRycgvRlyJDYsBKa8+37RJMI4/V46VHBrEFfrCNPugxqNBQO
+KK0n5DKQuLR4vKdvLvc72KsMqrQdPqBx9VzXZM8j4/BdN0iDNiByk30YKNhnspfo
+FwXXuwu2o1ez+0fUaPyjjfb5iFMn+goyDM57AmLcemnaO4+mcYIkoU3SeVzUMfBL
+IO4VwNreRzNCoXqkJyMAOGJwTPqvyjhNibEW92FSRx3ealrxJ9Cp2nUQ9HYml5wx
+SlCcmEchOk9F/BZMnEu8YHEypBL3Wu2Wo69jE7bz4uOJdQQcPwh/yHYdWEW2fQYI
+UcWKacfjOcyU5xuhySdmnlSp5GKrhE4iuF8awL8n3n5ITMdRpUPO3UEbc+SkOyeD
+qd+KG09nBB5SIjyNqCLmMuIAj9/ba5ARewfWZjwK/IER3vTiziDlQdkzhmpENwy9
+GgLcTTWT82BpPj3wTCmlpX/zD+Ld+D4tB5kCBfNLmA3TTbZtUOCsmFGwpIh3nfDu
+8w/PsMaErSNkqZZovOk20veFNaZlkKGiPmLMkKki9sgyiBZeBug=
+=pMD+
+-----END PGP SIGNATURE-----
+
+--yWTRkghC0kLYN4EP--
