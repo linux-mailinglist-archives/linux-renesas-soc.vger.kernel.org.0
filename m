@@ -2,94 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 644BA3AE44F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jun 2021 09:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C8CA3AE466
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jun 2021 09:54:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230189AbhFUHoX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Jun 2021 03:44:23 -0400
-Received: from mail-vk1-f169.google.com ([209.85.221.169]:42602 "EHLO
-        mail-vk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbhFUHoV (ORCPT
+        id S229641AbhFUH4q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Jun 2021 03:56:46 -0400
+Received: from mga01.intel.com ([192.55.52.88]:29911 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229618AbhFUH4q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Jun 2021 03:44:21 -0400
-Received: by mail-vk1-f169.google.com with SMTP id y30so2647659vke.9;
-        Mon, 21 Jun 2021 00:41:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3+Xam//Oc2mo0N99zqv9MSYzVFrmCg9uwZC0FSTjR2E=;
-        b=BK7Z8nxWXkInW0IcXMVJiUiZdW9fORp1v2qpwazKGnigyJ+RlrOUXwOT2T8hiz7c60
-         my++PsCuIR/0X1ahk4jGObjt8q9SXnen7L3iH8pWbnTuJsqi2rmA0ZeisVo7GKNbnGYG
-         HJeH13kP+IxUY4Xu+mgy07jBcJjx+i8OUTqzfxtoyKn/bLg/TCSlCj/z8vs4Mk3avJDl
-         KbAIBr+wQ4FfxkJ+yngt7aQse3y27E771Q1oQQsaqRjNe31pvuIEpBwRfjGTpkGTrGT1
-         AZCR62XZUDsvLCEJj6NwcQlW/fw0DryfV3u3I5GnITHlLOJwUurglEmzO+ftrtPEpxKT
-         I5+w==
-X-Gm-Message-State: AOAM533LDZFtvIRho/ZrR847GnHRtIG/gynKBMBfriop+3O+e3r/lA68
-        5S8eD2ACEjRKHcDpf+XMueJ+vPKiYqLKXjEz7PU=
-X-Google-Smtp-Source: ABdhPJwUGiA4tn0aGijm5qAD0hIQnS2zruY7gbs5BsxC4o+uPMK5G+PUTK+B6Ys6LtrPsmax4PMha9TzjKL5RC9IN4A=
-X-Received: by 2002:a1f:1a41:: with SMTP id a62mr13252035vka.5.1624261282759;
- Mon, 21 Jun 2021 00:41:22 -0700 (PDT)
+        Mon, 21 Jun 2021 03:56:46 -0400
+IronPort-SDR: H/YQgShm9N09fNoC+sCVqxZ4Nx+cSxoJzniiOsXRDE6EA95NiamVMxvvL5FqoHrnuMK5dBElQR
+ R4ZJ2grZPCig==
+X-IronPort-AV: E=McAfee;i="6200,9189,10021"; a="228339714"
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; 
+   d="scan'208";a="228339714"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2021 00:54:32 -0700
+IronPort-SDR: ePunD3aphre132Ee0xHHXqV5EuQ660HRoOOItg4ledEjyfdzsq1+kYisl0blsZbPURZ4uTtV+G
+ Zoa9oPb8DbTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; 
+   d="scan'208";a="405542812"
+Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.79]) ([10.237.72.79])
+  by orsmga006.jf.intel.com with ESMTP; 21 Jun 2021 00:54:30 -0700
+Subject: Re: [PATCH] mmc: disable tuning when checking card presence
+To:     Ulrich Hecht <uli@fpond.eu>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20210618082317.58408-1-wsa+renesas@sang-engineering.com>
+ <CAPDyKFqkW9uwtJyWPFKggi2AJMtO4NJLW-6hviWgGSfoHyDm1A@mail.gmail.com>
+ <bbfbed66-5058-1263-159c-dabd345286c8@intel.com>
+ <563832257.373371.1624260736936@webmail.strato.com>
+From:   Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
+ Business Identity Code: 0357606 - 4, Domiciled in Helsinki
+Message-ID: <5adc8601-23c7-4378-94e2-cb3641d9039c@intel.com>
+Date:   Mon, 21 Jun 2021 10:54:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <42d9c71b4ee1f120e0cdcf6b266547d29d1fb9a4.1623851377.git.geert+renesas@glider.be>
- <20210620205546.GA17070@amd>
-In-Reply-To: <20210620205546.GA17070@amd>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Jun 2021 09:41:11 +0200
-Message-ID: <CAMuHMdXwjpwe_mTXtEC7rKkCty7qmS8pjUAWwpY3pE-BPV+C_g@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: rtc: ti,bq32k: Convert to json-schema
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-rtc@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <563832257.373371.1624260736936@webmail.strato.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Pavel,
+On 21/06/21 10:32 am, Ulrich Hecht wrote:
+> 
+>> On 06/21/2021 9:15 AM Adrian Hunter <adrian.hunter@intel.com> wrote:
+>> Can we clarify, is the only problem that the error message is confusing?
+> 
+> AFAICT there are no ill effects of the retune failing apart from the error message.
+> 
 
-On Sun, Jun 20, 2021 at 10:55 PM Pavel Machek <pavel@ucw.cz> wrote:
-> > Convert the TI BQ32000 I2C Serial Real-Time Clock Device Tree binding
-> > documentation to json-schema.
-> >
-> > Document missing properties.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> > index 0000000000000000..392bd71bd1bee25c
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/rtc/ti,bq32000.yaml
-> > @@ -0,0 +1,49 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/rtc/ti,bq32000.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: TI BQ32000 I2C Serial Real-Time Clock
-> > +
-> > +maintainers:
-> > +  - Pavel Machek <pavel@ucw.cz>
->
-> I'm not sure why I'm listed here, but I probably should not be. I
-> don't have access to that hardware any more.
+So maybe the simplest thing to do is just amend the message:
+e.g.
 
-You wrote the bindings, and are the only person who ever modified
-the file before.
-I see Alexandre has already assumed maintainership in the mean time.
+diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
+index 4e52eb14198a..5cbf05e331c4 100644
+--- a/drivers/mmc/core/core.c
++++ b/drivers/mmc/core/core.c
+@@ -936,13 +936,22 @@ int mmc_execute_tuning(struct mmc_card *card)
+ 		opcode = MMC_SEND_TUNING_BLOCK;
+ 
+ 	err = host->ops->execute_tuning(host, opcode);
+-
+ 	if (err)
+-		pr_err("%s: tuning execution failed: %d\n",
+-			mmc_hostname(host), err);
+-	else
+-		mmc_retune_enable(host);
++		goto out_err;
++
++	mmc_retune_enable(host);
+ 
++	return 0;
++
++out_err:
++	if (mmc_card_is_removable(host)) {
++		if (err != -ENOMEDIUM)
++			pr_err("%s: tuning execution failed: %d (this is normal if card removed)\n",
++			       mmc_hostname(host), err);
++	} else {
++		pr_err("%s: tuning execution failed: %d\n",
++		       mmc_hostname(host), err);
++	}
+ 	return err;
+ }
+ 
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
