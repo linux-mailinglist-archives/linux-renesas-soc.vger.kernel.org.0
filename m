@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFC043AF2BF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jun 2021 19:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 308313AF32E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jun 2021 19:58:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232299AbhFUR4c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Jun 2021 13:56:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39062 "EHLO mail.kernel.org"
+        id S232027AbhFUSAE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Jun 2021 14:00:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39046 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232303AbhFURzK (ORCPT
+        id S232136AbhFUR6D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Jun 2021 13:55:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C329961357;
-        Mon, 21 Jun 2021 17:52:43 +0000 (UTC)
+        Mon, 21 Jun 2021 13:58:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EC64461026;
+        Mon, 21 Jun 2021 17:53:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624297964;
-        bh=9vC0oU6syjYGdklmjia7zQ2uiRzVS9zWBv0i7cZ6amQ=;
+        s=k20201202; t=1624298020;
+        bh=02Y6e3yR52rQTL00zjp3aZEJEqPN/kUlX4YwZMjPUYE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oxiEEFKW0d0+rqLvzfuDu07fjNY+zRuu6xaB6AzKgH7zfVOLieqX9EQyRNt+uINND
-         6vNTrfteKy7kK6hz7XtIFWGaEbSm2uFX1IGmMAzpYqV3tgQFxLAtWZyA3kS/4GcCo8
-         GwiC+j07Xg6xXMEiedcel0Vy9E8Ce+tCgniGA+sXqFv/45yS17pMz8tYaMXsORa3ZQ
-         G9Hpt3pZHaEXxkLQWgKcnAVw+/Ndu039Wu3FomVF6KOnvoqXocVnsh5zhN8+a35dCZ
-         LnqxjFovsWF2QHILpVt5RT3GuVkO+qEVxIA7KuneLLokUxfYQrLTqTCYBN75KssM6L
-         afbBo6v2R5cWA==
+        b=EDxp7aw5mXNXvJYW9TK9iUb5jiC0mpQpMBnyDnWfpjUFZ/ejcgfp8HPjdF0mkHAvl
+         05Rok5nKTDmr9MaaCIXwr2xfeZrWY+C9UV6XXcGqA7xi9C892lieD10IhNjeCssyEX
+         iQsZvTy73Zf5eO96nBcYjobllwkKTW0hf5c0PJI4m2vbh3bV0yzC3sg0aZizymhcWy
+         kJY0o3Ly25hO6ppbhaZl/KjMFkfVQoRvm7r0GQCrAU8MLCnjeqarZQb79XHovgDRON
+         dmo4ex3CobeHa2SU/OVygiVh9AI9osNqvh1WONIpl4q0P5vQifjpdOH+JJ3xa6xY8F
+         7Jtaf4IuQTw8A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Kees Cook <keescook@chromium.org>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 29/39] sh_eth: Avoid memcpy() over-reading of ETH_SS_STATS
-Date:   Mon, 21 Jun 2021 13:51:45 -0400
-Message-Id: <20210621175156.735062-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 26/35] sh_eth: Avoid memcpy() over-reading of ETH_SS_STATS
+Date:   Mon, 21 Jun 2021 13:52:51 -0400
+Message-Id: <20210621175300.735437-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210621175156.735062-1-sashal@kernel.org>
-References: <20210621175156.735062-1-sashal@kernel.org>
+In-Reply-To: <20210621175300.735437-1-sashal@kernel.org>
+References: <20210621175300.735437-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -64,7 +64,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-index f029c7c03804..393cf99856ed 100644
+index 6d84266c03ca..5cab2d3c0023 100644
 --- a/drivers/net/ethernet/renesas/sh_eth.c
 +++ b/drivers/net/ethernet/renesas/sh_eth.c
 @@ -2287,7 +2287,7 @@ static void sh_eth_get_strings(struct net_device *ndev, u32 stringset, u8 *data)
