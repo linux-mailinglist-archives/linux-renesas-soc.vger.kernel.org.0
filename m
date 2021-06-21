@@ -2,87 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F8D13AE7A9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jun 2021 12:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B85C13AE7DA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jun 2021 13:04:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229747AbhFUKyd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Jun 2021 06:54:33 -0400
-Received: from www.zeus03.de ([194.117.254.33]:42328 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229663AbhFUKyc (ORCPT
+        id S229804AbhFULGT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Jun 2021 07:06:19 -0400
+Received: from mail-ua1-f42.google.com ([209.85.222.42]:37642 "EHLO
+        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229641AbhFULGT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Jun 2021 06:54:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=uWDD7xbRO6Kqze37DNeKpPkUb4ab
-        JIX7qGhxZkJR048=; b=Z2a7vE/sFn/TiCO0zwL0UhdvyWw/PdWmY4z7HxN5d5g5
-        P5qfT8P0jGQSDL9E/Q2c3qbw2VBfHS0j7GKrh3ypFQoXQXqVfX1peZjz+oGXoqK2
-        xsPQc+Z99UOroDZQZFC3oP4ii2Eit/eChZ1MGRmc8iQ6IKveV1Uo6YrVnm4t7cQ=
-Received: (qmail 1739759 invoked from network); 21 Jun 2021 12:52:16 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jun 2021 12:52:16 +0200
-X-UD-Smtp-Session: l3s3148p1@0qM1d0TFytIgAwDPXw3kAHnQA53/oBwK
-Date:   Mon, 21 Jun 2021 12:52:11 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] mmc: renesas_sdhi: sys_dmac: abort DMA synced to avoid
- timeouts
-Message-ID: <YNBvWxZTqgnAjKo9@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20210621070009.13655-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdULBPfd97xqDaFOTmj-B2pBA=wSKz3iep6ujx47j1zyPg@mail.gmail.com>
+        Mon, 21 Jun 2021 07:06:19 -0400
+Received: by mail-ua1-f42.google.com with SMTP id f34so6181090uae.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Jun 2021 04:04:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uPUsGchIZ6bXU4q2jWS0k80WUp/+NvqHfkslZ8zQI+U=;
+        b=PM/i4zIB2vqG0gxi+AqXj9w+90K7hmqBV/Y53/tawkA3k2xbQhXwDWDAGfUWh/5KVC
+         uLNjC2Fvebk2Ri6JYM6vL2TV1Zx+LjR2BGhtTAXcpKRjsl/w8LR8w66ImTBinSKuTeqB
+         fKt9jUlGK1L3wF/1EkVlL0ikujbIcAM3exL795AP9vrEdVh0dwLt2Ta3NRt1qABj8MTu
+         xnCUICPif3gK8x2zogdbKnyPF0HsfdTPGbf8+VmGjjetflaUjUcvZGiOz5sLGXY68yqE
+         c++8l1YU66BqqBF3XJgX508t+VVRtgWKdjPw55/kjiAOMvVIRO/zvwJRXyIo6izTDhg2
+         nybw==
+X-Gm-Message-State: AOAM531vq6nzVWS9sxOxBK18HwwjZCy/evYA1i6Mk9NWSG6yZWPCN8i6
+        8InM0/jrzCLUSJxV6GMXv5HZ+peZGo9TCK5s4SFvJKUp4B+Hjg==
+X-Google-Smtp-Source: ABdhPJyi82MM1BpXqunG4T+WfJ70OJo5jq6/DKKUjEwoCCwMZ9Uu9ejDnXE6JQBdkr2ZMm/iwA16V85gjNZZRitVlN4=
+X-Received: by 2002:ab0:70b3:: with SMTP id q19mr21114562ual.2.1624273444774;
+ Mon, 21 Jun 2021 04:04:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SULLAeE6PawYWeNX"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdULBPfd97xqDaFOTmj-B2pBA=wSKz3iep6ujx47j1zyPg@mail.gmail.com>
+References: <162416647337.11444.4467438519249633023.sendpatchset@octo> <162416648909.11444.15000511904887495628.sendpatchset@octo>
+In-Reply-To: <162416648909.11444.15000511904887495628.sendpatchset@octo>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 21 Jun 2021 13:03:53 +0200
+Message-ID: <CAMuHMdVx-6m0wE-D_6ZUhsLc=wX13eMYLOGkKhcT-6L=YbrwVQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77970: eagle: Add SW2 support
+To:     Magnus Damm <damm@opensource.se>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Magnus,
 
---SULLAeE6PawYWeNX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, Jun 20, 2021 at 8:01 AM Magnus Damm <damm@opensource.se> wrote:
+> From: Magnus Damm <damm+renesas@opensource.se>
+>
+> Add support for SW2 via "gpio-keys" on the R-Car V3M Eagle board.
+>
+> Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
 
+Thanks for your patch!
 
-> > Geert, this fixes the issue you have seen on your Koelsch board on my
-> > Lager board. Can you test again with this patch please?
->=20
-> Unfortunately it does not fix the issue with my SanDisk Extreme 32GB
-> A1 microSD card in the microSD adapter that came with the card
-> (Conrad 1553726):
+> --- 0001/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
+> +++ work/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts 2021-06-19 19:26:28.399714892 +0900
+> @@ -8,6 +8,8 @@
+>
+>  /dts-v1/;
+>  #include "r8a77970.dtsi"
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/input/input.h>
+>
+>  / {
+>         model = "Renesas Eagle board based on r8a77970";
+> @@ -43,6 +45,42 @@
+>                 };
+>         };
+>
+> +       keys {
+> +               compatible = "gpio-keys";
+> +
+> +               pinctrl-0 = <&keys_pins>;
+> +               pinctrl-names = "default";
+> +
+> +               key-1 {
+> +                       gpios = <&gpio1 21 GPIO_ACTIVE_LOW>;
+> +                       linux,code = <KEY_1>;
+> +                       label = "SW2-1";
+> +                       wakeup-source;
+> +                       debounce-interval = <20>;
+> +               };
+> +               key-2 {
+> +                       gpios = <&gpio1 22 GPIO_ACTIVE_LOW>;
+> +                       linux,code = <KEY_2>;
+> +                       label = "SW2-2";
+> +                       wakeup-source;
+> +                       debounce-interval = <20>;
+> +               };
+> +               key-3 {
+> +                       gpios = <&gpio1 23 GPIO_ACTIVE_LOW>;
+> +                       linux,code = <KEY_3>;
+> +                       label = "SW2-3";
+> +                       wakeup-source;
+> +                       debounce-interval = <20>;
+> +               };
+> +               key-4 {
+> +                       gpios = <&gpio1 24 GPIO_ACTIVE_LOW>;
+> +                       linux,code = <KEY_4>;
+> +                       label = "SW2-4";
+> +                       wakeup-source;
+> +                       debounce-interval = <20>;
+> +               };
+> +       };
+> +
+>         lvds-decoder {
+>                 compatible = "thine,thc63lvd1024";
+>
+> @@ -196,6 +234,11 @@
 
-Pity. Interestingly, unlike yesterday, my card works fine with
-SDHI0/SDR104 now even without my patch. It fails on SDHI2/SDR50 with a
-timeout, despite no tuning. Back to the drawing board, I guess...
+>                 function = "i2c0";
+>         };
+>
+> +       keys_pins: keys {
+> +               pins = "GP_1_21", "GP_1_22", "GP_1_23", "GP_1_24";
 
+While Section 2.11 ("GPIO Interfaces for Debugging") of the "R-CarV3M
+System Evaluation Board / Eagle Hardware Manual" (Rev 0.08) says:
 
---SULLAeE6PawYWeNX
-Content-Type: application/pgp-signature; name="signature.asc"
+    When using the software switches, enable the internal pull-up
+    functions of GP1_21, GP1_22, GP1_23, and GP1_24.
 
------BEGIN PGP SIGNATURE-----
+I think GP_1_21 should be dropped, as it's already pulled-up by R427.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDQb1cACgkQFA3kzBSg
-KbavUA/9FhI801mlD+CJTMDvAIB0dXCGzo9zjxSfeelEgGxB0Nl85r87YUDu99wV
-Rh82iYETbKNBDx7iiVz+f+SXU1R/ZX123MXr+EWLjf5jOSjeV4yLUclq/V5uKtD5
-Rln3P8Zgm1GRpR10/IIaPT8FpkQAoTT0uUYbcHsBFetZMRmUqfp4uHDmj7CgmxuY
-2c8xKRntzKbTmv+zf30KTDsIx/zQaF/WxSub3KBuL3+z8o24avHv8/gN+cpycoJp
-LJW3JjeGADKV4ifAcp8LqXZuKKSNF6c5435SnpLdRilLgSG2wtEJFkRizygwLAUE
-8p8SV9CY4Ff4ZdsGhPEEptz6EuvsfNxi1cvs34856RuX2yNYyuw20aJ5ZGIoaDT7
-iUHTRNqOJacJ6qRtH7QumP24s3nr6dofAXUImgSVYjTsLqAM0gUb1OqEE0H2ynUS
-LGm5JzFI8Ila6UvX+19qaWC1HI9MpBkLkaMazOG7OqDMMK+tGMfX/PpP+S4OJAHL
-NX73azrgR7bqFH1xrEjFLPQPhOzYsAmGWZcxqmEa2VHqR6NsmOlPUKPNSTqnB354
-XeFBjwSB0byfttZKmVp+hyyQFDrKnTqW9usNJ13izA0NNT93hPKRQelWNtU+Q8dW
-fzG99Z2LR/JUPH4uUlApwSQqZNr5vCrbyWGKVP3mu28S3wa9TIM=
-=tyAX
------END PGP SIGNATURE-----
+Furthermore, as the Eagle DTS has CANFD enabled, SW2-1 and SW2-2
+are not available, so both should be dropped.
 
---SULLAeE6PawYWeNX--
+Presumably you have SW32=on, so SW2-2 works, and CANFD doesn't?
+Probably we should document this in the DTS.
+
+> +               bias-pull-up;
+> +       };
+> +
+>         qspi0_pins: qspi0 {
+>                 groups = "qspi0_ctrl", "qspi0_data4";
+>                 function = "qspi0";
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
