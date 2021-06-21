@@ -2,151 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBECE3AE370
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jun 2021 08:45:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 676913AE388
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jun 2021 08:51:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230346AbhFUGrP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Jun 2021 02:47:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230056AbhFUGrE (ORCPT
+        id S229583AbhFUGyL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Jun 2021 02:54:11 -0400
+Received: from mail-eopbgr1410134.outbound.protection.outlook.com ([40.107.141.134]:43138
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229576AbhFUGyL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Jun 2021 02:47:04 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66C93C06124C
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Jun 2021 23:44:49 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id t32so1510942pfg.2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Jun 2021 23:44:49 -0700 (PDT)
+        Mon, 21 Jun 2021 02:54:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oJdXg2x/YRIpAoTrU24DYMPTZic6Yh/sIbXZg/qo7Yj62cjHXQ5yhDmEtm7mvqvvGc7ZALAdUnUzbRZqWKSgbE82eZLbCmxdTjXeUe2jUWqSehjBbfjjSyqEIzfwTdQWDMzEFxryqgGxktJESlizbfEpfLU6EhGsTsMuKTWgpZil+wbhPw45T0TCV7QIaLcFEptV1DdANjqiyg6hHmSkNFF/sSfWRxmbS1MhXI0w1y7HGc1Etrbv7gJP7UGDWBIvTX3TfQlrsk0kfPx9FGQ7Sp5wc9r3XGuRzPZ12U2AEICCbC4h1NjWeWiTgW9pfD7FwWWclmahf4irskezGRLZFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4+PjeYuHx/OPBFa7lG5SqTWb7MyCNvbEXlirCxpQ3z0=;
+ b=Q8WKQXG2DK1quguUlA/nZ0rmSxvPVFQLU6c9ShWVQRQNYNG2zxPsbhv5DJrdHzlbiGJIC0pHPC8T7nw+bAwzu5hd2JK8NEd8BvH1eNd4FwrdDlJaA33ucgHgwcKPFBV3uqahVi1j/EcEhig2pIkZ8IF1JQM24NCZ6s2UAbtqpjbVaeQe6Bv84mSdv1niRRGAWxFo+kHlC7ROJKaqGV9rtBPLULqfI6fqL0g3bBiu9++8aNd6rVMKuFBa8iaQN/rQUht/MePsUaH4X64phe1hwV8olRDTdOFrtFJfszfey/+JTgX+UMQ00pyJbBI/pz5MQ8UqcHA/s0ap779ud/nlTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=MByV6cpfz5xYL+DMP3l1hiWnj/Gzo6aYK3LpWdzWngw=;
-        b=b29mzE46OF31Q0CDVIkCAi2dK/16TmoZc6FE32WuI0K0eE59eopnCwAo/XS+aCT4GD
-         vB678ZVcP9xoXMVTsUk/OR0Mp4ts1fhMvmiktvVyUyAQTpBttVz8JcQwp4b1Tdconwgw
-         8zZWW7a9Xn2iGmAREWcAEk1GMReMXDFhOUGuG5ciepZCDjsZIk+ArbLPLDhRJy9/mGdh
-         zW0hRFKpx3RbUO24fU/jL3PEyRpQhlckS0HPgcphPygMzI+PY49rzRGCrpTxkecJs8q2
-         zy/GFkZ04RTUajYooN0PEQZQKFt5xsLgIJa5cBfu8VOd3Gdtpi0WXSeUA6RDAdJVgT63
-         yZog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=MByV6cpfz5xYL+DMP3l1hiWnj/Gzo6aYK3LpWdzWngw=;
-        b=NfV22FUgnAzBbrRCJrUUfq3gEiF3mpZrSvxDR70V6r0IxKmLs0ykpZsJgvOS0ZhDDV
-         cR+B4UStf6lnrT6Kco9AwqeQj67i5L/MPYjB/239sqf8smfo/TOKAXo36eWc0mixZubD
-         6pYHepDN0SikAMP4SsmTDdJad+XbaS1C2tmsUrz7Hw2VZOGb4TE2NJVfuIPuiyeV6/II
-         1CUp3Wo02HCO2T3Qxi+eKv0qANpDqflpSe0xRRbwa2zhUbnLLpDo7C9dsKHFm5asvU6l
-         hCX5N4NXOSgQu/TUcPxP8jv18AAjWdKJjTo8Qt8U8ZRc4o6ohI6L6wxax5P5tXCDceUC
-         5ErA==
-X-Gm-Message-State: AOAM530OAkxOZ/gg96hN+BkdG6LzCzMIxFvmK+EYlQIoIouB8UwFqKgi
-        ZQec4/ZHzp5rqIzbo9Qg56F8mQ==
-X-Google-Smtp-Source: ABdhPJwH4/eLR8eUZGuKN8dGXC6akwtVCwhZ4Ipv8+e+H+PA4zXKM/he9uNlz8M414i8BGg/A2nyGQ==
-X-Received: by 2002:a63:ed08:: with SMTP id d8mr22298931pgi.373.1624257888998;
-        Sun, 20 Jun 2021 23:44:48 -0700 (PDT)
-Received: from localhost.localdomain ([240b:10:c9a0:ca00:61b8:26ec:dc30:8823])
-        by smtp.gmail.com with ESMTPSA id o34sm12744450pgm.6.2021.06.20.23.44.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jun 2021 23:44:48 -0700 (PDT)
-From:   Tomohito Esaki <etom@igel.co.jp>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, Tomohito Esaki <etom@igel.co.jp>
-Subject: [PATH 4/4] doc-rst: Add virtual DRM documentation
-Date:   Mon, 21 Jun 2021 15:44:03 +0900
-Message-Id: <20210621064403.26663-5-etom@igel.co.jp>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210621064403.26663-1-etom@igel.co.jp>
-References: <20210621064403.26663-1-etom@igel.co.jp>
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4+PjeYuHx/OPBFa7lG5SqTWb7MyCNvbEXlirCxpQ3z0=;
+ b=kKXV3Xutez0iB/8gQSkvoOMNfSfv7E/WcngvDE1T6A1n0OkgNGqmCIKj8PLmbG/mAf5oHSQIVFNXmwwJAN4vJDo+kThyRvHrBqaHWQGPbdaitpvi/mZoImOeFR916y5zFP+GGi+MzKaHbj20D8fCPr0UYWaNyu6G0YKbZwPJVX0=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSAPR01MB3298.jpnprd01.prod.outlook.com (2603:1096:604:5d::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.21; Mon, 21 Jun
+ 2021 06:51:55 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b834:5e50:2ce8:9ae0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b834:5e50:2ce8:9ae0%3]) with mapi id 15.20.4242.023; Mon, 21 Jun 2021
+ 06:51:55 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Vinod Koul <vkoul@kernel.org>
+CC:     Kishon Vijay Abraham I <kishon@ti.com>,
+        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 3/6] phy: renesas: Add RZ/G2L usb phy control driver
+Thread-Topic: [PATCH 3/6] phy: renesas: Add RZ/G2L usb phy control driver
+Thread-Index: AQHXXsg+0Hn6baZgBke1a3QXZhR4E6sd6fqAgAAr+pA=
+Date:   Mon, 21 Jun 2021 06:51:55 +0000
+Message-ID: <OS0PR01MB592274EF688BD78B501119AC860A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20210611134642.24029-1-biju.das.jz@bp.renesas.com>
+ <20210611134642.24029-4-biju.das.jz@bp.renesas.com>
+ <YNAR4XKMLHsdWzbM@vkoul-mobl>
+In-Reply-To: <YNAR4XKMLHsdWzbM@vkoul-mobl>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=bp.renesas.com;
+x-originating-ip: [193.141.219.20]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4bf68158-3fc6-4324-5c3b-08d934810ef9
+x-ms-traffictypediagnostic: OSAPR01MB3298:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSAPR01MB3298F96C91F8E8DBB048D435860A9@OSAPR01MB3298.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: zWMbbmFNagz6QhU8cQP7E7p2Ankdd4udSo9+PgccbeIQD/JT/4F9foPXwS9k6se/0eSAyl7eRm2l0yMohcWtAKoDoSylIbBbMMRP7uM7PULh3RiEMlyFo8osFuXgT4z8nb2kBIaWUxf1UmvomZihTqVCIgk+iMEDNOC27EUaCkcckh7nDGsZo0s9KQdyakAwOQOxGrNyfsMezecXWL2wQP4wJydN19jMOrGB8Vw3n8SfqzxJb17v1ZJQT3Y7MyCxGpyQVEH3ivW62XWWHHwfX/KRSnrH16M+0a7tLgGJYaEZ5oK0j6STD9w3VPmjmdDeHAmqc6OgoEKTDQJf4U1rcj13CvDsdyYVwinOWNxKRzKCEjl7L16yC7Zya3Q/6kjltBoGd3NjnKH9HzuJUQ+RzE8enMdhlZPpCk1NwpUHkvYwE/XVbXoy7U2/7COM1DwdAkNShpprKaDVs2GzUcfLBpqS2AN/CxTquERF6qhitod4wwV2BORxxCvW2J9bbYcu31idqyG00JJFgZzd1Lmm7oVd3tcXGLLsgBq+hqmAEjsRTFmC2UxkA7BiOHpsBN/7vjedSWdpRe4KOjZNfgEjdmo2O+pQrIcB0I7gUWiyGFk=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(136003)(376002)(366004)(39860400002)(478600001)(54906003)(8676002)(9686003)(38100700002)(316002)(186003)(71200400001)(55016002)(122000001)(26005)(8936002)(86362001)(2906002)(66556008)(66946007)(66476007)(66446008)(64756008)(76116006)(5660300002)(33656002)(6506007)(52536014)(7696005)(53546011)(6916009)(4326008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?qDql3KQ0aet+POHYzeaJjGAP6zCEcl6K3ggdtQ5cYO7nwqJIYl+6hAVivj0E?=
+ =?us-ascii?Q?AgKwdEBv5sgCzePmhx0JmQPe5/qf+KUroaqZXwcLD+36b306VQFBT2pOTMRt?=
+ =?us-ascii?Q?UipZNVGQTlFBMbdGPuzajKYe6u4Z2FCMFuE4yLb/DT6RAqxHqot9j5/svDfU?=
+ =?us-ascii?Q?gpgDxXnlvkjlMSC1cItOJFTriWcZWdtYvREGxcCUq1YIfJJQF5vgdXtrYzKP?=
+ =?us-ascii?Q?Y9Q6PuGj2lenqtZS3dSp7m7dQGjAW9eAW4qFi0LCi7hjYHT/rofaR7a90Vtm?=
+ =?us-ascii?Q?tpoys6luSHPoXPXUIsLER1n36+AJtfMoxt4gxVE+aBjCbwnxfZTVOVbMbMFz?=
+ =?us-ascii?Q?c+O9LXH+wzZRUyMSRPTa7ByhjHw7V7ZI59kSTRF1eCIY8/rG1hbsxI7BOLLU?=
+ =?us-ascii?Q?96hYcU2ngj5M1arHfKfiimmWxgIZnucwjLvBUbIaJKpR333BWUqIGqMj15qd?=
+ =?us-ascii?Q?Sk/z6mx0DhPdvaoZDX9ONebr0aQUZppmIoEetomu3X39Mwah0ATHA+oH7EFp?=
+ =?us-ascii?Q?amkKt8apfV96kgcQa//wl7nkMU8y4XDAT5LDx41jDbnGA9J95IPfleWFKJUu?=
+ =?us-ascii?Q?b9gfDLVbRpVp1PlSPXbGGnRR0MfMJZshcwrCP17C0dCC01wNgRWrvETjk7l+?=
+ =?us-ascii?Q?NbQSnDGiuoLaYi2w7t8diVmlHC/aAc3FmemjoBL6ux61aIcFRXpVhrWb+0Nt?=
+ =?us-ascii?Q?1x+dAh2IbVF6ehIdaJJEc1PdqSDgjnvUplUcUeX9xVke3OuIUPdwXk0Y3AQ4?=
+ =?us-ascii?Q?RqaC9o/9OkE6v9NsUvAhYEElNR/Xee/kTYNX8R8WvbGcW2Y9LnqUSPdFTAKY?=
+ =?us-ascii?Q?fugaZUw7pVTEQggKto/JpDS0wvPO1YcSeGU4aNSFSKQc7vw7Vu3tOOSb95Bv?=
+ =?us-ascii?Q?FLwOAqfcxEcdlj2wBSMlvHQIW53PV2Ztc1gYoJBP3CW4pIMEpfK2iSdYeBPJ?=
+ =?us-ascii?Q?dn2g/ka9ePbyjF54NEXFaHK/GLvM9W7ajeqPlW7o9SAFu4qMztQhcwKk24Vm?=
+ =?us-ascii?Q?M3quqY205AiI4PfD31PAXgjSdUh4dNOAG/SSBwy7XqGTik/kxSVaKKmhNkrC?=
+ =?us-ascii?Q?E/4fYjScbW40W8lQqn6nIvLfq9LuxAao0ZXENmNrj0PXwPZtBUxYwd81L4RF?=
+ =?us-ascii?Q?JapS4egvYdYZt6eWC8d0unBpLwe3/Y4bV/fsKuoIUQVhSjghjf0yofWWJj0V?=
+ =?us-ascii?Q?/8bW2gaugxqpmi13SKOqk+8NjLJgHCPLwYte4DTiPg3EN3DeTKZf8jE4PblF?=
+ =?us-ascii?Q?gJTb9p3w+sSGh+h63ek+OnH7hR4up+GEXEEnwf2p1Sf2f9WAepxr5gRaXRJF?=
+ =?us-ascii?Q?Ldl79+en+5p5o9A0cicEmKip?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bf68158-3fc6-4324-5c3b-08d934810ef9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2021 06:51:55.4581
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: M0llXl5M0u/I2SeuAZyJqG4bEfex9NgUItNlclRQzcz1vqW4w4LKorLactn2JHGEdccUhro11AYu+z6zdLmvRi3FtzSr9J0kfNbUgU/YO5I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3298
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
----
- Documentation/gpu/drivers.rst |  1 +
- Documentation/gpu/vdrm.rst    | 51 +++++++++++++++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
- create mode 100644 Documentation/gpu/vdrm.rst
+Hi Vinod,
 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index b4a0ed3ca961..bad0226de972 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -19,6 +19,7 @@ GPU Driver Documentation
-    xen-front
-    afbc
-    komeda-kms
-+   vdrm
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/gpu/vdrm.rst b/Documentation/gpu/vdrm.rst
-new file mode 100644
-index 000000000000..2ab1699c2f42
---- /dev/null
-+++ b/Documentation/gpu/vdrm.rst
-@@ -0,0 +1,51 @@
-+=============================
-+ drm/vdrm virtual DRM driver
-+=============================
-+
-+Virtual DRM splits the overlay planes of a display controller into multiple
-+virtual devices to allow each plane to be accessed by each process.
-+
-+This makes it possible to overlay images output from multiple processes on a
-+display. For example, one process displays the camera image without compositor
-+while another process overlays the UI.
-+
-+The virtual DRM creates standalone virtual device and make DRM planes from a
-+master device (e.g. card0) accessible via one or more virtual device. However,
-+these plane are no longer accessible from the original device.
-+Each virtual device (and plane) can be accessed via a separate device file.
-+
-+The virtual DRM driver doesn't directly control the display hardware and has
-+no access to the physical bus. Instead, the virtual DRM driver issues requests
-+to the standard DRM device driver ("master" driver) when the hardware needs to
-+be controlled. The master driver is modified to notify the virtual DRM driver
-+of interrupt events from the display hardware.
-+
-+Plane position and size
-+=======================
-+The initial position, size and z-position of the plane used in virtual DRM is
-+specified in the device tree. The position and size of the planes are set as
-+properties and can be updated. The name of each property is as
-+follows:
-+* vdrm_offset_x: x-coordinate of the left-top of the plane on the screen
-+* vdrm_offset_y: y-coordinate of the left-top of the plane on the screen
-+* vdrm_width: width of the plane
-+* vdrm_height: height of the plane
-+
-+Virtual DRM Functions Reference
-+===============================
-+
-+.. kernel-doc:: drivers/gpu/drm/vdrm/vdrm_api.h
-+    :internal:
-+
-+.. kernel-doc:: drivers/gpu/drm/vdrm/vdrm_drv.c
-+    :export:
-+
-+Driver limitations
-+==================
-+1. Each virtual DRM device only supports one plane per CRTC.
-+
-+2. Virtual DRM doesn't support hot plug connector.
-+
-+3. If virtual DRM has multiple CRTCs, the initial position and size of the
-+   virtual DRM planes is the same for all planes, since they cannot be set
-+   for each plane in the device tree.
--- 
-2.25.1
+Thanks for the feedback.
 
+> Subject: Re: [PATCH 3/6] phy: renesas: Add RZ/G2L usb phy control driver
+>=20
+> On 11-06-21, 14:46, Biju Das wrote:
+> > +static int rzg2l_usbphycontrol_probe(struct platform_device *pdev) {
+> > +	struct device *dev =3D &pdev->dev;
+> > +	struct rzg2l_usbphycontrol_drv *drv;
+> > +	struct phy_provider *provider;
+> > +	u32 val;
+> > +	int n;
+> > +
+> > +	if (!dev->of_node) {
+> > +		dev_err(dev, "device tree not found\n");
+> > +		return -EINVAL;
+> > +	}
+>=20
+> why do you think this would happen?
+
+Not needed. Will take out.
+
+>=20
+> > +
+> > +	drv =3D devm_kzalloc(dev, sizeof(*drv), GFP_KERNEL);
+> > +	if (!drv)
+> > +		return -ENOMEM;
+> > +
+> > +	drv->base =3D devm_platform_ioremap_resource(pdev, 0);
+> > +	if (IS_ERR(drv->base))
+> > +		return PTR_ERR(drv->base);
+> > +
+> > +	for (n =3D 0; n < NUM_PORTS; n++) {
+> > +		struct rzg2l_phyctrl *phy =3D &drv->phyctrl[n];
+> > +
+> > +		phy->phy =3D devm_phy_create(dev, NULL, &rzg2l_usbphyctrl_ops);
+> > +		if (IS_ERR(phy->phy)) {
+> > +			dev_err(dev, "Failed to create USBPHY Control\n");
+> > +			return PTR_ERR(phy->phy);
+> > +		}
+> > +
+> > +		if (n =3D=3D 1)
+> > +			phy->phy_reset_port_mask =3D PHY_RESET_PORT2;
+>=20
+> this looks inverted, should this logically not be:
+Agreed. Will change this in v2.
+
+>                 if (n =3D=3D 0)
+>                         phy->phy_reset_port_mask =3D PHY_RESET_PORT1; ?
+>=20
+> > +		else
+> > +			phy->phy_reset_port_mask =3D PHY_RESET_PORT1;
+> > +
+> > +		phy->drv =3D drv;
+> > +		phy_set_drvdata(phy->phy, phy);
+> > +	};
+> > +
+> > +	provider =3D devm_of_phy_provider_register(dev,
+> > +						 rzg2l_usbphycontrol_xlate);
+>=20
+> single line pls
+OK.
+
+Regards,
+Biju
+
+>=20
+> --
+> ~Vinod
