@@ -2,100 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1EA23AECC1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jun 2021 17:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F234E3AED14
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Jun 2021 18:05:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230021AbhFUPvd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Jun 2021 11:51:33 -0400
-Received: from mail-vk1-f169.google.com ([209.85.221.169]:33285 "EHLO
-        mail-vk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230161AbhFUPvc (ORCPT
+        id S230299AbhFUQHm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Jun 2021 12:07:42 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:58721 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230269AbhFUQHm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Jun 2021 11:51:32 -0400
-Received: by mail-vk1-f169.google.com with SMTP id j19so3847816vkj.0;
-        Mon, 21 Jun 2021 08:49:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RuGKBjbp+BrEpqSxTDuG5X4dZC+D6zrmLacYTuAQECM=;
-        b=ntKH96gBgCjuW2VgX8j2Gef0MhiNpz1d/Q7TPRRiXJtIX60GTfZryg8HG9ES9ZDFsI
-         oacMBi0dHgaHxKYukrh/h7KW1Ysoucb5V8SNljkpqU29mt4vrNYJln2nLAFDDOzqC15M
-         CiQMbW3QeOHVYLFZo13plMfKWilZ5RxknenPNhj1qkMItn9zgZYKqcZw8VF5aiuyF/At
-         Z9h8FpvH1LNwKlh6ga/zrFXtJOPGCNcMYyavNNshqQmMLECEN68DFuO57kTxxiHfUXAv
-         t5OswxexQTDj1WCx2NfVWiAaESVYej+1kp+oRkl8WMb8/FxZwUeNZCaW+uBSlUB8GAQM
-         ylEw==
-X-Gm-Message-State: AOAM530W7C+iNhVbPyIgiSXRWuJbMtxpB7mxGcYZ/xSyBLLA1gxWNVu3
-        ekARBKvdcTCf8mlp1DUut/YqRV9yK8f9kMKYqaXIF5i0d/3vTA==
-X-Google-Smtp-Source: ABdhPJyS5c3rK85zSmf0huiWWk8sFkZU238pJgFHUaF6ZTCQqQWxme6RMPvYrgB+GOQm3VZDu/z49zB/BFIhF1c7en8=
-X-Received: by 2002:a1f:d8c3:: with SMTP id p186mr14697150vkg.1.1624290556467;
- Mon, 21 Jun 2021 08:49:16 -0700 (PDT)
+        Mon, 21 Jun 2021 12:07:42 -0400
+Received: from [192.168.1.155] ([95.118.106.223]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MZkYx-1lk6xC1s2h-00WmrM; Mon, 21 Jun 2021 18:05:13 +0200
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+To:     Tomohito Esaki <etom@igel.co.jp>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     dri-devlel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20210621062742.26073-1-etom@igel.co.jp>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <7cde82a9-c60c-e527-eeac-eaad0c5842a1@metux.net>
+Date:   Mon, 21 Jun 2021 18:05:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210618095823.19885-1-biju.das.jz@bp.renesas.com> <20210618095823.19885-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210618095823.19885-2-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Jun 2021 17:49:04 +0200
-Message-ID: <CAMuHMdXLrfU99sQCbwLFifqrV4B94pzGi_DWbBvpS4-Y=Z09RA@mail.gmail.com>
-Subject: Re: [PATCH 1/7] dt-bindings: clk: r9a07g044-cpg: Update clock definitions
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210621062742.26073-1-etom@igel.co.jp>
+Content-Type: text/plain; charset=utf-8
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ZbI1RWxgocInH9UAHR6iDpdy/HJfu+bSz9Z2X6RE6gibrXly73l
+ jgZ0HUAoSMsj7eoB5ficazIKQQImXBnqqX2nwA5iCta+OFxwBSPp+g3pewEOIcOyXuIuow8
+ 014MAuba7Mrjwdeg9uyraO9/kmwtPM9bgTed9LHI0YvjIEILWKw2mbLTS+TKbsirguCmb1l
+ Pc7g9+dSHBO6o7BUd964w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9n13vlzoNqk=:aRYaqiT6BrZI+UguW1PoVs
+ uKEvRY4VdRhJ1AGsObSRE0Zio4gd5xjOcoZp8/i3dgG9mTVi1BaP4Hr3hl2kYHzyiWnU3h7lq
+ f3vuhAIWUEmLCcUvTjpmis93jBwALK+Cy4+iwe54TuXQgWy3RkMwzaNOW2vfNLuRR2V81G+MW
+ wJqjlRYzpj0PPgbUPbxv2tuGB3t8+Bw7P3FUOBx/t5PITs9rIl9In/EJ7b6BXUD7/8CyHT0H5
+ 8CAEQvPZBolbeQB2Fw03q47wkUlSNUhbyR2Y9zqfTwiPhXKAPQ3EWmkEJNlC/L4ohbVYQdWFt
+ dq2thHVhGplX2hxpFXV66AHWvqa4XlQY3XBSfID9NzEgBOFCzrSQ6r13gdRoJtmLGp7ioGsfJ
+ X3WJLozX3qXwyPr+5shDb5FE3XFfWv53mbXRC1dGlAOeVD4+w3QQnPoaQEf0NB1MIWP85UgNT
+ 4HtMcAcK1u/txzMFb2mNGcSrUBn25NaH7N32DK/f0anyPmd6sZLrEEC3n7MQSfvlK1d2lOIWx
+ kcFLj+HgeTtJuk6HyEnm2Y=
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On 21.06.21 08:27, Tomohito Esaki wrote:
 
-On Fri, Jun 18, 2021 at 11:58 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Update clock definitions as per the RZG2L_clock_list(Rev.02) manual.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi,
 
-Thanks for your patch!
+> Virtual DRM splits the overlay planes of a display controller into multiple
+> virtual devices to allow each plane to be accessed by each process.
+> 
+> This makes it possible to overlay images output from multiple processes on a
+> display. For example, one process displays the camera image without compositor
+> while another process overlays the UI.
 
-> --- a/include/dt-bindings/clock/r9a07g044-cpg.h
-> +++ b/include/dt-bindings/clock/r9a07g044-cpg.h
+Are you attempting to create an simple in-kernel compositor ?
 
-> +#define R9A07G044_USB_SCLK             73
+I don't think that's not the way to go, at least not by touching each
+single display driver, and not hardcoding the planes in DT.
 
-It looks like USB_SCLK cannot be gated, but is driven directly from
-OSCCLK, so I think it should be left out, and the DTS should just
-reference R9A07G044_OSCCLK
+What's the actual use case you're doing that for ? Why not using some
+userland compositor ?
 
-> +#define R9A07G044_ETH0_CLK_AXI         74
-> +#define R9A07G044_ETH0_CLK_CHI         75
-> +#define R9A07G044_ETH0_REFCLK          76
-> +#define R9A07G044_ETH1_CLK_AXI         77
-> +#define R9A07G044_ETH1_CLK_CHI         78
-> +#define R9A07G044_ETH1_REFCLK          79
+If you really wanna build a kernel compositor, it should be completely
+independent of hw drivers. (well, almost - in case of gpus shall be
+used, the commands obviously need to be dispatched the actual driver)
 
-According to the Hardware User's Manual, ETH0_REFCLK and  ETH1_REFCLK
-cannot be gated (see the note for CPG_CLKMON_ETH), so I think it
-should be left out, and the DTS should just reference R9A07G044_CLK_HP.
 
-The rest of the clocks look good to me.  Some are still missing, but they
-can be added later.
-
-I do think we need a separate list of definitions for resets.  While
-simple modules like SCIF and I2C have a one-to-one mapping from
-clock bits to reset bits for, this is not the case for all modules.
-E.g. SDHI has 4 clocks per instance, but only a single reset signal
-per instance, while CANFD has a single clock, but two reset signals.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+--mtx
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
