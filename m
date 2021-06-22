@@ -2,153 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A5773B0AB9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 18:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01FF93B0AF6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 18:59:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231352AbhFVQ5S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Jun 2021 12:57:18 -0400
-Received: from mail-io1-f54.google.com ([209.85.166.54]:36713 "EHLO
-        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230182AbhFVQ5R (ORCPT
+        id S230182AbhFVRBO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Jun 2021 13:01:14 -0400
+Received: from mail-il1-f175.google.com ([209.85.166.175]:33742 "EHLO
+        mail-il1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230076AbhFVRBO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Jun 2021 12:57:17 -0400
-Received: by mail-io1-f54.google.com with SMTP id s19so14336618ioc.3;
-        Tue, 22 Jun 2021 09:55:01 -0700 (PDT)
+        Tue, 22 Jun 2021 13:01:14 -0400
+Received: by mail-il1-f175.google.com with SMTP id z1so9137294ils.0;
+        Tue, 22 Jun 2021 09:58:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Nst9vbRv3atdsjiAwZVyleOKg/gFLJsFk5FhmXQlxQw=;
-        b=DxZ5e5mKsAkEECIccCAPv9tAUPCs8zTmDxoKWsPy0y+mMtWznX/7sz/5Hv7Y8bq/5s
-         0GNjJN25xZv4ZAEp+TrLHBbd5roOfiW0lsiSmHqkCmJKUFCu5lUpROuRw0+PxWYLHQvI
-         S4dGuyaCcFR9QsSLo2gm5bfQOJtitqPUvA6ZUlMcOZPZCiCEXbMpPbYX3nwDKCvgJrpZ
-         1ECYaPWWbADBPn/7/cYBGBlEEu692oRcBgjSF7aKNlZimD/DtrKNbkNJcW5eFk+ugtwf
-         7LLsOkCYDaqn/AuNrvotKDGP0EhEHTSZD+HOyFh2GGMUv8Swrn8nJue27rbWnxvktx/A
-         xlGg==
-X-Gm-Message-State: AOAM532z1O1g8nZuSLoUFFGfWJZHiC9u2GEHrkxfcaATbsvYMyYKkNMt
-        y6/+gMNc3Ac/wYwuL6Vma9pZV6FoBw==
-X-Google-Smtp-Source: ABdhPJwxes1QyEmFowKSsudJkkyqhfPKqc6A8x0/51AML0FVdLusi2ElghJUf8zau5B5LBuX3hvUjQ==
-X-Received: by 2002:a05:6638:12cd:: with SMTP id v13mr4854440jas.104.1624380900931;
-        Tue, 22 Jun 2021 09:55:00 -0700 (PDT)
+        bh=LsZRslTqg7fuj2glyUnRDUtW0t7V3r4Eh+jP25psiYA=;
+        b=cArNuoH4FXfC/kD0jl6+CVoSS5PaCVBtlPLNhI1oVocNOv3sqnMJPPcS8mDnl+Gtb3
+         usyy2AifZBHDFSD7N3yI4k/vELCW3JoOixky2xopAfn6RrLZHspHd3pOuFm1iokdqWtW
+         x+hrPmkRF7n/74P51ZwLCcHe4HjLE0jhKxJBhbNc0boEX56Rrwr9EQDgUHsUd8aDPs7R
+         uey+G35NCGFBPToMWmmgI9tth94LQI45QTc6Ax+RT5irGMYmQmzIR9NsjUqz47QTwblW
+         QnliDKD5VtuoIeTtRTj4WLS0TevLQLs+TmgEc2jacToh7HTRCs7bBgqcKkZ0/ZJsz/Qs
+         1dbg==
+X-Gm-Message-State: AOAM531lsTy2u+gug8XxjuLsTDxAuDky6agn360d62Y8oWTN7Tn0HS+d
+        /XpvrUR13x00TTm3lAvYIA==
+X-Google-Smtp-Source: ABdhPJzgjRJsYlROHHbtiBHKPUccSnwLseG1lY6GPKVUd6HQM/6j52GqK8QKMC64yih29uRWItX9wQ==
+X-Received: by 2002:a92:3f01:: with SMTP id m1mr3416158ila.122.1624381137433;
+        Tue, 22 Jun 2021 09:58:57 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id g4sm2282474ilk.37.2021.06.22.09.54.57
+        by smtp.gmail.com with ESMTPSA id k21sm360710ios.0.2021.06.22.09.58.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 09:55:00 -0700 (PDT)
-Received: (nullmailer pid 3837213 invoked by uid 1000);
-        Tue, 22 Jun 2021 16:54:56 -0000
-Date:   Tue, 22 Jun 2021 10:54:56 -0600
+        Tue, 22 Jun 2021 09:58:56 -0700 (PDT)
+Received: (nullmailer pid 3843418 invoked by uid 1000);
+        Tue, 22 Jun 2021 16:58:51 -0000
+Date:   Tue, 22 Jun 2021 10:58:51 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Tomohito Esaki <etom@igel.co.jp>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATH 3/4] dt-bindings: display: Add virtual DRM
-Message-ID: <20210622165456.GA3756306@robh.at.kernel.org>
-References: <20210621064403.26663-1-etom@igel.co.jp>
- <20210621064403.26663-4-etom@igel.co.jp>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 01/11] dt-bindings: phy: renesas: Document RZ/G2L USB
+ PHY Control bindings
+Message-ID: <20210622165851.GA3840386@robh.at.kernel.org>
+References: <20210621093943.12143-1-biju.das.jz@bp.renesas.com>
+ <20210621093943.12143-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210621064403.26663-4-etom@igel.co.jp>
+In-Reply-To: <20210621093943.12143-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 03:44:02PM +0900, Tomohito Esaki wrote:
-> Add device tree bindings documentation for virtual DRM.
-
-DRM is a Linuxism. What's virtual DRM? Why does it need to be in DT? 
-What's the usecase? You're going to need a lot more reasoning to justify 
-this for DT.
-
+On Mon, Jun 21, 2021 at 10:39:33AM +0100, Biju Das wrote:
+> Add device tree binding document for RZ/G2L USB PHY control driver.
 > 
-> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->  .../devicetree/bindings/display/vdrm.yaml     | 67 +++++++++++++++++++
->  1 file changed, 67 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/vdrm.yaml
+> V1->V2:
+>  * Add clock properties
+> ---
+>  .../phy/renesas,rzg2l-usbphyctrl.yaml         | 65 +++++++++++++++++++
+>  1 file changed, 65 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/renesas,rzg2l-usbphyctrl.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/vdrm.yaml b/Documentation/devicetree/bindings/display/vdrm.yaml
+> diff --git a/Documentation/devicetree/bindings/phy/renesas,rzg2l-usbphyctrl.yaml b/Documentation/devicetree/bindings/phy/renesas,rzg2l-usbphyctrl.yaml
 > new file mode 100644
-> index 000000000000..6493bb0fc09f
+> index 000000000000..8e8ba43f595d
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/vdrm.yaml
-> @@ -0,0 +1,67 @@
+> +++ b/Documentation/devicetree/bindings/phy/renesas,rzg2l-usbphyctrl.yaml
+> @@ -0,0 +1,65 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/vdrm.yaml#
+> +$id: http://devicetree.org/schemas/phy/renesas,rzg2l-usbphyctrl.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Virtual DRM Device Tree Bindings
+> +title: Renesas RZ/G2L USB2.0 PHY Control
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
 > +
 > +description:
-> +  This document defines device tree properties virtual DRM. The initial
-> +  position, size and z-position of the plane used in the virtual DRM is
-> +  specified.
-> +  The current limitation is that these settings are applied to all crtc.
+> +  The RZ/G2L USB2.0 PHY Control mainly controls reset and power down of the
+> +  USB/PHY.
 > +
 > +properties:
 > +  compatible:
-> +    const: virt-drm
+> +    items:
+> +      - enum:
+> +          - renesas,r9a07g044-usbphyctrl # RZ/G2{L,LC}
+> +      - const: renesas,rzg2l-usbphyctrl
 > +
-> +patternProperties:
-> +  "^plane(@.*)?$":
-> +    description: Information of the planes used in virtual DRM
-> +    type: object
+> +  reg:
+> +    maxItems: 1
 > +
-> +    properties:
-> +      x:
-> +        type: int
-> +        description: x-coordinate of the left-top of the plane in pixels
+> +  clocks:
+> +    maxItems: 1
 > +
-> +      y:
-> +        type: int
-> +        description: y-coordinate of the left-top of the plane in pixels
+> +  resets:
+> +    maxItems: 1
 > +
-> +      width:
-> +        type: int
-> +        description: width of the plane in pixels
+> +  power-domains:
+> +    maxItems: 1
 > +
-> +      height:
-> +        type: int
-> +	description: height of the plane in pixels
-> +
-> +      zpos:
-> +        type: int
-> +        description: z-position of the plane
-> +
-> +    required:
-> +      - x
-> +      - y
-> +      - width
-> +      - height
-> +      - zpos
+> +  '#phy-cells':
+> +    # see phy-bindings.txt in the same directory
+> +    const: 1
+> +    description: |
+> +      The phandle's argument in the PHY specifier is the phy reset control bit
+> +      of usb phy control.
+> +      0 = Port 1 Phy reset
+> +      1 = Port 2 Phy reset
+> +    enum: [ 0, 1 ]
+
+You already have the const, so this doesn't do anything.
+
 > +
 > +required:
 > +  - compatible
-> +  - "^plane(@.*)?$"
+> +  - reg
+> +  - clocks
+> +  - '#phy-cells'
+> +
+> +additionalProperties: false
 > +
 > +examples:
-> + - |
-> +   vdrm@0 {
-> +       compatible = "virt-drm";
-> +       plane@0 {
-> +           x = <200>;
-> +	   y = <100>;
-> +	   width = <800>;
-> +	   height = <600>;
-> +	   zpos = <1>;
-> +       };
-> +   };
+> +  - |
+> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> +
+> +    usbphyctrl@11c40000 {
+
+usb-phy@...
+
+> +        compatible = "renesas,r9a07g044-usbphyctrl",
+> +                     "renesas,rzg2l-usbphyctrl";
+> +        reg = <0x11c40000 0x10000>;
+> +        clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>;
+> +        resets = <&cpg R9A07G044_USB_PCLK>;
+> +        power-domains = <&cpg>;
+> +        #phy-cells = <1>;
+> +    };
 > -- 
-> 2.25.1
+> 2.17.1
 > 
 > 
