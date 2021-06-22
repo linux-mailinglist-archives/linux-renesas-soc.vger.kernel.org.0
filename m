@@ -2,148 +2,220 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A4B3B0DA8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 21:31:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E7993B0DC2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 21:45:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232651AbhFVTeN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Jun 2021 15:34:13 -0400
-Received: from mail-io1-f49.google.com ([209.85.166.49]:33646 "EHLO
-        mail-io1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232648AbhFVTeN (ORCPT
+        id S232635AbhFVTrS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Jun 2021 15:47:18 -0400
+Received: from mail-io1-f44.google.com ([209.85.166.44]:34380 "EHLO
+        mail-io1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230330AbhFVTrS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Jun 2021 15:34:13 -0400
-Received: by mail-io1-f49.google.com with SMTP id a6so547802ioe.0;
-        Tue, 22 Jun 2021 12:31:47 -0700 (PDT)
+        Tue, 22 Jun 2021 15:47:18 -0400
+Received: by mail-io1-f44.google.com with SMTP id g22so552191iom.1;
+        Tue, 22 Jun 2021 12:45:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=QZgxJXgn5Y2DpkFBSaFi4k8dTU93PFVQJE6zmHFjau4=;
-        b=PaZUiMTu42taEDdG7dsGXa/fSA5dFR0MOFaK+ktssKx5ULky2HTT0a+dlH/mDi0wtQ
-         OYVlCZKD67wp1hIIvUVWXC6UrI+pr+wXUTwWEEjQJbkZzMwzFIX5D4qt+OXRb6qkJpX8
-         6zWHaIV+AyB2Txp19hL4jip2ir7cpj2sHOkpXOSbkYiLGNiJCECge99btnLjDh8bwFSf
-         2sszyWbq4PavsZuIM+9ie858wKBp0hjD+A1dgOCLieTm76tOmzUoAvMQSqJhV6lRFDtD
-         pJl5dARfF79iPxltt06jHP7U9CBoO8ax6tJWa+tW5nsw+DTrzThBC24Ll0SUnxWwVvdt
-         4Nmg==
-X-Gm-Message-State: AOAM533DnsvWMrWFftWXRV/mxaMA3+9nABcbtapvou9AqLLD2bT1+szf
-        hn2dNUYGKGTrYwKyL+6toA==
-X-Google-Smtp-Source: ABdhPJw6SiWA/jf03g0gNK+w7BBYikDFw0aI1RlLfrbrts4k6V8/L9ffrEMFEuwJNYm6nFZHSXg3mg==
-X-Received: by 2002:a05:6602:334e:: with SMTP id c14mr4171425ioz.78.1624390246807;
-        Tue, 22 Jun 2021 12:30:46 -0700 (PDT)
+        bh=Jt10eaPE2d0A23q2PDE5V1BLvXyDr99ajxzQdh6Kcd0=;
+        b=HWfx31+WtSURRYbJ/7MlkNSm+SEQodfSzxzXfygAmFgzAlypyll/NFp1Sm32pQ9BRL
+         Z5Q+eJE4m3tygC9vR1zFxAtbBfR811cGTUOaLqZgOonuIE/Lm7/3zynAD0h1ndSBFVRl
+         a6jPGiosHEsG9jGfUAaPDWloe/+V3YPqnfogybjMidozP9xVrOiXsfcJPItlZ3GzU1q5
+         GciGvLG/PdfepAyShHuM85y7XCBgDBrLGMEOJDN08Y3qTw1aPApszwLuMP86BvpfT+KA
+         9pk1QY4ehV2os/PWInI8SsT29xHa4EaeSpkoWg0bCXl9455fIps4dRUQ0lx2XXR3lktj
+         La5A==
+X-Gm-Message-State: AOAM531lip+4GgSA9FbB10Ms84L8lIQLVLu6UQ3i1oFNTowpIdz53Cjd
+        Avz/M7tNtMmbvKJKsYlrehwM06kFTQ==
+X-Google-Smtp-Source: ABdhPJzUm/qgMghhv3cFAfgIucKHSIU1Ao9zoFXcWsgOMpfQgypogCGC/J8Aqqh/SlvnOBIlFZSBUQ==
+X-Received: by 2002:a02:a501:: with SMTP id e1mr5444394jam.83.1624391101994;
+        Tue, 22 Jun 2021 12:45:01 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id j12sm8382090ilk.26.2021.06.22.12.30.44
+        by smtp.gmail.com with ESMTPSA id g7sm8447737ilq.15.2021.06.22.12.45.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 12:30:45 -0700 (PDT)
-Received: (nullmailer pid 4188805 invoked by uid 1000);
-        Tue, 22 Jun 2021 19:30:43 -0000
-Date:   Tue, 22 Jun 2021 13:30:43 -0600
+        Tue, 22 Jun 2021 12:45:01 -0700 (PDT)
+Received: (nullmailer pid 17105 invoked by uid 1000);
+        Tue, 22 Jun 2021 19:44:59 -0000
+Date:   Tue, 22 Jun 2021 13:44:59 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+Cc:     Vinod Koul <vkoul@kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 06/11] dt-bindings: usb: generic-ohci: Document RZ/G2L
- SoC bindings
-Message-ID: <20210622193043.GA4176942@robh.at.kernel.org>
-References: <20210621093943.12143-1-biju.das.jz@bp.renesas.com>
- <20210621093943.12143-7-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: dma: Document RZ/G2L bindings
+Message-ID: <20210622194459.GA3755@robh.at.kernel.org>
+References: <20210621143339.16754-1-biju.das.jz@bp.renesas.com>
+ <20210621143339.16754-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210621093943.12143-7-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210621143339.16754-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 10:39:38AM +0100, Biju Das wrote:
-> Renesas RZ/G2L SoC has USBPHY Control and USB2.0 PHY module. We need to
-> turn on both these phy modules before accessing host registers.
-> 
-> Apart from this, document the optional property dr_mode present on both
-> RZ/G2 and R-Car Gen3 SoCs.
+On Mon, Jun 21, 2021 at 03:33:36PM +0100, Biju Das wrote:
+> Document RZ/G2L DMAC bindings.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  .../devicetree/bindings/usb/generic-ohci.yaml | 32 +++++++++++++++++--
->  1 file changed, 30 insertions(+), 2 deletions(-)
+> Note:-  This patch has dependency on #include <dt-bindings/clock/r9a07g044-cpg.h> file which will be in 
+> next 5.14-rc1 release.
 > 
-> diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> index 0f5f6ea702d0..c0644fae5db9 100644
-> --- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> +++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> @@ -8,6 +8,26 @@ title: USB OHCI Controller Device Tree Bindings
->  
->  allOf:
->    - $ref: "usb-hcd.yaml"
-> +  - if:
-> +      properties:
-> +        compatible:
-> +            contains:
-> +              const: renesas,r9a07g044-ohci
-> +    then:
-> +      properties:
-> +        phys:
-> +          maxItems: 2
-> +        phy-names:
-> +          items:
-> +            - const: usbphyctrl
-> +            - const: usb
-
-Why can't your extra thing be last? Then you only need to set 
-minItems/maxItems in the if/then schema.
-
-Though this seems like an abuse of the phy binding. There's not 2 phys, 
-right? Just some extra registers related to the phy? Can't it be hidden 
-in your phy driver?
-
-> +    else:
-> +      properties:
-> +        phys:
-> +          maxItems: 1
-> +        phy-names:
-> +          items:
-> +            - const: usb
->  
->  maintainers:
->    - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> @@ -43,6 +63,7 @@ properties:
->                - brcm,bcm7435-ohci
->                - ibm,476gtr-ohci
->                - ingenic,jz4740-ohci
-> +              - renesas,r9a07g044-ohci
->                - snps,hsdk-v1.0-ohci
->            - const: generic-ohci
->        - const: generic-ohci
-> @@ -101,14 +122,21 @@ properties:
->        Overrides the detected port count
->  
->    phys:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 2
->  
->    phy-names:
-> -    const: usb
-> +    minItems: 1
-> +    maxItems: 2
->  
->    iommus:
->      maxItems: 1
->  
-> +  dr_mode:
-> +    enum:
-> +      - host
-> +      - otg
+> v2->v3:
+>   * Added error interrupt first.
+>   * Updated clock and reset maxitems.
+>   * Added Geert's Rb tag.
+> v1->v2:
+>   * Made interrupt names in defined order
+>   * Removed src address and channel configuration from dma-cells.
+>   * Changed the compatibele string to "renesas,r9a07g044-dmac".
+> v1:-
+>   * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210611113642.18457-2-biju.das.jz@bp.renesas.com/
+> ---
+>  .../bindings/dma/renesas,rz-dmac.yaml         | 120 ++++++++++++++++++
+>  1 file changed, 120 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> new file mode 100644
+> index 000000000000..0a59907ed041
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> @@ -0,0 +1,120 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  required:
->    - compatible
->    - reg
+> +title: Renesas RZ/G2L DMA Controller
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +allOf:
+> +  - $ref: "dma-controller.yaml#"
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,r9a07g044-dmac # RZ/G2{L,LC}
+> +      - const: renesas,rz-dmac
+> +
+> +  reg:
+> +    items:
+> +      - description: Control and channel register block
+> +      - description: DMA extended resource selector block
+> +
+> +  interrupts:
+> +    maxItems: 17
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: error
+> +      - const: ch0
+> +      - const: ch1
+> +      - const: ch2
+> +      - const: ch3
+> +      - const: ch4
+> +      - const: ch5
+> +      - const: ch6
+> +      - const: ch7
+> +      - const: ch8
+> +      - const: ch9
+> +      - const: ch10
+> +      - const: ch11
+> +      - const: ch12
+> +      - const: ch13
+> +      - const: ch14
+> +      - const: ch15
+> +
+> +  clocks:
+> +    maxItems: 2
+
+Need to define what each one is.
+
+> +
+> +  '#dma-cells':
+> +    const: 1
+> +    description:
+> +      The cell specifies the MID/RID of the DMAC port connected to
+> +      the DMA client.
+> +
+> +  dma-channels:
+> +    const: 16
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 2
+
+Need to define what each one is.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +  - '#dma-cells'
+> +  - dma-channels
+> +  - power-domains
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> +
+> +    dmac: dma-controller@11820000 {
+> +        compatible = "renesas,r9a07g044-dmac",
+> +                     "renesas,rz-dmac";
+> +        reg = <0x11820000 0x10000>,
+> +              <0x11830000 0x10000>;
+> +        interrupts = <GIC_SPI 141 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 125 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 126 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 127 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 128 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 129 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 130 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 131 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 132 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 133 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 134 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 135 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 136 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 137 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 138 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 139 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 140 IRQ_TYPE_EDGE_RISING>;
+> +        interrupt-names = "error",
+> +                          "ch0", "ch1", "ch2", "ch3",
+> +                          "ch4", "ch5", "ch6", "ch7",
+> +                          "ch8", "ch9", "ch10", "ch11",
+> +                          "ch12", "ch13", "ch14", "ch15";
+> +        clocks = <&cpg CPG_MOD R9A07G044_DMAC_ACLK>,
+> +                 <&cpg CPG_MOD R9A07G044_DMAC_PCLK>;
+> +        power-domains = <&cpg>;
+> +        resets = <&cpg R9A07G044_DMAC_ACLK>,
+> +                 <&cpg R9A07G044_DMAC_PCLK>;
+> +        #dma-cells = <1>;
+> +        dma-channels = <16>;
+> +    };
 > -- 
 > 2.17.1
 > 
