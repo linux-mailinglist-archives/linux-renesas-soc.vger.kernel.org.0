@@ -2,85 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C38D3AFE49
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 09:47:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93FB33AFE58
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 09:50:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230439AbhFVHtz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Jun 2021 03:49:55 -0400
-Received: from www.zeus03.de ([194.117.254.33]:43942 "EHLO mail.zeus03.de"
+        id S230274AbhFVHwX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Jun 2021 03:52:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37566 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230481AbhFVHty (ORCPT
+        id S230304AbhFVHwS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Jun 2021 03:49:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=XmH2j7pggYs4YEXyqrjyv4sVnx8W
-        2DZpqhAPPW+51rw=; b=QqYImV8Up/AEkuXQXkYPqjPx9nhuCG8DeduCMNlJ8Jo/
-        FMnkwGZVmnUu67E30hLQNuRnq3hkQ5HKkHzkgwgscZ+NSJa39gaCEahsZx5mklq8
-        tEONbExCEskUrHjIti+5+VkQ3xnOppG56g+Dthp430NSUjR9Yesa4C+5AE2lX+M=
-Received: (qmail 2139775 invoked from network); 22 Jun 2021 09:47:37 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Jun 2021 09:47:37 +0200
-X-UD-Smtp-Session: l3s3148p1@RAXqAFbFsKkgARa4RYg6AcaF9vCOUtT0
-Date:   Tue, 22 Jun 2021 09:47:36 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] mmc: renesas_sdhi: sys_dmac: abort DMA synced to avoid
- timeouts
-Message-ID: <YNGVmDOzFzA9MMZU@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20210621070009.13655-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdULBPfd97xqDaFOTmj-B2pBA=wSKz3iep6ujx47j1zyPg@mail.gmail.com>
+        Tue, 22 Jun 2021 03:52:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 94A2C611AF
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Jun 2021 07:50:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624348203;
+        bh=PzaF+zGkr6Ae9Y1WQqylS8CJimkpTBLo2NxtIEN4iXA=;
+        h=Subject:From:Date:To:From;
+        b=CPSqtiMrzlwkew7oyE08LUEPolSS4DCw40L3wOmuPSG4y1beGcs2GKjfnUFafZCOa
+         c7bWkuJTcixbHM2EoNULnY5lWNIrAkIa0ec5IgGCT7ExRWknL8yxAxyWsZvjT/Yrx/
+         12yIakx/db0uhkKatRS/fO/niopOwCDe19/Hi5fNENrKNH3YxnEqNxsGcIp/xlm0pV
+         xDZKH2XYDS0h9hgeSHFPVhOZaFMYpDjdoJK02hn7kvtqbb3CAW1xJYa/tRc/89/GDB
+         iyoHNE3Rw1fWzbSp+TmpJFylBOkOWL1AyJLdKBNrrcy64KycZMTsxTqTQW3N+pQ1Dh
+         OImIeBipNQ+Iw==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 8623A609FF
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Jun 2021 07:50:03 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SfZT8+tHQGZ/bghR"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdULBPfd97xqDaFOTmj-B2pBA=wSKz3iep6ujx47j1zyPg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <162434820349.16300.14863477723459333574.git-patchwork-summary@kernel.org>
+Date:   Tue, 22 Jun 2021 07:50:03 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello:
 
---SfZT8+tHQGZ/bghR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (refs/heads/master):
+
+Series: arm64: dts: renesas: salvator-x(s): Factor out common optional parts
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=495565
+  Lore link: https://lore.kernel.org/r/cover.1623087028.git.geert+renesas@glider.be
+    Patches: [1/4] arm64: dts: renesas: salvator-x(s): Factor out HDMI1 parts
+             [2/4] arm64: dts: renesas: salvator-x(s): Factor out SATA parts
+             [3/4] arm64: dts: renesas: salvator-x(s): Factor out USB ch2 parts
+             [4/4] arm64: dts: renesas: salvator-xs: Factor out USB ch3 parts
+
+Total patches: 4
+
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-While the patch does not fix the timeout issue (also verified using an
-Alt board), it does fix this follow-up issue here:
-
-[  191.485194] ------------[ cut here ]------------
-[  191.490296] WARNING: CPU: 0 PID: 698 at kernel/dma/debug.c:498 add_dma_entry+0x158/0x180
-[  191.499397] DMA-API: exceeded 7 overlapping mappings of cacheline 0x0117cc3a
-
-So, I think we want this patch nonetheless but I need to rephrase the
-commit message.
-
-
---SfZT8+tHQGZ/bghR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDRlZQACgkQFA3kzBSg
-Kba59BAAgINGXbyn81hRTvY6MmSfNQMwXGVB5AGcBxsKh4uzg3rAaGoYWyZAs0ug
-H1QqL4SCvirD+rsepyEkEmwBzuQdK2c4g2rq2bby2lskjcTd4IK/xb+WSuCOi2/u
-RelREXxiPoYylNZxHSfBUmrbWxyxRz53i10OlCtslAkjtPrVyyMnIYP6925u3N/3
-IHYAXZIc9vmVi6uRIxHxxyJ1tdwhbYpamp/mQc+ajOKYGQDFuhKMLlO1mNpCkDL7
-WymowyFDSR1FoJBCF7yZvwZ2DoqLpOROy7Fj0XyA7c30H7xleuWS0oJQGhSghZaI
-OJf6Iy0aNxpfrCdtx6qB91oyBns13Ib0t/fHCUvrtIJ5RKdBTGqlZMwxqHkD+Bh2
-sBjxXlVzgLsNl09veMP6fgwzr0yKdyss9XY+/f6SYQjP+0W9ahkztEdoKWi32dNy
-1Epglb1imY6Myz8Ayx4BYKCKd5N3LrJNvkZOxItuzCp4i3XtmgFswxO1b/GSxrX2
-RDnGR/DVsjUhvxQB+mXrhWdTMX/E6+gm7+nj12qv/F5AhClXYmli1V9yzeUCGyzj
-gO+mKeNNjRVlstOdFpWYJFyKDf3vsGaE/h79G/YcV33+xJrpJ/k1JFQljHC26SaW
-7RDmzGwx6Q2E6NHbmXmFcYNpL+Zn4DYhuO7OcHMI0cYa9qtgdM4=
-=fdA/
------END PGP SIGNATURE-----
-
---SfZT8+tHQGZ/bghR--
