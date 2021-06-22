@@ -2,221 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E7993B0DC2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 21:45:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B7813B0FA1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 23:53:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232635AbhFVTrS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Jun 2021 15:47:18 -0400
-Received: from mail-io1-f44.google.com ([209.85.166.44]:34380 "EHLO
-        mail-io1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230330AbhFVTrS (ORCPT
+        id S229873AbhFVVz2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Jun 2021 17:55:28 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54436 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229501AbhFVVz2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Jun 2021 15:47:18 -0400
-Received: by mail-io1-f44.google.com with SMTP id g22so552191iom.1;
-        Tue, 22 Jun 2021 12:45:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Jt10eaPE2d0A23q2PDE5V1BLvXyDr99ajxzQdh6Kcd0=;
-        b=HWfx31+WtSURRYbJ/7MlkNSm+SEQodfSzxzXfygAmFgzAlypyll/NFp1Sm32pQ9BRL
-         Z5Q+eJE4m3tygC9vR1zFxAtbBfR811cGTUOaLqZgOonuIE/Lm7/3zynAD0h1ndSBFVRl
-         a6jPGiosHEsG9jGfUAaPDWloe/+V3YPqnfogybjMidozP9xVrOiXsfcJPItlZ3GzU1q5
-         GciGvLG/PdfepAyShHuM85y7XCBgDBrLGMEOJDN08Y3qTw1aPApszwLuMP86BvpfT+KA
-         9pk1QY4ehV2os/PWInI8SsT29xHa4EaeSpkoWg0bCXl9455fIps4dRUQ0lx2XXR3lktj
-         La5A==
-X-Gm-Message-State: AOAM531lip+4GgSA9FbB10Ms84L8lIQLVLu6UQ3i1oFNTowpIdz53Cjd
-        Avz/M7tNtMmbvKJKsYlrehwM06kFTQ==
-X-Google-Smtp-Source: ABdhPJzUm/qgMghhv3cFAfgIucKHSIU1Ao9zoFXcWsgOMpfQgypogCGC/J8Aqqh/SlvnOBIlFZSBUQ==
-X-Received: by 2002:a02:a501:: with SMTP id e1mr5444394jam.83.1624391101994;
-        Tue, 22 Jun 2021 12:45:01 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id g7sm8447737ilq.15.2021.06.22.12.45.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 12:45:01 -0700 (PDT)
-Received: (nullmailer pid 17105 invoked by uid 1000);
-        Tue, 22 Jun 2021 19:44:59 -0000
-Date:   Tue, 22 Jun 2021 13:44:59 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: dma: Document RZ/G2L bindings
-Message-ID: <20210622194459.GA3755@robh.at.kernel.org>
-References: <20210621143339.16754-1-biju.das.jz@bp.renesas.com>
- <20210621143339.16754-2-biju.das.jz@bp.renesas.com>
+        Tue, 22 Jun 2021 17:55:28 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 048E7E6B;
+        Tue, 22 Jun 2021 23:53:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624398791;
+        bh=91kmGklfIbkTHDp1AbTzbfAd/5MhGYK8aUr7hM2kxwI=;
+        h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
+        b=vBXjbwgh8EIEuksx1kMhhokbCMh+DzI57HucLwaQoqVf/uG+3OOXc2XUAMmagYUtj
+         PGPXPsLZDPemkp47+4Nr6IRjU3zRQgYwyFHHvnsAL+mh6JRTYFGx4fPXROAh7Qre9P
+         0z80SD9VSFwk7IkleUJ63KCxCOKD4TzRCMm92EqI=
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v3 0/4] Converter R-Car DU to the DRM bridge connector
+ helper
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
+Message-ID: <07173239-7f08-f7a6-4761-2f56cbbc85d2@ideasonboard.com>
+Date:   Tue, 22 Jun 2021 22:53:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210621143339.16754-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 03:33:36PM +0100, Biju Das wrote:
-> Document RZ/G2L DMAC bindings.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Note:-  This patch has dependency on #include <dt-bindings/clock/r9a07g044-cpg.h> file which will be in 
-> next 5.14-rc1 release.
-> 
-> v2->v3:
->   * Added error interrupt first.
->   * Updated clock and reset maxitems.
->   * Added Geert's Rb tag.
-> v1->v2:
->   * Made interrupt names in defined order
->   * Removed src address and channel configuration from dma-cells.
->   * Changed the compatibele string to "renesas,r9a07g044-dmac".
-> v1:-
->   * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210611113642.18457-2-biju.das.jz@bp.renesas.com/
-> ---
->  .../bindings/dma/renesas,rz-dmac.yaml         | 120 ++++++++++++++++++
->  1 file changed, 120 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> new file mode 100644
-> index 000000000000..0a59907ed041
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> @@ -0,0 +1,120 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/G2L DMA Controller
-> +
-> +maintainers:
-> +  - Biju Das <biju.das.jz@bp.renesas.com>
-> +
-> +allOf:
-> +  - $ref: "dma-controller.yaml#"
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a07g044-dmac # RZ/G2{L,LC}
-> +      - const: renesas,rz-dmac
-> +
-> +  reg:
-> +    items:
-> +      - description: Control and channel register block
-> +      - description: DMA extended resource selector block
-> +
-> +  interrupts:
-> +    maxItems: 17
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: error
-> +      - const: ch0
-> +      - const: ch1
-> +      - const: ch2
-> +      - const: ch3
-> +      - const: ch4
-> +      - const: ch5
-> +      - const: ch6
-> +      - const: ch7
-> +      - const: ch8
-> +      - const: ch9
-> +      - const: ch10
-> +      - const: ch11
-> +      - const: ch12
-> +      - const: ch13
-> +      - const: ch14
-> +      - const: ch15
-> +
-> +  clocks:
-> +    maxItems: 2
+Hi Laurent,
 
-Need to define what each one is.
-
-> +
-> +  '#dma-cells':
-> +    const: 1
-> +    description:
-> +      The cell specifies the MID/RID of the DMAC port connected to
-> +      the DMA client.
-> +
-> +  dma-channels:
-> +    const: 16
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 2
-
-Need to define what each one is.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - '#dma-cells'
-> +  - dma-channels
-> +  - power-domains
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> +
-> +    dmac: dma-controller@11820000 {
-> +        compatible = "renesas,r9a07g044-dmac",
-> +                     "renesas,rz-dmac";
-> +        reg = <0x11820000 0x10000>,
-> +              <0x11830000 0x10000>;
-> +        interrupts = <GIC_SPI 141 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 125 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 126 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 127 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 128 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 129 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 130 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 131 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 132 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 133 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 134 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 135 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 136 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 137 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 138 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 139 IRQ_TYPE_EDGE_RISING>,
-> +                     <GIC_SPI 140 IRQ_TYPE_EDGE_RISING>;
-> +        interrupt-names = "error",
-> +                          "ch0", "ch1", "ch2", "ch3",
-> +                          "ch4", "ch5", "ch6", "ch7",
-> +                          "ch8", "ch9", "ch10", "ch11",
-> +                          "ch12", "ch13", "ch14", "ch15";
-> +        clocks = <&cpg CPG_MOD R9A07G044_DMAC_ACLK>,
-> +                 <&cpg CPG_MOD R9A07G044_DMAC_PCLK>;
-> +        power-domains = <&cpg>;
-> +        resets = <&cpg R9A07G044_DMAC_ACLK>,
-> +                 <&cpg R9A07G044_DMAC_PCLK>;
-> +        #dma-cells = <1>;
-> +        dma-channels = <16>;
-> +    };
-> -- 
-> 2.17.1
+On 20/05/2021 07:50, Laurent Pinchart wrote:
+> Hello,
 > 
+> This patch series converts the R-Car DU driver to use the DRM bridge
+> connector helper drm_bridge_connector_init().
+> 
+> The bulk of the v1 series was converting the adv7511, simple-bridge and
+> dw-hdmi drivers to make connector creation optional (through the
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR flag), and have already been merged. v2
+> included the remaining patches and has bitrotten. v3 rebased the code
+> and should be ready for merge.
+> 
+> Patch 1/4 adds support to the dw-hdmi driver to attach to a downstream
+> bridge if one is specified in DT. As the DT port number corresponding to
+> the video output differs between platforms that integrate the dw-hdmi
+> (some of them even don't have a video output port, which should probably
+> be fixed, but that's out of scope for this series), the port number has
+> to be specified by the platform glue layer.
+> 
+> Patch 2/4 then addresses the rcar-lvds driver. Instead of implementing
+> direct support for DRM_BRIDGE_ATTACH_NO_CONNECTOR, it simply removes
+> code that shouldn't have been in the driver in the first place by
+> switching to the panel bridge helper.
+> 
+> Patch 3/4 specifies the port number in the R-Car dw-hdmi glue layer, as
+> required by 1/4.
+> 
+> Patch 4/4 finally makes use of the drm_bridge_connector_init() helper.
+> 
+> The series has been tested on the Renesas R-Car Salvator-XS and Draak
+> boards with the VGA, HDMI and LVDS outputs.
+
+I'll start here,
+
+This series fixes the connector issue I had on V3U, and removes the need
+for me to carry a workaround. So that's excellent ;-)
+
+For the series,
+
+Tested-by: Kieran Bingham <kieran.bingham@ideasonboard.com> (on V3U)
+
+> 
+> Laurent Pinchart (4):
+>   drm: bridge: dw-hdmi: Attach to next bridge if available
+>   drm: rcar-du: lvds: Convert to DRM panel bridge helper
+>   drm: rcar-du: dw-hdmi: Set output port number
+>   drm: rcar-du: Use drm_bridge_connector_init() helper
+> 
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c |  54 +++++++++-
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  26 ++++-
+>  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c    |   1 +
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c       | 120 +++-------------------
+>  include/drm/bridge/dw_hdmi.h              |   2 +
+>  5 files changed, 89 insertions(+), 114 deletions(-)
 > 
