@@ -2,51 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54F693B0913
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 17:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F6283B0930
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 17:34:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231968AbhFVPcJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Jun 2021 11:32:09 -0400
-Received: from mail-vs1-f46.google.com ([209.85.217.46]:39569 "EHLO
-        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232400AbhFVPbo (ORCPT
+        id S232137AbhFVPgR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Jun 2021 11:36:17 -0400
+Received: from mail-vs1-f43.google.com ([209.85.217.43]:41912 "EHLO
+        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231964AbhFVPgQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Jun 2021 11:31:44 -0400
-Received: by mail-vs1-f46.google.com with SMTP id 68so11434906vsu.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Jun 2021 08:29:26 -0700 (PDT)
+        Tue, 22 Jun 2021 11:36:16 -0400
+Received: by mail-vs1-f43.google.com with SMTP id c26so2525196vso.8;
+        Tue, 22 Jun 2021 08:33:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oR+1qeM4yz7ph3in4Jquwe9LUDQzHsO3jz9ugdHNBCw=;
-        b=mc2Zag1CMzuAZG58ynZypTR4d3LcPdw94bwN1OvxWfULyR9tfGlMxfkpM3gJUeP56v
-         n3QS2+yBhuyDUzFQQcILO/vXGvXt7W6nxow+uGkQNYIRswEPqTntyuvl4MwXmc8a1MUh
-         oYToSBK2SZDS3GiSs9wmQeq406sWFtyi9RKwEHQi8tt/XPHaqIvzFwDMxGz0bBpkhj6a
-         xjzd7fCfYzzEpPnMF7MPztw5Yedbp7iUnSW6HUX5WaSeP4cuGB2CctHKP1N7+CkzHZ7J
-         VIghwA2jwK6zkPOUfXsUxlb33MI/19ZRd10CPAvoGLLHKt0+Xz9scYfSdCdqebOeM5sT
-         KPTw==
-X-Gm-Message-State: AOAM5310+UKuWmaDina/+PCW8LJWm3LvCRckXKm7uuNZ9Qebu8Xi3meL
-        Gr5m3A2zpsBbtu3PwSKV4xKoCpMICk5zk3HnhC9wSMnv/1mhHA==
-X-Google-Smtp-Source: ABdhPJxovc3MSMTFO9B7wNWHgdk24OK3b3PqHEQTaFud5hGpMHrs/G+v3UNehI1zUzxKGbybo+p4Uxox2Au39zS80xc=
-X-Received: by 2002:a67:3c2:: with SMTP id 185mr23400349vsd.42.1624375766450;
- Tue, 22 Jun 2021 08:29:26 -0700 (PDT)
+        bh=e0kj1yCj9hUXoWtuJlxr+wOuOoyWlBQbRl2CeEKY3qM=;
+        b=byFq2236yV4YlkvcHDajsFaGUS9vz3acxwyhnY2AngP4j0mbsGc3q60xDeRAiCl5sz
+         9+ou9yNJ/AjZiJoeemzEqy0CaHpYx8L2YsgHovvQD7vtCKxW+bI6JIpL/GL0ATVXmHP7
+         LN1k/1N1QtYW/M/BHtncE7ys2VMxgXO42s8pbWEP12ki6CBwHZaz7kzPADDpRBNycVsN
+         BVSgLiAGffItWNp1oBNrg4WOciSGmuB1TT8aN6L5vO6EVtKvPSB9voGeEBU1of5LFSvS
+         +sHgl1fpKFhhbxDZbGhZ87WhBY9y64h78457P7V7oGbcxfEnEWSbT7l0Q5UXkreBRQCm
+         Tt7Q==
+X-Gm-Message-State: AOAM530rZCe6tKJulGpHBFD+tPUtrb6UX4Zp0Fv/UnHV+18Xi2CS1vQ3
+        o2rsLYmyM8b51N3qm7taiL9KRFSUCR4CXZYikL4=
+X-Google-Smtp-Source: ABdhPJyYtCKexQMmD6WfpRtiEBJ6BJpZqbgg5bB8kbrqIm1MhxMd5tkMzX6oKMTtU7/a7Byr/xpm2BFyMMIcUNeJlDo=
+X-Received: by 2002:a67:7787:: with SMTP id s129mr18673501vsc.40.1624376039492;
+ Tue, 22 Jun 2021 08:33:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210621093943.12143-1-biju.das.jz@bp.renesas.com> <20210621093943.12143-11-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210621093943.12143-11-biju.das.jz@bp.renesas.com>
+References: <20210621093943.12143-1-biju.das.jz@bp.renesas.com> <20210621093943.12143-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210621093943.12143-6-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 22 Jun 2021 17:29:15 +0200
-Message-ID: <CAMuHMdVHFaM+SAEBLyV0HOoFLpZgJ5PrJXx4vxQ8fsaopEAm9g@mail.gmail.com>
-Subject: Re: [PATCH v2 10/11] phy: renesas: phy-rcar-gen3-usb2: Add OTG
- support for RZ/G2L
+Date:   Tue, 22 Jun 2021 17:33:48 +0200
+Message-ID: <CAMuHMdWJhrCtJ8stfNotr5Cfc9HK=Sytn_Tn_U1v3o+kEnwecw@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] dt-bindings: phy: renesas,usb2-phy: Document
+ RZ/G2L phy bindings
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Kishon Vijay Abraham I <kishon@ti.com>,
         Vinod Koul <vkoul@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         linux-phy@lists.infradead.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -54,71 +57,63 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-Thanks for your patch!
-
 On Mon, Jun 21, 2021 at 11:40 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> This patch adds OTG support for RZ/G2L SoC.
+> Document USB phy bindings for RZ/G2L SoC.
 >
-> RZ/G2L USB2.0 phy is compatible with rcar gen3, but it uses
-> line ctrl register for OTG_ID pin changes. Apart from this
-> it uses a different OTG-BC interrupt bit for device recognition.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../bindings/phy/renesas,usb2-phy.yaml        | 23 ++++++++++---------
+>  1 file changed, 12 insertions(+), 11 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> index 0f358d5b84ef..eebba6c83aec 100644
+> --- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> @@ -17,17 +17,18 @@ properties:
+>
+>        - items:
+>            - enum:
+> -              - renesas,usb2-phy-r7s9210  # RZ/A2
+> -              - renesas,usb2-phy-r8a774a1 # RZ/G2M
+> -              - renesas,usb2-phy-r8a774b1 # RZ/G2N
+> -              - renesas,usb2-phy-r8a774c0 # RZ/G2E
+> -              - renesas,usb2-phy-r8a774e1 # RZ/G2H
+> -              - renesas,usb2-phy-r8a7795  # R-Car H3
+> -              - renesas,usb2-phy-r8a7796  # R-Car M3-W
+> -              - renesas,usb2-phy-r8a77961 # R-Car M3-W+
+> -              - renesas,usb2-phy-r8a77965 # R-Car M3-N
+> -              - renesas,usb2-phy-r8a77990 # R-Car E3
+> -              - renesas,usb2-phy-r8a77995 # R-Car D3
+> +              - renesas,usb2-phy-r7s9210   # RZ/A2
+> +              - renesas,usb2-phy-r8a774a1  # RZ/G2M
+> +              - renesas,usb2-phy-r8a774b1  # RZ/G2N
+> +              - renesas,usb2-phy-r8a774c0  # RZ/G2E
+> +              - renesas,usb2-phy-r8a774e1  # RZ/G2H
+> +              - renesas,usb2-phy-r8a7795   # R-Car H3
+> +              - renesas,usb2-phy-r8a7796   # R-Car M3-W
+> +              - renesas,usb2-phy-r8a77961  # R-Car M3-W+
+> +              - renesas,usb2-phy-r8a77965  # R-Car M3-N
+> +              - renesas,usb2-phy-r8a77990  # R-Car E3
+> +              - renesas,usb2-phy-r8a77995  # R-Car D3
+> +              - renesas,usb2-phy-r9a07g044 # RZ/G2{L,LC}
+>            - const: renesas,rcar-gen3-usb2-phy
+>
+>    reg:
 
-So it is not compatible? ;-)
+As some of the register bits are different, cfr. my comments to
+[PATCH v2 10/11], I think you want to add a new oneOf instead:
 
-> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> @@ -535,6 +555,11 @@ static const struct phy_ops rz_g1c_phy_usb2_ops = {
->         .owner          = THIS_MODULE,
->  };
->
-> +static const struct soc_device_attribute soc_no_adp_ctrl[] = {
-> +       { .soc_id = "r9a07g044", .data = (void *)true },
-> +       { /* Sentinel */ }
-> +};
-> +
->  static const struct of_device_id rcar_gen3_phy_usb2_match_table[] = {
->         {
->                 .compatible = "renesas,usb2-phy-r8a77470",
-> @@ -613,6 +638,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
->         struct phy_provider *provider;
->         const struct phy_ops *phy_usb2_ops;
->         int ret = 0, i;
-> +       const struct soc_device_attribute *attr;
->
->         if (!dev->of_node) {
->                 dev_err(dev, "This driver needs device tree\n");
-> @@ -627,6 +653,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
->         if (IS_ERR(channel->base))
->                 return PTR_ERR(channel->base);
->
-> +       channel->obint_enable_bits = USB2_OBINT_SESSVLDCHG | USB2_OBINT_IDDIGCHG;
->         /* get irq number here and request_irq for OTG in phy_init */
->         channel->irq = platform_get_irq_optional(pdev, 0);
->         channel->dr_mode = rcar_gen3_get_dr_mode(dev->of_node);
-> @@ -634,6 +661,12 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
->                 int ret;
->
->                 channel->is_otg_channel = true;
-> +               attr = soc_device_match(soc_no_adp_ctrl);
-> +               if (attr) {
-> +                       channel->soc_no_adp_ctrl = attr->data;
-> +                       channel->obint_enable_bits = USB2_OBINT_IDCHG_EN;
-> +               }
+      - items:
+          - enum:
+              - renesas,usb2-phy-r9a07g044 # RZ/G2{L,LC}
+          - const: renesas,rzg2l-usb2-phy
 
-Please don't abuse soc_device_match() for matching with a different
-variant that uses a different compatible value.  Just add an entry
-to rcar_gen3_phy_usb2_match_table[] instead.
-I don't know if you can handle RZ/G2L just using a different phy_ops,
-or need to extend rcar_gen3_phy_usb2_match_table[].data.
-
-> +
->                 channel->uses_otg_pins = !of_property_read_bool(dev->of_node,
->                                                         "renesas,no-otg-pins");
->                 channel->extcon = devm_extcon_dev_allocate(dev,
 
 Gr{oetje,eeting}s,
 
                         Geert
+
 
 --
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
