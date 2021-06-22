@@ -2,34 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 868E63B105C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 01:09:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC1CF3B1061
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 01:11:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbhFVXML (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Jun 2021 19:12:11 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55000 "EHLO
+        id S229704AbhFVXOJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Jun 2021 19:14:09 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55038 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbhFVXML (ORCPT
+        with ESMTP id S229501AbhFVXOJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Jun 2021 19:12:11 -0400
+        Tue, 22 Jun 2021 19:14:09 -0400
 Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DF75A66;
-        Wed, 23 Jun 2021 01:09:53 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA95AA66;
+        Wed, 23 Jun 2021 01:11:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624403393;
-        bh=FVRrXEVbnnPDakzLrvKGWoSG/v9VaXjCe/ZNd46XvZ4=;
+        s=mail; t=1624403511;
+        bh=uZC7sopp+vxOG159NLgXzUDh0pD0kUjE7c7PBO1aBVM=;
         h=From:To:Cc:Subject:Date:From;
-        b=CBNnbTT7l1IZx0NKuylT+hNbwYCHfCgu82zuCIWf/tgNhd5jRD3PbULYUPGUFqNgW
-         bOu/TjRDdi7o2qsGrWc26t+mLhZJPrfVNFPL+TAe6fRNoHZbKS9mZ/zWp81KwwbGAU
-         8MQwoVPrM/ONDFH9XoRN2G2cR5DwSgHcnRi52CdE=
+        b=Frv+m2psrQ+tK1MZ8xrRj1vJWI35m5nq3IillypB1dETwmc179uNaaUeouJJlHp5i
+         O3BKC26iRNyJ6FO3YU/2nwAlw+2DR1NgHfMv2XwbskhyGCJTKsT9ZcC6DA0dEyQIy0
+         BRM/B4B9CL52sFqGzxeB25wljAVcOz4qJpNe6XfQ=
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v3] media: vsp1: Add support for the V3U VSPD
-Date:   Wed, 23 Jun 2021 00:09:50 +0100
-Message-Id: <20210622230950.3207047-1-kieran.bingham@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR RENESAS),
+        linux-renesas-soc@vger.kernel.org (open list:DRM DRIVERS FOR RENESAS),
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] dt-bindings: display: renesas,du: Provide bindings for r8a779a0
+Date:   Wed, 23 Jun 2021 00:11:46 +0100
+Message-Id: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -39,71 +44,83 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-The V3U provides two VSPD instances, with a new update to the version
-register to detect the new SoC.
-
-Add the new version and model detection, and detail the features
-available in this module.
+Extend the Renesas DU display bindings to support the r8a779a0 V3U.
 
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
+ .../bindings/display/renesas,du.yaml          | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-Whilst it has not been possible to test this with the uapi to validate
-with our VSP tests, I have now successfully used this to display an
-image over the DisplayPort connector on the V3U, so I believe it is
-suitable for integration.
-
-changes since v2:
- - Removed VSP1_HAS_CLU
-
-
-
- drivers/media/platform/vsp1/vsp1_drv.c  | 10 ++++++++++
- drivers/media/platform/vsp1/vsp1_regs.h |  3 +++
- 2 files changed, 13 insertions(+)
-
-diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-index de442d6c9926..501b592fd6d6 100644
---- a/drivers/media/platform/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/vsp1/vsp1_drv.c
-@@ -777,6 +777,16 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 		.uif_count = 2,
- 		.wpf_count = 2,
- 		.num_bru_inputs = 5,
-+	}, {
-+		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
-+		.model = "VSP2-D",
-+		.gen = 3,
-+		.features = VSP1_HAS_BRU | VSP1_HAS_EXT_DL,
-+		.lif_count = 1,
-+		.rpf_count = 5,
-+		.uif_count = 2,
-+		.wpf_count = 1,
-+		.num_bru_inputs = 5,
- 	},
- };
+diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+index 121596f106da..febbd89a646e 100644
+--- a/Documentation/devicetree/bindings/display/renesas,du.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+@@ -39,6 +39,7 @@ properties:
+       - renesas,du-r8a77980 # for R-Car V3H compatible DU
+       - renesas,du-r8a77990 # for R-Car E3 compatible DU
+       - renesas,du-r8a77995 # for R-Car D3 compatible DU
++      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
  
-diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-index fe3130db1fa2..b378ea4451ce 100644
---- a/drivers/media/platform/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/vsp1/vsp1_regs.h
-@@ -766,6 +766,8 @@
- #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
-+#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
+   reg:
+     maxItems: 1
+@@ -774,6 +775,57 @@ allOf:
+         - reset-names
+         - renesas,vsps
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,du-r8a779a0
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Functional clock for DU0
++            - description: Functional clock for DU1
 +
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
- #define VI6_IP_VERSION_SOC_V2H		(0x01 << 0)
-@@ -777,6 +779,7 @@
- #define VI6_IP_VERSION_SOC_D3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
-+#define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
++        clock-names:
++          items:
++            - const: du.0
++            - const: du.1
++
++        interrupts:
++          maxItems: 2
++
++        resets:
++          maxItems: 1
++
++        reset-names:
++          items:
++            - const: du.0
++
++        ports:
++          properties:
++            port@0:
++              description: DSI 0
++            port@1:
++              description: DSI 1
++            port@2: false
++            port@3: false
++
++          required:
++            - port@0
++            - port@1
++
++        renesas,vsps:
++          minItems: 2
++
++      required:
++        - clock-names
++        - interrupts
++        - resets
++        - reset-names
++        - renesas,vsps
++
+ additionalProperties: false
  
- /* -----------------------------------------------------------------------------
-  * RPF CLUT Registers
+ examples:
 -- 
 2.30.2
 
