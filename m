@@ -2,79 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3AB03B017F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 12:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C74B93B05E2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Jun 2021 15:32:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbhFVKi5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Jun 2021 06:38:57 -0400
-Received: from mga14.intel.com ([192.55.52.115]:44151 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229612AbhFVKi5 (ORCPT
+        id S230039AbhFVNfK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Jun 2021 09:35:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229907AbhFVNfK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Jun 2021 06:38:57 -0400
-IronPort-SDR: Bk7pH/l3OlbDmH1LE4x1a0M5qVOuQuurgn6LYI5fnB6hlqyMWQ3EOLCJkfolVHlWTKRQiBoZpI
- R0CDFEVvrcXA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="206848129"
-X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; 
-   d="scan'208";a="206848129"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2021 03:36:41 -0700
-IronPort-SDR: 564DGZ3w3fbGzzXjziCPY2/clj0HIMH2hgavCU/DHF3sPeBS9UYQHVYH3UDhgHen15pko6sV/w
- Qk25bne3Emzw==
-X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; 
-   d="scan'208";a="473729433"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2021 03:36:39 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id C25382036A;
-        Tue, 22 Jun 2021 13:36:37 +0300 (EEST)
-Date:   Tue, 22 Jun 2021 13:36:37 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3] media: v4l2-fwnode: Simplify
- v4l2_async_nf_parse_fwnode_endpoints()
-Message-ID: <20210622103637.GH3@paasikivi.fi.intel.com>
-References: <20210613150847.774978-1-niklas.soderlund+renesas@ragnatech.se>
+        Tue, 22 Jun 2021 09:35:10 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B98C061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Jun 2021 06:32:53 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:9418:90dd:e41:936d])
+        by andre.telenet-ops.be with bizsmtp
+        id LDYq250081TrtvA01DYqp3; Tue, 22 Jun 2021 15:32:50 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lvgWH-002gRJ-Rd
+        for linux-renesas-soc@vger.kernel.org; Tue, 22 Jun 2021 15:32:49 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lvgWG-002EFe-SF
+        for linux-renesas-soc@vger.kernel.org; Tue, 22 Jun 2021 15:32:48 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2021-06-22-v5.13-rc7
+Date:   Tue, 22 Jun 2021 15:32:48 +0200
+Message-Id: <20210622133248.531395-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210613150847.774978-1-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+I have pushed renesas-drivers-2021-06-22-v5.13-rc7 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-On Sun, Jun 13, 2021 at 05:08:47PM +0200, Niklas Söderlund wrote:
-> There are only one user left of __v4l2_async_notifier_parse_fwnode_ep()
-> since [1], v4l2_async_notifier_parse_fwnode_endpoints(). The two
-> functions can be merged.
-> 
-> The merge of the two highlights a dead code block conditioned by the
-> argument 'has_port' that always is false and can therefor be removed.
-> 
-> 1. commit 0ae426ebd0dcef81 ("media: v4l2-fwnode: Remove v4l2_async_notifier_parse_fwnode_endpoints_by_port()")
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> * Changes since v2
-> - Extend commit message to describe that the dead code removed is created
->   by the merge of the two functions.
-> - The rename of the effected function never made it upstream, rebase
->   this patch to latest media-tree so it can be picked-up without the
->   rename.
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-I've continued work on the rename, and I'm about to send a new version.
+Today's version is based on renesas-devel-2021-06-22-v5.13-rc7.
 
-So I'll take the commit message changes from this one if that's fine for
-you.
+Included branches with driver code:
+  - renesas-clk
+  - renesas-pinctrl
 
--- 
-Kind regards,
+Included fixes:
+  - WIP soc: v3u: allow WDT reset
+  - misc: add sloppy logic analyzer using polling
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-Sakari Ailus
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
