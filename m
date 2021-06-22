@@ -2,40 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC1CF3B1061
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 01:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0E6E3B107F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 01:20:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbhFVXOJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Jun 2021 19:14:09 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55038 "EHLO
+        id S229501AbhFVXWr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Jun 2021 19:22:47 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55124 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbhFVXOJ (ORCPT
+        with ESMTP id S229831AbhFVXWr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Jun 2021 19:14:09 -0400
+        Tue, 22 Jun 2021 19:22:47 -0400
 Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA95AA66;
-        Wed, 23 Jun 2021 01:11:50 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A9D8B63;
+        Wed, 23 Jun 2021 01:20:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624403511;
-        bh=uZC7sopp+vxOG159NLgXzUDh0pD0kUjE7c7PBO1aBVM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Frv+m2psrQ+tK1MZ8xrRj1vJWI35m5nq3IillypB1dETwmc179uNaaUeouJJlHp5i
-         O3BKC26iRNyJ6FO3YU/2nwAlw+2DR1NgHfMv2XwbskhyGCJTKsT9ZcC6DA0dEyQIy0
-         BRM/B4B9CL52sFqGzxeB25wljAVcOz4qJpNe6XfQ=
+        s=mail; t=1624404029;
+        bh=BfW+VuiImixFtwo26YRsiUh4VPXeAT4jUVmUXsDVa0U=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ftEqxS2izD8zlEVLL2jwU3jjcHCnigJwdgu0MWzFrZyRmnXOYwdYpaIPURx0KEzw4
+         l7EiLPNsYWo+APOV0tD6AxXPVJrfYZRN9R3KiWtiHilEk6ASDwFnwX5GAUCfqPWIF5
+         kVrpH0xzjJj0wHXEa2IQePAyfIdz/XTYMyVk6HYo=
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
         dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR RENESAS),
         linux-renesas-soc@vger.kernel.org (open list:DRM DRIVERS FOR RENESAS),
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] dt-bindings: display: renesas,du: Provide bindings for r8a779a0
-Date:   Wed, 23 Jun 2021 00:11:46 +0100
-Message-Id: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 1/3] drm: rcar-du: Sort the DU outputs
+Date:   Wed, 23 Jun 2021 00:20:22 +0100
+Message-Id: <20210622232024.3215248-2-kieran.bingham@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210622232024.3215248-1-kieran.bingham@ideasonboard.com>
+References: <20210622232024.3215248-1-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -44,83 +45,31 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+Sort the DU outputs alphabetically, with the exception of the final
+entry which is there as a sentinal.
 
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
- .../bindings/display/renesas,du.yaml          | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-index 121596f106da..febbd89a646e 100644
---- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-+++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-@@ -39,6 +39,7 @@ properties:
-       - renesas,du-r8a77980 # for R-Car V3H compatible DU
-       - renesas,du-r8a77990 # for R-Car E3 compatible DU
-       - renesas,du-r8a77995 # for R-Car D3 compatible DU
-+      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
- 
-   reg:
-     maxItems: 1
-@@ -774,6 +775,57 @@ allOf:
-         - reset-names
-         - renesas,vsps
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a779a0
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: Functional clock for DU0
-+            - description: Functional clock for DU1
-+
-+        clock-names:
-+          items:
-+            - const: du.0
-+            - const: du.1
-+
-+        interrupts:
-+          maxItems: 2
-+
-+        resets:
-+          maxItems: 1
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DSI 0
-+            port@1:
-+              description: DSI 1
-+            port@2: false
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+
-+        renesas,vsps:
-+          minItems: 2
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+        - renesas,vsps
-+
- additionalProperties: false
- 
- examples:
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+index 5f2940c42225..440e6b4fbb58 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+@@ -96,10 +96,10 @@ struct rcar_du_crtc_state {
+ enum rcar_du_output {
+ 	RCAR_DU_OUTPUT_DPAD0,
+ 	RCAR_DU_OUTPUT_DPAD1,
+-	RCAR_DU_OUTPUT_LVDS0,
+-	RCAR_DU_OUTPUT_LVDS1,
+ 	RCAR_DU_OUTPUT_HDMI0,
+ 	RCAR_DU_OUTPUT_HDMI1,
++	RCAR_DU_OUTPUT_LVDS0,
++	RCAR_DU_OUTPUT_LVDS1,
+ 	RCAR_DU_OUTPUT_TCON,
+ 	RCAR_DU_OUTPUT_MAX,
+ };
 -- 
 2.30.2
 
