@@ -2,211 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 046313B1ABA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 15:06:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A594E3B1AC4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 15:09:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230513AbhFWNJF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 09:09:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40620 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230510AbhFWNJF (ORCPT
+        id S230454AbhFWNLh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 09:11:37 -0400
+Received: from mail-ua1-f45.google.com ([209.85.222.45]:40545 "EHLO
+        mail-ua1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230163AbhFWNLg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 09:09:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56835C061574
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Jun 2021 06:06:47 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6DC89AA;
-        Wed, 23 Jun 2021 15:06:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624453606;
-        bh=NgdQ8ykOXBMeYY3iESqC9D9JcCJ/cCVN38t1VWQtFv4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=e8LIAo3YMj571ZP82qRkRpvO6qPxhXyn2qu1AzBOEAfMhgLb1e5fYB4g4M7kEk2Vw
-         b/j0fea3JeekiHITMY0rj/3bavkTmuQnDeJHCwotOk096OH/hAa3CJKNNddLQ0NG3I
-         voEYkDHLsYH1hPO5xiJms6WvK/0x/7+x7mj7QKDQ=
-Date:   Wed, 23 Jun 2021 16:06:16 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        LUU HOAI <hoai.luu.ub@renesas.com>
-Subject: Re: [RFC PATCH 01/15] dt-bindings: display: bridge: Add binding for
- R-Car MIPI DSI/CSI-2 TX
-Message-ID: <YNMxyCvON4tfZzNX@pendragon.ideasonboard.com>
-References: <20210623034656.10316-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210623034656.10316-2-laurent.pinchart+renesas@ideasonboard.com>
- <bc508b07-5028-b8e9-b0ac-994c9deca74d@ideasonboard.com>
+        Wed, 23 Jun 2021 09:11:36 -0400
+Received: by mail-ua1-f45.google.com with SMTP id r9so828025ual.7;
+        Wed, 23 Jun 2021 06:09:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2GyvRMqzd0j7dU3QjG5cKA3SND3uzGcIE5fba+nRyaE=;
+        b=VSmcRh4MftvCjl9E1F1HLcutSXjgX9Vt474J0i55jARkgepTWyfhCb4LDCikvqS9uG
+         VX0DbKBXly9p2BfiWzCDsSYNO7BFSDyQmhoEHWMyT1CcrgFkDj183O8qrhnUZCoJr9du
+         IhD7hId0I2qZMD+0NgKQO/JS6WkVAH9EAjHYvlAWfSZ69aP/xndgx7wr4XEax+8Jeoi+
+         oDZ9/nt3q9FAuE4qxxtxQ6ms/KNb67+zkpvye02ZRQrnZ2Z57asV3xfkXlItorYuB4qr
+         7zW3GS9XbExwT6DnSQqcGTybtxmz4wIGIZb0eRSTQAtioTkSUB/R0eCErPZJR6Phtk6C
+         YZjg==
+X-Gm-Message-State: AOAM533ng+XxvaNb0bBgtD9tRMM8GTKv0ZomdnQohh2Ds5DR0S1uuOMy
+        Qhp/SQdhXkjM7UFTjdtGMzxyOjl5cM4CJpchA2E=
+X-Google-Smtp-Source: ABdhPJy7fEj+42hR8loz80KZeBpk8m6cSVSkPMGaM+vOPsqzJ7EuBgra5HjzbA2XO5FoOuNmfwqhB3mqOHbBdX7nzSE=
+X-Received: by 2002:ab0:1e4c:: with SMTP id n12mr4441015uak.58.1624453757600;
+ Wed, 23 Jun 2021 06:09:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <bc508b07-5028-b8e9-b0ac-994c9deca74d@ideasonboard.com>
+References: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
+ <CAMuHMdW8vYC3+gVCv5eG_vkX79vU8RQL-6fSJd9McetDzikzSA@mail.gmail.com> <YNMv2KSjbwX5aAK2@pendragon.ideasonboard.com>
+In-Reply-To: <YNMv2KSjbwX5aAK2@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 23 Jun 2021 15:09:06 +0200
+Message-ID: <CAMuHMdXJTCyfMX3nN6pbAHeqqf5OCqJR4+7GJ=71+o1iKRrHhg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: renesas,du: Provide bindings for r8a779a0
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+        "open list:DRM DRIVERS FOR RENESAS" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 10:06:37AM +0100, Kieran Bingham wrote:
-> Hi Laurent,
-> 
-> On 23/06/2021 04:46, Laurent Pinchart wrote:
-> > The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
-> > can operate in either DSI or CSI-2 mode, with up to four data lanes.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  .../display/bridge/renesas,dsi-csi2-tx.yaml   | 118 ++++++++++++++++++
-> >  1 file changed, 118 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> > new file mode 100644
-> > index 000000000000..7e1b606a65ea
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> > @@ -0,0 +1,118 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
-> > +
-> > +maintainers:
-> > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > +
-> > +description: |
-> > +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
-> > +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
-> > +  to four data lanes.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - renesas,r8a779a0-dsi-csi2-tx # for V3U
-> 
-> Only a potential nit ...
-> 
-> Is it worth moving the "# for V3U" over a bit to allow for extended
-> compatibles in the future without re-aligning the table?
-> 
-> Looks like 37 chars before it currently, it could at least move to
-> position 40.
+Hi Laurent,
 
-If that's all it requires to make you happy, no problem :-)
+On Wed, Jun 23, 2021 at 2:58 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Wed, Jun 23, 2021 at 02:53:33PM +0200, Geert Uytterhoeven wrote:
+> > On Wed, Jun 23, 2021 at 1:11 AM Kieran Bingham wrote:
+> > > From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > >
+> > > Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+> > >
+> > > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > @@ -39,6 +39,7 @@ properties:
+> > >        - renesas,du-r8a77980 # for R-Car V3H compatible DU
+> > >        - renesas,du-r8a77990 # for R-Car E3 compatible DU
+> > >        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> > > +      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+> > >
+> > >    reg:
+> > >      maxItems: 1
+> > > @@ -774,6 +775,57 @@ allOf:
+> > >          - reset-names
+> > >          - renesas,vsps
+> > >
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            enum:
+> > > +              - renesas,du-r8a779a0
+> > > +    then:
+> > > +      properties:
+> > > +        clocks:
+> > > +          items:
+> > > +            - description: Functional clock for DU0
+> > > +            - description: Functional clock for DU1
+> > > +
+> > > +        clock-names:
+> > > +          items:
+> > > +            - const: du.0
+> > > +            - const: du.1
+> >
+> > The hardware block has only a single function clock for both channels,
+> > like on R-Car H1.
+> >
+> > And what about DU_DOTCLKIN?
+>
+> As far as I can tell, there's no DU_DOTCLKIN in V3U.
 
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Functional clock
-> > +      - description: DSI (and CSI-2) functional clock
-> > +      - description: PLL reference clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: fck
-> > +      - const: dsi
-> > +      - const: pll
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Parallel input port
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description: DSI/CSI-2 output port
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: /schemas/media/video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              data-lanes:
-> > +                minItems: 1
-> > +                maxItems: 4
-> > +
-> > +            required:
-> > +              - data-lanes
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - power-domains
-> > +  - resets
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
-> > +    #include <dt-bindings/power/r8a779a0-sysc.h>
-> > +
-> > +    dsi0: dsi-encoder@fed80000 {
-> > +        compatible = "renesas,r8a779a0-dsi-csi2-tx";
-> > +        reg = <0xfed80000 0x10000>;
-> > +        power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +        clocks = <&cpg CPG_MOD 415>,
-> > +                 <&cpg CPG_CORE R8A779A0_CLK_DSI>,
-> > +                 <&cpg CPG_CORE R8A779A0_CLK_CP>;
-> > +        clock-names = "fck", "dsi", "pll";
-> 
-> is the CP/PLL clock actually needed?
-> 
-> I don't see any other gen3 peripheral referencing it.
-> 
-> Is it expected to be required for calculations in the DSI encoder?
+See Table 6.13 of the Hardware User's Manual, pin IPC_CLKIN.
+Note that the register bits to configure it are present in
+drivers/pinctrl/renesas/pfc-r8a779a0.c, but the actual pin group is
+missing.
 
-It's listed in the datasheet as the DSI PLL input clock. The driver
-still uses the old "extal" name though, which I'll fix.
+Gr{oetje,eeting}s,
 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> > +        resets = <&cpg 415>;
-> > +
-> > +        ports {
-> > +            #address-cells = <1>;
-> > +            #size-cells = <0>;
-> > +
-> > +            port@0 {
-> > +                reg = <0>;
-> > +                dsi0_in: endpoint {
-> > +                    remote-endpoint = <&du_out_dsi0>;
-> > +                };
-> > +            };
-> > +
-> > +            port@1 {
-> > +                reg = <1>;
-> > +                dsi0_out: endpoint {
-> > +                    data-lanes = <1 2>;
-> > +                    remote-endpoint = <&sn65dsi86_in>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +...
-> > 
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
