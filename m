@@ -2,43 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E24853B1A86
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 14:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9796C3B1A96
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 14:58:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230222AbhFWM4D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 08:56:03 -0400
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:43757 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230019AbhFWM4D (ORCPT
+        id S230234AbhFWNAu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 09:00:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38694 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230019AbhFWNAu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 08:56:03 -0400
-Received: by mail-vs1-f49.google.com with SMTP id v12so1348047vsg.10;
-        Wed, 23 Jun 2021 05:53:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P76n6RiaHARTNJx4hBu1PTQcMcnpO5X4D5Pt6jdXVrM=;
-        b=eDBklfAVBLqKexaYWEmmuFD2OtT1H9r5A3Okg4gP9Zov2k33ovQyvKgyK0paZ5uO1F
-         Qqzb7DxIXZ/hUkZ068qd/qvo9vRlONzTnUY0uAkx8RP/qdmrE1fiw6sLQb+FR/EXtNcZ
-         2N74pyu6bwZPyss4/s6RhkCK+OccS5H/EUYy+2YKXoUaEulj/Mg+VFS7BN6fZDR++I2i
-         HF4pGhQ7ptrxllxSTSRRx5QjK98FPSKLUcQRSYXH4avwrai0htexj5jI79Y1FL/wnyHe
-         ybEpV10vHXVCkHJDTuP8VQ6KHpES7vOgX9YMSSAvi0DDQQYD4xJfQPKu+/TLf3VpMdoS
-         KYag==
-X-Gm-Message-State: AOAM531RAl91xu3vqPC4HUKcSR1cCCqcW0VJk0Q+x4zHpkQnr4s8koPx
-        qyCGbl6MVurW5HEpCv7JdKxmqDyMW4nxt7tY2qg=
-X-Google-Smtp-Source: ABdhPJzQtwkx6Vol4T8y0aFn6deUBrbclNdnvtkKHC32EZvJE81p6+UAva6S9Ij1VyIOK4AEw4OeUADP2euokpub3lI=
-X-Received: by 2002:a67:ba0c:: with SMTP id l12mr1120114vsn.40.1624452824812;
- Wed, 23 Jun 2021 05:53:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
-In-Reply-To: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Jun 2021 14:53:33 +0200
-Message-ID: <CAMuHMdW8vYC3+gVCv5eG_vkX79vU8RQL-6fSJd9McetDzikzSA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: renesas,du: Provide bindings for r8a779a0
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Wed, 23 Jun 2021 09:00:50 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24D0C061574;
+        Wed, 23 Jun 2021 05:58:32 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E72B9AA;
+        Wed, 23 Jun 2021 14:58:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624453110;
+        bh=PoI3uyMbudFJL9C12/C2MbS0ALkBMEjg8aIMinrYFmU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SiCDwopvFxqu8yVC6wZm8Dgl9nuayKsEQzCg5bkoBiJpnydGtUuyT0n+pPMacmwJD
+         zFV2+8AduJ8JAWbRkuEWxNzpdhfKZUYe16eIMX0RMKIYqiZFZXBDByCtjnMDm2yPZh
+         T5XwZlHkIEN3u0z6NkuZ4tluEaJ7s/KoI790kTsY=
+Date:   Wed, 23 Jun 2021 15:58:00 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
@@ -49,67 +39,71 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] dt-bindings: display: renesas,du: Provide bindings for
+ r8a779a0
+Message-ID: <YNMv2KSjbwX5aAK2@pendragon.ideasonboard.com>
+References: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
+ <CAMuHMdW8vYC3+gVCv5eG_vkX79vU8RQL-6fSJd9McetDzikzSA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdW8vYC3+gVCv5eG_vkX79vU8RQL-6fSJd9McetDzikzSA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Geert,
 
-On Wed, Jun 23, 2021 at 1:11 AM Kieran Bingham
-<kieran.bingham@ideasonboard.com> wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->
-> Extend the Renesas DU display bindings to support the r8a779a0 V3U.
->
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On Wed, Jun 23, 2021 at 02:53:33PM +0200, Geert Uytterhoeven wrote:
+> On Wed, Jun 23, 2021 at 1:11 AM Kieran Bingham wrote:
+> > From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >
+> > Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+> >
+> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> Thanks for your patch!
+> 
+> > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > @@ -39,6 +39,7 @@ properties:
+> >        - renesas,du-r8a77980 # for R-Car V3H compatible DU
+> >        - renesas,du-r8a77990 # for R-Car E3 compatible DU
+> >        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> > +      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+> >
+> >    reg:
+> >      maxItems: 1
+> > @@ -774,6 +775,57 @@ allOf:
+> >          - reset-names
+> >          - renesas,vsps
+> >
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a779a0
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +
+> > +        clock-names:
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> 
+> The hardware block has only a single function clock for both channels,
+> like on R-Car H1.
+> 
+> And what about DU_DOTCLKIN?
 
-Thanks for your patch!
-
-> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> @@ -39,6 +39,7 @@ properties:
->        - renesas,du-r8a77980 # for R-Car V3H compatible DU
->        - renesas,du-r8a77990 # for R-Car E3 compatible DU
->        - renesas,du-r8a77995 # for R-Car D3 compatible DU
-> +      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
->
->    reg:
->      maxItems: 1
-> @@ -774,6 +775,57 @@ allOf:
->          - reset-names
->          - renesas,vsps
->
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,du-r8a779a0
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: Functional clock for DU0
-> +            - description: Functional clock for DU1
-> +
-> +        clock-names:
-> +          items:
-> +            - const: du.0
-> +            - const: du.1
-
-The hardware block has only a single function clock for both channels,
-like on R-Car H1.
-
-And what about DU_DOTCLKIN?
-
-Gr{oetje,eeting}s,
-
-                        Geert
+As far as I can tell, there's no DU_DOTCLKIN in V3U.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
