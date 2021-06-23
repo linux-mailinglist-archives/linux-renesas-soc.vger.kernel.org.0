@@ -2,164 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A7523B1CB6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 16:39:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16DCE3B1CFC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 16:59:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231187AbhFWOlx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 10:41:53 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:33991 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230334AbhFWOlw (ORCPT
+        id S229523AbhFWPBy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 11:01:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38366 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231236AbhFWPBx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 10:41:52 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id D996C58062B;
-        Wed, 23 Jun 2021 10:39:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Wed, 23 Jun 2021 10:39:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=0HsLLey/fKRoKjdaUNTlRKglMem
-        573ETn+6PBaZhBlA=; b=qlQdZFetQFNz5/Zr/PNIwv/XABwMWCK4shyMf8XCiNx
-        /nYEihGoj26BjdB5aU2E5nTBxwYL9cQXFa/91zesFfeIEMh1vkhiCpIeNUPjYb7h
-        VOIjgOSkTEnqfUN3C0AzpbHB3GIVLM8flLxO/2TW4gaAbXV6fAhtSzQjWbYql/fd
-        jDSR3+pavj2kHvl1caC7hr9ZNtr9FirK2Pg2KMsUPYOJM2CJFSvh3Chqs3G8sDy4
-        AUE+mDpkCSlAvcLsgXVMTUmxAbD4n9xWKcoBYNkcDgw/43sLey9L9AHnW34rJphg
-        MRyQi6ZQQfE37xy8KNfw2HLLgD2hysrYvF8hj8k0fGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0HsLLe
-        y/fKRoKjdaUNTlRKglMem573ETn+6PBaZhBlA=; b=k8goKRCtv30z60+G0WpDPe
-        0Kl/TAC/cTXPU/00+i9hyjvPkYU3O0WriDwv8FxkAvX7I6UekoWJrikYjnmZiSSQ
-        ME57XRoQVKire1wpx9MNoYST5PhZaFlpKZVq6eMcEMup4Xzka3ApXBOPHEB1Tx3K
-        XS7OiJLmQklpPwDctMAPD1fHbFYv3re8tDTvomkBvC9imy3bTYPWyfi7TmPq3OsM
-        oXRIB2f3OF9nD4j2P4o2jSFkLAM5VWK4YmnHiQ5S2oIGRCegVkqifrNgJ9QIE4sM
-        aULpb0Gd5QUX6rWN5DtkKkGjzv7vUWjbhG9Q1gskqiQA5Or2NuT9aUZOdp59/6nw
-        ==
-X-ME-Sender: <xms:okfTYFH9Y5JwLcxIa28cR-0p7f39WUbQNsYMTd34PvdGUqZ5xbQ3gA>
-    <xme:okfTYKW9yzYaXFkZiqavzlGCTs4cdYEDd0solwQeSdL4CC8CKnJguoAS-RF3pXGND
-    VSmgKekA2Khwau4F0E>
-X-ME-Received: <xmr:okfTYHJVnkIdNalGGK8dsY7ZBk9irxpZB3y2uWg3VorHDvfhptJKTcCXA_9aGhr2rooo4iz-D99zFA6SWCLMk9ZKyO5FlZD2ngpH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeegfedgkedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:okfTYLE5KoTeWvMi538qBEVwzxvUAmBgVNaKwY-29In-xk9YLjuJNA>
-    <xmx:okfTYLVaPx9j0bJCANeMwBqGKLWypbCv58ZSQDFVXIcHOKgKQvS-JQ>
-    <xmx:okfTYGPZOk9APMOyZETZF_tn_LzLyIwzLu6JCcgnRepHWAWB78g3Vw>
-    <xmx:o0fTYEsYOZp9MgqG3Bv6SxlPOuI_NlBkpBQ46DgN6JXombZcsfddVg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Jun 2021 10:39:30 -0400 (EDT)
-Date:   Wed, 23 Jun 2021 16:39:28 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Esaki Tomohito <etom@igel.co.jp>
-Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
-        Takanari Hayama <taki@igel.co.jp>
-Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
-Message-ID: <20210623143928.ickbxz32w6lbpofn@gilmour>
-References: <20210621062742.26073-1-etom@igel.co.jp>
- <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
- <20210621092454.jvdmelk2h427jn5v@gilmour>
- <cc08f858-7440-05f9-0d10-243f5115d209@igel.co.jp>
+        Wed, 23 Jun 2021 11:01:53 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6716DC061574
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Jun 2021 07:59:36 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:9418:90dd:e41:936d])
+        by michel.telenet-ops.be with bizsmtp
+        id LezY2501e1TrtvA06ezYuk; Wed, 23 Jun 2021 16:59:32 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lw4Lf-002ynr-CE; Wed, 23 Jun 2021 16:59:27 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lw4Lf-0033NO-06; Wed, 23 Jun 2021 16:59:27 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: r8a779a0: Restore sort order
+Date:   Wed, 23 Jun 2021 16:59:25 +0200
+Message-Id: <8d68a7ce449aaf90a88e69397dbe0e9c467d5726.1624460175.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="zrpqm6ro3pys2ppq"
-Content-Disposition: inline
-In-Reply-To: <cc08f858-7440-05f9-0d10-243f5115d209@igel.co.jp>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+The thermal node was inserted at the wrong place, breaking sort order
+(sort by unit address, but group nodes of the same type).
 
---zrpqm6ro3pys2ppq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Probably it was my fault, not Niklas' ;-)
 
-On Tue, Jun 22, 2021 at 01:36:48PM +0900, Esaki Tomohito wrote:
-> Hi, Maxime
-> Thank you for reply.
->=20
-> On 2021/06/21 18:24, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Mon, Jun 21, 2021 at 09:10:19AM +0200, Thomas Zimmermann wrote:
-> >> Am 21.06.21 um 08:27 schrieb Tomohito Esaki:
-> >>> Virtual DRM splits the overlay planes of a display controller into mu=
-ltiple
-> >>> virtual devices to allow each plane to be accessed by each process.
-> >>>
-> >>> This makes it possible to overlay images output from multiple process=
-es on a
-> >>> display. For example, one process displays the camera image without c=
-ompositor
-> >>> while another process overlays the UI.
-> >>
-> >> I briefly looked over your patches. I didn't understand how this is
-> >> different to the functionality of a compositor? Shouldn't this be solv=
-ed in
-> >> userspace?
-> >=20
-> > I think there could be a bunch of use-cases for something that could
-> > "steal" a plane without the compositor knowing.
-> >=20
-> > Something I'd really like to work at some point for example is that the
-> > downstream RaspberryPi display driver has a visual clue when it's
-> > running too hot or is in over-current.
-> >=20
-> > I don't think this is the right solution though. The DT binding makes it
-> > far too static, and if there's a compositor I'd assume it would want to
-> > know about it somehow (at least if it's from the userspace) ?
-> >=20
->=20
-> I will reconsider the DT bindings.
->=20
-> We want to separate the resources from the master in units of planes,
-> so we proposed virtual DRM.
-> By separating the plane from the master and making it appear as
-> a virtual DRM devicein userland, the plane can be accessed from
-> userland using the general DRM API.
-> What do you think about this idea?
+To be queued in renesas-devel for v5.15.
 
-I guess you'd need to detail a bit more what your use case is exactly,
-and what issue you're trying to address.
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 26 +++++++++++------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-Generally speaking, I'm not really sure how you can separate a KMS
-driver from its planes.
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+index a7dfade1801a87db..3676b2bd3d646cdb 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+@@ -327,6 +327,19 @@ sysc: system-controller@e6180000 {
+ 			#power-domain-cells = <1>;
+ 		};
+ 
++		tsc: thermal@e6190000 {
++			compatible = "renesas,r8a779a0-thermal";
++			reg = <0 0xe6190000 0 0x200>,
++			      <0 0xe6198000 0 0x200>,
++			      <0 0xe61a0000 0 0x200>,
++			      <0 0xe61a8000 0 0x200>,
++			      <0 0xe61b0000 0 0x200>;
++			clocks = <&cpg CPG_MOD 919>;
++			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
++			resets = <&cpg 919>;
++			#thermal-sensor-cells = <1>;
++		};
++
+ 		tmu0: timer@e61e0000 {
+ 			compatible = "renesas,tmu-r8a779a0", "renesas,tmu";
+ 			reg = <0 0xe61e0000 0 0x30>;
+@@ -392,19 +405,6 @@ tmu4: timer@ffc00000 {
+ 			status = "disabled";
+ 		};
+ 
+-		tsc: thermal@e6190000 {
+-			compatible = "renesas,r8a779a0-thermal";
+-			reg = <0 0xe6190000 0 0x200>,
+-			      <0 0xe6198000 0 0x200>,
+-			      <0 0xe61a0000 0 0x200>,
+-			      <0 0xe61a8000 0 0x200>,
+-			      <0 0xe61b0000 0 0x200>;
+-			clocks = <&cpg CPG_MOD 919>;
+-			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets = <&cpg 919>;
+-			#thermal-sensor-cells = <1>;
+-		};
+-
+ 		i2c0: i2c@e6500000 {
+ 			compatible = "renesas,i2c-r8a779a0",
+ 				     "renesas,rcar-gen3-i2c";
+-- 
+2.25.1
 
-Like, assuming that you have that super important application putting
-the rear-end camera on the display: I'd assume you want the connector
-and bridges to remain enabled? How are you going to synchronize with the
-compositor if it wants to disable it, or change resolution?
-
-Similarly, some features exposed on the connector, like bpc, might
-affect the input format you want to have for your planes?
-
-Maxime
-
---zrpqm6ro3pys2ppq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNNHoAAKCRDj7w1vZxhR
-xSYqAQCeBYrlpqR5FSj6MJ47x6cTdMpmzNwtz5kdH40wQJkV7AD/de9z5dNUHVoD
-IFn98/cS3zYxIr7sbZYk5LkBlbuvaAg=
-=owdM
------END PGP SIGNATURE-----
-
---zrpqm6ro3pys2ppq--
