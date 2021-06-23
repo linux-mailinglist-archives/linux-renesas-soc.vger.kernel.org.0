@@ -2,116 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 031663B1CA4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 16:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A7523B1CB6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 16:39:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230334AbhFWOi7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 10:38:59 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:39956 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbhFWOi7 (ORCPT
+        id S231187AbhFWOlx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 10:41:53 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:33991 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230334AbhFWOlw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 10:38:59 -0400
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 670FDEE;
-        Wed, 23 Jun 2021 16:36:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624459000;
-        bh=L/wBNzZnjJd2bAFhkH5cdoXL+9AZvki4Yv/iSLuDpQ8=;
-        h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
-        b=rw8WGo9EbpAjI9CSE6BmDdi/7OIZZ0CYZC4J6qw0LbRWUxXt79c7IDHDt5993js6i
-         0keMssK/cZUvgr+7q9PKkTc8Krg9zPqmWqcHDrk6COAY1NmUawUzA+G9H9KcB8TC1V
-         2jgRxVJ4pizp1xmIFjYlhmli5RsohwPuyR8gmNNA=
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [RFC PATCH 01/15] dt-bindings: display: bridge: Add binding for
- R-Car MIPI DSI/CSI-2 TX
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LUU HOAI <hoai.luu.ub@renesas.com>
-References: <20210623034656.10316-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210623034656.10316-2-laurent.pinchart+renesas@ideasonboard.com>
- <bc508b07-5028-b8e9-b0ac-994c9deca74d@ideasonboard.com>
- <CAMuHMdUD-GsVCyAsNNdK1D-zoDiRAoKgmU+jXE6UT_uCOrc=hA@mail.gmail.com>
-Message-ID: <3792527a-4f45-8fe5-1b6a-033cc28fa28c@ideasonboard.com>
-Date:   Wed, 23 Jun 2021 15:36:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Wed, 23 Jun 2021 10:41:52 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id D996C58062B;
+        Wed, 23 Jun 2021 10:39:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Wed, 23 Jun 2021 10:39:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=0HsLLey/fKRoKjdaUNTlRKglMem
+        573ETn+6PBaZhBlA=; b=qlQdZFetQFNz5/Zr/PNIwv/XABwMWCK4shyMf8XCiNx
+        /nYEihGoj26BjdB5aU2E5nTBxwYL9cQXFa/91zesFfeIEMh1vkhiCpIeNUPjYb7h
+        VOIjgOSkTEnqfUN3C0AzpbHB3GIVLM8flLxO/2TW4gaAbXV6fAhtSzQjWbYql/fd
+        jDSR3+pavj2kHvl1caC7hr9ZNtr9FirK2Pg2KMsUPYOJM2CJFSvh3Chqs3G8sDy4
+        AUE+mDpkCSlAvcLsgXVMTUmxAbD4n9xWKcoBYNkcDgw/43sLey9L9AHnW34rJphg
+        MRyQi6ZQQfE37xy8KNfw2HLLgD2hysrYvF8hj8k0fGg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0HsLLe
+        y/fKRoKjdaUNTlRKglMem573ETn+6PBaZhBlA=; b=k8goKRCtv30z60+G0WpDPe
+        0Kl/TAC/cTXPU/00+i9hyjvPkYU3O0WriDwv8FxkAvX7I6UekoWJrikYjnmZiSSQ
+        ME57XRoQVKire1wpx9MNoYST5PhZaFlpKZVq6eMcEMup4Xzka3ApXBOPHEB1Tx3K
+        XS7OiJLmQklpPwDctMAPD1fHbFYv3re8tDTvomkBvC9imy3bTYPWyfi7TmPq3OsM
+        oXRIB2f3OF9nD4j2P4o2jSFkLAM5VWK4YmnHiQ5S2oIGRCegVkqifrNgJ9QIE4sM
+        aULpb0Gd5QUX6rWN5DtkKkGjzv7vUWjbhG9Q1gskqiQA5Or2NuT9aUZOdp59/6nw
+        ==
+X-ME-Sender: <xms:okfTYFH9Y5JwLcxIa28cR-0p7f39WUbQNsYMTd34PvdGUqZ5xbQ3gA>
+    <xme:okfTYKW9yzYaXFkZiqavzlGCTs4cdYEDd0solwQeSdL4CC8CKnJguoAS-RF3pXGND
+    VSmgKekA2Khwau4F0E>
+X-ME-Received: <xmr:okfTYHJVnkIdNalGGK8dsY7ZBk9irxpZB3y2uWg3VorHDvfhptJKTcCXA_9aGhr2rooo4iz-D99zFA6SWCLMk9ZKyO5FlZD2ngpH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeegfedgkedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:okfTYLE5KoTeWvMi538qBEVwzxvUAmBgVNaKwY-29In-xk9YLjuJNA>
+    <xmx:okfTYLVaPx9j0bJCANeMwBqGKLWypbCv58ZSQDFVXIcHOKgKQvS-JQ>
+    <xmx:okfTYGPZOk9APMOyZETZF_tn_LzLyIwzLu6JCcgnRepHWAWB78g3Vw>
+    <xmx:o0fTYEsYOZp9MgqG3Bv6SxlPOuI_NlBkpBQ46DgN6JXombZcsfddVg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Jun 2021 10:39:30 -0400 (EDT)
+Date:   Wed, 23 Jun 2021 16:39:28 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Esaki Tomohito <etom@igel.co.jp>
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+        Takanari Hayama <taki@igel.co.jp>
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+Message-ID: <20210623143928.ickbxz32w6lbpofn@gilmour>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+ <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
+ <20210621092454.jvdmelk2h427jn5v@gilmour>
+ <cc08f858-7440-05f9-0d10-243f5115d209@igel.co.jp>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUD-GsVCyAsNNdK1D-zoDiRAoKgmU+jXE6UT_uCOrc=hA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="zrpqm6ro3pys2ppq"
+Content-Disposition: inline
+In-Reply-To: <cc08f858-7440-05f9-0d10-243f5115d209@igel.co.jp>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 23/06/2021 14:12, Geert Uytterhoeven wrote:
-> Hi Kieran,
-> 
-> On Wed, Jun 23, 2021 at 11:06 AM Kieran Bingham
-> <kieran.bingham@ideasonboard.com> wrote:
->> On 23/06/2021 04:46, Laurent Pinchart wrote:
->>> The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
->>> can operate in either DSI or CSI-2 mode, with up to four data lanes.
->>>
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>> ---
->>>  .../display/bridge/renesas,dsi-csi2-tx.yaml   | 118 ++++++++++++++++++
->>>  1 file changed, 118 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
->>> new file mode 100644
->>> index 000000000000..7e1b606a65ea
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
->>> @@ -0,0 +1,118 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
->>> +
->>> +maintainers:
->>> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>> +
->>> +description: |
->>> +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
->>> +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
->>> +  to four data lanes.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - renesas,r8a779a0-dsi-csi2-tx # for V3U
->>
->> Only a potential nit ...
->>
->> Is it worth moving the "# for V3U" over a bit to allow for extended
->> compatibles in the future without re-aligning the table?
->>
->> Looks like 37 chars before it currently, it could at least move to
->> position 40.
-> 
-> Happy predicting the future ;-)
-> 
-> Did you take into account adding items and/or oneOf, which will
-> impact alignment, too?
 
-Maybe it should be way over at 60 chars then ;-)
+--zrpqm6ro3pys2ppq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Not a big issue, I don't mind either way, I'd just indent a little to
-try to save when someone adds small updates that then requires a big
-table change.
+On Tue, Jun 22, 2021 at 01:36:48PM +0900, Esaki Tomohito wrote:
+> Hi, Maxime
+> Thank you for reply.
+>=20
+> On 2021/06/21 18:24, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Mon, Jun 21, 2021 at 09:10:19AM +0200, Thomas Zimmermann wrote:
+> >> Am 21.06.21 um 08:27 schrieb Tomohito Esaki:
+> >>> Virtual DRM splits the overlay planes of a display controller into mu=
+ltiple
+> >>> virtual devices to allow each plane to be accessed by each process.
+> >>>
+> >>> This makes it possible to overlay images output from multiple process=
+es on a
+> >>> display. For example, one process displays the camera image without c=
+ompositor
+> >>> while another process overlays the UI.
+> >>
+> >> I briefly looked over your patches. I didn't understand how this is
+> >> different to the functionality of a compositor? Shouldn't this be solv=
+ed in
+> >> userspace?
+> >=20
+> > I think there could be a bunch of use-cases for something that could
+> > "steal" a plane without the compositor knowing.
+> >=20
+> > Something I'd really like to work at some point for example is that the
+> > downstream RaspberryPi display driver has a visual clue when it's
+> > running too hot or is in over-current.
+> >=20
+> > I don't think this is the right solution though. The DT binding makes it
+> > far too static, and if there's a compositor I'd assume it would want to
+> > know about it somehow (at least if it's from the userspace) ?
+> >=20
+>=20
+> I will reconsider the DT bindings.
+>=20
+> We want to separate the resources from the master in units of planes,
+> so we proposed virtual DRM.
+> By separating the plane from the master and making it appear as
+> a virtual DRM devicein userland, the plane can be accessed from
+> userland using the general DRM API.
+> What do you think about this idea?
 
+I guess you'd need to detail a bit more what your use case is exactly,
+and what issue you're trying to address.
 
-Ps. .. the lottery numbers this week are ...
+Generally speaking, I'm not really sure how you can separate a KMS
+driver from its planes.
 
+Like, assuming that you have that super important application putting
+the rear-end camera on the display: I'd assume you want the connector
+and bridges to remain enabled? How are you going to synchronize with the
+compositor if it wants to disable it, or change resolution?
 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+Similarly, some features exposed on the connector, like bpc, might
+affect the input format you want to have for your planes?
+
+Maxime
+
+--zrpqm6ro3pys2ppq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNNHoAAKCRDj7w1vZxhR
+xSYqAQCeBYrlpqR5FSj6MJ47x6cTdMpmzNwtz5kdH40wQJkV7AD/de9z5dNUHVoD
+IFn98/cS3zYxIr7sbZYk5LkBlbuvaAg=
+=owdM
+-----END PGP SIGNATURE-----
+
+--zrpqm6ro3pys2ppq--
