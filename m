@@ -2,83 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12B173B1E51
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 18:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A09E3B1E6B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 18:13:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229886AbhFWQLs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 12:11:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50630 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229913AbhFWQLq (ORCPT
+        id S229755AbhFWQQH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 12:16:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55038 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229688AbhFWQQG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 12:11:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3F8016128D;
-        Wed, 23 Jun 2021 16:09:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624464568;
-        bh=kYat1lDcdPalxoyEdVzJzS8BZA5l+ubFAD8SJB7kRZs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DvV/5OyvJHxWST+toyxpna2dJTYbAWR3k21l1PTEi0vXnH++6SbvGvvkT22ICt539
-         AxcIw7Bw0QlUVebTEbqNCQ2vqpwReVfMp147PnO2aqtjCmtHpzb4kWpAaiXmIU80Aw
-         cF3L7RXcO2Fu0kgE2NGPmzmzOd2QmPYUqSfMLb1mWazxesMxXPB82cqHmcUtJLXK18
-         g+c8AkSkLUqiPV/BuLEEDIuL4x5m7jFCFMJG63NTnCMlLouNuYkr4WKQtHXD/4mcZy
-         zP8xjXOzuaELxGQsK0Jkf9Zy6O8yECMe2vFj+BDAip4hrgfRZ23AIwVj9M5Mu4TPA/
-         Ga8e3Efqc4HKg==
-From:   Mark Brown <broonie@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org
-Cc:     Mark Brown <broonie@kernel.org>, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH 0/2] spi: use proper DMAENGINE API for termination
-Date:   Wed, 23 Jun 2021 17:08:51 +0100
-Message-Id: <162446446390.55587.10222548953553641662.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210623095843.3228-1-wsa+renesas@sang-engineering.com>
-References: <20210623095843.3228-1-wsa+renesas@sang-engineering.com>
+        Wed, 23 Jun 2021 12:16:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FC7EC061574
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Jun 2021 09:13:49 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CCED09AA;
+        Wed, 23 Jun 2021 18:13:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624464827;
+        bh=+L1YwAvszWTaIUhE4X3mSmdnKlBeU5GR1USUOORxiTE=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=BDHCHIk53dP4VKGadVDsfYasnH1/YR3Si1PcMh84whVlZckGdSki9T081O1qhaQl5
+         Ce1kHUaBM45FSiv28RgeQ3SiEB/QMr0whtUeb4w0Pf5bIu/V+yOft2/TDycYEGzWGI
+         2y1XIfRA97uSXQsD1KLpL/l6NPWvY+W3TKIlWbu8=
+Subject: Re: [PATCH 0/2] arm64: dts: renesas: r8a779a0: Add INTC-EX support
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <cover.1624460378.git.geert+renesas@glider.be>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Message-ID: <b7b53970-58ea-f27f-4190-0066cb30cb05@ideasonboard.com>
+Date:   Wed, 23 Jun 2021 17:13:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1624460378.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 23 Jun 2021 11:58:41 +0200, Wolfram Sang wrote:
-> dmaengine_terminate_all() is deprecated in favor of explicitly saying if
-> it should be sync or async. Update the drivers I audited.
+Hi Geert,
+
+On 23/06/2021 16:02, Geert Uytterhoeven wrote:
+> 	Hi all,
 > 
+> This patch series adds support for the Interrupt Controller for External
+> Devices (INT-EC) in the Renesas R-Car V3U (r8a779a0) SoC.
 > 
-> Wolfram Sang (2):
->   spi: spi-rspi: : use proper DMAENGINE API for termination
->   spi: spi-sh-msiof: : use proper DMAENGINE API for termination
+> As there are two known issues, I'm posting this to a limited audience:
 > 
-> [...]
+>   1. External interrupts have not been tested.
+> 
+>      Kieran: perhaps IRQ0 can be tested on Falcon with the MIPI DSI/eDP
+>      bridge, by changing
+> 
+> 	 -    interrupt-parent = <&gpio1>;
+> 	 -    interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
+> 	 +    interrupt-parent = <&intc_ex>;
+> 	 +    interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+> 
+>      ? The "ti,sn65dsi86" driver doesn't seem to use interrupts, though,
+>      so I don't know how feasible this is.
 
-Applied to
+I can add an interrupt handler if that's what you need, but I suspect
+that the change here simply 're-routes' the interrupt through the
+intc_ex so that it still needs an interrupt to be generated by the
+SN65DSI86? is that right?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-Thanks!
 
-[1/2] spi: spi-rspi: : use proper DMAENGINE API for termination
-      commit: 29176edd6e7ad7333d0bb19a309b2104fa4f4341
-[2/2] spi: spi-sh-msiof: : use proper DMAENGINE API for termination
-      commit: a26dee29ec04a3f6779684852c36a2a71fd68fd8
+>      Alternatively, with physical access, IRQ0 is available on test
+>      point CP47, and IRQ2 on the GPIO CN.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+I do have physical access, so I can trigger this - Is there a suitable
+voltage or condition I can apply? (I.e. take a signal from a nearby pin
+to short it?)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--
+Kieran
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
 
-Thanks,
-Mark
+>   2. As recent revisions of R-Car Gen3 Hardware User's Manuals stopped
+>      documenting module clocks for interrupt controllers, I don't know
+>      which Module Stop bits control it.  Hence I could not add the intc-ex
+>      module clock to the R-Car V3U clock driver, but have used the CP
+>      clock instead in DTS.  Alternatively, as the driver doesn't really
+>      use the clock (except implicitly through Runtime PM), we can drop
+>      it, but that would need an update to the DT bindings.
+> 
+> This series been boot-tested on a remote Falcon development board.
+> 
+> Thanks for your comments!
+> 
+> Geert Uytterhoeven (2):
+>   dt-bindings: irqchip: renesas-irqc: Add R-Car V3U support
+>   arm64: dts: renesas: r8a779a0: Add INTC-EX device node
+> 
+>  .../interrupt-controller/renesas,irqc.yaml        |  1 +
+>  arch/arm64/boot/dts/renesas/r8a779a0.dtsi         | 15 +++++++++++++++
+>  2 files changed, 16 insertions(+)
+> 
