@@ -2,147 +2,267 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0C7D3B1829
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 12:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9F4D3B183D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 12:50:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbhFWKgv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 06:36:51 -0400
-Received: from mail-eopbgr1320105.outbound.protection.outlook.com ([40.107.132.105]:43808
-        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229833AbhFWKgu (ORCPT
+        id S229964AbhFWKw6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 06:52:58 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36980 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230161AbhFWKw6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 06:36:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cIensxMkLiiboWmRGZ+/yjVZwg1vkfVKtv+eyXviBa/br91RhCKLgawIrP6tp9XdY0428Oe5CHKjxVrMKlR/dHnu5dzqy44b4AmW6v+FlZ3LcQYTTo2zFyB9/311gQllJBG1fRbvUP36VYKkeTldKW+b8SmRpVa3YnkJoVPpSvc/ksJtV/EzTVWIgZSJ9cKLxjUiOtwxe8ysSPbPyKhyBNMMWhu1cJA8CWT7SfpyDRunIqan6sBz9GI6ltzm3oSE+HTbmTjTSLaxeTgdhivikwcL6oc9uLV8xDzZS9GnX3jLKO/eUUMPd3Yz50HvtqganejhT89pCJItj6C8Hj9x/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RHB4Q18NoYcYe5U9QCbHvq96GwiIl+8TP5d55GE0EQw=;
- b=h/xIhpyUz46uDrmSyoRxkTKznTW8jwHoRCOxlP/jZNAjYmRc6F/5jHH1mpdskDqu6UaQtCOi7dgnJl5vEPh9b8rFMrICb31ORxxPlm4Pyr2X+2lrYw1LOPTlx7UdQc7XgIkzQdb1zTPownlXKY1X6oLvtCc2rnf5rmvXOk/52kWiew+c7S461PeWOQ3Izh9o9supQokD0ql8YX+f9gyVVZfJZMwJB1yYMvdqoOJEcZA8GcXc9wQEAlZDJNbbmZDXVRD/AoT8HN0+/4BYtoWmsxi8q/H/Dm7p0E7YTvK1tvjDZ7jXRGOxNmaiAivxgi/vh46Nhj6MfpXUtjD1oMxz8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RHB4Q18NoYcYe5U9QCbHvq96GwiIl+8TP5d55GE0EQw=;
- b=crRDC4NLYmFuV3z7naD2x8crrzIo0+OmtD2/gXutip4lacgqBxwF+Xeol9pjuBPo+xwwGA5gLeqqPlKknurkE4NM05WCdUTjW3VAiVbCMs/fkHhFn9sw41kkilWCrbse0e231oA4/0zahEJS1yZ371IUH94CrKe8fW/xTEF0dO4=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TY2PR01MB3514.jpnprd01.prod.outlook.com (2603:1096:404:e0::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Wed, 23 Jun
- 2021 10:34:29 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::4c5d:66ee:883a:72a5]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::4c5d:66ee:883a:72a5%6]) with mapi id 15.20.4242.024; Wed, 23 Jun 2021
- 10:34:29 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
+        Wed, 23 Jun 2021 06:52:58 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F1729AA;
+        Wed, 23 Jun 2021 12:50:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624445440;
+        bh=1Nw9KFG0firHWcFNBnkf1WjlktblyiOSb/y0v3cbHxA=;
+        h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
+        b=i0ooc81j561MWV4PlpTKBkg4ilTRGRGXGHlaaH56UfN9iKYm0IofY9gNpy2QIU6ZC
+         z3ZTSAAOqPpjFHXkqYc5QZbm2hicy99MXaYtramI/8Xu/AfTWEH5n8zDL3gVKqVQQC
+         4HSDUK61E3OFiq9btXAVr2HE6DhZiHOWxymxtIJo=
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH 3/3] drm: rcar-du: Add r8a779a0 device support
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+        "open list:DRM DRIVERS FOR RENESAS" 
         <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH 03/14] pinctrl: renesas: Fix pin control matching on R-Car
- H3e-2G
-Thread-Topic: [PATCH 03/14] pinctrl: renesas: Fix pin control matching on
- R-Car H3e-2G
-Thread-Index: AQHXXdxGBfJJC7BEGEm1oOMO0AG256shefKA
-Date:   Wed, 23 Jun 2021 10:34:29 +0000
-Message-ID: <TY2PR01MB36928C52ADEDDC289FF1318ED8089@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <cover.1623315732.git.geert+renesas@glider.be>
- <ab1acd836e990c536ff3a8c715ce57363d3ff8cb.1623315732.git.geert+renesas@glider.be>
-In-Reply-To: <ab1acd836e990c536ff3a8c715ce57363d3ff8cb.1623315732.git.geert+renesas@glider.be>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: glider.be; dkim=none (message not signed)
- header.d=none;glider.be; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e215dca6-ee60-4d71-ab56-08d936327b5a
-x-ms-traffictypediagnostic: TY2PR01MB3514:
-x-microsoft-antispam-prvs: <TY2PR01MB3514E589950D52C6BA9DB6CBD8089@TY2PR01MB3514.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9fd7Sxq4GBnBjAG19Jg/0ikBjBSlPwswiHxNkoFQmACSdhNHIXUD3ZLD5RHdNayC5tRNztVoC8KsIovT4SCtWcq8slRQtJ/iklwRoYHGDOMvZEvHYJZcRbEhGpQpI0jKymflVsSw4kVYwtU0GnbDvt3r0zDlYmvZcIl7L5duxn28qMhGZ9H4g/+i3v/dPl5tPA9CjSyAI0JWU5zwr6mw6WJHUPhD7d2C33eThfhX1fc+eckiko6le7s8RQe4pZvKth+5XIpgALMXagjVC6a0ZhRKPPEWofJtcgJxp10VQyE0QTPNWtwTsxF4vp64mo7AVu///y60cLuFdmor7RkW7Y8KPxBMCHO25H6ezsh8LM9oqQbWdgsn9ncZcpQKg1ObzcC0e/p0JAZEVtZYbpfxLo3HtyOiCRGgBJl8bEQkyM9DaY7/U1pLn2DeukeJUYi/h8QLacsJ8m8iUn3SD5vHVl6/DSWdgI88Po9RYZEpLKBzNlM1qayiR9xobcQ9zI4HOwD3P/5UWEEXd/lS+QVxMLnbu4ds60aBENMp+swTXDWvOl5fgONzmFPF9jgpHo7NJFoKUaxn/gIRJ4ClisjdgHxZpGxkM45bdEa+bQGxMc0=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39860400002)(366004)(376002)(346002)(396003)(5660300002)(9686003)(8936002)(8676002)(66946007)(64756008)(66556008)(55016002)(66446008)(66476007)(76116006)(52536014)(110136005)(478600001)(86362001)(7696005)(6506007)(54906003)(55236004)(26005)(186003)(316002)(2906002)(38100700002)(122000001)(33656002)(71200400001)(4326008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AdKvfcKj/QKJB1F2ACU/cC82imi86rmSDs9hzWLC69DA8oJoqVIRw/xWgQKv?=
- =?us-ascii?Q?n7T3lk5aQuyOqhQ1bxFlCU5dRYr9uAvWKRGE+CRv3zK1Ynb5A1JPb62ye36i?=
- =?us-ascii?Q?OA7cq6YT7IMCPCJF3+BxJKnooxZpnFpRsfdi+L89Mag//hF020MjhwHbZhGC?=
- =?us-ascii?Q?3CpcsWkm0ULSDcufsFDiMx1giEcPFxHNJzIGGjm56tvghovJnJi4irHb+Br3?=
- =?us-ascii?Q?b3sJRPSAWMu/fmISwFxziHzFWdsYba8pH2arQgc2gYZj77TlRy0xJjLqtpwm?=
- =?us-ascii?Q?aFTQSySjWEmJCL3hFwYIvkSBP/P6dacnosP7CsZ6O6XPnP6Sf3qUJHmlwRXJ?=
- =?us-ascii?Q?TKGfJOPtQ/P6Pvt4V0DXkRHxYMEvtGV6WrLJioYxWEJX3zD8252h3ccrjLaK?=
- =?us-ascii?Q?6FtFKl75aEq6TSMv/TpMsW3NFL0GJ31SiwHtZ0xvU5r4fITCWsQFS+Ca8ff+?=
- =?us-ascii?Q?feuQSyWfrJnVhSl2mmtjTf11T0TO7ECQYVaErekpfnapjw6uHnDXOJ3Gk5y3?=
- =?us-ascii?Q?F6lQlTzpY50TlTS2vGiFizMJi7nKpaPQevTQOKA1yut5Z4LYyCSpxEG9W6/t?=
- =?us-ascii?Q?FeVNAwY9va0Yym0+47gREMbr1qZQeQfiE5asU8hXeIGeMp9myP/qaSRAIVYN?=
- =?us-ascii?Q?bbAbsHiZSKakoVmrV1KkZ8vhHY6MrbmXbqawS3h+uuKBBANx08q6HYbeYLI5?=
- =?us-ascii?Q?jz+awUZbFYaAt14plYiKmJkPaVqtbk/IBDlkEwOhtXqS0tD/3c4EUqOpU4e9?=
- =?us-ascii?Q?UyHePjYQg/D2eQwIHiGtEk/xZy7MGZxdZI0MX7jDOkizRcHDiisau0ZMd+ic?=
- =?us-ascii?Q?NwpGRPhFPXDt8yJXzUL+uC0wCqvSkA4QJS5xK0eGC+ZaHrXsUkGjQrlap9pG?=
- =?us-ascii?Q?9pkFTwAF89F1qXVmdZkcbifOIVuEBSUskD0qJSVkH553+QCTkJw5O6M88jqU?=
- =?us-ascii?Q?+qVuWJZDEa4S+DDz/59y5PDLREVnvVJaO6avPwkjGscthkup9GTD2DFFTu/F?=
- =?us-ascii?Q?foZHJPU+5nXryTFITucwQbBiJJo1Xh6GSFCDAO/g79YWfsKeutf6hDURJAmd?=
- =?us-ascii?Q?nc7FxQocs2pGCIicN32vLawTUqgyfU1kYW8BZzBuU6oJDyGxNkmZekPj5GN+?=
- =?us-ascii?Q?lgISgmVHMV8vHZkWy54Mes1Id/fvpWD9AxhnIxp+CVTWAjLG4NAqIowRO6lK?=
- =?us-ascii?Q?l0H03HiAa4gSgHD+a8oGhWNLZ3Gxcbz6ZscNmWLr/OeJsBnx5mOy/k3jo2Ny?=
- =?us-ascii?Q?O3JOek4kQuYq2tr3wYEH2JLGrTbwbieV9AeHAgEvcI4Y4bwOfsTiPHfd8JTT?=
- =?us-ascii?Q?7we9f4HDLpqTnpMKjR3RbBta?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        open list <linux-kernel@vger.kernel.org>
+References: <20210622232024.3215248-1-kieran.bingham@ideasonboard.com>
+ <20210622232024.3215248-4-kieran.bingham@ideasonboard.com>
+ <YNKcI8bS78dXDc1v@pendragon.ideasonboard.com>
+Message-ID: <baea3a32-9047-18f1-38ad-1f495fb37cfd@ideasonboard.com>
+Date:   Wed, 23 Jun 2021 11:50:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e215dca6-ee60-4d71-ab56-08d936327b5a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2021 10:34:29.4490
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DZsLCJDk9mH9YKM6n27MlmWd07yD4V8FRgW/ICWpnNM10lH7vExU/HQ1i68dGQUY1cyyz6rQKq9eoTv2CuyoJPdgL5D5cvc6SisDlgSuG+tPhyn+phfvHRhZ+RmMJMBM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB3514
+In-Reply-To: <YNKcI8bS78dXDc1v@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert-san,
+Hi Laurent,
 
-> From: Geert Uytterhoeven, Sent: Thursday, June 10, 2021 6:37 PM
->=20
-> As R-Car H3 ES1.x (R8A77950) and R-Car ES2.0+ (R8A77951) use the same
-> compatible value, the pin control driver relies on soc_device_match()
-> with soc_id =3D "r8a7795" and the (non)matching of revision =3D "ES1.*" t=
-o
-> match with and distinguish between the two SoC variants.  The
-> corresponding entries in the normal of_match_table are present only to
-> make the optional sanity checks work.
->=20
-> The R-Car H3e-2G (R8A779M1) SoC is a different grading of the R-Car H3
-> ES3.0 (R8A77951) SoC.  It uses the same compatible values for individual
-> devices, but has an additional compatible value for the root node.
-> When running on an R-Car H3e-2G SoC, soc_device_match() with soc_id =3D
-> "r8a7795" does not return a match.  Hence the pin control driver falls
-> back to the normal of_match_table, and, as the R8A77950 entry is listed
-> first, incorrectly uses the sub-driver for R-Car H3 ES1.x.
->=20
-> Fix this by moving the entry for R8A77951 before the entry for R8A77950.
+On 23/06/2021 03:27, Laurent Pinchart wrote:
+> Hi Kieran,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Jun 23, 2021 at 12:20:24AM +0100, Kieran Bingham wrote:
+>> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>
+>> Extend the rcar_du_device_info structure and rcar_du_output enum to
+>> support DSI outputs and utilise these additions to provide support for
+>> the R8A779A0 V3U platform.
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> ---
+>>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c    | 20 ++++++++++++++++++++
+>>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h    |  2 ++
+>>  drivers/gpu/drm/rcar-du/rcar_du_drv.c     | 21 +++++++++++++++++++++
+>>  drivers/gpu/drm/rcar-du/rcar_du_drv.h     |  6 ++++++
+>>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  4 ++++
+>>  drivers/gpu/drm/rcar-du/rcar_du_group.c   |  2 ++
+>>  6 files changed, 55 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>> index cff0d82b9491..edc46a96df6b 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>> @@ -31,6 +31,7 @@
+>>  #include "rcar_du_regs.h"
+>>  #include "rcar_du_vsp.h"
+>>  #include "rcar_lvds.h"
+>> +#include "rcar_mipi_dsi.h"
+>>  
+>>  static u32 rcar_du_crtc_read(struct rcar_du_crtc *rcrtc, u32 reg)
+>>  {
+>> @@ -737,6 +738,16 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+>>  		rcar_lvds_clk_enable(bridge, mode->clock * 1000);
+>>  	}
+>>  
+>> +	/*
+>> +	 * On V3U the dot clock is provided by the MIPI DSI encoder which is
+>> +	 * attached to DU. So, the MIPI DSI module should be enable before starting DU.
+> 
+> s/enable/enabled/
+> 
+> Line wrap.
+> 
+> But do we ? On D3 and E3, the situation is different, the clock is
+> provided by the LVDS encoder even if a non-LVDS output is used. On V3U,
+> we only have DSI outputs, so the DSI encoder will be enabled normally
+> anyway.
 
-Thank you for the patch! After that, IIUC, we can remove an entry of r8a779=
-51
-from quirks[] in the sh_pfc_quirk_match().
+Ok - presumably you suggest moving the contents of
+rcar_mipi_dsi_clk_enable() to be called as a pre_enable(struct
+drm_bridge *bridge) hook then?
 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Or it can be directly in the enable I guess. (also adding a disable)
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+In fact, it's working when it's called from the enable, so I'll move
+this all out and send fixups for your RFC series to ultimately squash down.
 
-Best regards,
-Yoshihiro Shimoda
 
+> If we don't have to enable the DSI clock manually here, we can get rid
+> of the dsi array, which will simplify this patch.
+
+Indeed, clears out a bit.
+
+> 
+>> +	 */
+>> +	if (rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) {
+>> +		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
+>> +
+>> +		rcar_mipi_dsi_clk_enable(bridge);
+>> +	}
+>> +
+>>  	rcar_du_crtc_start(rcrtc);
+>>  
+>>  	/*
+>> @@ -770,6 +781,15 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+>>  		rcar_lvds_clk_disable(bridge);
+>>  	}
+>>  
+>> +	if (rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) {
+>> +		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
+>> +
+>> +		/*
+>> +		 * Disable the MIPI DSI clock output
+>> +		 */
+>> +		rcar_mipi_dsi_clk_disable(bridge);
+>> +	}
+>> +
+>>  	spin_lock_irq(&crtc->dev->event_lock);
+>>  	if (crtc->state->event) {
+>>  		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>> index 440e6b4fbb58..26e79b74898c 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>> @@ -96,6 +96,8 @@ struct rcar_du_crtc_state {
+>>  enum rcar_du_output {
+>>  	RCAR_DU_OUTPUT_DPAD0,
+>>  	RCAR_DU_OUTPUT_DPAD1,
+>> +	RCAR_DU_OUTPUT_DSI0,
+>> +	RCAR_DU_OUTPUT_DSI1,
+>>  	RCAR_DU_OUTPUT_HDMI0,
+>>  	RCAR_DU_OUTPUT_HDMI1,
+>>  	RCAR_DU_OUTPUT_LVDS0,
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>> index bfbff90588cb..16c0d7886fb2 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>> @@ -473,6 +473,26 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
+>>  	.lvds_clk_mask =  BIT(1) | BIT(0),
+>>  };
+>>  
+>> +static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
+>> +	.gen = 3,
+>> +	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+>> +		  | RCAR_DU_FEATURE_VSP1_SOURCE,
+>> +	.channels_mask = BIT(1) | BIT(0),
+>> +	.routes = {
+>> +		/* R8A779A0 has two MIPI DSI outputs. */
+>> +		[RCAR_DU_OUTPUT_DSI0] = {
+>> +			.possible_crtcs = BIT(0),
+>> +			.port = 0,
+>> +		},
+>> +		[RCAR_DU_OUTPUT_DSI1] = {
+>> +			.possible_crtcs = BIT(1),
+>> +			.port = 1,
+>> +		},
+>> +	},
+>> +	.num_dsi = 2,
+>> +	.dsi_clk_mask =  BIT(1) | BIT(0),
+>> +};
+>> +
+>>  static const struct of_device_id rcar_du_of_table[] = {
+>>  	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
+>>  	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
+>> @@ -497,6 +517,7 @@ static const struct of_device_id rcar_du_of_table[] = {
+>>  	{ .compatible = "renesas,du-r8a77980", .data = &rcar_du_r8a77970_info },
+>>  	{ .compatible = "renesas,du-r8a77990", .data = &rcar_du_r8a7799x_info },
+>>  	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
+>> +	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
+>>  	{ }
+>>  };
+>>  
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+>> index 02ca2d0e1b55..675207e8a56a 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+>> @@ -54,8 +54,10 @@ struct rcar_du_output_routing {
+>>   * @quirks: device quirks (RCAR_DU_QUIRK_*)
+>>   * @channels_mask: bit mask of available DU channels
+>>   * @routes: array of CRTC to output routes, indexed by output (RCAR_DU_OUTPUT_*)
+>> + * @num_dsi: number of internal DSI encoders
+>>   * @num_lvds: number of internal LVDS encoders
+>>   * @dpll_mask: bit mask of DU channels equipped with a DPLL
+>> + * @dsi_clk_mask: bitmask of channels that can use the DSI clock as dot clock
+>>   * @lvds_clk_mask: bitmask of channels that can use the LVDS clock as dot clock
+>>   */
+>>  struct rcar_du_device_info {
+>> @@ -64,8 +66,10 @@ struct rcar_du_device_info {
+>>  	unsigned int quirks;
+>>  	unsigned int channels_mask;
+>>  	struct rcar_du_output_routing routes[RCAR_DU_OUTPUT_MAX];
+>> +	unsigned int num_dsi;
+>>  	unsigned int num_lvds;
+>>  	unsigned int dpll_mask;
+>> +	unsigned int dsi_clk_mask;
+>>  	unsigned int lvds_clk_mask;
+>>  };
+>>  
+>> @@ -73,6 +77,7 @@ struct rcar_du_device_info {
+>>  #define RCAR_DU_MAX_GROUPS		DIV_ROUND_UP(RCAR_DU_MAX_CRTCS, 2)
+>>  #define RCAR_DU_MAX_VSPS		4
+>>  #define RCAR_DU_MAX_LVDS		2
+>> +#define RCAR_DU_MAX_DSI			2
+>>  
+>>  struct rcar_du_device {
+>>  	struct device *dev;
+>> @@ -89,6 +94,7 @@ struct rcar_du_device {
+>>  	struct platform_device *cmms[RCAR_DU_MAX_CRTCS];
+>>  	struct rcar_du_vsp vsps[RCAR_DU_MAX_VSPS];
+>>  	struct drm_bridge *lvds[RCAR_DU_MAX_LVDS];
+>> +	struct drm_bridge *dsi[RCAR_DU_MAX_DSI];
+>>  
+>>  	struct {
+>>  		struct drm_property *colorkey;
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+>> index 0daa8bba50f5..d7697099f2a1 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+>> @@ -83,6 +83,10 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>>  		if (output == RCAR_DU_OUTPUT_LVDS0 ||
+>>  		    output == RCAR_DU_OUTPUT_LVDS1)
+>>  			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = bridge;
+>> +
+>> +		if (output == RCAR_DU_OUTPUT_DSI0 ||
+>> +		    output == RCAR_DU_OUTPUT_DSI1)
+>> +			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = bridge;
+>>  	}
+>>  
+>>  	/*
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+>> index 88a783ceb3e9..92631a4571ad 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+>> @@ -124,6 +124,8 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
+>>  		if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index))
+>>  			didsr |= DIDSR_LCDS_LVDS0(i)
+>>  			      |  DIDSR_PDCS_CLK(i, 0);
+>> +		else if (rcdu->info->dsi_clk_mask & BIT(rcrtc->index))
+>> +			didsr |= DIDSR_LCDS_LVDS0(i);
+>>  		else
+>>  			didsr |= DIDSR_LCDS_DCLKIN(i)
+>>  			      |  DIDSR_PDCS_CLK(i, 0);
+> 
