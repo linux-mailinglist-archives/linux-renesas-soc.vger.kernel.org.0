@@ -2,27 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C9A3B119D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 04:13:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF7823B11A2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 04:16:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230286AbhFWCPt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Jun 2021 22:15:49 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56230 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbhFWCPs (ORCPT
+        id S229934AbhFWCSz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Jun 2021 22:18:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35968 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229890AbhFWCSz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Jun 2021 22:15:48 -0400
+        Tue, 22 Jun 2021 22:18:55 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EF79C061574;
+        Tue, 22 Jun 2021 19:16:38 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E21E49B1;
-        Wed, 23 Jun 2021 04:13:30 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF1C39B1;
+        Wed, 23 Jun 2021 04:16:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624414411;
-        bh=eTr6bTwliEL234bS6wj1Fd0elfBdWQDNvpn/GDYoPmI=;
+        s=mail; t=1624414596;
+        bh=Ss37APFi5E/zsBkC1jBYgb6kPSCoHe1wPht/2aZWDYw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U6L0jIaH0VMK1EEzCDOqKlxFY79Ct0PSx7ApV6sOVZpYq8crnPb3uDl8M6qb2DCSQ
-         nwGPwl2jqafkCaBcN2RGJWIuxEh8X1TasS1/nuYsV2eLhpOxVViCiV1SVHqh8ML9Kc
-         JV+np2D2rPREdpccWeO3V18+WKa02/tAr9ktn0t4=
-Date:   Wed, 23 Jun 2021 05:13:02 +0300
+        b=CgOU45H8fNZdAwFw4vKR9CYETeh3YZdO4TlIq9SJ/8Nvr/cBUfDO3ATYBTsNeVdsi
+         y28C+/cIiTNHcKLt1r8BlQSF5Ga9Ue8Hf1aWdf2g1XpXTNC1gDcI3lFBOg125TBM8y
+         ffsteQXKJ3eMGUsN3twBr7uC+t8Wgyi+XPK3XAJg=
+Date:   Wed, 23 Jun 2021 05:16:08 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -32,14 +35,15 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         "open list:DRM DRIVERS FOR RENESAS" 
         <linux-renesas-soc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/3] drm: rcar-du: Sort the DU outputs
-Message-ID: <YNKYrmf4p65DruSh@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/3] drm: rcar-du: Only initialise TVM_TVSYNC mode when
+ supported
+Message-ID: <YNKZaCYOUqF3qUHL@pendragon.ideasonboard.com>
 References: <20210622232024.3215248-1-kieran.bingham@ideasonboard.com>
- <20210622232024.3215248-2-kieran.bingham@ideasonboard.com>
+ <20210622232024.3215248-3-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210622232024.3215248-2-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20210622232024.3215248-3-kieran.bingham@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -48,37 +52,42 @@ Hi Kieran,
 
 Thank you for the patch.
 
-On Wed, Jun 23, 2021 at 12:20:22AM +0100, Kieran Bingham wrote:
+On Wed, Jun 23, 2021 at 12:20:23AM +0100, Kieran Bingham wrote:
 > From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > 
-> Sort the DU outputs alphabetically, with the exception of the final
-> entry which is there as a sentinal.
+> The R-Car DU as found on the D3, E3, and V3U do not have support
+> for an external synchronisation method.
+> 
+> In these cases, the dsysr cached register should not be initialised
+> in DSYSR_TVM_TVSYNC, but instead should be left clear to configure as
+> DSYSR_TVM_MASTER by default.
 > 
 > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index ea7e39d03545..cff0d82b9491 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -1243,7 +1243,10 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+>  	rcrtc->group = rgrp;
+>  	rcrtc->mmio_offset = mmio_offsets[hwindex];
+>  	rcrtc->index = hwindex;
+> -	rcrtc->dsysr = (rcrtc->index % 2 ? 0 : DSYSR_DRES) | DSYSR_TVM_TVSYNC;
+> +	rcrtc->dsysr = (rcrtc->index % 2 ? 0 : DSYSR_DRES);
+
+You can drop the parentheses.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> index 5f2940c42225..440e6b4fbb58 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> @@ -96,10 +96,10 @@ struct rcar_du_crtc_state {
->  enum rcar_du_output {
->  	RCAR_DU_OUTPUT_DPAD0,
->  	RCAR_DU_OUTPUT_DPAD1,
-> -	RCAR_DU_OUTPUT_LVDS0,
-> -	RCAR_DU_OUTPUT_LVDS1,
->  	RCAR_DU_OUTPUT_HDMI0,
->  	RCAR_DU_OUTPUT_HDMI1,
-> +	RCAR_DU_OUTPUT_LVDS0,
-> +	RCAR_DU_OUTPUT_LVDS1,
->  	RCAR_DU_OUTPUT_TCON,
->  	RCAR_DU_OUTPUT_MAX,
->  };
+> +
+> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_TVM_SYNC))
+> +		rcrtc->dsysr |= DSYSR_TVM_TVSYNC;
+>  
+>  	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE))
+>  		primary = &rcrtc->vsp->planes[rcrtc->vsp_pipe].plane;
 
 -- 
 Regards,
