@@ -2,80 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA48D3B13C3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 08:12:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B73B3B1445
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 08:56:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229726AbhFWGOU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 02:14:20 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:45028 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbhFWGOT (ORCPT
+        id S229933AbhFWG62 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 02:58:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229916AbhFWG62 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 02:14:19 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: rcn)
-        with ESMTPSA id 75EF81F42F80
-Message-ID: <52caf3779aa5b764bf193264cd5c5b8a542dea0a.camel@collabora.com>
-Subject: Re: [RESEND PATCH v4 3/3] dt-bindings: drm: bridge:
- adi,adv7511.txt: convert to yaml
-From:   Ricardo =?ISO-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Michal Simek <michal.simek@xilinx.com>,
-        alexandre.torgue@foss.st.com,
-        Collabora Kernel ML <kernel@collabora.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Wei Xu <xuwei5@hisilicon.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Marek Vasut <marex@denx.de>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Date:   Wed, 23 Jun 2021 08:11:51 +0200
-In-Reply-To: <YMxekschULB87LKa@pendragon.ideasonboard.com>
-References: <20210615131333.2272473-1-ricardo.canuelo@collabora.com>
-         <20210615131333.2272473-4-ricardo.canuelo@collabora.com>
-         <CAMuHMdU8ZC3LrhVLnZgOc_ZtNNcHbAHjEgP_5QpF8UEsbatGgA@mail.gmail.com>
-         <YMxekschULB87LKa@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        Wed, 23 Jun 2021 02:58:28 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F233FC061756
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Jun 2021 23:56:09 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id e20so1001824pgg.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Jun 2021 23:56:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=t2pWY37sQS7wYmTZFWeBBAVB8lvXIPkxw14DD6JgFyw=;
+        b=i/0NPDjzGLbE4LBA80Uu7k//DWQ1Wq/Nxeco/bkPsBwFX9NoqdaNYW0UDh00crxFEu
+         iI09uAZ5j9N/sYzrfBKkJ7gxuW0f1N5rs/KbhmonH06zT0Vymn7OwzIKayU4i9Uo7j36
+         rYdsiH9bXq/aOqiYNs0DwBDpzP7OG2Z8uwKmnX/huUPh1DWE/SrkPGpv/kUfnEN0fKnG
+         HI5QBp6EsjJ0G0woKTmwVlmkEF+IDCrXTidlTNqlJQvbiXr5Yfpx2PS2xmnX8yL1IQE/
+         59gSycl8xySsOcTgB8zvz79sg0QRagUAvcgEfWieWBAwIU7mpOw5NYvs0iIju/vBP/xG
+         rsEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=t2pWY37sQS7wYmTZFWeBBAVB8lvXIPkxw14DD6JgFyw=;
+        b=PtdMemPM7rsGRBH4xF/ZHZnNnANOIPkDOW0G1ZvrOBbAKriS4fsbXhHUPxvHt6BBDH
+         6yGvWX+NcYZmNi4Q19okxBZ7N964d+e2HNEyEKJ+dSkL4mfusI+4mwrALMV9wR7RmjDI
+         ao5qPhcH3O/9uHiehvaD0ziqn6kn0e9UsKFVgNZSxlWPCw3oAK6jDGuScXmh66Ds1zaa
+         gU7ZFA4oLSwGiW9Tiva1CFFyFZAIW9DrDmH0hSNsy9N9zHD/TPuMC5Dm7RRNQds+AlnJ
+         MH3IoLOjjERrFX919t3FTX+pAbUSJxY5iSu/1fdwxC9XJ3TGwZ4hJcUc+IWXDpF7oMjA
+         80BQ==
+X-Gm-Message-State: AOAM533DP6FGLnIqHfjA6fWSlVL/37lvi/NycG4rmOX64NlJuuVwYAlp
+        1mO0CRj3YRDgdQznmdw1a2M0LQ==
+X-Google-Smtp-Source: ABdhPJxuCyhd1JeMWCXAj2NaviXdgvZBzY0G06KEl//E3ieHfTlplnQbfOEvqSdIRXIZ33PF2clRNg==
+X-Received: by 2002:a62:1782:0:b029:2f7:dcbe:c292 with SMTP id 124-20020a6217820000b02902f7dcbec292mr7593771pfx.63.1624431369445;
+        Tue, 22 Jun 2021 23:56:09 -0700 (PDT)
+Received: from ?IPv6:240b:10:c9a0:ca00:1102:c007:eee:4478? ([240b:10:c9a0:ca00:1102:c007:eee:4478])
+        by smtp.gmail.com with ESMTPSA id v69sm1507491pfc.18.2021.06.22.23.56.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Jun 2021 23:56:08 -0700 (PDT)
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+ <7cde82a9-c60c-e527-eeac-eaad0c5842a1@metux.net>
+ <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp>
+ <20210622111239.73aa87aa@eldfell>
+From:   Esaki Tomohito <etom@igel.co.jp>
+Message-ID: <ee0161b5-c88b-40ce-c02f-86e0927b70bb@igel.co.jp>
+Date:   Wed, 23 Jun 2021 15:56:05 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210622111239.73aa87aa@eldfell>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi,
- 
-> On Fri, Jun 18, 2021 at 09:55:38AM +0200, Geert Uytterhoeven wrote:
-> > This causes lots of failures like:
-> > 
-> >     arm/boot/dts/r8a7743-iwg20d-q7-dbcm-ca.dt.yaml: hdmi@39:
-> > 'avdd-supply' is a required property
-> > 
-> > Should all supplies be required?
-> > Looking at the driver, missing supplies are automatically replaced by
-> > dummy regulators by the regulator framework.
+Thank you all for your comments.
+
+On 2021/06/22 17:12, Pekka Paalanen wrote:
+> On Tue, 22 Jun 2021 13:03:39 +0900
+> Esaki Tomohito <etom@igel.co.jp> wrote:
 > 
-> Generally speaking, I like DT bindings to be descriptive of the
-> hardware, and thus require power supplies that are needed for the device
-> to function, even if they are fixed supplies.
+>> Hi, Enrico Weigelt
+>> Thank you for reply.
+>>
+>> On 2021/06/22 1:05, Enrico Weigelt, metux IT consult wrote:
+>>> On 21.06.21 08:27, Tomohito Esaki wrote:
+>>>
+>>> Hi,
+>>>   
+>>>> Virtual DRM splits the overlay planes of a display controller into multiple
+>>>> virtual devices to allow each plane to be accessed by each process.
+>>>>
+>>>> This makes it possible to overlay images output from multiple processes on a
+>>>> display. For example, one process displays the camera image without compositor
+>>>> while another process overlays the UI.  
+>>>
+>>> Are you attempting to create an simple in-kernel compositor ?  
+>>
+>> I think the basic idea is the same as DRMlease.
 > 
-> This being said, I think there's also room to group some power supplies
-> together in the bindings, when they are not meant by the device to be
-> controlled separately. In this specific case, we also need to take into
-> account that the adv7511 and adv7533 have different supplies.
+> Hi,
+> 
+> indeed. Why not use DRM leases instead?
+> 
 
-Thanks for the review, guys. Yes, there were some dtbs check warnings to
-be expected, the consensus in a previous version of the patch was that
-that shouldn't be a blocker for a binding conversion and that the *.dts
-definitions should eventually be fixed to comply with the binding, which
-is, IMO, a more reasonable process to keep the binding conversion
-effort progressing.
+In this use case, I understand that this is not possible with DRM lease,
+am I wrong?
+I understand that it’s not possible to lease a plane and update planes
+on the same output independently from different processes in current DRM
+lease.
 
-Cheers,
-Ricardo
+If this is correct, what do you think of adding support for plane leases
+to the DRM lease to handle this case?
 
-
+Thanks,
+Tomohito Esaki
