@@ -2,108 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A09E3B1E6B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 18:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA1A53B1EE2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 18:43:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbhFWQQH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 12:16:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbhFWQQG (ORCPT
+        id S229958AbhFWQpc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 12:45:32 -0400
+Received: from mail-io1-f50.google.com ([209.85.166.50]:38878 "EHLO
+        mail-io1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229660AbhFWQpb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 12:16:06 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FC7EC061574
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Jun 2021 09:13:49 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CCED09AA;
-        Wed, 23 Jun 2021 18:13:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624464827;
-        bh=+L1YwAvszWTaIUhE4X3mSmdnKlBeU5GR1USUOORxiTE=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=BDHCHIk53dP4VKGadVDsfYasnH1/YR3Si1PcMh84whVlZckGdSki9T081O1qhaQl5
-         Ce1kHUaBM45FSiv28RgeQ3SiEB/QMr0whtUeb4w0Pf5bIu/V+yOft2/TDycYEGzWGI
-         2y1XIfRA97uSXQsD1KLpL/l6NPWvY+W3TKIlWbu8=
-Subject: Re: [PATCH 0/2] arm64: dts: renesas: r8a779a0: Add INTC-EX support
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <cover.1624460378.git.geert+renesas@glider.be>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Message-ID: <b7b53970-58ea-f27f-4190-0066cb30cb05@ideasonboard.com>
-Date:   Wed, 23 Jun 2021 17:13:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Wed, 23 Jun 2021 12:45:31 -0400
+Received: by mail-io1-f50.google.com with SMTP id k11so4285850ioa.5;
+        Wed, 23 Jun 2021 09:43:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fs5wqocEnsX9tgAffHRTk2LbXor5QUxIFTJtXjA5IEg=;
+        b=XWdwZMr1Aby4hF07NCXMtzL2SleWq+lIUd1keILfCkhSoZ+FNkJuD3aRsLg9UCODOa
+         YPrnbMc5l+Vr+M6iaC7N/JUmE0YfFyQsDPhBVeCvgzRB0knEhXbQ7OoOWDncLWcRA6q7
+         l24Lk+npqLYsAujV/AFvMibQVtCE5R6PsfLEcoaTfgfgQVNHBRS/MBhWHxe+utsjidXM
+         M3UxpkA/o3cgFpY5kwJNtRBArCmUO48EOm2C6tgg7o+mpQFhvrz9UUqlD/LQevP1W9Tm
+         AO00ChZIbHQzrIa07sCDJO4p+O8srpcX5mph317XOoI6qA4ORlpNOjwqHO3HqXMtuSKF
+         Lg/g==
+X-Gm-Message-State: AOAM532dxVSFI8bpnjz6hhQ6tKInkPMZDWacQwN7Cgq9RPoeADmOYlUz
+        BqmWJFWMoie+NdRAC1kgSNnXnND3XA==
+X-Google-Smtp-Source: ABdhPJwtRJdQCc2iLaRjmdHa8/bwsCpCy5NB+RtOuhiI4r2uwcczqfYdMV7TjuZ1ybdpg0xrgpkHdQ==
+X-Received: by 2002:a5d:9445:: with SMTP id x5mr407043ior.2.1624466592587;
+        Wed, 23 Jun 2021 09:43:12 -0700 (PDT)
+Received: from xps15.herring.priv ([64.188.179.248])
+        by smtp.googlemail.com with ESMTPSA id z2sm150232iol.45.2021.06.23.09.43.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jun 2021 09:43:11 -0700 (PDT)
+From:   Rob Herring <robh@kernel.org>
+To:     devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] dt-bindings: display: renesas,du: Fix 'ports' reference
+Date:   Wed, 23 Jun 2021 10:43:08 -0600
+Message-Id: <20210623164308.2570164-1-robh@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1624460378.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Fix the renesas,du binding 'ports' schema which is referencing the 'port'
+schema instead of the 'ports' schema.
 
-On 23/06/2021 16:02, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> This patch series adds support for the Interrupt Controller for External
-> Devices (INT-EC) in the Renesas R-Car V3U (r8a779a0) SoC.
-> 
-> As there are two known issues, I'm posting this to a limited audience:
-> 
->   1. External interrupts have not been tested.
-> 
->      Kieran: perhaps IRQ0 can be tested on Falcon with the MIPI DSI/eDP
->      bridge, by changing
-> 
-> 	 -    interrupt-parent = <&gpio1>;
-> 	 -    interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
-> 	 +    interrupt-parent = <&intc_ex>;
-> 	 +    interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-> 
->      ? The "ti,sn65dsi86" driver doesn't seem to use interrupts, though,
->      so I don't know how feasible this is.
+Fixes: 99d66127fad2 ("dt-bindings: display: renesas,du: Convert binding to YAML")
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/display/renesas,du.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I can add an interrupt handler if that's what you need, but I suspect
-that the change here simply 're-routes' the interrupt through the
-intc_ex so that it still needs an interrupt to be generated by the
-SN65DSI86? is that right?
+diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+index 121596f106da..5f4345d43020 100644
+--- a/Documentation/devicetree/bindings/display/renesas,du.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+@@ -55,7 +55,7 @@ properties:
+     maxItems: 1
+ 
+   ports:
+-    $ref: /schemas/graph.yaml#/properties/port
++    $ref: /schemas/graph.yaml#/properties/ports
+     description: |
+       The connections to the DU output video ports are modeled using the OF
+       graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+-- 
+2.27.0
 
-
-
->      Alternatively, with physical access, IRQ0 is available on test
->      point CP47, and IRQ2 on the GPIO CN.
-
-I do have physical access, so I can trigger this - Is there a suitable
-voltage or condition I can apply? (I.e. take a signal from a nearby pin
-to short it?)
-
---
-Kieran
-
-
-
->   2. As recent revisions of R-Car Gen3 Hardware User's Manuals stopped
->      documenting module clocks for interrupt controllers, I don't know
->      which Module Stop bits control it.  Hence I could not add the intc-ex
->      module clock to the R-Car V3U clock driver, but have used the CP
->      clock instead in DTS.  Alternatively, as the driver doesn't really
->      use the clock (except implicitly through Runtime PM), we can drop
->      it, but that would need an update to the DT bindings.
-> 
-> This series been boot-tested on a remote Falcon development board.
-> 
-> Thanks for your comments!
-> 
-> Geert Uytterhoeven (2):
->   dt-bindings: irqchip: renesas-irqc: Add R-Car V3U support
->   arm64: dts: renesas: r8a779a0: Add INTC-EX device node
-> 
->  .../interrupt-controller/renesas,irqc.yaml        |  1 +
->  arch/arm64/boot/dts/renesas/r8a779a0.dtsi         | 15 +++++++++++++++
->  2 files changed, 16 insertions(+)
-> 
