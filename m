@@ -2,97 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01CD33B1C7A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 16:29:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 031663B1CA4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 16:36:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231201AbhFWObq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 10:31:46 -0400
-Received: from mail-vk1-f177.google.com ([209.85.221.177]:37499 "EHLO
-        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230182AbhFWObp (ORCPT
+        id S230334AbhFWOi7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 10:38:59 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:39956 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229523AbhFWOi7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 10:31:45 -0400
-Received: by mail-vk1-f177.google.com with SMTP id o198so551041vkc.4;
-        Wed, 23 Jun 2021 07:29:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4zLP8Lzz+0qOLc6xIklg3T8AfAgg7V88EpKSHAjjsNY=;
-        b=VwlRDXQhFReFAB4NqYHCDs7uFtBfAknzupf2ycUzsCxSimlM6qYoY5vFVZpzP8UGjd
-         bmr2wk0D319GN08fkx5Qi0qEZKoZYETp/8CUa+7TwsZmntmiYGM/diOrxtfzCoYYag6M
-         pRvIs4YhUZu7cVs4ZWgzzgAVKxvCYwlwDhXMwAgBHKZSTHAahquhUjlKmWk3gkh7tIQE
-         HZ1jswNQO27l/37PiZb5rfR9R3uEqhGG0FFv1FlytGJmb2v+yNsQ3HrRzh2u3a/MVR6i
-         D6wSrT8BaBJPMyWKH+TnpzZg589ZzJkQkzD5JS8PkXyO2M8LA1Xwukb7Jqhc+oOj3Sye
-         HFGw==
-X-Gm-Message-State: AOAM532duGJF5hjWRlVGuRk657gyhzzCUD1mddQEbbY5jjBxPL9nMYRx
-        MhD1Mbi0azKt/NgNOvMj5JUyC2kiPit+zqeoY70=
-X-Google-Smtp-Source: ABdhPJwKQtxd9FI1MugpOvBaepnBWwy2HkNEuTC9CSN+34BNYMxIsa2iKwG2XysCM5/jB0JFoMhjcf0gJS7M4lhpZXo=
-X-Received: by 2002:a1f:1a41:: with SMTP id a62mr337115vka.5.1624458566857;
- Wed, 23 Jun 2021 07:29:26 -0700 (PDT)
+        Wed, 23 Jun 2021 10:38:59 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 670FDEE;
+        Wed, 23 Jun 2021 16:36:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624459000;
+        bh=L/wBNzZnjJd2bAFhkH5cdoXL+9AZvki4Yv/iSLuDpQ8=;
+        h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
+        b=rw8WGo9EbpAjI9CSE6BmDdi/7OIZZ0CYZC4J6qw0LbRWUxXt79c7IDHDt5993js6i
+         0keMssK/cZUvgr+7q9PKkTc8Krg9zPqmWqcHDrk6COAY1NmUawUzA+G9H9KcB8TC1V
+         2jgRxVJ4pizp1xmIFjYlhmli5RsohwPuyR8gmNNA=
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [RFC PATCH 01/15] dt-bindings: display: bridge: Add binding for
+ R-Car MIPI DSI/CSI-2 TX
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LUU HOAI <hoai.luu.ub@renesas.com>
+References: <20210623034656.10316-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210623034656.10316-2-laurent.pinchart+renesas@ideasonboard.com>
+ <bc508b07-5028-b8e9-b0ac-994c9deca74d@ideasonboard.com>
+ <CAMuHMdUD-GsVCyAsNNdK1D-zoDiRAoKgmU+jXE6UT_uCOrc=hA@mail.gmail.com>
+Message-ID: <3792527a-4f45-8fe5-1b6a-033cc28fa28c@ideasonboard.com>
+Date:   Wed, 23 Jun 2021 15:36:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210621093943.12143-1-biju.das.jz@bp.renesas.com>
- <20210621093943.12143-2-biju.das.jz@bp.renesas.com> <20210622165851.GA3840386@robh.at.kernel.org>
- <OS0PR01MB5922ECC2B573F1F8E170744F86089@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAL_JsqK_6_LUD-ffkDCuDEds2RiYftJfynZyPN4io3Lt3MnQ4g@mail.gmail.com>
-In-Reply-To: <CAL_JsqK_6_LUD-ffkDCuDEds2RiYftJfynZyPN4io3Lt3MnQ4g@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Jun 2021 16:29:15 +0200
-Message-ID: <CAMuHMdV0YrdUL6WGBTwxi1jQvakfmKNTB-8dv1LcAqMz-w356g@mail.gmail.com>
-Subject: Re: [PATCH v2 01/11] dt-bindings: phy: renesas: Document RZ/G2L USB
- PHY Control bindings
-To:     Rob Herring <robh@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMuHMdUD-GsVCyAsNNdK1D-zoDiRAoKgmU+jXE6UT_uCOrc=hA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+On 23/06/2021 14:12, Geert Uytterhoeven wrote:
+> Hi Kieran,
+> 
+> On Wed, Jun 23, 2021 at 11:06 AM Kieran Bingham
+> <kieran.bingham@ideasonboard.com> wrote:
+>> On 23/06/2021 04:46, Laurent Pinchart wrote:
+>>> The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
+>>> can operate in either DSI or CSI-2 mode, with up to four data lanes.
+>>>
+>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>> ---
+>>>  .../display/bridge/renesas,dsi-csi2-tx.yaml   | 118 ++++++++++++++++++
+>>>  1 file changed, 118 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>>> new file mode 100644
+>>> index 000000000000..7e1b606a65ea
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+>>> @@ -0,0 +1,118 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
+>>> +
+>>> +maintainers:
+>>> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>> +
+>>> +description: |
+>>> +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
+>>> +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
+>>> +  to four data lanes.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - renesas,r8a779a0-dsi-csi2-tx # for V3U
+>>
+>> Only a potential nit ...
+>>
+>> Is it worth moving the "# for V3U" over a bit to allow for extended
+>> compatibles in the future without re-aligning the table?
+>>
+>> Looks like 37 chars before it currently, it could at least move to
+>> position 40.
+> 
+> Happy predicting the future ;-)
+> 
+> Did you take into account adding items and/or oneOf, which will
+> impact alignment, too?
 
-On Wed, Jun 23, 2021 at 4:13 PM Rob Herring <robh@kernel.org> wrote:
-> On Wed, Jun 23, 2021 at 7:38 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > Subject: Re: [PATCH v2 01/11] dt-bindings: phy: renesas: Document RZ/G2L
-> > > USB PHY Control bindings
-> > >
-> > > On Mon, Jun 21, 2021 at 10:39:33AM +0100, Biju Das wrote:
-> > > > Add device tree binding document for RZ/G2L USB PHY control driver.
-> > > >
-> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Maybe it should be way over at 60 chars then ;-)
 
-> > > > +        compatible = "renesas,r9a07g044-usbphyctrl",
-> > > > +                     "renesas,rzg2l-usbphyctrl";
-> > > > +        reg = <0x11c40000 0x10000>;
-> > > > +        clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>;
-> > > > +        resets = <&cpg R9A07G044_USB_PCLK>;
-> > > > +        power-domains = <&cpg>;
->
-> Also, are these all resources of the usbphyctrl block and not just
-> resources you happen to want in the driver? For example, the
-> power-domain should be the power island that this block resides in.
+Not a big issue, I don't mind either way, I'd just indent a little to
+try to save when someone adds small updates that then requires a big
+table change.
 
-It's a clock domain, not a power area: the block goes into power-save
-mode by stopping the module clock controlled by the CPG.
 
-Gr{oetje,eeting}s,
+Ps. .. the lottery numbers this week are ...
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
