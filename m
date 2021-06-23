@@ -2,46 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E80A03B1C50
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 16:20:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96D413B1C6F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 16:27:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231303AbhFWOXG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 10:23:06 -0400
-Received: from mail-eopbgr1400127.outbound.protection.outlook.com ([40.107.140.127]:8456
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        id S231239AbhFWO3s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 10:29:48 -0400
+Received: from mail-eopbgr1410102.outbound.protection.outlook.com ([40.107.141.102]:40117
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230292AbhFWOXF (ORCPT
+        id S230334AbhFWO3s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 10:23:05 -0400
+        Wed, 23 Jun 2021 10:29:48 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C0bXdXu5FTNHVsheKIns63DWo1In4S0s1L0QAHIBwdvi1jj3G46TIWMnr5gUIg/Sy8ZM8devOq7gGaZaTDolsQAM+a/U73gPEJSKraQRwaH69J0Rrm+GKlohGF0d6Llu1tLor6mFuuN2c3SstPg60gUEUBJhC7A74be+Ud7yACQU2VrUHdvOv1rw2lrJPLU0CRssQbv8L7b3Xjl/v5A84Orl3avsvVCPKnRYfcRn1oSccw+ER9dcM++hbRWBTaKrGMj0gLjv+imbk6pEaAFj8XJL6euzB0mjhu4P2ZuKsJNnE58O4+7t4byPa1fk5B+AVUuDcPbUOV8uWIj89rpgNg==
+ b=LO7qAwUUW3ukpHCcWE4SdE4apQIrf3dPpXvdAC6ZYHm7WMqXjhSb6Tpm+gzeh6HrkkmQg43doAR5qPFCdftJ3yn4voC+8CKUGzn4/FcGZ4hgrDLbiCHskDRyYzskXrFe+L6evZXd/EoE8H+vyeMwTpSreMT3VCFxSHrE3TPs2WAT/4Chh37L34fr671e/bB/pHIZ4uF+zq1qtqxb4vXe0+lklO8Cia9QVT4joGiR/PolMtWCLWg9bglmmFdIfVngVK7I7hWXwkmOxbERhuWxbr6kvpgNtj0cxIR3hzCbQpO6+1vM6liBtBaI3o26twWNYrSGPWabu8GxNpNFImGjTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MWKdXDtRmyZ3VKbOJNnZrVRAnIk9wdFUm14RqxXjL/8=;
- b=BswdLS2mGmHtCgWXN//3fx3ZAOBK8xYMMdqZxfGSgTbfe2jmKCv89e7tOJoZtUYvqnOIIAObdG71UDoWmJVHuMhqhGPCOQXfPiYl6WfjkxVwilYW3LKL/me09rxofeKV8WmuiVe1HU8nUKlJtcYTkIODBabFUd2JINBuXPIUOx/yDI2z3vjG2rK8R7wwFxbXypTmdqM1pcJ7Nn0FVMS6Yf3qC9gr1KssX1s3MGl1L/Ps5jQJbywXzrWcsvtni2PEHG44EN9YcRXnPPFDVlmFXPraLBWdAjYI7BJDNMflc2wCwXgJKy+XAMPRdcXgz9RvCYCZ5e1VRgFks2cjW9kCsA==
+ bh=uLN9TN8satqIt3SpJVcyW6kS71x3oaNrHe1zV02Rc2M=;
+ b=k5rHaYFwEewGK0ik8DzaRBkhlXGP0WKLRu+aL5UFcOvN/Utsey9anrJK102o7tUnuHTMkDtzJihvOSRPpRvtmJLihpiRW32hMbmdzXCtqWf7rr4sN3XH7pWBJHltyf2g55fF6udFjt0hqu5El6ImOlbtipvEVFeCJvnqCxhW2yj6CNT6xpKMrWPV8hWz7zslwUdxgBmOvL+vWMbl/uRcCwNLCVdTd9R41B8ZR5LbBLbuXA0ILKqn3GAmHUOnjddCSTRwRJJvLTlnXzW1Raotc2Wtl7pZhnJcE909EgdcMK6aF9Xo0UEEJsdPYzzmHK5aO3Fc8IAk3aKHdnPV01Qj+A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MWKdXDtRmyZ3VKbOJNnZrVRAnIk9wdFUm14RqxXjL/8=;
- b=H4qqP4bJ/TI6sDHgxSSLYjuOavXqAjm1sBkgzpHZ9slNcTenZyKWceim/LSfzIngDBT8mHc91lXY3h8rvvWbnFbi9TOnyenJkIkqKgG/kz+vw59exRcKlAmNDVpxMBA58QQIvLtfy1tdWbFaREo9Be7yGrfp/v4uX6yhLqGLMlA=
+ bh=uLN9TN8satqIt3SpJVcyW6kS71x3oaNrHe1zV02Rc2M=;
+ b=Ehf/fIo/6OK4quQTI2PUIeFeF64jOjoexJTZt7zburEf7BiY5AUQ7J/7KOf8AVmGz3fJ3jdDDfIKtP19vRp5EJIiR5hWKXJt0YDis2ZT5SAJC3Rx97qrjqNk87fOcrfq3O8BmPlPZo7V1OjCWo5K04Kmhtxcb+jy/ho4RDp25yg=
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB6487.jpnprd01.prod.outlook.com (2603:1096:604:e1::9) with
+ by OSAPR01MB4980.jpnprd01.prod.outlook.com (2603:1096:604:6a::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.19; Wed, 23 Jun
- 2021 14:20:44 +0000
+ 2021 14:27:22 +0000
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::b834:5e50:2ce8:9ae0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::b834:5e50:2ce8:9ae0%3]) with mapi id 15.20.4242.024; Wed, 23 Jun 2021
- 14:20:44 +0000
+ 14:27:22 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh@kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+CC:     Vinod Koul <vkoul@kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
@@ -49,17 +49,15 @@ CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 06/11] dt-bindings: usb: generic-ohci: Document RZ/G2L
- SoC bindings
-Thread-Topic: [PATCH v2 06/11] dt-bindings: usb: generic-ohci: Document RZ/G2L
- SoC bindings
-Thread-Index: AQHXZoFtyAkoi2PHe0KRV4IWK/6abqsgbSuAgAE4hCA=
-Date:   Wed, 23 Jun 2021 14:20:44 +0000
-Message-ID: <OS0PR01MB5922FAA0B3C8896E63BE545586089@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20210621093943.12143-1-biju.das.jz@bp.renesas.com>
- <20210621093943.12143-7-biju.das.jz@bp.renesas.com>
- <20210622193043.GA4176942@robh.at.kernel.org>
-In-Reply-To: <20210622193043.GA4176942@robh.at.kernel.org>
+Subject: RE: [PATCH v2 1/4] dt-bindings: dma: Document RZ/G2L bindings
+Thread-Topic: [PATCH v2 1/4] dt-bindings: dma: Document RZ/G2L bindings
+Thread-Index: AQHXZqpyYoCEnEXFLkKbcK30nQnRJasgcNaAgAE5J9A=
+Date:   Wed, 23 Jun 2021 14:27:22 +0000
+Message-ID: <OS0PR01MB59225A4CA77059294F05216B86089@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20210621143339.16754-1-biju.das.jz@bp.renesas.com>
+ <20210621143339.16754-2-biju.das.jz@bp.renesas.com>
+ <20210622194459.GA3755@robh.at.kernel.org>
+In-Reply-To: <20210622194459.GA3755@robh.at.kernel.org>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -68,53 +66,53 @@ authentication-results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=bp.renesas.com;
 x-originating-ip: [86.139.26.177]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 33ef6d98-7a26-4c4a-5c64-08d93652169a
-x-ms-traffictypediagnostic: OS3PR01MB6487:
+x-ms-office365-filtering-correlation-id: 16ad3f56-2f89-4839-da2d-08d9365303cc
+x-ms-traffictypediagnostic: OSAPR01MB4980:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OS3PR01MB64875D7F9E5AA5FDA6AC22CC86089@OS3PR01MB6487.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-microsoft-antispam-prvs: <OSAPR01MB49802A6DC6F17CC462643A8E86089@OSAPR01MB4980.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bfDsA27mrTAdXvo1CRs2WRy1VJWCk4dU4/taXXImmXmOdLtihCmCSPB8tcowY/kZ28wbUEKxGb15ALNgXmCftCw3ATgEh7dsFE1Xch9n/sn6/MBZ+qKYQcqpuGHcs7lqC1SX30iA9bRYChG9o1mONLQ2Yi8zCWlf9TayjeCHV6S/aCcChOuGqOxLtkybTVl61uufzeNTr6uCd+XHeuCFdWOm6sTCBWxTs9rgZY+jzn54C9b/8QNVdz0ky0+TyDHCDzMV+B+uLzRJiRUWCwRtq2ForaVziNqr56aN0YbW2mzKYoNbF4r+q95X3CDxDmA0Oew+DGruSk56B6k0PU9J9jv2Z+K3xb1aIhxGMQ9NbFYTV4zXyBtc0x0SMhtDrXWQEcbvKM9Rkl9imWiKez6YaM+p3rluKpd5SiUQKgMulxm83l/2KreVEmIY0pOBZ+TjOkwRbcyEdUkoWtbPEq34Z9dDwNyyJidcDjw0Vq921HHfE9JNI2VpsicU+3CORNQeVO0nCeJszTwUv2bui7P1IJH9yglqIafFrn3BqlBVM7qhvzJx6ceDSdIXlBq59mKxs8g9g1RJngnovVtSotoE23GA53GFdbDhVMvwGK00FqE6neLHO5bFVRJO8dg5btr+KKCuKSgOehEoCiy38l9K8MpwZU134ViRhrupncjR2WnbxGqgwgyl4h8BFasaX5wlgkr2MqB25jrNb2YMHnX4rU1i3ljOqMCR1DkJXqdkylBuogV0TWieu90oSnl7TaIlsHkvEvH4AE8WsT21cPldvA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(346002)(366004)(396003)(83380400001)(55016002)(54906003)(38100700002)(9686003)(71200400001)(966005)(2906002)(122000001)(478600001)(86362001)(316002)(26005)(5660300002)(8676002)(76116006)(52536014)(186003)(7696005)(8936002)(6506007)(66946007)(6916009)(66556008)(33656002)(4326008)(64756008)(66476007)(66446008)(41533002);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: +Ss8hzqn2n/+lVWOVT6HVM3J8m+m73V0JNALc/TBpjk9FTVd3+pv7kL+HoMZ95a8/WZw+Ncsa605GIa+fAOPyRWwXgHpFh1Km/J+7P/yWS06BupBeduSspDiguKX47mWoeoq/KggJlpJyTm+i6zJ1sow1M8m+QdelaoRIpauTHafiNebC/+XTTdMzdgXzQ5iTXqcfFIzpDLwWOFGsiGqiqiahK3j5iZsyDs9HagV+P5e79IAZ8ecdCxt5MzPBQg1NY71qCx9RFVBcCSTg6mXjCmAg67Ueya8Kda7w1Bzy1v4DoBJU0lqOJp+Je1z/VrqLhxPe0LEw30NDBlu3M040jOdE9FkjyMVSf1Yzyta18cqt0nwf31HiMGljbgzehhsbVftVIHcM5CmCNF3/cjPVgqvqGE9KuWUoQixF9Es4tGytRAl+arytvFJScxnGt9KbDsrzpREZ0yXyLVIPQ4YcG9xoqQLHOntTBnal/ASzeNZqky5YExnkdkDMN86esCMXLpworFQ+CIWjUpVi7u2wF8qh6K3gun0u2GoOrwSavA74ud80Qdvd6gnjnegjCrU496YJv4jK3adq3r1dUSUewsZAXIr3qshPphnoPPpFq0HrGwwE0e/XGjS4kEZPqp1iOQM/LXCS395TKppg/w9/aMq6TUdhEjav9ouL7cwcbipCv/96N8j/qR3rPne4XBgE7bUKViVUPFgrqNi/Zj0MaA0vboRN7wmK9hAqAgZS/JlMFRv0V0gNF/vRsX0zPPU/eoIWG38PK/PEI05qBzsHA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(366004)(39850400004)(136003)(376002)(7696005)(2906002)(122000001)(6916009)(38100700002)(26005)(186003)(478600001)(6506007)(9686003)(4326008)(86362001)(55016002)(316002)(966005)(54906003)(33656002)(45080400002)(8936002)(71200400001)(8676002)(66556008)(83380400001)(64756008)(66446008)(66476007)(66946007)(76116006)(52536014)(5660300002);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?9vfxfg0+MQ6y9VUi8qon2KDBU1BBOOT/gTPyuXNhte80+KfeCM3o5uAYJbyX?=
- =?us-ascii?Q?gA4TLXweStASIx/moFLmZhrlIyqb9uAwKvtt2QNIRaD+djOMGZAnFkfJDBX1?=
- =?us-ascii?Q?1jq8W4xg01jYn7zOh0JwpLdNWyu+h16CkdhLXkD+SS0U5Af1EzX7AwVmfC+4?=
- =?us-ascii?Q?Zf1j71m7l6Ajc2q+oTv/m0DD3rBhFmeUiL49QFcEQYn0eqtVmEJHTCRI9dN6?=
- =?us-ascii?Q?OxM00jHTCfU57FUUHtZRaZHhbFu6hfa2elcl5H6R/iaP/WabTTyE3gimzfIY?=
- =?us-ascii?Q?w6WSyLz4CEWmZLSnxpgvWi9G52zymh3RCQo4ErgjTekOlXFvDDMdIn99ZIP6?=
- =?us-ascii?Q?XRwUoXEL6bqquqCdGqiUb8G7C6YQXYbAjLcrByPpmcDgyQzh3Tbarli5p6Cc?=
- =?us-ascii?Q?flwYtrcSAcENqLX5oV77elV7R3cfLN+xxH/LunNHmKcWHOjZnPjkpQXxbYwm?=
- =?us-ascii?Q?FkhljVkam8jGox9PNyLytb34Yz2IcfaJ0vWQ5M+6uSgxTvH2M8bsDT5ZfEcu?=
- =?us-ascii?Q?UfVUeByXP1rpmSi3UxbRuKAfCj15/STTnPtrQ+8GBJEcdzCJgipJsKcB1+dQ?=
- =?us-ascii?Q?YnPov2JZ1/cpW0FGJFV0ckKl/GfWs03DY7G7nZz9KKMsUvAZJyhvgDPCTdDS?=
- =?us-ascii?Q?IPfDt6sYzRWLfpQ0yCpakcgDnh4v7POS3gmOGPLj5Wqc7kE2oykvcnaZJxzD?=
- =?us-ascii?Q?9WJ3bCDb3EDaAwgOcwg6d0UEFgc/fb/aSZlsGvcM1Zp6UQpINoLY6kx1Wmj9?=
- =?us-ascii?Q?a0B+Ob82xdczdqEXsO3c1nguiSTDnqnhsZ5Vk3bDd2/NpT3HrM2cJvH0YEYO?=
- =?us-ascii?Q?5fOrTNbmXFLgIunRJGKIrerjPklR7cBYllmQj41DR3TOB9VXf7fargXtK31D?=
- =?us-ascii?Q?ZoYMASykDOkKv0uhgsx8Fg9eccWmdroTpekOUzWNc8QhbPPhnGZUr+KyDoSd?=
- =?us-ascii?Q?8eDFWZJdcVJ0DoRCRso2fGLwaZFVLLjSim5f57Q/d6sf9JOhztEdortPdsF0?=
- =?us-ascii?Q?bpPZqYqe/QsRSJ2udv68AnqNDZjzgHiLw1CScL+ocrAYSkb4MpgDMTMYd5Xs?=
- =?us-ascii?Q?tKjsTmwVd1qVGOLPbnp8eXTg2uuhbOeIFV12K2s67Z8ULBPESFn00YZ1Skwx?=
- =?us-ascii?Q?uIKJHfI2Xorf2vtumOrElG+7WBUHqisl+Fasjep26FRgVac8Zgr9sa/9LUBV?=
- =?us-ascii?Q?tlvplflZehS4NVbOcFNhsCAuxoim5AKjgEXwAiztslHAhCTEl9LKwdqxe9JQ?=
- =?us-ascii?Q?EsvTlorxkqlkNOEOS5AvcPaPafKtYhJopVz4ENKpzeDvKFN3vFEoyq61uQam?=
- =?us-ascii?Q?VP61VoNbK+3hcgX+LforKMXT?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5LwFjIN++7bLdArdzq2VDD6BQnrQYJWMTSl618DYbzpPyS12n6L9AMn6Y2bp?=
+ =?us-ascii?Q?MMHD4wgU1OmbQneTE0lWefG74z1hZZZ4uTdc3bcQ1+DCSpnX1lnkefu1BIUA?=
+ =?us-ascii?Q?o0l/+j0n+Em0TFYx4rSaX0O6wge7Jk0X4Bxi/vk2hq0u1pegF/0vdZkiKynQ?=
+ =?us-ascii?Q?C4Vl9qus2B0I5FDlpsmWzG6R3veYVcqKAVvjRW2hPFN1Gg0lqerSVuL4u0V7?=
+ =?us-ascii?Q?YljXeCpS4IwD/i3ly6Z6ogGQur63gL+sU6BZzm1ojlwtQNWRcLDqpt/O+tMQ?=
+ =?us-ascii?Q?ZpdHs9waSWeFJ6clnUYYj6uIc5iN1IxNdvzUvDyhKnVr/rmzOd7E+wT+6pWA?=
+ =?us-ascii?Q?CIfmtDw5ZHhilK2+iYzRWUgclObq3V73iRz0yUZ4PKAfIgitntlR3lUw4FFf?=
+ =?us-ascii?Q?FPgqlsaLRaXEO4NYUeOdUO+7HccUGhNAD4CQXXBk9YQB7RsTZKs24skAjTC0?=
+ =?us-ascii?Q?VwUaEBoeGYTSyLvZcdLSBgYRdr6BWHP6U2189mFgqnlaNPuBb2ANNFtEEQ2E?=
+ =?us-ascii?Q?wc7Z1sdOHPUXjKovzu87sAvrG3mWJjAaI4s/NK3ZqI13lGVjNWJiIsO8H/YP?=
+ =?us-ascii?Q?XnT587lcPEOWi4T8a8qOE6dokmxMlLRH9aW+zqLsDfckTkrgRXFSJ9RgDUa8?=
+ =?us-ascii?Q?M4IANyPVGHTVFHDLmdEG/FKPHG/YqeMqfbo3P6yO1AVX28GXQ6HYZMpUpoLW?=
+ =?us-ascii?Q?hRqmr5xF6kT3yvPybjPMVgbC4BlACe3JMk6YuK+PiE0C0R0sREUFMGzs59qn?=
+ =?us-ascii?Q?WwhONgaFHuUb+SVbL/jVtedverQGkFzJgEmyhvXHR6JJvbJY6dTtmHJV4EDY?=
+ =?us-ascii?Q?j8YHOLHOqrLzEBP3QKhNokK0iKLnLMggabwklMpxsTr6oPN846LZwcWQYQSb?=
+ =?us-ascii?Q?NmtFaBNFHvOrJj5eymjo7csOppdJOGa70L/Qe3U076a6XnsZtuIwEe0ccfKu?=
+ =?us-ascii?Q?r6nZX3sxYYK/dZaN8bk6lZRbeMfBC+0EX9r/tyKrsgOVTGPkFWL/NaW/cGzX?=
+ =?us-ascii?Q?lpQparDldyP0ARwXk1fKq8drgvbby4kqo0zea3nPcQXLqURexNc5D4y4EW3I?=
+ =?us-ascii?Q?as+Jk/wI5Qx0JQPE1Tp9/627bHPmrkGWb+7m9mEDwbIDqBqyWI+z00qFLC1C?=
+ =?us-ascii?Q?yYdS2y0fPI7N/g/+NdbJHPvKH5WyaJSRYR2Z6R7dAr+okWRLPgOp46ABfq4S?=
+ =?us-ascii?Q?fMAKGk48EgamjBzLkasfy7HeTT7VBt8vzCuPkz8Al/mp537cn5NU41DEhtTI?=
+ =?us-ascii?Q?f8HtYoJ3gUKDmCEi4YTA6G7c6vsk103hs31HZ8dZ7gHtBe/lPO7Xvbrs4Gpj?=
+ =?us-ascii?Q?SuUEEKS+B/32Z1ESpnmVGtBX?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33ef6d98-7a26-4c4a-5c64-08d93652169a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2021 14:20:44.3162
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16ad3f56-2f89-4839-da2d-08d9365303cc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2021 14:27:22.1905
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: J+K7uMNd6t+pj2WyIwYx2immnuxgaAm7yrnUT+QKaOlN6kUwZ3tr35wjnqmEdeqU5aOpae1kcNjbEA7cfSOIC8gTo/1Nu2wRgOl2qTNN7Hw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6487
+X-MS-Exchange-CrossTenant-userprincipalname: QR1XuDqHdcbaw6OxDDXgazr5fboZvkHLCAFaInWRJNw+RljNbGFzP63prcQ7tFS3U7NJkCgYGByBQ0nURNNT5MYI5ErTNwYmMQ0w02MwXSQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB4980
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -123,117 +121,205 @@ Hi Rob,
 
 Thanks for the feedback.
 
-> Subject: Re: [PATCH v2 06/11] dt-bindings: usb: generic-ohci: Document
-> RZ/G2L SoC bindings
+> Subject: Re: [PATCH v2 1/4] dt-bindings: dma: Document RZ/G2L bindings
 >=20
-> On Mon, Jun 21, 2021 at 10:39:38AM +0100, Biju Das wrote:
-> > Renesas RZ/G2L SoC has USBPHY Control and USB2.0 PHY module. We need
-> > to turn on both these phy modules before accessing host registers.
-> >
-> > Apart from this, document the optional property dr_mode present on
-> > both
-> > RZ/G2 and R-Car Gen3 SoCs.
+> On Mon, Jun 21, 2021 at 03:33:36PM +0100, Biju Das wrote:
+> > Document RZ/G2L DMAC bindings.
 > >
 > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > > ---
-> >  .../devicetree/bindings/usb/generic-ohci.yaml | 32
-> > +++++++++++++++++--
-> >  1 file changed, 30 insertions(+), 2 deletions(-)
+> > Note:-  This patch has dependency on #include
+> > <dt-bindings/clock/r9a07g044-cpg.h> file which will be in next 5.14-rc1
+> release.
 > >
-> > diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> > b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> > index 0f5f6ea702d0..c0644fae5db9 100644
-> > --- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> > +++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> > @@ -8,6 +8,26 @@ title: USB OHCI Controller Device Tree Bindings
+> > v2->v3:
+> >   * Added error interrupt first.
+> >   * Updated clock and reset maxitems.
+> >   * Added Geert's Rb tag.
+> > v1->v2:
+> >   * Made interrupt names in defined order
+> >   * Removed src address and channel configuration from dma-cells.
+> >   * Changed the compatibele string to "renesas,r9a07g044-dmac".
+> > v1:-
+> >   *
+> > https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpat=
+c
+> > hwork.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F2021061111364
+> > 2.18457-2-biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das=
+.
+> > jz%40bp.renesas.com%7C148e8caa6dad418a945f08d935b63b07%7C53d82571da194
+> > 7e49cb4625a166a4a2a%7C0%7C0%7C637599879065585493%7CUnknown%7CTWFpbGZsb
+> > 3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%
+> > 7C1000&amp;sdata=3DoMUg74TGAm%2BNelP1na314IdJojqHY0TGvr01y7i0HlA%3D&amp=
+;
+> > reserved=3D0
+> > ---
+> >  .../bindings/dma/renesas,rz-dmac.yaml         | 120 ++++++++++++++++++
+> >  1 file changed, 120 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
 > >
-> >  allOf:
-> >    - $ref: "usb-hcd.yaml"
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +            contains:
-> > +              const: renesas,r9a07g044-ohci
-> > +    then:
-> > +      properties:
-> > +        phys:
-> > +          maxItems: 2
-> > +        phy-names:
-> > +          items:
-> > +            - const: usbphyctrl
-> > +            - const: usb
+> > diff --git
+> > a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > new file mode 100644
+> > index 000000000000..0a59907ed041
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > @@ -0,0 +1,120 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id:
+> > +https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdev=
+i
+> > +cetree.org%2Fschemas%2Fdma%2Frenesas%2Crz-dmac.yaml%23&amp;data=3D04%7=
+C
+> > +01%7Cbiju.das.jz%40bp.renesas.com%7C148e8caa6dad418a945f08d935b63b07%
+> > +7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C637599879065585493%7CUnk
+> > +nown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW
+> > +wiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DV3tJCTBjLjFfR1Hm%2F3hU64jrgSL1qvXo=
+j
+> > +e%2FeBPBCjy4%3D&amp;reserved=3D0
+> > +$schema:
+> > +https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdev=
+i
+> > +cetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=3D04%7C01%7Cbiju.das=
+.
+> > +jz%40bp.renesas.com%7C148e8caa6dad418a945f08d935b63b07%7C53d82571da19
+> > +47e49cb4625a166a4a2a%7C0%7C0%7C637599879065585493%7CUnknown%7CTWFpbGZ
+> > +sb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%
+> > +3D%7C1000&amp;sdata=3DFPhQ7PGQlnhj%2B%2BNJ%2BSCJvbOMXlYXUbaacEfBKib80K=
+U
+> > +%3D&amp;reserved=3D0
+> > +
+> > +title: Renesas RZ/G2L DMA Controller
+> > +
+> > +maintainers:
+> > +  - Biju Das <biju.das.jz@bp.renesas.com>
+> > +
+> > +allOf:
+> > +  - $ref: "dma-controller.yaml#"
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - renesas,r9a07g044-dmac # RZ/G2{L,LC}
+> > +      - const: renesas,rz-dmac
+> > +
+> > +  reg:
+> > +    items:
+> > +      - description: Control and channel register block
+> > +      - description: DMA extended resource selector block
+> > +
+> > +  interrupts:
+> > +    maxItems: 17
+> > +
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: error
+> > +      - const: ch0
+> > +      - const: ch1
+> > +      - const: ch2
+> > +      - const: ch3
+> > +      - const: ch4
+> > +      - const: ch5
+> > +      - const: ch6
+> > +      - const: ch7
+> > +      - const: ch8
+> > +      - const: ch9
+> > +      - const: ch10
+> > +      - const: ch11
+> > +      - const: ch12
+> > +      - const: ch13
+> > +      - const: ch14
+> > +      - const: ch15
+> > +
+> > +  clocks:
+> > +    maxItems: 2
 >=20
-> Why can't your extra thing be last? Then you only need to set
-> minItems/maxItems in the if/then schema.
+> Need to define what each one is.
 
-OK. will move this to the last and will take out phy-names.
+OK, will describe the clock items.
 
->=20
-> Though this seems like an abuse of the phy binding. There's not 2 phys,
-> right? Just some extra registers related to the phy? Can't it be hidden i=
-n
-> your phy driver?
+> > +
+> > +  '#dma-cells':
+> > +    const: 1
+> > +    description:
+> > +      The cell specifies the MID/RID of the DMAC port connected to
+> > +      the DMA client.
+> > +
+> > +  dma-channels:
+> > +    const: 16
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    maxItems: 2
 
-Usbphyctrl is separate IP block which mainly controls reset and power down =
-of the actual USB/PHY.
-This block has separate registers. So modelled as separate driver and devic=
-e handles port reset
-Based on port index.
-
-Will remove phy-names "usbphyctrl" and will just use "usb" like example her=
-e[1]. Is it ok?
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/Documentation/devicetree/bindings/usb/usb-hcd.yaml?h=3Dv5.13-rc7
+OK, will describe the reset items.
 
 Regards,
 Biju
 
-
 >=20
-> > +    else:
-> > +      properties:
-> > +        phys:
-> > +          maxItems: 1
-> > +        phy-names:
-> > +          items:
-> > +            - const: usb
-> >
-> >  maintainers:
-> >    - Greg Kroah-Hartman <gregkh@linuxfoundation.org> @@ -43,6 +63,7 @@
-> > properties:
-> >                - brcm,bcm7435-ohci
-> >                - ibm,476gtr-ohci
-> >                - ingenic,jz4740-ohci
-> > +              - renesas,r9a07g044-ohci
-> >                - snps,hsdk-v1.0-ohci
-> >            - const: generic-ohci
-> >        - const: generic-ohci
-> > @@ -101,14 +122,21 @@ properties:
-> >        Overrides the detected port count
-> >
-> >    phys:
-> > -    maxItems: 1
-> > +    minItems: 1
-> > +    maxItems: 2
-> >
-> >    phy-names:
-> > -    const: usb
-> > +    minItems: 1
-> > +    maxItems: 2
-> >
-> >    iommus:
-> >      maxItems: 1
-> >
-> > +  dr_mode:
-> > +    enum:
-> > +      - host
-> > +      - otg
 > > +
-> >  required:
-> >    - compatible
-> >    - reg
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - interrupt-names
+> > +  - clocks
+> > +  - '#dma-cells'
+> > +  - dma-channels
+> > +  - power-domains
+> > +  - resets
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > +
+> > +    dmac: dma-controller@11820000 {
+> > +        compatible =3D "renesas,r9a07g044-dmac",
+> > +                     "renesas,rz-dmac";
+> > +        reg =3D <0x11820000 0x10000>,
+> > +              <0x11830000 0x10000>;
+> > +        interrupts =3D <GIC_SPI 141 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 125 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 126 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 127 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 128 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 129 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 130 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 131 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 132 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 133 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 134 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 135 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 136 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 137 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 138 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 139 IRQ_TYPE_EDGE_RISING>,
+> > +                     <GIC_SPI 140 IRQ_TYPE_EDGE_RISING>;
+> > +        interrupt-names =3D "error",
+> > +                          "ch0", "ch1", "ch2", "ch3",
+> > +                          "ch4", "ch5", "ch6", "ch7",
+> > +                          "ch8", "ch9", "ch10", "ch11",
+> > +                          "ch12", "ch13", "ch14", "ch15";
+> > +        clocks =3D <&cpg CPG_MOD R9A07G044_DMAC_ACLK>,
+> > +                 <&cpg CPG_MOD R9A07G044_DMAC_PCLK>;
+> > +        power-domains =3D <&cpg>;
+> > +        resets =3D <&cpg R9A07G044_DMAC_ACLK>,
+> > +                 <&cpg R9A07G044_DMAC_PCLK>;
+> > +        #dma-cells =3D <1>;
+> > +        dma-channels =3D <16>;
+> > +    };
 > > --
 > > 2.17.1
 > >
