@@ -2,140 +2,230 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC1893B2016
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 20:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D214A3B23EE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 01:26:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229759AbhFWSPm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 14:15:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53810 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229800AbhFWSPk (ORCPT
+        id S229726AbhFWX2u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 19:28:50 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52414 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229688AbhFWX2u (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 14:15:40 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2F64C061574
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Jun 2021 11:13:20 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id d16so5644028lfn.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Jun 2021 11:13:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=k8E1Fr/EM4P8t67pWJ2YJoceBuEkUervJepgl5lzQJE=;
-        b=VedmF+I4EKTsdfDOAbnMn8o/Vw4czFvcrglYrf5UbtT6wsCiuzLtLtz4CgsM70dKFk
-         E/MD20LlCKDXWjqucMhPw5/WWWypONtXZZnd74d574Ol/cPKbp0k9FNmXLz+BfS18oSS
-         JMyHfKR8Hrpo+THsmbYYIm2ztwKUorieCdiLCmGp8uCcZDcYDgelcLOuS/OLsedLHup2
-         XAqbdtmnlVu7e3wdz8RXStpULvsZd+DuE7qWm1aI5HtwiZaC3hp3E4aJuJGBJKkN359O
-         8OaGmcS6YigKYpHXTNhEOlVEtA/QnBBAYoQxAcXYOnrIGQ1S9j0tmy/jONioUC2Dc1dM
-         74jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=k8E1Fr/EM4P8t67pWJ2YJoceBuEkUervJepgl5lzQJE=;
-        b=cC3RvplXTvbUgeJBA0BQMiLnHD17eLIzf5nJSTTgJdKktbZiD9SG7nh5WTQLX2gQTi
-         P+Fseixee2WBcO2XZDR4SFfKWlZlpz1mYYm9TpUyQ8L6oMsGm0ROBhiRJ5LtNAmqnROi
-         gzbGdiRXrysCK9ZFjticZrLsk+s8f3d1kN7AezQq2QfKBo4gvbmZuwTFBYcYiWHjvG9i
-         ZbWTPLk3S9ciUOsjNnj9ssmr7W4TKwGL7/Jycg7WmsJSTQwVvrZ87FD5CPgMNbb7+NDc
-         +noaj7nVxcUCfASYz5Bq8LyIpnmJEdtiCEJBp2VraYxAdXRYDXA/hfRR4IiD6SqzAwl7
-         zTrw==
-X-Gm-Message-State: AOAM531UtsqVnZj0xfaKINSNbZ6MZfPWEikC6Y2s68c5+b9OfZWDVQAu
-        qxhUUGSomOa4gAmpNmcktdybSw==
-X-Google-Smtp-Source: ABdhPJx2l4sZ4X01etZCjE6RzBMpr8r/KIe2kR2h1Zp2CZRfSCCAmHEyeVA7DMBXSa53YpelVpGzug==
-X-Received: by 2002:a05:6512:ea1:: with SMTP id bi33mr656066lfb.281.1624471999150;
-        Wed, 23 Jun 2021 11:13:19 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id c5sm65439lfp.212.2021.06.23.11.13.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jun 2021 11:13:18 -0700 (PDT)
-Date:   Wed, 23 Jun 2021 20:13:17 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Wed, 23 Jun 2021 19:28:50 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1377687F;
+        Thu, 24 Jun 2021 01:26:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624490786;
+        bh=ynmhFRHOFC3DGFXRUHhXroMfMJDEBCBRc1Sp3IeMbvU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kolP0OZ6f9YcFrGjlHQtP+Xj+fJOO6UNXg8agbh1zwRez3txACDJ7F7jHaVY5Cms2
+         45nfVpH/YLXuqDO1ERV8FlqY2AFmR8N9Afz/ywPLjxyUAZtzgfYqT8wziO8Liwug2Y
+         bF+6VJFYS7GT3kT3tHfc4iWqh60Sz0ALpZDxPYKc=
+Date:   Thu, 24 Jun 2021 02:25:55 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Stephen Boyd <swboyd@chromium.org>,
         linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779a0: Restore sort order
-Message-ID: <YNN5vXDKBTurLmQK@oden.dyn.berto.se>
-References: <8d68a7ce449aaf90a88e69397dbe0e9c467d5726.1624460175.git.geert+renesas@glider.be>
+        Andrzej Hajda <a.hajda@samsung.com>
+Subject: Re: [RFC PATCH 11/11] drm/bridge: ti-sn65dsi86: Support hotplug
+ detection
+Message-ID: <YNPDAyODcvlWtxpj@pendragon.ideasonboard.com>
+References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-12-laurent.pinchart+renesas@ideasonboard.com>
+ <CAD=FV=XeUbw44OZ0H6hJhS3Pb7LgknVpKynHFxWpPx_qPQ6+QA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8d68a7ce449aaf90a88e69397dbe0e9c467d5726.1624460175.git.geert+renesas@glider.be>
+In-Reply-To: <CAD=FV=XeUbw44OZ0H6hJhS3Pb7LgknVpKynHFxWpPx_qPQ6+QA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+Hi Doug,
 
-On 2021-06-23 16:59:25 +0200, Geert Uytterhoeven wrote:
-> The thermal node was inserted at the wrong place, breaking sort order
-> (sort by unit address, but group nodes of the same type).
+On Wed, Mar 24, 2021 at 03:47:38PM -0700, Doug Anderson wrote:
+> On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
+> >
+> > When the SN65DSI86 is used in DisplayPort mode, its output is likely
+> > routed to a DisplayPort connector, which can benefit from hotplug
+> > detection. Support it in such cases, with polling mode only for now.
+> >
+> > The implementation is limited to the bridge operations, as the connector
+> > operations are legacy and new users should use
+> > DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 46 +++++++++++++++++++--------
+> >  1 file changed, 33 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > index f792227142a7..72f6362adf44 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > @@ -167,6 +167,8 @@ struct ti_sn_bridge {
+> >         struct gpio_chip                gchip;
+> >         DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
+> >  #endif
+> > +
+> > +       bool                            no_hpd;
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Probably it was my fault, not Niklas' ;-)
+> This structure is documented by kernel-doc, but you didn't add your new member.
 
-Most likely my fault, happy order is restored.
+Oops, sorry.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> >  };
+> >
+> >  static const struct regmap_range ti_sn_bridge_volatile_ranges[] = {
+> > @@ -862,23 +864,28 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
+> >         ti_sn_bridge_set_refclk_freq(pdata);
+> >
+> >         /*
+> > -        * HPD on this bridge chip is a bit useless.  This is an eDP bridge
+> > -        * so the HPD is an internal signal that's only there to signal that
+> > -        * the panel is done powering up.  ...but the bridge chip debounces
+> > -        * this signal by between 100 ms and 400 ms (depending on process,
+> > -        * voltage, and temperate--I measured it at about 200 ms).  One
+> > +        * As this is an eDP bridge, the output will be connected to a fixed
+> > +        * panel in most systems. HPD is in that case only an internal signal
+> > +        * to signal that the panel is done powering up. The bridge chip
+> > +        * debounces this signal by between 100 ms and 400 ms (depending on
+> > +        * process, voltage, and temperate--I measured it at about 200 ms). One
+> >          * particular panel asserted HPD 84 ms after it was powered on meaning
+> >          * that we saw HPD 284 ms after power on.  ...but the same panel said
+> >          * that instead of looking at HPD you could just hardcode a delay of
+> > -        * 200 ms.  We'll assume that the panel driver will have the hardcoded
+> > -        * delay in its prepare and always disable HPD.
+> > +        * 200 ms. HPD is thus a bit useless. For this type of use cases, we'll
+> > +        * assume that the panel driver will have the hardcoded delay in its
+> > +        * prepare and always disable HPD.
+> >          *
+> > -        * If HPD somehow makes sense on some future panel we'll have to
+> > -        * change this to be conditional on someone specifying that HPD should
+> > -        * be used.
+> > +        * However, on some systems, the output is connected to a DisplayPort
+> > +        * connector. HPD is needed in such cases. To accommodate both use
+> > +        * cases, enable HPD only when requested.
+> >          */
+> > -       regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
+> > -                          HPD_DISABLE);
+> > +       if (pdata->no_hpd)
+> > +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
+> > +                                  HPD_DISABLE, HPD_DISABLE);
+> > +       else
+> > +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
+> > +                                  HPD_DISABLE, 0);
+> 
+> Optionally you could skip the "else". HPD enabled is the default state
+> and, in general, we don't exhaustively init all registers and rely on
+> the power-on defaults for ones we don't explicitly control.
 
+OK.
+
+> >  }
+> >
+> >  static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+> > @@ -890,6 +897,15 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+> >         pm_runtime_put_sync(pdata->dev);
+> >  }
+> >
+> > +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
+> > +{
+> > +       struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+> > +       int val;
+> > +
+> > +       regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
+> > +       return val ? connector_status_connected : connector_status_disconnected;
 > 
-> To be queued in renesas-devel for v5.15.
+> I would have expected that you would have used the interrupt signal,
+> but I guess it just polls in this case. I suppose polling has the
+> advantage that it's simpler... Maybe throw in a comment about why IRQ
+> isn't being used?
+
+Correct, I didn't want to include IRQ support yet. I'll add a TODO
+comment.
+
+> > +}
+> > +
+> >  static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
+> >                                           struct drm_connector *connector)
+> >  {
+> > @@ -904,6 +920,7 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
+> >         .enable = ti_sn_bridge_enable,
+> >         .disable = ti_sn_bridge_disable,
+> >         .post_disable = ti_sn_bridge_post_disable,
+> > +       .detect = ti_sn_bridge_detect,
+> >         .get_edid = ti_sn_bridge_get_edid,
+> >  };
+u> >
+> > @@ -1327,6 +1344,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+> >                 return ret;
+> >         }
+> >
+> > +       pdata->no_hpd = of_property_read_bool(pdata->dev->of_node, "no-hpd");
+> > +
+> >         ti_sn_bridge_parse_lanes(pdata, client->dev.of_node);
+> >
+> >         ret = ti_sn_bridge_parse_regulators(pdata);
+> > @@ -1365,7 +1384,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+> >
+> >         pdata->bridge.funcs = &ti_sn_bridge_funcs;
+> >         pdata->bridge.of_node = client->dev.of_node;
+> > -       pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
+> > +       pdata->bridge.ops = (pdata->no_hpd ? 0 : DRM_BRIDGE_OP_DETECT)
 > 
->  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 26 +++++++++++------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
+> Checking for "no_hpd" here is not the right test IIUC. You want to
+> check for eDP vs. DP (AKA whether a panel is downstream of you or a
+> connector). Specifically if downstream of you is a panel then (I
+> believe) HPD won't assert until you turn on the panel and you won't
+> turn on the panel (which happens in pre_enable, right?) until HPD
+> fires, so you've got a chicken-and-egg problem. If downstream of you
+> is a connector, though, then by definition HPD has to just work
+> without pre_enable running so then you're OK.
+
+Agreed. It's even more true now that your rework has landed, as in the
+eDP case EDID is handled by the panel driver. I'll rework this.
+
+Should I also condition setting HPD_DISABLE to the presence of a panel
+then ? I could drop of_property_read_bool() and set
+
+	pdata->no_hpd = !!panel;
+
+> I guess then you'd need to figure out what to do if someone wants to
+> use "HPD" on eDP. Do you need to put a polling loop in pre_enable
+> then? Or you could just punt not support this case until someone needs
+> it.
+
+I think I'll stop short of saving the world this time, yes :-) We'll see
+what to do when this case arises.
+
+> > +                         | DRM_BRIDGE_OP_EDID;
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> index a7dfade1801a87db..3676b2bd3d646cdb 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> @@ -327,6 +327,19 @@ sysc: system-controller@e6180000 {
->  			#power-domain-cells = <1>;
->  		};
->  
-> +		tsc: thermal@e6190000 {
-> +			compatible = "renesas,r8a779a0-thermal";
-> +			reg = <0 0xe6190000 0 0x200>,
-> +			      <0 0xe6198000 0 0x200>,
-> +			      <0 0xe61a0000 0 0x200>,
-> +			      <0 0xe61a8000 0 0x200>,
-> +			      <0 0xe61b0000 0 0x200>;
-> +			clocks = <&cpg CPG_MOD 919>;
-> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 919>;
-> +			#thermal-sensor-cells = <1>;
-> +		};
-> +
->  		tmu0: timer@e61e0000 {
->  			compatible = "renesas,tmu-r8a779a0", "renesas,tmu";
->  			reg = <0 0xe61e0000 0 0x30>;
-> @@ -392,19 +405,6 @@ tmu4: timer@ffc00000 {
->  			status = "disabled";
->  		};
->  
-> -		tsc: thermal@e6190000 {
-> -			compatible = "renesas,r8a779a0-thermal";
-> -			reg = <0 0xe6190000 0 0x200>,
-> -			      <0 0xe6198000 0 0x200>,
-> -			      <0 0xe61a0000 0 0x200>,
-> -			      <0 0xe61a8000 0 0x200>,
-> -			      <0 0xe61b0000 0 0x200>;
-> -			clocks = <&cpg CPG_MOD 919>;
-> -			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> -			resets = <&cpg 919>;
-> -			#thermal-sensor-cells = <1>;
-> -		};
-> -
->  		i2c0: i2c@e6500000 {
->  			compatible = "renesas,i2c-r8a779a0",
->  				     "renesas,rcar-gen3-i2c";
-> -- 
-> 2.25.1
-> 
+> IMO somewhere in here if HPD is being used like this you should throw
+> in a call to pm_runtime_get_sync(). I guess in your solution the
+> regulators (for the bridge, not the panel) and enable pin are just
+> left on all the time,
+
+Correct, on my development board the SN65DSI86 is on all the time, I
+can't control that.
+
+> but plausibly someone might want to build a
+> system to use HPD and also have the enable pin and/or regulators
+> controlled by this driver, right?
+
+True. DRM doesn't make this very easy, as, as far as I can tell, there's
+no standard infrastructure for userspace to register an interest in HPD
+that could be notified to bridges. I think it should be fixable, but
+it's out of scope for this series :-) Should I still add a
+pm_runtime_get_sync() at probe time, or leave this to be addressed by
+someone who will need to implement power control ?
 
 -- 
 Regards,
-Niklas Söderlund
+
+Laurent Pinchart
