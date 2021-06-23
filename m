@@ -2,98 +2,175 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2E1D3B15D0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 10:28:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A633A3B1601
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 10:39:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbhFWIa4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 04:30:56 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34632 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229833AbhFWIa4 (ORCPT
+        id S229952AbhFWIlw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 04:41:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36576 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229833AbhFWIlw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 04:30:56 -0400
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC4499B1;
-        Wed, 23 Jun 2021 10:28:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624436918;
-        bh=nApNo5hcf8BQh5BVUFafE+xcZysYzEQx+MRVHfn8ISY=;
-        h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
-        b=nx1LkOwluS9fVtYANJTTuvbmtFKz3aOMNC9vDO6T0/zdKl0i+R1AYxnbtDFP0ac8O
-         cjHsT2DFQW7SVeW/hNxMoARdkd+XoF92GJh5q+AisBXF0DuCgo+jl2/Vd2RlRlZf72
-         U+fsDfZ6+gmiRsJphoBdgWLayIo7GkAQQKxXb6DI=
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH 0/3] drm: rcar-du: V3U support
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210622232024.3215248-1-kieran.bingham@ideasonboard.com>
- <YNKX8qN4YtjFlW6T@pendragon.ideasonboard.com>
-Message-ID: <dba479d7-eab8-dbc0-ec70-0c898c5783df@ideasonboard.com>
-Date:   Wed, 23 Jun 2021 09:28:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Wed, 23 Jun 2021 04:41:52 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C3D4C061574;
+        Wed, 23 Jun 2021 01:39:34 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id a16so1890931ljq.3;
+        Wed, 23 Jun 2021 01:39:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=JVVPmMsCMUJTTUxP116vddvjsDYb2XLODOyPNo5b6Q0=;
+        b=U8eroileOWi5RjAvTJj2sDllrmRnJd7CJ2xXyOXYrz7nigB3aytLM82H7a1DPsBH3V
+         Hsw69y+VTcpUOUHJs29X501UsAhEHWI9msIuuNmEws/tq6hY6Ckgi1BPMfnKY53vE7LJ
+         /TaUi+TAQv1+NYS5MR40NHlrd3xKxQtvJe8efbcBJN0rFhiakjMSlZ/7Ni+FOwsaaqfY
+         96xCgqOaa0WiOonkcri+JXw/VVlO7/X6NnQiEVL3H8K4R4SMbtxIo+CqoVBewweUauvl
+         5GGQ/lQHolXyiT/zVi8qRMBZa1nF8GiVwsKtUr/91gEM430Azg2ZBJHUN5Ff4MBINR/x
+         J1IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=JVVPmMsCMUJTTUxP116vddvjsDYb2XLODOyPNo5b6Q0=;
+        b=N/x5FAByvnW44j5s/i+UNlfKZ91UolmbSRVB4HyMhsmbACHS5hLUmK9RRhksWXTdVm
+         ECl57RT4MN5lJw/KnEu+RiPzINHGNNoSQBJufvIxHpxFMNhyiBhi5WWV4gh9/3g9IlHR
+         K1oBaDivlAZyDB+raCNuQVgEuqRrx1f5NlIw8GPmaalPuxwPu1JFF8VYyoC+9erzxrMP
+         LCkYVoJoDUI7WihfxmPpctPeOre6OEbVvGDmvfw1lJ2n/21hk3HTzNBYVDFl8LLA0t+H
+         Zd6pwajWdRjYd0yat2EMtmssyXY6rnnrzvUgsRb1UcDPeN2p0x38F4+5uRTZCSEHKYBT
+         7Xvw==
+X-Gm-Message-State: AOAM531h6b0YqYk6ZGQjs88H+AhCO2UhB66V/PZA+vehzNaafLurowqQ
+        u8MESpB9e+K11fnfSD2oG/g=
+X-Google-Smtp-Source: ABdhPJzRh29FsphJLIFAyu1GAlHco4CplOxueTqhR9EahKY4LwtLyMQ1B/Fxt5QvKOBHup6q/XrY0w==
+X-Received: by 2002:a2e:b88b:: with SMTP id r11mr7013293ljp.24.1624437572620;
+        Wed, 23 Jun 2021 01:39:32 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id v13sm400428lfo.33.2021.06.23.01.39.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jun 2021 01:39:32 -0700 (PDT)
+Date:   Wed, 23 Jun 2021 11:39:22 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Esaki Tomohito <etom@igel.co.jp>
+Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+Message-ID: <20210623113922.1e603139@eldfell>
+In-Reply-To: <ee0161b5-c88b-40ce-c02f-86e0927b70bb@igel.co.jp>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+        <7cde82a9-c60c-e527-eeac-eaad0c5842a1@metux.net>
+        <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp>
+        <20210622111239.73aa87aa@eldfell>
+        <ee0161b5-c88b-40ce-c02f-86e0927b70bb@igel.co.jp>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YNKX8qN4YtjFlW6T@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/R+0wtRr6C.FPOSdHFeGxePL";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+--Sig_/R+0wtRr6C.FPOSdHFeGxePL
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 23/06/2021 03:09, Laurent Pinchart wrote:
-> Hi Kieran,
-> 
-> It seems that the cover letter didn't include the mailing lists on CC,
-> fixing this.
+On Wed, 23 Jun 2021 15:56:05 +0900
+Esaki Tomohito <etom@igel.co.jp> wrote:
 
-Argh, I should have remembered this. I used --cc-cmd
-./scripts/get_maintainer... but it doesn't match anything for the cover
-letters, when really the cover letter should cc all recipients of all
-patches.
+> Hi,
+> Thank you all for your comments.
+>=20
+> On 2021/06/22 17:12, Pekka Paalanen wrote:
+> > On Tue, 22 Jun 2021 13:03:39 +0900
+> > Esaki Tomohito <etom@igel.co.jp> wrote:
+> >  =20
+> >> Hi, Enrico Weigelt
+> >> Thank you for reply.
+> >>
+> >> On 2021/06/22 1:05, Enrico Weigelt, metux IT consult wrote: =20
+> >>> On 21.06.21 08:27, Tomohito Esaki wrote:
+> >>>
+> >>> Hi,
+> >>>    =20
+> >>>> Virtual DRM splits the overlay planes of a display controller into m=
+ultiple
+> >>>> virtual devices to allow each plane to be accessed by each process.
+> >>>>
+> >>>> This makes it possible to overlay images output from multiple proces=
+ses on a
+> >>>> display. For example, one process displays the camera image without =
+compositor
+> >>>> while another process overlays the UI.   =20
+> >>>
+> >>> Are you attempting to create an simple in-kernel compositor ?   =20
+> >>
+> >> I think the basic idea is the same as DRMlease. =20
+> >=20
+> > Hi,
+> >=20
+> > indeed. Why not use DRM leases instead?
+> >  =20
+>=20
+> In this use case, I understand that this is not possible with DRM lease,
+> am I wrong?
+> I understand that it=E2=80=99s not possible to lease a plane and update p=
+lanes
+> on the same output independently from different processes in current DRM
+> lease.
+>=20
+> If this is correct, what do you think of adding support for plane leases
+> to the DRM lease to handle this case?
 
-Anyone got a workaround for that, so that the cover-letter actually
-makes it to the right places as well?
+Hi,
+
+I would love to see support added for leasing individual planes,
+especially to replace the virtual DRM proposal which seems to be
+eradicating everything that atomic modesetting and nuclear pageflip
+have built over the many years.
+
+However, please note that "on the same output independently" is
+physically impossible. Semantically, the planes define what a CRTC
+scans out, and the CRTC defines the scanout timings. Therefore it is not
+possible to update individual planes independently, they will all
+always share the timings of the CRTC.
+
+That combined with KMS not allowing multiple updates to be queued at
+the same time for the same CRTC (atomic commits and legacy pageflips
+returning EBUSY) makes the plane updates very much inter-dependent.
+
+If you want to avoid EBUSY and have planes update on the vblank you
+intended, you really need a userspace compositor to pull everything
+together *before* submitting anything to the kernel.
 
 
-> On Wed, Jun 23, 2021 at 12:20:21AM +0100, Kieran Bingham wrote:
->> Extend support for the V3U Display Unit, making use of the {recently,
->> soon to be} posted DSI encoder from Laurent.
->>
->> Patch 1 just cleans up in preparation for patch 3, and patch 2 is
->> required for operation on the V3U, however it is functional and should
->> be correct for the D3 and E3 as well, as they also lack external sync.
->>
->> Patch 3 enables the V3U and connects it to the MIPI DSI encoder, of
->> which I'm in a race between me and laurent for posting these patches ;-)
-> 
-> You won the race :-)
+Thanks,
+pq
 
-Ah well, as long as the dependency is clear ;D
+--Sig_/R+0wtRr6C.FPOSdHFeGxePL
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
---
-Kieran
+-----BEGIN PGP SIGNATURE-----
 
+iQIyBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDS8zoACgkQI1/ltBGq
+qqc/5g/3ak40wL+VtqFnrsfVD4HOtihTdvbodwtvOR+di7hRg9DyAo4acZgCylm/
+XDsoSrLQtUQZIhlub+nSt4937wJFkhBLdhKJIAXQ6EYJHlizAWvzh1UE949lz70T
+p5pvLlXbzr1tBj7ekgLuU3J1Tk5EywMB5/nCtEfivvrSAbW4t624kR731VgFPua5
+p70PRiQeNWAxwXsMhK6ujD7B0egngvnKzXCA6f8zjT8t8psi4cduGujo8v5tmGoj
+wDh1HcMmtlU2eXSxaiNjq/nP+d6MV6WAeVghFzbDg8H883PB5UPLby1TAZugqO17
+vcysXxj9knf4jVGO2glafuxPyQD62X2bcSbSv8EX4gEVSggseht/Lq3ZPWr+CMG2
+3yGPKr3bn+MW8S2X5N0T/UQm6umxJS/3Gu0AiruVCZ2CG999CUKIc+O7cLW+EvQP
+sCol/K0/fbJamuPE5wE0REj9RkpEADNM4+i/Iv1Xh9RXecetKXLuOBX2lkVZrbdr
+XSU8mCVBx+D7Bhp9rGYv7uy4MP3R2m19D4UfWt1BEDEX/oF3Tv53fbIkw7U685YX
+ZRQcnrMxExYyM6AZtXNs2cH1jelablm8fDPr8QLCoCDya06iAZK2F43hag0HOm3B
++ny7k73O/3HeUyehS0uFaUh+BnPLI2lHvWjURHhWlOqtNzVl2w==
+=dkL2
+-----END PGP SIGNATURE-----
 
-> 
->> Tests have been run and produce images - but there are artifacts visible
->> and some modes are unavailable, which will need further investigations,
->> but can be done on top of this integration.
->>
->> Kieran Bingham (3):
->>   drm: rcar-du: Sort the DU outputs
->>   drm: rcar-du: Only initialise TVM_TVSYNC mode when supported
->>   drm: rcar-du: Add r8a779a0 device support
->>
->>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c    | 25 ++++++++++++++++++++++-
->>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h    |  6 ++++--
->>  drivers/gpu/drm/rcar-du/rcar_du_drv.c     | 21 +++++++++++++++++++
->>  drivers/gpu/drm/rcar-du/rcar_du_drv.h     |  6 ++++++
->>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  4 ++++
->>  drivers/gpu/drm/rcar-du/rcar_du_group.c   |  2 ++
->>  6 files changed, 61 insertions(+), 3 deletions(-)
->>
-> 
+--Sig_/R+0wtRr6C.FPOSdHFeGxePL--
