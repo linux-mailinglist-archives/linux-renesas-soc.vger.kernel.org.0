@@ -2,255 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21C2D3B1AD8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 15:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D2FF3B1AD5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 15:12:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbhFWNOo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Jun 2021 09:14:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41948 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230354AbhFWNOn (ORCPT
+        id S230274AbhFWNOl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Jun 2021 09:14:41 -0400
+Received: from mail-vs1-f48.google.com ([209.85.217.48]:41479 "EHLO
+        mail-vs1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230019AbhFWNOg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Jun 2021 09:14:43 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4F3DC061574
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Jun 2021 06:12:25 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55B329AA;
-        Wed, 23 Jun 2021 15:12:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624453944;
-        bh=EafNmw9SFZaSzMDy3I0iwr7yQF2YfErKOGedHk1eRoM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KFlm0n6cpAXPOOrATsFdVuV1yUMw18ZfPQHO9s2LNkLQEzPoL/QiU7Bp+Bh+ogHFB
-         ox2bJbwi/3inh0JI7VYwhANj/A8ETUAHA2U/6jPUQwhRU/R2J6ftmCH3tBCBNLQ4Qr
-         TOmwjO7PSjePyO9X6NIiK0rRn81wBORQR/udo5kc=
-Date:   Wed, 23 Jun 2021 16:11:54 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        LUU HOAI <hoai.luu.ub@renesas.com>
-Subject: Re: [RFC PATCH 16/15] rcar-du: dsi: Unexport clock functions
-Message-ID: <YNMzGlD4lXBntAVg@pendragon.ideasonboard.com>
-References: <20210623034656.10316-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210623110059.3408353-1-kieran.bingham@ideasonboard.com>
+        Wed, 23 Jun 2021 09:14:36 -0400
+Received: by mail-vs1-f48.google.com with SMTP id c26so1393940vso.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Jun 2021 06:12:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Z7rFRIRYVnAhcIWsXCCdA/bizkATSrGafe3L9HwAMN8=;
+        b=iK3DWmev8TWYNpj2vuykibibnhGB29R71kxAsjMhWGIank0uDb5AZkt5oqquB9IDoL
+         Fd9/JnmXnpYKLbbUDaxXDqs7hK26nhKRhgurV957VCt39KgZCN2zCkC3vzedTGZkPdyK
+         8Q59Y2XCuAXENRC/xx1JKE33vdDrQDMwvuVXu8ia0mJlAVMTxqwWbgmZGv5ZvNabDoQd
+         JxTPLejugqzquEgdf3iNItrvckgFVaWr6tKcOEcLiZZLcRmTX6j8+a2gUYOCaf1cKWZY
+         pzk3on7FA5Q97pgZXPA2zJJDmS7JnIYGx+QkoX/d4aFjxggTm6KJ+Bs32X8P6NPM65mO
+         qU6Q==
+X-Gm-Message-State: AOAM532hT0KyKffq92HgDsedzoJfMH6bkkncQz0EJG0NBAHKHIBP8Cp0
+        r1u5YQKjYrV5bH/wKxhp4gq3IcerbjmcXSWJXSg=
+X-Google-Smtp-Source: ABdhPJzZI9MYYf2tOdqEUy8y9Qb/m+yl7lTQXg4ghKtEi+OUGC91Wm77OztA/Kq7tA1r9cQGp0HQl5n1FJ4ztveyudM=
+X-Received: by 2002:a67:efd6:: with SMTP id s22mr28617833vsp.3.1624453937586;
+ Wed, 23 Jun 2021 06:12:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210623110059.3408353-1-kieran.bingham@ideasonboard.com>
+References: <20210623034656.10316-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210623034656.10316-2-laurent.pinchart+renesas@ideasonboard.com> <bc508b07-5028-b8e9-b0ac-994c9deca74d@ideasonboard.com>
+In-Reply-To: <bc508b07-5028-b8e9-b0ac-994c9deca74d@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 23 Jun 2021 15:12:06 +0200
+Message-ID: <CAMuHMdUD-GsVCyAsNNdK1D-zoDiRAoKgmU+jXE6UT_uCOrc=hA@mail.gmail.com>
+Subject: Re: [RFC PATCH 01/15] dt-bindings: display: bridge: Add binding for
+ R-Car MIPI DSI/CSI-2 TX
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LUU HOAI <hoai.luu.ub@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Kieran,
 
-Thank you for the patch.
+On Wed, Jun 23, 2021 at 11:06 AM Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
+> On 23/06/2021 04:46, Laurent Pinchart wrote:
+> > The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
+> > can operate in either DSI or CSI-2 mode, with up to four data lanes.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  .../display/bridge/renesas,dsi-csi2-tx.yaml   | 118 ++++++++++++++++++
+> >  1 file changed, 118 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> > new file mode 100644
+> > index 000000000000..7e1b606a65ea
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> > @@ -0,0 +1,118 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
+> > +
+> > +maintainers:
+> > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > +
+> > +description: |
+> > +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
+> > +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
+> > +  to four data lanes.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - renesas,r8a779a0-dsi-csi2-tx # for V3U
+>
+> Only a potential nit ...
+>
+> Is it worth moving the "# for V3U" over a bit to allow for extended
+> compatibles in the future without re-aligning the table?
+>
+> Looks like 37 chars before it currently, it could at least move to
+> position 40.
 
-On Wed, Jun 23, 2021 at 12:00:59PM +0100, Kieran Bingham wrote:
-> The rcar_mipi_dsi_clk_enable and rcar_mipi_dsi_clk_disable functions
-> are exported so that they can be operated directly from the DU CRTC.
-> 
-> This is not required, and can be handled directly through the bridge.
-> 
-> The functionality is split while moving, as the rcar_mipi_dsi_startup()
-> and rcar_mipi_dsi_shutdown() are not handling the clocks and so
-> shouldn't be left in the clock specific functions.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> ---
-> 
-> This patch extends Laurent's series, and would ultimately be squashed
-> into the DSI driver.
-> 
-> 
-> 
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 98 ++++++++++++++-----------
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h | 26 -------
->  2 files changed, 54 insertions(+), 70 deletions(-)
->  delete mode 100644 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> index 026026bbb367..4c5ef4de0ea7 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> @@ -5,8 +5,6 @@
->   * Copyright (C) 2020 Renesas Electronics Corporation
->   */
->  
-> -#include "rcar_mipi_dsi.h"
-> -
->  #include <linux/clk.h>
->  #include <linux/delay.h>
->  #include <linux/io.h>
-> @@ -451,6 +449,33 @@ static void rcar_mipi_dsi_shutdown(struct rcar_mipi_dsi *dsi)
->  	dev_dbg(dsi->dev, "DSI device is shutdown\n");
->  }
->  
-> +static int rcar_mipi_dsi_clk_enable(struct rcar_mipi_dsi *dsi)
-> +{
-> +	int ret;
-> +
-> +	reset_control_deassert(dsi->rstc);
-> +
-> +	ret = clk_prepare_enable(dsi->clocks.mod);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = clk_prepare_enable(dsi->clocks.dsi);
-> +	if (ret < 0) {
-> +		clk_disable_unprepare(dsi->clocks.mod);
-> +		return ret;
-> +	}
+Happy predicting the future ;-)
 
-I'll add a reset_control_assert() in the error paths.
+Did you take into account adding items and/or oneOf, which will
+impact alignment, too?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Gr{oetje,eeting}s,
 
-> +
-> +	return 0;
-> +}
-> +
-> +static void rcar_mipi_dsi_clk_disable(struct rcar_mipi_dsi *dsi)
-> +{
-> +	clk_disable_unprepare(dsi->clocks.dsi);
-> +	clk_disable_unprepare(dsi->clocks.mod);
-> +
-> +	reset_control_assert(dsi->rstc);
-> +}
-> +
->  static int rcar_mipi_dsi_start_hs_clock(struct rcar_mipi_dsi *dsi)
->  {
->  	/*
-> @@ -542,13 +567,38 @@ static void rcar_mipi_dsi_enable(struct drm_bridge *bridge)
->  	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
->  	int ret;
->  
-> +	ret = rcar_mipi_dsi_clk_enable(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dsi->dev, "failed to enable DSI clocks\n");
-> +		return;
-> +	}
-> +
-> +	ret = rcar_mipi_dsi_startup(dsi);
-> +	if (ret < 0)
-> +		goto err_dsi_startup;
-> +
->  	rcar_mipi_dsi_set_display_timing(dsi);
->  
->  	ret = rcar_mipi_dsi_start_hs_clock(dsi);
->  	if (ret < 0)
-> -		return;
-> +		goto err_dsi_start_hs;
->  
->  	rcar_mipi_dsi_start_video(dsi);
-> +
-> +	return;
-> +
-> +err_dsi_start_hs:
-> +	rcar_mipi_dsi_shutdown(dsi);
-> +err_dsi_startup:
-> +	rcar_mipi_dsi_clk_disable(dsi);
-> +}
-> +
-> +static void rcar_mipi_dsi_disable(struct drm_bridge *bridge)
-> +{
-> +	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
-> +
-> +	rcar_mipi_dsi_shutdown(dsi);
-> +	rcar_mipi_dsi_clk_disable(dsi);
->  }
->  
->  static enum drm_mode_status
-> @@ -566,6 +616,7 @@ static const struct drm_bridge_funcs rcar_mipi_dsi_bridge_ops = {
->  	.attach = rcar_mipi_dsi_attach,
->  	.mode_set = rcar_mipi_dsi_mode_set,
->  	.enable = rcar_mipi_dsi_enable,
-> +	.disable = rcar_mipi_dsi_disable,
->  	.mode_valid = rcar_mipi_dsi_bridge_mode_valid,
->  };
->  
-> @@ -573,47 +624,6 @@ static const struct drm_bridge_funcs rcar_mipi_dsi_bridge_ops = {
->   * Clock Setting
->   */
->  
-> -int rcar_mipi_dsi_clk_enable(struct drm_bridge *bridge)
-> -{
-> -	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
-> -	int ret;
-> -
-> -	reset_control_deassert(dsi->rstc);
-> -
-> -	ret = clk_prepare_enable(dsi->clocks.mod);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	ret = clk_prepare_enable(dsi->clocks.dsi);
-> -	if (ret < 0)
-> -		goto err_clock_mod;
-> -
-> -	ret = rcar_mipi_dsi_startup(dsi);
-> -	if (ret < 0)
-> -		goto err_clock_dsi;
-> -
-> -	return 0;
-> -
-> -err_clock_dsi:
-> -	clk_disable_unprepare(dsi->clocks.dsi);
-> -err_clock_mod:
-> -	clk_disable_unprepare(dsi->clocks.mod);
-> -	return ret;
-> -}
-> -EXPORT_SYMBOL_GPL(rcar_mipi_dsi_clk_enable);
-> -
-> -void rcar_mipi_dsi_clk_disable(struct drm_bridge *bridge)
-> -{
-> -	struct rcar_mipi_dsi *dsi = bridge_to_rcar_mipi_dsi(bridge);
-> -
-> -	rcar_mipi_dsi_shutdown(dsi);
-> -
-> -	clk_disable_unprepare(dsi->clocks.dsi);
-> -	clk_disable_unprepare(dsi->clocks.mod);
-> -
-> -	reset_control_assert(dsi->rstc);
-> -}
-> -EXPORT_SYMBOL_GPL(rcar_mipi_dsi_clk_disable);
->  
->  /* -----------------------------------------------------------------------------
->   * Host setting
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
-> deleted file mode 100644
-> index a937ab7ddcd4..000000000000
-> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.h
-> +++ /dev/null
-> @@ -1,26 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * rcar_mipi_dsi.h  --  R-Car MIPI_DSI Encoder
-> - *
-> - * Copyright (C) 2020 Renesas Electronics Corporation
-> - */
-> -
-> -#ifndef __RCAR_MIPI_DSI_H__
-> -#define __RCAR_MIPI_DSI_H__
-> -
-> -struct drm_bridge;
-> -
-> -#if IS_ENABLED(CONFIG_DRM_RCAR_MIPI_DSI)
-> -int rcar_mipi_dsi_clk_enable(struct drm_bridge *bridge);
-> -void rcar_mipi_dsi_clk_disable(struct drm_bridge *bridge);
-> -
-> -#else
-> -static inline int rcar_mipi_dsi_clk_enable(struct drm_bridge *bridge)
-> -{
-> -	return -ENOSYS;
-> -}
-> -static inline void rcar_mipi_dsi_clk_disable(struct drm_bridge *bridge) { }
-> -
-> -#endif /* CONFIG_DRM_RCAR_MIPI_DSI */
-> -
-> -#endif /* __RCAR_MIPI_DSI_H__ */
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
