@@ -2,36 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CFC83B126B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 05:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A74943B126A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Jun 2021 05:47:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230339AbhFWDt7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Jun 2021 23:49:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56086 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230306AbhFWDt7 (ORCPT
+        id S230298AbhFWDt6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Jun 2021 23:49:58 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57852 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230306AbhFWDt6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Jun 2021 23:49:59 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D5D7C061574
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Jun 2021 20:47:42 -0700 (PDT)
+        Tue, 22 Jun 2021 23:49:58 -0400
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BEAD5D9E;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A93A29B1;
         Wed, 23 Jun 2021 05:47:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1624420058;
-        bh=Ps/pmAUMugY85DvMhR6C2O2JcR0XBuU6rrau1pVK1z0=;
+        bh=BTf/TnMojDf6fDPiGsLrlSh1rN1RrsT8tdn1Ue0Sc0k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AEFdHXlRcNtbogXO4080s+PDwjdMA7SGuYkT9KFOSMw9p/jx/6xSe/9JZQ5IyfkTT
-         ba8JZM/gXiCAXx5boOz5pkp4MaCC7+pJ57XPCOCr5lwbGIQD4yTwz+RWR6+0wNjIu0
-         aoPJDV1KlJeCZ9dzDsAEYA4nETtfOnQ70/3WHZXM=
+        b=O9VLK4BoUmr6szdx2LXON4CRbS0DNjwMlhitVzORJTP83s7XZzZ5Qsc7nD3aEgE3h
+         gXzf5txlFwh2SXZrFVDB3e63BozdqLtwUYeibInOIehhOwUUwX55TzopJo3RX1nd7J
+         ZpTo/O29hrR472kTRsXcliIhNWQsqnz2/P5sTCvo=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         LUU HOAI <hoai.luu.ub@renesas.com>
-Subject: [RFC PATCH 09/15] drm: rcar-du: dsi: Simplify DT parsing
-Date:   Wed, 23 Jun 2021 06:46:50 +0300
-Message-Id: <20210623034656.10316-10-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [RFC PATCH 10/15] drm: rcar-du: dsi: Add error handling in rcar_mipi_dsi_clk_enable()
+Date:   Wed, 23 Jun 2021 06:46:51 +0300
+Message-Id: <20210623034656.10316-11-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210623034656.10316-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20210623034656.10316-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -43,68 +40,45 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 41 +++++++++----------------
- 1 file changed, 14 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-index a6bb7f25164b..d16bf50e8acb 100644
+index d16bf50e8acb..2ef82ef0edc5 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-@@ -678,40 +678,27 @@ static const struct mipi_dsi_host_ops rcar_mipi_dsi_host_ops = {
+@@ -618,13 +618,19 @@ int rcar_mipi_dsi_clk_enable(struct drm_bridge *bridge)
  
- static int rcar_mipi_dsi_parse_dt(struct rcar_mipi_dsi *dsi)
- {
--	struct device_node *local_output = NULL;
--	struct property *prop;
--	int ret = 0;
--	int len, num_lanes;
-+	struct device_node *ep;
-+	u32 data_lanes[4];
-+	int ret;
+ 	ret = clk_prepare_enable(dsi->clocks.dsi);
+ 	if (ret < 0)
+-		return ret;
++		goto err_clock_mod;
  
--	local_output = of_graph_get_endpoint_by_regs(dsi->dev->of_node,
--						     1, 0);
--	if (!local_output) {
-+	ep = of_graph_get_endpoint_by_regs(dsi->dev->of_node, 1, 0);
-+	if (!ep) {
- 		dev_dbg(dsi->dev, "unconnected port@1\n");
--		ret = -ENODEV;
--		goto done;
-+		return -ENODEV;
- 	}
+ 	ret = rcar_mipi_dsi_startup(dsi);
+ 	if (ret < 0)
+-		return ret;
++		goto err_clock_dsi;
  
--	/* Get lanes information */
--	prop = of_find_property(local_output, "data-lanes", &len);
--	if (!prop) {
--		dsi->num_data_lanes = 4;
--		dev_dbg(dsi->dev,
--			"failed to find data lane information, using default\n");
--		goto done;
--	}
--
--	num_lanes = len / sizeof(u32);
-+	ret = of_property_read_variable_u32_array(ep, "data-lanes", data_lanes,
-+						  1, 4);
-+	of_node_put(ep);
- 
--	if (num_lanes < 1 || num_lanes > 4) {
--		dev_err(dsi->dev, "data lanes definition is not correct\n");
--		return -EINVAL;
-+	if (ret < 0) {
-+		dev_err(dsi->dev, "missing or invalid data-lanes property\n");
-+		return -ENODEV;
- 	}
- 
--	dsi->num_data_lanes = num_lanes;
--done:
--	of_node_put(local_output);
--
--	return ret;
-+	dsi->num_data_lanes = ret;
-+	return 0;
+ 	return 0;
++
++err_clock_dsi:
++	clk_disable_unprepare(dsi->clocks.dsi);
++err_clock_mod:
++	clk_disable_unprepare(dsi->clocks.mod);
++	return ret;
  }
+ EXPORT_SYMBOL_GPL(rcar_mipi_dsi_clk_enable);
  
- static struct clk *rcar_mipi_dsi_get_clock(struct rcar_mipi_dsi *dsi,
+@@ -634,9 +640,7 @@ void rcar_mipi_dsi_clk_disable(struct drm_bridge *bridge)
+ 
+ 	rcar_mipi_dsi_shutdown(dsi);
+ 
+-	/* Disable DSI clock and reset HW */
+ 	clk_disable_unprepare(dsi->clocks.dsi);
+-
+ 	clk_disable_unprepare(dsi->clocks.mod);
+ 
+ 	reset_control_assert(dsi->rstc);
 -- 
 Regards,
 
