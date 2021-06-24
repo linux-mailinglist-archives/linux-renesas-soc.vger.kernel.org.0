@@ -2,115 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 530D23B29F2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 10:07:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0037E3B2BC8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 11:48:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231862AbhFXIKC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Jun 2021 04:10:02 -0400
-Received: from mail-vs1-f43.google.com ([209.85.217.43]:34684 "EHLO
-        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231859AbhFXIKC (ORCPT
+        id S232051AbhFXJvE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Jun 2021 05:51:04 -0400
+Received: from mail-ua1-f47.google.com ([209.85.222.47]:45631 "EHLO
+        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232043AbhFXJvE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Jun 2021 04:10:02 -0400
-Received: by mail-vs1-f43.google.com with SMTP id x1so2987318vsc.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jun 2021 01:07:42 -0700 (PDT)
+        Thu, 24 Jun 2021 05:51:04 -0400
+Received: by mail-ua1-f47.google.com with SMTP id c20so1968997uar.12;
+        Thu, 24 Jun 2021 02:48:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aZJZEnocSqLhpnyQwHKQH/OxPp1Q73kOuthepAlN9Hg=;
-        b=TxBXltIEjowSKj81oMriM7ub0KsUnDe8Ba5wiMobYyzE12HnnSGs8SGEr9qs5KpvOw
-         QSuQ5g2khDuereYzr2WdpxhTXy+t8MxR1rQ46LZ30V32t8VlSMUvySvZ/IlIq+9QFneW
-         s5f9OcsCRYlmb4WOhv/0IQWdRKL18lmEDaQONPWF1AjdEMnX8lh2LH0qYknSxOQabESF
-         anit2PgbQk8tPCoA0vLy2mlFXE4EfnNzJUkjBoylGrvPcdDEMD8ldYfcJxUp0wztCxc5
-         cSpGvbuK6LHeCs4BpFKuOwv3OBOrAo9LL31NJ6SFRW3Qxmc7TMj+1BhIUt5XrSTz/TV0
-         PffQ==
-X-Gm-Message-State: AOAM533aHiV+XQniFWf4eBfPG0+voXXAiDaP2p7mSHGGjlAivXpX7Kr0
-        CM3LL+RY3q59R1Je/CVmuFpeBHE1fzHCM9pFd/Ua5dn3RNZ9og==
-X-Google-Smtp-Source: ABdhPJwCvbS9PCAqGzEr085d4EnmRKTnxpJYld7B4ziliX+4L3yTlo2WUkg46kKkn/PdDgpSoScjd3VpLBqU8XWLEE8=
-X-Received: by 2002:a67:3c2:: with SMTP id 185mr1611702vsd.42.1624522061995;
- Thu, 24 Jun 2021 01:07:41 -0700 (PDT)
+        bh=/kroWqcKlXWFFemZQ/NRzbiGg9xEeZfy1xoLaGDU8GA=;
+        b=PdO5VS++jkgz2JRcGxjSjdLq4YVhm7cFfidPA97d5eQ7hvDD1CpWVxoLrF2qGR7jYY
+         vp/aslcGiGbtQm06MyJVQ1JJWF3kpLjY+jf8Dh1Br44LSov1rnMVVHZXMi05B3QpmSn3
+         6X4yH8rYNnqJTDaHVnSmzFgmuqIEbK+7+k+2ynTVGAPWQ6X6vlE7Aj3b8wCjzzrgon4w
+         RiDQ/yeqdHSwygQo1hhRY3KWAC0IVeLnpDvSLFRWJZ2Ek9g97YpmVbn1pyrrBWoVf5VM
+         Mk3D/dsX1bPY6RGj0qR9sqQ86Ne0NjG+pj9z6jBeGBg1nBL6mAmEXwbV/WqVEZ/Dd9l3
+         LHqA==
+X-Gm-Message-State: AOAM530LzX+3uie/WDwaz7uBq+2QT/DkbiSB3gzUL6IjH/TJF+cbWTL1
+        4EnxH+h4tKZLuosgHUs8VfnKHFejbJHNcdooe7o=
+X-Google-Smtp-Source: ABdhPJx8eLZCaQK4JJwT1wiEqQ3kpv3yUbtFJCq1izK+isDq95Iy/KbQ3PFmqEMo0o5JCpRXTr+PiKGGRgOL7pk+SYI=
+X-Received: by 2002:ab0:3734:: with SMTP id s20mr4456679uag.106.1624528123937;
+ Thu, 24 Jun 2021 02:48:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1624460378.git.geert+renesas@glider.be> <b7b53970-58ea-f27f-4190-0066cb30cb05@ideasonboard.com>
-In-Reply-To: <b7b53970-58ea-f27f-4190-0066cb30cb05@ideasonboard.com>
+References: <20210616132641.29087-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210616132641.29087-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210616132641.29087-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 24 Jun 2021 10:07:30 +0200
-Message-ID: <CAMuHMdWSeeifBLqi4S6LrgcQg9E_1xFXzLzBBBqMf1Fc0kbMhg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] arm64: dts: renesas: r8a779a0: Add INTC-EX support
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Thu, 24 Jun 2021 11:48:32 +0200
+Message-ID: <CAMuHMdXp_QS3TXDA4m5w-rY9Q+UYmKKZpzt+OzyBwuj2ax+3+A@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Add DT
+ bindings for RZ/G2L pinctrl
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Chris Brandt <Chris.Brandt@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Prabhakar,
 
-On Wed, Jun 23, 2021 at 6:13 PM Kieran Bingham
-<kieran.bingham@ideasonboard.com> wrote:
-> On 23/06/2021 16:02, Geert Uytterhoeven wrote:
-> > This patch series adds support for the Interrupt Controller for External
-> > Devices (INT-EC) in the Renesas R-Car V3U (r8a779a0) SoC.
-> >
-> > As there are two known issues, I'm posting this to a limited audience:
-> >
-> >   1. External interrupts have not been tested.
-> >
-> >      Kieran: perhaps IRQ0 can be tested on Falcon with the MIPI DSI/eDP
-> >      bridge, by changing
-> >
-> >        -    interrupt-parent = <&gpio1>;
-> >        -    interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
-> >        +    interrupt-parent = <&intc_ex>;
-> >        +    interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-> >
-> >      ? The "ti,sn65dsi86" driver doesn't seem to use interrupts, though,
-> >      so I don't know how feasible this is.
+On Wed, Jun 16, 2021 at 3:27 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add device tree binding documentation and header file for Renesas
+> RZ/G2L pinctrl.
 >
-> I can add an interrupt handler if that's what you need, but I suspect
-> that the change here simply 're-routes' the interrupt through the
-> intc_ex so that it still needs an interrupt to be generated by the
-> SN65DSI86? is that right?
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Correct, you need to make the SN65DSI86 generate an interrupt, too.
-No idea how to do that...
+Thanks for your patch!
 
-> >      Alternatively, with physical access, IRQ0 is available on test
-> >      point CP47, and IRQ2 on the GPIO CN.
->
-> I do have physical access, so I can trigger this - Is there a suitable
-> voltage or condition I can apply? (I.e. take a signal from a nearby pin
-> to short it?)
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+> @@ -0,0 +1,121 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pinctrl/renesas,rzg2l-pinctrl.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L combined Pin and GPIO controller
+> +
+> +maintainers:
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +
+> +description:
+> +  The Renesas SoCs of the RZ/G2L series feature a combined Pin and GPIO
+> +  controller.
+> +  Pin multiplexing and GPIO configuration is performed on a per-pin basis.
+> +  Each port features up to 8 pins, each of them configurable for GPIO function
+> +  (port mode) or in alternate function mode.
+> +  Up to 8 different alternate function modes exist for each single pin.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r9a07g044-pinctrl # RZ/G2{L,LC}
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  gpio-controller: true
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +    description:
+> +      The first cell contains the global GPIO port index, constructed using the
+> +      RZG2L_GPIO() helper macro in <dt-bindings/pinctrl/pinctrl-rzg2l.h> and the
 
-As IRQ0 is driven by the single gate U59, you better don't cause logic
-conflicts, and play with IRQ2 instead.
+<dt-bindings/pinctrl/rzg2l-pinctrl.h>, for consistency with other Renesas
+header files?
 
-Note that high level is SPI_D1.8V/3.3V, which is 1.8V by default!
-The GPIO CN connector carries a.o. SPI_D1.8V/3.3V and GND.
-Internal pull-up should be enabled for IRQ2 by reset state, but you
-may want to measure the pin's voltage to be sure.
+> +      second cell represents consumer flag as mentioned in ../gpio/gpio.txt
+> +      E.g. "RZG2L_GPIO(39, 1)" for P39_1.
+> +
+> +  gpio-ranges:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +additionalProperties:
+> +  anyOf:
+> +    - type: object
+> +      allOf:
+> +        - $ref: pincfg-node.yaml#
+> +        - $ref: pinmux-node.yaml#
+> +
+> +      description:
+> +        Pin controller client devices use pin configuration subnodes (children
+> +        and grandchildren) for desired pin configuration.
+> +        Client device subnodes use below standard properties.
+> +
+> +      properties:
+> +        phandle: true
+> +        function: true
+> +        groups: true
 
-To configure pin control, you need to add the following, and hook it
-up to the pfc node:
+RZ/G2L uses per-pin configuration, and, unlike R-Car, the configuration
+registers do not have the concept of pin groups.  Hence I'm wondering
+why you are using "function" and "group" properties, and not per-pin
+"pinmux" properties, like RZ/A2?
 
-        irq2_pins: irq2 {
-                groups = "intc_ex_irq2";
-                function = "intc_ex";
-        };
+> +        pins: true
+> +        bias-disable: true
+> +        bias-pull-down: true
+> +        bias-pull-up: true
+> +        drive-strength:
+> +          enum: [ 2, 4, 8, 12 ]
+> +        power-source:
+> +          enum: [ 1800, 2500, 3300 ]
+> +        slew-rate: true
+> +        gpio-hog: true
+> +        gpios: true
+> +        input-enable: true
+> +        output-high: true
+> +        output-low: true
+> +        line-name: true
 
-You should be able to test this using gpio-keys, with a key subnode that
-has an interrupts instead of a gpios property.
+> --- /dev/null
+> +++ b/include/dt-bindings/pinctrl/pinctrl-rzg2l.h
 
-This might be a good opportunity to wire up the slide and push switches
-(SW46-49) as gpio-keys, too...
+include/dt-bindings/pinctrl/rzg2l-pinctrl.h, for consistency?
 
-Thanks!
+> @@ -0,0 +1,16 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +/*
+> + * This header provides constants for Renesas RZ/G2{L,LC} pinctrl bindings.
+> + *
+> + * Copyright (C) 2021 Renesas Electronics Corp.
+> + *
+> + */
+> +
+> +#ifndef __DT_BINDINGS_PINCTRL_RZG2L_H
+> +#define __DT_BINDINGS_PINCTRL_RZG2L_H
+
+__DT_BINDINGS_RZG2L_PINCTRL_H
 
 Gr{oetje,eeting}s,
 
                         Geert
+
 
 --
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
