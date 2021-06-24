@@ -2,78 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2645E3B338E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 18:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 889E43B3469
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 19:09:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232261AbhFXQJN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Jun 2021 12:09:13 -0400
-Received: from mga11.intel.com ([192.55.52.93]:60575 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232131AbhFXQJD (ORCPT
+        id S232410AbhFXRL5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Jun 2021 13:11:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232415AbhFXRLx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Jun 2021 12:09:03 -0400
-IronPort-SDR: DPRquJrvhgtI5ot/wsQPTq0z6LA/EjkjktQvlO8cWqq91gLJ4WuZZDypm7AoyM2VhiJqhyQTCF
- mfHnwBvJmHTg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="204496095"
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
-   d="scan'208";a="204496095"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 09:06:42 -0700
-IronPort-SDR: 2YJhgaeXRUIK4z5GnFC1FH84EaTwiaLMqs7UxE3g3kkcuPXOKYf8PcesXiHY+RzhbCU/HocWlN
- RL/ld5em7rhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
-   d="scan'208";a="487818293"
-Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.79]) ([10.237.72.79])
-  by orsmga001.jf.intel.com with ESMTP; 24 Jun 2021 09:06:37 -0700
-Subject: Re: [PATCH 0/3] mmc: avoid vicious circle when retuning
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-References: <20210624151616.38770-1-wsa+renesas@sang-engineering.com>
-From:   Adrian Hunter <adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
- Business Identity Code: 0357606 - 4, Domiciled in Helsinki
-Message-ID: <1741203b-c37e-fbc0-ef0b-bfd34f402e7d@intel.com>
-Date:   Thu, 24 Jun 2021 19:06:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Thu, 24 Jun 2021 13:11:53 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C3AC061760
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jun 2021 10:09:31 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id k16so9107547ios.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jun 2021 10:09:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
+         :subject:to;
+        bh=ANhbTggsY3NFhRZExKMwUmb3VzJqye8XLvWVXSvNBkQ=;
+        b=p95plxgcKdT8+TUJCmcKdAyJL6L8C+j3muAeTI6tbvEOMwKUFZvBH22Z3GEGxdnUZH
+         d9XkDasjcz/bUj2n1PkWxPPQL/Sxtf1a7ckN43IkWwU4a9v6DYeOi9Tg8DPYHl700hH/
+         xlmv54Ir2NUVB8zwaX1UsxTzP5GUW3mdywmszCeflzWKbXzDgkMNhx+qVsi3FklHnD5x
+         fSDWvxz3POXOJ/0yZM+F2G99rPMTFJK+bPA5TWYu0VJpvpEjmQwRSgXLB6dx+kXpC0Uz
+         JX+JhI0lSB7VkwJTdkbApCrUx6TGzp99N5mAm/d0lil4hmexz93RFAPSpMzmwkjNchKB
+         rXTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
+         :from:date:message-id:subject:to;
+        bh=ANhbTggsY3NFhRZExKMwUmb3VzJqye8XLvWVXSvNBkQ=;
+        b=csx/hCFYv/cJVJlP+6TtVT/FREUHZrqwC3Rk+axLkwzWkKgux6YrErmU+CAG6VAAWj
+         E8A9bx85rwWXOilYIDJXwu7Bsw3BxYhNhX9eZDccU/jCp/dle6dTTXDOITSrdrPCk7kC
+         Cdas/yyjGpkbl/XH4obgwTYxwF4dkoJU02jczs40IWJ0+9fWyGGCK2bxuJUEC+i6vS0A
+         Q5CGRWk3YkHAQ+apVWU6gqzXhdgMLaVrcLW35Sdh/CHXPv5hV0rq4U9keVXNWWza0Yy6
+         EDFIp7dyMrWRRPLrZgHqVXxwZty0khbHaMLRWbvFPu9jWCesINwQD9Uyqm0VGSCndpoZ
+         TmCw==
+X-Gm-Message-State: AOAM530Z52EwN2erExV2Y7X/QnouzXruyOYDsd/g8KOK06j7RFtaxyDP
+        qjechm9AFnrtOUH+Tc9+PGGS2GvR5PwHRfaJ3f2FLAD4uN7oUA==
+X-Google-Smtp-Source: ABdhPJzkYUuO368jts0QgMQyJe9SHzg0U698qd8KdfojEfYsXnHtwMfPGxVHmw7fwQ64+IhHRhAEJH5nusdeW4BWzcA=
+X-Received: by 2002:a05:6e02:524:: with SMTP id h4mr4098121ils.255.1624554560853;
+ Thu, 24 Jun 2021 10:09:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210624151616.38770-1-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a05:6638:3aa:0:0:0:0 with HTTP; Thu, 24 Jun 2021 10:09:20
+ -0700 (PDT)
+Reply-To: tutywoolgar021@gmail.com
+In-Reply-To: <CADB47+4Wa3T59Vq_==GTXEfHrX5x-2vQFxaTBO0dTdyAweCVpw@mail.gmail.com>
+References: <CADB47+4Wa3T59Vq_==GTXEfHrX5x-2vQFxaTBO0dTdyAweCVpw@mail.gmail.com>
+From:   tuty woolgar <faridaamadoubas@gmail.com>
+Date:   Thu, 24 Jun 2021 17:09:20 +0000
+Message-ID: <CADB47+607zNBfYFb4bj0nUhuuYgAdwT=G_wJ9-EeV0ESHe56Jg@mail.gmail.com>
+Subject: greetings,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 24/06/21 6:16 pm, Wolfram Sang wrote:
-> See patch 1 for a description of the problem. This series implements the
-> alternative approach suggested by Adrian (thanks!). It also adds some
-> documentation and a minor cleanup which I came up with while working on
-> the fix. Patch 1 can go to stable as is, the rest built on top of that.
-> 
-> This series fixes the performance issue which we saw when injecting CRC
-> errors on Renesas R-Car Gen3 hardware.
-> 
-> Looking forward to comments!
-
-Looks good to me.  For all 3 patches:
-
-Acked-by: Adrian Hunter <adrian.hunter@intel.com>
-
-> 
-> 
-> Wolfram Sang (3):
->   mmc: core: clear flags before allowing to retune
->   mmc: host: add kdoc for mmc_retune_{en|dis}able
->   mmc: host: factor out clearing the retune state
-> 
->  drivers/mmc/core/core.c |  6 ++++--
->  drivers/mmc/core/host.c | 13 +++++++++++--
->  drivers/mmc/core/host.h |  6 ++++++
->  3 files changed, 21 insertions(+), 4 deletions(-)
-> 
-
+My greetings to you my friend i hope you are fine and good please respond
+back to me thanks,
