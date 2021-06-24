@@ -2,186 +2,475 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 463D43B2CFA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 12:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52B903B2D68
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 13:13:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232224AbhFXK5A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Jun 2021 06:57:00 -0400
-Received: from mail-eopbgr1310124.outbound.protection.outlook.com ([40.107.131.124]:3027
-        "EHLO APC01-SG2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231294AbhFXK47 (ORCPT
+        id S232350AbhFXLPn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Jun 2021 07:15:43 -0400
+Received: from mail-vs1-f45.google.com ([209.85.217.45]:37842 "EHLO
+        mail-vs1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232118AbhFXLPn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Jun 2021 06:56:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jObYbCCqagJFpGuGID6n9rJmiXWgHj1d0zqUDpyFn+eZ9cx0aZJKIAEAxZJk19W2NOs/PU639HY4qNhD7FIQ16MF6yg5hOXHdtOce66IrpPXH/iVlb0VlqLvKh07FzjmNxCksFqK3xe0q0hwF2bYltOG33g6YjoFeTBivrwvR9Oe7YjFzykQLVfkYrUy5sKBrzNCFVQ60EKkcTdIIYJvRMp6AQeOHBJjml6+ZCQ14lRto7ZT7XW4qquWcW8AOOO+66V6z6g6Ma57m+sCczxNpD90b97r44OSXtR6+obgKbH41scI1nziFpgvl/Mz0BJgcDsQi2rGR1eDrLCAoxXkfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fqHVzsOjYZ4btvmUHuezNlhisjD65locvBqPLGjqQhg=;
- b=B7m2FU7fQAZEyzsK1HNLx5IQ0b1sLZEauB6Y2s5FvjbLP7VTf823xFYFyxIrvRe7RPRKChJzMeBkpyUGgDi1FWxIUtHPxc6L+lymi3ID+d+2NVaIn98Hg5BQGZbWl5Ctcomi4nz1KcF0x8w5zOUF4sJd6y+PEsK4A7wWNJc/rDTq0FpuPP8p1r3sI2ZahIOk1hLeYAFKCO7LuhBltgUEwgcRJm1qHrZBIpkvDlpHxQ8/d3stSXZqZ3N004M2lVH97i0s8qBB+PAoBrxw+K/Ov3MraJte9bt5Z/95HYwxG5RUnLZjsgpEc73aP6nkoa9CHvh1XGWhnQdbMqanGtxQcw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fqHVzsOjYZ4btvmUHuezNlhisjD65locvBqPLGjqQhg=;
- b=VGS160Pug7sHXBAeT6nOLgMhuTRQFZBkmUziVHQoBONXuC2HiJiKUd0xfTDyG2noBauHCS1ISAHOe5b5KgcByVffw3uScTYYcntxlOgt9+kyKjZpYoOp6jWR51XLKaartge7FsNEGXrIEnLWZ6x5PBzbz4BkROD9wD599a6SNR4=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TY2PR01MB4027.jpnprd01.prod.outlook.com (2603:1096:404:db::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.20; Thu, 24 Jun
- 2021 10:54:34 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::4c5d:66ee:883a:72a5]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::4c5d:66ee:883a:72a5%6]) with mapi id 15.20.4242.024; Thu, 24 Jun 2021
- 10:54:34 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa@kernel.org>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Subject: RE: [PATCH 04/14] mmc: renesas_sdhi: Add support for R-Car H3e-2G and
- M3e-2G
-Thread-Topic: [PATCH 04/14] mmc: renesas_sdhi: Add support for R-Car H3e-2G
- and M3e-2G
-Thread-Index: AQHXXdxGVxnXORnr0UKfnp2dzw5A3KsT3joAgAAN+YCADpPUcIAARLKAgABJHXA=
-Date:   Thu, 24 Jun 2021 10:54:34 +0000
-Message-ID: <TY2PR01MB36927B0CCE7C557A3115E481D8079@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <cover.1623315732.git.geert+renesas@glider.be>
- <22b4c393bf5074b53791d2797d8fe74deb8ea9a7.1623315732.git.geert+renesas@glider.be>
- <YMei/rKwEyicfx+H@pendragon.ideasonboard.com>
- <CAMuHMdUJQCv7Qe01Km=6F=yUjcNoo_OvOBrYpPcC3SbhX0Ru5Q@mail.gmail.com>
- <TY2PR01MB36929E0DE956A374B8CF5EE7D8079@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <YNQi0w4zsG01ezgu@kunai>
-In-Reply-To: <YNQi0w4zsG01ezgu@kunai>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 20c86595-4d37-4d83-ebe4-08d936fe7436
-x-ms-traffictypediagnostic: TY2PR01MB4027:
-x-microsoft-antispam-prvs: <TY2PR01MB40276B8A00AFBA6E3B68C292D8079@TY2PR01MB4027.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jtZ6tY1kRp4NYnAC+gIgCnmz+z3B+4wo5NVnvKai4QwnrQiB23DVCe0Mi0XYZI3xPNAOzUCND+d7TyWqovFN5AsfDiQGs7UuwZj100JxVjWjghH8xFQECy/LRxkMCru1l3qJ5IdHify/xLi5OU4RbkQyXAp35Ak5TOAAficrJ626dmgDuIOyRzQMYOIN2rNyAIi7hHr37TWPX47tC+JCIRfTXF+R9OqCjxk9ja3A3MG+CyUJSegLkHqXJAk8XWTVfCQx7yvae6aKbej5NzDxFIUIBARqy0qfdJ76LssmjoR5fWT7/g1zUEBhMtvGqUSnudXqrBfOX3EuHS5PBgGPpBpxBbxC/Oz7/frCo5wW+3hQGcFC/sKH0wn4R1Nc/X3+wZD9QbcqT67dnpcuaJqbOkUxu3NzuqV2H/9NOwEur5S3xnIB9k5MAbAG/1HCkmz5+ysPJ3ptdBwl1flw5wqsnJvvBppf9yiTWO5pIb/+04dUlN/sah22FDfn62QEXJ6t93Ro27rV1RFBmL8Epk+kCID342SVoYp1FlW2svdnXGrd/KpeAJw8Z0Db8tc/H4v/U70GazVAnys5PNi3Ho4jz6gAvYrJw3xKCH5Yx9D3ENEeyvd4Z2VUhP8jVK2qsPpfZf5iRgGJDbnS8bpZACbqpw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(366004)(39860400002)(346002)(396003)(52536014)(122000001)(186003)(33656002)(66446008)(64756008)(66476007)(66946007)(66556008)(8936002)(8676002)(38100700002)(71200400001)(26005)(6506007)(5660300002)(7696005)(55236004)(76116006)(4326008)(55016002)(2906002)(9686003)(86362001)(6916009)(316002)(478600001)(54906003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?b0/n2t6C/gPL76lpS5CT4O71cm5cP9SJUduChVdDQ5WF4GdEeuZNe7ra7kvZ?=
- =?us-ascii?Q?At00baDXhJ9uQx2jrWR0jhEqdyiOFL992mC+u7WfvstfN3vPThede155xcd/?=
- =?us-ascii?Q?yo+RP2Qmvgy2hvMo3CK8sVruia1jFnjzNZi4cVTMstgv03NynInfn5n7MV7i?=
- =?us-ascii?Q?Td1MbduxiinDzfWQSQQApee97KNx3vJGSz3swjOMETSZP50KNhXGmDG8L0hS?=
- =?us-ascii?Q?CG1Vns1csZFvZravFYfmhU8p+UdVA7HQvUfpeBawT1pBltYMNmSV5o43eQL1?=
- =?us-ascii?Q?e7g2AvufPbEMBsRZ9K8tGzyhIx+MpS/z/cXa/o5DPsgIEV4IuEL0eyeSLjzu?=
- =?us-ascii?Q?J8hpl67L0EGNe7NbLj/8oRV6Tn2Y/gOw+IXoMKDqHDaa6B1oI3G94kezZf0d?=
- =?us-ascii?Q?yQwoErNdwsMf2qHCGcjZ/rmotuB8Zg2H0UO3BrDdPSRwc4ghsFLyEe7xQIu0?=
- =?us-ascii?Q?pFqQUSywlmJE/Of2q8K/oxJAJooE4R2J6NYggSuns6c767+CgiWOiRCB/T4X?=
- =?us-ascii?Q?sSnGjTNpfc9N5jyTk5wLlS7//2Jxo11tSJFw3pyKFD6ZxqjHLiDhT2GRmx2D?=
- =?us-ascii?Q?N0EWJc+NjwjC3NJiM1J+MLfg/a4vdUsrNTAdyC6CBEDQIgRyhUAwqowLnfaj?=
- =?us-ascii?Q?JyB+VYjD7NgGnilJWYfESLJObh6cNzemWQJwl0PtZQ92bIyul14pcmzCJ5E0?=
- =?us-ascii?Q?BV4uEaysNccoGUuvCbGhgGS+qZBGP1Snm5L1l5X029CPVBycGog7z0boyaOE?=
- =?us-ascii?Q?5pfuYQ40dYDAxJoizSva5CODJ33hTw6aQAGs1miZtFRDuwvyS563Q9gwtgt/?=
- =?us-ascii?Q?GYk7uHF3kbXo1wdxAO5VxINgJYDAHVzJTTn0jz+oAFqPFW6oesz2nJBJnDLz?=
- =?us-ascii?Q?SKH70GyWUzXyRPjQrq1fsfgxnpg6ncRPjrQ4Cef9H+PlhHJXH+ZD/mJcqH9W?=
- =?us-ascii?Q?WfeN0JB/ob6WL9s1DanPOi0oWWScbQgKvfMH7tZgSNqgFdCPLYZL5VMbZQvb?=
- =?us-ascii?Q?hi4Dwua+vtaBU+FXwntTRr/5U9cViSgZSFNlU0yeOczLummNdaw68ZMRKLVc?=
- =?us-ascii?Q?YGa1KIO1w+kFrOjNW8f3GF8fHeZKCKwH6lg/WaE4zPS+x99Qtutm0y6aa9eY?=
- =?us-ascii?Q?NHqeFc2HCs2PD/Zf1hvNoSwRW0AsOsZ3gQBxZwp+TwZ6g54nkV8MkQe0BUor?=
- =?us-ascii?Q?r7OyXWjkt8y+puJm8fP6pwofb3DcZ/hB/gibaV2SROehhYkqAB8vZsfI8KEu?=
- =?us-ascii?Q?upZVjvj2NV7NplGJ9jQ6u33CWIfHRdwtxBDICSmkkUeZgnsHhwlIABXc6zCT?=
- =?us-ascii?Q?XciXIOx3lDKv+5/uATry8Dlq?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 24 Jun 2021 07:15:43 -0400
+Received: by mail-vs1-f45.google.com with SMTP id x12so3225865vsp.4;
+        Thu, 24 Jun 2021 04:13:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nu41oDwPqoOra5POcHkDZFZos8FE8RZ+rwyu8YCLFd8=;
+        b=Ayab4vcuSkQfmRDXD+mb7z39LEQdj0VL8qaPv1VacabJuP8on9SnhNmqGP9DB/sqHx
+         +LtGKqgbHlUSk+43LVQcrb1z6bVxneaWYh6yPQ+CSFmCoE4j8rj0mcFmROsn5UZRjs6o
+         5NtblI3MfTTZN5ZEVh0LcoCmmi7hcOHTu4+yjZmzU1MaRFIf6rUvi146miK+iG8LWk6I
+         2VpmTpNDckmUUNvBhV1EbrOkFLZnHPNKc1vOyS0YQnPOwh1FhSp8bloaCHtaWxps32Hx
+         aKFefE2ozK8G/wXFV5U8nMKOZOSyq2gGF5omHizJyowFHAqAQvwZos52nq9XKZ2VTLBC
+         EynA==
+X-Gm-Message-State: AOAM5300TRX6LTcabUM+qVPFq88Cq8/V8sQzkIEeqm+OTzdbpidnsH8f
+        eefBqBymN0aZ3O592RBU4iZaUt3kJMCoRj1Aw+g=
+X-Google-Smtp-Source: ABdhPJwCequCoFGzWxgks/i5AyBMpLJCkXXKAPMOjIY9MzCt06Wa8zqmXgSjgdhYD0zU3/Bd7vOyYLX6rlMsO3mDBzU=
+X-Received: by 2002:a05:6102:301c:: with SMTP id s28mr1310837vsa.18.1624533203443;
+ Thu, 24 Jun 2021 04:13:23 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20c86595-4d37-4d83-ebe4-08d936fe7436
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2021 10:54:34.8005
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pCibwsTEp76En4X+DKQun4hUPe/9u8xReFNWDvn6eGMrAr9Hvq4SQy6bY5uFnPnMrzbitsSrZZCYvs8EMqoySrZL7EghM0Wj8ZJowilULK5K4ZRhN8Kw4EY7Ud2enSPO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4027
+References: <20210616132641.29087-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210616132641.29087-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210616132641.29087-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 24 Jun 2021 13:13:12 +0200
+Message-ID: <CAMuHMdU4=dRZQKbAx0=zLWCjd7sPRjLtE3KEJP_-8qjjakCBXw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] pinctrl: renesas: Add RZ/G2L pin and gpio controller
+ core wrapper
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san,
+Hi Prabhakar,
 
-> From: Wolfram Sang, Sent: Thursday, June 24, 2021 3:15 PM
->=20
-> Hi all,
->=20
-> > > > > --- a/drivers/mmc/host/renesas_sdhi_core.c
-> > > > > +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> > > > > @@ -943,6 +943,8 @@ static const struct soc_device_attribute sdhi=
-_quirks_match[]  =3D {
-> > > > >       { .soc_id =3D "r8a77965", .data =3D &sdhi_quirks_r8a77965 }=
-,
-> > > > >       { .soc_id =3D "r8a77980", .data =3D &sdhi_quirks_nohs400 },
-> > > > >       { .soc_id =3D "r8a77990", .data =3D &sdhi_quirks_r8a77990 }=
-,
-> > > > > +     { .soc_id =3D "r8a779m1", .data =3D &sdhi_quirks_bad_taps23=
-67 },
-> > > > > +     { .soc_id =3D "r8a779m3", .data =3D &sdhi_quirks_bad_taps13=
-57 },
-> > > >
-> > > > Could we reuse the entries for H3 and M3 instead, by dropping the
-> > > > "ES3.*" revision ?
-> > >
-> > > We cannot reuse the H3 ES3.0 entry, as soc_device_match()
-> > > works differently than of_machine_is_compatible(): the former doesn't
-> > > consider "r8a779m1" and "r8a7795" equivalent, the latter does.
-> > > Same for M3-W+ (no explicit ES3.0 there) and M3e-2G.
-> > >
-> > > It's a pity we still don't have a "quirk-free" SDHI version on H3
-> > > and M3-W class SoCs (waiting for ES4.0?), as that would allow us to
-> > > just match on "renesas,sdhi-r8a7795" resp. "renesas,sdhi-r8a77961"
-> > > through the driver's .of_match_table[] instead, which would work for
-> > > H3e-2G and M3e-2G, too.
-> >
-> > Perhaps, ES4.0 will not be released. So, we can refactor the driver's
-> > .of_match_table[] now. I investigated this a little, and it seems
-> > we need many renesas_sdhi_of_data for each SoC instead of
-> > of_rcar_gen3_compatible. But, I guess such modification is better
-> > than adding sdhi_quirks_match entries.
-> >
-> > Wolfram-san, what do you thinks?
->=20
-> I don't fully understand how the refactoring should look like? Is it
-> moving 'struct renesas_sdhi_quirks' to renesas_sdhi_internal_dmac.c and
-> merge it there with renesas_sdhi_of_data? Is it really better to copy
-> this struct per SoC? Most of the data is the same.
+On Wed, Jun 16, 2021 at 3:27 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add core support for pin and gpio controller.
+>
+> Based on a patch in the BSP by Hien Huynh <hien.huynh.px@renesas.com>.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/pinctrl/renesas/Kconfig         |  11 +
+>  drivers/pinctrl/renesas/Makefile        |   1 +
+>  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 530 ++++++++++++++++++++++++
+>  drivers/pinctrl/renesas/pinctrl-rzg2l.h |  94 +++++
+>  4 files changed, 636 insertions(+)
+>  create mode 100644 drivers/pinctrl/renesas/pinctrl-rzg2l.c
+>  create mode 100644 drivers/pinctrl/renesas/pinctrl-rzg2l.h
+>
+> diff --git a/drivers/pinctrl/renesas/Kconfig b/drivers/pinctrl/renesas/Kconfig
+> index 4b84a744ae87..2b4ac226ce35 100644
+> --- a/drivers/pinctrl/renesas/Kconfig
+> +++ b/drivers/pinctrl/renesas/Kconfig
+> @@ -176,6 +176,17 @@ config PINCTRL_RZA2
+>         help
+>           This selects GPIO and pinctrl driver for Renesas RZ/A2 platforms.
+>
+> +config PINCTRL_RZG2L
+> +       bool "pin control support for RZ/G2L family"
 
-I also have the same concern. But, I guess we can refactor
-the renesas_sdhi_of_data like below to avoid increasing data size:
+As this is selected by PINCTRL_PFC_R9A07G044, it should probably be
+invisible, i.e. add "if COMPILE_TEST"?
 
-struct renesas_sdhi_of_data_with_quirks {
-	const struct renesas_sdhi_of_data *of_data;
-	const struct renesas_sdhi_quirks *quirks;
-};
+> +       depends on OF
+> +       depends on ARCH_R9A07G044 || COMPILE_TEST
 
-And then, we can keep of_rcar_gen3_compatible and
-we can add each SoC's renesas_sdhi_of_data_with_quirks
-and set it to the .data.
+Hence no need for this dependency.
 
-Best regards,
-Yoshihiro Shimoda
+> +       select GPIOLIB
+> +       select GENERIC_PINCTRL_GROUPS
+> +       select GENERIC_PINMUX_FUNCTIONS
+> +       select GENERIC_PINCONF
+> +       help
+> +         This enables common pin control functionality for platforms based on RZ/G2L family.
+> +
+>  config PINCTRL_PFC_R8A77470
+>         bool "pin control support for RZ/G1C" if COMPILE_TEST
+>         select PINCTRL_SH_PFC
+> diff --git a/drivers/pinctrl/renesas/Makefile b/drivers/pinctrl/renesas/Makefile
+> index 353563228dc2..7d9238a9ef57 100644
+> --- a/drivers/pinctrl/renesas/Makefile
+> +++ b/drivers/pinctrl/renesas/Makefile
+> @@ -46,6 +46,7 @@ obj-$(CONFIG_PINCTRL_PFC_SHX3)                += pfc-shx3.o
+>
+>  obj-$(CONFIG_PINCTRL_RZA1)     += pinctrl-rza1.o
+>  obj-$(CONFIG_PINCTRL_RZA2)     += pinctrl-rza2.o
+> +obj-$(CONFIG_PINCTRL_RZG2L)    += pinctrl-rzg2l.o
+>  obj-$(CONFIG_PINCTRL_RZN1)     += pinctrl-rzn1.o
+>
+>  ifeq ($(CONFIG_COMPILE_TEST),y)
+> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> new file mode 100644
+> index 000000000000..b9730b53fd85
+> --- /dev/null
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -0,0 +1,530 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/G2L Pin Control and GPIO driver core
+> + *
+> + * Copyright (C) 2021 Renesas Electronics Corporation.
+> + */
+> +
+> +#include <linux/of.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +
+> +#include "pinctrl-rzg2l.h"
+> +
+> +#define DRV_NAME       "pinctrl-rzg2l"
+> +
+> +#define P(n)                   (0x0000 + 0x10 + (n))
+> +#define PM(n)                  (0x0100 + 0x20 + (n) * 2)
+> +#define PMC(n)                 (0x0200 + 0x10 + (n))
+> +#define PFC(n)                 (0x0400 + 0x40 + (n) * 4)
+> +#define PIN(n)                 (0x0800 + 0x10 + (n))
+> +#define PWPR                   (0x3014)
+> +
+> +#define PWPR_B0WI              BIT(7)  /* Bit Write Disable */
+> +#define PWPR_PFCWE             BIT(6)  /* PFC Register Write Enable */
+> +
+> +#define PM_MASK                        0x03
+> +#define PFC_MASK               0x07
+> +
+> +#define PM_INPUT               0x1
+> +#define PM_OUTPUT              0x2
+> +#define PM_OUTPUT_INPUT                0x3
+> +
+> +#define GPIOF_OUTPUT                   0
+> +#define GPIOF_INPUT                    1
+> +#define GPIOF_BIDIRECTION              2
+> +#define GPIOF_HI_Z                     3
 
-> Thanks,
->=20
->    Wolfram
+Please drop these, and use GPIO_LINE_DIRECTION_{IN,OUT} instead.
 
+> +
+> +#define RZG2L_PIN_ID_TO_PORT(id)       ((id) / RZG2L_MAX_PINS_PER_PORT)
+> +#define RZG2L_PIN_ID_TO_PIN(id)                ((id) % RZG2L_MAX_PINS_PER_PORT)
+> +
+> +struct rzg2l_pinctrl {
+> +       struct pinctrl_dev              *pctrl_dev;
+> +       struct pinctrl_desc             pctrl_desc;
+> +
+> +       void __iomem                    *base;
+> +       struct device                   *dev;
+> +       struct clk                      *clk;
+> +
+> +       struct gpio_chip                gpio_chip;
+> +       struct pinctrl_gpio_range       gpio_range;
+> +
+> +       const struct rzg2l_pin_soc      *psoc;
+> +
+> +       spinlock_t                      lock;
+> +       unsigned int                    nports;
+> +};
+> +
+> +static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
+> +                                      int pins, unsigned long pfc_mode)
+
+unsigned int pfc_mode?
+
+> +{
+> +       u32 port = RZG2L_PIN_ID_TO_PORT(pins);
+> +       u8 bit = RZG2L_PIN_ID_TO_PIN(pins);
+> +       unsigned long flags;
+> +       u32 reg32, mask32;
+> +       u16 reg16, mask16;
+> +       u8 reg8;
+> +
+> +       spin_lock_irqsave(&pctrl->lock, flags);
+> +
+> +       /* Set pin to 'Non-use (Hi-Z input protection)'  */
+> +       reg16 = readw(pctrl->base + PM(port));
+> +       mask16 = PM_MASK << (bit * 2);
+> +       reg16 = reg16 & ~mask16;
+
+reg16 &= ...
+
+Perhaps drop the mask16:
+
+    reg16 &= ~(PM_MASK << (bit * 2));
+
+> +       writew(reg16, pctrl->base + PM(port));
+> +
+> +       /* Temporarily switch to GPIO mode with PMC register */
+> +       reg8 = readb(pctrl->base + PMC(port));
+> +       writeb(reg8 & ~BIT(bit), pctrl->base + PMC(port));
+> +
+> +       /* Set the PWPR register to allow PFC register to write */
+> +       writel(0x00, pctrl->base + PWPR);        /* B0WI=0, PFCWE=0 */
+> +       writel(PWPR_PFCWE, pctrl->base + PWPR);  /* B0WI=0, PFCWE=1 */
+> +
+> +       /* Select Pin function mode with PFC register */
+> +       reg32 = readl(pctrl->base + PFC(port));
+> +       mask32 = PFC_MASK << (bit * 4);
+> +       reg32 = reg32 & ~mask32;
+
+reg32 &= ...
+
+Perhaps drop the mask32, too?
+
+> +       pfc_mode = pfc_mode << (bit * 4);
+
+pfc_mode <<= ...
+
+> +       writel(reg32 | pfc_mode, pctrl->base + PFC(port));
+
+Or just drop the line before, and do:
+
+    writel(reg32 | (pfc_mode << (bit * 4)), pctrl->base + PFC(port));
+
+> +
+> +       /* Set the PWPR register to be write-protected */
+> +       writel(0x00, pctrl->base + PWPR);        /* B0WI=0, PFCWE=0 */
+> +       writel(PWPR_B0WI, pctrl->base + PWPR);  /* B0WI=1, PFCWE=0 */
+> +
+> +       /* Switch to Peripheral pin function with PMC register */
+> +       reg8 = readb(pctrl->base + PMC(port));
+> +       writeb(reg8 | BIT(bit), pctrl->base + PMC(port));
+> +
+> +       spin_unlock_irqrestore(&pctrl->lock, flags);
+> +};
+> +
+> +static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *pctldev,
+> +                                unsigned int func_selector,
+> +                                unsigned int group_selector)
+> +{
+> +       struct rzg2l_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
+> +       struct function_desc *func;
+> +       struct group_desc *group;
+> +       unsigned long data;
+> +       int *pins;
+> +       int i;
+
+unsigned int i
+
+> +
+> +       func = pinmux_generic_get_function(pctldev, func_selector);
+> +       if (!func)
+> +               return -EINVAL;
+> +       group = pinctrl_generic_get_group(pctldev, group_selector);
+> +       if (!group)
+> +               return -EINVAL;
+> +
+> +       pins = group->pins;
+> +       data = (unsigned long)group->data;
+> +
+> +       dev_dbg(pctldev->dev, "enable function %s group %s\n",
+> +               func->name, group->name);
+> +
+> +       for (i = 0; i < group->num_pins; i++)
+> +               rzg2l_pinctrl_set_pfc_mode(pctrl, *(pins + i), data);
+
+pins[i]
+
+> +
+> +       return 0;
+> +};
+> +
+> +static const struct pinctrl_ops rzg2l_pinctrl_pctlops = {
+> +       .get_groups_count = pinctrl_generic_get_group_count,
+> +       .get_group_name = pinctrl_generic_get_group_name,
+> +       .get_group_pins = pinctrl_generic_get_group_pins,
+> +       .dt_node_to_map = pinconf_generic_dt_node_to_map_all,
+> +       .dt_free_map = pinconf_generic_dt_free_map,
+> +};
+> +
+> +static const struct pinmux_ops rzg2l_pinctrl_pmxops = {
+> +       .get_functions_count = pinmux_generic_get_function_count,
+> +       .get_function_name = pinmux_generic_get_function_name,
+> +       .get_function_groups = pinmux_generic_get_function_groups,
+> +       .set_mux = rzg2l_pinctrl_set_mux,
+> +       .strict = true,
+> +};
+> +
+> +static int rzg2l_pinctrl_add_groups(struct rzg2l_pinctrl *pctrl)
+> +{
+> +       int ret, i;
+
+unsigned int i
+
+> +
+> +       for (i = 0; i < pctrl->psoc->ngroups; i++) {
+> +               const struct group_desc *group = pctrl->psoc->groups + i;
+> +
+> +               ret = pinctrl_generic_add_group(pctrl->pctrl_dev, group->name,
+> +                                               group->pins, group->num_pins,
+> +                                               group->data);
+> +               if (ret < 0) {
+> +                       dev_err(pctrl->dev, "Failed to register group %s\n",
+> +                               group->name);
+
+This can really only fail in case of out-of-memory, or if group->name
+is NULL, so I don't think there's a need to print an error message.
+
+> +                       return ret;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int rzg2l_pinctrl_add_functions(struct rzg2l_pinctrl *pctrl)
+> +{
+> +       int ret, i;
+
+unsigned int i
+
+
+> +
+> +       for (i = 0; i < pctrl->psoc->nfuncs; i++) {
+> +               const struct function_desc *func = pctrl->psoc->funcs + i;
+> +
+> +               ret = pinmux_generic_add_function(pctrl->pctrl_dev, func->name,
+> +                                                 func->group_names,
+> +                                                 func->num_group_names,
+> +                                                 func->data);
+> +               if (ret < 0) {
+> +                       dev_err(pctrl->dev, "Failed to register function %s\n",
+> +                               func->name);
+
+This can really only fail in case of out-of-memory, or if func->name
+is NULL, so I don't think there's a need to print an error message.
+
+> +                       return ret;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +}
+
+> +static void rzg2l_gpio_set_direction(struct rzg2l_pinctrl *pctrl, u32 port,
+> +                                    u8 bit, bool output)
+> +{
+> +       unsigned long flags;
+> +       u16 reg16;
+> +
+> +       spin_lock_irqsave(&pctrl->lock, flags);
+> +
+> +       reg16 = readw(pctrl->base + PM(port));
+> +       reg16 = reg16 & ~(PM_MASK << (bit * 2));
+
+reg16 &= ...
+
+or just combine with the line before?
+
+> +
+> +       if (output)
+> +               writew(reg16 | (PM_OUTPUT << (bit * 2)),
+> +                      pctrl->base + PM(port));
+> +       else
+> +               writew(reg16 | (PM_INPUT << (bit * 2)),
+> +                      pctrl->base + PM(port));
+
+This can be simplified to
+
+        if (output)
+                reg16 |= PM_OUTPUT << (bit * 2);
+        else
+                reg16 |= PM_INPUT << (bit * 2);
+        writew(reg16, pctrl->base + PM(port));
+
+or perhaps even shortened to:
+
+        reg16 |= (output ? PM_OUTPUT : PM_INPUT) << (bit * 2);
+        writew(reg16, pctrl->base + PM(port));
+
+
+> +
+> +       spin_unlock_irqrestore(&pctrl->lock, flags);
+> +}
+> +
+> +static int rzg2l_gpio_get_direction(struct gpio_chip *chip, unsigned int offset)
+> +{
+> +       struct rzg2l_pinctrl *pctrl = gpiochip_get_data(chip);
+> +       u32 port = RZG2L_PIN_ID_TO_PORT(offset);
+> +       u8 bit = RZG2L_PIN_ID_TO_PIN(offset);
+> +
+> +       if (!(readb(pctrl->base + PMC(port)) & BIT(bit))) {
+> +               u16 reg16;
+> +
+> +               reg16 = readw(pctrl->base + PM(port));
+> +               reg16 = (reg16 >> (bit * 2)) & PM_MASK;
+> +               if (reg16 == PM_OUTPUT)
+> +                       return GPIOF_OUTPUT;
+> +               else if (reg16 == PM_INPUT)
+> +                       return GPIOF_INPUT;
+> +               else if (reg16 == PM_OUTPUT_INPUT)
+> +                       return GPIOF_BIDIRECTION;
+> +               else
+> +                       return GPIOF_HI_Z;
+
+These should return either GPIO_LINE_DIRECTION_OUT or
+GPIO_LINE_DIRECTION_IN. No other non-error values are defined for
+the .get_direction() callback.
+
+> +       } else {
+> +               return -EINVAL;
+> +       }
+> +}
+
+> +static int rzg2l_gpio_direction_output(struct gpio_chip *chip,
+> +                                      unsigned int offset, int value)
+> +{
+> +       struct rzg2l_pinctrl *pctrl = gpiochip_get_data(chip);
+> +       u32 port = RZG2L_PIN_ID_TO_PORT(offset);
+> +       u8 bit = RZG2L_PIN_ID_TO_PIN(offset);
+> +
+> +       rzg2l_gpio_set_direction(pctrl, port, bit, true);
+> +       rzg2l_gpio_set(chip, offset, value);
+
+Probably the order of these two operations should be reversed, to
+avoid glitches.
+
+> +
+> +       return 0;
+> +}
+> +
+> +static int rzg2l_gpio_get(struct gpio_chip *chip, unsigned int offset)
+> +{
+> +       struct rzg2l_pinctrl *pctrl = gpiochip_get_data(chip);
+> +       u32 port = RZG2L_PIN_ID_TO_PORT(offset);
+> +       u8 bit = RZG2L_PIN_ID_TO_PIN(offset);
+> +       u16 reg16;
+> +
+> +       reg16 = readw(pctrl->base + PM(port));
+> +       reg16 = (reg16 >> (bit * 2)) & PM_MASK;
+> +
+> +       if (reg16 == PM_INPUT || reg16 == PM_OUTPUT_INPUT)
+
+BTW, how do you configure a pin for PM_OUTPUT_INPUT?
+
+> +               return !!(readb(pctrl->base + PIN(port)) & BIT(bit));
+> +       else if (reg16 == PM_OUTPUT)
+> +               return !!(readb(pctrl->base + P(port)) & BIT(bit));
+> +       else
+> +               return -EINVAL;
+> +}
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
