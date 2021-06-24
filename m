@@ -2,89 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84BD83B2708
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 07:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D28383B2747
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 08:14:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbhFXF4X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Jun 2021 01:56:23 -0400
-Received: from www.zeus03.de ([194.117.254.33]:45498 "EHLO mail.zeus03.de"
+        id S231138AbhFXGRF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Jun 2021 02:17:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46846 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230283AbhFXF4X (ORCPT
+        id S230393AbhFXGRE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Jun 2021 01:56:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=n67uatpfXLyIHHV1EPlcxgPblzft
-        RI+gNuElRxsC2yU=; b=cUwHMPxg75kA9h22EEqUvjhfYHFHAN9lH87J/RH5YL26
-        3+4YrGUc+tk+LbpQT3KJcd+OgLxjZKve51qCycNj0lcSdbesFQFwKPWlseLgR5D0
-        6CJbhRGWPFl9lvlN8GuZzPv9YvXNj3blwiybH4IrXv+xcQBhp1V7+K5mh2m0kfo=
-Received: (qmail 2848297 invoked from network); 24 Jun 2021 07:54:02 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Jun 2021 07:54:02 +0200
-X-UD-Smtp-Session: l3s3148p1@WDY7pnzFns4gAwDPXwgVAAQm652OYQ07
-Date:   Thu, 24 Jun 2021 07:53:58 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Thu, 24 Jun 2021 02:17:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A6FFD60724;
+        Thu, 24 Jun 2021 06:14:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624515286;
+        bh=sfXoSPR0F1FKGuGgJ6WBE95/HX9EkIOuv1LvM4cDw7k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G6OaMt7Z5Mg+E4Ox2Y1OG69OFOx7LTs+HAoyjWIXNW0BVGRksG0YJ0Ba+BBcmZadq
+         WjLvqYJWr1/y/ZqqUJtrAeVCU2dVmU8unIrAsIJn0K6V+N41IyQjejFmIeN/Arr6BD
+         XEzHlp5uRaP1HIXEpAyhymAaGbk8aT0x/g0Cw7Nh1YB6QcEgI/m51jTX0KXhVjULub
+         XEZ6blj4kg9lJrC/GNOYzfUZiKzZ3octSBLGrEL33Ba7/0ckG4X6oyMhjJXLHR03Qb
+         wuNlj+B1Ltsr0vp/O2XICiZKhTYS9bbfRZ2TLGcR3tsZpclDfnIZQdNaYeD6lrDSzp
+         IxGC34ZBVcCBA==
+Date:   Thu, 24 Jun 2021 08:14:43 +0200
+From:   Wolfram Sang <wsa@kernel.org>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH RFC] usb: renesas_usbhs: fifo: : use proper DMAENGINE API
- for termination
-Message-ID: <YNQd9hS+hqPYvLNp@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 04/14] mmc: renesas_sdhi: Add support for R-Car H3e-2G
+ and M3e-2G
+Message-ID: <YNQi0w4zsG01ezgu@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20210623100304.3697-1-wsa+renesas@sang-engineering.com>
- <TY2PR01MB3692C7B6E0FD027B5C3E05B5D8079@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+References: <cover.1623315732.git.geert+renesas@glider.be>
+ <22b4c393bf5074b53791d2797d8fe74deb8ea9a7.1623315732.git.geert+renesas@glider.be>
+ <YMei/rKwEyicfx+H@pendragon.ideasonboard.com>
+ <CAMuHMdUJQCv7Qe01Km=6F=yUjcNoo_OvOBrYpPcC3SbhX0Ru5Q@mail.gmail.com>
+ <TY2PR01MB36929E0DE956A374B8CF5EE7D8079@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="gb/GYRUtYYZSy6bC"
+        protocol="application/pgp-signature"; boundary="HFmu9+c2wn3iw7rR"
 Content-Disposition: inline
-In-Reply-To: <TY2PR01MB3692C7B6E0FD027B5C3E05B5D8079@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY2PR01MB36929E0DE956A374B8CF5EE7D8079@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---gb/GYRUtYYZSy6bC
+--HFmu9+c2wn3iw7rR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Shimoda-san,
+Hi all,
 
-> In backporting point of view, I guess it's better to apply my fixed patch at first,
-> and then apply this DMAENGINE patch. But, what do you think?
+> > > > --- a/drivers/mmc/host/renesas_sdhi_core.c
+> > > > +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> > > > @@ -943,6 +943,8 @@ static const struct soc_device_attribute sdhi_q=
+uirks_match[]  =3D {
+> > > >       { .soc_id =3D "r8a77965", .data =3D &sdhi_quirks_r8a77965 },
+> > > >       { .soc_id =3D "r8a77980", .data =3D &sdhi_quirks_nohs400 },
+> > > >       { .soc_id =3D "r8a77990", .data =3D &sdhi_quirks_r8a77990 },
+> > > > +     { .soc_id =3D "r8a779m1", .data =3D &sdhi_quirks_bad_taps2367=
+ },
+> > > > +     { .soc_id =3D "r8a779m3", .data =3D &sdhi_quirks_bad_taps1357=
+ },
+> > >
+> > > Could we reuse the entries for H3 and M3 instead, by dropping the
+> > > "ES3.*" revision ?
+> >=20
+> > We cannot reuse the H3 ES3.0 entry, as soc_device_match()
+> > works differently than of_machine_is_compatible(): the former doesn't
+> > consider "r8a779m1" and "r8a7795" equivalent, the latter does.
+> > Same for M3-W+ (no explicit ES3.0 there) and M3e-2G.
+> >=20
+> > It's a pity we still don't have a "quirk-free" SDHI version on H3
+> > and M3-W class SoCs (waiting for ES4.0?), as that would allow us to
+> > just match on "renesas,sdhi-r8a7795" resp. "renesas,sdhi-r8a77961"
+> > through the driver's .of_match_table[] instead, which would work for
+> > H3e-2G and M3e-2G, too.
+>=20
+> Perhaps, ES4.0 will not be released. So, we can refactor the driver's
+> .of_match_table[] now. I investigated this a little, and it seems
+> we need many renesas_sdhi_of_data for each SoC instead of
+> of_rcar_gen3_compatible. But, I guess such modification is better
+> than adding sdhi_quirks_match entries.
+>=20
+> Wolfram-san, what do you thinks?
 
-Yes, I agree. Could you kindly notify me when your patch is accepted
-upstream? Or CC me on your patch?
+I don't fully understand how the refactoring should look like? Is it
+moving 'struct renesas_sdhi_quirks' to renesas_sdhi_internal_dmac.c and
+merge it there with renesas_sdhi_of_data? Is it really better to copy
+this struct per SoC? Most of the data is the same.
 
-Thank you and kind regards,
+Thanks,
 
    Wolfram
 
 
---gb/GYRUtYYZSy6bC
+--HFmu9+c2wn3iw7rR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDUHfEACgkQFA3kzBSg
-KbYHZA/8DALuavEWfJkui0rm56H2wrwUwiegsSfvfGZrlpRuW36i71US4mr0GZKn
-NbeekEeDpygQK0n5zZwZFzg8gNMaHOvCaaWy+BFxvY90l2PlnXiDLgpFd7e93DPe
-ZfpxzM4uohYPzLjeQNy+hsDp/Kj8BJV3ZXCzaBHL0qnCcTrBb/EbKfo0pcCVR6aG
-y0MiD9WZpk+gwbKpGWja5HcAF9M39e+9yRgv1TZIZ/K/oXDcELm4MXRqT54vNFE4
-s5Exg1OXEi7JlMVj8LYRGU/aZwD6dCXKD/OjefD90olP513pTKLS/q9UayyUVApO
-FBDPQn8QqurgDg+qPBo9q4Yx4h0uXI/RLVgdOwvnJTHEunR2TWV9EyO7sxMnIFH+
-m7XnJbVwGwIrwCCk39bGcyaPHahoBVNif/FWDfkuN/EJ013CLDnvtyUkdd9Pl8/1
-CXAFoFnYD3EaEjODq6DMjnGJv962faHjs9W/HWzcauYG44Q95tdki7Hu6N4AMYJV
-JfV42nw92+IHEkCnjusI0r274FjEf01oYWwOza+qwHfVuJ2n2HThKsF445OXDCMa
-WXqpyAOimXPRjzfEotc4yeG1c2sxyVKfaUVEt02fTzOgGCdPSxNWqHVrGm8Bc22A
-NczoQmr5rL2UF59LEdXYAaotglS7wFhFrTcOUj07XveE6e4hYuY=
-=0bFP
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDUItIACgkQFA3kzBSg
+KbZoJQ//X5zWVR2dFxi3uvFr2vfzBnR4UbkgSgXo1946ErJ1+OQfzv/BhzHHCVor
+gSni9p5zZweWpEa7Tq8SdV0oHq3DUvIJ8Texe/x+UpFh2LKF/keMqRIpZjSC2AO9
+0e3jtGjXyZQEZE5TkNdGysi6EN9TEVK9983GoIuDrBaT2vPC49AchNYfkGm2mvzK
+oeJtCIjZEEJoh81TjxbGa+LxVXy1+IAZ/jFY8eMPrysmSlLrd+b4O06RqGE1Nug0
+K+sbc/TTSmI8qmfH3tPRC7pm4IC+4YQILx1UR2kojWdStnEOixvbOhn00rh1voOL
+M5tz9KB7TeoNNvhPbZiNoGqqwDMJnx1V2sgnj+RbgGr1OHEu0Y0XTDYfHp9/j+Wt
+h2JSMSfS2nJ4XS8hZxr0dreq49B1vacPfarEwUv4uvpXYJFhOzM+3gA2I+OYQbwI
+gBRzHs86j2bE3IfXEuAjlAiHhrfWE3CZpTRp1jetJen+P1PgP+9uSgl3RIhnO5Ay
+bywr876xg2UYPdX23rzyfWm4dcF/Hw1S+uFWuqmQLhDC5etdurz0elLJVoFr9c+w
+r0KVg1A3UBXlZHctMpUxd200OGkMh9ZlgxwS2NUnyy6VtU9IkgfhAf7LRbQiFiKu
+W3bihOh3FuvRWw/tD1Tb8Tb3N6LDoC1AY0jLNNeyZxU58MZD77s=
+=riIz
 -----END PGP SIGNATURE-----
 
---gb/GYRUtYYZSy6bC--
+--HFmu9+c2wn3iw7rR--
