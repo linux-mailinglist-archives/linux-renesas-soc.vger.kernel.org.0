@@ -2,63 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 889E43B3469
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 19:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDBDF3B386A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 23:13:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232410AbhFXRL5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Jun 2021 13:11:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52756 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232415AbhFXRLx (ORCPT
+        id S232644AbhFXVQO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Jun 2021 17:16:14 -0400
+Received: from mail-il1-f182.google.com ([209.85.166.182]:34497 "EHLO
+        mail-il1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232591AbhFXVQN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Jun 2021 13:11:53 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C3AC061760
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jun 2021 10:09:31 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id k16so9107547ios.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jun 2021 10:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
-         :subject:to;
-        bh=ANhbTggsY3NFhRZExKMwUmb3VzJqye8XLvWVXSvNBkQ=;
-        b=p95plxgcKdT8+TUJCmcKdAyJL6L8C+j3muAeTI6tbvEOMwKUFZvBH22Z3GEGxdnUZH
-         d9XkDasjcz/bUj2n1PkWxPPQL/Sxtf1a7ckN43IkWwU4a9v6DYeOi9Tg8DPYHl700hH/
-         xlmv54Ir2NUVB8zwaX1UsxTzP5GUW3mdywmszCeflzWKbXzDgkMNhx+qVsi3FklHnD5x
-         fSDWvxz3POXOJ/0yZM+F2G99rPMTFJK+bPA5TWYu0VJpvpEjmQwRSgXLB6dx+kXpC0Uz
-         JX+JhI0lSB7VkwJTdkbApCrUx6TGzp99N5mAm/d0lil4hmexz93RFAPSpMzmwkjNchKB
-         rXTQ==
+        Thu, 24 Jun 2021 17:16:13 -0400
+Received: by mail-il1-f182.google.com with SMTP id s19so7775390ilj.1;
+        Thu, 24 Jun 2021 14:13:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
-         :from:date:message-id:subject:to;
-        bh=ANhbTggsY3NFhRZExKMwUmb3VzJqye8XLvWVXSvNBkQ=;
-        b=csx/hCFYv/cJVJlP+6TtVT/FREUHZrqwC3Rk+axLkwzWkKgux6YrErmU+CAG6VAAWj
-         E8A9bx85rwWXOilYIDJXwu7Bsw3BxYhNhX9eZDccU/jCp/dle6dTTXDOITSrdrPCk7kC
-         Cdas/yyjGpkbl/XH4obgwTYxwF4dkoJU02jczs40IWJ0+9fWyGGCK2bxuJUEC+i6vS0A
-         Q5CGRWk3YkHAQ+apVWU6gqzXhdgMLaVrcLW35Sdh/CHXPv5hV0rq4U9keVXNWWza0Yy6
-         EDFIp7dyMrWRRPLrZgHqVXxwZty0khbHaMLRWbvFPu9jWCesINwQD9Uyqm0VGSCndpoZ
-         TmCw==
-X-Gm-Message-State: AOAM530Z52EwN2erExV2Y7X/QnouzXruyOYDsd/g8KOK06j7RFtaxyDP
-        qjechm9AFnrtOUH+Tc9+PGGS2GvR5PwHRfaJ3f2FLAD4uN7oUA==
-X-Google-Smtp-Source: ABdhPJzkYUuO368jts0QgMQyJe9SHzg0U698qd8KdfojEfYsXnHtwMfPGxVHmw7fwQ64+IhHRhAEJH5nusdeW4BWzcA=
-X-Received: by 2002:a05:6e02:524:: with SMTP id h4mr4098121ils.255.1624554560853;
- Thu, 24 Jun 2021 10:09:20 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=47hUBuaqzfJJncm6RtEipODGGyZplZhj4icIYj/zpRs=;
+        b=gjOdURXYCoOytvAT38Bv/PhoQ7AQNnRoJx436mOPFhfvzNTMwIqovZlL+6opfR4zT5
+         afGTx6PwbTIxj8NtRArzoFne3/TkVp0le6iXGUEGNndq2Wqpj1QD5t863m/hgo49As6i
+         ljnjJfikmMY6VHZNtMj/ttBSfPA9WB0AInX5DFKDVSDJMp9nHzAJy4nMnpbmqzDWm38J
+         Jc7KvHfXNW9rwYGRK+AebYaYK0WbbMnZQ5jvPTW1gOaNphRCc0Y09eFWwsJAizOce9Xb
+         KvdBZfEV/VtEnRyVh94moSsVRbOS3GqWo+dJ8/VDSl9eg6xxpIAsMsorJ9fYf6aiCNIC
+         Ldaw==
+X-Gm-Message-State: AOAM53229kVi4pzqFQF40mva1LJPp7p6Ivqs9Sry55GdM1jJmbG+hbGF
+        DOifqZT0u/dC/GJ7NuesVg==
+X-Google-Smtp-Source: ABdhPJzXf/oo5u3B5EKv4LYB8gPOkFme6FZjtb+ncnezHDcwNH7+HV0lE+tkL+Dii4TAQiGhxLJC7A==
+X-Received: by 2002:a92:6509:: with SMTP id z9mr5007087ilb.184.1624569232997;
+        Thu, 24 Jun 2021 14:13:52 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id r8sm2398602iln.35.2021.06.24.14.13.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jun 2021 14:13:52 -0700 (PDT)
+Received: (nullmailer pid 1996913 invoked by uid 1000);
+        Thu, 24 Jun 2021 21:13:48 -0000
+Date:   Thu, 24 Jun 2021 15:13:48 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>, linux-crypto@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        linux-renesas-soc@vger.kernel.org,
+        Gilad Ben-Yossef <gilad@benyossef.com>
+Subject: Re: [PATCH] dt-bindings: crypto: ccree: Convert to json-schema
+Message-ID: <20210624211348.GA1991366@robh.at.kernel.org>
+References: <ab361a862755e281f5fef67b3f678d66ae201781.1623413974.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Received: by 2002:a05:6638:3aa:0:0:0:0 with HTTP; Thu, 24 Jun 2021 10:09:20
- -0700 (PDT)
-Reply-To: tutywoolgar021@gmail.com
-In-Reply-To: <CADB47+4Wa3T59Vq_==GTXEfHrX5x-2vQFxaTBO0dTdyAweCVpw@mail.gmail.com>
-References: <CADB47+4Wa3T59Vq_==GTXEfHrX5x-2vQFxaTBO0dTdyAweCVpw@mail.gmail.com>
-From:   tuty woolgar <faridaamadoubas@gmail.com>
-Date:   Thu, 24 Jun 2021 17:09:20 +0000
-Message-ID: <CADB47+607zNBfYFb4bj0nUhuuYgAdwT=G_wJ9-EeV0ESHe56Jg@mail.gmail.com>
-Subject: greetings,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab361a862755e281f5fef67b3f678d66ae201781.1623413974.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-My greetings to you my friend i hope you are fine and good please respond
-back to me thanks,
+On Fri, 11 Jun 2021 14:20:17 +0200, Geert Uytterhoeven wrote:
+> Convert the Arm TrustZone CryptoCell cryptographic engine Device Tree
+> binding documentation to json-schema.
+> 
+> Document missing properties.
+> Update the example to match reality.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  .../bindings/crypto/arm,cryptocell.yaml       | 53 +++++++++++++++++++
+>  .../bindings/crypto/arm-cryptocell.txt        | 25 ---------
+>  2 files changed, 53 insertions(+), 25 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/crypto/arm,cryptocell.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/crypto/arm-cryptocell.txt
+> 
+
+I'm applying this version which is dual licensed as that is the 
+preference of my employeer, Arm, who is the copyright holder here. I'll 
+sort this out internally with Gilad.
+
+Besides, for the bulk of the new file Geert is the copyright holder.
+
+Rob
