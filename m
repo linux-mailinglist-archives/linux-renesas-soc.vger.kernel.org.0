@@ -2,133 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D28383B2747
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 08:14:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BACA13B2778
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 08:36:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231138AbhFXGRF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Jun 2021 02:17:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46846 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230393AbhFXGRE (ORCPT
+        id S231284AbhFXGiT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Jun 2021 02:38:19 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:53538 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231234AbhFXGiR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Jun 2021 02:17:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A6FFD60724;
-        Thu, 24 Jun 2021 06:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624515286;
-        bh=sfXoSPR0F1FKGuGgJ6WBE95/HX9EkIOuv1LvM4cDw7k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G6OaMt7Z5Mg+E4Ox2Y1OG69OFOx7LTs+HAoyjWIXNW0BVGRksG0YJ0Ba+BBcmZadq
-         WjLvqYJWr1/y/ZqqUJtrAeVCU2dVmU8unIrAsIJn0K6V+N41IyQjejFmIeN/Arr6BD
-         XEzHlp5uRaP1HIXEpAyhymAaGbk8aT0x/g0Cw7Nh1YB6QcEgI/m51jTX0KXhVjULub
-         XEZ6blj4kg9lJrC/GNOYzfUZiKzZ3octSBLGrEL33Ba7/0ckG4X6oyMhjJXLHR03Qb
-         wuNlj+B1Ltsr0vp/O2XICiZKhTYS9bbfRZ2TLGcR3tsZpclDfnIZQdNaYeD6lrDSzp
-         IxGC34ZBVcCBA==
-Date:   Thu, 24 Jun 2021 08:14:43 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH 04/14] mmc: renesas_sdhi: Add support for R-Car H3e-2G
- and M3e-2G
-Message-ID: <YNQi0w4zsG01ezgu@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
-References: <cover.1623315732.git.geert+renesas@glider.be>
- <22b4c393bf5074b53791d2797d8fe74deb8ea9a7.1623315732.git.geert+renesas@glider.be>
- <YMei/rKwEyicfx+H@pendragon.ideasonboard.com>
- <CAMuHMdUJQCv7Qe01Km=6F=yUjcNoo_OvOBrYpPcC3SbhX0Ru5Q@mail.gmail.com>
- <TY2PR01MB36929E0DE956A374B8CF5EE7D8079@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+        Thu, 24 Jun 2021 02:38:17 -0400
+Received: from mail-wm1-f72.google.com ([209.85.128.72])
+        by youngberry.canonical.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <krzysztof.kozlowski@canonical.com>)
+        id 1lwIxy-0004lu-12
+        for linux-renesas-soc@vger.kernel.org; Thu, 24 Jun 2021 06:35:58 +0000
+Received: by mail-wm1-f72.google.com with SMTP id o3-20020a05600c5103b02901aeb7a4ac06so2642803wms.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Jun 2021 23:35:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=R0aLcGzQ8alnnx9N3rRdFLtO2M7ctE9WWithaXsLLWI=;
+        b=RMlfE44/rCtNm1tbi7DDsOBpfmT0wLJY5Tzi6qE+1Qh3nl0SQWWh6JmJls1FP8L2pE
+         gF+qCAyoSCJ7kRDe40ODst9s5diLtlkmmtB+jD5uqpkX9hDcJkNNUkd1WWfgi3Ds6Cg+
+         E23bKcZkCKdUsueidr52gGO3fFT4Sp6ModND6BUpPvc3QxowFgBY/N99OsX8gS0eBPmb
+         FGCKrFRl37fp3GgmMla2fm36EUEI0LxGsc2RBEJgRhGrh0Azlo4Xy9l8Pl5D1nRL3e25
+         iIQQo9sGTgOIAFStJe4+ciN/+1z/X5NrlnTJmc3/IUizL2LRy+ZdqmTaYfwuD737IkY6
+         B4XQ==
+X-Gm-Message-State: AOAM531xZwJN1ARQTMelDF0HfDBmRsHdN5/cKLii1yfr8sTEsLnX3+6F
+        fSwFdtY0Nx7ewVUL2eG2UGXuQhHImQo3/Cnvf2+sgKHsAP1eCziR/QC/IEhIfS4qDByxClmFQut
+        Sn++ojpbknoTOtzN+l1UJDN7jV8oNcA9H9oL9KFWV7ADadzdH
+X-Received: by 2002:a1c:a597:: with SMTP id o145mr2277259wme.53.1624516557584;
+        Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7R5Kid8X3SyYMWnamWceIwi3ZiQ7MY/ZL5RhUroHzBxtla7y73sqnE4+q/iG5Y5wgPNqwng==
+X-Received: by 2002:a1c:a597:: with SMTP id o145mr2277246wme.53.1624516557384;
+        Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
+Received: from [192.168.1.115] (xdsl-188-155-177-222.adslplus.ch. [188.155.177.222])
+        by smtp.gmail.com with ESMTPSA id m184sm1893490wmm.26.2021.06.23.23.35.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
+Subject: Re: [PATCH] dt-bindings: Fix 'unevaluatedProperties' errors in DT
+ graph users
+To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20210623164344.2571043-1-robh@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Message-ID: <0fbde9aa-03c1-0343-3b6f-5a7945fd8df8@canonical.com>
+Date:   Thu, 24 Jun 2021 08:35:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="HFmu9+c2wn3iw7rR"
-Content-Disposition: inline
-In-Reply-To: <TY2PR01MB36929E0DE956A374B8CF5EE7D8079@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <20210623164344.2571043-1-robh@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---HFmu9+c2wn3iw7rR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-> > > > --- a/drivers/mmc/host/renesas_sdhi_core.c
-> > > > +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> > > > @@ -943,6 +943,8 @@ static const struct soc_device_attribute sdhi_q=
-uirks_match[]  =3D {
-> > > >       { .soc_id =3D "r8a77965", .data =3D &sdhi_quirks_r8a77965 },
-> > > >       { .soc_id =3D "r8a77980", .data =3D &sdhi_quirks_nohs400 },
-> > > >       { .soc_id =3D "r8a77990", .data =3D &sdhi_quirks_r8a77990 },
-> > > > +     { .soc_id =3D "r8a779m1", .data =3D &sdhi_quirks_bad_taps2367=
- },
-> > > > +     { .soc_id =3D "r8a779m3", .data =3D &sdhi_quirks_bad_taps1357=
- },
-> > >
-> > > Could we reuse the entries for H3 and M3 instead, by dropping the
-> > > "ES3.*" revision ?
-> >=20
-> > We cannot reuse the H3 ES3.0 entry, as soc_device_match()
-> > works differently than of_machine_is_compatible(): the former doesn't
-> > consider "r8a779m1" and "r8a7795" equivalent, the latter does.
-> > Same for M3-W+ (no explicit ES3.0 there) and M3e-2G.
-> >=20
-> > It's a pity we still don't have a "quirk-free" SDHI version on H3
-> > and M3-W class SoCs (waiting for ES4.0?), as that would allow us to
-> > just match on "renesas,sdhi-r8a7795" resp. "renesas,sdhi-r8a77961"
-> > through the driver's .of_match_table[] instead, which would work for
-> > H3e-2G and M3e-2G, too.
->=20
-> Perhaps, ES4.0 will not be released. So, we can refactor the driver's
-> .of_match_table[] now. I investigated this a little, and it seems
-> we need many renesas_sdhi_of_data for each SoC instead of
-> of_rcar_gen3_compatible. But, I guess such modification is better
-> than adding sdhi_quirks_match entries.
->=20
-> Wolfram-san, what do you thinks?
-
-I don't fully understand how the refactoring should look like? Is it
-moving 'struct renesas_sdhi_quirks' to renesas_sdhi_internal_dmac.c and
-merge it there with renesas_sdhi_of_data? Is it really better to copy
-this struct per SoC? Most of the data is the same.
-
-Thanks,
-
-   Wolfram
+On 23/06/2021 18:43, Rob Herring wrote:
+> In testing out under development json-schema 2020-12 support, there's a
+> few issues with 'unevaluatedProperties' and the graph schema. If
+> 'graph.yaml#/properties/port' is used, then neither the port nor the
+> endpoint(s) can have additional properties. 'graph.yaml#/$defs/port-base'
+> needs to be used instead.
+> 
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: "Paul J. Murphy" <paul.j.murphy@intel.com>
+> Cc: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+> Cc: Krzysztof Kozlowski <krzk@kernel.org>
+> Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/display/bridge/lontium,lt8912b.yaml    | 3 ++-
+>  Documentation/devicetree/bindings/media/i2c/imx258.yaml        | 2 +-
+>  Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml   | 2 +-
+>  Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml   | 2 +-
+>  Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml   | 2 +-
+>  Documentation/devicetree/bindings/media/renesas,vin.yaml       | 3 ++-
+>  6 files changed, 8 insertions(+), 6 deletions(-)
+> 
 
 
---HFmu9+c2wn3iw7rR
-Content-Type: application/pgp-signature; name="signature.asc"
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDUItIACgkQFA3kzBSg
-KbZoJQ//X5zWVR2dFxi3uvFr2vfzBnR4UbkgSgXo1946ErJ1+OQfzv/BhzHHCVor
-gSni9p5zZweWpEa7Tq8SdV0oHq3DUvIJ8Texe/x+UpFh2LKF/keMqRIpZjSC2AO9
-0e3jtGjXyZQEZE5TkNdGysi6EN9TEVK9983GoIuDrBaT2vPC49AchNYfkGm2mvzK
-oeJtCIjZEEJoh81TjxbGa+LxVXy1+IAZ/jFY8eMPrysmSlLrd+b4O06RqGE1Nug0
-K+sbc/TTSmI8qmfH3tPRC7pm4IC+4YQILx1UR2kojWdStnEOixvbOhn00rh1voOL
-M5tz9KB7TeoNNvhPbZiNoGqqwDMJnx1V2sgnj+RbgGr1OHEu0Y0XTDYfHp9/j+Wt
-h2JSMSfS2nJ4XS8hZxr0dreq49B1vacPfarEwUv4uvpXYJFhOzM+3gA2I+OYQbwI
-gBRzHs86j2bE3IfXEuAjlAiHhrfWE3CZpTRp1jetJen+P1PgP+9uSgl3RIhnO5Ay
-bywr876xg2UYPdX23rzyfWm4dcF/Hw1S+uFWuqmQLhDC5etdurz0elLJVoFr9c+w
-r0KVg1A3UBXlZHctMpUxd200OGkMh9ZlgxwS2NUnyy6VtU9IkgfhAf7LRbQiFiKu
-W3bihOh3FuvRWw/tD1Tb8Tb3N6LDoC1AY0jLNNeyZxU58MZD77s=
-=riIz
------END PGP SIGNATURE-----
-
---HFmu9+c2wn3iw7rR--
+Best regards,
+Krzysztof
