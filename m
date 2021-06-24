@@ -2,201 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 864013B2DC8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 13:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DF393B2E38
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Jun 2021 13:55:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232394AbhFXL0e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Jun 2021 07:26:34 -0400
-Received: from mail-vs1-f47.google.com ([209.85.217.47]:44731 "EHLO
-        mail-vs1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232350AbhFXL0d (ORCPT
+        id S229445AbhFXL5l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Jun 2021 07:57:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37054 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229448AbhFXL5l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Jun 2021 07:26:33 -0400
-Received: by mail-vs1-f47.google.com with SMTP id y21so851816vsm.11;
-        Thu, 24 Jun 2021 04:24:14 -0700 (PDT)
+        Thu, 24 Jun 2021 07:57:41 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DE1C061574
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jun 2021 04:55:21 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id l11so3309488pji.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Jun 2021 04:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LP5qyGL6lLEV+WmF5VrpGRPefbIi4rgy7WQpZv7IaO4=;
+        b=AYSd+eZKzc7DKWW97mjQKERNeQ7LE36c11XsII75USvemV3iujkK0jtEHDOKpeRTME
+         o7CPbmPTVimu+dbtH0CI7DQLNhuHxu15fpTL8/ZJ5JQ6L7jOrRmkj48DhLlERDZm42hD
+         JOZmTMS5dzLejIPBbIxCtXtfcch2FFJ1Cqdi0XM9RZB+9nZzY2/K7oo2BwwOTSOkKjpz
+         sFSypa4gJb9NhjPfHxdtjpvgFr6gEoA2Pv5USaLQ1uwBXB9RnJRBRqFsXPzAzXM7JTXa
+         q/q02QfX7TM0Bq46lnrAjrA8qQ9PpZNdooJc2VdmL/4epbhzeheSaUt8/KO/3rj09q1v
+         c/EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lVDFM2egDpvqnDo30q1IPYbxI0B4Ih+sEd5+e011q5M=;
-        b=mNjwajiMNZjOetYajKbUpKEGvcRF3iFrynkLyKwl0+/AtMDJSjtH7JWbic/8L5aZ/L
-         rW/USZJ+DNTnLdLc5EFCqsPOd/C7ZnTjwABrE1crsurxRbt1omg8vP7oj1CiK0FXTJD3
-         gXXy4k8TT3e1IYsoAmO9i21WElYgnmmn2iQDL4eOfMHZoAQ1Aq6YIjmB3BpGAb9Pshk9
-         CBDMLwSAH94Hwq0Fq0IrzmTvRCWX6MbnKgmgi7YeBVY+JTqcCE4ulTFXp5N4KnQl6OoZ
-         pLi+XLTGut+NvvUujiJ1Q+ISYgI5ji8+iBLIizs2Pd8T0CElsAaOkM5p2YNVN/eI+i69
-         BBtA==
-X-Gm-Message-State: AOAM531TILFuH8UcbHohxeKyUfWYhDWYO0q9c3+HnHWObbMfe1+zZHW2
-        G/rEg3wmdE4YclIBSuV8tCECvto4s/DibAkfIXE=
-X-Google-Smtp-Source: ABdhPJwA1CABlFUl6laeiRuNOWNPw1TAWvmkoUaSFwr8okRvwOZJ8lcaUCWt+U/3kUZmWvhrxPVt0Bck8wAPZnaurNE=
-X-Received: by 2002:a05:6102:301c:: with SMTP id s28mr1364307vsa.18.1624533854391;
- Thu, 24 Jun 2021 04:24:14 -0700 (PDT)
+        bh=LP5qyGL6lLEV+WmF5VrpGRPefbIi4rgy7WQpZv7IaO4=;
+        b=f3/ctQyp5ExU/splE+p3fHDorbBMqO2JqxqM6npsUgtycmHMY87yoWEYCYdHNEXrj7
+         tM4BzogqJG0tZYgRB29oauiXtnRmOW/od2m1gboJt+BqLRKQT9BgDEwTWTKGrioL7pWC
+         uDmkTSJ/CRP3pGg/kFjYBlxp5KgXa9zIlCJBebeyLnvmKu67vcBiyn1/lURhab24mdLc
+         K77GfSOPI/BTWlJSme8lCkrqOMM/IzGjJeKLTEnqDAuZRnvoFQ2cDJLogfbljtTTvjKF
+         5XfNnmMuT4sb0AAXTPo+li6o+JSojwDERXf6VxGMJtBZhnfXzVxeR7gZ5qfPNRg3drSC
+         evPg==
+X-Gm-Message-State: AOAM530QeOCguT08bgYlnt5rZHbMNbQW6SRnMBHKVSx2tp+IngAmdSYG
+        HbHFn4xxJVbrtRqYx6gEOVKgmGowo93ZZZ5ZjEEKzK6EKOmP844P
+X-Google-Smtp-Source: ABdhPJxgZ/UPqv4NsSX7Nd4Jx7gr38mLU+61cOm7pjjWPZj3YXGftRlNTL2DFm3VR7wx8IUCuDKUU1O5waV96yZlJA4=
+X-Received: by 2002:a17:90a:c394:: with SMTP id h20mr14562236pjt.222.1624535720537;
+ Thu, 24 Jun 2021 04:55:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210616132641.29087-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210616132641.29087-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210616132641.29087-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 24 Jun 2021 13:24:03 +0200
-Message-ID: <CAMuHMdX67Ghrw4mHt6hT+QrMtEjuOTtirHWv17Eix4XnnwMHkw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] pinctrl: renesas: Add pins/groups/functions for I2C,
- SCIF and USB supported by RZ/G2L SoC
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20210624000304.16281-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210624000304.16281-1-laurent.pinchart+renesas@ideasonboard.com>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Thu, 24 Jun 2021 13:55:09 +0200
+Message-ID: <CAG3jFyvA8E6nBT-RTO6gF-FT1Hh7A6T37FMn5F1WMjGYP10DRA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] drm/bridge: ti-sn65dsi86: Misc improvements
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Applied to drm-misc-next
 
-On Wed, Jun 16, 2021 at 3:27 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add pins/groups/functions for I2C, SCIF and USB supported by RZ/G2L SoC and
-> bind it with RZ/G2L PFC core.
+https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0715786771f24190b3f2dcdcaf2af263c1ef46eb
+
+On Thu, 24 Jun 2021 at 02:03, Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
 >
-> Based on a patch in the BSP by Hien Huynh <hien.huynh.px@renesas.com>.
+> Hello,
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/drivers/pinctrl/renesas/pfc-r9a07g044.c
-> @@ -0,0 +1,362 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * R9A07G044 processor support - pinctrl GPIO hardware block.
-> + *
-> + * Copyright (C) 2021 Renesas Electronics Corp.
-> + */
-> +
-> +#include "pinctrl-rzg2l.h"
-> +
-> +#define RZG2L_GPIO_PIN_CONF    (0)
-> +
-> +static const struct {
-> +       struct pinctrl_pin_desc pin_gpio[392];
-> +} pinmux_pins = {
-> +       .pin_gpio = {
-> +               RZ_G2L_PINCTRL_PIN_GPIO(0, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(1, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(2, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(3, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(4, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(5, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(6, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(7, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(8, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(9, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(10, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(11, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(12, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(13, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(14, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(15, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(16, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(17, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(18, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(19, RZG2L_GPIO_PIN_CONF),
-
-RZG2L_GPIO_PIN_CONF is 0, ike all of the below?
-
-> +               RZ_G2L_PINCTRL_PIN_GPIO(20, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(21, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(22, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(23, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(24, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(25, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(26, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(27, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(28, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(29, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(30, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(31, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(32, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(33, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(34, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(35, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(36, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(37, 0),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(38, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(39, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(40, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(41, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(42, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(43, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(44, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(45, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(46, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(47, RZG2L_GPIO_PIN_CONF),
-> +               RZ_G2L_PINCTRL_PIN_GPIO(48, RZG2L_GPIO_PIN_CONF),
-> +       },
-> +};
-
-Doesn't the above belong in pinctrl-rzg2l.c?
-
-> +
-> +/* - RIIC2 ------------------------------------------------------------------ */
-> +static int i2c2_a_pins[] = {
-> +       /* SDA, SCL */
-> +       RZ_G2L_PIN(3, 0), RZ_G2L_PIN(3, 1),
-> +};
-> +static int i2c2_b_pins[] = {
-> +       /* SDA, SCL */
-> +       RZ_G2L_PIN(19, 0), RZ_G2L_PIN(19, 1),
-> +};
-> +static int i2c2_c_pins[] = {
-> +       /* SDA, SCL */
-> +       RZ_G2L_PIN(42, 3), RZ_G2L_PIN(42, 4),
-> +};
-> +static int i2c2_d_pins[] = {
-> +       /* SDA, SCL */
-> +       RZ_G2L_PIN(46, 0), RZ_G2L_PIN(46, 1),
-> +};
-> +static int i2c2_e_pins[] = {
-> +       /* SDA, SCL */
-> +       RZ_G2L_PIN(48, 0), RZ_G2L_PIN(48, 1),
-> +};
-
-[...]
-
-> +static struct group_desc pinmux_groups[] = {
-> +       RZ_G2L_PINCTRL_PIN_GROUP(i2c2_a, 2),
-> +       RZ_G2L_PINCTRL_PIN_GROUP(i2c2_b, 4),
-> +       RZ_G2L_PINCTRL_PIN_GROUP(i2c2_c, 1),
-> +       RZ_G2L_PINCTRL_PIN_GROUP(i2c2_d, 4),
-> +       RZ_G2L_PINCTRL_PIN_GROUP(i2c2_e, 3),
-
-[...]
-
-As RZ/G2L, unlike R-Car, does not have the concept of pin groups, I'm
-wondering why you are defining these groups? The pin function list
-spreadsheet also doesn't have the "a" to "e" names of the possible
-alternatives.
-While I agree it makes it a little bit easier to describe in DT the
-use of a group with lots of pins, it does prevent other use cases.
-As register configuration is per-pin, I believe the hardware supports
-the use of pins from multiple groups (e.g. SDA from the first group,
-and SCL from the second group), and thus the board designer may decide
-to make use of that.
-
-With pinmux_pins[] moved, and the groups removed, this file becomes
-empty?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> This patch series contains miscellaneous improvements to the
+> ti-sn65dsi86 driver, and prepares it for optional connector creation and
+> DisplayPort (non-eDP) support.
+>
+> The patches have been posted previously as part of the "[RFC PATCH
+> 00/11] drm/bridge: ti-sn65dsi86: Support DisplayPort mode" series. The
+> last four patches have been left out as discussions are ongoing, this
+> series focusses on the base work that has mostly been approved during
+> the review of the RFC.
+>
+> The code has been rebased on top of the latest drm-misc-next, and while
+> some changes to the ti-sn65dsi86 driver made conflict resolution
+> painful in patch 5/6, there was no big functional conflict.
+>
+> Laurent Pinchart (6):
+>   dt-bindings: drm/bridge: ti-sn65dsi8: Make enable GPIO optional
+>   drm/bridge: ti-sn65dsi86: Make enable GPIO optional
+>   drm/bridge: ti-sn65dsi86: Use bitmask to store valid rates
+>   drm/bridge: ti-sn65dsi86: Wrap panel with panel-bridge
+>   drm/bridge: ti-sn65dsi86: Group code in sections
+>   drm/bridge: ti-sn65dsi86: Split connector creation to a function
+>
+>  .../bindings/display/bridge/ti,sn65dsi86.yaml |   1 -
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c         | 703 ++++++++++--------
+>  2 files changed, 374 insertions(+), 330 deletions(-)
+>
+>
+> base-commit: 7601d53c2c49e3a7e8150e8cf332b3c17943f75a
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
