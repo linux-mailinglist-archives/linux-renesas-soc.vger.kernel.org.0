@@ -2,119 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82B053B4267
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Jun 2021 13:21:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97E023B42DA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Jun 2021 14:06:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229470AbhFYLXc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Jun 2021 07:23:32 -0400
-Received: from mail-ua1-f53.google.com ([209.85.222.53]:33426 "EHLO
-        mail-ua1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbhFYLXb (ORCPT
+        id S229958AbhFYMIc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Jun 2021 08:08:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229498AbhFYMIc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Jun 2021 07:23:31 -0400
-Received: by mail-ua1-f53.google.com with SMTP id x22so3437999uap.0;
-        Fri, 25 Jun 2021 04:21:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N3qim+VC6+xUi6b8xxn/Fdr1qaUBAWRr1SNW9ZZVgm8=;
-        b=gfKp9P5od6E0Jzr92FFGq1w1UvoFyPdqGznLaGBSBTlKbAYW/i6T+SUfAb0YH/W2/f
-         puFwVf3bxnztVEmJ5bjOlvhg1UPtu++V0cDEsowIsV1ZhpMzqBE0aF6/6/JASAbkmUDt
-         QgzlH1HT4bD1Qpbd1N8E1IK+dpEL59EqGj+mb0ecekwj6kY8E2X3grB6T6PQupCzVPeW
-         0hg1ezB5sDS62z+HkvxURYaBctnUYTWNPN7O4tZFCrqrPLEUl2VPTMzBonTEc3WEMtEb
-         ViJW8fPDyLzQ6waSQN2l5vPxK6uW95ksI/SZsE8KBjkf2CSZ6sht3Ak80tcP+PEkwnNM
-         3gdA==
-X-Gm-Message-State: AOAM533NJBllwOmLFXqGN81xHK5QmrVAz9pHlBtrcywBqFeekldUyYlw
-        oWZEZn9g3g89gYvU/Flkln+LE3Yx3z4uygJqoMEv0TlkKybFaw==
-X-Google-Smtp-Source: ABdhPJyvtzCwpq2wCDVTh+VrObP6YMUDjEkEIr6xFlP5Dfv2wc0myxYnXqm4nGvFqgCpMmzFSYAz8KCZs/ULv2rQhrI=
-X-Received: by 2002:ab0:70b3:: with SMTP id q19mr10605166ual.2.1624620070853;
- Fri, 25 Jun 2021 04:21:10 -0700 (PDT)
+        Fri, 25 Jun 2021 08:08:32 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC1CC061574
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Jun 2021 05:06:11 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1lwkav-00082P-Tq; Fri, 25 Jun 2021 14:06:01 +0200
+Received: from ore by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ore@pengutronix.de>)
+        id 1lwkav-0007Xd-3u; Fri, 25 Jun 2021 14:06:01 +0200
+Date:   Fri, 25 Jun 2021 14:06:01 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/7] i2c: imx: : use proper DMAENGINE API for termination
+Message-ID: <20210625120601.vmwn4ct7mrnusijb@pengutronix.de>
+References: <20210623095942.3325-1-wsa+renesas@sang-engineering.com>
+ <20210623095942.3325-3-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <20210625075508.664674-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20210625075508.664674-1-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 25 Jun 2021 13:20:59 +0200
-Message-ID: <CAMuHMdWmM+d2V7miepoptmaP7mmbtaWNBkJp3LqbhaiQ+18JwA@mail.gmail.com>
-Subject: Re: [PATCH/RFC] mmc: host: renesas_sdhi: Refactor of_device_id.data
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210623095942.3325-3-wsa+renesas@sang-engineering.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 14:03:03 up 205 days,  2:09, 48 users,  load average: 0.18, 0.21,
+ 0.09
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hello Wolfram,
 
-On Fri, Jun 25, 2021 at 9:56 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Refactor of_device_id.data to avoid increasing numbers of
-> sdhi_quirks_match[] entry when we add other stable SoCs like
-> r8a779m*.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+On Wed, Jun 23, 2021 at 11:59:36AM +0200, Wolfram Sang wrote:
+> dmaengine_terminate_all() is deprecated in favor of explicitly saying if
+> it should be sync or async. Here, we want dmaengine_terminate_sync()
+> because there is no other synchronization code in the driver to handle
+> an async case.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks for your patch!
+Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de
 
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -941,13 +910,8 @@ static const struct soc_device_attribute sdhi_quirks_match[]  = {
->         { .soc_id = "r8a774a1", .revision = "ES1.[012]", .data = &sdhi_quirks_4tap_nohs400 },
->         { .soc_id = "r8a7795", .revision = "ES1.*", .data = &sdhi_quirks_4tap_nohs400 },
->         { .soc_id = "r8a7795", .revision = "ES2.0", .data = &sdhi_quirks_4tap },
-> -       { .soc_id = "r8a7795", .revision = "ES3.*", .data = &sdhi_quirks_bad_taps2367 },
->         { .soc_id = "r8a7796", .revision = "ES1.[012]", .data = &sdhi_quirks_4tap_nohs400 },
->         { .soc_id = "r8a7796", .revision = "ES1.*", .data = &sdhi_quirks_r8a7796_es13 },
-> -       { .soc_id = "r8a77961", .data = &sdhi_quirks_bad_taps1357 },
-> -       { .soc_id = "r8a77965", .data = &sdhi_quirks_r8a77965 },
-> -       { .soc_id = "r8a77980", .data = &sdhi_quirks_nohs400 },
-> -       { .soc_id = "r8a77990", .data = &sdhi_quirks_r8a77990 },
->         { /* Sentinel. */ },
->  };
->
-> @@ -957,6 +921,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->         struct tmio_mmc_data *mmd = pdev->dev.platform_data;
->         const struct renesas_sdhi_quirks *quirks = NULL;
->         const struct renesas_sdhi_of_data *of_data;
-> +       const struct renesas_sdhi_of_data_with_quirks *of_data_quirks;
->         const struct soc_device_attribute *attr;
->         struct tmio_mmc_data *mmc_data;
->         struct tmio_mmc_dma *dma_priv;
-> @@ -966,11 +931,14 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->         struct resource *res;
->         u16 ver;
->
-> -       of_data = of_device_get_match_data(&pdev->dev);
-> +       of_data_quirks = of_device_get_match_data(&pdev->dev);
-> +       of_data = of_data_quirks->of_data;
->
->         attr = soc_device_match(sdhi_quirks_match);
->         if (attr)
->                 quirks = attr->data;
-> +       else
-> +               quirks = of_data_quirks->quirks;
+Thank you!
 
-Please do not use "else" statements in soc_device_match()-based
-quirk handling, as that makes it less trivial to remove the quirk
-handling later.
-
-I.e. move "quirks = of_data_quirks->quirks;" up, before the call
-to soc_device_match().
-
->
->         res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->         if (!res)
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> ---
+>  drivers/i2c/busses/i2c-imx.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-imx.c b/drivers/i2c/busses/i2c-imx.c
+> index dc5ca71906db..b224e82924d2 100644
+> --- a/drivers/i2c/busses/i2c-imx.c
+> +++ b/drivers/i2c/busses/i2c-imx.c
+> @@ -423,7 +423,7 @@ static int i2c_imx_dma_xfer(struct imx_i2c_struct *i2c_imx,
+>  	return 0;
+>  
+>  err_submit:
+> -	dmaengine_terminate_all(dma->chan_using);
+> +	dmaengine_terminate_sync(dma->chan_using);
+>  err_desc:
+>  	dma_unmap_single(chan_dev, dma->dma_buf,
+>  			dma->dma_len, dma->dma_data_dir);
+> @@ -899,7 +899,7 @@ static int i2c_imx_dma_write(struct imx_i2c_struct *i2c_imx,
+>  				&i2c_imx->dma->cmd_complete,
+>  				msecs_to_jiffies(DMA_TIMEOUT));
+>  	if (time_left == 0) {
+> -		dmaengine_terminate_all(dma->chan_using);
+> +		dmaengine_terminate_sync(dma->chan_using);
+>  		return -ETIMEDOUT;
+>  	}
+>  
+> @@ -954,7 +954,7 @@ static int i2c_imx_dma_read(struct imx_i2c_struct *i2c_imx,
+>  				&i2c_imx->dma->cmd_complete,
+>  				msecs_to_jiffies(DMA_TIMEOUT));
+>  	if (time_left == 0) {
+> -		dmaengine_terminate_all(dma->chan_using);
+> +		dmaengine_terminate_sync(dma->chan_using);
+>  		return -ETIMEDOUT;
+>  	}
+>  
+> -- 
+> 2.30.2
+> 
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
