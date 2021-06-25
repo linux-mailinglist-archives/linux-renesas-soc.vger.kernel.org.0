@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E64A13B4AAD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Jun 2021 00:43:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 016993B4AB0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Jun 2021 00:44:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbhFYWpu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Jun 2021 18:45:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34152 "EHLO mail.kernel.org"
+        id S229882AbhFYWrB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Jun 2021 18:47:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34558 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229831AbhFYWpt (ORCPT
+        id S229816AbhFYWrA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Jun 2021 18:45:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 21369616EA;
-        Fri, 25 Jun 2021 22:43:28 +0000 (UTC)
+        Fri, 25 Jun 2021 18:47:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AE3D361942;
+        Fri, 25 Jun 2021 22:44:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624661008;
-        bh=/de/3Jjvke3M30kHHXuxaAjdDkct112Tu0T3BG3Ty4s=;
+        s=k20201202; t=1624661078;
+        bh=MhhKjdtEyP6HKkMxYA8rEKdABGIn2lGWQrzheH0guDM=;
         h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=P+wOXjTYOb5FAP0ybMaMwxYGGIz7ZCFJ2vo2osPxrZpbNkjucjK5PVs+u0P5U9kwl
-         +tSs7fjE32oN7bsVmEni22ECY7JIzw2oD7GJchW4M5WyJ3/mkTfsP7VackMQSoe2Oy
-         DXgNZPZMYUDri97DM38+hOa0VBNeuXO60Cot1u02ZUroMo7UMRA4P7f5LYSC1gqoH/
-         dPWtzvC0WHMLc+9ELOL0zOnmvFD8M7qD7AGabEvTWpzCG0kT9BISSP5c/g6s/Tfwkt
-         DVBhe21Pp6lEaJUh8pKmZnCdLdzusKcckf8wy8vpvjmbfyUb4L6POayU2aD1Ud+QT/
-         H6huH2GPLjRZw==
+        b=hk7zp+7B+r23LLcTAUbuIGWhEqRFCTvfPcoLMnRyMBeiwMKea1A/FtqkRvm4TBV7r
+         Iu50yYqAOSNUrEVUehzDShTdIzkUH48Fh5/AS87kCxAX8fWx9n5Pf3kpq/+A+PV0xk
+         dMGM/kK5p5PCZOHhhfbqvyZI+M5v5MDeflDBPZPz1gb3RJHO786YGCqIWPsV8BxqRL
+         qHxiBql+ghLPpniKISgisvzIAOcqy/reYHO+OAq03cG/ZISvqh2NJs+4lr36eVGezH
+         OrqUsVGg12AhjVQl216Sizo2O5n0rRirJpaeZgflClqe1ZIGMhEOkfK5bNUUwAR11s
+         XvsMTCKQ65DAQ==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -40,8 +40,8 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Luca Ceresoli <luca@lucaceresoli.net>,
         Michael Turquette <mturquette@baylibre.com>,
         Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 25 Jun 2021 15:43:26 -0700
-Message-ID: <162466100691.3259633.2764263798185965745@swboyd.mtv.corp.google.com>
+Date:   Fri, 25 Jun 2021 15:44:37 -0700
+Message-ID: <162466107751.3259633.17069845339624475647@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -59,4 +59,4 @@ Quoting Geert Uytterhoeven (2021-06-10 00:09:40)
 > Acked-by: Stephen Boyd <sboyd@kernel.org>
 > ---
 
-Applied to clk-next
+Actually looks like Rob picked something similar up, so dropped it.
