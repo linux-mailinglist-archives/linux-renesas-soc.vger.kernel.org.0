@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4D263B4656
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Jun 2021 17:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18DB93B4667
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Jun 2021 17:12:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231775AbhFYPJ1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Jun 2021 11:09:27 -0400
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:38513 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbhFYPJ0 (ORCPT
+        id S229741AbhFYPPF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Jun 2021 11:15:05 -0400
+Received: from mail-ua1-f49.google.com ([209.85.222.49]:43620 "EHLO
+        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229445AbhFYPPF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Jun 2021 11:09:26 -0400
-Received: by mail-ua1-f50.google.com with SMTP id o3so3674965uaw.5;
-        Fri, 25 Jun 2021 08:07:04 -0700 (PDT)
+        Fri, 25 Jun 2021 11:15:05 -0400
+Received: by mail-ua1-f49.google.com with SMTP id f1so3670966uaj.10;
+        Fri, 25 Jun 2021 08:12:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FkHY1m5dDu4+3zBBtQl2ESfglXiKG4tDFsAgULyx8NQ=;
-        b=DLG/Pfv82mMhzc+rHcETbIr9vlN2x1o8nL96eYAL1Dl7M3MPWNThRYV0qnIEyHpHlR
-         4ZdkKLO2WYa0O8WFgX+Fy0yKI1/F6ObOU4H4R2Ph0Yeqy+UffCpSU/w0URtA1Tb73Jo6
-         UGyaFom8UV7rpcccw7TE5yJkzuwoxGP+PFBoWq8XHv1CHeq366lLsTi20nyyjYPBGVK7
-         /mHz0Qq8WBrLiJOqef7W/IiK41M8OROyT+CaCRuJihZl5IR/K/ItL6z7fanBTgTDPr7j
-         5gf9p8kro2JpNcJLRAslR4+vAaCT8FasoBBeFZcLM4np++QhrPIx/uhCLMNiabuA1LVm
-         MbFA==
-X-Gm-Message-State: AOAM530t0w9/68hRlJM2IVOlZvgonBlzxPKMGNcvLr30xTI9tQQ70aMa
-        t96Qy6oxD9AXyKFFplDb6CQ3IlpQdYE6B3rJpdU=
-X-Google-Smtp-Source: ABdhPJwLGKYtW5JVLwl3N8y//x/wI5ImMtfxni5LGUYc321nRWKjPMUPo40NYAEBcrJN0NFyDLcGOzgWqisDBkjxl/M=
-X-Received: by 2002:ab0:3734:: with SMTP id s20mr12244402uag.106.1624633624143;
- Fri, 25 Jun 2021 08:07:04 -0700 (PDT)
+        bh=jb52y/jRuefHz0+oSTJ2Jwp8OVTxytJKD9D+gi1Z+6c=;
+        b=srQsqUTyzSMlZfSiTqEsMSq/UuAfVyxHeJ6ts5r++snCe5x6yJLlE0cXi1q93viTWY
+         WeVwTyNwScF13+BWlvYpUZ9onZdn7wOItwliSyszey7WSNKKrauMpQEwliaFN8VFewWP
+         jVVxpjrPe3kRrvmbbrwmkPkzlUMVC85LreT4v/skMC3s6xY1zs56Bw5KnuRE+flMRUAd
+         +rS6nOq9pGZ+3uMojjv7CyyX+M/+0qgX3pRvbHypTzc5XXVkj0KNu3TctO47w/LH9Kfe
+         S+LU324FTFNz8QAr8Dc1GjnNCNTLxwZtIkl+glOQxZAcNQRQZ9R9ZWseMAyUMRGNr7fK
+         6Esg==
+X-Gm-Message-State: AOAM533rTB8qZjjZ9BKpa1SUVPUhwN35nSIOtBKdIBgTyQAY35zP19Oe
+        Zu2togusvjsehog3ZRA44kz638W7av6lseLZsnqveJPxH80=
+X-Google-Smtp-Source: ABdhPJykYdGUl3uiWzo/tA7jcUhLrKv0LFcWJPQ9Eo3ErWGL1Hs1iZCZoAFfJTWIzjzclLX4J02xqqGXDuR4p6mHrUE=
+X-Received: by 2002:ab0:1e4c:: with SMTP id n12mr11907922uak.58.1624633963114;
+ Fri, 25 Jun 2021 08:12:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210624130240.17468-1-biju.das.jz@bp.renesas.com> <20210624130240.17468-10-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210624130240.17468-10-biju.das.jz@bp.renesas.com>
+References: <20210624130240.17468-1-biju.das.jz@bp.renesas.com> <20210624130240.17468-11-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210624130240.17468-11-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 25 Jun 2021 17:06:53 +0200
-Message-ID: <CAMuHMdV2kotNc4BW7dVFCbTTqL+mm=M5qSkHMy6=Svx9AR3ePg@mail.gmail.com>
-Subject: Re: [PATCH v2 09/11] drivers: clk: renesas: r9a07g044-cpg: Add I2C clocks/resets
+Date:   Fri, 25 Jun 2021 17:12:31 +0200
+Message-ID: <CAMuHMdUnvPbMoU-ECuFksO0MJC0atJtunmr-dF+XBx9HAu1k0Q@mail.gmail.com>
+Subject: Re: [PATCH v2 10/11] drivers: clk: renesas: r9a07g044-cpg: Add DMAC clocks/resets
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -51,13 +51,13 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, Jun 24, 2021 at 3:03 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add I2C{0,1,2,3} clock and reset entries.
+> Add DMAC clock and reset entries in CPG driver.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
 > v1->v2:
->  * Updated reset entries.
+>  * Updated reset entries
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
