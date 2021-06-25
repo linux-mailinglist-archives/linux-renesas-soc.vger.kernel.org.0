@@ -2,342 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4409E3B3E11
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Jun 2021 09:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 705BE3B4002
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Jun 2021 11:05:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbhFYH5x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Jun 2021 03:57:53 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:12810 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229454AbhFYH5w (ORCPT
+        id S230463AbhFYJIR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Jun 2021 05:08:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40648 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231286AbhFYJII (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Jun 2021 03:57:52 -0400
-X-IronPort-AV: E=Sophos;i="5.83,298,1616425200"; 
-   d="scan'208";a="85506020"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 25 Jun 2021 16:55:31 +0900
-Received: from localhost.localdomain (unknown [10.166.14.185])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 23B3A40184AC;
-        Fri, 25 Jun 2021 16:55:31 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com
-Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH/RFC] mmc: host: renesas_sdhi: Refactor of_device_id.data
-Date:   Fri, 25 Jun 2021 16:55:08 +0900
-Message-Id: <20210625075508.664674-1-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 25 Jun 2021 05:08:08 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC1FC0613A2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Jun 2021 02:05:47 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id t8so3584567ybt.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Jun 2021 02:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=benyossef-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9Ck+JECuHhF+XibLFt/1GgUC0k/E3vtnQI/RdAO/KzU=;
+        b=0s46wxSkFGOIbh2ZSlXP4QzYuh3VOlHMQ0Zh5IQtJOp/+c7HSH4NK6s+r6q78liNfM
+         TH98ALgxYuhrrGbkLr6Tb7QJD6Tu7WYrqBB3EnEHY2X5fJQ6UQ54Lk/AQiqNZvcFMpXv
+         FZbLMkY33nfbSShMPFHwV1rWDAA3nFNBukwFvQTrvv89YkG2jD7gtBMu175tyJk0+i9s
+         TX3SIZdD338CEP9wZ7GC+uuloeCZEANPN+E+AxVXj4Ne5qMsB+1XWvzNgKrQFGWfP6Nn
+         H0XDFk+8B18ibahYyVFk8Yiyn0DYQplKBIzOIhgCfdEwimNy6Ao3jCBwhDRr3uF0gPeF
+         GLMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9Ck+JECuHhF+XibLFt/1GgUC0k/E3vtnQI/RdAO/KzU=;
+        b=XQqvXR1TO7hXQ5yIwnNrDXvIUWP3UUpORMPvc2CDj7fMYtOWbjs1dOV4ws79nO/glw
+         bDxgb22sABm+98D7TsO4XxmFnmL9ea4RxiZ8J1HgJ3Mdq3UbgL3QeuhUjq0Kx9NBS5P9
+         uZ2Dt2umcEr3a7CAjP5jEn7vc8HG4twewD4f/UbPZYXUDYBibtNot4c7P6xgt6rXb5Ju
+         3jY9a1MmnjrKMrasSQf6olv+Da7q5ya6syxvLDEmxwdnQXsxYooFPkMSyCcZygmU1O0C
+         qqkxUDncxc/WhQ3GVR+etepw8vOZQtvLxNhoC+Ma4vfOM0STEQO9duzTjYluux9LX54S
+         3UoQ==
+X-Gm-Message-State: AOAM531B5r3ohDfjCBSlDLsa2PnF2TWcbzGVuTS3vyHdqMW6ByclC/C1
+        6vZ3SE8KrsBwx9vkg3JNBLQ8zoA2s+xr+HNkod7sJA==
+X-Google-Smtp-Source: ABdhPJwT7mBTxFB2KCvGaabPBBhyDKh95AwbFKMcPsKCU7iReq/PJgisg+Lo2VGqUXkL6+aa9/rh5cwJxozsPm/VlP8=
+X-Received: by 2002:a25:618a:: with SMTP id v132mr11371392ybb.129.1624611946586;
+ Fri, 25 Jun 2021 02:05:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <ab361a862755e281f5fef67b3f678d66ae201781.1623413974.git.geert+renesas@glider.be>
+ <20210624211348.GA1991366@robh.at.kernel.org>
+In-Reply-To: <20210624211348.GA1991366@robh.at.kernel.org>
+From:   Gilad Ben-Yossef <gilad@benyossef.com>
+Date:   Fri, 25 Jun 2021 12:05:35 +0300
+Message-ID: <CAOtvUMdhDhbvL8M8HkVi+4d1jXPpw4ORJTBooU0V8Q6JBqSO+g@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: crypto: ccree: Convert to json-schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Refactor of_device_id.data to avoid increasing numbers of
-sdhi_quirks_match[] entry when we add other stable SoCs like
-r8a779m*.
+Hi,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- - We discussed/reviewed sdhi support for r8a779m* [1] before.
- - I marked RFC on this patch because:
- -- should I make step-by-step patches to ease review?
- -- should I rename the current renesas_sdhi_of_data (e.g. renesas_sdhi_param)?
-    (renesas_sdhi_of_data and renesas_sdhi_of_data_with_quirks seem strange
-     a little?)
- - I tested this patch on r8a77951 (ES3.0), r8a77960 (ES1.0)
-   and r8a77965.
+On Fri, Jun 25, 2021 at 12:13 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Fri, 11 Jun 2021 14:20:17 +0200, Geert Uytterhoeven wrote:
+> > Convert the Arm TrustZone CryptoCell cryptographic engine Device Tree
+> > binding documentation to json-schema.
+> >
+> > Document missing properties.
+> > Update the example to match reality.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  .../bindings/crypto/arm,cryptocell.yaml       | 53 +++++++++++++++++++
+> >  .../bindings/crypto/arm-cryptocell.txt        | 25 ---------
+> >  2 files changed, 53 insertions(+), 25 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/crypto/arm,crypto=
+cell.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/crypto/arm-crypto=
+cell.txt
+> >
+>
+> I'm applying this version which is dual licensed as that is the
+> preference of my employeer, Arm, who is the copyright holder here. I'll
+> sort this out internally with Gilad.
 
- [1]
- https://lore.kernel.org/linux-renesas-soc/TY2PR01MB36927B0CCE7C557A3115E481D8079@TY2PR01MB3692.jpnprd01.prod.outlook.com/
+If it's fine with you, Rob, it's fine with me.
 
- drivers/mmc/host/renesas_sdhi.h               |  5 ++
- drivers/mmc/host/renesas_sdhi_core.c          | 42 ++--------
- drivers/mmc/host/renesas_sdhi_internal_dmac.c | 78 ++++++++++++++++++-
- drivers/mmc/host/renesas_sdhi_sys_dmac.c      | 24 +++++-
- 4 files changed, 105 insertions(+), 44 deletions(-)
+I'll sort out the procedure internally. Sorry for the previous noise.
 
-diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-index 53eded81a53e..7ef480d56211 100644
---- a/drivers/mmc/host/renesas_sdhi.h
-+++ b/drivers/mmc/host/renesas_sdhi.h
-@@ -42,6 +42,11 @@ struct renesas_sdhi_quirks {
- 	const u8 (*hs400_calib_table)[SDHI_CALIB_TABLE_MAX];
- };
- 
-+struct renesas_sdhi_of_data_with_quirks {
-+	const struct renesas_sdhi_of_data *of_data;
-+	const struct renesas_sdhi_quirks *quirks;
-+};
-+
- struct tmio_mmc_dma {
- 	enum dma_slave_buswidth dma_buswidth;
- 	bool (*filter)(struct dma_chan *chan, void *arg);
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index e49ca0f7fe9a..fbb506be6229 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -312,20 +312,6 @@ static const u8 r8a7796_es13_calib_table[2][SDHI_CALIB_TABLE_MAX] = {
- 	 12, 17, 18, 18, 18, 18, 18, 18, 18, 19, 20, 21, 22, 23, 25, 25 }
- };
- 
--static const u8 r8a77965_calib_table[2][SDHI_CALIB_TABLE_MAX] = {
--	{ 1,  2,  6,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 15, 15, 16,
--	 17, 18, 19, 20, 21, 22, 23, 24, 25, 25, 26, 27, 28, 29, 30, 31 },
--	{ 2,  3,  4,  4,  5,  6,  7,  9, 10, 11, 12, 13, 14, 15, 16, 17,
--	 17, 17, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 31, 31, 31 }
--};
--
--static const u8 r8a77990_calib_table[2][SDHI_CALIB_TABLE_MAX] = {
--	{ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
--	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },
--	{ 0,  0,  0,  1,  2,  3,  3,  4,  4,  4,  5,  5,  6,  8,  9, 10,
--	 11, 12, 13, 15, 16, 17, 17, 18, 18, 19, 20, 22, 24, 25, 26, 26 }
--};
--
- static inline u32 sd_scc_read32(struct tmio_mmc_host *host,
- 				struct renesas_sdhi *priv, int addr)
- {
-@@ -909,29 +895,12 @@ static const struct renesas_sdhi_quirks sdhi_quirks_nohs400 = {
- 	.hs400_disabled = true,
- };
- 
--static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps1357 = {
--	.hs400_bad_taps = BIT(1) | BIT(3) | BIT(5) | BIT(7),
--};
--
--static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps2367 = {
--	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
--};
--
- static const struct renesas_sdhi_quirks sdhi_quirks_r8a7796_es13 = {
- 	.hs400_4taps = true,
- 	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
- 	.hs400_calib_table = r8a7796_es13_calib_table,
- };
- 
--static const struct renesas_sdhi_quirks sdhi_quirks_r8a77965 = {
--	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
--	.hs400_calib_table = r8a77965_calib_table,
--};
--
--static const struct renesas_sdhi_quirks sdhi_quirks_r8a77990 = {
--	.hs400_calib_table = r8a77990_calib_table,
--};
--
- /*
-  * Note for r8a7796 / r8a774a1: we can't distinguish ES1.1 and 1.2 as of now.
-  * So, we want to treat them equally and only have a match for ES1.2 to enforce
-@@ -941,13 +910,8 @@ static const struct soc_device_attribute sdhi_quirks_match[]  = {
- 	{ .soc_id = "r8a774a1", .revision = "ES1.[012]", .data = &sdhi_quirks_4tap_nohs400 },
- 	{ .soc_id = "r8a7795", .revision = "ES1.*", .data = &sdhi_quirks_4tap_nohs400 },
- 	{ .soc_id = "r8a7795", .revision = "ES2.0", .data = &sdhi_quirks_4tap },
--	{ .soc_id = "r8a7795", .revision = "ES3.*", .data = &sdhi_quirks_bad_taps2367 },
- 	{ .soc_id = "r8a7796", .revision = "ES1.[012]", .data = &sdhi_quirks_4tap_nohs400 },
- 	{ .soc_id = "r8a7796", .revision = "ES1.*", .data = &sdhi_quirks_r8a7796_es13 },
--	{ .soc_id = "r8a77961", .data = &sdhi_quirks_bad_taps1357 },
--	{ .soc_id = "r8a77965", .data = &sdhi_quirks_r8a77965 },
--	{ .soc_id = "r8a77980", .data = &sdhi_quirks_nohs400 },
--	{ .soc_id = "r8a77990", .data = &sdhi_quirks_r8a77990 },
- 	{ /* Sentinel. */ },
- };
- 
-@@ -957,6 +921,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 	struct tmio_mmc_data *mmd = pdev->dev.platform_data;
- 	const struct renesas_sdhi_quirks *quirks = NULL;
- 	const struct renesas_sdhi_of_data *of_data;
-+	const struct renesas_sdhi_of_data_with_quirks *of_data_quirks;
- 	const struct soc_device_attribute *attr;
- 	struct tmio_mmc_data *mmc_data;
- 	struct tmio_mmc_dma *dma_priv;
-@@ -966,11 +931,14 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 	struct resource *res;
- 	u16 ver;
- 
--	of_data = of_device_get_match_data(&pdev->dev);
-+	of_data_quirks = of_device_get_match_data(&pdev->dev);
-+	of_data = of_data_quirks->of_data;
- 
- 	attr = soc_device_match(sdhi_quirks_match);
- 	if (attr)
- 		quirks = attr->data;
-+	else
-+		quirks = of_data_quirks->quirks;
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	if (!res)
-diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-index e8f4863d8f1a..c4bd602dd8cf 100644
---- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-@@ -92,7 +92,7 @@ static struct renesas_sdhi_scc rcar_gen3_scc_taps[] = {
- 	},
- };
- 
--static const struct renesas_sdhi_of_data of_rza2_compatible = {
-+static const struct renesas_sdhi_of_data of_data_rza2 = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
- 			  TMIO_MMC_HAVE_CBSY,
- 	.tmio_ocr_mask	= MMC_VDD_32_33,
-@@ -107,7 +107,11 @@ static const struct renesas_sdhi_of_data of_rza2_compatible = {
- 	.max_segs	= 1,
- };
- 
--static const struct renesas_sdhi_of_data of_rcar_gen3_compatible = {
-+static const struct renesas_sdhi_of_data_with_quirks of_rza2_compatible = {
-+	.of_data	= &of_data_rza2,
-+};
-+
-+static const struct renesas_sdhi_of_data of_data_rcar_gen3 = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
- 			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
-@@ -122,11 +126,79 @@ static const struct renesas_sdhi_of_data of_rcar_gen3_compatible = {
- 	.max_segs	= 1,
- };
- 
-+static const struct renesas_sdhi_quirks sdhi_quirks_nohs400 = {
-+	.hs400_disabled = true,
-+};
-+
-+static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps1357 = {
-+	.hs400_bad_taps = BIT(1) | BIT(3) | BIT(5) | BIT(7),
-+};
-+
-+static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps2367 = {
-+	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
-+};
-+
-+static const u8 r8a77965_calib_table[2][SDHI_CALIB_TABLE_MAX] = {
-+	{ 1,  2,  6,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 15, 15, 16,
-+	 17, 18, 19, 20, 21, 22, 23, 24, 25, 25, 26, 27, 28, 29, 30, 31 },
-+	{ 2,  3,  4,  4,  5,  6,  7,  9, 10, 11, 12, 13, 14, 15, 16, 17,
-+	 17, 17, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 31, 31, 31 }
-+};
-+
-+static const u8 r8a77990_calib_table[2][SDHI_CALIB_TABLE_MAX] = {
-+	{ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },
-+	{ 0,  0,  0,  1,  2,  3,  3,  4,  4,  4,  5,  5,  6,  8,  9, 10,
-+	 11, 12, 13, 15, 16, 17, 17, 18, 18, 19, 20, 22, 24, 25, 26, 26 }
-+};
-+
-+static const struct renesas_sdhi_quirks sdhi_quirks_r8a77965 = {
-+	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
-+	.hs400_calib_table = r8a77965_calib_table,
-+};
-+
-+static const struct renesas_sdhi_quirks sdhi_quirks_r8a77990 = {
-+	.hs400_calib_table = r8a77990_calib_table,
-+};
-+
-+static const struct renesas_sdhi_of_data_with_quirks of_r8a7795_compatible = {
-+	.of_data	= &of_data_rcar_gen3,
-+	.quirks		= &sdhi_quirks_bad_taps2367,
-+};
-+
-+static const struct renesas_sdhi_of_data_with_quirks of_r8a77961_compatible = {
-+	.of_data	= &of_data_rcar_gen3,
-+	.quirks		= &sdhi_quirks_bad_taps1357,
-+};
-+
-+static const struct renesas_sdhi_of_data_with_quirks of_r8a77965_compatible = {
-+	.of_data	= &of_data_rcar_gen3,
-+	.quirks		= &sdhi_quirks_r8a77965,
-+};
-+
-+static const struct renesas_sdhi_of_data_with_quirks of_r8a77980_compatible = {
-+	.of_data	= &of_data_rcar_gen3,
-+	.quirks		= &sdhi_quirks_nohs400,
-+};
-+
-+static const struct renesas_sdhi_of_data_with_quirks of_r8a77990_compatible = {
-+	.of_data	= &of_data_rcar_gen3,
-+	.quirks		= &sdhi_quirks_r8a77990,
-+};
-+
-+static const struct renesas_sdhi_of_data_with_quirks of_rcar_gen3_compatible = {
-+	.of_data	= &of_data_rcar_gen3,
-+};
-+
- static const struct of_device_id renesas_sdhi_internal_dmac_of_match[] = {
- 	{ .compatible = "renesas,sdhi-r7s9210", .data = &of_rza2_compatible, },
- 	{ .compatible = "renesas,sdhi-mmc-r8a77470", .data = &of_rcar_gen3_compatible, },
--	{ .compatible = "renesas,sdhi-r8a7795", .data = &of_rcar_gen3_compatible, },
-+	{ .compatible = "renesas,sdhi-r8a7795", .data = &of_r8a7795_compatible, },
- 	{ .compatible = "renesas,sdhi-r8a7796", .data = &of_rcar_gen3_compatible, },
-+	{ .compatible = "renesas,sdhi-r8a77961", .data = &of_r8a77961_compatible, },
-+	{ .compatible = "renesas,sdhi-r8a77965", .data = &of_r8a77965_compatible, },
-+	{ .compatible = "renesas,sdhi-r8a77980", .data = &of_r8a77980_compatible, },
-+	{ .compatible = "renesas,sdhi-r8a77990", .data = &of_r8a77990_compatible, },
- 	{ .compatible = "renesas,rcar-gen3-sdhi", .data = &of_rcar_gen3_compatible, },
- 	{},
- };
-diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-index ffa64211f4de..9255e93e6248 100644
---- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-@@ -25,11 +25,15 @@
- 
- #define TMIO_MMC_MIN_DMA_LEN 8
- 
--static const struct renesas_sdhi_of_data of_default_cfg = {
-+static const struct renesas_sdhi_of_data of_data_default_cfg = {
- 	.tmio_flags = TMIO_MMC_HAS_IDLE_WAIT,
- };
- 
--static const struct renesas_sdhi_of_data of_rz_compatible = {
-+static const struct renesas_sdhi_of_data_with_quirks of_default_cfg = {
-+	.of_data	= &of_data_default_cfg,
-+};
-+
-+static const struct renesas_sdhi_of_data of_data_rz = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_32BIT_DATA_PORT |
- 			  TMIO_MMC_HAVE_CBSY,
- 	.tmio_ocr_mask	= MMC_VDD_32_33,
-@@ -37,13 +41,21 @@ static const struct renesas_sdhi_of_data of_rz_compatible = {
- 			  MMC_CAP_WAIT_WHILE_BUSY,
- };
- 
--static const struct renesas_sdhi_of_data of_rcar_gen1_compatible = {
-+static const struct renesas_sdhi_of_data_with_quirks of_rz_compatible = {
-+	.of_data	= &of_data_rz,
-+};
-+
-+static const struct renesas_sdhi_of_data of_data_rcar_gen1 = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
- 			  MMC_CAP_WAIT_WHILE_BUSY,
- 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT,
- };
- 
-+static const struct renesas_sdhi_of_data_with_quirks of_rcar_gen1_compatible = {
-+	.of_data	= &of_data_rcar_gen1,
-+};
-+
- /* Definitions for sampling clocks */
- static struct renesas_sdhi_scc rcar_gen2_scc_taps[] = {
- 	{
-@@ -56,7 +68,7 @@ static struct renesas_sdhi_scc rcar_gen2_scc_taps[] = {
- 	},
- };
- 
--static const struct renesas_sdhi_of_data of_rcar_gen2_compatible = {
-+static const struct renesas_sdhi_of_data of_data_rcar_gen2 = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
- 			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
-@@ -70,6 +82,10 @@ static const struct renesas_sdhi_of_data of_rcar_gen2_compatible = {
- 	.max_blk_count	= UINT_MAX / TMIO_MAX_BLK_SIZE,
- };
- 
-+static const struct renesas_sdhi_of_data_with_quriks of_rcar_gen2_compatible = {
-+	.of_data	= &of_data_rcar_gen2,
-+};
-+
- static const struct of_device_id renesas_sdhi_sys_dmac_of_match[] = {
- 	{ .compatible = "renesas,sdhi-sh73a0", .data = &of_default_cfg, },
- 	{ .compatible = "renesas,sdhi-r8a73a4", .data = &of_default_cfg, },
--- 
-2.25.1
+For what it's worth:
 
+Acked-by: Gilad Ben-Yossef <gilad@benyossef.com>
+
+Gilad
+
+--=20
+Gilad Ben-Yossef
+Chief Coffee Drinker
+
+values of =CE=B2 will give rise to dom!
