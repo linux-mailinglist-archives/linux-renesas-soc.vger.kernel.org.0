@@ -2,150 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B84F53B4DA7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Jun 2021 10:14:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 357963B4FE9
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Jun 2021 20:58:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbhFZIQi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 26 Jun 2021 04:16:38 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:22217 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229630AbhFZIQh (ORCPT
+        id S230192AbhFZTAd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 26 Jun 2021 15:00:33 -0400
+Received: from www.zeus03.de ([194.117.254.33]:43670 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230107AbhFZTAd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 26 Jun 2021 04:16:37 -0400
-X-IronPort-AV: E=Sophos;i="5.83,301,1616425200"; 
-   d="scan'208";a="85587094"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 26 Jun 2021 17:14:14 +0900
-Received: from localhost.localdomain (unknown [10.226.92.16])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id CD46C400389B;
-        Sat, 26 Jun 2021 17:14:12 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 10/10] arm64: dts: renesas: r9a07g044: Add I2C nodes
-Date:   Sat, 26 Jun 2021 09:13:44 +0100
-Message-Id: <20210626081344.5783-11-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210626081344.5783-1-biju.das.jz@bp.renesas.com>
-References: <20210626081344.5783-1-biju.das.jz@bp.renesas.com>
+        Sat, 26 Jun 2021 15:00:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=XguuJvFgAO1GBtu32ShPppLrE89U
+        UxsFvRw5mYKjLs0=; b=hwJhSFHlGlH0HbxYvNiMCJoXq8CdweZj8+hmhR2YCmar
+        MGPGjU/Bo+hpZJ1v6AwMU2jZXHRb5Sc4nZ/5U+n5DZkyOsshnBIdRk76IUXgpFFm
+        yz7AHmpvr3CNyn4ouIWcY1nVTKa3MjKy9W8kEs2wEjiqo6oyqNf4ELieOvkt6Yw=
+Received: (qmail 3686869 invoked from network); 26 Jun 2021 20:58:08 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Jun 2021 20:58:08 +0200
+X-UD-Smtp-Session: l3s3148p1@TAML1q/FAoMgAwDPXx9NAPXRWcOdxyeY
+Date:   Sat, 26 Jun 2021 20:58:04 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Adrian Hunter <adrian.hunter@intel.com>
+Cc:     Ulrich Hecht <uli@fpond.eu>, Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH] mmc: disable tuning when checking card presence
+Message-ID: <YNd4vIJjpaSmFD9t@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulrich Hecht <uli@fpond.eu>, Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20210618082317.58408-1-wsa+renesas@sang-engineering.com>
+ <CAPDyKFqkW9uwtJyWPFKggi2AJMtO4NJLW-6hviWgGSfoHyDm1A@mail.gmail.com>
+ <bbfbed66-5058-1263-159c-dabd345286c8@intel.com>
+ <563832257.373371.1624260736936@webmail.strato.com>
+ <5adc8601-23c7-4378-94e2-cb3641d9039c@intel.com>
+ <YNBJq7Lrtlc/qExN@ninjato>
+ <b5062770-ba5c-32d5-15f0-505a09bb4a2e@intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="l9KduWXRzNiGaE7d"
+Content-Disposition: inline
+In-Reply-To: <b5062770-ba5c-32d5-15f0-505a09bb4a2e@intel.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add I2C{0,1,2,3} nodes to RZ/G2L (R9A07G044) SoC DTSI.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v3->v4:
- * No change.
-v2->v3:
- * Added Geert's Rb tab
- * Fixes extra space in interrupt property
-v1->v2:
- * Updated reset entries.
----
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 80 ++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+--l9KduWXRzNiGaE7d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 01482d227506..9a7489dc70d1 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -89,6 +89,86 @@
- 			status = "disabled";
- 		};
- 
-+		i2c0: i2c@10058000 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
-+			reg = <0 0x10058000 0 0x400>;
-+			interrupts = <GIC_SPI 350 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 348 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 349 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 352 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 353 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 355 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_I2C0_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G044_I2C0_MRST>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		i2c1: i2c@10058400 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
-+			reg = <0 0x10058400 0 0x400>;
-+			interrupts = <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 356 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 357 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 361 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 359 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 362 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_I2C1_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G044_I2C1_MRST>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		i2c2: i2c@10058800 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
-+			reg = <0 0x10058800 0 0x400>;
-+			interrupts = <GIC_SPI 366 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 368 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 369 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 367 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 370 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 371 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_I2C2_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G044_I2C2_MRST>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		i2c3: i2c@10058c00 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g044", "renesas,riic-rz";
-+			reg = <0 0x10058c00 0 0x400>;
-+			interrupts = <GIC_SPI 374 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 372 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 373 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 376 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 375 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_I2C3_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G044_I2C3_MRST>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
- 		cpg: clock-controller@11010000 {
- 			compatible = "renesas,r9a07g044-cpg";
- 			reg = <0 0x11010000 0 0x10000>;
--- 
-2.17.1
+Hi Adrian, Ulf, everyone,
 
+> With the code above, if the host controller knows the card has been
+> removed, it can return -ENOMEDIUM from ->execute_tuning() to suppress
+> the message.
+
+On second thought, I like the idea with -ENOMEDIUM. Because tuning can
+still fail for reasons other than a removed card and we want to see an
+error message then.
+
+So, I checked when/how to return -ENOMEDIUM for the SDHI driver but this
+lead me to more questions. The few driver which return this error code
+all follow a similar pattern:
+
+xxx_request()
+{
+	if (host->get_cd == 1)
+		submit_mrq
+	else
+		cmd->error = -ENOMEDIUM
+		mmc_request_done()
+}
+
+So, my first question would be if we can't apply this pattern in the
+core before calling the .request callback? A lot of drivers are not
+implementing this pattern although it seems useful. Is it required?
+Recommended? Nice to have? However, I could imagine an answer for moving
+it into the core is "no, that should be checked atomically"? E.g. sdhci
+does it, but atmel-mci and s3cmci do not. If I just look at moving the
+card detection call into the core, I don't really see the reason for
+atomic. Am I missing something?
+
+All the best,
+
+   Wolfram
+
+
+--l9KduWXRzNiGaE7d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDXeLYACgkQFA3kzBSg
+KbbgyA/9HmpIvbnoA25g3dRGHH7M/sZZCxVr5+S2ohmblm0ZYyiO60cMSl/ShAHD
+0kCOBPfXCelQ/SsC3okrg1bnd8vozKuKBrtaLcER5AREmOn1yEegf+rVX3FM4++8
+Nx2zH8rVjiyk5wv2fAcJXh+9YlnhPmZdFPSFf25dE6i5fOnTLSJeUl94YQTbESOS
+10i2bf3ZetrbMTLCRtwq/d0zqwPzxPd8jHalTP0DA4ltp/sNav5QTEK+fhKT0vL6
+GjFBMfWvAEj5sgnPCiErD/sXskm6HK7Z3fu+1DwBi0y/leMibkdPfcyXkjQWquDt
+p81gRdQdIoGGm64wf7J2cjma+QYKG6zrhuK40x1TRoKbar8ukbr0ZrWnf/m51ptU
+xzIEiol0X5BT/2QWbZ2Qiy1WS3LTHSXFwDMu0rVVQBvl+S4JLMMrrKs2QZxB2Ndc
+KVoPkiJhsSWMBsxduJ0YFmX+fHmhH4GGjDs44i6Q72xko+TRJfN/PY8Iu1XlMteL
+QPL625Sup1EOsc91s74Rg24wEIxpIJeoe5s/TTKT32pfwKU0Azw8e3weMzPw9ifA
+/0zU3x3VjZQ5IBYaPNdZi7I0IIzdHRNxC6f1vCeZxT/I6KK36oYR70f1j3DHZRpt
+dDaqbWlgsV8DXPsw1PTFTV4Muyr5CFMq4Tcw1F8rVtPSCCHX3O4=
+=Ulq5
+-----END PGP SIGNATURE-----
+
+--l9KduWXRzNiGaE7d--
