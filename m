@@ -2,147 +2,199 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFF653B5805
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Jun 2021 06:10:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A62A13B5AD2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Jun 2021 11:04:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230134AbhF1EMr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Jun 2021 00:12:47 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:51614 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229592AbhF1EMe (ORCPT
+        id S230256AbhF1JGa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Jun 2021 05:06:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47984 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232353AbhF1JG3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Jun 2021 00:12:34 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 15S49fKm059338;
-        Sun, 27 Jun 2021 23:09:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1624853381;
-        bh=GNU1vUWoanvJ92XdB4nexwD2JVJqd69WagBGfaf6suA=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=mu5a+hQh7vJ9G0ABfC7bLJiQYRwVGkbagBr2vVw6qNOKFlRlurlvSii0+Fes6CvVQ
-         OEOpT6s0KS699UN4t0jZp7N7fmUOsNFB+Gl+PUzpKJm5uSlclhBEYN9/NNoCERVURP
-         qodihYQZWDOv6WWRlBehZhmP0K9aWQ5VxULnokmQ=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 15S49fX1100414
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 27 Jun 2021 23:09:41 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Sun, 27
- Jun 2021 23:09:40 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Sun, 27 Jun 2021 23:09:41 -0500
-Received: from [10.250.232.148] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 15S49XI6013993;
-        Sun, 27 Jun 2021 23:09:33 -0500
-Subject: Re: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     Bjorn Helgaas <helgaas@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210616211630.GA3007203@bjorn-Precision-5520>
- <0fd19e28-e0a6-fd79-672a-b588fb2763ba@ti.com>
- <20210625161528.GA21595@lpieralisi>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <8bf024da-d35b-80d5-4351-c1c1d68ef59c@ti.com>
-Date:   Mon, 28 Jun 2021 09:39:32 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 28 Jun 2021 05:06:29 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5564C061768
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Jun 2021 02:04:02 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id f30so31377130lfj.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Jun 2021 02:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=+2EzrTnhfOowmWhxm0kFHTRjLO9TCl8XXTjXsRKqQ2c=;
+        b=zIJqs7Co2eNiFonKRmUhGl779hcPPInezCVycefhrwtwbgb1N451lT2INEF1w0lbnP
+         NHUnBfkxgnWNECm58Zcusrpsubc4rnSid6PnR35RCycjZcigJDQMtm9dd+Q1H69B/s/p
+         VEEYinlNBAIv8AK8C8ilf/J8GjLrdXsjXZgy2YIdzHKTwAjc0j0IdUIcW54K/XWs4R8e
+         SR+ts7cwxpTzYlyLQAsgTjxRVwA6ezVzb6/xoNUDu3Av/3Tp8LKGS81KZ70+YQeO97Ot
+         vwMkpWl/h+d1OVg4OeX3+CGimUoZKLdeC05B+gETnoeqaQSa/Wk/lKnTDIuC/7TwsEt1
+         FGRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=+2EzrTnhfOowmWhxm0kFHTRjLO9TCl8XXTjXsRKqQ2c=;
+        b=K6LHc+iNJ9zAIdIZK4qb/vEZyMl2ySjYUOD3km/d7lhWtTTFWKDGKeNKdm3D8x53SM
+         CaGrHis4YD/kXM9xubp/+ARd/SLppdkxKYCwYLw6Gubeib2nTCrt/zrWZTQnUylV4LKn
+         nBJbsR0pe+hWzrnzeAxGDIlu2e/38ySuaqdjv1MjFpv/ef9+Ny1xmIWUGFEYwyfdWbzg
+         iumF1xRwBZbct6WOZwRuM/ubfyyvX5TkG/nr3QoAMG/Xuc0dCwdAXqVuScMdaXSEwbCL
+         nv1Ifiggld3UJ14w0JoqYYhF+hXLKjoheiItsNqKhj25fZrynvysAOi7ZyYvQXn+rAVo
+         /4Vg==
+X-Gm-Message-State: AOAM533tIcHG939V+wI16Y93cUUry9nEMNHwsBqGzTmPsfjyt7N4Skva
+        4yBd69Ne78byzH05agQq9zpzzw==
+X-Google-Smtp-Source: ABdhPJwJfZjn/0uvABnDakh1J3d7cG4mjD0RI2wPB8U7fPt3E4kbk1xZjnjHYhTJ8+t/yIHTzXu11Q==
+X-Received: by 2002:a05:6512:76:: with SMTP id i22mr18642952lfo.420.1624871040878;
+        Mon, 28 Jun 2021 02:04:00 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id b15sm1260527lfe.49.2021.06.28.02.04.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jun 2021 02:04:00 -0700 (PDT)
+Date:   Mon, 28 Jun 2021 11:03:59 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Fix 'unevaluatedProperties' errors in DT
+ graph users
+Message-ID: <YNmQf3nfSzScL97H@oden.dyn.berto.se>
+References: <20210623164344.2571043-1-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210625161528.GA21595@lpieralisi>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210623164344.2571043-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lorenzo,
+Hi Rob,
 
-On 25/06/21 9:45 pm, Lorenzo Pieralisi wrote:
-> On Thu, Jun 24, 2021 at 08:30:09PM +0530, Kishon Vijay Abraham I wrote:
->> Hi Lorenzo,
->>
->> On 17/06/21 2:46 am, Bjorn Helgaas wrote:
->>> On Wed, Jun 16, 2021 at 07:35:33PM +0530, Kishon Vijay Abraham I wrote:
->>>> Hi Lorenzo, Bjorn,
->>>>
->>>> On 17/05/21 1:17 pm, Kishon Vijay Abraham I wrote:
->>>>> Patch series
->>>>> *) Adds support to add virtual functions to enable endpoint controller
->>>>>    which supports SR-IOV capability
->>>>> *) Add support in Cadence endpoint driver to configure virtual functions
->>>>> *) Enable pci_endpoint_test driver to create pci_device for virtual
->>>>>    functions
->>>>>
->>>>> v1 of the patch series can be found at [1]
->>>>> v2 of the patch series can be found at [2]
->>>>> v3 of the patch series can be found at [3]
->>>>> v4 of the patch series can be found at [4]
->>>>> v5 of the patch series can be found at [5]
->>>>>
->>>>> Here both physical functions and virtual functions use the same
->>>>> pci_endpoint_test driver and existing pcitest utility can be used
->>>>> to test virtual functions as well.
->>>>>
->>>>> Changes from v5:
->>>>> *) Rebased to 5.13-rc1
->>>>>
->>>>> Changes from v4:
->>>>> *) Added a fix in Cadence driver which was overwriting BAR configuration
->>>>>    of physical function.
->>>>> *) Didn't include Tom's Acked-by since Cadence driver is modified in
->>>>>    this revision.
->>>>>
->>>>> Changes from v3:
->>>>> *) Fixed Rob's comment and added his Reviewed-by as suggested by him.
->>>>>
->>>>> Changes from v2:
->>>>> *) Fixed DT binding documentation comment by Rob
->>>>> *) Fixed the error check in pci-epc-core.c
->>>>>
->>>>> Changes from v1:
->>>>> *) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
->>>>>    binding for EP)
->>>>>
->>>>> [1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
->>>>> [2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
->>>>> [3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
->>>>> [4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
->>>>> [5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
->>>>
->>>> Can this series be merged for 5.14? It already includes Ack from Rob for
->>>> dt-binding changes and Ack from Tom for Cadence driver changes.
->>>
->>> Sorry, I think this was assigned to me in patchwork, but Lorenzo
->>> usually takes care of the endpoint stuff.  He's away this week, but no
->>> doubt will look at it when he returns.
->>
->> Can you consider merging this series for 5.14?
+Thanks for your work.
+
+On 2021-06-23 10:43:44 -0600, Rob Herring wrote:
+> In testing out under development json-schema 2020-12 support, there's a
+> few issues with 'unevaluatedProperties' and the graph schema. If
+> 'graph.yaml#/properties/port' is used, then neither the port nor the
+> endpoint(s) can have additional properties. 'graph.yaml#/$defs/port-base'
+> needs to be used instead.
 > 
-> I am running late this cycle on reviews and the merge window is about
-> to open, I will review it and queue it first thing for the next cycle.
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: "Paul J. Murphy" <paul.j.murphy@intel.com>
+> Cc: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+> Cc: Krzysztof Kozlowski <krzk@kernel.org>
+> Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/display/bridge/lontium,lt8912b.yaml    | 3 ++-
+>  Documentation/devicetree/bindings/media/i2c/imx258.yaml        | 2 +-
+>  Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml   | 2 +-
+>  Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml   | 2 +-
+>  Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml   | 2 +-
+>  Documentation/devicetree/bindings/media/renesas,vin.yaml       | 3 ++-
 
-Sure, thanks!
+For renesas,vin
 
-Best Regards,
-Kishon
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+>  6 files changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
+> index 735d0233a7d6..674891ee2f8e 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
+> @@ -29,7 +29,8 @@ properties:
+>  
+>      properties:
+>        port@0:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+>          description:
+>            Primary MIPI port for MIPI input
+>  
+> diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> index 515317eff41a..cde0f7383b2a 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> @@ -49,7 +49,7 @@ properties:
+>  
+>    # See ../video-interfaces.txt for more details
+>    port:
+> -    $ref: /schemas/graph.yaml#/properties/port
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+>      additionalProperties: false
+>  
+>      properties:
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+> index 9149f5685688..246dc5fec716 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+> @@ -45,7 +45,7 @@ properties:
+>  
+>    port:
+>      description: MIPI CSI-2 transmitter port
+> -    $ref: /schemas/graph.yaml#/properties/port
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+>      additionalProperties: false
+>  
+>      properties:
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+> index 0699c7e4fdeb..b962863e4f65 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+> @@ -45,7 +45,7 @@ properties:
+>  
+>    port:
+>      description: MIPI CSI-2 transmitter port
+> -    $ref: /schemas/graph.yaml#/properties/port
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+>      additionalProperties: false
+>  
+>      properties:
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+> index 27cc5b7ff613..f5055b9db693 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+> @@ -37,7 +37,7 @@ properties:
+>  
+>    port:
+>      additionalProperties: false
+> -    $ref: /schemas/graph.yaml#/properties/port
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+>  
+>      properties:
+>        endpoint:
+> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> index dd1a5ce5896c..4945a2f0eca6 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> @@ -118,7 +118,8 @@ properties:
+>  
+>      properties:
+>        port@0:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+>          description:
+>            Input port node, single endpoint describing a parallel input source.
+>  
+> -- 
+> 2.27.0
+> 
+
+-- 
+Regards,
+Niklas Söderlund
