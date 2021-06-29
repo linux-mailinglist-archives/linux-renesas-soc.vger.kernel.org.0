@@ -2,113 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C112F3B7414
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jun 2021 16:16:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4B8A3B74C5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jun 2021 16:59:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234381AbhF2OTU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Jun 2021 10:19:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43110 "EHLO
+        id S234501AbhF2PBp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Jun 2021 11:01:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234376AbhF2OTT (ORCPT
+        with ESMTP id S232521AbhF2PBp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Jun 2021 10:19:19 -0400
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E6B8C061766
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Jun 2021 07:16:52 -0700 (PDT)
-Received: by mail-vs1-xe2e.google.com with SMTP id y21so9823236vsm.11
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Jun 2021 07:16:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=HWQ9MW7YWTP/ceIFfdVdffnRl6GhXqntP/PkJVsTCoo=;
-        b=qGmVRC5L4DoR1psM3qUc4PEgofhpTETrrU8ovAe6mhclKt3yzCAZTh/1JnFuYJq5ft
-         VcRGnnV9asGE5ElWiWU6SKQc6r4khHK1OdQNaOEUqLGNOA3RQ7PZo4PBQKT3TJuBXrjh
-         bytvILYzqOWJfNCmbaR/oHgWTXlm1KwYc6JStSoeOrkNgScWd9XBEat8oQVHsm2TCvki
-         8ND1FaWO+ulhBG+p3ZC/sTZNSJk4OV/qoYY+k2W5XBIF7rfHMKBcEUDapvAEPerqmEqL
-         m2Ure4muGYWqcaau3owThuZ/DidkOXUxcIo0rTfqI7HJsqkeLo3SYk/CLQzXzfySb+/U
-         HASw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=HWQ9MW7YWTP/ceIFfdVdffnRl6GhXqntP/PkJVsTCoo=;
-        b=mUKfJXSt9/kFKvF1tJMNhtKE7KQnMRzkURPF04nF+Fly3+Ga+TbkmSiz4BWaQlHyJZ
-         32so36An5jp1wFMYVxJMRfIWUxL3fU8vkjxVVTZFwHE4N5oviyVREERGyI8ZDvMvuDE8
-         8dK1FYF35nghl1KV2EHxr9shH8ST9Kl5IaNCWTyg3Ld7XueAXhzfXDFJqtHi+Kd+3fHW
-         mc5kulsSKP+15AxiqAsSpSqXvoKSeuF1mK52hXPz3InO5rSB7BYzME36CYdRjG4nf+4i
-         t+imLkKNUT5eEBOB+EOMKXeKoCI+LJ2+YafyCptsmb6UyR4pHp/L5A2uHdfXALttF+fd
-         G3HQ==
-X-Gm-Message-State: AOAM533x454NKROSsZqyVTvn+xgCEOqw4D/hugai4jh7pqESpPUYMlJe
-        EJ7WAsY9T/gE9ylNWvmDdoYMIvZ/TBNfoaF2wnr0hUK6eQs+lw==
-X-Google-Smtp-Source: ABdhPJwSBlZnBEZput0nn2MXxc3HAW6uF5RaxUsT8WJmJcVcukAcIMo/bVZcnhdSO/K72EmzYAP78laJorBHdn6w6w4=
-X-Received: by 2002:a67:8783:: with SMTP id j125mr1483147vsd.42.1624976211220;
- Tue, 29 Jun 2021 07:16:51 -0700 (PDT)
+        Tue, 29 Jun 2021 11:01:45 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07B48C061760
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Jun 2021 07:59:17 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:7d95:f75f:5ece:4663])
+        by albert.telenet-ops.be with bizsmtp
+        id P2zF2500K4F6zkK062zFdZ; Tue, 29 Jun 2021 16:59:15 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lyFCl-004vPE-7o
+        for linux-renesas-soc@vger.kernel.org; Tue, 29 Jun 2021 16:59:15 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lyFCk-00BWNV-SJ
+        for linux-renesas-soc@vger.kernel.org; Tue, 29 Jun 2021 16:59:14 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2021-06-29-v5.13
+Date:   Tue, 29 Jun 2021 16:59:14 +0200
+Message-Id: <20210629145914.2746026-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210618082317.58408-1-wsa+renesas@sang-engineering.com>
- <CAPDyKFqkW9uwtJyWPFKggi2AJMtO4NJLW-6hviWgGSfoHyDm1A@mail.gmail.com>
- <bbfbed66-5058-1263-159c-dabd345286c8@intel.com> <563832257.373371.1624260736936@webmail.strato.com>
- <5adc8601-23c7-4378-94e2-cb3641d9039c@intel.com> <YNBJq7Lrtlc/qExN@ninjato>
- <b5062770-ba5c-32d5-15f0-505a09bb4a2e@intel.com> <YNd4vIJjpaSmFD9t@ninjato>
-In-Reply-To: <YNd4vIJjpaSmFD9t@ninjato>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 29 Jun 2021 16:16:15 +0200
-Message-ID: <CAPDyKFrA--dB1G4wNpo825EQcRDSVmT5mjVoMLK=ojU0k49JAA@mail.gmail.com>
-Subject: Re: [PATCH] mmc: disable tuning when checking card presence
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Ulrich Hecht <uli@fpond.eu>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, 26 Jun 2021 at 20:58, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Hi Adrian, Ulf, everyone,
->
-> > With the code above, if the host controller knows the card has been
-> > removed, it can return -ENOMEDIUM from ->execute_tuning() to suppress
-> > the message.
->
-> On second thought, I like the idea with -ENOMEDIUM. Because tuning can
-> still fail for reasons other than a removed card and we want to see an
-> error message then.
->
-> So, I checked when/how to return -ENOMEDIUM for the SDHI driver but this
-> lead me to more questions. The few driver which return this error code
-> all follow a similar pattern:
->
-> xxx_request()
-> {
->         if (host->get_cd == 1)
->                 submit_mrq
->         else
->                 cmd->error = -ENOMEDIUM
->                 mmc_request_done()
-> }
->
-> So, my first question would be if we can't apply this pattern in the
-> core before calling the .request callback? A lot of drivers are not
-> implementing this pattern although it seems useful. Is it required?
+I have pushed renesas-drivers-2021-06-29-v5.13 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-It's required for some sdhci variants, because issuing a command when
-a card has been removed can hang (or completes after quite a long
-timeout, I don't recall, Adrian?).
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-> Recommended? Nice to have? However, I could imagine an answer for moving
-> it into the core is "no, that should be checked atomically"? E.g. sdhci
-> does it, but atmel-mci and s3cmci do not. If I just look at moving the
-> card detection call into the core, I don't really see the reason for
-> atomic. Am I missing something?
+Today's version is based on renesas-devel-2021-06-28-v5.13.
 
-My main concern would be performance/latency, as we would introduce
-some overhead for every single request. So, no, we don't want this in
-the core in my opinion.
+Included branches with driver code:
+  - renesas-clk
+  - renesas-pinctrl
+  - topic/rcar-gen3e-v1^
+  - topic/rzg2l-update-clock-defs-v4
 
-Kind regards
-Uffe
+Included fixes:
+  - Revert "clk: vc5: Add properties for configuring SD/OE behavior"
+  - WIP soc: v3u: allow WDT reset
+  - misc: add sloppy logic analyzer using polling
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.libc.org/linux-sh#for-next
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
