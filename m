@@ -2,276 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93B953B78E3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jun 2021 21:52:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3147A3B7A32
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 00:03:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234754AbhF2TzX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Jun 2021 15:55:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33726 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232315AbhF2TzX (ORCPT
+        id S233985AbhF2WGN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Jun 2021 18:06:13 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:61189 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233487AbhF2WGN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Jun 2021 15:55:23 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D7FC061760
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Jun 2021 12:52:55 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:7d95:f75f:5ece:4663])
-        by albert.telenet-ops.be with bizsmtp
-        id P7st2500X4F6zkK067st1T; Tue, 29 Jun 2021 21:52:54 +0200
-Received: from geert (helo=localhost)
-        by ramsan.of.borg with local-esmtp (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lyJmv-00511w-F7; Tue, 29 Jun 2021 21:52:53 +0200
-Date:   Tue, 29 Jun 2021 21:52:53 +0200 (CEST)
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-X-X-Sender: geert@ramsan.of.borg
-To:     =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-pwm@vger.kernel.org,
-        kernel@pengutronix.de, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] pwm: Ensure for legacy drivers that pwm->state stays
- consistent
-In-Reply-To: <20210501160943.108821-1-u.kleine-koenig@pengutronix.de>
-Message-ID: <alpine.DEB.2.22.394.2106292151170.1195556@ramsan.of.borg>
-References: <20210411160451.1207799-1-u.kleine-koenig@pengutronix.de> <20210501160943.108821-1-u.kleine-koenig@pengutronix.de>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-140647764-1624996373=:1195556"
+        Tue, 29 Jun 2021 18:06:13 -0400
+X-IronPort-AV: E=Sophos;i="5.83,310,1616425200"; 
+   d="scan'208";a="85915372"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 30 Jun 2021 07:03:43 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 241BE40108F4;
+        Wed, 30 Jun 2021 07:03:40 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] Renesas RZ/G2L ADC driver support
+Date:   Tue, 29 Jun 2021 23:03:26 +0100
+Message-Id: <20210629220328.13366-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi All,
 
---8323329-140647764-1624996373=:1195556
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+This patch series adds DT binding and driver support for ADC block
+found on Renesas RZ/G2L family.
 
- 	Hi Uwe,
+Patches are based on top of rzg2l-update-clock-defs-v4 branch found on [1]
 
-On Sat, 1 May 2021, Uwe Kleine-König wrote:
-> Without this change it can happen that if changing the polarity succeeded
-> but changing duty_cycle and period failed pwm->state contains a mixture
-> between the old and the requested state.
->
-> So remember the initial state before starting to modify the configuration
-> and restore it when one of the required callback fails.
->
-> Compared to the previous implementation .disable() (if necessary) is called
-> earlier to prevent a glitch.
->
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/
 
-Thanks for your patch, which is now commit d7bff84fe7ed8c3b ("pwm:
-Ensure for legacy drivers that pwm->state stays consistent") in
-pwm/for-next.
+Cheers,
+Prabhakar
 
-This commit broke the backlight on the Atmark Techno Armadillo 800 EVA
-board (arch/arm/boot/dts/r8a7740-armadillo800eva.dts), which now shows a
-black screen.  Reverting the commit fixes the problem.
+Lad Prabhakar (2):
+  dt-bindings: iio: adc: Add binding documentation for Renesas RZ/G2L
+    A/D converter
+  iio: adc: Add driver for Renesas RZ/G2L A/D converter
 
-Do you have an idea what is wrong, and how to fix it?
-Anything I can do to investigate?
+ .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 121 +++++
+ MAINTAINERS                                   |   8 +
+ drivers/iio/adc/Kconfig                       |  10 +
+ drivers/iio/adc/Makefile                      |   1 +
+ drivers/iio/adc/rzg2l_adc.c                   | 489 ++++++++++++++++++
+ 5 files changed, 629 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+ create mode 100644 drivers/iio/adc/rzg2l_adc.c
 
-Thanks!
 
-> ---
-> Hello,
->
-> just a small optimisation: At the end of pwm_apply_legacy()
-> state->enabled is known to be true, so simplify
->
-> 	if (state->enabled && !pwm->state.enabled) {
->
-> to
-> 	if (!pwm->state.enabled) {
->
-> Best regards
-> Uwe
->
-> drivers/pwm/core.c | 139 +++++++++++++++++++++++++--------------------
-> 1 file changed, 78 insertions(+), 61 deletions(-)
->
-> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> index c4d5c0667137..57105deafb55 100644
-> --- a/drivers/pwm/core.c
-> +++ b/drivers/pwm/core.c
-> @@ -535,6 +535,71 @@ static void pwm_apply_state_debug(struct pwm_device *pwm,
-> 	}
-> }
->
-> +static int pwm_apply_legacy(struct pwm_chip *chip, struct pwm_device *pwm,
-> +			    const struct pwm_state *state)
-> +{
-> +	int err;
-> +	struct pwm_state initial_state = pwm->state;
-> +
-> +	if (state->polarity != pwm->state.polarity) {
-> +		if (!chip->ops->set_polarity) {
-> +			err = -EINVAL;
-> +			goto out_err;
-> +		}
-> +
-> +		/*
-> +		 * Changing the polarity of a running PWM is only allowed when
-> +		 * the PWM driver implements ->apply().
-> +		 */
-> +		if (pwm->state.enabled) {
-> +			chip->ops->disable(chip, pwm);
-> +
-> +			/*
-> +			 * Update pwm->state already here in case
-> +			 * .set_polarity() or another callback depend on that.
-> +			 */
-> +			pwm->state.enabled = false;
-> +		}
-> +
-> +		err = chip->ops->set_polarity(chip, pwm,
-> +					      state->polarity);
-> +		if (err)
-> +			goto out_err;
-> +
-> +		pwm->state.polarity = state->polarity;
-> +	}
-> +
-> +	if (!state->enabled) {
-> +		if (pwm->state.enabled)
-> +			chip->ops->disable(chip, pwm);
-> +		return 0;
-> +	}
-> +
-> +	if (state->period != pwm->state.period ||
-> +	    state->duty_cycle != pwm->state.duty_cycle) {
-> +		err = chip->ops->config(pwm->chip, pwm,
-> +					state->duty_cycle,
-> +					state->period);
-> +		if (err)
-> +			goto out_err;
-> +
-> +		pwm->state.period = state->period;
-> +		pwm->state.duty_cycle = state->duty_cycle;
-> +	}
-> +
-> +	if (!pwm->state.enabled) {
-> +		err = chip->ops->enable(chip, pwm);
-> +		if (err)
-> +			goto out_err;
-> +	}
-> +
-> +	return 0;
-> +
-> +out_err:
-> +	pwm->state = initial_state;
-> +	return err;
-> +}
-> +
-> /**
->  * pwm_apply_state() - atomically apply a new state to a PWM device
->  * @pwm: PWM device
-> @@ -544,6 +609,8 @@ int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state)
-> {
-> 	struct pwm_chip *chip;
-> 	int err;
-> +	int (*apply)(struct pwm_chip *chip, struct pwm_device *pwm,
-> +		     const struct pwm_state *state);
->
-> 	if (!pwm || !state || !state->period ||
-> 	    state->duty_cycle > state->period)
-> @@ -557,70 +624,20 @@ int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state)
-> 	    state->enabled == pwm->state.enabled)
-> 		return 0;
->
-> -	if (chip->ops->apply) {
-> -		err = chip->ops->apply(chip, pwm, state);
-> -		if (err)
-> -			return err;
-> -
-> -		trace_pwm_apply(pwm, state);
-> -
-> -		pwm->state = *state;
-> -
-> -		/*
-> -		 * only do this after pwm->state was applied as some
-> -		 * implementations of .get_state depend on this
-> -		 */
-> -		pwm_apply_state_debug(pwm, state);
-> -	} else {
-> -		/*
-> -		 * FIXME: restore the initial state in case of error.
-> -		 */
-> -		if (state->polarity != pwm->state.polarity) {
-> -			if (!chip->ops->set_polarity)
-> -				return -EINVAL;
-> -
-> -			/*
-> -			 * Changing the polarity of a running PWM is
-> -			 * only allowed when the PWM driver implements
-> -			 * ->apply().
-> -			 */
-> -			if (pwm->state.enabled) {
-> -				chip->ops->disable(chip, pwm);
-> -				pwm->state.enabled = false;
-> -			}
-> +	apply = chip->ops->apply ?: pwm_apply_legacy;
-> +	err = apply(chip, pwm, state);
-> +	if (err)
-> +		return err;
->
-> -			err = chip->ops->set_polarity(chip, pwm,
-> -						      state->polarity);
-> -			if (err)
-> -				return err;
-> +	trace_pwm_apply(pwm, state);
->
-> -			pwm->state.polarity = state->polarity;
-> -		}
-> -
-> -		if (state->period != pwm->state.period ||
-> -		    state->duty_cycle != pwm->state.duty_cycle) {
-> -			err = chip->ops->config(pwm->chip, pwm,
-> -						state->duty_cycle,
-> -						state->period);
-> -			if (err)
-> -				return err;
-> +	pwm->state = *state;
->
-> -			pwm->state.duty_cycle = state->duty_cycle;
-> -			pwm->state.period = state->period;
-> -		}
-> -
-> -		if (state->enabled != pwm->state.enabled) {
-> -			if (state->enabled) {
-> -				err = chip->ops->enable(chip, pwm);
-> -				if (err)
-> -					return err;
-> -			} else {
-> -				chip->ops->disable(chip, pwm);
-> -			}
-> -
-> -			pwm->state.enabled = state->enabled;
-> -		}
-> -	}
-> +	/*
-> +	 * only do this after pwm->state was applied as some
-> +	 * implementations of .get_state depend on this
-> +	 */
-> +	pwm_apply_state_debug(pwm, state);
->
-> 	return 0;
-> }
-> -- 
-> 2.30.2
+base-commit: 06c1e6911a7a76b446e4b00fc8bad5d8465932f8
+-- 
+2.17.1
 
-Gr{oetje,eeting}s,
-
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
---8323329-140647764-1624996373=:1195556--
