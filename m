@@ -2,132 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8923F3B723B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jun 2021 14:43:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C112F3B7414
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Jun 2021 16:16:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232870AbhF2Mpf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Jun 2021 08:45:35 -0400
-Received: from mail-vk1-f181.google.com ([209.85.221.181]:46726 "EHLO
-        mail-vk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232791AbhF2Mpe (ORCPT
+        id S234381AbhF2OTU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Jun 2021 10:19:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43110 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234376AbhF2OTT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Jun 2021 08:45:34 -0400
-Received: by mail-vk1-f181.google.com with SMTP id j22so3505379vka.13;
-        Tue, 29 Jun 2021 05:43:07 -0700 (PDT)
+        Tue, 29 Jun 2021 10:19:19 -0400
+Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E6B8C061766
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Jun 2021 07:16:52 -0700 (PDT)
+Received: by mail-vs1-xe2e.google.com with SMTP id y21so9823236vsm.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Jun 2021 07:16:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=HWQ9MW7YWTP/ceIFfdVdffnRl6GhXqntP/PkJVsTCoo=;
+        b=qGmVRC5L4DoR1psM3qUc4PEgofhpTETrrU8ovAe6mhclKt3yzCAZTh/1JnFuYJq5ft
+         VcRGnnV9asGE5ElWiWU6SKQc6r4khHK1OdQNaOEUqLGNOA3RQ7PZo4PBQKT3TJuBXrjh
+         bytvILYzqOWJfNCmbaR/oHgWTXlm1KwYc6JStSoeOrkNgScWd9XBEat8oQVHsm2TCvki
+         8ND1FaWO+ulhBG+p3ZC/sTZNSJk4OV/qoYY+k2W5XBIF7rfHMKBcEUDapvAEPerqmEqL
+         m2Ure4muGYWqcaau3owThuZ/DidkOXUxcIo0rTfqI7HJsqkeLo3SYk/CLQzXzfySb+/U
+         HASw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2lzgA/wsbrr6eZNe9W+RHZOh2v+Uu4exjNbNfHqsk8o=;
-        b=fq04FAyLQeWyQA8AZQLhxCNx0reMiHamcKf2U83D9qGP3ZE/ViY6ZwUYxY0KOn6fVb
-         smWyyRRhYdZB4xAhJYjstzI6CryYpIc/yYHe9siGid+tFmAsEtSrHDkCBGIDnaVR+LCy
-         38MZY1GcxUw2FYJ0BIop77y9/FZbkpRunkkS/2knzwf/imdGHbvHBgnka0qbaGhxfyGj
-         MuCMj9uO4Uk3RFDXTijntxZalSuUI8erMJENueOkaXs0S5JjJHUbkv9avksTTeAg9rjD
-         F8TbUs6vzsBZmX8WXCfzlLR+W+3Nvp/iIXw41pBVKMalqy59mNfC7lfGscTuedEY+B+D
-         ssYQ==
-X-Gm-Message-State: AOAM532W/UQ2baVkvtMW5elwZOj78uKBN8U428QRn3j8Xiu+bB6on+RW
-        6A8urcG157U37v0WuxscRLG5CZ5x3DqhdC5gs9c=
-X-Google-Smtp-Source: ABdhPJyf8UAFHpIQZtc4dzO2R2G/LvSktIL8LANnB3R5dwdYexMwq5dOKYiIkSUX/qsjewPY5UDmi2o79cbzGyV3/JM=
-X-Received: by 2002:a1f:1a41:: with SMTP id a62mr21399293vka.5.1624970586455;
- Tue, 29 Jun 2021 05:43:06 -0700 (PDT)
+         :message-id:subject:to;
+        bh=HWQ9MW7YWTP/ceIFfdVdffnRl6GhXqntP/PkJVsTCoo=;
+        b=mUKfJXSt9/kFKvF1tJMNhtKE7KQnMRzkURPF04nF+Fly3+Ga+TbkmSiz4BWaQlHyJZ
+         32so36An5jp1wFMYVxJMRfIWUxL3fU8vkjxVVTZFwHE4N5oviyVREERGyI8ZDvMvuDE8
+         8dK1FYF35nghl1KV2EHxr9shH8ST9Kl5IaNCWTyg3Ld7XueAXhzfXDFJqtHi+Kd+3fHW
+         mc5kulsSKP+15AxiqAsSpSqXvoKSeuF1mK52hXPz3InO5rSB7BYzME36CYdRjG4nf+4i
+         t+imLkKNUT5eEBOB+EOMKXeKoCI+LJ2+YafyCptsmb6UyR4pHp/L5A2uHdfXALttF+fd
+         G3HQ==
+X-Gm-Message-State: AOAM533x454NKROSsZqyVTvn+xgCEOqw4D/hugai4jh7pqESpPUYMlJe
+        EJ7WAsY9T/gE9ylNWvmDdoYMIvZ/TBNfoaF2wnr0hUK6eQs+lw==
+X-Google-Smtp-Source: ABdhPJwSBlZnBEZput0nn2MXxc3HAW6uF5RaxUsT8WJmJcVcukAcIMo/bVZcnhdSO/K72EmzYAP78laJorBHdn6w6w4=
+X-Received: by 2002:a67:8783:: with SMTP id j125mr1483147vsd.42.1624976211220;
+ Tue, 29 Jun 2021 07:16:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210614155437.3979771-1-sean.anderson@seco.com>
- <20210614155437.3979771-2-sean.anderson@seco.com> <47b37414-6587-0792-201b-e255feeee9c9@lucaceresoli.net>
- <3174eed5-1078-68c4-4d98-95c448cd0940@seco.com>
-In-Reply-To: <3174eed5-1078-68c4-4d98-95c448cd0940@seco.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 29 Jun 2021 14:42:55 +0200
-Message-ID: <CAMuHMdW9LMuQLuPEF-Fcs1E6Q7dDzY17VZqu4awKDj5WSTRt=A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] clk: vc5: Add properties for configuring SD/OE behavior
-To:     Sean Anderson <sean.anderson@seco.com>
-Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Adam Ford <aford173@gmail.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+References: <20210618082317.58408-1-wsa+renesas@sang-engineering.com>
+ <CAPDyKFqkW9uwtJyWPFKggi2AJMtO4NJLW-6hviWgGSfoHyDm1A@mail.gmail.com>
+ <bbfbed66-5058-1263-159c-dabd345286c8@intel.com> <563832257.373371.1624260736936@webmail.strato.com>
+ <5adc8601-23c7-4378-94e2-cb3641d9039c@intel.com> <YNBJq7Lrtlc/qExN@ninjato>
+ <b5062770-ba5c-32d5-15f0-505a09bb4a2e@intel.com> <YNd4vIJjpaSmFD9t@ninjato>
+In-Reply-To: <YNd4vIJjpaSmFD9t@ninjato>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Tue, 29 Jun 2021 16:16:15 +0200
+Message-ID: <CAPDyKFrA--dB1G4wNpo825EQcRDSVmT5mjVoMLK=ojU0k49JAA@mail.gmail.com>
+Subject: Re: [PATCH] mmc: disable tuning when checking card presence
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulrich Hecht <uli@fpond.eu>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sean,
-
-On Thu, Jun 17, 2021 at 4:53 PM Sean Anderson <sean.anderson@seco.com> wrote:
-> On 6/16/21 11:41 AM, Luca Ceresoli wrote:
->  > On 14/06/21 17:54, Sean Anderson wrote:
->  >> The SD/OE pin may be configured to enable output when high or low, and
->  >> to shutdown the device when high. This behavior is controller by the SH
->  >> and SP bits of the Primary Source and Shutdown Register (and to a lesser
->  >> extent the OS and OE bits). By default, both bits are 0, but they may
->  >> need to be configured differently, depending on the external circuitry
->  >> controlling the SD/OE pin.
->  >>
->  >> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
->  >
->  > Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
->  >
->  >> @@ -914,6 +915,15 @@ static int vc5_probe(struct i2c_client *client, const struct i2c_device_id *id)
->  >>             return PTR_ERR(vc5->regmap);
->  >>     }
->  >>
->  >> +   oe_polarity = of_property_read_bool(client->dev.of_node,
->  >> +                                       "idt,output-enable-active-high");
->  >> +   sd_enable = of_property_read_bool(client->dev.of_node,
->  >> +                                     "idt,enable-shutdown");
->  >> +   regmap_update_bits(vc5->regmap, VC5_PRIM_SRC_SHDN,
->  >> +                      VC5_PRIM_SRC_SHDN_SP | VC5_PRIM_SRC_SHDN_EN_GBL_SHDN,
->  >> +                      (oe_polarity ? VC5_PRIM_SRC_SHDN_SP : 0)
->  >> +                      | (sd_enable ? VC5_PRIM_SRC_SHDN_EN_GBL_SHDN : 0));
->  >> +
->  >
->  > Did you test all combinations?
+On Sat, 26 Jun 2021 at 20:58, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 >
-> No. I only tested "idt,output-enable-active-high". Though I also in
-> effect tested the default case (both zero) as well.
+> Hi Adrian, Ulf, everyone,
 >
-> One potential impact of this patch could be that systems which enabled
-> the SP and SH bits via OTP could end up inadvertently disabling them
-> because they need to add the appropriate property. Maintaining full
-> backwards compatibility would require a tri-state property of some kind.
+> > With the code above, if the host controller knows the card has been
+> > removed, it can return -ENOMEDIUM from ->execute_tuning() to suppress
+> > the message.
+>
+> On second thought, I like the idea with -ENOMEDIUM. Because tuning can
+> still fail for reasons other than a removed card and we want to see an
+> error message then.
+>
+> So, I checked when/how to return -ENOMEDIUM for the SDHI driver but this
+> lead me to more questions. The few driver which return this error code
+> all follow a similar pattern:
+>
+> xxx_request()
+> {
+>         if (host->get_cd == 1)
+>                 submit_mrq
+>         else
+>                 cmd->error = -ENOMEDIUM
+>                 mmc_request_done()
+> }
+>
+> So, my first question would be if we can't apply this pattern in the
+> core before calling the .request callback? A lot of drivers are not
+> implementing this pattern although it seems useful. Is it required?
 
-And that seems to be exactly what's happening for me...
+It's required for some sdhci variants, because issuing a command when
+a card has been removed can hang (or completes after quite a long
+timeout, I don't recall, Adrian?).
 
-I've just discovered a failure on Renesas Salvator-XS caused by this
-patch, which is now commit e26b493f3495e8a2 ("clk: vc5: Add properties
-for configuring SD/OE behavior") in clk-next:
+> Recommended? Nice to have? However, I could imagine an answer for moving
+> it into the core is "no, that should be checked atomically"? E.g. sdhci
+> does it, but atmel-mci and s3cmci do not. If I just look at moving the
+> card detection call into the core, I don't really see the reason for
+> atomic. Am I missing something?
 
-    [dm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:76:crtc-3]
-flip_done timed out
-    [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-    [...]
+My main concern would be performance/latency, as we would introduce
+some overhead for every single request. So, no, we don't want this in
+the core in my opinion.
 
-Printing the value of VC5_PRIM_SRC_SHDN before/after the update:
-
-    vc5 4-006a: vc5_probe:945: 0x8a
-    vc5 4-006a: vc5_probe:951: 0x88
-
-My initial bisection failed, as the register contents are retained
-across a reset.  Hence booting a "good" kernel after a "bad" kernel
-still fails, unless the VC5 is power-cycled in between.
-
-So I think we do need separate "idt,output-enable-active-low" and
-"idt,disable-shutdown" properties, and not touch the bits if none of
-the corresponding properties is present.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Kind regards
+Uffe
