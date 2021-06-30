@@ -2,84 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 329E73B7E4D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 09:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B5B63B7FF7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 11:29:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233075AbhF3Hpr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Jun 2021 03:45:47 -0400
-Received: from www.zeus03.de ([194.117.254.33]:49868 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233043AbhF3Hpq (ORCPT
+        id S233766AbhF3JcR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Jun 2021 05:32:17 -0400
+Received: from mail-ua1-f42.google.com ([209.85.222.42]:39817 "EHLO
+        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233541AbhF3JcR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Jun 2021 03:45:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=6uK9DRoREtGPKrcTebOsNOSCc3It
-        U31E6+dA2ivvjsg=; b=fJ4Op4AVm+MZ9evNRxgHugcY1w8o1mVU//3o9PGeYa2c
-        uNfa0Os16UgYnkgb2G+MWxKPiw2UkssTNl853KA8f582OJQtE2oUEvNUTBapxbbr
-        R1ZYlvtHGgUrnMyA/5LKQh3XywWgOvCO5AlHAcBhd9ZSOy37FsI0LDZF+AmePzk=
-Received: (qmail 773742 invoked from network); 30 Jun 2021 09:43:17 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jun 2021 09:43:17 +0200
-X-UD-Smtp-Session: l3s3148p1@eVAn4PbFsuIgAwDPXwaiAGDoJRk6bv4I
-Date:   Wed, 30 Jun 2021 09:43:16 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     ulf.hansson@linaro.org, linux-mmc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH/RFC v2] mmc: host: renesas_sdhi: Refactor
- of_device_id.data
-Message-ID: <YNwglKoAiGaSM1DW@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        ulf.hansson@linaro.org, linux-mmc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-References: <20210629102033.847369-1-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 30 Jun 2021 05:32:17 -0400
+Received: by mail-ua1-f42.google.com with SMTP id k9so771551uaq.6;
+        Wed, 30 Jun 2021 02:29:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I0DU43SVWZn+SOkoLNZ84J8luwY/ZlxJfuH0H4d14i4=;
+        b=eVxkaoiHbIOtwdwCUmMpezKVpygl1Wg6Z6Fsqn2kKeoMFoXI5bv8sElIxMr5F+xfEn
+         upSJi7CKe2Wqs8eeCzMEoWttTGYI00GeQBMaYMfqhKDkAsX8qOizBwMbQXj6F9FcnGV6
+         +p7iI+JX1UUJjReOQOGeJGRAz6qkWD3FoDl9Q45VrLDKixRcWPEL9CPiIE8Yi1a7/L0L
+         HC0krmyZdNxlDgWeICnbZ+HQ3XwqzDa6rgkhd3+zZVAxSGSLsGZYoL+WQ8RhoDMdrVV7
+         bHogdQbug7U23kJRZpvwLpbY+/ikLR7N+qN1eKyx/CmQUeKuJOoQeS5cd6/sjeZxbFWB
+         NSlg==
+X-Gm-Message-State: AOAM53060q8EBJTLVcfEGWHZSPrTPgbbxYI8FbwL/OukBujUzAU/cgGy
+        yxQXn8RsyTlGBdfwY0LjqGl2DK1M2thlDw66Vz9bmB2w+5E=
+X-Google-Smtp-Source: ABdhPJytiVG3ezpA2xgfdSxGL51grHSv4XgTD5FuC9yFwlYUBojMLqL9CRVX+IIbr0aw/sn1FrEaT837Ay4C3Wczfco=
+X-Received: by 2002:ab0:484b:: with SMTP id c11mr32041601uad.100.1625045387432;
+ Wed, 30 Jun 2021 02:29:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="aVJdi43/g2klazS4"
-Content-Disposition: inline
-In-Reply-To: <20210629102033.847369-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20210630073013.22415-1-biju.das.jz@bp.renesas.com> <20210630073013.22415-8-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210630073013.22415-8-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 30 Jun 2021 11:29:36 +0200
+Message-ID: <CAMuHMdWbhY9i+WvV77LVNYhLBLQBVCojgEwM93A-pvFf9Eab1g@mail.gmail.com>
+Subject: Re: [PATCH v3 07/11] dt-bindings: phy: renesas,usb2-phy: Document
+ RZ/G2L phy bindings
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-phy@lists.infradead.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Biju,
 
---aVJdi43/g2klazS4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks for your patch!
 
+On Wed, Jun 30, 2021 at 9:31 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Document USB phy bindings for RZ/G2L SoC.
+>
+> RZ/G2L USB2.0 phy uses line ctrl register for OTG_ID pin changes. Apart
+> from this it uses a different OTG-BC interrupt bit for device recognition.
 
->  [2]
->  I tested sdhi ch0. But, with and without this patch, sdhi ch2 doesn't work
->  correctly...
+Nothing about resets? But see below...
 
-Same problem with the Lager board/r8a7790. I suppose this is the same
-issue Geert was seeing during his regular tests.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3
+>  * Created a new compatible for RZ/G2L as per Geert's suggestion.
+>  * Added resets required properties for RZ/G2L SoC.
+> ---
+>  .../bindings/phy/renesas,usb2-phy.yaml         | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> index d5dc5a3cdceb..a7e585ff28dc 100644
+> --- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> @@ -30,6 +30,9 @@ properties:
+>                - renesas,usb2-phy-r8a77995 # R-Car D3
+>            - const: renesas,rcar-gen3-usb2-phy
+>
+> +      - items:
+> +          - const: renesas,usb2-phy-r9a07g044 # RZ/G2{L,LC}
+> +
+>    reg:
+>      maxItems: 1
+>
+> @@ -91,6 +94,21 @@ required:
+>    - clocks
+>    - '#phy-cells'
+>
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,usb2-phy-r9a07g044
+> +    then:
+> +      properties:
+> +        resets:
+> +          items:
+> +            - description: USB phy reset
+> +            - description: reset of USB 2.0 host side
 
-But this has nothing to do with this patch. The probing of the SDHI
-instances work fine.
+Do you need the second reset?
+Looking at your .dtsi patch, the second reset is shared with ehci/ohci,
+so perhaps it makes sense to drop it from the phy node?
 
+> +      required:
+> +        - resets
+> +
+>  additionalProperties: false
+>
+>  examples:
 
---aVJdi43/g2klazS4
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDcIJQACgkQFA3kzBSg
-KbaTbA//SDJ5j7x46/1ifhEcf/QUPu//wg1cMGW3L0VHG/9ySIhspMmn9vh+IErx
-5IKHBbr0HE3FwaoacB+H92i3Pr7Kgq/iQmlw2SxbCohUlQL9GqIITEaKQRne8yMa
-0fZPWdvkggzHYnM3vUOSYFAsgI20JuTE8zFjfKa8mapqaz8lPYS3Q7OLl9AvOsBD
-z66EAI6gypzl9Y29EZYkaAGQ2pd8YBxUeZ+FmgZgg1GsX0KuigmxtfgK42Tko7yw
-xwI9OA62zW5FYADJYW3KEH1elAYvj8QZ8ILr+P5MDQjdvyHtzKakURY6jbAHZemt
-Cs1rJcRGrRvNHxV8yqKmaEKWGYLMQSZsYX67nIS+vlzLCu08GitJxvyJ5UuhgNXa
-ntDNV0dmOrcFio2mefL9GNTZIVg101EysYAX7PxVmEQ57Q+shQ3TatMP3xW/3raM
-ZN6CjnyfKMUpPNnl8aFUcqyHG3JBmpXqslfgpA6Yi9a7VQydm6Ktty05KBXfTvrb
-+sY0Xnn9tnwVh4wzpiUAgv7pM9xmL3+SyhDzYl/3ZwUasx5aDwWPd7QpBLpqlzWk
-qEVFDpcZBNFPvC8aKMOEqQvC89rt3UJnSb6I0ZuLg5PanktrmuntsPMtltZtOgeD
-SQ+COfjCyx77TmBlKtbVAQssnpwQS+9HJMdzApB9OWiEAYlbkeM=
-=wzMZ
------END PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---aVJdi43/g2klazS4--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
