@@ -2,101 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 416BE3B7E37
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 09:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B59B93B7E3F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 09:38:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232893AbhF3HhL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Jun 2021 03:37:11 -0400
-Received: from www.zeus03.de ([194.117.254.33]:47988 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232788AbhF3HhK (ORCPT
+        id S233043AbhF3Hkp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Jun 2021 03:40:45 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:37182 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233010AbhF3Hkn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Jun 2021 03:37:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=e3WhkGIYMcElSQnusEm1KIiH96k4
-        ofQ6sXqx1VxCePM=; b=rtvJxbe0Y3Zh/NV80YYNYB/J79yk+h4rrXrHBJ2AeCTn
-        nzOSQI6q6Z+2q2jRVr/gg2nEMPMVnm+vXZJlwujFN+4nbsSEWOHdRsqDeNf3N8T8
-        wJKulVD5IynKY0l1mBS6IixMfFqeMYUFxLVu2GvmWFmAotnv3hhTvE53N0QoS4E=
-Received: (qmail 771211 invoked from network); 30 Jun 2021 09:34:40 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jun 2021 09:34:40 +0200
-X-UD-Smtp-Session: l3s3148p1@qNhdwfbFKOIgAwDPXwaiAGDoJRk6bv4I
-Date:   Wed, 30 Jun 2021 09:34:40 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH/RFC v2] mmc: host: renesas_sdhi: Refactor
- of_device_id.data
-Message-ID: <YNwekCB+GxPPjR8p@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Wed, 30 Jun 2021 03:40:43 -0400
+X-IronPort-AV: E=Sophos;i="5.83,311,1616425200"; 
+   d="scan'208";a="85976892"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 30 Jun 2021 16:38:14 +0900
+Received: from localhost.localdomain (unknown [10.226.93.74])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 457CC4012252;
+        Wed, 30 Jun 2021 16:38:11 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        kernel test robot <lkp@intel.com>
-References: <20210629102033.847369-1-yoshihiro.shimoda.uh@renesas.com>
- <YNv1/9WsdYu3ZwVv@ninjato>
- <TY2PR01MB369251254895EADB8CD6CC17D8019@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="seCvDq5IsQrcGP7M"
-Content-Disposition: inline
-In-Reply-To: <TY2PR01MB369251254895EADB8CD6CC17D8019@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 00/11] Add USB2.0 support
+Date:   Wed, 30 Jun 2021 08:37:47 +0100
+Message-Id: <20210630073747.22677-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+This patch series aims to add USB PHY Control, USB2.0 Host and USB2.0 device support for RZ/G2L SoC.
 
---seCvDq5IsQrcGP7M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/rzg2l-update-clock-defs-v4
 
-Hi Shimoda-san,
+v2->v3
+ * USBPHY Control IP modelled as reset bindings as per Rob's suggestion
+ * Updated the binding patches
+ * Incorporated Geert's and Shimoda-San's review comment for phy driver patch.
 
-> > I think this Rep-by can go. Test bot mentioned one build error of v1,
-> > but it didn't report that we should refactor this code.
->=20
-> You're correct. Perhaps, adding "# build fix on RFC" is better?
-> I checked the commit history, and I found such tags.
+v1->v2
+ * Updated usb phy control bindings with clock definitions
+ * Updated generic ohci/ehci bindings to support RZ/G2L SoC
+ * Incorporated vind's review comment on us phy control driver
+ * Add support for USB2.0 device and OTG support.
 
-Oh, I didn't know that way. It sounds good!
+Biju Das (11):
+  dt-bindings: usb: generic-ohci: Document dr_mode property
+  dt-bindings: usb: generic-ehci: Document dr_mode property
+  dt-bindings: reset: Document RZ/G2L USBPHY Control bindings
+  drivers: clk: renesas: r9a07g044-cpg: Add USB clocks/resets
+  reset: renesas: Add RZ/G2L usbphy control driver
+  arm64: configs: defconfig: Enable RZ/G2L USBPHY control driver
+  dt-bindings: phy: renesas,usb2-phy: Document RZ/G2L phy bindings
+  arm64: dts: renesas: r9a07g044: Add USB2.0 phy and host support
+  dt-bindings: usb: renesas,usbhs: Document RZ/G2L bindings
+  phy: renesas: phy-rcar-gen3-usb2: Add OTG support for RZ/G2L
+  arm64: dts: renesas: r9a07g044: Add USB2.0 device support
 
-> > You leave the quirk handling of different ES versions still in
-> > renesas_sdhi_core. I'd think this should also be moved to
-> > renesas_sdhi_internal_dmac? Then we have all the handling in one place.
->=20
-> I think so. So, I'll try this.
+ .../bindings/phy/renesas,usb2-phy.yaml        |  18 ++
+ .../reset/renesas,rzg2l-usbphy-ctrl.yaml      |  66 ++++++
+ .../devicetree/bindings/usb/generic-ehci.yaml |   5 +
+ .../devicetree/bindings/usb/generic-ohci.yaml |   5 +
+ .../bindings/usb/renesas,usbhs.yaml           |  21 +-
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 113 ++++++++++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/r9a07g044-cpg.c           |  12 ++
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c      |  97 ++++++---
+ drivers/reset/Kconfig                         |   7 +
+ drivers/reset/Makefile                        |   1 +
+ drivers/reset/reset-rzg2l-usbphy-ctrl.c       | 195 ++++++++++++++++++
+ 12 files changed, 515 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
+ create mode 100644 drivers/reset/reset-rzg2l-usbphy-ctrl.c
 
-Glad you like it :)
 
-Happy hacking,
+base-commit: 06c1e6911a7a76b446e4b00fc8bad5d8465932f8
+-- 
+2.17.1
 
-   Wolfram
-
-
---seCvDq5IsQrcGP7M
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDcHpAACgkQFA3kzBSg
-KbYeOA//V2Zt0aeMQtkvlYlg3UhfTeHRPeC6upM8DTxH81XuQ+5PUyVOYpQY9upA
-3Js/2GTHJLJjJHA/4vUrl6vMQbw0TXW/gbEvPtL9sNzPSsUZ7rA+hlLOLS/u7b+P
-2P3zS/6OsAtJto5s/oujW7JFazUJm/njpAXgM8WaeYb6nSQZ3bhdLtwp/9BZ718i
-J2kf3zNHZNtkvvPYNfDJDjh7zJ5OJ4GUbJl1aJ/IFVJrMd44Yyj3DJP2zWib/92/
-BfSLHVj5Luokqb70AljTQm+Xto9zsXXwj7e+MwgvcQJ2AKoKCsnHjGWoP4YBgFqt
-iX5mZ92CfQN3W7X3tyd+3ZezVZbHe0wKro9NMsTVxjUJAA1yOS194z3EJm1Gtkyb
-vS7H50pc0e3op6A09f2TtfxIQdlb4HuEEP8tZ+XC4OYPQej+Xu3RQ/2fa1sskKHq
-EeSNBnmZ+SbctHIfWnfkP59MerPwtgQdymo47CToO0lCDTwBeshzKEB1D/tg4VNX
-d5IMy8exybM8A7KnkKp0s1t13XVzPuwpAXs1zBy2jwmM0LqHy6bqO3F1gI9uPjYR
-IBX8GuSsH4ug0RQ5Vyr7rOsiewiIqXfZ/mYCSfVEK2/SoDMZ3NGN4qCctcfTgG3w
-nGbQvMF2mbTo/wSiuANd0nr6JcVOapGxc7SCoB0frKd59OCzWnY=
-=yD9p
------END PGP SIGNATURE-----
-
---seCvDq5IsQrcGP7M--
