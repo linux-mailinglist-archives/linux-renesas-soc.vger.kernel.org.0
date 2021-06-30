@@ -2,155 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1C4B3B7BF3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 05:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7EA83B7C6B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 06:09:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232445AbhF3DFK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Jun 2021 23:05:10 -0400
-Received: from mga09.intel.com ([134.134.136.24]:57331 "EHLO mga09.intel.com"
+        id S232790AbhF3ELc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Jun 2021 00:11:32 -0400
+Received: from www.zeus03.de ([194.117.254.33]:58310 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232222AbhF3DFK (ORCPT
+        id S229548AbhF3ELb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Jun 2021 23:05:10 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10030"; a="208226737"
-X-IronPort-AV: E=Sophos;i="5.83,310,1616482800"; 
-   d="scan'208";a="208226737"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2021 20:02:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,310,1616482800"; 
-   d="scan'208";a="408649241"
-Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 29 Jun 2021 20:02:40 -0700
-Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lyQUp-0009Vz-Uo; Wed, 30 Jun 2021 03:02:39 +0000
-Date:   Wed, 30 Jun 2021 11:02:36 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:master] BUILD SUCCESS
- 69321560910ad09e7faedb5c4b23fadf01d15292
-Message-ID: <60dbdecc.NTlKFPcumMMtdGtP%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 30 Jun 2021 00:11:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=2QIlR14ZkxijDjlRM62rKnOUixTv
+        8hUKPSqVOJ19kHs=; b=rS1NlL9FvuZpGHmPegmea7DccaGayRlmLM6eZSOBywTX
+        wdVfFQLFX/0qHcoLwqMurqu+PXgsfAVi2bAHFTfoOePZPZi5kRy1dS2h2tUfCsjL
+        l1HdNR67TWKVZKyJBCnzhltytXe2am69y+9T5PHFYp4wxwV8VL8NEaJwmPNLK+c=
+Received: (qmail 717796 invoked from network); 30 Jun 2021 06:09:01 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jun 2021 06:09:01 +0200
+X-UD-Smtp-Session: l3s3148p1@uwqg4fPFqtQgAwDPXwaiAGDoJRk6bv4I
+Date:   Wed, 30 Jun 2021 06:08:56 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Adrian Hunter <adrian.hunter@intel.com>
+Cc:     Ulrich Hecht <uli@fpond.eu>, Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH] mmc: disable tuning when checking card presence
+Message-ID: <YNvuWMjr+Hnl8abE@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulrich Hecht <uli@fpond.eu>, Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20210618082317.58408-1-wsa+renesas@sang-engineering.com>
+ <CAPDyKFqkW9uwtJyWPFKggi2AJMtO4NJLW-6hviWgGSfoHyDm1A@mail.gmail.com>
+ <bbfbed66-5058-1263-159c-dabd345286c8@intel.com>
+ <563832257.373371.1624260736936@webmail.strato.com>
+ <5adc8601-23c7-4378-94e2-cb3641d9039c@intel.com>
+ <YNBJq7Lrtlc/qExN@ninjato>
+ <b5062770-ba5c-32d5-15f0-505a09bb4a2e@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ShEBYf1wyxmP5cwZ"
+Content-Disposition: inline
+In-Reply-To: <b5062770-ba5c-32d5-15f0-505a09bb4a2e@intel.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: 69321560910ad09e7faedb5c4b23fadf01d15292  [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-elapsed time: 721m
+--ShEBYf1wyxmP5cwZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-configs tested: 96
-configs skipped: 2
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> Otherwise, you need to introduce a new card state or flag to indicate
+> that the card may not be present, and use that to suppress the message.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-mips                         tb0219_defconfig
-mips                         db1xxx_defconfig
-sh                               j2_defconfig
-arm                          badge4_defconfig
-powerpc                        icon_defconfig
-sh                     magicpanelr2_defconfig
-mips                  cavium_octeon_defconfig
-arm                       mainstone_defconfig
-powerpc                     rainier_defconfig
-arm                          pcm027_defconfig
-arm                         shannon_defconfig
-arm                          moxart_defconfig
-mips                      pic32mzda_defconfig
-mips                          rm200_defconfig
-arm                           h5000_defconfig
-openrisc                 simple_smp_defconfig
-x86_64                            allnoconfig
-arm                        spear3xx_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20210628
-i386                 randconfig-a002-20210628
-i386                 randconfig-a003-20210628
-i386                 randconfig-a006-20210628
-i386                 randconfig-a005-20210628
-i386                 randconfig-a004-20210628
-x86_64               randconfig-a012-20210628
-x86_64               randconfig-a016-20210628
-x86_64               randconfig-a015-20210628
-x86_64               randconfig-a013-20210628
-x86_64               randconfig-a014-20210628
-x86_64               randconfig-a011-20210628
-i386                 randconfig-a011-20210628
-i386                 randconfig-a014-20210628
-i386                 randconfig-a013-20210628
-i386                 randconfig-a015-20210628
-i386                 randconfig-a016-20210628
-i386                 randconfig-a012-20210628
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                            kunit_defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+I now went this route and, for me, 'detect_change' worked. Will send a
+patch in a minute.
 
-clang tested configs:
-x86_64               randconfig-b001-20210628
-x86_64               randconfig-a002-20210628
-x86_64               randconfig-a005-20210628
-x86_64               randconfig-a001-20210628
-x86_64               randconfig-a003-20210628
-x86_64               randconfig-a004-20210628
-x86_64               randconfig-a006-20210628
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--ShEBYf1wyxmP5cwZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDb7lMACgkQFA3kzBSg
+KbaJ5xAAiOPGJam0MTywU4zQ2zXS8OVjJbZMrxEkJvHykWFoCtAIED+9pfn5+z3Q
+noMVERS8ZkN5gMXSyvqtr8Yng/C3LvRMIJzel3lw2a7sz6BDAt+2iJczD+A671fU
+RbsCM2L9rd7EXsdr9ARRQNLOOINH7fhMVuXClzET43ME8vl/C5VuCxHsoeewOpY/
+hPmg+rk3K2z2eB7EWmalPuJIQpX725Dp6AWNYCuP2Td65pp78qYKyp0zksG+3yIf
+aEAvaPv/iBcXeBCufvA8S1oVwXFp7xQdEQd5HKi/l2ox0bbGVS2/bnz3UK7u87JK
+O59KQIlD4pqpFgul4yQp1BuKUm2oBbcBKQ5H+xaWrEpoTHptbdx6oDpEKjRHz9/x
+IX00gdgPxaiJJC+iNCbzPk4GOyDbjQdOjnGzv7ALSWH+h44w2ZQmd/7YBFP19Y99
+v18rrolzeS5TBPq+zP/iAKmoYhSxPxZnsH50BdCgDxQRqWO8yDzOTrNHjF9tXqL7
+Lz9JA5EiSmqZNAfBh6/2RnCpTHsRXlUwWeWkn0D4NKd2d4tCI39vmEUl0FMHdcOh
+kS3AO2oYMarS9R1jOboCBOoz4GwfA874rb7gq7HgQGbqFlZw4oRJ2oSYY5Hw9Fo+
+c8ffYz+7dX8wuiazzeSOXPyc0CnCo+I6jM8y8p5VKEAVvvLUFo0=
+=nC3f
+-----END PGP SIGNATURE-----
+
+--ShEBYf1wyxmP5cwZ--
