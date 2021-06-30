@@ -2,83 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84C973B7E27
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 09:31:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 416BE3B7E37
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 09:34:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233076AbhF3Hdt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Jun 2021 03:33:49 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:58995 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233054AbhF3Hdq (ORCPT
+        id S232893AbhF3HhL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Jun 2021 03:37:11 -0400
+Received: from www.zeus03.de ([194.117.254.33]:47988 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232788AbhF3HhK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Jun 2021 03:33:46 -0400
-X-IronPort-AV: E=Sophos;i="5.83,311,1616425200"; 
-   d="scan'208";a="85884749"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 30 Jun 2021 16:31:11 +0900
-Received: from localhost.localdomain (unknown [10.226.93.82])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8324F41DCD2E;
-        Wed, 30 Jun 2021 16:31:09 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 11/11] arm64: dts: renesas: r9a07g044: Add USB2.0 device support
-Date:   Wed, 30 Jun 2021 08:30:13 +0100
-Message-Id: <20210630073013.22415-12-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210630073013.22415-1-biju.das.jz@bp.renesas.com>
-References: <20210630073013.22415-1-biju.das.jz@bp.renesas.com>
+        Wed, 30 Jun 2021 03:37:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=e3WhkGIYMcElSQnusEm1KIiH96k4
+        ofQ6sXqx1VxCePM=; b=rtvJxbe0Y3Zh/NV80YYNYB/J79yk+h4rrXrHBJ2AeCTn
+        nzOSQI6q6Z+2q2jRVr/gg2nEMPMVnm+vXZJlwujFN+4nbsSEWOHdRsqDeNf3N8T8
+        wJKulVD5IynKY0l1mBS6IixMfFqeMYUFxLVu2GvmWFmAotnv3hhTvE53N0QoS4E=
+Received: (qmail 771211 invoked from network); 30 Jun 2021 09:34:40 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jun 2021 09:34:40 +0200
+X-UD-Smtp-Session: l3s3148p1@qNhdwfbFKOIgAwDPXwaiAGDoJRk6bv4I
+Date:   Wed, 30 Jun 2021 09:34:40 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH/RFC v2] mmc: host: renesas_sdhi: Refactor
+ of_device_id.data
+Message-ID: <YNwekCB+GxPPjR8p@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+        kernel test robot <lkp@intel.com>
+References: <20210629102033.847369-1-yoshihiro.shimoda.uh@renesas.com>
+ <YNv1/9WsdYu3ZwVv@ninjato>
+ <TY2PR01MB369251254895EADB8CD6CC17D8019@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="seCvDq5IsQrcGP7M"
+Content-Disposition: inline
+In-Reply-To: <TY2PR01MB369251254895EADB8CD6CC17D8019@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add USB2.0 device support to RZ/G2L SoC DT.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- V3:
-  * Updated reset entries.
----
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+--seCvDq5IsQrcGP7M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 746f71696e37..3e3a234efa27 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -294,6 +294,25 @@
- 			power-domains = <&cpg>;
- 			status = "disabled";
- 		};
-+
-+		hsusb: usb@11c60000 {
-+			compatible = "renesas,usbhs-r9a07g044",
-+				     "renesas,rza2-usbhs";
-+			reg = <0 0x11c60000 0 0x10000>;
-+			interrupts = <GIC_SPI 100 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>,
-+				 <&cpg CPG_MOD R9A07G044_USB_U2P_EXR_CPUCLK>;
-+			resets = <&phyrst 0>,
-+				 <&cpg R9A07G044_USB_U2P_EXL_SYSRST>;
-+			renesas,buswait = <7>;
-+			phys = <&usb2_phy0 3>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
- 	};
- 
- 	timer {
--- 
-2.17.1
+Hi Shimoda-san,
 
+> > I think this Rep-by can go. Test bot mentioned one build error of v1,
+> > but it didn't report that we should refactor this code.
+>=20
+> You're correct. Perhaps, adding "# build fix on RFC" is better?
+> I checked the commit history, and I found such tags.
+
+Oh, I didn't know that way. It sounds good!
+
+> > You leave the quirk handling of different ES versions still in
+> > renesas_sdhi_core. I'd think this should also be moved to
+> > renesas_sdhi_internal_dmac? Then we have all the handling in one place.
+>=20
+> I think so. So, I'll try this.
+
+Glad you like it :)
+
+Happy hacking,
+
+   Wolfram
+
+
+--seCvDq5IsQrcGP7M
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDcHpAACgkQFA3kzBSg
+KbYeOA//V2Zt0aeMQtkvlYlg3UhfTeHRPeC6upM8DTxH81XuQ+5PUyVOYpQY9upA
+3Js/2GTHJLJjJHA/4vUrl6vMQbw0TXW/gbEvPtL9sNzPSsUZ7rA+hlLOLS/u7b+P
+2P3zS/6OsAtJto5s/oujW7JFazUJm/njpAXgM8WaeYb6nSQZ3bhdLtwp/9BZ718i
+J2kf3zNHZNtkvvPYNfDJDjh7zJ5OJ4GUbJl1aJ/IFVJrMd44Yyj3DJP2zWib/92/
+BfSLHVj5Luokqb70AljTQm+Xto9zsXXwj7e+MwgvcQJ2AKoKCsnHjGWoP4YBgFqt
+iX5mZ92CfQN3W7X3tyd+3ZezVZbHe0wKro9NMsTVxjUJAA1yOS194z3EJm1Gtkyb
+vS7H50pc0e3op6A09f2TtfxIQdlb4HuEEP8tZ+XC4OYPQej+Xu3RQ/2fa1sskKHq
+EeSNBnmZ+SbctHIfWnfkP59MerPwtgQdymo47CToO0lCDTwBeshzKEB1D/tg4VNX
+d5IMy8exybM8A7KnkKp0s1t13XVzPuwpAXs1zBy2jwmM0LqHy6bqO3F1gI9uPjYR
+IBX8GuSsH4ug0RQ5Vyr7rOsiewiIqXfZ/mYCSfVEK2/SoDMZ3NGN4qCctcfTgG3w
+nGbQvMF2mbTo/wSiuANd0nr6JcVOapGxc7SCoB0frKd59OCzWnY=
+=yD9p
+-----END PGP SIGNATURE-----
+
+--seCvDq5IsQrcGP7M--
