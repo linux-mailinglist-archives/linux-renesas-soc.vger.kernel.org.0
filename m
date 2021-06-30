@@ -2,330 +2,815 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 900F33B82D4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 15:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C91C13B8354
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 15:40:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234768AbhF3N1z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Jun 2021 09:27:55 -0400
-Received: from mail-eopbgr1320127.outbound.protection.outlook.com ([40.107.132.127]:35055
-        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234723AbhF3N1y (ORCPT
+        id S234895AbhF3NnQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Jun 2021 09:43:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44008 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234985AbhF3NnP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Jun 2021 09:27:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JwP2wolv8eWPL+0e0cksjaEU+UFDdOMj2hw3/cckDkMsWkNWsv+lXmX9e9Jxx3nJ4RYYDehhX37W1q/YcQtgxL2kU8vO3fhjZHQ/etsYyMRbgrntm2ntH3Og+lJNgHgtaZftIiawoUKTduy0/WcYcUUw4me9mkiDA9pcf9nXl+PvhjXbxtvd8Y6e7sut2vtyvfKBTcN3/XTL6e09zJU8YMHmwLPS0x9vzMJ6kOorLwDAaJYCI+zlbnHc+IqxzbjoTpci6tEq9XPMAovPvw8SfGh0MEgAgr+8a4tWNLZj4yhny5I/iiI43xx0ug2+lGVezcFOxitGeAhye4Vi2nLgmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VcQ8/yCIRQeh71xJcrkSI45j5/O8+h2Cl5dmlaVy5CY=;
- b=LXF3KHllbZKrPM/nrgVODjYRnZCejTD4YpO+OHtRwGAaVQ5g8fqFJm4sijrAneR56Te7NeWqdEhRrkN1Zq58+CiQFQx7ASvEnDYhlNwZSNo/JVmReefR6QOHBUSBuBYUzYW1/hVOI2sIyf2Ded3vAJ64kTebfSJuvlb2rPTKMsd803HM+SOTPTfzP7J2fy4GoWz8DBdMuSq7Smwir+eGcR06VtvrsIOX5UYY7zzhv9XD8Ve8bXhedtfmzxBjwp48wc80k+m4jC9WZR1aYyfxZINi+XEOwZYaFbq3CXx3vSoFxATH/nyuh/CVpy9OONLbdjj2O0tFcpdVQvsAW+1xKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+        Wed, 30 Jun 2021 09:43:15 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C24EBC061766
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Jun 2021 06:40:45 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id u20so3299198ljo.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Jun 2021 06:40:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VcQ8/yCIRQeh71xJcrkSI45j5/O8+h2Cl5dmlaVy5CY=;
- b=UbzirbJHYvj42L5bAkXNr0nZhjoW6PwgnQgS4KK1wZE1cbqdYt0ewdPcjXsQQVW9ge1u91iHqfIw71o6vRFF1yce6zc4hs5f0DkuZ5sksPq6+9a9N6Lv1TzqBIhhW/gMCN9sWPiPqLDR6hVFc3ixGR2OL+Ecokj1WVuytIj8kUg=
-Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com (2603:1096:400:47::11)
- by TY2PR01MB4969.jpnprd01.prod.outlook.com (2603:1096:404:113::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.23; Wed, 30 Jun
- 2021 13:25:22 +0000
-Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com
- ([fe80::d47c:6365:dc20:bb]) by TYCPR01MB5933.jpnprd01.prod.outlook.com
- ([fe80::d47c:6365:dc20:bb%3]) with mapi id 15.20.4264.026; Wed, 30 Jun 2021
- 13:25:22 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v3 05/11] reset: renesas: Add RZ/G2L usbphy control driver
-Thread-Topic: [PATCH v3 05/11] reset: renesas: Add RZ/G2L usbphy control
- driver
-Thread-Index: AQHXbYHctgPC13H3KUyb9vFaVzGovKsscJ4AgAANifA=
-Date:   Wed, 30 Jun 2021 13:25:22 +0000
-Message-ID: <TYCPR01MB593358CF332F7C5CC1A852DD86019@TYCPR01MB5933.jpnprd01.prod.outlook.com>
-References: <20210630073013.22415-1-biju.das.jz@bp.renesas.com>
-         <20210630073013.22415-6-biju.das.jz@bp.renesas.com>
- <83276a09d6aea1b6e8ac4aa2bfef77ef99c2d76e.camel@pengutronix.de>
-In-Reply-To: <83276a09d6aea1b6e8ac4aa2bfef77ef99c2d76e.camel@pengutronix.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: pengutronix.de; dkim=none (message not signed)
- header.d=none;pengutronix.de; dmarc=none action=none
- header.from=bp.renesas.com;
-x-originating-ip: [193.141.219.20]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 64463486-ef2d-47d0-b8e6-08d93bca8395
-x-ms-traffictypediagnostic: TY2PR01MB4969:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY2PR01MB4969F6950402385ED64E2B7B86019@TY2PR01MB4969.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8ql42EEJdOSvjmqsIp+MVwR8xJgaBcwigbwIyBG6QkKX9+AqN4puJU1+iT5VYzULcXmBJyJVk77BRy0pSQUqKRKHm6NJLjdzKq4uPOqrWo7cZiYEG2gLGRbyzgrvtwur1/9YfgR7HOSof3uoS/LWI4ujO0A+QbyRcr3QLsaeg0w5wwdmoqt6njK8sh9C8RZJye0wim5caoEzNt2LjWkRUiLJ9HoHtyUGouMxB5/Hs9CScIAw26jNd6ElrSmfjWwNmghf0qbJzL/J63klUQaj9EQXy5nR0s2a4mYxcuSY8EaRuwQyk3vKTa346S1gF+A/OWi5AdmtLhYrGcNiCAa20wbfRvx+4t69bDNCcmSgRasL9ZGafsDm/JD027hOU75LCqDuKdd0mLkVzWLaaDq19CjeFmZ1xNPVnhNZLF7YwrWG85iMdduRQMqAx+NZqwZk2JsJHPS8FU2npWgoBc0AIo6eH1myp1R5VjNaLyKDjkThZoeio8mIbHlMR5R1Ww5JifuU1Kv0E8i9F8ai4/Gf87YpoytkUosYndUnvb++JlT7vkBzUIp/FTHzys2itW1bh3vEXG4M8CktGCdQNfBS0xSZmo60eP1DacRQqXlRtVdl+ZUr9EJyZQ4FkLr2u/6CFINN4KOonpxPhSWlBlFcww==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5933.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(376002)(136003)(39860400002)(396003)(54906003)(8936002)(83380400001)(38100700002)(8676002)(33656002)(6916009)(4326008)(26005)(6506007)(71200400001)(186003)(316002)(5660300002)(7696005)(66946007)(55016002)(478600001)(122000001)(30864003)(52536014)(2906002)(86362001)(66446008)(66556008)(9686003)(66476007)(64756008)(76116006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?LzE2N1JremQwdnlOV0VLSWlySG1HRTQweDlmM0ZjUVlOMWdHa2NYVGZ3VmtE?=
- =?utf-8?B?OWZ2ai8zNGZKNDZXUzZ1NHl1Q1lmSll3dEZRTmZaVkIzRGdNeUxMNzg2SUZZ?=
- =?utf-8?B?ZVVBWTlxQmRLVUFkSUFxZHEwUTl3REFmWGczai82Zk1yVVZpQlFNVmc5MERZ?=
- =?utf-8?B?bnR4SHVhRDhhbEdzVzkva2o1WExlVmRWOXRLZm03RTRoL1JickxoemhGNk8w?=
- =?utf-8?B?R1FIZmxCMHVieGJrdFZjekk1MEVCQzRSZkFLOUE3S0c0eit2eEo2d1F0YmNJ?=
- =?utf-8?B?WTJhWHFqVFhleDZxazduUHZhUFdzL2JzL1VsNDRjSlQ1amJQVDVTc1FMaWs2?=
- =?utf-8?B?b2dKd0lnQjFza1VuaW9FZW5hRUduNFJiQklsUnN6aHFWVGNwd3B5clZUb0tz?=
- =?utf-8?B?enNQZ05IbHJSeE9hemFEaEV2eS9GamkxeG5BOEU3eHJaaG1pNmJVNU9HNmlV?=
- =?utf-8?B?ejN0c0cyRkVqdXNzd1lLOVA4MzUyN2ZOaGZiRnZuRkx0UGpWTFNKZ1JkREtj?=
- =?utf-8?B?WFdPQ3JaOUs2MVpoclNUVHRqUWwybFZEUGpuZzVYNWI1SEhaU3Z2R2ErbVJr?=
- =?utf-8?B?MWZQMkdDUXA0Umhya1ZNazFiTi9OaFZ4cU40WkZVeHhRY3VKeE9sdEJxSWZr?=
- =?utf-8?B?WHBvQVlCQ1dNNElvTERlTDh1L21GaGlUT3lpOThRdFpUekRzNnJiWnk3OEIv?=
- =?utf-8?B?YitUTVgvTW1mVklaTTdJazcydzc0SGdObC8xTHc5UVFFaWYycW5nRy8rOVg0?=
- =?utf-8?B?R2l1VHdHUmhhU1Rpbi8zaUxiSkhvUkE1R2RhT2FLUVhIRUE2YTFyRFVETHZZ?=
- =?utf-8?B?YTJaWFlVRnhpcUlPdVYveXZrVE0wV1M1WlJXWkhjaW9uTHl2WWM5b3Nhem9k?=
- =?utf-8?B?eHBaQWt1UGlobjBOZ3lJVjFHZ0lDNXBTVUpUbzhSaGdFWE9YU1JhZ2tYcCtk?=
- =?utf-8?B?ZGROMndVZzFRckNML2FiMXFlQk9xazVCUWVpQVk3WGZZSzFMWm45L2drd1Vj?=
- =?utf-8?B?UjhaODJiR09yeTF6cDhjNmJZMGhMb29HV0YvMktURy9ocVNEelY1a0REc3pr?=
- =?utf-8?B?SDZmZFdiWWZxWWNFMnpud1FhczdSVzNGOGpubUIvdlp5Y0FMREVldUxVNjIv?=
- =?utf-8?B?SEVTRS9RdTNCNm95VlBVUzVIdDN6VkdxVXZmUml3eGZ6RTh0Y2pMZ0hJMzZZ?=
- =?utf-8?B?MUl4djYwemxGSUhUbUkzVEVEMUgxd0U1bWw5RWQzTTFsMkpUMytucHEvQnUy?=
- =?utf-8?B?ME56RUYxQVA4YzBONWhpL2ZDbW95ellETjlPNGtRNWxQb0JmMHFtVWl3Zzlj?=
- =?utf-8?B?clMveGEzZHBacGs4Q3ZGUmREWjV5TTl0VFQxQ0h1UFZObkEzL3A4MFBNZ2tK?=
- =?utf-8?B?MW5PY2t5MVVuVU1iZDVrMU8xQlJHNmdGakwwWld3a3EwN2djTlZhZ21lNkFp?=
- =?utf-8?B?L3ZDRFRLRkJaVnhBVlU5NXZnd3NDckw1MFlPRHgvaUpmYythWWw5ckUzMExT?=
- =?utf-8?B?b016d2wvNUtPNWFMTHhBQWhVakdZUHhTSTNzb2dNYUx3NUROQTQzakNOdm5x?=
- =?utf-8?B?dHIxb1pSS0R6Y3ZIRlo0RUJyQ0ZvbkNoL2VJVnk2NG9taTBQZXJVL3R0UVBW?=
- =?utf-8?B?cGgvcWk5T1VkOTZYV2lxV21KUkJWdU9mOFRnUmpXbUx3V2ErbTdHeWE2elUz?=
- =?utf-8?B?UjdNa3k0ZXNoK0JoRUgwSTFYemxpckxQbHhpZE9QUEh1SiszWFRCL1Q0WWF2?=
- =?utf-8?Q?9FLi24SNz7nqnVJPILn9NAEX4Jm1PBKiX3x3L0F?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=yeXAP8/irQCsdMGw6h14HqS+KH/t57hToipryK+uWn4=;
+        b=dDE4Fc2/p7KOcO7ev+NTfrg6chzLFftQOWGn/PC7kl4QV9XoGoMWcL36Gr0nc4f5ic
+         T6k43jCGQ/wdgX92OMQs+FwaiayN68y3vmMp+OFeKfD7tzbs6z86wZ6ZuiI7riez2Nkw
+         WSXAuyXXIXYPMUUVAfNhRw1srICbUZzyx6ihyrVZkC+jwSCbxWuHWmTom425KwfbhovM
+         XQvnErwNLP6YpoOpyCeNt3qtBmpmM9TXtrJRacxXBymYj99/Avix07H5ah/0eksu5nsX
+         usI0/mAi+djZz/ihVT9uhAd8d5v93fCbfWg8al47VtiHxz9I2PfGXHsEBGW6G+kXfmzB
+         jobQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=yeXAP8/irQCsdMGw6h14HqS+KH/t57hToipryK+uWn4=;
+        b=rE9un8HC8O6MbdRHGOROYZQ5vkqeFpvRru8YSriOhBokVMxcESMqQv+Afkcbm1AA+w
+         Q7GVuxLI+bkF26pe01QAb/Xyoylb93jZvJHI8uDWhPLLVcIQBLVEd2h6vhGzWHbbXidi
+         raBh9Dtsf+Xfneb7Qh7ce86GRuB1UfV0Elp450oYp+4Niq0RAwkU6HJj5qV/TJhApzaC
+         ieAXtUr1le/gZz4W9IUiLV6DoMtk5MGp2gOXizevqJYOgW08div33y8np8wWL7pcDNOV
+         pqHw1jKgTZLX75bcQHOHPhJCaBkTra4NCiRYoXa8p9SlVdqtZsfR1Jsm5oIOYGUP07zA
+         slCw==
+X-Gm-Message-State: AOAM531g3oyhCjhIQMlxsLrWr/TWIafenITxtjuO+wTb84P1rr/BFOKl
+        OTX5WmDFyMAyL/3IYJOFvW6qbA==
+X-Google-Smtp-Source: ABdhPJzgzjldXmRworjA1EplvdLOhveMQ+ok2tTvh2ZSe9pcLnmhrSXoq0wvDayYgKngk4FmvybHPw==
+X-Received: by 2002:a2e:98cd:: with SMTP id s13mr7930130ljj.487.1625060443902;
+        Wed, 30 Jun 2021 06:40:43 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id u4sm1936542lfl.66.2021.06.30.06.40.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Jun 2021 06:40:43 -0700 (PDT)
+Date:   Wed, 30 Jun 2021 15:40:42 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] media: rcar-isp: Add Renesas R-Car Image Signal
+ Processor driver
+Message-ID: <YNx0Wu01ANPTGp1N@oden.dyn.berto.se>
+References: <20210512081912.3976565-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210616151255.tuajvvgbk5im5x4v@uno.localdomain>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5933.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64463486-ef2d-47d0-b8e6-08d93bca8395
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2021 13:25:22.5411
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HZrP9iRaNPNf3dNFf6prpZQnudRk1FaW8k+KcaGkZjVDC39omAVUf+hlUGCMif3gveWRv8wHMT3QvPaCuwhXC65E7GSkgO3TLqREKEyM6VQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4969
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210616151255.tuajvvgbk5im5x4v@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgUGhpbGlwcCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gU3ViamVjdDogUmU6
-IFtQQVRDSCB2MyAwNS8xMV0gcmVzZXQ6IHJlbmVzYXM6IEFkZCBSWi9HMkwgdXNicGh5IGNvbnRy
-b2wNCj4gZHJpdmVyDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gdGhhbmsgeW91IGZvciB0aGUgcGF0
-Y2guIEkgaGF2ZSBhIGZldyBxdWVzdGlvbnMgYmVsb3cuDQo+IA0KPiBPbiBXZWQsIDIwMjEtMDYt
-MzAgYXQgMDg6MzAgKzAxMDAsIEJpanUgRGFzIHdyb3RlOg0KPiA+IEFkZCBzdXBwb3J0IGZvciBS
-Wi9HMkwgVVNCUEhZIENvbnRyb2wgZHJpdmVyLiBJdCBtYWlubHkgY29udHJvbHMgcmVzZXQNCj4g
-PiBhbmQgcG93ZXIgZG93biBvZiB0aGUgVVNCL1BIWS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6
-IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiBSZXZpZXdlZC1ieTog
-TGFkIFByYWJoYWthciA8cHJhYmhha2FyLm1haGFkZXYtbGFkLnJqQGJwLnJlbmVzYXMuY29tPg0K
-PiA+IC0tLQ0KPiA+ICB2MzoNCj4gPiAgICogTmV3IGRyaXZlci4gQXMgcGVyIFJvYidzIHN1Z2dl
-c3Rpb24sIE1vZGVsbGVkIElQIGFzIGEgcmVzZXQgZHJpdmVyLA0KPiA+ICAgICBzaW5jZSBpdCBt
-YWlubHkgY29udHJvbHMgcmVzZXQgYW5kIHBvd2VyIGRvd24gb2YgdGhlIFBIWS4NCj4gPiAtLS0N
-Cj4gPiAgZHJpdmVycy9yZXNldC9LY29uZmlnICAgICAgICAgICAgICAgICAgIHwgICA3ICsNCj4g
-PiAgZHJpdmVycy9yZXNldC9NYWtlZmlsZSAgICAgICAgICAgICAgICAgIHwgICAxICsNCj4gPiAg
-ZHJpdmVycy9yZXNldC9yZXNldC1yemcybC11c2JwaHktY3RybC5jIHwgMTk1DQo+ID4gKysrKysr
-KysrKysrKysrKysrKysrKysrDQo+ID4gIDMgZmlsZXMgY2hhbmdlZCwgMjAzIGluc2VydGlvbnMo
-KykNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvcmVzZXQvcmVzZXQtcnpnMmwtdXNi
-cGh5LWN0cmwuYw0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvcmVzZXQvS2NvbmZpZyBi
-L2RyaXZlcnMvcmVzZXQvS2NvbmZpZyBpbmRleA0KPiA+IDNlN2Y1NWU0NGQ4NC4uODJhMWRlNWEz
-NzExIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvcmVzZXQvS2NvbmZpZw0KPiA+ICsrKyBiL2Ry
-aXZlcnMvcmVzZXQvS2NvbmZpZw0KPiA+IEBAIC0xNzAsNiArMTcwLDEzIEBAIGNvbmZpZyBSRVNF
-VF9SQVNQQkVSUllQSQ0KPiA+ICAJICBpbnRlcmZhY2luZyB3aXRoIFJQaTQncyBjby1wcm9jZXNz
-b3IgYW5kIG1vZGVsIHRoZXNlIGZpcm13YXJlDQo+ID4gIAkgIGluaXRpYWxpemF0aW9uIHJvdXRp
-bmVzIGFzIHJlc2V0IGxpbmVzLg0KPiA+DQo+ID4gK2NvbmZpZyBSRVNFVF9SWkcyTF9VU0JQSFlf
-Q1RSTA0KPiA+ICsJdHJpc3RhdGUgIlJlbmVzYXMgUlovRzJMIFVTQlBIWSBjb250cm9sIGRyaXZl
-ciINCj4gPiArCWRlcGVuZHMgb24gQVJDSF9SOUEwN0cwNDQgfHwgQ09NUElMRV9URVNUDQo+ID4g
-KwloZWxwDQo+ID4gKwkgIFN1cHBvcnQgZm9yIFVTQlBIWSBDb250cm9sIGZvdW5kIG9uIFJaL0cy
-TCBmYW1pbHkuIEl0IG1haW5seQ0KPiA+ICsJICBjb250cm9scyByZXNldCBhbmQgcG93ZXIgZG93
-biBvZiB0aGUgVVNCL1BIWS4NCj4gDQo+IFdoYXQgZWxzZSBkb2VzIGl0IGNvbnRyb2w/IEFyZSB3
-ZSBtaXNzaW5nIGFueSBmdW5jdGlvbmFsaXR5IHRoYXQgd291bGQNCj4gaGF2ZSB0byBiZSBhZGRl
-ZCBsYXRlcj8NCg0KSXQgaGFzIG90aGVyIGNvbnRyb2xzIGxpa2UgZGlyZWN0IHBvd2VyIGRvd24s
-IGNsb2NrIGNvbnRyb2wgYW5kIGNvbm5lY3Rpb24gY29udHJvbCB0bw0KaGFuZGxlIHRoZSBjYXNl
-cywgd2hlbiBVU0IgaW50ZXJmYWNlIGlzIG5vdCB1c2VkIHBlcm1hbmVudGx5KGxpa2Ugd2hlbiBw
-b3J0MSBhbmQgcG9ydDIgdW51c2VkIHBlcm1hbmVudGx5KQ0KDQpJbiBmdXR1cmUsIGlmIHRoZXJl
-IGlzIGEgY2FzZSBsaWtlIGJlbG93KGZvciBlZzotICkNCjEpIHdoZW4gcG9ydDEgYW5kIHBvcnQy
-IHVudXNlZCBwZXJtYW5lbnRseSAoIFRoaXMgY2FzZSByZWNvbW1lbmRzIEhXIG1vZCBhcyB3ZWxs
-KQ0KMikgd2hlbiBlaXRoZXIgcG9ydDEgb3IgcG9ydDIgdW51c2VkIHBlcm1hbmVudGx5KCBUaGlz
-IGNhc2UgcmVjb21tZW5kcywgZnJvbSBIVyBwb2ludCBub3QgdG8gc3VwcGx5IHRoZSBwb3dlciB0
-byB1bnVzZWQgcG9ydCkNCg0KTWF5IGJlIHdlIGNvdWxkIGV4cG9zZSB0aGVzZSBwcm9wZXJ0aWVz
-IGluIGR0IGFuZCBwcm9iZSB0aW1lIHNldCB0aGUgcmVxdWlyZWQgY29udHJvbCwgaWYgdGhlcmUg
-aXMgYSByZXF1aXJlbWVudCB0byBzdXBwb3J0DQp0aGlzIGNhc2VzIGluIGZ1dHVyZS4NCg0KDQo+
-IA0KPiA+ICsNCj4gPiAgY29uZmlnIFJFU0VUX1NDTUkNCj4gPiAgCXRyaXN0YXRlICJSZXNldCBk
-cml2ZXIgY29udHJvbGxlZCB2aWEgQVJNIFNDTUkgaW50ZXJmYWNlIg0KPiA+ICAJZGVwZW5kcyBv
-biBBUk1fU0NNSV9QUk9UT0NPTCB8fCBDT01QSUxFX1RFU1QgZGlmZiAtLWdpdA0KPiA+IGEvZHJp
-dmVycy9yZXNldC9NYWtlZmlsZSBiL2RyaXZlcnMvcmVzZXQvTWFrZWZpbGUgaW5kZXgNCj4gPiA2
-NWExMThhOTFiMjcuLmU0YTUzMjI0ZjQzMiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL3Jlc2V0
-L01ha2VmaWxlDQo+ID4gKysrIGIvZHJpdmVycy9yZXNldC9NYWtlZmlsZQ0KPiA+IEBAIC0yNCw2
-ICsyNCw3IEBAIG9iai0kKENPTkZJR19SRVNFVF9QSVNUQUNISU8pICs9IHJlc2V0LXBpc3RhY2hp
-by5vDQo+ID4gIG9iai0kKENPTkZJR19SRVNFVF9RQ09NX0FPU1MpICs9IHJlc2V0LXFjb20tYW9z
-cy5vDQo+ID4gIG9iai0kKENPTkZJR19SRVNFVF9RQ09NX1BEQykgKz0gcmVzZXQtcWNvbS1wZGMu
-bw0KPiA+ICBvYmotJChDT05GSUdfUkVTRVRfUkFTUEJFUlJZUEkpICs9IHJlc2V0LXJhc3BiZXJy
-eXBpLm8NCj4gPiArb2JqLSQoQ09ORklHX1JFU0VUX1JaRzJMX1VTQlBIWV9DVFJMKSArPSByZXNl
-dC1yemcybC11c2JwaHktY3RybC5vDQo+ID4gIG9iai0kKENPTkZJR19SRVNFVF9TQ01JKSArPSBy
-ZXNldC1zY21pLm8NCj4gPiAgb2JqLSQoQ09ORklHX1JFU0VUX1NJTVBMRSkgKz0gcmVzZXQtc2lt
-cGxlLm8NCj4gPiAgb2JqLSQoQ09ORklHX1JFU0VUX1NUTTMyTVAxNTcpICs9IHJlc2V0LXN0bTMy
-bXAxLm8gZGlmZiAtLWdpdA0KPiA+IGEvZHJpdmVycy9yZXNldC9yZXNldC1yemcybC11c2JwaHkt
-Y3RybC5jDQo+ID4gYi9kcml2ZXJzL3Jlc2V0L3Jlc2V0LXJ6ZzJsLXVzYnBoeS1jdHJsLmMNCj4g
-PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAwMC4uNGU2ZjI1MTNl
-NzkyDQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL2RyaXZlcnMvcmVzZXQvcmVzZXQtcnpn
-MmwtdXNicGh5LWN0cmwuYw0KPiA+IEBAIC0wLDAgKzEsMTk1IEBADQo+ID4gKy8vIFNQRFgtTGlj
-ZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQo+ID4gKy8qDQo+ID4gKyAqIFJlbmVzYXMgUlovRzJM
-IFVTQlBIWSBjb250cm9sIGRyaXZlcg0KPiA+ICsgKg0KPiA+ICsgKiBDb3B5cmlnaHQgKEMpIDIw
-MjEgUmVuZXNhcyBFbGVjdHJvbmljcyBDb3Jwb3JhdGlvbiAgKi8NCj4gPiArDQo+ID4gKyNpbmNs
-dWRlIDxsaW51eC9kZWxheS5oPg0KPiANCj4gV2hhdCBpcyB0aGlzIHVzZWQgZm9yPw0KDQpPSywg
-SSB3aWxsIHRha2UgaXQgb3V0Lg0KDQo+ID4gKyNpbmNsdWRlIDxsaW51eC9pby5oPg0KPiA+ICsj
-aW5jbHVkZSA8bGludXgvbW9kdWxlLmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9vZi5oPg0KPiA+
-ICsjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGV2aWNlLmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51
-eC9wbV9ydW50aW1lLmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9yZXNldC5oPg0KPiA+ICsjaW5j
-bHVkZSA8bGludXgvcmVzZXQtY29udHJvbGxlci5oPg0KPiA+ICsNCj4gPiArI2RlZmluZSBSRVNF
-VAkJCTB4MDAwDQo+ID4gKw0KPiA+ICsjZGVmaW5lIFNFTF9QTExSRVNFVAkJQklUKDEyKQ0KPiA+
-ICsjZGVmaW5lIFBMTF9SRVNFVAkJQklUKDgpDQo+ID4gKw0KPiA+ICsjZGVmaW5lIFBIWV9SRVNF
-VF9QT1JUMgkJKEJJVCgxKSB8IEJJVCg1KSkNCj4gPiArI2RlZmluZSBQSFlfUkVTRVRfUE9SVDEJ
-CShCSVQoMCkgfCBCSVQoNCkpDQo+IA0KPiBXaHkgYXJlIHRoZXNlIHR3byBiaXRzIGVhY2g/DQoN
-CkJhc2ljYWxseSB3ZSBuZWVkIHRvIGNvbnRyb2wgMiBiaXRzIHRvIHBlcmZvcm0gdGhlIHJlc2V0
-IG9mIGEgcG9ydC4NCg0KUkVTRVRfUEhZUlNUXzEgICAgIEJJVCgwKQ0KUkVTRVRfU0VMUDFSRVNF
-VCAgIEJJVCg0KQ0KDQojZGVmaW5lIFBIWV9SRVNFVF9QT1JUMSAoUkVTRVRfUEhZUlNUXzEgfCBS
-RVNFVF9TRUxQMVJFU0VUICkNCg0KSSB3aWxsIGRlZmluZSBsaWtlIHRoaXMgaW4gbmV4dCB2ZXJz
-aW9uLg0KDQo+ID4gKw0KPiA+ICsjZGVmaW5lIE5VTV9QT1JUUwkJMg0KPiA+ICsNCj4gPiArc3Ry
-dWN0IHJ6ZzJsX3VzYnBoeV9jdHJsX3ByaXYgew0KPiA+ICsJc3RydWN0IHJlc2V0X2NvbnRyb2xs
-ZXJfZGV2IHJjZGV2Ow0KPiA+ICsJc3RydWN0IHJlc2V0X2NvbnRyb2wgKnJzdGM7DQo+ID4gKwlz
-dHJ1Y3QgZGV2aWNlICpkZXY7DQo+IA0KPiBUaGlzIGNhbiBiZSBkcm9wcGVkLCByY2RldiBhbHJl
-YWR5IGNvbnRhaW5zIGEgZGV2IHBvaW50ZXIuIEN1cnJlbnRseSB0aGlzDQo+IGlzIGp1c3QgdXNl
-ZCB0byBwYXNzICZwZGV2LT5kZXYgaW50byByemcybF91c2JwaHlfY3RybF9yZWdpc3RlcigpLCB3
-aGljaA0KPiB0aGVuIGNvcGllcyBpdCBvdmVyIGludG8gcmNkZXYtPmRldi4NCg0KT0suDQoNCj4g
-DQo+ID4gKwl2b2lkIF9faW9tZW0gKmJhc2U7DQo+ID4gK307DQo+ID4gKw0KPiA+ICsjZGVmaW5l
-IHJjZGV2X3RvX3ByaXYoeCkJY29udGFpbmVyX29mKHgsIHN0cnVjdA0KPiByemcybF91c2JwaHlf
-Y3RybF9wcml2LCByY2RldikNCj4gPiArDQo+ID4gK3N0YXRpYyB2b2lkIHJ6ZzJsX3VzYnBoeV9j
-dHJsX3NldF9yZXNldChzdHJ1Y3QgcmVzZXRfY29udHJvbGxlcl9kZXYNCj4gKnJjZGV2LA0KPiA+
-ICsJCQkJCXVuc2lnbmVkIGxvbmcgaWQpDQo+ID4gK3sNCj4gPiArCXN0cnVjdCByemcybF91c2Jw
-aHlfY3RybF9wcml2ICpwcml2ID0gcmNkZXZfdG9fcHJpdihyY2Rldik7DQo+ID4gKwl2b2lkIF9f
-aW9tZW0gKmJhc2UgPSBwcml2LT5iYXNlOw0KPiA+ICsJdTMyIHZhbCA9IHJlYWRsKGJhc2UgKyBS
-RVNFVCk7DQo+ID4gKw0KPiA+ICsJdmFsIHw9IGlkID8gUEhZX1JFU0VUX1BPUlQyIDogUEhZX1JF
-U0VUX1BPUlQxOw0KPiA+ICsJaWYgKCh2YWwgJiAweGZmKSA9PSAoUEhZX1JFU0VUX1BPUlQxIHwg
-UEhZX1JFU0VUX1BPUlQyKSkNCj4gICAgICAgICAgICAgICAgICAgIF5eXl4NCj4gV2hhdCBpcyB0
-aGUgc2lnbmlmaWNhbmNlIG9mIHRoZSBtYWdpYyAweGZmPw0KDQogV2Ugc2hvdWxkIHVzZSAoUEhZ
-X1JFU0VUX1BPUlQxIHwgUEhZX1JFU0VUX1BPUlQyKSBpbnN0ZWFkLg0KDQpCYXNpY2FsbHkgaXQg
-aXMgY2hlY2tpbmcgYm90aCBwb3J0cyBhcmUgaW4gcmVzZXQgc3RhdGUgb3Igbm90Pw0KDQo+IA0K
-PiA+ICsJCXZhbCB8PSBQTExfUkVTRVQ7DQo+ID4gKwl3cml0ZWwodmFsLCBiYXNlICsgUkVTRVQp
-Ow0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgdm9pZCByemcybF91c2JwaHlfY3RybF9yZWxl
-YXNlX3Jlc2V0KHN0cnVjdCByZXNldF9jb250cm9sbGVyX2Rldg0KPiAqcmNkZXYsDQo+ID4gKwkJ
-CQkJICAgIHVuc2lnbmVkIGxvbmcgaWQpDQo+ID4gK3sNCj4gPiArCXN0cnVjdCByemcybF91c2Jw
-aHlfY3RybF9wcml2ICpwcml2ID0gcmNkZXZfdG9fcHJpdihyY2Rldik7DQo+ID4gKwl2b2lkIF9f
-aW9tZW0gKmJhc2UgPSBwcml2LT5iYXNlOw0KPiA+ICsJdTMyIHZhbCA9IHJlYWRsKGJhc2UgKyBS
-RVNFVCk7DQo+ID4gKw0KPiA+ICsJdmFsIHw9IFNFTF9QTExSRVNFVDsNCj4gPiArCXZhbCAmPSB+
-KFBMTF9SRVNFVCB8IChpZCA/IFBIWV9SRVNFVF9QT1JUMiA6IFBIWV9SRVNFVF9QT1JUMSkpOw0K
-PiA+ICsJd3JpdGVsKHZhbCwgYmFzZSArIFJFU0VUKTsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3Rh
-dGljIGludCByemcybF91c2JwaHlfY3RybF9yZXNldChzdHJ1Y3QgcmVzZXRfY29udHJvbGxlcl9k
-ZXYgKnJjZGV2LA0KPiA+ICsJCQkJICAgdW5zaWduZWQgbG9uZyBpZCkNCj4gPiArew0KPiA+ICsJ
-cnpnMmxfdXNicGh5X2N0cmxfc2V0X3Jlc2V0KHJjZGV2LCBpZCk7DQo+ID4gKwlyemcybF91c2Jw
-aHlfY3RybF9yZWxlYXNlX3Jlc2V0KHJjZGV2LCBpZCk7DQo+ID4gKwlyZXR1cm4gMDsNCj4gPiAr
-fQ0KPiANCj4gTm8gZGVsYXkgaXMgbmVlZGVkIGJldHdlZW4gYXNzZXJ0IGFuZCBkZWFzc2VydCB0
-byByZXNldCB0aGUgUEhZPw0KPiBJcyB0aGlzIHVzZWQgYXQgYWxsPyANCg0KTm8sIGl0IGlzIG5v
-dCB1c2VkLg0KDQpUaGUgcHJvYmUgZnVuY3Rpb24gcHV0dGluZyBldmVyeXRoaW5nIGludG8gcmVz
-ZXQNCj4gbWFrZXMgaXQgbG9vayBsaWtlIHRoZSBVU0IgZHJpdmVycyB3aWxsIG9ubHkgdXNlIHJl
-c2V0X2NvbnRyb2xfYXNzZXJ0KCkgLw0KPiBfZGVhc3NlcnQoKSwgDQoNCllvdSBhcmUgY29ycmVj
-dC4NCg0KPiBub3QgX3Jlc2V0KCkuIElmIG5vdCwgSSdkIHN1Z2dlc3QgZHJvcHBpbmcgaXQgYW5k
-IGZvbGRpbmcgdGhlDQo+IGFib3ZlIHNldC9yZWxlYXNlIGZ1bmN0aW9ucyBpbnRvIGFzc2VydC9k
-ZWFzc2VydCBiZWxvdy4NCg0KT2suDQoNCj4gDQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IHJ6ZzJs
-X3VzYnBoeV9jdHJsX2Fzc2VydChzdHJ1Y3QgcmVzZXRfY29udHJvbGxlcl9kZXYgKnJjZGV2LA0K
-PiA+ICsJCQkJICAgIHVuc2lnbmVkIGxvbmcgaWQpDQo+ID4gK3sNCj4gPiArCXJ6ZzJsX3VzYnBo
-eV9jdHJsX3NldF9yZXNldChyY2RldiwgaWQpOw0KPiA+ICsJcmV0dXJuIDA7DQo+ID4gK30NCj4g
-PiArDQo+ID4gK3N0YXRpYyBpbnQgcnpnMmxfdXNicGh5X2N0cmxfZGVhc3NlcnQoc3RydWN0IHJl
-c2V0X2NvbnRyb2xsZXJfZGV2DQo+ICpyY2RldiwNCj4gPiArCQkJCSAgICAgIHVuc2lnbmVkIGxv
-bmcgaWQpDQo+ID4gK3sNCj4gPiArCXJ6ZzJsX3VzYnBoeV9jdHJsX3JlbGVhc2VfcmVzZXQocmNk
-ZXYsIGlkKTsNCj4gPiArCXJldHVybiAwOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50
-IHJ6ZzJsX3VzYnBoeV9jdHJsX3N0YXR1cyhzdHJ1Y3QgcmVzZXRfY29udHJvbGxlcl9kZXYgKnJj
-ZGV2LA0KPiA+ICsJCQkJICAgIHVuc2lnbmVkIGxvbmcgaWQpDQo+ID4gK3sNCj4gPiArCXN0cnVj
-dCByemcybF91c2JwaHlfY3RybF9wcml2ICpwcml2ID0gcmNkZXZfdG9fcHJpdihyY2Rldik7DQo+
-ID4gKwl1MzIgcG9ydF9tYXNrOw0KPiA+ICsNCj4gPiArCXBvcnRfbWFzayA9IGlkID8gUEhZX1JF
-U0VUX1BPUlQyIDogUEhZX1JFU0VUX1BPUlQxOw0KPiA+ICsNCj4gPiArCXJldHVybiAhIShyZWFk
-bChwcml2LT5iYXNlICsgUkVTRVQpICYgcG9ydF9tYXNrKTsNCj4gDQo+IFNob3VsZCB0aGlzIGNo
-ZWNrIHRoYXQgYm90aCBiaXRzIG9mIHRoZSBwb3J0X21hc2sgYXJlIHNldD8NCg0KWWVzLCBTaW5j
-ZSB3ZSBhcmUgdXNpbmcgYm90aCB0aGUgYml0cyB0byBkbyBhc3NlcnQvZGVhc3NlcnQgb2YgYSBw
-b3J0Lg0KDQoNCj4gDQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qgb2Zf
-ZGV2aWNlX2lkIHJ6ZzJsX3VzYnBoeV9jdHJsX21hdGNoX3RhYmxlW10gPSB7DQo+ID4gKwl7IC5j
-b21wYXRpYmxlID0gInJlbmVzYXMscnpnMmwtdXNicGh5LWN0cmwiIH0sDQo+ID4gKwl7IC8qIFNl
-bnRpbmVsICovIH0NCj4gPiArfTtyemcybF91c2JwaHlfY3RybF9yZWdpc3Rlcg0KPiA+ICtNT0RV
-TEVfREVWSUNFX1RBQkxFKG9mLCByemcybF91c2JwaHlfY3RybF9tYXRjaF90YWJsZSk7DQo+ID4g
-Kw0KPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHJlc2V0X2NvbnRyb2xfb3BzIHJ6ZzJsX3VzYnBo
-eV9jdHJsX3Jlc2V0X29wcyA9IHsNCj4gPiArCS5yZXNldCA9IHJ6ZzJsX3VzYnBoeV9jdHJsX3Jl
-c2V0LA0KPiA+ICsJLmFzc2VydCA9IHJ6ZzJsX3VzYnBoeV9jdHJsX2Fzc2VydCwNCj4gPiArCS5k
-ZWFzc2VydCA9IHJ6ZzJsX3VzYnBoeV9jdHJsX2RlYXNzZXJ0LA0KPiA+ICsJLnN0YXR1cyA9IHJ6
-ZzJsX3VzYnBoeV9jdHJsX3N0YXR1cywNCj4gPiArfTsNCj4gPiArDQo+ID4gK3N0YXRpYyBpbnQg
-cnpnMmxfdXNicGh5X2N0cmxfeGxhdGUoc3RydWN0IHJlc2V0X2NvbnRyb2xsZXJfZGV2ICpyY2Rl
-diwNCj4gPiArCQkJCSAgIGNvbnN0IHN0cnVjdCBvZl9waGFuZGxlX2FyZ3MgKnJlc2V0X3NwZWMp
-IHsNCj4gPiArCXVuc2lnbmVkIGludCBpZCA9IHJlc2V0X3NwZWMtPmFyZ3NbMF07DQo+ID4gKw0K
-PiA+ICsJaWYgKGlkID49IE5VTV9QT1JUUykgew0KPiA+ICsJCWRldl9lcnIocmNkZXYtPmRldiwg
-IkludmFsaWQgcmVzZXQgaW5kZXggJXVcbiIsIGlkKTsNCj4gPiArCQlyZXR1cm4gLUVJTlZBTDsN
-Cj4gPiArCX0NCj4gPiArDQo+ID4gKwlyZXR1cm4gaWQ7DQo+ID4gK30NCj4gDQo+IFRoaXMgY2Fu
-IGJlIGRyb3BwZWQgaWYgeW91IHNldCByY2Rldi0+bnJfcmVzZXRzID0gTlVNX1BPUlRTLCBzZWUN
-Cj4gb2ZfcmVzZXRfc2ltcGxlX3hsYXRlKCkuDQoNCk9LLg0KDQo+IA0KPiA+ICsNCj4gPiArc3Rh
-dGljIGludCByemcybF91c2JwaHlfY3RybF9yZWdpc3RlcihzdHJ1Y3QgcnpnMmxfdXNicGh5X2N0
-cmxfcHJpdg0KPiA+ICsqcHJpdikgew0KPiA+ICsJcHJpdi0+cmNkZXYub3BzID0gJnJ6ZzJsX3Vz
-YnBoeV9jdHJsX3Jlc2V0X29wczsNCj4gPiArCXByaXYtPnJjZGV2Lm9mX25vZGUgPSBwcml2LT5k
-ZXYtPm9mX25vZGU7DQo+ID4gKwlwcml2LT5yY2Rldi5kZXYgPSBwcml2LT5kZXY7DQo+ID4gKwlw
-cml2LT5yY2Rldi5vZl9yZXNldF9uX2NlbGxzID0gMTsNCj4gPiArCXByaXYtPnJjZGV2Lm9mX3hs
-YXRlID0gcnpnMmxfdXNicGh5X2N0cmxfeGxhdGU7DQo+IA0KPiBKdXN0IHNldCBucl9yZXNldHMg
-aW5zdGVhZCBvZiBvZl94bGF0ZSwgc2VlIGFib3ZlLg0KT0suDQoNCj4gDQo+ID4gKw0KPiA+ICsJ
-cmV0dXJuIGRldm1fcmVzZXRfY29udHJvbGxlcl9yZWdpc3Rlcihwcml2LT5kZXYsICZwcml2LT5y
-Y2Rldik7IH0NCj4gPiArDQo+ID4gK3N0YXRpYyBpbnQgcnpnMmxfdXNicGh5X2N0cmxfcHJvYmUo
-c3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikgew0KPiA+ICsJc3RydWN0IGRldmljZSAqZGV2
-ID0gJnBkZXYtPmRldjsNCj4gPiArCXN0cnVjdCByemcybF91c2JwaHlfY3RybF9wcml2ICpwcml2
-Ow0KPiA+ICsJaW50IGVycm9yOw0KPiA+ICsJdTMyIHZhbDsNCj4gPiArDQo+ID4gKwlwcml2ID0g
-ZGV2bV9remFsbG9jKGRldiwgc2l6ZW9mKCpwcml2KSwgR0ZQX0tFUk5FTCk7DQo+ID4gKwlpZiAo
-IXByaXYpDQo+ID4gKwkJcmV0dXJuIC1FTk9NRU07DQo+ID4gKw0KPiA+ICsJcHJpdi0+YmFzZSA9
-IGRldm1fcGxhdGZvcm1faW9yZW1hcF9yZXNvdXJjZShwZGV2LCAwKTsNCj4gPiArCWlmIChJU19F
-UlIocHJpdi0+YmFzZSkpDQo+ID4gKwkJcmV0dXJuIFBUUl9FUlIocHJpdi0+YmFzZSk7DQo+ID4g
-Kw0KPiA+ICsJcHJpdi0+ZGV2ID0gZGV2Ow0KPiA+ICsJZXJyb3IgPSByemcybF91c2JwaHlfY3Ry
-bF9yZWdpc3Rlcihwcml2KTsNCj4gPiArCWlmIChlcnJvcikNCj4gPiArCQlyZXR1cm4gZXJyb3I7
-DQo+IA0KPiBUaGlzIHNob3VsZCBiZSBkb25lIGFmdGVyIHJlcXVlc3RpbmcgdGhlIHJlc2V0Lg0K
-T0suDQoNCj4gPiArDQo+ID4gKwlkZXZfc2V0X2RydmRhdGEoZGV2LCBwcml2KTsNCj4gPiArDQo+
-ID4gKwlwcml2LT5yc3RjID0gZGV2bV9yZXNldF9jb250cm9sX2dldF9leGNsdXNpdmUoJnBkZXYt
-PmRldiwgTlVMTCk7DQo+IA0KPiBEb2VzIHRoZSA8JmNwZyBSOUEwN0cwNDRfVVNCX1BSRVNFVE4+
-IHJlc2V0IHJlc2V0IG9ubHkgdGhlIFVTQlBIWSBjb250cm9sPw0KDQpZZXMsIFRoaXMgcmVzZXQg
-b25seSBmb3IgdGhlIFVTQlBIWSBjb250cm9sLg0KDQo+ID4gKwlpZiAoSVNfRVJSKHByaXYtPnJz
-dGMpKSB7DQo+ID4gKwkJZGV2X2VycigmcGRldi0+ZGV2LCAiZmFpbGVkIHRvIGdldCByZXNldFxu
-Iik7DQo+ID4gKwkJcmV0dXJuIFBUUl9FUlIocHJpdi0+cnN0Yyk7DQo+IA0KPiBUaGlzIGNvdWxk
-IGJlIHNpbXBsaWZpZWQgd2l0aA0KPiANCj4gCQlyZXR1cm4gZGV2X2Vycl9wcm9iZShkZXYsIFBU
-Ul9FUlIocHJpdi0+cnN0YyksICJmYWlsZWQgdG8gZ2V0DQo+IHJlc2V0XG4iKTsNCg0KT0suDQoN
-Cj4gDQo+ID4gKwl9DQo+ID4gKw0KPiA+ICsJcmVzZXRfY29udHJvbF9kZWFzc2VydChwcml2LT5y
-c3RjKTsNCj4gPiArDQo+ID4gKwlwbV9ydW50aW1lX2VuYWJsZSgmcGRldi0+ZGV2KTsNCj4gPiAr
-CXBtX3J1bnRpbWVfcmVzdW1lX2FuZF9nZXQoJnBkZXYtPmRldik7DQo+IA0KPiBUaGUgJmNwZyBw
-b3dlciBkb21haW4gaGFzIHRvIGJlIGtlcHQgZW5hYmxlZCBkdXJpbmcgdGhlIHdob2xlIGxpZmV0
-aW1lIG9mDQo+IHRoZSByZXNldCBjb250cm9sbGVyPw0KDQpObywgTGF0ZXIgcG9pbnQsIHdoZW4g
-d2UgZG8gcG93ZXIgbWFuYWdlbWVudCBzdXBwb3J0LCBpdCB3aWxsIGJlIHRha2VuIGNhcmUuDQpE
-dXJpbmcgc3VzcGVuZCB0dXJuIGl0IG9mZiBhbmQgd2FrZXVwIHR1cm4gaXQgb24uDQoNClJlZ2Fy
-ZHMsDQpCaWp1DQoNCj4gDQo+ID4gKw0KPiA+ICsJLyogcHV0IHBsbCBhbmQgcGh5IGludG8gcmVz
-ZXQgc3RhdGUgKi8NCj4gPiArCXZhbCA9IHJlYWRsKHByaXYtPmJhc2UgKyBSRVNFVCk7DQo+ID4g
-Kwl2YWwgfD0gU0VMX1BMTFJFU0VUIHwgUExMX1JFU0VUIHwgUEhZX1JFU0VUX1BPUlQyIHwgUEhZ
-X1JFU0VUX1BPUlQxOw0KPiA+ICsJd3JpdGVsKHZhbCwgcHJpdi0+YmFzZSArIFJFU0VUKTsNCj4g
-PiArDQo+ID4gKwlyZXR1cm4gMDsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIGludCByemcy
-bF91c2JwaHlfY3RybF9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikgew0KPiA+
-ICsJc3RydWN0IHJ6ZzJsX3VzYnBoeV9jdHJsX3ByaXYgKnByaXYgPSBkZXZfZ2V0X2RydmRhdGEo
-JnBkZXYtPmRldik7DQo+ID4gKw0KPiA+ICsJcG1fcnVudGltZV9wdXQoJnBkZXYtPmRldik7DQo+
-ID4gKwlwbV9ydW50aW1lX2Rpc2FibGUoJnBkZXYtPmRldik7DQo+ID4gKwlyZXNldF9jb250cm9s
-X2Fzc2VydChwcml2LT5yc3RjKTsNCj4gPiArDQo+ID4gKwlyZXR1cm4gMDsNCj4gPiArfQ0KPiA+
-ICsNCj4gPiArc3RhdGljIHN0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgcnpnMmxfdXNicGh5X2N0cmxf
-ZHJpdmVyID0gew0KPiA+ICsJLmRyaXZlciA9IHsNCj4gPiArCQkubmFtZQkJPSAicnpnMmxfdXNi
-cGh5X2N0cmwiLA0KPiA+ICsJCS5vZl9tYXRjaF90YWJsZQk9IHJ6ZzJsX3VzYnBoeV9jdHJsX21h
-dGNoX3RhYmxlLA0KPiA+ICsJfSwNCj4gPiArCS5wcm9iZQk9ICByemcybF91c2JwaHlfY3RybF9w
-cm9iZSwNCj4gPiArCS5yZW1vdmUJPSAgcnpnMmxfdXNicGh5X2N0cmxfcmVtb3ZlLA0KPiA+ICt9
-Ow0KPiA+ICttb2R1bGVfcGxhdGZvcm1fZHJpdmVyKHJ6ZzJsX3VzYnBoeV9jdHJsX2RyaXZlcik7
-DQo+ID4gKw0KPiA+ICtNT0RVTEVfTElDRU5TRSgiR1BMIHYyIik7DQo+ID4gK01PRFVMRV9ERVND
-UklQVElPTigiUmVuZXNhcyBSWi9HMkwgVVNCUEhZIENvbnRyb2wiKTsNCj4gPiArTU9EVUxFX0FV
-VEhPUigiYmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+Iik7DQo+IA0KPiByZWdhcmRzDQo+IFBo
-aWxpcHANCg==
+Hi Jacopo,
+
+Thanks for your feedback.
+
+On 2021-06-16 17:12:55 +0200, Jacopo Mondi wrote:
+> Hi Niklas,
+> 
+> On Wed, May 12, 2021 at 10:19:12AM +0200, Niklas Söderlund wrote:
+> > Add a V4L2 driver for Renesas R-Car Image Signal Processor. The driver
+> > supports the R-Car V3U SoC where the ISP IP sits between the R-Car CSI-2
+> > receiver and VIN and filters the CSI-2 data based on VC/DT and directs
+> > the video stream to different VIN IPs.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  MAINTAINERS                       |   1 +
+> >  drivers/media/platform/Kconfig    |  16 +
+> >  drivers/media/platform/Makefile   |   1 +
+> >  drivers/media/platform/rcar-isp.c | 500 ++++++++++++++++++++++++++++++
+> 
+> Have you considered adding the driver to platform/rcar-vin where the
+> VIN/CSI-2 drivers live already ?
+
+Yes I did, but I opted to go the other way around and will move the 
+rcar-csi2.c out of the rcar-vin directory. The VIN + CSI-2 is a legacy 
+pre media graph times (was never part of an upstream kernel) and really 
+makes no sens now.
+
+> 
+> >  4 files changed, 518 insertions(+)
+> >  create mode 100644 drivers/media/platform/rcar-isp.c
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index c35a9c93da84f4f7..03f3d52e03596f66 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11400,6 +11400,7 @@ T:	git git://linuxtv.org/media_tree.git
+> >  F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> >  F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
+> >  F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > +F:	drivers/media/platform/rcar-isp.c
+> >  F:	drivers/media/platform/rcar-vin/
+> >
+> >  MEDIA DRIVERS FOR RENESAS - VSP1
+> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> > index 157c924686e4b61b..a8777d5dd6bc3ec1 100644
+> > --- a/drivers/media/platform/Kconfig
+> > +++ b/drivers/media/platform/Kconfig
+> > @@ -200,6 +200,22 @@ config VIDEO_TI_CAL_MC
+> >
+> >  endif # VIDEO_TI_CAL
+> >
+> > +config VIDEO_RCAR_ISP
+> > +	tristate "R-Car Image Signal Processor (ISP)"
+> > +	depends on VIDEO_V4L2 && OF
+> > +	depends on ARCH_RENESAS || COMPILE_TEST
+> > +	select MEDIA_CONTROLLER
+> > +	select VIDEO_V4L2_SUBDEV_API
+> > +	select RESET_CONTROLLER
+> > +	select V4L2_FWNODE
+> > +	help
+> > +	  Support for Renesas R-Car Image Signal Processor (ISP).
+> > +	  Enable this to support the Renesas R-Car Image Signal
+> > +	  Processor (ISP).
+> > +
+> > +	  To compile this driver as a module, choose M here: the
+> > +	  module will be called rcar-isp.
+> > +
+> >  endif # V4L_PLATFORM_DRIVERS
+> >
+> >  menuconfig V4L_MEM2MEM_DRIVERS
+> > diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+> > index eedc14aafb32c2fa..8ae543f6ef764c48 100644
+> > --- a/drivers/media/platform/Makefile
+> > +++ b/drivers/media/platform/Makefile
+> > @@ -63,6 +63,7 @@ obj-$(CONFIG_VIDEO_AM437X_VPFE)		+= am437x/
+> >
+> >  obj-$(CONFIG_VIDEO_XILINX)		+= xilinx/
+> >
+> > +obj-$(CONFIG_VIDEO_RCAR_ISP)		+= rcar-isp.o
+> >  obj-$(CONFIG_VIDEO_RCAR_VIN)		+= rcar-vin/
+> >
+> >  obj-$(CONFIG_VIDEO_ATMEL_ISC)		+= atmel/
+> > diff --git a/drivers/media/platform/rcar-isp.c b/drivers/media/platform/rcar-isp.c
+> > new file mode 100644
+> > index 0000000000000000..bf6a376354ece89d
+> > --- /dev/null
+> > +++ b/drivers/media/platform/rcar-isp.c
+> > @@ -0,0 +1,500 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Driver for Renesas R-Car ISP Channel Selector
+> > + *
+> > + * Copyright (C) 2021 Renesas Electronics Corp.
+> > + */
+> > +
+> > +#include <linux/module.h>
+> > +#include <linux/mutex.h>
+> > +#include <linux/of_device.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include <linux/reset.h>
+> > +
+> > +#include <media/v4l2-subdev.h>
+> > +
+> > +#define ISPINPUTSEL0_REG				0x0008
+> > +#define ISPINPUTSEL0_SEL_CSI0				BIT(31)
+> > +
+> > +#define ISPSTART_REG					0x0014
+> > +#define ISPSTART_START					0xffff
+> > +#define ISPSTART_STOP					0x0000
+> > +
+> > +#define ISPPROCMODE_DT_REG(n)			(0x1100 + (0x4 * n))
+> > +#define ISPPROCMODE_DT_PROC_MODE_VC3(pm)		(((pm) & 0x3f) << 24)
+> > +#define ISPPROCMODE_DT_PROC_MODE_VC2(pm)		(((pm) & 0x3f) << 16)
+> > +#define ISPPROCMODE_DT_PROC_MODE_VC1(pm)		(((pm) & 0x3f) << 8)
+> > +#define ISPPROCMODE_DT_PROC_MODE_VC0(pm)		((pm) & 0x3f)
+> > +
+> > +#define ISPCS_FILTER_ID_CH_REG(n)			(0x3000 + (0x0100 * n))
+> > +
+> > +#define ISPCS_DT_CODE03_CH_REG(n)			(0x3008 + (0x100 * n))
+> > +#define ISPCS_DT_CODE03_EN3				BIT(31)
+> > +#define ISPCS_DT_CODE03_DT3(dt)				(((dt) & 0x3f) << 24)
+> > +#define ISPCS_DT_CODE03_EN2				BIT(23)
+> > +#define ISPCS_DT_CODE03_DT2(dt)				(((dt) & 0x3f) << 16)
+> > +#define ISPCS_DT_CODE03_EN1				BIT(15)
+> > +#define ISPCS_DT_CODE03_DT1(dt)				(((dt) & 0x3f) << 8)
+> > +#define ISPCS_DT_CODE03_EN0				BIT(7)
+> > +#define ISPCS_DT_CODE03_DT0(dt)				((dt) & 0x3f)
+> > +
+> > +struct rcar_isp_format {
+> > +	u32 code;
+> > +	unsigned int datatype;
+> > +	unsigned int procmode;
+> > +};
+> > +
+> > +static const struct rcar_isp_format rcar_isp_formats[] = {
+> > +	{ .code = MEDIA_BUS_FMT_RGB888_1X24,	.datatype = 0x24, .procmode = 0x15 },
+> > +	{ .code = MEDIA_BUS_FMT_Y10_1X10,	.datatype = 0x2b, .procmode = 0x10 },
+> > +	{ .code = MEDIA_BUS_FMT_UYVY8_1X16,	.datatype = 0x1e, .procmode = 0x0c },
+> > +	{ .code = MEDIA_BUS_FMT_YUYV8_1X16,	.datatype = 0x1e, .procmode = 0x0c },
+> > +	{ .code = MEDIA_BUS_FMT_UYVY8_2X8,	.datatype = 0x1e, .procmode = 0x0c },
+> > +	{ .code = MEDIA_BUS_FMT_YUYV10_2X10,	.datatype = 0x1e, .procmode = 0x0c },
+> > +};
+> > +
+> > +static const struct rcar_isp_format *risp_code_to_fmt(unsigned int code)
+> > +{
+> > +	unsigned int i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(rcar_isp_formats); i++)
+> > +		if (rcar_isp_formats[i].code == code)
+> > +			return &rcar_isp_formats[i];
+> 
+> Shouldn't the for loop be enclosed in { }  ?
+
+No, why? Maybe it's a matter of taste but it will not effect the code 
+and IMHO adding { } here would just make it harder to read.
+
+> 
+> > +
+> > +	return NULL;
+> > +}
+> > +
+> > +enum rcar_isp_input {
+> > +	RISP_CSI_INPUT0,
+> > +	RISP_CSI_INPUT1,
+> > +};
+> > +
+> > +enum rcar_isp_pads {
+> > +	RCAR_ISP_SINK,
+> > +	RCAR_ISP_PORT0,
+> > +	RCAR_ISP_PORT1,
+> > +	RCAR_ISP_PORT2,
+> > +	RCAR_ISP_PORT3,
+> > +	RCAR_ISP_PORT4,
+> > +	RCAR_ISP_PORT5,
+> > +	RCAR_ISP_PORT6,
+> > +	RCAR_ISP_PORT7,
+> > +	RCAR_ISP_MAX_PAD,
+> > +};
+> > +
+> > +struct rcar_isp {
+> > +	struct device *dev;
+> > +	void __iomem *base;
+> > +	struct reset_control *rstc;
+> > +
+> > +	enum rcar_isp_input csi_input;
+> > +
+> > +	struct v4l2_subdev subdev;
+> > +	struct media_pad pads[RCAR_ISP_MAX_PAD];
+> > +
+> > +	struct v4l2_async_notifier notifier;
+> > +	struct v4l2_subdev *remote;
+> > +	unsigned int remote_pad;
+> > +
+> > +	struct v4l2_mbus_framefmt mf;
+> > +
+> > +	struct mutex lock;
+> > +	int stream_count;
+> > +};
+> > +
+> > +static inline struct rcar_isp *sd_to_isp(struct v4l2_subdev *sd)
+> > +{
+> > +	return container_of(sd, struct rcar_isp, subdev);
+> > +}
+> > +
+> > +static inline struct rcar_isp *notifier_to_isp(struct v4l2_async_notifier *n)
+> > +{
+> > +	return container_of(n, struct rcar_isp, notifier);
+> > +}
+> > +
+> > +static void risp_write(struct rcar_isp *isp, u32 offset, u32 value)
+> > +{
+> > +	iowrite32(value, isp->base + offset);
+> > +}
+> > +
+> > +static u32 risp_read(struct rcar_isp *isp, u32 offset)
+> > +{
+> > +	return ioread32(isp->base + offset);
+> > +}
+> > +
+> > +static int risp_s_power(struct v4l2_subdev *sd, int on)
+> > +{
+> > +	struct rcar_isp *isp = sd_to_isp(sd);
+> > +	int ret;
+> > +
+> > +	if (on) {
+> > +		ret = pm_runtime_get_sync(isp->dev);
+> 
+> pm_runtime_get_sync() increases the power usage count even it fails,
+> so it should be put in case of error.
+> 
+> Or better, you can use pm_runtime_resume_and_get() towards which the
+> media subsystem is moving to. See
+> dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+
+Good idea.
+
+> 
+> > +		if (ret < 0)
+> > +			return ret;
+> > +
+> > +		ret = reset_control_deassert(isp->rstc);
+> > +		if (ret < 0)
+> > +			return ret;
+> 
+> Where are the pm ops defined ? Shouldn't you define a pm suspend a
+> and a pm resume ops that assert/deassert the reset controller ?
+
+No that would be trick to get resume to work if a capture was going on 
+at suspend time. Instead the suspend/resume for the capture chain is 
+controlled from the R-Car VIN driver that stops/starts capture in it's 
+suspend/resume handlers if capture is running. If no capture is running 
+the device is already powered off.
+
+> 
+> > +	} else {
+> > +		reset_control_assert(isp->rstc);
+> > +		pm_runtime_put(isp->dev);
+> > +	}
+> 
+> This could be simplified as
+> 
+>         if (!on) {
+> 		reset_control_assert(isp->rstc);
+>                 pm_runtime_put(isp->dev);
+> 
+>                 return 0;
+>         }
+> 
+>         ...
+> 
+> But it's mostly a matter of tastes
+
+:-)
+
+> 
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct v4l2_subdev_core_ops risp_core_ops = {
+> > +	.s_power = risp_s_power,
+> > +};
+> > +
+> > +static int risp_remote_code(struct rcar_isp *isp)
+> > +{
+> > +	struct v4l2_subdev_format fmt = {
+> > +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> > +	};
+> > +
+> > +	fmt.pad = isp->remote_pad;
+> > +	if (v4l2_subdev_call(isp->remote, pad, get_fmt, NULL, &fmt))
+> > +		return -EPIPE;
+> > +
+> > +	return fmt.format.code;
+> > +}
+> > +
+> > +static int risp_start(struct rcar_isp *isp)
+> > +{
+> > +	const struct rcar_isp_format *format;
+> > +	unsigned int vc;
+> > +	u32 sel_csi = 0;
+> > +
+> > +	format = risp_code_to_fmt(risp_remote_code(isp));
+> 
+> Why are you quering the remote side format ? In a fully-mc driver
+> shouldn't the format on the active source pad be used ?
+
+In a perfect world yes. But until we have the media graph format 
+validation introduced in different form from the multiplexed stream 
+series the pad format validation in the core is broken. So I can either 
+get the remote format here and compare it and fail capture start if they 
+differ or I can just fetch it and use it.
+
+As both methods are "wrong" as we can't describe multiple formats for 
+multiple streams on a CSI-2 link I choose to align this with how things 
+are done in the R-Car CSI-2 driver which also is involved in the same 
+capture chain. At least we are consistency "wrong" ;-)
+
+> 
+> > +	if (!format) {
+> > +		dev_err(isp->dev, "Unsupported bus format\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	/* Select CSI-2 input source. */
+> > +	if (isp->csi_input == RISP_CSI_INPUT1)
+> > +		sel_csi = ISPINPUTSEL0_SEL_CSI0;
+> 
+> Depending on my question below on how many endpoint we can have,
+> shouldn't the channel selection depend on the active media link ?
+
+We should indeed do that. The schematics are a bit unclear on how this 
+is wired up on the V3U and I have been able to create the DT description 
+used to test this driver by trail and error. So for now I have opted to 
+keep the driver to only support a single endpoint. The blocker is not 
+that it's hard to do but rather I can't test it.
+
+The bindings description takes this into account and allows for the two 
+possible endpoints to be described correctly. But currently as you 
+noticed the driver will fail to probe if two endpoints are described.  
+
+> 
+> > +
+> > +	risp_write(isp, ISPINPUTSEL0_REG,
+> > +		   risp_read(isp, ISPINPUTSEL0_REG) | sel_csi);
+> > +
+> > +	/* Configure Channel Selector. */
+> > +	for (vc = 0; vc < 4; vc++) {
+> > +		u8 ch = vc + 4;
+> > +		u8 dt = format->datatype;
+> > +
+> > +		risp_write(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
+> > +		risp_write(isp, ISPCS_DT_CODE03_CH_REG(ch),
+> > +			   ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
+> > +			   ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
+> > +			   ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
+> > +			   ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
+> > +	}
+> > +
+> > +	/* Setup processing method. */
+> > +	risp_write(isp, ISPPROCMODE_DT_REG(format->datatype),
+> > +		   ISPPROCMODE_DT_PROC_MODE_VC3(format->procmode) |
+> > +		   ISPPROCMODE_DT_PROC_MODE_VC2(format->procmode) |
+> > +		   ISPPROCMODE_DT_PROC_MODE_VC1(format->procmode) |
+> > +		   ISPPROCMODE_DT_PROC_MODE_VC0(format->procmode));
+> > +
+> > +	/* Start ISP. */
+> > +	risp_write(isp, ISPSTART_REG, ISPSTART_START);
+> > +
+> > +	return v4l2_subdev_call(isp->remote, video, s_stream, 1);
+> > +}
+> > +
+> > +static void risp_stop(struct rcar_isp *isp)
+> > +{
+> > +	v4l2_subdev_call(isp->remote, video, s_stream, 0);
+> > +
+> > +	/* Stop ISP. */
+> > +	risp_write(isp, ISPSTART_REG, ISPSTART_STOP);
+> > +}
+> > +
+> > +static int risp_s_stream(struct v4l2_subdev *sd, int enable)
+> > +{
+> > +	struct rcar_isp *isp = sd_to_isp(sd);
+> > +	int ret = 0;
+> > +
+> > +	mutex_lock(&isp->lock);
+> > +
+> > +	if (!isp->remote) {
+> 
+> If we don't have a remote the media graph is not completed, hence can
+> we ever get here ?
+> 
+> Also, does this need to be checked while holding the mutex ?
+
+This goes a bit hand in hand with your question above. For a single 
+endpoint with an immutable media link we can't get here. But as soon as 
+we allow for the link selection in the graph we could get here if both 
+links are disabled.
+
+> 
+> > +		ret = -ENODEV;
+> > +		goto out;
+> > +	}
+> > +
+> > +	if (enable && isp->stream_count == 0) {
+> > +		ret = risp_start(isp);
+> > +		if (ret)
+> > +			goto out;
+> > +	} else if (!enable && isp->stream_count == 1) {
+> > +		risp_stop(isp);
+> > +	}
+> > +
+> > +	isp->stream_count += enable ? 1 : -1;
+> > +out:
+> > +	mutex_unlock(&isp->lock);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static const struct v4l2_subdev_video_ops risp_video_ops = {
+> > +	.s_stream = risp_s_stream,
+> > +};
+> > +
+> > +static int risp_set_pad_format(struct v4l2_subdev *sd,
+> > +			       struct v4l2_subdev_pad_config *cfg,
+> > +			       struct v4l2_subdev_format *format)
+> > +{
+> > +	struct rcar_isp *isp = sd_to_isp(sd);
+> > +	struct v4l2_mbus_framefmt *framefmt;
+> > +
+> > +	if (!risp_code_to_fmt(format->format.code))
+> > +		format->format.code = rcar_isp_formats[0].code;
+> 
+> Doesn't this mean the format is not supported ?
+
+Yes, and then we need to set it to something that is.
+
+> 
+> > +
+> > +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > +		isp->mf = format->format;
+> > +	} else {
+> > +		framefmt = v4l2_subdev_get_try_format(sd, cfg, 0);
+> > +		*framefmt = format->format;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int risp_get_pad_format(struct v4l2_subdev *sd,
+> > +			       struct v4l2_subdev_pad_config *cfg,
+> > +			       struct v4l2_subdev_format *format)
+> > +{
+> > +	struct rcar_isp *isp = sd_to_isp(sd);
+> > +
+> > +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> > +		format->format = isp->mf;
+> > +	else
+> > +		format->format = *v4l2_subdev_get_try_format(sd, cfg, 0);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct v4l2_subdev_pad_ops risp_pad_ops = {
+> > +	.set_fmt = risp_set_pad_format,
+> > +	.get_fmt = risp_get_pad_format,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_ops rcar_isp_subdev_ops = {
+> > +	.core	= &risp_core_ops,
+> > +	.video	= &risp_video_ops,
+> > +	.pad	= &risp_pad_ops,
+> > +};
+> > +
+> > +/* -----------------------------------------------------------------------------
+> > + * Async handling and registration of subdevices and links
+> > + */
+> > +
+> > +static int risp_notify_bound(struct v4l2_async_notifier *notifier,
+> > +			     struct v4l2_subdev *subdev,
+> > +			     struct v4l2_async_subdev *asd)
+> > +{
+> > +	struct rcar_isp *isp = notifier_to_isp(notifier);
+> > +	int pad;
+> > +
+> > +	pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
+> > +					  MEDIA_PAD_FL_SOURCE);
+> > +	if (pad < 0) {
+> > +		dev_err(isp->dev, "Failed to find pad for %s\n", subdev->name);
+> > +		return pad;
+> > +	}
+> > +
+> > +	isp->remote = subdev;
+> > +	isp->remote_pad = pad;
+> > +
+> > +	dev_dbg(isp->dev, "Bound %s pad: %d\n", subdev->name, pad);
+> > +
+> > +	return media_create_pad_link(&subdev->entity, pad,
+> > +				     &isp->subdev.entity, 0,
+> > +				     MEDIA_LNK_FL_ENABLED |
+> > +				     MEDIA_LNK_FL_IMMUTABLE);
+> 
+> Depending on the answer to my question below about endpoints, should
+> the links be created for all connected entities and isp->remote
+> assigned at link enablement time ?
+
+As state above yes, once we can test it.
+
+> 
+> > +}
+> > +
+> > +static void risp_notify_unbind(struct v4l2_async_notifier *notifier,
+> > +			       struct v4l2_subdev *subdev,
+> > +			       struct v4l2_async_subdev *asd)
+> > +{
+> > +	struct rcar_isp *isp = notifier_to_isp(notifier);
+> > +
+> > +	isp->remote = NULL;
+> > +
+> > +	dev_dbg(isp->dev, "Unbind %s\n", subdev->name);
+> > +}
+> > +
+> > +static const struct v4l2_async_notifier_operations risp_notify_ops = {
+> > +	.bound = risp_notify_bound,
+> > +	.unbind = risp_notify_unbind,
+> > +};
+> > +
+> > +static int risp_parse_dt(struct rcar_isp *isp)
+> > +{
+> > +	struct v4l2_async_subdev *asd;
+> > +	struct fwnode_handle *fwnode;
+> > +	struct fwnode_handle *ep;
+> > +	unsigned int id;
+> > +	int ret;
+> > +
+> > +	for (id = 0; id < 2; id++) {
+> > +		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(isp->dev),
+> > +						     0, id, 0);
+> > +		if (ep)
+> > +			break;
+> > +	}
+> > +
+> > +	if (!ep) {
+> > +		dev_err(isp->dev, "Not connected to subdevice\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (id == 1)
+> > +		isp->csi_input = RISP_CSI_INPUT1;
+> 
+> This seems to check which endpoints are specified on the local port
+> node. Am I wrong or this implies that only one endpoint at the time
+> should be specified ?
+> 
+> Shouldn't we have both endpoints in the local node but only have one
+> media link active at the time ?
+
+Yes :-)
+
+> 
+> > +
+> > +	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > +	fwnode_handle_put(ep);
+> > +
+> > +	dev_dbg(isp->dev, "Found '%pOF'\n", to_of_node(fwnode));
+> > +
+> > +	v4l2_async_notifier_init(&isp->notifier);
+> > +	isp->notifier.ops = &risp_notify_ops;
+> > +
+> > +	asd = v4l2_async_notifier_add_fwnode_subdev(&isp->notifier, fwnode,
+> > +						    struct v4l2_async_subdev);
+> > +	fwnode_handle_put(fwnode);
+> > +	if (IS_ERR(asd))
+> > +		return PTR_ERR(asd);
+> > +
+> > +	ret = v4l2_async_subdev_notifier_register(&isp->subdev, &isp->notifier);
+> > +	if (ret)
+> > +		v4l2_async_notifier_cleanup(&isp->notifier);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +/* -----------------------------------------------------------------------------
+> > + * Platform Device Driver
+> > + */
+> > +
+> > +static const struct media_entity_operations risp_entity_ops = {
+> > +	.link_validate = v4l2_subdev_link_validate,
+> > +};
+> > +
+> > +static int risp_probe_resources(struct rcar_isp *isp,
+> > +				struct platform_device *pdev)
+> > +{
+> > +	struct resource *res;
+> > +
+> > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > +	isp->base = devm_ioremap_resource(&pdev->dev, res);
+> > +	if (IS_ERR(isp->base))
+> > +		return PTR_ERR(isp->base);
+> > +
+> > +	isp->rstc = devm_reset_control_get(&pdev->dev, NULL);
+> > +
+> > +	return PTR_ERR_OR_ZERO(isp->rstc);
+> > +}
+> > +
+> > +static const struct of_device_id risp_of_id_table[] = {
+> > +	{ .compatible = "renesas,r8a779a0-isp" },
+> > +	{ /* sentinel */ },
+> > +};
+> > +MODULE_DEVICE_TABLE(of, risp_of_id_table);
+> 
+> Can this block be moved after _remove() ?
+
+I'm sure it could. But this is the style used in rcar-vin and rcar-csi2 
+and I like to be consistent.
+
+> 
+> > +
+> > +static int risp_probe(struct platform_device *pdev)
+> > +{
+> > +	struct rcar_isp *isp;
+> > +	unsigned int i;
+> > +	int ret;
+> > +
+> > +	isp = devm_kzalloc(&pdev->dev, sizeof(*isp), GFP_KERNEL);
+> > +	if (!isp)
+> > +		return -ENOMEM;
+> > +
+> > +	isp->dev = &pdev->dev;
+> > +
+> > +	mutex_init(&isp->lock);
+> > +	isp->stream_count = 0;
+> 
+> isp is kzalloc-ed, is this required ?
+
+Good point, no.
+
+> 
+> > +
+> > +	ret = risp_probe_resources(isp, pdev);
+> > +	if (ret) {
+> > +		dev_err(isp->dev, "Failed to get resources\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	platform_set_drvdata(pdev, isp);
+> > +
+> > +	ret = risp_parse_dt(isp);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	isp->subdev.owner = THIS_MODULE;
+> > +	isp->subdev.dev = &pdev->dev;
+> > +	v4l2_subdev_init(&isp->subdev, &rcar_isp_subdev_ops);
+> > +	v4l2_set_subdevdata(&isp->subdev, &pdev->dev);
+> > +	snprintf(isp->subdev.name, V4L2_SUBDEV_NAME_SIZE, "%s %s",
+> > +		 KBUILD_MODNAME, dev_name(&pdev->dev));
+> > +	isp->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > +
+> > +	isp->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
+> > +	isp->subdev.entity.ops = &risp_entity_ops;
+> > +
+> > +	isp->pads[RCAR_ISP_SINK].flags = MEDIA_PAD_FL_SINK;
+> > +	for (i = RCAR_ISP_PORT0; i < RCAR_ISP_MAX_PAD; i++)
+> > +		isp->pads[i].flags = MEDIA_PAD_FL_SOURCE;
+> > +
+> > +	ret = media_entity_pads_init(&isp->subdev.entity, RCAR_ISP_MAX_PAD,
+> > +				     isp->pads);
+> > +	if (ret)
+> > +		goto error;
+> > +
+> > +	pm_runtime_enable(&pdev->dev);
+> > +
+> > +	ret = v4l2_async_register_subdev(&isp->subdev);
+> > +	if (ret < 0)
+> > +		goto error;
+> > +
+> > +	dev_info(isp->dev, "Using CSI-2 input: %u\n", isp->csi_input);
+> > +
+> > +	return 0;
+> > +error:
+> > +	v4l2_async_notifier_unregister(&isp->notifier);
+> > +	v4l2_async_notifier_cleanup(&isp->notifier);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int risp_remove(struct platform_device *pdev)
+> > +{
+> > +	struct rcar_isp *isp = platform_get_drvdata(pdev);
+> > +
+> > +	v4l2_async_notifier_unregister(&isp->notifier);
+> > +	v4l2_async_notifier_cleanup(&isp->notifier);
+> > +	v4l2_async_unregister_subdev(&isp->subdev);
+> > +
+> > +	pm_runtime_disable(&pdev->dev);
+> 
+> Isn't it better to turn power off first, then unregister the subdev ?
+
+Why? I like that remove is done in reverse order from probe. Is there a 
+down side I'm missing?
+
+> 
+> Also, I wonder if we can enforce the reset sequence as specified in
+> "25B.6.3.1 Boot up sequence type 1" which implies the VIN and ISP
+> resets should be ordered.
+
+I don't think so, it has to be enforced from user-space by the order of 
+unbinding of the devices, no?
+
+On the same note I'm toying with the idea of setting suppress_bind_attrs 
+for all drivers involved as unbinding and then rebinding things using 
+v4l-async is horribly broken anyhow ;-)
+
+> 
+> Thanks
+>    j
+> 
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static struct platform_driver rcar_isp_driver = {
+> > +	.driver = {
+> > +		.name = "rcar-isp",
+> > +		.of_match_table = risp_of_id_table,
+> > +	},
+> > +	.probe = risp_probe,
+> > +	.remove = risp_remove,
+> > +};
+> > +
+> > +module_platform_driver(rcar_isp_driver);
+> > +
+> > +MODULE_AUTHOR("Niklas Söderlund <niklas.soderlund@ragnatech.se>");
+> > +MODULE_DESCRIPTION("Renesas R-Car ISP Channel Selector driver");
+> > +MODULE_LICENSE("GPL");
+> > --
+> > 2.31.1
+> >
+
+-- 
+Regards,
+Niklas Söderlund
