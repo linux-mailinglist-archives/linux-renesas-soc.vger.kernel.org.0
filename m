@@ -2,94 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79D533B7CCE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 06:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BB3E3B7D97
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Jun 2021 08:48:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232902AbhF3ErX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Jun 2021 00:47:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52074 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230200AbhF3ErX (ORCPT
+        id S232370AbhF3Gv0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Jun 2021 02:51:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36012 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229933AbhF3Gv0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Jun 2021 00:47:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C2D7D61CEF;
-        Wed, 30 Jun 2021 04:44:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625028295;
-        bh=MpUk3OYLLrhc3PgZfixiENrsTeYhLR3bRUUyRsso0j8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GQDfAOsNHCezM3alLXe0ZqFsDgRY6UGSI+J7BWkGgnjlLO1zrzd0rbtebJKz0gzlL
-         gGdYsCTGtlC4rlmnoJqT4lBXlJgMH7vzOPNHy/l7j/HnpvtaHWbMRwSe2lT9zRUGUI
-         VQqAL20hHrrtIcnZ2MDUj+/mNLxgYCwsClKaMCKDIDRPi98BSYqQl4f8l77/wmrxvy
-         UjNDQI5J5PAfbRlpBsF59fQ5ue/Pb3/nEvv+sxYqI1PgkGgVhBwPkSf7V1W6/gMCfM
-         QDETXDmOD+diJkolR0ZMms7kYs9dTT6ADCmwIzIS40KWBL0IsG2qHSYZvhAKEjsNeV
-         /2OJmdIFi0r3w==
-Date:   Wed, 30 Jun 2021 06:44:52 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        ulf.hansson@linaro.org
-Subject: Re: [PATCH] mmc: renesas_sdhi: increase suspend/resume latency limit
-Message-ID: <YNv2xNjvU6Ptddjq@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        ulf.hansson@linaro.org
-References: <20210514155318.16812-1-uli+renesas@fpond.eu>
+        Wed, 30 Jun 2021 02:51:26 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B3FC061766
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Jun 2021 23:48:57 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lyU1o-0002lb-4q; Wed, 30 Jun 2021 08:48:56 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lyU1n-0005a2-6J; Wed, 30 Jun 2021 08:48:55 +0200
+Date:   Wed, 30 Jun 2021 08:48:26 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, kernel@pengutronix.de
+Subject: Re: [PATCH v2] pwm: Ensure for legacy drivers that pwm->state stays
+ consistent
+Message-ID: <20210630064826.4u2p37tlbriiwtsn@pengutronix.de>
+References: <20210411160451.1207799-1-u.kleine-koenig@pengutronix.de>
+ <20210501160943.108821-1-u.kleine-koenig@pengutronix.de>
+ <alpine.DEB.2.22.394.2106292138100.1194476@ramsan.of.borg>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="fv3Q2RGIDfOHAIe9"
+        protocol="application/pgp-signature"; boundary="sqqmagc2umouqkn6"
 Content-Disposition: inline
-In-Reply-To: <20210514155318.16812-1-uli+renesas@fpond.eu>
+In-Reply-To: <alpine.DEB.2.22.394.2106292138100.1194476@ramsan.of.borg>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---fv3Q2RGIDfOHAIe9
-Content-Type: text/plain; charset=us-ascii
+--sqqmagc2umouqkn6
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 14, 2021 at 05:53:18PM +0200, Ulrich Hecht wrote:
-> The TMIO core sets a very low latency limit (100 us), but when using R-Car
-> SDHI hosts with SD cards, I have observed typical latencies of around 20-=
-30
-> ms. This prevents runtime PM from working properly, and the devices remain
-> on continuously.
+Hi Geert,
+
+On Tue, Jun 29, 2021 at 09:44:38PM +0200, Geert Uytterhoeven wrote:
+> On Sat, 1 May 2021, Uwe Kleine-K=F6nig wrote:
+> > Without this change it can happen that if changing the polarity succeed=
+ed
+> > but changing duty_cycle and period failed pwm->state contains a mixture
+> > between the old and the requested state.
+> >=20
+> > So remember the initial state before starting to modify the configurati=
+on
+> > and restore it when one of the required callback fails.
+> >=20
+> > Compared to the previous implementation .disable() (if necessary) is ca=
+lled
+> > earlier to prevent a glitch.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 >=20
-> This patch sets the default latency limit to 100 ms to avoid that.
+> Thanks for your patch, which is now commit d7bff84fe7ed8c3b ("pwm:
+> Ensure for legacy drivers that pwm->state stays consistent") in
+> pwm/for-next.
 >=20
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> This commit broke the backlight on the Atmark Techno Armadillo 800 EVA
+> board (arch/arm/boot/dts/r8a7740-armadillo800eva.dts), which now shows a
+> black screen.  Reverting the commit fixes the problem.
+>=20
+> Do you have an idea what is wrong, and how to fix it?
 
-Ulrich is right that the tuning error is just a cosmetic problem
-revealed by this patch and not really a regression. We are working on
-fixing this cosmetic problem. However, this patch is good as is and we
-finally have RPM working for SDHI with it. I tested RPM and
-suspend/resume and all worked nicely:
+I starred at the patch for some time now and couldn't find a problem.
+Looking at drivers/pwm/pwm-renesas-tpu.c I don't see something obvious.
+(The .set_polarity callback is faulty as I doesn't commit the request to
+hardware, but that shouldn't matter here.)
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+I guess the first request the backlight driver emits is
 
+	.period =3D 33333,
+	.duty_cycle =3D 33333,
+	.enabled =3D true,
+	.polarity =3D PWM_POLARITY_INVERSED,
 
---fv3Q2RGIDfOHAIe9
+which should result into the following driver calls (with and without
+the breaking commit):
+
+	tpu_pwm_set_polarity(chip, pwm, PWM_POLARITY_INVERSED);
+	tpu_pwm_config(chip, pwm, 33333, 33333);
+	tpu_pwm_enable(chip, pwm);
+
+Can you confirm that?
+
+Feel free to contact me via irc if you have questions/insights.
+
+Thanks for your time to report the issue,
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--sqqmagc2umouqkn6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDb9sQACgkQFA3kzBSg
-Kbaj3BAAnjOXYn/J9vqJqpZPVhTrwY7DPwxiiahom9vtrI53r/SV6Y/yEkd82vru
-rFwRBZG6521xz919XOe6bAs0Zo6UtrkoQvGMKxxjrl3t2Qod9PRkAPmWJUDk8T4v
-8Zgfya5prqzrDZ70Hg8sw6rXQV7E+JWmQd1Rx1AkhEBL75P0Ha2ElMnIB1qT/E00
-hdDvVvbTWUsK4hbETRgc6yxpLgW3WuQ83JZQUpiQv1FYanyvoX2+mPbtNTHDczfP
-fBvHX5nCjg/3AF3U9RDirOEdAoNxUqKFaMHeD8Dde8+DWPSrESMAcjoj9Z0Ufima
-UAlHyQ6FByg8HFA3F5HExDkitxI99R6VOecKxf4HuNhmLxlCIrqz1uo3c4dS9WE9
-kxn2yV8VIEtnPyfGlhdNs3rqzCJDogxguOvekMvNb8YuJ4ezOcP/xM85un+ZYaeQ
-a5UkzrcYj7Ns5hJgstDh4Kw+nmaGBo/1AF8lVl9hm/0g8mqMeBUaCwrN+xnhbsyS
-5fw3Ni3lB6CSoPjyvQDH7qZn7iJN22L5tW6zM2dsL41PkaDtejE/Hv/LUYIRnkHC
-M2uI2llUmRJy5nOeQGfflEoySdc86PgBUCPjXgDJJqiaM4iL1JV4FNAffWUs3FC7
-Eil6rrzhMXjD3RJ+8M/GH+T2lCCilUSQkZu0J8xTiCidmo4nZQc=
-=gPKX
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmDcE7IACgkQwfwUeK3K
+7AlXtAgAlRAVBpdSnCH6cXBh+rivgSIt2WT5Ph2lkm7I5RstIvLkge+mijxgsQiV
+27RIpzxTlUdEOpiogDPmonA1Z94FbY0++Utwf5iYEiRntnXvx+NaN8H7nVFkPrcQ
+nbP+l8E30qnsRjvvlnOiw42vxAp28inldTecTY6SiW0wnt4cb2PzgUDJNYfxdpZO
+hjnJNu5D35WaH1RpRKAZUbbj04udfcXiiXOU7sUkQFBQ+Tl9/dTmvkQhPY8y/ZYf
+76UZykd49Vw7nTZvRl54hGM+j7yUxrL4xb6rhlRllltaL1PKWwCEwC4A9OydDD1T
+i7lXmfUhUPg98U8poZBgR0E+2n80DA==
+=/JDG
 -----END PGP SIGNATURE-----
 
---fv3Q2RGIDfOHAIe9--
+--sqqmagc2umouqkn6--
