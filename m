@@ -2,94 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06CE13B92DA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 16:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A94663B93D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 17:19:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232775AbhGAOJF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Jul 2021 10:09:05 -0400
-Received: from mail-il1-f171.google.com ([209.85.166.171]:42962 "EHLO
-        mail-il1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232523AbhGAOJB (ORCPT
+        id S233353AbhGAPWS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Jul 2021 11:22:18 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.165]:31694 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232626AbhGAPWS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Jul 2021 10:09:01 -0400
-Received: by mail-il1-f171.google.com with SMTP id h3so6455487ilc.9;
-        Thu, 01 Jul 2021 07:06:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=yLHmmEj2mk4rdkuTrjRuXZd3VO0v+sUNL5ijm6xbTJE=;
-        b=bgm6N8ydga2V1U4nyi3MnGzf0h/Ca72rRgtTSOFxhcb65ubGJDvL/V5pT3XR3pcbY8
-         GzyAkEkK/u0YAVeeTL6LRAnxSEqkX+VT42YKt2zmpQM+EldE++mlbNfTWHZYTqXK/Wza
-         1Lvr3ExkLNTEg78f8cEc5mfr8jc75//8J+tlVjVdpomsSh2MMezF2x+VvJrST9vNsznO
-         Wl4wJ5GtUUb5u4ePNIO64/cSlYcI4hJlmNTEzBYkODsYHjJlEdJnc4mAXNyYXEr2M48p
-         AagyDYz99BLg6UMpXPM0oeesjYz7QHcSQgzIUvT2gFfB/05v7qrwyOMig5XwTr9GeYDK
-         inyA==
-X-Gm-Message-State: AOAM5312F/ALMCarVjA+X3zHoMRa5tBTX0vPAX0ZNi8/rmvjy04KTG9c
-        YIDIZL6t/PaWMLhWM+jQvw==
-X-Google-Smtp-Source: ABdhPJzM92Q/jJWim96ayyFCopdaorRNbcbr+6aTWu/nFJcw1tUY8oAEYBHv/5i+4sfTgTRR1g4Ijw==
-X-Received: by 2002:a05:6e02:1d16:: with SMTP id i22mr13367772ila.300.1625148390793;
-        Thu, 01 Jul 2021 07:06:30 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id o10sm26672ilc.75.2021.07.01.07.06.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jul 2021 07:06:29 -0700 (PDT)
-Received: (nullmailer pid 2285450 invoked by uid 1000);
-        Thu, 01 Jul 2021 14:06:23 -0000
-Date:   Thu, 1 Jul 2021 08:06:23 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Thu, 1 Jul 2021 11:22:18 -0400
+X-Greylist: delayed 357 seconds by postgrey-1.27 at vger.kernel.org; Thu, 01 Jul 2021 11:22:17 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1625152422;
+    s=strato-dkim-0002; d=fpond.eu;
+    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=E6YG1Wycui3LkGZUNbVIXUpJBzCy7rOpz0ekLomEsKQ=;
+    b=RhZTZ6/oU03uKwDZVHee7yV1Il9wLAUDxXbU/BjRaVQ/Y08WRLXvsdUhNGP/gAGzHx
+    36RPo4maNF7P1j4YpRQpJsOgVcKAyn/7X/AClcFXGogLzlQPCTUat92UzGtn+K4Oj2DI
+    +4wDoHnIeivbE0OA10rbpNUn6Oq5h92Zs0itwTX7cfdWMl8SxIwsX1hoYjN6LM9h14PH
+    5LMb3YEPJm1KYW5+CYlCZrZIipt0B1kn0MCJfBK9OVirpnpSIVYxu+gIH144C1fn2FDb
+    xGx5ajvex+M+i/xI7b02XK5n9WOObWnzajV2/jM58MwEf3qKN3n8HLtwM3A0EU8Pp6s1
+    54pA==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fGl/wuMlg=="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp01-01.back.ox.d0m.de
+    by smtp-ox.front (RZmta 47.28.1 AUTH)
+    with ESMTPSA id V01605x61FDg6Lv
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+    Thu, 1 Jul 2021 17:13:42 +0200 (CEST)
+Date:   Thu, 1 Jul 2021 17:13:42 +0200 (CEST)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix 'unevaluatedProperties' errors in DT
- graph users
-Message-ID: <20210701140623.GA2285366@robh.at.kernel.org>
-References: <20210623164344.2571043-1-robh@kernel.org>
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Message-ID: <1540754379.1298770.1625152422374@webmail.strato.com>
+In-Reply-To: <975b6686bc423421b147d367fe7fb9a0db99c5af.1625134398.git.geert+renesas@glider.be>
+References: <975b6686bc423421b147d367fe7fb9a0db99c5af.1625134398.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a77995: draak: Remove bogus
+ adv7511w properties
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210623164344.2571043-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.4-Rev25
+X-Originating-Client: open-xchange-appsuite
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 23 Jun 2021 10:43:44 -0600, Rob Herring wrote:
-> In testing out under development json-schema 2020-12 support, there's a
-> few issues with 'unevaluatedProperties' and the graph schema. If
-> 'graph.yaml#/properties/port' is used, then neither the port nor the
-> endpoint(s) can have additional properties. 'graph.yaml#/$defs/port-base'
-> needs to be used instead.
-> 
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: "Paul J. Murphy" <paul.j.murphy@intel.com>
-> Cc: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/display/bridge/lontium,lt8912b.yaml    | 3 ++-
->  Documentation/devicetree/bindings/media/i2c/imx258.yaml        | 2 +-
->  Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml   | 2 +-
->  Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml   | 2 +-
->  Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml   | 2 +-
->  Documentation/devicetree/bindings/media/renesas,vin.yaml       | 3 ++-
->  6 files changed, 8 insertions(+), 6 deletions(-)
-> 
 
-Applied, thanks!
+> On 07/01/2021 12:15 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> 
+>  
+> From: Geert Uytterhoeven <geert@linux-m68k.org>
+> 
+> The "max-clock" and "min-vrefresh" properties fail to validate with
+> commit cfe34bb7a770c5d8 ("dt-bindings: drm: bridge: adi,adv7511.txt:
+> convert to yaml").  Drop them, as they are parts of an out-of-tree
+> workaround that is not needed upstream.
+> 
+> Fixes: bcf3003438ea4645 ("arm64: dts: renesas: r8a77995: draak: Enable HDMI display output")
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> To be queued in renesas-devel fo v5.15.
+> ---
+>  arch/arm64/boot/dts/renesas/r8a77995-draak.dts | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+> index 71203c0fa55351c6..f0f585a4046196f2 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+> @@ -314,10 +314,6 @@ hdmi-encoder@39 {
+>  		interrupt-parent = <&gpio1>;
+>  		interrupts = <28 IRQ_TYPE_LEVEL_LOW>;
+>  
+> -		/* Depends on LVDS */
+> -		max-clock = <135000000>;
+> -		min-vrefresh = <50>;
+> -
+>  		adi,input-depth = <8>;
+>  		adi,input-colorspace = "rgb";
+>  		adi,input-clock = "1x";
+> -- 
+> 2.25.1
+
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+
+CU
+Uli
