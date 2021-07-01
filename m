@@ -2,32 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 656443B96B2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 21:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45E413B96B5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 21:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234010AbhGATo1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Jul 2021 15:44:27 -0400
-Received: from mail-eopbgr1410130.outbound.protection.outlook.com ([40.107.141.130]:51299
+        id S234095AbhGAToe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Jul 2021 15:44:34 -0400
+Received: from mail-eopbgr1410097.outbound.protection.outlook.com ([40.107.141.97]:43967
         "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233631AbhGATo1 (ORCPT
+        id S234043AbhGAToa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Jul 2021 15:44:27 -0400
+        Thu, 1 Jul 2021 15:44:30 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VuzkASR7vaXGPuw2y2XtcqYy+LqOCXklbOdetoJGP/XedBClNq62026rmMie7WdnGIWAoeEvBUWNmLF1W+S+9H4s56TqTYbYPy2KRcSrW3YuG9icjPBr7e8HGInGou0rCo32pIb7ighTUv58XJveJzniK1sZ4nAvMmIB+22UGKmuOWN2uR6zRFSgvzOEq1m57ktflDfwr2KKDKXD5j5HSd0mP6wPE6JXWf+WRcOQgGV4CMK4UKGOOP3Jk/gevmzQvMK5Iy6Ul0Wbp1QBev0Oo1jAJT2bmRZVgthoCFfkq8Er1SN+6FGcuF8Fog9lp1FqR+26CUw0Q1fvKNqmEYkTeA==
+ b=aJZ0JzPUx9V0S7Vtpc/m/w5Sq5ihdwoU5yrRupZzHk4A85Nl7977Q7xFxd4BGYdkcz81NTagb3UWkb5p455YDqYTuyMPu0vbn1QyEKY6PaxXD7frB62Xq7Cm4clKF0V6ciBRZqIIQyAn2vb+XU85hmi2HR1a9CLwv4QXuwbbnOtuy8NA0P7lwSRwU+fshsklxYdSuK9rHRUmZt5jVwBNmFSi80FxDPss0l20AAsURtRDei+oeDa1KrJjcWKHAZxrZ00MBb2hLOfnZ+xcVffQPcbwuBrhuHfDefB2ElGDdVNQ7WGLXCdsYQgyZa4LcKFJPBk/2yd5P18Zd6JsQQD1Tw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c46DUXc/X5oTbQOrjV/abppumDTPCx1ang4SUmwrVJs=;
- b=Yt6YET/bAFJqFv5IF4Y9Ii9zEuR/Nvd3YUoor9Mv1m0Tq+ATczVb66zFcRV0RfJ0lLkW+oODcenssHBJVausPVbedHD5H2t/QhroxOoV2Lm4ppQZAiITTwLMNvSgwKIXWkg4T8Ds9n1z2y/WddbrkWlXU01sSJMDhYmr6hggDkyDXxmzck27qnSz8KHqBbX407dAyGiI6X3I1vUDfuYUSVPcIPYabac3mjAMK38i4KdAFtvIynXHOhhhVMOrQw7bLtw0aRZh5I3G7Igisqjq+l+RUgUYZ8JjTA1FR1rXgDD4xrXSdNMfuh5r+Eh5eWrdGg4nE61mBdt0QGAL13+LWQ==
+ bh=qMJ1PDgjKTbN1dtaF9WKT+rv5CWooilIgufRKgsfLF8=;
+ b=kVn/3cykRxMCZ8Nvvz5O42WD1S/OEw/hKk44jniHc07Rz1MfCs9kxSLTYy0uGmavKIuK4ly8h1DdEUJaycDSaZcCN9aavoCDrc+UTWLNPR667W+sJeRRYLO0lLouhcCRVZPberfCldV+JmKtte17KjNaUGJ+936Y8ZBwIZve5RuCBKbgFLehR/E+C12tXzHh9jgIOZKivBbYoQWP0IXmJLBnwSeVUZNmbBw1iseF+gV1E2Jx1YfkrKXa8CPNyzZMrri1w0kAYo6z220TtErY5DqgHmf4GebHpKJy9rC5BX6BkXj02ZSYSmFtGGkFkqBOIzzedCrq0e8UjR8eB5mI7g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c46DUXc/X5oTbQOrjV/abppumDTPCx1ang4SUmwrVJs=;
- b=UlKmuvyCrmAElXmO+mPPHCclYqhqHO1DOXfu9MAqxXlnnbEhd/rbPG/WGQnJi+1asdxaVZO/TCkP1i75/jrLv11fvWkej3RRO7W0XDZ5j25N2MGeZLrRapLXlntBLjSKeb00CXQQCmdMScjttqN7V1DmoFIvHW0IXwoadGEncM8=
+ bh=qMJ1PDgjKTbN1dtaF9WKT+rv5CWooilIgufRKgsfLF8=;
+ b=EgTM8iiEuUm0IQOMV53061Uz6tvsD4KEEu1Nn5ApZj1yPYZev7G1vj80D8EpEFiMNet54Pv3h+0rBAflNaUpIJV5MIihkvQSb3Jxz2xIbkbDu6jO8GCUlvRH8OF9cVWsX+3M5N0VhZkwQYXOIwCXhHGiBvq3pCZQn5im0lb+46s=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none
  header.from=renesas.com;
@@ -35,20 +35,20 @@ Received: from OSAPR01MB3892.jpnprd01.prod.outlook.com (2603:1096:604:5b::23)
  by OSAPR01MB4084.jpnprd01.prod.outlook.com (2603:1096:604:30::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.23; Thu, 1 Jul
- 2021 19:41:53 +0000
+ 2021 19:41:56 +0000
 Received: from OSAPR01MB3892.jpnprd01.prod.outlook.com
  ([fe80::e1ee:a98a:2ba3:aee4]) by OSAPR01MB3892.jpnprd01.prod.outlook.com
  ([fe80::e1ee:a98a:2ba3:aee4%7]) with mapi id 15.20.4287.023; Thu, 1 Jul 2021
- 19:41:53 +0000
+ 19:41:56 +0000
 From:   Alex Helms <alexander.helms.jy@renesas.com>
 To:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Cc:     robh+dt@kernel.org, sboyd@kernel.org, mturquette@baylibre.com,
         geert+renesas@glider.be, alexander.helms.jy@renesas.com,
         david.cater.jc@renesas.com
-Subject: [PATCH 1/2] dt-bindings: Add binding for Renesas 8T49N241
-Date:   Thu,  1 Jul 2021 12:41:34 -0700
-Message-Id: <20210701194135.18847-2-alexander.helms.jy@renesas.com>
+Subject: [PATCH 2/2] clk: Add ccf driver for Renesas 8T49N241
+Date:   Thu,  1 Jul 2021 12:41:35 -0700
+Message-Id: <20210701194135.18847-3-alexander.helms.jy@renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210701194135.18847-1-alexander.helms.jy@renesas.com>
 References: <20210701194135.18847-1-alexander.helms.jy@renesas.com>
@@ -60,275 +60,1817 @@ X-ClientProxiedBy: SJ0PR05CA0147.namprd05.prod.outlook.com
  (2603:1096:604:5b::23)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from az-ahelms.na.ads.idt.com (68.225.135.226) by SJ0PR05CA0147.namprd05.prod.outlook.com (2603:10b6:a03:33d::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.8 via Frontend Transport; Thu, 1 Jul 2021 19:41:51 +0000
+Received: from az-ahelms.na.ads.idt.com (68.225.135.226) by SJ0PR05CA0147.namprd05.prod.outlook.com (2603:10b6:a03:33d::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.8 via Frontend Transport; Thu, 1 Jul 2021 19:41:53 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c6abbd2b-f8b4-4f5b-644a-08d93cc8470b
+X-MS-Office365-Filtering-Correlation-Id: 3e17e5e8-6cd7-4229-d721-08d93cc84894
 X-MS-TrafficTypeDiagnostic: OSAPR01MB4084:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <OSAPR01MB40847C6B640708256EB55B9EC8009@OSAPR01MB4084.jpnprd01.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <OSAPR01MB4084FFD53C994F72EC3C18B6C8009@OSAPR01MB4084.jpnprd01.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:530;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ob4b0ukIZzbFwHgS5wOWO7yqWF+oTuLA6KvD7MhwthE6qEikelZlJqvfHw/48TaNTuV5lzEju12UeuApRHewS2ABbLOhfq6PCJgXD+pCbpBCbUgu03HwyLFHTKETeXsOeks4HxUIG0/I0vjek93HlvbBwdwENUZb3vTTFXWmzYBXJJUXwRRoT1xPFfzszJfmVCh1sVqKxlT0eybp0cwcqVOfh89zrnRyQPtgb1zipmCsVRHFDOFNd5L9tqDSDSIqe7sVwPuWTsC8QibGvadXiVLnS4HCsHvO/lII5lHSfQW71X4A/m5idhauaEVT/kEjfh2YmKcdbBPpE+1XUAz76/hk35VD1w8U7jZP2rRkmxXroy7wWZcz5MisoSHCYEvoH6/+WAZ7BKxFXSNCYFAn8DQuQ7ALCp0bYUXGcZ2l9HeUP1A/VoUP/hY56M5cSTkvfUzyUpY+2WiYHLQW4pzcicoyW5FOe8pvGjXWG0jrpekFa56txMdl8M5jAumUF5+oak5OxEhxCcJuiqJv+HWZP/pmNvUwf/9e04/pQGhxtToptLdGNtVIvYmgc2qzmPpOik9j8cEcX+3GA/RTn9c6s1rsZ3Islkvvd5vlmCxjSVkt7DnonSjxKXQtQvFinsBKbfxQjdozVgLVU4l+/QmBKuFklbeK76SGb684jOzYRXQa3Tdguqhlrk2meYxya8tCtkZn4oLTA1OpHhbEK0aJohp6NzQD6G2W/0Vm+hL7GtaB4DhH0Tx+3hmJBu60Kqe7L2O3YC+KeM2IdZuFS/EQDaXBXnk7HWehuU2nZmLoej6AxNLolvOga/Nvvv0H9oJOci3cHB50Wk6cvTV4hYal7DL/VuCWsAz3lQJQz0AlsFo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB3892.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(39850400004)(366004)(136003)(376002)(4326008)(478600001)(107886003)(38100700002)(8676002)(8936002)(86362001)(38350700002)(956004)(5660300002)(6506007)(2616005)(6486002)(966005)(36756003)(103116003)(6666004)(66946007)(6512007)(52116002)(1076003)(16526019)(66556008)(26005)(186003)(66476007)(83380400001)(2906002)(316002)(505234006);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: 2SSAZ8ngFezE05JBSNWII6wBCu4LxzxweOlTuZbV8ZguGewnHRb7+Ozl/QEZ0i2kbIU7Sc0CHAnfY5O+kdFXqBldys6rKQVQWaC/zrMTglVaTZ7vk4P8c3gThljvgltnEczxwurNYDgisxzxNe2OA3q9MqRBb//uUEerXxwxjwlBuzbV540fH1dmjYsvcEeaeeBNa0I+gGpAbItRnx16Jg+MYmx5IfyUyqvS6M69GYxfAzBbnCKX0kb1D4gYqKVIyPPfjYiHlz7ivRoVglr5n8FLXnIrcddBXDgHZadbBhlxAjVCkqW/LBpY58vrr47yWBej5S+Jf7M67NJTHePFDW5CM8du5eA6OH4vvDkyPZtspXaQFOK13AH9WMJ5kNYUBwU+ox7hJT+u0RXNgm5jw5BC9g1EeH7pCvgBiEtBqKAitgNSfgOobwTG0fyJ7KFwVzAah5k8WmPZH6QG1uH4v4QLPAt9fYePGoC12Sr0ssfjEs/DMkMA3PcrgXMSTBm9mVuzGC7KUtmLkU5aOhD6kcpecGdkpYSYImp83Qpib4MzF7GQtqIGkqbVxOGngK8+5lE5NvghQm2rMJc5XjkvppnS5Ip6zCYGFzy6ytIy3eDJ0Si3gMA7CkL4T28+vKWctq9uaIla9LSZDM9Z293xPI/FacKPp4Hoqjve6rtDftfN3RNBR7GuCCN48Uy1VDp0t5gdEXxF4xQ6YynKx9pdUQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB3892.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(39850400004)(366004)(136003)(376002)(4326008)(478600001)(107886003)(38100700002)(8676002)(8936002)(86362001)(38350700002)(956004)(5660300002)(6506007)(2616005)(6486002)(36756003)(103116003)(6666004)(66946007)(6512007)(30864003)(52116002)(1076003)(16526019)(66556008)(26005)(186003)(66476007)(83380400001)(2906002)(316002)(559001)(579004);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+jiXyNaKk4N2ZpEcIOtgPUzbRb78DMnzqmar0ZjEJ9mCJ6h0mAtjX8EYnwci?=
- =?us-ascii?Q?WJbG94gyYWI6bBcRMoDC66u4xSosUs4hVVOk3R5ij4OOXlwRuwnMBzfLINIT?=
- =?us-ascii?Q?VajNVpn5wWivufT17I22uv/xUHRX5bt+CkRfWYYMYzRIQ/h89FvOsWfVpg1N?=
- =?us-ascii?Q?w9ZpJUL5yzpXMWwOIzjkA6yhn5WxKx6ySpjedxBRcO2SiiJf/q0dR7Pengir?=
- =?us-ascii?Q?D91bMp3fXVRsqNGZf+A8U6V2iBIvRzzYvycEcRDiFecfMTQnMSY6YMgxsGBB?=
- =?us-ascii?Q?tUU8khRWGItwD0PTb4dWi2w2FEzu3qdL7x7hVGDZ8fh+UGMAuljaQ0OFOCOd?=
- =?us-ascii?Q?Pun/GDBxJcXtFwx0c5NDxuDy25f+TeoRaaioAkQRbzvr7xakTpW326AWNzzj?=
- =?us-ascii?Q?9CVKzIQHU84HMh+k6HAds5leNILL2plhDukp7Uw+BffhNK5bDedEp00+jM5q?=
- =?us-ascii?Q?yGKzTFk+T/HrxngjKC1ilA8AmHqsit49icG3tnbHjyIGgqMnJE6DM1mEVQyL?=
- =?us-ascii?Q?OWoMg31BI9SfYMAygNxkkvViz7tSETtpF+crSagb0LnCcj93agLaPzWN03ZC?=
- =?us-ascii?Q?2ktp15sLTY28ywOglcb2SFA3f55MEDMilfzY09wp5l/KOgvsj3beAtsWGJM5?=
- =?us-ascii?Q?Zj8O0B4ngFW2VYpsy3my1HB71ejAj+oxHCFRSphN1bJkk+Kzw4RFu8xruZIP?=
- =?us-ascii?Q?kclIOylPUx/foErgLO3a5Ouv/6+DTwsuInreSSBQi7+rVu9ampEjAkjQeNph?=
- =?us-ascii?Q?/ptY82ge8uXXA3sveDbe2MWWQmp6SOmMvBSYu2lW3l9SiWY+KR/0yTq4WVay?=
- =?us-ascii?Q?r2ehl8Pbssof8zUmM4uppzWgRAtcr1V4n6h42kh58cFWqIzbwZs5t/20yuKV?=
- =?us-ascii?Q?5Y5aijJLNOyx92+ZEA4OQgQGD7rx8lonwLS9ps+b6sO3lfmuhcmhbKg2YEc/?=
- =?us-ascii?Q?yLwPmMxWrVNCV2nH92LoVY6P/qy22FXZ4b+VTHEwa/4/oX8Rt7S93/7xZfCc?=
- =?us-ascii?Q?CtScdsyxAQIu+bhVeJRyZvaKMqdprhID0S5WqjKFvwsbrYkerDk6izBaF4II?=
- =?us-ascii?Q?LwDXNk+UWTmcRaZpqzK8AhwpAmMxSjxQvei8X27tRZFR+Uw9KzTXd4F2ds+V?=
- =?us-ascii?Q?ZJcs/a2pv8q1kxBVLV2Ca+i8EDzajLXrmA4sn+Yjd5dPjpewpzzyxbOymGO6?=
- =?us-ascii?Q?xxQHXxzwQXqZo0ZSmwG9ek8aNZOvcSCagT9vNOWnduXerhX5EK2CVIp8Z0pc?=
- =?us-ascii?Q?lhbqX4u7bW2H6weyRWaIbU0BqfuZxxHHyrfQU7zQYpbkoRJNXk+ToW6dk2nU?=
- =?us-ascii?Q?aAG1d04RWKxT0WqVbepl2eEl?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qd77r1SWwAmrWgoP7A/XCsrvAtKBGrS98gSdE8IKiAr1V+99HJq4Zjl14+zg?=
+ =?us-ascii?Q?mrKVYEq7rqQKjuwLame5ylVwWx5NSXMxFYXIDEXIkF0Cn0jTG4ac8C6BzoH7?=
+ =?us-ascii?Q?QgJg3zaPktba/St1mSiD61zDV6YNlYLl6jL3477jtS+4CPEGNqF3HvYnECNn?=
+ =?us-ascii?Q?/p09OAVsWRXrClbP4prxqP0wc0Sp8HAnHfi0VcQYWoks6a4wGpzmA+aL5O3S?=
+ =?us-ascii?Q?Mr+RVy5l14XZXE9A3wh/2mjf5ta9JW6qenvCV8+viPyqMl0HVAcYp8uSfFLR?=
+ =?us-ascii?Q?R9SSe9LLxhDyG7mFUMTx4fSsegVj/scY5JuFTSrvI7uz54sY83XfzoaGgEhP?=
+ =?us-ascii?Q?2v8K1QdONATQeWE3ml8dw0Ru+WbBfknSXmtQ6BZrT4k1gJlrYfBmuScZZFs4?=
+ =?us-ascii?Q?2lN311fF8A2Hk6yc5JiNrqb0qUspAYNqoYQCVDqf4YhRD391hgWvrPnvdlku?=
+ =?us-ascii?Q?yYwo2ctHwa8grfzoTV8Ch+GwAopn9hkSSDvm34YkbCCY5VWJiWWHhc3IOwxg?=
+ =?us-ascii?Q?xrTJrenic0RrHxgc2kK9yrt7lLvz0s7IkYV0z10SmnQEK8fgFXf7ZnM9Fd7x?=
+ =?us-ascii?Q?VUHulsspDXNSijETaMt2bLoYCZhni4/xT1C/yK53OEUgt6waX1YmTA7HuBMf?=
+ =?us-ascii?Q?DzZqZwc5xLVZ5QhJd++2e97RMnZrZsfd7+ZdFcOTElbOd0q8cmtXMNJQTCE7?=
+ =?us-ascii?Q?gDy11zgcsTd11XMybyipJSyjTmkWeeErx6CT+T9HkZoN6zSTeZp9dEyC7tzb?=
+ =?us-ascii?Q?0CuO5rjTUmkzIQOq02TdNowZpzHnc+tfSbdVhxRI7RQJx7z3wokxu4nFFHKJ?=
+ =?us-ascii?Q?zGFl1ylXoT99JFOkfuaWmDypjcQUgfhOp+MyJD5qLWgE5ZXlkNtwp6AVGWnv?=
+ =?us-ascii?Q?p+Ndfq3KAnHdkAb6ZVRvHDMahTDsK8vjKHHzL8pxv48CD5pb9lmcJ7xImOlA?=
+ =?us-ascii?Q?8MpkU4M2pLxWpGjB5ABhFXK2+lITKVyc21lg9pcBLZwpkWxNmcX7pQcngQsC?=
+ =?us-ascii?Q?mKUKNcE6jYNLO/D0DosP0kbDTc2mznnvQ6r1/i4wgYm6XXegq+ztgt6U+uks?=
+ =?us-ascii?Q?xliRMlE8cwife65ykyvRB9WmVHPT/0OhZJgwmBUEBj4ExdLT0OTTIQFCxEJY?=
+ =?us-ascii?Q?qr9qgXwrBnTC7GcNjg44PBWX6zxIrpvnjMYkkJyKeFuIclxZKC3Q1iKfcAbN?=
+ =?us-ascii?Q?P0CwFuUeCpMPzDp7tXHUrfByaAfnFUeEmksh4eHtLyoM4ejp6B5dW/ZyOPI8?=
+ =?us-ascii?Q?UluYjDQcO7txL1O61+X+VF8aW2iIygaSXmaUNWZ/xS7F3T+JHlXWXG00Da9W?=
+ =?us-ascii?Q?ZmlDrLTz7jmTywIwSetxpJ3l?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6abbd2b-f8b4-4f5b-644a-08d93cc8470b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e17e5e8-6cd7-4229-d721-08d93cc84894
 X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB3892.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2021 19:41:53.5398
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2021 19:41:56.3092
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dCvhx1dKNVa1afLXG/aZ3mu8pU6qTaDoibGO0llFD6gfHglRAHm0Zl7QJzM83H0neYiHHjM2G38Hzw9D9e77/my9LfQC7MhJQT4I/rYTU+c=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Nmg8q/BgEXYrW05WlFruj5in4Zdk4Uwo73TE6YLS893smcPuZ9ESDu2sWRNUMdLpyo1DK3h9Aqp1YuavVNvnj9twXtVFrfS9Br4NwSrk68o=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB4084
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Renesas 8T49N241 has 4 outputs, 1 integral and 3 fractional dividers.
-The 8T49N241 accepts up to two differential or single-ended input clocks
-and a fundamental-mode crystal input. The internal PLL can lock to either
-of the input reference clocks or to the crystal to behave as a frequency
-synthesizer.
+This is a common clock framework driver that supports the 8T49N241 chip.
+No other chips in the family are currently supported. The driver
+supports setting the rate for all four outputs on the chip and
+automatically calculating/setting the appropriate VCO value.
+
+The driver can read a full register map from the device tree
+and will use that register map to initialize the attached device
+(via I2C) when the system boots. Any configuration not supported by
+the common clock framework must be done via the full register map,
+including optimized settings.
+
+All outputs are currently assumed to be LVDS unless overridden in
+the full register map in the DT.
 
 Signed-off-by: Alex Helms <alexander.helms.jy@renesas.com>
 ---
- .../bindings/clock/renesas,8t49n241.yaml      | 183 ++++++++++++++++++
- MAINTAINERS                                   |   6 +
- 2 files changed, 189 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
+ MAINTAINERS                         |   1 +
+ drivers/clk/Kconfig                 |  21 +
+ drivers/clk/renesas/8t49n24x-core.c | 836 ++++++++++++++++++++++++++++
+ drivers/clk/renesas/8t49n24x-core.h | 251 +++++++++
+ drivers/clk/renesas/8t49n24x.c      | 573 +++++++++++++++++++
+ drivers/clk/renesas/Makefile        |   4 +
+ 6 files changed, 1686 insertions(+)
+ create mode 100644 drivers/clk/renesas/8t49n24x-core.c
+ create mode 100644 drivers/clk/renesas/8t49n24x-core.h
+ create mode 100644 drivers/clk/renesas/8t49n24x.c
 
-diff --git a/Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml b/Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
-new file mode 100644
-index 000000000..d817ec46d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
-@@ -0,0 +1,183 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/clock/renesas,8t49n24x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Binding for Renesas 8T49N241 Universal Frequency Translator
-+
-+description: |
-+  The 8T49N241 has one fractional-feedback PLL that can be used as a
-+  jitter attenuator and frequency translator. It is equipped with one
-+  integer and three fractional output dividers, allowing the generation
-+  of up to four different output frequencies, ranging from 8kHz to 1GHz.
-+  These frequencies are completely independent of each other, the input
-+  reference frequencies and the crystal reference frequency. The device
-+  places virtually no constraints on input to output frequency conversion,
-+  supporting all FEC rates, including the new revision of ITU-T
-+  Recommendation G.709 (2009), most with 0ppm conversion error.
-+  The outputs may select among LVPECL, LVDS, HCSL or LVCMOS output levels.
-+
-+  The driver can read a full register map from the DT, and will use that
-+  register map to initialize the attached part (via I2C) when the system
-+  boots. Any configuration not supported by the common clock framework
-+  must be done via the full register map, including optimized settings.
-+
-+  The 8T49N241 accepts up to two differential or single-ended input clocks
-+  and a fundamental-mode crystal input. The internal PLL can lock to either
-+  of the input reference clocks or just to the crystal to behave as a
-+  frequency synthesizer. The PLL can use the second input for redundant
-+  backup of the primary input reference, but in this case, both input clock
-+  references must be related in frequency.
-+
-+  All outputs are currently assumed to be LVDS, unless overridden in the
-+  full register map in the DT.
-+
-+maintainers:
-+  - Alex Helms <alexander.helms.jy@renesas.com>
-+  - David Cater <david.cater.jc@renesas.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - 8t49n241
-+
-+  reg:
-+    description: I2C device address
-+    enum: [ 0x7c, 0x6c, 0x7d, 0x6d, 0x7e, 0x6e, 0x7f, 0x6f ]
-+
-+  '#clock-cells':
-+    const: 1
-+
-+  clock-names:
-+    description: Name of the input clock
-+    minItems: 1
-+    maxItems: 3
-+    items:
-+      enum: [ input-xtal, input-clk0, input-clk1 ]
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 3
-+
-+required:
-+  - compatible
-+  - reg
-+  - '#clock-cells'
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    /* 25MHz reference clock */
-+    input_clk0: input_clk0 {
-+      compatible = "fixed-clock";
-+      #clock-cells = <0>;
-+      clock-frequency = <25000000>;
-+    };
-+
-+    i2c@0 {
-+        reg = <0x0 0x100>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        renesas8t49n241_1: clock-generator@6c {
-+            compatible = "renesas,8t49n241";
-+            reg = <0x6c>;
-+            #clock-cells = <1>;
-+
-+            clocks = <&input_clk0>;
-+            clock-names = "input-clk0";
-+        };
-+    };
-+
-+    /* Consumer referencing the 8T49N241 Q1 */
-+    consumer {
-+        /* ... */
-+        clocks = <&renesas8t49n241_1 1>;
-+        /* ... */
-+    };
-+  - |
-+    /* 40MHz crystal */
-+    input_xtal: input_xtal {
-+      compatible = "fixed-clock";
-+      #clock-cells = <0>;
-+      clock-frequency = <40000000>;
-+    };
-+
-+    i2c@0 {
-+        reg = <0x0 0x100>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        renesas8t49n241_2: clock-generator@6c {
-+            compatible = "renesas,8t49n241";
-+            reg = <0x6c>;
-+            #clock-cells = <1>;
-+
-+            clocks = <&input_xtal>;
-+            clock-names = "input-xtal";
-+
-+            settings=[
-+                09 50 00 60 67 C5 6C FF 03 00 30 00 00 01 00 00
-+                01 07 00 00 07 00 00 77 6D 06 00 00 00 00 00 FF
-+                FF FF FF 00 3F 00 2A 00 16 33 33 00 01 00 00 D0
-+                00 00 00 00 00 00 00 00 00 04 00 00 00 02 00 00
-+                00 00 00 00 00 00 00 17 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 D7 0A 2B 20 00 00 00 0B
-+                00 00 00 00 00 00 00 00 00 00 27 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                C3 00 08 01 00 00 00 00 00 00 00 00 00 30 00 00
-+                00 0A 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 85 00 00 9C 01 D4 02 71 07 00 00 00
-+                00 83 00 10 02 08 8C
-+            ];
-+        };
-+    };
-+
-+    /* Consumer referencing the 8T49N241 Q1 */
-+    consumer {
-+        /* ... */
-+        clocks = <&renesas8t49n241_2 1>;
-+        /* ... */
-+    };
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 0cce91cd5..882d79ead 100644
+index 882d79ead..4ff414023 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -15575,6 +15575,12 @@ F:	include/linux/rpmsg/
- F:	include/uapi/linux/rpmsg.h
- F:	samples/rpmsg/
+@@ -15580,6 +15580,7 @@ M:	Alex Helms <alexander.helms.jy@renesas.com>
+ M:	David Cater <david.cater.jc@renesas.com>
+ S:	Odd Fixes
+ F:	Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
++F:	drivers/clk/renesas/8t49n24x*
  
-+RENESAS 8T49N24X DRIVER
-+M:	Alex Helms <alexander.helms.jy@renesas.com>
-+M:	David Cater <david.cater.jc@renesas.com>
-+S:	Odd Fixes
-+F:	Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
-+
  RENESAS CLOCK DRIVERS
  M:	Geert Uytterhoeven <geert+renesas@glider.be>
- L:	linux-renesas-soc@vger.kernel.org
+diff --git a/drivers/clk/Kconfig b/drivers/clk/Kconfig
+index e80918be8..7a7523372 100644
+--- a/drivers/clk/Kconfig
++++ b/drivers/clk/Kconfig
+@@ -330,6 +330,27 @@ config COMMON_CLK_VC5
+ 	  This driver supports the IDT VersaClock 5 and VersaClock 6
+ 	  programmable clock generators.
+ 
++config COMMON_CLK_8T49N24X
++	tristate "Clock driver for Renesas 8T49N24x"
++	depends on I2C
++	depends on OF
++	select REGMAP_I2C
++	help
++	  This driver supports the Renesas 8T49N24x universal frequency
++	  translator product family. The only chip in the family that is currently
++	  supported is the 8T49N241. The driver supports setting the rate for
++	  all four outputs on the chip and automatically calculating/setting
++	  the appropriate VCO value.
++
++	  The driver can read a full register map from the DT,
++	  and will use that register map to initialize the attached part
++	  (via I2C) when the system boots. Any configuration not supported
++	  by the common clock framework must be done via the full register
++	  map, including optimized settings.
++
++	  All outputs are currently assumed to be LVDS, unless overridden
++	  in the full register map in the DT.
++
+ config COMMON_CLK_STM32MP157
+ 	def_bool COMMON_CLK && MACH_STM32MP157
+ 	help
+diff --git a/drivers/clk/renesas/8t49n24x-core.c b/drivers/clk/renesas/8t49n24x-core.c
+new file mode 100644
+index 000000000..15e7136e1
+--- /dev/null
++++ b/drivers/clk/renesas/8t49n24x-core.c
+@@ -0,0 +1,836 @@
++// SPDX-License-Identifier: GPL-2.0
++/* 8t49n24x-core.c - Program 8T49N24x settings via I2C (common code)
++ *
++ * Copyright (C) 2018, Renesas Electronics America <david.cater.jc@renesas.com>
++ */
++
++#include <linux/i2c.h>
++#include <linux/regmap.h>
++
++#include "8t49n24x-core.h"
++
++/*
++ * In Timing Commander, Q0 is changed from 25MHz to Q0 75MHz, the following
++ * changes occur:
++ *
++ * 2 bytes change in EEPROM data string.
++ *
++ * DSM_INT R0025[0],R0026[7:0] : 35 => 30
++ * NS2_Q0 R0040[7:0],R0041[7:0] : 14 => 4
++ *
++ * In EEPROM
++ * 1. R0026
++ * 2. R0041
++ *
++ * Note that VCO_Frequency (metadata) also changed (3500 =>3000).
++ * This reflects a change to DSM_INT.
++ *
++ * Note that the Timing Commander code has workarounds in the workflow scripts
++ * to handle dividers for the 8T49N241 (because the development of that GUI
++ * predates chip override functionality). That affects NS1_Qx (x in 1-3)
++ * and NS2_Qx. NS1_Qx contains the upper bits of NS_Qx, and NS2_Qx contains
++ * the lower bits. That is NOT the case for Q0, though. In that case NS1_Q0
++ * is the 1st stage output divider (/5, /6, /4) and NS2_Q0 is the 16-bit
++ * second stage (with actual divide being twice the value stored in the
++ * register).
++ *
++ * NS1_Q0 R003F[1:0]
++ */
++
++#define RENESAS24X_VCO_MIN			2999997000u
++#define RENESAS24X_VCO_MAX			4000004000u
++#define RENESAS24X_VCO_OPT			3500000000u
++#define RENESAS24X_MIN_INT_DIVIDER	6
++#define RENESAS24X_MIN_NS1			4
++#define RENESAS24X_MAX_NS1			6
++
++static u8 q0_ns1_options[3] = { 5, 6, 4 };
++
++/**
++ * __renesas_bits_to_shift - num bits to shift given specified mask
++ * @mask:	32-bit word input to count zero bits on right
++ *
++ * Given a bit mask indicating where a value will be stored in
++ * a register, return the number of bits you need to shift the value
++ * before ORing it into the register value.
++ *
++ * Return: number of bits to shift
++ */
++int __renesas_bits_to_shift(unsigned int mask)
++{
++	/* the number of zero bits on the right */
++	unsigned int c = 32;
++
++	mask &= ~mask + 1;
++	if (mask)
++		c--;
++	if (mask & 0x0000FFFF)
++		c -= 16;
++	if (mask & 0x00FF00FF)
++		c -= 8;
++	if (mask & 0x0F0F0F0F)
++		c -= 4;
++	if (mask & 0x33333333)
++		c -= 2;
++	if (mask & 0x55555555)
++		c -= 1;
++	return c;
++}
++
++/*
++ * TODO: Consider replacing this with regmap_multi_reg_write, which
++ * supports introducing a delay after each write. Experiment to see if
++ * the writes succeed consistently when using that API.
++ */
++static int regmap_bulk_write_with_retry(struct regmap *map, unsigned int offset,
++					u8 *val, int val_count,
++					int max_attempts)
++{
++	int err = 0, count = 1;
++
++	do {
++		err = regmap_bulk_write(map, offset, val, val_count);
++		if (err == 0)
++			return 0;
++		usleep_range(100, 200);
++	} while (count++ <= max_attempts);
++	return err;
++}
++
++static int regmap_write_with_retry(struct regmap *map, unsigned int offset,
++				   unsigned int val, int max_attempts)
++{
++	int err = 0, count = 1;
++
++	do {
++		err = regmap_write(map, offset, val);
++		if (err == 0)
++			return 0;
++		usleep_range(100, 200);
++	} while (count++ <= max_attempts);
++	return err;
++}
++
++/*
++ * TODO: Consider using regmap_multi_reg_write instead. Explore
++ * use of regmap to configure WRITE_BLOCK_SIZE, and using the delay
++ * mechanism in regmap_multi_reg_write instead of retrying multiple
++ * times (regmap_bulk_write_with_retry).
++ */
++int __renesas_i2c_write_bulk(struct i2c_client *client, struct regmap *map,
++			     unsigned int reg, u8 val[], size_t val_count)
++{
++	char dbg[128];
++	u8 block[WRITE_BLOCK_SIZE];
++	unsigned int block_offset = reg;
++	int x = 0, err = 0, currentOffset = 0;
++
++	dev_dbg(&client->dev,
++		"I2C->0x%04x : [hex] . First byte: %02x, Second byte: %02x",
++		reg, reg >> 8, reg & 0xFF);
++
++	dbg[0] = 0;
++
++	for (x = 0; x < val_count; x++) {
++		char data[4];
++
++		block[currentOffset++] = val[x];
++		sprintf(data, "%02x ", val[x]);
++		strcat(dbg, data);
++		if (x > 0 && (x + 1) % WRITE_BLOCK_SIZE == 0) {
++			dev_dbg(&client->dev, "%s", dbg);
++			dbg[0] = '\0';
++			sprintf(dbg,
++				"(loop) calling regmap_bulk_write @ 0x%04x [%d bytes]",
++				block_offset, WRITE_BLOCK_SIZE);
++			dev_dbg(&client->dev, "%s", dbg);
++			dbg[0] = '\0';
++			err = regmap_bulk_write_with_retry(map, block_offset, block,
++							   WRITE_BLOCK_SIZE, 5);
++			if (err)
++				break;
++			block_offset += WRITE_BLOCK_SIZE;
++			currentOffset = 0;
++		}
++	}
++	if (err == 0 && currentOffset > 0) {
++		dev_dbg(&client->dev, "%s", dbg);
++		dev_dbg(&client->dev,
++			"(final) calling regmap_bulk_write @ 0x%04x [%d bytes]",
++			block_offset, currentOffset);
++		err = regmap_bulk_write_with_retry(map, block_offset, block, currentOffset, 5);
++	}
++
++	return err;
++}
++
++static int __i2c_write(struct i2c_client *client, struct regmap *map,
++		       unsigned int reg, unsigned int val)
++{
++	int err = 0;
++
++	dev_dbg(&client->dev, "I2C->0x%x : [hex] %x", reg, val);
++	err = regmap_write_with_retry(map, reg, val, 5);
++	usleep_range(100, 200);
++	return err;
++}
++
++static int __i2c_write_with_mask(struct i2c_client *client, struct regmap *map,
++				 unsigned int reg, u8 val, u8 original, u8 mask)
++{
++	return __i2c_write(client, map, reg,
++			   ((val << __renesas_bits_to_shift(mask)) & mask) | (original & ~mask));
++}
++
++int renesas24x_get_offsets(u8 output_num, struct clk_register_offsets *offsets)
++{
++	switch (output_num) {
++	case 0:
++		offsets->oe_offset = RENESAS24X_REG_OUTEN;
++		offsets->oe_mask = RENESAS24X_REG_OUTEN0_MASK;
++		offsets->dis_mask = RENESAS24X_REG_Q0_DIS_MASK;
++		offsets->ns1_offset = RENESAS24X_REG_NS1_Q0;
++		offsets->ns1_offset_mask = RENESAS24X_REG_NS1_Q0_MASK;
++		offsets->ns2_15_8_offset = RENESAS24X_REG_NS2_Q0_15_8;
++		offsets->ns2_7_0_offset = RENESAS24X_REG_NS2_Q0_7_0;
++		break;
++	case 1:
++		offsets->oe_offset = RENESAS24X_REG_OUTEN;
++		offsets->oe_mask = RENESAS24X_REG_OUTEN1_MASK;
++		offsets->dis_mask = RENESAS24X_REG_Q1_DIS_MASK;
++		offsets->n_17_16_offset = RENESAS24X_REG_N_Q1_17_16;
++		offsets->n_17_16_mask = RENESAS24X_REG_N_Q1_17_16_MASK;
++		offsets->n_15_8_offset = RENESAS24X_REG_N_Q1_15_8;
++		offsets->n_7_0_offset = RENESAS24X_REG_N_Q1_7_0;
++		offsets->nfrac_27_24_offset = RENESAS24X_REG_NFRAC_Q1_27_24;
++		offsets->nfrac_27_24_mask = RENESAS24X_REG_NFRAC_Q1_27_24_MASK;
++		offsets->nfrac_23_16_offset = RENESAS24X_REG_NFRAC_Q1_23_16;
++		offsets->nfrac_15_8_offset = RENESAS24X_REG_NFRAC_Q1_15_8;
++		offsets->nfrac_7_0_offset = RENESAS24X_REG_NFRAC_Q1_7_0;
++		break;
++	case 2:
++		offsets->oe_offset = RENESAS24X_REG_OUTEN;
++		offsets->oe_mask = RENESAS24X_REG_OUTEN2_MASK;
++		offsets->dis_mask = RENESAS24X_REG_Q2_DIS_MASK;
++		offsets->n_17_16_offset = RENESAS24X_REG_N_Q2_17_16;
++		offsets->n_17_16_mask = RENESAS24X_REG_N_Q2_17_16_MASK;
++		offsets->n_15_8_offset = RENESAS24X_REG_N_Q2_15_8;
++		offsets->n_7_0_offset = RENESAS24X_REG_N_Q2_7_0;
++		offsets->nfrac_27_24_offset = RENESAS24X_REG_NFRAC_Q2_27_24;
++		offsets->nfrac_27_24_mask = RENESAS24X_REG_NFRAC_Q2_27_24_MASK;
++		offsets->nfrac_23_16_offset = RENESAS24X_REG_NFRAC_Q2_23_16;
++		offsets->nfrac_15_8_offset = RENESAS24X_REG_NFRAC_Q2_15_8;
++		offsets->nfrac_7_0_offset = RENESAS24X_REG_NFRAC_Q2_7_0;
++		break;
++	case 3:
++		offsets->oe_offset = RENESAS24X_REG_OUTEN;
++		offsets->oe_mask = RENESAS24X_REG_OUTEN3_MASK;
++		offsets->dis_mask = RENESAS24X_REG_Q3_DIS_MASK;
++		offsets->n_17_16_offset = RENESAS24X_REG_N_Q3_17_16;
++		offsets->n_17_16_mask = RENESAS24X_REG_N_Q3_17_16_MASK;
++		offsets->n_15_8_offset = RENESAS24X_REG_N_Q3_15_8;
++		offsets->n_7_0_offset = RENESAS24X_REG_N_Q3_7_0;
++		offsets->nfrac_27_24_offset = RENESAS24X_REG_NFRAC_Q3_27_24;
++		offsets->nfrac_27_24_mask = RENESAS24X_REG_NFRAC_Q3_27_24_MASK;
++		offsets->nfrac_23_16_offset = RENESAS24X_REG_NFRAC_Q3_23_16;
++		offsets->nfrac_15_8_offset = RENESAS24X_REG_NFRAC_Q3_15_8;
++		offsets->nfrac_7_0_offset = RENESAS24X_REG_NFRAC_Q3_7_0;
++		break;
++	default:
++		return -EINVAL;
++	}
++	return 0;
++}
++
++/**
++ * renesas24x_calc_div_q0 - Calculate dividers and VCO freq to generate
++ *		the specified Q0 frequency.
++ * @chip:	Device data structure. contains all requested frequencies
++ *		for all outputs.
++ *
++ * The actual output divider is ns1 * ns2 * 2. fOutput = fVCO / (ns1 * ns2 * 2)
++ *
++ * The options for ns1 (when the source is the VCO) are 4,5,6. ns2 is a
++ * 16-bit value.
++ *
++ * chip->divs: structure for specifying ns1/ns2 values. If 0 after this
++ * function, Q0 is not requested
++ *
++ * Return: 0 on success, negative errno otherwise.
++ */
++static int renesas24x_calc_div_q0(struct clk_renesas24x_chip *chip)
++{
++	u8 x = 0;
++	u32 min_div = 0, max_div = 0, best_vco = 0;
++	u16 min_ns2 = 0, max_ns2 = 0;
++	bool is_lower_vco = false;
++
++	chip->divs.ns1_q0 = 0;
++	chip->divs.ns2_q0 = 0;
++
++	if (chip->clk[0].requested == 0)
++		return 0;
++
++	min_div = div64_u64((u64)RENESAS24X_VCO_MIN, chip->clk[0].requested * 2) * 2;
++	max_div = div64_u64((u64)RENESAS24X_VCO_MAX, chip->clk[0].requested * 2) * 2;
++
++	dev_dbg(&chip->i2c_client->dev,
++		"requested: %u, min_div: %u, max_div: %u",
++		chip->clk[0].requested, min_div, max_div);
++
++	min_ns2 = div64_u64((u64)min_div, RENESAS24X_MAX_NS1 * 2);
++	max_ns2 = div64_u64((u64)max_div, RENESAS24X_MIN_NS1 * 2);
++
++	dev_dbg(&chip->i2c_client->dev, "min_ns2: %u, max_ns2: %u", min_ns2, max_ns2);
++
++	for (x = 0; x < ARRAY_SIZE(q0_ns1_options); x++) {
++		u16 y = min_ns2;
++
++		while (y <= max_ns2) {
++			u32 actual_div = q0_ns1_options[x] * y * 2;
++			u32 current_vco = actual_div * chip->clk[0].requested;
++
++			if (current_vco < RENESAS24X_VCO_MIN)
++				dev_dbg(&chip->i2c_client->dev,
++					"ignore div: (ns1=%u * ns2=%u * 2 * %u) == %u < %u",
++					q0_ns1_options[x], y,
++					chip->clk[0].requested, current_vco,
++					RENESAS24X_VCO_MIN);
++			else if (current_vco > RENESAS24X_VCO_MAX) {
++				dev_dbg(&chip->i2c_client->dev,
++					"ignore div: (ns1=%u * ns2=%u * 2 * %u) == %u > %u. EXIT LOOP.",
++					q0_ns1_options[x], y,
++					chip->clk[0].requested, current_vco,
++					RENESAS24X_VCO_MAX);
++				y = max_ns2;
++			} else {
++				bool use = false;
++
++				dev_dbg(&chip->i2c_client->dev,
++					"contender: (ns1=%u * ns2=%u * 2 * %u) == %u [in range]",
++					q0_ns1_options[x], y,
++					chip->clk[0].requested, current_vco);
++				if (current_vco <= RENESAS24X_VCO_OPT) {
++					if (current_vco > best_vco || !is_lower_vco) {
++						is_lower_vco = true;
++						use = true;
++					}
++				} else if (!is_lower_vco && current_vco > best_vco) {
++					use = true;
++				}
++				if (use) {
++					chip->divs.ns1_q0 = x;
++					chip->divs.ns2_q0 = y;
++					best_vco = current_vco;
++				}
++			}
++			y++;
++		}
++	}
++
++	dev_dbg(&chip->i2c_client->dev,
++		"best: (ns1=%u [/%u] * ns2=%u * 2 * %u) == %u",
++		chip->divs.ns1_q0, q0_ns1_options[chip->divs.ns1_q0],
++		chip->divs.ns2_q0, chip->clk[0].requested, best_vco);
++	return 0;
++}
++
++/**
++ * renesas24x_calc_divs - Calculate dividers to generate the specified frequency.
++ * @chip:	Device data structure. contains all requested frequencies
++ *		for all outputs.
++ *
++ * Calculate the clock dividers (dsmint, dsmfrac for vco; ns1/ns2 for q0,
++ * n/nfrac for q1-3) for a given target frequency.
++ *
++ * Return: 0 on success, negative errno otherwise.
++ */
++static int renesas24x_calc_divs(struct clk_renesas24x_chip *chip)
++{
++	u32 vco = 0;
++	int result = 0;
++
++	result = renesas24x_calc_div_q0(chip);
++	if (result < 0)
++		return result;
++
++	dev_dbg(&chip->i2c_client->dev,
++		"after renesas24x_calc_div_q0. ns1: %u [/%u], ns2: %u",
++		chip->divs.ns1_q0, q0_ns1_options[chip->divs.ns1_q0],
++		chip->divs.ns2_q0);
++
++	chip->divs.dsmint = 0;
++	chip->divs.dsmfrac = 0;
++
++	if (chip->clk[0].requested > 0) {
++		/* Q0 is in use and is governing the actual VCO freq */
++		vco = q0_ns1_options[chip->divs.ns1_q0] * chip->divs.ns2_q0
++			* 2 * chip->clk[0].requested;
++	} else {
++		u32 freq = 0;
++		u32 walk = 0;
++		u32 min_div = 0, max_div = 0;
++		bool is_lower_vco = false;
++
++		/*
++		 * Q0 is not in use. Use the first requested (fractional)
++		 * output frequency as the one controlling the VCO.
++		 */
++		for (walk = 1; walk < NUM_OUTPUTS; walk++) {
++			if (chip->clk[walk].requested != 0) {
++				freq = chip->clk[walk].requested;
++				break;
++			}
++		}
++
++		if (freq == 0) {
++			dev_err(&chip->i2c_client->dev, "NO FREQUENCIES SPECIFIED");
++			return -EINVAL;
++		}
++
++		/*
++		 * First, determine the min/max div for the output frequency.
++		 */
++		min_div = RENESAS24X_MIN_INT_DIVIDER;
++		max_div = div64_u64((u64)RENESAS24X_VCO_MAX, freq * 2) * 2;
++
++		dev_dbg(&chip->i2c_client->dev,
++			"calc_divs for fractional output. freq: %u, min_div: %u, max_div: %u",
++			freq, min_div, max_div);
++
++		walk = min_div;
++
++		while (walk <= max_div) {
++			u32 current_vco = freq * walk;
++
++			dev_dbg(&chip->i2c_client->dev,
++				"calc_divs for fractional output. walk: %u, freq: %u, vco: %u",
++				walk, freq, vco);
++			if (current_vco >= RENESAS24X_VCO_MIN &&
++			    vco <= RENESAS24X_VCO_MAX) {
++				if (current_vco <= RENESAS24X_VCO_OPT) {
++					if (current_vco > vco || !is_lower_vco) {
++						is_lower_vco = true;
++						vco = current_vco;
++					}
++				} else if (!is_lower_vco && current_vco > vco) {
++					vco = current_vco;
++				}
++			}
++			/* Divider must be even. */
++			walk += 2;
++		}
++	}
++
++	if (vco != 0) {
++		u32 pfd = 0;
++		u64 rem = 0;
++		int x = 0;
++
++		/* Setup dividers for outputs with fractional dividers. */
++		for (x = 1; x < NUM_OUTPUTS; x++) {
++			if (chip->clk[x].requested != 0) {
++				/*
++				 * The value written to the chip is half
++				 * the calculated divider.
++				 */
++				chip->divs.nint[x - 1] = div64_u64_rem((u64)vco,
++								       chip->clk[x].requested * 2,
++								       &rem);
++				chip->divs.nfrac[x - 1] = div64_u64(rem * 1 << 28,
++								    chip->clk[x].requested * 2);
++				dev_dbg(&chip->i2c_client->dev,
++					"div to get Q%i freq %u from vco %u: int part: %u, rem: %llu, frac part: %u",
++					x, chip->clk[x].requested,
++					vco, chip->divs.nint[x - 1], rem,
++					chip->divs.nfrac[x - 1]);
++			}
++		}
++
++		/* Calculate freq for pfd */
++		pfd = chip->input_clk_freq * (chip->doubler_disabled ? 1 : 2);
++
++		/*
++		 * Calculate dsmint & dsmfrac:
++		 * -----------------------------
++		 * dsm = float(vco)/float(pfd)
++		 * dsmfrac = dsm-floor(dsm) * 2^21
++		 * rem = vco % pfd
++		 * therefore:
++		 * dsmfrac = (rem * 2^21)/pfd
++		 */
++		chip->divs.dsmint = div64_u64_rem(vco, pfd, &rem);
++		chip->divs.dsmfrac = div64_u64(rem * 1 << 21, pfd);
++
++		dev_dbg(&chip->i2c_client->dev,
++			"vco: %u, pfd: %u, dsmint: %u, dsmfrac: %u, rem: %llu",
++			vco, pfd, chip->divs.dsmint,
++			chip->divs.dsmfrac, rem);
++	} else {
++		dev_err(&chip->i2c_client->dev, "no integer divider in range found. NOT SUPPORTED.");
++		return -EINVAL;
++	}
++	return 0;
++}
++
++/**
++ * renesas24x_enable_output - Enable/disable a particular output
++ * @chip:	Device data structure
++ * @output:	Output to enable/disable
++ * @enable:	Enable (true/false)
++ *
++ * Return: passes on regmap_write return value.
++ */
++static int renesas24x_enable_output(struct clk_renesas24x_chip *chip, u8 output,
++				    bool enable)
++{
++	int err = 0;
++	struct clk_register_offsets offsets;
++	struct i2c_client *client = chip->i2c_client;
++
++	/*
++	 * When an output is enabled, enable it in the original
++	 * data read from the chip and cached. Otherwise it may be
++	 * accidentally	turned off when another output is enabled.
++	 *
++	 * E.g., the driver starts with all outputs off in reg_out_en_x.
++	 * Q1 is enabled with the appropriate mask. Q2 is then enabled,
++	 * which results in Q1 being turned back off (because Q1 was off
++	 * in reg_out_en_x).
++	 */
++
++	err = renesas24x_get_offsets(output, &offsets);
++	if (err) {
++		dev_err(&client->dev, "error calling renesas24x_get_offsets for %d: %i",
++			output, err);
++		return err;
++	}
++
++	dev_dbg(&client->dev,
++		"q%u enable? %d. reg_out_en_x before: 0x%x, reg_out_mode_0_1 before: 0x%x",
++		output, enable, chip->reg_out_en_x, chip->reg_out_mode_0_1);
++
++	dev_dbg(&client->dev, "reg_out_mode_2_3 before: 0x%x, reg_qx_dis before: 0x%x",
++		chip->reg_out_mode_2_3, chip->reg_qx_dis)
++
++	chip->reg_out_en_x = chip->reg_out_en_x & ~offsets.oe_mask;
++	if (enable)
++		chip->reg_out_en_x |= (1 << __renesas_bits_to_shift(offsets.oe_mask));
++
++	chip->reg_qx_dis = chip->reg_qx_dis & ~offsets.dis_mask;
++	dev_dbg(&client->dev,
++		"q%u enable? %d. reg_qx_dis mask: 0x%x, before checking enable: 0x%x",
++		output, enable, offsets.dis_mask, chip->reg_qx_dis);
++
++	if (!enable)
++		chip->reg_qx_dis |= (1 << __renesas_bits_to_shift(offsets.dis_mask));
++
++	dev_dbg(&client->dev,
++		"q%u enable? %d. reg_out_en_x after: 0x%x, reg_qx_dis after: 0x%x",
++		output, enable, chip->reg_out_en_x, chip->reg_qx_dis);
++
++	err = __i2c_write(client, chip->regmap, RENESAS24X_REG_OUTEN, chip->reg_out_en_x);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_OUTEN: %i", err);
++		return err;
++	}
++
++	err = __i2c_write(client, chip->regmap, RENESAS24X_REG_OUTMODE0_1, chip->reg_out_mode_0_1);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_OUTMODE0_1: %i", err);
++		return err;
++	}
++
++	err = __i2c_write(client, chip->regmap, RENESAS24X_REG_OUTMODE2_3, chip->reg_out_mode_2_3);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_OUTMODE2_3: %i", err);
++		return err;
++	}
++
++	err = __i2c_write(client, chip->regmap, RENESAS24X_REG_Q_DIS, chip->reg_qx_dis);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_Q_DIS: %i", err);
++		return err;
++	}
++
++	return 0;
++}
++
++/**
++ * renesas24x_update_device - write registers to the chip
++ * @chip:	Device data structure
++ *
++ * Write all values to hardware that we	have calculated.
++ *
++ * Return: passes on regmap_bulk_write return value.
++ */
++static int renesas24x_update_device(struct clk_renesas24x_chip *chip)
++{
++	int err = 0, x = -1;
++	struct i2c_client *client = chip->i2c_client;
++
++	dev_dbg(&client->dev, "setting DSM_INT_8 (val %u @ %u)",
++		chip->divs.dsmint >> 8, RENESAS24X_REG_DSM_INT_8);
++
++	err = __i2c_write_with_mask(client, chip->regmap, RENESAS24X_REG_DSM_INT_8,
++				    (chip->divs.dsmint >> 8) & RENESAS24X_REG_DSM_INT_8_MASK,
++				    chip->reg_dsm_int_8, RENESAS24X_REG_DSM_INT_8_MASK);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_DSM_INT_8: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev, "setting DSM_INT_7_0 (val %u @ 0x%x)",
++		chip->divs.dsmint & 0xFF, RENESAS24X_REG_DSM_INT_7_0);
++
++	err = __i2c_write(client, chip->regmap, RENESAS24X_REG_DSM_INT_7_0,
++			  chip->divs.dsmint & 0xFF);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_DSM_INT_7_0: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev,
++		"setting RENESAS24X_REG_DSMFRAC_20_16 (val %u @ 0x%x)",
++		chip->divs.dsmfrac >> 16,
++		RENESAS24X_REG_DSMFRAC_20_16);
++
++	err = __i2c_write_with_mask(client, chip->regmap, RENESAS24X_REG_DSMFRAC_20_16,
++				    (chip->divs.dsmfrac >> 16) & RENESAS24X_REG_DSMFRAC_20_16_MASK,
++				    chip->reg_dsm_int_8, RENESAS24X_REG_DSMFRAC_20_16_MASK);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_DSMFRAC_20_16: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev,
++		"setting RENESAS24X_REG_DSMFRAC_15_8 (val %u @ 0x%x)",
++		(chip->divs.dsmfrac >> 8) & 0xFF,
++		RENESAS24X_REG_DSMFRAC_15_8);
++
++	err = __i2c_write(client, chip->regmap, RENESAS24X_REG_DSMFRAC_15_8,
++			  (chip->divs.dsmfrac >> 8) & 0xFF);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_DSMFRAC_15_8: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev,
++		"setting RENESAS24X_REG_DSMFRAC_7_0 (val %u @ 0x%x)",
++		chip->divs.dsmfrac & 0xFF,
++		RENESAS24X_REG_DSMFRAC_7_0);
++
++	err = __i2c_write(client, chip->regmap, RENESAS24X_REG_DSMFRAC_7_0,
++			  chip->divs.dsmfrac & 0xFF);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_DSMFRAC_7_0: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev,
++		"setting RENESAS24X_REG_NS1_Q0 (val %u @ 0x%x)",
++		chip->divs.ns1_q0, RENESAS24X_REG_NS1_Q0);
++
++	err = __i2c_write_with_mask(client, chip->regmap, RENESAS24X_REG_NS1_Q0,
++				    chip->divs.ns1_q0 & RENESAS24X_REG_NS1_Q0_MASK,
++				    chip->reg_ns1_q0, RENESAS24X_REG_NS1_Q0_MASK);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_NS1_Q0: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev,
++		"setting RENESAS24X_REG_NS2_Q0_15_8 (val %u @ 0x%x)",
++		(chip->divs.ns2_q0 >> 8) & 0xFF, RENESAS24X_REG_NS2_Q0_15_8);
++
++	err = __i2c_write(client, chip->regmap, RENESAS24X_REG_NS2_Q0_15_8,
++			  (chip->divs.ns2_q0 >> 8) & 0xFF);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_NS2_Q0_15_8: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev,
++		"setting RENESAS24X_REG_NS2_Q0_7_0 (val %u @ 0x%x)",
++		chip->divs.ns2_q0 & 0xFF, RENESAS24X_REG_NS2_Q0_7_0);
++
++	err = __i2c_write(client, chip->regmap, RENESAS24X_REG_NS2_Q0_7_0,
++			  chip->divs.ns2_q0 & 0xFF);
++	if (err) {
++		dev_err(&client->dev, "error setting RENESAS24X_REG_NS2_Q0_7_0: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev,
++		"calling renesas24x_enable_output for Q0. requestedFreq: %u",
++		chip->clk[0].requested);
++	renesas24x_enable_output(chip, 0, chip->clk[0].requested != 0);
++
++	dev_dbg(&client->dev, "writing values for q1-q3");
++	for (x = 1; x < NUM_OUTPUTS; x++) {
++		struct clk_register_offsets offsets;
++
++		if (chip->clk[x].requested != 0) {
++			dev_dbg(&client->dev, "calling renesas24x_get_offsets for %u", x);
++			err = renesas24x_get_offsets(x, &offsets);
++			if (err) {
++				dev_err(&client->dev, "error calling renesas24x_get_offsets: %i",
++					err);
++				return err;
++			}
++
++			dev_dbg(&client->dev, "(q%u, nint: %u, nfrac: %u)",
++				x, chip->divs.nint[x - 1],
++				chip->divs.nfrac[x - 1]);
++
++			dev_dbg(&client->dev,
++				"setting n_17_16_offset (q%u, val %u @ 0x%x)",
++				x, chip->divs.nint[x - 1] >> 16,
++				offsets.n_17_16_offset);
++
++			err = __i2c_write_with_mask(client, chip->regmap,
++						    offsets.n_17_16_offset,
++						    (chip->divs.nint[x - 1] >> 16) &
++							offsets.n_17_16_mask,
++						    chip->reg_n_qx_17_16[x - 1],
++						    offsets.n_17_16_mask);
++			if (err) {
++				dev_err(&client->dev, "error setting n_17_16_offset: %i", err);
++				return err;
++			}
++
++			dev_dbg(&client->dev,
++				"setting n_15_8_offset (q%u, val %u @ 0x%x)",
++				x, (chip->divs.nint[x - 1] >> 8) & 0xFF,
++				offsets.n_15_8_offset);
++
++			err = __i2c_write(client, chip->regmap,
++					  offsets.n_15_8_offset,
++					  (chip->divs.nint[x - 1] >> 8) & 0xFF);
++			if (err) {
++				dev_err(&client->dev, "error setting n_15_8_offset: %i", err);
++				return err;
++			}
++
++			dev_dbg(&client->dev,
++				"setting n_7_0_offset (q%u, val %u @ 0x%x)",
++				x, chip->divs.nint[x - 1] & 0xFF,
++				offsets.n_7_0_offset);
++
++			err = __i2c_write(client, chip->regmap,
++					  offsets.n_7_0_offset,
++					  chip->divs.nint[x - 1] & 0xFF);
++			if (err) {
++				dev_err(&client->dev, "error setting n_7_0_offset: %i", err);
++				return err;
++			}
++
++			dev_dbg(&client->dev,
++				"setting nfrac_27_24_offset (q%u, val %u @ 0x%x)",
++				x, (chip->divs.nfrac[x - 1] >> 24),
++				offsets.nfrac_27_24_offset);
++
++			err = __i2c_write_with_mask(client, chip->regmap,
++						    offsets.nfrac_27_24_offset,
++						    (chip->divs.nfrac[x - 1] >> 24) &
++							offsets.nfrac_27_24_mask,
++						    chip->reg_nfrac_qx_27_24[x - 1],
++						    offsets.nfrac_27_24_mask);
++			if (err) {
++				dev_err(&client->dev, "error setting nfrac_27_24_offset: %i", err);
++				return err;
++			}
++
++			dev_dbg(&client->dev,
++				"setting nfrac_23_16_offset (q%u, val %u @ 0x%x)",
++				x, (chip->divs.nfrac[x - 1] >> 16) & 0xFF,
++				offsets.nfrac_23_16_offset);
++
++			err = __i2c_write(client, chip->regmap,
++					  offsets.nfrac_23_16_offset,
++					  (chip->divs.nfrac[x - 1] >> 16) & 0xFF);
++			if (err) {
++				dev_err(&client->dev, "error setting nfrac_23_16_offset: %i", err);
++				return err;
++			}
++
++			dev_dbg(&client->dev,
++				"setting nfrac_15_8_offset (q%u, val %u @ 0x%x)",
++				x, (chip->divs.nfrac[x - 1] >> 8) & 0xFF,
++				offsets.nfrac_15_8_offset);
++
++			err = __i2c_write(client, chip->regmap, offsets.nfrac_15_8_offset,
++					  (chip->divs.nfrac[x - 1] >> 8) & 0xFF);
++			if (err) {
++				dev_err(&client->dev, "error setting nfrac_15_8_offset: %i", err);
++				return err;
++			}
++
++			dev_dbg(&client->dev,
++				"setting nfrac_7_0_offset (q%u, val %u @ 0x%x)",
++				x, chip->divs.nfrac[x - 1] & 0xFF,
++				offsets.nfrac_7_0_offset);
++
++			err = __i2c_write(client, chip->regmap,
++					  offsets.nfrac_7_0_offset,
++					  chip->divs.nfrac[x - 1] & 0xFF);
++			if (err) {
++				dev_err(&client->dev, "error setting nfrac_7_0_offset: %i", err);
++				return err;
++			}
++		}
++		renesas24x_enable_output(chip, x, chip->clk[x].requested != 0);
++		chip->clk[x].actual = chip->clk[x].requested;
++	}
++	return 0;
++}
++
++/**
++ * renesas24x_set_frequency - Adjust output frequency on the attached chip.
++ * @chip:	Device data structure, including all requested frequencies.
++ *
++ * Return: 0 on success.
++ */
++int renesas24x_set_frequency(struct clk_renesas24x_chip *chip)
++{
++	int err = 0, x = 0;
++	bool all_disabled = true;
++	struct i2c_client *client = chip->i2c_client;
++
++	for (x = 0; x < NUM_OUTPUTS; x++) {
++		if (chip->clk[x].requested == 0) {
++			renesas24x_enable_output(chip, x, false);
++			chip->clk[x].actual = 0;
++		} else {
++			all_disabled = false;
++		}
++	}
++
++	if (all_disabled)
++		/*
++		 * no requested frequencies, so nothing else to calculate
++		 * or write to the chip. If the consumer wants to disable
++		 * all outputs, they can request 0 for all frequencies.
++		 */
++		return 0;
++
++	if (chip->input_clk_freq == 0) {
++		dev_err(&client->dev, "no input frequency; can't continue.");
++		return -EINVAL;
++	}
++
++	err = renesas24x_calc_divs(chip);
++	if (err) {
++		dev_err(&client->dev,
++			"error calling renesas24x_calc_divs: %i", err);
++		return err;
++	}
++
++	err = renesas24x_update_device(chip);
++	if (err) {
++		dev_err(&client->dev, "error updating the device: %i", err);
++		return err;
++	}
++
++	return 0;
++}
+diff --git a/drivers/clk/renesas/8t49n24x-core.h b/drivers/clk/renesas/8t49n24x-core.h
+new file mode 100644
+index 000000000..353952d84
+--- /dev/null
++++ b/drivers/clk/renesas/8t49n24x-core.h
+@@ -0,0 +1,251 @@
++/* SPDX-License-Identifier: GPL-2.0
++ * 8t49n24x-core.h - Program 8T49N24x settings via I2C (common code)
++ *
++ * Copyright (C) 2018, Renesas Electronics America <david.cater.jc@renesas.com>
++ */
++
++#ifndef __8T49N24X_CORE_H_
++#define __8T49N24X_CORE_H_
++
++#include <linux/clk.h>
++#include <linux/clk-provider.h>
++#include <linux/regmap.h>
++
++/*
++ * The configurations in the settings file have 0x317 registers (last offset is 0x316).
++ */
++#define NUM_CONFIG_REGISTERS				0x317
++#define NUM_INPUTS							2
++#define NUM_OUTPUTS							4
++#define WRITE_BLOCK_SIZE					32
++
++/* Non output-specific registers */
++#define RENESAS24X_REG_DBL_DIS				0x6C
++#define RENESAS24X_REG_DBL_DIS_MASK			0x01
++#define RENESAS24X_REG_DSM_INT_8			0x25
++#define RENESAS24X_REG_DSM_INT_8_MASK		0x01
++#define RENESAS24X_REG_DSM_INT_7_0			0x26
++#define RENESAS24X_REG_DSMFRAC_20_16		0x28
++#define RENESAS24X_REG_DSMFRAC_20_16_MASK	0x1F
++#define RENESAS24X_REG_DSMFRAC_15_8			0x29
++#define RENESAS24X_REG_DSMFRAC_7_0			0x2A
++#define RENESAS24X_REG_OUTEN				0x39
++#define RENESAS24X_REG_OUTMODE0_1			0x3E
++#define RENESAS24X_REG_OUTMODE2_3			0x3D
++#define RENESAS24X_REG_Q_DIS				0x6F
++
++/* Q0 */
++#define RENESAS24X_REG_OUTEN0_MASK			0x01
++#define RENESAS24X_REG_OUTMODE0_MASK		0x0E
++#define RENESAS24X_REG_Q0_DIS_MASK			0x01
++#define RENESAS24X_REG_NS1_Q0				0x3F
++#define RENESAS24X_REG_NS1_Q0_MASK			0x03
++#define RENESAS24X_REG_NS2_Q0_15_8			0x40
++#define RENESAS24X_REG_NS2_Q0_7_0			0x41
++
++/* Q1 */
++#define RENESAS24X_REG_OUTEN1_MASK			0x02
++#define RENESAS24X_REG_OUTMODE1_MASK		0xE0
++#define RENESAS24X_REG_Q1_DIS_MASK			0x02
++#define RENESAS24X_REG_N_Q1_17_16			0x42
++#define RENESAS24X_REG_N_Q1_17_16_MASK		0x03
++#define RENESAS24X_REG_N_Q1_15_8			0x43
++#define RENESAS24X_REG_N_Q1_7_0				0x44
++#define RENESAS24X_REG_NFRAC_Q1_27_24		0x57
++#define RENESAS24X_REG_NFRAC_Q1_27_24_MASK	0x0F
++#define RENESAS24X_REG_NFRAC_Q1_23_16		0x58
++#define RENESAS24X_REG_NFRAC_Q1_15_8		0x59
++#define RENESAS24X_REG_NFRAC_Q1_7_0			0x5A
++
++/* Q2 */
++#define RENESAS24X_REG_OUTEN2_MASK			0x04
++#define RENESAS24X_REG_OUTMODE2_MASK		0x0E
++#define RENESAS24X_REG_Q2_DIS_MASK			0x04
++#define RENESAS24X_REG_N_Q2_17_16			0x45
++#define RENESAS24X_REG_N_Q2_17_16_MASK		0x03
++#define RENESAS24X_REG_N_Q2_15_8			0x46
++#define RENESAS24X_REG_N_Q2_7_0				0x47
++#define RENESAS24X_REG_NFRAC_Q2_27_24		0x5B
++#define RENESAS24X_REG_NFRAC_Q2_27_24_MASK	0x0F
++#define RENESAS24X_REG_NFRAC_Q2_23_16		0x5C
++#define RENESAS24X_REG_NFRAC_Q2_15_8		0x5D
++#define RENESAS24X_REG_NFRAC_Q2_7_0			0x5E
++
++/* Q3 */
++#define RENESAS24X_REG_OUTEN3_MASK			0x08
++#define RENESAS24X_REG_OUTMODE3_MASK		0xE0
++#define RENESAS24X_REG_Q3_DIS_MASK			0x08
++#define RENESAS24X_REG_N_Q3_17_16			0x48
++#define RENESAS24X_REG_N_Q3_17_16_MASK		0x03
++#define RENESAS24X_REG_N_Q3_15_8			0x49
++#define RENESAS24X_REG_N_Q3_7_0				0x4A
++#define RENESAS24X_REG_NFRAC_Q3_27_24		0x5F
++#define RENESAS24X_REG_NFRAC_Q3_27_24_MASK	0x0F
++#define RENESAS24X_REG_NFRAC_Q3_23_16		0x60
++#define RENESAS24X_REG_NFRAC_Q3_15_8		0x61
++#define RENESAS24X_REG_NFRAC_Q3_7_0			0x62
++
++/**
++ * struct renesas24x_output - device output information
++ * @hw:		hw registration info for this specific output clcok. This gets
++ *		passed as an argument to CCF api calls (e.g., set_rate).
++ *		container_of can then be used to get the reference to this
++ *		struct.
++ * @chip:	store a reference to the parent device structure. container_of
++ *		cannot be used to get to the parent device structure from
++ *		renesas24x_output, because clk_renesas24x_chip contains an array of
++ *		output structs (for future enhancements to support devices
++ *		with different numbers of output clocks).
++ * @index:	identifies output on the chip; used in debug statements
++ * @requested:	requested output clock frequency (in Hz)
++ * @actual:	actual output clock frequency (in Hz). Will only be set after
++ *		successful update of the device.
++ */
++struct renesas24x_output {
++	struct clk_hw hw;
++	struct clk_renesas24x_chip *chip;
++	u8 index;
++	u32 requested;
++	u32 actual;
++	u64 debug_freq;
++};
++
++/**
++ * struct renesas24x_dividers - output dividers
++ * @dsmint:	int component of feedback divider for VCO (2-stage divider)
++ * @dsmfrac:	fractional component of feedback divider for VCO
++ * @ns1_q0:	ns1 divider component for Q0
++ * @ns2_q0:	ns2 divider component for Q0
++ * @nint:	int divider component for Q1-3
++ * @nfrac:	fractional divider component for Q1-3
++ */
++struct renesas24x_dividers {
++	u16 dsmint;
++	u32 dsmfrac;
++
++	u8 ns1_q0;
++	u16 ns2_q0;
++
++	u32 nint[3];
++	u32 nfrac[3];
++};
++
++/**
++ * struct clk_renesas24x_chip - device info for chip
++ * @regmap:		register map used to perform i2c writes to the chip
++ * @i2c_client:		i2c_client struct passed to probe
++ * @min_freq:		min frequency for this chip
++ * @max_freq:		max frequency for this chip
++ * @settings:		filled in if full register map is specified in the DT
++ * @has_settings:	true if settings array is valid
++ * @input_clk:		ptr to input clock specified in DT
++ * @input_clk_num:	which input clock was specified. 0-based. A value of
++ *			NUM_INPUTS indicates that a XTAL is used as the input.
++ * @input_clk_nb:	notification support (if input clk changes)
++ * @input_clk_freq:	current freq of input_clk
++ * @doubler_disabled:	whether input doubler is enabled. This value is read
++ *			from the hw on probe (in case it is set in @settings).
++ * @clk:		array of outputs. One entry per output supported by the
++ *			chip. Frequencies requested via the ccf api will be
++ *			recorded in this array.
++ * @reg_dsm_int_8:	record current value from hw to avoid modifying
++ *			when writing register values
++ * @reg_dsm_frac_20_16:	record current value
++ * @reg_out_en_x:	record current value
++ * @reg_out_mode_0_1:	record current value
++ * @reg_out_mode_2_3:	record current value
++ * @reg_qx_dis:		record current value
++ * @reg_ns1_q0:		record current value
++ * @reg_n_qx_17_16:	record current value
++ * @reg_nfrac_qx_27_24:	record current value
++ * @divs:		output divider values for all outputs
++ */
++struct clk_renesas24x_chip {
++	struct regmap *regmap;
++	struct i2c_client *i2c_client;
++
++	u32 min_freq;
++	u32 max_freq;
++
++	u8 settings[NUM_CONFIG_REGISTERS];
++
++	bool has_settings;
++
++	struct clk *input_clk;
++	int input_clk_num;
++	struct notifier_block input_clk_nb;
++	u32 input_clk_freq;
++
++	bool doubler_disabled;
++
++	struct renesas24x_output clk[NUM_OUTPUTS];
++
++	unsigned int reg_dsm_int_8;
++	unsigned int reg_dsm_frac_20_16;
++	unsigned int reg_out_en_x;
++	unsigned int reg_out_mode_0_1;
++	unsigned int reg_out_mode_2_3;
++	unsigned int reg_qx_dis;
++	unsigned int reg_ns1_q0;
++	unsigned int reg_n_qx_17_16[3];
++	unsigned int reg_nfrac_qx_27_24[3];
++
++	struct renesas24x_dividers divs;
++};
++
++#define to_renesas24x_output(_hw) \
++	container_of(_hw, struct renesas24x_output, hw)
++
++#define to_clk_renesas24x_from_client(_client) \
++	container_of(_client, struct clk_renesas24x_chip, i2c_client)
++
++#define to_clk_renesas24x_from_nb(_nb) \
++	container_of(_nb, struct clk_renesas24x_chip, input_clk_nb)
++
++/**
++ * struct clk_register_offsets - register offsets for current context
++ * @oe_offset:		offset for current output enable and mode
++ * @oe_mask:		mask for current output enable
++ * @dis_mask:		mask for current output disable
++ * @n_17_16_offset:	offset for current output int divider (bits 17:16)
++ * @n_17_16_mask:	mask for current output int divider (bits 17:16)
++ * @n_15_8_offset:	offset for current output int divider (bits 15:8)
++ * @n_7_0_offset:	offset for current output int divider (bits 7:0)
++ * @nfrac_27_24_offset:	offset for current output frac divider (bits 27:24)
++ * @nfrac_27_24_mask:	mask for current output frac divider (bits 27:24)
++ * @nfrac_23_16_offset:	offset for current output frac divider (bits 23:16)
++ * @nfrac_15_8_offset:	offset for current output frac divider (bits 15:8)
++ * @nfrac_7_0_offset:	offset for current output frac divider (bits 7:0)
++ * @ns1_offset:		offset for stage 1 div for output Q0
++ * @ns1_offset_mask:	mask for stage 1 div for output Q0
++ * @ns2_15_8_offset:	offset for stage 2 div for output Q0 (bits 15:8)
++ * @ns2_7_0_offset:	offset for stage 2 div for output Q0 (bits 7:0)
++ */
++struct clk_register_offsets {
++	u16 oe_offset;
++	u8 oe_mask;
++	u8 dis_mask;
++
++	u16 n_17_16_offset;
++	u8 n_17_16_mask;
++	u16 n_15_8_offset;
++	u16 n_7_0_offset;
++	u16 nfrac_27_24_offset;
++	u8 nfrac_27_24_mask;
++	u16 nfrac_23_16_offset;
++	u16 nfrac_15_8_offset;
++	u16 nfrac_7_0_offset;
++
++	u16 ns1_offset;
++	u8 ns1_offset_mask;
++	u16 ns2_15_8_offset;
++	u16 ns2_7_0_offset;
++};
++
++int __renesas_bits_to_shift(unsigned int mask);
++int __renesas_i2c_write_bulk(struct i2c_client *client, struct regmap *map,
++			     unsigned int reg, u8 val[], size_t val_count);
++int renesas24x_get_offsets(u8 output_num, struct clk_register_offsets *offsets);
++int renesas24x_set_frequency(struct clk_renesas24x_chip *chip);
++
++#endif /* #ifndef __8T49N24X_CORE_H_ */
+diff --git a/drivers/clk/renesas/8t49n24x.c b/drivers/clk/renesas/8t49n24x.c
+new file mode 100644
+index 000000000..e8a0bb6b4
+--- /dev/null
++++ b/drivers/clk/renesas/8t49n24x.c
+@@ -0,0 +1,573 @@
++// SPDX-License-Identifier: GPL-2.0
++/* 8t49n24x.c - Program 8T49N24x settings via I2C.
++ *
++ * Copyright (C) 2018, Renesas Electronics America <david.cater.jc@renesas.com>
++ */
++
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/slab.h>
++
++#include "8t49n24x-core.h"
++
++#define OUTPUTMODE_HIGHZ		0
++#define OUTPUTMODE_LVDS			2
++#define RENESAS24X_MIN_FREQ		1000000L
++#define RENESAS24X_MAX_FREQ		300000000L
++
++enum clk_renesas24x_variant { renesas24x };
++
++static u32 __mask_and_shift(u32 value, u8 mask)
++{
++	value &= mask;
++	return value >> __renesas_bits_to_shift(mask);
++}
++
++/**
++ * renesas24x_set_output_mode - Set the mode for a particular clock
++ * output in the register.
++ * @reg:	The current register value before setting the mode.
++ * @mask:	The bitmask identifying where in the register the
++ *		output mode is stored.
++ * @mode:	The mode to set.
++ *
++ * Return: the new register value with the specified mode bits set.
++ */
++static int renesas24x_set_output_mode(u32 reg, u8 mask, u8 mode)
++{
++	if (((reg & mask) >> __renesas_bits_to_shift(mask)) == OUTPUTMODE_HIGHZ) {
++		reg = reg & ~mask;
++		reg |= OUTPUTMODE_LVDS << __renesas_bits_to_shift(mask);
++	}
++	return reg;
++}
++
++/**
++ * renesas24x_read_from_hw - Get the current values on the hw
++ * @chip:	Device data structure
++ *
++ * Return: 0 on success, negative errno otherwise.
++ */
++static int renesas24x_read_from_hw(struct clk_renesas24x_chip *chip)
++{
++	int err = 0;
++	u32 tmp = 0, tmp2 = 0;
++	u8 output = 0;
++	struct i2c_client *client = chip->i2c_client;
++
++	err = regmap_read(chip->regmap, RENESAS24X_REG_DSM_INT_8, &chip->reg_dsm_int_8);
++	if (err) {
++		dev_err(&client->dev, "error reading RENESAS24X_REG_DSM_INT_8: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev, "reg_dsm_int_8: 0x%x", chip->reg_dsm_int_8);
++
++	err = regmap_read(chip->regmap, RENESAS24X_REG_DSMFRAC_20_16_MASK,
++			  &chip->reg_dsm_frac_20_16);
++	if (err) {
++		dev_err(&client->dev, "error reading RENESAS24X_REG_DSMFRAC_20_16_MASK: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev, "reg_dsm_frac_20_16: 0x%x", chip->reg_dsm_frac_20_16);
++
++	err = regmap_read(chip->regmap, RENESAS24X_REG_OUTEN, &chip->reg_out_en_x);
++	if (err) {
++		dev_err(&client->dev, "error reading RENESAS24X_REG_OUTEN: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev, "reg_out_en_x: 0x%x", chip->reg_out_en_x);
++
++	err = regmap_read(chip->regmap, RENESAS24X_REG_OUTMODE0_1, &tmp);
++	if (err) {
++		dev_err(&client->dev, "error reading RENESAS24X_REG_OUTMODE0_1: %i", err);
++		return err;
++	}
++
++	tmp2 = renesas24x_set_output_mode(tmp, RENESAS24X_REG_OUTMODE0_MASK, OUTPUTMODE_LVDS);
++	tmp2 = renesas24x_set_output_mode(tmp2, RENESAS24X_REG_OUTMODE1_MASK, OUTPUTMODE_LVDS);
++	dev_dbg(&client->dev,
++		"reg_out_mode_0_1 original: 0x%x. After OUT0/1 to LVDS if necessary: 0x%x",
++		tmp, tmp2);
++
++	chip->reg_out_mode_0_1 = tmp2;
++	err = regmap_read(chip->regmap, RENESAS24X_REG_OUTMODE2_3, &tmp);
++	if (err) {
++		dev_err(&client->dev, "error reading RENESAS24X_REG_OUTMODE2_3: %i", err);
++		return err;
++	}
++
++	tmp2 = renesas24x_set_output_mode(tmp, RENESAS24X_REG_OUTMODE2_MASK, OUTPUTMODE_LVDS);
++	tmp2 = renesas24x_set_output_mode(tmp2, RENESAS24X_REG_OUTMODE3_MASK, OUTPUTMODE_LVDS);
++	dev_dbg(&client->dev,
++		"reg_out_mode_2_3 original: 0x%x. After OUT2/3 to LVDS if necessary: 0x%x",
++		tmp, tmp2);
++
++	chip->reg_out_mode_2_3 = tmp2;
++	err = regmap_read(chip->regmap, RENESAS24X_REG_Q_DIS, &chip->reg_qx_dis);
++	if (err) {
++		dev_err(&client->dev, "error reading RENESAS24X_REG_Q_DIS: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev, "reg_qx_dis: 0x%x", chip->reg_qx_dis);
++
++	err = regmap_read(chip->regmap, RENESAS24X_REG_NS1_Q0, &chip->reg_ns1_q0);
++	if (err) {
++		dev_err(&client->dev, "error reading RENESAS24X_REG_NS1_Q0: %i", err);
++		return err;
++	}
++
++	dev_dbg(&client->dev, "reg_ns1_q0: 0x%x", chip->reg_ns1_q0);
++
++	for (output = 1; output <= 3; output++) {
++		struct clk_register_offsets offsets;
++
++		err = renesas24x_get_offsets(output, &offsets);
++		if (err) {
++			dev_err(&client->dev, "error calling renesas24x_get_offsets: %i", err);
++			return err;
++		}
++
++		err = regmap_read(chip->regmap, offsets.n_17_16_offset,
++				  &chip->reg_n_qx_17_16[output - 1]);
++		if (err) {
++			dev_err(&client->dev,
++				"error reading n_17_16_offset output %d (offset: 0x%x): %i",
++				output, offsets.n_17_16_offset, err);
++			return err;
++		}
++
++		dev_dbg(&client->dev, "reg_n_qx_17_16[Q%u]: 0x%x", output,
++			chip->reg_n_qx_17_16[output - 1]);
++
++		err = regmap_read(chip->regmap, offsets.nfrac_27_24_offset,
++				  &chip->reg_nfrac_qx_27_24[output - 1]);
++		if (err) {
++			dev_err(&client->dev,
++				"error reading nfrac_27_24_offset output %d (offset: 0x%x): %i",
++				output, offsets.nfrac_27_24_offset,
++				err);
++			return err;
++		}
++
++		dev_dbg(&client->dev, "reg_nfrac_qx_27_24[Q%u]: 0x%x", output,
++			chip->reg_nfrac_qx_27_24[output - 1]);
++	}
++
++	dev_info(&client->dev, "initial values read from chip successfully");
++
++	/* Also read DBL_DIS to determine whether the doubler is disabled. */
++	err = regmap_read(chip->regmap, RENESAS24X_REG_DBL_DIS, &tmp);
++	if (err) {
++		dev_err(&client->dev, "error reading RENESAS24X_REG_DBL_DIS: %i", err);
++		return err;
++	}
++
++	chip->doubler_disabled = __mask_and_shift(tmp, RENESAS24X_REG_DBL_DIS_MASK);
++	dev_dbg(&client->dev, "doubler_disabled: %d", chip->doubler_disabled);
++
++	return 0;
++}
++
++/**
++ * renesas24x_set_rate - Sets the specified output clock to the specified rate.
++ * @hw:		clk_hw struct that identifies the specific output clock.
++ * @rate:	the rate (in Hz) for the specified clock.
++ * @parent_rate:(not sure) the rate for a parent signal (e.g.,
++ *		the VCO feeding the output)
++ *
++ * This function will call renesas24x_set_frequency, which means it will
++ * calculate divider for all requested outputs and update the attached
++ * device (issue I2C commands to update the registers).
++ *
++ * Return: 0 on success.
++ */
++static int renesas24x_set_rate(struct clk_hw *hw, unsigned long rate,
++			       unsigned long parent_rate)
++{
++	int err = 0;
++
++	/*
++	 * hw->clk is the pointer to the specific output clock the user is
++	 * requesting. We use hw to get back to the output structure for
++	 * the output clock. Set the requested rate in the output structure.
++	 * Note that container_of cannot be used to find the device structure
++	 * (clk_renesas24x_chip) from clk_hw, because clk_renesas24x_chip has an array
++	 * of renesas24x_output structs. That is why it is necessary to use
++	 * output->chip to access the device structure.
++	 */
++	struct renesas24x_output *output = to_renesas24x_output(hw);
++	struct i2c_client *client = output->chip->i2c_client;
++
++	if (rate < output->chip->min_freq || rate > output->chip->max_freq) {
++		dev_err(&client->dev,
++			"requested frequency (%luHz) is out of range\n", rate);
++		return -EINVAL;
++	}
++
++	/*
++	 * Set the requested frequency in the output data structure, and then
++	 * call renesas24x_set_frequency. renesas24x_set_frequency considers all
++	 * requested frequencies when deciding on a vco frequency and
++	 * calculating dividers.
++	 */
++	output->requested = rate;
++
++	dev_info(&client->dev, "calling renesas24x_set_frequency for Q%u. rate: %lu",
++		 output->index, rate);
++	err = renesas24x_set_frequency(output->chip);
++	if (err)
++		dev_err(&client->dev, "error calling set_frequency: %d", err);
++
++	return err;
++}
++
++/**
++ * renesas24x_round_rate - get valid rate that is closest to the requested rate
++ * @hw:		clk_hw struct that identifies the specific output clock.
++ * @rate:	the rate (in Hz) for the specified clock.
++ * @parent_rate:(not sure) the rate for a parent signal (e.g., the VCO
++ *		feeding the output). This is an i/o param.
++ *		If the driver supports a parent clock for the output (e.g.,
++ *		the VCO(?), then set this param to indicate what the rate of
++ *		the parent would be (e.g., the VCO frequency) if the rounded
++ *		rate is used.
++ *
++ * Returns the closest rate to the requested rate actually supported by the
++ * chip.
++ *
++ * Return: adjusted rate
++ */
++static long renesas24x_round_rate(struct clk_hw *hw, unsigned long rate,
++				  unsigned long *parent_rate)
++{
++	/*
++	 * The chip has fractional output dividers, so assume it
++	 * can provide the requested rate.
++	 *
++	 * TODO: figure out the closest rate that chip can support
++	 * within a low error threshold and return that rate.
++	 */
++	return rate;
++}
++
++/**
++ * renesas24x_recalc_rate - return the frequency being provided by the clock.
++ * @hw:			clk_hw struct that identifies the specific output clock.
++ * @parent_rate:	(not sure) the rate for a parent signal (e.g., the
++ *			VCO feeding the output)
++ *
++ * This API appears to be used to read the current values from the hardware
++ * and report the frequency being provided by the clock. Without this function,
++ * the clock will be initialized to 0 by default. The OS appears to be
++ * calling this to find out what the current value of the clock is at
++ * startup, so it can determine when .set_rate is actually changing the
++ * frequency.
++ *
++ * Return: the frequency of the specified clock.
++ */
++static unsigned long renesas24x_recalc_rate(struct clk_hw *hw,
++					    unsigned long parent_rate)
++{
++	struct renesas24x_output *output = to_renesas24x_output(hw);
++
++	return output->requested;
++}
++
++/*
++ * Note that .prepare and .unprepare appear to be used more in Gates.
++ * They do not appear to be necessary for this device.
++ * Instead, update the device when .set_rate is called.
++ */
++static const struct clk_ops renesas24x_clk_ops = {
++	.recalc_rate = renesas24x_recalc_rate,
++	.round_rate = renesas24x_round_rate,
++	.set_rate = renesas24x_set_rate,
++};
++
++static bool renesas24x_regmap_is_volatile(struct device *dev, unsigned int reg)
++{
++	return false;
++}
++
++static bool renesas24x_regmap_is_writeable(struct device *dev, unsigned int reg)
++{
++	return true;
++}
++
++static const struct regmap_config renesas24x_regmap_config = {
++	.reg_bits = 16,
++	.val_bits = 8,
++	.cache_type = REGCACHE_RBTREE,
++	.max_register = 0xffff,
++	.writeable_reg = renesas24x_regmap_is_writeable,
++	.volatile_reg = renesas24x_regmap_is_volatile,
++};
++
++/**
++ * renesas24x_clk_notifier_cb - Clock rate change callback
++ * @nb:		Pointer to notifier block
++ * @event:	Notification reason
++ * @data:	Pointer to notification data object
++ *
++ * This function is called when the input clock frequency changes.
++ * The callback checks whether a valid bus frequency can be generated after the
++ * change. If so, the change is acknowledged, otherwise the change is aborted.
++ * New dividers are written to the HW in the pre- or post change notification
++ * depending on the scaling direction.
++ *
++ * Return:	NOTIFY_STOP if the rate change should be aborted, NOTIFY_OK
++ *		to acknowledge the change, NOTIFY_DONE if the notification is
++ *		considered irrelevant.
++ */
++static int renesas24x_clk_notifier_cb(struct notifier_block *nb,
++				      unsigned long event, void *data)
++{
++	struct clk_notifier_data *ndata = data;
++	struct clk_renesas24x_chip *chip = to_clk_renesas24x_from_nb(nb);
++	int err = 0;
++
++	dev_info(&chip->i2c_client->dev, "input changed: %lu Hz. event: %lu",
++		 ndata->new_rate, event);
++
++	switch (event) {
++	case PRE_RATE_CHANGE: {
++		dev_dbg(&chip->i2c_client->dev, "PRE_RATE_CHANGE\n");
++		return NOTIFY_OK;
++	}
++	case POST_RATE_CHANGE:
++		chip->input_clk_freq = ndata->new_rate;
++		/*
++		 * Can't call clock API clk_set_rate here; I believe
++		 * it will be ignored if the rate is the same as we
++		 * set previously. Need to call our internal function.
++		 */
++		dev_dbg(&chip->i2c_client->dev, "POST_RATE_CHANGE. Calling renesas24x_set_frequency\n");
++		err = renesas24x_set_frequency(chip);
++		if (err)
++			dev_err(&chip->i2c_client->dev, "error setting frequency (%i)\n", err);
++		return NOTIFY_OK;
++	case ABORT_RATE_CHANGE:
++		return NOTIFY_OK;
++	default:
++		return NOTIFY_DONE;
++	}
++}
++
++static struct clk_hw *of_clk_renesas24x_get(struct of_phandle_args *clkspec,
++					    void *_data)
++{
++	struct clk_renesas24x_chip *chip = _data;
++	unsigned int idx = clkspec->args[0];
++
++	if (idx >= ARRAY_SIZE(chip->clk)) {
++		pr_err("invalid index %u\n", idx);
++		return ERR_PTR(-EINVAL);
++	}
++
++	return &chip->clk[idx].hw;
++}
++
++/**
++ * renesas24x_probe - main entry point for ccf driver
++ * @client:	pointer to i2c_client structure
++ * @id:		pointer to i2c_device_id structure
++ *
++ * Main entry point function that gets called to initialize the driver.
++ *
++ * Return: 0 for success.
++ */
++static int renesas24x_probe(struct i2c_client *client,
++			    const struct i2c_device_id *id)
++{
++	struct clk_renesas24x_chip *chip;
++	struct clk_init_data init;
++
++	int err = 0, x = 0;
++	char buf[6];
++
++	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
++	if (!chip)
++		return -ENOMEM;
++
++	init.ops = &renesas24x_clk_ops;
++	init.flags = 0;
++	init.num_parents = 0;
++	chip->i2c_client = client;
++
++	chip->min_freq = RENESAS24X_MIN_FREQ;
++	chip->max_freq = RENESAS24X_MAX_FREQ;
++
++	for (x = 0; x < NUM_INPUTS + 1; x++) {
++		char name[12];
++
++		sprintf(name, x == NUM_INPUTS ? "input-xtal" : "input-clk%i", x);
++		dev_dbg(&client->dev, "attempting to get %s", name);
++		chip->input_clk = devm_clk_get(&client->dev, name);
++		if (IS_ERR(chip->input_clk)) {
++			err = PTR_ERR(chip->input_clk);
++			/*
++			 * TODO: Handle EPROBE_DEFER error, which indicates
++			 * that the input_clk isn't available now but may be
++			 * later when the appropriate module is loaded.
++			 */
++		} else {
++			err = 0;
++			chip->input_clk_num = x;
++			break;
++		}
++	}
++
++	if (err) {
++		dev_err(&client->dev, "Unable to get input clock, error %d", err);
++		chip->input_clk = NULL;
++		return err;
++	}
++
++	chip->input_clk_freq = clk_get_rate(chip->input_clk);
++	dev_dbg(&client->dev, "Got input-freq from input-clk in device tree: %uHz",
++		chip->input_clk_freq);
++
++	chip->input_clk_nb.notifier_call = renesas24x_clk_notifier_cb;
++	if (clk_notifier_register(chip->input_clk, &chip->input_clk_nb))
++		dev_warn(&client->dev, "Unable to register clock notifier for input_clk.");
++
++	dev_dbg(&client->dev, "about to read settings: %zu", ARRAY_SIZE(chip->settings));
++
++	err = of_property_read_u8_array(client->dev.of_node, "settings", chip->settings,
++					ARRAY_SIZE(chip->settings));
++	if (!err) {
++		dev_dbg(&client->dev, "settings property specified in DT");
++		chip->has_settings = true;
++	} else {
++		if (err == -EOVERFLOW) {
++			dev_alert(&client->dev, "EOVERFLOW reading settings. ARRAY_SIZE: %zu",
++				  ARRAY_SIZE(chip->settings));
++			return err;
++		}
++		dev_dbg(&client->dev,
++			"settings property missing in DT (or an error that can be ignored: %i).",
++			err);
++	}
++
++	/*
++	 * Requested output frequencies cannot be specified in the DT.
++	 * Either a consumer needs to use the clock API to request the rate.
++	 * Use clock-names in DT to specify the output clock.
++	 */
++
++	chip->regmap = devm_regmap_init_i2c(client, &renesas24x_regmap_config);
++	if (IS_ERR(chip->regmap)) {
++		dev_err(&client->dev, "failed to allocate register map\n");
++		return PTR_ERR(chip->regmap);
++	}
++
++	dev_dbg(&client->dev, "call i2c_set_clientdata");
++	i2c_set_clientdata(client, chip);
++
++	if (chip->has_settings) {
++		/*
++		 * A raw settings array was specified in the DT. Write the
++		 * settings to the device immediately.
++		 */
++		err = __renesas_i2c_write_bulk(chip->i2c_client, chip->regmap, 0, chip->settings,
++					       ARRAY_SIZE(chip->settings));
++		if (err) {
++			dev_err(&client->dev, "error writing all settings to chip (%i)\n", err);
++			return err;
++		}
++		dev_dbg(&client->dev, "successfully wrote full settings array");
++	}
++
++	/*
++	 * Whether or not settings were written to the device, read all
++	 * current values from the hw.
++	 */
++	dev_dbg(&client->dev, "read from HW");
++	err = renesas24x_read_from_hw(chip);
++	if (err) {
++		dev_err(&client->dev, "failed calling renesas24x_read_from_hw (%i)\n", err);
++		return err;
++	}
++
++	/* Create all 4 clocks */
++	for (x = 0; x < NUM_OUTPUTS; x++) {
++		init.name = kasprintf(GFP_KERNEL, "%s.Q%i", client->dev.of_node->name, x);
++		chip->clk[x].chip = chip;
++		chip->clk[x].hw.init = &init;
++		chip->clk[x].index = x;
++		err = devm_clk_hw_register(&client->dev, &chip->clk[x].hw);
++		kfree(init.name); /* clock framework made a copy of the name */
++		if (err) {
++			dev_err(&client->dev, "clock registration failed\n");
++			return err;
++		}
++		dev_dbg(&client->dev, "successfully registered Q%i", x);
++	}
++
++	if (err) {
++		dev_err(&client->dev, "clock registration failed\n");
++		return err;
++	}
++
++	err = of_clk_add_hw_provider(client->dev.of_node, of_clk_renesas24x_get, chip);
++	if (err) {
++		dev_err(&client->dev, "unable to add clk provider\n");
++		return err;
++	}
++
++	if (chip->input_clk_num == NUM_INPUTS)
++		sprintf(buf, "XTAL");
++	else
++		sprintf(buf, "CLK%i", chip->input_clk_num);
++
++	dev_info(&client->dev,
++		 "probe success. input freq: %uHz (%s), settings string? %s\n",
++		 chip->input_clk_freq, buf,
++		 chip->has_settings ? "true" : "false");
++
++	return 0;
++}
++
++static int renesas24x_remove(struct i2c_client *client)
++{
++	struct clk_renesas24x_chip *chip = to_clk_renesas24x_from_client(&client);
++
++	of_clk_del_provider(client->dev.of_node);
++
++	if (!chip->input_clk)
++		clk_notifier_unregister(chip->input_clk, &chip->input_clk_nb);
++	return 0;
++}
++
++static const struct i2c_device_id renesas24x_id[] = {
++	 { "8t49n24x", renesas24x },
++	 {}
++};
++MODULE_DEVICE_TABLE(i2c, renesas24x_id);
++
++static const struct of_device_id renesas24x_of_match[] = {
++	{ .compatible = "renesas,8t49n241" },
++	{},
++};
++MODULE_DEVICE_TABLE(of, renesas24x_of_match);
++
++static struct i2c_driver renesas24x_driver = {
++	.driver = {
++		.name = "8t49n24x",
++		.of_match_table = renesas24x_of_match,
++	},
++	.probe = renesas24x_probe,
++	.remove = renesas24x_remove,
++	.id_table = renesas24x_id,
++};
++
++module_i2c_driver(renesas24x_driver);
++
++MODULE_DESCRIPTION("8T49N24x ccf driver");
++MODULE_AUTHOR("David Cater <david.cater.jc@renesas.com>");
++MODULE_AUTHOR("Alex Helms <alexander.helms.jy@renesas.com>");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/clk/renesas/Makefile b/drivers/clk/renesas/Makefile
+index ef0d2bba9..e8f69b760 100644
+--- a/drivers/clk/renesas/Makefile
++++ b/drivers/clk/renesas/Makefile
+@@ -41,3 +41,7 @@ obj-$(CONFIG_CLK_RCAR_USB2_CLOCK_SEL)	+= rcar-usb2-clock-sel.o
+ obj-$(CONFIG_CLK_RENESAS_CPG_MSSR)	+= renesas-cpg-mssr.o
+ obj-$(CONFIG_CLK_RENESAS_CPG_MSTP)	+= clk-mstp.o
+ obj-$(CONFIG_CLK_RENESAS_DIV6)		+= clk-div6.o
++
++# 8T49N24x
++obj-$(CONFIG_COMMON_CLK_8T49N24X)	+= clk-8t49n24x.o
++clk-8t49n24x-objs 			:= 8t49n24x.o 8t49n24x-core.o
 -- 
 2.30.2
 
