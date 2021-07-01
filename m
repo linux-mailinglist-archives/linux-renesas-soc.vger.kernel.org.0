@@ -2,117 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 966733B9143
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 13:41:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ABFF3B915B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 13:56:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236192AbhGALoB convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Jul 2021 07:44:01 -0400
-Received: from mail-vk1-f175.google.com ([209.85.221.175]:33753 "EHLO
-        mail-vk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236130AbhGALoB (ORCPT
+        id S236230AbhGAL7K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Jul 2021 07:59:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55704 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236289AbhGAL7K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Jul 2021 07:44:01 -0400
-Received: by mail-vk1-f175.google.com with SMTP id x125so809592vkf.0;
-        Thu, 01 Jul 2021 04:41:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=K6xPZe/HmCow3slbRUW/74J8lcie8gXG6l+vsZk3IGE=;
-        b=BRT0qqYvuZpzAyAehAMQpLPmlTQGS9s6808DIjzdMN6zQ4WkKaEZLRjfM+2rVRclZT
-         S2f3SlRfatRTlooDi813oCd19T00JfIsSdTexdFyUqOqwKLUMgHSR+fAug+XM651XBOU
-         uOgKFfOS6Hl61ZE1eGFXfcqDJwdpvTbIRPDsopFx2Z5gXSpaHyDhd6UubPgOlRX3VeJc
-         7SAANgMV1shvxIsxVDZAwHb0ISDoQprXc68e86UWfAElQMssaJYGRERXX5OtZudeOXVm
-         Gxt9TrhAxm8p1sj77X7OuXGR+3XbJCXaUiZMt9wQua7+w1kKbftWfo0eyVtlqBmUip6M
-         6SsA==
-X-Gm-Message-State: AOAM532KN+/nDd9PKINC/SfG/WtlUaWOpNucxctaiOqtaMgTB7+x0gz3
-        Qw3lVAliKtIsG7c8SRURIt4ubUCOhsekTxNO/iY=
-X-Google-Smtp-Source: ABdhPJxEJnOhhZH/vF5dHyFmQZbdcGNAAoXId/x0Z+oo71nTH99l9zqwlQBszcXrE2kayKrLemprubVM8kwK5M/Twlw=
-X-Received: by 2002:a1f:1a41:: with SMTP id a62mr32441403vka.5.1625139690856;
- Thu, 01 Jul 2021 04:41:30 -0700 (PDT)
+        Thu, 1 Jul 2021 07:59:10 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE66C0617A8
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Jul 2021 04:56:39 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:445e:1c3:be41:9e10])
+        by andre.telenet-ops.be with bizsmtp
+        id Pnwd2500A474TTe01nwdQA; Thu, 01 Jul 2021 13:56:37 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lyvJ6-005M6V-Kv; Thu, 01 Jul 2021 13:56:36 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lyvJ5-00EXKO-PO; Thu, 01 Jul 2021 13:56:35 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v2] dt-bindings: media: renesas,imr: Convert to json-schema
+Date:   Thu,  1 Jul 2021 13:56:34 +0200
+Message-Id: <eb0f8a890450d0cf155c7595c5e514c8f877c4c0.1625140547.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210701072927.328254-1-u.kleine-koenig@pengutronix.de>
- <CAMuHMdWFL42BV9m7Oigvy0m7=-i4W0hnQT8izHdNNiYG0BfiMQ@mail.gmail.com> <20210701104528.dbnhhswxp6rgzzj3@pengutronix.de>
-In-Reply-To: <20210701104528.dbnhhswxp6rgzzj3@pengutronix.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 1 Jul 2021 13:41:19 +0200
-Message-ID: <CAMuHMdUBUG1bgfaWGt3OPhXyt+wt1XTT_uKKJemE-UcK7V8BZQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] pwm: Some improvements for legacy drivers
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Sascha Hauer <kernel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uwe,
+Convert the Renesas R-Car Image Renderer Device Tree binding
+documentation to json-schema.
 
-On Thu, Jul 1, 2021 at 12:45 PM Uwe Kleine-König
-<u.kleine-koenig@pengutronix.de> wrote:
-> On Thu, Jul 01, 2021 at 10:58:32AM +0200, Geert Uytterhoeven wrote:
-> > On Thu, Jul 1, 2021 at 9:29 AM Uwe Kleine-König
-> > <u.kleine-koenig@pengutronix.de> wrote:
-> > > this is the successor of my earlier patch "pwm: Ensure for legacy
-> > > drivers that pwm->state stays consistent" that was applied shortly to
-> > > next until Geert found a problem with it.
-> > >
-> > > I split the patch in three parts now: First the legacy handling is just
-> > > moved to a separate function without any semantic change. Then a glitch
-> > > is fixed, but without the regression I introduced initially. In the
-> > > third and last patch the longstanding FIXME about breaking pwm->state if
-> > > a callback fails is addressed.
-> > >
-> > > Uwe Kleine-König (3):
-> > >   pwm: Move legacy driver handling into a dedicated function
-> > >   pwm: Prevent a glitch for legacy drivers
-> > >   pwm: Restore initial state if a legacy callback fails
-> > >
-> > >  drivers/pwm/core.c | 139 ++++++++++++++++++++++++++-------------------
-> > >  1 file changed, 79 insertions(+), 60 deletions(-)
-> >
-> > Thanks, works fine on Armadillo 800 EVA!
-> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Thanks for testing.
->
-> > > base-commit: 6efb943b8616ec53a5e444193dccf1af9ad627b5
-> >
-> > That's plain v5.13-rc1, which is probably not what Thierry is targeting?
->
-> his for-next branch is based on v5.13-rc1 and there are no changes in it
-> touching drivers/pwm/core.c, so I expect this to be fine.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+I have listed Sergei as the maintainer, as he wrote the original
+bindings.  Sergei: Please scream if this is inappropriate ;-)
 
-Git tends to disagree:
+v2:
+  - Add blank line between paragraphs in description,
+  - Add "|" to preserve description formatting,
+  - Add Reviewed-by,
+  - s/Tree/Device Tree/ in description.
+---
+ .../devicetree/bindings/media/renesas,imr.txt | 31 ---------
+ .../bindings/media/renesas,imr.yaml           | 67 +++++++++++++++++++
+ 2 files changed, 67 insertions(+), 31 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/renesas,imr.txt
+ create mode 100644 Documentation/devicetree/bindings/media/renesas,imr.yaml
 
-$ git log --oneline v5.13-rc1..pwm/for-next -- drivers/pwm/core.c
-9ae241d06ef7aca8 pwm: core: Simplify some devm_*pwm*() functions
-c333b936c1530e76 pwm: core: Remove unused devm_pwm_put()
-e625fb70a6d21e4d pwm: core: Unify fwnode checks in the module
-e5c38ba9f2813beb pwm: core: Reuse fwnode_to_pwmchip() in ACPI case
-ca06616b1eed3112 pwm: core: Convert to use fwnode for matching
-ad5e085c63f59391 pwm: Drop irrelevant error path from pwmchip_remove()
-bcda91bf86c1ff76 pwm: Add a device-managed function to add PWM chips
-9e40ee18a1dc1623 pwm: core: Support new usage_power setting in PWM state
-69230cfac3d02c1b pwm: Autodetect default value for of_pwm_n_cells from
-device tree
-5447e7833629ee42 pwm: Drop of_pwm_simple_xlate() in favour of
-of_pwm_xlate_with_flags()
-cf38c978cf1d2a28 pwm: Make of_pwm_xlate_with_flags() work with #pwm-cells = <2>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/devicetree/bindings/media/renesas,imr.txt b/Documentation/devicetree/bindings/media/renesas,imr.txt
+deleted file mode 100644
+index b0614153ed3682eb..0000000000000000
+--- a/Documentation/devicetree/bindings/media/renesas,imr.txt
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Renesas R-Car Image Renderer (Distortion Correction Engine)
+------------------------------------------------------------
+-
+-The image renderer, or the distortion correction engine, is a drawing processor
+-with a simple instruction system capable of referencing video capture data or
+-data in an external memory as 2D texture data and performing texture mapping
+-and drawing with respect to any shape that is split into triangular objects.
+-
+-Required properties:
+-
+-- compatible: "renesas,<soctype>-imr-lx4", "renesas,imr-lx4" as a fallback for
+-  the image renderer light extended 4 (IMR-LX4) found in the R-Car gen3 SoCs,
+-  where the examples with <soctype> are:
+-  - "renesas,r8a7795-imr-lx4" for R-Car H3,
+-  - "renesas,r8a7796-imr-lx4" for R-Car M3-W.
+-- reg: offset and length of the register block;
+-- interrupts: single interrupt specifier;
+-- clocks: single clock phandle/specifier pair;
+-- power-domains: power domain phandle/specifier pair;
+-- resets: reset phandle/specifier pair.
+-
+-Example:
+-
+-	imr-lx4@fe860000 {
+-		compatible = "renesas,r8a7795-imr-lx4", "renesas,imr-lx4";
+-		reg = <0 0xfe860000 0 0x2000>;
+-		interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&cpg CPG_MOD 823>;
+-		power-domains = <&sysc R8A7795_PD_A3VC>;
+-		resets = <&cpg 823>;
+-	};
+diff --git a/Documentation/devicetree/bindings/media/renesas,imr.yaml b/Documentation/devicetree/bindings/media/renesas,imr.yaml
+new file mode 100644
+index 0000000000000000..512f57417fd87b7e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/renesas,imr.yaml
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/renesas,imr.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car Image Renderer (Distortion Correction Engine)
++
++maintainers:
++  - Sergei Shtylyov <sergei.shtylyov@gmail.com>
++
++description: |
++  The image renderer, or the distortion correction engine, is a drawing
++  processor with a simple instruction system capable of referencing video
++  capture data or data in an external memory as 2D texture data and performing
++  texture mapping and drawing with respect to any shape that is split into
++  triangular objects.
++
++  The image renderer light extended 4 (IMR-LX4) is found in R-Car Gen3 SoCs.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,r8a7795-imr-lx4 # R-Car H3
++          - renesas,r8a7796-imr-lx4 # R-Car M3-W
++      - const: renesas,imr-lx4      # R-Car Gen3
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - power-domains
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7795-sysc.h>
++
++    imr-lx4@fe860000 {
++            compatible = "renesas,r8a7795-imr-lx4", "renesas,imr-lx4";
++            reg = <0xfe860000 0x2000>;
++            interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&cpg CPG_MOD 823>;
++            power-domains = <&sysc R8A7795_PD_A3VC>;
++            resets = <&cpg 823>;
++    };
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
