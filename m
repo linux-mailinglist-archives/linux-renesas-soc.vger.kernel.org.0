@@ -2,94 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 649E73B9186
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 14:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6119B3B918C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 14:19:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236328AbhGAMSs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Jul 2021 08:18:48 -0400
-Received: from mail-vs1-f44.google.com ([209.85.217.44]:41524 "EHLO
-        mail-vs1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236192AbhGAMSr (ORCPT
+        id S236282AbhGAMWP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Jul 2021 08:22:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236192AbhGAMWP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Jul 2021 08:18:47 -0400
-Received: by mail-vs1-f44.google.com with SMTP id c26so3665315vso.8;
-        Thu, 01 Jul 2021 05:16:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0ZwXwkzI4cMeR70rauGu/lDBYf0pn55GSU9Mr3EQf/s=;
-        b=Tsz97O68HRcPHRmBBlZUX5t9Q0OFHgaNEIqnCZjydYQcDoK0Uc+zsTA1QtlFovfTL5
-         fSiKk9KTdTBIKOseRIFBr1Kb1CT67a3RMmiGXdmjbP5D+xKXqmcdfmpsWEC39XIaf4P6
-         B6zdVcVQ+hncspaGCBVmY9cTo6DbmfIo9MXN/7JQeviQY+pDLdR3QD/O1KlAMB64Laq8
-         9M0pSVfPchOlSYl2t+Wn/1qRx1p+3qWxKGG2PVC3Ez3PcDrJbNFGCDtJbozns6ec4JZj
-         74j4EkYalOvkhtEQDPsXTvz7J5RBGW4o12FaVnc4d3b3SvGN6fC3H33rw8JbzD+rhfQY
-         tXww==
-X-Gm-Message-State: AOAM530wjB02mVHxESX6HOS1FioH5FQwkG5gYsn6bv8MWoM7AL3TT4AR
-        yMJPcPIuzT1E/Rek3PRlonPNCt8OKdgd4jERrHY1iodQTKo=
-X-Google-Smtp-Source: ABdhPJz6ehTG6ZDUCW6FzjBW7R3HbJ2WHUbjc60udrqfS5IadIT5wOjJ2MaugSjcRPJW+N1KFIcaODUZQSon+ra7nFU=
-X-Received: by 2002:a67:770d:: with SMTP id s13mr24027176vsc.40.1625141776985;
- Thu, 01 Jul 2021 05:16:16 -0700 (PDT)
+        Thu, 1 Jul 2021 08:22:15 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208D4C061756
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Jul 2021 05:19:45 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lyvfT-0001M8-Gk; Thu, 01 Jul 2021 14:19:43 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lyvfS-0008WB-K0; Thu, 01 Jul 2021 14:19:42 +0200
+Date:   Thu, 1 Jul 2021 14:19:42 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sascha Hauer <kernel@pengutronix.de>
+Subject: Re: [PATCH 0/3] pwm: Some improvements for legacy drivers
+Message-ID: <20210701121942.uz7rtcil3i5v2sfr@pengutronix.de>
+References: <20210701072927.328254-1-u.kleine-koenig@pengutronix.de>
+ <CAMuHMdWFL42BV9m7Oigvy0m7=-i4W0hnQT8izHdNNiYG0BfiMQ@mail.gmail.com>
+ <20210701104528.dbnhhswxp6rgzzj3@pengutronix.de>
+ <CAMuHMdUBUG1bgfaWGt3OPhXyt+wt1XTT_uKKJemE-UcK7V8BZQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210630073013.22415-1-biju.das.jz@bp.renesas.com> <20210630073013.22415-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210630073013.22415-5-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 1 Jul 2021 14:16:05 +0200
-Message-ID: <CAMuHMdV8sH6LnBXmVWO7ua+bHOqhbvmQ4XUbv-_UGCwfa83WOg@mail.gmail.com>
-Subject: Re: [PATCH v3 04/11] drivers: clk: renesas: r9a07g044-cpg: Add USB clocks/resets
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="yiyyemoirwaq56z2"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUBUG1bgfaWGt3OPhXyt+wt1XTT_uKKJemE-UcK7V8BZQ@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
 
-On Wed, Jun 30, 2021 at 9:30 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add clock/reset entries for USB PHY control, USB2.0 host and device.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->V3:
->  * Added reset entries.
+--yiyyemoirwaq56z2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the update!
+Hello Geert,
 
-> --- a/drivers/clk/renesas/r9a07g044-cpg.c
-> +++ b/drivers/clk/renesas/r9a07g044-cpg.c
-> @@ -96,6 +96,14 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
->                                 0x52c, 0),
->         DEF_MOD("dmac_pclk",    R9A07G044_DMAC_PCLK, CLK_P1_DIV2,
->                                 0x52c, 1),
-> +       DEF_MOD("usb0_host",    R9A07G044_USB_U2H0_HCLK, R9A07G044_CLK_P1,
-> +                               0x578, 0),
-> +       DEF_MOD("usb1_host",    R9A07G044_USB_U2H1_HCLK, R9A07G044_CLK_P1,
-> +                               0x578, 1),
-> +       DEF_MOD("usb0_device",  R9A07G044_USB_U2P_EXR_CPUCLK, R9A07G044_CLK_P1,
-> +                               0x578, 2),
+On Thu, Jul 01, 2021 at 01:41:19PM +0200, Geert Uytterhoeven wrote:
+> On Thu, Jul 1, 2021 at 12:45 PM Uwe Kleine-K=F6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> > his for-next branch is based on v5.13-rc1 and there are no changes in it
+> > touching drivers/pwm/core.c, so I expect this to be fine.
+>=20
+> Git tends to disagree:
+>=20
+> $ git log --oneline v5.13-rc1..pwm/for-next -- drivers/pwm/core.c
+> 9ae241d06ef7aca8 pwm: core: Simplify some devm_*pwm*() functions
+> c333b936c1530e76 pwm: core: Remove unused devm_pwm_put()
+> e625fb70a6d21e4d pwm: core: Unify fwnode checks in the module
+> e5c38ba9f2813beb pwm: core: Reuse fwnode_to_pwmchip() in ACPI case
+> ca06616b1eed3112 pwm: core: Convert to use fwnode for matching
+> ad5e085c63f59391 pwm: Drop irrelevant error path from pwmchip_remove()
+> bcda91bf86c1ff76 pwm: Add a device-managed function to add PWM chips
+> 9e40ee18a1dc1623 pwm: core: Support new usage_power setting in PWM state
+> 69230cfac3d02c1b pwm: Autodetect default value for of_pwm_n_cells from
+> device tree
+> 5447e7833629ee42 pwm: Drop of_pwm_simple_xlate() in favour of
+> of_pwm_xlate_with_flags()
+> cf38c978cf1d2a28 pwm: Make of_pwm_xlate_with_flags() work with #pwm-cells=
+ =3D <2>
 
-The names are not really used, but the lock list spreadsheet describes
-this clock as the usb0 function clock, so perhaps "usb0_func" is
-more appropriate?
+I thought this was my command line, too, but *now* it shows some output.
+I'm unable to find out what I did wrong ...  *shrug* I assume and hope
+Thierry is able to cope with that.
 
-Apart from that:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Best regards
+Uwe
 
-Gr{oetje,eeting}s,
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-                        Geert
+--yiyyemoirwaq56z2
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-----BEGIN PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmDdstsACgkQwfwUeK3K
+7An6MAf/WZsWeJioFw26fJ26bHJEmR/rNdGnkuq5vPWvkScHaUGVkWhC18BIMfIF
+yvcsqrp9f7FONAIiLnNkt+07UFYdeEMDdfyMADMCiI68tweapajoIcuQn4q3AkZ/
+8aCw+tarxOe9i08n4+3Uu6DNEMYWJvCogpxqrwR1aT7+RhdADFyuloC5wJvqZj3b
+gsPHSNdpVB6bqvpv4djc7kPjO3IDIGS37SV9Hz0mW9g4dbyw4uRqfAu69qgVDk33
+lT8ksnXFhvCvdxAEIdWK80acV7uiwoQriLywQ+R5kEAGwQqGVPDGFAUKC+Pq9m7P
+ftRqa0K/ZDe/qxL1HWjvXZWbkkaLUA==
+=yZ5V
+-----END PGP SIGNATURE-----
+
+--yiyyemoirwaq56z2--
