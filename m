@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ABFF3B915B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 13:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06F523B916C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 14:02:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236230AbhGAL7K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Jul 2021 07:59:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55704 "EHLO
+        id S236383AbhGAME4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Jul 2021 08:04:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236289AbhGAL7K (ORCPT
+        with ESMTP id S236260AbhGAME4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Jul 2021 07:59:10 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE66C0617A8
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Jul 2021 04:56:39 -0700 (PDT)
+        Thu, 1 Jul 2021 08:04:56 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6ABEC0617AF
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Jul 2021 05:02:25 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:445e:1c3:be41:9e10])
-        by andre.telenet-ops.be with bizsmtp
-        id Pnwd2500A474TTe01nwdQA; Thu, 01 Jul 2021 13:56:37 +0200
+        by michel.telenet-ops.be with bizsmtp
+        id Po2P2500a474TTe06o2PAE; Thu, 01 Jul 2021 14:02:24 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lyvJ6-005M6V-Kv; Thu, 01 Jul 2021 13:56:36 +0200
+        id 1lyvOh-005MHS-6G; Thu, 01 Jul 2021 14:02:23 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1lyvJ5-00EXKO-PO; Thu, 01 Jul 2021 13:56:35 +0200
+        id 1lyvOg-00EXS9-KF; Thu, 01 Jul 2021 14:02:22 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v2] dt-bindings: media: renesas,imr: Convert to json-schema
-Date:   Thu,  1 Jul 2021 13:56:34 +0200
-Message-Id: <eb0f8a890450d0cf155c7595c5e514c8f877c4c0.1625140547.git.geert+renesas@glider.be>
+To:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/2] sms911x: DTS fixes and DT binding to json-schema conversion
+Date:   Thu,  1 Jul 2021 14:02:19 +0200
+Message-Id: <cover.1625140615.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,138 +45,46 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert the Renesas R-Car Image Renderer Device Tree binding
-documentation to json-schema.
+	Hi all,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
-I have listed Sergei as the maintainer, as he wrote the original
-bindings.  Sergei: Please scream if this is inappropriate ;-)
+This patch series converts the Smart Mixed-Signal Connectivity (SMSC)
+LAN911x/912x Controller Device Tree binding documentation to
+json-schema, after fixing a few issues in DTS files.
 
-v2:
-  - Add blank line between paragraphs in description,
-  - Add "|" to preserve description formatting,
+Changed compared to v1[1]:
+  - Dropped applied patches,
   - Add Reviewed-by,
-  - s/Tree/Device Tree/ in description.
----
- .../devicetree/bindings/media/renesas,imr.txt | 31 ---------
- .../bindings/media/renesas,imr.yaml           | 67 +++++++++++++++++++
- 2 files changed, 67 insertions(+), 31 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/renesas,imr.txt
- create mode 100644 Documentation/devicetree/bindings/media/renesas,imr.yaml
+  - Drop bogus double quotes in compatible values,
+  - Add comment explaining why "additionalProperties: true" is needed.
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,imr.txt b/Documentation/devicetree/bindings/media/renesas,imr.txt
-deleted file mode 100644
-index b0614153ed3682eb..0000000000000000
---- a/Documentation/devicetree/bindings/media/renesas,imr.txt
-+++ /dev/null
-@@ -1,31 +0,0 @@
--Renesas R-Car Image Renderer (Distortion Correction Engine)
-------------------------------------------------------------
--
--The image renderer, or the distortion correction engine, is a drawing processor
--with a simple instruction system capable of referencing video capture data or
--data in an external memory as 2D texture data and performing texture mapping
--and drawing with respect to any shape that is split into triangular objects.
--
--Required properties:
--
--- compatible: "renesas,<soctype>-imr-lx4", "renesas,imr-lx4" as a fallback for
--  the image renderer light extended 4 (IMR-LX4) found in the R-Car gen3 SoCs,
--  where the examples with <soctype> are:
--  - "renesas,r8a7795-imr-lx4" for R-Car H3,
--  - "renesas,r8a7796-imr-lx4" for R-Car M3-W.
--- reg: offset and length of the register block;
--- interrupts: single interrupt specifier;
--- clocks: single clock phandle/specifier pair;
--- power-domains: power domain phandle/specifier pair;
--- resets: reset phandle/specifier pair.
--
--Example:
--
--	imr-lx4@fe860000 {
--		compatible = "renesas,r8a7795-imr-lx4", "renesas,imr-lx4";
--		reg = <0 0xfe860000 0 0x2000>;
--		interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&cpg CPG_MOD 823>;
--		power-domains = <&sysc R8A7795_PD_A3VC>;
--		resets = <&cpg 823>;
--	};
-diff --git a/Documentation/devicetree/bindings/media/renesas,imr.yaml b/Documentation/devicetree/bindings/media/renesas,imr.yaml
-new file mode 100644
-index 0000000000000000..512f57417fd87b7e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/renesas,imr.yaml
-@@ -0,0 +1,67 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/renesas,imr.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R-Car Image Renderer (Distortion Correction Engine)
-+
-+maintainers:
-+  - Sergei Shtylyov <sergei.shtylyov@gmail.com>
-+
-+description: |
-+  The image renderer, or the distortion correction engine, is a drawing
-+  processor with a simple instruction system capable of referencing video
-+  capture data or data in an external memory as 2D texture data and performing
-+  texture mapping and drawing with respect to any shape that is split into
-+  triangular objects.
-+
-+  The image renderer light extended 4 (IMR-LX4) is found in R-Car Gen3 SoCs.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - renesas,r8a7795-imr-lx4 # R-Car H3
-+          - renesas,r8a7796-imr-lx4 # R-Car M3-W
-+      - const: renesas,imr-lx4      # R-Car Gen3
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - power-domains
-+  - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7795-sysc.h>
-+
-+    imr-lx4@fe860000 {
-+            compatible = "renesas,r8a7795-imr-lx4", "renesas,imr-lx4";
-+            reg = <0xfe860000 0x2000>;
-+            interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&cpg CPG_MOD 823>;
-+            power-domains = <&sysc R8A7795_PD_A3VC>;
-+            resets = <&cpg 823>;
-+    };
+Thanks!
+
+[1] [PATCH 0/5] sms911x: DTS fixes and DT binding to json-schema conversion
+    https://lore.kernel.org/r/cover.1621518686.git.geert+renesas@glider.be
+
+Geert Uytterhoeven (2):
+  ARM: dts: qcom-apq8060: Correct Ethernet node name and drop bogus irq
+    property
+  dt-bindings: net: sms911x: Convert to json-schema
+
+ .../devicetree/bindings/net/gpmc-eth.txt      |   2 +-
+ .../devicetree/bindings/net/smsc,lan9115.yaml | 110 ++++++++++++++++++
+ .../devicetree/bindings/net/smsc911x.txt      |  43 -------
+ .../arm/boot/dts/qcom-apq8060-dragonboard.dts |   4 +-
+ 4 files changed, 112 insertions(+), 47 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/smsc,lan9115.yaml
+ delete mode 100644 Documentation/devicetree/bindings/net/smsc911x.txt
+
 -- 
 2.25.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
