@@ -2,170 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C558E3B9136
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 13:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 966733B9143
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 13:41:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236204AbhGALg5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Jul 2021 07:36:57 -0400
-Received: from mail-eopbgr1410119.outbound.protection.outlook.com ([40.107.141.119]:14272
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236130AbhGALg5 (ORCPT
+        id S236192AbhGALoB convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Jul 2021 07:44:01 -0400
+Received: from mail-vk1-f175.google.com ([209.85.221.175]:33753 "EHLO
+        mail-vk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236130AbhGALoB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Jul 2021 07:36:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GY4iQQ1tQxtEw4hejc1wZiAjMqnNKPTS9u7MBOhJAW2HD0hx/Zx+YhHWvo4rEbRTzV9Z+KIAWtfoG9ctZRp1Ola3y6ZfLLpi7ZISErckfDmr1uWHa54n5kIy+Jv1XoDQ2GoweAiKXckDyCiDujRxHp1L1+XP0flPXCbv678YOSCgkv6GeDczVZd+gMgAkTGbl3qQozDBAvyA+AArHMVUzLmA3m36mFZYs2K5HaUflBzla3ZQNEr4x1QQCsAtX81mwO78L9USgRi0jd4Tcujvxw1ROLGR7iNDJz4pH+tAyIDggif5U+NbyFJAv8FqQrRIWhiQ+1d5L8ZudX3Rp9jHYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JNx3HWZAeUmt8KRf2YX2VqUzo6anODNgYFjMuQLVpbw=;
- b=iPpVqEzmb6OAOLAgnmUiT6Nyasra/X69RF5NcjAfzU6uD+S8+Up3rAE9WMKjr5Ndj7BLA0Pb7snuOnspxGiEv/5R1jRoWUehbdkEX/Ccp4/wMAdMRJb4Qc0vExTNfajmunQl5oaq0XhFfVlV2QKhSj5q8BHXDIWttp951kBM4k3bzHyE45uH2Dai9hvsA2EEfDVVefGbm76IC5vmfQ33YKRD1noikPWEm7vDaYw8ZVKxBRONVVyHm5EVQuusQJyU5GeNYP2gY6mm5k6JYGBGPUsaX32Pu1tqjh0DXC47HAK0mwFZND1EtuxpYCMh3DXx1UYhvSTkBD4Se8xhn/kXIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JNx3HWZAeUmt8KRf2YX2VqUzo6anODNgYFjMuQLVpbw=;
- b=ThUb8Wf+l/qX2XJLcUUtbb0WCO7IbNBRiRK4lpI/mq5+t9tW9cZqMUoXd79TypnupD+U114kY9PGBvUi49z0XlqwqaEtEJb+CzF9pmk97todlc9s54S+xJmePiRd4rQhe5TAUp0T4YPGVwDjdj0685yVFN8t4bSDYvzNGIamBbs=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYCPR01MB6350.jpnprd01.prod.outlook.com (2603:1096:400:92::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23; Thu, 1 Jul
- 2021 11:34:24 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::4c5d:66ee:883a:72a5]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::4c5d:66ee:883a:72a5%6]) with mapi id 15.20.4242.029; Thu, 1 Jul 2021
- 11:34:24 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Adam Ford <aford173@gmail.com>
-CC:     USB list <linux-usb@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 2/3] usb: renesas_usbhs: Enable support for more than two
- clks
-Thread-Topic: [PATCH 2/3] usb: renesas_usbhs: Enable support for more than two
- clks
-Thread-Index: AQHXbdWvj0l2neJgTUiXf2ey8vEEX6st1ViAgAAn1NA=
-Date:   Thu, 1 Jul 2021 11:34:24 +0000
-Message-ID: <TY2PR01MB3692DA5F92178F1ECC31BACDD8009@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20210630173042.186394-1-aford173@gmail.com>
- <20210630173042.186394-2-aford173@gmail.com>
- <CAMuHMdXoWZMj8+LhUPSpqa4t-G1WrW-wfOy3XzEDe0ihSKQkCw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXoWZMj8+LhUPSpqa4t-G1WrW-wfOy3XzEDe0ihSKQkCw@mail.gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linux-m68k.org; dkim=none (message not signed)
- header.d=none;linux-m68k.org; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6456bfe1-79dc-4554-9e57-08d93c842da2
-x-ms-traffictypediagnostic: TYCPR01MB6350:
-x-microsoft-antispam-prvs: <TYCPR01MB63506C675DC853380DBC7BFBD8009@TYCPR01MB6350.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7L5QdD5k/MNu4kmm/UEMNC79Xdj/adT0TkRipbYMROiDHuvSdnOJQ7tgHTBpC+OKfJyEWTA1FgxC3/KorUY0nhe7WAUakjMtlfwLmTggWbtq6C+cwLyC8jeOG3Vi10x+y80i5UKE5TMt9Zb22loQxdPxYBLAkxKbULJl0YCdsXkdrvXUbwC1G0eD6yw6pWvQBS+YTf2meP+/5/Ovqeik2ylY9cGJP2JMaYTuDVldimXR5BuukzkEBJcAgT2DMUu6Pwj+Rl2p6Ec1rA5TsvJbSmqOj+cl7dh77tHRynRfve7yCrW0yZa/yRjj3snlH8IxiFGzk/hqzQjmJtnJwNjrDWa+5vnGeP96yBw3utmJ9+Ub3z4iER8SpjtTeuHreihcefsUHNgJpGi9TBagwJfKO4lVb2mHxUV7Y8dv9lXI/Dx5DI+IIVme0/Ux/ivVVTIgzZaR76VAxs2gybxViJGbU1f6I1W/ZRdhDPI0NfC3UEGpiMxUoA0RZ415xCcUaG/jnrzrPP77hDixFzqPvkaFvz9mMvz2UG7BiG9JgA/udwaMlRv/rAHWYIH9CLHe23tz1zHN15qjWkoLGpjBazdnOfpC/qrmxJJiiND/UzeDD9jGR0St1Dk4gTbZeRkDq6nafhn0hnbXPO2//9QxbZeY0Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(366004)(39860400002)(346002)(396003)(186003)(66946007)(76116006)(55236004)(478600001)(52536014)(7696005)(26005)(2906002)(86362001)(4326008)(66556008)(5660300002)(66446008)(6506007)(53546011)(66476007)(64756008)(110136005)(33656002)(7416002)(54906003)(71200400001)(83380400001)(8936002)(316002)(55016002)(8676002)(38100700002)(9686003)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eW9BNWlHaDdacktZZWt6WkRNTDUrdkxEK2ZKS08rVVVLOWxSSWNJUFVzemhX?=
- =?utf-8?B?Nzd5QUlhQzhReEdBV1Y3SytWdG9tRjNXRytyWW5XN3pMd0RYYW12aXNUL3Fa?=
- =?utf-8?B?OWZzdE1UbGcrVVY0OXd0ZW9reVJITHdLY1lLZmJGOVJVdjhUWW1UbHdMUnNK?=
- =?utf-8?B?TzI2ZTFnOG1NN1pHV1A3SG5tSmpQNkltVUd1MzVVVThPVE1mT29aZ3dsR1FN?=
- =?utf-8?B?TU13RmhUR1RvQ2s0TzRlV2tPa0Q2RjFlbDZqWUJLWTBYUERLTHo0d3BqUXJp?=
- =?utf-8?B?QnRlV1FpOHhBaTU3dkVHTmQxd1ZkTnJDYURrNWhWT2xCeUhoRStpZHhBTWoy?=
- =?utf-8?B?ejF6c1Fvc3E2cHZWeEwwSXlsanRpVXpRT0Y2a3FWOTJ6MjV0RVFIUXFwTkdK?=
- =?utf-8?B?a25Ja1QrbDBFWHlTdGxNT1lkUTJUcjJJaFJITTBUWHJ3YW9HTWhmcXlXdjZV?=
- =?utf-8?B?dEt0dHNLRFlDb0F3N010Yyt4TnFSWDNzY1R2ckc3L1hHYVVkL2dFK1N4WmZ1?=
- =?utf-8?B?bm9LbmEwY3pWeVdBeWd3aHc1WnN6SmRaTTNBTk9EdzM2TEJlZFZNL1RydGJ6?=
- =?utf-8?B?TGVFMWMvcjZZdlJNcVdSZSt0QVV3SDFjUisxVm1XTG8rS2JSUHRDRk5OVmlN?=
- =?utf-8?B?MTVtM1pDaVR5dWFjaTNJNW91VXA5OWlZVnlUVFEvaEFMemU0UkZMSGp2RGYv?=
- =?utf-8?B?NUJFNjF0NUxTaEhKT08rOXR2VDZaK3ZSYmVoalJhS1pZOEQ0dCtMdVptTXBv?=
- =?utf-8?B?a1RadEFvVkN3aXpudWx0OFBoUjlXV3F4Z05kWldVWTZQd0RLdFJiNTFVcFlm?=
- =?utf-8?B?MFJJTk50WGcxbWdOc3JJdHpvL1lRd3ZSaDUzWWJOYk9RcmlrbTNqV0QzQ0dQ?=
- =?utf-8?B?R01XZ1ZLUSs4cU5rSXRwc2w5LzNHYzNXZ0ZRMnFBTUUrVEV5alM3bzNodmkv?=
- =?utf-8?B?ZTdaQWlKYnpsZ0crRHZuVzY3VTNqY0lhMVRBME43cmZvc21UQnFPVTlteFMr?=
- =?utf-8?B?bVhFZ1dtYUR2bytWK0doWmFlZWZ5NitpK1RwNTY5Y2FQVkRYZVRwK21NN0px?=
- =?utf-8?B?WFIrREZBRzZ2WDZlYkprM0xwandXSkdpK2haMUxDc0NUZTFZTjJ3ayt6MUlt?=
- =?utf-8?B?RkdUS215T0lpOFU1dStsMXpxQ3RXQkNsWkdrWjBGeGxNczFnaUlHOGhhQk1m?=
- =?utf-8?B?L0EwZWIzczdVYVdvMTcra0pVZ1RFSHQzYzE0eGpTUlF6ZGh4bTBNNGpaMkND?=
- =?utf-8?B?YmZROVFHQlZCUEJYOUh3cGdMNkE4aDMrTVE1RXd5bHFwSGd5VS9mKzBzVlhB?=
- =?utf-8?B?cklXdTNFd3luVHZyUXU3cjY1eE9ndWxGWUhwY3JMd2VhN000Vmt2V0NKL3hK?=
- =?utf-8?B?WjlLYnlTNVdoa1RjSEY0SllTZW8vd1NUWE9TQ2hwdGpQUlR4YzZma0RQZjdO?=
- =?utf-8?B?MkxmYXFPTGo3MWJ5Tlh3S0pTQkZQZkdzVCtzWEsyekZDRzQ2YzN0eFBUSy8r?=
- =?utf-8?B?SnQ3RS8vY0dzV1daNjUvMzlnYkl5SGowVGlieU5yS1djQlFTaHNnSFgxckpz?=
- =?utf-8?B?ajhid2ppaWdlOEhaODQrQlZyUXlWaU5xa0tZRUhETEF5YzloVDQzT2FrUHFM?=
- =?utf-8?B?RzZpNWc1YXJqQ2hvUE1zZlJoRHJwaWlnbmdPbytSY1hON0hzdC90MkRCSTBL?=
- =?utf-8?B?aWk1SkRVWnlnZG9Ecm91NDhCSHowSlJaSFFPelFGYStDcDd6VUJMeEdhSTNN?=
- =?utf-8?Q?b+koEa+imgc7FgY+Q7ni+WSN/b/DEMUyX9dVyMw?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 1 Jul 2021 07:44:01 -0400
+Received: by mail-vk1-f175.google.com with SMTP id x125so809592vkf.0;
+        Thu, 01 Jul 2021 04:41:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=K6xPZe/HmCow3slbRUW/74J8lcie8gXG6l+vsZk3IGE=;
+        b=BRT0qqYvuZpzAyAehAMQpLPmlTQGS9s6808DIjzdMN6zQ4WkKaEZLRjfM+2rVRclZT
+         S2f3SlRfatRTlooDi813oCd19T00JfIsSdTexdFyUqOqwKLUMgHSR+fAug+XM651XBOU
+         uOgKFfOS6Hl61ZE1eGFXfcqDJwdpvTbIRPDsopFx2Z5gXSpaHyDhd6UubPgOlRX3VeJc
+         7SAANgMV1shvxIsxVDZAwHb0ISDoQprXc68e86UWfAElQMssaJYGRERXX5OtZudeOXVm
+         Gxt9TrhAxm8p1sj77X7OuXGR+3XbJCXaUiZMt9wQua7+w1kKbftWfo0eyVtlqBmUip6M
+         6SsA==
+X-Gm-Message-State: AOAM532KN+/nDd9PKINC/SfG/WtlUaWOpNucxctaiOqtaMgTB7+x0gz3
+        Qw3lVAliKtIsG7c8SRURIt4ubUCOhsekTxNO/iY=
+X-Google-Smtp-Source: ABdhPJxEJnOhhZH/vF5dHyFmQZbdcGNAAoXId/x0Z+oo71nTH99l9zqwlQBszcXrE2kayKrLemprubVM8kwK5M/Twlw=
+X-Received: by 2002:a1f:1a41:: with SMTP id a62mr32441403vka.5.1625139690856;
+ Thu, 01 Jul 2021 04:41:30 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6456bfe1-79dc-4554-9e57-08d93c842da2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2021 11:34:24.7418
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bbn6hVqRkdFH+Y7WVJrFfhnTPTqwcNnie46M5J7KKIJn/4cB32BUNAwXwHoamIgfvMKt6ToXFf2anRL498+D884TdgbSjIanVZNEnMjyornapkhcOtYQehyTPF8Yw1zp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6350
+References: <20210701072927.328254-1-u.kleine-koenig@pengutronix.de>
+ <CAMuHMdWFL42BV9m7Oigvy0m7=-i4W0hnQT8izHdNNiYG0BfiMQ@mail.gmail.com> <20210701104528.dbnhhswxp6rgzzj3@pengutronix.de>
+In-Reply-To: <20210701104528.dbnhhswxp6rgzzj3@pengutronix.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 1 Jul 2021 13:41:19 +0200
+Message-ID: <CAMuHMdUBUG1bgfaWGt3OPhXyt+wt1XTT_uKKJemE-UcK7V8BZQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] pwm: Some improvements for legacy drivers
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sascha Hauer <kernel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgQWRhbSwgR2VlcnQtc2FuLA0KDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDog
-VGh1cnNkYXksIEp1bHkgMSwgMjAyMSA2OjA3IFBNDQo8c25pcD4NCj4gVG86IEFkYW0gRm9yZCA8
-YWZvcmQxNzNAZ21haWwuY29tPg0KPiBDYzogVVNCIGxpc3QgPGxpbnV4LXVzYkB2Z2VyLmtlcm5l
-bC5vcmc+OyBBZGFtIEZvcmQtQkUgPGFmb3JkQGJlYWNvbmVtYmVkZGVkLmNvbT47IEdyZWcgS3Jv
-YWgtSGFydG1hbg0KPiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+OyBSb2IgSGVycmluZyA8
-cm9iaCtkdEBrZXJuZWwub3JnPjsgTWFnbnVzIERhbW0gPG1hZ251cy5kYW1tQGdtYWlsLmNvbT47
-IFlvc2hpaGlybyBTaGltb2RhDQo+IDx5b3NoaWhpcm8uc2hpbW9kYS51aEByZW5lc2FzLmNvbT47
-IG9wZW4gbGlzdDpPUEVOIEZJUk1XQVJFIEFORCBGTEFUVEVORUQgREVWSUNFIFRSRUUgQklORElO
-R1MNCj4gPGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnPjsgTGludXggS2VybmVsIE1haWxpbmcg
-TGlzdCA8bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZz47IExpbnV4LVJlbmVzYXMNCj4gPGxp
-bnV4LXJlbmVzYXMtc29jQHZnZXIua2VybmVsLm9yZz4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCAy
-LzNdIHVzYjogcmVuZXNhc191c2JoczogRW5hYmxlIHN1cHBvcnQgZm9yIG1vcmUgdGhhbiB0d28g
-Y2xrcw0KPiANCj4gSGkgQWRhbSwNCj4gDQo+IFRoYW5rcyBmb3IgeW91ciBwYXRjaCENCj4gDQo+
-IE9uIFdlZCwgSnVuIDMwLCAyMDIxIGF0IDc6MzAgUE0gQWRhbSBGb3JkIHdyb3RlOg0KPHNuaXA+
-DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3JlbmVzYXNfdXNiaHMvY29tbW9uLmMgYi9k
-cml2ZXJzL3VzYi9yZW5lc2FzX3VzYmhzL2NvbW1vbi5jDQo+ID4gaW5kZXggM2FmOTFiMmI4Zjc2
-Li4yNTVlNGJkNjhlZDMgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy91c2IvcmVuZXNhc191c2Jo
-cy9jb21tb24uYw0KPiA+ICsrKyBiL2RyaXZlcnMvdXNiL3JlbmVzYXNfdXNiaHMvY29tbW9uLmMN
-CjxzbmlwPg0KPiA+IEBAIC0zMDksMTEgKzMxMSwxMyBAQCBzdGF0aWMgaW50IHVzYmhzY19jbGtf
-Z2V0KHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IHVzYmhzX3ByaXYgKnByaXYpDQo+ID4gICAg
-ICAgICAgKiBUbyBiYWNrd2FyZCBjb21wYXRpYmlsaXR5IHdpdGggb2xkIERULCB0aGlzIGRyaXZl
-ciBjaGVja3MgdGhlIHJldHVybg0KPiA+ICAgICAgICAgICogdmFsdWUgaWYgaXQncyAtRU5PRU5U
-IG9yIG5vdC4NCj4gPiAgICAgICAgICAqLw0KPiA+IC0gICAgICAgcHJpdi0+Y2xrc1sxXSA9IG9m
-X2Nsa19nZXQoZGV2X29mX25vZGUoZGV2KSwgMSk7DQo+ID4gLSAgICAgICBpZiAoUFRSX0VSUihw
-cml2LT5jbGtzWzFdKSA9PSAtRU5PRU5UKQ0KPiA+IC0gICAgICAgICAgICAgICBwcml2LT5jbGtz
-WzFdID0gTlVMTDsNCj4gPiAtICAgICAgIGVsc2UgaWYgKElTX0VSUihwcml2LT5jbGtzWzFdKSkN
-Cj4gPiAtICAgICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIocHJpdi0+Y2xrc1sxXSk7DQo+ID4g
-KyAgICAgICBmb3IgKGkgPSAxOyBpIDwgQVJSQVlfU0laRShwcml2LT5jbGtzKTsgaSsrKSB7DQo+
-ID4gKyAgICAgICAgICAgICAgIHByaXYtPmNsa3NbMV0gPSBvZl9jbGtfZ2V0KGRldi0+b2Zfbm9k
-ZSwgaSk7DQoNCnMvY2xrc1sxXS9baV0vDQoNCj4gPiArICAgICAgICAgICAgICAgaWYgKFBUUl9F
-UlIocHJpdi0+Y2xrc1tpXSkgPT0gLUVOT0VOVCkNCj4gPiArICAgICAgICAgICAgICAgICAgICAg
-ICBwcml2LT5jbGtzW2ldID0gTlVMTDsNCj4gPiArICAgICAgICAgICAgICAgZWxzZSBpZiAoSVNf
-RVJSKHByaXYtPmNsa3NbaV0pKQ0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBQ
-VFJfRVJSKHByaXYtPmNsa3NbaV0pOw0KPiA+ICsgICAgICAgfQ0KPiANCj4gVGhpcyBpcyBpZGVu
-dGljYWwgdG8gdGhlIGN1cnJlbnQgY29kZSwgYXMgQVJSQVlfU0laRShwcml2LT5jbGtzKSA9PSAy
-Lg0KPiBQcm9iYWJseSB5b3Ugd2FudGVkIHRvIGluY3JlYXNlIHVzYmhzX3ByaXYuY2xrc1tdLCB0
-b28/DQoNCkkgdGhpbmsgc28uDQojIEkgcmVhbGl6ZWQgdGhlIGNsa3MgYXJyYXkgaXMgb25seSAy
-LCBzbyB0aGF0IHRoaXMgZHJpdmVyIGNhbm5vdA0KIyBlbmFibGUgdXNiMl9jbGtzZWwuLi4NCg0K
-PiBEb2VzIGl0IG1ha2Ugc2Vuc2UgdG8gc3RhcnQgdXNpbmcgdGhlIGNsa19idWxrKigpIEFQST8N
-Cg0KY2xrX2J1bGsqKCkgQVBJIHNlZW1zIHRvIG5lZWQgY2xvY2stbmFtZXMgcHJvcGVydHkuDQpJ
-cyBteSB1bmRlcnN0YW5kaW5nIGNvcnJlY3Q/IEhvd2V2ZXIsIHRoZSBoc3VzYiBub2RlcyBkb2Vz
-bid0DQpoYXZlIHRoZSBwcm9wZXJ0eSBmb3Igbm93Li4uDQoNCkJlc3QgcmVnYXJkcywNCllvc2hp
-aGlybyBTaGltb2RhDQoNCg==
+Hi Uwe,
+
+On Thu, Jul 1, 2021 at 12:45 PM Uwe Kleine-König
+<u.kleine-koenig@pengutronix.de> wrote:
+> On Thu, Jul 01, 2021 at 10:58:32AM +0200, Geert Uytterhoeven wrote:
+> > On Thu, Jul 1, 2021 at 9:29 AM Uwe Kleine-König
+> > <u.kleine-koenig@pengutronix.de> wrote:
+> > > this is the successor of my earlier patch "pwm: Ensure for legacy
+> > > drivers that pwm->state stays consistent" that was applied shortly to
+> > > next until Geert found a problem with it.
+> > >
+> > > I split the patch in three parts now: First the legacy handling is just
+> > > moved to a separate function without any semantic change. Then a glitch
+> > > is fixed, but without the regression I introduced initially. In the
+> > > third and last patch the longstanding FIXME about breaking pwm->state if
+> > > a callback fails is addressed.
+> > >
+> > > Uwe Kleine-König (3):
+> > >   pwm: Move legacy driver handling into a dedicated function
+> > >   pwm: Prevent a glitch for legacy drivers
+> > >   pwm: Restore initial state if a legacy callback fails
+> > >
+> > >  drivers/pwm/core.c | 139 ++++++++++++++++++++++++++-------------------
+> > >  1 file changed, 79 insertions(+), 60 deletions(-)
+> >
+> > Thanks, works fine on Armadillo 800 EVA!
+> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Thanks for testing.
+>
+> > > base-commit: 6efb943b8616ec53a5e444193dccf1af9ad627b5
+> >
+> > That's plain v5.13-rc1, which is probably not what Thierry is targeting?
+>
+> his for-next branch is based on v5.13-rc1 and there are no changes in it
+> touching drivers/pwm/core.c, so I expect this to be fine.
+
+Git tends to disagree:
+
+$ git log --oneline v5.13-rc1..pwm/for-next -- drivers/pwm/core.c
+9ae241d06ef7aca8 pwm: core: Simplify some devm_*pwm*() functions
+c333b936c1530e76 pwm: core: Remove unused devm_pwm_put()
+e625fb70a6d21e4d pwm: core: Unify fwnode checks in the module
+e5c38ba9f2813beb pwm: core: Reuse fwnode_to_pwmchip() in ACPI case
+ca06616b1eed3112 pwm: core: Convert to use fwnode for matching
+ad5e085c63f59391 pwm: Drop irrelevant error path from pwmchip_remove()
+bcda91bf86c1ff76 pwm: Add a device-managed function to add PWM chips
+9e40ee18a1dc1623 pwm: core: Support new usage_power setting in PWM state
+69230cfac3d02c1b pwm: Autodetect default value for of_pwm_n_cells from
+device tree
+5447e7833629ee42 pwm: Drop of_pwm_simple_xlate() in favour of
+of_pwm_xlate_with_flags()
+cf38c978cf1d2a28 pwm: Make of_pwm_xlate_with_flags() work with #pwm-cells = <2>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
