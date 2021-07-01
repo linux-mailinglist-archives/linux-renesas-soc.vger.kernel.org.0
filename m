@@ -2,74 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EDF23B92A8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 16:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35FE03B92A1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Jul 2021 16:02:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232748AbhGAOFg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Jul 2021 10:05:36 -0400
-Received: from mail-il1-f179.google.com ([209.85.166.179]:39885 "EHLO
-        mail-il1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232545AbhGAOFg (ORCPT
+        id S232773AbhGAOF0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Jul 2021 10:05:26 -0400
+Received: from mail-io1-f51.google.com ([209.85.166.51]:36616 "EHLO
+        mail-io1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232545AbhGAOFZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Jul 2021 10:05:36 -0400
-Received: by mail-il1-f179.google.com with SMTP id o10so6466586ils.6;
-        Thu, 01 Jul 2021 07:03:05 -0700 (PDT)
+        Thu, 1 Jul 2021 10:05:25 -0400
+Received: by mail-io1-f51.google.com with SMTP id u7so5467118ion.3;
+        Thu, 01 Jul 2021 07:02:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
          :message-id;
-        bh=t8d1JVD+JV7Zgxco5WPYi4zIX7AeTaVK0hRhmb7TWLQ=;
-        b=sRkeqTFpzFZj+ZDXGAwxMnTIXG8SD5jLPlxjuZlBPwho9bMJvSLeXmhHkq+rmPDWRa
-         D4we/fYMbdQL2+xoFuXsd6rC2s1MIkLH3T8Hs0KdVesGg5D3I4OIj1e85Uo0GcKQ9FwQ
-         kZkAVDKwBVTA13QnyDq8+lVJMPRMgwgP/AqmS2TrBfX/8CLArdq/bpBd/g+N/ULAmAaG
-         tKs71QECchVRsNfSjd2tsm06XECCJtoIFnds4LVG2OCfY6m7zYJ92RfjZ586AmUnCGKT
-         UihzGRsBBtxuKcwlaG85niVuDdtUpnAcourPry1AAaidoSqLSuSgy/V/sdV2Ea8H4NAy
-         e/AA==
-X-Gm-Message-State: AOAM5312I0VtgEcBtfWWrbFx61DPnSVp4WehVMMZmlIEC+DHSt4R364L
-        BJ/q7BAPH6ZYZYWIVs5yFQ==
-X-Google-Smtp-Source: ABdhPJxWevjwZSZU4Y/+M8nNnPhvWZqRpMcVNhMl3on/VJEnFzUFk6T0TNJk7cWKJBYGyphbGlzDBw==
-X-Received: by 2002:a92:b30b:: with SMTP id p11mr28592991ilh.114.1625148185463;
-        Thu, 01 Jul 2021 07:03:05 -0700 (PDT)
+        bh=mYpWVNkGyyi4+D5Ik3YO8omc3O/tZSWPuO0UlaNpdPE=;
+        b=fAyOVUOcDZSHW58wbxWqW4TAvfLBRU1bsMUNfnY0MSfezl5MchfUJDGivQZnKuVZ1F
+         KitXSDgjX9siYDAEbS7dVfLq5FBKO0t3/nVlKqTg4dypm5+qc2HZ4773O+Q2fR3T1KyA
+         2vq6Nvh2rcpOZqN72dcQyT7xdC/Au2KJ8U4XBBwQ/eefMYD4IajNyGwb7lQutfC0A4Ml
+         n0v8OqeBR+RrEn9xlqaP7/mAqE9Jf8YQ1NmJ0DHDra4LJsmUFi9N2elsboSHfnEFKlku
+         QZJRacqtwKLxPffOeCUFI1lAvfEGeNlq98vzn+R9TW4q6iE3yTdMlpeDiRlQpjqQnrpD
+         l/XA==
+X-Gm-Message-State: AOAM532DMQohQZVFricciUpOwNLlBqjJc8DnoscA1zPUr5TPevWuUkXU
+        v5Vj/HHuULfeRfg7bEzsCw==
+X-Google-Smtp-Source: ABdhPJxvLXDtYCaeHE5BU26+kYkT3YksThGWXzGZkcTWU32ai4Ma0FLwraS4S2gZj5vctoN26xJltA==
+X-Received: by 2002:a05:6602:1846:: with SMTP id d6mr12160079ioi.111.1625148175051;
+        Thu, 01 Jul 2021 07:02:55 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id b9sm43571ilo.23.2021.07.01.07.03.01
+        by smtp.gmail.com with ESMTPSA id m12sm32206iln.43.2021.07.01.07.02.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jul 2021 07:03:04 -0700 (PDT)
-Received: (nullmailer pid 2278704 invoked by uid 1000);
+        Thu, 01 Jul 2021 07:02:54 -0700 (PDT)
+Received: (nullmailer pid 2278702 invoked by uid 1000);
         Thu, 01 Jul 2021 14:02:43 -0000
 From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Biju Das <biju.das@bp.renesas.com>
-In-Reply-To: <20210630073013.22415-4-biju.das.jz@bp.renesas.com>
-References: <20210630073013.22415-1-biju.das.jz@bp.renesas.com> <20210630073013.22415-4-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v3 03/11] dt-bindings: reset: Document RZ/G2L USBPHY Control bindings
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20210629220328.13366-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210629220328.13366-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210629220328.13366-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/2] dt-bindings: iio: adc: Add binding documentation for Renesas RZ/G2L A/D converter
 Date:   Thu, 01 Jul 2021 08:02:43 -0600
-Message-Id: <1625148163.555164.2278703.nullmailer@robh.at.kernel.org>
+Message-Id: <1625148163.546497.2278701.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 30 Jun 2021 08:30:05 +0100, Biju Das wrote:
-> Add device tree binding document for RZ/G2L USBPHY Control Device.
-> It mainly controls reset and power down of the USB/PHY.
+On Tue, 29 Jun 2021 23:03:27 +0100, Lad Prabhakar wrote:
+> Add binding documentation for Renesas RZ/G2L A/D converter block.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  v3:
->   * New patch.
->   * Modelled USBPHY control from phy bindings to reset bindings, since the
->     IP mainly contols the reset of USB PHY.
-> ---
->  .../reset/renesas,rzg2l-usbphy-ctrl.yaml      | 66 +++++++++++++++++++
->  1 file changed, 66 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
+>  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 121 ++++++++++++++++++
+>  1 file changed, 121 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
 > 
 
 My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
@@ -78,16 +73,16 @@ on your patch (DT_CHECKER_FLAGS is new in v5.13):
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.example.dts:19:18: fatal error: dt-bindings/clock/r9a07g044-cpg.h: No such file or directory
+Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.example.dts:19:18: fatal error: dt-bindings/clock/r9a07g044-cpg.h: No such file or directory
    19 |         #include <dt-bindings/clock/r9a07g044-cpg.h>
       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 compilation terminated.
-make[1]: *** [scripts/Makefile.lib:380: Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.example.dt.yaml] Error 1
+make[1]: *** [scripts/Makefile.lib:380: Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.example.dt.yaml] Error 1
 make[1]: *** Waiting for unfinished jobs....
 make: *** [Makefile:1416: dt_binding_check] Error 2
 \ndoc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/patch/1498761
+See https://patchwork.ozlabs.org/patch/1498675
 
 This check can fail if there are any dependencies. The base for a patch
 series is generally the most recent rc1.
