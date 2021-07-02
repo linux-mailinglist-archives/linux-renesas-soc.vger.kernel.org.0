@@ -2,35 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E48B33BA1B0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jul 2021 15:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E0623BA1B2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jul 2021 15:50:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232858AbhGBNxE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Jul 2021 09:53:04 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:24505 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232754AbhGBNxE (ORCPT
+        id S232754AbhGBNxJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Jul 2021 09:53:09 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:9867 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232563AbhGBNxI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Jul 2021 09:53:04 -0400
+        Fri, 2 Jul 2021 09:53:08 -0400
 X-IronPort-AV: E=Sophos;i="5.83,317,1616425200"; 
-   d="scan'208";a="86448362"
+   d="scan'208";a="86362022"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 02 Jul 2021 22:50:31 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 02 Jul 2021 22:50:36 +0900
 Received: from localhost.localdomain (unknown [10.226.92.6])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7376B400619E;
-        Fri,  2 Jul 2021 22:50:29 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E0A114006189;
+        Fri,  2 Jul 2021 22:50:31 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Michael Walle <michael@walle.cc>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Nishanth Menon <nm@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 5/9] arm64: dts: renesas: r9a07g044: Add SSI support
-Date:   Fri,  2 Jul 2021 14:50:06 +0100
-Message-Id: <20210702135010.5937-6-biju.das.jz@bp.renesas.com>
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 6/9] arm64: defconfig: Enable ASoC sound support for RZ/G2L SoC
+Date:   Fri,  2 Jul 2021 14:50:07 +0100
+Message-Id: <20210702135010.5937-7-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210702135010.5937-1-biju.das.jz@bp.renesas.com>
 References: <20210702135010.5937-1-biju.das.jz@bp.renesas.com>
@@ -38,105 +49,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add SSI{0,1,2,3} nodes to RZ/G2L SoC DTSI.
+Enable ASoC sound support for RZ/G2L SoC in the defconfig.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 80 ++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 932eaed81f5d..a14df300c8ae 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -85,6 +85,86 @@
- 		#size-cells = <2>;
- 		ranges;
- 
-+		ssi0: ssi@10049c00 {
-+			compatible = "renesas,r9a07g044-ssi",
-+				     "renesas,rz-ssi";
-+			reg = <0 0x10049c00 0 0x400>;
-+			interrupts = <GIC_SPI 326 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 327 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 328 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 329 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
-+			clocks = <&cpg CPG_MOD R9A07G044_SSI0_PCLK2>,
-+				 <&cpg CPG_MOD R9A07G044_SSI0_PCLK_SFR>,
-+				 <&audio_clk1>,
-+				 <&audio_clk2>;
-+			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
-+			resets = <&cpg R9A07G044_SSI0_RST_M2_REG>;
-+			power-domains = <&cpg>;
-+			#sound-dai-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		ssi1: ssi@1004a000 {
-+			compatible = "renesas,r9a07g044-ssi",
-+				     "renesas,rz-ssi";
-+			reg = <0 0x1004a000 0 0x400>;
-+			interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 331 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 332 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 333 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
-+			clocks = <&cpg CPG_MOD R9A07G044_SSI1_PCLK2>,
-+				 <&cpg CPG_MOD R9A07G044_SSI1_PCLK_SFR>,
-+				 <&audio_clk1>,
-+				 <&audio_clk2>;
-+			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
-+			resets = <&cpg R9A07G044_SSI1_RST_M2_REG>;
-+			power-domains = <&cpg>;
-+			#sound-dai-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		ssi2: ssi@1004a400 {
-+			compatible = "renesas,r9a07g044-ssi",
-+				     "renesas,rz-ssi";
-+			reg = <0 0x1004a400 0 0x400>;
-+			interrupts = <GIC_SPI 334 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 335 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 336 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 337 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
-+			clocks = <&cpg CPG_MOD R9A07G044_SSI2_PCLK2>,
-+				 <&cpg CPG_MOD R9A07G044_SSI2_PCLK_SFR>,
-+				 <&audio_clk1>,
-+				 <&audio_clk2>;
-+			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
-+			resets = <&cpg R9A07G044_SSI2_RST_M2_REG>;
-+			power-domains = <&cpg>;
-+			#sound-dai-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		ssi3: ssi@1004a800 {
-+			compatible = "renesas,r9a07g044-ssi",
-+				     "renesas,rz-ssi";
-+			reg = <0 0x1004a800 0 0x400>;
-+			interrupts = <GIC_SPI 338 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 339 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 340 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 341 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
-+			clocks = <&cpg CPG_MOD R9A07G044_SSI3_PCLK2>,
-+				 <&cpg CPG_MOD R9A07G044_SSI3_PCLK_SFR>,
-+				 <&audio_clk1>,
-+				 <&audio_clk2>;
-+			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
-+			resets = <&cpg R9A07G044_SSI3_RST_M2_REG>;
-+			power-domains = <&cpg>;
-+			#sound-dai-cells = <0>;
-+			status = "disabled";
-+		};
-+
- 		scif0: serial@1004b800 {
- 			compatible = "renesas,scif-r9a07g044";
- 			reg = <0 0x1004b800 0 0x400>;
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index d89b3711735b..4de908a66129 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -761,6 +761,7 @@ CONFIG_SND_SOC_ROCKCHIP_RT5645=m
+ CONFIG_SND_SOC_RK3399_GRU_SOUND=m
+ CONFIG_SND_SOC_SAMSUNG=y
+ CONFIG_SND_SOC_RCAR=m
++CONFIG_SND_SOC_RZ=m
+ CONFIG_SND_SUN4I_I2S=m
+ CONFIG_SND_SUN4I_SPDIF=m
+ CONFIG_SND_SOC_TEGRA=m
 -- 
 2.17.1
 
