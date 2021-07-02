@@ -2,39 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E90BF3BA1A9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jul 2021 15:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D35A3BA1AB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jul 2021 15:50:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232839AbhGBNwx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Jul 2021 09:52:53 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:22277 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232563AbhGBNwx (ORCPT
+        id S232841AbhGBNwy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Jul 2021 09:52:54 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:53181 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232563AbhGBNwy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Jul 2021 09:52:53 -0400
+        Fri, 2 Jul 2021 09:52:54 -0400
 X-IronPort-AV: E=Sophos;i="5.83,317,1616425200"; 
-   d="scan'208";a="86448341"
+   d="scan'208";a="86361989"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 02 Jul 2021 22:50:19 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 02 Jul 2021 22:50:22 +0900
 Received: from localhost.localdomain (unknown [10.226.92.6])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B989B4006189;
-        Fri,  2 Jul 2021 22:50:16 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 052C24006189;
+        Fri,  2 Jul 2021 22:50:19 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/9] ASoC: dt-bindings: Document RZ/G2L bindings
-Date:   Fri,  2 Jul 2021 14:50:02 +0100
-Message-Id: <20210702135010.5937-2-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 2/9] drivers: clk: renesas: r9a07g044-cpg: Add SSIF-2 clock and reset entries
+Date:   Fri,  2 Jul 2021 14:50:03 +0100
+Message-Id: <20210702135010.5937-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210702135010.5937-1-biju.das.jz@bp.renesas.com>
 References: <20210702135010.5937-1-biju.das.jz@bp.renesas.com>
@@ -42,109 +38,52 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document RZ/G2L ASoC serial sound interface bindings.
+Add SSIF-2 clock and reset entries in CPG driver.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
-Note:-  This patch has dependency on #include <dt-bindings/clock/r9a07g044-cpg.h> file which will be in 
-next 5.14-rc1 release
----
- .../bindings/sound/renesas,rz-ssi.yaml        | 85 +++++++++++++++++++
- 1 file changed, 85 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
+ drivers/clk/renesas/r9a07g044-cpg.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml b/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
-new file mode 100644
-index 000000000000..891f381ee5b8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
-@@ -0,0 +1,85 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/renesas,rz-ssi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas RZ/G2L ASoC Sound Serial Interface (SSIF-2)
-+
-+maintainers:
-+  - Biju Das <biju.das.jz@bp.renesas.com>
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - renesas,r9a07g044-ssi  # RZ/G2{L,LC}
-+      - const: renesas,rz-ssi
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 4
-+
-+  interrupt-names:
-+    items:
-+      - const: int_req
-+      - const: dma_rx
-+      - const: dma_tx
-+      - const: dma_rt
-+
-+  clocks:
-+    maxItems: 4
-+
-+  clock-names:
-+    items:
-+      - const: ssi
-+      - const: ssi_sfr
-+      - const: audio_clk1
-+      - const: audio_clk2
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-names
-+  - clocks
-+  - clock-names
-+  - resets
-+  - '#sound-dai-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/r9a07g044-cpg.h>
-+
-+    ssi0: ssi@10049c00 {
-+        compatible = "renesas,r9a07g044-ssi",
-+                     "renesas,rz-ssi";
-+            reg = <0x10049c00 0x400>;
-+            interrupts = <GIC_SPI 326 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 327 IRQ_TYPE_EDGE_RISING>,
-+                         <GIC_SPI 328 IRQ_TYPE_EDGE_RISING>,
-+                         <GIC_SPI 329 IRQ_TYPE_EDGE_RISING>;
-+            interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
-+            clocks = <&cpg CPG_MOD R9A07G044_SSI0_PCLK2>,
-+                     <&cpg CPG_MOD R9A07G044_SSI0_PCLK_SFR>,
-+                     <&audio_clk1>,
-+                     <&audio_clk2>;
-+            clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
-+            power-domains = <&cpg>;
-+            resets = <&cpg R9A07G044_SSI0_RST_M2_REG>;
-+            #sound-dai-cells = <0>;
-+    };
+diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
+index 7af4b39a0953..ed5f5c11ac12 100644
+--- a/drivers/clk/renesas/r9a07g044-cpg.c
++++ b/drivers/clk/renesas/r9a07g044-cpg.c
+@@ -96,6 +96,22 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
+ 				0x52c, 0),
+ 	DEF_MOD("dmac_pclk",	R9A07G044_DMAC_PCLK, CLK_P1_DIV2,
+ 				0x52c, 1),
++	DEF_MOD("ssi0_pclk",	R9A07G044_SSI0_PCLK2, R9A07G044_CLK_P0,
++				0x570, 0),
++	DEF_MOD("ssi0_sfr",	R9A07G044_SSI0_PCLK_SFR, R9A07G044_CLK_P0,
++				0x570, 1),
++	DEF_MOD("ssi1_pclk",	R9A07G044_SSI1_PCLK2, R9A07G044_CLK_P0,
++				0x570, 2),
++	DEF_MOD("ssi1_sfr",	R9A07G044_SSI1_PCLK_SFR, R9A07G044_CLK_P0,
++				0x570, 3),
++	DEF_MOD("ssi2_pclk",	R9A07G044_SSI2_PCLK2, R9A07G044_CLK_P0,
++				0x570, 4),
++	DEF_MOD("ssi2_sfr",	R9A07G044_SSI2_PCLK_SFR, R9A07G044_CLK_P0,
++				0x570, 5),
++	DEF_MOD("ssi3_pclk",	R9A07G044_SSI3_PCLK2, R9A07G044_CLK_P0,
++				0x570, 6),
++	DEF_MOD("ssi3_sfr",	R9A07G044_SSI3_PCLK_SFR, R9A07G044_CLK_P0,
++				0x570, 7),
+ 	DEF_MOD("usb0_host",	R9A07G044_USB_U2H0_HCLK, R9A07G044_CLK_P1,
+ 				0x578, 0),
+ 	DEF_MOD("usb1_host",	R9A07G044_USB_U2H1_HCLK, R9A07G044_CLK_P1,
+@@ -132,6 +148,10 @@ static struct rzg2l_reset r9a07g044_resets[] = {
+ 	DEF_RST(R9A07G044_IA55_RESETN, 0x818, 0),
+ 	DEF_RST(R9A07G044_DMAC_ARESETN, 0x82c, 0),
+ 	DEF_RST(R9A07G044_DMAC_RST_ASYNC, 0x82c, 1),
++	DEF_RST(R9A07G044_SSI0_RST_M2_REG, 0x870, 0),
++	DEF_RST(R9A07G044_SSI1_RST_M2_REG, 0x870, 1),
++	DEF_RST(R9A07G044_SSI2_RST_M2_REG, 0x870, 2),
++	DEF_RST(R9A07G044_SSI3_RST_M2_REG, 0x870, 3),
+ 	DEF_RST(R9A07G044_USB_U2H0_HRESETN, 0x878, 0),
+ 	DEF_RST(R9A07G044_USB_U2H1_HRESETN, 0x878, 1),
+ 	DEF_RST(R9A07G044_USB_U2P_EXL_SYSRST, 0x878, 2),
 -- 
 2.17.1
 
