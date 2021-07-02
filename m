@@ -2,93 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FE113BA137
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jul 2021 15:28:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54C1D3BA1A7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jul 2021 15:50:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232532AbhGBNbL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Jul 2021 09:31:11 -0400
-Received: from mail-io1-f45.google.com ([209.85.166.45]:45640 "EHLO
-        mail-io1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232273AbhGBNbL (ORCPT
+        id S232824AbhGBNwt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Jul 2021 09:52:49 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:53181 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232754AbhGBNwt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Jul 2021 09:31:11 -0400
-Received: by mail-io1-f45.google.com with SMTP id g3so9671982iok.12;
-        Fri, 02 Jul 2021 06:28:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=6VAjp+1g1/6JxjvtnTpo35j86mJBNoZO/+9hIOMNiL8=;
-        b=Ovf2Murioq8ywPycdwkNGzkOETxRepQk2GGoOIQZNS7lXhuMKYUUvzkI/M/Awoy0Ws
-         rYlEFnste69TmDcEpazJAGxyvRiHhSTaObimML4S+Fa7WxwN94YkPGD8c8MTRWmSs4O/
-         /1z02XhZfANMS8B3EfUgVy84Wn3/GV6YUYpZLQVP0StHbmZWJzdcQRhfRhHvpUpcFlZ9
-         ouYCHofP3Y3pj+Y8HMuR8N4ZaGJldK0dezijyaI97YuPcsQCQ9ri97GbAh1X/86O11by
-         IszN17j4tAX2z3KTg2sEyftNqZuxo3yZw/5SxgAl2TtQhxZejRY8cVDh9RXtY6TEYan5
-         IC+A==
-X-Gm-Message-State: AOAM533WYCM1/cxj9FWCjLCsgKIOt0TfmOGDgLOstkJXu8hnC7pFqI0l
-        keBW+Xpt90WTCCQ5PWMnfQ==
-X-Google-Smtp-Source: ABdhPJzT6n33b3xKbEvJpC4uROSwAAAPdrO/QZIfQETl3OkC0z4NKXvm3j5l1qv2BaaKbjvD4xtxgA==
-X-Received: by 2002:a05:6638:4199:: with SMTP id az25mr4238547jab.45.1625232518931;
-        Fri, 02 Jul 2021 06:28:38 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id a12sm1820482ilt.3.2021.07.02.06.28.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jul 2021 06:28:38 -0700 (PDT)
-Received: (nullmailer pid 274908 invoked by uid 1000);
-        Fri, 02 Jul 2021 13:28:35 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Alex Helms <alexander.helms.jy@renesas.com>
-Cc:     mturquette@baylibre.com, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, robh+dt@kernel.org,
-        linux-kernel@vger.kernel.org, sboyd@kernel.org,
-        david.cater.jc@renesas.com, geert+renesas@glider.be,
-        devicetree@vger.kernel.org, michal.simek@xilinx.com
-In-Reply-To: <20210701232258.19146-2-alexander.helms.jy@renesas.com>
-References: <202107020640.YyVoU69S-lkp@intel.com> <20210701232258.19146-1-alexander.helms.jy@renesas.com> <20210701232258.19146-2-alexander.helms.jy@renesas.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: Add binding for Renesas 8T49N241
-Date:   Fri, 02 Jul 2021 07:28:35 -0600
-Message-Id: <1625232515.402706.274905.nullmailer@robh.at.kernel.org>
+        Fri, 2 Jul 2021 09:52:49 -0400
+X-IronPort-AV: E=Sophos;i="5.83,317,1616425200"; 
+   d="scan'208";a="86361977"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 02 Jul 2021 22:50:16 +0900
+Received: from localhost.localdomain (unknown [10.226.92.6])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7ECA64006189;
+        Fri,  2 Jul 2021 22:50:13 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 0/9] Add RZ/G2L Sound support
+Date:   Fri,  2 Jul 2021 14:50:01 +0100
+Message-Id: <20210702135010.5937-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 01 Jul 2021 16:22:57 -0700, Alex Helms wrote:
-> Renesas 8T49N241 has 4 outputs, 1 integral and 3 fractional dividers.
-> The 8T49N241 accepts up to two differential or single-ended input clocks
-> and a fundamental-mode crystal input. The internal PLL can lock to either
-> of the input reference clocks or to the crystal to behave as a frequency
-> synthesizer.
-> 
-> Signed-off-by: Alex Helms <alexander.helms.jy@renesas.com>
-> ---
->  .../bindings/clock/renesas,8t49n241.yaml      | 183 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 189 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
-> 
+This patch series aims to add ASoC support on RZ/G2L SoC's.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+It is based on the work done by Chris Brandt for RZ/A ASoC driver.
 
-yamllint warnings/errors:
+This patch series is based on [1]
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/rzg2l-update-clock-defs-v4
 
-dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml: $id: relative path/filename doesn't match actual path or filename
-	expected: http://devicetree.org/schemas/clock/renesas,8t49n241.yaml#
-Documentation/devicetree/bindings/clock/renesas,8t49n241.example.dt.yaml:0:0: /example-0/i2c@0/clock-generator@6c: failed to match any schema with compatible: ['renesas,8t49n241']
-Documentation/devicetree/bindings/clock/renesas,8t49n241.example.dt.yaml:0:0: /example-1/i2c@0/clock-generator@6c: failed to match any schema with compatible: ['renesas,8t49n241']
-\ndoc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/patch/1499761
+Biju Das (9):
+  ASoC: dt-bindings: Document RZ/G2L bindings
+  drivers: clk: renesas: r9a07g044-cpg: Add SSIF-2 clock and reset
+    entries
+  sound: soc: sh: Add RZ/G2L SSIF-2 driver
+  arm64: dts: renesas: r9a07g044: Add external audio clock nodes
+  arm64: dts: renesas: r9a07g044: Add SSI support
+  arm64: defconfig: Enable ASoC sound support for RZ/G2L SoC
+  ASoC: dt-bindings: sound: renesas,rz-ssi: Document DMA support
+  sound: sh: rz-ssi: Add SSI DMAC support
+  arm64: dts: renesas: r9a07g044: Add SSI DMA support
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+ .../bindings/sound/renesas,rz-ssi.yaml        |  100 ++
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    |  105 ++
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/clk/renesas/r9a07g044-cpg.c           |   20 +
+ sound/soc/sh/Kconfig                          |   10 +
+ sound/soc/sh/Makefile                         |    4 +
+ sound/soc/sh/rz-ssi.c                         | 1078 +++++++++++++++++
+ 7 files changed, 1318 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
+ create mode 100644 sound/soc/sh/rz-ssi.c
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
 
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+base-commit: 06c1e6911a7a76b446e4b00fc8bad5d8465932f8
+-- 
+2.17.1
 
