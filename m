@@ -2,165 +2,278 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34C013B9E2E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jul 2021 11:26:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 959E63B9E97
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jul 2021 11:58:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230492AbhGBJ2l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Jul 2021 05:28:41 -0400
-Received: from mail-eopbgr1400128.outbound.protection.outlook.com ([40.107.140.128]:35264
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230388AbhGBJ2j (ORCPT
+        id S230282AbhGBKAs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Jul 2021 06:00:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37370 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230363AbhGBKAp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Jul 2021 05:28:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NGbCHch1sg+IOwcZPGlU12u4u724WN1jR/NvjhJ8QG2KO8bGBpHoKKWyz27njgPoI0OMNlQoV99g8/OfD8AmhSVQt4JBhOd9ARCdRNi40UIQilpMg0eeUGViG4tqNYGPJvSt0x54Wyl3BOFLGUEgx/rrikHIjzkm/Wc8OGYa5gD+YHK+e5mg4VeMo0fi+zeNYU16p9rkVK1DCPdbGaOz4lX9G4EjsnUr74JrH2fVLII25354eXGftpJv2OvM3sJq8pT+IeG/wyqYzJ/LojqK/A5U5fTdMLmCMopCdZkFALNEahaz6fkZ/W4wVMCiCtwGcRh/EZXda7bRoaFION9Fuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zKtGlki9ImoscGeUrwdoZzGZpIABjYyqQwbP3MmVWzM=;
- b=jp9tRcJQ7vIxHQ49mVc3WvbfE6ohzIhxNF43JtbSGwsPIOo8nEVTdTx6CdH9V9pB4OF6DHFjlaLoX2hUD4ZnpZcT7/1aRX9azxJWbBSJpbTkaueQcTrJ+4aisOdK58vHVVhxKIxf5AFUpovnRDbaJ6u61aCxoKCP3vq5Cu1d/qceLh3j72pQYHIFYke13pvG2yGVqWJH4ODScf8SKCbrhEJUNIRUb21X51yvMrALYll3eNdoTpSl3fv7qsisDIeAv/YGAHKNGq2nNyXc1cawgLdBVgLGoaFm6TGOc+pvMLXrRxtt/jW2ro5frDG/RksYSAMh5Lm8h/25p0LpszyB3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zKtGlki9ImoscGeUrwdoZzGZpIABjYyqQwbP3MmVWzM=;
- b=W+wQ8FOi3uhJwxErcvLDx94s1INjoDN+reJqqPLI+R/ZfbPnohiBm/s9qxUiHIu66gc9G+ukFywALkvbBEezTtZAV9/vmon7Dj7P1YlmGnv8yjkgRZxXhWUnK21AYMdVQNyjcqawAyz9hTH6WmyHzGLwsn/oj7aBum60iWgn+f8=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSBPR01MB1943.jpnprd01.prod.outlook.com (2603:1096:603:23::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23; Fri, 2 Jul
- 2021 09:26:04 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::c6f:e31f:eaa9:60fe]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::c6f:e31f:eaa9:60fe%8]) with mapi id 15.20.4287.023; Fri, 2 Jul 2021
- 09:26:04 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v3 05/11] reset: renesas: Add RZ/G2L usbphy control driver
-Thread-Topic: [PATCH v3 05/11] reset: renesas: Add RZ/G2L usbphy control
- driver
-Thread-Index: AQHXbYHctgPC13H3KUyb9vFaVzGovKsscJ4AgAANifCAAuXkAIAACJbQ
-Date:   Fri, 2 Jul 2021 09:26:03 +0000
-Message-ID: <OS0PR01MB59224A957F76F5A6C10A3814861F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20210630073013.22415-1-biju.das.jz@bp.renesas.com>
-         <20210630073013.22415-6-biju.das.jz@bp.renesas.com>
-         <83276a09d6aea1b6e8ac4aa2bfef77ef99c2d76e.camel@pengutronix.de>
-         <TYCPR01MB593358CF332F7C5CC1A852DD86019@TYCPR01MB5933.jpnprd01.prod.outlook.com>
- <634d5d9203b633ffdcc05a9b388cdab12f383d8d.camel@pengutronix.de>
-In-Reply-To: <634d5d9203b633ffdcc05a9b388cdab12f383d8d.camel@pengutronix.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: pengutronix.de; dkim=none (message not signed)
- header.d=none;pengutronix.de; dmarc=none action=none
- header.from=bp.renesas.com;
-x-originating-ip: [193.141.219.20]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 48d42282-8c54-4f97-b2f4-08d93d3b6a1b
-x-ms-traffictypediagnostic: OSBPR01MB1943:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSBPR01MB1943F2C3C43917CD439D74F7861F9@OSBPR01MB1943.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Y0ULLCEH0lpSxjFc7N/BeiYaa5wNiNtKw11L/BPUAuePNsrJQ93IgwfhQtz1VZYvvLfWpbX3AfOvEWuEJtMbedtDHUWwBVeupGlLsYEJfWDfcRh80XJC7AOWiT863KN+orThy6VUoOdYuTyRqHvS1/wnLN8hViOVdJw3Y7/ZzRcBxEi8ptOdhPIzbDK/mmgBXK1TUTg3jgsETyQWXtnU0qtog3DBjD7Kx+mCcgyW7hqaw+i+/mlCpyA5aRc+q5o4PR7yIIx+1rh0ODfEjym4rgbdAdxIG2Txli/2fPOyOO0Bl+8S4cy1eUrEmJWIVYm0LNSQC1Zby6Yr55VNHodeZ3sdNIUXKp9JOjLXZFT5wjk23b0bvl5NG2c8s04MBxIzTYO2T6qIyhOBouLHCJMi0bMnPzi6rwx/FrlWlRMoCSFdPJYOElykPEGXbsMe+XH2qpbuYSSbriOjcqw+6eoB5US8l7bHNoGPAG8KjBaxZVSklRZQds0tx+XM15T6sfu+gaw2auFZVbrhDi4a2a5HFCJwSV98u+s0O0txiwAtJ/elL84BkyH3W6B2on2f5ZXJuTAzPvy7jBteBO3FiU7igboLNoXq/Mlg84zcuJHqyrI9E7gyCSCygRvzHKp0Oiw6zGHRDpv1swJRR7E6Bpu2QA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(346002)(366004)(376002)(39860400002)(38100700002)(71200400001)(122000001)(83380400001)(7696005)(26005)(478600001)(9686003)(55016002)(6506007)(8936002)(316002)(54906003)(186003)(86362001)(2906002)(66476007)(52536014)(5660300002)(33656002)(76116006)(66556008)(66446008)(8676002)(66946007)(64756008)(4326008)(6916009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aGxScUgvdDlxTFRvUW9CYnUveE1NWGFoSlB5Rk5Pdks3UkhxcVBQM0ZWNVFH?=
- =?utf-8?B?T0NzMDVRMzd5K2hIUnNUdC9zVHRjNjgydk9acldZWklYQW5xbzVmaEJCSWJG?=
- =?utf-8?B?Q0R1UjBPUUdUNnNsZEtqK01NZFZkeFN2d1lGa0dTdGFwczJmd0hTS08weG13?=
- =?utf-8?B?MFJhNnpDVkFJNWZoMmpEdjdhU1Y3WWhWVktwazNoUzJka0NsMXJ0ekV5ekcx?=
- =?utf-8?B?TlV2ZXNCbTRaRlRCUkJYUkNaUE9DVXBYWTBBZzlwK2lyTWtvRk95dkhkenhJ?=
- =?utf-8?B?d0MxQjVGMytoVnFBaWFrZU94NlFacThVTmZWWGZ5M1B1dHliWVJ0b1BTMFQ1?=
- =?utf-8?B?a0lnOEdCdkNiMTI0Z2twdnVycjZ1VFljaEYvRlhSZjQ2MlNocnhQSE16T0Ft?=
- =?utf-8?B?YlZOT0toTDNESnJlbDFCRWc2aXhZdzNKVWJZOEtmaFdnZVBwR2R3UXhKcGdL?=
- =?utf-8?B?ZG1lK2ZhM01vK1pHT1VmMU55NUh1MEFEOUdxaWEzMFF0WGhNdXowM2o4OVNT?=
- =?utf-8?B?akV5eFowMGJTNjc5Y1JLWHFkNm5pbThReUdOMGc4R1NjQWQ0U1crRmtwMytV?=
- =?utf-8?B?T05yc0NDYnFnK1Y4MkRFVkVNbG0xQjRCTzdsOHJXekJBN2R4QmZzWnY4REdp?=
- =?utf-8?B?ZzY5NS9jU21HRkhhNzFUTVpaaWo0NFNzenBZSVQ2eUU1NVFRSVhtemFvMW9D?=
- =?utf-8?B?UmdvWjZWY2FadU8wWHNCVGlLVkEvc2hvaHlEbjJjY3FoeENFdWc5WmFRRHdW?=
- =?utf-8?B?MHU4VElXdll4Z1ZhYll4bmRsbFdjVkNxUXN4WWVnYkIveDVXOHdWcDlRM1I3?=
- =?utf-8?B?T1FFaXJmVStMRzgvcGFJNmlQQWJsUktVVGkrMlg0K1dqNXpkL2xaTGZVZnNq?=
- =?utf-8?B?b2hSaFdxQkpjYis0VjFqejY3QXIwSW1GaFNSR00yVmtXaFkwMUtyMDl2NEdZ?=
- =?utf-8?B?VEd3bXRPZWpHM0RLOU9ncUtJOG00TUVMWVhScUNDd21VV3F5TE9yVkUwd3hs?=
- =?utf-8?B?bi9GbEJBSVlEcFNCbVdGS2FaaXU2dC92QlRMaGZQRGxtVll2Q0FiZDhyNkFp?=
- =?utf-8?B?bkdMWnZWZWFBZ0VpemREb1JpTkFmUlFIaGJWaE9LOXNLQkVrd0YwNmFlUy81?=
- =?utf-8?B?NGJ5WGc1SUYxZjFSYWVFRUpjYnJiaC83Qis4dUtoVFJtQ0szYlpFS3BJMm5O?=
- =?utf-8?B?RkN2TnZSbGg0QnRzK2ZYWWl4aWdGRFR5dHVublFqd2pMVmtXck0wc0dURFpo?=
- =?utf-8?B?TXBZZEpYRjJRVXVzcHd4WUdtMWNZTS9nVWRFTTFuYk42c2Q4ZGdsLzhTeW84?=
- =?utf-8?B?RzRBVFNkeHBQRDl6WkdtWkRKdEhEam5COGRyUjNraERLNXJhYVY0cUo5TUJ1?=
- =?utf-8?B?anE4YWFxK1o1QWx3T2VXK0xqSVR2YUZxZ2wxUkhsaFpDa3FJeGYzU3VzMWVv?=
- =?utf-8?B?R0VKVXZUT0hMbW0rQXZmTEM5dFFBVGdwQVJ6WEtURTNJcnZvWkpGMXJHS3Ny?=
- =?utf-8?B?L080UFNlN3NkbnZaRktoZFB3OUk4dnUzYzBMb3QxL0VHYXl2QkY3SitERnRy?=
- =?utf-8?B?TGFCNVd5V3NSczR4bGF4S1A5alNqZmZOMHhLZk1XUFFaTy9LN2I3U1pwamU3?=
- =?utf-8?B?ZGN5K2xsTm04SGpHSWZDbFVyVHhORStBK3hDZkMySHJwdWVndnczZ3hlYXls?=
- =?utf-8?B?SE84RitNVmcra1pGL21keDk3azZob09Oa0licFZnRUJSSmUxRHpyZDgxRDBn?=
- =?utf-8?Q?duM7klc6jTZMiv0BvaNP8jcwA2jHQDLY2gWP1pJ?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Fri, 2 Jul 2021 06:00:45 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D75CAC061762
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Jul 2021 02:58:12 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:445e:1c3:be41:9e10])
+        by michel.telenet-ops.be with bizsmtp
+        id Q9y82500E474TTe069y8Nb; Fri, 02 Jul 2021 11:58:08 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lzFw0-005cXE-36; Fri, 02 Jul 2021 11:58:08 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lzFvz-0062f9-CJ; Fri, 02 Jul 2021 11:58:07 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] clk: renesas: r8a779a0: Add Z0 and Z1 clock support
+Date:   Fri,  2 Jul 2021 11:58:05 +0200
+Message-Id: <2112e3bc870580c623bdecfeff8c74739699c610.1625219713.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 48d42282-8c54-4f97-b2f4-08d93d3b6a1b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2021 09:26:03.7162
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ChLUi8v2IjG2coGXFSKvcQQJ/1xgP3hw0RFwwi8h6R9CVpoMCujXr+2k5uoRbR0lfM3vWnWtgZnkcTnVnXCZp6xlHn7vxYsLBIiZZNhZpaY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1943
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgUGhpbGlwcCwuDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrDQoNCg0KPiBTdWJqZWN0OiBS
-ZTogW1BBVENIIHYzIDA1LzExXSByZXNldDogcmVuZXNhczogQWRkIFJaL0cyTCB1c2JwaHkgY29u
-dHJvbA0KPiBkcml2ZXINCj4gDQo+IE9uIFdlZCwgMjAyMS0wNi0zMCBhdCAxMzoyNSArMDAwMCwg
-QmlqdSBEYXMgd3JvdGU6DQo+IFsuLi5dDQo+ID4gPiBXaGF0IGVsc2UgZG9lcyBpdCBjb250cm9s
-PyBBcmUgd2UgbWlzc2luZyBhbnkgZnVuY3Rpb25hbGl0eSB0aGF0DQo+ID4gPiB3b3VsZCBoYXZl
-IHRvIGJlIGFkZGVkIGxhdGVyPw0KPiA+DQo+ID4gSXQgaGFzIG90aGVyIGNvbnRyb2xzIGxpa2Ug
-ZGlyZWN0IHBvd2VyIGRvd24sIGNsb2NrIGNvbnRyb2wgYW5kDQo+ID4gY29ubmVjdGlvbiBjb250
-cm9sIHRvIGhhbmRsZSB0aGUgY2FzZXMsIHdoZW4gVVNCIGludGVyZmFjZSBpcyBub3QgdXNlZA0K
-PiA+IHBlcm1hbmVudGx5KGxpa2Ugd2hlbiBwb3J0MSBhbmQgcG9ydDIgdW51c2VkIHBlcm1hbmVu
-dGx5KQ0KPiA+DQo+ID4gSW4gZnV0dXJlLCBpZiB0aGVyZSBpcyBhIGNhc2UgbGlrZSBiZWxvdyhm
-b3IgZWc6LSApDQo+ID4gMSkgd2hlbiBwb3J0MSBhbmQgcG9ydDIgdW51c2VkIHBlcm1hbmVudGx5
-ICggVGhpcyBjYXNlIHJlY29tbWVuZHMgSFcNCj4gPiBtb2QgYXMgd2VsbCkNCj4gPiAyKSB3aGVu
-IGVpdGhlciBwb3J0MSBvciBwb3J0MiB1bnVzZWQgcGVybWFuZW50bHkoIFRoaXMgY2FzZQ0KPiA+
-IHJlY29tbWVuZHMsIGZyb20gSFcgcG9pbnQgbm90IHRvIHN1cHBseSB0aGUgcG93ZXIgdG8gdW51
-c2VkIHBvcnQpDQo+ID4NCj4gPiBNYXkgYmUgd2UgY291bGQgZXhwb3NlIHRoZXNlIHByb3BlcnRp
-ZXMgaW4gZHQgYW5kIHByb2JlIHRpbWUgc2V0IHRoZQ0KPiA+IHJlcXVpcmVkIGNvbnRyb2wsIGlm
-IHRoZXJlIGlzIGEgcmVxdWlyZW1lbnQgdG8gc3VwcG9ydCB0aGlzIGNhc2VzIGluDQo+IGZ1dHVy
-ZS4NCj4gDQo+IE9rLCB0aGFua3MuIElmIHRoYXQncyBib2FyZCBkZXNpZ24gc3BlY2lmaWMgc3Rh
-dGljIGNvbmZpZ3VyYXRpb24sIEkgc2VlIG5vDQo+IGlzc3VlLg0KPiANCj4gWy4uLl0NCj4gPiA+
-ID4gKwlpZiAoKHZhbCAmIDB4ZmYpID09IChQSFlfUkVTRVRfUE9SVDEgfCBQSFlfUkVTRVRfUE9S
-VDIpKQ0KPiA+ID4gICAgICAgICAgICAgICAgICAgIF5eXl4NCj4gPiA+IFdoYXQgaXMgdGhlIHNp
-Z25pZmljYW5jZSBvZiB0aGUgbWFnaWMgMHhmZj8NCj4gPg0KPiA+ICBXZSBzaG91bGQgdXNlIChQ
-SFlfUkVTRVRfUE9SVDEgfCBQSFlfUkVTRVRfUE9SVDIpIGluc3RlYWQuDQo+ID4NCj4gPiBCYXNp
-Y2FsbHkgaXQgaXMgY2hlY2tpbmcgYm90aCBwb3J0cyBhcmUgaW4gcmVzZXQgc3RhdGUgb3Igbm90
-Pw0KPiANCj4gVGhhdCB3b3VsZCBiZSBiZXR0ZXIuIFJpZ2h0IG5vdyBpdCdzIGNoZWNraW5nIHRo
-YXQgYml0cyAyLCAzLCA2LCBhbmQgNyBhcmUNCj4gY2xlYXJlZCwgYW5kIEkgY291bGRuJ3QgdGVs
-bCB3aGV0aGVyIHRoYXQgd2FzIGJ5IGFjY2lkZW50IG9yIG9uIHB1cnBvc2UuDQo+DQo+IFsuLi5d
-DQo+ID4gPiA+ICtzdGF0aWMgdm9pZCByemcybF91c2JwaHlfY3RybF9yZWxlYXNlX3Jlc2V0KHN0
-cnVjdA0KPiA+ID4gPiArcmVzZXRfY29udHJvbGxlcl9kZXYNCj4gPiA+ICpyY2RldiwNCj4gPiA+
-ID4gKwkJCQkJICAgIHVuc2lnbmVkIGxvbmcgaWQpDQo+ID4gPiA+ICt7DQo+ID4gPiA+ICsJc3Ry
-dWN0IHJ6ZzJsX3VzYnBoeV9jdHJsX3ByaXYgKnByaXYgPSByY2Rldl90b19wcml2KHJjZGV2KTsN
-Cj4gPiA+ID4gKwl2b2lkIF9faW9tZW0gKmJhc2UgPSBwcml2LT5iYXNlOw0KPiA+ID4gPiArCXUz
-MiB2YWwgPSByZWFkbChiYXNlICsgUkVTRVQpOw0KPiA+ID4gPiArDQo+ID4gPiA+ICsJdmFsIHw9
-IFNFTF9QTExSRVNFVDsNCj4gPiA+ID4gKwl2YWwgJj0gfihQTExfUkVTRVQgfCAoaWQgPyBQSFlf
-UkVTRVRfUE9SVDIgOg0KPiBQSFlfUkVTRVRfUE9SVDEpKTsNCj4gPiA+ID4gKwl3cml0ZWwodmFs
-LCBiYXNlICsgUkVTRVQpOw0KPiANCj4gSXQgd291bGQgYmUgZ29vZCB0byBwcm90ZWN0IHRoZSBS
-RVNFVCByZWdpc3RlciByZWFkLW1vZGlmeS13cml0ZXMgd2l0aCBhDQo+IHNwaW5sb2NrLCBzYW1l
-IGluIHRoZSBfc2V0X3Jlc2V0KCkgZnVuY3Rpb24uDQoNCk9LLiBXaWxsIGRvLg0KDQpSZWdhcmRz
-LA0KQmlqdQ0KDQo+IA0KPiByZWdhcmRzDQo+IFBoaWxpcHANCg==
+Add support for the Z0 and Z1 (Cortex-A76 Sub-system 0 and 1) clocks,
+based on the existing support for Z clocks on R-Car Gen3.
+
+As the offsets of the CPG_FRQCRB and CPG_FRQCRC registers on R-Car V3U
+differ from the offsets on other R-Car Gen3 SoCs, we cannot use the
+existing R-Car Gen3 support as-is.  For now, just make a copy, and
+change the register offsets.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Tested on Falcon by changing
+
+    -#undef CLOCK_ALLOW_WRITE_DEBUGFS
+    +#define CLOCK_ALLOW_WRITE_DEBUGFS
+
+in drivers/clk/clk.c, writing the desired clock rate to
+/sys/kernel/debug/clk/z0/clk_rate, and timing shell loops.
+The performance/clock rate looks fine over the full range from 56.25 MHz
+to 1.8 GHz.
+
+RFC as it is not clear from the R-Car V3U User's Manual Rev. 0.5 if the
+CPG_FRQCRB.KICK bit applies to changes to CPG_FRQCRC or not:
+  - Section 8.2.12 ("Frequency Control Register B (FRQCRB)") says the
+    KICK bit activates the FRQCRB settings, but doesn't mention FRQCRC
+    like on R-Car Gen2 and Gen3,
+  - Section 8.3 ("CPG Operation") says the KICK bit should be used when
+    changing Z0 or Z1.
+Setting the KICK bit seems to work, and it is cleared automatically
+after 1 or 2 loops.
+
+The handling of Z clocks on R-Car Gen2, Gen3, and V3-U should be
+consolidated and moved to rcar-cpg-lib.c, so it can be shared by all
+clock drivers.
+---
+ drivers/clk/renesas/r8a779a0-cpg-mssr.c | 158 ++++++++++++++++++++++++
+ 1 file changed, 158 insertions(+)
+
+diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+index f16d125ca009212b..6d0498d7f2806e4f 100644
+--- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+@@ -33,6 +33,7 @@ enum rcar_r8a779a0_clk_types {
+ 	CLK_TYPE_R8A779A0_PLL1,
+ 	CLK_TYPE_R8A779A0_PLL2X_3X,	/* PLL[23][01] */
+ 	CLK_TYPE_R8A779A0_PLL5,
++	CLK_TYPE_R8A779A0_Z,
+ 	CLK_TYPE_R8A779A0_SD,
+ 	CLK_TYPE_R8A779A0_MDSEL,	/* Select parent/divider using mode pin */
+ 	CLK_TYPE_R8A779A0_OSC,	/* OSC EXTAL predivider and fixed divider */
+@@ -84,6 +85,10 @@ enum clk_ids {
+ 	DEF_BASE(_name, _id, CLK_TYPE_R8A779A0_PLL2X_3X, CLK_MAIN, \
+ 		 .offset = _offset)
+ 
++#define DEF_Z(_name, _id, _parent, _div, _offset)	\
++	DEF_BASE(_name, _id, CLK_TYPE_R8A779A0_Z, _parent, .div = _div,	\
++		 .offset = _offset)
++
+ #define DEF_SD(_name, _id, _parent, _offset)   \
+ 	DEF_BASE(_name, _id, CLK_TYPE_R8A779A0_SD, _parent, .offset = _offset)
+ 
+@@ -122,6 +127,8 @@ static const struct cpg_core_clk r8a779a0_core_clks[] __initconst = {
+ 	DEF_RATE(".oco",		CLK_OCO,	32768),
+ 
+ 	/* Core Clock Outputs */
++	DEF_Z("z0",		R8A779A0_CLK_Z0,	CLK_PLL20,	2, 0),
++	DEF_Z("z1",		R8A779A0_CLK_Z1,	CLK_PLL21,	2, 8),
+ 	DEF_FIXED("zx",		R8A779A0_CLK_ZX,	CLK_PLL20_DIV2,	2, 1),
+ 	DEF_FIXED("s1d1",	R8A779A0_CLK_S1D1,	CLK_S1,		1, 1),
+ 	DEF_FIXED("s1d2",	R8A779A0_CLK_S1D2,	CLK_S1,		2, 1),
+@@ -259,6 +266,153 @@ static const struct rcar_r8a779a0_cpg_pll_config *cpg_pll_config __initdata;
+ static unsigned int cpg_clk_extalr __initdata;
+ static u32 cpg_mode __initdata;
+ 
++/*
++ * Z0 Clock & Z1 Clock
++ */
++#define CPG_FRQCRB			0x00000804
++#define CPG_FRQCRB_KICK			BIT(31)
++#define CPG_FRQCRC			0x00000808
++
++struct cpg_z_clk {
++	struct clk_hw hw;
++	void __iomem *reg;
++	void __iomem *kick_reg;
++	unsigned long max_rate;		/* Maximum rate for normal mode */
++	unsigned int fixed_div;
++	u32 mask;
++};
++
++#define to_z_clk(_hw)	container_of(_hw, struct cpg_z_clk, hw)
++
++static unsigned long cpg_z_clk_recalc_rate(struct clk_hw *hw,
++					   unsigned long parent_rate)
++{
++	struct cpg_z_clk *zclk = to_z_clk(hw);
++	unsigned int mult;
++	u32 val;
++
++	val = readl(zclk->reg) & zclk->mask;
++	mult = 32 - (val >> __ffs(zclk->mask));
++
++	return DIV_ROUND_CLOSEST_ULL((u64)parent_rate * mult,
++				     32 * zclk->fixed_div);
++}
++
++static int cpg_z_clk_determine_rate(struct clk_hw *hw,
++				    struct clk_rate_request *req)
++{
++	struct cpg_z_clk *zclk = to_z_clk(hw);
++	unsigned int min_mult, max_mult, mult;
++	unsigned long rate, prate;
++
++	rate = min(req->rate, req->max_rate);
++	if (rate <= zclk->max_rate) {
++		/* Set parent rate to initial value for normal modes */
++		prate = zclk->max_rate;
++	} else {
++		/* Set increased parent rate for boost modes */
++		prate = rate;
++	}
++	req->best_parent_rate = clk_hw_round_rate(clk_hw_get_parent(hw),
++						  prate * zclk->fixed_div);
++
++	prate = req->best_parent_rate / zclk->fixed_div;
++	min_mult = max(div64_ul(req->min_rate * 32ULL, prate), 1ULL);
++	max_mult = min(div64_ul(req->max_rate * 32ULL, prate), 32ULL);
++	if (max_mult < min_mult)
++		return -EINVAL;
++
++	mult = DIV_ROUND_CLOSEST_ULL(rate * 32ULL, prate);
++	mult = clamp(mult, min_mult, max_mult);
++
++	req->rate = DIV_ROUND_CLOSEST_ULL((u64)prate * mult, 32);
++	return 0;
++}
++
++static int cpg_z_clk_set_rate(struct clk_hw *hw, unsigned long rate,
++			      unsigned long parent_rate)
++{
++	struct cpg_z_clk *zclk = to_z_clk(hw);
++	unsigned int mult;
++	unsigned int i;
++
++	mult = DIV64_U64_ROUND_CLOSEST(rate * 32ULL * zclk->fixed_div,
++				       parent_rate);
++	mult = clamp(mult, 1U, 32U);
++
++	if (readl(zclk->kick_reg) & CPG_FRQCRB_KICK)
++		return -EBUSY;
++
++	cpg_reg_modify(zclk->reg, zclk->mask, (32 - mult) << __ffs(zclk->mask));
++
++	/*
++	 * Set KICK bit in FRQCRB to update hardware setting and wait for
++	 * clock change completion.
++	 */
++	cpg_reg_modify(zclk->kick_reg, 0, CPG_FRQCRB_KICK);
++
++	/*
++	 * Note: There is no HW information about the worst case latency.
++	 *
++	 * Using experimental measurements, it seems that no more than
++	 * ~10 iterations are needed, independently of the CPU rate.
++	 * Since this value might be dependent on external xtal rate, pll1
++	 * rate or even the other emulation clocks rate, use 1000 as a
++	 * "super" safe value.
++	 */
++	for (i = 1000; i; i--) {
++		if (!(readl(zclk->kick_reg) & CPG_FRQCRB_KICK))
++			return 0;
++
++		cpu_relax();
++	}
++
++	return -ETIMEDOUT;
++}
++
++static const struct clk_ops cpg_z_clk_ops = {
++	.recalc_rate = cpg_z_clk_recalc_rate,
++	.determine_rate = cpg_z_clk_determine_rate,
++	.set_rate = cpg_z_clk_set_rate,
++};
++
++static struct clk * __init cpg_z_clk_register(const char *name,
++					      const char *parent_name,
++					      void __iomem *reg,
++					      unsigned int div,
++					      unsigned int offset)
++{
++	struct clk_init_data init = {};
++	struct cpg_z_clk *zclk;
++	struct clk *clk;
++
++	zclk = kzalloc(sizeof(*zclk), GFP_KERNEL);
++	if (!zclk)
++		return ERR_PTR(-ENOMEM);
++
++	init.name = name;
++	init.ops = &cpg_z_clk_ops;
++	init.flags = CLK_SET_RATE_PARENT;
++	init.parent_names = &parent_name;
++	init.num_parents = 1;
++
++	zclk->reg = reg + CPG_FRQCRC;
++	zclk->kick_reg = reg + CPG_FRQCRB;
++	zclk->hw.init = &init;
++	zclk->mask = GENMASK(offset + 4, offset);
++	zclk->fixed_div = div; /* PLLVCO x 1/div x SYS-CPU divider */
++
++	clk = clk_register(NULL, &zclk->hw);
++	if (IS_ERR(clk)) {
++		kfree(zclk);
++		return clk;
++	}
++
++	zclk->max_rate = clk_hw_get_rate(clk_hw_get_parent(&zclk->hw)) /
++			 zclk->fixed_div;
++	return clk;
++}
++
+ static struct clk * __init rcar_r8a779a0_cpg_clk_register(struct device *dev,
+ 	const struct cpg_core_clk *core, const struct cpg_mssr_info *info,
+ 	struct clk **clks, void __iomem *base,
+@@ -293,6 +447,10 @@ static struct clk * __init rcar_r8a779a0_cpg_clk_register(struct device *dev,
+ 		div = cpg_pll_config->pll5_div;
+ 		break;
+ 
++	case CLK_TYPE_R8A779A0_Z:
++		return cpg_z_clk_register(core->name, __clk_get_name(parent),
++					  base, core->div, core->offset);
++
+ 	case CLK_TYPE_R8A779A0_SD:
+ 		return cpg_sd_clk_register(core->name, base, core->offset,
+ 					   __clk_get_name(parent), notifiers,
+-- 
+2.25.1
+
