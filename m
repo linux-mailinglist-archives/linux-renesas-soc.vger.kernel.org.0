@@ -2,463 +2,257 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EFFB3BA836
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Jul 2021 12:15:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D09B63BA844
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Jul 2021 12:53:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbhGCKSW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 3 Jul 2021 06:18:22 -0400
-Received: from mail-eopbgr1400098.outbound.protection.outlook.com ([40.107.140.98]:48645
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        id S230196AbhGCKz4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 3 Jul 2021 06:55:56 -0400
+Received: from mail-eopbgr1410119.outbound.protection.outlook.com ([40.107.141.119]:29312
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229993AbhGCKSV (ORCPT
+        id S230114AbhGCKzz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 3 Jul 2021 06:18:21 -0400
+        Sat, 3 Jul 2021 06:55:55 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ee+11FF1sngYcOmWiLYX6V4eiOm4r1sv303d55OSGUmonPOBszf7f17nedSrGOXSKY1dVo8ZezukDHzWpdVr2OXc1hjpwlmBGhV0nnsE7Ze9biTK9qRdfUcd+dMutnkebm6ar4Iiiek29NQy7Sa1Cb/jD1EtP7Asiyx6Vr2xcEwthhWP0Zxx05yoZg9wgL/fRFBDDXFR/ASgOuvbqVdRAcj7uZ3D+xJ1lpyTzLhz7Mp3ngQutgMQCAR6kPCD7JgpuLzpXc+8glfh7cJjxJ4PiMeL3FsoBrE8riirrrNcrAnU6UQu4UI9QzUvifacz7MB4AAjT0WVXBYK8uAZvoVkGg==
+ b=gXpg36jP1cLPX1JKUE4n7EV3jTU9AF/gIHdOz6JVMS4kTEPDH/I7+tlbJBHwAGM2OaB3W9WUGCGx/O/dM+4rE+qBfaH5LjAswFEpBxW3U55zDd5Lcdw6xvxpVu85zGV7tB9E/+qjwPoMebmUSplMMNVsioqAhw9zPc/8hRVji/aV7+gFZZx1wxIJxSBgCXUGWuLWiB0b2RByDaBDeznCSrJNVDv8Mviup15/1yrUNOoE6iNBRRK9EfGneZDXLSc63EZl+ysYzyz5huRIXPxhRKNo2vZ/m3N4Mnveyym6KpqhSDHrcqm9kLBPhplrenX8pasdFn4whCKS/whKaaEU5A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qe8bjP2cALr7YBmv523UEsyGDsGWufAyyGgG0lVUuVM=;
- b=WdCyi4aMpW9QaMcfF8j7a1TCUJ/qD2eMqzl/M5ef4mr1gAeX/YtclYgUFb7EcaZsLgKcDzweujrxjTnSOwCtlEUyEPsCBHnOAVLeg/9q8iX7qLbw1gp+/f2bth43p4b5nAV+LpPjfTiPd5dri1yIPFmKRk9utz9EeAMaD6Lcd0ZS6kd46Ad5UzAzaVi/57AowOck1l3n7x+lz75T5JHXPxyADF3jCkmBdHN38m/GSPbivNQEeG9UEtb4fxE/0xNLP6lNYdOXxLbBbP1MIlsSGaDj0SHm+LElXHtgh6QN1X9XHYrANqch0KLJOaQmOUBSg/C6E1A2Tu22ZGKM0+WMWQ==
+ bh=/x/1TKjIHIM8bjcV0ap/SXEEaFXCzwal0xGmsR04zbc=;
+ b=bRs1R4maC92DwpOREE3zV2Y9/76N86aOwonasRq8HxtCOG2I7dkmE+CTcGQ0okjUHvAg/ScT4/prMFkUM3u6TEjJgnnlgS+TMKAj1KGGJH6F0N0f/M+l7BElBYir//h7blY6NAVbYZoWE5UJVzaTXdgLMtvD7fajz0H+TdDJ5njg+ZRsdNqpI4/O0iK7uBqa1EDfUYGRuKxv0+eBGLTI75p2I7v25C9RVRAGVI5u49dY3JPCzzbwQtEgz9pTTZdHAil60GE0ORuX38ufyrMmp95edBl1klXPTxLthbmucKLw1TDTxXhRiORN7W7MP6+vv22yXknfK2R0ra71n+m5Ig==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qe8bjP2cALr7YBmv523UEsyGDsGWufAyyGgG0lVUuVM=;
- b=GVOKao9tUHQvZbM4KNcOBq4NqrqtBmSWpLPSvvMz9h8J/KbF78LHzbduh7TNKR08bmVhj9QVXdvntwiHMmoR3kyJgsnEsOqK+NJATjdDMOSMxd2IRRD5et9HOU01HF4s9LorG9CWCEDZl2RCUrMj981M7lWsExF4Oro4lfkVvuM=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (20.183.20.197) by
- OSAPR01MB3570.jpnprd01.prod.outlook.com (20.178.101.205) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4287.22; Sat, 3 Jul 2021 10:15:44 +0000
+ bh=/x/1TKjIHIM8bjcV0ap/SXEEaFXCzwal0xGmsR04zbc=;
+ b=cnk83lBl3Sn8/Z5QkRZlS9/MA3orDlE7zTKw6aICLyxZg32SRJYO01QLUDaawcVK5xD6ItJeNV+zBJpPAPodcfJlWiRCgsGwUqaUuRHY34VmcNogQHCk//l+e4VJo8h9iWRtHns67xV7zQO2oUappbNVNs6c6h9mK76ttkspRAM=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OS0PR01MB6100.jpnprd01.prod.outlook.com (2603:1096:604:ca::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.26; Sat, 3 Jul
+ 2021 10:53:19 +0000
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::c6f:e31f:eaa9:60fe]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::c6f:e31f:eaa9:60fe%8]) with mapi id 15.20.4287.031; Sat, 3 Jul 2021
- 10:15:43 +0000
+ 10:53:19 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Alexander Helms <alexander.helms.jy@renesas.com>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+To:     Rob Herring <robh@kernel.org>
+CC:     Philipp Zabel <p.zabel@pengutronix.de>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        David Cater <david.cater.jc@renesas.com>,
-        "michal.simek@xilinx.com" <michal.simek@xilinx.com>
-Subject: RE: [PATCH v2 1/2] dt-bindings: Add binding for Renesas 8T49N241
-Thread-Topic: [PATCH v2 1/2] dt-bindings: Add binding for Renesas 8T49N241
-Thread-Index: AQHXbtAXZfPZ6grop0um3CZz1s2UNqsvO/eggAD/HACAAMw34A==
-Date:   Sat, 3 Jul 2021 10:15:43 +0000
-Message-ID: <OS0PR01MB5922EBC035DE87B794490F69861E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <202107020640.YyVoU69S-lkp@intel.com>
- <20210701232258.19146-1-alexander.helms.jy@renesas.com>
- <20210701232258.19146-2-alexander.helms.jy@renesas.com>
- <OS0PR01MB592240DACD7D18609EA70AE0861F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20210702215102.GA20007@renesas.com>
-In-Reply-To: <20210702215102.GA20007@renesas.com>
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v3 03/11] dt-bindings: reset: Document RZ/G2L USBPHY
+ Control bindings
+Thread-Topic: [PATCH v3 03/11] dt-bindings: reset: Document RZ/G2L USBPHY
+ Control bindings
+Thread-Index: AQHXbYHZqDif+eSem0CtpPP/RFXBM6sukvsAgAKE85A=
+Date:   Sat, 3 Jul 2021 10:53:19 +0000
+Message-ID: <OS0PR01MB592235741403C799B5824A72861E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20210630073013.22415-1-biju.das.jz@bp.renesas.com>
+ <20210630073013.22415-4-biju.das.jz@bp.renesas.com>
+ <20210701202348.GA2863189@robh.at.kernel.org>
+In-Reply-To: <20210701202348.GA2863189@robh.at.kernel.org>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: renesas.com; dkim=none (message not signed)
- header.d=none;renesas.com; dmarc=none action=none header.from=bp.renesas.com;
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=bp.renesas.com;
 x-originating-ip: [86.139.31.53]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 639e4968-916d-4f8d-065d-08d93e0b8482
-x-ms-traffictypediagnostic: OSAPR01MB3570:
+x-ms-office365-filtering-correlation-id: 10ca8b2e-df90-41e6-924d-08d93e10c502
+x-ms-traffictypediagnostic: OS0PR01MB6100:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSAPR01MB3570F5F464AB7CF96707E367861E9@OSAPR01MB3570.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-microsoft-antispam-prvs: <OS0PR01MB6100F972E27A5723A1A4DA1F861E9@OS0PR01MB6100.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ICkYwHpFujsH66TPVnpjOku4jJs6sptRA9Cr5Ooquz6zTASsgfvpeK10rTGE5AP5L9qo7qNo/DAJgVuFLqspnF9yrv9+s03aAn8JD7KwRg5l4a5JNsZgnUCQsCdLFIszpVDNiQauluxGr017v7Xzv1EYyHexBZfkRhMptuniAWRTxuV+mbCiMDsMDBTH6RUqcpwqYgrXWxMCN7qqXacfCIASfMYsDfE4UFGOT4YEiUUC5vcKw+i+3NkDH/BY4BsxhjqpdXmc8LQMre6Rb39WQ8C7YfuQYL42e1J/vx/PmKHhOa0uQsuDnMqZzmVbQjkwDq4t4mrWZUwc4TAD8uIfNcYzkkdijnCgzd2BpBnnk+ItZoUDzGGy+frKjdxHlv2LzmPtiAE2gmlpiETNKem+ByJz8yWfVL8kfEc9slJY01swZn1tZBU2O4WlWvchLkUIgUf0fTcamp0kqUV/xlF4d6RhHNCDDzgr9qeLZeme9J3F9U/AZGhFpuemN+KiqgdwXcWKJnFCmC2XeLv3oE+Cb18zSx/nOuRN7ImkGg0Uy0HzAX/KnI4sO8WTuVsM52sOecgc7gvJsDZz61LYELalGMUG0eEEm1MG244SW6pvAUazxLH5B3ogjfI+pKX10PlaoF0eCCDHH4+5pjzNAZEMPj/xRKVa6QuSfgSMdI7WTuhVDzFFkgvSA+mOmOokENiXkAC55a0rKTsj/t8v+Br0kpNBBmFe5AfJt1VHiY2ijQ/6bKrd1xLGiLQN/9mm/lG741nV+zoMazoE5NYL4y9i+PcygAkGOfjJtBFP1tyV0QQ=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(39850400004)(346002)(376002)(396003)(71200400001)(186003)(122000001)(86362001)(26005)(6862004)(45080400002)(478600001)(38100700002)(8676002)(52536014)(4326008)(55016002)(83380400001)(30864003)(9686003)(2906002)(53546011)(64756008)(66476007)(66946007)(6506007)(54906003)(5660300002)(316002)(66446008)(66556008)(8936002)(76116006)(33656002)(7696005)(505234006);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: bhUPszbp9dv8bLEMXOEFjCHifUTH09BtsfrXarYt4PvO0FeIgJTCPI4xfjLyb8T7t2kV2qCQTAimLJFgQYSW6QbfEmMEDkkAy9G+NP2qjl799SSYLOeZfhC+qSIXMzBTrObPNbpTYPQRdgRQjRgQpIYyAdGjeB0KJa0aNB+G45c4iinx6P4jY6hAvL+/SUY1VMMyW0Rmu2U+FaGfrS20SPUcE8/DaMYFJg9mm9U2UmJFYErbS4c6tfd3t/blM+8c8gLJqUD830g8GL6+Lo8T8hvRyuGZYJHb0iwUgLw0FK3+qSSPbgoFMjkwq3tStYcKV7WWbAGQdiBf8zz5GDGaUV8ccjAhPFkvTIivQMifubs28w0qhkfwmAHAn5PHLQBh2NtnZKWqA5slTo8zfrNjoq76dUoYPDg3ROQFqbHGoqMAE4iidrcvbA9McHN05eOwOPUAzmDj8S5AapTmbAhobuJYN71OV3PDL6jMh4Lto560wjA4GjHdz0zH8hHQiRQP9m9+NifA9smJ5HD4QkDG9HmNw7PWA+0ERd71mbZ+LMj4DZQyrJeeksOXVzhA/Xte7vuSOZupQaiUyoVUGEUMKP8u3pj8oYp80bEWae9Tt/bLANGl3xVHRfWFpdKPZ6xjp8GARFmTyaQW7ZDj6IhBkxE+sfceFsvWxnLruzA6rhKYz0vjgnAvb/wjrlRyrQYPLdcV2loShLfrmcwJv51gscOqea4yl3me1ZGD1lf+dC4=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(346002)(39850400004)(376002)(136003)(8676002)(5660300002)(8936002)(45080400002)(316002)(478600001)(38100700002)(9686003)(55016002)(186003)(52536014)(71200400001)(7696005)(2906002)(83380400001)(122000001)(86362001)(54906003)(4326008)(66446008)(6506007)(26005)(66476007)(76116006)(66946007)(6916009)(33656002)(64756008)(66556008);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?iGxCD13bOw1BtCVWfGIi20K9OvrJa+2LGneudrSJVxneAsqUsCd36j+ElBO9?=
- =?us-ascii?Q?z4S1pnM4CsmvIhHgXgajWsf063sVpn9f7LJM5TC/nyej05M0HBF0MZELlcdA?=
- =?us-ascii?Q?N2GhQWTrEz76//A6j/l6IOdP89Yyqz2uXaWEDGB2h94de+RMVCQTBjOpmrYp?=
- =?us-ascii?Q?wHAppLlGLyBkHcLy/yF/WT+SWUa9zndB7r5v7WMmUfEtWY+mcjALIi6/2/7H?=
- =?us-ascii?Q?DAzssQ4I6doL80/ARUzErJOzI9/s2v6pc/I14YoNr+77Bu6NemJqLIGTsP5D?=
- =?us-ascii?Q?fola975YQERzKiey1y38tBSIO+DqoKWOTrPNGxk5Zs3z46QNCkHE4tMk7Sd0?=
- =?us-ascii?Q?9OKJfy0L9EvyCazdCReMbwIzbOJ6JXqJz3kfGWbfF8L1ViXINbF9xfWcgo3u?=
- =?us-ascii?Q?elknbm9R9X4pYgpruWsIIB+z8ZXEO6KJsnzLwnRcl6ePXDxNUlVLdX6r3ZA9?=
- =?us-ascii?Q?C0fxc1HOXIpYw5pYL+M2MNSIhywTLTFbWw2Tgfee7vwW4JEy5rFtKv9PfAxd?=
- =?us-ascii?Q?NJNvo1BGcHHJjxK3MF9XRUp4hqvPelvVF1RdwU65SWTN4uvw6IJeS1RGtJWW?=
- =?us-ascii?Q?A40o4+0mXAENNj8yXpBFvQ3ewx08XwgYVNRdwjs4dgr+Euq1nnHV9UiHUiAC?=
- =?us-ascii?Q?9ZsC8n2w06yWr3ZOqdXhAFauBfx4czl/Me1L8XNmImH1OKdCXJX8bBmdLRMl?=
- =?us-ascii?Q?D8epR5gNN71O5C78vQzGPobILQLXWqA52Q6i5+aI5ooCquQQTO7W9R94S1Mn?=
- =?us-ascii?Q?CrK1xbYH8nsAmHm03goQ3CWeDGTURwl7GqOIOvUC3lixQDUKpwQe0p6E8rKe?=
- =?us-ascii?Q?GXYMzY7oJ6Ynsr0UQ4uLrV9u5adJhvDV/xYQ0ZROqe2JwqCZ7+pG9JHV/8DV?=
- =?us-ascii?Q?IH5vIld5niHv0pCGbY4op8kofKFzW6qI1Kz9QOcvepbvGckDVaJOipZgXfhf?=
- =?us-ascii?Q?kXYAN+DezYBXPXAiBMoUmHq4Un4NSkHEVESshq2KyB4EEBOnw9PHyfoEUVJs?=
- =?us-ascii?Q?NECYAOzGqM0szoZwU38fJrFeU4uJWeLkanS1xdVpFE9qLQvzgRPqkQ/hp67w?=
- =?us-ascii?Q?CS46d2rKfDHHpS+tee6hcj1CBf+vbWl80pyaSIl0G9Zi6ftBsc2GT6q/snyu?=
- =?us-ascii?Q?0CpHMBjANDMPP7LhgFO+g4D9iDQVCs7T7y+wyVRSAt7rRmCuahoL4pcYS+Fz?=
- =?us-ascii?Q?TG5gmx/BIO3AV6VFY5H6ZylTzjt8Z+XKUMY6o8hMdirvJKdWKeZ+YLf0onAf?=
- =?us-ascii?Q?SWDvvxFk4B8nWqe1AtFW4oHDvjvNhrNOYS/CXyu0xoAaIGMS9spU98+7dRCD?=
- =?us-ascii?Q?3tk=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?asNuCxbQ9J9yypFo6xK+hL1MUtmxI/PS9S8NsiI03icCDWXyhlLdFyW+G4sv?=
+ =?us-ascii?Q?yXWXrZLpvy5hf5qsl9+UtWZoJ4tABut2ziQLO/HMZjIB3YXbpUZlYIWg3sv9?=
+ =?us-ascii?Q?0MBTHadzcUmFy9W4XpzSywystM2wS8rcPdnRHes8N84Vp4mL7JeGq0EL/h5e?=
+ =?us-ascii?Q?ZTOdHQf694LXJSkGDxtCLxZQnUH4TF3C1y6mK+bqtoXUmAx37B2OxiZ/cTm2?=
+ =?us-ascii?Q?JYi023/eOZfZBw97ZZFzCB1q9o30UGYDknQB1vEFtKbm9Vxm83U+an3u54qu?=
+ =?us-ascii?Q?HFBJAgjpc2hmHrcf9dOBWDSyP93WgmGri9BmivLuvRT70a1kMUV4SXJVH/J8?=
+ =?us-ascii?Q?V7l+5gb+yRquBNWt8OBHwA8IKKB25Mbl5e0z9OJiFThY5a1NLDaat3Roa2DV?=
+ =?us-ascii?Q?OtZSy87a7Cv6K4Oxi6Nl83qTcdBFt/arXQbFFSpCJYqr2tav+/UaNs+wxq9s?=
+ =?us-ascii?Q?FnGEGK6NzisxZRzuH7QVb2T9AM5k1oDPRZ1C/0aHAkaRFg2L9YUXSlAhiKJd?=
+ =?us-ascii?Q?UOaPv1Ji/y+Vw+VbCuSZIWK/g7FREpvvI9iYW/ATtRpgJ3dPKFq6Fw62fR87?=
+ =?us-ascii?Q?5Of9gO7mqlmxL222AUsZv553+FQULhxV3n/vsQJ/bzE/9xLfrdFyL1Xal+Uc?=
+ =?us-ascii?Q?ms6yX5if95bTJenBi9hhZjV0+MCe51S15IWm/zCtFda9VpaYMq/xFSwx9AbN?=
+ =?us-ascii?Q?Je//rrOCCYEAfoDagnl6KDf9XUgPbfULypImKjdY/el7qKFfuuZdF3S8bm++?=
+ =?us-ascii?Q?IVB4KvKZdU0VCEETRGMAuYKTGuDremk84qyXg/uDb832bmMyORCwSuxYD/J5?=
+ =?us-ascii?Q?Hdb89ByA5S9TnYcfsvODwvkeU2y3mfvg3MLMencwo4iofFVnNfw2zTY/ct2c?=
+ =?us-ascii?Q?+aaxzmDWpamV9fQ/dBXrwthxtnON87x4DrNJ1BgnHcCFdbuOmJ8VM6yDJy+Q?=
+ =?us-ascii?Q?TNdHCEkpqBALIjoH8Z+qGD/MsrzexsdZbTaFJWr2zUo/mOhoqJ3Y1kJVqnYy?=
+ =?us-ascii?Q?6vov5txGkrxtOqH3VDIj5RL6GvuELs26/F/Ze4W1QFzUhxTfq5mwnNrbCzvq?=
+ =?us-ascii?Q?EeD044qgbCFQnjb77gw0APHIQ23yKiLaETlj0nNsuF3UcETa2L9p9dDMiJWs?=
+ =?us-ascii?Q?OhCBOhkw4nFyUG3df4XGvz4JEB66wskoDQJDJpUxcD3mfXAKMIIAaXhEYD2I?=
+ =?us-ascii?Q?/O53zKmv6aOSNqXsoSbP/p1kGuun3q51ExTFMyMSzmNvIHYSt8WMAhJe+Hi8?=
+ =?us-ascii?Q?8WBJA786JG6kYdXmDMdBQF93GnejGR3edtfZghYjb35oLoR339bJQUxs87Qo?=
+ =?us-ascii?Q?HUI=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 639e4968-916d-4f8d-065d-08d93e0b8482
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2021 10:15:43.1780
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10ca8b2e-df90-41e6-924d-08d93e10c502
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2021 10:53:19.0476
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dObpUt9C9lk9sxWZiWErl2NI9UzFsYXpJULhkY0w94N5Vac2ppybs6D5AhJN3f2JF62/JDxiW4bQM/AK6RR0kYqF/YDBlT/pU5GJCYtJQ7U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3570
+X-MS-Exchange-CrossTenant-userprincipalname: UrCCdpN6HfQ07Zw5i6tq1dOsD4KH9US1Tc90s8Z9PPgmla1kLBumg4NHwHlC7Fq9nVboVqsJfDU1gxDKL0pY7UeqyZhr4/yBSa2ik2w6ouw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB6100
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alexander,
+Hi Rob,
 
-> Subject: Re: [PATCH v2 1/2] dt-bindings: Add binding for Renesas 8T49N241
+Thanks for the feedback.
+
+> Subject: Re: [PATCH v3 03/11] dt-bindings: reset: Document RZ/G2L USBPHY
+> Control bindings
 >=20
-> Hi Biju,
->=20
-> Please see my comments below. Also, I'm new to the LKML process and
-> learning, please forgive any errors.
->=20
-> The 07/01/2021 23:52, Biju Das wrote:
-> > Hi Alex,
+> On Wed, Jun 30, 2021 at 08:30:05AM +0100, Biju Das wrote:
+> > Add device tree binding document for RZ/G2L USBPHY Control Device.
+> > It mainly controls reset and power down of the USB/PHY.
 > >
-> > Thanks for the patch.
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  v3:
+> >   * New patch.
+> >   * Modelled USBPHY control from phy bindings to reset bindings, since
+> the
+> >     IP mainly contols the reset of USB PHY.
+> > ---
+> >  .../reset/renesas,rzg2l-usbphy-ctrl.yaml      | 66 +++++++++++++++++++
+> >  1 file changed, 66 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
 > >
-> > > -----Original Message-----
-> > > From: Alex Helms <alexander.helms.jy@renesas.com>
-> > > Sent: 02 July 2021 00:23
-> > > To: linux-kernel@vger.kernel.org; devicetree@vger.kernel.org; linux-
-> > > clk@vger.kernel.org; linux-renesas-soc@vger.kernel.org
-> > > Cc: robh+dt@kernel.org; sboyd@kernel.org; mturquette@baylibre.com;
-> > > geert+renesas@glider.be; Alexander Helms
-> > > geert+<alexander.helms.jy@renesas.com>;
-> > > David Cater <david.cater.jc@renesas.com>; michal.simek@xilinx.com
-> > > Subject: [PATCH v2 1/2] dt-bindings: Add binding for Renesas
-> > > 8T49N241
-> > >
-> > > Renesas 8T49N241 has 4 outputs, 1 integral and 3 fractional dividers.
-> > > The 8T49N241 accepts up to two differential or single-ended input
-> > > clocks and a fundamental-mode crystal input. The internal PLL can
-> > > lock to either of the input reference clocks or to the crystal to
-> > > behave as a frequency synthesizer.
-> > >
-> > > Signed-off-by: Alex Helms <alexander.helms.jy@renesas.com>
-> > > ---
-> > >  .../bindings/clock/renesas,8t49n241.yaml      | 183
-> ++++++++++++++++++
-> > >  MAINTAINERS                                   |   6 +
-> > >  2 files changed, 189 insertions(+)
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
-> > >
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
-> > > b/Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
-> > > new file mode 100644
-> > > index 000000000..d817ec46d
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
-> > > @@ -0,0 +1,183 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
-> > > +---
-> > > +$id:
-> > > +https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fd=
-e
-> > > +vice
-> > > +tree.org%2Fschemas%2Fclock%2Frenesas%2C8t49n24x.yaml%23&amp;data=3D0=
-4
-> > > +%7C0
-> > > +1%7Cbiju.das.jz%40bp.renesas.com%7Ce51e24d06083403a3d0e08d93ce73933
-> > > +%7C5
-> > > +3d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C637607786063741484%7CUnkn
-> > > +own%
-> > > +7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiL
-> > > +CJXV
-> > > +CI6Mn0%3D%7C1000&amp;sdata=3DBIKHeHpyG3vloEEO02HzM6TtWqQtDlSGRMifOQV=
-p
-> > > +rPI%
-> > > +3D&amp;reserved=3D0
-> > > +$schema:
-> > > +https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fd=
-e
-> > > +vice
-> > > +tree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=3D04%7C01%7Cbiju.das=
+> > diff --git
+> > a/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.ya
+> > ml
+> > b/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.ya
+> > ml
+> > new file mode 100644
+> > index 000000000000..2a398c7ce7c8
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctr
+> > +++ l.yaml
+> > @@ -0,0 +1,66 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id:
+> > +https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdev=
+i
+> > +cetree.org%2Fschemas%2Freset%2Frenesas%2Crzg2l-usbphy-ctrl.yaml%23&am
+> > +p;data=3D04%7C01%7Cbiju.das.jz%40bp.renesas.com%7C770350c845f64b015f68=
+0
+> > +8d93cce253d%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C637607678355
+> > +475757%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLC
+> > +JBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3D9vEtPav6hmc1axa6Vj2NqT=
+%
+> > +2BT0EOoyXTelx2Ft5fCEKE%3D&amp;reserved=3D0
+> > +$schema:
+> > +https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdev=
+i
+> > +cetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=3D04%7C01%7Cbiju.das=
 .
-> > > +jz%4
-> > > +0bp.renesas.com%7Ce51e24d06083403a3d0e08d93ce73933%7C53d82571da1947
-> > > +e49c
-> > > +b4625a166a4a2a%7C0%7C0%7C637607786063751443%7CUnknown%7CTWFpbGZsb3d
-> > > +8eyJ
-> > > +WIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1
-> > > +000&
-> > > +amp;sdata=3D3XhlKhlwT3hr0KVjynaiMlqMC94tq3sEYgNH6LMf9Kc%3D&amp;reser=
-v
-> > > +ed=3D0
-> > > +
-> > > +title: Binding for Renesas 8T49N241 Universal Frequency Translator
-> > > +
-> > > +description: |
-> > > +  The 8T49N241 has one fractional-feedback PLL that can be used as
-> > > +a
-> > > +  jitter attenuator and frequency translator. It is equipped with
-> > > +one
-> > > +  integer and three fractional output dividers, allowing the
-> > > +generation
-> > > +  of up to four different output frequencies, ranging from 8kHz to
-> 1GHz.
-> > > +  These frequencies are completely independent of each other, the
-> > > +input
-> > > +  reference frequencies and the crystal reference frequency. The
-> > > +device
-> > > +  places virtually no constraints on input to output frequency
-> > > +conversion,
-> > > +  supporting all FEC rates, including the new revision of ITU-T
-> > > +  Recommendation G.709 (2009), most with 0ppm conversion error.
-> > > +  The outputs may select among LVPECL, LVDS, HCSL or LVCMOS output
-> > > levels.
-> > > +
-> > > +  The driver can read a full register map from the DT, and will use
-> > > + that  register map to initialize the attached part (via I2C) when
-> > > + the system  boots. Any configuration not supported by the common
-> > > + clock framework  must be done via the full register map, including
-> > > + optimized
-> > > settings.
-> > > +
-> > > +  The 8T49N241 accepts up to two differential or single-ended input
-> > > + clocks  and a fundamental-mode crystal input. The internal PLL can
-> > > + lock to either  of the input reference clocks or just to the
-> > > + crystal to behave as a  frequency synthesizer. The PLL can use the
-> > > + second input for redundant  backup of the primary input reference,
-> > > + but in this case, both input clock  references must be related in
-> frequency.
-> > > +
-> > > +  All outputs are currently assumed to be LVDS, unless overridden
-> > > + in the  full register map in the DT.
-> > > +
-> > > +maintainers:
-> > > +  - Alex Helms <alexander.helms.jy@renesas.com>
-> > > +  - David Cater <david.cater.jc@renesas.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - 8t49n241
-> > > +
-> > > +  reg:
-> > > +    description: I2C device address
-> > > +    enum: [ 0x7c, 0x6c, 0x7d, 0x6d, 0x7e, 0x6e, 0x7f, 0x6f ]
-> > > +
-> > > +  '#clock-cells':
-> > > +    const: 1
-> > > +
-> > > +  clock-names:
-> > > +    description: Name of the input clock
-> > > +    minItems: 1
-> > > +    maxItems: 3
-> > > +    items:
-> > > +      enum: [ input-xtal, input-clk0, input-clk1 ]
-> > > +
-> > > +  clocks:
-> > > +    minItems: 1
-> > > +    maxItems: 3
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - '#clock-cells'
-> > > +  - clocks
-> > > +  - clock-names
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    /* 25MHz reference clock */
-> > > +    input_clk0: input_clk0 {
-> > > +      compatible =3D "fixed-clock";
-> > > +      #clock-cells =3D <0>;
-> > > +      clock-frequency =3D <25000000>;
-> > > +    };
-> > > +
-> > > +    i2c@0 {
-> > > +        reg =3D <0x0 0x100>;
-> > > +        #address-cells =3D <1>;
-> > > +        #size-cells =3D <0>;
-> > > +
-> > > +        renesas8t49n241_1: clock-generator@6c {
-> > > +            compatible =3D "renesas,8t49n241";
-> > > +            reg =3D <0x6c>;
-> > > +            #clock-cells =3D <1>;
-> > > +
-> > > +            clocks =3D <&input_clk0>;
-> > > +            clock-names =3D "input-clk0";
-> > > +        };
-> > > +    };
-> > > +
-> > > +    /* Consumer referencing the 8T49N241 Q1 */
-> > > +    consumer {
-> > > +        /* ... */
-> > > +        clocks =3D <&renesas8t49n241_1 1>;
-> > > +        /* ... */
-> > > +    };
-> > > +  - |
-> > > +    /* 40MHz crystal */
-> > > +    input_xtal: input_xtal {
-> > > +      compatible =3D "fixed-clock";
-> > > +      #clock-cells =3D <0>;
-> > > +      clock-frequency =3D <40000000>;
-> > > +    };
-> > > +
-> > > +    i2c@0 {
-> > > +        reg =3D <0x0 0x100>;
-> > > +        #address-cells =3D <1>;
-> > > +        #size-cells =3D <0>;
-> > > +
-> > > +        renesas8t49n241_2: clock-generator@6c {
-> > > +            compatible =3D "renesas,8t49n241";
-> > > +            reg =3D <0x6c>;
-> > > +            #clock-cells =3D <1>;
-> > > +
-> > > +            clocks =3D <&input_xtal>;
-> > > +            clock-names =3D "input-xtal";
-> > > +
-> > > +            settings=3D[
-> >
-> > optional or required property?
-> >
+> > +jz%40bp.renesas.com%7C770350c845f64b015f6808d93cce253d%7C53d82571da19
+> > +47e49cb4625a166a4a2a%7C0%7C0%7C637607678355475757%7CUnknown%7CTWFpbGZ
+> > +sb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%
+> > +3D%7C1000&amp;sdata=3D1e4CSqGpir0E%2B7izDrdcuB%2F%2FpL7fqfPNRBPCs0w%2B=
+%
+> > +2B84%3D&amp;reserved=3D0
+> > +
+> > +title: Renesas RZ/G2L USBPHY Control
+> > +
+> > +maintainers:
+> > +  - Biju Das <biju.das.jz@bp.renesas.com>
+> > +
+> > +description:
+> > +  The RZ/G2L USBPHY Control mainly controls reset and power down of
+> > +the
+> > +  USB/PHY.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - renesas,r9a07g044-usbphy-ctrl # RZ/G2{L,LC}
+> > +      - const: renesas,rzg2l-usbphy-ctrl
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  '#reset-cells':
+> > +    # see reset.txt in the same directory
 >=20
-> My mistake, `settings` is optional and should be in the schema.
-> I'll fix this in the next patch version.
->=20
-> > > +                09 50 00 60 67 C5 6C FF 03 00 30 00 00 01 00 00
-> > > +                01 07 00 00 07 00 00 77 6D 06 00 00 00 00 00 FF
-> > > +                FF FF FF 00 3F 00 2A 00 16 33 33 00 01 00 00 D0
-> > > +                00 00 00 00 00 00 00 00 00 04 00 00 00 02 00 00
-> > > +                00 00 00 00 00 00 00 17 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 D7 0A 2B 20 00 00 00 0B
-> > > +                00 00 00 00 00 00 00 00 00 00 27 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                C3 00 08 01 00 00 00 00 00 00 00 00 00 30 00 00
-> > > +                00 0A 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > > +                00 00 00 00 85 00 00 9C 01 D4 02 71 07 00 00 00
-> > > +                00 83 00 10 02 08 8C
-> > > +            ];
-> > > +        };
-> > > +    };
-> > > +
-> >
-> > One question,
-> > Full regmap or just overriding few registers which is better, assuming
-> the device has default values programmed in OTP.
-> > Again that needs {offset, value}???
->=20
-> `settings` must be the full regmap. The next patch version will have that
-> clarified in the schema description.
-> The intent here is the external configuration software produces optimized
-> settings and the results are the full regmap.
+> Drop the reference. With that,
 
-May be it is ok for this device.
+OK. Will drop the reference in next version.
 
-I am also working on a similar solution with versa3 clock device. Most of t=
-he values
-are pre-programmed. But to achieve a specific use case, I need a different =
-configuration.
-
-The external configuration software produced a full regmap. But comparing w=
-ith original pre-programmed values,
-It is hardly 7 register changes. Also I need to define clock flags property=
- in DT. So user can decide whether
-the output clock from clock device can=20
-
-1) change rate
-2) read only
-3) just change the parent but don't change any other configuration.
-
-Regards,
+Thanks,
 Biju
 
-
-> >
-> > Regards,
-> > Biju
-> >
-> >
-> > > +    /* Consumer referencing the 8T49N241 Q1 */
-> > > +    consumer {
-> > > +        /* ... */
-> > > +        clocks =3D <&renesas8t49n241_2 1>;
-> > > +        /* ... */
-> > > +    };
-> > > diff --git a/MAINTAINERS b/MAINTAINERS index 0cce91cd5..882d79ead
-> > > 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -15575,6 +15575,12 @@ F:	include/linux/rpmsg/
-> > >  F:	include/uapi/linux/rpmsg.h
-> > >  F:	samples/rpmsg/
-> > >
-> > > +RENESAS 8T49N24X DRIVER
-> > > +M:	Alex Helms <alexander.helms.jy@renesas.com>
-> > > +M:	David Cater <david.cater.jc@renesas.com>
-> > > +S:	Odd Fixes
-> > > +F:	Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
-> > > +
-> > >  RENESAS CLOCK DRIVERS
-> > >  M:	Geert Uytterhoeven <geert+renesas@glider.be>
-> > >  L:	linux-renesas-soc@vger.kernel.org
-> > > --
-> > > 2.30.2
-> >
 >=20
-> Regards,
+> Reviewed-by: Rob Herring <robh@kernel.org>
 >=20
-> Alex
->=20
-> --
+> > +    const: 1
+> > +    description: |
+> > +      The phandle's argument in the reset specifier is the PHY reset
+> associated
+> > +      with the USB port.
+> > +      0 =3D Port 1 Phy reset
+> > +      1 =3D Port 2 Phy reset
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - resets
+> > +  - power-domains
+> > +  - '#reset-cells'
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > +
+> > +    phyrst: usbphy-ctrl@11c40000 {
+> > +        compatible =3D "renesas,r9a07g044-usbphy-ctrl",
+> > +                     "renesas,rzg2l-usbphy-ctrl";
+> > +        reg =3D <0x11c40000 0x10000>;
+> > +        clocks =3D <&cpg CPG_MOD R9A07G044_USB_PCLK>;
+> > +        resets =3D <&cpg R9A07G044_USB_PRESETN>;
+> > +        power-domains =3D <&cpg>;
+> > +        #reset-cells =3D <1>;
+> > +    };
+> > --
+> > 2.17.1
+> >
+> >
