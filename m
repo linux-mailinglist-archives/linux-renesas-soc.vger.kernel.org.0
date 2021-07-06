@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F330C3BCF54
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jul 2021 13:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A43DD3BD35B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jul 2021 13:49:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234704AbhGFL2a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jul 2021 07:28:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35426 "EHLO mail.kernel.org"
+        id S236290AbhGFLvH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jul 2021 07:51:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47600 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234980AbhGFLZQ (ORCPT
+        id S237336AbhGFLgF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jul 2021 07:25:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BE7B761D48;
-        Tue,  6 Jul 2021 11:19:19 +0000 (UTC)
+        Tue, 6 Jul 2021 07:36:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C08061CBA;
+        Tue,  6 Jul 2021 11:27:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625570360;
-        bh=9PUz2JEzNqP8FPrrAIuHzZWbBfeElfuJOzxMMKfDIaU=;
+        s=k20201202; t=1625570821;
+        bh=P4f2miCRuly/3tykNstOWv5BDlkoAbto2iCjn6xPuzY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T7hFEYV0HvZmGCB6Q3jUWaHhl00YLVt6aaGpi4rrfja0XhVimXPA0AnkuDLzOIv+Q
-         YSTdlC+L1B2f6kCDuiDl1yyWIGJNvkq2/w3L2Sw4o7aS1sAx2hpoGUr+Wf82lInWUq
-         n5jNCwh1wF4msdb2B26psfpdELUrBppNlcV7jTfMhLw6fy638sMNx/cRJkLUHL9qh9
-         FdWoafBilF8orrLGyvmtGP8wz2vzmqnOuky4IC6QOjgwjybmLi7huqhEqtoyDthrmK
-         /9dfyfjfH34wuXyDYbKnDhlOaiygyURzVcio3QazUJaYIdEUGkbfJvoN8NS12co73x
-         K/TLHCk/RhFWA==
+        b=be1i++fXZCO7B0C9jlmqahvMzRolTpkWN3HTUaGR3JvQYVBPOyYKe+vVYfWhoZLWm
+         8n7zgOWEvdCJvhBrGOBLAKB0NiErEfDcOAt4wStrMdzx1970TMgAF5FmHxEVXNCJ6n
+         Ir409qSEe0vQhkVzp/FfUJ9vCrEDD8mbbB31nLTe/Ss8rnmRrxE9kVS9xQxVRzL5yv
+         tcx0s0OpYdacvrO9ZhZ6EJmCSCs6XYEMfs/9jMmnUySSRIJkFAc5Q1s+uXZRPuptse
+         3/Meew/UsFl0Hu00HAKOeWpxUMuZODDc32KFczNHF4fY8Ej2inWpsWv5LLSmaJE9tf
+         nRlgyon6Sp/Uw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Sasha Levin <sashal@kernel.org>,
         linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 040/160] clk: renesas: r8a77995: Add ZA2 clock
-Date:   Tue,  6 Jul 2021 07:16:26 -0400
-Message-Id: <20210706111827.2060499-40-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 17/55] clk: renesas: r8a77995: Add ZA2 clock
+Date:   Tue,  6 Jul 2021 07:26:00 -0400
+Message-Id: <20210706112638.2065023-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210706111827.2060499-1-sashal@kernel.org>
-References: <20210706111827.2060499-1-sashal@kernel.org>
+In-Reply-To: <20210706112638.2065023-1-sashal@kernel.org>
+References: <20210706112638.2065023-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,11 +63,11 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/clk/renesas/r8a77995-cpg-mssr.c b/drivers/clk/renesas/r8a77995-cpg-mssr.c
-index 9cfd00cf4e69..81c0bc1e78af 100644
+index 9e16931e6f28..e0011db4f201 100644
 --- a/drivers/clk/renesas/r8a77995-cpg-mssr.c
 +++ b/drivers/clk/renesas/r8a77995-cpg-mssr.c
-@@ -75,6 +75,7 @@ static const struct cpg_core_clk r8a77995_core_clks[] __initconst = {
- 	DEF_RATE(".oco",       CLK_OCO,            8 * 1000 * 1000),
+@@ -73,6 +73,7 @@ static const struct cpg_core_clk r8a77995_core_clks[] __initconst = {
+ 	DEF_FIXED(".sdsrc",    CLK_SDSRC,          CLK_PLL1,       2, 1),
  
  	/* Core Clock Outputs */
 +	DEF_FIXED("za2",       R8A77995_CLK_ZA2,   CLK_PLL0D3,     2, 1),
