@@ -2,116 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06FDC3BC76E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jul 2021 09:47:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5AC53BC774
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jul 2021 09:49:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230303AbhGFHuS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jul 2021 03:50:18 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:52211 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230223AbhGFHuR (ORCPT
+        id S230242AbhGFHvl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jul 2021 03:51:41 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:49882 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230223AbhGFHvk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jul 2021 03:50:17 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 0fnqmeJGo48Zv0fnumXPIj; Tue, 06 Jul 2021 09:47:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1625557658; bh=dXHGyMoWBMu3R40tU6vOO+4SM+7Apxh7LxvT2/NpVzs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=m2OYq4MdsLN+GGzgyLIItsc74vN40/thcOk8U1QQx/00D2m8XsqY5B/5EqXbtMmsa
-         ZjyccTjQCKUh7ehYx54/P3wlEXAzfAjrmECzvCdzbKZTKInPyVVXtQXlapoT+D57NS
-         ZjHadSvTj0c0Sy4QFvU/XMr6C9Gg/IWZ1661Pw22NWJYfygKs906f+kzSas3/6tGwC
-         iif0s8l/dEOPoXxfiBsCY9MPmGL4hAplbVgo/l+rimxGAsacdydzNhh2kHrrvXiqh6
-         8oblAin7T7VYnbsj0NGTVkRyDPYuejUKGmRoppWyIzsoTNAIKjNDMpIblaWfCOJT9s
-         8yYWJzaMp8E3w==
-Subject: Re: [RFC 2/4] media: v4l2-async: Add notifier flags
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20210617171611.80542-1-jacopo+renesas@jmondi.org>
- <20210617171611.80542-3-jacopo+renesas@jmondi.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <1a8bcd93-bb03-45f5-dd57-9732463584dd@xs4all.nl>
-Date:   Tue, 6 Jul 2021 09:47:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.11.0
+        Tue, 6 Jul 2021 03:51:40 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id DF1452267D;
+        Tue,  6 Jul 2021 07:49:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1625557741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=hMCD4SrF11wn/3zJx4rk+ru6zq/5mGGlKZCtcE5ZiPQ=;
+        b=GI38vsdEz6Zj57aXq9UByIGZ0g7aYBsXG/S8FqByHNdoyOMjOyKesF3vsos+EaA7KF+cf/
+        NEhr/Z9SrnfPe+/OXEKRKdCXimNjugq2OeAToOgX0b5CnghC5UpwcoPanBrVw7QKxwGFdE
+        z/ZiJWEIYF/43fF2tfPR3Dh6C2zNUSE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1625557741;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=hMCD4SrF11wn/3zJx4rk+ru6zq/5mGGlKZCtcE5ZiPQ=;
+        b=KTvh6ox9m7v5pFVLZarmvjfdunsN7BsbxJHuFubOkl0UJfJSD+VHCynHIDzocA+hCQEhV7
+        PbjsoSnhOQP0pbAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B25D313A42;
+        Tue,  6 Jul 2021 07:49:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id Y3twKu0K5GB2bgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Tue, 06 Jul 2021 07:49:01 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@ffwll.ch
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/shmobile: Convert to Linux IRQ interfaces
+Date:   Tue,  6 Jul 2021 09:49:00 +0200
+Message-Id: <20210706074900.8928-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <20210617171611.80542-3-jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfH8EHXsJQ9LIWI1bx+rhzxJ2XrxYZmqr7OEIU7RO52vjA2cXuxOH6xhwVV5C0rYFPyUDdPalq9yKPVVt9AG7rIIjTDA61yISb1t3JFTVHOiNHXtrs81j
- 03VtfYt6LuafOn7/+7PJQIz3+Rq6rm+cEew7VtTr3QpBX9OCXUpzQRLZgmxyy1nJztNaRBtWLsiUA2NRN27igp91zB85+Gk1LFsJPPI4dxODtkYxPFLqSsmL
- m/ZPqu2xzr202Cl9J1WP68pbbCojoDq1fPsI+QCnmSsFGlP2H++BKPO1jF/sh++K
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 17/06/2021 19:16, Jacopo Mondi wrote:
-> Add a 'flags' field to the async notifier structure and define the
-> V4L2_ASYNC_NOTIFIER_SKIP_POST_REGISTER flag.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/v4l2-core/v4l2-async.c |  1 +
->  include/media/v4l2-async.h           | 10 ++++++++++
->  2 files changed, 11 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index cd9e78c63791..0836e01e59ca 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -472,6 +472,7 @@ static int v4l2_async_notifier_asd_valid(struct v4l2_async_notifier *notifier,
->  void v4l2_async_notifier_init(struct v4l2_async_notifier *notifier)
->  {
->  	INIT_LIST_HEAD(&notifier->asd_list);
-> +	notifier->flags = 0;
->  }
->  EXPORT_SYMBOL(v4l2_async_notifier_init);
->  
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index 5b275a845c20..3f0627bf8894 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -92,6 +92,13 @@ struct v4l2_async_notifier_operations {
->  		       struct v4l2_async_subdev *asd);
->  };
->  
-> +/*
-> + * Set this flag to instruct the core framework not to call the post_register()
-> + * core operation. The driver that registered the notifier will take care to
-> + * do so eventually.
-> + */
-> +#define V4L2_ASYNC_NOTIFIER_SKIP_POST_REGISTER		(1U << 0)
+Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+don't benefit from using it.
 
-How about: V4L2_ASYNC_NOTIFIER_DEFER_POST_REGISTER
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-I think that's a better name: it is not skipped, it is just called later.
-
-Regards,
-
-	Hans
-
-> +
->  /**
->   * struct v4l2_async_notifier - v4l2_device notifier data
->   *
-> @@ -103,6 +110,8 @@ struct v4l2_async_notifier_operations {
->   * @waiting:	list of struct v4l2_async_subdev, waiting for their drivers
->   * @done:	list of struct v4l2_subdev, already probed
->   * @list:	member in a global list of notifiers
-> + * @flags:	notifier's flags. Can be:
-> + * 	%V4L2_ASYNC_NOTIFIER_SKIP_POST_REGISTER
->   */
->  struct v4l2_async_notifier {
->  	const struct v4l2_async_notifier_operations *ops;
-> @@ -113,6 +122,7 @@ struct v4l2_async_notifier {
->  	struct list_head waiting;
->  	struct list_head done;
->  	struct list_head list;
-> +	u32 flags;
->  };
->  
->  /**
-> 
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+index 0a02b7092c04..032a2fff5efd 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
++++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+@@ -18,7 +18,6 @@
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_gem_cma_helper.h>
+-#include <drm/drm_irq.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
+ 
+@@ -130,7 +129,6 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
+ 
+ static const struct drm_driver shmob_drm_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
+-	.irq_handler		= shmob_drm_irq,
+ 	DRM_GEM_CMA_DRIVER_OPS,
+ 	.fops			= &shmob_drm_fops,
+ 	.name			= "shmob-drm",
+@@ -183,7 +181,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
+ 
+ 	drm_dev_unregister(ddev);
+ 	drm_kms_helper_poll_fini(ddev);
+-	drm_irq_uninstall(ddev);
++	free_irq(platform_get_irq(pdev, 0), ddev);
+ 	drm_dev_put(ddev);
+ 
+ 	return 0;
+@@ -258,7 +256,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
+ 		goto err_modeset_cleanup;
+ 	}
+ 
+-	ret = drm_irq_install(ddev, platform_get_irq(pdev, 0));
++	ret = request_irq(platform_get_irq(pdev, 0), shmob_drm_irq, 0, ddev->driver->name, ddev);
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "failed to install IRQ handler\n");
+ 		goto err_modeset_cleanup;
+@@ -275,7 +273,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ err_irq_uninstall:
+-	drm_irq_uninstall(ddev);
++	free_irq(platform_get_irq(pdev, 0), ddev);
+ err_modeset_cleanup:
+ 	drm_kms_helper_poll_fini(ddev);
+ err_free_drm_dev:
+-- 
+2.32.0
 
