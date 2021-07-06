@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A43DD3BD35B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jul 2021 13:49:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A99463BD35D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jul 2021 13:49:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236290AbhGFLvH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jul 2021 07:51:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47600 "EHLO mail.kernel.org"
+        id S236347AbhGFLvI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jul 2021 07:51:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47556 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237336AbhGFLgF (ORCPT
+        id S237497AbhGFLgL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jul 2021 07:36:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C08061CBA;
-        Tue,  6 Jul 2021 11:27:00 +0000 (UTC)
+        Tue, 6 Jul 2021 07:36:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 305C161DD2;
+        Tue,  6 Jul 2021 11:28:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625570821;
-        bh=P4f2miCRuly/3tykNstOWv5BDlkoAbto2iCjn6xPuzY=;
+        s=k20201202; t=1625570890;
+        bh=VRiB4e/oV2wd/QVms/CEJTexIoeWeKX66K3/aNZKRQ8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=be1i++fXZCO7B0C9jlmqahvMzRolTpkWN3HTUaGR3JvQYVBPOyYKe+vVYfWhoZLWm
-         8n7zgOWEvdCJvhBrGOBLAKB0NiErEfDcOAt4wStrMdzx1970TMgAF5FmHxEVXNCJ6n
-         Ir409qSEe0vQhkVzp/FfUJ9vCrEDD8mbbB31nLTe/Ss8rnmRrxE9kVS9xQxVRzL5yv
-         tcx0s0OpYdacvrO9ZhZ6EJmCSCs6XYEMfs/9jMmnUySSRIJkFAc5Q1s+uXZRPuptse
-         3/Meew/UsFl0Hu00HAKOeWpxUMuZODDc32KFczNHF4fY8Ej2inWpsWv5LLSmaJE9tf
-         nRlgyon6Sp/Uw==
+        b=adtABtafbgZEQVPRZLBNbg6K/Eve4fejj8kSrVPkOSk7l55kCxSA+vY4zSCvpLBPa
+         ODKUphKqZ9GIjAqZANxhlptN1ZVvm1vp93lGIB2n3qzBYFT2kKaro/2LOcA+weiI45
+         y0uneUcgfxbXvPUTZWRufUQw/dqa4TnXgTu54F66sa3BzeBUtzZNRwQFr4tmIePcIN
+         Fsrzh+mJfmeRGqVBxhn6dTJYpuT0Y4TT5KhGUIldN+l2UpqnX/1SfJyKJBwjEX0T2Q
+         +5avFq2mCE9JFCyg1fjmxppHn3wT30CxD5rqT5HcZT4/VwqmTWsRt8sd2tv9i3sn99
+         W66Ikji5qaYqQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Sasha Levin <sashal@kernel.org>,
         linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 17/55] clk: renesas: r8a77995: Add ZA2 clock
-Date:   Tue,  6 Jul 2021 07:26:00 -0400
-Message-Id: <20210706112638.2065023-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 16/45] clk: renesas: r8a77995: Add ZA2 clock
+Date:   Tue,  6 Jul 2021 07:27:20 -0400
+Message-Id: <20210706112749.2065541-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210706112638.2065023-1-sashal@kernel.org>
-References: <20210706112638.2065023-1-sashal@kernel.org>
+In-Reply-To: <20210706112749.2065541-1-sashal@kernel.org>
+References: <20210706112749.2065541-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,7 +63,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/clk/renesas/r8a77995-cpg-mssr.c b/drivers/clk/renesas/r8a77995-cpg-mssr.c
-index 9e16931e6f28..e0011db4f201 100644
+index 8434d5530fb1..4a3633ebcc6b 100644
 --- a/drivers/clk/renesas/r8a77995-cpg-mssr.c
 +++ b/drivers/clk/renesas/r8a77995-cpg-mssr.c
 @@ -73,6 +73,7 @@ static const struct cpg_core_clk r8a77995_core_clks[] __initconst = {
