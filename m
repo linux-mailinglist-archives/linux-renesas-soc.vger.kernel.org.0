@@ -2,113 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 455223BC798
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jul 2021 10:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9514B3BCBBF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jul 2021 13:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230314AbhGFIDk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jul 2021 04:03:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56346 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230303AbhGFIDj (ORCPT
+        id S232050AbhGFLRX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jul 2021 07:17:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52206 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232007AbhGFLRP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jul 2021 04:03:39 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71530C061574
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jul 2021 01:01:01 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id k21so27981113ljh.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Jul 2021 01:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=tdsiYeXZngdcRa07foDUtUsiu1D/PZXAOEOyf0oCjW4=;
-        b=zTRA2zJ5uZOaLOIgBeP0xprF9/CQvu7kT2gD18jAv0csvNJ0yzhyNAyPUmNK+XZiCK
-         Ykt3pdXiCfDh337rd3vzRRbDiSPXEShzdwZtPSxyTGlXiMjeHeqGSgnDUMXK7z9PnXDK
-         KR26jhAlHsBDKIryhIECGdpzdGGLbAEMeme1El0tyJ0XAnklkpiCeMAb3tj10wd7YjkC
-         9okZy888TqrvqbBW1fzkRQb59BnAATmNWurkvxO4tm3VJAS6xLO70d0OQRV67E5Xll4o
-         zVVgXy0+6o4556z/tIX6o3k2vcOVOfuEspU5j8q44aJ3KOfVmtKeL/wXzk3SLeYyXjmz
-         oaIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=tdsiYeXZngdcRa07foDUtUsiu1D/PZXAOEOyf0oCjW4=;
-        b=hXM0lPNasdkSblWR0SPeiSecmoiJRpmcecRwn61UMJDC9FSDTREEuWUwg+MVhMqsVi
-         O4YoAMiuft1tFQiZJWvZwDIMtz97zYiF5GeMA5CniQauHlDaoCFpeWOdHxvggZyvqxnz
-         eJ54cSyJXEz2HZ+pGsVwZnTXoTJUjDUmFMyQ94h5HlBjOjwLcc36KXIlW5IEcDTY/RDs
-         /wCQOwcGDpaH6YLlfJCMZvdCz70tKFRMbE2SAfjYy/8JxUMT/bnsjiA8F5FgP+nro2wv
-         EWpNBGtpwqxIVOycpxLdDA/2eL68cPR6KB9EDVaCGC69wNK5GI4IAZ4Nrnv94/3nIZPi
-         ghbA==
-X-Gm-Message-State: AOAM531vIL+OyTl2v/dQefeeDf0bwM9w3mASCx3nZmc4gxnU0KOWWYF/
-        4ZRMCI9XEgS2lFrcDeSQWQAzxg==
-X-Google-Smtp-Source: ABdhPJyz9N5iXLg8nMlio14v/1lX+Uq5Rjh75jdk6zEV+rERExuZZBksLigNsyT7hqs2Ato8eyEviw==
-X-Received: by 2002:a2e:808f:: with SMTP id i15mr14293207ljg.296.1625558459852;
-        Tue, 06 Jul 2021 01:00:59 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id z11sm443617lfa.224.2021.07.06.01.00.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jul 2021 01:00:59 -0700 (PDT)
-Date:   Tue, 6 Jul 2021 10:00:58 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77990: ebisu: Add I2C EEPROM for
- PMIC
-Message-ID: <YOQNut7VkQtpKpmH@oden.dyn.berto.se>
-References: <32443cd203ce2787d9a719d06a473b9e9cd508c2.1625489160.git.geert+renesas@glider.be>
+        Tue, 6 Jul 2021 07:17:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 23F0D61C29;
+        Tue,  6 Jul 2021 11:14:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625570076;
+        bh=4WLk7xslN4QJLfFAgeeGGRJMsiwnd0T7uFKjsNRSBk8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=MqdH8WUJtRwM81k626hGB1GkVw2nbfMWiOC7mOeC0wxUTdm1xUwQDyi6xMLeL1GIW
+         Rs3tV5iz3pNjxkEmfiZVuNGducWeeWLYCup/GmyneZ0dT8KOeRtm9urryrEycYuwoO
+         PoSMaoPMVv8cCcusOjbWtboghfUP3do8FB0VW7iRnhWGgHE8zHJVWw9LL8gdf5Yyjp
+         KNQxI+F2iqzK3UrF+Viv8L7trQLmWSc6aa8uwOAjxVxKD228QeagoxSZOTix1F7Tts
+         77X5sgjVrb9Gu72YsksIjsNrn/m5SS17WpCySvhGCYtm2bee2gjc8GhJnTlsx+qzdV
+         2+yhTSqiUmY4A==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sasha Levin <sashal@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 018/189] clk: renesas: rcar-usb2-clock-sel: Fix error handling in .probe()
+Date:   Tue,  6 Jul 2021 07:11:18 -0400
+Message-Id: <20210706111409.2058071-18-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
+References: <20210706111409.2058071-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <32443cd203ce2787d9a719d06a473b9e9cd508c2.1625489160.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
 
-Thanks for your patch.
+[ Upstream commit a20a40a8bbc2cf4b29d7248ea31e974e9103dd7f ]
 
-On 2021-07-05 14:48:32 +0200, Geert Uytterhoeven wrote:
-> Add a device node for the I2C EEPROM which serves as external storage
-> for the PMIC setup, as a backup of the internal OTP configuration.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The error handling paths after pm_runtime_get_sync() have no refcount
+decrement, which leads to refcount leak.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Link: https://lore.kernel.org/r/20210415073338.22287-1-dinghao.liu@zju.edu.cn
+[geert: Remove now unused variable priv]
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/clk/renesas/rcar-usb2-clock-sel.c | 24 ++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-> ---
-> To be queued in renesas-devel for v5.15.
-> 
->  arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-> index ab270e39d458de36..9c7146084ea1c779 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-> @@ -510,6 +510,12 @@ pmic: pmic@30 {
->  		rohm,ddr-backup-power = <0x1>;
->  		rohm,rstbmode-level;
->  	};
-> +
-> +	eeprom@50 {
-> +		compatible = "rohm,br24t01", "atmel,24c01";
-> +		reg = <0x50>;
-> +		pagesize = <8>;
-> +	};
->  };
->  
->  &lvds0 {
-> -- 
-> 2.25.1
-> 
-
+diff --git a/drivers/clk/renesas/rcar-usb2-clock-sel.c b/drivers/clk/renesas/rcar-usb2-clock-sel.c
+index 34a85dc95beb..9fb79bd79435 100644
+--- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
++++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
+@@ -128,10 +128,8 @@ static int rcar_usb2_clock_sel_resume(struct device *dev)
+ static int rcar_usb2_clock_sel_remove(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+-	struct usb2_clock_sel_priv *priv = platform_get_drvdata(pdev);
+ 
+ 	of_clk_del_provider(dev->of_node);
+-	clk_hw_unregister(&priv->hw);
+ 	pm_runtime_put(dev);
+ 	pm_runtime_disable(dev);
+ 
+@@ -164,9 +162,6 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
+ 	if (IS_ERR(priv->rsts))
+ 		return PTR_ERR(priv->rsts);
+ 
+-	pm_runtime_enable(dev);
+-	pm_runtime_get_sync(dev);
+-
+ 	clk = devm_clk_get(dev, "usb_extal");
+ 	if (!IS_ERR(clk) && !clk_prepare_enable(clk)) {
+ 		priv->extal = !!clk_get_rate(clk);
+@@ -183,6 +178,8 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
+ 		return -ENOENT;
+ 	}
+ 
++	pm_runtime_enable(dev);
++	pm_runtime_get_sync(dev);
+ 	platform_set_drvdata(pdev, priv);
+ 	dev_set_drvdata(dev, priv);
+ 
+@@ -190,11 +187,20 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
+ 	init.ops = &usb2_clock_sel_clock_ops;
+ 	priv->hw.init = &init;
+ 
+-	clk = clk_register(NULL, &priv->hw);
+-	if (IS_ERR(clk))
+-		return PTR_ERR(clk);
++	ret = devm_clk_hw_register(NULL, &priv->hw);
++	if (ret)
++		goto pm_put;
++
++	ret = of_clk_add_hw_provider(np, of_clk_hw_simple_get, &priv->hw);
++	if (ret)
++		goto pm_put;
++
++	return 0;
+ 
+-	return of_clk_add_hw_provider(np, of_clk_hw_simple_get, &priv->hw);
++pm_put:
++	pm_runtime_put(dev);
++	pm_runtime_disable(dev);
++	return ret;
+ }
+ 
+ static const struct dev_pm_ops rcar_usb2_clock_sel_pm_ops = {
 -- 
-Regards,
-Niklas Söderlund
+2.30.2
+
