@@ -2,20 +2,20 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 885493BDAD6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jul 2021 18:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29B633BDAED
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jul 2021 18:07:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229811AbhGFQFw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Jul 2021 12:05:52 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:41323 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229770AbhGFQFw (ORCPT
+        id S229953AbhGFQKf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Jul 2021 12:10:35 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:37579 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229807AbhGFQKf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Jul 2021 12:05:52 -0400
+        Tue, 6 Jul 2021 12:10:35 -0400
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id E7B5F1BF208;
-        Tue,  6 Jul 2021 16:03:11 +0000 (UTC)
-Date:   Tue, 6 Jul 2021 18:04:01 +0200
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 2657AE0004;
+        Tue,  6 Jul 2021 16:07:52 +0000 (UTC)
+Date:   Tue, 6 Jul 2021 18:08:42 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
@@ -23,7 +23,7 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH 01/11] rcar-vin: Refactor controls creation for video
  device
-Message-ID: <20210706160401.xssshab7nkxroxnp@uno.localdomain>
+Message-ID: <20210706160842.ruwejskmpbp6nyff@uno.localdomain>
 References: <20210413180253.2575451-1-niklas.soderlund+renesas@ragnatech.se>
  <20210413180253.2575451-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
@@ -35,7 +35,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi again,
 
 On Tue, Apr 13, 2021 at 08:02:43PM +0200, Niklas Söderlund wrote:
 > The controls for the video device are created in different code paths
@@ -67,6 +67,10 @@ On Tue, Apr 13, 2021 at 08:02:43PM +0200, Niklas Söderlund wrote:
 > +	int ret;
 > +
 > +	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 16);
+
+Not a big deal, but 16 because we have to reserve space for the
+eventual subdevice controls ?
+
 > +	if (ret < 0)
 > +		return ret;
 > +
@@ -137,16 +141,6 @@ On Tue, Apr 13, 2021 at 08:02:43PM +0200, Niklas Söderlund wrote:
 > -		vin->vdev.ctrl_handler = NULL;
 > -	}
 > +	if (!vin->info->use_mc)
-
-I know it was there already, but give that rvin_parallel_notify_unbind()
-is only registered for parallel, can this happen ?
-
-Apart this small nit:
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Thanks
-  j
-
 > +		rvin_free_controls(vin);
 >  }
 >
