@@ -2,144 +2,221 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 754353BE48D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jul 2021 10:43:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D3AE3BE4B9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jul 2021 10:51:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbhGGIqE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Jul 2021 04:46:04 -0400
-Received: from mail-vk1-f182.google.com ([209.85.221.182]:46011 "EHLO
-        mail-vk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230109AbhGGIqD (ORCPT
+        id S231258AbhGGIyK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Jul 2021 04:54:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49198 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231248AbhGGIyK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Jul 2021 04:46:03 -0400
-Received: by mail-vk1-f182.google.com with SMTP id j190so416563vkg.12;
-        Wed, 07 Jul 2021 01:43:23 -0700 (PDT)
+        Wed, 7 Jul 2021 04:54:10 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A48DC06175F
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Jul 2021 01:51:30 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id r26so2802641lfp.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 07 Jul 2021 01:51:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=jLchT84LhJZMHnnj03A5lsGVtSK6Svki7nJnsZ38D/4=;
+        b=P5QtjVKPLLlAHEE0EKfF9YkDdwUSnYagPGonn1tx32lgjrL4w+nF+UQncBcN7g2hKV
+         kosS4nFFHmSQE4JeVI3zIGx/KodeYaKsuCbbBt8rv1iUTKBZH7GeDx/O8AEi45pgtiq8
+         kDCVzPd2RG33DxmTZWTMbq8/OvGrOTjfoOIHyAFu78AEsIsZUsXXiX8/Ke1nhv5bgCT+
+         ACqZL3kVwRl81G/jFY2i1Wi4OUMBz/QUWGSmOQDCK7jf2l/4xdVjJxQ1Y9wP4ioAUSfV
+         789jHhJ5fzLrD7udzRtG7KP/F2sVHkMcHoaBd7D3pNw6K1KmImsUGdjfoL/3GV79wlnc
+         oshg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g/NUV0k0sKL15rnH03t063q9JhylHeH6MXLj7AK83z8=;
-        b=hGRzyERd1Ifu5U2xCx+uvaOeg+Gs4rSORmty/w3GQgjVSi+RVWdU9G9dyYQYAb+zyR
-         JpwBfSl9ZzYEBqOzRhYELZUCcXGxln4QU9gv7ShLkTfCSywDByg18ltgjwcq551unoiK
-         JuBxP3+aZArVDKvK1TUwHSF2xFIo86W2wmnE+cpcM4Z7R4hY1YT+So4aDqtvkLNHu58W
-         sM0D/cpcRpiokO8V36rn2Mld1lvubjvEbTfIL2dfXTYB90vowqcjC7DfV2rYKO91dGKc
-         Xd31hcB3N7LQD7kjUUlykRt3Pc2q4PkhtkMV3xm0YAOWwVJhBa/3D9t6K3YF+TjKqWlj
-         zHNg==
-X-Gm-Message-State: AOAM533dxEZxOBLC4/IfpEPiqxI8p6cl8xafjIB3Mmld2xXg85Tp+Ojt
-        BKfcMa9AEXC6XU+yr8TrfVib7UD5sfw9gNSI0Ss=
-X-Google-Smtp-Source: ABdhPJzgLJIgx7W1jbaDRxib8S/xT/cP8DYEWlpRrWLGM3rELD5iehuQGXyHOsv5HLOH75vCH9WGhY83DuluoiFFbkA=
-X-Received: by 2002:a1f:1207:: with SMTP id 7mr520916vks.1.1625647403340; Wed,
- 07 Jul 2021 01:43:23 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=jLchT84LhJZMHnnj03A5lsGVtSK6Svki7nJnsZ38D/4=;
+        b=it56+JwX5ODsm9Av0IY/kE8bdU0I4xDG7Exdepj9FAsGKfP2m30ywQ2I4v/cV/58at
+         26uJL70M0BBwifefjk4hEEyhSPqi0W5MbE1O43yhACLeH4l8rNNTefhMz7YeVkMxWMwv
+         Ei2p1iFJr4vPyT2l0SoPlic3ua39pjVW6ah6m6c6cuNctxjO8H6kIO6ywZO4GUVwx8Yg
+         XG194kkbrKxaw2qhx0I6cHl/XAefl3wf9yZ5loX8oKyzW9dyWCveBxkRiapKftSpnhm+
+         3xDuM1CJMkTjVOv+exc1ix6sgbGzQ1RSwtelTydLoxQpB+D2Tium38pP3j0buUyvlISl
+         C+1Q==
+X-Gm-Message-State: AOAM532wyf6S7f4ib3UBsXpexDaQxvzn71Za4e5PXedCTa+xMi8/tTqf
+        DV4MK/uuGG/ZvXSux3/nusDtRQ==
+X-Google-Smtp-Source: ABdhPJxUPiKkcXyXSKTqLoNOTib4Cs9/aiSXp4+4bYCD8+xk2sn6worFnhqGVkYypEZ5Y1LVEmFk4w==
+X-Received: by 2002:a19:6b14:: with SMTP id d20mr14194396lfa.562.1625647888737;
+        Wed, 07 Jul 2021 01:51:28 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id d7sm1003993lfq.181.2021.07.07.01.51.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jul 2021 01:51:27 -0700 (PDT)
+Date:   Wed, 7 Jul 2021 10:51:27 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 04/11] rcar-vin: Improve reuse of parallel notifier
+Message-ID: <YOVrD1Mkv9s9jK4/@oden.dyn.berto.se>
+References: <20210413180253.2575451-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210413180253.2575451-5-niklas.soderlund+renesas@ragnatech.se>
+ <20210706165141.adzayyndbfwzocpr@uno.localdomain>
 MIME-Version: 1.0
-References: <20210215111619.2385030-1-geert+renesas@glider.be>
- <CAJZ5v0ikVbMX0R9e_=wOxKfJX5X322AipmpWy-7wVnWE7Ogc9A@mail.gmail.com>
- <CAGETcx94nNjduOuYKVBZOC9Gm4yfyb9x92ddznyxK4BnDby4PA@mail.gmail.com>
- <CAMuHMdWm9FiJHWTzGqqNa-ggt9WTpS6Hg2WthNW86p_WpvPUtw@mail.gmail.com>
- <CAGETcx8N5QmR5V_mrv5tHmARsnWrLbH+N_Ay_pBqV9HJkpHJzQ@mail.gmail.com> <CAGETcx8nD7Ak8z7JEM1jUVdRRpUt=8BwGMix0ghv1QeDBLaGwA@mail.gmail.com>
-In-Reply-To: <CAGETcx8nD7Ak8z7JEM1jUVdRRpUt=8BwGMix0ghv1QeDBLaGwA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 7 Jul 2021 10:43:12 +0200
-Message-ID: <CAMuHMdX-cZO-tsj6T9av79d_bELihBfFGmB1=F+6YRNmUBWs9g@mail.gmail.com>
-Subject: Re: [PATCH] driver core: Fix double failed probing with fw_devlink=on
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210706165141.adzayyndbfwzocpr@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+Hi Jacopo,
 
-(going over old patch I still have in my local tree)
+Thanks for your feedback.
 
-On Tue, Feb 16, 2021 at 6:08 PM Saravana Kannan <saravanak@google.com> wrote:
-> On Mon, Feb 15, 2021 at 12:59 PM Saravana Kannan <saravanak@google.com> wrote:
-> > On Mon, Feb 15, 2021 at 11:08 AM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> > > On Mon, Feb 15, 2021 at 7:27 PM Saravana Kannan <saravanak@google.com> wrote:
-> > > > On Mon, Feb 15, 2021 at 6:59 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > > > > On Mon, Feb 15, 2021 at 12:16 PM Geert Uytterhoeven
-> > > > > <geert+renesas@glider.be> wrote:
-> > > > > > With fw_devlink=permissive, devices are added to the deferred probe
-> > > > > > pending list if their driver's .probe() method returns -EPROBE_DEFER.
-> > > > > >
-> > > > > > With fw_devlink=on, devices are added to the deferred probe pending list
-> > > > > > if they are determined to be a consumer,
-> > > >
-> > > > If they are determined to be a consumer or if they are determined to
-> > > > have a supplier that hasn't probed yet?
-> > >
-> > > When the supplier has probed:
-> > >
-> > >     bus: 'platform': driver_probe_device: matched device
-> > > e6150000.clock-controller with driver renesas-cpg-mssr
-> > >     bus: 'platform': really_probe: probing driver renesas-cpg-mssr
-> > > with device e6150000.clock-controller
-> > >     PM: Added domain provider from /soc/clock-controller@e6150000
-> > >     driver: 'renesas-cpg-mssr': driver_bound: bound to device
-> > > 'e6150000.clock-controller'
-> > >     platform e6055800.gpio: Added to deferred list
-> > >     [...]
-> > >     platform e6020000.watchdog: Added to deferred list
-> > >     [...]
-> > >     platform fe000000.pcie: Added to deferred list
-> > >
-> > > > > > which happens before their
-> > > > > > driver's .probe() method is called.  If the actual probe fails later
-> > > > > > (real failure, not -EPROBE_DEFER), the device will still be on the
-> > > > > > deferred probe pending list, and it will be probed again when deferred
-> > > > > > probing kicks in, which is futile.
-> > > > > >
-> > > > > > Fix this by explicitly removing the device from the deferred probe
-> > > > > > pending list in case of probe failures.
-> > > > > >
-> > > > > > Fixes: e590474768f1cc04 ("driver core: Set fw_devlink=on by default")
-> > > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > >
-> > > > > Good catch:
-> > > > >
-> > > > > Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > >
-> > > > The issue is real and needs to be fixed. But I'm confused how this can
-> > > > happen. We won't even enter really_probe() if the driver isn't ready.
-> > > > We also won't get to run the driver's .probe() if the suppliers aren't
-> > > > ready. So how does the device get added to the deferred probe list
-> > > > before the driver is ready? Is this due to device_links_driver_bound()
-> > > > on the supplier?
-> > > >
-> > > > Can you give a more detailed step by step on the case you are hitting?
-> > >
-> > > The device is added to the list due to device_links_driver_bound()
-> > > calling driver_deferred_probe_add() on all consumer devices.
+On 2021-07-06 18:51:41 +0200, Jacopo Mondi wrote:
+> Hi Niklas,
+> 
+> On Tue, Apr 13, 2021 at 08:02:46PM +0200, Niklas Söderlund wrote:
+> > In preparation for adding a new media graph layout move the code reuse
+> > of the parallel notifier setup from probe directly to the current media
+> > graph initialization function. This is needed as there will be no
+> > parallel interface in the new graph layout.
 > >
-> > Thanks for the explanation. Maybe add more details like this to the
-> > commit text or in the code?
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-core.c | 48 ++++++++++-----------
+> >  1 file changed, 22 insertions(+), 26 deletions(-)
 > >
-> > For the code:
-> > Reviewed-by: Saravana Kanna <saravanak@google.com>
->
-> Ugh... I just realized that I might have to give this a Nak because of
-> bad locking in deferred_probe_work_func(). The unlock/lock inside the
-> loop is a terrible hack. If we add this patch, we can end up modifying
-> a linked list while it's being traversed and cause a crash or busy
-> loop (you'll accidentally end up on an "empty list"). I ran into a
-> similar issue during one of my unrelated refactors.
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> > index da23d55aa72b7f0d..81574bf33116ad59 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > @@ -702,9 +702,8 @@ static int rvin_parallel_init(struct rvin_dev *vin)
+> >  	if (ret)
+> >  		return ret;
+> >
+> > -	/* If using mc, it's fine not to have any input registered. */
+> >  	if (!vin->parallel.asd)
+> > -		return vin->info->use_mc ? 0 : -ENODEV;
+> > +		return -ENODEV;
+> 
+> Nit: isn't it better to keep the error handling here ?
 
-Turns out the issue I was seeing went away due to commit
-f2db85b64f0af141 ("driver core: Avoid pointless deferred probe
-attempts"), so there is no need to apply this patch.
+I'm trying to reduce the number of use_mc checks and if needed only keep 
+it in code paths where it's relevant. I like moving it to the _csi2_ 
+functions. But I agree _csi2_ is a bad prefix, it should likely be 
+renamed somewhen in the future as it now really means _gen3_ minus v3u 
+:-)
 
+> 
+> >
+> >  	vin_dbg(vin, "Found parallel subdevice %pOF\n",
+> >  		to_of_node(vin->parallel.asd->match.fwnode));
+> > @@ -955,11 +954,9 @@ static int rvin_mc_parse_of_graph(struct rvin_dev *vin)
+> >
+> >  static void rvin_csi2_cleanup(struct rvin_dev *vin)
+> >  {
+> > -	if (!vin->info->use_mc)
+> > -		return;
+> > -
+> >  	rvin_group_notifier_cleanup(vin);
+> >  	rvin_group_put(vin);
+> > +	rvin_free_controls(vin);
+> >  }
+> >
+> >  static int rvin_csi2_init(struct rvin_dev *vin)
+> > @@ -979,11 +976,18 @@ static int rvin_csi2_init(struct rvin_dev *vin)
+> >  	if (ret)
+> >  		goto err_controls;
+> >
+> > -	ret = rvin_mc_parse_of_graph(vin);
+> > -	if (ret)
+> > +	/* It's OK to not have a parallel subdevice. */
+> > +	ret = rvin_parallel_init(vin);
+> > +	if (ret && ret != -ENODEV)
+> >  		goto err_group;
+> >
+> > +	ret = rvin_mc_parse_of_graph(vin);
+> > +	if (ret)
+> > +		goto err_parallel;
+> > +
+> >  	return 0;
+> > +err_parallel:
+> > +	rvin_parallel_cleanup(vin);
+> >  err_group:
+> >  	rvin_group_put(vin);
+> >  err_controls:
+> > @@ -1469,27 +1473,20 @@ static int rcar_vin_probe(struct platform_device *pdev)
+> >
+> >  	platform_set_drvdata(pdev, vin);
+> >
+> > -	if (vin->info->use_mc) {
+> > +	if (vin->info->use_mc)
+> >  		ret = rvin_csi2_init(vin);
+> > -		if (ret)
+> > -			goto error_dma_unregister;
+> > -	}
+> > +	else
+> > +		ret = rvin_parallel_init(vin);
+> >
+> > -	ret = rvin_parallel_init(vin);
+> > -	if (ret)
+> > -		goto error_group_unregister;
+> > +	if (ret) {
+> > +		rvin_dma_unregister(vin);
+> > +		return ret;
+> > +	}
+> >
+> >  	pm_suspend_ignore_children(&pdev->dev, true);
+> >  	pm_runtime_enable(&pdev->dev);
+> >
+> >  	return 0;
+> > -error_group_unregister:
+> > -	rvin_free_controls(vin);
+> > -	rvin_csi2_cleanup(vin);
+> > -error_dma_unregister:
+> > -	rvin_dma_unregister(vin);
+> > -
+> > -	return ret;
+> 
+> This looks much much better and seems correct to me!
+> 
+> >  }
+> >
+> >  static int rcar_vin_remove(struct platform_device *pdev)
+> > @@ -1500,11 +1497,10 @@ static int rcar_vin_remove(struct platform_device *pdev)
+> >
+> >  	rvin_v4l2_unregister(vin);
+> >
+> > -	rvin_parallel_cleanup(vin);
+> > -
+> > -	rvin_csi2_cleanup(vin);
+> > -
+> > -	rvin_free_controls(vin);
+> > +	if (vin->info->use_mc)
+> > +		rvin_csi2_cleanup(vin);
+> > +	else
+> > +		rvin_parallel_cleanup(vin);
+> 
+> In the case use_mc == true but a parallel input was registered as well
+> this won't clean up the parallel notifier it seems.
 
-Gr{oetje,eeting}s,
+Good catch! rvin_parallel_cleanup() should be called from 
+rvin_csi2_cleanup() as rvin_parallel_init() is called form 
+rvin_csi2_init(). I will fix.
 
-                        Geert
+> 
+> Does it hurt to clean it up unconditionally ?
+> 
+> Thanks
+>   j
+> >
+> >  	rvin_dma_unregister(vin);
+> >
+> > --
+> > 2.31.1
+> >
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Regards,
+Niklas Söderlund
