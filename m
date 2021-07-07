@@ -2,221 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D3AE3BE4B9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jul 2021 10:51:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B19423BE652
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jul 2021 12:24:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231258AbhGGIyK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Jul 2021 04:54:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49198 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231248AbhGGIyK (ORCPT
+        id S231270AbhGGK0s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Jul 2021 06:26:48 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:57909 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231392AbhGGK0s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Jul 2021 04:54:10 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A48DC06175F
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Jul 2021 01:51:30 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id r26so2802641lfp.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 07 Jul 2021 01:51:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jLchT84LhJZMHnnj03A5lsGVtSK6Svki7nJnsZ38D/4=;
-        b=P5QtjVKPLLlAHEE0EKfF9YkDdwUSnYagPGonn1tx32lgjrL4w+nF+UQncBcN7g2hKV
-         kosS4nFFHmSQE4JeVI3zIGx/KodeYaKsuCbbBt8rv1iUTKBZH7GeDx/O8AEi45pgtiq8
-         kDCVzPd2RG33DxmTZWTMbq8/OvGrOTjfoOIHyAFu78AEsIsZUsXXiX8/Ke1nhv5bgCT+
-         ACqZL3kVwRl81G/jFY2i1Wi4OUMBz/QUWGSmOQDCK7jf2l/4xdVjJxQ1Y9wP4ioAUSfV
-         789jHhJ5fzLrD7udzRtG7KP/F2sVHkMcHoaBd7D3pNw6K1KmImsUGdjfoL/3GV79wlnc
-         oshg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jLchT84LhJZMHnnj03A5lsGVtSK6Svki7nJnsZ38D/4=;
-        b=it56+JwX5ODsm9Av0IY/kE8bdU0I4xDG7Exdepj9FAsGKfP2m30ywQ2I4v/cV/58at
-         26uJL70M0BBwifefjk4hEEyhSPqi0W5MbE1O43yhACLeH4l8rNNTefhMz7YeVkMxWMwv
-         Ei2p1iFJr4vPyT2l0SoPlic3ua39pjVW6ah6m6c6cuNctxjO8H6kIO6ywZO4GUVwx8Yg
-         XG194kkbrKxaw2qhx0I6cHl/XAefl3wf9yZ5loX8oKyzW9dyWCveBxkRiapKftSpnhm+
-         3xDuM1CJMkTjVOv+exc1ix6sgbGzQ1RSwtelTydLoxQpB+D2Tium38pP3j0buUyvlISl
-         C+1Q==
-X-Gm-Message-State: AOAM532wyf6S7f4ib3UBsXpexDaQxvzn71Za4e5PXedCTa+xMi8/tTqf
-        DV4MK/uuGG/ZvXSux3/nusDtRQ==
-X-Google-Smtp-Source: ABdhPJxUPiKkcXyXSKTqLoNOTib4Cs9/aiSXp4+4bYCD8+xk2sn6worFnhqGVkYypEZ5Y1LVEmFk4w==
-X-Received: by 2002:a19:6b14:: with SMTP id d20mr14194396lfa.562.1625647888737;
-        Wed, 07 Jul 2021 01:51:28 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id d7sm1003993lfq.181.2021.07.07.01.51.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 01:51:27 -0700 (PDT)
-Date:   Wed, 7 Jul 2021 10:51:27 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        Wed, 7 Jul 2021 06:26:48 -0400
+X-Greylist: delayed 65746 seconds by postgrey-1.27 at vger.kernel.org; Wed, 07 Jul 2021 06:26:47 EDT
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 44A7CC0003;
+        Wed,  7 Jul 2021 10:24:05 +0000 (UTC)
+Date:   Wed, 7 Jul 2021 12:24:54 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 04/11] rcar-vin: Improve reuse of parallel notifier
-Message-ID: <YOVrD1Mkv9s9jK4/@oden.dyn.berto.se>
+Subject: Re: [PATCH 07/11] rcar-vin: Extend group notifier DT parser to work
+ with any port
+Message-ID: <20210707102454.ysyl7y4rd4oyyrui@uno.localdomain>
 References: <20210413180253.2575451-1-niklas.soderlund+renesas@ragnatech.se>
- <20210413180253.2575451-5-niklas.soderlund+renesas@ragnatech.se>
- <20210706165141.adzayyndbfwzocpr@uno.localdomain>
+ <20210413180253.2575451-8-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210706165141.adzayyndbfwzocpr@uno.localdomain>
+In-Reply-To: <20210413180253.2575451-8-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hi Niklas,
 
-Thanks for your feedback.
+On Tue, Apr 13, 2021 at 08:02:49PM +0200, Niklas SÃ¶derlund wrote:
+> The R-Car VIN group notifier will be extend to support a new group of
+> subdevices, the R-Car ISP channel selector in addition to the existing
+> R-Car CSI-2 receiver subdevices.
+>
+> The existing DT parsing code can be reused if the port and max number of
+> endpoints are provided as parameters instead of being hard-coded. While
+> at it align the group notifier parser function names with the rest of
+> the driver.
+>
+> Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-core.c | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> index d951f739b3a9a034..2628637084ae2aa9 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -506,7 +506,8 @@ static const struct v4l2_async_notifier_operations rvin_group_notify_ops = {
+>  	.complete = rvin_group_notify_complete,
+>  };
+>
+> -static int rvin_mc_parse_of(struct rvin_dev *vin, unsigned int id)
+> +static int rvin_group_parse_of(struct rvin_dev *vin, unsigned int port,
+> +			       unsigned int id)
+>  {
+>  	struct fwnode_handle *ep, *fwnode;
+>  	struct v4l2_fwnode_endpoint vep = {
+> @@ -515,7 +516,7 @@ static int rvin_mc_parse_of(struct rvin_dev *vin, unsigned int id)
+>  	struct v4l2_async_subdev *asd;
+>  	int ret;
+>
+> -	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 1, id, 0);
+> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), port, id, 0);
+>  	if (!ep)
+>  		return 0;
+>
+> @@ -563,7 +564,8 @@ static void rvin_group_notifier_cleanup(struct rvin_dev *vin)
+>  	mutex_unlock(&vin->group->lock);
+>  }
+>
+> -static int rvin_mc_parse_of_graph(struct rvin_dev *vin)
+> +static int rvin_group_notifier_init(struct rvin_dev *vin, unsigned int port,
+> +				    unsigned int max_id)
+>  {
+>  	unsigned int count = 0, vin_mask = 0;
+>  	unsigned int i, id;
+> @@ -589,19 +591,18 @@ static int rvin_mc_parse_of_graph(struct rvin_dev *vin)
+>  	v4l2_async_notifier_init(&vin->group->notifier);
+>
+>  	/*
+> -	 * Have all VIN's look for CSI-2 subdevices. Some subdevices will
+> -	 * overlap but the parser function can handle it, so each subdevice
+> -	 * will only be registered once with the group notifier.
+> +	 * Some subdevices may overlap but the parser function can handle it and
+> +	 * each subdevice will only be registered once with the group notifier.
+>  	 */
+>  	for (i = 0; i < RCAR_VIN_NUM; i++) {
+>  		if (!(vin_mask & BIT(i)))
+>  			continue;
+>
+> -		for (id = 0; id < RVIN_CSI_MAX; id++) {
+> +		for (id = 0; id < max_id; id++) {
+>  			if (vin->group->remotes[id].asd)
+>  				continue;
+>
+> -			ret = rvin_mc_parse_of(vin->group->vin[i], id);
+> +			ret = rvin_group_parse_of(vin->group->vin[i], port, id);
+>  			if (ret)
+>  				return ret;
+>  		}
+> @@ -981,7 +982,7 @@ static int rvin_csi2_init(struct rvin_dev *vin)
+>  	if (ret && ret != -ENODEV)
+>  		goto err_group;
+>
+> -	ret = rvin_mc_parse_of_graph(vin);
+> +	ret = rvin_group_notifier_init(vin, 1, RVIN_CSI_MAX);
 
-On 2021-07-06 18:51:41 +0200, Jacopo Mondi wrote:
-> Hi Niklas,
-> 
-> On Tue, Apr 13, 2021 at 08:02:46PM +0200, Niklas Söderlund wrote:
-> > In preparation for adding a new media graph layout move the code reuse
-> > of the parallel notifier setup from probe directly to the current media
-> > graph initialization function. This is needed as there will be no
-> > parallel interface in the new graph layout.
-> >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-core.c | 48 ++++++++++-----------
-> >  1 file changed, 22 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> > index da23d55aa72b7f0d..81574bf33116ad59 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > @@ -702,9 +702,8 @@ static int rvin_parallel_init(struct rvin_dev *vin)
-> >  	if (ret)
-> >  		return ret;
-> >
-> > -	/* If using mc, it's fine not to have any input registered. */
-> >  	if (!vin->parallel.asd)
-> > -		return vin->info->use_mc ? 0 : -ENODEV;
-> > +		return -ENODEV;
-> 
-> Nit: isn't it better to keep the error handling here ?
+You know, I would define RVIN_CSI2_ENDPOINT_NUM or similar.
+Small nit apart, it's good to be able to reuse the same routines!
 
-I'm trying to reduce the number of use_mc checks and if needed only keep 
-it in code paths where it's relevant. I like moving it to the _csi2_ 
-functions. But I agree _csi2_ is a bad prefix, it should likely be 
-renamed somewhen in the future as it now really means _gen3_ minus v3u 
-:-)
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-> 
-> >
-> >  	vin_dbg(vin, "Found parallel subdevice %pOF\n",
-> >  		to_of_node(vin->parallel.asd->match.fwnode));
-> > @@ -955,11 +954,9 @@ static int rvin_mc_parse_of_graph(struct rvin_dev *vin)
-> >
-> >  static void rvin_csi2_cleanup(struct rvin_dev *vin)
-> >  {
-> > -	if (!vin->info->use_mc)
-> > -		return;
-> > -
-> >  	rvin_group_notifier_cleanup(vin);
-> >  	rvin_group_put(vin);
-> > +	rvin_free_controls(vin);
-> >  }
-> >
-> >  static int rvin_csi2_init(struct rvin_dev *vin)
-> > @@ -979,11 +976,18 @@ static int rvin_csi2_init(struct rvin_dev *vin)
-> >  	if (ret)
-> >  		goto err_controls;
-> >
-> > -	ret = rvin_mc_parse_of_graph(vin);
-> > -	if (ret)
-> > +	/* It's OK to not have a parallel subdevice. */
-> > +	ret = rvin_parallel_init(vin);
-> > +	if (ret && ret != -ENODEV)
-> >  		goto err_group;
-> >
-> > +	ret = rvin_mc_parse_of_graph(vin);
-> > +	if (ret)
-> > +		goto err_parallel;
-> > +
-> >  	return 0;
-> > +err_parallel:
-> > +	rvin_parallel_cleanup(vin);
-> >  err_group:
-> >  	rvin_group_put(vin);
-> >  err_controls:
-> > @@ -1469,27 +1473,20 @@ static int rcar_vin_probe(struct platform_device *pdev)
-> >
-> >  	platform_set_drvdata(pdev, vin);
-> >
-> > -	if (vin->info->use_mc) {
-> > +	if (vin->info->use_mc)
-> >  		ret = rvin_csi2_init(vin);
-> > -		if (ret)
-> > -			goto error_dma_unregister;
-> > -	}
-> > +	else
-> > +		ret = rvin_parallel_init(vin);
-> >
-> > -	ret = rvin_parallel_init(vin);
-> > -	if (ret)
-> > -		goto error_group_unregister;
-> > +	if (ret) {
-> > +		rvin_dma_unregister(vin);
-> > +		return ret;
-> > +	}
-> >
-> >  	pm_suspend_ignore_children(&pdev->dev, true);
-> >  	pm_runtime_enable(&pdev->dev);
-> >
-> >  	return 0;
-> > -error_group_unregister:
-> > -	rvin_free_controls(vin);
-> > -	rvin_csi2_cleanup(vin);
-> > -error_dma_unregister:
-> > -	rvin_dma_unregister(vin);
-> > -
-> > -	return ret;
-> 
-> This looks much much better and seems correct to me!
-> 
-> >  }
-> >
-> >  static int rcar_vin_remove(struct platform_device *pdev)
-> > @@ -1500,11 +1497,10 @@ static int rcar_vin_remove(struct platform_device *pdev)
-> >
-> >  	rvin_v4l2_unregister(vin);
-> >
-> > -	rvin_parallel_cleanup(vin);
-> > -
-> > -	rvin_csi2_cleanup(vin);
-> > -
-> > -	rvin_free_controls(vin);
-> > +	if (vin->info->use_mc)
-> > +		rvin_csi2_cleanup(vin);
-> > +	else
-> > +		rvin_parallel_cleanup(vin);
-> 
-> In the case use_mc == true but a parallel input was registered as well
-> this won't clean up the parallel notifier it seems.
+Thanks
+   j
 
-Good catch! rvin_parallel_cleanup() should be called from 
-rvin_csi2_cleanup() as rvin_parallel_init() is called form 
-rvin_csi2_init(). I will fix.
-
-> 
-> Does it hurt to clean it up unconditionally ?
-> 
-> Thanks
->   j
-> >
-> >  	rvin_dma_unregister(vin);
-> >
-> > --
-> > 2.31.1
-> >
-
--- 
-Regards,
-Niklas Söderlund
+>  	if (ret)
+>  		goto err_parallel;
+>
+> --
+> 2.31.1
+>
