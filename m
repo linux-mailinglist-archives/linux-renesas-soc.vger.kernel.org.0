@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DE7F3C1A5E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jul 2021 22:08:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF6A23C1B83
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jul 2021 00:38:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229866AbhGHULd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Jul 2021 16:11:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40650 "EHLO
+        id S229631AbhGHWl3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Jul 2021 18:41:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230365AbhGHULa (ORCPT
+        with ESMTP id S229497AbhGHWl3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Jul 2021 16:11:30 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 737BBC061574
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jul 2021 13:08:47 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id ie21so4434800pjb.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jul 2021 13:08:47 -0700 (PDT)
+        Thu, 8 Jul 2021 18:41:29 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009E4C061574
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jul 2021 15:38:45 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id ie21so4705641pjb.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jul 2021 15:38:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20150623.gappssmtp.com; s=20150623;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=7eq6e+tykHDlG+KE1HobjBCcS17FocYBKy3/puiDTq4=;
-        b=TJjppPuj3NZ5JAGnJzGc88cJFfoahy4GOot+SAikrPkSfQP7SWdXFIqfelO734VMLO
-         IiHiej9hOQmeilTvz67p7f2jUrZMzqJNt4P+bWQdHJ6cXtKGglJczz0uMQQGaqv9IJYX
-         66Vra62qD1AUSptji15fDERxjxITh+6yhKqxZ1bcGHKjwAwhRgww6n3OoObz3hSOt2Ds
-         tXDi/rnzk8rHBQqepfkOGokboaGCjqr0+IxlS8B4MrripzPQb/7NfFl1Invw89sIVHbN
-         rwWkGYbwKGI47Nq73X6AkxDKypZOIDMQWCsyBnduiGg1w6QBC1Jrd5bwl6qtQOiuMOYx
-         48SQ==
+        bh=YbHHvOL3wLFtcQEKL8F0ph0JyH7EgOKoWYBmtlLsH7U=;
+        b=iwQhzlXu52jsCH54jOMM5NyzTdNRl24djl6PHR1RsGqFewAvJGQa9gta3v6gpKjwVz
+         EAvXCvLOM+Fu6VwvAI7f7agOFs24wlNaU8Qqf06K1C2uLayxhngkjQpLRd/tNYQqh7dg
+         nlSU22uKEP/Pb/9BplkEEIIr9s/VdIw9tIhHJdkzMNoGZDk5XctRc+pJZ/ZUltL1fCIy
+         GiPSBVGx/OjZOUZXi//QOzLVI/Azet2ZEGnhhYofWuouFZZKGWrilEiEXdsOVd1FeQgr
+         NgKGYsikNIEhnyEskeOqFZmfcw8avIyxSf+JUzsdPIzQH8ZD4vH2V/ujstRiiYT/05zK
+         C9+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=7eq6e+tykHDlG+KE1HobjBCcS17FocYBKy3/puiDTq4=;
-        b=rYDy9UndvLviHJ3BEg8UJlMsakxnjO6AH5q5FfIMpKUw7jGeAXDwpuKiYji0ND07ki
-         srFCPwVatYtHMxhjO63U5o9lJgRV4sdPc2JSXKgahqyXiqz5CLsJF/g6vpmEGuW5avZA
-         kQ+WF+SDQMIfFQp2sZ57Q/VN+LoWzWJbZdYV9ghOdZV274LI/uVj6OP6GhYwsWp4Y0dY
-         QCBq4trXMk7iCPTpEnnBiWHfM+gwsqTwUd7jFX9+5loiDgBFAk79nWpgx5FbppJItGxW
-         mXHLqKAcTQbJNeYV8tvRvv1DdXvKQsVcesG/UeVEFb7Lf6cTN9gsjZDT28DN/pW4jSfA
-         GvGA==
-X-Gm-Message-State: AOAM5332TUTzE8bQCK2eOkqfJpLcswHh8L9a1qX+Ixvv9fA0mZTd1L5A
-        o/6QfWikrPwg6gWurlfGC9oixFJFOsTMkyKo
-X-Google-Smtp-Source: ABdhPJy0gdpBOhTNUHJjwPEQ+s+xbs37d+RrqXlSdy31bj5DfgjBHWEID3eYMd2h9ZX0qeCDXJArOg==
-X-Received: by 2002:a17:902:f54d:b029:128:e54f:48f5 with SMTP id h13-20020a170902f54db0290128e54f48f5mr27118221plf.68.1625774926861;
-        Thu, 08 Jul 2021 13:08:46 -0700 (PDT)
+        bh=YbHHvOL3wLFtcQEKL8F0ph0JyH7EgOKoWYBmtlLsH7U=;
+        b=jSxgbYA2KnMn69mn/MCunU5GRBOqQFnE3aawPdjfOt9olp9shDECwO8Qg7JipuEiM3
+         dHKp5buzORVKeSQVS9GCHakr0xxTcixqg95Ad8QlvDgVG5bYs+hejuZgVTtqU6GUrkFf
+         Py1jLP4C3yuANrLQXV4c6w0U6r5UAK18nflbrYxPVuqt3RIOEoJFQMta4OXEZe1o+fvN
+         o6P9dNepDWeICCSs0EflR4/+mUrd35cGxzTYrfLorUbmeXXcvvfAC1Lk51+DFSO0S5NG
+         5oR8fnVBx7lMeGgWWZ/at/PmBK7tcP1hzmH1g0Qcjzra83H5STpki85JdoC82b7Rx7Iu
+         FemA==
+X-Gm-Message-State: AOAM533gqWGVzAaW4O9k4RsFcFdayfB4rOpc7V3THIODeDZp+YKpvMvq
+        nqYkY6yaq4Xh+PCHbSph//H4sEK7DXqpqHYf
+X-Google-Smtp-Source: ABdhPJxJ7rUMYuWeZbsg8FxOSCt5ji/1gvV8jIntZLjOOVyI+W7j1bXOhB38qcEwJoAIH2XL0rZNvg==
+X-Received: by 2002:a17:90b:30c4:: with SMTP id hi4mr5183905pjb.16.1625783925276;
+        Thu, 08 Jul 2021 15:38:45 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id 10sm3733319pjc.41.2021.07.08.13.08.46
+        by smtp.gmail.com with ESMTPSA id ck22sm3501045pjb.26.2021.07.08.15.38.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jul 2021 13:08:46 -0700 (PDT)
-Message-ID: <60e75b4e.1c69fb81.83e77.aec9@mx.google.com>
-Date:   Thu, 08 Jul 2021 13:08:46 -0700 (PDT)
+        Thu, 08 Jul 2021 15:38:44 -0700 (PDT)
+Message-ID: <60e77e74.1c69fb81.6c0e8.b035@mx.google.com>
+Date:   Thu, 08 Jul 2021 15:38:44 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -57,32 +57,56 @@ X-Kernelci-Kernel: renesas-next-2021-07-08-v5.13-rc1
 X-Kernelci-Report-Type: test
 X-Kernelci-Tree: renesas
 X-Kernelci-Branch: next
-Subject: renesas/next sleep: 10 runs,
- 2 regressions (renesas-next-2021-07-08-v5.13-rc1)
+Subject: renesas/next baseline-nfs: 61 runs,
+ 9 regressions (renesas-next-2021-07-08-v5.13-rc1)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next sleep: 10 runs, 2 regressions (renesas-next-2021-07-08-v5.13-r=
-c1)
+renesas/next baseline-nfs: 61 runs, 9 regressions (renesas-next-2021-07-08-=
+v5.13-rc1)
 
 Regressions Summary
 -------------------
 
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | =
-2          =
+platform                     | arch  | lab             | compiler | defconf=
+ig                    | regressions
+-----------------------------+-------+-----------------+----------+--------=
+----------------------+------------
+dove-cubox                   | arm   | lab-pengutronix | gcc-8    | multi_v=
+7_defconfig           | 1          =
+
+hip07-d05                    | arm64 | lab-collabora   | gcc-8    | defconf=
+ig                    | 1          =
+
+hip07-d05                    | arm64 | lab-collabora   | gcc-8    | defconf=
+ig+CON...OMIZE_BASE=3Dy | 1          =
+
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre    | gcc-8    | defconf=
+ig                    | 1          =
+
+meson-gxm-q200               | arm64 | lab-baylibre    | gcc-8    | defconf=
+ig                    | 1          =
+
+odroid-xu3                   | arm   | lab-collabora   | gcc-8    | multi_v=
+7_defconfig           | 1          =
+
+r8a77950-salvator-x          | arm64 | lab-baylibre    | gcc-8    | defconf=
+ig                    | 1          =
+
+sun7i-a20-olinuxino-lime2    | arm   | lab-baylibre    | gcc-8    | multi_v=
+7_defconfig           | 1          =
+
+sun7i-a20-olinuxino-lime2    | arm   | lab-baylibre    | gcc-8    | sunxi_d=
+efconfig              | 1          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-07-08-v5.13-rc1/plan/sleep/
+s-next-2021-07-08-v5.13-rc1/plan/baseline-nfs/
 
-  Test:     sleep
+  Test:     baseline-nfs
   Tree:     renesas
   Branch:   next
   Describe: renesas-next-2021-07-08-v5.13-rc1
@@ -97,81 +121,293 @@ Test Regressions
 
 
 
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | =
-2          =
+platform                     | arch  | lab             | compiler | defconf=
+ig                    | regressions
+-----------------------------+-------+-----------------+----------+--------=
+----------------------+------------
+dove-cubox                   | arm   | lab-pengutronix | gcc-8    | multi_v=
+7_defconfig           | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/60e75703af418c869d11797e
+  Details:     https://kernelci.org/test/plan/id/60e7488ec0db3006a1117970
 
-  Results:     21 PASS, 2 FAIL, 0 SKIP
+  Results:     0 PASS, 1 FAIL, 0 SKIP
   Full config: multi_v7_defconfig
   Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
   Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--07-08-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288-ve=
-yron-jaq.txt
+-07-08-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-pengutronix/baseline-nfs-=
+dove-cubox.txt
   HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--07-08-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288-ve=
-yron-jaq.html
+-07-08-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-pengutronix/baseline-nfs-=
+dove-cubox.html
   Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0520.0/armhf/rootfs.cpio.gz =
+0520.0/armhf/initrd.cpio.gz =
 
 
 
-  * sleep.rtcwake-mem-3: https://kernelci.org/test/case/id/60e75703af418c86=
-9d117991
-        failing since 44 days (last pass: renesas-next-2021-05-11-v5.13-rc1=
-, first fail: renesas-next-2021-05-25-v5.13-rc1)
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60e7488ec0db3006a=
+1117971
+        failing since 72 days (last pass: renesas-next-2021-04-02-v5.12-rc2=
+, first fail: renesas-next-2021-04-02-v5.12-rc2-3-g0bacf4d3d276) =
 
-    2021-07-08T19:48:12.920255  rtcwake: assuming RTC uses UTC ...
-    2021-07-08T19:48:12.924926  rtcwake: wakeup from \"mem\" using rtc0 at =
-Thu Jul  8 19:48:19 2021
-    2021-07-08T19:48:12.936214  <6>[  102.648456] PM: suspend entry (deep)
-    2021-07-08T19:48:12.956059  <6>[  102.667392] Filesystems sync: 0.000 s=
-econds
-    2021-07-08T19:48:12.968257  <6>[  102.674919] Freezing user space proce=
-sses ... (elapsed 0.001 seconds) done.
-    2021-07-08T19:48:12.974119  <6>[  102.686496] OOM killer disabled.
-    2021-07-08T19:48:13.465990  <6>[  102.692690] Freezing remaining freeza=
-ble tasks ... =
-
-    2021-07-08T19:48:13.482315  <3>[  103.176643] usb 2-1: device descripto=
-r read/64, error -110
-    2021-07-08T19:48:13.839254  <6>[  103.546594] usb 2-1: new high-speed U=
-SB device number 5 using dwc2
-    2021-07-08T19:48:19.150641  <3>[  108.856581] usb 2-1: device descripto=
-r read/64, error -110 =
-
-    ... (19 line(s) more)  =
+ =
 
 
-  * sleep.rtcwake-mem-2: https://kernelci.org/test/case/id/60e75703af418c86=
-9d117992
-        failing since 44 days (last pass: renesas-next-2021-05-11-v5.13-rc1=
-, first fail: renesas-next-2021-05-25-v5.13-rc1)
 
-    2021-07-08T19:47:52.427587  <6>[   82.126667] smsc95xx 2-1.1:1.0 eth0: =
-hardware isn't capable of remote wakeup
-    2021-07-08T19:47:52.427814  rtcwake: assuming RTC uses UTC ...
-    2021-07-08T19:47:52.432515  rtcwake: wakeup from \"mem\" using rtc0 at =
-Thu Jul  8 19:47:59 2021
-    2021-07-08T19:47:52.448392  <6>[   82.158884] PM: suspend entry (deep)
-    2021-07-08T19:47:52.459329  <6>[   82.169535] Filesystems sync: 0.000 s=
-econds
-    2021-07-08T19:47:52.473454  <6>[   82.178603] Freezing user space proce=
-sses ... (elapsed 0.001 seconds) done.
-    2021-07-08T19:47:52.479099  <6>[   82.190220] OOM killer disabled.
-    2021-07-08T19:47:52.697409  <6>[   82.196457] Freezing remaining freeza=
-ble tasks ... =
+platform                     | arch  | lab             | compiler | defconf=
+ig                    | regressions
+-----------------------------+-------+-----------------+----------+--------=
+----------------------+------------
+hip07-d05                    | arm64 | lab-collabora   | gcc-8    | defconf=
+ig                    | 1          =
 
-    2021-07-08T19:47:52.720485  <6>[   82.406638] usb 2-1: new high-speed U=
-SB device number 4 using dwc2
-    2021-07-08T19:47:58.027563  <3>[   87.736653] usb 2-1: device descripto=
-r read/64, error -110 =
 
-    ... (22 line(s) more)  =
+  Details:     https://kernelci.org/test/plan/id/60e757c893d3a356e911797b
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm64/defconfig/gcc-8/lab-collabora/baseline-nfs-hip07-d05=
+.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm64/defconfig/gcc-8/lab-collabora/baseline-nfs-hip07-d05=
+.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0520.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60e757c893d3a356e=
+911797c
+        new failure (last pass: renesas-next-2021-06-07-v5.13-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                    | regressions
+-----------------------------+-------+-----------------+----------+--------=
+----------------------+------------
+hip07-d05                    | arm64 | lab-collabora   | gcc-8    | defconf=
+ig+CON...OMIZE_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60e759461d15c4c03f11796c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-collab=
+ora/baseline-nfs-hip07-d05.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-collab=
+ora/baseline-nfs-hip07-d05.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0520.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60e759461d15c4c03=
+f11796d
+        new failure (last pass: renesas-next-2021-06-07-v5.13-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                    | regressions
+-----------------------------+-------+-----------------+----------+--------=
+----------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre    | gcc-8    | defconf=
+ig                    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60e76b0674727f86d3117977
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-meson-g12b=
+-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-meson-g12b=
+-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0520.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60e76b0674727f86d=
+3117978
+        new failure (last pass: renesas-next-2021-06-07-v5.13-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                    | regressions
+-----------------------------+-------+-----------------+----------+--------=
+----------------------+------------
+meson-gxm-q200               | arm64 | lab-baylibre    | gcc-8    | defconf=
+ig                    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60e75b5bc597503c3b11797a
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-meson-gxm-=
+q200.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-meson-gxm-=
+q200.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0520.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60e75b5bc597503c3=
+b11797b
+        failing since 97 days (last pass: renesas-next-2020-10-26-v5.10-rc1=
+, first fail: renesas-next-2021-04-02-v5.12-rc2) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                    | regressions
+-----------------------------+-------+-----------------+----------+--------=
+----------------------+------------
+odroid-xu3                   | arm   | lab-collabora   | gcc-8    | multi_v=
+7_defconfig           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60e752620819067c6011797d
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-collabora/baseline-nfs-od=
+roid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-collabora/baseline-nfs-od=
+roid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0520.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60e752620819067c6=
+011797e
+        failing since 27 days (last pass: renesas-next-2021-06-07-v5.13-rc1=
+, first fail: renesas-next-2021-06-10-v5.13-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                    | regressions
+-----------------------------+-------+-----------------+----------+--------=
+----------------------+------------
+r8a77950-salvator-x          | arm64 | lab-baylibre    | gcc-8    | defconf=
+ig                    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60e74d9b0bd86d709e1179a4
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-r8a77950-s=
+alvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm64/defconfig/gcc-8/lab-baylibre/baseline-nfs-r8a77950-s=
+alvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0520.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60e74d9b0bd86d709=
+e1179a5
+        new failure (last pass: renesas-next-2021-06-07-v5.13-rc1) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                    | regressions
+-----------------------------+-------+-----------------+----------+--------=
+----------------------+------------
+sun7i-a20-olinuxino-lime2    | arm   | lab-baylibre    | gcc-8    | multi_v=
+7_defconfig           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60e7579a3d93c3c38611796a
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun=
+7i-a20-olinuxino-lime2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun=
+7i-a20-olinuxino-lime2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0520.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60e7579a3d93c3c38=
+611796b
+        failing since 108 days (last pass: v5.12-rc2-14-g6f56f6c26099, firs=
+t fail: renesas-next-2021-03-22-v5.12-rc2) =
+
+ =
+
+
+
+platform                     | arch  | lab             | compiler | defconf=
+ig                    | regressions
+-----------------------------+-------+-----------------+----------+--------=
+----------------------+------------
+sun7i-a20-olinuxino-lime2    | arm   | lab-baylibre    | gcc-8    | sunxi_d=
+efconfig              | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60e74dac98ba04a178117989
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: sunxi_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm/sunxi_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun7i-=
+a20-olinuxino-lime2.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-08-v5.13-rc1/arm/sunxi_defconfig/gcc-8/lab-baylibre/baseline-nfs-sun7i-=
+a20-olinuxino-lime2.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0520.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/60e74dac98ba04a17=
+811798a
+        failing since 68 days (last pass: renesas-next-2021-04-02-v5.12-rc2=
+, first fail: renesas-next-2021-04-02-v5.12-rc2-3-g0bacf4d3d276) =
 
  =20
