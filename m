@@ -2,119 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5933A3C1479
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jul 2021 15:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31EF43C14DA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jul 2021 16:05:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbhGHNn0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Jul 2021 09:43:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38282 "EHLO
+        id S231765AbhGHOIb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Jul 2021 10:08:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231922AbhGHNn0 (ORCPT
+        with ESMTP id S229592AbhGHOIb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Jul 2021 09:43:26 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92542C061574
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jul 2021 06:40:44 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dbdx-ftd5cf51mv6xr7xy-3.rev.dnainternet.fi [IPv6:2001:14ba:8e7:f240:7911:3355:4753:76e6])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 677581B00046;
-        Thu,  8 Jul 2021 16:40:41 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1625751641;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=HA7fj3g19lq5gWcUZScZyYOrZAHayfatKYXa+0phdwE=;
-        b=D0Z8hULfi2woY5IHAyG1L1rEExTTho78maYO/WMRKDEw0KYLVeHisQCvu0mxSE9ua17kGR
-        Nb+ZP0TgD96D+raTue6VwMSS1YMTy30/rTJ0CKkeLoS/I/nNEpP+zCs7w5MHBDs2RU1+5T
-        pUDLoCSIFHAkdt81WSCCleXsOa+Y/rsYkv309VT04DVCviAxC+VHQUlagTu+qx48wHrQ9D
-        ryaQnckH+HDlL/JyxnXRRIAOq171xQK4rcafdQ/XbtMmrp4hvnPcFqU1oHBXUTvl0kQdbp
-        zr7Zrqc1eQw3dizmFf90jCLCZNKZRK5dLioI0oekxKM+sUjeIaLMec1W8fhOHA==
-Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1B4D6634C87;
-        Thu,  8 Jul 2021 16:40:02 +0300 (EEST)
-Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
-        by valkosipuli.localdomain with esmtp (Exim 4.92)
-        (envelope-from <sakari.ailus@iki.fi>)
-        id 1m1UGe-00020X-Gh; Thu, 08 Jul 2021 16:40:40 +0300
-Date:   Thu, 8 Jul 2021 16:40:40 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
+        Thu, 8 Jul 2021 10:08:31 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FBF4C061574
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jul 2021 07:05:48 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id f13so15832958lfh.6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jul 2021 07:05:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=+ufeDaT21nhfjyw9cGKcTF4DhPlIZOpHjYFDyar4c80=;
+        b=yd+yEGhyMUFdP96YEq6tUr2UKmT88Fqpc8AabAPB3Tm+U4NkT4AdV4KkYJAP0M692e
+         p9ESEGnndHj3aSYYH8dxioBLRrEm2E0FmKk/coZeHJmJDCi5rThZHOzOl9EJFfwwjjL5
+         fqp5hkacWXxdFTvTnCr2oU92Q/H2OZE6TWnmG26fB+u/89tRkeYyF4mr/S8B+B2p6fkT
+         pcfHAN5XiIJwKG55Mc1q0lG8n6hQtP4h2Or2WY0tTxgz0rKNUSJ3p8Tz1uFPNBEQIi5s
+         fxAKNuykLj8dPVrzU6C6Z2a2EG/CEVCg8ASY0IaZjK92jYfzyW/6YGECNM9S7nKi84xo
+         bpAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=+ufeDaT21nhfjyw9cGKcTF4DhPlIZOpHjYFDyar4c80=;
+        b=mMpU7KGK/0zZwKpj4w53uRnYjKk2BdAOokIm5sKsB0GxersPbrXhUHY48bYMVm6goK
+         Ht334JBN0Sh2nIB48JznSKVWKmtnQ2woRdmh99/1TSBB/EV4ipgZFHbFVTjWriJf3L2r
+         wAqi/G7uWvqPMiXKOJPQRoD2e6GcyVjNhtWAXxTRE9XhT4lc9TEF6nvosTPN5DPJQhf+
+         JDFHrxqRuJOZ8xWE4K9EcAwblDsYfqtakTmd8bJ8pioE4oHayew3dcoAGqmp16xQmgUW
+         9YDzw8EBHd+sGIXDd10t7t35sE+JjGbTEYcLQyaOTDj9hZ9PX/7k3kq3mNGIhL1Km6QO
+         kQ6w==
+X-Gm-Message-State: AOAM533bfuuarsxrHB+ZDvOB69JxXtpV4VSXDfUcRv/WsAYzudxrISY6
+        UnliN5yMm4lTUJ8jJZuczwL8Tw==
+X-Google-Smtp-Source: ABdhPJwbyic1KcHLfh4DDFokLyxNZWUWvGjQK5G7cLvltJuoB9pGf8NFVC/BUbICWI3eMgLak1Z3Ug==
+X-Received: by 2002:ac2:532e:: with SMTP id f14mr23553093lfh.103.1625753146590;
+        Thu, 08 Jul 2021 07:05:46 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id z13sm222403lfb.40.2021.07.08.07.05.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jul 2021 07:05:45 -0700 (PDT)
+Date:   Thu, 8 Jul 2021 16:05:43 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH 01/11] rcar-vin: Refactor controls creation for video
  device
-Message-ID: <20210708134040.GB3@valkosipuli.retiisi.eu>
+Message-ID: <YOcGN3n7w0NAobdo@oden.dyn.berto.se>
 References: <20210413180253.2575451-1-niklas.soderlund+renesas@ragnatech.se>
  <20210413180253.2575451-2-niklas.soderlund+renesas@ragnatech.se>
  <20210706160401.xssshab7nkxroxnp@uno.localdomain>
  <YOSBxLV86PX63AWm@oden.dyn.berto.se>
  <20210706165803.jepqksw4slo3xkyc@uno.localdomain>
+ <20210708134040.GB3@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210706165803.jepqksw4slo3xkyc@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1625751641;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=HA7fj3g19lq5gWcUZScZyYOrZAHayfatKYXa+0phdwE=;
-        b=lpDaIAj7i/LDbLUzBW0XR3EuDJNvWF8YkIPbXW6y5uvBItWaLiyciaYukzkKCJyxolk5gU
-        8RVsoeps0ONhm6Yo0TypigXhe8iwkGQV6/jX/ghemxPHuYMBsGrd2Sg4/74q7C69BO4ore
-        D8ViuTxPBLgxDCKtv5+cDl4EiNm7fuQ9vOH0CGnfMfXFwZnRA89hS3LgJESnrDAZoV3IjT
-        zhOZRPBpx2Wa6CigS6Dhq1WcKt0ujFooBfs4dmsTGZr1tQRFeznOqVxmmn6aWHFyCUw9TY
-        pJ1HGoR+kCPG0eGkjnlc+De37/8rN8UL2yPYXeybePsF1O52FB4L6QEn7zRCuQ==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1625751641; a=rsa-sha256;
-        cv=none;
-        b=uKmsTRTr4R2qqxVzJsx+T7+7JcOAw1f7T8yzfJBI8QpWVmMXIUNeYqyEPEQ4hncALiPshb
-        TafN8NnV2yLH8o/52Yv5do28Gg6UVZw/U2qrQdHIq1oj9ho/kQ+M5u70L/3iUjnRM7XWUE
-        eaJzG6jb6NQhpi4Ps8U7NtkFeIofqRSBLiFdQ4oizAx/ijXfnxuAw4kEhvuCywb5B+R4Du
-        V9z+q5Yrvzc3yBSyFvzGTX2NkIQydAonP5dga0QMC4sos5D83n0X9mj1RllrNEU37nkILH
-        cmpYr8OcDaZZQgz/0Mvd9SlSYa/ruSRScMBMKkiQ60vF9llU6hYU122yolxEuA==
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210708134040.GB3@valkosipuli.retiisi.eu>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas, Jacopo,
+Hi Sakari,
 
-On Tue, Jul 06, 2021 at 06:58:03PM +0200, Jacopo Mondi wrote:
-> > > > @@ -522,10 +543,8 @@ static void rvin_parallel_subdevice_detach(struct rvin_dev *vin)
-> > > >  	rvin_v4l2_unregister(vin);
-> > > >  	vin->parallel.subdev = NULL;
+On 2021-07-08 16:40:40 +0300, Sakari Ailus wrote:
+> Hi Niklas, Jacopo,
+> 
+> On Tue, Jul 06, 2021 at 06:58:03PM +0200, Jacopo Mondi wrote:
+> > > > > @@ -522,10 +543,8 @@ static void rvin_parallel_subdevice_detach(struct rvin_dev *vin)
+> > > > >  	rvin_v4l2_unregister(vin);
+> > > > >  	vin->parallel.subdev = NULL;
+> > > > >
+> > > > > -	if (!vin->info->use_mc) {
+> > > > > -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > > > > -		vin->vdev.ctrl_handler = NULL;
+> > > > > -	}
+> > > > > +	if (!vin->info->use_mc)
 > > > >
-> > > > -	if (!vin->info->use_mc) {
-> > > > -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> > > > -		vin->vdev.ctrl_handler = NULL;
-> > > > -	}
-> > > > +	if (!vin->info->use_mc)
+> > > > I know it was there already, but give that rvin_parallel_notify_unbind()
+> > > > is only registered for parallel, can this happen ?
 > > >
-> > > I know it was there already, but give that rvin_parallel_notify_unbind()
-> > > is only registered for parallel, can this happen ?
-> >
-> > Yes, on Gen2 where we don't use a media-graph.
-> >
+> > > Yes, on Gen2 where we don't use a media-graph.
+> > >
+> > 
+> > Ah correct, for gen3 the controls are freed elsewhere, right!
+> > 
+> > Thanks for the clarification
 > 
-> Ah correct, for gen3 the controls are freed elsewhere, right!
-> 
-> Thanks for the clarification
+> I already had the set in my tree but I can throw it out if you'd prefer to
+> send v2 instead. At least I noticed only minor matters in the comments.
 
-I already had the set in my tree but I can throw it out if you'd prefer to
-send v2 instead. At least I noticed only minor matters in the comments.
+There is one small issue in a cleanup path in 4/11 that should be fixed 
+and it's always good to get the small things fixed. If I have a v2 out 
+before end of day tomorrow could you refresh what you have in your tree?
+
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
 
 -- 
 Regards,
-
-Sakari Ailus
+Niklas Söderlund
