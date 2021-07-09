@@ -2,162 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 536BD3C25CA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jul 2021 16:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 266663C26E3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jul 2021 17:33:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231993AbhGIOX1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Jul 2021 10:23:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58466 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbhGIOX1 (ORCPT
+        id S232418AbhGIPgb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Jul 2021 11:36:31 -0400
+Received: from mail-vk1-f171.google.com ([209.85.221.171]:40947 "EHLO
+        mail-vk1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231976AbhGIPgb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Jul 2021 10:23:27 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD358C0613E6
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jul 2021 07:20:43 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id p1so23511518lfr.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Jul 2021 07:20:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=XkgFIUp5iLs9nU5JEu6HehRGh39QNsQ3xKszMt50D9Q=;
-        b=nnvEugLL4kUaZI9GXDpIfcLy1E9zwjMePxX22SuHIBXzMGviHjvnuQxC+HsblD7A7s
-         Th1dvRbYWP4rcXx3evnioxr1liZAFO4EqfDjePeNBLen6ioa2Z1hr333yq8ZRCb8D/v7
-         c/E5JLRSbSZSF2FIOTw57704r2CGQSCPAMsT2SJqCrK8BZMFIm02r8G84BZbPvv8nI8I
-         0vMuSJT+yHHkrRSTvdSlOZmxcmnrzqZ+mj/JGk6yOORSOYijc5ld+Cwvkpr6/S0O15A2
-         wXP+zieaxvEO+P+WchQKKPnvOXYkgGM50JOGgoOLvsisDH1zkdsVS00TwQ2ssN/A5Lxr
-         qq7Q==
+        Fri, 9 Jul 2021 11:36:31 -0400
+Received: by mail-vk1-f171.google.com with SMTP id n201so2252459vke.7;
+        Fri, 09 Jul 2021 08:33:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=XkgFIUp5iLs9nU5JEu6HehRGh39QNsQ3xKszMt50D9Q=;
-        b=XGC6daXrirzQZu5Dl26feTPntIzWkFdEhJdAVHs8VGuwhcBt0xOCTXLPlg3M2UA2R4
-         ejSdqPHOCgVwYp3ZBEOL1/sHrzcQ8RlQCxKaL8ZY6CEEk91vMWi//YMgQYoTvylI75To
-         L3GWoyjh8GjGhCpBc0qQFmrtsHtn85AGVDqUlkbAvUSbrKaLGBH+azZkjmysmDxLojOo
-         DycH4LEEQCKmEJtQrAgCoiuV2Gg6LX6lPERu07BmryepA6EJIICScy+Qg/hKcKZvszIg
-         FUtNHwV7OpBqs3f7bsp+/997XSMC8Whyct2WXjHz3Fm8bjk/g0cD2Iq2K/5NtnQARAo+
-         HO0g==
-X-Gm-Message-State: AOAM532t9xy8vl3eQSezXPIucRO0CinoMekv6x38Fk6s3dZJDMyQDM8f
-        eVqSe5ADG73pUhUOP0Gfmy2EMw==
-X-Google-Smtp-Source: ABdhPJwxjeI7so/CQeRaJZgPKVtDxnOFUhKAfFqZ2Q95ta5CH49HKObMP0+3hbSx4A3QQwqr+ZbVDw==
-X-Received: by 2002:ac2:41c5:: with SMTP id d5mr29096943lfi.56.1625840442217;
-        Fri, 09 Jul 2021 07:20:42 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id r11sm617640ljp.9.2021.07.09.07.20.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 07:20:41 -0700 (PDT)
-Date:   Fri, 9 Jul 2021 16:20:40 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Dennis Rachui <drachui@de.adit-jv.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
-Message-ID: <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
-References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=DoPuT2SFJPvTn4Vb1LqA16j520FXTA6Fs1ylMoMceo4=;
+        b=oGXDMuNoVcL8UEHVS6pcVzdWj9+YnyRRnWWOdejd66x791Vo4GBjyDgCJuqhELafPu
+         MXgYTVqf0teUfr88oqGoJyL+mcgOzWy3f/uJrJ027Q3SaUFC8Sj+Y8o1eZ0EbpN21/5c
+         /w34B5T0B+cKrW9iIGP1p+zeDemPt+v9dOKBsHTni83KpWBau+rMyfQtgnZbqXtC6BYg
+         G5iCksiWuFUKyei/YLhJT4XKeSIUyUkiVvY3r5RdyKBlcQjaFQf8Nnhfs1xPQon0yNJK
+         44AXGdgV2lh+CPbkqa8aHf8/OKQfnMSjNeAHlXGZAgzU0K8kgbxScejE9iSezdZkq/DT
+         lJ7g==
+X-Gm-Message-State: AOAM532GJ8VjkQu4n9SirPdQiiSLuXde0DMZRf/MEA8zsFbomUEOQ1zh
+        WwYIQR5ifOQ68b/DA5AzdoTdmNyESi/Kc5L33QQr8JprwWE=
+X-Google-Smtp-Source: ABdhPJzG67t1QPv25IAZQDVYNpREgGZALa5Tg87sIcXeWoh09FUS5YLSzo4KAV/2r3BzNFFmgEN1t9rxvBPC57/DWL4=
+X-Received: by 2002:a05:6122:1207:: with SMTP id v7mr33344291vkc.2.1625844827374;
+ Fri, 09 Jul 2021 08:33:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 9 Jul 2021 17:33:36 +0200
+Message-ID: <CAMuHMdXno2OUHqsAfO0z43JmGkFehD+FJ2dEjEsr_P53oAAPxA@mail.gmail.com>
+Subject: PHY reset may still be asserted during MDIO probe
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Dennis,
+Hi all,
 
-Thanks for your patch.
+I'm investigating a network failure after kexec on the Renesas Koelsch
+and Salvator-XS development boards, using the sh-eth or ravb driver.
 
-On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
-> Verify that streaming is not active before setting the pad format.
-> 
-> According to the VIDIOC documentation [1] changes to the active
-> format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
-> applied to the underlying hardware.
-> In rcar-csi2 a format change only applies to hardware, when the
-> pipeline is started. While the device is not in use, it is therefore
-> okay to update the format.
-> 
-> However, when the pipeline is active, this leads to a format
-> mismatch between driver and device.
-> Other applications can query the format with
-> VIDIOC_SUBDEV_G_FMT at any time and would be reported
-> a format that does not fit the current stream.
-> 
-> This commit prevents format update while streaming is active
-> and returns -EBUSY to user space, as suggested by [1].
-> 
-> [1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+During normal boot, the Ethernet interface is working fine:
 
-I like that this is addressed, but I wonder is this not something that 
-should be fixed in the V4L2 core and not in drivers?
+    libphy: get_phy_c22_id:814: sh_mii: mdiobus_read() MII_PHYSID1 returned 34
+    libphy: get_phy_c22_id:824: sh_mii: mdiobus_read() MII_PHYSID2 returned 5431
+    libphy: get_phy_c22_id:832: sh_mii: phy_id = 0x00221537
+    libphy: get_phy_device:895: sh_mii: get_phy_c22_id() returned 0
+    fwnode_mdiobus_register_phy:109: sh_mii: get_phy_device() returned (ptrval)
+    fwnode_mdiobus_phy_device_register:46: sh_mii: fwnode_irq_get() returned 191
+    libphy: mdiobus_register_gpiod:48: mdiodev->reset_gpio = (ptrval)
+    mdio_bus ee700000.ethernet-ffffffff:01:
+mdiobus_register_device:88: assert MDIO reset
+    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 1)
+    mdio_bus ee700000.ethernet-ffffffff:01: phy_device_register:931:
+deassert PHY reset
+    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 0)
+    Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: phy_probe:3026:
+deassert PHY reset
+    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 0)
+    fwnode_mdiobus_phy_device_register:75: sh_mii:
+phy_device_register() returned 0
+    fwnode_mdiobus_register_phy:137: sh_mii:
+fwnode_mdiobus_phy_device_register() returned 0
+    of_mdiobus_register:188: of_mdiobus_register_phy(sh_mii,
+/soc/ethernet@ee700000/ethernet-phy@1, 1) returned 0
+    sh-eth ee700000.ethernet eth0: Base address at 0xee700000,
+2e:09:0a:00:6d:85, IRQ 126.
 
-> 
-> Note: after creation of this commit, it was noticed that Steve
-> Longerbeam has a very similar solution in his fork.
-> 
-> Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-> Cc: Steve Longerbeam <slongerbeam@gmail.com>
-> Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index e28eff0..98152e1 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
->  {
->  	struct rcar_csi2 *priv = sd_to_csi2(sd);
->  	struct v4l2_mbus_framefmt *framefmt;
-> +	int ret = 0;
-> +
-> +	mutex_lock(&priv->lock);
->  
->  	if (!rcsi2_code_to_fmt(format->format.code))
->  		format->format.code = rcar_csi2_formats[0].code;
->  
->  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> +
-> +		/*
-> +		 * Do not apply changes to active format while streaming.
-> +		 *
-> +		 * Since video streams could be forwarded from sink pad to any
-> +		 * source pad (depending on CSI-2 channel routing), all
-> +		 * media pads are effected by this rule.
-> +		 */
-> +		if (priv->stream_count > 0) {
-> +			ret = -EBUSY;
-> +			goto out;
-> +		}
-> +
->  		priv->mf = format->format;
->  	} else {
->  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
->  		*framefmt = format->format;
->  	}
->  
-> -	return 0;
-> +out:
-> +	mutex_unlock(&priv->lock);
-> +
-> +	return ret;
->  }
->  
->  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
-> -- 
-> 2.7.4
-> 
+When using kexec, the PHY reset is asserted before starting the
+new kernel:
 
--- 
-Regards,
-Niklas Söderlund
+    Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: phy_detach:1759:
+assert PHY reset
+    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 1)
+    kexec_core: Starting new kernel
+    Bye!
+
+The new kernel fails to probe the PHY, as the PHY reset is still
+asserted:
+
+    libphy: get_phy_c22_id:814: sh_mii: mdiobus_read() MII_PHYSID1
+returned 65535
+    libphy: get_phy_c22_id:824: sh_mii: mdiobus_read() MII_PHYSID2
+returned 65535
+    libphy: get_phy_c22_id:832: sh_mii: phy_id = 0xffffffff
+    libphy: get_phy_device:895: sh_mii: get_phy_c22_id() returned -19
+    fwnode_mdiobus_register_phy:109: sh_mii: get_phy_device() returned -ENODEV
+    of_mdiobus_register:188: of_mdiobus_register_phy(sh_mii,
+/soc/ethernet@ee700000/ethernet-phy@1, 1) returned -19
+    mdio_bus ee700000.ethernet-ffffffff: MDIO device at address 1 is missing.
+    sh-eth ee700000.ethernet eth0: Base address at 0xee700000,
+2e:09:0a:00:6d:85, IRQ 126.
+
+This issue can also be reproduced using unbind:
+
+    # echo ee700000.ethernet > /sys/bus/platform/drivers/sh-eth/unbind
+    sh-eth ee700000.ethernet eth0: Link is Down
+    Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: phy_detach:1759:
+assert PHY reset
+    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 1)
+    Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: phy_remove:3120:
+assert PHY reset
+    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 1)
+    mdio_bus ee700000.ethernet-ffffffff:01: phy_device_remove:974:
+assert PHY reset
+    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 1)
+
+and bind:
+
+    # echo ee700000.ethernet > /sys/bus/platform/drivers/sh-eth/bind
+    (same log as kexec boot)
+
+I think fwnode_mdiobus_register_phy() should do the PHY reset (assert +
+deassert) before calling get_phy_device(), but currently that happens
+in phy_device_register(), which is called later.
+
+Thanks for your comments!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
