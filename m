@@ -2,137 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 266663C26E3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jul 2021 17:33:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60CEA3C2717
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jul 2021 17:54:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232418AbhGIPgb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Jul 2021 11:36:31 -0400
-Received: from mail-vk1-f171.google.com ([209.85.221.171]:40947 "EHLO
-        mail-vk1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231976AbhGIPgb (ORCPT
+        id S232248AbhGIP5a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Jul 2021 11:57:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51524 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231976AbhGIP5a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Jul 2021 11:36:31 -0400
-Received: by mail-vk1-f171.google.com with SMTP id n201so2252459vke.7;
-        Fri, 09 Jul 2021 08:33:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=DoPuT2SFJPvTn4Vb1LqA16j520FXTA6Fs1ylMoMceo4=;
-        b=oGXDMuNoVcL8UEHVS6pcVzdWj9+YnyRRnWWOdejd66x791Vo4GBjyDgCJuqhELafPu
-         MXgYTVqf0teUfr88oqGoJyL+mcgOzWy3f/uJrJ027Q3SaUFC8Sj+Y8o1eZ0EbpN21/5c
-         /w34B5T0B+cKrW9iIGP1p+zeDemPt+v9dOKBsHTni83KpWBau+rMyfQtgnZbqXtC6BYg
-         G5iCksiWuFUKyei/YLhJT4XKeSIUyUkiVvY3r5RdyKBlcQjaFQf8Nnhfs1xPQon0yNJK
-         44AXGdgV2lh+CPbkqa8aHf8/OKQfnMSjNeAHlXGZAgzU0K8kgbxScejE9iSezdZkq/DT
-         lJ7g==
-X-Gm-Message-State: AOAM532GJ8VjkQu4n9SirPdQiiSLuXde0DMZRf/MEA8zsFbomUEOQ1zh
-        WwYIQR5ifOQ68b/DA5AzdoTdmNyESi/Kc5L33QQr8JprwWE=
-X-Google-Smtp-Source: ABdhPJzG67t1QPv25IAZQDVYNpREgGZALa5Tg87sIcXeWoh09FUS5YLSzo4KAV/2r3BzNFFmgEN1t9rxvBPC57/DWL4=
-X-Received: by 2002:a05:6122:1207:: with SMTP id v7mr33344291vkc.2.1625844827374;
- Fri, 09 Jul 2021 08:33:47 -0700 (PDT)
-MIME-Version: 1.0
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 9 Jul 2021 17:33:36 +0200
-Message-ID: <CAMuHMdXno2OUHqsAfO0z43JmGkFehD+FJ2dEjEsr_P53oAAPxA@mail.gmail.com>
-Subject: PHY reset may still be asserted during MDIO probe
-To:     Andrew Lunn <andrew@lunn.ch>,
+        Fri, 9 Jul 2021 11:57:30 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0355BC0613DD;
+        Fri,  9 Jul 2021 08:54:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Jsw/ngtLTGz+rX9IOc4ToB/qHLSDIH6IoMbYjr26N84=; b=BQWj9lG9sPMHYq+SZocXjF36l
+        Kf686SWmfxqe644Vwy0kAPJrFS1O4pNRSDP5COdHLWNQqQHVDp3FYsVLpco1PYV4okgZinEG7jpr9
+        79OHDMvu3/WGmycSN58LFuNV8lgyYAfQATMiNNC3mK8YywFFTNZuyZU2hPUoMn3xuL+yZGBANt2xq
+        bzTjSEVEkoZOyEX6IoJlgwoUynR7IqpxlpwiEsyJkk8dAKQsHLvQd+IGkizaBJuUWPdUBum3X8x7b
+        tc6R3nqnwy28k69fLtvkoJkAoa+5xelUNDK27HNBTcSxJNVkN9b8JU1c8unYxoInf8g2xfbZOdA+u
+        bVualvlaQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:45920)
+        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1m1spw-000200-Sn; Fri, 09 Jul 2021 16:54:44 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1m1spw-00055L-Ao; Fri, 09 Jul 2021 16:54:44 +0100
+Date:   Fri, 9 Jul 2021 16:54:44 +0100
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>
-Cc:     netdev <netdev@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: PHY reset may still be asserted during MDIO probe
+Message-ID: <20210709155444.GB22278@shell.armlinux.org.uk>
+References: <CAMuHMdXno2OUHqsAfO0z43JmGkFehD+FJ2dEjEsr_P53oAAPxA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXno2OUHqsAfO0z43JmGkFehD+FJ2dEjEsr_P53oAAPxA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi all,
+On Fri, Jul 09, 2021 at 05:33:36PM +0200, Geert Uytterhoeven wrote:
+> Hi all,
+> 
+> I'm investigating a network failure after kexec on the Renesas Koelsch
+> and Salvator-XS development boards, using the sh-eth or ravb driver.
 
-I'm investigating a network failure after kexec on the Renesas Koelsch
-and Salvator-XS development boards, using the sh-eth or ravb driver.
+Personally, I've never liked the reset support at PHY device level due
+to problems like the one you've identified here. I've tended to use the
+bus-level reset in preference to the PHY-level reset, particularly
+because when you have multiple PHYs on the bus all sharing a common
+reset, it seems to be the most sensible approach - and I see a single
+PHY as no different from multiple PHYs on the bus.
 
-During normal boot, the Ethernet interface is working fine:
+However, I can see the argument for using the PHY level, but as you
+note, that can create chicken and egg issues. I'm not entirely sure
+why we decide to hold a PHY in reset when we've found it but not
+started to make use of it - we don't do that with other devices in
+the system. Why are PHYs special?
 
-    libphy: get_phy_c22_id:814: sh_mii: mdiobus_read() MII_PHYSID1 returned 34
-    libphy: get_phy_c22_id:824: sh_mii: mdiobus_read() MII_PHYSID2 returned 5431
-    libphy: get_phy_c22_id:832: sh_mii: phy_id = 0x00221537
-    libphy: get_phy_device:895: sh_mii: get_phy_c22_id() returned 0
-    fwnode_mdiobus_register_phy:109: sh_mii: get_phy_device() returned (ptrval)
-    fwnode_mdiobus_phy_device_register:46: sh_mii: fwnode_irq_get() returned 191
-    libphy: mdiobus_register_gpiod:48: mdiodev->reset_gpio = (ptrval)
-    mdio_bus ee700000.ethernet-ffffffff:01:
-mdiobus_register_device:88: assert MDIO reset
-    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 1)
-    mdio_bus ee700000.ethernet-ffffffff:01: phy_device_register:931:
-deassert PHY reset
-    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 0)
-    Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: phy_probe:3026:
-deassert PHY reset
-    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 0)
-    fwnode_mdiobus_phy_device_register:75: sh_mii:
-phy_device_register() returned 0
-    fwnode_mdiobus_register_phy:137: sh_mii:
-fwnode_mdiobus_phy_device_register() returned 0
-    of_mdiobus_register:188: of_mdiobus_register_phy(sh_mii,
-/soc/ethernet@ee700000/ethernet-phy@1, 1) returned 0
-    sh-eth ee700000.ethernet eth0: Base address at 0xee700000,
-2e:09:0a:00:6d:85, IRQ 126.
-
-When using kexec, the PHY reset is asserted before starting the
-new kernel:
-
-    Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: phy_detach:1759:
-assert PHY reset
-    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 1)
-    kexec_core: Starting new kernel
-    Bye!
-
-The new kernel fails to probe the PHY, as the PHY reset is still
-asserted:
-
-    libphy: get_phy_c22_id:814: sh_mii: mdiobus_read() MII_PHYSID1
-returned 65535
-    libphy: get_phy_c22_id:824: sh_mii: mdiobus_read() MII_PHYSID2
-returned 65535
-    libphy: get_phy_c22_id:832: sh_mii: phy_id = 0xffffffff
-    libphy: get_phy_device:895: sh_mii: get_phy_c22_id() returned -19
-    fwnode_mdiobus_register_phy:109: sh_mii: get_phy_device() returned -ENODEV
-    of_mdiobus_register:188: of_mdiobus_register_phy(sh_mii,
-/soc/ethernet@ee700000/ethernet-phy@1, 1) returned -19
-    mdio_bus ee700000.ethernet-ffffffff: MDIO device at address 1 is missing.
-    sh-eth ee700000.ethernet eth0: Base address at 0xee700000,
-2e:09:0a:00:6d:85, IRQ 126.
-
-This issue can also be reproduced using unbind:
-
-    # echo ee700000.ethernet > /sys/bus/platform/drivers/sh-eth/unbind
-    sh-eth ee700000.ethernet eth0: Link is Down
-    Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: phy_detach:1759:
-assert PHY reset
-    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 1)
-    Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: phy_remove:3120:
-assert PHY reset
-    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 1)
-    mdio_bus ee700000.ethernet-ffffffff:01: phy_device_remove:974:
-assert PHY reset
-    libphy: mdio_device_reset:124: calling gpiod_set_value_cansleep(..., 1)
-
-and bind:
-
-    # echo ee700000.ethernet > /sys/bus/platform/drivers/sh-eth/bind
-    (same log as kexec boot)
-
-I think fwnode_mdiobus_register_phy() should do the PHY reset (assert +
-deassert) before calling get_phy_device(), but currently that happens
-in phy_device_register(), which is called later.
-
-Thanks for your comments!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
