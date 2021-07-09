@@ -2,227 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5447E3C1DC8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jul 2021 05:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 536BD3C25CA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jul 2021 16:20:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbhGID2y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Jul 2021 23:28:54 -0400
-Received: from mga07.intel.com ([134.134.136.100]:22098 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231132AbhGID2y (ORCPT
+        id S231993AbhGIOX1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Jul 2021 10:23:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58466 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229548AbhGIOX1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Jul 2021 23:28:54 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="273475244"
-X-IronPort-AV: E=Sophos;i="5.84,225,1620716400"; 
-   d="scan'208";a="273475244"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2021 20:26:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,225,1620716400"; 
-   d="scan'208";a="450150583"
-Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 08 Jul 2021 20:26:03 -0700
-Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1m1h9O-000EeZ-Qd; Fri, 09 Jul 2021 03:26:02 +0000
-Date:   Fri, 09 Jul 2021 11:25:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- eb9ec119eee98db6f908226234823a0fef906cd6
-Message-ID: <60e7c194.qdAbOtF8Y9thQ7zE%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 9 Jul 2021 10:23:27 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD358C0613E6
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jul 2021 07:20:43 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id p1so23511518lfr.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Jul 2021 07:20:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=XkgFIUp5iLs9nU5JEu6HehRGh39QNsQ3xKszMt50D9Q=;
+        b=nnvEugLL4kUaZI9GXDpIfcLy1E9zwjMePxX22SuHIBXzMGviHjvnuQxC+HsblD7A7s
+         Th1dvRbYWP4rcXx3evnioxr1liZAFO4EqfDjePeNBLen6ioa2Z1hr333yq8ZRCb8D/v7
+         c/E5JLRSbSZSF2FIOTw57704r2CGQSCPAMsT2SJqCrK8BZMFIm02r8G84BZbPvv8nI8I
+         0vMuSJT+yHHkrRSTvdSlOZmxcmnrzqZ+mj/JGk6yOORSOYijc5ld+Cwvkpr6/S0O15A2
+         wXP+zieaxvEO+P+WchQKKPnvOXYkgGM50JOGgoOLvsisDH1zkdsVS00TwQ2ssN/A5Lxr
+         qq7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=XkgFIUp5iLs9nU5JEu6HehRGh39QNsQ3xKszMt50D9Q=;
+        b=XGC6daXrirzQZu5Dl26feTPntIzWkFdEhJdAVHs8VGuwhcBt0xOCTXLPlg3M2UA2R4
+         ejSdqPHOCgVwYp3ZBEOL1/sHrzcQ8RlQCxKaL8ZY6CEEk91vMWi//YMgQYoTvylI75To
+         L3GWoyjh8GjGhCpBc0qQFmrtsHtn85AGVDqUlkbAvUSbrKaLGBH+azZkjmysmDxLojOo
+         DycH4LEEQCKmEJtQrAgCoiuV2Gg6LX6lPERu07BmryepA6EJIICScy+Qg/hKcKZvszIg
+         FUtNHwV7OpBqs3f7bsp+/997XSMC8Whyct2WXjHz3Fm8bjk/g0cD2Iq2K/5NtnQARAo+
+         HO0g==
+X-Gm-Message-State: AOAM532t9xy8vl3eQSezXPIucRO0CinoMekv6x38Fk6s3dZJDMyQDM8f
+        eVqSe5ADG73pUhUOP0Gfmy2EMw==
+X-Google-Smtp-Source: ABdhPJwxjeI7so/CQeRaJZgPKVtDxnOFUhKAfFqZ2Q95ta5CH49HKObMP0+3hbSx4A3QQwqr+ZbVDw==
+X-Received: by 2002:ac2:41c5:: with SMTP id d5mr29096943lfi.56.1625840442217;
+        Fri, 09 Jul 2021 07:20:42 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id r11sm617640ljp.9.2021.07.09.07.20.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jul 2021 07:20:41 -0700 (PDT)
+Date:   Fri, 9 Jul 2021 16:20:40 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Dennis Rachui <drachui@de.adit-jv.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
+Message-ID: <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
+References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: eb9ec119eee98db6f908226234823a0fef906cd6  Merge branch 'renesas-fixes-for-v5.14' into renesas-next
+Hi Dennis,
 
-elapsed time: 727m
+Thanks for your patch.
 
-configs tested: 168
-configs skipped: 3
+On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
+> Verify that streaming is not active before setting the pad format.
+> 
+> According to the VIDIOC documentation [1] changes to the active
+> format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
+> applied to the underlying hardware.
+> In rcar-csi2 a format change only applies to hardware, when the
+> pipeline is started. While the device is not in use, it is therefore
+> okay to update the format.
+> 
+> However, when the pipeline is active, this leads to a format
+> mismatch between driver and device.
+> Other applications can query the format with
+> VIDIOC_SUBDEV_G_FMT at any time and would be reported
+> a format that does not fit the current stream.
+> 
+> This commit prevents format update while streaming is active
+> and returns -EBUSY to user space, as suggested by [1].
+> 
+> [1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I like that this is addressed, but I wonder is this not something that 
+should be fixed in the V4L2 core and not in drivers?
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-mips                      malta_kvm_defconfig
-sh                           se7712_defconfig
-m68k                       bvme6000_defconfig
-arm                         palmz72_defconfig
-mips                          rb532_defconfig
-sh                           se7721_defconfig
-m68k                         apollo_defconfig
-powerpc                     asp8347_defconfig
-arm                           u8500_defconfig
-arm                            hisi_defconfig
-sh                 kfr2r09-romimage_defconfig
-x86_64                              defconfig
-ia64                            zx1_defconfig
-m68k                          multi_defconfig
-arm                            mps2_defconfig
-powerpc                 mpc8315_rdb_defconfig
-powerpc                      chrp32_defconfig
-powerpc                   bluestone_defconfig
-powerpc                 mpc832x_rdb_defconfig
-powerpc                     ep8248e_defconfig
-arm                        oxnas_v6_defconfig
-arm                         at91_dt_defconfig
-arm                             rpc_defconfig
-sparc                       sparc32_defconfig
-arm                       multi_v4t_defconfig
-m68k                        stmark2_defconfig
-arm                          imote2_defconfig
-powerpc                         ps3_defconfig
-powerpc                    sam440ep_defconfig
-arm                           corgi_defconfig
-arm                  colibri_pxa270_defconfig
-mips                         cobalt_defconfig
-powerpc                          allmodconfig
-mips                     loongson2k_defconfig
-sh                           se7724_defconfig
-arc                        nsim_700_defconfig
-s390                             allmodconfig
-arm                         vf610m4_defconfig
-arm                       aspeed_g4_defconfig
-arm                            pleb_defconfig
-xtensa                       common_defconfig
-sh                           se7619_defconfig
-powerpc                     akebono_defconfig
-powerpc                   motionpro_defconfig
-sh                           se7750_defconfig
-s390                          debug_defconfig
-powerpc                    mvme5100_defconfig
-sh                     magicpanelr2_defconfig
-sh                               alldefconfig
-mips                    maltaup_xpa_defconfig
-nds32                             allnoconfig
-sparc64                          alldefconfig
-sh                        sh7757lcr_defconfig
-sh                   secureedge5410_defconfig
-mips                        jmr3927_defconfig
-powerpc                     tqm8560_defconfig
-powerpc                          allyesconfig
-arm                       aspeed_g5_defconfig
-mips                       rbtx49xx_defconfig
-powerpc                     tqm8548_defconfig
-arm                           h3600_defconfig
-arm                        mvebu_v7_defconfig
-sh                            hp6xx_defconfig
-arm                         shannon_defconfig
-powerpc                    gamecube_defconfig
-mips                       bmips_be_defconfig
-arm                        multi_v7_defconfig
-arm                         socfpga_defconfig
-sh                          rsk7269_defconfig
-nios2                         10m50_defconfig
-mips                        omega2p_defconfig
-ia64                         bigsur_defconfig
-powerpc                  mpc885_ads_defconfig
-arm                     davinci_all_defconfig
-riscv                    nommu_k210_defconfig
-mips                     loongson1c_defconfig
-mips                            gpr_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a004-20210707
-x86_64               randconfig-a002-20210707
-x86_64               randconfig-a005-20210707
-x86_64               randconfig-a006-20210707
-x86_64               randconfig-a003-20210707
-x86_64               randconfig-a001-20210707
-i386                 randconfig-a006-20210708
-i386                 randconfig-a004-20210708
-i386                 randconfig-a001-20210708
-i386                 randconfig-a003-20210708
-i386                 randconfig-a005-20210708
-i386                 randconfig-a002-20210708
-i386                 randconfig-a004-20210707
-i386                 randconfig-a006-20210707
-i386                 randconfig-a001-20210707
-i386                 randconfig-a003-20210707
-i386                 randconfig-a005-20210707
-i386                 randconfig-a002-20210707
-x86_64               randconfig-a015-20210708
-x86_64               randconfig-a011-20210708
-x86_64               randconfig-a012-20210708
-x86_64               randconfig-a014-20210708
-x86_64               randconfig-a016-20210708
-x86_64               randconfig-a013-20210708
-i386                 randconfig-a015-20210707
-i386                 randconfig-a016-20210707
-i386                 randconfig-a012-20210707
-i386                 randconfig-a011-20210707
-i386                 randconfig-a014-20210707
-i386                 randconfig-a013-20210707
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                            kunit_defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+> 
+> Note: after creation of this commit, it was noticed that Steve
+> Longerbeam has a very similar solution in his fork.
+> 
+> Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
+>  1 file changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index e28eff0..98152e1 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+>  {
+>  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+>  	struct v4l2_mbus_framefmt *framefmt;
+> +	int ret = 0;
+> +
+> +	mutex_lock(&priv->lock);
+>  
+>  	if (!rcsi2_code_to_fmt(format->format.code))
+>  		format->format.code = rcar_csi2_formats[0].code;
+>  
+>  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> +
+> +		/*
+> +		 * Do not apply changes to active format while streaming.
+> +		 *
+> +		 * Since video streams could be forwarded from sink pad to any
+> +		 * source pad (depending on CSI-2 channel routing), all
+> +		 * media pads are effected by this rule.
+> +		 */
+> +		if (priv->stream_count > 0) {
+> +			ret = -EBUSY;
+> +			goto out;
+> +		}
+> +
+>  		priv->mf = format->format;
+>  	} else {
+>  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+>  		*framefmt = format->format;
+>  	}
+>  
+> -	return 0;
+> +out:
+> +	mutex_unlock(&priv->lock);
+> +
+> +	return ret;
+>  }
+>  
+>  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+> -- 
+> 2.7.4
+> 
 
-clang tested configs:
-x86_64               randconfig-b001-20210707
-x86_64               randconfig-a004-20210708
-x86_64               randconfig-a005-20210708
-x86_64               randconfig-a002-20210708
-x86_64               randconfig-a006-20210708
-x86_64               randconfig-a003-20210708
-x86_64               randconfig-a001-20210708
-x86_64               randconfig-a015-20210707
-x86_64               randconfig-a014-20210707
-x86_64               randconfig-a012-20210707
-x86_64               randconfig-a011-20210707
-x86_64               randconfig-a016-20210707
-x86_64               randconfig-a013-20210707
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+Regards,
+Niklas Söderlund
