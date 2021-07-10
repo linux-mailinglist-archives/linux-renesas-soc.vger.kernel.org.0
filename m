@@ -2,114 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60D453C36C8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Jul 2021 22:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC7553C372A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Jul 2021 00:43:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229771AbhGJUgn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 10 Jul 2021 16:36:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34476 "EHLO
+        id S229846AbhGJWqT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 10 Jul 2021 18:46:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbhGJUgn (ORCPT
+        with ESMTP id S229515AbhGJWqS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 10 Jul 2021 16:36:43 -0400
+        Sat, 10 Jul 2021 18:46:18 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF185C0613DD
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 10 Jul 2021 13:33:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3030C0613DD;
+        Sat, 10 Jul 2021 15:43:32 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4CE8255;
-        Sat, 10 Jul 2021 22:33:54 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B14C4255;
+        Sun, 11 Jul 2021 00:43:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1625949234;
-        bh=KzxnRCT+yTeFgUaeZcbeB9coOGgyQre0UkZzYddV/cM=;
+        s=mail; t=1625957010;
+        bh=Rv1bX3T7hsw9kcMhjL3G4sz+4wp/ROBxyj3X4cEoOtw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H+ghCZs39FweltRh+q04oBmzMsDctQ/QXbW8nWAvouRYb3WuESHq1EJoJqyIJh5wA
-         oq+Sj2N03MZtS2DjuaRWvo8HVdneM+/CFACYtPophjGYjEf6xKsjN9qLstoK576Ag/
-         P0rn+vJQeUykPJMpbDRTJtm5pG94JWb5UtitK7HQ=
-Date:   Sat, 10 Jul 2021 23:33:08 +0300
+        b=CSEFeDYcL+4aEwuzw0/71OSQCzR1QqZiV7nQLmCwt0JAPsF1iY/hK2ljAKY0Phy+J
+         mymjGdEf4LuNkj8n/rdseucA05dtsjzU0HhgEhj+qnVT23HzUQe4pNUEpwdIPyQqEN
+         WtwbDptwVl7XDAQmyJ0Aa2W2Apse0VqVVhT82M4g=
+Date:   Sun, 11 Jul 2021 01:42:44 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
-        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] drm/shmobile: Convert to Linux IRQ interfaces
-Message-ID: <YOoEBGvcqmpP5A1n@pendragon.ideasonboard.com>
-References: <20210706074900.8928-1-tzimmermann@suse.de>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Dennis Rachui <drachui@de.adit-jv.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
+Message-ID: <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
+References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+ <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210706074900.8928-1-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Thomas,
+Hi Niklas,
 
-Thank you for the patch.
-
-On Tue, Jul 06, 2021 at 09:49:00AM +0200, Thomas Zimmermann wrote:
-> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
-> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
-> don't benefit from using it.
+On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
+> On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
+> > Verify that streaming is not active before setting the pad format.
+> > 
+> > According to the VIDIOC documentation [1] changes to the active
+> > format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
+> > applied to the underlying hardware.
+> > In rcar-csi2 a format change only applies to hardware, when the
+> > pipeline is started. While the device is not in use, it is therefore
+> > okay to update the format.
+> > 
+> > However, when the pipeline is active, this leads to a format
+> > mismatch between driver and device.
+> > Other applications can query the format with
+> > VIDIOC_SUBDEV_G_FMT at any time and would be reported
+> > a format that does not fit the current stream.
+> > 
+> > This commit prevents format update while streaming is active
+> > and returns -EBUSY to user space, as suggested by [1].
+> > 
+> > [1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> index 0a02b7092c04..032a2fff5efd 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -18,7 +18,6 @@
->  #include <drm/drm_crtc_helper.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_gem_cma_helper.h>
-> -#include <drm/drm_irq.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_vblank.h>
->  
-> @@ -130,7 +129,6 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
->  
->  static const struct drm_driver shmob_drm_driver = {
->  	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
-> -	.irq_handler		= shmob_drm_irq,
->  	DRM_GEM_CMA_DRIVER_OPS,
->  	.fops			= &shmob_drm_fops,
->  	.name			= "shmob-drm",
-> @@ -183,7 +181,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
->  
->  	drm_dev_unregister(ddev);
->  	drm_kms_helper_poll_fini(ddev);
-> -	drm_irq_uninstall(ddev);
-> +	free_irq(platform_get_irq(pdev, 0), ddev);
->  	drm_dev_put(ddev);
->  
->  	return 0;
-> @@ -258,7 +256,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  		goto err_modeset_cleanup;
->  	}
->  
-> -	ret = drm_irq_install(ddev, platform_get_irq(pdev, 0));
-> +	ret = request_irq(platform_get_irq(pdev, 0), shmob_drm_irq, 0, ddev->driver->name, ddev);
+> I like that this is addressed, but I wonder is this not something that 
+> should be fixed in the V4L2 core and not in drivers?
 
-Could you store the irq number in a local variable, and wrap this line
-at 80 columns ? You can then use the local variable in the free_irq()
-call below. With this addressed,
+Some drivers may support format changes during streaming (that's allowed
+by the V4L2 API, I'm not sure if it's used anywhere though). While I'd
+favour not duplicating the same logic in different (and differently
+buggy) ways in drivers, I'm not sure how this could be implemented in a
+sane way in the V4L2 core in its current state.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  	if (ret < 0) {
->  		dev_err(&pdev->dev, "failed to install IRQ handler\n");
->  		goto err_modeset_cleanup;
-> @@ -275,7 +273,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  	return 0;
->  
->  err_irq_uninstall:
-> -	drm_irq_uninstall(ddev);
-> +	free_irq(platform_get_irq(pdev, 0), ddev);
->  err_modeset_cleanup:
->  	drm_kms_helper_poll_fini(ddev);
->  err_free_drm_dev:
+> > Note: after creation of this commit, it was noticed that Steve
+> > Longerbeam has a very similar solution in his fork.
+> > 
+> > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> > Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
+> >  1 file changed, 20 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > index e28eff0..98152e1 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+> >  {
+> >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> >  	struct v4l2_mbus_framefmt *framefmt;
+> > +	int ret = 0;
+> > +
+> > +	mutex_lock(&priv->lock);
+> >  
+> >  	if (!rcsi2_code_to_fmt(format->format.code))
+> >  		format->format.code = rcar_csi2_formats[0].code;
+> >  
+> >  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > +
+> > +		/*
+> > +		 * Do not apply changes to active format while streaming.
+> > +		 *
+> > +		 * Since video streams could be forwarded from sink pad to any
+> > +		 * source pad (depending on CSI-2 channel routing), all
+> > +		 * media pads are effected by this rule.
+> > +		 */
+> > +		if (priv->stream_count > 0) {
+> > +			ret = -EBUSY;
+> > +			goto out;
+> > +		}
+> > +
+> >  		priv->mf = format->format;
+> >  	} else {
+> >  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> >  		*framefmt = format->format;
+> >  	}
+> >  
+> > -	return 0;
+> > +out:
+> > +	mutex_unlock(&priv->lock);
+> > +
+> > +	return ret;
+> >  }
+> >  
+> >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
 
 -- 
 Regards,
