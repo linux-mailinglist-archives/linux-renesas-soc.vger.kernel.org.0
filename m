@@ -2,101 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67C193C5B90
+	by mail.lfdr.de (Postfix) with ESMTP id AFE9C3C5B91
 	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jul 2021 13:44:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229644AbhGLLqP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Jul 2021 07:46:15 -0400
-Received: from mail-vs1-f51.google.com ([209.85.217.51]:37704 "EHLO
-        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229594AbhGLLqP (ORCPT
+        id S229746AbhGLLrP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Jul 2021 07:47:15 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52168 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229594AbhGLLrP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Jul 2021 07:46:15 -0400
-Received: by mail-vs1-f51.google.com with SMTP id bf5so2686066vsb.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jul 2021 04:43:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4gVdUzsvCBO+uy38/AuYXBfTD6da6FYmfmBT+VVRDgs=;
-        b=fyOYNLslThHDGBt7SQsw1r35wRFUEAIorDEtsArxhL/6BJmUjr3ly9Myr6KI/m4LIW
-         2TGH5Cq9eMg8WuAnE2s9zlQZJeqJpzO5pLCmMtxpBBVtRQau9ITR9tBl6KcRLNAtao9g
-         0vOtbv2VhKaXLUjUFvtZt33sIu+fI5GDWsv6eHP3brA2InPv4P/kITdXZSuYNE2FQKZ4
-         VBWaUF6z63e3BIxchdH3EjdFRpX5ayVuKj2VAbfxhcEKx4NaJzzjEW57OTEnADiybUav
-         2cZb/wG6vpH2oDFSPVWuLcWnMP8OSzEcdKJtIxI8ardJL1+2fn9sjoyojtY1zWR2cIZJ
-         fmBg==
-X-Gm-Message-State: AOAM530OWzFmUqMt0pVDoGoOGf9F7U9Ww+1Ps8RRBFjXfXhieUZKW/LK
-        aO9We1sSsUu3DYewwobEGGfLEfhGX7LkA59dC4Y=
-X-Google-Smtp-Source: ABdhPJwJQAPTAIJQf4G2QW+cJxL5bTSdWGqIsTGkTTheH6TLEQ70SPVAYofFH6maGhMdK36QCwx17SkJ2OywBchdzEI=
-X-Received: by 2002:a67:f98c:: with SMTP id b12mr47467736vsq.40.1626090207058;
- Mon, 12 Jul 2021 04:43:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210706074900.8928-1-tzimmermann@suse.de>
-In-Reply-To: <20210706074900.8928-1-tzimmermann@suse.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 12 Jul 2021 13:43:15 +0200
-Message-ID: <CAMuHMdUkq8dwhmdaV-MZM23T5XepAdDE4CFUs3Mk0LBQPpQpBA@mail.gmail.com>
-Subject: Re: [PATCH] drm/shmobile: Convert to Linux IRQ interfaces
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mon, 12 Jul 2021 07:47:15 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24711CC;
+        Mon, 12 Jul 2021 13:44:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1626090266;
+        bh=XqvfFlF8lWzDSZjHRwbA9CTfbpcL6Rcyr2revonNgPs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LH4C8+HkcahNY97LrtSlIOcY2DtSACoQpivpMiW3GhRTH/x0WFpd7yAqJ7DNirwTc
+         dEhvy2yTIRIqGm8lfKU+L4dTscs6/3F/yJYLX3JP4EBPbwZZO3SFu5yA69WkSTT1WT
+         gJxVpfb8PY3R8LjxRihP5IroyHDnJD7I5XCQQor0=
+Date:   Mon, 12 Jul 2021 14:43:39 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH] ARM: shmobile: defconfig: Restore graphical consoles
+Message-ID: <YOwq65XMf8jBVQ4I@pendragon.ideasonboard.com>
+References: <2a4474be1d2c00c6ca97c2714844ea416a9ea9a9.1626084948.git.geert+renesas@glider.be>
+ <YOwmfqZnVzcsp+T/@pendragon.ideasonboard.com>
+ <CAMuHMdU2JKtnRWj-TsS+NxRN5hoapRRMgrmmZJY5agN6G-z_NQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU2JKtnRWj-TsS+NxRN5hoapRRMgrmmZJY5agN6G-z_NQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Thomas,
+Hi Geert,
 
-On Tue, Jul 6, 2021 at 9:49 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
-> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
-> don't benefit from using it.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Mon, Jul 12, 2021 at 01:35:34PM +0200, Geert Uytterhoeven wrote:
+> On Mon, Jul 12, 2021 at 1:25 PM Laurent Pinchart wrote:
+> > On Mon, Jul 12, 2021 at 12:16:57PM +0200, Geert Uytterhoeven wrote:
+> > > As of commit f611b1e7624ccdbd ("drm: Avoid circular dependencies for
+> > > CONFIG_FB"), CONFIG_FB is no longer auto-enabled.  While CONFIG_FB may
+> > > be considered unneeded for systems where graphics is provided by a DRM
+> > > driver, R-Mobile A1 still relies on a frame buffer device driver for
+> > > graphics support.
+> > >
+> > > Restore support for graphics on R-Mobile A1 and graphical consoles on
+> > > DRM-based systems by explicitly enabling CONFIG_FB in the defconfig for
+> > > Renesas ARM systems.
+> >
+> > Does anyone still care about the Armadillo board ?
+> 
+> I do. It's my only Renesas board with graphical output ;-)
 
-Thanks for your patch!
+I recommend a VGA or HDMI monitor :-) The sh-mobile-lcdcfb driver is
+unmaintained. If nostalgia is a big enough drive factor, you could try
+converting R-Mobile A1 to the shmob-drm driver :-)
 
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -258,7 +256,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
->                 goto err_modeset_cleanup;
->         }
->
-> -       ret = drm_irq_install(ddev, platform_get_irq(pdev, 0));
-> +       ret = request_irq(platform_get_irq(pdev, 0), shmob_drm_irq, 0, ddev->driver->name, ddev);
+> > This being said, I think CONFIG_FB should be added , but for a different
+> > reason. There's no KMS console driver, so the only option we have today,
+> > even when a KMS driver is available, is to go through FBDEV emulation,
+> > which requires CONFIG_FB to be enabled.
+> 
+> That's covered by "Restore [...] graphical consoles on DRM-based
+> systems", right?
 
-platform_get_irq() can return a negative error code.
-While drm_irq_install() took a signed irq parameter (and only
-considered zero an error, oops), request_irq() takes an unsigned irq.
-So you better check for errors before calling request_irq().
-
->         if (ret < 0) {
->                 dev_err(&pdev->dev, "failed to install IRQ handler\n");
->                 goto err_modeset_cleanup;
-> @@ -275,7 +273,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
->         return 0;
->
->  err_irq_uninstall:
-> -       drm_irq_uninstall(ddev);
-> +       free_irq(platform_get_irq(pdev, 0), ddev);
-
-Similar issue here.
-
->  err_modeset_cleanup:
->         drm_kms_helper_poll_fini(ddev);
->  err_free_drm_dev:
-
-Gr{oetje,eeting}s,
-
-                        Geert
+I had read the commit message as implying that a graphical console can
+be available without FB when a KMS driver is available.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
