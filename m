@@ -2,79 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6F2B3C5B08
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jul 2021 13:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3AB43C5B73
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jul 2021 13:44:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234605AbhGLKvQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Jul 2021 06:51:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36144 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234804AbhGLKu7 (ORCPT
+        id S233683AbhGLLZU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Jul 2021 07:25:20 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51980 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233456AbhGLLZL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Jul 2021 06:50:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 532BC61156;
-        Mon, 12 Jul 2021 10:48:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626086890;
-        bh=Q0LmCKQCfSGQOND5wXq1ayQltdByrVvEHp3u5Nb9hAo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OjzSBlw+Jag83c6fTsDidspwoNOir2H7BVY60natVm45ehitMnbfA9ZABVDFbMXpY
-         XGsJfr/pUB31vykZ5C23N+q2TodcsoILwlrkDApoRPl7zFEt/S38c1ry1ClRzG8v6o
-         8Oyr/1ZbW6z4c9K2x2jDbg3wEPAeRpfX9Mc5OoqY+/XNwV1mvPYHebYXnHFp1KCecR
-         PT0VltXhuY585NBM1J5m6pWWkZoCMs0i4HIVKBYUmOl10Jq88YzlQkHYcFJrKOOsgP
-         /zORv7l+m6RyZR+Qlt8+y2mdPohY5sHHO+hTyiPfE+6w7DksfsqM/4CeLOph6nXMRv
-         arjYtGoWdIxdA==
-From:   Mark Brown <broonie@kernel.org>
-To:     alsa-devel@alsa-project.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH RFC] ASoC: sh: rcar: dma: : use proper DMAENGINE API for termination
-Date:   Mon, 12 Jul 2021 11:46:09 +0100
-Message-Id: <162608623151.3192.11307653106365626153.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210623100545.3926-1-wsa+renesas@sang-engineering.com>
-References: <20210623100545.3926-1-wsa+renesas@sang-engineering.com>
+        Mon, 12 Jul 2021 07:25:11 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9AB26CC;
+        Mon, 12 Jul 2021 13:22:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1626088941;
+        bh=pJp0lBsDcHNVmImplrx5vdsFQVWjHPvf0nq78t5w3e4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QyUJHLanS0+iN/+A+XSoHQzmNRrWwr63X28kGqk9NFxQw05SS4i7E0rY0GEHu/7UI
+         /a6GJRwuy+atUsoKgobBUQas+WE6DOuUyCSkuZnjMrubOeaOwjKIZFIg31mN77dZ7Y
+         WCl89yY819FTGTn9IWD9jVuScMGZLTm/cupwkl44=
+Date:   Mon, 12 Jul 2021 14:21:35 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH LOCAL] arm64: renesas: defconfig: Restore graphical
+ consoles
+Message-ID: <YOwlv26H1pYVCny0@pendragon.ideasonboard.com>
+References: <4a671ef00b3469f8b7ffd42309c3dfb1ccb8eb8a.1626085156.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4a671ef00b3469f8b7ffd42309c3dfb1ccb8eb8a.1626085156.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 23 Jun 2021 12:05:45 +0200, Wolfram Sang wrote:
-> dmaengine_terminate_all() is deprecated in favor of explicitly saying if
-> it should be sync or async. Here, we want dmaengine_terminate_sync()
-> because there is no other synchronization code in the driver to handle
-> an async case.
+Hi Geert,
 
-Applied to
+Thank you for the patch.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Mon, Jul 12, 2021 at 12:19:33PM +0200, Geert Uytterhoeven wrote:
+> As of commit f611b1e7624ccdbd ("drm: Avoid circular dependencies for
+> CONFIG_FB"), CONFIG_FB is no longer auto-enabled.
+> 
+> Restore support for graphical consoles by enabling it explicitly in the
+> defconfig for Renesas R-Car Gen3 and RZ/G2 systems.
+> 
+> Fixes: f611b1e7624ccdbd ("drm: Avoid circular dependencies for CONFIG_FB")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Not intended for upstream merge.
 
-Thanks!
+Why not ? We have no KMS console driver yet, FB is currently the only
+option.
 
-[1/1] ASoC: sh: rcar: dma: : use proper DMAENGINE API for termination
-      commit: d5bb69dc54ec1e09f3fd626fdb9c340c0511dbd5
+> To be queued in topic/renesas-defconfig, unless the rcar-du experts
+> consider CONFIG_FB to be no longer needed nor wanted on systems where
+> graphics are provided by a DRM driver.
+> ---
+>  arch/arm64/configs/renesas_defconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
+> index 27b55fcc3bbca4dc..2fc00cadc30eb26b 100644
+> --- a/arch/arm64/configs/renesas_defconfig
+> +++ b/arch/arm64/configs/renesas_defconfig
+> @@ -243,6 +243,7 @@ CONFIG_DRM_I2C_ADV7511_AUDIO=y
+>  CONFIG_DRM_DW_HDMI_AHB_AUDIO=y
+>  CONFIG_DRM_DW_HDMI_I2S_AUDIO=y
+>  CONFIG_DRM_DW_HDMI_CEC=y
+> +CONFIG_FB=y
+>  CONFIG_FB_MODE_HELPERS=y
+>  CONFIG_BACKLIGHT_CLASS_DEVICE=y
+>  CONFIG_BACKLIGHT_PWM=y
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-- 
+Regards,
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Laurent Pinchart
