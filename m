@@ -2,121 +2,235 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 566B93C7248
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jul 2021 16:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 775573C73BE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jul 2021 18:01:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236795AbhGMOho (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Jul 2021 10:37:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45462 "EHLO
+        id S237206AbhGMQEK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Jul 2021 12:04:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236636AbhGMOho (ORCPT
+        with ESMTP id S237091AbhGMQEJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Jul 2021 10:37:44 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3647BC0613DD;
-        Tue, 13 Jul 2021 07:34:53 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id r132so35138990yba.5;
-        Tue, 13 Jul 2021 07:34:53 -0700 (PDT)
+        Tue, 13 Jul 2021 12:04:09 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D89C1C0613DD;
+        Tue, 13 Jul 2021 09:01:18 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id t186so16662933ybf.2;
+        Tue, 13 Jul 2021 09:01:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=o26ZWzPRkUKxW7dKY8cTnlaNNdlHOXHXpVuJuquhP0A=;
-        b=Vu1RQ75f9qBy76rHqt3Hcd0Yb+0r7nJDqi+zaGM5TdAEJKRFiJimauCSJE1b3WXTC9
-         dLiu0Cogkj3K0IHdVmHuGRqvChcQJBg2xNMO78iLXN6FKuodi/ls7z/pkwdqvr+NOnYJ
-         0EujToruwaAdYV6jepuXW3pYpXk6/PVW/r9fjqCMHQ3UC81NXku3ObKRm5LggfcfqW2i
-         dyHhQrSJwxKkBqdknn6zGOA5GztWAVGEmND9BFTEcgyB6WQliki8ZkjG8H9vBW2tpdHS
-         en8L7O+91QQVkdwF7341UpIF2on+V0KBI8O4YEMjsYvW6G0Re1KILppzl9D9vC0l/6MQ
-         sdKA==
+        bh=pI4RPfY9eVbzV1g21E0J8xnG/6971RwWcmcSRgD8qas=;
+        b=ECLG56FTNSEUk/dTB7qjqqafkfqnwqmGrJngc8Pph00N//e3UQTdUaxJFrus+duZoJ
+         DBYA0KAYM3fgeuibhJkVmlq8vi09H8iRxFMJm045nAi5ygrcVHewBp6Zaaa9eHQ2yCGw
+         xTS1//f9G0y37VS8XpzsJy4NZ5dlh4xvnRaZzd3UIMQKXrhps9KJ8kb99cxGfYLvg/wp
+         7WZKbgIuywoAXeozfErk3SqOtTlfiDDokjiA4/5ZmNzeamWZ/mH7MyzhluZ4oMN+leQd
+         eJjVXd2PbJbGdG+RWbDFAGHnHbtt8UcMLRPDoHgUefE5T3asAAfDN8y+FXGKwCpaZF4+
+         HCvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=o26ZWzPRkUKxW7dKY8cTnlaNNdlHOXHXpVuJuquhP0A=;
-        b=ncr2PIZ9WDXAuo2VOGzYNApLzjO4UeC2HCeRg4PepEmbkOk5uwBLe/gHdlcUnpKTRH
-         nyjKHyr21KWo0IWqq9E8MxSN/rSxhOcqxkRCaRwVf9GTBSY3+EULle8yXH/BxDMzeJg4
-         hNF0w8a86BQyUuvHRAuaDAe9kLNznsB+8UsxE+cW5fWXC9Dj7jeb6J0Us2vS2rZGKVuq
-         zCIfunk5QatcLVq6GN85vp9BswcUrOowApFVWAJZD6ghuUhY6nk4hLgOK9bavsFvdVe1
-         jxOaILJkdtIKK6ZFgPwT5UAo/b1Fc8XYlLTq/pf37isr+XB/5JQDHbLy8ctdMNDKInO7
-         B8HA==
-X-Gm-Message-State: AOAM533hFA8x5SgZW6X3Cp8eeQ/IMUwicduN1obWyIRsUWsupxkzLkKf
-        LjInwN04sZpSkLRjliu971rYQqN99zMCtrrVzFA=
-X-Google-Smtp-Source: ABdhPJyJ7Xf38f0WykdTNWoI680e4zcq7wrLMtkjotg66KWRFaSxmNQfshRrUqs2zFuHBAK1fPsTzIZmlxINm8JYY5s=
-X-Received: by 2002:a25:d491:: with SMTP id m139mr6192892ybf.156.1626186892341;
- Tue, 13 Jul 2021 07:34:52 -0700 (PDT)
+        bh=pI4RPfY9eVbzV1g21E0J8xnG/6971RwWcmcSRgD8qas=;
+        b=c5JbJnT9ihtb5JpntaBpVFoTuNOLkQENqqgmDVXCed5geIy2gH41bJOzQLLn860ylR
+         3l8cYL43LdcEg+jhlNKamnC8ELJphs+P8gpbqRgPeVMcJ4kOlP354Blzdc/j4IMko/QO
+         OnyTGm5mXU+jVSRdJHa7XEbjUtAKPYMB+zrfVVhuviQsCyOfIWQcbH1ptxM/lE5f/5Ij
+         p4tdcP5Da/4352DLqSKvXKBE/i3OwnE5cezc3pPWD8C2QbeeHZ5ZohNkaovxYgonALxa
+         XQ1qD9IjAUaWKXGku5PwziLIXBbJXPDJ/X4dgeIrWHomClfmXDqYvzeM9kYM68JYvi60
+         hZQA==
+X-Gm-Message-State: AOAM531u0MI/SybVDptGTOMoBOQJn5o9ocIqqSu5p8Ex/0sgFUNuqaeM
+        vneQ38Qyxi2cNO/mhQazshzUhOOhrXtro2kYu5A=
+X-Google-Smtp-Source: ABdhPJzU6A+WDcuFuCKd+RGdJLZfaF4N/XGkrr8f7q07mPaAF3563mdVKs88YjLCm/lkLbjHuDeKfoiTd06wZKwvldk=
+X-Received: by 2002:a25:d491:: with SMTP id m139mr6723388ybf.156.1626192078100;
+ Tue, 13 Jul 2021 09:01:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210712194422.12405-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210712194422.12405-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <53e6c8fa-311f-f100-dd06-d806ab593488@gmail.com>
-In-Reply-To: <53e6c8fa-311f-f100-dd06-d806ab593488@gmail.com>
+References: <20210629220328.13366-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210629220328.13366-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210701202141.GA2859816@robh.at.kernel.org>
+In-Reply-To: <20210701202141.GA2859816@robh.at.kernel.org>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 13 Jul 2021 15:34:26 +0100
-Message-ID: <CA+V-a8uB-QmtYjBQ7sondsfeQvBOMhmsYPd=0R4TrxzvO=zs6w@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] arm64: dts: renesas: rzg2l-smarc: Add scif0 pins
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Date:   Tue, 13 Jul 2021 17:00:52 +0100
+Message-ID: <CA+V-a8sAvEQesjdKX8WzPZvPtt70pfm7qk-AGdy5QFrwXSKZrw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: iio: adc: Add binding documentation for
+ Renesas RZ/G2L A/D converter
+To:     Rob Herring <robh@kernel.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-iio@vger.kernel.org,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
+Hi Rob,
 
 Thank you for the review.
 
-On Tue, Jul 13, 2021 at 12:18 PM Sergei Shtylyov
-<sergei.shtylyov@gmail.com> wrote:
+On Thu, Jul 1, 2021 at 9:21 PM Rob Herring <robh@kernel.org> wrote:
 >
-> On 12.07.2021 22:44, Lad Prabhakar wrote:
->
-> > Add scif0 pins in pinctrl node and update the scif0 node
-> > to include pinctrl property.
->
->     Properties? There are a couple... :-)
->
-Agreed will update the commit message.
-
-Cheers,
-Prabhakar
-
+> On Tue, Jun 29, 2021 at 11:03:27PM +0100, Lad Prabhakar wrote:
+> > Add binding documentation for Renesas RZ/G2L A/D converter block.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > ---
-> >   arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi | 10 ++++++++++
-> >   1 file changed, 10 insertions(+)
+> >  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 121 ++++++++++++++++++
+> >  1 file changed, 121 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
 > >
-> > diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> > index adcd4f50519e..0987163f25ee 100644
-> > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-> [...]
-> >       clock-frequency = <24000000>;
-> >   };
-> >
-> > +&pinctrl {
-> > +     scif0_pins: scif0 {
-> > +             pinmux = <RZG2L_PORT_PINMUX(38, 0, 1)>, /* TxD */
-> > +                      <RZG2L_PORT_PINMUX(38, 1, 1)>; /* RxD */
-> > +     };
-> > +};
+> > diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> > new file mode 100644
+> > index 000000000000..db935d6d59eb
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> > @@ -0,0 +1,121 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/iio/adc/renesas,rzg2l-adc.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> >   &scif0 {
-> > +     pinctrl-0 = <&scif0_pins>;
-> > +     pinctrl-names = "default";
-> >       status = "okay";
-> >   };
-> >
+> > +title: Renesas RZ/G2L ADC
+> > +
+> > +maintainers:
+> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > +
+> > +description: |
+> > +  A/D Converter block is a successive approximation analog-to-digital converter
+> > +  with a 12-bit accuracy. Up to eight analog input channels can be selected.
+> > +  Conversions can be performed in single or repeat mode. Result of the ADC is
+> > +  stored in a 32-bit data register corresponding to each channel.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
 >
-> MBR, Sergei
+> You can drop oneOf here.
+>
+Dropping oneOf from here dt_binding_check complains with below report,
+Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml:
+properties:compatible: [{'items': [{'enum':
+['renesas,r9a07g044-adc']}, {'const': 'renesas,rzg2l-adc'}]}] is not
+of type 'object', 'boolean'
+from schema $id: http://json-schema.org/draft-07/schema#
+
+> > +      - items:
+> > +          - enum:
+> > +              - renesas,r9a07g044-adc   # RZ/G2{L,LC}
+> > +          - const: renesas,rzg2l-adc
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: converter clock
+> > +      - description: peripheral clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: adclk
+> > +      - const: pclk
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    maxItems: 2
+> > +
+> > +  reset-names:
+> > +    items:
+> > +      - const: presetn
+> > +      - const: adrst-n
+> > +
+> > +  renesas-rzg2l,adc-trigger-mode:
+> > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > +    description: Trigger mode for A/D converter
+> > +    enum:
+> > +      - 0 # Software trigger mode (Defaults)
+> > +      - 1 # Asynchronous trigger using ADC_TRG trigger input pin
+> > +      - 2 # Synchronous trigger (Trigger from MTU3a/GPT)
+> > +    default: 0
+> > +
+> > +  gpios:
+>
+> A named gpio is preferred. trigger-gpios?
+>
+Agreed.
+
+Cheers,
+Prabhakar
+
+> > +    description:
+> > +      ADC_TRG trigger input pin
+> > +    maxItems: 1
+> > +
+> > +  renesas-rzg2l,adc-channels:
+> > +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> > +    description: Input channels available on platform
+> > +    uniqueItems: true
+> > +    minItems: 1
+> > +    maxItems: 8
+> > +    items:
+> > +      enum: [0, 1, 2, 3, 4, 5, 6, 7]
+> > +
+> > +  "#io-channel-cells":
+> > +    const: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +  - resets
+> > +  - reset-names
+> > +  - renesas-rzg2l,adc-channels
+> > +  - "#io-channel-cells"
+> > +
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        renesas-rzg2l,adc-trigger-mode:
+> > +          const: 1
+> > +    then:
+> > +      required:
+> > +        - gpios
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    adc: adc@10059000 {
+> > +      compatible = "renesas,r9a07g044-adc", "renesas,rzg2l-adc";
+> > +      reg = <0x10059000 0x400>;
+> > +      interrupts = <GIC_SPI 347 IRQ_TYPE_EDGE_RISING>;
+> > +      clocks = <&cpg CPG_MOD R9A07G044_ADC_ADCLK>,
+> > +               <&cpg CPG_MOD R9A07G044_ADC_PCLK>;
+> > +      clock-names = "adclk", "pclk";
+> > +      power-domains = <&cpg>;
+> > +      resets = <&cpg R9A07G044_ADC_PRESETN>,
+> > +               <&cpg R9A07G044_ADC_ADRST_N>;
+> > +      reset-names = "presetn", "adrst-n";
+> > +      #io-channel-cells = <1>;
+> > +      renesas-rzg2l,adc-trigger-mode = /bits/ 8 <0>;
+> > +      renesas-rzg2l,adc-channels = /bits/ 8 <0 1 2 3 4 5 6>;
+> > +    };
+> > --
+> > 2.17.1
+> >
+> >
