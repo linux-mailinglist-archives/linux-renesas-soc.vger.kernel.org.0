@@ -2,124 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41EAE3C6D3E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jul 2021 11:24:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DAEF3C6DAF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jul 2021 11:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234855AbhGMJ10 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Jul 2021 05:27:26 -0400
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:41774 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234397AbhGMJ10 (ORCPT
+        id S235324AbhGMJpL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Jul 2021 05:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34946 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235310AbhGMJpK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Jul 2021 05:27:26 -0400
-Received: by mail-ua1-f41.google.com with SMTP id e22so4200433uaa.8;
-        Tue, 13 Jul 2021 02:24:36 -0700 (PDT)
+        Tue, 13 Jul 2021 05:45:10 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69C22C0613E9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jul 2021 02:42:20 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id v6so12004142lfp.6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jul 2021 02:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=S/4UHmbEjPWzGrsdhXiNmY0edAGnL7qyMx4WNkWK7gA=;
+        b=YHv1s+lBSQwJExSVYUiO5xYWvJsvmOVY4nUYnPZ7lXW5OllcjqcHFA5BqGMGzzlCoD
+         UYK7+N4S0sGqz2RtN0lRHsjy9jyaHV/SLhi/xHAXVGu+5dzbi9HYm+diurjx3H5RMAIh
+         mB4Q+/plyEFQFayjrKM6jiGSEI3nct7cQPfS+AE/o/FODl8KqQzlyGMorTns0hkWjta7
+         ytgryitzTPhsLZ5ISx0IsssWOrv+5OW9T9Wj3SNC+dNHLAg+UZgkVVINSHg3QF97mBLL
+         v5rtIDKQIxfZsBMyYdopAo9BZd2YTtImYrZgrCgPX3ZlbmWzQgFWub8E6JQH8Tb9n8/G
+         PvbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hRHcPSp8vPymwcz1/KJlrg/3zz/sOu8Ehh9q7i76d+0=;
-        b=uH078N4oyyI9DQm5p3iq8Eyyxwgxoqi5kpOnkNushvXJz1v1+7YnLlip0Ssg1YXcjk
-         ZZQAeks0xi7XFL463+TWnQTbxs+bvoR1iOpNMZxIc66FfsHAmgPjWTGlDkKYMbUs6/gv
-         rqCUCHQWPdlRywpIZH27A4Up/+hX9Fp2OVxjFX0NXg26s3WQq1tqIgzqDcm7DlZPm9vZ
-         zE81+VnsqPBqBwQeVWLDvR08FMwQWLEdC6ZUilZfv/mt97UuVnlzorqhFfindNgaVqSc
-         c/FOmkgAd49Zcq7FVh5i323fEQPBy/2Wr7bTiOX8TDPMia7AaWMe6eAigLT8en9T/PMH
-         nD3g==
-X-Gm-Message-State: AOAM533KdyOi/2Ev8qTiieeFUuM9WCwFb2Yp7HkwX0ieUifZNuZWyQbC
-        27EgwXTNjMjfDJ+xCpcK7709d2cmpkdSyqU3WjyHUcoPR/4=
-X-Google-Smtp-Source: ABdhPJyTiTkkKjo1c9EXH9r8TqDbuE8rIPejJfusgUQBhqggVemMgEy0iBSBswJkAE38OkEuxxGmBPYnx61c7zKCNPI=
-X-Received: by 2002:a9f:3f0d:: with SMTP id h13mr4627826uaj.100.1626168275941;
- Tue, 13 Jul 2021 02:24:35 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=S/4UHmbEjPWzGrsdhXiNmY0edAGnL7qyMx4WNkWK7gA=;
+        b=pz8jDbsMa05sWMsMQ4OvVH5latF1eMyRNjl4K/rr7MMfv3mj5vwuNcFyPRtI+A2AAB
+         WVBcH0rXT+8kRi81nR9yI27MLKWz0hxiCZqd6Bt8OHa7jrRbOIT+xBtolBJFTVBdn0JM
+         m9hGtueWRPw4l37ALi8pPC6Z+ZTHg16J9PzBkaiEYw5a6ZaYDUwlTrzYQixBh7YyItoa
+         0yDusdprHUpA4mHeES8MkC6IZ5o/XTRUpZxRZ7U4F/B6ZCTcDDzUfUOB+kYInYDSEEfw
+         vYBC9YY85qPrK+XGT+XDB2ju8JZa4Bs8fZvuoJzzatIuzZd/TbTM0NCGm/vHLq5Uzjmq
+         i+QQ==
+X-Gm-Message-State: AOAM530Z0wezdmmSvErGqXLWDprN5P7wQKHQ+kD822qbXt8yUBdzCt45
+        OH1ir/sezWgKP98P0vfG1vYouQ==
+X-Google-Smtp-Source: ABdhPJyK9ndywXiDK63yOL2qMNJerVSS3hwDtdMZfd5UuuN6A/qjH7WKjBKaGNeAEzHte4WIg3NQ6A==
+X-Received: by 2002:ac2:48a3:: with SMTP id u3mr886842lfg.151.1626169338798;
+        Tue, 13 Jul 2021 02:42:18 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id s13sm1840013ljp.8.2021.07.13.02.42.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jul 2021 02:42:18 -0700 (PDT)
+Date:   Tue, 13 Jul 2021 11:42:17 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dennis Rachui <drachui@de.adit-jv.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
+Message-ID: <YO1f+SOTBS44/Wf0@oden.dyn.berto.se>
+References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+ <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
+ <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20210611152108.6785-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWJQESFmhV+c-QmivXCWPx21QcB-HSzjxf8KsXh_DAvfw@mail.gmail.com>
- <CAMuHMdXG9H_mOtA_a9t0K8BVaR4p0DcWgNeL0786YvybV2Hqgw@mail.gmail.com>
- <CA+V-a8tk6uCeRwmiTh=Ds+8DYVUqCYs64nX_9ksDXXdSd-rxNA@mail.gmail.com>
- <CAMuHMdUg5v3qsFQsg783nC=o_BL3pL6YqqQphGQHHOaCeakj5Q@mail.gmail.com>
- <20210713085508.nq6473icf5gt3nm5@bogus> <CAMuHMdVG6eji_uW+7egeQH=77fwQnN_qQ4hRHgQa4XQYQrbL9Q@mail.gmail.com>
- <20210713091108.7nx2d2fxolx2wrg5@bogus>
-In-Reply-To: <20210713091108.7nx2d2fxolx2wrg5@bogus>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 13 Jul 2021 11:24:24 +0200
-Message-ID: <CAMuHMdUgAutuRes9yTsDVCZ+rMeyQrhuX+BW60ft7_S9OU3RRg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r9a07g044: Add missing GICv3 node properties
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sudeep,
+Hi Laurent,
 
-On Tue, Jul 13, 2021 at 11:16 AM Sudeep Holla <sudeep.holla@arm.com> wrote:
-> On Tue, Jul 13, 2021 at 11:04:09AM +0200, Geert Uytterhoeven wrote:
-> > On Tue, Jul 13, 2021 at 10:56 AM Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > > On Tue, Jul 13, 2021 at 10:30:36AM +0200, Geert Uytterhoeven wrote:
->
-> [...]
->
-> > > > And a possible use case: the RT CPU core may want to reset the AP GIC.
-> > >
-> > > I didn't want to add new bindings without details on the implementation
-> > > to avoid possible issues with backward compatibility as this was not
-> > > thought through completely and correctly before it was added.
-> > >
-> > > OK, now let us discuss your use-case: *RT CPU wants to reset AP GIC*
-> > >
-> > > 1. Will it just reset AP GIC or will it request the AP reset as a whole ?
-> > >    I am not sure if we can handle former, if you think otherwise what is
-> > >    the reset notification mechanism ?
-> > >
-> > > 2. Will that bypass secure world/PSCI ? Again more details on this would
-> > >    be helpful to visualise the entire use-case end-to-end better.
-> > >
-> > > By GIC reset, I am assuming it will be complete GIC reset including it's
-> > > CPU interface.
-> > >
-> > > I don't think we can reset GIC without actual CPU reset. Even if we get
-> > > some notification magically to the CPU that its GIC alone needs to be
-> > > reset, it needs to safely higher exceptions to get its GIC CPU interface
-> > > reprogrammed to correct (saved) values before OS can reprogram the NS
-> > > world values. All these seems overall complicated and may be unnecessary.
-> >
-> > Probably both.  Might make sense to reset on wake-up, after having disabled
-> > clocks and powered down the AP CPU, AP GIC, ...
-> >
->
-> /me confused. If this is arm64 platform, then you have to use *PSCI* and
-> I expect the reset to be done as part of CPU wake-up in PSCI firmware.
+On 2021-07-11 01:42:44 +0300, Laurent Pinchart wrote:
+> Hi Niklas,
+> 
+> On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
+> > On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
+> > > Verify that streaming is not active before setting the pad format.
+> > > 
+> > > According to the VIDIOC documentation [1] changes to the active
+> > > format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
+> > > applied to the underlying hardware.
+> > > In rcar-csi2 a format change only applies to hardware, when the
+> > > pipeline is started. While the device is not in use, it is therefore
+> > > okay to update the format.
+> > > 
+> > > However, when the pipeline is active, this leads to a format
+> > > mismatch between driver and device.
+> > > Other applications can query the format with
+> > > VIDIOC_SUBDEV_G_FMT at any time and would be reported
+> > > a format that does not fit the current stream.
+> > > 
+> > > This commit prevents format update while streaming is active
+> > > and returns -EBUSY to user space, as suggested by [1].
+> > > 
+> > > [1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+> > 
+> > I like that this is addressed, but I wonder is this not something that 
+> > should be fixed in the V4L2 core and not in drivers?
+> 
+> Some drivers may support format changes during streaming (that's allowed
+> by the V4L2 API, I'm not sure if it's used anywhere though). While I'd
+> favour not duplicating the same logic in different (and differently
+> buggy) ways in drivers, I'm not sure how this could be implemented in a
+> sane way in the V4L2 core in its current state.
 
-DT Rule #1: DT describes hardware not software policy.
+I understand it's possible from some devices to support to format 
+changes during streaming, but as you point out it's the exception and 
+not the rule, if used at all.
 
-The fact that _Linux_ must use PSCI is a (unfortunate) software policy.
-What about other OSes, or bare-metal software?
+So my point is if we start to enforce this in drivers we are headed down 
+a road where this will be messier to clean up. Would it not make more 
+sens to default the V4L2 core to disallow format changes while streaming 
+and add a new flag to V4L2_SUBDEV_CAP_ to signal that the subdevice 
+supports format changes while streaming?
 
-> > If that bypasses PSCI: well, if the unsecure software can do it, it
-> > means the hardware is not secure. Or at least Linux has to be trusted.
->
-> No, if the system has PSCI, then you simply can't bypass that for GIC
-> reset. Or at-least I am failing to understand the complete flow of that.
+We already have V4L2_SUBDEV_CAP_RO_SUBDEV to signal that a subdevice 
+only supports read-only operations so I think it would not be too hard 
+to move this functionality into the core?
 
-PSCI can only prevent other software from bypassing GIC reset if PSCI
-programs the hardware to prevent access to the GIC reset (if possible
-at all).
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> 
+> > > Note: after creation of this commit, it was noticed that Steve
+> > > Longerbeam has a very similar solution in his fork.
+> > > 
+> > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> > > Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> > > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
+> > > ---
+> > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
+> > >  1 file changed, 20 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > index e28eff0..98152e1 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+> > >  {
+> > >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> > >  	struct v4l2_mbus_framefmt *framefmt;
+> > > +	int ret = 0;
+> > > +
+> > > +	mutex_lock(&priv->lock);
+> > >  
+> > >  	if (!rcsi2_code_to_fmt(format->format.code))
+> > >  		format->format.code = rcar_csi2_formats[0].code;
+> > >  
+> > >  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > > +
+> > > +		/*
+> > > +		 * Do not apply changes to active format while streaming.
+> > > +		 *
+> > > +		 * Since video streams could be forwarded from sink pad to any
+> > > +		 * source pad (depending on CSI-2 channel routing), all
+> > > +		 * media pads are effected by this rule.
+> > > +		 */
+> > > +		if (priv->stream_count > 0) {
+> > > +			ret = -EBUSY;
+> > > +			goto out;
+> > > +		}
+> > > +
+> > >  		priv->mf = format->format;
+> > >  	} else {
+> > >  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> > >  		*framefmt = format->format;
+> > >  	}
+> > >  
+> > > -	return 0;
+> > > +out:
+> > > +	mutex_unlock(&priv->lock);
+> > > +
+> > > +	return ret;
+> > >  }
+> > >  
+> > >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Niklas Söderlund
