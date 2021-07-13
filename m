@@ -2,113 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA8313C6E61
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jul 2021 12:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9902C3C6F96
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jul 2021 13:19:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235475AbhGMK15 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Jul 2021 06:27:57 -0400
-Received: from foss.arm.com ([217.140.110.172]:40148 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235143AbhGMK15 (ORCPT
+        id S235975AbhGMLVd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Jul 2021 07:21:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57102 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235574AbhGMLVd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Jul 2021 06:27:57 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F9726D;
-        Tue, 13 Jul 2021 03:25:07 -0700 (PDT)
-Received: from bogus (unknown [10.57.79.213])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8EBF83F7D8;
-        Tue, 13 Jul 2021 03:25:04 -0700 (PDT)
-Date:   Tue, 13 Jul 2021 11:23:53 +0100
-From:   Sudeep Holla <sudeep.holla@arm.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Tue, 13 Jul 2021 07:21:33 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CDC7C0613EE;
+        Tue, 13 Jul 2021 04:18:42 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id 141so12867515ljj.2;
+        Tue, 13 Jul 2021 04:18:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DmW58CuQRiPy8Sg0c4NVO3FTMCEg7IqqiVpTucaJ3Tw=;
+        b=pabDNbwM68BJYigpwysEF85rUs211QosqbU8je6wotBV50cemlTavOMzN1CN6vUAa1
+         bxhS3HOMeoZq+xr0xRnedvScLuAX6X1m+gW0lHfl8BWSZdVSQLbdlAV6+RfnmeTEMv+k
+         aoyfJchdeYQWBKp/S7L/a5bmQEVNWuSA+8SqUba9qBBBMfeP7XJvxhgm76wW24c/6Ld0
+         tY+/ljx9S/G+o5gMEXfmQDLmsoeFK8aVJag0ZxMhb8stDjzZ/ypHL0xZygRGSXPkNBPs
+         rk8Rxu3MmsWRdv6UpxdaMIPthQv2rw8I0CiPo22t1s0ihY12hS8Qs0cZSg+PHR6Ndvd/
+         uSwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=DmW58CuQRiPy8Sg0c4NVO3FTMCEg7IqqiVpTucaJ3Tw=;
+        b=oU/ukQwy6/eXlxFUUCQ5tBZFtgVAFsWJuPCENWlETtGUV4fHWOqczThvp42DOdLyfx
+         OmaK6vIxMEqPjhCls4Olzsvg7HUG1vxEmQUo0FPTgpQjg38VS1AAOJiRyhFgrXrpZnMb
+         030EmIRTH4H4W52/TABCx7/5lwuw1BTqlPFeW9ZywNpm2kuRBp9jzeIn0CrHGyUrDNlX
+         SnWBsf6axpLKzxdW5X6AwtPjyCnVA6sOO6V1bXr9bCGGFnSixjuFna+NLg40PMTzDQ82
+         Zlyl92skHlgwg21s4gaYhZfyzdqRyzb7RI134YKS5lJDtxTibK1kJ+nZA2bTL2zIo3Uz
+         eaOA==
+X-Gm-Message-State: AOAM531DomxcGhFYUD25sJy08nB1qC/pDAUvpDXYwbqhjD19e4LeQIEI
+        HazCqMnMopI3HXpyz3lbSNk=
+X-Google-Smtp-Source: ABdhPJyvTGjEOf/NF26HuZzFFaI4eu/hHQhCJ+22spNmcJAWehw9gBPsA+afahpC0rX9Ib53v8by6Q==
+X-Received: by 2002:a2e:88ca:: with SMTP id a10mr1850235ljk.361.1626175120561;
+        Tue, 13 Jul 2021 04:18:40 -0700 (PDT)
+Received: from [192.168.1.100] ([178.176.78.85])
+        by smtp.gmail.com with ESMTPSA id k12sm1442939lfv.14.2021.07.13.04.18.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jul 2021 04:18:40 -0700 (PDT)
+Subject: Re: [PATCH v2 5/5] arm64: dts: renesas: rzg2l-smarc: Add scif0 pins
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r9a07g044: Add missing GICv3 node
- properties
-Message-ID: <20210713102326.kc56a4yqhkbv3ymm@bogus>
-References: <20210611152108.6785-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWJQESFmhV+c-QmivXCWPx21QcB-HSzjxf8KsXh_DAvfw@mail.gmail.com>
- <CAMuHMdXG9H_mOtA_a9t0K8BVaR4p0DcWgNeL0786YvybV2Hqgw@mail.gmail.com>
- <CA+V-a8tk6uCeRwmiTh=Ds+8DYVUqCYs64nX_9ksDXXdSd-rxNA@mail.gmail.com>
- <CAMuHMdUg5v3qsFQsg783nC=o_BL3pL6YqqQphGQHHOaCeakj5Q@mail.gmail.com>
- <20210713085508.nq6473icf5gt3nm5@bogus>
- <CAMuHMdVG6eji_uW+7egeQH=77fwQnN_qQ4hRHgQa4XQYQrbL9Q@mail.gmail.com>
- <20210713091108.7nx2d2fxolx2wrg5@bogus>
- <CAMuHMdUgAutuRes9yTsDVCZ+rMeyQrhuX+BW60ft7_S9OU3RRg@mail.gmail.com>
+References: <20210712194422.12405-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210712194422.12405-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <53e6c8fa-311f-f100-dd06-d806ab593488@gmail.com>
+Date:   Tue, 13 Jul 2021 14:18:30 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUgAutuRes9yTsDVCZ+rMeyQrhuX+BW60ft7_S9OU3RRg@mail.gmail.com>
+In-Reply-To: <20210712194422.12405-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 13, 2021 at 11:24:24AM +0200, Geert Uytterhoeven wrote:
-> Hi Sudeep,
+On 12.07.2021 22:44, Lad Prabhakar wrote:
+
+> Add scif0 pins in pinctrl node and update the scif0 node
+> to include pinctrl property.
+
+    Properties? There are a couple... :-)
+
 > 
-> On Tue, Jul 13, 2021 at 11:16 AM Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > On Tue, Jul 13, 2021 at 11:04:09AM +0200, Geert Uytterhoeven wrote:
-
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>   arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> index adcd4f50519e..0987163f25ee 100644
+> --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
 [...]
+>   	clock-frequency = <24000000>;
+>   };
+>   
+> +&pinctrl {
+> +	scif0_pins: scif0 {
+> +		pinmux = <RZG2L_PORT_PINMUX(38, 0, 1)>,	/* TxD */
+> +			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
+> +	};
+> +};
+> +
+>   &scif0 {
+> +	pinctrl-0 = <&scif0_pins>;
+> +	pinctrl-names = "default";
+>   	status = "okay";
+>   };
+> 
 
-> > >
-> > > Probably both.  Might make sense to reset on wake-up, after having disabled
-> > > clocks and powered down the AP CPU, AP GIC, ...
-> > >
-> >
-> > /me confused. If this is arm64 platform, then you have to use *PSCI* and
-> > I expect the reset to be done as part of CPU wake-up in PSCI firmware.
->
-> DT Rule #1: DT describes hardware not software policy.
->
-
-As mentioned before I agree on that. But I assume you too agree that not
-all bits and pieces of hardware are represented in DT. Only ones that are
-essential for any software to understand the hardware and make it work.
-So my opinion is that this GIC reset information is implicit like many
-other hardware information.
-
-> The fact that _Linux_ must use PSCI is a (unfortunate) software policy.
-> What about other OSes, or bare-metal software?
->
-
-Disagree. PSCI is OS agnostic and _Linux_ is not the sole user. Do you
-have examples of other OS that deploy alternate to PSCI ? Or bare-metal
-that uses DT ? Again if there is a use-case, you need to spell out details
-on when this can be used and where it can't be of much use(of-course with
-the mention of Linux). There are complaints that DT bindings are too Linux
-specific, so please pull in the other OS folks or other users so that we
-get details on use-cases. Based on your argument we should have loads of
-other information in DT on CPU or CPU peripherals for example even if
-PSCI hides them for OS. Do we really want to get down that path ?
-
-I agree PSCI is software policy but definitely fortunate, helped prevent
-lot of non-sense in OS 😉.
-
-> > > If that bypasses PSCI: well, if the unsecure software can do it, it
-> > > means the hardware is not secure. Or at least Linux has to be trusted.
-> >
-> > No, if the system has PSCI, then you simply can't bypass that for GIC
-> > reset. Or at-least I am failing to understand the complete flow of that.
->
-> PSCI can only prevent other software from bypassing GIC reset if PSCI
-> programs the hardware to prevent access to the GIC reset (if possible
-> at all).
->
-
-It is not matter of preventing, it is matter of what we can support
-architecturally and sanely. While I agree with non-Linux use-case, we
-can't support this in Linux.
-
---
-Regards,
-Sudeep
+MBR, Sergei
