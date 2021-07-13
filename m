@@ -2,163 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B0A43C6CDF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jul 2021 11:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A58D13C6D0C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jul 2021 11:16:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234752AbhGMJJz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Jul 2021 05:09:55 -0400
-Received: from esa.microchip.iphmx.com ([68.232.153.233]:22191 "EHLO
-        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234663AbhGMJJy (ORCPT
+        id S234735AbhGMJTA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Jul 2021 05:19:00 -0400
+Received: from foss.arm.com ([217.140.110.172]:39018 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234397AbhGMJS7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Jul 2021 05:09:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1626167226; x=1657703226;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=Hg4Alnzvkm9RZnd8Fk6mE+xCxkS1Z9+REV2an0huLWo=;
-  b=II0Fy8IAG3TRREdR0Tvu+wLEXp5ZvFqpsSNLyDMqJ6ZzKxD7vZgldqlV
-   5gO9c9jvXAI01Te0hLusLA81ImwwYFefTKckaFKXtLcXCbKpdQ1t9uyhc
-   yBp+3LURC/5Sr9xMgORKBBprMJGMKKNfnTfWNao75Co9iRwIUy9bgtuZL
-   kRstVyHdiJ7ZyvscUa77S44XV6Lsj5E8mTg/UdFk61v18dGc4bq6tkDvp
-   LllGRTo6BcyZQccZD5GxqFBDfeOqyHXbrggaDCPFfgpp2teXYRkwC3Meq
-   Yq0ErZdZ1bkVRjBVxDwAcPSR0bqHpOskUrhRBdA5Nt2NSQ5ykyKTFpYT2
-   g==;
-IronPort-SDR: lyScv05YkyWWqph18HUoT9ML+4Hjt4sIp0ZOB3FzYQAWzK1EcEkRtXTtatzIP9VouH+u924fEf
- Vn/sd4Vt39VHpuk3XLKOhbuGTHKQrFogEyyPbIqrDkXS4MNdwoJDYg9evq+C886FK05y5K9eAu
- n4E1lOZuy/A/tvwKZMSCda92B9WwZkULHIwKj7F1HAth1c1l6Q3tVIjhf8QvPctcKSwaYfvWCi
- Z3CoQCBHWXRRf8jST5DCmlpfwhj3Lyeliew3Kx/VF2k0AJhtUB360Y8IoCjWcaABscKOQjclfU
- 0U0=
-X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; 
-   d="scan'208";a="128047153"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Jul 2021 02:07:05 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 13 Jul 2021 02:07:04 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2
- via Frontend Transport; Tue, 13 Jul 2021 02:07:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h/Rkqgwm1w11LOj1K4Sq87jdrlRoke3whnLoGo5zaA8brzAKQ7aQBEJ5bE49Iamr1Jiy5JjoBXKWJEzNH/awYLqh70ShfEFtAPVqncZQStik+VAIMlto90JKmoD4hoLCBwKxL00pb65gXUozjAEjx2ENOPgTgXjfrbK4zthwMIbO8sRCT91S934QQxEXd0F3cjLO5aiajl25DZ8gl1G85xNfAUVCO05jyl9NB2aQ5Mp5+Wso3JYzTh8BabmkLIATQmcGufPfg9tk9Oa4+R+9+S14i6PCM4BFQrzSR3hS/7eeq2DUwb/k3ojVjxJHwi8G9Mm8rpMxMXm7KqBPMCtbcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hg4Alnzvkm9RZnd8Fk6mE+xCxkS1Z9+REV2an0huLWo=;
- b=E8rm6q7zM9x1AiaxlScOIM+4ojGsLTf3fSbL7nD+2SHDovl2IWoXpbXQE8BRClTO+ZAEQkTZCc8JYdgodPD6KlQ3exlBhvzH0NfaRoHsLLbBfttczlNr3lVjG1L9SV3AXtLTviXdXMy9snPNAs8c1CE9bkjFgAdQLU8mKw0SrrJ7pCYzy0v5OKEqauhtngFvQHhsxHXd6STHnVi0wBeT5X5HzadZVLHN/6FPY1Mr25q9dznopFJobzCgjto35k09VbKAexMpapdMSyh54EnVnkrs0QBFG5whlkAE9sjInI/fL3lviZD07H2mQAYz/Iy6i/nCI4KNInxzrdZKQO1CEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hg4Alnzvkm9RZnd8Fk6mE+xCxkS1Z9+REV2an0huLWo=;
- b=tYatekcnxFzOwAXlojywT9sQbZdl2Nc+6rdLqRpDVrIKg4kRtjo0pH9J6d7uxttEQcHISUyGhzVBN1cRO9QxASL+QO6t6sCG+InSHNoGowYzzbX+P8yTaZsw3PlnLLxmT93kxaL5Wqc1dPYInYjfmo9qpSBd6LjquDRDYQ/Q88o=
-Received: from DM8PR11MB5687.namprd11.prod.outlook.com (2603:10b6:8:22::7) by
- DM4PR11MB5376.namprd11.prod.outlook.com (2603:10b6:5:397::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4308.20; Tue, 13 Jul 2021 09:07:03 +0000
-Received: from DM8PR11MB5687.namprd11.prod.outlook.com
- ([fe80::44ef:d8cf:6e86:2cd5]) by DM8PR11MB5687.namprd11.prod.outlook.com
- ([fe80::44ef:d8cf:6e86:2cd5%5]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
- 09:07:02 +0000
-From:   <Codrin.Ciubotariu@microchip.com>
-To:     <wsa+renesas@sang-engineering.com>, <linux-mmc@vger.kernel.org>
-CC:     <linux-renesas-soc@vger.kernel.org>, <Nicolas.Ferre@microchip.com>,
-        <alexandre.belloni@bootlin.com>, <Ludovic.Desroches@microchip.com>,
-        <linux-i2c@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/7] i2c: at91-master: : use proper DMAENGINE API for
- termination
-Thread-Topic: [PATCH 1/7] i2c: at91-master: : use proper DMAENGINE API for
- termination
-Thread-Index: AQHXaBaLO0AD4EQjfk67xnkt2E5KSqtAvLUA
-Date:   Tue, 13 Jul 2021 09:07:02 +0000
-Message-ID: <b777820b-5b87-1981-4d80-8a5c3373eaac@microchip.com>
-References: <20210623095942.3325-1-wsa+renesas@sang-engineering.com>
- <20210623095942.3325-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210623095942.3325-2-wsa+renesas@sang-engineering.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-authentication-results: sang-engineering.com; dkim=none (message not signed)
- header.d=none;sang-engineering.com; dmarc=none action=none
- header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 841a4002-81fa-4aec-9ac3-08d945dd946a
-x-ms-traffictypediagnostic: DM4PR11MB5376:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM4PR11MB5376107EE610E1325B82DC0CE7149@DM4PR11MB5376.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +mjjrsVu71+OqLnAZ5VW8Wt0T9uHANnjr9GfgniQQjbZ1M/v29n8/7XPsSGWXtuXIUmD+QvdSyilcKZw9IjaCRRigFIuLCS6LkFKptPJHKLhsrQ2pQSq2GgJ6RYm/bPMls3NJOnc03GHfmrN4YaXpScz1YwOfzQV9lGi4zQQYyv3cwGiY79YXUEaVr4L8oRumDx66mPcY8BPx/0/drKrKU42j7+6FNesdtCEJDg2IO7X0YvJrgmmiSuIa+ZFEiB7tkNVv8fgVLPNLWokshnykY/Geyx7Y+rqWf7ucqcX+l6ikK33gwEpflmu3kvCdYHZyKpRmuq/haJGiesakj+pURGtCTJ8yjFFPa3CRxGycn3rhSk+OJnoTuA4sN1L/LnEAee+QPeaiXBwL0eTi3IA0sABQfOSQhiMET/MM/OQ6zKNi4gaG7sBhM/EswrNEj3L+jUq3KCmQtIQvrr/NuwUdX9/+0pEhbsO0Fh7v03WBR6sIGTtbum56WP54GXdWK4p98ME6a+ChOQEj++UQmTjdKbWAlSzTwNzX9wG3+JPTGPhzJHX6FaOf12EER4IJUYNeTUzvyhKFckiB7Ij2HM70+lnIsiEdB021bhUfUtjUP4Ux5kQmvNm4powPOkMgh5tepaqJrA8KJ1ixx/lHznIcN13GRBpnfpXXfgSfRGQzYKWKiXzMlGgjkvczT2ErruovMuLcMrs4sEtRIi6b3Zt/Btyaj07EBEq7q3Ao968M7oPq+rgeR3csEFMyxEhVpjU
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5687.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(186003)(110136005)(31686004)(26005)(86362001)(36756003)(66446008)(31696002)(54906003)(38100700002)(498600001)(4326008)(2616005)(122000001)(2906002)(6506007)(6512007)(71200400001)(8676002)(76116006)(4744005)(66556008)(66946007)(6486002)(8936002)(66476007)(91956017)(5660300002)(53546011)(64756008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aUdRT1I3elkzTzJteDNIMHMrbjM2Z3krYWs0VTdObUdmZXVGTWUwVFZqUVFT?=
- =?utf-8?B?eHVvVjFBckZSRTNxM0NKZGI4M2JIUkZ3aXl6TElvVnFPWXhLdHJjRFVwK2h3?=
- =?utf-8?B?VjBQeU9FYjFxa0d2eGxiaGI5NmVSYUVsYzE3eXVvTWdDNnlGTXE5eVN5TTBt?=
- =?utf-8?B?OXVhQ1FscWRyYUk5b0lPc2hkTWhyTFM4c1dFL2pUNVlwdEd0N1BuTW9wbVUv?=
- =?utf-8?B?djhZV3FNUGh4WmFlRTF5bmxLUFRaWThJcHBKKzlyWFpWYnlTakp2dE9yL0xI?=
- =?utf-8?B?cXJQeTdHd25WejZESlBwWGVBM2RrUi9WbjNRV3JLMUFuT04zUG0xdStpOUpV?=
- =?utf-8?B?azNOTnVxZFVzUVIzSzNncmZFTGxxOCt1VFFLR2pneG9FYTd4ZHMrZjhPeTRl?=
- =?utf-8?B?R2NoeTlGL1psL3hCb1UwRTM3OWd4bUZmWjdVcTZ0ZVd0bFNsa1VwdHFuTG1E?=
- =?utf-8?B?MVlKaDVIb3BsRVg1UTdLSkprUXFpeHg5Zm5HcCtDUkt3dXpYL1J3YUh0cnla?=
- =?utf-8?B?R3kvRS9CS21nSHdIWENZbVlYNngrN25DQlV5dXNIS0c5RnlyRGxpcUVZMUpK?=
- =?utf-8?B?NkN3cCs5WVY2cUxoWmlDL0kwWitKNmNTQTJCZ1crb2kyUlR6SS9FZ3hqczVa?=
- =?utf-8?B?emJkT2Nod2VGM3JaNVovU3N2ZkNVMTNtQ21rY0FwTFJMTUFHam55NFc5RzZj?=
- =?utf-8?B?SGlPUys2WDNxbndDQzdSeERzcW1wN0t0MVpMdGs1NjEwVXUzUFoxbWhQVDBw?=
- =?utf-8?B?azFYQkJNR3pPVm5TQXYwb014T010bkhCVnQvL2R4R0hkRThBV3dZakMyNitV?=
- =?utf-8?B?MDR2cmpOY0R3SUIvSjdZd3ZOaUVBZFR3M0ZERkRtMUNhNnFXTTk4eUdrWDdX?=
- =?utf-8?B?S3kvTVI3bGRIclRnWW9oNi92NzRGQ2xHcDYvb2FkUEc1eU5Bem1VUFN1cnJT?=
- =?utf-8?B?R0FFbnZFWGIzeU5sKzZlcDUyYWM2WmM2ZDBmRFMrODcxV1VEanBLRWN3Mm9w?=
- =?utf-8?B?SlpVSXBpTFE0R1J4QmlJc2RuejN1YVJ0WGtZd2J6VWJSZTNYdGdzZWtzM2FU?=
- =?utf-8?B?WHBuY2pRTEZ1Zmh2NEtSSmdUS2Q2ckhGeUJLU1FOOGJJYytKT29LcUpLQVhC?=
- =?utf-8?B?Q09hVWZSd1JFVk8xQ3poZngzS2wvK1lwNGVtOTYxUjh6NkRQYlNOQVV4N1Zt?=
- =?utf-8?B?OERMZlphU0ptMnRkRFpBQnJqUEF4VSswRUxTNDNMTmhXdWI2dGNRTXZtQ3BK?=
- =?utf-8?B?a3NvTlBQSGEySXFESWZiZXNVRjY3cFlYaDYvUlBxMHVOQ0txTWxFM0QwZ2ZG?=
- =?utf-8?B?TkZKV2xVeDhhZko5MVpHOGVtVDFaKzQxNWQ0R1k2OEJYL2phQ3c0TFhWUkNn?=
- =?utf-8?B?ZjY5cGxMMkI4KzVXRG94SHRvdG1ueVo3OCs2c2hldldEdG1ldlJYb3hUOE9q?=
- =?utf-8?B?KzI4U3lUYS8zUEJnL3lsZWhMQitMbEwwRWFFV1BOVUhyMTBHQUYvaWpRWG15?=
- =?utf-8?B?Q1JiTVBtd0hOTkFOUkozRkNXS0xXeFJqajBkYWRjZkxKOUF4VlZyUFRKd3Bt?=
- =?utf-8?B?M0dBM01tUVM5czAxaTUvL1VTSlZwejJ0VFVYeXpoQm13UEN1UEExdjFyTW41?=
- =?utf-8?B?dXpyNXZxZjVWcEhteng4elRSbGxJWjhncE1TRE8rSFBiU0lyVWs5SmVQWHhp?=
- =?utf-8?B?WjVVZm9oVGpIT01tN0YwaTFYbEJXd0Q0bnhLYWtyR1FSSHpzUlArS2VnNC9Y?=
- =?utf-8?Q?sXWebPjH2kkE3Hafw0=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B620F44B4ACB6349943A8DE7B34D1971@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        Tue, 13 Jul 2021 05:18:59 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F257E31B;
+        Tue, 13 Jul 2021 02:16:09 -0700 (PDT)
+Received: from bogus (unknown [10.57.79.213])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 81C003F7D8;
+        Tue, 13 Jul 2021 02:16:08 -0700 (PDT)
+Date:   Tue, 13 Jul 2021 10:15:02 +0100
+From:   Sudeep Holla <sudeep.holla@arm.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r9a07g044: Add missing GICv3 node
+ properties
+Message-ID: <20210713091108.7nx2d2fxolx2wrg5@bogus>
+References: <20210611152108.6785-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdWJQESFmhV+c-QmivXCWPx21QcB-HSzjxf8KsXh_DAvfw@mail.gmail.com>
+ <CAMuHMdXG9H_mOtA_a9t0K8BVaR4p0DcWgNeL0786YvybV2Hqgw@mail.gmail.com>
+ <CA+V-a8tk6uCeRwmiTh=Ds+8DYVUqCYs64nX_9ksDXXdSd-rxNA@mail.gmail.com>
+ <CAMuHMdUg5v3qsFQsg783nC=o_BL3pL6YqqQphGQHHOaCeakj5Q@mail.gmail.com>
+ <20210713085508.nq6473icf5gt3nm5@bogus>
+ <CAMuHMdVG6eji_uW+7egeQH=77fwQnN_qQ4hRHgQa4XQYQrbL9Q@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5687.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 841a4002-81fa-4aec-9ac3-08d945dd946a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2021 09:07:02.8833
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6To592eiBacIzx1lm9JkkqnGkTPVn0gJmOb6cRReeh1t5BJIHgPjxp6jd4B8QmdEMi1QuhkZwr8zsNKFeiiYS+ulzXqe+cEfoNkyEwi7KNI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5376
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVG6eji_uW+7egeQH=77fwQnN_qQ4hRHgQa4XQYQrbL9Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-T24gMjMuMDYuMjAyMSAxMjo1OSwgV29sZnJhbSBTYW5nIHdyb3RlOg0KPiBFWFRFUk5BTCBFTUFJ
-TDogRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBrbm93
-IHRoZSBjb250ZW50IGlzIHNhZmUNCj4gDQo+IGRtYWVuZ2luZV90ZXJtaW5hdGVfYWxsKCkgaXMg
-ZGVwcmVjYXRlZCBpbiBmYXZvciBvZiBleHBsaWNpdGx5IHNheWluZyBpZg0KPiBpdCBzaG91bGQg
-YmUgc3luYyBvciBhc3luYy4gSGVyZSwgd2Ugd2FudCBkbWFlbmdpbmVfdGVybWluYXRlX3N5bmMo
-KQ0KPiBiZWNhdXNlIHRoZXJlIGlzIG5vIG90aGVyIHN5bmNocm9uaXphdGlvbiBjb2RlIGluIHRo
-ZSBkcml2ZXIgdG8gaGFuZGxlDQo+IGFuIGFzeW5jIGNhc2UuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5
-OiBXb2xmcmFtIFNhbmcgPHdzYStyZW5lc2FzQHNhbmctZW5naW5lZXJpbmcuY29tPg0KDQpSZXZp
-ZXdlZC1ieTogQ29kcmluIENpdWJvdGFyaXUgPGNvZHJpbi5jaXVib3Rhcml1QG1pY3JvY2hpcC5j
-b20+DQoNClRoYW5rcyENCg==
+On Tue, Jul 13, 2021 at 11:04:09AM +0200, Geert Uytterhoeven wrote:
+> Hi Sudeep,
+> 
+> On Tue, Jul 13, 2021 at 10:56 AM Sudeep Holla <sudeep.holla@arm.com> wrote:
+> > On Tue, Jul 13, 2021 at 10:30:36AM +0200, Geert Uytterhoeven wrote:
+
+[...]
+
+> > > And a possible use case: the RT CPU core may want to reset the AP GIC.
+> >
+> > I didn't want to add new bindings without details on the implementation
+> > to avoid possible issues with backward compatibility as this was not
+> > thought through completely and correctly before it was added.
+> >
+> > OK, now let us discuss your use-case: *RT CPU wants to reset AP GIC*
+> >
+> > 1. Will it just reset AP GIC or will it request the AP reset as a whole ?
+> >    I am not sure if we can handle former, if you think otherwise what is
+> >    the reset notification mechanism ?
+> >
+> > 2. Will that bypass secure world/PSCI ? Again more details on this would
+> >    be helpful to visualise the entire use-case end-to-end better.
+> >
+> > By GIC reset, I am assuming it will be complete GIC reset including it's
+> > CPU interface.
+> >
+> > I don't think we can reset GIC without actual CPU reset. Even if we get
+> > some notification magically to the CPU that its GIC alone needs to be
+> > reset, it needs to safely higher exceptions to get its GIC CPU interface
+> > reprogrammed to correct (saved) values before OS can reprogram the NS
+> > world values. All these seems overall complicated and may be unnecessary.
+>
+> Probably both.  Might make sense to reset on wake-up, after having disabled
+> clocks and powered down the AP CPU, AP GIC, ...
+>
+
+/me confused. If this is arm64 platform, then you have to use *PSCI* and
+I expect the reset to be done as part of CPU wake-up in PSCI firmware.
+
+> If that bypasses PSCI: well, if the unsecure software can do it, it
+> means the hardware is not secure. Or at least Linux has to be trusted.
+>
+
+No, if the system has PSCI, then you simply can't bypass that for GIC
+reset. Or at-least I am failing to understand the complete flow of that.
+
+--
+Regards,
+Sudeep
