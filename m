@@ -2,180 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 875143C79B6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 00:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EFB63C79E8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 01:02:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234957AbhGMWfN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Jul 2021 18:35:13 -0400
-Received: from mga05.intel.com ([192.55.52.43]:42479 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235973AbhGMWfL (ORCPT
+        id S236545AbhGMXFS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Jul 2021 19:05:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48552 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235417AbhGMXFQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Jul 2021 18:35:11 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="295896703"
-X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; 
-   d="scan'208";a="295896703"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2021 15:32:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; 
-   d="scan'208";a="654554843"
-Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Jul 2021 15:32:20 -0700
-Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1m3Qwt-000ICt-Dn; Tue, 13 Jul 2021 22:32:19 +0000
-Date:   Wed, 14 Jul 2021 06:31:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.15] BUILD SUCCESS
- 3b4d2962f5c89906fac63d53c5c586435ca07a1f
-Message-ID: <60ee1453.xEUUycYEKcWlfMf1%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 13 Jul 2021 19:05:16 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8E52C0613DD
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jul 2021 16:02:25 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id j199so140001pfd.7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jul 2021 16:02:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=kgwsnQ4zzvNfLr2/W27FfaX1FG+tfby2QIztWJvfQpM=;
+        b=FQWvfX4TaacWQRy6kkz5YTYUY6M1kxmzFtNXwbkAQJ4oQCuQI1Xh3XSdKfRvsET06l
+         LJXUXEL4PcMdyt0CX7fHZiDZWvdei55OWoF10f+tX4gkzNtl8sEN0bwu+CI3gGsdm75l
+         AiyVVcg7tZ10jXmoPZcP69T30ZGcPJKrJ4bxS2L9gR/FN5s+xsaN/wxRZ3OIeIFarBuo
+         fFymLzdHy0XjW3QXsubVRx4OxUDvR6t6h+a2ighh/yrRVa4WqmKryrbyvolRGaxq5Vbb
+         sqqMP+JwCEVUIMI/gAqRuK5Zglb3/nEWDjLyB+FgXrt1ZGWT/i3wdodaEM/pv3dgfLX2
+         Nkag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=kgwsnQ4zzvNfLr2/W27FfaX1FG+tfby2QIztWJvfQpM=;
+        b=QKXynMlSRQ1ujq4GgMlJesSDkJD4g5ZacxLS7IWlY5H+5pQ+umrwJ+FEbKRtD/5uMf
+         QXdXSUfuwEeKNZHI01wqBGHW1/P1oUST76ndWU8xXKwtbeq/dBC94hj8IHv3JK9PmWN+
+         QpIT5Ez1QhKhmbMFeTcrUM7gap9pmd3gr+WcZnhDOSKE8h7bmRs1keSZQWmgPezDX+Es
+         EVt6emvOPlWdefE0rdQ49Dq5NpMrsxUPeOqgRDHe+hudPyv6FVgTBdUNACrf6kYYRJ8P
+         IchWWBdYZ0IfH4nDEmLtbg3Nvy8QbXtlKyeGSe+McNFv4NN93UocZ7L2PeWKcU0mZeUY
+         Kusg==
+X-Gm-Message-State: AOAM530Yp+wnDdGveNlFKwjSd6Q+sct4bDh3ZjVA1H0DARDjzinP7Zk2
+        taZ4NoP5N4BzSAenQ9jis+k5ZlDJ8/x1eEPh
+X-Google-Smtp-Source: ABdhPJz+PlvUn9jMVAyFhU7thS2C3o/8FJE9CSIvf1x0WdeikbDE5xunWALudE5bKmKagYj9qFxn9g==
+X-Received: by 2002:aa7:90c8:0:b029:32c:935f:de5f with SMTP id k8-20020aa790c80000b029032c935fde5fmr6883361pfk.79.1626217345193;
+        Tue, 13 Jul 2021 16:02:25 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id u24sm211793pfm.200.2021.07.13.16.02.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jul 2021 16:02:24 -0700 (PDT)
+Message-ID: <60ee1b80.1c69fb81.c427c.1449@mx.google.com>
+Date:   Tue, 13 Jul 2021 16:02:24 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: renesas-devel-2021-07-13-v5.14-rc1
+Subject: renesas/master cros-ec: 7 runs,
+ 1 regressions (renesas-devel-2021-07-13-v5.14-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.15
-branch HEAD: 3b4d2962f5c89906fac63d53c5c586435ca07a1f  arm64: dts: renesas: r8a77990: ebisu: Add I2C EEPROM for PMIC
+renesas/master cros-ec: 7 runs, 1 regressions (renesas-devel-2021-07-13-v5.=
+14-rc1)
 
-elapsed time: 721m
+Regressions Summary
+-------------------
 
-configs tested: 121
-configs skipped: 4
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+asus-C523NA-A20057-coral | x86_64 | lab-collabora | gcc-8    | x86_64_defco=
+n...6-chromebook | 1          =
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc                   bluestone_defconfig
-m68k                          sun3x_defconfig
-arm                         lpc32xx_defconfig
-sh                          lboxre2_defconfig
-powerpc                      ep88xc_defconfig
-arc                     haps_hs_smp_defconfig
-sh                             espt_defconfig
-arm                             ezx_defconfig
-riscv                          rv32_defconfig
-sh                           se7705_defconfig
-mips                           gcw0_defconfig
-powerpc                    amigaone_defconfig
-mips                           ip32_defconfig
-arm                              alldefconfig
-mips                         tb0219_defconfig
-sh                          urquell_defconfig
-powerpc                    gamecube_defconfig
-arm                         s3c2410_defconfig
-arm                    vt8500_v6_v7_defconfig
-arm                       netwinder_defconfig
-xtensa                           alldefconfig
-sh                            migor_defconfig
-mips                         tb0287_defconfig
-powerpc                    ge_imp3a_defconfig
-powerpc                  storcenter_defconfig
-powerpc                     kilauea_defconfig
-sh                     magicpanelr2_defconfig
-powerpc                    mvme5100_defconfig
-arm                        cerfcube_defconfig
-arm                  colibri_pxa270_defconfig
-arm                            mps2_defconfig
-arm                        trizeps4_defconfig
-nios2                         3c120_defconfig
-powerpc                      mgcoge_defconfig
-arm                         mv78xx0_defconfig
-mips                        workpad_defconfig
-sh                         microdev_defconfig
-mips                        omega2p_defconfig
-powerpc                mpc7448_hpc2_defconfig
-mips                         bigsur_defconfig
-m68k                        m5407c3_defconfig
-powerpc                      cm5200_defconfig
-powerpc                       holly_defconfig
-mips                 decstation_r4k_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a005-20210713
-i386                 randconfig-a004-20210713
-i386                 randconfig-a006-20210713
-i386                 randconfig-a001-20210713
-i386                 randconfig-a002-20210713
-i386                 randconfig-a003-20210713
-x86_64               randconfig-a013-20210713
-x86_64               randconfig-a014-20210713
-x86_64               randconfig-a012-20210713
-x86_64               randconfig-a015-20210713
-x86_64               randconfig-a016-20210713
-x86_64               randconfig-a011-20210713
-i386                 randconfig-a015-20210713
-i386                 randconfig-a014-20210713
-i386                 randconfig-a011-20210713
-i386                 randconfig-a013-20210713
-i386                 randconfig-a012-20210713
-i386                 randconfig-a016-20210713
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-07-13-v5.14-rc1/plan/cros-ec/
 
-clang tested configs:
-x86_64               randconfig-b001-20210713
-x86_64               randconfig-a005-20210713
-x86_64               randconfig-a004-20210713
-x86_64               randconfig-a003-20210713
-x86_64               randconfig-a002-20210713
-x86_64               randconfig-a006-20210713
-x86_64               randconfig-a001-20210713
+  Test:     cros-ec
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-07-13-v5.14-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      81b7948a0be3dc48ef04d01b16c08dc3b460bce2
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/cros-ec-tests.git
+      SHA:  e4c91962f6e19466c1e43629a2c6cd04ff012e06 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+asus-C523NA-A20057-coral | x86_64 | lab-collabora | gcc-8    | x86_64_defco=
+n...6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60ee0420bec10514528a93f1
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-8 (gcc (Debian 8.3.0-6) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-07-13-v5.14-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collab=
+ora/cros-ec-asus-C523NA-A20057-coral.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-07-13-v5.14-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collab=
+ora/cros-ec-asus-C523NA-A20057-coral.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-cros=
+-ec/20210709.0/amd64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/60ee0420bec10514528a93=
+f2
+        new failure (last pass: v5.14-rc1-477-g3c037963715c) =
+
+ =20
