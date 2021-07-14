@@ -2,268 +2,302 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 749353C8AB2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 20:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2000F3C8ACA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 20:24:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240026AbhGNSXY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Jul 2021 14:23:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58286 "EHLO
+        id S239899AbhGNS1r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Jul 2021 14:27:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229806AbhGNSXX (ORCPT
+        with ESMTP id S229603AbhGNS1r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Jul 2021 14:23:23 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16A34C06175F;
-        Wed, 14 Jul 2021 11:20:31 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id t17so5251438lfq.0;
-        Wed, 14 Jul 2021 11:20:31 -0700 (PDT)
+        Wed, 14 Jul 2021 14:27:47 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57FBC06175F;
+        Wed, 14 Jul 2021 11:24:54 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id b13so4747859ybk.4;
+        Wed, 14 Jul 2021 11:24:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cMGaVysAlMXbtIN347TMOwnpIGxRKHH+sBocFgrr8xE=;
-        b=DYmn7DRKhP3ON6h6T+GLVRA5DqBoCKVtAfjfuwlgzniy9ZskjrULaMn83krZLILdOl
-         r1GeiPhNavrhwnFJ1dHmlwLLZAok0NuIXrc+MQ1TkuGv6ixuQAsZ5hvVCxSbEjyH5zEe
-         hEwphHZmVAKIX50/eOwjBoIzwIMbk4swz2qP8lVgCOlSTeIGBX0QfElXzZHdnusoyO1O
-         FH5uWTCnyhV1I8pmBe1Aq/ammIfUKc+Ft2BLb3qVQwVIvwTd2akPzztN9IBv1FZ7MpZm
-         2SAB1bkGrXu93LKUj3CUV7xiSVv9qnLRRpPZ/AXSCgHNmlJV7PqCmQ1lnoFU3b1oMqC1
-         rjOA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SpV3sdV7S61O3qNeeFQZMA7ea5X7W/pFyadl8Eq+KQ4=;
+        b=Yf1vfjVnjzTb1407lZHnKE5HI+V8NDvjRxPeKNpGU+wnNSrafYRbNxXZDy3WZtc3I4
+         wYe6TIbPRC3pUjGegPlIi0QWHHAcBbmNxTILyZoBenjRmVtvLhIJ5sybqgHCvBYndfJx
+         Hb9eLF7efYdGcndabbr3oXQNahopLiFeotBec7U8Kl3PfslG7sFX8H/hxmF0yZu68fIR
+         +gxKUvNZfblS5dfw2KBJfHt6gYPPOIg6kL3G2meRfXPct/FwKKzVCvMprn8fRJ/T/tYD
+         CcN4aSi3FM06aCPMDpowrE8Va52Nlt+T6YresPcaQ3HbU49w/+NFGQVxnkidYoi5GWqd
+         ZVkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cMGaVysAlMXbtIN347TMOwnpIGxRKHH+sBocFgrr8xE=;
-        b=jzLnjy3bIsodX4qM4ZaRkB+NLJ/mWTZyx7//XmE3VqDDwoI5XxEiSzSXVzoYDlRAjQ
-         DKgHKUKf3GcnTyilhf2oY2bWa5+6pW4sCpDPa0/IIOqvkliumkKUkrszZxa3bO0QCTgS
-         Nb2edg5jZlq/79LD80vr83S+SoT2BhL4sC/3Shik6/mjQxPqGMXmhs2yQuyYJaWGfGPz
-         DEV5RYY3Jn465BJGc1EKIWdA1U8R5KbtbzVMF73XvVF9+x+KriGlhxcX9eKfUcBQt9/q
-         57w9zELyHZUeHxClgRL0nh0RVz2BDWBPOrsDZyAyohmJgLYskCzkaH2AgEdztV3c4im5
-         7CIQ==
-X-Gm-Message-State: AOAM5300uMpDU6taJFZgYS5oD61SajFRzhwDRD2dA33zDIOVd0eR9Cfe
-        0Zo1UD3SCaiKOGPB0sDXmUQ=
-X-Google-Smtp-Source: ABdhPJzvhe3m5pmOp4I8ON7+5rYe3KjcrjkZAYsDkZb20f+pZZvK3auBae9mHaPasxz8ifh7NqrttQ==
-X-Received: by 2002:a05:6512:92d:: with SMTP id f13mr8896651lft.186.1626286829374;
-        Wed, 14 Jul 2021 11:20:29 -0700 (PDT)
-Received: from [192.168.1.102] ([31.173.80.53])
-        by smtp.gmail.com with ESMTPSA id l6sm215585lfe.303.2021.07.14.11.20.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jul 2021 11:20:29 -0700 (PDT)
-Subject: Re: [PATCH/RFC 1/2] ravb: Preparation for supporting Gigabit Ethernet
- driver
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20210714145408.4382-1-biju.das.jz@bp.renesas.com>
- <20210714145408.4382-2-biju.das.jz@bp.renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <b728e294-b1aa-1275-2b73-d80e6726c083@gmail.com>
-Date:   Wed, 14 Jul 2021 21:20:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SpV3sdV7S61O3qNeeFQZMA7ea5X7W/pFyadl8Eq+KQ4=;
+        b=I38DRIe/QSgcFwVYB5Eihqu1atN21ITdg34xC3lts0SptOxLY2J7baTK3X/H2KwRbH
+         ZwURDgDbbtiHjiBHv2VtGbTtQFDcutv3d1OGIRuhgnA08faOaC/OavBncXW5Mzdz5hIU
+         0jiAAxFVwjEEyfcKOS2JQK6xUfRIe/SFPxn3mD0dklTQkrKaEJS3MLZYFTyAemZy0DdC
+         lOUx8rgzz7wVnhBTKzWDzTsZpyBxOen2/JBTZzvT2OCNxYH49XMvyL9eUMEO3AEGjfQw
+         XSw61F2jQnR0cyohGqQP4a9Q4sVuygUZdYsJKO1O8kJYgaRx2SoZm73vDZExk8Ixg6Ts
+         b7wQ==
+X-Gm-Message-State: AOAM5306uU1lZz0BSAycMxH3qyZaF1YXMu5sYc5CZsnLD/4mzRoU9gU7
+        489Xfmz0+Lv1nHs1GjiomXiD/mW7bIzaS8nUe4I=
+X-Google-Smtp-Source: ABdhPJwrMwFZBPMMkaZNNlL1aP5tzNI1sbcJHuA6d+49HpHXX/bolHkkyxYQXKvGwR2A9k+Z72Sx4Y53yem9VDWaxy4=
+X-Received: by 2002:a25:694f:: with SMTP id e76mr14297138ybc.119.1626287094010;
+ Wed, 14 Jul 2021 11:24:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210714145408.4382-2-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210629220328.13366-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210629220328.13366-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210703181937.510ec0fa@jic23-huawei> <CA+V-a8uzeepfd+8Wfd2n2EXeXQ9QJZhR+X8j29Y7DGNu8+aH+g@mail.gmail.com>
+ <20210714133913.000075a6@Huawei.com>
+In-Reply-To: <20210714133913.000075a6@Huawei.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 14 Jul 2021 19:24:27 +0100
+Message-ID: <CA+V-a8spDa5PiGzp6-4mHTEMfQYJ5NnQ44vwgdtu_sfVG5OO5Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: iio: adc: Add binding documentation for
+ Renesas RZ/G2L A/D converter
+To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-iio@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Jonathan,
 
-On 7/14/21 5:54 PM, Biju Das wrote:
+On Wed, Jul 14, 2021 at 1:39 PM Jonathan Cameron
+<Jonathan.Cameron@huawei.com> wrote:
+>
+> On Wed, 14 Jul 2021 10:11:49 +0100
+> "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+>
+> > Hi Jonathan,
+> >
+> > Thank you for the review.
+> >
+> > On Sat, Jul 3, 2021 at 6:17 PM Jonathan Cameron <jic23@kernel.org> wrote:
+> > >
+> > > On Tue, 29 Jun 2021 23:03:27 +0100
+> > > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > >
+> > > > Add binding documentation for Renesas RZ/G2L A/D converter block.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Hi,
+> > >
+> > > See inline
+> > >
+> > > Jonathan
+> > >
+> > > > ---
+> > > >  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 121 ++++++++++++++++++
+> > > >  1 file changed, 121 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..db935d6d59eb
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> > > > @@ -0,0 +1,121 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/iio/adc/renesas,rzg2l-adc.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Renesas RZ/G2L ADC
+> > > > +
+> > > > +maintainers:
+> > > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > +
+> > > > +description: |
+> > > > +  A/D Converter block is a successive approximation analog-to-digital converter
+> > > > +  with a 12-bit accuracy. Up to eight analog input channels can be selected.
+> > > > +  Conversions can be performed in single or repeat mode. Result of the ADC is
+> > > > +  stored in a 32-bit data register corresponding to each channel.
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    oneOf:
+> > > > +      - items:
+> > > > +          - enum:
+> > > > +              - renesas,r9a07g044-adc   # RZ/G2{L,LC}
+> > > > +          - const: renesas,rzg2l-adc
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  interrupts:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  clocks:
+> > > > +    items:
+> > > > +      - description: converter clock
+> > > > +      - description: peripheral clock
+> > > > +
+> > > > +  clock-names:
+> > > > +    items:
+> > > > +      - const: adclk
+> > > > +      - const: pclk
+> > > > +
+> > > > +  power-domains:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  resets:
+> > > > +    maxItems: 2
+> > > > +
+> > > > +  reset-names:
+> > > > +    items:
+> > > > +      - const: presetn
+> > > > +      - const: adrst-n
+> > > > +
+> > > > +  renesas-rzg2l,adc-trigger-mode:
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > > > +    description: Trigger mode for A/D converter
+> > > > +    enum:
+> > > > +      - 0 # Software trigger mode (Defaults)
+> > > > +      - 1 # Asynchronous trigger using ADC_TRG trigger input pin
+> > > > +      - 2 # Synchronous trigger (Trigger from MTU3a/GPT)
+> > >
+> > > Is this a function of the board in some fashion?  If not it sounds like
+> > > something that should be in control of userspace.  Normally we'd
+> > > do that by having the driver register some iio_triggers and depending
+> > > on which one is selected do the equivalent of what you have here.
+> > >
+> > Agreed for Asynchronous and Synchronous triggers. WRT Software trigger
+> > should this be registered as a  iio_triggers too or read_raw()
+> > callback (with IIO_CHAN_INFO_RAW case)  should be treated as Software
+> > trigger?
+> >
+>
+> Normally we'd use an external trigger to provide the software trigger
+> (plus as you say sysfs reads will map to this functionality).
+>
+> Something like the sysfs trigger or the hrtimer one would get used, though
+> also fine to use the dataready trigger from a different device (if you want
+> approximately synced dta.
+>
+We can live with syfs reads for now for SW triggers. Coming back to HW
+triggers I responded too quickly!. I am now trying to implement a gpio
+based HW trigger i.e. to kick adc conversion start but I couldn't find
+any drivers doing that. I looked at iio-trig-interrupt.c which
+registers irq based triggers, so something similar needs to be
+implemented in the adc driver? If that is the case the gpio has to be
+passed via to DT and use gpio_to_irq to register the handler. Or is it
+that I am missing something here ?
 
-> The DMAC and EMAC blocks of Gigabit Ethernet IP is almost
-> similar to Ethernet AVB. With few canges in driver we can
-> support both the IP. This patch is in preparation for
-> supporting the same.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index 86a1eb0634e8..80e62ca2e3d3 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -864,7 +864,7 @@ enum GECMR_BIT {
->  
->  /* The Ethernet AVB descriptor definitions. */
->  struct ravb_desc {
-> -	__le16 ds;		/* Descriptor size */
-> +	__le16 ds;	/* Descriptor size */
+Cheers,
+Prabhakar
 
-    Oops! But this should be a matter of the seperate patch if you want to fix whitespace...
-
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 4afff320dfd0..7e6feda59f4a 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -217,6 +217,29 @@ static int ravb_tx_free(struct net_device *ndev, int q, bool free_txed_only)
->  }
->  
->  /* Free skb's and DMA buffers for Ethernet AVB */
-> +static void ravb_ring_free_ex(struct net_device *ndev, int q)
-
-   What does _ex() suffix mean (seems rather poor chice)? Perhaps rx would be better?
-
-> +{
-> +	struct ravb_private *priv = netdev_priv(ndev);
-> +	int ring_size;
-> +	int i;
-> +
-> +	for (i = 0; i < priv->num_rx_ring[q]; i++) {
-> +		struct ravb_ex_rx_desc *desc = &priv->rx_ring[q][i];
-> +
-> +		if (!dma_mapping_error(ndev->dev.parent,
-> +				       le32_to_cpu(desc->dptr)))
-> +			dma_unmap_single(ndev->dev.parent,
-> +					 le32_to_cpu(desc->dptr),
-> +					 RX_BUF_SZ,
-> +					 DMA_FROM_DEVICE);
-> +	}
-> +	ring_size = sizeof(struct ravb_ex_rx_desc) *
-> +		    (priv->num_rx_ring[q] + 1);
-> +	dma_free_coherent(ndev->dev.parent, ring_size, priv->rx_ring[q],
-> +			  priv->rx_desc_dma[q]);
-> +	priv->rx_ring[q] = NULL;
-> +}
-> +
->  static void ravb_ring_free(struct net_device *ndev, int q)
->  {
->  	struct ravb_private *priv = netdev_priv(ndev);
-[...]
-> @@ -272,26 +281,15 @@ static void ravb_ring_free(struct net_device *ndev, int q)
->  }
->  
->  /* Format skb and descriptor buffer for Ethernet AVB */
-> -static void ravb_ring_format(struct net_device *ndev, int q)
-> +static void ravb_ring_format_ex(struct net_device *ndev, int q)
-
-   Again, what the _ex suffix mean?
-
-[..]
-> @@ -396,7 +414,7 @@ static int ravb_ring_init(struct net_device *ndev, int q)
->  }
->  
->  /* E-MAC init function */
-> -static void ravb_emac_init(struct net_device *ndev)
-> +static void ravb_emac_init_ex(struct net_device *ndev)
-
-   Same question for the 3rd time... :-)
-
-[...]
-> @@ -422,29 +440,15 @@ static void ravb_emac_init(struct net_device *ndev)
->  	ravb_write(ndev, ECSIPR_ICDIP | ECSIPR_MPDIP | ECSIPR_LCHNGIP, ECSIPR);
->  }
->  
-> +static void ravb_emac_init(struct net_device *ndev)
-> +{
-> +	ravb_emac_init_ex(ndev);
-
-   Hm, looks pretty useless...
-
-> +}
-> +
->  /* Device init function for Ethernet AVB */
-> -static int ravb_dmac_init(struct net_device *ndev)
-> +static void ravb_dmac_init_ex(struct net_device *ndev)
-
-   4th _ex...
-
-[...]
-> @@ -532,7 +561,7 @@ static void ravb_rx_csum(struct sk_buff *skb)
->  }
->  
->  /* Packet receive function for Ethernet AVB */
-> -static bool ravb_rx(struct net_device *ndev, int *quota, int q)
-> +static bool ravb_rx_ex(struct net_device *ndev, int *quota, int q)
->  {
->  	struct ravb_private *priv = netdev_priv(ndev);
->  	int entry = priv->cur_rx[q] % priv->num_rx_ring[q];
-> @@ -647,6 +676,11 @@ static bool ravb_rx(struct net_device *ndev, int *quota, int q)
->  	return boguscnt <= 0;
->  }
->  
-> +static bool ravb_rx(struct net_device *ndev, int *quota, int q)
-> +{
-> +	return ravb_rx_ex(ndev, quota, q);
-> +}
-> +
-
-   Looks pretty useless...
-
-[...]
-> @@ -920,7 +954,7 @@ static int ravb_poll(struct napi_struct *napi, int budget)
->  	if (ravb_rx(ndev, &quota, q))
->  		goto out;
->  
-> -	/* Processing RX Descriptor Ring */
-> +	/* Processing TX Descriptor Ring */
-
-    Hm, looka like a missing comment fix from the patch refactoring ravb_poll()...
-
-[...]
-> @@ -2059,17 +2094,22 @@ static int ravb_probe(struct platform_device *pdev)
->  	if (!ndev)
->  		return -ENOMEM;
->  
-> +	/* The Ether-specific entries in the device structure. */
-> +	ndev->base_addr = res->start;
-> +
-> +	chip_id = (enum ravb_chip_id)of_device_get_match_data(&pdev->dev);
-> +
-> +	SET_NETDEV_DEV(ndev, &pdev->dev);
-> +
-> +	priv = netdev_priv(ndev);
-> +	priv->chip_id = chip_id;
-> +
->  	ndev->features = NETIF_F_RXCSUM;
->  	ndev->hw_features = NETIF_F_RXCSUM;
->  
->  	pm_runtime_enable(&pdev->dev);
->  	pm_runtime_get_sync(&pdev->dev);
->  
-> -	/* The Ether-specific entries in the device structure. */
-> -	ndev->base_addr = res->start;
-> -
-> -	chip_id = (enum ravb_chip_id)of_device_get_match_data(&pdev->dev);
-> -
-
-   What does that hunk achieve? 
-
->  	if (chip_id == RCAR_GEN3)
->  		irq = platform_get_irq_byname(pdev, "ch22");
->  	else
-[...]
-> @@ -2257,7 +2292,7 @@ static int ravb_remove(struct platform_device *pdev)
->  	struct ravb_private *priv = netdev_priv(ndev);
->  
->  	/* Stop PTP Clock driver */
-> -	if (priv->chip_id != RCAR_GEN2)
-> +	if (priv->chip_id == RCAR_GEN3)
->  		ravb_ptp_stop(ndev);
->  
->  	clk_disable_unprepare(priv->refclk);
-> @@ -2362,7 +2397,7 @@ static int __maybe_unused ravb_resume(struct device *dev)
->  	/* Request GTI loading */
->  	ravb_modify(ndev, GCCR, GCCR_LTI, GCCR_LTI);
->  
-> -	if (priv->chip_id != RCAR_GEN2)
-> +	if (priv->chip_id == RCAR_GEN3)
->  		ravb_set_delay_mode(ndev);
-
-   Probably, all those chip_id check fixes deserve a patch of their own...
-
-MBR, Sergei
+> > > > +    default: 0
+> > > > +
+> > > > +  gpios:
+> > > > +    description:
+> > > > +      ADC_TRG trigger input pin
+> > > > +    maxItems: 1
+> > > Why is this mode useful?  I'm assuming the gpio write would take a register
+> > > write and the software trigger mode also requires a register write.
+> > >
+> > Yes gpio write would take a register write.
+> >
+> > > Normally the reason for a pin like this is to support synchronising with
+> > > external hardware.   If that's the case, we should call that out here.
+> > > often the pin isn't even connected to a gpio in our control.
+> > > (i.e. it's a trigger signal from some other device.)
+> > >
+> > So just setting the GPIO pin as input should do the trick.
+>
+> Probably the best plan if you actually care about people writing some
+> trigger up to it that is otherwise invisible to the system.
+>
+> >
+> > > > +
+> > > > +  renesas-rzg2l,adc-channels:
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> > > > +    description: Input channels available on platform
+> > > > +    uniqueItems: true
+> > > > +    minItems: 1
+> > > > +    maxItems: 8
+> > > > +    items:
+> > > > +      enum: [0, 1, 2, 3, 4, 5, 6, 7]
+> > >
+> > > Is this a function of different devices (should have different compatibles)
+> > > or of what is wired up.  If it's what is wired up, then how do you know which
+> > Its channels which are wired, for example if channels 0-5 are wired up
+> > the board dts would include the property "renesas-rzg2l,adc-channels =
+> > /bits/ 8 <0 1 2 3 4 5>;"
+> >
+> > > subset of channels are connected?  We have the generic adc channel binding
+> > > in iio/adc/adc.yaml for the case where we only want to expose those channels
+> > > that are wired up.  It uses a node per channel.
+> > >
+> > Agreed will do that and drop the custom "renesas-rzg2l,adc-channels"
+>
+> Great,
+>
+> Jonathan
+>
+> >
+> > Cheers,
+> > Prabhakar
+> > > > +
+> > > > +  "#io-channel-cells":
+> > > > +    const: 1
+> > > > +
+> > > > +required:
+> > > > +  - compatible
+> > > > +  - reg
+> > > > +  - interrupts
+> > > > +  - clocks
+> > > > +  - clock-names
+> > > > +  - power-domains
+> > > > +  - resets
+> > > > +  - reset-names
+> > > > +  - renesas-rzg2l,adc-channels
+> > > > +  - "#io-channel-cells"
+> > > > +
+> > > > +allOf:
+> > > > +  - if:
+> > > > +      properties:
+> > > > +        renesas-rzg2l,adc-trigger-mode:
+> > > > +          const: 1
+> > > > +    then:
+> > > > +      required:
+> > > > +        - gpios
+> > > > +
+> > > > +additionalProperties: false
+> > > > +
+> > > > +examples:
+> > > > +  - |
+> > > > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > > +
+> > > > +    adc: adc@10059000 {
+> > > > +      compatible = "renesas,r9a07g044-adc", "renesas,rzg2l-adc";
+> > > > +      reg = <0x10059000 0x400>;
+> > > > +      interrupts = <GIC_SPI 347 IRQ_TYPE_EDGE_RISING>;
+> > > > +      clocks = <&cpg CPG_MOD R9A07G044_ADC_ADCLK>,
+> > > > +               <&cpg CPG_MOD R9A07G044_ADC_PCLK>;
+> > > > +      clock-names = "adclk", "pclk";
+> > > > +      power-domains = <&cpg>;
+> > > > +      resets = <&cpg R9A07G044_ADC_PRESETN>,
+> > > > +               <&cpg R9A07G044_ADC_ADRST_N>;
+> > > > +      reset-names = "presetn", "adrst-n";
+> > > > +      #io-channel-cells = <1>;
+> > > > +      renesas-rzg2l,adc-trigger-mode = /bits/ 8 <0>;
+> > > > +      renesas-rzg2l,adc-channels = /bits/ 8 <0 1 2 3 4 5 6>;
+> > > > +    };
+> > >
+>
