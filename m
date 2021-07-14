@@ -2,31 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E6F73C884F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 18:02:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89A873C8894
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 18:24:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235732AbhGNQFH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Jul 2021 12:05:07 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:54820 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235647AbhGNQFH (ORCPT
+        id S232392AbhGNQ1L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Jul 2021 12:27:11 -0400
+Received: from mail-eopbgr1410127.outbound.protection.outlook.com ([40.107.141.127]:23868
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235503AbhGNQ1L (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Jul 2021 12:05:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=UYyuoUFjTM6neNIQX8u+iPUtyx76GpoZIISiOp9Fi7c=; b=5AhLjlUDNYBVD/1uep9S0Y2JCo
-        xmXFM+9wTq9WG8oN3Q6f+lxwIVS84jtthnFlz4JvoPy7W/2kxVl15aoaSHvYYyPedcPDo15Kquf29
-        2Gqsft6Kst3AlBjbN2tMuxUnhqw0VTUmSZxtQc8sV4tXfA982F+YEDNp47rS7c+GsK4A=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1m3hKi-00DN9O-3E; Wed, 14 Jul 2021 18:02:00 +0200
-Date:   Wed, 14 Jul 2021 18:02:00 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
+        Wed, 14 Jul 2021 12:27:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RouV1cRkjSnKRRkKQKvjalSzBbyNP7Fm744hZykOK43vCqU03OT/TMVLsld/VXic0c/PwAGW7lcz5O/DMIC8hRTtw7eFnJZrcYNssSiJGPX/YF1VFQ2TiQVHz6+ZypG6EEyFiIKGIx3cnp5f+gfT2Tr7H1a/poah579ArILKMSgV2lNmB/L+W33ZVA+6OLriRPxM9tHlvGeGBXreR/sHyifePYsS90R3kzy9AGvDo81VVGl5bt5ft7Hpvn62gqPwmrjRLLKRL+qJM3kytalwqJl/jLmoZqdn3Gp7PiG15rPqFjuKFEi+aJj8fQsvMUir09JMC11oL4QeTiljGDrUEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E06b0MHfX0xSRn1N+1t3J3RLXk2RTj+X/T1g7xbDmz4=;
+ b=PyuLxerNdLj6KBPJOj4A+VeTqi2oLLu67buI94rj+8hjACJxnTJba4rHnsvRvWEAhzmZoYjNK2D/aTX3O6vC/ssxXN92QDNOSTiw9MIK+pTY6Ai8cy8/R/0+ZMnndJgYajnI85RTswuBZa/VhfyrcKiBokRxPp7SYgZi7q2VvFYlgfa+bZo8FhVUkdhX0r0IIRk/bw/6lV4/d6psYdSHnVldSq2tTavwQrNmqVgkkUaw3hxFnEz1ZOshAkkqCuxHSK7XG70u1Gs3N5r09Rz9Tb4fBNDP2QrX8zO4WL0m2dQtlE56rfyeusibGxZZ8uE9D7aFE6sk+qGM0C4S/7rv2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E06b0MHfX0xSRn1N+1t3J3RLXk2RTj+X/T1g7xbDmz4=;
+ b=nrh1UJXw/VWdCP+IemGBEwDTUbdcbuEMVHiozZqSOupVgWS19B8qyU4k2VNTgUhnVTxWbVfbR36seqH7RvPvVD61Mm8B8oYShLUR9Ht8g0Csc7BfhK87rNf12/3r4Nmk/Kh6uFMo7B+492LpHcSDHaiSWE40AKWLdQ3ccXSTRNQ=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSBPR01MB1701.jpnprd01.prod.outlook.com (2603:1096:603:6::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Wed, 14 Jul
+ 2021 16:24:08 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::c6f:e31f:eaa9:60fe]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::c6f:e31f:eaa9:60fe%9]) with mapi id 15.20.4331.021; Wed, 14 Jul 2021
+ 16:24:07 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+CC:     "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -36,125 +49,141 @@ Cc:     "David S. Miller" <davem@davemloft.net>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Andrew Gabbasov <andrew_gabbasov@mentor.com>,
         Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH/RFC 2/2] ravb: Add GbEthernet driver support
-Message-ID: <YO8KeCg8bQPjI/a5@lunn.ch>
+Subject: RE: [PATCH/RFC 1/2] ravb: Preparation for supporting Gigabit Ethernet
+ driver
+Thread-Topic: [PATCH/RFC 1/2] ravb: Preparation for supporting Gigabit
+ Ethernet driver
+Thread-Index: AQHXeMAg2hyIxeRWBEODyF+mF0If96tCm0OAgAALPJA=
+Date:   Wed, 14 Jul 2021 16:24:07 +0000
+Message-ID: <OS0PR01MB59220D61614D47EFEB3C67BF86139@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 References: <20210714145408.4382-1-biju.das.jz@bp.renesas.com>
- <20210714145408.4382-3-biju.das.jz@bp.renesas.com>
+ <20210714145408.4382-2-biju.das.jz@bp.renesas.com> <YO8FG0zJoG3GI9S9@lunn.ch>
+In-Reply-To: <YO8FG0zJoG3GI9S9@lunn.ch>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lunn.ch; dkim=none (message not signed)
+ header.d=none;lunn.ch; dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 545e3d5d-bdad-46fa-596d-08d946e3ce2a
+x-ms-traffictypediagnostic: OSBPR01MB1701:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSBPR01MB1701D36B88C8B6558D75796286139@OSBPR01MB1701.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DVCDzuP/dY9d/EJGhIIfKUoOwytgD7LvinBCkahdhMqukt11f0xt6mjCE5b08RkpXhoBhc47fh+o38uuoC772SmCIH38nxDax565SJq5KaOOAmhCguldcaDH7BcAaLj6+y4qIKHUFK2RxaipkgBjBfzB/KQPGYRXYIfurTMPgj7T4eVlKrduGX6sin2OTYjBjSCGH+B0yewnSDFq4KcfSj1ShNNrcYXVCxFm+KiklrFCwh+//5zyGVFFsa+ZkpIqOaFg7qVqlIpRRlnA9sWbW1frHaOSQHm+8D0rt5wzyZxwYlb45SMDus2DsDuvlh0MXJcAX8C3POxUwHHz64Wl5lNWfKjQwnv8pt44D8JTaWVNSPoAD2e2RRy1CBmcVHgv4VvrRWXa5adhvD5VcG6zmdtqPgmru1/lTvyZA3cguw4dXoiCA8ylV9HSPy+7XSHUx1v1UwpNsdh7bPiUn9hZif5YRMzBSCICu7m6gnZAmQw6F/I9OpcJgDIT/wOe2uow8dpn+UEZ/ssCk7zHjEZ1LAvdvfWlAFisvk/FglYJf6veD4CVe6kuS1FjN0lZjTwLg2Sj7U1lNz1rskBDEjnCGEFtB+eba6MXHseKsP+4Wc3LAWN14Z2ByVkNrpwb870iK8YVbnlw2beBNmboazh2Ic94sI39EIboFe+WOb0DTi2LtzQzxsBm72f8YRNU6EEZy5K+0us6/CEPmwhDe0mrnA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(136003)(376002)(39850400004)(346002)(107886003)(4326008)(478600001)(5660300002)(7416002)(2906002)(7696005)(26005)(55016002)(8676002)(8936002)(9686003)(33656002)(66556008)(6506007)(66946007)(64756008)(71200400001)(83380400001)(66476007)(6916009)(66446008)(86362001)(186003)(76116006)(122000001)(316002)(38100700002)(54906003)(52536014)(38070700004);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Si+x/9TNVuCZwEAP3cI10yNJ0+YEdL67tLMNxoDDKb9Guyq1MI0iOr8O9ySx?=
+ =?us-ascii?Q?E34X0FoMrBO666jvzIyvnuz/k0qRnTnUJ9DsFSgXda1437/HKN8R0v6KzJZa?=
+ =?us-ascii?Q?YUfHxJUfivS07l8tQMZ0zs8V44zthjYnG++d3zgJM8bhvthSzQ63pExAaful?=
+ =?us-ascii?Q?8Hw3k/T2olK/vfC9vwIRss0nXqirbk7jObfar+klqkwJHDNh5H/SjhuoGzx2?=
+ =?us-ascii?Q?MxhdOCsU06i5bGfc3K63TKeQ0pAadDYyoHnXHxJwTEwvg1kYGsQD3N+2HTtC?=
+ =?us-ascii?Q?8TbvL9O3uyDfvK7Cnaz0AFsh6WAvtTYEdFgyFyj++eenRHfR4Xy9zcZAMN2S?=
+ =?us-ascii?Q?qtBsKG6OwGJYuluzNRFgjAUVzyucVqkefT/Xi3n5azBRbxHUvWcvPBsleroC?=
+ =?us-ascii?Q?U/oazuuRFJLaLcS27y6sxw9W3GRxP9uCR8TFQzG2LCgdTQ3ZQYnXhoq7SC+D?=
+ =?us-ascii?Q?EwHMWo25ZXe40snzod8xEvtfMctmnxnOwK2Sw5/0EubOldEGfstcuVTbdkDW?=
+ =?us-ascii?Q?EZgisb+onM2tA7uM9SvYhIlhL2KzUoU/I4CpnvxsgP5xff/UvDCN6dgEYeBn?=
+ =?us-ascii?Q?g8QDx/7r/ZvfKxErO52zxi5VQSt1FXtAr3zbghsuTYXCS3Y4ZImPjoOPN9ul?=
+ =?us-ascii?Q?gBDwmLAb3pUlyC/4eQJHas7XtAarffi4fUQfNsTg+NZvF03BUzZfN/yWbM3X?=
+ =?us-ascii?Q?YG87YFO/9wuGqKzijvuVn5GQtmDS14AWWM0km1L0dOoG8PVmlAGC8JNnqbIm?=
+ =?us-ascii?Q?2Own/2lW9bL6EL2eRrRFpgWf2maVoH4TcFQ5abk4JB4hJFEtl5oSWHG3N9Gt?=
+ =?us-ascii?Q?TO+rTBZIjAvNCSZmPuAFozh8Poz8He007CBps6FzAt/yhwTHjoWbBrQedTRl?=
+ =?us-ascii?Q?ChrtIyNFp8obTFBlcKlpL7f4ahYTwpKjj4q8CiloWMFyG3uzssAWXKbDH4xy?=
+ =?us-ascii?Q?ZDmF5IUlTJ4Nxl/o1gklDiyFUm/xCWd5gDyeMVuusDpl5gLSpopsvaiC6f64?=
+ =?us-ascii?Q?Y+I2Hzd1c7rVsGzhrrqdtaGj4oK2FuQGa5hJpye1U6I3F9vuAei3w+/bbnTv?=
+ =?us-ascii?Q?rYiRB71fVP+y9FCuBYSxjoZ0vQFkA8NJ95WM2LMcLq3YL4f7L0Oe9Ohbl5mG?=
+ =?us-ascii?Q?aziRSIyUX4gwzOx7TgWK+t0PdReu43qtLmUoBz3aBLD7KnXWtcPITLZfq9qb?=
+ =?us-ascii?Q?Lh4hJlA6ggkiMmhiolrjtZQZbojgVjYIaUlFUH99HjejREnskZY8LheC77hE?=
+ =?us-ascii?Q?vls04RnmDpOC1y5C2xAyOP/E4TLwWrn6nC0MRzHpeeGf34BiQLPiW5bCFL9S?=
+ =?us-ascii?Q?gFLRFo2TkfZNsuFzI6xn7alo?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210714145408.4382-3-biju.das.jz@bp.renesas.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 545e3d5d-bdad-46fa-596d-08d946e3ce2a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2021 16:24:07.5727
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cGPlWWBRKkPzvxe/El/KTNWt8eNCOel+bPcrey5UfhLPCwQYS19ijXB9vSyTIwifrIbPoALtyG3gBAxIsTKrU3wqBQv8NeWxxbwKYoovKOs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1701
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> +	if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID) {
-> +		ravb_write(ndev, ravb_read(ndev, CXR31)
-> +			 | CXR31_SEL_LINK0, CXR31);
-> +	} else {
-> +		ravb_write(ndev, ravb_read(ndev, CXR31)
-> +			 & ~CXR31_SEL_LINK0, CXR31);
-> +	}
+Hi Andrew Lunn,
 
-You need to be very careful here. What value is passed to the PHY?
+Thanks for the feedback.
 
-There is some funky code:
+> Subject: Re: [PATCH/RFC 1/2] ravb: Preparation for supporting Gigabit
+> Ethernet driver
+>=20
+> On Wed, Jul 14, 2021 at 03:54:07PM +0100, Biju Das wrote:
+> > The DMAC and EMAC blocks of Gigabit Ethernet IP is almost similar to
+> > Ethernet AVB. With few canges in driver we can
+>=20
+> changes
 
-       /* Fall back to legacy rgmii-*id behavior */
-        if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID ||
-            priv->phy_interface == PHY_INTERFACE_MODE_RGMII_RXID) {
-                priv->rxcidm = 1;
-                priv->rgmii_override = 1;
-        }
+Ok. Will fix it.
 
-        if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID ||
-            priv->phy_interface == PHY_INTERFACE_MODE_RGMII_TXID) {
-                if (!WARN(soc_device_match(ravb_delay_mode_quirk_match),
-                          "phy-mode %s requires TX clock internal delay mode which is not supported by this hardware revision. Please update device tree",
-                          phy_modes(priv->phy_interface))) {
-                        priv->txcidm = 1;
-                        priv->rgmii_override = 1;
-                }
-        }
-...
+>=20
+> > support both the IP. This patch is in preparation for supporting the
+> > same.
+>=20
+> Please break this up a bit, it is hard to review. You can put all the
+> refactoring into helpers into one patch. But changes like
 
-        iface = priv->rgmii_override ? PHY_INTERFACE_MODE_RGMII
-                                     : priv->phy_interface;
-        phydev = of_phy_connect(ndev, pn, ravb_adjust_link, 0, iface);
+> > -			if (priv->chip_id =3D=3D RCAR_GEN2) {
+> > +			if (priv->chip_id !=3D RCAR_GEN3) {
+>=20
+> should be in a seperate patch with an explanation.
 
-So it looks like, with PHY_INTERFACE_MODE_RGMII_ID,
-PHY_INTERFACE_MODE_RGMII_TXID, PHY_INTERFACE_MODE_RGMII_RXID the PHY
-is passed PHY_INTERFACE_MODE_RGMII, with the assumption the MAC is
-adding the delay. But it looks like you are only adding a delay for
-PHY_INTERFACE_MODE_RGMII_ID. So this appears wrong.
+Ok.
 
-> @@ -1082,15 +1440,23 @@ static int ravb_phy_init(struct net_device *ndev)
->  		netdev_info(ndev, "limited PHY to 100Mbit/s\n");
->  	}
->  
-> -	/* 10BASE, Pause and Asym Pause is not supported */
-> -	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Half_BIT);
-> -	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Full_BIT);
-> -	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_Pause_BIT);
-> -	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_Asym_Pause_BIT);
-> +	if (priv->chip_id == RZ_G2L) {
-> +		if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID)
-> +			ravb_write(ndev, ravb_read(ndev, CXR35) | CXR35_SEL_MODIN, CXR35);
-> +		else if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII)
-> +			ravb_write(ndev, 0x3E80000, CXR35);
+>=20
+> You are aiming for lots of very simple patches which are obviously
+> correct.
 
-This is not obviously correct. What about the other two RGMII modes?
+OK will make simple patches
 
-> @@ -1348,6 +1741,21 @@ static const struct ethtool_ops ravb_ethtool_ops = {
->  	.set_wol		= ravb_set_wol,
->  };
->  
-> +static const struct ethtool_ops rgeth_ethtool_ops = {
-> +	.nway_reset		= phy_ethtool_nway_reset,
-> +	.get_msglevel		= ravb_get_msglevel,
-> +	.set_msglevel		= ravb_set_msglevel,
-> +	.get_link		= ethtool_op_get_link,
-> +	.get_strings		= ravb_get_strings,
-> +	.get_ethtool_stats	= ravb_get_ethtool_stats,
-> +	.get_sset_count		= ravb_get_sset_count,
-> +	.get_ringparam		= ravb_get_ringparam,
-> +	.set_ringparam		= ravb_set_ringparam,
-> +	.get_ts_info		= ravb_get_ts_info,
-> +	.get_link_ksettings	= phy_ethtool_get_link_ksettings,
-> +	.set_link_ksettings	= phy_ethtool_set_link_ksettings,
-> +};
+1) Code common to R-Car Gen2 and RZ/G2L (priv->chip_id !=3D RCAR_GEN3)
+2) Code specific to R-Car Gen3.
+3) Spelling mistake
+4) White space=20
+5) Refactorization patches
 
-It is not obvious why you need a seperate ethtool_ops structure? Does
-it not support WOL?
 
-> +static const struct net_device_ops rgeth_netdev_ops = {
-> +	.ndo_open               = ravb_open,
-> +	.ndo_stop               = ravb_close,
-> +	.ndo_start_xmit         = ravb_start_xmit,
-> +	.ndo_select_queue       = ravb_select_queue,
-> +	.ndo_get_stats          = ravb_get_stats,
-> +	.ndo_set_rx_mode        = ravb_set_rx_mode,
-> +	.ndo_tx_timeout         = ravb_tx_timeout,
-> +	.ndo_do_ioctl           = ravb_do_ioctl,
-> +	.ndo_validate_addr      = eth_validate_addr,
-> +	.ndo_set_mac_address    = eth_mac_addr,
-> +	.ndo_set_features       = rgeth_set_features,
+>=20
+> > diff --git a/drivers/net/ethernet/renesas/ravb.h
+> > b/drivers/net/ethernet/renesas/ravb.h
+> > index 86a1eb0634e8..80e62ca2e3d3 100644
+> > --- a/drivers/net/ethernet/renesas/ravb.h
+> > +++ b/drivers/net/ethernet/renesas/ravb.h
+> > @@ -864,7 +864,7 @@ enum GECMR_BIT {
+> >
+> >  /* The Ethernet AVB descriptor definitions. */  struct ravb_desc {
+> > -	__le16 ds;		/* Descriptor size */
+> > +	__le16 ds;	/* Descriptor size */
+> >  	u8 cc;		/* Content control MSBs (reserved) */
+> >  	u8 die_dt;	/* Descriptor interrupt enable and type */
+> >  	__le32 dptr;	/* Descriptor pointer */
+>=20
+> Please put white spaces changes in a patch of its own.
 
-It seems like .ndo_set_features is the only difference. Maybe handle
-that in actual function?
+OK.
 
-> @@ -1965,6 +2446,7 @@ static const struct of_device_id ravb_match_table[] = {
->  	{ .compatible = "renesas,etheravb-rcar-gen2", .data = (void *)RCAR_GEN2 },
->  	{ .compatible = "renesas,etheravb-r8a7795", .data = (void *)RCAR_GEN3 },
->  	{ .compatible = "renesas,etheravb-rcar-gen3", .data = (void *)RCAR_GEN3 },
-> +	{ .compatible = "renesas,rzg2l-gether", .data = (void *)RZ_G2L },
->  	{ }
->  };
-
-Please document the new compatible string in the DT binding.
-
-       Andrew
+Thanks,
+Biju
