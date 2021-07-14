@@ -2,302 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2000F3C8ACA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 20:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66CCB3C8B1B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 20:40:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239899AbhGNS1r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Jul 2021 14:27:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59300 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbhGNS1r (ORCPT
+        id S229806AbhGNSnr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Jul 2021 14:43:47 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57132 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229603AbhGNSnq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Jul 2021 14:27:47 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57FBC06175F;
-        Wed, 14 Jul 2021 11:24:54 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id b13so4747859ybk.4;
-        Wed, 14 Jul 2021 11:24:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SpV3sdV7S61O3qNeeFQZMA7ea5X7W/pFyadl8Eq+KQ4=;
-        b=Yf1vfjVnjzTb1407lZHnKE5HI+V8NDvjRxPeKNpGU+wnNSrafYRbNxXZDy3WZtc3I4
-         wYe6TIbPRC3pUjGegPlIi0QWHHAcBbmNxTILyZoBenjRmVtvLhIJ5sybqgHCvBYndfJx
-         Hb9eLF7efYdGcndabbr3oXQNahopLiFeotBec7U8Kl3PfslG7sFX8H/hxmF0yZu68fIR
-         +gxKUvNZfblS5dfw2KBJfHt6gYPPOIg6kL3G2meRfXPct/FwKKzVCvMprn8fRJ/T/tYD
-         CcN4aSi3FM06aCPMDpowrE8Va52Nlt+T6YresPcaQ3HbU49w/+NFGQVxnkidYoi5GWqd
-         ZVkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SpV3sdV7S61O3qNeeFQZMA7ea5X7W/pFyadl8Eq+KQ4=;
-        b=I38DRIe/QSgcFwVYB5Eihqu1atN21ITdg34xC3lts0SptOxLY2J7baTK3X/H2KwRbH
-         ZwURDgDbbtiHjiBHv2VtGbTtQFDcutv3d1OGIRuhgnA08faOaC/OavBncXW5Mzdz5hIU
-         0jiAAxFVwjEEyfcKOS2JQK6xUfRIe/SFPxn3mD0dklTQkrKaEJS3MLZYFTyAemZy0DdC
-         lOUx8rgzz7wVnhBTKzWDzTsZpyBxOen2/JBTZzvT2OCNxYH49XMvyL9eUMEO3AEGjfQw
-         XSw61F2jQnR0cyohGqQP4a9Q4sVuygUZdYsJKO1O8kJYgaRx2SoZm73vDZExk8Ixg6Ts
-         b7wQ==
-X-Gm-Message-State: AOAM5306uU1lZz0BSAycMxH3qyZaF1YXMu5sYc5CZsnLD/4mzRoU9gU7
-        489Xfmz0+Lv1nHs1GjiomXiD/mW7bIzaS8nUe4I=
-X-Google-Smtp-Source: ABdhPJwrMwFZBPMMkaZNNlL1aP5tzNI1sbcJHuA6d+49HpHXX/bolHkkyxYQXKvGwR2A9k+Z72Sx4Y53yem9VDWaxy4=
-X-Received: by 2002:a25:694f:: with SMTP id e76mr14297138ybc.119.1626287094010;
- Wed, 14 Jul 2021 11:24:54 -0700 (PDT)
+        Wed, 14 Jul 2021 14:43:46 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6B2BCC;
+        Wed, 14 Jul 2021 20:40:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1626288053;
+        bh=RXoS7uOvpB5VAFXYDu8/3wKv0zzhGVf+fnUveMwoIj4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qPVHrCjjdWs4tRxJ93jLG6HYAIADnBtC++iJnkXd5xkVn0Aww1P1oWVW+lhUZj0Mg
+         EkLmqnjqvGFi8cfkh2oxikV6m4uZ1h5UBi8o7qU0HZY47PaqXeB6wQdL6OTnOOs6W8
+         tpM01/D8ncEFVCgyOxTiNwciOeEzxDuv8n7TAEJY=
+Date:   Wed, 14 Jul 2021 21:40:51 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Dennis Rachui <drachui@de.adit-jv.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
+Message-ID: <YO8vs4V/lhVA8mY9@pendragon.ideasonboard.com>
+References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+ <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
+ <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
+ <YO1f+SOTBS44/Wf0@oden.dyn.berto.se>
 MIME-Version: 1.0
-References: <20210629220328.13366-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210629220328.13366-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210703181937.510ec0fa@jic23-huawei> <CA+V-a8uzeepfd+8Wfd2n2EXeXQ9QJZhR+X8j29Y7DGNu8+aH+g@mail.gmail.com>
- <20210714133913.000075a6@Huawei.com>
-In-Reply-To: <20210714133913.000075a6@Huawei.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 14 Jul 2021 19:24:27 +0100
-Message-ID: <CA+V-a8spDa5PiGzp6-4mHTEMfQYJ5NnQ44vwgdtu_sfVG5OO5Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: iio: adc: Add binding documentation for
- Renesas RZ/G2L A/D converter
-To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-iio@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YO1f+SOTBS44/Wf0@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jonathan,
+Hi Niklas,
 
-On Wed, Jul 14, 2021 at 1:39 PM Jonathan Cameron
-<Jonathan.Cameron@huawei.com> wrote:
->
-> On Wed, 14 Jul 2021 10:11:49 +0100
-> "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
->
-> > Hi Jonathan,
-> >
-> > Thank you for the review.
-> >
-> > On Sat, Jul 3, 2021 at 6:17 PM Jonathan Cameron <jic23@kernel.org> wrote:
-> > >
-> > > On Tue, 29 Jun 2021 23:03:27 +0100
-> > > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > >
-> > > > Add binding documentation for Renesas RZ/G2L A/D converter block.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Hi,
-> > >
-> > > See inline
-> > >
-> > > Jonathan
-> > >
+On Tue, Jul 13, 2021 at 11:42:17AM +0200, Niklas Söderlund wrote:
+> On 2021-07-11 01:42:44 +0300, Laurent Pinchart wrote:
+> > On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
+> > > On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
+> > > > Verify that streaming is not active before setting the pad format.
+> > > > 
+> > > > According to the VIDIOC documentation [1] changes to the active
+> > > > format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
+> > > > applied to the underlying hardware.
+> > > > In rcar-csi2 a format change only applies to hardware, when the
+> > > > pipeline is started. While the device is not in use, it is therefore
+> > > > okay to update the format.
+> > > > 
+> > > > However, when the pipeline is active, this leads to a format
+> > > > mismatch between driver and device.
+> > > > Other applications can query the format with
+> > > > VIDIOC_SUBDEV_G_FMT at any time and would be reported
+> > > > a format that does not fit the current stream.
+> > > > 
+> > > > This commit prevents format update while streaming is active
+> > > > and returns -EBUSY to user space, as suggested by [1].
+> > > > 
+> > > > [1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+> > > 
+> > > I like that this is addressed, but I wonder is this not something that 
+> > > should be fixed in the V4L2 core and not in drivers?
+> > 
+> > Some drivers may support format changes during streaming (that's allowed
+> > by the V4L2 API, I'm not sure if it's used anywhere though). While I'd
+> > favour not duplicating the same logic in different (and differently
+> > buggy) ways in drivers, I'm not sure how this could be implemented in a
+> > sane way in the V4L2 core in its current state.
+> 
+> I understand it's possible from some devices to support to format 
+> changes during streaming, but as you point out it's the exception and 
+> not the rule, if used at all.
+> 
+> So my point is if we start to enforce this in drivers we are headed down 
+> a road where this will be messier to clean up. Would it not make more 
+> sens to default the V4L2 core to disallow format changes while streaming 
+> and add a new flag to V4L2_SUBDEV_CAP_ to signal that the subdevice 
+> supports format changes while streaming?
+> 
+> We already have V4L2_SUBDEV_CAP_RO_SUBDEV to signal that a subdevice 
+> only supports read-only operations so I think it would not be too hard 
+> to move this functionality into the core?
+
+Yes, that's something we could try. The subdev core will then need to
+track the streaming state, which may require wrapping the .s_stream()
+call. Locking should then also likely be handled by the core. Probably
+nothing impossible, but quite a bit of work. Any volunteer ? :-)
+
+> > > > Note: after creation of this commit, it was noticed that Steve
+> > > > Longerbeam has a very similar solution in his fork.
+> > > > 
+> > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> > > > Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> > > > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
 > > > > ---
-> > > >  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 121 ++++++++++++++++++
-> > > >  1 file changed, 121 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..db935d6d59eb
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> > > > @@ -0,0 +1,121 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/iio/adc/renesas,rzg2l-adc.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
+> > > >  1 file changed, 20 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > index e28eff0..98152e1 100644
+> > > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+> > > >  {
+> > > >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> > > >  	struct v4l2_mbus_framefmt *framefmt;
+> > > > +	int ret = 0;
 > > > > +
-> > > > +title: Renesas RZ/G2L ADC
+> > > > +	mutex_lock(&priv->lock);
+> > > >  
+> > > >  	if (!rcsi2_code_to_fmt(format->format.code))
+> > > >  		format->format.code = rcar_csi2_formats[0].code;
+> > > >  
+> > > >  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
 > > > > +
-> > > > +maintainers:
-> > > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > +		/*
+> > > > +		 * Do not apply changes to active format while streaming.
+> > > > +		 *
+> > > > +		 * Since video streams could be forwarded from sink pad to any
+> > > > +		 * source pad (depending on CSI-2 channel routing), all
+> > > > +		 * media pads are effected by this rule.
+> > > > +		 */
+> > > > +		if (priv->stream_count > 0) {
+> > > > +			ret = -EBUSY;
+> > > > +			goto out;
+> > > > +		}
 > > > > +
-> > > > +description: |
-> > > > +  A/D Converter block is a successive approximation analog-to-digital converter
-> > > > +  with a 12-bit accuracy. Up to eight analog input channels can be selected.
-> > > > +  Conversions can be performed in single or repeat mode. Result of the ADC is
-> > > > +  stored in a 32-bit data register corresponding to each channel.
+> > > >  		priv->mf = format->format;
+> > > >  	} else {
+> > > >  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> > > >  		*framefmt = format->format;
+> > > >  	}
+> > > >  
+> > > > -	return 0;
+> > > > +out:
+> > > > +	mutex_unlock(&priv->lock);
 > > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    oneOf:
-> > > > +      - items:
-> > > > +          - enum:
-> > > > +              - renesas,r9a07g044-adc   # RZ/G2{L,LC}
-> > > > +          - const: renesas,rzg2l-adc
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  interrupts:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  clocks:
-> > > > +    items:
-> > > > +      - description: converter clock
-> > > > +      - description: peripheral clock
-> > > > +
-> > > > +  clock-names:
-> > > > +    items:
-> > > > +      - const: adclk
-> > > > +      - const: pclk
-> > > > +
-> > > > +  power-domains:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  resets:
-> > > > +    maxItems: 2
-> > > > +
-> > > > +  reset-names:
-> > > > +    items:
-> > > > +      - const: presetn
-> > > > +      - const: adrst-n
-> > > > +
-> > > > +  renesas-rzg2l,adc-trigger-mode:
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > > > +    description: Trigger mode for A/D converter
-> > > > +    enum:
-> > > > +      - 0 # Software trigger mode (Defaults)
-> > > > +      - 1 # Asynchronous trigger using ADC_TRG trigger input pin
-> > > > +      - 2 # Synchronous trigger (Trigger from MTU3a/GPT)
-> > >
-> > > Is this a function of the board in some fashion?  If not it sounds like
-> > > something that should be in control of userspace.  Normally we'd
-> > > do that by having the driver register some iio_triggers and depending
-> > > on which one is selected do the equivalent of what you have here.
-> > >
-> > Agreed for Asynchronous and Synchronous triggers. WRT Software trigger
-> > should this be registered as a  iio_triggers too or read_raw()
-> > callback (with IIO_CHAN_INFO_RAW case)  should be treated as Software
-> > trigger?
-> >
->
-> Normally we'd use an external trigger to provide the software trigger
-> (plus as you say sysfs reads will map to this functionality).
->
-> Something like the sysfs trigger or the hrtimer one would get used, though
-> also fine to use the dataready trigger from a different device (if you want
-> approximately synced dta.
->
-We can live with syfs reads for now for SW triggers. Coming back to HW
-triggers I responded too quickly!. I am now trying to implement a gpio
-based HW trigger i.e. to kick adc conversion start but I couldn't find
-any drivers doing that. I looked at iio-trig-interrupt.c which
-registers irq based triggers, so something similar needs to be
-implemented in the adc driver? If that is the case the gpio has to be
-passed via to DT and use gpio_to_irq to register the handler. Or is it
-that I am missing something here ?
+> > > > +	return ret;
+> > > >  }
+> > > >  
+> > > >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
 
-Cheers,
-Prabhakar
+-- 
+Regards,
 
-> > > > +    default: 0
-> > > > +
-> > > > +  gpios:
-> > > > +    description:
-> > > > +      ADC_TRG trigger input pin
-> > > > +    maxItems: 1
-> > > Why is this mode useful?  I'm assuming the gpio write would take a register
-> > > write and the software trigger mode also requires a register write.
-> > >
-> > Yes gpio write would take a register write.
-> >
-> > > Normally the reason for a pin like this is to support synchronising with
-> > > external hardware.   If that's the case, we should call that out here.
-> > > often the pin isn't even connected to a gpio in our control.
-> > > (i.e. it's a trigger signal from some other device.)
-> > >
-> > So just setting the GPIO pin as input should do the trick.
->
-> Probably the best plan if you actually care about people writing some
-> trigger up to it that is otherwise invisible to the system.
->
-> >
-> > > > +
-> > > > +  renesas-rzg2l,adc-channels:
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> > > > +    description: Input channels available on platform
-> > > > +    uniqueItems: true
-> > > > +    minItems: 1
-> > > > +    maxItems: 8
-> > > > +    items:
-> > > > +      enum: [0, 1, 2, 3, 4, 5, 6, 7]
-> > >
-> > > Is this a function of different devices (should have different compatibles)
-> > > or of what is wired up.  If it's what is wired up, then how do you know which
-> > Its channels which are wired, for example if channels 0-5 are wired up
-> > the board dts would include the property "renesas-rzg2l,adc-channels =
-> > /bits/ 8 <0 1 2 3 4 5>;"
-> >
-> > > subset of channels are connected?  We have the generic adc channel binding
-> > > in iio/adc/adc.yaml for the case where we only want to expose those channels
-> > > that are wired up.  It uses a node per channel.
-> > >
-> > Agreed will do that and drop the custom "renesas-rzg2l,adc-channels"
->
-> Great,
->
-> Jonathan
->
-> >
-> > Cheers,
-> > Prabhakar
-> > > > +
-> > > > +  "#io-channel-cells":
-> > > > +    const: 1
-> > > > +
-> > > > +required:
-> > > > +  - compatible
-> > > > +  - reg
-> > > > +  - interrupts
-> > > > +  - clocks
-> > > > +  - clock-names
-> > > > +  - power-domains
-> > > > +  - resets
-> > > > +  - reset-names
-> > > > +  - renesas-rzg2l,adc-channels
-> > > > +  - "#io-channel-cells"
-> > > > +
-> > > > +allOf:
-> > > > +  - if:
-> > > > +      properties:
-> > > > +        renesas-rzg2l,adc-trigger-mode:
-> > > > +          const: 1
-> > > > +    then:
-> > > > +      required:
-> > > > +        - gpios
-> > > > +
-> > > > +additionalProperties: false
-> > > > +
-> > > > +examples:
-> > > > +  - |
-> > > > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > > > +
-> > > > +    adc: adc@10059000 {
-> > > > +      compatible = "renesas,r9a07g044-adc", "renesas,rzg2l-adc";
-> > > > +      reg = <0x10059000 0x400>;
-> > > > +      interrupts = <GIC_SPI 347 IRQ_TYPE_EDGE_RISING>;
-> > > > +      clocks = <&cpg CPG_MOD R9A07G044_ADC_ADCLK>,
-> > > > +               <&cpg CPG_MOD R9A07G044_ADC_PCLK>;
-> > > > +      clock-names = "adclk", "pclk";
-> > > > +      power-domains = <&cpg>;
-> > > > +      resets = <&cpg R9A07G044_ADC_PRESETN>,
-> > > > +               <&cpg R9A07G044_ADC_ADRST_N>;
-> > > > +      reset-names = "presetn", "adrst-n";
-> > > > +      #io-channel-cells = <1>;
-> > > > +      renesas-rzg2l,adc-trigger-mode = /bits/ 8 <0>;
-> > > > +      renesas-rzg2l,adc-channels = /bits/ 8 <0 1 2 3 4 5 6>;
-> > > > +    };
-> > >
->
+Laurent Pinchart
