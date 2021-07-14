@@ -2,101 +2,203 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B37243C90E8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 22:03:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D12563C91DF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 22:11:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239062AbhGNT5I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Jul 2021 15:57:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45596 "EHLO mail.kernel.org"
+        id S234095AbhGNUOV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Jul 2021 16:14:21 -0400
+Received: from mga09.intel.com ([134.134.136.24]:10830 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240201AbhGNTte (ORCPT
+        id S241053AbhGNUOK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Jul 2021 15:49:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 44F4A61426;
-        Wed, 14 Jul 2021 19:44:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626291891;
-        bh=mIX8swcJ0uAWzzsN4a+BRUB24TPb/lMattHRBn0i5a0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=upmwXhrAJNCe8ya8z1JfjE1353C5WAXDRtDpzONjtRfNln2CA2lOEo4gp/uQOHNGg
-         gkyn65v70QBLGUUiMKOe+7pn/rKqp5PtDyMLj0dI5ro3wsGBHbVeNlDlZnRoFZucxg
-         kKLAe3pGya2GBLt0lvqz9ulEbw8UEdBuSRgAjIf8njLY7SIdtLazh0hKRYtvNTA3kn
-         vOSkGHMol3WpYdY8u7ER+Ap0vriTn8e7UZuOLU+6JRuog2JPDGrY3LeEIv1Wiwx5IT
-         5Jfkm5vh8QLJ5fVxMgD6+Ykt/U28GLGarSJDvACSXHpbuoLHFD05ZD5OFKA0nY3B3R
-         mnTNqC3wVj8Ng==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 72/88] thermal/drivers/rcar_gen3_thermal: Do not shadow rcar_gen3_ths_tj_1
-Date:   Wed, 14 Jul 2021 15:42:47 -0400
-Message-Id: <20210714194303.54028-72-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210714194303.54028-1-sashal@kernel.org>
-References: <20210714194303.54028-1-sashal@kernel.org>
+        Wed, 14 Jul 2021 16:14:10 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10045"; a="210407990"
+X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; 
+   d="scan'208";a="210407990"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2021 13:11:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; 
+   d="scan'208";a="494636217"
+Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Jul 2021 13:11:16 -0700
+Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1m3lDv-000Izc-R1; Wed, 14 Jul 2021 20:11:15 +0000
+Date:   Thu, 15 Jul 2021 04:10:59 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:renesas-clk] BUILD SUCCESS
+ 55e35ffd52dc3092b56be6935908b6e0c0ac0675
+Message-ID: <60ef44d3.4Z8bxyMAdsZeM6HJ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+branch HEAD: 55e35ffd52dc3092b56be6935908b6e0c0ac0675  clk: renesas: r9a07g044: Add SSIF-2 clock and reset entries
 
-[ Upstream commit 3ae5950db617d1cc3eb4eb55750fa9d138529b49 ]
+elapsed time: 727m
 
-With -Wshadow:
+configs tested: 144
+configs skipped: 3
 
-    drivers/thermal/rcar_gen3_thermal.c: In function ‘rcar_gen3_thermal_probe’:
-    drivers/thermal/rcar_gen3_thermal.c:310:13: warning: declaration of ‘rcar_gen3_ths_tj_1’ shadows a global declaration [-Wshadow]
-      310 |  const int *rcar_gen3_ths_tj_1 = of_device_get_match_data(dev);
-	  |             ^~~~~~~~~~~~~~~~~~
-    drivers/thermal/rcar_gen3_thermal.c:246:18: note: shadowed declaration is here
-      246 | static const int rcar_gen3_ths_tj_1 = 126;
-	  |                  ^~~~~~~~~~~~~~~~~~
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-To add to the confusion, the local variable has a different type.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+riscv             nommu_k210_sdcard_defconfig
+arm                  colibri_pxa270_defconfig
+microblaze                          defconfig
+ia64                             alldefconfig
+sh                           se7705_defconfig
+mips                           gcw0_defconfig
+powerpc                    amigaone_defconfig
+mips                           ip32_defconfig
+arm                              alldefconfig
+sh                                  defconfig
+mips                           ip27_defconfig
+arm                           stm32_defconfig
+powerpc                     tqm8555_defconfig
+arm                        mini2440_defconfig
+powerpc                      tqm8xx_defconfig
+openrisc                         alldefconfig
+powerpc                      mgcoge_defconfig
+arm                         lubbock_defconfig
+arm                           spitz_defconfig
+s390                                defconfig
+powerpc                     pq2fads_defconfig
+parisc                generic-64bit_defconfig
+riscv                    nommu_virt_defconfig
+powerpc                      katmai_defconfig
+arm                         lpc32xx_defconfig
+powerpc                     redwood_defconfig
+mips                            gpr_defconfig
+powerpc                 linkstation_defconfig
+mips                        qi_lb60_defconfig
+sh                        dreamcast_defconfig
+arm                         bcm2835_defconfig
+sh                ecovec24-romimage_defconfig
+sparc                            alldefconfig
+powerpc                      bamboo_defconfig
+arm                        oxnas_v6_defconfig
+arm                         orion5x_defconfig
+powerpc                  mpc866_ads_defconfig
+arm                            lart_defconfig
+mips                       capcella_defconfig
+arc                              alldefconfig
+sh                        edosk7705_defconfig
+mips                      maltaaprp_defconfig
+m68k                        m5307c3_defconfig
+m68k                          sun3x_defconfig
+arm                          collie_defconfig
+mips                         bigsur_defconfig
+m68k                        m5407c3_defconfig
+powerpc                      cm5200_defconfig
+powerpc                       holly_defconfig
+mips                 decstation_r4k_defconfig
+x86_64                            allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a004-20210713
+i386                 randconfig-a001-20210713
+i386                 randconfig-a002-20210713
+i386                 randconfig-a003-20210713
+i386                 randconfig-a005-20210714
+i386                 randconfig-a006-20210714
+i386                 randconfig-a004-20210714
+i386                 randconfig-a001-20210714
+i386                 randconfig-a003-20210714
+i386                 randconfig-a002-20210714
+i386                 randconfig-a005-20210713
+i386                 randconfig-a006-20210713
+x86_64               randconfig-a013-20210713
+x86_64               randconfig-a014-20210713
+x86_64               randconfig-a012-20210713
+x86_64               randconfig-a015-20210713
+x86_64               randconfig-a016-20210713
+x86_64               randconfig-a011-20210713
+i386                 randconfig-a014-20210714
+i386                 randconfig-a015-20210714
+i386                 randconfig-a011-20210714
+i386                 randconfig-a013-20210714
+i386                 randconfig-a012-20210714
+i386                 randconfig-a016-20210714
+i386                 randconfig-a015-20210713
+i386                 randconfig-a014-20210713
+i386                 randconfig-a011-20210713
+i386                 randconfig-a013-20210713
+i386                 randconfig-a012-20210713
+i386                 randconfig-a016-20210713
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                      rhel-8.3-kbuiltin
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-Fix the shadowing by renaming the local variable to ths_tj_1.
+clang tested configs:
+x86_64               randconfig-b001-20210713
+x86_64               randconfig-a013-20210714
+x86_64               randconfig-a015-20210714
+x86_64               randconfig-a012-20210714
+x86_64               randconfig-a014-20210714
+x86_64               randconfig-a016-20210714
+x86_64               randconfig-a011-20210714
+x86_64               randconfig-a005-20210713
+x86_64               randconfig-a004-20210713
+x86_64               randconfig-a003-20210713
+x86_64               randconfig-a002-20210713
+x86_64               randconfig-a006-20210713
+x86_64               randconfig-a001-20210713
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-Link: https://lore.kernel.org/r/9ea7e65d0331daba96f9a7925cb3d12d2170efb1.1623076804.git.geert+renesas@glider.be
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/thermal/rcar_gen3_thermal.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index 0dd47dca3e77..4e826d4b9140 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -366,7 +366,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- {
- 	struct rcar_gen3_thermal_priv *priv;
- 	struct device *dev = &pdev->dev;
--	const int *rcar_gen3_ths_tj_1 = of_device_get_match_data(dev);
-+	const int *ths_tj_1 = of_device_get_match_data(dev);
- 	struct resource *res;
- 	struct thermal_zone_device *zone;
- 	int ret, irq, i;
-@@ -434,8 +434,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 		priv->tscs[i] = tsc;
- 
- 		priv->thermal_init(tsc);
--		rcar_gen3_thermal_calc_coefs(tsc, ptat, thcodes[i],
--					     *rcar_gen3_ths_tj_1);
-+		rcar_gen3_thermal_calc_coefs(tsc, ptat, thcodes[i], *ths_tj_1);
- 
- 		zone = devm_thermal_zone_of_sensor_register(dev, i, tsc,
- 							    &rcar_gen3_tz_of_ops);
--- 
-2.30.2
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
