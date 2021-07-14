@@ -2,154 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A76D43C7E6D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 08:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BFEC3C7EC7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 08:53:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238038AbhGNGSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Jul 2021 02:18:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47464 "EHLO mail.kernel.org"
+        id S238201AbhGNG4Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Jul 2021 02:56:24 -0400
+Received: from mga14.intel.com ([192.55.52.115]:2633 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237958AbhGNGSH (ORCPT
+        id S238200AbhGNG4X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Jul 2021 02:18:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E46FE6127C;
-        Wed, 14 Jul 2021 06:15:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626243316;
-        bh=KUK1LwW20wP3EqcQiPE5rpv4X3DjPYHIE3Ahfa2rIKM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=O0RtBQ0mFpIz2J0df4y5K1QZ1k182MYXSVBsATd0Oo2x2rqVZSBrgzyQkv7ODRa4D
-         yxm2z4io/KAxDlYSO3EHTTnN+JRo3oDNfTEK4s1rKOy2neAGyfg+bePaY8+l9xC5ZX
-         KZYCHdXF/BFs4UrQmq1wrW4G90Qt1HTn9i/MdThDm/ZJNIQFUDa0EmiQo2yv7c8HW1
-         4JD4+ZDNoc/JnOK0K//vj9ng8aKX8dzikRogVkbgdA+Nwgq7KBwWUmFvSlgnnVBa8z
-         aoiH3jVLp+8Np971wMHELoJS8V1jf56iQAU9wIBiMyEezeSxSwZQMxQMjJZE8lc8+E
-         ZkDqXP+fa5f1Q==
-Date:   Wed, 14 Jul 2021 11:45:12 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        dmaengine@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] drivers: dma: sh: Add DMAC driver for RZ/G2L SoC
-Message-ID: <YO6A8KXRSvqUN6pL@matsya>
-References: <20210702100527.28251-1-biju.das.jz@bp.renesas.com>
- <20210702100527.28251-3-biju.das.jz@bp.renesas.com>
+        Wed, 14 Jul 2021 02:56:23 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="210113558"
+X-IronPort-AV: E=Sophos;i="5.84,238,1620716400"; 
+   d="scan'208";a="210113558"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2021 23:53:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,238,1620716400"; 
+   d="scan'208";a="650495200"
+Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 13 Jul 2021 23:53:31 -0700
+Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1m3Ylu-000IVe-Qz; Wed, 14 Jul 2021 06:53:30 +0000
+Date:   Wed, 14 Jul 2021 14:52:50 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:master] BUILD SUCCESS
+ b37235d5fdf50e5f1c23f868ab70bbe640081b21
+Message-ID: <60ee89c2.xwOYykdcinVRhVMk%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210702100527.28251-3-biju.das.jz@bp.renesas.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 02-07-21, 11:05, Biju Das wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: b37235d5fdf50e5f1c23f868ab70bbe640081b21  [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-> +static void rz_dmac_set_dmars_register(struct rz_dmac *dmac, int nr,
-> +				       u32 dmars)
-> +{
-> +	u32 dmars_offset = (nr / 2) * 4;
-> +	u32 dmars32;
-> +
-> +	dmars32 = rz_dmac_ext_readl(dmac, dmars_offset);
-> +	if (nr % 2) {
-> +		dmars32 &= 0x0000ffff;
-> +		dmars32 |= dmars << 16;
-> +	} else {
-> +		dmars32 &= 0xffff0000;
-> +		dmars32 |= dmars;
-> +	}
+elapsed time: 1041m
 
-how about using upper_16_bits() and lower_16_bits() for extracting
-above?
+configs tested: 97
+configs skipped: 3
 
-> +static void rz_dmac_prepare_desc_for_memcpy(struct rz_dmac_chan *channel)
-> +{
-> +	struct dma_chan *chan = &channel->vc.chan;
-> +	struct rz_dmac *dmac = to_rz_dmac(chan->device);
-> +	struct rz_lmdesc *lmdesc = channel->lmdesc.base;
-> +	struct rz_dmac_desc *d = channel->desc;
-> +	u32 chcfg = CHCFG_MEM_COPY;
-> +	u32 dmars = 0;
-> +
-> +	lmdesc = channel->lmdesc.tail;
-> +
-> +	/* prepare descriptor */
-> +	lmdesc->sa = d->src;
-> +	lmdesc->da = d->dest;
-> +	lmdesc->tb = d->len;
-> +	lmdesc->chcfg = chcfg;
-> +	lmdesc->chitvl = 0;
-> +	lmdesc->chext = 0;
-> +	lmdesc->header = HEADER_LV;
-> +
-> +	rz_dmac_set_dmars_register(dmac, channel->index, dmars);
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-why not pass 0 as last arg and remove dmars?
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+sh                           se7705_defconfig
+mips                           gcw0_defconfig
+powerpc                    amigaone_defconfig
+mips                           ip32_defconfig
+arm                              alldefconfig
+arm                         shannon_defconfig
+powerpc                      pasemi_defconfig
+sh                          r7780mp_defconfig
+powerpc               mpc834x_itxgp_defconfig
+arm                          lpd270_defconfig
+mips                     loongson1b_defconfig
+arm                             mxs_defconfig
+arm                         hackkit_defconfig
+powerpc                      mgcoge_defconfig
+arm                        cerfcube_defconfig
+mips                        workpad_defconfig
+sh                         microdev_defconfig
+mips                        omega2p_defconfig
+powerpc                mpc7448_hpc2_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+x86_64                            allnoconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a005-20210713
+i386                 randconfig-a004-20210713
+i386                 randconfig-a006-20210713
+i386                 randconfig-a001-20210713
+i386                 randconfig-a002-20210713
+i386                 randconfig-a003-20210713
+x86_64               randconfig-a013-20210713
+x86_64               randconfig-a014-20210713
+x86_64               randconfig-a012-20210713
+x86_64               randconfig-a015-20210713
+x86_64               randconfig-a016-20210713
+x86_64               randconfig-a011-20210713
+i386                 randconfig-a015-20210713
+i386                 randconfig-a014-20210713
+i386                 randconfig-a011-20210713
+i386                 randconfig-a013-20210713
+i386                 randconfig-a012-20210713
+i386                 randconfig-a016-20210713
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-> +static enum dma_status rz_dmac_tx_status(struct dma_chan *chan,
-> +					 dma_cookie_t cookie,
-> +					 struct dma_tx_state *txstate)
-> +{
-> +	return dma_cookie_status(chan, cookie, txstate);
-> +}
+clang tested configs:
+x86_64               randconfig-b001-20210713
+x86_64               randconfig-a005-20210713
+x86_64               randconfig-a004-20210713
+x86_64               randconfig-a003-20210713
+x86_64               randconfig-a002-20210713
+x86_64               randconfig-a006-20210713
+x86_64               randconfig-a001-20210713
 
-why not assign status as dma_cookie_status and remove
-rz_dmac_tx_status()
-
-> +static int rz_dmac_config(struct dma_chan *chan,
-> +			  struct dma_slave_config *config)
-> +{
-> +	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
-> +	u32 *ch_cfg;
-> +	u32 val;
-> +
-> +	if (config->direction == DMA_DEV_TO_MEM) {
-
-config->direction is deprecated, pls save the dma_slave_config here and
-then use based on txn direction...
-
-> +static bool rz_dmac_chan_filter(struct dma_chan *chan, void *arg)
-> +{
-> +	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
-> +	struct rz_dmac *dmac = to_rz_dmac(chan->device);
-> +	struct of_phandle_args *dma_spec = arg;
-> +
-> +	if (chan->device->device_config != rz_dmac_config)
-> +		return false;
-
-which cases would this be false?
-
-> +
-> +	channel->mid_rid = dma_spec->args[0];
-> +
-> +	return !test_and_set_bit(dma_spec->args[0], dmac->modules);
-> +}
-> +
-> +static struct dma_chan *rz_dmac_of_xlate(struct of_phandle_args *dma_spec,
-> +					 struct of_dma *ofdma)
-> +{
-> +	dma_cap_mask_t mask;
-> +
-> +	if (dma_spec->args_count != 1)
-> +		return NULL;
-> +
-> +	/* Only slave DMA channels can be allocated via DT */
-> +	dma_cap_zero(mask);
-> +	dma_cap_set(DMA_SLAVE, mask);
-> +
-> +	return dma_request_channel(mask, rz_dmac_chan_filter, dma_spec);
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Probe and remove
-> + */
-
-we use
-/*
- * this style
- * multi-line comments
- */
--- 
-~Vinod
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
