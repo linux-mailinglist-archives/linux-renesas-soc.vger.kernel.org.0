@@ -2,97 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DF043C858E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 15:51:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 716163C8632
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 16:31:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231543AbhGNNx6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Jul 2021 09:53:58 -0400
-Received: from mail-io1-f42.google.com ([209.85.166.42]:36748 "EHLO
-        mail-io1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231478AbhGNNx6 (ORCPT
+        id S232097AbhGNOem (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Jul 2021 10:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231994AbhGNOel (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Jul 2021 09:53:58 -0400
-Received: by mail-io1-f42.google.com with SMTP id u7so2157452ion.3;
-        Wed, 14 Jul 2021 06:51:06 -0700 (PDT)
+        Wed, 14 Jul 2021 10:34:41 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA2C4C06175F
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jul 2021 07:31:49 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id 22so3907912lfy.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jul 2021 07:31:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=H2V/kdI/HFQSQTzLTATWpsLMZMMUD+2Yxl+6O8w7UB4=;
+        b=Kv/Dv6i4R/mRzmGJUkWkbMrdds2lMbMAy/mdmKQFOnfNANowDD2p+TkdbItLoLju+e
+         BDlyLR+r42i2uoZ/XYqstwGHe7nR+XDtO+XY94WABpi4IRGiRTy83rLe+f8WWu2Gziiy
+         xQQuurw2neyZdMYGxkXNIYdgi7R6LTYR4ypP2TuZHW3nLiURO7iGao+PvIYilARtyem3
+         U+4Vx2plh56PS9alqx8XaRZE3J+r3s/zjTB3msXAa1R0qCmxMLRMrhE7Tdr4tJcFif/K
+         vICsJJ8ifnwSe0QnhuXkhKlKNmn8fqDyLKIKHLj09RQzM3EXqBPs0NGOvKyaSfRzUrhz
+         3mYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=50++kkpNpej8/NTD9q8DshcKL4G56n58bwfZ59/K0OU=;
-        b=GX3mMdEKxQV1DYNgjzcnv9mWui8dFHR6+5ZKd0ZfPz8RSjmWnWhw+cI3Gue3hoTgYS
-         13sZA7QAWbx819BCMBFonHvTW85FZb1YX+lk7lczQvYQ7egEe6ry5VVUYhGPjMVdGApu
-         vD94vFMCv4iw5Pb9EqdZvFkdTnEsJpQQ24z0rn76SLk1qSZf0MDfZavPZxjD8g36a6Mf
-         OnkaVUL2AfN80o/FmySEVgoJ4ZL99CdrMG8zvlJhAtBG4bUT6DVJmYQwzgxlS3k9zLyG
-         xhfGQYwj0KDWsKg5SorLVdfkmwPJqto0LCLdKRP1JtcMBEg9FYowmJrfBgh6OSyQAvQr
-         tI2w==
-X-Gm-Message-State: AOAM530CEAeT6v7HfV0AJ+rSvUO9imIR9KYEeKy1MczsVD5hv409g/RK
-        7Rz1K1KxzAJETGNT92iwjw==
-X-Google-Smtp-Source: ABdhPJz5/RWe5S4IxADEtcsCGrwyKwDJjXmmQQVnQ78apEZMiVvJE4pVvZlqoWl7Or2AdYCn9IOTUQ==
-X-Received: by 2002:a02:7093:: with SMTP id f141mr8988326jac.24.1626270666077;
-        Wed, 14 Jul 2021 06:51:06 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id s2sm1323967ilq.45.2021.07.14.06.51.02
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=H2V/kdI/HFQSQTzLTATWpsLMZMMUD+2Yxl+6O8w7UB4=;
+        b=ttY5U7XVdgIL69bhAg1UadmVHfBnGChomq/mLxMJoPgt/2R0svQKq8TrRu7VK8hK1z
+         0vDeP8YqHXXUBBhsKPPPTsMgc+3kru9MCQ/097hvt1PZR3BOVCpLAXZqXz0rIZEz5+sP
+         e45pPRrdG0VadHFGzZgZmXkLDhByGquF1ZT789ou0Zo78fUmi/UuUMO8zx5KKcz2HPuc
+         fIzidER/P/KgZBmzVoQfiTsAqcH9b5cQXHCM/hUTE3tikTuyi2mbDF+nbx/aHFAqoXBV
+         eIy49rTJNJ6ZtnvhJbT1W3xHkb817u9aNVT3vxaTXYi93qYUgJDf8j/xZ//BCiIX122V
+         ValA==
+X-Gm-Message-State: AOAM53328f0e+ELqZQroc5ltabPYvYf/fhBvyLXkVB9HWo0pjKtQC5T/
+        nKFRnuT/bOp+89sQdKgWGYKXwg==
+X-Google-Smtp-Source: ABdhPJyLvnTyj20FZrRIG+ZFY4zKcSRRvm5LhDzva/HzPnprtgxVXzUkdBqS7MPOKOtPZqjenRgq4Q==
+X-Received: by 2002:a19:fc03:: with SMTP id a3mr8377004lfi.327.1626273108029;
+        Wed, 14 Jul 2021 07:31:48 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id c5sm256629ljj.17.2021.07.14.07.31.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jul 2021 06:51:05 -0700 (PDT)
-Received: (nullmailer pid 2459772 invoked by uid 1000);
-        Wed, 14 Jul 2021 13:51:01 -0000
-Date:   Wed, 14 Jul 2021 07:51:01 -0600
-From:   Rob Herring <robh@kernel.org>
+        Wed, 14 Jul 2021 07:31:47 -0700 (PDT)
+Date:   Wed, 14 Jul 2021 16:31:46 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Dave Young <dyoung@redhat.com>,
-        Mike Rapoport <rppt@kernel.org>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-riscv@lists.infradead.org, kexec@lists.infradead.org,
-        linux-mm@kvack.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 02/10] memblock: Add variables for usable memory
- limitation
-Message-ID: <20210714135101.GB2441138@robh.at.kernel.org>
-References: <cover.1626266516.git.geert+renesas@glider.be>
- <04c4d231fb03a3810d72a45c8a5bc2272c5975f3.1626266516.git.geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] gpio: rcar: Always use local variable dev in
+ gpio_rcar_probe()
+Message-ID: <YO71UmT5tqOpSxcB@oden.dyn.berto.se>
+References: <c2d40c6934507ee694be43cda24387a1feef7b10.1626267044.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <04c4d231fb03a3810d72a45c8a5bc2272c5975f3.1626266516.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c2d40c6934507ee694be43cda24387a1feef7b10.1626267044.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 14, 2021 at 02:50:12PM +0200, Geert Uytterhoeven wrote:
-> Add two global variables (cap_mem_addr and cap_mem_size) for storing a
-> base address and size, describing a limited region in which memory may
-> be considered available for use by the kernel.  If enabled, memory
-> outside of this range is not available for use.
-> 
-> These variables can by filled by firmware-specific code, and used in
-> calls to memblock_cap_memory_range() by architecture-specific code.
-> An example user is the parser of the "linux,usable-memory-range"
-> property in the DT "/chosen" node.
+Hi Geert,
+
+On 2021-07-14 14:51:13 +0200, Geert Uytterhoeven wrote:
+> As we have already have a pointer to the device structure in a local
+> variable in gpio_rcar_probe(), we can just use "dev" instead of
+> "p->dev".
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
-> This is similar to how the initial ramdisk (phys_initrd_{start,size})
-> and ELF core headers (elfcorehdr_{addr,size})) are handled.
+>  drivers/gpio/gpio-rcar.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Does there exist a suitable place in the common memblock code to call
-> "memblock_cap_memory_range(cap_mem_addr, cap_mem_size)", or does this
-> have to be done in architecture-specific code?
+> diff --git a/drivers/gpio/gpio-rcar.c b/drivers/gpio/gpio-rcar.c
+> index e7092d5fe700d2ce..ae1ffb2b230d4a32 100644
+> --- a/drivers/gpio/gpio-rcar.c
+> +++ b/drivers/gpio/gpio-rcar.c
+> @@ -564,9 +564,9 @@ static int gpio_rcar_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	if (p->info.has_inen) {
+> -		pm_runtime_get_sync(p->dev);
+> +		pm_runtime_get_sync(dev);
+>  		gpio_rcar_enable_inputs(p);
+> -		pm_runtime_put(p->dev);
+> +		pm_runtime_put(dev);
+>  	}
+>  
+>  	dev_info(dev, "driving %d GPIOs\n", npins);
+> -- 
+> 2.25.1
+> 
 
-Can't you just call it from early_init_dt_scan_usablemem? If the 
-property is present, you want to call it. If the property is not 
-present, nothing happens.
-
-Rob
+-- 
+Regards,
+Niklas Söderlund
