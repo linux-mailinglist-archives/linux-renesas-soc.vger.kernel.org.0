@@ -2,41 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20D273C8C72
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 21:39:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DAE63C8D12
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jul 2021 21:40:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230072AbhGNTmC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Jul 2021 15:42:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36600 "EHLO mail.kernel.org"
+        id S235611AbhGNTnj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Jul 2021 15:43:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38836 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233997AbhGNTlt (ORCPT
+        id S230191AbhGNTnD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Jul 2021 15:41:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 28FBD613D3;
-        Wed, 14 Jul 2021 19:38:55 +0000 (UTC)
+        Wed, 14 Jul 2021 15:43:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1CD01613E0;
+        Wed, 14 Jul 2021 19:40:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626291536;
-        bh=/LXC0pSLzFR6Suf13tw4eNPfaJ/VSEg952gbNu7tODY=;
+        s=k20201202; t=1626291611;
+        bh=PW4gMWYUTqC7AkExYLzBBEUaUYvtVhp3E2LrW16LOJw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=u64DflQ3ofOTKBPLnn+IijjEsmkdR8aMU8c6I9aJuBhJJkgILoqoS8xCl4PQYGbNR
-         vZmysKNy5aQj+QuluJs4jEg6/NObatIY15P+uF+QzOw3YHj3ajwcDHubzaSxtdMuXS
-         ndI9legW9G6clbc4eujhmuatZoMJCffyDVRUgmJ/8mvYmG3QBsuIPKXPO6C0bCBr3p
-         8OIfCZViPfxo+GHYNVtjM1Ez0QIHLZec9Be1uNfIyPwfO+Sty8gtyU5qw01HwEW5Kv
-         Qh1j8NqSuoIABUPmp/njTAtS07QNLST/jmLUgd/TavFWHYLn7vY/kS6E0j7cHCrmsr
-         ImYJDE9AyLmgA==
+        b=TnFE997o2hb9XSRnn8aIXlPdFXolZrq0klC/DMgpwRx5I7HuMkezYxVsR/ZC0XdBf
+         MHcJL84oaqXBPxwURWn7UoIfSd4yYd51VTlLqHrNWz8C6hMpIg+L0Ab+CcNZjE5SL6
+         gRzZEAQ31wCES5WplRy9DALUFu3Rfj0vGmW4YVdFSUeyJQrCBHqUPpeurca1HWBymC
+         crI6HpO+1n2LFBWePyZjc048Bqtl4QKhTWXhiEDMTwqW7/mlbAgbBl7UYQIuUX+4kt
+         UZpPDbJSU7CcnLzTBtcFDCsmzqpeivlsYz2AwpomSs8PlYt8FeZ5t7b4gChgjeJCio
+         lP84Z6qTzJqGQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Adam Ford <aford173@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 038/108] arm64: dts: renesas: beacon: Fix USB ref clock references
-Date:   Wed, 14 Jul 2021 15:36:50 -0400
-Message-Id: <20210714193800.52097-38-sashal@kernel.org>
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 090/108] thermal/drivers/rcar_gen3_thermal: Do not shadow rcar_gen3_ths_tj_1
+Date:   Wed, 14 Jul 2021 15:37:42 -0400
+Message-Id: <20210714193800.52097-90-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210714193800.52097-1-sashal@kernel.org>
 References: <20210714193800.52097-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -44,48 +47,56 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Adam Ford <aford173@gmail.com>
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[ Upstream commit ebc666f39ff67a01e748c34d670ddf05a9e45220 ]
+[ Upstream commit 3ae5950db617d1cc3eb4eb55750fa9d138529b49 ]
 
-The RZ/G2 boards expect there to be an external clock reference for
-USB2 EHCI controllers.  For the Beacon boards, this reference clock
-is controlled by a programmable versaclock.  Because the RZ/G2
-family has a special clock driver when using an external clock,
-the third clock reference in the EHCI node needs to point to this
-special clock, called usb2_clksel.
+With -Wshadow:
 
-Since the usb2_clksel does not keep the usb_extal clock enabled,
-the 4th clock entry for the EHCI nodes needs to reference it to
-keep the clock running and make USB functional.
+    drivers/thermal/rcar_gen3_thermal.c: In function ‘rcar_gen3_thermal_probe’:
+    drivers/thermal/rcar_gen3_thermal.c:310:13: warning: declaration of ‘rcar_gen3_ths_tj_1’ shadows a global declaration [-Wshadow]
+      310 |  const int *rcar_gen3_ths_tj_1 = of_device_get_match_data(dev);
+	  |             ^~~~~~~~~~~~~~~~~~
+    drivers/thermal/rcar_gen3_thermal.c:246:18: note: shadowed declaration is here
+      246 | static const int rcar_gen3_ths_tj_1 = 126;
+	  |                  ^~~~~~~~~~~~~~~~~~
 
-Signed-off-by: Adam Ford <aford173@gmail.com>
-Link: https://lore.kernel.org/r/20210513114617.30191-2-aford173@gmail.com
+To add to the confusion, the local variable has a different type.
+
+Fix the shadowing by renaming the local variable to ths_tj_1.
+
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Link: https://lore.kernel.org/r/9ea7e65d0331daba96f9a7925cb3d12d2170efb1.1623076804.git.geert+renesas@glider.be
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/thermal/rcar_gen3_thermal.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-index d8046fedf9c1..e3c8b2fe143e 100644
---- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-+++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-@@ -271,12 +271,12 @@ &du_out_rgb {
- &ehci0 {
- 	dr_mode = "otg";
- 	status = "okay";
--	clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-+	clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&usb2_clksel>, <&versaclock5 3>;
- };
+diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
+index e1e412348076..42c079ba0d51 100644
+--- a/drivers/thermal/rcar_gen3_thermal.c
++++ b/drivers/thermal/rcar_gen3_thermal.c
+@@ -307,7 +307,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+ {
+ 	struct rcar_gen3_thermal_priv *priv;
+ 	struct device *dev = &pdev->dev;
+-	const int *rcar_gen3_ths_tj_1 = of_device_get_match_data(dev);
++	const int *ths_tj_1 = of_device_get_match_data(dev);
+ 	struct resource *res;
+ 	struct thermal_zone_device *zone;
+ 	int ret, i;
+@@ -352,8 +352,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+ 		priv->tscs[i] = tsc;
  
- &ehci1 {
- 	status = "okay";
--	clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-+	clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&usb2_clksel>, <&versaclock5 3>;
- };
+ 		priv->thermal_init(tsc);
+-		rcar_gen3_thermal_calc_coefs(tsc, ptat, thcodes[i],
+-					     *rcar_gen3_ths_tj_1);
++		rcar_gen3_thermal_calc_coefs(tsc, ptat, thcodes[i], *ths_tj_1);
  
- &hdmi0 {
+ 		zone = devm_thermal_zone_of_sensor_register(dev, i, tsc,
+ 							    &rcar_gen3_tz_of_ops);
 -- 
 2.30.2
 
