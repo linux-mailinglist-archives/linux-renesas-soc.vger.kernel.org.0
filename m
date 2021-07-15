@@ -2,185 +2,206 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 666203C9CBC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jul 2021 12:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BF4B3C9D59
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jul 2021 12:57:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237171AbhGOKg4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Jul 2021 06:36:56 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:38940 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231670AbhGOKgz (ORCPT
+        id S240521AbhGOLAf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Jul 2021 07:00:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232055AbhGOLAf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Jul 2021 06:36:55 -0400
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 0C8B5227C4;
-        Thu, 15 Jul 2021 10:34:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1626345242; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=C3r+MoQUZftGFnoLGddjeoKLQ4Jj5UP2WoHBg7J4MxQ=;
-        b=dBrJ9y99WLWDqycColkJmBYqNv/okAiBYmaifn3GyvmTS5Y70MlK75NgUsFTdpZghUt9xc
-        gUtnFCCVez4U4PAGI24qiOMenU9a9o/PVUG4BwtQks0dePBrMMmsPbQImyNwyDqFAKf0aq
-        ERb8jtiZuy0rM3f0+wjM8yTRkwgM2Xg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1626345242;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=C3r+MoQUZftGFnoLGddjeoKLQ4Jj5UP2WoHBg7J4MxQ=;
-        b=EEiHlCuyPF/SdBoCvwuZ2kMt+zt2eqp+Q04zCUNfWMDi0yr7tI54oTC852fFjDReNCnu2T
-        +SQe8gCXy+muKXBA==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id CF27713D7E;
-        Thu, 15 Jul 2021 10:34:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap1.suse-dmz.suse.de with ESMTPSA
-        id tayqMBkP8GD9GgAAGKfGzw
-        (envelope-from <tzimmermann@suse.de>); Thu, 15 Jul 2021 10:34:01 +0000
-Subject: Re: [PATCH v2] drm/shmobile: Convert to Linux IRQ interfaces
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-References: <20210715095729.6510-1-tzimmermann@suse.de>
- <CAMuHMdU6Dxod3pGo3pCjRsXu0O5YTJWTcTFnAzg4F_8kD7bdxg@mail.gmail.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <09c12fee-4698-18bc-0bb1-db8ae31caed5@suse.de>
-Date:   Thu, 15 Jul 2021 12:34:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Thu, 15 Jul 2021 07:00:35 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D22C06175F
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jul 2021 03:57:41 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id y7so7756269ljm.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jul 2021 03:57:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=kUzYOF+Pui+/I75Qhr4DvmdNbJq7Jy8ptwao2NR3kdg=;
+        b=GMnRE7I5TbmchgHxyTG5ByDoqCJLG/yi1OZs8iSb5pbm54yJ8MDssnqdyp/yselDdk
+         w/7cJ8D4nFkYdCuFGb8l1Vnf3PWDVhR9NVZDBAnHjZ0m9DGXLGzMIRk8iDIHgX+ohzZl
+         9yidPSlXzuQFg2Y2cTA3qUUSRkyr/1bJvr1QR9uRqexCa2rhmHDcPWe2zJMplC7tDZpT
+         UayNiwlWGEkIWKTlY0gbImih/Q1+Vg3pMsR4lNBqcbHY7P/n2i4xFQ7WnBnH4tqFmbtH
+         Eon9DgyDN5YvIgkOzr4SEXY+EIEBQHPbh7as1acZAzc6wn/oyZt58boPFISr5E0AfQ3x
+         Jzqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=kUzYOF+Pui+/I75Qhr4DvmdNbJq7Jy8ptwao2NR3kdg=;
+        b=uOJjX+R7PMG6LMDLXUPHCFDorsBay2v9u4HrKygetYCb4JmfeUCRaqcSjAHi+fTtNf
+         XCP8SVQytvcRj9UAE1gM7sW5kg5GbQc/JBqaqTgaMM6sjekng3sgiGnbLXdbdaZm13si
+         OO6mbBbGa+DA9uKwRFYgoKFwRKbCR9p6e+AhoBkMW9sAUYHY5vAY2adUlnQcMvDqqVoT
+         8j27BRKxkLFumD/CL8RSQJDczETKRaQfehUC5ZhTOk7bCMqbxOiynURtlHPd2sngczwF
+         lreWcu71pybBmoWDzckZhwWpObxyjYDDhPjFEDRCkx59Hz2KUhR9xaH3UaBVCcXsOtRa
+         n4ew==
+X-Gm-Message-State: AOAM530SY3imHAov1oH0P1nQe4ZuBzOeABnB7H1vFJvKpDTRXhqOju0W
+        VswnnRkUbnWPSzBcsd286b7P8OYsRYJprA==
+X-Google-Smtp-Source: ABdhPJyTA6w/sbL14AlzwBQEySRFLleWEmN4PHtGsm1l1itiJyfLMgN3IGdBKYJkgBbygWh8f8M1ew==
+X-Received: by 2002:a2e:904b:: with SMTP id n11mr3481143ljg.104.1626346659431;
+        Thu, 15 Jul 2021 03:57:39 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id z8sm385585lfh.119.2021.07.15.03.57.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jul 2021 03:57:38 -0700 (PDT)
+Date:   Thu, 15 Jul 2021 12:57:37 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dennis Rachui <drachui@de.adit-jv.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
+Message-ID: <YPAUoQ8KmmAE3fWD@oden.dyn.berto.se>
+References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+ <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
+ <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
+ <YO1f+SOTBS44/Wf0@oden.dyn.berto.se>
+ <YO8vs4V/lhVA8mY9@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdU6Dxod3pGo3pCjRsXu0O5YTJWTcTFnAzg4F_8kD7bdxg@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="QlEDNAiSROcThjuLbZwhf8SHcE7IAZqwl"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YO8vs4V/lhVA8mY9@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---QlEDNAiSROcThjuLbZwhf8SHcE7IAZqwl
-Content-Type: multipart/mixed; boundary="cggzFFcQel5JbHQ8e5Pz6I6E79ipARwNv";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, Sergei Shtylyov
- <sergei.shtylyov@gmail.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Message-ID: <09c12fee-4698-18bc-0bb1-db8ae31caed5@suse.de>
-Subject: Re: [PATCH v2] drm/shmobile: Convert to Linux IRQ interfaces
-References: <20210715095729.6510-1-tzimmermann@suse.de>
- <CAMuHMdU6Dxod3pGo3pCjRsXu0O5YTJWTcTFnAzg4F_8kD7bdxg@mail.gmail.com>
-In-Reply-To: <CAMuHMdU6Dxod3pGo3pCjRsXu0O5YTJWTcTFnAzg4F_8kD7bdxg@mail.gmail.com>
+Hi Laurent,
 
---cggzFFcQel5JbHQ8e5Pz6I6E79ipARwNv
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On 2021-07-14 21:40:51 +0300, Laurent Pinchart wrote:
+> Hi Niklas,
+> 
+> On Tue, Jul 13, 2021 at 11:42:17AM +0200, Niklas Söderlund wrote:
+> > On 2021-07-11 01:42:44 +0300, Laurent Pinchart wrote:
+> > > On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
+> > > > On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
+> > > > > Verify that streaming is not active before setting the pad format.
+> > > > > 
+> > > > > According to the VIDIOC documentation [1] changes to the active
+> > > > > format of a media pad via the VIDIOC_SUBDEV_S_FMT ioctl are
+> > > > > applied to the underlying hardware.
+> > > > > In rcar-csi2 a format change only applies to hardware, when the
+> > > > > pipeline is started. While the device is not in use, it is therefore
+> > > > > okay to update the format.
+> > > > > 
+> > > > > However, when the pipeline is active, this leads to a format
+> > > > > mismatch between driver and device.
+> > > > > Other applications can query the format with
+> > > > > VIDIOC_SUBDEV_G_FMT at any time and would be reported
+> > > > > a format that does not fit the current stream.
+> > > > > 
+> > > > > This commit prevents format update while streaming is active
+> > > > > and returns -EBUSY to user space, as suggested by [1].
+> > > > > 
+> > > > > [1] Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+> > > > 
+> > > > I like that this is addressed, but I wonder is this not something that 
+> > > > should be fixed in the V4L2 core and not in drivers?
+> > > 
+> > > Some drivers may support format changes during streaming (that's allowed
+> > > by the V4L2 API, I'm not sure if it's used anywhere though). While I'd
+> > > favour not duplicating the same logic in different (and differently
+> > > buggy) ways in drivers, I'm not sure how this could be implemented in a
+> > > sane way in the V4L2 core in its current state.
+> > 
+> > I understand it's possible from some devices to support to format 
+> > changes during streaming, but as you point out it's the exception and 
+> > not the rule, if used at all.
+> > 
+> > So my point is if we start to enforce this in drivers we are headed down 
+> > a road where this will be messier to clean up. Would it not make more 
+> > sens to default the V4L2 core to disallow format changes while streaming 
+> > and add a new flag to V4L2_SUBDEV_CAP_ to signal that the subdevice 
+> > supports format changes while streaming?
+> > 
+> > We already have V4L2_SUBDEV_CAP_RO_SUBDEV to signal that a subdevice 
+> > only supports read-only operations so I think it would not be too hard 
+> > to move this functionality into the core?
+> 
+> Yes, that's something we could try. The subdev core will then need to
+> track the streaming state, which may require wrapping the .s_stream()
+> call. Locking should then also likely be handled by the core. Probably
+> nothing impossible, but quite a bit of work. Any volunteer ? :-)
 
+We already track the stream count in struct media_entity and it's 
+incremented/decremented under the media device lock by 
+media_pipeline_start() and media_pipeline_stop(). So I don't think it's 
+such a hard feature to add.
 
+The large task IMHO is to figure out if we have any subdevice in tree 
+that allows format changes while streaming and that would need to set 
+this new V4L2_SUBDEV_CAP_ flag.
 
-Am 15.07.21 um 12:16 schrieb Geert Uytterhoeven:
-> Hi Thomas,
->=20
-> On Thu, Jul 15, 2021 at 11:57 AM Thomas Zimmermann <tzimmermann@suse.de=
-> wrote:
->> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
->> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
->> don't benefit from using it.
->>
->> v2:
->>          * handle errors in platform_get_irq() (Geert, Sergei)
->>          * store IRQ number in struct shmob_drm_device (Laurent)
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> Thanks for the update!
->=20
->> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
->> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
->> @@ -258,7 +256,15 @@ static int shmob_drm_probe(struct platform_device=
- *pdev)
->>                  goto err_modeset_cleanup;
->>          }
->>
->> -       ret =3D drm_irq_install(ddev, platform_get_irq(pdev, 0));
->> +       ret =3D platform_get_irq(pdev, 0);
->> +       if (ret) {
->=20
-> if (ret < 0) {
+> 
+> > > > > Note: after creation of this commit, it was noticed that Steve
+> > > > > Longerbeam has a very similar solution in his fork.
+> > > > > 
+> > > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> > > > > Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> > > > > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
+> > > > > ---
+> > > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
+> > > > >  1 file changed, 20 insertions(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > index e28eff0..98152e1 100644
+> > > > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+> > > > >  {
+> > > > >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> > > > >  	struct v4l2_mbus_framefmt *framefmt;
+> > > > > +	int ret = 0;
+> > > > > +
+> > > > > +	mutex_lock(&priv->lock);
+> > > > >  
+> > > > >  	if (!rcsi2_code_to_fmt(format->format.code))
+> > > > >  		format->format.code = rcar_csi2_formats[0].code;
+> > > > >  
+> > > > >  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > > > > +
+> > > > > +		/*
+> > > > > +		 * Do not apply changes to active format while streaming.
+> > > > > +		 *
+> > > > > +		 * Since video streams could be forwarded from sink pad to any
+> > > > > +		 * source pad (depending on CSI-2 channel routing), all
+> > > > > +		 * media pads are effected by this rule.
+> > > > > +		 */
+> > > > > +		if (priv->stream_count > 0) {
+> > > > > +			ret = -EBUSY;
+> > > > > +			goto out;
+> > > > > +		}
+> > > > > +
+> > > > >  		priv->mf = format->format;
+> > > > >  	} else {
+> > > > >  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> > > > >  		*framefmt = format->format;
+> > > > >  	}
+> > > > >  
+> > > > > -	return 0;
+> > > > > +out:
+> > > > > +	mutex_unlock(&priv->lock);
+> > > > > +
+> > > > > +	return ret;
+> > > > >  }
+> > > > >  
+> > > > >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
-Indeed :/
-
->=20
->> +               dev_err(&pdev->dev, "failed to get IRQ number\n");
->=20
-> platform_get_irq() already prints an error message, so no need to
-> repeat it.
->=20
->> +               goto err_modeset_cleanup;
->> +       }
->> +       sdev->irq =3D ret;
->> +
->> +       ret =3D request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver-=
->name,
->> +                         ddev);
->>          if (ret < 0) {
->>                  dev_err(&pdev->dev, "failed to install IRQ handler\n"=
-);
->>                  goto err_modeset_cleanup;
->=20
-> Gr{oetje,eeting}s,
->=20
->                          Geert
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---cggzFFcQel5JbHQ8e5Pz6I6E79ipARwNv--
-
---QlEDNAiSROcThjuLbZwhf8SHcE7IAZqwl
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDwDxkFAwAAAAAACgkQlh/E3EQov+Bk
-EBAAgIhEvBHfKwf19G0lkreQfqww5H74xCJvVgA2iotGEW3Xq5ywzmsSdFjE0aEusqT7dJAgqz+v
-6daRrqwn+sw8S2+3DdEvz1vt7JgWVyz5hbLcFhagOpDiTe2ylyGoaLAKV8ozrL/gjy6rRZvrAtnh
-clEAus2qiP9MoWZjMy/2Kxynoa/bkTetfqbKv+K6NnYVy8I7ZZOjh2RNv/+eL4vgspotoT/LFbSs
-W1tqnMZ2re8aKn3zDMozdYgWLcDr0Q+Hgy2zhF1fKhSVzAc/Pe2icPNYXWJUPtaVhNE3HPXMvIWt
-arqbR4bVsYg3rPdcTtSVJOU9jmXwBaqUj1v1gae/mukswvW7MRaYpPnMo8hloc1SoTqN8ZRXrN+A
-xJD2sdvXqQEYvjJ1v9WwR33B0ypmDK+3omMDWIvsy5971a5d6r8XESXBUsK84y85NsNGQdCvdVHk
-Qmu5N2saR8JUWRwHXOxyLCvhcLE9b4z+gcuZ2YlVSASbZ7xMwCcP/e+9gbybTqOteOn8iKe1ZjPN
-d6GQr0YR7b1znqTuSOWhaWYXcVIZa3b49oyNqJeBb/btrnlRmLhZTVphWTK+8569ApWFr6PWIUux
-05Vf5eBQCj0ife8bQ1EjlqEJsdaRKrs77n+Sn5hxuyoT4Bz9uWNlcoF7bkr4Ef5Ni9AW58UKj6BT
-XWo=
-=l3ly
------END PGP SIGNATURE-----
-
---QlEDNAiSROcThjuLbZwhf8SHcE7IAZqwl--
+-- 
+Regards,
+Niklas Söderlund
