@@ -2,355 +2,195 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 515593CB5C8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jul 2021 12:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6014B3CB87E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jul 2021 16:09:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237788AbhGPKNR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Jul 2021 06:13:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40484 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237586AbhGPKNQ (ORCPT
+        id S240317AbhGPOMV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Jul 2021 10:12:21 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:49599 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240133AbhGPOMU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Jul 2021 06:13:16 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C32C061760
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jul 2021 03:10:22 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1m4KnG-0000gC-OV; Fri, 16 Jul 2021 12:10:06 +0200
-Received: from pengutronix.de (unknown [IPv6:2a03:f580:87bc:d400:df95:c0e5:d620:3bac])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id A198765091A;
-        Fri, 16 Jul 2021 10:10:02 +0000 (UTC)
-Date:   Fri, 16 Jul 2021 12:10:01 +0200
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 2/6] can: rcar_canfd: Add support for RZ/G2L family
-Message-ID: <20210716101001.m5sgit3l354mljai@pengutronix.de>
-References: <20210715182123.23372-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210715182123.23372-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 16 Jul 2021 10:12:20 -0400
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 831763C04C1;
+        Fri, 16 Jul 2021 16:09:23 +0200 (CEST)
+Received: from vmlxhi-082.adit-jv.com (10.72.92.165) by hi2exch02.adit-jv.com
+ (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Fri, 16 Jul
+ 2021 16:09:23 +0200
+Date:   Fri, 16 Jul 2021 16:09:21 +0200
+From:   Dennis Rachui <drachui@de.adit-jv.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
+Message-ID: <20210716140921.GB109328@vmlxhi-082.adit-jv.com>
+References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
+ <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
+ <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
+ <YO1f+SOTBS44/Wf0@oden.dyn.berto.se>
+ <YO8vs4V/lhVA8mY9@pendragon.ideasonboard.com>
+ <YPAUoQ8KmmAE3fWD@oden.dyn.berto.se>
+ <YPAeirL/qtmNYx99@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wuc7izo7bgfbohrr"
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <20210715182123.23372-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YPAeirL/qtmNYx99@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.92.165]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Laurent,
 
---wuc7izo7bgfbohrr
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Thu, Jul 15, 2021 at 12:57:37PM +0200, Niklas Söderlund wrote:
+> > On 2021-07-14 21:40:51 +0300, Laurent Pinchart wrote:
+> > > On Tue, Jul 13, 2021 at 11:42:17AM +0200, Niklas Söderlund wrote:
+> > > > On 2021-07-11 01:42:44 +0300, Laurent Pinchart wrote:
+> > > > > On Fri, Jul 09, 2021 at 04:20:40PM +0200, Niklas Söderlund wrote:
+> > > > > > On 2021-07-08 15:22:58 +0200, Dennis Rachui wrote:
+> > > > > > > Verify that streaming is not active before setting the pad format.
+> > > > > > > 
+> > > > > > > According to the VIDIOC documentation [1] changes to the 
+> > > > > > > active format of a media pad via the VIDIOC_SUBDEV_S_FMT 
+> > > > > > > ioctl are applied to the underlying hardware.
+> > > > > > > In rcar-csi2 a format change only applies to hardware, when 
+> > > > > > > the pipeline is started. While the device is not in use, it 
+> > > > > > > is therefore okay to update the format.
+> > > > > > > 
+> > > > > > > However, when the pipeline is active, this leads to a format 
+> > > > > > > mismatch between driver and device.
+> > > > > > > Other applications can query the format with 
+> > > > > > > VIDIOC_SUBDEV_G_FMT at any time and would be reported a 
+> > > > > > > format that does not fit the current stream.
+> > > > > > > 
+> > > > > > > This commit prevents format update while streaming is active 
+> > > > > > > and returns -EBUSY to user space, as suggested by [1].
+> > > > > > > 
+> > > > > > > [1] 
+> > > > > > > Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rs
+> > > > > > > t
+> > > > > > 
+> > > > > > I like that this is addressed, but I wonder is this not 
+> > > > > > something that should be fixed in the V4L2 core and not in drivers?
+> > > > > 
+> > > > > Some drivers may support format changes during streaming (that's 
+> > > > > allowed by the V4L2 API, I'm not sure if it's used anywhere 
+> > > > > though). While I'd favour not duplicating the same logic in 
+> > > > > different (and differently
+> > > > > buggy) ways in drivers, I'm not sure how this could be 
+> > > > > implemented in a sane way in the V4L2 core in its current state.
+> > > > 
+> > > > I understand it's possible from some devices to support to format 
+> > > > changes during streaming, but as you point out it's the exception 
+> > > > and not the rule, if used at all.
+> > > > 
+> > > > So my point is if we start to enforce this in drivers we are 
+> > > > headed down a road where this will be messier to clean up. Would 
+> > > > it not make more sens to default the V4L2 core to disallow format 
+> > > > changes while streaming and add a new flag to V4L2_SUBDEV_CAP_ to 
+> > > > signal that the subdevice supports format changes while streaming?
+> > > > 
+> > > > We already have V4L2_SUBDEV_CAP_RO_SUBDEV to signal that a 
+> > > > subdevice only supports read-only operations so I think it would 
+> > > > not be too hard to move this functionality into the core?
+> > > 
+> > > Yes, that's something we could try. The subdev core will then need 
+> > > to track the streaming state, which may require wrapping the 
+> > > .s_stream() call. Locking should then also likely be handled by the 
+> > > core. Probably nothing impossible, but quite a bit of work. Any 
+> > > volunteer ? :-)
+> > 
+> > We already track the stream count in struct media_entity and it's 
+> > incremented/decremented under the media device lock by
+> > media_pipeline_start() and media_pipeline_stop(). So I don't think 
+> > it's such a hard feature to add.
+> > 
+> > The large task IMHO is to figure out if we have any subdevice in tree 
+> > that allows format changes while streaming and that would need to set 
+> > this new V4L2_SUBDEV_CAP_ flag.
+>
+> Many subdevs allow format changes during streaming. The question is whether any of them do so knowingly, or if they're all buggy :-) I'd be surprised if there > were more than a couple of drivers that actually support this correctly.
 
-On 15.07.2021 19:21:19, Lad Prabhakar wrote:
-> CANFD block on RZ/G2L SoC is almost identical to one found on
-> R-Car Gen3 SoC's.
->=20
-> On RZ/G2L SoC interrupt sources for each channel are split into
-> different sources, irq handlers for the same are added.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+From my perspective, the current stream_count from struct media_entity
+would not be sufficient. References should be counted per struct media_pad.
+Otherwise, devices that allow multiple parallel streams would block user
+space from updating media-pads that are not part of an active media-pipeline.
+E.g. in rcar-csi2 this could effect a source pad connected to currently
+unused VIN device.
 
-Thanks for the patch! Some nitpicks inline, Geert already commented to
-use the same IRQ handler for all interrutps.
+> > > > > > > Note: after creation of this commit, it was noticed that 
+> > > > > > > Steve Longerbeam has a very similar solution in his fork.
+> > > > > > > 
+> > > > > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car 
+> > > > > > > MIPI CSI-2 receiver driver")
+> > > > > > > Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> > > > > > > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
+> > > > > > > ---
+> > > > > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 
+> > > > > > > ++++++++++++++++++++-
+> > > > > > >  1 file changed, 20 insertions(+), 1 deletion(-)
+> > > > > > > 
+> > > > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c 
+> > > > > > > b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > > index e28eff0..98152e1 100644
+> > > > > > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > > > > @@ -724,18 +724,37 @@ static int rcsi2_set_pad_format(struct 
+> > > > > > > v4l2_subdev *sd,  {
+> > > > > > >  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> > > > > > >  	struct v4l2_mbus_framefmt *framefmt;
+> > > > > > > +	int ret = 0;
+> > > > > > > +
+> > > > > > > +	mutex_lock(&priv->lock);
+> > > > > > >  
+> > > > > > >  	if (!rcsi2_code_to_fmt(format->format.code))
+> > > > > > >  		format->format.code = rcar_csi2_formats[0].code;
+> > > > > > >  
+> > > > > > >  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > > > > > > +
+> > > > > > > +		/*
+> > > > > > > +		 * Do not apply changes to active format while streaming.
+> > > > > > > +		 *
+> > > > > > > +		 * Since video streams could be forwarded from sink pad to any
+> > > > > > > +		 * source pad (depending on CSI-2 channel routing), all
+> > > > > > > +		 * media pads are effected by this rule.
+> > > > > > > +		 */
+> > > > > > > +		if (priv->stream_count > 0) {
+> > > > > > > +			ret = -EBUSY;
+> > > > > > > +			goto out;
+> > > > > > > +		}
+> > > > > > > +
+> > > > > > >  		priv->mf = format->format;
+> > > > > > >  	} else {
+> > > > > > >  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> > > > > > >  		*framefmt = format->format;
+> > > > > > >  	}
+> > > > > > >  
+> > > > > > > -	return 0;
+> > > > > > > +out:
+> > > > > > > +	mutex_unlock(&priv->lock);
+> > > > > > > +
+> > > > > > > +	return ret;
+> > > > > > >  }
+> > > > > > >  
+> > > > > > >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
 
-> ---
->  drivers/net/can/rcar/rcar_canfd.c | 275 ++++++++++++++++++++++++++----
->  1 file changed, 244 insertions(+), 31 deletions(-)
->=20
-> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rca=
-r_canfd.c
-> index 311e6ca3bdc4..5dfbc5fa2d81 100644
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -37,9 +37,13 @@
->  #include <linux/bitmap.h>
->  #include <linux/bitops.h>
->  #include <linux/iopoll.h>
-> +#include <linux/reset.h>
-> =20
->  #define RCANFD_DRV_NAME			"rcar_canfd"
-> =20
-> +#define RENESAS_RCAR_GEN3	0
-> +#define RENESAS_RZG2L		1
-> +
+--
 
-Please make this an enum.
+Regards,
 
->  /* Global register bits */
-> =20
->  /* RSCFDnCFDGRMCFG */
-> @@ -513,6 +517,9 @@ struct rcar_canfd_global {
->  	enum rcar_canfd_fcanclk fcan;	/* CANFD or Ext clock */
->  	unsigned long channels_mask;	/* Enabled channels mask */
->  	bool fdmode;			/* CAN FD or Classical CAN only mode */
-> +	struct reset_control *rstc1;     /* Pointer to reset source1 */
-> +	struct reset_control *rstc2;     /* Pointer to reset source2 */
-> +	unsigned int chip_id;
+Dennis Rachui
 
-enum here, too
-
->  };
-> =20
->  /* CAN FD mode nominal rate constants */
-> @@ -1070,6 +1077,56 @@ static void rcar_canfd_tx_done(struct net_device *=
-ndev)
->  	can_led_event(ndev, CAN_LED_EVENT_TX);
->  }
-> =20
-[...]
-
-> @@ -1635,8 +1784,11 @@ static int rcar_canfd_probe(struct platform_device=
- *pdev)
->  	struct rcar_canfd_global *gpriv;
->  	struct device_node *of_child;
->  	unsigned long channels_mask =3D 0;
-> -	int err, ch_irq, g_irq;
-> +	int err, ch_irq, g_irq, g_rx_irq;
->  	bool fdmode =3D true;			/* CAN FD only mode - default */
-> +	unsigned int chip_id;
-> +
-> +	chip_id =3D (uintptr_t)of_device_get_match_data(&pdev->dev);
-
-The cast looks wrong.
-
-> =20
->  	if (of_property_read_bool(pdev->dev.of_node, "renesas,no-can-fd"))
->  		fdmode =3D false;			/* Classical CAN only mode */
-> @@ -1649,27 +1801,56 @@ static int rcar_canfd_probe(struct platform_devic=
-e *pdev)
->  	if (of_child && of_device_is_available(of_child))
->  		channels_mask |=3D BIT(1);	/* Channel 1 */
-> =20
-> -	ch_irq =3D platform_get_irq(pdev, 0);
-> -	if (ch_irq < 0) {
-> -		err =3D ch_irq;
-> -		goto fail_dev;
-> -	}
-> +	if (chip_id =3D=3D RENESAS_RCAR_GEN3) {
-> +		ch_irq =3D platform_get_irq(pdev, 0);
-> +		if (ch_irq < 0)
-> +			return ch_irq;
-> =20
-> -	g_irq =3D platform_get_irq(pdev, 1);
-> -	if (g_irq < 0) {
-> -		err =3D g_irq;
-> -		goto fail_dev;
-> +		g_irq =3D platform_get_irq(pdev, 1);
-> +		if (g_irq < 0)
-> +			return g_irq;
-> +	} else {
-> +		g_irq =3D platform_get_irq(pdev, 0);
-> +		if (g_irq < 0)
-> +			return g_irq;
-> +
-> +		g_rx_irq =3D platform_get_irq(pdev, 1);
-> +		if (g_rx_irq < 0)
-> +			return g_rx_irq;
->  	}
-> =20
->  	/* Global controller context */
->  	gpriv =3D devm_kzalloc(&pdev->dev, sizeof(*gpriv), GFP_KERNEL);
-> -	if (!gpriv) {
-> -		err =3D -ENOMEM;
-> -		goto fail_dev;
-> -	}
-> +	if (!gpriv)
-> +		return -ENOMEM;
-> +
->  	gpriv->pdev =3D pdev;
->  	gpriv->channels_mask =3D channels_mask;
->  	gpriv->fdmode =3D fdmode;
-> +	gpriv->chip_id =3D chip_id;
-> +
-> +	if (gpriv->chip_id =3D=3D RENESAS_RZG2L) {
-> +		gpriv->rstc1 =3D devm_reset_control_get_exclusive_by_index(&pdev->dev,=
- 0);
-> +		if (IS_ERR(gpriv->rstc1)) {
-> +			dev_err(&pdev->dev, "failed to get reset index 0\n");
-> +			return PTR_ERR(gpriv->rstc1);
-> +		}
-> +
-> +		err =3D reset_control_reset(gpriv->rstc1);
-> +		if (err)
-> +			return err;
-> +
-> +		gpriv->rstc2 =3D devm_reset_control_get_exclusive_by_index(&pdev->dev,=
- 1);
-> +		if (IS_ERR(gpriv->rstc2)) {
-> +			dev_err(&pdev->dev, "failed to get reset index 1\n");
-> +			return PTR_ERR(gpriv->rstc2);
-> +		}
-> +		err =3D reset_control_reset(gpriv->rstc2);
-> +		if (err) {
-> +			reset_control_assert(gpriv->rstc1);
-> +			return err;
-> +		}
-> +	}
-> =20
->  	/* Peripheral clock */
->  	gpriv->clkp =3D devm_clk_get(&pdev->dev, "fck");
-> @@ -1699,7 +1880,7 @@ static int rcar_canfd_probe(struct platform_device =
-*pdev)
->  	}
->  	fcan_freq =3D clk_get_rate(gpriv->can_clk);
-> =20
-> -	if (gpriv->fcan =3D=3D RCANFD_CANFDCLK)
-> +	if (gpriv->fcan =3D=3D RCANFD_CANFDCLK && gpriv->chip_id =3D=3D RENESAS=
-_RCAR_GEN3)
->  		/* CANFD clock is further divided by (1/2) within the IP */
->  		fcan_freq /=3D 2;
-> =20
-> @@ -1711,21 +1892,43 @@ static int rcar_canfd_probe(struct platform_devic=
-e *pdev)
->  	gpriv->base =3D addr;
-> =20
->  	/* Request IRQ that's common for both channels */
-> -	err =3D devm_request_irq(&pdev->dev, ch_irq,
-> -			       rcar_canfd_channel_interrupt, 0,
-> -			       "canfd.chn", gpriv);
-> -	if (err) {
-> -		dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> -			ch_irq, err);
-> -		goto fail_dev;
-> -	}
-> -	err =3D devm_request_irq(&pdev->dev, g_irq,
-> -			       rcar_canfd_global_interrupt, 0,
-> -			       "canfd.gbl", gpriv);
-> -	if (err) {
-> -		dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> -			g_irq, err);
-> -		goto fail_dev;
-> +	if (gpriv->chip_id =3D=3D RENESAS_RCAR_GEN3) {
-> +		err =3D devm_request_irq(&pdev->dev, ch_irq,
-> +				       rcar_canfd_channel_interrupt, 0,
-> +				       "canfd.chn", gpriv);
-> +		if (err) {
-> +			dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> +				ch_irq, err);
-> +			goto fail_dev;
-> +		}
-> +
-> +		err =3D devm_request_irq(&pdev->dev, g_irq,
-> +				       rcar_canfd_global_interrupt, 0,
-> +				       "canfd.gbl", gpriv);
-> +		if (err) {
-> +			dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> +				g_irq, err);
-> +			goto fail_dev;
-> +		}
-> +	} else {
-> +		err =3D devm_request_irq(&pdev->dev, g_rx_irq,
-> +				       rcar_canfd_global_recieve_fifo_interrupt, 0,
-> +				       "canfd.gblrx", gpriv);
-> +
-> +		if (err) {
-> +			dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> +				g_rx_irq, err);
-> +			goto fail_dev;
-> +		}
-> +
-> +		err =3D devm_request_irq(&pdev->dev, g_irq,
-> +				       rcar_canfd_global_err_interrupt, 0,
-> +				       "canfd.gblerr", gpriv);
-> +		if (err) {
-> +			dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> +				g_irq, err);
-> +			goto fail_dev;
-> +		}
->  	}
-> =20
->  	/* Enable peripheral clock for register access */
-> @@ -1791,6 +1994,10 @@ static int rcar_canfd_probe(struct platform_device=
- *pdev)
->  fail_clk:
->  	clk_disable_unprepare(gpriv->clkp);
->  fail_dev:
-> +	if (gpriv->chip_id =3D=3D RENESAS_RZG2L) {
-> +		reset_control_assert(gpriv->rstc1);
-> +		reset_control_assert(gpriv->rstc2);
-
-reset_control_assert() can handle NULL pointers
-
-> +	}
->  	return err;
->  }
-> =20
-> @@ -1810,6 +2017,11 @@ static int rcar_canfd_remove(struct platform_devic=
-e *pdev)
->  	/* Enter global sleep mode */
->  	rcar_canfd_set_bit(gpriv->base, RCANFD_GCTR, RCANFD_GCTR_GSLPR);
->  	clk_disable_unprepare(gpriv->clkp);
-> +	if (gpriv->chip_id =3D=3D RENESAS_RZG2L) {
-> +		reset_control_assert(gpriv->rstc1);
-> +		reset_control_assert(gpriv->rstc2);
-> +	}
-
-same here
-
-> +
->  	return 0;
->  }
-> =20
-> @@ -1827,7 +2039,8 @@ static SIMPLE_DEV_PM_OPS(rcar_canfd_pm_ops, rcar_ca=
-nfd_suspend,
->  			 rcar_canfd_resume);
-> =20
->  static const struct of_device_id rcar_canfd_of_table[] =3D {
-> -	{ .compatible =3D "renesas,rcar-gen3-canfd" },
-> +	{ .compatible =3D "renesas,rcar-gen3-canfd", .data =3D (void *)RENESAS_=
-RCAR_GEN3 },
-> +	{ .compatible =3D "renesas,rzg2l-canfd", .data =3D (void *)RENESAS_RZG2=
-L },
->  	{ }
->  };
-
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---wuc7izo7bgfbohrr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmDxWvcACgkQqclaivrt
-76nzsAf/VLZM8WaYPkGkszH1Cmetc3SSNU9ISL9bHW7zuKnD5sJKuYzDlQFksPmD
-W4E6hTf1yDfTeVbPONWLkSYwwt/ervNH6vbb3bgMwKlcGGDjdWWgz5v+vwluFo12
-6p6QQWxlsGf59mMrr/UfXCVXBjHXkm+UXAycI33hvlWcvV1NvtfWiR7uDCXwkDj4
-kJhr1pSOzgwFQTT/CvJ4o3Xrtg/Fd+E4abSmwjJqL52Rs2aJlcR62aECxQfP83P0
-yAP7M4hMsoNvG0++nm+4JcMIYJtKt5EmWnrvpd3R0d/jbMf3A97g6d4vSMGocRLg
-ooPbMKvVMumA8xB2ye0K9MSKNW9qIw==
-=OGo6
------END PGP SIGNATURE-----
-
---wuc7izo7bgfbohrr--
