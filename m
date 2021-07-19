@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA8B53CD4AE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 14:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44DAD3CD4B5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 14:25:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236928AbhGSLn2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Jul 2021 07:43:28 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:52739 "EHLO
+        id S236968AbhGSLot (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Jul 2021 07:44:49 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:16001 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S236918AbhGSLn2 (ORCPT
+        by vger.kernel.org with ESMTP id S236667AbhGSLor (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Jul 2021 07:43:28 -0400
+        Mon, 19 Jul 2021 07:44:47 -0400
 X-IronPort-AV: E=Sophos;i="5.84,252,1620658800"; 
-   d="scan'208";a="88078206"
+   d="scan'208";a="88078285"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Jul 2021 21:24:07 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 19 Jul 2021 21:25:26 +0900
 Received: from localhost.localdomain (unknown [10.226.92.6])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C05F242218EC;
-        Mon, 19 Jul 2021 21:24:04 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CDE024221AFD;
+        Mon, 19 Jul 2021 21:25:23 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -32,8 +32,8 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Subject: [PATCH v4 00/10] Add USB2.0 support
-Date:   Mon, 19 Jul 2021 13:24:02 +0100
-Message-Id: <20210719122402.6781-1-biju.das.jz@bp.renesas.com>
+Date:   Mon, 19 Jul 2021 13:25:21 +0100
+Message-Id: <20210719122521.6855-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
