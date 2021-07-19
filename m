@@ -2,46 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AB5F3CD5E3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 15:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FBF23CD5E4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 15:41:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239318AbhGSNAi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S239351AbhGSNAi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 19 Jul 2021 09:00:38 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:9329 "EHLO
+Received: from relmlor1.renesas.com ([210.160.252.171]:32998 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S239335AbhGSNAb (ORCPT
+        by vger.kernel.org with ESMTP id S239127AbhGSNAc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Jul 2021 09:00:31 -0400
+        Mon, 19 Jul 2021 09:00:32 -0400
 X-IronPort-AV: E=Sophos;i="5.84,252,1620658800"; 
-   d="scan'208";a="88135540"
+   d="scan'208";a="88135548"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 19 Jul 2021 22:41:07 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 19 Jul 2021 22:41:11 +0900
 Received: from localhost.localdomain (unknown [10.226.92.148])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 53ED24263CB6;
-        Mon, 19 Jul 2021 22:41:03 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6D8174263CB5;
+        Mon, 19 Jul 2021 22:41:08 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Michael Walle <michael@walle.cc>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Nishanth Menon <nm@ti.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 5/8] arm64: defconfig: Enable ASoC sound support for RZ/G2L SoC
-Date:   Mon, 19 Jul 2021 14:40:37 +0100
-Message-Id: <20210719134040.7964-6-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 6/8] ASoC: dt-bindings: sound: renesas,rz-ssi: Document DMA support
+Date:   Mon, 19 Jul 2021 14:40:38 +0100
+Message-Id: <20210719134040.7964-7-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210719134040.7964-1-biju.das.jz@bp.renesas.com>
 References: <20210719134040.7964-1-biju.das.jz@bp.renesas.com>
@@ -49,7 +42,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable ASoC sound support for RZ/G2L SoC in the defconfig.
+Document DMA support in binding document.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -57,21 +50,41 @@ Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 v1->v2:
  * No change.
 ---
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/sound/renesas,rz-ssi.yaml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index cb2a0082b12c..0686531b3486 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -764,6 +764,7 @@ CONFIG_SND_SOC_ROCKCHIP_RT5645=m
- CONFIG_SND_SOC_RK3399_GRU_SOUND=m
- CONFIG_SND_SOC_SAMSUNG=y
- CONFIG_SND_SOC_RCAR=m
-+CONFIG_SND_SOC_RZ=m
- CONFIG_SND_SUN4I_I2S=m
- CONFIG_SND_SUN4I_SPDIF=m
- CONFIG_SND_SOC_TEGRA=m
+diff --git a/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml b/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
+index 891f381ee5b8..471937cb8d05 100644
+--- a/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
++++ b/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
+@@ -45,6 +45,18 @@ properties:
+   resets:
+     maxItems: 1
+ 
++  dmas:
++    minItems: 1
++    maxItems: 2
++
++  dma-names:
++    oneOf:
++      - items:
++          - const: tx
++          - const: rx
++      - items:
++          - const: rt
++
+   '#sound-dai-cells':
+     const: 0
+ 
+@@ -81,5 +93,8 @@ examples:
+             clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
+             power-domains = <&cpg>;
+             resets = <&cpg R9A07G044_SSI0_RST_M2_REG>;
++            dmas = <&dmac 0x255>,
++                   <&dmac 0x256>;
++            dma-names = "tx", "rx";
+             #sound-dai-cells = <0>;
+     };
 -- 
 2.17.1
 
