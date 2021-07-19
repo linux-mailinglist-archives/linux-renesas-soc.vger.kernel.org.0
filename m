@@ -2,29 +2,29 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B44D63CD2CD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 12:59:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7A053CD3B5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 13:24:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236076AbhGSKMs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Jul 2021 06:12:48 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:56102 "EHLO
+        id S236118AbhGSKhm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Jul 2021 06:37:42 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:56336 "EHLO
         smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235621AbhGSKMs (ORCPT
+        with ESMTP id S235999AbhGSKhe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Jul 2021 06:12:48 -0400
+        Mon, 19 Jul 2021 06:37:34 -0400
 Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
         (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 6E0EE3C0034;
-        Mon, 19 Jul 2021 12:53:26 +0200 (CEST)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id C42D73C0034;
+        Mon, 19 Jul 2021 13:17:43 +0200 (CEST)
 Received: from vmlxhi-082.adit-jv.com (10.72.92.165) by hi2exch02.adit-jv.com
  (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Mon, 19 Jul
- 2021 12:53:26 +0200
-Date:   Mon, 19 Jul 2021 12:53:11 +0200
+ 2021 13:17:43 +0200
+Date:   Mon, 19 Jul 2021 13:17:40 +0200
 From:   Dennis Rachui <drachui@de.adit-jv.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Maxime Ripard <mripard@kernel.org>,
@@ -32,7 +32,7 @@ CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] media: rcar-csi2: do not update format while streaming
-Message-ID: <20210719105311.GA19719@vmlxhi-082.adit-jv.com>
+Message-ID: <20210719111740.GB19719@vmlxhi-082.adit-jv.com>
 References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
  <YOhbOHnCn9eFgKWG@oden.dyn.berto.se>
  <YOoiZM+oicZBD4o1@pendragon.ideasonboard.com>
@@ -41,12 +41,12 @@ References: <1625750578-108454-1-git-send-email-drachui@de.adit-jv.com>
  <YPAUoQ8KmmAE3fWD@oden.dyn.berto.se>
  <YPAeirL/qtmNYx99@pendragon.ideasonboard.com>
  <20210716140921.GB109328@vmlxhi-082.adit-jv.com>
- <YPGfkcdnwqgozVEu@oden.dyn.berto.se>
+ <YPGgldecdIHMjCuq@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YPGfkcdnwqgozVEu@oden.dyn.berto.se>
+In-Reply-To: <YPGgldecdIHMjCuq@pendragon.ideasonboard.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-Originating-IP: [10.72.92.165]
 X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
@@ -55,10 +55,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Laurent,
 
-> On Fri, Jul 16, 2021 17:02:41 +0200, Niklas Söderlund wrote:
-> > On 2021-07-16 16:09:21 +0200, Dennis Rachui wrote:
+> On Fri, Jul 16, 2021 18:07:01 +0300, Laurent Pinchart wrote:
+> > On Fri, Jul 16, 2021 at 04:09:21PM +0200, Dennis Rachui wrote:
 > > > On Thu, Jul 15, 2021 at 12:57:37PM +0200, Niklas Söderlund wrote:
 > > > > On 2021-07-14 21:40:51 +0300, Laurent Pinchart wrote:
 > > > > > On Tue, Jul 13, 2021 at 11:42:17AM +0200, Niklas Söderlund wrote:
@@ -126,8 +126,10 @@ Hi Niklas,
 > > > > that allows format changes while streaming and that would need to set 
 > > > > this new V4L2_SUBDEV_CAP_ flag.
 > > >
-> > > Many subdevs allow format changes during streaming. The question is whether any of them do so knowingly, or if they're all buggy :-) I'd be surprised if there
-> > > were more than a couple of drivers that actually support this correctly.
+> > > Many subdevs allow format changes during streaming. The question is
+> > > whether any of them do so knowingly, or if they're all buggy :-) I'd
+> > > be surprised if there > were more than a couple of drivers that
+> > > actually support this correctly.
 > > 
 > > From my perspective, the current stream_count from struct media_entity
 > > would not be sufficient. References should be counted per struct media_pad.
@@ -136,34 +138,23 @@ Hi Niklas,
 > > E.g. in rcar-csi2 this could effect a source pad connected to currently
 > > unused VIN device.
 >
-> I understand your reasoning, but with the current V4L2 design is this 
-> really a concern? As s_stream() is not pad/stream aware it acts more or 
-> less as a big start / stop button.
->
-> When starting all enabled media links formats needs to be evaluated 
-> (something we can't do yet with multiplexed streams..) and all 
-> subdivides that are part of the media graph are started. We can not 
-> enable or disable any media links while the pipeline is streaming so I'm 
-> not sure configuring the format of pads not part of the active capture 
-> is such a big concern, am I missing something?
+> We're working on moving the information to pads, see "[PATCH v7 06/27]
+> media: entity: Move the pipeline from entity to pads"
+> (https://lore.kernel.org/linux-media/20210524104408.599645-7-tomi.valkeinen@ideasonboard.com/).
+> Does this address your concern ?
 
-I missed the fact that media links can not be enabled / disabled while
-the pipeline is streaming. So I agree that preventing format updates while
-the entity is busy is no big concern. Userspace applications should be aware
-of this just as they must be aware that link enable / disable only works
-while the pipeline is not running.
+Since media links cannot be enabled / disabled while streaming, my concern
+is resolved. Anyways, the patch set you shared looks promising for better
+V4L2 integration of devices with independent parallel streaming capability.
 
-> 
 > > > > > > > > > Note: after creation of this commit, it was noticed that 
 > > > > > > > > > Steve Longerbeam has a very similar solution in his fork.
 > > > > > > > > > 
-> > > > > > > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car 
-> > > > > > > > > MIPI CSI-2 receiver driver")
+> > > > > > > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
 > > > > > > > > > Cc: Steve Longerbeam <slongerbeam@gmail.com>
 > > > > > > > > > Signed-off-by: Dennis Rachui <drachui@de.adit-jv.com>
 > > > > > > > > > ---
-> > > > > > > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 
-> > > > > > > > > ++++++++++++++++++++-
+> > > > > > > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 21 ++++++++++++++++++++-
 > > > > > > > > >  1 file changed, 20 insertions(+), 1 deletion(-)
 > > > > > > > > > 
 > > > > > > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c 
@@ -211,6 +202,7 @@ while the pipeline is not running.
 > > > > > > > > >  
 > > > > > > > > >  static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
 
---
+-- 
 Regards,
 Dennis Rachui
+
