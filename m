@@ -2,85 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 944793CD4A1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 14:20:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA8B53CD4AE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 14:24:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236667AbhGSLjb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Jul 2021 07:39:31 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:41338 "EHLO
+        id S236928AbhGSLn2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Jul 2021 07:43:28 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:52739 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S236758AbhGSLjb (ORCPT
+        by vger.kernel.org with ESMTP id S236918AbhGSLn2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Jul 2021 07:39:31 -0400
+        Mon, 19 Jul 2021 07:43:28 -0400
 X-IronPort-AV: E=Sophos;i="5.84,252,1620658800"; 
-   d="scan'208";a="88077970"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Jul 2021 21:20:10 +0900
+   d="scan'208";a="88078206"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 19 Jul 2021 21:24:07 +0900
 Received: from localhost.localdomain (unknown [10.226.92.6])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5749E40061A1;
-        Mon, 19 Jul 2021 21:20:08 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C05F242218EC;
+        Mon, 19 Jul 2021 21:24:04 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 10/10] arm64: dts: renesas: r9a07g044: Add USB2.0 device support
-Date:   Mon, 19 Jul 2021 13:19:38 +0100
-Message-Id: <20210719121938.6532-11-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v4 00/10] Add USB2.0 support
+Date:   Mon, 19 Jul 2021 13:24:02 +0100
+Message-Id: <20210719122402.6781-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210719121938.6532-1-biju.das.jz@bp.renesas.com>
-References: <20210719121938.6532-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add USB2.0 device support to RZ/G2L SoC DT.
+This patch series aims to add USB PHY Control, USB2.0 Host and USB2.0 device support for RZ/G2L SoC.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
 v3->v4:
- * No change.
- V3:
-  * Updated reset entries.
----
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ * Added Rob's Acked-by tag for generic-{ohci,ehci} binding patch
+ * Added Rob's Rb tag for RZ/G2L USBPHY control binding patch
+ * Incorporated Phillip's review comments for USBPHY control driver.
+ * Dropped second reset from usb2-phy binding patch
+ * Added maxitems as per Rob's review comment.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 24910ecc683c..d846469ded7f 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -330,6 +330,25 @@
- 			power-domains = <&cpg>;
- 			status = "disabled";
- 		};
-+
-+		hsusb: usb@11c60000 {
-+			compatible = "renesas,usbhs-r9a07g044",
-+				     "renesas,rza2-usbhs";
-+			reg = <0 0x11c60000 0 0x10000>;
-+			interrupts = <GIC_SPI 100 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>,
-+				 <&cpg CPG_MOD R9A07G044_USB_U2P_EXR_CPUCLK>;
-+			resets = <&phyrst 0>,
-+				 <&cpg R9A07G044_USB_U2P_EXL_SYSRST>;
-+			renesas,buswait = <7>;
-+			phys = <&usb2_phy0 3>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
- 	};
- 
- 	timer {
+v2->v3
+ * USBPHY Control IP modelled as reset bindings as per Rob's suggestion
+ * Updated the binding patches
+ * Incorporated Geert's and Shimoda-San's review comment for phy driver patch.
+
+v1->v2
+ * Updated usb phy control bindings with clock definitions
+ * Updated generic ohci/ehci bindings to support RZ/G2L SoC
+ * Incorporated vinod's review comment on usb phy control driver
+ * Add support for USB2.0 device and OTG support.
+
+Biju Das (10):
+  dt-bindings: usb: generic-ohci: Document dr_mode property
+  dt-bindings: usb: generic-ehci: Document dr_mode property
+  dt-bindings: reset: Document RZ/G2L USBPHY Control bindings
+  reset: renesas: Add RZ/G2L usbphy control driver
+  arm64: configs: defconfig: Enable RZ/G2L USBPHY control driver
+  dt-bindings: phy: renesas,usb2-phy: Document RZ/G2L phy bindings
+  phy: renesas: phy-rcar-gen3-usb2: Add OTG support for RZ/G2L
+  arm64: dts: renesas: r9a07g044: Add USB2.0 phy and host support
+  dt-bindings: usb: renesas,usbhs: Document RZ/G2L bindings
+  arm64: dts: renesas: r9a07g044: Add USB2.0 device support
+
+ .../bindings/phy/renesas,usb2-phy.yaml        |  19 ++
+ .../reset/renesas,rzg2l-usbphy-ctrl.yaml      |  65 +++++++
+ .../devicetree/bindings/usb/generic-ehci.yaml |   5 +
+ .../devicetree/bindings/usb/generic-ohci.yaml |   5 +
+ .../bindings/usb/renesas,usbhs.yaml           |  22 ++-
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 113 +++++++++++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c      |  97 +++++++---
+ drivers/reset/Kconfig                         |   7 +
+ drivers/reset/Makefile                        |   1 +
+ drivers/reset/reset-rzg2l-usbphy-ctrl.c       | 175 ++++++++++++++++++
+ 11 files changed, 484 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
+ create mode 100644 drivers/reset/reset-rzg2l-usbphy-ctrl.c
+
 -- 
 2.17.1
 
