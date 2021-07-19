@@ -2,103 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10EE83CDC35
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 17:32:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E8823CE0E1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 18:09:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242932AbhGSOvl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Jul 2021 10:51:41 -0400
-Received: from mail-io1-f48.google.com ([209.85.166.48]:36481 "EHLO
-        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245585AbhGSOry (ORCPT
+        id S1346994AbhGSPSn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Jul 2021 11:18:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45120 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347444AbhGSPQg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Jul 2021 10:47:54 -0400
-Received: by mail-io1-f48.google.com with SMTP id u7so20340960ion.3;
-        Mon, 19 Jul 2021 08:28:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=eFIkG9Q3na2P9WfVxEfmGfFeBva/wNkbIdbDdNfP9ss=;
-        b=uVVxhfzz/SzKY2O4Dj50b7XIxkvoBL/28mZVj5BG2lybkhle+p5Op8hN/d6KlB4ej6
-         KSdrM/GuFRZ0OZvCxl0IDAStQFvq3Qv6R6aIRmm1bb7kKvAXWqydFKU29Z1LWT6ce2vm
-         7D4y9s4bUaKJ1EiJoDtPxOos8RCpERT+J0n90g0dDEDzBKMghXGkTiLhyLoTtPvt+Ex5
-         OyaaaZ6555piBg0N9pPsCsWMasNMeiVsCppvlR1uQmOuC2Sq23J4yfCBCqFoNkhA1jf4
-         joo3Oo9PgBQddxi3Uw9QhJIbyL5ilWoOlyCSzeea0BBqyNTnRQ/OC8MwnNFTN7ewNc8Y
-         lrRw==
-X-Gm-Message-State: AOAM530hCou6nHDcR/T8vuT4fWyC8r/Uim5i4WyRDM89UXV3otXL1lUi
-        pF8CcNpul2oWAJeyOdbgqhE9xF484w==
-X-Google-Smtp-Source: ABdhPJw8/LevWrg619EkdpGNxWnCipTPa+LBctYPqT12T8/8LeJEgpwWD4Dno/0xyBYDRyHsBk8Olw==
-X-Received: by 2002:a6b:7948:: with SMTP id j8mr18912639iop.32.1626708483880;
-        Mon, 19 Jul 2021 08:28:03 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id 10sm483907iln.39.2021.07.19.08.28.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jul 2021 08:28:03 -0700 (PDT)
-Received: (nullmailer pid 1967265 invoked by uid 1000);
-        Mon, 19 Jul 2021 15:27:59 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20210719121938.6532-4-biju.das.jz@bp.renesas.com>
-References: <20210719121938.6532-1-biju.das.jz@bp.renesas.com> <20210719121938.6532-4-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v4 03/10] dt-bindings: reset: Document RZ/G2L USBPHY Control bindings
-Date:   Mon, 19 Jul 2021 09:27:59 -0600
-Message-Id: <1626708479.397199.1967264.nullmailer@robh.at.kernel.org>
+        Mon, 19 Jul 2021 11:16:36 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4D45C0AC0D1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jul 2021 08:10:55 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:1844:c86f:c84a:fde8])
+        by xavier.telenet-ops.be with bizsmtp
+        id X3ej2500J2WKXR1013ejKc; Mon, 19 Jul 2021 17:38:43 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1m5VLv-000skr-9H; Mon, 19 Jul 2021 17:38:43 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1m5VLu-00Ajkc-EA; Mon, 19 Jul 2021 17:38:42 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 00/10] arm64: renesas: Add support for R Car H3e 2G-and M3e-2G
+Date:   Mon, 19 Jul 2021 17:38:31 +0200
+Message-Id: <cover.1626708063.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 19 Jul 2021 13:19:31 +0100, Biju Das wrote:
-> Add device tree binding document for RZ/G2L USBPHY Control Device.
-> It mainly controls reset and power down of the USB/PHY.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
-> v3->v4:
->   * Dropped reset reference.
->   * Added Rb-tag from Rob.
->  v3:
->   * New patch.
->   * Modelled USBPHY control from phy bindings to reset bindings, since the
->     IP mainly contols the reset of USB PHY.
-> ---
->  .../reset/renesas,rzg2l-usbphy-ctrl.yaml      | 65 +++++++++++++++++++
->  1 file changed, 65 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
-> 
+	Hi all,
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+The new R-Car Gen3e SoCs are different gradings of the existing R-Car
+Gen3 SoCs.  This series adds support for the first two members of the
+family: R-Car H3e-2G (R8A779M1) and R-Car M3e-2G (R8A779M3), on the
+Salvator-XS and ULCB (with and without Kingfisher) development boards.
 
-yamllint warnings/errors:
+Changes compared to v1[1]:
+  - Add Reviewed-by, Acked-by.
+  - Drop new fam_rcar_gen3e and soc_rcar_[hm]3e, just use the existing
+    soc_rcar_{h3,m3_w},
+  - Drop pinctrl fix, which has evolved independently[2],
+  - Drop mmc fix, which has been superseded by a recent refactoring[3],
+  - Drop 2 GHz turbo modes, as the official opp-microvolt values are not
+    yet available,
+  - Widen the audience.
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.example.dts:25.30-31 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:380: Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1418: dt_binding_check] Error 2
-\ndoc reference errors (make refcheckdocs):
+This series has been tested on Salvator-X with R-Car H3 ES3.0 and
+Salvator-XS with R-Car M3-W+.  For testing, a branch with dependencies
+and fixups to prototype R-Car Gen3e development on older Gen3 SoCs can
+be found at[4].
 
-See https://patchwork.ozlabs.org/patch/1506961
+I plan to queue this in renesas-devel for v5.15.
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+Thanks for your comments!
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+[1] "[PATCH 00/14] arm64: renesas: Add support for R-Car H3e 2G-and M3e-2G"
+    (https://lore.kernel.org/r/cover.1623315732.git.geert+renesas@glider.be/).
+[2] "[PATCH v2] pinctrl: renesas: Fix pin control matching on R-Car H3e-2G"
+    (https://lore.kernel.org/r/6cdc5bfa424461105779b56f455387e03560cf66.1626707688.git.geert+renesas@glider.be)
+[3] "[PATCH v3] mmc: host: renesas_sdhi: Refactor renesas_sdhi_probe()"
+    (https://lore.kernel.org/r/20210702112956.1065875-1-yoshihiro.shimoda.uh@renesas.com/)
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/rcar-gen3e-v2
 
-pip3 install dtschema --upgrade
+Geert Uytterhoeven (10):
+  dt-bindings: arm: renesas: Document R-Car H3e-2G and M3e-2G SoCs and
+    boards
+  soc: renesas: Identify R-Car H3e-2G and M3e-2G
+  arm64: dts: renesas: Add Renesas R8A779M1 SoC support
+  arm64: dts: renesas: Add Renesas R8A779M3 SoC support
+  arm64: dts: renesas: Add support for Salvator-XS with R-Car H3e-2G
+  arm64: dts: renesas: Add support for H3ULCB with R-Car H3e-2G
+  arm64: dts: renesas: Add support for H3ULCB+Kingfisher with R-Car
+    H3e-2G
+  arm64: dts: renesas: Add support for Salvator-XS with R-Car M3e-2G
+  arm64: dts: renesas: Add support for M3ULCB with R-Car M3e-2G
+  arm64: dts: renesas: Add support for M3ULCB+Kingfisher with R-Car
+    M3e-2G
 
-Please check and re-submit.
+ .../devicetree/bindings/arm/renesas.yaml      | 50 +++++++++++++----
+ arch/arm64/boot/dts/renesas/Makefile          |  8 +++
+ .../boot/dts/renesas/r8a779m1-salvator-xs.dts | 53 ++++++++++++++++++
+ .../boot/dts/renesas/r8a779m1-ulcb-kf.dts     | 19 +++++++
+ arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts | 54 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a779m1.dtsi     | 12 +++++
+ .../boot/dts/renesas/r8a779m3-salvator-xs.dts | 46 ++++++++++++++++
+ .../boot/dts/renesas/r8a779m3-ulcb-kf.dts     | 18 +++++++
+ arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts | 45 ++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a779m3.dtsi     | 12 +++++
+ drivers/soc/renesas/Kconfig                   |  2 +
+ drivers/soc/renesas/renesas-soc.c             |  4 ++
+ 12 files changed, 312 insertions(+), 11 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779m1-salvator-xs.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779m1-ulcb-kf.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779m1-ulcb.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779m1.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779m3-salvator-xs.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779m3-ulcb-kf.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779m3-ulcb.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779m3.dtsi
 
+-- 
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
