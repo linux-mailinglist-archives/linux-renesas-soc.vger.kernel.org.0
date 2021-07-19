@@ -2,140 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C20D3CEEEE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jul 2021 00:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4522F3CEF07
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jul 2021 00:31:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242799AbhGSVW4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Jul 2021 17:22:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56238 "EHLO
+        id S234342AbhGSVXT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Jul 2021 17:23:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383624AbhGSR7S (ORCPT
+        with ESMTP id S1382011AbhGSSHQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Jul 2021 13:59:18 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBC86C061574;
-        Mon, 19 Jul 2021 11:26:28 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id n4so10935515wms.1;
-        Mon, 19 Jul 2021 11:39:16 -0700 (PDT)
+        Mon, 19 Jul 2021 14:07:16 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E32EC0613DC
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jul 2021 11:33:23 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id e14so7294501plh.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jul 2021 11:45:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=niGHA44vho3xswp3bGtUo+jGvJWl4PkcLrOhnDSDxcQ=;
-        b=BxXPcxXNcwtpfhtjzEe93kaoQhkxXH8e14CRMxgK0kwDLLianfVgAG92SQiWwTEKfR
-         VDoiNRH66D3IjpGqxmQzkj03IbV0yrGTNmvM2bTPpXJjnJRbKN/DZwKdVy14q0v3BMXp
-         1uqG0RUCv7aJdgGVwnVaMw18Qa2Is7kRUiOFG7QmYgl8PRQ+BwKbwhDbbl1h4us9DZ1t
-         BniU0N4Hzbu2pY3k1g6Hbp0MH+5AGrPpN5kHbPHgpF6z8VQDPBK3V0M+t3P24zxf0S+P
-         h8DgVaboRwnlQet8MtLgaTmOC+LqZ11uYLCflmsLyJMyHs7YZXEl4RIY9HZgCD6/xqSc
-         Pobw==
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=h8kV8kt34ZPshv6RxaGqNJErbZHGPV15Q6EpZYM3tXE=;
+        b=OhcF/Q+P+AdOrK8oC1S9Zq+v/s74U+7M3b8V3FixbuZGCpqGHMcgvKhEbqM9CJCVme
+         xD/k7yP49mtsk1N/m6x/smzBEGV3M9v8Yqp75GsfNUYsMN7bSWTDJyedn0OFcWom5F+3
+         nSD1vkl34uqdbBavmx/07YttG8C1nTTrjUxcu7X3NiRm3PgTilctQsxg9XHKpuEPp3WY
+         N/OZRqn0KAQMJO3yevJBI/x/i8KeZLJjwJfpukGujvlcNl9m2MK4IRFXKGAvSU+pu08v
+         kE+QWDYGWVNY3l3Uc8g00mA4re4+zTz2n8AwxwzCA2KF0M/X5CcpHkl8Cy95pLHAn29V
+         nRaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=niGHA44vho3xswp3bGtUo+jGvJWl4PkcLrOhnDSDxcQ=;
-        b=FupE3mseSf6S6mAh0hCaWAhGVd8qcshdkRj3AV5LgXwdbolYl+rY8ym5sUxMtv4VBI
-         W9DXRBtvCv9W7DSwCno6BBsxssCsakzjCXztCWx4dIo7LBTIsXtfxw/uLTvDk4HPPSl9
-         cril7U3gp8Ya1yQwjRvhLMdDFH+9TEpnvFCkbOoAUk2dRAqeKKrB3haxlcpBhCA8E7Dq
-         d0OfuF02YDLITAztHLpcquXywglOJrbLh84UgDLv2eyoAbbPIgoEGcgnETRLi42b9WsG
-         uMcxDzqolLjuwiBeQGTRfCckko7yho5XTkdj8s7s7gpobYLs8qM5A30N5BLB08tVAnuW
-         97Pg==
-X-Gm-Message-State: AOAM531afEwlmvdOX4oZReIJLcZARUKbRwUUQ/LKUL+CImLfqzFeGPjc
-        m9wrBlQrSE1YLwCJkakWgAwok/rafSE=
-X-Google-Smtp-Source: ABdhPJyzbAFdIJximxHXRf5AXob7cX2F2iWUtjwnVWfSyF2vdrH+ceceDlGgba7qrb+KDI6P1p4ihw==
-X-Received: by 2002:a05:600c:2290:: with SMTP id 16mr27741035wmf.32.1626719955315;
-        Mon, 19 Jul 2021 11:39:15 -0700 (PDT)
-Received: from [192.168.1.4] (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
-        by smtp.gmail.com with ESMTPSA id h9sm17345207wmb.35.2021.07.19.11.39.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jul 2021 11:39:14 -0700 (PDT)
-Subject: Re: [PATCH V6] PCI: rcar: Add L1 link state fix into data abort hook
-To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20210514200549.431275-1-marek.vasut@gmail.com>
- <20210717173334.GA2232818@bjorn-Precision-5520>
- <20210719085953.GA17481@lpieralisi> <20210719172340.vvtnddbli2vgxndi@pali>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <62e8d92a-806b-15fb-672d-2519d5a2fa4b@gmail.com>
-Date:   Mon, 19 Jul 2021 20:39:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=h8kV8kt34ZPshv6RxaGqNJErbZHGPV15Q6EpZYM3tXE=;
+        b=a4O/TuOTyf0bbN5YDnvzRyoTH5M+Kh3N48UUWnhfkdAecUBSoQIQCF+tEAASOy902Q
+         m2EZpVYwJX13zTxQCsoBk+3kMbQrOvxmsKfMWmqgX6lHobfPcmS9CqTLOEWGRjZMyg/q
+         XNc+rZo6jSCEBJrX87Uy4ncMqinTwb1fvRKR8HuO7AxFTECKibmAg4pxuZFRUmvdzN/N
+         9QF5i3zt/0p4tmTPp4w+SjET95AEdEFvbxKj0MFt3duUGlSf7/Z+TklP0lVjT65O1Hgl
+         DMVPM9mWe+JYWgfK6UubwV0Y8WZ1ccS0+6wVCC81pghXmLM9ld1AcOSg+3ZEucON4Ymz
+         X8Fw==
+X-Gm-Message-State: AOAM530EcUTsxEdkh+0lTs/pMyR1vSOB26GoTxDaai36d6I+dLg+G7KX
+        MlswB5wKOnwrA4Ltw/mjGZ7GdZLYNMrEsGJ6
+X-Google-Smtp-Source: ABdhPJya2XbvdWWJw4gv7Ipj7wLIECOg/ewi6Ui1xcxc8GNL6fml8wtoz4fOr9kMpDqOUML0mr9UBw==
+X-Received: by 2002:a17:90b:1482:: with SMTP id js2mr31482237pjb.85.1626720338949;
+        Mon, 19 Jul 2021 11:45:38 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id y187sm20553010pfb.185.2021.07.19.11.45.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jul 2021 11:45:38 -0700 (PDT)
+Message-ID: <60f5c852.1c69fb81.eb107.cb4e@mx.google.com>
+Date:   Mon, 19 Jul 2021 11:45:38 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20210719172340.vvtnddbli2vgxndi@pali>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-next-2021-07-19-v5.14-rc1
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+Subject: renesas/next cros-ec: 7 runs,
+ 1 regressions (renesas-next-2021-07-19-v5.14-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/19/21 7:23 PM, Pali Rohár wrote:
+renesas/next cros-ec: 7 runs, 1 regressions (renesas-next-2021-07-19-v5.14-=
+rc1)
 
-[...]
+Regressions Summary
+-------------------
 
->>>> The R-Car PCIe controller is capable of handling L0s/L1 link states.
->>>> While the controller can enter and exit L0s link state, and exit L1
->>>> link state, without any additional action from the driver, to enter
->>>> L1 link state, the driver must complete the link state transition by
->>>> issuing additional commands to the controller.
->>>>
->>>> The problem is, this transition is not atomic. The controller sets
->>>> PMEL1RX bit in PMSR register upon reception of PM_ENTER_L1 DLLP from
->>>> the PCIe card, but then the controller enters some sort of inbetween
->>>> state. The driver must detect this condition and complete the link
->>>> state transition, by setting L1IATN bit in PMCTLR and waiting for
->>>> the link state transition to complete.
->>>>
->>>> If a PCIe access happens inside this window, where the controller
->>>> is between L0 and L1 link states, the access generates a fault and
->>>> the ARM 'imprecise external abort' handler is invoked.
-> 
-> And if PCIe MMIO access does not happen, what fixes this issue?
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+asus-C523NA-A20057-coral | x86_64 | lab-collabora | gcc-8    | x86_64_defco=
+n...6-chromebook | 1          =
 
-Then you have no problem because you don't hit this fault.
 
-> In this
-> patch is implemented only arm32 external abort hook handler (which is
-> called only when PCIe MMIO access happens and aborts).
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2021-07-19-v5.14-rc1/plan/cros-ec/
 
-Yes, for the aarch64 rcar the same fix is implemented in atf (see below).
+  Test:     cros-ec
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2021-07-19-v5.14-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      2a022240886d918d1f09a50b86a4065256caac42
 
->>>> Just like other PCI controller drivers, here we hook the fault handler,
->>>> perform the fixup to help the controller enter L1 link state, and then
->>>> restart the instruction which triggered the fault. Since the controller
->>>> is in L1 link state now, the link can exit from L1 link state to L0 and
->>>> successfully complete the access.
-> 
-> Link cannot directly goes to L0 from L1. It first goes to Recovery state
-> and in this state card can "disconnect" or reset...
-> 
-> What would happen if PCIe MMIO access is issued when link is not in some
-> L* state? (This can be manually triggered by PCIe Hot Reset - toggling
-> Secondary Bus Reset bit in Bridge Control register on parent PCIe Bridge
-> device) Is R-Car working in this case and does not crash?
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/cros-ec-tests.git
+      SHA:  e4c91962f6e19466c1e43629a2c6cd04ff012e06 =
 
-This seems to be exactly the situation the commit message describes -- 
-the controller is stuck between L states and needs manual register write 
-to proceed.
 
-[...]
 
->>> To be clear, I'm not objecting to the patch.  It's a hardware problem
->>> and we should work around it as best we can.
-> 
-> I'm not sure if current API of hook_fault_code or rather whole usage of
-> it is prepared to expand into more and more drivers. Last time I looked
-> at this arm32 part, it was possible to register only one callback from
-> driver. So extending usage of this hook API can result that two drivers
-> start fighting who register it earlier...
+Test Regressions
+---------------- =
 
-There doesn't seem to be much ongoing HW development on the arm32 r-car, 
-so I don't expect this list of hooks to grow much on this platform.
 
-[...]
+
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+asus-C523NA-A20057-coral | x86_64 | lab-collabora | gcc-8    | x86_64_defco=
+n...6-chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/60f5b30cf989ecb8be1160a6
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-8 (gcc (Debian 8.3.0-6) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-19-v5.14-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collabora=
+/cros-ec-asus-C523NA-A20057-coral.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-19-v5.14-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collabora=
+/cros-ec-asus-C523NA-A20057-coral.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-cros=
+-ec/20210709.0/amd64/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/60f5b30cf989ecb8be1160=
+a7
+        failing since 5 days (last pass: v5.14-rc1-17-gcd117793e1ac, first =
+fail: renesas-next-2021-07-13-v5.14-rc1) =
+
+ =20
