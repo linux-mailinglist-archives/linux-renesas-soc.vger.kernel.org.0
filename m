@@ -2,90 +2,185 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44DAD3CD4B5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 14:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F3463CD4B7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 14:26:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236968AbhGSLot (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Jul 2021 07:44:49 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:16001 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S236667AbhGSLor (ORCPT
+        id S236641AbhGSLqA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Jul 2021 07:46:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236592AbhGSLp7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Jul 2021 07:44:47 -0400
-X-IronPort-AV: E=Sophos;i="5.84,252,1620658800"; 
-   d="scan'208";a="88078285"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Jul 2021 21:25:26 +0900
-Received: from localhost.localdomain (unknown [10.226.92.6])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CDE024221AFD;
-        Mon, 19 Jul 2021 21:25:23 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 00/10] Add USB2.0 support
-Date:   Mon, 19 Jul 2021 13:25:21 +0100
-Message-Id: <20210719122521.6855-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Mon, 19 Jul 2021 07:45:59 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F85AC061762
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jul 2021 04:42:48 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id a12so29851002lfb.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jul 2021 05:26:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=CNURmdT0kwdoSpQUjTxOkECJDdUvVG6SU4wzaPu43gk=;
+        b=r4EqQWs2gLXmfzbd9W9gtoBLzGsMCx2BG6QWHtzwRolQzxQUH93fna3MWsjneK3RjK
+         WJX+4WPL1S83uaj6LAFdfUMd1msGY261LxIDO969jNQFw+6PoOI+y5oTvK4PxYOIIpm/
+         CM3pkOXmxPvi4DpzO09DFbUw7n03iE8fZlrJqqzabT8/kD83a1LuveqUeg26jxhsOrEq
+         bmBmC55yvVJLRWbHTbYxiaeklSqCVpXAvZNpVbmhhAz0KCmDXeDS1Q7US1RvMMfWJQ1m
+         rHGOMCJ35sQKOEkG167hLxhT0yUaTaf5bXMjim5y+JD45rU6KNPhd2upWMuz7/tuTJc2
+         UKtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=CNURmdT0kwdoSpQUjTxOkECJDdUvVG6SU4wzaPu43gk=;
+        b=NW8AOT3IPM3gfK8JOSiBdCocBDJpEsrrFyQ3yODOG1OkEpksbe35sNlc9fTA5Y4m13
+         KTLXcqzFJswLtrR0sQkYBFEBHVvAzxFSlr/uMwtZzcZoReHs9ZQKkNbfSps17tuhhOzP
+         qmkn3uR0MeL1Sy+bbYJdgdVY+j3+nsomYZxcWFUK3dJydJlkogz1y1MRJrCsCTWEZjv4
+         Jh6y7rRAnUs8L3jhVzlJvG+wo3L8AFzX/Ahf7zCdVrRByEcEg63OXaun5t4wDCZnJFFI
+         OZ1zjapCa0orKC2obsg/3CFYJEd+/843pE1f1tvhpIyzwSOG2GQPi501WsuSPcivvw1o
+         fVnQ==
+X-Gm-Message-State: AOAM532pcDn0uYcXNvg4hxWlerB9jdxlYUYLdB3kB8dhPkNmMYhIy938
+        gS7TcuWmDySIinAZjgXVdpKJrw==
+X-Google-Smtp-Source: ABdhPJxeved6PJdcBYx+1b8SV2hdcBGeNTwSrKD1eVzAz5ddvXHesM0jOhORBU2DrMdR4I2mmAuY0g==
+X-Received: by 2002:ac2:4281:: with SMTP id m1mr17497015lfh.164.1626697597900;
+        Mon, 19 Jul 2021 05:26:37 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id v19sm793003lfe.31.2021.07.19.05.26.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jul 2021 05:26:37 -0700 (PDT)
+Date:   Mon, 19 Jul 2021 14:26:36 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: max9286: Remove unneeded mutex for get_fmt
+ and set_fmt
+Message-ID: <YPVvfEd/HH6cpO1Q@oden.dyn.berto.se>
+References: <20210708095550.682465-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210719121039.gj6nc26nyk3lnmw3@uno.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210719121039.gj6nc26nyk3lnmw3@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch series aims to add USB PHY Control, USB2.0 Host and USB2.0 device support for RZ/G2L SoC.
+Hi Jacopo,
 
-v3->v4:
- * Added Rob's Acked-by tag for generic-{ohci,ehci} binding patch
- * Added Rob's Rb tag for RZ/G2L USBPHY control binding patch
- * Incorporated Phillip's review comments for USBPHY control driver.
- * Dropped second reset from usb2-phy binding patch
- * Added maxitems as per Rob's review comment.
+On 2021-07-19 14:10:39 +0200, Jacopo Mondi wrote:
+> Hi Niklas,
+> 
+> On Thu, Jul 08, 2021 at 11:55:50AM +0200, Niklas Söderlund wrote:
+> > There is no need to protect 'cfg_fmt' in get_fmt() and set_fmt() as the
+> > core protects these callbacks. As this is the only usage of the mutex it
+> > can be removed.
+> 
+> You know, I tried chasing where the vdev->lock used to protect the
+> subdev's ioctl is set for mex9286 and I wasn't able to find it.
+> 
+> Please validate my understanding:
+> 
+> - The lock used by the core to protect the set/get format subdev ioctl
+>   is the one in subdev_do_ioctl_lock()
+> 
+>   static long subdev_do_ioctl_lock(struct file *file, unsigned int cmd, void *arg)
+>   {
+>           struct video_device *vdev = video_devdata(file);
+>           struct mutex *lock = vdev->lock;
+> 
+> - the max9286 video subdevice node is registered (on R-Car) by
+>   __v4l2_device_register_subdev_nodes() called by the root notifier
+>   complete() callback
+> 
+> - The video_device created by __v4l2_device_register_subdev_nodes()
+>   doesn't initialize any lock
+> 
+> What am I missing ?
 
-v2->v3
- * USBPHY Control IP modelled as reset bindings as per Rob's suggestion
- * Updated the binding patches
- * Incorporated Geert's and Shimoda-San's review comment for phy driver patch.
+One of the fun idiosyncrasies of V4L2 :-)
 
-v1->v2
- * Updated usb phy control bindings with clock definitions
- * Updated generic ohci/ehci bindings to support RZ/G2L SoC
- * Incorporated vinod's review comment on usb phy control driver
- * Add support for USB2.0 device and OTG support.
+The lock comes from and are initialized by the video device used to 
+register the V4L2 async notifier. Every subdevice created is bound to a 
+vdev this way, and for example this is the vdev that events get routed 
+to.
 
-Biju Das (10):
-  dt-bindings: usb: generic-ohci: Document dr_mode property
-  dt-bindings: usb: generic-ehci: Document dr_mode property
-  dt-bindings: reset: Document RZ/G2L USBPHY Control bindings
-  reset: renesas: Add RZ/G2L usbphy control driver
-  arm64: configs: defconfig: Enable RZ/G2L USBPHY control driver
-  dt-bindings: phy: renesas,usb2-phy: Document RZ/G2L phy bindings
-  phy: renesas: phy-rcar-gen3-usb2: Add OTG support for RZ/G2L
-  arm64: dts: renesas: r9a07g044: Add USB2.0 phy and host support
-  dt-bindings: usb: renesas,usbhs: Document RZ/G2L bindings
-  arm64: dts: renesas: r9a07g044: Add USB2.0 device support
+I assume this dates back pre the media-graph where every subdevice could 
+be associated with a single vdev at probe time. With the media graph 
+this makes little sens and IMHO should really be reworked. I tried once 
+but it turned out to be a lot of work that I did not have time for at 
+the time.
 
- .../bindings/phy/renesas,usb2-phy.yaml        |  19 ++
- .../reset/renesas,rzg2l-usbphy-ctrl.yaml      |  65 +++++++
- .../devicetree/bindings/usb/generic-ehci.yaml |   5 +
- .../devicetree/bindings/usb/generic-ohci.yaml |   5 +
- .../bindings/usb/renesas,usbhs.yaml           |  22 ++-
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 113 +++++++++++
- arch/arm64/configs/defconfig                  |   1 +
- drivers/phy/renesas/phy-rcar-gen3-usb2.c      |  97 +++++++---
- drivers/reset/Kconfig                         |   7 +
- drivers/reset/Makefile                        |   1 +
- drivers/reset/reset-rzg2l-usbphy-ctrl.c       | 175 ++++++++++++++++++
- 11 files changed, 484 insertions(+), 26 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
- create mode 100644 drivers/reset/reset-rzg2l-usbphy-ctrl.c
+> 
+> Thanks
+>    j
+> 
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/i2c/max9286.c | 10 ----------
+> >  1 file changed, 10 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > index 1aa2c58fd38c5d2b..b1d11a50d6e53ecc 100644
+> > --- a/drivers/media/i2c/max9286.c
+> > +++ b/drivers/media/i2c/max9286.c
+> > @@ -18,7 +18,6 @@
+> >  #include <linux/i2c.h>
+> >  #include <linux/i2c-mux.h>
+> >  #include <linux/module.h>
+> > -#include <linux/mutex.h>
+> >  #include <linux/of_graph.h>
+> >  #include <linux/regulator/consumer.h>
+> >  #include <linux/slab.h>
+> > @@ -173,9 +172,6 @@ struct max9286_priv {
+> >
+> >  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+> >
+> > -	/* Protects controls and fmt structures */
+> > -	struct mutex mutex;
+> > -
+> >  	unsigned int nsources;
+> >  	unsigned int source_mask;
+> >  	unsigned int route_mask;
+> > @@ -768,9 +764,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+> >  	if (!cfg_fmt)
+> >  		return -EINVAL;
+> >
+> > -	mutex_lock(&priv->mutex);
+> >  	*cfg_fmt = format->format;
+> > -	mutex_unlock(&priv->mutex);
+> >
+> >  	return 0;
+> >  }
+> > @@ -796,9 +790,7 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+> >  	if (!cfg_fmt)
+> >  		return -EINVAL;
+> >
+> > -	mutex_lock(&priv->mutex);
+> >  	format->format = *cfg_fmt;
+> > -	mutex_unlock(&priv->mutex);
+> >
+> >  	return 0;
+> >  }
+> > @@ -1259,8 +1251,6 @@ static int max9286_probe(struct i2c_client *client)
+> >  	if (!priv)
+> >  		return -ENOMEM;
+> >
+> > -	mutex_init(&priv->mutex);
+> > -
+> >  	priv->client = client;
+> >  	i2c_set_clientdata(client, priv);
+> >
+> > --
+> > 2.32.0
+> >
 
 -- 
-2.17.1
-
+Regards,
+Niklas Söderlund
