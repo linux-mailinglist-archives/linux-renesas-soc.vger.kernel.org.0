@@ -2,129 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C3D13CD45C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 14:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B1463CD48E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jul 2021 14:19:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236582AbhGSL3P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Jul 2021 07:29:15 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:48363 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236505AbhGSL3O (ORCPT
+        id S236923AbhGSLjJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Jul 2021 07:39:09 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:59972 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S236664AbhGSLjH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Jul 2021 07:29:14 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 404BC10000A;
-        Mon, 19 Jul 2021 12:09:51 +0000 (UTC)
-Date:   Mon, 19 Jul 2021 14:10:39 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: max9286: Remove unneeded mutex for get_fmt
- and set_fmt
-Message-ID: <20210719121039.gj6nc26nyk3lnmw3@uno.localdomain>
-References: <20210708095550.682465-1-niklas.soderlund+renesas@ragnatech.se>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210708095550.682465-1-niklas.soderlund+renesas@ragnatech.se>
+        Mon, 19 Jul 2021 07:39:07 -0400
+X-IronPort-AV: E=Sophos;i="5.84,252,1620658800"; 
+   d="scan'208";a="88077916"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 19 Jul 2021 21:19:44 +0900
+Received: from localhost.localdomain (unknown [10.226.92.6])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1F831400855B;
+        Mon, 19 Jul 2021 21:19:41 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 01/10] dt-bindings: usb: generic-ohci: Document dr_mode property
+Date:   Mon, 19 Jul 2021 13:19:29 +0100
+Message-Id: <20210719121938.6532-2-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210719121938.6532-1-biju.das.jz@bp.renesas.com>
+References: <20210719121938.6532-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Document the optional property dr_mode present on both RZ/G2 and
+R-Car Gen3 SoCs.
 
-On Thu, Jul 08, 2021 at 11:55:50AM +0200, Niklas Söderlund wrote:
-> There is no need to protect 'cfg_fmt' in get_fmt() and set_fmt() as the
-> core protects these callbacks. As this is the only usage of the mutex it
-> can be removed.
+It fixes the dtbs_check warning,
+'dr_mode' does not match any of the regexes: 'pinctrl-[0-9]+'
 
-You know, I tried chasing where the vdev->lock used to protect the
-subdev's ioctl is set for mex9286 and I wasn't able to find it.
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+v3->v4:
+  * Added Rob's Acked-by tag.
+v2->v3:
+  * Dropped RZ/G2L SoC and USBPHY control IP is modelled as reset binding.
+v2:
+  * New patch
+---
+ Documentation/devicetree/bindings/usb/generic-ohci.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Please validate my understanding:
+diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+index 0f5f6ea702d0..569777a76c90 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+@@ -109,6 +109,11 @@ properties:
+   iommus:
+     maxItems: 1
+ 
++  dr_mode:
++    enum:
++      - host
++      - otg
++
+ required:
+   - compatible
+   - reg
+-- 
+2.17.1
 
-- The lock used by the core to protect the set/get format subdev ioctl
-  is the one in subdev_do_ioctl_lock()
-
-  static long subdev_do_ioctl_lock(struct file *file, unsigned int cmd, void *arg)
-  {
-          struct video_device *vdev = video_devdata(file);
-          struct mutex *lock = vdev->lock;
-
-- the max9286 video subdevice node is registered (on R-Car) by
-  __v4l2_device_register_subdev_nodes() called by the root notifier
-  complete() callback
-
-- The video_device created by __v4l2_device_register_subdev_nodes()
-  doesn't initialize any lock
-
-What am I missing ?
-
-Thanks
-   j
-
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/i2c/max9286.c | 10 ----------
->  1 file changed, 10 deletions(-)
->
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 1aa2c58fd38c5d2b..b1d11a50d6e53ecc 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -18,7 +18,6 @@
->  #include <linux/i2c.h>
->  #include <linux/i2c-mux.h>
->  #include <linux/module.h>
-> -#include <linux/mutex.h>
->  #include <linux/of_graph.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
-> @@ -173,9 +172,6 @@ struct max9286_priv {
->
->  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
->
-> -	/* Protects controls and fmt structures */
-> -	struct mutex mutex;
-> -
->  	unsigned int nsources;
->  	unsigned int source_mask;
->  	unsigned int route_mask;
-> @@ -768,9 +764,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
->  	if (!cfg_fmt)
->  		return -EINVAL;
->
-> -	mutex_lock(&priv->mutex);
->  	*cfg_fmt = format->format;
-> -	mutex_unlock(&priv->mutex);
->
->  	return 0;
->  }
-> @@ -796,9 +790,7 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
->  	if (!cfg_fmt)
->  		return -EINVAL;
->
-> -	mutex_lock(&priv->mutex);
->  	format->format = *cfg_fmt;
-> -	mutex_unlock(&priv->mutex);
->
->  	return 0;
->  }
-> @@ -1259,8 +1251,6 @@ static int max9286_probe(struct i2c_client *client)
->  	if (!priv)
->  		return -ENOMEM;
->
-> -	mutex_init(&priv->mutex);
-> -
->  	priv->client = client;
->  	i2c_set_clientdata(client, priv);
->
-> --
-> 2.32.0
->
