@@ -2,135 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 351723CF542
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jul 2021 09:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3A9F3CF5D0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jul 2021 10:11:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234895AbhGTGnP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Jul 2021 02:43:15 -0400
-Received: from mail-vk1-f182.google.com ([209.85.221.182]:35575 "EHLO
-        mail-vk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbhGTGnO (ORCPT
+        id S233899AbhGTHaB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Jul 2021 03:30:01 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:38504 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231305AbhGTH3L (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Jul 2021 02:43:14 -0400
-Received: by mail-vk1-f182.google.com with SMTP id d7so4377241vkf.2;
-        Tue, 20 Jul 2021 00:23:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oHPiE5WIZuBAQynBajx7q1K/yloXb10bOcX9t96Cp50=;
-        b=KnFXXyfWOahRC/OPkdwWTGas9fNO6PJ9ZCFixbTCh5msK592/viR30M8sGZSFV/wu9
-         0z8hmqGYOGwgAvhpSMCUb7fopBmWPQ10DqkSWrbxJP2MnI7dqP+2x4+6HvmW135e0kaK
-         xy3ISfha37xEV5RAMpx1qSzVbtWnlZ80DIcV+jYCnvKSqtdCTlm6AUhBw0BRGL4fhcvZ
-         SBAxovkyilntokkenMjYq6aq+3i7Gui3U7x238ERdrXawdviPnVcKD4JTCDcJNs8L7FJ
-         EyQ1Y8yik1AKO1zxjAe9hoHpSOzfw+d8mtGvFTwcBlPa11YMGSQ45T1hnnpvt8qiuDd/
-         vU+g==
-X-Gm-Message-State: AOAM531IqGzpA795PgZEesE8hh3dOVywbl8wTvVoVzBWaD3UyuKuREJz
-        tcmQPRJ/046JYDOHQo7d/uOe/iUd+pkq+tt6mf0=
-X-Google-Smtp-Source: ABdhPJxf33tE/UC6sAZ53pbsOTH+XynQf1vrWzPcAah8VYz4w/NMs8y9Z6qAKLx4GP83D3FxP9bWIDXUegsSRZB+qCI=
-X-Received: by 2002:a1f:2746:: with SMTP id n67mr24782587vkn.5.1626765832884;
- Tue, 20 Jul 2021 00:23:52 -0700 (PDT)
+        Tue, 20 Jul 2021 03:29:11 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 78FAE1FDBF;
+        Tue, 20 Jul 2021 08:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1626768583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=3kdiMdwRscKTrzH2GORNXaEjN/2zUcLUcup9pUEKft4=;
+        b=X04bwiaV/ocd9/n1jkcBS0yxZOgODJ4olip8Uku1bbCT7P1/vaGVEaw1sEmvRafUzDEcWn
+        glDiElqW5ecruUIeTuN+aUpdtH2rdq9shN5b0GerFwa9oiJAVm8D7Nm4soyGhDnmzOTAK7
+        qg3Ut8P+2CQl7d02vsOJsmKl0veaShY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1626768583;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=3kdiMdwRscKTrzH2GORNXaEjN/2zUcLUcup9pUEKft4=;
+        b=dbUEA839VSXv6tSDde3Owm6SFiP8PVmeVs0jtMkasdSxsoP8bmfS8iranKAPSbsCS12sIV
+        z+kUc+KC2abPHiDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3795013D65;
+        Tue, 20 Jul 2021 08:09:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id X6SfDMeE9mDVDQAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Tue, 20 Jul 2021 08:09:43 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@ffwll.ch, sam@ravnborg.org, geert@linux-m68k.org,
+        sergei.shtylyov@gmail.com
+Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3] drm/shmobile: Convert to Linux IRQ interfaces
+Date:   Tue, 20 Jul 2021 10:09:41 +0200
+Message-Id: <20210720080941.23646-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <cover.1626266516.git.geert+renesas@glider.be> <04c4d231fb03a3810d72a45c8a5bc2272c5975f3.1626266516.git.geert+renesas@glider.be>
- <20210714135101.GB2441138@robh.at.kernel.org> <YPP06QG7hfypZgYg@kernel.org>
- <CAMuHMdXfFhzm48U2Hvjz8yrjPsQbagW4aC_L-QE_Q6yx1Lo=tA@mail.gmail.com> <YPZh/IawtmwaYccQ@kernel.org>
-In-Reply-To: <YPZh/IawtmwaYccQ@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 20 Jul 2021 09:23:41 +0200
-Message-ID: <CAMuHMdXO2nYY252s-tOWANF4x2ch+adDx=GO5gwV6Jfw28drgA@mail.gmail.com>
-Subject: Re: [PATCH v4 02/10] memblock: Add variables for usable memory limitation
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Rob Herring <robh@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        kexec@lists.infradead.org, Linux MM <linux-mm@kvack.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mike,
+Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+don't benefit from using it.
 
-On Tue, Jul 20, 2021 at 7:41 AM Mike Rapoport <rppt@kernel.org> wrote:
-> On Mon, Jul 19, 2021 at 08:59:03AM +0200, Geert Uytterhoeven wrote:
-> > On Sun, Jul 18, 2021 at 11:31 AM Mike Rapoport <rppt@kernel.org> wrote:
-> > > On Wed, Jul 14, 2021 at 07:51:01AM -0600, Rob Herring wrote:
-> > > > On Wed, Jul 14, 2021 at 02:50:12PM +0200, Geert Uytterhoeven wrote:
-> > > > > Add two global variables (cap_mem_addr and cap_mem_size) for storing a
-> > > > > base address and size, describing a limited region in which memory may
-> > > > > be considered available for use by the kernel.  If enabled, memory
-> > > > > outside of this range is not available for use.
-> > > > >
-> > > > > These variables can by filled by firmware-specific code, and used in
-> > > > > calls to memblock_cap_memory_range() by architecture-specific code.
-> > > > > An example user is the parser of the "linux,usable-memory-range"
-> > > > > property in the DT "/chosen" node.
-> > > > >
-> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > ---
-> > > > > This is similar to how the initial ramdisk (phys_initrd_{start,size})
-> > > > > and ELF core headers (elfcorehdr_{addr,size})) are handled.
-> > > > >
-> > > > > Does there exist a suitable place in the common memblock code to call
-> > > > > "memblock_cap_memory_range(cap_mem_addr, cap_mem_size)", or does this
-> > > > > have to be done in architecture-specific code?
-> > > >
-> > > > Can't you just call it from early_init_dt_scan_usablemem? If the
-> > > > property is present, you want to call it. If the property is not
-> > > > present, nothing happens.
-> >
-> > I will have a look...
-> >
-> > > For memblock_cap_memory_range() to work properly it should be called after
-> > > memory is detected and added to memblock with memblock_add[_node]()
-> > >
-> > > I'm not huge fan of adding more globals to memblock so if such ordering can
-> > > be implemented on the DT side it would be great.
-> >
-> > Me neither ;-)
-> >
-> > > I don't see a way to actually enforce this ordering, so maybe we'd want to
-> > > add warning in memblock_cap_memory_range() if memblock.memory is empty.
+v3:
+	* return error if (ret < 0) (Geert)
+	* remove duplicate error message (Geert)
+v2:
+	* handle errors in platform_get_irq() (Geert, Sergei)
+	* store IRQ number in struct shmob_drm_device (Laurent)
 
-Sorry, I misread "if memblock.memory is empty" as "if capmem is empty".
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+---
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c | 14 +++++++++-----
+ drivers/gpu/drm/shmobile/shmob_drm_drv.h |  1 +
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
-> > "linux,usable-memory-range" is optional, and typically used only in
-> > crashdump kernels, so it would be a bad idea to add such a warning.
->
-> If I remember correctly, memblock_cap_memory_range() was added to support
-> "linux,usable-memory-range" for crasdump kernels on arm64 and if it would
-> be called before memory is registered we may silently corrupt the memory
-> because the crash kernel will see all the memory as available.
->"
-> So while WARN() maybe too much a pr_warn() seems to me quite appropriate.
-
-Yes, makes perfect sense now.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+index 0a02b7092c04..7db01904d18d 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
++++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+@@ -18,7 +18,6 @@
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_gem_cma_helper.h>
+-#include <drm/drm_irq.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
+ 
+@@ -130,7 +129,6 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
+ 
+ static const struct drm_driver shmob_drm_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
+-	.irq_handler		= shmob_drm_irq,
+ 	DRM_GEM_CMA_DRIVER_OPS,
+ 	.fops			= &shmob_drm_fops,
+ 	.name			= "shmob-drm",
+@@ -183,7 +181,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
+ 
+ 	drm_dev_unregister(ddev);
+ 	drm_kms_helper_poll_fini(ddev);
+-	drm_irq_uninstall(ddev);
++	free_irq(sdev->irq, ddev);
+ 	drm_dev_put(ddev);
+ 
+ 	return 0;
+@@ -258,7 +256,13 @@ static int shmob_drm_probe(struct platform_device *pdev)
+ 		goto err_modeset_cleanup;
+ 	}
+ 
+-	ret = drm_irq_install(ddev, platform_get_irq(pdev, 0));
++	ret = platform_get_irq(pdev, 0);
++	if (ret < 0)
++		goto err_modeset_cleanup;
++	sdev->irq = ret;
++
++	ret = request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver->name,
++			  ddev);
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "failed to install IRQ handler\n");
+ 		goto err_modeset_cleanup;
+@@ -275,7 +279,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ err_irq_uninstall:
+-	drm_irq_uninstall(ddev);
++	free_irq(sdev->irq, ddev);
+ err_modeset_cleanup:
+ 	drm_kms_helper_poll_fini(ddev);
+ err_free_drm_dev:
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.h b/drivers/gpu/drm/shmobile/shmob_drm_drv.h
+index 80dc4b1020aa..4964ddd5ab74 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_drv.h
++++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.h
+@@ -29,6 +29,7 @@ struct shmob_drm_device {
+ 	u32 lddckr;
+ 	u32 ldmt1r;
+ 
++	unsigned int irq;
+ 	spinlock_t irq_lock;		/* Protects hardware LDINTR register */
+ 
+ 	struct drm_device *ddev;
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.32.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
