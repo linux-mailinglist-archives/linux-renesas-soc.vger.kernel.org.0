@@ -2,123 +2,237 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C03503CF40E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jul 2021 07:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0155F3CF448
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jul 2021 08:12:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237357AbhGTFAv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Jul 2021 01:00:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33386 "EHLO mail.kernel.org"
+        id S238745AbhGTFcF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Jul 2021 01:32:05 -0400
+Received: from mga14.intel.com ([192.55.52.115]:32302 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235944AbhGTFAt (ORCPT
+        id S236354AbhGTFcC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Jul 2021 01:00:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F8BA6113A;
-        Tue, 20 Jul 2021 05:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626759688;
-        bh=2GuyoMxAkXwIEuz4kB/1FJuahjlvs/F+Am1H8l4oZ6o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LRXfAAm56gnQU5zTzJQzg6qkcSv7yw0kl4yYFk/21Z9WHHCS/YfSY1upoAtwKv5bT
-         V2O7oZHWj0fOK1IGM3v79BAcuYxOjoQhqUOKopcwlgQBrVFYG0G449b4T5r51t4r2s
-         npYhouHieUp13RGQWPuxEopMBsodExxP0CTY5MFrJgxjN/YwdfA01vcaOtK+AEq1Yd
-         ORUPos0vJHv62sSB0+yra/zR5L77thXGC2iAERObefhp+jMpFNa8tjsBcsiHoIdhtY
-         VF31HzwBbHUtc22fybXpvdYc58q6NvDcq/5I5KrSiYstSR+a3kuydNUqoSMsfU84YV
-         3qV/JLV27J/DQ==
-Date:   Tue, 20 Jul 2021 08:41:16 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Rob Herring <robh@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        kexec@lists.infradead.org, Linux MM <linux-mm@kvack.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 02/10] memblock: Add variables for usable memory
- limitation
-Message-ID: <YPZh/IawtmwaYccQ@kernel.org>
-References: <cover.1626266516.git.geert+renesas@glider.be>
- <04c4d231fb03a3810d72a45c8a5bc2272c5975f3.1626266516.git.geert+renesas@glider.be>
- <20210714135101.GB2441138@robh.at.kernel.org>
- <YPP06QG7hfypZgYg@kernel.org>
- <CAMuHMdXfFhzm48U2Hvjz8yrjPsQbagW4aC_L-QE_Q6yx1Lo=tA@mail.gmail.com>
+        Tue, 20 Jul 2021 01:32:02 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="210904192"
+X-IronPort-AV: E=Sophos;i="5.84,254,1620716400"; 
+   d="scan'208";a="210904192"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2021 23:12:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,254,1620716400"; 
+   d="scan'208";a="661034244"
+Received: from lkp-server02.sh.intel.com (HELO 1b5a72ed9419) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 19 Jul 2021 23:12:30 -0700
+Received: from kbuild by 1b5a72ed9419 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1m5izV-00004d-HJ; Tue, 20 Jul 2021 06:12:29 +0000
+Date:   Tue, 20 Jul 2021 08:56:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:master] BUILD SUCCESS
+ 2f3bebb9dc31fbb1e815f63cf3f61763f7d1d8f9
+Message-ID: <60f61f4d.U8EYS//4xyowekQl%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXfFhzm48U2Hvjz8yrjPsQbagW4aC_L-QE_Q6yx1Lo=tA@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 2f3bebb9dc31fbb1e815f63cf3f61763f7d1d8f9  Merge branches 'renesas-next' and 'topic/renesas-defconfig' into renesas-devel
 
-On Mon, Jul 19, 2021 at 08:59:03AM +0200, Geert Uytterhoeven wrote:
-> Hi Mike,
-> 
-> On Sun, Jul 18, 2021 at 11:31 AM Mike Rapoport <rppt@kernel.org> wrote:
-> > On Wed, Jul 14, 2021 at 07:51:01AM -0600, Rob Herring wrote:
-> > > On Wed, Jul 14, 2021 at 02:50:12PM +0200, Geert Uytterhoeven wrote:
-> > > > Add two global variables (cap_mem_addr and cap_mem_size) for storing a
-> > > > base address and size, describing a limited region in which memory may
-> > > > be considered available for use by the kernel.  If enabled, memory
-> > > > outside of this range is not available for use.
-> > > >
-> > > > These variables can by filled by firmware-specific code, and used in
-> > > > calls to memblock_cap_memory_range() by architecture-specific code.
-> > > > An example user is the parser of the "linux,usable-memory-range"
-> > > > property in the DT "/chosen" node.
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > ---
-> > > > This is similar to how the initial ramdisk (phys_initrd_{start,size})
-> > > > and ELF core headers (elfcorehdr_{addr,size})) are handled.
-> > > >
-> > > > Does there exist a suitable place in the common memblock code to call
-> > > > "memblock_cap_memory_range(cap_mem_addr, cap_mem_size)", or does this
-> > > > have to be done in architecture-specific code?
-> > >
-> > > Can't you just call it from early_init_dt_scan_usablemem? If the
-> > > property is present, you want to call it. If the property is not
-> > > present, nothing happens.
-> 
-> I will have a look...
-> 
-> > For memblock_cap_memory_range() to work properly it should be called after
-> > memory is detected and added to memblock with memblock_add[_node]()
-> >
-> > I'm not huge fan of adding more globals to memblock so if such ordering can
-> > be implemented on the DT side it would be great.
-> 
-> Me neither ;-)
-> 
-> > I don't see a way to actually enforce this ordering, so maybe we'd want to
-> > add warning in memblock_cap_memory_range() if memblock.memory is empty.
-> 
-> "linux,usable-memory-range" is optional, and typically used only in
-> crashdump kernels, so it would be a bad idea to add such a warning.
+elapsed time: 849m
 
-If I remember correctly, memblock_cap_memory_range() was added to support
-"linux,usable-memory-range" for crasdump kernels on arm64 and if it would
-be called before memory is registered we may silently corrupt the memory
-because the crash kernel will see all the memory as available.
+configs tested: 178
+configs skipped: 4
 
-So while WARN() maybe too much a pr_warn() seems to me quite appropriate.
- 
--- 
-Sincerely yours,
-Mike.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                  colibri_pxa300_defconfig
+arm                       netwinder_defconfig
+powerpc                    gamecube_defconfig
+m68k                           sun3_defconfig
+sh                            hp6xx_defconfig
+h8300                            allyesconfig
+powerpc                     tqm8541_defconfig
+powerpc                      bamboo_defconfig
+sh                              ul2_defconfig
+microblaze                      mmu_defconfig
+arm                       aspeed_g4_defconfig
+arc                           tb10x_defconfig
+xtensa                           alldefconfig
+powerpc                  iss476-smp_defconfig
+arc                          axs103_defconfig
+powerpc                     rainier_defconfig
+x86_64                              defconfig
+mips                   sb1250_swarm_defconfig
+mips                  maltasmvp_eva_defconfig
+sparc64                             defconfig
+arm                         mv78xx0_defconfig
+arm                         lpc32xx_defconfig
+arm                          imote2_defconfig
+powerpc                     ep8248e_defconfig
+mips                             allmodconfig
+sh                           se7343_defconfig
+powerpc                     stx_gp3_defconfig
+mips                           ci20_defconfig
+mips                          malta_defconfig
+riscv             nommu_k210_sdcard_defconfig
+mips                       rbtx49xx_defconfig
+powerpc                     mpc83xx_defconfig
+arm                        shmobile_defconfig
+mips                     loongson1c_defconfig
+powerpc                      katmai_defconfig
+sh                           se7780_defconfig
+arm                        mvebu_v5_defconfig
+arm                         lubbock_defconfig
+arm                   milbeaut_m10v_defconfig
+um                               alldefconfig
+xtensa                         virt_defconfig
+powerpc                    klondike_defconfig
+arm                            mmp2_defconfig
+arc                              alldefconfig
+powerpc                      ppc44x_defconfig
+arm                       imx_v4_v5_defconfig
+sh                          polaris_defconfig
+m68k                        m5307c3_defconfig
+parisc                              defconfig
+powerpc                 mpc8313_rdb_defconfig
+powerpc                   microwatt_defconfig
+arm                         at91_dt_defconfig
+mips                        bcm63xx_defconfig
+m68k                             allyesconfig
+mips                         bigsur_defconfig
+sh                          sdk7780_defconfig
+arm                          pcm027_defconfig
+xtensa                  audio_kc705_defconfig
+sh                         ecovec24_defconfig
+sh                     magicpanelr2_defconfig
+powerpc                 xes_mpc85xx_defconfig
+sh                               j2_defconfig
+powerpc                 mpc832x_mds_defconfig
+openrisc                         alldefconfig
+arm                          gemini_defconfig
+xtensa                    xip_kc705_defconfig
+sh                          r7780mp_defconfig
+riscv                    nommu_virt_defconfig
+arm                           spitz_defconfig
+powerpc                     ppa8548_defconfig
+powerpc                           allnoconfig
+powerpc                   motionpro_defconfig
+m68k                          atari_defconfig
+sh                ecovec24-romimage_defconfig
+sh                               allmodconfig
+arm                            qcom_defconfig
+m68k                       m5275evb_defconfig
+arm                          collie_defconfig
+arm                    vt8500_v6_v7_defconfig
+nds32                             allnoconfig
+arm                        trizeps4_defconfig
+h8300                     edosk2674_defconfig
+powerpc                     tqm8548_defconfig
+sh                   rts7751r2dplus_defconfig
+x86_64                            allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+x86_64               randconfig-a005-20210718
+x86_64               randconfig-a004-20210718
+x86_64               randconfig-a002-20210718
+x86_64               randconfig-a003-20210718
+x86_64               randconfig-a006-20210718
+x86_64               randconfig-a001-20210718
+i386                 randconfig-a005-20210720
+i386                 randconfig-a003-20210720
+i386                 randconfig-a004-20210720
+i386                 randconfig-a002-20210720
+i386                 randconfig-a001-20210720
+i386                 randconfig-a006-20210720
+i386                 randconfig-a005-20210719
+i386                 randconfig-a004-20210719
+i386                 randconfig-a006-20210719
+i386                 randconfig-a001-20210719
+i386                 randconfig-a003-20210719
+i386                 randconfig-a002-20210719
+x86_64               randconfig-a013-20210719
+x86_64               randconfig-a012-20210719
+x86_64               randconfig-a015-20210719
+x86_64               randconfig-a014-20210719
+x86_64               randconfig-a011-20210719
+x86_64               randconfig-a016-20210719
+i386                 randconfig-a014-20210719
+i386                 randconfig-a015-20210719
+i386                 randconfig-a011-20210719
+i386                 randconfig-a013-20210719
+i386                 randconfig-a016-20210719
+i386                 randconfig-a012-20210719
+i386                 randconfig-a016-20210720
+i386                 randconfig-a013-20210720
+i386                 randconfig-a012-20210720
+i386                 randconfig-a014-20210720
+i386                 randconfig-a011-20210720
+i386                 randconfig-a015-20210720
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-b001-20210720
+x86_64               randconfig-b001-20210719
+x86_64               randconfig-a011-20210720
+x86_64               randconfig-a016-20210720
+x86_64               randconfig-a013-20210720
+x86_64               randconfig-a014-20210720
+x86_64               randconfig-a012-20210720
+x86_64               randconfig-a015-20210720
+x86_64               randconfig-a005-20210719
+x86_64               randconfig-a004-20210719
+x86_64               randconfig-a002-20210719
+x86_64               randconfig-a003-20210719
+x86_64               randconfig-a006-20210719
+x86_64               randconfig-a001-20210719
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
