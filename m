@@ -2,121 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 949083CFFA5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jul 2021 18:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A69B3CFFB6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jul 2021 18:44:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234619AbhGTP6V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Jul 2021 11:58:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46754 "EHLO mail.kernel.org"
+        id S231707AbhGTQDW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Jul 2021 12:03:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49360 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231237AbhGTP4U (ORCPT
+        id S231367AbhGTQC0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Jul 2021 11:56:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 71A6F60FF2;
-        Tue, 20 Jul 2021 16:36:58 +0000 (UTC)
+        Tue, 20 Jul 2021 12:02:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 25B24610A0;
+        Tue, 20 Jul 2021 16:43:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626799018;
-        bh=IhE15OCsZZL4VIDdohm7Hf2FnjxTKG9XEwbEiYaAZcg=;
+        s=k20201202; t=1626799382;
+        bh=j4BCtPKXcQCOjyfWn0WZbL/kVl1xrM5LvBy4FoGz/40=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=eOl+ZoYsnu1HdOHKz68BDtopcnRYoKGN3rI+atFZfeRIwWcw1/grpDlLY6AZw2H5i
-         Amt1EQ8ZMVJ3JiPwUz9j6diMQnehPPOI53BqCVojlCR9xJQ2NcWLEMknO0Fk48mO/6
-         q5wEKTpXM5xUO/jbAipFFBEGjvKwJtsDuhy28scP9NBkfBZQYkiF70Tu/35hUoln4U
-         8wWrpcyeotp1lt85VgiD2V2yEUiNR8HgG08iXOBYi91kfKpeSXcPZIdyUDHGkAE6Gg
-         yG1MFbtyxVu1jnJEhS5eN8k9wboqhuAcXyDpddhuepASjjg1sUXbrKxZlaqQh5THVi
-         VjU5wL7q1fxvQ==
-Received: by mail-ed1-f46.google.com with SMTP id l26so29204300eda.10;
-        Tue, 20 Jul 2021 09:36:58 -0700 (PDT)
-X-Gm-Message-State: AOAM533a2lLKwDNwQvgQWPQP0tbqM6ee2Iumm0iHd6RTmg0fCI2Ul6ni
-        TWGrzV0BlnwbyGZodBg7JOsv9khX9ZGNL3N8pQ==
-X-Google-Smtp-Source: ABdhPJy8d09Q9NrycMU9Q826ITKi5kxOzUS11WCgwyOBHJFREiJj8GS1Dp8lXeHgAev7AEtvoW5pATtKwvPRScm9fDM=
-X-Received: by 2002:aa7:ca54:: with SMTP id j20mr42161769edt.137.1626799017059;
- Tue, 20 Jul 2021 09:36:57 -0700 (PDT)
+        b=moeWhsB7eX73mM0W6ABzmaXgPWmHBdPBBw0qgkPsPA2+RAyIvoLAhI77BCqCW79Sp
+         xydZMGobvFHByG2gqrbEmfVOm9tRnN/+nakSkGmStRcuhw8E1ItFimXZguAHYjrs1T
+         7XT+jJ2jZWsfEkw1MnRll4enlJqzZZnIZ78Ot+PNv/UHfVdUuKR5Sw+N2CfhR0iyPc
+         bUjMPPuhppzFGO28GPlNkRUnafuD+onsug1tYPdLatbW9g3kgoEmnXGlQN6ZbzUVKn
+         DAVZYj0agPkdfE00h/jrQzL2PRO+H+juX1clU5Y9oE+sc7wLmW9PfYbRoz+EapA+9x
+         biYG5J5j3zUCw==
+Received: by mail-ej1-f44.google.com with SMTP id gb6so35257109ejc.5;
+        Tue, 20 Jul 2021 09:43:02 -0700 (PDT)
+X-Gm-Message-State: AOAM531UJYUaGfEczqr+mxswQxsIFd7VCWAFSj5X4axtuytm+66xcMC0
+        Mhc4UBzXKUnavKMrAOWGGjapJysR/4DjqT/nng==
+X-Google-Smtp-Source: ABdhPJxjI2GVsp30gFxyft0HwUf/jh/jdIG8vJGlj+RqnG3vOkfXtdpanD4o0pxB3n9fg2NzozRw2Nvbs11EVTCG5Kw=
+X-Received: by 2002:a17:906:5fc1:: with SMTP id k1mr32794046ejv.360.1626799380758;
+ Tue, 20 Jul 2021 09:43:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210719121938.6532-1-biju.das.jz@bp.renesas.com>
- <20210719121938.6532-4-biju.das.jz@bp.renesas.com> <1626708479.397199.1967264.nullmailer@robh.at.kernel.org>
- <OS0PR01MB5922E245F143076435A9000186E29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922E245F143076435A9000186E29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <d430f9c06d6691fe8a98f923cdb7ca13772834b1.1626262043.git.geert+renesas@glider.be>
+ <20210716180253.GA3684196@robh.at.kernel.org> <CAMuHMdWXCJd0NzH4km+oXBziBct31DCb53fmk3RhAk-+29Zkew@mail.gmail.com>
+In-Reply-To: <CAMuHMdWXCJd0NzH4km+oXBziBct31DCb53fmk3RhAk-+29Zkew@mail.gmail.com>
 From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 20 Jul 2021 10:36:44 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKPA5XUhWHBTtNEmA_aqHOyUt_woEB79WKgiFWRn7CT7g@mail.gmail.com>
-Message-ID: <CAL_JsqKPA5XUhWHBTtNEmA_aqHOyUt_woEB79WKgiFWRn7CT7g@mail.gmail.com>
-Subject: Re: [PATCH v4 03/10] dt-bindings: reset: Document RZ/G2L USBPHY
- Control bindings
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Date:   Tue, 20 Jul 2021 10:42:49 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+anYwYVssARuymvB=HKK13=p22e65OiYbvYKSwPCtsVg@mail.gmail.com>
+Message-ID: <CAL_Jsq+anYwYVssARuymvB=HKK13=p22e65OiYbvYKSwPCtsVg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: memory: renesas,rpc-if: Miscellaneous improvements
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 20, 2021 at 5:26 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+On Fri, Jul 16, 2021 at 1:10 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
 > Hi Rob,
 >
-> > Subject: Re: [PATCH v4 03/10] dt-bindings: reset: Document RZ/G2L USBPHY
-> > Control bindings
-> >
-> > On Mon, 19 Jul 2021 13:19:31 +0100, Biju Das wrote:
-> > > Add device tree binding document for RZ/G2L USBPHY Control Device.
-> > > It mainly controls reset and power down of the USB/PHY.
+> On Fri, Jul 16, 2021 at 8:02 PM Rob Herring <robh@kernel.org> wrote:
+> > On Wed, Jul 14, 2021 at 01:30:13PM +0200, Geert Uytterhoeven wrote:
+> > >   - Add missing "#{address,size}-cells",
+> > >   - Fix rejection of legitimate flash subnodes containing multiple
+> > >     compatible values,
+> > >   - Add missing list of required properties.
 > > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > > > ---
-> > > v3->v4:
-> > >   * Dropped reset reference.
-> > >   * Added Rb-tag from Rob.
-> > >  v3:
-> > >   * New patch.
-> > >   * Modelled USBPHY control from phy bindings to reset bindings, since
-> > the
-> > >     IP mainly contols the reset of USB PHY.
-> > > ---
-> > >  .../reset/renesas,rzg2l-usbphy-ctrl.yaml      | 65 +++++++++++++++++++
-> > >  1 file changed, 65 insertions(+)
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml
+> > >  .../memory-controllers/renesas,rpc-if.yaml    | 23 ++++++++++++++++---
+> > >  1 file changed, 20 insertions(+), 3 deletions(-)
 > > >
+> > > diff --git a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
+> > > index 990489fdd2ac33fe..c0d899a2305361b1 100644
+> > > --- a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
+> > > +++ b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
+> > > @@ -56,17 +56,34 @@ properties:
+> > >    resets:
+> > >      maxItems: 1
+> > >
+> > > +  '#address-cells':
+> > > +    const: 1
+> > > +
+> > > +  '#size-cells':
+> > > +    const: 0
+> > > +
 > >
-> > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> >
-> > yamllint warnings/errors:
-> >
-> > dtschema/dtc warnings/errors:
-> > Error: Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-
-> > ctrl.example.dts:25.30-31 syntax error FATAL ERROR: Unable to parse input
-> > tree
-> > make[1]: *** [scripts/Makefile.lib:380:
-> > Documentation/devicetree/bindings/reset/renesas,rzg2l-usbphy-
-> > ctrl.example.dt.yaml] Error 1
-> > make[1]: *** Waiting for unfinished jobs....
-> > make: *** [Makefile:1418: dt_binding_check] Error 2 \ndoc reference errors
-> > (make refcheckdocs):
-> >
-> > See
-> > https://jpn01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwor
-> > k.ozlabs.org%2Fpatch%2F1506961&amp;data=04%7C01%7Cbiju.das.jz%40bp.renesas
-> > .com%7Cb02057306f9b4db2426008d94ac9ce37%7C53d82571da1947e49cb4625a166a4a2a
-> > %7C0%7C0%7C637623052878040806%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAi
-> > LCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=N4%2F9GofL
-> > NWbtPDddI38ActeGRqtfxdNANC4T241Or1M%3D&amp;reserved=0
-> >
-> > This check can fail if there are any dependencies. The base for a patch
-> > series is generally the most recent rc1.
+> > spi-controller.yaml already defines this.
 >
-> The dependency patch for the bot error is present on 5.14-rc2 but not on 5.14-rc1.
+> spi-controller.yaml says '#address-cells' must be 0 or 1.  As RPC-IF does
+> SPI master only, it should be 1.
 
-Ok, I've updated the base to rc2. Please note a dependency like that
-(anything that's not the last rc1) next time.
+Yes, but then it says:
+
+allOf:
+  - if:
+      not:
+        required:
+          - spi-slave
+    then:
+      properties:
+        "#address-cells":
+          const: 1
+    else:
+      properties:
+        "#address-cells":
+          const: 0
 
 Rob
