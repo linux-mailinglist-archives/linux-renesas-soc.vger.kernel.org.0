@@ -2,103 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A5043CF745
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jul 2021 11:57:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD09B3CF7C8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jul 2021 12:23:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235544AbhGTJRO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Jul 2021 05:17:14 -0400
-Received: from mail-ua1-f46.google.com ([209.85.222.46]:38415 "EHLO
-        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235368AbhGTJRN (ORCPT
+        id S237172AbhGTJlp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Jul 2021 05:41:45 -0400
+Received: from mail-vk1-f175.google.com ([209.85.221.175]:35390 "EHLO
+        mail-vk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236430AbhGTJk1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Jul 2021 05:17:13 -0400
-Received: by mail-ua1-f46.google.com with SMTP id g4so7856897uap.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jul 2021 02:57:51 -0700 (PDT)
+        Tue, 20 Jul 2021 05:40:27 -0400
+Received: by mail-vk1-f175.google.com with SMTP id d7so4457431vkf.2;
+        Tue, 20 Jul 2021 03:21:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eJGM0RL5AN+h+vqFmyVhrYwvPstbguOVmw1vvv/X9nQ=;
-        b=Nx0zhTmwmy7IchgnZv+aWUF0a73BqGQTqmOf14GAxuKsFXABg+vUMDdCDOhWqXZdZz
-         YwXwlEhgKebngxG/BKw1Y/oZwO87PZliLjtxZcHJgbsrlNLS9gpkkzHRik+ZxPI6FPOr
-         fdEV4f+Lc3l22jr0ReQ/4XVxtm5j4TSTC6xmfMWYT0+oSy/B2wvMuvYzCXd/KFdtlPI8
-         UnvgkhpQFLQ9LpreL+pfBeIrDEmhn9mTBfHIR07sYSP8Rm2RxhOQXtuxVf2Ht9FJJeRa
-         HVnHGv6/ouD9dtkAsUIkG5Lq+08RKXKXGwxpZhE1nEJm5z9boCiFgOTcrkMguOSK2qJX
-         t8pQ==
-X-Gm-Message-State: AOAM532zz/PgLm0AOXY5i5C7Da/0wSFmsJGr5R4YxB4CPAf4xmil9m3I
-        1vJ1dCSVSVpcO5MHCKc0rl9Gm4TK2yNpWLsKSCo=
-X-Google-Smtp-Source: ABdhPJyxjSTjcCC3q1+chNBc2dgfFtqHNKvgcywOC8BfkjjlY3Gzjn8/vT6Xz9Pg5lWgRXNjTgN320Zq5LydgfkuFlI=
-X-Received: by 2002:ab0:6710:: with SMTP id q16mr7224714uam.106.1626775070742;
- Tue, 20 Jul 2021 02:57:50 -0700 (PDT)
+        bh=t3ZjcsKyMCs8EAu6vLk3qNYhP9FzOKu10cixbnS0WFM=;
+        b=AnXhBPICi8rm1xs6EGPMwaWX4F69FqPJYh1Sd4F15v7LfaoMS70xV+xzeLNFRCeK8m
+         g80Fc5fHtrovjDV3DJ+VrlgD1+N+zZoTrHQKyM8bpa1SOojJYS7mRKV88EAtvyHQEtSn
+         7l8hOdA1qVom41ch03q6k6pEu56lKZtdYMKMZ3Eyf4RbFR90o0UqkgerZAjslsKKf2aT
+         f8Yvi6NXyJGSp/9mT8NLrGZZlddMuyJjKKt7ZQiDSmrqW0F1m+SxKjnbEgXe0XwW4sbC
+         RngCLdW/DIBeDH8lhkEgvfXkP4jTxJFQDyKFDmNqW8vsTS9kqx8N2OnErlPLElg+Yet9
+         VVSg==
+X-Gm-Message-State: AOAM532H2JeV2RsNJnTVPiB0+OxM1q6As5nviXUDloHEKliW6+b5uH5h
+        GiPOq7NE7vp/v/bDlmUEFWYYC84Nabo8Ww4u68S2UqhgLak=
+X-Google-Smtp-Source: ABdhPJzwKBBMCHAKd1HCgWQzlIm99pF6UYc3GUznLjiSmkL+xSsHOJZ2HsElwYwl6AdrLpRDjH62WLjjBgovo33fffo=
+X-Received: by 2002:a1f:2746:: with SMTP id n67mr25101438vkn.5.1626776464175;
+ Tue, 20 Jul 2021 03:21:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210719134040.7964-1-biju.das.jz@bp.renesas.com> <20210719134040.7964-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210719134040.7964-3-biju.das.jz@bp.renesas.com>
+References: <20210719143811.2135-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210719143811.2135-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210719143811.2135-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 20 Jul 2021 11:57:39 +0200
-Message-ID: <CAMuHMdV1f3TM3pKsftNkaOrFifAMdLkEcKdWs=wL54uFhEKoZg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/8] sound: soc: sh: Add RZ/G2L SSIF-2 driver
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+Date:   Tue, 20 Jul 2021 12:20:53 +0200
+Message-ID: <CAMuHMdV1cLZkvyocVrAo6n6Y73QZBGOUMeJKqjk533gqk_RVLg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: net: can: renesas,rcar-canfd:
+ Document RZ/G2L SoC
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Prabhakar,
 
-On Mon, Jul 19, 2021 at 3:40 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add serial sound interface(SSIF-2) driver support for
-> RZ/G2L SoC.
+On Mon, Jul 19, 2021 at 4:39 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add CANFD binding documentation for Renesas RZ/G2L SoC.
 >
-> Based on the work done by Chris Brandt for RZ/A SSI driver.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/sound/soc/sh/Kconfig
-> +++ b/sound/soc/sh/Kconfig
-> @@ -45,6 +45,16 @@ config SND_SOC_RCAR
->         help
->           This option enables R-Car SRU/SCU/SSIU/SSI sound support
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Just some bikeshedding on the exact naming below ;-)
+
+> --- a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
+> +++ b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
+> @@ -91,6 +92,59 @@ required:
+>    - channel0
+>    - channel1
 >
-> +config SND_SOC_RZ
-> +       tristate "RZ/G2L series SSIF-2 support"
-> +       depends on OF || COMPILE_TEST
-
-ARCH_R9A07G044 implies OF
-
-> +       depends on ARCH_R9A07G044
-
-Is there any hard compile-time dependency on ARCH_R9A07G044?
-
-Perhaps you meant
-
-    depends on ARCH_R9A07G044 || COMPILE_TEST
-
-?
-
-> +       select SND_SIMPLE_CARD
-> +       help
-> +         This option enables ASoC sound support for the RZ/G2L MPUs.
-> +         The simple-audio-card driver and the RZ/G2L built-in serial
-> +         sound interface (SSIF-2) driver are used.
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - renesas,rzg2l-canfd
+> +then:
+> +  properties:
+> +    interrupts:
+> +      items:
+> +        - description: CAN global error interrupt
+> +        - description: CAN receive FIFO interrupt
+> +        - description: CAN0 error interrupt
+> +        - description: CAN0 transmit interrupt
+> +        - description: CAN0 transmit/receive FIFO receive completion interrupt
+> +        - description: CAN1 error interrupt
+> +        - description: CAN1 transmit interrupt
+> +        - description: CAN1 transmit/receive FIFO receive completion interrupt
 > +
+> +    interrupt-names:
+> +      items:
+> +        - const: g_error
+> +        - const: g_rx_fifo
+> +        - const: can0_error
+
+s/error/err/?
+
+> +        - const: can0_tx
+> +        - const: can0_tx_rx_fifo_receive_completion
+> +        - const: can1_error
+> +        - const: can1_tx
+> +        - const: can1_tx_rx_fifo_receive_completion
+
+s/receive/rx/?
+
+Some are also a bit long to type.
+Perhaps use naming closer to the User's Manual?
+
+INTRCANGERR => g_err
+INTRCANGRECC => g_recc
+INTRCAN0ERR => ch0_err
+INTRCAN0REC => ch0_rec
+INTRCAN0TRX => ch0_trx
+INTRCAN1ERR => ch1_err
+INTRCAN1REC => ch1_rec
+INTRCAN1TRX => ch1_trx
+
+These do not have "_int" suffixes...
+
+> +
+> +    resets:
+> +      items:
+> +        - description: CANFD_RSTP_N
+> +        - description: CANFD_RSTC_N
+> +
+> +  required:
+> +    - interrupt-names
+> +else:
+> +  properties:
+> +    interrupts:
+> +      items:
+> +        - description: Channel interrupt
+> +        - description: Global interrupt
+> +
+> +    interrupt-names:
+> +      items:
+> +        - const: ch_int
+> +        - const: g_int
+
+... and these do have "_int" suffixes.
+
+> +
+> +    resets:
+> +      items:
+> +        - description: CANFD reset
+> +
+>  unevaluatedProperties: false
 
 Gr{oetje,eeting}s,
 
