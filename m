@@ -2,115 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF2153D1761
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jul 2021 22:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C85E33D17D0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jul 2021 22:18:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240349AbhGUTKL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Jul 2021 15:10:11 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:5615 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S239624AbhGUTKJ (ORCPT
+        id S229911AbhGUTfj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Jul 2021 15:35:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51384 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229597AbhGUTfj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Jul 2021 15:10:09 -0400
-X-IronPort-AV: E=Sophos;i="5.84,258,1620658800"; 
-   d="scan'208";a="88350330"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 22 Jul 2021 04:50:44 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 837D8400D4D6;
-        Thu, 22 Jul 2021 04:50:41 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Wed, 21 Jul 2021 15:35:39 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D715C061757;
+        Wed, 21 Jul 2021 13:16:14 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id d17so4521747ljq.12;
+        Wed, 21 Jul 2021 13:16:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lSU6HhPh2vArZHQqBT84VHeDv+IVbMxi0i70iGqpdDA=;
+        b=Bm/bH7cUl3N+ohBACh18PT4q/J1dhq0ag6ksUY1PG1KU337jkZLMyag314YnLTY4Cy
+         bEELvyTCW6riPkII4fUIZhwFmpHwyIMPgM6WvYdPpwfdTgIOf8lG/GVVKkTIxE2YLlAA
+         ctaIftOwYbcrA5jcoUJQYpP6aiGqyt6NrMonmlZZs5scU+nZs07YYkaR1Kbsjls7R62J
+         tiadkUQRVXOFZQZOqKVBgIb+ZHqu0hTU2QbwSSCaaL85XXUtoMkqBKi8fUzG6hrkJs3W
+         +joOBRTqb6qT/pOMcKhjllnvccG5Zmg6BvlVwijMmFBxNsHGExk1KWm6zzYzVY2oeM33
+         o/Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lSU6HhPh2vArZHQqBT84VHeDv+IVbMxi0i70iGqpdDA=;
+        b=VJjCnoVxewvQ9QnrJhiJuPWjlNZgREbd0OLTAxpazwNcp406vW+zRBqy+Pah1KIJ0W
+         jAbXjW5zyWD7RBEeqRPq+DsfUHd+MAwDeoFZ7oUMGJzhuVrTFewviccI0jMZxUfxj7s0
+         EMgD3hL5F+ICqamm38POZI0B9w1AGohVY9dnVs9LdwhJ01sOerreN+2HXSwJXTrhVxNc
+         3RMAnrbgPM0rldr497Nm+vYafMkG0odrjZfw1d5qtDsG7FvazwEPdh6tNkDwnLsr5IOE
+         iP1dG2SAYgi9OvYmh9tc4ZbwJePx+kB9QJfvDMoqEJUWf22ZKG/nsgoSrNzALbbgkoHU
+         ZyJQ==
+X-Gm-Message-State: AOAM531z4ZJX0irvjLsaLQRq9KH1Sra4pImsItd4K1aMIVE64eU8Uu/p
+        5s2r4h4fmglJ91joNeTzfJM=
+X-Google-Smtp-Source: ABdhPJwzl/cqfyeRR0V/XIPpsvkRPyO7UJEMqpff0bBIju6sfpniyq7R3kXhlLXU3kIoJ9egc6p5Lg==
+X-Received: by 2002:a05:651c:382:: with SMTP id e2mr32442416ljp.383.1626898572667;
+        Wed, 21 Jul 2021 13:16:12 -0700 (PDT)
+Received: from [192.168.1.102] ([178.176.77.130])
+        by smtp.gmail.com with ESMTPSA id f17sm2017548ljc.100.2021.07.21.13.16.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Jul 2021 13:16:12 -0700 (PDT)
+Subject: Re: [PATCH] ravb: Fix a typo in comment
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 3/3] arm64: dts: renesas: r9a07g044: Add CANFD node
-Date:   Wed, 21 Jul 2021 20:49:51 +0100
-Message-Id: <20210721194951.30983-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210721194951.30983-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20210721194951.30983-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andrew Lunn <andrew@lunn.ch>, Adam Ford <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210721181721.17314-1-biju.das.jz@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <3068c299-b0b7-b66c-006d-f5f7f58b9552@gmail.com>
+Date:   Wed, 21 Jul 2021 23:16:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210721181721.17314-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add CANFD node to R9A07G044 (RZ/G2L) SoC DTSI.
+Hello!
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 41 ++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+On 7/21/21 9:17 PM, Biju Das wrote:
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 9a7489dc70d1..51655c09f1f8 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -13,6 +13,13 @@
- 	#address-cells = <2>;
- 	#size-cells = <2>;
- 
-+	/* External CAN clock - to be overridden by boards that provide it */
-+	can_clk: can {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <0>;
-+	};
-+
- 	/* clock can be either from exclk or crystal oscillator (XIN/XOUT) */
- 	extal_clk: extal {
- 		compatible = "fixed-clock";
-@@ -89,6 +96,40 @@
- 			status = "disabled";
- 		};
- 
-+		canfd: can@10050000 {
-+			compatible = "renesas,r9a07g044-canfd", "renesas,rzg2l-canfd";
-+			reg = <0 0x10050000 0 0x8000>;
-+			interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 427 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 422 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 424 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 428 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 423 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 429 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g_err", "g_recc",
-+					  "ch0_err", "ch0_rec", "ch0_trx",
-+					  "ch1_err", "ch1_rec", "ch1_trx";
-+			clocks = <&cpg CPG_MOD R9A07G044_CANFD_PCLK>,
-+				 <&cpg CPG_CORE R9A07G044_CLK_P0_DIV2>,
-+				 <&can_clk>;
-+			clock-names = "fck", "canfd", "can_clk";
-+			assigned-clocks = <&cpg CPG_CORE R9A07G044_CLK_P0_DIV2>;
-+			assigned-clock-rates = <50000000>;
-+			resets = <&cpg R9A07G044_CANFD_RSTP_N>,
-+				 <&cpg R9A07G044_CANFD_RSTC_N>;
-+			reset-names = "rstp_n", "rstc_n";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+
-+			channel0 {
-+				status = "disabled";
-+			};
-+			channel1 {
-+				status = "disabled";
-+			};
-+		};
-+
- 		i2c0: i2c@10058000 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
--- 
-2.17.1
+> Fix the typo RX->TX in comment, as the code following the comment
+> process TX and not RX.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+
+MBR, Sergei
