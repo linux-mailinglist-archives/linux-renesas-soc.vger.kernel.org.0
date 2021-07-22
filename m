@@ -2,213 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 815393D25CC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jul 2021 16:30:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC5763D25E1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jul 2021 16:37:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230306AbhGVNtU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Jul 2021 09:49:20 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:54888 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232587AbhGVNtR (ORCPT
+        id S232383AbhGVN4m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Jul 2021 09:56:42 -0400
+Received: from mail-io1-f54.google.com ([209.85.166.54]:43785 "EHLO
+        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230343AbhGVN4m (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Jul 2021 09:49:17 -0400
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id AD7862267C;
-        Thu, 22 Jul 2021 14:29:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1626964191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=U4o+OvC4gPtYdeUG+CR2lruh1TcUIiRrjNqvgpSWIVk=;
-        b=Qj0GQZvIIwROYtp0cgK6xRc85xUR1PpiIIJyoCiSNsqowMbRH9pRZYMHwt0wxj1soEptpU
-        84IcZSivqooeFHlPFOolfAqB+0fUzudQbG8V7eNBMuqq5IPtNXqh3eJVBpDge6eddouodE
-        Z+hV2HeswxgoYz2hiKcrACzGt1KzM2k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1626964191;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=U4o+OvC4gPtYdeUG+CR2lruh1TcUIiRrjNqvgpSWIVk=;
-        b=zviaRZXkIXpEYlLfutcBHw98JbAYqZDcClL/K6iZhpV2vHFc30iUEBu9Fz8wrxjgvDAimU
-        hpTEg8AGua6qZ8Aw==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 77A1413C20;
-        Thu, 22 Jul 2021 14:29:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap1.suse-dmz.suse.de with ESMTPSA
-        id Xa+2G9+A+WAGDAAAGKfGzw
-        (envelope-from <tzimmermann@suse.de>); Thu, 22 Jul 2021 14:29:51 +0000
-Subject: Re: [PATCH v3] drm/shmobile: Convert to Linux IRQ interfaces
-To:     laurent.pinchart@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
-        daniel@ffwll.ch, sam@ravnborg.org, geert@linux-m68k.org,
-        sergei.shtylyov@gmail.com
-Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20210720080941.23646-1-tzimmermann@suse.de>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <d23b21bb-b4fd-1924-1d38-e9c55cfe3de3@suse.de>
-Date:   Thu, 22 Jul 2021 16:29:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210720080941.23646-1-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="TRCisgeqQlhB576myJWFjXI1ojGn2EdBN"
+        Thu, 22 Jul 2021 09:56:42 -0400
+Received: by mail-io1-f54.google.com with SMTP id k16so6568574ios.10;
+        Thu, 22 Jul 2021 07:37:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=S9oqNdeEmjzMYqfxKnMhuJAig6YozFawShXYrQNAVqU=;
+        b=X1hUm9xqwI8NrHwal/4X82uyONyH7SmwaiYih7A/hO06kBBU6OHw9zbjqaXfV7apzm
+         zwqjfchs80zkTBtfROpaL8WL+WYqM9w9Cuc80+qfduVZYxBDPYBZW3csqGas/MgprH7H
+         0Uy747xKsmGaAa+ErPdFNc8FcwjIAWbT1YHnMGUwAMZIpskdAtpzofA45Ze6dFMvhAXK
+         tXSP42jPf8WtzVxodZCVvRASyDcpyZQPzQCxpc10Ru4ylyFVGJGtGht8RD7wn8ItsXtu
+         zfdKVQsSqo3/XPHBqOPHbBIGKoT1g4k5MR5i2a4zk7KGx1KX8FhHlc5W/wo5NU85mOte
+         fTmw==
+X-Gm-Message-State: AOAM533lJUaWNb6bWH0Y/Tqr7TOMmi+kpWkHnkDP+QQqCiuEQpDO/Udk
+        /uKpgllRmPOiruVfY3haGA==
+X-Google-Smtp-Source: ABdhPJzNL5asZ1slIsXmHQueoDE6m957UCPdvi3vzleu5OadU6dIPbq9iYTm6K3LzeoCsL6DjZtBxA==
+X-Received: by 2002:a05:6602:584:: with SMTP id v4mr45750iox.181.1626964635747;
+        Thu, 22 Jul 2021 07:37:15 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id p9sm14626199ilj.65.2021.07.22.07.37.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jul 2021 07:37:15 -0700 (PDT)
+Received: (nullmailer pid 4183864 invoked by uid 1000);
+        Thu, 22 Jul 2021 14:37:12 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+In-Reply-To: <20210721191558.22484-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210721191558.22484-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210721191558.22484-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Add DT bindings for RZ/G2L pinctrl
+Date:   Thu, 22 Jul 2021 08:37:12 -0600
+Message-Id: <1626964632.914515.4183863.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---TRCisgeqQlhB576myJWFjXI1ojGn2EdBN
-Content-Type: multipart/mixed; boundary="q03qcOXK296VSQukyJFpbOncG3V0KutUd";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: laurent.pinchart@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie, daniel@ffwll.ch,
- sam@ravnborg.org, geert@linux-m68k.org, sergei.shtylyov@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <d23b21bb-b4fd-1924-1d38-e9c55cfe3de3@suse.de>
-Subject: Re: [PATCH v3] drm/shmobile: Convert to Linux IRQ interfaces
-References: <20210720080941.23646-1-tzimmermann@suse.de>
-In-Reply-To: <20210720080941.23646-1-tzimmermann@suse.de>
-
---q03qcOXK296VSQukyJFpbOncG3V0KutUd
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi, if there are no further comments on this patch, I'd like to merge it =
-
-soon.
-
-Am 20.07.21 um 10:09 schrieb Thomas Zimmermann:
-> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
-> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
-> don't benefit from using it.
->=20
-> v3:
-> 	* return error if (ret < 0) (Geert)
-> 	* remove duplicate error message (Geert)
-> v2:
-> 	* handle errors in platform_get_irq() (Geert, Sergei)
-> 	* store IRQ number in struct shmob_drm_device (Laurent)
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+On Wed, 21 Jul 2021 20:15:55 +0100, Lad Prabhakar wrote:
+> Add device tree binding documentation and header file for Renesas
+> RZ/G2L pinctrl.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->   drivers/gpu/drm/shmobile/shmob_drm_drv.c | 14 +++++++++-----
->   drivers/gpu/drm/shmobile/shmob_drm_drv.h |  1 +
->   2 files changed, 10 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm=
-/shmobile/shmob_drm_drv.c
-> index 0a02b7092c04..7db01904d18d 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -18,7 +18,6 @@
->   #include <drm/drm_crtc_helper.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem_cma_helper.h>
-> -#include <drm/drm_irq.h>
->   #include <drm/drm_probe_helper.h>
->   #include <drm/drm_vblank.h>
->  =20
-> @@ -130,7 +129,6 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
->  =20
->   static const struct drm_driver shmob_drm_driver =3D {
->   	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET,
-> -	.irq_handler		=3D shmob_drm_irq,
->   	DRM_GEM_CMA_DRIVER_OPS,
->   	.fops			=3D &shmob_drm_fops,
->   	.name			=3D "shmob-drm",
-> @@ -183,7 +181,7 @@ static int shmob_drm_remove(struct platform_device =
-*pdev)
->  =20
->   	drm_dev_unregister(ddev);
->   	drm_kms_helper_poll_fini(ddev);
-> -	drm_irq_uninstall(ddev);
-> +	free_irq(sdev->irq, ddev);
->   	drm_dev_put(ddev);
->  =20
->   	return 0;
-> @@ -258,7 +256,13 @@ static int shmob_drm_probe(struct platform_device =
-*pdev)
->   		goto err_modeset_cleanup;
->   	}
->  =20
-> -	ret =3D drm_irq_install(ddev, platform_get_irq(pdev, 0));
-> +	ret =3D platform_get_irq(pdev, 0);
-> +	if (ret < 0)
-> +		goto err_modeset_cleanup;
-> +	sdev->irq =3D ret;
-> +
-> +	ret =3D request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver->name,
-> +			  ddev);
->   	if (ret < 0) {
->   		dev_err(&pdev->dev, "failed to install IRQ handler\n");
->   		goto err_modeset_cleanup;
-> @@ -275,7 +279,7 @@ static int shmob_drm_probe(struct platform_device *=
-pdev)
->   	return 0;
->  =20
->   err_irq_uninstall:
-> -	drm_irq_uninstall(ddev);
-> +	free_irq(sdev->irq, ddev);
->   err_modeset_cleanup:
->   	drm_kms_helper_poll_fini(ddev);
->   err_free_drm_dev:
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.h b/drivers/gpu/drm=
-/shmobile/shmob_drm_drv.h
-> index 80dc4b1020aa..4964ddd5ab74 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.h
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.h
-> @@ -29,6 +29,7 @@ struct shmob_drm_device {
->   	u32 lddckr;
->   	u32 ldmt1r;
->  =20
-> +	unsigned int irq;
->   	spinlock_t irq_lock;		/* Protects hardware LDINTR register */
->  =20
->   	struct drm_device *ddev;
->=20
+>  .../pinctrl/renesas,rzg2l-pinctrl.yaml        | 155 ++++++++++++++++++
+>  include/dt-bindings/pinctrl/rzg2l-pinctrl.h   |  23 +++
+>  2 files changed, 178 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+>  create mode 100644 include/dt-bindings/pinctrl/rzg2l-pinctrl.h
+> 
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
+yamllint warnings/errors:
 
---q03qcOXK296VSQukyJFpbOncG3V0KutUd--
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.example.dts:29.34-35 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:380: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1418: dt_binding_check] Error 2
+\ndoc reference errors (make refcheckdocs):
 
---TRCisgeqQlhB576myJWFjXI1ojGn2EdBN
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+See https://patchwork.ozlabs.org/patch/1508385
 
------BEGIN PGP SIGNATURE-----
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmD5gN4FAwAAAAAACgkQlh/E3EQov+AB
-IxAAuQZ8eg3j41osqgTIUzwubOeS4v/g2r/KTkvspHRSRkIx3QfjuteA7puX68vvLsxymR1gCzwj
-PNyFoCjtpclYAFkpoNDYIfPmKD7PNeCaMgTj8ONuBBYsbwgV+m+IV1Zhgb3uXaM2pXf3RSetvMrU
-/nB3PIGvtNM9VIPvRDxigD3yrnii80JNao88ZyoGdSRLP2XRKL4dMI0B2o2y3/oqPlmYs+58K/He
-FCL9oOz3Fcj3SaGJxD2lswcCkgkFUphmxb6cO4+9jvvukl20V3OkE1x+T2/0fNLKNPAZVYHtVISz
-vhmpy5gW0yHRUT1Zz7LL3ZupWM+3NQx7VEyMDu1cgWM+FXPEEB6wXW8NolbcYBjwUMNyUiOmBy+C
-3CJzePIybfoL/zkCJefDvqJw1yyX+ow8xZhFnvzbjHwBf9876ep2q9fdQ8l1Ibye3BnY18EVg8lx
-cxwDeIiu7c7lDCDXRGjSGCCQUaCHc3kVey1s2SLYJKTgQOTsJR85yhy90qq1zIRzXTVMJENr7AX0
-CzqPchCFjbv04X8YFehS/5F9R2DIa46kO90TXjAt3sCCM6rmZEw4c0gmOcck2M8R4iNrKKW9Yinc
-9eR0HEGZzRZ7gj6snEHbxGc3kuTQnRRo9J5nxwofCpcdaYUR/r/jDYua0JyczMv4jZMSZ8EAnas9
-QF4=
-=U+uM
------END PGP SIGNATURE-----
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
---TRCisgeqQlhB576myJWFjXI1ojGn2EdBN--
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
