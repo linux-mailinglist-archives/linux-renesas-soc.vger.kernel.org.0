@@ -2,69 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96F583D2096
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jul 2021 11:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E3053D2549
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jul 2021 16:14:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231406AbhGVIb4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Jul 2021 04:31:56 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:50751 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231420AbhGVIbi (ORCPT
+        id S232228AbhGVNd0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Jul 2021 09:33:26 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:15283 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232105AbhGVNdZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Jul 2021 04:31:38 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id ED93B200017;
-        Thu, 22 Jul 2021 09:12:10 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 8/8] DNI: arm64: dts: renesas: eagle: Include eagle-gmsl
-Date:   Thu, 22 Jul 2021 11:12:39 +0200
-Message-Id: <20210722091239.26451-9-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210722091239.26451-1-jacopo+renesas@jmondi.org>
-References: <20210722091239.26451-1-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Thu, 22 Jul 2021 09:33:25 -0400
+X-IronPort-AV: E=Sophos;i="5.84,261,1620658800"; 
+   d="scan'208";a="88463911"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 22 Jul 2021 23:13:59 +0900
+Received: from localhost.localdomain (unknown [10.226.92.164])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 65D6D401224D;
+        Thu, 22 Jul 2021 23:13:55 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH net-next 00/18] Add Gigabit Ethernet driver support
+Date:   Thu, 22 Jul 2021 15:13:33 +0100
+Message-Id: <20210722141351.13668-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+The DMAC and EMAC blocks of Gigabit Ethernet IP is almost similar to Ethernet AVB.
 
-Include the eagle-gmsl.dtsi to enable GMSL camera support on the
-Eagle-V3M platform.
+The Gigabit Etherner IP consists of Ethernet controller (E-MAC), Internal TCP/IP Offload Engine (TOE) and Dedicated Direct memory access controller (DMAC).
 
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- arch/arm64/boot/dts/renesas/r8a77970-eagle.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+With few changes in driver, we can support Gigabit ethernet driver as well.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-index 05e66467bc0a..542797288e9d 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-@@ -376,3 +376,11 @@ &scif0 {
- 
- 	status = "okay";
- };
-+
-+/* FAKRA Overlay */
-+#define GMSL_CAMERA_RDACM20
-+#define GMSL_CAMERA_0
-+#define GMSL_CAMERA_1
-+#define GMSL_CAMERA_2
-+#define GMSL_CAMERA_3
-+#include "gmsl-cameras.dtsi"
+This patch series is aims to support the same
+
+RFC->V1
+  * Incorporated feedback from Andrew, Sergei, Geert and Prabhakar
+  * https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=515525
+
+Biju Das (18):
+  dt-bindings: net: renesas,etheravb: Document Gigabit Ethernet IP
+  drivers: clk: renesas: rzg2l-cpg: Add support to handle MUX clocks
+  drivers: clk: renesas: r9a07g044-cpg: Add ethernet clock sources
+  drivers: clk: renesas: r9a07g044-cpg: Add GbEthernet clock/reset
+  ravb: Replace chip type with a structure for driver data
+  ravb: Factorise ptp feature
+  ravb: Add features specific to R-Car Gen3
+  ravb: Add R-Car common features
+  ravb: Factorise ravb_ring_free function
+  ravb: Factorise ravb_ring_format function
+  ravb: Factorise ravb_ring_init function
+  ravb: Factorise {emac,dmac} init function
+  ravb: Factorise ravb_rx function
+  ravb: Factorise ravb_adjust_link function
+  ravb: Factorise ravb_set_features
+  ravb: Add reset support
+  ravb: Add GbEthernet driver support
+  arm64: dts: renesas: r9a07g044: Add GbEther nodes
+
+ .../bindings/net/renesas,etheravb.yaml        |  57 +-
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    |  42 +
+ drivers/clk/renesas/r9a07g044-cpg.c           |  27 +
+ drivers/clk/renesas/rzg2l-cpg.c               |  24 +
+ drivers/clk/renesas/rzg2l-cpg.h               |  15 +
+ drivers/net/ethernet/renesas/ravb.h           | 112 ++-
+ drivers/net/ethernet/renesas/ravb_main.c      | 922 +++++++++++++++---
+ 7 files changed, 1031 insertions(+), 168 deletions(-)
+
 -- 
-2.32.0
+2.17.1
 
