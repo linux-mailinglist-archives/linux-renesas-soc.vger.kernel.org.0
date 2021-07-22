@@ -2,140 +2,259 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6E613D2DB6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jul 2021 22:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5306D3D2DDE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jul 2021 22:42:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230394AbhGVTvT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Jul 2021 15:51:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45580 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230272AbhGVTvT (ORCPT
+        id S230429AbhGVUBv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Jul 2021 16:01:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47764 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230393AbhGVUBv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Jul 2021 15:51:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A1E9D60EB5;
-        Thu, 22 Jul 2021 20:31:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626985913;
-        bh=5iqFA1lbsFotnXbfFAiYSt65yYKjjlDAwbAuyjAOQ5U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OZfEx455Y0eIwzhbtcoCKkmYj6q44ydHpWJRGYwR7G/XutImK6W1CAwjjq3MQ0KtN
-         4aV0enap51LvQJiDC+6KNnKnqE1XYc/9jorSXpbPVO0hgFE5Mb8ZL98Qh/J/LCY98w
-         AkHsz+Hxy4D4xFjDiDu7P3MjgQuRipMQi2YVmNby0iBSvGBX6V0CmrXY3mfHTjTIvt
-         aXbzBYg0BcNI9uKzHNDAOAkrzA2QcAaIf0C7r+Ocp2WThVKyiWTxP28bYVikueQofs
-         1y+QXElAcdwKdWGInaRKmaq4oqp06mBcR698NvQP5fdzN/emL+BigDG6aN9hnmmrRZ
-         9/3+FYCker6BQ==
-Received: by pali.im (Postfix)
-        id 906A3805; Thu, 22 Jul 2021 22:31:51 +0200 (CEST)
-Date:   Thu, 22 Jul 2021 22:31:51 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
+        Thu, 22 Jul 2021 16:01:51 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67A64C061575;
+        Thu, 22 Jul 2021 13:42:24 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id y42so10481946lfa.3;
+        Thu, 22 Jul 2021 13:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ARK0i0Bp9fQeNW3MXicGQaonPg0dq6jRH3wg0BWwTn4=;
+        b=WZgW4ag53VAMrGXAMpwI9NQ6N4Tip5aqiFghCld6Oy5L3xYIoDAL9uKS3yJTd/k2CQ
+         BljcGXsaEqzdb+QRgdDUoonr7naezV07fMpRm0gAX6rRiB/gTNlLsmaZ9/SkiN6Abcmm
+         b457Hu4KHBTsytE3WE3iuXhtL6eVEp3oWFboTTPyqgjRWWagEzL5mg2DAqTgPnSvm3eH
+         pm3QRtr868U+Pfn3RCmOwQwHu1bMM3HCsojsyXRlxot5uSKUwBWyl9zsUKtv/C0T9Lxm
+         RtIOLaaMRLG1W6dqxpK+1no8OeX317K/Vic/7kRkv4c20R562IKjG4Vgh4oLcMwCmYGn
+         +F+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ARK0i0Bp9fQeNW3MXicGQaonPg0dq6jRH3wg0BWwTn4=;
+        b=XAJCusZxQ4k7P/WNQfc2HwYLWhnpNf35hPgGwk3nM03BW1tT9kBnRsaLpHgOanlpco
+         dydM+KoK+lwYLz+CwxCnPPKVC7X+V1MP/6kspwSLrBeC1Pg6u+EmQIy8jQ5fJtY2g4GS
+         yRWxmroV/meCwQYwabkIjL2gGp4BIEWOZxBZBREK44NjTtl2qpiTcHAcO0DHYXPE8adB
+         3Z2BvRVmXkFdG1UvzeuIg89ZgzgChqBiGU/EuvQ/YVaQGQiOK7xVSpl9SVZLlhP0p275
+         q3IVRPVurMMnEvmJHkB6ieKeweiy1fOw6obYl28ymZreI36MGsg/vGux6xsC7QMdIlpP
+         GhyQ==
+X-Gm-Message-State: AOAM530zKUQk2LEwmK1JZRdt511G5ZPfzJLdx8kbLpzJpu61NFTG+Wfw
+        TrYwUCSbBJkoa3oEixw3wb4=
+X-Google-Smtp-Source: ABdhPJybMvMZkieirq+YPEKqxwh9ShrXQ+Su1cIiIAaLIGKvJ2TT2pLL0bdeaMuM0VCGPWjFAHFpgg==
+X-Received: by 2002:a05:6512:30f:: with SMTP id t15mr775906lfp.399.1626986542561;
+        Thu, 22 Jul 2021 13:42:22 -0700 (PDT)
+Received: from [192.168.1.102] ([31.173.84.209])
+        by smtp.gmail.com with ESMTPSA id r15sm3202488ljk.92.2021.07.22.13.42.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Jul 2021 13:42:22 -0700 (PDT)
+Subject: Re: [PATCH net-next 05/18] ravb: Replace chip type with a structure
+ for driver data
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH V6] PCI: rcar: Add L1 link state fix into data abort hook
-Message-ID: <20210722203151.heytxzup2uti4noi@pali>
-References: <20210514200549.431275-1-marek.vasut@gmail.com>
- <20210717173334.GA2232818@bjorn-Precision-5520>
- <20210719085953.GA17481@lpieralisi>
- <20210719172340.vvtnddbli2vgxndi@pali>
- <62e8d92a-806b-15fb-672d-2519d5a2fa4b@gmail.com>
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210722141351.13668-1-biju.das.jz@bp.renesas.com>
+ <20210722141351.13668-6-biju.das.jz@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <09e06a00-6b9e-c8b8-e5c3-67d82d900a74@gmail.com>
+Date:   Thu, 22 Jul 2021 23:42:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20210722141351.13668-6-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <62e8d92a-806b-15fb-672d-2519d5a2fa4b@gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Monday 19 July 2021 20:39:13 Marek Vasut wrote:
-> On 7/19/21 7:23 PM, Pali Rohár wrote:
-> 
-> [...]
-> 
-> > > > > The R-Car PCIe controller is capable of handling L0s/L1 link states.
-> > > > > While the controller can enter and exit L0s link state, and exit L1
-> > > > > link state, without any additional action from the driver, to enter
-> > > > > L1 link state, the driver must complete the link state transition by
-> > > > > issuing additional commands to the controller.
-> > > > > 
-> > > > > The problem is, this transition is not atomic. The controller sets
-> > > > > PMEL1RX bit in PMSR register upon reception of PM_ENTER_L1 DLLP from
-> > > > > the PCIe card, but then the controller enters some sort of inbetween
-> > > > > state. The driver must detect this condition and complete the link
-> > > > > state transition, by setting L1IATN bit in PMCTLR and waiting for
-> > > > > the link state transition to complete.
-> > > > > 
-> > > > > If a PCIe access happens inside this window, where the controller
-> > > > > is between L0 and L1 link states, the access generates a fault and
-> > > > > the ARM 'imprecise external abort' handler is invoked.
-> > 
-> > And if PCIe MMIO access does not happen, what fixes this issue?
-> 
-> Then you have no problem because you don't hit this fault.
+Hello!
 
-When controller stucks in some "unknown" state you have a problem. And
-it does not matter if you are doing MMIO or not. If controller is in
-Recovery or Configuration state then endpoint card cannot send neither
-interrupt nor memory read / write messages to system.
+On 7/22/21 5:13 PM, Biju Das wrote:
 
-Driver for endpoint card does not have to do active polling to check if
-something in endpoint card happened. It can just wait for interrupt and
-then do some stuff (which is IIRC preferred design if events are not too
-frequent). And in this case card is in dead state and you have this
-problem, right?
-
-> > In this
-> > patch is implemented only arm32 external abort hook handler (which is
-> > called only when PCIe MMIO access happens and aborts).
+> The DMAC and EMAC blocks of Gigabit Ethernet IP is almost similar to
+> Ethernet AVB. With few changes in driver we can support both the IP.
 > 
-> Yes, for the aarch64 rcar the same fix is implemented in atf (see below).
+> This patch is in preparation for supporting the same by replacing chip
+> type by a structure with values, feature bits and function pointers.
 > 
-> > > > > Just like other PCI controller drivers, here we hook the fault handler,
-> > > > > perform the fixup to help the controller enter L1 link state, and then
-> > > > > restart the instruction which triggered the fault. Since the controller
-> > > > > is in L1 link state now, the link can exit from L1 link state to L0 and
-> > > > > successfully complete the access.
-> > 
-> > Link cannot directly goes to L0 from L1. It first goes to Recovery state
-> > and in this state card can "disconnect" or reset...
-> > 
-> > What would happen if PCIe MMIO access is issued when link is not in some
-> > L* state? (This can be manually triggered by PCIe Hot Reset - toggling
-> > Secondary Bus Reset bit in Bridge Control register on parent PCIe Bridge
-> > device) Is R-Car working in this case and does not crash?
+> Currently only values is added to structure and later patches will add
+> features and function pointers.
 > 
-> This seems to be exactly the situation the commit message describes -- the
-> controller is stuck between L states and needs manual register write to
-> proceed.
-
-No, I asked what happen when is *not* in L state. Commit message does
-not describe it.
-
-So what happen if you try to do MMIO e.g. during Hot Reset state? (This
-state can be easily "forced", so easy to test) Does it crash too (and
-therefore needs some other "hack")? Or it is working fine without any
-crash? Read operation in most cases returns all-ones and write just do
-nothing (as write has no response).
-
-> [...]
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      | 14 +++++
+>  drivers/net/ethernet/renesas/ravb_main.c | 76 +++++++++++++++++-------
+>  2 files changed, 67 insertions(+), 23 deletions(-)
 > 
-> > > > To be clear, I'm not objecting to the patch.  It's a hardware problem
-> > > > and we should work around it as best we can.
-> > 
-> > I'm not sure if current API of hook_fault_code or rather whole usage of
-> > it is prepared to expand into more and more drivers. Last time I looked
-> > at this arm32 part, it was possible to register only one callback from
-> > driver. So extending usage of this hook API can result that two drivers
-> > start fighting who register it earlier...
-> 
-> There doesn't seem to be much ongoing HW development on the arm32 r-car, so
-> I don't expect this list of hooks to grow much on this platform.
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index 80e62ca2e3d3..0ed21262f26b 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -988,6 +988,18 @@ enum ravb_chip_id {
+>  	RCAR_GEN3,
+>  };
+>  
+> +struct ravb_drv_data {
 
-For R-Car it then fine. This was just general comment as arm32 is still
-actively developed platform.
+   I'd rather suggest *struct* ravb_hw_info... This is hardly a driver data, more like
+hwrdware's one. :-)
+
+> +	netdev_features_t net_features;
+> +	netdev_features_t net_hw_features;
+> +	const char (*gstrings_stats)[ETH_GSTRING_LEN];
+> +	size_t gstrings_size;
+> +	size_t stats_len;
+> +	u32 num_gstat_queue;
+> +	size_t skb_sz;
+> +	u8 num_tx_desc;
+> +	enum ravb_chip_id chip_id;
+
+   Mhm, I'd expect that chip_id is no longer needed with the feature structs... 
+
+[...]
+> @@ -1040,6 +1052,8 @@ struct ravb_private {
+>  	unsigned txcidm:1;		/* TX Clock Internal Delay Mode */
+>  	unsigned rgmii_override:1;	/* Deprecated rgmii-*id behavior */
+>  	int num_tx_desc;		/* TX descriptors per packet */
+> +
+> +	const struct ravb_drv_data *info;
+
+   So data or info? :-)
+
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 805397088850..84ebd6fef711 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -1176,9 +1179,12 @@ static void ravb_get_ethtool_stats(struct net_device *ndev,
+>  
+>  static void ravb_get_strings(struct net_device *ndev, u32 stringset, u8 *data)
+>  {
+> +	struct ravb_private *priv = netdev_priv(ndev);
+> +	const struct ravb_drv_data *info = priv->info;
+> +
+>  	switch (stringset) {
+>  	case ETH_SS_STATS:
+> -		memcpy(data, ravb_gstrings_stats, sizeof(ravb_gstrings_stats));
+> +		memcpy(data, info->gstrings_stats, info->gstrings_size);
+>  		break;
+>  	}
+>  }
+> @@ -1924,12 +1930,36 @@ static int ravb_mdio_release(struct ravb_private *priv)
+>  	return 0;
+>  }
+>  
+> +static const struct ravb_drv_data ravb_gen3_data = {
+> +	.net_features = NETIF_F_RXCSUM,
+> +	.net_hw_features = NETIF_F_RXCSUM,
+> +	.gstrings_stats = ravb_gstrings_stats,
+> +	.gstrings_size = sizeof(ravb_gstrings_stats),
+> +	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
+> +	.num_gstat_queue = NUM_RX_QUEUE,
+> +	.skb_sz = RX_BUF_SZ + RAVB_ALIGN - 1,
+> +	.num_tx_desc = NUM_TX_DESC_GEN3,
+> +	.chip_id = RCAR_GEN3,
+> +};
+> +
+> +static const struct ravb_drv_data ravb_gen2_data = {
+> +	.net_features = NETIF_F_RXCSUM,
+> +	.net_hw_features = NETIF_F_RXCSUM,
+
+   Mhm, why have the fields that don't change from SoC to SoC anyway?
+I do think they should be added when a new SoC support is added...
+
+> +	.gstrings_stats = ravb_gstrings_stats,
+> +	.gstrings_size = sizeof(ravb_gstrings_stats),
+> +	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
+
+   Same question...
+
+> +	.num_gstat_queue = NUM_RX_QUEUE,
+> +	.skb_sz = RX_BUF_SZ + RAVB_ALIGN - 1,
+
+   Again why?
+
+> +	.num_tx_desc = NUM_TX_DESC_GEN2,
+> +	.chip_id = RCAR_GEN2,
+> +};
+> +
+[...]
+> @@ -2052,15 +2082,15 @@ static int ravb_probe(struct platform_device *pdev)
+>  	if (!ndev)
+>  		return -ENOMEM;
+>  
+> -	ndev->features = NETIF_F_RXCSUM;
+> -	ndev->hw_features = NETIF_F_RXCSUM;
+> +	info = of_device_get_match_data(&pdev->dev);
+> +
+> +	ndev->features = info->net_features;
+> +	ndev->hw_features = info->net_hw_features;
+>  
+>  	pm_runtime_enable(&pdev->dev);
+>  	pm_runtime_get_sync(&pdev->dev);
+>  
+> -	chip_id = (enum ravb_chip_id)of_device_get_match_data(&pdev->dev);
+> -
+> -	if (chip_id == RCAR_GEN3)
+> +	if (info->chip_id == RCAR_GEN3)
+
+   Ugh...
+
+>  		irq = platform_get_irq_byname(pdev, "ch22");
+>  	else
+>  		irq = platform_get_irq(pdev, 0);
+[...]
+> @@ -2099,7 +2130,7 @@ static int ravb_probe(struct platform_device *pdev)
+>  	priv->avb_link_active_low =
+>  		of_property_read_bool(np, "renesas,ether-link-active-low");
+>  
+> -	if (chip_id == RCAR_GEN3) {
+> +	if (info->chip_id == RCAR_GEN3) {
+
+   Ugh...
+
+>  		irq = platform_get_irq_byname(pdev, "ch24");
+>  		if (irq < 0) {
+>  			error = irq;
+[...]
+> @@ -2184,7 +2214,7 @@ static int ravb_probe(struct platform_device *pdev)
+>  	INIT_LIST_HEAD(&priv->ts_skb_list);
+>  
+>  	/* Initialise PTP Clock driver */
+> -	if (chip_id != RCAR_GEN2)
+> +	if (info->chip_id != RCAR_GEN2)
+>  		ravb_ptp_init(ndev, pdev);
+
+   Ugh...
+
+>  
+>  	/* Debug message level */
+> @@ -2232,7 +2262,7 @@ static int ravb_probe(struct platform_device *pdev)
+>  			  priv->desc_bat_dma);
+>  
+>  	/* Stop PTP Clock driver */
+> -	if (chip_id != RCAR_GEN2)
+> +	if (info->chip_id != RCAR_GEN2)
+>  		ravb_ptp_stop(ndev);
+
+  Ugh...
+
+
+>  out_disable_refclk:
+>  	clk_disable_unprepare(priv->refclk);
+
+MBR, Sergei
