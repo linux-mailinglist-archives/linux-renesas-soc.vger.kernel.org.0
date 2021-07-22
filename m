@@ -2,93 +2,213 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D29273D2594
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jul 2021 16:21:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 815393D25CC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jul 2021 16:30:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232170AbhGVNky (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Jul 2021 09:40:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43018 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232332AbhGVNjc (ORCPT
+        id S230306AbhGVNtU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Jul 2021 09:49:20 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:54888 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232587AbhGVNtR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Jul 2021 09:39:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BFE616135B;
-        Thu, 22 Jul 2021 14:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626963601;
-        bh=mJ3JdT0Jl0HeZBBxWkcKK7bwXZcdzgqg5y3jXt3+kZs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ENCgLVRWTYWJGmbpAbWSfCDWo21E52HEXh7c50OdL/+YGGo4tdSiNuuo+dOLYkEsX
-         6QIfpekMB7Dy5uaOoI6/ve7Fg4ujPmH0iVrjeO0O/a88Y+Nhul0jarTbME/G8yYD3j
-         EdVDQnDzwW9ZDYTiD5Xu9lahxyOo63mZDqk1angMstTmSTOPOfy1JREfjZM3A4SdTH
-         u+PA7jaWbcQAcZAgP04bniCthOJbRwKBxHjrNzXVpLk52i7IrBVVpGOAI6x7OXjKM/
-         ynpK5INQnHPg5ZMtvF7nwE4uiV2uqb2pG5Dxth9b80+AsYiJPCKy/QgPgCfciOU+AN
-         IvtT5iQbHTfQg==
-Received: by mail-ej1-f51.google.com with SMTP id qa36so8593607ejc.10;
-        Thu, 22 Jul 2021 07:20:01 -0700 (PDT)
-X-Gm-Message-State: AOAM530jrq2ylAhf8X19GC7KWhr62T4XEF5Lkx1MsS07a24Hul/YYAq7
-        Pq8ecTOrQj/hCXf8S4y72vQ4XuiZbGlluw8DbA==
-X-Google-Smtp-Source: ABdhPJzPx2tAkBfnTYAJdL+pjejcJt5SFRuqenmexCc8UCCTJ3rc8BOHTUiTGbeTgwSbLXr4S6GftAjXVwj1/pePKQI=
-X-Received: by 2002:a17:906:28d1:: with SMTP id p17mr153498ejd.130.1626963600297;
- Thu, 22 Jul 2021 07:20:00 -0700 (PDT)
+        Thu, 22 Jul 2021 09:49:17 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id AD7862267C;
+        Thu, 22 Jul 2021 14:29:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1626964191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=U4o+OvC4gPtYdeUG+CR2lruh1TcUIiRrjNqvgpSWIVk=;
+        b=Qj0GQZvIIwROYtp0cgK6xRc85xUR1PpiIIJyoCiSNsqowMbRH9pRZYMHwt0wxj1soEptpU
+        84IcZSivqooeFHlPFOolfAqB+0fUzudQbG8V7eNBMuqq5IPtNXqh3eJVBpDge6eddouodE
+        Z+hV2HeswxgoYz2hiKcrACzGt1KzM2k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1626964191;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=U4o+OvC4gPtYdeUG+CR2lruh1TcUIiRrjNqvgpSWIVk=;
+        b=zviaRZXkIXpEYlLfutcBHw98JbAYqZDcClL/K6iZhpV2vHFc30iUEBu9Fz8wrxjgvDAimU
+        hpTEg8AGua6qZ8Aw==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 77A1413C20;
+        Thu, 22 Jul 2021 14:29:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap1.suse-dmz.suse.de with ESMTPSA
+        id Xa+2G9+A+WAGDAAAGKfGzw
+        (envelope-from <tzimmermann@suse.de>); Thu, 22 Jul 2021 14:29:51 +0000
+Subject: Re: [PATCH v3] drm/shmobile: Convert to Linux IRQ interfaces
+To:     laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@ffwll.ch, sam@ravnborg.org, geert@linux-m68k.org,
+        sergei.shtylyov@gmail.com
+Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20210720080941.23646-1-tzimmermann@suse.de>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <d23b21bb-b4fd-1924-1d38-e9c55cfe3de3@suse.de>
+Date:   Thu, 22 Jul 2021 16:29:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210719182001.1573-1-alexander.helms.jy@renesas.com>
- <20210719182001.1573-2-alexander.helms.jy@renesas.com> <20210719224804.GA2768983@robh.at.kernel.org>
- <6fbb307e-8835-224e-7912-2b956985a713@renesas.com>
-In-Reply-To: <6fbb307e-8835-224e-7912-2b956985a713@renesas.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 22 Jul 2021 08:19:47 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+2tpjNffzNPDa2XSZWAk3B-HS-bF7EmZ_j0t_=nfEWvg@mail.gmail.com>
-Message-ID: <CAL_Jsq+2tpjNffzNPDa2XSZWAk3B-HS-bF7EmZ_j0t_=nfEWvg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] dt-bindings: Add binding for Renesas 8T49N241
-To:     Alex Helms <alexander.helms.jy@renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>, david.cater.jc@renesas.com,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210720080941.23646-1-tzimmermann@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="TRCisgeqQlhB576myJWFjXI1ojGn2EdBN"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 20, 2021 at 10:58 AM Alex Helms
-<alexander.helms.jy@renesas.com> wrote:
->
-> On 7/19/2021 3:48 PM, Rob Herring wrote:
-> > On Mon, 19 Jul 2021 11:20:00 -0700, Alex Helms wrote:
-> >> Renesas 8T49N241 has 4 outputs, 1 integral and 3 fractional dividers.
-> >> The 8T49N241 accepts up to two differential or single-ended input clocks
-> >> and a fundamental-mode crystal input. The internal PLL can lock to either
-> >> of the input reference clocks or to the crystal to behave as a frequency
-> >> synthesizer.
-> >>
-> >> Signed-off-by: Alex Helms <alexander.helms.jy@renesas.com>
-> >> ---
-> >>  .../bindings/clock/renesas,8t49n241.yaml      | 190 ++++++++++++++++++
-> >>  MAINTAINERS                                   |   6 +
-> >>  2 files changed, 196 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
-> >>
-> >
-> >
-> > Please add Acked-by/Reviewed-by tags when posting new versions. However,
-> > there's no need to repost patches *only* to add the tags. The upstream
-> > maintainer will do that for acks received on the version they apply.
-> >
-> > If a tag was not added on purpose, please state why and what changed.
-> >
->
-> Thank you for the info. I'm new to the kernel process and appreciate your advice.
->
-> I felt uncomfortable adding your Reviewed-By tag but since there were no changes to the dt
-> portion of the patch, in retrospect I guess I should have added it. I'll keep this in mind
-> for the future. Is there anything I need to do for this patch?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--TRCisgeqQlhB576myJWFjXI1ojGn2EdBN
+Content-Type: multipart/mixed; boundary="q03qcOXK296VSQukyJFpbOncG3V0KutUd";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: laurent.pinchart@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie, daniel@ffwll.ch,
+ sam@ravnborg.org, geert@linux-m68k.org, sergei.shtylyov@gmail.com
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <d23b21bb-b4fd-1924-1d38-e9c55cfe3de3@suse.de>
+Subject: Re: [PATCH v3] drm/shmobile: Convert to Linux IRQ interfaces
+References: <20210720080941.23646-1-tzimmermann@suse.de>
+In-Reply-To: <20210720080941.23646-1-tzimmermann@suse.de>
 
-For v5, no. If there's a v6 posted, then add any tags.
+--q03qcOXK296VSQukyJFpbOncG3V0KutUd
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Rob
+Hi, if there are no further comments on this patch, I'd like to merge it =
+
+soon.
+
+Am 20.07.21 um 10:09 schrieb Thomas Zimmermann:
+> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+> don't benefit from using it.
+>=20
+> v3:
+> 	* return error if (ret < 0) (Geert)
+> 	* remove duplicate error message (Geert)
+> v2:
+> 	* handle errors in platform_get_irq() (Geert, Sergei)
+> 	* store IRQ number in struct shmob_drm_device (Laurent)
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>   drivers/gpu/drm/shmobile/shmob_drm_drv.c | 14 +++++++++-----
+>   drivers/gpu/drm/shmobile/shmob_drm_drv.h |  1 +
+>   2 files changed, 10 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm=
+/shmobile/shmob_drm_drv.c
+> index 0a02b7092c04..7db01904d18d 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> @@ -18,7 +18,6 @@
+>   #include <drm/drm_crtc_helper.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem_cma_helper.h>
+> -#include <drm/drm_irq.h>
+>   #include <drm/drm_probe_helper.h>
+>   #include <drm/drm_vblank.h>
+>  =20
+> @@ -130,7 +129,6 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
+>  =20
+>   static const struct drm_driver shmob_drm_driver =3D {
+>   	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET,
+> -	.irq_handler		=3D shmob_drm_irq,
+>   	DRM_GEM_CMA_DRIVER_OPS,
+>   	.fops			=3D &shmob_drm_fops,
+>   	.name			=3D "shmob-drm",
+> @@ -183,7 +181,7 @@ static int shmob_drm_remove(struct platform_device =
+*pdev)
+>  =20
+>   	drm_dev_unregister(ddev);
+>   	drm_kms_helper_poll_fini(ddev);
+> -	drm_irq_uninstall(ddev);
+> +	free_irq(sdev->irq, ddev);
+>   	drm_dev_put(ddev);
+>  =20
+>   	return 0;
+> @@ -258,7 +256,13 @@ static int shmob_drm_probe(struct platform_device =
+*pdev)
+>   		goto err_modeset_cleanup;
+>   	}
+>  =20
+> -	ret =3D drm_irq_install(ddev, platform_get_irq(pdev, 0));
+> +	ret =3D platform_get_irq(pdev, 0);
+> +	if (ret < 0)
+> +		goto err_modeset_cleanup;
+> +	sdev->irq =3D ret;
+> +
+> +	ret =3D request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver->name,
+> +			  ddev);
+>   	if (ret < 0) {
+>   		dev_err(&pdev->dev, "failed to install IRQ handler\n");
+>   		goto err_modeset_cleanup;
+> @@ -275,7 +279,7 @@ static int shmob_drm_probe(struct platform_device *=
+pdev)
+>   	return 0;
+>  =20
+>   err_irq_uninstall:
+> -	drm_irq_uninstall(ddev);
+> +	free_irq(sdev->irq, ddev);
+>   err_modeset_cleanup:
+>   	drm_kms_helper_poll_fini(ddev);
+>   err_free_drm_dev:
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.h b/drivers/gpu/drm=
+/shmobile/shmob_drm_drv.h
+> index 80dc4b1020aa..4964ddd5ab74 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.h
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.h
+> @@ -29,6 +29,7 @@ struct shmob_drm_device {
+>   	u32 lddckr;
+>   	u32 ldmt1r;
+>  =20
+> +	unsigned int irq;
+>   	spinlock_t irq_lock;		/* Protects hardware LDINTR register */
+>  =20
+>   	struct drm_device *ddev;
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--q03qcOXK296VSQukyJFpbOncG3V0KutUd--
+
+--TRCisgeqQlhB576myJWFjXI1ojGn2EdBN
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmD5gN4FAwAAAAAACgkQlh/E3EQov+AB
+IxAAuQZ8eg3j41osqgTIUzwubOeS4v/g2r/KTkvspHRSRkIx3QfjuteA7puX68vvLsxymR1gCzwj
+PNyFoCjtpclYAFkpoNDYIfPmKD7PNeCaMgTj8ONuBBYsbwgV+m+IV1Zhgb3uXaM2pXf3RSetvMrU
+/nB3PIGvtNM9VIPvRDxigD3yrnii80JNao88ZyoGdSRLP2XRKL4dMI0B2o2y3/oqPlmYs+58K/He
+FCL9oOz3Fcj3SaGJxD2lswcCkgkFUphmxb6cO4+9jvvukl20V3OkE1x+T2/0fNLKNPAZVYHtVISz
+vhmpy5gW0yHRUT1Zz7LL3ZupWM+3NQx7VEyMDu1cgWM+FXPEEB6wXW8NolbcYBjwUMNyUiOmBy+C
+3CJzePIybfoL/zkCJefDvqJw1yyX+ow8xZhFnvzbjHwBf9876ep2q9fdQ8l1Ibye3BnY18EVg8lx
+cxwDeIiu7c7lDCDXRGjSGCCQUaCHc3kVey1s2SLYJKTgQOTsJR85yhy90qq1zIRzXTVMJENr7AX0
+CzqPchCFjbv04X8YFehS/5F9R2DIa46kO90TXjAt3sCCM6rmZEw4c0gmOcck2M8R4iNrKKW9Yinc
+9eR0HEGZzRZ7gj6snEHbxGc3kuTQnRRo9J5nxwofCpcdaYUR/r/jDYua0JyczMv4jZMSZ8EAnas9
+QF4=
+=U+uM
+-----END PGP SIGNATURE-----
+
+--TRCisgeqQlhB576myJWFjXI1ojGn2EdBN--
