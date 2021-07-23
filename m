@@ -2,48 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F40FE3D3499
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jul 2021 08:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FBE53D34AE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jul 2021 08:28:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233907AbhGWFnJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Jul 2021 01:43:09 -0400
-Received: from mail-eopbgr1400108.outbound.protection.outlook.com ([40.107.140.108]:27472
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        id S233966AbhGWFsS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Jul 2021 01:48:18 -0400
+Received: from mail-eopbgr1410128.outbound.protection.outlook.com ([40.107.141.128]:45887
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233835AbhGWFnJ (ORCPT
+        id S229839AbhGWFsR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Jul 2021 01:43:09 -0400
+        Fri, 23 Jul 2021 01:48:17 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=abl8rXr1+hpeZ9/NY+RPI5tQ1kF+aRFQxv2yg4/A8ulk1t9SLDUIsZ6WOEC3aqj44cRV7ccNkakQsKKvyC/3fY7WhaU7SwqYwMRqoH7MKeWk0XIwRctyILE7SY6S+ef3iV57YZIDRCZAcMQAQRy080g+1ap2qJ1xfJy5NG6lE2mzHCFUgKO87LInA5/DDz4aV+vpTJf1bPLAiLXxl5dUl9X4RStbMTsyrAmz44jn41Cbj2/slk0h72z8bi4zwQ23Ct2EypKkHtIRbYPC9DQoeehQW1f8xPKQjWNAi0eTvRvVqQdw/26tEUSkKSmFRIKRBkI9HAvj8icFHfApISRyzg==
+ b=VX7YXCoJBH3DsJ0vIsPncx332k7iPhi7QegFp8rsGRy7X+Phz/z5Hr7FDDxOwFFhHkoE8fb7OviF+ixuRAANKIwkHSUnAQ8EVaTZgfxeT2PVMJMXCrCxUTdj00+tn2aZlWW9kF+GuXuoyK68VF3SFcdXrzP5QAN77UrNXYg/c28kKd2nYu0vkY6zyBrbeIzMKscQzRHi34HItgr3BP6TknmdEwj254VEqnA5T5OBLlDrd4QrghLGVmvJc+BLyP/XDVkQUVjHmqd6SVlXyoAPoxxgaP2dC+3Gl82Pt9gxFhRu+gwVdUgmKdRE33bLZ1rjIA3nUfPiw76OTvpt4lnqEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uz853pLRdOG3pTeeuq/EbcBh3XcgWVbrqfBBb1cSjrE=;
- b=ABN6ZHtZotCu+mCPUEoac5lt0KOv8z4SsCN0G9TkeglivhdwNALktPH5oOIEgw5+l4nzcmxxKCcIE7G/uP094aSgBoQ9whX7LyGcrOFTfOEz8XjP1fpgd7zIOyflsPICwEVwGJIXYwR4UiDLNGd2HWagUJcimOapMqEuWp/r4L3sERib0W9Sz2bRVdXmqqal0Px7uDPwlgn4qKWe79BIBZdUVtu5pFRRVb3gsn0LmCMYLEFIDoWpaYka7iK3kXF2NpiQIKi87TsVcUUM+TkLUTtCYMhmk2MUOb+msVJWXbicU8X0vmVgPrXvYdIAQfSeLLmF2xx0FipKQm7F+gOIjA==
+ bh=7hDkbgwaekhPSfnJs82ji4VjWVAmlCNd/cPyw4+6ExM=;
+ b=PVT/fAipR4/JibB8haFO/VdHk/EpQcp8wD14Q7xzUQUsX7cSP/6PG2kt/rT1TDaTLgodcDf+96EU0bQgh7e3+lguTKQ/CTtEI4gn7NID82/HWRBH4PRiJGLKDx8NLtQr71gqBisGGYbeIY1ax4E/l9+J1/RlvveYpx4x2T+mDfKP4WQYowGknhJHb7U/XEJz3+MBimCnZUzCzTSim6XCfvnxIBGncx+EuDKiOger79CcKugCV6teQOsoiUSyeOiWBkmaPAIe31W+n7YnBlS9YKLKM/adWc2vay9uKhcbXnd26lu8Obhii49ToeSFUaANiEaLjOt+BYZr/3qrCra+Pw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uz853pLRdOG3pTeeuq/EbcBh3XcgWVbrqfBBb1cSjrE=;
- b=RvLDE2MkNoyd3ER7hkWhPdAT0vu14n/TuEDflRSv4XyC/P7N0XxfIcq6q5MlIVCRmZwWpTzDnbDml06QGSTkVUAwNgvi32r3SreBEcAO/g9AvTVDM6CcY8Pfa9ms20/XyeASOn6uBvJksNq1ZP24D2TewU/VYcWlZy7huFXWnFs=
+ bh=7hDkbgwaekhPSfnJs82ji4VjWVAmlCNd/cPyw4+6ExM=;
+ b=eBmbwg9KvxWPWfdcI3ilwUDvZytWMWYao3aaeb8YnCvytjsTy6yBd0nrlkx1MD/XS/X3VSu+MVblsTBS/INbsK4Pdx+N2MWFArc3pvqUPGhVq215LlGZq6V5iMlN/L6JftZ6QT0XXx3L18nqahAkutJYbpISXJsLXiJElcQEg/Y=
 Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com (2603:1096:400:47::11)
- by TYAPR01MB5353.jpnprd01.prod.outlook.com (2603:1096:404:803d::8) with
+ by TYAPR01MB5673.jpnprd01.prod.outlook.com (2603:1096:404:8052::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.25; Fri, 23 Jul
- 2021 06:23:39 +0000
+ 2021 06:28:48 +0000
 Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com
  ([fe80::1bb:3bd3:f308:a8c7]) by TYCPR01MB5933.jpnprd01.prod.outlook.com
  ([fe80::1bb:3bd3:f308:a8c7%5]) with mapi id 15.20.4352.026; Fri, 23 Jul 2021
- 06:23:39 +0000
+ 06:28:48 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+CC:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Adam Ford <aford173@gmail.com>,
         Yuusuke Ashizuka <ashiduka@fujitsu.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
@@ -54,169 +55,133 @@ CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Subject: RE: [PATCH net-next 00/18] Add Gigabit Ethernet driver support
 Thread-Topic: [PATCH net-next 00/18] Add Gigabit Ethernet driver support
-Thread-Index: AQHXfzu3gyIx47f3XEGpM81xIR3XoatQFa+A
-Date:   Fri, 23 Jul 2021 06:23:39 +0000
-Message-ID: <TYCPR01MB59334319695607A2683C1A5E86E59@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+Thread-Index: AQHXfzu3gyIx47f3XEGpM81xIR3XoatPfKQAgACbhlA=
+Date:   Fri, 23 Jul 2021 06:28:48 +0000
+Message-ID: <TYCPR01MB593398E6E5422E81C01F1F8C86E59@TYCPR01MB5933.jpnprd01.prod.outlook.com>
 References: <20210722141351.13668-1-biju.das.jz@bp.renesas.com>
- <b295ec23-f8b2-0432-83e6-16078754e5e3@gmail.com>
-In-Reply-To: <b295ec23-f8b2-0432-83e6-16078754e5e3@gmail.com>
+ <b295ec23-f8b2-0432-83e6-16078754e5e3@gmail.com> <YPneBpUk6z8iy94G@lunn.ch>
+In-Reply-To: <YPneBpUk6z8iy94G@lunn.ch>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=bp.renesas.com;
+authentication-results: lunn.ch; dkim=none (message not signed)
+ header.d=none;lunn.ch; dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4aed96a3-f667-4a98-ee1f-08d94da26920
-x-ms-traffictypediagnostic: TYAPR01MB5353:
+x-ms-office365-filtering-correlation-id: 67558776-69cd-40bc-e8df-08d94da32181
+x-ms-traffictypediagnostic: TYAPR01MB5673:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB5353503EFDD51F6DEEFF2A3286E59@TYAPR01MB5353.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-microsoft-antispam-prvs: <TYAPR01MB5673BFF570B80AE5B952570586E59@TYAPR01MB5673.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: oW35rQL2Xv4SNJnuIijm/v5m2lLnBesgo2Cks7foOov2VrTa781O6SRQC2tPkvZmSduN8avavFt54FYxyJlfz3FUFwvUuTGUhJCclk5cJF0PV1wXOBlHs2evDGiM8rK57wxzS/AOmpibNIgTyXKRA+HJmLNkTNVnyuK74mZga6Ith8k30L+h4KUmeJ/w3Tas1dL5sEqDBkoum6u2xoicwxwbRIMuJPXFQmVQ2VsnyTtWFXHlEtxXo3oUnST3NlOHAmRWQfcI3z5tB0ZprVSXuooiasXP437TZA/cAZ6kXLPievKdGQmCbB+RzCWCWzDesUm1e3JmqlpAMxiNH5TSMZD8Kw84ewjM+nC4AUsVOPGPpg0/OeM5bGqDnOR40LpwOo5DXNBq5WfxuF21eBi8L/ynsrQ3/NCMlt6WGO4VYSAjV/9ZMU7ePqF3Mz0RaBUERd62aWzCuBkNjc25nvj/iL2nUYFA9C9uHMaEOJCRwEsEpE4YZGs5nqpoSoUaJplMY/89xt1JmcL1A5cKXPx1CpZyMXyWyeqUhgmPKMSyDKQM6nhdeThVKoRQBl8/+rZsHiEKXNSIb1c3sAOM+Ygheg/wy4c43VczxDePedKPmZt6Ws5yZD8ZxnxwTEPt8n9tVwRa1aQCz8FKqCW8F2sTqH31jbgjMqpu5XG4kXVBzniLznc38CTATu3/JMEn79hNQDFt7a0YWMqoq0P46eUyuxiEFkhMyVoQSNpo746AGFxRuO9cNP4DpT9sH8uYFLcg0GaWYmiVfxVPoknqFPV8nXQR5wVnLmV77NH9FLygTtIAfjMJscUHQqkipMcfzBDhlzv6hvZfS5QHd8NcR0zEsg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5933.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(366004)(346002)(136003)(396003)(8936002)(86362001)(107886003)(55016002)(4326008)(52536014)(54906003)(7696005)(66946007)(38100700002)(7416002)(83380400001)(71200400001)(2906002)(5660300002)(9686003)(66446008)(33656002)(8676002)(316002)(186003)(110136005)(45080400002)(6506007)(53546011)(66556008)(966005)(478600001)(26005)(66476007)(64756008)(76116006)(122000001)(38070700004);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: LC8gkUZ0KAW1TvR/SKT9xZC9wgcLCiNjcfErZjqX1ccNvdhYPdxFenwuAuNdbV9NDHC1N4PdVHzCF5Ndv74GrNnTO5Ae9XhJvAnXK1w5DnOJKL029WYwyPzTm4Roj4iAGVLH4kXQLBq2KZ/XPmQ9K4X/8Br+RshT8tlaYV9BOr7HxKcjZlHScKXa36el2tYMM77BlLgwvZMRbFVDTz1CAx9Fdu183sw1WN6Y1//LPvuoQvWFcJd06NHL1PKE1zjAFWyVR/Te3Mrmmkc4uQ76TXyJ1UE/JDGVyK3kOW84AP/KCRravkGc/I/4TicC4y3lCJmRAf2gJPiDgZ+7F0d92/ZUBY4MG1w6OaI+/SWYxtQVTzKly+0KDjyIaq72ZBRJXC5HitrMAw2B0+LFpVesAgjM5dIVNTetFlbwE3c4lSSRpNOhZmEvNNocGjppuAQzUNQSx1qLFLZBl5vZTv3lFOh4zD/iGwCZwIuLjDI12qu1bawjh6Rq2e/RTisiQ19NFMKVnVqTZoW7cEx7IGrl2dqWDY1qOfs0pnxYUTouzjAjcOci+UvdgVn7btlB9c/3sPD0KiOqI9MUikhg/7fC9L1jiTgJb4R0EOeVQyFeJdCX3zPCUJAmCLC8L9L+HERPCJNb+eP6F0iQP4fJVCxv11jRb96O1PmVVcKxczCmd6oQuIXH9KcZFru0hlxQQGZrkeaBW81u3jOzUawA7YY5gbCPDg5+wsYwX4nHezy6BMtzKmXRgQ2wzqtaDZXXtRi4vsXMcnGdFNPGiFLY9np2gmvBwpjPYOZcxaRmxmv4Pa4=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5933.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(39860400002)(346002)(366004)(376002)(966005)(7696005)(110136005)(122000001)(71200400001)(76116006)(26005)(186003)(55016002)(7416002)(4326008)(2906002)(5660300002)(6506007)(53546011)(478600001)(33656002)(9686003)(66476007)(66556008)(316002)(66446008)(64756008)(107886003)(83380400001)(45080400002)(86362001)(8936002)(52536014)(66946007)(54906003)(8676002)(38100700002)(38070700004);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?DCMMxTZkmT7XWFoZ/meRUi7i7Mur5Rr5C9iMmhCYPIq2+GJybuT9yUDqlT8h?=
- =?us-ascii?Q?EHxPvaT7Sn7E5rrA6P0ZLjYu8HdRPstv1okB/V8fsWXe6KKzta6qodpTBp8j?=
- =?us-ascii?Q?8SMM5+WGKrIST6ZXxEP8NUBIIgpj1cB7CQLxicTMrR4OmY0X50n8ha9dsNxn?=
- =?us-ascii?Q?paofGLmvdmdN+CIqcpwD0LB2/zTsHn0R4VF006g4iyui1CBxNAhAy3fvYx1g?=
- =?us-ascii?Q?QORoHZ2CMlj5iGRjoBrdH1NrcoFnLYOUHhRgCpC+OFj47Nw8iZGeCs3vLQ/r?=
- =?us-ascii?Q?/yJEsRc53RzMueIiNs15tFHwjl2+NlmdE1ECG2lhGTTsvYOlMbwn9rn632Ct?=
- =?us-ascii?Q?ffgPpXoRbh/FfVybvSRV0UfzxSO/P4vf2zutDUXPWiwxXpG+XxguJDC+p6Pj?=
- =?us-ascii?Q?3yefGh/CuwnfiLFBnSZuJSAJOJQOZ3QJHGvoeODnZzv2ny5DS/pau1+EItIi?=
- =?us-ascii?Q?PM3LbOORRvww179LAgAxo2FbQNMfd6ONHx5KbIP0IYz0ou5uM8XYuTPJZtlh?=
- =?us-ascii?Q?3ygzUXBhOsRvZRq3z0xQdjK6kyN4YylsNz67VpsRHHOGTB0UVykT8GXtVjz/?=
- =?us-ascii?Q?ovZT4AM0IrDDaqlI5GebwrC/qXbeiE76dVOBOWp9wE5/agRfQbkj7EIAf0/i?=
- =?us-ascii?Q?R88ffmbsOSsLUKJyhuWOdz7GFCw6sIUOe2zT7VQAdHRoFtGkwwWAegQnmfkP?=
- =?us-ascii?Q?bZTs1jNwbDItgxmwsS0j+jlcXVv6HTsey8rhtW6nmM894lrQifrtP/aYfHAv?=
- =?us-ascii?Q?PDdYlsf+3bcwv38VfTShqxoCAshx2KKJS/Q1moTM4XsGnK34rdFNjvI8B/nj?=
- =?us-ascii?Q?wseDiLsdlsEb2eMHA2vO6Ur1y9YLgM1tZHdtb15eBdDxV3OwZtWHgGmhxIVj?=
- =?us-ascii?Q?+dvgnTnEacazi3I7fYkwXw623l/fVimqC6GmGEuFmCoBs+5RzwhaEckqkJbk?=
- =?us-ascii?Q?IeM8OE3isbJ9CHcAcM705HXH4eoq58DiHAq7PUYk/X67bxOzf8tMjqGDNiHE?=
- =?us-ascii?Q?q6OaBu2re20+tGjg/xqO0il4IDl/FPk428xUF4qeZbOFmIchwY5smlaIu1d/?=
- =?us-ascii?Q?qYTNdcJPSOLECT2EJRsAddsiPj6RM8m2Jtkw9W26FwBfKzA0wspX/F1XaPQm?=
- =?us-ascii?Q?uk2MGOGiVwiqZhfQdFGuKB3edOQmWx23QZR1lhrKkCPhbaU0WHkHQn8A5bX/?=
- =?us-ascii?Q?/w80O7mcEVqJ4SmYz6jTvjW9skJqZ8BNjyl0stEEbaCVjik1uH+LS+bhPBpP?=
- =?us-ascii?Q?ntt/sRxCmiORAKEBEwWeL75SHwRHhuBCQqNzDbP0K9o4OyV4mM0NiD9HCGzt?=
- =?us-ascii?Q?1KlDstrxmggobZgH5jPAc0DS?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Ydxzm9eAkSOpOvc/lvxvhxu/iEzQ+y8jTwZMnlkRJLxGVWBRWvzV/jpkvytS?=
+ =?us-ascii?Q?yAaA8dAKWRxy8VmmUPW/gEGkCpFqa2Q0JriJv+aqpFrWbokg4WD8V6Msuk3m?=
+ =?us-ascii?Q?qMPRCEloPDuJ+UTXPRv/o74EmSVth0oiVV9D1jdkxo5/NMTBaitnYKa2h/3X?=
+ =?us-ascii?Q?fEM85NCDEZ7h0n4Vp9pkO+f9gdivMDR3jsbpxYWHZpYfRHVZiPW5T60/mwZa?=
+ =?us-ascii?Q?hHIZ5vLXNdg6oNRbRRFBMwlQIwn+GzpKBAJEwvtCw0FeOBTxto8R2Xv8YW6H?=
+ =?us-ascii?Q?ltTzFHbcu6yRitPnozw5Vx9xkAVmcQd+ixQqFjTkUvz4/jfiqzgyWmDXUbs1?=
+ =?us-ascii?Q?ThfOXuce5zZVDHAMWYrZkRvuxhsj1E2mHrhkjFDNubRVX3KRcwx2x1p5k+6b?=
+ =?us-ascii?Q?ob/OXkFnDrFLCnp5Sm7ybIhA6h3GuzTio+q/TburGvgN9ByoFb+g0Um8rb72?=
+ =?us-ascii?Q?BfgpkxmTD2wwcQ7LXBM2wwXc6vPRDUav+7Cs46PlDEvbVGWJRFR2LgzTeP4k?=
+ =?us-ascii?Q?qxX7ttdoJ6bg2IxOdrePnOcUpZZqyMV8kFQGwHcgNq5BipR93OpSOTWlfdoq?=
+ =?us-ascii?Q?I1wTrMCtAZokVTlcNXowFk2+dLARxsmGzcF4WYsbFHSZJrMvuJ6cfgT1mFvc?=
+ =?us-ascii?Q?FZOaJKv7Y/H2ES2WppHDwv13+SfqwDArP80XtIg45NpLiMwjnh3PLdYLYEZ+?=
+ =?us-ascii?Q?pyrxKtptrqQA08xfGBaCWCufuWWroTBKQ9DfPJHANNGxv7urd3JQ6f2WhUNq?=
+ =?us-ascii?Q?BwunlFVmxgzRTk35Ll+CLPZxfSYMy7WVlgXzic9umtB3sBQqCKsEDKH6+O9u?=
+ =?us-ascii?Q?4tHBJr9SevwWlSzOnYdh9M4V/c8yPuVXTEg98JbtSi/qFMQV5BIgydHjCfsf?=
+ =?us-ascii?Q?zNq84qGIOPifsZ4Oz6GRYWVg8qJuSvmKb5x/jYItqeKJB0YhtKAIgJkj7XGz?=
+ =?us-ascii?Q?YdkLA8b1to9ij0GqG9j15EDg4SB5v5b4pOMdenIVXO4Q3OxZ9b1Zz+hvkr/0?=
+ =?us-ascii?Q?SBsiQ3Hn32clgDI6q6O/fPbQtIiXt+4sr5gBZ0dIIIcEcNQpeBjvznM8o+7u?=
+ =?us-ascii?Q?WiMoIOU/SdcDEAwBOw35zwSYqs+i1bJ2SpaI9UQ7ln3FJNuDjoh/qmXoyCsN?=
+ =?us-ascii?Q?v5Nq3TUBygZMbtl+BkR2wJiYfTL0KRP5IyzkPWKSW2rfSec16s14JjTptTz2?=
+ =?us-ascii?Q?m4YjzpKxS9j8sLgwhkKQLeMOpUPrIx/BTi84dHPKAusCvTWLp7U6KoXuuWLx?=
+ =?us-ascii?Q?r58ECKzkO7YoWlawhReOYpgY+oKi9DQpFCJm6s3P+d5ugXGQ91HlEF9SAXzo?=
+ =?us-ascii?Q?5phDKlgDhieq1X2NtKEx3/+T?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5933.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4aed96a3-f667-4a98-ee1f-08d94da26920
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2021 06:23:39.2367
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67558776-69cd-40bc-e8df-08d94da32181
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2021 06:28:48.5461
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BgXbuR4WjLy4ahTJzj1nNWGuF6OiDTPaZltS4oEoQTxIwQwk4SebOm/c+HTCi39DLT2t3t/GTExOa+2L93BdpINDOWu+HBIBuZ1PzaVRdqg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5353
+X-MS-Exchange-CrossTenant-userprincipalname: lSdDpKRAhiMuI412JLi3Y7URvVOhJFiwRkS5ggbalsFf8RWvofn6/XbldAk5AusswbnyUcYXLXYdmrx70Gaf5/0oLxhEUpY/ntIJMXR+tTs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5673
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
+Hi Andrew and Sergei,
 
-Thanks for the feedback.
 
 > Subject: Re: [PATCH net-next 00/18] Add Gigabit Ethernet driver support
 >=20
-> On 7/22/21 5:13 PM, Biju Das wrote:
->=20
-> > The DMAC and EMAC blocks of Gigabit Ethernet IP is almost similar to
-> Ethernet AVB.
+> On Thu, Jul 22, 2021 at 11:53:59PM +0300, Sergei Shtylyov wrote:
+> > On 7/22/21 5:13 PM, Biju Das wrote:
 > >
-> > The Gigabit Etherner IP consists of Ethernet controller (E-MAC),
+> > > The DMAC and EMAC blocks of Gigabit Ethernet IP is almost similar to
+> Ethernet AVB.
+> > >
+> > > The Gigabit Etherner IP consists of Ethernet controller (E-MAC),
 > Internal TCP/IP Offload Engine (TOE) and Dedicated Direct memory access
 > controller (DMAC).
-> >
-> > With few changes in driver, we can support Gigabit ethernet driver as
+> > >
+> > > With few changes in driver, we can support Gigabit ethernet driver as
 > well.
-> >
-> > This patch series is aims to support the same
-> >
-> > RFC->V1
-> >   * Incorporated feedback from Andrew, Sergei, Geert and Prabhakar
-> >   *
-> > https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpat=
+> > >
+> > > This patch series is aims to support the same
+> > >
+> > > RFC->V1
+> > >   * Incorporated feedback from Andrew, Sergei, Geert and Prabhakar
+> > >   *
+> > > https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fp=
+a
+> > > tchwork.kernel.org%2Fproject%2Flinux-renesas-soc%2Flist%2F%3Fseries%
+> > > 3D515525&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.renesas.com%7C6fe3922c=
 c
-> > hwork.kernel.org%2Fproject%2Flinux-renesas-soc%2Flist%2F%3Fseries%3D51
-> > 5525&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.renesas.com%7Cb01d51eb444247=
-6
-> > 149d608d94d52d7c9%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C6376258
-> > 40484693261%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMz
-> > IiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DM6biLbregS1y2R%2BMN=
-b
-> > b5PRRvgQxympZfHZkbuH0ZrXI%3D&amp;reserved=3D0
+> > > 35d4178cb1d08d94d54bc75%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7
+> > > C637625848601442706%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQ
+> > > IjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DbOpIqV1=
+g
+> > > lMUXqz9rsX0UK3Oqap2J1cY86TGVOJvzYe4%3D&amp;reserved=3D0
+> > >
+> > > Biju Das (18):
+> > >   dt-bindings: net: renesas,etheravb: Document Gigabit Ethernet IP
+> > >   drivers: clk: renesas: rzg2l-cpg: Add support to handle MUX clocks
+> > >   drivers: clk: renesas: r9a07g044-cpg: Add ethernet clock sources
+> > >   drivers: clk: renesas: r9a07g044-cpg: Add GbEthernet clock/reset
 > >
-> > Biju Das (18):
-> >   dt-bindings: net: renesas,etheravb: Document Gigabit Ethernet IP
-> >   drivers: clk: renesas: rzg2l-cpg: Add support to handle MUX clocks
-> >   drivers: clk: renesas: r9a07g044-cpg: Add ethernet clock sources
-> >   drivers: clk: renesas: r9a07g044-cpg: Add GbEthernet clock/reset
+> >
+> >    It's not a good idea to have the patch to the defferent subsystems
+> > lumped all together in a single series...
 >=20
+> Agreed.
 >=20
->    It's not a good idea to have the patch to the defferent subsystems
-> lumped all together in a single series...
+> Are these changes inseparable? If so, you need to be up front on this, an=
+d
+> you need an agreement with the subsystem maintainers how the patches are
+> going to be merged? Through which tree. And you need Acked-by from the
+> other tree maintainers.
 >=20
-> >   ravb: Replace chip type with a structure for driver data
->=20
->    I was expecting some real changes on how the gen2/3 diff. features in
-> this patch, but I only saw new info having no real changes where they wer=
-e
-> needed and having the changes that did not need to be converted yet...
->    Anwyay, I have stopped here for today.
+> Ideally you submit multiple patchsets. This assumes all sets will compile
+> independently.
 
-This patch is a preparation patch. On the subsequent patches[1] [2] and [3]=
- you will see the real hw changes wr.to gen2/gen3. Feature bit is not added=
- in this patch, but on the subsequent patches. I believe you haven't review=
-ed that patches yet.
+Agreed. Will split this patch series in 3 patchsets
 
-PTP feature and the diff between gen2/gen3
-------------------------------------------
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2021072214=
-1351.13668-7-biju.das.jz@bp.renesas.com/
+1) single binding patch=20
 
+2) Clock patchset
 
-Features specific to R-Car Gen3
---------------------------------
-[2] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2021072214=
-1351.13668-8-biju.das.jz@bp.renesas.com/
+3) ravb driver patchset.
 
-
-R-Car common features
----------------------
-
-[3] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2021072214=
-1351.13668-9-biju.das.jz@bp.renesas.com/
-
-There is a review comment for making smaller changes.=20
-what do you recommend after going through [1],[2] and [3].=20
-Please let us know.
-
-Regards,
+Cheers,
 Biju
-
-
->=20
-> >   ravb: Factorise ptp feature
-> >   ravb: Add features specific to R-Car Gen3
-> >   ravb: Add R-Car common features
-> >   ravb: Factorise ravb_ring_free function
-> >   ravb: Factorise ravb_ring_format function
-> >   ravb: Factorise ravb_ring_init function
-> >   ravb: Factorise {emac,dmac} init function
-> >   ravb: Factorise ravb_rx function
-> >   ravb: Factorise ravb_adjust_link function
-> >   ravb: Factorise ravb_set_features
-> >   ravb: Add reset support
-> >   ravb: Add GbEthernet driver support
-> >   arm64: dts: renesas: r9a07g044: Add GbEther nodes
-> >
-> [...]
->=20
-> MBR, Sergei
