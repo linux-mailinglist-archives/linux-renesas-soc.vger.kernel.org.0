@@ -2,87 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C63B3D2EB5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jul 2021 23:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52BA83D33B9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Jul 2021 06:27:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231207AbhGVU1B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Jul 2021 16:27:01 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:41102 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230455AbhGVU1B (ORCPT
+        id S233664AbhGWDrB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Jul 2021 23:47:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38552 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233572AbhGWDrB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Jul 2021 16:27:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=O8g16kVSaHf9IcTALVmNRND8IutdSN4mf9kSt5vFuvE=; b=TbZca+Z9Un3X/HE0XRK0XRyj/5
-        Cgz2KkOSc7m4oZGQj2eIm/rP3TEuROPU9g+vF0ZN7xwH0Be3A6AzhJNJf9C89l9jLTaNZ/Q3PEuQ4
-        wD4UyPZC7PMkCA9MsYYJPfp6eNG+kJZgsDZK/ozSE6aFFfENziOu2KcmIBbXQDpbbctU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1m6fuY-00EOIp-8a; Thu, 22 Jul 2021 23:07:18 +0200
-Date:   Thu, 22 Jul 2021 23:07:18 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next 00/18] Add Gigabit Ethernet driver support
-Message-ID: <YPneBpUk6z8iy94G@lunn.ch>
-References: <20210722141351.13668-1-biju.das.jz@bp.renesas.com>
- <b295ec23-f8b2-0432-83e6-16078754e5e3@gmail.com>
+        Thu, 22 Jul 2021 23:47:01 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 753B4C061575
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jul 2021 21:27:35 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDE67255;
+        Fri, 23 Jul 2021 06:27:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1627014452;
+        bh=cIwic+eh4JDZqZlXGIA4RovSotmth8rVtxDucucRjVA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mo6WfHrUnHGDxrfpmJlARIxXowTf0dCRYam8FHW3HLcwTpqmspoU7a9BKPqod2ZzJ
+         bQNrpRMmQRtt26YWR80JxG7nEcr75NM+Z0ar4AG0dKtf9qFGFfMYSFNFr9rUX+hGTV
+         UeXp5juQ7hz0oaAyAeXd5IY665aI5qp+clcidZD0=
+Date:   Fri, 23 Jul 2021 07:27:31 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@ffwll.ch, sam@ravnborg.org, geert@linux-m68k.org,
+        sergei.shtylyov@gmail.com, linux-renesas-soc@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm/shmobile: Convert to Linux IRQ interfaces
+Message-ID: <YPpFM5FIzZWtjL0i@pendragon.ideasonboard.com>
+References: <20210720080941.23646-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <b295ec23-f8b2-0432-83e6-16078754e5e3@gmail.com>
+In-Reply-To: <20210720080941.23646-1-tzimmermann@suse.de>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 11:53:59PM +0300, Sergei Shtylyov wrote:
-> On 7/22/21 5:13 PM, Biju Das wrote:
+Hi Thomas,
+
+Thank you for the patch.
+
+On Tue, Jul 20, 2021 at 10:09:41AM +0200, Thomas Zimmermann wrote:
+> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+> don't benefit from using it.
 > 
-> > The DMAC and EMAC blocks of Gigabit Ethernet IP is almost similar to Ethernet AVB.
-> > 
-> > The Gigabit Etherner IP consists of Ethernet controller (E-MAC), Internal TCP/IP Offload Engine (TOE) and Dedicated Direct memory access controller (DMAC).
-> > 
-> > With few changes in driver, we can support Gigabit ethernet driver as well.
-> > 
-> > This patch series is aims to support the same
-> > 
-> > RFC->V1
-> >   * Incorporated feedback from Andrew, Sergei, Geert and Prabhakar
-> >   * https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=515525
-> > 
-> > Biju Das (18):
-> >   dt-bindings: net: renesas,etheravb: Document Gigabit Ethernet IP
-> >   drivers: clk: renesas: rzg2l-cpg: Add support to handle MUX clocks
-> >   drivers: clk: renesas: r9a07g044-cpg: Add ethernet clock sources
-> >   drivers: clk: renesas: r9a07g044-cpg: Add GbEthernet clock/reset
+> v3:
+> 	* return error if (ret < 0) (Geert)
+> 	* remove duplicate error message (Geert)
+> v2:
+> 	* handle errors in platform_get_irq() (Geert, Sergei)
+> 	* store IRQ number in struct shmob_drm_device (Laurent)
 > 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/gpu/drm/shmobile/shmob_drm_drv.c | 14 +++++++++-----
+>  drivers/gpu/drm/shmobile/shmob_drm_drv.h |  1 +
+>  2 files changed, 10 insertions(+), 5 deletions(-)
 > 
->    It's not a good idea to have the patch to the defferent subsystems lumped
-> all together in a single series...
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> index 0a02b7092c04..7db01904d18d 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> @@ -18,7 +18,6 @@
+>  #include <drm/drm_crtc_helper.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_gem_cma_helper.h>
+> -#include <drm/drm_irq.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_vblank.h>
+>  
+> @@ -130,7 +129,6 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
+>  
+>  static const struct drm_driver shmob_drm_driver = {
+>  	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
+> -	.irq_handler		= shmob_drm_irq,
+>  	DRM_GEM_CMA_DRIVER_OPS,
+>  	.fops			= &shmob_drm_fops,
+>  	.name			= "shmob-drm",
+> @@ -183,7 +181,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
+>  
+>  	drm_dev_unregister(ddev);
+>  	drm_kms_helper_poll_fini(ddev);
+> -	drm_irq_uninstall(ddev);
+> +	free_irq(sdev->irq, ddev);
+>  	drm_dev_put(ddev);
+>  
+>  	return 0;
+> @@ -258,7 +256,13 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  		goto err_modeset_cleanup;
+>  	}
+>  
+> -	ret = drm_irq_install(ddev, platform_get_irq(pdev, 0));
+> +	ret = platform_get_irq(pdev, 0);
+> +	if (ret < 0)
+> +		goto err_modeset_cleanup;
+> +	sdev->irq = ret;
+> +
+> +	ret = request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver->name,
+> +			  ddev);
 
-Agreed.
+We could pass sdev to this function instead of ddev (and same for
+free_irq()), and update shmob_drm_irq() accordingly. This could however
+be made on top, so
 
-Are these changes inseparable? If so, you need to be up front on this,
-and you need an agreement with the subsystem maintainers how the
-patches are going to be merged? Through which tree. And you need
-Acked-by from the other tree maintainers.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Ideally you submit multiple patchsets. This assumes all sets will
-compile independently.
+>  	if (ret < 0) {
+>  		dev_err(&pdev->dev, "failed to install IRQ handler\n");
+>  		goto err_modeset_cleanup;
+> @@ -275,7 +279,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  	return 0;
+>  
+>  err_irq_uninstall:
+> -	drm_irq_uninstall(ddev);
+> +	free_irq(sdev->irq, ddev);
+>  err_modeset_cleanup:
+>  	drm_kms_helper_poll_fini(ddev);
+>  err_free_drm_dev:
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.h b/drivers/gpu/drm/shmobile/shmob_drm_drv.h
+> index 80dc4b1020aa..4964ddd5ab74 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.h
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.h
+> @@ -29,6 +29,7 @@ struct shmob_drm_device {
+>  	u32 lddckr;
+>  	u32 ldmt1r;
+>  
+> +	unsigned int irq;
+>  	spinlock_t irq_lock;		/* Protects hardware LDINTR register */
+>  
+>  	struct drm_device *ddev;
+> 
 
-	Andrew
+-- 
+Regards,
+
+Laurent Pinchart
