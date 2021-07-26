@@ -2,132 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 995573D698C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 00:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 907003D69BC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 00:46:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233660AbhGZVuJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Jul 2021 17:50:09 -0400
-Received: from mail-io1-f54.google.com ([209.85.166.54]:35480 "EHLO
-        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233348AbhGZVuJ (ORCPT
+        id S233056AbhGZWGQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Jul 2021 18:06:16 -0400
+Received: from mail-il1-f176.google.com ([209.85.166.176]:35771 "EHLO
+        mail-il1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231502AbhGZWGP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Jul 2021 17:50:09 -0400
-Received: by mail-io1-f54.google.com with SMTP id y9so13853307iox.2;
-        Mon, 26 Jul 2021 15:30:36 -0700 (PDT)
+        Mon, 26 Jul 2021 18:06:15 -0400
+Received: by mail-il1-f176.google.com with SMTP id k3so10492186ilu.2;
+        Mon, 26 Jul 2021 15:46:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=0CUfASdPcgc+7dcIK4FubYYfBLXisBtKwn64dA+QuXE=;
-        b=ngW3BxUT7EyAku17r/xJmYbO+EiG2/gTH7rnjNc8pzIY+6/rpzOr9u/TALlpykK6L4
-         1u6lvXBO9TjrP5/lxJko+DBnMk3q+YbUpkpBvrqIV+uEon6Zq7miJWuHf3Y04+2wJbWN
-         x8OQHO1RMrro7n8TXhBxXVfwA8L2q+a3vLESoWl0DG2JXNGU62F1azBJGfA4keoDhNQU
-         1lE22vwcsyokrxJUffW2CFOJneAwFvbBgoNnzGy3bOPOblSZye/8K4GQXDFxqBW7Ec1d
-         91/yEtY7bcTcUm5pNeGY1wbUcFu3i1QpuaLO9aUZujmzg3VxqfkJJkYQtGEME4RFNQ71
-         Yu1A==
-X-Gm-Message-State: AOAM5314PFhBRZWkLuOZFt/2rAEZ+nn6YgCkn3t66g1qAReI9gdU1RJ9
-        y8kl0dkS3rd3WVNRBtd70w==
-X-Google-Smtp-Source: ABdhPJzv1dCnrv5erKiqYvhfzCzd01fFpBZ4TZMg+kQ/KhC5KNuM83gtiUN21PqWGjloql1pXYdy6A==
-X-Received: by 2002:a02:cebb:: with SMTP id z27mr18570768jaq.72.1627338636162;
-        Mon, 26 Jul 2021 15:30:36 -0700 (PDT)
+        bh=3xQehkSUJPoWNPYuDHJm1QnxjcYyWYFk9UbyBzQlc28=;
+        b=fiijZC/uKm17ruX5yeL4b8mkP7HSZWI78K5MdxUImiqNRM+x/JObPWQsZDX6Y95E2t
+         G+M7fNQ71KmFmttjHwUaa5D1rW9aDBhZSAMCiNw0ZKKfbmxhSwaaGPib4TWZa3LkjrjR
+         aN0fmB77OisEHPypC7KFBNLWWtVj5daFldLFfyEmVhO39NDQQsAen/5CtnhhffZ3zVaV
+         AKs68xfBy+AkU4EECUP1y5LRNyGXila3zAqqvtzPPLo1EQyAM/425pvCVfGdDJygrdEs
+         aZIfaZLEPwzrmsBrOqE4+I3rzTp04wiESmLkDi80tnQd6oR+jQGtlG3Ls+jbuAez0tOK
+         yP7A==
+X-Gm-Message-State: AOAM530ObspJxoMW4zGdbvI+JQICx5VSIuCIaaGkK4F2aDO5F6lxa20g
+        dO192m3hN91lRZjVE7rSyg==
+X-Google-Smtp-Source: ABdhPJwDc13JBpgUC2buiYv21chtkxuE8Z5+P9ZXkwf8q5nqGwMPgfEfdyvXy6GjrwD0UXaAVbnaFA==
+X-Received: by 2002:a92:cf42:: with SMTP id c2mr14412234ilr.138.1627339602803;
+        Mon, 26 Jul 2021 15:46:42 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id t24sm768033ioh.24.2021.07.26.15.30.34
+        by smtp.gmail.com with ESMTPSA id b8sm605563ilh.74.2021.07.26.15.46.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jul 2021 15:30:35 -0700 (PDT)
-Received: (nullmailer pid 991114 invoked by uid 1000);
-        Mon, 26 Jul 2021 22:30:32 -0000
-Date:   Mon, 26 Jul 2021 16:30:32 -0600
+        Mon, 26 Jul 2021 15:46:42 -0700 (PDT)
+Received: (nullmailer pid 1016217 invoked by uid 1000);
+        Mon, 26 Jul 2021 22:46:40 -0000
+Date:   Mon, 26 Jul 2021 16:46:40 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 09/10] dt-bindings: usb: renesas,usbhs: Document
- RZ/G2L bindings
-Message-ID: <20210726223032.GA988259@robh.at.kernel.org>
-References: <20210719121938.6532-1-biju.das.jz@bp.renesas.com>
- <20210719121938.6532-10-biju.das.jz@bp.renesas.com>
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: net: can: renesas,rcar-canfd:
+ Document RZ/G2L SoC
+Message-ID: <20210726224640.GA1016160@robh.at.kernel.org>
+References: <20210721194951.30983-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210721194951.30983-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210719121938.6532-10-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210721194951.30983-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 19, 2021 at 01:19:37PM +0100, Biju Das wrote:
-> Document RZ/G2L (R9A07G044L) SoC bindings.
+On Wed, 21 Jul 2021 20:49:49 +0100, Lad Prabhakar wrote:
+> Add CANFD binding documentation for Renesas RZ/G2L SoC.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> v3->v4:
->  * Added maxitems in interrupt property as per Rob's suggestion.
-> v3:
->  * Updated the bindings as per the USBPHY control IP.
-> ---
->  .../bindings/usb/renesas,usbhs.yaml           | 22 +++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
+>  .../bindings/net/can/renesas,rcar-canfd.yaml  | 69 +++++++++++++++++--
+>  1 file changed, 63 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-> index ad73339ffe1d..a85ad392d443 100644
-> --- a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-> +++ b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-> @@ -17,7 +17,9 @@ properties:
->            - const: renesas,rza1-usbhs
->  
->        - items:
-> -          - const: renesas,usbhs-r7s9210 # RZ/A2
-> +          - enum:
-> +              - renesas,usbhs-r7s9210   # RZ/A2
-> +              - renesas,usbhs-r9a07g044 # RZ/G2{L,LC}
->            - const: renesas,rza2-usbhs
->  
->        - items:
-> @@ -59,7 +61,8 @@ properties:
->        - description: USB 2.0 clock selector
->  
->    interrupts:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 4
->  
->    renesas,buswait:
->      $ref: /schemas/types.yaml#/definitions/uint32
-> @@ -108,6 +111,21 @@ required:
->    - clocks
->    - interrupts
->  
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,usbhs-r9a07g044
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          items:
-> +            - description: U2P_IXL_INT
-> +            - description: U2P_INT_DMA[0]
-> +            - description: U2P_INT_DMA[1]
-> +            - description: U2P_INT_DMAERR
 
-else:
-  properties:
-    interrupts:
-      maxItems: 1
-
-> +
->  additionalProperties: false
->  
->  examples:
-> -- 
-> 2.17.1
-> 
-> 
+Reviewed-by: Rob Herring <robh@kernel.org>
