@@ -2,235 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3217B3D56DD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jul 2021 11:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7B333D572F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jul 2021 12:11:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232861AbhGZJMt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Jul 2021 05:12:49 -0400
-Received: from mail-vs1-f54.google.com ([209.85.217.54]:35660 "EHLO
+        id S232902AbhGZJbX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Jul 2021 05:31:23 -0400
+Received: from mail-vs1-f54.google.com ([209.85.217.54]:43643 "EHLO
         mail-vs1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233040AbhGZJMt (ORCPT
+        with ESMTP id S232482AbhGZJbX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Jul 2021 05:12:49 -0400
-Received: by mail-vs1-f54.google.com with SMTP id p13so4896517vsg.2;
-        Mon, 26 Jul 2021 02:53:17 -0700 (PDT)
+        Mon, 26 Jul 2021 05:31:23 -0400
+Received: by mail-vs1-f54.google.com with SMTP id j10so4882861vsl.10;
+        Mon, 26 Jul 2021 03:11:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mo44UZHj7UyEbhGMPjthYrR+6cIV8nYK59wZuJbcwls=;
-        b=HgT7Zh+m8LxQ6fsspwMqyvmFuRyAEl+TNC3Lg+FIvfu/Bcm1mCZur3f9yNmpFAHaai
-         JucuO1ei6gPV8eCSRXAU+JiuwItK7V7yM2xVK5TkqF7DZczRMkSCjW1yjvhb/GBq9fIc
-         qF/QkVmliwHslLamKkA10AhHonKxbOED8LuFnGt1bYzpaR6sZIsOKeviPh+ekDgQEI7V
-         ji1nBtmjTuBr0GKyfBzvG3GTxEV3kbf0oWJcq9R9INY4BAONhfguIr15ehnzQW6OnjSF
-         padF1BCs0X0yptruDVDXiJriaul+5iBE3AmpM9ECOmVLU34THI5GGtevWJoNcvV1zSmi
-         vxlA==
-X-Gm-Message-State: AOAM532OmBMfE3vMjHkIRJICAIAMtSeplElCpP207jNA0dNdgDKmMYSt
-        VIrGp4YtPx5qFAQVT8aecKNXgJsW7NJ9ceCikdY=
-X-Google-Smtp-Source: ABdhPJyi2KG9djcxQLYJlEr3Qxzre7k9jFg6SE0AUxjF4rVlN643niJ5kjEhHf7i9K4wmXFRhnqB3+QlJisYrQ73KcU=
-X-Received: by 2002:a05:6102:2828:: with SMTP id ba8mr11359232vsb.18.1627293196190;
- Mon, 26 Jul 2021 02:53:16 -0700 (PDT)
+        bh=3jjpIlEH3s0yO4Q9AxaHHwMaFxPOP1aM+EZtElR67Iw=;
+        b=kTbzyKrKYxuxcViWxkhQaD5IWTsELxcRbyigHq4lO32oSfJhVNkTYXGxzikny4bQUt
+         RzZ1GieMxafUgYXsz+W99+IvvLUd55EgBYQutO1WXiW2N5QChXq6qGIi0UCewk81HFuP
+         Uo7ECVMQAwXSfF1n0yEeitCRpD0thq9sJR5ODJ47h+n+f8veemapusZTQHzBHtt8J9Ds
+         nD6MyAjebJ/pMYRaKwlXvxqDpmMgxUxn0Ss6TTfeXBkzuTEE5HnhUB4L5NaMxrhY8l4A
+         jlGVi5k0yl5kdiWUhyTeePofMln3J52788zkSKKKyNk+Q9NJ5/p8emK0GfiSC9wVSQtO
+         +SZg==
+X-Gm-Message-State: AOAM53038M1z6KmwplvxGdj38gM1VgT1kbQfZErw6RZnUAAMReCUUh13
+        OjX+Q3IAr7FN2tzX9tmEQKm6Yt7/9s1kwXl4Ndk=
+X-Google-Smtp-Source: ABdhPJxPOIS9NEA+QutNbhoOa/eySyUNthF2DTc/4RDUtvwapY98H3FptApCFeHQMgehwA4YLQXaeCaL4OP4vni4yQw=
+X-Received: by 2002:a05:6102:321c:: with SMTP id r28mr11332444vsf.40.1627294311783;
+ Mon, 26 Jul 2021 03:11:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210721194951.30983-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210721194951.30983-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210721194951.30983-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210722141351.13668-1-biju.das.jz@bp.renesas.com> <20210722141351.13668-5-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210722141351.13668-5-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 26 Jul 2021 11:53:04 +0200
-Message-ID: <CAMuHMdU0YkKb-_k00Zbr3aQGSHRD8639Ut207VwQ_ji0E+YL2g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] can: rcar_canfd: Add support for RZ/G2L family
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Mon, 26 Jul 2021 12:11:40 +0200
+Message-ID: <CAMuHMdWj6jjHPhP9M=W8uwj3x-eOeDCtnRLR8t8x6XY6-H7CWg@mail.gmail.com>
+Subject: Re: [PATCH net-next 04/18] drivers: clk: renesas: r9a07g044-cpg: Add
+ GbEthernet clock/reset
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        linux-clk <linux-clk@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Biju,
 
-On Wed, Jul 21, 2021 at 9:50 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> CANFD block on RZ/G2L SoC is almost identical to one found on
-> R-Car Gen3 SoC's. On RZ/G2L SoC interrupt sources for each channel
-> are split into different sources and the IP doesn't divide (1/2)
-> CANFD clock within the IP.
+On Thu, Jul 22, 2021 at 4:14 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add ETH{0,1} clock/reset entries to CPG driver.
 >
-> This patch adds compatible string for RZ/G2L family and registers
-> the irq handlers required for CANFD operation. IRQ numbers are now
-> fetched based on names instead of indices. For backward compatibility
-> on non RZ/G2L SoC's we fallback reading based on indices.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks for the update!
+Thanks for your patch!
 
-I think you misunderstood my comment on v1 about the interrupt
-handlers, cfr. below.
+> --- a/drivers/clk/renesas/r9a07g044-cpg.c
+> +++ b/drivers/clk/renesas/r9a07g044-cpg.c
+> @@ -137,6 +137,14 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
+>                                 0x578, 2),
+>         DEF_MOD("usb_pclk",     R9A07G044_USB_PCLK, R9A07G044_CLK_P1,
+>                                 0x578, 3),
+> +       DEF_MOD("eth0_axi",     R9A07G044_ETH0_CLK_AXI, R9A07G044_CLK_M0,
+> +                               0x57c, 0),
+> +       DEF_MOD("eth0_chi",     R9A07G044_ETH0_CLK_CHI, R9A07G044_CLK_ZT,
+> +                               0x57c, 0),
+> +       DEF_MOD("eth1_axi",     R9A07G044_ETH1_CLK_AXI, R9A07G044_CLK_M0,
+> +                               0x57c, 1),
+> +       DEF_MOD("eth1_chi",     R9A07G044_ETH1_CLK_CHI, R9A07G044_CLK_ZT,
+> +                               0x57c, 1),
 
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
+The AXI and CHI clocks use the same register bits, so this won't work
+as expected. E.g. when disabling one clock, the other clock will be
+disabled, too. The correct way to handle this is to create a new clock
+type for coupled clocks, which sets the CPG_CLKON_ETH.CLK[01]_ON bit
+when at least one clock is enabled, and clears the bit only when both
+clocks are disabled.
 
-> @@ -1577,6 +1586,53 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
->         priv->can.clock.freq = fcan_freq;
->         dev_info(&pdev->dev, "can_clk rate is %u\n", priv->can.clock.freq);
->
-> +       if (gpriv->chip_id == RENESAS_RZG2L) {
-> +               char *irq_name;
-> +               int err_irq;
-> +               int tx_irq;
-> +
-> +               err_irq = platform_get_irq_byname(pdev, ch == 0 ? "ch0_err" : "ch1_err");
-> +               if (err_irq < 0) {
-> +                       err = err_irq;
-> +                       goto fail;
-> +               }
-> +
-> +               tx_irq = platform_get_irq_byname(pdev, ch == 0 ? "ch0_trx" : "ch1_trx");
-> +               if (tx_irq < 0) {
-> +                       err = tx_irq;
-> +                       goto fail;
-> +               }
-> +
-> +               irq_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
-> +                                         "canfd.ch%d_err", ch);
-> +               if (!irq_name) {
-> +                       err = -ENOMEM;
-> +                       goto fail;
-> +               }
-> +               err = devm_request_irq(&pdev->dev, err_irq,
-> +                                      rcar_canfd_channel_interrupt, 0,
+>         DEF_MOD("i2c0",         R9A07G044_I2C0_PCLK, R9A07G044_CLK_P0,
+>                                 0x580, 0),
+>         DEF_MOD("i2c1",         R9A07G044_I2C1_PCLK, R9A07G044_CLK_P0,
+> @@ -181,6 +189,8 @@ static struct rzg2l_reset r9a07g044_resets[] = {
+>         DEF_RST(R9A07G044_USB_U2H1_HRESETN, 0x878, 1),
+>         DEF_RST(R9A07G044_USB_U2P_EXL_SYSRST, 0x878, 2),
+>         DEF_RST(R9A07G044_USB_PRESETN, 0x878, 3),
+> +       DEF_RST(R9A07G044_ETH0_RST_HW_N, 0x87c, 0),
+> +       DEF_RST(R9A07G044_ETH1_RST_HW_N, 0x87c, 1),
+>         DEF_RST(R9A07G044_I2C0_MRST, 0x880, 0),
+>         DEF_RST(R9A07G044_I2C1_MRST, 0x880, 1),
+>         DEF_RST(R9A07G044_I2C2_MRST, 0x880, 2),
 
-This is the same interrupt handler...
-
-> +                                      irq_name, gpriv);
-> +               if (err) {
-> +                       dev_err(&pdev->dev, "devm_request_irq CH Err(%d) failed, error %d\n",
-> +                               err_irq, err);
-> +                       goto fail;
-> +               }
-> +               irq_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
-> +                                         "canfd.ch%d_trx", ch);
-> +               if (!irq_name) {
-> +                       err = -ENOMEM;
-> +                       goto fail;
-> +               }
-> +               err = devm_request_irq(&pdev->dev, tx_irq,
-> +                                      rcar_canfd_channel_interrupt, 0,
-
-... as this one.
-
-> +                                      irq_name, gpriv);
-> +               if (err) {
-> +                       dev_err(&pdev->dev, "devm_request_irq Tx (%d) failed, error %d\n",
-> +                               tx_irq, err);
-> +                       goto fail;
-> +               }
-> +       }
-> +
->         if (gpriv->fdmode) {
->                 priv->can.bittiming_const = &rcar_canfd_nom_bittiming_const;
->                 priv->can.data_bittiming_const =
-
-> @@ -1711,20 +1798,51 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->         gpriv->base = addr;
->
->         /* Request IRQ that's common for both channels */
-> -       err = devm_request_irq(&pdev->dev, ch_irq,
-> -                              rcar_canfd_channel_interrupt, 0,
-> -                              "canfd.chn", gpriv);
-> -       if (err) {
-> -               dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> -                       ch_irq, err);
-> -               goto fail_dev;
-> +       if (gpriv->chip_id == RENESAS_RCAR_GEN3) {
-> +               err = devm_request_irq(&pdev->dev, ch_irq,
-> +                                      rcar_canfd_channel_interrupt, 0,
-> +                                      "canfd.ch_int", gpriv);
-> +               if (err) {
-> +                       dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> +                               ch_irq, err);
-> +                       goto fail_dev;
-> +               }
-> +
-> +               err = devm_request_irq(&pdev->dev, g_irq,
-> +                                      rcar_canfd_global_interrupt, 0,
-> +                                      "canfd.g_int", gpriv);
-> +               if (err) {
-> +                       dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> +                               g_irq, err);
-> +                       goto fail_dev;
-> +               }
-> +       } else {
-> +               err = devm_request_irq(&pdev->dev, g_recc_irq,
-> +                                      rcar_canfd_global_interrupt, 0,
-
-This is the same interrupt handler...
-
-> +                                      "canfd.g_recc", gpriv);
-> +
-> +               if (err) {
-> +                       dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> +                               g_recc_irq, err);
-> +                       goto fail_dev;
-> +               }
-> +
-> +               err = devm_request_irq(&pdev->dev, g_err_irq,
-> +                                      rcar_canfd_global_interrupt, 0,
-
-... as this one.
-
-> +                                      "canfd.g_err", gpriv);
-> +               if (err) {
-> +                       dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> +                               g_err_irq, err);
-> +                       goto fail_dev;
-> +               }
->         }
-> -       err = devm_request_irq(&pdev->dev, g_irq,
-> -                              rcar_canfd_global_interrupt, 0,
-> -                              "canfd.gbl", gpriv);
-> +
-> +       err = reset_control_reset(gpriv->rstc1);
-> +       if (err)
-> +               goto fail_dev;
-> +       err = reset_control_reset(gpriv->rstc2);
->         if (err) {
-> -               dev_err(&pdev->dev, "devm_request_irq(%d) failed, error %d\n",
-> -                       g_irq, err);
-> +               reset_control_assert(gpriv->rstc1);
->                 goto fail_dev;
->         }
-
-I did not object to having fine-grained interrupt handlers on RZ/G2L.
-I did object to duplicating code in global and fine-grained interrupt
-handlers.
-
-The trick to have both is to let the global interrupt handlers call
-(conditionally) into the fine-grained handlers. In pseudo-code:
-
-    global_interrupt_handler()
-    {
-            if (...)
-                    fine_grained_handler1();
-
-            if (...)
-                    fine_grained_handler2();
-            ...
-    }
-
-On R-Car Gen3, you register the global interrupt handlers, as before.
-On RZ/G2L, you register the fine-grained interrupt handlers instead.
+This part is OK.
 
 Gr{oetje,eeting}s,
 
