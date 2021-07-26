@@ -2,47 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9E6D3D57D1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jul 2021 12:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB8B23D57D4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jul 2021 12:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231874AbhGZKNk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Jul 2021 06:13:40 -0400
-Received: from mail-vs1-f51.google.com ([209.85.217.51]:41758 "EHLO
-        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231792AbhGZKNk (ORCPT
+        id S232318AbhGZKPY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Jul 2021 06:15:24 -0400
+Received: from mail-vs1-f47.google.com ([209.85.217.47]:47042 "EHLO
+        mail-vs1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231792AbhGZKPY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Jul 2021 06:13:40 -0400
-Received: by mail-vs1-f51.google.com with SMTP id g2so4942359vsb.8;
-        Mon, 26 Jul 2021 03:54:08 -0700 (PDT)
+        Mon, 26 Jul 2021 06:15:24 -0400
+Received: by mail-vs1-f47.google.com with SMTP id e4so4929272vsr.13;
+        Mon, 26 Jul 2021 03:55:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=H5pwP3wwekTmwOt3jguCNsgHt2FsmfWLxfT1Dbstxk4=;
-        b=N/pf/xfX82UqYyO9Z1ZMyrAnfMtJUItveNGpSqoZIcWMIE+HYS00EEgAWaE8Ogbo6C
-         wFZSHU8Sl5SjmBkIPbFUNxvgesmfQVcoE8PEYe+CV4ZpwU3cMpqvFvaT0XdBN3Q7w5Qx
-         bPs64WEh7wCHTACKK9toJX57SstLRJ+cKtzFvGctsd/cyIY3HUUR4qkwIJOXzJbsbOVZ
-         Zgg+6NQs3Q8OnzGtK5+CNiDTZNHHVwgahHpqyCIphbT8GizfYqAkCBdyyUpIjUTdhT4b
-         qi60VYzGXrfY8UHHYsI7yCWLpgcApKyjjW2WJ/a/wvou6PANpwx8VgrRCiiAilXduTG1
-         Iw4A==
-X-Gm-Message-State: AOAM532e66j5u4J8jQcXtckXPc7qKG7XPVcotdGi40S6ZmMTAa0wgoKy
-        T7XcLHAQ+rbN+N+zL6H+guGv5r3LvGEFkpFivAg=
-X-Google-Smtp-Source: ABdhPJySKQRmXCMSSoSMlSHgV9KzwEPIBAHyisHnCZizm5I5R0Zk7U1qNaeF0/XFwTKT6GMF22IbL6egss4mdhgfd5U=
-X-Received: by 2002:a67:8702:: with SMTP id j2mr11341904vsd.3.1627296847976;
- Mon, 26 Jul 2021 03:54:07 -0700 (PDT)
+        bh=PC9p+DhA09pyYVa2lDRMUzwd/1DxS6/ThMpBKEZ540I=;
+        b=pILa0j9bgOz0YPQ3fL1228VorzEe/yXfYV0eQVs150f+EsrOYwibcE2SEqAjLg1Pa4
+         8cd4NKDr+4/592gakN1X65/2Qoo1iGo0m9nXCNXLDOoXTnjjyd1PEj2qFYejdziXhbEJ
+         0/kU9LMT1KN7gB1OuxfqethV3OKBGiiyLvyJZoyAiHuE3TWnkkx1jAUGvjqt0qUX0tSI
+         PUZ+D8kArYGcS5jTW3dgO8It+ed3apkm44e9N2zJXt1BWu4uFHngG4yCa1G9sRMH/U3U
+         BLxNJ3UljHfqqe0/Xiz7GKXkMnwSCi36t0Co+8t5Z160eiAdqdhTguGoy+wa9SuSV/Aq
+         nITQ==
+X-Gm-Message-State: AOAM530it2fctg1clvT5FrQMGrfLTY0N6GwTYW/wc0h3Ez1UMjwTaLnG
+        gzEnlDBHzvWFkiG317D4tOG3AAZrNJrfTO4XKQQ=
+X-Google-Smtp-Source: ABdhPJwFkdsN6fVdy6k+zl2b/JKqOhILxbWjTtcaJLtfiCJQtkV2QMsJyCiySjUSMG67/vOSXvXz2+fRSOJ220Rj3HA=
+X-Received: by 2002:a67:7789:: with SMTP id s131mr8454510vsc.40.1627296952092;
+ Mon, 26 Jul 2021 03:55:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210722141351.13668-1-biju.das.jz@bp.renesas.com> <20210722141351.13668-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210722141351.13668-3-biju.das.jz@bp.renesas.com>
+References: <20210722141351.13668-1-biju.das.jz@bp.renesas.com>
+ <b295ec23-f8b2-0432-83e6-16078754e5e3@gmail.com> <YPneBpUk6z8iy94G@lunn.ch> <TYCPR01MB593398E6E5422E81C01F1F8C86E59@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB593398E6E5422E81C01F1F8C86E59@TYCPR01MB5933.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 26 Jul 2021 12:53:57 +0200
-Message-ID: <CAMuHMdUSe3gkOcU9rMOyQBwFzYJrS0D9PosWDxirTmKbc_xx+w@mail.gmail.com>
-Subject: Re: [PATCH net-next 02/18] drivers: clk: renesas: rzg2l-cpg: Add
- support to handle MUX clocks
+Date:   Mon, 26 Jul 2021 12:55:41 +0200
+Message-ID: <CAMuHMdXecUYTSjGUyDZDFKfwT+Fgi4n4o08b0Yunu70JmpnN=w@mail.gmail.com>
+Subject: Re: [PATCH net-next 00/18] Add Gigabit Ethernet driver support
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        Adam Ford <aford173@gmail.com>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -53,59 +61,73 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-
-On Thu, Jul 22, 2021 at 4:14 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add support to handle mux clocks inorder to select a clock source
-> from multiple sources.
+On Fri, Jul 23, 2021 at 8:28 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH net-next 00/18] Add Gigabit Ethernet driver support
+> >
+> > On Thu, Jul 22, 2021 at 11:53:59PM +0300, Sergei Shtylyov wrote:
+> > > On 7/22/21 5:13 PM, Biju Das wrote:
+> > >
+> > > > The DMAC and EMAC blocks of Gigabit Ethernet IP is almost similar to
+> > Ethernet AVB.
+> > > >
+> > > > The Gigabit Etherner IP consists of Ethernet controller (E-MAC),
+> > Internal TCP/IP Offload Engine (TOE) and Dedicated Direct memory access
+> > controller (DMAC).
+> > > >
+> > > > With few changes in driver, we can support Gigabit ethernet driver as
+> > well.
+> > > >
+> > > > This patch series is aims to support the same
+> > > >
+> > > > RFC->V1
+> > > >   * Incorporated feedback from Andrew, Sergei, Geert and Prabhakar
+> > > >   *
+> > > > https://jpn01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpa
+> > > > tchwork.kernel.org%2Fproject%2Flinux-renesas-soc%2Flist%2F%3Fseries%
+> > > > 3D515525&amp;data=04%7C01%7Cbiju.das.jz%40bp.renesas.com%7C6fe3922cc
+> > > > 35d4178cb1d08d94d54bc75%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7
+> > > > C637625848601442706%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQ
+> > > > IjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=bOpIqV1g
+> > > > lMUXqz9rsX0UK3Oqap2J1cY86TGVOJvzYe4%3D&amp;reserved=0
+> > > >
+> > > > Biju Das (18):
+> > > >   dt-bindings: net: renesas,etheravb: Document Gigabit Ethernet IP
+> > > >   drivers: clk: renesas: rzg2l-cpg: Add support to handle MUX clocks
+> > > >   drivers: clk: renesas: r9a07g044-cpg: Add ethernet clock sources
+> > > >   drivers: clk: renesas: r9a07g044-cpg: Add GbEthernet clock/reset
+> > >
+> > >
+> > >    It's not a good idea to have the patch to the defferent subsystems
+> > > lumped all together in a single series...
+> >
+> > Agreed.
+> >
+> > Are these changes inseparable? If so, you need to be up front on this, and
+> > you need an agreement with the subsystem maintainers how the patches are
+> > going to be merged? Through which tree. And you need Acked-by from the
+> > other tree maintainers.
+> >
+> > Ideally you submit multiple patchsets. This assumes all sets will compile
+> > independently.
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-> --- a/drivers/clk/renesas/rzg2l-cpg.h
-> +++ b/drivers/clk/renesas/rzg2l-cpg.h
-> @@ -43,6 +43,7 @@ struct cpg_core_clk {
->         const struct clk_div_table *dtable;
->         const char * const *parent_names;
->         int flag;
-> +       int mux_flags;
->         int num_parents;
->  };
+> Agreed. Will split this patch series in 3 patchsets
 >
-
-I'd move SEL_PLL_PACK() from [PATCH 03/18] here, as it applies to
-"_conf" in DEF_MUX() below.
-
-> @@ -54,6 +55,9 @@ enum clk_types {
+> 1) single binding patch
 >
->         /* Clock with divider */
->         CLK_TYPE_DIV,
-> +
-> +       /* Clock with clock source selector */
-> +       CLK_TYPE_MUX,
->  };
+> 2) Clock patchset
 >
->  #define DEF_TYPE(_name, _id, _type...) \
-> @@ -69,6 +73,11 @@ enum clk_types {
->  #define DEF_DIV(_name, _id, _parent, _conf, _dtable, _flag) \
->         DEF_TYPE(_name, _id, CLK_TYPE_DIV, .conf = _conf, \
->                  .parent = _parent, .dtable = _dtable, .flag = _flag)
-> +#define DEF_MUX(_name, _id, _conf, _parent_names, _num_parents, _flag, \
-> +               _mux_flags) \
-> +       DEF_TYPE(_name, _id, CLK_TYPE_MUX, .conf = _conf, \
-> +                .parent_names = _parent_names, .num_parents = _num_parents, \
-> +                .flag = _flag, .mux_flags = _mux_flags)
->
->  /**
->   * struct rzg2l_mod_clk - Module Clocks definitions
+> 3) ravb driver patchset.
 
-With the above fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+4) dts part.
+
+Part 2 should pass through renesas-clk.
+Part 4 should pass through renesas-devel.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
