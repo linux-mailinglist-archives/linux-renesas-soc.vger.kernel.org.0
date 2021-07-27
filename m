@@ -2,197 +2,766 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5DA53D7BDE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 19:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD21E3D7C0E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 19:19:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbhG0RJO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 13:09:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57362 "EHLO
+        id S229837AbhG0RTM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 13:19:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbhG0RJN (ORCPT
+        with ESMTP id S230208AbhG0RTM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 13:09:13 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F04C061757;
-        Tue, 27 Jul 2021 10:09:12 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id e19so23156297ejs.9;
-        Tue, 27 Jul 2021 10:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=u6wMsy8+y8oQrtqNJJtbV1/vSxSFUv+XxeMD016+Vw0=;
-        b=IoLhVfnPP71L5X+lowoj4eQjg7VxjSMdb4NupC1xLD49iATF3NfmzVPUSIN7J1xi5a
-         nEAPqPJHiPXBvyVHfku0mWpQ8847aRQLbs7NG0CHLoHqM6bhEa2GDGPVa42iP+gUFTIh
-         04st3PRftfIF+fEVqOd4/U/T/7FppvqRyU+zLfW+XzsVp/WWRQt83Fz2BEtC0KcILO0o
-         MzzhCe4Im2xcaStWiLkhzI0J5LdUGfrcM5A/XJOw7zHMTDERkxEdDqmIQ3jTw1v71Ffu
-         sgB2CALLX8ta6t64Zw9GOlf9jalTrIQstpHO2A0QwCwsThSdLhruDGXwvI5FLNP7yy1r
-         fg6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=u6wMsy8+y8oQrtqNJJtbV1/vSxSFUv+XxeMD016+Vw0=;
-        b=bhkTbOTileZWZEnEeKsEolCfHfH4HYcBMHsLFyBEnNYaohKlWsA9vE18ODoQvH7GPT
-         +mfYlwDk6MvE6JzCM+vje2uDgdUFQrjZRvrZrmsTSG26wq92mB/PWKMMQOmWW1bigbOc
-         Zj53zG3AHjOqXKZq1DViiU/omIoiPj8ASSrq0zHsNXvL4nt+dWIYNPmhuQmgEoMcK+n2
-         VJzxwtdMjz2jDpA2bkOw1MMHNNhDiV16+bEsRGyQA5fxH0ArD78mrobkNtoQjLRdhm5I
-         JdtgFch78+I6a/A2v+X82aP/czzlQnQzUcgjJSw9VJcOTn0MOy4uoQ5iFOGNSBlI7f8j
-         rOjw==
-X-Gm-Message-State: AOAM5336o2MdZ6eWK1uujjyU8Xw8tZECM3DZUcsv83eq7QaqKpjQCH1I
-        hIw5KTd1214WEg0lLd1BiAujfhgNW9Y=
-X-Google-Smtp-Source: ABdhPJz3LMJ3OyOT/s3HqviWh0gvPjrsrZQYi0NyweiOFXLp78tL1CF+bTVqLUqzScJEPVS39ue+LQ==
-X-Received: by 2002:a17:906:8602:: with SMTP id o2mr5090290ejx.162.1627405751337;
-        Tue, 27 Jul 2021 10:09:11 -0700 (PDT)
-Received: from [192.168.1.4] (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
-        by smtp.gmail.com with ESMTPSA id d19sm1431558eds.54.2021.07.27.10.09.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Jul 2021 10:09:10 -0700 (PDT)
-Subject: Re: [PATCH V6] PCI: rcar: Add L1 link state fix into data abort hook
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-pci <linux-pci@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20210726174925.GA624246@bjorn-Precision-5520>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <88b82ef7-3e6e-fd3c-4d18-d497f7c1998c@gmail.com>
-Date:   Tue, 27 Jul 2021 19:08:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        Tue, 27 Jul 2021 13:19:12 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BCBDC061757
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Jul 2021 10:19:11 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dbd1vftgng281pd4yskly-3.rev.dnainternet.fi [IPv6:2001:14ba:8eb:1240:ab2d:b956:f00:7a12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 927891B000A4;
+        Tue, 27 Jul 2021 20:19:04 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1627406344;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=0kzntfeAPpiwhw1FDHm/oVQu1JF7lKwegCGL3ywXI90=;
+        b=E8l/VoqTuJ5Yt62rK66D2lVt3qNQyefSP0bi6pt6qvVB/Atfm3Q7rRAoUidNd4E1vEX/Tg
+        9IJHEOxQAG6+bya8BXC1iwISob7LFPYZhuR5nAYwVguWHSjye8BC1NQ3Oh/Z53E/AseAeW
+        fv4NrgRINwMteoAevlsfgmcSMg4nv93gtwu5MzyX7ft5873FjOuovkpBlcql7d4cOryVWt
+        TUWWzTHx5L+IA3b4alReMMo56tOF29X9ULi1Kzo+dvESoOyrZGScWLlloNofvHq41sPXh7
+        U5lVaF6IlJLd+TkxjUIqeaqHbyrgHvdDrYKTsQjhjaL6qQCjeE1B9d/ym8GRLQ==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 89551634C87;
+        Tue, 27 Jul 2021 20:17:54 +0300 (EEST)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1m8Qij-0001KT-TC; Tue, 27 Jul 2021 20:18:21 +0300
+Date:   Tue, 27 Jul 2021 20:18:21 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4] media: rcar-isp: Add Renesas R-Car Image Signal
+ Processor driver
+Message-ID: <20210727171821.GN3@valkosipuli.retiisi.eu>
+References: <20210722075727.806572-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210727131627.GI3@valkosipuli.retiisi.eu>
+ <YQALXnYpM+4jdH5r@oden.dyn.berto.se>
 MIME-Version: 1.0
-In-Reply-To: <20210726174925.GA624246@bjorn-Precision-5520>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YQALXnYpM+4jdH5r@oden.dyn.berto.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1627406344;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=0kzntfeAPpiwhw1FDHm/oVQu1JF7lKwegCGL3ywXI90=;
+        b=mSondewvJLId/MiXRypZzfiWPNYnR9MYJVhOD0mxg0j3Dq2uJLdxygSKxJ4yAeaSRZJfyc
+        ajXZzrMUnpqtDwhXQnP81WR7C6HmgVUro+KtRU7F+6bDTs+3EdTjULdYnrkycfTbIb5Dna
+        KztuPq4BAlfIFOl5HUYolaytPi5/RJYHV4X6+N/8UzzQPhJSPvlqGNN62Zgd5IzFgNkQ7R
+        yivkY95yRLQ1B+GnTOaiObPhzJtu0JUL1ahUyAhS9QTCFKJ+8n1yfOflfpBcxt/DObL8MV
+        TYwdXSlkrAXCV+n1zaRUxQpR1qsKfToXuj7xAPBDFBsOU3Rwog3cy6/hxzGokw==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1627406344; a=rsa-sha256;
+        cv=none;
+        b=jrlkmnjI7TpC8E4Kuo7BLamj7YxNugpSBNfWO47TBPG/n2RmZUHsoDY+8HLEk8eoX0LOXz
+        NMMrEYcBroOebMyh0l26lBPZIQuJHi83bRn2xhYPc0DAfc+NQqq5EeNjdkdbf64EqPueug
+        IKL1nEJmKPOn0mG/0NoUvzYujINAsPo4Vg8Pprcn6jQOJ3dKG6zVm0mFt2PlHsnBpI3B7g
+        phVdYhzbmDBKMrzb6NhPeWfmzohBcVNkDzsRl0f6szgktsaB6JzIHR7B1IQXqf+dE686Lb
+        vcMUE3RgcZu2g8vfDsidmrtFXsE5QBEg2C9xu4AayY8UQwTSLBIbJp2SSVD1bA==
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/26/21 7:49 PM, Bjorn Helgaas wrote:
-> On Mon, Jul 26, 2021 at 04:47:54PM +0200, Geert Uytterhoeven wrote:
-[...]
->>>> The R-Car PCIe controller is capable of handling L0s/L1 link states.
->>>> While the controller can enter and exit L0s link state, and exit L1
->>>> link state, without any additional action from the driver, to enter
->>>> L1 link state, the driver must complete the link state transition by
->>>> issuing additional commands to the controller.
->>>>
->>>> The problem is, this transition is not atomic. The controller sets
->>>> PMEL1RX bit in PMSR register upon reception of PM_ENTER_L1 DLLP from
->>>> the PCIe card, but then the controller enters some sort of inbetween
->>>> state. The driver must detect this condition and complete the link
->>>> state transition, by setting L1IATN bit in PMCTLR and waiting for
->>>> the link state transition to complete.
->>>>
->>>> If a PCIe access happens inside this window, where the controller
->>>> is between L0 and L1 link states, the access generates a fault and
->>>> the ARM 'imprecise external abort' handler is invoked.
->>>>
->>>> Just like other PCI controller drivers, here we hook the fault handler,
->>>> perform the fixup to help the controller enter L1 link state, and then
->>>> restart the instruction which triggered the fault. Since the controller
->>>> is in L1 link state now, the link can exit from L1 link state to L0 and
->>>> successfully complete the access.
->>>>
->>>> While it was suggested to disable L1 link state support completely on
->>>> the controller level, this would not prevent the L1 link state entry
->>>> initiated by the link partner. This happens e.g. in case a PCIe card
->>>> enters D3Hot state, which could be initiated from pci_set_power_state()
->>>> if the card indicates D3Hot support, which in turn means link must enter
->>>> L1 state. So instead, fix up the L1 link state after all.
->>>>
->>>> Note that this fixup is applicable only to Aarch32 R-Car controllers,
->>>> the Aarch64 R-Car perform the same fixup in TFA, see TFA commit [1]
->>>> 0969397f2 ("rcar_gen3: plat: Prevent PCIe hang during L1X config access")
->>>> [1] https://github.com/ARM-software/arm-trusted-firmware/commit/0969397f295621aa26b3d14b76dd397d22be58bf
->>>
->>> This patch is horribly ugly but it's working around a horrible
->>> hardware problem, and I don't have any better suggestions, so I guess
->>> we don't really have much choice.
->>>
->>> I do think the commit log is a bit glib:
->>>
->>>    - "The R-Car PCIe controller is capable of handling L0s/L1 link
->>>      states."  AFAICT every PCIe device is required to handle L0 and L1
->>>      without software assistance.  So saying R-Car is "capable" puts a
->>>      better face on this than seems warranted.
->>>
->>>      L0s doesn't seem relevant at all; at least it doesn't seem to play
->>>      a role in the patch.  There's no such thing as "returning to L0s"
->>>      as mentioned in the comment below; L0s is only reachable from L0.
->>>      Returns from L1 only go to L0 (PCIe r5.0, fig 5-1).
->>>
->>>    - "The problem is, this transition is not atomic."  I think the
->>>      *problem* is the hardware is broken in the first place.  This
->>>      transition is supposed to be invisible to software.
->>>
->>>    - "Just like other PCI controller drivers ..." suggests that this is
->>>      an ordinary situation that we shouldn't be concerned about.  This
->>>      patch may be the best we can do to work around a bad hardware
->>>      defect, but it's definitely not ordinary.
->>>
->>>      I think the other hook_fault_code() uses are for reporting
->>>      legitimate PCIe errors, which most controllers log and turn
->>>      into ~0 data responses without generating an abort or machine
->>>      check, not things caused by hardware defects, so they're not
->>>      really comparable.
->>>
->>> Has Renesas documented this as an erratum?  Will future devices
->>> require additions to rcar_pcie_abort_handler_of_match[]?
->>>
->>> It'd be nice if the commit log mentioned the user-visible effect of
->>> this problem.  I guess it does mention external aborts -- I assume you
->>> see those when downstream devices go to D3hot or when ASPM puts the
->>> link in L1?  And the abort results in a reboot?
->>>
->>> To be clear, I'm not objecting to the patch.  It's a hardware problem
->>> and we should work around it as best we can.
->>
->> Cool! So what's missing for this patch, which we have been polishing
->> for almost one year, to be applied, so innocent people can no longer
->> lock up an R-Car system just by inserting an ubiquitous Intel Ethernet
->> card, and suspending the system?
-> 
-> Nothing missing from my point of view, so if Lorenzo is OK with it,
-> he'll apply it.  If I were applying it, I would make the commit log
-> something like this:
-> 
->    When the link is in L1, hardware should return it to L0
->    automatically whenever a transaction targets a component on the
->    other end of the link (PCIe r5.0, sec 5.2).
-> 
->    The R-Car PCIe controller doesn't handle this transition correctly.
->    If the link is not in L0, an MMIO transaction targeting a downstream
->    device fails, and the controller reports an ARM imprecise external
->    abort.
-> 
->    Work around this by hooking the abort handler so the driver can
->    detect this situation and help the hardware complete the link state
->    transition.
-> 
->    When the R-Car controller receives a PM_ENTER_L1 DLLP from the
->    downstream component, it sets PMEL1RX bit in PMSR register, but then
->    the controller enters some sort of in-between state.  A subsequent
->    MMIO transaction will fail, resulting in the external abort.  The
->    abort handler detects this condition and completes the link state
->    transition by setting the L1IATN bit in PMCTLR and waiting for the
->    link state transition to complete.
+Hejssan,
 
-OK, should I submit V7 and just copy-paste this commit message in, or 
-wait for Lorenzo to provide clear direction ?
-
-> I assume that on the PCIe side, there must be an error like
-> Unsupported Request or Malformed TLP, and the R-Car controller is
-> logging that and turning it into the ARM external abort?
+On Tue, Jul 27, 2021 at 03:34:22PM +0200, Niklas Söderlund wrote:
+> Hi Sakari,
 > 
-> I didn't see a clear response to Pali's question about what happens if
-> there's no MMIO access, e.g., what if the downstream device initiates
-> a DMA or MSI transaction?
+> Thanks for your comments.
+> 
+> On 2021-07-27 16:16:27 +0300, Sakari Ailus wrote:
+> > Hi Niklas,
+> > 
+> > Thanks for the patch.
+> > 
+> > On Thu, Jul 22, 2021 at 09:57:27AM +0200, Niklas Söderlund wrote:
+> > > Add a V4L2 driver for Renesas R-Car Image Signal Processor. The driver
+> > > supports the R-Car V3U SoC where the ISP IP sits between the R-Car CSI-2
+> > > receiver and VIN and filters the CSI-2 data based on VC/DT and directs
+> > > the video stream to different VIN IPs.
+> > > 
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > > * Changes since v2
+> > > - Add description of IPS capabilities and that only channel selection is
+> > >   currently supported.
+> > > - Update signature of v4l2_subdev_pad_ops set_fmt.
+> > > - Switch to pm_runtime_resume_and_get().
+> > > - Make better use of devm_kzalloc().
+> > > 
+> > > * Changes since v3
+> > > - Fix spelling in header information.
+> > > - Add parentheses around macro expansions.
+> > > - Add explicit blocks to for-loop body.
+> > > - Add documentation for mutex.
+> > > ---
+> > >  MAINTAINERS                       |   1 +
+> > >  drivers/media/platform/Kconfig    |  16 +
+> > >  drivers/media/platform/Makefile   |   1 +
+> > >  drivers/media/platform/rcar-isp.c | 505 ++++++++++++++++++++++++++++++
+> > >  4 files changed, 523 insertions(+)
+> > >  create mode 100644 drivers/media/platform/rcar-isp.c
+> > > 
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index e0dd84121d49ce98..216e6f996cfcb27b 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -11568,6 +11568,7 @@ T:	git git://linuxtv.org/media_tree.git
+> > >  F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> > >  F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
+> > >  F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > +F:	drivers/media/platform/rcar-isp.c
+> > >  F:	drivers/media/platform/rcar-vin/
+> > >  
+> > >  MEDIA DRIVERS FOR RENESAS - VSP1
+> > > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> > > index 157c924686e4b61b..a8777d5dd6bc3ec1 100644
+> > > --- a/drivers/media/platform/Kconfig
+> > > +++ b/drivers/media/platform/Kconfig
+> > > @@ -200,6 +200,22 @@ config VIDEO_TI_CAL_MC
+> > >  
+> > >  endif # VIDEO_TI_CAL
+> > >  
+> > > +config VIDEO_RCAR_ISP
+> > > +	tristate "R-Car Image Signal Processor (ISP)"
+> > > +	depends on VIDEO_V4L2 && OF
+> > > +	depends on ARCH_RENESAS || COMPILE_TEST
+> > > +	select MEDIA_CONTROLLER
+> > > +	select VIDEO_V4L2_SUBDEV_API
+> > > +	select RESET_CONTROLLER
+> > > +	select V4L2_FWNODE
+> > > +	help
+> > > +	  Support for Renesas R-Car Image Signal Processor (ISP).
+> > > +	  Enable this to support the Renesas R-Car Image Signal
+> > > +	  Processor (ISP).
+> > > +
+> > > +	  To compile this driver as a module, choose M here: the
+> > > +	  module will be called rcar-isp.
+> > > +
+> > >  endif # V4L_PLATFORM_DRIVERS
+> > >  
+> > >  menuconfig V4L_MEM2MEM_DRIVERS
+> > > diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+> > > index 73ce083c2fc6b51b..a148553babfc0944 100644
+> > > --- a/drivers/media/platform/Makefile
+> > > +++ b/drivers/media/platform/Makefile
+> > > @@ -63,6 +63,7 @@ obj-$(CONFIG_VIDEO_AM437X_VPFE)		+= am437x/
+> > >  
+> > >  obj-$(CONFIG_VIDEO_XILINX)		+= xilinx/
+> > >  
+> > > +obj-$(CONFIG_VIDEO_RCAR_ISP)		+= rcar-isp.o
+> > >  obj-$(CONFIG_VIDEO_RCAR_VIN)		+= rcar-vin/
+> > >  
+> > >  obj-$(CONFIG_VIDEO_ATMEL_ISC)		+= atmel/
+> > > diff --git a/drivers/media/platform/rcar-isp.c b/drivers/media/platform/rcar-isp.c
+> > > new file mode 100644
+> > > index 0000000000000000..a7dd8fbe45ae3eab
+> > > --- /dev/null
+> > > +++ b/drivers/media/platform/rcar-isp.c
+> > > @@ -0,0 +1,505 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * Copyright (C) 2021 Renesas Electronics Corp.
+> > > + *
+> > > + * Driver for Renesas R-Car ISP Channel Selector
+> > > + *
+> > > + * The ISP hardware is capable of more than just channel selection, features
+> > > + * such as demosaicing, white balance control and color space conversion are
+> > > + * also possible. These more advanced features are not supported by the driver
+> > > + * due to lack of documentation.
+> > > + */
+> > > +
+> > > +#include <linux/module.h>
+> > > +#include <linux/mutex.h>
+> > > +#include <linux/of_device.h>
+> > > +#include <linux/platform_device.h>
+> > > +#include <linux/pm_runtime.h>
+> > > +#include <linux/reset.h>
+> > > +
+> > > +#include <media/v4l2-subdev.h>
+> > > +
+> > > +#define ISPINPUTSEL0_REG				0x0008
+> > > +#define ISPINPUTSEL0_SEL_CSI0				BIT(31)
+> > > +
+> > > +#define ISPSTART_REG					0x0014
+> > > +#define ISPSTART_START					0xffff
+> > > +#define ISPSTART_STOP					0x0000
+> > > +
+> > > +#define ISPPROCMODE_DT_REG(n)				(0x1100 + (0x4 * (n)))
+> > > +#define ISPPROCMODE_DT_PROC_MODE_VC3(pm)		(((pm) & 0x3f) << 24)
+> > > +#define ISPPROCMODE_DT_PROC_MODE_VC2(pm)		(((pm) & 0x3f) << 16)
+> > > +#define ISPPROCMODE_DT_PROC_MODE_VC1(pm)		(((pm) & 0x3f) << 8)
+> > > +#define ISPPROCMODE_DT_PROC_MODE_VC0(pm)		((pm) & 0x3f)
+> > > +
+> > > +#define ISPCS_FILTER_ID_CH_REG(n)			(0x3000 + (0x0100 * (n)))
+> > > +
+> > > +#define ISPCS_DT_CODE03_CH_REG(n)			(0x3008 + (0x100 * (n)))
+> > > +#define ISPCS_DT_CODE03_EN3				BIT(31)
+> > > +#define ISPCS_DT_CODE03_DT3(dt)				(((dt) & 0x3f) << 24)
+> > > +#define ISPCS_DT_CODE03_EN2				BIT(23)
+> > > +#define ISPCS_DT_CODE03_DT2(dt)				(((dt) & 0x3f) << 16)
+> > > +#define ISPCS_DT_CODE03_EN1				BIT(15)
+> > > +#define ISPCS_DT_CODE03_DT1(dt)				(((dt) & 0x3f) << 8)
+> > > +#define ISPCS_DT_CODE03_EN0				BIT(7)
+> > > +#define ISPCS_DT_CODE03_DT0(dt)				((dt) & 0x3f)
+> > > +
+> > > +struct rcar_isp_format {
+> > > +	u32 code;
+> > > +	unsigned int datatype;
+> > > +	unsigned int procmode;
+> > > +};
+> > > +
+> > > +static const struct rcar_isp_format rcar_isp_formats[] = {
+> > > +	{ .code = MEDIA_BUS_FMT_RGB888_1X24,	.datatype = 0x24, .procmode = 0x15 },
+> > > +	{ .code = MEDIA_BUS_FMT_Y10_1X10,	.datatype = 0x2b, .procmode = 0x10 },
+> > > +	{ .code = MEDIA_BUS_FMT_UYVY8_1X16,	.datatype = 0x1e, .procmode = 0x0c },
+> > > +	{ .code = MEDIA_BUS_FMT_YUYV8_1X16,	.datatype = 0x1e, .procmode = 0x0c },
+> > > +	{ .code = MEDIA_BUS_FMT_UYVY8_2X8,	.datatype = 0x1e, .procmode = 0x0c },
+> > > +	{ .code = MEDIA_BUS_FMT_YUYV10_2X10,	.datatype = 0x1e, .procmode = 0x0c },
+> > > +};
+> > > +
+> > > +static const struct rcar_isp_format *risp_code_to_fmt(unsigned int code)
+> > > +{
+> > > +	unsigned int i;
+> > > +
+> > > +	for (i = 0; i < ARRAY_SIZE(rcar_isp_formats); i++) {
+> > > +		if (rcar_isp_formats[i].code == code)
+> > > +			return &rcar_isp_formats[i];
+> > > +	}
+> > > +
+> > > +	return NULL;
+> > > +}
+> > > +
+> > > +enum rcar_isp_input {
+> > > +	RISP_CSI_INPUT0,
+> > > +	RISP_CSI_INPUT1,
+> > > +};
+> > > +
+> > > +enum rcar_isp_pads {
+> > > +	RCAR_ISP_SINK,
+> > > +	RCAR_ISP_PORT0,
+> > > +	RCAR_ISP_PORT1,
+> > > +	RCAR_ISP_PORT2,
+> > > +	RCAR_ISP_PORT3,
+> > > +	RCAR_ISP_PORT4,
+> > > +	RCAR_ISP_PORT5,
+> > > +	RCAR_ISP_PORT6,
+> > > +	RCAR_ISP_PORT7,
+> > > +	RCAR_ISP_MAX_PAD,
+> > > +};
+> > > +
+> > > +struct rcar_isp {
+> > > +	struct device *dev;
+> > > +	void __iomem *base;
+> > > +	struct reset_control *rstc;
+> > > +
+> > > +	enum rcar_isp_input csi_input;
+> > > +
+> > > +	struct v4l2_subdev subdev;
+> > > +	struct media_pad pads[RCAR_ISP_MAX_PAD];
+> > > +
+> > > +	struct v4l2_async_notifier notifier;
+> > > +	struct v4l2_subdev *remote;
+> > > +	unsigned int remote_pad;
+> > > +
+> > > +	struct v4l2_mbus_framefmt mf;
+> > > +
+> > > +	struct mutex lock; /* Protects stream_count. */
+> > > +	int stream_count;
+> > > +};
+> > > +
+> > > +static inline struct rcar_isp *sd_to_isp(struct v4l2_subdev *sd)
+> > > +{
+> > > +	return container_of(sd, struct rcar_isp, subdev);
+> > > +}
+> > > +
+> > > +static inline struct rcar_isp *notifier_to_isp(struct v4l2_async_notifier *n)
+> > > +{
+> > > +	return container_of(n, struct rcar_isp, notifier);
+> > > +}
+> > > +
+> > > +static void risp_write(struct rcar_isp *isp, u32 offset, u32 value)
+> > > +{
+> > > +	iowrite32(value, isp->base + offset);
+> > > +}
+> > > +
+> > > +static u32 risp_read(struct rcar_isp *isp, u32 offset)
+> > > +{
+> > > +	return ioread32(isp->base + offset);
+> > > +}
+> > > +
+> > > +static int risp_s_power(struct v4l2_subdev *sd, int on)
+> > 
+> > Please do not rely on external s_power(); use runtime PM based on the needs
+> > of the device instead.
+> 
+> Are you saying we should not implement the v4l2_subdev_core_ops.s_power 
+> operation at all?
 
-If the link is in this state, the packet won't reach the root complex, 
-so nothing happens. And I don't see a good way to fix that option.
+Correct.
+
+> 
+> > 
+> > > +{
+> > > +	struct rcar_isp *isp = sd_to_isp(sd);
+> > > +	int ret;
+> > > +
+> > > +	if (on) {
+> > > +		ret = pm_runtime_resume_and_get(isp->dev);
+> > > +		if (ret < 0)
+> > > +			return ret;
+> > > +
+> > > +		ret = reset_control_deassert(isp->rstc);
+> > > +		if (ret < 0)
+> > 
+> > You need to put the runtime PM usage_count here (assuming you'd move the
+> > code elsewhere).
+> > 
+> > > +			return ret;
+> > > +	} else {
+> > > +		reset_control_assert(isp->rstc);
+> > > +		pm_runtime_put(isp->dev);
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct v4l2_subdev_core_ops risp_core_ops = {
+> > > +	.s_power = risp_s_power,
+> > > +};
+> > > +
+> > > +static int risp_remote_code(struct rcar_isp *isp)
+> > > +{
+> > > +	struct v4l2_subdev_format fmt = {
+> > > +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> > > +	};
+> > > +
+> > > +	fmt.pad = isp->remote_pad;
+> > > +	if (v4l2_subdev_call(isp->remote, pad, get_fmt, NULL, &fmt))
+> > > +		return -EPIPE;
+> > > +
+> > > +	return fmt.format.code;
+> > > +}
+> > > +
+> > > +static int risp_start(struct rcar_isp *isp)
+> > > +{
+> > > +	const struct rcar_isp_format *format;
+> > > +	unsigned int vc;
+> > > +	u32 sel_csi = 0;
+> > > +
+> > > +	format = risp_code_to_fmt(risp_remote_code(isp));
+> > 
+> > You should rely on the code you have on the local pad, not get it from an
+> > external device.
+> 
+> We discussed this in an earlier version of this patch set. As the pads 
+> here are CSI-2 the format on either pad is insufficient as it don't 
+> describe the multiplexed stream. This will hopefully soon be fixed 
+> upstream but in the mean time I would like to solve it the same way in 
+> the R-Car CSI-2 driver to make the proper fix easier once multiplexed 
+> stream support lands upstream.
+
+Hmm. I don't think it would work fundamentally differently than what I
+described above even when we have multi-stream support upstream. You'll
+need to fix this eventually in any case.
+
+> 
+> > 
+> > > +	if (!format) {
+> > > +		dev_err(isp->dev, "Unsupported bus format\n");
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	/* Select CSI-2 input source. */
+> > > +	if (isp->csi_input == RISP_CSI_INPUT1)
+> > > +		sel_csi = ISPINPUTSEL0_SEL_CSI0;
+> > > +
+> > > +	risp_write(isp, ISPINPUTSEL0_REG,
+> > > +		   risp_read(isp, ISPINPUTSEL0_REG) | sel_csi);
+> > > +
+> > > +	/* Configure Channel Selector. */
+> > > +	for (vc = 0; vc < 4; vc++) {
+> > > +		u8 ch = vc + 4;
+> > > +		u8 dt = format->datatype;
+> > > +
+> > > +		risp_write(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
+> > > +		risp_write(isp, ISPCS_DT_CODE03_CH_REG(ch),
+> > > +			   ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
+> > > +			   ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
+> > > +			   ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
+> > > +			   ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
+> > > +	}
+> > > +
+> > > +	/* Setup processing method. */
+> > > +	risp_write(isp, ISPPROCMODE_DT_REG(format->datatype),
+> > > +		   ISPPROCMODE_DT_PROC_MODE_VC3(format->procmode) |
+> > > +		   ISPPROCMODE_DT_PROC_MODE_VC2(format->procmode) |
+> > > +		   ISPPROCMODE_DT_PROC_MODE_VC1(format->procmode) |
+> > > +		   ISPPROCMODE_DT_PROC_MODE_VC0(format->procmode));
+> > > +
+> > > +	/* Start ISP. */
+> > > +	risp_write(isp, ISPSTART_REG, ISPSTART_START);
+> > > +
+> > > +	return v4l2_subdev_call(isp->remote, video, s_stream, 1);
+> > > +}
+> > > +
+> > > +static void risp_stop(struct rcar_isp *isp)
+> > > +{
+> > > +	v4l2_subdev_call(isp->remote, video, s_stream, 0);
+> > > +
+> > > +	/* Stop ISP. */
+> > > +	risp_write(isp, ISPSTART_REG, ISPSTART_STOP);
+> > > +}
+> > > +
+> > > +static int risp_s_stream(struct v4l2_subdev *sd, int enable)
+> > > +{
+> > > +	struct rcar_isp *isp = sd_to_isp(sd);
+> > > +	int ret = 0;
+> > > +
+> > > +	mutex_lock(&isp->lock);
+> > > +
+> > > +	if (!isp->remote) {
+> > > +		ret = -ENODEV;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	if (enable && isp->stream_count == 0) {
+> > > +		ret = risp_start(isp);
+> > > +		if (ret)
+> > > +			goto out;
+> > > +	} else if (!enable && isp->stream_count == 1) {
+> > > +		risp_stop(isp);
+> > > +	}
+> > > +
+> > > +	isp->stream_count += enable ? 1 : -1;
+> > > +out:
+> > > +	mutex_unlock(&isp->lock);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static const struct v4l2_subdev_video_ops risp_video_ops = {
+> > > +	.s_stream = risp_s_stream,
+> > > +};
+> > > +
+> > > +static int risp_set_pad_format(struct v4l2_subdev *sd,
+> > > +			       struct v4l2_subdev_state *sd_state,
+> > > +			       struct v4l2_subdev_format *format)
+> > > +{
+> > > +	struct rcar_isp *isp = sd_to_isp(sd);
+> > > +	struct v4l2_mbus_framefmt *framefmt;
+> > > +
+> > > +	if (!risp_code_to_fmt(format->format.code))
+> > > +		format->format.code = rcar_isp_formats[0].code;
+> > > +
+> > > +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > > +		isp->mf = format->format;
+> > > +	} else {
+> > > +		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> > > +		*framefmt = format->format;
+> > > +	}
+> > 
+> > You need to serialise access to *framefmt and isp->mf.
+> 
+> Will fix.
+> 
+> > 
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int risp_get_pad_format(struct v4l2_subdev *sd,
+> > > +			       struct v4l2_subdev_state *sd_state,
+> > > +			       struct v4l2_subdev_format *format)
+> > > +{
+> > > +	struct rcar_isp *isp = sd_to_isp(sd);
+> > > +
+> > > +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> > > +		format->format = isp->mf;
+> > > +	else
+> > > +		format->format = *v4l2_subdev_get_try_format(sd, sd_state, 0);
+> > 
+> > Same here.
+> 
+> Will fix.
+> 
+> > 
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct v4l2_subdev_pad_ops risp_pad_ops = {
+> > > +	.set_fmt = risp_set_pad_format,
+> > > +	.get_fmt = risp_get_pad_format,
+> > 
+> > Maybe set link_validate to v4l2_subdev_link_validate_default?
+> 
+> I thought about that but with the multiplexed stream issue I thought it 
+> best to not to add that yet. Do you think this make sens?
+
+What would be the alternative? Without that, there's no guarantee
+whatsoever what the input is. It may also enable writing user space that
+breaks after fixing this in the driver.
+
+Where in the pipeline would you have multiple streams over a single data
+path?
+
+> 
+> > 
+> > > +};
+> > > +
+> > > +static const struct v4l2_subdev_ops rcar_isp_subdev_ops = {
+> > > +	.core	= &risp_core_ops,
+> > > +	.video	= &risp_video_ops,
+> > > +	.pad	= &risp_pad_ops,
+> > > +};
+> > > +
+> > > +/* -----------------------------------------------------------------------------
+> > > + * Async handling and registration of subdevices and links
+> > > + */
+> > > +
+> > > +static int risp_notify_bound(struct v4l2_async_notifier *notifier,
+> > > +			     struct v4l2_subdev *subdev,
+> > > +			     struct v4l2_async_subdev *asd)
+> > > +{
+> > > +	struct rcar_isp *isp = notifier_to_isp(notifier);
+> > > +	int pad;
+> > > +
+> > > +	pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
+> > > +					  MEDIA_PAD_FL_SOURCE);
+> > > +	if (pad < 0) {
+> > > +		dev_err(isp->dev, "Failed to find pad for %s\n", subdev->name);
+> > > +		return pad;
+> > > +	}
+> > > +
+> > > +	isp->remote = subdev;
+> > > +	isp->remote_pad = pad;
+> > > +
+> > > +	dev_dbg(isp->dev, "Bound %s pad: %d\n", subdev->name, pad);
+> > > +
+> > > +	return media_create_pad_link(&subdev->entity, pad,
+> > > +				     &isp->subdev.entity, 0,
+> > > +				     MEDIA_LNK_FL_ENABLED |
+> > > +				     MEDIA_LNK_FL_IMMUTABLE);
+> > > +}
+> > > +
+> > > +static void risp_notify_unbind(struct v4l2_async_notifier *notifier,
+> > > +			       struct v4l2_subdev *subdev,
+> > > +			       struct v4l2_async_subdev *asd)
+> > > +{
+> > > +	struct rcar_isp *isp = notifier_to_isp(notifier);
+> > > +
+> > > +	isp->remote = NULL;
+> > > +
+> > > +	dev_dbg(isp->dev, "Unbind %s\n", subdev->name);
+> > > +}
+> > > +
+> > > +static const struct v4l2_async_notifier_operations risp_notify_ops = {
+> > > +	.bound = risp_notify_bound,
+> > > +	.unbind = risp_notify_unbind,
+> > > +};
+> > > +
+> > > +static int risp_parse_dt(struct rcar_isp *isp)
+> > > +{
+> > > +	struct v4l2_async_subdev *asd;
+> > > +	struct fwnode_handle *fwnode;
+> > > +	struct fwnode_handle *ep;
+> > > +	unsigned int id;
+> > > +	int ret;
+> > > +
+> > > +	for (id = 0; id < 2; id++) {
+> > > +		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(isp->dev),
+> > > +						     0, id, 0);
+> > > +		if (ep)
+> > > +			break;
+> > > +	}
+> > > +
+> > > +	if (!ep) {
+> > > +		dev_err(isp->dev, "Not connected to subdevice\n");
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	if (id == 1)
+> > > +		isp->csi_input = RISP_CSI_INPUT1;
+> > > +
+> > > +	fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > > +	fwnode_handle_put(ep);
+> > > +
+> > > +	dev_dbg(isp->dev, "Found '%pOF'\n", to_of_node(fwnode));
+> > > +
+> > > +	v4l2_async_notifier_init(&isp->notifier);
+> > > +	isp->notifier.ops = &risp_notify_ops;
+> > > +
+> > > +	asd = v4l2_async_notifier_add_fwnode_subdev(&isp->notifier, fwnode,
+> > > +						    struct v4l2_async_subdev);
+> > > +	fwnode_handle_put(fwnode);
+> > > +	if (IS_ERR(asd))
+> > > +		return PTR_ERR(asd);
+> > > +
+> > > +	ret = v4l2_async_subdev_notifier_register(&isp->subdev, &isp->notifier);
+> > > +	if (ret)
+> > > +		v4l2_async_notifier_cleanup(&isp->notifier);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +/* -----------------------------------------------------------------------------
+> > > + * Platform Device Driver
+> > > + */
+> > > +
+> > > +static const struct media_entity_operations risp_entity_ops = {
+> > > +	.link_validate = v4l2_subdev_link_validate,
+> > > +};
+> > > +
+> > > +static int risp_probe_resources(struct rcar_isp *isp,
+> > > +				struct platform_device *pdev)
+> > > +{
+> > > +	struct resource *res;
+> > > +
+> > > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > > +	isp->base = devm_ioremap_resource(&pdev->dev, res);
+> > > +	if (IS_ERR(isp->base))
+> > > +		return PTR_ERR(isp->base);
+> > > +
+> > > +	isp->rstc = devm_reset_control_get(&pdev->dev, NULL);
+> > > +
+> > > +	return PTR_ERR_OR_ZERO(isp->rstc);
+> > > +}
+> > > +
+> > > +static const struct of_device_id risp_of_id_table[] = {
+> > > +	{ .compatible = "renesas,r8a779a0-isp" },
+> > > +	{ /* sentinel */ },
+> > > +};
+> > > +MODULE_DEVICE_TABLE(of, risp_of_id_table);
+> > > +
+> > > +static int risp_probe(struct platform_device *pdev)
+> > > +{
+> > > +	struct rcar_isp *isp;
+> > > +	unsigned int i;
+> > > +	int ret;
+> > > +
+> > > +	isp = devm_kzalloc(&pdev->dev, sizeof(*isp), GFP_KERNEL);
+> > > +	if (!isp)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	isp->dev = &pdev->dev;
+> > > +
+> > > +	mutex_init(&isp->lock);
+> > 
+> > Remember mutex_destroy() on error paths and in remove function.
+> 
+> Good point.
+> 
+> > 
+> > > +
+> > > +	ret = risp_probe_resources(isp, pdev);
+> > > +	if (ret) {
+> > > +		dev_err(isp->dev, "Failed to get resources\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	platform_set_drvdata(pdev, isp);
+> > > +
+> > > +	ret = risp_parse_dt(isp);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	isp->subdev.owner = THIS_MODULE;
+> > > +	isp->subdev.dev = &pdev->dev;
+> > > +	v4l2_subdev_init(&isp->subdev, &rcar_isp_subdev_ops);
+> > > +	v4l2_set_subdevdata(&isp->subdev, &pdev->dev);
+> > > +	snprintf(isp->subdev.name, V4L2_SUBDEV_NAME_SIZE, "%s %s",
+> > > +		 KBUILD_MODNAME, dev_name(&pdev->dev));
+> > > +	isp->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > > +
+> > > +	isp->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
+> > > +	isp->subdev.entity.ops = &risp_entity_ops;
+> > > +
+> > > +	isp->pads[RCAR_ISP_SINK].flags = MEDIA_PAD_FL_SINK;
+> > > +	for (i = RCAR_ISP_PORT0; i < RCAR_ISP_MAX_PAD; i++)
+> > > +		isp->pads[i].flags = MEDIA_PAD_FL_SOURCE;
+> > > +
+> > > +	ret = media_entity_pads_init(&isp->subdev.entity, RCAR_ISP_MAX_PAD,
+> > > +				     isp->pads);
+> > > +	if (ret)
+> > > +		goto error;
+> > > +
+> > > +	pm_runtime_enable(&pdev->dev);
+> > > +
+> > > +	ret = v4l2_async_register_subdev(&isp->subdev);
+> > > +	if (ret < 0)
+> > 
+> > pm_runtime_disable() here?
+> 
+> Good point.
+> 
+> > 
+> > > +		goto error;
+> > > +
+> > > +	dev_info(isp->dev, "Using CSI-2 input: %u\n", isp->csi_input);
+> > > +
+> > > +	return 0;
+> > > +error:
+> > > +	v4l2_async_notifier_unregister(&isp->notifier);
+> > > +	v4l2_async_notifier_cleanup(&isp->notifier);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int risp_remove(struct platform_device *pdev)
+> > > +{
+> > > +	struct rcar_isp *isp = platform_get_drvdata(pdev);
+> > > +
+> > > +	v4l2_async_notifier_unregister(&isp->notifier);
+> > > +	v4l2_async_notifier_cleanup(&isp->notifier);
+> > > +	v4l2_async_unregister_subdev(&isp->subdev);
+> > > +
+> > > +	pm_runtime_disable(&pdev->dev);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static struct platform_driver rcar_isp_driver = {
+> > > +	.driver = {
+> > > +		.name = "rcar-isp",
+> > > +		.of_match_table = risp_of_id_table,
+> > > +	},
+> > > +	.probe = risp_probe,
+> > > +	.remove = risp_remove,
+> > > +};
+> > > +
+> > > +module_platform_driver(rcar_isp_driver);
+> > > +
+> > > +MODULE_AUTHOR("Niklas Söderlund <niklas.soderlund@ragnatech.se>");
+> > > +MODULE_DESCRIPTION("Renesas R-Car ISP Channel Selector driver");
+> > > +MODULE_LICENSE("GPL");
+
+-- 
+Sakari Ailus
