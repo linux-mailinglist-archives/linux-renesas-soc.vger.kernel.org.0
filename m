@@ -2,47 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 444F13D7E15
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 20:55:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A69CC3D7E16
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 20:55:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbhG0Szi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 14:55:38 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:24741 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229763AbhG0Szi (ORCPT
+        id S230201AbhG0Szn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 14:55:43 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:49485 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229763AbhG0Szm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 14:55:38 -0400
+        Tue, 27 Jul 2021 14:55:42 -0400
 X-IronPort-AV: E=Sophos;i="5.84,274,1620658800"; 
-   d="scan'208";a="88899492"
+   d="scan'208";a="88939034"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 28 Jul 2021 03:55:38 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 28 Jul 2021 03:55:41 +0900
 Received: from localhost.localdomain (unknown [10.226.92.236])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 488B9400B9EB;
-        Wed, 28 Jul 2021 03:55:33 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 90992400B9EB;
+        Wed, 28 Jul 2021 03:55:38 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
         Vinod Koul <vkoul@kernel.org>,
-        Michael Walle <michael@walle.cc>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Nishanth Menon <nm@ti.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v5 1/6] arm64: configs: defconfig: Enable RZ/G2L USBPHY control driver
-Date:   Tue, 27 Jul 2021 19:55:22 +0100
-Message-Id: <20210727185527.19907-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v5 2/6] dt-bindings: phy: renesas,usb2-phy: Document RZ/G2L phy bindings
+Date:   Tue, 27 Jul 2021 19:55:23 +0100
+Message-Id: <20210727185527.19907-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210727185527.19907-1-biju.das.jz@bp.renesas.com>
 References: <20210727185527.19907-1-biju.das.jz@bp.renesas.com>
@@ -50,31 +41,61 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-RZ/G2L SoC supports USBPHY control,so enable it in ARM64 defconfig.
+Document USB phy bindings for RZ/G2L SoC.
+
+RZ/G2L USB2.0 phy uses line ctrl register for OTG_ID pin changes. It uses
+a different OTG-BC interrupt bit for device recognition. Apart from this,
+the PHY reset is controlled by USBPHY control IP and Document reset is a
+required property.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
 v4->v5:
- * No dependencies now. Binding and driver patches accepted for reset/next
+ * Removed 'properties' and just used 'required' for RZ/G2L SoC.
 v3->v4:
- * No Change.
+ * Removed second reset
+ * Added family specific compatible string.
+v2->v3
+ * Created a new compatible for RZ/G2L as per Geert's suggestion.
+ * Added resets required properties for RZ/G2L SoC.
 ---
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/phy/renesas,usb2-phy.yaml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index f423d08b9a71..87446625faab 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -1099,6 +1099,7 @@ CONFIG_PWM_VISCONTI=m
- CONFIG_SL28CPLD_INTC=y
- CONFIG_QCOM_PDC=y
- CONFIG_RESET_IMX7=y
-+CONFIG_RESET_RZG2L_USBPHY_CTRL=y
- CONFIG_RESET_QCOM_AOSS=y
- CONFIG_RESET_QCOM_PDC=m
- CONFIG_RESET_TI_SCI=y
+diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+index d5dc5a3cdceb..3a6e1165419c 100644
+--- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+@@ -30,6 +30,11 @@ properties:
+               - renesas,usb2-phy-r8a77995 # R-Car D3
+           - const: renesas,rcar-gen3-usb2-phy
+ 
++      - items:
++          - enum:
++              - renesas,usb2-phy-r9a07g044 # RZ/G2{L,LC}
++          - const: renesas,rzg2l-usb2-phy  # RZ/G2L family
++
+   reg:
+     maxItems: 1
+ 
+@@ -91,6 +96,16 @@ required:
+   - clocks
+   - '#phy-cells'
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,rzg2l-usb2-phy
++    then:
++      required:
++        - resets
++
+ additionalProperties: false
+ 
+ examples:
 -- 
 2.17.1
 
