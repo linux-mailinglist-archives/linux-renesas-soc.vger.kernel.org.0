@@ -2,36 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28E563D7E18
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 20:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EBE93D7E19
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 20:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230334AbhG0Szp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 14:55:45 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:35412 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229763AbhG0Szp (ORCPT
+        id S229763AbhG0Szs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 14:55:48 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:49485 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230270AbhG0Szr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 14:55:45 -0400
+        Tue, 27 Jul 2021 14:55:47 -0400
 X-IronPort-AV: E=Sophos;i="5.84,274,1620658800"; 
-   d="scan'208";a="88899501"
+   d="scan'208";a="88939039"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 28 Jul 2021 03:55:44 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 28 Jul 2021 03:55:47 +0900
 Received: from localhost.localdomain (unknown [10.226.92.236])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0DBCB400B9EB;
-        Wed, 28 Jul 2021 03:55:41 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 05C34400C747;
+        Wed, 28 Jul 2021 03:55:44 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 3/6] phy: renesas: phy-rcar-gen3-usb2: Add USB2.0 PHY support for RZ/G2L
-Date:   Tue, 27 Jul 2021 19:55:24 +0100
-Message-Id: <20210727185527.19907-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v5 4/6] arm64: dts: renesas: r9a07g044: Add USB2.0 phy and host support
+Date:   Tue, 27 Jul 2021 19:55:25 +0100
+Message-Id: <20210727185527.19907-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210727185527.19907-1-biju.das.jz@bp.renesas.com>
 References: <20210727185527.19907-1-biju.das.jz@bp.renesas.com>
@@ -39,248 +38,127 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds USB2.0 PHY support for RZ/G2L SoC.
-
-We need to use a different compatible string due to some differences
-with R-Car Gen3 USB2.0 PHY. It uses line ctrl register for OTG_ID
-pin changes and different OTG-BC interrupt bit for device recognition.
+Add USB2.0 phy and host support to SoC DT.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- v4->v5:
-  * Updated commit description Add OTG support-> Add USB2.0 PHY support.
- v3->v4:
-  * using family compatible instead of SoC specific.
- v3:
-  * Made seperate compatible for RZ/G2L.
-  * Extended rcar_gen3_phy_usb2_match_table[].data to support RZ/G2L.
+v4->v5:
+ * No change.
+V3->v4:
+ * Removed second reset from phy node.
+ V3:
+  * Added reset entries
+  * Updated compatible, phy and reset entries.
 ---
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 97 ++++++++++++++++++------
- 1 file changed, 73 insertions(+), 24 deletions(-)
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 94 ++++++++++++++++++++++
+ 1 file changed, 94 insertions(+)
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index fbc55232120e..9de617ca9daa 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -64,6 +64,7 @@
- /* VBCTRL */
- #define USB2_VBCTRL_OCCLREN		BIT(16)
- #define USB2_VBCTRL_DRVVBUSSEL		BIT(8)
-+#define USB2_VBCTRL_VBOUT		BIT(0)
- 
- /* LINECTRL1 */
- #define USB2_LINECTRL1_DPRPD_EN		BIT(19)
-@@ -78,6 +79,10 @@
- #define USB2_ADPCTRL_IDPULLUP		BIT(5)	/* 1 = ID sampling is enabled */
- #define USB2_ADPCTRL_DRVVBUS		BIT(4)
- 
-+/*  RZ/G2L specific */
-+#define USB2_OBINT_IDCHG_EN		BIT(0)
-+#define USB2_LINECTRL1_USB2_IDMON	BIT(0)
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+index 9a7489dc70d1..f0dcd086ba20 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+@@ -200,6 +200,100 @@
+ 			      <0x0 0x11940000 0 0x60000>;
+ 			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
+ 		};
 +
- #define NUM_OF_PHYS			4
- enum rcar_gen3_phy_index {
- 	PHY_INDEX_BOTH_HC,
-@@ -112,9 +117,16 @@ struct rcar_gen3_chan {
- 	struct mutex lock;	/* protects rphys[...].powered */
- 	enum usb_dr_mode dr_mode;
- 	int irq;
-+	u32 obint_enable_bits;
- 	bool extcon_host;
- 	bool is_otg_channel;
- 	bool uses_otg_pins;
-+	bool soc_no_adp_ctrl;
-+};
++		phyrst: usbphy-ctrl@11c40000 {
++			compatible = "renesas,r9a07g044-usbphy-ctrl",
++				     "renesas,rzg2l-usbphy-ctrl";
++			reg = <0 0x11c40000 0 0x10000>;
++			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>;
++			resets = <&cpg R9A07G044_USB_PRESETN>;
++			power-domains = <&cpg>;
++			#reset-cells = <1>;
++		};
 +
-+struct rcar_gen3_phy_drv_data {
-+	const struct phy_ops *phy_usb2_ops;
-+	bool no_adp_ctrl;
- };
- 
- /*
-@@ -172,14 +184,22 @@ static void rcar_gen3_set_linectrl(struct rcar_gen3_chan *ch, int dp, int dm)
- static void rcar_gen3_enable_vbus_ctrl(struct rcar_gen3_chan *ch, int vbus)
- {
- 	void __iomem *usb2_base = ch->base;
--	u32 val = readl(usb2_base + USB2_ADPCTRL);
-+	u32 vbus_ctrl_reg = USB2_ADPCTRL;
-+	u32 vbus_ctrl_val = USB2_ADPCTRL_DRVVBUS;
-+	u32 val;
- 
- 	dev_vdbg(ch->dev, "%s: %08x, %d\n", __func__, val, vbus);
-+	if (ch->soc_no_adp_ctrl) {
-+		vbus_ctrl_reg = USB2_VBCTRL;
-+		vbus_ctrl_val = USB2_VBCTRL_VBOUT;
-+	}
++		ohci0: usb@11c50000 {
++			compatible = "generic-ohci";
++			reg = <0 0x11c50000 0 0x100>;
++			interrupts = <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>,
++				 <&cpg CPG_MOD R9A07G044_USB_U2H0_HCLK>;
++			resets = <&phyrst 0>,
++				 <&cpg R9A07G044_USB_U2H0_HRESETN>;
++			phys = <&usb2_phy0 1>;
++			phy-names = "usb";
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
 +
-+	val = readl(usb2_base + vbus_ctrl_reg);
- 	if (vbus)
--		val |= USB2_ADPCTRL_DRVVBUS;
-+		val |= vbus_ctrl_val;
- 	else
--		val &= ~USB2_ADPCTRL_DRVVBUS;
--	writel(val, usb2_base + USB2_ADPCTRL);
-+		val &= ~vbus_ctrl_val;
-+	writel(val, usb2_base + vbus_ctrl_reg);
- }
- 
- static void rcar_gen3_control_otg_irq(struct rcar_gen3_chan *ch, int enable)
-@@ -188,9 +208,9 @@ static void rcar_gen3_control_otg_irq(struct rcar_gen3_chan *ch, int enable)
- 	u32 val = readl(usb2_base + USB2_OBINTEN);
- 
- 	if (ch->uses_otg_pins && enable)
--		val |= USB2_OBINT_BITS;
-+		val |= ch->obint_enable_bits;
- 	else
--		val &= ~USB2_OBINT_BITS;
-+		val &= ~ch->obint_enable_bits;
- 	writel(val, usb2_base + USB2_OBINTEN);
- }
- 
-@@ -252,6 +272,9 @@ static bool rcar_gen3_check_id(struct rcar_gen3_chan *ch)
- 	if (!ch->uses_otg_pins)
- 		return (ch->dr_mode == USB_DR_MODE_HOST) ? false : true;
- 
-+	if (ch->soc_no_adp_ctrl)
-+		return !!(readl(ch->base + USB2_LINECTRL1) & USB2_LINECTRL1_USB2_IDMON);
++		ohci1: usb@11c70000 {
++			compatible = "generic-ohci";
++			reg = <0 0x11c70000 0 0x100>;
++			interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>,
++				 <&cpg CPG_MOD R9A07G044_USB_U2H1_HCLK>;
++			resets = <&phyrst 1>,
++				 <&cpg R9A07G044_USB_U2H1_HRESETN>;
++			phys = <&usb2_phy1 1>;
++			phy-names = "usb";
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
 +
- 	return !!(readl(ch->base + USB2_ADPCTRL) & USB2_ADPCTRL_IDDIG);
- }
- 
-@@ -376,16 +399,17 @@ static void rcar_gen3_init_otg(struct rcar_gen3_chan *ch)
- 	      USB2_LINECTRL1_DMRPD_EN | USB2_LINECTRL1_DM_RPD;
- 	writel(val, usb2_base + USB2_LINECTRL1);
- 
--	val = readl(usb2_base + USB2_VBCTRL);
--	val &= ~USB2_VBCTRL_OCCLREN;
--	writel(val | USB2_VBCTRL_DRVVBUSSEL, usb2_base + USB2_VBCTRL);
--	val = readl(usb2_base + USB2_ADPCTRL);
--	writel(val | USB2_ADPCTRL_IDPULLUP, usb2_base + USB2_ADPCTRL);
--
-+	if (!ch->soc_no_adp_ctrl) {
-+		val = readl(usb2_base + USB2_VBCTRL);
-+		val &= ~USB2_VBCTRL_OCCLREN;
-+		writel(val | USB2_VBCTRL_DRVVBUSSEL, usb2_base + USB2_VBCTRL);
-+		val = readl(usb2_base + USB2_ADPCTRL);
-+		writel(val | USB2_ADPCTRL_IDPULLUP, usb2_base + USB2_ADPCTRL);
-+	}
- 	msleep(20);
- 
- 	writel(0xffffffff, usb2_base + USB2_OBINTSTA);
--	writel(USB2_OBINT_BITS, usb2_base + USB2_OBINTEN);
-+	writel(ch->obint_enable_bits, usb2_base + USB2_OBINTEN);
- 
- 	rcar_gen3_device_recognition(ch);
- }
-@@ -397,9 +421,9 @@ static irqreturn_t rcar_gen3_phy_usb2_irq(int irq, void *_ch)
- 	u32 status = readl(usb2_base + USB2_OBINTSTA);
- 	irqreturn_t ret = IRQ_NONE;
- 
--	if (status & USB2_OBINT_BITS) {
-+	if (status & ch->obint_enable_bits) {
- 		dev_vdbg(ch->dev, "%s: %08x\n", __func__, status);
--		writel(USB2_OBINT_BITS, usb2_base + USB2_OBINTSTA);
-+		writel(ch->obint_enable_bits, usb2_base + USB2_OBINTSTA);
- 		rcar_gen3_device_recognition(ch);
- 		ret = IRQ_HANDLED;
- 	}
-@@ -535,26 +559,45 @@ static const struct phy_ops rz_g1c_phy_usb2_ops = {
- 	.owner		= THIS_MODULE,
- };
- 
-+static const struct rcar_gen3_phy_drv_data rcar_gen3_phy_usb2_data = {
-+	.phy_usb2_ops = &rcar_gen3_phy_usb2_ops,
-+	.no_adp_ctrl = false,
-+};
++		ehci0: usb@11c50100 {
++			compatible = "generic-ehci";
++			reg = <0 0x11c50100 0 0x100>;
++			interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>,
++				 <&cpg CPG_MOD R9A07G044_USB_U2H0_HCLK>;
++			resets = <&phyrst 0>,
++				 <&cpg R9A07G044_USB_U2H0_HRESETN>;
++			phys = <&usb2_phy0 2>;
++			phy-names = "usb";
++			companion = <&ohci0>;
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
 +
-+static const struct rcar_gen3_phy_drv_data rz_g1c_phy_usb2_data = {
-+	.phy_usb2_ops = &rz_g1c_phy_usb2_ops,
-+	.no_adp_ctrl = false,
-+};
++		ehci1: usb@11c70100 {
++			compatible = "generic-ehci";
++			reg = <0 0x11c70100 0 0x100>;
++			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>,
++				 <&cpg CPG_MOD R9A07G044_USB_U2H1_HCLK>;
++			resets = <&phyrst 1>,
++				 <&cpg R9A07G044_USB_U2H1_HRESETN>;
++			phys = <&usb2_phy1 2>;
++			phy-names = "usb";
++			companion = <&ohci1>;
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
 +
-+static const struct rcar_gen3_phy_drv_data rz_g2l_phy_usb2_data = {
-+	.phy_usb2_ops = &rcar_gen3_phy_usb2_ops,
-+	.no_adp_ctrl = true,
-+};
++		usb2_phy0: usb-phy@11c50200 {
++			compatible = "renesas,usb2-phy-r9a07g044",
++				     "renesas,rzg2l-usb2-phy";
++			reg = <0 0x11c50200 0 0x700>;
++			interrupts = <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>,
++				 <&cpg CPG_MOD R9A07G044_USB_U2H0_HCLK>;
++			resets = <&phyrst 0>;
++			#phy-cells = <1>;
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
 +
- static const struct of_device_id rcar_gen3_phy_usb2_match_table[] = {
- 	{
- 		.compatible = "renesas,usb2-phy-r8a77470",
--		.data = &rz_g1c_phy_usb2_ops,
-+		.data = &rz_g1c_phy_usb2_data,
- 	},
- 	{
- 		.compatible = "renesas,usb2-phy-r8a7795",
--		.data = &rcar_gen3_phy_usb2_ops,
-+		.data = &rcar_gen3_phy_usb2_data,
- 	},
- 	{
- 		.compatible = "renesas,usb2-phy-r8a7796",
--		.data = &rcar_gen3_phy_usb2_ops,
-+		.data = &rcar_gen3_phy_usb2_data,
- 	},
- 	{
- 		.compatible = "renesas,usb2-phy-r8a77965",
--		.data = &rcar_gen3_phy_usb2_ops,
-+		.data = &rcar_gen3_phy_usb2_data,
-+	},
-+	{
-+		.compatible = "renesas,rzg2l-usb2-phy",
-+		.data = &rz_g2l_phy_usb2_data,
- 	},
- 	{
- 		.compatible = "renesas,rcar-gen3-usb2-phy",
--		.data = &rcar_gen3_phy_usb2_ops,
-+		.data = &rcar_gen3_phy_usb2_data,
- 	},
- 	{ /* sentinel */ },
- };
-@@ -608,10 +651,10 @@ static enum usb_dr_mode rcar_gen3_get_dr_mode(struct device_node *np)
++		usb2_phy1: usb-phy@11c70200 {
++			compatible = "renesas,usb2-phy-r9a07g044",
++				     "renesas,rzg2l-usb2-phy";
++			reg = <0 0x11c70200 0 0x700>;
++			interrupts = <GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>,
++				 <&cpg CPG_MOD R9A07G044_USB_U2H1_HCLK>;
++			resets = <&phyrst 1>;
++			#phy-cells = <1>;
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
+ 	};
  
- static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- {
-+	const struct rcar_gen3_phy_drv_data *phy_data;
- 	struct device *dev = &pdev->dev;
- 	struct rcar_gen3_chan *channel;
- 	struct phy_provider *provider;
--	const struct phy_ops *phy_usb2_ops;
- 	int ret = 0, i;
- 
- 	if (!dev->of_node) {
-@@ -627,6 +670,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 	if (IS_ERR(channel->base))
- 		return PTR_ERR(channel->base);
- 
-+	channel->obint_enable_bits = USB2_OBINT_BITS;
- 	/* get irq number here and request_irq for OTG in phy_init */
- 	channel->irq = platform_get_irq_optional(pdev, 0);
- 	channel->dr_mode = rcar_gen3_get_dr_mode(dev->of_node);
-@@ -653,16 +697,21 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 	 * And then, phy-core will manage runtime pm for this device.
- 	 */
- 	pm_runtime_enable(dev);
--	phy_usb2_ops = of_device_get_match_data(dev);
--	if (!phy_usb2_ops) {
-+
-+	phy_data = of_device_get_match_data(dev);
-+	if (!phy_data) {
- 		ret = -EINVAL;
- 		goto error;
- 	}
- 
-+	channel->soc_no_adp_ctrl = phy_data->no_adp_ctrl;
-+	if (phy_data->no_adp_ctrl)
-+		channel->obint_enable_bits = USB2_OBINT_IDCHG_EN;
-+
- 	mutex_init(&channel->lock);
- 	for (i = 0; i < NUM_OF_PHYS; i++) {
- 		channel->rphys[i].phy = devm_phy_create(dev, NULL,
--							phy_usb2_ops);
-+							phy_data->phy_usb2_ops);
- 		if (IS_ERR(channel->rphys[i].phy)) {
- 			dev_err(dev, "Failed to create USB2 PHY\n");
- 			ret = PTR_ERR(channel->rphys[i].phy);
+ 	timer {
 -- 
 2.17.1
 
