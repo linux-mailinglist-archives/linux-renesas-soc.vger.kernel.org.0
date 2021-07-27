@@ -2,60 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBE563D70A4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 09:55:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E6A33D70A8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 09:56:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235896AbhG0HzU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 03:55:20 -0400
-Received: from mail-eopbgr1400127.outbound.protection.outlook.com ([40.107.140.127]:15709
+        id S235832AbhG0H4R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 03:56:17 -0400
+Received: from mail-eopbgr1400139.outbound.protection.outlook.com ([40.107.140.139]:64032
         "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235890AbhG0HzT (ORCPT
+        id S235824AbhG0H4P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 03:55:19 -0400
+        Tue, 27 Jul 2021 03:56:15 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jKjJZt0xesz6sdS7nYf9RbYF096fnnejw5scO8p5Dm+VEIQhMElsbiY1FUexbRiNptKsL+G8N8+JyeMijkqAaxHVnsaFBxtInrl2ZwZd9230eQSUu6uNc9+kyqbEtee9yKvrUAbSaC/HBtmZW/Ld7eKeG8j/uginPOReen9yM4C07I56L0HOBlP4zq5C+AFo4ncV2/xO+s71PadN7vccBtv8dvvf/gzA80z2DlBL0yTiFEUg4NMviqTZnsSipptRmB3urGKLmgktGzwauYfcGBdMwYqfaZRtwjSKqWKEwFp8ixo1JxQVyiqaIUFBUTOuuF8HemcVbp9Rlt0LC3bQHQ==
+ b=faW9hnxN0hA6ut8XPyk8UQLhnPyyYCWUPRLGEJrnRSz87llwG6Xwdi7V2bNBflEyJCY6DPCECVSDJugJDraJ7sjGP3Kavshx6J49IrHHntxM8LMWxF+MsIhquOJRXDFjhOzn6QldFYrTQPC/ZNSMRASbfEAWTK9Rt2VHZucVOzBWbSUtDivdCMtf5c33Te8ayhsVmGcEk9H2L0Gm9scD5/kmxsJu2mZdb365IfCWGnNTGf+7mC5MxsPioq9zwPhM5kMxcZh+ApcvRwL0eE384fzvJ7BRerGqEivdQxOjbSwCLhCR4X8mo0rdcNCFJJHekGZI85BcuLfoVBQJvfQimg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cpQMhBcEbhgFrtERj6DBjpRl8aBkgYk8mhtJooXRtI0=;
- b=cEgjZO0oLoEIzBrxTwnYl1mPwcUzrpQOAC9ZT0D/vAG8v0d9St0j2/R7NsobWSG8E23qt2Lg7xpfLZo/d/d8+1TqMAeR8E2Z6Q1vIydPf4i8aiwXYBQ08VN6/ULhc8AAlWV+OiyQ+BD95E9x9iqHh+QXTk8aJkkvrLTy2h06jG14RL92Q75yEnsMpxiH9plR2ynsIxo/fpn6ZzzVvotCjqT5eGR8Iiot63Lbr0gAfoFsphdQU60LC/FeL0NCTJsls2i31t+n+PA7Oqo7AJoMMTn+QvLUqrdJF9SVF0jWKY7hGiJdUkgCItobpp5qTBNgD0epuvbNMwhKjQEFGxXAhg==
+ bh=FAYUKtX3ANcjpJUEXf23+vC0uoOwFXPzymrpBBBNGhM=;
+ b=X1aOY4H5ze5ELv062+uoxwT4s6W79G2kIdcVfOUXSdDhZ0AxELyLwhovDmM4CpCyInd4DtzF4kz+5dodzjWhv30f/OsNj5LtyztMXsvZYlOOQFQYF3ChU6aOiu+yNiatymMP05JUKfYRopEqBcC0bqWCyQxDU/fLeiclFK646CDdLYolRIbPbPxNc5CLr77t6mDsbuXn5xyKVdg3Jix4YI2MIvf0eKOtxZ6n/5N3uHMzVw0LM+GDfXlc4HEZN7Pvk5Gt7QwseY9Vb2DfjKKHnyrZYvTTTMKb4FdvhB5HUy5SWZs76bB9ABat+F1YvODK4TUy3Eq2Q4wdVw+Cjx1Org==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cpQMhBcEbhgFrtERj6DBjpRl8aBkgYk8mhtJooXRtI0=;
- b=UfqgXFBjsTL9UoVk3tyvGILuUPQzd/u+R2DlXJKaZbcowhBajlMV27/Lbngu2BnS3ze4MSdiyUSD8nhZn4ILhiQROkJhifIqlaYJqqXBbuwZSDgg1Rh2nROydU4E5dsgz6I9BZF6eOeA8nx6NMpDPQGUeuQGuLx3iyNhWCPk7zI=
+ bh=FAYUKtX3ANcjpJUEXf23+vC0uoOwFXPzymrpBBBNGhM=;
+ b=AalVSYY5b4YLow1En8kcyVMeMGGqB9ewqzNGJxG7ohUVJDYhAgj144a3RRP3mO1w5tMvaABkC6/W7u90Qf5sfiaG26sIxTK283NA/fstuWgr7ufymOeAfofHE5vse+OzQfMgDsbj6Unb+4eOap0FdQTHxkF31lKnPbPNqcClGVc=
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB5736.jpnprd01.prod.outlook.com (2603:1096:604:c7::10) with
+ by OS0PR01MB6481.jpnprd01.prod.outlook.com (2603:1096:604:107::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.28; Tue, 27 Jul
- 2021 07:55:16 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26; Tue, 27 Jul
+ 2021 07:56:12 +0000
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::c6f:e31f:eaa9:60fe]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::c6f:e31f:eaa9:60fe%9]) with mapi id 15.20.4352.031; Tue, 27 Jul 2021
- 07:55:16 +0000
+ 07:56:12 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>
+CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v4 04/10] reset: renesas: Add RZ/G2L usbphy control driver
-Thread-Topic: [PATCH v4 04/10] reset: renesas: Add RZ/G2L usbphy control
- driver
-Thread-Index: AQHXfJhheV5fogd0t0SNRhT6tn8BzqtWf90g
-Date:   Tue, 27 Jul 2021 07:55:16 +0000
-Message-ID: <OS0PR01MB59224851A0C86B3AFECD575186E99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20210719121938.6532-1-biju.das.jz@bp.renesas.com>
- <20210719121938.6532-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210719121938.6532-5-biju.das.jz@bp.renesas.com>
+Subject: RE: [PATCH v4 2/4] drivers: dma: sh: Add DMAC driver for RZ/G2L SoC
+Thread-Topic: [PATCH v4 2/4] drivers: dma: sh: Add DMAC driver for RZ/G2L SoC
+Thread-Index: AQHXfIANJc0R/9gnn0any8kXgzWfvKtWgIXg
+Date:   Tue, 27 Jul 2021 07:56:11 +0000
+Message-ID: <OS0PR01MB592222A94FDEC92FFA071A8086E99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20210719092535.4474-1-biju.das.jz@bp.renesas.com>
+ <20210719092535.4474-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210719092535.4474-3-biju.das.jz@bp.renesas.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -64,54 +63,54 @@ authentication-results: bp.renesas.com; dkim=none (message not signed)
  header.d=none;bp.renesas.com; dmarc=none action=none
  header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b9f3c3d4-7e53-4315-6a6d-08d950d3df5c
-x-ms-traffictypediagnostic: OS3PR01MB5736:
+x-ms-office365-filtering-correlation-id: 5c2c0292-6900-48ed-3697-08d950d4006f
+x-ms-traffictypediagnostic: OS0PR01MB6481:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OS3PR01MB57361E46529BFF90A1C1825C86E99@OS3PR01MB5736.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3631;
+x-microsoft-antispam-prvs: <OS0PR01MB6481F08217404EAA6A98418F86E99@OS0PR01MB6481.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:151;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ZarHqKal1wndE6w3w22zwHj7/9o4ab15bSJ6OmADr0006F+HI6gYG+hlfDoDc2YrRfoSoJWMw3UfwqdVPyocMqNx5+QG+rk1JF7t0iMFXXhrhujYJKTy0p4PzJpvxIyCagJZS1wL3e0sGJTKArP3PTsRxZF198fkJhpWg96LpZAIU1Ysoy3ahv8vpHnhTYILNduWegDKUjeekJQw3XrwW99OBqaac9eQnZ0RIJZcKnoZWnGbpGR+TgTugmWixMeFpOVRMnvlQwAqunxgnmrC9SUzRz4B+r+lNvexQjaTFs05YnDolf11jCLTqS4H03nhzoo9H3M5JSFxSAZsnbxjiSDOee5i1bAnxw+9W7DK/lpeTb3zNoLNb63GM1n/xptib0KBN0p6twoL6S8qTakUqDUjWwPqbjOVEUNZRTMLsO/+V2RO5Z5EroY6/kaVkKI5E9DP7t16Ulxn9oVCQgbTWdzL51Ed9pDAAIr6jFOUnlo+ORWsKiaeEm6R+pn3hoXsJPocawVGM6+3SXcDQOQ0i0vKltgxOCrZm8jqBgjYHuHoqxXQ031q5tWnroDKZcURNWfpz4Q4eIsvl+ksy1NeKY0FbVhX5NVrsOANBp66FLRLzSrkJOXi94c8i2HD2RLwwWOBr9rcNc581ij30dtanT5BKuoiw5sVIYTDjSxejNNQuvLqZwteT5mdyPkZjS63PNGHvX2l7ukF3Ssfjb/NvA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(136003)(366004)(396003)(346002)(376002)(5660300002)(110136005)(66446008)(122000001)(8936002)(8676002)(2906002)(26005)(6506007)(4326008)(33656002)(478600001)(316002)(54906003)(86362001)(186003)(52536014)(38100700002)(71200400001)(66476007)(64756008)(66556008)(7696005)(83380400001)(66946007)(76116006)(55016002)(9686003)(38070700004);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: n199MSTV94EitLSsSMTl2J5dovu5A4kBAnnEIzccI7qC8QRimxar1/lnxviKQC08Hg4Iu87EVBFFtiC1Xie4LDuUihO4p4bb9fK3R6MHhWNYIdQsHt/gDtRlmq+a5bQBkA25kuHJ8DzBLYyYxnErbu/LefIemP/S7ERkzLPl+GohWeFChf7E8JWbmwOKU2AbYxTxglqf8/ciEpS8bkYLP0EbnMn+uoEd6BxrABKNBZ7w5+TNT4SO1DPIE79eD8gZXkmGBIWubffEj5OoLHYIm0UN4JJtf0sumu8ELwdFukrjM+coqnthFQkIW5yLCl/KXwqB4HkwP2Qm2Q/yLNTOcrNAIQSM2Diuw3qRK69rGcPlV//oZFPzl473+lB8kJE8OF07rqxg8ovzH2aAl29WuY/fmeMbpK9W8mHILB9tv3cC0Vc1k2Yimc8bk3p30AxZNmhseYWf7oXE4sl4/xwffCVhaZJj3TbxUSWqsgvNY+iRYO041plY5OY2YEGiOhzVOfXxrMMrLAzmRfwndjV/T54Y4NmTssimCiWOreR7T7xoGeni3w7OgpLE2ivvmw4+EHvA7ef5TKVjXSpDMhIKpPHoPaMxI9I+Jnmezgam/HyuhCvaYZM4uGE6f+Mn6W/8L+ZyrHVI3p/wUfv1CPO/kLg2JTICNNKcmlVh/Yjjh/hrok1gsbruuH6UBQeFWi0kHVngZwhp09UnevcoIH+eV1Wsd27QYYxPHiyLBEL3n/KoCWjdC7b323d1bIHqEcGbmeywPjLW6EzAehb0F7m12f3mgHdTT7F8F5Kqhi3BWFI=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(346002)(366004)(376002)(39850400004)(6506007)(30864003)(9686003)(8676002)(86362001)(55016002)(26005)(52536014)(71200400001)(54906003)(110136005)(66476007)(64756008)(186003)(66556008)(7696005)(966005)(76116006)(66946007)(5660300002)(4326008)(83380400001)(66446008)(8936002)(478600001)(33656002)(2906002)(45080400002)(122000001)(38100700002)(316002)(38070700004)(579004)(559001);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PpGbeyvU1Ot6PzR12BGskndHi6veJFM8kIkYJaaklsByC2AdTVZFckyMq0uc?=
- =?us-ascii?Q?4K8CHynyQcnevOPuoDTuJZGO7daSK6XDRR/GHQz1oDGwmjCetY9w0ZaYP9Xw?=
- =?us-ascii?Q?oZ4XSPudu70zsfiTOcEtjEG2TsA8q+Fs/L6p3yaNqHnZELro87odGA4T79xz?=
- =?us-ascii?Q?Mg0vnlIp44KLueN1RZncF1hETQKkYvarFVOEzi0hhH89T7rCcJxV8MyaI908?=
- =?us-ascii?Q?OQ56OH8xyscA02hdOjrSO4U020Z4W0oQwSbt7uhehbeAxaRyEClnco8/BMQz?=
- =?us-ascii?Q?2+mqCQT+CXDorRLBk96yEU9CqH+8ATKhRZZJeI18j5k+K4O0ldaobQUbn13M?=
- =?us-ascii?Q?zpcgNnYqD9586wdyn1nfyHC4k/RN05uUF6Q2RP3rEKd+HTKgHPkgAxaOMW1E?=
- =?us-ascii?Q?xI6bkKevIEpeSd6DkGk6hBA9AvI5bU1ifZlJe2mAqutRRM3od0QZdpx6QWVS?=
- =?us-ascii?Q?XnEJSYaWdZNHexVLqpdy0pwkvRMvXkH4d02cUp531J4FeXwpt2Uu+jCzsDbn?=
- =?us-ascii?Q?/xKtHEOxk2nkeoaV1wqM7MrR+VDki8n3sIYf+URDoHnP3JpxIZp947Z3PlFS?=
- =?us-ascii?Q?xZB2kOjKqStjTPDZVSJbiuCWkHtmRcJz7LNeY0r+AoqjjaWx5I8Z4sDhtpz2?=
- =?us-ascii?Q?XqG7oVjiyt2Pr23UcLxknrlEftoHKhTKFxOPgIiNwY4WknqoUTHVC3zj8UGe?=
- =?us-ascii?Q?mHr01iZIshtk6iLYmYyU1BdE5HFHsAm6llxEMXPAS9n4nG5d6YF1axExUS4c?=
- =?us-ascii?Q?dTXFH8+788JRykgccUxt36iKT+45FVB0LLZw0qr6hN38Zrezr97BlU4/5nUG?=
- =?us-ascii?Q?Ikp84gqwpMNSq2tO0jRmemHKkXKmmUvWx/CSBapebZBJa77NzrJGFqIdLzw1?=
- =?us-ascii?Q?2aSxu+iZ2OOIJsZwlCFoWmWTL5c/0Xdx+sIEIpS7xYPow3gC9qsWOpTU2cHu?=
- =?us-ascii?Q?MKi/dpHa3t3LFtko7kPTXLuRoU6IvqEpm3B0I9HYEB27q6gu8RziAGBijCxr?=
- =?us-ascii?Q?iY7+8+Z7Z/QJcaaT4fzSo0Z2/zKvhUHHWqwIcrFJ9hsfmIG78m6cMncUwUYI?=
- =?us-ascii?Q?YlMZjmW6cTevZDsCuCtW7xaW1CWOzy3ZX8SJzY1nhqnAVWRHK7Fz3Okzveb1?=
- =?us-ascii?Q?PGFxL7ixUHY6GlQizcXW+5/K8wEpV9KPpar7pZy3VoQUdirs522A/8BjJOMa?=
- =?us-ascii?Q?+HUg4wg0liGa/Cx5yMI+pwJXw8Q4vg0lCUOLNhVyfQaMDU7M1vZOxkA+Vqhw?=
- =?us-ascii?Q?dtkoXjyC8smy3K5gIVl5HP7kU9xfIms7NX53h9nrvGUwO29crDBdlg6ZMKA9?=
- =?us-ascii?Q?7Ig7AEs5wby5sFGPxOI29Gzf?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?MPw4dakxidyG6KZTc7zeN6aceB0vsaaqKEnzLXQCIVupu9i93wfpEvnoOfZy?=
+ =?us-ascii?Q?6aGx/G9gwU062aDudav2LxiMHjroyGPMxunOuQ/fgcJXGTtjey3wSfxyOCLk?=
+ =?us-ascii?Q?Z4g1X1urZ7vVQKW+3tU/RKruh02TSaN7mlAg3LhvLiDBaLN3k736N+YEZQS9?=
+ =?us-ascii?Q?an5B0uT7cn9dlrXmiiBx9beIfUbWCWr2CN+MpuuXbCPA6ejQapGGI2mb4VVw?=
+ =?us-ascii?Q?g7pYa0KoBso6XpbKdZBTuwqUtiLKQokMl2eTWw31Z44c9a+l4k1JVYmA3pG+?=
+ =?us-ascii?Q?45psnTKW5cbB/Hy9WWoEBcsW3n7QbKlhU4LMlIyqkhl4kN3kVWFkIPFtk9Ny?=
+ =?us-ascii?Q?OMM1a6+NhzD3b7SfMVwgHJqrfZEUTaIp9fjQs2SOovp/69X3W3N5kJ9oSGPo?=
+ =?us-ascii?Q?eEnhwR8fBLNrAUx42TSfrWw+kJ4b8rInbrUpvvXiXVkGzs6e2fN0G499DYJd?=
+ =?us-ascii?Q?Dkb6zU3xZVm1f8iE/1pykM377AvXLy5PL283r51XIsUen5TWY1hQbahPGp0h?=
+ =?us-ascii?Q?JSzVYFwJwdDZcXrp1k7+nhPref+0kxPMZIrYWv8xxNP/boLF/jR5LNo6A+Jd?=
+ =?us-ascii?Q?r8FluYlqei/Bu4sGPXizvkd7yp9snpjReAwyKcXDDp1qxn+Ejg5PDVg9TGDm?=
+ =?us-ascii?Q?2YRMrnoBTSyrVJ8E7upZB8nazpUXfC3FysI8PUGvJm48ptRoJy765O0Q5mpI?=
+ =?us-ascii?Q?EU+V2O6zNyJJ94fHGB6fHTcqy8T6lDwv+dKsnGPxYLdyJSip1uQU6a5QlGX+?=
+ =?us-ascii?Q?W67mki2Xd/U4suEBhYrI+QwvSAePWpnKDVXYm90OgBUbg23MZTECfC3jJt/i?=
+ =?us-ascii?Q?JynHMGZyYZHIHj3ZkW8W/iguaLnE1hGn/DqlC1WxXksSnKMmzlda8pbz3q+i?=
+ =?us-ascii?Q?/rfALqLlaXttZ7++E+U4kysk+4BGRdEWHvE17KVfAXH+4+LnsHuRIjTjWtlX?=
+ =?us-ascii?Q?45h91I8imFJKJxCEDygeiKPUGCW9wrmS+GGDIIQAZ+qnBAnRZCgLTyBt4U+4?=
+ =?us-ascii?Q?zxz/JuSfJ9HevoTgGQjMQhlJ3gPs1uuu7rFn+1MIjLryoffIKxPqft2zAL3P?=
+ =?us-ascii?Q?XC5TiwisHhNuAESLzN44q1TgUsYrs8x7w0F9tKyk0VGA7dwz9F4WdDUQCZDJ?=
+ =?us-ascii?Q?tGP0BaOob5NQVLaNrIRYcibzYSXY1vI5VItGsLD+JeR9RYZ7gujsC+0Ll1oC?=
+ =?us-ascii?Q?1vImRtRy9Pgr5qGdiDCytAdmo+iZwp6ZAxYzM+OMY3FMRuXfjXx9HR2txeom?=
+ =?us-ascii?Q?WHvioKsi2gjlmmzy8UZ/2l2iJCdJ+uTwSfuTq7YNRV4qplhREWu8pAV7h2jf?=
+ =?us-ascii?Q?bTnPohSYOIJTehcyYsfRrvWV?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9f3c3d4-7e53-4315-6a6d-08d950d3df5c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jul 2021 07:55:16.2664
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c2c0292-6900-48ed-3697-08d950d4006f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jul 2021 07:56:11.8411
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 775alIO3KGyk8sjpEWNkmAcqoikjPFuiJpWgJByNKPn0j1m8mrMVL8xSYSmfi1EXxnqZ98lsvtkkk1RFVxFRkRqmgZ+sD8GoSiRF/I1IPMA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5736
+X-MS-Exchange-CrossTenant-userprincipalname: S5LxdY78++X7PhAMOJuQ9MKM4dLboeYI5RxBveyDAFvCB7PY+f0BHkuM/ftlj46CYY4D8vaP9FklGJnyagI1v3kyc2OZgq+nnH71dEcV/PQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB6481
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -123,242 +122,1006 @@ Gentle ping. Are we happy with this patch? Please let me know.
 Regards,
 Biju
 
-> Subject: [PATCH v4 04/10] reset: renesas: Add RZ/G2L usbphy control drive=
-r
+> Subject: [PATCH v4 2/4] drivers: dma: sh: Add DMAC driver for RZ/G2L SoC
 >=20
-> Add support for RZ/G2L USBPHY Control driver. It mainly controls reset an=
-d
-> power down of the USB/PHY.
+> Add DMA Controller driver for RZ/G2L SoC.
+>=20
+> Based on the work done by Chris Brandt for RZ/A DMA driver.
 >=20
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
 > v3->v4:
->  * Incorporated the changes suggested by Philipp
->  * removed *dev pointer, replaced the magic number 0xff
->  * started using of_reset_simple_xlate
->  * Added spinlock for read-modify-writes
->  v3:
->   * New driver. As per Rob's suggestion, Modelled IP as a reset driver,
->     since it mainly controls reset and power down of the PHY.
+>   * Incorporated Vinod and Geert's review comments.
+> v2->v3:
+>   * No change
+> v1->v2:
+>   * Started using virtual DMAC.
+> v1:
+>   *
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20210611113642.18457=
+-
+> 4-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7Cb05c4bc173bc4fd6bdd608d94a972ef7%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637622835453526316%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3D3e2%2B=
+c8X
+> 3mT9lTd7npE0rrHIwB8apy9OobPG1tq3k0Y8%3D&amp;reserved=3D0
 > ---
->  drivers/reset/Kconfig                   |   7 +
->  drivers/reset/Makefile                  |   1 +
->  drivers/reset/reset-rzg2l-usbphy-ctrl.c | 175 ++++++++++++++++++++++++
->  3 files changed, 183 insertions(+)
->  create mode 100644 drivers/reset/reset-rzg2l-usbphy-ctrl.c
+>  drivers/dma/sh/Kconfig   |   9 +
+>  drivers/dma/sh/Makefile  |   1 +
+>  drivers/dma/sh/rz-dmac.c | 929 +++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 939 insertions(+)
+>  create mode 100644 drivers/dma/sh/rz-dmac.c
 >=20
-> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig index
-> 328f70f633eb..ed65ea66987b 100644
-> --- a/drivers/reset/Kconfig
-> +++ b/drivers/reset/Kconfig
-> @@ -181,6 +181,13 @@ config RESET_RASPBERRYPI
->  	  interfacing with RPi4's co-processor and model these firmware
->  	  initialization routines as reset lines.
->=20
-> +config RESET_RZG2L_USBPHY_CTRL
-> +	tristate "Renesas RZ/G2L USBPHY control driver"
-> +	depends on ARCH_R9A07G044 || COMPILE_TEST
-> +	help
-> +	  Support for USBPHY Control found on RZ/G2L family. It mainly
-> +	  controls reset and power down of the USB/PHY.
+> diff --git a/drivers/dma/sh/Kconfig b/drivers/dma/sh/Kconfig index
+> 13437323a85b..1942b0fa9291 100644
+> --- a/drivers/dma/sh/Kconfig
+> +++ b/drivers/dma/sh/Kconfig
+> @@ -47,3 +47,12 @@ config RENESAS_USB_DMAC
+>  	help
+>  	  This driver supports the USB-DMA controller found in the Renesas
+>  	  SoCs.
 > +
->  config RESET_SCMI
->  	tristate "Reset driver controlled via ARM SCMI interface"
->  	depends on ARM_SCMI_PROTOCOL || COMPILE_TEST diff --git
-> a/drivers/reset/Makefile b/drivers/reset/Makefile index
-> ea8b8d9ca565..21d46d8869ff 100644
-> --- a/drivers/reset/Makefile
-> +++ b/drivers/reset/Makefile
-> @@ -25,6 +25,7 @@ obj-$(CONFIG_RESET_PISTACHIO) +=3D reset-pistachio.o
->  obj-$(CONFIG_RESET_QCOM_AOSS) +=3D reset-qcom-aoss.o
->  obj-$(CONFIG_RESET_QCOM_PDC) +=3D reset-qcom-pdc.o
->  obj-$(CONFIG_RESET_RASPBERRYPI) +=3D reset-raspberrypi.o
-> +obj-$(CONFIG_RESET_RZG2L_USBPHY_CTRL) +=3D reset-rzg2l-usbphy-ctrl.o
->  obj-$(CONFIG_RESET_SCMI) +=3D reset-scmi.o
->  obj-$(CONFIG_RESET_SIMPLE) +=3D reset-simple.o
->  obj-$(CONFIG_RESET_SOCFPGA) +=3D reset-socfpga.o diff --git
-> a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/reset-rzg2l-
-> usbphy-ctrl.c
-> new file mode 100644
-> index 000000000000..e0704fd2b533
+> +config RZ_DMAC
+> +	tristate "Renesas RZ/G2L Controller"
+> +	depends on ARCH_R9A07G044 || COMPILE_TEST
+> +	select RENESAS_DMA
+> +	select DMA_VIRTUAL_CHANNELS
+> +	help
+> +	  This driver supports the general purpose DMA controller found in
+> the
+> +	  Renesas RZ/G2L SoC variants.
+> diff --git a/drivers/dma/sh/Makefile b/drivers/dma/sh/Makefile index
+> abdf10341725..360ab6d25e76 100644
+> --- a/drivers/dma/sh/Makefile
+> +++ b/drivers/dma/sh/Makefile
+> @@ -15,3 +15,4 @@ obj-$(CONFIG_SH_DMAE) +=3D shdma.o
+>=20
+>  obj-$(CONFIG_RCAR_DMAC) +=3D rcar-dmac.o
+>  obj-$(CONFIG_RENESAS_USB_DMAC) +=3D usb-dmac.o
+> +obj-$(CONFIG_RZ_DMAC) +=3D rz-dmac.o
+> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c new file
+> mode 100644 index 000000000000..60ba4fa7d0c7
 > --- /dev/null
-> +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> @@ -0,0 +1,175 @@
+> +++ b/drivers/dma/sh/rz-dmac.c
+> @@ -0,0 +1,929 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * Renesas RZ/G2L USBPHY control driver
+> + * Renesas RZ/G2L Controller Driver
 > + *
-> + * Copyright (C) 2021 Renesas Electronics Corporation  */
+> + * Based on imx-dma.c
+> + *
+> + * Copyright (C) 2021 Renesas Electronics Corp.
+> + * Copyright 2010 Sascha Hauer, Pengutronix <s.hauer@pengutronix.de>
+> + * Copyright 2012 Javier Martin, Vista Silicon
+> +<javier.martin@vista-silicon.com>  */
 > +
-> +#include <linux/io.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/dmaengine.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/list.h>
 > +#include <linux/module.h>
 > +#include <linux/of.h>
+> +#include <linux/of_dma.h>
+> +#include <linux/of_platform.h>
 > +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/reset.h>
-> +#include <linux/reset-controller.h>
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
 > +
-> +#define RESET			0x000
+> +#include "../dmaengine.h"
+> +#include "../virt-dma.h"
 > +
-> +#define RESET_SEL_PLLRESET	BIT(12)
-> +#define RESET_PLLRESET		BIT(8)
+> +enum  rz_dmac_prep_type {
+> +	RZ_DMAC_DESC_MEMCPY,
+> +	RZ_DMAC_DESC_SLAVE_SG,
+> +};
 > +
-> +#define RESET_SEL_P2RESET	BIT(5)
-> +#define RESET_SEL_P1RESET	BIT(4)
-> +#define RESET_PHYRST_2		BIT(1)
-> +#define RESET_PHYRST_1		BIT(0)
+> +struct rz_lmdesc {
+> +	u32 header;
+> +	u32 sa;
+> +	u32 da;
+> +	u32 tb;
+> +	u32 chcfg;
+> +	u32 chitvl;
+> +	u32 chext;
+> +	u32 nxla;
+> +};
 > +
-> +#define PHY_RESET_PORT2		(RESET_SEL_P2RESET | RESET_PHYRST_2)
-> +#define PHY_RESET_PORT1		(RESET_SEL_P1RESET | RESET_PHYRST_1)
+> +struct rz_dmac_desc {
+> +	struct virt_dma_desc vd;
+> +	dma_addr_t src;
+> +	dma_addr_t dest;
+> +	size_t len;
+> +	struct list_head node;
+> +	enum dma_transfer_direction direction;
+> +	enum rz_dmac_prep_type type;
+> +	/* For slave sg */
+> +	struct scatterlist *sg;
+> +	unsigned int sgcount;
+> +};
 > +
-> +#define NUM_PORTS		2
+> +#define to_rz_dmac_desc(d)	container_of(d, struct rz_dmac_desc, vd)
 > +
-> +struct rzg2l_usbphy_ctrl_priv {
-> +	struct reset_controller_dev rcdev;
-> +	struct reset_control *rstc;
+> +struct rz_dmac_chan {
+> +	struct virt_dma_chan vc;
+> +	void __iomem *ch_base;
+> +	void __iomem *ch_cmn_base;
+> +	unsigned int index;
+> +	int irq;
+> +	struct rz_dmac_desc *desc;
+> +	int descs_allocated;
+> +
+> +	enum dma_slave_buswidth src_word_size;
+> +	enum dma_slave_buswidth dst_word_size;
+> +	dma_addr_t src_per_address;
+> +	dma_addr_t dst_per_address;
+> +
+> +	u32 chcfg;
+> +	u32 chctrl;
+> +	int mid_rid;
+> +
+> +	struct list_head ld_free;
+> +	struct list_head ld_queue;
+> +	struct list_head ld_active;
+> +
+> +	struct {
+> +		struct rz_lmdesc *base;
+> +		struct rz_lmdesc *head;
+> +		struct rz_lmdesc *tail;
+> +		int valid;
+> +		dma_addr_t base_dma;
+> +	} lmdesc;
+> +};
+> +
+> +#define to_rz_dmac_chan(c)	container_of(c, struct rz_dmac_chan,
+> vc.chan)
+> +
+> +struct rz_dmac {
+> +	struct dma_device engine;
+> +	struct device *dev;
 > +	void __iomem *base;
+> +	void __iomem *ext_base;
 > +
-> +	spinlock_t lock;
+> +	unsigned int n_channels;
+> +	struct rz_dmac_chan *channels;
+> +
+> +	DECLARE_BITMAP(modules, 1024);
 > +};
 > +
-> +#define rcdev_to_priv(x)	container_of(x, struct
-> rzg2l_usbphy_ctrl_priv, rcdev)
+> +#define to_rz_dmac(d)	container_of(d, struct rz_dmac, engine)
 > +
-> +static int rzg2l_usbphy_ctrl_assert(struct reset_controller_dev *rcdev,
-> +				    unsigned long id)
+> +/*
+> + *
+> +-----------------------------------------------------------------------
+> +------
+> + * Registers
+> + */
+> +
+> +#define CHSTAT				0x0024
+> +#define CHCTRL				0x0028
+> +#define CHCFG				0x002c
+> +#define NXLA				0x0038
+> +
+> +#define DCTRL				0x0000
+> +
+> +#define EACH_CHANNEL_OFFSET		0x0040
+> +#define CHANNEL_0_7_OFFSET		0x0000
+> +#define CHANNEL_0_7_COMMON_BASE		0x0300
+> +#define CHANNEL_8_15_OFFSET		0x0400
+> +#define CHANNEL_8_15_COMMON_BASE	0x0700
+> +
+> +#define CHSTAT_ER			BIT(4)
+> +#define CHSTAT_EN			BIT(0)
+> +
+> +#define CHCTRL_CLRINTMSK		BIT(17)
+> +#define CHCTRL_CLRSUS			BIT(9)
+> +#define CHCTRL_CLRTC			BIT(6)
+> +#define CHCTRL_CLREND			BIT(5)
+> +#define CHCTRL_CLRRQ			BIT(4)
+> +#define CHCTRL_SWRST			BIT(3)
+> +#define CHCTRL_STG			BIT(2)
+> +#define CHCTRL_CLREN			BIT(1)
+> +#define CHCTRL_SETEN			BIT(0)
+> +#define CHCTRL_DEFAULT			(CHCTRL_CLRINTMSK | CHCTRL_CLRSUS | \
+> +					 CHCTRL_CLRTC |	CHCTRL_CLREND | \
+> +					 CHCTRL_CLRRQ | CHCTRL_SWRST | \
+> +					 CHCTRL_CLREN)
+> +
+> +#define CHCFG_DMS			BIT(31)
+> +#define CHCFG_DEM			BIT(24)
+> +#define CHCFG_DAD			BIT(21)
+> +#define CHCFG_SAD			BIT(20)
+> +#define CHCFG_SEL(bits)			((bits) & 0x07)
+> +#define CHCFG_MEM_COPY			(0x80400008)
+> +
+> +#define DCTRL_LVINT			BIT(1)
+> +#define DCTRL_PR			BIT(0)
+> +#define DCTRL_DEFAULT			(DCTRL_LVINT | DCTRL_PR)
+> +
+> +/* LINK MODE DESCRIPTOR */
+> +#define HEADER_LV			BIT(0)
+> +
+> +#define RZ_DMAC_MAX_CHAN_DESCRIPTORS	16
+> +#define RZ_DMAC_MAX_CHANNELS		16
+> +#define DMAC_NR_LMDESC			64
+> +
+> +/*
+> + *
+> +-----------------------------------------------------------------------
+> +------
+> + * Device access
+> + */
+> +
+> +static void rz_dmac_writel(struct rz_dmac *dmac, unsigned int val,
+> +			   unsigned int offset)
 > +{
-> +	struct rzg2l_usbphy_ctrl_priv *priv =3D rcdev_to_priv(rcdev);
-> +	u32 port_mask =3D PHY_RESET_PORT1 | PHY_RESET_PORT2;
-> +	void __iomem *base =3D priv->base;
-> +	unsigned long flags;
-> +	u32 val;
+> +	writel(val, dmac->base + offset);
+> +}
 > +
-> +	spin_lock_irqsave(&priv->lock, flags);
-> +	val =3D readl(base + RESET);
-> +	val |=3D id ? PHY_RESET_PORT2 : PHY_RESET_PORT1;
-> +	if (port_mask =3D=3D (val & port_mask))
-> +		val |=3D RESET_PLLRESET;
-> +	writel(val, base + RESET);
-> +	spin_unlock_irqrestore(&priv->lock, flags);
+> +static void rz_dmac_ext_writel(struct rz_dmac *dmac, unsigned int val,
+> +			       unsigned int offset)
+> +{
+> +	writel(val, dmac->ext_base + offset);
+> +}
+> +
+> +static u32 rz_dmac_ext_readl(struct rz_dmac *dmac, unsigned int offset)
+> +{
+> +	return readl(dmac->ext_base + offset); }
+> +
+> +static void rz_dmac_ch_writel(struct rz_dmac_chan *channel, unsigned int
+> val,
+> +			      unsigned int offset, int which) {
+> +	if (which)
+> +		writel(val, channel->ch_base + offset);
+> +	else
+> +		writel(val, channel->ch_cmn_base + offset); }
+> +
+> +static u32 rz_dmac_ch_readl(struct rz_dmac_chan *channel,
+> +			    unsigned int offset, int which)
+> +{
+> +	if (which)
+> +		return readl(channel->ch_base + offset);
+> +	else
+> +		return readl(channel->ch_cmn_base + offset); }
+> +
+> +/*
+> + *
+> +-----------------------------------------------------------------------
+> +------
+> + * Initialization
+> + */
+> +
+> +static void rz_lmdesc_setup(struct rz_dmac_chan *channel,
+> +			    struct rz_lmdesc *lmdesc)
+> +{
+> +	u32 nxla;
+> +
+> +	channel->lmdesc.base =3D lmdesc;
+> +	channel->lmdesc.head =3D lmdesc;
+> +	channel->lmdesc.tail =3D lmdesc;
+> +	channel->lmdesc.valid =3D 0;
+> +	nxla =3D channel->lmdesc.base_dma;
+> +	while (lmdesc < (channel->lmdesc.base + (DMAC_NR_LMDESC - 1))) {
+> +		lmdesc->header =3D 0;
+> +		nxla +=3D sizeof(*lmdesc);
+> +		lmdesc->nxla =3D nxla;
+> +		lmdesc++;
+> +	}
+> +
+> +	lmdesc->header =3D 0;
+> +	lmdesc->nxla =3D channel->lmdesc.base_dma; }
+> +
+> +/*
+> + *
+> +-----------------------------------------------------------------------
+> +------
+> + * Descriptors preparation
+> + */
+> +
+> +static void rz_dmac_lmdesc_recycle(struct rz_dmac_chan *channel) {
+> +	struct rz_lmdesc *lmdesc =3D channel->lmdesc.head;
+> +
+> +	while (!(lmdesc->header & HEADER_LV)) {
+> +		lmdesc->header =3D 0;
+> +		channel->lmdesc.valid--;
+> +		lmdesc++;
+> +		if (lmdesc >=3D (channel->lmdesc.base + DMAC_NR_LMDESC))
+> +			lmdesc =3D channel->lmdesc.base;
+> +	}
+> +	channel->lmdesc.head =3D lmdesc;
+> +}
+> +
+> +static void rz_dmac_enable_hw(struct rz_dmac_chan *channel) {
+> +	struct dma_chan *chan =3D &channel->vc.chan;
+> +	struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+> +	unsigned long flags;
+> +	u32 nxla;
+> +	u32 chctrl;
+> +	u32 chstat;
+> +
+> +	dev_dbg(dmac->dev, "%s channel %d\n", __func__, channel->index);
+> +
+> +	local_irq_save(flags);
+> +
+> +	rz_dmac_lmdesc_recycle(channel);
+> +
+> +	nxla =3D channel->lmdesc.base_dma +
+> +		(sizeof(struct rz_lmdesc) * (channel->lmdesc.head -
+> +					     channel->lmdesc.base));
+> +
+> +	chstat =3D rz_dmac_ch_readl(channel, CHSTAT, 1);
+> +	if (!(chstat & CHSTAT_EN)) {
+> +		chctrl =3D (channel->chctrl | CHCTRL_SETEN);
+> +		rz_dmac_ch_writel(channel, nxla, NXLA, 1);
+> +		rz_dmac_ch_writel(channel, channel->chcfg, CHCFG, 1);
+> +		rz_dmac_ch_writel(channel, CHCTRL_SWRST, CHCTRL, 1);
+> +		rz_dmac_ch_writel(channel, chctrl, CHCTRL, 1);
+> +	}
+> +
+> +	local_irq_restore(flags);
+> +}
+> +
+> +static void rz_dmac_disable_hw(struct rz_dmac_chan *channel) {
+> +	struct dma_chan *chan =3D &channel->vc.chan;
+> +	struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+> +	unsigned long flags;
+> +
+> +	dev_dbg(dmac->dev, "%s channel %d\n", __func__, channel->index);
+> +
+> +	local_irq_save(flags);
+> +	rz_dmac_ch_writel(channel, CHCTRL_DEFAULT, CHCTRL, 1);
+> +	local_irq_restore(flags);
+> +}
+> +
+> +static void rz_dmac_set_dmars_register(struct rz_dmac *dmac, int nr,
+> +u32 dmars) {
+> +	u32 dmars_offset =3D (nr / 2) * 4;
+> +	u32 shift =3D (nr % 2) * 16;
+> +	u32 dmars32;
+> +
+> +	dmars32 =3D rz_dmac_ext_readl(dmac, dmars_offset);
+> +	dmars32 &=3D ~(0xffff << shift);
+> +	dmars32 |=3D dmars << shift;
+> +
+> +	rz_dmac_ext_writel(dmac, dmars32, dmars_offset); }
+> +
+> +static void rz_dmac_prepare_desc_for_memcpy(struct rz_dmac_chan
+> +*channel) {
+> +	struct dma_chan *chan =3D &channel->vc.chan;
+> +	struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+> +	struct rz_lmdesc *lmdesc =3D channel->lmdesc.base;
+> +	struct rz_dmac_desc *d =3D channel->desc;
+> +	u32 chcfg =3D CHCFG_MEM_COPY;
+> +
+> +	lmdesc =3D channel->lmdesc.tail;
+> +
+> +	/* prepare descriptor */
+> +	lmdesc->sa =3D d->src;
+> +	lmdesc->da =3D d->dest;
+> +	lmdesc->tb =3D d->len;
+> +	lmdesc->chcfg =3D chcfg;
+> +	lmdesc->chitvl =3D 0;
+> +	lmdesc->chext =3D 0;
+> +	lmdesc->header =3D HEADER_LV;
+> +
+> +	rz_dmac_set_dmars_register(dmac, channel->index, 0);
+> +
+> +	channel->chcfg =3D chcfg;
+> +	channel->chctrl =3D CHCTRL_STG | CHCTRL_SETEN; }
+> +
+> +static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan
+> +*channel) {
+> +	struct dma_chan *chan =3D &channel->vc.chan;
+> +	struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+> +	struct rz_dmac_desc *d =3D channel->desc;
+> +	struct scatterlist *sg, *sgl =3D d->sg;
+> +	struct rz_lmdesc *lmdesc;
+> +	unsigned int i, sg_len =3D d->sgcount;
+> +
+> +	channel->chcfg |=3D CHCFG_SEL(channel->index) | CHCFG_DEM | CHCFG_DMS;
+> +
+> +	if (d->direction =3D=3D DMA_DEV_TO_MEM)
+> +		channel->chcfg |=3D CHCFG_SAD;
+> +	else
+> +		channel->chcfg |=3D CHCFG_DAD;
+> +
+> +	lmdesc =3D channel->lmdesc.tail;
+> +
+> +	for (i =3D 0, sg =3D sgl; i < sg_len; i++, sg =3D sg_next(sg)) {
+> +		if (d->direction =3D=3D DMA_DEV_TO_MEM) {
+> +			lmdesc->sa =3D channel->src_per_address;
+> +			lmdesc->da =3D sg_dma_address(sg);
+> +		} else {
+> +			lmdesc->sa =3D sg_dma_address(sg);
+> +			lmdesc->da =3D channel->dst_per_address;
+> +		}
+> +
+> +		lmdesc->tb =3D sg_dma_len(sg);
+> +		lmdesc->chitvl =3D 0;
+> +		lmdesc->chext =3D 0;
+> +		if (i =3D=3D (sg_len - 1)) {
+> +			lmdesc->chcfg =3D (channel->chcfg & ~CHCFG_DEM);
+> +			lmdesc->header =3D HEADER_LV;
+> +		} else {
+> +			lmdesc->chcfg =3D channel->chcfg;
+> +			lmdesc->header =3D HEADER_LV;
+> +		}
+> +		if (++lmdesc >=3D (channel->lmdesc.base + DMAC_NR_LMDESC))
+> +			lmdesc =3D channel->lmdesc.base;
+> +	}
+> +
+> +	channel->lmdesc.tail =3D lmdesc;
+> +
+> +	rz_dmac_set_dmars_register(dmac, channel->index, channel->mid_rid);
+> +	channel->chctrl =3D CHCTRL_SETEN;
+> +}
+> +
+> +static int rz_dmac_xfer_desc(struct rz_dmac_chan *chan) {
+> +	struct rz_dmac_desc *d =3D chan->desc;
+> +	struct virt_dma_desc *vd;
+> +
+> +	vd =3D vchan_next_desc(&chan->vc);
+> +	if (!vd)
+> +		return 0;
+> +
+> +	list_del(&vd->node);
+> +
+> +	switch (d->type) {
+> +	case RZ_DMAC_DESC_MEMCPY:
+> +		rz_dmac_prepare_desc_for_memcpy(chan);
+> +		break;
+> +
+> +	case RZ_DMAC_DESC_SLAVE_SG:
+> +		rz_dmac_prepare_descs_for_slave_sg(chan);
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	rz_dmac_enable_hw(chan);
 > +
 > +	return 0;
 > +}
 > +
-> +static int rzg2l_usbphy_ctrl_deassert(struct reset_controller_dev *rcdev=
-,
-> +				      unsigned long id)
-> +{
-> +	struct rzg2l_usbphy_ctrl_priv *priv =3D rcdev_to_priv(rcdev);
-> +	void __iomem *base =3D priv->base;
-> +	unsigned long flags;
-> +	u32 val;
+> +/*
+> + *
+> +-----------------------------------------------------------------------
+> +------
+> + * DMA engine operations
+> + */
 > +
-> +	spin_lock_irqsave(&priv->lock, flags);
-> +	val =3D readl(base + RESET);
+> +static int rz_dmac_alloc_chan_resources(struct dma_chan *chan) {
+> +	struct rz_dmac_chan *channel =3D to_rz_dmac_chan(chan);
 > +
-> +	val |=3D RESET_SEL_PLLRESET;
-> +	val &=3D ~(RESET_PLLRESET | (id ? PHY_RESET_PORT2 : PHY_RESET_PORT1));
-> +	writel(val, base + RESET);
-> +	spin_unlock_irqrestore(&priv->lock, flags);
+> +	while (channel->descs_allocated < RZ_DMAC_MAX_CHAN_DESCRIPTORS) {
+> +		struct rz_dmac_desc *desc;
 > +
-> +	return 0;
-> +}
+> +		desc =3D kzalloc(sizeof(*desc), GFP_KERNEL);
+> +		if (!desc)
+> +			break;
 > +
-> +static int rzg2l_usbphy_ctrl_status(struct reset_controller_dev *rcdev,
-> +				    unsigned long id)
-> +{
-> +	struct rzg2l_usbphy_ctrl_priv *priv =3D rcdev_to_priv(rcdev);
-> +	u32 port_mask;
+> +		list_add_tail(&desc->node, &channel->ld_free);
+> +		channel->descs_allocated++;
+> +	}
 > +
-> +	port_mask =3D id ? PHY_RESET_PORT2 : PHY_RESET_PORT1;
-> +
-> +	return !!(readl(priv->base + RESET) & port_mask); }
-> +
-> +static const struct of_device_id rzg2l_usbphy_ctrl_match_table[] =3D {
-> +	{ .compatible =3D "renesas,rzg2l-usbphy-ctrl" },
-> +	{ /* Sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, rzg2l_usbphy_ctrl_match_table);
-> +
-> +static const struct reset_control_ops rzg2l_usbphy_ctrl_reset_ops =3D {
-> +	.assert =3D rzg2l_usbphy_ctrl_assert,
-> +	.deassert =3D rzg2l_usbphy_ctrl_deassert,
-> +	.status =3D rzg2l_usbphy_ctrl_status,
-> +};
-> +
-> +static int rzg2l_usbphy_ctrl_probe(struct platform_device *pdev) {
-> +	struct device *dev =3D &pdev->dev;
-> +	struct rzg2l_usbphy_ctrl_priv *priv;
-> +	unsigned long flags;
-> +	int error;
-> +	u32 val;
-> +
-> +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
+> +	if (!channel->descs_allocated)
 > +		return -ENOMEM;
 > +
-> +	priv->base =3D devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(priv->base))
-> +		return PTR_ERR(priv->base);
+> +	return channel->descs_allocated;
+> +}
 > +
-> +	priv->rstc =3D devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> +	if (IS_ERR(priv->rstc))
-> +		return dev_err_probe(dev, PTR_ERR(priv->rstc),
-> +				     "failed to get reset\n");
+> +static void rz_dmac_free_chan_resources(struct dma_chan *chan) {
+> +	struct rz_dmac_chan *channel =3D to_rz_dmac_chan(chan);
+> +	struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+> +	struct rz_lmdesc *lmdesc =3D channel->lmdesc.base;
+> +	struct rz_dmac_desc *desc, *_desc;
+> +	unsigned long flags;
+> +	unsigned int i;
 > +
-> +	reset_control_deassert(priv->rstc);
+> +	spin_lock_irqsave(&channel->vc.lock, flags);
 > +
-> +	priv->rcdev.ops =3D &rzg2l_usbphy_ctrl_reset_ops;
-> +	priv->rcdev.of_reset_n_cells =3D 1;
-> +	priv->rcdev.nr_resets =3D NUM_PORTS;
-> +	priv->rcdev.of_node =3D dev->of_node;
-> +	priv->rcdev.dev =3D dev;
+> +	for (i =3D 0; i < DMAC_NR_LMDESC; i++)
+> +		lmdesc[i].header =3D 0;
 > +
-> +	error =3D devm_reset_controller_register(dev, &priv->rcdev);
-> +	if (error)
-> +		return error;
+> +	rz_dmac_disable_hw(channel);
+> +	list_splice_tail_init(&channel->ld_active, &channel->ld_free);
+> +	list_splice_tail_init(&channel->ld_queue, &channel->ld_free);
 > +
-> +	spin_lock_init(&priv->lock);
-> +	dev_set_drvdata(dev, priv);
+> +	if (channel->mid_rid >=3D 0) {
+> +		clear_bit(channel->mid_rid, dmac->modules);
+> +		channel->mid_rid =3D -EINVAL;
+> +	}
 > +
-> +	pm_runtime_enable(&pdev->dev);
-> +	pm_runtime_resume_and_get(&pdev->dev);
+> +	spin_unlock_irqrestore(&channel->vc.lock, flags);
 > +
-> +	/* put pll and phy into reset state */
-> +	spin_lock_irqsave(&priv->lock, flags);
-> +	val =3D readl(priv->base + RESET);
-> +	val |=3D RESET_SEL_PLLRESET | RESET_PLLRESET | PHY_RESET_PORT2 |
-> PHY_RESET_PORT1;
-> +	writel(val, priv->base + RESET);
-> +	spin_unlock_irqrestore(&priv->lock, flags);
+> +	list_for_each_entry_safe(desc, _desc, &channel->ld_free, node) {
+> +		kfree(desc);
+> +		channel->descs_allocated--;
+> +	}
+> +
+> +	INIT_LIST_HEAD(&channel->ld_free);
+> +	vchan_free_chan_resources(&channel->vc);
+> +}
+> +
+> +static struct dma_async_tx_descriptor * rz_dmac_prep_dma_memcpy(struct
+> +dma_chan *chan, dma_addr_t dest, dma_addr_t src,
+> +			size_t len, unsigned long flags)
+> +{
+> +	struct rz_dmac_chan *channel =3D to_rz_dmac_chan(chan);
+> +	struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+> +	struct rz_dmac_desc *desc;
+> +
+> +	dev_dbg(dmac->dev, "%s channel: %d src=3D0x%llx dst=3D0x%llx len=3D%ld\=
+n",
+> +		__func__, channel->index, src, dest, len);
+> +
+> +	if (list_empty(&channel->ld_free))
+> +		return NULL;
+> +
+> +	desc =3D list_first_entry(&channel->ld_free, struct rz_dmac_desc,
+> node);
+> +
+> +	desc->type =3D RZ_DMAC_DESC_MEMCPY;
+> +	desc->src =3D src;
+> +	desc->dest =3D dest;
+> +	desc->len =3D len;
+> +	desc->direction =3D DMA_MEM_TO_MEM;
+> +
+> +	list_move_tail(channel->ld_free.next, &channel->ld_queue);
+> +	return vchan_tx_prep(&channel->vc, &desc->vd, flags); }
+> +
+> +static struct dma_async_tx_descriptor * rz_dmac_prep_slave_sg(struct
+> +dma_chan *chan, struct scatterlist *sgl,
+> +		      unsigned int sg_len,
+> +		      enum dma_transfer_direction direction,
+> +		      unsigned long flags, void *context) {
+> +	struct rz_dmac_chan *channel =3D to_rz_dmac_chan(chan);
+> +	struct scatterlist *sg;
+> +	int i, dma_length =3D 0;
+> +	struct rz_dmac_desc *desc;
+> +
+> +	if (list_empty(&channel->ld_free))
+> +		return NULL;
+> +
+> +	desc =3D list_first_entry(&channel->ld_free, struct rz_dmac_desc,
+> node);
+> +
+> +	for_each_sg(sgl, sg, sg_len, i) {
+> +		dma_length +=3D sg_dma_len(sg);
+> +	}
+> +
+> +	desc->type =3D RZ_DMAC_DESC_SLAVE_SG;
+> +	desc->sg =3D sgl;
+> +	desc->sgcount =3D sg_len;
+> +	desc->len =3D dma_length;
+> +	desc->direction =3D direction;
+> +
+> +	if (direction =3D=3D DMA_DEV_TO_MEM)
+> +		desc->src =3D channel->src_per_address;
+> +	else
+> +		desc->dest =3D channel->dst_per_address;
+> +
+> +	list_move_tail(channel->ld_free.next, &channel->ld_queue);
+> +	return vchan_tx_prep(&channel->vc, &desc->vd, flags); }
+> +
+> +static int rz_dmac_terminate_all(struct dma_chan *chan) {
+> +	struct rz_dmac_chan *channel =3D to_rz_dmac_chan(chan);
+> +	LIST_HEAD(head);
+> +
+> +	rz_dmac_disable_hw(channel);
+> +	list_splice_tail_init(&channel->ld_active, &channel->ld_free);
+> +	list_splice_tail_init(&channel->ld_queue, &channel->ld_free);
+> +	vchan_get_all_descriptors(&channel->vc, &head);
+> +	vchan_dma_desc_free_list(&channel->vc, &head);
 > +
 > +	return 0;
 > +}
 > +
-> +static int rzg2l_usbphy_ctrl_remove(struct platform_device *pdev) {
-> +	struct rzg2l_usbphy_ctrl_priv *priv =3D dev_get_drvdata(&pdev->dev);
+> +static void rz_dmac_issue_pending(struct dma_chan *chan) {
+> +	struct rz_dmac_chan *channel =3D to_rz_dmac_chan(chan);
+> +	struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+> +	struct rz_dmac_desc *desc;
+> +	unsigned long flags;
 > +
-> +	pm_runtime_put(&pdev->dev);
-> +	pm_runtime_disable(&pdev->dev);
-> +	reset_control_assert(priv->rstc);
+> +	spin_lock_irqsave(&channel->vc.lock, flags);
+> +
+> +	if (!list_empty(&channel->ld_queue)) {
+> +		desc =3D list_first_entry(&channel->ld_queue,
+> +					struct rz_dmac_desc, node);
+> +		channel->desc =3D desc;
+> +		if (vchan_issue_pending(&channel->vc)) {
+> +			if (rz_dmac_xfer_desc(channel) < 0)
+> +				dev_warn(dmac->dev, "ch: %d couldn't issue DMA
+> xfer\n",
+> +					 channel->index);
+> +			else
+> +				list_move_tail(channel->ld_queue.next,
+> +					       &channel->ld_active);
+> +		}
+> +	}
+> +
+> +	spin_unlock_irqrestore(&channel->vc.lock, flags); }
+> +
+> +static int rz_dmac_config(struct dma_chan *chan,
+> +			  struct dma_slave_config *config)
+> +{
+> +	struct rz_dmac_chan *channel =3D to_rz_dmac_chan(chan);
+> +	u32 *ch_cfg;
+> +
+> +	channel->src_per_address =3D config->src_addr;
+> +	channel->src_word_size =3D config->src_addr_width;
+> +	channel->dst_per_address =3D config->dst_addr;
+> +	channel->dst_word_size =3D config->dst_addr_width;
+> +
+> +	if (config->peripheral_config) {
+> +		ch_cfg =3D config->peripheral_config;
+> +		channel->chcfg =3D *ch_cfg;
+> +	}
 > +
 > +	return 0;
 > +}
 > +
-> +static struct platform_driver rzg2l_usbphy_ctrl_driver =3D {
-> +	.driver =3D {
-> +		.name		=3D "rzg2l_usbphy_ctrl",
-> +		.of_match_table	=3D rzg2l_usbphy_ctrl_match_table,
-> +	},
-> +	.probe	=3D rzg2l_usbphy_ctrl_probe,
-> +	.remove	=3D rzg2l_usbphy_ctrl_remove,
+> +static void rz_dmac_virt_desc_free(struct virt_dma_desc *vd) {
+> +	/*
+> +	 * Place holder
+> +	 * Descriptor allocation is done during alloc_chan_resources and
+> +	 * get freed during free_chan_resources.
+> +	 * list is used to manage the descriptors and avoid any memory
+> +	 * allocation/free during DMA read/write.
+> +	 */
+> +}
+> +
+> +/*
+> + *
+> +-----------------------------------------------------------------------
+> +------
+> + * IRQ handling
+> + */
+> +
+> +static void rz_dmac_irq_handle_channel(struct rz_dmac_chan *channel) {
+> +	struct dma_chan *chan =3D &channel->vc.chan;
+> +	struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+> +	u32 chstat, chctrl;
+> +
+> +	chstat =3D rz_dmac_ch_readl(channel, CHSTAT, 1);
+> +	if (chstat & CHSTAT_ER) {
+> +		dev_err(dmac->dev, "DMAC err CHSTAT_%d =3D %08X\n",
+> +			channel->index, chstat);
+> +		rz_dmac_ch_writel(channel, CHCTRL_DEFAULT, CHCTRL, 1);
+> +		goto done;
+> +	}
+> +
+> +	chctrl =3D rz_dmac_ch_readl(channel, CHCTRL, 1);
+> +	rz_dmac_ch_writel(channel, chctrl | CHCTRL_CLREND, CHCTRL, 1);
+> +done:
+> +	return;
+> +}
+> +
+> +static irqreturn_t rz_dmac_irq_handler(int irq, void *dev_id) {
+> +	struct rz_dmac_chan *channel =3D dev_id;
+> +
+> +	if (channel) {
+> +		rz_dmac_irq_handle_channel(channel);
+> +		return IRQ_WAKE_THREAD;
+> +	}
+> +	/* handle DMAERR irq */
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t rz_dmac_irq_handler_thread(int irq, void *dev_id) {
+> +	struct rz_dmac_chan *channel =3D dev_id;
+> +	struct rz_dmac_desc *desc =3D NULL;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&channel->vc.lock, flags);
+> +
+> +	if (list_empty(&channel->ld_active)) {
+> +		/* Someone might have called terminate all */
+> +		goto out;
+> +	}
+> +
+> +	desc =3D list_first_entry(&channel->ld_active, struct rz_dmac_desc,
+> node);
+> +	spin_unlock_irqrestore(&channel->vc.lock, flags);
+> +	vchan_cookie_complete(&desc->vd);
+> +
+> +	spin_lock_irqsave(&channel->vc.lock, flags);
+> +	list_move_tail(channel->ld_active.next, &channel->ld_free);
+> +
+> +	if (!list_empty(&channel->ld_queue)) {
+> +		desc =3D list_first_entry(&channel->ld_queue, struct
+> rz_dmac_desc,
+> +					node);
+> +		channel->desc =3D desc;
+> +		if (rz_dmac_xfer_desc(channel) =3D=3D 0)
+> +			list_move_tail(channel->ld_queue.next, &channel-
+> >ld_active);
+> +	}
+> +out:
+> +	spin_unlock_irqrestore(&channel->vc.lock, flags);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +/*
+> + *
+> +-----------------------------------------------------------------------
+> +------
+> + * OF xlate and channel filter
+> + */
+> +
+> +static bool rz_dmac_chan_filter(struct dma_chan *chan, void *arg) {
+> +	struct rz_dmac_chan *channel =3D to_rz_dmac_chan(chan);
+> +	struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+> +	struct of_phandle_args *dma_spec =3D arg;
+> +
+> +	channel->mid_rid =3D dma_spec->args[0];
+> +
+> +	return !test_and_set_bit(dma_spec->args[0], dmac->modules); }
+> +
+> +static struct dma_chan *rz_dmac_of_xlate(struct of_phandle_args
+> *dma_spec,
+> +					 struct of_dma *ofdma)
+> +{
+> +	dma_cap_mask_t mask;
+> +
+> +	if (dma_spec->args_count !=3D 1)
+> +		return NULL;
+> +
+> +	/* Only slave DMA channels can be allocated via DT */
+> +	dma_cap_zero(mask);
+> +	dma_cap_set(DMA_SLAVE, mask);
+> +
+> +	return dma_request_channel(mask, rz_dmac_chan_filter, dma_spec); }
+> +
+> +/*
+> + *
+> +-----------------------------------------------------------------------
+> +------
+> + * Probe and remove
+> + */
+> +
+> +static int rz_dmac_chan_probe(struct rz_dmac *dmac,
+> +			      struct rz_dmac_chan *channel,
+> +			      unsigned int index)
+> +{
+> +	struct platform_device *pdev =3D to_platform_device(dmac->dev);
+> +	struct rz_lmdesc *lmdesc;
+> +	char pdev_irqname[5];
+> +	char *irqname;
+> +	int ret;
+> +
+> +	channel->index =3D index;
+> +	channel->mid_rid =3D -EINVAL;
+> +
+> +	/* Request the channel interrupt. */
+> +	sprintf(pdev_irqname, "ch%u", index);
+> +	channel->irq =3D platform_get_irq_byname(pdev, pdev_irqname);
+> +	if (channel->irq < 0)
+> +		return channel->irq;
+> +
+> +	irqname =3D devm_kasprintf(dmac->dev, GFP_KERNEL, "%s:%u",
+> +				 dev_name(dmac->dev), index);
+> +	if (!irqname)
+> +		return -ENOMEM;
+> +
+> +	ret =3D devm_request_threaded_irq(dmac->dev, channel->irq,
+> +					rz_dmac_irq_handler,
+> +					rz_dmac_irq_handler_thread, 0,
+> +					irqname, channel);
+> +	if (ret) {
+> +		dev_err(dmac->dev, "failed to request IRQ %u (%d)\n",
+> +			channel->irq, ret);
+> +		return ret;
+> +	}
+> +
+> +	/* Set io base address for each channel */
+> +	if (index < 8) {
+> +		channel->ch_base =3D dmac->base + CHANNEL_0_7_OFFSET +
+> +			EACH_CHANNEL_OFFSET * index;
+> +		channel->ch_cmn_base =3D dmac->base + CHANNEL_0_7_COMMON_BASE;
+> +	} else {
+> +		channel->ch_base =3D dmac->base + CHANNEL_8_15_OFFSET +
+> +			EACH_CHANNEL_OFFSET * (index - 8);
+> +		channel->ch_cmn_base =3D dmac->base + CHANNEL_8_15_COMMON_BASE;
+> +	}
+> +
+> +	/* Allocate descriptors */
+> +	lmdesc =3D dma_alloc_coherent(&pdev->dev,
+> +				    sizeof(struct rz_lmdesc) * DMAC_NR_LMDESC,
+> +				    &channel->lmdesc.base_dma, GFP_KERNEL);
+> +	if (!lmdesc) {
+> +		dev_err(&pdev->dev, "Can't allocate memory (lmdesc)\n");
+> +		return -ENOMEM;
+> +	}
+> +	rz_lmdesc_setup(channel, lmdesc);
+> +
+> +	/* Initialize register for each channel */
+> +	rz_dmac_ch_writel(channel, CHCTRL_DEFAULT, CHCTRL, 1);
+> +
+> +	channel->vc.desc_free =3D rz_dmac_virt_desc_free;
+> +	vchan_init(&channel->vc, &dmac->engine);
+> +	INIT_LIST_HEAD(&channel->ld_queue);
+> +	INIT_LIST_HEAD(&channel->ld_free);
+> +	INIT_LIST_HEAD(&channel->ld_active);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rz_dmac_parse_of(struct device *dev, struct rz_dmac *dmac) {
+> +	struct device_node *np =3D dev->of_node;
+> +	int ret;
+> +
+> +	ret =3D of_property_read_u32(np, "dma-channels", &dmac->n_channels);
+> +	if (ret < 0) {
+> +		dev_err(dev, "unable to read dma-channels property\n");
+> +		return ret;
+> +	}
+> +
+> +	if (!dmac->n_channels || dmac->n_channels > RZ_DMAC_MAX_CHANNELS) {
+> +		dev_err(dev, "invalid number of channels %u\n", dmac-
+> >n_channels);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rz_dmac_probe(struct platform_device *pdev) {
+> +	const char *irqname =3D "error";
+> +	struct dma_device *engine;
+> +	struct rz_dmac *dmac;
+> +	int channel_num;
+> +	unsigned int i;
+> +	int ret;
+> +	int irq;
+> +
+> +	dmac =3D devm_kzalloc(&pdev->dev, sizeof(*dmac), GFP_KERNEL);
+> +	if (!dmac)
+> +		return -ENOMEM;
+> +
+> +	dmac->dev =3D &pdev->dev;
+> +	platform_set_drvdata(pdev, dmac);
+> +
+> +	ret =3D rz_dmac_parse_of(&pdev->dev, dmac);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	dmac->channels =3D devm_kcalloc(&pdev->dev, dmac->n_channels,
+> +				      sizeof(*dmac->channels), GFP_KERNEL);
+> +	if (!dmac->channels)
+> +		return -ENOMEM;
+> +
+> +	/* Request resources */
+> +	dmac->base =3D devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(dmac->base))
+> +		return PTR_ERR(dmac->base);
+> +
+> +	dmac->ext_base =3D devm_platform_ioremap_resource(pdev, 1);
+> +	if (IS_ERR(dmac->ext_base))
+> +		return PTR_ERR(dmac->ext_base);
+> +
+> +	/* Register interrupt handler for error */
+> +	irq =3D platform_get_irq_byname(pdev, irqname);
+> +	if (irq < 0)
+> +		return irq;
+> +
+> +	ret =3D devm_request_irq(&pdev->dev, irq, rz_dmac_irq_handler, 0,
+> +			       irqname, NULL);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "failed to request IRQ %u (%d)\n",
+> +			irq, ret);
+> +		return ret;
+> +	}
+> +
+> +	/* Initialize the channels. */
+> +	INIT_LIST_HEAD(&dmac->engine.channels);
+> +
+> +	for (i =3D 0; i < dmac->n_channels; i++) {
+> +		ret =3D rz_dmac_chan_probe(dmac, &dmac->channels[i], i);
+> +		if (ret < 0)
+> +			goto err;
+> +	}
+> +
+> +	/* Register the DMAC as a DMA provider for DT. */
+> +	ret =3D of_dma_controller_register(pdev->dev.of_node,
+> rz_dmac_of_xlate,
+> +					 NULL);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	/* Register the DMA engine device. */
+> +	engine =3D &dmac->engine;
+> +	dma_cap_set(DMA_SLAVE, engine->cap_mask);
+> +	dma_cap_set(DMA_MEMCPY, engine->cap_mask);
+> +	rz_dmac_writel(dmac, DCTRL_DEFAULT, CHANNEL_0_7_COMMON_BASE +
+> DCTRL);
+> +	rz_dmac_writel(dmac, DCTRL_DEFAULT, CHANNEL_8_15_COMMON_BASE +
+> DCTRL);
+> +
+> +	engine->dev =3D &pdev->dev;
+> +
+> +	engine->device_alloc_chan_resources =3D rz_dmac_alloc_chan_resources;
+> +	engine->device_free_chan_resources =3D rz_dmac_free_chan_resources;
+> +	engine->device_tx_status =3D dma_cookie_status;
+> +	engine->device_prep_slave_sg =3D rz_dmac_prep_slave_sg;
+> +	engine->device_prep_dma_memcpy =3D rz_dmac_prep_dma_memcpy;
+> +	engine->device_config =3D rz_dmac_config;
+> +	engine->device_terminate_all =3D rz_dmac_terminate_all;
+> +	engine->device_issue_pending =3D rz_dmac_issue_pending;
+> +
+> +	engine->copy_align =3D DMAENGINE_ALIGN_1_BYTE;
+> +	dma_set_max_seg_size(engine->dev, U32_MAX);
+> +
+> +	ret =3D dma_async_device_register(engine);
+> +	if (ret < 0) {
+> +		dev_err(&pdev->dev, "unable to register\n");
+> +		goto dma_register_err;
+> +	}
+> +	return 0;
+> +
+> +dma_register_err:
+> +	of_dma_controller_free(pdev->dev.of_node);
+> +err:
+> +	channel_num =3D i ? i - 1 : 0;
+> +	for (i =3D 0; i < channel_num; i++) {
+> +		struct rz_dmac_chan *channel =3D &dmac->channels[i];
+> +
+> +		dma_free_coherent(NULL,
+> +				  sizeof(struct rz_lmdesc) * DMAC_NR_LMDESC,
+> +				  channel->lmdesc.base,
+> +				  channel->lmdesc.base_dma);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int rz_dmac_remove(struct platform_device *pdev) {
+> +	struct rz_dmac *dmac =3D platform_get_drvdata(pdev);
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < dmac->n_channels; i++) {
+> +		struct rz_dmac_chan *channel =3D &dmac->channels[i];
+> +
+> +		dma_free_coherent(NULL,
+> +				  sizeof(struct rz_lmdesc) * DMAC_NR_LMDESC,
+> +				  channel->lmdesc.base,
+> +				  channel->lmdesc.base_dma);
+> +	}
+> +	of_dma_controller_free(pdev->dev.of_node);
+> +	dma_async_device_unregister(&dmac->engine);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id of_rz_dmac_match[] =3D {
+> +	{ .compatible =3D "renesas,rz-dmac", },
+> +	{ /* Sentinel */ }
 > +};
-> +module_platform_driver(rzg2l_usbphy_ctrl_driver);
+> +MODULE_DEVICE_TABLE(of, of_rz_dmac_match);
 > +
+> +static struct platform_driver rz_dmac_driver =3D {
+> +	.driver		=3D {
+> +		.name	=3D "rz-dmac",
+> +		.of_match_table =3D of_rz_dmac_match,
+> +	},
+> +	.probe		=3D rz_dmac_probe,
+> +	.remove		=3D rz_dmac_remove,
+> +};
+> +
+> +module_platform_driver(rz_dmac_driver);
+> +
+> +MODULE_DESCRIPTION("Renesas RZ/G2L DMA Controller Driver");
+> +MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
 > +MODULE_LICENSE("GPL v2");
-> +MODULE_DESCRIPTION("Renesas RZ/G2L USBPHY Control");
-> +MODULE_AUTHOR("biju.das.jz@bp.renesas.com>");
 > --
 > 2.17.1
 
