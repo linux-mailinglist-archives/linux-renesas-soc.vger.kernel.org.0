@@ -2,82 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29AEE3D7798
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 15:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47EE13D7857
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 16:18:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230500AbhG0N6f convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 09:58:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41024 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232185AbhG0N6c (ORCPT
+        id S232460AbhG0OR6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 10:17:58 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:6079 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S236762AbhG0OR6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 09:58:32 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22627C061757
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Jul 2021 06:58:30 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1m8NbC-00008n-1y; Tue, 27 Jul 2021 15:58:22 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1m8Nb5-0006hK-U5; Tue, 27 Jul 2021 15:58:15 +0200
-Message-ID: <190c36e7efbd9a2ec0c17ac73485820102268569.camel@pengutronix.de>
-Subject: Re: [PATCH v4 04/10] reset: renesas: Add RZ/G2L usbphy control
- driver
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Tue, 27 Jul 2021 10:17:58 -0400
+X-IronPort-AV: E=Sophos;i="5.84,273,1620658800"; 
+   d="scan'208";a="88924165"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 27 Jul 2021 23:17:57 +0900
+Received: from localhost.localdomain (unknown [10.226.92.236])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 200FC400D4E1;
+        Tue, 27 Jul 2021 23:17:51 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Date:   Tue, 27 Jul 2021 15:58:15 +0200
-In-Reply-To: <OS0PR01MB592261A1BE75C39115A4C01F86E99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20210719121938.6532-1-biju.das.jz@bp.renesas.com>
-         <20210719121938.6532-5-biju.das.jz@bp.renesas.com>
-         <OS0PR01MB59224851A0C86B3AFECD575186E99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-         <94589fced6b4495593ff558b2b56eae4fff70bed.camel@pengutronix.de>
-         <OS0PR01MB592261A1BE75C39115A4C01F86E99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/4] Add GbEthernet Clock support
+Date:   Tue, 27 Jul 2021 15:17:45 +0100
+Message-Id: <20210727141749.17783-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+This patch series aims to add GbEthernet clock support.
+GbEthernet clock support involves handing mux clock support
+for HP clock and coupled clock for axi/chi module clocks which
+shares same bit for controlling the clock output.
 
-On Tue, 2021-07-27 at 13:53 +0000, Biju Das wrote:
-> Hi Philipp,
-> 
-> Thanks for the feedback
-> 
-> > Subject: Re: [PATCH v4 04/10] reset: renesas: Add RZ/G2L usbphy control
-> > driver
-> > 
-> > Hi Biju,
-> > 
-> > On Tue, 2021-07-27 at 07:55 +0000, Biju Das wrote:
-> > > Hi All,
-> > > 
-> > > Gentle ping. Are we happy with this patch? Please let me know.
-> > 
-> > Do you want me to pick up patches 3 and 4? Are there any dependencies that
-> > I should be aware of?
-> 
-> Yes please. There is no compile time dependency at all.
+This patch series is based on renesas-clk-for-v5.15.
 
-Applied to reset/next, thanks.
+v1->v2:
+ * No change. Separated clock patches from driver patch series as per [1]
+ [1]
+  https://www.spinics.net/lists/linux-renesas-soc/msg59067.html
+v1:-
+ * New patch
 
-regards
-Philipp
+Biju Das (4):
+  drivers: clk: renesas: rzg2l-cpg: Add support to handle MUX clocks
+  drivers: clk: renesas: r9a07g044-cpg: Add ethernet clock sources
+  drivers: clk: renesas: rzg2l-cpg: Add support to handle coupled clocks
+  drivers: clk: renesas: r9a07g044-cpg: Add GbEthernet clock/reset
+
+ drivers/clk/renesas/r9a07g044-cpg.c | 31 ++++++++++++++++-
+ drivers/clk/renesas/rzg2l-cpg.c     | 54 +++++++++++++++++++++++++++++
+ drivers/clk/renesas/rzg2l-cpg.h     | 26 +++++++++++++-
+ 3 files changed, 109 insertions(+), 2 deletions(-)
+
+-- 
+2.17.1
+
