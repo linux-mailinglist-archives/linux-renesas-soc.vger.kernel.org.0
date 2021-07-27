@@ -2,104 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 621463D7199
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 10:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A42193D71A7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 10:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236043AbhG0Iys (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 04:54:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236027AbhG0Iyr (ORCPT
+        id S235964AbhG0I6l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 04:58:41 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.218]:14864 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235885AbhG0I6k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 04:54:47 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06662C061760;
-        Tue, 27 Jul 2021 01:54:47 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id z18so19500540ybg.8;
-        Tue, 27 Jul 2021 01:54:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZUQsqjQOSepeZI4ZBxOYmEEPPFT7ZXJ+tIn1Wmev4CE=;
-        b=BPucyRw+x8i0a+bI6F04Knx1fvWTMQdoZUjVuknizS0lbZ8s7JatONrR/kerk3gRFB
-         PUP+oz+Q0TNgd63S5RnTmcXqAgGUmth+4QEhdUraCg7s4lV3xKpAjRpdNUUamIyvENCk
-         4A+5mI0BN5NKum0tXazNG6Wko4rhD3t4Yzztb1l7MWXs7ZPJIoSMwO/74dyyTh0sy7U4
-         Qhi5+htCA1GMc8f4XdlrPM6MQeL1Y+mfKs7YHNTJ6IY7N2Ec6M7oHXekJn0+TIie2cax
-         d5HaGkFoQH3iL5bbg28FFKuHiLfz+9UwqJgMZnl4LuT5gWab7sIEDNwQ/i3QWjMF17sw
-         L/Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZUQsqjQOSepeZI4ZBxOYmEEPPFT7ZXJ+tIn1Wmev4CE=;
-        b=dGNVgYSwg9Lr8mlyQnXF8xkPq+6wQ+HOIVKeslXbviBNZnjVZW7ZwUPkyFTF09ANBA
-         DNqTr2piuZwKxvasGpjcsJc0lVTV58E4CJ3To1GJzLWbYOQuGFXirm2aRyZBm+xCa6vp
-         3D1T1flsbOxoTNe5wtUn5kyQtsthlPqCialeawFw5ZobBwgFbUZ3I/rgK66C2WSTkbG6
-         Vtfz5ZQODuRKX+n43BVqZSUP8Nd5nV9I0LVfbis95LdtwpTfLLCucICpMNllxHQggTbI
-         ebnix/n2xK/MV6TPe52R/xjajRBIuWdzeoSBd4sh+X4HvPaekF7fWJxWLYl9SH3+MBuk
-         k4Ag==
-X-Gm-Message-State: AOAM531GtRTlq61iCuBLo0L+OuF57DsvSn4CXudK/e+5hDIjjwvCZNy8
-        TBO0o8t7A2lR1dFb+p8g956u3IbZNpEIZXob0hE=
-X-Google-Smtp-Source: ABdhPJzXuYXojlsuMaJwiJlSaR7vqcfDAN83lE3jFInIMjdUPefsnTgFAMqrjiCw45cBPsC5Ik0xOvA85wA04ea3pjE=
-X-Received: by 2002:a25:ba44:: with SMTP id z4mr9378257ybj.476.1627376086310;
- Tue, 27 Jul 2021 01:54:46 -0700 (PDT)
+        Tue, 27 Jul 2021 04:58:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1627376136;
+    s=strato-dkim-0002; d=fpond.eu;
+    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=q5Rktl2PlNUu2QVqtqx6PFhsTCy5lEM2oJyqAN8SUV4=;
+    b=WJy32QIa2WNsz92EGLgzGLpr7SR1c0QgRSlo/zQm6D4XVUkd0q4MVW9DaTEujkm8V6
+    LHEVCB9sHyLWvbDLxKZcf3YjsA+NfKcKyLHCQdRXNc5ayhnVnrxAmZG66FEG+U15Gux/
+    /W5Ql1e+tQq2iE3ysppWqMG/CmMM4KbD2ZvL2LIU2NIlFgHUWs6iU2KZ/Lr9JrtBBNHa
+    IGJA2SLwd3wBzWufmOiyEbG5UyXpJX7Vi4aXtOsObyoEuPmRZb9m7BiQPSaQeUNTIYWr
+    JAQIlUaxMvEtkAuxjVBOHLAjDbm7ZbZfWGI4AxamRfEZ/iISOsouoKrcEoalHP6KzBgr
+    j0kA==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCt/7N+Odk="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp04-03.back.ox.d0m.de
+    by smtp-ox.front (RZmta 47.28.1 AUTH)
+    with ESMTPSA id n07311x6R8tan0s
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+    Tue, 27 Jul 2021 10:55:36 +0200 (CEST)
+Date:   Tue, 27 Jul 2021 10:55:36 +0200 (CEST)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        sergei.shtylyov@gmail.com, davem@davemloft.net, kuba@kernel.org
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Message-ID: <1879319092.816143.1627376136422@webmail.strato.com>
+In-Reply-To: <20210727082147.270734-2-yoshihiro.shimoda.uh@renesas.com>
+References: <20210727082147.270734-1-yoshihiro.shimoda.uh@renesas.com>
+ <20210727082147.270734-2-yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH 1/2] ravb: Fix descriptor counters' conditions
 MIME-Version: 1.0
-References: <20210726182850.14328-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210726182850.14328-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <f23358e3e040cc8522b259669ec61a22c5439394.camel@pengutronix.de>
- <CA+V-a8shgfxffdOTj0cyxz36XVxGxUkq1obPJNOSc94BKUWung@mail.gmail.com> <145309b88353d4127c659dfabd374252cb2afc48.camel@pengutronix.de>
-In-Reply-To: <145309b88353d4127c659dfabd374252cb2afc48.camel@pengutronix.de>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 27 Jul 2021 09:54:20 +0100
-Message-ID: <CA+V-a8uKe=F_6pEdOkAXG_JitiQ8T9D_d0MDuKXHoo2XvXK=HQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] iio: adc: Add driver for Renesas RZ/G2L A/D converter
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Alexandru Ardelean <aardelean@deviqon.com>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.5-Rev16
+X-Originating-Client: open-xchange-appsuite
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Philipp,
 
-On Tue, Jul 27, 2021 at 9:13 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
->
-> On Tue, 2021-07-27 at 09:02 +0100, Lad, Prabhakar wrote:
-> [...]
-> > > > +     ret = devm_add_action_or_reset(&pdev->dev,
-> > > > +                                    rzg2l_adc_reset_assert, adc->adrstn);
-> > > > +     if (ret) {
-> > > > +             dev_err(&pdev->dev, "failed to register adrstn assert devm action, %d\n",
-> > > > +                     ret);
-> > > > +             return ret;
-> > > > +     }
-> > >
-> > > This is the wrong way around. Installing devres actions should be done
-> > > after the thing they are supposed to revert in case of error. You should
-> > > move this down below the reset_control_deassert(adc->adrstn).
-> > >
-> > Ouch my understanding was, there won't be any harm in asserting the
-> > reset line. Agree with will move this below
-> > reset_control_deassert(adc->adrstn).
->
-> You are probably right, but it's still better do it correctly. Just
-> imagine one of the reset lines turns out to be shared later, or somebody
-> else will look at this driver for inspiration.
->
-Agreed, will do it the right way!
+> On 07/27/2021 10:21 AM Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
+> 
+>  
+> The descriptor counters ({cur,dirty}_[rt]x) acts as free counters
+> so that conditions are possible to be incorrect when a left value
+> was overflowed.
+> 
+> So, for example, ravb_tx_free() could not free any descriptors
+> because the following condition was checked as a signed value,
+> and then "NETDEV WATCHDOG" happened:
+> 
+>     for (; priv->cur_tx[q] - priv->dirty_tx[q] > 0; priv->dirty_tx[q]++) {
+> 
+> To fix the issue, add get_num_desc() to calculate numbers of
+> remaining descriptors.
+> 
+> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb_main.c | 22 +++++++++++++++-------
+>  1 file changed, 15 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 805397088850..70fbac572036 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -172,6 +172,14 @@ static const struct mdiobb_ops bb_ops = {
+>  	.get_mdio_data = ravb_get_mdio_data,
+>  };
+>  
+> +static u32 get_num_desc(u32 from, u32 subtract)
+> +{
+> +	if (from >= subtract)
+> +		return from - subtract;
+> +
+> +	return U32_MAX - subtract + 1 + from;
+> +}
 
-Cheers,
-Prabhakar
+This is a very roundabout way to implement an unsigned subtraction. :)
+I think it would make more sense to simply return 0 if "subtract" is larger than "from".
+(Likewise for sh_eth).
+
+CU
+Uli
