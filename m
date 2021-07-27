@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FCDB3D7F3A
+	by mail.lfdr.de (Postfix) with ESMTP id 5655C3D7F39
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 22:26:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232140AbhG0U0b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 16:26:31 -0400
-Received: from mga12.intel.com ([192.55.52.136]:51467 "EHLO mga12.intel.com"
+        id S232255AbhG0U0a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 16:26:30 -0400
+Received: from mga04.intel.com ([192.55.52.120]:54020 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231771AbhG0U0a (ORCPT
+        id S230426AbhG0U0a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 27 Jul 2021 16:26:30 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="192118235"
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="210636320"
 X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; 
-   d="scan'208";a="192118235"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2021 13:26:30 -0700
+   d="scan'208";a="210636320"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2021 13:26:29 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; 
-   d="scan'208";a="634523924"
+   d="scan'208";a="475404159"
 Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 27 Jul 2021 13:26:28 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 27 Jul 2021 13:26:28 -0700
 Received: from kbuild by d053b881505b with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1m8Tem-0007FL-0R; Tue, 27 Jul 2021 20:26:28 +0000
-Date:   Wed, 28 Jul 2021 04:25:41 +0800
+        id 1m8Tel-0007FJ-W3; Tue, 27 Jul 2021 20:26:27 +0000
+Date:   Wed, 28 Jul 2021 04:25:47 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:renesas-pinctrl-for-v5.15] BUILD SUCCESS
- 91d1be9fb7d667ae136f05cc645276eb2c9fa40e
-Message-ID: <61006bc5.FB6ZU7AQfHBgOMzD%lkp@intel.com>
+Subject: [renesas-devel:next] BUILD SUCCESS
+ b1f6bead1fb4976611429f459a1865daadedbb48
+Message-ID: <61006bcb.DuJKBqbI0SLwsiTY%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,10 +40,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.15
-branch HEAD: 91d1be9fb7d667ae136f05cc645276eb2c9fa40e  pinctrl: renesas: Fix pin control matching on R-Car H3e-2G
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: b1f6bead1fb4976611429f459a1865daadedbb48  Merge branches 'renesas-arm-dt-for-v5.15', 'renesas-drivers-for-v5.15' and 'renesas-dt-bindings-for-v5.15' into renesas-next
 
-elapsed time: 728m
+elapsed time: 721m
 
 configs tested: 82
 configs skipped: 3
