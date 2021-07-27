@@ -2,83 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EF0D3D785E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 16:18:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 933F93D78A8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 16:42:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236783AbhG0OSF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 10:18:05 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:10038 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S236738AbhG0OSF (ORCPT
+        id S232432AbhG0Omp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 10:42:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34214 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231466AbhG0Omp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 10:18:05 -0400
-X-IronPort-AV: E=Sophos;i="5.84,273,1620658800"; 
-   d="scan'208";a="88924185"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 27 Jul 2021 23:18:04 +0900
-Received: from localhost.localdomain (unknown [10.226.92.236])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 87BB8400F519;
-        Tue, 27 Jul 2021 23:18:02 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Tue, 27 Jul 2021 10:42:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 00C7961AFF;
+        Tue, 27 Jul 2021 14:42:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627396965;
+        bh=iRcdF2bhdw7wijnGeYka6rVc5jIoSeBNnn7qex/P0HQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=CezHG+tN8iSD42upYvUv4+WtE7Alx+F5QFWt/28yF6jOhHhpeNabpFsCA1y2N+pm+
+         xfCVPK3w5TEFTeMEw9mC/xNIxM5+t3FdKMLsnHFJTWwBEhR/183bB78NVEB25RsMC5
+         ttG0K3OX6aOHckUJC0N37RO4febBJy5IK/ZdaZcBNmPLkhQzwb4kCkf/ohU9uG/s92
+         3HcvJ5IESp7KdqBqF1qqod/xznWDVS3mQq6/P5/ayGb0g8OtpQVNPyXRejnkH328SP
+         pVVHbD8xbr38n9Q3GPZ0fuMGI0qDBk0Mg+dV+Hpdu+9mUXMl3B3WRy5+g5qNAukPnI
+         7eBjb7jdSFWZA==
+Received: by mail-ed1-f48.google.com with SMTP id p21so8553046edi.9;
+        Tue, 27 Jul 2021 07:42:44 -0700 (PDT)
+X-Gm-Message-State: AOAM533BWBCyAlQfyfy3fTLPgjNAM5iNMRUKFaXSgd7vXoqEQuTP29ef
+        lIU8MzLTYGxxlq5l+abfWKUyBaDwHH6qjwXRuw==
+X-Google-Smtp-Source: ABdhPJzZ3dcZSbE62SJMPL78QY10ME4lTGnE3r29kSVxIitdu3Zd+vnoWb2Mu+sUJOFdb/Oj42ta2AYGXTpcF7y0Ry0=
+X-Received: by 2002:aa7:da4b:: with SMTP id w11mr28997675eds.258.1627396963563;
+ Tue, 27 Jul 2021 07:42:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210721191558.22484-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210721191558.22484-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1626964632.914515.4183863.nullmailer@robh.at.kernel.org> <CA+V-a8s1Cp+atEYFxSm1EpMO+ZqAa00jhHS7bm5QdTPJyd6oJQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8s1Cp+atEYFxSm1EpMO+ZqAa00jhHS7bm5QdTPJyd6oJQ@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 27 Jul 2021 08:42:31 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKdCMG=ONAfBh61DJ7Led32CH8XjwoRUp3CK_xkfpGUVw@mail.gmail.com>
+Message-ID: <CAL_JsqKdCMG=ONAfBh61DJ7Led32CH8XjwoRUp3CK_xkfpGUVw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Add
+ DT bindings for RZ/G2L pinctrl
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 4/4] drivers: clk: renesas: r9a07g044-cpg: Add GbEthernet clock/reset
-Date:   Tue, 27 Jul 2021 15:17:49 +0100
-Message-Id: <20210727141749.17783-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210727141749.17783-1-biju.das.jz@bp.renesas.com>
-References: <20210727141749.17783-1-biju.das.jz@bp.renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add ETH{0,1} clock/reset entries to CPG driver.
+On Tue, Jul 27, 2021 at 3:27 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Rob,
+>
+> On Thu, Jul 22, 2021 at 3:37 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Wed, 21 Jul 2021 20:15:55 +0100, Lad Prabhakar wrote:
+> > > Add device tree binding documentation and header file for Renesas
+> > > RZ/G2L pinctrl.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > >  .../pinctrl/renesas,rzg2l-pinctrl.yaml        | 155 ++++++++++++++++++
+> > >  include/dt-bindings/pinctrl/rzg2l-pinctrl.h   |  23 +++
+> > >  2 files changed, 178 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+> > >  create mode 100644 include/dt-bindings/pinctrl/rzg2l-pinctrl.h
+> > >
+> >
+> > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> >
+> > yamllint warnings/errors:
+> >
+> > dtschema/dtc warnings/errors:
+> > Error: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.example.dts:29.34-35 syntax error
+> > FATAL ERROR: Unable to parse input tree
+> > make[1]: *** [scripts/Makefile.lib:380: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.example.dt.yaml] Error 1
+> > make[1]: *** Waiting for unfinished jobs....
+> > make: *** [Makefile:1418: dt_binding_check] Error 2
+> > \ndoc reference errors (make refcheckdocs):
+> >
+> > See https://patchwork.ozlabs.org/patch/1508385
+> >
+> > This check can fail if there are any dependencies. The base for a patch
+> > series is generally the most recent rc1.
+> >
+> The base patch series required for this path is v5.14-rc2. (I had
+> mentioned it in the cover letter, maybe I should have added a note
+> here too)
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2:
- * Register axi/chi clock as coupled clocks
-v1:-
- * New patch
----
- drivers/clk/renesas/r9a07g044-cpg.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I knew that and thought I'd updated my base. But it seems I didn't. Now fixed.
 
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index acf19a6cde31..1745e363e5a6 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -140,6 +140,14 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
- 				0x578, 2),
- 	DEF_MOD("usb_pclk",	R9A07G044_USB_PCLK, R9A07G044_CLK_P1,
- 				0x578, 3),
-+	DEF_COUPLED("eth0_axi",	R9A07G044_ETH0_CLK_AXI, R9A07G044_CLK_M0,
-+				0x57c, 0),
-+	DEF_COUPLED("eth0_chi",	R9A07G044_ETH0_CLK_CHI, R9A07G044_CLK_ZT,
-+				0x57c, 0),
-+	DEF_COUPLED("eth1_axi",	R9A07G044_ETH1_CLK_AXI, R9A07G044_CLK_M0,
-+				0x57c, 1),
-+	DEF_COUPLED("eth1_chi",	R9A07G044_ETH1_CLK_CHI, R9A07G044_CLK_ZT,
-+				0x57c, 1),
- 	DEF_MOD("i2c0",		R9A07G044_I2C0_PCLK, R9A07G044_CLK_P0,
- 				0x580, 0),
- 	DEF_MOD("i2c1",		R9A07G044_I2C1_PCLK, R9A07G044_CLK_P0,
-@@ -184,6 +192,8 @@ static struct rzg2l_reset r9a07g044_resets[] = {
- 	DEF_RST(R9A07G044_USB_U2H1_HRESETN, 0x878, 1),
- 	DEF_RST(R9A07G044_USB_U2P_EXL_SYSRST, 0x878, 2),
- 	DEF_RST(R9A07G044_USB_PRESETN, 0x878, 3),
-+	DEF_RST(R9A07G044_ETH0_RST_HW_N, 0x87c, 0),
-+	DEF_RST(R9A07G044_ETH1_RST_HW_N, 0x87c, 1),
- 	DEF_RST(R9A07G044_I2C0_MRST, 0x880, 0),
- 	DEF_RST(R9A07G044_I2C1_MRST, 0x880, 1),
- 	DEF_RST(R9A07G044_I2C2_MRST, 0x880, 2),
--- 
-2.17.1
-
+Rob
