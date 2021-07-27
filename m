@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD9A73D785A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 16:18:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06E253D785C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 16:18:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236766AbhG0OSC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 10:18:02 -0400
+        id S232362AbhG0OSD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 10:18:03 -0400
 Received: from relmlor1.renesas.com ([210.160.252.171]:6079 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S236760AbhG0OSB (ORCPT
+        by vger.kernel.org with ESMTP id S236622AbhG0OSC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 10:18:01 -0400
+        Tue, 27 Jul 2021 10:18:02 -0400
 X-IronPort-AV: E=Sophos;i="5.84,273,1620658800"; 
-   d="scan'208";a="88924169"
+   d="scan'208";a="88924176"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 27 Jul 2021 23:18:00 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 27 Jul 2021 23:18:02 +0900
 Received: from localhost.localdomain (unknown [10.226.92.236])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 99CE8400D4E1;
-        Tue, 27 Jul 2021 23:17:57 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 13C3B400F50B;
+        Tue, 27 Jul 2021 23:17:59 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>
@@ -28,9 +28,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/4] drivers: clk: renesas: r9a07g044-cpg: Add ethernet clock sources
-Date:   Tue, 27 Jul 2021 15:17:47 +0100
-Message-Id: <20210727141749.17783-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 3/4] drivers: clk: renesas: rzg2l-cpg: Add support to handle coupled clocks
+Date:   Tue, 27 Jul 2021 15:17:48 +0100
+Message-Id: <20210727141749.17783-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210727141749.17783-1-biju.das.jz@bp.renesas.com>
 References: <20210727141749.17783-1-biju.das.jz@bp.renesas.com>
@@ -38,106 +38,126 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Ethernet reference clock can be sourced from PLL5_2 or PLL6_2. Add support
-for ethernet source clock selection using SEL_PLL_6_2 mux.
-
-This patch also renames the PLL5_DIV2 core clock to PLL5_2_DIV12 to match
-with the register description as mentioned in RZ/G2L HW manual (Rev.0.50).
+The AXI and CHI clocks use the same register bit for controlling clock
+output. Add a new clock type for coupled clocks, which sets the
+CPG_CLKON_ETH.CLK[01]_ON bit when at least one clock is enabled, and
+clears the bit only when both clocks are disabled.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
-v1->v2:
- * Moved SEL_PLL_PACK macro to Mux handling support
- * Renamed PLL5_DIV2 core clock to PLL5_2_DIV12
-v1:
- * New patch.
+v2:-
+ * New patch
 ---
- drivers/clk/renesas/r9a07g044-cpg.c | 21 ++++++++++++++++++++-
- drivers/clk/renesas/rzg2l-cpg.h     |  3 +++
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ drivers/clk/renesas/rzg2l-cpg.c | 31 +++++++++++++++++++++++++++++++
+ drivers/clk/renesas/rzg2l-cpg.h | 11 ++++++++++-
+ 2 files changed, 41 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index 4c94b94c4125..acf19a6cde31 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -35,8 +35,11 @@ enum clk_ids {
- 	CLK_PLL3_DIV4,
- 	CLK_PLL4,
- 	CLK_PLL5,
--	CLK_PLL5_DIV2,
-+	CLK_PLL5_2,
-+	CLK_PLL5_2_DIV12,
- 	CLK_PLL6,
-+	CLK_PLL6_2,
-+	CLK_PLL6_2_DIV2,
- 	CLK_P1_DIV2,
- 
- 	/* Module Clocks */
-@@ -53,6 +56,9 @@ static const struct clk_div_table dtable_1_32[] = {
- 	{0, 0},
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index 597efc2504eb..4d2af113b54e 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -333,12 +333,16 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_clk *core,
+  * @hw: handle between common and hardware-specific interfaces
+  * @off: register offset
+  * @bit: ON/MON bit
++ * @is_coupled: flag to indicate coupled clock
++ * @on_cnt: ON count for coupled clocks
+  * @priv: CPG/MSTP private data
+  */
+ struct mstp_clock {
+ 	struct clk_hw hw;
+ 	u16 off;
+ 	u8 bit;
++	bool is_coupled;
++	u8 on_cnt;
+ 	struct rzg2l_cpg_priv *priv;
  };
  
-+/* Mux clock tables */
-+static const char * const sel_pll6_2[]	= { ".pll6_2_div2", ".pll5_2_div12" };
-+
- static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 	/* External Clock Inputs */
- 	DEF_INPUT("extal", CLK_EXTAL),
-@@ -64,6 +70,12 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 	DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 133, 2),
- 	DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 133, 2),
+@@ -392,11 +396,37 @@ static int rzg2l_mod_clock_endisable(struct clk_hw *hw, bool enable)
  
-+	DEF_FIXED(".pll5", CLK_PLL5, CLK_EXTAL, 125, 1),
-+	DEF_FIXED(".pll5_2", CLK_PLL5_2, CLK_PLL5, 1, 6),
+ static int rzg2l_mod_clock_enable(struct clk_hw *hw)
+ {
++	struct mstp_clock *clock = to_mod_clock(hw);
++	struct rzg2l_cpg_priv *priv = clock->priv;
++	unsigned long flags;
 +
-+	DEF_FIXED(".pll6", CLK_PLL6, CLK_EXTAL, 125, 6),
-+	DEF_FIXED(".pll6_2", CLK_PLL6_2, CLK_PLL6, 1, 1),
++	spin_lock_irqsave(&priv->rmw_lock, flags);
++	clock->on_cnt++;
++	if (clock->is_coupled && clock->on_cnt > 1) {
++		spin_unlock_irqrestore(&priv->rmw_lock, flags);
++		return 1;
++	}
 +
- 	DEF_FIXED(".pll2_div2", CLK_PLL2_DIV2, CLK_PLL2, 1, 2),
- 	DEF_FIXED(".pll2_div16", CLK_PLL2_DIV16, CLK_PLL2, 1, 16),
- 	DEF_FIXED(".pll2_div20", CLK_PLL2_DIV20, CLK_PLL2, 1, 20),
-@@ -73,6 +85,9 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 	DEF_FIXED(".pll3_div2_4_2", CLK_PLL3_DIV2_4_2, CLK_PLL3_DIV2_4, 1, 2),
- 	DEF_FIXED(".pll3_div4", CLK_PLL3_DIV4, CLK_PLL3, 1, 4),
++	spin_unlock_irqrestore(&priv->rmw_lock, flags);
++
+ 	return rzg2l_mod_clock_endisable(hw, true);
+ }
  
-+	DEF_FIXED(".pll5_2_div12", CLK_PLL5_2_DIV12, CLK_PLL5_2, 1, 2),
-+	DEF_FIXED(".pll6_2_div2", CLK_PLL6_2_DIV2, CLK_PLL6_2, 1, 2),
+ static void rzg2l_mod_clock_disable(struct clk_hw *hw)
+ {
++	struct mstp_clock *clock = to_mod_clock(hw);
++	struct rzg2l_cpg_priv *priv = clock->priv;
++	unsigned long flags;
 +
- 	/* Core output clk */
- 	DEF_FIXED("I", R9A07G044_CLK_I, CLK_PLL1, 1, 1),
- 	DEF_DIV("P0", R9A07G044_CLK_P0, CLK_PLL2_DIV16, DIVPL2A,
-@@ -84,6 +99,10 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 	DEF_FIXED("P1_DIV2", CLK_P1_DIV2, R9A07G044_CLK_P1, 1, 2),
- 	DEF_DIV("P2", R9A07G044_CLK_P2, CLK_PLL3_DIV2_4_2,
- 		DIVPL3A, dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
-+	DEF_FIXED("M0", R9A07G044_CLK_M0, CLK_PLL3_DIV2_4, 1, 1),
-+	DEF_FIXED("ZT", R9A07G044_CLK_ZT, CLK_PLL3_DIV2_4_2, 1, 1),
-+	DEF_MUX("HP", R9A07G044_CLK_HP, SEL_PLL6_2,
-+		sel_pll6_2, ARRAY_SIZE(sel_pll6_2), 0, CLK_MUX_HIWORD_MASK),
- };
++	spin_lock_irqsave(&priv->rmw_lock, flags);
++	clock->on_cnt--;
++	if (clock->is_coupled && clock->on_cnt) {
++		spin_unlock_irqrestore(&priv->rmw_lock, flags);
++		return;
++	}
++
++	spin_unlock_irqrestore(&priv->rmw_lock, flags);
++
+ 	rzg2l_mod_clock_endisable(hw, false);
+ }
  
- static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
+@@ -475,6 +505,7 @@ rzg2l_cpg_register_mod_clk(const struct rzg2l_mod_clk *mod,
+ 
+ 	clock->off = mod->off;
+ 	clock->bit = mod->bit;
++	clock->is_coupled = mod->is_coupled;
+ 	clock->priv = priv;
+ 	clock->hw.init = &init;
+ 
 diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
-index f538ffa3371c..5202c0512483 100644
+index 5202c0512483..191c403aa52f 100644
 --- a/drivers/clk/renesas/rzg2l-cpg.h
 +++ b/drivers/clk/renesas/rzg2l-cpg.h
-@@ -11,6 +11,7 @@
+@@ -93,6 +93,7 @@ enum clk_types {
+  * @parent: id of parent clock
+  * @off: register offset
+  * @bit: ON/MON bit
++ * @is_coupled: flag to indicate coupled clock
+  */
+ struct rzg2l_mod_clk {
+ 	const char *name;
+@@ -100,17 +101,25 @@ struct rzg2l_mod_clk {
+ 	unsigned int parent;
+ 	u16 off;
+ 	u8 bit;
++	bool is_coupled;
+ };
  
- #define CPG_PL2_DDIV		(0x204)
- #define CPG_PL3A_DDIV		(0x208)
-+#define CPG_PL6_ETH_SSEL	(0x418)
+-#define DEF_MOD(_name, _id, _parent, _off, _bit)	\
++#define DEF_MOD_BASE(_name, _id, _parent, _off, _bit, _is_coupled)	\
+ 	{ \
+ 		.name = _name, \
+ 		.id = MOD_CLK_BASE + (_id), \
+ 		.parent = (_parent), \
+ 		.off = (_off), \
+ 		.bit = (_bit), \
++		.is_coupled = (_is_coupled), \
+ 	}
  
- /* n = 0/1/2 for PLL1/4/6 */
- #define CPG_SAMPLL_CLK1(n)	(0x04 + (16 * n))
-@@ -27,6 +28,8 @@
- #define SEL_PLL_PACK(offset, bitpos, size) \
- 		(((offset) << 20) | ((bitpos) << 12) | ((size) << 8))
- 
-+#define SEL_PLL6_2	SEL_PLL_PACK(CPG_PL6_ETH_SSEL, 0, 1)
++#define DEF_MOD(_name, _id, _parent, _off, _bit)	\
++	DEF_MOD_BASE(_name, _id, _parent, _off, _bit, false)
++
++#define DEF_COUPLED(_name, _id, _parent, _off, _bit)	\
++	DEF_MOD_BASE(_name, _id, _parent, _off, _bit, true)
 +
  /**
-  * Definitions of CPG Core Clocks
+  * struct rzg2l_reset - Reset definitions
   *
 -- 
 2.17.1
