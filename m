@@ -2,106 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBB9C3D71C0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 11:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 914353D71F4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 11:27:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236000AbhG0JN6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 05:13:58 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.167]:23541 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235942AbhG0JN6 (ORCPT
+        id S236040AbhG0J1Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 05:27:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235979AbhG0J1Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 05:13:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1627377235;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=XqBcMoIkFDWH7t7weL/F33n8KKtmIXCBVhETpaRVRYU=;
-    b=hR3wmLtFn5vSE8vRpYx0Tb/uRawFMqt4Z2cVf+mr0MSvQOQfnljNwgIZQAON4FulI6
-    eAGYm3wk1qTLkMJ7B/VLskcuWM8/Z9gQAuCEGmsR8pbWBjzjPmq8s2l+tppn2LSjJipT
-    A6YILLUuVoxfc9WaZHV1U1FneXi9EO7AvzXCMB0P+8g5y1qMsh/lCcB7imYI1jc/mopA
-    eGWXKLs8TJGtXLO5zVlPPsTw226pjFxj+BNP2Kge0+jJTCLUqw27+wOxcGz5Pr5GODKO
-    qSCxMVxS1DKxNlVOC8O/Dtrm2EK0hUn6GZ8B0zmVyV706tr6Dc+ym3u6v5G+tXJz9cST
-    2S2Q==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCt/7N+Odk="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp04-03.back.ox.d0m.de
-    by smtp-ox.front (RZmta 47.28.1 AUTH)
-    with ESMTPSA id n07311x6R9Dtn97
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-    Tue, 27 Jul 2021 11:13:55 +0200 (CEST)
-Date:   Tue, 27 Jul 2021 11:13:55 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        sergei.shtylyov@gmail.com, davem@davemloft.net, kuba@kernel.org
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Message-ID: <1863500318.822017.1627377235170@webmail.strato.com>
-In-Reply-To: <1879319092.816143.1627376136422@webmail.strato.com>
-References: <20210727082147.270734-1-yoshihiro.shimoda.uh@renesas.com>
- <20210727082147.270734-2-yoshihiro.shimoda.uh@renesas.com>
- <1879319092.816143.1627376136422@webmail.strato.com>
-Subject: Re: [PATCH 1/2] ravb: Fix descriptor counters' conditions
+        Tue, 27 Jul 2021 05:27:24 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C33C2C061757;
+        Tue, 27 Jul 2021 02:27:24 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id v46so19656708ybi.3;
+        Tue, 27 Jul 2021 02:27:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OXaP/V7E9VE6tY63eKRQ5gbV86lhUto9d36GQTXubCY=;
+        b=KFYuPqxEbWgJg3sI4935wrP5FBajhMICpfDFJ/IMUVseOWYZO0nYmXhWZWZOLUogHE
+         qb7gWpp8a0cQ+4z6ZlAkSP9Kzl39NPb9WQREZ1+g4HJfrV29b702Ix3Ouu5eHIjcweOS
+         hpGAWABAAmWD8+PgeUuHmshjbnjrJJE1/ddrb/8DijucGXrrD0KdX0fH4wiInCGiylzB
+         V5woj6lUKYdB1BLkMkxWTUnDwbbIh/qjj4ZhCzBGPLl15uR9DH1OcV+qeezs/42PGGcO
+         3laD/q54vfQ8YEtxA1kW7RYxOuQBC9STRkRaSORLhV2vXF9bL9aWJoShf3LWCrP2MWOF
+         afvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OXaP/V7E9VE6tY63eKRQ5gbV86lhUto9d36GQTXubCY=;
+        b=J8cedr2qc4QlWLDL/FYN5wECqyOwm66+iPaYDJK2uOxWXH+0/YNHUFXhW9e+yM6Q7Z
+         OAfa4T6A9dGFSJ/r+tWfC1WxMV8HM+1+S6sR93KkrSuXInK9CXNL9QSz7S19dlfGIWJs
+         HLsRX9X+6rPE5eD28EUaxr/Mcye7G0s9KGj4Ms8svC2eZ1lmQ7+YyZehyo27nhxzKPop
+         GcbNCi/DTXinZOSltEriWhSeJNy63DOg205dssKc6KYw51XUpf1xATouxI7sI86Nb5Js
+         0ECLGzmUGsVhDGkMQ3L+TZagRHfkgxeeka/oI/eXHJUCXmJU83fsbtEl5Nmb6edbQPy9
+         KKJg==
+X-Gm-Message-State: AOAM532BxuQclL4+umbE5WdqdD83iX43TU5xcsuhYk6/S6pwyJC4lPOT
+        EbeIHMsRclFLfaKeefjuOhQCXnoNTrrwHWVe5qY=
+X-Google-Smtp-Source: ABdhPJw1d5jLrLhylPnJafYE/2u8pPAm5nX0i33oemeAERzvm+qCWm0EaJqS+oc/I2QRqEtkk6JwwZzPZEsIkSmEq04=
+X-Received: by 2002:a25:dad7:: with SMTP id n206mr15828153ybf.119.1627378044106;
+ Tue, 27 Jul 2021 02:27:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.5-Rev16
-X-Originating-Client: open-xchange-appsuite
+References: <20210721191558.22484-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210721191558.22484-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <1626964632.914515.4183863.nullmailer@robh.at.kernel.org>
+In-Reply-To: <1626964632.914515.4183863.nullmailer@robh.at.kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 27 Jul 2021 10:26:58 +0100
+Message-ID: <CA+V-a8s1Cp+atEYFxSm1EpMO+ZqAa00jhHS7bm5QdTPJyd6oJQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Add
+ DT bindings for RZ/G2L pinctrl
+To:     Rob Herring <robh@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Rob,
 
-> On 07/27/2021 10:55 AM Ulrich Hecht <uli@fpond.eu> wrote:
-> 
->  
-> > On 07/27/2021 10:21 AM Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > 
-> >  
-> > The descriptor counters ({cur,dirty}_[rt]x) acts as free counters
-> > so that conditions are possible to be incorrect when a left value
-> > was overflowed.
-> > 
-> > So, for example, ravb_tx_free() could not free any descriptors
-> > because the following condition was checked as a signed value,
-> > and then "NETDEV WATCHDOG" happened:
-> > 
-> >     for (; priv->cur_tx[q] - priv->dirty_tx[q] > 0; priv->dirty_tx[q]++) {
-> > 
-> > To fix the issue, add get_num_desc() to calculate numbers of
-> > remaining descriptors.
-> > 
-> > Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  drivers/net/ethernet/renesas/ravb_main.c | 22 +++++++++++++++-------
-> >  1 file changed, 15 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> > index 805397088850..70fbac572036 100644
-> > --- a/drivers/net/ethernet/renesas/ravb_main.c
-> > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> > @@ -172,6 +172,14 @@ static const struct mdiobb_ops bb_ops = {
-> >  	.get_mdio_data = ravb_get_mdio_data,
-> >  };
-> >  
-> > +static u32 get_num_desc(u32 from, u32 subtract)
-> > +{
-> > +	if (from >= subtract)
-> > +		return from - subtract;
-> > +
-> > +	return U32_MAX - subtract + 1 + from;
-> > +}
+On Thu, Jul 22, 2021 at 3:37 PM Rob Herring <robh@kernel.org> wrote:
 >
-> This is a very roundabout way to implement an unsigned subtraction. :)
-> I think it would make more sense to simply return 0 if "subtract" is larger than "from".
-> (Likewise for sh_eth).
+> On Wed, 21 Jul 2021 20:15:55 +0100, Lad Prabhakar wrote:
+> > Add device tree binding documentation and header file for Renesas
+> > RZ/G2L pinctrl.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  .../pinctrl/renesas,rzg2l-pinctrl.yaml        | 155 ++++++++++++++++++
+> >  include/dt-bindings/pinctrl/rzg2l-pinctrl.h   |  23 +++
+> >  2 files changed, 178 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+> >  create mode 100644 include/dt-bindings/pinctrl/rzg2l-pinctrl.h
+> >
+>
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> Error: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.example.dts:29.34-35 syntax error
+> FATAL ERROR: Unable to parse input tree
+> make[1]: *** [scripts/Makefile.lib:380: Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.example.dt.yaml] Error 1
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [Makefile:1418: dt_binding_check] Error 2
+> \ndoc reference errors (make refcheckdocs):
+>
+> See https://patchwork.ozlabs.org/patch/1508385
+>
+> This check can fail if there are any dependencies. The base for a patch
+> series is generally the most recent rc1.
+>
+The base patch series required for this path is v5.14-rc2. (I had
+mentioned it in the cover letter, maybe I should have added a note
+here too)
 
-...and the tests for "> 0" should be rewritten as "!= 0". Sorry, not fully awake yet.
+Sorry for the inconvenience.
 
-CU
-Uli
+Cheers,
+Prabhakar
+
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+>
+> pip3 install dtschema --upgrade
+>
+> Please check and re-submit.
+>
