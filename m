@@ -2,71 +2,232 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30CCB3D70BA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 10:00:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C5B43D70C0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 10:03:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235740AbhG0IAH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 04:00:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51148 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235675AbhG0IAG (ORCPT
+        id S235873AbhG0IC4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 04:02:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44242 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235621AbhG0ICu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 04:00:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5F444610D0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Jul 2021 08:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627372807;
-        bh=NPaEhOcYeUVuUfWRpO+I3hKsw4ItcGy3+MxneRGTOfk=;
-        h=Subject:From:Date:To:From;
-        b=tz0HguseyzPXX3a8pTrOoh4ps58AKjYLmpN7J4ntq4Z6zYNEjCo5LnG7sag7KNA/L
-         0h53805ZIAoUNfWqh+ra42xfFbBW9YGGzjB/uL1ixckz5/bUj+b4X54TUzPQcjEgk/
-         ub4kVo3ioWDLkP/E/faT4yx4ryqCHq46gGuIc2TNCcAM9UT4gnDtXhfTU/yUz8oXzj
-         5Jaz5GOOHK5WpSQN5ME6uYUAOyQDhAhuOYuTpsGjtTlMPD1ii7UcePpQBBcOgDHbL9
-         4UyOZbvx6BSJsKBDE1bBFsfwT+Afg+QU1tM/rpGiwU4qERZ7ShqezqYkqrmNLNALlD
-         wweMVtJiVUs6A==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 5131C609CC
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Jul 2021 08:00:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 27 Jul 2021 04:02:50 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE7A0C061757;
+        Tue, 27 Jul 2021 01:02:36 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id a201so19259213ybg.12;
+        Tue, 27 Jul 2021 01:02:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=m+XCL+O6ZGoZM0ZHBj2pc3ABR3ivI0OLwjzgvaNMBPU=;
+        b=PkJe1pEHeQ3dYtlFZVjVy42qXUU8UV6dJDzpngGRmQQ69PVdu0bcDd6Ess1bfqyFXE
+         CqQTMagOtbNWOWfhDvrGE5s0aUqFQSXXC0jlLw9pgnndaW/zbFI4w1boypnCLtxT/DgX
+         8dL75dZNKWmVWx79gi6VQDAK279HoIV183jYGzb8m0H72VWaoORuQifDtXyGRllYTCnK
+         Yme0RPafihA0fjx6EF/dVNBJCCfntJ7SSWzo4r3ijYIYa/ZFrLBuop0NZIsIx++n8qnp
+         PS4aP5TPkgOaJU9UfPgFAJ2UUmC1lZ3qXZRzoRZrm4AhI9CwvbEzh73by0shbYeSwqg9
+         pcMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m+XCL+O6ZGoZM0ZHBj2pc3ABR3ivI0OLwjzgvaNMBPU=;
+        b=AQYsr7/QjYA5MSTc1rSFCSkNKjPP/n9VM2WkB6PDXLYce0jtCKTc0ixWuv/YneYn21
+         LviNqgUJZ9cTkFV3aG1cZceTtgeyoKx3Chk2VBP7Hwe06Ws9Vter4pdHSJa7swSYAhLy
+         Ndymj3SKXK3dncz6hJJ9xJinLI/u5SJGxv5hbe+pH1a/Ii1cUhhkXVFuGGapyoPdxiGS
+         0xMfZYniur7pbCC3syhkteTejl0F8EA0yYZKMWLuq+sMUQ/hS1DKdVJG1mfUBHy+IS6q
+         HETq/CLI/pv4jSNzxKrMXuQmK7spcAkmZZQBWOn3qpHL5KCZxf05I7EwYPwl+5QMUUzw
+         9gRw==
+X-Gm-Message-State: AOAM532LNqASbQtTaC852ZtL1cBR2ecOQNIM/cq00oXjvej3L0iSNj45
+        6nMQHc45pa/S2CBe+UnSbHDwAfVW8NPyAO5dUiY=
+X-Google-Smtp-Source: ABdhPJxs7G59NoEQoH+x4+/lGnCC80kbrFx4j8D/TvVTYw1cHBYH5g9AW1fYZrRgMvX1rjXGyFfwwCzZAN+L2AR618s=
+X-Received: by 2002:a25:7e86:: with SMTP id z128mr29682778ybc.222.1627372956251;
+ Tue, 27 Jul 2021 01:02:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <162737280727.15259.11310213289120174014.git-patchwork-summary@kernel.org>
-Date:   Tue, 27 Jul 2021 08:00:07 +0000
-To:     linux-renesas-soc@vger.kernel.org
+References: <20210726182850.14328-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210726182850.14328-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <f23358e3e040cc8522b259669ec61a22c5439394.camel@pengutronix.de>
+In-Reply-To: <f23358e3e040cc8522b259669ec61a22c5439394.camel@pengutronix.de>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 27 Jul 2021 09:02:10 +0100
+Message-ID: <CA+V-a8shgfxffdOTj0cyxz36XVxGxUkq1obPJNOSc94BKUWung@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] iio: adc: Add driver for Renesas RZ/G2L A/D converter
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Alexandru Ardelean <aardelean@deviqon.com>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi Philipp,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (refs/heads/master):
+Thank you for the review.
 
-Patch: [v2] arm64: dts: renesas: r8a77961: Add iommus to ipmmu_ds[01] related nodes
-  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=518863
-  Lore link: https://lore.kernel.org/r/20210721111247.849825-1-yoshihiro.shimoda.uh@renesas.com
-Series: arm64: renesas: Add support for R Car H3e 2G-and M3e-2G
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=517739
-  Lore link: https://lore.kernel.org/r/cover.1626708063.git.geert+renesas@glider.be
-    Patches: [v2,01/10] dt-bindings: arm: renesas: Document R-Car H3e-2G and M3e-2G SoCs and boards
-             [v2,02/10] soc: renesas: Identify R-Car H3e-2G and M3e-2G
-             [v2,03/10] arm64: dts: renesas: Add Renesas R8A779M1 SoC support
-             [v2,04/10] arm64: dts: renesas: Add Renesas R8A779M3 SoC support
-             [v2,05/10] arm64: dts: renesas: Add support for Salvator-XS with R-Car H3e-2G
-             [v2,06/10] arm64: dts: renesas: Add support for H3ULCB with R-Car H3e-2G
-             [v2,07/10] arm64: dts: renesas: Add support for H3ULCB+Kingfisher with R-Car H3e-2G
-             [v2,08/10] arm64: dts: renesas: Add support for Salvator-XS with R-Car M3e-2G
-             [v2,09/10] arm64: dts: renesas: Add support for M3ULCB with R-Car M3e-2G
-             [v2,10/10] arm64: dts: renesas: Add support for M3ULCB+Kingfisher with R-Car M3e-2G
+On Tue, Jul 27, 2021 at 8:13 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+>
+> Hi Prabhakar,
+>
+> On Mon, 2021-07-26 at 19:28 +0100, Lad Prabhakar wrote:
+> > Add ADC driver support for Renesas RZ/G2L A/D converter in SW
+> > trigger mode.
+> >
+> > A/D Converter block is a successive approximation analog-to-digital
+> > converter with a 12-bit accuracy and supports a maximum of 8 input
+> > channels.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> >  MAINTAINERS                 |   8 +
+> >  drivers/iio/adc/Kconfig     |  10 +
+> >  drivers/iio/adc/Makefile    |   1 +
+> >  drivers/iio/adc/rzg2l_adc.c | 595 ++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 614 insertions(+)
+> >  create mode 100644 drivers/iio/adc/rzg2l_adc.c
+> >
+> [...]
+> > diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+> > new file mode 100644
+> > index 000000000000..d05a3208ff9d
+> > --- /dev/null
+> > +++ b/drivers/iio/adc/rzg2l_adc.c
+> > @@ -0,0 +1,595 @@
+> [...]
+> > +static void rzg2l_adc_pm_runtime_disable(void *data)
+> > +{
+> > +     struct iio_dev *indio_dev = data;
+> > +
+> > +     pm_runtime_disable(indio_dev->dev.parent);
+> > +}
+> > +
+> > +static void rzg2l_adc_reset_assert(void *data)
+> > +{
+> > +     struct reset_control *reset = data;
+> > +
+> > +     reset_control_assert(reset);
+> > +}
+> > +
+> > +static int rzg2l_adc_probe(struct platform_device *pdev)
+> > +{
+> > +     struct device *dev = &pdev->dev;
+> > +     struct iio_dev *indio_dev;
+> > +     struct rzg2l_adc *adc;
+> > +     int ret;
+> > +     int irq;
+> > +
+> > +     indio_dev = devm_iio_device_alloc(dev, sizeof(*adc));
+> > +     if (!indio_dev)
+> > +             return -ENOMEM;
+> > +
+> > +     adc = iio_priv(indio_dev);
+> > +
+> > +     ret = rzg2l_adc_parse_properties(pdev, adc);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     adc->base = devm_platform_ioremap_resource(pdev, 0);
+> > +     if (IS_ERR(adc->base))
+> > +             return PTR_ERR(adc->base);
+> > +
+> > +     irq = platform_get_irq(pdev, 0);
+> > +     if (irq < 0) {
+> > +             dev_err(dev, "no irq resource\n");
+> > +             return irq;
+> > +     }
+> > +
+> > +     adc->pclk = devm_clk_get(dev, "pclk");
+> > +     if (IS_ERR(adc->pclk)) {
+> > +             dev_err(dev, "Failed to get pclk");
+> > +             return PTR_ERR(adc->pclk);
+> > +     }
+> > +
+> > +     adc->adclk = devm_clk_get(dev, "adclk");
+> > +     if (IS_ERR(adc->adclk)) {
+> > +             dev_err(dev, "Failed to get adclk");
+> > +             return PTR_ERR(adc->adclk);
+> > +     }
+> > +
+> > +     adc->adrstn = devm_reset_control_get_exclusive(dev, "adrst-n");
+> > +     if (IS_ERR(adc->adrstn)) {
+> > +             dev_err(dev, "failed to get adrstn\n");
+> > +             return PTR_ERR(adc->adrstn);
+> > +     }
+>
+> I'd request the "presetn" control up here, so if that fails we don't
+> touch the "adrst-n" reset line.
+>
+Ok will move the devm_reset_control_get_exclusive() call for presetn here.
 
-Total patches: 11
+> > +     ret = devm_add_action_or_reset(&pdev->dev,
+> > +                                    rzg2l_adc_reset_assert, adc->adrstn);
+> > +     if (ret) {
+> > +             dev_err(&pdev->dev, "failed to register adrstn assert devm action, %d\n",
+> > +                     ret);
+> > +             return ret;
+> > +     }
+>
+> This is the wrong way around. Installing devres actions should be done
+> after the thing they are supposed to revert in case of error. You should
+> move this down below the reset_control_deassert(adc->adrstn).
+>
+Ouch my understanding was, there won't be any harm in asserting the
+reset line. Agree with will move this below
+reset_control_deassert(adc->adrstn).
 
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> > +
+> > +     adc->presetn = devm_reset_control_get_exclusive(dev, "presetn");
+> > +     if (IS_ERR(adc->presetn)) {
+> > +             dev_err(dev, "failed to get presetn\n");
+> > +             return PTR_ERR(adc->presetn);
+> > +     }
+> > +
+> > +     ret = devm_add_action_or_reset(&pdev->dev,
+> > +                                    rzg2l_adc_reset_assert, adc->presetn);
+> > +     if (ret) {
+> > +             dev_err(&pdev->dev, "failed to register presetn assert devm action, %d\n",
+> > +                     ret);
+> > +             return ret;
+> > +     }
+>
+> Same as above, this belongs after the presetn deassert below.
+>
+Agreed.
 
+> > +
+> > +     ret = reset_control_deassert(adc->adrstn);
+> > +     if (ret) {
+> > +             dev_err(&pdev->dev, "failed to deassert adrstn pin, %d\n", ret);
+> > +             return ret;
+> > +     }
+>
+> Here is the place to install the adrstn assert action.
+>
+Agreed will move the devres action here.
 
+> > +     ret = reset_control_deassert(adc->presetn);
+> > +     if (ret) {
+> > +             dev_err(&pdev->dev, "failed to deassert presetn pin, %d\n", ret);
+> > +             return ret;
+> > +     }
+>
+> And here is the place to install the presetn assert action.
+>
+Agreed will move the devres action here.
+
+Cheers,
+Prabhakar
+
+> regards
+> Philipp
