@@ -2,227 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB9843D7F77
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 22:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51F3E3D838C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jul 2021 00:59:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232027AbhG0UtE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 16:49:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51722 "EHLO
+        id S232198AbhG0W7o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 18:59:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231834AbhG0Us5 (ORCPT
+        with ESMTP id S232314AbhG0W7n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 16:48:57 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01CBAC061757;
-        Tue, 27 Jul 2021 13:48:56 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id f12so387753ljn.1;
-        Tue, 27 Jul 2021 13:48:55 -0700 (PDT)
+        Tue, 27 Jul 2021 18:59:43 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EF32C061757
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Jul 2021 15:59:43 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id m2-20020a17090a71c2b0290175cf22899cso1515888pjs.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Jul 2021 15:59:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lF7mD1BVxioHFdomMrb2MRtMYijGt5v/snpw5amiNlQ=;
-        b=ZjD43cgTjfivt4bHDpq5HvYzL/dIuanOURUGI4JeLB+d4gylPbEUWsFpBEhCEs0a/d
-         7+/SQ1owF01STh+s4HjdoX/McTv6W3Vy+iiuYtkvcMWm+H/fSkGvYyEBGCaoWfwfOdLD
-         T2Bwa3yQ4uDXjqtR4wtzGl/XVL3dC3bZVhcaa7zPpJ3LUOjiaDdbVoGgb6Pf/4Lp5Jtj
-         rc8ybs8imjP291LpOm7Pp7ma+co5ILMANo9DzeUt/Hln+f28tY9dEqO4PEMlPabC4t4J
-         L4ZG61DnbQOxBexw94E+KcMX5mG0qufES7JYTy8o6clN9WBmjrJt/iCkFTjA9MOebxnJ
-         d0Vw==
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=nFKmv6UyuBMb4jtdOm1hryrG68kc/0LB+ebf89CdlcU=;
+        b=b0AcTTd8G0tAxjwBTx3o+fN2HejIF4QhqLkUEjUUjqCvhVPQKLgf6FQExssFgL+H2c
+         hm+vwsC2qewEzI4/6c7zoq/1lligC9mpI/eHguRw3a5FXmbClFgAxHR0JJWWZGS5b/hQ
+         j0o15SW4WbqRejmeaxEMeRD8ep5s7/n+oxn77s1gVhHQ9vO28MfE9PTieda54qNStXYb
+         eLm0Hg5hUkKqXtB43k1ueL8IWerTMK6dT5N3x2kuCet1Puz6vEC1O9GbGPKvsMHwGJ4p
+         G6OcLci4ZoyHfpzSigpejPzGWcJMkEVWhUff6crE0m74GIH7y3hNv1TBmcjwWJAyQiSL
+         teyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lF7mD1BVxioHFdomMrb2MRtMYijGt5v/snpw5amiNlQ=;
-        b=Ocd3K4PXeUqEiSurVvZhDypBNqjK4FLExXnCI9uv5XfPXmmeTsXd3KFRlQGR0TBPPZ
-         1Lrbl2qM1LMYA66/Puo8mPng0QFbqTrXb3uXpgaSRSXAMes0e4cEA+fxihVrLXkShwwl
-         Gceg9qKhiBKlh0y/2VDtWjh3FIHXahlje3CD3YbXwSZBSJcqL2kqEVMlXVdA3JmEN4x5
-         iB7HnTXqbIuXHMUi/mSXh5pE/0oqkKun4+RY21eG1ZT8wBDt0lX2Mp18LGRgf0RW917F
-         yvrnaCer9Uz+oZ/ftZNYdLD2Id1c0II6UeLwa8tmRchtv3DQg/jPsKHY6GrVdxwhHlkR
-         R7jg==
-X-Gm-Message-State: AOAM531CRWJQfP2zvuIdrKHB7vy8onrziCwZwpHqOsev4bvO3EM7BuqG
-        1VGVcAoKU3NSng+8GQggkpY=
-X-Google-Smtp-Source: ABdhPJyRlF492gkc3EkRMK9s+uMn4Su0BIzXqPdAzVIB3P41wFNOasqcqcMVHGrrX44f2krVi8To5Q==
-X-Received: by 2002:a2e:7e06:: with SMTP id z6mr17020364ljc.394.1627418934371;
-        Tue, 27 Jul 2021 13:48:54 -0700 (PDT)
-Received: from [192.168.1.102] ([178.176.79.110])
-        by smtp.gmail.com with ESMTPSA id i25sm360933ljg.20.2021.07.27.13.48.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Jul 2021 13:48:54 -0700 (PDT)
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Subject: Re: [PATCH net-next 08/18] ravb: Add R-Car common features
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20210722141351.13668-1-biju.das.jz@bp.renesas.com>
- <20210722141351.13668-9-biju.das.jz@bp.renesas.com>
-Message-ID: <d493b1d2-6d05-9eb3-c5f5-f3828938fe56@gmail.com>
-Date:   Tue, 27 Jul 2021 23:48:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=nFKmv6UyuBMb4jtdOm1hryrG68kc/0LB+ebf89CdlcU=;
+        b=Bio4kUzBy1OD9289gKWBKv5MVrpsg3L0CoHzYY/uDiYEePUT+08pYaTi4rsVPz+SJP
+         VF6Sz8pOSLqd8qylfln+7Mt8McEvB2Zhe6+d0+aVNxStMxWmxtz0AMqd6e8dxnRumTy8
+         Nu6xGWRqiP5LO9vKhJtSHSLqF4T1yHKhacaFJUx7j7fDFoyK8mWvE0sLZYBX4MvktYkY
+         gQD+VX2LkHu9fJYuKa2te70mh2p6PpZEjY3TAMEAUz6VKVuSovdUpefc4HHN/XZPPevB
+         E9Rdu+yZo+HoD+YSnWScgd70i0RKFKas5pzvACYPsSk4ITlbAlR1Bvoovwnms0IDJtmC
+         i5ew==
+X-Gm-Message-State: AOAM531DfwxmNMrS5Ui2eS9aZ0wLcL7B6JUbdgSANPOYlBwNKQ/cRZqT
+        VF/JyhaasxbWcXVNEP07zlJSK60PLhEZpEYE
+X-Google-Smtp-Source: ABdhPJyX8bpVdbSs54LzCylWDXufcaOzSbPlknPNOc1uKiIzjHB9ys//A3s2IWNnCZQ3dHHR5+gqqA==
+X-Received: by 2002:a17:902:ce86:b029:12b:b41b:2e68 with SMTP id f6-20020a170902ce86b029012bb41b2e68mr20488961plg.1.1627426782615;
+        Tue, 27 Jul 2021 15:59:42 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id p25sm4582042pff.120.2021.07.27.15.59.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jul 2021 15:59:42 -0700 (PDT)
+Message-ID: <61008fde.1c69fb81.14b99.f57b@mx.google.com>
+Date:   Tue, 27 Jul 2021 15:59:42 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20210722141351.13668-9-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: next
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-next-2021-07-27-v5.14-rc1
+Subject: renesas/next cros-ec: 5 runs,
+ 1 regressions (renesas-next-2021-07-27-v5.14-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+renesas/next cros-ec: 5 runs, 1 regressions (renesas-next-2021-07-27-v5.14-=
+rc1)
 
-On 7/22/21 5:13 PM, Biju Das wrote:
+Regressions Summary
+-------------------
 
-> The below features are supported by both R-Car Gen2 and Gen3.
-> 
-> 1) magic packet detection
-> 2) multiple TSRQ support
-> 3) extended descriptor in rx
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+asus-C523NA-A20057-coral | x86_64 | lab-collabora | gcc-8    | x86_64_defco=
+n...6-chromebook | 1          =
 
-   I think this one should better be called timestamping...
 
-> 4) No half duplex support
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2021-07-27-v5.14-rc1/plan/cros-ec/
 
-   Couldn't we avoid the "negative" features?
+  Test:     cros-ec
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2021-07-27-v5.14-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      b1f6bead1fb4976611429f459a1865daadedbb48
 
-> 5) override mtu change
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/cros-ec-tests.git
+      SHA:  e4c91962f6e19466c1e43629a2c6cd04ff012e06 =
 
-   Hm, I'd vote for the individual patches covering only single feature...
 
-> Add features bits to support the same.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c | 110 +++++++++++++++--------
->  1 file changed, 71 insertions(+), 39 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index b3c99f974632..4ef2565534d2 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-[...]
-> @@ -680,11 +694,14 @@ static void ravb_rcv_snd_enable(struct net_device *ndev)
->  /* function for waiting dma process finished */
->  static int ravb_stop_dma(struct net_device *ndev)
->  {
-> +	struct ravb_private *priv = netdev_priv(ndev);
-> +	const struct ravb_drv_data *info = priv->info;
->  	int error;
->  
->  	/* Wait for stopping the hardware TX process */
-> -	error = ravb_wait(ndev, TCCR,
-> -			  TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3, 0);
-> +	if (info->features & RAVB_MULTI_TSRQ)
-> +		error = ravb_wait(ndev, TCCR,
-> +				  TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3, 0);
->  	if (error)
 
-   What if the above *if* skips the ravb_wait() call -- didn't you get a complaint from gcc
-about the unnintialized variable?
+Test Regressions
+---------------- =
 
-[...]
-> @@ -808,11 +826,14 @@ static bool ravb_queue_interrupt(struct net_device *ndev, int q)
->  
->  static bool ravb_timestamp_interrupt(struct net_device *ndev)
->  {
-> +	struct ravb_private *priv = netdev_priv(ndev);
-> +	const struct ravb_drv_data *info = priv->info;
->  	u32 tis = ravb_read(ndev, TIS);
->  
->  	if (tis & TIS_TFUF) {
->  		ravb_write(ndev, ~(TIS_TFUF | TIS_RESERVED), TIS);
-> -		ravb_get_tx_tstamp(ndev);
-> +		if (info->features & RAVB_EX_RX_DESC)
 
-   Yeah, definitely a bad feature name...
 
-> +			ravb_get_tx_tstamp(ndev);
->  		return true;
->  	}
->  	return false;
-[...]
-> @@ -1069,15 +1091,17 @@ static int ravb_phy_init(struct net_device *ndev)
->  		netdev_info(ndev, "limited PHY to 100Mbit/s\n");
->  	}
->  
-> -	/* 10BASE, Pause and Asym Pause is not supported */
-> -	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Half_BIT);
-> -	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Full_BIT);
-> -	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_Pause_BIT);
-> -	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_Asym_Pause_BIT);
-> +	if (info->features & RAVB_NO_HALF_DUPLEX) {
-> +		/* 10BASE, Pause and Asym Pause is not supported */
-> +		phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Half_BIT);
-> +		phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Full_BIT);
-> +		phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_Pause_BIT);
-> +		phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_Asym_Pause_BIT);
->  
-> -	/* Half Duplex is not supported */
-> -	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_1000baseT_Half_BIT);
-> -	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_100baseT_Half_BIT);
-> +		/* Half Duplex is not supported */
-> +		phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_1000baseT_Half_BIT);
-> +		phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_100baseT_Half_BIT);
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+asus-C523NA-A20057-coral | x86_64 | lab-collabora | gcc-8    | x86_64_defco=
+n...6-chromebook | 1          =
 
-    Mhm? Some of the half-duplex modes sre unsupported still?
 
-[...]
-> @@ -1314,8 +1338,9 @@ static void ravb_get_wol(struct net_device *ndev, struct ethtool_wolinfo *wol)
->  static int ravb_set_wol(struct net_device *ndev, struct ethtool_wolinfo *wol)
->  {
->  	struct ravb_private *priv = netdev_priv(ndev);
-> +	const struct ravb_drv_data *info = priv->info;
->  
-> -	if (wol->wolopts & ~WAKE_MAGIC)
-> +	if ((wol->wolopts & ~WAKE_MAGIC) || (!(info->features & RAVB_MAGIC)))
+  Details:     https://kernelci.org/test/plan/id/6100791709b236f04c5018c2
 
-   Parens about !x not needed. And I think the second operand should come first instead...
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-8 (gcc (Debian 8.3.0-6) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-27-v5.14-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collabora=
+/cros-ec-asus-C523NA-A20057-coral.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-07-27-v5.14-rc1/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collabora=
+/cros-ec-asus-C523NA-A20057-coral.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-cros=
+-ec/20210722.0/amd64/rootfs.cpio.gz =
 
->  		return -EOPNOTSUPP;
->  
->  	priv->wol_enabled = !!(wol->wolopts & WAKE_MAGIC);
-[...]
-> @@ -1595,28 +1621,30 @@ static netdev_tx_t ravb_start_xmit(struct sk_buff *skb, struct net_device *ndev)
->  	desc->dptr = cpu_to_le32(dma_addr);
->  
->  	/* TX timestamp required */
-> -	if (q == RAVB_NC) {
-> -		ts_skb = kmalloc(sizeof(*ts_skb), GFP_ATOMIC);
-> -		if (!ts_skb) {
-> -			if (num_tx_desc > 1) {
-> -				desc--;
-> -				dma_unmap_single(ndev->dev.parent, dma_addr,
-> -						 len, DMA_TO_DEVICE);
-> +	if (info->features & RAVB_EX_RX_DESC) {
 
-   Definitely a bad name...
 
-[...]
-> @@ -2205,8 +2235,10 @@ static int ravb_probe(struct platform_device *pdev)
->  	}
->  	clk_prepare_enable(priv->refclk);
->  
-> -	ndev->max_mtu = 2048 - (ETH_HLEN + VLAN_HLEN + ETH_FCS_LEN);
-> -	ndev->min_mtu = ETH_MIN_MTU;
-> +	if (info->features & RAVB_OVERRIDE_MTU_CHANGE) {
+  * cros-ec.login: https://kernelci.org/test/case/id/6100791709b236f04c5018=
+c3
+        failing since 13 days (last pass: v5.14-rc1-17-gcd117793e1ac, first=
+ fail: renesas-next-2021-07-13-v5.14-rc1) =
 
-   Why? :-/ Could you tell me more details?
-
-> +		ndev->max_mtu = 2048 - (ETH_HLEN + VLAN_HLEN + ETH_FCS_LEN);
-> +		ndev->min_mtu = ETH_MIN_MTU;
-> +	}
->  
->  	priv->num_tx_desc = info->num_tx_desc;
->  
-
-MBR, Sergei
+ =20
