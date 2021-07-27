@@ -2,87 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19E633D7E1E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 20:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FCDB3D7F3A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jul 2021 22:26:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231479AbhG0Szy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 14:55:54 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:4209 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231250AbhG0Szy (ORCPT
+        id S232140AbhG0U0b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 16:26:31 -0400
+Received: from mga12.intel.com ([192.55.52.136]:51467 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231771AbhG0U0a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 14:55:54 -0400
-X-IronPort-AV: E=Sophos;i="5.84,274,1620658800"; 
-   d="scan'208";a="88939046"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Jul 2021 03:55:53 +0900
-Received: from localhost.localdomain (unknown [10.226.92.236])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E55114005161;
-        Wed, 28 Jul 2021 03:55:50 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 6/6] arm64: dts: renesas: r9a07g044: Add USB2.0 device support
-Date:   Tue, 27 Jul 2021 19:55:27 +0100
-Message-Id: <20210727185527.19907-7-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210727185527.19907-1-biju.das.jz@bp.renesas.com>
-References: <20210727185527.19907-1-biju.das.jz@bp.renesas.com>
+        Tue, 27 Jul 2021 16:26:30 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="192118235"
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; 
+   d="scan'208";a="192118235"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2021 13:26:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; 
+   d="scan'208";a="634523924"
+Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 27 Jul 2021 13:26:28 -0700
+Received: from kbuild by d053b881505b with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1m8Tem-0007FL-0R; Tue, 27 Jul 2021 20:26:28 +0000
+Date:   Wed, 28 Jul 2021 04:25:41 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:renesas-pinctrl-for-v5.15] BUILD SUCCESS
+ 91d1be9fb7d667ae136f05cc645276eb2c9fa40e
+Message-ID: <61006bc5.FB6ZU7AQfHBgOMzD%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add USB2.0 device support to RZ/G2L SoC DT.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.15
+branch HEAD: 91d1be9fb7d667ae136f05cc645276eb2c9fa40e  pinctrl: renesas: Fix pin control matching on R-Car H3e-2G
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+elapsed time: 728m
+
+configs tested: 82
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20210727
+i386                 randconfig-c001-20210726
+sh                          urquell_defconfig
+sh                           se7712_defconfig
+arm                      integrator_defconfig
+x86_64                            allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a005-20210727
+i386                 randconfig-a003-20210727
+i386                 randconfig-a004-20210727
+i386                 randconfig-a002-20210727
+i386                 randconfig-a001-20210727
+i386                 randconfig-a006-20210727
+x86_64               randconfig-a011-20210727
+x86_64               randconfig-a016-20210727
+x86_64               randconfig-a013-20210727
+x86_64               randconfig-a014-20210727
+x86_64               randconfig-a012-20210727
+x86_64               randconfig-a015-20210727
+i386                 randconfig-a016-20210727
+i386                 randconfig-a013-20210727
+i386                 randconfig-a012-20210727
+i386                 randconfig-a011-20210727
+i386                 randconfig-a014-20210727
+i386                 randconfig-a015-20210727
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-c001-20210727
+x86_64               randconfig-a003-20210727
+x86_64               randconfig-a006-20210727
+x86_64               randconfig-a001-20210727
+x86_64               randconfig-a005-20210727
+x86_64               randconfig-a004-20210727
+x86_64               randconfig-a002-20210727
+
 ---
-v4->v5:
- * No change.
-v3->v4:
- * No change.
- V3:
-  * Updated reset entries.
----
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index f0dcd086ba20..39ad13fb4c8c 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -294,6 +294,25 @@
- 			power-domains = <&cpg>;
- 			status = "disabled";
- 		};
-+
-+		hsusb: usb@11c60000 {
-+			compatible = "renesas,usbhs-r9a07g044",
-+				     "renesas,rza2-usbhs";
-+			reg = <0 0x11c60000 0 0x10000>;
-+			interrupts = <GIC_SPI 100 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>,
-+				 <&cpg CPG_MOD R9A07G044_USB_U2P_EXR_CPUCLK>;
-+			resets = <&phyrst 0>,
-+				 <&cpg R9A07G044_USB_U2P_EXL_SYSRST>;
-+			renesas,buswait = <7>;
-+			phys = <&usb2_phy0 3>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
- 	};
- 
- 	timer {
--- 
-2.17.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
