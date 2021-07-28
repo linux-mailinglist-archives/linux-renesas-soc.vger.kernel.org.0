@@ -2,195 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB3AB3D9329
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jul 2021 18:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB3763D93C7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jul 2021 19:03:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229542AbhG1Q0t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Jul 2021 12:26:49 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56786 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbhG1Q0s (ORCPT
+        id S229574AbhG1RDz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Jul 2021 13:03:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47126 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229515AbhG1RDz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Jul 2021 12:26:48 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 105A23F;
-        Wed, 28 Jul 2021 18:26:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627489606;
-        bh=CQuHJ4sTC6shUZSx8nMiM+y/K6DN7rznAFMUxzECdjg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=u4b51Zv+WUyJeLRz21ZlaBcBHnxwdFalXuPIX4FM/LuFZfN0Zi+AJzEVs6UlvotoE
-         K2zOe/7y0GbhV4WLaoh6ge/h+Y3KZmRkvSuDTfDphgfjQiTpIot8XeJeRp3XMtPXrE
-         w19yhYgk+zoLsvcR12DVXFyklN1RkYlYGF4P9yX0=
-Date:   Wed, 28 Jul 2021 19:26:39 +0300
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: [RESEND] [PATCH v2 1/2] dt-bindings: display: bridge: Add binding
- for R-Car MIPI DSI/CSI-2 TX
-Message-ID: <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com>
-References: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com>
+        Wed, 28 Jul 2021 13:03:55 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B624C061757;
+        Wed, 28 Jul 2021 10:03:53 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (89-27-100-251.bb.dnainternet.fi [89.27.100.251])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id D412D1B000A4;
+        Wed, 28 Jul 2021 20:03:49 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1627491829;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hLTlzQdC4bbZBLnDGcey9aboeLOU8xanzofot8ssD9c=;
+        b=f8xdByFFBoyTcGXhi54obpd3BJEYr0a5HRo8e+Vpfa/6njH5wf6D6OXyJ69XNSFu+NOq+Z
+        ExR040VkiK+jOIKnjJvZxyDdGiy+amZNdljaEFzVLW//mbGBrKrLDeId+YCq57Cf9YYAZT
+        stZuDtTGl8l4/ivzzMU8fZ/A/GEoQluevKbr8Dh68KLrQI91YdBVjwDdXeu+EHHt/utPbY
+        SHB/3/QfIgeoo3Kwtf2m4P6uCoclCgmN/65OJ+5y2mMcx2llH6OHJbz70JCaAtT1utU0od
+        +g4HlZYP7XO5TjtTPnhOwppxx7p2md6z9O6w+LXzNkfNQo2lpEIWUnC/y/krRg==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7E7D2634C87;
+        Wed, 28 Jul 2021 20:03:05 +0300 (EEST)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1m8my1-0001X5-AF; Wed, 28 Jul 2021 20:03:37 +0300
+Date:   Wed, 28 Jul 2021 20:03:37 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4] media: rcar-isp: Add Renesas R-Car Image Signal
+ Processor driver
+Message-ID: <20210728170337.GD3@valkosipuli.retiisi.eu>
+References: <20210722075727.806572-1-niklas.soderlund+renesas@ragnatech.se>
+ <20210727131627.GI3@valkosipuli.retiisi.eu>
+ <YQALXnYpM+4jdH5r@oden.dyn.berto.se>
+ <20210727171821.GN3@valkosipuli.retiisi.eu>
+ <YQBIpRdwwd5hnMU+@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YQBIpRdwwd5hnMU+@oden.dyn.berto.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1627491829;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hLTlzQdC4bbZBLnDGcey9aboeLOU8xanzofot8ssD9c=;
+        b=ZVv56h69jgz5fXqxbZv9EjghONClh7dYEO2iKZbnLogitOenjJa5k0nroxeO8soTXDxx+f
+        9uRVWOlT/jVhM9+gU8DQNxtHZDudf6+QCqs8EzoXXdHyHn5pBHDHAFRFCI7EmMFSNIDibB
+        fPWRehx3JhKhLWbvWXyQgldaMoAXpi8CUV18geTLJqwX7xVIlOuCK0Xe/Lhne3eGBRW0uO
+        3cLRcqKS/GTPho2PEPWWzoFOZXWxYpG2iAO39kg6s7K+h+fAJIGspOTSVZb+BJzdq5Lnx3
+        zHjkeWtkhhUzIira2RbPvH3WA0e9lYxxejiNYQwBBzcoNFzC72szRvxShj3x7Q==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1627491829; a=rsa-sha256;
+        cv=none;
+        b=Kre0UXv+LsmyI8YLsZfESTk0WIZAPzk5czsENhj7xPxcnD/0IdWq7OyIV41rUWslQytnVX
+        tEHEGSfJE5xaO/jDxmvnNoHp+X1gwPhDnJxq4mr3eREbQ5aD982CUYOz+z2+ZiW3UdDLza
+        9OXMT8Zo5cR7w6fQQn7W3CwaIijPbNROUj3vYrSckysUc9IdPkbmpfuPdZv3CL+JbyPy8S
+        BT/iVTBjBiddGo5tM8fS2F46f5Dp0uMczOKOkmA8CS2mkDM8PYpzqx718o/wRiApp2XVxI
+        0UqEDcC2CtDFoqSjg7SKCX8g3feY9sD/UhvqvaQCatuYIwecTgKzef7IvuO2rg==
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
-can operate in either DSI or CSI-2 mode, with up to four data lanes.
+Hej Niklas,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-Looks like I forgot to CC the devicetree mailing list and Rob Herring on
-the first try. Resending, sorry about that.
----
- .../display/bridge/renesas,dsi-csi2-tx.yaml   | 118 ++++++++++++++++++
- MAINTAINERS                                   |   1 +
- 2 files changed, 119 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+On Tue, Jul 27, 2021 at 07:55:49PM +0200, Niklas Söderlund wrote:
+...
+> > > > > +static const struct v4l2_subdev_pad_ops risp_pad_ops = {
+> > > > > +	.set_fmt = risp_set_pad_format,
+> > > > > +	.get_fmt = risp_get_pad_format,
+> > > > 
+> > > > Maybe set link_validate to v4l2_subdev_link_validate_default?
+> > > 
+> > > I thought about that but with the multiplexed stream issue I thought it 
+> > > best to not to add that yet. Do you think this make sens?
+> > 
+> > What would be the alternative? Without that, there's no guarantee
+> > whatsoever what the input is. It may also enable writing user space that
+> > breaks after fixing this in the driver.
+> 
+> We still still don't have any guarantees whatsoever as we can only 
+> describe and validate one stream.
+> 
+> > 
+> > Where in the pipeline would you have multiple streams over a single data
+> > path?
+> 
+> On Gen3 platforms without an ISP we have it on the rcar-csi2 sink pad 
+> and on Gen3 platforms with an ISP we have it on the rcar-isp sink pad.  
+> In both cases it's the IP block that separates the CSI-2 buss to the 
+> different capture engines.
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-new file mode 100644
-index 000000000000..afeeb967393d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-@@ -0,0 +1,118 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R-Car MIPI DSI/CSI-2 Encoder
-+
-+maintainers:
-+  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-+
-+description: |
-+  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
-+  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
-+  to four data lanes.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,r8a779a0-dsi-csi2-tx    # for V3U
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Functional clock
-+      - description: DSI (and CSI-2) functional clock
-+      - description: PLL reference clock
-+
-+  clock-names:
-+    items:
-+      - const: fck
-+      - const: dsi
-+      - const: pll
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Parallel input port
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: DSI/CSI-2 output port
-+
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes:
-+                minItems: 1
-+                maxItems: 4
-+
-+            required:
-+              - data-lanes
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - power-domains
-+  - resets
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a779a0-sysc.h>
-+
-+    dsi0: dsi-encoder@fed80000 {
-+        compatible = "renesas,r8a779a0-dsi-csi2-tx";
-+        reg = <0xfed80000 0x10000>;
-+        power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+        clocks = <&cpg CPG_MOD 415>,
-+                 <&cpg CPG_CORE R8A779A0_CLK_DSI>,
-+                 <&cpg CPG_CORE R8A779A0_CLK_CP>;
-+        clock-names = "fck", "dsi", "pll";
-+        resets = <&cpg 415>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                dsi0_in: endpoint {
-+                    remote-endpoint = <&du_out_dsi0>;
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+                dsi0_out: endpoint {
-+                    data-lanes = <1 2>;
-+                    remote-endpoint = <&sn65dsi86_in>;
-+                };
-+            };
-+        };
-+    };
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b2cbb5c49358..1c9ea6279189 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6139,6 +6139,7 @@ L:	dri-devel@lists.freedesktop.org
- L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
- T:	git git://linuxtv.org/pinchartl/media drm/du/next
-+F:	Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
- F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
- F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
- F:	Documentation/devicetree/bindings/display/renesas,du.yaml
+Ok. In this case the driver may be better merged to the staging tree or
+labelled experimental as its UAPI isn't stable. I wonder what Hans thinks.
+
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
-
+Sakari Ailus
