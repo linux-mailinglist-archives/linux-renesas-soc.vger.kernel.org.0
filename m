@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 183DA3D9227
+	by mail.lfdr.de (Postfix) with ESMTP id E7BBB3D922A
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jul 2021 17:37:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237163AbhG1Phw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Jul 2021 11:37:52 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55994 "EHLO
+        id S237177AbhG1Phy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Jul 2021 11:37:54 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:56014 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235722AbhG1Phw (ORCPT
+        with ESMTP id S230025AbhG1Phx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Jul 2021 11:37:52 -0400
+        Wed, 28 Jul 2021 11:37:53 -0400
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F073A51D;
-        Wed, 28 Jul 2021 17:37:48 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 019916EE;
+        Wed, 28 Jul 2021 17:37:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627486669;
-        bh=CwxbwCkqGqK1SZKbEj9PHsjwrLYwY6EhjNCkCzt3EE4=;
+        s=mail; t=1627486670;
+        bh=OmvNtp66srLQ+NcTX76l0rVt3aHK+j/AM4pQKPBXyKo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Cj0iVhrptUAbRXvwQxr8/W86i+0EqAnFp0oGvcFj2N89QAgGDTxqe4nbvKexnhUxF
-         IfvpVEmkxmF2VfGk5O9/TJZXT9C9thR+ZyKbU1gf78wQw0Bt1mAA48C5bDBicMP0Bh
-         g9Z7tehxp+divG1g7s/j8GMUI6oSgJGn2X5+EYqM=
+        b=Dw57NOaCBW/OJRl0MF4yWoEvgfoLUU1G1bX9sKKMKPNB/APnUpvBHoYF+k5c/3Eu+
+         E5lpxW30W/T+J0MyPoVdVQd1aP+Im6nE6MJ/DLwFyyIH6R8XOc+nn0fV/bfyicYz8Q
+         +XRseqy/1xx0SkKye8Yt4mXEtLU+vynPDQKcHz50=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
@@ -35,9 +35,9 @@ Cc:     linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Jyri Sarha <jyri.sarha@iki.fi>
-Subject: [PATCH 3/7] drm/imx/dcss: Enable COMPILE_TEST on all ARM64 platforms
-Date:   Wed, 28 Jul 2021 18:37:32 +0300
-Message-Id: <20210728153736.15240-4-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 4/7] drm/omap: Enable COMPILE_TEST on all ARM and ARM64 platforms
+Date:   Wed, 28 Jul 2021 18:37:33 +0300
+Message-Id: <20210728153736.15240-5-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210728153736.15240-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20210728153736.15240-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -47,28 +47,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-To extend test coverage, relax the dependency on ARCH_MXC to also enable
-compilation when COMPILE_TEST is selected.
+To extend test coverage, relax the dependency on ARCH_OMAP2PLUS or
+ARCH_MULTIPLATFORM to also enable compilation on ARM or ARM4 when
+COMPILE_TEST is selected.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/imx/dcss/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/omapdrm/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/imx/dcss/Kconfig b/drivers/gpu/drm/imx/dcss/Kconfig
-index 2b17a964ff05..ad9844fb85ac 100644
---- a/drivers/gpu/drm/imx/dcss/Kconfig
-+++ b/drivers/gpu/drm/imx/dcss/Kconfig
-@@ -3,7 +3,8 @@ config DRM_IMX_DCSS
- 	select IMX_IRQSTEER
- 	select DRM_KMS_CMA_HELPER
+diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
+index e7281da5bc6a..fd5ef00444c1 100644
+--- a/drivers/gpu/drm/omapdrm/Kconfig
++++ b/drivers/gpu/drm/omapdrm/Kconfig
+@@ -2,7 +2,7 @@
+ config DRM_OMAP
+ 	tristate "OMAP DRM"
+ 	depends on DRM
+-	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM
++	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM || ((ARM || ARM64) && COMPILE_TEST)
+ 	select OMAP2_DSS
+ 	select DRM_KMS_HELPER
  	select VIDEOMODE_HELPERS
--	depends on DRM && ARCH_MXC && ARM64
-+	depends on DRM
-+	depends on ARM64 && (ARCH_MXC || COMPILE_TEST)
- 	help
- 	  Choose this if you have a NXP i.MX8MQ based system and want to use the
- 	  Display Controller Subsystem. This option enables DCSS support.
 -- 
 Regards,
 
