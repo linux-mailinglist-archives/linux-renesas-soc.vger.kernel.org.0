@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AA8F3D8496
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jul 2021 02:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 449763D8497
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jul 2021 02:20:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232883AbhG1AUk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Jul 2021 20:20:40 -0400
-Received: from mga18.intel.com ([134.134.136.126]:27209 "EHLO mga18.intel.com"
+        id S232920AbhG1AUm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Jul 2021 20:20:42 -0400
+Received: from mga04.intel.com ([192.55.52.120]:36317 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232778AbhG1AUj (ORCPT
+        id S232778AbhG1AUm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Jul 2021 20:20:39 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="199773213"
+        Tue, 27 Jul 2021 20:20:42 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="210665787"
 X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; 
-   d="scan'208";a="199773213"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2021 17:20:37 -0700
+   d="scan'208";a="210665787"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2021 17:20:40 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; 
-   d="scan'208";a="506147888"
+   d="scan'208";a="663075459"
 Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 27 Jul 2021 17:20:35 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 27 Jul 2021 17:20:38 -0700
 Received: from kbuild by d053b881505b with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1m8XJL-0007QK-8F; Wed, 28 Jul 2021 00:20:35 +0000
-Date:   Wed, 28 Jul 2021 08:20:23 +0800
+        id 1m8XJK-0007QB-VU; Wed, 28 Jul 2021 00:20:34 +0000
+Date:   Wed, 28 Jul 2021 08:20:32 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:topic/overlays-v5.14-rc1] BUILD SUCCESS
- 2dd668cd49762ccdac55ec7549d8ba80ffb71d70
-Message-ID: <6100a2c7.gNxEKz5JMEsXATpL%lkp@intel.com>
+Subject: [renesas-drivers:topic/renesas-overlays] BUILD SUCCESS
+ 282436198cbc141b59b53056d81e2c1366945ab5
+Message-ID: <6100a2d0.1H9ZC080MGMPGttc%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,10 +40,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/overlays-v5.14-rc1
-branch HEAD: 2dd668cd49762ccdac55ec7549d8ba80ffb71d70  kbuild: Allow .dtso format for overlay source files
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays
+branch HEAD: 282436198cbc141b59b53056d81e2c1366945ab5  arm64: dts: renesas: salvator-x: exio-d: Add overlay for SCIF3
 
-elapsed time: 721m
+elapsed time: 720m
 
 configs tested: 87
 configs skipped: 3
