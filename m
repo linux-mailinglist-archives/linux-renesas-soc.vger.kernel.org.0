@@ -2,55 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BE863DAA9F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jul 2021 20:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACBD93DAAE9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jul 2021 20:30:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbhG2SCz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Jul 2021 14:02:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58156 "EHLO
+        id S229896AbhG2Sa0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Jul 2021 14:30:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbhG2SCz (ORCPT
+        with ESMTP id S229614AbhG2SaY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Jul 2021 14:02:55 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F105AC061765;
-        Thu, 29 Jul 2021 11:02:50 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id r17so12636369lfe.2;
-        Thu, 29 Jul 2021 11:02:50 -0700 (PDT)
+        Thu, 29 Jul 2021 14:30:24 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D1CBC061765;
+        Thu, 29 Jul 2021 11:30:20 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id a26so12693250lfr.11;
+        Thu, 29 Jul 2021 11:30:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oeb6ETNJGtLEMXQm2GkmXW4qVWqHufikq9s1QpDySu0=;
-        b=t0tBpOQ7o4RxpiI7zHRgEEiGTiRaS0sSu6vHP7FDM05JWhFnv3uvaL6WbSSDNid7CU
-         FrMbwLLrAuLu7lClwFYgeP2HfuMPSvxfFmnII/IrmsGv/J0vzmNbzA1pJ+TVnXC6oY1U
-         w4EPNukIgj47jUfzG+FF1QJ0DZdxLRecbdnCHVD73rjU6fe+ZRGp0S1tTaIcaGdp0QcV
-         x/DeQf/R/Zg1VWIBJEgNZ1KsMLdEtKGwBNtj14Rx/tQya4t0cWA/iJRC2iJoe9wMgWia
-         y9hlFIdPcZOY1Y3aEousFw6dsBpM94g25rGSRgWXnhr45EHuaQGsQTdpTFAOo1CevOyG
-         FxIQ==
+        bh=TAdDceQVUngpDy2MWRCVwVSd4gWYibtnRV4Hhvmmdh0=;
+        b=YeSrQBszugRcb6ZAsSkIjI/e1Xc8dq5OGiFuA8MX6PTrynJsOWS8RuTEdPLRucyOyt
+         /tP1azLQsOd59ZUOUgyc9DKYJA1e4nnZuAb7I6GczrNuLCCfsfZ0YwjG8lGA5sa7I2YY
+         QyEvrxydqu+OZUq5TneiipOcYPjMG9Ui5flXNmp8q4FSAUyIoEquTzI5f/jI2i0ix+VH
+         M9p7MhjJEv2bmAuO2C7FVvNhriRntaAnp5ggweLspV4ClkpoHGyNn1AP0FQ8FD+A6VQB
+         cHRh1MVnjiQmgnYriS3Ct7rMq/V/8iOv2vN+elmlMx3XCsSSfG4DnkHe79dhMP42tr8c
+         tjmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=oeb6ETNJGtLEMXQm2GkmXW4qVWqHufikq9s1QpDySu0=;
-        b=XlI5fPXllJ/5JFl6IJBoT+jw238az3KXE9pbsOI8QPHdSL/dUH0nUihL5d68rcB3Bm
-         7TYtMS3/CE34/WI50mnrOQbuB7Kr6lvt3+RnMCxp7HsaQYMA+O4ZURExpKyLK6NIJTCW
-         EMMfq/9ev+GyrkTOEiEAzCn6c25Yq1LYHyCNkf66F/euK7Bkj61hLSS1PoqngQp15g2m
-         NTFm1fq8HorUZMRJKJ/MpIfeJMxdGkLhcrqvcT+Ybi2l2pdzfs2g/Ip/DON6FwgjIdyt
-         T1w/kAvWSEcEcqTTdgdhv/VVr4H+KD2j9Cyu5+u/ijifHt6qZAOe78TKEikjvlfS7Tr6
-         szYw==
-X-Gm-Message-State: AOAM530ZInWC5tBfDp5c0wfTPI7shKuKslm+cmGKA0iOdRE0GgqqOUvf
-        L/DJSPwFl8X7rAiXVhGhJ/g=
-X-Google-Smtp-Source: ABdhPJwAZXAZJD7cwqDlDbn0DkhIAx5QfSVOgu6iVbAatvSRoQ/tEqNVPsNc76GkzR3CNZskVXEtfg==
-X-Received: by 2002:ac2:5933:: with SMTP id v19mr4807715lfi.85.1627581767769;
-        Thu, 29 Jul 2021 11:02:47 -0700 (PDT)
+        bh=TAdDceQVUngpDy2MWRCVwVSd4gWYibtnRV4Hhvmmdh0=;
+        b=NHidhQBnYmPm6Cp93jyLCRXwEZ9HWjp2xAhpcA9l8mbRCFu6k88tI3RgPNaCNN66FS
+         JWtXUwocBnooveeAQSMLThkxbPkixWHH7RTWajfWS+SC4FNoZ9n0Fc0d8wXB8GRVKc91
+         UwwX7ddwgSPpa48YnYQZywWJtWIVkNTFMy4j8FpuKVEm8O+ySJPVjbycEkRIdOLBT4eM
+         s3eLZPImPJg0G+Fdh8axRYv5K1+UHHl0imwg7YTh3t9gvl09zIFAYGph0pf1qAZyzzP4
+         uASC0+sZpxKVurhv3JS9QdC2pYWbr6s0Nz2KzgxlXS1+HAslL44QN4BbUIKg8Kcg1eyA
+         heFg==
+X-Gm-Message-State: AOAM530DRa7JgsM5z1UtfQDHi4s2KDvi75mhY2hI41QLhxsGPvBn4HMI
+        GmO53/Zfu84iZs71e/09QPQ=
+X-Google-Smtp-Source: ABdhPJyNVKuxYkF1eyM/3Jmwa9WLVrqX2XkfuAqWLnBH9LQymGCGyw/3G8nO+BOVL9vDmYBgo0h7CA==
+X-Received: by 2002:ac2:5149:: with SMTP id q9mr4660117lfd.476.1627583418256;
+        Thu, 29 Jul 2021 11:30:18 -0700 (PDT)
 Received: from [192.168.1.102] ([31.173.80.187])
-        by smtp.gmail.com with ESMTPSA id b34sm194988ljf.44.2021.07.29.11.02.46
+        by smtp.gmail.com with ESMTPSA id p21sm370068lfo.199.2021.07.29.11.30.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jul 2021 11:02:47 -0700 (PDT)
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Subject: Re: [PATCH net-next 09/18] ravb: Factorise ravb_ring_free function
+        Thu, 29 Jul 2021 11:30:17 -0700 (PDT)
+Subject: Re: [PATCH net-next 10/18] ravb: Factorise ravb_ring_format function
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
@@ -64,13 +63,14 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210722141351.13668-1-biju.das.jz@bp.renesas.com>
- <20210722141351.13668-10-biju.das.jz@bp.renesas.com>
-Message-ID: <a0d1bb7e-0e0a-8237-c30a-e4533b5580dd@gmail.com>
-Date:   Thu, 29 Jul 2021 21:02:45 +0300
+ <20210722141351.13668-11-biju.das.jz@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <a3f637b9-2e65-909c-01a3-d5275007866c@gmail.com>
+Date:   Thu, 29 Jul 2021 21:30:15 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210722141351.13668-10-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210722141351.13668-11-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -78,107 +78,44 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
-
 On 7/22/21 5:13 PM, Biju Das wrote:
 
-> Extended descriptor support in RX is available for R-Car where as it
-> is a normal descriptor for RZ/G2L. Factorise ravb_ring_free function
-> so that it can support later SoC.
+> The ravb_ring_format function uses extended descriptor in rx for
+> R-Car where as it use normal descriptor for RZ/G2L. Factorise
+> rx ring buffer buildup to extend the support for later SoC.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->  drivers/net/ethernet/renesas/ravb.h      |  5 +++
->  drivers/net/ethernet/renesas/ravb_main.c | 49 ++++++++++++++++--------
->  2 files changed, 37 insertions(+), 17 deletions(-)
+>  drivers/net/ethernet/renesas/ravb.h      |  1 +
+>  drivers/net/ethernet/renesas/ravb_main.c | 34 +++++++++++++++---------
+>  2 files changed, 23 insertions(+), 12 deletions(-)
 > 
 > diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index a474ed68db22..3a9cf6e8671a 100644
+> index 3a9cf6e8671a..a3258c5d0c3d 100644
 > --- a/drivers/net/ethernet/renesas/ravb.h
 > +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -988,7 +988,12 @@ enum ravb_chip_id {
->  	RCAR_GEN3,
->  };
+> @@ -990,6 +990,7 @@ enum ravb_chip_id {
 >  
-> +struct ravb_ops {
-> +	void (*ring_free)(struct net_device *ndev, int q);
+>  struct ravb_ops {
+>  	void (*ring_free)(struct net_device *ndev, int q);
+> +	void (*ring_format)(struct net_device *ndev, int q);
 
-   Hmm, why not store it right in the *struct* ravb_drv_data?
+   Like I said, we don't need another indirection.... also both ops are for RX.
 
-> +};
-> +
->  struct ravb_drv_data {
-> +	const struct ravb_ops *ravb_ops;
->  	netdev_features_t net_features;
->  	netdev_features_t net_hw_features;
->  	const char (*gstrings_stats)[ETH_GSTRING_LEN];
+[...]
 > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 4ef2565534d2..a3b8b243fd54 100644
+> index a3b8b243fd54..c23f0d420c70 100644
 > --- a/drivers/net/ethernet/renesas/ravb_main.c
 > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -247,30 +247,39 @@ static int ravb_tx_free(struct net_device *ndev, int q, bool free_txed_only)
+> @@ -311,26 +311,15 @@ static void ravb_ring_free(struct net_device *ndev, int q)
 >  }
 >  
->  /* Free skb's and DMA buffers for Ethernet AVB */
-> -static void ravb_ring_free(struct net_device *ndev, int q)
-> +static void ravb_ring_free_rx(struct net_device *ndev, int q)
+>  /* Format skb and descriptor buffer for Ethernet AVB */
+> -static void ravb_ring_format(struct net_device *ndev, int q)
+> +static void ravb_ring_format_rx(struct net_device *ndev, int rxq)
 
-   How about ravb_rx_ring_free() instead?
- 
->  {
->  	struct ravb_private *priv = netdev_priv(ndev);
-> -	int num_tx_desc = priv->num_tx_desc;
->  	int ring_size;
->  	int i;
->  
-> -	if (priv->rx_ring[q]) {
-> -		for (i = 0; i < priv->num_rx_ring[q]; i++) {
-> -			struct ravb_ex_rx_desc *desc = &priv->rx_ring[q][i];
-> +	for (i = 0; i < priv->num_rx_ring[q]; i++) {
-> +		struct ravb_ex_rx_desc *desc = &priv->rx_ring[q][i];
->  
-> -			if (!dma_mapping_error(ndev->dev.parent,
-> -					       le32_to_cpu(desc->dptr)))
-> -				dma_unmap_single(ndev->dev.parent,
-> -						 le32_to_cpu(desc->dptr),
-> -						 RX_BUF_SZ,
-> -						 DMA_FROM_DEVICE);
-> -		}
-> -		ring_size = sizeof(struct ravb_ex_rx_desc) *
-> -			    (priv->num_rx_ring[q] + 1);
-> -		dma_free_coherent(ndev->dev.parent, ring_size, priv->rx_ring[q],
-> -				  priv->rx_desc_dma[q]);
-> -		priv->rx_ring[q] = NULL;
-> +		if (!dma_mapping_error(ndev->dev.parent,
-> +				       le32_to_cpu(desc->dptr)))
-> +			dma_unmap_single(ndev->dev.parent,
-> +					 le32_to_cpu(desc->dptr),
-> +					 RX_BUF_SZ,
-> +					 DMA_FROM_DEVICE);
->  	}
-> +	ring_size = sizeof(struct ravb_ex_rx_desc) *
-> +		    (priv->num_rx_ring[q] + 1);
-> +	dma_free_coherent(ndev->dev.parent, ring_size, priv->rx_ring[q],
-> +			  priv->rx_desc_dma[q]);
-> +	priv->rx_ring[q] = NULL;
-
-   Couldn't this be moved into the new ravb_ring_free(), like the initial NULL check?
-
-> +}
-> +
-> +static void ravb_ring_free(struct net_device *ndev, int q)
-> +{
-> +	struct ravb_private *priv = netdev_priv(ndev);
-> +	const struct ravb_drv_data *info = priv->info;
-> +	int num_tx_desc = priv->num_tx_desc;
-> +	int ring_size;
-> +	int i;
-> +
-> +	if (priv->rx_ring[q])
-> +		info->ravb_ops->ring_free(ndev, q);
-
-   ... here?
+   How about ravb_rx_ring_format(struct net_device *ndev, int q)?
 
 [...]
 
