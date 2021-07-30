@@ -2,194 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 900B23DBFFC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jul 2021 22:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F2573DC14B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jul 2021 00:54:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230418AbhG3UpU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Jul 2021 16:45:20 -0400
-Received: from mga02.intel.com ([134.134.136.20]:12737 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230217AbhG3UpU (ORCPT
+        id S233643AbhG3WyV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Jul 2021 18:54:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56586 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233540AbhG3WyU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Jul 2021 16:45:20 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10061"; a="200337779"
-X-IronPort-AV: E=Sophos;i="5.84,282,1620716400"; 
-   d="scan'208";a="200337779"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2021 13:45:14 -0700
-X-IronPort-AV: E=Sophos;i="5.84,282,1620716400"; 
-   d="scan'208";a="499746795"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2021 13:45:13 -0700
-Received: from andy by smile with local (Exim 4.94.2)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1m9ZNS-003WK5-L4; Fri, 30 Jul 2021 23:45:06 +0300
-Date:   Fri, 30 Jul 2021 23:45:06 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
-Subject: Re: [RFC PATCH v2 1/1] misc: add sloppy logic analyzer using polling
-Message-ID: <YQRk0vpo1V709z/Z@smile.fi.intel.com>
-References: <20210519132528.4394-1-wsa+renesas@sang-engineering.com>
- <20210519132528.4394-2-wsa+renesas@sang-engineering.com>
- <YKUlbsWhT45l5Zm0@smile.fi.intel.com>
- <YQRZkFApESOIMRmv@ninjato>
+        Fri, 30 Jul 2021 18:54:20 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E31C06175F;
+        Fri, 30 Jul 2021 15:54:15 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E87E2A3;
+        Sat, 31 Jul 2021 00:54:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1627685653;
+        bh=oV7XLKF3R2uq+EwOeQ5Rkz+JnewE7G1kQOsSxISQsXk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=E2CZROdlqShM/tdMvGznoUfFkBrS9+xaCGpCpYwLvD/0bSxQlkfEyH6iv+XxxAhho
+         nCmVHFreXNcGoGLk7Ubn+OSBquJrqomp8GmUIKyWkX9IN6TduqRwoPZuupbyBUrj+2
+         sdEy5JO+g+xpCwoQ7yH7LkcepW3+26LIQZcr2+2Q=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] scripts/kernel-doc: Override -Werror from KCFLAGS with KDOC_WERROR
+Date:   Sat, 31 Jul 2021 01:54:01 +0300
+Message-Id: <20210730225401.4401-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YQRZkFApESOIMRmv@ninjato>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 30, 2021 at 09:57:04PM +0200, Wolfram Sang wrote:
+Since commit 2c12c8103d8f ("scripts/kernel-doc: optionally treat
+warnings as errors"), the kernel-doc script will treat warnings as
+errors when one of the following conditions is true:
 
-...
+- The KDOC_WERROR environment variable is non-zero
+- The KCFLAGS environment variable contains -Werror
+- The -Werror parameter is passed to kernel-doc
 
-> > 'For ACPI one may use PRP0001 approach with the following ASL excerpt example::
-> > 
-> >     Device (GSLA) {
-> >         Name (_HID, "PRP0001")
-> >         Name (_DDN, "GPIO sloppy logic analyzer")
-> >         Name (_CRS, ResourceTemplate () {
-> >             GpioIo(Exclusive, PullNone, 0, 0, IoRestrictionNone,
-> >                 "\\_SB.PCI0.GPIO", 0, ResourceConsumer, , ) { 13 }
-> >             PinConfig(Exclusive, 0x07, 0, "\\_SB.PCI0.GPIO", 0, ResourceConsumer, ) { 7 }
-> >             GpioIo(Exclusive, PullNone, 0, 0, IoRestrictionNone,
-> >                 "\\_SB.PCI0.GPIO", 0, ResourceConsumer, , ) { 12 }
-> >             PinConfig(Exclusive, 0x07, 0, "\\_SB.PCI0.GPIO", 0, ResourceConsumer, ) { 6 }
-> >         })
-> > 
-> >         Name (_DSD, Package () {
-> >             ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
-> >             Package () {
-> >                 Package () { "compatible", Package () { "gpio-sloppy-logic-analyzer" } },
-> >                 Package () {
-> >                     "probe-gpios", Package () {
-> >                         ^GSLA, 0, 0, 0,
-> >                         ^GSLA, 1, 0, 0,
-> >                     },
-> >                 Package () {
-> >                     "probe-names", Package () {
-> >                         "SCL",
-> >                         "SDA",
-> >                     },
-> >             }
-> >         })
-> > 
-> > Note, that pin configuration uses pin numbering space, while GPIO resources
-> > are in GPIO numbering space, which may be different in ACPI. In other words,
-> > there is no guarantee that GPIO and pins are mapped 1:1, that's why there are
-> > two different pairs in the example, i.e. {13,12} GPIO vs. {7,6} pin.
-> > 
-> > Yet pin configuration support in Linux kernel is subject to implement.'
-> 
-> Have you tested this snippet?
+Checking KCFLAGS for -Werror allows piggy-backing on the C compiler
+error handling. However, unlike the C compiler, kernel-doc has no
+provision for -Wno-error. This makes compiling the kernel with -Werror
+(to catch regressions) and W=1 (to enable more checks) always fail,
+without the same possibility as offered by the C compiler to treating
+some selected warnings as warnings despite the global -Werror setting.
 
-Nope. Below is the compile-tested one:
+To fix this, evaluate KDOC_WERROR after KCFLAGS, which allows disabling
+the warnings-as-errors behaviour of kernel-doc selectively by setting
+KDOC_WERROR=0.
 
-    Device (GSLA) {
-        Name (_HID, "PRP0001")
-        Name (_DDN, "GPIO sloppy logic analyzer")
-        Name (_CRS, ResourceTemplate () {
-            GpioIo(Exclusive, PullNone, 0, 0, IoRestrictionNone,
-                "\\_SB.PCI0.GPIO", 0, ResourceConsumer, , ) { 13 }
-            PinConfig(Exclusive, 0x07, 0, "\\_SB.PCI0.GPIO", 0, ResourceConsumer, ) { 7 }
-            GpioIo(Exclusive, PullNone, 0, 0, IoRestrictionNone,
-                "\\_SB.PCI0.GPIO", 0, ResourceConsumer, , ) { 12 }
-            PinConfig(Exclusive, 0x07, 0, "\\_SB.PCI0.GPIO", 0, ResourceConsumer, ) { 6 }
-        })
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ scripts/kernel-doc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-        Name (_DSD, Package () {
-            ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
-            Package () {
-                Package () { "compatible", Package () { "gpio-sloppy-logic-analyzer" } },
-                Package () {
-                    "probe-gpios", Package () {
-                        ^GSLA, 0, 0, 0,
-                        ^GSLA, 1, 0, 0,
-                    },
-                },
-                Package () {
-                    "probe-names", Package () {
-                        "SCL",
-                        "SDA",
-                    },
-                },
-            }
-        })
-    }
-
-
-> I am totally open to add ACPI but it
-> should be tested, of course. Is there any on-going effort to add ACPI
-> pin config?
-
-Very slowly but yes, the pin configuration from ACPI to pin control is not
-forgotten.
-
-...
-
-> > > +	unsigned int trig_len;
-> > 
-> > On 64-bit arch you may save 4 bytes by moving this to be together with u32
-> > member above.
-> 
-> I don't want to save bytes here. I sorted the struct for cachelines,
-> important members first.
-
-Add a comment then.
-
-...
-
-> > > +static struct dentry *gpio_la_poll_debug_dir;
-> > 
-> > I have seen the idea of looking up the debugfs entry. That said, do we actually
-> > need this global variable?
-> 
-> I don't understand the first sentence. And we still need it to clean up?
-
-If you know the name of the folder, you may look up it, no need to keep a
-variable for that.
-
-...
-
-> > > +		/* '10' is length of 'probe00=\n\0' */
-> > > +		add_len = strlen(gpio_names[i]) + 10;
-> > > +		meta = devm_krealloc(dev, meta, meta_len + add_len, GFP_KERNEL);
-> > 
-> > First of all, this realloc() pattern *) is bad. While it's tricky and has side
-> > effects (i.e. it has no leaks) better not to use it to avoid confusion.
-> > 
-> > *) foo = realloc(foo, ...); is 101 mistake.
-> 
-> Because generally you lose the old pointer on error. But we don't here
-> because we are using managed devices.
-> 
-> However, I see that all kernel users of devm_krealloc() are using a
-> seperate variable and then update the old one. I can do this, too.
-
-As I said, it is a nasty side effect that may provoke real bugs in the future
-with simple realloc() cases.
-
-...
-
-> > > +	[ ! -d $CPUSETDIR ] && mkdir $CPUSETDIR
-> > 
-> > [ -d ... ] || ...
-> 
-> Will think about it. I think the former is a tad more readable.
-
-Shell is nice when the script is a) short, b) readable. Neither I see in the
-former, sorry. Ah, and there is subtle difference between two. You may easily
-learn it if you start using -efu flags in shebang.
-
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 7c4a6a507ac4..cfcb60737957 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -329,10 +329,6 @@ if (defined($ENV{'KBUILD_VERBOSE'})) {
+ 	$verbose = "$ENV{'KBUILD_VERBOSE'}";
+ }
+ 
+-if (defined($ENV{'KDOC_WERROR'})) {
+-	$Werror = "$ENV{'KDOC_WERROR'}";
+-}
+-
+ if (defined($ENV{'KCFLAGS'})) {
+ 	my $kcflags = "$ENV{'KCFLAGS'}";
+ 
+@@ -341,6 +337,10 @@ if (defined($ENV{'KCFLAGS'})) {
+ 	}
+ }
+ 
++if (defined($ENV{'KDOC_WERROR'})) {
++	$Werror = "$ENV{'KDOC_WERROR'}";
++}
++
+ # Generated docbook code is inserted in a template at a point where
+ # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
+ # https://www.oasis-open.org/docbook/documentation/reference/html/refentry.html
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
+Laurent Pinchart
 
