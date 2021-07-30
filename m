@@ -2,79 +2,179 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E34D53DBA1F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jul 2021 16:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 518673DBA2D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jul 2021 16:15:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238990AbhG3OMu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Jul 2021 10:12:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36344 "EHLO
+        id S239089AbhG3OPt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Jul 2021 10:15:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238958AbhG3OMn (ORCPT
+        with ESMTP id S230260AbhG3OPs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Jul 2021 10:12:43 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 046A2C0613C1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jul 2021 07:12:38 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id e5so12569047ljp.6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jul 2021 07:12:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RGcnnqSmagVNvQoebiecahwo34gntuMkg6pM3FvCbWc=;
-        b=FeY89h72xK2j5E4qOePjYJK3qLXZo95FIQ+EbXxcFKVOpNgg5Xkr821smrFCBE/El0
-         4a9amwKWHraMpNa7g1cKB9qTX2iXV+LWeMgN+Ujz5Pq4TXl7UMkawtb3EWSRRcNhPu48
-         10gn5vz9rvQT1e1xaOoYwmSmTbxfv2q8QaeVA0jDoIXR0U9OeHuhMUV58E/HlUlUxzDD
-         MNMYuXabn9fZtjKg8wUqVMmnaqBbGGO9jAFAL+YenM6YKhr9HMGvCJrtXgC1Yz8lGKgJ
-         QckEImCBAaawtwjiFpXLgbB9fclDGt0fAh6oW21ITJv6hE1iI6m15Df90R8R+1KpJ/6S
-         4QCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RGcnnqSmagVNvQoebiecahwo34gntuMkg6pM3FvCbWc=;
-        b=uP3S35vW+pT72prFPk8MRa2qJUUM92Z693ndpgUXl8QAWDkMKvE5HKm7hIomCrSHHm
-         vMns3QwK6Pb62lO2vN0XhOQjoty0DOXbFDsRlAoTNjenhlatfujvUk8TlxROYtZH+IQf
-         vgeI8j+X79Y3Ma5+XVGjzDaxaZsBu4Ip39JQwIgYFDiHtfHRDRYrlf9/OqehPuPRnfxH
-         7jsYrgEiU2NTsXyeGEWs8RVbd5h3D/v9aRbBE05NoaTswwua2b2T+46qsgV3Nsd/BeD+
-         6/rhEZLQ0VIpblViYrqnPrIj58oFV1oLtVw9GKNaVHi7uy5rmNJuFipYt1I+Oek4xdK6
-         t6Vw==
-X-Gm-Message-State: AOAM533v/EM1I3M9GMuf8QV1JQ0aLXR0n3FyEgbDwGvUsOeEQ1n+Ttkc
-        o7PiZc661Un+Z4A+b39bix2vF4d798lUIwBUQEVIhg==
-X-Google-Smtp-Source: ABdhPJzZOIuzywgWD1OYYmMBDmj/RutZYscHdNEYIrYgTYet50MTFHn1FfgdM/OQg2FeeUc9ow2dHlTydqphsBbzNB8=
-X-Received: by 2002:a2e:888f:: with SMTP id k15mr1820832lji.326.1627654356331;
- Fri, 30 Jul 2021 07:12:36 -0700 (PDT)
+        Fri, 30 Jul 2021 10:15:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF11DC06175F;
+        Fri, 30 Jul 2021 07:15:43 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6781D89B;
+        Fri, 30 Jul 2021 16:15:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1627654542;
+        bh=I47/3VgnbXDDTIxk3lXwXPjZ50+PwFOgzhoG7cS9jUY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Hoihlif92s/+4pHa9zbrQOZGtGmOIOA81C5y4AgRo8WWejrzKMdovNILAowQ1SwPh
+         xt6mLCeg85ZUe6U/LKoFHcnhxX3W5tJ3cZH7lMmdIWISk4ADJBoRY3dk/ZS5L6E0Jv
+         yh4wXhbh6prTrhdnmukb6REPJVZsUXPrBAibL8aE=
+Date:   Fri, 30 Jul 2021 17:15:34 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH] media: vimc: Add support for contiguous DMA buffers
+Message-ID: <YQQJhjOtPb10+olI@pendragon.ideasonboard.com>
+References: <20210730001939.30769-1-laurent.pinchart+renesas@ideasonboard.com>
+ <40a1fed8-456e-97c5-9aa7-715a4a4c816b@collabora.com>
+ <YQP6aILfBDLhSFUt@pendragon.ideasonboard.com>
+ <69e4b3fe-5e31-840a-9ea6-a3050f9a6a20@collabora.com>
 MIME-Version: 1.0
-References: <cover.1627652747.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1627652747.git.geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 30 Jul 2021 16:12:25 +0200
-Message-ID: <CACRpkdasmU7xHKmftgay=R-5sjek00_FR0p9Bp23P8GUaNE2ig@mail.gmail.com>
-Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.15
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <69e4b3fe-5e31-840a-9ea6-a3050f9a6a20@collabora.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 30, 2021 at 3:47 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hi Dafna,
 
-> The following changes since commit e73f0f0ee7541171d89f2e2491130c7771ba58d3:
->
->   Linux 5.14-rc1 (2021-07-11 15:07:40 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.15-tag1
->
-> for you to fetch changes up to 91d1be9fb7d667ae136f05cc645276eb2c9fa40e:
->
->   pinctrl: renesas: Fix pin control matching on R-Car H3e-2G (2021-07-27 09:29:02 +0200)
+On Fri, Jul 30, 2021 at 04:08:11PM +0200, Dafna Hirschfeld wrote:
+> On 30.07.21 15:11, Laurent Pinchart wrote:
+> > On Fri, Jul 30, 2021 at 02:35:20PM +0200, Dafna Hirschfeld wrote:
+> >> On 30.07.21 02:19, Laurent Pinchart wrote:
+> >>> The vimc driver is used for testing purpose, and some test use cases
+> >>> involve sharing buffers with a consumer device. Consumers often require
+> >>> DMA contiguous memory, which vimc doesn't currently support. This leads
+> >>> in the best case to usage of bounce buffers, which is very slow, and in
+> >>> the worst case in a complete failure.
+> >>>
+> >>> Add support for the dma-contig allocator in vimc to support those use
+> >>> cases properly. The allocator is selected through a new "allocator"
+> >>> module parameter, which defaults to vmalloc.
+> >>>
+> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> >>> ---
+> >>>    drivers/media/test-drivers/vimc/vimc-capture.c |  9 +++++++--
+> >>>    drivers/media/test-drivers/vimc/vimc-common.h  |  2 ++
+> >>>    drivers/media/test-drivers/vimc/vimc-core.c    | 10 ++++++++++
+> >>>    3 files changed, 19 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+> >>> index 5e9fd902cd37..92b69a6529fb 100644
+> >>> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
+> >>> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+> >>> @@ -7,6 +7,7 @@
+> >>>    
+> >>>    #include <media/v4l2-ioctl.h>
+> >>>    #include <media/videobuf2-core.h>
+> >>> +#include <media/videobuf2-dma-contig.h>
+> >>>    #include <media/videobuf2-vmalloc.h>
+> >>>    
+> >>>    #include "vimc-common.h"
+> >>> @@ -423,14 +424,18 @@ static struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+> >>>    	/* Initialize the vb2 queue */
+> >>>    	q = &vcap->queue;
+> >>>    	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> >>> -	q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
+> >>> +	q->io_modes = VB2_MMAP | VB2_DMABUF;
+> >>
+> >> maybe to be on the safe side VB2_DMABUF should be set only if vimc_allocator==1 ?
+> > 
+> > Why so ? vb2-vmalloc can import dma-bufs.
+> 
+> oh, I meant that exporting should not be supported.
+> I see that vimc set ".vidioc_expbuf = vb2_ioctl_expbuf", maybe remove that if allocator is vmalloc?
 
-Pulled into my devel branch for v5.15!
+If the importer support non-contiguous buffers, vb2-vmalloc can be used
+as an exporter. I've successfully used this to test sharing buffers
+between vimc in vmalloc mode and the R-Car H3 display driver with an
+IOMMU.
 
-Thanks!
-Linus Walleij
+> >>> +	if (vimc_allocator != 1)
+> >>
+> >> maybe define a macro instead of `1` ?
+> > 
+> > Good idea.
+> > 
+> >>> +		q->io_modes |= VB2_USERPTR;
+> >>>    	q->drv_priv = vcap;
+> >>>    	q->buf_struct_size = sizeof(struct vimc_cap_buffer);
+> >>>    	q->ops = &vimc_cap_qops;
+> >>> -	q->mem_ops = &vb2_vmalloc_memops;
+> >>> +	q->mem_ops = vimc_allocator == 1
+> >>> +		   ? &vb2_dma_contig_memops : &vb2_vmalloc_memops;
+> >>>    	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> >>>    	q->min_buffers_needed = 2;
+> >>>    	q->lock = &vcap->lock;
+> >>> +	q->dev = v4l2_dev->dev;
+> >>>    
+> >>>    	ret = vb2_queue_init(q);
+> >>>    	if (ret) {
+> >>> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+> >>> index a289434e75ba..b77939123501 100644
+> >>> --- a/drivers/media/test-drivers/vimc/vimc-common.h
+> >>> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
+> >>> @@ -35,6 +35,8 @@
+> >>>    
+> >>>    #define VIMC_PIX_FMT_MAX_CODES 8
+> >>>    
+> >>> +extern unsigned int vimc_allocator;
+> >>> +
+> >>>    /**
+> >>>     * vimc_colorimetry_clamp - Adjust colorimetry parameters
+> >>>     *
+> >>> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
+> >>> index 4b0ae6f51d76..7badcecb7aed 100644
+> >>> --- a/drivers/media/test-drivers/vimc/vimc-core.c
+> >>> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
+> >>> @@ -5,6 +5,7 @@
+> >>>     * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
+> >>>     */
+> >>>    
+> >>> +#include <linux/dma-mapping.h>
+> >>>    #include <linux/font.h>
+> >>>    #include <linux/init.h>
+> >>>    #include <linux/module.h>
+> >>> @@ -15,6 +16,12 @@
+> >>>    
+> >>>    #include "vimc-common.h"
+> >>>    
+> >>> +unsigned int vimc_allocator;
+> >>> +module_param_named(allocator, vimc_allocator, uint, 0444);
+> >>> +MODULE_PARM_DESC(allocator, " memory allocator selection, default is 0.\n"
+> >>> +			     "\t\t    0 == vmalloc\n"
+> >>> +			     "\t\t    1 == dma-contig");
+> >>> +
+> >>
+> >> There is a section 'Module options' in vimc.rst. So a doc should be added there.
+> > 
+> > OK, I'll update that.
+> > 
+> >>>    #define VIMC_MDEV_MODEL_NAME "VIMC MDEV"
+> >>>    
+> >>>    #define VIMC_ENT_LINK(src, srcpad, sink, sinkpad, link_flags) {	\
+> >>> @@ -278,6 +285,9 @@ static int vimc_probe(struct platform_device *pdev)
+> >>>    
+> >>>    	tpg_set_font(font->data);
+> >>>    
+> >>> +	if (vimc_allocator == 1)
+> >>> +		dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> >>> +
+> >>>    	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
+> >>>    	if (!vimc)
+> >>>    		return -ENOMEM;
+> >>>
+
+-- 
+Regards,
+
+Laurent Pinchart
