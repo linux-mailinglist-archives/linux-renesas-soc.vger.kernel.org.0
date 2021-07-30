@@ -2,34 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AE703DB036
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jul 2021 02:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92F503DB0FB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jul 2021 04:06:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235417AbhG3AT7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Jul 2021 20:19:59 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:32914 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235353AbhG3AT7 (ORCPT
+        id S234495AbhG3CGE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Jul 2021 22:06:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58178 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234361AbhG3CGD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Jul 2021 20:19:59 -0400
+        Thu, 29 Jul 2021 22:06:03 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A5E5C061765
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Jul 2021 19:06:00 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CBA279FB;
-        Fri, 30 Jul 2021 02:19:53 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA35289B;
+        Fri, 30 Jul 2021 04:05:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627604394;
-        bh=M6VkwQ5tp0kMMMx4XpysckIGfVjp5AH77xGymq984bQ=;
+        s=mail; t=1627610756;
+        bh=h/AMwa7o15YWFsbTSYl6cbBTb0fevpAS0ux/e0h2pkU=;
         h=From:To:Cc:Subject:Date:From;
-        b=gaOTtYx5LAO4gmIIbK3KR0R6IhES3zxcqA5155sv4PxM4oFSHviGr4TNsMKbfXxES
-         tomEVza7UyXawX2npvofM/NjNVmAaE7O+/f3sqHtnTk8RZspzx9IE1ejscXimt4Lmz
-         kUkTHJjqBC/vHBkGwsQQwTdERvta7pAmUNIVhDgM=
+        b=HDm+DRT3PZyYyqSyFzYYC4GXCjKSeEoLIBa28adkH95xwDCe8qPKHcqbWA+rvWdRF
+         j6eW2raOyTij6gIe4rUe+dXlAvIZ+bWAJFDsy0s9bzmhgzJWhSz5Tm4+KfFCp2S+cI
+         aCxh3nR1UH/UsIVE/MWde6IvUHiBqpmFTsAO1HxI=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
+To:     dri-devel@lists.freedesktop.org
 Cc:     linux-renesas-soc@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH] media: vimc: Add support for contiguous DMA buffers
-Date:   Fri, 30 Jul 2021 03:19:39 +0300
-Message-Id: <20210730001939.30769-1-laurent.pinchart+renesas@ideasonboard.com>
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Liviu Dudau <Liviu.Dudau@arm.com>
+Subject: [PATCH v2] drm: rcar-du: Allow importing non-contiguous dma-buf with VSP
+Date:   Fri, 30 Jul 2021 05:05:45 +0300
+Message-Id: <20210730020545.2697-1-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -37,104 +41,256 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The vimc driver is used for testing purpose, and some test use cases
-involve sharing buffers with a consumer device. Consumers often require
-DMA contiguous memory, which vimc doesn't currently support. This leads
-in the best case to usage of bounce buffers, which is very slow, and in
-the worst case in a complete failure.
+On R-Car Gen3, the DU uses a separate IP core named VSP to perform DMA
+from memory and composition of planes. The DU hardware then only handles
+the video timings and the interface with the encoders. This differs from
+Gen2, where the DU included a composer with DMA engines.
 
-Add support for the dma-contig allocator in vimc to support those use
-cases properly. The allocator is selected through a new "allocator"
-module parameter, which defaults to vmalloc.
+When sourcing from the VSP, the DU hardware performs no memory access,
+and thus has no requirements on imported dma-buf memory types. The GEM
+CMA helpers however still create a DMA mapping to the DU device, which
+isn't used. The mapping to the VSP is done when processing the atomic
+commits, in the plane .prepare_fb() handler.
+
+When the system uses an IOMMU, the VSP device is attached to it, which
+enables the VSP to use non physically contiguous memory. The DU, as it
+performs no memory access, isn't connected to the IOMMU. The GEM CMA
+drm_gem_cma_prime_import_sg_table() helper will in that case fail to map
+non-contiguous imported dma-bufs, as the DMA mapping to the DU device
+will have multiple entries in its sgtable. The prevents using non
+physically contiguous memory for display.
+
+The DRM PRIME and GEM CMA helpers are designed to create the sgtable
+when the dma-buf is imported. By default, the device referenced by the
+drm_device is used to create the dma-buf attachment. Drivers can use a
+different device by using the drm_gem_prime_import_dev() function. While
+the DU has access to the VSP device, this won't help here, as different
+CRTCs use different VSP instances, connected to different IOMMU
+channels. The driver doesn't know at import time which CRTC a GEM object
+will be used, and thus can't select the right VSP device to pass to
+drm_gem_prime_import_dev().
+
+To support non-contiguous memory, implement a custom
+.gem_prime_import_sg_table() operation that accepts all imported dma-buf
+regardless of the number of scatterlist entries. The sgtable will be
+mapped to the VSP at .prepare_fb() time, which will reject the
+framebuffer if the VSP isn't connected to an IOMMU.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/test-drivers/vimc/vimc-capture.c |  9 +++++++--
- drivers/media/test-drivers/vimc/vimc-common.h  |  2 ++
- drivers/media/test-drivers/vimc/vimc-core.c    | 10 ++++++++++
- 3 files changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-index 5e9fd902cd37..92b69a6529fb 100644
---- a/drivers/media/test-drivers/vimc/vimc-capture.c
-+++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-@@ -7,6 +7,7 @@
+This can arguably be considered as a bit of a hack, as the GEM PRIME
+import still maps the dma-buf attachment to the DU, which isn't
+necessary. This is however not a big issue, as the DU isn't connected to
+any IOMMU, the DMA mapping thus doesn't waste any resource such as I/O
+memory space. Avoiding the mapping creation would require replacing the
+helpers completely, resulting in lots of code duplication. If this type
+of hardware setup was common we could create another set of helpers, but
+I don't think it would be worth it to support a single device.
+
+I have tested this patch with the cam application from libcamera, on a
+R-Car H3 ES2.x Salvator-XS board, importing buffers from the vimc
+driver:
+
+cam -c 'platform/vimc.0 Sensor B' \
+	-s pixelformat=BGR888,width=1440,height=900 \
+	-C -D HDMI-A-1
+
+A set of patches to add DRM/KMS output support to cam has been posted.
+Until it gets merged (hopefully soon), it can be found at [1].
+
+As cam doesn't support DRM/KMS scaling and overlay planes yet, the
+camera resolution needs to match the display resolution. Due to a
+peculiarity of the vimc driver, the resolution has to be divisible by 3,
+which may require changes to the resolution above depending on your
+monitor.
+
+A test patch is also needed for the kernel, to enable IOMMU support for
+the VSP, which isn't done by default (yet ?) in mainline. I have pushed
+a branch to [2] if anyone is interested.
+
+[1] https://lists.libcamera.org/pipermail/libcamera-devel/2021-July/022815.html
+[2] git://linuxtv.org/pinchartl/media.git drm/du/devel/gem/contig
+
+---
+Changes since v1:
+
+- Rewrote commit message to explain issue in more details
+- Duplicate the imported scatter gather table in
+  rcar_du_vsp_plane_prepare_fb()
+- Use separate loop counter j to avoid overwritting i
+- Update to latest drm_gem_cma API
+---
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c |  6 +++-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c | 49 +++++++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_kms.h |  7 ++++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 36 +++++++++++++++++---
+ 4 files changed, 92 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index cb34b1e477bc..d1f8d51a10fe 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -511,7 +511,11 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
  
- #include <media/v4l2-ioctl.h>
- #include <media/videobuf2-core.h>
-+#include <media/videobuf2-dma-contig.h>
- #include <media/videobuf2-vmalloc.h>
+ static const struct drm_driver rcar_du_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+-	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(rcar_du_dumb_create),
++	.dumb_create		= rcar_du_dumb_create,
++	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
++	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
++	.gem_prime_import_sg_table = rcar_du_gem_prime_import_sg_table,
++	.gem_prime_mmap		= drm_gem_prime_mmap,
+ 	.fops			= &rcar_du_fops,
+ 	.name			= "rcar-du",
+ 	.desc			= "Renesas R-Car Display Unit",
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index fdb8a0d127ad..7077af0886cf 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -19,6 +19,7 @@
+ #include <drm/drm_vblank.h>
  
- #include "vimc-common.h"
-@@ -423,14 +424,18 @@ static struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
- 	/* Initialize the vb2 queue */
- 	q = &vcap->queue;
- 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
--	q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
-+	q->io_modes = VB2_MMAP | VB2_DMABUF;
-+	if (vimc_allocator != 1)
-+		q->io_modes |= VB2_USERPTR;
- 	q->drv_priv = vcap;
- 	q->buf_struct_size = sizeof(struct vimc_cap_buffer);
- 	q->ops = &vimc_cap_qops;
--	q->mem_ops = &vb2_vmalloc_memops;
-+	q->mem_ops = vimc_allocator == 1
-+		   ? &vb2_dma_contig_memops : &vb2_vmalloc_memops;
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
- 	q->min_buffers_needed = 2;
- 	q->lock = &vcap->lock;
-+	q->dev = v4l2_dev->dev;
- 
- 	ret = vb2_queue_init(q);
- 	if (ret) {
-diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
-index a289434e75ba..b77939123501 100644
---- a/drivers/media/test-drivers/vimc/vimc-common.h
-+++ b/drivers/media/test-drivers/vimc/vimc-common.h
-@@ -35,6 +35,8 @@
- 
- #define VIMC_PIX_FMT_MAX_CODES 8
- 
-+extern unsigned int vimc_allocator;
-+
- /**
-  * vimc_colorimetry_clamp - Adjust colorimetry parameters
-  *
-diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
-index 4b0ae6f51d76..7badcecb7aed 100644
---- a/drivers/media/test-drivers/vimc/vimc-core.c
-+++ b/drivers/media/test-drivers/vimc/vimc-core.c
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
+ #include <linux/device.h>
++#include <linux/dma-buf.h>
+ #include <linux/of_graph.h>
+ #include <linux/of_platform.h>
+ #include <linux/wait.h>
+@@ -325,6 +326,54 @@ const struct rcar_du_format_info *rcar_du_format_info(u32 fourcc)
+  * Frame buffer
   */
  
-+#include <linux/dma-mapping.h>
- #include <linux/font.h>
- #include <linux/init.h>
- #include <linux/module.h>
-@@ -15,6 +16,12 @@
- 
- #include "vimc-common.h"
- 
-+unsigned int vimc_allocator;
-+module_param_named(allocator, vimc_allocator, uint, 0444);
-+MODULE_PARM_DESC(allocator, " memory allocator selection, default is 0.\n"
-+			     "\t\t    0 == vmalloc\n"
-+			     "\t\t    1 == dma-contig");
++static const struct drm_gem_object_funcs rcar_du_gem_funcs = {
++	.free = drm_gem_cma_free_object,
++	.print_info = drm_gem_cma_print_info,
++	.get_sg_table = drm_gem_cma_get_sg_table,
++	.vmap = drm_gem_cma_vmap,
++	.mmap = drm_gem_cma_mmap,
++	.vm_ops = &drm_gem_cma_vm_ops,
++};
 +
- #define VIMC_MDEV_MODEL_NAME "VIMC MDEV"
- 
- #define VIMC_ENT_LINK(src, srcpad, sink, sinkpad, link_flags) {	\
-@@ -278,6 +285,9 @@ static int vimc_probe(struct platform_device *pdev)
- 
- 	tpg_set_font(font->data);
- 
-+	if (vimc_allocator == 1)
-+		dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
++struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
++				struct dma_buf_attachment *attach,
++				struct sg_table *sgt)
++{
++	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
++	struct drm_gem_cma_object *cma_obj;
++	struct drm_gem_object *gem_obj;
++	int ret;
 +
- 	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
- 	if (!vimc)
- 		return -ENOMEM;
++	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE))
++		return drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
++
++	/* Create a CMA GEM buffer. */
++	cma_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
++	if (!cma_obj)
++		return ERR_PTR(-ENOMEM);
++
++	gem_obj = &cma_obj->base;
++	gem_obj->funcs = &rcar_du_gem_funcs;
++
++	drm_gem_private_object_init(dev, gem_obj, attach->dmabuf->size);
++	cma_obj->map_noncoherent = false;
++
++	ret = drm_gem_create_mmap_offset(gem_obj);
++	if (ret) {
++		drm_gem_object_release(gem_obj);
++		goto error;
++	}
++
++	cma_obj->paddr = 0;
++	cma_obj->sgt = sgt;
++
++	return gem_obj;
++
++error:
++	kfree(cma_obj);
++	return ERR_PTR(ret);
++}
++
+ int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			struct drm_mode_create_dumb *args)
+ {
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.h b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+index 8f5fff176754..789154e19535 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+@@ -12,10 +12,13 @@
+ 
+ #include <linux/types.h>
+ 
++struct dma_buf_attachment;
+ struct drm_file;
+ struct drm_device;
++struct drm_gem_object;
+ struct drm_mode_create_dumb;
+ struct rcar_du_device;
++struct sg_table;
+ 
+ struct rcar_du_format_info {
+ 	u32 fourcc;
+@@ -34,4 +37,8 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu);
+ int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			struct drm_mode_create_dumb *args);
+ 
++struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
++				struct dma_buf_attachment *attach,
++				struct sg_table *sgt);
++
+ #endif /* __RCAR_DU_KMS_H__ */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index 23e41c83c875..b7fc5b069cbc 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -187,17 +187,43 @@ int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
+ 		       struct sg_table sg_tables[3])
+ {
+ 	struct rcar_du_device *rcdu = vsp->dev;
+-	unsigned int i;
++	unsigned int i, j;
+ 	int ret;
+ 
+ 	for (i = 0; i < fb->format->num_planes; ++i) {
+ 		struct drm_gem_cma_object *gem = drm_fb_cma_get_gem_obj(fb, i);
+ 		struct sg_table *sgt = &sg_tables[i];
+ 
+-		ret = dma_get_sgtable(rcdu->dev, sgt, gem->vaddr, gem->paddr,
+-				      gem->base.size);
+-		if (ret)
+-			goto fail;
++		if (gem->sgt) {
++			struct scatterlist *src;
++			struct scatterlist *dst;
++
++			/*
++			 * If the GEM buffer has a scatter gather table, it has
++			 * been imported from a dma-buf and has no physical
++			 * address as it might not be physically contiguous.
++			 * Copy the original scatter gather table to map it to
++			 * the VSP.
++			 */
++			ret = sg_alloc_table(sgt, gem->sgt->orig_nents,
++					     GFP_KERNEL);
++			if (ret)
++				goto fail;
++
++			src = gem->sgt->sgl;
++			dst = sgt->sgl;
++			for (j = 0; j < gem->sgt->orig_nents; ++j) {
++				sg_set_page(dst, sg_page(src), src->length,
++					    src->offset);
++				src = sg_next(src);
++				dst = sg_next(dst);
++			}
++		} else {
++			ret = dma_get_sgtable(rcdu->dev, sgt, gem->vaddr,
++					      gem->paddr, gem->base.size);
++			if (ret)
++				goto fail;
++		}
+ 
+ 		ret = vsp1_du_map_sg(vsp->vsp, sgt);
+ 		if (ret) {
 -- 
 Regards,
 
