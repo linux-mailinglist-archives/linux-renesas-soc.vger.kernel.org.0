@@ -2,99 +2,220 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D0553DBF0B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jul 2021 21:33:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A96053DBF47
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jul 2021 21:57:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230455AbhG3Tdg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Jul 2021 15:33:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230335AbhG3Tdg (ORCPT
+        id S231237AbhG3T5N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Jul 2021 15:57:13 -0400
+Received: from www.zeus03.de ([194.117.254.33]:56434 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230455AbhG3T5N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Jul 2021 15:33:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2934C06175F;
-        Fri, 30 Jul 2021 12:33:30 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E210C2A3;
-        Fri, 30 Jul 2021 21:33:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627673608;
-        bh=ok0naQzMlCI0ggY3MCduPnEZLiYeC3q7JCVFbjkuKBI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wQ06hs0knVejc5QAd8CqkgdH4Ct/SQEIc95F++VL3jGUOhgRN4Wo5fj0GAbAM0swG
-         h2wQ6Zg6/1g3x2IhosUMltFcbZTuhwGELuX2WA24YCcj+TOB+xh4KXvopwGCLrhBSt
-         ejne5iel98vHNlL/6d/to81Ehrkgc9Mi/EwPXhs4=
-Date:   Fri, 30 Jul 2021 22:33:19 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomba@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>, linux-imx@nxp.com,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        linux-tegra@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 0/7] drm: Extend COMPILE_TEST support to some ARM drivers
-Message-ID: <YQRT/9xIH2PyACbt@pendragon.ideasonboard.com>
-References: <20210728153736.15240-1-laurent.pinchart+renesas@ideasonboard.com>
- <YQLdDTu4duXXQXAs@ravnborg.org>
+        Fri, 30 Jul 2021 15:57:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=dFgkfs7h5HCGabqrXi3Y912hwcPp
+        W6d1p3avVbd5EtE=; b=I7AryB0/6JUP7ze9vrSOtvEIrmz50OjmSviqecywNpKK
+        XXKWynOkf18Zsi7g9jrNY4wlF49uIbs5h8T5yRyYN8uQfXi3ZNA+5FJkU+UQ87jX
+        ebWzjGoAo+Ece9jqtUkoizY8bFnQpGjm1+w75GAHawWARzquoOpOCd+1L37WbdA=
+Received: (qmail 3099733 invoked from network); 30 Jul 2021 21:57:06 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jul 2021 21:57:06 +0200
+X-UD-Smtp-Session: l3s3148p1@qm26n1zIoKYgAwDPXwtrAFZwfe2Gefyo
+Date:   Fri, 30 Jul 2021 21:57:04 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
+Subject: Re: [RFC PATCH v2 1/1] misc: add sloppy logic analyzer using polling
+Message-ID: <YQRZkFApESOIMRmv@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
+References: <20210519132528.4394-1-wsa+renesas@sang-engineering.com>
+ <20210519132528.4394-2-wsa+renesas@sang-engineering.com>
+ <YKUlbsWhT45l5Zm0@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="d/nvodR47AXtcLzp"
 Content-Disposition: inline
-In-Reply-To: <YQLdDTu4duXXQXAs@ravnborg.org>
+In-Reply-To: <YKUlbsWhT45l5Zm0@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sam,
 
-On Thu, Jul 29, 2021 at 06:53:33PM +0200, Sam Ravnborg wrote:
-> On Wed, Jul 28, 2021 at 06:37:29PM +0300, Laurent Pinchart wrote:
-> > Hello,
-> > 
-> > This patch series stems from subsystem-wide changes I wanted to
-> > compile-test with an ARM64 cross-compiler. My laziness to fire a 32-bit
-> > ARM build probably resulted in more time being spent writing these
-> > patches, but hopefully they'll turn out to be useful for more people :-)
-> > 
-> > Patches 1/7 and 2/7 are fixes for compilation warnings on 64-bit
-> > platforms in the omapdrm and sti-drm drivers. They are a dependency for
-> > the Kconfig changes that follow to avoid introducing build warnings, but
-> > could also be merged before.
-> > 
-> > Patches 3/7 to 7/7 enable compilation of the imx-dcss, omapdrm, sti-drm,
-> > tegra-drm and tilcdc drivers on ARM64 with COMPILE_TEST. The patches are
-> > independent from each other, so they can be picked by their respective
-> > maintainers.
-> > 
-> > We could also extend test compilation to more architecture, but I didn't
-> > want to remove all dependencies on ARM or ARM64 at this point for fear
-> > or triggering build warnings that I wouldn't be able to catch locally.
-> > If there's a consensus that fully relaxing the platform requirement is
-> > better, I can submit a new version that does so and rely on the 0day bot
-> > to catch issues.
->
-> I have alpha, sparc64, and a few more so we can get pretty good coverage
-> before it hits -next.
+--d/nvodR47AXtcLzp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It seems that the consensus is to enable COMPILE_TEST on all platforms,
-so I'll do that.
+Hi Andy,
 
-> If we enable more build coverage then please address all W=1 warnings
-> first.
-> 
-> I for once always builds with W=1 these days, and I see more and more
-> warnings sneaking in again.
-> So lets try to keep the noise level down.
+finally I found some time to get back to this one. For anyhting I didn't
+comment on, it means I am okay with your suggestion. Thanks for the
+review!
 
-Hmmmm... I build my kernel with -Werror to make sure I catch all
-warnings. W=1 doesn't play well with that :-S I'll see if I can turn the
-additional warnings into non-errors, but that may become a game of
-whack-a-mole.
+> 'For ACPI one may use PRP0001 approach with the following ASL excerpt exa=
+mple::
+>=20
+>     Device (GSLA) {
+>         Name (_HID, "PRP0001")
+>         Name (_DDN, "GPIO sloppy logic analyzer")
+>         Name (_CRS, ResourceTemplate () {
+>             GpioIo(Exclusive, PullNone, 0, 0, IoRestrictionNone,
+>                 "\\_SB.PCI0.GPIO", 0, ResourceConsumer, , ) { 13 }
+>             PinConfig(Exclusive, 0x07, 0, "\\_SB.PCI0.GPIO", 0, ResourceC=
+onsumer, ) { 7 }
+>             GpioIo(Exclusive, PullNone, 0, 0, IoRestrictionNone,
+>                 "\\_SB.PCI0.GPIO", 0, ResourceConsumer, , ) { 12 }
+>             PinConfig(Exclusive, 0x07, 0, "\\_SB.PCI0.GPIO", 0, ResourceC=
+onsumer, ) { 6 }
+>         })
+>=20
+>         Name (_DSD, Package () {
+>             ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+>             Package () {
+>                 Package () { "compatible", Package () { "gpio-sloppy-logi=
+c-analyzer" } },
+>                 Package () {
+>                     "probe-gpios", Package () {
+>                         ^GSLA, 0, 0, 0,
+>                         ^GSLA, 1, 0, 0,
+>                     },
+>                 Package () {
+>                     "probe-names", Package () {
+>                         "SCL",
+>                         "SDA",
+>                     },
+>             }
+>         })
+>=20
+> Note, that pin configuration uses pin numbering space, while GPIO resourc=
+es
+> are in GPIO numbering space, which may be different in ACPI. In other wor=
+ds,
+> there is no guarantee that GPIO and pins are mapped 1:1, that's why there=
+ are
+> two different pairs in the example, i.e. {13,12} GPIO vs. {7,6} pin.
+>=20
+> Yet pin configuration support in Linux kernel is subject to implement.'
 
--- 
-Regards,
+Have you tested this snippet? I am totally open to add ACPI but it
+should be tested, of course. Is there any on-going effort to add ACPI
+pin config?
 
-Laurent Pinchart
+> > + * Copyright (C) Wolfram Sang <wsa@sang-engineering.com>
+> > + * Copyright (C) Renesas Electronics Corporation
+>=20
+> No years?
+
+After reading this*, I agreed they are not really needed.
+
+* https://www.linuxfoundation.org/blog/copyright-notices-in-open-source-sof=
+tware-projects/
+
+
+> > +#define GPIO_LA_MAX_PROBES 8
+> > +#define GPIO_LA_NUM_TESTS 1024
+>=20
+> I prefer TAB indentation of the values for better reading, but it's up to=
+ you.
+
+I don't ;)
+
+> > +	struct debugfs_blob_wrapper meta;
+> > +	unsigned long gpio_acq_delay;
+> > +	struct device *dev;
+>=20
+> > +	unsigned int trig_len;
+>=20
+> On 64-bit arch you may save 4 bytes by moving this to be together with u32
+> member above.
+
+I don't want to save bytes here. I sorted the struct for cachelines,
+important members first.
+
+> > +static struct dentry *gpio_la_poll_debug_dir;
+>=20
+> I have seen the idea of looking up the debugfs entry. That said, do we ac=
+tually
+> need this global variable?
+
+I don't understand the first sentence. And we still need it to clean up?
+
+
+> > +		/* '10' is length of 'probe00=3D\n\0' */
+> > +		add_len =3D strlen(gpio_names[i]) + 10;
+> > +		meta =3D devm_krealloc(dev, meta, meta_len + add_len, GFP_KERNEL);
+>=20
+> First of all, this realloc() pattern *) is bad. While it's tricky and has=
+ side
+> effects (i.e. it has no leaks) better not to use it to avoid confusion.
+>=20
+> *) foo =3D realloc(foo, ...); is 101 mistake.
+
+Because generally you lose the old pointer on error. But we don't here
+because we are using managed devices.
+
+However, I see that all kernel users of devm_krealloc() are using a
+seperate variable and then update the old one. I can do this, too.
+
+> But second, all your use is based on:
+>  - all strings are of equal lengths
+
+They are not. The gpio names come from the user via DT or ACPI and can
+have an arbitrary length.
+
+> > +	[ ! -d $CPUSETDIR ] && mkdir $CPUSETDIR
+>=20
+> [ -d ... ] || ...
+
+Will think about it. I think the former is a tad more readable.
+
+> > +			# Check if we could parse something and the channel number fits
+> > +			[ $chan !=3D $c -a $chan -le $MAX_CHANS ] 2> /dev/null || { echo "S=
+yntax error: $c" && exit 1; }
+>=20
+> Why 2>/dev/null ?
+
+I forgot, have to recheck.
+
+> > +[ $SAMPLEFREQ -eq 0 ] &&
+>=20
+>  echo "Invalid sample frequency" && exit 1
+>=20
+> This kind of stuff deserves an exit function, like
+
+I'll think about it!
+
+All the best,
+
+   Wolfram
+
+
+--d/nvodR47AXtcLzp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmEEWYwACgkQFA3kzBSg
+KbbE7A/7BTvFJM39BOOKYzyCALRnQLBaSnka5lMQnDbBkD8O4XnH8E2q5K16VR8C
+ZHga188t5yYYYY3TYaLlepqEVOswWZF795MczPBjyhprqVaMb3UWsYu7Q/Nzptar
+DO0sQ2yfUOVGZJHn8lfA9IBaC9MxxkGlzM27NEikB4CzTmi/NKIL4KxtYxNThSm4
+0Kc8dyGygDrcj9uD5o88vO0TmiqgTJRagrtzWlH08QLqd5QkBWWxP1BHqcbILbPF
+UmZiFF/+pcGMyfGKbaku/LeRfJl7MauVc44rM0p4VCkHCxDX1VnpKy67a2oVmXZj
+vgm/XFgI70GagSnxNKXvubtRwexSROVnHKKDOE3+EnjdPja2q6zVKse9qCy1qYcv
+XaTSwYRQqTFYKBqFWsm74p49d8eTCQrUsjNofj+kszAbU+AaVG7/hO1EFybx+sby
+KTXFRB3h2W7HkQOoIDgSmsiksPGbJQknikC7Hz0fm0uA7gKukbtw4HTCBt9C/4lH
+1LiL+DmxSsnVr1yyVPFjS+lOB8+fSJn1MvRArywgidLlfTxyMQ/xFQJ16g5R05ez
+Juj2KpnP3ZmJY4PXh2G2rUasN84y34dYA0t7ot6FYvaTU/EIvl4YiBT1jQXczfD/
++5CX4WlEZHQwb6D/iUYemp+LscBZB0Z6eCtVXXbP+Jzt4ao+F7g=
+=B0F4
+-----END PGP SIGNATURE-----
+
+--d/nvodR47AXtcLzp--
