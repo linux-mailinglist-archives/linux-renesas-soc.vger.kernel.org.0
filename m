@@ -2,85 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEA763DB993
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jul 2021 15:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A41C3DB9E2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jul 2021 16:00:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238890AbhG3Nru (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Jul 2021 09:47:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57912 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238878AbhG3Nrt (ORCPT
+        id S239067AbhG3OAs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Jul 2021 10:00:48 -0400
+Received: from www.zeus03.de ([194.117.254.33]:56802 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239013AbhG3OAs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Jul 2021 09:47:49 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D85BFC06175F
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jul 2021 06:47:44 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:69f0:c617:e432:6919])
-        by xavier.telenet-ops.be with bizsmtp
-        id bRnj2500C2oLRg901RnjBN; Fri, 30 Jul 2021 15:47:43 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1m9SrW-002GwG-V9; Fri, 30 Jul 2021 15:47:42 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1m9SrW-00HKHz-9Z; Fri, 30 Jul 2021 15:47:42 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: renesas: Updates for v5.15
-Date:   Fri, 30 Jul 2021 15:47:40 +0200
-Message-Id: <cover.1627652747.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 30 Jul 2021 10:00:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=jBTJGV/FMmhlp4FysMiDu/IBBCsW
+        BYFdeP9B4UYMUa4=; b=qTgFos4rrXnc1C/No2um1KFy85PGyH+rATZFV6gVtycl
+        mT/fWR0cD5jsRiJn42oGMsZGg5RUmQJh7cytBfWVYgoyPrp7HUdmOxw8dpaspuWX
+        wda2Nx2RTsCVlIgfnlooS52PUs6Vr5axh1yc9netIIL7mkSBEeYY55AtEeLqnR8=
+Received: (qmail 3019269 invoked from network); 30 Jul 2021 16:00:41 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jul 2021 16:00:41 +0200
+X-UD-Smtp-Session: l3s3148p1@y/0hpVfIzrIgAwDPXwtrAFZwfe2Gefyo
+Date:   Fri, 30 Jul 2021 16:00:41 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Adrian Hunter <adrian.hunter@intel.com>
+Subject: Re: [RFC PATCH] mmc: core: ensure flags are always cleared when
+ retune gets enabled
+Message-ID: <YQQGCZ6a/z1ER8pa@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Adrian Hunter <adrian.hunter@intel.com>
+References: <20210625190107.8160-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="dgrWcng+cGIK9+ZQ"
+Content-Disposition: inline
+In-Reply-To: <20210625190107.8160-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
 
-The following changes since commit e73f0f0ee7541171d89f2e2491130c7771ba58d3:
+--dgrWcng+cGIK9+ZQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Linux 5.14-rc1 (2021-07-11 15:07:40 -0700)
+On Fri, Jun 25, 2021 at 09:01:07PM +0200, Wolfram Sang wrote:
+> Move the call to clear the retune flags into mmc_retune_enable() to
+> ensure they are always cleared. With current code, there is no
+> functional change. But it is more future-proof this way.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>=20
+> After reviewing my own code, I thought this is even a tad better. What
+> do you guys think? Based on the series "[PATCH 0/3] mmc: avoid vicious
+> circle when retuning", of course.
 
-are available in the Git repository at:
+Would be easy to apply now because the dependency is in mmc/next now.
+Opinions?
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.15-tag1
+>=20
+>  drivers/mmc/core/core.c | 6 ++----
+>  drivers/mmc/core/host.c | 1 +
+>  2 files changed, 3 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
+> index 84f39a59a28e..b039dcff17f8 100644
+> --- a/drivers/mmc/core/core.c
+> +++ b/drivers/mmc/core/core.c
+> @@ -937,13 +937,11 @@ int mmc_execute_tuning(struct mmc_card *card)
+> =20
+>  	err =3D host->ops->execute_tuning(host, opcode);
+> =20
+> -	if (err) {
+> +	if (err)
+>  		pr_err("%s: tuning execution failed: %d\n",
+>  			mmc_hostname(host), err);
+> -	} else {
+> -		mmc_retune_clear(host);
+> +	else
+>  		mmc_retune_enable(host);
+> -	}
+> =20
+>  	return err;
+>  }
+> diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
+> index 52d37587cf45..8ca1db6413f8 100644
+> --- a/drivers/mmc/core/host.c
+> +++ b/drivers/mmc/core/host.c
+> @@ -101,6 +101,7 @@ void mmc_unregister_host_class(void)
+>   */
+>  void mmc_retune_enable(struct mmc_host *host)
+>  {
+> +	mmc_retune_clear(host);
+>  	host->can_retune =3D 1;
+>  	if (host->retune_period)
+>  		mod_timer(&host->retune_timer,
+> --=20
+> 2.30.2
+>=20
 
-for you to fetch changes up to 91d1be9fb7d667ae136f05cc645276eb2c9fa40e:
+--dgrWcng+cGIK9+ZQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  pinctrl: renesas: Fix pin control matching on R-Car H3e-2G (2021-07-27 09:29:02 +0200)
+-----BEGIN PGP SIGNATURE-----
 
-----------------------------------------------------------------
-pinctrl: renesas: Updates for v5.15
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmEEBgkACgkQFA3kzBSg
+KbaBhQ//XUImiprmH4bMC+d8UFaXPfQPpGIKebk7ojGKs2ggIuWJJijoZyglZDCW
+5GfFs4oy9mmst8HRu6JlIhyDvH6VU/UehnDYxv0CiPiwM6PRYyBxhSqHlkak69Uv
+8tnvsuFIbZ+nPi+XAZJ3IdDr4rhr8IP67nxE9CDVOEwtuw8bG0FQ6Zu/VaNoKiqb
+TE9PUbJ4ejZYDoq3pmMG4cj5KBpSGW57I2npC9x6oKrir4ncdVu/MV85kGCqo+91
+G0NQmw8v0JqO+DQHJkkXhfR5fYcy/No0PLA0DBnclcGSUiYobwOyyd12qfpByDaP
+cTSlXqssKCvDK5PLI+tPRaypkwFCKg0Kx47uxL/sr9UHdv+QZ3SoRyIRtpjk12Dm
+/ywqSOpn5GYIuE+Mqd1CckclEQLq9Vngg9m8bpRTmoBxit9f/YFtueCK78TYmWda
+3LqLAEZPfc1LyIuMZXYpFJbJsL3FfOXWKboCvqfUEJBWvxMWPDe19jg8XFaGViOB
+OPsl5KuN4iwPFP0B5714zMJI8JAK7M4NJQkF3eKZWVngIxyA8jpgT9uVtfIs4+0U
+8aGbu9L+J9rmbc4s9/mYJ/Wa0cUzqSirafDLE5TVx7ECQ9sopWcSfiE35SwCyu5Z
+Lx+j2iLKq6VlFAsbWx5ZrXOduWZHBI4XOdsJ2958N2wArYep0Uc=
+=5PPw
+-----END PGP SIGNATURE-----
 
-  - Add bias support for the R-Car D3 SoC,
-  - Miscellaneous fixes and improvements.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Geert Uytterhoeven (3):
-      pinctrl: renesas: rcar: Avoid changing PUDn when disabling bias
-      pinctrl: renesas: r8a77995: Add bias pinconf support
-      pinctrl: renesas: Fix pin control matching on R-Car H3e-2G
-
- drivers/pinctrl/renesas/core.c         |  29 ++-
- drivers/pinctrl/renesas/pfc-r8a77995.c | 320 ++++++++++++++++++++++++++++++++-
- drivers/pinctrl/renesas/pinctrl.c      |  16 +-
- drivers/pinctrl/renesas/sh_pfc.h       |   7 +-
- 4 files changed, 337 insertions(+), 35 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+--dgrWcng+cGIK9+ZQ--
