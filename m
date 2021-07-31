@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DE063DC25F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jul 2021 03:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 932743DC261
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jul 2021 03:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231440AbhGaBkP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Jul 2021 21:40:15 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33192 "EHLO
+        id S235164AbhGaBkR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Jul 2021 21:40:17 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33220 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231335AbhGaBkP (ORCPT
+        with ESMTP id S231335AbhGaBkQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Jul 2021 21:40:15 -0400
+        Fri, 30 Jul 2021 21:40:16 -0400
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14AD22A3;
-        Sat, 31 Jul 2021 03:40:08 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14722BC0;
+        Sat, 31 Jul 2021 03:40:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627695608;
-        bh=jPdx4Gwi+IcDj25jxUAFK6HFhiy+lqUjHzPKJaMffZs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=LwgUs4RVwS8KntTjLxcpwp8rNbxBlvSlDpiHRhCy15YPwlbQuhbyzW7Rs/H3mbD2H
-         xAYyUM/o+FgKomQvQevR3nv1xzhWbUnyFwh6YBukmQ6pobpfxLNaGrzirPcO/oTTCo
-         d4hmcanN1c/WA4kaSUBUHQTfcZlxjTK4VNfDey8k=
+        s=mail; t=1627695609;
+        bh=mK1sC34SkdfPesSr/ljz81ambUX1M83KGmYChMaWyRY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=pufoELx8ZCqFJsB9hE7XnbQxOidC0Aa4nNfmB2zZil7kvynm4ZtF9JjCKSvdRrkw9
+         ZZhKDjQFDEzUwkLT2QoNTeeA92VOuai+7rUThdxXV9LvkmWy/9ZCi2iMEltruzyWCz
+         f6S49U3EyJSxaSajFK6Sq5kg9xlC9ZD8gBWDTrio=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     Tomi Valkeinen <tomba@kernel.org>,
@@ -34,67 +34,48 @@ Cc:     Tomi Valkeinen <tomba@kernel.org>,
         linux-tegra@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
         Alain VOLMAT-SCND-01 <alain.volmat@foss.st.com>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 0/9] drm: Extend COMPILE_TEST support to some ARM drivers
-Date:   Sat, 31 Jul 2021 04:39:45 +0300
-Message-Id: <20210731013954.11926-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 1/9] drm/omap: Use correct printk format specifiers for size_t
+Date:   Sat, 31 Jul 2021 04:39:46 +0300
+Message-Id: <20210731013954.11926-2-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210731013954.11926-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20210731013954.11926-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+The correct format specifier for size_t is %zu. Using %d (or %u)
+generates a warning on 64-bit platforms. Fix it.
 
-This patch series stems from subsystem-wide changes I wanted to
-compile-test with an ARM64 cross-compiler. My laziness to fire a 32-bit
-ARM build definitely resulted in more time being spent writing these
-patches, but hopefully they'll turn out to be useful for more people.
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ drivers/gpu/drm/omapdrm/dss/dsi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Patches 1/9 to 3/7 are fixes for compilation warnings on 64-bit
-platforms in the omapdrm and sti-drm drivers. They are a dependency for
-the Kconfig changes that follow to avoid introducing build warnings, but
-could also be merged before.
-
-Patches 3/9 to 8/9 enable compilation of the imx-dcss, omapdrm, sti-drm
-and tegra-drm drivers on all architectures with COMPILE_TEST. I have
-tested compilation on arm64 and x86, with W=1. The patches are
-independent from each other, so they can be picked by their respective
-maintainers.
-
-The last patch, 9/9, extends COMPILE_TEST support for the tilcdc driver
-to ARM64. The driver doesn't compile on x86 due to a missing __iowmb(),
-and I haven't taken the time to investigate how to solve this properly.
-
-The main change since v1 is the extension of COMPILE_TEST to all
-platforms instead of only ARM and ARM64.
-
-Please feel free to pick patches individually for the driver(s) you
-maintain.
-
-Laurent Pinchart (9):
-  drm/omap: Use correct printk format specifiers for size_t
-  drm/omap: Cast pointer to integer without generating warning
-  drm/sti: Use correct printk format specifiers for size_t
-  drm/imx/dcss: Enable COMPILE_TEST on all architectures
-  drm/omap: Enable COMPILE_TEST on all architectures
-  drm/rcar-du: Enable COMPILE_TEST on all architectures
-  drm/sti: Enable COMPILE_TEST on all architectures
-  drm/tegra: Enable COMPILE_TEST on all architectures
-  drm/tilcdc: Enable COMPILE_TEST on all ARM64 platforms
-
- drivers/gpu/drm/imx/dcss/Kconfig   | 3 ++-
- drivers/gpu/drm/omapdrm/Kconfig    | 2 +-
- drivers/gpu/drm/omapdrm/dss/dsi.c  | 4 ++--
- drivers/gpu/drm/omapdrm/omap_drv.c | 2 +-
- drivers/gpu/drm/rcar-du/Kconfig    | 1 -
- drivers/gpu/drm/sti/Kconfig        | 3 ++-
- drivers/gpu/drm/sti/sti_hqvdp.c    | 4 ++--
- drivers/gpu/drm/tegra/Kconfig      | 2 +-
- drivers/gpu/drm/tilcdc/Kconfig     | 3 ++-
- drivers/gpu/host1x/Kconfig         | 2 +-
- 10 files changed, 14 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index 5f1722b040f4..503b5d4bf2c2 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -2094,7 +2094,7 @@ static int dsi_vc_send_long(struct dsi_data *dsi, int vc,
+ 	u8 b1, b2, b3, b4;
+ 
+ 	if (dsi->debug_write)
+-		DSSDBG("dsi_vc_send_long, %d bytes\n", msg->tx_len);
++		DSSDBG("dsi_vc_send_long, %zu bytes\n", msg->tx_len);
+ 
+ 	/* len + header */
+ 	if (dsi->vc[vc].tx_fifo_size * 32 * 4 < msg->tx_len + 4) {
+@@ -2390,7 +2390,7 @@ static int dsi_vc_generic_read(struct omap_dss_device *dssdev, int vc,
+ 
+ 	return 0;
+ err:
+-	DSSERR("%s(vc %d, reqlen %d) failed\n", __func__,  vc, msg->tx_len);
++	DSSERR("%s(vc %d, reqlen %zu) failed\n", __func__,  vc, msg->tx_len);
+ 	return r;
+ }
+ 
 -- 
 Regards,
 
