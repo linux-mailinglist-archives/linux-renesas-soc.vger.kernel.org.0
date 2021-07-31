@@ -2,74 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD22F3DC62F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jul 2021 16:00:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5B293DC66A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jul 2021 16:54:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233061AbhGaOAX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 31 Jul 2021 10:00:23 -0400
-Received: from mout.gmx.net ([212.227.15.18]:49629 "EHLO mout.gmx.net"
+        id S233245AbhGaOy0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 31 Jul 2021 10:54:26 -0400
+Received: from mout.gmx.net ([212.227.15.19]:33831 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232770AbhGaOAX (ORCPT
+        id S233228AbhGaOyZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 31 Jul 2021 10:00:23 -0400
+        Sat, 31 Jul 2021 10:54:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1627740000;
-        bh=QdHwj+IsnJi5IzMwqUW3TfO7oP0yxI2OFU1E0J2+TGU=;
+        s=badeba3b8450; t=1627743243;
+        bh=zY96gBywycZ3DkNeGCbLFMqyecwq4irLjId53UZ4Zf8=;
         h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=BJqMD7+9OX8NQ377fjRaZhE30oQgrpitGIE39GvNzFykzIbgNbZ+d/q7v2aYqLmiE
-         Sv3+GGtXEKMWMzeON/xMzV1bLSEUEpQGWXTdUIy4E5eP7baJ3PbrqvPOzUm39eN2Vb
-         xCCfmDwIZSlX73xw4BdlYquAiz8iAytx1ICTGeZU=
+        b=Ganr3Z8MpqDXwLQU1ajZQdu1jXzt1nzmNe7rSSrq26cKszyGo5a8Ip/m0nQHQA9I4
+         7zOz9eeAaB9UA6ET3eZRakKZAb71Jpo35ILPw6dAfYS5+YQsnpDe2tkyxweGpT3Wkt
+         EhE/mTTRJlwvgMsMs8AAkSiDeMfjRX5PIP0TOnD8=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MnaoZ-1mqcSb1xW1-00jXgJ; Sat, 31
- Jul 2021 16:00:00 +0200
-Date:   Sat, 31 Jul 2021 15:59:57 +0200
+Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1N0FxV-1n4IiS04Rz-00xOSP; Sat, 31
+ Jul 2021 16:54:03 +0200
+Date:   Sat, 31 Jul 2021 16:53:59 +0200
 From:   Len Baker <len.baker@gmx.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Len Baker <len.baker@gmx.com>,
+To:     Robin Murphy <robin.murphy@arm.com>,
         David Laight <David.Laight@ACULAB.COM>,
-        Robin Murphy <robin.murphy@arm.com>,
+        'Geert Uytterhoeven' <geert@linux-m68k.org>
+Cc:     Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Magnus Damm <magnus.damm@gmail.com>,
         Santosh Shilimkar <ssantosh@kernel.org>,
-        linux-hardening@vger.kernel.org,
+        "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
         linux-arm-msm <linux-arm-msm@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>
 Subject: Re: [PATCH] drivers/soc: Remove all strcpy() uses in favor of
  strscpy()
-Message-ID: <20210731135957.GB1979@titan>
+Message-ID: <20210731140620.GC1979@titan>
 References: <20210725151434.7122-1-len.baker@gmx.com>
  <CAMuHMdUdmv+YmdtjGJV2Lp_Rvar4kN4uSgSTYqXX9CtCJ+qoRw@mail.gmail.com>
+ <80f4574c9f6c4c6780735b0fffd83363@AcuMS.aculab.com>
+ <fa2fd44d-8cd7-b700-2e7b-d88c9c52507d@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUdmv+YmdtjGJV2Lp_Rvar4kN4uSgSTYqXX9CtCJ+qoRw@mail.gmail.com>
-X-Provags-ID: V03:K1:qUm0FH1ghq6WNJ/Rmut5+r4u5WV6r8/bAeCUshozt5VKgCN225P
- OrVDNggsXY8F74K9umWT8oOQrNm0KSB2wA12pRezKPZnQnkuzv0Pa8ag8DMzxfPkUuCrsHF
- Cw2zbRkmLkAvWdT9xxVsNpcMqvixb9+W3fiiykkbJvnFd+9h2rSHPeidV1grwyrPVU0dzml
- m71/ks9fqkCC4/ih+1/tQ==
+In-Reply-To: <fa2fd44d-8cd7-b700-2e7b-d88c9c52507d@arm.com>
+X-Provags-ID: V03:K1:CPIGMjcOPSVTZO7Gzwh9hg7OmO3+oHEOG/0hwDtVK02HC8v0C/H
+ VZtjWWWA7ZfqdoNIu89W/7fLWalj2kCOTQKhAxS6lFF7AoLoeM0lcDEuqjYIj+iDuALWlr/
+ e3w2i4JYbm+getruIVMJJX4rXzTrv9aobAHUAs0KWlJnXuZM0dUDqdXEBq34FlTZeIDneQi
+ IY/Xc6Mh+O9qwxxy5/a2A==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:I5zIChcrHao=:PP4ua8BnhiZfYhDBqkXX+e
- pfVAy5oA9TszZrsLtBsAuiLyWziOyegSVk7fXycC/G/PNCXkkahPJmZZ9jL3J6t2xbFG6mpXk
- V4n4bt2lEifysR0pQ0NDyf301ZskZeF2EMj0EhRh9ivMR70oPAXr9ZWjkjHYLdlZZ6dogoC2h
- I1I8T4ZMaH6r9FcTJWNTwouRKWzVTr5PlDkSFlRTFDxSWrKgz8cRu2MSetZBxzbth04RRvUfr
- 5J0h2Zymz9RSDo0bwrfqwYfuTGWqRRUDLzYvuwVi5UwC7AqE3DSx0d+HsNKwNCV6JxdI0jTtc
- kw3gMvG2uCjIeNQfJxT43LWhJqtcP4CW74mfZNNEmKcz86YOV+Q4Awry+jbJ8nsaIaPqZg0le
- Vp91poTztx+SclUEo4Y2yuiVVTxaUX+p9YoU19nzDZgbObwbxa8IUMWL0gslizXle1XfadKf6
- 5CA68ILlgTbOrW6CHPOEXFwiBh8h73N6Zn5mw3CImyfanxnMyiF+ps4FMjHL1LGA0tO3nz9yx
- jj1ObyopWBSSMmtk/ClwAbC3jxqRu6Tv0An+1VrnOAp82MlB93Pj63EISyVUN18d2CTw3ZgxO
- Ohi3FTJ70/NdNGTd53U7/xQlhe+jbiYG0brDkw1oxPA2Z0M/4F41lxyZ1HudAcvJ3+J+qbZ96
- Ur3VX6j2c5LXtN9eOp2x+7DmSX//9q84boaeN+zFaHzwP93tA6LXm2JOFK8C56vzyiZQ3kcNG
- +OkOtic2hLYVFUmGJjlJRZb6Kkpq/YU6j1GyapKkoVVtzBf0UlwyApqVGICGqGgciYTpTZmAF
- KHeFmnwhN+OTkLtNXdsgfLpcBNG4fMMprBAGGKAWMajMHWmSrvYGY34nJK9S2tw5mqa8l4/Fk
- jnFAma31GosDQfVq6kVrv/JgZo5aLSaBpRGXE6GuHibVGWilvphm2m1eFodAVPMpVZmzIQnOt
- Rd0T28sbzvy7MKwYrReIPYCwyNGvtDCH8dcGMyHNF1y/qCvr/y2Y56NHOtGPTYe8okkpxgwSs
- bgHGeQdyXWujp94IdM3w5/IA4vQg3jTwFuN7vcNedePvsuRKTzPiHIlErLMI0hiRDMaBQed64
- uOYSgM/0OQq5Nf2utI/l0gBW4GiTFrHZTS0
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KDOOqXKprFU=:aKLa3NCS3Zzhe89gSTB7xm
+ S5gbutCNag4xoaxDSSedPJyiapV+RHqXoXWOVHnzxjYUqTVPUWOOwNtWAZU+fJzeJORs/1SIP
+ 1OoRhLNgfQkGczk6bUZdlH2HOoIntYsgaEo2I8dYaa315q5tymP0d6v35fBmn7r0rqi3yyIvD
+ fnRyTbhf4CpNTGkwzqL/GNynOwbwPOCiYepKBmYGjoPs5/OWOi2DkB4eniekMTX939uyE5FRp
+ hb9igUS8h0EzaDJBHtT3jvgRo7I814KSRArIfYkr8PKUi3CPx+7nz1GV3dDJQzfDEyW2tvDVN
+ 16j6laKhMmY7HJot8t8/3fuO9pjJ1Uqv3vAeB4m63iki7BcSqAVZdICPm4qDzsypfDOifWsZn
+ njKRzbVxf/DJz4SSXxTLG7NvKG6q9luBbLuLMTqb68BAhuTStnCXPHLMOQ6Anb/hTqux8TBgK
+ 5zyLmFxWrVW/fym5geK0gR/HmPJKyPb5iPV7aPv35WRqzIMOHYBtm1j4Usow5DIc74U+cPtBu
+ LPyYMZv2bmFdTN1UhsPfjWzqioQbqIp02W53VhzsGLXFptkIATwTRZybyrRVgC0UaEjjrRvY8
+ RJm8jUx8q5cRCc7SZ0ez8w/CbjUUfmQs37vC91tRCE2uleFh6I7kadGtttDvyzSQpMAmoiEBo
+ YhgqS68ZYcpBfcNPhkj7ExTUx27Gg9Z3KUa5MHb5UveIjFTToZgINcXiAoY7pRUTppTMIp+eV
+ T1sVwKiIbd0jCO6TN5v8Pp4bIXTimprkGOY7BCcIzux04RKjoeUBx+sOeiUt74TVKVccLK/Fm
+ Oy3VJzdCuUUUpC2cxwxs2XODerg1L/8q6rQ4oLM068fqyfqi0tZ1b4JFNUryfZF6oUkS6ivwc
+ aBTvLmQDpJmvInRrFoyusUI4JicfOQhGX+/MzBxDIZfAJ5m19UtUJNpB9rL4DZaVne0g+Il+g
+ WChV2VUBnwM4CkHcXL+dTdeopZoSeqRb6qH53Ym39g/HAdOYTnQxxVgwLgYppTc31pupCyI2l
+ 8xy18lw1WuX4wUCFHbzoEX2h7WPeQh3USpSqNvD49Kl1SZpuHlKajG1pzSniqADZDtCgHFQMs
+ 65fiqzh7iwOd1lv68wDU0pl4hVOG9CnvXln
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -77,86 +78,28 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi,
 
-On Mon, Jul 26, 2021 at 10:03:18AM +0200, Geert Uytterhoeven wrote:
-> Hi Len,
->
-> On Sun, Jul 25, 2021 at 5:15 PM Len Baker <len.baker@gmx.com> wrote:
-> > strcpy() performs no bounds checking on the destination buffer. This
-> > could result in linear overflows beyond the end of the buffer, leading
-> > to all kinds of misbehaviors. The safe replacement is strscpy().
+On Wed, Jul 28, 2021 at 10:36:09AM +0100, Robin Murphy wrote:
+> On 2021-07-28 09:36, David Laight wrote:
+
+> > > > -               strcpy(pd->name, area->name);
+> > > > +               strscpy(pd->name, area->name, area_name_size);
 > >
-> > Signed-off-by: Len Baker <len.baker@gmx.com>
+> > You can just use memcpy().
 >
-> Thanks for your patch!
->
-> > ---
-> > This is a task of the KSPP [1]
-> >
-> > [1] https://github.com/KSPP/linux/issues/88
->
-> Any chance the almost one year old question in that ticket can be
-> answered?
+> Indeed. In fact I'd go as far as saying that it might be worth teaching
+> static checkers to recognise patterns that boil down to strscpy(dst, src=
+,
+> strlen(src) + 1) and flag them as suspect, because AFAICS that would alw=
+ays
+> represent either an unnecessarily elaborate memcpy(), or far worse just =
+an
+> obfuscated strcpy().
 
-I'm a kernel newbie and I have chosen this task as a starting point. So,
-I think that someone with more experience could answer this question.
-
-Kees: Any comments?
+Ok, I will use the memcpy function instead of strscpy. Thanks for the
+feedback.
 
 >
-> >  drivers/soc/renesas/rcar-sysc.c     |  6 ++++--
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> But please see my comments below...
->
-> > --- a/drivers/soc/renesas/r8a779a0-sysc.c
-> > +++ b/drivers/soc/renesas/r8a779a0-sysc.c
-> > @@ -404,19 +404,21 @@ static int __init r8a779a0_sysc_pd_init(void)
-> >         for (i =3D 0; i < info->num_areas; i++) {
-> >                 const struct r8a779a0_sysc_area *area =3D &info->areas=
-[i];
-> >                 struct r8a779a0_sysc_pd *pd;
-> > +               size_t area_name_size;
->
-> I wouldn't mind a shorter name, like "n".
-
-Ok, I will change this for the next version.
-
-> >
-> >                 if (!area->name) {
-> >                         /* Skip NULLified area */
-> >                         continue;
-> >                 }
-> >
-> > -               pd =3D kzalloc(sizeof(*pd) + strlen(area->name) + 1, G=
-FP_KERNEL);
-> > +               area_name_size =3D strlen(area->name) + 1;
-> > +               pd =3D kzalloc(sizeof(*pd) + area_name_size, GFP_KERNE=
-L);
-> >                 if (!pd) {
-> >                         error =3D -ENOMEM;
-> >                         goto out_put;
-> >                 }
-> >
-> > -               strcpy(pd->name, area->name);
-> > +               strscpy(pd->name, area->name, area_name_size);
-> >                 pd->genpd.name =3D pd->name;
-> >                 pd->pdr =3D area->pdr;
-> >                 pd->flags =3D area->flags;
-> > diff --git a/drivers/soc/renesas/rcar-sysc.c b/drivers/soc/renesas/rca=
-r-sysc.c
-> > index 53387a72ca00..0eae5ce0eeb0 100644
-> > --- a/drivers/soc/renesas/rcar-sysc.c
-> > +++ b/drivers/soc/renesas/rcar-sysc.c
-> > @@ -396,19 +396,21 @@ static int __init rcar_sysc_pd_init(void)
-> >         for (i =3D 0; i < info->num_areas; i++) {
-> >                 const struct rcar_sysc_area *area =3D &info->areas[i];
-> >                 struct rcar_sysc_pd *pd;
-> > +               size_t area_name_size;
->
-> Likewise.
-
-Ok, understood.
+> Robin.
 
 Regards,
 Len
