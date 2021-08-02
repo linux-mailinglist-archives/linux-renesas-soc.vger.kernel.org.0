@@ -2,99 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 541B73DD5AD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Aug 2021 14:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 519D03DD60A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Aug 2021 14:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232815AbhHBMcy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Aug 2021 08:32:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47884 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232629AbhHBMcy (ORCPT
+        id S233757AbhHBMxg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Aug 2021 08:53:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52776 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232629AbhHBMxg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Aug 2021 08:32:54 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C74C06175F;
-        Mon,  2 Aug 2021 05:32:44 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id a93so10040034ybi.1;
-        Mon, 02 Aug 2021 05:32:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9r/J0qDitRnnnvyc1YlEihczgpfr2U6tS1pQrgSWycE=;
-        b=I37Cg2Jt0CLI8eUjCuZ9N2sFNuW39exMcGy0vxhSSxUQ3itPbiVK4lDs1L8d/+2nUp
-         jrODwFFGBE0dGsxLKhq9CicKERyOXWP4ysFX+qzhjrs88QQcloryjdTZjga37EBeuq3b
-         5OSagep4P6qil+aViBB7mhiNlUOIpwHBuCWAn/Pu+HrLafgzblRQVNufikKNf1ZJES3A
-         eaK9c8St2kkjKKkyQdCn48XqJTUKPRbpjxHi7Z0sgk9rJ3bviXKcJf+rvBX4w87dXSBG
-         6uoIu5BgpHcUQsbtWDYq6a7M6a41GBJLyxqtk663nke3qmPG6fuBhRrs5sRFMfSuneyB
-         q17g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9r/J0qDitRnnnvyc1YlEihczgpfr2U6tS1pQrgSWycE=;
-        b=dbqieFoTqdx4JbMYLJZsY2m8Qpb1dOi64HRWcol981rQLznL98YggavBqazknZdUn0
-         Aw2uN/Vavp8hh6xkcR/jj+LSgwlebhnSP7+y1bsGnm11L1QklD5n4rlDDKJaA8WA07xh
-         uLKv+6Rl7TiHyGBsKQH/S10zyCOnJYexhsK07GEMKD7D6hHBOIIqOpNPy73lfKu2VNvS
-         gk8FR2sCGWEsnFteLLn/qUjkd2LbdcFmjVYibkzN24oANlsyx+17HteMx+kW6haZWdaI
-         wmyXJ9br+NSR8exjx4cKVZxNRuJsOSucfDAXbjnbPXkdRpWqAj262pBrY37iM0CUZm9/
-         7mMA==
-X-Gm-Message-State: AOAM531/EzaEYZJVisMQl3stB2E92z0kIC59zKPt3wZEtBLCH0lWj/dj
-        eQywU4va2KYe5gkMhe3WvYkzrmJAKLjkHUzmY5A=
-X-Google-Smtp-Source: ABdhPJwAeCFwF0NIFfLC1lv4Ut4jLybCd3m63a7aSX4vUiWBZ5QMeBapCkD8T25TM2eY/Eo3X+tIvCybyMfHAZIIgmE=
-X-Received: by 2002:a25:ba44:: with SMTP id z4mr20100744ybj.476.1627907564218;
- Mon, 02 Aug 2021 05:32:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210719134040.7964-1-biju.das.jz@bp.renesas.com>
- <162767143674.56427.1812897829636885311.b4-ty@kernel.org> <OSZPR01MB7019905B23FA514DB08987DDAAEC9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
- <20210802121639.GE4668@sirena.org.uk>
-In-Reply-To: <20210802121639.GE4668@sirena.org.uk>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 2 Aug 2021 13:32:18 +0100
-Message-ID: <CA+V-a8trGqzB6eFvsub=f-e3cM-1469kqvaOw76yfS2E97GY6A@mail.gmail.com>
-Subject: Re: (subset) [PATCH v2 0/8] Add RZ/G2L Sound support
-To:     Mark Brown <broonie@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        Mon, 2 Aug 2021 08:53:36 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3607360E09;
+        Mon,  2 Aug 2021 12:53:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627908806;
+        bh=GcQHVX9MpJk/NoGMBhgpyQ7PsIRfzxzlKp8boQsYP2k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OL1LRp8xMFAcQj0YErtiY2IA1NYlDM+6/9120lS6JCHbZBHkUI2Pz7S4JcOaJzo0+
+         oU1WN9zQWttKbOqzHa+dO3zlW0rW+rjIMAg3L5iOvTtbjeCFYUe5CnooZAiA6wDnr1
+         PYQopvQYL9YwNjCkKFah5NWzUOUb16DvVdZCz3X6+xKn3bkMJ78YbvoXTMX/oQqb09
+         mUJbOJZOeoCZis7WqVoPMMN95mppqvIOEkFqIFgmWn2dX4LZLSVH3Vx1R4I3ACL/xn
+         SffsHoT1DEPoCfzEdr9Qc3jPr1UDSYun/MBijfdsf02hh/0KjviCa8RBQZEKEHTKQj
+         xnswSG++ymqXw==
+Date:   Mon, 2 Aug 2021 14:53:23 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
+Subject: Re: [PATCH] mmc: renesas_sdhi: increase suspend/resume latency limit
+Message-ID: <YQfqwyL4TGoFHisp@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
+References: <20210514155318.16812-1-uli+renesas@fpond.eu>
+ <YQQah2Q8qmQPEl7F@ninjato>
+ <TY2PR01MB3692486033934E1C007EBF6AD8EF9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="O1ZL0pJ7Xg0h4bFF"
+Content-Disposition: inline
+In-Reply-To: <TY2PR01MB3692486033934E1C007EBF6AD8EF9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mark,
 
-On Mon, Aug 2, 2021 at 1:17 PM Mark Brown <broonie@kernel.org> wrote:
->
-> On Fri, Jul 30, 2021 at 07:13:24PM +0000, Prabhakar Mahadev Lad wrote:
->
-> > There is a updated version of the patch [1] which was posted yesterday
-> > due to change in handling DMA slave channel configuration [2]. Both
-> > the queued patches need to dropped.
->
-> Can you send a revert or incremental patch for this explaining the issue
-> please?
->
-Sure, Biju will send an incremental patch explaining the issue.
+--O1ZL0pJ7Xg0h4bFF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Please fix your mail client to word wrap within paragraphs at something
-> substantially less than 80 columns.  Doing this makes your messages much
-> easier to read and reply to.
->
-Sorry for the inconvenience, I have fixed it now.
 
-Cheers,
-Prabhakar
+> Would you know how to measure the latencies?
+
+I didn't measure the latencies itself. I just checked 'clk_summary' in
+debugfs and verified that finally clocks are disabled by RPM. Because
+only with this patch, clk_enable-cnt goes to zero when SD card is
+removed or eMMC has no activity.
+
+
+--O1ZL0pJ7Xg0h4bFF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmEH6r8ACgkQFA3kzBSg
+KbZGtQ//XEa/C64nefchG3vnSmJRK7vL5laBvuOumUqZNoChH0mAJAY3NZC4cnto
+rIXi6opx7w0F+LplpaQnVXgkpjL3EqJNuyJW6gklNFnhWE27q5HNTsnmgvRwZhdi
+7ofmS2pvi/CLdqzU0vhqlG10aWMMEnFVvYU5P8fOz7U9ikgGHHzQG062rUzDUyAr
+hirmUm45bkHofOHIfdK2mIokIVckTb1AzUOqWh31zqP89HmintWXChb3OfvhB/dB
+knpOrsU0xp/vNU9YYfG4B1RN3r30GfHy638ZWY2DsYeBtDAw0oEJeZwSn1fCutXy
+tu8gCiKS8WRJdq4qWIM5Jm/wNAYmKYlvr2WYV7BdH6p0upQguazXAe11W6MXSL1u
+Ugunf+VgxMpWzksuwKNYuZutTbd0NzAIqGtQEJJFP5xKJMfGQ+46U4VtYzTEJAZN
+Kf2XGLmb7u+rKVcsnBcnlPBUK+BHKa7gu005y24O5iMg53Mmq65rls9VS+zhrZ6g
+4XTIsOiB9/Af8w+cFt+bJUpLZlqglWI8ix4GP5h2vt+NEPjOVuLMikEWy3h9ViuO
+QzNuyccVWMIfSIopP/6YX8DXUkRiISXyBaGkqc71z0nCWVVnlO3lksbudKWj1UzI
+/AZqMOgcCUHLHLT0/wdC+M7zLR1Db2QJzsdMaOatXhvSUA8kn7Q=
+=HOC4
+-----END PGP SIGNATURE-----
+
+--O1ZL0pJ7Xg0h4bFF--
