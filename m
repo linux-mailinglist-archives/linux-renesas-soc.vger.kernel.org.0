@@ -2,97 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B1553DD482
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Aug 2021 13:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A9C33DD519
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Aug 2021 14:05:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232553AbhHBLSa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Aug 2021 07:18:30 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.218]:17150 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233255AbhHBLSa (ORCPT
+        id S233513AbhHBMFQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Aug 2021 08:05:16 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:27978 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233446AbhHBMFQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Aug 2021 07:18:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1627903098;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=Ucwn6Ack2yVMmcy+MDrXHYsh6wsuWfQk97JEUKaWrMM=;
-    b=KxXmRiXMgBQAI0M8OTBJjbs4X6rBJGJVTg44TjhgNsJ355bKVrjFdQBVnJAZHxnTRr
-    7qoaCyXL3lE8SAcq5k+m0ueHo1Wr4YZswK8ZbX+Sb0kBJ1GVquhnJ8SIFIeymrCYZ8S2
-    VruEDMk7UERUCl7BUqtpgMe3DfNnkzzNl+P6L93eX5pKFZVX3SCoklI+fPir/LEdEKwH
-    yvSDtIOm5OlWO9V0RYDm19xiSTZf869BB1iDbuRWqneU0zH5i5oZw9/E/HCXUjQMa135
-    EcVeV5jOKdluuR3JPy+4DOwKwjlJAJZa+jpzFcdGAuN6ERjnAm/c+bEKa8/iYJAGBwwy
-    48mQ==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCt/7B6PNk="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp04-01.back.ox.d0m.de
-    by smtp-ox.front (RZmta 47.28.1 AUTH)
-    with ESMTPSA id n07311x72BIIDwY
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-    Mon, 2 Aug 2021 13:18:18 +0200 (CEST)
-Date:   Mon, 2 Aug 2021 13:18:18 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa@kernel.org>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
-Message-ID: <821963380.577567.1627903098435@webmail.strato.com>
-In-Reply-To: <TY2PR01MB3692486033934E1C007EBF6AD8EF9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20210514155318.16812-1-uli+renesas@fpond.eu>
- <YQQah2Q8qmQPEl7F@ninjato>
- <TY2PR01MB3692486033934E1C007EBF6AD8EF9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-Subject: RE: [PATCH] mmc: renesas_sdhi: increase suspend/resume latency
- limit
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.5-Rev17
-X-Originating-Client: open-xchange-appsuite
+        Mon, 2 Aug 2021 08:05:16 -0400
+X-IronPort-AV: E=Sophos;i="5.84,288,1620658800"; 
+   d="scan'208";a="89532917"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 02 Aug 2021 21:05:05 +0900
+Received: from localhost.localdomain (unknown [10.226.92.138])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C5B41435635B;
+        Mon,  2 Aug 2021 21:05:02 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v6 0/3] Add RZ/G2L DMAC support
+Date:   Mon,  2 Aug 2021 13:04:57 +0100
+Message-Id: <20210802120500.7635-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+This patch series aims to add DMAC support on RZ/G2L SoC's.
 
-> On 08/02/2021 7:34 AM Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
-> 
->  
-> Hi Wolfram-san, Ulrich-san,
-> 
-> > From: Wolfram Sang, Sent: Saturday, July 31, 2021 12:28 AM
-> > 
-> > On Fri, May 14, 2021 at 05:53:18PM +0200, Ulrich Hecht wrote:
-> > > The TMIO core sets a very low latency limit (100 us), but when using R-Car
-> > > SDHI hosts with SD cards, I have observed typical latencies of around 20-30
-> > > ms. This prevents runtime PM from working properly, and the devices remain
-> > > on continuously.
-> > >
-> > > This patch sets the default latency limit to 100 ms to avoid that.
-> > >
-> > > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> > 
-> > Adding Shimoda-san to CC.
-> > 
-> > Shimoda-san: can you kindly run your SDHI tests with this patch applied?
-> 
-> Sure!
-> 
-> However, I have a question about this patch.
-> Would you know how to measure the latencies?
+It is based on the work done by Chris Brandt for RZ/A DMA driver.
 
-IIRC I simply put a printk() in default_suspend_ok() that dumps td->suspend_latency_ns and td->resume_latency_ns.
+v5->v6:
+ * Added Rb tag from Rob for binding patch
+ * Fixed dma_addr_t and size_t format specifier issue reported by
+   kernel test robot
+ * Started using ARRAY_SIZE macro instead of  magic number in
+   rz_dmac_ds_to_val_mapping function.
 
-> I enabled function trace of rpm and checked the log, but I could not observe
-> any behavior changes with and without applying this patch.
+v4->v5:
+ * Passing legacy slave channel configuration parameters using dmaengine_slave_config is prohibited.
+   So started passing this parameters in DT instead, by encoding MID/RID values with channel parameters
+   in the #dma-cells.
+ * Removed Rb tag's of Geert and Rob since there is a modification in binding patch
+ * Added 128 byte slave bus width support
+ * Removed SoC dtsi and Defconfig patch from this series. Will send as separate patch.
 
-So you are saying that for you, the clock is suspended as expected when removing the card, even without this patch?
-If so, I wonder if there are variations between boards...
+Ref:-
+  https://lore.kernel.org/linux-renesas-soc/20210719092535.4474-1-biju.das.jz@bp.renesas.com/T/#ma0b261df6d4400882204aaaaa014ddb59c479db4
 
-CU
-Uli
+v3->v4:
+ * Added Rob's Rb tag for binding patch.
+ * Incorporated Vinod and Geert's review comments.
+v2->v3:
+  * Described clocks and resets in binding file as per Rob's feedback.
+
+v1->v2
+ * Started using virtual DMAC
+ * Added Geert's Rb tag for binding patch.
+
+Biju Das (3):
+  dt-bindings: dma: Document RZ/G2L bindings
+  dmaengine: Extend the dma_slave_width for 128 bytes
+  drivers: dma: sh: Add DMAC driver for RZ/G2L SoC
+
+ .../bindings/dma/renesas,rz-dmac.yaml         | 130 +++
+ drivers/dma/sh/Kconfig                        |   9 +
+ drivers/dma/sh/Makefile                       |   1 +
+ drivers/dma/sh/rz-dmac.c                      | 971 ++++++++++++++++++
+ include/linux/dmaengine.h                     |   3 +-
+ 5 files changed, 1113 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+ create mode 100644 drivers/dma/sh/rz-dmac.c
+
+-- 
+2.17.1
+
