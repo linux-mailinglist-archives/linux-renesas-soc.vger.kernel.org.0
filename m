@@ -2,36 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72F1F3DD57D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Aug 2021 14:16:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 541B73DD5AD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Aug 2021 14:32:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233631AbhHBMRC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Aug 2021 08:17:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33244 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233609AbhHBMRC (ORCPT
+        id S232815AbhHBMcy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Aug 2021 08:32:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47884 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232629AbhHBMcy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Aug 2021 08:17:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8706E60F35;
-        Mon,  2 Aug 2021 12:16:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627906613;
-        bh=aruJN456iKjOdaui1yZ5IM6E3s2UHMeouUaIGe7Uk48=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CwcNPb08X0tnsznd7v0rls02wmboPUEQKxkSgqpA2/qZT0hmfOwAQMi1MpeOBzbqb
-         nLgVnDZJJ2MbLLSmZ3ntK54BrA0EaAZWzDboe/hR0wgasLFftQFIYb8mrEBeUsYpei
-         p7Ft2WcLuWfOay0dOQ74mPphwrcYJSO30BmHMr215jdupNzafgC67501t0XdMPqP5k
-         U4HxWXtG8TbQlqci2RA0hdUbK8n8fgtbQEdds2SQ/HWXKX43k4t61U++/OvBfuJy79
-         W7GBcVa8jsmsNnoTxBm2SDkTh1H+e3wQhfdJbTJgtMz5P5qcuhozUkNrXH9AjyTFe2
-         8PkB/Fp3BzZuQ==
-Date:   Mon, 2 Aug 2021 13:16:39 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mon, 2 Aug 2021 08:32:54 -0400
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C74C06175F;
+        Mon,  2 Aug 2021 05:32:44 -0700 (PDT)
+Received: by mail-yb1-xb32.google.com with SMTP id a93so10040034ybi.1;
+        Mon, 02 Aug 2021 05:32:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9r/J0qDitRnnnvyc1YlEihczgpfr2U6tS1pQrgSWycE=;
+        b=I37Cg2Jt0CLI8eUjCuZ9N2sFNuW39exMcGy0vxhSSxUQ3itPbiVK4lDs1L8d/+2nUp
+         jrODwFFGBE0dGsxLKhq9CicKERyOXWP4ysFX+qzhjrs88QQcloryjdTZjga37EBeuq3b
+         5OSagep4P6qil+aViBB7mhiNlUOIpwHBuCWAn/Pu+HrLafgzblRQVNufikKNf1ZJES3A
+         eaK9c8St2kkjKKkyQdCn48XqJTUKPRbpjxHi7Z0sgk9rJ3bviXKcJf+rvBX4w87dXSBG
+         6uoIu5BgpHcUQsbtWDYq6a7M6a41GBJLyxqtk663nke3qmPG6fuBhRrs5sRFMfSuneyB
+         q17g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9r/J0qDitRnnnvyc1YlEihczgpfr2U6tS1pQrgSWycE=;
+        b=dbqieFoTqdx4JbMYLJZsY2m8Qpb1dOi64HRWcol981rQLznL98YggavBqazknZdUn0
+         Aw2uN/Vavp8hh6xkcR/jj+LSgwlebhnSP7+y1bsGnm11L1QklD5n4rlDDKJaA8WA07xh
+         uLKv+6Rl7TiHyGBsKQH/S10zyCOnJYexhsK07GEMKD7D6hHBOIIqOpNPy73lfKu2VNvS
+         gk8FR2sCGWEsnFteLLn/qUjkd2LbdcFmjVYibkzN24oANlsyx+17HteMx+kW6haZWdaI
+         wmyXJ9br+NSR8exjx4cKVZxNRuJsOSucfDAXbjnbPXkdRpWqAj262pBrY37iM0CUZm9/
+         7mMA==
+X-Gm-Message-State: AOAM531/EzaEYZJVisMQl3stB2E92z0kIC59zKPt3wZEtBLCH0lWj/dj
+        eQywU4va2KYe5gkMhe3WvYkzrmJAKLjkHUzmY5A=
+X-Google-Smtp-Source: ABdhPJwAeCFwF0NIFfLC1lv4Ut4jLybCd3m63a7aSX4vUiWBZ5QMeBapCkD8T25TM2eY/Eo3X+tIvCybyMfHAZIIgmE=
+X-Received: by 2002:a25:ba44:: with SMTP id z4mr20100744ybj.476.1627907564218;
+ Mon, 02 Aug 2021 05:32:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210719134040.7964-1-biju.das.jz@bp.renesas.com>
+ <162767143674.56427.1812897829636885311.b4-ty@kernel.org> <OSZPR01MB7019905B23FA514DB08987DDAAEC9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+ <20210802121639.GE4668@sirena.org.uk>
+In-Reply-To: <20210802121639.GE4668@sirena.org.uk>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 2 Aug 2021 13:32:18 +0100
+Message-ID: <CA+V-a8trGqzB6eFvsub=f-e3cM-1469kqvaOw76yfS2E97GY6A@mail.gmail.com>
+Subject: Re: (subset) [PATCH v2 0/8] Add RZ/G2L Sound support
+To:     Mark Brown <broonie@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Jaroslav Kysela <perex@perex.cz>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
         Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
         Chris Brandt <Chris.Brandt@renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
@@ -41,53 +70,31 @@ Cc:     Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
         <linux-renesas-soc@vger.kernel.org>,
         Biju Das <biju.das@bp.renesas.com>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: (subset) [PATCH v2 0/8] Add RZ/G2L Sound support
-Message-ID: <20210802121639.GE4668@sirena.org.uk>
-References: <20210719134040.7964-1-biju.das.jz@bp.renesas.com>
- <162767143674.56427.1812897829636885311.b4-ty@kernel.org>
- <OSZPR01MB7019905B23FA514DB08987DDAAEC9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="kA1LkgxZ0NN7Mz3A"
-Content-Disposition: inline
-In-Reply-To: <OSZPR01MB7019905B23FA514DB08987DDAAEC9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
-X-Cookie: There's only one everything.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Mark,
 
---kA1LkgxZ0NN7Mz3A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, Aug 2, 2021 at 1:17 PM Mark Brown <broonie@kernel.org> wrote:
+>
+> On Fri, Jul 30, 2021 at 07:13:24PM +0000, Prabhakar Mahadev Lad wrote:
+>
+> > There is a updated version of the patch [1] which was posted yesterday
+> > due to change in handling DMA slave channel configuration [2]. Both
+> > the queued patches need to dropped.
+>
+> Can you send a revert or incremental patch for this explaining the issue
+> please?
+>
+Sure, Biju will send an incremental patch explaining the issue.
 
-On Fri, Jul 30, 2021 at 07:13:24PM +0000, Prabhakar Mahadev Lad wrote:
+> Please fix your mail client to word wrap within paragraphs at something
+> substantially less than 80 columns.  Doing this makes your messages much
+> easier to read and reply to.
+>
+Sorry for the inconvenience, I have fixed it now.
 
-> There is a updated version of the patch [1] which was posted yesterday
-> due to change in handling DMA slave channel configuration [2]. Both
-> the queued patches need to dropped.
-
-Can you send a revert or incremental patch for this explaining the issue
-please?
-
-Please fix your mail client to word wrap within paragraphs at something
-substantially less than 80 columns.  Doing this makes your messages much
-easier to read and reply to.
-
---kA1LkgxZ0NN7Mz3A
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmEH4iYACgkQJNaLcl1U
-h9AmXgf/eDI3wHtrWjkrJbTZI9d/ge9btttmXn7UWAZyKt29MWnhLql0NzpASGfl
-+vKH275BfwlAo9WUitiIO5oMTcpALZVYnHVKFAUXtLbgxXYGp7Um3fL7lrksUEDV
-//Jnt2t+72+p22fsJbK13APhGvKzXsAgfaGBFB+1PZMnqTEtn9XrwxuUyq2d0BWM
-1ZG4cQ4XcNZvrwuJAa7gtaWcIGX5TzgNJQ7C+IHHL9qxR2h0Pi365Ar2sSivRoJq
-a7rJoHqVPjpI0FFs7xLUYowlKxwniR5/0cpgblvLqGMtrwO5qMwJu0rEY0llxknZ
-FMRI7JEgDgLDiGUHE9qxIl2Es/q5Pg==
-=zdRi
------END PGP SIGNATURE-----
-
---kA1LkgxZ0NN7Mz3A--
+Cheers,
+Prabhakar
