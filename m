@@ -2,119 +2,190 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A1C03DFDCB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Aug 2021 11:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F29F3DFDCF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Aug 2021 11:19:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236297AbhHDJSy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Aug 2021 05:18:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236356AbhHDJSx (ORCPT
+        id S235611AbhHDJUA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Aug 2021 05:20:00 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:57742 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S235443AbhHDJUA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Aug 2021 05:18:53 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9254FC06179C
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Aug 2021 02:18:40 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id d8so1432613wrm.4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Aug 2021 02:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CN5L8qgaMlhbixKVT8x+IFvwOIZrIEWv5/cRqTSdyn0=;
-        b=V2TTIebazihcW6g3TugX7/QHrxJV3cYQyVykcnOBRwAqnTtrkOwGUwqbu/aIquNnz4
-         K5nSg1OsZkz9kSwjNoFmpf8R31DdRL+WZAF/0nJAgFpI3S6fLBkp8/UZ7gGX41Qdp2Uj
-         LY1UMM6mWD99L5q/g79zHEYArf3Kso6gilC9NgibLH50GNMK9IgycAH5Qc/Doymc2fRd
-         l2IclE3S+lDcHm+bJWCNGSijm3iVe2IHr5+zy33MFHhzu2xF8Hp81vKRN8m/oKa5FTQ2
-         b9uJbOHpCNy8XFAx/0K2kp47WEuxkEctaNRSGDzr63FB7CdWoPaf0o3POE8uRZtG3uGX
-         j1Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CN5L8qgaMlhbixKVT8x+IFvwOIZrIEWv5/cRqTSdyn0=;
-        b=dA+2k2Lv3dhFQSQwQaZQ5ri3TFA1sRHZGmnl3Up/t+9yzE39HIG2ljXmDe2XWh4fUG
-         ISHF2LerU+GP8yc9wiWAJBDMrcY1ptuIbNu0TgV7olXbn3z5lpwI6RO6WG257+upDXes
-         XdJdJH4F4if2ZDBWDibPxmWthTxXkhckwDbgN7kzdH9a0Q6BSXkHB5sYYcHzvoF76Wb2
-         Ggz3kcYbbI7SLg03KwCPDKt7dyQR318PE5gUTJJ/rUMowAHJRZBL61uwM6SIs+Sr1nK0
-         n/CNDMS9ChNY9YQD+NHNUUgmLS7B6aVyW9NzugVOtiiTFsgP3x1QeWA+woKsS36HNtte
-         SV9w==
-X-Gm-Message-State: AOAM532r9skwlUDRDj6QV6A6OJl7Ivwt6cSASnq55HCvGjh1rn4vY+LP
-        j56y9mYLvnbzndV5OCsYBWWCN6i/VRA4IA==
-X-Google-Smtp-Source: ABdhPJwzFJkGhDMjJiTZ43STuFX1kh7fazOHR6ylJHye3NgGEIkZZ3uILn57OWp4w/LHOPIcA9VseQ==
-X-Received: by 2002:adf:8169:: with SMTP id 96mr27120773wrm.424.1628068719204;
-        Wed, 04 Aug 2021 02:18:39 -0700 (PDT)
-Received: from bismarck.berto.se (p4fca2222.dip0.t-ipconnect.de. [79.202.34.34])
-        by smtp.googlemail.com with ESMTPSA id f74sm1653172wmf.16.2021.08.04.02.18.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 02:18:38 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-pm@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 2/2] thermal: rcar_gen3_thermal: Store TSC id as unsigned int
-Date:   Wed,  4 Aug 2021 11:18:18 +0200
-Message-Id: <20210804091818.2196806-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210804091818.2196806-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20210804091818.2196806-1-niklas.soderlund+renesas@ragnatech.se>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Wed, 4 Aug 2021 05:20:00 -0400
+X-IronPort-AV: E=Sophos;i="5.84,293,1620658800"; 
+   d="scan'208";a="89801999"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 04 Aug 2021 18:19:46 +0900
+Received: from localhost.localdomain (unknown [10.226.92.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1308E42389D2;
+        Wed,  4 Aug 2021 18:19:43 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: mmc: renesas,sdhi: Document RZ/G2L bindings
+Date:   Wed,  4 Aug 2021 10:19:40 +0100
+Message-Id: <20210804091940.23983-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The TSC id and number of TSC ids should be stored as unsigned int as
-they can't be negative. Fix the datatype of the loop counter 'i' and
-rcar_gen3_thermal_tsc.id to reflect this.
+Document RZ/G2L SDHI controller bindings.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
-* Changes since v1
-- Fix rcar_gen3_thermal_tsc.id and dev_info() as pointed out by Geert.
-- Update commit message to better capture the new data members pointed
-  out in v1.
+v1->v2:
+ * Fixed dtbs-check issue for RZ/A{1,2} platforms.
 ---
- drivers/thermal/rcar_gen3_thermal.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ .../devicetree/bindings/mmc/renesas,sdhi.yaml | 95 ++++++++++++-------
+ 1 file changed, 60 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index e49593437edeb3ca..85228d308dd35b19 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -84,7 +84,7 @@ struct rcar_gen3_thermal_tsc {
- 	struct thermal_zone_device *zone;
- 	struct equation_coefs coef;
- 	int tj_t;
--	int id; /* thermal channel id */
-+	unsigned int id; /* thermal channel id */
- };
+diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+index 677989bc5924..3a90dd447e17 100644
+--- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
++++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+@@ -9,9 +9,6 @@ title: Renesas SDHI SD/MMC controller
+ maintainers:
+   - Wolfram Sang <wsa+renesas@sang-engineering.com>
  
- struct rcar_gen3_thermal_priv {
-@@ -398,7 +398,8 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 	const int *ths_tj_1 = of_device_get_match_data(dev);
- 	struct resource *res;
- 	struct thermal_zone_device *zone;
--	int ret, i;
-+	unsigned int i;
-+	int ret;
+-allOf:
+-  - $ref: "mmc-controller.yaml"
+-
+ properties:
+   compatible:
+     oneOf:
+@@ -47,19 +44,20 @@ properties:
+           - const: renesas,sdhi-mmc-r8a77470 # RZ/G1C (SDHI/MMC IP)
+       - items:
+           - enum:
+-              - renesas,sdhi-r8a774a1 # RZ/G2M
+-              - renesas,sdhi-r8a774b1 # RZ/G2N
+-              - renesas,sdhi-r8a774c0 # RZ/G2E
+-              - renesas,sdhi-r8a774e1 # RZ/G2H
+-              - renesas,sdhi-r8a7795  # R-Car H3
+-              - renesas,sdhi-r8a7796  # R-Car M3-W
+-              - renesas,sdhi-r8a77961 # R-Car M3-W+
+-              - renesas,sdhi-r8a77965 # R-Car M3-N
+-              - renesas,sdhi-r8a77970 # R-Car V3M
+-              - renesas,sdhi-r8a77980 # R-Car V3H
+-              - renesas,sdhi-r8a77990 # R-Car E3
+-              - renesas,sdhi-r8a77995 # R-Car D3
+-              - renesas,sdhi-r8a779a0 # R-Car V3U
++              - renesas,sdhi-r8a774a1  # RZ/G2M
++              - renesas,sdhi-r8a774b1  # RZ/G2N
++              - renesas,sdhi-r8a774c0  # RZ/G2E
++              - renesas,sdhi-r8a774e1  # RZ/G2H
++              - renesas,sdhi-r8a7795   # R-Car H3
++              - renesas,sdhi-r8a7796   # R-Car M3-W
++              - renesas,sdhi-r8a77961  # R-Car M3-W+
++              - renesas,sdhi-r8a77965  # R-Car M3-N
++              - renesas,sdhi-r8a77970  # R-Car V3M
++              - renesas,sdhi-r8a77980  # R-Car V3H
++              - renesas,sdhi-r8a77990  # R-Car E3
++              - renesas,sdhi-r8a77995  # R-Car D3
++              - renesas,sdhi-r8a779a0  # R-Car V3U
++              - renesas,sdhi-r9a07g044 # RZ/G2{L,LC}
+           - const: renesas,rcar-gen3-sdhi # R-Car Gen3 or RZ/G2
  
- 	/* default values if FUSEs are missing */
- 	/* TODO: Read values from hardware on supported platforms */
-@@ -467,7 +468,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 		if (ret < 0)
- 			goto error_unregister;
+   reg:
+@@ -71,13 +69,11 @@ properties:
  
--		dev_info(dev, "TSC%d: Loaded %d trip points\n", i, ret);
-+		dev_info(dev, "TSC%u: Loaded %d trip points\n", i, ret);
- 	}
+   clocks:
+     minItems: 1
+-    maxItems: 2
++    maxItems: 4
  
- 	priv->num_tscs = i;
+   clock-names:
+     minItems: 1
+-    items:
+-      - const: core
+-      - const: cd
++    maxItems: 4
+ 
+   dmas:
+     minItems: 4
+@@ -112,6 +108,50 @@ properties:
+ 
+   max-frequency: true
+ 
++allOf:
++  - $ref: "mmc-controller.yaml"
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,sdhi-r7s72100
++              - renesas,sdhi-r7s9210
++    then:
++      properties:
++        clocks:
++          maxItems: 2
++        clock-names:
++          items:
++            - const: core
++            - const: cd
++      required:
++        - clock-names
++      description:
++        The internal card detection logic that exists in these controllers is
++        sectioned off to be run by a separate second clock source to allow
++        the main core clock to be turned off to save power.
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,sdhi-r9a07g044
++    then:
++      properties:
++        clocks:
++          items:
++            - description: IMCLK, SDHI channel main clock1.
++            - description: IMCLK2, SDHI channel main clock2. When this clock is
++                           turned off, external SD card detection cannot be
++                           detected.
++            - description: CLK_HS, SDHI channel High speed clock which operates
++                           4 times that of SDHI channel main clock1.
++            - description: ACLK, SDHI channel bus clock.
++      required:
++        - resets
++
+ required:
+   - compatible
+   - reg
+@@ -119,21 +159,6 @@ required:
+   - clocks
+   - power-domains
+ 
+-if:
+-  properties:
+-    compatible:
+-      contains:
+-        enum:
+-          - renesas,sdhi-r7s72100
+-          - renesas,sdhi-r7s9210
+-then:
+-  required:
+-    - clock-names
+-  description:
+-    The internal card detection logic that exists in these controllers is
+-    sectioned off to be run by a separate second clock source to allow
+-    the main core clock to be turned off to save power.
+-
+ unevaluatedProperties: false
+ 
+ examples:
 -- 
-2.32.0
+2.17.1
 
