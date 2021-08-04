@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DA2B3E0972
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Aug 2021 22:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 208E63E099D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Aug 2021 22:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231535AbhHDUg4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Aug 2021 16:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54656 "EHLO
+        id S230495AbhHDUvA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Aug 2021 16:51:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231500AbhHDUgy (ORCPT
+        with ESMTP id S230218AbhHDUu7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Aug 2021 16:36:54 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FBABC0613D5;
-        Wed,  4 Aug 2021 13:36:40 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id p38so6742030lfa.0;
-        Wed, 04 Aug 2021 13:36:40 -0700 (PDT)
+        Wed, 4 Aug 2021 16:50:59 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58380C0613D5;
+        Wed,  4 Aug 2021 13:50:45 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id g13so6647379lfj.12;
+        Wed, 04 Aug 2021 13:50:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UdsxhqBSvgn9ELEUBWeyZpNWHMcvPR82inog+v7kzG0=;
-        b=DDqeeuCg8DfaLKaM/a614M5ETLwzPIOuZeLZcC46OoWDgGAqUVmjG3eISFxCpI796X
-         /anuBiGIrilAHFeVvwMiLJ/TYhJtE3EWMX58BkzGDYcsBKZCn8UfX0LkiXWb1ZrfiyIE
-         3Qcy7oep4m9crB/xoE/XNHihmdJsOkwRbKygFI3J7JZg5q6+PshSECpIsxOHfi0rwWtG
-         La1AwsbF7+a4HZCm8GflPXWT/jBkMeGw2p7wGF/MOUcX/wfnm+1zT5AAYub8nykojWqs
-         egwKIkAQE+tOAutc0ucrDC7jjI6mhm3+h0gX9GbJxntLaFmlWDvozM3xCF7r/TAefVq8
-         70fg==
+        bh=KuX2nZN6oxnkjT2+Ul+G9XcJgN0y9zUMTpdYgLkps1M=;
+        b=aLLT2WMnJaB4DDV9rb0esrzta5Rq13NILvpwdHxvjGhlE+kLPbtxtQu2VsJd/jUuYv
+         kZfiXsRJjhdj4Jv53r2XMsYFy90mMKmktwPPEw2rmC0d24QH2ma1IQs8upvbmqmpDf/m
+         pCn6yGFOJfnnzYbP/jDW/SEUJE3YMjjF8SWP8fPSv2XhlxmlMa2Rc8uPG6ah9l8/0Ib/
+         LYpUarKcDdb2ixFZ8qDens2Wsa8/HTE/xnmPynLhZ3M+q17MhUr1I+6KJe6UKfYKhYPF
+         n7Ys5wft1Drm+McE+wT9erDJy90CdCYnNBZWQZpWRtp85egrvOzt3KdT9WapACdhOGOT
+         NClg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=UdsxhqBSvgn9ELEUBWeyZpNWHMcvPR82inog+v7kzG0=;
-        b=cFQI8VxYvw8g6ruQEvYjNTQNssnEJh2iQlcgLfYdoeT2kzAppFIo9KZ1ZtDm/W3xWf
-         BPWNuRqMBS9fbwEF36OSJFQltyCnuJYeN5SW38u/ltW6r0i70CJkc49dHu8uuUeCeBFK
-         2YYkQGUJXWQGoL2TXqpOxKENhDG7T3qELa9AfovjTfzaE5iazQSWr4yUm2Q27VXVMzF7
-         wGqlLB6VljVDgLUY9CVfRNPmAZqoG2umKGQwfcp0ylMutmijjkl/Dsex/xespOVCpiUX
-         y2qxgO+TY+BV8DoJNsYETluscy2wKGZ2ss4hfKT/CAmWhtZnykBg93WjCs/Lp+xIcaCt
-         25kQ==
-X-Gm-Message-State: AOAM531NT9eCxeasTYNVhpBUzqNdCnT7OxqvIV1UtQKvZzsly6ogBJHm
-        haihk21d7SQ4oG8PtO4cCgE=
-X-Google-Smtp-Source: ABdhPJywYMrg8Y/Ed5Azsbss22yK7NL+/WDqXGrOCQaYoXb+KPZ3ab17BKwNCM/AiwsD8vpDOTxmPQ==
-X-Received: by 2002:a19:4803:: with SMTP id v3mr747509lfa.83.1628109398869;
-        Wed, 04 Aug 2021 13:36:38 -0700 (PDT)
+        bh=KuX2nZN6oxnkjT2+Ul+G9XcJgN0y9zUMTpdYgLkps1M=;
+        b=Rg2RUrNVOu3/z7GM+HA3ew7K6dUYtEpVIAYlTWqFj1/FM8bS74R9kgiUWStzHjqEji
+         J8K+lF3e/joVjzI9QaDBMjhWyVwxaz4JNmY1sgnNTAnXEdbNpRGSoOGFP94VLB57LBTc
+         SupLgvsf6Z4y3ftrp2u44SSI2WoNPFnjKFEYS78czQrkvIjaY8ECQmb4xZkcaZPWDG3T
+         3V8+A7jxXwaK6RW8BNa3hsetifDakNKN/YD4hcEsFEggsXdH3f8khfc+O5NyGKSaj+ZS
+         PbaSB8fB6VUKrA5NOIXSSUGUQexETsZCL3EExcOymaBhMmA4MV/Z1ErRRluNW98+B432
+         qjHw==
+X-Gm-Message-State: AOAM5332fRonko0h7sLfscDxIXCn5L0F1X7Pjtx6GBmGqdgSv849NYnB
+        eoz0ZXoPo7Oy7/1kj3zQ2ys=
+X-Google-Smtp-Source: ABdhPJzazXFRKR4ajGz5yML6j2znPd12Aw229fJqxkzLbr8fkB0qzCN8FJTWx09o8pfA6beF3QR9QQ==
+X-Received: by 2002:a19:d609:: with SMTP id n9mr808225lfg.198.1628110243660;
+        Wed, 04 Aug 2021 13:50:43 -0700 (PDT)
 Received: from [192.168.1.102] ([178.176.77.221])
-        by smtp.gmail.com with ESMTPSA id o10sm295154lfg.109.2021.08.04.13.36.37
+        by smtp.gmail.com with ESMTPSA id z25sm295465lfh.283.2021.08.04.13.50.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Aug 2021 13:36:38 -0700 (PDT)
-Subject: Re: [PATCH net-next v2 5/8] ravb: Add gstrings_stats and
- gstrings_size to struct ravb_hw_info
+        Wed, 04 Aug 2021 13:50:43 -0700 (PDT)
+Subject: Re: [PATCH net-next v2 8/8] ravb: Add tx_drop_cntrs to struct
+ ravb_hw_info
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
@@ -64,14 +64,14 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210802102654.5996-1-biju.das.jz@bp.renesas.com>
- <20210802102654.5996-6-biju.das.jz@bp.renesas.com>
+ <20210802102654.5996-9-biju.das.jz@bp.renesas.com>
 From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <d324d7f1-425d-1a3d-3ad6-ee2213155ab9@gmail.com>
-Date:   Wed, 4 Aug 2021 23:36:36 +0300
+Message-ID: <24d63e2c-8f3b-9f75-a917-e7dc79085c84@gmail.com>
+Date:   Wed, 4 Aug 2021 23:50:41 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210802102654.5996-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210802102654.5996-9-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -81,20 +81,35 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 8/2/21 1:26 PM, Biju Das wrote:
 
-> The device stats strings for R-Car and RZ/G2L are different.
+> The register for retrieving TX drop counters is present only on R-Car Gen3
+> and RZ/G2L; it is not present on R-Car Gen2.
 > 
-> R-Car provides 30 device stats, whereas RZ/G2L provides only 15. In
-> addition, RZ/G2L has stats "rx_queue_0_csum_offload_errors" instead of
-> "rx_queue_0_missed_errors".
-> 
-> Add structure variables gstrings_stats and gstrings_size to struct
-> ravb_hw_info, so that subsequent SoCs can be added without any code
-> changes in the ravb_get_strings function.
+> Add the tx_drop_cntrs hw feature bit to struct ravb_hw_info, to enable this
+> feature specifically for R-Car Gen3 now and later extend it to RZ/G2L.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2:
+>  * Incorporated Andrew and Sergei's review comments for making it smaller patch
+>    and provided detailed description.
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      | 1 +
+>  drivers/net/ethernet/renesas/ravb_main.c | 4 +++-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index 0d640dbe1eed..35fbb9f60ba8 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -1001,6 +1001,7 @@ struct ravb_hw_info {
+>  
+>  	/* hardware features */
+>  	unsigned internal_delay:1;	/* RAVB has internal delays */
+> +	unsigned tx_drop_cntrs:1;	/* RAVB has TX error counters */
 
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+   I suggest 'tx_counters' -- this name comes from the sh_eth driver for the same regs
+(but negated meaning). And please don't call the hardware RAVB. :-)
 
 [...]
 
