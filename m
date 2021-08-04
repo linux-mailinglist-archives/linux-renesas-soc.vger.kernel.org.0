@@ -2,157 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 921DD3E0734
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Aug 2021 20:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7B253E08C4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Aug 2021 21:27:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239977AbhHDSI2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Aug 2021 14:08:28 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:35947 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S238289AbhHDSI2 (ORCPT
+        id S240722AbhHDT1n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Aug 2021 15:27:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39210 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240646AbhHDT1i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Aug 2021 14:08:28 -0400
-X-IronPort-AV: E=Sophos;i="5.84,295,1620658800"; 
-   d="scan'208";a="89837956"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Aug 2021 03:08:15 +0900
-Received: from localhost.localdomain (unknown [10.226.92.21])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E563740BF1F2;
-        Thu,  5 Aug 2021 03:08:12 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Wed, 4 Aug 2021 15:27:38 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A2DFC0613D5;
+        Wed,  4 Aug 2021 12:27:25 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id c24so3016210lfi.11;
+        Wed, 04 Aug 2021 12:27:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=aeX5Yd6JwKqCiwbiQzVvkp2YwIg8QqGHW1ckwfMGU2g=;
+        b=ctld4TB9cbbC81xEonJWa+JT9683i6OjdFAxcdrSWNGlYbbrX+KT1WjdSQfi2G5LRE
+         Ir6moEMgGnxr7NkBAD5IakXFDyLEh4BaupMmPXF8PdTa1GdZctiksynU+egnGdnakeyv
+         jBjF4xAxVryUeU5cW3urruTp1TRof0PkeKqFzMt2VN7/XvTx2qwYDnKC/SUz1DwgP67t
+         xca2uz3+CXcwO2XTUlVHq+MPlLhZjPnq2ZF+VtlKWZj2OMn4m5J7bmv+1j0Ht4gY9nu+
+         yYBipJz46t/8Ajb6QvXh9ekLuY9aoSBC4IjjHuxxs3pa3JyVgZq3dD5S775d5hbEv3fa
+         GRag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=aeX5Yd6JwKqCiwbiQzVvkp2YwIg8QqGHW1ckwfMGU2g=;
+        b=G78oJhdDun9jr1yZQnrYrf0zOVF1PDpl44xbWdF+c/HdLSRC2X/36wubzhEV7Ml5KV
+         M8CNeOk8X/DR2PZtrBqQw+PPHfA6qubDjzOpHQOf4zQETsd8iAk24tHNg9OSPxvoYfho
+         Ac7VDLtJzQK1PiUlnsjZm/5jkGcIUv0XaLptxqmbvlNHfFCFA35zS3ujr+X44ZSmMDxT
+         UGvc07B82ybBQhpYvVwGy2oKEjDYuyoFT9cwD3BL9Qi2pTA4j1chC/EnbUrt419necCm
+         WW/H5Y1aVw7/hg2DyUmf+01qBysde1Ae41U5XqeaY0d0KqgGrFa2WkYOYAExHiOnmYoI
+         gteg==
+X-Gm-Message-State: AOAM53027ZBVKnprHuNh34Y8eGtlUWq1sv8RguTjnBRQeLUCDPtLtnYR
+        YMfaS534pFRccFKesMdMXhQ=
+X-Google-Smtp-Source: ABdhPJxc3SIa6dMQArNUj+ObQa0N7WU5zKF+oVCp1HCuFI8NrgeRQ9pNRi5fICP6vRpM8c5MB8y4Zw==
+X-Received: by 2002:ac2:5938:: with SMTP id v24mr567382lfi.587.1628105243741;
+        Wed, 04 Aug 2021 12:27:23 -0700 (PDT)
+Received: from [192.168.1.102] ([178.176.77.221])
+        by smtp.gmail.com with ESMTPSA id j16sm14478ljc.71.2021.08.04.12.27.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Aug 2021 12:27:23 -0700 (PDT)
+Subject: Re: [PATCH net-next v2 1/8] ravb: Add struct ravb_hw_info to driver
+ data
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH  2/2] drivers: clk: renesas: r9a07g044-cpg: Add SDHI clock and reset entries
-Date:   Wed,  4 Aug 2021 19:08:03 +0100
-Message-Id: <20210804180803.29087-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210804180803.29087-1-biju.das.jz@bp.renesas.com>
-References: <20210804180803.29087-1-biju.das.jz@bp.renesas.com>
+References: <20210802102654.5996-1-biju.das.jz@bp.renesas.com>
+ <20210802102654.5996-2-biju.das.jz@bp.renesas.com>
+ <e740c0ee-dcf0-caf5-e80e-9588605a30b3@gmail.com>
+ <OS0PR01MB592289FDA9AA20E5B033451E86F09@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <5a53ce65-5d6c-f7f2-861e-314869d2477d@gmail.com>
+Date:   Wed, 4 Aug 2021 22:27:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <OS0PR01MB592289FDA9AA20E5B033451E86F09@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add SDHI{0,1} mux, clock and reset entries to CPG driver.
+On 8/3/21 8:57 AM, Biju Das wrote:
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clk/renesas/r9a07g044-cpg.c | 37 +++++++++++++++++++++++++++++
- drivers/clk/renesas/rzg2l-cpg.h     |  4 ++++
- 2 files changed, 41 insertions(+)
+>> Subject: Re: [PATCH net-next v2 1/8] ravb: Add struct ravb_hw_info to
+>> driver data
+>>
+>> On 8/2/21 1:26 PM, Biju Das wrote:
+>>
+>>> The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L SoC
+>>> are similar to the R-Car Ethernet AVB IP. With a few changes in the
+>>> driver we can support both IPs.
+>>>
+>>> Currently a runtime decision based on the chip type is used to
+>>> distinguish the HW differences between the SoC families.
+>>>
+>>> The number of TX descriptors for R-Car Gen3 is 1 whereas on R-Car Gen2
+>>> and RZ/G2L it is 2. For cases like this it is better to select the
+>>> number of TX descriptors by using a structure with a value, rather
+>>> than a runtime decision based on the chip type.
+>>>
+>>> This patch adds the num_tx_desc variable to struct ravb_hw_info and
+>>> also replaces the driver data chip type with struct ravb_hw_info by
+>>> moving chip type to it.
+>>>
+>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> ---
+>>> v2:
+>>>  * Incorporated Andrew and Sergei's review comments for making it
+>> smaller patch
+>>>    and provided detailed description.
+>>> ---
+>>>  drivers/net/ethernet/renesas/ravb.h      |  7 +++++
+>>>  drivers/net/ethernet/renesas/ravb_main.c | 38
+>>> +++++++++++++++---------
+>>>  2 files changed, 31 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/drivers/net/ethernet/renesas/ravb.h
+>>> b/drivers/net/ethernet/renesas/ravb.h
+>>> index 80e62ca2e3d3..cfb972c05b34 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb.h
+>>> +++ b/drivers/net/ethernet/renesas/ravb.h
+>>> @@ -988,6 +988,11 @@ enum ravb_chip_id {
+>>>  	RCAR_GEN3,
+>>>  };
+>>>
+>>> +struct ravb_hw_info {
+>>> +	enum ravb_chip_id chip_id;
+>>> +	int num_tx_desc;
 
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index 1745e363e5a6..f893db47434a 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -41,6 +41,12 @@ enum clk_ids {
- 	CLK_PLL6_2,
- 	CLK_PLL6_2_DIV2,
- 	CLK_P1_DIV2,
-+	CLK_800FIX_C,
-+	CLK_533FIX_C,
-+	CLK_DIV_PLL2_DIV8,
-+	CLK_DIV_PLL2_DIV12,
-+	CLK_SD0_DIV4,
-+	CLK_SD1_DIV4,
- 
- 	/* Module Clocks */
- 	MOD_CLK_BASE,
-@@ -58,6 +64,8 @@ static const struct clk_div_table dtable_1_32[] = {
- 
- /* Mux clock tables */
- static const char * const sel_pll6_2[]	= { ".pll6_2_div2", ".pll5_2_div12" };
-+static const char * const sel_shdi[] = { ".clk533fix_c", ".div_pll2_div8",
-+					 ".div_pll2_div12" };
- 
- static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 	/* External Clock Inputs */
-@@ -77,6 +85,11 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 	DEF_FIXED(".pll6_2", CLK_PLL6_2, CLK_PLL6, 1, 1),
- 
- 	DEF_FIXED(".pll2_div2", CLK_PLL2_DIV2, CLK_PLL2, 1, 2),
-+	DEF_FIXED(".clk800fix_c", CLK_800FIX_C, CLK_PLL2, 1, 2),
-+	DEF_FIXED(".clk533fix_c", CLK_533FIX_C, CLK_PLL2, 2, 6),
-+	DEF_FIXED(".div_pll2_div8", CLK_DIV_PLL2_DIV8, CLK_800FIX_C, 1, 2),
-+	DEF_FIXED(".div_pll2_div12", CLK_DIV_PLL2_DIV12, CLK_533FIX_C, 1, 2),
-+
- 	DEF_FIXED(".pll2_div16", CLK_PLL2_DIV16, CLK_PLL2, 1, 16),
- 	DEF_FIXED(".pll2_div20", CLK_PLL2_DIV20, CLK_PLL2, 1, 20),
- 
-@@ -103,6 +116,12 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 	DEF_FIXED("ZT", R9A07G044_CLK_ZT, CLK_PLL3_DIV2_4_2, 1, 1),
- 	DEF_MUX("HP", R9A07G044_CLK_HP, SEL_PLL6_2,
- 		sel_pll6_2, ARRAY_SIZE(sel_pll6_2), 0, CLK_MUX_HIWORD_MASK),
-+	DEF_SD_MUX("SD0", R9A07G044_CLK_SD0, SEL_SDHI0,
-+		   sel_shdi, ARRAY_SIZE(sel_shdi), 0, 0),
-+	DEF_SD_MUX("SD1", R9A07G044_CLK_SD1, SEL_SDHI1,
-+		   sel_shdi, ARRAY_SIZE(sel_shdi), 0, 0),
-+	DEF_FIXED("SD0_DIV4", CLK_SD0_DIV4, R9A07G044_CLK_SD0, 1, 4),
-+	DEF_FIXED("SD1_DIV4", CLK_SD1_DIV4, R9A07G044_CLK_SD1, 1, 4),
- };
- 
- static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
-@@ -116,6 +135,22 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
- 				0x52c, 0),
- 	DEF_MOD("dmac_pclk",	R9A07G044_DMAC_PCLK, CLK_P1_DIV2,
- 				0x52c, 1),
-+	DEF_MOD("sdhi0_imclk",	R9A07G044_SDHI0_IMCLK, CLK_SD0_DIV4,
-+				0x554, 0),
-+	DEF_MOD("sdhi0_imclk2",	R9A07G044_SDHI0_IMCLK2, CLK_SD0_DIV4,
-+				0x554, 1),
-+	DEF_MOD("sdhi0_clk_hs",	R9A07G044_SDHI0_CLK_HS, R9A07G044_CLK_SD0,
-+				0x554, 2),
-+	DEF_MOD("sdhi0_aclk",	R9A07G044_SDHI0_ACLK, R9A07G044_CLK_P1,
-+				0x554, 3),
-+	DEF_MOD("sdhi1_imclk",	R9A07G044_SDHI1_IMCLK, CLK_SD1_DIV4,
-+				0x554, 4),
-+	DEF_MOD("sdhi1_imclk2",	R9A07G044_SDHI1_IMCLK2, CLK_SD1_DIV4,
-+				0x554, 5),
-+	DEF_MOD("sdhi1_clk_hs",	R9A07G044_SDHI1_CLK_HS, R9A07G044_CLK_SD1,
-+				0x554, 6),
-+	DEF_MOD("sdhi1_aclk",	R9A07G044_SDHI1_ACLK, R9A07G044_CLK_P1,
-+				0x554, 7),
- 	DEF_MOD("ssi0_pclk",	R9A07G044_SSI0_PCLK2, R9A07G044_CLK_P0,
- 				0x570, 0),
- 	DEF_MOD("ssi0_sfr",	R9A07G044_SSI0_PCLK_SFR, R9A07G044_CLK_P0,
-@@ -184,6 +219,8 @@ static struct rzg2l_reset r9a07g044_resets[] = {
- 	DEF_RST(R9A07G044_IA55_RESETN, 0x818, 0),
- 	DEF_RST(R9A07G044_DMAC_ARESETN, 0x82c, 0),
- 	DEF_RST(R9A07G044_DMAC_RST_ASYNC, 0x82c, 1),
-+	DEF_RST(R9A07G044_SDHI0_IXRST, 0x854, 0),
-+	DEF_RST(R9A07G044_SDHI1_IXRST, 0x854, 1),
- 	DEF_RST(R9A07G044_SSI0_RST_M2_REG, 0x870, 0),
- 	DEF_RST(R9A07G044_SSI1_RST_M2_REG, 0x870, 1),
- 	DEF_RST(R9A07G044_SSI2_RST_M2_REG, 0x870, 2),
-diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
-index 7411e3f365c3..680974fc37bf 100644
---- a/drivers/clk/renesas/rzg2l-cpg.h
-+++ b/drivers/clk/renesas/rzg2l-cpg.h
-@@ -11,6 +11,7 @@
- 
- #define CPG_PL2_DDIV		(0x204)
- #define CPG_PL3A_DDIV		(0x208)
-+#define CPG_PL2SDHI_DSEL	(0x218)
- #define CPG_PL6_ETH_SSEL	(0x418)
- 
- /* n = 0/1/2 for PLL1/4/6 */
-@@ -30,6 +31,9 @@
- 
- #define SEL_PLL6_2	SEL_PLL_PACK(CPG_PL6_ETH_SSEL, 0, 1)
- 
-+#define SEL_SDHI0	DDIV_PACK(CPG_PL2SDHI_DSEL, 0, 2)
-+#define SEL_SDHI1	DDIV_PACK(CPG_PL2SDHI_DSEL, 4, 2)
-+
- /**
-  * Definitions of CPG Core Clocks
-  *
--- 
-2.17.1
+   How about leaving that field in the *struct* ravb_private? And adding the following instead:
 
+	unsigned unaligned_tx: 1;
+
+>>    I think this is rather the driver's choice, than the h/w feature...
+>> Perhaps a rename would help with that? :-)
+> 
+> It is consistent with current naming convention used by the driver. NUM_TX_DESC macro is replaced by num_tx_desc and  the below run time decision based on chip type for H/W configuration for Gen2/Gen3 is replaced by info->num_tx_desc.
+> 
+> priv->num_tx_desc = chip_id == RCAR_GEN2 ? NUM_TX_DESC_GEN2 : NUM_TX_DESC_GEN3;
+
+   .. and then:
+
+	priv->num_tx_desc =  info->unaligned_tx ? NUM_TX_DESC_GEN2 : NUM_TX_DESC_GEN3;
+
+> Please let me know, if I am missing anything,
+> 
+> Previously there is a suggestion to change the generic struct ravb_driver_data (which holds driver differences and HW features) with struct ravb_hw_info.
+
+    Well, my plan was to place all the hardware features supported into the *struct* ravb_hw_info and leave all
+the driver's software data in the *struct* ravb_private.
+
+> Regards,
+> Biju
+[...]
+
+MBR, Sergei
