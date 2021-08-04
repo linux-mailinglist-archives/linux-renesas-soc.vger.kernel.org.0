@@ -2,163 +2,495 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEB143E007F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Aug 2021 13:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13B503E009F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Aug 2021 13:57:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237885AbhHDLuE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Aug 2021 07:50:04 -0400
-Received: from mail-eopbgr1400109.outbound.protection.outlook.com ([40.107.140.109]:10880
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237888AbhHDLt6 (ORCPT
+        id S233570AbhHDL5y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Aug 2021 07:57:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52658 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229934AbhHDL5y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Aug 2021 07:49:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K7rf6fAxW79A6RheBMAG7YhVl94/Osm5oRoWvyfneYaORzlpRtgeN+lh7cWo7NNYY8nX4godpyiOrpunRT1/Cwqk/XiqIqgFGOlXlAJDzj56Ux+z3NJ5p5r+cLK9OjCBu3Gyb5qIzL6vjbiZ+oZxmBm4VXpp88M/CqIP5g69rQE4vz+6T4jNupm1PUHD6KmhMxVKJJGbB7dAGj1YfRqJ2qzW4Sr8T9JuoIH4L9yU3qIDcttdTYVorT4tEyxdcVySoJRB2UFZb66qxO9NEhj+lVdgdsrzMIPo1JQplvRdSBUf+iFcyPFB6Dnc2njFpCySnAshsrIKAV2UshLf/p21HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9xu7UqbAt11c9I3SeXnP0Jt7xuspXIkciBRYhZaN8E0=;
- b=CSmP+ao0YUVkl1meAPNfRhbF4ZUoj/gFZpcwO4btbB4M3KUxk1xMkcNG4xM3Y8JYXDWvBtE2NLbKFcGQ+SZ7Tkp/nDgVCkavtxW1D2uXSvQBXwkr3q/7Bts/oo9jyeWqqLjUSPv3DQHFq9M7TbduhVslhZtsxtyU9K4ugF/c+9BBRFe++GXveRKEcDrGp1fT+0TptUITBLdqt/4OLGiueK0NRadoewr0LGe8krgbTBYriRV5HYhC+HFZ8bQE7Qdf+Ty4oCB/xg1SXGhNUltGYuKI7bAS/vi97yuuYcj92nX/VvniDv9LoskcMCrJ09T0rdRz4L58be3cDPi7/rT/mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9xu7UqbAt11c9I3SeXnP0Jt7xuspXIkciBRYhZaN8E0=;
- b=pzyvN3FC+7cLOsfsQczvHrab0/wqnCwRXmlJ84gU073wB8+c5qnj9+ZZEawxrFxtUT14wZ0y0h2U8upvQYaSxvL78/9X7Qofm/t93lNDoUYwm91lKlMhtm/MWaveP5ZdE9asMxIWLVDXs7frnx5uIEPrsccvhPfQ3fyIQtDnsEQ=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYAPR01MB3439.jpnprd01.prod.outlook.com (2603:1096:404:c5::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.21; Wed, 4 Aug
- 2021 11:49:44 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::7db6:310f:a5ed:82f6]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::7db6:310f:a5ed:82f6%3]) with mapi id 15.20.4373.027; Wed, 4 Aug 2021
- 11:49:44 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH/RFC] clk: renesas: r8a779a0: Add Z0 and Z1 clock support
-Thread-Topic: [PATCH/RFC] clk: renesas: r8a779a0: Add Z0 and Z1 clock support
-Thread-Index: AQHXbyjFO3jL6fcub0yTvVCsJ4sPU6tjapgQ
-Date:   Wed, 4 Aug 2021 11:49:44 +0000
-Message-ID: <TY2PR01MB369226AD09A144F60F9D3E11D8F19@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <2112e3bc870580c623bdecfeff8c74739699c610.1625219713.git.geert+renesas@glider.be>
-In-Reply-To: <2112e3bc870580c623bdecfeff8c74739699c610.1625219713.git.geert+renesas@glider.be>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: glider.be; dkim=none (message not signed)
- header.d=none;glider.be; dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c1a466f2-30b6-449a-ca94-08d9573df3f7
-x-ms-traffictypediagnostic: TYAPR01MB3439:
-x-microsoft-antispam-prvs: <TYAPR01MB34393E1DE9924384D468B787D8F19@TYAPR01MB3439.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 90H6LWcc66qCgiYnZ6j+tyDnl+yOcDasWFED7tLGn8nj3oLKAcFB176894FdsTiBkZR7RmbhvUE6/KEk7RpbWl1tOmY4Im8Y4xAw4o409HReJaWuLF7izgpeWEL5hBOAexmRTPCFn4q67k1rASXv7G2zu0F8V/2Sa0A6AGoJEpDBUH5T1mTtt2WvCR9DmRp+5T5VOWvDYxtZdA5F/CoIN8nnDcd0VHyYj9r7+bbgQ94/JAsLty9M5DYgZMjCvnkEh6LWL157O/97BcEXGFEZ6f0sqwKySrQBFNMXG7yvWFKeuj0QAEcKReLOQkVLS2hqh0FKOpCvC07fTHWmn+CcLF90iqhCbw0b5JTkBdX2CWKMssm+VO31mABjR/TKVdg0LoFjV5940rp2whkOovhOUgyX7jITfxRj3noWPaK/ZTFrSgtG73yHApSR0Iv4g6bknBss4NoCbBO9Mm1yypmMuCADgD+yr3V10H1LAEvUJ8mWM4tPtgez60a0EkcL6Voc7MRTvM7tYGSh6RcopcboEl2KB773qSpSDWFmiCuNuqokBUfqEIA89K8873R5HLkoStVsl1gxhum8I+p+HwU0dfVgfoTF9DSxA+BAnuCWUrKnI3cjWC+F8BeyYJbooGInTFitGUnzv4BOywxPagAAGlAnZkmawszXKjI6X9FlNuFyzXw/D3vT1If34J69gYKV+9PMoNd4szSXILs9BQS6Bg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(39860400002)(396003)(136003)(376002)(186003)(122000001)(26005)(478600001)(4326008)(8936002)(38100700002)(38070700005)(86362001)(2906002)(5660300002)(8676002)(52536014)(64756008)(66946007)(66556008)(66446008)(316002)(66476007)(6506007)(83380400001)(76116006)(33656002)(55016002)(55236004)(9686003)(7696005)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?6zKkbEa9XqxNulEugO8fxHqFKP7pv+s0xOXXuRnl6wXRugTkupUZclZfUD1O?=
- =?us-ascii?Q?SSnabWCk5M71NENC4pZm2CtdUP32Q/uKCWj+cWXjZeouqYz1/5rzFmrwVCCI?=
- =?us-ascii?Q?SW9jJ7baDYbgaiVnI0K5F+8+lOfL0eO0JH2xJYzvywOo2mRNndLDT9vRpfDw?=
- =?us-ascii?Q?ESWvZnB4bNvzcmFnfNSUWwM+EYhqjIsgEwzjK3nZt4P2tj+4Xz+6Z6SpMLHs?=
- =?us-ascii?Q?8K+HH+DrWGYi3JVjMA6a0ARtl4JxMIjqwBRoM5HvDdgYyfcked84rss9sUdv?=
- =?us-ascii?Q?vxPBbjHkiHWqJvOMWkTRI9RTjgR7iJUu1yvU59lgYvPyEUfdz0b32PJlRaoE?=
- =?us-ascii?Q?S93PBTKXAb+TLHn0C3CtQLFveHm+qG9Kwg8APMVzNfZ4T0T+/4PTG86KN3oq?=
- =?us-ascii?Q?YdjUpN7sFYoMIN4+gsx7xCsDvbZTysmsfTUni8aX+xjZbw4Ab9vHWj0ahUN8?=
- =?us-ascii?Q?lqozN3trHhPT29bNwnm7lxediBwJ2JXrt4xktvfPsUvbJLKPYAs62VGO8Yf/?=
- =?us-ascii?Q?qimRrDCiGSHUUjqRpcLpHyhQ0yW6maDlMrxvJSYz2S4SDNVeXe0tPNmfDqos?=
- =?us-ascii?Q?dva0ewNAA/R090GF8J1a3LPCIhxntrv+lmH7Xmf5hU7v/bjZkPEaX6qMdc39?=
- =?us-ascii?Q?zboOoDUEtFI4pfTpcT2buTyfP292BEn20nX0hj6Lqhtg2ltd8Vp071F6tz82?=
- =?us-ascii?Q?9iOgDcUG0w7xr59r79qys06d1ULfuPK0X5jrtVAfpi4Au9JCmnIRKusQnJtl?=
- =?us-ascii?Q?Oaxy2JajZH1UKkwdfmW5s80TAk4NFA+x//98lEJbwlc7ajy/7+RDmkiO+veg?=
- =?us-ascii?Q?nsPNMHnMgxdUK/HgbnCttHcdzLhsxRkZFMezRiQTnxZUNtvm5Wjdsg7c/lcx?=
- =?us-ascii?Q?cxJ+58z61yxJ4RnPwrUQ2oAZayI3UECwZHVHlf1sZ9vKQDJYOWPFhsMYCfTq?=
- =?us-ascii?Q?Hq9POYnRNBRWNprY0Dohsn+ow4flfAjxz7UvLqMd0lE8uS+dKiiGyRBIplMP?=
- =?us-ascii?Q?fDoN2dTTCC24aDBRRPIflgu+2TZOLWuKyl9yYlMUF/uMBaJKqtJwfYSt1moY?=
- =?us-ascii?Q?BEX/i88MBaK2eAh+wBH1OgFU4rBe4OkrZK1TYbRRaenG2wDDZLj33EkCXXJB?=
- =?us-ascii?Q?4cDKvv7nJ3XO/F+qFyt4mW2B0mOUaVIHpjyiKNfVlCHyUzfV8WELz5pXZ2y2?=
- =?us-ascii?Q?ulWcxjqVCiM+sW9XRr5xE0LsKyBEJ9CnMW8tT3v/ps+rn3eeghQQhtbGghdw?=
- =?us-ascii?Q?jc4HqQyg1E3iXnPMX7Zy0FslrxYPsXIU7XC+9ATCTp1RpqKPOa54NFLvTf/c?=
- =?us-ascii?Q?+S9DnFz0qSjUh7cpHn0HvaYx?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1a466f2-30b6-449a-ca94-08d9573df3f7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2021 11:49:44.5841
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QwlEpSbhawC/C9MlwA8/VujEC79UMTa+usDlAHk0put0IBD3qJ/ukAU88kTT8bMQJNJUeJstSkyqocJ1DXo9l6r0+vbjKYZclpxqG2chvCpvhE4HjZHkJ9r/cHt38N1u
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3439
+        Wed, 4 Aug 2021 07:57:54 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6A8AA603E9;
+        Wed,  4 Aug 2021 11:57:41 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1mBFWl-002uZh-CV; Wed, 04 Aug 2021 12:57:39 +0100
+Date:   Wed, 04 Aug 2021 12:57:38 +0100
+Message-ID: <87pmutwhfx.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [RFC PATCH 2/4] irqchip: Add RZ/G2L IA55 Interrupt Controller driver
+In-Reply-To: <20210803175109.1729-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210803175109.1729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <20210803175109.1729-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: prabhakar.mahadev-lad.rj@bp.renesas.com, geert+renesas@glider.be, tglx@linutronix.de, robh+dt@kernel.org, linus.walleij@linaro.org, magnus.damm@gmail.com, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, prabhakar.csengg@gmail.com, biju.das.jz@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert-san,
-
-Thank you for the patch!
-
-> From: Geert Uytterhoeven, Sent: Friday, July 2, 2021 6:58 PM
->=20
-> Add support for the Z0 and Z1 (Cortex-A76 Sub-system 0 and 1) clocks,
-> based on the existing support for Z clocks on R-Car Gen3.
->=20
-> As the offsets of the CPG_FRQCRB and CPG_FRQCRC registers on R-Car V3U
-> differ from the offsets on other R-Car Gen3 SoCs, we cannot use the
-> existing R-Car Gen3 support as-is.  For now, just make a copy, and
-> change the register offsets.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Tue, 03 Aug 2021 18:51:07 +0100,
+Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> 
+> Add a driver for the Renesas RZ/G2L Interrupt Controller.
+> 
+> This supports external pins being used as interrupts. It supports
+> one line for NMI, 8 external pins and 32 GPIO pins (GPIOINT0-122)
+> to be used as IRQ lines.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> Tested on Falcon by changing
->=20
->     -#undef CLOCK_ALLOW_WRITE_DEBUGFS
->     +#define CLOCK_ALLOW_WRITE_DEBUGFS
->=20
-> in drivers/clk/clk.c, writing the desired clock rate to
-> /sys/kernel/debug/clk/z0/clk_rate, and timing shell loops.
-> The performance/clock rate looks fine over the full range from 56.25 MHz
-> to 1.8 GHz.
->=20
-> RFC as it is not clear from the R-Car V3U User's Manual Rev. 0.5 if the
-> CPG_FRQCRB.KICK bit applies to changes to CPG_FRQCRC or not:
->   - Section 8.2.12 ("Frequency Control Register B (FRQCRB)") says the
->     KICK bit activates the FRQCRB settings, but doesn't mention FRQCRC
->     like on R-Car Gen2 and Gen3,
+>  drivers/irqchip/Kconfig             |   8 +
+>  drivers/irqchip/Makefile            |   1 +
+>  drivers/irqchip/irq-renesas-rzg2l.c | 557 ++++++++++++++++++++++++++++
+>  drivers/soc/renesas/Kconfig         |   1 +
+>  4 files changed, 567 insertions(+)
+>  create mode 100644 drivers/irqchip/irq-renesas-rzg2l.c
+> 
+> diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+> index 62543a4eccc0..790c19ad6e39 100644
+> --- a/drivers/irqchip/Kconfig
+> +++ b/drivers/irqchip/Kconfig
+> @@ -236,6 +236,14 @@ config RENESAS_RZA1_IRQC
+>  	  Enable support for the Renesas RZ/A1 Interrupt Controller, to use up
+>  	  to 8 external interrupts with configurable sense select.
+>  
+> +config RENESAS_RZG2L_IRQC
+> +	bool "Renesas RZ/G2L IRQC support" if COMPILE_TEST
+> +	select GENERIC_IRQ_CHIP
+> +	select IRQ_DOMAIN_HIERARCHY
+> +	help
+> +	  Enable support for the Renesas RZ/G2L Interrupt Controller for external
+> +	  devices.
+> +
+>  config SL28CPLD_INTC
+>  	bool "Kontron sl28cpld IRQ controller"
+>  	depends on MFD_SL28CPLD=y || COMPILE_TEST
+> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+> index f88cbf36a9d2..8017786fbdac 100644
+> --- a/drivers/irqchip/Makefile
+> +++ b/drivers/irqchip/Makefile
+> @@ -51,6 +51,7 @@ obj-$(CONFIG_RDA_INTC)			+= irq-rda-intc.o
+>  obj-$(CONFIG_RENESAS_INTC_IRQPIN)	+= irq-renesas-intc-irqpin.o
+>  obj-$(CONFIG_RENESAS_IRQC)		+= irq-renesas-irqc.o
+>  obj-$(CONFIG_RENESAS_RZA1_IRQC)		+= irq-renesas-rza1.o
+> +obj-$(CONFIG_RENESAS_RZG2L_IRQC)	+= irq-renesas-rzg2l.o
+>  obj-$(CONFIG_VERSATILE_FPGA_IRQ)	+= irq-versatile-fpga.o
+>  obj-$(CONFIG_ARCH_NSPIRE)		+= irq-zevio.o
+>  obj-$(CONFIG_ARCH_VT8500)		+= irq-vt8500.o
+> diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
+> new file mode 100644
+> index 000000000000..abfaaa8a09af
+> --- /dev/null
+> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> @@ -0,0 +1,557 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/G2L IRQC Driver
+> + *
+> + * Copyright (C) 2020 Renesas Electronics Corporation.
+> + */
+> +
+> +#include <linux/init.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/ioport.h>
+> +#include <linux/io.h>
+> +#include <linux/irq.h>
+> +#include <linux/clk.h>
+> +#include <linux/irqdomain.h>
+> +#include <linux/err.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/slab.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#define RZG2L_IRQC_IRQ_MAX		41
+> +#define RZG2L_TINT_MAX_INTERRUPTS	32
+> +#define RZG2L_TINT_IRQ_START_INDEX	9
+> +
+> +#define TSCR		0x20
+> +#define TITSR0		0x24
+> +#define TITSR1		0x28
+> +#define TSSR(n)		(0x30 + ((n) * 4))
+> +#define IRQ_MASK	0x3
+> +
+> +#define RISING_EDGE	0
+> +#define FALLING_EDGE	1
+> +#define HIGH_LEVEL	2
+> +#define LOW_LEVEL	3
+> +
+> +#define RZG2L_TINT_EDGE_BOTH	BIT(4)
+> +
+> +#define RZG2L_MAX_PINS_PER_PORT		8
+> +#define RZG2L_PIN_ID_TO_PORT(id)	((id) / RZG2L_MAX_PINS_PER_PORT)
+> +#define RZG2L_PIN_ID_TO_PIN(id)		((id) % RZG2L_MAX_PINS_PER_PORT)
+> +
+> +struct irqc_irq {
+> +	int hw_irq;
+> +	int requested_irq;
+> +	struct irqc_priv *p;
+> +	struct rzg2l_pin_info *pin;
+> +};
+> +
+> +struct rzg2l_pin_info {
+> +	u32 port;
+> +	u8 bit;
+> +	u32 id;
 
-The latest internal manual is also not clear about this unfortunately...
+Given the way you initialise things below, are these types the right
+ones?
 
->   - Section 8.3 ("CPG Operation") says the KICK bit should be used when
->     changing Z0 or Z1.
+> +	u32 trigger_type;
+> +	unsigned int type;
+> +	u8 pin_state;
+> +};
+> +
+> +struct irqc_priv {
+> +	void __iomem *iomem;
+> +	struct irqc_irq irq[RZG2L_IRQC_IRQ_MAX];
+> +	DECLARE_BITMAP(tint_slot, RZG2L_TINT_MAX_INTERRUPTS);
+> +	unsigned int number_of_irqs;
+> +	struct device *dev;
+> +	struct irq_chip_generic *gc;
+> +	struct irq_chip chip;
+> +	struct irq_domain *irq_domain;
+> +	struct irq_domain *parent_domain;
+> +	unsigned int tint_irq_start;
+> +	atomic_t wakeup_path;
+> +	struct clk *clk;
+> +	struct clk *pclk;
+> +};
+> +
+> +static const struct rzg2l_pin_info gpio_pin_info[] = {
+> +	{ 0, 0, 0 }, { 0, 1, 1 },
+> +	{ 1, 0, 2 }, { 1, 1, 3 },
+> +	{ 2, 0, 4 }, { 2, 1, 5 },
+> +	{ 3, 0, 6 }, { 3, 1, 7 },
+> +	{ 4, 0, 8 }, { 4, 1, 9 },
+> +	{ 5, 0, 10 }, { 5, 1, 11 }, { 5, 2, 12 },
+> +	{ 6, 0, 13 }, { 6, 1, 14 },
+> +	{ 7, 0, 15 }, { 7, 1, 16 }, { 7, 2, 17 },
+> +	{ 8, 0, 18 }, { 8, 1, 19 }, { 8, 2, 20 },
+> +	{ 9, 0, 21 }, { 9, 1, 22 },
+> +	{ 10, 0, 23 }, { 10, 1, 24 },
+> +	{ 11, 0, 25 }, { 11, 1, 26 },
+> +	{ 12, 0, 27 }, { 12, 1, 28 },
+> +	{ 13, 0, 29 }, { 13, 1, 30 }, { 13, 2, 31 },
+> +	{ 14, 0, 32 }, { 14, 1, 33 },
+> +	{ 15, 0, 34 }, { 15, 1, 35 },
+> +	{ 16, 0, 36 }, { 16, 1, 37 },
+> +	{ 17, 0, 38 }, { 17, 1, 39 }, { 17, 2, 40 },
+> +	{ 18, 0, 41 }, { 18, 1, 42 },
+> +	{ 19, 0, 43 }, { 19, 1, 44 },
+> +	{ 20, 0, 45 }, { 20, 1, 46 }, { 20, 2, 47 },
+> +	{ 21, 0, 48 }, { 21, 1, 49 },
+> +	{ 22, 0, 50 }, { 22, 1, 51 },
+> +	{ 23, 0, 52 }, { 23, 1, 53 },
+> +	{ 24, 0, 54 }, { 24, 1, 55 },
+> +	{ 25, 0, 56 }, { 25, 1, 57 },
+> +	{ 26, 0, 58 }, { 26, 1, 59 },
+> +	{ 27, 0, 60 }, { 27, 1, 61 },
+> +	{ 28, 0, 62 }, { 28, 1, 63 },
+> +	{ 29, 0, 64 }, { 29, 1, 65 },
+> +	{ 30, 0, 66 }, { 30, 1, 67 },
+> +	{ 31, 0, 68 }, { 31, 1, 69 },
+> +	{ 32, 0, 70 }, { 32, 1, 71 },
+> +	{ 33, 0, 72 }, { 33, 1, 73 },
+> +	{ 34, 0, 74 }, { 34, 1, 75 },
+> +	{ 35, 0, 76 }, { 35, 1, 77 },
+> +	{ 36, 0, 78 }, { 36, 1, 79 },
+> +	{ 37, 0, 80 }, { 37, 1, 81 }, { 37, 2, 82 },
+> +	{ 38, 0, 83 }, { 38, 1, 84 },
+> +	{ 39, 0, 85 }, { 39, 1, 86 }, { 39, 2, 87 },
+> +	{ 40, 0, 88 }, { 40, 1, 89 }, { 40, 2, 90 },
+> +	{ 41, 0, 91 }, { 41, 1, 92 },
+> +	{ 42, 0, 93 }, { 42, 1, 94 }, { 42, 2, 95 }, { 42, 3, 96 }, { 42, 4, 97 },
+> +	{ 43, 0, 98 }, { 43, 1, 99 }, { 43, 2, 100 }, { 43, 3, 101 },
+> +	{ 44, 0, 102 }, { 44, 1, 103 }, { 44, 2, 104 }, { 44, 3, 105 },
+> +	{ 45, 0, 106 }, { 45, 1, 107 }, { 45, 2, 108 }, { 45, 3, 109 },
+> +	{ 46, 0, 110 }, { 46, 1, 111 }, { 46, 2, 112 }, { 46, 3, 113 },
+> +	{ 47, 0, 114 }, { 47, 1, 115 }, { 47, 2, 116 }, { 47, 3, 117 },
+> +	{ 48, 0, 118 }, { 48, 1, 119 }, { 48, 2, 120 }, { 48, 3, 121 }, { 48, 3, 122 },
+> +};
 
-I also understood it.
+Is there any reason why this information is not kept in DT instead?
+What does it describe exactly?
 
-> Setting the KICK bit seems to work, and it is cleared automatically
-> after 1 or 2 loops.
+> +
+> +static int rzg2l_gpio_irq_validate_id(u32 port, u32 bit)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(gpio_pin_info); i++) {
+> +		if (gpio_pin_info[i].port == port && gpio_pin_info[i].bit == bit)
+> +			return gpio_pin_info[i].id;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static struct irq_domain *rzg2l_get_pinctrl_domain(struct device *dev)
+> +{
+> +	struct device_node *pinctrl_np;
+> +	struct irq_domain *pinctrl_domain;
+> +
+> +	pinctrl_np = of_find_compatible_node(NULL, NULL, "renesas,r9a07g044-pinctrl");
+> +	if (!pinctrl_np)
+> +		return NULL;
+> +
+> +	pinctrl_domain = irq_find_host(pinctrl_np);
+> +	of_node_put(pinctrl_np);
+> +
+> +	return pinctrl_domain;
 
-It looks good to me.
+What if you have multiple instances of this pinctrl? The information
+should directly come from DT in the form of a phandle.
 
-> The handling of Z clocks on R-Car Gen2, Gen3, and V3-U should be
-> consolidated and moved to rcar-cpg-lib.c, so it can be shared by all
-> clock drivers.
+> +}
+> +
+> +static struct irqc_priv *irq_data_to_priv(struct irq_data *data)
+> +{
+> +	return data->domain->host_data;
+> +}
+> +
+> +static void rzg2l_tint_set_edge(struct irqc_priv *priv,
+> +				u32 bit, unsigned int irq_type)
+> +{
+> +	u32 port_bit = bit;
+> +	u32 reg;
+> +
+> +	if (port_bit <= 15) {
+> +		reg = readl(priv->iomem + TITSR0);
+> +		reg &= ~(IRQ_MASK << (port_bit * 2));
+> +		reg |= irq_type << (port_bit * 2);
+> +		writel(reg, priv->iomem + TITSR0);
+> +	} else {
+> +		reg = readl(priv->iomem + TITSR1);
+> +		port_bit = port_bit / 2;
+> +		reg &= ~(IRQ_MASK << (port_bit * 2));
+> +		reg |= irq_type << (port_bit * 2);
+> +		writel(reg, priv->iomem + TITSR1);
+> +	}
 
-I think so. But, anyway,
+This will result in corruption if two interrupts change their type at
+the same time. Also, please use relaxed accessors.
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> +}
+> +
+> +static int rzg2l_tint_set_type(struct irq_data *d, unsigned int type)
+> +{
+> +	struct rzg2l_pin_info *pin_info = d->chip_data;
+> +	struct irqc_priv *priv = irq_data_to_priv(d);
+> +	u8 irq_type;
+> +
+> +	pin_info->trigger_type = type & GENMASK(15, 0);
+> +	pin_info->pin_state = ((type & ~GENMASK(15, 0)) >> 15);
 
-Best regards,
-Yoshihiro Shimoda
+This shift is obviously wrong. Also, why are you tracking random
+information independently of the core?
 
+> +	pin_info->type = pin_info->trigger_type;
+
+More pointless tracking...
+
+> +
+> +	if (pin_info->trigger_type & BIT(0))
+> +		irq_type = RISING_EDGE;
+> +	else if (pin_info->trigger_type & BIT(1))
+> +		irq_type = FALLING_EDGE;
+> +	else if (pin_info->trigger_type & BIT(2))
+> +		irq_type = HIGH_LEVEL;
+> +	else if (pin_info->trigger_type & BIT(3))
+> +		irq_type = LOW_LEVEL;
+> +	else if (pin_info->trigger_type & BIT(4))
+> +		irq_type = pin_info->pin_state ? FALLING_EDGE : RISING_EDGE;
+> +	else
+> +		return -EINVAL;
+
+... considering that this can fail. And please use the macros that
+already exist rather than these BIT(x).
+
+> +
+> +	pin_info->trigger_type = irq_type;
+> +	rzg2l_tint_set_edge(priv, pin_info->bit, irq_type);
+> +
+> +	return 0;
+> +}
+> +
+> +static irqreturn_t rzg2l_irqc_tint_irq_handler(int irq, void *dev_id)
+> +{
+> +	struct irq_domain *pctl_irq_domain;
+> +	struct rzg2l_pin_info *pin_info;
+> +	struct irqc_irq *i = dev_id;
+> +	struct irqc_priv *priv = i->p;
+> +	struct irq_data *irq_data;
+> +	unsigned int offset;
+> +	u32 reg;
+> +
+> +	offset = irq - priv->irq[RZG2L_TINT_IRQ_START_INDEX].requested_irq;
+> +	pin_info = priv->irq[offset + RZG2L_TINT_IRQ_START_INDEX].pin;
+> +	if (!pin_info)
+> +		return IRQ_NONE;
+> +
+> +	irq_data = irq_domain_get_irq_data(priv->parent_domain, i->requested_irq);
+> +	if (!irq_data)
+> +		return IRQ_NONE;
+> +
+> +	pctl_irq_domain = rzg2l_get_pinctrl_domain(priv->dev);
+
+Are you really comfortable with parsing the device tree on each
+interrupt you get? This is madness. It also makes no sense to resolve
+an interrupt in a foreign irqdomain. Why don't you allocate yours?
+
+> +	if (!pctl_irq_domain)
+> +		return IRQ_NONE;
+> +
+> +	reg = readl(priv->iomem + TSCR);
+> +	reg &= ~BIT(offset);
+> +	writel(reg, priv->iomem + TSCR);
+> +
+> +	generic_handle_irq(irq_find_mapping(pctl_irq_domain,
+> +					    ((pin_info->port * 8) + pin_info->bit)));
+
+generic_handle_domain_irq() is your new friend.
+
+> +
+> +	if (pin_info->type & BIT(4)) {
+> +		pin_info->trigger_type = (pin_info->trigger_type == FALLING_EDGE) ?
+> +					RISING_EDGE : FALLING_EDGE;
+> +		rzg2l_tint_set_edge(priv, pin_info->bit, pin_info->trigger_type);
+> +	}
+
+This has hardly any chance of working reliably. Yes, plenty of drivers
+do that. They are all doomed to fail.
+
+> +
+> +	return IRQ_HANDLED;
+
+No way. This isn't a standard interrupt handler. This is a mux, with a
+number of inputs for each of the *49* outputs. Please implement this
+as a chained interrupt controller.
+
+> +}
+> +
+> +static void rzg2l_tint_irq_disable(struct irq_data *d)
+> +{
+> +	struct rzg2l_pin_info *pin_info = d->chip_data;
+> +	struct irqc_priv *priv = irq_data_to_priv(d);
+> +	u32 reg;
+> +
+> +	reg = readl(priv->iomem + TSSR(pin_info->id / 4));
+> +	reg &= ~(GENMASK(7, 0) << (pin_info->id % 4));
+> +	writel(reg, priv->iomem + TSSR(pin_info->id / 4));
+
+More buggy RMW, magic numbers all over the shop. Does this act as a
+disable (pending state is lost) or as a mask (pending state is
+preserved)?
+
+> +}
+> +
+> +static void rzg2l_tint_irq_enable(struct irq_data *d)
+> +{
+> +	struct rzg2l_pin_info *pin_info = d->chip_data;
+> +	struct irqc_priv *priv = irq_data_to_priv(d);
+> +	u32 gpioint;
+> +	u32 reg;
+> +
+> +	gpioint = rzg2l_gpio_irq_validate_id(pin_info->port, pin_info->bit);
+> +
+> +	reg = readl(priv->iomem + TSSR(pin_info->id / 4));
+> +	reg |= (BIT(7) | gpioint) << (8 * (pin_info->id % 4));
+> +	writel(reg, priv->iomem + TSSR(pin_info->id / 4));
+
+On top of the buggy RMW, what happens when
+rzg2l_gpio_irq_validate_id() returns -EINVAL?
+
+> +}
+> +
+> +static int rzg2l_irqc_domain_translate(struct irq_domain *domain,
+> +				       struct irq_fwspec *fwspec,
+> +				       unsigned long *hwirq,
+> +				       unsigned int *type)
+> +{
+> +	if (WARN_ON(fwspec->param_count < 2))
+> +		return -EINVAL;
+> +
+> +	*hwirq = fwspec->param[0];
+> +	*type = fwspec->param[1] & IRQ_TYPE_SENSE_MASK;
+> +
+> +	return 0;
+> +}
+
+This is irq_domain_translate_twocell().
+
+> +
+> +static int rzg2l_irqc_domain_alloc(struct irq_domain *domain,
+> +				   unsigned int virq, unsigned int nr_irqs,
+> +				   void *arg)
+> +{
+> +	struct irqc_priv *priv = domain->host_data;
+> +	struct irq_fwspec parent_fwspec;
+> +	struct rzg2l_pin_info *pin_info;
+> +	struct irq_data *irq_data;
+> +	irq_hw_number_t hwirq;
+> +	unsigned int type;
+> +	int gpioint;
+> +	u32 port;
+> +	int irq;
+> +	int ret;
+> +	u8 bit;
+> +
+> +	ret = rzg2l_irqc_domain_translate(domain, arg, &hwirq, &type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	port = RZG2L_PIN_ID_TO_PORT(hwirq);
+> +	bit = RZG2L_PIN_ID_TO_PIN(hwirq);
+> +
+> +	switch (type) {
+> +	case IRQ_TYPE_EDGE_RISING:
+> +	case IRQ_TYPE_LEVEL_HIGH:
+> +		break;
+> +	case IRQ_TYPE_EDGE_FALLING:
+> +		type = IRQ_TYPE_EDGE_RISING;
+> +		break;
+> +	case IRQ_TYPE_LEVEL_LOW:
+> +		type = IRQ_TYPE_LEVEL_HIGH;
+
+Really? How is that handled?
+
+I stopped reading at this stage. This needs to be redesigned from the
+ground up as an interrupt controller instead of an interrupt handler,
+have proper locking, data structures that are not redundant with that
+of the core code, and be written in a way that is self documenting.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
