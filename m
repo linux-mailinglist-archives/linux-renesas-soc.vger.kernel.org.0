@@ -2,146 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C02893E05A2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Aug 2021 18:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E76D3E05C1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Aug 2021 18:20:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234236AbhHDQNv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Aug 2021 12:13:51 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:61085 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231129AbhHDQNv (ORCPT
+        id S236333AbhHDQUk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Aug 2021 12:20:40 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.162]:17323 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234064AbhHDQUj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Aug 2021 12:13:51 -0400
-X-IronPort-AV: E=Sophos;i="5.84,294,1620658800"; 
-   d="scan'208";a="89812757"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Aug 2021 01:13:37 +0900
-Received: from localhost.localdomain (unknown [10.226.92.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 570F04010906;
-        Thu,  5 Aug 2021 01:13:35 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 2/2] dt-bindings: mmc: renesas,sdhi: Document RZ/G2L bindings
-Date:   Wed,  4 Aug 2021 17:13:25 +0100
-Message-Id: <20210804161325.26996-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210804161325.26996-1-biju.das.jz@bp.renesas.com>
-References: <20210804161325.26996-1-biju.das.jz@bp.renesas.com>
+        Wed, 4 Aug 2021 12:20:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1628093840;
+    s=strato-dkim-0002; d=fpond.eu;
+    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=g0GYnP3dGz4ruBQtKclIclh6QBiJA0JW+al2ag0oTZY=;
+    b=cuE7JVMb+idPOq9Oukoozu1JgSfdNdGBocyXXXHMq1kWHaGEocr3RiI/UFybAVKhuY
+    mKFTQc5AiR6r8dfSO9/HFVGC+0z/wykExt30AuEEHEvOnJUPM62o7XjpiiHGsJjKEEaV
+    YSEH45bRMqxygtWWI7VDjPCEVyN/94ncDfcFmxHMaa0fS1mMwHed5zD01DrPTHUJvg3m
+    D1tA5NrHE1XmekNn+TQ/aTKTi4uz1wSzXBDTkjPTEzOzQlAuPp1w98oA8+Z0tNBHtKDh
+    YFkBLoBb8qI4WBKzkO9JqUCT4xrQAC4cgrUw2bGvQtN9kb6Ff1D5ncAb+UMw4qBzZapG
+    0s4A==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCt/7B6PNk="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp04-01.back.ox.d0m.de
+    by smtp-ox.front (RZmta 47.31.0 AUTH)
+    with ESMTPSA id v006c2x74GHJ2G4
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+    Wed, 4 Aug 2021 18:17:19 +0200 (CEST)
+Date:   Wed, 4 Aug 2021 18:17:19 +0200 (CEST)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa@kernel.org>
+Cc:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
+Message-ID: <1091982155.203247.1628093839914@webmail.strato.com>
+In-Reply-To: <TY2PR01MB369279B6F76FD5C3044FCDDDD8F19@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <20210514155318.16812-1-uli+renesas@fpond.eu>
+ <YQQah2Q8qmQPEl7F@ninjato>
+ <TY2PR01MB3692486033934E1C007EBF6AD8EF9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <821963380.577567.1627903098435@webmail.strato.com>
+ <TY2PR01MB369245D958BD9EB77488CB43D8F09@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <TY2PR01MB369279B6F76FD5C3044FCDDDD8F19@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH] mmc: renesas_sdhi: increase suspend/resume latency
+ limit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.5-Rev17
+X-Originating-Client: open-xchange-appsuite
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document RZ/G2L SDHI controller bindings.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v2->v3:
- * This patch depends up on the previous patch in this series.
-v1->v2:
- * Fixed dtbs-check issue for RZ/A{1,2} platforms.
----
- .../devicetree/bindings/mmc/renesas,sdhi.yaml | 54 +++++++++++++------
- 1 file changed, 37 insertions(+), 17 deletions(-)
+> On 08/04/2021 7:29 AM Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Yoshihiro Shimoda, Sent: Tuesday, August 3, 2021 8:17 PM
+> > 
+> > So, I'll test this patch with my test environment tomorrow.
+> 
+> Unfortunately, this patch failed on mmc_test driver.
 
-diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-index 543eeb825dc3..e195ee5c0900 100644
---- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-+++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-@@ -44,19 +44,20 @@ properties:
-           - const: renesas,sdhi-mmc-r8a77470 # RZ/G1C (SDHI/MMC IP)
-       - items:
-           - enum:
--              - renesas,sdhi-r8a774a1 # RZ/G2M
--              - renesas,sdhi-r8a774b1 # RZ/G2N
--              - renesas,sdhi-r8a774c0 # RZ/G2E
--              - renesas,sdhi-r8a774e1 # RZ/G2H
--              - renesas,sdhi-r8a7795  # R-Car H3
--              - renesas,sdhi-r8a7796  # R-Car M3-W
--              - renesas,sdhi-r8a77961 # R-Car M3-W+
--              - renesas,sdhi-r8a77965 # R-Car M3-N
--              - renesas,sdhi-r8a77970 # R-Car V3M
--              - renesas,sdhi-r8a77980 # R-Car V3H
--              - renesas,sdhi-r8a77990 # R-Car E3
--              - renesas,sdhi-r8a77995 # R-Car D3
--              - renesas,sdhi-r8a779a0 # R-Car V3U
-+              - renesas,sdhi-r8a774a1  # RZ/G2M
-+              - renesas,sdhi-r8a774b1  # RZ/G2N
-+              - renesas,sdhi-r8a774c0  # RZ/G2E
-+              - renesas,sdhi-r8a774e1  # RZ/G2H
-+              - renesas,sdhi-r8a7795   # R-Car H3
-+              - renesas,sdhi-r8a7796   # R-Car M3-W
-+              - renesas,sdhi-r8a77961  # R-Car M3-W+
-+              - renesas,sdhi-r8a77965  # R-Car M3-N
-+              - renesas,sdhi-r8a77970  # R-Car V3M
-+              - renesas,sdhi-r8a77980  # R-Car V3H
-+              - renesas,sdhi-r8a77990  # R-Car E3
-+              - renesas,sdhi-r8a77995  # R-Car D3
-+              - renesas,sdhi-r8a779a0  # R-Car V3U
-+              - renesas,sdhi-r9a07g044 # RZ/G2{L,LC}
-           - const: renesas,rcar-gen3-sdhi # R-Car Gen3 or RZ/G2
- 
-   reg:
-@@ -68,13 +69,11 @@ properties:
- 
-   clocks:
-     minItems: 1
--    maxItems: 2
-+    maxItems: 4
- 
-   clock-names:
-     minItems: 1
--    items:
--      - const: core
--      - const: cd
-+    maxItems: 4
- 
-   dmas:
-     minItems: 4
-@@ -135,6 +134,8 @@ allOf:
-               - renesas,sdhi-r7s9210
-     then:
-       properties:
-+        clocks:
-+          maxItems: 2
-         clock-names:
-           items:
-             - const: core
-@@ -146,6 +147,25 @@ allOf:
-         sectioned off to be run by a separate second clock source to allow
-         the main core clock to be turned off to save power.
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,sdhi-r9a07g044
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: IMCLK, SDHI channel main clock1.
-+            - description: IMCLK2, SDHI channel main clock2. When this clock is
-+                           turned off, external SD card detection cannot be
-+                           detected.
-+            - description: CLK_HS, SDHI channel High speed clock which operates
-+                           4 times that of SDHI channel main clock1.
-+            - description: ACLK, SDHI channel bus clock.
-+      required:
-+        - resets
-+
- required:
-   - compatible
-   - reg
--- 
-2.17.1
+Confirmed on Salvator-XS M3-N. :/
 
+> I'm not sure, but perhaps we have a potential issue on runtime PM with SDHI driver?
+
+It sure feels like it.
+
+CU
+Uli
