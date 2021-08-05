@@ -2,85 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF4C83E0E62
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Aug 2021 08:30:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 265153E1216
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Aug 2021 12:08:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237318AbhHEGad (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Aug 2021 02:30:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44892 "EHLO
+        id S240237AbhHEKIQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Aug 2021 06:08:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237175AbhHEGa2 (ORCPT
+        with ESMTP id S240175AbhHEKIO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Aug 2021 02:30:28 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA3F9C0613C1;
-        Wed,  4 Aug 2021 23:30:14 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2356451D;
-        Thu,  5 Aug 2021 08:30:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1628145012;
-        bh=CRrZ8VyjuDTAN9FDBm5o5NHrzfW1DfDQmst2R7yK6BA=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=oAIxeZXY61Mkdnn86oK0d8j+ts2KLL1M1gF9ls1DbQACtONM6RGcdOCK35osM1qVi
-         zozqSC75mjoqrEiZdxqJnXNuiKIn3ErxdR/qwtsr5oFwYV3v2PLQCshho4wKe+R+eA
-         fmXKXE0sLdVpBVdG26FhHou7fCf9o+fYxuVrEV+Q=
-Subject: Re: [PATCH v2 5/9] drm/omap: Enable COMPILE_TEST on all architectures
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     Sascha Hauer <s.hauer@pengutronix.de>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>, linux-imx@nxp.com,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        linux-tegra@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
-        Alain VOLMAT-SCND-01 <alain.volmat@foss.st.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-References: <20210731013954.11926-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210731013954.11926-6-laurent.pinchart+renesas@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <ed900028-f1cd-56e8-f73f-5a17f932c0bf@ideasonboard.com>
-Date:   Thu, 5 Aug 2021 09:30:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Thu, 5 Aug 2021 06:08:14 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F903C061799
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Aug 2021 03:08:00 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id p145so8145077ybg.6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Aug 2021 03:08:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=IXiF0cE8iLdsKXBHXuqgd6kWlwigyuOCyyGf/zSHAKo=;
+        b=iC9Hd8rfBP+trSKgdMda2jzcGgXmFtWbTvp4hfKyWXIk0G2otk4we8M8SLufo6KBPT
+         ytwZbcPt8sjHhOxng1kQbCAMWZc0FHwswn/0NPOfQQSOeYUejwt01aKQNe+tNVvu/l1z
+         V9mbosXWnsK5x5G+SJwzotwEvFMSOqK60p3aYbIOiihHTYg6h4Uu2hkrckyZCjO95CC+
+         5Tu2Q7em9ov4wiP0obgYemjY8FH7e7AhbhjDKitcZ60lOO5ZQascuX218UdwfQXbA1bQ
+         Ow01TpCpkJsu/D6uP/6UT5SOSCf35FSmA3iZuzzEc+7O/iZwwH049yW+XkVpqbNBNPEB
+         b3Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=IXiF0cE8iLdsKXBHXuqgd6kWlwigyuOCyyGf/zSHAKo=;
+        b=omIcwOVwTqOB0hLNHry/hVPQCwGJlwQzCUKkDjSKOAMXELaKnPO5PYCuZ6k9iUKsxe
+         k9OYnQEcU9i9Jdb0fWbgH6g9kWNUiL1FT+yyCqD698rGQpuXdiXn55egFOf13vZE3Iqj
+         c8b+QDKhqnu7va9a7ahFwyKBYFXfz9K3kR51hUlLHt/AQpUQVZ/C1y7cYgbzEsiD4yxt
+         RhNYBvY0iortGCkA36UBiUSlyPaMMOTvJropNzeYQLpjLq+wFgG25hpJFXayNByQzVyu
+         dNNcWBqkBYibN7EzvJlp3cWoEin9nVZaImNUfwxZRFMl4QpitIuzXzONFUydSUBHEO7q
+         gSdQ==
+X-Gm-Message-State: AOAM532XziMJtQkWp5ZaOWvYrTIVcDtMPm6xyPMo2ItdWk1zAuvOcnmK
+        4K12NCHywgd8rLNZG9WiRmpDdV0quUdg4h1lsrA=
+X-Google-Smtp-Source: ABdhPJwRB7pqE1QLG0fbIDK4o4hHXutKUD7GE9GGnd0z8sq0pybm19xkWmk0yynxeL/vznGfbdWlotiegVw39s6v560=
+X-Received: by 2002:a25:d752:: with SMTP id o79mr5188390ybg.446.1628158079714;
+ Thu, 05 Aug 2021 03:07:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210731013954.11926-6-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a05:7010:330b:b029:db:4f3a:6691 with HTTP; Thu, 5 Aug 2021
+ 03:07:59 -0700 (PDT)
+Reply-To: rihabmanyang07@yahoo.com
+From:   Rihab Manyang <diamakaire48@gmail.com>
+Date:   Thu, 5 Aug 2021 11:07:59 +0100
+Message-ID: <CAJq20O=SGAVEpCZuFh4gpD=b=+MQri+KXPC05eQ-1ZfOO07EJA@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 31/07/2021 04:39, Laurent Pinchart wrote:
-> To extend test coverage, relax the dependency on ARCH_OMAP2PLUS or
-> ARCH_MULTIPLATFORM to also enable compilation with COMPILE_TEST.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> Changes since v1:
-> 
-> - Enable COMPILE_TEST on all architectures
-> ---
->   drivers/gpu/drm/omapdrm/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
-> index e7281da5bc6a..560d0cdd6156 100644
-> --- a/drivers/gpu/drm/omapdrm/Kconfig
-> +++ b/drivers/gpu/drm/omapdrm/Kconfig
-> @@ -2,7 +2,7 @@
->   config DRM_OMAP
->   	tristate "OMAP DRM"
->   	depends on DRM
-> -	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM
-> +	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM || COMPILE_TEST
->   	select OMAP2_DSS
->   	select DRM_KMS_HELPER
->   	select VIDEOMODE_HELPERS
-> 
+-- 
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Hello,
 
-  Tomi
+i am trying to reach you hope this message get to
+you.from Rihab Manyang
