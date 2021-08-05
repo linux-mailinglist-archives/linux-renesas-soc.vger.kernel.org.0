@@ -2,160 +2,199 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC4CE3E1819
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Aug 2021 17:34:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05A7C3E1B56
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Aug 2021 20:30:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233376AbhHEPeu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Aug 2021 11:34:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43262 "EHLO mail.kernel.org"
+        id S241252AbhHESam (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Aug 2021 14:30:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55388 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230298AbhHEPeu (ORCPT
+        id S238354AbhHESal (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Aug 2021 11:34:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 82B6C60F35;
-        Thu,  5 Aug 2021 15:34:35 +0000 (UTC)
+        Thu, 5 Aug 2021 14:30:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 16BDF60F02;
+        Thu,  5 Aug 2021 18:30:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628177675;
-        bh=FMZKr/KFT+VimHSBq67dJBliXzA9cWOYESblfOOwgiM=;
+        s=k20201202; t=1628188227;
+        bh=JO+DSdP6y1UmTdnA7ndhElnm8XFF14sqw24OLkuazCY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lLckpamQ9/9P8u24pAXto1YLgGIMkDXWJoIiLY8v1DWc+VVs8habQITcM3jG+t1Bz
-         kcT6dY0aY4Fs2OgqiXsMdl44iV+e6ILAc3D7teX1l5xbeNnx3WkKcubYotm9xKWu6y
-         pKQeUiv1XXbdL4+fuiEAr7hplfTiIUYoAwpEY6WUrDGh4oYpMi+y61CixOasNh4MsZ
-         ooPqY5tB4Z6I+/nwxk5p94KNdlum1qXuiLAbK2OxRXsHNT2mARhwaYfZG2a8zHlHlz
-         gdNbffT/2o3d3pbQifB8NQalgLw7onTyAh22JkkT+OrwTtzZFvBogl9OMYTaKYTI0y
-         7sILAG92wjPkw==
-Date:   Thu, 5 Aug 2021 16:34:20 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        alsa-devel@alsa-project.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] sound: soc: sh: Add RZ/G2L SSIF-2 driver
-Message-ID: <20210805153420.GQ26252@sirena.org.uk>
-References: <20210729172311.31111-1-biju.das.jz@bp.renesas.com>
- <20210729172311.31111-3-biju.das.jz@bp.renesas.com>
+        b=Zdo+ZGw7pZ45wmKYzWADsLt+L7p9VaF5DVdh4J6M9Oy5W5O+xeomFGa6sRhFjvjAb
+         hN5JH8Ua1Wq01tRcuQ7oeHTNqFB6z37Qpm7oE10eFo5QCJ2UXDsvsiERiV16am0wn7
+         QivNklgqwsFhV798KIGO/RWJbGoumEA4+ZaLjb2vSaab50KLUc+xdIyHw2JPrxjFw0
+         k5RUxEK6m/YEimY9vKqn98g5tKCe7tSKDkbs8MhCmbqtliewjJCZqsVKBkI9GF/2MP
+         MKUYOCxNNiQPJ2PaJBdViEjOQmnxDsP2SGxjsBLbFNKSnS3RVWM+Mofl1yUDqY3gAa
+         KTL16uoK+8HWg==
+Received: by pali.im (Postfix)
+        id B1DB2817; Thu,  5 Aug 2021 20:30:24 +0200 (CEST)
+Date:   Thu, 5 Aug 2021 20:30:24 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH V6] PCI: rcar: Add L1 link state fix into data abort hook
+Message-ID: <20210805183024.ftdwknkttfwwogks@pali>
+References: <CAMuHMdWFeTP81pfsX0YG=qouGH8+d-0GDCw68MmamhSHjQdM_A@mail.gmail.com>
+ <20210726174925.GA624246@bjorn-Precision-5520>
+ <20210727163212.GB15814@lpieralisi>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4dIe/AmYstFUGHTF"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210729172311.31111-3-biju.das.jz@bp.renesas.com>
-X-Cookie: MOUNT TAPE U1439 ON B3, NO RING
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210727163212.GB15814@lpieralisi>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tuesday 27 July 2021 17:32:12 Lorenzo Pieralisi wrote:
+> On Mon, Jul 26, 2021 at 12:49:25PM -0500, Bjorn Helgaas wrote:
+> > On Mon, Jul 26, 2021 at 04:47:54PM +0200, Geert Uytterhoeven wrote:
+> > > Hi Bjorn,
+> > > 
+> > > On Sat, Jul 17, 2021 at 7:33 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > > On Fri, May 14, 2021 at 10:05:49PM +0200, marek.vasut@gmail.com wrote:
+> > > > > From: Marek Vasut <marek.vasut+renesas@gmail.com>
+> > > > >
+> > > > > The R-Car PCIe controller is capable of handling L0s/L1 link states.
+> > > > > While the controller can enter and exit L0s link state, and exit L1
+> > > > > link state, without any additional action from the driver, to enter
+> > > > > L1 link state, the driver must complete the link state transition by
+> > > > > issuing additional commands to the controller.
+> > > > >
+> > > > > The problem is, this transition is not atomic. The controller sets
+> > > > > PMEL1RX bit in PMSR register upon reception of PM_ENTER_L1 DLLP from
+> > > > > the PCIe card, but then the controller enters some sort of inbetween
+> > > > > state. The driver must detect this condition and complete the link
+> > > > > state transition, by setting L1IATN bit in PMCTLR and waiting for
+> > > > > the link state transition to complete.
+> > > > >
+> > > > > If a PCIe access happens inside this window, where the controller
+> > > > > is between L0 and L1 link states, the access generates a fault and
+> > > > > the ARM 'imprecise external abort' handler is invoked.
+> > > > >
+> > > > > Just like other PCI controller drivers, here we hook the fault handler,
+> > > > > perform the fixup to help the controller enter L1 link state, and then
+> > > > > restart the instruction which triggered the fault. Since the controller
+> > > > > is in L1 link state now, the link can exit from L1 link state to L0 and
+> > > > > successfully complete the access.
+> > > > >
+> > > > > While it was suggested to disable L1 link state support completely on
+> > > > > the controller level, this would not prevent the L1 link state entry
+> > > > > initiated by the link partner. This happens e.g. in case a PCIe card
+> > > > > enters D3Hot state, which could be initiated from pci_set_power_state()
+> > > > > if the card indicates D3Hot support, which in turn means link must enter
+> > > > > L1 state. So instead, fix up the L1 link state after all.
+> > > > >
+> > > > > Note that this fixup is applicable only to Aarch32 R-Car controllers,
+> > > > > the Aarch64 R-Car perform the same fixup in TFA, see TFA commit [1]
+> > > > > 0969397f2 ("rcar_gen3: plat: Prevent PCIe hang during L1X config access")
+> > > > > [1] https://github.com/ARM-software/arm-trusted-firmware/commit/0969397f295621aa26b3d14b76dd397d22be58bf
+> > > >
+> > > > This patch is horribly ugly but it's working around a horrible
+> > > > hardware problem, and I don't have any better suggestions, so I guess
+> > > > we don't really have much choice.
+> > > >
+> > > > I do think the commit log is a bit glib:
+> > > >
+> > > >   - "The R-Car PCIe controller is capable of handling L0s/L1 link
+> > > >     states."  AFAICT every PCIe device is required to handle L0 and L1
+> > > >     without software assistance.  So saying R-Car is "capable" puts a
+> > > >     better face on this than seems warranted.
+> > > >
+> > > >     L0s doesn't seem relevant at all; at least it doesn't seem to play
+> > > >     a role in the patch.  There's no such thing as "returning to L0s"
+> > > >     as mentioned in the comment below; L0s is only reachable from L0.
+> > > >     Returns from L1 only go to L0 (PCIe r5.0, fig 5-1).
+> > > >
+> > > >   - "The problem is, this transition is not atomic."  I think the
+> > > >     *problem* is the hardware is broken in the first place.  This
+> > > >     transition is supposed to be invisible to software.
+> > > >
+> > > >   - "Just like other PCI controller drivers ..." suggests that this is
+> > > >     an ordinary situation that we shouldn't be concerned about.  This
+> > > >     patch may be the best we can do to work around a bad hardware
+> > > >     defect, but it's definitely not ordinary.
+> > > >
+> > > >     I think the other hook_fault_code() uses are for reporting
+> > > >     legitimate PCIe errors, which most controllers log and turn
+> > > >     into ~0 data responses without generating an abort or machine
+> > > >     check, not things caused by hardware defects, so they're not
+> > > >     really comparable.
+> > > >
+> > > > Has Renesas documented this as an erratum?  Will future devices
+> > > > require additions to rcar_pcie_abort_handler_of_match[]?
+> > > >
+> > > > It'd be nice if the commit log mentioned the user-visible effect of
+> > > > this problem.  I guess it does mention external aborts -- I assume you
+> > > > see those when downstream devices go to D3hot or when ASPM puts the
+> > > > link in L1?  And the abort results in a reboot?
+> > > >
+> > > > To be clear, I'm not objecting to the patch.  It's a hardware problem
+> > > > and we should work around it as best we can.
+> > > 
+> > > Cool! So what's missing for this patch, which we have been polishing
+> > > for almost one year, to be applied, so innocent people can no longer
+> > > lock up an R-Car system just by inserting an ubiquitous Intel Ethernet
+> > > card, and suspending the system?
+> > 
+> > Nothing missing from my point of view, so if Lorenzo is OK with it,
+> > he'll apply it.
+> 
+> I will apply it at some point for v5.15 - there is still some details I
+> would like to investigate (disclaimer: I am not picking on this
+> particular patch - it is just a really thorny issue and I want to
+> understand what's the best way forward); I will update the patch and log
+> accordingly, no need for a v7 (which I can post myself publicly so that
+> you can have a look before I merge it).
+> 
+> > If I were applying it, I would make the commit log
+> > something like this:
+> 
+> I will do it myself, see above.
+> 
+> >   When the link is in L1, hardware should return it to L0
+> >   automatically whenever a transaction targets a component on the
+> >   other end of the link (PCIe r5.0, sec 5.2).
+> > 
+> >   The R-Car PCIe controller doesn't handle this transition correctly.
+> >   If the link is not in L0, an MMIO transaction targeting a downstream
+> >   device fails, and the controller reports an ARM imprecise external
+> >   abort.
+> > 
+> >   Work around this by hooking the abort handler so the driver can
+> >   detect this situation and help the hardware complete the link state
+> >   transition.
+> > 
+> >   When the R-Car controller receives a PM_ENTER_L1 DLLP from the
+> >   downstream component, it sets PMEL1RX bit in PMSR register, but then
+> >   the controller enters some sort of in-between state.  A subsequent
+> >   MMIO transaction will fail, resulting in the external abort.  The
+> >   abort handler detects this condition and completes the link state
+> >   transition by setting the L1IATN bit in PMCTLR and waiting for the
+> >   link state transition to complete.
+> > 
+> > I assume that on the PCIe side, there must be an error like
+> > Unsupported Request or Malformed TLP, and the R-Car controller is
+> > logging that and turning it into the ARM external abort?
+> > 
+> > I didn't see a clear response to Pali's question about what happens if
+> > there's no MMIO access, e.g., what if the downstream device initiates
+> > a DMA or MSI transaction?
+> 
+> It'd be great if I could update the log with these questions answered -
+> along with others Pali asked [1] and that are very relevant.
+> 
+> Thanks,
+> Lorenzo
+> 
+> [1] https://lore.kernel.org/linux-pci/20210719172340.vvtnddbli2vgxndi@pali
 
---4dIe/AmYstFUGHTF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Jul 29, 2021 at 06:23:10PM +0100, Biju Das wrote:
-
-> +config SND_SOC_RZ
-> +	tristate "RZ/G2L series SSIF-2 support"
-> +	depends on ARCH_R9A07G044 || COMPILE_TEST
-> +	select SND_SIMPLE_CARD
-> +	help
-
-Why is the DAI selecting a specific sound card, and if it must then why
-would it use simple-card and not the more modern audio-graph-card?  The
-select should almost certainly just be removed entirely, this is not
-something DAI drivers do - cards use DAIs, not the other way around.
-
-> +++ b/sound/soc/sh/rz-ssi.c
-> @@ -0,0 +1,871 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Renesas RZ/G2L ASoC Serial Sound Interface (SSIF-2) Driver
-> + *
-> + * Copyright (C) 2021 Renesas Electronics Corp.
-
-Please make the entire comment a C++ one so things look more
-intentional.
-
-> +static int rz_ssi_stream_init(struct rz_ssi_priv *ssi,
-> +			      struct rz_ssi_stream *strm,
-> +			      struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_pcm_runtime *runtime = substream->runtime;
-> +
-> +	strm->substream = substream;
-
-> +	if (runtime->sample_bits != 16) {
-> +		dev_err(ssi->dev, "Unsupported sample width: %d\n",
-> +			runtime->sample_bits);
-> +		strm->substream = NULL;
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (runtime->frame_bits != 32) {
-> +		dev_err(ssi->dev, "Unsupported frame width: %d\n",
-> +			runtime->sample_bits);
-> +		strm->substream = NULL;
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (runtime->channels != 2) {
-> +		dev_err(ssi->dev, "Number of channels not matched\n");
-> +		strm->substream = NULL;
-> +		return -EINVAL;
-> +	}
-
-Why are we only validating these here which is called from...
-
-> +	switch (cmd) {
-> +	case SNDRV_PCM_TRIGGER_START:
-> +		/* Soft Reset */
-> +		rz_ssi_reg_mask_setl(ssi, SSIFCR, 0, SSIFCR_SSIRST);
-> +		rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_SSIRST, 0);
-> +		udelay(5);
-> +
-> +		ret = rz_ssi_stream_init(ssi, strm, substream);
-> +		if (ret)
-> +			goto done;
-
-...trigger.  This stuff should be being validated when we set
-parameters in hw_params() and can usefully report the error.
-
-> +static int rz_ssi_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
-> +{
-> +	struct rz_ssi_priv *ssi = snd_soc_dai_get_drvdata(dai);
-> +
-> +	/* set master/slave audio interface */
-> +	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
-> +	case SND_SOC_DAIFMT_CBS_CFS:
-> +		asm("nop"); /* codec is slave */
-> +		break;
-
-That asm("nop") looks interesting...  I can't think why that'd be
-needed?  Please also use the modern versions of these defines, consumer
-and provider rather than slave and master.
-
---4dIe/AmYstFUGHTF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmEMBPsACgkQJNaLcl1U
-h9DnBwf/XKjZA/9gCQVpfhG/eH/xV2Nqi/mU+S/Uyy8BhUXMa76mOR6wzTyd2kWD
-n2j0dV78dzujccTdXriDVsmqQNknlGUGXa/tZrTiraGOqGw3kqy0f5NIGdzhPCZM
-7Ip0mcl7VQKUm9VBZgjHkVjLRaB17ak9uQ1X6przneydtabW0mftK1W0K6xflHYP
-Zy8RO2z539VBnys7irkKC8fITqVMkhqr4oeWSE/sXAwTQ6Yj/KsnFUqoF8FqyU0r
-bZ+fLOstqIwg7zSBmeJHVcxqAImoanivIK3s8aVERiVc6xlhAeZAEKIvWb0Vo8GQ
-e9rNcmQGr8Z3OWsrkbxcRefF1r2OdQ==
-=hOBs
------END PGP SIGNATURE-----
-
---4dIe/AmYstFUGHTF--
+And also there is still unanswered question what happens with MMIO
+during non-L* states (e.g. Hot Reset, Detect, Polling)?
+https://lore.kernel.org/linux-pci/20210722203151.heytxzup2uti4noi@pali/
