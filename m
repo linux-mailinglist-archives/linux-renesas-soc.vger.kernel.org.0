@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2A433E3AEA
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Aug 2021 16:50:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87CA23E3B33
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Aug 2021 17:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231883AbhHHOvF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 8 Aug 2021 10:51:05 -0400
-Received: from mout.gmx.net ([212.227.15.19]:54195 "EHLO mout.gmx.net"
+        id S232161AbhHHPvG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 8 Aug 2021 11:51:06 -0400
+Received: from mout.gmx.net ([212.227.15.18]:33365 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231811AbhHHOvF (ORCPT
+        id S229923AbhHHPvF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 8 Aug 2021 10:51:05 -0400
+        Sun, 8 Aug 2021 11:51:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1628434230;
-        bh=dnbnIgetA2HSvGj9st+ftD9THu1GINdsSq+4RvpezMU=;
+        s=badeba3b8450; t=1628437832;
+        bh=8WpITWSAmjBFl5ukEIIIh0d8OHw71Lp48DGXmRGeV/w=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=ITqjeZmP19uQ5eS39HcPhVQJ04VERDZRvPlYhaOqe25rcXPcgneIiOwehe7RmgBnJ
-         Ezssq4+CzoidNm/SWThQHqx2f5s0bmLLEUYK6CQw5x7lVyXhGzud6KbNggZ9uHXtwt
-         K9oc2LIecG5P9lFH7uVeeBFoG7bWN80UW4DCFl98=
+        b=BYo69O9ZP31BaGHrttIW3DNXq5fsutLC41vClAk6H35xvuJnDEaTeQkt882+sli2S
+         2zRg9IM9rLshVQr76zjdU/siM1XIhrV5DGCa8+OSeFvcFWuXPM4fnl62KG2W/zcnMS
+         p5HBmLVDPLTX/xCePS6ePL3UqU+5U7dVMFUOgxHA=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
  (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MpUUw-1mvfmk07dk-00pqqk; Sun, 08 Aug 2021 16:50:30 +0200
+ 1MmDEg-1muaHQ0Bxg-00i9Ax; Sun, 08 Aug 2021 17:50:32 +0200
 From:   Len Baker <len.baker@gmx.com>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -35,111 +35,66 @@ Cc:     Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
         linux-hardening@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 2/3] drivers/soc/renesas: Prefer memcpy over strcpy
-Date:   Sun,  8 Aug 2021 14:50:11 +0200
-Message-Id: <20210808125012.4715-3-len.baker@gmx.com>
+Subject: [PATCH v4 3/3] drivers/soc/ti: Prefer strscpy over strcpy
+Date:   Sun,  8 Aug 2021 14:50:12 +0200
+Message-Id: <20210808125012.4715-4-len.baker@gmx.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210808125012.4715-1-len.baker@gmx.com>
 References: <20210808125012.4715-1-len.baker@gmx.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:s+2GOJ9JJjsrQL+ZL7tVIYQT5stQLcH+ApXr/G0xsuDveEeU+Lc
- UFhX/NHZhKRTsI6HwSAQBN1JTxA00ohLhPKfajdptUJloOjUvvQVBAAXizU6zT6gn+YgC2r
- 2vvhiyObK++tgAVoOdyDb7Zj4wPVz7pjQ18l7kJ47hob54tVPJU7QP5764z1tNq/Jl4eaFi
- 9plXTxWkG1P78F3/uDkkA==
+X-Provags-ID: V03:K1:NAahUXrhbe23vphH2V5V8QzAnruX6eosbWznab34o/LlPE7OlPz
+ ZAfqE/aSfFY2bE99SUHctzIhbGTUQWHJNn/Zi33p7hM9YmI1PaIFMOPJRHQnTYzgKnn6JtG
+ TNmZoPeYiGN/nvP6EicoyWFdt6UhpXby+7FGeJAnE5Qm5siNwa/rOu+5cWNMuUolLKmgMet
+ 1iEvwDwn9LM+wXyxXKeaQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CBcb5hSVrJs=:xegYaanLnDtAf8ejrmzmke
- u27N1yH+y5rqraLuZv4PCarTIYwdRkwQCTYMrTwNiA46i65D+bz/qryrLyZGXo08pQzZI92xk
- QHwV/nsFDSJXfZh22hutInt4QkZCI1cKqMuSONn5NZ9g6EfIW5JP8RnITlqYw/FP3Y+awHYIH
- x7xJND8PUSyLfAQHr7KOnvBXE6yOc+FRP8zlv4Ofi4Sw33JaTZ9/wbhpw5y175a9z3WaPnJtD
- /va1ER2ZONP6bqpCrm3puSHBmJmMfYKyKzAwVOcqbND2GCxV/samcLS5WlNWsYROEXwX/uiBW
- Mu06YGsX9p8CgkhYQNOwmKQRFKlKdYbuQUfFdzGccuI8m91YTIucXoEL3mPr9NpjgSYQGNLtS
- 5Ci7qFy16bkD3rUqSLHfgrqXWmW173MYOePC9U9CHO07bHvBrHnpQy/p+VFWMdZSzCxSxD6Rd
- +TOVg0xLfCKp7fJLG8Gz61PTh+iXs8+joFiyVTtUMEH6sv2S0cpIV+AgRPIB6l2rsTatfu5YE
- zAMprlVhgzsZVDHW5cMI9FEippsW+MEMQOilAdybuYFD3PY1nCi2vkSclTduq8s5r4xLVGHKh
- coGkvYR+l9dLzxwpYUw088g/E+8+/ahpTqqcDvTdtwDCRnpO60TYZaAaXQbvPVd5KiGvG1zf4
- rGRzPquFIhTIObDPAMkmrCYPplbML9l9iCA7uHHnr0ZCJFqq/26pWu6ijICM8sDdIlQp7/Acc
- 4IuavGaljyKlm9xCDmri6RVBnPOAwSU7++w+vjrDbTUJlP3XLzUROJreZfYe9M4JqyFxlyWy5
- Dhw6Sn/MLtrZeuO4YTV83uVuUMGAb20I9Upe8oI5DC1mR8N/yUv/IVaoh/rajjpjtL7b+N7z/
- ipgrse3gJjVR7LfcFPxmmsig4vzDbB+Plz5Ea6PM5EuyHbYQPsoNkhUlT0jDnbWbGKZV4s0K8
- xTvY8QtfGhz70CB2olSzlrskA6pvZ9c85VnAfFhimC5SuXtHN6zb5VWF416rf53svJvVq3/W+
- tgSYPFzRdXYAM2i0HRV6LrNJPZwgDXkQ8ubfAiHEZWJOsB9h9V54a6fnrnUIRasrxSO/dR0Wx
- 0TAUkC6EW5XdCwU4XW9eoalUmIsdDdBQhaoHwQvokN6F6/yyv+157B2PA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:u4E+rKRzLoQ=:p3dXkD+lKAXeP09tYd/b7D
+ qn8vWRi74uC9vfxuScHam1WxhNd120vw1V40MrsM6nyCiFv9Uc33D374I0bN9CGAkfJkWKwt7
+ bxG5BcKad746HcV7lgz4WImjOEkbmILVwkvt4YULxO4eFLQzE9VJShbifmodkfN7V3n1jrv3d
+ HU3ltcoOaxStaDVSwcJ7MIvwWqJCP08wks3Fp3IvPhfS9GusREs5YrE5MncFt/uSRNYRiCqxX
+ JCRzxhHVi9bx2epIa1RVZa4IYTHsw6QYn2P14bTi/dg6tHhjRK0+Ax005k5Rc6MxLl+uGVmPy
+ 7OlftBhjc14/CGGsFPtoiR86p+uFLP1CEMD4S81UPMER4UgAc3t03wTsocmJbpYh09V3gc9f6
+ XmOoL8Aq3OV1WAymxGY0o9VvH/6F0H/HscnBM+hHScAJ4isMJondiGehJdIMCqqa6uS45oU7F
+ 33EKZ25HmfSH+E5kXT7XZj6OqkcV3F62BfkTGcghqZiCCpuPtdUc57weM/04Zt3xC0Z6ogIPW
+ DVv+un8BttTZSBfcyq4GkAPt0IO0l8MMZRot12IAGClnAfTJTOJWsTF42E+prGhZBGYgEbbkA
+ 3K0z38AWuCSgyRWJXflj/4FNEYYk6QKrH6d2U+sSzM8VkgDzqGzElZqRU8KAJC8FaqMi0ccJr
+ eyMRqePpr5jj4CbGuqldgl+gM0gPtuQ9MQJy2mRgvvtHfSBbbSVbnh59qybmlJ+3SQmo0ml5z
+ mWsBRORfOFu1SR/980MlKJ9dY0s29bqcr8Lr1hIQ3WSz2AEeF9Ma1o0OBLIKd9TVPIzUTx79H
+ bDrKeE4WYdVnkvtb5pyiuC7Gn47QwV4acL73BLQJvl25Mi/9bPDnRohcPpHq5BeT7wZX0dgTf
+ fMJsQAcAL4nlEyopqtVJrQNdftSBfiipOkyFQupCTw4qGk2J8AAL2QAedYYWZ9yOT7fNbx+ue
+ fo3jGU1RkiuHRzPS1OB50OgfUbpl9wQRrdJ3wdJUzTHDg0hZUjasOvDMUReP3VZCEoq5dCKNp
+ BaNRaQ8RoJn31P9fd8crvjBwK4IgonyBGcajCsc0F3i6LrsFwKxu99hvCVAUS6I9eGWbKcVyz
+ 7XMSfwykaJABkmtEi2C+bgh4crafcW7oUDA6pvxmPkZEdBEO0pDSpLkrQ==
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 strcpy() performs no bounds checking on the destination buffer. This
 could result in linear overflows beyond the end of the buffer, leading
-to all kinds of misbehaviors. So, use memcpy() as a safe replacement.
+to all kinds of misbehaviors. The safe replacement is strscpy().
 
 This is a previous step in the path to remove the strcpy() function
 entirely from the kernel.
 
 Signed-off-by: Len Baker <len.baker@gmx.com>
 =2D--
- drivers/soc/renesas/r8a779a0-sysc.c | 6 ++++--
- drivers/soc/renesas/rcar-sysc.c     | 6 ++++--
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ drivers/soc/ti/knav_dma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/soc/renesas/r8a779a0-sysc.c b/drivers/soc/renesas/r8a=
-779a0-sysc.c
-index d464ffa1be33..7410b9fa9846 100644
-=2D-- a/drivers/soc/renesas/r8a779a0-sysc.c
-+++ b/drivers/soc/renesas/r8a779a0-sysc.c
-@@ -404,19 +404,21 @@ static int __init r8a779a0_sysc_pd_init(void)
- 	for (i =3D 0; i < info->num_areas; i++) {
- 		const struct r8a779a0_sysc_area *area =3D &info->areas[i];
- 		struct r8a779a0_sysc_pd *pd;
-+		size_t n;
+diff --git a/drivers/soc/ti/knav_dma.c b/drivers/soc/ti/knav_dma.c
+index 591d14ebcb11..5f9816d317a5 100644
+=2D-- a/drivers/soc/ti/knav_dma.c
++++ b/drivers/soc/ti/knav_dma.c
+@@ -691,7 +691,7 @@ static int dma_init(struct device_node *cloud, struct =
+device_node *dma_node)
+ 	dma->max_rx_flow =3D max_rx_flow;
+ 	dma->max_tx_chan =3D min(max_tx_chan, max_tx_sched);
+ 	atomic_set(&dma->ref_count, 0);
+-	strcpy(dma->name, node->name);
++	strscpy(dma->name, node->name, sizeof(dma->name));
+ 	spin_lock_init(&dma->lock);
 
- 		if (!area->name) {
- 			/* Skip NULLified area */
- 			continue;
- 		}
-
--		pd =3D kzalloc(sizeof(*pd) + strlen(area->name) + 1, GFP_KERNEL);
-+		n =3D strlen(area->name) + 1;
-+		pd =3D kzalloc(sizeof(*pd) + n, GFP_KERNEL);
- 		if (!pd) {
- 			error =3D -ENOMEM;
- 			goto out_put;
- 		}
-
--		strcpy(pd->name, area->name);
-+		memcpy(pd->name, area->name, n);
- 		pd->genpd.name =3D pd->name;
- 		pd->pdr =3D area->pdr;
- 		pd->flags =3D area->flags;
-diff --git a/drivers/soc/renesas/rcar-sysc.c b/drivers/soc/renesas/rcar-sy=
-sc.c
-index 53387a72ca00..b0a80de34c98 100644
-=2D-- a/drivers/soc/renesas/rcar-sysc.c
-+++ b/drivers/soc/renesas/rcar-sysc.c
-@@ -396,19 +396,21 @@ static int __init rcar_sysc_pd_init(void)
- 	for (i =3D 0; i < info->num_areas; i++) {
- 		const struct rcar_sysc_area *area =3D &info->areas[i];
- 		struct rcar_sysc_pd *pd;
-+		size_t n;
-
- 		if (!area->name) {
- 			/* Skip NULLified area */
- 			continue;
- 		}
-
--		pd =3D kzalloc(sizeof(*pd) + strlen(area->name) + 1, GFP_KERNEL);
-+		n =3D strlen(area->name) + 1;
-+		pd =3D kzalloc(sizeof(*pd) + n, GFP_KERNEL);
- 		if (!pd) {
- 			error =3D -ENOMEM;
- 			goto out_put;
- 		}
-
--		strcpy(pd->name, area->name);
-+		memcpy(pd->name, area->name, n);
- 		pd->genpd.name =3D pd->name;
- 		pd->ch.chan_offs =3D area->chan_offs;
- 		pd->ch.chan_bit =3D area->chan_bit;
+ 	for (i =3D 0; i < dma->max_tx_chan; i++) {
 =2D-
 2.25.1
 
