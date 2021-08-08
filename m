@@ -2,99 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87CA23E3B33
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Aug 2021 17:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77C9D3E3B2A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Aug 2021 17:46:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232161AbhHHPvG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 8 Aug 2021 11:51:06 -0400
-Received: from mout.gmx.net ([212.227.15.18]:33365 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229923AbhHHPvF (ORCPT
+        id S232134AbhHHPqy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 8 Aug 2021 11:46:54 -0400
+Received: from esgaroth.petrovitsch.at ([78.47.184.11]:54950 "EHLO
+        esgaroth.petrovitsch.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229923AbhHHPqx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 8 Aug 2021 11:51:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1628437832;
-        bh=8WpITWSAmjBFl5ukEIIIh0d8OHw71Lp48DGXmRGeV/w=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=BYo69O9ZP31BaGHrttIW3DNXq5fsutLC41vClAk6H35xvuJnDEaTeQkt882+sli2S
-         2zRg9IM9rLshVQr76zjdU/siM1XIhrV5DGCa8+OSeFvcFWuXPM4fnl62KG2W/zcnMS
-         p5HBmLVDPLTX/xCePS6ePL3UqU+5U7dVMFUOgxHA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MmDEg-1muaHQ0Bxg-00i9Ax; Sun, 08 Aug 2021 17:50:32 +0200
-From:   Len Baker <len.baker@gmx.com>
-To:     Andy Gross <agross@kernel.org>,
+        Sun, 8 Aug 2021 11:46:53 -0400
+X-Greylist: delayed 617 seconds by postgrey-1.27 at vger.kernel.org; Sun, 08 Aug 2021 11:46:52 EDT
+Received: from thorin.petrovitsch.priv.at (84-115-219-158.cable.dynamic.surfer.at [84.115.219.158])
+        (authenticated bits=0)
+        by esgaroth.petrovitsch.at (8.16.1/8.16.1) with ESMTPSA id 178Fa0Qk284153
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT);
+        Sun, 8 Aug 2021 17:36:01 +0200
+DKIM-Filter: OpenDKIM Filter v2.11.0 esgaroth.petrovitsch.at 178Fa0Qk284153
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=petrovitsch.priv.at;
+        s=default; t=1628436962;
+        bh=ldKn0U8KvfBvOVhOmCB8P8LDLYD3v1sH4Y5QxM2Or08=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=jlp8OYhCcgpbUgtRgz/L7FIczgPQ+g4OgnEh7AhtKPiWSF8VoqdjJFGNmnypEW7i/
+         uVeji1HYskG3nbB0DTBTROFDGzvNvA4IugFL/e66UPrmgnTrYGJb2fQ09zX5NLLPrB
+         xQsA8R/8ExCfmCPDFzdGvWfSgsPTdIcrUBvfzx+U=
+X-Info-sendmail: I was here
+Subject: Re: [PATCH v4 2/3] drivers/soc/renesas: Prefer memcpy over strcpy
+To:     Len Baker <len.baker@gmx.com>, Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Santosh Shilimkar <ssantosh@kernel.org>
-Cc:     Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
+Cc:     Kees Cook <keescook@chromium.org>,
         David Laight <David.Laight@ACULAB.COM>,
         Robin Murphy <robin.murphy@arm.com>,
         linux-hardening@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 3/3] drivers/soc/ti: Prefer strscpy over strcpy
-Date:   Sun,  8 Aug 2021 14:50:12 +0200
-Message-Id: <20210808125012.4715-4-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210808125012.4715-1-len.baker@gmx.com>
 References: <20210808125012.4715-1-len.baker@gmx.com>
+ <20210808125012.4715-3-len.baker@gmx.com>
+From:   Bernd Petrovitsch <bernd@petrovitsch.priv.at>
+Bimi-Selector: v=BIMI1; s=default
+Message-ID: <39485c0e-511c-50a0-83be-f9ce6fc47e67@petrovitsch.priv.at>
+Date:   Sun, 8 Aug 2021 17:35:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:NAahUXrhbe23vphH2V5V8QzAnruX6eosbWznab34o/LlPE7OlPz
- ZAfqE/aSfFY2bE99SUHctzIhbGTUQWHJNn/Zi33p7hM9YmI1PaIFMOPJRHQnTYzgKnn6JtG
- TNmZoPeYiGN/nvP6EicoyWFdt6UhpXby+7FGeJAnE5Qm5siNwa/rOu+5cWNMuUolLKmgMet
- 1iEvwDwn9LM+wXyxXKeaQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:u4E+rKRzLoQ=:p3dXkD+lKAXeP09tYd/b7D
- qn8vWRi74uC9vfxuScHam1WxhNd120vw1V40MrsM6nyCiFv9Uc33D374I0bN9CGAkfJkWKwt7
- bxG5BcKad746HcV7lgz4WImjOEkbmILVwkvt4YULxO4eFLQzE9VJShbifmodkfN7V3n1jrv3d
- HU3ltcoOaxStaDVSwcJ7MIvwWqJCP08wks3Fp3IvPhfS9GusREs5YrE5MncFt/uSRNYRiCqxX
- JCRzxhHVi9bx2epIa1RVZa4IYTHsw6QYn2P14bTi/dg6tHhjRK0+Ax005k5Rc6MxLl+uGVmPy
- 7OlftBhjc14/CGGsFPtoiR86p+uFLP1CEMD4S81UPMER4UgAc3t03wTsocmJbpYh09V3gc9f6
- XmOoL8Aq3OV1WAymxGY0o9VvH/6F0H/HscnBM+hHScAJ4isMJondiGehJdIMCqqa6uS45oU7F
- 33EKZ25HmfSH+E5kXT7XZj6OqkcV3F62BfkTGcghqZiCCpuPtdUc57weM/04Zt3xC0Z6ogIPW
- DVv+un8BttTZSBfcyq4GkAPt0IO0l8MMZRot12IAGClnAfTJTOJWsTF42E+prGhZBGYgEbbkA
- 3K0z38AWuCSgyRWJXflj/4FNEYYk6QKrH6d2U+sSzM8VkgDzqGzElZqRU8KAJC8FaqMi0ccJr
- eyMRqePpr5jj4CbGuqldgl+gM0gPtuQ9MQJy2mRgvvtHfSBbbSVbnh59qybmlJ+3SQmo0ml5z
- mWsBRORfOFu1SR/980MlKJ9dY0s29bqcr8Lr1hIQ3WSz2AEeF9Ma1o0OBLIKd9TVPIzUTx79H
- bDrKeE4WYdVnkvtb5pyiuC7Gn47QwV4acL73BLQJvl25Mi/9bPDnRohcPpHq5BeT7wZX0dgTf
- fMJsQAcAL4nlEyopqtVJrQNdftSBfiipOkyFQupCTw4qGk2J8AAL2QAedYYWZ9yOT7fNbx+ue
- fo3jGU1RkiuHRzPS1OB50OgfUbpl9wQRrdJ3wdJUzTHDg0hZUjasOvDMUReP3VZCEoq5dCKNp
- BaNRaQ8RoJn31P9fd8crvjBwK4IgonyBGcajCsc0F3i6LrsFwKxu99hvCVAUS6I9eGWbKcVyz
- 7XMSfwykaJABkmtEi2C+bgh4crafcW7oUDA6pvxmPkZEdBEO0pDSpLkrQ==
+In-Reply-To: <20210808125012.4715-3-len.baker@gmx.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-DCC-wuwien-Metrics: esgaroth.petrovitsch.priv.at 1290; Body=14 Fuz1=14
+        Fuz2=14
+X-Spam-Status: No, score=-1.2 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A
+        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.0 NICE_REPLY_A Looks like a legit reply (A)
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        esgaroth.petrovitsch.priv.at
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-strcpy() performs no bounds checking on the destination buffer. This
-could result in linear overflows beyond the end of the buffer, leading
-to all kinds of misbehaviors. The safe replacement is strscpy().
+Hi all!
 
-This is a previous step in the path to remove the strcpy() function
-entirely from the kernel.
+On 08/08/2021 14:50, Len Baker wrote:
+> strcpy() performs no bounds checking on the destination buffer. This
+> could result in linear overflows beyond the end of the buffer, leading
+> to all kinds of misbehaviors. So, use memcpy() as a safe replacement.
+> 
+> This is a previous step in the path to remove the strcpy() function
+> entirely from the kernel.
+> 
+> Signed-off-by: Len Baker <len.baker@gmx.com>
+> ---
+>  drivers/soc/renesas/r8a779a0-sysc.c | 6 ++++--
+>  drivers/soc/renesas/rcar-sysc.c     | 6 ++++--
+>  2 files changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/soc/renesas/r8a779a0-sysc.c b/drivers/soc/renesas/r8a779a0-sysc.c
+> index d464ffa1be33..7410b9fa9846 100644
+> --- a/drivers/soc/renesas/r8a779a0-sysc.c
+> +++ b/drivers/soc/renesas/r8a779a0-sysc.c
+> @@ -404,19 +404,21 @@ static int __init r8a779a0_sysc_pd_init(void)
+>  	for (i = 0; i < info->num_areas; i++) {
+>  		const struct r8a779a0_sysc_area *area = &info->areas[i];
+>  		struct r8a779a0_sysc_pd *pd;
+> +		size_t n;
+> 
+>  		if (!area->name) {
+>  			/* Skip NULLified area */
+>  			continue;
+>  		}
+> 
+> -		pd = kzalloc(sizeof(*pd) + strlen(area->name) + 1, GFP_KERNEL)> +		n = strlen(area->name) + 1;
+> +		pd = kzalloc(sizeof(*pd) + n, GFP_KERNEL);
+Zeroing the allocated bytes is not needed since it's completly
+overwritten with the strcpy()/memcpy().
+>  		if (!pd) {
+>  			error = -ENOMEM;
+>  			goto out_put;
+>  		}
+> 
+> -		strcpy(pd->name, area->name);
+> +		memcpy(pd->name, area->name, n);
+>  		pd->genpd.name = pd->name;
+>  		pd->pdr = area->pdr;
+>  		pd->flags = area->flags;
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/soc/ti/knav_dma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+And similar for the second hunk.
 
-diff --git a/drivers/soc/ti/knav_dma.c b/drivers/soc/ti/knav_dma.c
-index 591d14ebcb11..5f9816d317a5 100644
-=2D-- a/drivers/soc/ti/knav_dma.c
-+++ b/drivers/soc/ti/knav_dma.c
-@@ -691,7 +691,7 @@ static int dma_init(struct device_node *cloud, struct =
-device_node *dma_node)
- 	dma->max_rx_flow =3D max_rx_flow;
- 	dma->max_tx_chan =3D min(max_tx_chan, max_tx_sched);
- 	atomic_set(&dma->ref_count, 0);
--	strcpy(dma->name, node->name);
-+	strscpy(dma->name, node->name, sizeof(dma->name));
- 	spin_lock_init(&dma->lock);
-
- 	for (i =3D 0; i < dma->max_tx_chan; i++) {
-=2D-
-2.25.1
-
+MfG,
+	Bernd
+-- 
+Bernd Petrovitsch                  Email : bernd@petrovitsch.priv.at
+     There is NO CLOUD, just other people's computers. - FSFE
+                     LUGA : http://www.luga.at
