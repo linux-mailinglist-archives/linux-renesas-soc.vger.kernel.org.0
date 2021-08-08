@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 253C53E3AA5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Aug 2021 15:50:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2A433E3AEA
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Aug 2021 16:50:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231544AbhHHNvA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 8 Aug 2021 09:51:00 -0400
-Received: from mout.gmx.net ([212.227.15.18]:54249 "EHLO mout.gmx.net"
+        id S231883AbhHHOvF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 8 Aug 2021 10:51:05 -0400
+Received: from mout.gmx.net ([212.227.15.19]:54195 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229923AbhHHNu7 (ORCPT
+        id S231811AbhHHOvF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 8 Aug 2021 09:50:59 -0400
+        Sun, 8 Aug 2021 10:51:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1628430627;
-        bh=Ktznl9CYvf9P3FGZ74Aoo+T36/BoOc7RBNfte+REZSo=;
+        s=badeba3b8450; t=1628434230;
+        bh=dnbnIgetA2HSvGj9st+ftD9THu1GINdsSq+4RvpezMU=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=R2zko4oE7hSiINxxBxFzyLb+HeAqm/NLJydnAPe00vh7CzpnF4YqZhhbEBhEfwl1j
-         0yuInVZpmmJazA95y4+osOLeUc5g0dAgeF4d8jQ2J0IynyOhWCOxiON84D9AuwZAdh
-         eElg3Zlv6hdAH/rKINp2IZdBrtV6ZqEtgK/77rsE=
+        b=ITqjeZmP19uQ5eS39HcPhVQJ04VERDZRvPlYhaOqe25rcXPcgneIiOwehe7RmgBnJ
+         Ezssq4+CzoidNm/SWThQHqx2f5s0bmLLEUYK6CQw5x7lVyXhGzud6KbNggZ9uHXtwt
+         K9oc2LIecG5P9lFH7uVeeBFoG7bWN80UW4DCFl98=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MiaY9-1moHo52zRf-00fiW9; Sun, 08 Aug 2021 15:50:26 +0200
+ (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1MpUUw-1mvfmk07dk-00pqqk; Sun, 08 Aug 2021 16:50:30 +0200
 From:   Len Baker <len.baker@gmx.com>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -35,109 +35,111 @@ Cc:     Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
         linux-hardening@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 1/3] drivers/soc/qcom: Prefer strscpy over strcpy
-Date:   Sun,  8 Aug 2021 14:50:10 +0200
-Message-Id: <20210808125012.4715-2-len.baker@gmx.com>
+Subject: [PATCH v4 2/3] drivers/soc/renesas: Prefer memcpy over strcpy
+Date:   Sun,  8 Aug 2021 14:50:11 +0200
+Message-Id: <20210808125012.4715-3-len.baker@gmx.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210808125012.4715-1-len.baker@gmx.com>
 References: <20210808125012.4715-1-len.baker@gmx.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:bKMKh4yUQahWuZCqr9eYkhBfX4qp+zip5+o5puFZDzukWBlvHsz
- cFlJ7S/doOPwSj0tmIHU8PiOoVf/dMxmaZZwkZzK+3CoOFCR/Fq0d8OACmZ1z+kfh1pbNHR
- fo7Cmr7vOF4JkT7VadJ+xLcnni2w6bPY/jGbw9m9UGu0DbbW/uH+WD0OJn5xnW1f9z7sApP
- phIE7IwrGdHZ417jSOHJQ==
+X-Provags-ID: V03:K1:s+2GOJ9JJjsrQL+ZL7tVIYQT5stQLcH+ApXr/G0xsuDveEeU+Lc
+ UFhX/NHZhKRTsI6HwSAQBN1JTxA00ohLhPKfajdptUJloOjUvvQVBAAXizU6zT6gn+YgC2r
+ 2vvhiyObK++tgAVoOdyDb7Zj4wPVz7pjQ18l7kJ47hob54tVPJU7QP5764z1tNq/Jl4eaFi
+ 9plXTxWkG1P78F3/uDkkA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SZaMBMHMq9U=:X4/f8pnYnJFLjNOfKICyc9
- mN9/w9eAApH3pfHskmcO55ch3pe7vhMM4yM8GtxA3rB65FUKM0uyN2H+dbcwnRUyIq5JXX5a0
- dM3Wqy9wg+1o8NzMylWJF5+/fESEUdAZwcpFSTlEr72aqr/mJHT9wUcX23wDmfyYocosuKWOk
- qsFUXYorMzk0fg5Nt52iJZfKr0/acRKc8OQ8Q3rLaOPyscG4F/szyduaAsu/r8VZXxYXxzwPn
- uYomkjJJrTmpYozdKeZkmZWXLsSCIz8asvMpp6CpXZsJSTKYOBj2LEu7LjbKwAW3/qhpdAbUT
- HDg0SJ2Z0ha/tIAlqjURCZvfTVn2SjDEKJhspxt1HVCs5fnyxP0sgSJBwEAhz3noXDXbDjzHs
- SgKin3LADIYxlBzO3hCJWHJZXWrzR96f0SX0BZEVwWrFf4tSq8DNjXT69wQhPX9GfuTm6Gjm2
- x2DyKDxNqAOsbbqE5ZOhjXfp1VVZo0Y7OYulB213y7PedDTuQsV8l0AjaAOjFzxs7jWriWbDD
- 33A/a7TMLuT3hejk/+6adPB/E17J1+6EQvnu73cCRCVBU6GF3TwesFO0tkoppF1gn6qCLWaTC
- G3o08F4sKoRUfkH4k8eH0QIytfCsclzJGYb5JD5w00dQlXfYTB/Dqsae8Z+u10wA08GVcYtoC
- EQ2vkQsCW5a10gPkBM3qXHq/CpFm032QEqe9mtyvq6oVZUQNODYBL80AvBA8itmnNOF01UkBd
- UfPnI9xCg9dbbx1Nt2Qlu3vpwRkAHVNz1Ud0drZeAj7fYXuZ+nCNWdbL4SEmwANAha3YzIRjS
- XNl5qeJoik1Mzxem3PWKPcEHR75lWtgciRsDO7FpiQnD3GeNZ+TfUdYmP8enOD+2Wjxo/uurx
- AUK6IuMJ6R7pj83YolXI0OIE+v3qWTr/BIFxWtU7N7topeWfoviMCU0ANGms2vIgal3KwY7nU
- g4nyb/cCbIIRfEnYzgYK3xw2UF8+8PKf47b57VcjY/1EdqEfFMMaULilswhuR6zKnc9VPJfWj
- Z0df82eECByJdelrXpMdatoaSs0oBbWFNy3O7yT5kMWA1CCsDXIuh5rp/Z1XOGWXzIPwzcHU4
- 5dQE14EF1zSyA+PSQ83e9wrSZHhZYdHpSav9VGKPnLG/wSamz4esasimA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CBcb5hSVrJs=:xegYaanLnDtAf8ejrmzmke
+ u27N1yH+y5rqraLuZv4PCarTIYwdRkwQCTYMrTwNiA46i65D+bz/qryrLyZGXo08pQzZI92xk
+ QHwV/nsFDSJXfZh22hutInt4QkZCI1cKqMuSONn5NZ9g6EfIW5JP8RnITlqYw/FP3Y+awHYIH
+ x7xJND8PUSyLfAQHr7KOnvBXE6yOc+FRP8zlv4Ofi4Sw33JaTZ9/wbhpw5y175a9z3WaPnJtD
+ /va1ER2ZONP6bqpCrm3puSHBmJmMfYKyKzAwVOcqbND2GCxV/samcLS5WlNWsYROEXwX/uiBW
+ Mu06YGsX9p8CgkhYQNOwmKQRFKlKdYbuQUfFdzGccuI8m91YTIucXoEL3mPr9NpjgSYQGNLtS
+ 5Ci7qFy16bkD3rUqSLHfgrqXWmW173MYOePC9U9CHO07bHvBrHnpQy/p+VFWMdZSzCxSxD6Rd
+ +TOVg0xLfCKp7fJLG8Gz61PTh+iXs8+joFiyVTtUMEH6sv2S0cpIV+AgRPIB6l2rsTatfu5YE
+ zAMprlVhgzsZVDHW5cMI9FEippsW+MEMQOilAdybuYFD3PY1nCi2vkSclTduq8s5r4xLVGHKh
+ coGkvYR+l9dLzxwpYUw088g/E+8+/ahpTqqcDvTdtwDCRnpO60TYZaAaXQbvPVd5KiGvG1zf4
+ rGRzPquFIhTIObDPAMkmrCYPplbML9l9iCA7uHHnr0ZCJFqq/26pWu6ijICM8sDdIlQp7/Acc
+ 4IuavGaljyKlm9xCDmri6RVBnPOAwSU7++w+vjrDbTUJlP3XLzUROJreZfYe9M4JqyFxlyWy5
+ Dhw6Sn/MLtrZeuO4YTV83uVuUMGAb20I9Upe8oI5DC1mR8N/yUv/IVaoh/rajjpjtL7b+N7z/
+ ipgrse3gJjVR7LfcFPxmmsig4vzDbB+Plz5Ea6PM5EuyHbYQPsoNkhUlT0jDnbWbGKZV4s0K8
+ xTvY8QtfGhz70CB2olSzlrskA6pvZ9c85VnAfFhimC5SuXtHN6zb5VWF416rf53svJvVq3/W+
+ tgSYPFzRdXYAM2i0HRV6LrNJPZwgDXkQ8ubfAiHEZWJOsB9h9V54a6fnrnUIRasrxSO/dR0Wx
+ 0TAUkC6EW5XdCwU4XW9eoalUmIsdDdBQhaoHwQvokN6F6/yyv+157B2PA==
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 strcpy() performs no bounds checking on the destination buffer. This
 could result in linear overflows beyond the end of the buffer, leading
-to all kinds of misbehaviors. The safe replacement is strscpy().
+to all kinds of misbehaviors. So, use memcpy() as a safe replacement.
 
 This is a previous step in the path to remove the strcpy() function
 entirely from the kernel.
 
 Signed-off-by: Len Baker <len.baker@gmx.com>
 =2D--
- drivers/soc/qcom/pdr_interface.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/soc/renesas/r8a779a0-sysc.c | 6 ++++--
+ drivers/soc/renesas/rcar-sysc.c     | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/soc/qcom/pdr_interface.c b/drivers/soc/qcom/pdr_inter=
-face.c
-index 915d5bc3d46e..fc580a3c4336 100644
-=2D-- a/drivers/soc/qcom/pdr_interface.c
-+++ b/drivers/soc/qcom/pdr_interface.c
-@@ -131,7 +131,7 @@ static int pdr_register_listener(struct pdr_handle *pd=
-r,
- 		return ret;
+diff --git a/drivers/soc/renesas/r8a779a0-sysc.c b/drivers/soc/renesas/r8a=
+779a0-sysc.c
+index d464ffa1be33..7410b9fa9846 100644
+=2D-- a/drivers/soc/renesas/r8a779a0-sysc.c
++++ b/drivers/soc/renesas/r8a779a0-sysc.c
+@@ -404,19 +404,21 @@ static int __init r8a779a0_sysc_pd_init(void)
+ 	for (i =3D 0; i < info->num_areas; i++) {
+ 		const struct r8a779a0_sysc_area *area =3D &info->areas[i];
+ 		struct r8a779a0_sysc_pd *pd;
++		size_t n;
 
- 	req.enable =3D enable;
--	strcpy(req.service_path, pds->service_path);
-+	strscpy(req.service_path, pds->service_path, sizeof(req.service_path));
+ 		if (!area->name) {
+ 			/* Skip NULLified area */
+ 			continue;
+ 		}
 
- 	ret =3D qmi_send_request(&pdr->notifier_hdl, &pds->addr,
- 			       &txn, SERVREG_REGISTER_LISTENER_REQ,
-@@ -257,7 +257,7 @@ static int pdr_send_indack_msg(struct pdr_handle *pdr,=
- struct pdr_service *pds,
- 		return ret;
+-		pd =3D kzalloc(sizeof(*pd) + strlen(area->name) + 1, GFP_KERNEL);
++		n =3D strlen(area->name) + 1;
++		pd =3D kzalloc(sizeof(*pd) + n, GFP_KERNEL);
+ 		if (!pd) {
+ 			error =3D -ENOMEM;
+ 			goto out_put;
+ 		}
 
- 	req.transaction_id =3D tid;
--	strcpy(req.service_path, pds->service_path);
-+	strscpy(req.service_path, pds->service_path, sizeof(req.service_path));
+-		strcpy(pd->name, area->name);
++		memcpy(pd->name, area->name, n);
+ 		pd->genpd.name =3D pd->name;
+ 		pd->pdr =3D area->pdr;
+ 		pd->flags =3D area->flags;
+diff --git a/drivers/soc/renesas/rcar-sysc.c b/drivers/soc/renesas/rcar-sy=
+sc.c
+index 53387a72ca00..b0a80de34c98 100644
+=2D-- a/drivers/soc/renesas/rcar-sysc.c
++++ b/drivers/soc/renesas/rcar-sysc.c
+@@ -396,19 +396,21 @@ static int __init rcar_sysc_pd_init(void)
+ 	for (i =3D 0; i < info->num_areas; i++) {
+ 		const struct rcar_sysc_area *area =3D &info->areas[i];
+ 		struct rcar_sysc_pd *pd;
++		size_t n;
 
- 	ret =3D qmi_send_request(&pdr->notifier_hdl, &pds->addr,
- 			       &txn, SERVREG_SET_ACK_REQ,
-@@ -406,7 +406,7 @@ static int pdr_locate_service(struct pdr_handle *pdr, =
-struct pdr_service *pds)
- 		return -ENOMEM;
+ 		if (!area->name) {
+ 			/* Skip NULLified area */
+ 			continue;
+ 		}
 
- 	/* Prepare req message */
--	strcpy(req.service_name, pds->service_name);
-+	strscpy(req.service_name, pds->service_name, sizeof(req.service_name));
- 	req.domain_offset_valid =3D true;
- 	req.domain_offset =3D 0;
+-		pd =3D kzalloc(sizeof(*pd) + strlen(area->name) + 1, GFP_KERNEL);
++		n =3D strlen(area->name) + 1;
++		pd =3D kzalloc(sizeof(*pd) + n, GFP_KERNEL);
+ 		if (!pd) {
+ 			error =3D -ENOMEM;
+ 			goto out_put;
+ 		}
 
-@@ -531,8 +531,8 @@ struct pdr_service *pdr_add_lookup(struct pdr_handle *=
-pdr,
- 		return ERR_PTR(-ENOMEM);
-
- 	pds->service =3D SERVREG_NOTIFIER_SERVICE;
--	strcpy(pds->service_name, service_name);
--	strcpy(pds->service_path, service_path);
-+	strscpy(pds->service_name, service_name, sizeof(pds->service_name));
-+	strscpy(pds->service_path, service_path, sizeof(pds->service_path));
- 	pds->need_locator_lookup =3D true;
-
- 	mutex_lock(&pdr->list_lock);
-@@ -587,7 +587,7 @@ int pdr_restart_pd(struct pdr_handle *pdr, struct pdr_=
-service *pds)
- 			break;
-
- 		/* Prepare req message */
--		strcpy(req.service_path, pds->service_path);
-+		strscpy(req.service_path, pds->service_path, sizeof(req.service_path));
- 		addr =3D pds->addr;
- 		break;
- 	}
+-		strcpy(pd->name, area->name);
++		memcpy(pd->name, area->name, n);
+ 		pd->genpd.name =3D pd->name;
+ 		pd->ch.chan_offs =3D area->chan_offs;
+ 		pd->ch.chan_bit =3D area->chan_bit;
 =2D-
 2.25.1
 
