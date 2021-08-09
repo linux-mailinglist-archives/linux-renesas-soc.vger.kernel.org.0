@@ -2,114 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D0313E3BD0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Aug 2021 19:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43E8B3E4251
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Aug 2021 11:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232131AbhHHRHC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 8 Aug 2021 13:07:02 -0400
-Received: from smtp13.smtpout.orange.fr ([80.12.242.135]:26040 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232123AbhHHRHB (ORCPT
+        id S234186AbhHIJR7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Aug 2021 05:17:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57776 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234147AbhHIJR7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 8 Aug 2021 13:07:01 -0400
-Received: from [192.168.1.18] ([90.126.253.178])
-        by mwinf5d75 with ME
-        id f56W250073riaq20356WZB; Sun, 08 Aug 2021 19:06:40 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 08 Aug 2021 19:06:40 +0200
-X-ME-IP: 90.126.253.178
-Subject: Re: [PATCH v4 2/3] drivers/soc/renesas: Prefer memcpy over strcpy
-To:     Bernd Petrovitsch <bernd@petrovitsch.priv.at>,
-        Len Baker <len.baker@gmx.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Santosh Shilimkar <ssantosh@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Robin Murphy <robin.murphy@arm.com>,
-        linux-hardening@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20210808125012.4715-1-len.baker@gmx.com>
- <20210808125012.4715-3-len.baker@gmx.com>
- <39485c0e-511c-50a0-83be-f9ce6fc47e67@petrovitsch.priv.at>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Message-ID: <c33adb9e-9604-3d89-5a5b-152eb03e5b54@wanadoo.fr>
-Date:   Sun, 8 Aug 2021 19:06:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Mon, 9 Aug 2021 05:17:59 -0400
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 971C4C06179A
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Aug 2021 02:17:07 -0700 (PDT)
+Received: by mail-oi1-x22d.google.com with SMTP id o185so22573096oih.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Aug 2021 02:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=VVQ41jigFzaVThfinrkRkfMZAgwQAuE1SWL+9+k/kFw=;
+        b=pABqisQOZ57CTAEmF4+/dPUz0n+/pLNvDe/Bxb6QbFJAWPqnL+ioMzffzi32ItwESz
+         vCZ/gohfUNLkHHwVSvSibdESSJrnhRzbiDqXDfMij4B8qv/7UASSE95ysYJyYfXVLDUA
+         hKL870uVrt+fFFoRLZf8FBijNWcFYvEQ2SKgq7R5fQgZCF21DukITKpsmcSDZ31iFmoC
+         8BLO59PsMmDJxhv86P9LCiBOqHaDc2skTikFW0uIrErCwOOUFZeBl+jMPU0lmd3ae6kY
+         T9NhDCm9uFs7P8gAyuYvTqwnBUHDdqeO+yMx3FIpEP059/0tuUgkmWvzcrYmcMVByfZS
+         VWHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=VVQ41jigFzaVThfinrkRkfMZAgwQAuE1SWL+9+k/kFw=;
+        b=Oq7cR7g6LksNc5s9noqaAvf1SR4m4+teZbuP/WsXUanJKsffzHMmpqZgvwr+8xsHiL
+         2AJP4tlGAjdS+/8jaITgF5hdT3yaDGq+S1mzZT8IDmbTbCJXF6ZFV1N+fIP1Jz81e/4j
+         CUttstgIRKb54Msb2pk5o0MCQlc194jGxgvQ8cnsNJmyBKCuOoscaH9kOWWBFqy3olmJ
+         HujNdZTQXMiJ9LQHO9wBpL1XXWSdwWFC2m9+JtR2sPGQFwUIcYTRnVqzs8LI2IZdfmlk
+         LZC0i1PTyGIhZOkLx7Zg+ijOlTPqwX6LeL0RR6TjJd3Lx24E//Xkdaji7I8hj7vC9L5i
+         B3Cw==
+X-Gm-Message-State: AOAM533cnIIHHZMK4NwrvsdpQxy2+uqz/4ZuMRrNQGFW9UrG9g0yv3QS
+        mGoXfpiToYR/BFeCZ1ZRyyK9dzcsyWQMWPPzJnI=
+X-Google-Smtp-Source: ABdhPJwOkAhBihvoPKXluvuS4xRLkjs5RSxRhOz7uq1gSNxEfQTya3FgIXrZnv3cwjNwlF3/GjAGowLBYPr7j1T+Qso=
+X-Received: by 2002:a05:6808:1301:: with SMTP id y1mr17140271oiv.156.1628500626901;
+ Mon, 09 Aug 2021 02:17:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <39485c0e-511c-50a0-83be-f9ce6fc47e67@petrovitsch.priv.at>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a4a:4591:0:0:0:0:0 with HTTP; Mon, 9 Aug 2021 02:17:05 -0700 (PDT)
+Reply-To: mrs.nicole111@gmail.com
+From:   Mrs Nicole Benoite Marois <brightotabor1@gmail.com>
+Date:   Mon, 9 Aug 2021 02:17:05 -0700
+Message-ID: <CALNwcOH7g3Ow7HcN0XruKLVP-ZcLpEFGeZmBfDBt6qpd8BGE8g@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Dear Beloved
 
-Le 08/08/2021 à 17:35, Bernd Petrovitsch a écrit :
-> Hi all!
-> 
-> On 08/08/2021 14:50, Len Baker wrote:
->> strcpy() performs no bounds checking on the destination buffer. This
->> could result in linear overflows beyond the end of the buffer, leading
->> to all kinds of misbehaviors. So, use memcpy() as a safe replacement.
->>
->> This is a previous step in the path to remove the strcpy() function
->> entirely from the kernel.
->>
->> Signed-off-by: Len Baker <len.baker@gmx.com>
->> ---
->>   drivers/soc/renesas/r8a779a0-sysc.c | 6 ++++--
->>   drivers/soc/renesas/rcar-sysc.c     | 6 ++++--
->>   2 files changed, 8 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/soc/renesas/r8a779a0-sysc.c b/drivers/soc/renesas/r8a779a0-sysc.c
->> index d464ffa1be33..7410b9fa9846 100644
->> --- a/drivers/soc/renesas/r8a779a0-sysc.c
->> +++ b/drivers/soc/renesas/r8a779a0-sysc.c
->> @@ -404,19 +404,21 @@ static int __init r8a779a0_sysc_pd_init(void)
->>   	for (i = 0; i < info->num_areas; i++) {
->>   		const struct r8a779a0_sysc_area *area = &info->areas[i];
->>   		struct r8a779a0_sysc_pd *pd;
->> +		size_t n;
->>
->>   		if (!area->name) {
->>   			/* Skip NULLified area */
->>   			continue;
->>   		}
->>
->> -		pd = kzalloc(sizeof(*pd) + strlen(area->name) + 1, GFP_KERNEL);
->> +		n = strlen(area->name) + 1;
->> +		pd = kzalloc(sizeof(*pd) + n, GFP_KERNEL);
-> Zeroing the allocated bytes is not needed since it's completly
-> overwritten with the strcpy()/memcpy().
+I am Mrs Nicole Benoite Marois and i have been suffering from ovarian
+cancer disease and the doctor says that i have just few days to leave.
+I am from (Paris) France but based in Africa Burkina Faso since eight
+years ago as a business woman dealing with gold exportation
 
-The strcpy()/memcpy() only overwrites the pd->name field, not the whole 
-pd structure.
-I think that it is needed to keep the kzalloc.
+Now that i am about to end the race like this, without any family
+members and no child. I have $3 Million US DOLLARS in Africa
+Development Bank (ADB) Burkina Faso which i instructed the bank to remit and
+give to Orphanage & Teaching Volunteer Work here in Burkina
 
-Just my 2c,
-CJ
+I also have $4.5 Million US Dollars at Eco-Bank here in Burkina Faso
+and i instructed the bank to transfer the fund to you as foreigner
+that will apply to the bank after i have gone, that they should
+release the fund to him/her,but you will assure me that you will take
+50% of the fund and give 50% to the orphanages home in your country
+for my heart to rest.
 
->>   		if (!pd) {
->>   			error = -ENOMEM;
->>   			goto out_put;
->>   		}
->>
->> -		strcpy(pd->name, area->name);
->> +		memcpy(pd->name, area->name, n);
->>   		pd->genpd.name = pd->name;
->>   		pd->pdr = area->pdr;
->>   		pd->flags = area->flags;
-> 
-> And similar for the second hunk.
-> 
-> MfG,
-> 	Bernd
-> 
+Hoping you will understand my point regarding my message.
 
+Yours fairly friend,
+Mrs Nicole Benoite Marois.
