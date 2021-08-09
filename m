@@ -2,58 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C49CF3E4925
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Aug 2021 17:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5618F3E4BED
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Aug 2021 20:14:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235803AbhHIPtb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Aug 2021 11:49:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35150 "EHLO
+        id S234947AbhHISO3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Aug 2021 14:14:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235826AbhHIPtH (ORCPT
+        with ESMTP id S234503AbhHISO2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Aug 2021 11:49:07 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5B5C0613D3;
-        Mon,  9 Aug 2021 08:48:46 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id j77so30390773ybj.3;
-        Mon, 09 Aug 2021 08:48:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CttDxHiCnPodE+fRVXutDrc3UtK9OxegaBoQba6T7pg=;
-        b=HSNxa2u8osQbqxNs8P6Yow3+3cv6sFFXG7vuRpeSOrtXnoQ9NIs1NzgEQ3bPz9vrF8
-         CzUzTyZ/kpguld6CZ2y6TpVHCA0J/WQUjGCBnK6eT8r6wdyso6LNH6MlLwyEteO9Ki+M
-         XQIpH1yVy9eB/16PnXa40PlU+GDorTpOKWWXsJRo1Ev9hCfPDGIwWW+X/wB5btHSh78A
-         HRXaCwxwdvewUK/Qj8OUAGwzlIHGj+PJSfuaBu9d876+cZ9vZ6WyIj/RfgboWgvDKidT
-         4Yqsce1J40lFu73UHz+bVpWONsl0qiJz4trpIddBFEtaUsjyysL1XodCku/3ZVnRZYUb
-         UHEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CttDxHiCnPodE+fRVXutDrc3UtK9OxegaBoQba6T7pg=;
-        b=GOlq8tbrYSghkYNumIvCmcqzP9j6N5MTE3MSjE+BkTnPdEThs8tuJo4i3/uT2I9g87
-         FyGomH9ioeZa1kyXrA6Rqmg5rR1ow1KOhvfREqFpryV6QDaxiW8eKdk9lIbHnjChTlNL
-         ss0HBNUFgEtPRX2UokKuDDhhBzKupxnJkANZhhNuu2E7g+2uBSwjW70SA+Z+Rzuq7j9t
-         KzXkC1Hwq0zdPCow6/GZEmFL8xkNAhzJzdc6dHqbG+LMhDCB9mkCNFFxCW1+jAd3ztNC
-         0iCgOni9kt0fTYmyNXXysG5/lB0IQtut3OlhXdj2d+fVo/YcU/HW1WuuANQewQ2pNZms
-         NizQ==
-X-Gm-Message-State: AOAM532gXUtjcoRDdp7z6DAjzEKXQARzLKfMZqy11R4ElUy1GJ1WP1Np
-        j6pME4lJAIOJKfRQwvtvsYCsSrQZsBFCfYG0GQ4=
-X-Google-Smtp-Source: ABdhPJx2fmwsYZrAdA/dVqw0R46k9XdivjCwFnQGurTZ8bcpvGyuWuvhsRqVC4wmjDtleYKdnU8JdnU9oa37iK0Uajc=
-X-Received: by 2002:a5b:2cf:: with SMTP id h15mr25624687ybp.426.1628524126062;
- Mon, 09 Aug 2021 08:48:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210727133022.634-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210727133022.634-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210809132605.m76mnxkp6bdcn77c@pengutronix.de>
-In-Reply-To: <20210809132605.m76mnxkp6bdcn77c@pengutronix.de>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 9 Aug 2021 16:48:20 +0100
-Message-ID: <CA+V-a8uDPn83W6wi2Jq8VFrBeGSVMPMiFmXGV2z=L8xxZteFNQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: net: can: renesas,rcar-canfd:
- Document RZ/G2L SoC
-To:     Marc Kleine-Budde <mkl@pengutronix.de>
+        Mon, 9 Aug 2021 14:14:28 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B9DAC061796
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Aug 2021 11:14:08 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1mD9mc-0005xR-Ht; Mon, 09 Aug 2021 20:13:54 +0200
+Received: from pengutronix.de (unknown [IPv6:2a02:810a:8940:aa0:b60e:a8cd:6ec5:c321])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id E3D6C6637A3;
+        Mon,  9 Aug 2021 18:13:49 +0000 (UTC)
+Date:   Mon, 9 Aug 2021 20:13:48 +0200
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
@@ -68,133 +44,70 @@ Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v4 1/3] dt-bindings: net: can: renesas,rcar-canfd:
+ Document RZ/G2L SoC
+Message-ID: <20210809181348.w64v6dryf7qlill5@pengutronix.de>
+References: <20210727133022.634-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210727133022.634-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210809132605.m76mnxkp6bdcn77c@pengutronix.de>
+ <CA+V-a8uDPn83W6wi2Jq8VFrBeGSVMPMiFmXGV2z=L8xxZteFNQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="72xgtvpkmtrh6noj"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8uDPn83W6wi2Jq8VFrBeGSVMPMiFmXGV2z=L8xxZteFNQ@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
 
-On Mon, Aug 9, 2021 at 2:26 PM Marc Kleine-Budde <mkl@pengutronix.de> wrote:
->
-> On 27.07.2021 14:30:20, Lad Prabhakar wrote:
-> > Add CANFD binding documentation for Renesas RZ/G2L SoC.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  .../bindings/net/can/renesas,rcar-canfd.yaml  | 69 +++++++++++++++++--
-> >  1 file changed, 63 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-> > index 0b33ba9ccb47..546c6e6d2fb0 100644
-> > --- a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-> > +++ b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-> > @@ -30,13 +30,15 @@ properties:
-> >                - renesas,r8a77995-canfd     # R-Car D3
-> >            - const: renesas,rcar-gen3-canfd # R-Car Gen3 and RZ/G2
-> >
-> > +      - items:
-> > +          - enum:
-> > +              - renesas,r9a07g044-canfd    # RZ/G2{L,LC}
-> > +          - const: renesas,rzg2l-canfd     # RZ/G2L family
-> > +
-> >    reg:
-> >      maxItems: 1
-> >
-> > -  interrupts:
-> > -    items:
-> > -      - description: Channel interrupt
-> > -      - description: Global interrupt
-> > +  interrupts: true
-> >
-> >    clocks:
-> >      maxItems: 3
-> > @@ -50,8 +52,7 @@ properties:
-> >    power-domains:
-> >      maxItems: 1
-> >
-> > -  resets:
-> > -    maxItems: 1
-> > +  resets: true
-> >
-> >    renesas,no-can-fd:
-> >      $ref: /schemas/types.yaml#/definitions/flag
-> > @@ -91,6 +92,62 @@ required:
-> >    - channel0
-> >    - channel1
-> >
-> > +if:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        enum:
-> > +          - renesas,rzg2l-canfd
-> > +then:
-> > +  properties:
-> > +    interrupts:
-> > +      items:
-> > +        - description: CAN global error interrupt
-> > +        - description: CAN receive FIFO interrupt
-> > +        - description: CAN0 error interrupt
-> > +        - description: CAN0 transmit interrupt
-> > +        - description: CAN0 transmit/receive FIFO receive completion interrupt
-> > +        - description: CAN1 error interrupt
-> > +        - description: CAN1 transmit interrupt
-> > +        - description: CAN1 transmit/receive FIFO receive completion interrupt
-> > +
-> > +    interrupt-names:
-> > +      items:
-> > +        - const: g_err
-> > +        - const: g_recc
-> > +        - const: ch0_err
-> > +        - const: ch0_rec
-> > +        - const: ch0_trx
-> > +        - const: ch1_err
-> > +        - const: ch1_rec
-> > +        - const: ch1_trx
-> > +
-> > +    resets:
-> > +      maxItems: 2
-> > +
-> > +    reset-names:
-> > +      items:
-> > +        - const: rstp_n
-> > +        - const: rstc_n
-> > +
-> > +  required:
-> > +    - interrupt-names
-> > +    - reset-names
-> > +else:
-> > +  properties:
-> > +    interrupts:
-> > +      items:
-> > +        - description: Channel interrupt
-> > +        - description: Global interrupt
-> > +
-> > +    interrupt-names:
-> > +      items:
-> > +        - const: ch_int
-> > +        - const: g_int
->
-> Are you adding the new interrupt-names to the existing DTs, too?
-> Otherwise this patch will generate more warnings in the existing DTs.
->
-For non RZ/G2L family interrupt-names property is not marked as
-required property so dtbs_check won't complain. Once we have added
-interrupt names in all the SoC DTSI's we will mark it as required
-property for the rest of the SoC's.
+--72xgtvpkmtrh6noj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Prabhakar
+On 09.08.2021 16:48:20, Lad, Prabhakar wrote:
+> > > +    interrupt-names:
+> > > +      items:
+> > > +        - const: ch_int
+> > > +        - const: g_int
+> >
+> > Are you adding the new interrupt-names to the existing DTs, too?
+> > Otherwise this patch will generate more warnings in the existing DTs.
+> >
+> For non RZ/G2L family interrupt-names property is not marked as
+> required property so dtbs_check won't complain. Once we have added
+> interrupt names in all the SoC DTSI's we will mark it as required
+> property for the rest of the SoC's.
 
-> regards,
-> Marc
->
-> --
-> Pengutronix e.K.                 | Marc Kleine-Budde           |
-> Embedded Linux                   | https://www.pengutronix.de  |
-> Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-> Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+That makes sense! Thanks for the explanation.
+
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--72xgtvpkmtrh6noj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmERcFkACgkQqclaivrt
+76nhoQf/YSZrrJlQSc6xA1DIfF9Xf3lM4xEP4c2GLVkZ80rSvPtqpWyxJSZQhXcC
+Z6eSYnmrcO6idAF4JvZKE9TgwYwHdnCtTSE3DxlHrcqcWnMYHwSkpwrlb5C4uaqK
+TK8AqbC1UeHG1kycIx36l3rsXrDAweEALgh4CHE2ozyUhJEVUurPCDjECBpHpuAN
+VSWwiFSgfK9/aXzD/s6/4//CEeJh0cBpNWVvyAlYo92Wv+W1q63/jbJJFtWNDl/G
+kwB2FMk+vvYDHbLThauRZJIVlO2P5JLgLYPt/iJ9h7Vjw0XU/dg2vp3FqAqM9VmZ
+Mmc2g1OppHVtjYZZGYlfD03jYVzpGg==
+=M9dG
+-----END PGP SIGNATURE-----
+
+--72xgtvpkmtrh6noj--
