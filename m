@@ -2,104 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 731133E45F6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Aug 2021 14:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DDD83E4607
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Aug 2021 15:05:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233845AbhHIM6G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Aug 2021 08:58:06 -0400
-Received: from mail-vk1-f179.google.com ([209.85.221.179]:34401 "EHLO
-        mail-vk1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233342AbhHIM6F (ORCPT
+        id S234717AbhHINFY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Aug 2021 09:05:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53850 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234778AbhHINFV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Aug 2021 08:58:05 -0400
-Received: by mail-vk1-f179.google.com with SMTP id x11so3908034vke.1;
-        Mon, 09 Aug 2021 05:57:44 -0700 (PDT)
+        Mon, 9 Aug 2021 09:05:21 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C361C061796;
+        Mon,  9 Aug 2021 06:05:00 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id j77so29337135ybj.3;
+        Mon, 09 Aug 2021 06:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2hc21s6jA+fO3+n9I28OBHKaMgXfmcXARaC/ezel7U0=;
+        b=J1BqMh+wbNjwpR/syWDWFESR9pwlu3Os0JaBxi70t0BuUsU1bOuf0my9Z9tUA+sIHb
+         MotXFSzBF1Rw2OY7yvyPa43y0x3InFh/yiTcnN9ccYWKr1cRVTgldoEaZEsY/lE39xWr
+         Zvp6NJaW+3XrSu0oO/jOw6BfDcxDIgDy6+HRbVNq50h2Qet8JimxDSDQ0hwY4Yk7vflt
+         RyV9y7VwKAC89CLsEsn5Avgs2g6kfWn+BvdOedNii7GKoUJXby02wPMm7dk7JvAKL72m
+         0qQ2jMnGUDW9Q3XMUlmgUe80kDLLrrR0+IdvlLTaRPLWOfV4KJINpM0MXJ4QIYONLCiy
+         d+Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8YyANyuZR7fYPTEivb2A77rPthj74HCMJFLYlpLjhb4=;
-        b=JHl0Wpqlw4+rEhyCZiZudmmLXovJ/7qPMEnQkSaj8VsXg9iw+C2fE/OkqbZ5Gn7NSj
-         3pybdxret/bV1eP8imGReJ6cU1IAWwPdrw9wTuJHD+wGwd5aKb6VGkw+uwY2IWHxNuEb
-         NPzGjrQubxTwtoS57ffsILhp6zo7tdTZQwoabU3+IKrWAY9+F0SM8lBPiCpPK6TcigJA
-         pjW43kReh1p+cEUM7UZ0Qsk1kMl9SE8axGdZNsY3YREdQD40Z+/5X4/RSZokNwv83bhf
-         IxUyjRoM+lq3fFyfAIvqrsIpo+1yWxQpKz2DfVqR4mVc+R+vh2jIdawCNgQpsIIERDv0
-         5qrA==
-X-Gm-Message-State: AOAM5302/2M5VnsZ2Ab2F/nmk0JQLqMfuCdW9WkPee/9dmHeKZw7wbrO
-        RrSVeaiGUesKcaRg2c5L64dwBgp9qscSq74DbsY=
-X-Google-Smtp-Source: ABdhPJy3oD8kwL2fKgjd1+x6oD9DrDy3lnCulPeZeuWofPVdmbjqf9lmI9L+WnkYPGr3ewE9j3BxXIRigNiej0QJHFk=
-X-Received: by 2002:a1f:fc03:: with SMTP id a3mr13722921vki.1.1628513864509;
- Mon, 09 Aug 2021 05:57:44 -0700 (PDT)
+        bh=2hc21s6jA+fO3+n9I28OBHKaMgXfmcXARaC/ezel7U0=;
+        b=nm4EJ24EDmALbu2rK9VmYbHWSLFQ8a+2MAnNxEP+19GiuL+T5vQC679ed7oa7uCSrC
+         mdblrzCAGNW7/l2n/dQGNOSB8HONjbmldMSvPWUw6aMQiVsHhygHb1v4CDMjKwwkFMwu
+         eptu3NuNvwWLwdFV3MheFNeaw/hc68YPKcVq7Za3yRdaXM2wDxChiiPw1I1n0jtVSi01
+         C5sEIlyEQIdjcHGEvcB8WDWP5QWCfi9MGn3W+9z1vWb5ycPsUQ1bTwp0CZXjR8YdPlPU
+         l6A39KVju24jFH8rmSpKFNXDMusSL5IWfAS0e0TrvyaM2I+TMfKFel+VjqewBcZtShF+
+         ZWIw==
+X-Gm-Message-State: AOAM531SDibcQJhnfplcRJy5E+i80ynXuJ0Ani8k1XfAFfeIh+jLuQda
+        gVvkzmilAQHEuj8KL4sfozPsRddNQZbo44VQQ+w=
+X-Google-Smtp-Source: ABdhPJwyXKyZS3tNvTA2B27dDqszt7alD3bvW8pIxu61Mple5XW1ExfZwH38ixLJlslu7lPnDGL56Ihq3Sy3LnFfzyE=
+X-Received: by 2002:a25:ba44:: with SMTP id z4mr30401399ybj.476.1628514299333;
+ Mon, 09 Aug 2021 06:04:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210806102930.3024-1-biju.das.jz@bp.renesas.com> <20210806102930.3024-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210806102930.3024-3-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 9 Aug 2021 14:57:33 +0200
-Message-ID: <CAMuHMdVnU4HSXCr08WEiVmYCNoRBcdZGOfS7mwmS_euo2RZaEA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] ASoC: dt-bindings: sound: renesas,rz-ssi: Update
- slave dma channel configuration parameters
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+References: <20210804202118.25745-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210808180143.6b3dc882@jic23-huawei>
+In-Reply-To: <20210808180143.6b3dc882@jic23-huawei>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 9 Aug 2021 14:04:33 +0100
+Message-ID: <CA+V-a8v0P-Xds51o9yDq0W67rfpAmCt=y=8S8BRWz=mkXLvtHw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] Renesas RZ/G2L ADC driver support
+To:     Jonathan Cameron <jic23@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Alexandru Ardelean <aardelean@deviqon.com>,
+        linux-iio <linux-iio@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Jonathan,
 
-On Fri, Aug 6, 2021 at 12:29 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The DMAC driver on RZ/G2L expects the slave channel configuration
-> to be passed in dmas property.
-> This patch updates the example node to include the encoded slave
-> channel configuration.
+On Sun, Aug 8, 2021 at 5:58 PM Jonathan Cameron <jic23@kernel.org> wrote:
 >
-> Fixes: 5df6dfbb6de815ba3a("ASoC: dt-bindings: sound: renesas,rz-ssi: Document DMA support")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> On Wed,  4 Aug 2021 21:21:15 +0100
+> Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> > Hi All,
+> >
+> > This patch series adds ADC support for Renesas RZ/G2L family.
+> >
+> > Patches apply on top of v5.14-rc2.
+> Hi Lad, I'm fine with this, but need to pull my tree forwards
+> to include the header that is only in rc2.
+>
+> I'll probably do that later in the week then pick up patches 1 and 2.
+>
+Thanks.
 
-> v3->v4:
->  * Updated bindings as the DMAC driver on RZ/G2L expects the
->    slave channel configuration to be passed in dmas property.
+Geert could you please pick patch 3/3.
 
-Thanks for the update!
+Cheers,
+Prabhakar
 
-> --- a/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
-> +++ b/Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
-> @@ -93,8 +93,8 @@ examples:
->              clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
->              power-domains = <&cpg>;
->              resets = <&cpg R9A07G044_SSI0_RST_M2_REG>;
-> -            dmas = <&dmac 0x255>,
-> -                   <&dmac 0x256>;
-> +            dmas = <&dmac 0x2655>,
-> +                   <&dmac 0x2656>;
->              dma-names = "tx", "rx";
->              #sound-dai-cells = <0>;
->      };
-
-I think it would be good to describe the expected format in the description
-for the dmas property, so the DTS writer knows what the numerical
-values in the example really mean.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Thanks,
+>
+> Jonathan
+> >
+> > Cheers,
+> > Prabhakar
+> >
+> > Changes for v4:
+> > * Fixed registering action to assert resets on failure/remove
+> >   as reported by Philip.
+> > * Fixed review comments suggested by Jonathan.
+> > * Included RB tag from Rob for patch 1/3
+> > * Note DTS patch applies on top of https://git.kernel.org/pub/scm/
+> >   linux/kernel/git/geert/renesas-devel.git/log/
+> >   ?h=renesas-arm-dt-for-v5.15
+> >
+> > Changes for v3 (as requested by Jonathan):
+> > * Made use of FIELD_PREP()
+> > * Renamed _CLEAR to _MASK and inverted inline as required
+> > * Moved |= pair's on same lines
+> > * Made use of sysfs_emit() while reading the labels
+> > * Used for_each_bit_set() in rzg2l_adc_isr()
+> > * Renamed rzg2l_adc_parse_of() -> rzg2l_adc_parse_properties()
+> > * Used devm_add_action_or_reset() for asserting the reset signals and
+> >   disabling pm_runtime and eventually removing remove() callback
+> > * Added comments in isr handler for channel select interrupt
+> > * Moved enabling/disabling of pclk during hw init in rzg2l_adc_hw_init()
+> > * Dropped clock patch 3/4 (https://lore.kernel.org/patchwork/patch/1462152/)
+> >   from previous series as its queued up in renesas-clk-for-v5.15
+> >
+> > Changes for v2:
+> > * Update binding doc, dropped gpios/renesas-rzg2l,adc-trigger-mode
+> >   properties included channel property to represent each wired channel.
+> > * Fixed review comments pointed by Alexandru, implemented pm runtime
+> >   support, dropped mlock usage
+> > * Fixed review comments pointed by Jonathan, renamed the macros,
+> >   simplified the code.
+> > * Included clock and DT patches
+> >
+> > v1: https://patchwork.kernel.org/project/linux-renesas-soc/cover/
+> >     20210629220328.13366-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> >
+> > Lad Prabhakar (3):
+> >   dt-bindings: iio: adc: Add binding documentation for Renesas RZ/G2L
+> >     A/D converter
+> >   iio: adc: Add driver for Renesas RZ/G2L A/D converter
+> >   arm64: dts: renesas: r9a07g044: Add ADC node
+> >
+> >  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 134 ++++
+> >  MAINTAINERS                                   |   8 +
+> >  arch/arm64/boot/dts/renesas/r9a07g044.dtsi    |  42 ++
+> >  drivers/iio/adc/Kconfig                       |  10 +
+> >  drivers/iio/adc/Makefile                      |   1 +
+> >  drivers/iio/adc/rzg2l_adc.c                   | 600 ++++++++++++++++++
+> >  6 files changed, 795 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> >  create mode 100644 drivers/iio/adc/rzg2l_adc.c
+> >
+>
