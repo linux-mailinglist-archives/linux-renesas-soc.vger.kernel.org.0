@@ -2,54 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2E093E573C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Aug 2021 11:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5570F3E5786
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Aug 2021 11:53:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237223AbhHJJm6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Aug 2021 05:42:58 -0400
-Received: from mail-vs1-f48.google.com ([209.85.217.48]:39912 "EHLO
-        mail-vs1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236860AbhHJJm6 (ORCPT
+        id S230190AbhHJJxp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Aug 2021 05:53:45 -0400
+Received: from mail-vs1-f42.google.com ([209.85.217.42]:35634 "EHLO
+        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229470AbhHJJxp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Aug 2021 05:42:58 -0400
-Received: by mail-vs1-f48.google.com with SMTP id e9so4078356vst.6;
-        Tue, 10 Aug 2021 02:42:36 -0700 (PDT)
+        Tue, 10 Aug 2021 05:53:45 -0400
+Received: by mail-vs1-f42.google.com with SMTP id b138so11968848vsd.2;
+        Tue, 10 Aug 2021 02:53:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=G/tYYo2Z6spIhPtXgeWag3qiDL9Iy4IctEOMzGPqf4c=;
-        b=Ivz9HqSU3EWvttlXeFk2QekAq8JxFJD4Qngchi5UbvMG/mpNoI73UxG8W0BzDVMhyl
-         aUTXnMXsI+ZbrbBgN9yv+irILWWjwmYUZwlesFBkx40liC502v9gLt2aDRjAfYSCKrtT
-         CHK1uat+lCSlJDYS9/h1u5J3arjUDEi2TLquv3pXD0hesT2eLZNvZcK7xdPF67AqgnAL
-         Fu//BPdrvMWgV9zYS33IN5q5Wvj6HyRM7z8TNUzDPbkPNugLCNE4yh8vlJAKZ4oWCllr
-         ENCerUX+kfXoEWkNzQP8syDuA4gA5LVODBtB3uYNQE9kAk14XVXXxlBPWWL/snBKBO3h
-         jLvQ==
-X-Gm-Message-State: AOAM533zyzihy3Vs87R0w2CvC/StuZ/5L2IjJ/RRW5OHAUPOJ5+K0MyH
-        Nj0Zsvfbm2l1eFKwoz1aP95zKyUOCVh9SX4/yg0=
-X-Google-Smtp-Source: ABdhPJzamjRgVDnBjllQxrIMeUoWJVZlIiNyYeI98AHv43IE8hW2VoO+jy2qQ/Hff2SjphwZImL4xtC+CPWOIgSTZg0=
-X-Received: by 2002:a67:e2c7:: with SMTP id i7mr20089364vsm.3.1628588555703;
- Tue, 10 Aug 2021 02:42:35 -0700 (PDT)
+        bh=S2mwLXgLe34hkbYtljXjTjA3I8KCckCNQbP0HcYtm9A=;
+        b=Mjw9MdWQ9n8Ku0vMn4aJ7MyBog0BnIWtNuSyxK+pqf3bNya9KedG3VCGt7VCUc1Q0R
+         YGS5CzbRCJGVk23iS5XD3G/9yZ0jmHcWSaqTY/i8nsHYfX9FlbtuolZbuJYOlW4b1pdg
+         tm7AX7XnuFGbYFvZZSt3GpbHeOYRM/t4MgbrxR9+29lwM5OM6jQS5gOvVh0rp4/2emkc
+         3s0ZmgInG5ooVL52TQ+3zVjfIhzsJ/UnjPBcvf3Eg9kpY5CaGPuza5gMX/gEjuzgcDnL
+         yTolgR6Rsnahcpj9q1NbupyH0T+JsHYDbexkyFkxBlmgVX1147lfHaD00Uj1XuSuhx39
+         s3Og==
+X-Gm-Message-State: AOAM5333h6C9k9GvOLZ6X5hBmRYzWXVJL3oQcti9ACIVMCW/qHJZerC5
+        vCwWku0Jg8bnXWxv5b/wqYIwO4DqOUqLpNlmB7E=
+X-Google-Smtp-Source: ABdhPJw+OOGkNx22bnwbTSGu3XUk55wtMnmGfEefyDALdGanu14MXj52HaBVsKThqaWtgVAjZr46DwVYcpKhfqn+2kw=
+X-Received: by 2002:a67:e2c7:: with SMTP id i7mr20103201vsm.3.1628589202976;
+ Tue, 10 Aug 2021 02:53:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210804202118.25745-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210804202118.25745-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210804202118.25745-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210727133022.634-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210727133022.634-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210727133022.634-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 Aug 2021 11:42:23 +0200
-Message-ID: <CAMuHMdU-gnyOCKaYKb2nVy41rdWzuixJ6j11t5FMwMMa85yHjQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] arm64: dts: renesas: r9a07g044: Add ADC node
+Date:   Tue, 10 Aug 2021 11:53:11 +0200
+Message-ID: <CAMuHMdWhi_Zey-031hhRz_G4wHA_guSg5kZTw+LUdtvF9bbQfA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] arm64: dts: renesas: r9a07g044: Add CANFD node
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Alexandru Ardelean <aardelean@deviqon.com>,
-        linux-iio@vger.kernel.org,
+        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -57,32 +58,15 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Wed, Aug 4, 2021 at 10:25 PM Lad Prabhakar
+On Tue, Jul 27, 2021 at 3:30 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add ADC node to R9A07G044 (RZ/G2L) SoC DTSI.
+> Add CANFD node to R9A07G044 (RZ/G2L) SoC DTSI.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> @@ -169,6 +169,48 @@
->                         status = "disabled";
->                 };
->
-> +               adc: adc@10059000 {
-> +                       compatible = "renesas,r9a07g044-adc", "renesas,rzg2l-adc";
-> +                       reg = <0 0x10059000 0 0x400>;
-> +                       interrupts = <GIC_SPI 347  IRQ_TYPE_EDGE_RISING>;
-
-Double space after 347.
-
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.15 with the above fixed.
+i.e. will queue in renesas-devel for v5.15.
 
 Gr{oetje,eeting}s,
 
