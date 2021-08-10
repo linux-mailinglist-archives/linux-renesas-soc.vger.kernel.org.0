@@ -2,70 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F186A3E582A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Aug 2021 12:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60FB03E5B1F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Aug 2021 15:22:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239802AbhHJKVV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Aug 2021 06:21:21 -0400
-Received: from mail-vs1-f43.google.com ([209.85.217.43]:36598 "EHLO
-        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238988AbhHJKVU (ORCPT
+        id S241241AbhHJNWU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Aug 2021 09:22:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47946 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241268AbhHJNWL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Aug 2021 06:21:20 -0400
-Received: by mail-vs1-f43.google.com with SMTP id y65so1569144vsy.3;
-        Tue, 10 Aug 2021 03:20:58 -0700 (PDT)
+        Tue, 10 Aug 2021 09:22:11 -0400
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA4DC06179B
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Aug 2021 06:21:49 -0700 (PDT)
+Received: by mail-ua1-x92c.google.com with SMTP id m39so3277926uad.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Aug 2021 06:21:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
+        b=avKOSdKIKrGjUY4tXk4DmVEak3ulQ4Tm0LjEE8JKTqeSW0TqbyWbwH3uUnUNVoPo3S
+         EHd2jthR0/NByml/EQI+lI1XWBdBn2w8KQniw7ijxq9XUa4YgELq4eJqNnqDhENp9yAi
+         Vn5fOaxzkbaeZZY8ERn5Hb6CfXrTgZhxwY0a/2qBNZ4iGJsVwH4CX461Jg4nLymsxkNM
+         5AnBd6pme4vFf5avJa1jDjvy0ta0aefZxdVLgYrpDVMcAhM5xYtQs+hxiyceMmwZ3m8f
+         fC0yHawq5nfXzMy/7fWHi+jli3TcH6MTkiWdZ6P4b/GwYBCVUju+7hdj844fRMK1CkW4
+         7Ihg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l1gBoiYEO7XbkRs8hlFE3qe793CSdQbcY1z2rTY4odU=;
-        b=gWRnAcOQk9Pex17gjG0S/ABGc8h7dC4xQDvnTqANgZjvI8B2q4RMD+MHUBy5973i3h
-         2ntf9bcoUKwbDflhbV+0oaw5d90qnUOiDWFH0ndfFHyoSXN40BPo9+Q+diqb5citDSD5
-         GeKg444LRioVVoXvSnWhN464/6FY7Tz4tM7ZjtoLhe8zoskwxfohimQJ+3BQYFKpAX7+
-         DDRAKp89Gl3gT3lEow7PfD0AqQNbcmp8MdJffCgsJ3jeViPAzvkQsDXJE6CQAC0iIkKa
-         7wQtIq8Da5y3rsk0oLVivzsmr59YYF5aYBO8OqhcjK0fRtbxUCJs3yq0fCH5ALApCW0t
-         7hgQ==
-X-Gm-Message-State: AOAM533My07AuOD1YCdQDSr17F2VnBgqCRtIm9/hC1q8l1pgqhVayLku
-        EDup/TlOutkiJJzeu4sROBIrW6AXBvJkp4Chu7Y=
-X-Google-Smtp-Source: ABdhPJzOym84ueJA1uKY9xnfxHaBxHX6hUvp89HqSHr+H8RurhngSChw9Xes3S5wV6h+vA/1VtUSBq+Od6PYuOZNVR0=
-X-Received: by 2002:a67:ca1c:: with SMTP id z28mr13062605vsk.40.1628590858048;
- Tue, 10 Aug 2021 03:20:58 -0700 (PDT)
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
+        b=looeikAwQY+AoSH10ujXHTnNBFenSIqx7CkJLT6+lfl13rzzcQG+43HktZu/SRtO/N
+         Hr2GJu/QSJFo2Ty+XBQrXpj4rWNWnrYREHJqffT1EQCVDRuMBBiWMwMfglEF1K6aq4y2
+         VbRHQFxJlFFgeWAy7fJqqO4hCYQWnFCitDgbmaXt7KdjSgWUuA7QCgjsSimpMHzBNK1L
+         eh6ZRjLeMJwdRyLo0Fo8cyu3oDyDMZEY8Otl3ifPQHozlH6UWZD9LeWyviFkM1DWxHAA
+         hBuStwBrstF+adkwq6O4RRIwhJpGIEreDVGHXXyxGwFUU1xE7RwZ/PMLf1wQa6OGeS5q
+         i+5w==
+X-Gm-Message-State: AOAM532zRyay2m8UlH/Rz8H+ri/Hhq8JDXWNrVm2m+BI5l/wT4znhNZP
+        dhPGGvRsMUTBcP2FBh1Nyy2mzQtFuEXlh8DGQTw=
+X-Google-Smtp-Source: ABdhPJzJDiZ1PvMBVoK4aD2s0XVfghaleD3Bb7hCI4N2Kqqx3+7bwQjsVevI4PXkud4Y2PD8LS18QsyZ6kCNLE40sms=
+X-Received: by 2002:ab0:45eb:: with SMTP id u98mr9154693uau.119.1628601708655;
+ Tue, 10 Aug 2021 06:21:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210727185527.19907-1-biju.das.jz@bp.renesas.com> <20210727185527.19907-7-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210727185527.19907-7-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 Aug 2021 12:20:46 +0200
-Message-ID: <CAMuHMdVgafPA9YT7gkqcZidJar+Mpb_m1DyYFqb6PXMWGfZQbg@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] arm64: dts: renesas: r9a07g044: Add USB2.0 device support
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Sender: immeublesourou@gmail.com
+Received: by 2002:ab0:3903:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 06:21:48
+ -0700 (PDT)
+From:   John Kumor <owo219901@gmail.com>
+Date:   Wed, 11 Aug 2021 01:21:48 +1200
+X-Google-Sender-Auth: L94nOYqk-IxbYBSvFykyCJkfc_I
+Message-ID: <CAHdg_cRa1ME7Vq=_SpmG0O5usBso5VP0a146h3ygvu=CRKjU3A@mail.gmail.com>
+Subject: Urgent
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 8:55 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add USB2.0 device support to RZ/G2L SoC DT.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+My dear,
+Greetings! I trust that all is well with you and your family. Did you
+receive my previous email?
+Regards
+John Kumor.
