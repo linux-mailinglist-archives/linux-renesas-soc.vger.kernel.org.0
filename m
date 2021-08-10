@@ -2,100 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B83FC3E557C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Aug 2021 10:33:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 228193E559C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Aug 2021 10:37:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234293AbhHJIdP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Aug 2021 04:33:15 -0400
-Received: from www.zeus03.de ([194.117.254.33]:38318 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238404AbhHJIc4 (ORCPT
+        id S230363AbhHJIhi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Aug 2021 04:37:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37382 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229459AbhHJIhi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Aug 2021 04:32:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=w/gJ095skrfvL1/SC/xS3/zoKeiU
-        RiAKx6U1BK1iVP8=; b=FqotDhBXY3RfyNUP808nEQ6IzS93IrYIL4HUKHRRGk8P
-        NgbVlGR5Va384cq1XEGSMScu6SJwRuC4E3YBkiKxXu4bw2BMfap3edRYOK5inDIB
-        PXfrp3q/gkPrX/UcoUOTznDrD4DCWEeYOKneCz1H5QF5PMqeYWW99JKFpM2iXM0=
-Received: (qmail 2221528 invoked from network); 10 Aug 2021 10:32:28 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Aug 2021 10:32:28 +0200
-X-UD-Smtp-Session: l3s3148p1@OmhJVzDJsqQgARa4RbjTAX75MNjKNQSJ
-Date:   Tue, 10 Aug 2021 10:32:23 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
-Subject: Re: [RFC PATCH v2 1/1] misc: add sloppy logic analyzer using polling
-Message-ID: <YRI5l+T1o3QXZ9Lo@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
-References: <20210519132528.4394-1-wsa+renesas@sang-engineering.com>
- <20210519132528.4394-2-wsa+renesas@sang-engineering.com>
- <YKUlbsWhT45l5Zm0@smile.fi.intel.com>
- <YQRZkFApESOIMRmv@ninjato>
- <YQRk0vpo1V709z/Z@smile.fi.intel.com>
+        Tue, 10 Aug 2021 04:37:38 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81DCDC0613D3;
+        Tue, 10 Aug 2021 01:37:16 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id s184so31204658ios.2;
+        Tue, 10 Aug 2021 01:37:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gnPKMaU00UCLHLbaCu25WvQfF+nVyh7mG8iqPJwCTtU=;
+        b=LLX2raXKGwA6gdGvRan7ZiuFcTgG877fDwmf9h56Rs9Qf1zP4xt0q1LEra87wWG2hg
+         V7vJNWfsnwOgeco9xREfHgpzGBR1aAo1CvaP4y5wwYXbWgG6iC0PHyDyEwfBOfPAfTVT
+         /ueM/ru81L6l3OHAr3hljOKA4XyaHSoDMvq5RHIv2BsV384ZCuSq3X0q32LEY2lWd0Mb
+         gNTLj2FbxKC8N3L0c3iRxklk6ghnkuXUu4UBflJ9kpr6gShdpLYktjRjrNkW+aXwZAz/
+         rsbQLF1BVLk1PXwmd43veJBpoIakkhA5TUTMwfRM9SAL8T0WVFwMivZoJiJ7ZuKW93j5
+         lLqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gnPKMaU00UCLHLbaCu25WvQfF+nVyh7mG8iqPJwCTtU=;
+        b=bTkiR9oj5Nq6mhoCczyio6fUNuX0oOVJodDbniWbFmKIldnMc0GgRKjLyYrLzoDUc+
+         zSL5TEhgcBwNjR2Q8rycIv6et0aWIeUxy1UCCTcnyGv6TRQxWfkotISf4IMG+hm5274B
+         ZWrC1hGn3EHuxbT4NyKBenfZ29RuG4QxCuPMisP5bZA0fdfa40KFFKjGdAPWRDSK4sG6
+         zrOuwzMh/uCOLjLQLnn07kkiGSHG3LTbw8Rq9msOY5h8l0DQDx9OY7LnicU2LhjjqIq0
+         wglAw7gWBQi+++2i25cL1qL8XEBbdHU/ZgHa3oxUgDJgbyho44mvLuQpDAxnTd2/UGfY
+         4xlQ==
+X-Gm-Message-State: AOAM533qzLEZ+/AHMu75dV6jfcqIPF9zFjBjguLpAtqrubefQ3yCMoQ3
+        MAHehrwIevupsWV8IhbyR44n3A/nPLh7ywKPINY=
+X-Google-Smtp-Source: ABdhPJz98UAvW3cm4tAjUP6zMkqSFBjRXQqCbocrq/OaqFGiue2x2yrK24wrwSM4UiaeeTqgVmwdzGbsY7Xbo/bgII0=
+X-Received: by 2002:a05:6638:329d:: with SMTP id f29mr26485952jav.140.1628584636021;
+ Tue, 10 Aug 2021 01:37:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1os8AFbjS/jUEc2N"
-Content-Disposition: inline
-In-Reply-To: <YQRk0vpo1V709z/Z@smile.fi.intel.com>
+References: <20210727133022.634-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210727133022.634-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdU7-AahJmKLabba_ZF2bcPwktU00Q_uBOYm+AdiBVGyTA@mail.gmail.com>
+In-Reply-To: <CAMuHMdU7-AahJmKLabba_ZF2bcPwktU00Q_uBOYm+AdiBVGyTA@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 10 Aug 2021 09:36:50 +0100
+Message-ID: <CA+V-a8vfnnfgK1cY8dqsPJUwotK7SZZu5MjeGuJTa--+qaN4gg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] can: rcar_canfd: Add support for RZ/G2L family
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Geert,
 
---1os8AFbjS/jUEc2N
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Aug 10, 2021 at 9:27 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, Jul 27, 2021 at 3:30 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > CANFD block on RZ/G2L SoC is almost identical to one found on
+> > R-Car Gen3 SoC's. On RZ/G2L SoC interrupt sources for each channel
+> > are split into different sources and the IP doesn't divide (1/2)
+> > CANFD clock within the IP.
+> >
+> > This patch adds compatible string for RZ/G2L family and splits
+> > the irq handlers to accommodate both RZ/G2L and R-Car Gen3 SoC's.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> I've just noticed a set of silly typos:
+>
+> > --- a/drivers/net/can/rcar/rcar_canfd.c
+> > +++ b/drivers/net/can/rcar/rcar_canfd.c
+>
+> > +static void rcar_canfd_handle_global_recieve(struct rcar_canfd_global *gpriv, u32 ch)
+>
+> receive (everywhere)
+>
+Ouch, I'll respin with the typo's fixed.
 
-Hi Andy,
+Cheers,
+Prabhakar
 
-> Nope. Below is the compile-tested one:
-
-Well, then let's add this incrementally once it has actually been
-tested.
-
-> > I don't understand the first sentence. And we still need it to clean up?
->=20
-> If you know the name of the folder, you may look up it, no need to keep a
-> variable for that.
-
-I need the dentry twice, subdirs are also created in there. Of course, I
-could look it up twice, but why the computation? The variable seems
-simpler to me, despite it being static. Or is it a debugfs rule to not
-save dentries?
-
-Happy hacking,
-
-   Wolfram
-
-
---1os8AFbjS/jUEc2N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmESOY8ACgkQFA3kzBSg
-Kba9nA//eTlnTTsWqLfUhMH+z8eYbUMarQHSTCPKF0lu1mZbW0jteLy7nr+GGve/
-28w0aZ6/TfYSw+KKqkoSfCx5P4VfKsvoPmSMQsgUQk2uDFmt3op5zNOpugswv9Em
-n2YwQA00XSS4IcHEsKlWn9HTOWs/YxpcrEdWUTsQOgtgt0pZ1Y+pLvcpLyJgKRlJ
-Ma3KvRdNkOpdMJMisyqdRaPZZZxx4l6IvCip1MHS/EQXdiqlS2x0HzrNhPqV3O4e
-oZPznlwpLLpYGQHEigxPUmzKcpiW/cqTrHMdsg20MsCPYzIJZldh9zxUf6Ba64FJ
-OiEnlIRYTXMO6fLYxOo4g0IEBH3QS9dglfXtf4kZCL9I82FX0P72nLxDOrWkpYsH
-YH6aMIA+GCA0nMvgLe3Vwu4Tzex2XsRx72BmN/lkBj6Bdbf/lTdt2JAvNyamRYIj
-YnOyD8wnzP3aWhfAs1ndCXPBrDL5LwX3cGE8kOT5Z51p1FMW3A9Wv50HrH7HIbey
-F9NktrtOOJv2sVaGmHYEs6RDsElrXr4W994V3RY6QmCsoEYwpAUmCeaW0ILybtCF
-oLkqB46Fl8rwuFol1dFA/e6ssT7EkkhCo1OUW3TGNFdnLx38SQVciaIUqynEkS4h
-BvRUj1bFeoRwfpo4QP+ALQ/kLlTDG0ww5MDIyrHJ2fQyx3pRLVo=
-=Wnc5
------END PGP SIGNATURE-----
-
---1os8AFbjS/jUEc2N--
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
