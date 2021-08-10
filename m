@@ -2,45 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C3513E5822
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Aug 2021 12:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F186A3E582A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Aug 2021 12:21:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237928AbhHJKUc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Aug 2021 06:20:32 -0400
-Received: from mail-vs1-f44.google.com ([209.85.217.44]:34709 "EHLO
-        mail-vs1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238900AbhHJKUb (ORCPT
+        id S239802AbhHJKVV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Aug 2021 06:21:21 -0400
+Received: from mail-vs1-f43.google.com ([209.85.217.43]:36598 "EHLO
+        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238988AbhHJKVU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Aug 2021 06:20:31 -0400
-Received: by mail-vs1-f44.google.com with SMTP id y1so12007713vsc.1;
-        Tue, 10 Aug 2021 03:20:09 -0700 (PDT)
+        Tue, 10 Aug 2021 06:21:20 -0400
+Received: by mail-vs1-f43.google.com with SMTP id y65so1569144vsy.3;
+        Tue, 10 Aug 2021 03:20:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ViSXR6yXK8nsqcEj3nqGncGWwhL5obzmTb+wOi66chs=;
-        b=EV4S8Pu33fNwapCwclrDr8O/IQ63wO3ZnlPG+XueAKNm1palHCtY3+Qk+w1SbrBT6z
-         QL6kjWtlSUcXJrAWL4MPIQ7lL4Pk6EnbVNLuE2ATdIjF0zuvND5Vk6oEFs4f+eCQbbJj
-         d3nKks+ZLA7s1b6Jdr56CxyPoF+dhNg8RzIP3MPkhxSaljYLm9NoB+Lazfn41PNrvigl
-         hjHAkuvHBgku4gvDiJ1XPtKZ3hSlReNp2dYJTYj5UazAfhqZ6uhVJ3/ezVJSvzuT7FxP
-         oybQszDQy5/2GfouF4PP+du69jd4F2o5e2aJt9s1c9czRMVQSII0kGxz801Fk6W3/OeH
-         xY+Q==
-X-Gm-Message-State: AOAM532h86cuLEQ7xt9n0OauE5IQX6YYThFQ+qQYqp0FQC+xqPGMiN9K
-        WBxz/F1BpEStN8POkGdMeNhmUv/iw2oG3hqte7s=
-X-Google-Smtp-Source: ABdhPJyOj4tbjccYcMl81/wp6Mmxp3+Qc6KXndH2R/c2o5BHeaS5HPmc1utV+HCZCUWiuQaRQce+ScpO+478z+yngUA=
-X-Received: by 2002:a67:e2c7:: with SMTP id i7mr20171647vsm.3.1628590809393;
- Tue, 10 Aug 2021 03:20:09 -0700 (PDT)
+        bh=l1gBoiYEO7XbkRs8hlFE3qe793CSdQbcY1z2rTY4odU=;
+        b=gWRnAcOQk9Pex17gjG0S/ABGc8h7dC4xQDvnTqANgZjvI8B2q4RMD+MHUBy5973i3h
+         2ntf9bcoUKwbDflhbV+0oaw5d90qnUOiDWFH0ndfFHyoSXN40BPo9+Q+diqb5citDSD5
+         GeKg444LRioVVoXvSnWhN464/6FY7Tz4tM7ZjtoLhe8zoskwxfohimQJ+3BQYFKpAX7+
+         DDRAKp89Gl3gT3lEow7PfD0AqQNbcmp8MdJffCgsJ3jeViPAzvkQsDXJE6CQAC0iIkKa
+         7wQtIq8Da5y3rsk0oLVivzsmr59YYF5aYBO8OqhcjK0fRtbxUCJs3yq0fCH5ALApCW0t
+         7hgQ==
+X-Gm-Message-State: AOAM533My07AuOD1YCdQDSr17F2VnBgqCRtIm9/hC1q8l1pgqhVayLku
+        EDup/TlOutkiJJzeu4sROBIrW6AXBvJkp4Chu7Y=
+X-Google-Smtp-Source: ABdhPJzOym84ueJA1uKY9xnfxHaBxHX6hUvp89HqSHr+H8RurhngSChw9Xes3S5wV6h+vA/1VtUSBq+Od6PYuOZNVR0=
+X-Received: by 2002:a67:ca1c:: with SMTP id z28mr13062605vsk.40.1628590858048;
+ Tue, 10 Aug 2021 03:20:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210727185527.19907-1-biju.das.jz@bp.renesas.com> <20210727185527.19907-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210727185527.19907-5-biju.das.jz@bp.renesas.com>
+References: <20210727185527.19907-1-biju.das.jz@bp.renesas.com> <20210727185527.19907-7-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210727185527.19907-7-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 Aug 2021 12:19:58 +0200
-Message-ID: <CAMuHMdXJY62vYx-ukDtdARg5duWqyKnL1CsoXEvf7-CfRcLZ0g@mail.gmail.com>
-Subject: Re: [PATCH v5 4/6] arm64: dts: renesas: r9a07g044: Add USB2.0 phy and
- host support
+Date:   Tue, 10 Aug 2021 12:20:46 +0200
+Message-ID: <CAMuHMdVgafPA9YT7gkqcZidJar+Mpb_m1DyYFqb6PXMWGfZQbg@mail.gmail.com>
+Subject: Re: [PATCH v5 6/6] arm64: dts: renesas: r9a07g044: Add USB2.0 device support
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -53,37 +51,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
-
 On Tue, Jul 27, 2021 at 8:55 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add USB2.0 phy and host support to SoC DT.
+> Add USB2.0 device support to RZ/G2L SoC DT.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> @@ -200,6 +200,100 @@
->                               <0x0 0x11940000 0 0x60000>;
->                         interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
->                 };
-> +
-> +               phyrst: usbphy-ctrl@11c40000 {
-> +                       compatible = "renesas,r9a07g044-usbphy-ctrl",
-> +                                    "renesas,rzg2l-usbphy-ctrl";
-> +                       reg = <0 0x11c40000 0 0x10000>;
-> +                       clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>;
-> +                       resets = <&cpg R9A07G044_USB_PRESETN>;
-> +                       power-domains = <&cpg>;
-> +                       #reset-cells = <1>;
-
-Should there be a status = "disabled"?
-
-> +               };
-
-The rest looks good to me, so with the above clarified:
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
