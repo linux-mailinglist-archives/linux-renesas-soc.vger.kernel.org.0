@@ -2,83 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6976D3E9298
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 15:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3394A3E92B4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 15:31:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230479AbhHKN0p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Aug 2021 09:26:45 -0400
-Received: from www.zeus03.de ([194.117.254.33]:37106 "EHLO mail.zeus03.de"
+        id S231440AbhHKNcR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Aug 2021 09:32:17 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:38170 "EHLO mail.ispras.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231247AbhHKN0n (ORCPT
+        id S229737AbhHKNcR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Aug 2021 09:26:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=fHSX0vPbRfacShDGjzOH0plzFkRt
-        V9grWotu/WWmi8g=; b=Z3JiJRLSL7RHQwKo7bizR3HPrr81Az5pOeg7P9xG9LHy
-        c9/dnOj5sTEX3OwEbXKB2yCxE0oBCR7L9XivHiMXQ9I8CNJn5O/qfPvcWswJQgk0
-        oVAfqrTM8C/puxROBoYKb8gkwescEiK/0Ej2d8mOmjWRWTFivrjgqiQ8/PQCZvY=
-Received: (qmail 2665231 invoked from network); 11 Aug 2021 15:26:18 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Aug 2021 15:26:18 +0200
-X-UD-Smtp-Session: l3s3148p1@w9kzkEjJ+p0gARa4RTP4AfHKOCm/nqrR
-Date:   Wed, 11 Aug 2021 15:26:17 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 0/7] i2c: use proper DMAENGINE API for termination
-Message-ID: <YRPP+f1tZXVSJ0Tb@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-References: <20210623095942.3325-1-wsa+renesas@sang-engineering.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="TcI5yjMXB98ejYbA"
-Content-Disposition: inline
-In-Reply-To: <20210623095942.3325-1-wsa+renesas@sang-engineering.com>
+        Wed, 11 Aug 2021 09:32:17 -0400
+Received: from kleverstation.intra.ispras.ru (unknown [10.10.2.220])
+        by mail.ispras.ru (Postfix) with ESMTPS id 5A612407625E;
+        Wed, 11 Aug 2021 13:31:52 +0000 (UTC)
+From:   Nadezda Lutovinova <lutovinova@ispras.ru>
+To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Nadezda Lutovinova <lutovinova@ispras.ru>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ldv-project@linuxtesting.org
+Subject: [PATCH] media: rcar-csi2: Add checking to rcsi2_start_receiver().
+Date:   Wed, 11 Aug 2021 16:31:42 +0300
+Message-Id: <20210811133142.13363-1-lutovinova@ispras.ru>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+If rcsi2_code_to_fmt() return NULL,
+then null pointer dereference occurs in the next cycle.
+The patch adds checking if format is NULL.
 
---TcI5yjMXB98ejYbA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Found by Linux Driver Verification project (linuxtesting.org).
 
-On Wed, Jun 23, 2021 at 11:59:34AM +0200, Wolfram Sang wrote:
-> dmaengine_terminate_all() is deprecated in favor of explicitly saying if
-> it should be sync or async. Update the drivers I audited.
+Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
+---
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-I applied the patches now, except for i2c-rcar and i2c-stm32f7 where
-this approach can't be used because of interrupt context. I will check
-for i2c-rcar how to do this properly and Alain for i2c-stm32f7 and we
-will resend then.
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index e28eff039688..55bb584d2a13 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -553,6 +553,12 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
+ 
+ 	/* Code is validated in set_fmt. */
+ 	format = rcsi2_code_to_fmt(priv->mf.code);
++	if (!format) {
++		dev_err(priv->dev,
++			"Incorrect mbus frame format code %u\n",
++			priv->mf.code);
++		return -EINVAL;
++	}
+ 
+ 	/*
+ 	 * Enable all supported CSI-2 channels with virtual channel and
+-- 
+2.17.1
 
-
---TcI5yjMXB98ejYbA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmETz/kACgkQFA3kzBSg
-Kbb/LA/+IwP6xJ0aVBJFXMzV4oywUhWP+AtDF9TkLjiZuZKyoSvx/oJtJbeskjkT
-6/Bz6ASA6rnltX0Nfu8K0YICSjGpUp1N7Nl/KeLNIRtlKDJDxzG5p8YF+gJ+Sket
-uMD4x2W0Wend8ifHBk5DOxrGX2wjnIiPzhZBnukZdkx1TuRjGpS4/k2at6jK/Bvr
-W3+jK4ydWsYSe6tzAYK0fa9ZY8+6RjVN3HFcY53qzYerVVNIb8LzlUIOC6DgW4g2
-xD8qkddxWzD25pveh3RnJgwAlOwrfKaz+yj6dxR6BMjxD9vEM2NdIBLHIPGMqPfs
-9Rf7koS4MO2H4GAQoWp6zPPChEczk1cpjmGpLstj/woS80EEMG9EYvyRw62BBPkL
-HZJ0RbYxjG5ckJIXkWtEDA/S65uoMnSm1j3nJPMbfsWSspuqY9hR2YkGJzLcnO3A
-HfXVCg3OyjMhQYZulQ7ynlNRltxhp25fk7JTKPo66MV0DJuO+6lJXtMAaO63GALO
-l7uc4JopNWGK8QBkCtACyNnpXAsO/BnsE0KmSrjSsK+QM1Q/qmKHj4CyV0PYj/hX
-k8z4EjR88vVYSxzBIdqDJq/368behrlBa2kafUqrfLM9QSLgYmWhHUkOWXo+AzWV
-EMJ7EUSxuMO2vo93QNmb8Zwn89z33m1HUBl5o5Zd0+qjy5d3T98=
-=JYQZ
------END PGP SIGNATURE-----
-
---TcI5yjMXB98ejYbA--
