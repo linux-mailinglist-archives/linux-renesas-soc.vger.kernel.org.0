@@ -2,192 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 726AF3E8CB8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 11:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 385103E8CD3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 11:06:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236583AbhHKJBD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Aug 2021 05:01:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35828 "EHLO
+        id S236584AbhHKJHK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Aug 2021 05:07:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236481AbhHKJBB (ORCPT
+        with ESMTP id S236369AbhHKJHI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Aug 2021 05:01:01 -0400
-X-Greylist: delayed 542 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 11 Aug 2021 02:00:38 PDT
-Received: from newton.telenet-ops.be (newton.telenet-ops.be [IPv6:2a02:1800:120:4::f00:d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F49CC061765
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 02:00:38 -0700 (PDT)
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by newton.telenet-ops.be (Postfix) with ESMTPS id 4Gl3TK6kqZzMql8l
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 10:51:33 +0200 (CEST)
+        Wed, 11 Aug 2021 05:07:08 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A978CC061765
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 02:06:44 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:438:1ff1:1071:f524])
-        by baptiste.telenet-ops.be with bizsmtp
-        id g8rG250061gJxCh018rG45; Wed, 11 Aug 2021 10:51:33 +0200
+        by andre.telenet-ops.be with bizsmtp
+        id g96i2500X1gJxCh0196iBT; Wed, 11 Aug 2021 11:06:43 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mDjxD-001yaH-W7; Wed, 11 Aug 2021 10:51:16 +0200
+        id 1mDkCA-001yt6-Hr; Wed, 11 Aug 2021 11:06:42 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mDjxD-0058xf-H6; Wed, 11 Aug 2021 10:51:15 +0200
+        id 1mDkC9-0059bi-Qk; Wed, 11 Aug 2021 11:06:41 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Dave Young <dyoung@redhat.com>
-Cc:     Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Mike Rapoport <rppt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-riscv@lists.infradead.org, kexec@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     Gareth Williams <gareth.williams.jx@renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v5 9/9] ARM: uncompress: Parse "linux,usable-memory-range" DT property
-Date:   Wed, 11 Aug 2021 10:51:07 +0200
-Message-Id: <5b71846020ce8b715423734365fa4f94aa65d77a.1628670468.git.geert+renesas@glider.be>
+Subject: [PATCH] clk: renesas: Make CLK_R9A06G032 invisible
+Date:   Wed, 11 Aug 2021 11:06:40 +0200
+Message-Id: <4f3d30c730c30546f702715ffc648922a8156703.1628672649.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1628670468.git.geert+renesas@glider.be>
-References: <cover.1628670468.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for parsing the "linux,usable-memory-range" DT property.
-This property is used to describe the usable memory reserved for the
-crash dump kernel, and thus makes the memory reservation explicit.
-If present, Linux no longer needs to mask the program counter, and rely
-on the "mem=" kernel parameter to obtain the start and size of usable
-memory.
+When configuring a kernel including support for Renesas ARM/ARM64 Socs,
+but excluding support for the RZ/N1D SoC, the user is always asked about
+the RZ/N1D clock driver.  As this driver is already auto-selected when
+building a kernel including support for the RZ/N1D SoC, there is no need
+to make the CLK_R9A06G032 symbol visible, unless compile-testing.
 
-For backwards compatibility, the traditional method to derive the start
-of memory is still used if "linux,usable-memory-range" is absent.
+Align the symbol description with the other symbols.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-The corresponding patch for kexec-tools is "[PATCH] arm: kdump: Add DT
-properties to crash dump kernel's DTB", which is still valid:
-https://lore.kernel.org/linux-arm-kernel/20200902154129.6358-1-geert+renesas@glider.be/
+To be queued in renesas-clk for v5.15.
 
-v5:
-  - Remove the addition of "linux,elfcorehdr" and
-    "linux,usable-memory-range" handling to arch/arm/mm/init.c,
+ drivers/clk/renesas/Kconfig | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-v4:
-  - Remove references to architectures in chosen.txt, to avoid having to
-    change this again when more architectures copy kdump support,
-  - Remove the architecture-specific code for parsing
-    "linux,usable-memory-range" and "linux,elfcorehdr", as the FDT core
-    code now takes care of this,
-  - Move chosen.txt change to patch changing the FDT core,
-  - Use IS_ENABLED(CONFIG_CRASH_DUMP) instead of #ifdef,
-
-v3:
-  - Rebase on top of accepted solution for DTB memory information
-    handling, which is part of v5.12-rc1,
-
-v2:
-  - Rebase on top of reworked DTB memory information handling.
----
- .../arm/boot/compressed/fdt_check_mem_start.c | 48 ++++++++++++++++---
- 1 file changed, 42 insertions(+), 6 deletions(-)
-
-diff --git a/arch/arm/boot/compressed/fdt_check_mem_start.c b/arch/arm/boot/compressed/fdt_check_mem_start.c
-index 62450d824c3ca180..9291a2661bdfe57f 100644
---- a/arch/arm/boot/compressed/fdt_check_mem_start.c
-+++ b/arch/arm/boot/compressed/fdt_check_mem_start.c
-@@ -55,16 +55,17 @@ static uint64_t get_val(const fdt32_t *cells, uint32_t ncells)
-  * DTB, and, if out-of-range, replace it by the real start address.
-  * To preserve backwards compatibility (systems reserving a block of memory
-  * at the start of physical memory, kdump, ...), the traditional method is
-- * always used if it yields a valid address.
-+ * used if it yields a valid address, unless the "linux,usable-memory-range"
-+ * property is present.
-  *
-  * Return value: start address of physical memory to use
-  */
- uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
- {
--	uint32_t addr_cells, size_cells, base;
-+	uint32_t addr_cells, size_cells, usable_base, base;
- 	uint32_t fdt_mem_start = 0xffffffff;
--	const fdt32_t *reg, *endp;
--	uint64_t size, end;
-+	const fdt32_t *usable, *reg, *endp;
-+	uint64_t size, usable_end, end;
- 	const char *type;
- 	int offset, len;
+diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
+index 7b450650bcaee124..6d0280751bb16e89 100644
+--- a/drivers/clk/renesas/Kconfig
++++ b/drivers/clk/renesas/Kconfig
+@@ -153,9 +153,7 @@ config CLK_R8A779A0
+ 	select CLK_RENESAS_CPG_MSSR
  
-@@ -80,6 +81,27 @@ uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
- 	if (addr_cells > 2 || size_cells > 2)
- 		return mem_start;
+ config CLK_R9A06G032
+-	bool "Renesas R9A06G032 clock driver"
+-	help
+-	  This is a driver for R9A06G032 clocks
++	bool "RZ/N1D clock support" if COMPILE_TEST
  
-+	/*
-+	 * Usable memory in case of a crash dump kernel
-+	 * This property describes a limitation: memory within this range is
-+	 * only valid when also described through another mechanism
-+	 */
-+	usable = get_prop(fdt, "/chosen", "linux,usable-memory-range",
-+			  (addr_cells + size_cells) * sizeof(fdt32_t));
-+	if (usable) {
-+		size = get_val(usable + addr_cells, size_cells);
-+		if (!size)
-+			return mem_start;
-+
-+		if (addr_cells > 1 && fdt32_ld(usable)) {
-+			/* Outside 32-bit address space */
-+			return mem_start;
-+		}
-+
-+		usable_base = fdt32_ld(usable + addr_cells - 1);
-+		usable_end = usable_base + size;
-+	}
-+
- 	/* Walk all memory nodes and regions */
- 	for (offset = fdt_next_node(fdt, -1, NULL); offset >= 0;
- 	     offset = fdt_next_node(fdt, offset, NULL)) {
-@@ -107,7 +129,20 @@ uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
- 
- 			base = fdt32_ld(reg + addr_cells - 1);
- 			end = base + size;
--			if (mem_start >= base && mem_start < end) {
-+			if (usable) {
-+				/*
-+				 * Clip to usable range, which takes precedence
-+				 * over mem_start
-+				 */
-+				if (base < usable_base)
-+					base = usable_base;
-+
-+				if (end > usable_end)
-+					end = usable_end;
-+
-+				if (end <= base)
-+					continue;
-+			} else if (mem_start >= base && mem_start < end) {
- 				/* Calculated address is valid, use it */
- 				return mem_start;
- 			}
-@@ -123,7 +158,8 @@ uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
- 	}
- 
- 	/*
--	 * The calculated address is not usable.
-+	 * The calculated address is not usable, or was overridden by the
-+	 * "linux,usable-memory-range" property.
- 	 * Use the lowest usable physical memory address from the DTB instead,
- 	 * and make sure this is a multiple of 2 MiB for phys/virt patching.
- 	 */
+ config CLK_R9A07G044
+ 	bool "RZ/G2L clock support" if COMPILE_TEST
 -- 
 2.25.1
 
