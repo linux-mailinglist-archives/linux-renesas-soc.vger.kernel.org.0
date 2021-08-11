@@ -2,55 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 132353E902A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 14:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E713E902F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 14:10:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237576AbhHKMII (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Aug 2021 08:08:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51234 "EHLO
+        id S237273AbhHKMLI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Aug 2021 08:11:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237592AbhHKMIH (ORCPT
+        with ESMTP id S236679AbhHKMLI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Aug 2021 08:08:07 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9F56C0613D5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 05:07:43 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id m18so4196920ljo.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 05:07:43 -0700 (PDT)
+        Wed, 11 Aug 2021 08:11:08 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD6BC0613D5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 05:10:44 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id d4so5168141lfk.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 05:10:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ObQ5OAEUd0+X1eMi1qcnnAwRcSYfFxDtxdcEgN6ufWM=;
-        b=OMRmvbDwPkn8fEqA2OPAXWB6I+etzg1ysA5y8KNf4rT5LZO3Wpb0CgwaWeFQuvXgmd
-         4F0zctL9WdpflzYh9lDHUKC76WIE12Cny8oKlyB9tHB5HqTaKylIYEm1adesWNVGZBIG
-         JU5JGbz5cUrkgeHli4AKOSJBeyoqid4nfOFRCRHT0JQnnFjTq/NIhcQZL50CkoIAtuyy
-         hsTVeI0+nh5h0NLmHh5q1IQQsK+YYsJyrkx5kGMv8CtLZIlnS8VG6Tf5OlvbtFgtQs41
-         hcW0vlYj1PO6GDwdVCabM0+xze+vKZFVUJMIsR9diuC3pTtNqBBOeKia0ieLbqD/hSkV
-         7q6g==
+        bh=KBczuHX+1v4RsAOc2qbNNm3ZUF53aZdkil8sTejujeA=;
+        b=kGZfn94t2QYH8Q6jbR2mv4bDU86CK5aMCFcJTprdhQ7LTcjy0AGpFDuPfdGJsGdN/U
+         NJIzHe7EIeUXNf0Ok0IfEDnHfdSoLKbDM4Qhw8ooyyWPSwkCMQfFlma2PGj/S0Elw/jd
+         KbyjiFearaL6pO3QTLcmOwC4hTuhQL5uM80DfzmZAD2TuN2hAw9lqsYvx4Vd2IhUdooe
+         DbXkbTsmF3ifT2lB33+NHruWXaSSX+RnErO+VfOGKmqgoA9WS8GrfJ4IA7N0mHWAXW+3
+         GgD3HCPy+Vez4uJCVL4YKAyUKJj5oLD8eqI+wp95E2ssOzdqg0VhbBwCiWXII4hCzIYR
+         58DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ObQ5OAEUd0+X1eMi1qcnnAwRcSYfFxDtxdcEgN6ufWM=;
-        b=V42iLt9tzGFsrppW8JG4TarD42CLejiyKAdn73pgXyPRicYCag6bhmH+dCmq81kFdF
-         2VLItubIPC4apu0qpkfDXv8vwlvaAUwKbz9dgP5U3qGn/fETvrCutiKgAdt2XXKOn768
-         ZuXGstC3gUz8XtwBX2dkQUxv4g0ErSkU31WsrxCQXxsdRVOHNkC15ByZdRs1bu0qp4eN
-         CR1R6wBtPQxBcER4AWyu986Zs7cB0w5Mwvl/d95x59d64bcr8zUoqC1Tbyowgt5xeJeK
-         Pv86IbSu1qXrXGVOrmFe9fg6myLHpEQuaagrbwWIye5M7oEneO5icKEnoqMXQjuPh2rh
-         2AXw==
-X-Gm-Message-State: AOAM531mwDHpT2M73wtX7rgJxJRnlTuqCYIy7itpa3FKOgeqSfpRfSRG
-        qjdYYfSCpHwDArA8yHzKJhdHbxo7XW68Cyx/D5M3ng==
-X-Google-Smtp-Source: ABdhPJzY2UMetNipVATu+xcWql5w7ucY3+3H1SvB5mkMuZDL9wTMQKa9NEl1S74qvlbCJIHPSpWeiReYNbTevn2LyM8=
-X-Received: by 2002:a2e:a4ab:: with SMTP id g11mr526868ljm.273.1628683662147;
- Wed, 11 Aug 2021 05:07:42 -0700 (PDT)
+        bh=KBczuHX+1v4RsAOc2qbNNm3ZUF53aZdkil8sTejujeA=;
+        b=V61RxnQIMpoVPNWlyJDi1wA5KKkKh5sgYHW3i6m5PYfNYSE4yeYjNDH3pUEPF01zw1
+         rYHRx5sqkLdmcnvhg3ZDk0j2bZfuomZiGIv6smA2b67KMn1yoc5LixBrOIy7uYnEjTFf
+         7zP1hCYggsAkiR0YJUwfQdqCr3eMDxjkQjVY+fzoMuPrkcztViKoW0zJFSsrKrNAREAb
+         IwmEnWY1OjimJ9Q1gudpe+Q2KOArEk8L//jtxGf0DtfJcv48nBiaNJz/FjY9j8HRqvmY
+         k8osVU4ua1HrijF/vmG3iR+do7OW/zra2sWhKMB2/S5NOFGzjOotv/P92BKlhllPSH1I
+         l7UQ==
+X-Gm-Message-State: AOAM530UlS2r5/DGSfzxlcU3mi05M2+GLk2A/jM0jDmVYJgKvdW/QDdU
+        hziZCxyUJ9nrywfnaLpIp2uWHbvJQDXzBu7fKZhtGg==
+X-Google-Smtp-Source: ABdhPJwwrj9PJmBaA8K2+6DSS48GN5f7YzmPXv/NK8VjseBpLrkHE7CMNRz/lOmkeBhanSaQZ+TO0c3EbNLRLuUHpPw=
+X-Received: by 2002:a05:6512:132a:: with SMTP id x42mr24694863lfu.291.1628683842796;
+ Wed, 11 Aug 2021 05:10:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210803175109.1729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210803175109.1729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210803175109.1729-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210803175109.1729-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210803175109.1729-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 11 Aug 2021 14:07:31 +0200
-Message-ID: <CACRpkdbEPsRUUxNTfFoAghFiRur6eG9BbXqzXdWWnSZGuOreKQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] Renesas RZ/G2L IRQC support
+Date:   Wed, 11 Aug 2021 14:10:32 +0200
+Message-ID: <CACRpkdaMmGCwmA6j0CvJUX3S6cthoeqWRmY1RssSTmSKukwHkg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] dt-bindings: interrupt-controller: Add Renesas
+ RZ/G2L Interrupt Controller
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -71,14 +72,17 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Tue, Aug 3, 2021 at 7:51 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 
-> The RZ/G2L Interrupt Controller is a front-end for the GIC found on
-> Renesas RZ/G2L SoC's with below pins:
-> - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts
-> - GPIO pins used as external interrupt input pins out of GPIOINT0-122 a
->   maximum of only 32 can be mapped to 32 GIC SPI interrupts,
+> +description: |
+> +  The RZ/G2L Interrupt Controller is a front-end for the GIC found on Renesas RZ/G2L SoC's
+> +    - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts,
+> +    - GPIO pins used as external interrupt input pins, mapped to 32 GIC SPI interrupts,
+> +    - NMI edge select.
 
-This looks good to me but I count on Geert to do final review, merge and
-send pull requests for everything Renesas.
+Not that we don't have weird documentation but what on earth is an
+"NMI edge"???
+
+I know about rising and falling edges, and I know about non-maskable
+interrupts. But NMI edge? Maybe expand this to explain what it is?
 
 Yours,
 Linus Walleij
