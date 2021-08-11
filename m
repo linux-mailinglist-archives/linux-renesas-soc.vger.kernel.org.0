@@ -2,115 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F7D73E9497
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 17:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FE7C3E9501
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 17:49:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233041AbhHKPgC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Aug 2021 11:36:02 -0400
-Received: from mail-vs1-f42.google.com ([209.85.217.42]:42700 "EHLO
-        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233010AbhHKPgC (ORCPT
+        id S233201AbhHKPtp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Aug 2021 11:49:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48774 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233335AbhHKPto (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Aug 2021 11:36:02 -0400
-Received: by mail-vs1-f42.google.com with SMTP id k24so1764345vsg.9;
-        Wed, 11 Aug 2021 08:35:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qe0iSj8XpU18YU856j4Cl+K1mgU1eag6gHjOJIBodYU=;
-        b=NxbMnEOENBHaXg4NMprVdhDf6hm/iv8kojr90GBi/mZJvHW2UBFe3kuT37cSCMFpOJ
-         WSKTIZrLDfHkr3TCElHHczCSfqT94Kl8POn7qJ0H8q4XD+QeFIVI7O5D/ASitH+1RsVz
-         ImwdIRcCp1UJetSE/xdF/uDTnW6WoN0evVQbWoBYLEcLzF4rJUGNwJa/uP9naCWVfW+B
-         5C7uFG3wWW+2dYv59oZRPPhbDzgWUUYfWyNbf5SDQtHLCFUPjH8pekxT2uziRhGOcxTy
-         PkPqp8ozJMKO2RWf6QFF4q7HbJu1awxrLDiqUidDKLSAugYQYAd9RxKGw4jsRdErdNsf
-         NdNQ==
-X-Gm-Message-State: AOAM532FKs2F8dhaSJE9z8LbThpgml7plQ1eXadzYFJKB/UZW59xx9Vq
-        MxkfEDSVkqERhRomXeWlr5HDusICQEN7n/4Yzos=
-X-Google-Smtp-Source: ABdhPJyCg7XeMMJOVeEoBRA0hgH3tr2A9kDf4d5be/Soj53sLrczZ+iXFRzYK6VNuP5kM7qaaKYjO/TzUNz0MI9TmgQ=
-X-Received: by 2002:a67:8009:: with SMTP id b9mr27769636vsd.18.1628696137555;
- Wed, 11 Aug 2021 08:35:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1628670468.git.geert+renesas@glider.be> <92b6718f5618d5469f67b48fbea189cca0c12f4b.1628670468.git.geert+renesas@glider.be>
-In-Reply-To: <92b6718f5618d5469f67b48fbea189cca0c12f4b.1628670468.git.geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 11 Aug 2021 17:35:26 +0200
-Message-ID: <CAMuHMdVFJ_qGs0V7f+XhfD6v3WnkMJ98fO31sCRSNaeS89XXUQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/9] MIPS: Avoid future duplicate elf core header reservation
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        kexec@lists.infradead.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Wed, 11 Aug 2021 11:49:44 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DEF8C0613D3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 08:49:13 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:438:1ff1:1071:f524])
+        by baptiste.telenet-ops.be with bizsmtp
+        id gFp92500c1gJxCh01Fp9to; Wed, 11 Aug 2021 17:49:09 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mDqTd-0024wx-1S; Wed, 11 Aug 2021 17:49:09 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mDqTc-005TGq-8U; Wed, 11 Aug 2021 17:49:08 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH net-next] ravb: Remove checks for unsupported internal delay modes
+Date:   Wed, 11 Aug 2021 17:49:00 +0200
+Message-Id: <2037542ac56e99413b9807e24049711553cc88a9.1628696778.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 11, 2021 at 10:51 AM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Prepare for early_init_fdt_scan_reserved_mem() reserving the memory
-> occupied by an elf core header described in the device tree.
-> As arch_mem_init() calls early_init_fdt_scan_reserved_mem() before
-> mips_reserve_vmcore(), the latter needs to check if the memory has
-> already been reserved before.
->
-> Note that mips_reserve_vmcore() cannot just be removed, as not all MIPS
-> systems use DT.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v5:
->   - New.
-> ---
->  arch/mips/kernel/setup.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/mips/kernel/setup.c b/arch/mips/kernel/setup.c
-> index 23a140327a0bac1b..4693add05743d78b 100644
-> --- a/arch/mips/kernel/setup.c
-> +++ b/arch/mips/kernel/setup.c
-> @@ -429,7 +429,8 @@ static void __init mips_reserve_vmcore(void)
->         pr_info("Reserving %ldKB of memory at %ldKB for kdump\n",
->                 (unsigned long)elfcorehdr_size >> 10, (unsigned long)elfcorehdr_addr >> 10);
->
-> -       memblock_reserve(elfcorehdr_addr, elfcorehdr_size);
-> +       if (!memblock_is_region_reserved(elfcorehdr_addr, elfcorehdr_size)
+The EtherAVB instances on the R-Car E3/D3 and RZ/G2E SoCs do not support
+TX clock internal delay modes, and the EtherAVB driver prints a warning
+if an unsupported "rgmii-*id" PHY mode is specified, to catch buggy
+DTBs.
 
-As pointed out by lkp, there's a closing parenthesis missing.
+Commit a6f51f2efa742df0 ("ravb: Add support for explicit internal
+clock delay configuration") deprecated deriving the internal delay mode
+from the PHY mode, in favor of explicit configuration using the now
+mandatory "rx-internal-delay-ps" and "tx-internal-delay-ps" properties,
+thus delegating the warning to the legacy fallback code.
 
-/me hides back under his rock.
+Since explicit configuration of a (valid) internal clock delay
+configuration is enforced by validating device tree source files against
+DT binding files, and all upstream DTS files have been converted as of
+commit a5200e63af57d05e ("arm64: dts: renesas: rzg2: Convert EtherAVB to
+explicit delay handling"), the checks in the legacy fallback code can be
+removed.
 
-> +               memblock_reserve(elfcorehdr_addr, elfcorehdr_size);
->  #endif
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/net/ethernet/renesas/ravb_main.c | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index f4dfe9f71d067533..62b0605f02ff786e 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -1973,13 +1973,6 @@ static void ravb_set_config_mode(struct net_device *ndev)
+ 	}
+ }
+ 
+-static const struct soc_device_attribute ravb_delay_mode_quirk_match[] = {
+-	{ .soc_id = "r8a774c0" },
+-	{ .soc_id = "r8a77990" },
+-	{ .soc_id = "r8a77995" },
+-	{ /* sentinel */ }
+-};
+-
+ /* Set tx and rx clock internal delay modes */
+ static void ravb_parse_delay_mode(struct device_node *np, struct net_device *ndev)
+ {
+@@ -2010,12 +2003,8 @@ static void ravb_parse_delay_mode(struct device_node *np, struct net_device *nde
+ 
+ 	if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID ||
+ 	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_TXID) {
+-		if (!WARN(soc_device_match(ravb_delay_mode_quirk_match),
+-			  "phy-mode %s requires TX clock internal delay mode which is not supported by this hardware revision. Please update device tree",
+-			  phy_modes(priv->phy_interface))) {
+-			priv->txcidm = 1;
+-			priv->rgmii_override = 1;
+-		}
++		priv->txcidm = 1;
++		priv->rgmii_override = 1;
+ 	}
+ }
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
