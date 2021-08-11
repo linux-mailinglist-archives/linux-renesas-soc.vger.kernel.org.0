@@ -2,146 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F034F3E97D3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 20:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62B0B3E9842
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 21:04:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229802AbhHKSox (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Aug 2021 14:44:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbhHKSox (ORCPT
+        id S230481AbhHKTEl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Aug 2021 15:04:41 -0400
+Received: from www.zeus03.de ([194.117.254.33]:42168 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230290AbhHKTEk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Aug 2021 14:44:53 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2335FC061765
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 11:44:29 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id e11so747533ljq.4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 11:44:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=iHat3XoCIw1ghVDFVOlf+KTgdGyI4p73gjc9fHcDt9k=;
-        b=tA+2vnIcaSVNffeIrHKBJfwxlA+5lyhcCXNvKXrVmWPYIqA5ux7Z/FQ5gdfzJaUa4t
-         JTIo6Rn6yKf/B4z1kvI3JlfeaCPrZwcSFjOrznVpUb/N3pU2SHtI2cot+xtGyEx/QCOz
-         gqxD9YOd7+OO+OKJTzTfG7+T7VIDb4h5fz2s2uCDuQJqjaCjrxhRzcX+BBtnIdfmkTRh
-         bLBdfDm8acE/C807m/NBskEohpt/FN7R75JV+FZk0iQXEqbPJKvKkew6LPaE68VBVchN
-         7ew3bPT4vjNLaqCNezGFMUHEkxJdr6F6P+FYityGbWsxYkVs9g02UhyzWpcFdPae/dtF
-         LVpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=iHat3XoCIw1ghVDFVOlf+KTgdGyI4p73gjc9fHcDt9k=;
-        b=uKxuGhAFVwqVwb15VmPv7JDFEJGEZ7GD+N05cEce62NELBSKsxvKEsnL8QCLUEL9Gw
-         tIHtLUv3vbttEx55Og84oy7Eg3TfqsuwJKQkVYqNlAphYBltr/ucYBLnoHe6WfgL1B1+
-         xqdXWkjI4yNix2r6wZ6O8eeyyKscD6qAAIRGOWxBqV3hyxpQarTBQcTLGZLkVa/2uz83
-         GtIvtAwuZqxZhLl/m5naGh8TeCtiGil08uv9izyzd7dep839NgCtXy5vmedDilAQh5Gl
-         jQ1zLp6bC1DrEjls214bQ7Orm+DclxzyEFKRUz8dxAIk+wDEWAwWjLa0MX22ALGo8llU
-         /UCw==
-X-Gm-Message-State: AOAM530XPeL29mmf8IWyFMsXRU3vE3AJ8JLVcbqZ4uOwe3zuOAy0NlJn
-        imLtgsUqx6X4vtdEBC+ToD++rQ==
-X-Google-Smtp-Source: ABdhPJzm521hnshhR5mJhPT7xHMNmBjXdgOaKcA35W+lUgmBRQdb7L36clI8KKgwyn4UV6jkUlUKbQ==
-X-Received: by 2002:a2e:96d0:: with SMTP id d16mr62899ljj.279.1628707467451;
-        Wed, 11 Aug 2021 11:44:27 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id j4sm14916lfu.35.2021.08.11.11.44.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Aug 2021 11:44:26 -0700 (PDT)
-Date:   Wed, 11 Aug 2021 20:44:25 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: Fix soc_device_match()
- abuse
-Message-ID: <YRQaiVPZU7YLxlOT@oden.dyn.berto.se>
-References: <760981fb4cd110d7cbfc9dcffa365e7c8b25c6e5.1628696960.git.geert+renesas@glider.be>
+        Wed, 11 Aug 2021 15:04:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=yotAXwGxPU3du2t0851ttQ/XEv4u
+        xc75haydCGhcwDk=; b=uhRV3nizCjjBdQUbDSIINuQ40KhPgDduxHvZ7loqVD4E
+        J5TZYUfonKw/uoS7XbNuyCR6VO79Br63PP+58KBbgbc4aFWHYpFrobsZpXCAB/YH
+        fsFHVaXHKtntIDaby9s4/LSP/qeB1kx99cKx1blQeryPrz1UgkkegpucWYY/G3s=
+Received: (qmail 2749631 invoked from network); 11 Aug 2021 21:04:14 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Aug 2021 21:04:14 +0200
+X-UD-Smtp-Session: l3s3148p1@8oDASE3JxOIgAwDPXwY8AGSWydYZifHX
+Date:   Wed, 11 Aug 2021 21:04:12 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH/RFC 0/4] dt-bindings: i2c: renesas,riic: Add
+ interrupt-names
+Message-ID: <YRQfLN3r0gFiQMG1@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+References: <cover.1626267422.git.geert+renesas@glider.be>
+ <YRPdTiAakb6OBd2k@shikoro>
+ <CAMuHMdVmKuYo7XhrQsLhXCOyRa=-aKwbtub=yi5nuSvJ22An2Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="VhfuD+Qk+C9o4mf/"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <760981fb4cd110d7cbfc9dcffa365e7c8b25c6e5.1628696960.git.geert+renesas@glider.be>
+In-Reply-To: <CAMuHMdVmKuYo7XhrQsLhXCOyRa=-aKwbtub=yi5nuSvJ22An2Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Geert,
 
-Thanks for your work.
+--VhfuD+Qk+C9o4mf/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2021-08-11 17:52:54 +0200, Geert Uytterhoeven wrote:
-> soc_device_match() is intended as a last resort, to handle e.g. quirks
-> that cannot be handled by matching based on a compatible value.
-> 
-> As the device nodes for the Renesas USB 3.0 Peripheral Controller on
-> R-Car E3 and RZ/G2E do have SoC-specific compatible values, the latter
-> can and should be used to match against these devices.
-> 
-> This also fixes support for the USB 3.0 Peripheral Controller on the
-> R-Car E3e (R8A779M6) SoC, which is a different grading of the R-Car E3
-> (R8A77990) SoC, using the same SoC-specific compatible value.
-> 
-> Fixes: 30025efa8b5e75f5 ("usb: gadget: udc: renesas_usb3: add support for r8a77990")
-> Fixes: 546970fdab1da5fe ("usb: gadget: udc: renesas_usb3: add support for r8a774c0")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Geert,
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Probably it is not worth doing this in lockstep (1/4 in v5.15 through
+> i2c, 2/4 and 3/4 in v5.16 through renesas-devel, and 4/4 in v5.17
+> through i2c).
 
-> ---
->  drivers/usb/gadget/udc/renesas_usb3.c | 17 +++++++----------
->  1 file changed, 7 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
-> index f1b35a39d1ba8712..57d417a7c3e0a687 100644
-> --- a/drivers/usb/gadget/udc/renesas_usb3.c
-> +++ b/drivers/usb/gadget/udc/renesas_usb3.c
-> @@ -2707,10 +2707,15 @@ static const struct renesas_usb3_priv renesas_usb3_priv_r8a77990 = {
->  
->  static const struct of_device_id usb3_of_match[] = {
->  	{
-> +		.compatible = "renesas,r8a774c0-usb3-peri",
-> +		.data = &renesas_usb3_priv_r8a77990,
-> +	}, {
->  		.compatible = "renesas,r8a7795-usb3-peri",
->  		.data = &renesas_usb3_priv_gen3,
-> -	},
-> -	{
-> +	}, {
-> +		.compatible = "renesas,r8a77990-usb3-peri",
-> +		.data = &renesas_usb3_priv_r8a77990,
-> +	}, {
->  		.compatible = "renesas,rcar-gen3-usb3-peri",
->  		.data = &renesas_usb3_priv_gen3,
->  	},
-> @@ -2719,18 +2724,10 @@ static const struct of_device_id usb3_of_match[] = {
->  MODULE_DEVICE_TABLE(of, usb3_of_match);
->  
->  static const struct soc_device_attribute renesas_usb3_quirks_match[] = {
-> -	{
-> -		.soc_id = "r8a774c0",
-> -		.data = &renesas_usb3_priv_r8a77990,
-> -	},
->  	{
->  		.soc_id = "r8a7795", .revision = "ES1.*",
->  		.data = &renesas_usb3_priv_r8a7795_es1,
->  	},
-> -	{
-> -		.soc_id = "r8a77990",
-> -		.data = &renesas_usb3_priv_r8a77990,
-> -	},
->  	{ /* sentinel */ },
->  };
->  
-> -- 
-> 2.25.1
-> 
+I agree!
 
--- 
-Regards,
-Niklas Söderlund
+> I have different branches for DT binding and DTS, but I guess it
+> doesn't hurt to deviate and apply both to renesas-arm-dt-for-v5.15...
+
+Sounds good, thanks!
+
+All the best,
+
+   Wolfram
+
+--VhfuD+Qk+C9o4mf/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmEUHygACgkQFA3kzBSg
+KbZXaBAAim/mI+VPfpgtyAN2RE3C4n/H5lYiDnzByB2Rqq4t1ammd2RoLwDibtxp
+5wE1CelXSD64Q3tRvRCyQBImxrhI76BlD8UjtXaQ2Y3PRVdRHgR1DueVXa24q/6N
+ofkxPM4LAWU4kF2I7RfMyFau5Dtf/oJlCKncF/TK5+/SGO/eBqxgZVY1o0+9r7ix
+C1yHFEEI3KVnvbRygGk1aUT+kQm5KZAPD9/SnPnyu9Fq81I0r0oJi8jWNm8hT3i3
+JxjCR0y+OrhUP2jrknkTTZfghYiR17GVcAPqVIog+dbZ8Eq5l8v2u0Qea7OWLtDV
+hzZ3l9owIhjXk0uXDX7VYhwRTq1WreY0fqm9686mQOTNBcf/1BuY6gr0fp1Woqhf
+PNsgEkBm/TgTIA08gLkB1E1HHDSErBYwAnXy2zRW/BTTA/MdrM9GFkMZ1EuzVLwv
+9/jiDGuD/kYJwxH+TzzkW2IwK05UEg9j+kY4iMbHeOntM0LNTAj5n7jYH4TXdm9v
+z9NnEGOXxHgJoVeK98yFxUQk5GOjXzg59Jsp00qtVFGf1Y6f+4RaXw/zP1NODoru
+37UnxfH9XoRB2qZo6Rf0w7r+L2zDe3r8IFg03lDt6B5jeK1R+icVZ2SUWmT2t0Ob
+2b/JHxlxqf54JVcj7kwifucu1oO0ScCLV2Q0mOsGgIdU2Jg/V40=
+=bJpJ
+-----END PGP SIGNATURE-----
+
+--VhfuD+Qk+C9o4mf/--
