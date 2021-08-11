@@ -2,68 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B98B3E9AB8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Aug 2021 00:10:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08DD63E9AF7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Aug 2021 00:40:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232438AbhHKWKa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Aug 2021 18:10:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39384 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232422AbhHKWK3 (ORCPT
+        id S232456AbhHKWky (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Aug 2021 18:40:54 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34764 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232434AbhHKWky (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Aug 2021 18:10:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8D30A61058;
-        Wed, 11 Aug 2021 22:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628719805;
-        bh=sfiCxqp3Tr62LF883T37JTkFScVKn0NPj1hEnJlfHUA=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=HOKnxOKQoUVHyHFnocaYVGBIHmEguGY3H7eJl01RcObKNcTzWhd1yGpp/NUdQ+A5N
-         9hs59Uxapb4hh4PYi/U2MFEaYQF6/VOB1wTgudCRht5uifW3+6Tqud2a+RhuO5LSID
-         lw1oOgMRm4Av5I84ojbv7VeWbH46MWCwgy4RKBY6SK9NIFbADYgxM54cVj5JSw9svN
-         ZUfRw4v17TjrvFM3aCC8ZAzLCFNchaL+1gtBQkmFshRE+OQ8EmQPtYYiAh+1VU5LYv
-         b8WB0RI2JlhLjcmrhqilYJCdqPPhcbqiUC9VTaYWzYefJOsKiQB+0TkmW85EK8EYeb
-         qdmatIm7Yehbw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 7E4E460A54;
-        Wed, 11 Aug 2021 22:10:05 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 11 Aug 2021 18:40:54 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3D78EE;
+        Thu, 12 Aug 2021 00:40:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1628721628;
+        bh=/O4PUjCTPgfgN9Ws9gsBCc/kpqDHJb+E4y+ffuDj9rI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PnrRujUR1V8KRJKwcCR0FTKicBMhP3TubDgzFpsaEY2WKsYLILzhetE4U3HwqaO77
+         2YiQ582vBw2Ufcz7+RqmM/LYOIULOc+l7SETj43hxzGVA7dvm8lVVcq0qxYe0/LgBz
+         Vrf7kmRM9Kpwy2tpRNgt/q6ZOU3jMoa9LVAZAYOo=
+Date:   Thu, 12 Aug 2021 01:40:24 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     Stephen Boyd <swboyd@chromium.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 4/6] drm/bridge: ti-sn65dsi86: Wrap panel with
+ panel-bridge
+Message-ID: <YRRR2BWZP8SlskW/@pendragon.ideasonboard.com>
+References: <20210624000304.16281-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210624000304.16281-5-laurent.pinchart+renesas@ideasonboard.com>
+ <CAE-0n52Mw-ZzdqwKeEX2-WP6NyqdXvfzq=KeZJug9A-NiVo8aw@mail.gmail.com>
+ <YRO/W8ZAuYEVs2MF@pendragon.ideasonboard.com>
+ <CAF6AEGttQ6iiXSG78fksDo6utfa3VFwFG5yXkk9XEr=+aEL95Q@mail.gmail.com>
+ <CAE-0n53Cc3iPvnnzDs8bV=7DrQro4NYYyzuD_9kHg+-o33u0SA@mail.gmail.com>
+ <CAF6AEGs=uOC7Fb0sHJG+iR=d7ORnRhRn-K_ogrKDwzuN=9qAhA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] MAINTAINERS: switch to my OMP email for Renesas Ethernet
- drivers
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162871980551.25380.18133187832227991770.git-patchwork-notify@kernel.org>
-Date:   Wed, 11 Aug 2021 22:10:05 +0000
-References: <9c212711-a0d7-39cd-7840-ff7abf938da1@omp.ru>
-In-Reply-To: <9c212711-a0d7-39cd-7840-ff7abf938da1@omp.ru>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGs=uOC7Fb0sHJG+iR=d7ORnRhRn-K_ogrKDwzuN=9qAhA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net.git (refs/heads/master):
-
-On Tue, 10 Aug 2021 23:17:12 +0300 you wrote:
-> I'm still going to continue looking after the Renesas Ethernet drivers and
-> device tree bindings. Now my new employer, Open Mobile Platform (OMP), will
-> pay for all my upstream work. Let's switch to my OMP email for the reviews.
+On Wed, Aug 11, 2021 at 01:51:28PM -0700, Rob Clark wrote:
+> On Wed, Aug 11, 2021 at 1:39 PM Stephen Boyd wrote:
+> > Quoting Rob Clark (2021-08-11 09:20:30)
+> > > On Wed, Aug 11, 2021 at 5:15 AM Laurent Pinchart wrote:
+> > > > On Tue, Aug 10, 2021 at 10:26:33PM -0700, Stephen Boyd wrote:
+> > > > > Quoting Laurent Pinchart (2021-06-23 17:03:02)
+> > > > > > To simplify interfacing with the panel, wrap it in a panel-bridge and
+> > > > > > let the DRM bridge helpers handle chaining of operations.
+> > > > > >
+> > > > > > This also prepares for support of DRM_BRIDGE_ATTACH_NO_CONNECTOR, which
+> > > > > > requires all components in the display pipeline to be represented by
+> > > > > > bridges.
+> > > > > >
+> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > > > Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > > > > ---
+> > > > >
+> > > > > With this patch applied I get two eDP devices on Lazor sc7180 (it is the
+> > > > > arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor*.dts files if you're
+> > > > > looking for more info). As far as I can tell, we should only have one
+> > > > > eDP device on the board, for the bridge.
+> > > > >
+> > > > > localhost ~ # ls -l /sys/class/drm/card1-eDP*
+> > > > > lrwxrwxrwx. 1 root root 0 Aug 10 22:24 /sys/class/drm/card1-eDP-1 ->
+> > > > > ../../devices/platform/soc@0/ae00000.mdss/drm/card1/card1-eDP-1
+> > > > > lrwxrwxrwx. 1 root root 0 Aug 10 22:24 /sys/class/drm/card1-eDP-2 ->
+> > > > > ../../devices/platform/soc@0/ae00000.mdss/drm/card1/card1-eDP-2
+> > > >
+> > > > Indeed.
+> > > >
+> > > > Does the display driver use the DRM connector bridge helper and
+> > > > DRM_BRIDGE_ATTACH_NO_CONNECTOR on that platform ?
+> > >
+> > > There haven't been any recent changes about how we attach the bridge,
+> > > it doesn't pass DRM_BRIDGE_ATTACH_NO_CONNECTOR.. tbh I've not been
+> > > having time to follow too closely the recent changes with bridge stuff
+> > > myself.
+> > >
+> > > But now with this patch we have both the ti bridge and the panel
+> > > bridge creating a connector..  removing the connector created by the
+> > > ti bridge "fixes" things, but not sure if that would break something
+> > > on other platforms.  I guess there should now always be a panel
+> > > bridge, so removing ti_sn_bridge_connector_init() would be a sane
+> > > thing to do?
+> >
+> > So this patch works. We don't want to make the connector in this driver
+> > for the next bridge because this driver is making the connector. I guess
+> > eventually we'll drop this flag when this driver stops making the
+> > connector here?
+> >
+> > ---8<---
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > index cd0fccdd8dfd..a8d4818484aa 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > @@ -741,7 +741,7 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+> >
+> >         /* Attach the next bridge */
+> >         ret = drm_bridge_attach(bridge->encoder, pdata->next_bridge,
+> > -                               &pdata->bridge, flags);
+> > +                               &pdata->bridge, flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> >         if (ret < 0)
+> >                 goto err_dsi_detach;
 > 
-> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> 
-> 
-> [...]
+> I kinda think *all* bridges that create a connector (whether optional
+> or not) should OR in NO_CONNECTOR when attaching the next downstream
+> bridge.. since you never want multiple connectors
 
-Here is the summary with links:
-  - MAINTAINERS: switch to my OMP email for Renesas Ethernet drivers
-    https://git.kernel.org/netdev/net/c/0271824d9ebe
+Yes, that sounds reasonable to me. Stephen, would you like to set a
+patch ?
 
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+-- 
+Regards,
 
-
+Laurent Pinchart
