@@ -2,84 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2D373E91C1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 14:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11AD03E927E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 15:24:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229593AbhHKMnL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Aug 2021 08:43:11 -0400
-Received: from mail-vs1-f54.google.com ([209.85.217.54]:46947 "EHLO
-        mail-vs1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbhHKMnK (ORCPT
+        id S231440AbhHKNYw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Aug 2021 09:24:52 -0400
+Received: from www.zeus03.de ([194.117.254.33]:36454 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231354AbhHKNYv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Aug 2021 08:43:10 -0400
-Received: by mail-vs1-f54.google.com with SMTP id h7so1373423vso.13;
-        Wed, 11 Aug 2021 05:42:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TjzJOEmvy4W9hsVCbeGcn4BsIIic06xJU42PI5KoTB8=;
-        b=q8cAb8jUcJzdTWNa9KCybU/UX3PncmCVS0I054iHsgk9bJW1UAMVCe7r6OlcExVlfZ
-         v4sLW/VPIoND9Dah7vEyuKPTVOnZFCDkRobxjsEd/LlC37v61ZqjQAgyl3ssZQ0pD6s4
-         lbbZuxvjSvYD6FvB6lj3IzpKGVHut3d8I0rs+aDuLTeL4pQZ4efd2InhNajYSe3gwq+U
-         SyNPwoJfruDgNb07maagoeCVUOxTt3FTRbgW193mbgXbnoG+F0s89VrRrCjQrjTYfSuE
-         9rTujM4CwMEDH9rHCSRNvt6dC9ZWfjQ462wqMiacuoFLvs5OsLKFez/cTFosOgtmwIEI
-         UxZg==
-X-Gm-Message-State: AOAM533c0EhM+cK2C6RAfip0KXX69rpA2182J6TocQThoS+65Gd2SXwo
-        AplfTvxr5u6WQGkujwsjiQxwOCCaX0oRAsTW3PWOJlfbsCo=
-X-Google-Smtp-Source: ABdhPJy5ia6JkgjqgcAUzInrcMlMcgMSED4qwCRYRgwwnSSCnIWIhoTcGxfpHKxE8T0Rx8cpPrHxFtD7d5hk7z5sebw=
-X-Received: by 2002:a67:ca1c:: with SMTP id z28mr18227125vsk.40.1628685766802;
- Wed, 11 Aug 2021 05:42:46 -0700 (PDT)
+        Wed, 11 Aug 2021 09:24:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Ob18HouyjEG4yKGxnXe8mW2b9Ubs
+        QmEYQVddNMLg/Tc=; b=vE/Z4umeG8rqyiGlUVPlQGI7s+tAEkpPvEkpLJWYZkyt
+        dE3xHhJx2hi4NM801MAB07HUZ1Ug7h99ZHF2ra3Wmz2nTejsN3S2bOTzvHlByk5e
+        sKD6KoZLVxKpYVcMOqWM40aOkRiHSfVyiM/deFkoqiJI1IKP6KGV3LlW5n4+oEU=
+Received: (qmail 2664356 invoked from network); 11 Aug 2021 15:24:24 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Aug 2021 15:24:24 +0200
+X-UD-Smtp-Session: l3s3148p1@Vm5ziUjJ8J0gARa4RTP4AfHKOCm/nqrR
+Date:   Wed, 11 Aug 2021 15:24:23 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/7] i2c: at91-master: : use proper DMAENGINE API for
+ termination
+Message-ID: <YRPPh6ucRfL/gGZG@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <20210623095942.3325-1-wsa+renesas@sang-engineering.com>
+ <20210623095942.3325-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <9c212711-a0d7-39cd-7840-ff7abf938da1@omp.ru>
-In-Reply-To: <9c212711-a0d7-39cd-7840-ff7abf938da1@omp.ru>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 11 Aug 2021 14:42:35 +0200
-Message-ID: <CAMuHMdWsbJZdrh+Jz4VG1uBa6okxU_GnQWERZgZGkJmR5x8vpQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: switch to my OMP email for Renesas Ethernet drivers
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="QdmGwop7VZKZW5o7"
+Content-Disposition: inline
+In-Reply-To: <20210623095942.3325-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
 
-On Tue, Aug 10, 2021 at 10:26 PM Sergey Shtylyov <s.shtylyov@omp.ru> wrote:
-> I'm still going to continue looking after the Renesas Ethernet drivers and
-> device tree bindings. Now my new employer, Open Mobile Platform (OMP), will
-> pay for all my upstream work. Let's switch to my OMP email for the reviews.
->
-> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+--QdmGwop7VZKZW5o7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your continued dedication!
+On Wed, Jun 23, 2021 at 11:59:35AM +0200, Wolfram Sang wrote:
+> dmaengine_terminate_all() is deprecated in favor of explicitly saying if
+> it should be sync or async. Here, we want dmaengine_terminate_sync()
+> because there is no other synchronization code in the driver to handle
+> an async case.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-> --- net.orig/MAINTAINERS
-> +++ net/MAINTAINERS
-> @@ -15803,7 +15803,7 @@ F:      Documentation/devicetree/bindings/i2c
->  F:     drivers/i2c/busses/i2c-emev2.c
->
->  RENESAS ETHERNET DRIVERS
-> -R:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
-> +R:     Sergey Shtylyov <s.shtylyov@omp.ru>
->  L:     netdev@vger.kernel.org
->  L:     linux-renesas-soc@vger.kernel.org
->  F:     Documentation/devicetree/bindings/net/renesas,*.yaml
-
-You may also want to update your email address in the various DT
-binding files.
-And perhaps get rid of your obsolete cogent address in a few drivers? ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Applied to for-next, thanks!
 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--QdmGwop7VZKZW5o7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmETz4MACgkQFA3kzBSg
+KbYuUA/+I2bdHPXgGVSkfL9GsxgoG+ReEDCPFZuA6jN4kagY1rmXHVSlSeIMlKyR
+r0x8l4FGpcQiG4gc3KoU1K60t5tTk3AmR8/sFoEwLRD3vZ+XO3SRMLafzPOsUqJ9
+0RrxkH2tRRWGfs6VZdmeD5LzG952rpyRB3DT/rGOahoQkXeVax7hgJQdO9rKfo4E
+Rcl4TBgao4gKooGRZfGPeU9SFZ6DrAS/TK5aEm4eg1vREH6Vw/rXgwJm0L9/5awI
+3bKtbHogDRaqcsm0snS/cpgJ6KoRUMRlsbvx9RM4lENjQOloG6RHFvtTBfOW9+A2
+RetOLeiWe3EHJzA1xqjTx8PtxRU15DUJpK0dZuk6g0YaJZsNoTXb2WFglcjkHgTm
+bnDrZk/r7RTt8NUwPQZUyXarduR7VV3CfrnVvb1POkSBBBqDAfAtUik/L+RJoc7j
+I0TgMzQWvZL+HoG3xnaoCYEoDgEemzi8n6+4Ls5Yj+SjEoQYS1gWfefpoFGJcpIR
+hS2FNzMgZilMcPD9BbtRczqUgBq3Ry+fB7GSJTwNYRkQckMw4FV7OSRMSmuLpXcj
+ox0Z8P3q3rsH9bodav+ljf0mJUQdN3O6LodU+WZuI52wIsIwQ31cG+HvTnbb/56d
+/6BWmVSo1UiVmcOtSDbDXcjWGc0lwAR4j1OYQXKwQlxTY7nmzlE=
+=tkps
+-----END PGP SIGNATURE-----
+
+--QdmGwop7VZKZW5o7--
