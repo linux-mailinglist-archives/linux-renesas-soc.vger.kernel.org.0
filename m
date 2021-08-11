@@ -2,112 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FB653E933B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 16:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C1A03E9397
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 16:23:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231902AbhHKOGd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Aug 2021 10:06:33 -0400
-Received: from www.zeus03.de ([194.117.254.33]:55888 "EHLO mail.zeus03.de"
+        id S232347AbhHKOXi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Aug 2021 10:23:38 -0400
+Received: from www.zeus03.de ([194.117.254.33]:33488 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231872AbhHKOGc (ORCPT
+        id S232316AbhHKOXg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Aug 2021 10:06:32 -0400
+        Wed, 11 Aug 2021 10:23:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=PM8jlLGbLwSSkeLz4Yq9WkIVSFaG
-        jcshV2vY27ztWOY=; b=TG76TbTUoFE6TabOCy6tX6nBdMET9oPAalSkth+L0oGi
-        /SelrWhgx7wZX/fsqIHkkwIsz+Nu6IZqAUQsjvdkqRj30M4hcnjvn8YlbZbBLZSR
-        3p27nlhCUdAJC+OgXu6QxgmWpVo6R9M6dnbAwj0l52lTXxX+A7ZrGkyH6MbJI4g=
-Received: (qmail 2677266 invoked from network); 11 Aug 2021 16:06:06 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Aug 2021 16:06:06 +0200
-X-UD-Smtp-Session: l3s3148p1@l+yWHknJ/J4gARa4RTP4AfHKOCm/nqrR
-Date:   Wed, 11 Aug 2021 16:06:06 +0200
+        :content-type:in-reply-to; s=k1; bh=bA+SpoCd9Zrin70ep2OKmQSSiYzO
+        VLF5suFO9tR8vJU=; b=sNdIRyoQrtF9c/RK047CRz32yayHGtxMCPHLvHJKEovc
+        ciZpqZcEK4MAz205TALD1DNDpGQ067qZryQVPfVIIT4aUAkwZdAzSZFbU1sigKxq
+        4dBNdMkkCNbVcGHhArZyH5QvJ0JBAU5GnoLh/3yzb1GhVq5xnDMo6Xzn2TA6UcA=
+Received: (qmail 2682161 invoked from network); 11 Aug 2021 16:23:11 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Aug 2021 16:23:11 +0200
+X-UD-Smtp-Session: l3s3148p1@QzenW0nJDJ8gARa4RTP4AfHKOCm/nqrR
+Date:   Wed, 11 Aug 2021 16:23:10 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Phong Hoang <phong.hoang.wz@renesas.com>
-Subject: Re: [PATCH] clocksource: sh_cmt: Fix wrong setting if don't request
- IRQ for clock source channel
-Message-ID: <YRPZTnptOXrKl4Tz@shikoro>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH/RFC 0/4] dt-bindings: i2c: renesas,riic: Add
+ interrupt-names
+Message-ID: <YRPdTiAakb6OBd2k@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Phong Hoang <phong.hoang.wz@renesas.com>
-References: <20210422123443.73334-1-niklas.soderlund+renesas@ragnatech.se>
- <7cf6444a-1dc4-a2bb-8fef-696e0b2b6f23@linaro.org>
- <YMMXJz4IwFJU4vEF@oden.dyn.berto.se>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <cover.1626267422.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OJKIXCCJBhkKZJZc"
+        protocol="application/pgp-signature"; boundary="0/yWTP9/4TtsiMqK"
 Content-Disposition: inline
-In-Reply-To: <YMMXJz4IwFJU4vEF@oden.dyn.berto.se>
+In-Reply-To: <cover.1626267422.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---OJKIXCCJBhkKZJZc
+--0/yWTP9/4TtsiMqK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Daniel,
+Hi Geert,
 
-> > > If CMT instance has at least two channels, one channel will be used
-> > > as a clock source and another one used as a clock event device.
-> > > In that case, IRQ is not requested for clock source channel so
-> > > sh_cmt_clock_event_program_verify() might work incorrectly.
-> > > Besides, when a channel is only used for clock source, don't need to
-> > > re-set the next match_value since it should be maximum timeout as
-> > > it still is.
-> > >=20
-> > > On the other hand, due to no IRQ, total_cycles is not counted up
-> > > when reaches compare match time (timer counter resets to zero),
-> > > so sh_cmt_clocksource_read() returns unexpected value.
-> > > Therefore, use 64-bit clocksoure's mask for 32-bit or 16-bit variants
-> > > will also lead to wrong delta calculation. Hence, this mask should
-> > > correspond to timer counter width, and above function just returns
-> > > the raw value of timer counter register.
-> >=20
-> > I'm not getting the 'ch->cmt->num_channels =3D=3D 1' change, can you ex=
-plain?
+> The Renesas RZ/A and RZ/G2L I2C Bus Interface has no less than 8
+> interrupts.  So I think it makes sense to use "interrupt-names"
+> property, to make it easier to review the interrupt mappings in DTS
+> files.
 >=20
-> My understanding is that if more then one channel is available the=20
-> channel used as clocksource is used without an interrupt. This was not=20
-> addressed in the patches listed as fixes. This patch fixes this multi=20
-> channel use-case while still retaining the old behavior for for the case=
-=20
-> where only one channel is available (ch->cmt->num_channels =3D=3D=20
-> 1).
+> Hence this series documents the "interrupt-names" property in the DT
+> bindings, adds the property to the DTS files, and marks it required in
+> the DT bindings. Obviously the last step cannot be applied until all
+> earlier patches are upstream.
+>=20
+> What do you think?
 
-Did Niklas answer help you?
+I like it and I'd think it is good to go. It is probably easiest if you
+take the series via your tree to avoid merge conflicts and/or subsystem
+dependencies. It's unlikely the YAML file will see further updates. So,
+for the series:
+
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Let me know if you think another way is better.
 
 Happy hacking,
 
    Wolfram
 
 
---OJKIXCCJBhkKZJZc
+--0/yWTP9/4TtsiMqK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmET2UoACgkQFA3kzBSg
-Kba8ChAAg2P+Wjlg2ckRkdN95Y2H84KI1BoL2UPepNXXGPEkrb26LFkukvIl8ZNe
-Gy0G46rVQ0riNqemetqq4XZw0+dj+W404qPwJdToDK0p5ey90EXEFJTZVBEGP90R
-7UOnIlVuv829m+fycQrOSATDkGuSKNNL6Ckl4mrloqJeoeUNiL089J4vdTFj+/4k
-pAEgOXrBEcl6kpPK3nXWqSaDEXOmwYSZnmcL8pN6DSIxoYi+A8OqjeRX9vu2edJg
-jf3iQpXX4Eg2dmcwoERbE+Pxk2P6lrV3NgmEmQnPyEZV+NtKmgaNBpiCoUovNYCR
-p6s9uLPvUK6s8Wi2sgtRE1tKkesQrQf8fy6A19fbyoXfaVvpolKDOQ8tt5FkdTLW
-Y6GwgmnDEN+8RPZXBNuZoHVg/V4J/babwgVoCrpqn3sYDO95dOJ39niE5aanfNBK
-UpemUCUsfnxI+Kf2bhrAno4t1clghwnSoSANs6TveaUBpjgfyJHbJGNxZMX4f8N3
-HhevMo1DpjX+2Iw91/BvSGVetJCNvc+JPlZkdBZ6rfRS3bdXGP1CiPAZhgKSvg/D
-bkyefySIlDoDLgosO715ROvos1wVQvgk59aD2cbOjy18X+3jtCKdW0/XLCoYeTuf
-ED/xMLiM8Prlh41gqrao6PGgojGIpfOKoCIFhxwJEuSeqy5Ys8A=
-=z47u
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmET3U4ACgkQFA3kzBSg
+KbYwWg/+MAKeYtltD8jFf1qc2Dpw7KM5aIJ+xh8k3TP69KhqUT0VrTRm9Arv0iyh
+m8xarEu7CQJOksSxLuUScEHMmEsEyjJQ2YT1oWbqzvRJcm7jVUQJ9muAeaKbVDRH
+ZM9Vj0GohckcVXrN98Ob+dHa5TIv7lzrcSr71DRLJJx6MT55lPezfARxSYQqnYFN
+iaeyZ6rRLANzZ3DUvwM6LK5fWy460UB3Wr1SBLj9XxLEvMm8MZElVfyXZI+uwAIa
+/MSKufEe2b0E0ACzoyQAYXeDDSF73LNV6+nTjScU9jw0fgTs6OlK5HtRzpYNfck6
+8CyGacSHn0Fl9WY33/kZtUySbGzB6gsNqCnJe6pQOrMvUtC3APP8tXIRFq8gcIm/
+hBjAv1yKCMFIdZMVnsK1TMf3MUCEZ79nIbJA0JUp0ytSEe65uHnPvoOZmCvHlTE3
+rrfRmVi8T0ABBO+OayyeA4klswajvNMSjCei/XqbBh4XCi/ko2oq5pZcr1utTuxv
+e2jaa2ts9Zpfc1NaQOUtKRw64X+53D07AU1GDjf1IGOkbvA1aBQWwYUbuNijda/X
+F/FhCr7UP96RU7KZktYxHswwl6NSBEO0LJmQCxDPxUTTDZ68hDVgckKmL//Hseyt
+2TK6AKLMX5f9YBtY1ufpvpHVsMpp62k+NlrIb0Ge/jbUp0lqa+0=
+=DrMT
 -----END PGP SIGNATURE-----
 
---OJKIXCCJBhkKZJZc--
+--0/yWTP9/4TtsiMqK--
