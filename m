@@ -2,213 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E0FB3E97C3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 20:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F034F3E97D3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 20:44:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230099AbhHKSkG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Aug 2021 14:40:06 -0400
-Received: from mail-pj1-f49.google.com ([209.85.216.49]:50786 "EHLO
-        mail-pj1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229791AbhHKSkG (ORCPT
+        id S229802AbhHKSox (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Aug 2021 14:44:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60898 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229655AbhHKSox (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Aug 2021 14:40:06 -0400
-Received: by mail-pj1-f49.google.com with SMTP id bo18so5025042pjb.0;
-        Wed, 11 Aug 2021 11:39:42 -0700 (PDT)
+        Wed, 11 Aug 2021 14:44:53 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2335FC061765
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 11:44:29 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id e11so747533ljq.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 11:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=iHat3XoCIw1ghVDFVOlf+KTgdGyI4p73gjc9fHcDt9k=;
+        b=tA+2vnIcaSVNffeIrHKBJfwxlA+5lyhcCXNvKXrVmWPYIqA5ux7Z/FQ5gdfzJaUa4t
+         JTIo6Rn6yKf/B4z1kvI3JlfeaCPrZwcSFjOrznVpUb/N3pU2SHtI2cot+xtGyEx/QCOz
+         gqxD9YOd7+OO+OKJTzTfG7+T7VIDb4h5fz2s2uCDuQJqjaCjrxhRzcX+BBtnIdfmkTRh
+         bLBdfDm8acE/C807m/NBskEohpt/FN7R75JV+FZk0iQXEqbPJKvKkew6LPaE68VBVchN
+         7ew3bPT4vjNLaqCNezGFMUHEkxJdr6F6P+FYityGbWsxYkVs9g02UhyzWpcFdPae/dtF
+         LVpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pTvPSpyC9Nkqmh26QibnatD/9/QImOoArLrGrnL4t8w=;
-        b=JtRZ+20AQYpecRZi5+/VCEGiByvDKlxWw6781JGk7o81XLt04sWhaR0EmmypK/izpn
-         SRpR1oqvS02CKcrTQZBwLHxl5yv9jqEuZnRuaSR+gLKJsVOB/3i83dg6FoPO2VSq35Xp
-         C7ZCVeh7IjOwadnICviasXcfE8K1ePj9ZlBdI9u4L8Z+2glwzxjGshlxqIPeYkR8jIdz
-         sehAqwXSqEix1C1jBJkstifYCBpR5gLl5+a2lkL6ABnA9XFi8ui9MvB3SAhvcTeBdJGl
-         HzQAs5VjJuGYZrTL7+sNLQC1oM9F7iE4nBcZm4IVNFx2eH/4D1a7BW6LoQtuuOViOJ5G
-         yIpA==
-X-Gm-Message-State: AOAM530I/cSxy5IdU2mO21tJaTQ3d4I4MZycKHCjyhu6NLdHSwyG00Kc
-        VtluE8s06gh1i6GXybpt4g==
-X-Google-Smtp-Source: ABdhPJwr4EgItXiSwO0bYJJciunVaXIhobyIaWPupUJn9fbWFlzykLQChGDz7koabuVeLkEloglNhg==
-X-Received: by 2002:a05:6a00:1245:b029:30f:2098:fcf4 with SMTP id u5-20020a056a001245b029030f2098fcf4mr197390pfi.66.1628707182000;
-        Wed, 11 Aug 2021 11:39:42 -0700 (PDT)
-Received: from robh.at.kernel.org ([208.184.162.215])
-        by smtp.gmail.com with ESMTPSA id v10sm7530697pjd.29.2021.08.11.11.39.38
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=iHat3XoCIw1ghVDFVOlf+KTgdGyI4p73gjc9fHcDt9k=;
+        b=uKxuGhAFVwqVwb15VmPv7JDFEJGEZ7GD+N05cEce62NELBSKsxvKEsnL8QCLUEL9Gw
+         tIHtLUv3vbttEx55Og84oy7Eg3TfqsuwJKQkVYqNlAphYBltr/ucYBLnoHe6WfgL1B1+
+         xqdXWkjI4yNix2r6wZ6O8eeyyKscD6qAAIRGOWxBqV3hyxpQarTBQcTLGZLkVa/2uz83
+         GtIvtAwuZqxZhLl/m5naGh8TeCtiGil08uv9izyzd7dep839NgCtXy5vmedDilAQh5Gl
+         jQ1zLp6bC1DrEjls214bQ7Orm+DclxzyEFKRUz8dxAIk+wDEWAwWjLa0MX22ALGo8llU
+         /UCw==
+X-Gm-Message-State: AOAM530XPeL29mmf8IWyFMsXRU3vE3AJ8JLVcbqZ4uOwe3zuOAy0NlJn
+        imLtgsUqx6X4vtdEBC+ToD++rQ==
+X-Google-Smtp-Source: ABdhPJzm521hnshhR5mJhPT7xHMNmBjXdgOaKcA35W+lUgmBRQdb7L36clI8KKgwyn4UV6jkUlUKbQ==
+X-Received: by 2002:a2e:96d0:: with SMTP id d16mr62899ljj.279.1628707467451;
+        Wed, 11 Aug 2021 11:44:27 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id j4sm14916lfu.35.2021.08.11.11.44.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Aug 2021 11:39:41 -0700 (PDT)
-Received: (nullmailer pid 65519 invoked by uid 1000);
-        Wed, 11 Aug 2021 18:39:37 -0000
-Date:   Wed, 11 Aug 2021 12:39:37 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [RFC PATCH 1/4] dt-bindings: interrupt-controller: Add Renesas
- RZ/G2L Interrupt Controller
-Message-ID: <YRQZaTg2j4VSfQsF@robh.at.kernel.org>
-References: <20210803175109.1729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210803175109.1729-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 11 Aug 2021 11:44:26 -0700 (PDT)
+Date:   Wed, 11 Aug 2021 20:44:25 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: Fix soc_device_match()
+ abuse
+Message-ID: <YRQaiVPZU7YLxlOT@oden.dyn.berto.se>
+References: <760981fb4cd110d7cbfc9dcffa365e7c8b25c6e5.1628696960.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210803175109.1729-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <760981fb4cd110d7cbfc9dcffa365e7c8b25c6e5.1628696960.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 03, 2021 at 06:51:06PM +0100, Lad Prabhakar wrote:
-> Add DT bindings for the Renesas RZ/G2L Interrupt Controller.
+Hello Geert,
+
+Thanks for your work.
+
+On 2021-08-11 17:52:54 +0200, Geert Uytterhoeven wrote:
+> soc_device_match() is intended as a last resort, to handle e.g. quirks
+> that cannot be handled by matching based on a compatible value.
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> As the device nodes for the Renesas USB 3.0 Peripheral Controller on
+> R-Car E3 and RZ/G2E do have SoC-specific compatible values, the latter
+> can and should be used to match against these devices.
+> 
+> This also fixes support for the USB 3.0 Peripheral Controller on the
+> R-Car E3e (R8A779M6) SoC, which is a different grading of the R-Car E3
+> (R8A77990) SoC, using the same SoC-specific compatible value.
+> 
+> Fixes: 30025efa8b5e75f5 ("usb: gadget: udc: renesas_usb3: add support for r8a77990")
+> Fixes: 546970fdab1da5fe ("usb: gadget: udc: renesas_usb3: add support for r8a774c0")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
->  .../renesas,rzg2l-irqc.yaml                   | 129 ++++++++++++++++++
->  1 file changed, 129 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
+>  drivers/usb/gadget/udc/renesas_usb3.c | 17 +++++++----------
+>  1 file changed, 7 insertions(+), 10 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-> new file mode 100644
-> index 000000000000..66d6a0ebe128
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-> @@ -0,0 +1,129 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/interrupt-controller/renesas,rzg2l-irqc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/G2L Interrupt Controller
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description: |
-> +  The RZ/G2L Interrupt Controller is a front-end for the GIC found on Renesas RZ/G2L SoC's
-
-missing 'with below pins:"?
-
-> +    - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts,
-> +    - GPIO pins used as external interrupt input pins, mapped to 32 GIC SPI interrupts,
-> +    - NMI edge select.
-> +
-> +allOf:
-> +  - $ref: /schemas/interrupt-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a07g044-irqc # RZ/G2L
-> +      - const: renesas,rzg2l-irqc
-> +
-> +  '#interrupt-cells':
-> +    const: 2
-> +
-> +  '#address-cells':
-> +    const: 0
-> +
-> +  interrupt-controller: true
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    description: Specifies the GIC interrupts.
-> +    maxItems: 41
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: clk
-> +      - const: pclk
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - '#interrupt-cells'
-> +  - '#address-cells'
-> +  - interrupt-controller
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> +
-> +    irqc: interrupt-controller@110a0000 {
-> +            compatible = "renesas,r9a07g044-irqc", "renesas,rzg2l-irqc";
-> +            #interrupt-cells = <2>;
-> +            #address-cells = <0>;
-> +            interrupt-controller;
-> +            reg = <0x110a0000 0x10000>;
-> +            interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 444 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 445 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 446 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 447 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 449 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 450 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 451 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 452 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 453 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 455 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 456 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 457 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 459 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 460 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 461 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 462 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 463 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 468 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 469 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 470 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 471 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 474 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 475 IRQ_TYPE_LEVEL_HIGH>;
-> +                        clocks = <&cpg CPG_MOD R9A07G044_IA55_CLK>,
-> +                                 <&cpg CPG_MOD R9A07G044_IA55_PCLK>;
-> +                        clock-names = "clk", "pclk";
-> +                        power-domains = <&cpg>;
-> +                        resets = <&cpg R9A07G044_IA55_RESETN>;
-> +    };
+> diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
+> index f1b35a39d1ba8712..57d417a7c3e0a687 100644
+> --- a/drivers/usb/gadget/udc/renesas_usb3.c
+> +++ b/drivers/usb/gadget/udc/renesas_usb3.c
+> @@ -2707,10 +2707,15 @@ static const struct renesas_usb3_priv renesas_usb3_priv_r8a77990 = {
+>  
+>  static const struct of_device_id usb3_of_match[] = {
+>  	{
+> +		.compatible = "renesas,r8a774c0-usb3-peri",
+> +		.data = &renesas_usb3_priv_r8a77990,
+> +	}, {
+>  		.compatible = "renesas,r8a7795-usb3-peri",
+>  		.data = &renesas_usb3_priv_gen3,
+> -	},
+> -	{
+> +	}, {
+> +		.compatible = "renesas,r8a77990-usb3-peri",
+> +		.data = &renesas_usb3_priv_r8a77990,
+> +	}, {
+>  		.compatible = "renesas,rcar-gen3-usb3-peri",
+>  		.data = &renesas_usb3_priv_gen3,
+>  	},
+> @@ -2719,18 +2724,10 @@ static const struct of_device_id usb3_of_match[] = {
+>  MODULE_DEVICE_TABLE(of, usb3_of_match);
+>  
+>  static const struct soc_device_attribute renesas_usb3_quirks_match[] = {
+> -	{
+> -		.soc_id = "r8a774c0",
+> -		.data = &renesas_usb3_priv_r8a77990,
+> -	},
+>  	{
+>  		.soc_id = "r8a7795", .revision = "ES1.*",
+>  		.data = &renesas_usb3_priv_r8a7795_es1,
+>  	},
+> -	{
+> -		.soc_id = "r8a77990",
+> -		.data = &renesas_usb3_priv_r8a77990,
+> -	},
+>  	{ /* sentinel */ },
+>  };
+>  
 > -- 
-> 2.17.1
+> 2.25.1
 > 
-> 
+
+-- 
+Regards,
+Niklas Söderlund
