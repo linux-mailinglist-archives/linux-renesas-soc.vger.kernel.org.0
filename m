@@ -2,134 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7EE73E92EC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 15:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FB653E933B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Aug 2021 16:06:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231459AbhHKNqJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Aug 2021 09:46:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47770 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231458AbhHKNqI (ORCPT
+        id S231902AbhHKOGd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Aug 2021 10:06:33 -0400
+Received: from www.zeus03.de ([194.117.254.33]:55888 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231872AbhHKOGc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Aug 2021 09:46:08 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E359FC0613D5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 06:45:44 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id w1so5650491lfq.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Aug 2021 06:45:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=GFsLrpkcVnHQAcI9LO6wyCFOtOWqn6o7HFSxtLHjjvU=;
-        b=KCrGeOVEN0pWbe2RdBYdpRxYelobeG+W/B1dX6vvROlFe1zePluh6zndsGEXbiVQG+
-         Yo/g/nuafosL4mPPipY0ghaubJLiZYIF6jPtgfuWZWJyALsWpG9BWsETK28WxOs/f0KK
-         KcwGYYZFYAJC9ZvECQYupjVjq+ajk85A2Jtd862R3xxIbP+p7mPhpx8FPogLYdcNr+6+
-         PZcHSDIlrMKgNH+/RsriCcomjD5z5oKnTG5rT65qjTfRLNh5dWboTr9Tim0opPLsf7Ud
-         Ju68rI5iij5XNDJGKZdh5jXxoscX090Un1xDy5V2HSnKdzqD+vqi65BpHPtpAVRYPQUg
-         u46Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=GFsLrpkcVnHQAcI9LO6wyCFOtOWqn6o7HFSxtLHjjvU=;
-        b=SpVHZ86nIwnAGh3ZOehSlfIuWl4naVEqQz6OPu2KKDK9kYeubXCjIxV895W/o38KEA
-         BUyoz7K9yCZGARPbawhp0KASecBpkq0csQR0j728W+wv59wfucd+AL09sZv3gZZwbmpJ
-         hp+DomX3um8RJDGGDqKvEpx/DcvRkZsoFeBwi99fselHCtnif5MfFuh5cGI/rv7l2vpD
-         frfqMjMNwPpg/60cffZQU7bj5CPqEN7paGlO9u0eqcC+GgUKX8PMYFaqIDMbNjbZ1eI+
-         azsomaM1XLgPHzxjgtWewiwS/nQ8jmtXO7vpTgQKoMM2jiqYM8/1QsMRy6ZBt0DnT6eZ
-         /XhA==
-X-Gm-Message-State: AOAM531olL3OTsqKBQQE9ZaX5+CA0oF0+CB23nDJHPCVfkLi4VxALMow
-        6OQZHRiSruwhn05gKo8PzJ193A==
-X-Google-Smtp-Source: ABdhPJw5YOeH2Zsrla2DQrb6ly2OcPz1N9CsB+EvBcNJKqxGxwQDSwV55yBKSsroVniZJSs629mEWQ==
-X-Received: by 2002:a05:6512:3b3:: with SMTP id v19mr1731028lfp.10.1628689543315;
-        Wed, 11 Aug 2021 06:45:43 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id b42sm2353668lfv.135.2021.08.11.06.45.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Aug 2021 06:45:42 -0700 (PDT)
-Date:   Wed, 11 Aug 2021 15:45:42 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Nadezda Lutovinova <lutovinova@ispras.ru>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ldv-project@linuxtesting.org
-Subject: Re: [PATCH] media: rcar-csi2: Add checking to rcsi2_start_receiver().
-Message-ID: <YRPUhqvcTxCVvnBG@oden.dyn.berto.se>
-References: <20210811133142.13363-1-lutovinova@ispras.ru>
+        Wed, 11 Aug 2021 10:06:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=PM8jlLGbLwSSkeLz4Yq9WkIVSFaG
+        jcshV2vY27ztWOY=; b=TG76TbTUoFE6TabOCy6tX6nBdMET9oPAalSkth+L0oGi
+        /SelrWhgx7wZX/fsqIHkkwIsz+Nu6IZqAUQsjvdkqRj30M4hcnjvn8YlbZbBLZSR
+        3p27nlhCUdAJC+OgXu6QxgmWpVo6R9M6dnbAwj0l52lTXxX+A7ZrGkyH6MbJI4g=
+Received: (qmail 2677266 invoked from network); 11 Aug 2021 16:06:06 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Aug 2021 16:06:06 +0200
+X-UD-Smtp-Session: l3s3148p1@l+yWHknJ/J4gARa4RTP4AfHKOCm/nqrR
+Date:   Wed, 11 Aug 2021 16:06:06 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Phong Hoang <phong.hoang.wz@renesas.com>
+Subject: Re: [PATCH] clocksource: sh_cmt: Fix wrong setting if don't request
+ IRQ for clock source channel
+Message-ID: <YRPZTnptOXrKl4Tz@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Phong Hoang <phong.hoang.wz@renesas.com>
+References: <20210422123443.73334-1-niklas.soderlund+renesas@ragnatech.se>
+ <7cf6444a-1dc4-a2bb-8fef-696e0b2b6f23@linaro.org>
+ <YMMXJz4IwFJU4vEF@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="OJKIXCCJBhkKZJZc"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210811133142.13363-1-lutovinova@ispras.ru>
+In-Reply-To: <YMMXJz4IwFJU4vEF@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nadezda,
 
-Thanks for your work.
+--OJKIXCCJBhkKZJZc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2021-08-11 16:31:42 +0300, Nadezda Lutovinova wrote:
-> If rcsi2_code_to_fmt() return NULL,
-> then null pointer dereference occurs in the next cycle.
-> The patch adds checking if format is NULL.
-> 
-> Found by Linux Driver Verification project (linuxtesting.org).
+Hi Daniel,
 
-Please drop the '.' at the end of the patch subject. Also the commit 
-message could be better line wrapped.
+> > > If CMT instance has at least two channels, one channel will be used
+> > > as a clock source and another one used as a clock event device.
+> > > In that case, IRQ is not requested for clock source channel so
+> > > sh_cmt_clock_event_program_verify() might work incorrectly.
+> > > Besides, when a channel is only used for clock source, don't need to
+> > > re-set the next match_value since it should be maximum timeout as
+> > > it still is.
+> > >=20
+> > > On the other hand, due to no IRQ, total_cycles is not counted up
+> > > when reaches compare match time (timer counter resets to zero),
+> > > so sh_cmt_clocksource_read() returns unexpected value.
+> > > Therefore, use 64-bit clocksoure's mask for 32-bit or 16-bit variants
+> > > will also lead to wrong delta calculation. Hence, this mask should
+> > > correspond to timer counter width, and above function just returns
+> > > the raw value of timer counter register.
+> >=20
+> > I'm not getting the 'ch->cmt->num_channels =3D=3D 1' change, can you ex=
+plain?
+>=20
+> My understanding is that if more then one channel is available the=20
+> channel used as clocksource is used without an interrupt. This was not=20
+> addressed in the patches listed as fixes. This patch fixes this multi=20
+> channel use-case while still retaining the old behavior for for the case=
+=20
+> where only one channel is available (ch->cmt->num_channels =3D=3D=20
+> 1).
 
-> 
-> Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index e28eff039688..55bb584d2a13 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -553,6 +553,12 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
->  
->  	/* Code is validated in set_fmt. */
->  	format = rcsi2_code_to_fmt(priv->mf.code);
-> +	if (!format) {
+Did Niklas answer help you?
 
-This can never happen ;-)
+Happy hacking,
 
-The only place priv->mf.code is set (after probe) is in  
-rcsi2_set_pad_format() and there it explicitly checks if 
-rcsi2_code_to_fmt() returns NULl and if so sets it to something that 
-guarantees it will not.
+   Wolfram
 
-Think of it as the verification is done at format configuration time so 
-we don't have to have check it at start time. The reason for this is 
-that we can't do much about a failure here other then fail the start 
-while at configure time we can try to correct it and inform the user of 
-the change.
 
-That being said, I'm not oppose to fail the start here if we ever do 
-introduce a bug here where rcsi2_code_to_fmt() would return NULL here.  
-But I would like to drop the dev_err() here and just return -EINVAL.
+--OJKIXCCJBhkKZJZc
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I would mention in the commit message that this protects from future 
-bugs.
+-----BEGIN PGP SIGNATURE-----
 
-> +		dev_err(priv->dev,
-> +			"Incorrect mbus frame format code %u\n",
-> +			priv->mf.code);
-> +		return -EINVAL;
-> +	}
->  
->  	/*
->  	 * Enable all supported CSI-2 channels with virtual channel and
-> -- 
-> 2.17.1
-> 
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmET2UoACgkQFA3kzBSg
+Kba8ChAAg2P+Wjlg2ckRkdN95Y2H84KI1BoL2UPepNXXGPEkrb26LFkukvIl8ZNe
+Gy0G46rVQ0riNqemetqq4XZw0+dj+W404qPwJdToDK0p5ey90EXEFJTZVBEGP90R
+7UOnIlVuv829m+fycQrOSATDkGuSKNNL6Ckl4mrloqJeoeUNiL089J4vdTFj+/4k
+pAEgOXrBEcl6kpPK3nXWqSaDEXOmwYSZnmcL8pN6DSIxoYi+A8OqjeRX9vu2edJg
+jf3iQpXX4Eg2dmcwoERbE+Pxk2P6lrV3NgmEmQnPyEZV+NtKmgaNBpiCoUovNYCR
+p6s9uLPvUK6s8Wi2sgtRE1tKkesQrQf8fy6A19fbyoXfaVvpolKDOQ8tt5FkdTLW
+Y6GwgmnDEN+8RPZXBNuZoHVg/V4J/babwgVoCrpqn3sYDO95dOJ39niE5aanfNBK
+UpemUCUsfnxI+Kf2bhrAno4t1clghwnSoSANs6TveaUBpjgfyJHbJGNxZMX4f8N3
+HhevMo1DpjX+2Iw91/BvSGVetJCNvc+JPlZkdBZ6rfRS3bdXGP1CiPAZhgKSvg/D
+bkyefySIlDoDLgosO715ROvos1wVQvgk59aD2cbOjy18X+3jtCKdW0/XLCoYeTuf
+ED/xMLiM8Prlh41gqrao6PGgojGIpfOKoCIFhxwJEuSeqy5Ys8A=
+=z47u
+-----END PGP SIGNATURE-----
 
--- 
-Regards,
-Niklas Söderlund
+--OJKIXCCJBhkKZJZc--
