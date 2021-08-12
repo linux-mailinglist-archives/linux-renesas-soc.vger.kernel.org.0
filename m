@@ -2,78 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7CCD3EA724
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Aug 2021 17:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BAB73EA75C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Aug 2021 17:18:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238362AbhHLPI0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Aug 2021 11:08:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57412 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238349AbhHLPIY (ORCPT
+        id S237914AbhHLPSk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Aug 2021 11:18:40 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:14604 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S236984AbhHLPSk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Aug 2021 11:08:24 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 002C1C061756;
-        Thu, 12 Aug 2021 08:07:58 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9E1D02CC;
-        Thu, 12 Aug 2021 15:07:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9E1D02CC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1628780878; bh=Ir7SHWH+PuCwXz2BKzIlhif8rFKrQ9xaedDIeOtDmVs=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=jvEiCujtVz3wh/UXFCHAo5zNx0zj0ssX7GDVOvPevyRxaqklcL3NmdicVrPwmA7XP
-         WTIxVPFTwHqWDPcZOwZ4Nf6d2HMqyx3+ccJDJaZuEfAgWACv57ZCeIysxUonqrrbjm
-         /2fTrMqadC32/7fiI65vT8+R1HNECcXnAktbJ0akYv5HtEXbVCIQVgdzLjNhHXlyJE
-         ns7OyyS06utzHCyusaDMjUIXwsete3fbErN4NKTNvplRsrpoWWLHydp5D1hcwC1iVm
-         3yPwB7J14QYXBaB038F+U2PtzTDpNW2dufL89v/DnBKxaT/HDH8ck2HWGvl6p0BbDT
-         SApRNRWAYZdbA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-doc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH] scripts/kernel-doc: Override -Werror from KCFLAGS with
- KDOC_WERROR
-In-Reply-To: <20210730225401.4401-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20210730225401.4401-1-laurent.pinchart+renesas@ideasonboard.com>
-Date:   Thu, 12 Aug 2021 09:07:58 -0600
-Message-ID: <87sfzezooh.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain
+        Thu, 12 Aug 2021 11:18:40 -0400
+X-IronPort-AV: E=Sophos;i="5.84,316,1620658800"; 
+   d="scan'208";a="90480490"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 13 Aug 2021 00:18:13 +0900
+Received: from localhost.localdomain (unknown [10.226.92.30])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5B61A4006DF2;
+        Fri, 13 Aug 2021 00:18:11 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v6 0/3] Add USB2.0 support
+Date:   Thu, 12 Aug 2021 16:18:05 +0100
+Message-Id: <20210812151808.7916-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> writes:
+This patch series aims to add USB2.0 Host and device support for RZ/G2L SoC.
 
-> Since commit 2c12c8103d8f ("scripts/kernel-doc: optionally treat
-> warnings as errors"), the kernel-doc script will treat warnings as
-> errors when one of the following conditions is true:
->
-> - The KDOC_WERROR environment variable is non-zero
-> - The KCFLAGS environment variable contains -Werror
-> - The -Werror parameter is passed to kernel-doc
->
-> Checking KCFLAGS for -Werror allows piggy-backing on the C compiler
-> error handling. However, unlike the C compiler, kernel-doc has no
-> provision for -Wno-error. This makes compiling the kernel with -Werror
-> (to catch regressions) and W=1 (to enable more checks) always fail,
-> without the same possibility as offered by the C compiler to treating
-> some selected warnings as warnings despite the global -Werror setting.
->
-> To fix this, evaluate KDOC_WERROR after KCFLAGS, which allows disabling
-> the warnings-as-errors behaviour of kernel-doc selectively by setting
-> KDOC_WERROR=0.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  scripts/kernel-doc | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+This patch series is based on renesas-devel.
 
-Applied, thanks.
+v5->v6:
+ * Updated phyrst node with status disabled
+ * Added Geert's Rb tag for SoC dtsi patches
+ * Sorted defconfig patch alphabetically.
+ * Removed USB2.0 phy driver/binding patches as it is accepted for phy/next
+ * Removed USBHS binding patches as it is accepted for usb/next.
+v4->v5:
+ * Removed USBPHY control and binding patches as it is accepted for reset/next
+ * Removed USB ehci/ohci binding patches as it is accepted for usb/next.
+ * Updated Renesas USB2.0 PHY bindings to just use 'resets' as required.
+ * Added interrupts maxitems=1 for SoC other than RZ/G2L for Renesas USBHS bindings
+ * Updated the commit description for USB2.0 PHY driver patch.
 
-jon
+v3->v4:
+ * Added Rob's Acked-by tag for generic-{ohci,ehci} binding patch
+ * Added Rob's Rb tag for RZ/G2L USBPHY control binding patch
+ * Incorporated Phillip's review comments for USBPHY control driver.
+ * Dropped second reset from usb2-phy binding patch
+ * Added maxitems as per Rob's review comment.
+
+v2->v3
+ * USBPHY Control IP modelled as reset bindings as per Rob's suggestion
+ * Updated the binding patches
+ * Incorporated Geert's and Shimoda-San's review comment for phy driver patch.
+
+v1->v2
+ * Updated usb phy control bindings with clock definitions
+ * Updated generic ohci/ehci bindings to support RZ/G2L SoC
+ * Incorporated vinod's review comment on usb phy control driver
+ * Add support for USB2.0 device and OTG support.
+
+Biju Das (3):
+  arm64: defconfig: Enable RZ/G2L USBPHY control driver
+  arm64: dts: renesas: r9a07g044: Add USB2.0 phy and host support
+  arm64: dts: renesas: r9a07g044: Add USB2.0 device support
+
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 114 +++++++++++++++++++++
+ arch/arm64/configs/defconfig               |   1 +
+ 2 files changed, 115 insertions(+)
+
+-- 
+2.17.1
+
