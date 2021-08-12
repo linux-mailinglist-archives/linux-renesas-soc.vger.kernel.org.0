@@ -2,84 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BAB73EA75C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Aug 2021 17:18:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A60143EA75E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Aug 2021 17:18:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237914AbhHLPSk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Aug 2021 11:18:40 -0400
+        id S236984AbhHLPSo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Aug 2021 11:18:44 -0400
 Received: from relmlor1.renesas.com ([210.160.252.171]:14604 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S236984AbhHLPSk (ORCPT
+        by vger.kernel.org with ESMTP id S237925AbhHLPSo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Aug 2021 11:18:40 -0400
+        Thu, 12 Aug 2021 11:18:44 -0400
 X-IronPort-AV: E=Sophos;i="5.84,316,1620658800"; 
-   d="scan'208";a="90480490"
+   d="scan'208";a="90480499"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 13 Aug 2021 00:18:13 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 13 Aug 2021 00:18:18 +0900
 Received: from localhost.localdomain (unknown [10.226.92.30])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5B61A4006DF2;
-        Fri, 13 Aug 2021 00:18:11 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 468844007F40;
+        Fri, 13 Aug 2021 00:18:13 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Nishanth Menon <nm@ti.com>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v6 0/3] Add USB2.0 support
-Date:   Thu, 12 Aug 2021 16:18:05 +0100
-Message-Id: <20210812151808.7916-1-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v6 1/3] arm64: defconfig: Enable RZ/G2L USBPHY control driver
+Date:   Thu, 12 Aug 2021 16:18:06 +0100
+Message-Id: <20210812151808.7916-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210812151808.7916-1-biju.das.jz@bp.renesas.com>
+References: <20210812151808.7916-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch series aims to add USB2.0 Host and device support for RZ/G2L SoC.
+RZ/G2L SoC supports USBPHY control,so enable it in ARM64 defconfig.
 
-This patch series is based on renesas-devel.
-
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
 v5->v6:
- * Updated phyrst node with status disabled
- * Added Geert's Rb tag for SoC dtsi patches
- * Sorted defconfig patch alphabetically.
- * Removed USB2.0 phy driver/binding patches as it is accepted for phy/next
- * Removed USBHS binding patches as it is accepted for usb/next.
+ * Sorted alphabetically.
 v4->v5:
- * Removed USBPHY control and binding patches as it is accepted for reset/next
- * Removed USB ehci/ohci binding patches as it is accepted for usb/next.
- * Updated Renesas USB2.0 PHY bindings to just use 'resets' as required.
- * Added interrupts maxitems=1 for SoC other than RZ/G2L for Renesas USBHS bindings
- * Updated the commit description for USB2.0 PHY driver patch.
-
+ * No dependencies now. Binding and driver patches accepted for reset/next
 v3->v4:
- * Added Rob's Acked-by tag for generic-{ohci,ehci} binding patch
- * Added Rob's Rb tag for RZ/G2L USBPHY control binding patch
- * Incorporated Phillip's review comments for USBPHY control driver.
- * Dropped second reset from usb2-phy binding patch
- * Added maxitems as per Rob's review comment.
+ * No Change.
+---
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-v2->v3
- * USBPHY Control IP modelled as reset bindings as per Rob's suggestion
- * Updated the binding patches
- * Incorporated Geert's and Shimoda-San's review comment for phy driver patch.
-
-v1->v2
- * Updated usb phy control bindings with clock definitions
- * Updated generic ohci/ehci bindings to support RZ/G2L SoC
- * Incorporated vinod's review comment on usb phy control driver
- * Add support for USB2.0 device and OTG support.
-
-Biju Das (3):
-  arm64: defconfig: Enable RZ/G2L USBPHY control driver
-  arm64: dts: renesas: r9a07g044: Add USB2.0 phy and host support
-  arm64: dts: renesas: r9a07g044: Add USB2.0 device support
-
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 114 +++++++++++++++++++++
- arch/arm64/configs/defconfig               |   1 +
- 2 files changed, 115 insertions(+)
-
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index c7cf0d1ad34e..0db4925fb788 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1102,6 +1102,7 @@ CONFIG_QCOM_PDC=y
+ CONFIG_RESET_IMX7=y
+ CONFIG_RESET_QCOM_AOSS=y
+ CONFIG_RESET_QCOM_PDC=m
++CONFIG_RESET_RZG2L_USBPHY_CTRL=y
+ CONFIG_RESET_TI_SCI=y
+ CONFIG_PHY_XGENE=y
+ CONFIG_PHY_SUN4I_USB=y
 -- 
 2.17.1
 
