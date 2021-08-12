@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A6613EAD78
+	by mail.lfdr.de (Postfix) with ESMTP id 753C63EAD79
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Aug 2021 01:09:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbhHLXJc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Aug 2021 19:09:32 -0400
-Received: from mga09.intel.com ([134.134.136.24]:57150 "EHLO mga09.intel.com"
+        id S237705AbhHLXJb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Aug 2021 19:09:31 -0400
+Received: from mga07.intel.com ([134.134.136.100]:11566 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237704AbhHLXJb (ORCPT
+        id S229919AbhHLXJb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 12 Aug 2021 19:09:31 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10074"; a="215457945"
+X-IronPort-AV: E=McAfee;i="6200,9189,10074"; a="279206050"
 X-IronPort-AV: E=Sophos;i="5.84,317,1620716400"; 
-   d="scan'208";a="215457945"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2021 16:09:05 -0700
+   d="scan'208";a="279206050"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2021 16:09:05 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.84,317,1620716400"; 
-   d="scan'208";a="676986166"
+   d="scan'208";a="440200540"
 Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 12 Aug 2021 16:09:03 -0700
+  by orsmga002.jf.intel.com with ESMTP; 12 Aug 2021 16:09:04 -0700
 Received: from kbuild by d053b881505b with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mEJot-000N6J-9Y; Thu, 12 Aug 2021 23:09:03 +0000
-Date:   Fri, 13 Aug 2021 07:08:53 +0800
+        id 1mEJot-000N6P-Ay; Thu, 12 Aug 2021 23:09:03 +0000
+Date:   Fri, 13 Aug 2021 07:08:58 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- 59d7f78144a8a34a290ba84931721eaf11e66ca9
-Message-ID: <6115aa05.y5GRilFD5QZloxNy%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-dt-for-v5.15] BUILD SUCCESS
+ 13bf92e6dec0e2be1ef0c7dd483f2d8b34eaa905
+Message-ID: <6115aa0a.i+3uw7gvmR5042+C%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,12 +40,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 59d7f78144a8a34a290ba84931721eaf11e66ca9  Merge branches 'renesas-arm-dt-for-v5.15' and 'renesas-drivers-for-v5.15' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.15
+branch HEAD: 13bf92e6dec0e2be1ef0c7dd483f2d8b34eaa905  dt-bindings: i2c: renesas,riic: Make interrupt-names required
 
 elapsed time: 724m
 
-configs tested: 142
+configs tested: 139
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -79,11 +79,6 @@ xtensa                       common_defconfig
 sh                            hp6xx_defconfig
 powerpc                     tqm8560_defconfig
 sh                        sh7785lcr_defconfig
-mips                             allyesconfig
-sparc                       sparc32_defconfig
-arm                        multi_v5_defconfig
-mips                  decstation_64_defconfig
-powerpc                     mpc512x_defconfig
 sh                   sh7724_generic_defconfig
 powerpc                 mpc8540_ads_defconfig
 sh                  sh7785lcr_32bit_defconfig
@@ -95,6 +90,7 @@ mips                            gpr_defconfig
 mips                      maltaaprp_defconfig
 m68k                        mvme147_defconfig
 mips                         tb0226_defconfig
+mips                  decstation_64_defconfig
 mips                        bcm63xx_defconfig
 arm                      jornada720_defconfig
 sh                          polaris_defconfig
@@ -145,6 +141,7 @@ i386                             allyesconfig
 sparc                            allyesconfig
 sparc                               defconfig
 i386                                defconfig
+mips                             allyesconfig
 mips                             allmodconfig
 powerpc                          allyesconfig
 powerpc                          allmodconfig
