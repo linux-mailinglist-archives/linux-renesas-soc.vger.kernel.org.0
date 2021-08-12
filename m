@@ -2,184 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB4F23EA085
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Aug 2021 10:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21FE23EA08F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Aug 2021 10:27:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235148AbhHLI0F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Aug 2021 04:26:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233921AbhHLI0F (ORCPT
+        id S234561AbhHLI1r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Aug 2021 04:27:47 -0400
+Received: from mail-oi1-f172.google.com ([209.85.167.172]:37486 "EHLO
+        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234537AbhHLI1q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Aug 2021 04:26:05 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 549AEC061765;
-        Thu, 12 Aug 2021 01:25:40 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id p4so10170420yba.3;
-        Thu, 12 Aug 2021 01:25:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x/U+rWN+j9s5n6sG47stTzPJLVQ6JGcCvmKcR9Yt9yo=;
-        b=UgnsKX7TLNzzF/9+WS3sfIEn6o2OljDdMjYuQ5msxZD+6I2cjv7AmD/zELORSzSftC
-         asByK0KSSRLNdqLCN4k+A7M1UPcU6jd94ASgCl93MwmN9l6tbo5hgWSWQZ0k+41tDJbY
-         qFH0TeDsqW03NKi9NKIg1m6xuYeqZ94xSyR2mo7altRYDRT5uZ+KhSnqQoUpQtLf++ib
-         FxXM7Ps/nxG7vUXLVtTtvQi7+Jz/vUYh/Lashy0oRURTy7Q4y8DDUihUonqY/T46T2jW
-         JnLZg/Vxu3CE6tOziASVdCURMMyNJG05KEVyW9yVLZ4Jp3PGbk71DiMVfqRvYprjXjqF
-         iIXg==
+        Thu, 12 Aug 2021 04:27:46 -0400
+Received: by mail-oi1-f172.google.com with SMTP id u10so9179768oiw.4;
+        Thu, 12 Aug 2021 01:27:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=x/U+rWN+j9s5n6sG47stTzPJLVQ6JGcCvmKcR9Yt9yo=;
-        b=ZCUliyC8S1t/tnfHdX++jTLn5+zR5Zc/qs+dGqaPE4qXue7QLATsihklM+fbi99TK6
-         E3uFx3zckvibShNuWyWnbyreGgU0Q1D81b4o6FO8xig0vOSVbyutglmKx4BNgXegOj8R
-         UTrHINvbB6ZdpsMUkTDpgewlYBp/dAEeoG0ebXOWLGaRShGbKVYFHEfyjZHq0CthsJoC
-         fGRsxiFrtj8GmpOdXBFGAYVyMjdP2F5W/u8I7fSVwkvwP6SvwzIORiF7FAgbd4YW7yEC
-         yv4S+7OBe8fgLllDYUEc+DfgaHiVr2VVBZVC7icDrr5QtFq8WigE4xMEraZ9LSGVtHye
-         nAew==
-X-Gm-Message-State: AOAM532WdWEgf84Y7Z5AHQEus2wm5oZsFpviHFgIjcJyVuUkzzKaq1do
-        lsVF77xURb1RrOaI9731UgfuCuc/XbXG0ZJQvYc=
-X-Google-Smtp-Source: ABdhPJzShcvdNPe4dEbFW/Cw7BUKpb3CUwW1dyJcLF6u+HxW9DDMR6aMvCZoKTdlZvWdgdqMF5xGYiCytbTEUrkW4pc=
-X-Received: by 2002:a5b:d45:: with SMTP id f5mr2930306ybr.179.1628756739522;
- Thu, 12 Aug 2021 01:25:39 -0700 (PDT)
+        bh=Chc1EtA/5xSBngN4tuM8yqAZTFLQsfvJ1HOJL5ltbyY=;
+        b=i5Z6m3le7lPZC9lwpb6xLynRSApKf+Lcckz8H1mRYbgwhmiosngA49miiHxDjfdJa+
+         D3ly7HPWpb/+P6gHDsOqtUrrNkLvWRa2rox1AjncnBS/QTdzntab4Mv6ec2Ezygz6iq5
+         b3j4Q+pnDLdngdphI1Sr5l/yTnq0Ri9wSMl7C2tkfVCg6ZOxwfGLXNTfP/E6C3MKwb2G
+         i6d35O+ezoRx7DQMk6i344Ids/3MLWBdewCpfkJG5bqsUAfLAM8c2/qV92WsoYdfm6z6
+         iQ+vZh9rVQ0s1CE0U0ddHKKQoYAHqNTJPMSPcMOSH3Ta+J6YdwLG9epogdNJ2VIw77QX
+         0zcg==
+X-Gm-Message-State: AOAM532a5+2DuwCSqtlRjO32sTLD0ZSfz0Q0FOFDKkjHZi/w9T3gjrPM
+        ilFI+zVpMgQCw7Z5Yo1a+ta2L5sGVn2WIKxR4no=
+X-Google-Smtp-Source: ABdhPJwkpNCv4jLtBUHf6cafPnLz2FvFiIkPjFhfIQ+eyJQSNqDMXc6E0d6Ef+/HMHoWdep3yNd0kLMBqEe4K/nTil0=
+X-Received: by 2002:aca:4e06:: with SMTP id c6mr10938182oib.161.1628756841363;
+ Thu, 12 Aug 2021 01:27:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210727112328.18809-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210727112328.18809-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWy4JNZ2=Z+FdMdHukN6rGQMma7cc+Pm06AtsOk8j_eGA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWy4JNZ2=Z+FdMdHukN6rGQMma7cc+Pm06AtsOk8j_eGA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 12 Aug 2021 09:25:13 +0100
-Message-ID: <CA+V-a8unn87anEBKfMLg4D2fK20B7=2ctMQ1x9W5+Jq9RdtikQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] pinctrl: renesas: Add RZ/G2L pin and gpio
- controller driver
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+References: <20210727123450.15918-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210727123450.15918-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 12 Aug 2021 10:27:09 +0200
+Message-ID: <CAMuHMdVSWks7f31O3y4QuZLnztoQgG04CuCiZ9Beo-qKezNmbw@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: net: renesas,etheravb: Document Gigabit
+ Ethernet IP
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
         Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Biju,
 
-Thank you for the review.
+On Tue, Jul 27, 2021 at 2:35 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Document Gigabit Ethernet IP found on RZ/G2L SoC.
+>
+> Gigabit Ethernet Interface includes Ethernet controller (E-MAC),
+> Internal TCP/IP Offload Engine (TOE) and Dedicated Direct memory
+> access controller (DMAC) for transferring transmitted Ethernet
+> frames to and received Ethernet frames from respective storage
+> areas in the URAM at high speed.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Tue, Aug 10, 2021 at 10:13 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, Jul 27, 2021 at 1:23 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Add support for pin and gpio controller driver for RZ/G2L SoC.
-> >
-> > Based on a patch in the BSP by Hien Huynh <hien.huynh.px@renesas.com>.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- /dev/null
-> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->
-> > +static void rzg2l_pinctrl_clk_disable(void *data)
-> > +{
-> > +       struct clk *clk = data;
->
-> No need for the intermediate variable.
->
-Agreed.
+Thanks for your patch!
 
-> > +
-> > +       clk_disable_unprepare(clk);
-> > +}
-> > +
-> > +static int rzg2l_pinctrl_probe(struct platform_device *pdev)
-> > +{
-> > +       struct rzg2l_pinctrl *pctrl;
-> > +       int ret;
-> > +
-> > +       pctrl = devm_kzalloc(&pdev->dev, sizeof(*pctrl), GFP_KERNEL);
-> > +       if (!pctrl)
-> > +               return -ENOMEM;
-> > +
-> > +       pctrl->dev = &pdev->dev;
-> > +
-> > +       pctrl->data = of_device_get_match_data(&pdev->dev);
-> > +       if (!pctrl->data)
-> > +               return -EINVAL;
-> > +
-> > +       pctrl->base = devm_platform_ioremap_resource(pdev, 0);
-> > +       if (IS_ERR(pctrl->base))
-> > +               return PTR_ERR(pctrl->base);
-> > +
-> > +       pctrl->clk = devm_clk_get(pctrl->dev, NULL);
-> > +       if (IS_ERR(pctrl->clk)) {
-> > +               ret = PTR_ERR(pctrl->clk);
-> > +               dev_err(pctrl->dev, "failed to get GPIO clk : %i\n", ret);
-> > +               return ret;
-> > +       };
-> > +
-> > +       spin_lock_init(&pctrl->lock);
-> > +
-> > +       platform_set_drvdata(pdev, pctrl);
-> > +
-> > +       ret = clk_prepare_enable(pctrl->clk);
-> > +       if (ret) {
-> > +               dev_err(pctrl->dev, "failed to enable GPIO clk: %i\n", ret);
-> > +               return ret;
-> > +       };
-> > +
-> > +       ret = devm_add_action_or_reset(&pdev->dev, rzg2l_pinctrl_clk_disable, pctrl->clk);
->
-> This line is a bit long.
->
-> > +       if (ret) {
-> > +               dev_err(pctrl->dev, "failed to register pinctrl clk disable devm action, %i\n",
->
-> Elsewhere, this is called the "GPIO clk".
-> This line is a bit long.
->
-agreed.
+> --- a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+> +++ b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
 
-> > +                       ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       ret = rzg2l_pinctrl_register(pctrl);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       dev_info(pctrl->dev, "%s support registered\n", DRV_NAME);
-> > +       return 0;
-> > +}
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-pinctrl-for-v5.15, with the above fixed, so no need
-> to resend.
->
-Thank you.
+> @@ -145,14 +142,20 @@ allOf:
+>        properties:
+>          compatible:
+>            contains:
+> -            const: renesas,etheravb-rcar-gen2
+> +            enum:
+> +              - renesas,etheravb-rcar-gen2
+> +              - renesas,rzg2l-gbeth
+>      then:
+>        properties:
+>          interrupts:
+> -          maxItems: 1
+> +          minItems: 1
+> +          maxItems: 3
+>          interrupt-names:
+> +          minItems: 1
+>            items:
+>              - const: mux
+> +            - const: int_fil_n
+> +            - const: int_arp_ns_n
 
-Cheers,
-Prabhakar
+I'm aware Rob has already applied this, but should the "int_" prefix
+be dropped?
+The "_n" suffix is also a bit weird (albeit it matches the
+documentation). Usually it is used to indicate an active-low signal,
+but the interrupt is declared in the .dtsi with IRQ_TYPE_LEVEL_HIGH.
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+And the first interrupt is not a mux on RZ/G2L, but called "pif_int_n"
+(whatever "pif" might mean).
+
+>          rx-internal-delay-ps: false
+>      else:
+>        properties:
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
