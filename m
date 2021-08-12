@@ -2,158 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0043A3EA7FC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Aug 2021 17:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10D4F3EA81B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Aug 2021 17:56:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238320AbhHLPve (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Aug 2021 11:51:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39306 "EHLO
+        id S238485AbhHLP5G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Aug 2021 11:57:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238351AbhHLPvW (ORCPT
+        with ESMTP id S238391AbhHLP5F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Aug 2021 11:51:22 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95ACBC061756
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Aug 2021 08:50:57 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id t7-20020a17090a5d87b029017807007f23so15847850pji.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Aug 2021 08:50:57 -0700 (PDT)
+        Thu, 12 Aug 2021 11:57:05 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07AF1C061756;
+        Thu, 12 Aug 2021 08:56:40 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id z2so14403568lft.1;
+        Thu, 12 Aug 2021 08:56:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=8epCIjawpejLlk/347S9MkQQPLaYyG8LvV64+JgAe/4=;
-        b=v+PfxVKjy11LlEgV3tRvx5Ia0m6XvvsQ+YIiXxYY1kMoLVaKCxLTafrlQjgk92FBwV
-         mROB9LF5/3uY0+zVaaiQUNG4uvxMY7cT7YFwbI7QfsRuJl9wwRV9IcIfkGl2TLxwFNJf
-         1JZcb76p22ifvQ6i36UZtBDa7+E6GIb0jq7/5at7PkekQFpzDEb1/jJlJwEjErk0jmRk
-         wybak6JDNiajwsvm0n3YMgAd0lkO4b48X/uslj8estxE5dUBVp49/UfbmCWpgmjDJsJc
-         1lvLNuUdoh544mKIroJY1l4ZMtrN6lcTxeLvkI28mSTBYTwGzby7u+BappjX/HM1mj+o
-         K+Uw==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=A7HUd0nU0npMSrYUznOJbVJsMaRrMewEeWqFZ6APtx4=;
+        b=j/GN+r1KBaVWAoC9ZJQmNjaUsiw+qZDHrTwbWr3orzuAL2hdRPlZTxgET/HQvaNQnx
+         PjZ7D+NeFSwhBkXzYjKEyW3hp+spXzKQJlaDDl9kO51wW9qklshwbd+6oH/GI0dIXd0k
+         Tf2HLUn+y/G1+5KjkqTEnMFmGPjZYqcJolutbtjoK3Hujl6eP/IR77GI5oEBaDEWx4DT
+         ykjHfz6FxXZtpIF158T4fe9lRrqujqkUKQfDmLYUAspjAEKSEqmOZ23Y+ZdMte+c84iG
+         E/JD8l1CgBC0/kRhlan4v2ZFhcwA5IWz6A/GMySojaIAEPnq7VrWOKVU39b5lgPWmBEk
+         DfkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=8epCIjawpejLlk/347S9MkQQPLaYyG8LvV64+JgAe/4=;
-        b=oLyraZ0h3HOGIUjegeLdIzJADzmZMAGG1z2Uh/AbZH/5zH1HF7pACFazLEYKxR1w8t
-         oGnGfizAQIM55CmNHbH5qFhO7YHCVL6pJ5MEPsdBIIxka6dD6sSUEN2wYBJq5LxxBnHV
-         OzZdtPQ+Z97TLfI58LOHeElPJF9NxOsWZ+pBQaSf5N/vEYFjmy5j3NIn5z7naLIyjQAO
-         /VaZPtc0C62Rw53b9uetn1Wxyv5wC04+HbDwU1g9VdDIb4R4u/GhT/LyP1Bj/pFyKf2D
-         ifsOh8wNL18wu0izkgIfTTVKu2earhVHVoRD7WWE5NDfI/TDh/+a9UTFsrBcRjdyUI6l
-         UpMA==
-X-Gm-Message-State: AOAM531rBt9TTY54abOHIzX0RS7tJsjQYOY58Z1bAWs9O1U41v4z8fQN
-        id+mh2PrRx+2hMa2wcuH96XeeziNuS1mgyxS
-X-Google-Smtp-Source: ABdhPJwSV2IUbuNoSI0m4MfF4BNWHbzCmfe12Wdqeix1jtKUdWraXRwN0rW9XCIArhckksdC9zrjMw==
-X-Received: by 2002:a17:902:7b8b:b029:12b:8d3e:70e7 with SMTP id w11-20020a1709027b8bb029012b8d3e70e7mr3982736pll.76.1628783456967;
-        Thu, 12 Aug 2021 08:50:56 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id f16sm3883166pfv.73.2021.08.12.08.50.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Aug 2021 08:50:56 -0700 (PDT)
-Message-ID: <61154360.1c69fb81.a11db.a5e4@mx.google.com>
-Date:   Thu, 12 Aug 2021 08:50:56 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=A7HUd0nU0npMSrYUznOJbVJsMaRrMewEeWqFZ6APtx4=;
+        b=RtwSu+RVDfhz4dLVc9ChZ6wk5BFbx/nLRN20PAmsxPKstf8mEpDS+7z4JrpPe7x1mg
+         30V6f+if5Ia20/qolHbnPtAfDshGkbIzwgJ/6m6tBAGkK/jy50nQ2z1cH+pubeNT71Ce
+         uTA8T6JRr5qTxVy8QubcnJil1DqlI+GJyaQY5IrBSt8HQDk70x5waq4XmcyJ5BiBNga1
+         pUx6ng1gdbKr07ibJCaiIwGczbkTjHtSVQOG9RpgTY+j9AvtfRysgYeuK64H0yEpscPb
+         P5SsA4lv/FTzK5PaYeY7h5qbF8KLOYlM2H6N4pRIDJlICFkHOGGsah65b2AnxhQwKLm7
+         5KiQ==
+X-Gm-Message-State: AOAM532TgIqPfdXjkq2bO4M1EDvtGEVNb1BG41C+h3sm8ucjuC/JEQd1
+        8vMyuAOJHVr2JOej/ik+pLo=
+X-Google-Smtp-Source: ABdhPJyhGqznobSV1gQojSF5F6cY4ISEPvrme2LFQmK269nPCFUnNk+kZNG2hQSDiTpokrCJC7cb0A==
+X-Received: by 2002:a05:6512:2603:: with SMTP id bt3mr2982007lfb.476.1628783798362;
+        Thu, 12 Aug 2021 08:56:38 -0700 (PDT)
+Received: from [192.168.1.102] ([178.176.76.126])
+        by smtp.gmail.com with ESMTPSA id j17sm351117ljq.136.2021.08.12.08.56.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Aug 2021 08:56:37 -0700 (PDT)
+Subject: Re: [PATCH v6 3/3] arm64: dts: renesas: r9a07g044: Add USB2.0 device
+ support
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210812151808.7916-1-biju.das.jz@bp.renesas.com>
+ <20210812151808.7916-4-biju.das.jz@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <2f5f8999-260d-e9c0-731e-df644b528b61@gmail.com>
+Date:   Thu, 12 Aug 2021 18:56:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-next-2021-08-12-v5.14-rc1
-X-Kernelci-Report-Type: test
-Subject: renesas/next igt-kms-rockchip: 1 runs,
- 1 regressions (renesas-next-2021-08-12-v5.14-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+In-Reply-To: <20210812151808.7916-4-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next igt-kms-rockchip: 1 runs, 1 regressions (renesas-next-2021-08-=
-12-v5.14-rc1)
+On 8/12/21 6:18 PM, Biju Das wrote:
 
-Regressions Summary
--------------------
+> Add USB2.0 device support to RZ/G2L SoC DT.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[...]
+> diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> index de78c921af22..2f313c2a81c7 100644
+> --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> @@ -391,6 +391,25 @@
+>  			power-domains = <&cpg>;
+>  			status = "disabled";
+>  		};
+> +
+> +		hsusb: usb@11c60000 {
+> +			compatible = "renesas,usbhs-r9a07g044",
+> +				     "renesas,rza2-usbhs";
+> +			reg = <0 0x11c60000 0 0x10000>;
+> +			interrupts = <GIC_SPI 100 IRQ_TYPE_EDGE_RISING>,
+> +				     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
 
-platform         | arch  | lab           | compiler | defconfig | regressio=
-ns
------------------+-------+---------------+----------+-----------+----------=
---
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 1        =
-  =
+   Don't we need to specify "interrupt-names" when there a more than 1 interrupts?
 
+> +			clocks = <&cpg CPG_MOD R9A07G044_USB_PCLK>,
+> +				 <&cpg CPG_MOD R9A07G044_USB_U2P_EXR_CPUCLK>;
 
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-08-12-v5.14-rc1/plan/igt-kms-rockchip/
+   And "clock-names" too?
 
-  Test:     igt-kms-rockchip
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2021-08-12-v5.14-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      59d7f78144a8a34a290ba84931721eaf11e66ca9
+> +			resets = <&phyrst 0>,
+> +				 <&cpg R9A07G044_USB_U2P_EXL_SYSRST>;
 
-  Test suite revisions:
-    drm
-      URL:  git://anongit.freedesktop.org/mesa/drm
-      SHA:  4ac7d6bf5dd1d7aae893fafee98a309d357e5bd6
-    igt-gpu-tools
-      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
-      SHA:  6135b9cc319ed965e3aafb5b2ae2abf4762a06b2 =
+   And "reset-names"?
 
+[...]
 
-
-Test Regressions
----------------- =
-
-
-
-platform         | arch  | lab           | compiler | defconfig | regressio=
-ns
------------------+-------+---------------+----------+-----------+----------=
---
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 1        =
-  =
-
-
-  Details:     https://kernelci.org/test/plan/id/6115308cb3db1636afb1367a
-
-  Results:     80 PASS, 14 FAIL, 141 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--08-12-v5.14-rc1/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk339=
-9-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--08-12-v5.14-rc1/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk339=
-9-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-igt/=
-20210730.2/arm64/rootfs.cpio.gz =
-
-
-
-  * igt-kms-rockchip.kms_vblank.pipe-A-ts-continuation-suspend: https://ker=
-nelci.org/test/case/id/6115308db3db1636afb13702
-        failing since 30 days (last pass: renesas-next-2021-07-08-v5.13-rc1=
-, first fail: v5.14-rc1-17-gcd117793e1ac)
-
-    2021-08-12T14:28:54.254661  <6>[   80.009163] Console: switching to col=
-our dummy device 80x25
-    2021-08-12T14:28:54.259835  <14>[   80.016248] [IGT] kms_vblank: execut=
-ing
-    2021-08-12T14:28:54.275204  IGT-Version: 1.26-g6135b9c (aarch64) (Linux=
-: 5.14.0-rc2 aarch64)<14>[   80.022448] [IGT] kms_vblank: starting subtest =
-pipe-A-ts-continuation-suspend
-    2021-08-12T14:28:54.275480  =
-
-    2021-08-12T14:28:54.279800  Starting subtest: pipe-A-ts-continuation-su=
-spend
-    2021-08-12T14:28:54.353314  Beginning pipe-A-ts-continuation-suspend on=
- pipe A, connector eDP-1
-    2021-08-12T14:28:54.382912  [cmd] rtcwake: assuming RTC uses UTC ...
-    2021-08-12T14:28:54.389024  rtcwake: wakeup from \"mem\" using /dev/rtc=
-0 at Thu Aug 12 14:28:03 2021
-    2021-08-12T14:28:54.402498  <6>[   80.159329] PM: suspend entry (deep)
-    2021-08-12T14:28:54.407752  <6>[   80.163848] Filesystems sync: 0.000 s=
-econds =
-
-    ... (126 line(s) more)  =
-
- =20
+MBR, Sergei
