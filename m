@@ -2,92 +2,191 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A96B3EBD22
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Aug 2021 22:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3992B3EBE54
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Aug 2021 00:40:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234332AbhHMUNt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Aug 2021 16:13:49 -0400
-Received: from mail-oi1-f172.google.com ([209.85.167.172]:42845 "EHLO
-        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233905AbhHMUNt (ORCPT
+        id S235029AbhHMWlD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Aug 2021 18:41:03 -0400
+Received: from mga03.intel.com ([134.134.136.65]:42586 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235059AbhHMWlC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Aug 2021 16:13:49 -0400
-Received: by mail-oi1-f172.google.com with SMTP id t35so17601752oiw.9;
-        Fri, 13 Aug 2021 13:13:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=OquAakahea26nEMMYnVSuFdMaOwT9nWOuEZ5pT1GDFg=;
-        b=QN8ueV5MJRO1DZbtUgELK/L+FUDxnoGeP3yTQnA5oUo3JABLK7a6x/nrcd/fXN+a/n
-         +EGH6xrcQPhqGCYGJVl+kQ8/zB+clwwMJVPDZgpv4WrfDlUemmCw4P1f7Np2gqnYGU7y
-         81SrAzdd051wjshsSQs8+xAt+ff5qR2EbBUhGdGKZ72HbddRre4A0PSXChv1LClMqLgN
-         hWPxJQH8ijqkqipCdyI4bb4i58M3LhPoPkP0s26CYyieJsWvVlFPIM8osr6ST9fSlTLS
-         NHRgymRNKh+3niy15CXDEKPnSP75W8RpTHKU4Wy+7uSRWk2D+PG/ooc7veWzaTcab3w/
-         HUjQ==
-X-Gm-Message-State: AOAM530RBa6HV8x5DJaFUJyS6TIa49LmXIeeNy6zcGnL/6Hx8Fbvd7Fx
-        4DUxWiQMfPxEtJD/IoXVTw==
-X-Google-Smtp-Source: ABdhPJz+sTeYclyG6tB76eUhdgMTPu4W3K1FCrw3tb0uxcBscFGu5U1dDPVVvXhkvpngfi+DznOqcA==
-X-Received: by 2002:a05:6808:1389:: with SMTP id c9mr3468628oiw.89.1628885601554;
-        Fri, 13 Aug 2021 13:13:21 -0700 (PDT)
-Received: from robh.at.kernel.org (2603-8080-2a06-ed00-7254-0b80-dd3c-00c6.res6.spectrum.com. [2603:8080:2a06:ed00:7254:b80:dd3c:c6])
-        by smtp.gmail.com with ESMTPSA id o18sm558321oiw.27.2021.08.13.13.13.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 13:13:20 -0700 (PDT)
-Received: (nullmailer pid 3945957 invoked by uid 1000);
-        Fri, 13 Aug 2021 20:13:18 -0000
-Date:   Fri, 13 Aug 2021 15:13:18 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Biju Das <biju.das@bp.renesas.com>,
-        alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        devicetree@vger.kernel.org,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Vinod Koul <vkoul@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>
-Subject: Re: [PATCH v4 2/3] ASoC: dt-bindings: sound: renesas,rz-ssi: Update
- slave dma channel configuration parameters
-Message-ID: <YRbSXn9P41o28u32@robh.at.kernel.org>
-References: <20210806102930.3024-1-biju.das.jz@bp.renesas.com>
- <20210806102930.3024-3-biju.das.jz@bp.renesas.com>
+        Fri, 13 Aug 2021 18:41:02 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10075"; a="215669992"
+X-IronPort-AV: E=Sophos;i="5.84,320,1620716400"; 
+   d="scan'208";a="215669992"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2021 15:40:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,320,1620716400"; 
+   d="scan'208";a="508396083"
+Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 13 Aug 2021 15:40:33 -0700
+Received: from kbuild by d053b881505b with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mEfqq-000ODb-BD; Fri, 13 Aug 2021 22:40:32 +0000
+Date:   Sat, 14 Aug 2021 06:39:51 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:renesas-pinctrl-for-v5.15] BUILD SUCCESS
+ c4c4637eb57f2a25c445421aadeb689a2538b20b
+Message-ID: <6116f4b7.Y9RbPwN+UiZMugfy%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210806102930.3024-3-biju.das.jz@bp.renesas.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 06 Aug 2021 11:29:29 +0100, Biju Das wrote:
-> The DMAC driver on RZ/G2L expects the slave channel configuration
-> to be passed in dmas property.
-> This patch updates the example node to include the encoded slave
-> channel configuration.
-> 
-> Fixes: 5df6dfbb6de815ba3a("ASoC: dt-bindings: sound: renesas,rz-ssi: Document DMA support")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> Note:-
->  This patch is based on [1]
->  [1]:- https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210806095322.2326-2-biju.das.jz@bp.renesas.com/
-> 
-> v3->v4:
->  * Updated bindings as the DMAC driver on RZ/G2L expects the
->    slave channel configuration to be passed in dmas property.
-> v2->v3:
->  * Merged the binding patch with dmas added
->  * Updated dt binding example with encoded #dma-cells value.
-> v1->v2:
->  * Rebased on 5.14-rc2.
-> ---
->  Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.15
+branch HEAD: c4c4637eb57f2a25c445421aadeb689a2538b20b  pinctrl: renesas: Add RZ/G2L pin and gpio controller driver
 
-Acked-by: Rob Herring <robh@kernel.org>
+elapsed time: 721m
+
+configs tested: 132
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm64                            allyesconfig
+arm64                               defconfig
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20210813
+i386                 randconfig-c001-20210812
+nios2                            allyesconfig
+arm                         lpc18xx_defconfig
+arm                           spitz_defconfig
+arm                           tegra_defconfig
+arm                          badge4_defconfig
+mips                        workpad_defconfig
+parisc                generic-32bit_defconfig
+xtensa                           allyesconfig
+arm                       imx_v4_v5_defconfig
+powerpc                      ep88xc_defconfig
+powerpc                     rainier_defconfig
+sh                            shmin_defconfig
+h8300                               defconfig
+riscv                    nommu_k210_defconfig
+mips                  maltasmvp_eva_defconfig
+powerpc               mpc834x_itxgp_defconfig
+mips                        maltaup_defconfig
+mips                           ip22_defconfig
+sh                           se7721_defconfig
+arm                        clps711x_defconfig
+m68k                        mvme147_defconfig
+powerpc                     stx_gp3_defconfig
+arm                           viper_defconfig
+sh                     magicpanelr2_defconfig
+arm                          ep93xx_defconfig
+arc                              alldefconfig
+powerpc                 mpc85xx_cds_defconfig
+sh                          urquell_defconfig
+microblaze                      mmu_defconfig
+arm                         nhk8815_defconfig
+powerpc                     tqm5200_defconfig
+xtensa                              defconfig
+arm                       omap2plus_defconfig
+arm                         bcm2835_defconfig
+arm                            pleb_defconfig
+arc                        nsim_700_defconfig
+mips                 decstation_r4k_defconfig
+x86_64                            allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+i386                                defconfig
+sparc                            allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a004-20210813
+i386                 randconfig-a003-20210813
+i386                 randconfig-a001-20210813
+i386                 randconfig-a002-20210813
+i386                 randconfig-a006-20210813
+i386                 randconfig-a005-20210813
+i386                 randconfig-a004-20210814
+i386                 randconfig-a002-20210814
+i386                 randconfig-a001-20210814
+i386                 randconfig-a003-20210814
+i386                 randconfig-a006-20210814
+i386                 randconfig-a005-20210814
+x86_64               randconfig-a011-20210813
+x86_64               randconfig-a013-20210813
+x86_64               randconfig-a012-20210813
+x86_64               randconfig-a016-20210813
+x86_64               randconfig-a015-20210813
+x86_64               randconfig-a014-20210813
+i386                 randconfig-a011-20210814
+i386                 randconfig-a015-20210814
+i386                 randconfig-a013-20210814
+i386                 randconfig-a014-20210814
+i386                 randconfig-a016-20210814
+i386                 randconfig-a012-20210814
+i386                 randconfig-a011-20210813
+i386                 randconfig-a015-20210813
+i386                 randconfig-a014-20210813
+i386                 randconfig-a013-20210813
+i386                 randconfig-a016-20210813
+i386                 randconfig-a012-20210813
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-c001-20210813
+x86_64               randconfig-c001-20210814
+x86_64               randconfig-a006-20210813
+x86_64               randconfig-a004-20210813
+x86_64               randconfig-a003-20210813
+x86_64               randconfig-a002-20210813
+x86_64               randconfig-a005-20210813
+x86_64               randconfig-a001-20210813
+x86_64               randconfig-a011-20210812
+x86_64               randconfig-a013-20210812
+x86_64               randconfig-a012-20210812
+x86_64               randconfig-a016-20210812
+x86_64               randconfig-a015-20210812
+x86_64               randconfig-a014-20210812
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
