@@ -2,124 +2,175 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 982BA3EBB6E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Aug 2021 19:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD6873EBB92
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Aug 2021 19:39:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232151AbhHMR07 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Aug 2021 13:26:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39196 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232168AbhHMR05 (ORCPT
+        id S230018AbhHMRkV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Aug 2021 13:40:21 -0400
+Received: from mail-ot1-f53.google.com ([209.85.210.53]:33716 "EHLO
+        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229841AbhHMRkU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Aug 2021 13:26:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5BD0D60FC3;
-        Fri, 13 Aug 2021 17:26:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628875590;
-        bh=aOqBmh5sZWNm3xPDNpYuAmOxdQby4H5RHJySluzbP5Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fWsazR2NAX1xidpKZN7MEQv9wH2vt03JKbTAz7XXy3fLrHBYA7nBD18r+ydeYhJv/
-         HBiuMIx5K2viPzMRl8iTGt0lfbtaDUcrDzwCws+Qalq5189PIRhClu68R3zrWpCtNx
-         8pxIifoLCVCQ7139bAnJ24ALaBrhE4LMzhDVH690GsKcJ2X7btNtTSTsAG6HCrxtE9
-         bdUMLh54csiyk+m38cTkJh6aKYu0gih1n2H3g5JEHF2mKDduqFZtw3ahKWSZDMkIf1
-         NivepE3Hjg4caSAhRKxcIogmcxROFEPvfQBXQsbt8tfL0m8ROYJDAU4DwqRO8DZhwB
-         g/PWza4uVTN+w==
-From:   Mark Brown <broonie@kernel.org>
-To:     Takashi Iwai <tiwai@suse.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Vinod Koul <vkoul@kernel.org>,
+        Fri, 13 Aug 2021 13:40:20 -0400
+Received: by mail-ot1-f53.google.com with SMTP id 61-20020a9d0d430000b02903eabfc221a9so13015682oti.0;
+        Fri, 13 Aug 2021 10:39:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+u03hty9mA7Qza2lp8SVmmlD4ygr03fOgEqWh8ZIeRA=;
+        b=GpSe1uTQR9DTxdh+ZL2L6ddwz+hOnuwsbjQWyIE+Otvx3pZGkpGFo1BGrMtMZWdsOm
+         Af2lJzWQdZ8AkbHeXthBFnjJJ0WUUsYnHg81xH8Ba1eULOAgum5+pPsFs8GCyfD4UNce
+         HoCTKtsm10VHIbrrI5C5y3Z1sYehHCA3rM0+S4N3YlWl5gMYclzNH6+XljdumqH6tpIO
+         vevkX+DoQcSw6P0QMIKH2osxdhnV27BPfYb38af/lMg2+bsajiBPPMT5/Rky2lWWbUWc
+         KQigRVc0Wh7GXEGEgqLA75hiMOjoI7ovptO2eqfdd7Avh2/9tu2X29hjiiog+l+lbZ+/
+         pxvA==
+X-Gm-Message-State: AOAM5302Ie2JztXV8ncxix5+7WJbR473j/CO74VqK/ln3KegyloOKkR5
+        MhiBtwD8D/ajeUAxs9Vrzg==
+X-Google-Smtp-Source: ABdhPJwowsIs1NjLOHD5qUWAyL+DDbQwrOQ5bLg4DWf6jzqyhWJ5lUAoV86QBfapoNRROcG+mhq0Lw==
+X-Received: by 2002:a9d:5e5:: with SMTP id 92mr2952259otd.193.1628876391749;
+        Fri, 13 Aug 2021 10:39:51 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id b20sm427802otl.25.2021.08.13.10.39.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Aug 2021 10:39:51 -0700 (PDT)
+Received: (nullmailer pid 3734567 invoked by uid 1000);
+        Fri, 13 Aug 2021 17:39:50 -0000
+Date:   Fri, 13 Aug 2021 12:39:50 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v5 0/3] Add RZ/G2L Sound support
-Date:   Fri, 13 Aug 2021 18:26:02 +0100
-Message-Id: <162887455324.19744.6771563830810696575.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210813091156.10700-1-biju.das.jz@bp.renesas.com>
-References: <20210813091156.10700-1-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: mmc: renesas,sdhi: Fix dtbs-check
+ warning
+Message-ID: <YRauZkjqGnIi84cf@robh.at.kernel.org>
+References: <20210804161325.26996-1-biju.das.jz@bp.renesas.com>
+ <20210804161325.26996-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210804161325.26996-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 13 Aug 2021 10:11:53 +0100, Biju Das wrote:
-> This patch series aims to add ASoC support on RZ/G2L SoC's.
+On Wed, Aug 04, 2021 at 05:13:24PM +0100, Biju Das wrote:
+> Fix dtbs-check warning pinctrl-names:0:'default' was expected
+> for r8a77470-iwg23s-sbc.dts file.
 > 
-> It is based on the work done by Chris Brandt for RZ/A ASoC driver.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v3:
+>  * New patch to fix the dtbs-check warnings
+>  Ref:- https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20210804091940.23983-1-biju.das.jz@bp.renesas.com/
+> ---
+>  .../devicetree/bindings/mmc/renesas,sdhi.yaml | 65 ++++++++++++-------
+>  1 file changed, 42 insertions(+), 23 deletions(-)
 > 
-> v4->v5
->  * Moved validation of sample bits in hw_params
->  * Removed validation of frame bits as it is redundant
->  * split the rz_ssi_start_stop function into rz_ssi_start and rz_ssi_stop.
->  * remove the spin_lock around rz_ssi_stream_init.
->  * Updated dmas description and removed fixes as it is an enhancement
->    now.
->  * updated ssi_start functions with setting fifo thresholds
->    and ssi_stop function with cancel all dma txn.
-> v3->v4:
->  * Updated the subject line as per style for the subsystem.
->  * Removed select SND_SIMPLE_CARD from Kconfig
->  * Added C++ comments for copyright and driver description.
->  * Moved validation of channels in hw_params
->  * removed asm issue reported by bot as well as Mark
->  * replaced master/slave macros with provider/consumer macros
->  * Improved locking and added more null pointer checks.
-> v2->v3:
->  * Fixed the dependency on KCONFIG
->  * Merged the binding patch with dma feature added
->  * Updated dt binding example with encoded #dma-cells value.
->  * Improved Error handling in probe function
->  * Removed the passing legacy channel configuration parameters from
->    dmaengine_slave_config function
->  * started using dma_request_chan instead of deprecated
->    dma_request_slave_channel
->  * Removed SoC dtsi and config patches from this series. Will send it later.
-> v1->v2:
->  * Rebased to latest rc kernel
+> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> index 677989bc5924..543eeb825dc3 100644
+> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> @@ -9,9 +9,6 @@ title: Renesas SDHI SD/MMC controller
+>  maintainers:
+>    - Wolfram Sang <wsa+renesas@sang-engineering.com>
+>  
+> -allOf:
+> -  - $ref: "mmc-controller.yaml"
+> -
+>  properties:
+>    compatible:
+>      oneOf:
+> @@ -104,14 +101,51 @@ properties:
+>    pinctrl-1:
+>      maxItems: 1
+>  
+> -  pinctrl-names:
+> -    minItems: 1
+> -    items:
+> -      - const: default
+> -      - const: state_uhs
+> +  pinctrl-names: true
+>  
+>    max-frequency: true
+>  
+> +allOf:
+> +  - $ref: "mmc-controller.yaml"
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,sdhi-mmc-r8a77470
+> +    then:
+> +      properties:
+> +        pinctrl-names:
+> +          items:
+> +            - const: state_uhs
+> +    else:
+> +      properties:
+> +        pinctrl-names:
+> +          minItems: 1
+> +          items:
+> +            - const: default
+> +            - const: state_uhs
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,sdhi-r7s72100
+> +              - renesas,sdhi-r7s9210
+> +    then:
+> +      properties:
+> +        clock-names:
+> +          items:
+> +            - const: core
+> +            - const: cd
+
+This is already defined in the main section, no need for it here.
+
+> +      required:
+> +        - clock-names
+> +      description:
+> +        The internal card detection logic that exists in these controllers is
+> +        sectioned off to be run by a separate second clock source to allow
+> +        the main core clock to be turned off to save power.
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -119,21 +153,6 @@ required:
+>    - clocks
+>    - power-domains
+>  
+> -if:
+> -  properties:
+> -    compatible:
+> -      contains:
+> -        enum:
+> -          - renesas,sdhi-r7s72100
+> -          - renesas,sdhi-r7s9210
+> -then:
+> -  required:
+> -    - clock-names
+> -  description:
+> -    The internal card detection logic that exists in these controllers is
+> -    sectioned off to be run by a separate second clock source to allow
+> -    the main core clock to be turned off to save power.
+> -
+>  unevaluatedProperties: false
+>  
+>  examples:
+> -- 
+> 2.17.1
 > 
-> [...]
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/3] ASoC: sh: Add RZ/G2L SSIF-2 driver
-      commit: 03e786bd43410fa93e5d2459f7a43e90ff0ae801
-[2/3] ASoC: dt-bindings: renesas,rz-ssi: Update slave dma channel configuration parameter
-      commit: bed0b1c1e88a27b76c74584128cadebc6fa58622
-[3/3] ASoC: sh: rz-ssi: Add SSI DMAC support
-      commit: 26ac471c5354583cf4fe0e42537a2c6b84d6d74e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+> 
