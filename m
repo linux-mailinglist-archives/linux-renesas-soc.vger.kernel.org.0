@@ -2,115 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A333EB7DA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Aug 2021 17:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 982BA3EBB6E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Aug 2021 19:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241478AbhHMPJm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Aug 2021 11:09:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241407AbhHMPJ2 (ORCPT
+        id S232151AbhHMR07 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Aug 2021 13:26:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39196 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232168AbhHMR05 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Aug 2021 11:09:28 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F40FC061756
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Aug 2021 08:09:01 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id h13so13785190wrp.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Aug 2021 08:09:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=W8ZDF8z+b7ZAjV4vNrnorD1PEm8hr1QtFpmDxBnDqKg=;
-        b=VX9JcxnfMM2tnvlJOsz34xq7pwp9ssD8+/TH0LQZnJ2sSRZSNW/mjdLEFOhULrMNmQ
-         HXtTgwsl+kf4RGD2CLTPzCMdm5dyNZjgNM8L/SPFlY/AL4UwUWTBH7oRfj/RlV+JMSHH
-         OPgdbnv30EcUrdxlul3W8poZj0O+hfyiv6rWtCDAbXPaX1F705jZ5luOPOaf+VHWosFX
-         YEy13fZWjp2a4QCLdvz5zukoAQ1Kq5XzlNCoCxFwMXt9S3DAP/54wZIUnNcvxrN5TbjX
-         hpzb4SGZUbzJkUem/s+vtSfmD0flu/FHQ8Fg6OvrBsgy+GoTR8bfZTv2pNj90Z/7ZCtW
-         6e1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=W8ZDF8z+b7ZAjV4vNrnorD1PEm8hr1QtFpmDxBnDqKg=;
-        b=Eos+07yTNEFkgZDa97W80JCvUf7AwVdO6CK9RJuP02gg78Cc2pDIOtY1EZfm10VqTE
-         zGiChfIcuBEtranugagoX69Vm7YMReNRYlo14LW+3oNcW5tzL5IbuVAnGYzCFR75/iyC
-         qCtXS0BNBuR9BscxudaT+8KsC0yuKELvIr+18lY61Z3JEC9M/CIzTdtzVVAAIDFf3Lih
-         EgSJM/Z7N8fM5OYTthvRnBMu3uuuGVazkpy9KUabW3aJmS2r9daIx4u+kruY+bxi/qJs
-         0ubYn86zDPiJ75TsZftJCzLgXDttpZkE0VgTR+Ep6/g3uVg/s16wkVDlqgTPVhkxlYqI
-         JJSQ==
-X-Gm-Message-State: AOAM533W/kE2VJRCenPYdgK6SBHIZrPalfa6sbjkXTHg6FIxVNqXrD31
-        0ozu3f6CtGsbpDymdCDRQqlgqw==
-X-Google-Smtp-Source: ABdhPJyGjTiuYAtrjcvhLSl8gbO6XVV1t3LdztqT9zh+jTuH+0J/ydhnwERR+YQFPworBdi9fqMXPQ==
-X-Received: by 2002:a5d:638b:: with SMTP id p11mr3697049wru.257.1628867340063;
-        Fri, 13 Aug 2021 08:09:00 -0700 (PDT)
-Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.googlemail.com with ESMTPSA id h4sm1799575wrm.42.2021.08.13.08.08.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 08:08:59 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     Suresh Udipi <sudipi@jp.adit-jv.com>,
+        Fri, 13 Aug 2021 13:26:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5BD0D60FC3;
+        Fri, 13 Aug 2021 17:26:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628875590;
+        bh=aOqBmh5sZWNm3xPDNpYuAmOxdQby4H5RHJySluzbP5Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=fWsazR2NAX1xidpKZN7MEQv9wH2vt03JKbTAz7XXy3fLrHBYA7nBD18r+ydeYhJv/
+         HBiuMIx5K2viPzMRl8iTGt0lfbtaDUcrDzwCws+Qalq5189PIRhClu68R3zrWpCtNx
+         8pxIifoLCVCQ7139bAnJ24ALaBrhE4LMzhDVH690GsKcJ2X7btNtTSTsAG6HCrxtE9
+         bdUMLh54csiyk+m38cTkJh6aKYu0gih1n2H3g5JEHF2mKDduqFZtw3ahKWSZDMkIf1
+         NivepE3Hjg4caSAhRKxcIogmcxROFEPvfQBXQsbt8tfL0m8ROYJDAU4DwqRO8DZhwB
+         g/PWza4uVTN+w==
+From:   Mark Brown <broonie@kernel.org>
+To:     Takashi Iwai <tiwai@suse.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 3/3] media: rcar-csi2: Optimize the selection PHTW register
-Date:   Fri, 13 Aug 2021 17:07:56 +0200
-Message-Id: <20210813150756.131826-4-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210813150756.131826-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20210813150756.131826-1-niklas.soderlund+renesas@ragnatech.se>
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v5 0/3] Add RZ/G2L Sound support
+Date:   Fri, 13 Aug 2021 18:26:02 +0100
+Message-Id: <162887455324.19744.6771563830810696575.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210813091156.10700-1-biju.das.jz@bp.renesas.com>
+References: <20210813091156.10700-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Suresh Udipi <sudipi@jp.adit-jv.com>
+On Fri, 13 Aug 2021 10:11:53 +0100, Biju Das wrote:
+> This patch series aims to add ASoC support on RZ/G2L SoC's.
+> 
+> It is based on the work done by Chris Brandt for RZ/A ASoC driver.
+> 
+> v4->v5
+>  * Moved validation of sample bits in hw_params
+>  * Removed validation of frame bits as it is redundant
+>  * split the rz_ssi_start_stop function into rz_ssi_start and rz_ssi_stop.
+>  * remove the spin_lock around rz_ssi_stream_init.
+>  * Updated dmas description and removed fixes as it is an enhancement
+>    now.
+>  * updated ssi_start functions with setting fifo thresholds
+>    and ssi_stop function with cancel all dma txn.
+> v3->v4:
+>  * Updated the subject line as per style for the subsystem.
+>  * Removed select SND_SIMPLE_CARD from Kconfig
+>  * Added C++ comments for copyright and driver description.
+>  * Moved validation of channels in hw_params
+>  * removed asm issue reported by bot as well as Mark
+>  * replaced master/slave macros with provider/consumer macros
+>  * Improved locking and added more null pointer checks.
+> v2->v3:
+>  * Fixed the dependency on KCONFIG
+>  * Merged the binding patch with dma feature added
+>  * Updated dt binding example with encoded #dma-cells value.
+>  * Improved Error handling in probe function
+>  * Removed the passing legacy channel configuration parameters from
+>    dmaengine_slave_config function
+>  * started using dma_request_chan instead of deprecated
+>    dma_request_slave_channel
+>  * Removed SoC dtsi and config patches from this series. Will send it later.
+> v1->v2:
+>  * Rebased to latest rc kernel
+> 
+> [...]
 
-PHTW register is selected based on default bit rate from Table[1].
-for the bit rates less than or equal to 250. Currently first
-value of default bit rate which is greater than or equal to
-the caculated mbps is selected. This selection can be further
-improved by selecting the default bit rate which is nearest to
-the calculated value.
+Applied to
 
-[1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.12]
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
-Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Thanks!
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index 5b531e0bb5a08f9c..4a27ea8ce96dceaf 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -1099,10 +1099,17 @@ static int rcsi2_phtw_write_mbps(struct rcar_csi2 *priv, unsigned int mbps,
- 				 const struct rcsi2_mbps_reg *values, u16 code)
- {
- 	const struct rcsi2_mbps_reg *value;
-+	const struct rcsi2_mbps_reg *prev_value = NULL;
- 
--	for (value = values; value->mbps; value++)
-+	for (value = values; value->mbps; value++) {
- 		if (value->mbps >= mbps)
- 			break;
-+		prev_value = value;
-+	}
-+
-+	if (prev_value &&
-+	    ((mbps - prev_value->mbps) <= (value->mbps - mbps)))
-+		value = prev_value;
- 
- 	if (!value->mbps) {
- 		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
--- 
-2.32.0
+[1/3] ASoC: sh: Add RZ/G2L SSIF-2 driver
+      commit: 03e786bd43410fa93e5d2459f7a43e90ff0ae801
+[2/3] ASoC: dt-bindings: renesas,rz-ssi: Update slave dma channel configuration parameter
+      commit: bed0b1c1e88a27b76c74584128cadebc6fa58622
+[3/3] ASoC: sh: rz-ssi: Add SSI DMAC support
+      commit: 26ac471c5354583cf4fe0e42537a2c6b84d6d74e
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
