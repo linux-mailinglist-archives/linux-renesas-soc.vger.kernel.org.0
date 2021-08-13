@@ -2,86 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A88A13EB3A0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Aug 2021 11:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21ECD3EB3F7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Aug 2021 12:22:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239327AbhHMJzz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Aug 2021 05:55:55 -0400
-Received: from mail-ua1-f44.google.com ([209.85.222.44]:37431 "EHLO
-        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238741AbhHMJzv (ORCPT
+        id S239357AbhHMKXV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Aug 2021 06:23:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240065AbhHMKXS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Aug 2021 05:55:51 -0400
-Received: by mail-ua1-f44.google.com with SMTP id 67so4171225uaq.4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Aug 2021 02:55:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FG6+n9faQJ8zUMY2x+YbAjuI50F3IntuI53soFI+w68=;
-        b=qPWPWVxTDA7Ie8azgok5hhIXKHDlyRlAbY99Pe3qFKKliI2plKW9UI4dLl8ikaq0Lg
-         1XHViM687FmjuQhZbpb4AMsISR23jGYMbPhJ+V+duop2k0FWRDWv0/gmXjPt1sXSn3sw
-         PJSjWe6WIj5fRpP0IvhVZx6IPUgIRrAlfxSexF3/R1Q1XIf1NkrQiu5w3gmQm4UICsWa
-         HWxGQ3darHCPjspP21mpM/vlmrwG+MMsHFIXlFctvuNZjj/b4rOR8TPClwDPi1I3X0jk
-         LSIsHUmF/z8aXLrVZQ/KF7CNr4eB5Xf+7OhaJlGqWvwzzGBEHzSLuB34UT+MqgFEdpDT
-         fizA==
-X-Gm-Message-State: AOAM5305erzBkA5WszHZCHgtOzPCkkI1VwOpvO6GwmHH4JFPZCM7zUIO
-        R1zq0a4rlQcl0DWb/1wJ0k4yvKpiz/OKatu8WdU=
-X-Google-Smtp-Source: ABdhPJxZJ4afdAaKuLZz7YvoI2zSB/6cg5kwoTk3tC64vT3nc422Lh+byTCIHb9qnOF6RTljbhg3b7+BUsAOGGAjIj8=
-X-Received: by 2002:ab0:6887:: with SMTP id t7mr707504uar.114.1628848524873;
- Fri, 13 Aug 2021 02:55:24 -0700 (PDT)
+        Fri, 13 Aug 2021 06:23:18 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415C3C061756
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Aug 2021 03:22:52 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:b151:f011:b544:c545])
+        by albert.telenet-ops.be with bizsmtp
+        id gyNo2500B1MlFFN06yNo76; Fri, 13 Aug 2021 12:22:48 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mEUKu-002Wod-0H; Fri, 13 Aug 2021 12:22:48 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mEUKt-007SUX-G4; Fri, 13 Aug 2021 12:22:47 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/2] Renesas SoC updates for v5.15 (take two)
+Date:   Fri, 13 Aug 2021 12:22:34 +0200
+Message-Id: <cover.1628849621.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210611165624.30749-1-biju.das.jz@bp.renesas.com>
- <20210611165624.30749-6-biju.das.jz@bp.renesas.com> <CAMuHMdV5FE24t__Xa0d5uTA2FPTitn69tDPFqQhpRGz3uvrckg@mail.gmail.com>
-In-Reply-To: <CAMuHMdV5FE24t__Xa0d5uTA2FPTitn69tDPFqQhpRGz3uvrckg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 13 Aug 2021 11:55:12 +0200
-Message-ID: <CAMuHMdX_=2t5xoybwgmTFqfkDRhq7BPVoU9qC=CB88qrJpoPSA@mail.gmail.com>
-Subject: Re: [PATCH 5/5] arm64: defconfig: Enable RIIC
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Michael Walle <michael@walle.cc>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Nishanth Menon <nm@ti.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 2:45 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Fri, Jun 11, 2021 at 6:56 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Enable RIIC driver support for Renesas RZ/G2L based platforms.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v5.15.
+	Hi soc folks,
 
-Given we don't have any i2c users yet in the RZ/G2L board DTS files,
-I'm postponing this to v5.16.
+This is my second pull request for the inclusion of Renesas SoC updates
+for v5.15.
+
+It consists of two parts:
+
+  [GIT PULL 1/2] Renesas ARM DT updates for v5.15 (take two)
+
+    - Pin control, ADC, and CANFD support for the RZ/G2L SoC,
+    - Add interrupt-names properties to the Renesas RZ/A and RZ/G2L I2C
+      Bus Interface.
+
+  [GIT PULL 2/2] Renesas driver updates for v5.15 (take two)
+
+    - Prefer memcpy() over strcpy().
+
+Note that the first part includes another update (append-only) to the
+Renesas RZ/G2L DT Binding Definitions, which are shared by driver and DT
+source files, and thus included in multiple pull requests:
+  - "[GIT PULL] clk: renesas: Updates for v5.15" (for clk),
+  - "[GIT PULL 1/2] Renesas ARM DT updates for v5.15 (take two)" (for
+    soc).
+
+Thanks for pulling!
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
