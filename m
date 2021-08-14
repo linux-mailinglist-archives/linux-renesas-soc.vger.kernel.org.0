@@ -2,80 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84FD03EC2EC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Aug 2021 15:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8040A3EC302
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Aug 2021 15:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231601AbhHNNlm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 14 Aug 2021 09:41:42 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:61328 "EHLO
+        id S238547AbhHNN4A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 14 Aug 2021 09:56:00 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:23701 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229829AbhHNNlm (ORCPT
+        by vger.kernel.org with ESMTP id S234353AbhHNN4A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 14 Aug 2021 09:41:42 -0400
+        Sat, 14 Aug 2021 09:56:00 -0400
 X-IronPort-AV: E=Sophos;i="5.84,321,1620658800"; 
-   d="scan'208";a="90626665"
+   d="scan'208";a="90627089"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Aug 2021 22:41:12 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 14 Aug 2021 22:55:30 +0900
 Received: from localhost.localdomain (unknown [10.226.92.7])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7C01A4270487;
-        Sat, 14 Aug 2021 22:41:10 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CC9084272039;
+        Sat, 14 Aug 2021 22:55:28 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        alsa-devel@alsa-project.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] ASoC: sh: rz-ssi: Improve error handling in rz_ssi_dma_request function
-Date:   Sat, 14 Aug 2021 14:41:06 +0100
-Message-Id: <20210814134106.14275-1-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] Add RZ/G2L Sound support
+Date:   Sat, 14 Aug 2021 14:55:24 +0100
+Message-Id: <20210814135526.15561-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The rz_ssi_dma_request function only checks the NULL condition for
-the value returned by the dma_request_chan function, but this function
-can also return an error. If it happens, the subsequent function call to
-rz_ssi_dma_slave_config can lead to a kernel crash.
+This patch series aims to add RZ/G2L sound support by adding
+SSIF and audio clock nodes to SoC dtsi.
 
-This patch fixes the issue by checking both error and NULL condition
-returned by dma_request_chan.
+Currently SSI interrupt support is added in SoC dtsi, later will add DMA
+support, once DMA patches accepted in mainline.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- sound/soc/sh/rz-ssi.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+This patches are tested(audio playback/record) with renesas-devel and is based upon[1] & [2]
 
-diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
-index ea8d33ede5d2..3867e2efd3e0 100644
---- a/sound/soc/sh/rz-ssi.c
-+++ b/sound/soc/sh/rz-ssi.c
-@@ -676,11 +676,19 @@ static void rz_ssi_release_dma_channels(struct rz_ssi_priv *ssi)
- static int rz_ssi_dma_request(struct rz_ssi_priv *ssi, struct device *dev)
- {
- 	ssi->playback.dma_ch = dma_request_chan(dev, "tx");
-+	if (IS_ERR_OR_NULL(ssi->playback.dma_ch))
-+		ssi->playback.dma_ch = NULL;
-+
- 	ssi->capture.dma_ch = dma_request_chan(dev, "rx");
-+	if (IS_ERR_OR_NULL(ssi->capture.dma_ch))
-+		ssi->capture.dma_ch = NULL;
-+
- 	if (!ssi->playback.dma_ch && !ssi->capture.dma_ch) {
- 		ssi->playback.dma_ch = dma_request_chan(dev, "rt");
--		if (!ssi->playback.dma_ch)
-+		if (IS_ERR_OR_NULL(ssi->playback.dma_ch)) {
-+			ssi->playback.dma_ch = NULL;
- 			goto no_dma;
-+		}
- 
- 		ssi->dma_rt = true;
- 	}
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210812151808.7916-3-biju.das.jz@bp.renesas.com/
+[2] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210812151808.7916-4-biju.das.jz@bp.renesas.com/
+
+Biju Das (2):
+  arm64: dts: renesas: r9a07g044: Add external audio clock nodes
+  arm64: dts: renesas: r9a07g044: Add SSI support
+
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 94 ++++++++++++++++++++++
+ 1 file changed, 94 insertions(+)
+
 -- 
 2.17.1
 
