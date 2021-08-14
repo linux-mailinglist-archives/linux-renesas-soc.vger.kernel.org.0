@@ -2,83 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3667D3EC453
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Aug 2021 20:01:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF3FA3EC547
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Aug 2021 23:02:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238805AbhHNSB4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 14 Aug 2021 14:01:56 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:47818 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S238785AbhHNSB4 (ORCPT
+        id S231826AbhHNVDT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 14 Aug 2021 17:03:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229532AbhHNVDT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 14 Aug 2021 14:01:56 -0400
-X-IronPort-AV: E=Sophos;i="5.84,322,1620658800"; 
-   d="scan'208";a="90637177"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 15 Aug 2021 03:01:26 +0900
-Received: from localhost.localdomain (unknown [10.226.92.6])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B7A3040BF759;
-        Sun, 15 Aug 2021 03:01:23 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        alsa-devel@alsa-project.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] ASoC: sh: rz-ssi: Improve error handling in rz_ssi_dma_request function
-Date:   Sat, 14 Aug 2021 19:01:20 +0100
-Message-Id: <20210814180120.18082-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Sat, 14 Aug 2021 17:03:19 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A65AFC061764;
+        Sat, 14 Aug 2021 14:02:50 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id w24so1288743wmi.5;
+        Sat, 14 Aug 2021 14:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:from:mime-version:content-transfer-encoding
+         :content-description:subject:to:date:reply-to;
+        bh=5NTJSky9UX3JbuB9riY3wCYfXDpCwy2c7hzO0kF4AHA=;
+        b=qTHAJLyGtAA6erxHVJuMYpeD5NaAKIkOmcl3Gqw8MX9omh/CGZ/s1NiaiKRCiVQowo
+         q/bB7NC/vbBo+Z9NJfgNZx/qya2V0v5SwvRqwRqCDlUAIuITe4+3vOeMuZ8eHJRLxok0
+         CiQXOJlJ3rrS0mMU59OrR5S4vh36AxASAQaslgLzgvWoV40upBenzKLS+E65gLspQJHK
+         N07hRzr/hrfTv1eF925RaJksE/I1Z4ICJVL7pu+tiDQBSlkZTeWPF9E0QDO0NcTRcbUL
+         sh2D5MlVZ3OY9qxO8cmV64ruVJ1Bw2aocNL9au0cD++irJ4NS3jfA25oOt5WxQgJ7rhm
+         5M7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:from:mime-version
+         :content-transfer-encoding:content-description:subject:to:date
+         :reply-to;
+        bh=5NTJSky9UX3JbuB9riY3wCYfXDpCwy2c7hzO0kF4AHA=;
+        b=t0iHzG29dqClboVuj08QwQ+4DHqbLFfB+IS6e7XaE6qElPk1Xj3QZvdQoD45MwBYA9
+         OMnfmFpbmiZpSNIAHf97Z6TL1kGjUadeQU8fsrk9UdKVjqj2Mo4eIQ5XvXNweVtMHSAn
+         q8Qh6PdkH+zN11intatpfBFQIf+1jLjGZWsBTymiWo1sE5/4hpfqWD//zjhjxQqS1DC2
+         po4SbGrpQbsfI46JzW4evlWWjWEBCZzFU37wSp+SU49RULdDl6M6gHrw1VWIB9M57CUU
+         pWQvQviRrk5XDSxWn7OxQ5LKBmG5b3BfSLUNWM6ox4pKHTwgCCOgRa97v4VSY1Y7iKQq
+         tQeg==
+X-Gm-Message-State: AOAM533YnHmx57l4yIKSD/4NJ26bCjI9sNpYXsqM/+l9gp+6pm1G3iaX
+        OdyfOariLHkXnJF0kt+Sxyw=
+X-Google-Smtp-Source: ABdhPJwSUSBbyMJz6rV/CywLqLyC3wK08s1/glE/GNHWBSbCCGYChV9fG/VwXtgPeN67B+xFI7RTPw==
+X-Received: by 2002:a05:600c:3656:: with SMTP id y22mr8268322wmq.58.1628974969243;
+        Sat, 14 Aug 2021 14:02:49 -0700 (PDT)
+Received: from [192.168.1.70] ([102.64.221.122])
+        by smtp.gmail.com with ESMTPSA id y192sm4734525wmy.1.2021.08.14.14.02.39
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Sat, 14 Aug 2021 14:02:48 -0700 (PDT)
+Message-ID: <61182f78.1c69fb81.eb9ef.953f@mx.google.com>
+From:   Vanina curth <curtisvani0029@gmail.com>
+X-Google-Original-From: Vanina curth
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Sir,
+To:     Recipients <Vanina@vger.kernel.org>
+Date:   Sat, 14 Aug 2021 21:02:24 +0000
+Reply-To: curtisvani9008@gmail.com
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The pointer returned by the dma_request_chan function is an error pointer
-for the error cases. But on the rz_ssi_dma_request function, it checks for
-NULL pointer instead.
-
-This patch fixes the issue by checking the error pointer instead of NULL
-pointer.
-
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Replaced IS_ERR_OR_NULL with IS_ERR for error pointer check, as the
-   dma_request_chan function never returns NULL pointer for error case.
----
- sound/soc/sh/rz-ssi.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
-index ea8d33ede5d2..2f9345415a15 100644
---- a/sound/soc/sh/rz-ssi.c
-+++ b/sound/soc/sh/rz-ssi.c
-@@ -676,11 +676,19 @@ static void rz_ssi_release_dma_channels(struct rz_ssi_priv *ssi)
- static int rz_ssi_dma_request(struct rz_ssi_priv *ssi, struct device *dev)
- {
- 	ssi->playback.dma_ch = dma_request_chan(dev, "tx");
-+	if (IS_ERR(ssi->playback.dma_ch))
-+		ssi->playback.dma_ch = NULL;
-+
- 	ssi->capture.dma_ch = dma_request_chan(dev, "rx");
-+	if (IS_ERR(ssi->capture.dma_ch))
-+		ssi->capture.dma_ch = NULL;
-+
- 	if (!ssi->playback.dma_ch && !ssi->capture.dma_ch) {
- 		ssi->playback.dma_ch = dma_request_chan(dev, "rt");
--		if (!ssi->playback.dma_ch)
-+		if (IS_ERR(ssi->playback.dma_ch)) {
-+			ssi->playback.dma_ch = NULL;
- 			goto no_dma;
-+		}
- 
- 		ssi->dma_rt = true;
- 	}
--- 
-2.17.1
-
+How are you? I'm Vanina. I'm interested to know you and I would like to kno=
+w more about you and establish relationship with you. i will wait for your =
+response. thank you.
