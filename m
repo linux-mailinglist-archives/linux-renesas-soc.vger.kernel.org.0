@@ -2,68 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3FA3EC547
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Aug 2021 23:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3326E3EC6C0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Aug 2021 04:49:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231826AbhHNVDT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 14 Aug 2021 17:03:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50710 "EHLO
+        id S233716AbhHOCuO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 14 Aug 2021 22:50:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbhHNVDT (ORCPT
+        with ESMTP id S230079AbhHOCuO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 14 Aug 2021 17:03:19 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A65AFC061764;
-        Sat, 14 Aug 2021 14:02:50 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id w24so1288743wmi.5;
-        Sat, 14 Aug 2021 14:02:50 -0700 (PDT)
+        Sat, 14 Aug 2021 22:50:14 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18379C0613CF
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Aug 2021 19:49:45 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id f5so18555317wrm.13
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Aug 2021 19:49:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=5NTJSky9UX3JbuB9riY3wCYfXDpCwy2c7hzO0kF4AHA=;
-        b=qTHAJLyGtAA6erxHVJuMYpeD5NaAKIkOmcl3Gqw8MX9omh/CGZ/s1NiaiKRCiVQowo
-         q/bB7NC/vbBo+Z9NJfgNZx/qya2V0v5SwvRqwRqCDlUAIuITe4+3vOeMuZ8eHJRLxok0
-         CiQXOJlJ3rrS0mMU59OrR5S4vh36AxASAQaslgLzgvWoV40upBenzKLS+E65gLspQJHK
-         N07hRzr/hrfTv1eF925RaJksE/I1Z4ICJVL7pu+tiDQBSlkZTeWPF9E0QDO0NcTRcbUL
-         sh2D5MlVZ3OY9qxO8cmV64ruVJ1Bw2aocNL9au0cD++irJ4NS3jfA25oOt5WxQgJ7rhm
-         5M7Q==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5ChIbjxPC/3cMynWSf7mvKQOps95HwYUJwOFzuOj4DI=;
+        b=O0WtdZXzwKh3+1sHDaKVnzN6oIAE5Lqx0/h2SMV/XCxoFzP4wKTu9VLjM48cXEEriv
+         6OVyDean67NXOJTx/Ie2R2v8SjWqhlSymmpZr39IUtDhWd2aUjf8XNVkrTh8fEacvHZA
+         2fVWSh38HGAYDhPI0eeDOqAF8aJ+2Bg8X9GRSPn1s/Jm9Z0jX3gFKDR8zF+rKjQ4a4Jo
+         pE1DVDHGEX4RktvjWmDqlq9FghdBDUDeh2u0KNer0I0FelnmNqW3KQfAnnD9B8y4l4kG
+         Qs9EvEYaoVyUJRaV+47qFYdHDlGCwVLE3Ssbk/55OQiIq23SI4jTibaE/Tnhz/CASrnC
+         RKQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=5NTJSky9UX3JbuB9riY3wCYfXDpCwy2c7hzO0kF4AHA=;
-        b=t0iHzG29dqClboVuj08QwQ+4DHqbLFfB+IS6e7XaE6qElPk1Xj3QZvdQoD45MwBYA9
-         OMnfmFpbmiZpSNIAHf97Z6TL1kGjUadeQU8fsrk9UdKVjqj2Mo4eIQ5XvXNweVtMHSAn
-         q8Qh6PdkH+zN11intatpfBFQIf+1jLjGZWsBTymiWo1sE5/4hpfqWD//zjhjxQqS1DC2
-         po4SbGrpQbsfI46JzW4evlWWjWEBCZzFU37wSp+SU49RULdDl6M6gHrw1VWIB9M57CUU
-         pWQvQviRrk5XDSxWn7OxQ5LKBmG5b3BfSLUNWM6ox4pKHTwgCCOgRa97v4VSY1Y7iKQq
-         tQeg==
-X-Gm-Message-State: AOAM533YnHmx57l4yIKSD/4NJ26bCjI9sNpYXsqM/+l9gp+6pm1G3iaX
-        OdyfOariLHkXnJF0kt+Sxyw=
-X-Google-Smtp-Source: ABdhPJwSUSBbyMJz6rV/CywLqLyC3wK08s1/glE/GNHWBSbCCGYChV9fG/VwXtgPeN67B+xFI7RTPw==
-X-Received: by 2002:a05:600c:3656:: with SMTP id y22mr8268322wmq.58.1628974969243;
-        Sat, 14 Aug 2021 14:02:49 -0700 (PDT)
-Received: from [192.168.1.70] ([102.64.221.122])
-        by smtp.gmail.com with ESMTPSA id y192sm4734525wmy.1.2021.08.14.14.02.39
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Sat, 14 Aug 2021 14:02:48 -0700 (PDT)
-Message-ID: <61182f78.1c69fb81.eb9ef.953f@mx.google.com>
-From:   Vanina curth <curtisvani0029@gmail.com>
-X-Google-Original-From: Vanina curth
-Content-Type: text/plain; charset="iso-8859-1"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5ChIbjxPC/3cMynWSf7mvKQOps95HwYUJwOFzuOj4DI=;
+        b=Fi2oZNmIruLcqY4B6TiqFvzZzlUshQDR9/Sn4wP09lLDf4VghsjgB6C8N+yLHPGUVe
+         n1I8an3U7Bv7JABRX24a/CMSIqILKVXFzez5WldmiQVhFP6lDwGeqrd639N+N4QHrqMe
+         iO296Mjw1SvJIBsja/g5DgUgaEZs9vbbeSvDUP6KTNX6h3QtyhVPM4FFybEu3dK/AeNP
+         IAbbZJuWNZivvnv90cNAB2wbxe/s87FoASbFxTAJPtr/Pe76901ABtRjlItpXCOhia2f
+         HmEowRo+GUUoRGL3wvGfAU0m87rC6IhJ8+jXrh9VStvfKVWKwPZCJWNseOE1mLu+T72k
+         1L7w==
+X-Gm-Message-State: AOAM533dx7EhfFS9YfXATmwslJpTLtXAO73Zd5rbSUj8Ux4PPmO76Zgl
+        a0FEtGBxu4ov7ADgYjCU1XbzYA==
+X-Google-Smtp-Source: ABdhPJyqjCVOlRlhVSd1rLnh5SyLGI8AgdsMhIV5kMB6qIFDHyAlpHRmiBgJCaKT81Au5sHlehQkyQ==
+X-Received: by 2002:a5d:508d:: with SMTP id a13mr10883227wrt.172.1628995782912;
+        Sat, 14 Aug 2021 19:49:42 -0700 (PDT)
+Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
+        by smtp.googlemail.com with ESMTPSA id h9sm5866342wmb.35.2021.08.14.19.49.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Aug 2021 19:49:42 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/2] rcar-csi2: Serialize format cfg and improve mutex handling
+Date:   Sun, 15 Aug 2021 04:49:13 +0200
+Message-Id: <20210815024915.1183417-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Sir,
-To:     Recipients <Vanina@vger.kernel.org>
-Date:   Sat, 14 Aug 2021 21:02:24 +0000
-Reply-To: curtisvani9008@gmail.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-How are you? I'm Vanina. I'm interested to know you and I would like to kno=
-w more about you and establish relationship with you. i will wait for your =
-response. thank you.
+Hello Hans,
+
+This series improves the mutex handling of the R-Car CSI-2 driver. While 
+working with other drivers it have surfaced that drivers are responsible 
+to serialize format configuration.
+
+Patch 1/2 adds a bit of housekeeping to the mutex used in the driver 
+while patch 2/2 adds the format serialization.
+
+The series is based on the latest media-tree and tested on M3-N and H3 
+ES2.0 without any regressions found.
+
+Niklas Söderlund (2):
+  media: rcar-csi2: Cleanup mutex on remove and fail
+  media: rcar-csi2: Serialize access to set_fmt and get_fmt
+
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 25 +++++++++++++++------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
+
+-- 
+2.32.0
+
