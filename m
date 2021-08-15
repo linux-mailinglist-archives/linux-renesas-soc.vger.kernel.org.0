@@ -2,141 +2,260 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C93A73ECA23
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Aug 2021 18:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C2AA3ECA85
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Aug 2021 20:17:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238305AbhHOQCS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 15 Aug 2021 12:02:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58726 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229603AbhHOQCR (ORCPT
+        id S229760AbhHOSRb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 15 Aug 2021 14:17:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229502AbhHOSRa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 15 Aug 2021 12:02:17 -0400
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C686761221;
-        Sun, 15 Aug 2021 16:01:39 +0000 (UTC)
-Date:   Sun, 15 Aug 2021 17:04:37 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Alexandru Ardelean <aardelean@deviqon.com>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v4 0/3] Renesas RZ/G2L ADC driver support
-Message-ID: <20210815170437.32be4ac1@jic23-huawei>
-In-Reply-To: <CA+V-a8v0P-Xds51o9yDq0W67rfpAmCt=y=8S8BRWz=mkXLvtHw@mail.gmail.com>
-References: <20210804202118.25745-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <20210808180143.6b3dc882@jic23-huawei>
-        <CA+V-a8v0P-Xds51o9yDq0W67rfpAmCt=y=8S8BRWz=mkXLvtHw@mail.gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+        Sun, 15 Aug 2021 14:17:30 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DB9C061764;
+        Sun, 15 Aug 2021 11:17:00 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id u15so10202960wmj.1;
+        Sun, 15 Aug 2021 11:17:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ux9pO3x1hQSBE99kyI1heGrozy/mYbOjhQCAwbGOSnQ=;
+        b=T6ACtUucC/yMoe2azdeZ6bmt/HKhJlQltpLW+PkTRxUqoPxLfE0gZOnU8oepuUqHLS
+         oRNKqw56/31d54TfpAfMp8zsTAYHFz90rgzKoLMnXw22Fysre4FPab9zs88ftEDPfOJl
+         P5mjWN3n7LPdYx94ekatCAsLGIBXFTONT5zywXP56rhtQXBJF3awHBr57BT//6fwXXGZ
+         +B0lNYIBoboOQ3o9ZoDoQNDLLWohQJxmLdp93qRquvi3ksSvmU+bnfxNPyqYL3leZD6I
+         bp/CvnNCLIpj6jtkPethGMzTzaHt3p6mFCXoS4LNkHnZpguSmHWF0ndLnD8r3zF5Eieu
+         MGUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ux9pO3x1hQSBE99kyI1heGrozy/mYbOjhQCAwbGOSnQ=;
+        b=EqrpIJxB7tWcDwzK2wl38ZpvFOCobKnm3LYOod9mkGbGLCn2JD/F0NYZz768CqDMTy
+         GFQ2YTUROMxknCtgEzbiic1W8oTQiI+uqmMYdd4wfR9l9AH9wNBYFt/VN/sJu2In83Ev
+         pLvUIQX4LFCudWYgvGosPbsH8ug1yDUWCDfXs5akHpXaA4wXbpmjCq4KKymOHk09aJEN
+         VlBgmm0bGTmEW3tRTosRpQWJPvce2M1iZsPWlgkxqTM9i4v3LKVi04WGxJEZ9yTRoE6E
+         RwqieDdbI72a2reIdmjkvUh27fBbfpoZIU2LElJpgw53IaKLrbNlDqnqsnNcbjAmq6cd
+         Md1Q==
+X-Gm-Message-State: AOAM5320pRMSbWq/zsnvpQizEGkopaveSKKvAT/kafGHQ6CVxpb0qcP7
+        UQrdhHcq0MxK2WJWoFudjKcaKoGvwQGBiA==
+X-Google-Smtp-Source: ABdhPJwnlhc4uisPrMvFKz0bmp/H98d4kVoXUSMPVx2VfjQcV14wVhAngFlBKzgn7mkTlN+8NV3vbA==
+X-Received: by 2002:a7b:ca56:: with SMTP id m22mr11499176wml.16.1629051418908;
+        Sun, 15 Aug 2021 11:16:58 -0700 (PDT)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
+        by smtp.gmail.com with ESMTPSA id i9sm11167501wre.36.2021.08.15.11.16.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Aug 2021 11:16:58 -0700 (PDT)
+From:   marek.vasut@gmail.com
+To:     linux-pci@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH V7] PCI: rcar: Add L1 link state fix into data abort hook
+Date:   Sun, 15 Aug 2021 20:16:50 +0200
+Message-Id: <20210815181650.132579-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 9 Aug 2021 14:04:33 +0100
-"Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-> Hi Jonathan,
-> 
-> On Sun, Aug 8, 2021 at 5:58 PM Jonathan Cameron <jic23@kernel.org> wrote:
-> >
-> > On Wed,  4 Aug 2021 21:21:15 +0100
-> > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >  
-> > > Hi All,
-> > >
-> > > This patch series adds ADC support for Renesas RZ/G2L family.
-> > >
-> > > Patches apply on top of v5.14-rc2.  
-> > Hi Lad, I'm fine with this, but need to pull my tree forwards
-> > to include the header that is only in rc2.
-> >
-> > I'll probably do that later in the week then pick up patches 1 and 2.
-> >  
-> Thanks.
-> 
-> Geert could you please pick patch 3/3.
-1 and 2 now applied to the togreg branch of iio.git and pushed out
-as testing to see if 0-day can break them.
+When the link is in L1, hardware should return it to L0
+automatically whenever a transaction targets a component on the
+other end of the link (PCIe r5.0, sec 5.2).
 
-Thanks,
+The R-Car PCIe controller doesn't handle this transition correctly.
+If the link is not in L0, an MMIO transaction targeting a downstream
+device fails, and the controller reports an ARM imprecise external
+abort.
 
-Jonathan
-> 
-> Cheers,
-> Prabhakar
-> 
-> > Thanks,
-> >
-> > Jonathan  
-> > >
-> > > Cheers,
-> > > Prabhakar
-> > >
-> > > Changes for v4:
-> > > * Fixed registering action to assert resets on failure/remove
-> > >   as reported by Philip.
-> > > * Fixed review comments suggested by Jonathan.
-> > > * Included RB tag from Rob for patch 1/3
-> > > * Note DTS patch applies on top of https://git.kernel.org/pub/scm/
-> > >   linux/kernel/git/geert/renesas-devel.git/log/
-> > >   ?h=renesas-arm-dt-for-v5.15
-> > >
-> > > Changes for v3 (as requested by Jonathan):
-> > > * Made use of FIELD_PREP()
-> > > * Renamed _CLEAR to _MASK and inverted inline as required
-> > > * Moved |= pair's on same lines
-> > > * Made use of sysfs_emit() while reading the labels
-> > > * Used for_each_bit_set() in rzg2l_adc_isr()
-> > > * Renamed rzg2l_adc_parse_of() -> rzg2l_adc_parse_properties()
-> > > * Used devm_add_action_or_reset() for asserting the reset signals and
-> > >   disabling pm_runtime and eventually removing remove() callback
-> > > * Added comments in isr handler for channel select interrupt
-> > > * Moved enabling/disabling of pclk during hw init in rzg2l_adc_hw_init()
-> > > * Dropped clock patch 3/4 (https://lore.kernel.org/patchwork/patch/1462152/)
-> > >   from previous series as its queued up in renesas-clk-for-v5.15
-> > >
-> > > Changes for v2:
-> > > * Update binding doc, dropped gpios/renesas-rzg2l,adc-trigger-mode
-> > >   properties included channel property to represent each wired channel.
-> > > * Fixed review comments pointed by Alexandru, implemented pm runtime
-> > >   support, dropped mlock usage
-> > > * Fixed review comments pointed by Jonathan, renamed the macros,
-> > >   simplified the code.
-> > > * Included clock and DT patches
-> > >
-> > > v1: https://patchwork.kernel.org/project/linux-renesas-soc/cover/
-> > >     20210629220328.13366-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> > >
-> > > Lad Prabhakar (3):
-> > >   dt-bindings: iio: adc: Add binding documentation for Renesas RZ/G2L
-> > >     A/D converter
-> > >   iio: adc: Add driver for Renesas RZ/G2L A/D converter
-> > >   arm64: dts: renesas: r9a07g044: Add ADC node
-> > >
-> > >  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 134 ++++
-> > >  MAINTAINERS                                   |   8 +
-> > >  arch/arm64/boot/dts/renesas/r9a07g044.dtsi    |  42 ++
-> > >  drivers/iio/adc/Kconfig                       |  10 +
-> > >  drivers/iio/adc/Makefile                      |   1 +
-> > >  drivers/iio/adc/rzg2l_adc.c                   | 600 ++++++++++++++++++
-> > >  6 files changed, 795 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> > >  create mode 100644 drivers/iio/adc/rzg2l_adc.c
-> > >  
-> >  
+Work around this by hooking the abort handler so the driver can
+detect this situation and help the hardware complete the link state
+transition.
+
+When the R-Car controller receives a PM_ENTER_L1 DLLP from the
+downstream component, it sets PMEL1RX bit in PMSR register, but then
+the controller enters some sort of in-between state.  A subsequent
+MMIO transaction will fail, resulting in the external abort.  The
+abort handler detects this condition and completes the link state
+transition by setting the L1IATN bit in PMCTLR and waiting for the
+link state transition to complete.
+
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: - Update commit message, add link to TFA repository commit
+    - Handle the LPAE case as in ARM fault.c and fsr-{2,3}level.c
+    - Cache clock and check whether they are enabled before register
+      access
+V3: - Fix commit message according to spellchecker
+    - Use of_find_matching_node() to apply hook only on Gen1 and Gen2 RCar
+      (in case the kernel is multiplatform)
+V4: - Mark rcar_pcie_abort_handler_of_match with __initconst
+V5: - Add mutex around rcar_pcie_aarch32_abort_handler()
+    - Update commit message again to point out issues with L1/D3Hot states
+V6: - Return 1 only if condition cannot be fixed
+V7: - Replace commit message by one provided by upstream, verbatim
+    - Use readl_poll_timeout_atomic() to poll for L1FAEG bit with timeout
+---
+ drivers/pci/controller/pcie-rcar-host.c | 86 +++++++++++++++++++++++++
+ drivers/pci/controller/pcie-rcar.h      |  7 ++
+ 2 files changed, 93 insertions(+)
+
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index 00a8267eda14..8f3131844e77 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -13,12 +13,14 @@
+ 
+ #include <linux/bitops.h>
+ #include <linux/clk.h>
++#include <linux/clk-provider.h>
+ #include <linux/delay.h>
+ #include <linux/interrupt.h>
+ #include <linux/irq.h>
+ #include <linux/irqdomain.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
++#include <linux/iopoll.h>
+ #include <linux/msi.h>
+ #include <linux/of_address.h>
+ #include <linux/of_irq.h>
+@@ -41,6 +43,21 @@ struct rcar_msi {
+ 	int irq2;
+ };
+ 
++#ifdef CONFIG_ARM
++/*
++ * Here we keep a static copy of the remapped PCIe controller address.
++ * This is only used on aarch32 systems, all of which have one single
++ * PCIe controller, to provide quick access to the PCIe controller in
++ * the L1 link state fixup function, called from the ARM fault handler.
++ */
++static void __iomem *pcie_base;
++/*
++ * Static copy of bus clock pointer, so we can check whether the clock
++ * is enabled or not.
++ */
++static struct clk *pcie_bus_clk;
++#endif
++
+ /* Structure representing the PCIe interface */
+ struct rcar_pcie_host {
+ 	struct rcar_pcie	pcie;
+@@ -774,6 +791,12 @@ static int rcar_pcie_get_resources(struct rcar_pcie_host *host)
+ 	}
+ 	host->msi.irq2 = i;
+ 
++#ifdef CONFIG_ARM
++	/* Cache static copy for L1 link state fixup hook on aarch32 */
++	pcie_base = pcie->base;
++	pcie_bus_clk = host->bus_clk;
++#endif
++
+ 	return 0;
+ 
+ err_irq2:
+@@ -1029,4 +1052,67 @@ static struct platform_driver rcar_pcie_driver = {
+ 	},
+ 	.probe = rcar_pcie_probe,
+ };
++
++#ifdef CONFIG_ARM
++static DEFINE_SPINLOCK(pmsr_lock);
++static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
++		unsigned int fsr, struct pt_regs *regs)
++{
++	unsigned long flags;
++	u32 pmsr, val;
++	int ret = 0;
++
++	spin_lock_irqsave(&pmsr_lock, flags);
++
++	if (!pcie_base || !__clk_is_enabled(pcie_bus_clk)) {
++		ret = 1;
++		goto unlock_exit;
++	}
++
++	pmsr = readl(pcie_base + PMSR);
++
++	/*
++	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
++	 * the PCIe controller is not in L1 link state. If true, apply
++	 * fix, which will put the controller into L1 link state, from
++	 * which it can return to L0s/L0 on its own.
++	 */
++	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
++		writel(L1IATN, pcie_base + PMCTLR);
++		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
++						val & L1FAEG, 10, 1000);
++		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
++		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
++	}
++
++unlock_exit:
++	spin_unlock_irqrestore(&pmsr_lock, flags);
++	return ret;
++}
++
++static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
++	{ .compatible = "renesas,pcie-r8a7779" },
++	{ .compatible = "renesas,pcie-r8a7790" },
++	{ .compatible = "renesas,pcie-r8a7791" },
++	{ .compatible = "renesas,pcie-rcar-gen2" },
++	{},
++};
++
++static int __init rcar_pcie_init(void)
++{
++	if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
++#ifdef CONFIG_ARM_LPAE
++		hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
++				"asynchronous external abort");
++#else
++		hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
++				"imprecise external abort");
++#endif
++	}
++
++	return platform_driver_register(&rcar_pcie_driver);
++}
++device_initcall(rcar_pcie_init);
++#else
+ builtin_platform_driver(rcar_pcie_driver);
++#endif
+diff --git a/drivers/pci/controller/pcie-rcar.h b/drivers/pci/controller/pcie-rcar.h
+index d4c698b5f821..9bb125db85c6 100644
+--- a/drivers/pci/controller/pcie-rcar.h
++++ b/drivers/pci/controller/pcie-rcar.h
+@@ -85,6 +85,13 @@
+ #define  LTSMDIS		BIT(31)
+ #define  MACCTLR_INIT_VAL	(LTSMDIS | MACCTLR_NFTS_MASK)
+ #define PMSR			0x01105c
++#define  L1FAEG			BIT(31)
++#define  PMEL1RX		BIT(23)
++#define  PMSTATE		GENMASK(18, 16)
++#define  PMSTATE_L1		(3 << 16)
++#define PMCTLR			0x011060
++#define  L1IATN			BIT(31)
++
+ #define MACS2R			0x011078
+ #define MACCGSPSETR		0x011084
+ #define  SPCNGRSN		BIT(31)
+-- 
+2.30.2
 
