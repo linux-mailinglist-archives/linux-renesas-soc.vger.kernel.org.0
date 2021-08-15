@@ -2,107 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EAFC3EC9EF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Aug 2021 17:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C93A73ECA23
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Aug 2021 18:01:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234850AbhHOPZg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 15 Aug 2021 11:25:36 -0400
-Received: from mail-ot1-f48.google.com ([209.85.210.48]:39620 "EHLO
-        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbhHOPZg (ORCPT
+        id S238305AbhHOQCS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 15 Aug 2021 12:02:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58726 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229603AbhHOQCR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 15 Aug 2021 11:25:36 -0400
-Received: by mail-ot1-f48.google.com with SMTP id m7-20020a9d4c87000000b0051875f56b95so1057537otf.6;
-        Sun, 15 Aug 2021 08:25:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ekgt3OAtYmB5Rrl1lZKK9+oa72a0Us/2FQEAMO/EQak=;
-        b=nx7ht6GXvngZvY5EaLytK+E3shHTaI+pvIm5G0uk/RrQupL7M0RPgUvNudJHzWh/KZ
-         +olF3xnvqRQvCbLjn4kC7dWnd+ih4Ml7i0huglwEPr6QCLVBfi/CPbhggoR5PbkRJVxF
-         yMgq0Hkkm2e0Zzv2dip0+u3qfZ/oX+9gBr/FXdiPBnUx885C4inAhmsEEDUduKulHzPm
-         1Omsbklx1enhMz7RF4IooaQo4TLvBZLVQtm4n7A88TEz1Mu69NIS1tdrM7yJxy1IrY7N
-         DSNd5gDL0hmxXL+9/hDoyLWRpnQatktnTFfqe1iVwUpEUpH/qZBsIbzfBMl9MvC4HJYd
-         mFDA==
-X-Gm-Message-State: AOAM531/RuDEGi5cf6NnPjrfTmsWIDHyLlMWzsccaBQNEZH+a79s+Znj
-        PLL8uUCAls+BDhl7t7rggw==
-X-Google-Smtp-Source: ABdhPJzjr4gT4FE0xwAVG4uG4LG0+RSUbEqBTWj+LfaNdV32tQZ0vqtZTO/Ia6yG79/x3EO0MD/S6w==
-X-Received: by 2002:a9d:6306:: with SMTP id q6mr9594009otk.290.1629041105852;
-        Sun, 15 Aug 2021 08:25:05 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id p8sm1717971otk.22.2021.08.15.08.25.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Aug 2021 08:25:05 -0700 (PDT)
-Received: (nullmailer pid 3767739 invoked by uid 1000);
-        Sun, 15 Aug 2021 15:25:03 -0000
-Date:   Sun, 15 Aug 2021 10:25:03 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Mike Rapoport <rppt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-riscv@lists.infradead.org, kexec@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/9] Add generic support for kdump DT properties
-Message-ID: <YRkxzx/1XM3r64Ee@robh.at.kernel.org>
-References: <cover.1628670468.git.geert+renesas@glider.be>
+        Sun, 15 Aug 2021 12:02:17 -0400
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C686761221;
+        Sun, 15 Aug 2021 16:01:39 +0000 (UTC)
+Date:   Sun, 15 Aug 2021 17:04:37 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Alexandru Ardelean <aardelean@deviqon.com>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v4 0/3] Renesas RZ/G2L ADC driver support
+Message-ID: <20210815170437.32be4ac1@jic23-huawei>
+In-Reply-To: <CA+V-a8v0P-Xds51o9yDq0W67rfpAmCt=y=8S8BRWz=mkXLvtHw@mail.gmail.com>
+References: <20210804202118.25745-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <20210808180143.6b3dc882@jic23-huawei>
+        <CA+V-a8v0P-Xds51o9yDq0W67rfpAmCt=y=8S8BRWz=mkXLvtHw@mail.gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1628670468.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 11, 2021 at 10:50:58AM +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
+On Mon, 9 Aug 2021 14:04:33 +0100
+"Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+
+> Hi Jonathan,
 > 
-> This patch series adds generic support for parsing DT properties related
-> to crash dump kernels ("linux,elfcorehdr" and "linux,elfcorehdr" under
-> the "/chosen" node), makes use of it on arm32, and performs a few
-> cleanups.  It is an evolution of the combination of [1] and [2].
-
-The DT bits look fine to me. How do you expect this to be merged? I'm 
-happy to take it if arch maintainers can ack it.
-
+> On Sun, Aug 8, 2021 at 5:58 PM Jonathan Cameron <jic23@kernel.org> wrote:
+> >
+> > On Wed,  4 Aug 2021 21:21:15 +0100
+> > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> >  
+> > > Hi All,
+> > >
+> > > This patch series adds ADC support for Renesas RZ/G2L family.
+> > >
+> > > Patches apply on top of v5.14-rc2.  
+> > Hi Lad, I'm fine with this, but need to pull my tree forwards
+> > to include the header that is only in rc2.
+> >
+> > I'll probably do that later in the week then pick up patches 1 and 2.
+> >  
+> Thanks.
 > 
-> The series consists of 6 parts:
->   1. Patch 1 prepares architecture-specific code (needed for MIPS only)
->      to avoid duplicating elf core header reservation later.
->   2. Patch 2 prepares the visibility of variables used to hold
->      information retrieved from the DT properties.
->   3. Patches 3-5 add support to the FDT core for handling the
->      properties.
->      This can co-exist safely with architecture-specific handling, until
->      the latter has been removed.
+> Geert could you please pick patch 3/3.
+1 and 2 now applied to the togreg branch of iio.git and pushed out
+as testing to see if 0-day can break them.
 
-Looks like patch 5 doesn't have any dependencies with the series?
+Thanks,
 
->   4. Patch 6 removes the non-standard handling of "linux,elfcorehdr" on
->      riscv.
+Jonathan
+> 
+> Cheers,
+> Prabhakar
+> 
+> > Thanks,
+> >
+> > Jonathan  
+> > >
+> > > Cheers,
+> > > Prabhakar
+> > >
+> > > Changes for v4:
+> > > * Fixed registering action to assert resets on failure/remove
+> > >   as reported by Philip.
+> > > * Fixed review comments suggested by Jonathan.
+> > > * Included RB tag from Rob for patch 1/3
+> > > * Note DTS patch applies on top of https://git.kernel.org/pub/scm/
+> > >   linux/kernel/git/geert/renesas-devel.git/log/
+> > >   ?h=renesas-arm-dt-for-v5.15
+> > >
+> > > Changes for v3 (as requested by Jonathan):
+> > > * Made use of FIELD_PREP()
+> > > * Renamed _CLEAR to _MASK and inverted inline as required
+> > > * Moved |= pair's on same lines
+> > > * Made use of sysfs_emit() while reading the labels
+> > > * Used for_each_bit_set() in rzg2l_adc_isr()
+> > > * Renamed rzg2l_adc_parse_of() -> rzg2l_adc_parse_properties()
+> > > * Used devm_add_action_or_reset() for asserting the reset signals and
+> > >   disabling pm_runtime and eventually removing remove() callback
+> > > * Added comments in isr handler for channel select interrupt
+> > > * Moved enabling/disabling of pclk during hw init in rzg2l_adc_hw_init()
+> > > * Dropped clock patch 3/4 (https://lore.kernel.org/patchwork/patch/1462152/)
+> > >   from previous series as its queued up in renesas-clk-for-v5.15
+> > >
+> > > Changes for v2:
+> > > * Update binding doc, dropped gpios/renesas-rzg2l,adc-trigger-mode
+> > >   properties included channel property to represent each wired channel.
+> > > * Fixed review comments pointed by Alexandru, implemented pm runtime
+> > >   support, dropped mlock usage
+> > > * Fixed review comments pointed by Jonathan, renamed the macros,
+> > >   simplified the code.
+> > > * Included clock and DT patches
+> > >
+> > > v1: https://patchwork.kernel.org/project/linux-renesas-soc/cover/
+> > >     20210629220328.13366-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> > >
+> > > Lad Prabhakar (3):
+> > >   dt-bindings: iio: adc: Add binding documentation for Renesas RZ/G2L
+> > >     A/D converter
+> > >   iio: adc: Add driver for Renesas RZ/G2L A/D converter
+> > >   arm64: dts: renesas: r9a07g044: Add ADC node
+> > >
+> > >  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 134 ++++
+> > >  MAINTAINERS                                   |   8 +
+> > >  arch/arm64/boot/dts/renesas/r9a07g044.dtsi    |  42 ++
+> > >  drivers/iio/adc/Kconfig                       |  10 +
+> > >  drivers/iio/adc/Makefile                      |   1 +
+> > >  drivers/iio/adc/rzg2l_adc.c                   | 600 ++++++++++++++++++
+> > >  6 files changed, 795 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> > >  create mode 100644 drivers/iio/adc/rzg2l_adc.c
+> > >  
+> >  
 
-I thought this should be applied for 5.14?
-
->   5. Patches 7-8 convert arm64 to use the generic handling instead of
->      its own implementation.
->   6. Patch 9 adds support for kdump properties to arm32.
->      The corresponding patch for kexec-tools is "[PATCH] arm: kdump: Add
->      DT properties to crash dump kernel's DTB"[3], which is still valid.
-
-This one can be applied on its own, right?
-
-Rob
