@@ -2,59 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD89D3ECFB5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Aug 2021 09:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B25D3ED0F8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Aug 2021 11:23:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234060AbhHPHws (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Aug 2021 03:52:48 -0400
-Received: from mail-eopbgr1400117.outbound.protection.outlook.com ([40.107.140.117]:60096
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        id S235189AbhHPJXf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Aug 2021 05:23:35 -0400
+Received: from mail-eopbgr1410120.outbound.protection.outlook.com ([40.107.141.120]:36960
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234043AbhHPHwr (ORCPT
+        id S234878AbhHPJXf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Aug 2021 03:52:47 -0400
+        Mon, 16 Aug 2021 05:23:35 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a1i67JucW6OngjiklvCiTRUGfvu3TsDRjuZfgux/H3Tgww23G/eJxfhzEf0Qred+Zh/qpdDUkNfH19dLRkc3r1qprLx0jQB+eLR5cxTpy0zbbjl3Q1xo2esODWrmfXNtJr8o0ScrFwAqfzrDGv3kkQzGxrYKFdKwWoPPQYDeBSv2uTTkDPBhig4I925qBJR6ykNqx2wZAIQpSpckOo5cOGijPckRcA92tJF702PG0YZYAInbqxkMnxOqmUEXMCgiL9HlyZE8yWQP4zam0POKriZ19C5ETads0jpGQfD33X5txgRj10uIVYw4UyBukcN34i4+nt4XkF1vaslzK8hFmQ==
+ b=du2BI1bu/g8QRaXiJ7XLiipCu3C4hRNVAfkZxwUkjOLOEiTrGCZqBTs+OGZ0wst9j85gfiT6NkVpLYEadZmRyzuskdUfFnDNWry56rtGRFhOQlpJleh598Z1RZ3fEHydrQHyywf6gSr94++sGegKJuuY5owyeC6sw04IAuh82UKGxVgaSx43Sn1Ae9jBD2ofBacUTuDDvYnjP6xFN/1jbGIx5uQl4jkuvPmWUfokmPNO3kmDnwSDHv/60UDYceyFVMLx59UkqSVEn11/cPPfaeiAsVcKav1EXtHVx7hVk224LcfwssJLKOUxbwiQtxwsi4vYMEAJHAPSJg6ZAAabFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=csW7mKpOGtAQV/iNWkEWkn8ZnEutslWnzl4iWMV9LZE=;
- b=a8Yle690JGeid1alL+meeXqAfQPZyoWtERDgeYYAYBr8+TLFmi3+tTGHDMaOzY/0FbHn0Z5VUu4AIhum946J38i94S/BCQ+2Zfi18/X0sZrZVtBg4LjaAAXNQyMqlENfX8D3GnOtJoQpdwkskeoOscdlttfS3gAp+Jk9ZmswdbLZfUm+OYEYvQplmvEgYkwMT336UaRztlNz1wYUV0JHcuZCxOWRgw32VvC+txWFWHkQQUhUFPcQasUzcCe2somsdRO4sxRnOSQRJPfAJoQBOk4wZsYfZhuB9mGAj0+Yi1gMl39C52ITA1Qerp3qI7yJY89t4jI3HN6p9CjOGyuhrA==
+ bh=oCYe6q8EDKCOw6sYOCIZyR/DAcR9fFEKRTQi4TAwRO4=;
+ b=V07U8jgiCJkEEvJBfJCZwTj5wYZl9pmd/kgEpvnXhs3TZ7+KZm39QaCsHM9kuzsTOgT77GAquTcnfOTOMcLg40RN5xokChgme1k+cAuixrJu96u1ntXhVbV/UdCZ1my1hgeX8+yDmXbHKCP993H6i60x+/RV0a6gs+vXdIoAMxOhS8aibYIlOMECHmOhdfJakZVaFtkVzPI3qBCXzbeCD9ebocF3Y03127E6/KtJRJEaRwUhAxGhOmg1Xh01SkT974+cwQLvtFX07VfOd4Xjp25d3syGzXuQclPv+eU0D7od2uSScAy6ZhBqLtSrgkUF2QHI+H1gcuUnwqdgjwswqQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=csW7mKpOGtAQV/iNWkEWkn8ZnEutslWnzl4iWMV9LZE=;
- b=aQuEi+3rRjHQLtlY/MV76FJ1hku6gaVLwj8voMdETz6f9QgDdCpW+z+opbh/JgUw3BwGwuRjq/clcjVjbxX8njLEr/gdj0X0Usv3hG8WQXc22UaEkp9dUjvCsCVNQOP1CdtWPd9KgKgd5p6UcXV+RjhvyDsJr2gVeJGHlpdQBwg=
+ bh=oCYe6q8EDKCOw6sYOCIZyR/DAcR9fFEKRTQi4TAwRO4=;
+ b=aU+oFzB85R+aNfyDaj3HDhI6OPrew4i9VnVc91OTQNLs0JsJ0fTaNZa+7kXQhjWn28iU1mNI6NFobFzsBm0E5EAzhpnahj2Pcz0RLVl3YV5LZ85FIYpW6WrGnsCA86fbsVRk+wNHVFCs+RXr273KnfQ2/uC2mOOrTxDKl/KLJV4=
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB6628.jpnprd01.prod.outlook.com (2603:1096:604:10e::6) with
+ by OSBPR01MB1942.jpnprd01.prod.outlook.com (2603:1096:603:21::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.15; Mon, 16 Aug
- 2021 07:52:13 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Mon, 16 Aug
+ 2021 09:23:00 +0000
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::c6f:e31f:eaa9:60fe]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::c6f:e31f:eaa9:60fe%9]) with mapi id 15.20.4415.023; Mon, 16 Aug 2021
- 07:52:12 +0000
+ 09:23:00 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>
-CC:     Chris Brandt <Chris.Brandt@renesas.com>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v7 0/3] Add RZ/G2L DMAC support
-Thread-Topic: [PATCH v7 0/3] Add RZ/G2L DMAC support
-Thread-Index: AQHXiqjo2NLXibA+ZEa2KdTQORKkVKt10bdg
-Date:   Mon, 16 Aug 2021 07:52:12 +0000
-Message-ID: <OS0PR01MB592295B2B25BF3CF56272A2B86FD9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20210806095322.2326-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210806095322.2326-1-biju.das.jz@bp.renesas.com>
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v3 3/4] clk: renesas: rzg2l: Add support to handle coupled
+ clocks
+Thread-Topic: [PATCH v3 3/4] clk: renesas: rzg2l: Add support to handle
+ coupled clocks
+Thread-Index: AQHXkcCRmNECTeakTEKTkpDF65Tyd6t12IKQ
+Date:   Mon, 16 Aug 2021 09:23:00 +0000
+Message-ID: <OS0PR01MB5922B42107A6FB3191DECD1D86FD9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20210815103014.21208-1-biju.das.jz@bp.renesas.com>
+ <20210815103014.21208-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210815103014.21208-4-biju.das.jz@bp.renesas.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -63,136 +66,281 @@ authentication-results: bp.renesas.com; dkim=none (message not signed)
  header.d=none;bp.renesas.com; dmarc=none action=none
  header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 59d27517-9235-4a96-993c-08d9608ac1ea
-x-ms-traffictypediagnostic: OS3PR01MB6628:
+x-ms-office365-filtering-correlation-id: f6dc3666-22b9-4348-cef7-08d960977133
+x-ms-traffictypediagnostic: OSBPR01MB1942:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OS3PR01MB66281C0D391B5064BF8434D886FD9@OS3PR01MB6628.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-microsoft-antispam-prvs: <OSBPR01MB19428FE89518637E866801A786FD9@OSBPR01MB1942.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1850;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1tTOYCrJakYM+BMgf7ZjnQP3fWSjtQdNkQanK8hhxaArS+dyKaifI0I/Rq8+j6xYa4BOufR4kGZpeu/CFRQwgCRMyzHu+KkRkGqybOh7CBcUUV4ZPD5YM5G44MqjSMY1TcGdQUrFd4W80cboDP9dsEPHE9V07mEP9ctBVo9zWXhF8hAfkbSKpPQzRpvPCHwX+5GpEBdAVjpeFI+ekwWIFF92inj+BcFXEQRpLXkZfKtGL0s7TddM85xWu0kl6pdyLQi1AZ2c5zpuQQ+Gf5B81H18YrytkGpHt8a87dxBWNDb89UtoPxa7Xzno+hsnJKTNu1EShO+99Wxseu7ln+VpQDZiklhAFmEH9eZws3bxDLD6MaSwGALdx8boMnAgxYcOfbJmfUeYNT8uIZG36jgE3ehZ5eenuLGakUL1KDHLyGLZD5dH0K1lxJE4OLCmBnmyH4FfMAZhmW3tppANLjprxEVARR/3k3gjRQY4oDJZ/OLrImLQwuiDTb7S33No9vUTM3MH5onyir9SyZypdEnRNavXi4bvOX/q8piVA6mo6zI5AUW91fdC9fXpJkItkmPsClug5KJu7FyWnnYRVYp3hzPWVX1PfL/E0+5iBa9R7ZdJ0LfA46UkUp92p+a1N3+OSd4VttrtlyhCwJnzTYAxys5asA/q7Uh3rRpjuUR23V9cVQ50nAhQRdyXIUiDPJCl0/mUDd6piCqtX6EfGUYOg1Mw7tfNuIZYEQmAMLAUgfTa+qGIzwX3sbpVjP9bxmbLpFbdeCUKO7uKzpVfksSSb5CT7T4K9HCnzwFuPKOygU=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39850400004)(346002)(376002)(366004)(136003)(110136005)(9686003)(2906002)(54906003)(4326008)(76116006)(38070700005)(38100700002)(55016002)(5660300002)(52536014)(122000001)(66476007)(66946007)(66556008)(64756008)(66446008)(186003)(26005)(8936002)(6506007)(33656002)(45080400002)(83380400001)(316002)(86362001)(966005)(478600001)(7696005)(71200400001)(8676002);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: NfFeOHW5Qf4GZiN8U5xBlAYkUjqtthRIqX2edc23MV+4vqCjl6x0Kqe471P784LYXMn9xWgaDkoY2ojdWwb4VEiRIConKGQ38axqmkNNt2SsKrABDfFiLZoScfFlouWiB/XWgB2mMd3pGmLXV7BlZbquhppAawIW+c2Ux932BE5qtfI4Ma6CvSZebpOgEPbkaM1yMG5yxEG5mA5VjfzojXfg2QXeIS8JJ8QBq/gmQVqqJp28D8z9kjIH4xksQpW9rUNjvfJ3CHzTuNDM2ySoxX2KZLldS5Ze3RCC3rL+e4ltx/tEAA7UWNjxyvwBJpgm3EQG9uli0Sl/hlunTGGyNaEExCXduGRKWapdjGQLzXXq6QeWLlURn1Jnc/cB8q60rdk2BNqO6MyrZjTZVpnjXxICaquGLtBNGcM6PaXFobLq1S5sk0j+ZSJlVaStiD0vkVAYGC29HEZ8vtP4OQRZSBq3llr0iSdZFj5fuBbW4enh5VV2N/MBL3E5lHhVMkDRQaKm+dpRA871yPk8ykx/gbVwSz35oId19qaPtzsnyhcz7BJDLxb4xFVsam4768uHakvfUdxIqt1U6/2PwoY1ZTsaQgmHoBjHSrmp4ZTW/4yQaqD368fzEDvv/B8BcfYP6iIJgp+uFmNGxprcnYamceDSb2UGhtndHIrRgsorsP93VmVpyPah9eJ38dw/g8lx/rMqUq+un1u2M16mgcefGw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39850400004)(396003)(346002)(136003)(376002)(478600001)(2906002)(110136005)(64756008)(66446008)(66556008)(5660300002)(66476007)(7696005)(66946007)(4326008)(9686003)(33656002)(8676002)(54906003)(76116006)(71200400001)(38070700005)(26005)(6506007)(316002)(107886003)(55016002)(8936002)(186003)(86362001)(122000001)(83380400001)(52536014)(38100700002);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?eG/pV1RUgOJpowl1CsFOpetPx1GL0cbDvxEX6nYbadOzwKj/pDVb7wbT+H8b?=
- =?us-ascii?Q?LLr9Jh2mOu9RSjOGmoiRwoPdyMHdHF7RPVHixwMe2B8rEfkODIRyrJuEXHAb?=
- =?us-ascii?Q?Kclz6j4vUPHP8hFTJxhJ6rK6/SFdYR/nrtVgxwjBCQi2XO3cv7KAhly4YDH8?=
- =?us-ascii?Q?PUGlTGI3G6keODL6Hvx34tErgU8377nEVCwI2aC4Lst7I+gRuNF1QceSHPbk?=
- =?us-ascii?Q?hpzD1SxnLx4CuCVGFsekPzCZpvkKLnNoTDFoDpNiMMm6rSvnvhKk9RoRrECq?=
- =?us-ascii?Q?gp6DdkUONQDcSXuYnJX06iV269YF+k+XmNqrCnN5t6OejFUdvUXO90RBsFD2?=
- =?us-ascii?Q?OL/p6kMVhbSVEhQee6XqzZkQxyErGSGFN257YroupdtElSm3yHMn9KevqUoL?=
- =?us-ascii?Q?L+YERU+0j1/CfDX3SGaPwCYS1ejKGGXfMaN7sbeNAT1l7pO6cyyM3QaJEqQ3?=
- =?us-ascii?Q?/Zg4Q+PUA9TT3Oisi0+CcSj20TFnuqWAWC9Q6cbj/WePFVSU7mO7YSw1OW1m?=
- =?us-ascii?Q?A3IV0BqOQbvNDmYU+OIwxhOfbrSjgrPzYYPb4P+Ejq34hyJM5Al0qgLAMPu+?=
- =?us-ascii?Q?5HwXwNv0PEWDgNE6LmrgsNjKJkbXsuDfTEuhSC5gyjh4DyvPnHMLoUFFe6DT?=
- =?us-ascii?Q?8F9VOp4w5HcG/1m4sXU18nUq4Nkf9Qrt+WbZmMLV8/A/mPqVxdCLZCVlEWXP?=
- =?us-ascii?Q?FktqBcXzuffakq4YMx6V07v9fk63W3gJLG3ZMiN5gjzQAKiwed9C8/LAI7KN?=
- =?us-ascii?Q?uk+863Hl/nsVcXTj1+W54EsyzK9C430U5mFSqQUoY/TQOmPxQJ6KNGA25hPG?=
- =?us-ascii?Q?nbyOFiOJw+UvnGfroYeUHmtIh6oNTlOkNKdlJKmgaiXH+xjyh33w1lKIfFSh?=
- =?us-ascii?Q?+GzwBJPNpqRc6wQEC8VgJePAqZjg10VT+E8IAya9O70sssnXVTZcoXXleVFZ?=
- =?us-ascii?Q?abvN8a9Lyf67pGIdgwulgZ0quO+3w218nWqYk894m9hJs9F6b904SUv4Vqhz?=
- =?us-ascii?Q?+XPjOd2CvdB1NrbQTnnBoTn3uJuAvHpbgxqz2T/7KN0Hp8XwO4hWZap/jKe1?=
- =?us-ascii?Q?Iuk5bDojL7GYkNk5ISdW/yrwsNzUAvQmFNVtpfMW9WsGpGWrD2a6I9dGN2fW?=
- =?us-ascii?Q?8pzbMTsHR6R7JILKhVEkc1xw2Vxb/49Tr1M/qI/eKAeV4Bbk1Pj+0BIqCNxu?=
- =?us-ascii?Q?jVJXBQ0UCwR0lRaaTKd4KAvV9UfrYvqzIvgwxdjmXv4L8di7VtwT3c7G/5Sm?=
- =?us-ascii?Q?Xpk79lhV4pxr2F+CTSELda9IR6yLxwQrpfjCpAT3hypKBdC93tBeD5rNMOE/?=
- =?us-ascii?Q?39k=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?sKbRLqFy7IKX673PD78ovLJFUzSgyQj/seuI+jpySVCGyuMXc7kbMd10viQ5?=
+ =?us-ascii?Q?LObI2KrMa7vK2isKAXeBFKyMfu+R7nvmaVBNecVCP5z2UTkDmIhwhU4TW6FC?=
+ =?us-ascii?Q?WaVXNIvtjo2+c8rlVG4ss5/b7wpjloP53/TYmwViJAXNNNSA8fFaU2+NhzYx?=
+ =?us-ascii?Q?543y09JTyrLqGat34tSU4d3+Z5Fv/OpGIC//SjJ4hDjvw2/HzrwwcvNgu3Dk?=
+ =?us-ascii?Q?W1kzUshfZU+fLXy+R9f+nwRBFDpyEf0RP3H5KS8FYf18A012U66BfLKwfu4u?=
+ =?us-ascii?Q?FcyEUhUpWBzg0en2up1Cf26yIhQ/pNburrzXyRvKs/JXUUAV6OpHyam6m9WQ?=
+ =?us-ascii?Q?J6Y4R9LhEwjQ5uWxZGkhJYG0mdNCHrL3Tg0rJh9fctPIsFzJkVtpjeP4CU0O?=
+ =?us-ascii?Q?Z7446NAnbGYzEux4Bx2hpW+eb/gH/eS0CMLaVRhAX/sP5gyM08HuJAn5q9sR?=
+ =?us-ascii?Q?wIP5CzlrWVG6XGCQPtg8iOyE5fyOCh78m3bbON0Lh1fGB8n3JpXK4foJZLEI?=
+ =?us-ascii?Q?R5GUDzDx3x9IoDFY5Wvk1qaE2ibrTD5D9k9kPPGGSyjWaiUMrOkQssLNNG0D?=
+ =?us-ascii?Q?tOxMhwdWf6TP3V6SI6XKe0khgGSbfkcmau5X1J8Oukvvqf6+xOwU/SF7Xg7j?=
+ =?us-ascii?Q?HN9DcDZKwRBFghmt8QCKK3lu1eZSGeiLGg52DwkK1zkYrutU3yhJnfD8ubnp?=
+ =?us-ascii?Q?SjDNH5+60GrfmGzt1H/1c52U6yvXX/v3vGBqf5HBzTx2g5JdeQXBquzvzLp1?=
+ =?us-ascii?Q?K857+eqRysQuvk7P1+0Ey3GYsFtDg8o6dRhZHDQQX0EX5HekxIv92zoiLkJZ?=
+ =?us-ascii?Q?GVISLjhzKETCPc8LkWjTWxoOQLxzCHcKrjzox0HP2p+ICJQ/vPfdT6TacJhJ?=
+ =?us-ascii?Q?+WzHIAMbuZIr7jQVoAD0uMeA7N8PQfGcZQf/2GPmsDoS26Zfpsr1Yd30PCV/?=
+ =?us-ascii?Q?v3dNUXKCtN27WVdPjPMXx0CtG75mhFco6LXTneeVN8pZkP7kfoHK4cxU7lN/?=
+ =?us-ascii?Q?Dk1qCM/n8eiWXa/jq0exbh/1vpDwFfg3CKCOkIHI2EmNWCcf8R9+g9EqcOzW?=
+ =?us-ascii?Q?bv+GtZtcvmHPM//UsCHHKb+QL6g76BErXjOUIwFQyhofwMoreSPOoHA2DdSC?=
+ =?us-ascii?Q?tAl5oTUh1nJeftTiVCBYqSTiCApFUiBbH/G50KnKCchFiZW74h2JeqP0EjMA?=
+ =?us-ascii?Q?KvvhFCr4kE0j9rYeNW2OGGXn6jJISsU2uOoI633pFrcEcNIXMaOi3jN4qGPZ?=
+ =?us-ascii?Q?lqvVyyVTF7sx/XMbo4v/WWHYmiO65JP4s3Xa7wuhDw2sr3ZzLVox99E/PWxC?=
+ =?us-ascii?Q?2CzwTTZ3HHZ+Q0fmdL5hURQW?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59d27517-9235-4a96-993c-08d9608ac1ea
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2021 07:52:12.2844
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6dc3666-22b9-4348-cef7-08d960977133
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2021 09:23:00.2924
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wWbMDi47+2RYrfs8u6GzWVrcl3BExg9nPxxhD+Zwm7uGhFrYKeVJDWA4SsDAvz+5YhX1NBDx7UE4u2tYzxg5kEqa7ZsQxUz79ojcdSosa+Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6628
+X-MS-Exchange-CrossTenant-userprincipalname: SQDjRSyPi3JLaG04njtudAKLnCKcw7YXi/E0//PA4WUk426DxHiRTiuOIrVA2xkEFOp9GjzdUwmSY9T2A9Dr0CC2rxiFqDNw3nBCp926fTY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1942
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi All,
 
-Gentle ping. Are we happy with this patch series? Please let me know.
 
-Regards,
+> Subject: [PATCH v3 3/4] clk: renesas: rzg2l: Add support to handle couple=
+d
+> clocks
+>=20
+> The AXI and CHI clocks use the same register bit for controlling clock
+> output. Add a new clock type for coupled clocks, which sets the
+> CPG_CLKON_ETH.CLK[01]_ON bit when at least one clock is enabled, and
+> clears the bit only when both clocks are disabled.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Reworked as per Geert's suggestion
+>  * Added enabled flag to track the status of clock, if it is coupled
+>    with another clock
+>  * Introduced siblings pointer which points to the other coupled
+>    clock
+>  * coupled clock linking is done during module clk register.
+>  * rzg2l_mod_clock_is_enabled function returns soft state of the
+>    module clocks, if it is coupled with another clock
+>  * Updated the commit header
+> v2:-
+>  * New patch
+> ---
+>  drivers/clk/renesas/rzg2l-cpg.c | 62 +++++++++++++++++++++++++++++++++
+> drivers/clk/renesas/rzg2l-cpg.h | 11 +++++-
+>  2 files changed, 72 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-
+> cpg.c index 597efc2504eb..ebcb57287bf6 100644
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -333,13 +333,17 @@ rzg2l_cpg_register_core_clk(const struct
+> cpg_core_clk *core,
+>   * @hw: handle between common and hardware-specific interfaces
+>   * @off: register offset
+>   * @bit: ON/MON bit
+> + * @enabled: soft state of the clock, if it is coupled with another
+> + clock
+>   * @priv: CPG/MSTP private data
+> + * @siblings: pointer to the other coupled clock
+>   */
+>  struct mstp_clock {
+>  	struct clk_hw hw;
+>  	u16 off;
+>  	u8 bit;
+> +	bool enabled;
+>  	struct rzg2l_cpg_priv *priv;
+> +	struct mstp_clock *siblings;
+>  };
+>=20
+>  #define to_mod_clock(_hw) container_of(_hw, struct mstp_clock, hw) @@ -
+> 392,11 +396,35 @@ static int rzg2l_mod_clock_endisable(struct clk_hw *hw,
+> bool enable)
+>=20
+>  static int rzg2l_mod_clock_enable(struct clk_hw *hw)  {
+> +	struct mstp_clock *clock =3D to_mod_clock(hw);
+> +	struct mstp_clock *siblings =3D clock->siblings;
+> +
+> +	if (siblings) {
+> +		if (siblings->enabled) {
+> +			clock->enabled =3D true;
+> +			return 0;
+> +		}
+> +
+> +		clock->enabled =3D true;
+> +	}
+> +
+>  	return rzg2l_mod_clock_endisable(hw, true);  }
+>=20
+>  static void rzg2l_mod_clock_disable(struct clk_hw *hw)  {
+> +	struct mstp_clock *clock =3D to_mod_clock(hw);
+> +	struct mstp_clock *siblings =3D clock->siblings;
+> +
+> +	if (siblings) {
+> +		if (siblings->enabled) {
+> +			clock->enabled =3D false;
+> +			return;
+> +		}
+> +
+> +		clock->enabled =3D false;
+> +	}
+> +
+>  	rzg2l_mod_clock_endisable(hw, false);
+>  }
+>=20
+> @@ -412,6 +440,9 @@ static int rzg2l_mod_clock_is_enabled(struct clk_hw
+> *hw)
+>  		return 1;
+>  	}
+>=20
+> +	if (clock->siblings)
+> +		return clock->enabled;
+> +
+>  	value =3D readl(priv->base + CLK_MON_R(clock->off));
+>=20
+>  	return !(value & bitmask);
+> @@ -423,11 +454,33 @@ static const struct clk_ops rzg2l_mod_clock_ops =3D=
+ {
+>  	.is_enabled =3D rzg2l_mod_clock_is_enabled,  };
+>=20
+> +static struct mstp_clock
+> +*rzg2l_cpg_get_sibling_clk(struct mstp_clock *clock,
+> +			   struct rzg2l_cpg_priv *priv)
+> +{
+> +	struct mstp_clock *sibl_clk =3D NULL;
+> +	struct clk_hw *hw;
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < priv->num_mod_clks; i++) {
+> +		if (priv->clks[priv->num_core_clks + i] =3D=3D ERR_PTR(-ENOENT))
+> +			continue;
+> +
+> +		hw =3D __clk_get_hw(priv->clks[priv->num_core_clks + i]);
+> +		sibl_clk =3D to_mod_clock(hw);
+> +		if (clock->off =3D=3D sibl_clk->off && clock->bit =3D=3D sibl_clk-
+> >bit)
+> +			break;
+
+Just found during testing, instead of "break" we should return sibl_clk;=20
+Otherwise for the first clock, it gets a wrong siblings,
+Which will be overridden with correct siblings during
+registration of other coupled clock.
+
+Currently it gets into the loop 4 *97 =3D 388 times during registration and=
+ the extra memory is 97*sizeof(mstp*) bytes.
+This solution simpler and neater.=20
+
+But not sure we should optimize this by adding all the coupled clocks
+into priv structure (4 * sizeof(mstp*) bytes + 4* enabled flags + 4* link p=
+ointer) ? and=20
+at run time enable/disable will go through this list, find the clock and co=
+upled clk and based
+on coupled clk's enable status it will set clk's enabled status and set har=
+dware clock
+
+In that case rzg2l_mod_clock_is_enabled will also need to find the clock fr=
+om that list and
+return soft enabled status from priv structure.
+
+But this solution has runtime overhead of finding clk and coupled clk from =
+the priv structure
+
+
+Cheers,
 Biju
 
-> Subject: [PATCH v7 0/3] Add RZ/G2L DMAC support
+> +	}
+> +
+> +	return sibl_clk;
+> +}
+> +
+>  static void __init
+>  rzg2l_cpg_register_mod_clk(const struct rzg2l_mod_clk *mod,
+>  			   const struct rzg2l_cpg_info *info,
+>  			   struct rzg2l_cpg_priv *priv)
+>  {
+> +	struct mstp_clock *sibling_clock =3D NULL;
+>  	struct mstp_clock *clock =3D NULL;
+>  	struct device *dev =3D priv->dev;
+>  	unsigned int id =3D mod->id;
+> @@ -484,6 +537,15 @@ rzg2l_cpg_register_mod_clk(const struct rzg2l_mod_cl=
+k
+> *mod,
 >=20
-> This patch series aims to add DMAC support on RZ/G2L SoC's.
+>  	dev_dbg(dev, "Module clock %pC at %lu Hz\n", clk,
+> clk_get_rate(clk));
+>  	priv->clks[id] =3D clk;
+> +
+> +	if (mod->is_coupled) {
+> +		sibling_clock =3D rzg2l_cpg_get_sibling_clk(clock, priv);
+> +		if (sibling_clock) {
+> +			clock->siblings =3D sibling_clock;
+> +			sibling_clock->siblings =3D clock;
+> +		}
+> +	}
+> +
+>  	return;
 >=20
-> It is based on the work done by Chris Brandt for RZ/A DMA driver.
+>  fail:
+> diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-
+> cpg.h index 5202c0512483..191c403aa52f 100644
+> --- a/drivers/clk/renesas/rzg2l-cpg.h
+> +++ b/drivers/clk/renesas/rzg2l-cpg.h
+> @@ -93,6 +93,7 @@ enum clk_types {
+>   * @parent: id of parent clock
+>   * @off: register offset
+>   * @bit: ON/MON bit
+> + * @is_coupled: flag to indicate coupled clock
+>   */
+>  struct rzg2l_mod_clk {
+>  	const char *name;
+> @@ -100,17 +101,25 @@ struct rzg2l_mod_clk {
+>  	unsigned int parent;
+>  	u16 off;
+>  	u8 bit;
+> +	bool is_coupled;
+>  };
 >=20
-> v6->v7:
->  * As per the DMA documention vc.lock must be held by caller for
->    vchan_cookie_complete. So added vc.lock for this function.
->  * Added lock for the lists used in rz_dmac_terminate_all.
+> -#define DEF_MOD(_name, _id, _parent, _off, _bit)	\
+> +#define DEF_MOD_BASE(_name, _id, _parent, _off, _bit, _is_coupled)	\
+>  	{ \
+>  		.name =3D _name, \
+>  		.id =3D MOD_CLK_BASE + (_id), \
+>  		.parent =3D (_parent), \
+>  		.off =3D (_off), \
+>  		.bit =3D (_bit), \
+> +		.is_coupled =3D (_is_coupled), \
+>  	}
 >=20
-> v5->v6:
->  * Added Rb tag from Rob for binding patch
->  * Fixed dma_addr_t and size_t format specifier issue reported by
->    kernel test robot
->  * Started using ARRAY_SIZE macro instead of  magic number in
->    rz_dmac_ds_to_val_mapping function.
->=20
-> v4->v5:
->  * Passing legacy slave channel configuration parameters using
-> dmaengine_slave_config is prohibited.
->    So started passing this parameters in DT instead, by encoding MID/RID
-> values with channel parameters
->    in the #dma-cells.
->  * Removed Rb tag's of Geert and Rob since there is a modification in
-> binding patch
->  * Added 128 byte slave bus width support
->  * Removed SoC dtsi and Defconfig patch from this series. Will send as
-> separate patch.
->=20
-> Ref:-
->=20
-> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore.=
-ker
-> nel.org%2Flinux-renesas-soc%2F20210719092535.4474-1-
-> biju.das.jz%40bp.renesas.com%2FT%2F%23ma0b261df6d4400882204aaaaa014ddb59c=
-4
-> 79db4&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.renesas.com%7Cc9ed17350b19489=
-6fc
-> b308d958c00a1c%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C6376384040934=
-3
-> 0389%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6=
-I
-> k1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3Dy2phFowFQIsATfjN%2FagVsOsZU5fOVs=
-n8Z
-> maE3%2BvhUVo%3D&amp;reserved=3D0
->=20
-> v3->v4:
->  * Added Rob's Rb tag for binding patch.
->  * Incorporated Vinod and Geert's review comments.
-> v2->v3:
->   * Described clocks and resets in binding file as per Rob's feedback.
->=20
-> v1->v2
->  * Started using virtual DMAC
->  * Added Geert's Rb tag for binding patch.
->=20
-> Biju Das (3):
->   dt-bindings: dma: Document RZ/G2L bindings
->   dmaengine: Extend the dma_slave_width for 128 bytes
->   drivers: dma: sh: Add DMAC driver for RZ/G2L SoC
->=20
->  .../bindings/dma/renesas,rz-dmac.yaml         | 130 +++
->  drivers/dma/sh/Kconfig                        |   9 +
->  drivers/dma/sh/Makefile                       |   1 +
->  drivers/dma/sh/rz-dmac.c                      | 971 ++++++++++++++++++
->  include/linux/dmaengine.h                     |   3 +-
->  5 files changed, 1113 insertions(+), 1 deletion(-)  create mode 100644
-> Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
->  create mode 100644 drivers/dma/sh/rz-dmac.c
->=20
+> +#define DEF_MOD(_name, _id, _parent, _off, _bit)	\
+> +	DEF_MOD_BASE(_name, _id, _parent, _off, _bit, false)
+> +
+> +#define DEF_COUPLED(_name, _id, _parent, _off, _bit)	\
+> +	DEF_MOD_BASE(_name, _id, _parent, _off, _bit, true)
+> +
+>  /**
+>   * struct rzg2l_reset - Reset definitions
+>   *
 > --
 > 2.17.1
 
