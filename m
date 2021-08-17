@@ -2,111 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84DBF3EE744
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Aug 2021 09:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D3943EE90B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Aug 2021 11:03:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234402AbhHQHdp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Aug 2021 03:33:45 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:44067 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238067AbhHQHdo (ORCPT
+        id S239136AbhHQJDz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Aug 2021 05:03:55 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:43734 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S235119AbhHQJDx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Aug 2021 03:33:44 -0400
-X-Greylist: delayed 405 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Aug 2021 03:33:44 EDT
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 83E37FF80A;
-        Tue, 17 Aug 2021 07:33:09 +0000 (UTC)
-Date:   Tue, 17 Aug 2021 09:33:57 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: rcar-csi2: Serialize access to set_fmt and
- get_fmt
-Message-ID: <20210817073357.ey2l4lecz5vv5cdy@uno.localdomain>
-References: <20210815024915.1183417-1-niklas.soderlund+renesas@ragnatech.se>
- <20210815024915.1183417-3-niklas.soderlund+renesas@ragnatech.se>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210815024915.1183417-3-niklas.soderlund+renesas@ragnatech.se>
+        Tue, 17 Aug 2021 05:03:53 -0400
+X-IronPort-AV: E=Sophos;i="5.84,328,1620658800"; 
+   d="scan'208";a="90881988"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 17 Aug 2021 18:03:18 +0900
+Received: from localhost.localdomain (unknown [10.226.93.29])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4605F4249EEF;
+        Tue, 17 Aug 2021 18:03:16 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 0/2] Document RZ/G2L SDHI controller bindings
+Date:   Tue, 17 Aug 2021 10:03:11 +0100
+Message-Id: <20210817090313.31858-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+This patch series aims to document RZ/G2L SDHI controller bindings.
 
-On Sun, Aug 15, 2021 at 04:49:15AM +0200, Niklas Söderlund wrote:
-> The access to the internal storage of the format rcar_csi2.mf should be
-> serialized, extend the exciting lock mutex to also cover this.
+v3->v4:
+ * Removed duplicate clock-names for sdhi-r7sxxxx SoC's
+ * Defined clock-names for RZ/G2L SoC and made this as required property.
+v2->v3:
+ * Created a separate patch to fix the dtbs-warning check reported by [1].
+ * RZ/G2L SDHI binding patch depends up on the above the patch.
+ [1] https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20210804091940.23983-1-biju.das.jz@bp.renesas.com/
+v1->v2:
+ * Fixed dtbs-check issue for RZ/A{1,2} platforms.
 
-truly an exciting lock mutex indeed! :D
+v1->
+ * newpatch
 
->
-> While at it document the mutex.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Biju Das (2):
+  dt-bindings: mmc: renesas,sdhi: Fix dtbs-check warning
+  dt-bindings: mmc: renesas,sdhi: Document RZ/G2L bindings
 
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+ .../devicetree/bindings/mmc/renesas,sdhi.yaml | 133 ++++++++++++------
+ 1 file changed, 89 insertions(+), 44 deletions(-)
 
-Thanks
-   j
+-- 
+2.17.1
 
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index a02573dbd5da4f62..2fdfdc38de424c72 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -370,9 +370,8 @@ struct rcar_csi2 {
->  	struct v4l2_subdev *remote;
->  	unsigned int remote_pad;
->
-> +	struct mutex lock; /* Protects mf and stream_count. */
->  	struct v4l2_mbus_framefmt mf;
-> -
-> -	struct mutex lock;
->  	int stream_count;
->
->  	unsigned short lanes;
-> @@ -725,6 +724,8 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
->  	struct rcar_csi2 *priv = sd_to_csi2(sd);
->  	struct v4l2_mbus_framefmt *framefmt;
->
-> +	mutex_lock(&priv->lock);
-> +
->  	if (!rcsi2_code_to_fmt(format->format.code))
->  		format->format.code = rcar_csi2_formats[0].code;
->
-> @@ -735,6 +736,8 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
->  		*framefmt = format->format;
->  	}
->
-> +	mutex_unlock(&priv->lock);
-> +
->  	return 0;
->  }
->
-> @@ -744,11 +747,15 @@ static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
->  {
->  	struct rcar_csi2 *priv = sd_to_csi2(sd);
->
-> +	mutex_lock(&priv->lock);
-> +
->  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
->  		format->format = priv->mf;
->  	else
->  		format->format = *v4l2_subdev_get_try_format(sd, sd_state, 0);
->
-> +	mutex_unlock(&priv->lock);
-> +
->  	return 0;
->  }
->
-> --
-> 2.32.0
->
