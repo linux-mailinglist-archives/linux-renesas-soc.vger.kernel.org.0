@@ -2,162 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AF803F0161
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Aug 2021 12:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEC233F016A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Aug 2021 12:15:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232954AbhHRKM2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Aug 2021 06:12:28 -0400
-Received: from mxout03.lancloud.ru ([45.84.86.113]:60846 "EHLO
-        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231218AbhHRKM2 (ORCPT
+        id S231960AbhHRKPe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Aug 2021 06:15:34 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:40091 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230435AbhHRKPe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Aug 2021 06:12:28 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 95F0920EF7AC
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH net-next v2 1/8] ravb: Add struct ravb_hw_info to driver
- data
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>
-CC:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Wed, 18 Aug 2021 06:15:34 -0400
+X-IronPort-AV: E=Sophos;i="5.84,330,1620658800"; 
+   d="scan'208";a="91022020"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 18 Aug 2021 19:14:56 +0900
+Received: from localhost.localdomain (unknown [10.226.93.61])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3B5D1400F783;
+        Wed, 18 Aug 2021 19:14:53 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        alsa-devel@alsa-project.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20210802102654.5996-1-biju.das.jz@bp.renesas.com>
- <20210802102654.5996-2-biju.das.jz@bp.renesas.com>
- <CAMuHMdWuoLFDRbJZqpvT48q1zbH05tqerWMs50aFDa6pR+ecAg@mail.gmail.com>
- <OS0PR01MB5922BF48F95DD5576A79994F86F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdVCyMD6u2KxKb_c2LR8DGAY86F69=TSRDK0C5GPwrO7Eg@mail.gmail.com>
- <OS0PR01MB5922C336CBB008F9D7DA36B786F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922A841D2C8E38D93A8E95086FE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <071f3fd9-7280-f518-3e38-6456632cc11e@omp.ru>
- <OS0PR01MB59225D98CEA7E2E0FD959B3186FF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <dcbf2171-080c-d743-6aeb-6936b498d1fd@omp.ru>
-Date:   Wed, 18 Aug 2021 13:11:44 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <OS0PR01MB59225D98CEA7E2E0FD959B3186FF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3] ASoC: sh: rz-ssi: Improve error handling in rz_ssi_dma_request function
+Date:   Wed, 18 Aug 2021 11:14:50 +0100
+Message-Id: <20210818101450.15948-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+dma_request_chan() returns error pointer in case of failures, but
+the rz_ssi_dma_request() checked for NULL pointer instead.
 
-On 18.08.2021 9:29, Biju Das wrote:
+This patch fixes the issue by checking for ERR_PTR() instead of
+NULL and sets the DMA pointers to NULL in error case so that ssi
+can fallback to PIO mode.
 
-[...]
->>>>>>> -----Original Message-----
->>>>>>> On Mon, Aug 2, 2021 at 12:27 PM Biju Das
->>>>>>> <biju.das.jz@bp.renesas.com>
->>>>>>> wrote:
->>>>>>>> The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L
->>>>>>>> SoC are similar to the R-Car Ethernet AVB IP. With a few changes
->>>>>>>> in the driver we can support both IPs.
->>>>>>>>
->>>>>>>> Currently a runtime decision based on the chip type is used to
->>>>>>>> distinguish the HW differences between the SoC families.
->>>>>>>>
->>>>>>>> The number of TX descriptors for R-Car Gen3 is 1 whereas on R-Car
->>>>>>>> Gen2 and RZ/G2L it is 2. For cases like this it is better to
->>>>>>>> select the number of TX descriptors by using a structure with a
->>>>>>>> value, rather than a runtime decision based on the chip type.
->>>>>>>>
->>>>>>>> This patch adds the num_tx_desc variable to struct ravb_hw_info
->>>>>>>> and also replaces the driver data chip type with struct
->>>>>>>> ravb_hw_info by moving chip type to it.
->>>>>>>>
->>>>>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>>>>>>> Reviewed-by: Lad Prabhakar
->>>>>>>> <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>>>>>
->>>>>>> Thanks for your patch!
->>>>>>>
->>>>>>>> --- a/drivers/net/ethernet/renesas/ravb.h
->>>>>>>> +++ b/drivers/net/ethernet/renesas/ravb.h
->>>>>>>> @@ -988,6 +988,11 @@ enum ravb_chip_id {
->>>>>>>>          RCAR_GEN3,
->>>>>>>>   };
->>>>>>>>
->>>>>>>> +struct ravb_hw_info {
->>>>>>>> +       enum ravb_chip_id chip_id;
->>>>>>>> +       int num_tx_desc;
->>>>>>>
->>>>>>> Why not "unsigned int"? ...
->>>>>>> This comment applies to a few more subsequent patches.
->>>>>>
->>>>>> To avoid signed and unsigned comparison warnings.
->>>>>>
->>>>>>>
->>>>>>>> +};
->>>>>>>> +
->>>>>>>>   struct ravb_private {
->>>>>>>>          struct net_device *ndev;
->>>>>>>>          struct platform_device *pdev; @@ -1040,6 +1045,8 @@
->>>>>>>> struct ravb_private {
->>>>>>>>          unsigned txcidm:1;              /* TX Clock Internal Delay
->>>>> Mode
->>>>>>> */
->>>>>>>>          unsigned rgmii_override:1;      /* Deprecated rgmii-*id
->>>>> behavior
->>>>>>> */
->>>>>>>>          int num_tx_desc;                /* TX descriptors per
->>>> packet
->>>>> */
->>>>>>>
->>>>>>> ... oh, here's the original culprit.
->>>>>>
->>>>>> Exactly, this the reason.
->>>>>>
->>>>>> Do you want me to change this into unsigned int? Please let me know.
->>>>>
->>>>> Up to you (or the maintainer? ;-)
->>>>>
->>>>> For new fields (in the other patches), I would use unsigned for all
->>>>> unsigned values.  Signed values have more pitfalls related to
->>>>> undefined behavior.
->>>>
->>>> Sergei, What is your thoughts here? Please let me know.
->>>
->>> Here is my plan.
->>>
->>> I will split this patch into two as Andrew suggested and
->>
->>     If you mran changing the ravb_private::num_tx_desc to *unsigned*, it'll
->> be a good cleanup. What's would be the 2nd part tho?
-> 
-> OK in that case, I will split this patch into 3.
-> 
-> First patch for adding struct ravb_hw_info to driver data and replace
-> driver data chip type with struct ravb_hw_info
+Fixes: 26ac471c5354 ("ASoC: sh: rz-ssi: Add SSI DMAC support")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+v2->v3:
+ * Added Fixes tag
+ * For SSI with with full-duplex transmission and reception, 
+   Add support for fallback to PIO mode, if both channels are
+   not available.
 
-    Couldn't this be a 2nd patch?..
+v1->v2:
+ * Replaced IS_ERR_OR_NULL with IS_ERR for error pointer check, as the
+   dma_request_chan function never returns NULL pointer for error case.
+---
+ sound/soc/sh/rz-ssi.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-> Second patch for changing ravb_private::num_tx_desc from int to unsigned int.
+diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
+index f097c773d413..fa0cc08f70ec 100644
+--- a/sound/soc/sh/rz-ssi.c
++++ b/sound/soc/sh/rz-ssi.c
+@@ -185,7 +185,7 @@ rz_ssi_stream_get(struct rz_ssi_priv *ssi, struct snd_pcm_substream *substream)
+ 
+ static inline bool rz_ssi_is_dma_enabled(struct rz_ssi_priv *ssi)
+ {
+-	return (ssi->playback.dma_ch || ssi->capture.dma_ch);
++	return (ssi->playback.dma_ch && (ssi->dma_rt || ssi->capture.dma_ch));
+ }
+ 
+ static int rz_ssi_stream_is_valid(struct rz_ssi_priv *ssi,
+@@ -676,15 +676,26 @@ static void rz_ssi_release_dma_channels(struct rz_ssi_priv *ssi)
+ static int rz_ssi_dma_request(struct rz_ssi_priv *ssi, struct device *dev)
+ {
+ 	ssi->playback.dma_ch = dma_request_chan(dev, "tx");
++	if (IS_ERR(ssi->playback.dma_ch))
++		ssi->playback.dma_ch = NULL;
++
+ 	ssi->capture.dma_ch = dma_request_chan(dev, "rx");
++	if (IS_ERR(ssi->capture.dma_ch))
++		ssi->capture.dma_ch = NULL;
++
+ 	if (!ssi->playback.dma_ch && !ssi->capture.dma_ch) {
+ 		ssi->playback.dma_ch = dma_request_chan(dev, "rt");
+-		if (!ssi->playback.dma_ch)
++		if (IS_ERR(ssi->playback.dma_ch)) {
++			ssi->playback.dma_ch = NULL;
+ 			goto no_dma;
++		}
+ 
+ 		ssi->dma_rt = true;
+ 	}
+ 
++	if (!rz_ssi_is_dma_enabled(ssi))
++		goto no_dma;
++
+ 	if (ssi->playback.dma_ch &&
+ 	    (rz_ssi_dma_slave_config(ssi, ssi->playback.dma_ch, true) < 0))
+ 		goto no_dma;
+-- 
+2.17.1
 
-    ... and this one the 1st?
-
-> Third patch for adding aligned_tx to struct ravb_hw_info.
-> 
-> Regards,
-> Biju
-
-MBR, Sergey
