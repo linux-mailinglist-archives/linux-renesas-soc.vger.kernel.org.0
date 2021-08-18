@@ -2,84 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD7C63EFFB5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Aug 2021 10:57:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AF803F0161
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Aug 2021 12:11:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230444AbhHRI56 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Aug 2021 04:57:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56832 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbhHRI5z (ORCPT
+        id S232954AbhHRKM2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Aug 2021 06:12:28 -0400
+Received: from mxout03.lancloud.ru ([45.84.86.113]:60846 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231218AbhHRKM2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Aug 2021 04:57:55 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B4FC061764;
-        Wed, 18 Aug 2021 01:57:21 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id a21so1452033pfh.5;
-        Wed, 18 Aug 2021 01:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=VZBTPNRqlQESLigV/4KZUq07fd4N5BAX8vFbMG5GM3w=;
-        b=gBvpiHtfSWXcLGm+Pb8RBHqwtR0QaQHyp+96/lOlHByJlKeIpL7Bl/TCHflrtWgmuF
-         BJsYKnX7uMjCqwp9pheRxX/MusFAx9F0JXqvbGuJgfGHfcGBKaDD6Tk83Xa3wxtLYrr0
-         q+aDlLyukKxmA3clZ/wtwv2NU4OyIwanuLxp1rjni8zx1hlwkcvr/25F1JpEwAWaLdwl
-         BVNL/UQNEf5Zbv4pLRkO/UEeAf0QHYn9QZBlg5a5zOhBZoKAZSoWYTLZAGuFwMELIUB1
-         ggBCyYzDYifTq+BdYOJLBAdfzxPp92g8tbe2ZRlhDBmDPyC1eP5xiVVxav4bQxlS+z7M
-         yG1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=VZBTPNRqlQESLigV/4KZUq07fd4N5BAX8vFbMG5GM3w=;
-        b=ulvWVcs3bkiKl0qpP3Ec+sLJgnlkzSIzfBzkVUfohgph+NfmCcZ0ngBEnHQKHQbCNw
-         42h7kxdNnxbA/NtRs/MOEGC6mjhpnen7rleG9P35qyc1VNbYInMOqUD2B0eO0nb9Whii
-         zatvp2e27/8JiU7pSxzDranfxbza7fD6Hm6AT1qSv3k/kYh817v++6QOSTqvVIKwBEXU
-         qTaJ7b1bJJ989WNc96yAET/qKGL+Wfs84i6KkUsgmWHJtWLQ8PTJ6v76XZIwqN3hfpyn
-         0f4/lOcmVajNosPDvoo8pcnwRm9a0NtUpCqAedZOyLRJwl04kHo8K8rbjpSZa3kUWwxD
-         5kBg==
-X-Gm-Message-State: AOAM531Cl8+n43Lvm1vGu9TPt8Bvpe94dEbovIiOeFbLc5aDFUyRMKms
-        OaZSXhwhtIxZtF/ZOpLP0g4=
-X-Google-Smtp-Source: ABdhPJwreg9GBhaTxZHOtTcpyo4nZ2qN+BxCjfzFucwLE8f/qYCOrfDdnIXCMrU15nkCwnY9XETCbQ==
-X-Received: by 2002:a63:5606:: with SMTP id k6mr7853042pgb.21.1629277041096;
-        Wed, 18 Aug 2021 01:57:21 -0700 (PDT)
-Received: from localhost.localdomain ([123.51.145.88])
-        by smtp.gmail.com with ESMTPSA id s46sm5521867pfw.89.2021.08.18.01.57.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 01:57:20 -0700 (PDT)
-From:   Zhengxun <zhengxunli.mxic@gmail.com>
-To:     sergei.shtylyov@cogentembedded.com, broonie@kernel.org,
-        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        zhengxunli@mxic.com.tw
-Cc:     Zhengxun <zhengxunli.mxic@gmail.com>
-Subject: [PATCH] memory: renesas-rpc-if: Fix missing setting address
-Date:   Wed, 18 Aug 2021 16:56:04 +0000
-Message-Id: <20210818165604.22127-1-zhengxunli.mxic@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 18 Aug 2021 06:12:28 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 95F0920EF7AC
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH net-next v2 1/8] ravb: Add struct ravb_hw_info to driver
+ data
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>
+CC:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210802102654.5996-1-biju.das.jz@bp.renesas.com>
+ <20210802102654.5996-2-biju.das.jz@bp.renesas.com>
+ <CAMuHMdWuoLFDRbJZqpvT48q1zbH05tqerWMs50aFDa6pR+ecAg@mail.gmail.com>
+ <OS0PR01MB5922BF48F95DD5576A79994F86F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdVCyMD6u2KxKb_c2LR8DGAY86F69=TSRDK0C5GPwrO7Eg@mail.gmail.com>
+ <OS0PR01MB5922C336CBB008F9D7DA36B786F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922A841D2C8E38D93A8E95086FE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <071f3fd9-7280-f518-3e38-6456632cc11e@omp.ru>
+ <OS0PR01MB59225D98CEA7E2E0FD959B3186FF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <dcbf2171-080c-d743-6aeb-6936b498d1fd@omp.ru>
+Date:   Wed, 18 Aug 2021 13:11:44 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <OS0PR01MB59225D98CEA7E2E0FD959B3186FF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In the RPC manual mode, if the data direction is not set
-(such as the flash erase command), the address misses the
-setting.
+Hello!
 
-Signed-off-by: Zhengxun <zhengxunli.mxic@gmail.com>
----
- drivers/memory/renesas-rpc-if.c | 1 +
- 1 file changed, 1 insertion(+)
+On 18.08.2021 9:29, Biju Das wrote:
 
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 45eed659b0c6..9dd27c6307f7 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -482,6 +482,7 @@ int rpcif_manual_xfer(struct rpcif *rpc)
- 		}
- 		break;
- 	default:
-+		regmap_write(rpc->regmap, RPCIF_SMADR, rpc->smadr);
- 		regmap_write(rpc->regmap, RPCIF_SMENR, rpc->enable);
- 		regmap_write(rpc->regmap, RPCIF_SMCR,
- 			     rpc->smcr | RPCIF_SMCR_SPIE);
--- 
-2.17.1
+[...]
+>>>>>>> -----Original Message-----
+>>>>>>> On Mon, Aug 2, 2021 at 12:27 PM Biju Das
+>>>>>>> <biju.das.jz@bp.renesas.com>
+>>>>>>> wrote:
+>>>>>>>> The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L
+>>>>>>>> SoC are similar to the R-Car Ethernet AVB IP. With a few changes
+>>>>>>>> in the driver we can support both IPs.
+>>>>>>>>
+>>>>>>>> Currently a runtime decision based on the chip type is used to
+>>>>>>>> distinguish the HW differences between the SoC families.
+>>>>>>>>
+>>>>>>>> The number of TX descriptors for R-Car Gen3 is 1 whereas on R-Car
+>>>>>>>> Gen2 and RZ/G2L it is 2. For cases like this it is better to
+>>>>>>>> select the number of TX descriptors by using a structure with a
+>>>>>>>> value, rather than a runtime decision based on the chip type.
+>>>>>>>>
+>>>>>>>> This patch adds the num_tx_desc variable to struct ravb_hw_info
+>>>>>>>> and also replaces the driver data chip type with struct
+>>>>>>>> ravb_hw_info by moving chip type to it.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>>>>>>> Reviewed-by: Lad Prabhakar
+>>>>>>>> <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>>>>>>
+>>>>>>> Thanks for your patch!
+>>>>>>>
+>>>>>>>> --- a/drivers/net/ethernet/renesas/ravb.h
+>>>>>>>> +++ b/drivers/net/ethernet/renesas/ravb.h
+>>>>>>>> @@ -988,6 +988,11 @@ enum ravb_chip_id {
+>>>>>>>>          RCAR_GEN3,
+>>>>>>>>   };
+>>>>>>>>
+>>>>>>>> +struct ravb_hw_info {
+>>>>>>>> +       enum ravb_chip_id chip_id;
+>>>>>>>> +       int num_tx_desc;
+>>>>>>>
+>>>>>>> Why not "unsigned int"? ...
+>>>>>>> This comment applies to a few more subsequent patches.
+>>>>>>
+>>>>>> To avoid signed and unsigned comparison warnings.
+>>>>>>
+>>>>>>>
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>>   struct ravb_private {
+>>>>>>>>          struct net_device *ndev;
+>>>>>>>>          struct platform_device *pdev; @@ -1040,6 +1045,8 @@
+>>>>>>>> struct ravb_private {
+>>>>>>>>          unsigned txcidm:1;              /* TX Clock Internal Delay
+>>>>> Mode
+>>>>>>> */
+>>>>>>>>          unsigned rgmii_override:1;      /* Deprecated rgmii-*id
+>>>>> behavior
+>>>>>>> */
+>>>>>>>>          int num_tx_desc;                /* TX descriptors per
+>>>> packet
+>>>>> */
+>>>>>>>
+>>>>>>> ... oh, here's the original culprit.
+>>>>>>
+>>>>>> Exactly, this the reason.
+>>>>>>
+>>>>>> Do you want me to change this into unsigned int? Please let me know.
+>>>>>
+>>>>> Up to you (or the maintainer? ;-)
+>>>>>
+>>>>> For new fields (in the other patches), I would use unsigned for all
+>>>>> unsigned values.  Signed values have more pitfalls related to
+>>>>> undefined behavior.
+>>>>
+>>>> Sergei, What is your thoughts here? Please let me know.
+>>>
+>>> Here is my plan.
+>>>
+>>> I will split this patch into two as Andrew suggested and
+>>
+>>     If you mran changing the ravb_private::num_tx_desc to *unsigned*, it'll
+>> be a good cleanup. What's would be the 2nd part tho?
+> 
+> OK in that case, I will split this patch into 3.
+> 
+> First patch for adding struct ravb_hw_info to driver data and replace
+> driver data chip type with struct ravb_hw_info
 
+    Couldn't this be a 2nd patch?..
+
+> Second patch for changing ravb_private::num_tx_desc from int to unsigned int.
+
+    ... and this one the 1st?
+
+> Third patch for adding aligned_tx to struct ravb_hw_info.
+> 
+> Regards,
+> Biju
+
+MBR, Sergey
