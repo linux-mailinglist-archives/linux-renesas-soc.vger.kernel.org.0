@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E69243F1DD0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Aug 2021 18:29:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD8D13F1E39
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Aug 2021 18:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbhHSQaA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Aug 2021 12:30:00 -0400
-Received: from mxout01.lancloud.ru ([45.84.86.81]:56230 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbhHSQaA (ORCPT
+        id S229465AbhHSQmp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Aug 2021 12:42:45 -0400
+Received: from mxout02.lancloud.ru ([45.84.86.82]:38462 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229451AbhHSQmo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Aug 2021 12:30:00 -0400
+        Thu, 19 Aug 2021 12:42:44 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 018CC20E24D9
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 8F48D2297C28
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
-Subject: Re: [PATCH net-next v3 4/9] ravb: Add max_rx_len to struct
+Subject: Re: [PATCH net-next v3 5/9] ravb: Add stats_len to struct
  ravb_hw_info
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -32,15 +32,15 @@ CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Biju Das <biju.das@bp.renesas.com>,
         "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210818190800.20191-1-biju.das.jz@bp.renesas.com>
- <20210818190800.20191-5-biju.das.jz@bp.renesas.com>
+ <20210818190800.20191-6-biju.das.jz@bp.renesas.com>
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <220c0886-ee9f-7196-2a35-dd221eea6a5a@omp.ru>
-Date:   Thu, 19 Aug 2021 19:29:19 +0300
+Message-ID: <c01b6d2e-5679-c459-2c8e-e08b47181304@omp.ru>
+Date:   Thu, 19 Aug 2021 19:42:04 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210818190800.20191-5-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210818190800.20191-6-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -53,16 +53,20 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 8/18/21 10:07 PM, Biju Das wrote:
 
-> The maximum descriptor size that can be specified on the reception side for
-> R-Car is 2048 bytes, whereas for RZ/G2L it is 8096.
+> R-Car provides 30 device stats, whereas RZ/G2L provides only 15. In
+> addition, RZ/G2L has stats "rx_queue_0_csum_offload_errors" instead of
+> "rx_queue_0_missed_errors".
 > 
-> Add the max_rx_len variable to struct ravb_hw_info for allocating different
-> RX skb buffer sizes for R-Car and RZ/G2L using the netdev_alloc_skb
-> function.
+> Replace RAVB_STATS_LEN macro with a structure variable stats_len to
+
+    Structure field, maybe? :-)
+
+> struct ravb_hw_info, to support subsequent SoCs without any code changes
+> to the ravb_get_sset_count function.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
 [...]
 
 Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
