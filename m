@@ -2,60 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EB943F1CC8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Aug 2021 17:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DC9B3F1D18
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Aug 2021 17:42:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239549AbhHSPas (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Aug 2021 11:30:48 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:58732 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232821AbhHSPar (ORCPT
+        id S240639AbhHSPmg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Aug 2021 11:42:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240597AbhHSPmg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Aug 2021 11:30:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=EcvOdzr1sgHe/sRPbHW+tONtkzJ+mXVH97Z7UeFGlNA=; b=SGqqy+6G/b9KRvuhJSVPl5gU8p
-        IzBssXFnhmgbQSlhgIPiwXe1c48gSIRhj9SzpnUul0okBZFmJsQQKrEYCqXYYS2zI8lhhT3RlhEp+
-        iy5VqH/UiasqqnHiM3rjanw26BqT8X856cv2hbaToxyrWY1J+uKaYzmIJz6aXoGYjVBo=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1mGjz5-000zTP-Pe; Thu, 19 Aug 2021 17:29:35 +0200
-Date:   Thu, 19 Aug 2021 17:29:35 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     patchwork-bot+netdevbpf@kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>, davem@davemloft.net,
-        kuba@kernel.org, sergei.shtylyov@gmail.com,
-        geert+renesas@glider.be, s.shtylyov@omprussia.ru,
-        aford173@gmail.com, ashiduka@fujitsu.com,
-        yoshihiro.shimoda.uh@renesas.com, yangyingliang@huawei.com,
+        Thu, 19 Aug 2021 11:42:36 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF2CC061575;
+        Thu, 19 Aug 2021 08:41:59 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id n7so12370530ljq.0;
+        Thu, 19 Aug 2021 08:41:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=hq7OkJw6lhOnwjh1thu9W+UEluZoGVXakS2C8zgonH0=;
+        b=k8yfszsn2tI7rgWFNLWSlOqz3Ekr4Rujtx4yGp64/2WLCt0pmx4uZlADbZee9qJlKY
+         ePg0SamTW6dS6YNC2T5S3mWoIqjWzPdTux00ZUzZ98qxfpAx53VgxN3u0Dp1XBMVM83X
+         WqaT4JWeZJ15VNBXbNjaw2Ns2djaFhmt+/4GmdoHDJRrAf5RbMkRrAgGzOUIGdm5V9MR
+         Tf7GKvG4s2dyctSWRHwyJGqzPBbaujTV6jYuHFRc3DEX2wJw1YVUet6hPVhpdYDUXLoY
+         pNMGPEGY1PVPGr9iJzfXI+Zm7/ewMGdNLTkyj+XQ95/IAksMYEpui72B2t9gZXdci+0N
+         RHmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hq7OkJw6lhOnwjh1thu9W+UEluZoGVXakS2C8zgonH0=;
+        b=WTyi74+/vscpe4eHXjmF6AHMG1IxYfQ2JxU3Vs2LlsB5+GgYcgmMcSL0M+bdT2cZs2
+         oUyRU+p7pbBo4D2ZiFTb9CYkT2AUB5f1A5CJbPslAN7hY6qatmGF01DfXu9Lue4bbEDP
+         F6kiR92wmMcmYE2hpaX3PNxs6etXAlRUsm0w03Rnm1VbaiEuKm9MWTaTjEXWytlWWqRQ
+         FjFA0Gk7ojT2qMmuGmEhbg3dzNsnnaNwCgcn9woHRe4hfMb0OpuZiEt7ASC9hMiEaXOE
+         kznnvI9ccbtkvrlwo7X1sGHrikU9c1frfXGxq7/HPzjG23ND5kDcDOVlVyEIhkQbP0+R
+         bDxA==
+X-Gm-Message-State: AOAM531VKWP7IRWrg7p/I4ZnqGFwF/3N2FnAdXoaciuZeLtnjOQjSjMS
+        /Zp2t5X1jxWWzOdbpBTJ9IA=
+X-Google-Smtp-Source: ABdhPJyOppg8lX6Tyya9qA+hCtDMNm6xkKAe2H8w8XAl3R1RwVGN/Jm1+EDsWJaHH93x0kjuFhZn3g==
+X-Received: by 2002:a05:651c:106f:: with SMTP id y15mr12584102ljm.309.1629387718079;
+        Thu, 19 Aug 2021 08:41:58 -0700 (PDT)
+Received: from [192.168.1.102] ([31.173.82.177])
+        by smtp.gmail.com with ESMTPSA id u18sm376568lfo.280.2021.08.19.08.41.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Aug 2021 08:41:57 -0700 (PDT)
+Subject: Re: [PATCH net-next v3 3/9] ravb: Add aligned_tx to struct
+ ravb_hw_info
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris.Paterson2@renesas.com, biju.das@bp.renesas.com,
-        prabhakar.mahadev-lad.rj@bp.renesas.com
-Subject: Re: [PATCH net-next v3 0/9] Add Gigabit Ethernet driver support
-Message-ID: <YR5435p8EE5ORQXT@lunn.ch>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210818190800.20191-1-biju.das.jz@bp.renesas.com>
- <162937140695.9830.1977811163674506658.git-patchwork-notify@kernel.org>
- <9b060154-aed4-1e11-68ac-6468e5f4f136@omp.ru>
+ <20210818190800.20191-4-biju.das.jz@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <bc5879a7-4c35-8958-0b37-8d6337eb95ba@gmail.com>
+Date:   Thu, 19 Aug 2021 18:41:55 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9b060154-aed4-1e11-68ac-6468e5f4f136@omp.ru>
+In-Reply-To: <20210818190800.20191-4-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> Are we in such a haste? I was just going to review these patches
-> today...
+On 8/18/21 10:07 PM, Biju Das wrote:
 
-I guess the thinking is, fixup patches can always be applied after the
-fact. But i agree, i really liked the 3 day wait time for patches to
-be merged, it gave a reasonable amount of time for reviews, without
-slowing down development work. The current 1 day or less does seem
-counter productive, i expect there are less reviews happening as a
-result, lower quality code, more bugs...
+> R-Car Gen2 needs a 4byte aligned address for the transmission buffer,
+> whereas R-Car Gen3 doesn't have any such restriction.
+> 
+> Add aligned_tx to struct ravb_hw_info to select the driver to choose
+> between aligned and unaligned tx buffers.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v3:
+>  * New patch
 
-	Andrew
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+MBR, Sergey
