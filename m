@@ -2,29 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD8D13F1E39
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Aug 2021 18:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FA0F3F1E7D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Aug 2021 18:57:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229465AbhHSQmp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Aug 2021 12:42:45 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:38462 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbhHSQmo (ORCPT
+        id S230500AbhHSQ6Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Aug 2021 12:58:25 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:41090 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230458AbhHSQ6Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Aug 2021 12:42:44 -0400
+        Thu, 19 Aug 2021 12:58:24 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 8F48D2297C28
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 2DDAE20BEB46
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
-Subject: Re: [PATCH net-next v3 5/9] ravb: Add stats_len to struct
+Subject: Re: [PATCH net-next v3 9/9] ravb: Add tx_counters to struct
  ravb_hw_info
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
+CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        "Adam Ford" <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
         Yuusuke Ashizuka <ashiduka@fujitsu.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
@@ -32,41 +33,43 @@ CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Biju Das <biju.das@bp.renesas.com>,
         "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20210818190800.20191-1-biju.das.jz@bp.renesas.com>
- <20210818190800.20191-6-biju.das.jz@bp.renesas.com>
+ <20210818190800.20191-10-biju.das.jz@bp.renesas.com>
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <c01b6d2e-5679-c459-2c8e-e08b47181304@omp.ru>
-Date:   Thu, 19 Aug 2021 19:42:04 +0300
+Message-ID: <bbdd24cd-8759-7e06-b790-6e1c8dc01169@omp.ru>
+Date:   Thu, 19 Aug 2021 19:57:44 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210818190800.20191-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210818190800.20191-10-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
  LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 8/18/21 10:07 PM, Biju Das wrote:
+On 8/18/21 10:08 PM, Biju Das wrote:
 
-> R-Car provides 30 device stats, whereas RZ/G2L provides only 15. In
-> addition, RZ/G2L has stats "rx_queue_0_csum_offload_errors" instead of
-> "rx_queue_0_missed_errors".
+> The register for retrieving TX counters is present only on R-Car Gen3
+> and RZ/G2L; it is not present on R-Car Gen2.
 > 
-> Replace RAVB_STATS_LEN macro with a structure variable stats_len to
-
-    Structure field, maybe? :-)
-
-> struct ravb_hw_info, to support subsequent SoCs without any code changes
-> to the ravb_get_sset_count function.
+> Add the tx_counters hw feature bit to struct ravb_hw_info, to enable this
+> feature specifically for R-Car Gen3 now and later extend it to RZ/G2L.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> ---
+> v2->v3:
+>  * Retained Rb tag from Andrew, since change is just renaming the variable
+>    and comment update.
+> v2:
+>  * Incorporated Andrew and Sergei's review comments for making it smaller patch
+>    and provided detailed description.
 [...]
 
 Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
