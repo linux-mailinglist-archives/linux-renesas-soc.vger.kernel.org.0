@@ -2,108 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C10393F0B94
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Aug 2021 21:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C18B3F17BD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Aug 2021 13:10:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234033AbhHRTJ1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Aug 2021 15:09:27 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:2486 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233785AbhHRTJT (ORCPT
+        id S238007AbhHSLKn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Aug 2021 07:10:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41320 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238079AbhHSLKn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Aug 2021 15:09:19 -0400
-X-IronPort-AV: E=Sophos;i="5.84,332,1620658800"; 
-   d="scan'208";a="91051835"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Aug 2021 04:08:41 +0900
-Received: from localhost.localdomain (unknown [10.226.93.61])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7E61140D5D67;
-        Thu, 19 Aug 2021 04:08:38 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next v3 9/9] ravb: Add tx_counters to struct ravb_hw_info
-Date:   Wed, 18 Aug 2021 20:08:00 +0100
-Message-Id: <20210818190800.20191-10-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210818190800.20191-1-biju.das.jz@bp.renesas.com>
+        Thu, 19 Aug 2021 07:10:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 040D86113E;
+        Thu, 19 Aug 2021 11:10:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629371407;
+        bh=rTZ3soS6t4MCZrC4yO5vSLk6S/T807Fuu4TcfoTKNsw=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=STUDo/w1/vv/RFdqN+4E6iXnjqs+Um3PXZDI5Zupjy4ORjX1PGzEwTBpbJVc2D0A6
+         +fdlfHksL79Ebo80ZqWxnqcCUA7h5jtWNs0IWw9Exse+b5db2HIgGC63ileGD12CIW
+         Jb09AY6iXacaqDw1J1jzX+V8TnO+rMYuYXOIZNT1H0+L8SjwOHftPiIEPh0A6c3Gct
+         17mGiE3HRM9n4fC7P2NIBiwyBp6OD1Anvhfcxht+Bkq/3leC73bx5lHco7X08XI9CU
+         B68htndhV2G3KGFnp77eKV2+4p66gQ/QzEFcs29CnLVGVYEdmn2RSLn6vAhIGTMGmv
+         uy6+5dk4ZWg4g==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id EA04260A50;
+        Thu, 19 Aug 2021 11:10:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3 0/9] Add Gigabit Ethernet driver support
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <162937140695.9830.1977811163674506658.git-patchwork-notify@kernel.org>
+Date:   Thu, 19 Aug 2021 11:10:06 +0000
 References: <20210818190800.20191-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210818190800.20191-1-biju.das.jz@bp.renesas.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, sergei.shtylyov@gmail.com,
+        geert+renesas@glider.be, s.shtylyov@omprussia.ru,
+        aford173@gmail.com, andrew@lunn.ch, ashiduka@fujitsu.com,
+        yoshihiro.shimoda.uh@renesas.com, yangyingliang@huawei.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris.Paterson2@renesas.com, biju.das@bp.renesas.com,
+        prabhakar.mahadev-lad.rj@bp.renesas.com
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The register for retrieving TX counters is present only on R-Car Gen3
-and RZ/G2L; it is not present on R-Car Gen2.
+Hello:
 
-Add the tx_counters hw feature bit to struct ravb_hw_info, to enable this
-feature specifically for R-Car Gen3 now and later extend it to RZ/G2L.
+This series was applied to netdev/net-next.git (refs/heads/master):
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-v2->v3:
- * Retained Rb tag from Andrew, since change is just renaming the variable
-   and comment update.
-v2:
- * Incorporated Andrew and Sergei's review comments for making it smaller patch
-   and provided detailed description.
----
- drivers/net/ethernet/renesas/ravb.h      | 1 +
- drivers/net/ethernet/renesas/ravb_main.c | 4 +++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+On Wed, 18 Aug 2021 20:07:51 +0100 you wrote:
+> The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L SoC are
+> similar to the R-Car Ethernet AVB IP.
+> 
+> The Gigabit Ethernet IP consists of Ethernet controller (E-MAC), Internal
+> TCP/IP Offload Engine (TOE)  and Dedicated Direct memory access controller
+> (DMAC).
+> 
+> [...]
 
-diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index 65a13ad458e6..37ad0f8aaf3c 100644
---- a/drivers/net/ethernet/renesas/ravb.h
-+++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -1000,6 +1000,7 @@ struct ravb_hw_info {
- 
- 	/* hardware features */
- 	unsigned internal_delay:1;	/* AVB-DMAC has internal delays */
-+	unsigned tx_counters:1;		/* E-MAC has TX counters */
- };
- 
- struct ravb_private {
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 2fe4b9231523..02842b980a7f 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1632,13 +1632,14 @@ static u16 ravb_select_queue(struct net_device *ndev, struct sk_buff *skb,
- static struct net_device_stats *ravb_get_stats(struct net_device *ndev)
- {
- 	struct ravb_private *priv = netdev_priv(ndev);
-+	const struct ravb_hw_info *info = priv->info;
- 	struct net_device_stats *nstats, *stats0, *stats1;
- 
- 	nstats = &ndev->stats;
- 	stats0 = &priv->stats[RAVB_BE];
- 	stats1 = &priv->stats[RAVB_NC];
- 
--	if (priv->chip_id == RCAR_GEN3) {
-+	if (info->tx_counters) {
- 		nstats->tx_dropped += ravb_read(ndev, TROCR);
- 		ravb_write(ndev, 0, TROCR);	/* (write clear) */
- 	}
-@@ -1937,6 +1938,7 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
- 	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
- 	.max_rx_len = RX_BUF_SZ + RAVB_ALIGN - 1,
- 	.internal_delay = 1,
-+	.tx_counters = 1,
- };
- 
- static const struct ravb_hw_info ravb_gen2_hw_info = {
--- 
-2.17.1
+Here is the summary with links:
+  - [net-next,v3,1/9] ravb: Use unsigned int for num_tx_desc variable in struct ravb_private
+    https://git.kernel.org/netdev/net-next/c/cb537b241725
+  - [net-next,v3,2/9] ravb: Add struct ravb_hw_info to driver data
+    https://git.kernel.org/netdev/net-next/c/ebb091461a9e
+  - [net-next,v3,3/9] ravb: Add aligned_tx to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/68ca3c923213
+  - [net-next,v3,4/9] ravb: Add max_rx_len to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/cb01c672c2a7
+  - [net-next,v3,5/9] ravb: Add stats_len to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/25154301fc2b
+  - [net-next,v3,6/9] ravb: Add gstrings_stats and gstrings_size to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/896a818e0e1d
+  - [net-next,v3,7/9] ravb: Add net_features and net_hw_features to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/8912ed25daf6
+  - [net-next,v3,8/9] ravb: Add internal delay hw feature to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/8bc4caa0abaf
+  - [net-next,v3,9/9] ravb: Add tx_counters to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/0b81d6731167
+
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
