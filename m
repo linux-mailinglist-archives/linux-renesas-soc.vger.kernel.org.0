@@ -2,119 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 456863F472F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Aug 2021 11:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 810893F473C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Aug 2021 11:17:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235772AbhHWJPS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Aug 2021 05:15:18 -0400
-Received: from mail-vs1-f50.google.com ([209.85.217.50]:33449 "EHLO
-        mail-vs1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230137AbhHWJPN (ORCPT
+        id S231927AbhHWJRw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Aug 2021 05:17:52 -0400
+Received: from mail-ua1-f45.google.com ([209.85.222.45]:39666 "EHLO
+        mail-ua1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235681AbhHWJRv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Aug 2021 05:15:13 -0400
-Received: by mail-vs1-f50.google.com with SMTP id v26so10683526vsa.0;
-        Mon, 23 Aug 2021 02:14:31 -0700 (PDT)
+        Mon, 23 Aug 2021 05:17:51 -0400
+Received: by mail-ua1-f45.google.com with SMTP id a4so7606455uae.6;
+        Mon, 23 Aug 2021 02:17:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=XzJFujuWV9NuV2pa9LOX6rWxNm/ii/522I59qgbcb5o=;
-        b=jIwFxn7iPEk8bhDLk3dSwp1+27oc358R99VA/tFANIBobgBvKdbmZQfMxFPEssNunu
-         DT1ADyaEKx0ARIYNpR6J1T+yQqWj5JVmeCY7DPD/73SM5DqZKmczCqSk3hjiSnQ2f729
-         mzK75doPOzxYShyHnfby5KYrxoyiPNZ5E2KcqBVZLRvCT6l6OmiJng0r91f0gWHyrB7d
-         1w2Mgf8g3tUPvc7iy3OAutG2t/4UpYnLaJqR62wsJlWLCyoULapx6S0I7ZgUWwviOydB
-         IDjBW8ikrwJV6siwHwl14vwhzvDxN0tB2hbQKMRI2P9VcogPC4lZPS2SbR1pb046P4O7
-         ViJg==
-X-Gm-Message-State: AOAM530VFCZK+jJDOJUTbMp/CdwUbWdLRVES3FFRCa0rnaWN+kOIjMrk
-        Vu3AHaFEmlSoR16UWKIURnFesVi0IIXUlmj7VnE=
-X-Google-Smtp-Source: ABdhPJxqKw+eO7pYO2bfRzWkEX3Dhnn/1Z/e59Lv3TZm52eVeI5bHqcBUkzfNAsEcQdXTnWlxpfy+XYhExtl/2YmwZQ=
-X-Received: by 2002:a67:ce90:: with SMTP id c16mr1504043vse.7.1629710070937;
- Mon, 23 Aug 2021 02:14:30 -0700 (PDT)
+        bh=9QLjRZu+Qt7qgSvBEQ/53pbQu1xoAU50oF0hD2z0Qgk=;
+        b=dXNDm2dOIspLVSKshmZAcZWzK76K1wAR0YK+SGgew2NlyOUUeIRlVr5tb9noV3ZO6W
+         GEfxgzaksOIGC7dtjNpW5uFuCEiGCPBQdhSNPsOZMbA9S58sB2bhQ/K5UTXbsf/WU8l1
+         bCuFYV7jLTwBd6qmVlgYS08wk9a1JpPAm6r8WJ7NUiwaa6as7MulnpbH0S5j3yOAee4n
+         AONWKS5m5OAaC8ReC99TjOieqH9Dp7yMDO45tVK3nHKkI99MJYZsPOf5QdF71E/SaQdV
+         XTLUBayFdnWoCnY1poOrk4+86bWV1WUsvgzld7K8GHJHGuieLesgx5sClvPcmG40SHmE
+         2B7w==
+X-Gm-Message-State: AOAM5320adD/AhkCHQBKpGh4az9GMUWGcKtKdhq6TQCzEbomie/C+Wqz
+        Ysisaj5uyaOuy32mS5ARVAnk2FtvSZkkuHE9tlQLUcDD
+X-Google-Smtp-Source: ABdhPJzpNaAdaSSJdpn6BAK/7CLSD19FVvFR1f0/X4YuiaF49K46oNfMaKRHGNKHoksTYDNTArhskhCJmDpP/82y20A=
+X-Received: by 2002:ab0:545:: with SMTP id 63mr21148288uax.122.1629710228796;
+ Mon, 23 Aug 2021 02:17:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210818190800.20191-1-biju.das.jz@bp.renesas.com> <20210818190800.20191-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210818190800.20191-4-biju.das.jz@bp.renesas.com>
+References: <20210816162201.28801-1-uli+renesas@fpond.eu>
+In-Reply-To: <20210816162201.28801-1-uli+renesas@fpond.eu>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 23 Aug 2021 11:14:19 +0200
-Message-ID: <CAMuHMdUEeZjfJgpXpO6qcAyuGp64wxyxiuLjUosVcRfG8=2s6w@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 3/9] ravb: Add aligned_tx to struct ravb_hw_info
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+Date:   Mon, 23 Aug 2021 11:16:57 +0200
+Message-ID: <CAMuHMdVw-mZKcPuZ9ZtqMPqCTp9bcjHm0Yy8Zb9KtfoM5me_Cg@mail.gmail.com>
+Subject: Re: [PATCH] serial: sh-sci: fix break handling for sysrq
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Wolfram Sang <wsa@kernel.org>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Mon, Aug 16, 2021 at 6:22 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> This fixes two issues that cause the sysrq sequence to be inadvertently
+> aborted on SCIF serial consoles:
+>
+> - a NUL character remains in the RX queue after a break has been detected,
+>   which is then passed on to uart_handle_sysrq_char()
+> - the break interrupt is handled twice on controllers with multiplexed ERI
+>   and BRI interrupts
+>
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-On Wed, Aug 18, 2021 at 9:08 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> R-Car Gen2 needs a 4byte aligned address for the transmission buffer,
-> whereas R-Car Gen3 doesn't have any such restriction.
->
-> Add aligned_tx to struct ravb_hw_info to select the driver to choose
-> between aligned and unaligned tx buffers.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for your patch, which is now commit 68ca3c923213b908 ("ravb:
-Add aligned_tx to struct ravb_hw_info") in net-next.
-
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -990,6 +990,7 @@ enum ravb_chip_id {
->
->  struct ravb_hw_info {
->         enum ravb_chip_id chip_id;
-> +       unsigned aligned_tx: 1;
->  };
->
->  struct ravb_private {
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index b6554e5e13af..dbccf2cd89b2 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -1930,6 +1930,7 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
->
->  static const struct ravb_hw_info ravb_gen2_hw_info = {
->         .chip_id = RCAR_GEN2,
-> +       .aligned_tx = 1,
->  };
->
->  static const struct of_device_id ravb_match_table[] = {
-> @@ -2140,7 +2141,7 @@ static int ravb_probe(struct platform_device *pdev)
->         ndev->max_mtu = 2048 - (ETH_HLEN + VLAN_HLEN + ETH_FCS_LEN);
->         ndev->min_mtu = ETH_MIN_MTU;
->
-> -       priv->num_tx_desc = info->chip_id == RCAR_GEN2 ?
-> +       priv->num_tx_desc = info->aligned_tx ?
->                 NUM_TX_DESC_GEN2 : NUM_TX_DESC_GEN3;
-
-At first look, this change does not seem to match the patch description.
-Upon a deeper look, it is correct, as num_tx_desc is also used to
-control alignment.
-
-But now NUM_TX_DESC_GEN[23] no longer match their use.
-Perhaps they should be renamed, or replaced by hardcoded values,
-with a comment?
-
-    /*
-     * FIXME: Explain the relationship between alignment and number of buffers
-     */
-    priv->num_tx_desc = info->aligned_tx ? 2 : 1;
-
->
->         /* Set function */
+FTR:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
