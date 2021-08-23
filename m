@@ -2,69 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECA5D3F4CD7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Aug 2021 17:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FC633F4D4B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Aug 2021 17:20:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231132AbhHWPBE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Aug 2021 11:01:04 -0400
-Received: from mail-vk1-f174.google.com ([209.85.221.174]:35347 "EHLO
-        mail-vk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231534AbhHWPA0 (ORCPT
+        id S231410AbhHWPVP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Aug 2021 11:21:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50718 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231324AbhHWPVO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Aug 2021 11:00:26 -0400
-Received: by mail-vk1-f174.google.com with SMTP id t11so4319331vkc.2;
-        Mon, 23 Aug 2021 07:59:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4bdsI7s+dNrQzHAEMPavVEuBzBOxcxEA4Amk4roI2gU=;
-        b=i05hINxrVSWkuDiRKWFn/E6JGm8W+P2KrTBB8VW/Yxb016SYY1ED1lVS1leix5zpRk
-         PqagyTz+Os7t46OIV41XXRwHeDuY2j1C89HDdfw7dOm7pvuhb9ZYUTURPRuZFxFDQvOi
-         /icW2WRmTI2JMLBraMKDkb2DBX8aAPUdbqqh/9+ck9Xjou2o57zIjhCwsPU1EaQJvYf9
-         6eedo0P3yo941gvjQAwKyL2cGTIfuPIHeMlDvOhmd7bkiKA3nEInzvAoaK+yPoIVZ8iS
-         hgtg1Yd72WaN1hz6AWuiy5+dW/uwI+sGqC0ml9+HQY55whiCOlk9avjMyJ9RWV1A4MCr
-         GrZw==
-X-Gm-Message-State: AOAM532p3fVSwPUA9QE+M0Pd+7UtF5qVKqAtH9tNg5AXDocFNg26zyPv
-        VxYiydmEVnfFZdB9r9KerTfmvvHeLuGKuS43XC0=
-X-Google-Smtp-Source: ABdhPJz8l/ZHoCciL7DPom2nBMezVME1sEwTR+wecbPFFfwyJXCMGGp4HZUhdtV5G38Q70ykeg63QZJ5/u3yuzw8E60=
-X-Received: by 2002:ac5:c85c:: with SMTP id g28mr22192038vkm.5.1629730779496;
- Mon, 23 Aug 2021 07:59:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210815103014.21208-1-biju.das.jz@bp.renesas.com> <20210815103014.21208-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210815103014.21208-5-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 23 Aug 2021 16:59:28 +0200
-Message-ID: <CAMuHMdWbHt1nvRucB+NERs0bOMYPUBscTZYc=UdjqimySKJnDg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] clk: renesas: r9a07g044: Add GbEthernet clock/reset
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+        Mon, 23 Aug 2021 11:21:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B9C6061406;
+        Mon, 23 Aug 2021 15:20:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629732031;
+        bh=qreQnG9EH+SLqs9cxYafKtRpnrXgjkJipzrUHxRm8AI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RGjW/286CluzlorhZhA12uBlEH3uhRoRK1S/j3K064/Shsa1wyggzEKZ+qBLhJnq4
+         gRNV2wTAu/HjHiWh2f8lDroX68ilJ+YROIaiewKam0s1N8A50OJJWefyUImpM5E2eF
+         23BcN2czeN9GNVN/lCJogN+4552M5+pHKvniKKEJEUx8otTEcVGWHyeI3OR3rj1qMi
+         Hi+i0DsYD+9xTYJ7MrtjEFxhLsW1VCy64kf+eN2MBlr4L1PcNpyAXM2UcO+pR7vBQY
+         FLye4cqCOX/Qx8AxadC/oQ1G2/s7ZAxLxG8DqtLBtsk0QFfiMvLtb9egfLJszfwr1w
+         PQAw/Rb0cjfWQ==
+Date:   Mon, 23 Aug 2021 18:20:20 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        kexec@lists.infradead.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 1/9] MIPS: Avoid future duplicate elf core header
+ reservation
+Message-ID: <YSO8tJxbuADEeL7I@kernel.org>
+References: <cover.1628670468.git.geert+renesas@glider.be>
+ <92b6718f5618d5469f67b48fbea189cca0c12f4b.1628670468.git.geert+renesas@glider.be>
+ <YRn9DHlB/pdNPJyP@kernel.org>
+ <CAMuHMdVdqR7gw+2O2v=qv_BB=+X2wEXN9jXV=np=jRayadwj7g@mail.gmail.com>
+ <YSOeGzowhV/R9QS/@kernel.org>
+ <CAL_JsqLMv4fKebJEOv=7UXvy_qqut0N42psS-PSgRMU-qhiFLQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqLMv4fKebJEOv=7UXvy_qqut0N42psS-PSgRMU-qhiFLQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Aug 15, 2021 at 12:30 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add ETH{0,1} clock/reset entries to CPG driver.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, Aug 23, 2021 at 09:44:55AM -0500, Rob Herring wrote:
+> On Mon, Aug 23, 2021 at 8:10 AM Mike Rapoport <rppt@kernel.org> wrote:
+> >
+> > On Mon, Aug 23, 2021 at 12:17:50PM +0200, Geert Uytterhoeven wrote:
+> > > Hi Mike,
+> > >
+> > > On Mon, Aug 16, 2021 at 7:52 AM Mike Rapoport <rppt@kernel.org> wrote:
+> > > > On Wed, Aug 11, 2021 at 10:50:59AM +0200, Geert Uytterhoeven wrote:
+> > > > > Prepare for early_init_fdt_scan_reserved_mem() reserving the memory
+> > > > > occupied by an elf core header described in the device tree.
+> > > > > As arch_mem_init() calls early_init_fdt_scan_reserved_mem() before
+> > > > > mips_reserve_vmcore(), the latter needs to check if the memory has
+> > > > > already been reserved before.
+> > > >
+> > > > Doing memblock_reserve() for the same region is usually fine, did you
+> > > > encounter any issues without this patch?
+> > >
+> > > Does it also work if the same region is part of an earlier larger
+> > > reservation?  I am no memblock expert, so I don't know.
+> > > I didn't run into any issues, as my MIPS platform is non-DT, but I
+> > > assume arch/arm64/mm/init.c:reserve_elfcorehdr() had the check for
+> > > a reason.
+> >
+> > The memory will be reserved regardless of the earlier reservation, the
+> > issue may appear when the reservations are made for different purpose. E.g.
+> > if there was crash kernel allocation before the reservation of elfcorehdr.
+> >
+> > The check in such case will prevent the second reservation, but, at least
+> > in arch/arm64/mm/init.c:reserve_elfcorehdr() it does not seem to prevent
+> > different users of the overlapping regions to step on each others toes.
+> 
+> If the kernel has been passed in overlapping regions, is there
+> anything you can do other than hope to get a message out?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Nothing really. I've been thinking about adding flags to memblock.reserved
+to at least distinguish firmware regions from the kernel allocations, but I
+never got to that.
+ 
+> > Moreover, arm64::reserve_elfcorehdr() seems buggy to me, because of there
+> > is only a partial overlap of the elfcorehdr with the previous reservation,
+> > the non-overlapping part of elfcorehdr won't get reserved at all.
+> 
+> What do you suggest as the arm64 version is not the common version?
 
-Gr{oetje,eeting}s,
+I'm not really familiar with crash dump internals, so I don't know if
+resetting elfcorehdr_addr to ELFCORE_ADDR_ERR is a good idea. I think at
+least arm64::reserve_elfcorehdr() should reserve the entire elfcorehdr area
+regardless of the overlap. Otherwise it might get overwritten by a random
+memblock_alloc().
 
-                        Geert
+> Rob
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Sincerely yours,
+Mike.
