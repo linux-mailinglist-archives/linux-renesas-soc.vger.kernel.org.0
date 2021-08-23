@@ -2,114 +2,206 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5769B3F47AF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Aug 2021 11:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD0C43F4816
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Aug 2021 12:00:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231160AbhHWJfy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Aug 2021 05:35:54 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37148 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230428AbhHWJfy (ORCPT
+        id S234619AbhHWKB2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Aug 2021 06:01:28 -0400
+Received: from mail-vk1-f180.google.com ([209.85.221.180]:35511 "EHLO
+        mail-vk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232850AbhHWKBX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Aug 2021 05:35:54 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 140BC2A5;
-        Mon, 23 Aug 2021 11:35:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1629711310;
-        bh=kd/MLAPBcEPKOguXUModcCC+opNF464T1oJbxkgihuw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EIkz2RlBkIalaNR78KhTEA75s+l2i1P4EZG5OXICrEtbEFL3WiLAE3U51SI3snkNO
-         rHiQKnaGruxODL7dPxdpp2Gtia0hxRPJHpoOYfAhWCsx0fATMfTP+Hf5uD9affQia0
-         WDF4/U1vr6rQZXTyIR3qitQCcmQliu3DuPiZRi6c=
-Date:   Mon, 23 Aug 2021 12:34:59 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Thomas NIZAN <tnizan@witekio.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [RFC 4/5] media: i2c: max9286: Fetch PIXEL_RATE in s_stream
-Message-ID: <YSNrwxluB45Xmynz@pendragon.ideasonboard.com>
-References: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
- <20210817072703.1167-5-jacopo+renesas@jmondi.org>
- <YSMFIfNSDvuiZWPh@pendragon.ideasonboard.com>
- <20210823072008.p6qi5lg73jsfezwn@uno.localdomain>
+        Mon, 23 Aug 2021 06:01:23 -0400
+Received: by mail-vk1-f180.google.com with SMTP id t11so4073194vkc.2;
+        Mon, 23 Aug 2021 03:00:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PCcKsdPZ/RTcZhhk1cxfqR3xDypslOMq5mStiR2yzt0=;
+        b=DUqOSSHnhXS7j+lFKlwdykTfXXhzcXrHm8AJ6+y8HK54JikuOxLq/wyaDwVdLx5X8Q
+         c7OsiSvo5yOUImPtKjWn/xlmvkLeDcFTmnRIx+XbPsVGMogFIi/r007KIvvaXYYTFN9t
+         VY6Geg62vHTpliYwQFZqdbORHX5LxnXJjSpm1ex/SiZhz+3UGekpTivMEj2f20RO6mx0
+         6Z1LRutc/i9OLr8wuZViynh5bdIELEJyp8NDdBSLI7c2mLL/Go3JLTUj/d9P7+kvu1Ug
+         rB7W62Uv1ZAInjZ/za5N6Qk8WM5dgtuMKoSLN6w+H0iSBwAd0sc1SFOl965YPyZyvrO3
+         FnUA==
+X-Gm-Message-State: AOAM531OZoHtcosKxJlHflakgA4T78KWEW1kMdEdORhKzupo2Veh6jiC
+        YqfGxGXT5Gy14afWQDc17CB2AQj5hvIXrRF7L5s=
+X-Google-Smtp-Source: ABdhPJy3vbHHLJEMeuCgOsyI2+V0Tj/GGufleeHGg7F8wIfKKj0ZYsfuDR9sV2QCKdqYUPK0+/pV5s+YUbM7jsGZxY8=
+X-Received: by 2002:ac5:c85c:: with SMTP id g28mr21197285vkm.5.1629712840243;
+ Mon, 23 Aug 2021 03:00:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210823072008.p6qi5lg73jsfezwn@uno.localdomain>
+References: <20210815103014.21208-1-biju.das.jz@bp.renesas.com> <20210815103014.21208-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210815103014.21208-4-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 23 Aug 2021 12:00:28 +0200
+Message-ID: <CAMuHMdXj8xmJ0ySOJQ74AjkTDJUQwTJ93rYjyRPnJ1dwGfj1xg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] clk: renesas: rzg2l: Add support to handle coupled clocks
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hi Biju,
 
-On Mon, Aug 23, 2021 at 09:20:08AM +0200, Jacopo Mondi wrote:
-> On Mon, Aug 23, 2021 at 05:17:05AM +0300, Laurent Pinchart wrote:
-> > On Tue, Aug 17, 2021 at 09:27:02AM +0200, Jacopo Mondi wrote:
-> > > The max9286 driver needs to fetch the remote serializer PIXEL_RATE
-> > > control value in order to compute its own one, as the sum of the
-> >
-> > s/its own one/its own/ (or its own pixel rate)
-> >
-> > > values reported by the connected subdevices.
-> > >
-> > > Currently the control is verified to be present at notifier's bound
-> > > time, which requires the serializer driver to register the control at
-> > > probe time. As the serializer driver might need to register the control
-> > > later, by adding the control handler of its connected sensor, post-pone
-> > > the max9286 check for the control availability at start stream time.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  drivers/media/i2c/max9286.c | 6 +++++-
-> > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > > index 1b92d18a1f94..98fc90339a9e 100644
-> > > --- a/drivers/media/i2c/max9286.c
-> > > +++ b/drivers/media/i2c/max9286.c
-> > > @@ -595,7 +595,7 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
-> > >  	max9286_check_config_link(priv, priv->source_mask);
-> > >  	max9286_configure_i2c(priv, false);
-> > >
-> > > -	return max9286_set_pixelrate(priv);
-> > > +	return 0;
-> > >  }
-> > >
-> > >  static void max9286_notify_unbind(struct v4l2_async_notifier *notifier,
-> > > @@ -674,6 +674,10 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
-> > >  	int ret;
-> > >
-> > >  	if (enable) {
-> > > +		ret = max9286_set_pixelrate(priv);
-> > > +		if (ret)
-> > > +			return ret;
-> >
-> > That's very likely not going to work. The CSI-2 receiver connected to
-> > the max9286 will need to know the pixel rate as part of its
-> > initialization sequence, before calling .s_stream(1) on the max9286.
-> 
-> How so ? The R-Car CSI-2 receiver feteches the pixel rate at s_stream
-> time, I thought it was customary to do so. What is it needed for before
-> streamon time ?
+On Sun, Aug 15, 2021 at 12:30 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The AXI and CHI clocks use the same register bit for controlling clock
+> output. Add a new clock type for coupled clocks, which sets the
+> CPG_CLKON_ETH.CLK[01]_ON bit when at least one clock is enabled, and
+> clears the bit only when both clocks are disabled.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Reworked as per Geert's suggestion
+>  * Added enabled flag to track the status of clock, if it is coupled
+>    with another clock
+>  * Introduced siblings pointer which points to the other coupled
+>    clock
+>  * coupled clock linking is done during module clk register.
+>  * rzg2l_mod_clock_is_enabled function returns soft state of the
+>    module clocks, if it is coupled with another clock
+>  * Updated the commit header
 
-At stream on time is usually fine, but the CSI-2 receiver usually needs
-to be configured before starting the source, not after.
+Thanks for the update!
 
-> > > +
-> > >  		/*
-> > >  		 * The frame sync between cameras is transmitted across the
-> > >  		 * reverse channel as GPIO. We must open all channels while
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -392,11 +396,35 @@ static int rzg2l_mod_clock_endisable(struct clk_hw *hw, bool enable)
+>
+>  static int rzg2l_mod_clock_enable(struct clk_hw *hw)
+>  {
+> +       struct mstp_clock *clock = to_mod_clock(hw);
+> +       struct mstp_clock *siblings = clock->siblings;
+> +
+> +       if (siblings) {
+> +               if (siblings->enabled) {
+> +                       clock->enabled = true;
+> +                       return 0;
+> +               }
+> +
+> +               clock->enabled = true;
+
+clock->enabled is set to true regardless of the if condition.
+This also needs locking, in case both clocks are changed concurrently:
+
+    spin_lock_irqsave(&priv->rmw_lock, flags);
+    enabled = siblings->enabled;
+    clock->enabled = true;
+    spin_unlock_irqrestore(&priv->rmw_lock, flags);
+    if (enabled)
+            return 0;
+
+> +       }
+> +
+>         return rzg2l_mod_clock_endisable(hw, true);
+>  }
+>
+>  static void rzg2l_mod_clock_disable(struct clk_hw *hw)
+>  {
+> +       struct mstp_clock *clock = to_mod_clock(hw);
+> +       struct mstp_clock *siblings = clock->siblings;
+> +
+> +       if (siblings) {
+> +               if (siblings->enabled) {
+> +                       clock->enabled = false;
+> +                       return;
+> +               }
+> +
+> +               clock->enabled = false;
+
+Likewise.
+
+> +       }
+> +
+>         rzg2l_mod_clock_endisable(hw, false);
+>  }
+>
+> @@ -412,6 +440,9 @@ static int rzg2l_mod_clock_is_enabled(struct clk_hw *hw)
+>                 return 1;
+>         }
+>
+> +       if (clock->siblings)
+> +               return clock->enabled;
+> +
+>         value = readl(priv->base + CLK_MON_R(clock->off));
+>
+>         return !(value & bitmask);
+> @@ -423,11 +454,33 @@ static const struct clk_ops rzg2l_mod_clock_ops = {
+>         .is_enabled = rzg2l_mod_clock_is_enabled,
+>  };
+>
+> +static struct mstp_clock
+> +*rzg2l_cpg_get_sibling_clk(struct mstp_clock *clock,
+> +                          struct rzg2l_cpg_priv *priv)
+> +{
+> +       struct mstp_clock *sibl_clk = NULL;
+
+clk?
+It's only a sibling when the condition inside the loop is true.
+
+> +       struct clk_hw *hw;
+> +       unsigned int i;
+> +
+> +       for (i = 0; i < priv->num_mod_clks; i++) {
+> +               if (priv->clks[priv->num_core_clks + i] == ERR_PTR(-ENOENT))
+> +                       continue;
+> +
+> +               hw = __clk_get_hw(priv->clks[priv->num_core_clks + i]);
+> +               sibl_clk = to_mod_clock(hw);
+> +               if (clock->off == sibl_clk->off && clock->bit == sibl_clk->bit)
+> +                       break;
+> +       }
+> +
+> +       return sibl_clk;
+> +}
+> +
+>  static void __init
+>  rzg2l_cpg_register_mod_clk(const struct rzg2l_mod_clk *mod,
+>                            const struct rzg2l_cpg_info *info,
+>                            struct rzg2l_cpg_priv *priv)
+>  {
+> +       struct mstp_clock *sibling_clock = NULL;
+>         struct mstp_clock *clock = NULL;
+>         struct device *dev = priv->dev;
+>         unsigned int id = mod->id;
+> @@ -484,6 +537,15 @@ rzg2l_cpg_register_mod_clk(const struct rzg2l_mod_clk *mod,
+>
+>         dev_dbg(dev, "Module clock %pC at %lu Hz\n", clk, clk_get_rate(clk));
+>         priv->clks[id] = clk;
+> +
+> +       if (mod->is_coupled) {
+> +               sibling_clock = rzg2l_cpg_get_sibling_clk(clock, priv);
+> +               if (sibling_clock) {
+> +                       clock->siblings = sibling_clock;
+> +                       sibling_clock->siblings = clock;
+> +               }
+
+You forgot to initialize mstp_clock.enabled to match the current
+hardware state.
+
+> +       }
+> +
+>         return;
+>
+>  fail:
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
