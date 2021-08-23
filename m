@@ -2,67 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 810893F473C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Aug 2021 11:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A9A03F474F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Aug 2021 11:22:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231927AbhHWJRw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Aug 2021 05:17:52 -0400
-Received: from mail-ua1-f45.google.com ([209.85.222.45]:39666 "EHLO
-        mail-ua1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235681AbhHWJRv (ORCPT
+        id S231484AbhHWJXb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Aug 2021 05:23:31 -0400
+Received: from mail-vs1-f44.google.com ([209.85.217.44]:47095 "EHLO
+        mail-vs1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231258AbhHWJXb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Aug 2021 05:17:51 -0400
-Received: by mail-ua1-f45.google.com with SMTP id a4so7606455uae.6;
-        Mon, 23 Aug 2021 02:17:09 -0700 (PDT)
+        Mon, 23 Aug 2021 05:23:31 -0400
+Received: by mail-vs1-f44.google.com with SMTP id f13so10610108vsl.13;
+        Mon, 23 Aug 2021 02:22:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9QLjRZu+Qt7qgSvBEQ/53pbQu1xoAU50oF0hD2z0Qgk=;
-        b=dXNDm2dOIspLVSKshmZAcZWzK76K1wAR0YK+SGgew2NlyOUUeIRlVr5tb9noV3ZO6W
-         GEfxgzaksOIGC7dtjNpW5uFuCEiGCPBQdhSNPsOZMbA9S58sB2bhQ/K5UTXbsf/WU8l1
-         bCuFYV7jLTwBd6qmVlgYS08wk9a1JpPAm6r8WJ7NUiwaa6as7MulnpbH0S5j3yOAee4n
-         AONWKS5m5OAaC8ReC99TjOieqH9Dp7yMDO45tVK3nHKkI99MJYZsPOf5QdF71E/SaQdV
-         XTLUBayFdnWoCnY1poOrk4+86bWV1WUsvgzld7K8GHJHGuieLesgx5sClvPcmG40SHmE
-         2B7w==
-X-Gm-Message-State: AOAM5320adD/AhkCHQBKpGh4az9GMUWGcKtKdhq6TQCzEbomie/C+Wqz
-        Ysisaj5uyaOuy32mS5ARVAnk2FtvSZkkuHE9tlQLUcDD
-X-Google-Smtp-Source: ABdhPJzpNaAdaSSJdpn6BAK/7CLSD19FVvFR1f0/X4YuiaF49K46oNfMaKRHGNKHoksTYDNTArhskhCJmDpP/82y20A=
-X-Received: by 2002:ab0:545:: with SMTP id 63mr21148288uax.122.1629710228796;
- Mon, 23 Aug 2021 02:17:08 -0700 (PDT)
+        bh=Gt+eojLYgADvAa13MxSZYGtUVyb5L5ebuzo5ONxZgrI=;
+        b=BnmQ1yr/AnjAJB0x3XpXN9UZ36Onkk+a6DJE3xEBI2elkbOqtGiiI3OAmdGmQAozD1
+         KUbyJIK3HmQGFmFVVcH4ok0FBRIlTM/Oume5ShU1ObcpfprAR+iiSD3aX5awwGPDnc+L
+         D8PN4zJXEi5SMa7nyBlz6IRfNJiR51P5YekqfdzcYJN5gXU8i+jJk9+PxWtXrZDLCANq
+         fEVrLn5qTnl01WWERhBA0wj5dLzAQLaG8Lg1U1dHK1kgQ0C3RJjojBhfehqH5TrD00ss
+         qmpQDmVabFlnsFIz2xQ5U+YiIAeTFTgbhAvD02y8OQiCIcTQZctk1ALdN0/DRHQy0+dA
+         9ARQ==
+X-Gm-Message-State: AOAM530hqRcr2TA1h9T/nl30QRqmidb/7Jm9tHg7YB4TA0QLK8Q1nQAk
+        oqP0inDWFWqHJwwHqg8BP2TXN307TDovR9E4Ns4=
+X-Google-Smtp-Source: ABdhPJz28fxMG9kfJf8GETxTvqUtwihBTWhZXmcu12UH1nD6e1mE1lJ+gKdP0AYCAbP1FuvP0Zlts11yKSODJ4rQIdU=
+X-Received: by 2002:a67:cb0a:: with SMTP id b10mr22882432vsl.9.1629710568318;
+ Mon, 23 Aug 2021 02:22:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210816162201.28801-1-uli+renesas@fpond.eu>
-In-Reply-To: <20210816162201.28801-1-uli+renesas@fpond.eu>
+References: <20210812151808.7916-1-biju.das.jz@bp.renesas.com>
+ <20210812151808.7916-4-biju.das.jz@bp.renesas.com> <2f5f8999-260d-e9c0-731e-df644b528b61@gmail.com>
+ <OS0PR01MB59221C4884E0667F75748A1686F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922205202921BA8EC12C26686FE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <05bdd9e8-e68f-c8b4-a7d9-a83f2ca97a58@omp.ru>
+In-Reply-To: <05bdd9e8-e68f-c8b4-a7d9-a83f2ca97a58@omp.ru>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 23 Aug 2021 11:16:57 +0200
-Message-ID: <CAMuHMdVw-mZKcPuZ9ZtqMPqCTp9bcjHm0Yy8Zb9KtfoM5me_Cg@mail.gmail.com>
-Subject: Re: [PATCH] serial: sh-sci: fix break handling for sysrq
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Mon, 23 Aug 2021 11:22:36 +0200
+Message-ID: <CAMuHMdVAMX7-SwguMZHJGua1h-Kp5KGw4u0GEeZ7eByccdxYQw@mail.gmail.com>
+Subject: Re: [PATCH v6 3/3] arm64: dts: renesas: r9a07g044: Add USB2.0 device support
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 6:22 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> This fixes two issues that cause the sysrq sequence to be inadvertently
-> aborted on SCIF serial consoles:
->
-> - a NUL character remains in the RX queue after a break has been detected,
->   which is then passed on to uart_handle_sysrq_char()
-> - the break interrupt is handled twice on controllers with multiplexed ERI
->   and BRI interrupts
->
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Hi Sergey,
 
-FTR:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Tue, Aug 17, 2021 at 6:41 PM Sergey Shtylyov <s.shtylyov@omp.ru> wrote:
+> On 8/17/21 2:12 PM, Biju Das wrote:
+> [...]
+> >>>> Add USB2.0 device support to RZ/G2L SoC DT.
+> >>>>
+> >>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >>>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >>> [...]
+> >>>> diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> >>> b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> >>>> index de78c921af22..2f313c2a81c7 100644
+> >>>> --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> >>>> +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> >>>> @@ -391,6 +391,25 @@
+> >>>>                    power-domains = <&cpg>;
+> >>>>                    status = "disabled";
+> >>>>            };
+> >>>> +
+> >>>> +          hsusb: usb@11c60000 {
+> >>>> +                  compatible = "renesas,usbhs-r9a07g044",
+> >>>> +                               "renesas,rza2-usbhs";
+> >>>> +                  reg = <0 0x11c60000 0 0x10000>;
+> >>>> +                  interrupts = <GIC_SPI 100 IRQ_TYPE_EDGE_RISING>,
+> >>>> +                               <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
+> >>>> +                               <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
+> >>>> +                               <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> >>>
+> >>>    Don't we need to specify "interrupt-names" when there a more than 1
+> >>> interrupts?
+> >>
+> >> This dtsi changes, as per binding documentation [1]. As you see,
+> >> "interrupt-names" is optional.
+> >
+> > For now I will go with current dt changes.
+> >
+> > Later  I will create incremental patches for dt-binding with optional "interrupt-names",
+> > "clock-names" and "reset names" for all the SoC's supported by this binding doc.
+> >
+> > After that, will send an incremental patch with adding optional properties in all SoC dtsi.
+> >
+> > Does it make sense?
+>
+>    I had the impression that the "*-names" prop was mandatory for a "*" prop having 2 values or mores.
+> If it's now allowed to be optional, don't bother with that at all.
+
+There's a difference between "mandatory according to good DT
+binding design" and "mandatory according to the actual json-schema
+DT bindings".  For now the tools only enforce the latter...
 
 Gr{oetje,eeting}s,
 
