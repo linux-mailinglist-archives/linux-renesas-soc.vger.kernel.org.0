@@ -2,76 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F3093F4A4A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Aug 2021 14:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 060093F4A9E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Aug 2021 14:26:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235813AbhHWMHA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Aug 2021 08:07:00 -0400
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:38652 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233755AbhHWMGx (ORCPT
+        id S235092AbhHWM00 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Aug 2021 08:26:26 -0400
+Received: from mail-vs1-f52.google.com ([209.85.217.52]:37437 "EHLO
+        mail-vs1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233755AbhHWM00 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Aug 2021 08:06:53 -0400
-Received: by mail-vs1-f49.google.com with SMTP id t4so8040942vsm.5;
-        Mon, 23 Aug 2021 05:06:11 -0700 (PDT)
+        Mon, 23 Aug 2021 08:26:26 -0400
+Received: by mail-vs1-f52.google.com with SMTP id t7so6244988vsj.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Aug 2021 05:25:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vRUGOdIWlKCN0x5wYo3mkqSM+ACIFjkQA6PJJ1+ee8U=;
-        b=EUy4YwLuGvILPYhSAIxowoEOe7Ar5a6t/xA/i2hk0YmTxA9NVbJUIFZ4sOiVyVseUT
-         nSqHPoD0arBTYXXvLlXGBQ4d28xkPC2ccY/RpDwkH+U1YXEsYPGKBvvo+lPhLFz7qmRb
-         1grEYHWYGPvuS71/S588fcuz7ydaaWBx9yTuVsFtpao5nH49YH2g9OKobbWLShJ8stjN
-         D5ProxA9tKVy3Sokf6lENaE9/0gG7oym3DxALubBAf8Suq6+E2p6jYviiGifPnJyvXi8
-         KDJ+5jvZyPyZL5rSNupgFj6EoA7h04i73hvp/RXKjcr/clu9bbdFnyISJZh7uOA+1Oga
-         EHdw==
-X-Gm-Message-State: AOAM532bAg/3YJMGl/MG8SkxmBK2QQbtqM1iyXnfK52fhvDJ+qVa7FcI
-        DV0PBwSgx6ABpJFBDK+FEljWGIQraIV2NLhdens=
-X-Google-Smtp-Source: ABdhPJx1WX0mtDuYYPVaIT5LDoNkHBh3btEbm9JFpAx5AC6jxEDElSxtpuZnAEincysiGeTZxyBCT0kcEIsK7v1hnik=
-X-Received: by 2002:a05:6102:3e92:: with SMTP id m18mr23283394vsv.53.1629720370966;
- Mon, 23 Aug 2021 05:06:10 -0700 (PDT)
+        bh=qXtDlW7T88wjzL8Tweiy71uHxWixjnOanz5gbQbCE/Q=;
+        b=ZgJL/KmHyPyTpg00oICtfcf7mMWG0QkQCYJNiISghYiey1FaYm6yj/DGzyBj5G0QFI
+         FLw1qlyGpTKTLX9wJ0lV1pAvHmjgeb6gOZCfeApC8YhKKfqloauIOfzESDmLd0sDV3BC
+         C8vpqEXckbDbb+JgRKZdQKUTXlaSBr1el4+vsKPEItRSVdPut0lz/f4JId9a6k0FhNdX
+         M/pAp97lV5CGJ1c7S1NkoXyj3drfKvCjq3/nSk0zeL7pmo5csIMm3bgQj4GGsbkzWmIW
+         D3ek+BF4iF4PWg5muwfXItUTkZnvJRonx3xBRUUsFh8n0x/MRcbw16Nk/h54MWm5pGaa
+         1SWw==
+X-Gm-Message-State: AOAM532lR80T0OOVs8HALTdFMvz87QHQFdTSK/vWPRHYoasrO78w4IbQ
+        8kR8AqwH1PVPOXuQ92oTjST37I8DBGts95k5SYQ=
+X-Google-Smtp-Source: ABdhPJznZ+PmuT3gxAgdgrA8kXhuOMnutxvhv88zLvTlR66PqFd1lACaQ9rSF7u0b53nzxL3qVPfHiShIXiesAN96PA=
+X-Received: by 2002:a67:cb0a:: with SMTP id b10mr23287378vsl.9.1629721543349;
+ Mon, 23 Aug 2021 05:25:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
- <20210817072703.1167-3-jacopo+renesas@jmondi.org> <10e068ea-98c0-46ba-0013-5f0dfdc5f772@ideasonboard.com>
- <20210818082700.tihxzs6yinvpf45h@uno.localdomain>
-In-Reply-To: <20210818082700.tihxzs6yinvpf45h@uno.localdomain>
+References: <20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 23 Aug 2021 14:05:59 +0200
-Message-ID: <CAMuHMdX01XOUzgLOcXNjKDc-H+jWefEp4WBNB4p22oNiwJ9j9A@mail.gmail.com>
-Subject: Re: [RFC 2/5] media: i2c: Add MAX9271 I2C driver
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Thomas NIZAN <tnizan@witekio.com>,
+Date:   Mon, 23 Aug 2021 14:25:32 +0200
+Message-ID: <CAMuHMdWSqSb37srBG0XB-vX5ERmjDBia07k_-s2Zg=bUsQCSyA@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar-du: Don't create encoder for unconnected LVDS outputs
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 10:26 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> On Tue, Aug 17, 2021 at 04:49:17PM +0100, Kieran Bingham wrote:
-> > On 17/08/2021 08:27, Jacopo Mondi wrote:
-> > > The MAX9271 is a GMSL serializer that serializes a video stream
-> > > received from an image sensor through the parallel video bus.
-> >
-> > https://datasheets.maximintegrated.com/en/ds/MAX9271.pdf calls it a
-> > "16-Bit GMSL Serializer with Coas or STP Cable Drive"
+Hi Laurent,
 
-Surely copy-and-paste would have prevented that typo of coax? ;-)
+On Sun, Aug 22, 2021 at 2:36 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> On R-Car D3 and E3, the LVDS encoders provide the pixel clock to the DU,
+> even when LVDS outputs are not used. For this reason, the rcar-lvds
+> driver probes successfully on those platforms even if no further bridge
+> or panel is connected to the LVDS output, in order to provide the
+> rcar_lvds_clk_enable() and rcar_lvds_clk_disable() functions to the DU
+> driver.
+>
+> If an LVDS output isn't connected, trying to create a DRM connector for
+> the output will fail. Fix this by skipping connector creation in that
+> case, and also skip creation of the DRM encoder as there's no point in
+> an encoder without a connector.
+>
+> Fixes: e9e056949c92 ("drm: rcar-du: lvds: Convert to DRM panel bridge helper")
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-> Nice we have a public datasheet now!
+Can you please change that to
+Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+?
 
-Looks like I downloaded that one more than 4 years ago?
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+Thanks, the scary warning on Ebisu-4D is gone, so
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Disclaimer: there are no displays connected to my Ebisu-4D.
 
 Gr{oetje,eeting}s,
 
