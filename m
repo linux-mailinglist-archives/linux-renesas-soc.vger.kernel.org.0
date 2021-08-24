@@ -2,86 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC6903F58DF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Aug 2021 09:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 837993F5D72
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Aug 2021 13:55:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232004AbhHXHWa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Aug 2021 03:22:30 -0400
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:39578 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234705AbhHXHW3 (ORCPT
+        id S236977AbhHXL4a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Aug 2021 07:56:30 -0400
+Received: from mail-vk1-f180.google.com ([209.85.221.180]:38515 "EHLO
+        mail-vk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236939AbhHXL4a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Aug 2021 03:22:29 -0400
-Received: by mail-ua1-f50.google.com with SMTP id a4so10192815uae.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Aug 2021 00:21:45 -0700 (PDT)
+        Tue, 24 Aug 2021 07:56:30 -0400
+Received: by mail-vk1-f180.google.com with SMTP id k124so5429729vke.5;
+        Tue, 24 Aug 2021 04:55:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Qg2rH31ksHHx1vzHxL2k4VmL87olvBJb2Ne/0vkYads=;
-        b=HVnPf8SlDXvnQfI4MxAajiDE0DQcTgolpwALIrWVbWHKPhaeiBkNyBNo9kUaqmYYNT
-         DWWQQdYiatbT3zcWltxcjuah1Bv92eDyJJvU6YLa1ZMWE3LHHm4hMC8LToFckq4+gjmy
-         c8/hfXab45S0X+dMbMQzuJ5rosM8DI2ZzradMGDIW944+M6U3JkE2AVgCwjlqrIIdaQb
-         fWAbGoPW1go6BLuA/ZJ5xrGbDxGHE0tVKMOKwLC+ZoVdI/rlRr3BbvUjFK71Y/5ElSHP
-         Byg2VHGa3GbvhBmzFXPSyZCUg1w7jehkzDAXOAlnDMmoFbjow0rUeeK4ZhapS9FpahY2
-         +h1g==
-X-Gm-Message-State: AOAM533kMJq2isz4Kx6hNN4oAXzcSplIhhxqlIvKwqVD6cdVthjnngao
-        k+PQEQ52XAWBCjtAOZwSBGXsj1Jb7PqWq425+uY=
-X-Google-Smtp-Source: ABdhPJz6KoZet3/cuDD7y1a8GfiJeXG9ZGmH2uO5ZWd2hhnY/DLhi/AJ0lscOZyjhzo+CuXLoz6dDBlSDYv8Ps4TSiQ=
-X-Received: by 2002:ab0:209a:: with SMTP id r26mr4026428uak.14.1629789705102;
- Tue, 24 Aug 2021 00:21:45 -0700 (PDT)
+        bh=XfgeSNPVMKWrfXyFj8jprqwXpb9tNGH+Wb+KqyJb9gQ=;
+        b=qVrNOE423FmYdfxN0qo2eJSQWhpI1/CVIypQCppLZoegkSnd5BPdxw9qStKAWLHkFT
+         z3A0Y+bq6viWu47pUgeDgrl4fMXeIjPue4SwC8JTlemJ4/HTiH+pf2JQMOiKivPL4cso
+         6+NODu3x3pOJJKBR8T322l/FFvaJ+D4zCiMshz6hHU407xUxcIqQ3DbJ6/QkP0c55BBS
+         Vcjff+o8+wNYc+g82IUQyzqCT6w8kEWXWzQsjtvyYW9vjpiPshm1vOhu9nnOn9VIWAzT
+         uUsR5hbGJULSHNMeu9mFNlkGyVEJIk8X9DmDO9cjMXjjfbpXeljnBY0XanRZvRWpmEX8
+         xXlg==
+X-Gm-Message-State: AOAM531DskKYgEU9UJCtUfmp1c0BJrTukI2jcwsF0s4PZdgoNzNxWJnk
+        f3j6SxJ6Wpit11UHTErUwR9AS2Q/hVR5AB31ki4=
+X-Google-Smtp-Source: ABdhPJyF2wRPCJa9TS8UTuYi45dG+oebI6qeiCjlOVZk/DVs/Dyj3ugAf0SqlejD7IoDmVPYRh8sFRN0eHUzW9fAJ6o=
+X-Received: by 2002:a05:6122:809:: with SMTP id 9mr295247vkj.4.1629806145488;
+ Tue, 24 Aug 2021 04:55:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <61241cca.1c69fb81.84e82.123e@mx.google.com>
-In-Reply-To: <61241cca.1c69fb81.84e82.123e@mx.google.com>
+References: <cover.1628670468.git.geert+renesas@glider.be> <YRkxzx/1XM3r64Ee@robh.at.kernel.org>
+ <CAMuHMdXs0+7K4N0mg6qX6X1cr_8dBr_HdTahdfORMk76wCJcEA@mail.gmail.com> <CAL_JsqK63hoEMafLP+5eeQR1qrhOO76J4KEQG_By6QnLfhF=dw@mail.gmail.com>
+In-Reply-To: <CAL_JsqK63hoEMafLP+5eeQR1qrhOO76J4KEQG_By6QnLfhF=dw@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 24 Aug 2021 09:21:33 +0200
-Message-ID: <CAMuHMdX+=n57VOYPrCtu1GZc5YP0YZm0BN62VBEyYNcKAtEjXQ@mail.gmail.com>
-Subject: Re: renesas/master baseline-nfs: 80 runs, 9 regressions (renesas-devel-2021-08-23-v5.14-rc7)
-To:     "kernelci.org bot" <bot@kernelci.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        kernelci-results@groups.io
+Date:   Tue, 24 Aug 2021 13:55:34 +0200
+Message-ID: <CAMuHMdVNi4bh0Kp43BrVVKD8YY5ac4yi9=W3QZmw=stmwwtuiQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/9] Add generic support for kdump DT properties
+To:     Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>
+Cc:     Nicolas Pitre <nico@fluxnic.net>, Ard Biesheuvel <ardb@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        kexec@lists.infradead.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 24, 2021 at 12:10 AM kernelci.org bot <bot@kernelci.org> wrote:
-> renesas/master baseline-nfs: 80 runs, 9 regressions (renesas-devel-2021-08-23-v5.14-rc7)
+On Mon, Aug 23, 2021 at 4:52 PM Rob Herring <robh@kernel.org> wrote:
+> On Mon, Aug 23, 2021 at 5:13 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Sun, Aug 15, 2021 at 5:25 PM Rob Herring <robh@kernel.org> wrote:
+> > > On Wed, Aug 11, 2021 at 10:50:58AM +0200, Geert Uytterhoeven wrote:
+> > > > This patch series adds generic support for parsing DT properties related
+> > > > to crash dump kernels ("linux,elfcorehdr" and "linux,elfcorehdr" under
+> > > > the "/chosen" node), makes use of it on arm32, and performs a few
+> > > > cleanups.  It is an evolution of the combination of [1] and [2].
+> > >
+> > > The DT bits look fine to me. How do you expect this to be merged? I'm
+> > > happy to take it if arch maintainers can ack it.
+> >
+> > I had hoped you could take the series...
 >
-> Regressions Summary
-> -------------------
->
-> platform                     | arch  | lab             | compiler | defconfig                    | regressions
-> -----------------------------+-------+-----------------+----------+------------------------------+------------
-> dove-cubox                   | arm   | lab-pengutronix | gcc-8    | multi_v7_defconfig           | 1
-> hip07-d05                    | arm64 | lab-collabora   | gcc-8    | defconfig                    | 1
-> hip07-d05                    | arm64 | lab-collabora   | gcc-8    | defconfig+CON...OMIZE_BASE=y | 1
-> meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre    | gcc-8    | defconfig+crypto             | 1
-> r8a77950-salvator-x          | arm64 | lab-baylibre    | gcc-8    | defconfig+CON...OMIZE_BASE=y | 1
-> rk3399-gru-kevin             | arm64 | lab-collabora   | gcc-8    | defconfig                    | 2
-> rk3399-gru-kevin             | arm64 | lab-collabora   | gcc-8    | defconfig+CON...OMIZE_BASE=y | 2
->
->   Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/renesas-devel-2021-08-23-v5.14-rc7/plan/baseline-nfs/
->
->   Test:     baseline-nfs
->   Tree:     renesas
->   Branch:   master
->   Describe: renesas-devel-2021-08-23-v5.14-rc7
->   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git
->   SHA:      a8378ef28a200358f247cc997a8c3db868b1e917
+> My current thought is I'll take 2-5, 7 and 8 given that's what I have
+> acks for and the others can be applied independently.
 
-I'm looking in the failure on r8a77950-salvator-x:
+Note that Palmer did ack patch 6, so you can include it.
 
-https://linux.kernelci.org/test/case/id/6123e9a7baa20236888e2cdf/
-
-Looking at the failing job log, it's not immediately clear to me what exactly
-is wrong.
-The job log for the last successful run (renesas-devel-2021-07-13-v5.14-rc1)
-is 404, so I cannot compare to that.
-
-Salvator-X with R8A77950 (R-Car H3 ES1.0) is working fine for me locally.
+Russell: any thoughts about patch 9?
 
 Thanks!
+
+> > > > The series consists of 6 parts:
+> > > >   1. Patch 1 prepares architecture-specific code (needed for MIPS only)
+> > > >      to avoid duplicating elf core header reservation later.
+> > > >   2. Patch 2 prepares the visibility of variables used to hold
+> > > >      information retrieved from the DT properties.
+> > > >   3. Patches 3-5 add support to the FDT core for handling the
+> > > >      properties.
+> > > >      This can co-exist safely with architecture-specific handling, until
+> > > >      the latter has been removed.
+> > >
+> > > Looks like patch 5 doesn't have any dependencies with the series?
+> >
+> > Indeed. So you can take it independently.
+> >
+> > > >   4. Patch 6 removes the non-standard handling of "linux,elfcorehdr" on
+> > > >      riscv.
+> > >
+> > > I thought this should be applied for 5.14?
+> >
+> > Me too, but unfortunately that hasn't happened yet...
+>
+> Buried in the middle of this series is not going to encourage it to be
+> picked up as a fix.
 
 Gr{oetje,eeting}s,
 
