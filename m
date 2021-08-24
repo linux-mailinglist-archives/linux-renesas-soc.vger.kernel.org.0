@@ -2,115 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 837993F5D72
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Aug 2021 13:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8987D3F5F13
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Aug 2021 15:25:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236977AbhHXL4a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Aug 2021 07:56:30 -0400
-Received: from mail-vk1-f180.google.com ([209.85.221.180]:38515 "EHLO
-        mail-vk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236939AbhHXL4a (ORCPT
+        id S237657AbhHXN0f convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Aug 2021 09:26:35 -0400
+Received: from mail-ua1-f47.google.com ([209.85.222.47]:36699 "EHLO
+        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237649AbhHXN0e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Aug 2021 07:56:30 -0400
-Received: by mail-vk1-f180.google.com with SMTP id k124so5429729vke.5;
-        Tue, 24 Aug 2021 04:55:46 -0700 (PDT)
+        Tue, 24 Aug 2021 09:26:34 -0400
+Received: by mail-ua1-f47.google.com with SMTP id x23so3895864uav.3;
+        Tue, 24 Aug 2021 06:25:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XfgeSNPVMKWrfXyFj8jprqwXpb9tNGH+Wb+KqyJb9gQ=;
-        b=qVrNOE423FmYdfxN0qo2eJSQWhpI1/CVIypQCppLZoegkSnd5BPdxw9qStKAWLHkFT
-         z3A0Y+bq6viWu47pUgeDgrl4fMXeIjPue4SwC8JTlemJ4/HTiH+pf2JQMOiKivPL4cso
-         6+NODu3x3pOJJKBR8T322l/FFvaJ+D4zCiMshz6hHU407xUxcIqQ3DbJ6/QkP0c55BBS
-         Vcjff+o8+wNYc+g82IUQyzqCT6w8kEWXWzQsjtvyYW9vjpiPshm1vOhu9nnOn9VIWAzT
-         uUsR5hbGJULSHNMeu9mFNlkGyVEJIk8X9DmDO9cjMXjjfbpXeljnBY0XanRZvRWpmEX8
-         xXlg==
-X-Gm-Message-State: AOAM531DskKYgEU9UJCtUfmp1c0BJrTukI2jcwsF0s4PZdgoNzNxWJnk
-        f3j6SxJ6Wpit11UHTErUwR9AS2Q/hVR5AB31ki4=
-X-Google-Smtp-Source: ABdhPJyF2wRPCJa9TS8UTuYi45dG+oebI6qeiCjlOVZk/DVs/Dyj3ugAf0SqlejD7IoDmVPYRh8sFRN0eHUzW9fAJ6o=
-X-Received: by 2002:a05:6122:809:: with SMTP id 9mr295247vkj.4.1629806145488;
- Tue, 24 Aug 2021 04:55:45 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=syaKgflsTsKksibAkkBHSqJs9/gSQgOP1HHJcM5Pues=;
+        b=sftNUAwYeZVlq6gMQkh3rjin3+is8/RIzJDRJy45uZqMlXPi4FIZ0zCJZFrtSl9GXD
+         4wx45BkvzWt9ZdcTlZJvWWGLMd9wMYyqQksT+hiQfPcmDcqov3B/aI++5zo6QfBH7jDy
+         NjhTMQXXUfD79ZXeSHEu3Mrv2xjrpt62VK8fs0FeIYpglVEuTzaLBsq6kKYWcdRvHEV8
+         ZL7Ft/oT74qTeM1YZ50BRBUg49GQ+Plh7ERg55wBQPdOvOMX7tZcQauas0QL9oxxnTzj
+         GF6Cc5SRZCC7VzkM7SUHNeKBm9OTgL3kCkbErUIhXpVol2go77a6/5LGOoDAo3kXJl+f
+         jU5A==
+X-Gm-Message-State: AOAM531K5W5fVEfWrThLWYEgAeFnEArue9a4tzRXl70cJjS12JbvAMNr
+        XIOi9yYbUZIhnMI36bgTzWcPE39/YcNpQQjEJUk=
+X-Google-Smtp-Source: ABdhPJxREVGG1KSJjSDtkir6RHgR3j1Fua2WWCBDp0vkLxgAKtEdCnz3EEW+Wiu0VV+kqymGJpveE5LwOep3+HjphiA=
+X-Received: by 2002:a67:6e86:: with SMTP id j128mr27277219vsc.26.1629811550108;
+ Tue, 24 Aug 2021 06:25:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1628670468.git.geert+renesas@glider.be> <YRkxzx/1XM3r64Ee@robh.at.kernel.org>
- <CAMuHMdXs0+7K4N0mg6qX6X1cr_8dBr_HdTahdfORMk76wCJcEA@mail.gmail.com> <CAL_JsqK63hoEMafLP+5eeQR1qrhOO76J4KEQG_By6QnLfhF=dw@mail.gmail.com>
-In-Reply-To: <CAL_JsqK63hoEMafLP+5eeQR1qrhOO76J4KEQG_By6QnLfhF=dw@mail.gmail.com>
+References: <cover.1628682048.git.robin.murphy@arm.com> <155b5c621cd8936472e273a8b07a182f62c6c20d.1628682049.git.robin.murphy@arm.com>
+In-Reply-To: <155b5c621cd8936472e273a8b07a182f62c6c20d.1628682049.git.robin.murphy@arm.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 24 Aug 2021 13:55:34 +0200
-Message-ID: <CAMuHMdVNi4bh0Kp43BrVVKD8YY5ac4yi9=W3QZmw=stmwwtuiQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/9] Add generic support for kdump DT properties
-To:     Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>
-Cc:     Nicolas Pitre <nico@fluxnic.net>, Ard Biesheuvel <ardb@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+Date:   Tue, 24 Aug 2021 15:25:38 +0200
+Message-ID: <CAMuHMdX+VSr0TJabMBNqob0MkD2o0RBNp8E5QYNx0jFucW1Aew@mail.gmail.com>
+Subject: Re: [PATCH v4 15/24] iommu/io-pgtable: Remove non-strict quirk
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        kexec@lists.infradead.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        suravee.suthikulpanit@amd.com, baolu.lu@linux.intel.com,
+        John Garry <john.garry@huawei.com>,
+        Doug Anderson <dianders@chromium.org>, rajatja@google.com,
+        chenxiang <chenxiang66@hisilicon.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Aug 23, 2021 at 4:52 PM Rob Herring <robh@kernel.org> wrote:
-> On Mon, Aug 23, 2021 at 5:13 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Sun, Aug 15, 2021 at 5:25 PM Rob Herring <robh@kernel.org> wrote:
-> > > On Wed, Aug 11, 2021 at 10:50:58AM +0200, Geert Uytterhoeven wrote:
-> > > > This patch series adds generic support for parsing DT properties related
-> > > > to crash dump kernels ("linux,elfcorehdr" and "linux,elfcorehdr" under
-> > > > the "/chosen" node), makes use of it on arm32, and performs a few
-> > > > cleanups.  It is an evolution of the combination of [1] and [2].
-> > >
-> > > The DT bits look fine to me. How do you expect this to be merged? I'm
-> > > happy to take it if arch maintainers can ack it.
-> >
-> > I had hoped you could take the series...
+Hi Robin,
+
+On Wed, Aug 11, 2021 at 2:24 PM Robin Murphy <robin.murphy@arm.com> wrote:
+> IO_PGTABLE_QUIRK_NON_STRICT was never a very comfortable fit, since it's
+> not a quirk of the pagetable format itself. Now that we have a more
+> appropriate way to convey non-strict unmaps, though, this last of the
+> non-quirk quirks can also go, and with the flush queue code also now
+> enforcing its own ordering we can have a lovely cleanup all round.
 >
-> My current thought is I'll take 2-5, 7 and 8 given that's what I have
-> acks for and the others can be applied independently.
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 
-Note that Palmer did ack patch 6, so you can include it.
+Thanks for your patch, which is now commit a8e5f04458c4e496
+("iommu/io-pgtable: Remove non-strict quirk") in iommu/next.
 
-Russell: any thoughts about patch 9?
+> --- a/drivers/iommu/io-pgtable-arm-v7s.c
+> +++ b/drivers/iommu/io-pgtable-arm-v7s.c
+> @@ -700,14 +700,7 @@ static size_t __arm_v7s_unmap(struct arm_v7s_io_pgtable *data,
+>                                                 ARM_V7S_BLOCK_SIZE(lvl + 1));
+>                                 ptep = iopte_deref(pte[i], lvl, data);
+>                                 __arm_v7s_free_table(ptep, lvl + 1, data);
+> -                       } else if (iop->cfg.quirks & IO_PGTABLE_QUIRK_NON_STRICT) {
+> -                               /*
+> -                                * Order the PTE update against queueing the IOVA, to
+> -                                * guarantee that a flush callback from a different CPU
+> -                                * has observed it before the TLBIALL can be issued.
+> -                                */
+> -                               smp_wmb();
+> -                       } else {
+> +                       } else if (!gather->queued) {
 
-Thanks!
+If CONFIG_IOMMU_API=n:
 
-> > > > The series consists of 6 parts:
-> > > >   1. Patch 1 prepares architecture-specific code (needed for MIPS only)
-> > > >      to avoid duplicating elf core header reservation later.
-> > > >   2. Patch 2 prepares the visibility of variables used to hold
-> > > >      information retrieved from the DT properties.
-> > > >   3. Patches 3-5 add support to the FDT core for handling the
-> > > >      properties.
-> > > >      This can co-exist safely with architecture-specific handling, until
-> > > >      the latter has been removed.
-> > >
-> > > Looks like patch 5 doesn't have any dependencies with the series?
-> >
-> > Indeed. So you can take it independently.
-> >
-> > > >   4. Patch 6 removes the non-standard handling of "linux,elfcorehdr" on
-> > > >      riscv.
-> > >
-> > > I thought this should be applied for 5.14?
-> >
-> > Me too, but unfortunately that hasn't happened yet...
+error: ‘struct iommu_iotlb_gather’ has no member named ‘queued’
+
+This can be reproduced using e.g. shmobile_defconfig with
+    CONFIG_IOMMU_SUPPORT=y
+    CONFIG_IOMMU_IO_PGTABLE_ARMV7S=y
+
+
+>                                 io_pgtable_tlb_add_page(iop, gather, iova, blk_size);
+>                         }
+>                         iova += blk_size;
+
+> --- a/drivers/iommu/io-pgtable-arm.c
+> +++ b/drivers/iommu/io-pgtable-arm.c
+> @@ -638,14 +638,7 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+>                                 io_pgtable_tlb_flush_walk(iop, iova + i * size, size,
+>                                                           ARM_LPAE_GRANULE(data));
+>                                 __arm_lpae_free_pgtable(data, lvl + 1, iopte_deref(pte, data));
+> -                       } else if (iop->cfg.quirks & IO_PGTABLE_QUIRK_NON_STRICT) {
+> -                               /*
+> -                                * Order the PTE update against queueing the IOVA, to
+> -                                * guarantee that a flush callback from a different CPU
+> -                                * has observed it before the TLBIALL can be issued.
+> -                                */
+> -                               smp_wmb();
+> -                       } else {
+> +                       } else if (!gather->queued) {
+
+If CONFIG_IOMMU_API=n:
+
+error: ‘struct iommu_iotlb_gather’ has no member named ‘queued’
+
+This can be reproduced using e.g. shmobile_defconfig with
+    CONFIG_IOMMU_SUPPORT=y
+    CONFIG_IOMMU_IO_PGTABLE_LPAE=y
+
+>                                 io_pgtable_tlb_add_page(iop, gather, iova + i * size, size);
+>                         }
 >
-> Buried in the middle of this series is not going to encourage it to be
-> picked up as a fix.
+
+Perhaps "select IOMMU_API" should be added (moved from individual
+drivers) to both IOMMU_IO_PGTABLE_ARMV7S and IOMMU_IO_PGTABLE_LPAE?
+Or iommu_iotlb_gather.queued should not be accessed here, or the
+access wrapped into a static inline helper function with a dummy for
+the CONFIG_IOMMU_API=n case?
 
 Gr{oetje,eeting}s,
 
