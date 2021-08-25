@@ -2,96 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76C753F7767
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 16:30:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBD9C3F776E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 16:32:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240102AbhHYObJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Aug 2021 10:31:09 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:59812 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232168AbhHYObI (ORCPT
+        id S241735AbhHYOdI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Aug 2021 10:33:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50910 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241379AbhHYOdI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Aug 2021 10:31:08 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru E5BB320BF7D9
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH net-next 01/13] ravb: Remove the macros
- NUM_TX_DESC_GEN[23]
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        Adam Ford <aford173@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Wed, 25 Aug 2021 10:33:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2C66A610C7;
+        Wed, 25 Aug 2021 14:32:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629901942;
+        bh=ZF7rvnNgNU4ktDqZEiJblxdPxr1L2Wok/qHEDFtokss=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NkC/sLxz0rzlnTbPGE0xLEbV/FkC+Zkx0DIabr970q3f24w6D4yMT/l8oayyVK9DY
+         3OryYhzcpkQsEjgy7hurQBnsE+OkEs3HZmbFbSjvfz8GOnvvX6VwPForFOf50rdiyr
+         0nZUEy2gVSUi9bmxENtolZ6/J80Paq9FulseVqH6FDwN23XNcCFbdnNUyYWQiZAgYO
+         1/CmEtXRwYzqtZStWDBAoFAMOX74i7i6/bZMnrjoi9X6WNPCPl45BzgTHJhA0+oO8k
+         k5DDi6LO46cLgc2Yz7bxy6kDtoz8AAn9eisHHrZdtSYeHk1EHqnA6PlF+eSZK14KrA
+         cn6fjd9WtE+kg==
+Date:   Wed, 25 Aug 2021 20:02:17 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-References: <20210825070154.14336-1-biju.das.jz@bp.renesas.com>
- <20210825070154.14336-2-biju.das.jz@bp.renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <08405c60-fd9c-cc9b-0256-eb3ce80f7372@omp.ru>
-Date:   Wed, 25 Aug 2021 17:30:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 0/3] Add RZ/G2L DMAC support
+Message-ID: <YSZUcanmMRPG7ODQ@matsya>
+References: <20210806095322.2326-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20210825070154.14336-2-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210806095322.2326-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
-
-On 8/25/21 10:01 AM, Biju Das wrote:
-
-> For addressing 4 bytes alignment restriction on transmission
-> buffer for R-Car Gen2 we use 2 descriptors whereas it is a single
-> descriptor for other cases.
-> Replace the macros NUM_TX_DESC_GEN[23] with magic number and
-> add a comment to explain it.
+On 06-08-21, 10:53, Biju Das wrote:
+> This patch series aims to add DMAC support on RZ/G2L SoC's.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 02842b980a7f..073e690ab830 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -2160,8 +2160,12 @@ static int ravb_probe(struct platform_device *pdev)
->  	ndev->max_mtu = 2048 - (ETH_HLEN + VLAN_HLEN + ETH_FCS_LEN);
->  	ndev->min_mtu = ETH_MIN_MTU;
->  
-> -	priv->num_tx_desc = info->aligned_tx ?
-> -		NUM_TX_DESC_GEN2 : NUM_TX_DESC_GEN3;
-> +	/* FIXME: R-Car Gen2 has 4byte alignment restriction for tx buffer
+> It is based on the work done by Chris Brandt for RZ/A DMA driver.
 
-   Mhm, what are you going to fix here?
+Applied all after fixing the subsystem tag for patch 3!
 
-> +	 * Use two descriptor to handle such situation. First descriptor to
-> +	 * handle aligned data buffer and second descriptor to handle the
-> +	 * overflow data because of alignment.
-> +	 */
-> +	priv->num_tx_desc = info->aligned_tx ? 2 : 1;
->  
->  	/* Set function */
->  	ndev->netdev_ops = &ravb_netdev_ops;
-
-   Other than that:
-
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-
-[...]
-
-MBR, Sergey
+-- 
+~Vinod
