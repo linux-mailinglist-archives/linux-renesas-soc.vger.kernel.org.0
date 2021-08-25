@@ -2,44 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93FD23F7952
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 17:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0D5F3F7C6D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 20:49:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240904AbhHYPom (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Aug 2021 11:44:42 -0400
-Received: from 8bytes.org ([81.169.241.247]:41740 "EHLO theia.8bytes.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240461AbhHYPol (ORCPT
+        id S240879AbhHYSuF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Aug 2021 14:50:05 -0400
+Received: from mxout03.lancloud.ru ([45.84.86.113]:33658 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240322AbhHYSuF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Aug 2021 11:44:41 -0400
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id 6C1D3922; Wed, 25 Aug 2021 17:43:54 +0200 (CEST)
-Date:   Wed, 25 Aug 2021 17:43:51 +0200
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Will Deacon <will@kernel.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] iommu/io-pgtable: Abstract iommu_iotlb_gather access
-Message-ID: <YSZlN6vnv77cJPFJ@8bytes.org>
-References: <83672ee76f6405c82845a55c148fa836f56fbbc1.1629465282.git.robin.murphy@arm.com>
- <CAMuHMdXL7ZtY8kBx=RHsRy1JECsGPDe+E3SM=--w7bUHMYHFBQ@mail.gmail.com>
- <ad5ae140-6398-a2d2-ed90-2d59cab01f0f@arm.com>
+        Wed, 25 Aug 2021 14:50:05 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru F328020A515B
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [PATCH net-next 02/13] ravb: Add multi_irq to struct ravb_hw_info
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        Adam Ford <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20210825070154.14336-1-biju.das.jz@bp.renesas.com>
+ <20210825070154.14336-3-biju.das.jz@bp.renesas.com>
+Organization: Open Mobile Platform
+Message-ID: <e68993e6-add4-dcd1-3ae2-0f4b3f768d3e@omp.ru>
+Date:   Wed, 25 Aug 2021 21:49:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ad5ae140-6398-a2d2-ed90-2d59cab01f0f@arm.com>
+In-Reply-To: <20210825070154.14336-3-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 24, 2021 at 04:33:16PM +0100, Robin Murphy wrote:
-> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> Thanks for confirming!
+On 8/25/21 10:01 AM, Biju Das wrote:
 
-Sorry for the delay, the new tree containing this fix has been pushed
-out now.
+> R-Car Gen3 supports separate interrupts for E-MAC and DMA queues,
+> whereas R-Car Gen2 and RZ/G2L have a single interrupt instead.
+> 
+> Add a multi_irq hw feature bit to struct ravb_hw_info to enable
+
+   So you have 'multi_irq' in the patch subject/description but 'multi_irqs'?
+Not very consistent...
+
+> this only for R-Car Gen3.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      |  1 +
+>  drivers/net/ethernet/renesas/ravb_main.c | 22 ++++++++++++++--------
+>  drivers/net/ethernet/renesas/ravb_ptp.c  |  8 +++++---
+>  3 files changed, 20 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index 84700a82a41c..da486e06b322 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -997,6 +997,7 @@ struct ravb_hw_info {
+>  	/* hardware features */
+>  	unsigned internal_delay:1;	/* AVB-DMAC has internal delays */
+>  	unsigned tx_counters:1;		/* E-MAC has TX counters */
+> +	unsigned multi_irqs:1;		/* AVB-DMAC and E-MAC has multiple irqs */
+
+   It's generally written IRQs but we can live with that. :-)
+
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_ptp.c b/drivers/net/ethernet/renesas/ravb_ptp.c
+> index 6984bd5b7da9..c099656dd75b 100644
+> --- a/drivers/net/ethernet/renesas/ravb_ptp.c
+> +++ b/drivers/net/ethernet/renesas/ravb_ptp.c
+[...]
+> @@ -252,7 +254,7 @@ static int ravb_ptp_perout(struct ptp_clock_info *ptp,
+>  		error = ravb_ptp_update_compare(priv, (u32)start_ns);
+>  		if (!error) {
+>  			/* Unmask interrupt */
+> -			if (priv->chip_id == RCAR_GEN2)
+> +			if (!info->multi_irqs)
+>  				ravb_modify(ndev, GIC, GIC_PTME, GIC_PTME);
+>  			else
+>  				ravb_write(ndev, GIE_PTMS0, GIE);
+> @@ -264,7 +266,7 @@ static int ravb_ptp_perout(struct ptp_clock_info *ptp,
+>  		perout->period = 0;
+>  
+>  		/* Mask interrupt */
+> -		if (priv->chip_id == RCAR_GEN2)
+> +		if (!info->multi_irqs)
+>  			ravb_modify(ndev, GIC, GIC_PTME, 0);
+>  		else
+>  			ravb_write(ndev, GID_PTMD0, GID);
+
+   Hm... Let's assume GIE/GID are a part of multi-IRQ feature...
+
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+MBR, Sergey
