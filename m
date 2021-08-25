@@ -2,42 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 064163F76DD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 16:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76C753F7767
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 16:30:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241077AbhHYOH3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Aug 2021 10:07:29 -0400
-Received: from mxout01.lancloud.ru ([45.84.86.81]:55368 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240704AbhHYOH3 (ORCPT
+        id S240102AbhHYObJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Aug 2021 10:31:09 -0400
+Received: from mxout02.lancloud.ru ([45.84.86.82]:59812 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232168AbhHYObI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Aug 2021 10:07:29 -0400
+        Wed, 25 Aug 2021 10:31:08 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru A1AF5205E50B
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru E5BB320BF7D9
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
-Subject: Re: [PATCH net-next 00/13] Add Factorisation code to support Gigabit
- Ethernet driver
-To:     Andrew Lunn <andrew@lunn.ch>, Sergey Shtylyov <s.shtylyov@omp.ru>
-CC:     <patchwork-bot+netdevbpf@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>, <davem@davemloft.net>,
-        <kuba@kernel.org>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <geert+renesas@glider.be>, <aford173@gmail.com>,
-        <yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <Chris.Paterson2@renesas.com>,
-        <biju.das@bp.renesas.com>
+Subject: Re: [PATCH net-next 01/13] ravb: Remove the macros
+ NUM_TX_DESC_GEN[23]
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        Adam Ford <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
 References: <20210825070154.14336-1-biju.das.jz@bp.renesas.com>
- <162988740967.13655.14613353702366041003.git-patchwork-notify@kernel.org>
- <02fc27c2-a816-d60d-6611-162f3b70444a@omp.ru> <YSZJxdN/hkcz5Zmw@lunn.ch>
+ <20210825070154.14336-2-biju.das.jz@bp.renesas.com>
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <ea8b767a-a620-798f-ecb0-a8775c60ad51@omp.ru>
-Date:   Wed, 25 Aug 2021 17:06:39 +0300
+Message-ID: <08405c60-fd9c-cc9b-0256-eb3ce80f7372@omp.ru>
+Date:   Wed, 25 Aug 2021 17:30:17 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YSZJxdN/hkcz5Zmw@lunn.ch>
+In-Reply-To: <20210825070154.14336-2-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -48,23 +51,47 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 8/25/21 4:46 PM, Andrew Lunn wrote:
+Hello!
+
+On 8/25/21 10:01 AM, Biju Das wrote:
+
+> For addressing 4 bytes alignment restriction on transmission
+> buffer for R-Car Gen2 we use 2 descriptors whereas it is a single
+> descriptor for other cases.
+> Replace the macros NUM_TX_DESC_GEN[23] with magic number and
+> add a comment to explain it.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 02842b980a7f..073e690ab830 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2160,8 +2160,12 @@ static int ravb_probe(struct platform_device *pdev)
+>  	ndev->max_mtu = 2048 - (ETH_HLEN + VLAN_HLEN + ETH_FCS_LEN);
+>  	ndev->min_mtu = ETH_MIN_MTU;
+>  
+> -	priv->num_tx_desc = info->aligned_tx ?
+> -		NUM_TX_DESC_GEN2 : NUM_TX_DESC_GEN3;
+> +	/* FIXME: R-Car Gen2 has 4byte alignment restriction for tx buffer
+
+   Mhm, what are you going to fix here?
+
+> +	 * Use two descriptor to handle such situation. First descriptor to
+> +	 * handle aligned data buffer and second descriptor to handle the
+> +	 * overflow data because of alignment.
+> +	 */
+> +	priv->num_tx_desc = info->aligned_tx ? 2 : 1;
+>  
+>  	/* Set function */
+>  	ndev->netdev_ops = &ravb_netdev_ops;
+
+   Other than that:
+
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
 [...]
->>> This series was applied to netdev/net-next.git (refs/heads/master):
->>>
->>> On Wed, 25 Aug 2021 08:01:41 +0100 you wrote:
->>    Now this is super fast -- I didn't even have the time to promise
->> reviewing... :-/
-> 
-> 2 hours 30 minutes, i think.
-
-   Took 3 hours 30 mins on my side. :-)
-
-> Seems like reviews are no longer wanted in netdev.
-
-   At least with merge window coming close? 
-
->       Andrew
 
 MBR, Sergey
