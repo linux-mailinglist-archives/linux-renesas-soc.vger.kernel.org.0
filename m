@@ -2,72 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3324C3F755A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 14:48:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD0993F7646
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 15:47:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240908AbhHYMsU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Aug 2021 08:48:20 -0400
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:40506 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240915AbhHYMsT (ORCPT
+        id S240460AbhHYNsD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Aug 2021 09:48:03 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:41230 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240410AbhHYNsD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Aug 2021 08:48:19 -0400
-Received: by mail-ua1-f50.google.com with SMTP id y36so14388084uad.7;
-        Wed, 25 Aug 2021 05:47:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DZzUFmdq2anom2dMHyGc4RtISAvMnamc9GsCNK0ln/Y=;
-        b=QE8P7Zq9EOMdLpphnzr5x27UfASjdHb3KgKTSSBZAkHmjPUx80laA0IwggxSpWM3zd
-         PaBR82lvczg4xrwFEG3rLYkG5e9/IXB8MXCRvm8kI0PvlzU5Z5n8V/Zl7BPeA2qj8ef5
-         ZBbAG2C06dWSi9MCJO0wTXI0uePXIPVz+uPnnbwxH5VAZZM/FWecxNZsQSVkkYLP0CKg
-         yPIcCwl3QG0nt09HrbxM2u3msaYoCquoncdcqApDuTDVostH4LkQ/BNAO+U0Ka2YEhTw
-         njHUNYWqcJRoN+dWirWZPWqn7N2vlPQ9vQ/TyyMQs3b+mEZDqDHgqt7HZNSreNwS8UDu
-         NJJg==
-X-Gm-Message-State: AOAM531jWRdE9fYC2grQ3mgTVvEd0NysLaM/2zbj8s9TE0T0f7LXb4wr
-        Iovrsm55LAQzr47EQPYkSEhijNeeiYwjqLqDJOI=
-X-Google-Smtp-Source: ABdhPJy4tXEuS2V3Pan5F+TEJ1Im3XNO/x5SUh9FCa7fmIrqUxSPuHrsUlaQYpnxK7Rcc4uvFnBIJfYTXr+DwyNzgZ8=
-X-Received: by 2002:ab0:209a:: with SMTP id r26mr1743786uak.14.1629895653806;
- Wed, 25 Aug 2021 05:47:33 -0700 (PDT)
+        Wed, 25 Aug 2021 09:48:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=MSSMxTNVu1ncQk0D7qxQZDD78MpoYRGBeEaljDehOBg=; b=4xAfiQJLXA/x0mO6KWrkjvFGWS
+        tpUqUSLQh6jy6m0WW7msdsPZNRwrt4EHco5TYf6XXiUzw/nnvTreAbovw+nwQJjfxp5/OXAPIHO0T
+        ZQ/AbKhxvt1aM17pxBEOTbWL3jYDGb7VjAEBqYLdIuL5he3hhNnzCG+319+z1Zece24M=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mItEr-003nNE-Vv; Wed, 25 Aug 2021 15:46:45 +0200
+Date:   Wed, 25 Aug 2021 15:46:45 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc:     patchwork-bot+netdevbpf@kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>, davem@davemloft.net,
+        kuba@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        sergei.shtylyov@gmail.com, geert+renesas@glider.be,
+        aford173@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris.Paterson2@renesas.com, biju.das@bp.renesas.com
+Subject: Re: [PATCH net-next 00/13] Add Factorisation code to support Gigabit
+ Ethernet driver
+Message-ID: <YSZJxdN/hkcz5Zmw@lunn.ch>
+References: <20210825070154.14336-1-biju.das.jz@bp.renesas.com>
+ <162988740967.13655.14613353702366041003.git-patchwork-notify@kernel.org>
+ <02fc27c2-a816-d60d-6611-162f3b70444a@omp.ru>
 MIME-Version: 1.0
-References: <20210825122757.91133-1-aford173@gmail.com>
-In-Reply-To: <20210825122757.91133-1-aford173@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 25 Aug 2021 14:47:21 +0200
-Message-ID: <CAMuHMdV1Cd23aaVKq1PyXHrc6W9FyikKOCpD0-PZqkgbVFbA5Q@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: beacon: Fix i2c2 speed calcuation
-To:     Adam Ford <aford173@gmail.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <02fc27c2-a816-d60d-6611-162f3b70444a@omp.ru>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-CC Wolfram
+On Wed, Aug 25, 2021 at 01:57:55PM +0300, Sergey Shtylyov wrote:
+> Hello!
+> 
+> On 25.08.2021 13:30, patchwork-bot+netdevbpf@kernel.org wrote:
+> 
+> > This series was applied to netdev/net-next.git (refs/heads/master):
+> >
+> > On Wed, 25 Aug 2021 08:01:41 +0100 you wrote:
+>    Now this is super fast -- I didn't even have the time to promise
+> reviewing... :-/
 
-On Wed, Aug 25, 2021 at 2:28 PM Adam Ford <aford173@gmail.com> wrote:
-> The desired i2c2 speed is 400KHz, but when measured on a scope, it
-> is incorrect.  The driver can use the i2c-scl-rising-time-ns to help
-> calculate the proper setting to get exactly 400KHz.
->
-> Fixes: 900d9fc3bece ("arm64: dts: renesas: beacon: Correct I2C bus speeds")
-> Signed-off-by: Adam Ford <aford173@gmail.com>
->
-> diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> index 2692cc64bff6..987357c58390 100644
-> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> @@ -328,6 +328,7 @@ &hsusb {
->  &i2c2 {
->         status = "okay";
->         clock-frequency = <400000>;
-> +       i2c-scl-rising-time-ns = <50>;
->         pinctrl-0 = <&i2c2_pins>;
->         pinctrl-names = "default";
->
-> --
-> 2.25.1
+2 hours 30 minutes, i think.
+
+Seems like reviews are no longer wanted in netdev.
+
+      Andrew
