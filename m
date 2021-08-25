@@ -2,133 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 601F53F7013
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 09:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 550023F734C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 12:30:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239395AbhHYHDh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Aug 2021 03:03:37 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:35669 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S239334AbhHYHDd (ORCPT
+        id S239550AbhHYKa4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Aug 2021 06:30:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41380 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239716AbhHYKaz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Aug 2021 03:03:33 -0400
-X-IronPort-AV: E=Sophos;i="5.84,349,1620658800"; 
-   d="scan'208";a="91678791"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 25 Aug 2021 16:02:47 +0900
-Received: from localhost.localdomain (unknown [10.226.92.232])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D12F5420215F;
-        Wed, 25 Aug 2021 16:02:44 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Adam Ford <aford173@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: [PATCH net-next 13/13] ravb: Add reset support
-Date:   Wed, 25 Aug 2021 08:01:54 +0100
-Message-Id: <20210825070154.14336-14-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210825070154.14336-1-biju.das.jz@bp.renesas.com>
+        Wed, 25 Aug 2021 06:30:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id B4CD9613D3;
+        Wed, 25 Aug 2021 10:30:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629887409;
+        bh=OdSv3mHcVF4P5vCREWxTKV6RCNyk591gKitGrtTN8q4=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=uH8MFftJMTf6m0j63fRdJUKL87/v8+2vV3RKm4V94ssExV/7+BYZM9wASVkkFWgv6
+         9lpZju/W08xLWbc9FUJ7xWsLgt8c9SMH/8pCew6ymRDS2ahZM6bIslIN4HxEoztaCC
+         /y3b02wTOC8j4zP81D9FmaTvMyER8XHlJdWFwszgnImgVbKMlc/XDHAxQKOuBs0B/0
+         YPaFLVunfnE+mCrPBYRcxaNuPNrIrNq8YZkvl6Xsp+9nE6jmB5csu1LhoYllYuHb6c
+         huTN8N+F47fRgEpvTouB9dxJiFkDBNFOQqNZXCiEk13lkXR2FcoxNT1OPfQl51CQo2
+         L2PfLs9bwEkDg==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id A6CF260A02;
+        Wed, 25 Aug 2021 10:30:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 00/13] Add Factorisation code to support Gigabit
+ Ethernet driver
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <162988740967.13655.14613353702366041003.git-patchwork-notify@kernel.org>
+Date:   Wed, 25 Aug 2021 10:30:09 +0000
 References: <20210825070154.14336-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210825070154.14336-1-biju.das.jz@bp.renesas.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, s.shtylyov@omp.ru,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, andrew@lunn.ch,
+        sergei.shtylyov@gmail.com, geert+renesas@glider.be,
+        aford173@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris.Paterson2@renesas.com, biju.das@bp.renesas.com
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Reset support is present on R-Car. Let's support it, if it is
-available.
+Hello:
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/net/ethernet/renesas/ravb.h      |  1 +
- drivers/net/ethernet/renesas/ravb_main.c | 11 +++++++++++
- 2 files changed, 12 insertions(+)
+This series was applied to netdev/net-next.git (refs/heads/master):
 
-diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index 117eb22349c5..47c5377e4f42 100644
---- a/drivers/net/ethernet/renesas/ravb.h
-+++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -1057,6 +1057,7 @@ struct ravb_private {
- 	unsigned int num_tx_desc;	/* TX descriptors per packet */
- 
- 	const struct ravb_hw_info *info;
-+	struct reset_control *rstc;
- };
- 
- static inline u32 ravb_read(struct net_device *ndev, enum ravb_reg reg)
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 7a144b45e41d..0f85f2d97b18 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -29,6 +29,7 @@
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <linux/sys_soc.h>
-+#include <linux/reset.h>
- 
- #include <asm/div64.h>
- 
-@@ -2140,6 +2141,7 @@ static int ravb_probe(struct platform_device *pdev)
- {
- 	struct device_node *np = pdev->dev.of_node;
- 	const struct ravb_hw_info *info;
-+	struct reset_control *rstc;
- 	struct ravb_private *priv;
- 	struct net_device *ndev;
- 	int error, irq, q;
-@@ -2152,6 +2154,11 @@ static int ravb_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	}
- 
-+	rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-+	if (IS_ERR(rstc))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(rstc),
-+				     "failed to get cpg reset\n");
-+
- 	ndev = alloc_etherdev_mqs(sizeof(struct ravb_private),
- 				  NUM_TX_QUEUE, NUM_RX_QUEUE);
- 	if (!ndev)
-@@ -2162,6 +2169,7 @@ static int ravb_probe(struct platform_device *pdev)
- 	ndev->features = info->net_features;
- 	ndev->hw_features = info->net_hw_features;
- 
-+	reset_control_deassert(rstc);
- 	pm_runtime_enable(&pdev->dev);
- 	pm_runtime_get_sync(&pdev->dev);
- 
-@@ -2179,6 +2187,7 @@ static int ravb_probe(struct platform_device *pdev)
- 
- 	priv = netdev_priv(ndev);
- 	priv->info = info;
-+	priv->rstc = rstc;
- 	priv->ndev = ndev;
- 	priv->pdev = pdev;
- 	priv->num_tx_ring[RAVB_BE] = BE_TX_RING_SIZE;
-@@ -2349,6 +2358,7 @@ static int ravb_probe(struct platform_device *pdev)
- 
- 	pm_runtime_put(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
-+	reset_control_assert(rstc);
- 	return error;
- }
- 
-@@ -2374,6 +2384,7 @@ static int ravb_remove(struct platform_device *pdev)
- 	netif_napi_del(&priv->napi[RAVB_BE]);
- 	ravb_mdio_release(priv);
- 	pm_runtime_disable(&pdev->dev);
-+	reset_control_assert(priv->rstc);
- 	free_netdev(ndev);
- 	platform_set_drvdata(pdev, NULL);
- 
--- 
-2.17.1
+On Wed, 25 Aug 2021 08:01:41 +0100 you wrote:
+> The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L SoC are
+> similar to the R-Car Ethernet AVB IP.
+> 
+> The Gigabit Ethernet IP consists of Ethernet controller (E-MAC), Internal
+> TCP/IP Offload Engine (TOE)  and Dedicated Direct memory access controller
+> (DMAC).
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,01/13] ravb: Remove the macros NUM_TX_DESC_GEN[23]
+    https://git.kernel.org/netdev/net-next/c/c81d894226b9
+  - [net-next,02/13] ravb: Add multi_irq to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/6de19fa0e9f7
+  - [net-next,03/13] ravb: Add no_ptp_cfg_active to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/8f27219a6191
+  - [net-next,04/13] ravb: Add ptp_cfg_active to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/a69a3d094de3
+  - [net-next,05/13] ravb: Factorise ravb_ring_free function
+    https://git.kernel.org/netdev/net-next/c/bf46b7578404
+  - [net-next,06/13] ravb: Factorise ravb_ring_format function
+    https://git.kernel.org/netdev/net-next/c/1ae22c19e75c
+  - [net-next,07/13] ravb: Factorise ravb_ring_init function
+    https://git.kernel.org/netdev/net-next/c/7870a41848ab
+  - [net-next,08/13] ravb: Factorise ravb_rx function
+    https://git.kernel.org/netdev/net-next/c/d5d95c11365b
+  - [net-next,09/13] ravb: Factorise ravb_adjust_link function
+    https://git.kernel.org/netdev/net-next/c/cb21104f2c35
+  - [net-next,10/13] ravb: Factorise ravb_set_features
+    https://git.kernel.org/netdev/net-next/c/80f35a0df086
+  - [net-next,11/13] ravb: Factorise ravb_dmac_init function
+    https://git.kernel.org/netdev/net-next/c/eb4fd127448b
+  - [net-next,12/13] ravb: Factorise ravb_emac_init function
+    https://git.kernel.org/netdev/net-next/c/511d74d9d86c
+  - [net-next,13/13] ravb: Add reset support
+    https://git.kernel.org/netdev/net-next/c/0d13a1a464a0
+
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
