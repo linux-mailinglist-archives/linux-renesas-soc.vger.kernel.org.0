@@ -2,85 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B4773F7510
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 14:28:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3324C3F755A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Aug 2021 14:48:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240418AbhHYM27 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Aug 2021 08:28:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40964 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240650AbhHYM27 (ORCPT
+        id S240908AbhHYMsU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Aug 2021 08:48:20 -0400
+Received: from mail-ua1-f50.google.com ([209.85.222.50]:40506 "EHLO
+        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240915AbhHYMsT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Aug 2021 08:28:59 -0400
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5B85C061757;
-        Wed, 25 Aug 2021 05:28:10 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id v16so23771138ilo.10;
-        Wed, 25 Aug 2021 05:28:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iHmtl3F0eyaFlaZbvlgPj3YVfSdNpBevH3LP4tVAhn4=;
-        b=HFyzYw2YU8BN2yx48lCVksgb/CJJk50CMV2mfjxTNoNQ8lMoCkZRAPmQiJTxhfQLJl
-         RHAbAlZJk7I6Vu53w0hCQJdWpxRNEoZRrLZ5Mei5pKNYH6B3sBAggiWOYDy5qqjtQEWk
-         x9IK6H3AW3byZ+/RIFdpln5Jly8C6UqyUHTH++qy+Fa1iapG7ceZrkbOx1+APq3DHfg2
-         UiLKs+0y2uboylTLDzL7MN7vlGz1fdR5XuwAMkVB2h4Wmu1A7BGG267yiv2lr0WWxAbb
-         dAyZXY319KqDP5SMbTZlDWym+swfIc84v+PeJGxzNT0HkwPjaP/gPYYdiuKXffybNGfX
-         Ln9Q==
+        Wed, 25 Aug 2021 08:48:19 -0400
+Received: by mail-ua1-f50.google.com with SMTP id y36so14388084uad.7;
+        Wed, 25 Aug 2021 05:47:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iHmtl3F0eyaFlaZbvlgPj3YVfSdNpBevH3LP4tVAhn4=;
-        b=en8RhVOW5CyxLoBIWhKKCx9n3+xSIXNpbkABQrbGhbkPQxRnELsLW6hcgLM3QuiQmE
-         GI/eoXl4sqSl4pD0egZgYA7WeDWJZxPfhoZy4YJF51C0FAB9FR8nacK6hl9N/GjQia5+
-         2Ml49N1pn/oWRFJaaB2rWXvvILAXp0s5KexooaraFnvb+6BEpjkmPmQwb2ENQfWTfuWQ
-         N3BXoi2XMwXSIRX+d9AODWOgnuK9fZj8BNhMRpZ7ZqzMLUJNVzP2cfoMoPaIHBhWXPco
-         Y8SYuZ+hBahw4uVI9eLU1hAjERPwHXl9PFTZU7CkydGQWfIdJlSZYYjS3bWWPLm+75k7
-         wSiw==
-X-Gm-Message-State: AOAM531JxZNx/2q2KKqSi/lVxPkJr0OiL6d9OCLrjLd9gDn1Pv/5GCs0
-        53+jkIHtHqeHZIcVt1P+uYERE1Z30g3ToQ==
-X-Google-Smtp-Source: ABdhPJyEen6CiA/2N2A3REKPlfsj5Y/T32FiQnHjq8tNKga8U3oCXSxfs/XKZ/Y65mgLI2bdDU8bBA==
-X-Received: by 2002:a92:3012:: with SMTP id x18mr10220927ile.249.1629894489534;
-        Wed, 25 Aug 2021 05:28:09 -0700 (PDT)
-Received: from aford-IdeaCentre-A730.lan (c-73-37-219-234.hsd1.mn.comcast.net. [73.37.219.234])
-        by smtp.gmail.com with ESMTPSA id u7sm12058612iog.27.2021.08.25.05.28.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 05:28:09 -0700 (PDT)
-From:   Adam Ford <aford173@gmail.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     geert+renesas@glider.be, devicetree@vger.kernel.org,
-        Adam Ford <aford173@gmail.com>
-Subject: [PATCH] arm64: dts: renesas: beacon: Fix i2c2 speed calcuation
-Date:   Wed, 25 Aug 2021 07:27:57 -0500
-Message-Id: <20210825122757.91133-1-aford173@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DZzUFmdq2anom2dMHyGc4RtISAvMnamc9GsCNK0ln/Y=;
+        b=QE8P7Zq9EOMdLpphnzr5x27UfASjdHb3KgKTSSBZAkHmjPUx80laA0IwggxSpWM3zd
+         PaBR82lvczg4xrwFEG3rLYkG5e9/IXB8MXCRvm8kI0PvlzU5Z5n8V/Zl7BPeA2qj8ef5
+         ZBbAG2C06dWSi9MCJO0wTXI0uePXIPVz+uPnnbwxH5VAZZM/FWecxNZsQSVkkYLP0CKg
+         yPIcCwl3QG0nt09HrbxM2u3msaYoCquoncdcqApDuTDVostH4LkQ/BNAO+U0Ka2YEhTw
+         njHUNYWqcJRoN+dWirWZPWqn7N2vlPQ9vQ/TyyMQs3b+mEZDqDHgqt7HZNSreNwS8UDu
+         NJJg==
+X-Gm-Message-State: AOAM531jWRdE9fYC2grQ3mgTVvEd0NysLaM/2zbj8s9TE0T0f7LXb4wr
+        Iovrsm55LAQzr47EQPYkSEhijNeeiYwjqLqDJOI=
+X-Google-Smtp-Source: ABdhPJy4tXEuS2V3Pan5F+TEJ1Im3XNO/x5SUh9FCa7fmIrqUxSPuHrsUlaQYpnxK7Rcc4uvFnBIJfYTXr+DwyNzgZ8=
+X-Received: by 2002:ab0:209a:: with SMTP id r26mr1743786uak.14.1629895653806;
+ Wed, 25 Aug 2021 05:47:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210825122757.91133-1-aford173@gmail.com>
+In-Reply-To: <20210825122757.91133-1-aford173@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 25 Aug 2021 14:47:21 +0200
+Message-ID: <CAMuHMdV1Cd23aaVKq1PyXHrc6W9FyikKOCpD0-PZqkgbVFbA5Q@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: beacon: Fix i2c2 speed calcuation
+To:     Adam Ford <aford173@gmail.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The desired i2c2 speed is 400KHz, but when measured on a scope, it
-is incorrect.  The driver can use the i2c-scl-rising-time-ns to help
-calculate the proper setting to get exactly 400KHz.
+CC Wolfram
 
-Fixes: 900d9fc3bece ("arm64: dts: renesas: beacon: Correct I2C bus speeds")
-Signed-off-by: Adam Ford <aford173@gmail.com>
-
-diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-index 2692cc64bff6..987357c58390 100644
---- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-+++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-@@ -328,6 +328,7 @@ &hsusb {
- &i2c2 {
- 	status = "okay";
- 	clock-frequency = <400000>;
-+	i2c-scl-rising-time-ns = <50>;
- 	pinctrl-0 = <&i2c2_pins>;
- 	pinctrl-names = "default";
- 
--- 
-2.25.1
-
+On Wed, Aug 25, 2021 at 2:28 PM Adam Ford <aford173@gmail.com> wrote:
+> The desired i2c2 speed is 400KHz, but when measured on a scope, it
+> is incorrect.  The driver can use the i2c-scl-rising-time-ns to help
+> calculate the proper setting to get exactly 400KHz.
+>
+> Fixes: 900d9fc3bece ("arm64: dts: renesas: beacon: Correct I2C bus speeds")
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+>
+> diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> index 2692cc64bff6..987357c58390 100644
+> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> @@ -328,6 +328,7 @@ &hsusb {
+>  &i2c2 {
+>         status = "okay";
+>         clock-frequency = <400000>;
+> +       i2c-scl-rising-time-ns = <50>;
+>         pinctrl-0 = <&i2c2_pins>;
+>         pinctrl-names = "default";
+>
+> --
+> 2.25.1
