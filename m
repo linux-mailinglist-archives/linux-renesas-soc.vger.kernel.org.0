@@ -2,74 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A09D3F83AB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Aug 2021 10:21:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FD2E3F8553
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Aug 2021 12:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240434AbhHZIV5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Aug 2021 04:21:57 -0400
-Received: from www.zeus03.de ([194.117.254.33]:43058 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240420AbhHZIV5 (ORCPT
+        id S241342AbhHZKay (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Aug 2021 06:30:54 -0400
+Received: from mxout03.lancloud.ru ([45.84.86.113]:44632 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241268AbhHZKay (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Aug 2021 04:21:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=3Gu6i8JR/0s06peGLdYE4S2lpjW
-        A/fK3145DW9ZS7aA=; b=28jfpHP3GyH9x93uYlhBy/lY19t9MmhOpHtpb6UvF/O
-        GG8SV34JxRXeAtJ4EPjdIYaJ/19l7wjSvIu2d5m9ncb4kz5W7oAfPfKAG/H6khRO
-        Ayt0LvoaA/RNWRXAY3Ox+jUnMAUtG7sFJT2+hxkOlFLhFpUTtlUiYqdxziANp2Ws
-        =
-Received: (qmail 927459 invoked from network); 26 Aug 2021 10:21:09 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Aug 2021 10:21:09 +0200
-X-UD-Smtp-Session: l3s3148p1@hSmIDHLKIsIgARa4RSUSAccDwLt/uLTb
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thu, 26 Aug 2021 06:30:54 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 8C95B20A5124
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH net-next 04/13] ravb: Add ptp_cfg_active to struct
+ ravb_hw_info
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "Andrew Lunn" <andrew@lunn.ch>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        Adam Ford <aford173@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] mmc: renesas_sdhi: fix regression with hard reset on old SDHIs
-Date:   Thu, 26 Aug 2021 10:21:07 +0200
-Message-Id: <20210826082107.47299-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20210825070154.14336-1-biju.das.jz@bp.renesas.com>
+ <20210825070154.14336-5-biju.das.jz@bp.renesas.com>
+ <777c30b1-e94e-e241-b10c-ecd4d557bc06@omp.ru>
+ <OS0PR01MB59220BCAE40B6C8226E4177986C79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <78ff279d-03f1-6932-88d8-1eac83d087ec@omp.ru>
+Date:   Thu, 26 Aug 2021 13:29:52 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <OS0PR01MB59220BCAE40B6C8226E4177986C79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Old SDHI instances have a default value for the reset register which
-keeps it in reset state by default. So, when applying a hard reset we
-need to manually leave the soft reset state as well. Later SDHI
-instances have a different default value, the one we write manually now.
+On 26.08.2021 9:20, Biju Das wrote:
 
-Fixes: b4d86f37eacb ("mmc: renesas_sdhi: do hard reset if possible")
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+[...]
+>>> There are some H/W differences for the gPTP feature between R-Car
+>>> Gen3, R-Car Gen2, and RZ/G2L as below.
+>>>
+>>> 1) On R-Car Gen3, gPTP support is active in config mode.
+>>> 2) On R-Car Gen2, gPTP support is not active in config mode.
+>>> 3) RZ/G2L does not support the gPTP feature.
+>>>
+>>> Add a ptp_cfg_active hw feature bit to struct ravb_hw_info for
+>>> supporting gPTP active in config mode for R-Car Gen3.
+>>
+>>     Wait, we've just done this ion the previous patch!
+>>
+>>> This patch also removes enum ravb_chip_id, chip_id from both struct
+>>> ravb_hw_info and struct ravb_private, as it is unused.
+>>>
+>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> ---
+>>>   drivers/net/ethernet/renesas/ravb.h      |  8 +-------
+>>>   drivers/net/ethernet/renesas/ravb_main.c | 12 +++++-------
+>>>   2 files changed, 6 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/drivers/net/ethernet/renesas/ravb.h
+>>> b/drivers/net/ethernet/renesas/ravb.h
+>>> index 9ecf1a8c3ca8..209e030935aa 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb.h
+>>> +++ b/drivers/net/ethernet/renesas/ravb.h
+>>> @@ -979,17 +979,11 @@ struct ravb_ptp {
+>>>   	struct ravb_ptp_perout perout[N_PER_OUT];  };
+>>>
+>>> -enum ravb_chip_id {
+>>> -	RCAR_GEN2,
+>>> -	RCAR_GEN3,
+>>> -};
+>>> -
+>>>   struct ravb_hw_info {
+>>>   	const char (*gstrings_stats)[ETH_GSTRING_LEN];
+>>>   	size_t gstrings_size;
+>>>   	netdev_features_t net_hw_features;
+>>>   	netdev_features_t net_features;
+>>> -	enum ravb_chip_id chip_id;
+>>>   	int stats_len;
+>>>   	size_t max_rx_len;
+>>
+>>     I would put the above in a spearte patch...
 
-Geez, typical SDHI nastiness here...
+    Separate. :-)
 
-Geert: I think this fixes the issue you saw on Koelsch. It works fine on
-my Lager now at least. Can you please test and tag if all goes well?
-It would be great to have this in 5.14 but it definately needs Geert's
-confirmation first.
+>>>   	unsigned aligned_tx: 1;
+>>> @@ -999,6 +993,7 @@ struct ravb_hw_info {
+>>>   	unsigned tx_counters:1;		/* E-MAC has TX counters */
+>>>   	unsigned multi_irqs:1;		/* AVB-DMAC and E-MAC has multiple
+>> irqs */
+>>>   	unsigned no_ptp_cfg_active:1;	/* AVB-DMAC does not support gPTP
+>> active in config mode */
+>>> +	unsigned ptp_cfg_active:1;	/* AVB-DMAC has gPTP support active in
+>> config mode */
+>>
+>>     Huh?
+>>
+>>>   };
+>>>
+>>>   struct ravb_private {
+>> [...]
+>>> @@ -2216,7 +2213,7 @@ static int ravb_probe(struct platform_device
+>> *pdev)
+>>>   	INIT_LIST_HEAD(&priv->ts_skb_list);
+>>>
+>>>   	/* Initialise PTP Clock driver */
+>>> -	if (info->chip_id != RCAR_GEN2)
+>>> +	if (info->ptp_cfg_active)
+>>>   		ravb_ptp_init(ndev, pdev);
+>>
+>>     What's that? Didn't you touch this lie in patch #3?
+>>
+>>     This seems lie a NAK bait... :-(
+> 
+> Please refer the original patch[1] which introduced gPTP support active in config mode.
+> I am sure this will clear all your doubts.
 
- drivers/mmc/host/renesas_sdhi_core.c | 2 ++
- 1 file changed, 2 insertions(+)
+    It hasn't. Why do we need 2 bit fields (1 "positive" and 1 "negative") for 
+the same feature is beyond me.
 
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 6fc4cf3c9dce..a4407f391f66 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -561,6 +561,8 @@ static void renesas_sdhi_reset(struct tmio_mmc_host *host)
- 		/* Unknown why but without polling reset status, it will hang */
- 		read_poll_timeout(reset_control_status, ret, ret == 0, 1, 100,
- 				  false, priv->rstc);
-+		/* At least SDHI_VER_GEN2_SDR50 needs manual release of reset */
-+		sd_ctrl_write16(host, CTL_RESET_SD, 0x0001);
- 		priv->needs_adjust_hs400 = false;
- 		renesas_sdhi_set_clock(host, host->clk_cache);
- 	} else if (priv->scc_ctl) {
--- 
-2.30.2
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/net/ethernet/renesas/ravb_main.c?h=next-20210825&id=f5d7837f96e53a8c9b6c49e1bc95cf0ae88b99e8
+> 
+> Regards,
+> Biju
 
+MBR, Sergey
