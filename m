@@ -2,88 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 875B33F8A0A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Aug 2021 16:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03B0F3F8A0C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Aug 2021 16:25:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242787AbhHZOZt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Aug 2021 10:25:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59240 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242840AbhHZOZt (ORCPT
+        id S242838AbhHZO0U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Aug 2021 10:26:20 -0400
+Received: from mail-vs1-f51.google.com ([209.85.217.51]:44583 "EHLO
+        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242819AbhHZO0T (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Aug 2021 10:25:49 -0400
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B98C061757
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Aug 2021 07:25:01 -0700 (PDT)
-Received: by mail-io1-xd2e.google.com with SMTP id e186so3925026iof.12
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Aug 2021 07:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tKe1o3gYhY/D2BAcYMJPxMKCoPzi44h6lHisP1ipvck=;
-        b=JlqjTm6pXGivxN+uu//uXTQjVAvJ4vo5bje/DtL8T7Hbw+x4emoBgaqb+fvxdg3jHf
-         TJJ8M8qdUupOa43UyyDCZo4Gi4hbayBOrwpmOFupc3LThBBNu0mNjy29N07F9La/99EF
-         fcXSdgUKNRy6EOoPYBhedpg/1ARmVvCgIYe3Og3fMRpiqm3TkdrDV3DsCKmx6cLUnqa2
-         dPUQ/levTdnUGsRZIkx957asFaOSRDOlBYyUEBbNQ1eyK0llJ5vIBVagY8HjoLFLZwGD
-         EtwTORQIxC+ON06sGC4d2bfh4IxW11RjlhlNmTCOu0IV+Go9ILAuXkURgOex/5v9LCjN
-         YZRg==
+        Thu, 26 Aug 2021 10:26:19 -0400
+Received: by mail-vs1-f51.google.com with SMTP id s19so2143624vsl.11;
+        Thu, 26 Aug 2021 07:25:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tKe1o3gYhY/D2BAcYMJPxMKCoPzi44h6lHisP1ipvck=;
-        b=fx2wd+bYcHPb4ivHT36BUwsQLFzriFQQTxHWwI0dWIjBXCK6SG4FVWYpN+XHUR+Wzl
-         m4iCwNQjSEM0MP1KD7XDxr2OgBVU8ZjQy+UaRHPlEcfFqVvM7PVAnQXxFQgHLeb9dX3t
-         yiBo5Jaf/gVOiIvx6ZfyZOdO/rL/2eQaWyLtPgKMUnb1T9ZhYYfzCIqUd6yvho9eLaeF
-         4uMNTU5FSyMGzifk4/QqRwCjeZD/RBAvil/Mc/8ST93TB/0m3ECdkS9P41SrJ3PY0Wy9
-         Xh6xhnSySHbC2Wf3+y1aCpo0pJSUg7sRWpa23l+1y8AoBXkpYD7olFLJFGnGJoQGAs9/
-         0BwQ==
-X-Gm-Message-State: AOAM53190sP6Dfa1Ad39+wAe6HWZcijssyFK/1nYJoC5/hv88ZV1/B8v
-        ON1UWhZQU13QrObkvRutjGZxbK4anfMbTQ==
-X-Google-Smtp-Source: ABdhPJw/dvi+xcnmE7WT/IiQ1su7kuIh2yxymg9DjaL+pDgBU114UG0QngvM/X1Sq6poPEFSgumZxQ==
-X-Received: by 2002:a02:708f:: with SMTP id f137mr3697041jac.68.1629987900967;
-        Thu, 26 Aug 2021 07:25:00 -0700 (PDT)
-Received: from aford-IdeaCentre-A730.lan (c-73-37-219-234.hsd1.mn.comcast.net. [73.37.219.234])
-        by smtp.gmail.com with ESMTPSA id c16sm1822789ilh.50.2021.08.26.07.25.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 07:25:00 -0700 (PDT)
-From:   Adam Ford <aford173@gmail.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     geert+renesas@glider.be, magnus.damm@gmail.com,
-        Adam Ford <aford173@gmail.com>
-Subject: [PATCH] arm64: dts: renesas: beacon: Fix usb2_clksel
-Date:   Thu, 26 Aug 2021 09:24:51 -0500
-Message-Id: <20210826142451.495578-1-aford173@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jprPXM4sChkG8ooptncY1YgExnlJ1w+XBvLzYryUV6g=;
+        b=IwLg0AN2IlM7Q9mEDeh94jpbdRnz2phfR7lg4b9NnEbTaQzGM/BPtE6so5ekV1Yoe9
+         r22Yd2pDnT3zNjv+TmNOcgK7JUMKGWmGXuXqPhgse1NYr+yhBnEoHsuDl785auRLe4F1
+         ssiMXt3hpfwic8G/npyzMykRnGhhD3a/Vm2L2QZgAoJ2Ftb6ryHH4vwv3iYiqwHSN76D
+         QgqhpE+1NNAiH5GtieNPJ57IpXQbWkjJ5MD76BM67t3Iwsri8mVMr0leazafGL/NWHDP
+         u5mq6IWwz+RFyfsElm4miQoN1qTnN49ftD7YeLvcG681EuQp4484AYDACeZzXVljwX5N
+         XGIQ==
+X-Gm-Message-State: AOAM533D2qP8iyFxhefvOaBrk77Avo9y+rdK9hTV03xBMtoZOt+73Vzi
+        gSHX1OtSXoWbdKZg6+lEogIKkHXBnveEZPUiIE7xtnz2
+X-Google-Smtp-Source: ABdhPJzKtJ9ealj/wVf+bGA+b+hX+/EFS4KRqodTE5/viVbTHk9dSZbfX2dDw2vBjRx8x7fEhwZP3yDXX4ZFXnnHmFs=
+X-Received: by 2002:a67:c789:: with SMTP id t9mr2871736vsk.60.1629987931998;
+ Thu, 26 Aug 2021 07:25:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210826082107.47299-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210826082107.47299-1-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 26 Aug 2021 16:25:20 +0200
+Message-ID: <CAMuHMdUXc0oSCXJ-5QmPJz0VkX1Aib+ZAv8K2LN_fT1+5mocqw@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: fix regression with hard reset on old SDHIs
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The clock driver only sets the bit when extal is available and
-xtal is not.  Remove the xtal references to properly set the
-clock selection bit.
+Hi Wolfram,
 
-Fixes: 56bc54496f5d ("arm64: dts: renesas: beacon: Fix USB extal reference")
-Signed-off-by: Adam Ford <aford173@gmail.com>
+On Thu, Aug 26, 2021 at 10:21 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Old SDHI instances have a default value for the reset register which
+> keeps it in reset state by default. So, when applying a hard reset we
+> need to manually leave the soft reset state as well. Later SDHI
+> instances have a different default value, the one we write manually now.
+>
+> Fixes: b4d86f37eacb ("mmc: renesas_sdhi: do hard reset if possible")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>
+> Geez, typical SDHI nastiness here...
+>
+> Geert: I think this fixes the issue you saw on Koelsch. It works fine on
+> my Lager now at least. Can you please test and tag if all goes well?
+> It would be great to have this in 5.14 but it definately needs Geert's
+> confirmation first.
 
-diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-index 090dc9c4f57b..9908ad90d398 100644
---- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-@@ -323,7 +323,9 @@ &sdhi3 {
- 
- &usb2_clksel {
- 	clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>,
--		  <&versaclock5 3>, <&usb3s0_clk>;
-+		  <&versaclock5 3>;
-+	clock-names = "ehci_ohci", "hs-usb-if",
-+		      "usb_extal";
- 	status = "okay";
- };
- 
+Thanks, fixes the SD Card issue is was seeing on Koelsch, and still
+works on Salvator-XS.
+
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
