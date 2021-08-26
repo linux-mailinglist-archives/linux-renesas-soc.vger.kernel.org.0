@@ -2,98 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E46B53F8E45
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Aug 2021 20:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 547D73F8E50
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Aug 2021 20:58:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243361AbhHZSzr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Aug 2021 14:55:47 -0400
-Received: from mxout04.lancloud.ru ([45.84.86.114]:47268 "EHLO
-        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243300AbhHZSzr (ORCPT
+        id S243340AbhHZS6k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Aug 2021 14:58:40 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:43506 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243330AbhHZS6k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Aug 2021 14:55:47 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 0C5DA208AB6E
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH net-next 06/13] ravb: Factorise ravb_ring_format function
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Thu, 26 Aug 2021 14:58:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=GuIdOX4qztvHnZjlBA6soFbZ7BBKvSgHp2woZuWMXIU=; b=hs7KJmCaKsVbwjtvlHkJgQZZ3Q
+        kBTUPNumJQcvjLR8UHs4/BA2b7OjfVgf8LcIEG3KRtjlNZotrTgixkDOXeXoqY7geuWX3ct+huIFm
+        x1O2B40HsmXJp2ieWUKnUbPUXoY0rn7w1rUywS2h80t8cuvuC2WlzpR9bkjrB7ZE3GZA=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mJKZC-003zmS-Ew; Thu, 26 Aug 2021 20:57:34 +0200
+Date:   Thu, 26 Aug 2021 20:57:34 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Adam Ford <aford173@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>
+Subject: Re: [PATCH net-next 04/13] ravb: Add ptp_cfg_active to struct
+ ravb_hw_info
+Message-ID: <YSfkHtWLyVpCoG7C@lunn.ch>
 References: <20210825070154.14336-1-biju.das.jz@bp.renesas.com>
- <20210825070154.14336-7-biju.das.jz@bp.renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <2ba347ab-ff1a-68c3-a577-2ce1b4a35392@omp.ru>
-Date:   Thu, 26 Aug 2021 21:54:52 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ <20210825070154.14336-5-biju.das.jz@bp.renesas.com>
+ <777c30b1-e94e-e241-b10c-ecd4d557bc06@omp.ru>
+ <OS0PR01MB59220BCAE40B6C8226E4177986C79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <78ff279d-03f1-6932-88d8-1eac83d087ec@omp.ru>
+ <OS0PR01MB59223F0F03CC9F5957268D2086C79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <9b0d5bab-e9a2-d9f6-69f7-049bfb072eba@omp.ru>
+ <OS0PR01MB5922F8114A505A33F7A47EB586C79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <93dab08c-4b0b-091d-bd47-6e55bce96f8a@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210825070154.14336-7-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <93dab08c-4b0b-091d-bd47-6e55bce96f8a@gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 8/25/21 10:01 AM, Biju Das wrote:
-
-> The ravb_ring_format function uses an extended descriptor in RX
-> for R-Car compared to the normal descriptor for RZ/G2L. Factorise
-> RX ring buffer buildup to extend the support for later SoC.
+> > Do you agree GAC register(gPTP active in Config) bit in AVB-DMAC mode register(CCC) present only in R-Car Gen3?
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index dc388a32496a..e52e36ccd1c6 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-[...]
-> @@ -321,6 +310,26 @@ static void ravb_ring_format(struct net_device *ndev, int q)
->  	rx_desc = &priv->rx_ring[q][i];
->  	rx_desc->dptr = cpu_to_le32((u32)priv->rx_desc_dma[q]);
->  	rx_desc->die_dt = DT_LINKFIX; /* type */
-> +}
-> +
-> +/* Format skb and descriptor buffer for Ethernet AVB */
-> +static void ravb_ring_format(struct net_device *ndev, int q)
-> +{
-> +	struct ravb_private *priv = netdev_priv(ndev);
-> +	const struct ravb_hw_info *info = priv->info;
-> +	unsigned int num_tx_desc = priv->num_tx_desc;
-> +	struct ravb_tx_desc *tx_desc;
-> +	struct ravb_desc *desc;
-> +	unsigned int tx_ring_size = sizeof(*tx_desc) * priv->num_tx_ring[q] *
-> +				    num_tx_desc;
-> +	unsigned int i;
-> +
-> +	priv->cur_rx[q] = 0;
-> +	priv->cur_tx[q] = 0;
-> +	priv->dirty_rx[q] = 0;
-> +	priv->dirty_tx[q] = 0;
-> +
-> +	info->rx_ring_format(ndev, q);
->  
->  	memset(priv->tx_ring[q], 0, tx_ring_size);
->  	/* Build TX ring buffer */
+>    Yes.
+>    But you feature naming is totally misguiding, nevertheless...
 
-   That's all fine but the fragment that sets up TX descriptor ring base address was left in ravb_rx_ring_formet()...
+It can still be changed. Just suggest a new name.
 
-[...]
-
-MBR, Sergey
+   Andrew
