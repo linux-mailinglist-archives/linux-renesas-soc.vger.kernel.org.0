@@ -2,81 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB2633F8C45
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Aug 2021 18:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ED773F8D3E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Aug 2021 19:43:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243057AbhHZQfU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Aug 2021 12:35:20 -0400
-Received: from www.zeus03.de ([194.117.254.33]:47390 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229787AbhHZQfS (ORCPT
+        id S243206AbhHZRna (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Aug 2021 13:43:30 -0400
+Received: from mail-vs1-f42.google.com ([209.85.217.42]:37526 "EHLO
+        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231648AbhHZRn3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Aug 2021 12:35:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=BHiPuXeyL0xAZNQKaNWMrUW44mN7
-        nIHtIGoLojQRzE4=; b=DFuwSIV58YcgYLPa0IUTglbfySlu6EZcYP2O3ucnGdK/
-        dkbcSEu+kzHLrAY/NV3ccsnmRUp2HtmgyK3NSeKBWnLFl9ccr1wbeST84bMlYTEm
-        MrreSCQWtJSVOs6sq3L24E7o4CEGhbaY6aYjcDyWEa7hNb90oRv8hlGyDuHwI/0=
-Received: (qmail 1064187 invoked from network); 26 Aug 2021 18:34:29 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Aug 2021 18:34:29 +0200
-X-UD-Smtp-Session: l3s3148p1@r0mx8HjK8J0gAwDPXwuzACaVFs5Tkn2O
-Date:   Thu, 26 Aug 2021 18:34:26 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: fix regression with hard reset on old
- SDHIs
-Message-ID: <YSfCkq4XnkY/9cGb@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20210826082107.47299-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdUXc0oSCXJ-5QmPJz0VkX1Aib+ZAv8K2LN_fT1+5mocqw@mail.gmail.com>
+        Thu, 26 Aug 2021 13:43:29 -0400
+Received: by mail-vs1-f42.google.com with SMTP id i23so2643079vsj.4;
+        Thu, 26 Aug 2021 10:42:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EaP8H97USi1py9j5WZ3rX1EoctUz2y+NM+vfk1Qh8sQ=;
+        b=WA16IkGbhGkHtHso/FaDa7UVGrDRw2MMlOH46jvWjFd0pkylSy3oujAlgnp5VFU7P7
+         CtTmm9D4NcVO5xMf+t9Dfef1Yvr0IL+tFdGH3RLQsdchQGs0EFCnbGbpMNfKhy499wck
+         5A1rs1yNdNUslyI4AzWyIIKrR1Dr1UQlG/ckNwQlnRPizmjM6hu3OodI+Q6UYXPcoCRZ
+         wxNOzzH0hBXn1kIeDx4IG+OZLZ7mAn/98mNMegvG6lB3Gj6rLO7lxH74D8/dBkjYh+ho
+         USfHcATvLSnQF8z0GIZmx7qhYrBFO+uz35xOmK4O6o0XJ+mcEoR2ZaNZWn5iLjyAkYhD
+         8JZg==
+X-Gm-Message-State: AOAM530+w+z8SfSfSo1cz7g5KOIlv8S8haMQB1bg2OauAZ6DPhh+b/xt
+        RhfbYFFkQDkHBpqKiBixBSxAOGp11sa42uOgXrc=
+X-Google-Smtp-Source: ABdhPJxqA+Fj1ffZwFjnhSgRXx4HPY8vkWEkoAoUUlCZvNRj2BFGZoE7zC7jq/5wqaMiDJcveG3UIMN93bpAVcGCkAs=
+X-Received: by 2002:a67:cb0a:: with SMTP id b10mr3761633vsl.9.1629999761799;
+ Thu, 26 Aug 2021 10:42:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="7YYEbxoxSFniGb6z"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUXc0oSCXJ-5QmPJz0VkX1Aib+ZAv8K2LN_fT1+5mocqw@mail.gmail.com>
+References: <20210826141721.495067-1-aford173@gmail.com>
+In-Reply-To: <20210826141721.495067-1-aford173@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 26 Aug 2021 19:42:29 +0200
+Message-ID: <CAMuHMdV5iTg6yyM5E8OH6basnTxmvS9UrY2V+oxDrBe1kfhiOw@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: rcar-usb2-clock-sel: Fix kernel NULL
+ pointer dereference
+To:     Adam Ford <aford173@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>
+Cc:     linux-clk <linux-clk@vger.kernel.org>,
+        Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Thu, Aug 26, 2021 at 4:17 PM Adam Ford <aford173@gmail.com> wrote:
+> The probe was manually passing NULL instead of dev to devm_clk_hw_register.
+> This caused a Unable to handle kernel NULL pointer dereference error.
+> Fix this by passing 'dev'.
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
---7YYEbxoxSFniGb6z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Fixes: a20a40a8bbc2cf4b ("clk: renesas: rcar-usb2-clock-sel: Fix error
+handling in .probe()")
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Mike/Stephen: Can you please take this one directly, as we're
+already at rc7.
+Thanks!
 
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> --- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
+> +++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
+> @@ -187,7 +187,7 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
+>         init.ops = &usb2_clock_sel_clock_ops;
+>         priv->hw.init = &init;
+>
+> -       ret = devm_clk_hw_register(NULL, &priv->hw);
+> +       ret = devm_clk_hw_register(dev, &priv->hw);
+>         if (ret)
+>                 goto pm_put;
+>
+> --
+> 2.25.1
 
-Also:
+Gr{oetje,eeting}s,
 
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---7YYEbxoxSFniGb6z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmEnwo4ACgkQFA3kzBSg
-KbZnCg//ZzKq9TDUeCwj8cRCUdsh8WOdHXX5F3ivyOxs0NUw2I/oui2yoFzyUR1I
-iMLa1XOFz/H6NEuHnwNfoDPdJ/FFmUN8UbrfcRXa8rbqXST8VLRNxbBhd19fc9q+
-RX4PXOyIaE8ta6zvat9/0jy1uH/5/nwkSNNESl8bXnmqRp6Y772xsdhnc6zHiyNp
-Di1TZdIcPg4xRbRCvlC63t+NmBemfg3jOdAuBdjNb9+3eR3Uz/QTJ+xUkXxH5G3N
-Kew2WP5p9jRnjiy8KIxZQWPtePOmL2TLSyUAvbnHMFXCWV6RR+jFQC4w+foURB8v
-N7tpNUrXL5O8I3TelY57eElMTEFJgwyuLnWleeKqiKrJotrZNHHn27XAaRiXEN5U
-8ne3KKJydUkrP/poszgaewVNuH9WbtaX/qijlCSKREY52aqBxJQamBAolhNl3lOj
-71mx4eiWuTdrewGp81sQIZnK7zapPkcvZcF5QAsEiZf4P2HbYK+YI3Hdj5BPi3vU
-zb5bSC0IXhw9unJBiMgAnCyMCCWAgzRt76unuQQYxNsUpJegDyojlRpLdXA2Nm7e
-QrTtsT869Mhs6CPdfjNwz3XuxSmDnTsiGY2yliRpQ1L4sZzD6Iao7LxsO+iUHSTt
-mKQRCwPs2OX0s53SZ0yCoZBUsClLDJYM6ofuy2Vc4r+mrjXt/pA=
-=yjIJ
------END PGP SIGNATURE-----
-
---7YYEbxoxSFniGb6z--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
