@@ -2,106 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E1383F9A03
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Aug 2021 15:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 838793F9BEA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Aug 2021 17:49:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245436AbhH0NYi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Aug 2021 09:24:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33820 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245305AbhH0NYh (ORCPT
+        id S245410AbhH0Ptt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Aug 2021 11:49:49 -0400
+Received: from mxout01.lancloud.ru ([45.84.86.81]:48724 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245459AbhH0Ptr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Aug 2021 09:24:37 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A390C061796
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Aug 2021 06:23:48 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id m28so14339269lfj.6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Aug 2021 06:23:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vVEdAtwasWkrT0f0vOq5zJOkTWOPwPdpExa1I7BhZtc=;
-        b=lFI32R63zrucrYnkIqq6iE3qq5EeU910b9somn/1eHEmLa7lyPBVXEXSvUVfHZXljx
-         TN6C7dFaRvGcV7OMzmM2Z702UqA21+p6LGiil3JBftn6N+xI5cU3ZZKXnuDMakUW+3aS
-         2JJPsdBHzh/GUX+dBrwrAKurlt2KMRM3E29qSJusmZRW6Gkawk70f92avYnixl5DMoY0
-         iRfhpFxvyjlDDWVaZC/SZpaBr+oTpnlorA3vhS0oFOUOseXOqeLPa/ulN1BaOmExMsz4
-         lKUa8NlGjOIXU4SMK755TODSTf/PrplBh65Z7qev6Iz8YtvnlSlcHUfQ1X8DX7x1gssR
-         KGTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vVEdAtwasWkrT0f0vOq5zJOkTWOPwPdpExa1I7BhZtc=;
-        b=Vk9hjkUEmyGDOzuta4kiFr+kRR1KhlOcIC/S4szRwzp9JfAKfGku3JSDfmZgAzlU+2
-         5ghK+LXxpcN1UYjRVX/Pt8sTeQ3aC7F2m2+/A7O7wuYbZoWdBDT7PPAXgEFNCo15D3OS
-         Wq7MaEYEs9t7oS6KiG6S3FLD1Ag2mDqwjbEsFUAJ5NJBjWATRMuu2IcbhQgtTuAf1c3b
-         cDwgHtqtiYDE/eykgPRgU6J3Xnoj5dlj/yz/tjb3LtpW/fiq97yoWVGGO2A4WvYvfRNd
-         jrkAYXm2UhbhNCIx0xz+yABezXrf/pAJQgdOkhtrg9DVFYr/ClpZyzWWakH4yearLhuP
-         iRjg==
-X-Gm-Message-State: AOAM5302+I0pB4esTbXfk3WhgaOVWkxB4DJH+bBcHeF86VlQj8XSniCe
-        xzQXEYnLEujQ0GGzQI7oBOfWcQoeQ/z7nRYe6BXTFQ==
-X-Google-Smtp-Source: ABdhPJz8jK79D3e6Kay83LX5n+kuJqijB53HmFK7YA4ArgShByf4lqcNzK3GCZnShdgQPw2M6e8FYqwcpSmFFVEggjE=
-X-Received: by 2002:a19:655e:: with SMTP id c30mr6648013lfj.142.1630070626804;
- Fri, 27 Aug 2021 06:23:46 -0700 (PDT)
+        Fri, 27 Aug 2021 11:49:47 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru CD4D620D318D
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH net-next 04/13] ravb: Add ptp_cfg_active to struct
+ ravb_hw_info
+To:     Biju Das <biju.das.jz@bp.renesas.com>, Andrew Lunn <andrew@lunn.ch>
+CC:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        Adam Ford <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20210825070154.14336-5-biju.das.jz@bp.renesas.com>
+ <777c30b1-e94e-e241-b10c-ecd4d557bc06@omp.ru>
+ <OS0PR01MB59220BCAE40B6C8226E4177986C79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <78ff279d-03f1-6932-88d8-1eac83d087ec@omp.ru>
+ <OS0PR01MB59223F0F03CC9F5957268D2086C79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <9b0d5bab-e9a2-d9f6-69f7-049bfb072eba@omp.ru>
+ <OS0PR01MB5922F8114A505A33F7A47EB586C79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <93dab08c-4b0b-091d-bd47-6e55bce96f8a@gmail.com> <YSfkHtWLyVpCoG7C@lunn.ch>
+ <cc3f0ae7-c1c5-12b3-46b4-0c7d1857a615@omp.ru> <YSfm7zKz5BTNUXDz@lunn.ch>
+ <OS0PR01MB5922871679124DA36EAEF31F86C79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <0916b09c-e656-fa2a-54d9-ca0c1301a278@omp.ru>
+ <OS0PR01MB59220DB4277F4414D5779E6A86C89@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <8c8d95e7-790f-382f-bf8c-21c45bdb257e@omp.ru>
+Date:   Fri, 27 Aug 2021 18:48:54 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <4fb42fa1b76b38c6628f056cfd804bb5b4e74d99.1629818532.git.geert+renesas@glider.be>
-In-Reply-To: <4fb42fa1b76b38c6628f056cfd804bb5b4e74d99.1629818532.git.geert+renesas@glider.be>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Fri, 27 Aug 2021 15:23:10 +0200
-Message-ID: <CAPDyKFrwxCH-AEDNnhwmoZ9aHZVzKw-=foo7F0mhMNLTCZxpYQ@mail.gmail.com>
-Subject: Re: [PATCH] PM: domains: Fix domain attach for CONFIG_PM_OPP=n
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rajendra Nayak <rnayak@codeaurora.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <OS0PR01MB59220DB4277F4414D5779E6A86C89@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 24 Aug 2021 at 17:23, Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> If CONFIG_PM_OPP=n, of_get_required_opp_performance_state() always
-> returns -EOPNOTSUPP, and all drivers for devices that are part of a PM
-> Domain fail to probe with:
->
->     failed to set required performance state for power-domain foo: -95
->     probe of bar failed with error -95
->
-> Fix this by treating -EOPNOTSUPP the same as -ENODEV.
->
-> Fixes: c016baf7dc58e77a ("PM: domains: Add support for 'required-opps' to set default perf state")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 27.08.2021 9:36, Biju Das wrote:
 
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+[...]
 
-Kind regards
-Uffe
+>>>>>>>> Do you agree GAC register(gPTP active in Config) bit in AVB-DMAC
+>>>> mode register(CCC) present only in R-Car Gen3?
+>>>>>>>
+>>>>>>>     Yes.
+>>>>>>>     But you feature naming is totally misguiding, nevertheless...
+>>>>>>
+>>>>>> It can still be changed.
+>>>>>
+>>>>>      Thank goodness, yea!
+>>>>
+>>>> We have to live with the first version of this in the git history,
+>>>> but we can add more patches fixing up whatever is broken in the
+>>>> unreviewed code which got merged.
+>>>>
+>>>>>> Just suggest a new name.
+>>>>>
+>>>>>      I'd prolly go with 'gptp' for the gPTP support and 'ccc_gac' for
+>>>>> the gPTP working also in CONFIG mode (CCC.GAC controls this feature).
+>>>>
+>>>> Biju, please could you work on a couple of patches to change the names.
+>>>
+>>> Yes. Will work on the patches to change the names as suggested.
+>>
+>>     TIA!
+>>     After some more thinking, 'no_gptp' seems to suit better for the 1st
+>> case Might need to invert the checks tho...
+> 
+> OK, Will do with invert checks.
+> 
+> So just to conclude,
+> 
+> 'no_gptp' and 'ccc_gac' are the suggested names changes for the previous patch
+> and current patch.
 
-> ---
->  drivers/base/power/domain.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
-> index a10d740c4f2a1c28..7b197690e6442911 100644
-> --- a/drivers/base/power/domain.c
-> +++ b/drivers/base/power/domain.c
-> @@ -2760,7 +2760,7 @@ static int __genpd_dev_pm_attach(struct device *dev, struct device *base_dev,
->
->         /* Set the default performance state */
->         pstate = of_get_required_opp_performance_state(dev->of_node, index);
-> -       if (pstate < 0 && pstate != -ENODEV) {
-> +       if (pstate < 0 && pstate != -ENODEV && pstate != -EOPNOTSUPP) {
->                 ret = pstate;
->                 goto err;
->         } else if (pstate > 0) {
-> --
-> 2.25.1
->
+     Your patches have been merged already. Might try to encompass all gPTP 
+features with one patch (just a thought)...
+
+> Cheers,
+> Biju
+
+MBR, Sergey
