@@ -2,115 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 046A63F95D7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Aug 2021 10:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E1383F9A03
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Aug 2021 15:28:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232593AbhH0IQ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Aug 2021 04:16:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47912 "EHLO
+        id S245436AbhH0NYi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Aug 2021 09:24:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231922AbhH0IQ2 (ORCPT
+        with ESMTP id S245305AbhH0NYh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Aug 2021 04:16:28 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB903C061757
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Aug 2021 01:15:39 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id s3so10002267ljp.11
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Aug 2021 01:15:39 -0700 (PDT)
+        Fri, 27 Aug 2021 09:24:37 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A390C061796
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Aug 2021 06:23:48 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id m28so14339269lfj.6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Aug 2021 06:23:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=yE/6cHrz2GsIrcoII5x86dNAFXCySSia1GYGzvhwKB4=;
-        b=Yz/QN2fZpQXDG30u9GlatafGXiX1eA/O37cUwovm6gIHimEwazYluv/TUo7OXjK6Co
-         n01qah9jeZwor03hg6ZuCFxJ/zzq25pQUis9e5b45403D/9P6Y8owFJOVKVM4VjxmSWs
-         fKMUaRnBu31iqKpLvzlRiKYlYtDDPA5AXSrulRnH2Q//9N/W6mvTl5d3Aw5Cpwh4t4Yr
-         rfpUhnNvWH1PqibBcCMScYz5nWu1AuR/l6k4Ab/2r8zhZuK4hbByPDiuCTS7mtz8FTmE
-         UcjbVpIAwPPCcYsQxUGmMLJdvE1Fa/OuVHlO/i4cUwi0hbVJGjYqUfOylnEOptcjEd/N
-         ij0A==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vVEdAtwasWkrT0f0vOq5zJOkTWOPwPdpExa1I7BhZtc=;
+        b=lFI32R63zrucrYnkIqq6iE3qq5EeU910b9somn/1eHEmLa7lyPBVXEXSvUVfHZXljx
+         TN6C7dFaRvGcV7OMzmM2Z702UqA21+p6LGiil3JBftn6N+xI5cU3ZZKXnuDMakUW+3aS
+         2JJPsdBHzh/GUX+dBrwrAKurlt2KMRM3E29qSJusmZRW6Gkawk70f92avYnixl5DMoY0
+         iRfhpFxvyjlDDWVaZC/SZpaBr+oTpnlorA3vhS0oFOUOseXOqeLPa/ulN1BaOmExMsz4
+         lKUa8NlGjOIXU4SMK755TODSTf/PrplBh65Z7qev6Iz8YtvnlSlcHUfQ1X8DX7x1gssR
+         KGTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=yE/6cHrz2GsIrcoII5x86dNAFXCySSia1GYGzvhwKB4=;
-        b=Zx+RAIyxpfmhD2xyAwd6Ms9EndmPS4Bk3VtwnMB87WrhpSuYrczay6gCy2HYXTRaUK
-         xvYiLEEDPNZub6X4DiUxUA9A1vaeUgg5AadJPlsWPYOjpsh1TV+CU5w5Wn665NErU0q2
-         lVPLKpOzKOKFYfM8/QNuUQvb+LIkgM2XKRaiK61pIQPhpNuxb8M7aTfR7tKX7kCEzQy4
-         dalYx03oL88hTdpCjMYghj+NKtvixwDijwnDPVm9DGnrEojRzE9EzF/yOg98dO3vCUFG
-         GxnE2UWbmHNHS215/svnmb2S4FD9k5D0ycohuXFbBSUSjem71uqSSlgQCal2xlceyOEn
-         Eksw==
-X-Gm-Message-State: AOAM531ap9/62aDiwE7Civ4mBZ+CAmzWUjtyLbY9/8apybiEUzehY6Pq
-        JwOWVYeF1pK5ENuOtZR4J7uXMRMsDnN/qg==
-X-Google-Smtp-Source: ABdhPJzTHXSSqfe+NTDY0LxW2MDXjXsLFiDR82X1aCyBaaLOPm0E1fHI/ZZ6RHvj4L69ITV4oVY4IQ==
-X-Received: by 2002:a2e:9953:: with SMTP id r19mr6710975ljj.270.1630052138275;
-        Fri, 27 Aug 2021 01:15:38 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id p18sm530220lfr.12.2021.08.27.01.15.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Aug 2021 01:15:37 -0700 (PDT)
-Date:   Fri, 27 Aug 2021 10:15:37 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77961: Add TPU device node
-Message-ID: <YSifKeymLvYCcbyv@oden.dyn.berto.se>
-References: <20210827073819.29992-1-wsa+renesas@sang-engineering.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vVEdAtwasWkrT0f0vOq5zJOkTWOPwPdpExa1I7BhZtc=;
+        b=Vk9hjkUEmyGDOzuta4kiFr+kRR1KhlOcIC/S4szRwzp9JfAKfGku3JSDfmZgAzlU+2
+         5ghK+LXxpcN1UYjRVX/Pt8sTeQ3aC7F2m2+/A7O7wuYbZoWdBDT7PPAXgEFNCo15D3OS
+         Wq7MaEYEs9t7oS6KiG6S3FLD1Ag2mDqwjbEsFUAJ5NJBjWATRMuu2IcbhQgtTuAf1c3b
+         cDwgHtqtiYDE/eykgPRgU6J3Xnoj5dlj/yz/tjb3LtpW/fiq97yoWVGGO2A4WvYvfRNd
+         jrkAYXm2UhbhNCIx0xz+yABezXrf/pAJQgdOkhtrg9DVFYr/ClpZyzWWakH4yearLhuP
+         iRjg==
+X-Gm-Message-State: AOAM5302+I0pB4esTbXfk3WhgaOVWkxB4DJH+bBcHeF86VlQj8XSniCe
+        xzQXEYnLEujQ0GGzQI7oBOfWcQoeQ/z7nRYe6BXTFQ==
+X-Google-Smtp-Source: ABdhPJz8jK79D3e6Kay83LX5n+kuJqijB53HmFK7YA4ArgShByf4lqcNzK3GCZnShdgQPw2M6e8FYqwcpSmFFVEggjE=
+X-Received: by 2002:a19:655e:: with SMTP id c30mr6648013lfj.142.1630070626804;
+ Fri, 27 Aug 2021 06:23:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210827073819.29992-1-wsa+renesas@sang-engineering.com>
+References: <4fb42fa1b76b38c6628f056cfd804bb5b4e74d99.1629818532.git.geert+renesas@glider.be>
+In-Reply-To: <4fb42fa1b76b38c6628f056cfd804bb5b4e74d99.1629818532.git.geert+renesas@glider.be>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Fri, 27 Aug 2021 15:23:10 +0200
+Message-ID: <CAPDyKFrwxCH-AEDNnhwmoZ9aHZVzKw-=foo7F0mhMNLTCZxpYQ@mail.gmail.com>
+Subject: Re: [PATCH] PM: domains: Fix domain attach for CONFIG_PM_OPP=n
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rajendra Nayak <rnayak@codeaurora.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On Tue, 24 Aug 2021 at 17:23, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> If CONFIG_PM_OPP=n, of_get_required_opp_performance_state() always
+> returns -EOPNOTSUPP, and all drivers for devices that are part of a PM
+> Domain fail to probe with:
+>
+>     failed to set required performance state for power-domain foo: -95
+>     probe of bar failed with error -95
+>
+> Fix this by treating -EOPNOTSUPP the same as -ENODEV.
+>
+> Fixes: c016baf7dc58e77a ("PM: domains: Add support for 'required-opps' to set default perf state")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Thanks for your patch.
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-On 2021-08-27 09:38:19 +0200, Wolfram Sang wrote:
-> Add the missing TPU node for the R-Car M3-W+ SoC.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Kind regards
+Uffe
 
 > ---
-> 
-> When I wanted to enable TPU on M3-N for some testing, building M3-W+
-> DTBs failed due to this missing.
-> 
->  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> index 91b501e0121e..22da1c0436be 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> @@ -1367,6 +1367,17 @@ scif5: serial@e6f30000 {
->  			status = "disabled";
->  		};
->  
-> +		tpu: pwm@e6e80000 {
-> +			compatible = "renesas,tpu-r8a77961", "renesas,tpu";
-> +			reg = <0 0xe6e80000 0 0x148>;
-> +			interrupts = <GIC_SPI 135 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 304>;
-> +			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-> +			resets = <&cpg 304>;
-> +			#pwm-cells = <3>;
-> +			status = "disabled";
-> +		};
-> +
->  		msiof0: spi@e6e90000 {
->  			compatible = "renesas,msiof-r8a77961",
->  				     "renesas,rcar-gen3-msiof";
-> -- 
-> 2.30.2
-> 
-
--- 
-Regards,
-Niklas Söderlund
+>  drivers/base/power/domain.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
+> index a10d740c4f2a1c28..7b197690e6442911 100644
+> --- a/drivers/base/power/domain.c
+> +++ b/drivers/base/power/domain.c
+> @@ -2760,7 +2760,7 @@ static int __genpd_dev_pm_attach(struct device *dev, struct device *base_dev,
+>
+>         /* Set the default performance state */
+>         pstate = of_get_required_opp_performance_state(dev->of_node, index);
+> -       if (pstate < 0 && pstate != -ENODEV) {
+> +       if (pstate < 0 && pstate != -ENODEV && pstate != -EOPNOTSUPP) {
+>                 ret = pstate;
+>                 goto err;
+>         } else if (pstate > 0) {
+> --
+> 2.25.1
+>
