@@ -2,131 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E2BB3FB6E7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Aug 2021 15:22:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A4EB3FBCA5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Aug 2021 20:46:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236735AbhH3NWx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Aug 2021 09:22:53 -0400
-Received: from mail-ua1-f43.google.com ([209.85.222.43]:34784 "EHLO
-        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236609AbhH3NWw (ORCPT
+        id S231715AbhH3Sqv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Aug 2021 14:46:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230411AbhH3Sqv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Aug 2021 09:22:52 -0400
-Received: by mail-ua1-f43.google.com with SMTP id l24so7792884uai.1;
-        Mon, 30 Aug 2021 06:21:59 -0700 (PDT)
+        Mon, 30 Aug 2021 14:46:51 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656EDC06175F
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Aug 2021 11:45:57 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id q3so9075472plx.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Aug 2021 11:45:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=nb+y+Haxu6e9BmKTPEM6xTNhcgRgZEQMA6P4vNrdwcU=;
+        b=AsYaC2iGB+5dRpIwPO4350n1SbfWHCyxQMrWRITjEzbRAhdPsMTKNI1IxSXTb7eVAP
+         BnkHSIwjT4GJOmdo6i5CK1kSmolvWQfK9n2XQ5sHk3nMlgFaJ4n2a1abkqVZuBBBA4CE
+         v+e7MiRbBhixN6SW7f5x1m418VBni8JNwwTTcbfs5+p18GqLVk3rHZLFz/505RVoY9dx
+         +yQvnH/beHDTxkAQF+Ktxe5KvNqqxjifW7IApYvilrlXAQZgTPvLvaiJTyquLDuG61eu
+         vsVYeBZRuhMQcUoYTjC95k4Bx+iSS2TyjT6g14QgC6ofQa7PXjJWdt9eb7FDKBWYyK6a
+         Ermw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tulhgSVoxeTOojsoAsEpBrUnTXS8uw7hLO3RXtcVYJg=;
-        b=ODWBENU2Ua73I0i91NDU2ldHP2vYzLTX9diXHuscVDYSzwTy0MK5bMgtkwt4E5i1UL
-         62Q6p2kzegfwE/ILC9j8p5QVvOgHlMLZ9K+shebsu2QD19rtHAS4BU8e6a1BK9x0zxuK
-         9iBd03TMLW84B2Xxbd8Xml9mthZUYVKPfv9621WfCpYFeUYIO+wowYVqDELuTV1Srldq
-         J/I4pC+ALhhE7v7Bwmbon51NISIMT+geLYih698uyioE4OVlpBiX0cXTgNOnmLhXeiCr
-         i2LZfzavsCeFjHU2nh9Z37G5611SaBtM016aNcs4aCKvwezRR/Vdtt9NvMH4E6taX4AH
-         mP3A==
-X-Gm-Message-State: AOAM531z05uxFSU44LugpET2GMGW7i3i7BGqcOk8APSmS5YbpZ25tJ73
-        /GfhY4p/mVMbA4bIN6FvOHgCDesFSGRujTxSbiU=
-X-Google-Smtp-Source: ABdhPJzJ04o53AzwnlEMqTT60E0ti5rrv/o1UEgsXMdzMrbZzkRGozvnzAuD3EvEJdFkMkPvlkyV2iz+GaZwPUikkMA=
-X-Received: by 2002:a9f:35aa:: with SMTP id t39mr14181233uad.89.1630329718210;
- Mon, 30 Aug 2021 06:21:58 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=nb+y+Haxu6e9BmKTPEM6xTNhcgRgZEQMA6P4vNrdwcU=;
+        b=Xb4Sn0STS7CTe6X95twK0K09xiXJLm1BmBN/nr2qSjp7oel8BVo2L0Bdb8bmlOTlx1
+         XHAU4l3xsJEdYdECxP8WK9OT4XRIUcWQf2i0sXhtX/fOBrOJ+R7wmHjYSpRdiJvh/gFq
+         tlzbehJyF7YMXemTRnFNVFfuAlwydy+B5xj79dadDGY10qgsS6pl2VBUXkBqcjMZDCFc
+         1ZGBi+O60hfGhhg1ssMBwCsHOENHblFg5TBmZ8/6HT+tA29U5wkdubomLQ2x7IxTX3cn
+         V4mTjkAaxTcqJT2BAih4WHmieLu4komTQQBSjxOJNG1y3SmqcjJPcyF5u44WcrmF0/ST
+         tcpA==
+X-Gm-Message-State: AOAM533RAziPpjgpeiGGRpUbaCxFA31wkjX9Oxnw+NAhiQ8HBYtnQDF/
+        crep7SYjVjAk5m+js89Aah3kFSkzYr/udY+J
+X-Google-Smtp-Source: ABdhPJzR2q723qJHF6fURrmiCBz/LmcXFPwRJvDM0KMIECKUioYhnFf9TqZn+HGY/yTNOrccrUsPmQ==
+X-Received: by 2002:a17:90a:9289:: with SMTP id n9mr533029pjo.27.1630349156699;
+        Mon, 30 Aug 2021 11:45:56 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id h4sm219450pjc.28.2021.08.30.11.45.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Aug 2021 11:45:56 -0700 (PDT)
+Message-ID: <612d2764.1c69fb81.74e6a.0e60@mx.google.com>
+Date:   Mon, 30 Aug 2021 11:45:56 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210815103014.21208-1-biju.das.jz@bp.renesas.com>
- <20210815103014.21208-4-biju.das.jz@bp.renesas.com> <CAMuHMdXj8xmJ0ySOJQ74AjkTDJUQwTJ93rYjyRPnJ1dwGfj1xg@mail.gmail.com>
- <OS0PR01MB592221C0F7BBD92216EDA1B986C49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592231527BC613A0BFCB200286CB9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592231527BC613A0BFCB200286CB9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 30 Aug 2021 15:21:46 +0200
-Message-ID: <CAMuHMdVHwEb8ktTHeBjutZkBmS9j0Ud8NwN60hCK-xjgaWXDhQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] clk: renesas: rzg2l: Add support to handle coupled clocks
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: renesas-devel-2021-08-30-v5.14
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline-nfs: 50 runs,
+ 1 regressions (renesas-devel-2021-08-30-v5.14)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+renesas/master baseline-nfs: 50 runs, 1 regressions (renesas-devel-2021-08-=
+30-v5.14)
 
-On Mon, Aug 30, 2021 at 10:36 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: RE: [PATCH v3 3/4] clk: renesas: rzg2l: Add support to handle
-> > coupled clocks
-> > > On Sun, Aug 15, 2021 at 12:30 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > > wrote:
-> > > > The AXI and CHI clocks use the same register bit for controlling
-> > > > clock output. Add a new clock type for coupled clocks, which sets
-> > > > the CPG_CLKON_ETH.CLK[01]_ON bit when at least one clock is enabled,
-> > > > and clears the bit only when both clocks are disabled.
-> > > >
-> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > ---
-> > > > v2->v3:
-> > > >  * Reworked as per Geert's suggestion
-> > > >  * Added enabled flag to track the status of clock, if it is coupled
-> > > >    with another clock
-> > > >  * Introduced siblings pointer which points to the other coupled
-> > > >    clock
-> > > >  * coupled clock linking is done during module clk register.
-> > > >  * rzg2l_mod_clock_is_enabled function returns soft state of the
-> > > >    module clocks, if it is coupled with another clock
-> > > >  * Updated the commit header
+Regressions Summary
+-------------------
 
-> > > You forgot to initialize mstp_clock.enabled to match the current
-> > > hardware state.
-> >
-> > OK. will initialize mstp_clock.enabled to match the current hardware
-> > state.
->
-> While working on this, I found a bug in clk driver with patch
-> ef3c613ccd68 ("clk: renesas: Add CPG core wrapper for RZ/G2L SoC")
->
-> As per H/W manual(0.50), clock monitor status "1" means clock is supplied and
-> "0" means clock supply is stopped.
->
-> But the "rzg2l_mod_clock_is_enabled" function returns inverted value instead.
+platform   | arch | lab             | compiler | defconfig          | regre=
+ssions
+-----------+------+-----------------+----------+--------------------+------=
+------
+dove-cubox | arm  | lab-pengutronix | gcc-8    | multi_v7_defconfig | 1    =
+      =
 
-Oops...
 
-> Due to this wrong status, The unused_clk_function never switch off the unused clocks,
-> before spawning before init.
->
-> After fixing "rzg2l_mod_clock_is_enabled" function and found that board is not booting.
-> Reason is, unused_clk_function turns off IA_55 and dmac clocks.
->
-> On further investigation, turning off IA55_CLK[1] and DMAC_ACLK[2]
-> leading GIC interrupts failure.
->
-> I made IA55_CLK and DMAC_ACLK as critical clocks as even if, we disable the corresponding driver,
-> GIC interrupts should work and with that I am able to mount rootFS.
->
-> So I guess fixing "rzg2l_mod_clock_is_enabled" and Adding critical clocks "IA55_CLK" and "DMAC_ACLK"
-> Should be a single patch??
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-08-30-v5.14/plan/baseline-nfs/
 
-Depends on the order, if they are separate patches ;-)
-I think it makes sense to have two separate patches, and thus add
-the critical clocks first.
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-08-30-v5.14
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      d137660340411cbf97721b1578583f20a31fd6b2 =
 
-> Then I tested DMA it was failing, as driver is not turning ON DMA_PCLK. So added PM
-> Routines to handle DMA clocks and with that DMA driver is working. This will be a separate
-> Patch for dmac driver.
 
-OK.
 
-Gr{oetje,eeting}s,
+Test Regressions
+---------------- =
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+platform   | arch | lab             | compiler | defconfig          | regre=
+ssions
+-----------+------+-----------------+----------+--------------------+------=
+------
+dove-cubox | arm  | lab-pengutronix | gcc-8    | multi_v7_defconfig | 1    =
+      =
+
+
+  Details:     https://kernelci.org/test/plan/id/612cefa9c335604e1f8e2c9b
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-08-30-v5.14/arm/multi_v7_defconfig/gcc-8/lab-pengutronix/baseline-nfs-d=
+ove-cubox.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-08-30-v5.14/arm/multi_v7_defconfig/gcc-8/lab-pengutronix/baseline-nfs-d=
+ove-cubox.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0730.6/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/612cefa9c335604e1=
+f8e2c9c
+        failing since 125 days (last pass: renesas-devel-2021-04-12-v5.12-r=
+c7, first fail: v5.12-451-gae657abc971d2) =
+
+ =20
