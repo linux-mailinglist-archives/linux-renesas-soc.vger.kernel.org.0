@@ -2,102 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03B5B3FC3FB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Aug 2021 10:22:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 047EB3FC835
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Aug 2021 15:27:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240031AbhHaHzq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 Aug 2021 03:55:46 -0400
-Received: from mx20.baidu.com ([111.202.115.85]:51000 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240018AbhHaHzq (ORCPT
+        id S234395AbhHaN2k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 31 Aug 2021 09:28:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50746 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233859AbhHaN2k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 Aug 2021 03:55:46 -0400
-Received: from BJHW-Mail-Ex09.internal.baidu.com (unknown [10.127.64.32])
-        by Forcepoint Email with ESMTPS id F0974B69247B2CAB27D6;
-        Tue, 31 Aug 2021 15:54:49 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-Mail-Ex09.internal.baidu.com (10.127.64.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Tue, 31 Aug 2021 15:54:49 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Tue, 31 Aug 2021 15:54:48 +0800
-From:   Cai Huoqing <caihuoqing@baidu.com>
-To:     <laurent.pinchart@ideasonboard.com>,
-        <kieran.bingham+renesas@ideasonboard.com>, <airlied@linux.ie>,
-        <daniel@ffwll.ch>
-CC:     <dri-devel@lists.freedesktop.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        Cai Huoqing <caihuoqing@baidu.com>
-Subject: [PATCH] drm: rcar-du: Make use of the helper function devm_platform_ioremap_resource()
-Date:   Tue, 31 Aug 2021 15:54:42 +0800
-Message-ID: <20210831075442.698-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 31 Aug 2021 09:28:40 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D372C061764
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Aug 2021 06:27:44 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:2193:279a:893d:20ae])
+        by baptiste.telenet-ops.be with bizsmtp
+        id oDTi2500G1ZidPp01DTi9D; Tue, 31 Aug 2021 15:27:42 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mL3nh-000rvz-M3; Tue, 31 Aug 2021 15:27:41 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mL3nh-001JYB-6q; Tue, 31 Aug 2021 15:27:41 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] can: rcar: Drop unneeded ARM dependency
+Date:   Tue, 31 Aug 2021 15:27:40 +0200
+Message-Id: <362d9ced19f3524ee8917df5681b3880c13cac85.1630416373.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex12.internal.baidu.com (172.31.51.52) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
-X-Baidu-BdMsfe-DateCheck: 1_BJHW-Mail-Ex09_2021-08-31 15:54:50:045
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Use the devm_platform_ioremap_resource() helper instead of
-calling platform_get_resource() and devm_ioremap_resource()
-separately
+The dependency on ARM predates the dependency on ARCH_RENESAS.
+The latter was introduced for Renesas arm64 SoCs first, and later
+extended to cover Renesas ARM SoCs, too.
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c | 4 +---
- drivers/gpu/drm/rcar-du/rcar_lvds.c   | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ drivers/net/can/rcar/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 4ac26d08ebb4..ebec4b7269d1 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -570,7 +570,6 @@ static void rcar_du_shutdown(struct platform_device *pdev)
- static int rcar_du_probe(struct platform_device *pdev)
- {
- 	struct rcar_du_device *rcdu;
--	struct resource *mem;
- 	int ret;
+diff --git a/drivers/net/can/rcar/Kconfig b/drivers/net/can/rcar/Kconfig
+index 56320a7f828b6684..c66762ef631b0871 100644
+--- a/drivers/net/can/rcar/Kconfig
++++ b/drivers/net/can/rcar/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config CAN_RCAR
+ 	tristate "Renesas R-Car and RZ/G CAN controller"
+-	depends on ARCH_RENESAS || ARM || COMPILE_TEST
++	depends on ARCH_RENESAS || COMPILE_TEST
+ 	help
+ 	  Say Y here if you want to use CAN controller found on Renesas R-Car
+ 	  or RZ/G SoCs.
+@@ -11,7 +11,7 @@ config CAN_RCAR
  
- 	/* Allocate and initialize the R-Car device structure. */
-@@ -585,8 +584,7 @@ static int rcar_du_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, rcdu);
- 
- 	/* I/O resources */
--	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	rcdu->mmio = devm_ioremap_resource(&pdev->dev, mem);
-+	rcdu->mmio = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(rcdu->mmio))
- 		return PTR_ERR(rcdu->mmio);
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index d061b8de748f..a64d910b0500 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -802,7 +802,6 @@ static int rcar_lvds_probe(struct platform_device *pdev)
- {
- 	const struct soc_device_attribute *attr;
- 	struct rcar_lvds *lvds;
--	struct resource *mem;
- 	int ret;
- 
- 	lvds = devm_kzalloc(&pdev->dev, sizeof(*lvds), GFP_KERNEL);
-@@ -825,8 +824,7 @@ static int rcar_lvds_probe(struct platform_device *pdev)
- 	lvds->bridge.funcs = &rcar_lvds_bridge_ops;
- 	lvds->bridge.of_node = pdev->dev.of_node;
- 
--	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	lvds->mmio = devm_ioremap_resource(&pdev->dev, mem);
-+	lvds->mmio = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(lvds->mmio))
- 		return PTR_ERR(lvds->mmio);
- 
+ config CAN_RCAR_CANFD
+ 	tristate "Renesas R-Car CAN FD controller"
+-	depends on ARCH_RENESAS || ARM || COMPILE_TEST
++	depends on ARCH_RENESAS || COMPILE_TEST
+ 	help
+ 	  Say Y here if you want to use CAN FD controller found on
+ 	  Renesas R-Car SoCs. The driver puts the controller in CAN FD only
 -- 
 2.25.1
 
