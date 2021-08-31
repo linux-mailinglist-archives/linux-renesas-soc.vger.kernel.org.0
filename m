@@ -2,79 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 642C83FC91E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Aug 2021 15:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71EBD3FCC1D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Aug 2021 19:14:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233092AbhHaN6o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 Aug 2021 09:58:44 -0400
-Received: from mx21.baidu.com ([220.181.3.85]:32770 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234396AbhHaN6e (ORCPT
+        id S233368AbhHaRPB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 31 Aug 2021 13:15:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47770 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229880AbhHaRPA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 Aug 2021 09:58:34 -0400
-Received: from BC-Mail-Ex09.internal.baidu.com (unknown [172.31.51.49])
-        by Forcepoint Email with ESMTPS id 6A5976CFA6B85D68BC6B;
-        Tue, 31 Aug 2021 21:57:37 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex09.internal.baidu.com (172.31.51.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Tue, 31 Aug 2021 21:57:37 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Tue, 31 Aug 2021 21:57:36 +0800
-From:   Cai Huoqing <caihuoqing@baidu.com>
-To:     <caihuoqing@baidu.com>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/shmobile: Make use of the helper function devm_platform_ioremap_resource()
-Date:   Tue, 31 Aug 2021 21:57:30 +0800
-Message-ID: <20210831135731.4776-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 31 Aug 2021 13:15:00 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2F3C061575
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Aug 2021 10:14:04 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:2193:279a:893d:20ae])
+        by baptiste.telenet-ops.be with bizsmtp
+        id oHE3250031ZidPp01HE30D; Tue, 31 Aug 2021 19:14:03 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mL7Kk-000vDM-PJ
+        for linux-renesas-soc@vger.kernel.org; Tue, 31 Aug 2021 19:14:02 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mL7Kk-0025QG-3x
+        for linux-renesas-soc@vger.kernel.org; Tue, 31 Aug 2021 19:14:02 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2021-08-31-v5.14
+Date:   Tue, 31 Aug 2021 19:14:02 +0200
+Message-Id: <20210831171402.497457-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex30.internal.baidu.com (172.31.51.24) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Use the devm_platform_ioremap_resource() helper instead of
-calling platform_get_resource() and devm_ioremap_resource()
-separately
+I have pushed renesas-drivers-2021-08-31-v5.14 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/gpu/drm/shmobile/shmob_drm_drv.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-index 7db01904d18d..80078a9fd7f6 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-@@ -192,7 +192,6 @@ static int shmob_drm_probe(struct platform_device *pdev)
- 	struct shmob_drm_platform_data *pdata = pdev->dev.platform_data;
- 	struct shmob_drm_device *sdev;
- 	struct drm_device *ddev;
--	struct resource *res;
- 	unsigned int i;
- 	int ret;
- 
-@@ -215,8 +214,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, sdev);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	sdev->mmio = devm_ioremap_resource(&pdev->dev, res);
-+	sdev->mmio = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(sdev->mmio))
- 		return PTR_ERR(sdev->mmio);
- 
--- 
-2.25.1
+Today's version is based on renesas-devel-2021-08-30-v5.14.
 
+Included branches with driver code:
+  - renesas-clk
+  - renesas-pinctrl
+  - topic/rcar-gen3e-extra-v2~1
+
+Included fixes:
+  - drm: rcar-du: Don't create encoder for unconnected LVDS outputs
+  - WIP soc: v3u: allow WDT reset
+  - misc: add sloppy logic analyzer using polling
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.libc.org/linux-sh#for-next
+  - https://git.pengutronix.de/git/pza/linux#reset/next
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
