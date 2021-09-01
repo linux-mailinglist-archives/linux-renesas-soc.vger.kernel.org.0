@@ -2,754 +2,251 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6485F3FE356
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Sep 2021 21:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4912A3FE3A5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Sep 2021 22:20:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344350AbhIATsa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Sep 2021 15:48:30 -0400
-Received: from www.zeus03.de ([194.117.254.33]:36568 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344465AbhIATs3 (ORCPT
+        id S245449AbhIAUVe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Sep 2021 16:21:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243818AbhIAUV2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Sep 2021 15:48:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=jmrDYoXvNk7DdE
-        QSaYhJG8S4Q3HIETv15TSb7uqzqgg=; b=QfGXYILSWmXRO/jFaQfxSbI9Zb4Yut
-        h0yrp6seUFFePYFXAtc/87JxM23WY5oEslVwg+rbAH5uH3rAdstuy+xBkd6hrm6u
-        YoYJP9QF1zw7cT9DdEVSbch5t845lMnT53oTZObb8e0yDsAwrQYU+ucU0LJOW2QB
-        qp5j5v1TrUo0k=
-Received: (qmail 3153126 invoked from network); 1 Sep 2021 21:47:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Sep 2021 21:47:30 +0200
-X-UD-Smtp-Session: l3s3148p1@mkIwVvTKwuYgAwDPXwmvAFZKlTMHlX5i
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-gpio@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 1/1] gpio: add sloppy logic analyzer using polling
-Date:   Wed,  1 Sep 2021 21:45:49 +0200
-Message-Id: <20210901194549.3999-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210901194549.3999-1-wsa+renesas@sang-engineering.com>
-References: <20210901194549.3999-1-wsa+renesas@sang-engineering.com>
+        Wed, 1 Sep 2021 16:21:28 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA6E3C06179A
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Sep 2021 13:20:26 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id x16so751047pfh.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Sep 2021 13:20:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+u2QuOkRRMX/DqMZWfX/UVRQi9noRYZC06sr4Cz0Hp8=;
+        b=ZMMPana7L7vTDCgu/jp5FKD2Lrbrz0jK26GBO0aS5kFqX8ZWAwDd8LGVRgMmKIW4cy
+         pM4/1N42XKs3Esi1gnR1zGqKA++SzJlDvfQrVg5j28Z5B5k6XohhNOknkTV7aRkmINrK
+         CmPERtsKo0Rsb/rb2L17uz6Xg8W52l6oAnoOY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+u2QuOkRRMX/DqMZWfX/UVRQi9noRYZC06sr4Cz0Hp8=;
+        b=NUesYFskYXUAEXLysX7QLvtoJO9btBJpH/m4AOnZk/JCOVJHGch4GXbzXPuIcuqCPv
+         VUrKed/qjGSTUSA7fMounjWRqkw7nt+TtI9mryzDYDXG473nE/SzC7nbSojbbvb3rF9+
+         mAtvCnN6GaPm5ggHixF+yU+gqbi5Qf7V0B8918Nar6VabL8BcHJFEa5bbrCfRHJzbMOL
+         Luk7cArXEfcLAKC3Tc3Kt1IRoPMBTN8YvIRgZeN/NaqZoE9A7WqOteh52a59WMrEEhGd
+         bPKzg/jt0MtEbt11JijvRgeUL7XfIjwb2JLbjrjTb7Mt+ayfyCdg0YqADzRACe2WHfID
+         xeDg==
+X-Gm-Message-State: AOAM530hEJsnUZndmEjQoDKxEnFBueMprgDvbb3XyypJhLgdncN9Agqg
+        vIcJu/CE7ENHh5x/exb2Dp4PyQ==
+X-Google-Smtp-Source: ABdhPJzep5JI+YTg6jYwfIvOqV7EJbMgqrs4tymTqpHRzn2sts2yu7nyKA3inirB5PAxwEJh4dOyVA==
+X-Received: by 2002:a65:6642:: with SMTP id z2mr790331pgv.240.1630527626154;
+        Wed, 01 Sep 2021 13:20:26 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:958b:b561:a735:e774])
+        by smtp.gmail.com with ESMTPSA id x15sm321178pfq.31.2021.09.01.13.20.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 13:20:25 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Linus W <linus.walleij@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>, devicetree@vger.kernel.org,
+        Steev Klimaszewski <steev@kali.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kees Cook <keescook@chromium.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Lionel Debieve <lionel.debieve@st.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        =?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>,
+        Michael Walle <michael@walle.cc>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Nishanth Menon <nm@ti.com>,
+        Olivier Moysan <olivier.moysan@st.com>,
+        Olof Johansson <olof@lixom.net>,
+        Otavio Salvador <otavio@ossystems.com.br>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Razvan Stefanescu <razvan.stefanescu@microchip.com>,
+        Robert Richter <rric@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org,
+        =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
+Subject: [PATCH v3 00/16] eDP: Support probing eDP panels dynamically instead of hardcoding
+Date:   Wed,  1 Sep 2021 13:19:18 -0700
+Message-Id: <20210901201934.1084250-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.33.0.259.gc128427fd7-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is a sloppy logic analyzer using GPIOs. It comes with a script to
-isolate a CPU for polling. While this is definately not a production
-level analyzer, it can be a helpful first view when remote debugging.
-Read the documentation for details.
+The goal of this patch series is to move away from hardcoding exact
+eDP panels in device tree files. As discussed in the various patches
+in this series (I'm not repeating everything here), most eDP panels
+are 99% probable and we can get that last 1% by allowing two "power
+up" delays to be specified in the device tree file and then using the
+panel ID (found in the EDID) to look up additional power sequencing
+delays for the panel.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- .../dev-tools/gpio-sloppy-logic-analyzer.rst  |  71 ++++
- Documentation/dev-tools/index.rst             |   1 +
- drivers/gpio/Kconfig                          |  17 +
- drivers/gpio/Makefile                         |   1 +
- drivers/gpio/gpio-sloppy-logic-analyzer.c     | 340 ++++++++++++++++++
- tools/gpio/gpio-sloppy-logic-analyzer         | 214 +++++++++++
- 6 files changed, 644 insertions(+)
- create mode 100644 Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
- create mode 100644 drivers/gpio/gpio-sloppy-logic-analyzer.c
- create mode 100755 tools/gpio/gpio-sloppy-logic-analyzer
+This patch series is the logical contiunation of a previous patch
+series where I proposed solving this problem by adding a
+board-specific compatible string [1]. In the discussion that followed
+it sounded like people were open to something like the solution
+proposed in this new series.
 
-diff --git a/Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst b/Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
-new file mode 100644
-index 000000000000..c39be809b3e0
---- /dev/null
-+++ b/Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
-@@ -0,0 +1,71 @@
-+=============================================
-+Linux Kernel GPIO based sloppy logic analyzer
-+=============================================
-+
-+:Author: Wolfram Sang
-+
-+Introduction
-+============
-+
-+This document briefly describes how to run the GPIO based in-kernel sloppy
-+logic analyzer running on an isolated CPU.
-+
-+Note that this is a last resort analyzer which can be affected by latencies,
-+non-determinant code paths and non-maskable interrupts. It is called 'sloppy'
-+for a reason. However, for e.g. remote development, it may be useful to get a
-+first view and aid further debugging.
-+
-+Setup
-+=====
-+
-+Tell the kernel which GPIOs are used as probes. For a Device Tree based system,
-+you need to use the following bindings. Because these bindings are only for
-+debugging, there is no official schema::
-+
-+    i2c-analyzer {
-+            compatible = "gpio-sloppy-logic-analyzer";
-+            probe-gpios = <&gpio6 21 GPIO_OPEN_DRAIN>, <&gpio6 4 GPIO_OPEN_DRAIN>;
-+            probe-names = "SCL", "SDA";
-+    };
-+
-+Note that you must provide a name for every GPIO specified. Currently a
-+maximum of 8 probes are supported. 32 are likely possible but are not
-+implemented yet.
-+
-+Usage
-+=====
-+
-+The logic analyzer is configurable via files in debugfs. However, it is
-+strongly recommended to not use them directly, but to use the script
-+``tools/gpio/gpio-sloppy-logic-analyzer``. Besides checking parameters more
-+extensively, it will isolate the CPU core so you will have least disturbance
-+while measuring.
-+
-+The script has a help option explaining the parameters. For the above DT
-+snippet which analyzes an I2C bus at 400KHz on a Renesas Salvator-XS board, the
-+following settings are used: The isolated CPU shall be CPU1 because it is a big
-+core in a big.LITTLE setup. Because CPU1 is the default, we don't need a
-+parameter. The bus speed is 400kHz. So, the sampling theorem says we need to
-+sample at least at 800kHz. However, falling edges of both signals in an I2C
-+start condition happen faster, so we need a higher sampling frequency, e.g.
-+``-s 1500000`` for 1.5MHz. Also, we don't want to sample right away but wait
-+for a start condition on an idle bus. So, we need to set a trigger to a falling
-+edge on SDA while SCL stays high, i.e. ``-t 1H+2F``. Last is the duration, let
-+us assume 15ms here which results in the parameter ``-d 15000``. So,
-+altogether::
-+
-+    gpio-sloppy-logic-analyzer -s 1500000 -t 1H+2F -d 15000
-+
-+Note that the process will return you back to the prompt but a sub-process is
-+still sampling in the background. Unless this has finished, you will not find a
-+result file in the current or specified directory. For the above example, we
-+will then need to trigger I2C communication::
-+
-+    i2cdetect -y -r <your bus number>
-+
-+Result is a .sr file to be consumed with PulseView or sigrok-cli from the free
-+`sigrok`_ project. It is a zip file which also contains the binary sample data
-+which may be consumed by other software. The filename is the logic analyzer
-+instance name plus a since-epoch timestamp.
-+
-+.. _sigrok: https://sigrok.org/
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 010a2af1e7d9..cdf1356a9c94 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -32,6 +32,7 @@ Documentation/dev-tools/testing-overview.rst
-    kgdb
-    kselftest
-    kunit/index
-+   gpio-sloppy-logic-analyzer
- 
- 
- .. only::  subproject and html
-diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-index fab571016adf..3346d609eeb4 100644
---- a/drivers/gpio/Kconfig
-+++ b/drivers/gpio/Kconfig
-@@ -1671,4 +1671,21 @@ config GPIO_MOCKUP
- 
- endmenu
- 
-+menu "GPIO hardware hacking tools"
-+
-+config GPIO_LOGIC_ANALYZER
-+	tristate "Sloppy GPIO logic analyzer"
-+	depends on (GPIOLIB || COMPILE_TEST) && EXPERT
-+	help
-+	  This option enables support for a sloppy logic analyzer using polled
-+	  GPIOs. Use the 'tools/gpio/gpio-sloppy-logic-analyzer' script with
-+	  this driver. The script will make using it easier and will also
-+	  isolate a CPU for the polling task. Note that this is a last resort
-+	  analyzer which can be affected by latencies, non-determinant code
-+	  paths, or NMIs. However, for e.g. remote development, it may be useful
-+	  to get a first view and aid further debugging.
-+
-+	  If this driver is built as a module it will be called
-+	  'gpio-sloppy-logic-analyzer'.
-+endmenu
- endif
-diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-index 32a32659866a..efe5138d3e5b 100644
---- a/drivers/gpio/Makefile
-+++ b/drivers/gpio/Makefile
-@@ -74,6 +74,7 @@ obj-$(CONFIG_GPIO_IT87)			+= gpio-it87.o
- obj-$(CONFIG_GPIO_IXP4XX)		+= gpio-ixp4xx.o
- obj-$(CONFIG_GPIO_JANZ_TTL)		+= gpio-janz-ttl.o
- obj-$(CONFIG_GPIO_KEMPLD)		+= gpio-kempld.o
-+obj-$(CONFIG_GPIO_LOGIC_ANALYZER)	+= gpio-sloppy-logic-analyzer.o
- obj-$(CONFIG_GPIO_LOGICVC)		+= gpio-logicvc.o
- obj-$(CONFIG_GPIO_LOONGSON1)		+= gpio-loongson1.o
- obj-$(CONFIG_GPIO_LOONGSON)		+= gpio-loongson.o
-diff --git a/drivers/gpio/gpio-sloppy-logic-analyzer.c b/drivers/gpio/gpio-sloppy-logic-analyzer.c
-new file mode 100644
-index 000000000000..6c0f43d24f24
---- /dev/null
-+++ b/drivers/gpio/gpio-sloppy-logic-analyzer.c
-@@ -0,0 +1,340 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Sloppy logic analyzer using GPIOs (to be run on an isolated CPU)
-+ *
-+ * Use the 'gpio-sloppy-logic-analyzer' script in the 'tools/gpio' folder for
-+ * easier usage and further documentation. Note that this is a last resort
-+ * analyzer which can be affected by latencies and non-determinant code paths.
-+ * However, for e.g. remote development, it may be useful to get a first view
-+ * and aid further debugging.
-+ *
-+ * Copyright (C) Wolfram Sang <wsa@sang-engineering.com>
-+ * Copyright (C) Renesas Electronics Corporation
-+ */
-+
-+#include <linux/ctype.h>
-+#include <linux/debugfs.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/init.h>
-+#include <linux/ktime.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+#include <linux/slab.h>
-+#include <linux/sizes.h>
-+#include <linux/timekeeping.h>
-+#include <linux/vmalloc.h>
-+
-+#define GPIO_LA_NAME "gpio-sloppy-logic-analyzer"
-+#define GPIO_LA_DEFAULT_BUF_SIZE SZ_256K
-+/* can be increased but then we need to extend the u8 buffers */
-+#define GPIO_LA_MAX_PROBES 8
-+#define GPIO_LA_NUM_TESTS 1024
-+
-+struct gpio_la_poll_priv {
-+	struct mutex lock;
-+	u32 buf_idx;
-+	struct gpio_descs *descs;
-+	unsigned long delay_ns;
-+	unsigned long acq_delay;
-+	struct debugfs_blob_wrapper blob;
-+	struct dentry *debug_dir;
-+	struct dentry *blob_dent;
-+	struct debugfs_blob_wrapper meta;
-+	struct device *dev;
-+	unsigned int trig_len;
-+	u8 *trig_data;
-+};
-+
-+static struct dentry *gpio_la_poll_debug_dir;
-+
-+static __always_inline int gpio_la_get_array(struct gpio_descs *d, unsigned long *sptr)
-+{
-+	int ret;
-+
-+	ret = gpiod_get_array_value(d->ndescs, d->desc, d->info, sptr);
-+	if (ret == 0 && fatal_signal_pending(current))
-+		ret = -EINTR;
-+
-+	return ret;
-+}
-+
-+static int fops_capture_set(void *data, u64 val)
-+{
-+	struct gpio_la_poll_priv *priv = data;
-+	u8 *la_buf = priv->blob.data;
-+	unsigned long state = 0; /* zeroed because GPIO arrays are bitfields */
-+	unsigned long delay;
-+	ktime_t start_time;
-+	int i, ret;
-+
-+	if (!val)
-+		return 0;
-+
-+	if (!la_buf)
-+		return -ENOMEM;
-+
-+	if (!priv->delay_ns)
-+		return -EINVAL;
-+
-+	mutex_lock(&priv->lock);
-+	if (priv->blob_dent) {
-+		debugfs_remove(priv->blob_dent);
-+		priv->blob_dent = NULL;
-+	}
-+
-+	priv->buf_idx = 0;
-+
-+	local_irq_disable();
-+	preempt_disable_notrace();
-+
-+	/* Measure delay of reading GPIOs */
-+	start_time = ktime_get();
-+	for (i = 0; i < GPIO_LA_NUM_TESTS; i++) {
-+		ret = gpio_la_get_array(priv->descs, &state);
-+		if (ret)
-+			goto gpio_err;
-+	}
-+
-+	priv->acq_delay = ktime_sub(ktime_get(), start_time) / GPIO_LA_NUM_TESTS;
-+	if (priv->delay_ns < priv->acq_delay) {
-+		ret = -ERANGE;
-+		goto gpio_err;
-+	}
-+
-+	delay = priv->delay_ns - priv->acq_delay;
-+
-+	/* Wait for triggers */
-+	for (i = 0; i < priv->trig_len; i+= 2) {
-+		do {
-+			ret = gpio_la_get_array(priv->descs, &state);
-+			if (ret)
-+				goto gpio_err;
-+
-+			ndelay(delay);
-+		} while ((state & priv->trig_data[i]) != priv->trig_data[i + 1]);
-+	}
-+
-+	/* With triggers, final state is also the first sample */
-+	if (priv->trig_len)
-+		la_buf[priv->buf_idx++] = state;
-+
-+	/* Sample */
-+	while (priv->buf_idx < priv->blob.size) {
-+		ret = gpio_la_get_array(priv->descs, &state);
-+		if (ret)
-+			goto gpio_err;
-+
-+		la_buf[priv->buf_idx++] = state;
-+		ndelay(delay);
-+	}
-+gpio_err:
-+	preempt_enable_notrace();
-+	local_irq_enable();
-+	if (ret)
-+		dev_err(priv->dev, "couldn't read GPIOs: %d\n", ret);
-+
-+	kfree(priv->trig_data);
-+	priv->trig_data = NULL;
-+	priv->trig_len = 0;
-+
-+	priv->blob_dent = debugfs_create_blob("sample_data", 0400, priv->debug_dir, &priv->blob);
-+	mutex_unlock(&priv->lock);
-+
-+	return ret;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(fops_capture, NULL, fops_capture_set, "%llu\n");
-+
-+static int fops_buf_size_get(void *data, u64 *val)
-+{
-+	struct gpio_la_poll_priv *priv = data;
-+
-+	*val = priv->blob.size;
-+
-+	return 0;
-+}
-+
-+static int fops_buf_size_set(void *data, u64 val)
-+{
-+	struct gpio_la_poll_priv *priv = data;
-+	int ret = 0;
-+	void *p;
-+
-+	if (!val)
-+		return -EINVAL;
-+
-+	mutex_lock(&priv->lock);
-+
-+	vfree(priv->blob.data);
-+	p = vzalloc(val);
-+	if (!p) {
-+		val = 0;
-+		ret = -ENOMEM;
-+	}
-+
-+	priv->blob.data = p;
-+	priv->blob.size = val;
-+
-+	mutex_unlock(&priv->lock);
-+	return ret;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(fops_buf_size, fops_buf_size_get, fops_buf_size_set, "%llu\n");
-+
-+static int trigger_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, NULL, inode->i_private);
-+}
-+
-+static ssize_t trigger_write(struct file *file, const char __user *ubuf,
-+			     size_t count, loff_t *offset)
-+{
-+	struct seq_file *m = file->private_data;
-+	struct gpio_la_poll_priv *priv = m->private;
-+	char *buf;
-+
-+	/* upper limit is arbitrary */
-+	if (count > 2048 || count & 1)
-+		return -EINVAL;
-+
-+	buf = memdup_user(ubuf, count);
-+	if (IS_ERR(buf))
-+		return PTR_ERR(buf);
-+
-+	priv->trig_data = buf;
-+	priv->trig_len = count;
-+
-+	return count;
-+}
-+
-+static const struct file_operations fops_trigger = {
-+	.owner = THIS_MODULE,
-+	.open = trigger_open,
-+	.write = trigger_write,
-+	.llseek = no_llseek,
-+	.release = single_release,
-+};
-+
-+static int gpio_la_poll_probe(struct platform_device *pdev)
-+{
-+	struct gpio_la_poll_priv *priv;
-+	struct device *dev = &pdev->dev;
-+	const char *devname = dev_name(dev);
-+	const char *gpio_names[GPIO_LA_MAX_PROBES];
-+	char *meta = NULL;
-+	unsigned int meta_len = 0;
-+	int ret, i;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	mutex_init(&priv->lock);
-+
-+	fops_buf_size_set(priv, GPIO_LA_DEFAULT_BUF_SIZE);
-+
-+	priv->descs = devm_gpiod_get_array(dev, "probe", GPIOD_IN);
-+	if (IS_ERR(priv->descs))
-+		return PTR_ERR(priv->descs);
-+
-+	/* artificial limit to keep 1 byte per sample for now */
-+	if (priv->descs->ndescs > GPIO_LA_MAX_PROBES)
-+		return -EFBIG;
-+
-+	ret = device_property_read_string_array(dev, "probe-names", gpio_names,
-+						priv->descs->ndescs);
-+	if (ret >= 0 && ret != priv->descs->ndescs)
-+		ret = -ENOSTR;
-+	if (ret < 0) {
-+		dev_err(dev, "error naming the GPIOs: %d\n", ret);
-+		return ret;
-+	}
-+
-+	for (i = 0; i < priv->descs->ndescs; i++) {
-+		unsigned int add_len;
-+		char *new_meta, *consumer_name;
-+
-+		if (gpiod_cansleep(priv->descs->desc[i]))
-+			return -EREMOTE;
-+
-+		consumer_name = kasprintf(GFP_KERNEL, "%s: %s", devname, gpio_names[i]);
-+		if (!consumer_name)
-+			return -ENOMEM;
-+		gpiod_set_consumer_name(priv->descs->desc[i], consumer_name);
-+		kfree(consumer_name);
-+
-+		/* '10' is length of 'probe00=\n\0' */
-+		add_len = strlen(gpio_names[i]) + 10;
-+
-+		new_meta = devm_krealloc(dev, meta, meta_len + add_len, GFP_KERNEL);
-+		if (!new_meta)
-+			return -ENOMEM;
-+
-+		meta = new_meta;
-+		snprintf(meta + meta_len, add_len, "probe%02d=%s\n", i + 1, gpio_names[i]);
-+		/* ' - 1' to skip the NUL terminator */
-+		meta_len += add_len - 1;
-+	}
-+
-+	platform_set_drvdata(pdev, priv);
-+	priv->dev = dev;
-+
-+	priv->meta.data = meta;
-+	priv->meta.size = meta_len;
-+	priv->debug_dir = debugfs_create_dir(devname, gpio_la_poll_debug_dir);
-+	debugfs_create_blob("meta_data", 0400, priv->debug_dir, &priv->meta);
-+	debugfs_create_ulong("delay_ns", 0600, priv->debug_dir, &priv->delay_ns);
-+	debugfs_create_ulong("delay_ns_acquisition", 0400, priv->debug_dir, &priv->acq_delay);
-+	debugfs_create_file_unsafe("buf_size", 0600, priv->debug_dir, priv, &fops_buf_size);
-+	debugfs_create_file_unsafe("capture", 0200, priv->debug_dir, priv, &fops_capture);
-+	debugfs_create_file_unsafe("trigger", 0200, priv->debug_dir, priv, &fops_trigger);
-+
-+	return 0;
-+}
-+
-+static int gpio_la_poll_remove(struct platform_device *pdev)
-+{
-+	struct gpio_la_poll_priv *priv = platform_get_drvdata(pdev);
-+
-+	mutex_lock(&priv->lock);
-+	debugfs_remove_recursive(priv->debug_dir);
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id gpio_la_poll_of_match[] = {
-+	{ .compatible = GPIO_LA_NAME, },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, gpio_la_poll_of_match);
-+
-+static struct platform_driver gpio_la_poll_device_driver = {
-+	.probe = gpio_la_poll_probe,
-+	.remove = gpio_la_poll_remove,
-+	.driver = {
-+		.name = GPIO_LA_NAME,
-+		.of_match_table = gpio_la_poll_of_match,
-+	}
-+};
-+
-+static int __init gpio_la_poll_init(void)
-+{
-+	gpio_la_poll_debug_dir = debugfs_create_dir(GPIO_LA_NAME, NULL);
-+
-+	return platform_driver_register(&gpio_la_poll_device_driver);
-+}
-+late_initcall(gpio_la_poll_init);
-+
-+static void __exit gpio_la_poll_exit(void)
-+{
-+	platform_driver_unregister(&gpio_la_poll_device_driver);
-+	debugfs_remove_recursive(gpio_la_poll_debug_dir);
-+}
-+module_exit(gpio_la_poll_exit);
-+
-+MODULE_AUTHOR("Wolfram Sang <wsa@sang-engineering.com>");
-+MODULE_DESCRIPTION("Sloppy logic analyzer using GPIOs");
-+MODULE_LICENSE("GPL v2");
-diff --git a/tools/gpio/gpio-sloppy-logic-analyzer b/tools/gpio/gpio-sloppy-logic-analyzer
-new file mode 100755
-index 000000000000..6d1d3d6eedfa
---- /dev/null
-+++ b/tools/gpio/gpio-sloppy-logic-analyzer
-@@ -0,0 +1,214 @@
-+#!/bin/sh -eu
-+# Helper script for the Linux Kernel GPIO sloppy logic analyzer
-+#
-+# Copyright (C) Wolfram Sang <wsa@sang-engineering.com>
-+# Copyright (C) Renesas Electronics Corporation
-+#
-+# TODO: support SI units in command line parameters?
-+
-+samplefreq=1000000
-+numsamples=250000
-+cpusetdir='/dev/cpuset'
-+debugdir='/sys/kernel/debug'
-+ladirname='gpio-sloppy-logic-analyzer'
-+outputdir="$PWD"
-+neededcmds='taskset zip'
-+max_chans=8
-+duration=
-+initcpu=
-+lasysfsdir=
-+triggerdat=
-+trigger_bindat=
-+
-+print_help()
-+{
-+	cat <<EOF
-+$0 - helper script for the Linux Kernel Sloppy GPIO Logic Analyzer
-+Available options:
-+	-c|--cpu <n>: which CPU to isolate for sampling. Only needed once. Default <1>.
-+		      Remember that a more powerful CPU gives you higher sample speeds.
-+		      Also CPU0 is not recommended as it usually does extra bookkeeping.
-+	-d|--duration-us <n>: number of microseconds to sample. Overrides -n, no default value.
-+	-h|--help: print this help
-+	-i|--instance <str>: name of the logic analyzer in case you have multiple instances. Default
-+			     to first instance found
-+	-k|--kernel-debug-dir: path to the kernel debugfs mountpoint. Default: <$debugdir>
-+	-n|--num_samples <n>: number of samples to acquire. Default <$numsamples>
-+	-o|--output-dir <str>: directory to put the result files. Default: current dir
-+	-s|--sample_freq <n>: desired sample frequency. Might be capped if too large. Default: 1MHz.
-+	-t|--trigger <str>: pattern to use as trigger. <str> consists of two-char pairs. First
-+			    char is channel number starting at "1". Second char is trigger level:
-+			    "L" - low; "H" - high; "R" - rising; "F" - falling
-+			    These pairs can be combined with "+", so "1H+2F" triggers when probe 1
-+			    is high while probe 2 has a falling edge. You can have multiple triggers
-+			    combined with ",". So, "1H+2F,1H+2R" is like the example before but it
-+			    waits for a rising edge on probe 2 while probe 1 is still high after the
-+			    first trigger has been met.
-+			    Trigger data will only be used for the next capture and then be erased.
-+Examples:
-+Samples $numsamples values at 1MHz with an already prepared CPU or automatically prepares CPU1 if needed,
-+use the first logic analyzer instance found:
-+	'$0'
-+Samples 50us at 2MHz waiting for falling edge on channel 2. CPU and instance as above:
-+	'$0 -d 50 -s 2000000 -t "2F"'
-+
-+Note that the process exits after checking all parameters but a sub-process still works in
-+the background. The result is only available once the sub-process finishes.
-+
-+Result is a .sr file to be consumed with PulseView from the free Sigrok project. It is
-+a zip file which also contains the binary sample data which may be consumed by others.
-+The filename is the logic analyzer instance name plus a since-epoch timestamp.
-+EOF
-+}
-+
-+fail()
-+{
-+	echo "$1"
-+	exit 1
-+}
-+
-+set_newmask()
-+{
-+	for f in $(find "$1" -iname "$2"); do echo "$newmask" > "$f" 2>/dev/null || true; done
-+}
-+
-+init_cpu()
-+{
-+	isol_cpu="$1"
-+	[ -d $cpusetdir ] || mkdir $cpusetdir
-+	mount | grep -q $cpusetdir || mount -t cpuset cpuset $cpusetdir
-+	[ -d "$lacpusetdir" ] || mkdir "$lacpusetdir"
-+
-+	cur_cpu="$(cat "$lacpusetdir"/cpus)"
-+	[ "$cur_cpu" = "$isol_cpu" ] && return
-+	[ -n "$cur_cpu" ] && fail "CPU$isol_cpu requested but CPU$cur_cpu already isolated"
-+
-+	echo "$isol_cpu" > "$lacpusetdir"/cpus || fail "Could not isolate CPU$isol_cpu. Does it exist?"
-+	echo 1 > "$lacpusetdir"/cpu_exclusive
-+	echo 0 > "$lacpusetdir"/mems
-+
-+	oldmask=$(cat /proc/irq/default_smp_affinity)
-+	val=$((0x$oldmask & ~(1 << isol_cpu)))
-+	newmask=$(printf "%x" $val)
-+
-+	set_newmask '/proc/irq' '*smp_affinity'
-+	set_newmask '/sys/devices/virtual/workqueue/' 'cpumask'
-+
-+	# Move tasks away from isolated CPU
-+	for p in $(ps -o pid | tail -n +2); do
-+		mask=$(taskset -p "$p") || continue
-+		[ "${mask##*: }" != "$oldmask" ] && continue
-+		taskset -p "$newmask" "$p" || continue
-+	done 2>/dev/null >/dev/null
-+
-+	echo 1 > /sys/module/rcupdate/parameters/rcu_cpu_stall_suppress
-+
-+	cpufreqgov="/sys/devices/system/cpu/cpu$isol_cpu/cpufreq/scaling_governor"
-+	[ -w "$cpufreqgov" ] && echo 'performance' > "$cpufreqgov" || true
-+}
-+
-+parse_triggerdat()
-+{
-+	oldifs="$IFS"
-+	IFS=','; for trig in $1; do
-+		mask=0; val1=0; val2=0
-+		IFS='+'; for elem in $trig; do
-+			chan=${elem%[lhfrLHFR]}
-+			mode=${elem#$chan}
-+			# Check if we could parse something and the channel number fits
-+			[ "$chan" != "$elem" ] && [ "$chan" -le $max_chans ] || fail "Trigger syntax error: $elem"
-+			bit=$((1 << (chan - 1)))
-+			mask=$((mask | bit))
-+			case $mode in
-+				[hH]) val1=$((val1 | bit)); val2=$((val2 | bit));;
-+				[fF]) val1=$((val1 | bit));;
-+				[rR]) val2=$((val2 | bit));;
-+			esac
-+		done
-+		trigger_bindat="$trigger_bindat$(printf '\\%o\\%o' $mask $val1)"
-+		[ $val1 -ne $val2 ] && trigger_bindat="$trigger_bindat$(printf '\\%o\\%o' $mask $val2)"
-+	done
-+	IFS="$oldifs"
-+}
-+
-+do_capture()
-+{
-+	taskset "$1" echo 1 > "$lasysfsdir"/capture || fail "Capture error! Check kernel log"
-+
-+	srtmp=$(mktemp -d)
-+	echo 1 > "$srtmp"/version
-+	cp "$lasysfsdir"/sample_data "$srtmp"/logic-1-1
-+	cat > "$srtmp"/metadata <<EOF
-+[global]
-+sigrok version=0.2.0
-+
-+[device 1]
-+capturefile=logic-1
-+total probes=$(wc -l < "$lasysfsdir"/meta_data)
-+samplerate=${samplefreq}Hz
-+unitsize=1
-+EOF
-+	cat "$lasysfsdir"/meta_data >> "$srtmp"/metadata
-+
-+	zipname="$outputdir/${lasysfsdir##*/}-$(date +%s).sr"
-+	zip -jq "$zipname" "$srtmp"/*
-+	rm -rf "$srtmp"
-+	delay_ack=$(cat "$lasysfsdir"/delay_ns_acquisition)
-+	[ "$delay_ack" -eq 0 ] && delay_ack=1
-+	echo "Logic analyzer done. Saved '$zipname'"
-+	echo "Max sample frequency this time: $((1000000000 / delay_ack))Hz."
-+}
-+
-+rep=$(getopt -a -l cpu:,duration-us:,help,instance:,kernel-debug-dir:,num_samples:,output-dir:,sample_freq:,trigger: -o c:d:hi:k:n:o:s:t: -- "$@") || exit 1
-+eval set -- "$rep"
-+while true; do
-+	case "$1" in
-+	-c|--cpu) initcpu="$2"; shift 2;;
-+	-d|--duration-us) duration="$2"; shift 2;;
-+	-h|--help) print_help; exit 0;;
-+	-i|--instance) lasysfsdir="$sysfsdir/$2"; shift 2;;
-+	-k|--kernel-debug-dir) debugdir="$2"; shift 2;;
-+	-n|--num_samples) numsamples="$2"; shift 2;;
-+	-o|--output-dir) outputdir="$2"; shift 2;;
-+	-s|--sample_freq) samplefreq="$2"; shift 2;;
-+	-t|--trigger) triggerdat="$2"; shift 2;;
-+	--)	shift; break;;
-+	*)	fail "error parsing commandline: $*";;
-+	esac
-+done
-+
-+for f in $neededcmds; do
-+	command -v "$f" >/dev/null || fail "Command '$f' not found"
-+done
-+
-+lacpusetdir="$cpusetdir/$ladirname"
-+sysfsdir="$debugdir/$ladirname"
-+
-+[ "$samplefreq" -eq 0 ] && fail "Invalid sample frequency"
-+
-+[ -d "$sysfsdir" ] || fail "Could not find logic analyzer root dir '$sysfsdir'. Module loaded?"
-+[ -x "$sysfsdir" ] || fail "Could not access logic analyzer root dir '$sysfsdir'. Need root?"
-+[ -z "$lasysfsdir" ] && lasysfsdir="$(find "$sysfsdir" -mindepth 1 -type d -print -quit)"
-+[ -d "$lasysfsdir" ] || fail "Logic analyzer directory '$lasysfsdir' not found!"
-+[ -d "$outputdir" ] || fail "Output directory '$outputdir' not found!"
-+
-+[ -n "$initcpu" ] && init_cpu "$initcpu"
-+[ ! -d "$lacpusetdir" ] && echo "Auto-Isolating CPU1" && init_cpu 1
-+
-+ndelay=$((1000000000 / samplefreq))
-+echo "$ndelay" > "$lasysfsdir"/delay_ns
-+
-+[ -n "$duration" ] && numsamples=$((samplefreq * duration / 1000000))
-+echo $numsamples > "$lasysfsdir"/buf_size
-+
-+if [ -n "$triggerdat" ]; then
-+	parse_triggerdat "$triggerdat"
-+	printf "$trigger_bindat" > "$lasysfsdir"/trigger 2>/dev/null || fail "Trigger data '$triggerdat' rejected"
-+fi
-+
-+workcpu=$(cat "$lacpusetdir"/effective_cpus)
-+[ -z "$workcpu" ] && fail "No isolated CPU found"
-+cpumask=$(printf '%x' $((1 << workcpu)))
-+instance=${lasysfsdir##*/}
-+echo "Setting up '$instance': $numsamples samples at ${samplefreq}Hz with ${triggerdat:-no} trigger using CPU$workcpu"
-+do_capture "$cpumask" &
+In version 2 I got rid of the idea that we could have a "fallback"
+compatible string that we'd use if we didn't recognize the ID in the
+EDID. This simplifies the bindings a lot and the implementation
+somewhat. As a result of not having a "fallback", though, I'm not
+confident in transitioning any existing boards over to this since
+we'll have to fallback to very conservative timings if we don't
+recognize the ID from the EDID and I can't guarantee that I've seen
+every panel that might have shipped on an existing product. The plan
+is to use "edp-panel" only on new boards or new revisions of old
+boards where we can guarantee that every EDID that ships out of the
+factory has an ID in the table.
+
+Version 3 of this series now splits out all eDP panels to their own
+driver and adds the generic eDP panel support to this new driver. I
+believe this is what Sam was looking for [2].
+
+[1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
+[2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
+
+Changes in v3:
+- Decode hex product ID w/ same endianness as everyone else.
+- ("Reorder logicpd_type_28...") patch new for v3.
+- Split eDP panels patch new for v3.
+- Move wayward panels patch new for v3.
+- ("Non-eDP panels don't need "HPD" handling") new for v3.
+- Split the delay structure out patch just on eDP now.
+- ("Better describe eDP panel delays") new for v3.
+- Fix "prepare_to_enable" patch new for v3.
+- ("Don't re-read the EDID every time") moved to eDP only patch.
+- Generic "edp-panel" handled by the eDP panel driver now.
+- Change init order to we power at the end.
+- Adjust endianness of product ID.
+- Fallback to conservative delays if panel not recognized.
+- Add Sharp LQ116M1JW10 to table.
+- Add AUO B116XAN06.1 to table.
+- Rename delays more generically so they can be reused.
+
+Changes in v2:
+- No longer allow fallback to panel-simple.
+- Add "-ms" suffix to delays.
+- Don't support a "fallback" panel. Probed panels must be probed.
+- Not based on patch to copy "desc"--just allocate for probed panels.
+- Add "-ms" suffix to delays.
+
+Douglas Anderson (16):
+  dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
+  drm/edid: Break out reading block 0 of the EDID
+  drm/edid: Allow the querying/working with the panel ID from the EDID
+  drm/panel-simple: Reorder logicpd_type_28 / mitsubishi_aa070mc01
+  drm/panel-simple-edp: Split eDP panels out of panel-simple
+  ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
+  arm64: defconfig: Everyone who had PANEL_SIMPLE now gets
+    PANEL_SIMPLE_EDP
+  MIPS: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
+  drm/panel-simple-edp: Move some wayward panels to the eDP driver
+  drm/panel-simple: Non-eDP panels don't need "HPD" handling
+  drm/panel-simple-edp: Split the delay structure out
+  drm/panel-simple-edp: Better describe eDP panel delays
+  drm/panel-simple-edp: hpd_reliable shouldn't be subtraced from
+    hpd_absent
+  drm/panel-simple-edp: Fix "prepare_to_enable" if panel doesn't handle
+    HPD
+  drm/panel-simple-edp: Don't re-read the EDID every time we power off
+    the panel
+  drm/panel-simple-edp: Implement generic "edp-panel"s probed by EDID
+
+ .../bindings/display/panel/panel-edp.yaml     |  188 ++
+ arch/arm/configs/at91_dt_defconfig            |    1 +
+ arch/arm/configs/exynos_defconfig             |    1 +
+ arch/arm/configs/imx_v6_v7_defconfig          |    1 +
+ arch/arm/configs/lpc32xx_defconfig            |    1 +
+ arch/arm/configs/multi_v5_defconfig           |    1 +
+ arch/arm/configs/multi_v7_defconfig           |    1 +
+ arch/arm/configs/omap2plus_defconfig          |    1 +
+ arch/arm/configs/qcom_defconfig               |    1 +
+ arch/arm/configs/realview_defconfig           |    1 +
+ arch/arm/configs/sama5_defconfig              |    1 +
+ arch/arm/configs/shmobile_defconfig           |    1 +
+ arch/arm/configs/sunxi_defconfig              |    1 +
+ arch/arm/configs/tegra_defconfig              |    1 +
+ arch/arm/configs/versatile_defconfig          |    1 +
+ arch/arm/configs/vexpress_defconfig           |    1 +
+ arch/arm64/configs/defconfig                  |    1 +
+ arch/mips/configs/qi_lb60_defconfig           |    1 +
+ arch/mips/configs/rs90_defconfig              |    1 +
+ drivers/gpu/drm/drm_edid.c                    |  121 +-
+ drivers/gpu/drm/panel/Kconfig                 |   16 +-
+ drivers/gpu/drm/panel/Makefile                |    1 +
+ drivers/gpu/drm/panel/panel-simple-edp.c      | 1895 +++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          | 1100 +---------
+ include/drm/drm_edid.h                        |   47 +
+ 25 files changed, 2293 insertions(+), 1093 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-simple-edp.c
+
 -- 
-2.30.2
+2.33.0.259.gc128427fd7-goog
 
