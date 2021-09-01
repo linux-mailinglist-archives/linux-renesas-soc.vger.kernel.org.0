@@ -2,29 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 484F43FE69A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Sep 2021 02:34:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17C2C3FE6A4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Sep 2021 02:34:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231997AbhIAXyh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Sep 2021 19:54:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48090 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230110AbhIAXyg (ORCPT
+        id S233571AbhIAXyi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Sep 2021 19:54:38 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53848 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231137AbhIAXyh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Sep 2021 19:54:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE2DFC061757;
-        Wed,  1 Sep 2021 16:53:37 -0700 (PDT)
+        Wed, 1 Sep 2021 19:54:37 -0400
 Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD1421516;
-        Thu,  2 Sep 2021 01:53:35 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 683451544;
+        Thu,  2 Sep 2021 01:53:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1630540416;
-        bh=e2on+6nnHUEaEoE7ujMr2rV+rbpLzkiDLzQOxlXzjeQ=;
+        bh=NbhF6WzQJ9BKxrEgoIvu6phF4AkR/Rg1lsS5nZtesiA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T1gew15VmhIrU5rnBi3DMJk4QpG/bjcVk6CRxujz0GiL23l3x/smv0+fKLHoEPWUo
-         ELj3Gudei9DDPC8QWEG4f8Hl9hH4F1RL5bU41b4U3MWHZ18sYTJpBVfS7Az7QR5dLX
-         arYymdLEBecRomw28Zejg5iCZpPdgL6lVgnwMnms=
+        b=oM/M31prNq/HZdff/YRxYqFQI1yCe1oMw0mDfcVO4QuHULl1hbEnN2tt9BKi7XI1S
+         tNcni2I8wl8FVP4jSzuKEsXwyCVUyNLf78oAGkMZxCg9/z/t/AxfhHFY+KlOot+b5W
+         02UTnG2bel0KkPELCqAb5F43AU39k9GfG/ry3HII=
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Geert Uytterhoeven <geert@glider.be>,
@@ -35,9 +32,9 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
         devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
         DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 1/3] arm64: dts: renesas: r8a779a0: Add DU support
-Date:   Thu,  2 Sep 2021 00:53:28 +0100
-Message-Id: <20210901235330.1611086-2-kieran.bingham@ideasonboard.com>
+Subject: [PATCH v2 2/3] arm64: dts: renesas: r8a779a0: Add DSI encoders
+Date:   Thu,  2 Sep 2021 00:53:29 +0100
+Message-Id: <20210901235330.1611086-3-kieran.bingham@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210901235330.1611086-1-kieran.bingham@ideasonboard.com>
 References: <20210901235330.1611086-1-kieran.bingham@ideasonboard.com>
@@ -49,36 +46,47 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Provide the device nodes for the DU on the V3U platforms.
+Provide the two MIPI DSI encoders on the V3U and connect them to the DU
+accordingly.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 ---
 v2
- - Use a single clock specification for the whole DU.
+ - Fixup indentation
 
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 30 +++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 60 +++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-index 631d520cebee..3241f7e7c01e 100644
+index 3241f7e7c01e..1ce9884ea527 100644
 --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
 +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-@@ -1142,6 +1142,36 @@ vspd1: vsp@fea28000 {
- 			renesas,fcp = <&fcpvd1>;
- 		};
+@@ -1161,12 +1161,72 @@ ports {
+ 				port@0 {
+ 					reg = <0>;
+ 					du_out_dsi0: endpoint {
++						remote-endpoint = <&dsi0_in>;
+ 					};
+ 				};
  
-+		du: display@feb00000 {
-+			compatible = "renesas,du-r8a779a0";
-+			reg = <0 0xfeb00000 0 0x40000>;
-+			interrupts = <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 411>;
-+			clock-names = "du";
+ 				port@1 {
+ 					reg = <1>;
+ 					du_out_dsi1: endpoint {
++						remote-endpoint = <&dsi1_in>;
++					};
++				};
++			};
++		};
++
++		dsi0: dsi-encoder@fed80000 {
++			compatible = "renesas,r8a779a0-dsi-csi2-tx";
++			reg = <0 0xfed80000 0 0x10000>;
 +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 411>;
-+			vsps = <&vspd0 0>, <&vspd1 0>;
++			clocks = <&cpg CPG_MOD 415>,
++				 <&cpg CPG_CORE R8A779A0_CLK_DSI>;
++			clock-names = "fck", "dsi";
++			resets = <&cpg 415>;
 +			status = "disabled";
 +
 +			ports {
@@ -87,21 +95,46 @@ index 631d520cebee..3241f7e7c01e 100644
 +
 +				port@0 {
 +					reg = <0>;
-+					du_out_dsi0: endpoint {
++					dsi0_in: endpoint {
++						remote-endpoint = <&du_out_dsi0>;
 +					};
 +				};
 +
 +				port@1 {
 +					reg = <1>;
-+					du_out_dsi1: endpoint {
++					dsi0_out: endpoint {
 +					};
 +				};
 +			};
 +		};
 +
- 		prr: chipid@fff00044 {
- 			compatible = "renesas,prr";
- 			reg = <0 0xfff00044 0 4>;
++		dsi1: dsi-encoder@fed90000 {
++			compatible = "renesas,r8a779a0-dsi-csi2-tx";
++			reg = <0 0xfed90000 0 0x10000>;
++			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 416>,
++				 <&cpg CPG_CORE R8A779A0_CLK_DSI>;
++			clock-names = "fck", "dsi";
++			resets = <&cpg 416>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++					dsi1_in: endpoint {
++						remote-endpoint = <&du_out_dsi1>;
++					};
++				};
++
++				port@1 {
++					reg = <1>;
++					dsi1_out: endpoint {
+ 					};
+ 				};
+ 			};
 -- 
 2.30.2
 
