@@ -2,84 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95BBE3FDDFC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Sep 2021 16:49:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28C5E3FDF15
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Sep 2021 17:54:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231859AbhIAOue (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Sep 2021 10:50:34 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47826 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229748AbhIAOue (ORCPT
+        id S1343744AbhIAPzV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Sep 2021 11:55:21 -0400
+Received: from mga18.intel.com ([134.134.136.126]:40116 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244935AbhIAPzU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Sep 2021 10:50:34 -0400
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CD32559;
-        Wed,  1 Sep 2021 16:49:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1630507775;
-        bh=SzJdlaBw2o7qjms5gbWvAmffcgZIJGKBfa2wvQ36ybo=;
-        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
-        b=GguQUHRQF3m6G/R2aRSuo5pWJdzg7h85XeSNFzMO4vv722B3f1LfuB8b0uzuRPWLd
-         6Zsgl+AOXAU4lBAJj1Vxykgz/R5ioEk4Y87AbiIKhQ+YDecPCXzxfXODQe6dh6hD4G
-         +DY1EqJcl8BcMkSIuq+Qfz4pLNGEYs9+eqkY6q0M=
-Subject: Re: [PATCH v4] media: rcar_drif: Make use of the helper function
- devm_platform_get_and_ioremap_resource()
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210901114459.31493-1-caihuoqing@baidu.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <7c75aa3a-8b1f-2d63-4c30-2c638d60e2c6@ideasonboard.com>
-Date:   Wed, 1 Sep 2021 15:49:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Wed, 1 Sep 2021 11:55:20 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10094"; a="205917046"
+X-IronPort-AV: E=Sophos;i="5.84,369,1620716400"; 
+   d="scan'208";a="205917046"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2021 08:54:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,369,1620716400"; 
+   d="scan'208";a="688417360"
+Received: from lkp-server01.sh.intel.com (HELO 4fbc2b3ce5aa) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 01 Sep 2021 08:54:21 -0700
+Received: from kbuild by 4fbc2b3ce5aa with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mLSZB-00081K-74; Wed, 01 Sep 2021 15:54:21 +0000
+Date:   Wed, 01 Sep 2021 23:54:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:master] BUILD SUCCESS
+ 94ab75aecb2229dc1286e97ea92c4c0333eab270
+Message-ID: <612fa219.2srjB+AlqfN3rx6+%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <20210901114459.31493-1-caihuoqing@baidu.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 01/09/2021 12:44, Cai Huoqing wrote:
-> Use the devm_platform_get_and_ioremap_resource() helper instead of
-> calling platform_get_resource() and devm_ioremap_resource()
-> separately.
-> 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: 94ab75aecb2229dc1286e97ea92c4c0333eab270  [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+elapsed time: 1335m
 
-> ---
-> v1->v2:
-> Use devm_platform_get_and_ioremap_resource() instead of
-> devm_platform_ioremap_resource().
-> v2->v3:
-> Update commit message.
-> v3->v4:
-> Remove the change - "struct resource *res"
->  
->  drivers/media/platform/rcar_drif.c | 3 +--
->  1 file changed, 1 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
-> index a505d991548b..e50673276d93 100644
-> --- a/drivers/media/platform/rcar_drif.c
-> +++ b/drivers/media/platform/rcar_drif.c
-> @@ -1395,8 +1395,7 @@ static int rcar_drif_probe(struct platform_device *pdev)
->  	}
->  
->  	/* Register map */
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	ch->base = devm_ioremap_resource(&pdev->dev, res);
-> +	ch->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
->  	if (IS_ERR(ch->base))
->  		return PTR_ERR(ch->base);
->  
-> 
+configs tested: 80
+configs skipped: 3
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a005-20210831
+x86_64               randconfig-a001-20210831
+x86_64               randconfig-a003-20210831
+x86_64               randconfig-a002-20210831
+x86_64               randconfig-a004-20210831
+x86_64               randconfig-a006-20210831
+i386                 randconfig-a005-20210831
+i386                 randconfig-a002-20210831
+i386                 randconfig-a003-20210831
+i386                 randconfig-a006-20210831
+i386                 randconfig-a004-20210831
+i386                 randconfig-a001-20210831
+arc                  randconfig-r043-20210831
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a014-20210831
+x86_64               randconfig-a015-20210831
+x86_64               randconfig-a013-20210831
+x86_64               randconfig-a016-20210831
+x86_64               randconfig-a012-20210831
+x86_64               randconfig-a011-20210831
+i386                 randconfig-a016-20210831
+i386                 randconfig-a011-20210831
+i386                 randconfig-a015-20210831
+i386                 randconfig-a014-20210831
+i386                 randconfig-a012-20210831
+i386                 randconfig-a013-20210831
+s390                 randconfig-r044-20210831
+hexagon              randconfig-r041-20210831
+hexagon              randconfig-r045-20210831
+riscv                randconfig-r042-20210831
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
