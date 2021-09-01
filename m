@@ -2,111 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AE483FE23E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Sep 2021 20:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D41BD3FE352
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Sep 2021 21:47:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345015AbhIASQ5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Sep 2021 14:16:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54952 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344701AbhIASQ5 (ORCPT
+        id S1343645AbhIATs1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Sep 2021 15:48:27 -0400
+Received: from www.zeus03.de ([194.117.254.33]:36526 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245024AbhIATs1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Sep 2021 14:16:57 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E929CC061764
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Sep 2021 11:15:59 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id j12so514533ljg.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Sep 2021 11:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=4k3zWyUEL5AN2tG7xoJkJdor5LE2O/9hbbNwLvToM/k=;
-        b=SXSuA4Z2KSJWgSEDMpoOIQVvONtLLv+2kaWAupmQbPqxaVcxRZEQ69Hr4G2Q1cEaIy
-         A+c+aPK3Sllcep7lmnXU9b0Sy62KlFnOK6JJsC/OPOx4RHQMOTNvCoC2fAmeA81EmcPX
-         frinTWwu6w2eXHJ0oCsaqsvWEVObcAxSnNQSCdFCe53OGfWpSyN6uuZuQ3U6WW08ZIYF
-         CpK714alSJ+deTXBdUQI0ZdmNE0P60+dk+FMG+Vy5snH3tQ00hGD7s1iEx+9QGWUAKxN
-         y9j6IrqC7zcil5EBf5hFw8Jj3zBxPMMWWyycr1l/j6SGe6BJiDraAOhpDYb9oKVd8M2A
-         4nSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=4k3zWyUEL5AN2tG7xoJkJdor5LE2O/9hbbNwLvToM/k=;
-        b=HQUvCI/VZaHwZCuzEjy9up4r8eEcxxI2cxxtquuRvjnYopCyhDzXxC+wYnwFvdcc2f
-         Dp/BCr+unZhQBnGpdW1WQUK6NhXSb9Eb6iLdann2SSwpwMmk8mzJHmCO8ISnrUK+JhJa
-         QU1lZWB+SCjpN6oivaiUI11atx08dFajHkDHEVDtcvwSq1o+W/vf/xrt+MQPMeiVXlX0
-         wUFcLW5VbiOXaJPCJ9N43tM9HE8h8KuaXl9rTlDiaujN4lA2IsZUAHbM2mrJOcXxOkHr
-         Wun3/1HvyaTFi4HpI7hAfHl0Iz38hbX3uglr8gaygpTNiPGsTYeYpt3kRCj5zj8W+M5C
-         b2fg==
-X-Gm-Message-State: AOAM530QBPn6e91+ot/s4RZPbwKtJuZTD47yS2B0H2sHc1g2b9Hmy5a0
-        yWHdhuCut3kiQyqt7WDtnFA/QA==
-X-Google-Smtp-Source: ABdhPJxmg44jwR9K8A2Q0l7UYT3Cqb5yecouenQ+7/QsbzoyfARFCYohz/9j8covPbprCfASfeKthQ==
-X-Received: by 2002:a2e:910f:: with SMTP id m15mr778961ljg.275.1630520158257;
-        Wed, 01 Sep 2021 11:15:58 -0700 (PDT)
-Received: from localhost ([185.224.57.161])
-        by smtp.gmail.com with ESMTPSA id h13sm22492lfv.62.2021.09.01.11.15.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 11:15:57 -0700 (PDT)
-Date:   Wed, 1 Sep 2021 20:15:55 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-csi2: Make use of the helper function
- devm_platform_ioremap_resource()
-Message-ID: <YS/DW7GbhVjV9//8@wyvern>
-References: <20210901055510.7279-1-caihuoqing@baidu.com>
+        Wed, 1 Sep 2021 15:48:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=o3WveLW81BDHsV2epXosq3kZpkL
+        Zc1B0Ik5zl4hkcJY=; b=wdW69VSCr353jZLX1z33RAzULcdDHeJrvbPbitzd2ix
+        M1fkJv3taHW7bp9IPwYx9L4+qiqtC1pMK1lQXVJxGKcjlFQOqaRhBQTb1uUaXalr
+        WLgLQbfBYw6LnBxlw/l4UfRgn/esLss/ETM19zj8Ak6tKC7yAez1lQHgPh47rmpg
+        =
+Received: (qmail 3153047 invoked from network); 1 Sep 2021 21:47:27 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Sep 2021 21:47:27 +0200
+X-UD-Smtp-Session: l3s3148p1@LJOCVfTKwOYgAwDPXwmvAFZKlTMHlX5i
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-gpio@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH 0/1] gpio: add simple logic analyzer using polling
+Date:   Wed,  1 Sep 2021 21:45:48 +0200
+Message-Id: <20210901194549.3999-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210901055510.7279-1-caihuoqing@baidu.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Cai,
+The bravery continues with the next update and first non-RFC version of
+the in-kernel logic analyzer based on GPIO polling with local irqs
+disabled. It has been been tested locally and remotely. It provided
+satisfactory results. Besides the driver, there is also a script which
+isolates a CPU to achieve the best possible result. I am aware of the
+latency limitations. However, the intention is for debugging only, not
+mass production. Especially for remote debugging and to get a first
+impression, this has already been useful. Documentation is within the
+patch, to get a better idea what this is all about.
 
-Thanks for your work.
+Changes since RFC v2:
 
-On 2021-09-01 13:55:09 +0800, Cai Huoqing wrote:
-> Use the devm_platform_ioremap_resource() helper instead of
-> calling platform_get_resource() and devm_ioremap_resource()
-> separately
-> 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+* took most of the suggestions from Andy's review. For the things I did
+  not take, I added comments when appropriate.
+* A *lot* of cleanups to the shell script guided by checkers, mainly
+  'shellcheck'. This is mainly to ensure that the scripts works on most
+  minimal shells. Tested are 'busybox ash', 'dash', and 'bash'.
+* a *lot* more error checking and reporting in the script
+* I found fatal_signal_pending(), so the sampling process is now
+  finally killable \o/
+* script sets CPUfreq now to "performance" for the isolated CPU
+* the acquisition_delay is now measured before each sampling and not
+  only during probe because the probing core is likely not the one
+  used for sampling later
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Thanks to Andy for many suggestions.
 
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index 711b52ba42b5..a4952711b7b1 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -1238,11 +1238,9 @@ static const struct media_entity_operations rcar_csi2_entity_ops = {
->  static int rcsi2_probe_resources(struct rcar_csi2 *priv,
->  				 struct platform_device *pdev)
->  {
-> -	struct resource *res;
->  	int irq, ret;
->  
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	priv->base = devm_ioremap_resource(&pdev->dev, res);
-> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(priv->base))
->  		return PTR_ERR(priv->base);
->  
-> -- 
-> 2.25.1
-> 
+A branch with preparation for the Renesas Salvator-XS (R-Car H3 ES2.0
+and M3-N tested) and Falcon boards (R-Car V3U) is here:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/gpio-logic-analyzer-v3
+
+The documentation is also available online on the elinux wiki:
+https://elinux.org/Kernel_GPIO_Logic_analyzer
+
+Looking forward to comments and especially further tests with different
+use cases than mine.
+
+Thanks and all the best,
+
+   Wolfram
+
+
+Wolfram Sang (1):
+  gpio: add sloppy logic analyzer using polling
+
+ .../dev-tools/gpio-sloppy-logic-analyzer.rst  |  71 ++++
+ Documentation/dev-tools/index.rst             |   1 +
+ drivers/gpio/Kconfig                          |  17 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-sloppy-logic-analyzer.c     | 340 ++++++++++++++++++
+ tools/gpio/gpio-sloppy-logic-analyzer         | 214 +++++++++++
+ 6 files changed, 644 insertions(+)
+ create mode 100644 Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
+ create mode 100644 drivers/gpio/gpio-sloppy-logic-analyzer.c
+ create mode 100755 tools/gpio/gpio-sloppy-logic-analyzer
 
 -- 
-Regards,
-Niklas Söderlund
+2.30.2
+
