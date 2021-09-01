@@ -2,167 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D7A13FD1E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Sep 2021 05:43:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4C503FD36F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Sep 2021 07:55:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241795AbhIADoZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 Aug 2021 23:44:25 -0400
-Received: from mga11.intel.com ([192.55.52.93]:21860 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241774AbhIADoZ (ORCPT
+        id S242329AbhIAF4P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Sep 2021 01:56:15 -0400
+Received: from mx20.baidu.com ([111.202.115.85]:52086 "EHLO baidu.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S242297AbhIAF4O (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 Aug 2021 23:44:25 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10093"; a="215483019"
-X-IronPort-AV: E=Sophos;i="5.84,368,1620716400"; 
-   d="scan'208";a="215483019"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2021 20:43:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,368,1620716400"; 
-   d="scan'208";a="601449863"
-Received: from lkp-server01.sh.intel.com (HELO 4fbc2b3ce5aa) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Aug 2021 20:43:24 -0700
-Received: from kbuild by 4fbc2b3ce5aa with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mLH9n-0007Q7-JC; Wed, 01 Sep 2021 03:43:23 +0000
-Date:   Wed, 01 Sep 2021 11:42:30 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- d137660340411cbf97721b1578583f20a31fd6b2
-Message-ID: <612ef6a6.Q5Ym89+PAxL6eqE+%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 1 Sep 2021 01:56:14 -0400
+Received: from BC-Mail-Ex22.internal.baidu.com (unknown [172.31.51.16])
+        by Forcepoint Email with ESMTPS id D0744986D798B2A704FC;
+        Wed,  1 Sep 2021 13:55:16 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-Ex22.internal.baidu.com (172.31.51.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.12; Wed, 1 Sep 2021 13:55:16 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Wed, 1 Sep 2021 13:55:16 +0800
+From:   Cai Huoqing <caihuoqing@baidu.com>
+To:     <caihuoqing@baidu.com>
+CC:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] media: rcar-csi2: Make use of the helper function devm_platform_ioremap_resource()
+Date:   Wed, 1 Sep 2021 13:55:09 +0800
+Message-ID: <20210901055510.7279-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BJHW-Mail-Ex11.internal.baidu.com (10.127.64.34) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: d137660340411cbf97721b1578583f20a31fd6b2  Merge tag 'v5.14' into renesas-devel
+Use the devm_platform_ioremap_resource() helper instead of
+calling platform_get_resource() and devm_ioremap_resource()
+separately
 
-elapsed time: 2261m
-
-configs tested: 108
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-mips                           ip28_defconfig
-sh                          urquell_defconfig
-arc                     haps_hs_smp_defconfig
-powerpc                      walnut_defconfig
-sh                          sdk7780_defconfig
-sh                          lboxre2_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a005-20210831
-x86_64               randconfig-a001-20210831
-x86_64               randconfig-a003-20210831
-x86_64               randconfig-a002-20210831
-x86_64               randconfig-a004-20210831
-x86_64               randconfig-a006-20210831
-i386                 randconfig-a005-20210831
-i386                 randconfig-a002-20210831
-i386                 randconfig-a003-20210831
-i386                 randconfig-a006-20210831
-i386                 randconfig-a004-20210831
-i386                 randconfig-a001-20210831
-x86_64               randconfig-a014-20210830
-x86_64               randconfig-a015-20210830
-x86_64               randconfig-a013-20210830
-x86_64               randconfig-a016-20210830
-x86_64               randconfig-a012-20210830
-x86_64               randconfig-a011-20210830
-i386                 randconfig-a016-20210830
-i386                 randconfig-a011-20210830
-i386                 randconfig-a015-20210830
-i386                 randconfig-a014-20210830
-i386                 randconfig-a012-20210830
-i386                 randconfig-a013-20210830
-s390                 randconfig-r044-20210830
-arc                  randconfig-r043-20210830
-riscv                randconfig-r042-20210830
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a005-20210830
-x86_64               randconfig-a001-20210830
-x86_64               randconfig-a003-20210830
-x86_64               randconfig-a002-20210830
-x86_64               randconfig-a004-20210830
-x86_64               randconfig-a006-20210830
-x86_64               randconfig-a014-20210831
-x86_64               randconfig-a015-20210831
-x86_64               randconfig-a013-20210831
-x86_64               randconfig-a016-20210831
-x86_64               randconfig-a012-20210831
-x86_64               randconfig-a011-20210831
-i386                 randconfig-a016-20210831
-i386                 randconfig-a011-20210831
-i386                 randconfig-a015-20210831
-i386                 randconfig-a014-20210831
-i386                 randconfig-a012-20210831
-i386                 randconfig-a013-20210831
-s390                 randconfig-r044-20210831
-hexagon              randconfig-r041-20210831
-hexagon              randconfig-r045-20210831
-riscv                randconfig-r042-20210831
-hexagon              randconfig-r041-20210830
-hexagon              randconfig-r045-20210830
-
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index 711b52ba42b5..a4952711b7b1 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -1238,11 +1238,9 @@ static const struct media_entity_operations rcar_csi2_entity_ops = {
+ static int rcsi2_probe_resources(struct rcar_csi2 *priv,
+ 				 struct platform_device *pdev)
+ {
+-	struct resource *res;
+ 	int irq, ret;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	priv->base = devm_ioremap_resource(&pdev->dev, res);
++	priv->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(priv->base))
+ 		return PTR_ERR(priv->base);
+ 
+-- 
+2.25.1
+
