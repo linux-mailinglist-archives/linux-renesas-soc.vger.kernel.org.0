@@ -2,69 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE2203FED2F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Sep 2021 13:53:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8A0D3FED7A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Sep 2021 14:07:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234185AbhIBLx5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Sep 2021 07:53:57 -0400
-Received: from mail-vs1-f43.google.com ([209.85.217.43]:46038 "EHLO
-        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234069AbhIBLxz (ORCPT
+        id S1343985AbhIBMIS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Sep 2021 08:08:18 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59722 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234081AbhIBMIN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Sep 2021 07:53:55 -0400
-Received: by mail-vs1-f43.google.com with SMTP id a21so1175805vsp.12;
-        Thu, 02 Sep 2021 04:52:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s5u8fbmiYbgPdIpDQg3crMwUtNYfjRbmwSaVQsWY1oM=;
-        b=DgPTE6qca4P3EgOMcRcMBfv1nXesZ41smhsXyc5Dll49z+TV6XMaeleoTToBqjREIO
-         WOnoyq7e+2EIqJKVZ4EdWNHER7Z7xgue6PeW1e1PQJUC7ef3GbTsLGpaeKLwDSU8wy5k
-         iJY44jd5Q+SwT8XhxeupfAOA0Lz8OjNkCmJPQHQa41xFyD6Px+hGAP1ylG/4sG8+81v5
-         Ho8zD6EJjHXpEyKlxXdH5SDORTYa7pCNoxDzytwjs/tKwPmQkfD6oQ5iz/Wdq1bwDG/5
-         fvhE3CevuetDW4ckopIqmOKwtWuaYR+IxauQDRi2q9+PnGvKB4+hSb4Vaa8N4QaHx+aB
-         Gt/A==
-X-Gm-Message-State: AOAM532Y0l9t9nfUrvsUesF23FwmqRu4XR2CzV14sUg3uzi593gvzNuO
-        8kT7C0F3DGp279bBl9g4tUj6rqv44gaxRFobzwA=
-X-Google-Smtp-Source: ABdhPJzrCJB+pGoTiggeVf31kTRMhI2i9RZDg13fzg+0T5RSO5BvVbACLYeBbRKhNO23EIIRyzaD46D25wmDzeNZY9Q=
-X-Received: by 2002:a67:cb0a:: with SMTP id b10mr1535432vsl.9.1630583576886;
- Thu, 02 Sep 2021 04:52:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210902114641.32370-1-caihuoqing@baidu.com>
-In-Reply-To: <20210902114641.32370-1-caihuoqing@baidu.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 2 Sep 2021 13:52:45 +0200
-Message-ID: <CAMuHMdXkcf1F5yLb6JWOA+R-SUtPBLkNZZiAbaYxhtQE7gY8Bg@mail.gmail.com>
+        Thu, 2 Sep 2021 08:08:13 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C9D2317;
+        Thu,  2 Sep 2021 14:07:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1630584432;
+        bh=csucKKKaebI8zi2+HWw8SH9l9iZHwSFcwgRgPzO91HU=;
+        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+        b=uaChDXnSXYzOC76S8Jxtwixm1QKdOBtOYp0skOQOqreeoEaebwu12qpwKlt0axzqK
+         hV+YmH8hspy7qF4GIPQihzNys+F1IYCMih1sBIm3D43iTL39Glye4AGcIHrmb+kggA
+         ST3LsX8w9Z0O3AR1+N2dF0mPgJLQ+gzERYy2O84E=
 Subject: Re: [PATCH] MAINTAINERS: Add linux-renesas-soc mailing list to
  renesas JPU
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     Cai Huoqing <caihuoqing@baidu.com>,
+        mikhail.ulyanov@cogentembedded.com, mchehab@kernel.org,
+        kieran.bingham+renesas@ideasonboard.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20210902114641.32370-1-caihuoqing@baidu.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <b646e4a5-e680-2438-5107-456d73871fd0@ideasonboard.com>
+Date:   Thu, 2 Sep 2021 13:07:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210902114641.32370-1-caihuoqing@baidu.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 2, 2021 at 1:47 PM Cai Huoqing <caihuoqing@baidu.com> wrote:
+On 02/09/2021 12:46, Cai Huoqing wrote:
 > 'linux-renesas-soc' is the mailing list for renesas SOC driver,
 > so add it to renesas JPU driver info.
->
+
+You beat me to it ;-)
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
 > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9de648f49591..3581939fd679 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10042,6 +10042,7 @@ F:	include/linux/jbd2.h
+>  JPU V4L2 MEM2MEM DRIVER FOR RENESAS
+>  M:	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
+>  L:	linux-media@vger.kernel.org
+> +L:	linux-renesas-soc@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/media/platform/rcar_jpu.c
+>  
+> 
