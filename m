@@ -2,182 +2,189 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF34B3FF72F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Sep 2021 00:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 995A43FFAF1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Sep 2021 09:19:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347586AbhIBWeV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Sep 2021 18:34:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240849AbhIBWeU (ORCPT
+        id S1347791AbhICHTf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Sep 2021 03:19:35 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:23017 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347711AbhICHTe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Sep 2021 18:34:20 -0400
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F053FC061764
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Sep 2021 15:33:21 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id a15so4555685iot.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Sep 2021 15:33:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vEOAhsHQM9G+tVvC78A/rhgecetN4byQdhrLLpo0P0g=;
-        b=LDmJnOglDM6SRfrqk879nlvltfZEhwju/ts9Exu/2rE0XB+Lj74aGi7ZCLry1NSj0f
-         btPQfuDa+Q2ntfjL+zK+k6leKrLg6ahv0/pjTn7Y3JJbbdq5v55q2XUGEdXr0VDSURWz
-         zo/R1rY1OagPqlvLvu4Emr9cTHgcwBCjlU/VE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vEOAhsHQM9G+tVvC78A/rhgecetN4byQdhrLLpo0P0g=;
-        b=Fly8Pgro8aBgzvJDmPIIguZExW35kG4Z0Nvi81IHq5oUoKQJIWjMXMgYjjW5jU3vKb
-         wyXr9gXka2Wfag4O1nKkw7V8OLWf0qWSZZl0CKwZqDL4mvZhZqcjGU6TPAwGl8vcUgy4
-         J+c3MG1cDap7F42urBl/1Y/VOWOwr9X8fYCVpNO/Yp517Cmd4E6Ez0UQXMy3/CI7S5Nj
-         dPXDmOHBdhuW/cAbIjNvy42nUKkMIttJgpkDnamk6Lah6SbTySzL9agRqv4X0FG11nRA
-         c3rTxa8CF30ayoeqpqGTmxVMsQpL2hicpkT2t9N64YP2+skpxeNQbrfYZpiWZP5R2Cjx
-         rp/A==
-X-Gm-Message-State: AOAM533S1kv9TbtJS4302gqowFIu5TDf44ezX4KFcoNVRS7WU3pdMp5L
-        lkEDFNDjU9eeCWmLgwan8dE1vslA9bntBg==
-X-Google-Smtp-Source: ABdhPJwd6iaqAnbJ7HLv6zYh6Mvyp1mssOUBn3A5Hq5uTiIMZ2NP2rsHD7QGBjWLgi/Oq7VIPDu+Jg==
-X-Received: by 2002:a5e:8e4c:: with SMTP id r12mr523860ioo.73.1630622000682;
-        Thu, 02 Sep 2021 15:33:20 -0700 (PDT)
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com. [209.85.166.178])
-        by smtp.gmail.com with ESMTPSA id h9sm1691597ioz.30.2021.09.02.15.33.19
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Sep 2021 15:33:20 -0700 (PDT)
-Received: by mail-il1-f178.google.com with SMTP id i13so3432175ilm.4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Sep 2021 15:33:19 -0700 (PDT)
-X-Received: by 2002:a92:cf4a:: with SMTP id c10mr329106ilr.269.1630621999435;
- Thu, 02 Sep 2021 15:33:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <CGME20210902221015eucas1p26fae8f6ba4c70087dc7b007a271dce4b@eucas1p2.samsung.com>
- <20210901201934.1084250-1-dianders@chromium.org> <b1b67791-69b7-a5c0-9e98-73bb82afaeaa@samsung.com>
-In-Reply-To: <b1b67791-69b7-a5c0-9e98-73bb82afaeaa@samsung.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 2 Sep 2021 15:33:07 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W+7gReePki1kgxwxMTXEeeCoaFm1C63EcV+YOP7kayGA@mail.gmail.com>
-Message-ID: <CAD=FV=W+7gReePki1kgxwxMTXEeeCoaFm1C63EcV+YOP7kayGA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/16] eDP: Support probing eDP panels dynamically
- instead of hardcoding
-To:     Andrzej Hajda <a.hajda@samsung.com>
+        Fri, 3 Sep 2021 03:19:34 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20210903071834euoutp02625958defe1c69fc6c19bde76e00d39c~hPrtBmjuO1388113881euoutp02E
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Sep 2021 07:18:34 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20210903071834euoutp02625958defe1c69fc6c19bde76e00d39c~hPrtBmjuO1388113881euoutp02E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1630653514;
+        bh=jzfva8tySkoBOZr2tYVsxf46AbNPcgeN/pneM9rWZ7M=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=YHQT2KhGoOEH+ry4ouVkAW9b7mjzp7NHHnYMhKJyvj5aS8/1nWhoqnQhSZfstHmUh
+         eFn7KIm7X0znMMoIRkfT31nu3YD1oE5sHcrcxcfpe8Srv9F0M9+W7mw9s46lEEq6mS
+         UUU/r3hPJQoabiDe6YIfg1D7HgekIwgSNFR84GFo=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20210903071833eucas1p176cb4b6def20e6660e2b3ce075ab5b68~hPrsTJmFf2482524825eucas1p1M;
+        Fri,  3 Sep 2021 07:18:33 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id BA.3B.42068.94CC1316; Fri,  3
+        Sep 2021 08:18:33 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1~hPrr0SjpP2476624766eucas1p1c;
+        Fri,  3 Sep 2021 07:18:32 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20210903071832eusmtrp1ee4a743996cc9c282753936e3c679c16~hPrryLsZp3052030520eusmtrp1y;
+        Fri,  3 Sep 2021 07:18:32 +0000 (GMT)
+X-AuditID: cbfec7f4-c89ff7000002a454-1c-6131cc49558e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 23.36.20981.84CC1316; Fri,  3
+        Sep 2021 08:18:32 +0100 (BST)
+Received: from [192.168.0.14] (unknown [106.210.131.79]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20210903071831eusmtip1b3a77e8d246906c962e97defe4b33642~hPrqixxyX3135731357eusmtip1I;
+        Fri,  3 Sep 2021 07:18:31 +0000 (GMT)
+Subject: Re: [PATCH v3 06/16] ARM: configs: Everyone who had PANEL_SIMPLE
+ now gets PANEL_SIMPLE_EDP
+To:     Doug Anderson <dianders@chromium.org>,
+        Olof Johansson <olof@lixom.net>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Sam Ravnborg <sam@ravnborg.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Linus W <linus.walleij@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        DTML <devicetree@vger.kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mips <linux-mips@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-omap <linux-omap@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-sunxi@lists.linux.dev,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+        "moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES" 
+        <linux-samsung-soc@vger.kernel.org>, linux-sunxi@lists.linux.dev,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
+From:   Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <5c3b3c1c-6fc2-123b-b1bc-c6e085996e01@samsung.com>
+Date:   Fri, 3 Sep 2021 09:18:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+        Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG8957e9uiLdfixis2KmRuw20gSrKXbHHTkHG34ZQtYdNtYsVr
+        NVAkvaDsI4MxYcCsCk6FlggkfElMtNRC21mIXaUiX0qhTCapDsYYrjDKZ2Gdo1zM+O85z/md
+        9zkneQW4xEgGCY6lpDHKFFlyCOlHNLR4ul57tz1CtrVwXIBUna0Y8ha18FFb8xiBnjYU4qjM
+        2slDHdW3SNQzPU6i3wtcJKq7YCSQ1jWHoR//qcFQ/aCDhwqbO/ioYP4KjuymUhJpKs8SSP/n
+        GIaKu5oWuSYTifKn1CSyXDADVDGhJ1BufjUP3e2bJFGO2cpHtR49QB7TZeLt9bTdcR+nF+aL
+        AK3OUpG0Jus+QRsGKgFtniknaKN6gE/X1+WT9EPHTZJunHnEoy+3xtHOH2wYravMpEd0JYDu
+        uZPNo7VjBmxvwH6/Nw8zycdOMMrwHQf9jj445yRTTVRG71/D/CxQKioAQgGkIqHdkccvAH4C
+        CVUL4NCQe7mYAtBebCK4YhLAEvNV3rMRzeQwyTVqAKzy3MG4wgXgRPZpzEcFUAy0tdzj+/Ra
+        6j140fBkCcKpYiGsGO1fgkgqFHp1D0ifFlE7oK6oB/dpgnoBdo5MEz79HLUPeltNPI5ZA1tL
+        hpZ8IRUHf/5teInHqUDYP1SGcXojbHSV4r4wSJn94GyXAeP2joZ9zRcJTgfAUdsNPqelsO38
+        6WU/EzprTy0P5wGov27EucYb8GHn/OKmgsWEUHjNFM7ZO6H9tpvw2ZASw19ca7gdxLCo4RLO
+        2SKYlyvh6GDo7NAvPxgIq+5Nk+dAiHrFZeoV16hXXKP+P7ccEHUgkElnFXKG3ZbCnAxjZQo2
+        PUUelnhcUQ8Wf3fbv7YpA6gZnQizAEwALAAK8JC1IuM7W2US0WHZF18yyuMJyvRkhrWA9QIi
+        JFB06MbVBAkll6UxSQyTyiifdTGBMCgLi9M6viqWHtLMJp5flzDAard39wY/37Rqu/elt8Y3
+        bXZkfDjnhU+yK+sjRMFqdfxn9rqamLnvbkX5r3p/XfnH0RVNu1xXeg8oE6pybuvgtfaMlzNY
+        99n4Ld//dOJkmKq4YdO+usbuAKnpk7I0/QfA3R7lMfj3RkfyreW5sUWWkehLqqCbObtfmd4v
+        j9QiL5X07YvUpxv+Xv2He9AMPwprCu3TyPsrDD1RXbO7fz0QEzMzSxl5muHXqTPW6l1HrKvF
+        jw5u6371a1w1mFzmVsjlexThVRuv7zFlJjnZnZrUb/ptT7sTY3n10gWz/112w2axOPbxkdSc
+        z/cKpQvxZWcenyJEIQR7VBaxBVeysv8AlYUuhUwEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDKsWRmVeSWpSXmKPExsVy+t/xu7oeZwwTDb49VLboPXeSyeLvpGPs
+        Fqf3v2Ox+L9tIrPF/CPnWC3OLjvIZnHl63s2i6ddb9ksVk3dyWKx8e0PJospf5YzWWx6fI3V
+        YuL+s+wWXb9WMltc3jWHzWL2kn4Wi60v3zFZzDi/D6hu3y42i84vs9gsDk3dy2ix8ONWFou2
+        zmWsFqeuf2azaN17hN1ixc+tjBY/d81jcZD2uHztIrPH71+TGD1mNfSyecxuuMjisePuEkaP
+        vd8WsHjsnHWX3WPTqk42jzvX9rB5bP/2gNVj3slAj/vdx5k8Ni+p93ixeSajx5UTTaweG9/t
+        YAoQjtKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DL
+        uDnhPlvBLoGKq2+esTcwzuHtYuTkkBAwkZj9+RlbFyMXh5DAUkaJ+X9/s0EkxCV2z3/LDGEL
+        S/y51gVV9JpR4u/CF0wgCWGBVIlrB5cygtgiAl4S03a8ZgIpYhaYxynxefojFoiOqUwSy1//
+        YQGpYhPQlPi7+SbYCl4BO4nNk66ArWARUJE49+IrWI2oQKRE04mtUDWCEidnPgGLcwoEShx+
+        9AysnlnATGLe5odQtrjErSfzmSBseYntb+cwT2AUmoWkfRaSlllIWmYhaVnAyLKKUSS1tDg3
+        PbfYSK84Mbe4NC9dLzk/dxMjMFltO/Zzyw7Gla8+6h1iZOJgPMQowcGsJMK7080gUYg3JbGy
+        KrUoP76oNCe1+BCjKdA/E5mlRJPzgekyryTe0MzA1NDEzNLA1NLMWEmc1+TImnghgfTEktTs
+        1NSC1CKYPiYOTqkGph1rbWbMmzXjSG2amHRz3sLLVyasclgV8HE2w44Hp/lOCMYKZ7lZmGou
+        XykuZy4oHnLxhAdT+aTOb/rZr5Y8vZTRktTQycCxIuxqQ4zCxIU6scq6GmoztimZNUn3/Xt6
+        w9tMtFLiQ/Ct3eXPQhw6T8Qa7IsOf6dl8e6envRB9ikn97ld7+ncv7XgsNebmoTKOm45SY7d
+        P4tKShnf7p+uv8T+FsOW+pUtZ4vuF8VI/c6/dSvElVk6+fB8EbEE9+bflwvk3rFFbL3mtMv/
+        VphE6IH7RQ93mNk6Tog3irVb2Rt/vu7uRY5Ja9sOhK5akbHm7Dqt04tccuZah7L4HNJSZ503
+        Y7vf+wNzkl/uvRXxX4mlOCPRUIu5qDgRAD32K4LfAwAA
+X-CMS-MailID: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
+References: <20210901201934.1084250-1-dianders@chromium.org>
+        <20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid>
+        <CAOesGMjp4pscuxciHZo7br-acgbkZSdRA_mUWNpcz0OfF7zOSA@mail.gmail.com>
+        <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
+        <CGME20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1@eucas1p1.samsung.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+On 02.09.2021 01:10, Doug Anderson wrote:
+> Hi,
+> 
+> On Wed, Sep 1, 2021 at 2:12 PM Olof Johansson <olof@lixom.net> wrote:
+>>
+>> On Wed, Sep 1, 2021 at 1:20 PM Douglas Anderson <dianders@chromium.org> wrote:
+>>>
+>>> In the patch ("drm/panel-simple-edp: Split eDP panels out of
+>>> panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
+>>> give everyone who had the old driver enabled the new driver too. If
+>>> folks want to opt-out of one or the other they always can later.
+>>>
+>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>>
+>> Isn't this a case where the new option should just have had the old
+>> option as the default value to avoid this kind of churn and possibly
+>> broken platforms?
+> 
+> I'm happy to go either way. I guess I didn't do that originally
+> because logically there's not any reason to link the two drivers going
+> forward. Said another way, someone enabling the "simple panel" driver
+> for non-eDP panels wouldn't expect that the "simple panel" driver for
+> DP panels would also get enabled by default. They really have nothing
+> to do with one another. Enabling by default for something like this
+> also seems like it would lead to bloat. I could have sworn that
+> periodically people get yelled at for marking drivers on by default
+> when it doesn't make sense.
+> 
+> ...that being said, I'm happy to change the default as you suggest.
+> Just let me know.
 
-On Thu, Sep 2, 2021 at 3:10 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
->
-> Removed most CC: SMTP server protested.
+I guess this is just misunderstanding. Symbol names:
+	CONFIG_DRM_PANEL_SIMPLE=y
+	CONFIG_DRM_PANEL_SIMPLE_EDP=y
+suggests that CONFIG_DRM_PANEL_SIMPLE_EDP is an 'suboption' of 
+CONFIG_DRM_PANEL_SIMPLE, but these symbols are independent - old symbol 
+has been split into two independent new symbols.
+So Doug's approach seems correct to me. Maybe one could change names of 
+symbols to avoid confusion(?).
 
-Yeah, it was because of the dang defconfig patches. My general policy
-is to send the cover letter to everyone even if not everyone gets CCed
-on all patches, but it ended up as a lot... Speaking of which, I'd
-definitely be interested in your take on the defconfig topic:
+One more thing, I suspect previous patch can break platforms with EDP 
+panels. Even if this patch fixes it, maybe it would be better to squash 
+these patches? Or add temporal solution to save bisecatability.
 
-https://lore.kernel.org/r/CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com
+Regards
+Andrzej
 
-Do you agree with Olof that I should set the "default" for the new
-config to be the same as the old config? It doesn't make sense going
-forward but it helps for anyone with old configs...
+> 
+> -Doug
+> 
 
-
-> On 01.09.2021 22:19, Douglas Anderson wrote:
-> > The goal of this patch series is to move away from hardcoding exact
-> > eDP panels in device tree files. As discussed in the various patches
-> > in this series (I'm not repeating everything here), most eDP panels
-> > are 99% probable and we can get that last 1% by allowing two "power
-> > up" delays to be specified in the device tree file and then using the
-> > panel ID (found in the EDID) to look up additional power sequencing
-> > delays for the panel.
-> >
-> > This patch series is the logical contiunation of a previous patch
-> > series where I proposed solving this problem by adding a
-> > board-specific compatible string [1]. In the discussion that followed
-> > it sounded like people were open to something like the solution
-> > proposed in this new series.
-> >
-> > In version 2 I got rid of the idea that we could have a "fallback"
-> > compatible string that we'd use if we didn't recognize the ID in the
-> > EDID. This simplifies the bindings a lot and the implementation
-> > somewhat. As a result of not having a "fallback", though, I'm not
-> > confident in transitioning any existing boards over to this since
-> > we'll have to fallback to very conservative timings if we don't
-> > recognize the ID from the EDID and I can't guarantee that I've seen
-> > every panel that might have shipped on an existing product. The plan
-> > is to use "edp-panel" only on new boards or new revisions of old
-> > boards where we can guarantee that every EDID that ships out of the
-> > factory has an ID in the table.
-> >
-> > Version 3 of this series now splits out all eDP panels to their own
-> > driver and adds the generic eDP panel support to this new driver. I
-> > believe this is what Sam was looking for [2].
-> >
-> > [1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
-> > [2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
-> >
-> I like the idea - if something can be configured dynamically lets do it.
-> But I have few questions:
-> 1. Have you read different real panels id's? In many cases (MIPI DSI,
-> LVDS with EDID) manufacturers often forgot to set proper id fields. I do
-> not know how EDID's ids are reliable in case of edp panels.
-
-I have read several and (so far) they have been quite reliable but I
-will admit that I haven't done an exhaustive sample. I guess my answer
-to whether we can trust it is:
-
-a) Presumably you'd only use this new "edp-panel" compatible on
-systems whose panel IDs are known to be reliable. Old systems can keep
-determining the panel by compatible string. The two schemes can
-co-exist.
-
-b) As we start using this new scheme then there will be more
-validation of panel ID strings and, presumably, they will become more
-reliable.
-
-It is still true that ID conflicts could exist. A vendor could ship
-two different panels with the same ID and maybe nobody would notice
-because they weren't ever hooked up to the same board. In that case
-we'd have a question of what to do upstream. If this really happens
-then I suppose (worst case) we could use the device tree to help
-differentiate and each board could say that "panel ID <x> hooked up to
-this board is actually panel <y>". I hope we don't have to do that
-because it feels dirty, but at least it gives us _something_ if we get
-backed into a corner.
-
-
-> 2. You are working with edp panels - beside EDID they have DPCD which
-> contains things like IEEE_OUI and "Device Identification String", I
-> guess they could be also used for detecting panels, have you considered
-> it? I think DPCD Id should be assigned to EDP-Sink interface, and EDID
-> Id to the actual panel behind it. With this assumption one could
-> consider which timings should be property of which entity.
-
-This could be another way to help us if we're backed into a corner in
-the future. Right now the driver requires that you give access to a
-full eDP AUX bus to use the "generic eDP" panel support even though it
-currently only relies on the EDID, so it would be pretty easy to
-utilize this info in the future. So far the ID has been reliable for
-me though.
-
-
--Doug
