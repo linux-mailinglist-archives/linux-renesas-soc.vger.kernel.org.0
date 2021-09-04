@@ -2,66 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37D35400623
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Sep 2021 21:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9706940089A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Sep 2021 02:14:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234472AbhICTvz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Sep 2021 15:51:55 -0400
-Received: from mail-oo1-f50.google.com ([209.85.161.50]:39470 "EHLO
-        mail-oo1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230421AbhICTvy (ORCPT
+        id S1350780AbhIDAGs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Sep 2021 20:06:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57750 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350596AbhIDAGs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Sep 2021 15:51:54 -0400
-Received: by mail-oo1-f50.google.com with SMTP id t2-20020a4ae9a2000000b0028c7144f106so21858ood.6;
-        Fri, 03 Sep 2021 12:50:54 -0700 (PDT)
+        Fri, 3 Sep 2021 20:06:48 -0400
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99492C061760
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Sep 2021 17:05:47 -0700 (PDT)
+Received: by mail-qk1-x749.google.com with SMTP id h10-20020a05620a284a00b003d30e8c8cb5so2227729qkp.11
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Sep 2021 17:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=mjzKqamzQmvzyqlVvUVvv6P1c+/kEZztjTn7I8qHctk=;
+        b=VZ4p+EFnl9EXauvJ8dhmEDRVt8YHYnMZhZvV6h6nXYpS8v+LDxHvFjqrQR9eLsDsYy
+         RHTaYj0wnWluvQm7nCyFHpVTY4X8aSkLuiIkTyUOtezLSN/w1eSH1tjAyXzk6Y6V+daF
+         nD4NShWbq6Z7Q6wGJuPFkSLi3XRYi3l8fI7h5O9yxld6cQp6X5zUN7AIWAQFMwtKXCyM
+         HXp04mNEFZ5P1u4dqby0/DAT3CrpF/59RTQZHoVwcvbSNnALUImixWgqC+Qcatbmm+Bl
+         8cGxwkxOX9xAhBKt/slNqZhBiHfmq1ksDBxjPaOWBySvhq6EsQwZdcMREHamx96DGzud
+         O5xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EBFLmekutrmRxU3ByHJT7leszJzUX4EBGLPcs8sBao8=;
-        b=qev9j/cG8TnkADmAHitnlXkIlNGY/vBI4wvwpTDDksJyu0JYckCZb1WIw6bMH0FjCn
-         A48hVqfVGeZPO9+hqzauKux8dhaiMGTsQRk2ioeRYi05kexiiUybh21TuYHQuTv1kD2m
-         7LhdrnC8/q8rWG1rkaY4B2dmd3OUDRCr8gKvsl5FP6hmvXgNpCPJBMU+VAnvfpQSSyRw
-         Jpdblbd6QYBrNSiKgOfOPE9Q6i6Bo7TKgy+sO7Us+R1Q6Wyvd7NiFVpLEA5HJWdICROe
-         NQVDWxn8m0wSnPS5YvxaNqgVj/fVZbIwy1o4fjIDOrUWPB3oXBVN+mS8Tw77mVm/HIDw
-         dN4w==
-X-Gm-Message-State: AOAM531Rc4/BlKAZnWVNJ4bv2Xn0dFD3VKTy5aEePxfsKiTKvgDhN6BT
-        uF7CP4BAkRy3ByanRt3Uqw==
-X-Google-Smtp-Source: ABdhPJzQwSlUjPmt9nmt4wfcz2TqN3ODYwvOntLljzI2RULMGR+QOqgoSya/tElc/6kDUno7UeFpAg==
-X-Received: by 2002:a4a:a78a:: with SMTP id l10mr4374964oom.30.1630698654248;
-        Fri, 03 Sep 2021 12:50:54 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id i1sm71822oiy.25.2021.09.03.12.50.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 12:50:53 -0700 (PDT)
-Received: (nullmailer pid 3347203 invoked by uid 1000);
-        Fri, 03 Sep 2021 19:50:52 -0000
-Date:   Fri, 3 Sep 2021 14:50:52 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     iommu@lists.linux-foundation.org, robh+dt@kernel.org,
-        joro@8bytes.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, will@kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: iommu: renesas,ipmmu-vmsa: add r8a779a0
- support
-Message-ID: <YTJ8nCgrnZ6bcz01@robh.at.kernel.org>
-References: <20210901102705.556093-1-yoshihiro.shimoda.uh@renesas.com>
- <20210901102705.556093-2-yoshihiro.shimoda.uh@renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210901102705.556093-2-yoshihiro.shimoda.uh@renesas.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=mjzKqamzQmvzyqlVvUVvv6P1c+/kEZztjTn7I8qHctk=;
+        b=KCrwAVoodpyxGYv+Iol0B1IgI3JsfzJH1Ho68owwJSdL/ufK1QpWvhSZSGL4uwyNqA
+         46zf2ZaLlsTJq5y5CKg9LjwaEZ9i7NPLzZpKzq0o2P4f9berx5PcBQrNT3Uci68d8w6d
+         n2W5dhmiQXwAPDsvKKjKcYsVGv1IYUI5H4Uck58pdFZxyWj6usVpdbzMF9zjQThZHsh1
+         EWgVOzAOknNMg6C5uHwzWPkPgSzrQ4Rr3SgyvOveh3nj/7ZbTxWmOt6dYgLNwlZwVfu0
+         onv+bXJk7MEsrdKNLerWAU7eckCOX8F2078Ebqlzp7TMyBgAxD8eYL9dic7+Xnib92tm
+         qRUw==
+X-Gm-Message-State: AOAM532IJt6alo7ffWtZffvA2KmG8y4A62thJfI1Cm/viU6pWS4y4WZ9
+        dToV6FkGRmzlhIQ3qUUW3NVtcnqyB+mj1q8=
+X-Google-Smtp-Source: ABdhPJxOh60dMGR+lUVir1U4lfhdWRVMUcj5x6W1LTUnNO5wGwN2dFR8tfzyyVUJVXZoWiFU6/iKXpuDy2rgCWU=
+X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:b45b:ca56:952a:2176])
+ (user=saravanak job=sendgmr) by 2002:ad4:4905:: with SMTP id
+ bh5mr1667186qvb.63.1630713946609; Fri, 03 Sep 2021 17:05:46 -0700 (PDT)
+Date:   Fri,  3 Sep 2021 17:05:40 -0700
+Message-Id: <20210904000543.2019010-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.33.0.153.gba50c8fa24-goog
+Subject: [PATCH v3 0/2] Fix simple-bus issues with fw_devlink
+From:   Saravana Kannan <saravanak@google.com>
+To:     Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>
+Cc:     Saravana Kannan <saravanak@google.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 01 Sep 2021 19:27:04 +0900, Yoshihiro Shimoda wrote:
-> Add support for r8a779a0 (R-Car V3U).
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+Ulf reported an issue[1] with fw_devlink. This series tries to fix that
+issue.
 
-Acked-by: Rob Herring <robh@kernel.org>
+I replicated a similar set up on my end and I confirmed:
+- A simple-bus only device is probed.
+- Another device listing simple-bus as a 2nd compatible string isn't
+  probed.
+
+Ulf, mind testing this?
+
+v1->v2:
+- Switched to probing the simple-bus device instead of marking it as
+  NEVER_PROBES.
+
+v2->v3:
+- Moved all the code into the simple-pm-bus driver
+- Addressed Ulf's comment about the remove() code missing a check.
+
+Thanks,
+Saravana
+[1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
+
+Cc: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Rob Herring <robh+dt@kernel.org>
+
+Saravana Kannan (2):
+  drivers: bus: simple-pm-bus: Add support for probing simple bus only
+    devices
+  drivers: bus: Delete CONFIG_SIMPLE_PM_BUS
+
+ arch/arm/configs/multi_v7_defconfig |  1 -
+ arch/arm/configs/oxnas_v6_defconfig |  1 -
+ arch/arm/configs/shmobile_defconfig |  1 -
+ arch/arm/mach-omap2/Kconfig         |  1 -
+ arch/arm64/configs/defconfig        |  1 -
+ drivers/bus/Kconfig                 | 12 -----------
+ drivers/bus/Makefile                |  2 +-
+ drivers/bus/simple-pm-bus.c         | 32 ++++++++++++++++++++++++++---
+ drivers/soc/canaan/Kconfig          |  1 -
+ 9 files changed, 30 insertions(+), 22 deletions(-)
+
+-- 
+2.33.0.153.gba50c8fa24-goog
+
