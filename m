@@ -2,200 +2,400 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 672994008A0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Sep 2021 02:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E1EF400F49
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Sep 2021 13:21:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350819AbhIDAG4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Sep 2021 20:06:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57782 "EHLO
+        id S237457AbhIELWe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 5 Sep 2021 07:22:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350812AbhIDAGy (ORCPT
+        with ESMTP id S229878AbhIELWd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Sep 2021 20:06:54 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2584C061760
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Sep 2021 17:05:53 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id w8-20020a259188000000b0059bf0bed21fso917898ybl.18
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Sep 2021 17:05:53 -0700 (PDT)
+        Sun, 5 Sep 2021 07:22:33 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A93B8C061575;
+        Sun,  5 Sep 2021 04:21:29 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id i24so3260971pfo.12;
+        Sun, 05 Sep 2021 04:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=SfbHJEWQeRliBoQsEhXHv1u4n2Ik1OMNCo9r1o66Q/M=;
-        b=GZ0vA80A2Z6y+ef/rz+ER1DjhGiMBo8Unx54I5q93wBFk5a1Z+4+yOIbK6F8i6ml2Z
-         huiMjvHV8w71Q3r8BTQ/7TSElsFnHWLQDvxTnX+hKAiCZ254RixITRjqZ/IkeQDEa6Xa
-         ZHq5gAWBcLx2sATUvcX6LCd5uJwhAibNyPK+H1uI1wDW2vOEQs5tun/Diez11Orwu/Mj
-         2YGwWwNS6bgr7AHu7BQ0hkDZZcShVMOj8cb659TQVcsEXS6doanhqlsyn3p8XcHOx0/l
-         7WZRAHbvWGlOrm6KJSi1Nlvvtq8mjZIHmKkwItCNckxL3rBNLO4+NL0/ug488Wqf9rZm
-         Ud7g==
+        bh=4NriIdZAXPfbBB2tJpse2NZflOcwHiN/+TbmjQ+V+Aw=;
+        b=NwV6bZisW65sj/6s6Vj2QSVeZjY+vTq9I8g4SSauLFEbaIpcIvudyYL8sq/eeIhtiw
+         GH5k1AnlP0zxIE6f01WNWAg/WOynHy16kzCjoplrQq4355cbcIl631ZM1ELLRNpHO3RN
+         qdBWkkqnItk8DAM6mqHpgPrFZoDSyn70wIvBWh+n7esQJ+J5L5iyiMCkAKz3qRzcDBWu
+         40RQu7AxDBhU/FIFCOVrw1okLJv+TNWQaRstT4VPaYtI0yvto3lwS0WrQUUEkcoRF3X1
+         GqWphZjZaCbxTEiZpqKTRA4zxKeL3AmgVi950getD1XZfF2RPGsIobaVHHepsyYeEq5n
+         WrIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=SfbHJEWQeRliBoQsEhXHv1u4n2Ik1OMNCo9r1o66Q/M=;
-        b=QIeIfH6Vr+wWPycPaukbWqWA4gv0fq8VT8VsFhmQ4DjC696GG8YJomHqiJzZV1HjeA
-         OE+ev/GJ4WaCWrCCREyXz5Kv5EoHumqsnmtgJoTWORV87p6K7AUfyuLIuNhM0TenM36U
-         CIkny9BBsaeDQbRxEOnML6eRfWpA17nPCsA64qOaJlCug+nABX3uooejUA+obsC/RRfp
-         ALZwtQwKYVYO/0GcPq5IHBRvQ3iouT2QijYQ/1GvQ4pE4KKQKJDgSjfifzlHI3Pv1OdN
-         apBR2zc0K9C/+7fomu0MFocEWpQaFDUevFnhxyJMFsdmBSeBZ+uoH2EL2ou7/Zaq6t2+
-         IsMg==
-X-Gm-Message-State: AOAM5309qYToX1VOHrL22JasYLu1eSjkSCtUztIS9sUCKUoRzlsLNg+F
-        M18WHwxMHVYTH3kZCP9+vM9lSUlN1RgZeMw=
-X-Google-Smtp-Source: ABdhPJxMnuM52qVl21b48kLxkv3AyKumezraz5sUmqPRmVkkOO34LbbxoyfV+PPzFtSDDybtmhFrOnQR8bYDu7Y=
-X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:b45b:ca56:952a:2176])
- (user=saravanak job=sendgmr) by 2002:a25:268c:: with SMTP id
- m134mr2133217ybm.298.1630713952840; Fri, 03 Sep 2021 17:05:52 -0700 (PDT)
-Date:   Fri,  3 Sep 2021 17:05:42 -0700
-In-Reply-To: <20210904000543.2019010-1-saravanak@google.com>
-Message-Id: <20210904000543.2019010-3-saravanak@google.com>
-Mime-Version: 1.0
-References: <20210904000543.2019010-1-saravanak@google.com>
-X-Mailer: git-send-email 2.33.0.153.gba50c8fa24-goog
-Subject: [PATCH v3 2/2] drivers: bus: Delete CONFIG_SIMPLE_PM_BUS
-From:   Saravana Kannan <saravanak@google.com>
-To:     Russell King <linux@armlinux.org.uk>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Damien Le Moal <damien.lemoal@wdc.com>
-Cc:     Saravana Kannan <saravanak@google.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4NriIdZAXPfbBB2tJpse2NZflOcwHiN/+TbmjQ+V+Aw=;
+        b=ERAyn6XwnI6jbbMAOcrBtDiUkbAgBPrxTsNhXhnjyoRutZC4G5IbCamdbvShagA3FH
+         /hk0ReabieQMCIceGKOqGKVAYn5SxafixEOM2SkwGPOJui+4Wz3e8MQ5+NTFNJE5qfpL
+         FlU+DeiemGFhjOwtyktHcWvmpsbM2f1OyipwQpHug8whi+mg4ts0vinM5ER6HpYM6/PJ
+         ucJMp6CNThRjsgPPODPptJgieuLh2pJpx4+jXvjuSaxfsZP4h3LDdYwABMGT2FynoTm5
+         Xkb7VHUTrLHc9oZP+kg85G/47ihVhQCBQjLJf+VS9HTcRxRunKmCQSYAePCEiATcH7s8
+         oSSA==
+X-Gm-Message-State: AOAM531aVml2I2KF+AE6nPN6RdonYvehEmiZTOLk/+Kga+Se80GjUVD5
+        nCiDg2TFV0S86QNX+TX4E+d44qK8ejSlyIGE2Jfq6qe6ZzFqmvkC
+X-Google-Smtp-Source: ABdhPJwyV9kJWwswDRgIQO1YvXlOhCo0iGZ0gCB0C5GI/POfCkT6SVfx2QxIlL63g2NSboZUFi+h1L8Vh+BXS4yde+8=
+X-Received: by 2002:a05:6a00:1750:b0:40c:f3b8:dc76 with SMTP id
+ j16-20020a056a00175000b0040cf3b8dc76mr7215177pfc.22.1630840889010; Sun, 05
+ Sep 2021 04:21:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210901194549.3999-1-wsa+renesas@sang-engineering.com> <20210901194549.3999-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210901194549.3999-2-wsa+renesas@sang-engineering.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 5 Sep 2021 14:20:52 +0300
+Message-ID: <CAHp75VdZt_dDb0YpThfsoqRvWdjfVZT70o=eCJCbThJ9qbD42w@mail.gmail.com>
+Subject: Re: [PATCH 1/1] gpio: add sloppy logic analyzer using polling
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The simple-pm-bus driver is mandatory for CONFIG_OF based platforms to
-work with fw_devlink. So, always compile it in for CONFIG_OF and delete
-the config since it's no longer necessary.
+On Wed, Sep 1, 2021 at 11:25 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> This is a sloppy logic analyzer using GPIOs. It comes with a script to
+> isolate a CPU for polling. While this is definately not a production
 
-Signed-off-by: Saravana Kannan <saravanak@google.com>
----
- arch/arm/configs/multi_v7_defconfig |  1 -
- arch/arm/configs/oxnas_v6_defconfig |  1 -
- arch/arm/configs/shmobile_defconfig |  1 -
- arch/arm/mach-omap2/Kconfig         |  1 -
- arch/arm64/configs/defconfig        |  1 -
- drivers/bus/Kconfig                 | 12 ------------
- drivers/bus/Makefile                |  2 +-
- drivers/soc/canaan/Kconfig          |  1 -
- 8 files changed, 1 insertion(+), 19 deletions(-)
+definitely
 
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index d9abaae118dd..362720ae8d65 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -196,7 +196,6 @@ CONFIG_PCI_EPF_TEST=m
- CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
- CONFIG_OMAP_OCP2SCP=y
--CONFIG_SIMPLE_PM_BUS=y
- CONFIG_MTD=y
- CONFIG_MTD_CMDLINE_PARTS=y
- CONFIG_MTD_BLOCK=y
-diff --git a/arch/arm/configs/oxnas_v6_defconfig b/arch/arm/configs/oxnas_v6_defconfig
-index cae0db6b4eaf..de37f7e90999 100644
---- a/arch/arm/configs/oxnas_v6_defconfig
-+++ b/arch/arm/configs/oxnas_v6_defconfig
-@@ -46,7 +46,6 @@ CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
- CONFIG_DMA_CMA=y
- CONFIG_CMA_SIZE_MBYTES=64
--CONFIG_SIMPLE_PM_BUS=y
- CONFIG_MTD=y
- CONFIG_MTD_CMDLINE_PARTS=y
- CONFIG_MTD_BLOCK=y
-diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-index d9a27e4e0914..18d2a960b2d2 100644
---- a/arch/arm/configs/shmobile_defconfig
-+++ b/arch/arm/configs/shmobile_defconfig
-@@ -40,7 +40,6 @@ CONFIG_PCI_RCAR_GEN2=y
- CONFIG_PCIE_RCAR_HOST=y
- CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
--CONFIG_SIMPLE_PM_BUS=y
- CONFIG_MTD=y
- CONFIG_MTD_BLOCK=y
- CONFIG_MTD_CFI=y
-diff --git a/arch/arm/mach-omap2/Kconfig b/arch/arm/mach-omap2/Kconfig
-index 7df8f5276ddf..02f2f3157f07 100644
---- a/arch/arm/mach-omap2/Kconfig
-+++ b/arch/arm/mach-omap2/Kconfig
-@@ -112,7 +112,6 @@ config ARCH_OMAP2PLUS
- 	select PM_GENERIC_DOMAINS
- 	select PM_GENERIC_DOMAINS_OF
- 	select RESET_CONTROLLER
--	select SIMPLE_PM_BUS
- 	select SOC_BUS
- 	select TI_SYSC
- 	select OMAP_IRQCHIP
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index f423d08b9a71..474b1f2e3f06 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -245,7 +245,6 @@ CONFIG_DEVTMPFS_MOUNT=y
- CONFIG_FW_LOADER_USER_HELPER=y
- CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y
- CONFIG_HISILICON_LPC=y
--CONFIG_SIMPLE_PM_BUS=y
- CONFIG_FSL_MC_BUS=y
- CONFIG_TEGRA_ACONNECT=m
- CONFIG_GNSS=m
-diff --git a/drivers/bus/Kconfig b/drivers/bus/Kconfig
-index e7f7eee6ee9a..dc3801369488 100644
---- a/drivers/bus/Kconfig
-+++ b/drivers/bus/Kconfig
-@@ -141,18 +141,6 @@ config QCOM_EBI2
- 	  Interface 2, which can be used to connect things like NAND Flash,
- 	  SRAM, ethernet adapters, FPGAs and LCD displays.
- 
--config SIMPLE_PM_BUS
--	tristate "Simple Power-Managed Bus Driver"
--	depends on OF && PM
--	help
--	  Driver for transparent busses that don't need a real driver, but
--	  where the bus controller is part of a PM domain, or under the control
--	  of a functional clock, and thus relies on runtime PM for managing
--	  this PM domain and/or clock.
--	  An example of such a bus controller is the Renesas Bus State
--	  Controller (BSC, sometimes called "LBSC within Bus Bridge", or
--	  "External Bus Interface") as found on several Renesas ARM SoCs.
--
- config SUN50I_DE2_BUS
- 	bool "Allwinner A64 DE2 Bus Driver"
- 	  default ARM64
-diff --git a/drivers/bus/Makefile b/drivers/bus/Makefile
-index 397e35392bff..86aacd36a56d 100644
---- a/drivers/bus/Makefile
-+++ b/drivers/bus/Makefile
-@@ -26,7 +26,7 @@ obj-$(CONFIG_OMAP_OCP2SCP)	+= omap-ocp2scp.o
- obj-$(CONFIG_QCOM_EBI2)		+= qcom-ebi2.o
- obj-$(CONFIG_SUN50I_DE2_BUS)	+= sun50i-de2.o
- obj-$(CONFIG_SUNXI_RSB)		+= sunxi-rsb.o
--obj-$(CONFIG_SIMPLE_PM_BUS)	+= simple-pm-bus.o
-+obj-$(CONFIG_OF)		+= simple-pm-bus.o
- obj-$(CONFIG_TEGRA_ACONNECT)	+= tegra-aconnect.o
- obj-$(CONFIG_TEGRA_GMI)		+= tegra-gmi.o
- obj-$(CONFIG_TI_PWMSS)		+= ti-pwmss.o
-diff --git a/drivers/soc/canaan/Kconfig b/drivers/soc/canaan/Kconfig
-index 8179b69518b4..853096b7e84c 100644
---- a/drivers/soc/canaan/Kconfig
-+++ b/drivers/soc/canaan/Kconfig
-@@ -5,7 +5,6 @@ config SOC_K210_SYSCTL
- 	depends on RISCV && SOC_CANAAN && OF
- 	default SOC_CANAAN
-         select PM
--        select SIMPLE_PM_BUS
-         select SYSCON
-         select MFD_SYSCON
- 	help
+> level analyzer, it can be a helpful first view when remote debugging.
+> Read the documentation for details.
+
+...
+
+> +static __always_inline int gpio_la_get_array(struct gpio_descs *d, unsigned long *sptr)
+> +{
+> +       int ret;
+> +
+> +       ret = gpiod_get_array_value(d->ndescs, d->desc, d->info, sptr);
+
+> +       if (ret == 0 && fatal_signal_pending(current))
+> +               ret = -EINTR;
+> +
+> +       return ret;
+
+I would rewrite it, like
+
+if (ret)
+  return ret;
+
+if (...)
+  return -EINTR;
+
+return 0;
+
+but it is a matter of style.
+
+> +}
+> +
+> +static int fops_capture_set(void *data, u64 val)
+> +{
+> +       struct gpio_la_poll_priv *priv = data;
+> +       u8 *la_buf = priv->blob.data;
+
+> +       unsigned long state = 0; /* zeroed because GPIO arrays are bitfields */
+
+Not sure if bitmap_zero() would be better. Up to you.
+
+> +       unsigned long delay;
+> +       ktime_t start_time;
+> +       int i, ret;
+> +
+> +       if (!val)
+> +               return 0;
+> +
+> +       if (!la_buf)
+> +               return -ENOMEM;
+> +
+> +       if (!priv->delay_ns)
+> +               return -EINVAL;
+> +
+> +       mutex_lock(&priv->lock);
+> +       if (priv->blob_dent) {
+> +               debugfs_remove(priv->blob_dent);
+> +               priv->blob_dent = NULL;
+> +       }
+> +
+> +       priv->buf_idx = 0;
+> +
+> +       local_irq_disable();
+> +       preempt_disable_notrace();
+> +
+> +       /* Measure delay of reading GPIOs */
+> +       start_time = ktime_get();
+> +       for (i = 0; i < GPIO_LA_NUM_TESTS; i++) {
+> +               ret = gpio_la_get_array(priv->descs, &state);
+> +               if (ret)
+> +                       goto gpio_err;
+> +       }
+> +
+> +       priv->acq_delay = ktime_sub(ktime_get(), start_time) / GPIO_LA_NUM_TESTS;
+> +       if (priv->delay_ns < priv->acq_delay) {
+> +               ret = -ERANGE;
+> +               goto gpio_err;
+> +       }
+> +
+> +       delay = priv->delay_ns - priv->acq_delay;
+> +
+> +       /* Wait for triggers */
+> +       for (i = 0; i < priv->trig_len; i+= 2) {
+> +               do {
+> +                       ret = gpio_la_get_array(priv->descs, &state);
+> +                       if (ret)
+> +                               goto gpio_err;
+> +
+> +                       ndelay(delay);
+> +               } while ((state & priv->trig_data[i]) != priv->trig_data[i + 1]);
+> +       }
+> +
+> +       /* With triggers, final state is also the first sample */
+> +       if (priv->trig_len)
+> +               la_buf[priv->buf_idx++] = state;
+> +
+> +       /* Sample */
+> +       while (priv->buf_idx < priv->blob.size) {
+> +               ret = gpio_la_get_array(priv->descs, &state);
+> +               if (ret)
+> +                       goto gpio_err;
+> +
+> +               la_buf[priv->buf_idx++] = state;
+> +               ndelay(delay);
+> +       }
+> +gpio_err:
+> +       preempt_enable_notrace();
+> +       local_irq_enable();
+> +       if (ret)
+> +               dev_err(priv->dev, "couldn't read GPIOs: %d\n", ret);
+> +
+> +       kfree(priv->trig_data);
+> +       priv->trig_data = NULL;
+> +       priv->trig_len = 0;
+> +
+> +       priv->blob_dent = debugfs_create_blob("sample_data", 0400, priv->debug_dir, &priv->blob);
+> +       mutex_unlock(&priv->lock);
+> +
+> +       return ret;
+> +}
+> +DEFINE_DEBUGFS_ATTRIBUTE(fops_capture, NULL, fops_capture_set, "%llu\n");
+
+...
+
+> +static int fops_buf_size_set(void *data, u64 val)
+> +{
+> +       struct gpio_la_poll_priv *priv = data;
+> +       int ret = 0;
+> +       void *p;
+> +
+> +       if (!val)
+
+> +               return -EINVAL;
+
+Hmm... in this case you haven't updated the internal parameters, but...
+
+> +       mutex_lock(&priv->lock);
+> +
+> +       vfree(priv->blob.data);
+> +       p = vzalloc(val);
+> +       if (!p) {
+> +               val = 0;
+> +               ret = -ENOMEM;
+
+...here you do. What's the difference?
+
+> +       }
+> +
+> +       priv->blob.data = p;
+> +       priv->blob.size = val;
+> +
+> +       mutex_unlock(&priv->lock);
+> +       return ret;
+> +}
+> +DEFINE_DEBUGFS_ATTRIBUTE(fops_buf_size, fops_buf_size_get, fops_buf_size_set, "%llu\n");
+
+...
+
+> +       ret = device_property_read_string_array(dev, "probe-names", gpio_names,
+> +                                               priv->descs->ndescs);
+> +       if (ret >= 0 && ret != priv->descs->ndescs)
+
+> +               ret = -ENOSTR;
+
+A bit of an unusual error code.
+Perhaps -ENODATA?
+
+> +       if (ret < 0) {
+> +               dev_err(dev, "error naming the GPIOs: %d\n", ret);
+> +               return ret;
+> +       }
+
+...
+
+> +       for (i = 0; i < priv->descs->ndescs; i++) {
+> +               unsigned int add_len;
+> +               char *new_meta, *consumer_name;
+> +
+> +               if (gpiod_cansleep(priv->descs->desc[i]))
+> +                       return -EREMOTE;
+> +
+> +               consumer_name = kasprintf(GFP_KERNEL, "%s: %s", devname, gpio_names[i]);
+> +               if (!consumer_name)
+> +                       return -ENOMEM;
+> +               gpiod_set_consumer_name(priv->descs->desc[i], consumer_name);
+> +               kfree(consumer_name);
+> +
+
+> +               /* '10' is length of 'probe00=\n\0' */
+
+Maybe instead of comment is to use respective strlen():s / sizeof():s?
+
+Actually, looking below possible option is
+
+const char *fmt = "probe...";
+
+add_len += sprintf(NULL, 0, fmt, 0, "");
+
+...
+
+snprintf(..., fmt, ...);
+
+But it's up to you.
+
+> +               add_len = strlen(gpio_names[i]) + 10;
+> +
+> +               new_meta = devm_krealloc(dev, meta, meta_len + add_len, GFP_KERNEL);
+> +               if (!new_meta)
+> +                       return -ENOMEM;
+> +
+> +               meta = new_meta;
+> +               snprintf(meta + meta_len, add_len, "probe%02d=%s\n", i + 1, gpio_names[i]);
+
+> +               /* ' - 1' to skip the NUL terminator */
+> +               meta_len += add_len - 1;
+
+Reuse return value from snprintf()?
+
+> +       }
+
+...
+
+> +static int gpio_la_poll_remove(struct platform_device *pdev)
+> +{
+> +       struct gpio_la_poll_priv *priv = platform_get_drvdata(pdev);
+> +
+> +       mutex_lock(&priv->lock);
+> +       debugfs_remove_recursive(priv->debug_dir);
+> +       mutex_unlock(&priv->lock);
+
+mutex_destroy()?
+
+> +
+> +       return 0;
+> +}
+
+...
+
+> +#!/bin/sh -eu
+
+Next step is to add 'f' to the mix here :-)
+
+...
+
+> +$0 - helper script for the Linux Kernel Sloppy GPIO Logic Analyzer
+
+Use at the top something like
+
+PROG_NAME="${0##*/}"
+PROG_DIR="${0%/*}"
+
+And then $PROG_NAME here.
+
+...
+
+> +Samples $numsamples values at 1MHz with an already prepared CPU or automatically prepares CPU1 if needed,
+> +use the first logic analyzer instance found:
+> +       '$0'
+
+Ditto,
+
+> +Samples 50us at 2MHz waiting for falling edge on channel 2. CPU and instance as above:
+
+for a falling
+
+> +       '$0 -d 50 -s 2000000 -t "2F"'
+
+Ditto (program name)
+
+...
+
+> +fail()
+> +{
+> +       echo "$1"
+> +       exit 1
+
+echo "$2'
+exit $1
+
+And use
+
+  fail <ERROR_CODE> "<ERROR_MESSAGE>"
+
+?
+
+> +}
+
+...
+
+> +       [ -n "$cur_cpu" ] && fail "CPU$isol_cpu requested but CPU$cur_cpu already isolated"
+
+This theoretically may fail the script since you have '-e'.
+I guess I have mentioned that 'a && b' is not an equivalent to 'if-then-fi'.
+I suggest double checking all similar expressions and try under
+different shells (like dash).
+
+
+> +       [ -w "$cpufreqgov" ] && echo 'performance' > "$cpufreqgov" || true
+
+I guess this is where you actually hit the above mentioned difference.
+
+...
+
+> +while true; do
+> +       case "$1" in
+> +       -c|--cpu) initcpu="$2"; shift 2;;
+> +       -d|--duration-us) duration="$2"; shift 2;;
+> +       -h|--help) print_help; exit 0;;
+> +       -i|--instance) lasysfsdir="$sysfsdir/$2"; shift 2;;
+> +       -k|--kernel-debug-dir) debugdir="$2"; shift 2;;
+> +       -n|--num_samples) numsamples="$2"; shift 2;;
+> +       -o|--output-dir) outputdir="$2"; shift 2;;
+> +       -s|--sample_freq) samplefreq="$2"; shift 2;;
+> +       -t|--trigger) triggerdat="$2"; shift 2;;
+> +       --)     shift; break;;
+> +       *)      fail "error parsing commandline: $*";;
+> +       esac
+
+I would prefer to have a clear shift here instead of doing shift 2
+everywhere above (less error prone).
+
+> +done
+
+...
+
+I think usage of SI units makes sense to be less error prone in case
+you are using them more than once.
+
 -- 
-2.33.0.153.gba50c8fa24-goog
-
+With Best Regards,
+Andy Shevchenko
