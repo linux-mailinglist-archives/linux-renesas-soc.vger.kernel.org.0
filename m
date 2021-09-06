@@ -2,100 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFDEC401B12
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 14:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84952401B2E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 14:26:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241674AbhIFMWh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Sep 2021 08:22:37 -0400
-Received: from www.zeus03.de ([194.117.254.33]:42862 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241292AbhIFMWh (ORCPT
+        id S242173AbhIFM2A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Sep 2021 08:28:00 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:40770 "EHLO
+        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242100AbhIFM17 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Sep 2021 08:22:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=hnOVDPy4wQT6lRUTZ5FlrXLSl7zn
-        Bdab4cizSh4j1ZE=; b=WKH029+o7GLhjVCk8AtQpn/E9UYR0rpTyQuHq5hV9DlR
-        Atk4/dfrEI77a8f9+82CVjsYNhI5iaOkf5uOT6fZ17rLrB4ZAsLcbDfA/n97ZIRc
-        6/3QmDlIPGvo8itGS4MUv6JgO6LZ3F8qd26CDg4sc8UNDA45+IBZrxnHt0MKdD0=
-Received: (qmail 470026 invoked from network); 6 Sep 2021 14:21:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Sep 2021 14:21:30 +0200
-X-UD-Smtp-Session: l3s3148p1@NPMtsFLLBMsgAwDPXwUCAIKQ4fZTZm0q
-Date:   Mon, 6 Sep 2021 14:21:26 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <YTYHxkNdtCA0v244@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-References: <20210901194549.3999-1-wsa+renesas@sang-engineering.com>
- <20210901194549.3999-2-wsa+renesas@sang-engineering.com>
- <CAHp75VdZt_dDb0YpThfsoqRvWdjfVZT70o=eCJCbThJ9qbD42w@mail.gmail.com>
- <YTXZgNQJj0aI4zuC@kunai>
- <CAHp75VdJZhgqshOQS=L1rKiNZLTqNnrc4FXoJKaNpaQT0QB_Eg@mail.gmail.com>
+        Mon, 6 Sep 2021 08:27:59 -0400
+Received: by mail-vs1-f53.google.com with SMTP id d6so5433092vsr.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Sep 2021 05:26:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XZ2SwCMR7xY3+ubiM4RIhLgQUAxmfsYw7ZwqEEPziFY=;
+        b=I5ShbJlO9hyaGwZjDcKFS+7QSk//0ZSzoIgLWylPt8cKPsXsRT6zi/Wp2gZXzRR12L
+         UBV6LH6XP7MdV/sozjolqzCSPO84JKlgTjpnN9oJFk8JuxV+rIMHBAKds28tMHfs40oY
+         MK2ELUY2Awv9HLxci/bDffra5qvO5nIxNqq40evj24J2ILDPdHq+tK0Vi+OrvOgAOUYU
+         K75CovzMWNQKUpycCG24LN/BqVL8kn/zI9sUvgQsCy6aqPQ/D4pxduzXUth+Na1pBlrx
+         3QMoezWrCLm+W1W3nnN9wo2XXOacMo12o04RMnNHJw7GzGUFLqlbYXJMJjduLSuOQK37
+         FEYQ==
+X-Gm-Message-State: AOAM532gnAr20ZygzKsE5Zn/6z+NkslqF00MJdOQLrSF2U9ZJxauDWE7
+        h/x9GV5npmalkDNbDLlqsPIjpMOwNxSe6KBm7GU=
+X-Google-Smtp-Source: ABdhPJxBIrF1KSvF1uz5OLGHLYlmssGEL18ymc/AAcYbk8eYYZzjm7kv1loCtGrDmXyJdAoWGJtkQGKerE4+ARYLYvg=
+X-Received: by 2002:a67:cb0a:: with SMTP id b10mr5528879vsl.9.1630931214676;
+ Mon, 06 Sep 2021 05:26:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="E2KqYzKKcD6Ak7yQ"
-Content-Disposition: inline
-In-Reply-To: <CAHp75VdJZhgqshOQS=L1rKiNZLTqNnrc4FXoJKaNpaQT0QB_Eg@mail.gmail.com>
+References: <20210812151808.7916-1-biju.das.jz@bp.renesas.com> <20210812151808.7916-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210812151808.7916-2-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 6 Sep 2021 14:26:43 +0200
+Message-ID: <CAMuHMdWoToYKWQJG0-wsFJiMNFJLggbaTXyb=pzFnPff8LL1vg@mail.gmail.com>
+Subject: Re: [PATCH v6 1/3] arm64: defconfig: Enable RZ/G2L USBPHY control driver
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Nishanth Menon <nm@ti.com>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Thu, Aug 12, 2021 at 5:18 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> RZ/G2L SoC supports USBPHY control,so enable it in ARM64 defconfig.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---E2KqYzKKcD6Ak7yQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.16.
 
+Gr{oetje,eeting}s,
 
-> Yes, it means you are not able to use * (a.k.a. glob() function) in
-> the shell which increases a lot security and other (misuse) concerns.
-> Instead you have to use `find` or similar tools to collect the list of
-> the files of your interest.
+                        Geert
 
-I see. I don't think this is relevant for the script here, but I'll try
-it nonetheless for educational reasons.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> To me it's less error prone to have something like this:
->=20
-> while [ $# -gt 1 ]; do # notice the condition, btw
->   case "$1" in
->   opt_with_parameter) ...; shift;;
->   toggler_opt) ...;;
->   esac
->   shift
-> done
-
-Ok, I like it. Thanks!
-
-
---E2KqYzKKcD6Ak7yQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmE2B8MACgkQFA3kzBSg
-KbbM2w/+O/7VKU5zWJjfyw0XWGAcLDw8fPBjXuH4Wo9GrgpyP6gb+OJZB2qxMjzE
-uj6lWuMc8LfgpqDdApUBnxjtuVA0IlyLfwVmIL/LXL9q8MtTPC9e2jIzcyjPlDP7
-eyZG9NdF/DGC9CE2wCntk+f4tadGxD9L+NX4OwpoPSmk5M7NFIorz1lVBR9AKCNd
-nPGCX6FPfD/bxQLFj5pCA/f27kWzY371OlU6ifWuX6rLUwwAIrKsA0UMwRBMQ88P
-shhqnOt1ELS08IubdTw4Zp5sxQNMhIqhSm1Iaq0A0BcSAXTVbYnxYpC+pAHbLqtm
-A5qyUed7/bCNEKa8WzdmL2NDCtEJi6bB/2dMNdc7BzQqwHLqEFHfYM2IPbYwADzJ
-4YQm0OjVoKxOTLIipkS0ND9utid7b61kjfMA/2+uTWc/CgzU8F7QyKWiR7NxKmVl
-BAX1A4Cx9fhDmKMxucwCbU5avNjPHOFP4j8s6lKt8jQU2uAUh+q3o3pqXOLXjwXC
-hr/KLhQP3JGHT5FxgAyzfurk8aCGvdGWGsydveFiR6jfM7QnEdxfBeoxEaucgRGU
-Lk6xbKOKve7usethcKWVGfuskcvtOcLs2aNLErprE8IkX3zeML5b8WDdlaVxsi9r
-xSUz7Mb/9Rgb1cuzQOodnAqzdXpnTG8nbG873XbY8c6HEw1XGaA=
-=g5mu
------END PGP SIGNATURE-----
-
---E2KqYzKKcD6Ak7yQ--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
