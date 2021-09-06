@@ -2,121 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33156401996
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 12:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 580C9401AAE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 13:45:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241747AbhIFKRM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Sep 2021 06:17:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60344 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241728AbhIFKRM (ORCPT
+        id S238449AbhIFLpy convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Sep 2021 07:45:54 -0400
+Received: from mail-vs1-f46.google.com ([209.85.217.46]:36539 "EHLO
+        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240647AbhIFLpw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Sep 2021 06:17:12 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72882C061575;
-        Mon,  6 Sep 2021 03:16:07 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id g22so8814454edy.12;
-        Mon, 06 Sep 2021 03:16:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=oo2xWBhFucxQhgfCJPJat37DS4B52WhmbBtOKiTxJic=;
-        b=B9i+FFaL+D8vW6JzaIvpiMpQLI5G6NuCqRABbmuyN9Go+TPC077khQtAC2bumJiYdD
-         YQEYetWy3pRZQdkqviEFHgyMW37viZyEKkuGccUHVwzD8zE/fXEtFNLTsuofwQOvTOCk
-         /6sv2RsXeQTHzc1+40h5z0hrYmC5SL+hlO1BKFLFdtg/CtMLZFa06buv4+xT4n35SQ1O
-         GJP0T6kQSNKwlNobt+fUSf+0+FSZfy0LegUe8uHgXzDvUoBvsU8xtTN+Mb88zHIBnqnO
-         msdqp1LPFV0X8oHdupo7PiujDfyG6z56IABPyFw+nPCyY6otkfAc/ErxL+vC0A+3Yu4r
-         bi5Q==
+        Mon, 6 Sep 2021 07:45:52 -0400
+Received: by mail-vs1-f46.google.com with SMTP id f6so5333772vsr.3;
+        Mon, 06 Sep 2021 04:44:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=oo2xWBhFucxQhgfCJPJat37DS4B52WhmbBtOKiTxJic=;
-        b=afuvZgwboLSDzepqN2mFuQALmOZ9dDbnX4OA9WYq2HeCRYyCDfaXY9NVP5rr+sNlJf
-         JDH5UL/0gw6pgSh2sWCdUtZh8282lNBatbFyLo0g4Xr1uod5nH4imGuzlHGUNs9D3o59
-         7NQWCUY9yVnRq5IOQikRAxKJkv7HMH6D3GxW4W0t4PZ9KbugacjJ5DcsHjUeSyPhWJYB
-         uuIi/9aorbTHmtUt6mJZzRGRr7u3gTnoPkjuGCFz+IOoZsITBVK5zOEdv3jMoMbw2Da1
-         mTAgKrC8McuW8ywr3OCHZx8mMtoyhg/aIExMTnQ6PVUbef24pyXaIPxjjTpbDjm05qrN
-         jx5A==
-X-Gm-Message-State: AOAM531BQCUj+TuN2wvJuSxRkEJ4WjDfuS8aK2pdWP4zbTsKxtFt2MWU
-        M3ASK2/GH3wey0rWSCqJjhm4mlis8cGoe/Rho74=
-X-Google-Smtp-Source: ABdhPJzQw6zHxo7M/Y9oDkgLCijq13EI4QrtckTgsiLz8v+rHPvKT09fsdCpvstKi6F8ke87yChzNGGZPuY2ofzSlcQ=
-X-Received: by 2002:aa7:d40b:: with SMTP id z11mr12832262edq.224.1630923365971;
- Mon, 06 Sep 2021 03:16:05 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qT+RPNqUJrJ5QS4YltqwhL61gcCN6tcrHJJtOD0o0o0=;
+        b=aU+uoAEHWNyL2tXbh/ds/1JqBROXLYBWIA+K/qlJzWPVK3hsuENAChP3GIWvipihou
+         fhKp2QCAC5ayE+z0zruQ9YbgrsqqsY/UDnmM/NsZTpV/uYuBB0fnxMUHHA8PCUbvlDpZ
+         WGgtgDGvEEvSSoPPm34iXGqaCll9OzGZ/leMPBF+3T7QQGDtL9x4nCt4fR3RVzrGaOG0
+         +61d7NJKLvyDZOlU8nUJSndQDp/dqINcpdZgjcV7HG7ReSfRiO8MX62dMmiry9MSAXMo
+         CXqCXaShKpiNymXi+3EYOkhTFUdAuqsFQVFJhlBYxabWkhvDWdbFJ1ZSFQrO+wyOeAeh
+         kWeA==
+X-Gm-Message-State: AOAM532rR9l5iUr5VBJ5cdN3Xwl8g7Ri2vUuZcmxq64p4dCJzDHPJaSX
+        asru1ANz0kyoh447+CRPyp2ZIS4rt1tUHPA8OwpWnBlVLxA=
+X-Google-Smtp-Source: ABdhPJwNXJdRzpPNaN3Py+w3o0QlOdJ8K6BagSdwNo8cfz/qflOuHC28ZqvwirUaL4M0sycvbmOtNBNjQf1qY7/CRbs=
+X-Received: by 2002:a67:cb0a:: with SMTP id b10mr5367592vsl.9.1630928687797;
+ Mon, 06 Sep 2021 04:44:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210901194549.3999-1-wsa+renesas@sang-engineering.com>
- <20210901194549.3999-2-wsa+renesas@sang-engineering.com> <CAHp75VdZt_dDb0YpThfsoqRvWdjfVZT70o=eCJCbThJ9qbD42w@mail.gmail.com>
- <YTXZgNQJj0aI4zuC@kunai>
-In-Reply-To: <YTXZgNQJj0aI4zuC@kunai>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 6 Sep 2021 13:15:28 +0300
-Message-ID: <CAHp75VdJZhgqshOQS=L1rKiNZLTqNnrc4FXoJKaNpaQT0QB_Eg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] gpio: add sloppy logic analyzer using polling
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+References: <20210804180803.29087-1-biju.das.jz@bp.renesas.com> <20210804180803.29087-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210804180803.29087-2-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 6 Sep 2021 13:44:36 +0200
+Message-ID: <CAMuHMdVSSf6B8k0HeuhSbQ=_SEiRkaBmQbHUm5Jx1ks+a5UQFg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drivers: clk: renesas: rzg2l-cpg: Add SDHI clk mux support
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>
+        linux-clk <linux-clk@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 6, 2021 at 12:04 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
+Hi Biju,
 
-...
-
-> > > +#!/bin/sh -eu
-> >
-> > Next step is to add 'f' to the mix here :-)
+On Wed, Aug 4, 2021 at 8:08 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add SDHI clk mux support to select SDHI clock from different clock
+> sources.
 >
-> -f broke zip file generation in a way I didn't know how to resolve
-> differently. Sadly, I can't recall the details right now.
-
-Yes, it means you are not able to use * (a.k.a. glob() function) in
-the shell which increases a lot security and other (misuse) concerns.
-Instead you have to use `find` or similar tools to collect the list of
-the files of your interest.
-
-...
-
-> > > +while true; do
-> > > +       case "$1" in
-> > > +       -c|--cpu) initcpu="$2"; shift 2;;
-> > > +       -d|--duration-us) duration="$2"; shift 2;;
-> > > +       -h|--help) print_help; exit 0;;
-> > > +       -i|--instance) lasysfsdir="$sysfsdir/$2"; shift 2;;
-> > > +       -k|--kernel-debug-dir) debugdir="$2"; shift 2;;
-> > > +       -n|--num_samples) numsamples="$2"; shift 2;;
-> > > +       -o|--output-dir) outputdir="$2"; shift 2;;
-> > > +       -s|--sample_freq) samplefreq="$2"; shift 2;;
-> > > +       -t|--trigger) triggerdat="$2"; shift 2;;
-> > > +       --)     shift; break;;
-> > > +       *)      fail "error parsing commandline: $*";;
-> > > +       esac
-> >
-> > I would prefer to have a clear shift here instead of doing shift 2
-> > everywhere above (less error prone).
+> As per HW manual, direct clock switching from 533MHz to 400MHz and
+> vice versa is not recommended. So added support for handling this
+> in mux.
 >
-> If we ever support binary arguments (toggles), then a generic 'shift 2'
-> won't work?
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-To me it's less error prone to have something like this:
+Thanks for your patch!
 
-while [ $# -gt 1 ]; do # notice the condition, btw
-  case "$1" in
-  opt_with_parameter) ...; shift;;
-  toggler_opt) ...;;
-  esac
-  shift
-done
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -55,6 +55,15 @@
+>  #define GET_REG_SAMPLL_CLK1(val)       ((val >> 22) & 0xfff)
+>  #define GET_REG_SAMPLL_CLK2(val)       ((val >> 12) & 0xfff)
+>
+> +struct sd_hw_data {
+> +       struct clk_hw hw;
+> +       u32 conf;
+> +       u32 mux_flags;
 
-> > > +done
+Do you need mux_flags? Or can this be hardcoded to zero?
 
-Either way it's minor.
+> +       struct rzg2l_cpg_priv *priv;
+> +};
+> +
+> +#define to_sd_hw_data(_hw)     container_of(_hw, struct sd_hw_data, hw)
+> +
+>  /**
+>   * struct rzg2l_cpg_priv - Clock Pulse Generator Private Data
+>   *
+> @@ -150,6 +159,100 @@ rzg2l_cpg_mux_clk_register(const struct cpg_core_clk *core,
+>         return clk_hw->clk;
+>  }
+>
+> +static int rzg2l_cpg_sd_clk_mux_determine_rate(struct clk_hw *hw,
+> +                                              struct clk_rate_request *req)
+> +{
+> +       struct sd_hw_data *hwdata = to_sd_hw_data(hw);
+> +
+> +       return clk_mux_determine_rate_flags(hw, req, hwdata->mux_flags);
+> +}
+> +
+> +static int rzg2l_cpg_sd_clk_mux_set_parent(struct clk_hw *hw, u8 index)
+> +{
+> +       struct sd_hw_data *hwdata = to_sd_hw_data(hw);
+> +       struct rzg2l_cpg_priv *priv = hwdata->priv;
+> +       u32 off = GET_REG_OFFSET(hwdata->conf);
+> +       u32 shift = GET_SHIFT(hwdata->conf);
+> +       const u32 clk_src_266 = 2;
+> +       u32 bitmask;
+> +
+> +       /*
+> +        * As per the HW manual, we should not directly switch from 533 MHz to
+> +        * 400 MHz and vice versa. To change the setting from 2’b01 (533 MHz)
+> +        * to 2’b10 (400 MHz) or vice versa, Switch to 2’b11 (266 MHz) first,
+> +        * and then switch to the target setting (2’b01 (533 MHz) or 2’b10
+> +        * (400 MHz)).
+> +        * Setting a value of '0' to the SEL_SDHI0_SET or SEL_SDHI1_SET clock
+> +        * switching register is prohibited.
+> +        * The clock mux has 3 input clocks(533 MHz,400 MHz, and 266 MHz), and
+> +        * the index to value mapping is done by adding 1 to the index.
+> +        */
+> +       bitmask = (GENMASK(GET_WIDTH(hwdata->conf) - 1, 0) << shift) << 16;
+> +       if (index != clk_src_266)
+> +               writel(bitmask | ((clk_src_266 + 1) << shift), priv->base + off);
+
+I'm wondering if you should poll (using readl_poll_timeout()) until
+the CPG_CLKSTATUS.SELSDHIx_STS bit is cleared, to indicate switching
+has completed?
+
+> +
+> +       writel(bitmask | ((index + 1) << shift), priv->base + off);
+> +
+> +       return 0;
+> +}
+> +
+> +static u8 rzg2l_cpg_sd_clk_mux_get_parent(struct clk_hw *hw)
+> +{
+> +       struct sd_hw_data *hwdata = to_sd_hw_data(hw);
+> +       struct rzg2l_cpg_priv *priv = hwdata->priv;
+> +       u32 val = readl(priv->base + GET_REG_OFFSET(hwdata->conf));
+> +
+> +       val >>= GET_SHIFT(hwdata->conf);
+> +       val &= GENMASK(GET_WIDTH(hwdata->conf) - 1, 0);
+> +       if (val)
+> +               val--;
+> +       else
+> +               /* Prohibited clk source, change it to 533 MHz(reset value) */
+> +               rzg2l_cpg_sd_clk_mux_set_parent(hw, 0);
+
+Please add curly braces (to both branches).
+
+> +
+> +       return val;
+> +}
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
