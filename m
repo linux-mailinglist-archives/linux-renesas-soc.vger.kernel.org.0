@@ -2,62 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A792B4018F8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 11:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 238634018FB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 11:39:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241384AbhIFJhl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Sep 2021 05:37:41 -0400
-Received: from mail-vk1-f180.google.com ([209.85.221.180]:45996 "EHLO
-        mail-vk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241357AbhIFJhk (ORCPT
+        id S241357AbhIFJjl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Sep 2021 05:39:41 -0400
+Received: from www.zeus03.de ([194.117.254.33]:59838 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240914AbhIFJjd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Sep 2021 05:37:40 -0400
-Received: by mail-vk1-f180.google.com with SMTP id h13so2002590vkc.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Sep 2021 02:36:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Kx5CHIwdbz1sns6tWIZi+lgKXX1uo27pM8b/M9IRHyc=;
-        b=TQMIG4jkQzVa311XJq1JZS/jHMkWJB5DyZYHHKWC4MzcHwweFcZF8uCCTQ6C7gZTFZ
-         Pe3Q+hdOnVN2mVq0rwX1566XJGAmpZ8gDvvpE0TatOS88ExQZ7DspWtVAWkR/JPL+J/N
-         Uy/0a8c6/pe4dgNn2pWbbPA+qI/7BNA8FcwhyJ+Qhhd5G0E4t+qz8eXmD6iLsUyI5EBb
-         tsapcYs8T/lkU1OLcHZwOleOeMBHOwDb6YxrxmbENFq8wMsjP2eskhhip756vM8vQyvp
-         Oh2ksRwyGbSteFDfIQItA8+vv5BQjwNksgLMSo4qQovCt+sTwd/KuUgsI0lpR8rtYs0n
-         HAXQ==
-X-Gm-Message-State: AOAM532Ck72eeW3bm8L8zPf+CdgtYv7CMNuIFXBxwLctCr79v68jWfP3
-        Xde3N/OuhN/0AvcHw1jnDRoE8RT6nbiNA/OeJWNrNPS/
-X-Google-Smtp-Source: ABdhPJyK9arCX/wbrPmFaR2FW9OjnRijw6LzZPGsmHsRwsDr67UvknpydPDBhKJbE1XBhxganfvr9SSE8EB/D48+o/I=
-X-Received: by 2002:a1f:9743:: with SMTP id z64mr4616907vkd.15.1630920995903;
- Mon, 06 Sep 2021 02:36:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210901091725.35610-1-wsa+renesas@sang-engineering.com> <20210901091725.35610-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210901091725.35610-2-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 6 Sep 2021 11:36:24 +0200
-Message-ID: <CAMuHMdX=+fEEnWq8zZfCdLWLLhv01_2WfDTjK7_+uSPmmj+f5Q@mail.gmail.com>
-Subject: Re: [PATCH 1/3] clk: renesas: r8a779a0: Add TPU clock
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Mon, 6 Sep 2021 05:39:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=binw7HCsxpr297ATKQfRgoCf4IAW
+        2+vPEUSlXhAohyo=; b=ya/YGLYPos0ek+t8chLnDbctKCjKRkFTIQYiG1Jaqa6E
+        m2927CTiDLz6dgGdKLeQ4okZqCjj4rw1+1Hcvkl8jswIVgFuAGMrhvCPpXtP82Dr
+        tFSSAgcS+S62Wt6R1qIneDiqPGJSIVXlF0m8trFAOWLnuK1ACwaKLRaW/rw+5EE=
+Received: (qmail 418431 invoked from network); 6 Sep 2021 11:38:27 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Sep 2021 11:38:27 +0200
+X-UD-Smtp-Session: l3s3148p1@PVRCaVDLBqMgARa4Ra5MAc3ZBYWvSFq1
+Date:   Mon, 6 Sep 2021 11:38:27 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] arm64: dts: renesas: r8a77961: Add TPU device node
+Message-ID: <YTXhkx0xRF99jtMq@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20210827073819.29992-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdU2f3xZ1zgjCk-6JkkzdLVYjScBSooNNZvsNzc2tFZPXg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jMi2lO/mWfgoUtHY"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU2f3xZ1zgjCk-6JkkzdLVYjScBSooNNZvsNzc2tFZPXg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 1, 2021 at 11:17 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.16.
+--jMi2lO/mWfgoUtHY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Gr{oetje,eeting}s,
 
-                        Geert
+> Any chance you can send a DT binding update? TIA!
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Sure, will do! Thanks for the pointer.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+--jMi2lO/mWfgoUtHY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmE14YwACgkQFA3kzBSg
+KbZ5NhAAqdHn5QdREd6vvjELW5Tz9QPTb7RaR+FbqCgQad0MLx2nbB0XEWzPMqpT
+M5UYyZaHdi1D0bujn5UANlWKkNu4xfpj8UDmDTcmW1Zvc9wxx/fo4mYmjtYB/303
+h90BwlR6KYhcA4JlMWvGHoEOQ5DlHgwfDFHOEnJUca2z7oZBeglylsEmVDkwi1tY
+Y/IcO6dzx5OgneiQafANFeAXrGbmzchn1AxpbbHmT2Ep8NMtBEPpr0Mp9C9sF8M7
+w8aqizVyNduuIbSvIKKDwvqt00PEI/OwyaLifFOgXsahlrp3PfiCxBIX2cdKldJP
+C3IikXBBF9/W/fSkK+GjbZo15xZ9Lzb1nvYlVohxTYgwd8iTahUpUgCw/oS45iO7
+TZG/cNFdeltqT6CeQt+ymalyydM7wtiHTp5bCMI8Z+WV+mltW8eg9xc4KTiRFCzR
+6S+UJBJqhDSmIPQ5nevezVc1LFf5LCJsJcHwpJOIIT6ZeWF5Nvkkof5K3DRC2lhN
+9rmlYHOhA+hbHuKhuIvL9PUwZwNuULHBG9fpfwzYtmq7fs0XPuFceKRYf6chsGYS
+S4wuTwgD6IayN/iVG4Po1HIC97uz+kW8j/iAT0LTsfLCKtE4J3U+tlwx47eLinjr
+/1vHiA+/UfjjS3YSrQ+YXWGJlmjksDs0dKEqvj0o1yBpJJnJN/w=
+=46ef
+-----END PGP SIGNATURE-----
+
+--jMi2lO/mWfgoUtHY--
