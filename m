@@ -2,87 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C274014D5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 03:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09601401738
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 09:38:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240404AbhIFBqR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Sep 2021 21:46:17 -0400
-Received: from mx20.baidu.com ([111.202.115.85]:41548 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S241026AbhIFBns (ORCPT
+        id S239991AbhIFHjy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Sep 2021 03:39:54 -0400
+Received: from www.zeus03.de ([194.117.254.33]:48256 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239159AbhIFHjy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Sep 2021 21:43:48 -0400
-Received: from BC-Mail-EX04.internal.baidu.com (unknown [172.31.51.44])
-        by Forcepoint Email with ESMTPS id 88C946C3F1D14F6AD4FE;
-        Mon,  6 Sep 2021 09:42:32 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-EX04.internal.baidu.com (172.31.51.44) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Mon, 6 Sep 2021 09:42:32 +0800
-Received: from localhost (172.31.63.8) by BJHW-MAIL-EX27.internal.baidu.com
- (10.127.64.42) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Mon, 6
- Sep 2021 09:42:32 +0800
-Date:   Mon, 6 Sep 2021 09:42:31 +0800
-From:   Cai Huoqing <caihuoqing@baidu.com>
-To:     Marc Kleine-Budde <mkl@pengutronix.de>
-CC:     <linux-renesas-soc@vger.kernel.org>, <linux-can@vger.kernel.org>
-Subject: Re: [PATCH] can: rcar_canfd: add __maybe_unused annotation to
- silence warning
-Message-ID: <20210906014231.GA471@LAPTOP-UKSR4ENP.internal.baidu.com>
-References: <20210904130701.641078-1-mkl@pengutronix.de>
+        Mon, 6 Sep 2021 03:39:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=MrtIgEqDkP9PbcSgnHv2XSS0bpGz
+        tTDcdECCVa9O9FA=; b=ylvkB/KxH1isD1m9O2dXKZxP1rWYMPW88aiGdTBZQYMO
+        mZKpfX7lS/vDK09/Uf8fH4/twq6gUCpbXJfrmZVXg4i4xH2N/zjeS0t/MHEke/fE
+        ZQ/Tq7no7YphnVYNX6qyoCBSwpevkk6rm0SaOA7j7y9X56Y1yk6OXbUNCKNmiDk=
+Received: (qmail 376496 invoked from network); 6 Sep 2021 09:38:48 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Sep 2021 09:38:48 +0200
+X-UD-Smtp-Session: l3s3148p1@QuBTvU7L4qEgARa4Ra5MAc3ZBYWvSFq1
+Date:   Mon, 6 Sep 2021 09:38:47 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <YTXFh46EBghq8lyq@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+References: <20210901194549.3999-1-wsa+renesas@sang-engineering.com>
+ <20210901194549.3999-2-wsa+renesas@sang-engineering.com>
+ <CAHp75VdNnvUfMEL3gMrJOFix3AATL8LAiU18LXJJVL77feBRow@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="nZd6jj4n1W97kInJ"
 Content-Disposition: inline
-In-Reply-To: <20210904130701.641078-1-mkl@pengutronix.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-Mail-Ex09.internal.baidu.com (10.127.64.32) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+In-Reply-To: <CAHp75VdNnvUfMEL3gMrJOFix3AATL8LAiU18LXJJVL77feBRow@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-+Cc: linux-renesas-soc@vger.kernel.org
-On 04 Sep 21 15:07:01, Marc Kleine-Budde wrote:
-> Since commit
-> 
-> | dd3bd23eb438 ("can: rcar_canfd: Add Renesas R-Car CAN FD driver")
-> 
-> the rcar_canfd driver can be compile tested on all architectures. On
-> non OF enabled archs, or archs where OF is optional (and disabled in
-> the .config) the compilation throws the following warning:
-> 
-> | drivers/net/can/rcar/rcar_canfd.c:2020:34: warning: unused variable 'rcar_canfd_of_table' [-Wunused-const-variable]
-> | static const struct of_device_id rcar_canfd_of_table[] = {
-> |                                  ^
-> 
-> This patch fixes the warning by marking the variable
-> rcar_canfd_of_table as __maybe_unused.
-> 
-> Fixes: ac4224087312 ("can: rcar: Kconfig: Add helper dependency on COMPILE_TEST")
-> Fixes: dd3bd23eb438 ("can: rcar_canfd: Add Renesas R-Car CAN FD driver")
-> Cc: Cai Huoqing <caihuoqing@baidu.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
-> ---
->  drivers/net/can/rcar/rcar_canfd.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-> index c47988d3674e..c05a7f60c0a8 100644
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -2017,7 +2017,7 @@ static int __maybe_unused rcar_canfd_resume(struct device *dev)
->  static SIMPLE_DEV_PM_OPS(rcar_canfd_pm_ops, rcar_canfd_suspend,
->  			 rcar_canfd_resume);
->  
-> -static const struct of_device_id rcar_canfd_of_table[] = {
-> +static const struct of_device_id rcar_canfd_of_table[] __maybe_unused = {
->  	{ .compatible = "renesas,rcar-gen3-canfd", .data = (void *)RENESAS_RCAR_GEN3 },
->  	{ .compatible = "renesas,rzg2l-canfd", .data = (void *)RENESAS_RZG2L },
->  	{ }
-> -- 
-> 2.33.0
-> 
-> 
+
+--nZd6jj4n1W97kInJ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+
+> Any reason you are not cc=E2=80=99ing me? ;)
+
+Yes, your reviews are too strict ;) No, seriously, since you always
+responded to the patchset anyhow, I didn't see a need.
+
+
+--nZd6jj4n1W97kInJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmE1xYcACgkQFA3kzBSg
+KbaaHg//a7eS/p81rpVV4WePIp20JdOU2fzyFoWgN2Y2N4Fx+RaDC5AdLmHdR63f
+ay4oUciRKbidLa81HeV3LRunislGiWA5BX3ivwGXXTW5f2pi8dLjVHnTE/5qO9S7
+PtaYvanG0+4x9Mg9Vk4I4mcFUGoNtIbiEaaGK9xfwSrq7huhvql3VvW5rYDrCSO2
+hSJSMg+C6oP0WiXSHHXuUteXFpx7AcxquMEc37XMm4pUndvpXv1iY7QkkWZGtpcF
+GD+RX9+cu7bPddxIBGIp2ROwfL4YUUbjKhoXiXAftxc0DtU585t6Pq+b9f1Ot3g/
+E9TRwuiEjQAZYATKvgx1gz/qNdSKODtVg9Pngfqi/IYdNz3qH3528w/ATuKEcjmb
+dN5VCgvL1e3LZ5u+HJES2pmZfwAiYqAmC2vJk0OAG4svl7M0rBT2fNYHHvice5+D
+8gN/FbAjpKKXhlgckuV6/iYAdDICNdGEpxSWr6AQmEuk+nWQ8CDqguX+xQi4lkxb
+oJGi7Kfh5his14Og6WcTl2X7UjrqNHuNOH8oHaDGWySQxH4lhb/tsBShfzFJHbFa
+PSQj+MpL+w4utavUTyCATeWrdXprnvEzGon9x2dkpqu+TOcM++IQpyuK0E+2Ti+0
+jQEONDBjnFgY6SAOQCDGcANILj3EhMiGolp4D+YjPSS6GkiKRTg=
+=7aY7
+-----END PGP SIGNATURE-----
+
+--nZd6jj4n1W97kInJ--
