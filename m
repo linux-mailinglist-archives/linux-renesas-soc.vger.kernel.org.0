@@ -2,67 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84952401B2E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 14:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88EF7401B59
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 14:44:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242173AbhIFM2A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Sep 2021 08:28:00 -0400
-Received: from mail-vs1-f53.google.com ([209.85.217.53]:40770 "EHLO
+        id S242131AbhIFMph (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Sep 2021 08:45:37 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:38758 "EHLO
         mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242100AbhIFM17 (ORCPT
+        with ESMTP id S239993AbhIFMpg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Sep 2021 08:27:59 -0400
-Received: by mail-vs1-f53.google.com with SMTP id d6so5433092vsr.7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Sep 2021 05:26:55 -0700 (PDT)
+        Mon, 6 Sep 2021 08:45:36 -0400
+Received: by mail-vs1-f53.google.com with SMTP id a25so5480192vso.5;
+        Mon, 06 Sep 2021 05:44:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=XZ2SwCMR7xY3+ubiM4RIhLgQUAxmfsYw7ZwqEEPziFY=;
-        b=I5ShbJlO9hyaGwZjDcKFS+7QSk//0ZSzoIgLWylPt8cKPsXsRT6zi/Wp2gZXzRR12L
-         UBV6LH6XP7MdV/sozjolqzCSPO84JKlgTjpnN9oJFk8JuxV+rIMHBAKds28tMHfs40oY
-         MK2ELUY2Awv9HLxci/bDffra5qvO5nIxNqq40evj24J2ILDPdHq+tK0Vi+OrvOgAOUYU
-         K75CovzMWNQKUpycCG24LN/BqVL8kn/zI9sUvgQsCy6aqPQ/D4pxduzXUth+Na1pBlrx
-         3QMoezWrCLm+W1W3nnN9wo2XXOacMo12o04RMnNHJw7GzGUFLqlbYXJMJjduLSuOQK37
-         FEYQ==
-X-Gm-Message-State: AOAM532gnAr20ZygzKsE5Zn/6z+NkslqF00MJdOQLrSF2U9ZJxauDWE7
-        h/x9GV5npmalkDNbDLlqsPIjpMOwNxSe6KBm7GU=
-X-Google-Smtp-Source: ABdhPJxBIrF1KSvF1uz5OLGHLYlmssGEL18ymc/AAcYbk8eYYZzjm7kv1loCtGrDmXyJdAoWGJtkQGKerE4+ARYLYvg=
-X-Received: by 2002:a67:cb0a:: with SMTP id b10mr5528879vsl.9.1630931214676;
- Mon, 06 Sep 2021 05:26:54 -0700 (PDT)
+        bh=NE9yqvERx1jexGCpoCeUWapXoVcz4FJ9N8an1ofnzbQ=;
+        b=MzlsFkqkOnAcC0r9u73uMseUef5dOPVub8+JPFiqA7e2bf87mBY49uCM/1AWO+rFmV
+         7h/fX85Vmjjd6qldwjxiOIJyh15XHKU+y4tK2B3TYNu7vaYnxa8nTsz2fDiZgg7+LXuM
+         EIZr1tpRgeeB2tYr73mErKSHbqIVKLxP5rTRRYRqD99Pml1OyB+H2of0NI54Jmgw5MqR
+         Uhtq8hTZf8VydizRDyYapwQWhKGr/JCnE/McrPuslkjui3TzVv5/Me9QxIeUx7NycE0c
+         tmYjkMMHuh9Nz94zrzFPFjzVMzRU6CTyGnYZlWTvsRqqFZMfjkpYdKXOcTvu1274iq9O
+         eg6Q==
+X-Gm-Message-State: AOAM531ZE0RbwX0xV6SqGR86ShRQY00Uy0cJltVaX12Q6gl8R2X7aiK0
+        BV2Kyo4Hl/yQjTWJM/bIA7bSrY2Ed7mRO0s1iiE=
+X-Google-Smtp-Source: ABdhPJx6BRR15g/gl1PImxu9CO2Y4yDk+C1QtYjUGHn+2M6q4Dhkg7/n1Eu8uVgiwswox5ZM2+E1kjYNo9ek95VR2z4=
+X-Received: by 2002:a67:efd6:: with SMTP id s22mr5773494vsp.50.1630932271538;
+ Mon, 06 Sep 2021 05:44:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210812151808.7916-1-biju.das.jz@bp.renesas.com> <20210812151808.7916-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210812151808.7916-2-biju.das.jz@bp.renesas.com>
+References: <20210814135526.15561-1-biju.das.jz@bp.renesas.com> <20210814135526.15561-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210814135526.15561-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 6 Sep 2021 14:26:43 +0200
-Message-ID: <CAMuHMdWoToYKWQJG0-wsFJiMNFJLggbaTXyb=pzFnPff8LL1vg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] arm64: defconfig: Enable RZ/G2L USBPHY control driver
+Date:   Mon, 6 Sep 2021 14:44:20 +0200
+Message-ID: <CAMuHMdVTsgfBd0YfVvL0gtUrZy6+tDro8A0NpC-kaeR6HLe5JA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a07g044: Add external audio
+ clock nodes
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Nishanth Menon <nm@ti.com>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Aug 12, 2021 at 5:18 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> RZ/G2L SoC supports USBPHY control,so enable it in ARM64 defconfig.
+On Sat, Aug 14, 2021 at 3:55 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add external audio clocks nodes to RZ/G2L (a.k.a R9A07G044) SoC DTSI.
+>
+> The external audio clocks are configured as 0 Hz fixed frequency clocks by
+> default. Boards that provide audio clocks should override them.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
