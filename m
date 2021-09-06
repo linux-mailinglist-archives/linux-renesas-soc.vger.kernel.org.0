@@ -2,91 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D116401945
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 11:51:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33156401996
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 12:16:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241674AbhIFJvV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Sep 2021 05:51:21 -0400
-Received: from www.zeus03.de ([194.117.254.33]:34908 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241689AbhIFJvV (ORCPT
+        id S241747AbhIFKRM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Sep 2021 06:17:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60344 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241728AbhIFKRM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Sep 2021 05:51:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=joH6vH9CNfqdbiqFu5uIjx55lbmq
-        2/NbgDyaie9/n8I=; b=dwMD0ryzI9QNxmv/MsjpIvlYEKHedXmJ+O8Js26rpW6X
-        UV+ZQW28lnb+BoS8ITUBWkIAAwV45NCPXRJWQ/VjO/I30p9TxyWw2BaqvJ32M6mC
-        ZpAGmF/4PmpLspequKZu6thSXU8f3OsC+pVDkh5vyzKv7g4JBSSH7G4Hd2OahpI=
-Received: (qmail 423046 invoked from network); 6 Sep 2021 11:50:15 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Sep 2021 11:50:15 +0200
-X-UD-Smtp-Session: l3s3148p1@1yh0k1DLCqMgARa4Ra5MAc3ZBYWvSFq1
-Date:   Mon, 6 Sep 2021 11:50:15 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Duc Nguyen <duc.nguyen.ub@renesas.com>
-Subject: Re: [RFC PATCH 3/3] arm64: dts: r8a779a0-falcon-cpu: Add TPU support
-Message-ID: <YTXkV0IsY353nsoj@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Duc Nguyen <duc.nguyen.ub@renesas.com>
-References: <20210901091725.35610-1-wsa+renesas@sang-engineering.com>
- <20210901091725.35610-4-wsa+renesas@sang-engineering.com>
- <CAMuHMdV1XgDm1WFQEHST8Fnd0qrbPDBEVKOkr6cfg5a=NS-exg@mail.gmail.com>
+        Mon, 6 Sep 2021 06:17:12 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72882C061575;
+        Mon,  6 Sep 2021 03:16:07 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id g22so8814454edy.12;
+        Mon, 06 Sep 2021 03:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=oo2xWBhFucxQhgfCJPJat37DS4B52WhmbBtOKiTxJic=;
+        b=B9i+FFaL+D8vW6JzaIvpiMpQLI5G6NuCqRABbmuyN9Go+TPC077khQtAC2bumJiYdD
+         YQEYetWy3pRZQdkqviEFHgyMW37viZyEKkuGccUHVwzD8zE/fXEtFNLTsuofwQOvTOCk
+         /6sv2RsXeQTHzc1+40h5z0hrYmC5SL+hlO1BKFLFdtg/CtMLZFa06buv4+xT4n35SQ1O
+         GJP0T6kQSNKwlNobt+fUSf+0+FSZfy0LegUe8uHgXzDvUoBvsU8xtTN+Mb88zHIBnqnO
+         msdqp1LPFV0X8oHdupo7PiujDfyG6z56IABPyFw+nPCyY6otkfAc/ErxL+vC0A+3Yu4r
+         bi5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=oo2xWBhFucxQhgfCJPJat37DS4B52WhmbBtOKiTxJic=;
+        b=afuvZgwboLSDzepqN2mFuQALmOZ9dDbnX4OA9WYq2HeCRYyCDfaXY9NVP5rr+sNlJf
+         JDH5UL/0gw6pgSh2sWCdUtZh8282lNBatbFyLo0g4Xr1uod5nH4imGuzlHGUNs9D3o59
+         7NQWCUY9yVnRq5IOQikRAxKJkv7HMH6D3GxW4W0t4PZ9KbugacjJ5DcsHjUeSyPhWJYB
+         uuIi/9aorbTHmtUt6mJZzRGRr7u3gTnoPkjuGCFz+IOoZsITBVK5zOEdv3jMoMbw2Da1
+         mTAgKrC8McuW8ywr3OCHZx8mMtoyhg/aIExMTnQ6PVUbef24pyXaIPxjjTpbDjm05qrN
+         jx5A==
+X-Gm-Message-State: AOAM531BQCUj+TuN2wvJuSxRkEJ4WjDfuS8aK2pdWP4zbTsKxtFt2MWU
+        M3ASK2/GH3wey0rWSCqJjhm4mlis8cGoe/Rho74=
+X-Google-Smtp-Source: ABdhPJzQw6zHxo7M/Y9oDkgLCijq13EI4QrtckTgsiLz8v+rHPvKT09fsdCpvstKi6F8ke87yChzNGGZPuY2ofzSlcQ=
+X-Received: by 2002:aa7:d40b:: with SMTP id z11mr12832262edq.224.1630923365971;
+ Mon, 06 Sep 2021 03:16:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="E8ouUl6Lt2yia6MC"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdV1XgDm1WFQEHST8Fnd0qrbPDBEVKOkr6cfg5a=NS-exg@mail.gmail.com>
+References: <20210901194549.3999-1-wsa+renesas@sang-engineering.com>
+ <20210901194549.3999-2-wsa+renesas@sang-engineering.com> <CAHp75VdZt_dDb0YpThfsoqRvWdjfVZT70o=eCJCbThJ9qbD42w@mail.gmail.com>
+ <YTXZgNQJj0aI4zuC@kunai>
+In-Reply-To: <YTXZgNQJj0aI4zuC@kunai>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 6 Sep 2021 13:15:28 +0300
+Message-ID: <CAHp75VdJZhgqshOQS=L1rKiNZLTqNnrc4FXoJKaNpaQT0QB_Eg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] gpio: add sloppy logic analyzer using polling
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Mon, Sep 6, 2021 at 12:04 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 
---E8ouUl6Lt2yia6MC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+...
 
+> > > +#!/bin/sh -eu
+> >
+> > Next step is to add 'f' to the mix here :-)
+>
+> -f broke zip file generation in a way I didn't know how to resolve
+> differently. Sadly, I can't recall the details right now.
 
-> > Do we want this activated upstream? I think it is nice to have.
->=20
-> I don't think so, as there is no actual user.
+Yes, it means you are not able to use * (a.k.a. glob() function) in
+the shell which increases a lot security and other (misuse) concerns.
+Instead you have to use `find` or similar tools to collect the list of
+the files of your interest.
 
-OK.
+...
 
-> It could be enabled in a DT overlay describing a board connected to
-> CN4. Or just a simple overlay for testing TPU on CN4.  I'd be happy
-> to add the latter to
-> https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
-/log/?h=3Dtopic/renesas-overlays
+> > > +while true; do
+> > > +       case "$1" in
+> > > +       -c|--cpu) initcpu="$2"; shift 2;;
+> > > +       -d|--duration-us) duration="$2"; shift 2;;
+> > > +       -h|--help) print_help; exit 0;;
+> > > +       -i|--instance) lasysfsdir="$sysfsdir/$2"; shift 2;;
+> > > +       -k|--kernel-debug-dir) debugdir="$2"; shift 2;;
+> > > +       -n|--num_samples) numsamples="$2"; shift 2;;
+> > > +       -o|--output-dir) outputdir="$2"; shift 2;;
+> > > +       -s|--sample_freq) samplefreq="$2"; shift 2;;
+> > > +       -t|--trigger) triggerdat="$2"; shift 2;;
+> > > +       --)     shift; break;;
+> > > +       *)      fail "error parsing commandline: $*";;
+> > > +       esac
+> >
+> > I would prefer to have a clear shift here instead of doing shift 2
+> > everywhere above (less error prone).
+>
+> If we ever support binary arguments (toggles), then a generic 'shift 2'
+> won't work?
 
-With the same argument, let's see if someones actually wants to use it
-and adds it as an overly then.
+To me it's less error prone to have something like this:
 
-Thanks for fixing the sorting in patch 2/3!
+while [ $# -gt 1 ]; do # notice the condition, btw
+  case "$1" in
+  opt_with_parameter) ...; shift;;
+  toggler_opt) ...;;
+  esac
+  shift
+done
 
+> > > +done
 
---E8ouUl6Lt2yia6MC
-Content-Type: application/pgp-signature; name="signature.asc"
+Either way it's minor.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmE15FcACgkQFA3kzBSg
-KbYF4Q//Q4Yrm0CRlv/DE0jUZYUSqRKLpfgOblUpirAPwJC/1/WtXRTXF5+b//uA
-WgIGN/D1zDv3FFmYmqYbP3u5epktfxvgqyHc+HrcJi+pBkBlcVI5W09NPPcTUMIF
-vDNipZE4TGPGwV8HvcuBkl56Mj0kq3UnpKTaFK0pxGYYhhrt0vXlGiKG5+k9I0T7
-7qE3OPKoWw2Pi4tntS9iPJeKuceNAGQlnB/Ujdf5DCLYeM5BVEPT64PpjgoqjJRd
-q00LiF0FNOuL5sPcz4acnjoO4or1vOvBUwgCnV5j6A1GZgvZeBWxIhTf9+vQ+h+W
-HcSfm+cu/y7WNewV9Ox/6Fu3azYkyL/IC6QyL7xWQXMsN4VlxGm34d0moqEb7mc+
-K3HxLTGRPXNkSy1Td2GqJ+vLDxKE/bwve/1VWNur1fpLBlB1GXDzW1yrAjozFTCp
-gu9lvr1xCvUIUcepXt24F2maFj8gJwu4HKfG2reAqr7EDGJnPBAZaYmU3qS1aS+/
-/IjDOwZRJjlOok+6FUZC5J6A9WrYi5Ijhs7QtkY1Ar+HrCGpkElV2RZpUXHjOKYI
-wKPWZZKUowk9i70DNq8LyNUKsDUfrRII/Qq8Xf7nQ/iAK3jC4KvrJhRZyv9WNLem
-5O9aZFx7YbWiy+GM1Dk5b1INpj/sJ0PCYCU7sLK0cq1JtnPtIls=
-=1GUg
------END PGP SIGNATURE-----
-
---E8ouUl6Lt2yia6MC--
+-- 
+With Best Regards,
+Andy Shevchenko
