@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 580C9401AAE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 13:45:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0888401ACE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Sep 2021 13:55:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238449AbhIFLpy convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Sep 2021 07:45:54 -0400
-Received: from mail-vs1-f46.google.com ([209.85.217.46]:36539 "EHLO
-        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240647AbhIFLpw (ORCPT
+        id S241543AbhIFLzi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Sep 2021 07:55:38 -0400
+Received: from mail-vs1-f50.google.com ([209.85.217.50]:44609 "EHLO
+        mail-vs1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241530AbhIFLzi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Sep 2021 07:45:52 -0400
-Received: by mail-vs1-f46.google.com with SMTP id f6so5333772vsr.3;
-        Mon, 06 Sep 2021 04:44:48 -0700 (PDT)
+        Mon, 6 Sep 2021 07:55:38 -0400
+Received: by mail-vs1-f50.google.com with SMTP id n63so5328945vsc.11;
+        Mon, 06 Sep 2021 04:54:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qT+RPNqUJrJ5QS4YltqwhL61gcCN6tcrHJJtOD0o0o0=;
-        b=aU+uoAEHWNyL2tXbh/ds/1JqBROXLYBWIA+K/qlJzWPVK3hsuENAChP3GIWvipihou
-         fhKp2QCAC5ayE+z0zruQ9YbgrsqqsY/UDnmM/NsZTpV/uYuBB0fnxMUHHA8PCUbvlDpZ
-         WGgtgDGvEEvSSoPPm34iXGqaCll9OzGZ/leMPBF+3T7QQGDtL9x4nCt4fR3RVzrGaOG0
-         +61d7NJKLvyDZOlU8nUJSndQDp/dqINcpdZgjcV7HG7ReSfRiO8MX62dMmiry9MSAXMo
-         CXqCXaShKpiNymXi+3EYOkhTFUdAuqsFQVFJhlBYxabWkhvDWdbFJ1ZSFQrO+wyOeAeh
-         kWeA==
-X-Gm-Message-State: AOAM532rR9l5iUr5VBJ5cdN3Xwl8g7Ri2vUuZcmxq64p4dCJzDHPJaSX
-        asru1ANz0kyoh447+CRPyp2ZIS4rt1tUHPA8OwpWnBlVLxA=
-X-Google-Smtp-Source: ABdhPJwNXJdRzpPNaN3Py+w3o0QlOdJ8K6BagSdwNo8cfz/qflOuHC28ZqvwirUaL4M0sycvbmOtNBNjQf1qY7/CRbs=
-X-Received: by 2002:a67:cb0a:: with SMTP id b10mr5367592vsl.9.1630928687797;
- Mon, 06 Sep 2021 04:44:47 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=so7BQ5rHfhVbS/DseL3xXE4b9CXzgk2myZ3O9Pe6uys=;
+        b=p4+9J5C2Bw2gfis5yRD+zIh6Nc7dgTVmsAxZpdjG2WQIglNBNj29cFCoJyhn3Zc6cs
+         EAlxOdqLjo1AM+jZGPZCrWFc04jUFxyuj0gTLvLTOJwDuj+Nko9t2L0Eq8aNYJsHkdAF
+         YtiB+I/FBURZRv7FF5oickgDrpjBcyHrcQpeKrvoH1LCOoPDVFbIne+UO3Huo5NUeJ9w
+         cIUoKETgtv2DnlRPDs9pNVZXDMi1MF4zc6LqDhZslqLRD3cRKArIN6KolOeqQxh3D65s
+         g3eZOxLCE/DjXLNPxSra/dRgfSfpXuKQfHoFfjzf1nW0XYlMVx+JLM//GRyLmDqnzyGG
+         /HPg==
+X-Gm-Message-State: AOAM532lkSx/iaHDTs0Bky/WiJ3adRPpWEzp9JOTzIzUB6e1ODDfodbP
+        DoI9nYk3eamw6WeC1OwpQGaJ9imIOPWHE2xDQ5A=
+X-Google-Smtp-Source: ABdhPJzqaIctOXPBpXgJTSLC0xGxISPeLvLOUjkKW+Tar9dHiZ+6LIhf4viF8Fon2HegzLOSzpLGuryBSt86RTtS3dU=
+X-Received: by 2002:a05:6102:b10:: with SMTP id b16mr1877184vst.41.1630929272995;
+ Mon, 06 Sep 2021 04:54:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210804180803.29087-1-biju.das.jz@bp.renesas.com> <20210804180803.29087-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210804180803.29087-2-biju.das.jz@bp.renesas.com>
+References: <20210804180803.29087-1-biju.das.jz@bp.renesas.com> <20210804180803.29087-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210804180803.29087-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 6 Sep 2021 13:44:36 +0200
-Message-ID: <CAMuHMdVSSf6B8k0HeuhSbQ=_SEiRkaBmQbHUm5Jx1ks+a5UQFg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drivers: clk: renesas: rzg2l-cpg: Add SDHI clk mux support
+Date:   Mon, 6 Sep 2021 13:54:21 +0200
+Message-ID: <CAMuHMdXDJyp=eVGRgf6vzKKMyxhPN8_znC9fUxJu+mTwXYyiHA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drivers: clk: renesas: r9a07g044-cpg: Add SDHI clock
+ and reset entries
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -48,7 +48,6 @@ Cc:     Michael Turquette <mturquette@baylibre.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -56,104 +55,53 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Biju,
 
 On Wed, Aug 4, 2021 at 8:08 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add SDHI clk mux support to select SDHI clock from different clock
-> sources.
->
-> As per HW manual, direct clock switching from 533MHz to 400MHz and
-> vice versa is not recommended. So added support for handling this
-> in mux.
+> Add SDHI{0,1} mux, clock and reset entries to CPG driver.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> @@ -55,6 +55,15 @@
->  #define GET_REG_SAMPLL_CLK1(val)       ((val >> 22) & 0xfff)
->  #define GET_REG_SAMPLL_CLK2(val)       ((val >> 12) & 0xfff)
+> --- a/drivers/clk/renesas/r9a07g044-cpg.c
+> +++ b/drivers/clk/renesas/r9a07g044-cpg.c
+
+> @@ -77,6 +85,11 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
+>         DEF_FIXED(".pll6_2", CLK_PLL6_2, CLK_PLL6, 1, 1),
 >
-> +struct sd_hw_data {
-> +       struct clk_hw hw;
-> +       u32 conf;
-> +       u32 mux_flags;
+>         DEF_FIXED(".pll2_div2", CLK_PLL2_DIV2, CLK_PLL2, 1, 2),
+> +       DEF_FIXED(".clk800fix_c", CLK_800FIX_C, CLK_PLL2, 1, 2),
+> +       DEF_FIXED(".clk533fix_c", CLK_533FIX_C, CLK_PLL2, 2, 6),
 
-Do you need mux_flags? Or can this be hardcoded to zero?
+"2, 6" can be simplified to "1, 3".
 
-> +       struct rzg2l_cpg_priv *priv;
-> +};
+> +       DEF_FIXED(".div_pll2_div8", CLK_DIV_PLL2_DIV8, CLK_800FIX_C, 1, 2),
+> +       DEF_FIXED(".div_pll2_div12", CLK_DIV_PLL2_DIV12, CLK_533FIX_C, 1, 2),
+
+I just love the confusing clock naming in the User's Manual!
+DIV_PLL2_DIV8 runs at PLL2 / 4, and DIV_PLL2_DIV12 runs at PLL2 / 6 :-(
+
 > +
-> +#define to_sd_hw_data(_hw)     container_of(_hw, struct sd_hw_data, hw)
-> +
->  /**
->   * struct rzg2l_cpg_priv - Clock Pulse Generator Private Data
->   *
-> @@ -150,6 +159,100 @@ rzg2l_cpg_mux_clk_register(const struct cpg_core_clk *core,
->         return clk_hw->clk;
->  }
+>         DEF_FIXED(".pll2_div16", CLK_PLL2_DIV16, CLK_PLL2, 1, 16),
+>         DEF_FIXED(".pll2_div20", CLK_PLL2_DIV20, CLK_PLL2, 1, 20),
 >
-> +static int rzg2l_cpg_sd_clk_mux_determine_rate(struct clk_hw *hw,
-> +                                              struct clk_rate_request *req)
-> +{
-> +       struct sd_hw_data *hwdata = to_sd_hw_data(hw);
-> +
-> +       return clk_mux_determine_rate_flags(hw, req, hwdata->mux_flags);
-> +}
-> +
-> +static int rzg2l_cpg_sd_clk_mux_set_parent(struct clk_hw *hw, u8 index)
-> +{
-> +       struct sd_hw_data *hwdata = to_sd_hw_data(hw);
-> +       struct rzg2l_cpg_priv *priv = hwdata->priv;
-> +       u32 off = GET_REG_OFFSET(hwdata->conf);
-> +       u32 shift = GET_SHIFT(hwdata->conf);
-> +       const u32 clk_src_266 = 2;
-> +       u32 bitmask;
-> +
-> +       /*
-> +        * As per the HW manual, we should not directly switch from 533 MHz to
-> +        * 400 MHz and vice versa. To change the setting from 2’b01 (533 MHz)
-> +        * to 2’b10 (400 MHz) or vice versa, Switch to 2’b11 (266 MHz) first,
-> +        * and then switch to the target setting (2’b01 (533 MHz) or 2’b10
-> +        * (400 MHz)).
-> +        * Setting a value of '0' to the SEL_SDHI0_SET or SEL_SDHI1_SET clock
-> +        * switching register is prohibited.
-> +        * The clock mux has 3 input clocks(533 MHz,400 MHz, and 266 MHz), and
-> +        * the index to value mapping is done by adding 1 to the index.
-> +        */
-> +       bitmask = (GENMASK(GET_WIDTH(hwdata->conf) - 1, 0) << shift) << 16;
-> +       if (index != clk_src_266)
-> +               writel(bitmask | ((clk_src_266 + 1) << shift), priv->base + off);
+> @@ -103,6 +116,12 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
+>         DEF_FIXED("ZT", R9A07G044_CLK_ZT, CLK_PLL3_DIV2_4_2, 1, 1),
+>         DEF_MUX("HP", R9A07G044_CLK_HP, SEL_PLL6_2,
+>                 sel_pll6_2, ARRAY_SIZE(sel_pll6_2), 0, CLK_MUX_HIWORD_MASK),
+> +       DEF_SD_MUX("SD0", R9A07G044_CLK_SD0, SEL_SDHI0,
+> +                  sel_shdi, ARRAY_SIZE(sel_shdi), 0, 0),
+> +       DEF_SD_MUX("SD1", R9A07G044_CLK_SD1, SEL_SDHI1,
+> +                  sel_shdi, ARRAY_SIZE(sel_shdi), 0, 0),
 
-I'm wondering if you should poll (using readl_poll_timeout()) until
-the CPG_CLKSTATUS.SELSDHIx_STS bit is cleared, to indicate switching
-has completed?
+Looks like both .flag and .mux_flags are unneeded?
 
-> +
-> +       writel(bitmask | ((index + 1) << shift), priv->base + off);
-> +
-> +       return 0;
-> +}
-> +
-> +static u8 rzg2l_cpg_sd_clk_mux_get_parent(struct clk_hw *hw)
-> +{
-> +       struct sd_hw_data *hwdata = to_sd_hw_data(hw);
-> +       struct rzg2l_cpg_priv *priv = hwdata->priv;
-> +       u32 val = readl(priv->base + GET_REG_OFFSET(hwdata->conf));
-> +
-> +       val >>= GET_SHIFT(hwdata->conf);
-> +       val &= GENMASK(GET_WIDTH(hwdata->conf) - 1, 0);
-> +       if (val)
-> +               val--;
-> +       else
-> +               /* Prohibited clk source, change it to 533 MHz(reset value) */
-> +               rzg2l_cpg_sd_clk_mux_set_parent(hw, 0);
+> +       DEF_FIXED("SD0_DIV4", CLK_SD0_DIV4, R9A07G044_CLK_SD0, 1, 4),
+> +       DEF_FIXED("SD1_DIV4", CLK_SD1_DIV4, R9A07G044_CLK_SD1, 1, 4),
+>  };
+>
+>  static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
 
-Please add curly braces (to both branches).
-
-> +
-> +       return val;
-> +}
+The rest looks good to me.
 
 Gr{oetje,eeting}s,
 
