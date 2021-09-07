@@ -2,102 +2,231 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D80A54023A2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Sep 2021 08:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0382E4023C4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Sep 2021 09:04:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235438AbhIGGyG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Sep 2021 02:54:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51410 "EHLO
+        id S235628AbhIGHDE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Sep 2021 03:03:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234612AbhIGGyF (ORCPT
+        with ESMTP id S234243AbhIGHDD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Sep 2021 02:54:05 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B888AC06175F
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Sep 2021 23:52:59 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1mNUyY-00055G-2T
-        for linux-renesas-soc@vger.kernel.org; Tue, 07 Sep 2021 08:52:58 +0200
-Received: from dspam.blackshift.org (localhost [127.0.0.1])
-        by bjornoya.blackshift.org (Postfix) with SMTP id C5331678854
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Sep 2021 06:52:55 +0000 (UTC)
-Received: from hardanger.blackshift.org (unknown [172.20.34.65])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by bjornoya.blackshift.org (Postfix) with ESMTPS id 6B22E67883F;
-        Tue,  7 Sep 2021 06:52:54 +0000 (UTC)
-Received: from blackshift.org (localhost [::1])
-        by hardanger.blackshift.org (OpenSMTPD) with ESMTP id 51a59343;
-        Tue, 7 Sep 2021 06:52:53 +0000 (UTC)
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     netdev@vger.kernel.org
-Cc:     davem@davemloft.net, kuba@kernel.org, linux-can@vger.kernel.org,
-        kernel@pengutronix.de, Marc Kleine-Budde <mkl@pengutronix.de>,
-        linux-renesas-soc@vger.kernel.org,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH net 1/2] can: rcar_canfd: add __maybe_unused annotation to silence warning
-Date:   Tue,  7 Sep 2021 08:52:51 +0200
-Message-Id: <20210907065252.1061052-2-mkl@pengutronix.de>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210907065252.1061052-1-mkl@pengutronix.de>
-References: <20210907065252.1061052-1-mkl@pengutronix.de>
+        Tue, 7 Sep 2021 03:03:03 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B522C061575
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Sep 2021 00:01:57 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id f15so17897826ybg.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Sep 2021 00:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XZ02cCn3jUYwKkL6zF4WdVr12IAXBqByLITg8GOc89U=;
+        b=d93iTWhWZFfJpFHQv7tpLm+6QZsDGz9hKjnedRCRGiLYNluChqhRkJG8SXzFFmOfVW
+         vZm8NbbB/ZNCbEH+OY1q9VJXD0fjaGUX9aQJUUYxnbYUhS2xxPjd7t7qnfh3DD0sXqaq
+         8eJQxMAUhyqHNspp0CCWfg54DzbMP1WEsE3UY2+m4suxCrOVPaUj4MJvy4uN3GFlxLRi
+         v8Jw1aJXLKQ0fVHK5Kmau8Vb9SBrnQ2b+jGFv+MlkS0Adf5MgCxTQmRtLfXtsw91x17g
+         HBgR7RJrjjEX8i8GP6AKVtWt8Cib2/svkcKBa08Ofa57+WUEXEGVam4avffXdOQ34jYX
+         qFRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XZ02cCn3jUYwKkL6zF4WdVr12IAXBqByLITg8GOc89U=;
+        b=aQD1s6uqebRRTBmm/OXQmn6c/RoJHEmruw/kqAr3d8ExwHtlWRG+cV6cJ4KTF5frpQ
+         HSQ1X2pJLyOs+chmuZ5XAnJhQMIHQQtUIWdn7fV01HhwqFnRGKvSM5q3ylIeEduHNDIG
+         CVCk/28DDa4In+7kykSuXFLCJKpYbx3Hm30PsOTlKpFTCEWedSXAYWBSoGWyMvAmTzr0
+         XTAT7VBAt+J3purIQtyKvSjE3h9ITNaG0O6WlYbaYiDodZDIFRApt1Qruhh4oJDrdCnk
+         INRQrlJwAoouCnrb0tTg7ObEZhAsMlrGi/lZJqIdVAT31sAQqdME1EEmFKpYUUG1/h+L
+         X8NA==
+X-Gm-Message-State: AOAM532dDhSzRu/T0hPW6NXOneH1pbK78x8PxkispY/XH0cGJaWyqNwi
+        jq2P+10mZJwMmDIjty4MlzmwoXUNla27uLr9sbckJg==
+X-Google-Smtp-Source: ABdhPJyLhKD3oP2+8EJssMw8N+mu4D4/j9ZXZmiK4Fvt3T9csxsUw9BdjSpamoLn9OyWs207aw/T9vOcGmFBkW99uG4=
+X-Received: by 2002:a25:b94:: with SMTP id 142mr19856293ybl.508.1630998116640;
+ Tue, 07 Sep 2021 00:01:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+References: <20210904000543.2019010-1-saravanak@google.com>
+ <20210904000543.2019010-2-saravanak@google.com> <CAMuHMdUhZy7W_HLtNJ2ECK5uQV5xHV7pDk5BXfNUpW9L68G5Aw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUhZy7W_HLtNJ2ECK5uQV5xHV7pDk5BXfNUpW9L68G5Aw@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Tue, 7 Sep 2021 00:01:23 -0700
+Message-ID: <CAGETcx_7N3gtaT-YHGaGL+Qtkv=JOhgPcPF1A+kQ4aaDoetvSA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] drivers: bus: simple-pm-bus: Add support for
+ probing simple bus only devices
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-oxnas@groups.io,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:TI ETHERNET SWITCH DRIVER (CPSW)" 
+        <linux-omap@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Lee Jones <lee.jones@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since commit
+On Mon, Sep 6, 2021 at 12:54 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Saravana,
+>
+> Thanks for your patch!
+>
+> CC linux-pm, Lee (mfd)
+>
+> On Sat, Sep 4, 2021 at 2:05 AM Saravana Kannan <saravanak@google.com> wrote:
+> > fw_devlink could end up creating device links for bus only devices.
+> > However, bus only devices don't get probed and can block probe() or
+> > sync_state() [1] call backs of other devices. To avoid this, probe these
+> > devices using the simple-pm-bus driver.
+> >
+> > However, there are instances of devices that are not simple buses (they
+> > get probed by their specific drivers) that also list the "simple-bus"
+> > (or other bus only compatible strings) in their compatible property to
+> > automatically populate their child devices. We still want these devices
+> > to get probed by their specific drivers. So, we make sure this driver
+> > only probes devices that are only buses.
+>
+> Note that this can also be the case for buses declaring compatibility
+> with "simple-pm-bus".  However, at the moment, none of such device
+> nodes in upstream DTS files have device-specific drivers.
 
-| dd3bd23eb438 ("can: rcar_canfd: Add Renesas R-Car CAN FD driver")
+Not sure about mfd, but I want to make sure we don't confuse busses
+(which are typically added to a class) with these "simple bus" devices
+that are added to platform_bus. Also if these other buses are actually
+causing an issue, then then should implement their own stub driver or
+use try patch[2] if they are added to classes (devices on classes
+don't probe)
 
-the rcar_canfd driver can be compile tested on all architectures. On
-non OF enabled archs, or archs where OF is optional (and disabled in
-the .config) the compilation throws the following warning:
+[2] - https://lore.kernel.org/lkml/20210831224510.703253-1-saravanak@google.com/
 
-| drivers/net/can/rcar/rcar_canfd.c:2020:34: warning: unused variable 'rcar_canfd_of_table' [-Wunused-const-variable]
-| static const struct of_device_id rcar_canfd_of_table[] = {
-|                                  ^
+>
+> > [1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
+> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > Tested-by: Saravana Kannan <saravanak@google.com>
+>
+> > --- a/drivers/bus/simple-pm-bus.c
+> > +++ b/drivers/bus/simple-pm-bus.c
+> > @@ -13,11 +13,26 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/pm_runtime.h>
+> >
+> > -
+> >  static int simple_pm_bus_probe(struct platform_device *pdev)
+> >  {
+> > -       const struct of_dev_auxdata *lookup = dev_get_platdata(&pdev->dev);
+> > -       struct device_node *np = pdev->dev.of_node;
+> > +       const struct device *dev = &pdev->dev;
+> > +       const struct of_dev_auxdata *lookup = dev_get_platdata(dev);
+> > +       struct device_node *np = dev->of_node;
+> > +       const struct of_device_id *match;
+> > +
+> > +       match = of_match_device(dev->driver->of_match_table, dev);
+> > +
+> > +       /*
+> > +        * These are transparent bus devices (not simple-pm-bus matches) that
+> > +        * have their child nodes populated automatically.  So, don't need to
+> > +        * do anything more.
+> > +        */
+> > +       if (match && match->data) {
+> > +               if (of_property_match_string(np, "compatible", match->compatible) == 0)
+>
+> Does this work as expected? Having multiple compatible values in a
+> device node does not guarantee there exist a separate driver for any
+> of the device-specific compatible values.
 
-This patch fixes the warning by marking the variable
-rcar_canfd_of_table as __maybe_unused.
+Right, and if they are platform devices that are equivalent to
+simple-bus (meaning, they don't do anything in Linux and just have
+their devices populated) we can add those to this list too.
 
-Fixes: ac4224087312 ("can: rcar: Kconfig: Add helper dependency on COMPILE_TEST")
-Fixes: dd3bd23eb438 ("can: rcar_canfd: Add Renesas R-Car CAN FD driver")
-Link: https://lore.kernel.org/all/20210907064537.1054268-1-mkl@pengutronix.de
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: Cai Huoqing <caihuoqing@baidu.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
----
- drivers/net/can/rcar/rcar_canfd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> > +                       return 0;
+> > +               else
+> > +                       return -ENODEV;
+>
+> So if we get here, as both branches use "return", we skip the
+> pm_runtime_enable() and of_platform_populate() below:
+>   - of_platform_populate() is handled for these buses by
+>     of_platform_default_populate(), so that's OK,
+>   - I'm wondering if any of the simple-mfd sub-devices use Runtime
+>     PM, but currently fail to save power because pm_runtime_enable()
+>     is never called for the MFD container, just like with simple-bus...
 
-diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index c47988d3674e..ff9d0f5ae0dd 100644
---- a/drivers/net/can/rcar/rcar_canfd.c
-+++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -2017,7 +2017,7 @@ static int __maybe_unused rcar_canfd_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(rcar_canfd_pm_ops, rcar_canfd_suspend,
- 			 rcar_canfd_resume);
- 
--static const struct of_device_id rcar_canfd_of_table[] = {
-+static const __maybe_unused struct of_device_id rcar_canfd_of_table[] = {
- 	{ .compatible = "renesas,rcar-gen3-canfd", .data = (void *)RENESAS_RCAR_GEN3 },
- 	{ .compatible = "renesas,rzg2l-canfd", .data = (void *)RENESAS_RZG2L },
- 	{ }
+But this doesn't affect simple-mfd though.
 
-base-commit: b539c44df067ac116ec1b58b956efda51b6a7fc1
--- 
-2.33.0
+>
+> > +       }
+> >
+> >         dev_dbg(&pdev->dev, "%s\n", __func__);
+> >
+> > @@ -31,14 +46,25 @@ static int simple_pm_bus_probe(struct platform_device *pdev)
+> >
+> >  static int simple_pm_bus_remove(struct platform_device *pdev)
+> >  {
+> > +       const void *data = of_device_get_match_data(&pdev->dev);
+> > +
+> > +       if (data)
+> > +               return 0;
+> > +
+> >         dev_dbg(&pdev->dev, "%s\n", __func__);
+> >
+> >         pm_runtime_disable(&pdev->dev);
+> >         return 0;
+> >  }
+> >
+> > +#define ONLY_BUS       ((void *) 1) /* Match if the device is only a bus. */
+> > +
+> >  static const struct of_device_id simple_pm_bus_of_match[] = {
+> >         { .compatible = "simple-pm-bus", },
+> > +       { .compatible = "simple-bus",   .data = ONLY_BUS },
+> > +       { .compatible = "simple-mfd",   .data = ONLY_BUS },
+> > +       { .compatible = "isa",          .data = ONLY_BUS },
+>
+> #ifdef CONFIG_ARM_AMBA ?
 
+Not needed? If CONFIG_ARM_AMBA isn't enabled, the device wouldn't be
+created in the first place.
 
+>
+> > +       { .compatible = "arm,amba-bus", .data = ONLY_BUS },
+> >         { /* sentinel */ }
+>
+> This is now (almost[*]) the same as of_default_bus_match_table[]
+> in drivers/of/platform.c. Perhaps it can be shared?
+
+I wanted this table to be expandable as needed. That's why I'm
+intentionally not using of_default_bus_match_table[].
+
+>
+> [*] Especially if "simple-pm-bus" and "simple-bus" would be treated
+>     the same.
+
+They are not treated the same way.
+
+-Saravana
+
+>
+> >  };
+> >  MODULE_DEVICE_TABLE(of, simple_pm_bus_of_match);
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
