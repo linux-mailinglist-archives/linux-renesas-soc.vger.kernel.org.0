@@ -2,147 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99BEF40477C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Sep 2021 11:03:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 173E44047D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Sep 2021 11:33:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232346AbhIIJEf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Sep 2021 05:04:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232355AbhIIJEb (ORCPT
+        id S232972AbhIIJe3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Sep 2021 05:34:29 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:43652 "EHLO
+        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229927AbhIIJe1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Sep 2021 05:04:31 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2358C0613C1
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Sep 2021 02:03:21 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:7d44:646d:3ffb:9bbf])
-        by albert.telenet-ops.be with bizsmtp
-        id rl3L250033eH4vN06l3LGL; Thu, 09 Sep 2021 11:03:20 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mOFxn-003D1e-Nu; Thu, 09 Sep 2021 11:03:19 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mOFxm-00BOvJ-VP; Thu, 09 Sep 2021 11:03:18 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Chris Paterson <Chris.Paterson2@renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 3/3] arm64: dts: renesas: rcar-gen3: Add missing Ethernet PHY resets
-Date:   Thu,  9 Sep 2021 11:03:12 +0200
-Message-Id: <3e6fd765850e8ef0980d8e98bc5f2126538d626f.1631177442.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1631177442.git.geert+renesas@glider.be>
-References: <cover.1631177442.git.geert+renesas@glider.be>
+        Thu, 9 Sep 2021 05:34:27 -0400
+Received: by mail-vs1-f53.google.com with SMTP id u1so965795vsq.10;
+        Thu, 09 Sep 2021 02:33:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2wO4uEOZXmVlM7tblOFCNyxQE4NE3jdr5EX9nhntYSw=;
+        b=r1tW64eg6LsjwMbCUcVxgMe3YKz+RfM62YPbREeOCeuFtCLAq6LJZfY3g1KrHkdkPE
+         Wfu6k38TtNZwkTg5xkb20ODtPwXByiHnpEKwJGBk9Cx9M6WO0k3uv4GYAMfqRpzqIME6
+         TgB7cSJPXH66tIeuBgc07/v7beUR27707VX2wBCxqKjKZc3lNsL7iHgru3afQrXjjMyn
+         ZVHR8UOldd9CBmFZznOZ6NGTsS5upabvz6lXT9L92I/bMY/r6klQsOSRRRxzi/bbTVUU
+         03x8shrHd/pYmNCT1BPXaNVoxdViTtrovApcD3bJjGuNloRd/FZKqQuRGhTdcsiV/c1e
+         WCJg==
+X-Gm-Message-State: AOAM530qCZXBb24bPpvJoTbg9P3et0gxa49NNTvVrOTro7sj/mq+ALgz
+        vR5c7mSJxwDogCpOvD0SXIwzcrVZe033S8x8Jf6yFObSBzQ=
+X-Google-Smtp-Source: ABdhPJyNzYMZuvTWyBAZ9WNd97bQOyiOpnPdfUr/BYXbgHyWsV/408RCaXJEAZVcPmNu9IDmP2IDoZlj/+z0oImJXyU=
+X-Received: by 2002:a05:6102:2417:: with SMTP id j23mr669655vsi.35.1631179992938;
+ Thu, 09 Sep 2021 02:33:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210826082107.47299-1-wsa+renesas@sang-engineering.com> <CAMuHMdUXc0oSCXJ-5QmPJz0VkX1Aib+ZAv8K2LN_fT1+5mocqw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUXc0oSCXJ-5QmPJz0VkX1Aib+ZAv8K2LN_fT1+5mocqw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 9 Sep 2021 11:33:01 +0200
+Message-ID: <CAMuHMdUuqQe6cM-Zt1GWq6xgydv1po8FOOW9qWe+5hK=ZRqE+w@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: fix regression with hard reset on old SDHIs
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Describe all Ethernet PHY reset GPIOs on R-Car Gen3 boards, to avoid
-relying solely on boot loaders to bring PHYs out of reset.
+Hi Wolfram,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-This assumes the CPLD on v3hsk takes care of the PHY reset, like it is
-documented to do on v3msk.
----
- arch/arm64/boot/dts/renesas/draak.dtsi          | 1 +
- arch/arm64/boot/dts/renesas/r8a77970-eagle.dts  | 1 +
- arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts  | 2 ++
- arch/arm64/boot/dts/renesas/r8a77980-condor.dts | 2 ++
- arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts  | 2 ++
- 5 files changed, 8 insertions(+)
+On Thu, Aug 26, 2021 at 4:25 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Thu, Aug 26, 2021 at 10:21 AM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> > Old SDHI instances have a default value for the reset register which
+> > keeps it in reset state by default. So, when applying a hard reset we
+> > need to manually leave the soft reset state as well. Later SDHI
+> > instances have a different default value, the one we write manually now.
+> >
+> > Fixes: b4d86f37eacb ("mmc: renesas_sdhi: do hard reset if possible")
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > ---
+> >
+> > Geez, typical SDHI nastiness here...
+> >
+> > Geert: I think this fixes the issue you saw on Koelsch. It works fine on
+> > my Lager now at least. Can you please test and tag if all goes well?
+> > It would be great to have this in 5.14 but it definately needs Geert's
+> > confirmation first.
+>
+> Thanks, fixes the SD Card issue is was seeing on Koelsch, and still
+> works on Salvator-XS.
+>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/arch/arm64/boot/dts/renesas/draak.dtsi b/arch/arm64/boot/dts/renesas/draak.dtsi
-index 5f5a0bb2da86cc57..eb0327c0df48f2e3 100644
---- a/arch/arm64/boot/dts/renesas/draak.dtsi
-+++ b/arch/arm64/boot/dts/renesas/draak.dtsi
-@@ -249,6 +249,7 @@ phy0: ethernet-phy@0 {
- 		reg = <0>;
- 		interrupt-parent = <&gpio5>;
- 		interrupts = <19 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&gpio5 18 GPIO_ACTIVE_LOW>;
- 		/*
- 		 * TX clock internal delay mode is required for reliable
- 		 * 1Gbps communication using the KSZ9031RNX phy present on
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-index c7451973f8a5b2a7..6586a3bd51b4aad6 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-@@ -98,6 +98,7 @@ phy0: ethernet-phy@0 {
- 		reg = <0>;
- 		interrupt-parent = <&gpio1>;
- 		interrupts = <17 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&gpio1 16 GPIO_ACTIVE_LOW>;
- 	};
- };
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts b/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts
-index 2f77ec4ed7e16166..39f3e6cbba3d500f 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts
-@@ -8,6 +8,7 @@
- 
- /dts-v1/;
- #include "r8a77970.dtsi"
-+#include <dt-bindings/gpio/gpio.h>
- 
- / {
- 	model = "Renesas V3M Starter Kit board";
-@@ -113,6 +114,7 @@ phy0: ethernet-phy@0 {
- 		reg = <0>;
- 		interrupt-parent = <&gpio1>;
- 		interrupts = <17 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&gpio1 16 GPIO_ACTIVE_LOW>;
- 	};
- };
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77980-condor.dts b/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
-index 4cb5bfa6932d5809..3d6d10c82f48d667 100644
---- a/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
-@@ -8,6 +8,7 @@
- 
- /dts-v1/;
- #include "r8a77980.dtsi"
-+#include <dt-bindings/gpio/gpio.h>
- 
- / {
- 	model = "Renesas Condor board based on r8a77980";
-@@ -138,6 +139,7 @@ phy0: ethernet-phy@0 {
- 		reg = <0>;
- 		interrupt-parent = <&gpio4>;
- 		interrupts = <23 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&gpio4 22 GPIO_ACTIVE_LOW>;
- 	};
- };
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts b/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts
-index ca69d1b1d67af047..1d09d8867651a06b 100644
---- a/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts
-@@ -8,6 +8,7 @@
- 
- /dts-v1/;
- #include "r8a77980.dtsi"
-+#include <dt-bindings/gpio/gpio.h>
- 
- / {
- 	model = "Renesas V3H Starter Kit board";
-@@ -118,6 +119,7 @@ phy0: ethernet-phy@0 {
- 		reg = <0>;
- 		interrupt-parent = <&gpio4>;
- 		interrupts = <23 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&gpio4 22 GPIO_ACTIVE_LOW>;
- 	};
- };
- 
+Note that this does not fix the issues on gose and alt in Magnus'
+farm, but they may have failed before b4d86f37eacb too.
+
+gose:
+
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD51)
+    mmc0: error -110 whilst initialising SD card
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    ------------[ cut here ]------------
+    WARNING: CPU: 1 PID: 35 at kernel/dma/debug.c:498 add_dma_entry+0x134/0x178
+    DMA-API: exceeded 7 overlapping mappings of cacheline 0x0000000001099f61
+
+alt:
+
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
+    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
+    ------------[ cut here ]------------
+    WARNING: CPU: 1 PID: 49 at kernel/dma/debug.c:498 add_dma_entry+0x134/0x178
+    DMA-API: exceeded 7 overlapping mappings of cacheline 0x0000000001082b42
+
+Other MMC instances on gose and alt seem to work.
+
+From my limited collection of logs of booting on these boards, ee100000.mmc on
+  - gose worked in v4.15, and is broken since at least v4.17,
+  - alt worked in v5.1-rc6, and is broken now.
+SD cards might have been changed in the meantime, though.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
