@@ -2,92 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 381124054BD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Sep 2021 15:31:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08AF8405625
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Sep 2021 15:36:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242975AbhIINDM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Sep 2021 09:03:12 -0400
-Received: from www.zeus03.de ([194.117.254.33]:39126 "EHLO mail.zeus03.de"
+        id S1358822AbhIINSN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Sep 2021 09:18:13 -0400
+Received: from www.zeus03.de ([194.117.254.33]:44240 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1355173AbhIIM5P (ORCPT
+        id S1357715AbhIINEg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:57:15 -0400
+        Thu, 9 Sep 2021 09:04:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=MxucuO+OF4EIO9fKthYyVgp/RC4A
-        aEbo2isabOQHXvE=; b=t9bj8hETgXv1EbaLpMdMQItfjJudYYbOz1TSkTM3nxah
-        IpdoSVSGZBPVB59z62TLX30ozDok/SYVT72paS2IXVG9e9UQJB9tcJA/oiL0HW1q
-        b3iOeUMAVV98eXlng7a6ePKM1AS52Beq/EoIUjFnsa4Y+YqxC1NQKVsSz3wJOEk=
-Received: (qmail 1570801 invoked from network); 9 Sep 2021 14:56:02 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Sep 2021 14:56:02 +0200
-X-UD-Smtp-Session: l3s3148p1@flZphY/L6MkgARa4Rc+IAenyySDM4eeF
-Date:   Thu, 9 Sep 2021 14:56:02 +0200
+        :content-type:in-reply-to; s=k1; bh=2dcF6NYtjYgfD7I6wcCbElmuBdNM
+        3SjUiUIa0LW2dkw=; b=QR2HZciiVIHLPG04IQDPGeynSHgocwnQkyyaz+6NVdiH
+        gj0Dcfd9A/CBDi5ipb9VWrZWmaKzT9YW+RftDlsy7j2RYx0g9ryHARFJ/3iHUCf9
+        tzfrACMfWBM341XTTerERHesxSpjySXEHFh1XZK2qZeTnRJVeLpkMVy3J8Na5+4=
+Received: (qmail 1573090 invoked from network); 9 Sep 2021 15:03:25 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Sep 2021 15:03:25 +0200
+X-UD-Smtp-Session: l3s3148p1@HlTPn4/L7MkgARa4Rc+IAenyySDM4eeF
+Date:   Thu, 9 Sep 2021 15:03:25 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
+Cc:     linux-mmc <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: fix regression with hard reset on old
- SDHIs
-Message-ID: <YToEYkJHj/fkOT88@shikoro>
+Subject: Re: [PATCH RFC] HACK: mmc: core: also abort tuning with CMD12 for SD
+Message-ID: <YToGHbgakZdrY/4R@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20210826082107.47299-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdUXc0oSCXJ-5QmPJz0VkX1Aib+ZAv8K2LN_fT1+5mocqw@mail.gmail.com>
- <YSelsjPyswWCr7Nu@shikoro>
- <CAPDyKFp2Ut4UJoRXPD4t+k1+ZfmT-CQZ3obNA_iPF6OA-t+T7g@mail.gmail.com>
+References: <20210831133349.18203-1-wsa+renesas@sang-engineering.com>
+ <CAPDyKFptgZgDsKyHt-sO6yyRBm+LqeWkwOSoB9ED+b3QTPqD-w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="TjpFRUoUSmx+VWBg"
+        protocol="application/pgp-signature"; boundary="3lFnMJ0a7tftFttn"
 Content-Disposition: inline
-In-Reply-To: <CAPDyKFp2Ut4UJoRXPD4t+k1+ZfmT-CQZ3obNA_iPF6OA-t+T7g@mail.gmail.com>
+In-Reply-To: <CAPDyKFptgZgDsKyHt-sO6yyRBm+LqeWkwOSoB9ED+b3QTPqD-w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---TjpFRUoUSmx+VWBg
+--3lFnMJ0a7tftFttn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 Hi Ulf,
 
-> Apologize for the delay!
+> > 1) despite not being mentioned in the spec, do we want to allow CMD12 to
+> >    abort tuning for SD as well?
+>=20
+> It sounds like we should give it a try with the CMD12 command for SD
+> cards as well.
 
-I seriously hope you have been on vacation :)
+I think so.
 
-> I have applied it for fixes (v5.15) and added a stable tag, hope that's okay.
+> > 2) If so, how to make sure not apply it to SDIO but SD only?
+>=20
+> For now, I am fine with adding a new bus_ops callback
+> (->abort_tuning()) and then let mmc_send_abort_tuning() to call it.
 
-Sure, thanks a lot!
+Cool, I like that approach.
 
-All the best,
+> I have some additional plans to improve life cycle issues for the
+> bus_ops, but let's ignore that for now. I can deal with that later.
+
+Ok, good.
+
+> That said, mmc_send_abort_tuning() should no longer need to take the
+> opcode as an in-parameter, thus some additional cleanup should be
+> needed in a few host drivers because of that.
+>=20
+> Would that work?
+
+I think that would work nicely. I will have a go with the above approach
+and come back then. Or do you want to implement it?
+
+Thanks and happy hacking,
 
    Wolfram
 
 
---TjpFRUoUSmx+VWBg
+--3lFnMJ0a7tftFttn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmE6BGIACgkQFA3kzBSg
-KbbRzw/9FzuxTxzZTZGPY3Cl20yNEQwOB2MxfeAmmnhx990Stf0lggXkhh9ldjqJ
-QcyEbSIebbALeUy4H+fiyhVde5tCp822adwPWYpQ/Lm4NusrVki4cGVuAdwuUGKy
-doVgj/82gAW0gDlNhcpzciwN0CE07jRL81heW9PBbtCajRCD34XhUJCT1uQaaFZn
-fIzN48jOAfvI1PI7nsBFVW6rFlVkhHQ2t09T5k973PTMLfHMTiJgdOz0eOVs4Z+H
-e+4y4I4ap9SHRSYwEKNfmSvEJ+x+YveOwX0WgsYjRqklMhjam1REwEAqB/Vtsf3k
-bK3CBU0tZTkcQWKE7STcMiwggL27xQgqvH9Pj4KyA86768+Mxu7LVju01VxcbBtd
-OHU66bssxespI19xbj6cznqcBGQuV4t82P5VMRr608N5wZDXFxmDoUuZ34J0EP+w
-3BBtznMLGufsU8SbC3hZRQN/2s5kh3S3Zwd+8MVd4AkvF/7xY18UgXKn1jhFT5Ih
-Fne+SOZmlKsVRBuAFVNGB2WXWO4ilYpefF4IOGraXHXSsgGcvwG82p6zazx8qGap
-oa1jgR4OZf5sOZf/hV8J6BS86WGx3R6HDEZLkb9LVRJAJPa84cDjuw8MOjMOBY07
-AuY+46u5RQEuaiQDchMMUYbIOPG5/2B49HtegmI4/PL2HFZ2uoY=
-=L3VF
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmE6Bh0ACgkQFA3kzBSg
+KbbBow//dgaxVEz9m3nV8v7J0IG7jyi2T5675VzYlhKvmEpkupuUjES4+X5/3oQ+
+XG8gILNUe8FUve4M4vRQLH/DTIs3Rk/xpRROi+8KTngPl3D/INmzacbKYgQlEQ8n
+XbB702/QK1zWJ+DPq0pdOXrfhn/M3xo8CeAlvlf//4bQx+BDAh11Hvp34sIB/8mA
+8GUGzT37ZL05/J7frFmTApF0Beg5g68NPvrYC2I4nJx3jGHtyFDRNWhOUTjfEtDu
+prbjNMJFUIXXbg19sKTx6yvj0Df2lCt/7b78WncVrJItF/buer83whS8f/lQRqYq
+kdY9jomYBQHKzLzLwXDobLIi3YUampTWjuxmdrgQ9mI8qckAQZRUhvrXD0KaG0iq
+XDWzjkdzuLBp/HDlNIy9GI0KDIjTlm7UMLYY03sW4wPBlDFkVdjBuYvoLo/8c3C7
+kIuu8+MazWKlw+6sR1qhESfzdOgCD0RCfzEd6f78xa3ygv1RWu+jymd6vTReMg/3
+AnmH3qX593cvqQedVtkqZgiwiHwNqiDYUXgaue6Ueb6zMUcLad3czgYP/fof/DCA
+yeiKYTMilozyI9eRbwCPqL+/dipL+WPg4iAi2OsKJ1TqB8YB229MAjgdSU9zPYuf
+KOC+GnDvgXijko0ea77NbvUGxdflGRafac4izY3Y+WILbIwuoWM=
+=yRzb
 -----END PGP SIGNATURE-----
 
---TjpFRUoUSmx+VWBg--
+--3lFnMJ0a7tftFttn--
