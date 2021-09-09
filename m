@@ -2,141 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 173E44047D3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Sep 2021 11:33:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E4A74048D7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Sep 2021 13:02:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232972AbhIIJe3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Sep 2021 05:34:29 -0400
-Received: from mail-vs1-f53.google.com ([209.85.217.53]:43652 "EHLO
-        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbhIIJe1 (ORCPT
+        id S234572AbhIILDe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Sep 2021 07:03:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55140 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234216AbhIILDd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Sep 2021 05:34:27 -0400
-Received: by mail-vs1-f53.google.com with SMTP id u1so965795vsq.10;
-        Thu, 09 Sep 2021 02:33:17 -0700 (PDT)
+        Thu, 9 Sep 2021 07:03:33 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E7C1C061575
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Sep 2021 04:02:24 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id h1so2332923ljl.9
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Sep 2021 04:02:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HqMw/0l1kESubu2uMBYTCMZr+nbcPkWmEaa8w30Z3Ss=;
+        b=xIwstDFqbjVnFK3QnzRTMN0EG2JKgfszQq2XLDgslizPmY4v6dP8UJZjjqlxKby6Mp
+         0KJgvLrdmrGWirG868pOOPdsvJJ3wvQn4HkuNGkCKL+5AK09jt8kwULq/1fFgbNj/zJh
+         DgiUwA+I9ht71YaJwD+/egwug7iP8l3WAL3uG8+63AzTHLyqAsK0emCtbiYDpHZ5RD8o
+         nXPP9ukAOMaLrge7iHJSN6pNxYP5rBChKHGsoNSvRzI8QMOaOhwGoS8IK0ywKlKMSqpt
+         Krk1MSkR/EWsz7PKnjgqn+kK5tJouOKWILi/kPWt0Bj3Mh1o2vgfuhf0SU8aRz5NPaNQ
+         j4AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2wO4uEOZXmVlM7tblOFCNyxQE4NE3jdr5EX9nhntYSw=;
-        b=r1tW64eg6LsjwMbCUcVxgMe3YKz+RfM62YPbREeOCeuFtCLAq6LJZfY3g1KrHkdkPE
-         Wfu6k38TtNZwkTg5xkb20ODtPwXByiHnpEKwJGBk9Cx9M6WO0k3uv4GYAMfqRpzqIME6
-         TgB7cSJPXH66tIeuBgc07/v7beUR27707VX2wBCxqKjKZc3lNsL7iHgru3afQrXjjMyn
-         ZVHR8UOldd9CBmFZznOZ6NGTsS5upabvz6lXT9L92I/bMY/r6klQsOSRRRxzi/bbTVUU
-         03x8shrHd/pYmNCT1BPXaNVoxdViTtrovApcD3bJjGuNloRd/FZKqQuRGhTdcsiV/c1e
-         WCJg==
-X-Gm-Message-State: AOAM530qCZXBb24bPpvJoTbg9P3et0gxa49NNTvVrOTro7sj/mq+ALgz
-        vR5c7mSJxwDogCpOvD0SXIwzcrVZe033S8x8Jf6yFObSBzQ=
-X-Google-Smtp-Source: ABdhPJyNzYMZuvTWyBAZ9WNd97bQOyiOpnPdfUr/BYXbgHyWsV/408RCaXJEAZVcPmNu9IDmP2IDoZlj/+z0oImJXyU=
-X-Received: by 2002:a05:6102:2417:: with SMTP id j23mr669655vsi.35.1631179992938;
- Thu, 09 Sep 2021 02:33:12 -0700 (PDT)
+        bh=HqMw/0l1kESubu2uMBYTCMZr+nbcPkWmEaa8w30Z3Ss=;
+        b=qgNmnEDdtKqC6qSCSCw2Rr8qKdAr5gCEBX+1plt4gCCBZgEKeCHbyCy9AWhRa/ENK6
+         bR74lewX3aLCduJTk0t/2xxA8W2r+at+bx70GfyiTHteP0tqwNf9EpHaPksyRRZ5QJN0
+         INtUDeUrEBVxaS5D/6GZ0JIqwtFMcwbxUhEcjKvobmHj+r3a+JAC6VWAQ0nFCoKAm8Va
+         dQv6pGaspAGxKmLCL+DmhRim6mXPw4iZeSyA6jgWXwgdCrX8ZtrQCOust7sIg5Ei50AA
+         7XxHRB5wB+ZFPSIWaaMlzWLEfwRb/HX34sgN5O+rEcRdfnQDDbk7n0jeuDFb0cukhhP3
+         MYrQ==
+X-Gm-Message-State: AOAM532Uv0L6Qt5gix/MKLKgkxsiPC83hL3tpHqrO1bSJ04RoZmjvJKe
+        rp5NDawWRLLWgXPFpEcXcXXtvUagHWN7NwJsQOvqyw==
+X-Google-Smtp-Source: ABdhPJxQvRGdQcwMRyPKe/v7I+JRraf0+2CwO4dEv14CGJ8gaECBtDJTpCm9aPScDx10Jp9Ce7uZo62Ly4MHBeb1p0s=
+X-Received: by 2002:a2e:b610:: with SMTP id r16mr1746946ljn.367.1631185342288;
+ Thu, 09 Sep 2021 04:02:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210826082107.47299-1-wsa+renesas@sang-engineering.com> <CAMuHMdUXc0oSCXJ-5QmPJz0VkX1Aib+ZAv8K2LN_fT1+5mocqw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUXc0oSCXJ-5QmPJz0VkX1Aib+ZAv8K2LN_fT1+5mocqw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Sep 2021 11:33:01 +0200
-Message-ID: <CAMuHMdUuqQe6cM-Zt1GWq6xgydv1po8FOOW9qWe+5hK=ZRqE+w@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: fix regression with hard reset on old SDHIs
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+References: <20210904000543.2019010-1-saravanak@google.com> <20210904000543.2019010-2-saravanak@google.com>
+In-Reply-To: <20210904000543.2019010-2-saravanak@google.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 9 Sep 2021 13:01:42 +0200
+Message-ID: <CAPDyKFqkvN=ZrfAnj4CqfjBu_Pj0YH9txnkP-1d=FhaEhbPrPA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] drivers: bus: simple-pm-bus: Add support for
+ probing simple bus only devices
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-oxnas@groups.io,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+        linux-omap <linux-omap@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-On Thu, Aug 26, 2021 at 4:25 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Thu, Aug 26, 2021 at 10:21 AM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > Old SDHI instances have a default value for the reset register which
-> > keeps it in reset state by default. So, when applying a hard reset we
-> > need to manually leave the soft reset state as well. Later SDHI
-> > instances have a different default value, the one we write manually now.
-> >
-> > Fixes: b4d86f37eacb ("mmc: renesas_sdhi: do hard reset if possible")
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > ---
-> >
-> > Geez, typical SDHI nastiness here...
-> >
-> > Geert: I think this fixes the issue you saw on Koelsch. It works fine on
-> > my Lager now at least. Can you please test and tag if all goes well?
-> > It would be great to have this in 5.14 but it definately needs Geert's
-> > confirmation first.
+On Sat, 4 Sept 2021 at 02:05, Saravana Kannan <saravanak@google.com> wrote:
 >
-> Thanks, fixes the SD Card issue is was seeing on Koelsch, and still
-> works on Salvator-XS.
+> fw_devlink could end up creating device links for bus only devices.
+> However, bus only devices don't get probed and can block probe() or
+> sync_state() [1] call backs of other devices. To avoid this, probe these
+> devices using the simple-pm-bus driver.
 >
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> However, there are instances of devices that are not simple buses (they
+> get probed by their specific drivers) that also list the "simple-bus"
+> (or other bus only compatible strings) in their compatible property to
+> automatically populate their child devices. We still want these devices
+> to get probed by their specific drivers. So, we make sure this driver
+> only probes devices that are only buses.
+>
+> [1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> Tested-by: Saravana Kannan <saravanak@google.com>
 
-Note that this does not fix the issues on gose and alt in Magnus'
-farm, but they may have failed before b4d86f37eacb too.
+Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-gose:
+Kind regards
+Uffe
 
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD51)
-    mmc0: error -110 whilst initialising SD card
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    ------------[ cut here ]------------
-    WARNING: CPU: 1 PID: 35 at kernel/dma/debug.c:498 add_dma_entry+0x134/0x178
-    DMA-API: exceeded 7 overlapping mappings of cacheline 0x0000000001099f61
 
-alt:
-
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    DMA-API: cacheline tracking EEXIST, overlapping mappings aren't supported
-    sh_mobile_sdhi ee100000.mmc: timeout waiting for hardware interrupt (CMD19)
-    ------------[ cut here ]------------
-    WARNING: CPU: 1 PID: 49 at kernel/dma/debug.c:498 add_dma_entry+0x134/0x178
-    DMA-API: exceeded 7 overlapping mappings of cacheline 0x0000000001082b42
-
-Other MMC instances on gose and alt seem to work.
-
-From my limited collection of logs of booting on these boards, ee100000.mmc on
-  - gose worked in v4.15, and is broken since at least v4.17,
-  - alt worked in v5.1-rc6, and is broken now.
-SD cards might have been changed in the meantime, though.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  drivers/bus/simple-pm-bus.c | 32 +++++++++++++++++++++++++++++---
+>  1 file changed, 29 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/bus/simple-pm-bus.c b/drivers/bus/simple-pm-bus.c
+> index 01a3d0cd08ed..3e086a9f34cb 100644
+> --- a/drivers/bus/simple-pm-bus.c
+> +++ b/drivers/bus/simple-pm-bus.c
+> @@ -13,11 +13,26 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>
+> -
+>  static int simple_pm_bus_probe(struct platform_device *pdev)
+>  {
+> -       const struct of_dev_auxdata *lookup = dev_get_platdata(&pdev->dev);
+> -       struct device_node *np = pdev->dev.of_node;
+> +       const struct device *dev = &pdev->dev;
+> +       const struct of_dev_auxdata *lookup = dev_get_platdata(dev);
+> +       struct device_node *np = dev->of_node;
+> +       const struct of_device_id *match;
+> +
+> +       match = of_match_device(dev->driver->of_match_table, dev);
+> +
+> +       /*
+> +        * These are transparent bus devices (not simple-pm-bus matches) that
+> +        * have their child nodes populated automatically.  So, don't need to
+> +        * do anything more.
+> +        */
+> +       if (match && match->data) {
+> +               if (of_property_match_string(np, "compatible", match->compatible) == 0)
+> +                       return 0;
+> +               else
+> +                       return -ENODEV;
+> +       }
+>
+>         dev_dbg(&pdev->dev, "%s\n", __func__);
+>
+> @@ -31,14 +46,25 @@ static int simple_pm_bus_probe(struct platform_device *pdev)
+>
+>  static int simple_pm_bus_remove(struct platform_device *pdev)
+>  {
+> +       const void *data = of_device_get_match_data(&pdev->dev);
+> +
+> +       if (data)
+> +               return 0;
+> +
+>         dev_dbg(&pdev->dev, "%s\n", __func__);
+>
+>         pm_runtime_disable(&pdev->dev);
+>         return 0;
+>  }
+>
+> +#define ONLY_BUS       ((void *) 1) /* Match if the device is only a bus. */
+> +
+>  static const struct of_device_id simple_pm_bus_of_match[] = {
+>         { .compatible = "simple-pm-bus", },
+> +       { .compatible = "simple-bus",   .data = ONLY_BUS },
+> +       { .compatible = "simple-mfd",   .data = ONLY_BUS },
+> +       { .compatible = "isa",          .data = ONLY_BUS },
+> +       { .compatible = "arm,amba-bus", .data = ONLY_BUS },
+>         { /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, simple_pm_bus_of_match);
+> --
+> 2.33.0.153.gba50c8fa24-goog
+>
