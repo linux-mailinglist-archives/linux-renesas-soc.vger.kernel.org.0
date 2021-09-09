@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA686404AD4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Sep 2021 13:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBD6A404F28
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Sep 2021 14:20:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237302AbhIILtg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Sep 2021 07:49:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46516 "EHLO mail.kernel.org"
+        id S1344117AbhIIMR1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Sep 2021 08:17:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47410 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240829AbhIILqb (ORCPT
+        id S1351217AbhIIMJn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Sep 2021 07:46:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 313C06124D;
-        Thu,  9 Sep 2021 11:42:59 +0000 (UTC)
+        Thu, 9 Sep 2021 08:09:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7442461245;
+        Thu,  9 Sep 2021 11:48:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631187780;
+        s=k20201202; t=1631188093;
         bh=JCUyILyV+6ACnUJ0rjVdIkqYyZqashxOxCmyeCo/XRk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AntwiYDacIqm8tgjvmMtijk0hFSM91A5fwSDR3tmGsUcpPPKBPDAKMjq470YBxkIU
-         52UemGmQ3/OoAuwdZJEqhK+osES+dTCldmfNIsIId1+TAea2GkkFJtG4OxmTpzgD65
-         Ke8WAH065j3hZD4kB/3SaHSOkw4/sQr43hPNnO91H9AcvbQwA2c0SY8zqOrfQI+evE
-         RrF/qFTQiJdEwqVZ50vOQru2m8kyM8OCPB/ZFwrYsb//RDDNGuiB+z1htHs4rARJ9K
-         yUhS8ffr2WINrIlMKbM2qTiVOMqlk38LpIWNlCRswafud5S3rkNtPF2QvHEaU7HpSB
-         zF96JRd8MpEZg==
+        b=h6H7OTvYtpEIhEqiIBvND4fCn4ixDLyYSWG5u07hujcKoEum6xrGhw9TN/MYTgkpl
+         Jqcv1VZykby/c18dfeTwNVKmQiur+EVfjz45mZgEcrcr3cYWRwfQqt7jU5cfugiSnI
+         dSGH7QpG0VYva9gzm+dJzRX2cz3tTkaTTUQ9JZBbVdivXic9xtCI/dvxxICyUjdYCM
+         +bw1x+NgzMsFVdHIolvjoYmak+NoB1V55cPbbywnXCnVFhdkwJ38c/mE+h4WncyFyx
+         /worvX5GO9Jr4b+C4DjzNQ/eRPfgsGUJqdf3d7YPAGFABnHRD7VXDEYbV79C011vfT
+         7jMVN8kXyGGTA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Sasha Levin <sashal@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 089/252] drm: rcar-du: Shutdown the display on system shutdown
-Date:   Thu,  9 Sep 2021 07:38:23 -0400
-Message-Id: <20210909114106.141462-89-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 076/219] drm: rcar-du: Shutdown the display on system shutdown
+Date:   Thu,  9 Sep 2021 07:44:12 -0400
+Message-Id: <20210909114635.143983-76-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
-References: <20210909114106.141462-1-sashal@kernel.org>
+In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
+References: <20210909114635.143983-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
