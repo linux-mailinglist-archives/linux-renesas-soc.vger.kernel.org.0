@@ -2,93 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70821405920
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Sep 2021 16:35:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FF3A405A21
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Sep 2021 17:22:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346972AbhIIOgx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Sep 2021 10:36:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48572 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240410AbhIIOgu (ORCPT
+        id S236649AbhIIPXY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Sep 2021 11:23:24 -0400
+Received: from mail-vk1-f178.google.com ([209.85.221.178]:38849 "EHLO
+        mail-vk1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232656AbhIIPXX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Sep 2021 10:36:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 13949610FF;
-        Thu,  9 Sep 2021 14:35:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631198140;
-        bh=3WvRIwVpeyfq0j1sXzeynJnZRS8SyezNEtQxr3hPK38=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qqgdmDBG/Fns3u1i7A0XzFuTXxpYaXKQucLMx76M7+ZqS1ktKmorYCP/i/SZxgy0l
-         UmydXrFPcVWfv4ao+ygwl3W+/lQYA7tXNdikrmZ/Odzrg4Pu7X9e7Gix/fOmWeezUd
-         cNhUAhkIAdwQgUY5KzTdbmSwOCc7RxusBIiG+R+iK9zaHeLBUUyu5tMP+qkiQU2r9Z
-         MWNdRl6O90c8eghjehJiZqda/6LOs6Rx3kWnNNHIdhSWjSEbmDLWkjERmFMkEbIGib
-         FoVJAGgPdFEP4SB9Ryjxu8Ri0dMYlyk6/ZY359neTF1AUyXBZ3yMS28xSJOnyTUdKv
-         +IBfEjWgUfa8A==
-Date:   Thu, 9 Sep 2021 16:35:37 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
-        geert@linux-m68k.org, yoshihiro.shimoda.uh@renesas.com,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] serial: sh-sci: fix break handling for sysrq
-Message-ID: <YTobuY6QL9e7dyIK@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
-        geert@linux-m68k.org, yoshihiro.shimoda.uh@renesas.com,
-        gregkh@linuxfoundation.org, jirislaby@kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210816162201.28801-1-uli+renesas@fpond.eu>
+        Thu, 9 Sep 2021 11:23:23 -0400
+Received: by mail-vk1-f178.google.com with SMTP id k124so845408vke.5;
+        Thu, 09 Sep 2021 08:22:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jMdZxCtACotNgu9fcSUDCRRpS8pLXrlQN9yO6urHYyg=;
+        b=w7+QDR7LdJfgxtECbMMqXzBUcJvueG743R0dwLScZiGXnLbTN869yZ2jpkbMC06QaK
+         ZiBbp/7NOeWhMxa69+xRohQQMdfm1E/QCjXLdxUhlyIJw28LNV4bwPvoH27tH7Hpb4xp
+         y04i9sHX8aNBzyIKx4HrnpHY6W52eQ+ZwjVbwruCukUgXJd9wtwscQCbRPnjoHZrMGW5
+         kevtVsWMd0f/AjBLo4w5gC93siiPVIIjZLdG3G+0H1/vUClhawh7D1XBlacCPHiEx3QX
+         fNkdzeeqkka/W7cFMR8mYIDIDKqsAO0n/LLoMQH24OfTxPzjV9VAZ8X+ya8fHS47XgTR
+         ZZ8w==
+X-Gm-Message-State: AOAM530ygaFR/a1e1XurGzFMapemUopC/+xVpjjKbTocvbZ8cj3j6/p7
+        5K5X8tPg1DnUE6FgyZuVZaMDfsyDXYhxY0FieDY=
+X-Google-Smtp-Source: ABdhPJy4AEeHXVpZsVsOzXcULq6QeeWxboOzc3kpSRyQieHqZC+uyu5zFuVnW1w0ubYQbeCDPw1BGP5cIZOPos8YxVI=
+X-Received: by 2002:a1f:2055:: with SMTP id g82mr1978381vkg.11.1631200933555;
+ Thu, 09 Sep 2021 08:22:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="J8NgKiLIdiyTObQC"
-Content-Disposition: inline
-In-Reply-To: <20210816162201.28801-1-uli+renesas@fpond.eu>
+References: <20200624195811.435857-1-maz@kernel.org> <20200624195811.435857-8-maz@kernel.org>
+In-Reply-To: <20200624195811.435857-8-maz@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 9 Sep 2021 17:22:01 +0200
+Message-ID: <CAMuHMdV+Ev47K5NO8XHsanSq5YRMCHn2gWAQyV-q2LpJVy9HiQ@mail.gmail.com>
+Subject: Re: [PATCH v2 07/17] irqchip/gic: Atomically update affinity
+To:     Marc Zyngier <maz@kernel.org>,
+        Russell King <linux@arm.linux.org.uk>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Valentin Schneider <Valentin.Schneider@arm.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Android Kernel Team <kernel-team@android.com>,
+        stable <stable@vger.kernel.org>,
+        Magnus Damm <damm+renesas@opensource.se>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Marc, Russell,
 
---J8NgKiLIdiyTObQC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jun 24, 2020 at 9:59 PM Marc Zyngier <maz@kernel.org> wrote:
+> The GIC driver uses a RMW sequence to update the affinity, and
+> relies on the gic_lock_irqsave/gic_unlock_irqrestore sequences
+> to update it atomically.
+>
+> But these sequences only expend into anything meaningful if
+> the BL_SWITCHER option is selected, which almost never happens.
+>
+> It also turns out that using a RMW and locks is just as silly,
+> as the GIC distributor supports byte accesses for the GICD_TARGETRn
+> registers, which when used make the update atomic by definition.
+>
+> Drop the terminally broken code and replace it by a byte write.
+>
+> Fixes: 04c8b0f82c7d ("irqchip/gic: Make locking a BL_SWITCHER only feature")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
 
-On Mon, Aug 16, 2021 at 06:22:01PM +0200, Ulrich Hecht wrote:
-> This fixes two issues that cause the sysrq sequence to be inadvertently
-> aborted on SCIF serial consoles:
->=20
-> - a NUL character remains in the RX queue after a break has been detected,
->   which is then passed on to uart_handle_sysrq_char()
-> - the break interrupt is handled twice on controllers with multiplexed ERI
->   and BRI interrupts
->=20
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Thanks for your patch, which is now commit 005c34ae4b44f085
+("irqchip/gic: Atomically update affinity"), to which I bisected a hard
+lock-up during boot on the Renesas EMMA Mobile EV2-based KZM-A9-Dual
+board, which has a dual Cortex-A9 with PL390.
 
-For the record:
+Despite the ARM Generic Interrupt Controller Architecture Specification
+(both version 1.0 and 2.0) stating that the Interrupt Processor Targets
+Registers are byte-accessible, the EMMA Mobile EV2 User's Manual
+states that the interrupt registers can be accessed via the APB bus,
+in 32-bit units.  Using byte accesses locks up the system.
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Unfortunately I only have remote access to the board showing the
+issue.  I did check that adding the writeb_relaxed() before the
+writel_relaxed() that was used before also causes a lock-up, so the
+issue is not an endian mismatch.
+Looking at the driver history, these registers have always been
+accessed using 32-bit accesses before.  As byte accesses lead
+indeed to simpler code, I'm wondering if they had been tried before,
+and caused issues before?
 
+Since you said the locking was bogus before, due to the reliance on
+the BL_SWITCHER option, I'm not suggesting a plain revert, but I'm
+wondering what kind of locking you suggest to use instead?
 
---J8NgKiLIdiyTObQC
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks for your comments!
 
------BEGIN PGP SIGNATURE-----
+> --- a/drivers/irqchip/irq-gic.c
+> +++ b/drivers/irqchip/irq-gic.c
+> @@ -329,10 +329,8 @@ static int gic_irq_set_vcpu_affinity(struct irq_data *d, void *vcpu)
+>  static int gic_set_affinity(struct irq_data *d, const struct cpumask *mask_val,
+>                             bool force)
+>  {
+> -       void __iomem *reg = gic_dist_base(d) + GIC_DIST_TARGET + (gic_irq(d) & ~3);
+> -       unsigned int cpu, shift = (gic_irq(d) % 4) * 8;
+> -       u32 val, mask, bit;
+> -       unsigned long flags;
+> +       void __iomem *reg = gic_dist_base(d) + GIC_DIST_TARGET + gic_irq(d);
+> +       unsigned int cpu;
+>
+>         if (!force)
+>                 cpu = cpumask_any_and(mask_val, cpu_online_mask);
+> @@ -342,13 +340,7 @@ static int gic_set_affinity(struct irq_data *d, const struct cpumask *mask_val,
+>         if (cpu >= NR_GIC_CPU_IF || cpu >= nr_cpu_ids)
+>                 return -EINVAL;
+>
+> -       gic_lock_irqsave(flags);
+> -       mask = 0xff << shift;
+> -       bit = gic_cpu_map[cpu] << shift;
+> -       val = readl_relaxed(reg) & ~mask;
+> -       writel_relaxed(val | bit, reg);
+> -       gic_unlock_irqrestore(flags);
+> -
+> +       writeb_relaxed(gic_cpu_map[cpu], reg);
+>         irq_data_update_effective_affinity(d, cpumask_of(cpu));
+>
+>         return IRQ_SET_MASK_OK_DONE;
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmE6G7QACgkQFA3kzBSg
-KbbTbg//SBsGYNRxfyZXzrX2V0ZjytLsziaOOE61d2ipc+1hSPR6bwCWiV/g0QIb
-otdJozr4RJonEOaqHN2yGjTK8EwrJjGKtaBhSPyJRu8A1G0h/63hkZ8CRKNb4yV9
-Y91Wk16/NFuKedaof8l3VI86b5vAhSS5wmN1Iyh16gOzghmgo5eqOCukJmCb1Awu
-h5YNYskA1M+sEPQ2IbhlWzUWXOhFiniiWsQnyUMehreXOkYhC9CofqO8CBnIA2Xd
-KvrWvVxrgmZ0Y2gAUlzizo6jHUKCawmt1EjEJnWZSmOAsguFhtsaIdVKsi5Bw7na
-VC9gjM+etaVYGVlNU8VcKyNb1scaJ5FAg7wo8mKVS3CnuZMqY+ksRADHbo4OObVl
-3FS7jFF6sGvBBqOCfrFV6aXpZ++Llt/1XyPFrn8ASFUqGPIGM5KtWR011NfwVhsf
-nH11bzWYgfBCPYA7AupC5pwIIkq3U917PDQSwHpvFIAwGFirPKbQAfZoXmqYOYps
-hzK+I81XFGhn+XqPyLN3oYcrxhvQBoplQZtrgGEyhArzMYWOFU3We6OooIDGoVQn
-KU9tQ97UmduI8GhFaq3fc+bYj/7qimCCFSl2dg91fPL2c1elcZ+Tw4KQMZIrsdzp
-Q/QNm6BcvZZohyzM00T733nXnqB0DCYuG736H7LzMKntmyAu2D0=
-=NyQP
------END PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
---J8NgKiLIdiyTObQC--
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
