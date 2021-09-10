@@ -2,168 +2,222 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D21FF406325
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Sep 2021 02:46:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C83C406A16
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Sep 2021 12:23:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242432AbhIJAq5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Sep 2021 20:46:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47592 "EHLO mail.kernel.org"
+        id S232473AbhIJKY2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Sep 2021 06:24:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53170 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233808AbhIJAVu (ORCPT
+        id S232196AbhIJKYL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Sep 2021 20:21:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 83A3A61167;
-        Fri, 10 Sep 2021 00:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631233240;
-        bh=ThNscb1eXMOwmXv1J52+3yPD7APMCFSDNbyH5NyxMi8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=um8PFoQqtohXcToZBGDsgs0NLDG9urRyBiVtyXvI0LlA83yfqAOJGicpEwXr2oLmc
-         RD4OHCRv7AkUzI7oPyBJgx7B0pDZX3oNI8Sva+1KywVUoaQrk3aR8MqgXF2ct0uLCe
-         OlVCGqs/RmHz76GLWQ8WEAlg0W7dgOzFFtU3cuMSmhghIz33UHdsFQNymZVx6QQNH5
-         wL+90yJ6V47czymkFxOTfzdKSuPVY1njEvmKylYYnE+zZArRefXIsq00mzQgASUF/Q
-         ZR3WChCHFt3esrmUHIIFhPHhzfoQiY1mJsOzfInnF+TpLsMtfJAFntFJnLBtto98wK
-         rXxRcKr1QfgfQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 08/53] pinctrl: renesas: Fix pin control matching on R-Car H3e-2G
-Date:   Thu,  9 Sep 2021 20:19:43 -0400
-Message-Id: <20210910002028.175174-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210910002028.175174-1-sashal@kernel.org>
-References: <20210910002028.175174-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        Fri, 10 Sep 2021 06:24:11 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 98D356103D;
+        Fri, 10 Sep 2021 10:22:59 +0000 (UTC)
+Received: from 82-132-222-91.dab.02.net ([82.132.222.91] helo=wait-a-minute.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1mOdgP-00A1cK-B3; Fri, 10 Sep 2021 11:22:57 +0100
+Date:   Fri, 10 Sep 2021 11:22:56 +0100
+Message-ID: <875yv8d91b.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Russell King <linux@arm.linux.org.uk>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Valentin Schneider <Valentin.Schneider@arm.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Android Kernel Team <kernel-team@android.com>,
+        stable <stable@vger.kernel.org>,
+        Magnus Damm <damm+renesas@opensource.se>,
+        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 07/17] irqchip/gic: Atomically update affinity
+In-Reply-To: <CAMuHMdV+Ev47K5NO8XHsanSq5YRMCHn2gWAQyV-q2LpJVy9HiQ@mail.gmail.com>
+References: <20200624195811.435857-1-maz@kernel.org>
+        <20200624195811.435857-8-maz@kernel.org>
+        <CAMuHMdV+Ev47K5NO8XHsanSq5YRMCHn2gWAQyV-q2LpJVy9HiQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 82.132.222.91
+X-SA-Exim-Rcpt-To: geert@linux-m68k.org, linux@arm.linux.org.uk, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, will@kernel.org, catalin.marinas@arm.com, tglx@linutronix.de, jason@lakedaemon.net, sumit.garg@linaro.org, Valentin.Schneider@arm.com, f.fainelli@gmail.com, gregory.clement@bootlin.com, andrew@lunn.ch, kernel-team@android.com, stable@vger.kernel.org, damm+renesas@opensource.se, niklas.soderlund+renesas@ragnatech.se, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Geert,
 
-[ Upstream commit 91d1be9fb7d667ae136f05cc645276eb2c9fa40e ]
+On Thu, 09 Sep 2021 16:22:01 +0100,
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> 
+> Hi Marc, Russell,
+> 
+> On Wed, Jun 24, 2020 at 9:59 PM Marc Zyngier <maz@kernel.org> wrote:
+> > The GIC driver uses a RMW sequence to update the affinity, and
+> > relies on the gic_lock_irqsave/gic_unlock_irqrestore sequences
+> > to update it atomically.
+> >
+> > But these sequences only expend into anything meaningful if
+> > the BL_SWITCHER option is selected, which almost never happens.
+> >
+> > It also turns out that using a RMW and locks is just as silly,
+> > as the GIC distributor supports byte accesses for the GICD_TARGETRn
+> > registers, which when used make the update atomic by definition.
+> >
+> > Drop the terminally broken code and replace it by a byte write.
+> >
+> > Fixes: 04c8b0f82c7d ("irqchip/gic: Make locking a BL_SWITCHER only feature")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> 
+> Thanks for your patch, which is now commit 005c34ae4b44f085
+> ("irqchip/gic: Atomically update affinity"), to which I bisected a hard
+> lock-up during boot on the Renesas EMMA Mobile EV2-based KZM-A9-Dual
+> board, which has a dual Cortex-A9 with PL390.
+> 
+> Despite the ARM Generic Interrupt Controller Architecture Specification
+> (both version 1.0 and 2.0) stating that the Interrupt Processor Targets
+> Registers are byte-accessible, the EMMA Mobile EV2 User's Manual
+> states that the interrupt registers can be accessed via the APB bus,
+> in 32-bit units.  Using byte accesses locks up the system.
 
-As R-Car H3 ES1.x (R8A77950) and R-Car ES2.0+ (R8A77951) use the same
-compatible value, the pin control driver relies on soc_device_match()
-with soc_id = "r8a7795" and the (non)matching of revision = "ES1.*" to
-match with and distinguish between the two SoC variants.  The
-corresponding entries in the normal of_match_table are present only to
-make the optional sanity checks work.
+Urgh. That is definitely a pretty poor integration. How about the
+priority registers? I guess they suffer from the same issue...
 
-The R-Car H3e-2G (R8A779M1) SoC is a different grading of the R-Car H3
-ES3.0 (R8A77951) SoC.  It uses the same compatible values for individual
-devices, but has an additional compatible value for the root node.
-When running on an R-Car H3e-2G SoC, soc_device_match() with soc_id =
-"r8a7795" does not return a match.  Hence the pin control driver falls
-back to the normal of_match_table, and, as the R8A77950 entry is listed
-first, incorrectly uses the sub-driver for R-Car H3 ES1.x.
+> Unfortunately I only have remote access to the board showing the
+> issue.  I did check that adding the writeb_relaxed() before the
+> writel_relaxed() that was used before also causes a lock-up, so the
+> issue is not an endian mismatch.
+> Looking at the driver history, these registers have always been
+> accessed using 32-bit accesses before.  As byte accesses lead
+> indeed to simpler code, I'm wondering if they had been tried before,
+> and caused issues before?
 
-Fix this by moving the entry for R8A77951 before the entry for R8A77950.
-Simplify sh_pfc_quirk_match() to only handle R-Car H3 ES1,x, as R-Car H3
-ES2.0+ can now be matched using the normal of_match_table as well.
+Not that I know. A lock was probably fine on a two CPU system. Less so
+on a busy 8 CPU machine where interrupts are often migrated. The GIC
+architecture makes a point in not requiring locking for most of the
+registers that can be accessed concurrently.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Link: https://lore.kernel.org/r/6cdc5bfa424461105779b56f455387e03560cf66.1626707688.git.geert+renesas@glider.be
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/pinctrl/renesas/core.c   | 29 ++++++++++++-----------------
- drivers/pinctrl/renesas/sh_pfc.h |  4 ++--
- 2 files changed, 14 insertions(+), 19 deletions(-)
+> Since you said the locking was bogus before, due to the reliance on
+> the BL_SWITCHER option, I'm not suggesting a plain revert, but I'm
+> wondering what kind of locking you suggest to use instead?
 
-diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
-index c528c124fb0e..c2a2f1b3de06 100644
---- a/drivers/pinctrl/renesas/core.c
-+++ b/drivers/pinctrl/renesas/core.c
-@@ -581,17 +581,21 @@ static const struct of_device_id sh_pfc_of_table[] = {
- 		.data = &r8a7794_pinmux_info,
- 	},
+There isn't much we can do aside from reintroducing the RMW+spinlock
+approach, and for real this time. It would have to be handled as a
+quirk though, as I'm not keen on reintroducing this for all systems.
+
+I wrote the patchlet below, which is totally untested. Please give it
+a go and let me know if it helps.
+
+	M.
+
+diff --git a/drivers/irqchip/irq-gic.c b/drivers/irqchip/irq-gic.c
+index d329ec3d64d8..dca40a974b7a 100644
+--- a/drivers/irqchip/irq-gic.c
++++ b/drivers/irqchip/irq-gic.c
+@@ -107,6 +107,8 @@ static DEFINE_RAW_SPINLOCK(cpu_map_lock);
+ 
  #endif
--/* Both r8a7795 entries must be present to make sanity checks work */
--#ifdef CONFIG_PINCTRL_PFC_R8A77950
-+/*
-+ * Both r8a7795 entries must be present to make sanity checks work, but only
-+ * the first entry is actually used.
-+ * R-Car H3 ES1.x is matched using soc_device_match() instead.
-+ */
-+#ifdef CONFIG_PINCTRL_PFC_R8A77951
- 	{
- 		.compatible = "renesas,pfc-r8a7795",
--		.data = &r8a77950_pinmux_info,
-+		.data = &r8a77951_pinmux_info,
- 	},
+ 
++static DEFINE_STATIC_KEY_FALSE(needs_rmw_access);
++
+ /*
+  * The GIC mapping of CPU interfaces does not necessarily match
+  * the logical CPU numbering.  Let's use a mapping as returned
+@@ -774,6 +776,25 @@ static int gic_pm_init(struct gic_chip_data *gic)
  #endif
--#ifdef CONFIG_PINCTRL_PFC_R8A77951
-+#ifdef CONFIG_PINCTRL_PFC_R8A77950
- 	{
- 		.compatible = "renesas,pfc-r8a7795",
--		.data = &r8a77951_pinmux_info,
-+		.data = &r8a77950_pinmux_info,
- 	},
- #endif
- #ifdef CONFIG_PINCTRL_PFC_R8A77960
-@@ -1085,26 +1089,20 @@ static inline void sh_pfc_check_driver(struct platform_driver *pdrv) {}
- #ifdef CONFIG_OF
- static const void *sh_pfc_quirk_match(void)
+ 
+ #ifdef CONFIG_SMP
++static void rmw_writeb(u8 bval, void __iomem *addr)
++{
++	static DEFINE_RAW_SPINLOCK(rmw_lock);
++	unsigned long offset = (unsigned long)addr & ~3UL;
++	unsigned long shift = offset * 8;
++	unsigned long flags;
++	u32 val;
++
++	raw_spin_lock_irqsave(&rmw_lock, flags);
++
++	addr -= offset;
++	val = readl_relaxed(addr);
++	val &= ~(0xffUL << shift);
++	val |= (u32)bval << shift;
++	writel_relaxed(val, addr);
++
++	raw_spin_unlock_irqrestore(&rmw_lock, flags);
++}
++
+ static int gic_set_affinity(struct irq_data *d, const struct cpumask *mask_val,
+ 			    bool force)
  {
--#if defined(CONFIG_PINCTRL_PFC_R8A77950) || \
--    defined(CONFIG_PINCTRL_PFC_R8A77951)
-+#ifdef CONFIG_PINCTRL_PFC_R8A77950
- 	const struct soc_device_attribute *match;
- 	static const struct soc_device_attribute quirks[] = {
- 		{
- 			.soc_id = "r8a7795", .revision = "ES1.*",
- 			.data = &r8a77950_pinmux_info,
- 		},
--		{
--			.soc_id = "r8a7795",
--			.data = &r8a77951_pinmux_info,
--		},
--
- 		{ /* sentinel */ }
- 	};
+@@ -788,7 +809,10 @@ static int gic_set_affinity(struct irq_data *d, const struct cpumask *mask_val,
+ 	if (cpu >= NR_GIC_CPU_IF || cpu >= nr_cpu_ids)
+ 		return -EINVAL;
  
- 	match = soc_device_match(quirks);
- 	if (match)
--		return match->data ?: ERR_PTR(-ENODEV);
--#endif /* CONFIG_PINCTRL_PFC_R8A77950 || CONFIG_PINCTRL_PFC_R8A77951 */
-+		return match->data;
-+#endif /* CONFIG_PINCTRL_PFC_R8A77950 */
+-	writeb_relaxed(gic_cpu_map[cpu], reg);
++	if (static_branch_unlikely(&needs_rmw_access))
++		rmw_writeb(gic_cpu_map[cpu], reg);
++	else
++		writeb_relaxed(gic_cpu_map[cpu], reg);
+ 	irq_data_update_effective_affinity(d, cpumask_of(cpu));
  
- 	return NULL;
+ 	return IRQ_SET_MASK_OK_DONE;
+@@ -1375,6 +1399,29 @@ static bool gic_check_eoimode(struct device_node *node, void __iomem **base)
+ 	return true;
  }
-@@ -1119,9 +1117,6 @@ static int sh_pfc_probe(struct platform_device *pdev)
- #ifdef CONFIG_OF
- 	if (pdev->dev.of_node) {
- 		info = sh_pfc_quirk_match();
--		if (IS_ERR(info))
--			return PTR_ERR(info);
--
- 		if (!info)
- 			info = of_device_get_match_data(&pdev->dev);
- 	} else
-diff --git a/drivers/pinctrl/renesas/sh_pfc.h b/drivers/pinctrl/renesas/sh_pfc.h
-index eff1bb872325..0d3f13230fe9 100644
---- a/drivers/pinctrl/renesas/sh_pfc.h
-+++ b/drivers/pinctrl/renesas/sh_pfc.h
-@@ -320,8 +320,8 @@ extern const struct sh_pfc_soc_info r8a7791_pinmux_info;
- extern const struct sh_pfc_soc_info r8a7792_pinmux_info;
- extern const struct sh_pfc_soc_info r8a7793_pinmux_info;
- extern const struct sh_pfc_soc_info r8a7794_pinmux_info;
--extern const struct sh_pfc_soc_info r8a77950_pinmux_info __weak;
--extern const struct sh_pfc_soc_info r8a77951_pinmux_info __weak;
-+extern const struct sh_pfc_soc_info r8a77950_pinmux_info;
-+extern const struct sh_pfc_soc_info r8a77951_pinmux_info;
- extern const struct sh_pfc_soc_info r8a77960_pinmux_info;
- extern const struct sh_pfc_soc_info r8a77961_pinmux_info;
- extern const struct sh_pfc_soc_info r8a77965_pinmux_info;
--- 
-2.30.2
+ 
++static bool gic_enable_rmw_access(void *data)
++{
++	/*
++	 * The EMEV2 class of machines has a broken interconnect, and
++	 * locks up on accesses that are less than 32bit. So far, only
++	 * the affinity setting requires it.
++	 */
++	if (of_machine_is_compatible("renesas,emev2")) {
++		static_branch_enable(&needs_rmw_access);
++		return true;
++	}
++
++	return false;
++}
++
++static const struct gic_quirk gic_quirks[] = {
++	{
++		.desc		= "Implementation with broken byte access",
++		.compatible	= "arm,pl390",
++		.init		= gic_enable_rmw_access,
++	},
++};
++
+ static int gic_of_setup(struct gic_chip_data *gic, struct device_node *node)
+ {
+ 	if (!gic || !node)
+@@ -1391,6 +1438,8 @@ static int gic_of_setup(struct gic_chip_data *gic, struct device_node *node)
+ 	if (of_property_read_u32(node, "cpu-offset", &gic->percpu_offset))
+ 		gic->percpu_offset = 0;
+ 
++	gic_enable_of_quirks(node, gic_quirks, gic);
++
+ 	return 0;
+ 
+ error:
 
+-- 
+Without deviation from the norm, progress is not possible.
