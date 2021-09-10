@@ -2,38 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09B09406090
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Sep 2021 02:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8A014060A4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Sep 2021 02:17:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229839AbhIJARx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Sep 2021 20:17:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43496 "EHLO mail.kernel.org"
+        id S231736AbhIJAST (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Sep 2021 20:18:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43538 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229938AbhIJARa (ORCPT
+        id S230331AbhIJARj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Sep 2021 20:17:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D145F611AD;
-        Fri, 10 Sep 2021 00:16:19 +0000 (UTC)
+        Thu, 9 Sep 2021 20:17:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DB867611C2;
+        Fri, 10 Sep 2021 00:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631232980;
-        bh=9B0qvwXOkMfmmzRZ/C3JHuzLjLIcXh41PevnronS+fI=;
+        s=k20201202; t=1631232988;
+        bh=rRBE1FxzgRpoZTiMId60zViljNBha2zEeFXRj7gc0po=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CRHVOTYnH4qUlrA4SCZ/3WKnVnjCJpLQvONa02OjYbeArTUhPjKJtk4AdJdinzebz
-         JR5D+J9FVSG6nhmPAbrxx+PU3qEXJdf5LckJLyQdkWWYJ2mRqRmD7QVYsDECHVqlsY
-         BM3XXDShigD+RwgbdvMbYU2cPSWKWgm+v01t2NZcpZGxjsjUNiOwwBVwlBuVV0aFNz
-         Iz5qua9q1G9flxa3UGtTiXUNh7u06h3MvPkQnzSgW7TQAfYVaQL8708Lujx3n1rZsI
-         UJqiZa1Z6Oru+1S0WCTnzio5vf5uQg9awvR5IEonfpnnyhAVCsWCksHQ0mp5hfG0Ko
-         wGDrsHrtTwAvQ==
+        b=FWVUpIJju+I+PRLcYJttRH8kgfif2lJQTswcfqksoKj8VI2Kmv+HIpyWJf2AE7Nd/
+         +WMIhSjWxO6725cUjmlDMx+2QLNo5NzhkT/U7FGzBcZM1fawX6gvpWE23O8S9DgxGO
+         zc9PH4PtEkoyI9oL30qT0W8GWufI/e/IjtLGn6XP5qdeOtjz5O7GN8axdgkPtmDaRL
+         9vHuMyaWuUkYnciv6Bz7Bw1/Gai0ZBTYcV+L6uYa578TGeZ1jMcsLzoIz+T00OOLvn
+         NtiXz/rCSOIlwAZOFK3mQzP2jnJrBs3Xqy7Juv6ji6UQNzZmBjXcFTmX797NZrv0Qv
+         4CUM8X7ZYq9dQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 16/99] clk: renesas: rzg2l: Fix return value and unused assignment
-Date:   Thu,  9 Sep 2021 20:14:35 -0400
-Message-Id: <20210910001558.173296-16-sashal@kernel.org>
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.14 22/99] pinctrl: renesas: Fix pin control matching on R-Car H3e-2G
+Date:   Thu,  9 Sep 2021 20:14:41 -0400
+Message-Id: <20210910001558.173296-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210910001558.173296-1-sashal@kernel.org>
 References: <20210910001558.173296-1-sashal@kernel.org>
@@ -45,41 +45,125 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Yang Li <yang.lee@linux.alibaba.com>
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[ Upstream commit 97c29755598f98c6c91f68f12bdd3f517e457890 ]
+[ Upstream commit 91d1be9fb7d667ae136f05cc645276eb2c9fa40e ]
 
-Currently the function returns NULL on error, so exact error code is
-lost.  This patch changes return convention of the function to use
-ERR_PTR() on error instead.
+As R-Car H3 ES1.x (R8A77950) and R-Car ES2.0+ (R8A77951) use the same
+compatible value, the pin control driver relies on soc_device_match()
+with soc_id = "r8a7795" and the (non)matching of revision = "ES1.*" to
+match with and distinguish between the two SoC variants.  The
+corresponding entries in the normal of_match_table are present only to
+make the optional sanity checks work.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-Link: https://lore.kernel.org/r/1623896524-102058-1-git-send-email-yang.lee@linux.alibaba.com
-[geert: Drop curly braces]
+The R-Car H3e-2G (R8A779M1) SoC is a different grading of the R-Car H3
+ES3.0 (R8A77951) SoC.  It uses the same compatible values for individual
+devices, but has an additional compatible value for the root node.
+When running on an R-Car H3e-2G SoC, soc_device_match() with soc_id =
+"r8a7795" does not return a match.  Hence the pin control driver falls
+back to the normal of_match_table, and, as the R8A77950 entry is listed
+first, incorrectly uses the sub-driver for R-Car H3 ES1.x.
+
+Fix this by moving the entry for R8A77951 before the entry for R8A77950.
+Simplify sh_pfc_quirk_match() to only handle R-Car H3 ES1,x, as R-Car H3
+ES2.0+ can now be matched using the normal of_match_table as well.
+
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Link: https://lore.kernel.org/r/6cdc5bfa424461105779b56f455387e03560cf66.1626707688.git.geert+renesas@glider.be
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/clk/renesas/renesas-rzg2l-cpg.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/pinctrl/renesas/core.c   | 29 ++++++++++++-----------------
+ drivers/pinctrl/renesas/sh_pfc.h |  4 ++--
+ 2 files changed, 14 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/clk/renesas/renesas-rzg2l-cpg.c b/drivers/clk/renesas/renesas-rzg2l-cpg.c
-index e7c59af2a1d8..5fe73225ece2 100644
---- a/drivers/clk/renesas/renesas-rzg2l-cpg.c
-+++ b/drivers/clk/renesas/renesas-rzg2l-cpg.c
-@@ -182,10 +182,8 @@ rzg2l_cpg_pll_clk_register(const struct cpg_core_clk *core,
- 		return ERR_CAST(parent);
+diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
+index 5ccc49b387f1..f2ab02225837 100644
+--- a/drivers/pinctrl/renesas/core.c
++++ b/drivers/pinctrl/renesas/core.c
+@@ -571,17 +571,21 @@ static const struct of_device_id sh_pfc_of_table[] = {
+ 		.data = &r8a7794_pinmux_info,
+ 	},
+ #endif
+-/* Both r8a7795 entries must be present to make sanity checks work */
+-#ifdef CONFIG_PINCTRL_PFC_R8A77950
++/*
++ * Both r8a7795 entries must be present to make sanity checks work, but only
++ * the first entry is actually used.
++ * R-Car H3 ES1.x is matched using soc_device_match() instead.
++ */
++#ifdef CONFIG_PINCTRL_PFC_R8A77951
+ 	{
+ 		.compatible = "renesas,pfc-r8a7795",
+-		.data = &r8a77950_pinmux_info,
++		.data = &r8a77951_pinmux_info,
+ 	},
+ #endif
+-#ifdef CONFIG_PINCTRL_PFC_R8A77951
++#ifdef CONFIG_PINCTRL_PFC_R8A77950
+ 	{
+ 		.compatible = "renesas,pfc-r8a7795",
+-		.data = &r8a77951_pinmux_info,
++		.data = &r8a77950_pinmux_info,
+ 	},
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_R8A77960
+@@ -1085,26 +1089,20 @@ static inline void sh_pfc_check_driver(struct platform_driver *pdrv) {}
+ #ifdef CONFIG_OF
+ static const void *sh_pfc_quirk_match(void)
+ {
+-#if defined(CONFIG_PINCTRL_PFC_R8A77950) || \
+-    defined(CONFIG_PINCTRL_PFC_R8A77951)
++#ifdef CONFIG_PINCTRL_PFC_R8A77950
+ 	const struct soc_device_attribute *match;
+ 	static const struct soc_device_attribute quirks[] = {
+ 		{
+ 			.soc_id = "r8a7795", .revision = "ES1.*",
+ 			.data = &r8a77950_pinmux_info,
+ 		},
+-		{
+-			.soc_id = "r8a7795",
+-			.data = &r8a77951_pinmux_info,
+-		},
+-
+ 		{ /* sentinel */ }
+ 	};
  
- 	pll_clk = devm_kzalloc(dev, sizeof(*pll_clk), GFP_KERNEL);
--	if (!pll_clk) {
--		clk = ERR_PTR(-ENOMEM);
--		return NULL;
--	}
-+	if (!pll_clk)
-+		return ERR_PTR(-ENOMEM);
+ 	match = soc_device_match(quirks);
+ 	if (match)
+-		return match->data ?: ERR_PTR(-ENODEV);
+-#endif /* CONFIG_PINCTRL_PFC_R8A77950 || CONFIG_PINCTRL_PFC_R8A77951 */
++		return match->data;
++#endif /* CONFIG_PINCTRL_PFC_R8A77950 */
  
- 	parent_name = __clk_get_name(parent);
- 	init.name = core->name;
+ 	return NULL;
+ }
+@@ -1119,9 +1117,6 @@ static int sh_pfc_probe(struct platform_device *pdev)
+ #ifdef CONFIG_OF
+ 	if (pdev->dev.of_node) {
+ 		info = sh_pfc_quirk_match();
+-		if (IS_ERR(info))
+-			return PTR_ERR(info);
+-
+ 		if (!info)
+ 			info = of_device_get_match_data(&pdev->dev);
+ 	} else
+diff --git a/drivers/pinctrl/renesas/sh_pfc.h b/drivers/pinctrl/renesas/sh_pfc.h
+index 320898861c4b..0fdafef2dc69 100644
+--- a/drivers/pinctrl/renesas/sh_pfc.h
++++ b/drivers/pinctrl/renesas/sh_pfc.h
+@@ -332,8 +332,8 @@ extern const struct sh_pfc_soc_info r8a7791_pinmux_info;
+ extern const struct sh_pfc_soc_info r8a7792_pinmux_info;
+ extern const struct sh_pfc_soc_info r8a7793_pinmux_info;
+ extern const struct sh_pfc_soc_info r8a7794_pinmux_info;
+-extern const struct sh_pfc_soc_info r8a77950_pinmux_info __weak;
+-extern const struct sh_pfc_soc_info r8a77951_pinmux_info __weak;
++extern const struct sh_pfc_soc_info r8a77950_pinmux_info;
++extern const struct sh_pfc_soc_info r8a77951_pinmux_info;
+ extern const struct sh_pfc_soc_info r8a77960_pinmux_info;
+ extern const struct sh_pfc_soc_info r8a77961_pinmux_info;
+ extern const struct sh_pfc_soc_info r8a77965_pinmux_info;
 -- 
 2.30.2
 
