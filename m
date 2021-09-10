@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3F07406059
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Sep 2021 02:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09B09406090
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Sep 2021 02:16:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbhIJARL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Sep 2021 20:17:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43050 "EHLO mail.kernel.org"
+        id S229839AbhIJARx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Sep 2021 20:17:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43496 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229480AbhIJARL (ORCPT
+        id S229938AbhIJARa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Sep 2021 20:17:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 18EAE6023D;
-        Fri, 10 Sep 2021 00:15:59 +0000 (UTC)
+        Thu, 9 Sep 2021 20:17:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D145F611AD;
+        Fri, 10 Sep 2021 00:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631232960;
-        bh=CCPc2KEfzyYjN6SZpmpoAA91vT3aw1WWkavUzpxYK28=;
-        h=From:To:Cc:Subject:Date:From;
-        b=C7LA2zM9LOAYbyVy7ahSDTA+lpVw0VC4orKI/hVfjprt2yM7IC/nObV74BhzsbcDs
-         LDboaaux+n0wd3KbqveewBlNJKgaVKSMdqy/AvufaEhpf3Qlt2ylGPZK6vMo+EsL+j
-         eA35ZYB59ujx0FWl7IUJ4VqMNxyAeXuNFK7kpWWDz2cjIM3Wg8GcOlwr7jCKmRKVfi
-         qUJtZMoWIJAewrtKYC8veYGeZQIzk5BEqYvQlzZuk0w5d8e92/m5Zcz7zSuzH/NSXq
-         0+osD88QjSbNxt2eLfMV+uCMjL3X3OOnFb4YmF3xPaPgIZkY/yiul3S351NMhqLSID
-         5MIl9Jdz5GiAQ==
+        s=k20201202; t=1631232980;
+        bh=9B0qvwXOkMfmmzRZ/C3JHuzLjLIcXh41PevnronS+fI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=CRHVOTYnH4qUlrA4SCZ/3WKnVnjCJpLQvONa02OjYbeArTUhPjKJtk4AdJdinzebz
+         JR5D+J9FVSG6nhmPAbrxx+PU3qEXJdf5LckJLyQdkWWYJ2mRqRmD7QVYsDECHVqlsY
+         BM3XXDShigD+RwgbdvMbYU2cPSWKWgm+v01t2NZcpZGxjsjUNiOwwBVwlBuVV0aFNz
+         Iz5qua9q1G9flxa3UGtTiXUNh7u06h3MvPkQnzSgW7TQAfYVaQL8708Lujx3n1rZsI
+         UJqiZa1Z6Oru+1S0WCTnzio5vf5uQg9awvR5IEonfpnnyhAVCsWCksHQ0mp5hfG0Ko
+         wGDrsHrtTwAvQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
+Cc:     Yang Li <yang.lee@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 01/99] pinctrl: renesas: rcar: Avoid changing PUDn when disabling bias
-Date:   Thu,  9 Sep 2021 20:14:20 -0400
-Message-Id: <20210910001558.173296-1-sashal@kernel.org>
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.14 16/99] clk: renesas: rzg2l: Fix return value and unused assignment
+Date:   Thu,  9 Sep 2021 20:14:35 -0400
+Message-Id: <20210910001558.173296-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210910001558.173296-1-sashal@kernel.org>
+References: <20210910001558.173296-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -44,52 +45,41 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Yang Li <yang.lee@linux.alibaba.com>
 
-[ Upstream commit 7ebaa41047738d46fca6376b3f1765ef69c463c5 ]
+[ Upstream commit 97c29755598f98c6c91f68f12bdd3f517e457890 ]
 
-When disabling pin bias, there is no need to touch the LSI pin
-pull-up/down control register (PUDn), which selects between pull-up and
-pull-down.  Just disabling the pull-up/down function through the LSI pin
-pull-enable register (PUENn) is sufficient.
+Currently the function returns NULL on error, so exact error code is
+lost.  This patch changes return convention of the function to use
+ERR_PTR() on error instead.
 
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Link: https://lore.kernel.org/r/1623896524-102058-1-git-send-email-yang.lee@linux.alibaba.com
+[geert: Drop curly braces]
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Link: https://lore.kernel.org/r/071ec644de2555da593a4531ef5d3e4d79cf997d.1625064076.git.geert+renesas@glider.be
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/pinctrl/renesas/pinctrl.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/clk/renesas/renesas-rzg2l-cpg.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/pinctrl/renesas/pinctrl.c b/drivers/pinctrl/renesas/pinctrl.c
-index bb488af29862..85cb78cfcfa6 100644
---- a/drivers/pinctrl/renesas/pinctrl.c
-+++ b/drivers/pinctrl/renesas/pinctrl.c
-@@ -898,17 +898,17 @@ void rcar_pinmux_set_bias(struct sh_pfc *pfc, unsigned int pin,
+diff --git a/drivers/clk/renesas/renesas-rzg2l-cpg.c b/drivers/clk/renesas/renesas-rzg2l-cpg.c
+index e7c59af2a1d8..5fe73225ece2 100644
+--- a/drivers/clk/renesas/renesas-rzg2l-cpg.c
++++ b/drivers/clk/renesas/renesas-rzg2l-cpg.c
+@@ -182,10 +182,8 @@ rzg2l_cpg_pll_clk_register(const struct cpg_core_clk *core,
+ 		return ERR_CAST(parent);
  
- 	if (reg->puen) {
- 		enable = sh_pfc_read(pfc, reg->puen) & ~BIT(bit);
--		if (bias != PIN_CONFIG_BIAS_DISABLE)
-+		if (bias != PIN_CONFIG_BIAS_DISABLE) {
- 			enable |= BIT(bit);
+ 	pll_clk = devm_kzalloc(dev, sizeof(*pll_clk), GFP_KERNEL);
+-	if (!pll_clk) {
+-		clk = ERR_PTR(-ENOMEM);
+-		return NULL;
+-	}
++	if (!pll_clk)
++		return ERR_PTR(-ENOMEM);
  
--		if (reg->pud) {
--			updown = sh_pfc_read(pfc, reg->pud) & ~BIT(bit);
--			if (bias == PIN_CONFIG_BIAS_PULL_UP)
--				updown |= BIT(bit);
-+			if (reg->pud) {
-+				updown = sh_pfc_read(pfc, reg->pud) & ~BIT(bit);
-+				if (bias == PIN_CONFIG_BIAS_PULL_UP)
-+					updown |= BIT(bit);
- 
--			sh_pfc_write(pfc, reg->pud, updown);
-+				sh_pfc_write(pfc, reg->pud, updown);
-+			}
- 		}
--
- 		sh_pfc_write(pfc, reg->puen, enable);
- 	} else {
- 		enable = sh_pfc_read(pfc, reg->pud) & ~BIT(bit);
+ 	parent_name = __clk_get_name(parent);
+ 	init.name = core->name;
 -- 
 2.30.2
 
