@@ -2,132 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DCDD408610
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Sep 2021 10:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7CC040886C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Sep 2021 11:38:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237725AbhIMIGj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Sep 2021 04:06:39 -0400
-Received: from mail-vs1-f47.google.com ([209.85.217.47]:37610 "EHLO
-        mail-vs1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237797AbhIMIGi (ORCPT
+        id S238749AbhIMJj6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Sep 2021 05:39:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50240 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238766AbhIMJjt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Sep 2021 04:06:38 -0400
-Received: by mail-vs1-f47.google.com with SMTP id i23so7629360vsj.4;
-        Mon, 13 Sep 2021 01:05:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hIy/WF41WnhInRxQvOeLA91NgtT/ad5oPS0o2VKCwNg=;
-        b=H1wPdid9exSg992pPXhiMALn/wP/WluGxrpodaX1dXaLk5agS9mbY2yNT/LkDIvVP/
-         UZq0eLqXKW7eiJTLtNyHs2ag19/bQH+yVAxbR29EcWipIPoPzZG9ElYun+7fXCnXnwX5
-         IGPlyOI1hteTd1Pdfrzj0zi1d8CVrpkEIIcydKhybo/8re/g1YBa1SZegn9cDo3pcGb6
-         AVzZZFG749rmuw0sgd3vELdS7+mOoNgCQA0dPXnvsC6y1CtZEhCnYgi235Wka8tiOG7a
-         VEgvxC3ecjIHdzth723jUqYenqYkfyv1FM9ow6wP+cSm5Yn66Sb0ZpZfy1gQyjdErZxb
-         Rsqg==
-X-Gm-Message-State: AOAM530VG9N7DxeRHM1vO5J8LwqJ9TG+eb6JgvYQbfSapGTk4gsb3BEi
-        pWWWWr86mWYNoTuhl4l6qTo2eWsii/w249BGYUiJYdoi7/w=
-X-Google-Smtp-Source: ABdhPJy5qS7cAHC3Wj9WuuKOmYXH4sq8/3ktX7gWNSl8zk/qKzaCAAZqM9h3ouNfCut0fUdqY/dAAiCGCBBDbPtKIvo=
-X-Received: by 2002:a05:6102:3112:: with SMTP id e18mr2487715vsh.50.1631520322815;
- Mon, 13 Sep 2021 01:05:22 -0700 (PDT)
+        Mon, 13 Sep 2021 05:39:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id E632A60F4C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Sep 2021 09:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631525913;
+        bh=Rl8XMT/pB5YbVatAVka7mW/uh4Quy/cFb4y0V9VSw60=;
+        h=Subject:From:Date:To:From;
+        b=LILNiZOgnkIi9JbTwcjal7BZLKSoOgOsMzLQfgl/GBGwg2/2dyxJtQg/vjV5Szx4j
+         YsmwttBxuT4cqqlqD+ckNYdH+o40l0pasl7acfzt1Rk83NWCMDs0q0kyfndP1xVw2c
+         QxjPo2qCgKcHKXubg8IIfMdmjeCVStmRNItuPhofaLTe6jwfwdTJW8dT8G34um9zMV
+         MierRdftufCIsJH2T5+GjsyUctJOR8W5NikiKVBRTB+JBDhZfjy71jZWmUxztiLO0v
+         aSCf77Nz8kd97DhGeXb9NqG67oSc8KcHswvrp0JHTetrzkQcQsD6v2bsrQzgAPez5+
+         8TlSRLqRB6qzA==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id D7C8F60A6A
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Sep 2021 09:38:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20200624195811.435857-1-maz@kernel.org> <20200624195811.435857-8-maz@kernel.org>
- <CAMuHMdV+Ev47K5NO8XHsanSq5YRMCHn2gWAQyV-q2LpJVy9HiQ@mail.gmail.com>
- <875yv8d91b.wl-maz@kernel.org> <CAMuHMdV+ydPaXbGf1_O0S-juaPWk1gwBUOK+GeLZukZeoqtMGQ@mail.gmail.com>
- <CANqRtoTqV8sOpL=hdxeZ03tqr+5oeMcfwz+9ERqXv+hze_6Fsw@mail.gmail.com>
- <874kaqdi2z.wl-maz@kernel.org> <CANqRtoTa8g2sw_DoD8+34HR0mcHc_tOWt+4R9KzDT2Eu3d7TTg@mail.gmail.com>
-In-Reply-To: <CANqRtoTa8g2sw_DoD8+34HR0mcHc_tOWt+4R9KzDT2Eu3d7TTg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 Sep 2021 10:05:11 +0200
-Message-ID: <CAMuHMdX3Vf8Mxuz3=Aoi1hwMS7BtyYCH178QvVS-GAHDpeMvxg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/17] irqchip/gic: Atomically update affinity
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Marc Zyngier <maz@kernel.org>,
-        Russell King <linux@arm.linux.org.uk>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Valentin Schneider <Valentin.Schneider@arm.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Android Kernel Team <kernel-team@android.com>,
-        stable <stable@vger.kernel.org>,
-        Magnus Damm <damm+renesas@opensource.se>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <163152591382.31672.12824710329996623559.git-patchwork-summary@kernel.org>
+Date:   Mon, 13 Sep 2021 09:38:33 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Magnus,
+Hello:
 
-On Sun, Sep 12, 2021 at 7:40 AM Magnus Damm <magnus.damm@gmail.com> wrote:
-> On Sun, Sep 12, 2021 at 4:32 AM Marc Zyngier <maz@kernel.org> wrote:
-> > On Sat, 11 Sep 2021 03:49:20 +0100,
-> > Magnus Damm <magnus.damm@gmail.com> wrote:
-> > > On Fri, Sep 10, 2021 at 10:19 PM Geert Uytterhoeven
-> > > <geert@linux-m68k.org> wrote:
-> > > > On Fri, Sep 10, 2021 at 12:23 PM Marc Zyngier <maz@kernel.org> wrote:
-> > > > > On Thu, 09 Sep 2021 16:22:01 +0100,
-> > > > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > >     GIC: enabling workaround for broken byte access
-> > >
-> > > Indeed, byte access is unsupported according to the EMEV2 documentation.
-> > >
-> > > The EMEV2 documentation R19UH0036EJ0600 Chapter 7 Interrupt Control on
-> > > page 97 says:
-> > > "Interrupt registers can be accessed via the APB bus, in 32-bit units"
-> > > "For details about register functions, see ARM Generic Interrupt
-> > > Controller Architecture Specification Architecture version 1.0"
-> > > The file  "R19UH0036EJ0600_1Chip.pdf" is the 6th edition version
-> > > published in 2010 and is not marked as confidential.
-> >
-> > This is as bad as it gets. Do you know if any other Renesas platform
-> > is affected by the same issue?
->
-> Next time we have a beer together I would be happy to show you some
-> legacy interrupt controller code. =)
->
-> EMEV2 and the Emma Mobile product line came from the NEC Electronics
-> side that got merged into Renesas Electronics in 2010. Historically
-> NEC Electronics mainly used MIPS I've been told, and the Emma Mobile
-> SoCs were one of the earlier Cortex-A9 adopters. That might have
-> something to do with the rather loose interpretation of the spec.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (refs/heads/master):
 
-Indeed.  I used to work on products using EMMA1 and EMMA2, and they
-were MIPS-based (vr4120A for EMMA2, IIRC).  Later variants (EMMA2H
-and EMMA3?) did include a small ARM core for standby control.
+Patch: drm: rcar-du: lvds: use dev_err_probe()
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=505467
+  Lore link: https://lore.kernel.org/r/20210623030646.7720-1-laurent.pinchart+renesas@ideasonboard.com
+Series: Add Factorisation code to support Gigabit Ethernet driver
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=536957
+  Lore link: https://lore.kernel.org/r/20210825070154.14336-1-biju.das.jz@bp.renesas.com
+    Patches: [net-next,01/13] ravb: Remove the macros NUM_TX_DESC_GEN[23]
+             [net-next,02/13] ravb: Add multi_irq to struct ravb_hw_info
+             [net-next,03/13] ravb: Add no_ptp_cfg_active to struct ravb_hw_info
+             [net-next,04/13] ravb: Add ptp_cfg_active to struct ravb_hw_info
+             [net-next,05/13] ravb: Factorise ravb_ring_free function
+             [net-next,06/13] ravb: Factorise ravb_ring_format function
+             [net-next,07/13] ravb: Factorise ravb_ring_init function
+             [net-next,08/13] ravb: Factorise ravb_rx function
+             [net-next,09/13] ravb: Factorise ravb_adjust_link function
+             [net-next,10/13] ravb: Factorise ravb_set_features
+             [net-next,11/13] ravb: Factorise ravb_dmac_init function
+             [net-next,12/13] ravb: Factorise ravb_emac_init function
+             [net-next,13/13] ravb: Add reset support
+Patch: arm64: dts: renesas: r8a77961: Add TPU device node
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=538133
+  Lore link: https://lore.kernel.org/r/20210827073819.29992-1-wsa+renesas@sang-engineering.com
+Patch: ASoC: sh: rz-ssi: Fix wrong operator used issue
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=532229
+  Lore link: https://lore.kernel.org/r/20210816182336.29959-1-biju.das.jz@bp.renesas.com
+Patch: [v2] staging: board: Fix uninitialized spinlock when attaching genpd
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=515359
+  Lore link: https://lore.kernel.org/r/57783ece7ddae55f2bda2f59f452180bff744ea0.1626257398.git.geert+renesas@glider.be
+Patch: [RFC] ASoC: sh: rcar: dma: : use proper DMAENGINE API for termination
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=505663
+  Lore link: https://lore.kernel.org/r/20210623100545.3926-1-wsa+renesas@sang-engineering.com
+Patch: ASoC: sh: rz-ssi: Fix dereference of noderef expression warning
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=532055
+  Lore link: https://lore.kernel.org/r/20210816132049.28128-1-biju.das.jz@bp.renesas.com
+Patch: mmc: renesas_sdhi: sys_dmac: abort DMA synced to avoid timeouts
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=504095
+  Lore link: https://lore.kernel.org/r/20210621070009.13655-1-wsa+renesas@sang-engineering.com
+Patch: [v3] ASoC: sh: rz-ssi: Improve error handling in rz_ssi_dma_request function
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=533341
+  Lore link: https://lore.kernel.org/r/20210818101450.15948-1-biju.das.jz@bp.renesas.com
+Series: arm64: dts: renesas: r8a779a0: Add initial IPMMU support
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=540499
+  Lore link: https://lore.kernel.org/r/20210901111305.570206-1-yoshihiro.shimoda.uh@renesas.com
+    Patches: [1/2] arm64: dts: renesas: r8a779a0: Add IPMMU nodes
+             [2/2] arm64: dts: renesas: r8a779a0: Add iommus into sdhi node
+Patch: [v2] can: rcar_canfd: add __maybe_unused annotation to silence warning
+  Submitter: Marc Kleine-Budde <mkl@pengutronix.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=542789
+  Lore link: https://lore.kernel.org/r/20210907064537.1054268-1-mkl@pengutronix.de
+Patch: net: renesas: sh_eth: Fix freeing wrong tx descriptor
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=543089
+  Lore link: https://lore.kernel.org/r/20210907112940.967985-1-yoshihiro.shimoda.uh@renesas.com
+Series: [1/2] drm: rcar-du: Don't put reference to drm_device in rcar_du_remove()
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=453365
+  Lore link: https://lore.kernel.org/r/20210323005616.20110-1-laurent.pinchart+renesas@ideasonboard.com
+    Patches: [1/2] drm: rcar-du: Don't put reference to drm_device in rcar_du_remove()
+             [2/2] drm: rcar-du: Shutdown the display on remove
+Patch: drm: rcar-du: lvds: Don't set bridge driver_private field
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=505465
+  Lore link: https://lore.kernel.org/r/20210623030545.7627-1-laurent.pinchart+renesas@ideasonboard.com
+Patch: drm: rcar-du: Shutdown the display on system shutdown
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=453353
+  Lore link: https://lore.kernel.org/r/20210323001246.16182-1-laurent.pinchart+renesas@ideasonboard.com
+Patch: PCI: rcar: Fix runtime PM imbalance in rcar_pcie_ep_probe
+  Submitter: Dinghao Liu <dinghao.liu@zju.edu.cn>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=463033
+  Lore link: https://lore.kernel.org/r/20210408072402.15069-1-dinghao.liu@zju.edu.cn
+Patch: drm/bridge: Centralize error message when bridge attach fails
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=467391
+  Lore link: https://lore.kernel.org/r/20210415014710.4033-1-laurent.pinchart+renesas@ideasonboard.com
+Patch: [v3] drm/shmobile: Convert to Linux IRQ interfaces
+  Submitter: Thomas Zimmermann <tzimmermann@suse.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=518135
+  Lore link: https://lore.kernel.org/r/20210720080941.23646-1-tzimmermann@suse.de
 
-> Renesas SoCs from a similar era:
-> AP4 (sh7372) AP4EVB (Cortex-A8 + INTCA/INTCS)
+Total patches: 32
 
-This is no longer supported upstream (and not affected, as no GIC).
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-> R-Mobile A1 (r8a7740) Armadillo-800-EVA (Cortex-A9 + INTCA/INTCS)
 
-R-Mobile A1 has GIC (PL390), too, and is not affected.
-
-> R-Car M1A (r8a7778) Bock-W (Cortex-A9 + GIC)
-> R-Car H1 (r8a7779) Marzen (4 x Cortex-A9 + GIC)
-> Emma Mobile EMEV2 KZM9D (2 x Cortex-A9 + GIC)
-> SH-Mobile AG5 (sh73a0) KZM9G (2 x Cortex-A9 + GIC)
-
-All of these (except for EMEV2) are fine, too.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
