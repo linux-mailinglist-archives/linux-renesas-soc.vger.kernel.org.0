@@ -2,71 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1C1C409E0E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Sep 2021 22:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2FA1409F3A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Sep 2021 23:35:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243329AbhIMUS2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Sep 2021 16:18:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42448 "EHLO
+        id S1344964AbhIMVhD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Sep 2021 17:37:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242637AbhIMUS1 (ORCPT
+        with ESMTP id S245192AbhIMVhA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Sep 2021 16:18:27 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD606C061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Sep 2021 13:17:11 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id f129so10517140pgc.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Sep 2021 13:17:11 -0700 (PDT)
+        Mon, 13 Sep 2021 17:37:00 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAE36C061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Sep 2021 14:35:44 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id 18so10098169pfh.9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Sep 2021 14:35:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20150623.gappssmtp.com; s=20150623;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=iJhGkvqoA4kPAj2gniXMasIFwkJopsbVMOP9GRfL6eM=;
-        b=gZZoFFIRZ88+Z1CPVvqjexsG4jR2I8Z9wkZgmrfpMTiq3btFR9sDE7LFn7y9eAPms4
-         BnDCf2A9nF3n4NvEN+qbf9Z5e2sHVU2FSrXNH23CF7v/ZQ1Rsrm5rpWIQbanxTDaF3Df
-         gTAE+KBWyFme1ALmVtUx1U7w0hQOgzI/n0ldCqxzQNJZDI0Fwvd8W7+DxyCo4V5k1/15
-         Y98ibof+oRZt9InUl9ODGzYUBK7aoCSiFisRLZCPlYLY2ySVFZ5DA9mzjqpNf5dea2vN
-         3U2lZweEQ0B83Uyl3T+dxKxvMKo5LwgIrDJ+/MaXOcjh676qkmyLOLrMjoxOj4LtwDeW
-         8TEw==
+        bh=bsImrEigALN6e2cuf/S3r0w3Q+vymP6lz1gDsgWDAlI=;
+        b=tRP2RDkCSrSDIfq9X9trp0X2beHM9Rr43Qqcmeuhd4ho+78IkXCh/I9s15Jiv07nlV
+         zPQDe0lhLEnX6KSJe5J87gMy+5M5mLvTlg9Csw7Fk6x3JNtdqkrH+OFKdq8hKjP/uUtS
+         GDm4qzfgz+YXgKuT5n1riEf6xa1YktEbr0Y7fiai9kTuctzv4DjtOuqwd3r+8nN1ZUHA
+         kMxkJkp+tqgdT4StHKrVWDdJqWIgJumgj+gegU9qzr7xiTrF5U6tSFIXxxu9jRgirz0D
+         zfAT+oilov8xshrfyHO/whjg4cZfs3YgSSZJyKxIaThTI5KZPoQGvy16PY7xLCXJ+4WT
+         nIyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=iJhGkvqoA4kPAj2gniXMasIFwkJopsbVMOP9GRfL6eM=;
-        b=CkzljEVlDMkDfuvIgLOXCfrcXXrChVeppS1lMNlUACrE5JubmipKEUsugreSY4TIlI
-         lTYI5MdfKToNCCAV1XxI+VAx+AeHJGdIy4OvNsSNFhdBtaa5dDZvIUXHB2LfD4oL+dUu
-         adQ6IsjWZfyzHdrb7bNzEVM52Hjg++6d0UIg6FCcusjQs1ZznPg1sPdmZD6SkYcCu74Y
-         VL++9rRohnBDl+H0nxjW6vVJZGQi1RKorMlayT7KFMQ82qMOvR+195ese11nBafIP7FA
-         xqhhG63h/iMvwIZk+TCmVDCXdnSfP9Lo8DNj7VsgI+bzGfudX8yFNTVryo6K+Wd6b14m
-         Baqw==
-X-Gm-Message-State: AOAM531MoMdfDN+NXQwkRXb99E9mVBuHukD/eb/UuyjyN3YK4+beP792
-        S53di+FAFDba6TjZjFnDa3ttESFHygJEic2G
-X-Google-Smtp-Source: ABdhPJwJ2eMs9qyU03xm5t6ovSaoethzppS8nOLP8adguXX6jdfq0wmDQ80S+JaTyorns9N76afUcg==
-X-Received: by 2002:a63:f154:: with SMTP id o20mr12508859pgk.298.1631564231262;
-        Mon, 13 Sep 2021 13:17:11 -0700 (PDT)
+        bh=bsImrEigALN6e2cuf/S3r0w3Q+vymP6lz1gDsgWDAlI=;
+        b=b60mG+7RHSUa1hgWDOVXSq4UcAn6aaJ10yovkamTJHHPbbbpoT13mz3L1M7K+i94UA
+         lr5KA7tSXSJEkhR8WjorUv91VmZfNX1B+ZidefrdjZUAoq9ZrHU99LuP+OOgqMEJWcyD
+         lDLmSm7Uqs0DBwpPPzKQQSM85c0cREVn7FfqJt6+xPtIw6g/bp57Ov7o47cZ+qqMHd/f
+         GFbbLBoeNaNDYnJ0V+VXwug3yxXA6PulVaZFy3AltSNLbEvZ/sN00B5eR94A16kOsBdr
+         84BXn877uArPDAC8Nd1iNudWTMtnKAHv0e+sSUCJUU7g9egQZTGfbUgBR1s46x/5o40n
+         F+bg==
+X-Gm-Message-State: AOAM532IwtIiD3Zqq5Wbzyy/Dy1cV+1cir04dFnqvT5QNyPExqNKwZgx
+        hUDxyM2PTfDNrm99Iw9X0HscEa+9oQzNxA87
+X-Google-Smtp-Source: ABdhPJyvNPpHHMsUaWgR28ALsfPu6jra28QNwQVjEAolBXcsLzO87Se5rYWgBMt2xjUBSEMqyEH4XQ==
+X-Received: by 2002:aa7:800b:0:b029:330:455f:57a8 with SMTP id j11-20020aa7800b0000b0290330455f57a8mr1364526pfi.7.1631568943804;
+        Mon, 13 Sep 2021 14:35:43 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id s5sm9521906pgp.81.2021.09.13.13.17.10
+        by smtp.gmail.com with ESMTPSA id o6sm7907528pjk.4.2021.09.13.14.35.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 13:17:11 -0700 (PDT)
-Message-ID: <613fb1c7.1c69fb81.3adab.c3ad@mx.google.com>
-Date:   Mon, 13 Sep 2021 13:17:11 -0700 (PDT)
+        Mon, 13 Sep 2021 14:35:43 -0700 (PDT)
+Message-ID: <613fc42f.1c69fb81.d83c6.7057@mx.google.com>
+Date:   Mon, 13 Sep 2021 14:35:43 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v5.15-rc1-564-ge23d26d2dc9a
+X-Kernelci-Kernel: v5.15-rc1-39-gcbbd8f16ae1c
 X-Kernelci-Report-Type: test
 X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-Subject: renesas/master v4l2-compliance on uvcvideo: 2 runs,
- 2 regressions (v5.15-rc1-564-ge23d26d2dc9a)
+X-Kernelci-Branch: next
+Subject: renesas/next igt-kms-rockchip: 1 runs,
+ 2 regressions (v5.15-rc1-39-gcbbd8f16ae1c)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master v4l2-compliance on uvcvideo: 2 runs, 2 regressions (v5.15-rc=
-1-564-ge23d26d2dc9a)
+renesas/next igt-kms-rockchip: 1 runs, 2 regressions (v5.15-rc1-39-gcbbd8f1=
+6ae1c)
 
 Regressions Summary
 -------------------
@@ -75,37 +75,28 @@ platform         | arch  | lab           | compiler | defconfig | regressio=
 ns
 -----------------+-------+---------------+----------+-----------+----------=
 --
-mt8173-elm-hana  | arm64 | lab-collabora | gcc-8    | defconfig | 1        =
-  =
-
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 1        =
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 2        =
   =
 
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/v5.1=
-5-rc1-564-ge23d26d2dc9a/plan/v4l2-compliance-uvc/
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/v5.15-=
+rc1-39-gcbbd8f16ae1c/plan/igt-kms-rockchip/
 
-V4L2 Compliance on the uvcvideo driver.
-
-This test ran "v4l2-compliance -s" from v4l-utils:
-
-    https://www.linuxtv.org/wiki/index.php/V4l2-utils
-
-See each detailed section in the report below to find out the git URL and
-particular revision that was used to build the test binaries.
-
-
+  Test:     igt-kms-rockchip
   Tree:     renesas
-  Branch:   master
-  Describe: v5.15-rc1-564-ge23d26d2dc9a
+  Branch:   next
+  Describe: v5.15-rc1-39-gcbbd8f16ae1c
   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
 evel.git
-  SHA:      e23d26d2dc9ad4831b447fc9ef348b1621fac32d
+  SHA:      cbbd8f16ae1c24d6f82712bf5ef798a8a62b0233
 
   Test suite revisions:
-    v4l2-compliance
-      URL:  git://linuxtv.org/v4l-utils.git
-      SHA:  22466798f9a9044fa20ae3bb367d9fc29d37e054 =
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  8d0fb9b3f225183fb3276a0e4ae1f8354a3519e8
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  1afd52c1471dafdf521eae431f3e228826de6de2 =
 
 
 
@@ -118,77 +109,76 @@ platform         | arch  | lab           | compiler | defconfig | regressio=
 ns
 -----------------+-------+---------------+----------+-----------+----------=
 --
-mt8173-elm-hana  | arm64 | lab-collabora | gcc-8    | defconfig | 1        =
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 2        =
   =
 
 
-  Details:     https://kernelci.org/test/plan/id/613f9fa4d948417a9a99a2eb
+  Details:     https://kernelci.org/test/plan/id/613fbb8e86fe4495a099a347
 
-  Results:     1 PASS, 1 FAIL, 0 SKIP
+  Results:     79 PASS, 15 FAIL, 141 SKIP
   Full config: defconfig
   Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/v5.15-rc1-564-g=
-e23d26d2dc9a/arm64/defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc-mt8173=
--elm-hana.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v5.15-rc1-564-g=
-e23d26d2dc9a/arm64/defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc-mt8173=
--elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-v4l2=
-/20210827.0/arm64/rootfs.cpio.gz =
+  Plain log:   https://storage.kernelci.org//renesas/next/v5.15-rc1-39-gcbb=
+d8f16ae1c/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk3399-gru-k=
+evin.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/v5.15-rc1-39-gcbb=
+d8f16ae1c/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk3399-gru-k=
+evin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-igt/=
+20210827.0/arm64/rootfs.cpio.gz =
 
 
 
-  * v4l2-compliance-uvc.device-presence: https://kernelci.org/test/case/id/=
-613f9fa4d948417a9a99a2ed
-        new failure (last pass: renesas-devel-2021-08-23-v5.14-rc7)
+  * igt-kms-rockchip.kms_vblank.pipe-A-ts-continuation-suspend: https://ker=
+nelci.org/test/case/id/613fbb8e86fe4495a099a3cf
+        failing since 62 days (last pass: renesas-next-2021-07-08-v5.13-rc1=
+, first fail: v5.14-rc1-17-gcd117793e1ac)
 
-    2021-09-13T18:59:29.329973  / # =
+    2021-09-13T20:57:00.628642  <6>[   84.951877] Console: switching to col=
+our dummy device 80x25
+    2021-09-13T20:57:00.633449  <14>[   84.958579] [IGT] kms_vblank: execut=
+ing
+    2021-09-13T20:57:00.649132  IGT-Version: 1.26-g1afd52c (aarch64) (Linux=
+: 5.15.0-rc1 aarch64)<14>[   84.965261] [IGT] kms_vblank: starting subtest =
+pipe-A-ts-continuation-suspend
+    2021-09-13T20:57:00.650456  =
 
-    2021-09-13T18:59:29.332914  =
+    2021-09-13T20:57:00.654218  Starting subtest: pipe-A-ts-continuation-su=
+spend
+    2021-09-13T20:57:00.737046  Beginning pipe-A-ts-continuation-suspend on=
+ pipe A, connector eDP-1
+    2021-09-13T20:57:00.767159  [cmd] rtcwake: assuming RTC uses UTC ...
+    2021-09-13T20:57:00.774433  rtcwake: wakeup from \"mem\" using /dev/rtc=
+0 at Mon Sep 13 20:55:31 2021
+    2021-09-13T20:57:00.787225  <6>[   85.112700] PM: suspend entry (deep)
+    2021-09-13T20:57:00.792925  <6>[   85.117084] Filesystems sync: 0.000 s=
+econds =
 
-    2021-09-13T18:59:29.436201  / # #
-    2021-09-13T18:59:29.438998  #
-    2021-09-13T18:59:29.541134  / # export SHELL=3D/bin/sh
-    2021-09-13T18:59:29.543997  export SHELL=3D/bin/sh
-    2021-09-13T18:59:29.646388  / # . /lava-4513008/environment
-    2021-09-13T18:59:29.649381  . /lava-4513008/environment
-    2021-09-13T18:59:29.752037  / #/lava-4513008/bin/lava-test-runner /lava=
--4513008/0
-    2021-09-13T18:59:29.755856   /lava-4513008/bin/lava-test-runner /lava-4=
-513008/0 =
-
-    ... (7 line(s) more)  =
-
- =
-
-
-
-platform         | arch  | lab           | compiler | defconfig | regressio=
-ns
------------------+-------+---------------+----------+-----------+----------=
---
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 1        =
-  =
+    ... (126 line(s) more)  =
 
 
-  Details:     https://kernelci.org/test/plan/id/613fa61ed5b3af4ce799a2da
+  * igt-kms-rockchip.kms_setmode.basic: https://kernelci.org/test/case/id/6=
+13fbb8e86fe4495a099a3ed
+        new failure (last pass: renesas-next-2021-08-12-v5.14-rc1)
 
-  Results:     47 PASS, 8 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/v5.15-rc1-564-g=
-e23d26d2dc9a/arm64/defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc-rk3399=
--gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/v5.15-rc1-564-g=
-e23d26d2dc9a/arm64/defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc-rk3399=
--gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-v4l2=
-/20210827.0/arm64/rootfs.cpio.gz =
+    2021-09-13T20:56:06.447203  <8>[   46.544044] <LAVA_SIGNAL_TESTSET STOP>
+    2021-09-13T20:56:06.488659  <8>[   46.584627] <LAVA_SIGNAL_TESTSET STAR=
+T kms_setmode>
+    2021-09-13T20:56:06.527692  <6>[   46.622495] Console: switching to col=
+our dummy device 80x25
+    2021-09-13T20:56:06.532774  <14>[   46.629602] [IGT] kms_setmode: execu=
+ting
+    2021-09-13T20:56:06.544681  IGT-Version: 1.26-g1afd52c (aarch64) (Linux=
+: 5.15.0-rc1 aarch64)<14>[   46.634880] [IGT] kms_setmode: starting subtest=
+ basic
+    2021-09-13T20:56:06.545441  =
 
+    2021-09-13T20:56:06.548087  Starting subtest: basic
+    2021-09-13T20:56:06.551979  Testing: basic 1 connector combinations
+    2021-09-13T20:56:06.677129    Test id#1 CRTC count 1
+    2021-09-13T20:56:06.683185      CRTC[37] [Pipe A] Mode: 2400x1600@60Hz =
+Connectors: eDP-1[49] =
 
-
-  * v4l2-compliance-uvc.Streaming-ioctls_Test-input-0.USERPTR-no-poll: http=
-s://kernelci.org/test/case/id/613fa61fd5b3af4ce799a2e3
-        new failure (last pass: renesas-devel-2021-08-23-v5.14-rc7) =
+    ... (66 line(s) more)  =
 
  =20
