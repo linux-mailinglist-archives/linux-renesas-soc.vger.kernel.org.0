@@ -2,318 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19DBF4085E8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Sep 2021 09:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DCDD408610
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Sep 2021 10:05:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237717AbhIMH7q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Sep 2021 03:59:46 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:57173 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235914AbhIMH7q (ORCPT
+        id S237725AbhIMIGj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Sep 2021 04:06:39 -0400
+Received: from mail-vs1-f47.google.com ([209.85.217.47]:37610 "EHLO
+        mail-vs1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237797AbhIMIGi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Sep 2021 03:59:46 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id A38EF24000B;
-        Mon, 13 Sep 2021 07:58:26 +0000 (UTC)
-Date:   Mon, 13 Sep 2021 09:59:13 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Thomas NIZAN <tnizan@witekio.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [RFC 0/5] media: i2c: Add MAX9271 subdevice driver
-Message-ID: <20210913075913.njn7vymrqtizpxl4@uno.localdomain>
-References: <20210817072703.1167-1-jacopo+renesas@jmondi.org>
- <YSMCu1zQ0xOkj7/y@pendragon.ideasonboard.com>
+        Mon, 13 Sep 2021 04:06:38 -0400
+Received: by mail-vs1-f47.google.com with SMTP id i23so7629360vsj.4;
+        Mon, 13 Sep 2021 01:05:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hIy/WF41WnhInRxQvOeLA91NgtT/ad5oPS0o2VKCwNg=;
+        b=H1wPdid9exSg992pPXhiMALn/wP/WluGxrpodaX1dXaLk5agS9mbY2yNT/LkDIvVP/
+         UZq0eLqXKW7eiJTLtNyHs2ag19/bQH+yVAxbR29EcWipIPoPzZG9ElYun+7fXCnXnwX5
+         IGPlyOI1hteTd1Pdfrzj0zi1d8CVrpkEIIcydKhybo/8re/g1YBa1SZegn9cDo3pcGb6
+         AVzZZFG749rmuw0sgd3vELdS7+mOoNgCQA0dPXnvsC6y1CtZEhCnYgi235Wka8tiOG7a
+         VEgvxC3ecjIHdzth723jUqYenqYkfyv1FM9ow6wP+cSm5Yn66Sb0ZpZfy1gQyjdErZxb
+         Rsqg==
+X-Gm-Message-State: AOAM530VG9N7DxeRHM1vO5J8LwqJ9TG+eb6JgvYQbfSapGTk4gsb3BEi
+        pWWWWr86mWYNoTuhl4l6qTo2eWsii/w249BGYUiJYdoi7/w=
+X-Google-Smtp-Source: ABdhPJy5qS7cAHC3Wj9WuuKOmYXH4sq8/3ktX7gWNSl8zk/qKzaCAAZqM9h3ouNfCut0fUdqY/dAAiCGCBBDbPtKIvo=
+X-Received: by 2002:a05:6102:3112:: with SMTP id e18mr2487715vsh.50.1631520322815;
+ Mon, 13 Sep 2021 01:05:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YSMCu1zQ0xOkj7/y@pendragon.ideasonboard.com>
+References: <20200624195811.435857-1-maz@kernel.org> <20200624195811.435857-8-maz@kernel.org>
+ <CAMuHMdV+Ev47K5NO8XHsanSq5YRMCHn2gWAQyV-q2LpJVy9HiQ@mail.gmail.com>
+ <875yv8d91b.wl-maz@kernel.org> <CAMuHMdV+ydPaXbGf1_O0S-juaPWk1gwBUOK+GeLZukZeoqtMGQ@mail.gmail.com>
+ <CANqRtoTqV8sOpL=hdxeZ03tqr+5oeMcfwz+9ERqXv+hze_6Fsw@mail.gmail.com>
+ <874kaqdi2z.wl-maz@kernel.org> <CANqRtoTa8g2sw_DoD8+34HR0mcHc_tOWt+4R9KzDT2Eu3d7TTg@mail.gmail.com>
+In-Reply-To: <CANqRtoTa8g2sw_DoD8+34HR0mcHc_tOWt+4R9KzDT2Eu3d7TTg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 13 Sep 2021 10:05:11 +0200
+Message-ID: <CAMuHMdX3Vf8Mxuz3=Aoi1hwMS7BtyYCH178QvVS-GAHDpeMvxg@mail.gmail.com>
+Subject: Re: [PATCH v2 07/17] irqchip/gic: Atomically update affinity
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Russell King <linux@arm.linux.org.uk>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Valentin Schneider <Valentin.Schneider@arm.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Android Kernel Team <kernel-team@android.com>,
+        stable <stable@vger.kernel.org>,
+        Magnus Damm <damm+renesas@opensource.se>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Magnus,
 
-On Mon, Aug 23, 2021 at 05:06:51AM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
+On Sun, Sep 12, 2021 at 7:40 AM Magnus Damm <magnus.damm@gmail.com> wrote:
+> On Sun, Sep 12, 2021 at 4:32 AM Marc Zyngier <maz@kernel.org> wrote:
+> > On Sat, 11 Sep 2021 03:49:20 +0100,
+> > Magnus Damm <magnus.damm@gmail.com> wrote:
+> > > On Fri, Sep 10, 2021 at 10:19 PM Geert Uytterhoeven
+> > > <geert@linux-m68k.org> wrote:
+> > > > On Fri, Sep 10, 2021 at 12:23 PM Marc Zyngier <maz@kernel.org> wrote:
+> > > > > On Thu, 09 Sep 2021 16:22:01 +0100,
+> > > > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > >     GIC: enabling workaround for broken byte access
+> > >
+> > > Indeed, byte access is unsupported according to the EMEV2 documentation.
+> > >
+> > > The EMEV2 documentation R19UH0036EJ0600 Chapter 7 Interrupt Control on
+> > > page 97 says:
+> > > "Interrupt registers can be accessed via the APB bus, in 32-bit units"
+> > > "For details about register functions, see ARM Generic Interrupt
+> > > Controller Architecture Specification Architecture version 1.0"
+> > > The file  "R19UH0036EJ0600_1Chip.pdf" is the 6th edition version
+> > > published in 2010 and is not marked as confidential.
+> >
+> > This is as bad as it gets. Do you know if any other Renesas platform
+> > is affected by the same issue?
 >
-> On Tue, Aug 17, 2021 at 09:26:58AM +0200, Jacopo Mondi wrote:
-> > Hello,
-> >    as noticed during the inclusion of the RDACM20/21 cameras, their driver make
-> > use of a library driver that exports functions to control the MAX9271 GMSL
-> > serializer embedded in the camera module.
-> >
-> > This series attempts to create an i2c subdevice driver for the MAX9271
-> > serializer, to support the camera module operations using the v4l2 subdev
-> > operations.
-> >
-> > The series is based on the currently in-review:
-> > https://patchwork.linuxtv.org/project/linux-media/list/?series=5847
-> > https://patchwork.linuxtv.org/project/linux-media/list/?series=5949
-> >
-> > The series:
-> > 1) Introduced an i2c subdev driver for the MAX9271 GMSL serializer
-> > 2) Adapt the RDACM20 driver by removing the MAX9271 handling from there
-> > 3) Modify the DTS layout to describe the MAX9271 chip and the camera module
-> >    separately
-> >
-> > To be done:
-> > - bindings
-> > - handling of reset lines between max9271 and image sensor
-> > - the camera module drivers could be made sensor drivers
-> >
-> > However I'm not fully convinced this really brings any benefit as the serializer
-> > and the image sensor are actually packed together in the same camera module
-> > and are tightly coupled.
+> Next time we have a beer together I would be happy to show you some
+> legacy interrupt controller code. =)
 >
-> I'm not convinced either. More than that, I think it will make it
-> impossible to handle more complex camera topologies.
->
-> > The biggest issue I'm facing, and for which I would be happy to receive pointers
-> > to is the following one.
-> >
-> > The new DTS layout now looks like
-> >
-> > 	max9286 {
-> >
-> > 		i2c-mux {
-> > 			i2c@0 {
-> > 				max9271 {
-> > 				}
-> >
-> > 				rdacm20{
-> > 				}
-> > 			}
-> > 		}
-> > 	}
-> >
-> > If I do rely on the probe sequence implemented by the instantiation of the
-> > i2c-mux child nodes:
-> >
-> > 	- max9286
-> > 		-max9271
-> > 		-sensor
-> >
-> > 		-max9271
-> > 		-sensor
-> >
-> > 		...
-> >
-> > As per each i2c-mux subnode the max9271 and the connected sensor are probed once
-> > after the other.
-> >
-> > This unfortunately doesn't play well with the requirements of GMSL bus, for
-> > which the post_register operation is being introduced. With the current
-> > RDACM20/21 drivers and post_register in place with two cameras connected to the
-> > system, the desired initialization sequence looks like:
-> >
-> >             MAX9286                  RDACM20/21
-> >
-> >             probe()
-> >                |
-> >                ---------------------> |
-> >                                       camera 1 probe() {
-> >                                          enable_threshold()
-> >                                       }
-> >                |<--------------------|
-> >             v4l2 async bound {
-> > 		completed = no
-> >                |
-> >                ---------------------> |
-> >                                       camera 2 probe() {
-> >                                          enable_threshold()
-> >                                       }
-> >                |<--------------------|
-> > 		completed = yes
-> >
-> >                 compensate_amplitude()
-> >
-> >                 call post_register()
-> >                |-------------------->|
-> >                                      camera 1 post_register()
-> >                                          access camera registers()
-> >                                     }
-> >                |<-------------------
-> >                |-------------------->|
-> >                                      camera 2 post_register()
-> >                                          access camera registers()
-> >                                     }
-> >                |<-------------------
-> >             }
-> >
-> > Which guarantees that the bulk access to the camera registers happens after the
-> > deserializer has compensated the channel amplitude.
-> >
-> > With the new model I do have a race between the sensor probe and the
-> > post_register() of the serializer in case a single camera is connected.
-> >
-> > What happes is that as soon as the max9271 registers its async subdev the
-> > max9286 notifier completes an call max9271->post_register(). But at that time
-> > the sensor subdev has not probed yet, so there is no subdev on which to call
-> > post_register in the max9271
-> >
-> > following:
-> >
-> >     MAX9286                  MAX9271			SENSOR
-> >
-> >     probe()
-> >        |
-> >        ---------------------> |
-> > 			      probe() {
-> > 				 enable_threshold()
-> > 			      }
-> >       }
-> >        |<--------------------|
-> >     v4l2 async bound {
-> > 	completed = yes
-> >  	subdev->post_register()
-> >        |-------------------->|
-> > 			     post_register()
-> > 				gmsl_bus_config()
-> > 				subdev->post_register(NULL)
-> > 				segfault
-> > 			    }
-> > 							probe()
-> >     }
-> >
-> > If I instead do not use post_register() between the max9271 and the sensor,
-> > then the model works for a single camera only (as it is implemented in this
-> > version)
-> >
-> >     MAX9286                  MAX9271			SENSOR
-> >
-> >     probe()
-> >        |
-> >        ---------------------> |
-> > 			      probe() {
-> > 				 enable_threshold()
-> > 			      }
-> >       }
-> >        |<--------------------|
-> >     v4l2 async bound {
-> > 	completed = no
-> >        |-------------------->|
-> > 							probe() {
-> > 							   i2c writes to
-> > 							   the sensor without
-> > 							   GMSL configuration
-> > 							}
-> >     }
-> >
-> > So, my question is: are there examples on how to have the max9271 driver
-> > control the probe time the connected sensor without relying on the probe
-> > sequence of the I2C-mux device nodes ? If I could do so, what I would like to
-> > realize looks like
->
-> How about making the sensor a child of the max9271 in DT ?
+> EMEV2 and the Emma Mobile product line came from the NEC Electronics
+> side that got merged into Renesas Electronics in 2010. Historically
+> NEC Electronics mainly used MIPS I've been told, and the Emma Mobile
+> SoCs were one of the earlier Cortex-A9 adopters. That might have
+> something to do with the rather loose interpretation of the spec.
 
-I think that would ideally be feasible and it would match the actual
-HW, as max9271 is actually an i2c multiplexer.
+Indeed.  I used to work on products using EMMA1 and EMMA2, and they
+were MIPS-based (vr4120A for EMMA2, IIRC).  Later variants (EMMA2H
+and EMMA3?) did include a small ARM core for standby control.
 
-But is something like
+> Renesas SoCs from a similar era:
+> AP4 (sh7372) AP4EVB (Cortex-A8 + INTCA/INTCS)
 
- 	max9286 {
- 		i2c-mux {
- 			i2c@0 {
- 				max9271@51 {
-                                        i2c-mux {
-                                                i2c@0 {
-                                                        ov13858@61 {
+This is no longer supported upstream (and not affected, as no GIC).
 
-                                                        }
-                                                }
-                                        }
- 				}
+> R-Mobile A1 (r8a7740) Armadillo-800-EVA (Cortex-A9 + INTCA/INTCS)
 
- 			}
- 		}
- 	}
+R-Mobile A1 has GIC (PL390), too, and is not affected.
 
-Acceptable as a DT layout ??
+> R-Car M1A (r8a7778) Bock-W (Cortex-A9 + GIC)
+> R-Car H1 (r8a7779) Marzen (4 x Cortex-A9 + GIC)
+> Emma Mobile EMEV2 KZM9D (2 x Cortex-A9 + GIC)
+> SH-Mobile AG5 (sh73a0) KZM9G (2 x Cortex-A9 + GIC)
 
+All of these (except for EMEV2) are fine, too.
 
->
-> >
-> >     MAX9286                  MAX9271			SENSOR
-> >
-> >     probe()
-> >        |
-> >        ---------------------> |
-> > 			      camera 1 probe() {
-> > 				--------------------->|
-> > 							 sensor probe()
-> > 				 enable_threshold()
-> > 			      }
-> >       }
-> >        |<--------------------|
-> >     v4l2 async bound {
-> > 	completed = no
-> >        |-------------------->|
-> > 			     camera 2 probe() {
-> > 				--------------------->|
-> > 							sensor probe()
-> > 				 enable_threshold()
-> > 			      }
-> >        |<--------------------|
-> > 	completed = yes
-> >
-> > 	compensate_amplitude()
-> > 	for (subdev)
-> > 	   subdev->post_register()
-> >           |----------------->|
-> > 			     camera 1 post_register()
-> > 				subdev->post_register()
-> > 				--------------------->|
-> > 							post_register()
-> > 								i2c writes
-> > 	   subdev->post_register()
-> >           |----------------->|
-> > 			     camera 2 post_register()
-> > 				subdev->post_register()
-> > 				--------------------->|
-> > 							post_register()
-> > 								i2c writes
-> >     }
-> >
-> >
-> > I recall Mauro pointed me to an example when he first suggested to make the
-> > MAX9271 library a proper i2c subdevice driver. Do you happen to recall which one
-> > was it ?
-> >
-> > Thanks
-> >    j
-> >
-> > Jacopo Mondi (5):
-> >   media: i2c: max9271: Rename max9271 library driver
-> >   media: i2c: Add MAX9271 I2C driver
-> >   media: i2c: rdacm20: Adapt to work with MAX9271
-> >   media: i2c: max9286: Fetch PIXEL_RATE in s_stream
-> >   arm64: dts: GMSL: Adapt to the use max9271 driver
-> >
-> >  MAINTAINERS                                   |  17 +-
-> >  arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi |  34 +-
-> >  .../arm64/boot/dts/renesas/r8a77970-eagle.dts |   6 +-
-> >  drivers/media/i2c/Kconfig                     |  12 +
-> >  drivers/media/i2c/Makefile                    |   3 +-
-> >  drivers/media/i2c/max9271-lib.c               | 374 +++++++++++++
-> >  .../media/i2c/{max9271.h => max9271-lib.h}    |   0
-> >  drivers/media/i2c/max9271.c                   | 528 +++++++++++++++---
-> >  drivers/media/i2c/max9286.c                   |   6 +-
-> >  drivers/media/i2c/rdacm20.c                   | 139 +----
-> >  drivers/media/i2c/rdacm21.c                   |   2 +-
-> >  11 files changed, 917 insertions(+), 204 deletions(-)
-> >  create mode 100644 drivers/media/i2c/max9271-lib.c
-> >  rename drivers/media/i2c/{max9271.h => max9271-lib.h} (100%)
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
