@@ -2,144 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A025409F39
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Sep 2021 23:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C546A40A105
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Sep 2021 00:47:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345228AbhIMVhD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Sep 2021 17:37:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60536 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344964AbhIMVhB (ORCPT
+        id S1348668AbhIMWsr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Sep 2021 18:48:47 -0400
+Received: from mga07.intel.com ([134.134.136.100]:20463 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1350847AbhIMWrO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Sep 2021 17:37:01 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04BE7C061760
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Sep 2021 14:35:45 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id r2so10662778pgl.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Sep 2021 14:35:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=sEAViIXM8esNyoN5dktge0Zm6xwFOFH47VbLeofIkJk=;
-        b=iDXFDfiK1rjWDAWEo0qxIBGVJVMp7cjrb8G+Nkw0A933ZY3ZrdDS2nq5XkwCLLUt1i
-         bcS9FLwj4ZYkTbMfThQjjefLcfQzGiLZMLRrIU8bhrahH7xPquqzQzNu6y5UzrtZBHTw
-         S5vmrvjOQD1XDi/b0Imy8Zcl81aKWzUq6Z+0PoQxLgpf/JHorT0UQikZyROlCeNYagii
-         cGb9I/zTul0W8h5gqErJYfJQoxyDE3OC+txzMAYrv/THTCUJIuabbn1WUukaUezTJROU
-         EimjCua7U4/ga7w3QoM5R/+oMdL8THwrtRwOzxNuTP0xbapnrl5G2N6XnuLYBe4vXEvb
-         KTmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=sEAViIXM8esNyoN5dktge0Zm6xwFOFH47VbLeofIkJk=;
-        b=bcQMAJk9+4l2umQUtBZUL/F9tQ2sIqTP3ACaWXqK1Wiyuz9C5pWTcjqSnqSEFo4BnU
-         IntyEokvKWavsHiKakI17qDKk9G5wRuraa3r59G/hrlvciSyD8x7Mq1Js/Ulwj2yCqiI
-         5P60WUHnK8TsFs6m7lFa03JEkmB3NUztb+O55qfZkgwz+uZDvmLaAraklDcFOhN0+HaU
-         VN38JiNxJ+o2nAKx1rwiXRbthr/kTf++jnOnmM3RdkVV9S66dz1LOVRx3YMINfS2uRdu
-         IZD4rpyuYvxUs+j7BHuQ3EXldeSLxgh6bhZ6O/NPVeZdKSnui014KlztWvfGB5Sst117
-         7+Rg==
-X-Gm-Message-State: AOAM5328yGrwjqSfnPRhIFkGQIqA23o0W+sIaE6tQ3tWqwrSEI7caILL
-        J84mM6k3wWfmvXDc5lGzQZdeRrnu8zuMT9s4
-X-Google-Smtp-Source: ABdhPJzh3b5RvDxtsUGxvGqnORhH/UQXKQTJj8WxpzxrbMl2RZneHaW/FxTibzHJlzzzA/DJlZIl1w==
-X-Received: by 2002:a05:6a00:1881:b0:3fa:7d56:c611 with SMTP id x1-20020a056a00188100b003fa7d56c611mr1403729pfh.8.1631568944391;
-        Mon, 13 Sep 2021 14:35:44 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id x13sm4762590pfp.133.2021.09.13.14.35.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 14:35:44 -0700 (PDT)
-Message-ID: <613fc430.1c69fb81.235b4.e867@mx.google.com>
-Date:   Mon, 13 Sep 2021 14:35:44 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 13 Sep 2021 18:47:14 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="285504352"
+X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; 
+   d="scan'208";a="285504352"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2021 15:36:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; 
+   d="scan'208";a="528291029"
+Received: from lkp-server01.sh.intel.com (HELO 730d49888f40) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 13 Sep 2021 15:36:44 -0700
+Received: from kbuild by 730d49888f40 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mPuZ9-0007wg-Ul; Mon, 13 Sep 2021 22:36:43 +0000
+Date:   Tue, 14 Sep 2021 06:35:50 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:renesas-drivers-for-v5.16] BUILD SUCCESS
+ 2ed1e4815922a3b22561b6e0e6f6d3d15a4e1007
+Message-ID: <613fd246.rvqwzcAwt4jJjCaa%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: v5.15-rc1-39-gcbbd8f16ae1c
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: next
-Subject: renesas/next sleep: 5 runs, 1 regressions (v5.15-rc1-39-gcbbd8f16ae1c)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next sleep: 5 runs, 1 regressions (v5.15-rc1-39-gcbbd8f16ae1c)
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v5.16
+branch HEAD: 2ed1e4815922a3b22561b6e0e6f6d3d15a4e1007  soc: renesas: Identify more R-Car Gen3e SoCs
 
-Regressions Summary
--------------------
+elapsed time: 732m
 
-platform           | arch   | lab           | compiler | defconfig         =
-           | regressions
--------------------+--------+---------------+----------+-------------------=
------------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-8    | x86_64_defcon...6-=
-chromebook | 1          =
+configs tested: 126
+configs skipped: 3
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/v5.15-=
-rc1-39-gcbbd8f16ae1c/plan/sleep/
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20210913
+powerpc                   motionpro_defconfig
+arm                         axm55xx_defconfig
+powerpc                 mpc8540_ads_defconfig
+m68k                        m5307c3_defconfig
+powerpc                      ppc6xx_defconfig
+arm                       aspeed_g4_defconfig
+m68k                            q40_defconfig
+arm                        keystone_defconfig
+powerpc                 canyonlands_defconfig
+mips                            e55_defconfig
+powerpc                       maple_defconfig
+sh                         apsh4a3a_defconfig
+arm                           omap1_defconfig
+mips                       bmips_be_defconfig
+arm                           corgi_defconfig
+powerpc                      cm5200_defconfig
+ia64                         bigsur_defconfig
+xtensa                           alldefconfig
+arm                     davinci_all_defconfig
+powerpc                     redwood_defconfig
+arm                       netwinder_defconfig
+powerpc                        cell_defconfig
+mips                      maltasmvp_defconfig
+nds32                            alldefconfig
+powerpc                      bamboo_defconfig
+mips                        jmr3927_defconfig
+mips                      loongson3_defconfig
+mips                        maltaup_defconfig
+powerpc                  storcenter_defconfig
+arm                         bcm2835_defconfig
+m68k                          atari_defconfig
+sh                   secureedge5410_defconfig
+sh                           se7721_defconfig
+h8300                            allyesconfig
+arm                        neponset_defconfig
+powerpc                     stx_gp3_defconfig
+arm                           viper_defconfig
+mips                         cobalt_defconfig
+sh                        edosk7705_defconfig
+x86_64               randconfig-c001-20210913
+arm                  randconfig-c002-20210913
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a002-20210913
+x86_64               randconfig-a003-20210913
+x86_64               randconfig-a006-20210913
+x86_64               randconfig-a004-20210913
+x86_64               randconfig-a005-20210913
+x86_64               randconfig-a001-20210913
+i386                 randconfig-a004-20210913
+i386                 randconfig-a005-20210913
+i386                 randconfig-a002-20210913
+i386                 randconfig-a006-20210913
+i386                 randconfig-a003-20210913
+i386                 randconfig-a001-20210913
+arc                  randconfig-r043-20210913
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-  Test:     sleep
-  Tree:     renesas
-  Branch:   next
-  Describe: v5.15-rc1-39-gcbbd8f16ae1c
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      cbbd8f16ae1c24d6f82712bf5ef798a8a62b0233 =
+clang tested configs:
+riscv                randconfig-c006-20210913
+x86_64               randconfig-c007-20210913
+mips                 randconfig-c004-20210913
+powerpc              randconfig-c003-20210913
+i386                 randconfig-c001-20210913
+arm                  randconfig-c002-20210913
+s390                 randconfig-c005-20210913
+x86_64               randconfig-a016-20210913
+x86_64               randconfig-a013-20210913
+x86_64               randconfig-a012-20210913
+x86_64               randconfig-a011-20210913
+x86_64               randconfig-a014-20210913
+x86_64               randconfig-a015-20210913
+i386                 randconfig-a016-20210913
+i386                 randconfig-a011-20210913
+i386                 randconfig-a015-20210913
+i386                 randconfig-a012-20210913
+i386                 randconfig-a013-20210913
+i386                 randconfig-a014-20210913
+riscv                randconfig-r042-20210913
+hexagon              randconfig-r045-20210913
+s390                 randconfig-r044-20210913
+hexagon              randconfig-r041-20210913
 
-
-
-Test Regressions
----------------- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-           | regressions
--------------------+--------+---------------+----------+-------------------=
------------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-8    | x86_64_defcon...6-=
-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/613fad8f36c13fe9ed99a308
-
-  Results:     22 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-8 (gcc (Debian 8.3.0-6) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/v5.15-rc1-39-gcbb=
-d8f16ae1c/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collabora/sleep-=
-hp-11A-G6-EE-grunt.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/v5.15-rc1-39-gcbb=
-d8f16ae1c/x86_64/x86_64_defconfig+x86-chromebook/gcc-8/lab-collabora/sleep-=
-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-0827.0/amd64/rootfs.cpio.gz =
-
-
-
-  * sleep.rtcwake-freeze-2: https://kernelci.org/test/case/id/613fad8f36c13=
-fe9ed99a312
-        new failure (last pass: renesas-next-2021-08-12-v5.14-rc1)
-
-    2021-09-13T19:57:56.174584  rtcwake: assuming RTC uses UTC ...
-    2021-09-13T19:57:56.181914  rtcwake: wakeup from \"freeze\" using rtc0 =
-at Mon Sep 13 19:58:02 2021
-    2021-09-13T19:57:56.184912  <6>[   34.707833] PM: suspend entry (deep)
-    2021-09-13T19:57:56.188838  <6>[   34.709189] r8152 2-4:1.0 eth0: carri=
-er on
-    2021-09-13T19:57:56.193214  <6>[   34.717818] Filesystems sync: 0.000 s=
-econds
-    2021-09-13T19:57:56.201436  <6>[   34.726985] Freezing user space proce=
-sses ... (elapsed 0.001 seconds) done.
-    2021-09-13T19:57:56.205232  <6>[   34.735348] OOM killer disabled.
-    2021-09-13T19:57:57.246642  <6>[   34.738845] Freezing remaining freeza=
-ble tasks ... (elapsed 1.039 seconds) done.
-    2021-09-13T19:57:57.253857  <6>[   35.780327] printk: Suspending consol=
-e(s) (use no_console_suspend to debug)
-    2021-09-13T19:57:57.353093   =
-
-    ... (1151 line(s) more)  =
-
- =20
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
