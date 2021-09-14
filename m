@@ -2,127 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDF8E40AB38
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Sep 2021 11:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FFF340AB40
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Sep 2021 11:56:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231279AbhINJ4u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Sep 2021 05:56:50 -0400
-Received: from mail.iot.bzh ([51.75.236.24]:36908 "EHLO mail.iot.bzh"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231254AbhINJ4u (ORCPT
+        id S230509AbhINJ6G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Sep 2021 05:58:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230334AbhINJ6E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Sep 2021 05:56:50 -0400
-Received: from localhost.localdomain (843280159.box.freepro.com [88.202.238.44])
-        by mail.iot.bzh (Postfix) with ESMTPSA id 890F5400A2;
-        Tue, 14 Sep 2021 11:47:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; s=20180822;
-        t=1631612827;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2aDMs547reqnuyeeQmloygG1E0RRTfZ6mOeL9RoE+QM=;
-        b=iN9YPg/kU2vsZKNuZaSeNVXrjSW2AhjP0Q+Opw7VDALZoWkGKFQPNkyWlSL9pibrwfPFtf
-        YLhdavIQQfL0OOWy6vSf3NqbKQldg+3pa9ya3QNEXJMXxeumwZvCclO1YpYFIc384117PD
-        jr39qXzuwVfQrnfR57gJ5pmCbRsapMb/hxQ0KXkit4jjjsaCZg+lYGV0U/BHeawKtfJmvo
-        l8OUdifUYMMeRayPUM/kfjNH9ilU1nqh5MJFBO8YFzANGXUKUq0EP1OenPQ/SYhBe7SGGK
-        KGYuWLp0unmuLN1ConP8f+No14r7fMx4bszSorFDmcIoCNpak/zi8bjiPfBjLw==
-From:   Julien Massot <julien.massot@iot.bzh>
+        Tue, 14 Sep 2021 05:58:04 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16151C061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Sep 2021 02:56:46 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d46f:7eb5:4a37:9d14])
+        by xavier.telenet-ops.be with bizsmtp
+        id tlwl2500A2aSKa101lwlTi; Tue, 14 Sep 2021 11:56:45 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mQ5BF-004RX1-7q
+        for linux-renesas-soc@vger.kernel.org; Tue, 14 Sep 2021 11:56:45 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mQ5BE-000itw-FR
+        for linux-renesas-soc@vger.kernel.org; Tue, 14 Sep 2021 11:56:44 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     linux-renesas-soc@vger.kernel.org
-Cc:     Julien Massot <julien.massot@iot.bzh>
-Subject: [RFC PATCH 1/1] soc: renesas: rcar-rst: Add support to set rproc boot address
-Date:   Tue, 14 Sep 2021 11:46:50 +0200
-Message-Id: <20210914094650.15235-2-julien.massot@iot.bzh>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210914094650.15235-1-julien.massot@iot.bzh>
-References: <20210914094650.15235-1-julien.massot@iot.bzh>
+Subject: renesas-drivers-2021-09-14-v5.15-rc1
+Date:   Tue, 14 Sep 2021 11:56:44 +0200
+Message-Id: <20210914095644.172557-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-R-Car Gen3 SoC series has a realtime processor, the boot
-address of this processor can be set thanks to CR7BAR register
-of the reset module.
+I have pushed renesas-drivers-2021-09-14-v5.15-rc1 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Export this function so that it's possible to set the boot
-address from a remoteproc driver.
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-Also drop the __initdata qualifier on rcar_rst_base,
-since we will use this address later than init time.
+Today's version is based on renesas-devel-2021-09-13-v5.15-rc1.
 
-Signed-off-by: Julien Massot <julien.massot@iot.bzh>
----
- drivers/soc/renesas/rcar-rst.c       | 28 +++++++++++++++++++++++++++-
- include/linux/soc/renesas/rcar-rst.h |  2 ++
- 2 files changed, 29 insertions(+), 1 deletion(-)
+Included branches with driver code:
+  - renesas-clk
+  - renesas-pinctrl
+  - topic/rcar-gen3e-extra-v2~1
 
-diff --git a/drivers/soc/renesas/rcar-rst.c b/drivers/soc/renesas/rcar-rst.c
-index 8a1e402ea799..7f8452b07cdf 100644
---- a/drivers/soc/renesas/rcar-rst.c
-+++ b/drivers/soc/renesas/rcar-rst.c
-@@ -12,6 +12,8 @@
- 
- #define WDTRSTCR_RESET		0xA55A0002
- #define WDTRSTCR		0x0054
-+#define CR7BAR			0x0070
-+#define CR7BAREN		BIT(4)
- 
- static int rcar_rst_enable_wdt_reset(void __iomem *base)
- {
-@@ -76,7 +78,7 @@ static const struct of_device_id rcar_rst_matches[] __initconst = {
- 	{ /* sentinel */ }
- };
- 
--static void __iomem *rcar_rst_base __initdata;
-+static void __iomem *rcar_rst_base;
- static u32 saved_mode __initdata;
- 
- static int __init rcar_rst_init(void)
-@@ -130,3 +132,27 @@ int __init rcar_rst_read_mode_pins(u32 *mode)
- 	*mode = saved_mode;
- 	return 0;
- }
-+
-+/*
-+ * Most of R-Car Gen3 SoCs have an ARM Realtime Core.
-+ * Firmware boot address can be set before starting,
-+ * the realtime core thanks to CR7BAR register.
-+ * Boot address is on 32bit, and should be aligned on
-+ * 4k boundary.
-+ */
-+int rcar_rst_set_rproc_boot_addr(u32 boot_addr)
-+{
-+	if (!rcar_rst_base)
-+		return -EIO;
-+
-+	if (boot_addr % SZ_4K) {
-+		pr_warn("Invalid boot address for remote processor, should be aligned on 4k\n");
-+		boot_addr -= boot_addr % SZ_4K;
-+	}
-+
-+	boot_addr |= CR7BAREN;
-+	iowrite32(boot_addr, rcar_rst_base + CR7BAR);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(rcar_rst_set_rproc_boot_addr);
-diff --git a/include/linux/soc/renesas/rcar-rst.h b/include/linux/soc/renesas/rcar-rst.h
-index 7899a5b8c247..7c97c2c4bba6 100644
---- a/include/linux/soc/renesas/rcar-rst.h
-+++ b/include/linux/soc/renesas/rcar-rst.h
-@@ -4,8 +4,10 @@
- 
- #ifdef CONFIG_RST_RCAR
- int rcar_rst_read_mode_pins(u32 *mode);
-+int rcar_rst_set_rproc_boot_addr(u32 boot_addr);
- #else
- static inline int rcar_rst_read_mode_pins(u32 *mode) { return -ENODEV; }
-+static inline int rcar_rst_set_rproc_boot_addr(u32 boot_addr) { return -ENODEV; }
- #endif
- 
- #endif /* __LINUX_SOC_RENESAS_RCAR_RST_H__ */
--- 
-2.31.1
+Included fixes:
+  - drm: rcar-du: Don't create encoder for unconnected LVDS outputs
+  - WIP soc: v3u: allow WDT reset
+  - gpio: add sloppy logic analyzer using polling
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.libc.org/linux-sh#for-next
+  - https://git.pengutronix.de/git/pza/linux#reset/next
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
