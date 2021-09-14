@@ -2,117 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FFF340AB40
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Sep 2021 11:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A616640ABE0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Sep 2021 12:41:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230509AbhINJ6G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Sep 2021 05:58:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230334AbhINJ6E (ORCPT
+        id S231650AbhINKnE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Sep 2021 06:43:04 -0400
+Received: from www.zeus03.de ([194.117.254.33]:40354 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231612AbhINKnE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Sep 2021 05:58:04 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16151C061574
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Sep 2021 02:56:46 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d46f:7eb5:4a37:9d14])
-        by xavier.telenet-ops.be with bizsmtp
-        id tlwl2500A2aSKa101lwlTi; Tue, 14 Sep 2021 11:56:45 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mQ5BF-004RX1-7q
-        for linux-renesas-soc@vger.kernel.org; Tue, 14 Sep 2021 11:56:45 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mQ5BE-000itw-FR
-        for linux-renesas-soc@vger.kernel.org; Tue, 14 Sep 2021 11:56:44 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2021-09-14-v5.15-rc1
-Date:   Tue, 14 Sep 2021 11:56:44 +0200
-Message-Id: <20210914095644.172557-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 14 Sep 2021 06:43:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=vpUDLeb3xbEacAs9tk0wEn9tgTYj
+        R9+hLO0MahfO2Bg=; b=gsSZcLkWI7aBJT0R00tt08InXRdOtCz+Xh3EDhvRa40o
+        S7tPdnCkebfP9Vq/PKpCkGRiyxWZ999bS7yWlnRmLOeWSZY5zUR2WARJS+Q7o5PE
+        LmWHy2jQLBQY0s/EjtdeIADzsu92HK/1LbQIiLEEgvRjyN6pcWgLEzSP3DLOpGU=
+Received: (qmail 359425 invoked from network); 14 Sep 2021 12:41:44 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Sep 2021 12:41:44 +0200
+X-UD-Smtp-Session: l3s3148p1@f9xQOvLLLMggAwDPXxMyACCkRmvQydX8
+Date:   Tue, 14 Sep 2021 12:41:43 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Adam Ford <aford173@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH] arm64: dts: renesas: beacon: Fix i2c2 speed calcuation
+Message-ID: <YUB8Z8ArmIbjI6i+@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Adam Ford <aford173@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+References: <20210825122757.91133-1-aford173@gmail.com>
+ <CAMuHMdV1Cd23aaVKq1PyXHrc6W9FyikKOCpD0-PZqkgbVFbA5Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="g5VrGWIXPwwyL3HX"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdV1Cd23aaVKq1PyXHrc6W9FyikKOCpD0-PZqkgbVFbA5Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2021-09-14-v5.15-rc1 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+--g5VrGWIXPwwyL3HX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Today's version is based on renesas-devel-2021-09-13-v5.15-rc1.
+On Wed, Aug 25, 2021 at 02:47:21PM +0200, Geert Uytterhoeven wrote:
+> CC Wolfram
+>=20
+> On Wed, Aug 25, 2021 at 2:28 PM Adam Ford <aford173@gmail.com> wrote:
+> > The desired i2c2 speed is 400KHz, but when measured on a scope, it
+> > is incorrect.  The driver can use the i2c-scl-rising-time-ns to help
+> > calculate the proper setting to get exactly 400KHz.
 
-Included branches with driver code:
-  - renesas-clk
-  - renesas-pinctrl
-  - topic/rcar-gen3e-extra-v2~1
+The question for me is: Has it been measured that SCL rising time is
+really 50ns or has it been measured that the bus clock is now exactly
+400kHz?
 
-Included fixes:
-  - drm: rcar-du: Don't create encoder for unconnected LVDS outputs
-  - WIP soc: v3u: allow WDT reset
-  - gpio: add sloppy logic analyzer using polling
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.libc.org/linux-sh#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
+--g5VrGWIXPwwyL3HX
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-						Geert
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFAfGcACgkQFA3kzBSg
+KbaSkQ/7BBYnAYh+wl5O9FA8ERSetX+nLjLgjb7A8Bl7oiYjZAthPyH2t/Ew2CZh
+cIrSD4ACnZLxeElQcpLKCG3Qu5TlGxDdLJ5iMZOSWr58WlYzq1WgvXJhESC8pu1a
+66K8DMAX9N8mnp3kw3+546ljteQjBFAeSSLz4bEJmNNmx0V3glWanVMpuaKtzHMF
+LBq4Lp9WmsWWWfhDUqwGzFtXYwmVuvq/9ty+KV4tgJfUzBhxIyJMutMvDIiPVUBQ
+7U31AujmqoDDMHqzwkGb3e+WhA0WRuigeQtCaq8o6WolU8v/KU4BaGyPVsTIt/J3
+Yc36AHKzeWhimWdmFB6qNL0IUwT0KVIVCzMWUPWol//T3krDGIDlqLTNPzyRLuTg
+2b5baEaAPM+Oj69iV9v8FuoZj1JDLEJnwDte5kFFSNhIJcNkE0ecwbGa7Y94z7ru
+y/T0Wm+HbjXxporiZUJuwBGJH+E0eI9FzDyVQbCLm3UFtBuhmGHRQzCgG8YPhD+p
+1egpkV77YkzDwqdrmMgw+tsJ5jiWZeqIkWglZj8ueG+cmjaNORzkV+7I+liarxry
+kjSB3NOxXlQf7RNpvkxdSybrgWgJI29RXsNSQjuLcduJ8hxMppeB9B0ORzCyu1Lw
+88GvnTbGDVCpBVdrbJVUDxj69TliNutgU1w5Gd4UpBmWWshPX4I=
+=KkZi
+-----END PGP SIGNATURE-----
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+--g5VrGWIXPwwyL3HX--
