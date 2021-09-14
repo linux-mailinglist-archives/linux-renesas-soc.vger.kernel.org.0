@@ -2,105 +2,270 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4116F40B6BB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Sep 2021 20:20:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F36240B8F0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Sep 2021 22:22:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232113AbhINSWN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Sep 2021 14:22:13 -0400
-Received: from www.zeus03.de ([194.117.254.33]:56730 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232019AbhINSV5 (ORCPT
+        id S233812AbhINUXg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Sep 2021 16:23:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37592 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233675AbhINUXf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Sep 2021 14:21:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=g3Ydjt6/rs/V/i
-        wz5INUiD7GrceHhBFduaviPdKRHfI=; b=h1abPQcmUrW6U/2vUtmxIvyA9gQLJT
-        OPnS903OAxAiTseAbSd1FODBXdfK3c8unGdaNI08PkrrZIeeAZx5Et33FcB85vY0
-        K1tHj6gFrg80Nexavhfgx3ljP1mhoBiyIADxz82WJ3L63QKzCLCkTC1KfW+Qvxqp
-        QiXoeFIQdyDzY=
-Received: (qmail 518204 invoked from network); 14 Sep 2021 20:20:35 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Sep 2021 20:20:35 +0200
-X-UD-Smtp-Session: l3s3148p1@BTJKo/jLJJEgAwDPXxMyACCkRmvQydX8
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 3/3] mmc: core: remove obsolete parameter from mmc_send_abort_tuning
-Date:   Tue, 14 Sep 2021 20:20:23 +0200
-Message-Id: <20210914182023.8103-4-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210914182023.8103-1-wsa+renesas@sang-engineering.com>
-References: <20210914182023.8103-1-wsa+renesas@sang-engineering.com>
+        Tue, 14 Sep 2021 16:23:35 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7BE1C061762
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Sep 2021 13:22:17 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id lb1-20020a17090b4a4100b001993f863df2so503710pjb.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Sep 2021 13:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=29glUktI+TgFcu0s/snTaCZqtPLPWr2Rvd/8CIHFfUI=;
+        b=cfcIKIVYpE12XwL7GHkvoewGDjTUKq7LX1i1W01aOLR2X0kcbmmtIty6rTJxAE+UtB
+         EXZxeVBBlW0eOxly76fpGdXjzLRCH4txhTigfbfrX8f/zh/8A7hgaqNAM5UUtMVWefkw
+         ptV8EFOYK9tU6rzbt9T1ncBVfQuDJ/F5eB0Hw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=29glUktI+TgFcu0s/snTaCZqtPLPWr2Rvd/8CIHFfUI=;
+        b=uozYULM+dXIxjtujhFxeZygZaDpwnxTa54fI5mJjPbVAaPaAATyf7M05WFCNwEC5NA
+         YvHCady8BYgK50SM0gIvvq871amH1ahT5u18/6ebHl0OdAxg8qSOtOfQcXQHJEvJPjPC
+         J3MbzrxxLiHWdHSWZzmrJ3x0E8SihSVJElebeOzT9rH2Vvs0Y7PLgH4vWBMucBL2XSWz
+         KCMINN7V17GFLZ+KEH2uw77nvCfTRDtfy8ADWsizYTGe90+eKK5kaA7TPyuiFqRn46oH
+         M4d+df185bi+eLgm7Wv7AQYS10gNarGvWMqLsOQgjaiMfQKpxzaUdRoAyVSVYrdU4uL7
+         t8Pg==
+X-Gm-Message-State: AOAM530Q5J9JfvWmph26YoBD2QLh0JtJD8DOqxVYiPNcf/+1KX1q+iYf
+        a9If+J8Qdztr6/PzP9+YIworFA==
+X-Google-Smtp-Source: ABdhPJy2EEe19ESWg5bxUnradbRUCA2EQ+Ty9mf2FrxoWf30CMjk9tPMo/WXlF/y4jzWF/N4QIc6ZA==
+X-Received: by 2002:a17:902:9682:b0:138:e2f9:720d with SMTP id n2-20020a170902968200b00138e2f9720dmr16562742plp.57.1631650937237;
+        Tue, 14 Sep 2021 13:22:17 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:f38f:9d0f:3eba:f8c4])
+        by smtp.gmail.com with ESMTPSA id 141sm12185393pgg.16.2021.09.14.13.22.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Sep 2021 13:22:16 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>
+Cc:     devicetree@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
+        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Linus W <linus.walleij@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maxime Ripard <mripard@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Adam Ford <aford173@gmail.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kees Cook <keescook@chromium.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Lionel Debieve <lionel.debieve@st.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        =?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michael Walle <michael@walle.cc>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Nishanth Menon <nm@ti.com>,
+        Olivier Moysan <olivier.moysan@st.com>,
+        Otavio Salvador <otavio@ossystems.com.br>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Razvan Stefanescu <razvan.stefanescu@microchip.com>,
+        Robert Richter <rric@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Will Deacon <will@kernel.org>,
+        William Cohen <wcohen@redhat.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org,
+        =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
+Subject: [PATCH v5 00/15] eDP: Support probing eDP panels dynamically instead of hardcoding
+Date:   Tue, 14 Sep 2021 13:21:47 -0700
+Message-Id: <20210914202202.1702601-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Due to refactoring, this is not needed anymore. Remove it from the core
-and from drivers.
+The goal of this patch series is to move away from hardcoding exact
+eDP panels in device tree files. As discussed in the various patches
+in this series (I'm not repeating everything here), most eDP panels
+are 99% probable and we can get that last 1% by allowing two "power
+up" delays to be specified in the device tree file and then using the
+panel ID (found in the EDID) to look up additional power sequencing
+delays for the panel.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/mmc/core/mmc_ops.c           | 2 +-
- drivers/mmc/host/renesas_sdhi_core.c | 2 +-
- drivers/mmc/host/sdhci.c             | 2 +-
- include/linux/mmc/host.h             | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+This patch series is the logical contiunation of a previous patch
+series where I proposed solving this problem by adding a
+board-specific compatible string [1]. In the discussion that followed
+it sounded like people were open to something like the solution
+proposed in this new series.
 
-diff --git a/drivers/mmc/core/mmc_ops.c b/drivers/mmc/core/mmc_ops.c
-index bc794419d443..d60750d0f1b9 100644
---- a/drivers/mmc/core/mmc_ops.c
-+++ b/drivers/mmc/core/mmc_ops.c
-@@ -703,7 +703,7 @@ int mmc_send_tuning(struct mmc_host *host, u32 opcode, int *cmd_error)
- }
- EXPORT_SYMBOL_GPL(mmc_send_tuning);
- 
--int mmc_send_abort_tuning(struct mmc_host *host, u32 opcode)
-+int mmc_send_abort_tuning(struct mmc_host *host)
- {
- 	if (host->bus_ops->send_abort_tuning)
- 		return host->bus_ops->send_abort_tuning(host);
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 6fc4cf3c9dce..8884ff392935 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -683,7 +683,7 @@ static int renesas_sdhi_execute_tuning(struct mmc_host *mmc, u32 opcode)
- 			set_bit(i, priv->smpcmp);
- 
- 		if (cmd_error)
--			mmc_send_abort_tuning(mmc, opcode);
-+			mmc_send_abort_tuning(mmc);
- 	}
- 
- 	ret = renesas_sdhi_select_tuning(host);
-diff --git a/drivers/mmc/host/sdhci.c b/drivers/mmc/host/sdhci.c
-index 8eefa7d5fe85..8efc029ee21b 100644
---- a/drivers/mmc/host/sdhci.c
-+++ b/drivers/mmc/host/sdhci.c
-@@ -2685,7 +2685,7 @@ void sdhci_abort_tuning(struct sdhci_host *host, u32 opcode)
- 
- 	sdhci_end_tuning(host);
- 
--	mmc_send_abort_tuning(host->mmc, opcode);
-+	mmc_send_abort_tuning(host->mmc);
- }
- EXPORT_SYMBOL_GPL(sdhci_abort_tuning);
- 
-diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
-index 0c0c9a0fdf57..890dc5c5ffce 100644
---- a/include/linux/mmc/host.h
-+++ b/include/linux/mmc/host.h
-@@ -633,6 +633,6 @@ static inline enum dma_data_direction mmc_get_dma_dir(struct mmc_data *data)
- }
- 
- int mmc_send_tuning(struct mmc_host *host, u32 opcode, int *cmd_error);
--int mmc_send_abort_tuning(struct mmc_host *host, u32 opcode);
-+int mmc_send_abort_tuning(struct mmc_host *host);
- 
- #endif /* LINUX_MMC_HOST_H */
+In version 2 I got rid of the idea that we could have a "fallback"
+compatible string that we'd use if we didn't recognize the ID in the
+EDID. This simplifies the bindings a lot and the implementation
+somewhat. As a result of not having a "fallback", though, I'm not
+confident in transitioning any existing boards over to this since
+we'll have to fallback to very conservative timings if we don't
+recognize the ID from the EDID and I can't guarantee that I've seen
+every panel that might have shipped on an existing product. The plan
+is to use "edp-panel" only on new boards or new revisions of old
+boards where we can guarantee that every EDID that ships out of the
+factory has an ID in the table.
+
+Version 3 of this series now splits out all eDP panels to their own
+driver and adds the generic eDP panel support to this new driver. I
+believe this is what Sam was looking for [2].
+
+Version 4 of this series is mostly small fixes / renames from review
+feedback. It's largely the same as v3. Other than naming /
+description / comment changes, the differences are:
+- Dropped the MIPS config patch as per request.
+- Reorder config patches first.
+- Added a new patch to use the panel ID scheme for quirks.
+- Landed the reorder of logicpd_type_28 / mitsubishi_aa070mc01
+
+Version 5 of this series just fixes the panel ID encode macro to be
+cleaner and adds Jani's review tags.
+
+It could possibly be ready to land?
+
+[1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
+[2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
+
+Changes in v5:
+- Prettier encode panel ID function (thanks Andrzej!)
+- Probable => Probeable
+
+Changes in v4:
+- "u8 *edid" => "void *edid" to avoid cast.
+- ("Use new encoded panel id style for quirks matching") new for v4.
+- Don't put kmalloc() in the "if" test even if the old code did.
+- Don't refer to "panel-simple" in commit message.
+- PANEL_SIMPLE_EDP => PANEL_EDP
+- Remove "non-eDP" in panel-simple description.
+- Reordered config patches to be before code patch
+- decode_edid_id() => drm_edid_decode_panel_id()
+- drm_do_get_edid_blk0() => drm_do_get_edid_base_block()
+- drm_get_panel_id() => drm_edid_get_panel_id()
+- encode_edid_id() => drm_edid_encode_panel_id()
+- panel-simple-edp => panel-edp
+- split panel id extraction out to its own function.
+
+Changes in v3:
+- ("Better describe eDP panel delays") new for v3.
+- ("Don't re-read the EDID every time") moved to eDP only patch.
+- ("Non-eDP panels don't need "HPD" handling") new for v3.
+- Add AUO B116XAN06.1 to table.
+- Add Sharp LQ116M1JW10 to table.
+- Adjust endianness of product ID.
+- Change init order to we power at the end.
+- Decode hex product ID w/ same endianness as everyone else.
+- Fallback to conservative delays if panel not recognized.
+- Fix "prepare_to_enable" patch new for v3.
+- Generic "edp-panel" handled by the eDP panel driver now.
+- Move wayward panels patch new for v3.
+- Rename delays more generically so they can be reused.
+- Split eDP panels patch new for v3.
+- Split the delay structure out patch just on eDP now.
+
+Changes in v2:
+- Add "-ms" suffix to delays.
+- Don't support a "fallback" panel. Probed panels must be probed.
+- No longer allow fallback to panel-simple.
+- Not based on patch to copy "desc"--just allocate for probed panels.
+
+Douglas Anderson (15):
+  dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
+  drm/edid: Break out reading block 0 of the EDID
+  drm/edid: Allow querying/working with the panel ID from the EDID
+  drm/edid: Use new encoded panel id style for quirks matching
+  ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+  arm64: defconfig: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+  drm/panel-edp: Split eDP panels out of panel-simple
+  drm/panel-edp: Move some wayward panels to the eDP driver
+  drm/panel-simple: Non-eDP panels don't need "HPD" handling
+  drm/panel-edp: Split the delay structure out
+  drm/panel-edp: Better describe eDP panel delays
+  drm/panel-edp: hpd_reliable shouldn't be subtraced from hpd_absent
+  drm/panel-edp: Fix "prepare_to_enable" if panel doesn't handle HPD
+  drm/panel-edp: Don't re-read the EDID every time we power off the
+    panel
+  drm/panel-edp: Implement generic "edp-panel"s probed by EDID
+
+ .../bindings/display/panel/panel-edp.yaml     |  188 ++
+ arch/arm/configs/at91_dt_defconfig            |    1 +
+ arch/arm/configs/exynos_defconfig             |    1 +
+ arch/arm/configs/imx_v6_v7_defconfig          |    1 +
+ arch/arm/configs/lpc32xx_defconfig            |    1 +
+ arch/arm/configs/multi_v5_defconfig           |    1 +
+ arch/arm/configs/multi_v7_defconfig           |    1 +
+ arch/arm/configs/omap2plus_defconfig          |    1 +
+ arch/arm/configs/qcom_defconfig               |    1 +
+ arch/arm/configs/realview_defconfig           |    1 +
+ arch/arm/configs/sama5_defconfig              |    1 +
+ arch/arm/configs/shmobile_defconfig           |    1 +
+ arch/arm/configs/sunxi_defconfig              |    1 +
+ arch/arm/configs/tegra_defconfig              |    1 +
+ arch/arm/configs/versatile_defconfig          |    1 +
+ arch/arm/configs/vexpress_defconfig           |    1 +
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/gpu/drm/drm_edid.c                    |  280 ++-
+ drivers/gpu/drm/panel/Kconfig                 |   16 +-
+ drivers/gpu/drm/panel/Makefile                |    1 +
+ drivers/gpu/drm/panel/panel-edp.c             | 1895 +++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          | 1072 +---------
+ include/drm/drm_edid.h                        |   45 +
+ 23 files changed, 2351 insertions(+), 1162 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-edp.c
+
 -- 
-2.30.2
+2.33.0.309.g3052b89438-goog
 
