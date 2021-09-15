@@ -2,108 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82EF040C2D9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Sep 2021 11:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 629DA40C43D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Sep 2021 13:17:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237188AbhIOJiB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Sep 2021 05:38:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229785AbhIOJiB (ORCPT
+        id S237479AbhIOLSk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Sep 2021 07:18:40 -0400
+Received: from www.zeus03.de ([194.117.254.33]:33352 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237151AbhIOLSj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Sep 2021 05:38:01 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 597ECC061574;
-        Wed, 15 Sep 2021 02:36:42 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id s3so3987266ljp.11;
-        Wed, 15 Sep 2021 02:36:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RrwQh8igtNPDRK56BUFQSiyz5qFv9luSmitb0KLPd7M=;
-        b=kC5e8IwyJkfK38bXodHqMJ16R7BvjeC96xLekpC5WDxgZkBqC0s6wNWHkXTeMWRTT/
-         jG8uMsDaDzHOGYdFBZwKmIO+wJzaiWHlT9+eYjsohBxzOPDZwa6gXJp+Xj2Egnv5bGqV
-         7cWB66GjpCf5sy99WRzm+yfTieJE+H4ULKzGV044wrclZzxMDrp3WOkSCZcvWyRUp2/E
-         2bgJMj8MXT5JoYR+v7K2y1dO+fKgca+tuzHd9Ek2X4xVRjI0IojQ4ASC51bSMusMiBlq
-         f3POS/Xq2WkrrtTElhOTNTkexBkxP1vQuo4nVLhWFe4nSe5JFxjFAM8ocIqAmwL+g6ye
-         SOoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=RrwQh8igtNPDRK56BUFQSiyz5qFv9luSmitb0KLPd7M=;
-        b=bJQ+FFlq1LalVsZq7zDsmdm1TMazteNIFIw+hNVYHnIDbpOGmjKq0m1u3ZMjPAlnqA
-         ghLk+m036OVFRKQc9dxrKmYy8Mu7yxzE2nuMxHkP0Cpg2kC6emYW4Gbv5B6KTnvOFv/W
-         jKEQ2Ur3sP+Q2bRDmZEAn0c0XaxOX26pgRARYqcmU8D99suMQkPRK+rmsDMH6zOdMqHf
-         4RQLQ+xODXc4IWiGX2tbAMSv2Ndm5jjvUeDDH40rZR4YiO7VXNHFIf+UrsKC4qycCY5h
-         5KYhcNzJ2kmvO2zgQL/xq7tnPK3cqw1/tGIionQgbXrO3Is4Lhsqlg+VtPQvC0eJiByR
-         aZYQ==
-X-Gm-Message-State: AOAM5330ljypCZSfYC4vIPWkLvOm+ZCugIsZo0Ur1dpFiAFDHvG0c4Ya
-        hPSiQDCn4K+1rLwxl4mll9ep8w5pZgc=
-X-Google-Smtp-Source: ABdhPJy5JO3VVGxXneJGpfTPKL0ubyHqwXxcurO51Y5Vv3nLiNh/VptpEFcALif/aTMtKIuSOpz8yA==
-X-Received: by 2002:a2e:350e:: with SMTP id z14mr19649016ljz.183.1631698600593;
-        Wed, 15 Sep 2021 02:36:40 -0700 (PDT)
-Received: from [192.168.1.100] ([31.173.80.30])
-        by smtp.gmail.com with ESMTPSA id e15sm1613895ljn.25.2021.09.15.02.36.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Sep 2021 02:36:40 -0700 (PDT)
-Subject: Re: [PATCH 1/2] pwm: renesas-tpu: better errno for impossible rates
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-pwm@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Duc Nguyen <duc.nguyen.ub@renesas.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org
-References: <20210915065542.1897-1-wsa+renesas@sang-engineering.com>
- <20210915065542.1897-2-wsa+renesas@sang-engineering.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <be4b0937-4f75-8d9f-90fb-95414c9d5a56@gmail.com>
-Date:   Wed, 15 Sep 2021 12:36:30 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Wed, 15 Sep 2021 07:18:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=RzKBneV7IpljVAq6+09myD5Yn4Mj
+        klWZg8DPzGqwAsM=; b=H3Z6p9CS86fs6c5T/MEfPoZMbA4YIFlBfPl8IV8yLaxV
+        x6CDeYsh7YYjv8rVqiqIK/OyHxVsEmoK5KMlNHCs1cjXbNIqAl8yM3GEwmZNg6p2
+        6XxzNYCpS24gzaBOklqGNwlhO43NhC6FG8uV8qfiwr0R1IKmc/qMHoch23BL67s=
+Received: (qmail 785115 invoked from network); 15 Sep 2021 13:17:15 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Sep 2021 13:17:15 +0200
+X-UD-Smtp-Session: l3s3148p1@PTgt1wbMpo4gAwDPXwzFAFG7/ghv85hq
+Date:   Wed, 15 Sep 2021 13:17:15 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Christian =?utf-8?B?TMO2aGxl?= <CLoehle@hyperstone.com>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "doug.anderson@chromium.org" <doug.anderson@chromium.org>
+Subject: Re: [PATCH 0/3] mmc: also abort tuning with CMD12 for SD
+Message-ID: <YUHWOwWQ/Q1I+u+O@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Christian =?utf-8?B?TMO2aGxl?= <CLoehle@hyperstone.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "doug.anderson@chromium.org" <doug.anderson@chromium.org>
+References: <20210914182023.8103-1-wsa+renesas@sang-engineering.com>
+ <bfe5e22fa30344f480b176f5e96afa66@hyperstone.com>
 MIME-Version: 1.0
-In-Reply-To: <20210915065542.1897-2-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="T6csxEbxl4efIuPU"
+Content-Disposition: inline
+In-Reply-To: <bfe5e22fa30344f480b176f5e96afa66@hyperstone.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15.09.2021 9:55, Wolfram Sang wrote:
 
-> From: Duc Nguyen <duc.nguyen.ub@renesas.com>
-> 
-> ENOTSUP has confused users. EINVAL has been considered clearer. Change
-> the errno, we were the only ones using ENOTSUP in this subsystem anyhow.
+--T6csxEbxl4efIuPU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    It's ENOTSUPP in the code. :-)
+On Wed, Sep 15, 2021 at 08:50:21AM +0000, Christian L=C3=B6hle wrote:
+> I did not test the patch but want to make you aware of the comment in dw_=
+mmc:
+> /*
+> * During UHS tuning sequence, sending the stop
+> * command after the response CRC error would
+> * throw the system into a confused state
+> * causing all future tuning phases to report
+> * failure.
+> *
+> * In such case controller will move into a data
+> * transfer state after a response error or
+> * response CRC error. Let's let that finish
+> * before trying to send a stop, so we'll go to
+> * STATE_SENDING_DATA.
+> *
+> * Although letting the data transfer take place
+> * will waste a bit of time (we already know
+> * the command was bad), it can't cause any
+> * errors since it's possible it would have
+> * taken place anyway if this tasklet got
+> * delayed. Allowing the transfer to take place
+> * avoids races and keeps things simple.
+> */
+> The message in 46d179525a1f6d16957dcb4624517bc04142b3e7
+> does not mention which card was causing problem, unfortunately.
 
-> 
-> Signed-off-by: Duc Nguyen <duc.nguyen.ub@renesas.com>
-> [wsa: split and reworded commit message]
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->   drivers/pwm/pwm-renesas-tpu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pwm/pwm-renesas-tpu.c b/drivers/pwm/pwm-renesas-tpu.c
-> index 4381df90a527..754440194650 100644
-> --- a/drivers/pwm/pwm-renesas-tpu.c
-> +++ b/drivers/pwm/pwm-renesas-tpu.c
-> @@ -269,7 +269,7 @@ static int tpu_pwm_config(struct pwm_chip *chip, struct pwm_device *_pwm,
->   
->   	if (prescaler == ARRAY_SIZE(prescalers) || period == 0) {
->   		dev_err(&tpu->pdev->dev, "clock rate mismatch\n");
-> -		return -ENOTSUPP;
-> +		return -EINVAL;
->   	}
->   
->   	if (duty_ns) {
+Thank you for the pointer! This is interesting, in deed.
 
-MBR, Sergei
+As I understand, it is a limitation of the controller which always goes
+into data transfer state even after CRC errors. However, because the
+controller driver is not using mmc_send_abort_data(), it will not be
+affected by my patch series. My patch series only extends the optional
+MMC core helper to be used for SD cards, too, in addition to eMMC.
+
+If I missed something else, please let me know.
+
+
+--T6csxEbxl4efIuPU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFB1jcACgkQFA3kzBSg
+KbakCA/8CQuszu8PRcH5fjzhrWItGMM8zOsJKa83w0JfODnIvODXglIeobC5dZvu
+KS2UNE4fNAEiyVlgvQ+2C08cWfrgOiFfmBEPjaXJrK+OPJlwx0XCCVVnLte8QGFR
+jhLOOJvKzE0nBXU/UlEfgWqORpzszw2PFvPnjIqPHhqWB/6Y7ImuND55c1pmE5cF
+dyXTcDadp6TTQHN/NCB7/EcqCbA3Xoi+J1dGF+mShETXqo/ohndKBtPpnovFV19U
+yvO/iI7P1ShreZ/ZuZ1EW8IBo83fYHbNlkTRJvmskQF2/hQLESsfYjrjT/EZ4ju2
+zoksFY8LYd0O903UDNSBRznTgrrTuwkF5SiPVzFM7PIxbtDQHA6VIsUnNLuK+uz4
+EyZk03VfudSFR5P4I+tRowPwKjMARUybq+//pISUap0iDn5ypL4AKTgye/HfDlYy
+KeYDIwsJpCT94ryLS7ub3vE950KW4ZEz8bUrobDArXIsdDvnri8BEE9CzKSI2Wj6
+UyTzVIUVtbAHjIPHF8UJN9RT/HXWH1PW6IbRmmrMGHpNWBxefZbPvgdzKh91qARN
+iOtkfKf5H5k6ZAWebQx6sQKwl1fy0V9z/cU7yO7Cj93hx0l4hjUiB78KSc94czai
+kpND46fXq1lOZQeKMSqHkNmykgcG5CFiN1uN5zUq5c/H9H7ZtFI=
+=rAry
+-----END PGP SIGNATURE-----
+
+--T6csxEbxl4efIuPU--
