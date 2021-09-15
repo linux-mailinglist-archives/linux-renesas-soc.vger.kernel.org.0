@@ -2,133 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9688940BD5C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Sep 2021 03:50:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD05040BE38
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Sep 2021 05:29:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234031AbhIOBwA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Sep 2021 21:52:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56312 "EHLO
+        id S232804AbhIODac (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Sep 2021 23:30:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233895AbhIOBwA (ORCPT
+        with ESMTP id S230015AbhIODac (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Sep 2021 21:52:00 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E278DC061762
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Sep 2021 18:50:41 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id g19-20020a1c9d13000000b003075062d4daso900742wme.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Sep 2021 18:50:41 -0700 (PDT)
+        Tue, 14 Sep 2021 23:30:32 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C87EBC061574;
+        Tue, 14 Sep 2021 20:29:13 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id p29so3012227lfa.11;
+        Tue, 14 Sep 2021 20:29:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zM8FsXiM9O4eBZdkXaqFVNn1tTornIe046XH9M/vUAo=;
-        b=ITTklQFgG3s6JDx1la106SAbbJymHKIxsXGMVxvhhjWdDYHTqhnC+9/zigBbwHNwsC
-         j7ksWU2Ygjjtcgu2SZokKjzBzjIXIuXUyZ5cul0byJs4VQ5JO/6x524dmwzYshLXeMq1
-         1eYOL1kL9NJTUyoZuTKkj2vP60nk1WotYueH8uCxMtc42YNRf9c75QoVl3Z4NjKasqcQ
-         AkLlpjRi6E4kXsIl8alY0Dx3Lc8S9hsBIAP/RYeoY+QxktgieHW0ulgpj5jDDqG9nura
-         xr0QPnaeJH58Q0hRzvL0bZeRxZr4YFFeZMXCHwZ3bwYwWzTDCXw3vuLtJFx7xLD+PRkB
-         0m9Q==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xjPe0L3/nKX+cxkcdx6J3H8tI9DskxplI0rZEOeSfEI=;
+        b=cItu3tzlIDDd7Y1hg8IJ917JedA08BLloCM/HgDzINxwBv20gae3/2mnvIen/26P63
+         cGIFNnmZp7wbtI8qMriLggtFBUk2+Zvk77SM29S6z/AGp56JT2vMTaUDQ9uBaoUFHkfx
+         F4gUfx3urNci+GoBWnAh6/iVx13KAt7XYF26lRCkn3yZIWrQeHps+Sw0gHckX9Bi1fhs
+         Z7rFQXcr8CF6cMt815lk9ti8IZ5zQlWie6bvy8a2lcVrpQWvqkozqg6INqoNU5PgKYpY
+         dvewlFLqvkOBlKDccqTsQ/0+lES85p0o0G6gQZTUwV5NnxkOhGEBfNCbgiaAVk5Gic0f
+         UDFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zM8FsXiM9O4eBZdkXaqFVNn1tTornIe046XH9M/vUAo=;
-        b=NfjZbjSlHEsdArNpfdORAO9s7P2vOubs4XRX9VDlFV+zMygjGIFs+DLA3ijLIJDGPD
-         2Eszt4BIhBgFGujZMP4YGgmQWFZoOwcbnv1r9iN1KJ+joEY9CweNCNy39Cy9CW/0E5hB
-         RYNiWprIS73OGqkNCu7Dkiv8BP7NAg8V91ici4eUBxyCeuXxx1Vv7LeYXp6/bJOBjpaw
-         NUTr2O9g43P8eJvt4/K33zGtivqTDJOb6rkw65zNkftOy6lpAhbhUG1JjD/V+zl4KEH/
-         tMsr6F3NuBVpc8uMEXvGT8dTxiCA7brs2+nmHS1cxhjpNuI07Ocag/wfMP9CHnLnnkD9
-         bEFQ==
-X-Gm-Message-State: AOAM5300wcDp1VdqALNZx6cZ7L7Kj8mL9+7lDYvBT9oHLMBMs93270Yw
-        yXP05mrfUSP+QfTfUkUHLSwuwA==
-X-Google-Smtp-Source: ABdhPJwbRo5NrwKJhg2n6ORF2bczxZ4tl+VhEo+No1jKxRFo79yONd7Liw3MJQ42pjX/XDzUkco6OQ==
-X-Received: by 2002:a7b:c30b:: with SMTP id k11mr1747912wmj.49.1631670640385;
-        Tue, 14 Sep 2021 18:50:40 -0700 (PDT)
-Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.googlemail.com with ESMTPSA id k17sm3486863wmj.0.2021.09.14.18.50.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Sep 2021 18:50:40 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH v2 2/2] media: rcar-csi2: Serialize access to set_fmt and get_fmt
-Date:   Wed, 15 Sep 2021 03:50:13 +0200
-Message-Id: <20210915015013.3169934-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210915015013.3169934-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20210915015013.3169934-1-niklas.soderlund+renesas@ragnatech.se>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xjPe0L3/nKX+cxkcdx6J3H8tI9DskxplI0rZEOeSfEI=;
+        b=uCuxaBhY5FCNXg1QRpl3WDoHNFdGMLNajXfvvUV63VJUvUbZZUoHwMRrYXxfGA1JHy
+         f/ICQTpKli8QotWi8u4Mjgb8fUSbhhbhh4MSqsWfTfywGKLq7GGOA5Az07p3atFgw5Bt
+         ImpAWjm/KRV6MbbEb/EafjRx10OhycdHJYJIOCog4hzlLsPHSF0HgyhWjrqX68hctAyO
+         F2wioUVcTeCBmVL4ID0ZV1+McWbawIjy7XKnUUqNMTvktd/L00K4HPS7SxGIppUXc6Bk
+         NTk626M5OyVEhO+56ujmxvWHoOner86dRymjvWdaeMIOw//2T56vr4IoTrpn2FtsbqPz
+         2fQg==
+X-Gm-Message-State: AOAM530qsqcuJFEzjR/4TYS4GYXN3ptWx1EysAALG5WmEXDu9qRkG1jy
+        Tz1r06otRhJjQDkeA+wVRBTss9OSawanyg7ufcS5pwpq
+X-Google-Smtp-Source: ABdhPJyXnY5xw1lixcYCeqp6mFmyw+KSA3GBfEYzlY7tBbUhvQE+FUVohBSaD8cqbi6xH8IjWGRq/6rRlVXN1Gc1sWs=
+X-Received: by 2002:a19:c512:: with SMTP id w18mr14982680lfe.182.1631676552185;
+ Tue, 14 Sep 2021 20:29:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200624195811.435857-1-maz@kernel.org> <20200624195811.435857-8-maz@kernel.org>
+ <CAMuHMdV+Ev47K5NO8XHsanSq5YRMCHn2gWAQyV-q2LpJVy9HiQ@mail.gmail.com>
+ <875yv8d91b.wl-maz@kernel.org> <CAMuHMdV+ydPaXbGf1_O0S-juaPWk1gwBUOK+GeLZukZeoqtMGQ@mail.gmail.com>
+ <CANqRtoTqV8sOpL=hdxeZ03tqr+5oeMcfwz+9ERqXv+hze_6Fsw@mail.gmail.com>
+ <874kaqdi2z.wl-maz@kernel.org> <CANqRtoTa8g2sw_DoD8+34HR0mcHc_tOWt+4R9KzDT2Eu3d7TTg@mail.gmail.com>
+ <CAMuHMdX3Vf8Mxuz3=Aoi1hwMS7BtyYCH178QvVS-GAHDpeMvxg@mail.gmail.com>
+In-Reply-To: <CAMuHMdX3Vf8Mxuz3=Aoi1hwMS7BtyYCH178QvVS-GAHDpeMvxg@mail.gmail.com>
+From:   Magnus Damm <magnus.damm@gmail.com>
+Date:   Wed, 15 Sep 2021 12:28:59 +0900
+Message-ID: <CANqRtoQb1p1X+dOaQjh1atokDAR-oS4NB6m-UrHpO031SZ0hew@mail.gmail.com>
+Subject: Re: [PATCH v2 07/17] irqchip/gic: Atomically update affinity
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Russell King <linux@arm.linux.org.uk>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Valentin Schneider <Valentin.Schneider@arm.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Android Kernel Team <kernel-team@android.com>,
+        stable <stable@vger.kernel.org>,
+        Magnus Damm <damm+renesas@opensource.se>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The access to the internal storage of the format rcar_csi2.mf should be
-serialized, extend the exciting lock mutex to also cover this.
+Hi Geert, everyone,
 
-While at it document the mutex.
+On Mon, Sep 13, 2021 at 5:05 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Magnus,
+>
+> On Sun, Sep 12, 2021 at 7:40 AM Magnus Damm <magnus.damm@gmail.com> wrote:
+> > On Sun, Sep 12, 2021 at 4:32 AM Marc Zyngier <maz@kernel.org> wrote:
+> > > On Sat, 11 Sep 2021 03:49:20 +0100,
+> > > Magnus Damm <magnus.damm@gmail.com> wrote:
+> > > > On Fri, Sep 10, 2021 at 10:19 PM Geert Uytterhoeven
+> > > > <geert@linux-m68k.org> wrote:
+> > > > > On Fri, Sep 10, 2021 at 12:23 PM Marc Zyngier <maz@kernel.org> wrote:
+> > > > > > On Thu, 09 Sep 2021 16:22:01 +0100,
+> > > > > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > >     GIC: enabling workaround for broken byte access
+> > > >
+> > > > Indeed, byte access is unsupported according to the EMEV2 documentation.
+> > > >
+> > > > The EMEV2 documentation R19UH0036EJ0600 Chapter 7 Interrupt Control on
+> > > > page 97 says:
+> > > > "Interrupt registers can be accessed via the APB bus, in 32-bit units"
+> > > > "For details about register functions, see ARM Generic Interrupt
+> > > > Controller Architecture Specification Architecture version 1.0"
+> > > > The file  "R19UH0036EJ0600_1Chip.pdf" is the 6th edition version
+> > > > published in 2010 and is not marked as confidential.
+> > >
+> > > This is as bad as it gets. Do you know if any other Renesas platform
+> > > is affected by the same issue?
+> >
+> > Next time we have a beer together I would be happy to show you some
+> > legacy interrupt controller code. =)
+> >
+> > EMEV2 and the Emma Mobile product line came from the NEC Electronics
+> > side that got merged into Renesas Electronics in 2010. Historically
+> > NEC Electronics mainly used MIPS I've been told, and the Emma Mobile
+> > SoCs were one of the earlier Cortex-A9 adopters. That might have
+> > something to do with the rather loose interpretation of the spec.
+>
+> Indeed.  I used to work on products using EMMA1 and EMMA2, and they
+> were MIPS-based (vr4120A for EMMA2, IIRC).  Later variants (EMMA2H
+> and EMMA3?) did include a small ARM core for standby control.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Thanks for sharing some more background!
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index a02573dbd5da4f62..2fdfdc38de424c72 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -370,9 +370,8 @@ struct rcar_csi2 {
- 	struct v4l2_subdev *remote;
- 	unsigned int remote_pad;
- 
-+	struct mutex lock; /* Protects mf and stream_count. */
- 	struct v4l2_mbus_framefmt mf;
--
--	struct mutex lock;
- 	int stream_count;
- 
- 	unsigned short lanes;
-@@ -725,6 +724,8 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
- 	struct rcar_csi2 *priv = sd_to_csi2(sd);
- 	struct v4l2_mbus_framefmt *framefmt;
- 
-+	mutex_lock(&priv->lock);
-+
- 	if (!rcsi2_code_to_fmt(format->format.code))
- 		format->format.code = rcar_csi2_formats[0].code;
- 
-@@ -735,6 +736,8 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
- 		*framefmt = format->format;
- 	}
- 
-+	mutex_unlock(&priv->lock);
-+
- 	return 0;
- }
- 
-@@ -744,11 +747,15 @@ static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
- {
- 	struct rcar_csi2 *priv = sd_to_csi2(sd);
- 
-+	mutex_lock(&priv->lock);
-+
- 	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
- 		format->format = priv->mf;
- 	else
- 		format->format = *v4l2_subdev_get_try_format(sd, sd_state, 0);
- 
-+	mutex_unlock(&priv->lock);
-+
- 	return 0;
- }
- 
--- 
-2.33.0
+> > Renesas SoCs from a similar era:
+> > AP4 (sh7372) AP4EVB (Cortex-A8 + INTCA/INTCS)
+>
+> This is no longer supported upstream (and not affected, as no GIC).
 
+Right. I might mix it up with the AP4.5 chip that I used for SMP
+prototyping back then. It had 4 x CA9 and obviously a GIC.
+
+> > R-Mobile A1 (r8a7740) Armadillo-800-EVA (Cortex-A9 + INTCA/INTCS)
+>
+> R-Mobile A1 has GIC (PL390), too, and is not affected.
+>
+> > R-Car M1A (r8a7778) Bock-W (Cortex-A9 + GIC)
+> > R-Car H1 (r8a7779) Marzen (4 x Cortex-A9 + GIC)
+> > Emma Mobile EMEV2 KZM9D (2 x Cortex-A9 + GIC)
+> > SH-Mobile AG5 (sh73a0) KZM9G (2 x Cortex-A9 + GIC)
+>
+> All of these (except for EMEV2) are fine, too.
+
+Thanks for checking!
+
+Cheers,
+
+/ magnus
