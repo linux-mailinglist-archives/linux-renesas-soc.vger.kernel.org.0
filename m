@@ -2,122 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44AA340E9E8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Sep 2021 20:30:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E52FF40EBFC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Sep 2021 23:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345464AbhIPScD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Sep 2021 14:32:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46016 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242554AbhIPSbh (ORCPT
+        id S232573AbhIPVRV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Sep 2021 17:17:21 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:60809 "EHLO
+        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230243AbhIPVRV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Sep 2021 14:31:37 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C003CC0A2369
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Sep 2021 09:47:53 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mQuY8-0007kn-MO; Thu, 16 Sep 2021 18:47:48 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mQuY6-0004hO-Ic; Thu, 16 Sep 2021 18:47:46 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mQuY6-0001PV-HJ; Thu, 16 Sep 2021 18:47:46 +0200
-Date:   Thu, 16 Sep 2021 18:47:46 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Duc Nguyen <duc.nguyen.ub@renesas.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] pwm: renesas-tpu: don't allow no duty if duty_ns is
- given
-Message-ID: <20210916164746.rujqwpnrm4i6lf7z@pengutronix.de>
-References: <20210915065542.1897-1-wsa+renesas@sang-engineering.com>
- <20210915065542.1897-3-wsa+renesas@sang-engineering.com>
+        Thu, 16 Sep 2021 17:17:21 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.west.internal (Postfix) with ESMTP id 1BAF52B011D0;
+        Thu, 16 Sep 2021 17:15:59 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Thu, 16 Sep 2021 17:15:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
+        :to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm3; bh=v45RiqZN/i6oiIGNrZzNEXsh+f
+        6NSgjMOWlZQrk26uM=; b=dxfey06DfqMg90n/+BtczlPU39glJAkDJIV7LMm06M
+        m8BCYqXT72dMAQ+Khc41PNOMmUgC0ajzA/6ezi2HNPUd983XJTTW5dBR1vH2wuco
+        nYvIr3r6/09L09j7eElkKgfHT19wwhi8QplgSS3j3UXmSptXTb6eIZ3p3NBTiVTT
+        T5aql7+bz8wgJesu4F+COmS1DjH8KVQyERJqkQZOEKU+VYjCnicJ+kWceSFg53MP
+        qhpBxwVVzaJB6T0SrPJTOptA/IdINjwyI7FdboH4CmoUTkRpoYNdreHHyFFi7inP
+        zbxP0vZ3BGcRW95PcjCIls4bJJQpzJee2YajrXRCiNTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=v45RiqZN/i6oiIGNr
+        ZzNEXsh+f6NSgjMOWlZQrk26uM=; b=IYPiGcVe1V5ahNOjZHFtPOqQZDa1XkRIy
+        RzHMh6lWCr6RTHexSYUBUja/QS1VoEPBXA6TXH6AOtI2iD8xEhWAvlQ16TwQkls4
+        4RagJ2Natj7UX1ccLlPx/vsOxc8j554vF1s27SfFBcOSnNZEcG3kkSEjn2AtxogS
+        7O185Eo6QVy3ChKtaRQpx91otiONpnpZ6M1DIUmnZOh5YhDsNnlRkzzk4XBi7m2k
+        z0d/Rqe2I9wySThumhWl36kOBAyw/AdtmomTSB45E0qI8m9PP2co4em/gpHjU8XR
+        Nl+rNLlbLQrjuPsO0AivDyHFfQX9NHJfJPBZOFjlAbGYjvlvZtwSA==
+X-ME-Sender: <xms:DrRDYS2YBBhC0muLD5cxiMUOIJrQxDCqFtrn1lTj7RiYEB1B49WyCw>
+    <xme:DrRDYVFVH_IvVBSD9kC8ums35IM1hr2LEztXYPfUJlZK4J45fh7LZ4Zzhdu3_rs3d
+    rDhakEox1dteuaOJw>
+X-ME-Received: <xmr:DrRDYa5xChptJGJBVStNset8NVN8nR-xwwVJ9psf1GbDfe6gnJ5MXS7dKpYCnB4CF_8M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgudehvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohes
+    uhelvddrvghuqeenucggtffrrghtthgvrhhnpeeiueevtdegtdffgeeggfeuteejkeekvd
+    dvkeeiueekgfefgfeuueffgeelvdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
+X-ME-Proxy: <xmx:DrRDYT0n4G0IUQlTXvjeSyD0-Lrv2Pwm9g3_-WefWJQCreB9NnDi9Q>
+    <xmx:DrRDYVFHMXp3SYuyB_NQi3348HnS15JlQSB9tHw3ICJ-gCcChO6YJg>
+    <xmx:DrRDYc-_oMpbbkvdnJyBWXH6WZurqNHcGB81qLgmDUpTqv7G5Q2LBQ>
+    <xmx:DrRDYUCR8Wr9Fu8JLjjRoaFZbJEAF63ayA3Z3UvSTMWGs3MfkZd7BRDzrIA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Sep 2021 17:15:55 -0400 (EDT)
+From:   Fernando Ramos <greenfoo@u92.eu>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-kernel@vger.kernel.org, sean@poorly.run,
+        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH 00/15] drm: cleanup: Use DRM_MODESET_LOCK_ALL_* helpers where possible
+Date:   Thu, 16 Sep 2021 23:15:37 +0200
+Message-Id: <20210916211552.33490-1-greenfoo@u92.eu>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="rc23usyhskkfrhzk"
-Content-Disposition: inline
-In-Reply-To: <20210915065542.1897-3-wsa+renesas@sang-engineering.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi all,
 
---rc23usyhskkfrhzk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+"use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
+patch series is about.
 
-On Wed, Sep 15, 2021 at 08:55:41AM +0200, Wolfram Sang wrote:
-> From: Duc Nguyen <duc.nguyen.ub@renesas.com>
->=20
-> We have special code if duty_ns is 0. But if non-zero is given, then the
-> calculation should not result in zero duty.
+You will find two types of changes here:
 
-Why not? Assuming a PWM that supports multiples of say 100 ns for
-duty_cycle, rounding a request for 550 ns down to 500 ns isn't worse
-than rounding down a request for 50 ns to 0 ns is it?
-=20
-> Signed-off-by: Duc Nguyen <duc.nguyen.ub@renesas.com>
-> [wsa: split and reworded commit message]
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  drivers/pwm/pwm-renesas-tpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/pwm/pwm-renesas-tpu.c b/drivers/pwm/pwm-renesas-tpu.c
-> index 754440194650..bb51156e4bda 100644
-> --- a/drivers/pwm/pwm-renesas-tpu.c
-> +++ b/drivers/pwm/pwm-renesas-tpu.c
-> @@ -275,7 +275,7 @@ static int tpu_pwm_config(struct pwm_chip *chip, stru=
-ct pwm_device *_pwm,
->  	if (duty_ns) {
->  		duty =3D clk_rate / prescalers[prescaler]
->  		     / (NSEC_PER_SEC / duty_ns);
+  - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
+    "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
+    already been done in previous commits such as b7ea04d2)
 
-Unrelated to the change under discussion here: Dividing by the result of
-a division is bad.=20
+  - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
+    in the remaining places (as it has already been done in previous commits
+    such as 57037094)
+    
+Most of the changes are straight forward, except for a few cases in the "amd"
+and "i915" drivers where some extra dancing was needed to overcome the
+limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
+once inside the same function (the reason being that the macro expansion
+includes *labels*, and you can not have two labels named the same inside one
+function)
 
-Consider:
-	clk_rate =3D 1333333333
-	prescalers[prescaler] =3D 43
-	duty_ns =3D 500000001
+Notice that, even after this patch series, some places remain where
+"drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
+all inside drm core (which makes sense), except for two (in "amd" and "i915")
+which cannot be replaced due to the way they are being used.
 
-The exact result is 15503875.996124031, with the above formula you get
-31007751 which is off by nearly a factor of two.
+Fernando Ramos (15):
+  dmr: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  dmr/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  dmr/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
 
-These numbers are probably not relevant, but they show the problem.
+ Documentation/gpu/todo.rst                    | 17 -------
+ Documentation/locking/ww-mutex-design.rst     |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 13 +++--
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 50 +++++++++----------
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 23 +++++----
+ drivers/gpu/drm/drm_client_modeset.c          | 14 +++---
+ drivers/gpu/drm/drm_crtc_helper.c             | 18 ++++---
+ drivers/gpu/drm/drm_fb_helper.c               | 10 ++--
+ drivers/gpu/drm/drm_framebuffer.c             |  6 ++-
+ drivers/gpu/drm/gma500/psb_device.c           | 14 ++++--
+ drivers/gpu/drm/i915/display/intel_audio.c    | 12 +++--
+ drivers/gpu/drm/i915/display/intel_display.c  | 22 +++-----
+ .../drm/i915/display/intel_display_debugfs.c  | 35 ++++++++-----
+ drivers/gpu/drm/i915/display/intel_overlay.c  | 45 ++++++++---------
+ drivers/gpu/drm/i915/display/intel_pipe_crc.c |  5 +-
+ drivers/gpu/drm/i915/i915_drv.c               | 12 +++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  6 ++-
+ .../gpu/drm/msm/disp/msm_disp_snapshot_util.c | 10 ++--
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       | 12 +++--
+ drivers/gpu/drm/omapdrm/omap_fb.c             |  6 ++-
+ drivers/gpu/drm/radeon/radeon_device.c        | 13 +++--
+ drivers/gpu/drm/radeon/radeon_dp_mst.c        |  7 ++-
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c      |  6 ++-
+ drivers/gpu/drm/tegra/dsi.c                   |  6 ++-
+ drivers/gpu/drm/tegra/hdmi.c                  |  5 +-
+ drivers/gpu/drm/tegra/sor.c                   | 10 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 11 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 12 +++--
+ 28 files changed, 222 insertions(+), 180 deletions(-)
 
-Best regards
-Uwe
+-- 
+2.33.0
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---rc23usyhskkfrhzk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFDdS4ACgkQwfwUeK3K
-7AnUQAgAmjJkLhnY8ifBEORHpJuO7fpbsjyT8WptyK9dTJgqg0jPJEwCgl/eCi2Y
-ZNLZ986jXRsiQerhDIofYYaSQhoCDG8YN29BCp3Gbl/TSe37Isg5kwSX9RYC2c7n
-Hiy3vGPwmNzYshtE8HjLKHWCNZqUy85sUmDN6auecy9SIWG5YLvEDlF5Wnku28x6
-qG4OpOuIM3aSRh6NbpDwqQGvgHXoZl7AdeCJjUD9C+oehyNAZ9WOh7E8FSkO7ofq
-/JGg1vHJLFiMeh1WVKIuJFkIA/mGsQKzYHnk/h8dvbD0eIFfHYYFSSCGfb3OSSPd
-2pVWCqEQ9MSIYgX13cINC7O8z12RlA==
-=7YDn
------END PGP SIGNATURE-----
-
---rc23usyhskkfrhzk--
