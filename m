@@ -2,130 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA99640D34E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Sep 2021 08:35:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F144640D868
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Sep 2021 13:21:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234469AbhIPGgx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Sep 2021 02:36:53 -0400
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:43961 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234452AbhIPGgx (ORCPT
+        id S237633AbhIPLWm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Sep 2021 07:22:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59016 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235686AbhIPLWl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Sep 2021 02:36:53 -0400
-Received: by mail-ua1-f41.google.com with SMTP id 88so2296646uae.10;
-        Wed, 15 Sep 2021 23:35:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5ufQKAz6TkeaaXRuN+J6DP1tCLLuwEwO4m7kYP4z4hg=;
-        b=qZo580KVjR9qphIbe3LMhxss/PkRY+NMy9yBphXST3qObZLBHP677SvYuWgC7A1v1g
-         zsyC37rb935IwBJejLH5fxs3NNNP9gH11FXrBopFBCpInx+Owlbr2EjSFy0bp7SVI2DM
-         79aDAnp01pYqEgelA4Hh5xGL8clrQNRe28N1qGwvptKCObhbYCJylHSdaV97svwcAhgD
-         5isBvmcubnwpzRUt07NoevBIH0IAt9gJjMXx0N+W0iX2hbai+Kw7HB2Zebz37zfwpA1/
-         R2Ux8x3HHKsRfFCdkw9VKjeCO6pUyMp5eK5nSWLewPztahK/vUHuniMURrs4BXXd/IFp
-         jRQg==
-X-Gm-Message-State: AOAM530J6uLXe8hfUMNrQAIzb0bMvi+FqrKZvtr58PChsbpgQcRgBbXr
-        SrvYxwvszl24qGnqx3epnc7py94KoclFvGwq5AXgaonR
-X-Google-Smtp-Source: ABdhPJxyAlbGcHh3eAvZUQ9TihAg6jzEEwczrnrEDobUZvqo2TcpiRYPBqzTIaed4L3puMyDGDJ39exG5n+Wt034b4Y=
-X-Received: by 2002:ab0:6dc7:: with SMTP id r7mr2973997uaf.14.1631774131988;
- Wed, 15 Sep 2021 23:35:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <29de13c075b839ed62cee189b6eb262e540c6553.1631707026.git.geert+renesas@glider.be>
- <dbc3f4bf-78cd-fb97-2502-ab87f9881179@fi.rohmeurope.com>
-In-Reply-To: <dbc3f4bf-78cd-fb97-2502-ab87f9881179@fi.rohmeurope.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 16 Sep 2021 08:35:20 +0200
-Message-ID: <CAMuHMdVSeysg9ojCcst3AS5d_eZE+Ge34THK_=ouZ7gJGxELqQ@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: mfd: bd9571mwv: Convert to json-schema
+        Thu, 16 Sep 2021 07:22:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CCE2160F6D;
+        Thu, 16 Sep 2021 11:21:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631791281;
+        bh=SaTDA56yI1Fe/kURWXyTxtc5YQ2b9Q7ApNFqhkQTX90=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RL7m/zvln11z5pmVjdUsguErGqsRCtQFq9KKDhFG3dYGXYbz32rTfdEvkWXk5049Z
+         uthsGp4RfpxMYVLiwsTsLNBRdSgShiTOiEdMX/lbvPTjVxkNhnmDi3rxv7Fga3HiHU
+         nh27Bj4tCFa7e4U4Ze9VrJxgfdqwaRDlFAiWY3v1P03a4sKBJx9FnS4ZrSQVYqDoAU
+         AIQ+Spid7o+a/sCU5QVSlmodBPXRYJQDhu7GeEyufbGzFcfTS5qKYSGiRbqN/g3GpP
+         Wj0eUx2YPr3lJPnYaoXsGC1tYbcHrbYj/Rbbb9RnLNEgdNttD7CSnkse6qMJ3vWdwA
+         jyQuuEgNEoaEA==
+Date:   Thu, 16 Sep 2021 12:20:39 +0100
+From:   Mark Brown <broonie@kernel.org>
 To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
         Marek Vasut <marek.vasut+renesas@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2] dt-bindings: mfd: bd9571mwv: Convert to json-schema
+Message-ID: <20210916112039.GB5048@sirena.org.uk>
+References: <29de13c075b839ed62cee189b6eb262e540c6553.1631707026.git.geert+renesas@glider.be>
+ <dbc3f4bf-78cd-fb97-2502-ab87f9881179@fi.rohmeurope.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="XOIedfhf+7KOe/yw"
+Content-Disposition: inline
+In-Reply-To: <dbc3f4bf-78cd-fb97-2502-ab87f9881179@fi.rohmeurope.com>
+X-Cookie: We've upped our standards, so up yours!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Matti,
 
-On Thu, Sep 16, 2021 at 8:31 AM Vaittinen, Matti
-<Matti.Vaittinen@fi.rohmeurope.com> wrote:
-> On 9/15/21 15:14, Geert Uytterhoeven wrote:
-> > Convert the ROHM BD9571MWV/BD9574MWF Power Management Integrated Circuit
-> > (PMIC) Device Tree binding documentation to json-schema.
-> >
-> > Make the "regulators" subnode optional, as not all users describe the
-> > regulators.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> > I have listed Marek as the maintainer, as he wrote the original
-> > bindings.  Marek: Please scream if this is inappropriate ;-)
-> >
-> > v2:
-> >    - Add Reviewed-by.
-> > ---
-> >   .../devicetree/bindings/mfd/bd9571mwv.txt     |  69 ----------
-> >   .../bindings/mfd/rohm,bd9571mwv.yaml          | 127 ++++++++++++++++++
-> >   2 files changed, 127 insertions(+), 69 deletions(-)
-> >   delete mode 100644 Documentation/devicetree/bindings/mfd/bd9571mwv.txt
-> >   create mode 100644 Documentation/devicetree/bindings/mfd/rohm,bd9571mwv.yaml
-> > +                  regulators {
-> > +                          dvfs: dvfs {
-> > +                                  regulator-name = "dvfs";
-> > +                                  regulator-min-microvolt = <750000>;
-> > +                                  regulator-max-microvolt = <1030000>;
-> > +                                  regulator-boot-on;
-> > +                                  regulator-always-on;
-> Out of the curiosity (and in order to learn) - what is the exact idea of
-> the 'regulator-boot-on' and when it should be used? I _think_ the
-> 'regulator-boot-on' is in many cases used to make the regulator
-> framework to enable the regulator at start-up. What I _think_ the
-> 'regulator-boot-on' is intended for is to advertise the regulator
-> boot-up state for regulators which do not provide a way to get the
-> state. I am unsure if there is any property which is intended to be used
-> for enabling the regulator at start-up. DISCLAIMER: Source of these
-> thoughts is unknown. I may be wrong here. If someone knows this for sure
-> I'd be grateful for any education :) If I am not mistaken the dvfs
-> regulator does provide a way of reading the enable state after boot.
->
-> Finally, I have seen this quite many times before but I am unsure I
-> understand it - why setting both the 'regulator-boot-on' and
-> 'regulator-always-on'? Wouldn't the 'regulator-always-on' suffice?
-> > +                          };
-> > +                  };
-> > +          };
-> > +    };
-> >
->
-> Anyways - as I mentioned, I am not 100% sure of pretty much anything :)
-> Hence my questions are just questions - and the binding looks good to me.
+--XOIedfhf+7KOe/yw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have to defer to the regulator experts to answer those questions...
+On Thu, Sep 16, 2021 at 06:31:45AM +0000, Vaittinen, Matti wrote:
 
-> FWIW:
-> acked-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> 'regulator-boot-on' is in many cases used to make the regulator=20
+> framework to enable the regulator at start-up. What I _think_ the=20
+> 'regulator-boot-on' is intended for is to advertise the regulator=20
+> boot-up state for regulators which do not provide a way to get the=20
 
-s/a/A/
+It's for cases where we can't read the hardware state.
 
-Thank you!
+--XOIedfhf+7KOe/yw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-                        Geert
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFDKIcACgkQJNaLcl1U
+h9AXOAf/fuL//nbrbFVijR7M54U9xop9z2dRsdf0rO50J5NwEqasgQUjCAW0eK1v
+YHlZRVcwwXEjZ05TMV+TIY5CM0VlR5HmOa0+M4YkstEk6sBePHbGIUNI4M7eq9oy
+0kOsxFXPKuSUQonfW2YWlKlEsDdnWK/Z1r80xXlMf0skyThEInJDvWYVKExlz5DA
+kKV9lnnRE67JKR438TGsq2Em4MBMH8mK4ntW8hMRDUNCtkp84JI5PIB+tlR0Bnlt
+nH9UGmy6IN6+uvUcUmoKBqq8VLf5m9on8KTKHrOs4Qpi0dPh+Op8RPjmHuLkT0xd
+YBseuWiUxuFaWCtOKmgGOU/ZqdNsvw==
+=Zib3
+-----END PGP SIGNATURE-----
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--XOIedfhf+7KOe/yw--
