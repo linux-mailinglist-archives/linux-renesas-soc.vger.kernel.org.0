@@ -2,46 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 202B1410188
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Sep 2021 00:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCC5941019F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Sep 2021 01:17:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242860AbhIQW7C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Sep 2021 18:59:02 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:50493 "EHLO
+        id S245251AbhIQXSb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Sep 2021 19:18:31 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:45039 "EHLO
         wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231954AbhIQW7C (ORCPT
+        by vger.kernel.org with ESMTP id S232079AbhIQXSb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Sep 2021 18:59:02 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.west.internal (Postfix) with ESMTP id A55D82B00BD5;
-        Fri, 17 Sep 2021 18:57:38 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 17 Sep 2021 18:57:39 -0400
+        Fri, 17 Sep 2021 19:18:31 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.west.internal (Postfix) with ESMTP id AAB5C2B00381;
+        Fri, 17 Sep 2021 19:17:07 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Fri, 17 Sep 2021 19:17:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
         :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=WMLpEFBE93jrQXCWdCpO4Ix/sm2
-        jroLMl/pxBagZPTo=; b=UucEzm++DdPegc7AIie9vkXls9cdxOuR/tbOhB2OS3c
-        yjHTAhpwwSY0t9ERGUGvilcYQB0+9Q0nFmwaCMtbG6psDnd6DyRQ1P+Q5Z/USqDY
-        7MUDYAcpYI0bL6tjSfdobTf7eYgVldkdeY7SfLWu6vd1UzBqdkAuaBtSNCeGTeXV
-        ztNEY4IuVotlC9QZB3U5DhiYL9IRX+lnAYS1lZcakZaeC8yRqRWlLShiJcuWvq9p
-        2Ig66C5G0SgWxaid9PnmP2LQbpQUdxX7PH+mdvo4Jlg/NwpaBvT/ef7a+jZ9wIoj
-        EwYlYY4LNAVBguuYxHiVYCTEkz2j4OAQnSk0qC7UQ1Q==
+        :content-type:in-reply-to; s=fm3; bh=IGsVP4ZteAEr9xLEQV5uB/tVbZV
+        zzsq4OBU4Z1IsijE=; b=ahuPRI2ir8VYkdt2zhvFA698iOyahHGujH1qVcfUL79
+        NfbOKL4dS3mx19SjNEDdjbo2klBfT3hayxZNi1JK6LpronosHIzeJa8qmLHk35co
+        gE4my/8oWVUINa0e0/ThD6Y5zNLvXHPQnfzRWk4vvJinnDVgIbqE2FdAS+fbz38e
+        mad5TXe9hsJ7oiL9kwbC5CBGRML2QEtuM0kzZP33J/RW5RScmGkwjfuonLBAAwj7
+        hSplQ7ssXbbLd2QXqnHG3PKRF28u6wuE0tSxc2/F39Aa8JuaBWNclD8qG2o6kVgf
+        Rxbf09V9lVAa4kPzfQrgoMakMNhvCPDy43M2hWoadDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-type:date:from:in-reply-to
         :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=WMLpEF
-        BE93jrQXCWdCpO4Ix/sm2jroLMl/pxBagZPTo=; b=KaVrhnyA+J97tyCTA/B8PE
-        OpUr6t8TFqt9xWbXvQu6jE4U2fcFTf+RmqDuOmd0KS2+OXe8ht5wZk1Yy30z56eS
-        cvRnQcutN1iT33QTKWfcKEJJ6yaqUkIw/6270BOAPNYQI/PHZiKN+tGPb5Py4e+r
-        7EbfujsB++dWI+6YumBBTPRIOq1wBVZ/sTB2y1xXC35j/m6FdK8LdYeQOHOOvuQ7
-        6qP6H0XtZSlJ7u7Cd39sp1vsne4HuGNaZTf8HC1mQI6iJOipuPX6zg1IqxjtLNyh
-        iv4peoPLj45XNiUf5yXyKdybk89V2n5Bdx+Fdqdnbj+XezNDnR7eIQzeCknMcDAg
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=IGsVP4
+        ZteAEr9xLEQV5uB/tVbZVzzsq4OBU4Z1IsijE=; b=GvkSHwukXjsuSoWvpmRGh5
+        vEMdeV+XKA+/JTADNOsG07QqGwzCaP3aEQI9zrjtQT4WWbRnDmGgxT1KK7WOievF
+        DtXA6UHX/fq7cUcCNcCRcug1T/U0qYYbZ1iWVpiTJv5d1WTJlrhyAOTWCYO3Ag+z
+        oj9i9+h/piPoDlLkaWyNQF9uki6E154WhbWLA/f7omyi/mQ7tDOwvhTB4dfzl09j
+        uLXiEbJIcoDPcrYgPiDW2EirkOkaHsv+ss/yjxmObqOED3uLvUla+zfsNWKbb/gB
+        8ENC3a7sp7zbf09GA+0v7ebG9QRTcuUC+TqYS40serjzoUtTgxY2y6eNFLpWbVkw
         ==
-X-ME-Sender: <xms:YR1FYWJqrDZl6aQKzXbLt78kWrRnB8L29XBVdH4kIMMf4vt-VW1jKg>
-    <xme:YR1FYeJzS4X78Jc9_9vkjvXmq2G1jQH1-zvRbKsUrBUYiQXvM8qakbycDG1Bi3ZmS
-    ufcFqpYNjuOxgajUw>
-X-ME-Received: <xmr:YR1FYWu79VLy5GCP_Dhc7mdjJ_8NgQP_6avPgVPbHNQnQIXm4tHBUnBoSUJl-Pzps5oqZP_x>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehjedgudeiucetufdoteggodetrfdotf
+X-ME-Sender: <xms:8iFFYXMO_zQQgD16oxbjbtShEjJAcDBAsKp_RAAWasAWT8nh6LvD0Q>
+    <xme:8iFFYR-VjguZB1XsDUXhLpDDFmzLrelFL2k7aTsB-OGNSO7JqnNvrq8QriO1E65kD
+    4XTEPR_XlUbHgw-BQ>
+X-ME-Received: <xmr:8iFFYWSwo1d-jxo902FJTfyoVe0MLl-AzQ_P0KIOgMplSv-Q3VQF0EmLw2VBYnaJMu2OQ2JX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehjedgudelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
@@ -49,13 +49,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehjedgudeiucetufdoteggod
     gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
     heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
     gvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:YR1FYbZaiu5WV3xy_1zUjmtwLCyuVa8Y3c18cXagVazQx-pFyD-eoA>
-    <xmx:YR1FYdbnc477cSnWYRc2L2KUKh2DM-uz7g-ccvLrSaNsIEZ_r-1J4A>
-    <xmx:YR1FYXCW0peK2ic7qefI2FgPB6gm97oZaiFrU1FgQA3eBDMDdpkT7w>
-    <xmx:Yh1FYfmUYx05lxhx-jq8sjs3zQSdxgM6bGklit2hrg7ivFQsbN715pI_MrQ>
+X-ME-Proxy: <xmx:8iFFYbteP_ogjih9hbd_SFpKp1y7PfGdW8xJuqpq1y4G9RNC6lmz8w>
+    <xmx:8iFFYfcbvzZqNZNeh73V4LyzP5tP0A_hIJF4U_SIA9_9eX9lAPpx6w>
+    <xmx:8iFFYX1uGX3jPoazsk8MtZMVTOO38tw4vuVepVmBdO0jj3BqRm_0Yg>
+    <xmx:8yFFYT6kpTIoEOo-IjQepYYNKWCqeFUVXaG9JDmibIlwyMxMnDMo76cB6Zs>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Sep 2021 18:57:34 -0400 (EDT)
-Date:   Sat, 18 Sep 2021 00:57:31 +0200
+ 17 Sep 2021 19:17:03 -0400 (EDT)
+Date:   Sat, 18 Sep 2021 01:17:01 +0200
 From:   Fernando Ramos <greenfoo@u92.eu>
 To:     Sean Paul <sean@poorly.run>
 Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
@@ -63,42 +63,40 @@ Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
         intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
         freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
         linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 12/15] drm/i915: cleanup: drm_modeset_lock_all() -->
+Subject: Re: [PATCH 14/15] drm/amd: cleanup: drm_modeset_lock_all() -->
  DRM_MODESET_LOCK_ALL_BEGIN()
-Message-ID: <YUUdW2fb8wC+ClX0@zacax395.localdomain>
+Message-ID: <YUUh7X+Ft7vKHlcT@zacax395.localdomain>
 References: <20210916211552.33490-1-greenfoo@u92.eu>
- <20210916211552.33490-13-greenfoo@u92.eu>
- <20210917154830.GM2515@art_vandelay>
+ <20210916211552.33490-15-greenfoo@u92.eu>
+ <20210917155548.GO2515@art_vandelay>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210917154830.GM2515@art_vandelay>
+In-Reply-To: <20210917155548.GO2515@art_vandelay>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> >  	int i;
-> > +	int ret;
-> 
-> Please move up with i
-
-Done!
-
-
-> > +	DRM_MODESET_LOCK_ALL_END((&dev_priv->drm), ctx, ret);
-> >  
-> >  	return 0;
-> 
-> Return ret here
-
-Done!
-
-
 > > +	struct drm_modeset_acquire_ctx ctx;
-> >  	int i;
+> >  	int r;
 > > +	int ret;
 > 
-> Please move up with i
+> Relocate ret with r please
+
+Done!
+
+> > -	drm_modeset_unlock_all(dev);
+> > +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+> 
+> You should check ret here
+
+Done!
+
+
+> >  	int r;
+> > +	int ret;
+> 
+> Relocate ret with r
 
 Done!
 
@@ -113,45 +111,84 @@ Done!
 Done!
 
 
-> > -	drm_modeset_unlock_all(dev);
-> > +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > index 9b1fc54555ee..5196c1d26f87 100644
+> > @@ -2661,13 +2657,18 @@ static void handle_hpd_irq(void *param)
 > >  
-> >  	return 0;
-> 
-> Return ret
-
-Done!
-
-
-> > -	drm_modeset_unlock_all(dev);
-> > +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+> >  		amdgpu_dm_update_connector_after_detect(aconnector);
 > >  
-> 
-> Check ret here and return an error if it's != 0
-
-Done!
-
-
-> > @@ -1194,14 +1195,11 @@ int intel_overlay_put_image_ioctl(struct drm_device *dev, void *data,
-> >  	if (ret != 0)
-> >  		goto out_unlock;
-> >  
-> > -	drm_modeset_unlock_all(dev);
-> > -	i915_gem_object_put(new_bo);
+> > -		drm_modeset_lock_all(dev);
+> > -		dm_restore_drm_connector_state(dev, connector);
+> > -		drm_modeset_unlock_all(dev);
 > > -
-> > -	return 0;
-> > -
-> >  out_unlock:
-> > -	drm_modeset_unlock_all(dev);
-> > -	i915_gem_object_put(new_bo);
-> > +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+> > -		if (aconnector->base.force == DRM_FORCE_UNSPECIFIED)
+> > -			drm_kms_helper_hotplug_event(dev);
+> > +	} else {
+> > +		goto out;
+> >  	}
 > > +
-> > +	if (params->flags & I915_OVERLAY_ENABLE)
-> > +		i915_gem_object_put(new_bo);
+> > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+> > +	dm_restore_drm_connector_state(dev, connector);
+> > +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
 > 
-> This function refactor is a bit more involved than the
-> s/drm_modeset_lock_all/DRM_MODESET_LOCK_ALL_*/ changes in the rest of the patch.
-> Could you split it out into a separate patch so it's not hidden away?
+> Check ret here please
 
-Sure, no problem.
+This function ("handle_hpd_irq") returns void. What would the appropriate way of
+checking the error be?
+
+
+> > @@ -2841,14 +2838,17 @@ static void handle_hpd_rx_irq(void *param)
+> >  
+> >  			amdgpu_dm_update_connector_after_detect(aconnector);
+> >  
+> > +		} else {
+> > +			goto finish;
+> 
+> You used 'out' above and 'finish' here. It would be nice to be consistent with
+> naming, I see 'out' a lot more than 'finish', so my vote would be to change this
+> label to 'out'.
+
+I originally used "out", but turns out there is already an "out" label in this
+function :)
+
+I then searched for other "go to end" labels and found "finish" being used in 
+this same file.
+
+But I can rename it to somehitng else ("out2" maybe?) to make it less confusing.
+
+ 
+> > +		}
+> >  
+> > -			drm_modeset_lock_all(dev);
+> > -			dm_restore_drm_connector_state(dev, connector);
+> > -			drm_modeset_unlock_all(dev);
+> > +		DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+> > +		dm_restore_drm_connector_state(dev, connector);
+> > +		DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+> 
+> Check ret here?
+
+This is another irq-like function returning void.
+
+What can we do here after having checked the error?
+
+
+> > +#include <drm/drm_drv.h>
+> 
+> Top-level headers generally come above the driver headers. Also, now that I think
+> about this a bit more, all of the new includes in this set should probably be
+> for 'drm_modeset_lock.h' instead of 'drm_drv.h'.
+
+Ok. Let me try that.
+
+
+> > @@ -1259,13 +1257,16 @@ static ssize_t trigger_hotplug(struct file *f, const char __user *buf,
+> > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+> > +	dm_restore_drm_connector_state(dev, connector);
+> > +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+> 
+> Check ret here?
+
+This is a .write file_operations function expected to return a "size". Is it ok
+for it to return an error? I guess so, right?
 
