@@ -2,52 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 962B140FC27
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Sep 2021 17:24:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34B7040FC46
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Sep 2021 17:28:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231386AbhIQPZz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Sep 2021 11:25:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49348 "EHLO
+        id S235784AbhIQPaH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Sep 2021 11:30:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230379AbhIQPZy (ORCPT
+        with ESMTP id S233316AbhIQPaH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Sep 2021 11:25:54 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1945C061574
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Sep 2021 08:24:31 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 70so4712317wme.5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Sep 2021 08:24:31 -0700 (PDT)
+        Fri, 17 Sep 2021 11:30:07 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3079C061574
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Sep 2021 08:28:44 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id d11so9076221qtw.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Sep 2021 08:28:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UUmIc1Zm6f0TtwRpO+dF5pS2Y2cDE7pjg0cLbOF+M+E=;
-        b=Rzn08IPZenhQ6bvtAtCZFtUgcNOadCOdu78eHBCqYGv/hV+L9cluJaEyplz5gcBA7R
-         38wK30kV3P5we6pC4sOpGFJx71Gq1+1ryDNONUjrKLim7Yfc3dXqvMmu3/gJm1MKY0gs
-         TcW6XWN+ON+jrkBcBdm/eQYlZqOq4Sg4Mar8E=
+        d=poorly.run; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=FuUl9aOPg9QPdrIHV0biXxlqCjl1iKxoc7c2hM70or8=;
+        b=EP6dopb5uZ6xB7hk7smmHCo5rwSq/qA3gjv1iMAmKJMLQsW6PnAFBunN/1xmi1hXu6
+         2GML45WWK+Qy4uu/0tuA8sliENLT25yh//O1S3sl0FUEBZsX81zfA5koKK94JNQnFHH1
+         uz3yvspNzd7So2lSSZQVZt9Wr8Jlirf92luhT2KUG6Z6wKYAibqX193EJntyfbxgsA/v
+         WfM3db9CQdmLuWmo5lrr7gjzVjxTDrN42OVTS1cpGd82NpyAn46eVqVhuI0PSNNvgC0B
+         R8oBexpwsV8NVpFPts3OtNTB38vP5ToFW1dyoMM0N/XyctmB0nORrD44BWtEGhK79E9J
+         2N5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=UUmIc1Zm6f0TtwRpO+dF5pS2Y2cDE7pjg0cLbOF+M+E=;
-        b=wk5Z91mjpvqskgwbWPm3ul1/f7jbxBQm80k/75/1AaU0nE9Hb33Ov4PQfLUAa3t1bc
-         5GLbQm/teNQ0Kmf4RzcKXjUIkPydJv+DRs0Yn9evuZ0mwtmg4V3IEUWdfAdQ4UTQD/8F
-         ZivaKzjT5XRLMBzyU4lU8eT5UBLjPB4/3l5h8XmuHRPgIxLuCeWN1Q43V437AF48yfPd
-         Xv72uw7YUn42mw67IWBcCZIVKQyZzonxOVOjQ9aRVZ5zbTlsdCOgBsnatPemFKgIMJ2f
-         nOAuqxwp9NkqB9uc3QU8EJqvGNK+4c7nUb7jqBwd3UniuE7lKkc3EXp7FGoMMDAEwYpo
-         /R/g==
-X-Gm-Message-State: AOAM530SSXPBLIlqYL0vJl1OmEham2y1TqpjIU3Pd54X2keXB2mxJOwf
-        4+Gc3kIpe24cvZKecsqmY0wMyA==
-X-Google-Smtp-Source: ABdhPJy9S40vw/exT9dD330IOj7yv3V6vas+VLUTS5747KBqEVcQ3/55Lywp40+PNtXXNtDS+CHl4w==
-X-Received: by 2002:a1c:7e12:: with SMTP id z18mr16190125wmc.60.1631892270408;
-        Fri, 17 Sep 2021 08:24:30 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id r5sm6880779wrm.79.2021.09.17.08.24.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 08:24:29 -0700 (PDT)
-Date:   Fri, 17 Sep 2021 17:24:27 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FuUl9aOPg9QPdrIHV0biXxlqCjl1iKxoc7c2hM70or8=;
+        b=nx656JwDJhmefbpwzrvvznCSq07Dzov39HUuxL9rw9Yala4n33IzJWc5NnkaD9pnzd
+         MzmSBK4r0jobZEtI/Px9IFsTr14ocSk1uQK3sJnvIK62LlrMdh3KmDnivvmDB0e2wiCJ
+         snwtvmqIeYLCdlwAV5EKeSuHbZHhaYZSF0aZwTMTwW05/2Fos4q/beWfttIqoZCzaopB
+         QJLonhJSnMGJ0HiUcWdPOipqJOHw3QzycGh4JuT6udjapjPR+ydJSoPjwlqLmp+PF7lv
+         RhMCRFuLahg5OT2HhQZln4HV/prBBd+xf3UXM3UoszJC0ss6EaxIULsi9Yy88QhbVdS2
+         wCbw==
+X-Gm-Message-State: AOAM531jPQ8NA6EW9pYBjKjtbXxfTmgyEFj3Mq/loR7GPMoYMOOAAl9c
+        ueeJNkqKBe/Ooe0FjQL9PFTh7Q==
+X-Google-Smtp-Source: ABdhPJz+1IlUibrmV063aG8RG51cYbX7TCpqGdEoZMmlxd6qClcPIVgP6f5A94RrfNPtSYy6ER/Jeg==
+X-Received: by 2002:a05:622a:1347:: with SMTP id w7mr10705287qtk.325.1631892523996;
+        Fri, 17 Sep 2021 08:28:43 -0700 (PDT)
+Received: from localhost ([167.100.64.199])
+        by smtp.gmail.com with ESMTPSA id l1sm1746827qkj.65.2021.09.17.08.28.43
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 17 Sep 2021 08:28:43 -0700 (PDT)
+Date:   Fri, 17 Sep 2021 11:28:42 -0400
+From:   Sean Paul <sean@poorly.run>
 To:     Fernando Ramos <greenfoo@u92.eu>
 Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
         sean@poorly.run, linux-doc@vger.kernel.org,
@@ -55,115 +57,77 @@ Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
         nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 00/15] drm: cleanup: Use DRM_MODESET_LOCK_ALL_* helpers
- where possible
-Message-ID: <YUSzKxZwW8C29dLV@phenom.ffwll.local>
-Mail-Followup-To: Fernando Ramos <greenfoo@u92.eu>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        sean@poorly.run, linux-doc@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 01/15] dmr: cleanup: drm_modeset_lock_all_ctx() -->
+ DRM_MODESET_LOCK_ALL_BEGIN()
+Message-ID: <20210917152842.GA2515@art_vandelay>
 References: <20210916211552.33490-1-greenfoo@u92.eu>
+ <20210916211552.33490-2-greenfoo@u92.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210916211552.33490-1-greenfoo@u92.eu>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <20210916211552.33490-2-greenfoo@u92.eu>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 16, 2021 at 11:15:37PM +0200, Fernando Ramos wrote:
-> Hi all,
+On Thu, Sep 16, 2021 at 11:15:38PM +0200, Fernando Ramos wrote:
+> As requested in Documentation/gpu/todo.rst, replace the boilerplate code
+> surrounding drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN()
+> and DRM_MODESET_LOCK_ALL_END()
 > 
-> One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
-> "use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
-> patch series is about.
-> 
-> You will find two types of changes here:
-> 
->   - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
->     "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
->     already been done in previous commits such as b7ea04d2)
-> 
->   - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
->     in the remaining places (as it has already been done in previous commits
->     such as 57037094)
->     
-> Most of the changes are straight forward, except for a few cases in the "amd"
-> and "i915" drivers where some extra dancing was needed to overcome the
-> limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
-> once inside the same function (the reason being that the macro expansion
-> includes *labels*, and you can not have two labels named the same inside one
-> function)
-> 
-> Notice that, even after this patch series, some places remain where
-> "drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
-> all inside drm core (which makes sense), except for two (in "amd" and "i915")
-> which cannot be replaced due to the way they are being used.
 
-Can we at least replace those with drm_modeset_lock_all_ctx and delete
-drm_modeset_lock_all? That would be really nice goal to make sure these
-don't spread further.
+Hi Fernando,
+Thank you for your patch. Could you please fix the subject, changing dmr to drm?
 
-Otherwise great stuff, I'm trying to volunteer a few reviewers.
--Daniel
+> Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
+> ---
+>  drivers/gpu/drm/drm_client_modeset.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> index ced09c7c06f9..5f5184f071ed 100644
+> --- a/drivers/gpu/drm/drm_client_modeset.c
+> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> @@ -574,6 +574,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+>  	int num_connectors_detected = 0;
+>  	int num_tiled_conns = 0;
+>  	struct drm_modeset_acquire_ctx ctx;
+> +	int err;
 
-> 
-> Fernando Ramos (15):
->   dmr: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   dmr/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   dmr/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
->   doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
-> 
->  Documentation/gpu/todo.rst                    | 17 -------
->  Documentation/locking/ww-mutex-design.rst     |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 13 +++--
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 50 +++++++++----------
->  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 23 +++++----
->  drivers/gpu/drm/drm_client_modeset.c          | 14 +++---
->  drivers/gpu/drm/drm_crtc_helper.c             | 18 ++++---
->  drivers/gpu/drm/drm_fb_helper.c               | 10 ++--
->  drivers/gpu/drm/drm_framebuffer.c             |  6 ++-
->  drivers/gpu/drm/gma500/psb_device.c           | 14 ++++--
->  drivers/gpu/drm/i915/display/intel_audio.c    | 12 +++--
->  drivers/gpu/drm/i915/display/intel_display.c  | 22 +++-----
->  .../drm/i915/display/intel_display_debugfs.c  | 35 ++++++++-----
->  drivers/gpu/drm/i915/display/intel_overlay.c  | 45 ++++++++---------
->  drivers/gpu/drm/i915/display/intel_pipe_crc.c |  5 +-
->  drivers/gpu/drm/i915/i915_drv.c               | 12 +++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  6 ++-
->  .../gpu/drm/msm/disp/msm_disp_snapshot_util.c | 10 ++--
->  drivers/gpu/drm/nouveau/dispnv50/disp.c       | 12 +++--
->  drivers/gpu/drm/omapdrm/omap_fb.c             |  6 ++-
->  drivers/gpu/drm/radeon/radeon_device.c        | 13 +++--
->  drivers/gpu/drm/radeon/radeon_dp_mst.c        |  7 ++-
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c      |  6 ++-
->  drivers/gpu/drm/tegra/dsi.c                   |  6 ++-
->  drivers/gpu/drm/tegra/hdmi.c                  |  5 +-
->  drivers/gpu/drm/tegra/sor.c                   | 10 ++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 11 ++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 12 +++--
->  28 files changed, 222 insertions(+), 180 deletions(-)
-> 
+I think you can just reuse 'ret' instead of creating a new variable. That
+ensures if the lock fails we return the error from the macros.
+
+Sean
+
+>  
+>  	if (!drm_drv_uses_atomic_modeset(dev))
+>  		return false;
+> @@ -585,10 +586,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+>  	if (!save_enabled)
+>  		return false;
+>  
+> -	drm_modeset_acquire_init(&ctx, 0);
+> -
+> -	while (drm_modeset_lock_all_ctx(dev, &ctx) != 0)
+> -		drm_modeset_backoff(&ctx);
+> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+>  
+>  	memcpy(save_enabled, enabled, count);
+>  	mask = GENMASK(count - 1, 0);
+> @@ -743,8 +741,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+>  		ret = false;
+>  	}
+>  
+> -	drm_modeset_drop_locks(&ctx);
+> -	drm_modeset_acquire_fini(&ctx);
+> +	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
+>  
+>  	kfree(save_enabled);
+>  	return ret;
 > -- 
 > 2.33.0
 > 
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Sean Paul, Software Engineer, Google / Chromium OS
