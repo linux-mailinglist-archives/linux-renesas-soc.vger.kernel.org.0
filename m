@@ -2,90 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 020DE4101AB
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Sep 2021 01:21:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77D0F410525
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Sep 2021 10:33:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344253AbhIQXXR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Sep 2021 19:23:17 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:56721 "EHLO
-        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232079AbhIQXXR (ORCPT
+        id S237854AbhIRIeh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 18 Sep 2021 04:34:37 -0400
+Received: from www.zeus03.de ([194.117.254.33]:45232 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237822AbhIRIeg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Sep 2021 19:23:17 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.west.internal (Postfix) with ESMTP id 863CF2B00971;
-        Fri, 17 Sep 2021 19:21:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Fri, 17 Sep 2021 19:21:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=9D1TvVjqqwgGetcBxSubPdthhs2
-        qP2/L39fbHUN1dhg=; b=icvXUUhsZiTbYQL+UTHGxJkFbsfkRzRd9zXqXNqF0Pq
-        Yyft55LMFcsAjXmAMRyF1A6r97yyo/ATgGnQ59ZOA56zNetCyoSLOWWsV1X+v6K9
-        qnPiyKZ6sscWFQI7BDKzyd07QA3Gbj6ALlxL5osSZp3P1EdTw7N+zQkSfRAu2rn3
-        GlZ0uhOh4KveCTJRPk+LpWSfgQ1Xy+tmDq4u4ZwRd/lTvV9RMDAs/pvnJQc0SQZE
-        42JeBDnQeeSYQnKLBBUbr3wasz+N6txMrAsilyaLR7hdYtgup5LC8n77giNJFKM/
-        7DkW0bManZUgEdGpTxv4iU4+ZXBnnIXgR3bdpbSrMAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=9D1TvV
-        jqqwgGetcBxSubPdthhs2qP2/L39fbHUN1dhg=; b=LLSUGVTj888HafrCp5tZJ4
-        OjpyCTAHfGymnGaJ95AGUkK9Vsn+Y44XkW1cDGf9h9YE+tCX5ePjPp++CVIXrlJv
-        OtWIf2wbSVDdxr24UPC3fnxs0AKUtK9GAY+MTIrRglK+TlvByFXYYA8cFsXcLP0l
-        Zs46gC19S75xYiRiondJMTMklM3GHx2FcvFcsggljO7cEdHzyaM57vbRys7CoYQt
-        IYNsZyH9BgSgzyKA2NiIQHNeETN7+jNJAU994bUe6UzpTCxjAAKzSFlRJxUKpZjd
-        XGfTNFRTkFBbro4lsZBRfMfOVlUemK86Hh1xgpEojdvTfAQMosFceT9UNGM3HwBw
-        ==
-X-ME-Sender: <xms:ECNFYf2AeexzJ6ACMFSdIfbY5eEbF_Cc2EBmJioiwerfS3sbWHbBzQ>
-    <xme:ECNFYeFV0XB_kyVZuIL3gDCkHlJKA9oliZNRs61PT1ws_tH5DWJZAun9WeeTqNuin
-    AJeRfpLH24gVdio9w>
-X-ME-Received: <xmr:ECNFYf4OFl0ohAw5b9lAH_NTdUEi83EiO-abc1np6ih4MqktclUsqhSqo-HsvHvmK8tY7E-n>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehjedgvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
-    nhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrghtth
-    gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
-    heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
-    gvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:ECNFYU0C6M7ROTHINOrKLFicmRrOc54MXpjbCNB8W9v1C-Y_mHtUCg>
-    <xmx:ECNFYSHtGazCRU7_Mh9D32hqGosKvR1D0_Kf7ZhDAscX5QIleiVMTg>
-    <xmx:ECNFYV85aEvgfkcDgBu137LQFDm1UK7ytQb-FPgMLALM_VFKarLYJQ>
-    <xmx:ESNFYVBQ5mCdH7PoNQ4187ntV2s52SA_JVha30z4b_KwS6hENpVY6pR7JZ8>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Sep 2021 19:21:49 -0400 (EDT)
-Date:   Sat, 18 Sep 2021 01:21:47 +0200
-From:   Fernando Ramos <greenfoo@u92.eu>
-To:     Sean Paul <sean@poorly.run>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 15/15] doc: drm: remove TODO entry regarding
- DRM_MODSET_LOCK_ALL cleanup
-Message-ID: <YUUjC5MhADgMs3aw@zacax395.localdomain>
-References: <20210916211552.33490-1-greenfoo@u92.eu>
- <20210916211552.33490-16-greenfoo@u92.eu>
- <20210917155652.GP2515@art_vandelay>
+        Sat, 18 Sep 2021 04:34:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=xcgHZW1fn8JNYZk7NWnhJxUbZkD
+        WeQrcJqzkNGP8+rQ=; b=Iox+zPqPtcQMBCrsiEYb1ESMfJnMu3bx7Dcp0D5+MI+
+        kBBQn/TIDvJlcQSpYeewu4m23iy1imYXxbDSYfw8dgx7d5+65v7jGd+2VR5g80Y/
+        oau9IrG1DXHieqzWo7Gb1N2ovYY7J7i/ffYywzKNmWMw9jBCnkaPFPxyog49HLXM
+        =
+Received: (qmail 1828668 invoked from network); 18 Sep 2021 10:33:11 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Sep 2021 10:33:11 +0200
+X-UD-Smtp-Session: l3s3148p1@D5rH5UDMbrEgAwDPXyF2APs7JXaA4etD
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-gpio@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v2 0/1] gpio: add simple logic analyzer using polling
+Date:   Sat, 18 Sep 2021 10:33:06 +0200
+Message-Id: <20210918083307.3195-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210917155652.GP2515@art_vandelay>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> Can we remove drm_modeset_lock_all[_ctx] now? If so, let's queue that up as part
-> of the set.
-> 
+The bravery continues with the next update of the in-kernel logic
+analyzer based on GPIO polling with local irqs disabled. It has been
+been tested locally and remotely. It provided satisfactory results.
+Besides the driver, there is also a script which isolates a CPU to
+achieve the best possible result. I am aware of the latency limitations.
+However, the intention is for debugging only, not mass production.
+Especially for remote debugging and to get a first impression, this has
+already been useful. Documentation is within the patch, to get a better
+idea what this is all about.
 
-drm_modeset_lock_all() and drm_modeset_unlock_all() can be removed (I'll do that
-on v2 of this patch series).
+Changes since v1:
 
-drm_modset_lock_all_ctx() is a different story and there are still two places
-(one in the i915 driver and another one in the amd driver) where they are
-needed.
+* addressed Andy's review comments (thanks!)
+  * mutex gets destroyed on remove
+  * make use of the snprintf return value
+  * improved errno
+  * script: use only progname instead of $0
+  * script: refactor 'shift' usage in command line handling
+  * spelling fixes
+* script: fixed a bug when using '--instance'
+* short success message after proper initialization
 
-I would need to understand the code better before trying to remove those :)
+I had a look at Andy's other suggestion, too, but decided against them.
+Either I liked the current style better or they can be added later when
+we actually need them.
+
+I've used the analyzer in a few more scenarios and was happy with the
+outcome. Looking forward to other tests and comments. From my side this
+looks good to go.
+
+Happy hacking,
+
+   Wolfram
+
+
+Wolfram Sang (1):
+  gpio: add sloppy logic analyzer using polling
+
+ .../dev-tools/gpio-sloppy-logic-analyzer.rst  |  71 ++++
+ Documentation/dev-tools/index.rst             |   1 +
+ drivers/gpio/Kconfig                          |  17 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-sloppy-logic-analyzer.c     | 341 ++++++++++++++++++
+ tools/gpio/gpio-sloppy-logic-analyzer         | 221 ++++++++++++
+ 6 files changed, 652 insertions(+)
+ create mode 100644 Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
+ create mode 100644 drivers/gpio/gpio-sloppy-logic-analyzer.c
+ create mode 100755 tools/gpio/gpio-sloppy-logic-analyzer
+
+-- 
+2.30.2
+
