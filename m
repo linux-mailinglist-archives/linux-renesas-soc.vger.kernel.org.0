@@ -2,108 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A0E410595
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Sep 2021 11:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 659EC41073C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Sep 2021 17:04:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242818AbhIRJoQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 18 Sep 2021 05:44:16 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:33631 "EHLO
-        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242443AbhIRJoM (ORCPT
+        id S231452AbhIRPGI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 18 Sep 2021 11:06:08 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:46401 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231336AbhIRPGI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 18 Sep 2021 05:44:12 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.west.internal (Postfix) with ESMTP id 3B3CE2B011CB;
-        Sat, 18 Sep 2021 05:42:47 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sat, 18 Sep 2021 05:42:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=iQMJviYlb4ZEn676riwj+ykMcaY
-        gM3Bpxtt9O2JGErE=; b=WDwHHQXezEJe3XzQX3Em61caD1JOywMykQAjQo9+FvS
-        BAUw0ysziTYQHd2JcCD0Bk8z0AXCgaxpNkpKZQLKoYJ1OqQBcoFQ33Qgu5/ta31z
-        DyByahRv0mE53Ony+dsf9vdzav7TkXvnoNMK9J+5jBpTqlb9TTjAdddlmlrRrTqr
-        Yf6gJ7BLyxE0uyTPoJtiPyFjieupdONy4OEcmHP6qj5k/GfsUOqHapmuJhhnj03u
-        aNQMVgCiAY4CTWJmetOTs/5AqGukMpQkXerlp7nEGlI0rsksg0Xiyj8h6lzqpt5F
-        kGOaxLJK9jw+z2uqeAdy7jRYyyLk3cfoC3lOSyJK4ZQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=iQMJvi
-        Ylb4ZEn676riwj+ykMcaYgM3Bpxtt9O2JGErE=; b=NQPv4xozCXDNOuWW95l8r0
-        wqgyyHyXfB+TEZFR29p5hrSTv1MyvPh8hK33MLJE8IkeC7FBi0cuYZiJYqFoOouk
-        N1SMt7gdmUOFX7+6dS0zB2EDvB6PtfJ+RXPRE6Xm8Yv6zbnwvVa6/DoxXhlvqsiV
-        DiPPdP8iqD22W7bL33bjydi/YElws4Ckpr/ugaxvRzvclMAOlkEEUlIc955FTNr+
-        MRHnTWDFICCu6KCQ4D+EyAmzhwMruzmoz98VLdiUyE9IpnmcGdvH0hhH/n8X3vhI
-        fEDavwtqAGgk1//zVUmRJDSgl5exPhNz4+P4Pt8zN7dvnYLXClZYKlaWnCVGwsuA
-        ==
-X-ME-Sender: <xms:lrRFYfbjRE-L4f3Nfyw9rN67HO9pJVZbRLl_BAWGbVpLMk1TuqfX0g>
-    <xme:lrRFYeYv4mcID7VMTZfIPCn8tDGxqPm2ySOv1G-A0NKEFUBuK3A-ve84o5-867vr0
-    mX6PcSXDWBC1Grk_A>
-X-ME-Received: <xmr:lrRFYR9hvwXVM79X0a8T4DolehjhDAUODuSF4_ucBL_MRX00TWXEJTRAqvy--tKCLhHOxX8g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehkedgudejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
-    nhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrghtth
-    gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
-    heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
-    gvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:lrRFYVqgNRMK_pamLceVRt2VyFRqwtZ2Qcb5LGQOAC_FeeRGMnNf5g>
-    <xmx:lrRFYarmIXc0_KRWqyzkrnne4mGC_Rk6K5ND2K3AeQUIKytJ04dpkA>
-    <xmx:lrRFYbSOSsDAnV7UWjB8L5nXiW3YpBe6JQMbwEeiJuzXn7eXbd_4lg>
-    <xmx:lrRFYZ2Lu9EzyIqd7DyRxbU3UzqW3Goj4jk6MyoI0oEwokzv5BiUmX82bJc>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 18 Sep 2021 05:42:43 -0400 (EDT)
-Date:   Sat, 18 Sep 2021 11:42:40 +0200
-From:   Fernando Ramos <greenfoo@u92.eu>
-To:     Sean Paul <sean@poorly.run>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 14/15] drm/amd: cleanup: drm_modeset_lock_all() -->
- DRM_MODESET_LOCK_ALL_BEGIN()
-Message-ID: <YUW0kJr1XoqCENhl@zacax395.localdomain>
-References: <20210916211552.33490-1-greenfoo@u92.eu>
- <20210916211552.33490-15-greenfoo@u92.eu>
- <20210917155548.GO2515@art_vandelay>
- <YUUh7X+Ft7vKHlcT@zacax395.localdomain>
+        Sat, 18 Sep 2021 11:06:08 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 3B15D4000B;
+        Sat, 18 Sep 2021 15:04:41 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        kieran.bingham@ideasonboard.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Thomas NIZAN <tnizan@witekio.com>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 0/5] media: Add multiplexed support to R-Car and GMSL
+Date:   Sat, 18 Sep 2021 17:05:02 +0200
+Message-Id: <20210918150507.987294-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YUUh7X+Ft7vKHlcT@zacax395.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 21/09/18 01:17AM, Fernando Ramos wrote:
+Hello,
+  this series is based on Tomi's "v4l: subdev internal routing and streams":
+https://patchwork.linuxtv.org/project/linux-media/list/?series=6197
 
-> > > +#include <drm/drm_drv.h>
-> > 
-> > Top-level headers generally come above the driver headers. Also, now that I think
-> > about this a bit more, all of the new includes in this set should probably be
-> > for 'drm_modeset_lock.h' instead of 'drm_drv.h'.
-> 
-> Ok. Let me try that.
+With a few out-of-tree patches for GMSL support on top. The full tree for
+testing is available at:
+https://git.sr.ht/~jmondi_/linux/log/multistream/tomba-v8/gmsl
 
-Turns out that the DRM_MODESET_LOCK_ALL_*() macros expansion includes a call
-to drm_drv_uses_atomic_modeset() which is defined in "drm_drv.h".
+The series aims to
+1) Plumb into Tomi's v4l2 subdev streams and routing to compare it with the
+   previous implementations of multistream support
+2) Add support for multiplexed streams to R-Car VIN, CSI-2 and MAX9286
 
-Thus, #include'ing <drm/drm_drv.h> cannot be avoided.
+First of all, I found the multistream support as implemented by Tomi very nice
+to work with. I have expressed my views on the subdev state handling in the
+review of his series, but routing handling is nice to work with! kudos!
 
-This makes me wonder...
+The GMSL and R-Car implementation which results from this is -almost- working.
+Capturing with 4 cameras works (at least no regressions) but capturing a single
+VC on any instance of VIN results in the usual 'green frame of despair'. Clearly
+there's something to fix in the capture chain, but the plumbing into the new API
+should be sane. Before debugging in detail the capture chain I would like the
+plumbing to be validated.
 
-  1. "drm_drv.h" includes "drm_device.h", which includes "drm_mode_config.h",
-     which includes "drm_modeset_lock.h"
+For testing, I have re-proposed Niklas' patches on top of v4l2-ctl to control
+routing and ported them to this last version. Support for state-based format
+handling has been added on top. Two simple scripts to be deployed in vin-test
+have been used to set routing and capture frames. Both are available at:
+https://git.sr.ht/~jmondi_/v4l2-utils
+https://git.sr.ht/~jmondi_/vin-test-multi
 
-  2. "drm_modeset_lock.h" defines DRM_MODESET_LOCK_ALL_*() which expands into
-     drm_drv_uses_atomic_modeset()
+Thanks
+   j
 
-  3. drm_drv_uses_atomic_modeset() is declared in "drm_drv.h"
+Jacopo Mondi (5):
+  media: max9286: Implement multiplexed support
+  media: max9286: Apply routing configuration
+  media: max9286: Implement routing validation
+  media: rcar-csi2: Implement multiplexed support
+  media: rcar-vin: Support multiplexed CSI-2 receiver
 
-There seems to be a circular dependency here.
+ drivers/media/i2c/max9286.c                 | 452 ++++++++++++++------
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 289 ++++++++++---
+ drivers/media/platform/rcar-vin/rcar-dma.c  |   3 +-
+ 3 files changed, 551 insertions(+), 193 deletions(-)
 
-We can try to fix this, but I suggest to do it in a different patch series.
+--
+2.32.0
 
