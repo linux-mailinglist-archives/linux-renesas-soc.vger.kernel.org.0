@@ -2,101 +2,181 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB56541167E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 16:12:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BFE8411BC6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 19:01:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234701AbhITONp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Sep 2021 10:13:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47456 "EHLO
+        id S1344365AbhITRCI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Sep 2021 13:02:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230175AbhITONp (ORCPT
+        with ESMTP id S229711AbhITRAH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Sep 2021 10:13:45 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2748EC061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Sep 2021 07:12:18 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id b20so9765645lfv.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Sep 2021 07:12:18 -0700 (PDT)
+        Mon, 20 Sep 2021 13:00:07 -0400
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC56C0619C2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Sep 2021 09:48:34 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id y18so23058444ioc.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Sep 2021 09:48:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=+QHxJjuWeYvLMeveeoTGujZOmzBYAMamf1THD0cD6Mo=;
-        b=ZZvylieZUEqG/YQhez/UiP//h6n6lnLlTIrwdjye7heF9Af2qDx9USpVE1ZrZUadll
-         kChVQItbpXuNtDPQe7MyxHv1bLf6czC38mPjg6QnWn37QbMlkUDbYoPrE9mE4zrkU+9C
-         8H2F/61HTO0z+FXB15w2griw/TQrjC4S3P+NDCZ9Gnxj3HyH4NkSZI7PVAmZ/CrRG6Wr
-         TOkGYaG6jY1CWZaRg/iXY58PAYMKYVQhV8HjisPL5bMHrpHBduzyK4pEEYHnGS0xLDNk
-         8fP/8Ih00zZo9Ycnmmnq28BWtyxklyp6HtYA8/MavlfzXse00OK/mj/s8h4xbmuOBsy4
-         eYKA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qwTJ7Ad7zVwW8MXijFTCxqxIz/INuyLU038X6Cl8cX8=;
+        b=gEpnnaWNfeGWV1YEfOrXuq+LS+LgPIPsf1DgmGFv9Am5IX4FzgUCAAz9kv6Wok3gcj
+         hyqxFa0fPyvhfifyDUGVN6FUhXjQr5JBt69GUObZUMETluh34krbCh9RfSG3gJ2vz7WU
+         m2sKlwAIdi+n4v1ByPZGwiF865i2wURG5Xvpg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=+QHxJjuWeYvLMeveeoTGujZOmzBYAMamf1THD0cD6Mo=;
-        b=IJTAd3uWjizMW69xb/9a7n90tbtglzLmk6YpExCWDnL2OTmScxvqRNlIDRmJ/sC3Zl
-         /dWGgBuTMrKPhaAg9KmClESThi6+do/R+CAHLO1AE8ohFa1uv1Mglx+R6MrMTkxYIjIF
-         e+eXKpIN/ihpvV5DobSC27MKbbGXI7FvQjAIB8U0spiNCkN3iQykzRfu1KXODzgI810x
-         Sr/LRko7HyPOa9a9paJalXF4uq9LQ6uASmiU517G/5K1N0tbt3Wob/gSKECIcLC9436W
-         jA0yHUxbtHNNRXXlrcRTNySAt+vN1ojzOjXnyjk7I9Xu+4iRRkRCm/DPHSFbvioGQ614
-         A1ng==
-X-Gm-Message-State: AOAM530vAwpYE2kT1o6FYWkL59IfzhqKjdv5GRZ8dwzI+uw4VP/Ij5XK
-        oLyc483u2Ac0HreN+qDnxw70O0E1k70=
-X-Google-Smtp-Source: ABdhPJzKohm2TpXivowV6n55Sp3dixrRYUz/vzHdGijFpT9lhQRcZI4YuIi9jkAnC0SXe1j8ZxugAw==
-X-Received: by 2002:a05:6512:6c8:: with SMTP id u8mr8082920lff.203.1632147067363;
-        Mon, 20 Sep 2021 07:11:07 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id h9sm1275065lfj.145.2021.09.20.07.11.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 07:11:06 -0700 (PDT)
-Date:   Mon, 20 Sep 2021 16:11:06 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] arm64: defconfig: add Renesas TPU as module
-Message-ID: <YUiWeoZvtduEwDdH@oden.dyn.berto.se>
-References: <20210915153143.25184-1-wsa+renesas@sang-engineering.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qwTJ7Ad7zVwW8MXijFTCxqxIz/INuyLU038X6Cl8cX8=;
+        b=D8AVFBDshfd3aNnL8CxZwf7+cCzPrjPpTtyndltBuTke9x7zyvMmyxDNZhqdv/bCtH
+         b/Hy6H7+/K+bBgfQd8FkTAjxPtfR1xC6mBf/vWBbW1vkLDMb7K1mJry3/P4KZk7euE3B
+         ZEiJqcwvJS7PVCqlxsGV8u8VdBRvd2E/ReCDu4DVk4c0U5HCgHmBznPIni8cgtCZIQ2r
+         SD0arP86PE6fbkCOqMwcn07NxeilFbmgzbB2Yc9x39ZKRNiwY2at7Wk9WbEtrdgGF4yL
+         BN4MjfRLYifly65pBhlmTJIvG4TF4IpDmYl19KruEPEaW9LjF0myZFZ/UvnytzOyPa0Y
+         OmZg==
+X-Gm-Message-State: AOAM533lX0DrYSoKG1o5qll0nsaWJk+j9waMhWGMWdKFXrk/g8Xul8So
+        B2Rv9qMZIGqssH8eA8kzzAtiIP86R0GqfA==
+X-Google-Smtp-Source: ABdhPJxp+GjmQwfle4itXwTv1/AjQmgAvGSEd8Eq+/99lKwRzfXKOIQhXc12ImvTFTWe4PdsZ1ovqw==
+X-Received: by 2002:a05:6638:1389:: with SMTP id w9mr20037906jad.138.1632156514272;
+        Mon, 20 Sep 2021 09:48:34 -0700 (PDT)
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com. [209.85.166.178])
+        by smtp.gmail.com with ESMTPSA id r13sm9570415ilh.80.2021.09.20.09.48.34
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Sep 2021 09:48:34 -0700 (PDT)
+Received: by mail-il1-f178.google.com with SMTP id v16so19465695ilg.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Sep 2021 09:48:34 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1847:: with SMTP id b7mr18604550ilv.180.1632156161095;
+ Mon, 20 Sep 2021 09:42:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210915153143.25184-1-wsa+renesas@sang-engineering.com>
+References: <20210914202202.1702601-1-dianders@chromium.org> <CACRpkdaTb4_UfFzCqw=fiAnQhHD+1sDDua529KdGQbgMVfjYBw@mail.gmail.com>
+In-Reply-To: <CACRpkdaTb4_UfFzCqw=fiAnQhHD+1sDDua529KdGQbgMVfjYBw@mail.gmail.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Mon, 20 Sep 2021 09:42:28 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VPgFRBLgOGvt4a4afDr80aQL64L7=H3kqeRf2ffiusPg@mail.gmail.com>
+Message-ID: <CAD=FV=VPgFRBLgOGvt4a4afDr80aQL64L7=H3kqeRf2ffiusPg@mail.gmail.com>
+Subject: Re: [PATCH v5 00/15] eDP: Support probing eDP panels dynamically
+ instead of hardcoding
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>,
+        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maxime Ripard <mripard@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kees Cook <keescook@chromium.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Lionel Debieve <lionel.debieve@st.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        =?UTF-8?Q?Martin_J=C3=BCcker?= <martin.juecker@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michael Walle <michael@walle.cc>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Nishanth Menon <nm@ti.com>,
+        Olivier Moysan <olivier.moysan@st.com>,
+        Otavio Salvador <otavio@ossystems.com.br>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Razvan Stefanescu <razvan.stefanescu@microchip.com>,
+        Robert Richter <rric@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Will Deacon <will@kernel.org>,
+        William Cohen <wcohen@redhat.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        linux-sunxi@lists.linux.dev,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi,
 
-Thanks for your patch.
+On Tue, Sep 14, 2021 at 3:12 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> On Tue, Sep 14, 2021 at 10:22 PM Douglas Anderson <dianders@chromium.org> wrote:
+>
+> > Version 5 of this series just fixes the panel ID encode macro to be
+> > cleaner and adds Jani's review tags.
+> >
+> > It could possibly be ready to land?
+>
+> Definitely IMO, the kernel look so much better after this change,
+> so for the series:
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-On 2021-09-15 17:31:43 +0200, Wolfram Sang wrote:
-> For better build and test coverage.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Pushed all 15 to drm-misc-next.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+5540cf8f3e8d drm/panel-edp: Implement generic "edp-panel"s probed by EDID
+24e27de11560 drm/panel-edp: Don't re-read the EDID every time we power
+off the panel
+a64ad9c3e4a5 drm/panel-edp: Fix "prepare_to_enable" if panel doesn't handle HPD
+c46a4cc1403e drm/panel-edp: hpd_reliable shouldn't be subtraced from hpd_absent
+52824ca4502d drm/panel-edp: Better describe eDP panel delays
+9ea10a500045 drm/panel-edp: Split the delay structure out
+b6d5ffce11dd drm/panel-simple: Non-eDP panels don't need "HPD" handling
+3fd68b7b13c2 drm/panel-edp: Move some wayward panels to the eDP driver
+5f04e7ce392d drm/panel-edp: Split eDP panels out of panel-simple
+c0c11c70a6d0 arm64: defconfig: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+310720875efa ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+e8de4d55c259 drm/edid: Use new encoded panel id style for quirks matching
+d9f91a10c3e8 drm/edid: Allow querying/working with the panel ID from the EDID
+bac9c2948224 drm/edid: Break out reading block 0 of the EDID
+29145a566873 dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
 
-> ---
->  arch/arm64/configs/defconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index 156d96afbbfc..45a17530dfa8 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -1091,6 +1091,7 @@ CONFIG_PWM_MESON=m
->  CONFIG_PWM_MTK_DISP=m
->  CONFIG_PWM_MEDIATEK=m
->  CONFIG_PWM_RCAR=m
-> +CONFIG_PWM_RENESAS_TPU=m
->  CONFIG_PWM_ROCKCHIP=y
->  CONFIG_PWM_SAMSUNG=y
->  CONFIG_PWM_SL28CPLD=m
-> -- 
-> 2.30.2
-> 
-
--- 
-Regards,
-Niklas Söderlund
+-Doug
