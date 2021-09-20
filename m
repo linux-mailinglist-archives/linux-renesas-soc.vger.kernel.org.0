@@ -2,91 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE3924115DE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 15:33:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA841411671
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 16:10:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233966AbhITNfU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Sep 2021 09:35:20 -0400
-Received: from foss.arm.com ([217.140.110.172]:47756 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232938AbhITNfU (ORCPT
+        id S229567AbhITOMS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Sep 2021 10:12:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47110 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233459AbhITOMS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Sep 2021 09:35:20 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4306612FC;
-        Mon, 20 Sep 2021 06:33:53 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ECCC83F882;
-        Mon, 20 Sep 2021 06:33:51 -0700 (PDT)
-Subject: Re: [PATCH 5/9] drm/panfrost: simplify getting .driver_data
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-kernel@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org
-References: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
- <20210920090522.23784-6-wsa+renesas@sang-engineering.com>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <e2e46b06-b013-cbea-6e48-71633d056813@arm.com>
-Date:   Mon, 20 Sep 2021 14:33:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Mon, 20 Sep 2021 10:12:18 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AAE7C061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Sep 2021 07:10:51 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id b15so50019771lfe.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Sep 2021 07:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=2JAqQhrK3zP5XHtsDM6EOQH25Hn5+gPmIqqVdI0le+c=;
+        b=jhuOK6S4u/+Y+cz6CoUIlw6M3gI2/ulCvDbq4vu7Kp/xMnKiRlZZwd4SVwOhDvOF+O
+         vmTB0VViUDGst8wZm8IeI+RVJFs3TmB5GcdOh8r2OBHYxIpygM4ranwPWuRQuZ6vw6BZ
+         cMrwIRFez74onl1MESGnIZlzny4fOxtGvPmPaR5ZX/2yLJDoFQLOPApZBxcgtUg5NVf/
+         PdbM+usrj4WgqzsG6hBG+hnEYnZ49CsVHlztZL/8d0dv+e2cKf/DdHtYxfbR7dKOVjta
+         fNBQw+zWQq+czRBLkExAnCzZ34zRmydTYe22/K61ucdLVyswSPhbd1WFefkdf3b8B50a
+         E1kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=2JAqQhrK3zP5XHtsDM6EOQH25Hn5+gPmIqqVdI0le+c=;
+        b=hXBFQOGSLrVxh/8SX6AIpUVHau+jPP8xl/D4UwmBRPrV4OXgNNxOhi1FUzdIuzEFc+
+         wKHROOqH7x9YnP1MSzhZPZIR6S/83Cf0Ytp5UDUWWu6tW4Mg6MKmEkYWN0wSYg86Bnur
+         ZkOERKLP/3/3y+wq2pCJJV+CuD6Tj7uFpKF/p31/4XbHMnK1QmNREUA3inxrP3OxI3/o
+         OXUJKfQ06ZcHx61NBXDKbsR3+a6RCsiNNm2msIw3mQx9q9cQCJ6dwwtzyU58aZOmDHJi
+         kqHVMDclYjCA5x++XLYvs3ZdzzWKbapENCez5BYrTPFY4Wb4h7pXZ63d+LMVo8+1kUkw
+         LbFA==
+X-Gm-Message-State: AOAM532IhapCD5gr0UHX/7uMnQKA1BYLkrKQptcTXcpNtFHjWp5gVRuv
+        QwkTWRPDoGJfwsKPyFYhuZ+Fsw==
+X-Google-Smtp-Source: ABdhPJznAy7+5gncZVdjpqtN8i9pozLiE33fXqXLdxsQA8DMu+Vaq7d3p7oLV9P5WyppRIphoCa8fw==
+X-Received: by 2002:a2e:1641:: with SMTP id 1mr22540124ljw.83.1632146989616;
+        Mon, 20 Sep 2021 07:09:49 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id n24sm1278181lfq.294.2021.09.20.07.09.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Sep 2021 07:09:48 -0700 (PDT)
+Date:   Mon, 20 Sep 2021 16:09:47 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] serial: 8250: SERIAL_8250_EM should depend on
+ ARCH_RENESAS
+Message-ID: <YUiWK84CGyBeoMlY@oden.dyn.berto.se>
+References: <7b5a4bbf2f47b2c4c127817e8b1524a650795d97.1631710085.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <20210920090522.23784-6-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7b5a4bbf2f47b2c4c127817e8b1524a650795d97.1631710085.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 20/09/2021 10:05, Wolfram Sang wrote:
-> We should get 'driver_data' from 'struct device' directly. Going via
-> platform_device is an unneeded step back and forth.
+Hi Geert,
+
+Thanks for your work.
+
+On 2021-09-15 14:49:22 +0200, Geert Uytterhoeven wrote:
+> The Emma Mobile integrated serial port hardware is only present on Emma
+> Mobile SoCs.  Hence add a dependency on ARCH_RENESAS, to prevent asking
+> the user about this driver when configuring a kernel without Renesas
+> ARM32 SoC support.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-I'll push this to drm-misc-next.
-
-Thanks,
-
-Steve
-
+>  drivers/tty/serial/8250/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Build tested only. buildbot is happy.
-> 
->  drivers/gpu/drm/panfrost/panfrost_device.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index bd9b7be63b0f..fd4309209088 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -400,8 +400,7 @@ void panfrost_device_reset(struct panfrost_device *pfdev)
->  #ifdef CONFIG_PM
->  int panfrost_device_resume(struct device *dev)
->  {
-> -	struct platform_device *pdev = to_platform_device(dev);
-> -	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
-> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
->  
->  	panfrost_device_reset(pfdev);
->  	panfrost_devfreq_resume(pfdev);
-> @@ -411,8 +410,7 @@ int panfrost_device_resume(struct device *dev)
->  
->  int panfrost_device_suspend(struct device *dev)
->  {
-> -	struct platform_device *pdev = to_platform_device(dev);
-> -	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
-> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
->  
->  	if (!panfrost_job_is_idle(pfdev))
->  		return -EBUSY;
+> diff --git a/drivers/tty/serial/8250/Kconfig b/drivers/tty/serial/8250/Kconfig
+> index 71ae16de0f90e06f..808268edd2e82a45 100644
+> --- a/drivers/tty/serial/8250/Kconfig
+> +++ b/drivers/tty/serial/8250/Kconfig
+> @@ -376,7 +376,7 @@ config SERIAL_8250_DW
+>  config SERIAL_8250_EM
+>  	tristate "Support for Emma Mobile integrated serial port"
+>  	depends on SERIAL_8250 && HAVE_CLK
+> -	depends on ARM || COMPILE_TEST
+> +	depends on (ARM && ARCH_RENESAS) || COMPILE_TEST
+>  	help
+>  	  Selecting this option will add support for the integrated serial
+>  	  port hardware found on the Emma Mobile line of processors.
+> -- 
+> 2.25.1
 > 
 
+-- 
+Regards,
+Niklas Söderlund
