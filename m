@@ -2,85 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7D0D4113B9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 13:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC277411406
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 14:12:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237224AbhITLq7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Sep 2021 07:46:59 -0400
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:42758 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237196AbhITLq6 (ORCPT
+        id S231792AbhITMN7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Sep 2021 08:13:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44138 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237519AbhITMN7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Sep 2021 07:46:58 -0400
-Received: by mail-ua1-f41.google.com with SMTP id c33so10948786uae.9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Sep 2021 04:45:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ydeagHrvxjiAIYOHS0B/rkDvJ1CzJ5SNqZOdo+yg6SU=;
-        b=JO2+KryEmcTtZSjrkxyS9Z7svLYIwvGC4QB9UBnecdmC+DHzLGHCY4l5tYaKUrLmdS
-         OXGRDJnxsCSJf7FVaiVxAb5ijxhRtWXNqX5QQ7Ae/TPF6KybZX6HrHkZur0X67bRGo6I
-         6I7h+0LaOwWTNt6KOovh/MRbReUdSCO0ENR/joU6GnnHK5e0ik2iwGAg1mhZJbnHo5hs
-         rsExfIiisDD/9NTcGxw0vTWeM/ilXMcv2UWUJHSI2KL6Ad4pqgShCxCKEv9OJlTltv2i
-         gE80+VIYChMmbffgQEsifNiyBKT6QQnXD4yHQu7bxDiA4EVbQp1+0MQ74tq5VBQxa+Dr
-         GlLQ==
-X-Gm-Message-State: AOAM532LaQAdiHwgdW984pieb3cVoZwqNQYIeqJf+e48ONJ7plimxWWx
-        Ihk7M3/8/tRacw3pv8t0pPgac2kRFNmAgXNudrc=
-X-Google-Smtp-Source: ABdhPJyETAEA7/Y30qBepfbsOZY8MSV/Ou0QNG8tOfG8cCj1JRXeAMk7r2olHyrhW0Um8Rpx7tVnfyyFwSKBpch1rLk=
-X-Received: by 2002:ab0:6dc7:: with SMTP id r7mr11241487uaf.14.1632138331668;
- Mon, 20 Sep 2021 04:45:31 -0700 (PDT)
+        Mon, 20 Sep 2021 08:13:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B58D61040;
+        Mon, 20 Sep 2021 12:12:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632139952;
+        bh=92Zco9rXt6W+e6PF3VjFECoFUbUIIIKca4hGES5Ml+o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kSOSfcoJpTxGrpygYlvVlVB4djdfH7aRb6HHRyy9jIQaRSBF0C17nydFMyr0CbbKE
+         vxcMLftmwR93lOfPaGj/V6LDMZZ6ow4WLsxyLmN3RJvgXcOKUpK25sqR0alChon3PO
+         92ZU9DVll/y0bZeBy9mLeYOFYmEuFAx+ti/w2veFBrp4YX3P8r9EvJSfrG+iD6L01r
+         Ty/+gnc5ge1dhzCAKJXzgoe0WGJqcwK7IVW48LDE1EvOR9uc+C77W8mQfIjJr2mRsF
+         r50x5Mwzid6J8CUWPWba8amSTEtbHpVAAj4L5PaIGS08r/xFEfAvO0+91AdI9PG2q8
+         LsNCv1EWgEvEQ==
+Date:   Mon, 20 Sep 2021 08:12:31 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.14 12/32] PCI: rcar: Add L1 link state fix into
+ data abort hook
+Message-ID: <YUh6r6SOu7AH6P3f@sashalap>
+References: <20210911131149.284397-1-sashal@kernel.org>
+ <20210911131149.284397-12-sashal@kernel.org>
+ <6cbfadee-0d74-fa4c-9ef3-a1bce55632bb@gmail.com>
 MIME-Version: 1.0
-References: <20210920093905.10878-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210920093905.10878-1-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 20 Sep 2021 13:45:20 +0200
-Message-ID: <CAMuHMdWpws8uknhX00PyaAN+GjD0_Uc-zaBaVdYKkpTnqTsarw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: defconfig: Enable SND_SOC_WM8978
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Michael Walle <michael@walle.cc>, Nishanth Menon <nm@ti.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <6cbfadee-0d74-fa4c-9ef3-a1bce55632bb@gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
-
-On Mon, Sep 20, 2021 at 11:39 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> WM8978 audio CODEC is supported on RZ/G2L SMARC EVK.
-> Enable it on arm64 defconfig as module.
+On Sat, Sep 11, 2021 at 06:05:37PM +0200, Marek Vasut wrote:
+>On 9/11/21 3:11 PM, Sasha Levin wrote:
+>>From: Marek Vasut <marek.vasut+renesas@gmail.com>
+>>
+>>[ Upstream commit a115b1bd3af0c2963e72f6e47143724c59251be6 ]
+>>
+>>When the link is in L1, hardware should return it to L0
+>>automatically whenever a transaction targets a component on the
+>>other end of the link (PCIe r5.0, sec 5.2).
+>>
+>>The R-Car PCIe controller doesn't handle this transition correctly.
+>>If the link is not in L0, an MMIO transaction targeting a downstream
+>>device fails, and the controller reports an ARM imprecise external
+>>abort.
+>>
+>>Work around this by hooking the abort handler so the driver can
+>>detect this situation and help the hardware complete the link state
+>>transition.
+>>
+>>When the R-Car controller receives a PM_ENTER_L1 DLLP from the
+>>downstream component, it sets PMEL1RX bit in PMSR register, but then
+>>the controller enters some sort of in-between state.  A subsequent
+>>MMIO transaction will fail, resulting in the external abort.  The
+>>abort handler detects this condition and completes the link state
+>>transition by setting the L1IATN bit in PMCTLR and waiting for the
+>>link state transition to complete.
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>You will also need the following patch, otherwise the build will fail 
+>on configurations without COMMON_CLK (none where this driver is used, 
+>but happened on one of the build bots). I'm waiting for PCIe 
+>maintainers to pick it up:
+>https://patchwork.kernel.org/project/linux-pci/patch/20210907144512.5238-1-marek.vasut@gmail.com/
 
-Thanks for your patch!
-
-Looks good to me, but I would like to defer this until the RZ/G2L
-SMARC EVK DTS contains a device node compatible with "wlf,wm8978".
-
-Gr{oetje,eeting}s,
-
-                        Geert
+I see that it's not upstream yet, so I'll drop this patch for now.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Sasha
