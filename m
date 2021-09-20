@@ -2,119 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C72D84127FA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 23:27:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73826412948
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Sep 2021 01:13:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238554AbhITV3A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Sep 2021 17:29:00 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:54121 "EHLO
-        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231784AbhITV1A (ORCPT
+        id S239305AbhITXOi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Sep 2021 19:14:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55412 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239378AbhITXMh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Sep 2021 17:27:00 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.west.internal (Postfix) with ESMTP id EECA82B012E5;
-        Mon, 20 Sep 2021 17:25:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 20 Sep 2021 17:25:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=AWImI2KGSpvCbthaTGpOCk4QbRl
-        8dZEEYq4SHjBTZJE=; b=USXGjuU+4R2n9u+CDG6f9J49IGnM33Ay4XL+MlmTPNv
-        zeb26cRTrDZymp/Wy0xOKrb0j7P0vB55p2h5DS5Co/L1vAGjJoI0JQcZh93opH11
-        4hsuQsFzDJ4FhOR4s7lTtgsnMNm+7OJWq8pl9qVcXWJF1hr9RNClUgeMfBLC8kcb
-        WyhUfNH8fNniw9f56QJwijgyaUFVFtXVm0bLLG/NskWpOyT6fINV5jlub6v5TEPQ
-        VsBBXzNvOEzK+lONgNf2QcFjqJvJG3T8ipYXGF4VfGvx8NtLjS2OlTOKVN/Oy1pT
-        LUKfj8RyH4XVxQ7OUFm/X8+0xVYdgIpKJSzQ0okyh3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=AWImI2
-        KGSpvCbthaTGpOCk4QbRl8dZEEYq4SHjBTZJE=; b=Aaj6hUmY/KPtF72LH13Yrv
-        mhXLRAym+vY8SVlWlLweQ7NtjfFgQ8vEjItH8b++bypf/hy2iQn7jXeRszrOQgwP
-        bXw8UJGlZzVijGiBljQD7wCXpJriQ+UJnLTQq0TINKW2ITc6xyX1sxYD3uohAlQu
-        6NXwJfYejUwBe4HT5zuWM3MzCB5nfIJSe2ywV7rnVQevRT4FOiZsdm/CiUuvY9Ur
-        +w/vhof0UnA4w+UPfcdCYlDEWSOhnSlYH+YUv0M8vfe3CCycZx+YQprmNbDIjPC5
-        Cm8RaSUQGSODp8Y/5sbZydYQDDu4pZLzEq8bUfLwBEXWTYEB65RxOuAwkjZCPNrw
-        ==
-X-ME-Sender: <xms:SvxIYb_SD3L6GKZGVyKR7v3MeCFNcaciiz1aAknxnzN1mAygQkqBOw>
-    <xme:SvxIYXtxHvokL16p3vxzx4LR9djf0dxSIuc0NrHJnrHy5ApNkIX81_FKyP9MujcT9
-    HkykA1gYSfghYEL1Q>
-X-ME-Received: <xmr:SvxIYZArrxeoKSowR3xIM7iucgEBrsqP3y96noTubNXQwy3MMLQSSHnoIGnz94lvXMXyUj08>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeivddgudehlecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttd
-    ertddttdejnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
-    ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpedvjeeifeelhfetiefhhfdthfefke
-    fhhfeutdetvdfgvefgveefheffgfekjeefheenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:SvxIYXdYXMRZ0FKBeMVhN17WTZvhEpWL2Yj5nRDic3kSBqDeyY_H4g>
-    <xmx:SvxIYQNZxI6Eiljl_BP_kv2DzxGV3Hrcbf9AGmdTrdbaPqAM5R83Zw>
-    <xmx:SvxIYZk0PVsalhpoyFR0uPrwJJnzF_M7F_mQGyC2mlSLjujPt_T2Ug>
-    <xmx:S_xIYREyT86uoIjKzNQk2NcGSP8U-MKgIMOwk712MBk4AtGVUt2psHpZW2g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Sep 2021 17:25:27 -0400 (EDT)
-Date:   Mon, 20 Sep 2021 23:25:24 +0200
-From:   Fernando Ramos <greenfoo@u92.eu>
-To:     kernel test robot <lkp@intel.com>
-Cc:     dri-devel@lists.freedesktop.org, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, sean@poorly.run,
-        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 03/15] dmr/msm: cleanup: drm_modeset_lock_all_ctx() -->
- DRM_MODESET_LOCK_ALL_BEGIN()
-Message-ID: <YUj8RHdl7aIONPa0@zacax395.localdomain>
-References: <20210916211552.33490-4-greenfoo@u92.eu>
- <202109200942.M3etmn3s-lkp@intel.com>
+        Mon, 20 Sep 2021 19:12:37 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FB17C0386ED
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Sep 2021 10:43:16 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id p29so70171652lfa.11
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Sep 2021 10:43:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=GtuM9YagTHYKrWOhQ1gtwvGsnMjdXnCVKchvfBhnO1w=;
+        b=pXQMrZbKgXgWQCDjeJXucFyF1RJmt9Uju0cGcst8oZD0aQBk4ZGbnhnLMwUjG4VrKn
+         dZJ2qPL3PFp2Ok/pe7kewEq7esYMy0c0VBXPPE8YMdBMQzJj/0QPHoUDU5l8dwEATmDS
+         52B1Heq4UeUdQ57NVIcjejtYbv+Wy7/7EzaWjGGVMx2m/hLmoHHZPG3CoMVTNPPzME3Z
+         W+NaqGeThWtpZBuauLRRtBoRSLRZ45Z6mydSgB4UdXDRHQ9JYv0yjHQ2AxSpDnG3Eab5
+         BF4vGlfnvGWiugOrpDmbjqk9V50/JYLwhTPa80jfTXjgP4InNs1+gyW6SKQL0v4W8Het
+         xqzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=GtuM9YagTHYKrWOhQ1gtwvGsnMjdXnCVKchvfBhnO1w=;
+        b=HebLSoYigTV6UeEna0ll4GJ1RTVv2sfCbmFrnpQeCfQftjl9UD2O1bFxgLSTHmQVCN
+         d31I0sJDIPBeFHH1AJUNXnVz50WGVcChLqcr29AEotYewG31GJLRq772CdSL66a0nCAH
+         EiPq9HyOtHRLDc/a0ZMg/qbfe4rYIytWtUbiMF0gDT2Wg748IRHf/9ABItjLIm1955XI
+         ls6bi1uQKhsFZe4n/cgymnW2D56qpOdMM9Dnauw8DCQTAgTR8k7hH0OepYw8aXGpMXH6
+         9ekzz2eHZFyz/q9MQ1TeFPyYoQUsWYUaiykF6sKTbtGDKWcKkYj7oyY3eWU8S9KemNWs
+         6G2w==
+X-Gm-Message-State: AOAM533yuvIJwZivdKrIe5JuGsj7SE6DIsbmOENXyuo/E6XPOhvCa5XC
+        TZA95zAqPSlIg3DRHeUJcF1UQQ==
+X-Google-Smtp-Source: ABdhPJxn2v1tWHsX+uNuNz2lFdWzXVtq+qfYut8WPdiAdAwNYedW8x+ShjGSvZrTGAlTYLUwH5ox3w==
+X-Received: by 2002:a05:651c:1103:: with SMTP id d3mr23610783ljo.445.1632159793268;
+        Mon, 20 Sep 2021 10:43:13 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id b20sm1313543lfc.75.2021.09.20.10.43.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Sep 2021 10:43:12 -0700 (PDT)
+Date:   Mon, 20 Sep 2021 19:43:11 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Ryo Kataoka <ryo.kataoka.wt@renesas.com>
+Subject: Re: [PATCH] i2c: rcar: enable interrupts before starting transfer
+Message-ID: <YUjIL5ac5wcI7gtd@oden.dyn.berto.se>
+References: <20210915134827.13043-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <202109200942.M3etmn3s-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210915134827.13043-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 21/09/20 09:54AM, kernel test robot wrote:
+Hi Wolfram,
+
+Thanks for your patch.
+
+On 2021-09-15 15:48:27 +0200, Wolfram Sang wrote:
+> We want to enable the interrupts _before_ starting the transfer because
+> it is good programming style and also the proposed order in the R-Car
+> manual. There is no difference in practice because it doesn't matter in
+> which order both conditions appear if we wait for both to happen.
 > 
-> [auto build test ERROR on drm-exynos/exynos-drm-next]
-> [also build test ERROR on tegra-drm/drm/tegra/for-next linus/master v5.15-rc2 next-20210917]
+> Signed-off-by: Ryo Kataoka <ryo.kataoka.wt@renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-I forgot to #include <drm/drm_drv.h> for those platforms and didn't notice
-because I only tried to build for X86. I'll fix it.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-
-> [cannot apply to drm-intel/for-linux-next tegra/for-next drm-tip/drm-tip airlied/drm-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base'.
-
-I built this patch against drm-next, which currently points to v5.15-rc1.
-
-Should I be targeting a different branch? In any case, as suggested, I'll
-remember to use "--base" in the future to make it easier to apply. Thanks for
-the hint.
-
-
-> All errors (new ones prefixed by >>):
+> ---
+>  drivers/i2c/busses/i2c-rcar.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
->    In file included from include/drm/drm_crtc.h:36,
->                     from include/drm/drm_atomic_helper.h:31,
->                     from drivers/gpu/drm/msm/disp/msm_disp_snapshot.h:9,
->                     from drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c:8:
->    drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c: In function 'msm_disp_capture_atomic_state':
-> >> include/drm/drm_modeset_lock.h:167:14: error: implicit declaration of function 'drm_drv_uses_atomic_modeset' [-Werror=implicit-function-declaration]
->      167 |         if (!drm_drv_uses_atomic_modeset(dev))                          \
->          |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c:108:9: note: in expansion of macro 'DRM_MODESET_LOCK_ALL_BEGIN'
->      108 |         DRM_MODESET_LOCK_ALL_BEGIN(ddev, ctx, 0, ret);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
+> diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+> index bff9913c37b8..fc13511f4562 100644
+> --- a/drivers/i2c/busses/i2c-rcar.c
+> +++ b/drivers/i2c/busses/i2c-rcar.c
+> @@ -339,6 +339,9 @@ static void rcar_i2c_prepare_msg(struct rcar_i2c_priv *priv)
+>  		priv->flags |= ID_LAST_MSG;
+>  
+>  	rcar_i2c_write(priv, ICMAR, i2c_8bit_addr_from_msg(priv->msg));
+> +	if (!priv->atomic_xfer)
+> +		rcar_i2c_write(priv, ICMIER, read ? RCAR_IRQ_RECV : RCAR_IRQ_SEND);
+> +
+>  	/*
+>  	 * We don't have a test case but the HW engineers say that the write order
+>  	 * of ICMSR and ICMCR depends on whether we issue START or REP_START. Since
+> @@ -354,9 +357,6 @@ static void rcar_i2c_prepare_msg(struct rcar_i2c_priv *priv)
+>  			rcar_i2c_write(priv, ICMCR, RCAR_BUS_PHASE_START);
+>  		rcar_i2c_write(priv, ICMSR, 0);
+>  	}
+> -
+> -	if (!priv->atomic_xfer)
+> -		rcar_i2c_write(priv, ICMIER, read ? RCAR_IRQ_RECV : RCAR_IRQ_SEND);
+>  }
+>  
+>  static void rcar_i2c_next_msg(struct rcar_i2c_priv *priv)
+> -- 
+> 2.30.2
+> 
 
-Out of curiosity: The top comment says there were two build errors (one on
-exynos and another one on tegra), but there is only one reported bug (on msm).
-
-Is this because the bot only reports the first error found? Is there a link to
-a report with each of the build errors on each of the platforms?
-
-Thanks.
+-- 
+Regards,
+Niklas Söderlund
