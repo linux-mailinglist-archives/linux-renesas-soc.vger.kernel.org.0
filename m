@@ -2,114 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC075412454
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 20:32:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C72D84127FA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 23:27:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353243AbhITSde (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Sep 2021 14:33:34 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:14414 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1379474AbhITSbc (ORCPT
+        id S238554AbhITV3A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Sep 2021 17:29:00 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:54121 "EHLO
+        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231784AbhITV1A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Sep 2021 14:31:32 -0400
-X-IronPort-AV: E=Sophos;i="5.85,309,1624287600"; 
-   d="scan'208";a="94592978"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 21 Sep 2021 03:30:04 +0900
-Received: from localhost.localdomain (unknown [10.226.92.208])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 391EA40D357E;
-        Tue, 21 Sep 2021 03:30:02 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: rzg2l-smarc: Enable I2C{0,1,3} support
-Date:   Mon, 20 Sep 2021 19:29:55 +0100
-Message-Id: <20210920182955.13445-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210920182955.13445-1-biju.das.jz@bp.renesas.com>
-References: <20210920182955.13445-1-biju.das.jz@bp.renesas.com>
+        Mon, 20 Sep 2021 17:27:00 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.west.internal (Postfix) with ESMTP id EECA82B012E5;
+        Mon, 20 Sep 2021 17:25:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 20 Sep 2021 17:25:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=AWImI2KGSpvCbthaTGpOCk4QbRl
+        8dZEEYq4SHjBTZJE=; b=USXGjuU+4R2n9u+CDG6f9J49IGnM33Ay4XL+MlmTPNv
+        zeb26cRTrDZymp/Wy0xOKrb0j7P0vB55p2h5DS5Co/L1vAGjJoI0JQcZh93opH11
+        4hsuQsFzDJ4FhOR4s7lTtgsnMNm+7OJWq8pl9qVcXWJF1hr9RNClUgeMfBLC8kcb
+        WyhUfNH8fNniw9f56QJwijgyaUFVFtXVm0bLLG/NskWpOyT6fINV5jlub6v5TEPQ
+        VsBBXzNvOEzK+lONgNf2QcFjqJvJG3T8ipYXGF4VfGvx8NtLjS2OlTOKVN/Oy1pT
+        LUKfj8RyH4XVxQ7OUFm/X8+0xVYdgIpKJSzQ0okyh3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=AWImI2
+        KGSpvCbthaTGpOCk4QbRl8dZEEYq4SHjBTZJE=; b=Aaj6hUmY/KPtF72LH13Yrv
+        mhXLRAym+vY8SVlWlLweQ7NtjfFgQ8vEjItH8b++bypf/hy2iQn7jXeRszrOQgwP
+        bXw8UJGlZzVijGiBljQD7wCXpJriQ+UJnLTQq0TINKW2ITc6xyX1sxYD3uohAlQu
+        6NXwJfYejUwBe4HT5zuWM3MzCB5nfIJSe2ywV7rnVQevRT4FOiZsdm/CiUuvY9Ur
+        +w/vhof0UnA4w+UPfcdCYlDEWSOhnSlYH+YUv0M8vfe3CCycZx+YQprmNbDIjPC5
+        Cm8RaSUQGSODp8Y/5sbZydYQDDu4pZLzEq8bUfLwBEXWTYEB65RxOuAwkjZCPNrw
+        ==
+X-ME-Sender: <xms:SvxIYb_SD3L6GKZGVyKR7v3MeCFNcaciiz1aAknxnzN1mAygQkqBOw>
+    <xme:SvxIYXtxHvokL16p3vxzx4LR9djf0dxSIuc0NrHJnrHy5ApNkIX81_FKyP9MujcT9
+    HkykA1gYSfghYEL1Q>
+X-ME-Received: <xmr:SvxIYZArrxeoKSowR3xIM7iucgEBrsqP3y96noTubNXQwy3MMLQSSHnoIGnz94lvXMXyUj08>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeivddgudehlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttd
+    ertddttdejnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
+    ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpedvjeeifeelhfetiefhhfdthfefke
+    fhhfeutdetvdfgvefgveefheffgfekjeefheenucevlhhushhtvghrufhiiigvpedtnecu
+    rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
+X-ME-Proxy: <xmx:SvxIYXdYXMRZ0FKBeMVhN17WTZvhEpWL2Yj5nRDic3kSBqDeyY_H4g>
+    <xmx:SvxIYQNZxI6Eiljl_BP_kv2DzxGV3Hrcbf9AGmdTrdbaPqAM5R83Zw>
+    <xmx:SvxIYZk0PVsalhpoyFR0uPrwJJnzF_M7F_mQGyC2mlSLjujPt_T2Ug>
+    <xmx:S_xIYREyT86uoIjKzNQk2NcGSP8U-MKgIMOwk712MBk4AtGVUt2psHpZW2g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Sep 2021 17:25:27 -0400 (EDT)
+Date:   Mon, 20 Sep 2021 23:25:24 +0200
+From:   Fernando Ramos <greenfoo@u92.eu>
+To:     kernel test robot <lkp@intel.com>
+Cc:     dri-devel@lists.freedesktop.org, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, sean@poorly.run,
+        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 03/15] dmr/msm: cleanup: drm_modeset_lock_all_ctx() -->
+ DRM_MODESET_LOCK_ALL_BEGIN()
+Message-ID: <YUj8RHdl7aIONPa0@zacax395.localdomain>
+References: <20210916211552.33490-4-greenfoo@u92.eu>
+ <202109200942.M3etmn3s-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202109200942.M3etmn3s-lkp@intel.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable I2C{0,1,3} support on RZ/G2L SMARC EVK.
+On 21/09/20 09:54AM, kernel test robot wrote:
+> 
+> [auto build test ERROR on drm-exynos/exynos-drm-next]
+> [also build test ERROR on tegra-drm/drm/tegra/for-next linus/master v5.15-rc2 next-20210917]
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi | 39 ++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+I forgot to #include <drm/drm_drv.h> for those platforms and didn't notice
+because I only tried to build for X86. I'll fix it.
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-index 7ecd4a3f4175..8ecc5b45fc99 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-@@ -11,6 +11,9 @@
- / {
- 	aliases {
- 		serial0 = &scif0;
-+		i2c0 = &i2c0;
-+		i2c1 = &i2c1;
-+		i2c3 = &i2c3;
- 	};
- 
- 	chosen {
-@@ -45,6 +48,27 @@
- 	status = "okay";
- };
- 
-+&i2c0 {
-+	pinctrl-0 = <&i2c0_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	pinctrl-0 = <&i2c1_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&i2c3 {
-+	pinctrl-0 = <&i2c3_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
- &ohci0 {
- 	dr_mode = "otg";
- 	status = "okay";
-@@ -59,6 +83,21 @@
- };
- 
- &pinctrl {
-+	i2c0_pins: i2c0 {
-+		pins = "RIIC0_SDA", "RIIC0_SCL";
-+		input-enable;
-+	};
-+
-+	i2c1_pins: i2c1 {
-+		pins = "RIIC1_SDA", "RIIC1_SCL";
-+		input-enable;
-+	};
-+
-+	i2c3_pins: i2c3 {
-+		pinmux = <RZG2L_PORT_PINMUX(18, 0, 3)>, /* SDA */
-+			 <RZG2L_PORT_PINMUX(18, 1, 3)>; /* SCL */
-+	};
-+
- 	scif0_pins: scif0 {
- 		pinmux = <RZG2L_PORT_PINMUX(38, 0, 1)>,	/* TxD */
- 			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
--- 
-2.17.1
 
+> [cannot apply to drm-intel/for-linux-next tegra/for-next drm-tip/drm-tip airlied/drm-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base'.
+
+I built this patch against drm-next, which currently points to v5.15-rc1.
+
+Should I be targeting a different branch? In any case, as suggested, I'll
+remember to use "--base" in the future to make it easier to apply. Thanks for
+the hint.
+
+
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/drm/drm_crtc.h:36,
+>                     from include/drm/drm_atomic_helper.h:31,
+>                     from drivers/gpu/drm/msm/disp/msm_disp_snapshot.h:9,
+>                     from drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c:8:
+>    drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c: In function 'msm_disp_capture_atomic_state':
+> >> include/drm/drm_modeset_lock.h:167:14: error: implicit declaration of function 'drm_drv_uses_atomic_modeset' [-Werror=implicit-function-declaration]
+>      167 |         if (!drm_drv_uses_atomic_modeset(dev))                          \
+>          |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c:108:9: note: in expansion of macro 'DRM_MODESET_LOCK_ALL_BEGIN'
+>      108 |         DRM_MODESET_LOCK_ALL_BEGIN(ddev, ctx, 0, ret);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    cc1: some warnings being treated as errors
+
+Out of curiosity: The top comment says there were two build errors (one on
+exynos and another one on tegra), but there is only one reported bug (on msm).
+
+Is this because the bot only reports the first error found? Is there a link to
+a report with each of the build errors on each of the platforms?
+
+Thanks.
