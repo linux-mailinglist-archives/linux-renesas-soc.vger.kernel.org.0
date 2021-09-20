@@ -2,81 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFCA341119B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 11:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B55E4111B3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Sep 2021 11:12:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234740AbhITJHp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Sep 2021 05:07:45 -0400
-Received: from www.zeus03.de ([194.117.254.33]:54426 "EHLO mail.zeus03.de"
+        id S236118AbhITJNX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Sep 2021 05:13:23 -0400
+Received: from www.zeus03.de ([194.117.254.33]:55212 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236160AbhITJHX (ORCPT
+        id S236638AbhITJLT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Sep 2021 05:07:23 -0400
+        Mon, 20 Sep 2021 05:11:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=kelsYgr6SqHCfz
-        FaSr+5PxcTB7+QvINlURnRo2qpgTs=; b=WVT+ZD4sJBq7gWM4rlglzY+jwq1feC
-        Iv+PxhjP77o6WHe8V1AE1WeSnpTMxxH4gZyg7m78AmfkaUzT11/C8u064DZyslkK
-        s1MWTEuxCq4WxVzg6GcQstBpo5kj8gK7k4DuaFdSR3dnjR0AOTw6or9YZYdiICKr
-        yjaOJR6+/zymY=
-Received: (qmail 2412787 invoked from network); 20 Sep 2021 11:05:28 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Sep 2021 11:05:28 +0200
-X-UD-Smtp-Session: l3s3148p1@zvcMlWnMGIsgAwDPXwlxANIWpbLKE1Uh
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=5mI78+BHgh6VFMMJG0mi9Ba98u2z
+        ND/SaUOq/k4m3XM=; b=vDJtvlbSiFggG/CNrIvGnH48Tgl6J96K0ikk6pbNF38t
+        ZKPnp1GQKEySwIsmwnkt/jH2TiUTZTfzUz187USxvTsunEX161iKtqONYXH1dRxR
+        4RrQk+N3diiXPcv+1FTwQlrWDDN+KpOoXqIW8qd5lGzqp4UibQIQQpknBhXfEA0=
+Received: (qmail 2413987 invoked from network); 20 Sep 2021 11:08:52 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Sep 2021 11:08:52 +0200
+X-UD-Smtp-Session: l3s3148p1@JLM9oWnMGosgAwDPXwlxANIWpbLKE1Uh
+Date:   Mon, 20 Sep 2021 11:08:52 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        linux-remoteproc@vger.kernel.org
-Subject: [PATCH 9/9] remoteproc: omap_remoteproc: simplify getting .driver_data
-Date:   Mon, 20 Sep 2021 11:05:21 +0200
-Message-Id: <20210920090522.23784-10-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
-References: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Duc Nguyen <duc.nguyen.ub@renesas.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 1/2] pwm: renesas-tpu: better errno for impossible rates
+Message-ID: <YUhPpJc3ZjM8IYH4@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Duc Nguyen <duc.nguyen.ub@renesas.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de
+References: <20210915065542.1897-1-wsa+renesas@sang-engineering.com>
+ <20210915065542.1897-2-wsa+renesas@sang-engineering.com>
+ <20210917082543.2f5wum23nkvmzbdi@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="EQCBVrWDu+yYdQK4"
+Content-Disposition: inline
+In-Reply-To: <20210917082543.2f5wum23nkvmzbdi@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-We should get 'driver_data' from 'struct device' directly. Going via
-platform_device is an unneeded step back and forth.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+--EQCBVrWDu+yYdQK4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Build tested only. buildbot is happy.
+Hi Uwe,
 
- drivers/remoteproc/omap_remoteproc.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+thank you for your detailed review, much appreciated! I will look into
+your suggestions. However, it will probably not be before October
+because it seems some more work and internal discussion is needed
+beforehand. I'll get back to you.
 
-diff --git a/drivers/remoteproc/omap_remoteproc.c b/drivers/remoteproc/omap_remoteproc.c
-index 43531caa1959..32a588fefbdc 100644
---- a/drivers/remoteproc/omap_remoteproc.c
-+++ b/drivers/remoteproc/omap_remoteproc.c
-@@ -901,8 +901,7 @@ static int _omap_rproc_resume(struct rproc *rproc, bool auto_suspend)
- 
- static int __maybe_unused omap_rproc_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct rproc *rproc = platform_get_drvdata(pdev);
-+	struct rproc *rproc = dev_get_drvdata(dev);
- 	struct omap_rproc *oproc = rproc->priv;
- 	int ret = 0;
- 
-@@ -938,8 +937,7 @@ static int __maybe_unused omap_rproc_suspend(struct device *dev)
- 
- static int __maybe_unused omap_rproc_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct rproc *rproc = platform_get_drvdata(pdev);
-+	struct rproc *rproc = dev_get_drvdata(dev);
- 	struct omap_rproc *oproc = rproc->priv;
- 	int ret = 0;
- 
--- 
-2.30.2
+Thanks again and happy hacking,
 
+   Wolfram
+
+
+--EQCBVrWDu+yYdQK4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFIT6AACgkQFA3kzBSg
+Kbb1XQ//YCRJeljcXqNSSAbQp9iylk+Eua3xMivTzm13sde5a2A+oKzD/gQNqQF+
+O6bmoV9sqDXwDr7ChbPGzcmj3sf9vdDq9yKoavIt6+7Kw+szape7xcAUmVS53o7H
+iKEl2mt0J28Y11Sy0KM+mXHRQ1MpzX0yO0Ey1IU6Iubi1SVTj+NcgZxDQ2AK5UhU
+tYuW1YSKNHHoNkx4/bjr//HSa/bLLk1W7U82Ly34i6wI9Dpxo2Qg2eJpNo/hrB40
+3Rj6U9CcgG07UhkcqAiYvwTyQCeQvn8ldjPfAFaZOReia4ek5UGnsr3Rn2922xiP
+IdB+2NR09w1Lx53Mc7ilDr94l1ejvpA+FKOBHsLCflmD1ls/ejo2vTCKiUhIk+F3
+7aWIGXPrxacV1iAAqB2pTNrv++gxInAkUmMywJN3gpxmeRDZ1ANFh7YbtM3bPiw2
+XgF51HB9ZlbjkzGpIMB9kcgqmSZT357pRYiWGuys4kfxuGyg9gmMvagWmrxjQecG
+/IlsChY1AlAStE9xcl+6/EbICbgov3xfNJ4I5AkJ96te9ktPvfcRDxnEJmp29nA0
+C3RTPU2KuYIbgwvy9LG146Ftrz6PqwOBb9MzyQhW+WKi1BZG4U255IuPjOs8utkT
+9aXo3k3Nx6vzc6MWX3eWAMWWh3YBZQfaOvrYqzqBvIGdtnr6IS0=
+=zT9M
+-----END PGP SIGNATURE-----
+
+--EQCBVrWDu+yYdQK4--
