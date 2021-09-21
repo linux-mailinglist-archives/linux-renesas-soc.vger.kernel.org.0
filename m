@@ -2,123 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF8654136AF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Sep 2021 17:55:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14A924136BC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Sep 2021 17:55:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234184AbhIUPyD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Sep 2021 11:54:03 -0400
-Received: from mail-vs1-f47.google.com ([209.85.217.47]:34779 "EHLO
-        mail-vs1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234250AbhIUPyC (ORCPT
+        id S231690AbhIUPzd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Sep 2021 11:55:33 -0400
+Received: from mail-ua1-f41.google.com ([209.85.222.41]:38816 "EHLO
+        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229537AbhIUPzc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Sep 2021 11:54:02 -0400
-Received: by mail-vs1-f47.google.com with SMTP id u8so20725350vsp.1;
-        Tue, 21 Sep 2021 08:52:33 -0700 (PDT)
+        Tue, 21 Sep 2021 11:55:32 -0400
+Received: by mail-ua1-f41.google.com with SMTP id 42so6655113uar.5;
+        Tue, 21 Sep 2021 08:54:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VhRf8BLo/BgtklNiu/+Lm2GZe+HL9Z1Tw4HZxYLS9NY=;
-        b=uTO6DoT0FItg9UMloPgHDIBnsq+KZIqE1e2yjyymj3/fC8S1Iha2EKT0gnsq5xykN9
-         ZpuiSc9DiU6pvXEwlkdyiVrIYmmLWFGjcPb7nKF/tA98hsIZus3Kx/0ns0EmfXBKEI75
-         kkNIF/caV2Yse9abUbhnjJp1E1Dniqnc2boJFfv8OsheOiHAnBFrB56b9Mfi24SZ5ooI
-         ydjbB0YbXxHKf/tCXBncnbntojgLDPpY+9QqPIos1mCl+0WFHpF/MjgF4NeY0Jk0IA8n
-         0HF6A9ncp3WYBdV37EKdCL2rAD+rpiPMOCR+3fY09UT9yYOjogy9hOlGN457ZaltS2Td
-         omDw==
-X-Gm-Message-State: AOAM5311bmrt+Op9OiFyKkiMk7kWkgEu3d2jgV7Pim7LunYvArJeQBVI
-        K7YQST9IA5DaXuo1PY6xAUv591iBs1QpeARX8bs=
-X-Google-Smtp-Source: ABdhPJw1U97Es7btXIzEvBTB2Flslq/UuPMpebXz8tM82SMpoL91rh1Q85q9WsYmi6fklcDArmKH5rDOT3Yl+0Zsgds=
-X-Received: by 2002:a05:6102:2086:: with SMTP id h6mr13901355vsr.50.1632239553344;
- Tue, 21 Sep 2021 08:52:33 -0700 (PDT)
+        bh=xeKByOTS+lpH6VM+sT0RbBcDyOchg2h9uI8kPYfUR3g=;
+        b=6bafJajwRRAZhSsw6HgHk239LsSGIjbsy274zbWe+LNaM25X+Se8bWtlk6mHKKIOPy
+         XV6JvxSA/NguF4n/LNLKxghka98ua4SRoXZ4ETKRVgrMid6HBRvHEN9d0/c4XTcjVywd
+         hAKzpfOM1+bgJ0oPOhEH1GA/iBsGSSsJVSmf+WFrIWZLNGZyYVRI0TQfApl2DIl7TaB5
+         FcDUsq8p6nTQLLtb69To9LALUIsevWq6IvlRR34OypewBH7Fjh/UkOfxspd1Te6Futd7
+         x5p6jux70D9hqMKabqxRRfXl1SuefUonQtqIMcoVIT9tsmSNXIIeuw9fbnMcz23u3Vcz
+         Wm2w==
+X-Gm-Message-State: AOAM531BpVHFigaNDZhSukiCaUlnp8LsPsG7aXiW1e/KrppV32Br1BZi
+        UT0q8QDSitp2XtM5IWS43exmsA3ff6aiKosdAiw=
+X-Google-Smtp-Source: ABdhPJzjty7MGs32K3rhY6sUGT5fb8yVFIHG9t8ODt4dP8iZWbOtrhi5vyGYC5HXNaufTLBguH0mUeHSZNy5UK8vZbE=
+X-Received: by 2002:ab0:6ec9:: with SMTP id c9mr18455990uav.114.1632239643731;
+ Tue, 21 Sep 2021 08:54:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210901235330.1611086-1-kieran.bingham@ideasonboard.com> <20210901235330.1611086-3-kieran.bingham@ideasonboard.com>
-In-Reply-To: <20210901235330.1611086-3-kieran.bingham@ideasonboard.com>
+References: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com> <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com>
+In-Reply-To: <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 21 Sep 2021 17:52:22 +0200
-Message-ID: <CAMuHMdWdwKHF1QBrBcRcJm_9H=tpU9Adzy0Vhu15tNpGb8W4Cg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: r8a779a0: Add DSI encoders
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Date:   Tue, 21 Sep 2021 17:53:52 +0200
+Message-ID: <CAMuHMdVmTcERvHhLLDrZyC_TDLPU89ksitn0WduJkKqpePCKdg@mail.gmail.com>
+Subject: Re: [RESEND] [PATCH v2 1/2] dt-bindings: display: bridge: Add binding
+ for R-Car MIPI DSI/CSI-2 TX
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Laurent,
 
-On Thu, Sep 2, 2021 at 1:53 AM Kieran Bingham
-<kieran.bingham@ideasonboard.com> wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On Wed, Jul 28, 2021 at 6:26 PM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
+> can operate in either DSI or CSI-2 mode, with up to four data lanes.
 >
-> Provide the two MIPI DSI encoders on the V3U and connect them to the DU
-> accordingly.
->
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> @@ -1161,12 +1161,72 @@ ports {
->                                 port@0 {
->                                         reg = <0>;
->                                         du_out_dsi0: endpoint {
-> +                                               remote-endpoint = <&dsi0_in>;
->                                         };
->                                 };
->
->                                 port@1 {
->                                         reg = <1>;
->                                         du_out_dsi1: endpoint {
-> +                                               remote-endpoint = <&dsi1_in>;
-> +                                       };
-> +                               };
-> +                       };
-> +               };
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> @@ -0,0 +1,118 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +               dsi0: dsi-encoder@fed80000 {
-> +                       compatible = "renesas,r8a779a0-dsi-csi2-tx";
-> +                       reg = <0 0xfed80000 0 0x10000>;
-> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +                       clocks = <&cpg CPG_MOD 415>,
-> +                                <&cpg CPG_CORE R8A779A0_CLK_DSI>;
-> +                       clock-names = "fck", "dsi";
-
-The last posted binding says you need 3 clocks?
-
-No interrupts (yes, they're not in the bindings either)?
-
-The rest looks good to me.
-
-> +                       resets = <&cpg 415>;
-> +                       status = "disabled";
+> +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
 > +
-> +                       ports {
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > +
-> +                               port@0 {
-> +                                       reg = <0>;
-> +                                       dsi0_in: endpoint {
-> +                                               remote-endpoint = <&du_out_dsi0>;
-> +                                       };
-> +                               };
+> +description: |
+> +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
+> +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
+> +  to four data lanes.
 > +
-> +                               port@1 {
-> +                                       reg = <1>;
-> +                                       dsi0_out: endpoint {
-> +                                       };
-> +                               };
-> +                       };
-> +               };
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r8a779a0-dsi-csi2-tx    # for V3U
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Functional clock
+> +      - description: DSI (and CSI-2) functional clock
+> +      - description: PLL reference clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: fck
+> +      - const: dsi
+> +      - const: pll
+
+No interrupts?
+The hardware manual says there are 9 interrupts.
 
 Gr{oetje,eeting}s,
 
