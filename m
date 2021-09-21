@@ -2,168 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A23CB413D6D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 00:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80DAE413DDF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 01:13:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233509AbhIUWS3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Sep 2021 18:18:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60648 "EHLO
+        id S229903AbhIUXOn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Sep 2021 19:14:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233239AbhIUWS3 (ORCPT
+        with ESMTP id S229794AbhIUXOn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Sep 2021 18:18:29 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C09C061574
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Sep 2021 15:17:00 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id p12-20020a17090adf8c00b0019c959bc795so733015pjv.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Sep 2021 15:17:00 -0700 (PDT)
+        Tue, 21 Sep 2021 19:14:43 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EB63C061574;
+        Tue, 21 Sep 2021 16:13:14 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id c22so2368071edn.12;
+        Tue, 21 Sep 2021 16:13:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=+VYAI8Lvfyt4HYRN8FpNP5WjJn46frcD3LvHI5xwZAM=;
-        b=LgNtZZI0VP2soPddSfWQ1ObJMgVXPJig9PFWt2bY44kaaNCy8pd6A9xT43bk4R4slf
-         WWOPGEVaL5RJBP2NgEUlWP34IdJmCiP6bF1MWs8Tp4SisuYA1+CzRpE1o5UXgyUC1eT5
-         MrTHwXxR7uwG9jKnAwasyaqBe4abmIsLaWVxDik7UKgXwoCATTNkKre7FYQxLQABRWKG
-         AQ5kAen596VbCvVKx4/jXADGaIe7z5a8P/x5j4EJBThwkRB3MbYp2k17ePFM6Q3dbTKF
-         Fmfx5tuHZr3wRdrjI0VxRV/VnZxJ3e0XAFsej8x5bA9MP1Qw9oTWtNEuQHmk4ELVtiRE
-         op0g==
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7+TMIEcNDti5spyCR8whCCXBXeiNmd/MHUsrn+BQi4k=;
+        b=fOsUv+jsDv0r0nf1I8jZ3IPTRrPbKyay0VcopOhfwifDhwvK2DfdArZE/h7iiVYBYu
+         7sGwhwe+cickMQz0MhcJ7Vc6thplBpz01DOHYDD7Brh/8VXk7iDDofF7kzGfFMGkBtE/
+         Ug5P1oL87wOmtR1kds4fY84VKMiRg536BRxaS+KRPvg/hPw88XJ7L7hGQdQfZNnxbCJk
+         Wyv0TxD2sxT83omRF5YmNwMtdSpu6jFs7+JyUtLBnPmZgekdXTrUdi36v5H66l4rN6Ri
+         V0RCpqZQrCYwJeVJ9IVXywYTxtiTR6Ql4a/kEu8Cjb5hWkXPCjRiDxMaeipMlGzskCQK
+         dK0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=+VYAI8Lvfyt4HYRN8FpNP5WjJn46frcD3LvHI5xwZAM=;
-        b=H5MPcVjDBLaUigdTwAdXcaScPtNcke2BbK6wknTkoXeTSiZ9et3Wu8LAOJaWNuetqy
-         oH2n1pVGnJABunkJBtr19EASfGqEPH/02zI2JykMkaAU3iiFLlWtOkjJ66Nluoe9obHP
-         0U0DHfT6o+tnE+IJDum/SEbri3IxKjv6aZ7jmoZl638W5a0jNbKBwah3xV+noW0LI4rR
-         28QU+RhDeyIR1ISVazfw/1O3SmMZzUxvNULEzQcoHiwAXnxH6g7qKJ6xMVhu5aIS10Y9
-         Pp8FThDf6n4Dzei4FQcp/Ll00QER+AdMPUI9r/b9I42Ex03AGQ9ibNWQBbK3khl0XBjW
-         Gs1Q==
-X-Gm-Message-State: AOAM532yXaRkdGfWvZXZ/+eibVF1cDJpqaqKfY1WMTJSxisZwePNkcAG
-        iFsdYJiynX+f2GEt+D8qJnOp4uNcgTdFMeMW
-X-Google-Smtp-Source: ABdhPJxiJTveKdB2oUF7F+OvH64uRQXlXAxG7jGWLp4vg85CZPXp+5qfpuel77fNNj7HPjZnkDecwg==
-X-Received: by 2002:a17:902:6b49:b0:136:3f21:7a9 with SMTP id g9-20020a1709026b4900b001363f2107a9mr29487296plt.81.1632262619530;
-        Tue, 21 Sep 2021 15:16:59 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id x21sm162651pgu.54.2021.09.21.15.16.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 15:16:59 -0700 (PDT)
-Message-ID: <614a59db.1c69fb81.335b1.105c@mx.google.com>
-Date:   Tue, 21 Sep 2021 15:16:59 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7+TMIEcNDti5spyCR8whCCXBXeiNmd/MHUsrn+BQi4k=;
+        b=mKb0HKZd+DHO526YfIJXlzPqq6UYSUmlukVIo1cr0l+zWeehjR8853tA+LbLp21BvC
+         qw1ydGnnpS45rtNyvu/rFJT5PFtLpBxBFPHWavfUtiieNGvXOf1BiwuVf4EkN2GBlvvr
+         Gx0td08k210UAyi99b5kpcD/vtdsrvUMZGUnoxFTxa8o8NQpoS62pJO+vqTpPajBq+dv
+         ol+hgPPYqjTGuQrfsDYZjW+1IzbiAn0GrEZ65u92g+oNDnwHrwtAAn8uz4Gtoyok/Ylj
+         8uuzs1zlztn3Yf6fRzQhtZb/sag37dZGR6SFjekHG3DkliOY2hsd9iGQJxdyaBT4kmg8
+         qJqg==
+X-Gm-Message-State: AOAM531D0wuJRE61QFeQifdxCPQYbjJPu3WOedJyXvqv0hNq0puE8r7o
+        SLERWm1+FP9QtwEpYLEJKK8=
+X-Google-Smtp-Source: ABdhPJwbt+ye7PxkuJWOYU68kWg1pThqlf6fTZ1joVZKYcEcWww5JsUqPwp9LV+ITJRTHya9eJH6ng==
+X-Received: by 2002:a17:906:7047:: with SMTP id r7mr37029873ejj.342.1632265992943;
+        Tue, 21 Sep 2021 16:13:12 -0700 (PDT)
+Received: from [192.168.1.4] (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
+        by smtp.gmail.com with ESMTPSA id g6sm169152edr.15.2021.09.21.16.13.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Sep 2021 16:13:12 -0700 (PDT)
+Subject: Re: [PATCH] PCI: rcar: Add missing COMMON_CLK dependency
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-pci <linux-pci@vger.kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>
+References: <20210907144512.5238-1-marek.vasut@gmail.com>
+ <CAMuHMdU+QteYhw6xuhuPrX5DVfmPnBgM8JfQoTk-KOP7+fSCWQ@mail.gmail.com>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <d720b758-109a-434e-b1a4-f49649dd34e9@gmail.com>
+Date:   Wed, 22 Sep 2021 01:13:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2021-09-20-v5.15-rc2
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-Subject: renesas/master ltp-ipc: 6 runs,
- 2 regressions (renesas-devel-2021-09-20-v5.15-rc2)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+In-Reply-To: <CAMuHMdU+QteYhw6xuhuPrX5DVfmPnBgM8JfQoTk-KOP7+fSCWQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master ltp-ipc: 6 runs, 2 regressions (renesas-devel-2021-09-20-v5.=
-15-rc2)
+On 9/21/21 6:08 PM, Geert Uytterhoeven wrote:
 
-Regressions Summary
--------------------
+[...]
 
-platform        | arch  | lab           | compiler | defconfig             =
-       | regressions
-----------------+-------+---------------+----------+-----------------------=
--------+------------
-mt8173-elm-hana | arm64 | lab-collabora | gcc-8    | defconfig+ima         =
-       | 1          =
+>> diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+>> index 326f7d13024f..ee6f5e525d3a 100644
+>> --- a/drivers/pci/controller/Kconfig
+>> +++ b/drivers/pci/controller/Kconfig
+>> @@ -66,6 +66,7 @@ config PCI_RCAR_GEN2
+>>   config PCIE_RCAR_HOST
+>>          bool "Renesas R-Car PCIe host controller"
+>>          depends on ARCH_RENESAS || COMPILE_TEST
+>> +       depends on COMMON_CLK
+> 
+> This part is OK.
 
-mt8173-elm-hana | arm64 | lab-collabora | gcc-8    | defconfig+CON...OMIZE_=
-BASE=3Dy | 1          =
+This part is also identical in the patch from Arnd, so you can just pick 
+that one as a fix and be done with it:
 
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-09-20-v5.15-rc2/plan/ltp-ipc/
-
-  Test:     ltp-ipc
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-09-20-v5.15-rc2
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      4a7c76d8d5a91d210d64552d5e29fd02a115fce7
-
-  Test suite revisions:
-    ltp-tests
-      URL:  https://github.com/linux-test-project/ltp.git
-      SHA:  37fa90294a830ccc2860b5c7378b821a686b6ca0 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform        | arch  | lab           | compiler | defconfig             =
-       | regressions
-----------------+-------+---------------+----------+-----------------------=
--------+------------
-mt8173-elm-hana | arm64 | lab-collabora | gcc-8    | defconfig+ima         =
-       | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/614a46bd1b5ef7c81599a30e
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+ima
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-09-20-v5.15-rc2/arm64/defconfig+ima/gcc-8/lab-collabora/ltp-ipc-mt8173-=
-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-09-20-v5.15-rc2/arm64/defconfig+ima/gcc-8/lab-collabora/ltp-ipc-mt8173-=
-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-ltp/=
-20210913.0/arm64/initrd.cpio.gz =
-
-
-
-  * ltp-ipc.login: https://kernelci.org/test/case/id/614a46bd1b5ef7c81599a3=
-0f
-        failing since 8 days (last pass: renesas-devel-2021-08-23-v5.14-rc7=
-, first fail: v5.15-rc1-564-ge23d26d2dc9a) =
-
- =
-
-
-
-platform        | arch  | lab           | compiler | defconfig             =
-       | regressions
-----------------+-------+---------------+----------+-----------------------=
--------+------------
-mt8173-elm-hana | arm64 | lab-collabora | gcc-8    | defconfig+CON...OMIZE_=
-BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/614a49057e89cbb35899a32f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-09-20-v5.15-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-col=
-labora/ltp-ipc-mt8173-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-09-20-v5.15-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-col=
-labora/ltp-ipc-mt8173-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-ltp/=
-20210913.0/arm64/initrd.cpio.gz =
-
-
-
-  * ltp-ipc.login: https://kernelci.org/test/case/id/614a49057e89cbb35899a3=
-30
-        new failure (last pass: renesas-devel-2021-08-23-v5.14-rc7) =
-
- =20
+[PATCH] PCI: rcar: add COMMON_CLK dependency
+https://patchwork.kernel.org/project/linux-pci/patch/20210920095730.1216692-1-arnd@kernel.org/
