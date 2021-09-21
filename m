@@ -2,122 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A20E4136DB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Sep 2021 18:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 722D84136FC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Sep 2021 18:08:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234372AbhIUQBO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Sep 2021 12:01:14 -0400
-Received: from mail-vs1-f53.google.com ([209.85.217.53]:36700 "EHLO
-        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234373AbhIUQBE (ORCPT
+        id S234103AbhIUQJq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Sep 2021 12:09:46 -0400
+Received: from mail-ua1-f47.google.com ([209.85.222.47]:47061 "EHLO
+        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231727AbhIUQJq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Sep 2021 12:01:04 -0400
-Received: by mail-vs1-f53.google.com with SMTP id h30so8779199vsq.3;
-        Tue, 21 Sep 2021 08:59:36 -0700 (PDT)
+        Tue, 21 Sep 2021 12:09:46 -0400
+Received: by mail-ua1-f47.google.com with SMTP id 109so13775753uag.13;
+        Tue, 21 Sep 2021 09:08:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mTJZgRpQCXW35Rxvt9ZGI3fck6n1VBcSO8z5XwjCQEY=;
-        b=2BbEIx6A/1/cug/wakdaI14vhJDAVa7NWDs05Ndf05M/vDq+tbzctgVCmuWZ3Ya2E4
-         EzZ1G7x0LhAz1Ybf+zPRuNXYZecBAdBosZ7d1AXZyqDG2MrbWU5HWfpHjEEH7T+PrHUS
-         VxsjTJ9ht+8YqbD/Qw1ODCN4RA6lBN5zg5vpGUgpuPLn7xf3ZTocO4fXiugoKsJsvnxX
-         CqcWGSPSV2lB9OosHFltYAytOK8rJbaUGMxO0OCQrMfqzY52WFGYd8bB2yTa9844W71z
-         EKLJoGBgChivIfuiktqC3C1Ra0oOp9mVDdunRgPtk6q1t+wssCrbY3ILXgMY8aJTrlrK
-         XD7A==
-X-Gm-Message-State: AOAM531katc+AXcFRXdSCRup4XKm2haMBUQJ/JsAipJej9EFsex151Ra
-        HLMphJWAqCInAZSnCP2zP4Zp8uwt44URuaSqeg4=
-X-Google-Smtp-Source: ABdhPJxGk+ZNAOK4RBRiV2IzpsOAK6PbKaCelOzB5jSrZCZBiBVoZTnMHFDNeaB0VyOmBwe1DOacP03WrEAzuNEPy2M=
-X-Received: by 2002:a67:cc1c:: with SMTP id q28mr20464519vsl.37.1632239975914;
- Tue, 21 Sep 2021 08:59:35 -0700 (PDT)
+        bh=hNO6ssjXrnY/e099ObdcEs+/BoC0LRJgdCH9+IhNva8=;
+        b=K70LIVAnMH8NKl64B6ZPmGVas9N+ozBs8zaGubbuOnzuDX4ASMbuYhjQJRZe3Ug8R/
+         hmyGtGBS0EO8+6fyUGU5QY4ZfUd1ldcT1FNcN9lzwtedKyqkdOeDxIeDnEKyGyR+YNQZ
+         v+XoYtr6oRYSQEYzwIBn8DZNYXPpwEStrkSq23fMxKRgNDszp0RFzkXWvl15LC/4jQwD
+         ziFLJZD7lhPpCgfHI41yvbl5l5xdAVpKb2Z2HoyJ0zu3bYRgG+EvT5WtwZb53P35hriB
+         vI70V7VgNiHT8G76w3zPcsJCXh5sFhZnscAlGLzmwkQVx2606+xrcjzRvsGgY4MjZhlQ
+         8+cA==
+X-Gm-Message-State: AOAM533+LMy67A1K2fAC+U1cpqHAJ9yHXBsKuz1D6ixrW7JofENuxvij
+        /7JxmCNs9JnPR0yClvpubyPaA8a41/gFyfqV+54=
+X-Google-Smtp-Source: ABdhPJzvQXdA5I9PIbuTi4Q94wHOEUciaCvb1+fLtIt2SfQQL95KjqtrpOIe7wQMyhgd+qNc+jLuzfp60ve/5308bGQ=
+X-Received: by 2002:ab0:6ec9:: with SMTP id c9mr18540642uav.114.1632240497284;
+ Tue, 21 Sep 2021 09:08:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210901235330.1611086-1-kieran.bingham@ideasonboard.com> <20210901235330.1611086-4-kieran.bingham@ideasonboard.com>
-In-Reply-To: <20210901235330.1611086-4-kieran.bingham@ideasonboard.com>
+References: <20210907144512.5238-1-marek.vasut@gmail.com>
+In-Reply-To: <20210907144512.5238-1-marek.vasut@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 21 Sep 2021 17:59:24 +0200
-Message-ID: <CAMuHMdU5WzvdfeSqEESt0r7_7XX0Mc9jRNGCBHLtt_JCMCWZyw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: falcon-cpu: Add DSI display output
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
+Date:   Tue, 21 Sep 2021 18:08:06 +0200
+Message-ID: <CAMuHMdU+QteYhw6xuhuPrX5DVfmPnBgM8JfQoTk-KOP7+fSCWQ@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rcar: Add missing COMMON_CLK dependency
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     linux-pci <linux-pci@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
-
-On Thu, Sep 2, 2021 at 1:53 AM Kieran Bingham
-<kieran.bingham@ideasonboard.com> wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->
-> Provide the display output using the sn65dsi86 MIPI DSI bridge.
->
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Hi Marek,
 
 Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-> @@ -66,6 +66,15 @@ memory@700000000 {
->                 reg = <0x7 0x00000000 0x0 0x80000000>;
->         };
+On Tue, Sep 7, 2021 at 4:45 PM <marek.vasut@gmail.com> wrote:
+> From: Marek Vasut <marek.vasut+renesas@gmail.com>
 >
-> +       reg_1p2v: regulator-1p2v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "fixed-1.2V";
-> +               regulator-min-microvolt = <1800000>;
-> +               regulator-max-microvolt = <1800000>;
-> +               regulator-boot-on;
-> +               regulator-always-on;
-> +       };
-> +
->         reg_1p8v: regulator-1p8v {
->                 compatible = "regulator-fixed";
->                 regulator-name = "fixed-1.8V";
-> @@ -83,6 +92,46 @@ reg_3p3v: regulator-3p3v {
->                 regulator-boot-on;
->                 regulator-always-on;
->         };
-> +
-> +       mini-dp-con {
-> +               compatible = "dp-connector";
-> +               label = "CN5";
-> +               type = "mini";
-> +
-> +               port {
-> +                       mini_dp_con_in: endpoint {
-> +                               remote-endpoint = <&sn65dsi86_out>;
-> +                       };
-> +               };
-> +       };
-> +
-> +       sn65dsi86_refclk: sn65dsi86-refclk {
-> +               compatible = "fixed-clock";
-> +               #clock-cells = <0>;
-> +               clock-frequency = <38400000>;
-> +       };
-> +};
-> +
-> +&dsi0 {
-> +       status = "okay";
-> +
-> +       clocks = <&cpg CPG_MOD 415>,
-> +                <&cpg CPG_CORE R8A779A0_CLK_DSI>,
-> +                <&extal_clk>;
-> +       clock-names = "fck", "dsi", "extal";
+> Add COMMON_CLK dependency, otherwise the following build error occurs:
+>   arm-linux-gnueabi-ld: drivers/pci/controller/pcie-rcar-host.o: in function `rcar_pcie_aarch32_abort_handler':
+>   pcie-rcar-host.c:(.text+0xdd0): undefined reference to `__clk_is_enabled'
 
-Ah, that's where the third clock was hiding ;-)
+This is a link failure for the host driver...
 
-Is this hardwired to extal, or board-specific?
-In case of the former, I think it should be moved to the .dtsi.
+> This should be OK, since all platforms shipping this controller also
+> need COMMON_CLK enabled for their clock driver.
+>
+> Fixes: a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort hook")
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Wolfram Sang <wsa@the-dreams.de>
+> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> +CC Stephen, please double-check whether this is the right approach or
+>     whether there is some better option
+> ---
+>  drivers/pci/controller/Kconfig | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+> index 326f7d13024f..ee6f5e525d3a 100644
+> --- a/drivers/pci/controller/Kconfig
+> +++ b/drivers/pci/controller/Kconfig
+> @@ -66,6 +66,7 @@ config PCI_RCAR_GEN2
+>  config PCIE_RCAR_HOST
+>         bool "Renesas R-Car PCIe host controller"
+>         depends on ARCH_RENESAS || COMPILE_TEST
+> +       depends on COMMON_CLK
+
+This part is OK.
+
+>         depends on PCI_MSI_IRQ_DOMAIN
+>         help
+>           Say Y here if you want PCIe controller support on R-Car SoCs in host
+> @@ -74,6 +75,7 @@ config PCIE_RCAR_HOST
+>  config PCIE_RCAR_EP
+>         bool "Renesas R-Car PCIe endpoint controller"
+>         depends on ARCH_RENESAS || COMPILE_TEST
+> +       depends on COMMON_CLK
+
+... so why did you add a dependency to the endpoint driver, too?
+
+>         depends on PCI_ENDPOINT
+>         help
+>           Say Y here if you want PCIe controller support on R-Car SoCs in
 
 Gr{oetje,eeting}s,
 
