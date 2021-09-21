@@ -2,90 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA1CC41363E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Sep 2021 17:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF8654136AF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Sep 2021 17:55:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234063AbhIUPes (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Sep 2021 11:34:48 -0400
-Received: from mail-vs1-f50.google.com ([209.85.217.50]:38582 "EHLO
-        mail-vs1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233985AbhIUPes (ORCPT
+        id S234184AbhIUPyD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Sep 2021 11:54:03 -0400
+Received: from mail-vs1-f47.google.com ([209.85.217.47]:34779 "EHLO
+        mail-vs1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234250AbhIUPyC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Sep 2021 11:34:48 -0400
-Received: by mail-vs1-f50.google.com with SMTP id y141so9185788vsy.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Sep 2021 08:33:19 -0700 (PDT)
+        Tue, 21 Sep 2021 11:54:02 -0400
+Received: by mail-vs1-f47.google.com with SMTP id u8so20725350vsp.1;
+        Tue, 21 Sep 2021 08:52:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=C9u1GsDydJLbzflhtnxfbEVEuQt/Z51b1Gp56YSE/z0=;
-        b=0dC7IPR4PPAF7zXUL6ctvH5wYtfJHa2GnumZnU1Y+fhHENrx7YZDvUFdNuc0yutOhT
-         X6UcXwelDCmFDuvo8GG9vNTx2yvB45SH+5r3yDjavjudLpvvVuvHUQWAlwRee08mcecD
-         L/N4wLvmCdA3EbaWp1kJUEXbQfHdjuPXrd2HR3OiQ3vgj+0ARphFor35S9VtFckvGiQ1
-         GwTlRFo5hQDBYrBCer/zTj/4IIWE6u4AAAP/079NmAdS/Y9l054zoBDtm4IcdAhbLwd5
-         UU0A3xk8bH45EySPMGhuA6ohCQrjqPZvvX0u/U11NiuJlbTu5eV5Fxglb2fch4DWdpaF
-         HAAQ==
-X-Gm-Message-State: AOAM531IJ/PHB26wjnydkUpiPHYE9IbGPr9Fu8LwoCmgHakP+riGGaf2
-        LniEVN0GBEVlodoOqRGBYEYTWA1NZ5GAqDAPySNrURIkPK0=
-X-Google-Smtp-Source: ABdhPJyGhJ7cHzQW+Djwn4g0AdqtXoQi6nAv3sCSM2p5bKrT04+ahe+S0+GwF4DcAaT9Pc8vtMAzLkybdJveIrnuZUA=
-X-Received: by 2002:a67:cb0a:: with SMTP id b10mr21662599vsl.9.1632238399415;
- Tue, 21 Sep 2021 08:33:19 -0700 (PDT)
+        bh=VhRf8BLo/BgtklNiu/+Lm2GZe+HL9Z1Tw4HZxYLS9NY=;
+        b=uTO6DoT0FItg9UMloPgHDIBnsq+KZIqE1e2yjyymj3/fC8S1Iha2EKT0gnsq5xykN9
+         ZpuiSc9DiU6pvXEwlkdyiVrIYmmLWFGjcPb7nKF/tA98hsIZus3Kx/0ns0EmfXBKEI75
+         kkNIF/caV2Yse9abUbhnjJp1E1Dniqnc2boJFfv8OsheOiHAnBFrB56b9Mfi24SZ5ooI
+         ydjbB0YbXxHKf/tCXBncnbntojgLDPpY+9QqPIos1mCl+0WFHpF/MjgF4NeY0Jk0IA8n
+         0HF6A9ncp3WYBdV37EKdCL2rAD+rpiPMOCR+3fY09UT9yYOjogy9hOlGN457ZaltS2Td
+         omDw==
+X-Gm-Message-State: AOAM5311bmrt+Op9OiFyKkiMk7kWkgEu3d2jgV7Pim7LunYvArJeQBVI
+        K7YQST9IA5DaXuo1PY6xAUv591iBs1QpeARX8bs=
+X-Google-Smtp-Source: ABdhPJw1U97Es7btXIzEvBTB2Flslq/UuPMpebXz8tM82SMpoL91rh1Q85q9WsYmi6fklcDArmKH5rDOT3Yl+0Zsgds=
+X-Received: by 2002:a05:6102:2086:: with SMTP id h6mr13901355vsr.50.1632239553344;
+ Tue, 21 Sep 2021 08:52:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210826142451.495578-1-aford173@gmail.com>
-In-Reply-To: <20210826142451.495578-1-aford173@gmail.com>
+References: <20210901235330.1611086-1-kieran.bingham@ideasonboard.com> <20210901235330.1611086-3-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20210901235330.1611086-3-kieran.bingham@ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 21 Sep 2021 17:33:08 +0200
-Message-ID: <CAMuHMdUkU0KT9fz9qGHrKVx0bVwTvM1JgHnt6RJ2Jn57qxPjww@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: beacon: Fix usb2_clksel
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Date:   Tue, 21 Sep 2021 17:52:22 +0200
+Message-ID: <CAMuHMdWdwKHF1QBrBcRcJm_9H=tpU9Adzy0Vhu15tNpGb8W4Cg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: r8a779a0: Add DSI encoders
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
+Hi Kieran,
 
-On Thu, Aug 26, 2021 at 4:25 PM Adam Ford <aford173@gmail.com> wrote:
-> The clock driver only sets the bit when extal is available and
-> xtal is not.  Remove the xtal references to properly set the
-> clock selection bit.
+On Thu, Sep 2, 2021 at 1:53 AM Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 >
-> Fixes: 56bc54496f5d ("arm64: dts: renesas: beacon: Fix USB extal reference")
-> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Provide the two MIPI DSI encoders on the V3U and connect them to the DU
+> accordingly.
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-> @@ -323,7 +323,9 @@ &sdhi3 {
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> @@ -1161,12 +1161,72 @@ ports {
+>                                 port@0 {
+>                                         reg = <0>;
+>                                         du_out_dsi0: endpoint {
+> +                                               remote-endpoint = <&dsi0_in>;
+>                                         };
+>                                 };
 >
->  &usb2_clksel {
->         clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>,
-> -                 <&versaclock5 3>, <&usb3s0_clk>;
-> +                 <&versaclock5 3>;
-> +       clock-names = "ehci_ohci", "hs-usb-if",
-> +                     "usb_extal";
+>                                 port@1 {
+>                                         reg = <1>;
+>                                         du_out_dsi1: endpoint {
+> +                                               remote-endpoint = <&dsi1_in>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +
+> +               dsi0: dsi-encoder@fed80000 {
+> +                       compatible = "renesas,r8a779a0-dsi-csi2-tx";
+> +                       reg = <0 0xfed80000 0 0x10000>;
+> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> +                       clocks = <&cpg CPG_MOD 415>,
+> +                                <&cpg CPG_CORE R8A779A0_CLK_DSI>;
+> +                       clock-names = "fck", "dsi";
 
-According to the bindings, there must be 4 clocks/clock-names.
+The last posted binding says you need 3 clocks?
 
->         status = "okay";
->  };
+No interrupts (yes, they're not in the bindings either)?
 
-Looking at the driver implementation, it determines the presence
-of the usb_extal and usb_xtal clocks by checking the clock rates.
-According to the schematics, USB_XTAL is left unconnected.
-Hence shouldn't you just remove the usb3s0_clk clock-frequency override
-from arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi instead?
+The rest looks good to me.
+
+> +                       resets = <&cpg 415>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@0 {
+> +                                       reg = <0>;
+> +                                       dsi0_in: endpoint {
+> +                                               remote-endpoint = <&du_out_dsi0>;
+> +                                       };
+> +                               };
+> +
+> +                               port@1 {
+> +                                       reg = <1>;
+> +                                       dsi0_out: endpoint {
+> +                                       };
+> +                               };
+> +                       };
+> +               };
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
