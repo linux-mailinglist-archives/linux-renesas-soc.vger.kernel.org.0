@@ -2,48 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA4634131BC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Sep 2021 12:38:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC5A84131F0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Sep 2021 12:50:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231787AbhIUKjr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Sep 2021 06:39:47 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.50]:24956 "EHLO
+        id S231799AbhIUKvd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Sep 2021 06:51:33 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.50]:31784 "EHLO
         mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231189AbhIUKjq (ORCPT
+        with ESMTP id S231189AbhIUKvb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Sep 2021 06:39:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632220693;
+        Tue, 21 Sep 2021 06:51:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632221216;
     s=strato-dkim-0002; d=fpond.eu;
     h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
     From:Subject:Sender;
-    bh=Mhkbu5P7WN7rfbFnRiQCrVQxfKO8RUe060B8sbXADEs=;
-    b=Q/UpBbDRHi9h1W4RjMEPWM994cS7FlUrETAEviM9pq2nfT4zd0CGseccTtLZ+P/Gpf
-    pDK8/CAf/GNRFOlCzJxwhyA6OVAbLGsNPCBOpxRSfKX22+XS1uNhOz4tlp7Io9GHje1c
-    x3JAPoAZRTiXrYpInZeB7ms9pF+carb/GVSM4xu7V8nxfEtEya+8MiGLeWwxPAMNL1Zx
-    xMz4wK9dAwqURzNAtzrH91ad8613CX8b1XjuYd8TyKLrg7bnU13X75xj02tdU/mbqxz1
-    FG6u+F/1wFYgN4zo2SCj1l3Pc6g8ja+UVAy+lpOMs3+84/chZpzclayTO1dvz+3pg076
-    lpug==
+    bh=Sx06uvrl+e0LyA/YFWFUPKtUiEYmws41XgsZoMZbkc8=;
+    b=NFpzdTEh6U6tDWgj+/r+AcrE0mTMQCxfJwGEuv/NSk51r/Px02YwooSpud4Lxa3d41
+    pf78fNDqe+rsSsq8nqOK6Elzju77PS2DH5oo1QVjQw4hb0pnib6D/Om+BgwKtM7mRubV
+    Lua6T6iKpL/bAMYErdNn3xjTcKw9X/KyMU5Jxl3ux/sUMBf7HXsLzVE2DgwDL0vONTGd
+    QPf1QS+Smz4IMtWD0EhcZxo42WatIDMSYjrmLXdKEV/TnoR8QXUJAoWB65PpTuqGDTcU
+    y1pcy1TF10WETNPtstiq23XxBLlzT7Tj+4d3lPzkrmJbGZvdoWZPN/hb9VbMueJTdNbN
+    I/9g==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fGl/w2B+Io="
 X-RZG-CLASS-ID: mo00
 Received: from oxapp02-03.back.ox.d0m.de
     by smtp-ox.front (RZmta 47.33.8 AUTH)
-    with ESMTPSA id c00f85x8LAcD4Bq
+    with ESMTPSA id c00f85x8LAku4Et
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
         (Client did not present a certificate);
-    Tue, 21 Sep 2021 12:38:13 +0200 (CEST)
-Date:   Tue, 21 Sep 2021 12:38:13 +0200 (CEST)
+    Tue, 21 Sep 2021 12:46:56 +0200 (CEST)
+Date:   Tue, 21 Sep 2021 12:46:56 +0200 (CEST)
 From:   Ulrich Hecht <uli@fpond.eu>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        wg@grandegger.com, mkl@pengutronix.de
-Cc:     davem@davemloft.net, kuba@kernel.org, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
-Message-ID: <1020394138.1395460.1632220693209@webmail.strato.com>
-In-Reply-To: <20210921051959.50309-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20210921051959.50309-1-yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH] can: rcar_can: Fix suspend/resume
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Ryo Kataoka <ryo.kataoka.wt@renesas.com>
+Message-ID: <936300701.1399345.1632221216524@webmail.strato.com>
+In-Reply-To: <20210915134827.13043-1-wsa+renesas@sang-engineering.com>
+References: <20210915134827.13043-1-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH] i2c: rcar: enable interrupts before starting transfer
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -56,74 +55,46 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
-> On 09/21/2021 7:19 AM Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
+> On 09/15/2021 3:48 PM Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
 > 
 >  
-> If the driver was not opened, rcar_can_suspend() should not call
-> clk_disable() because the clock was not enabled.
+> We want to enable the interrupts _before_ starting the transfer because
+> it is good programming style and also the proposed order in the R-Car
+> manual. There is no difference in practice because it doesn't matter in
+> which order both conditions appear if we wait for both to happen.
 > 
-> Fixes: fd1159318e55 ("can: add Renesas R-Car CAN driver")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Tested-by: Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
+> Signed-off-by: Ryo Kataoka <ryo.kataoka.wt@renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  drivers/net/can/rcar/rcar_can.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
+>  drivers/i2c/busses/i2c-rcar.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/net/can/rcar/rcar_can.c b/drivers/net/can/rcar/rcar_can.c
-> index 00e4533c8bdd..6b4eefb03044 100644
-> --- a/drivers/net/can/rcar/rcar_can.c
-> +++ b/drivers/net/can/rcar/rcar_can.c
-> @@ -846,10 +846,12 @@ static int __maybe_unused rcar_can_suspend(struct device *dev)
->  	struct rcar_can_priv *priv = netdev_priv(ndev);
->  	u16 ctlr;
+> diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+> index bff9913c37b8..fc13511f4562 100644
+> --- a/drivers/i2c/busses/i2c-rcar.c
+> +++ b/drivers/i2c/busses/i2c-rcar.c
+> @@ -339,6 +339,9 @@ static void rcar_i2c_prepare_msg(struct rcar_i2c_priv *priv)
+>  		priv->flags |= ID_LAST_MSG;
 >  
-> -	if (netif_running(ndev)) {
-> -		netif_stop_queue(ndev);
-> -		netif_device_detach(ndev);
-> -	}
-> +	if (!netif_running(ndev))
-> +		return 0;
+>  	rcar_i2c_write(priv, ICMAR, i2c_8bit_addr_from_msg(priv->msg));
+> +	if (!priv->atomic_xfer)
+> +		rcar_i2c_write(priv, ICMIER, read ? RCAR_IRQ_RECV : RCAR_IRQ_SEND);
 > +
-> +	netif_stop_queue(ndev);
-> +	netif_device_detach(ndev);
-> +
->  	ctlr = readw(&priv->regs->ctlr);
->  	ctlr |= RCAR_CAN_CTLR_CANM_HALT;
->  	writew(ctlr, &priv->regs->ctlr);
-> @@ -858,6 +860,7 @@ static int __maybe_unused rcar_can_suspend(struct device *dev)
->  	priv->can.state = CAN_STATE_SLEEPING;
->  
->  	clk_disable(priv->clk);
-> +
->  	return 0;
+>  	/*
+>  	 * We don't have a test case but the HW engineers say that the write order
+>  	 * of ICMSR and ICMCR depends on whether we issue START or REP_START. Since
+> @@ -354,9 +357,6 @@ static void rcar_i2c_prepare_msg(struct rcar_i2c_priv *priv)
+>  			rcar_i2c_write(priv, ICMCR, RCAR_BUS_PHASE_START);
+>  		rcar_i2c_write(priv, ICMSR, 0);
+>  	}
+> -
+> -	if (!priv->atomic_xfer)
+> -		rcar_i2c_write(priv, ICMIER, read ? RCAR_IRQ_RECV : RCAR_IRQ_SEND);
 >  }
 >  
-> @@ -868,6 +871,9 @@ static int __maybe_unused rcar_can_resume(struct device *dev)
->  	u16 ctlr;
->  	int err;
->  
-> +	if (!netif_running(ndev))
-> +		return 0;
-> +
->  	err = clk_enable(priv->clk);
->  	if (err) {
->  		netdev_err(ndev, "clk_enable() failed, error %d\n", err);
-> @@ -881,10 +887,9 @@ static int __maybe_unused rcar_can_resume(struct device *dev)
->  	writew(ctlr, &priv->regs->ctlr);
->  	priv->can.state = CAN_STATE_ERROR_ACTIVE;
->  
-> -	if (netif_running(ndev)) {
-> -		netif_device_attach(ndev);
-> -		netif_start_queue(ndev);
-> -	}
-> +	netif_device_attach(ndev);
-> +	netif_start_queue(ndev);
-> +
->  	return 0;
->  }
->  
+>  static void rcar_i2c_next_msg(struct rcar_i2c_priv *priv)
 > -- 
-> 2.25.1
+> 2.30.2
 
 Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
