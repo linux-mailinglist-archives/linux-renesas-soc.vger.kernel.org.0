@@ -2,146 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A03414F50
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 19:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52E9F415023
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 20:48:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236943AbhIVRmZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 13:42:25 -0400
-Received: from mail-ua1-f49.google.com ([209.85.222.49]:35695 "EHLO
-        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236815AbhIVRmX (ORCPT
+        id S237138AbhIVSuW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 14:50:22 -0400
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:58164 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237137AbhIVSuW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 13:42:23 -0400
-Received: by mail-ua1-f49.google.com with SMTP id d4so2398801uak.2;
-        Wed, 22 Sep 2021 10:40:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tvtYY0msHjnoC+I/Lu672obi3mQrOmz8sSMZ/dhCgcM=;
-        b=FCj3Efls9Q8dLA0QxErM9Xb0i8ZbUqG4jBD8i+gelfJds8YrhELeqZI0ykoHZ7v1/S
-         Oozm5Fdg11HkPOogmdkgt/DSmslqSHtKY1pgKPo/llEAANBkFk13MarrmPTuuR7SKthK
-         AuTk+V9SUwOAB/ppRxu50guRUgE1NoQBlyX8Edzi93O55+3yTb9IzvL1MuI09wZ1EUR4
-         YYwynGoA3KqySXSunwEkeFxWeYIL+8jvVUyym8SBS6i23gbvK8ymqwGDOVXdqIiCshN3
-         tik9C6ietbyaqBHEP2ff6NYTITYdQlTgcj0bFPso/WR4bfpgDkYlDQyVh6yLbkBwFia4
-         Cvew==
-X-Gm-Message-State: AOAM533+WbE0M04biw5o9JBC5PSeK59DBSTCVKcKlcDGqNOcPqi+KPZF
-        1TnfFWgzWGXsWlplSlT8DtFqhbj5KVMKiHeJ1WQ=
-X-Google-Smtp-Source: ABdhPJzd6iDf31R8aoIZCqnSwnmWaUJ7hUGbaC3Wu5rohHlUdjjVsD/K6aFxIKOAYsQD2BBiS+LwneCYtSPWWyKiJjw=
-X-Received: by 2002:ab0:311a:: with SMTP id e26mr635558ual.122.1632332452990;
- Wed, 22 Sep 2021 10:40:52 -0700 (PDT)
+        Wed, 22 Sep 2021 14:50:22 -0400
+IronPort-SDR: x6G3qOwPbGWsk+WU9VQ78L2wjXgirFmM2pxg8zebltvv3XM6A/iCfeysZrAoNHgMhcdlAmm6By
+ lC1PJo1T3C9IQvWpg8ixPICt2Dc+XztOXPIzw2LIiDY82EL8mFMOyCUOjo07+qa6ZT0pipDdqr
+ 2aET95yfEqwhA1wXvXRH9DKlbiyqMypY/4dDVJqA7Q8dg+QraCjfWYZTY0ferI/oZnzI7vB6rh
+ 5AYsGtYwJMOlrSzdXoUKSuVcyud283nl9RIxOdlKhQ1T2jqvjdPy0MB7Cl6gLK7IPs2MOAkty7
+ bp2zMPnG5hMGZm8ok7i0CeAG
+X-IronPort-AV: E=Sophos;i="5.85,314,1624348800"; 
+   d="scan'208";a="66176805"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa3.mentor.iphmx.com with ESMTP; 22 Sep 2021 10:48:51 -0800
+IronPort-SDR: bv7IsKgW5s9Vqqkwc1Cbljx0OJ3Ly0UHYQckcWhmzg9XSGRn9jCEze9gPRtMNKnHgBW49dgHbo
+ NdQtTSnrSeqtEEFKFaCS6IPQColD+9AdiKscv3NSibWMXDJctUyY5jQP3Oly5PXXlkweR7O9X7
+ QFciv9nymT7UNbh7/NAe91jMZvRnbiM4fTxpuYOCFgWfTmlvrJYaI7YsCh71RheUUGn8vKKUz8
+ QlizIuAG/SuUWV3/m+qbuCkzcrDllcBJBOnfr0gckoQVmVbyMeATcH2V6/ec1EpGTPJv+V0N4V
+ VgY=
+From:   Andrew Gabbasov <andrew_gabbasov@mentor.com>
+To:     <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] memory: renesas-rpc-if: Avoid unaligned bus access for HyperFlash
+Date:   Wed, 22 Sep 2021 13:48:30 -0500
+Message-ID: <20210922184830.29147-1-andrew_gabbasov@mentor.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com>
- <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com> <CAMuHMdVmTcERvHhLLDrZyC_TDLPU89ksitn0WduJkKqpePCKdg@mail.gmail.com>
- <YUqGWa6q+wYq2vAt@pendragon.ideasonboard.com> <CAMuHMdXRhOmj4upp6Zsn3yb5bRdpg8hrgATWJCA6bSdvD=e1qw@mail.gmail.com>
- <YUrkiDnlDYabSi9T@pendragon.ideasonboard.com>
-In-Reply-To: <YUrkiDnlDYabSi9T@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 22 Sep 2021 19:40:41 +0200
-Message-ID: <CAMuHMdUKsSA8_BD9KksVKAcOYdqTLhu_Wm=rwD3tfb=yceh7EQ@mail.gmail.com>
-Subject: Re: [RESEND] [PATCH v2 1/2] dt-bindings: display: bridge: Add binding
- for R-Car MIPI DSI/CSI-2 TX
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-06.mgc.mentorg.com (139.181.222.6) To
+ svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+HyperFlash devices in Renesas SoCs use 2-bytes addressing, according
+to HW manual paragraph 62.3.3 (which officially describes Serial Flash
+access, but seems to be applicable to HyperFlash too). And 1-byte bus
+read operations to 2-bytes unaligned addresses in external address space
+read mode work incorrectly (returns the other byte from the same word).
 
-On Wed, Sep 22, 2021 at 10:08 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Wed, Sep 22, 2021 at 08:43:57AM +0200, Geert Uytterhoeven wrote:
-> > On Wed, Sep 22, 2021 at 3:27 AM Laurent Pinchart wrote:
-> > > On Tue, Sep 21, 2021 at 05:53:52PM +0200, Geert Uytterhoeven wrote:
-> > > > On Wed, Jul 28, 2021 at 6:26 PM Laurent Pinchart wrote:
-> > > > > The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
-> > > > > can operate in either DSI or CSI-2 mode, with up to four data lanes.
-> > > > >
-> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> > > > > @@ -0,0 +1,118 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > +
-> > > > > +description: |
-> > > > > +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
-> > > > > +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
-> > > > > +  to four data lanes.
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    enum:
-> > > > > +      - renesas,r8a779a0-dsi-csi2-tx    # for V3U
-> > > > > +
-> > > > > +  reg:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  clocks:
-> > > > > +    items:
-> > > > > +      - description: Functional clock
-> > > > > +      - description: DSI (and CSI-2) functional clock
-> > > > > +      - description: PLL reference clock
-> > > > > +
-> > > > > +  clock-names:
-> > > > > +    items:
-> > > > > +      - const: fck
-> > > > > +      - const: dsi
-> > > > > +      - const: pll
-> > > >
-> > > > No interrupts?
-> > > > The hardware manual says there are 9 interrupts.
-> > >
-> > > Who comes up with such insanely high numbers of interrupts ? :-)
-> > >
-> > > What the hardware manual doesn't document is how interrupts are mapped.
-> > > There's indeed 9 of them, and there are 9 interrupt sources, but that's
-> > > all we know. I can easily add a
-> > >
-> > >   interrupts:
-> > >     maxItems: 9
-> > >
-> > > but I can add interrupt names without additional information. It may be
-> > > possible to deduce some of the interrupt mappings from experiments, but
-> > > not all of them. What do you think would be a good way forward ? Leave
-> > > the interrupts out for now as we don't have the information ? Only list
-> > > the interrupts but not their names ? Something else ?
-> >
-> > I think what we did in the past is not list the interrupts at all.
-> > They can be added once we receive more documentation.
->
-> Sounds good to me, as that's what this patch does already ;-) A R-b or
-> A-b tag is welcome.
+Function memcpy_fromio(), used by the driver to read data from the bus,
+in ARM64 architecture (to which Renesas cores belong) uses 8-bytes
+bus accesses for appropriate aligned addresses, and 1-bytes accesses
+for other addresses. This results in incorrect data read from HyperFlash
+in unaligned cases.
 
-Your wish is my command...
+This issue can be reproduced using something like the following commands
+(where mtd1 is a parition on Hyperflash storage, defined properly
+in a device tree):
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[Correct fragment, read from Hyperflash]
 
-Gr{oetje,eeting}s,
+    root@rcar-gen3:~# dd if=/dev/mtd1 of=/tmp/zz bs=32 count=1
+    1+0 records in
+    1+0 records out
+    root@rcar-gen3:~# hexdump -C /tmp/zz
+    00000000  f4 03 00 aa f5 03 01 aa  f6 03 02 aa f7 03 03 aa  |................|
+    00000010  00 00 80 d2 40 20 18 d5  00 06 81 d2 a0 18 a6 f2  |....@ ..........|
+    00000020
 
-                        Geert
+[Incorrect read of the same fragment: see the difference at offsets 8-11]
 
+    root@rcar-gen3:~# dd if=/dev/mtd1 of=/tmp/zz bs=12 count=1
+    1+0 records in
+    1+0 records out
+    root@rcar-gen3:~# hexdump -C /tmp/zz
+    00000000  f4 03 00 aa f5 03 01 aa  03 03 aa aa              |............|
+    0000000c
+
+Fix this issue by creating a local replacement of the copying function,
+that performs only properly aligned bus accesses, and is used for reading
+from HyperFlash.
+
+Fixes: ca7d8b980b67f ("memory: add Renesas RPC-IF driver")
+Signed-off-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
+---
+ drivers/memory/renesas-rpc-if.c | 47 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 46 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+index 45eed659b0c6..374c92e57538 100644
+--- a/drivers/memory/renesas-rpc-if.c
++++ b/drivers/memory/renesas-rpc-if.c
+@@ -502,6 +502,48 @@ int rpcif_manual_xfer(struct rpcif *rpc)
+ }
+ EXPORT_SYMBOL(rpcif_manual_xfer);
+ 
++static void memcpy_fromio_readw(void *to,
++				const void __iomem *from,
++				size_t count)
++{
++	const int maxw = (IS_ENABLED(CONFIG_64BIT)) ? 8 : 4;
++	u8 buf[2];
++
++	if (count && ((unsigned long)from & 1)) {
++		*(u16 *)buf = __raw_readw((void __iomem *)((unsigned long)from & ~1));
++		*(u8 *)to = buf[1];
++		from++;
++		to++;
++		count--;
++	}
++	while (count >= 2 && !IS_ALIGNED((unsigned long)from, maxw)) {
++		*(u16 *)to = __raw_readw(from);
++		from += 2;
++		to += 2;
++		count -= 2;
++	}
++	while (count >= maxw) {
++#ifdef CONFIG_64BIT
++		*(u64 *)to = __raw_readq(from);
++#else
++		*(u32 *)to = __raw_readl(from);
++#endif
++		from += maxw;
++		to += maxw;
++		count -= maxw;
++	}
++	while (count >= 2) {
++		*(u16 *)to = __raw_readw(from);
++		from += 2;
++		to += 2;
++		count -= 2;
++	}
++	if (count) {
++		*(u16 *)buf = __raw_readw(from);
++		*(u8 *)to = buf[0];
++	}
++}
++
+ ssize_t rpcif_dirmap_read(struct rpcif *rpc, u64 offs, size_t len, void *buf)
+ {
+ 	loff_t from = offs & (RPCIF_DIRMAP_SIZE - 1);
+@@ -523,7 +565,10 @@ ssize_t rpcif_dirmap_read(struct rpcif *rpc, u64 offs, size_t len, void *buf)
+ 	regmap_write(rpc->regmap, RPCIF_DRDMCR, rpc->dummy);
+ 	regmap_write(rpc->regmap, RPCIF_DRDRENR, rpc->ddr);
+ 
+-	memcpy_fromio(buf, rpc->dirmap + from, len);
++	if (rpc->bus_size == 2)
++		memcpy_fromio_readw(buf, rpc->dirmap + from, len);
++	else
++		memcpy_fromio(buf, rpc->dirmap + from, len);
+ 
+ 	pm_runtime_put(rpc->dev);
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.21.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
