@@ -2,86 +2,298 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A42A414922
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 14:40:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 052BC414B8D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 16:14:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235576AbhIVMl4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 08:41:56 -0400
-Received: from mail-vs1-f42.google.com ([209.85.217.42]:44672 "EHLO
-        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234294AbhIVMly (ORCPT
+        id S232401AbhIVOQU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 10:16:20 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43678 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232243AbhIVOQU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 08:41:54 -0400
-Received: by mail-vs1-f42.google.com with SMTP id u4so2731585vsu.11
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Sep 2021 05:40:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4EXAlLsvyb6Qpq7ztQhJ1IrK46FP6hl7ERLXWPYyRWU=;
-        b=l1gk+HIQrJsEmwHMKCFZ49DIr+Rr7ztH3MZT0xzPxhpGdb0NxemDnTZR7151LgHNzy
-         6vF86+Eqc/4xrVPp//cJY0/J3dqm9Ghwgyt0GK5Dv8Spo4Ie4IB/lf9sXLHoFsCd0ZUS
-         +K1dAw2FZFvnbE+YLYH7S7TY9Njmjdw8Fca3fwR/s43bm6oqFpXoDfB2Xb2A8zSH/SdC
-         V84Rihn2Z8UtXp09RafobTytXHeUPNa9IhwJRMZMiN2wgpXyEcfYM4UuLIEyKcpdEO3X
-         rsDFh+aypCzjZkq5/cadmu+jEhUffmeotD/Z8fYYGa1uCCvFv4yCGPwRHYMbRgTEsrKf
-         88UA==
-X-Gm-Message-State: AOAM5306KOXSGi6EDwgw3itoTO5vkdzDORcPQJ4xgB8jtZr/kk4U+p6p
-        OZtN5FCrQm8u7TEJ1nZl9R18YIeRBsHbWwn2ljktP1BfQ3I=
-X-Google-Smtp-Source: ABdhPJz1eHKt5JzgYhiNYfVSpQ3b3lSKiIPI19cQ5hhDaaznjpnTnFoDnlpn+rJBF0eI0fXG7d16HqVKD4+Nu50P4OY=
-X-Received: by 2002:a67:2c58:: with SMTP id s85mr8592917vss.35.1632314424610;
- Wed, 22 Sep 2021 05:40:24 -0700 (PDT)
+        Wed, 22 Sep 2021 10:16:20 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAEF1F1;
+        Wed, 22 Sep 2021 16:14:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1632320089;
+        bh=OcJhhoJjtzSrwdMN4D6GtdBF3MY12CGZeM4dmmjQnJY=;
+        h=From:To:Cc:References:Subject:Date:In-Reply-To:From;
+        b=fE96v26FG3tQD4CMwc/qF1kVIFcU0X0DfYkGHOFMsu7htukirCO1lKd7Ya9+Afps9
+         liOxAEVn5msM5JNfUSdBh3xdhP70dbQDqqhbNYNYCuxQgT66JbOsNCC20GooECEC3q
+         GwG0y0ViUOPCuCsEgfp7DWdxGpazK1ysFVTfT4qk=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <cover.1624460378.git.geert+renesas@glider.be>
+ <b7b53970-58ea-f27f-4190-0066cb30cb05@ideasonboard.com>
+ <CAMuHMdWSeeifBLqi4S6LrgcQg9E_1xFXzLzBBBqMf1Fc0kbMhg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] arm64: dts: renesas: r8a779a0: Add INTC-EX support
+Organization: Ideas on Board
+Message-ID: <e7aa6fb0-02b7-10d8-d1a0-6d9f8d727570@ideasonboard.com>
+Date:   Wed, 22 Sep 2021 15:14:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210914094650.15235-1-julien.massot@iot.bzh> <20210914094650.15235-2-julien.massot@iot.bzh>
- <CAMuHMdVT+OgASuzwnNHEHYpc3hc1-ObThTmdHETfxF5inePP5g@mail.gmail.com> <9922048a-2278-e3bf-ea23-b07f95ab607b@iot.bzh>
-In-Reply-To: <9922048a-2278-e3bf-ea23-b07f95ab607b@iot.bzh>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 22 Sep 2021 14:40:13 +0200
-Message-ID: <CAMuHMdV0S50KpUhXFr53Q1Z=LtL9RFGYSKJp2sareW0WTU+gtA@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/1] soc: renesas: rcar-rst: Add support to set rproc
- boot address
-To:     Julien Massot <julien.massot@iot.bzh>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMuHMdWSeeifBLqi4S6LrgcQg9E_1xFXzLzBBBqMf1Fc0kbMhg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Julien,
+Hi Geert,
 
-On Wed, Sep 22, 2021 at 11:54 AM Julien Massot <julien.massot@iot.bzh> wrote:
-> > In general, I think this looks like a good abstraction, which we can
-> > also use for further abstraction of R-Car Gen2 (cfr. [1]).
-> Yes I was also thinking about future generation like Gen4, but I don't have the documentation
-> at this point.
->  From what I understand in [1]: CA7BAR in Gen2 is managed by the SYSC module and not by the RST module
-> as for CR7BAR in Gen3. So despite the fact that the procedure is similar, we won't be able to set CA7BAR in
-> rcar-rst.c.
+I've been trying to test this on the Falcon-V3U
 
-On R-Car Gen2, CA7BAR is managed by the RST module.
-On R-Mobile APE6, it is managed by the SYSC module.
 
-> > I'm just wondering if we should pass the BAR offset to
-> > rcar_rst_set_rproc_boot_addr() explicitly (and rename the function),
-> > or have multiple functions for the different BARs.
-> Passing BAR offset will imply to spread RST module offsets across different subsystems,
-> and the second question will be to be able to do the correct boundary check for the targeted
-> processor: CR7BAR is aligned on 4k an it looks like CA7BAR is on 256k. It looks like it's
-> manageable thanks to the driver data which already holds the 'mode monitor register' offset per SoC generation.
->
-> One missing point will be for future R-Car SoCs: trends on others SoC seems to be to go to have
-> several 'realtime', or remote processor. In this case this function will not scale up.
+On 24/06/2021 09:07, Geert Uytterhoeven wrote:
+> Hi Kieran,
+> 
+> On Wed, Jun 23, 2021 at 6:13 PM Kieran Bingham
+> <kieran.bingham@ideasonboard.com> wrote:
+>> On 23/06/2021 16:02, Geert Uytterhoeven wrote:
+>>> This patch series adds support for the Interrupt Controller for External
+>>> Devices (INT-EC) in the Renesas R-Car V3U (r8a779a0) SoC.
+>>>
+>>> As there are two known issues, I'm posting this to a limited audience:
+>>>
+>>>   1. External interrupts have not been tested.
+>>>
+>>>      Kieran: perhaps IRQ0 can be tested on Falcon with the MIPI DSI/eDP
+>>>      bridge, by changing
+>>>
+>>>        -    interrupt-parent = <&gpio1>;
+>>>        -    interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
+>>>        +    interrupt-parent = <&intc_ex>;
+>>>        +    interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+>>>
+>>>      ? The "ti,sn65dsi86" driver doesn't seem to use interrupts, though,
+>>>      so I don't know how feasible this is.
+>>
+>> I can add an interrupt handler if that's what you need, but I suspect
+>> that the change here simply 're-routes' the interrupt through the
+>> intc_ex so that it still needs an interrupt to be generated by the
+>> SN65DSI86? is that right?
+> 
+> Correct, you need to make the SN65DSI86 generate an interrupt, too.
+> No idea how to do that...
 
-On R-Car V3U, CR52BAR is managed by the APMU module.
+I'm going to ignore the SN65DSI86, and go with a route that I can
+explicitly control ... so IRQ2 it is.
 
-There's not much we can do about future processors yet ;-)
 
-Gr{oetje,eeting}s,
 
-                        Geert
+> 
+>>>      Alternatively, with physical access, IRQ0 is available on test
+>>>      point CP47, and IRQ2 on the GPIO CN.
+>>
+>> I do have physical access, so I can trigger this - Is there a suitable
+>> voltage or condition I can apply? (I.e. take a signal from a nearby pin
+>> to short it?)
+> 
+> As IRQ0 is driven by the single gate U59, you better don't cause logic
+> conflicts, and play with IRQ2 instead.
+> 
+> Note that high level is SPI_D1.8V/3.3V, which is 1.8V by default!
+> The GPIO CN connector carries a.o. SPI_D1.8V/3.3V and GND.
+> Internal pull-up should be enabled for IRQ2 by reset state, but you
+> may want to measure the pin's voltage to be sure.
+
+Pin7 appears to be IRQ2. It is reading at 1.8v.
+Pin 5 (SPI_D1.8v/3.3v) is reading at 1.8v
+Pin 3 (D3.3v) no prizes for guessing here.
+
+And of course pin 1 is ground.
+
+So I have some wires I can play with.
+
+
+> To configure pin control, you need to add the following, and hook it
+> up to the pfc node:
+> 
+>         irq2_pins: irq2 {
+>                 groups = "intc_ex_irq2";
+>                 function = "intc_ex";
+>         };
+> 
+> You should be able to test this using gpio-keys, with a key subnode that
+> has an interrupts instead of a gpios property.
+
+
+I'm afraid I haven't been able to successfully test this. I have this
+series applied and have tried the following:
+
+
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+index dc671ff57ec7..1286b553e370 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+@@ -10,6 +10,10 @@
+ #include "r8a779a0-falcon-csi-dsi.dtsi"
+ #include "r8a779a0-falcon-ethernet.dtsi"
+
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/gpio-keys.h>
++#include <dt-bindings/input/input.h>
++
+ / {
+ 	model = "Renesas Falcon CPU and Breakout boards based on r8a779a0";
+ 	compatible = "renesas,falcon-breakout", "renesas,falcon-cpu",
+"renesas,r8a779a0";
+@@ -17,6 +21,23 @@ / {
+ 	aliases {
+ 		ethernet0 = &avb0;
+ 	};
++
++	gpio_keys {
++		compatible = "gpio-keys";
++
++		btn1 {
++			pinctrl-0 = <&irq2_pins>;
++			pinctrl-names = "default";
++
++			debounce-interval = <50>;
++			label = "button1";
++			linux,code = <KEY_1>;
++			interrupt-parent = <&intc_ex>;
++			interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
++
++			//gpios = <&gpio1 26 GPIO_ACTIVE_LOW>;
++		};
++	};
+ };
+
+ &avb0 {
+@@ -45,6 +66,14 @@ eeprom@51 {
+ };
+
+ &pfc {
++	// Intc_ex testing
++	irq2_pins: irq2 {
++		groups = "intc_ex_irq2";
++		function = "intc_ex";
++
++		bias-pull-up;
++	};
++
+ 	avb0_pins: avb0 {
+ 		mux {
+ 			groups = "avb0_link", "avb0_mdio", "avb0_rgmii",
+diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
+index ef8ef05ba930..966883c6c64c 100644
+--- a/drivers/pinctrl/renesas/core.c
++++ b/drivers/pinctrl/renesas/core.c
+@@ -228,7 +228,7 @@ static void sh_pfc_write_config_reg(struct sh_pfc *pfc,
+
+ 	sh_pfc_config_reg_helper(pfc, crp, field, &mapped_reg, &mask, &pos);
+
+-	dev_dbg(pfc->dev, "write_reg addr = %x, value = 0x%x, field = %u, "
++	dev_err(pfc->dev, "KB: write_reg addr = %x, value = 0x%x, field = %u, "
+ 		"r_width = %u, f_width = %u\n",
+ 		crp->reg, value, field, crp->reg_width, hweight32(mask));
+
+
+
+
+
+And I have ribbon cable with the pitch for cn4 now which allows me to
+connect pin 7 to pin 1 to ground it.
+
+
+I use
+ sudo evtest /dev/input/event0
+
+to monitor the line for changes, and grounding pin7 has no effect in
+this configuration.
+
+
+However, to try to sanity check my test, I changed the gpio-keys to use
+gpio1 26 directly - disabling the pinctrl, and using the gpios reference
+directly instead :
+
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+index 1286b553e370..af85881de2c4 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+@@ -26,16 +26,11 @@ gpio_keys {
+                compatible = "gpio-keys";
+
+                btn1 {
+-                       pinctrl-0 = <&irq2_pins>;
+-                       pinctrl-names = "default";
+-
+                        debounce-interval = <50>;
+                        label = "button1";
+                        linux,code = <KEY_1>;
+-                       interrupt-parent = <&intc_ex>;
+-                       interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+
+-                       //gpios = <&gpio1 26 GPIO_ACTIVE_LOW>;
++                       gpios = <&gpio1 26 GPIO_ACTIVE_LOW>;
+                };
+        };
+ };
+
+
+This shows active key events when grounding pin 7 to pin 1...
+> kbingham@falcon-v3u:~$ sudo evtest /dev/input/event0
+> Input driver version is 1.0.1
+> Input device ID: bus 0x19 vendor 0x1 product 0x1 version 0x100
+> Input device name: "gpio_keys"
+> Supported events:
+>   Event type 0 (EV_SYN)
+>   Event type 1 (EV_KEY)
+>     Event code 2 (KEY_1)
+> Properties:
+> Testing ... (interrupt to exit)
+> Event: time 1632319971.126234, type 1 (EV_KEY), code 2 (KEY_1), value 1
+> Event: time 1632319971.126234, -------------- SYN_REPORT ------------
+> Event: time 1632319971.579966, type 1 (EV_KEY), code 2 (KEY_1), value 0
+> Event: time 1632319971.579966, -------------- SYN_REPORT ------------
+> Event: time 1632319981.461018, type 1 (EV_KEY), code 2 (KEY_1), value 1
+> Event: time 1632319981.461018, -------------- SYN_REPORT ------------
+> Event: time 1632319981.835693, type 1 (EV_KEY), code 2 (KEY_1), value 0
+> Event: time 1632319981.835693, -------------- SYN_REPORT ------------
+> Event: time 1632319982.112104, type 1 (EV_KEY), code 2 (KEY_1), value 1
+> Event: time 1632319982.112104, -------------- SYN_REPORT ------------
+
+
+
+If there's anything else you'd like me to test or change let me know.
+
+--
+Kieran
+
+
+
+
+
+> 
+> This might be a good opportunity to wire up the slide and push switches
+> (SW46-49) as gpio-keys, too...
+> 
+> Thanks!
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--
+Kieran
