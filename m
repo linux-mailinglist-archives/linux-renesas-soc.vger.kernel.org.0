@@ -2,97 +2,358 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80DAE413DDF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 01:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8C81413EB4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 02:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229903AbhIUXOn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Sep 2021 19:14:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45086 "EHLO
+        id S229943AbhIVAs1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Sep 2021 20:48:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbhIUXOn (ORCPT
+        with ESMTP id S229480AbhIVAs1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Sep 2021 19:14:43 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EB63C061574;
-        Tue, 21 Sep 2021 16:13:14 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id c22so2368071edn.12;
-        Tue, 21 Sep 2021 16:13:14 -0700 (PDT)
+        Tue, 21 Sep 2021 20:48:27 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E7B0C061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Sep 2021 17:46:58 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id bb10so640281plb.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Sep 2021 17:46:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7+TMIEcNDti5spyCR8whCCXBXeiNmd/MHUsrn+BQi4k=;
-        b=fOsUv+jsDv0r0nf1I8jZ3IPTRrPbKyay0VcopOhfwifDhwvK2DfdArZE/h7iiVYBYu
-         7sGwhwe+cickMQz0MhcJ7Vc6thplBpz01DOHYDD7Brh/8VXk7iDDofF7kzGfFMGkBtE/
-         Ug5P1oL87wOmtR1kds4fY84VKMiRg536BRxaS+KRPvg/hPw88XJ7L7hGQdQfZNnxbCJk
-         Wyv0TxD2sxT83omRF5YmNwMtdSpu6jFs7+JyUtLBnPmZgekdXTrUdi36v5H66l4rN6Ri
-         V0RCpqZQrCYwJeVJ9IVXywYTxtiTR6Ql4a/kEu8Cjb5hWkXPCjRiDxMaeipMlGzskCQK
-         dK0Q==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=IX0/gBTHRWFU/YAlsKNCCV5ad63YV+x4I8oBWSOonQA=;
+        b=tQMKijMPet3QSC4fBcKIcCPWSfwjf6r5B8MajoCSC8iOVftRTRDPUjIDFda1ibuTvs
+         dZJEdq4uVwI63VOUzaGw8desjIO8uZVnrjnW+bF4YlcqY6rgOmX1DlSYZtXAj6h8ZmYC
+         d6J4pARW0NaBDLE/HhpqtcH0Qddn+dQlqMrxliUeYEbzD1RR7bF6oES/D1oMlpSjo78u
+         m9BbFj/9shLkBO7qlvViSu+Diecqa7zCvgnwYE1X3lvn/5QxBbVBv6iPW7wkum8ehv9I
+         FTMH/TfVAWbMhlbA25cGmbAVhYeMGTOOtirMH+Y0R+nWN3fYa2xidMIHtLTp1r5eoAM/
+         tYyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7+TMIEcNDti5spyCR8whCCXBXeiNmd/MHUsrn+BQi4k=;
-        b=mKb0HKZd+DHO526YfIJXlzPqq6UYSUmlukVIo1cr0l+zWeehjR8853tA+LbLp21BvC
-         qw1ydGnnpS45rtNyvu/rFJT5PFtLpBxBFPHWavfUtiieNGvXOf1BiwuVf4EkN2GBlvvr
-         Gx0td08k210UAyi99b5kpcD/vtdsrvUMZGUnoxFTxa8o8NQpoS62pJO+vqTpPajBq+dv
-         ol+hgPPYqjTGuQrfsDYZjW+1IzbiAn0GrEZ65u92g+oNDnwHrwtAAn8uz4Gtoyok/Ylj
-         8uuzs1zlztn3Yf6fRzQhtZb/sag37dZGR6SFjekHG3DkliOY2hsd9iGQJxdyaBT4kmg8
-         qJqg==
-X-Gm-Message-State: AOAM531D0wuJRE61QFeQifdxCPQYbjJPu3WOedJyXvqv0hNq0puE8r7o
-        SLERWm1+FP9QtwEpYLEJKK8=
-X-Google-Smtp-Source: ABdhPJwbt+ye7PxkuJWOYU68kWg1pThqlf6fTZ1joVZKYcEcWww5JsUqPwp9LV+ITJRTHya9eJH6ng==
-X-Received: by 2002:a17:906:7047:: with SMTP id r7mr37029873ejj.342.1632265992943;
-        Tue, 21 Sep 2021 16:13:12 -0700 (PDT)
-Received: from [192.168.1.4] (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
-        by smtp.gmail.com with ESMTPSA id g6sm169152edr.15.2021.09.21.16.13.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Sep 2021 16:13:12 -0700 (PDT)
-Subject: Re: [PATCH] PCI: rcar: Add missing COMMON_CLK dependency
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-pci <linux-pci@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>
-References: <20210907144512.5238-1-marek.vasut@gmail.com>
- <CAMuHMdU+QteYhw6xuhuPrX5DVfmPnBgM8JfQoTk-KOP7+fSCWQ@mail.gmail.com>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <d720b758-109a-434e-b1a4-f49649dd34e9@gmail.com>
-Date:   Wed, 22 Sep 2021 01:13:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=IX0/gBTHRWFU/YAlsKNCCV5ad63YV+x4I8oBWSOonQA=;
+        b=RVsYXZWU1/vJnXlK5iueSwzCHUFLMBI1Q8pC6m/LS22NWwYTrdoM/K17FTdbou+jQU
+         JzhXQrMi/tW8pBLBAZ3TDy/Hm3e2zOLDziVN7oz6CmIvr63nsKZmkwtz+wjkvGcHSdMz
+         qFMr3xEuufLDdYPUtaTBJJCzWGLJIwikeSxHjODy3jeYL5aSFmWnAKLNnvYE4CWAoHYT
+         hsq5hjzd8G6Snos4KjOfKF6lzbJzD2uDx2e35IDpvEc5IA+Urbtb0K1/tl/qnNTyCy3W
+         otxYJJTIrLO0JwP9nN0kY+NGCZPgOnYSo+bNNmjFbyXGN1fPr1xSsquMt0SPxlwKJbCX
+         o1fA==
+X-Gm-Message-State: AOAM530Oflq84dVlva2mNXw+4WmvHWXqqpvwFip2hQXk3ITbP0myMNlG
+        RwrcWxTCbULTGJeaYYyVuWGDQHiQZgPtZ9Ek
+X-Google-Smtp-Source: ABdhPJxJWC2Hk7x+5eZtVSl/y0D7kqJ0KuuKDWVqYFffhTVVmXVGeNyrj6ebT95QEvu0OGIp7pmQLw==
+X-Received: by 2002:a17:902:a40c:b029:12c:17cf:ab6f with SMTP id p12-20020a170902a40cb029012c17cfab6fmr30212231plq.71.1632271617839;
+        Tue, 21 Sep 2021 17:46:57 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id y26sm286857pfe.69.2021.09.21.17.46.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Sep 2021 17:46:57 -0700 (PDT)
+Message-ID: <614a7d01.1c69fb81.8aa9.1c12@mx.google.com>
+Date:   Tue, 21 Sep 2021 17:46:57 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdU+QteYhw6xuhuPrX5DVfmPnBgM8JfQoTk-KOP7+fSCWQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2021-09-20-v5.15-rc2
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+Subject: renesas/master baseline-nfs: 44 runs,
+ 8 regressions (renesas-devel-2021-09-20-v5.15-rc2)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9/21/21 6:08 PM, Geert Uytterhoeven wrote:
+renesas/master baseline-nfs: 44 runs, 8 regressions (renesas-devel-2021-09-=
+20-v5.15-rc2)
 
-[...]
+Regressions Summary
+-------------------
 
->> diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
->> index 326f7d13024f..ee6f5e525d3a 100644
->> --- a/drivers/pci/controller/Kconfig
->> +++ b/drivers/pci/controller/Kconfig
->> @@ -66,6 +66,7 @@ config PCI_RCAR_GEN2
->>   config PCIE_RCAR_HOST
->>          bool "Renesas R-Car PCIe host controller"
->>          depends on ARCH_RENESAS || COMPILE_TEST
->> +       depends on COMMON_CLK
-> 
-> This part is OK.
+platform         | arch  | lab           | compiler | defconfig            =
+        | regressions
+-----------------+-------+---------------+----------+----------------------=
+--------+------------
+hip07-d05        | arm64 | lab-collabora | gcc-8    | defconfig+CON...OMIZE=
+_BASE=3Dy | 1          =
 
-This part is also identical in the patch from Arnd, so you can just pick 
-that one as a fix and be done with it:
+mt8173-elm-hana  | arm64 | lab-collabora | gcc-8    | defconfig+ima        =
+        | 1          =
 
-[PATCH] PCI: rcar: add COMMON_CLK dependency
-https://patchwork.kernel.org/project/linux-pci/patch/20210920095730.1216692-1-arnd@kernel.org/
+mt8173-elm-hana  | arm64 | lab-collabora | gcc-8    | defconfig+CON...OMIZE=
+_BASE=3Dy | 1          =
+
+odroid-xu3       | arm   | lab-collabora | gcc-8    | multi_v7_defconfig+im=
+a       | 1          =
+
+odroid-xu3       | arm   | lab-collabora | gcc-8    | multi_v7_defc...G_ARM=
+_LPAE=3Dy | 1          =
+
+odroid-xu3       | arm   | lab-collabora | gcc-8    | multi_v7_defconfig+cr=
+ypto    | 1          =
+
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig+CON...OMIZE=
+_BASE=3Dy | 2          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-09-20-v5.15-rc2/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-09-20-v5.15-rc2
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      4a7c76d8d5a91d210d64552d5e29fd02a115fce7 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+        | regressions
+-----------------+-------+---------------+----------+----------------------=
+--------+------------
+hip07-d05        | arm64 | lab-collabora | gcc-8    | defconfig+CON...OMIZE=
+_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/614a5a860cabdb301099a2f3
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-col=
+labora/baseline-nfs-hip07-d05.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-col=
+labora/baseline-nfs-hip07-d05.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0913.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/614a5a860cabdb301=
+099a2f4
+        failing since 70 days (last pass: renesas-devel-2021-06-28-v5.13, f=
+irst fail: v5.14-rc1-477-g3c037963715c) =
+
+ =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+        | regressions
+-----------------+-------+---------------+----------+----------------------=
+--------+------------
+mt8173-elm-hana  | arm64 | lab-collabora | gcc-8    | defconfig+ima        =
+        | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/614a46a912f70f762699a2da
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+ima
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm64/defconfig+ima/gcc-8/lab-collabora/baseline-nfs-mt=
+8173-elm-hana.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm64/defconfig+ima/gcc-8/lab-collabora/baseline-nfs-mt=
+8173-elm-hana.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0913.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/614a46a912f70f762=
+699a2db
+        failing since 8 days (last pass: renesas-devel-2021-08-23-v5.14-rc7=
+, first fail: v5.15-rc1-564-ge23d26d2dc9a) =
+
+ =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+        | regressions
+-----------------+-------+---------------+----------+----------------------=
+--------+------------
+mt8173-elm-hana  | arm64 | lab-collabora | gcc-8    | defconfig+CON...OMIZE=
+_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/614a49017e89cbb35899a2f7
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-col=
+labora/baseline-nfs-mt8173-elm-hana.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-col=
+labora/baseline-nfs-mt8173-elm-hana.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0913.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/614a49017e89cbb35=
+899a2f8
+        new failure (last pass: renesas-devel-2021-08-23-v5.14-rc7) =
+
+ =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+        | regressions
+-----------------+-------+---------------+----------+----------------------=
+--------+------------
+odroid-xu3       | arm   | lab-collabora | gcc-8    | multi_v7_defconfig+im=
+a       | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/614a6f577ed9effbef99a317
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+ima
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm/multi_v7_defconfig+ima/gcc-8/lab-collabora/baseline=
+-nfs-odroid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm/multi_v7_defconfig+ima/gcc-8/lab-collabora/baseline=
+-nfs-odroid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0913.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/614a6f577ed9effbe=
+f99a318
+        failing since 40 days (last pass: renesas-devel-2021-08-10-v5.14-rc=
+5, first fail: renesas-devel-2021-08-12-v5.14-rc5) =
+
+ =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+        | regressions
+-----------------+-------+---------------+----------+----------------------=
+--------+------------
+odroid-xu3       | arm   | lab-collabora | gcc-8    | multi_v7_defc...G_ARM=
+_LPAE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/614a70bc8f74e79fda99a2e8
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
+=3Dy/gcc-8/lab-collabora/baseline-nfs-odroid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
+=3Dy/gcc-8/lab-collabora/baseline-nfs-odroid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0913.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/614a70bc8f74e79fd=
+a99a2e9
+        new failure (last pass: v5.15-rc1-564-ge23d26d2dc9a) =
+
+ =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+        | regressions
+-----------------+-------+---------------+----------+----------------------=
+--------+------------
+odroid-xu3       | arm   | lab-collabora | gcc-8    | multi_v7_defconfig+cr=
+ypto    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/614a72d0272daded2f99a303
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+crypto
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm/multi_v7_defconfig+crypto/gcc-8/lab-collabora/basel=
+ine-nfs-odroid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm/multi_v7_defconfig+crypto/gcc-8/lab-collabora/basel=
+ine-nfs-odroid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0913.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/614a72d0272daded2=
+f99a304
+        new failure (last pass: v5.15-rc1-564-ge23d26d2dc9a) =
+
+ =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+        | regressions
+-----------------+-------+---------------+----------+----------------------=
+--------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig+CON...OMIZE=
+_BASE=3Dy | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/614a49540e92eb345699a2f4
+
+  Results:     83 PASS, 5 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-col=
+labora/baseline-nfs-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-20-v5.15-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-8/lab-col=
+labora/baseline-nfs-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
+0913.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.rockchip-usb2phy1-probed: https://kernelci.org/test=
+/case/id/614a49540e92eb345699a2fa
+        failing since 70 days (last pass: renesas-devel-2021-06-22-v5.13-rc=
+7, first fail: v5.14-rc1-477-g3c037963715c)
+
+    2021-09-21T21:06:10.341532  /lava-4554078/1/../bin/lava-test-case   =
+
+
+  * baseline-nfs.bootrr.rockchip-usb2phy0-probed: https://kernelci.org/test=
+/case/id/614a49540e92eb345699a2fb
+        failing since 70 days (last pass: renesas-devel-2021-06-22-v5.13-rc=
+7, first fail: v5.14-rc1-477-g3c037963715c)
+
+    2021-09-21T21:06:07.438618  <8>[   92.095249] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Drockchip-usb2phy-driver-present RESULT=3Dpass>
+    2021-09-21T21:06:08.499971  <3>[   93.155029] cdn-dp fec00000.dp: [drm:=
+cdn_dp_pd_event_work [rockchipdrm]] *ERROR* Timed out trying to load firmwa=
+re
+    2021-09-21T21:06:08.741968  /lava-4554078/1/../bin/lava-test-case
+    2021-09-21T21:06:09.093064  <8>[   93.751615] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Drockchip-usb2phy0-probed RESULT=3Dfail>   =
+
+ =20
