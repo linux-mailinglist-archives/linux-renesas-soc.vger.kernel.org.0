@@ -2,128 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA0E741433D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 10:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5066414458
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 10:58:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233383AbhIVIKN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 04:10:13 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:32980 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233349AbhIVIKM (ORCPT
+        id S234148AbhIVJAK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 05:00:10 -0400
+Received: from www.zeus03.de ([194.117.254.33]:53410 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234097AbhIVJAJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 04:10:12 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86491F1;
-        Wed, 22 Sep 2021 10:08:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632298121;
-        bh=QKoxGIv+eKpVRsooVGP2/KqUDA8JcqOjmb8mxli6lAI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CTLPKwP8+WYzVC9hEnEhGojAE4ljAWOM2mEmjB61yZIq8pXUPCi5JXHsokpGnc8u+
-         mr2k1TbyyXdpsEcNe5IJH2tK+b7NETjkzxZdyUDEEpdTV0vAb0e+z9YV3a33JBrKuM
-         Zlf26FhMDwTbvTOx/mtXGAnoWoqDYtMbKPIMXlEY=
-Date:   Wed, 22 Sep 2021 11:08:40 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Wed, 22 Sep 2021 05:00:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=osqkEL04gXUl8YRqyvybu9tCRfM
+        382bMRBjSuF/SsqA=; b=3+X3n8SPMDon+7XqQ1f9lzyDPI3bynZaP0AImlqIcLc
+        LgJyitM9jCgtWCGCaSCgID+zDqxN1i8BC8W1nIOkxCavHa8U2KSFtj3Gzt1Z9RWj
+        eQCpbLvkZJJ+eLFJ3BZEbtYmNJdrV6yYSR+krzDaIixpG71AYtjCc3E92YEg3Pyg
+        =
+Received: (qmail 3167013 invoked from network); 22 Sep 2021 10:58:38 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Sep 2021 10:58:38 +0200
+X-UD-Smtp-Session: l3s3148p1@yUgTuJHMWKcgAwDPXwr6APB8KsyQBt5d
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Subject: Re: [RESEND] [PATCH v2 1/2] dt-bindings: display: bridge: Add
- binding for R-Car MIPI DSI/CSI-2 TX
-Message-ID: <YUrkiDnlDYabSi9T@pendragon.ideasonboard.com>
-References: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com>
- <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com>
- <CAMuHMdVmTcERvHhLLDrZyC_TDLPU89ksitn0WduJkKqpePCKdg@mail.gmail.com>
- <YUqGWa6q+wYq2vAt@pendragon.ideasonboard.com>
- <CAMuHMdXRhOmj4upp6Zsn3yb5bRdpg8hrgATWJCA6bSdvD=e1qw@mail.gmail.com>
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: rpc: renesas-rpc-if: Add support for the R8A779A0 RPC-IF
+Date:   Wed, 22 Sep 2021 10:58:31 +0200
+Message-Id: <20210922085831.5375-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXRhOmj4upp6Zsn3yb5bRdpg8hrgATWJCA6bSdvD=e1qw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ .../devicetree/bindings/memory-controllers/renesas,rpc-if.yaml   | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Wed, Sep 22, 2021 at 08:43:57AM +0200, Geert Uytterhoeven wrote:
-> On Wed, Sep 22, 2021 at 3:27 AM Laurent Pinchart wrote:
-> > On Tue, Sep 21, 2021 at 05:53:52PM +0200, Geert Uytterhoeven wrote:
-> > > On Wed, Jul 28, 2021 at 6:26 PM Laurent Pinchart wrote:
-> > > > The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
-> > > > can operate in either DSI or CSI-2 mode, with up to four data lanes.
-> > > >
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > >
-> > > Thanks for your patch!
-> > >
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> > > > @@ -0,0 +1,118 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
-> > > > +
-> > > > +maintainers:
-> > > > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > +
-> > > > +description: |
-> > > > +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
-> > > > +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
-> > > > +  to four data lanes.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    enum:
-> > > > +      - renesas,r8a779a0-dsi-csi2-tx    # for V3U
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  clocks:
-> > > > +    items:
-> > > > +      - description: Functional clock
-> > > > +      - description: DSI (and CSI-2) functional clock
-> > > > +      - description: PLL reference clock
-> > > > +
-> > > > +  clock-names:
-> > > > +    items:
-> > > > +      - const: fck
-> > > > +      - const: dsi
-> > > > +      - const: pll
-> > >
-> > > No interrupts?
-> > > The hardware manual says there are 9 interrupts.
-> >
-> > Who comes up with such insanely high numbers of interrupts ? :-)
-> >
-> > What the hardware manual doesn't document is how interrupts are mapped.
-> > There's indeed 9 of them, and there are 9 interrupt sources, but that's
-> > all we know. I can easily add a
-> >
-> >   interrupts:
-> >     maxItems: 9
-> >
-> > but I can add interrupt names without additional information. It may be
-> > possible to deduce some of the interrupt mappings from experiments, but
-> > not all of them. What do you think would be a good way forward ? Leave
-> > the interrupts out for now as we don't have the information ? Only list
-> > the interrupts but not their names ? Something else ?
-> 
-> I think what we did in the past is not list the interrupts at all.
-> They can be added once we receive more documentation.
-
-Sounds good to me, as that's what this patch does already ;-) A R-b or
-A-b tag is welcome.
-
+diff --git a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
+index 990489fdd2ac..b15992ad3613 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
+@@ -33,6 +33,7 @@ properties:
+           - renesas,r8a77970-rpc-if       # R-Car V3M
+           - renesas,r8a77980-rpc-if       # R-Car V3H
+           - renesas,r8a77995-rpc-if       # R-Car D3
++          - renesas,r8a779a0-rpc-if       # R-Car V3U
+       - const: renesas,rcar-gen3-rpc-if   # a generic R-Car gen3 or RZ/G2 device
+ 
+   reg:
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
