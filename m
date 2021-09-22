@@ -2,270 +2,283 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 683EE414F2F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 19:34:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE8B7414F30
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 19:34:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236753AbhIVRfk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 13:35:40 -0400
-Received: from mail-vk1-f170.google.com ([209.85.221.170]:41857 "EHLO
-        mail-vk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236701AbhIVRfi (ORCPT
+        id S236711AbhIVRg2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 13:36:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44452 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236701AbhIVRg1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 13:35:38 -0400
-Received: by mail-vk1-f170.google.com with SMTP id h132so1479143vke.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Sep 2021 10:34:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7SAKH4pdbYY90xpPUfQ1RjiGxnkEVxnHyl8jZSF9Kk8=;
-        b=i12M8UoAr6IoxbbN2c1VheKrx7wMaexWKTwgMxPlZNciZCQobEU7KC8PQLkSWcIQzb
-         mE+yfIvbreNGNfNg7wMnukNoTLdcinpMmMZcJl9cwe7xQNjUUfAsNndULMi8WByKGhry
-         Wh0v/btInOhTTWatNwPiqbK0cAGcUbcj5Eb6bvtxt9Gud3Fz0DAgPQOqMOkP3lm2nRlk
-         sHjMpF2VG3wk9YrC/L2DVi7Ody/btzN8wXp0Zl3cTcYWfCPzYHiAbjf9gnpohVd0HagB
-         2Qf4A8UaSgD5WkTUvqCfuz+ty42Aqunq7PX3VfiWbULDy38gf7lcQ3Blaub5tbxtF339
-         KKLQ==
-X-Gm-Message-State: AOAM530di2Q0uG6q2zcjZnBYzyZgV1uAchldalVkTl6OS7FMpwzpLZJy
-        dUt4HonejMW/9PxsAzSB7KOyVVoEq3jTKMWq8zM=
-X-Google-Smtp-Source: ABdhPJxO0CTC9NL5l88SmMdD8fY5WlJagcCsPgrGSDOYLWhW/nAvIOh7hBcsIlTMFSw35HyQg0UhFAQPFZh4gIJFGB0=
-X-Received: by 2002:a1f:230c:: with SMTP id j12mr1012590vkj.11.1632332047763;
- Wed, 22 Sep 2021 10:34:07 -0700 (PDT)
+        Wed, 22 Sep 2021 13:36:27 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D91EC061574;
+        Wed, 22 Sep 2021 10:34:57 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFEEBF1;
+        Wed, 22 Sep 2021 19:34:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1632332094;
+        bh=O6sbbi36Pm+/8ofyWQZUEHe9NGyHjUCEbwOHVWPE0/c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MmQsdErZ87lbA+qTVKjKmx7vfRx926YJWNb9Q6pS4EpwjSIfmOtfMtGfFf52rArGR
+         wPtJ60hufF8hX+2cPxHi8xNy5jD834Bdq1oiedpWqxhxJ4thStarvPMbu55mh8hPDL
+         CeV7Ya3HNA4emKTI8R7ouNpcL3WclULK+3jhsb90=
+Date:   Wed, 22 Sep 2021 20:34:51 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 4/5] drm: rcar-du: Split CRTC IRQ and Clock features
+Message-ID: <YUtpO5jkkIzJ6cFo@pendragon.ideasonboard.com>
+References: <20210901234907.1608896-1-kieran.bingham@ideasonboard.com>
+ <20210901234907.1608896-5-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
-References: <cover.1624460378.git.geert+renesas@glider.be> <b7b53970-58ea-f27f-4190-0066cb30cb05@ideasonboard.com>
- <CAMuHMdWSeeifBLqi4S6LrgcQg9E_1xFXzLzBBBqMf1Fc0kbMhg@mail.gmail.com> <e7aa6fb0-02b7-10d8-d1a0-6d9f8d727570@ideasonboard.com>
-In-Reply-To: <e7aa6fb0-02b7-10d8-d1a0-6d9f8d727570@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 22 Sep 2021 19:33:56 +0200
-Message-ID: <CAMuHMdV4Z=h6Y8k8j7tqaapPkAuaykb_hHWt6v6vQkZRK6pYzQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] arm64: dts: renesas: r8a779a0: Add INTC-EX support
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210901234907.1608896-5-kieran.bingham@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Kieran,
 
-On Wed, Sep 22, 2021 at 4:14 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> I've been trying to test this on the Falcon-V3U
+Thank you for the patch.
 
-Thanks for testing!
+On Thu, Sep 02, 2021 at 12:49:06AM +0100, Kieran Bingham wrote:
+> Not all platforms require both per-crtc IRQ and per-crtc clock
+> management. In preparation for suppporting such platforms, split the
+> feature macro to be able to specify both features independently.
+> 
+> The other features are incremented accordingly, to keep the two crtc
+> features adjacent.
+> 
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-> On 24/06/2021 09:07, Geert Uytterhoeven wrote:
-> > On Wed, Jun 23, 2021 at 6:13 PM Kieran Bingham
-> > <kieran.bingham@ideasonboard.com> wrote:
-> >> On 23/06/2021 16:02, Geert Uytterhoeven wrote:
-> >>> This patch series adds support for the Interrupt Controller for External
-> >>> Devices (INT-EC) in the Renesas R-Car V3U (r8a779a0) SoC.
-> >>>
-> >>> As there are two known issues, I'm posting this to a limited audience:
-> >>>
-> >>>   1. External interrupts have not been tested.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> >>>      Alternatively, with physical access, IRQ0 is available on test
-> >>>      point CP47, and IRQ2 on the GPIO CN.
-> >>
-> >> I do have physical access, so I can trigger this - Is there a suitable
-> >> voltage or condition I can apply? (I.e. take a signal from a nearby pin
-> >> to short it?)
-> >
-> > As IRQ0 is driven by the single gate U59, you better don't cause logic
-> > conflicts, and play with IRQ2 instead.
-> >
-> > Note that high level is SPI_D1.8V/3.3V, which is 1.8V by default!
-> > The GPIO CN connector carries a.o. SPI_D1.8V/3.3V and GND.
-> > Internal pull-up should be enabled for IRQ2 by reset state, but you
-> > may want to measure the pin's voltage to be sure.
->
-> Pin7 appears to be IRQ2. It is reading at 1.8v.
-> Pin 5 (SPI_D1.8v/3.3v) is reading at 1.8v
-> Pin 3 (D3.3v) no prizes for guessing here.
->
-> And of course pin 1 is ground.
->
-> So I have some wires I can play with.
->
-> > To configure pin control, you need to add the following, and hook it
-> > up to the pfc node:
-> >
-> >         irq2_pins: irq2 {
-> >                 groups = "intc_ex_irq2";
-> >                 function = "intc_ex";
-> >         };
-> >
-> > You should be able to test this using gpio-keys, with a key subnode that
-> > has an interrupts instead of a gpios property.
->
-> I'm afraid I haven't been able to successfully test this. I have this
-> series applied and have tried the following:
-
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> @@ -10,6 +10,10 @@
->  #include "r8a779a0-falcon-csi-dsi.dtsi"
->  #include "r8a779a0-falcon-ethernet.dtsi"
->
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/input/gpio-keys.h>
-> +#include <dt-bindings/input/input.h>
-> +
->  / {
->         model = "Renesas Falcon CPU and Breakout boards based on r8a779a0";
->         compatible = "renesas,falcon-breakout", "renesas,falcon-cpu",
-> "renesas,r8a779a0";
-> @@ -17,6 +21,23 @@ / {
->         aliases {
->                 ethernet0 = &avb0;
->         };
-> +
-> +       gpio_keys {
-> +               compatible = "gpio-keys";
-> +
-> +               btn1 {
-> +                       pinctrl-0 = <&irq2_pins>;
-> +                       pinctrl-names = "default";
-> +
-> +                       debounce-interval = <50>;
-> +                       label = "button1";
-> +                       linux,code = <KEY_1>;
-> +                       interrupt-parent = <&intc_ex>;
-> +                       interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +                       //gpios = <&gpio1 26 GPIO_ACTIVE_LOW>;
-> +               };
-> +       };
->  };
->
->  &avb0 {
-> @@ -45,6 +66,14 @@ eeprom@51 {
->  };
->
->  &pfc {
-> +       // Intc_ex testing
-> +       irq2_pins: irq2 {
-> +               groups = "intc_ex_irq2";
-> +               function = "intc_ex";
-> +
-> +               bias-pull-up;
-> +       };
-> +
->         avb0_pins: avb0 {
->                 mux {
->                         groups = "avb0_link", "avb0_mdio", "avb0_rgmii",
-
-Looks good to me.
-
-> diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
-> index ef8ef05ba930..966883c6c64c 100644
-> --- a/drivers/pinctrl/renesas/core.c
-> +++ b/drivers/pinctrl/renesas/core.c
-> @@ -228,7 +228,7 @@ static void sh_pfc_write_config_reg(struct sh_pfc *pfc,
->
->         sh_pfc_config_reg_helper(pfc, crp, field, &mapped_reg, &mask, &pos);
->
-> -       dev_dbg(pfc->dev, "write_reg addr = %x, value = 0x%x, field = %u, "
-> +       dev_err(pfc->dev, "KB: write_reg addr = %x, value = 0x%x, field = %u, "
->                 "r_width = %u, f_width = %u\n",
->                 crp->reg, value, field, crp->reg_width, hweight32(mask));
->
-> And I have ribbon cable with the pitch for cn4 now which allows me to
-> connect pin 7 to pin 1 to ground it.
->
->
-> I use
->  sudo evtest /dev/input/event0
->
-> to monitor the line for changes, and grounding pin7 has no effect in
-> this configuration.
->
->
-> However, to try to sanity check my test, I changed the gpio-keys to use
-> gpio1 26 directly - disabling the pinctrl, and using the gpios reference
-> directly instead :
->
->
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> index 1286b553e370..af85881de2c4 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> @@ -26,16 +26,11 @@ gpio_keys {
->                 compatible = "gpio-keys";
->
->                 btn1 {
-> -                       pinctrl-0 = <&irq2_pins>;
-> -                       pinctrl-names = "default";
-> -
->                         debounce-interval = <50>;
->                         label = "button1";
->                         linux,code = <KEY_1>;
-> -                       interrupt-parent = <&intc_ex>;
-> -                       interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
->
-> -                       //gpios = <&gpio1 26 GPIO_ACTIVE_LOW>;
-> +                       gpios = <&gpio1 26 GPIO_ACTIVE_LOW>;
->                 };
->         };
->  };
-
-Looks almost good to me.
-You probably still want to enable bias-pull-up for GP1_26, but as
-it works without...
-
-> This shows active key events when grounding pin 7 to pin 1...
-> > kbingham@falcon-v3u:~$ sudo evtest /dev/input/event0
-> > Input driver version is 1.0.1
-> > Input device ID: bus 0x19 vendor 0x1 product 0x1 version 0x100
-> > Input device name: "gpio_keys"
-> > Supported events:
-> >   Event type 0 (EV_SYN)
-> >   Event type 1 (EV_KEY)
-> >     Event code 2 (KEY_1)
-> > Properties:
-> > Testing ... (interrupt to exit)
-> > Event: time 1632319971.126234, type 1 (EV_KEY), code 2 (KEY_1), value 1
-> > Event: time 1632319971.126234, -------------- SYN_REPORT ------------
-> > Event: time 1632319971.579966, type 1 (EV_KEY), code 2 (KEY_1), value 0
-> > Event: time 1632319971.579966, -------------- SYN_REPORT ------------
-> > Event: time 1632319981.461018, type 1 (EV_KEY), code 2 (KEY_1), value 1
-> > Event: time 1632319981.461018, -------------- SYN_REPORT ------------
-> > Event: time 1632319981.835693, type 1 (EV_KEY), code 2 (KEY_1), value 0
-> > Event: time 1632319981.835693, -------------- SYN_REPORT ------------
-> > Event: time 1632319982.112104, type 1 (EV_KEY), code 2 (KEY_1), value 1
-> > Event: time 1632319982.112104, -------------- SYN_REPORT ------------
-
-Good!
-
-> If there's anything else you'd like me to test or change let me know.
-
-There are still several things that could be wrong:
-  - Bug in the pin control tables,
-  - Wrong parent interrupt description,
-  - Undocumented INTC-EX module clock is turned off
-    (does it retain register values?),
-  - Wrong initial values in INTC-EX registers the driver doesn't touch,
-  - ...
-
-Can you print the value of the INTC-EX MONITOR register?
-It should match the state of the external pins.
-
-> > This might be a good opportunity to wire up the slide and push switches
-> > (SW46-49) as gpio-keys, too...
-
-Any chance with these? ;-)
-
-Thanks again!
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> ---
+> v2:
+>  - New patch
+> 
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  4 +--
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c  | 48 +++++++++++++++++---------
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h  |  9 ++---
+>  3 files changed, 39 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index a0f837e8243a..5672830ca184 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -1206,7 +1206,7 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+>  	int ret;
+>  
+>  	/* Get the CRTC clock and the optional external clock. */
+> -	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ_CLOCK)) {
+> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_CLOCK)) {
+>  		sprintf(clk_name, "du.%u", hwindex);
+>  		name = clk_name;
+>  	} else {
+> @@ -1272,7 +1272,7 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+>  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+>  
+>  	/* Register the interrupt handler. */
+> -	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ_CLOCK)) {
+> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ)) {
+>  		/* The IRQ's are associated with the CRTC (sw)index. */
+>  		irq = platform_get_irq(pdev, swindex);
+>  		irqflags = 0;
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index 4ac26d08ebb4..8a094d5b9c77 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -36,7 +36,8 @@
+>  
+>  static const struct rcar_du_device_info rzg1_du_r8a7743_info = {
+>  	.gen = 2,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+>  	.channels_mask = BIT(1) | BIT(0),
+> @@ -58,7 +59,8 @@ static const struct rcar_du_device_info rzg1_du_r8a7743_info = {
+>  
+>  static const struct rcar_du_device_info rzg1_du_r8a7745_info = {
+>  	.gen = 2,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+>  	.channels_mask = BIT(1) | BIT(0),
+> @@ -79,7 +81,8 @@ static const struct rcar_du_device_info rzg1_du_r8a7745_info = {
+>  
+>  static const struct rcar_du_device_info rzg1_du_r8a77470_info = {
+>  	.gen = 2,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+>  	.channels_mask = BIT(1) | BIT(0),
+> @@ -105,7 +108,8 @@ static const struct rcar_du_device_info rzg1_du_r8a77470_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a774a1_info = {
+>  	.gen = 3,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+> @@ -134,7 +138,8 @@ static const struct rcar_du_device_info rcar_du_r8a774a1_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a774b1_info = {
+>  	.gen = 3,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+> @@ -163,7 +168,8 @@ static const struct rcar_du_device_info rcar_du_r8a774b1_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a774c0_info = {
+>  	.gen = 3,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_VSP1_SOURCE,
+>  	.channels_mask = BIT(1) | BIT(0),
+>  	.routes = {
+> @@ -189,7 +195,8 @@ static const struct rcar_du_device_info rcar_du_r8a774c0_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a774e1_info = {
+>  	.gen = 3,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+> @@ -239,7 +246,8 @@ static const struct rcar_du_device_info rcar_du_r8a7779_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a7790_info = {
+>  	.gen = 2,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+>  	.quirks = RCAR_DU_QUIRK_ALIGN_128B,
+> @@ -269,7 +277,8 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
+>  /* M2-W (r8a7791) and M2-N (r8a7793) are identical */
+>  static const struct rcar_du_device_info rcar_du_r8a7791_info = {
+>  	.gen = 2,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+>  	.channels_mask = BIT(1) | BIT(0),
+> @@ -292,7 +301,8 @@ static const struct rcar_du_device_info rcar_du_r8a7791_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a7792_info = {
+>  	.gen = 2,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+>  	.channels_mask = BIT(1) | BIT(0),
+> @@ -311,7 +321,8 @@ static const struct rcar_du_device_info rcar_du_r8a7792_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a7794_info = {
+>  	.gen = 2,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+>  	.channels_mask = BIT(1) | BIT(0),
+> @@ -333,7 +344,8 @@ static const struct rcar_du_device_info rcar_du_r8a7794_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a7795_info = {
+>  	.gen = 3,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+> @@ -366,7 +378,8 @@ static const struct rcar_du_device_info rcar_du_r8a7795_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a7796_info = {
+>  	.gen = 3,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+> @@ -395,7 +408,8 @@ static const struct rcar_du_device_info rcar_du_r8a7796_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a77965_info = {
+>  	.gen = 3,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+> @@ -424,7 +438,8 @@ static const struct rcar_du_device_info rcar_du_r8a77965_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a77970_info = {
+>  	.gen = 3,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>  		  | RCAR_DU_FEATURE_INTERLACED
+>  		  | RCAR_DU_FEATURE_TVM_SYNC,
+> @@ -448,7 +463,8 @@ static const struct rcar_du_device_info rcar_du_r8a77970_info = {
+>  
+>  static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
+>  	.gen = 3,
+> -	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+>  		  | RCAR_DU_FEATURE_VSP1_SOURCE,
+>  	.channels_mask = BIT(1) | BIT(0),
+>  	.routes = {
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> index 02ca2d0e1b55..5fe9152454ff 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> @@ -26,10 +26,11 @@ struct drm_bridge;
+>  struct drm_property;
+>  struct rcar_du_device;
+>  
+> -#define RCAR_DU_FEATURE_CRTC_IRQ_CLOCK	BIT(0)	/* Per-CRTC IRQ and clock */
+> -#define RCAR_DU_FEATURE_VSP1_SOURCE	BIT(1)	/* Has inputs from VSP1 */
+> -#define RCAR_DU_FEATURE_INTERLACED	BIT(2)	/* HW supports interlaced */
+> -#define RCAR_DU_FEATURE_TVM_SYNC	BIT(3)	/* Has TV switch/sync modes */
+> +#define RCAR_DU_FEATURE_CRTC_IRQ	BIT(0)	/* Per-CRTC IRQ */
+> +#define RCAR_DU_FEATURE_CRTC_CLOCK	BIT(1)	/* Per-CRTC clock */
+> +#define RCAR_DU_FEATURE_VSP1_SOURCE	BIT(2)	/* Has inputs from VSP1 */
+> +#define RCAR_DU_FEATURE_INTERLACED	BIT(3)	/* HW supports interlaced */
+> +#define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
+>  
+>  #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
+>  
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
