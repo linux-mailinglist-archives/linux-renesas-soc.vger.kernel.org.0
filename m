@@ -2,298 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 052BC414B8D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 16:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A61EA414C77
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 16:52:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232401AbhIVOQU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 10:16:20 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43678 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232243AbhIVOQU (ORCPT
+        id S235464AbhIVOyC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 10:54:02 -0400
+Received: from mail.iot.bzh ([51.75.236.24]:11900 "EHLO mail.iot.bzh"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236272AbhIVOx5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 10:16:20 -0400
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAEF1F1;
-        Wed, 22 Sep 2021 16:14:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632320089;
-        bh=OcJhhoJjtzSrwdMN4D6GtdBF3MY12CGZeM4dmmjQnJY=;
-        h=From:To:Cc:References:Subject:Date:In-Reply-To:From;
-        b=fE96v26FG3tQD4CMwc/qF1kVIFcU0X0DfYkGHOFMsu7htukirCO1lKd7Ya9+Afps9
-         liOxAEVn5msM5JNfUSdBh3xdhP70dbQDqqhbNYNYCuxQgT66JbOsNCC20GooECEC3q
-         GwG0y0ViUOPCuCsEgfp7DWdxGpazK1ysFVTfT4qk=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <cover.1624460378.git.geert+renesas@glider.be>
- <b7b53970-58ea-f27f-4190-0066cb30cb05@ideasonboard.com>
- <CAMuHMdWSeeifBLqi4S6LrgcQg9E_1xFXzLzBBBqMf1Fc0kbMhg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] arm64: dts: renesas: r8a779a0: Add INTC-EX support
-Organization: Ideas on Board
-Message-ID: <e7aa6fb0-02b7-10d8-d1a0-6d9f8d727570@ideasonboard.com>
-Date:   Wed, 22 Sep 2021 15:14:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Wed, 22 Sep 2021 10:53:57 -0400
+Received: from localhost.localdomain (lfbn-ren-1-1868-231.w83-199.abo.wanadoo.fr [83.199.51.231])
+        by mail.iot.bzh (Postfix) with ESMTPSA id 36162400A2;
+        Wed, 22 Sep 2021 16:52:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; s=20180822;
+        t=1632322340;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=jbVrntzMQo+CXlZFyf9Y/H+27TSuJgt7VlQihSUuG3A=;
+        b=IZP9j158pXxFyrZt0BYc0s9JtDgz5WOzPFQJFRaXSVYwlnifa7YvvLPjkGeu47aY0U/C/V
+        Wg5M26x9NBXvRbxf8WWiMhYN6wE67nkdpcZt1lZVsks7/uJb9n3tf1Snu2EY4XDFrLAUvC
+        DNjQos1ccGiJ0a5ExqJj0QBAIqCP+7lehJCMNcTH9LAtsLGIh54sm6YyiPN8YxwWt1jlgD
+        VbbG9vUfdcMz4klOf5vM6WDW9Rxmp5DepOM83EzQq2qBcNxHeBjd36vO9k6v9fBL/GN1L6
+        hyd2UslGF1FkgRLv1ETLV9KrQR80Zz0ySO9Yg4gKDW7Uwbn0xTVNnWEKo2rDZA==
+From:   Julien Massot <julien.massot@iot.bzh>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Julien Massot <julien.massot@iot.bzh>
+Subject: [PATCH v2] soc: renesas: rcar-rst: Add support to set rproc boot address
+Date:   Wed, 22 Sep 2021 16:52:12 +0200
+Message-Id: <20210922145212.333541-1-julien.massot@iot.bzh>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdWSeeifBLqi4S6LrgcQg9E_1xFXzLzBBBqMf1Fc0kbMhg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+R-Car Gen3 SoC series has a realtime processor, the boot
+address of this processor can be set thanks to CR7BAR register
+of the reset module.
 
-I've been trying to test this on the Falcon-V3U
+Export this function so that it's possible to set the boot
+address from a remoteproc driver.
 
+Also drop the __initdata qualifier on rcar_rst_base,
+since we will use this address later than init time.
 
-On 24/06/2021 09:07, Geert Uytterhoeven wrote:
-> Hi Kieran,
-> 
-> On Wed, Jun 23, 2021 at 6:13 PM Kieran Bingham
-> <kieran.bingham@ideasonboard.com> wrote:
->> On 23/06/2021 16:02, Geert Uytterhoeven wrote:
->>> This patch series adds support for the Interrupt Controller for External
->>> Devices (INT-EC) in the Renesas R-Car V3U (r8a779a0) SoC.
->>>
->>> As there are two known issues, I'm posting this to a limited audience:
->>>
->>>   1. External interrupts have not been tested.
->>>
->>>      Kieran: perhaps IRQ0 can be tested on Falcon with the MIPI DSI/eDP
->>>      bridge, by changing
->>>
->>>        -    interrupt-parent = <&gpio1>;
->>>        -    interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
->>>        +    interrupt-parent = <&intc_ex>;
->>>        +    interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
->>>
->>>      ? The "ti,sn65dsi86" driver doesn't seem to use interrupts, though,
->>>      so I don't know how feasible this is.
->>
->> I can add an interrupt handler if that's what you need, but I suspect
->> that the change here simply 're-routes' the interrupt through the
->> intc_ex so that it still needs an interrupt to be generated by the
->> SN65DSI86? is that right?
-> 
-> Correct, you need to make the SN65DSI86 generate an interrupt, too.
-> No idea how to do that...
+Signed-off-by: Julien Massot <julien.massot@iot.bzh>
+---
 
-I'm going to ignore the SN65DSI86, and go with a route that I can
-explicitly control ... so IRQ2 it is.
+Change since RFC:
+Introduce set_rproc_boot_addr function pointer, so that
+it can be reused for other R-Car SoC generation.
 
+---
+ drivers/soc/renesas/rcar-rst.c       | 48 ++++++++++++++++++++++++----
+ include/linux/soc/renesas/rcar-rst.h |  2 ++
+ 2 files changed, 44 insertions(+), 6 deletions(-)
 
-
-> 
->>>      Alternatively, with physical access, IRQ0 is available on test
->>>      point CP47, and IRQ2 on the GPIO CN.
->>
->> I do have physical access, so I can trigger this - Is there a suitable
->> voltage or condition I can apply? (I.e. take a signal from a nearby pin
->> to short it?)
-> 
-> As IRQ0 is driven by the single gate U59, you better don't cause logic
-> conflicts, and play with IRQ2 instead.
-> 
-> Note that high level is SPI_D1.8V/3.3V, which is 1.8V by default!
-> The GPIO CN connector carries a.o. SPI_D1.8V/3.3V and GND.
-> Internal pull-up should be enabled for IRQ2 by reset state, but you
-> may want to measure the pin's voltage to be sure.
-
-Pin7 appears to be IRQ2. It is reading at 1.8v.
-Pin 5 (SPI_D1.8v/3.3v) is reading at 1.8v
-Pin 3 (D3.3v) no prizes for guessing here.
-
-And of course pin 1 is ground.
-
-So I have some wires I can play with.
-
-
-> To configure pin control, you need to add the following, and hook it
-> up to the pfc node:
-> 
->         irq2_pins: irq2 {
->                 groups = "intc_ex_irq2";
->                 function = "intc_ex";
->         };
-> 
-> You should be able to test this using gpio-keys, with a key subnode that
-> has an interrupts instead of a gpios property.
-
-
-I'm afraid I haven't been able to successfully test this. I have this
-series applied and have tried the following:
-
-
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-index dc671ff57ec7..1286b553e370 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-@@ -10,6 +10,10 @@
- #include "r8a779a0-falcon-csi-dsi.dtsi"
- #include "r8a779a0-falcon-ethernet.dtsi"
-
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/gpio-keys.h>
-+#include <dt-bindings/input/input.h>
+diff --git a/drivers/soc/renesas/rcar-rst.c b/drivers/soc/renesas/rcar-rst.c
+index 8a1e402ea799..49200cdfe633 100644
+--- a/drivers/soc/renesas/rcar-rst.c
++++ b/drivers/soc/renesas/rcar-rst.c
+@@ -12,6 +12,8 @@
+ 
+ #define WDTRSTCR_RESET		0xA55A0002
+ #define WDTRSTCR		0x0054
++#define CR7BAR			0x0070
++#define CR7BAREN		BIT(4)
+ 
+ static int rcar_rst_enable_wdt_reset(void __iomem *base)
+ {
+@@ -19,25 +21,29 @@ static int rcar_rst_enable_wdt_reset(void __iomem *base)
+ 	return 0;
+ }
+ 
++static int rcar_rst_set_gen3_rproc_boot_addr(u32 boot_addr);
 +
- / {
- 	model = "Renesas Falcon CPU and Breakout boards based on r8a779a0";
- 	compatible = "renesas,falcon-breakout", "renesas,falcon-cpu",
-"renesas,r8a779a0";
-@@ -17,6 +21,23 @@ / {
- 	aliases {
- 		ethernet0 = &avb0;
- 	};
-+
-+	gpio_keys {
-+		compatible = "gpio-keys";
-+
-+		btn1 {
-+			pinctrl-0 = <&irq2_pins>;
-+			pinctrl-names = "default";
-+
-+			debounce-interval = <50>;
-+			label = "button1";
-+			linux,code = <KEY_1>;
-+			interrupt-parent = <&intc_ex>;
-+			interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-+
-+			//gpios = <&gpio1 26 GPIO_ACTIVE_LOW>;
-+		};
-+	};
+ struct rst_config {
+ 	unsigned int modemr;		/* Mode Monitoring Register Offset */
+ 	int (*configure)(void __iomem *base);	/* Platform specific config */
++	int (*set_rproc_boot_addr)(u32 boot_addr);
  };
-
- &avb0 {
-@@ -45,6 +66,14 @@ eeprom@51 {
+ 
+-static const struct rst_config rcar_rst_gen1 __initconst = {
++static const struct rst_config rcar_rst_gen1 = {
+ 	.modemr = 0x20,
  };
-
- &pfc {
-+	// Intc_ex testing
-+	irq2_pins: irq2 {
-+		groups = "intc_ex_irq2";
-+		function = "intc_ex";
-+
-+		bias-pull-up;
-+	};
-+
- 	avb0_pins: avb0 {
- 		mux {
- 			groups = "avb0_link", "avb0_mdio", "avb0_rgmii",
-diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
-index ef8ef05ba930..966883c6c64c 100644
---- a/drivers/pinctrl/renesas/core.c
-+++ b/drivers/pinctrl/renesas/core.c
-@@ -228,7 +228,7 @@ static void sh_pfc_write_config_reg(struct sh_pfc *pfc,
-
- 	sh_pfc_config_reg_helper(pfc, crp, field, &mapped_reg, &mask, &pos);
-
--	dev_dbg(pfc->dev, "write_reg addr = %x, value = 0x%x, field = %u, "
-+	dev_err(pfc->dev, "KB: write_reg addr = %x, value = 0x%x, field = %u, "
- 		"r_width = %u, f_width = %u\n",
- 		crp->reg, value, field, crp->reg_width, hweight32(mask));
-
-
-
-
-
-And I have ribbon cable with the pitch for cn4 now which allows me to
-connect pin 7 to pin 1 to ground it.
-
-
-I use
- sudo evtest /dev/input/event0
-
-to monitor the line for changes, and grounding pin7 has no effect in
-this configuration.
-
-
-However, to try to sanity check my test, I changed the gpio-keys to use
-gpio1 26 directly - disabling the pinctrl, and using the gpios reference
-directly instead :
-
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-index 1286b553e370..af85881de2c4 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-@@ -26,16 +26,11 @@ gpio_keys {
-                compatible = "gpio-keys";
-
-                btn1 {
--                       pinctrl-0 = <&irq2_pins>;
--                       pinctrl-names = "default";
--
-                        debounce-interval = <50>;
-                        label = "button1";
-                        linux,code = <KEY_1>;
--                       interrupt-parent = <&intc_ex>;
--                       interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-
--                       //gpios = <&gpio1 26 GPIO_ACTIVE_LOW>;
-+                       gpios = <&gpio1 26 GPIO_ACTIVE_LOW>;
-                };
-        };
+ 
+-static const struct rst_config rcar_rst_gen2 __initconst = {
++static const struct rst_config rcar_rst_gen2 = {
+ 	.modemr = 0x60,
+ 	.configure = rcar_rst_enable_wdt_reset,
  };
-
-
-This shows active key events when grounding pin 7 to pin 1...
-> kbingham@falcon-v3u:~$ sudo evtest /dev/input/event0
-> Input driver version is 1.0.1
-> Input device ID: bus 0x19 vendor 0x1 product 0x1 version 0x100
-> Input device name: "gpio_keys"
-> Supported events:
->   Event type 0 (EV_SYN)
->   Event type 1 (EV_KEY)
->     Event code 2 (KEY_1)
-> Properties:
-> Testing ... (interrupt to exit)
-> Event: time 1632319971.126234, type 1 (EV_KEY), code 2 (KEY_1), value 1
-> Event: time 1632319971.126234, -------------- SYN_REPORT ------------
-> Event: time 1632319971.579966, type 1 (EV_KEY), code 2 (KEY_1), value 0
-> Event: time 1632319971.579966, -------------- SYN_REPORT ------------
-> Event: time 1632319981.461018, type 1 (EV_KEY), code 2 (KEY_1), value 1
-> Event: time 1632319981.461018, -------------- SYN_REPORT ------------
-> Event: time 1632319981.835693, type 1 (EV_KEY), code 2 (KEY_1), value 0
-> Event: time 1632319981.835693, -------------- SYN_REPORT ------------
-> Event: time 1632319982.112104, type 1 (EV_KEY), code 2 (KEY_1), value 1
-> Event: time 1632319982.112104, -------------- SYN_REPORT ------------
-
-
-
-If there's anything else you'd like me to test or change let me know.
-
---
-Kieran
-
-
-
-
-
-> 
-> This might be a good opportunity to wire up the slide and push switches
-> (SW46-49) as gpio-keys, too...
-> 
-> Thanks!
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-> 
-
+ 
+-static const struct rst_config rcar_rst_gen3 __initconst = {
++static const struct rst_config rcar_rst_gen3 = {
+ 	.modemr = 0x60,
++	.set_rproc_boot_addr = rcar_rst_set_gen3_rproc_boot_addr,
+ };
+ 
+-static const struct rst_config rcar_rst_r8a779a0 __initconst = {
++static const struct rst_config rcar_rst_r8a779a0 = {
+ 	.modemr = 0x00,		/* MODEMR0 and it has CPG related bits */
+ };
+ 
+@@ -76,13 +82,13 @@ static const struct of_device_id rcar_rst_matches[] __initconst = {
+ 	{ /* sentinel */ }
+ };
+ 
+-static void __iomem *rcar_rst_base __initdata;
++static void __iomem *rcar_rst_base;
+ static u32 saved_mode __initdata;
++static const struct rst_config *cfg;
+ 
+ static int __init rcar_rst_init(void)
+ {
+ 	const struct of_device_id *match;
+-	const struct rst_config *cfg;
+ 	struct device_node *np;
+ 	void __iomem *base;
+ 	int error = 0;
+@@ -130,3 +136,33 @@ int __init rcar_rst_read_mode_pins(u32 *mode)
+ 	*mode = saved_mode;
+ 	return 0;
+ }
++
++/*
++ * Most of R-Car Gen3 SoCs have an ARM Realtime Core.
++ * Firmware boot address can be set before starting,
++ * the realtime core thanks to CR7BAR register.
++ * Boot address is on 32bit, and should be aligned on
++ * 4k boundary.
++ */
++int rcar_rst_set_gen3_rproc_boot_addr(u32 boot_addr)
++{
++	if (boot_addr % SZ_4K) {
++		pr_warn("Invalid boot address for CR7 processor,"
++		       "should be aligned on 4k got %x\n", boot_addr);
++		return -EINVAL;
++	}
++
++	iowrite32(boot_addr, rcar_rst_base + CR7BAR);
++	iowrite32(boot_addr | CR7BAREN, rcar_rst_base + CR7BAR);
++
++	return 0;
++}
++
++int rcar_rst_set_rproc_boot_addr(u32 boot_addr)
++{
++	if (!rcar_rst_base || !cfg->set_rproc_boot_addr)
++		return -EIO;
++
++	return cfg->set_rproc_boot_addr(boot_addr);
++}
++EXPORT_SYMBOL(rcar_rst_set_rproc_boot_addr);
+diff --git a/include/linux/soc/renesas/rcar-rst.h b/include/linux/soc/renesas/rcar-rst.h
+index 7899a5b8c247..7c97c2c4bba6 100644
+--- a/include/linux/soc/renesas/rcar-rst.h
++++ b/include/linux/soc/renesas/rcar-rst.h
+@@ -4,8 +4,10 @@
+ 
+ #ifdef CONFIG_RST_RCAR
+ int rcar_rst_read_mode_pins(u32 *mode);
++int rcar_rst_set_rproc_boot_addr(u32 boot_addr);
+ #else
+ static inline int rcar_rst_read_mode_pins(u32 *mode) { return -ENODEV; }
++static inline int rcar_rst_set_rproc_boot_addr(u32 boot_addr) { return -ENODEV; }
+ #endif
+ 
+ #endif /* __LINUX_SOC_RENESAS_RCAR_RST_H__ */
 -- 
---
-Kieran
+2.31.1
+
