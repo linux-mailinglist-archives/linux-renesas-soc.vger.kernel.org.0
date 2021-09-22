@@ -2,171 +2,192 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5E03415423
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 01:47:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C5D1415448
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 01:56:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238564AbhIVXtH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 19:49:07 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33080 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238550AbhIVXtG (ORCPT
+        id S238576AbhIVX5e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 19:57:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238505AbhIVX5e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 19:49:06 -0400
-Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3934146F;
-        Thu, 23 Sep 2021 01:47:33 +0200 (CEST)
+        Wed, 22 Sep 2021 19:57:34 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDFFEC061574;
+        Wed, 22 Sep 2021 16:56:03 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12089E52;
+        Thu, 23 Sep 2021 01:56:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632354454;
-        bh=7EADXKwZYFbuhGKLgq/qfUiUD+3KOzKIJ3Qg3CZ5vrk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ldFkHPJAh3iOl8w2M+weAc/DB5y6KbPaq7+IZzyYGJJTTnzvpmzntNHScZFroVHmt
-         5yFPf9z9UeeR56F465l5HiZfO2JM873DG4Zq8R1hUMplWCiggT5fwmd7A84sG/uC19
-         gq19MDlZTKrmifRsxOh3GHeIwHmv0yA++SbsRMXI=
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR RENESAS),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 6/6] drm: rcar-du: Add r8a779a0 device support
-Date:   Thu, 23 Sep 2021 00:47:26 +0100
-Message-Id: <20210922234726.3337265-7-kieran.bingham@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210922234726.3337265-1-kieran.bingham@ideasonboard.com>
-References: <20210922234726.3337265-1-kieran.bingham@ideasonboard.com>
+        s=mail; t=1632354962;
+        bh=xt5a5frTZ4VAbHQhcId47xRLhbugeZ/AH58yn8Mv6WI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ATlK6e8eiFcYih2LQ4zAt7/OpHq+sg+QloUakcdgqNcZ/K+mDJdUwq/4MB5VZb9ou
+         6FgW1Houaap1QzJE9nbvhFrG5cTx51D4OWFvQu1n0ga6l/uw+6lllDtkol18liubBU
+         v6fhHan+4Gtya6+VUZzrVF97bwtW5zozhYFiYLDM=
+Date:   Thu, 23 Sep 2021 02:56:00 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: falcon-cpu: Add DSI display
+ output
+Message-ID: <YUvCkA57x1VncKAV@pendragon.ideasonboard.com>
+References: <20210901235330.1611086-1-kieran.bingham@ideasonboard.com>
+ <20210901235330.1611086-4-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210901235330.1611086-4-kieran.bingham@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Hi Kieran,
 
-Extend the rcar_du_device_info structure and rcar_du_output enum to
-support DSI outputs and utilise these additions to provide support for
-the R8A779A0 V3U platform.
+Thank you for the patch.
 
-While the DIDSR register field is now named "DSI/CSI-2-TX-IF0 Dot Clock
-Select" the existing define LVDS0 is used, and is directly compatible
-from other DU variants.
+On Thu, Sep 02, 2021 at 12:53:30AM +0100, Kieran Bingham wrote:
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> Provide the display output using the sn65dsi86 MIPI DSI bridge.
+> 
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+>  .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 84 +++++++++++++++++++
+>  1 file changed, 84 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+> index a0a1a1da0d87..5530bb82de6b 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+> @@ -66,6 +66,15 @@ memory@700000000 {
+>  		reg = <0x7 0x00000000 0x0 0x80000000>;
+>  	};
+>  
+> +	reg_1p2v: regulator-1p2v {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "fixed-1.2V";
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+1.8V is a weird voltage for a 1.2V regulator :-)
 
----
+> +		regulator-boot-on;
+> +		regulator-always-on;
+> +	};
+> +
+>  	reg_1p8v: regulator-1p8v {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "fixed-1.8V";
+> @@ -83,6 +92,46 @@ reg_3p3v: regulator-3p3v {
+>  		regulator-boot-on;
+>  		regulator-always-on;
+>  	};
+> +
+> +	mini-dp-con {
+> +		compatible = "dp-connector";
+> +		label = "CN5";
+> +		type = "mini";
+> +
+> +		port {
+> +			mini_dp_con_in: endpoint {
+> +				remote-endpoint = <&sn65dsi86_out>;
+> +			};
+> +		};
+> +	};
+> +
+> +	sn65dsi86_refclk: sn65dsi86-refclk {
 
-v3:
- - Introduce DIDSR_LDCS_DSI macro
+I'd name the node x6-clk after the components on the board (or clk-x6).
+The label can stay the same, up to you.
 
-v2:
- - No longer requires a direct interface with the DSI encoder
- - Use correct field naming (LDCS)
- - Remove per-crtc clock feature.
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <38400000>;
+> +	};
+> +};
+> +
+> +&dsi0 {
+> +	status = "okay";
+> +
+> +	clocks = <&cpg CPG_MOD 415>,
+> +		 <&cpg CPG_CORE R8A779A0_CLK_DSI>,
+> +		 <&extal_clk>;
+> +	clock-names = "fck", "dsi", "extal";
 
- drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |  2 ++
- drivers/gpu/drm/rcar-du/rcar_du_drv.c   | 20 ++++++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_drv.h   |  2 ++
- drivers/gpu/drm/rcar-du/rcar_du_group.c |  2 ++
- drivers/gpu/drm/rcar-du/rcar_du_regs.h  |  1 +
- 5 files changed, 27 insertions(+)
+As discussed separately, this should go to r8a79a0.dtsi, and the last
+clock should be named "pll".
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-index 440e6b4fbb58..26e79b74898c 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-@@ -96,6 +96,8 @@ struct rcar_du_crtc_state {
- enum rcar_du_output {
- 	RCAR_DU_OUTPUT_DPAD0,
- 	RCAR_DU_OUTPUT_DPAD1,
-+	RCAR_DU_OUTPUT_DSI0,
-+	RCAR_DU_OUTPUT_DSI1,
- 	RCAR_DU_OUTPUT_HDMI0,
- 	RCAR_DU_OUTPUT_HDMI1,
- 	RCAR_DU_OUTPUT_LVDS0,
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 8a094d5b9c77..8b4c8851b6bc 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -489,6 +489,25 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
- 	.lvds_clk_mask =  BIT(1) | BIT(0),
- };
- 
-+static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
-+	.gen = 3,
-+	.features = RCAR_DU_FEATURE_CRTC_IRQ
-+		  | RCAR_DU_FEATURE_VSP1_SOURCE,
-+	.channels_mask = BIT(1) | BIT(0),
-+	.routes = {
-+		/* R8A779A0 has two MIPI DSI outputs. */
-+		[RCAR_DU_OUTPUT_DSI0] = {
-+			.possible_crtcs = BIT(0),
-+			.port = 0,
-+		},
-+		[RCAR_DU_OUTPUT_DSI1] = {
-+			.possible_crtcs = BIT(1),
-+			.port = 1,
-+		},
-+	},
-+	.dsi_clk_mask =  BIT(1) | BIT(0),
-+};
-+
- static const struct of_device_id rcar_du_of_table[] = {
- 	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
- 	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-@@ -513,6 +532,7 @@ static const struct of_device_id rcar_du_of_table[] = {
- 	{ .compatible = "renesas,du-r8a77980", .data = &rcar_du_r8a77970_info },
- 	{ .compatible = "renesas,du-r8a77990", .data = &rcar_du_r8a7799x_info },
- 	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
-+	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
- 	{ }
- };
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index 5fe9152454ff..cf98d43d72d0 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -57,6 +57,7 @@ struct rcar_du_output_routing {
-  * @routes: array of CRTC to output routes, indexed by output (RCAR_DU_OUTPUT_*)
-  * @num_lvds: number of internal LVDS encoders
-  * @dpll_mask: bit mask of DU channels equipped with a DPLL
-+ * @dsi_clk_mask: bitmask of channels that can use the DSI clock as dot clock
-  * @lvds_clk_mask: bitmask of channels that can use the LVDS clock as dot clock
-  */
- struct rcar_du_device_info {
-@@ -67,6 +68,7 @@ struct rcar_du_device_info {
- 	struct rcar_du_output_routing routes[RCAR_DU_OUTPUT_MAX];
- 	unsigned int num_lvds;
- 	unsigned int dpll_mask;
-+	unsigned int dsi_clk_mask;
- 	unsigned int lvds_clk_mask;
- };
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-index a984eef265d2..8665a1dd2186 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-@@ -124,6 +124,8 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
- 		if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index))
- 			didsr |= DIDSR_LDCS_LVDS0(i)
- 			      |  DIDSR_PDCS_CLK(i, 0);
-+		else if (rcdu->info->dsi_clk_mask & BIT(rcrtc->index))
-+			didsr |= DIDSR_LDCS_DSI(i);
- 		else
- 			didsr |= DIDSR_LDCS_DCLKIN(i)
- 			      |  DIDSR_PDCS_CLK(i, 0);
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-index fb7c467aa484..9484215b51e2 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-@@ -258,6 +258,7 @@
- #define DIDSR			0x20028
- #define DIDSR_CODE		(0x7790 << 16)
- #define DIDSR_LDCS_DCLKIN(n)	(0 << (8 + (n) * 2))
-+#define DIDSR_LDCS_DSI(n)	(2 << (8 + (n) * 2))
- #define DIDSR_LDCS_LVDS0(n)	(2 << (8 + (n) * 2))
- #define DIDSR_LDCS_LVDS1(n)	(3 << (8 + (n) * 2))
- #define DIDSR_LDCS_MASK(n)	(3 << (8 + (n) * 2))
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+> +	ports {
+> +		port@1 {
+> +			endpoint {
+> +				remote-endpoint = <&sn65dsi86_in>;
+> +				data-lanes = <1 2 3 4>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&du {
+> +	status = "okay";
+>  };
+>  
+>  &extal_clk {
+> @@ -114,6 +163,41 @@ &i2c1 {
+>  
+>  	status = "okay";
+>  	clock-frequency = <400000>;
+> +
+> +	sn65dsi86@2c {
+> +		compatible = "ti,sn65dsi86";
+> +		reg = <0x2c>;
+> +
+> +		clocks = <&sn65dsi86_refclk>;
+> +		clock-names = "refclk";
+> +
+> +		interrupt-parent = <&gpio1>;
+> +		interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +		vccio-supply = <&reg_1p8v>;
+> +		vpll-supply = <&reg_1p8v>;
+> +		vcca-supply = <&reg_1p2v>;
+> +		vcc-supply = <&reg_1p2v>;
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				reg = <0>;
+> +				sn65dsi86_in: endpoint {
+> +					remote-endpoint = <&dsi0_out>;
+> +				};
+> +			};
+> +
+> +			port@1 {
+> +				reg = <1>;
+> +				sn65dsi86_out: endpoint {
+> +					remote-endpoint = <&mini_dp_con_in>;
+> +				};
+> +			};
+> +		};
+> +	};
+>  };
+>  
+>  &i2c6 {
+
 -- 
-2.30.2
+Regards,
 
+Laurent Pinchart
