@@ -2,177 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A61EA414C77
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 16:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E97CA414CEC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 17:23:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235464AbhIVOyC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 10:54:02 -0400
-Received: from mail.iot.bzh ([51.75.236.24]:11900 "EHLO mail.iot.bzh"
+        id S236372AbhIVPZK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 11:25:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46760 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236272AbhIVOx5 (ORCPT
+        id S232318AbhIVPZK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 10:53:57 -0400
-Received: from localhost.localdomain (lfbn-ren-1-1868-231.w83-199.abo.wanadoo.fr [83.199.51.231])
-        by mail.iot.bzh (Postfix) with ESMTPSA id 36162400A2;
-        Wed, 22 Sep 2021 16:52:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; s=20180822;
-        t=1632322340;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=jbVrntzMQo+CXlZFyf9Y/H+27TSuJgt7VlQihSUuG3A=;
-        b=IZP9j158pXxFyrZt0BYc0s9JtDgz5WOzPFQJFRaXSVYwlnifa7YvvLPjkGeu47aY0U/C/V
-        Wg5M26x9NBXvRbxf8WWiMhYN6wE67nkdpcZt1lZVsks7/uJb9n3tf1Snu2EY4XDFrLAUvC
-        DNjQos1ccGiJ0a5ExqJj0QBAIqCP+7lehJCMNcTH9LAtsLGIh54sm6YyiPN8YxwWt1jlgD
-        VbbG9vUfdcMz4klOf5vM6WDW9Rxmp5DepOM83EzQq2qBcNxHeBjd36vO9k6v9fBL/GN1L6
-        hyd2UslGF1FkgRLv1ETLV9KrQR80Zz0ySO9Yg4gKDW7Uwbn0xTVNnWEKo2rDZA==
-From:   Julien Massot <julien.massot@iot.bzh>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Julien Massot <julien.massot@iot.bzh>
-Subject: [PATCH v2] soc: renesas: rcar-rst: Add support to set rproc boot address
-Date:   Wed, 22 Sep 2021 16:52:12 +0200
-Message-Id: <20210922145212.333541-1-julien.massot@iot.bzh>
-X-Mailer: git-send-email 2.31.1
+        Wed, 22 Sep 2021 11:25:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 98E7C611CA;
+        Wed, 22 Sep 2021 15:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632324220;
+        bh=IpBkLTIQvIUZPkRaGwMHEUj4owQqlTkaaZEJ5Z2AWZY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cPEi6jiO8TomHvLDhGygh5ypE8WXDmzCmL9R8h7hj/R1Kj2ox0S7hrwww9SK8AIxd
+         rXvEJ2cOHRdoWrwfLUn3KqmFg/DOALNxwfTWJBoGnii2CFxFTHhZbXLMX8y2SvnYe/
+         gGUNj5EMUpJodk7XVgujI43yIsjcPLh+xZLY32AyKeaOdtCn31pPY0M4/SNJwFCcrq
+         cgUWk24Lz7DaLK13/CjJ1zOXKZ/Mk7IWwCuHjQP8773Rzp/NVHqCGm1B5MrqOf/m4A
+         Lz59M2bXohUmDuYVbs8vSrRM58QmLcG9emmPxrQ2rrotL57Sz3jzqqAuTBqrY4twti
+         W6FuR8WIBvprA==
+Date:   Wed, 22 Sep 2021 17:23:36 +0200
+From:   Simon Horman <horms@kernel.org>
+To:     Ulrich Hecht <uli@fpond.eu>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        wg@grandegger.com, mkl@pengutronix.de, davem@davemloft.net,
+        kuba@kernel.org, linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
+Subject: Re: [PATCH] can: rcar_can: Fix suspend/resume
+Message-ID: <20210922152336.GA26223@kernel.org>
+References: <20210921051959.50309-1-yoshihiro.shimoda.uh@renesas.com>
+ <1020394138.1395460.1632220693209@webmail.strato.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1020394138.1395460.1632220693209@webmail.strato.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-R-Car Gen3 SoC series has a realtime processor, the boot
-address of this processor can be set thanks to CR7BAR register
-of the reset module.
+On Tue, Sep 21, 2021 at 12:38:13PM +0200, Ulrich Hecht wrote:
+> 
+> > On 09/21/2021 7:19 AM Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > 
+> >  
+> > If the driver was not opened, rcar_can_suspend() should not call
+> > clk_disable() because the clock was not enabled.
+> > 
+> > Fixes: fd1159318e55 ("can: add Renesas R-Car CAN driver")
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > Tested-by: Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
+> > ---
+> >  drivers/net/can/rcar/rcar_can.c | 21 +++++++++++++--------
+> >  1 file changed, 13 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/net/can/rcar/rcar_can.c b/drivers/net/can/rcar/rcar_can.c
+> > index 00e4533c8bdd..6b4eefb03044 100644
+> > --- a/drivers/net/can/rcar/rcar_can.c
+> > +++ b/drivers/net/can/rcar/rcar_can.c
 
-Export this function so that it's possible to set the boot
-address from a remoteproc driver.
+...
 
-Also drop the __initdata qualifier on rcar_rst_base,
-since we will use this address later than init time.
+> > @@ -858,6 +860,7 @@ static int __maybe_unused rcar_can_suspend(struct device *dev)
+> >  	priv->can.state = CAN_STATE_SLEEPING;
+> >  
+> >  	clk_disable(priv->clk);
+> > +
+> >  	return 0;
+> >  }
+> >  
 
-Signed-off-by: Julien Massot <julien.massot@iot.bzh>
----
+nit: this hunk seems unrelated to the rest of the patch
 
-Change since RFC:
-Introduce set_rproc_boot_addr function pointer, so that
-it can be reused for other R-Car SoC generation.
-
----
- drivers/soc/renesas/rcar-rst.c       | 48 ++++++++++++++++++++++++----
- include/linux/soc/renesas/rcar-rst.h |  2 ++
- 2 files changed, 44 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/soc/renesas/rcar-rst.c b/drivers/soc/renesas/rcar-rst.c
-index 8a1e402ea799..49200cdfe633 100644
---- a/drivers/soc/renesas/rcar-rst.c
-+++ b/drivers/soc/renesas/rcar-rst.c
-@@ -12,6 +12,8 @@
- 
- #define WDTRSTCR_RESET		0xA55A0002
- #define WDTRSTCR		0x0054
-+#define CR7BAR			0x0070
-+#define CR7BAREN		BIT(4)
- 
- static int rcar_rst_enable_wdt_reset(void __iomem *base)
- {
-@@ -19,25 +21,29 @@ static int rcar_rst_enable_wdt_reset(void __iomem *base)
- 	return 0;
- }
- 
-+static int rcar_rst_set_gen3_rproc_boot_addr(u32 boot_addr);
-+
- struct rst_config {
- 	unsigned int modemr;		/* Mode Monitoring Register Offset */
- 	int (*configure)(void __iomem *base);	/* Platform specific config */
-+	int (*set_rproc_boot_addr)(u32 boot_addr);
- };
- 
--static const struct rst_config rcar_rst_gen1 __initconst = {
-+static const struct rst_config rcar_rst_gen1 = {
- 	.modemr = 0x20,
- };
- 
--static const struct rst_config rcar_rst_gen2 __initconst = {
-+static const struct rst_config rcar_rst_gen2 = {
- 	.modemr = 0x60,
- 	.configure = rcar_rst_enable_wdt_reset,
- };
- 
--static const struct rst_config rcar_rst_gen3 __initconst = {
-+static const struct rst_config rcar_rst_gen3 = {
- 	.modemr = 0x60,
-+	.set_rproc_boot_addr = rcar_rst_set_gen3_rproc_boot_addr,
- };
- 
--static const struct rst_config rcar_rst_r8a779a0 __initconst = {
-+static const struct rst_config rcar_rst_r8a779a0 = {
- 	.modemr = 0x00,		/* MODEMR0 and it has CPG related bits */
- };
- 
-@@ -76,13 +82,13 @@ static const struct of_device_id rcar_rst_matches[] __initconst = {
- 	{ /* sentinel */ }
- };
- 
--static void __iomem *rcar_rst_base __initdata;
-+static void __iomem *rcar_rst_base;
- static u32 saved_mode __initdata;
-+static const struct rst_config *cfg;
- 
- static int __init rcar_rst_init(void)
- {
- 	const struct of_device_id *match;
--	const struct rst_config *cfg;
- 	struct device_node *np;
- 	void __iomem *base;
- 	int error = 0;
-@@ -130,3 +136,33 @@ int __init rcar_rst_read_mode_pins(u32 *mode)
- 	*mode = saved_mode;
- 	return 0;
- }
-+
-+/*
-+ * Most of R-Car Gen3 SoCs have an ARM Realtime Core.
-+ * Firmware boot address can be set before starting,
-+ * the realtime core thanks to CR7BAR register.
-+ * Boot address is on 32bit, and should be aligned on
-+ * 4k boundary.
-+ */
-+int rcar_rst_set_gen3_rproc_boot_addr(u32 boot_addr)
-+{
-+	if (boot_addr % SZ_4K) {
-+		pr_warn("Invalid boot address for CR7 processor,"
-+		       "should be aligned on 4k got %x\n", boot_addr);
-+		return -EINVAL;
-+	}
-+
-+	iowrite32(boot_addr, rcar_rst_base + CR7BAR);
-+	iowrite32(boot_addr | CR7BAREN, rcar_rst_base + CR7BAR);
-+
-+	return 0;
-+}
-+
-+int rcar_rst_set_rproc_boot_addr(u32 boot_addr)
-+{
-+	if (!rcar_rst_base || !cfg->set_rproc_boot_addr)
-+		return -EIO;
-+
-+	return cfg->set_rproc_boot_addr(boot_addr);
-+}
-+EXPORT_SYMBOL(rcar_rst_set_rproc_boot_addr);
-diff --git a/include/linux/soc/renesas/rcar-rst.h b/include/linux/soc/renesas/rcar-rst.h
-index 7899a5b8c247..7c97c2c4bba6 100644
---- a/include/linux/soc/renesas/rcar-rst.h
-+++ b/include/linux/soc/renesas/rcar-rst.h
-@@ -4,8 +4,10 @@
- 
- #ifdef CONFIG_RST_RCAR
- int rcar_rst_read_mode_pins(u32 *mode);
-+int rcar_rst_set_rproc_boot_addr(u32 boot_addr);
- #else
- static inline int rcar_rst_read_mode_pins(u32 *mode) { return -ENODEV; }
-+static inline int rcar_rst_set_rproc_boot_addr(u32 boot_addr) { return -ENODEV; }
- #endif
- 
- #endif /* __LINUX_SOC_RENESAS_RCAR_RST_H__ */
--- 
-2.31.1
-
+...
