@@ -2,80 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E97CA414CEC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 17:23:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73AA7414DA9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 18:03:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236372AbhIVPZK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 11:25:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46760 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232318AbhIVPZK (ORCPT
+        id S232357AbhIVQFY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 12:05:24 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:15645 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231712AbhIVQFY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 11:25:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 98E7C611CA;
-        Wed, 22 Sep 2021 15:23:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632324220;
-        bh=IpBkLTIQvIUZPkRaGwMHEUj4owQqlTkaaZEJ5Z2AWZY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cPEi6jiO8TomHvLDhGygh5ypE8WXDmzCmL9R8h7hj/R1Kj2ox0S7hrwww9SK8AIxd
-         rXvEJ2cOHRdoWrwfLUn3KqmFg/DOALNxwfTWJBoGnii2CFxFTHhZbXLMX8y2SvnYe/
-         gGUNj5EMUpJodk7XVgujI43yIsjcPLh+xZLY32AyKeaOdtCn31pPY0M4/SNJwFCcrq
-         cgUWk24Lz7DaLK13/CjJ1zOXKZ/Mk7IWwCuHjQP8773Rzp/NVHqCGm1B5MrqOf/m4A
-         Lz59M2bXohUmDuYVbs8vSrRM58QmLcG9emmPxrQ2rrotL57Sz3jzqqAuTBqrY4twti
-         W6FuR8WIBvprA==
-Date:   Wed, 22 Sep 2021 17:23:36 +0200
-From:   Simon Horman <horms@kernel.org>
-To:     Ulrich Hecht <uli@fpond.eu>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        wg@grandegger.com, mkl@pengutronix.de, davem@davemloft.net,
-        kuba@kernel.org, linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
-Subject: Re: [PATCH] can: rcar_can: Fix suspend/resume
-Message-ID: <20210922152336.GA26223@kernel.org>
-References: <20210921051959.50309-1-yoshihiro.shimoda.uh@renesas.com>
- <1020394138.1395460.1632220693209@webmail.strato.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1020394138.1395460.1632220693209@webmail.strato.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Wed, 22 Sep 2021 12:05:24 -0400
+X-IronPort-AV: E=Sophos;i="5.85,314,1624287600"; 
+   d="scan'208";a="94720416"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 23 Sep 2021 01:03:52 +0900
+Received: from localhost.localdomain (unknown [10.226.92.203])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1704C4003EB6;
+        Thu, 23 Sep 2021 01:03:48 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 0/4] Add GbEthernet Clock support
+Date:   Wed, 22 Sep 2021 16:51:41 +0100
+Message-Id: <20210922155145.28156-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 21, 2021 at 12:38:13PM +0200, Ulrich Hecht wrote:
-> 
-> > On 09/21/2021 7:19 AM Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > 
-> >  
-> > If the driver was not opened, rcar_can_suspend() should not call
-> > clk_disable() because the clock was not enabled.
-> > 
-> > Fixes: fd1159318e55 ("can: add Renesas R-Car CAN driver")
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > Tested-by: Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
-> > ---
-> >  drivers/net/can/rcar/rcar_can.c | 21 +++++++++++++--------
-> >  1 file changed, 13 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/net/can/rcar/rcar_can.c b/drivers/net/can/rcar/rcar_can.c
-> > index 00e4533c8bdd..6b4eefb03044 100644
-> > --- a/drivers/net/can/rcar/rcar_can.c
-> > +++ b/drivers/net/can/rcar/rcar_can.c
+This patch series aims to add GbEthernet clock support.
+GbEthernet clock support involves handing mux clock support
+for HP clock and coupled clock for axi/chi module clocks which
+shares same bit for controlling the clock output.
 
-...
+This patch series depend upon [1]
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210922112405.26413-2-biju.das.jz@bp.renesas.com/
 
-> > @@ -858,6 +860,7 @@ static int __maybe_unused rcar_can_suspend(struct device *dev)
-> >  	priv->can.state = CAN_STATE_SLEEPING;
-> >  
-> >  	clk_disable(priv->clk);
-> > +
-> >  	return 0;
-> >  }
-> >  
+v3->v4:
+ * Renamed PLL5_2_DIV12 and PLL6_2_DIV2 to PLL5_250 and PLL6_250.
+ * Added locking, in case both clocks are changed concurrently
+ * initialized mstp_clock.enabled to match the current hardware state.
+v2->v3:
+ * Rebased to latest renesas-clk
+ * Updated commit header for all patches
+ * Replaced CLK_PLL5_2 with PLL5_FOUT3
+ * Removed CLK_PLL6_2 and pll6_2 as the clk is sourced from PLL6
+ * Added enabled flag to track the status of clock, if it is coupled
+   with another clock
+ * Introduced siblings pointer which points to the other coupled
+   clock
+ * coupled clock linking is done during module clk register.
+ * rzg2l_mod_clock_is_enabled function returns soft state of the
+   module clocks, if it is coupled with another clock
+v1->v2:
+ * No change. Separated clock patches from driver patch series as per [1]
+ [1]
+  https://www.spinics.net/lists/linux-renesas-soc/msg59067.html
+v1:-
+ * New patch
 
-nit: this hunk seems unrelated to the rest of the patch
+Biju Das (4):
+  clk: renesas: rzg2l: Add support to handle MUX clocks
+  clk: renesas: r9a07g044: Add ethernet clock sources
+  clk: renesas: rzg2l: Add support to handle coupled clocks
+  clk: renesas: r9a07g044: Add GbEthernet clock/reset
 
-...
+ drivers/clk/renesas/r9a07g044-cpg.c | 29 ++++++++-
+ drivers/clk/renesas/rzg2l-cpg.c     | 96 +++++++++++++++++++++++++++++
+ drivers/clk/renesas/rzg2l-cpg.h     | 26 +++++++-
+ 3 files changed, 149 insertions(+), 2 deletions(-)
+
+-- 
+2.17.1
+
