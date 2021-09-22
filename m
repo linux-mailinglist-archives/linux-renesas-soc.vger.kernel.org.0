@@ -2,161 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A188C414144
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 07:32:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8754D414217
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 08:44:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232063AbhIVFeL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 01:34:11 -0400
-Received: from mga12.intel.com ([192.55.52.136]:30510 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231908AbhIVFeK (ORCPT
+        id S232799AbhIVGpj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 02:45:39 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:41691 "EHLO
+        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232770AbhIVGpi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 01:34:10 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="203014150"
-X-IronPort-AV: E=Sophos;i="5.85,312,1624345200"; 
-   d="scan'208";a="203014150"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 22:32:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,312,1624345200"; 
-   d="scan'208";a="533567348"
-Received: from lkp-server01.sh.intel.com (HELO 3f19c3f57f1d) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Sep 2021 22:32:40 -0700
-Received: from kbuild by 3f19c3f57f1d with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mSus3-00006Y-Bp; Wed, 22 Sep 2021 05:32:39 +0000
-Date:   Wed, 22 Sep 2021 13:31:59 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 4a7c76d8d5a91d210d64552d5e29fd02a115fce7
-Message-ID: <614abfcf.u1I94i9nf0kYNHMz%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 22 Sep 2021 02:45:38 -0400
+Received: by mail-vs1-f53.google.com with SMTP id az15so1883435vsb.8;
+        Tue, 21 Sep 2021 23:44:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=i2pUM5brNJqaej4iEqyIsIxjV6XIoFcwAAQ7Oqy6DEk=;
+        b=zZ/VjtNJmEGWGWzWXntVXzcPdRka/SRQ8VwsH8haHFjnquiVTr2cnYccpNvUnsV7GC
+         gE7kqMmF5O6s5Ke7mUKrT+MbzLGCuBKlZNH/CU327Q7vBEIPIQzXNO7JvlE1dSTVayx+
+         287Xt/d7v0d7wgi1cd9GA/GWeO6LX8sFLUB4E/SkaezWUDKoF/kOSpoff9fjaHqNeQYM
+         JlMVH6S3o5l287tQBeMwoXKBIT9T/ha6OxIdAJ/PxHoQsSuXsQl/NO7h9qAvspgyNOT5
+         e38DvsccFz+5rSCHUPer6MdAusR++HnYiSoDV7dh63m3DKunLcoU1gBfI8F9QoD38YCE
+         qMfQ==
+X-Gm-Message-State: AOAM530R8JIQx/8VxiVvki8tmPRcymyNmATx/ZfDQy/kedglI2iLSklo
+        M2SJToxl03VcnMFimrSHNIasDq0wJrEIDuB+XXyTzvw+
+X-Google-Smtp-Source: ABdhPJwKxJBZAXv/SC7mdaGufQfqAQXm0UqBb5rpyK8VQIckPSoy5NjMixQOSxEm1nfiSw2knEhc9WDFntv0vlUHgXM=
+X-Received: by 2002:a67:cc1c:: with SMTP id q28mr23885496vsl.37.1632293048964;
+ Tue, 21 Sep 2021 23:44:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com>
+ <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com> <CAMuHMdVmTcERvHhLLDrZyC_TDLPU89ksitn0WduJkKqpePCKdg@mail.gmail.com>
+ <YUqGWa6q+wYq2vAt@pendragon.ideasonboard.com>
+In-Reply-To: <YUqGWa6q+wYq2vAt@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 22 Sep 2021 08:43:57 +0200
+Message-ID: <CAMuHMdXRhOmj4upp6Zsn3yb5bRdpg8hrgATWJCA6bSdvD=e1qw@mail.gmail.com>
+Subject: Re: [RESEND] [PATCH v2 1/2] dt-bindings: display: bridge: Add binding
+ for R-Car MIPI DSI/CSI-2 TX
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 4a7c76d8d5a91d210d64552d5e29fd02a115fce7  Merge branch 'renesas-next' into renesas-devel
+Hi Laurent,
 
-elapsed time: 2417m
+On Wed, Sep 22, 2021 at 3:27 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Tue, Sep 21, 2021 at 05:53:52PM +0200, Geert Uytterhoeven wrote:
+> > On Wed, Jul 28, 2021 at 6:26 PM Laurent Pinchart wrote:
+> > > The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
+> > > can operate in either DSI or CSI-2 mode, with up to four data lanes.
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> > > @@ -0,0 +1,118 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
+> > > +
+> > > +maintainers:
+> > > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > +
+> > > +description: |
+> > > +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
+> > > +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
+> > > +  to four data lanes.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - renesas,r8a779a0-dsi-csi2-tx    # for V3U
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    items:
+> > > +      - description: Functional clock
+> > > +      - description: DSI (and CSI-2) functional clock
+> > > +      - description: PLL reference clock
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: fck
+> > > +      - const: dsi
+> > > +      - const: pll
+> >
+> > No interrupts?
+> > The hardware manual says there are 9 interrupts.
+>
+> Who comes up with such insanely high numbers of interrupts ? :-)
+>
+> What the hardware manual doesn't document is how interrupts are mapped.
+> There's indeed 9 of them, and there are 9 interrupt sources, but that's
+> all we know. I can easily add a
+>
+>   interrupts:
+>     maxItems: 9
+>
+> but I can add interrupt names without additional information. It may be
+> possible to deduce some of the interrupt mappings from experiments, but
+> not all of them. What do you think would be a good way forward ? Leave
+> the interrupts out for now as we don't have the information ? Only list
+> the interrupts but not their names ? Something else ?
 
-configs tested: 102
-configs skipped: 3
+I think what we did in the past is not list the interrupts at all.
+They can be added once we receive more documentation.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Gr{oetje,eeting}s,
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc                      ep88xc_defconfig
-powerpc                 mpc832x_rdb_defconfig
-mips                           jazz_defconfig
-powerpc                      acadia_defconfig
-h8300                            alldefconfig
-arm                         socfpga_defconfig
-arm                            pleb_defconfig
-m68k                       bvme6000_defconfig
-arm                        oxnas_v6_defconfig
-xtensa                  nommu_kc705_defconfig
-arm                       mainstone_defconfig
-powerpc                      obs600_defconfig
-powerpc                 linkstation_defconfig
-arm                             rpc_defconfig
-arm                        multi_v7_defconfig
-arm                       aspeed_g4_defconfig
-m68k                        mvme16x_defconfig
-um                               alldefconfig
-arm                          imote2_defconfig
-x86_64               randconfig-c001-20210920
-arm                  randconfig-c002-20210920
-i386                 randconfig-c001-20210920
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nds32                             allnoconfig
-arc                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                             allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a014-20210920
-x86_64               randconfig-a011-20210920
-x86_64               randconfig-a013-20210920
-x86_64               randconfig-a012-20210920
-x86_64               randconfig-a015-20210920
-x86_64               randconfig-a016-20210920
-i386                 randconfig-a014-20210920
-i386                 randconfig-a013-20210920
-i386                 randconfig-a016-20210920
-i386                 randconfig-a012-20210920
-i386                 randconfig-a011-20210920
-i386                 randconfig-a015-20210920
-arc                  randconfig-r043-20210920
-riscv                randconfig-r042-20210920
-s390                 randconfig-r044-20210920
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                           allyesconfig
+                        Geert
 
-clang tested configs:
-x86_64               randconfig-a002-20210920
-x86_64               randconfig-a006-20210920
-x86_64               randconfig-a005-20210920
-x86_64               randconfig-a001-20210920
-x86_64               randconfig-a004-20210920
-x86_64               randconfig-a003-20210920
-i386                 randconfig-a001-20210920
-i386                 randconfig-a005-20210920
-i386                 randconfig-a002-20210920
-i386                 randconfig-a006-20210920
-i386                 randconfig-a003-20210920
-i386                 randconfig-a004-20210920
-hexagon              randconfig-r045-20210920
-hexagon              randconfig-r041-20210920
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
