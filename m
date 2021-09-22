@@ -2,130 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04100414599
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 11:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E95F64147A5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 13:17:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234381AbhIVJzi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 05:55:38 -0400
-Received: from mail.iot.bzh ([51.75.236.24]:34884 "EHLO mail.iot.bzh"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234603AbhIVJzh (ORCPT
+        id S235439AbhIVLSq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 07:18:46 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:54362 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S235701AbhIVLSh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 05:55:37 -0400
-Received: from [192.168.1.26] (lfbn-ren-1-1868-231.w83-199.abo.wanadoo.fr [83.199.51.231])
-        by mail.iot.bzh (Postfix) with ESMTPSA id 016BB400A4;
-        Wed, 22 Sep 2021 11:54:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; s=20180822;
-        t=1632304442;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=anuPeMMdXwVc5DrNyYNHveRxwY+OuIczb1a+joGdnQA=;
-        b=P6ozeI6AIN1PO1v9rr44EMuD68ugMiRdm8+JkhUZRMdNJc9Fyshpg4L0VS0NjZdngHei0i
-        0EOPDnw/30k1b+AQA9iLRjxKMdVL3uxA1n0pb9pXWYt7yYGGX0Uq90qXPh+x4MatXHN82Y
-        Ib6DpS2iipCcNaSAhuJHCEwLf0XmfLFqzlTDDn3UYaor5S+kLh6SZdholAXIdfZu0DJG50
-        SUZXlqq3BVvUgJD8YRHjaKcW/15NcXnGTlXbMObWCkEbR6NAial48x/98mXfff6vF1UQZH
-        Wlw7JATLEJ+W4KXvw2jvQAlNPeKqAOquV7+jmcOuUtDU8u2uQOxsYspin9PEMg==
-Message-ID: <9922048a-2278-e3bf-ea23-b07f95ab607b@iot.bzh>
-Date:   Wed, 22 Sep 2021 11:54:01 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [RFC PATCH 1/1] soc: renesas: rcar-rst: Add support to set rproc
- boot address
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20210914094650.15235-1-julien.massot@iot.bzh>
- <20210914094650.15235-2-julien.massot@iot.bzh>
- <CAMuHMdVT+OgASuzwnNHEHYpc3hc1-ObThTmdHETfxF5inePP5g@mail.gmail.com>
-From:   Julien Massot <julien.massot@iot.bzh>
-In-Reply-To: <CAMuHMdVT+OgASuzwnNHEHYpc3hc1-ObThTmdHETfxF5inePP5g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Wed, 22 Sep 2021 07:18:37 -0400
+X-IronPort-AV: E=Sophos;i="5.85,313,1624287600"; 
+   d="scan'208";a="94818589"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 22 Sep 2021 20:17:05 +0900
+Received: from localhost.localdomain (unknown [10.226.92.203])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A83074004D08;
+        Wed, 22 Sep 2021 20:17:03 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        dmaengine@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] dmaengine: sh: rz-dmac: Add DMA clock handling
+Date:   Wed, 22 Sep 2021 12:04:53 +0100
+Message-Id: <20210922110453.25122-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Currently, DMA clocks are turned on by the bootloader.
+This patch adds support for DMA clock handling so that
+the driver manages the DMA clocks.
 
->> +
->> +/*
->> + * Most of R-Car Gen3 SoCs have an ARM Realtime Core.
->> + * Firmware boot address can be set before starting,
->> + * the realtime core thanks to CR7BAR register.
->> + * Boot address is on 32bit, and should be aligned on
->> + * 4k boundary.
->> + */
->> +int rcar_rst_set_rproc_boot_addr(u32 boot_addr)
->> +{
->> +       if (!rcar_rst_base)
->> +               return -EIO;
->> +
->> +       if (boot_addr % SZ_4K) {
->> +               pr_warn("Invalid boot address for remote processor, should be aligned on 4k\n");
->> +               boot_addr -= boot_addr % SZ_4K;
-> 
-> I think it would be safer to just return -EINVAL.
-Indeed, I should better fix my firmware or my remoteproc driver to give correct input to this
-function. will return -EINVAL in case of bad alignment.
-> 
->> +       }
->> +
->> +       boot_addr |= CR7BAREN;
->> +       iowrite32(boot_addr, rcar_rst_base + CR7BAR);
-> 
-> According to Note 2 for the CR7BAR register, you must do this in two steps,
-> first without CR7BAREN set, then with CR7BAREN set.
-You're right will fix.
-> See also how CA7BAR and CA15BAR are handled in
-> arch/arm/mach-shmobile/pm-rcar-gen2.c.
-> 
-> Note that CA15/CA7 on R-Car Gen2 (and CA57/CA53 on Gen3, but
-> that's hidden by ACPI), unlike CR7, also need RESCNT handling.
-> 
->> +
->> +       return 0;
->> +}
->> +EXPORT_SYMBOL(rcar_rst_set_rproc_boot_addr);
->> diff --git a/include/linux/soc/renesas/rcar-rst.h b/include/linux/soc/renesas/rcar-rst.h
->> index 7899a5b8c247..7c97c2c4bba6 100644
->> --- a/include/linux/soc/renesas/rcar-rst.h
->> +++ b/include/linux/soc/renesas/rcar-rst.h
->> @@ -4,8 +4,10 @@
->>
->>   #ifdef CONFIG_RST_RCAR
->>   int rcar_rst_read_mode_pins(u32 *mode);
->> +int rcar_rst_set_rproc_boot_addr(u32 boot_addr);
->>   #else
->>   static inline int rcar_rst_read_mode_pins(u32 *mode) { return -ENODEV; }
->> +static inline int rcar_rst_set_rproc_boot_addr(u32 boot_addr) { return -ENODEV; }
->>   #endif
->>
->>   #endif /* __LINUX_SOC_RENESAS_RCAR_RST_H__ */
-> 
-> In general, I think this looks like a good abstraction, which we can
-> also use for further abstraction of R-Car Gen2 (cfr. [1]).
-Yes I was also thinking about future generation like Gen4, but I don't have the documentation
-at this point.
- From what I understand in [1]: CA7BAR in Gen2 is managed by the SYSC module and not by the RST module
-as for CR7BAR in Gen3. So despite the fact that the procedure is similar, we won't be able to set CA7BAR in
-rcar-rst.c.
+Fixes: 5000d37042a6 ("dmaengine: sh: Add DMAC driver for RZ/G2L SoC")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/dma/sh/rz-dmac.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-> 
-> I'm just wondering if we should pass the BAR offset to
-> rcar_rst_set_rproc_boot_addr() explicitly (and rename the function),
-> or have multiple functions for the different BARs.
-Passing BAR offset will imply to spread RST module offsets across different subsystems,
-and the second question will be to be able to do the correct boundary check for the targeted
-processor: CR7BAR is aligned on 4k an it looks like CA7BAR is on 256k. It looks like it's
-manageable thanks to the driver data which already holds the 'mode monitor register' offset per SoC generation.
-
-One missing point will be for future R-Car SoCs: trends on others SoC seems to be to go to have
-several 'realtime', or remote processor. In this case this function will not scale up.
-
-Thanks for the review !
-
+diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+index f9f30cbeccbe..52a1419370d7 100644
+--- a/drivers/dma/sh/rz-dmac.c
++++ b/drivers/dma/sh/rz-dmac.c
+@@ -18,6 +18,7 @@
+ #include <linux/of_dma.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ 
+@@ -872,6 +873,9 @@ static int rz_dmac_probe(struct platform_device *pdev)
+ 	/* Initialize the channels. */
+ 	INIT_LIST_HEAD(&dmac->engine.channels);
+ 
++	pm_runtime_enable(&pdev->dev);
++	pm_runtime_resume_and_get(&pdev->dev);
++
+ 	for (i = 0; i < dmac->n_channels; i++) {
+ 		ret = rz_dmac_chan_probe(dmac, &dmac->channels[i], i);
+ 		if (ret < 0)
+@@ -925,6 +929,9 @@ static int rz_dmac_probe(struct platform_device *pdev)
+ 				  channel->lmdesc.base_dma);
+ 	}
+ 
++	pm_runtime_put(&pdev->dev);
++	pm_runtime_disable(&pdev->dev);
++
+ 	return ret;
+ }
+ 
+@@ -943,6 +950,8 @@ static int rz_dmac_remove(struct platform_device *pdev)
+ 	}
+ 	of_dma_controller_free(pdev->dev.of_node);
+ 	dma_async_device_unregister(&dmac->engine);
++	pm_runtime_put(&pdev->dev);
++	pm_runtime_disable(&pdev->dev);
+ 
+ 	return 0;
+ }
 -- 
-Julien Massot [IoT.bzh]
+2.17.1
+
