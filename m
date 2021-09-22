@@ -2,60 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E55134142EF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 09:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA0E741433D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 10:08:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233393AbhIVHz2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 03:55:28 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:58567 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233391AbhIVHz2 (ORCPT
+        id S233383AbhIVIKN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 04:10:13 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:32980 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233349AbhIVIKM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 03:55:28 -0400
-X-IronPort-AV: E=Sophos;i="5.85,313,1624287600"; 
-   d="scan'208";a="94795517"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 22 Sep 2021 16:53:57 +0900
-Received: from localhost.localdomain (unknown [10.226.92.203])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D2313400B9D8;
-        Wed, 22 Sep 2021 16:53:55 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] pinctrl: renesas: rzg2l: Fix missing port register 21h
-Date:   Wed, 22 Sep 2021 08:41:40 +0100
-Message-Id: <20210922074140.22178-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 22 Sep 2021 04:10:12 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86491F1;
+        Wed, 22 Sep 2021 10:08:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1632298121;
+        bh=QKoxGIv+eKpVRsooVGP2/KqUDA8JcqOjmb8mxli6lAI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CTLPKwP8+WYzVC9hEnEhGojAE4ljAWOM2mEmjB61yZIq8pXUPCi5JXHsokpGnc8u+
+         mr2k1TbyyXdpsEcNe5IJH2tK+b7NETjkzxZdyUDEEpdTV0vAb0e+z9YV3a33JBrKuM
+         Zlf26FhMDwTbvTOx/mtXGAnoWoqDYtMbKPIMXlEY=
+Date:   Wed, 22 Sep 2021 11:08:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [RESEND] [PATCH v2 1/2] dt-bindings: display: bridge: Add
+ binding for R-Car MIPI DSI/CSI-2 TX
+Message-ID: <YUrkiDnlDYabSi9T@pendragon.ideasonboard.com>
+References: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com>
+ <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com>
+ <CAMuHMdVmTcERvHhLLDrZyC_TDLPU89ksitn0WduJkKqpePCKdg@mail.gmail.com>
+ <YUqGWa6q+wYq2vAt@pendragon.ideasonboard.com>
+ <CAMuHMdXRhOmj4upp6Zsn3yb5bRdpg8hrgATWJCA6bSdvD=e1qw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXRhOmj4upp6Zsn3yb5bRdpg8hrgATWJCA6bSdvD=e1qw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Remove the duplicate port register 22h and replace it with missing port
-register 21h.
+Hi Geert,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Sep 22, 2021 at 08:43:57AM +0200, Geert Uytterhoeven wrote:
+> On Wed, Sep 22, 2021 at 3:27 AM Laurent Pinchart wrote:
+> > On Tue, Sep 21, 2021 at 05:53:52PM +0200, Geert Uytterhoeven wrote:
+> > > On Wed, Jul 28, 2021 at 6:26 PM Laurent Pinchart wrote:
+> > > > The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
+> > > > can operate in either DSI or CSI-2 mode, with up to four data lanes.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > >
+> > > Thanks for your patch!
+> > >
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> > > > @@ -0,0 +1,118 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
+> > > > +
+> > > > +maintainers:
+> > > > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > +
+> > > > +description: |
+> > > > +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
+> > > > +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
+> > > > +  to four data lanes.
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    enum:
+> > > > +      - renesas,r8a779a0-dsi-csi2-tx    # for V3U
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  clocks:
+> > > > +    items:
+> > > > +      - description: Functional clock
+> > > > +      - description: DSI (and CSI-2) functional clock
+> > > > +      - description: PLL reference clock
+> > > > +
+> > > > +  clock-names:
+> > > > +    items:
+> > > > +      - const: fck
+> > > > +      - const: dsi
+> > > > +      - const: pll
+> > >
+> > > No interrupts?
+> > > The hardware manual says there are 9 interrupts.
+> >
+> > Who comes up with such insanely high numbers of interrupts ? :-)
+> >
+> > What the hardware manual doesn't document is how interrupts are mapped.
+> > There's indeed 9 of them, and there are 9 interrupt sources, but that's
+> > all we know. I can easily add a
+> >
+> >   interrupts:
+> >     maxItems: 9
+> >
+> > but I can add interrupt names without additional information. It may be
+> > possible to deduce some of the interrupt mappings from experiments, but
+> > not all of them. What do you think would be a good way forward ? Leave
+> > the interrupts out for now as we don't have the information ? Only list
+> > the interrupts but not their names ? Something else ?
+> 
+> I think what we did in the past is not list the interrupts at all.
+> They can be added once we receive more documentation.
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index dbf2f521bb27..20b2af889ca9 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -852,7 +852,7 @@ static const u32 rzg2l_gpio_configs[] = {
- 	RZG2L_GPIO_PORT_PACK(2, 0x1e, RZG2L_MPXED_PIN_FUNCS),
- 	RZG2L_GPIO_PORT_PACK(2, 0x1f, RZG2L_MPXED_PIN_FUNCS),
- 	RZG2L_GPIO_PORT_PACK(2, 0x20, RZG2L_MPXED_PIN_FUNCS),
--	RZG2L_GPIO_PORT_PACK(3, 0x22, RZG2L_MPXED_PIN_FUNCS),
-+	RZG2L_GPIO_PORT_PACK(3, 0x21, RZG2L_MPXED_PIN_FUNCS),
- 	RZG2L_GPIO_PORT_PACK(2, 0x22, RZG2L_MPXED_PIN_FUNCS),
- 	RZG2L_GPIO_PORT_PACK(2, 0x23, RZG2L_MPXED_PIN_FUNCS),
- 	RZG2L_GPIO_PORT_PACK(3, 0x24, RZG2L_MPXED_ETH_PIN_FUNCS(PIN_CFG_IOLH_ETH0)),
+Sounds good to me, as that's what this patch does already ;-) A R-b or
+A-b tag is welcome.
+
 -- 
-2.17.1
+Regards,
 
+Laurent Pinchart
