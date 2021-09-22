@@ -2,136 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8754D414217
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 08:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 464484142E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Sep 2021 09:50:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232799AbhIVGpj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Sep 2021 02:45:39 -0400
-Received: from mail-vs1-f53.google.com ([209.85.217.53]:41691 "EHLO
-        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232770AbhIVGpi (ORCPT
+        id S233379AbhIVHwW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Sep 2021 03:52:22 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:6244 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233283AbhIVHwW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Sep 2021 02:45:38 -0400
-Received: by mail-vs1-f53.google.com with SMTP id az15so1883435vsb.8;
-        Tue, 21 Sep 2021 23:44:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i2pUM5brNJqaej4iEqyIsIxjV6XIoFcwAAQ7Oqy6DEk=;
-        b=zZ/VjtNJmEGWGWzWXntVXzcPdRka/SRQ8VwsH8haHFjnquiVTr2cnYccpNvUnsV7GC
-         gE7kqMmF5O6s5Ke7mUKrT+MbzLGCuBKlZNH/CU327Q7vBEIPIQzXNO7JvlE1dSTVayx+
-         287Xt/d7v0d7wgi1cd9GA/GWeO6LX8sFLUB4E/SkaezWUDKoF/kOSpoff9fjaHqNeQYM
-         JlMVH6S3o5l287tQBeMwoXKBIT9T/ha6OxIdAJ/PxHoQsSuXsQl/NO7h9qAvspgyNOT5
-         e38DvsccFz+5rSCHUPer6MdAusR++HnYiSoDV7dh63m3DKunLcoU1gBfI8F9QoD38YCE
-         qMfQ==
-X-Gm-Message-State: AOAM530R8JIQx/8VxiVvki8tmPRcymyNmATx/ZfDQy/kedglI2iLSklo
-        M2SJToxl03VcnMFimrSHNIasDq0wJrEIDuB+XXyTzvw+
-X-Google-Smtp-Source: ABdhPJwKxJBZAXv/SC7mdaGufQfqAQXm0UqBb5rpyK8VQIckPSoy5NjMixQOSxEm1nfiSw2knEhc9WDFntv0vlUHgXM=
-X-Received: by 2002:a67:cc1c:: with SMTP id q28mr23885496vsl.37.1632293048964;
- Tue, 21 Sep 2021 23:44:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com>
- <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com> <CAMuHMdVmTcERvHhLLDrZyC_TDLPU89ksitn0WduJkKqpePCKdg@mail.gmail.com>
- <YUqGWa6q+wYq2vAt@pendragon.ideasonboard.com>
-In-Reply-To: <YUqGWa6q+wYq2vAt@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 22 Sep 2021 08:43:57 +0200
-Message-ID: <CAMuHMdXRhOmj4upp6Zsn3yb5bRdpg8hrgATWJCA6bSdvD=e1qw@mail.gmail.com>
-Subject: Re: [RESEND] [PATCH v2 1/2] dt-bindings: display: bridge: Add binding
- for R-Car MIPI DSI/CSI-2 TX
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 22 Sep 2021 03:52:22 -0400
+X-IronPort-AV: E=Sophos;i="5.85,313,1624287600"; 
+   d="scan'208";a="94679288"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 22 Sep 2021 16:50:51 +0900
+Received: from localhost.localdomain (unknown [10.226.92.203])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 64D2840C37E2;
+        Wed, 22 Sep 2021 16:50:49 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: [PATCH 1/2] clk: renesas: r9a07g044: Add IA55_CLK and DMAC_ACLK
+Date:   Wed, 22 Sep 2021 08:38:33 +0100
+Message-Id: <20210922073834.21304-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Add IA55_CLK and DMAC_ACLK as critical clocks.
 
-On Wed, Sep 22, 2021 at 3:27 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Sep 21, 2021 at 05:53:52PM +0200, Geert Uytterhoeven wrote:
-> > On Wed, Jul 28, 2021 at 6:26 PM Laurent Pinchart wrote:
-> > > The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
-> > > can operate in either DSI or CSI-2 mode, with up to four data lanes.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >
-> > Thanks for your patch!
-> >
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> > > @@ -0,0 +1,118 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
-> > > +
-> > > +maintainers:
-> > > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > +
-> > > +description: |
-> > > +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
-> > > +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
-> > > +  to four data lanes.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - renesas,r8a779a0-dsi-csi2-tx    # for V3U
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    items:
-> > > +      - description: Functional clock
-> > > +      - description: DSI (and CSI-2) functional clock
-> > > +      - description: PLL reference clock
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: fck
-> > > +      - const: dsi
-> > > +      - const: pll
-> >
-> > No interrupts?
-> > The hardware manual says there are 9 interrupts.
->
-> Who comes up with such insanely high numbers of interrupts ? :-)
->
-> What the hardware manual doesn't document is how interrupts are mapped.
-> There's indeed 9 of them, and there are 9 interrupt sources, but that's
-> all we know. I can easily add a
->
->   interrupts:
->     maxItems: 9
->
-> but I can add interrupt names without additional information. It may be
-> possible to deduce some of the interrupt mappings from experiments, but
-> not all of them. What do you think would be a good way forward ? Leave
-> the interrupts out for now as we don't have the information ? Only list
-> the interrupts but not their names ? Something else ?
+Previously it worked ok, because of a bug in clock status function
+and the following patch in this series fixes the original bug.
 
-I think what we did in the past is not list the interrupts at all.
-They can be added once we receive more documentation.
+Fixes: c3e67ad6f5a2 ("dt-bindings: clock: r9a07g044-cpg: Update clock/reset definitions")
+Fixes: eb829e549ba6 ("clk: renesas: r9a07g044: Add DMAC clocks/resets")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/clk/renesas/r9a07g044-cpg.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
+index 4c94b94c4125..1490446985e2 100644
+--- a/drivers/clk/renesas/r9a07g044-cpg.c
++++ b/drivers/clk/renesas/r9a07g044-cpg.c
+@@ -186,6 +186,8 @@ static struct rzg2l_reset r9a07g044_resets[] = {
+ 
+ static const unsigned int r9a07g044_crit_mod_clks[] __initconst = {
+ 	MOD_CLK_BASE + R9A07G044_GIC600_GICCLK,
++	MOD_CLK_BASE + R9A07G044_IA55_CLK,
++	MOD_CLK_BASE + R9A07G044_DMAC_ACLK,
+ };
+ 
+ const struct rzg2l_cpg_info r9a07g044_cpg_info = {
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
