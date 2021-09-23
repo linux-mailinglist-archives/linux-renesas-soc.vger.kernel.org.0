@@ -2,51 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D0BB41590A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 09:32:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E083B41593A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 09:43:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239629AbhIWHdo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Sep 2021 03:33:44 -0400
-Received: from mail-vs1-f44.google.com ([209.85.217.44]:39686 "EHLO
-        mail-vs1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239577AbhIWHdn (ORCPT
+        id S239647AbhIWHov (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Sep 2021 03:44:51 -0400
+Received: from mail-vs1-f48.google.com ([209.85.217.48]:38615 "EHLO
+        mail-vs1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239619AbhIWHou (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Sep 2021 03:33:43 -0400
-Received: by mail-vs1-f44.google.com with SMTP id o124so5603512vsc.6;
-        Thu, 23 Sep 2021 00:32:12 -0700 (PDT)
+        Thu, 23 Sep 2021 03:44:50 -0400
+Received: by mail-vs1-f48.google.com with SMTP id y141so5631437vsy.5;
+        Thu, 23 Sep 2021 00:43:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Del0A0BDgK2H615eS1cQ6WeLryzAAcR66Ofx7x6P3ZA=;
-        b=zn7yYVJA3NK532FG7rh3kTjLv01o6nfQtV/d99r0857cVsFJ46sBC10SOyyA+jSmUF
-         5Cfo9emdJW0JTb9tua9kpuHiT5IH0sky6JxpQxPKaWc1WNrHjXEHBvEEjaVNn3EzReT6
-         z7cpBFdzIWXsnA4vZeDL/zQn3lH3mbFf4TYVgW73qfaj/olJZej9enI6Gqhj/ybzs2zu
-         1WRtw4wnxeC34lTLGoazbn42pKNRuGmf0/6LhrqEEFHqPOvG/wDvkNgqCi//ARROAl+p
-         sSqaMX/pVKjGjJaqHtMVnjQK9GpqPyDRLiy4bgnetRjKoZ7yWPa+rAq4NzelDHnjP8jz
-         qvoA==
-X-Gm-Message-State: AOAM532m8gKRBEtPynoEXkZ2Hw9jMvIIrd0ftQRd3s4fCmlApxtxd3la
-        IpNGB4m5ReIXopkLk/7TRsaoTG/LG3AydVTmSki/UufFGIA=
-X-Google-Smtp-Source: ABdhPJx2iI3nIR80L07lK27EgPXYrRps/W9O7UznBHGPV5J758D0AopxFfYecnf8nhZq1uivdYplN9bTMk/5j7ijxXY=
-X-Received: by 2002:a05:6102:2086:: with SMTP id h6mr2800628vsr.50.1632382331911;
- Thu, 23 Sep 2021 00:32:11 -0700 (PDT)
+        bh=/Ha/wlFhpE3wzhxqsYVFhc8UhMgQgIXbZ52hSCO/LZU=;
+        b=m4IFBW2LxqIWtnTecaw+YIqcsGQdwAVme+7Twydb5eax83BSXgMt8qyCupNcLKfFjX
+         UquFvnsKgcRuapXSpUETG2Xj2B0gI7c0c4eBLwlkTpoY8g5Yzb3FbL0P4jWPFIlErPs8
+         M2qhu81e5l9W/uXen7p6lHSGYBk7BW5TS9Qh4+4xIm8WcSyKm7Empmrvk3Cb4+Z/fbih
+         pYpumLEK+Mks07eJgmxG5H2TGeawbTJJWook3Wpuj+1WGos6SizzxoD9JyfGJYL7+hqp
+         M/OrXDFh/836dpeXctIBw1FIcllPH5iMISi+x4L90t3xlfJW3hToygPt8FSPlckehlkz
+         gq3Q==
+X-Gm-Message-State: AOAM530b3xwAUgPOCFqTOAvOXcIwygqz2M+ZHVHSF5WmPSer4kt0vtsr
+        5nKHON7ye2aHS/oMmt1i5a9ITtlKuJ0WgBq4QjAOmBT3
+X-Google-Smtp-Source: ABdhPJzKQLsa6lAVIiUAQaqshZfD+cCmfuMpwO2GNU/H/yzPZqKWK1YyaY9bVHDLIhvsPRJM5ycaxYEJFPxbKcq0wx4=
+X-Received: by 2002:a67:cb0a:: with SMTP id b10mr3048824vsl.9.1632382998923;
+ Thu, 23 Sep 2021 00:43:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210922203027.3229474-1-kieran.bingham@ideasonboard.com>
-In-Reply-To: <20210922203027.3229474-1-kieran.bingham@ideasonboard.com>
+References: <20210922234726.3337265-1-kieran.bingham@ideasonboard.com> <20210922234726.3337265-2-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20210922234726.3337265-2-kieran.bingham@ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 23 Sep 2021 09:32:00 +0200
-Message-ID: <CAMuHMdULHnztv=7i1b1x9BEsO8pu=J3Af_Qx7=CzD3qJhYRNBA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779a0: falcon-cpu: Add SW46
- switch support
+Date:   Thu, 23 Sep 2021 09:43:07 +0200
+Message-ID: <CAMuHMdWfcxb+5uOnPMiB2Z9rUfnRAg2Pzz--H16fOoVoASP=Kw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] dt-bindings: display: renesas,du: Provide bindings
+ for r8a779a0
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Rob Herring <robh+dt@kernel.org>,
+        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input <linux-input@vger.kernel.org>
+        open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -54,85 +56,98 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Kieran,
 
-CC input
-
-On Wed, Sep 22, 2021 at 10:30 PM Kieran Bingham
+On Thu, Sep 23, 2021 at 1:47 AM Kieran Bingham
 <kieran.bingham@ideasonboard.com> wrote:
-> Add support for SW46-1 and SW46-2 as switches using the gpio-keys
-> framework.
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 >
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
-Thanks for your patch!
-
+> Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
 > ---
+> v2:
+>  - Collected Laurent's tag
+>  - Remove clock-names requirement
+>  - Specify only a single clock
 >
-> SW_LID and SW_DOCK are selected as low-impact switch events for the
-> default configuration. Would SW_RFKILL_ALL, and SW_MUTE_DEVICE be
-> preferred as more 'functional' defaults? (I have otherwise avoided these
-> to hopefully prevent unwanted / undocumented effects occuring on
-> development hardware running a full interface which may parse these)
+> v3:
+>  - Use clocknames: 'du.0' instead of 'du' to remain consistent
+
+Thanks for the update!
+
+> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> @@ -39,6 +39,7 @@ properties:
+>        - renesas,du-r8a77980 # for R-Car V3H compatible DU
+>        - renesas,du-r8a77990 # for R-Car E3 compatible DU
+>        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> +      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
 >
-> I'd expect them to be overridden by any platform using them anyway.
-
-That's a good question
-
-BTW, I'm happy you brought this up.  I discovered EV_SW only
-recently, and had just started wondering whether we should use it
-for the various slide switches on Renesas R-Car Gen2 and Gen3 boards,
-which are modelled using the default EV_KEY and KEY_[1-4].
-
-I see several DTS files using EV_SW (or hardcoded 5) with KEY_*
-codes instead of EV_* codes, so perhaps KEY_A or KEY_B would be
-suited better, to avoid strange effects? But SW_LID (and KEY_RESERVED)
-seem to be quite popular, too.
-
-Any input^Wgood advice from the input people? TIA!
-
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-> @@ -52,6 +52,24 @@ keys {
->                 pinctrl-0 = <&keys_pins>;
->                 pinctrl-names = "default";
+>    reg:
+>      maxItems: 1
+> @@ -773,6 +774,55 @@ allOf:
+>          - reset-names
+>          - renesas,vsps
 >
-> +               sw-1 {
-> +                       gpios = <&gpio1 28 GPIO_ACTIVE_LOW>;
-> +                       linux,code = <SW_LID>;
-> +                       linux,input-type = <EV_SW>;
-> +                       label = "SW46-1";
-> +                       wakeup-source;
-> +                       debounce-interval = <20>;
-> +               };
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a779a0
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: Functional clock
 > +
-> +               sw-2 {
-> +                       gpios = <&gpio1 29 GPIO_ACTIVE_LOW>;
-> +                       linux,code = <SW_DOCK>;
-> +                       linux,input-type = <EV_SW>;
-> +                       label = "SW46-2";
-> +                       wakeup-source;
-> +                       debounce-interval = <20>;
-> +               };
+> +        clock-names:
+> +          maxItems: 1
+> +          items:
+> +            - const: du.0
 > +
->                 key-1 {
->                         gpios = <&gpio6 18 GPIO_ACTIVE_LOW>;
->                         linux,code = <KEY_1>;
+> +        interrupts:
+> +          maxItems: 2
+> +
+> +        resets:
+> +          maxItems: 1
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DSI 0
+> +            port@1:
+> +              description: DSI 1
+> +            port@2: false
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +
+> +        renesas,vsps:
+> +          minItems: 2
+> +
+> +      required:
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +        - renesas,vsps
 
-Looks good to me.
+clock-names, for consistency?
 
-> @@ -193,7 +211,8 @@ i2c6_pins: i2c6 {
->         };
+> +
+>  additionalProperties: false
 >
->         keys_pins: keys {
-> -               pins = "GP_6_18", "GP_6_19", "GP_6_20";
-> +               pins = "GP_1_28", "GP_1_29",
-> +                      "GP_6_18", "GP_6_19", "GP_6_20";
->                 bias-pull-up;
->         };
+>  examples:
 
-This part is not needed, as the GPIOs connected to the slide switches
-have external pull-up resistors (unlike the GPIOs connected to the
-push switches, which are driven low by open-drain buffers, without
-external pull-up resistors).
+With the above fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
