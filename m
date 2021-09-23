@@ -2,220 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FC68415CF0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 13:41:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD1D3415D0F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 13:50:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240610AbhIWLm5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Sep 2021 07:42:57 -0400
-Received: from mail-eopbgr1410134.outbound.protection.outlook.com ([40.107.141.134]:34875
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238930AbhIWLm4 (ORCPT
+        id S240720AbhIWLvr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Sep 2021 07:51:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240699AbhIWLvp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Sep 2021 07:42:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P7J97+lT+P3uxifm9Bc1/CyY/Nu9dFeX1mOu1Dmkd8HviEie7e6pdtuQQMaPqxr4+xCrGGuCYx1XW+OJPJIhuc7r4tfFFdt6gtPAh+O0DzWfqESsTI7+YZz8RmO8NB0oOCUb8ktgq3NO/mBIlmS4SxaJiEUly9L9wePMvw0+DTWB1DNsrC6U79L89S8dFRe55RA0bc2hRPzPbtk0GYT1I3jqj+9JDml3ArtyGGDY0RYWUN1WMZpwSKxlVkMRA/vkz+R4hp0VRarh5mLjZdtD8dd8vUx2p63gSXqkGPgrIsefT7HlvlaGqfyHj/gm/J5MxscwqkOQrWV/Q4nSse8+AQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=rNCyDv5KYccNyZEqEzOpMp6s67scu/5lXHRlBT8uqTE=;
- b=jwlL2C1tVOFFBBaj9tRgOm7XU1L1dXSHfn6Fy4Fs6KqMtzzkvRWo8I6AoH+gROhlnA+QpR1X1v/+uMCL3SRMTStPpauzIeTu+bGlLarM2fgerSbHssg8BcHdLYmInutM4eoIJces8uxOOsP3odnui2wq2dwF2vCcydfzQaNJ7MyB2J04ph/yYebgpERkA+w/mAVia5syJEC6W3cjTJTV53nsQlWiiviYwBFYaHpSuHWb/IL4n9CjM93CvVVxkAp/7bZGVyE0QcPtg9Pn8wsQRHigiyefucz+c6P687TzEcyQCGRJoOXEZdunozHfctnOBw666VKN0maI8HlbHhiaoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+        Thu, 23 Sep 2021 07:51:45 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BF6CC061756
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Sep 2021 04:50:13 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id z24so25970689lfu.13
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Sep 2021 04:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rNCyDv5KYccNyZEqEzOpMp6s67scu/5lXHRlBT8uqTE=;
- b=oYTOH8HTOnm09oUoyKBPvc5PKlgtSuOOX4w2OJtELU0L8hd63ZuqoTGiBrthzEn2CgxNcPl+Z/ix6QMA7iPV5U3JT1dm8BBSj0CDBebzCQymlTGH0LRKhGnJ/4Vv4/cLoDG44YX/cR2cahfnDiUSkQA+8P/tH3OKCyoZxHKnoHk=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB5925.jpnprd01.prod.outlook.com (2603:1096:604:c0::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Thu, 23 Sep
- 2021 11:41:19 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::6532:19dd:dfa1:4097]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::6532:19dd:dfa1:4097%9]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
- 11:41:19 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-CC:     Adam Ford <aford173@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH 3/9] ARM: dts: renesas: Add compatible properties to
- KSZ9031 Ethernet PHYs
-Thread-Topic: [PATCH 3/9] ARM: dts: renesas: Add compatible properties to
- KSZ9031 Ethernet PHYs
-Thread-Index: AQHXpVerji8qwB+8xEGNtBUGWxV93auxlMhg
-Date:   Thu, 23 Sep 2021 11:41:19 +0000
-Message-ID: <OS0PR01MB5922C47CEF890322ACB36C3B86A39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <cover.1631174218.git.geert+renesas@glider.be>
- <ce8ae6b199fa244315a008ae31891a808ca1948d.1631174218.git.geert+renesas@glider.be>
-In-Reply-To: <ce8ae6b199fa244315a008ae31891a808ca1948d.1631174218.git.geert+renesas@glider.be>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: glider.be; dkim=none (message not signed)
- header.d=none;glider.be; dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9a917114-575f-4b48-aef6-08d97e870fc0
-x-ms-traffictypediagnostic: OS3PR01MB5925:
-x-microsoft-antispam-prvs: <OS3PR01MB592522F87D3F784413DC29E086A39@OS3PR01MB5925.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8gRL7F/BRzciq03qZkITgXebn2DJEWEivlC7jaDJhj5m91HZSISOugMtwsPdrzNem103Fup8yx9J9QgyYz7TJm6A2xBnVM9BRGNTTS410qxNGsRwh6nqHtmplnsEPlC67io7A3EZ6VNAvWoPdZdWP96MBE55SNJHtjmaD5dT4+jyGp4XHZXThTqjPhP6k30xfHJVJR2UyCIbR+BnA+1LqRglMUlzLnvbr4mitUVBgnkEM3X5mU2vNusOzwyntLKvzyD/WcczUg200O9dKyhwXkkkENkKMQCFusWPdPy9sEfxm4mbrKPChrzhSTltxD8pQCJ+zQXfV1IGSZrhI4T9uEZu4iWChDV2h1agvTEoHWIPeJZooXDL5UMwI6GmC1wvls6ywdKWQuQXt1H030QZiEqA428zhgYrewFTTxYO7+DHZHI/ZaRL6bH9FQHD3BZFdxcaQt+SiVtrpQ6PENo52yOUrfZDctdTnF6FBRggJzR0qIT4r6r9W3QnSWRnxYG2o/4tdEbgZ2lfcuIhIAhVsDwcxrZAaX4RmuCLyIt6qAVFzB4pNVAngrRuP+Mel4Rx1LzB02WgH6uxToGzBeuZVGfnVQQ8WL4wJ4j+LsmxT6J5YOre6X3SH+TkSadzCKh8NaBDxRqxWlEavY//PKs0tiIHGNBABqOsNbrdPmIZW7Jk+GJ83hshHd5cTWSvR66NDpOlrLqDYvE6MGWwfz5YXg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(110136005)(55016002)(186003)(8676002)(52536014)(9686003)(71200400001)(5660300002)(54906003)(86362001)(53546011)(8936002)(38100700002)(33656002)(38070700005)(66446008)(122000001)(26005)(6506007)(83380400001)(76116006)(7696005)(4326008)(316002)(7416002)(2906002)(66946007)(64756008)(508600001)(66476007)(66556008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5xjPXTtv4HSG61UEgBaHDnJu4y/rYB2616Vtn5GG1A1V+2Sq9gBCTpJuD9tf?=
- =?us-ascii?Q?KwKu8UQk/z9g3ncYByvjSS3pcVxEmHXeMb13wc9U4w7FrwxLGd3ArsZtMS0o?=
- =?us-ascii?Q?+Md2qW3jrt9JpxFF2GWd1nlwSImp4Knih0N94nz4vQjdZxoIGnyBdmkKKm+6?=
- =?us-ascii?Q?Vy6zIT2o8Jc5u3Gaz534MzRpF5btDkOEL6aig7J7Dj9BLz63Z1xWmopFDrL2?=
- =?us-ascii?Q?EvCEOCcaJkBYXGSeNEHu3P0MWn7T22ilHLjcewAJMzr3jx5fYaSere9tSsO3?=
- =?us-ascii?Q?0FH+YUtw4XfMGSy8CjWcGlXALz0V6MqNOpezeEtUxNjWyRVHizn222bmkUxb?=
- =?us-ascii?Q?zKTfWDyUlUZ1CNt8kQF99BnkbbS/7MolJg/gYh2fizQkh7qW9gI6gas06z4Z?=
- =?us-ascii?Q?eewlCGMXlIzugrfNGE/h6geq/2DYXc7tP+HtlPzPcEQf6cCVAjoY+wEOHIDY?=
- =?us-ascii?Q?QGKwRv9vG28273yS63U/W3NBfCA2/1Wey8YmpDuJ6r6oRVmiLuGlgTKaOA2h?=
- =?us-ascii?Q?yRPKyoodpv3R2U9DPa7DU/Ie6WLum23DIFs34xNRJu5Vh1o5COLUpjPJogq3?=
- =?us-ascii?Q?Unku+MqDr76D4SKebEy2IiojFjP5Hl6Nrq57RvvELkAVcuNS2ONBHMdFJl40?=
- =?us-ascii?Q?b5M9UVF7IXCNfTCyWiu/4zGbBbxnZBNUoy94FDiuxzlktpFL5GK3ZCrzAkPH?=
- =?us-ascii?Q?4+K1+4C1Me2aQrSFbJ9KanQIdXHkVYjfAs2QPpB2qmj4qKgrHLkGgVBXvVxC?=
- =?us-ascii?Q?7jg+quxwJ+9MIWMQ1v5sIpqJ4FPFefjEtYJ3bDxzBWEJqwuFiii1/YFcs2ll?=
- =?us-ascii?Q?pKjzsTHr2HnFlqdOWBYVhrf+RTjiDxGpDINDNDSbio3ZzZjGdfOa8WJOgfS2?=
- =?us-ascii?Q?cP4uBMQ5DQa5M+A1GHbNUFllER9/Maazff+EKp59WPWWUBID1L+bGvQBg/Gs?=
- =?us-ascii?Q?Fb8grPxXhWqFydkOzUE+rIRsJoQPf5mdA/Mq+uUX4da/iRtkyGnq/WXBRF1n?=
- =?us-ascii?Q?Kg5lwxRc33g607oI2QfGMT62d71lYkR6p+8fDZyL5IleRbWqJKVjBf2aJGYq?=
- =?us-ascii?Q?FmR50FMd3V6eN+qTpDdcJ4EblKRSh2Ei3w6XXZkghUSxvrAYlxddYMqWclt/?=
- =?us-ascii?Q?WjtT8ShtDj8zm33G0v+6Ez4ViwNb+p4lh9gP1u2ccwSzZLfK1htPl8E22Fcv?=
- =?us-ascii?Q?/jTkMhhiaNN+IUusdfr/7aFbcIzKQ/KWH3xbY3dI+SfuAPYyKHHWKwUl9jny?=
- =?us-ascii?Q?z7Y94qwovQrytvMVA0ofpu3Tdu+85JkQ/GfzXnfUrpQmU/SNmMs6CaHGQILV?=
- =?us-ascii?Q?KoByRKbsTChzpW/RYOKwEaq5?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BuhjfnIzHPL8k/0hEDGsJJcwbt02W2zMnf1vEQ+PDis=;
+        b=VGU6L3poPyGvDF/aXFsDDNXQCN6mrAJdddBE1kYrMR5yGUwgqOq8Ka50kemkwIQBMd
+         xcf75qW+cASxwx2aKMQJeW+smC0+uRSNVmsAp5ONF0enm/vmc7NeyiBnQ/KzflwyFJOI
+         P1lieRAYSO25kGZ78vNXKGRkohrMSMU6HoCFq0ikLyBVeRJsvTC04BnNaxmWF3TxnDLc
+         TI+CJee7tnr2wfApqfiQ39KWQcsebq37lX4j4bGXcaFOLoplJnRtT1iQeQZrVbkShI6n
+         TDVIS6SzZsoeliR5AhmzrYGpxG8IpxMBT5bHfHKnhY+rF08K/as7N91N1ZV+JQLZMv0K
+         V/rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BuhjfnIzHPL8k/0hEDGsJJcwbt02W2zMnf1vEQ+PDis=;
+        b=iZJjQyiTwPd09c1BCTfvjWXniLAFOZ8s8ADz+/KImFuE0tdSIdfKdZ+hek7uwHYVut
+         deXn4Z1p7FElpxec1wV5W2GSOae27a4mHTZqYlgiJTFXclSQ7nWbXxhGuuUm/SfHR1LO
+         ps9CwQGsZ9LE1/PuqVqCcKS643D/utCpKy7XYMy8oxhkaPKvfo8Hd/8+wWnzzEHXRhon
+         qmIiz0/akYCvIxxWFTrmdMajrAq41f010YSxgVyuDuxoTTjqfk9PbVCFW+dilDUbyVl2
+         SyLHhu2bvyAsaOV2XZ8TBtE13+4SlkFm2TLxyd/4Ir83kvgxkrqitEnHUVWBM9vhbriH
+         ovfQ==
+X-Gm-Message-State: AOAM531zBUroi2CLLjNCtQWoyhQVI/BPDPpAJ5ZLAJsY8DLIEnhRsKvt
+        GMIuJNOGTCFsZa07p947wbREg0h+jc1pnwTgHfYfntC75AI=
+X-Google-Smtp-Source: ABdhPJxWkcEBeEeQpHl0z0PoIbho+KHQTVz5XNhEXvCE7yAmB2lRq3X91tXNby/WaVO/Vwb4Bp4hfOzgrqT8EjU/Zug=
+X-Received: by 2002:a05:6512:1515:: with SMTP id bq21mr3739550lfb.71.1632397811612;
+ Thu, 23 Sep 2021 04:50:11 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a917114-575f-4b48-aef6-08d97e870fc0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2021 11:41:19.8282
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: b+4+WGgj8pY8pn3paAdhULhZoowfFoBWqzZLBzUT95mIQ2/xA3co+JDlTWx2N1JyROqh026N5nXb5+PfMjXUNrdDbrZ5v1hfK+cXSzQ+O/o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5925
+References: <20210914182023.8103-1-wsa+renesas@sang-engineering.com> <20210914182023.8103-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210914182023.8103-2-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 23 Sep 2021 13:49:35 +0200
+Message-ID: <CAPDyKFrqwo2+W4uSGwWYRmNHWAZC1cRozVs7GXXcBJ23FCU_bA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] mmc: core: add helper to send STOP
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thanks for the patch. Tested the patch on iWave RZ/G1N board.
-
-Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Regards,
-Biju
-
-> -----Original Message-----
-> From: Geert Uytterhoeven <geert+renesas@glider.be>
-> Sent: 09 September 2021 09:50
-> To: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Biju Das <biju.das.jz@bp.renesas.com>; Adam Ford <aford173@gmail.com>=
-;
-> Florian Fainelli <f.fainelli@gmail.com>; Andrew Lunn <andrew@lunn.ch>;
-> Heiner Kallweit <hkallweit1@gmail.com>; Russell King
-> <linux@armlinux.org.uk>; Grygorii Strashko <grygorii.strashko@ti.com>;
-> linux-renesas-soc@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
-> netdev@vger.kernel.org; devicetree@vger.kernel.org; Geert Uytterhoeven
-> <geert+renesas@glider.be>
-> Subject: [PATCH 3/9] ARM: dts: renesas: Add compatible properties to
-> KSZ9031 Ethernet PHYs
->=20
-> Add compatible values to Ethernet PHY subnodes representing Micrel
-> KSZ9031 PHYs on RZ/G1 boards. This allows software to identify the PHY
-> model at any time, regardless of the state of the PHY reset line.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Tue, 14 Sept 2021 at 20:20, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> There was a helper in the block layer already, but we need it in other
+> parts soon as well. So, make it more generic by adding the 'retries'
+> parameter and add the helper to mmc_ops.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
-> I could not verify the PHY revision number (least significant nibble of
-> the ID), due to lack of hardware.
-> ---
->  arch/arm/boot/dts/iwg20d-q7-common.dtsi     | 2 ++
->  arch/arm/boot/dts/r8a7742-iwg21d-q7.dts     | 2 ++
->  arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts | 2 ++
->  arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts   | 2 ++
->  4 files changed, 8 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/iwg20d-q7-common.dtsi
-> b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
-> index bc857676d19104a1..849034a49a3f98e2 100644
-> --- a/arch/arm/boot/dts/iwg20d-q7-common.dtsi
-> +++ b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
-> @@ -158,6 +158,8 @@ &avb {
->  	status =3D "okay";
->=20
->  	phy3: ethernet-phy@3 {
-> +		compatible =3D "ethernet-phy-id0022.1622",
-> +			     "ethernet-phy-ieee802.3-c22";
->  		reg =3D <3>;
->  		micrel,led-mode =3D <1>;
->  	};
-> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> index 94bf8a116b5242a9..a5a79cdbcd0ee09b 100644
-> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> @@ -175,6 +175,8 @@ &avb {
->  	status =3D "okay";
->=20
->  	phy3: ethernet-phy@3 {
-> +		compatible =3D "ethernet-phy-id0022.1622",
-> +			     "ethernet-phy-ieee802.3-c22";
->  		reg =3D <3>;
->  		micrel,led-mode =3D <1>;
->  	};
-> diff --git a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-> b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-> index 73bd62d8a929e5da..c105932f642ea517 100644
-> --- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-> +++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-> @@ -123,6 +123,8 @@ phy3: ethernet-phy@3 {
->  	 * On some older versions of the platform (before R4.0) the phy
-> address
->  	 * may be 1 or 3. The address is fixed to 3 for R4.0 onwards.
->  	 */
-> +		compatible =3D "ethernet-phy-id0022.1622",
-> +			     "ethernet-phy-ieee802.3-c22";
->  		reg =3D <3>;
->  		micrel,led-mode =3D <1>;
->  	};
-> diff --git a/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
-> b/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
-> index 8ac61b50aec03190..b024621c998103b2 100644
-> --- a/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
-> +++ b/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
-> @@ -79,6 +79,8 @@ &avb {
->  	status =3D "okay";
->=20
->  	phy3: ethernet-phy@3 {
-> +		compatible =3D "ethernet-phy-id0022.1622",
-> +			     "ethernet-phy-ieee802.3-c22";
->  		reg =3D <3>;
->  		interrupt-parent =3D <&gpio5>;
->  		interrupts =3D <16 IRQ_TYPE_LEVEL_LOW>;
+>  drivers/mmc/core/block.c   | 14 +-------------
+>  drivers/mmc/core/mmc_ops.h | 14 ++++++++++++++
+>  2 files changed, 15 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/mmc/core/block.c b/drivers/mmc/core/block.c
+> index 431af5e8be2f..58f1aa5ac33f 100644
+> --- a/drivers/mmc/core/block.c
+> +++ b/drivers/mmc/core/block.c
+> @@ -1642,18 +1642,6 @@ static void mmc_blk_rw_rq_prep(struct mmc_queue_req *mqrq,
+>  #define MMC_DATA_RETRIES       2
+>  #define MMC_NO_RETRIES         (MMC_MAX_RETRIES + 1)
+>
+> -static int mmc_blk_send_stop(struct mmc_card *card, unsigned int timeout)
+> -{
+> -       struct mmc_command cmd = {
+> -               .opcode = MMC_STOP_TRANSMISSION,
+> -               .flags = MMC_RSP_SPI_R1 | MMC_RSP_R1 | MMC_CMD_AC,
+> -               /* Some hosts wait for busy anyway, so provide a busy timeout */
+> -               .busy_timeout = timeout,
+> -       };
+> -
+> -       return mmc_wait_for_cmd(card->host, &cmd, 5);
+> -}
+> -
+>  static int mmc_blk_fix_state(struct mmc_card *card, struct request *req)
+>  {
+>         struct mmc_queue_req *mqrq = req_to_mmc_queue_req(req);
+> @@ -1663,7 +1651,7 @@ static int mmc_blk_fix_state(struct mmc_card *card, struct request *req)
+>
+>         mmc_retune_hold_now(card->host);
+>
+> -       mmc_blk_send_stop(card, timeout);
+> +       mmc_send_stop(card->host, timeout, 5);
+>
+>         err = mmc_poll_for_busy(card, timeout, false, MMC_BUSY_IO);
+>
+> diff --git a/drivers/mmc/core/mmc_ops.h b/drivers/mmc/core/mmc_ops.h
+> index ae25ffc2e870..6e9d1b6b9e55 100644
+> --- a/drivers/mmc/core/mmc_ops.h
+> +++ b/drivers/mmc/core/mmc_ops.h
+> @@ -9,6 +9,7 @@
+>  #define _MMC_MMC_OPS_H
+>
+>  #include <linux/types.h>
+> +#include <linux/mmc/mmc.h>
+>
+>  enum mmc_busy_cmd {
+>         MMC_BUSY_CMD6,
+> @@ -57,5 +58,18 @@ int mmc_cmdq_enable(struct mmc_card *card);
+>  int mmc_cmdq_disable(struct mmc_card *card);
+>  int mmc_sanitize(struct mmc_card *card, unsigned int timeout_ms);
+>
+> +static inline int mmc_send_stop(struct mmc_host *host, unsigned int timeout,
+
+Nitpick: Would you mind renaming timeout to timeout_ms, as to clarify its unit.
+
+> +                          unsigned int retries)
+> +{
+> +       struct mmc_command cmd = {
+> +               .opcode = MMC_STOP_TRANSMISSION,
+> +               .flags = MMC_RSP_SPI_R1 | MMC_RSP_R1 | MMC_CMD_AC,
+> +               /* Some hosts wait for busy anyway, so provide a busy timeout */
+> +               .busy_timeout = timeout,
+> +       };
+> +
+> +       return mmc_wait_for_cmd(host, &cmd, retries);
+> +}
+> +
+>  #endif
+>
 > --
-> 2.25.1
+> 2.30.2
+>
 
+Otherwise, this looks good to me!
+
+Kind regards
+Uffe
