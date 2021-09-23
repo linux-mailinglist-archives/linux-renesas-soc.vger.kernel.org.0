@@ -2,74 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC7034164B9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 19:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF2F84164CC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 20:06:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241666AbhIWR73 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Sep 2021 13:59:29 -0400
-Received: from mxout01.lancloud.ru ([45.84.86.81]:53694 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241740AbhIWR73 (ORCPT
+        id S242692AbhIWSHe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Sep 2021 14:07:34 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:60260 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242667AbhIWSHd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Sep 2021 13:59:29 -0400
+        Thu, 23 Sep 2021 14:07:33 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 775B02014EB6
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 4343B20A74C4
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
-Subject: Re: [RFC/PATCH 02/18] ravb: Rename the variables "no_ptp_cfg_active"
- and "ptp_cfg_active"
+Subject: Re: [RFC/PATCH 04/18] ravb: Enable aligned_tx and tx_counters for
+ RZ/G2L
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
-CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "Andrew Lunn" <andrew@lunn.ch>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Adam Ford <aford173@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>
 References: <20210923140813.13541-1-biju.das.jz@bp.renesas.com>
- <20210923140813.13541-3-biju.das.jz@bp.renesas.com>
- <e54aa4c9-9438-bd99-559a-6aaa3676d733@omp.ru>
- <OS0PR01MB59228BE53DE8DB7AA491F03F86A39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20210923140813.13541-5-biju.das.jz@bp.renesas.com>
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <2d2760da-8400-c43a-8629-a16e78f79326@omp.ru>
-Date:   Thu, 23 Sep 2021 20:57:55 +0300
+Message-ID: <61e541a7-338c-a9d1-0504-f2f7baf0ffed@omp.ru>
+Date:   Thu, 23 Sep 2021 21:05:56 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <OS0PR01MB59228BE53DE8DB7AA491F03F86A39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <20210923140813.13541-5-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
  LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9/23/21 7:35 PM, Biju Das wrote:
+On 9/23/21 5:07 PM, Biju Das wrote:
 
-[...]
->>> Rename the variable "no_ptp_cfg_active" with "no_gptp" with inverted
->>> checks and "ptp_cfg_active" with "ccc_gac".
->>
->>    That's not exactly rename, no? At least for the 1st case...
-> 
-> This is what we agreed as per last discussion[1]. 
-> 
-> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210825070154.14336-5-biju.das.jz@bp.renesas.com/
+   Somehow this patch haven't reached my OMP email -- I got it only thru
+ the linux-renesas-soc list... :-/
 
-   Sorry, I've changed my mind about 'no_gpgp' after seeing all the checks. I'd like to avoiud the double negations
-in those checks -- this should make the code more clear. My 1st idea (just 'gp[tp') turned out to be more practical,
-sorry about this going back-and-forth. :-<
+> RZ/G2L need 4byte address alignment like R-Car Gen2 and
+> it has tx_counters like R-Car Gen3. This patch enable
+> these features for RZ/G2L.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      | 2 +-
+>  drivers/net/ethernet/renesas/ravb_main.c | 2 ++
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index bee05e6fb815..bb92469d770e 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -195,7 +195,7 @@ enum ravb_reg {
+>  	GECMR	= 0x05b0,
+>  	MAHR	= 0x05c0,
+>  	MALR	= 0x05c8,
+> -	TROCR	= 0x0700,	/* R-Car Gen3 only */
+> +	TROCR	= 0x0700,	/* R-Car Gen3 and RZ/G2L only */
+>  	CEFCR	= 0x0740,
+>  	FRECR	= 0x0748,
+>  	TSFRCR	= 0x0750,
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 54c4d31a6950..d38fc33a8e93 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2114,6 +2114,8 @@ static const struct ravb_hw_info rgeth_hw_info = {
+>  	.set_feature = ravb_set_features_rgeth,
+>  	.dmac_init = ravb_dmac_init_rgeth,
+>  	.emac_init = ravb_rgeth_emac_init,
+> +	.aligned_tx = 1,
+> +	.tx_counters = 1,
+
+   Mhm, I don't see a connection between those 2 (other than they're both for RX). And anyway, this prolly
+should be a part of the previous patch...
 
 [...]
 
