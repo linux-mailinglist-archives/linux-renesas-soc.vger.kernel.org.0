@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7BE0415CEA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 13:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FC68415CF0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 13:41:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240630AbhIWLjm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Sep 2021 07:39:42 -0400
-Received: from mail-eopbgr1410102.outbound.protection.outlook.com ([40.107.141.102]:30800
+        id S240610AbhIWLm5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Sep 2021 07:42:57 -0400
+Received: from mail-eopbgr1410134.outbound.protection.outlook.com ([40.107.141.134]:34875
         "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238930AbhIWLji (ORCPT
+        id S238930AbhIWLm4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Sep 2021 07:39:38 -0400
+        Thu, 23 Sep 2021 07:42:56 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j5f6Hj//tjSbSCYMZeyYOsw4iO/vu3Kqy8Jgk0jc5ghLBjSOiu5dSJjm6KXM+/lQpXrWpAhzFhoivS+F45WAPDQKWFtK04jcYgCiOaJ0cl0YK5nkMALcBh7iqqVnWxvNOfHJeSRgezuD+J4G4b8Rl5ju7j/vQaYpR5KFjtjohrjushDbJKAqQX3m0WHj0QesvRoCx6RGjMGgcA4BYPgURbhqBVad2SB+6xzyU4OLcE2Eai0Tccx5aGKfA9sYTMrb/whu580xhKVGE+1oL72r4oRqNRyohIUhs+ft+3p3+60pKqWuGx4xOfpBY2PoUhiehapGVSOnfT883FXJe6u9+w==
+ b=P7J97+lT+P3uxifm9Bc1/CyY/Nu9dFeX1mOu1Dmkd8HviEie7e6pdtuQQMaPqxr4+xCrGGuCYx1XW+OJPJIhuc7r4tfFFdt6gtPAh+O0DzWfqESsTI7+YZz8RmO8NB0oOCUb8ktgq3NO/mBIlmS4SxaJiEUly9L9wePMvw0+DTWB1DNsrC6U79L89S8dFRe55RA0bc2hRPzPbtk0GYT1I3jqj+9JDml3ArtyGGDY0RYWUN1WMZpwSKxlVkMRA/vkz+R4hp0VRarh5mLjZdtD8dd8vUx2p63gSXqkGPgrIsefT7HlvlaGqfyHj/gm/J5MxscwqkOQrWV/Q4nSse8+AQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=BpsENi+PJuHdXt1R74rt9LB0wBIi/CqT1Bu6skVXG/s=;
- b=h9VT7P4U0MKlAOOhPitiTuMTyOJRG2+uBHLPgBvBeADOwAcfidCnS1tkV2NM9t4NA++2X3k0plw4WWpXL70J/QhIWBOD3rV7Hq6LuptTKmMzXGrxA8kQkVydHsEi7L3uMkoUJ56Y9u/U3BKx4eR3qt7VzibM3yyaoxgQwdbzTehFimx7cbcoB8GHeWaxGfPQ9LnfFj2LUURjDg4iKXbvTytjgfW3zt8TSmtCaFRfmM0gU2CcWUxTMd5FBCZUbvrPt1oLdL36zUyEKGg+jDZ7roCEaRQ0p15p2xYoZnVPOPotgd4yUPCp5AGd5++Yz/tnjQ5GP61W1k732JpAZRJ19g==
+ bh=rNCyDv5KYccNyZEqEzOpMp6s67scu/5lXHRlBT8uqTE=;
+ b=jwlL2C1tVOFFBBaj9tRgOm7XU1L1dXSHfn6Fy4Fs6KqMtzzkvRWo8I6AoH+gROhlnA+QpR1X1v/+uMCL3SRMTStPpauzIeTu+bGlLarM2fgerSbHssg8BcHdLYmInutM4eoIJces8uxOOsP3odnui2wq2dwF2vCcydfzQaNJ7MyB2J04ph/yYebgpERkA+w/mAVia5syJEC6W3cjTJTV53nsQlWiiviYwBFYaHpSuHWb/IL4n9CjM93CvVVxkAp/7bZGVyE0QcPtg9Pn8wsQRHigiyefucz+c6P687TzEcyQCGRJoOXEZdunozHfctnOBw666VKN0maI8HlbHhiaoQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BpsENi+PJuHdXt1R74rt9LB0wBIi/CqT1Bu6skVXG/s=;
- b=XRCsqXYZ/rDXiodidx47cjn21Y6cXUMk8w3BztKQJnbeByiHKIZuycikEiQaRd6fdkIieZTgT4RDhVFyhh6C6AeYFR1KDvPSV3In+o5e+nVhXD7tSFK95KbGFZYOx4/bJuGhFiGVbhUkLPxHjp1j5nMPMfEzWzMPe0lxWJ7AlKo=
+ bh=rNCyDv5KYccNyZEqEzOpMp6s67scu/5lXHRlBT8uqTE=;
+ b=oYTOH8HTOnm09oUoyKBPvc5PKlgtSuOOX4w2OJtELU0L8hd63ZuqoTGiBrthzEn2CgxNcPl+Z/ix6QMA7iPV5U3JT1dm8BBSj0CDBebzCQymlTGH0LRKhGnJ/4Vv4/cLoDG44YX/cR2cahfnDiUSkQA+8P/tH3OKCyoZxHKnoHk=
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSBPR01MB3477.jpnprd01.prod.outlook.com (2603:1096:604:44::16) with
+ by OS3PR01MB5925.jpnprd01.prod.outlook.com (2603:1096:604:c0::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Thu, 23 Sep
- 2021 11:38:04 +0000
+ 2021 11:41:19 +0000
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::6532:19dd:dfa1:4097]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::6532:19dd:dfa1:4097%9]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
- 11:38:03 +0000
+ 11:41:19 +0000
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>
@@ -51,16 +51,16 @@ CC:     Adam Ford <aford173@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
         "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH 9/9] arm64: dts: renesas: Add compatible properties to
- RTL8211E Ethernet PHYs
-Thread-Topic: [PATCH 9/9] arm64: dts: renesas: Add compatible properties to
- RTL8211E Ethernet PHYs
-Thread-Index: AQHXpVeszL3M4cEXQkaXukPQlEhceauxk9Cw
-Date:   Thu, 23 Sep 2021 11:38:03 +0000
-Message-ID: <OS0PR01MB5922B6BA78CA34AB60543A4E86A39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH 3/9] ARM: dts: renesas: Add compatible properties to
+ KSZ9031 Ethernet PHYs
+Thread-Topic: [PATCH 3/9] ARM: dts: renesas: Add compatible properties to
+ KSZ9031 Ethernet PHYs
+Thread-Index: AQHXpVerji8qwB+8xEGNtBUGWxV93auxlMhg
+Date:   Thu, 23 Sep 2021 11:41:19 +0000
+Message-ID: <OS0PR01MB5922C47CEF890322ACB36C3B86A39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 References: <cover.1631174218.git.geert+renesas@glider.be>
- <3b366e3dddd4d3cd7e89b92d3a8f78f6dc18e244.1631174218.git.geert+renesas@glider.be>
-In-Reply-To: <3b366e3dddd4d3cd7e89b92d3a8f78f6dc18e244.1631174218.git.geert+renesas@glider.be>
+ <ce8ae6b199fa244315a008ae31891a808ca1948d.1631174218.git.geert+renesas@glider.be>
+In-Reply-To: <ce8ae6b199fa244315a008ae31891a808ca1948d.1631174218.git.geert+renesas@glider.be>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -68,39 +68,39 @@ X-MS-TNEF-Correlator:
 authentication-results: glider.be; dkim=none (message not signed)
  header.d=none;glider.be; dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 195e0b0a-0122-40d3-1d15-08d97e869af1
-x-ms-traffictypediagnostic: OSBPR01MB3477:
-x-microsoft-antispam-prvs: <OSBPR01MB34770F1CE286C78E9C7C0F1586A39@OSBPR01MB3477.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-office365-filtering-correlation-id: 9a917114-575f-4b48-aef6-08d97e870fc0
+x-ms-traffictypediagnostic: OS3PR01MB5925:
+x-microsoft-antispam-prvs: <OS3PR01MB592522F87D3F784413DC29E086A39@OS3PR01MB5925.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gCXt/Qq6N1VIv0jPCOQuVBMDIAwL3s6WojEGQkqX0X6Qg9Qap0w6dkqG2OJkgu3kxasWP5KQfUnF7mmCuRcr9JjA7cwwpov0pR5XRuKMHydoWKy65Bx4LnSHXAYgv2QG9TTXFdsveJanrDWOzA4x4oi9ov56i6zHVtgdd664NERBlrHAjSKuHsJJfwN0TIw4rLddx4hV8QZZzRBO0IJ2nZigqbbd1mCi8ExlIPTwaMCU9tISPjYrLE7IoJTzhRYKJYgNUmEXLZT3k3jiH1kFFg0+Xy7LQE8rUQtUKmnUIdYvhJ0Fa4bcdclt2MywZttpP3/wGXVFX55jxC/qvTps2jsG6NVdWYPRqyJXfzeg0ru/qC1ZjFK2znOerOqPEcR3ALozuGVC0rWDWBCMycwbkvi1RB7HQ8KbtXBBjbZ+z4wT2sYs//sfmRSAtxRb54jD6MHuZOD7vgm+chFpYNrCqpZMwh5phygiCGUNaYuElkvoNuwrhxbAfTxRaLJ19DsDzAYTZYlIFTet7ZWAVJlUxgm6bwjziyncRqPuSnBi52wGI7Tup2cPk4krflBel3KQoSZ/4eynyEHf6Ltk53oFdHeLFOHPTgT4YaCIHT5kWq+RKyJ53rdfGbgt+dQd+8XIKv8RN6Tg/mUM7V/WlVAoO895FRkFKxgBR2fhCAwbnAUpckSKCdOj8pKS5OU88q4aAgDsk6kuHYczH0MkLorfLA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6506007)(53546011)(55016002)(316002)(38070700005)(33656002)(66446008)(64756008)(66556008)(5660300002)(54906003)(186003)(7416002)(52536014)(122000001)(110136005)(38100700002)(4326008)(8936002)(9686003)(83380400001)(2906002)(508600001)(8676002)(71200400001)(7696005)(86362001)(66476007)(66946007)(26005)(76116006);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: 8gRL7F/BRzciq03qZkITgXebn2DJEWEivlC7jaDJhj5m91HZSISOugMtwsPdrzNem103Fup8yx9J9QgyYz7TJm6A2xBnVM9BRGNTTS410qxNGsRwh6nqHtmplnsEPlC67io7A3EZ6VNAvWoPdZdWP96MBE55SNJHtjmaD5dT4+jyGp4XHZXThTqjPhP6k30xfHJVJR2UyCIbR+BnA+1LqRglMUlzLnvbr4mitUVBgnkEM3X5mU2vNusOzwyntLKvzyD/WcczUg200O9dKyhwXkkkENkKMQCFusWPdPy9sEfxm4mbrKPChrzhSTltxD8pQCJ+zQXfV1IGSZrhI4T9uEZu4iWChDV2h1agvTEoHWIPeJZooXDL5UMwI6GmC1wvls6ywdKWQuQXt1H030QZiEqA428zhgYrewFTTxYO7+DHZHI/ZaRL6bH9FQHD3BZFdxcaQt+SiVtrpQ6PENo52yOUrfZDctdTnF6FBRggJzR0qIT4r6r9W3QnSWRnxYG2o/4tdEbgZ2lfcuIhIAhVsDwcxrZAaX4RmuCLyIt6qAVFzB4pNVAngrRuP+Mel4Rx1LzB02WgH6uxToGzBeuZVGfnVQQ8WL4wJ4j+LsmxT6J5YOre6X3SH+TkSadzCKh8NaBDxRqxWlEavY//PKs0tiIHGNBABqOsNbrdPmIZW7Jk+GJ83hshHd5cTWSvR66NDpOlrLqDYvE6MGWwfz5YXg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(110136005)(55016002)(186003)(8676002)(52536014)(9686003)(71200400001)(5660300002)(54906003)(86362001)(53546011)(8936002)(38100700002)(33656002)(38070700005)(66446008)(122000001)(26005)(6506007)(83380400001)(76116006)(7696005)(4326008)(316002)(7416002)(2906002)(66946007)(64756008)(508600001)(66476007)(66556008);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Y3JmxtsF6nKwL/+uKj3IacMICAqjmKx+cI5qPOXyRJa1tdxVnI6lHjGqEy4Q?=
- =?us-ascii?Q?cxSEi644Bjs1fRH6ZAO/BK7w6AfjmtBM0x4dWMhfYCQy7zqiDOOrFmXMWUvV?=
- =?us-ascii?Q?au0ROvbMI3vy2gG7WD6r+ZtE8u6Zy+Vi4rVCB54eNJ1UMEPjw97y8k+56Is6?=
- =?us-ascii?Q?Y5qOPW67i1H6/MpDcDh9HAKhXyERHCtxjuatFiXuzI+k7mZxNIvzvpcXq+ZH?=
- =?us-ascii?Q?n8z5jp2KoE5fufn+g2r2lNWsPnGFy+VSsAT40Kme+KmiO5wVgOcDslYsIYfQ?=
- =?us-ascii?Q?tkW9IpEMJx415akadVZxYVi1VcInsnQI8UJD7EadZVatfgCq21bu4T23KPkS?=
- =?us-ascii?Q?jSlArAQW8Zsx4UxMI22RWCvoqCUB72wPdQqJ25XNpM4fW1h4JQf1oJsXcbuT?=
- =?us-ascii?Q?D3xDBqJzSsmI+GBuRmBI+2NAXZFhl20UXsNNuOxWe1VThNgr0PB0dqFyn1y7?=
- =?us-ascii?Q?KvqL5pR3T2Boz8Ee8Ub40sHU5DuLUomfNnJFACytK7+dEVXSfHdE7tQs+kDN?=
- =?us-ascii?Q?wHFVRSMov0x9zBW5Cq5b2MbjdQl6JQuMjADqLmG2JTB44QqaBi7P+WB9n86J?=
- =?us-ascii?Q?9uOkj1WEOeJDi8I+QbNxt809QwilMUmPhqN1UmEVgJlGgi+wBlxpk8uApApK?=
- =?us-ascii?Q?sGbL9axiHkSxfrUH6ZEXtUeLUmTgJsb1+qOCYnAEJhHSHUUuLHDjt85E7pNA?=
- =?us-ascii?Q?J0m6qD/IPJ5/sQRcBje81tw8+xlTnRqZz1LQv4Sv+LM7riHlbMOSfOITwiOh?=
- =?us-ascii?Q?Db7HFNlTR4x8C94ux2yfiC5WAMM/11Hi+ZSlpd5bFLTt7s5CUxmp+siX2fO1?=
- =?us-ascii?Q?5V7a29a7tR8axNliMwupMgdUYlMbQl/YGivPtpTy+DHYENDpRjhLQPZX09Fj?=
- =?us-ascii?Q?UTJczOgEayR08sx6gJ0GiCDHWoZrGni1N9LP9KrkP0BHSDNjXs94jCJDZFfm?=
- =?us-ascii?Q?dFEJr9N8juz6NqhKogVBbg8bkI+g53gnCefXcoADmDDHPa/IyPAmzcY5kNdf?=
- =?us-ascii?Q?KTNKFYeUDcFo2h7akW/HjUHKzdDXpQMPnb47tg0UE5BJDMXyBbwORrfIAEcv?=
- =?us-ascii?Q?J4n+zGczDgTiKCnpvhGg/K+JkVQ0hx2fIWvNp2ux7wddMaq6vac188Wcd2JB?=
- =?us-ascii?Q?zqrRdFtuj2rOxPsFYvWZ8+Apj8faZUnwfZQ7L5rs736XxEDIYgFaOzkJipyh?=
- =?us-ascii?Q?nc90BJK2InIy6Ap1NAam3x8pkgJi92a+ifvbQucxaTzGZLwV494BeucVV1A0?=
- =?us-ascii?Q?4nI3afIZMeTDGDu2AwNqdAos+E/P5IhNpGb62lxHoqPZk1SsVJcC9t2eJ2Xs?=
- =?us-ascii?Q?txEvbTzSAslh56QAmp02T5KB?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5xjPXTtv4HSG61UEgBaHDnJu4y/rYB2616Vtn5GG1A1V+2Sq9gBCTpJuD9tf?=
+ =?us-ascii?Q?KwKu8UQk/z9g3ncYByvjSS3pcVxEmHXeMb13wc9U4w7FrwxLGd3ArsZtMS0o?=
+ =?us-ascii?Q?+Md2qW3jrt9JpxFF2GWd1nlwSImp4Knih0N94nz4vQjdZxoIGnyBdmkKKm+6?=
+ =?us-ascii?Q?Vy6zIT2o8Jc5u3Gaz534MzRpF5btDkOEL6aig7J7Dj9BLz63Z1xWmopFDrL2?=
+ =?us-ascii?Q?EvCEOCcaJkBYXGSeNEHu3P0MWn7T22ilHLjcewAJMzr3jx5fYaSere9tSsO3?=
+ =?us-ascii?Q?0FH+YUtw4XfMGSy8CjWcGlXALz0V6MqNOpezeEtUxNjWyRVHizn222bmkUxb?=
+ =?us-ascii?Q?zKTfWDyUlUZ1CNt8kQF99BnkbbS/7MolJg/gYh2fizQkh7qW9gI6gas06z4Z?=
+ =?us-ascii?Q?eewlCGMXlIzugrfNGE/h6geq/2DYXc7tP+HtlPzPcEQf6cCVAjoY+wEOHIDY?=
+ =?us-ascii?Q?QGKwRv9vG28273yS63U/W3NBfCA2/1Wey8YmpDuJ6r6oRVmiLuGlgTKaOA2h?=
+ =?us-ascii?Q?yRPKyoodpv3R2U9DPa7DU/Ie6WLum23DIFs34xNRJu5Vh1o5COLUpjPJogq3?=
+ =?us-ascii?Q?Unku+MqDr76D4SKebEy2IiojFjP5Hl6Nrq57RvvELkAVcuNS2ONBHMdFJl40?=
+ =?us-ascii?Q?b5M9UVF7IXCNfTCyWiu/4zGbBbxnZBNUoy94FDiuxzlktpFL5GK3ZCrzAkPH?=
+ =?us-ascii?Q?4+K1+4C1Me2aQrSFbJ9KanQIdXHkVYjfAs2QPpB2qmj4qKgrHLkGgVBXvVxC?=
+ =?us-ascii?Q?7jg+quxwJ+9MIWMQ1v5sIpqJ4FPFefjEtYJ3bDxzBWEJqwuFiii1/YFcs2ll?=
+ =?us-ascii?Q?pKjzsTHr2HnFlqdOWBYVhrf+RTjiDxGpDINDNDSbio3ZzZjGdfOa8WJOgfS2?=
+ =?us-ascii?Q?cP4uBMQ5DQa5M+A1GHbNUFllER9/Maazff+EKp59WPWWUBID1L+bGvQBg/Gs?=
+ =?us-ascii?Q?Fb8grPxXhWqFydkOzUE+rIRsJoQPf5mdA/Mq+uUX4da/iRtkyGnq/WXBRF1n?=
+ =?us-ascii?Q?Kg5lwxRc33g607oI2QfGMT62d71lYkR6p+8fDZyL5IleRbWqJKVjBf2aJGYq?=
+ =?us-ascii?Q?FmR50FMd3V6eN+qTpDdcJ4EblKRSh2Ei3w6XXZkghUSxvrAYlxddYMqWclt/?=
+ =?us-ascii?Q?WjtT8ShtDj8zm33G0v+6Ez4ViwNb+p4lh9gP1u2ccwSzZLfK1htPl8E22Fcv?=
+ =?us-ascii?Q?/jTkMhhiaNN+IUusdfr/7aFbcIzKQ/KWH3xbY3dI+SfuAPYyKHHWKwUl9jny?=
+ =?us-ascii?Q?z7Y94qwovQrytvMVA0ofpu3Tdu+85JkQ/GfzXnfUrpQmU/SNmMs6CaHGQILV?=
+ =?us-ascii?Q?KoByRKbsTChzpW/RYOKwEaq5?=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -108,21 +108,21 @@ MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 195e0b0a-0122-40d3-1d15-08d97e869af1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2021 11:38:03.6749
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a917114-575f-4b48-aef6-08d97e870fc0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2021 11:41:19.8282
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jaJhybUg+vY8OYC0Iidt1CwqWzLe+6s1V5QZvUmjxoSx7D2gwl6L1zrHuczgdPL7jYi1HQLnzZTY9BIXkLL7mYoNtaykzjnX51RXXD9c12E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3477
+X-MS-Exchange-CrossTenant-userprincipalname: b+4+WGgj8pY8pn3paAdhULhZoowfFoBWqzZLBzUT95mIQ2/xA3co+JDlTWx2N1JyROqh026N5nXb5+PfMjXUNrdDbrZ5v1hfK+cXSzQ+O/o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5925
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Geert,
 
-Thanks for the patch. Tested the patch on Hihope RZ/G2M board.
+Thanks for the patch. Tested the patch on iWave RZ/G1N board.
 
 Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
 
@@ -141,47 +141,81 @@ Biju
 > linux-renesas-soc@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
 > netdev@vger.kernel.org; devicetree@vger.kernel.org; Geert Uytterhoeven
 > <geert+renesas@glider.be>
-> Subject: [PATCH 9/9] arm64: dts: renesas: Add compatible properties to
-> RTL8211E Ethernet PHYs
+> Subject: [PATCH 3/9] ARM: dts: renesas: Add compatible properties to
+> KSZ9031 Ethernet PHYs
 >=20
-> Add compatible values to Ethernet PHY subnodes representing Realtek
-> RTL8211E PHYs on RZ/G2 boards.  This allows software to identify the PHY
+> Add compatible values to Ethernet PHY subnodes representing Micrel
+> KSZ9031 PHYs on RZ/G1 boards. This allows software to identify the PHY
 > model at any time, regardless of the state of the PHY reset line.
 >=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  arch/arm64/boot/dts/renesas/cat875.dtsi         | 2 ++
->  arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi | 2 ++
->  2 files changed, 4 insertions(+)
+> I could not verify the PHY revision number (least significant nibble of
+> the ID), due to lack of hardware.
+> ---
+>  arch/arm/boot/dts/iwg20d-q7-common.dtsi     | 2 ++
+>  arch/arm/boot/dts/r8a7742-iwg21d-q7.dts     | 2 ++
+>  arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts | 2 ++
+>  arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts   | 2 ++
+>  4 files changed, 8 insertions(+)
 >=20
-> diff --git a/arch/arm64/boot/dts/renesas/cat875.dtsi
-> b/arch/arm64/boot/dts/renesas/cat875.dtsi
-> index 801ea54b027c43d9..a69d24e9c61db052 100644
-> --- a/arch/arm64/boot/dts/renesas/cat875.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/cat875.dtsi
-> @@ -21,6 +21,8 @@ &avb {
+> diff --git a/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+> b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+> index bc857676d19104a1..849034a49a3f98e2 100644
+> --- a/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+> +++ b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+> @@ -158,6 +158,8 @@ &avb {
 >  	status =3D "okay";
 >=20
->  	phy0: ethernet-phy@0 {
-> +		compatible =3D "ethernet-phy-id001c.c915",
+>  	phy3: ethernet-phy@3 {
+> +		compatible =3D "ethernet-phy-id0022.1622",
 > +			     "ethernet-phy-ieee802.3-c22";
->  		reg =3D <0>;
->  		interrupt-parent =3D <&gpio2>;
->  		interrupts =3D <21 IRQ_TYPE_LEVEL_LOW>; diff --git
-> a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-> b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-> index dde3a07bc417c690..ad898c6db4e62df6 100644
-> --- a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-> @@ -24,6 +24,8 @@ &avb {
+>  		reg =3D <3>;
+>  		micrel,led-mode =3D <1>;
+>  	};
+> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> index 94bf8a116b5242a9..a5a79cdbcd0ee09b 100644
+> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> @@ -175,6 +175,8 @@ &avb {
 >  	status =3D "okay";
 >=20
->  	phy0: ethernet-phy@0 {
-> +		compatible =3D "ethernet-phy-id001c.c915",
+>  	phy3: ethernet-phy@3 {
+> +		compatible =3D "ethernet-phy-id0022.1622",
 > +			     "ethernet-phy-ieee802.3-c22";
->  		reg =3D <0>;
->  		interrupt-parent =3D <&gpio2>;
->  		interrupts =3D <11 IRQ_TYPE_LEVEL_LOW>;
+>  		reg =3D <3>;
+>  		micrel,led-mode =3D <1>;
+>  	};
+> diff --git a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+> b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+> index 73bd62d8a929e5da..c105932f642ea517 100644
+> --- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+> +++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+> @@ -123,6 +123,8 @@ phy3: ethernet-phy@3 {
+>  	 * On some older versions of the platform (before R4.0) the phy
+> address
+>  	 * may be 1 or 3. The address is fixed to 3 for R4.0 onwards.
+>  	 */
+> +		compatible =3D "ethernet-phy-id0022.1622",
+> +			     "ethernet-phy-ieee802.3-c22";
+>  		reg =3D <3>;
+>  		micrel,led-mode =3D <1>;
+>  	};
+> diff --git a/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
+> b/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
+> index 8ac61b50aec03190..b024621c998103b2 100644
+> --- a/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
+> +++ b/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
+> @@ -79,6 +79,8 @@ &avb {
+>  	status =3D "okay";
+>=20
+>  	phy3: ethernet-phy@3 {
+> +		compatible =3D "ethernet-phy-id0022.1622",
+> +			     "ethernet-phy-ieee802.3-c22";
+>  		reg =3D <3>;
+>  		interrupt-parent =3D <&gpio5>;
+>  		interrupts =3D <16 IRQ_TYPE_LEVEL_LOW>;
 > --
 > 2.25.1
 
