@@ -2,58 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04A294154F0
+	by mail.lfdr.de (Postfix) with ESMTP id 944DA4154F1
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 03:04:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238177AbhIWBFj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S238035AbhIWBFj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Wed, 22 Sep 2021 21:05:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34332 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238035AbhIWBFj (ORCPT
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33818 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234437AbhIWBFj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Wed, 22 Sep 2021 21:05:39 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF1AC061574
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Sep 2021 18:04:08 -0700 (PDT)
 Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D837E52;
-        Thu, 23 Sep 2021 03:04:06 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0BC0B145A;
+        Thu, 23 Sep 2021 03:04:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632359046;
-        bh=1MP6mqNObUMSFAxjTnN/BlcRMhT9mWRsl3Yau2lQlsQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=nvAKoCFfq5zF4YsueQAYdTa1Q4dUT97dUtzpmnDMducwOUO/OpUArdH8zAgyWuUDz
-         H3y+F1Rf9NX3iVFNVSBQlWlW+jUAkIsZSocckFqa1bvSbg/6aCRBjFKBnaQMWJAOD0
-         ldvg4dh7cjtg0lTmnR/NFdl8EWwuF0qkVhG9ryIo=
+        s=mail; t=1632359047;
+        bh=AWpKGgAZnPbgSKyq9zFIJ8AREpLY7SQxBO1y7AQdQDE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=jCWv4ZZKS7dMjY06uoWUVAaLjzBF8TNVM9GI5Z91ud2jayeBBmrGConG+0W6KqC3g
+         QiD3YOOM2imG0zy3oSb0j+9kak7u4qsTjkJheqN2lNVyFOc0snRCpAe1ceBrhskS39
+         o75JOOw/HaPzjofaWZU3UzKQ0KT/uoGyk9kcW4aA=
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Geert Uytterhoeven <geert@glider.be>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v3 0/3] arm64: dts: renesas: r8a779a0 DU support
-Date:   Thu, 23 Sep 2021 02:03:59 +0100
-Message-Id: <20210923010402.3418555-1-kieran.bingham@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v3 1/3] arm64: dts: renesas: r8a779a0: Add DU support
+Date:   Thu, 23 Sep 2021 02:04:00 +0100
+Message-Id: <20210923010402.3418555-2-kieran.bingham@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210923010402.3418555-1-kieran.bingham@ideasonboard.com>
+References: <20210923010402.3418555-1-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Provide the DT nodes for the DU, and DSI found on the r8a779a0, and
-extend the falcon-cpu board add on with the TI SN65DSI86 bridge which is
-used to connect the DSI output to the mini display-port connector on the
-Falcon CPU board.
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Kieran Bingham (3):
-  arm64: dts: renesas: r8a779a0: Add DU support
-  arm64: dts: renesas: r8a779a0: Add DSI encoders
-  arm64: dts: renesas: r8a779a0: falcon-cpu: Add DSI display output
+Provide the device nodes for the DU on the V3U platforms.
 
- .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 79 ++++++++++++++++
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi     | 94 +++++++++++++++++++
- 2 files changed, 173 insertions(+)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+v2
+ - Use a single clock specification for the whole DU.
 
+v3:
+ - Use 'du.0' clock name instead of 'du'
+
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 30 +++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+index f9a882b34f82..dfe99af89908 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+@@ -1251,6 +1251,36 @@ vspd1: vsp@fea28000 {
+ 			renesas,fcp = <&fcpvd1>;
+ 		};
+ 
++		du: display@feb00000 {
++			compatible = "renesas,du-r8a779a0";
++			reg = <0 0xfeb00000 0 0x40000>;
++			interrupts = <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 411>;
++			clock-names = "du.0";
++			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
++			resets = <&cpg 411>;
++			vsps = <&vspd0 0>, <&vspd1 0>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++					du_out_dsi0: endpoint {
++					};
++				};
++
++				port@1 {
++					reg = <1>;
++					du_out_dsi1: endpoint {
++					};
++				};
++			};
++		};
++
+ 		prr: chipid@fff00044 {
+ 			compatible = "renesas,prr";
+ 			reg = <0 0xfff00044 0 4>;
 -- 
 2.30.2
 
