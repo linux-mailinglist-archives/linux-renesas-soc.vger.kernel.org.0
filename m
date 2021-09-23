@@ -2,46 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 906D94158B2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 09:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAF5B4158DD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 09:13:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239380AbhIWHBx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Sep 2021 03:01:53 -0400
-Received: from mail-vk1-f176.google.com ([209.85.221.176]:42878 "EHLO
-        mail-vk1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239370AbhIWHBx (ORCPT
+        id S235477AbhIWHOg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Sep 2021 03:14:36 -0400
+Received: from mail-vs1-f48.google.com ([209.85.217.48]:35760 "EHLO
+        mail-vs1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234343AbhIWHOf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Sep 2021 03:01:53 -0400
-Received: by mail-vk1-f176.google.com with SMTP id o204so2176939vko.9;
-        Thu, 23 Sep 2021 00:00:21 -0700 (PDT)
+        Thu, 23 Sep 2021 03:14:35 -0400
+Received: by mail-vs1-f48.google.com with SMTP id f18so5589010vsp.2;
+        Thu, 23 Sep 2021 00:13:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YmpAdGBuoZ2H4vsYmz/gaaH8SFsdh1aIHAgypR+PGH4=;
-        b=RA1yWcbGx086ibONZtnUw1iC/br73vqaUuB61rx0a2folwICoct+brQSpQO3O81ZvS
-         cZhj/V757OumRLCgJhW3VNijE6nS/sewD5wvSe4azkwTLZVAQ5YIT/rrHIv/gE3sl1/f
-         qUaO/QEoiPa4p388R5LcjviHmN2oI51c6z2NBUmyRDmz6WnvpErpWED9gpTOcj8oyTAS
-         S3DL264gjq/HPso5Sc91aErI11i7uogV+MneAfxErre6Z6x6mojDEQiJUj06MvT/V/Wr
-         XbXjXNIC6sfCQnZ+VVaF2ydnqcrKvFhmqUQL3NnrERb3hXWR1p+P37XeJl/nvn/HuVZp
-         okqA==
-X-Gm-Message-State: AOAM530TNHnYHaVkn/jK1Sfxe1Gyr0u1ZZC81vPwusYRKfBdL1+YQ6Mh
-        974SuDMwaFIa3MokuGAlzSTYUoiDQWnZd3nLiOhyjm4eaR4=
-X-Google-Smtp-Source: ABdhPJxrSnRuqRIPIA1q7UmwoFsiu8wwdht1494jD4SuBcubaowOHjiICmyOgzRobpfLJFy7CS+6PGcR734kT66e/3Y=
-X-Received: by 2002:a1f:3a4b:: with SMTP id h72mr2062529vka.19.1632380421342;
- Thu, 23 Sep 2021 00:00:21 -0700 (PDT)
+        bh=HzeQrgtYJ+KN9cbzfGKrylJWKL7WhW18t10xUgj9FyM=;
+        b=hw1bQ6wU8YLh78tTbPW/trxu8UU6XwnoucVggROaKxtG5QPtrpDxgGXtF+LENM6vIg
+         JRTP2wrPIqvBs7l1zt7tL3r0ICPMil5Z1yamULDWBiaIzg7f/xQIr5b23FQxG7Xu9JdK
+         3Dnee2Htk9atsSnot8AphAiKy8Upw8UxVZhzk//C7+2TDjLzoloTNewE1thrskLAeFuZ
+         3uCoRPonOiv67YIzi1KHlD/kPkWnrUFpvAzT0piRihFKYZCvzN02om54AheqioDmNUcd
+         hR9E+xuwz9PRVk8L3aN2dlBCj7rqjkOUe9mcrPlk3j2WHTyQjMGdyRj7WI5pfBik1n63
+         34Ig==
+X-Gm-Message-State: AOAM532uI//seRqd8ZXRCacqItqnajtbc0lUwiEaV2BrOVjRbJSt68s7
+        /9Xi8AHue/FGVTU/hEUaRli8EEZlha8D7kQTVmZsVvfU
+X-Google-Smtp-Source: ABdhPJyPXVLr89ihtCYGJHbouzG39IJdqPgTa3cXRRZKWPsS8ezadlBfC6KvuZLn/1w5MviosnMZhBr8JewDKsfO69U=
+X-Received: by 2002:a67:2c58:: with SMTP id s85mr2903486vss.35.1632381184361;
+ Thu, 23 Sep 2021 00:13:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210923010402.3418555-1-kieran.bingham@ideasonboard.com> <20210923010402.3418555-2-kieran.bingham@ideasonboard.com>
-In-Reply-To: <20210923010402.3418555-2-kieran.bingham@ideasonboard.com>
+References: <20210922201314.3205674-1-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20210922201314.3205674-1-kieran.bingham@ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 23 Sep 2021 09:00:09 +0200
-Message-ID: <CAMuHMdUTYYoZawgMhpTr56v88-mrKWPpgMwC-9KPeYhS6R2AzQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] arm64: dts: renesas: r8a779a0: Add DU support
+Date:   Thu, 23 Sep 2021 09:12:53 +0200
+Message-ID: <CAMuHMdW=4ZjtSynuBmwAnK+Nx_q+Ocn-wP36WoC+COUp-fdiXw@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: r8a779a0: falcon-cpu: Add
+ SW47-SW49 support
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -52,67 +50,15 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
-
-On Thu, Sep 23, 2021 at 3:04 AM Kieran Bingham
+On Wed, Sep 22, 2021 at 10:13 PM Kieran Bingham
 <kieran.bingham@ideasonboard.com> wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Provide the device nodes for the DU on the V3U platforms.
+> Add support for SW47, SW48 and SW49 via "gpio-keys" on the R-Car V3U
+> Falcon board.
 >
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
-> v2
->  - Use a single clock specification for the whole DU.
->
-> v3:
->  - Use 'du.0' clock name instead of 'du'
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-Thanks for the update!
-
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> @@ -1251,6 +1251,36 @@ vspd1: vsp@fea28000 {
->                         renesas,fcp = <&fcpvd1>;
->                 };
->
-> +               du: display@feb00000 {
-> +                       compatible = "renesas,du-r8a779a0";
-> +                       reg = <0 0xfeb00000 0 0x40000>;
-> +                       interrupts = <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 411>;
-> +                       clock-names = "du.0";
-> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 411>;
-
-You missed reset-names.
-
-> +                       vsps = <&vspd0 0>, <&vspd1 0>;
-> +                       status = "disabled";
-> +
-> +                       ports {
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +
-> +                               port@0 {
-> +                                       reg = <0>;
-> +                                       du_out_dsi0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                               port@1 {
-> +                                       reg = <1>;
-> +                                       du_out_dsi1: endpoint {
-> +                                       };
-> +                               };
-> +                       };
-> +               };
-> +
->                 prr: chipid@fff00044 {
->                         compatible = "renesas,prr";
->                         reg = <0 0xfff00044 0 4>;
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.16.
 
 Gr{oetje,eeting}s,
 
