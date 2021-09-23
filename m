@@ -2,82 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5C79415B65
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 11:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 277DC415BE9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 12:24:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240233AbhIWJvf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Sep 2021 05:51:35 -0400
-Received: from mail-vs1-f51.google.com ([209.85.217.51]:35682 "EHLO
-        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240220AbhIWJve (ORCPT
+        id S240366AbhIWK03 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Sep 2021 06:26:29 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:57444 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231530AbhIWK02 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Sep 2021 05:51:34 -0400
-Received: by mail-vs1-f51.google.com with SMTP id f18so5935996vsp.2;
-        Thu, 23 Sep 2021 02:50:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nx4BEiyhea77H9mPMjM3vQX/tvU8/t/qrKRNMVmCHfw=;
-        b=tqdNMiT295EVVy19PDWVnS+bBt4d7Jg/d/stVROca7WKWv4pKvtsDSh20+1DDPguwB
-         m23UUb5NgmRxxV/AF5zF7VIuTVK+vDtZtC6/ySh0nFXY+TIRmU19hAk0jsdkGzvGvrRd
-         Nrm3wxlb7iXijYdjK3m3O6sLkDGEhzlBHegY5O11fzLg17bYyk6GrG1kBz58FFn3KpCJ
-         u6Z5Pklcqs+1xcOFDHOi5O+uergKh2zcRpFIGOSAdsO9V+OTAtFzwBx4vq5JtF7rfw/A
-         cXdiF9jVMvnXSzxFYmiqnntmJSlSmn8Q8zCeuFTSdHdYZgTALMQ6B+4NyxCbKg0Oy+zP
-         +2Iw==
-X-Gm-Message-State: AOAM530p7H+LWpu6Z7l5omApF6Y3sHkPK7H2ZeVTB1JCcyb8AgXSGtVo
-        U2kSH0EiNdHVsBp8PPCh3g72AelUHPrtLZMxvOw=
-X-Google-Smtp-Source: ABdhPJwulXv7V2ZQB9Y3KmEQOubAutrTGeDwiglQnT4FHOuk9kx9i6dxiQjG5JE19HF07NYYZ1XHoaFcUbPmhnbuRbg=
-X-Received: by 2002:a67:cb0a:: with SMTP id b10mr3248945vsl.9.1632390603128;
- Thu, 23 Sep 2021 02:50:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210922155145.28156-1-biju.das.jz@bp.renesas.com> <20210922155145.28156-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210922155145.28156-4-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 23 Sep 2021 11:49:51 +0200
-Message-ID: <CAMuHMdXEsn3Yi+QsAp-QTzAaf_23YZ5gxeme0nrxKiZWZ_Mq2g@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] clk: renesas: rzg2l: Add support to handle coupled clocks
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+        Thu, 23 Sep 2021 06:26:28 -0400
+X-IronPort-AV: E=Sophos;i="5.85,316,1624287600"; 
+   d="scan'208";a="94924233"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 23 Sep 2021 19:24:56 +0900
+Received: from localhost.localdomain (unknown [10.226.92.2])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 46C7A400CA0A;
+        Thu, 23 Sep 2021 19:24:54 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        dmaengine@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] dmaengine: sh: rz-dmac: Add DMA clock handling
+Date:   Thu, 23 Sep 2021 11:24:51 +0100
+Message-Id: <20210923102451.11403-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Currently, DMA clocks are turned on by the bootloader.
+This patch adds support for DMA clock handling so that
+the driver manages the DMA clocks.
 
-On Wed, Sep 22, 2021 at 6:04 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The AXI and CHI clocks use the same register bit for controlling clock
-> output. Add a new clock type for coupled clocks, which sets the
-> CPG_CLKON_ETH.CLK[01]_ON bit when at least one clock is enabled, and
-> clears the bit only when both clocks are disabled.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v3->v4:
->  * Added locking, in case both clocks are changed concurrently
->  * initialized mstp_clock.enabled to match the current hardware state.
-
-Thanks for the update!
-
+Fixes: 5000d37042a6 ("dmaengine: sh: Add DMAC driver for RZ/G2L SoC")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.16, together with the other patches
-in this series.
+---
+v1->v2:
+ * Handled the failure case for pm_runtime_resume_and_get
+ * Added Geert's Rb tag.
+---
+ drivers/dma/sh/rz-dmac.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+index f9f30cbeccbe..d9f2cfef878e 100644
+--- a/drivers/dma/sh/rz-dmac.c
++++ b/drivers/dma/sh/rz-dmac.c
+@@ -18,6 +18,7 @@
+ #include <linux/of_dma.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ 
+@@ -872,6 +873,13 @@ static int rz_dmac_probe(struct platform_device *pdev)
+ 	/* Initialize the channels. */
+ 	INIT_LIST_HEAD(&dmac->engine.channels);
+ 
++	pm_runtime_enable(&pdev->dev);
++	ret = pm_runtime_resume_and_get(&pdev->dev);
++	if (ret < 0) {
++		dev_err(&pdev->dev, "pm_runtime_resume_and_get failed\n");
++		goto err_pm_disable;
++	}
++
+ 	for (i = 0; i < dmac->n_channels; i++) {
+ 		ret = rz_dmac_chan_probe(dmac, &dmac->channels[i], i);
+ 		if (ret < 0)
+@@ -925,6 +933,10 @@ static int rz_dmac_probe(struct platform_device *pdev)
+ 				  channel->lmdesc.base_dma);
+ 	}
+ 
++	pm_runtime_put(&pdev->dev);
++err_pm_disable:
++	pm_runtime_disable(&pdev->dev);
++
+ 	return ret;
+ }
+ 
+@@ -943,6 +955,8 @@ static int rz_dmac_remove(struct platform_device *pdev)
+ 	}
+ 	of_dma_controller_free(pdev->dev.of_node);
+ 	dma_async_device_unregister(&dmac->engine);
++	pm_runtime_put(&pdev->dev);
++	pm_runtime_disable(&pdev->dev);
+ 
+ 	return 0;
+ }
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
