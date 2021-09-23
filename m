@@ -2,87 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A23064160BF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 16:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4115B4161CE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Sep 2021 17:12:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241517AbhIWOLT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Sep 2021 10:11:19 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:56766 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241463AbhIWOLT (ORCPT
+        id S241898AbhIWPNb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Sep 2021 11:13:31 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:51212 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241865AbhIWPNb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Sep 2021 10:11:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=xQgxqK+Omh+ETGrdtsoUW3Gy+NDg808eHja9Ii9a27k=; b=aUgT2IAoRFPgCSOsS1DrMz/sxk
-        9KKSua9q2PVGi3AUTA4VapP2feVpP6qwKDMsBy+H58mdCL5jojpPFeLFbXAh5Vm07zxcMfgaSDwBD
-        e+wE/fpY8UV4go6pvI00WHKgt34XSBWB0cC4NL5MQwO4VratZbPAXsscbaSbv//DOgBk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1mTPPr-007w1H-D7; Thu, 23 Sep 2021 16:09:35 +0200
-Date:   Thu, 23 Sep 2021 16:09:35 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
+        Thu, 23 Sep 2021 11:13:31 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru DE20A20A0312
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [RFC/PATCH 00/18] Add Gigabit Ethernet driver support
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
         Adam Ford <aford173@gmail.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 0/9] renesas: Add compatible properties to Ethernet PHY
- nodes
-Message-ID: <YUyKn19mJm8tizw+@lunn.ch>
-References: <cover.1631174218.git.geert+renesas@glider.be>
- <CAMuHMdU6Mrfina3+2iW+RKaujk57JSRtmixRPn1b0d2w5dZ3eA@mail.gmail.com>
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20210923140813.13541-1-biju.das.jz@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <c423d886-31f5-7ff2-c8d3-6612b2963972@omp.ru>
+Date:   Thu, 23 Sep 2021 18:11:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdU6Mrfina3+2iW+RKaujk57JSRtmixRPn1b0d2w5dZ3eA@mail.gmail.com>
+In-Reply-To: <20210923140813.13541-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 23, 2021 at 01:00:11PM +0200, Geert Uytterhoeven wrote:
-> On Thu, Sep 9, 2021 at 10:49 AM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > If an Ethernet PHY reset is asserted when the Ethernet driver is
-> > initialized, the PHY cannot be probed:
-> >
-> >     mdio_bus ee700000.ethernet-ffffffff: MDIO device at address 1 is missing
-> >
-> > This happens because the Linux PHY subsystem tries to read the PHY
-> > Identifier registers before handling PHY reset.  Hence if the PHY reset
-> > was asserted before, identification fails.
-> >
-> > An easy way to reproduce this issue is by using kexec to launch a new
-> > kernel (the PHY reset will be asserted before starting the new kernel),
-> > or by unbinding and rebinding the Ethernet driver (the PHY reset will be
-> > asserted during unbind), e.g. on koelsch:
-> >
-> >     echo ee700000.ethernet > /sys/bus/platform/drivers/sh-eth/unbind
-> >     $ echo ee700000.ethernet > /sys/bus/platform/drivers/sh-eth/bind
-> >
-> > The recommended approach[1][2] seems to be working around this issue by
-> > adding compatible values to all ethernet-phy nodes, so Linux can
-> > identify the PHY at any time, without reading the PHY ID from the
-> > device, and regardless of the state of the PHY reset line.
-> >
-> > Hence this patch series adds such compatible values to all Ethernet PHY
-> > subnodes representing PHYs on all boards with Renesas ARM and ARM64
-> > SoCs.  For easier review, I have split the series in one patch per PHY
-> > model.
+Hello!
 
-It is a reasonable approach.
+On 9/23/21 5:07 PM, Biju Das wrote:
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L SoC are
+> similar to the R-Car Ethernet AVB IP.
+> 
+> The Gigabit Ethernet IP consists of Ethernet controller (E-MAC), Internal
+> TCP/IP Offload Engine (TOE)  and Dedicated Direct memory access controller
+> (DMAC).
+> 
+> With a few changes in the driver we can support both IPs.
+> 
+> This patch series aims to add Gigabit ethernet driver support to RZ/G2L SoC.
+> 
+> Please provide your valuable comments.
 
-    Andrew
+   Note to Dav: I will, in the coming couple days...
+
+> Ref:-
+>  * https://lore.kernel.org/linux-renesas-soc/TYCPR01MB59334319695607A2683C1A5E86E59@TYCPR01MB5933.jpnprd01.prod.outlook.com/T/#t
+> 
+> 
+> Biju Das (18):
+>   ravb: Rename "ravb_set_features_rx_csum" function to
+>     "ravb_set_features_rcar"
+>   ravb: Rename the variables "no_ptp_cfg_active" and "ptp_cfg_active"
+>   ravb: Initialize GbEthernet dmac
+>   ravb: Enable aligned_tx and tx_counters for RZ/G2L
+>   ravb: Exclude gPTP feature support for RZ/G2L
+>   ravb: Add multi_tsrq to struct ravb_hw_info
+>   ravb: Add magic_pkt to struct ravb_hw_info
+>   ravb: Add mii_rgmii_selection to struct ravb_hw_info
+>   ravb: Add half_duplex to struct ravb_hw_info
+>   ravb: Initialize GbEthernet E-MAC
+>   ravb: Add rx_2k_buffers to struct ravb_hw_info
+>   ravb: Add timestamp to struct ravb_hw_info
+>   ravb: Add rx_ring_free function support for GbEthernet
+>   ravb: Add rx_ring_format function for GbEthernet
+>   ravb: Add rx_alloc helper function for GbEthernet
+>   ravb: Add Packet receive function for Gigabit Ethernet
+>   ravb: Add carrier_counters to struct ravb_hw_info
+>   ravb: Add set_feature support for RZ/G2L
+> 
+>  drivers/net/ethernet/renesas/ravb.h      |  91 +++-
+>  drivers/net/ethernet/renesas/ravb_main.c | 631 ++++++++++++++++++++---
+>  2 files changed, 630 insertions(+), 92 deletions(-)
+
+   There's a lot of new code....
+
+MBR, Sergey
