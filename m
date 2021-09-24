@@ -2,71 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2343416D25
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 09:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 018A3416D3A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 09:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244467AbhIXHzF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 03:55:05 -0400
-Received: from mail-vs1-f51.google.com ([209.85.217.51]:34479 "EHLO
-        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237965AbhIXHzE (ORCPT
+        id S244474AbhIXH5j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 03:57:39 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:28405 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S244433AbhIXH5j (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 03:55:04 -0400
-Received: by mail-vs1-f51.google.com with SMTP id u8so9159942vsp.1;
-        Fri, 24 Sep 2021 00:53:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/wqg5n6nab9ugsulRhXLiyyfabgAZjZq1ey/bukQzXI=;
-        b=pjFo65XMRMGcdX/Juc8qACKvHbc6dOtXPRIQzOg9HDFVLGZTQyXBoV+Y/mLZ2zJxM2
-         DXqK4Pqhic56BI3RMUuKSTm+OwqrmMINGWeB9GfXbGQNEb670TQYaAim50vaJ70SRiLZ
-         kqJqdmVmBjGfUwHCSMlOB2fr2UgzKTGnCKWmJczkEv35pWS5eQYGqFKu8v1ZzoOY3ydW
-         duukEopE4Rjy0ary5raUVdCrRTXhe4RAm1g3q9k103yOF+fv/Zb5VYa34co83ODq0ZnI
-         OMZ3Oq1cv/mXEq6vHIOyHYkC+MdiVKHsoP8DoLT2Oqm0aXPjVE0JzT/ea8zcMmjgb4DJ
-         S3Gw==
-X-Gm-Message-State: AOAM533VuMkg+xmsVXIrsqIfQZWPMFwEIXQlqdHJ34/ey4gYuhU20V9d
-        S1AjoXxDtgSuqWh/HxEThKIESzTieIMJCfdLl1s=
-X-Google-Smtp-Source: ABdhPJx4OYDbkYO/nWsttSMQzSN5AuMDXx2uyCVmLLBQ+8EuzzgnWbMoiIiTvs0CBMpVEXHiXFiHDQPw4mm9Eom5BmI=
-X-Received: by 2002:a05:6102:2086:: with SMTP id h6mr7963853vsr.50.1632470011230;
- Fri, 24 Sep 2021 00:53:31 -0700 (PDT)
+        Fri, 24 Sep 2021 03:57:39 -0400
+X-IronPort-AV: E=Sophos;i="5.85,319,1624287600"; 
+   d="scan'208";a="94903428"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 24 Sep 2021 16:56:05 +0900
+Received: from localhost.localdomain (unknown [10.166.14.185])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4D3C540108F3;
+        Fri, 24 Sep 2021 16:56:05 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     wg@grandegger.com, mkl@pengutronix.de
+Cc:     davem@davemloft.net, kuba@kernel.org, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2] can: rcar_can: Fix suspend/resume
+Date:   Fri, 24 Sep 2021 16:55:56 +0900
+Message-Id: <20210924075556.223685-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210921084605.16250-1-biju.das.jz@bp.renesas.com> <20210921084605.16250-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20210921084605.16250-2-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 24 Sep 2021 09:53:20 +0200
-Message-ID: <CAMuHMdV+Jr+wKSFEyXw+CaGS9cD2PJ1yZt6sT8DVhwU5-MBpAg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] arm64: dts: renesas: r9a07g044: Add DMA support to SSI
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 21, 2021 at 10:46 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add dmac phandles to SSI nodes to support DMA operation.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+If the driver was not opened, rcar_can_suspend() should not call
+clk_disable() because the clock was not enabled.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.16.
+Fixes: fd1159318e55 ("can: add Renesas R-Car CAN driver")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Tested-by: Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ Changes from v1:
+ - Add Reviewed-by and Tested-by.
+ - Remove unrelated modification.
+ https://lore.kernel.org/all/20210921051959.50309-1-yoshihiro.shimoda.uh@renesas.com/
 
-Gr{oetje,eeting}s,
+ drivers/net/can/rcar/rcar_can.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-                        Geert
-
+diff --git a/drivers/net/can/rcar/rcar_can.c b/drivers/net/can/rcar/rcar_can.c
+index 00e4533c8bdd..8999ec9455ec 100644
+--- a/drivers/net/can/rcar/rcar_can.c
++++ b/drivers/net/can/rcar/rcar_can.c
+@@ -846,10 +846,12 @@ static int __maybe_unused rcar_can_suspend(struct device *dev)
+ 	struct rcar_can_priv *priv = netdev_priv(ndev);
+ 	u16 ctlr;
+ 
+-	if (netif_running(ndev)) {
+-		netif_stop_queue(ndev);
+-		netif_device_detach(ndev);
+-	}
++	if (!netif_running(ndev))
++		return 0;
++
++	netif_stop_queue(ndev);
++	netif_device_detach(ndev);
++
+ 	ctlr = readw(&priv->regs->ctlr);
+ 	ctlr |= RCAR_CAN_CTLR_CANM_HALT;
+ 	writew(ctlr, &priv->regs->ctlr);
+@@ -868,6 +870,9 @@ static int __maybe_unused rcar_can_resume(struct device *dev)
+ 	u16 ctlr;
+ 	int err;
+ 
++	if (!netif_running(ndev))
++		return 0;
++
+ 	err = clk_enable(priv->clk);
+ 	if (err) {
+ 		netdev_err(ndev, "clk_enable() failed, error %d\n", err);
+@@ -881,10 +886,9 @@ static int __maybe_unused rcar_can_resume(struct device *dev)
+ 	writew(ctlr, &priv->regs->ctlr);
+ 	priv->can.state = CAN_STATE_ERROR_ACTIVE;
+ 
+-	if (netif_running(ndev)) {
+-		netif_device_attach(ndev);
+-		netif_start_queue(ndev);
+-	}
++	netif_device_attach(ndev);
++	netif_start_queue(ndev);
++
+ 	return 0;
+ }
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
