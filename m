@@ -2,134 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 646804171EB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 14:34:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D258E4171EF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 14:35:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244404AbhIXMgb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 08:36:31 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:51811 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245237AbhIXMga (ORCPT
+        id S245237AbhIXMgu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 08:36:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39976 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245613AbhIXMgu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 08:36:30 -0400
-IronPort-SDR: uU89ZFB6Ed7Q5THICXc5nycibMV7v+B0X7hQZT8znO+97q08Y9hFmX+82pZaky/jET5QBNsYdc
- 7TezG07UuxgQmsPTuZ2iR1rwSBso0dltigtB8/ihyenlemPHeltDDht57bdkxqZ0J45FPFdDBK
- 8N8EiXOx0ChMMbrFlDJP42qycVdUll/0IVHifTWd2RjDMWMqWuFf3wWcJuq5HvyYBChzsMR51z
- CIXM+y71LbGuzS4BKz9EVWwm/NJJJCEBKay9yPBE9thLqf1lbM2ax52gHn834kt5CNh9P0SyHZ
- I5wku0RFjsyFoWyB9EOJmlP6
-X-IronPort-AV: E=Sophos;i="5.85,319,1624348800"; 
-   d="scan'208";a="66253282"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa3.mentor.iphmx.com with ESMTP; 24 Sep 2021 04:34:56 -0800
-IronPort-SDR: xJHQK2n3h7tqvyXc7nOmtGNylGyAFjKdbX5O88VXREyZ7l1k5j0m/j/NZ01MKOFRLJ1FhjenPV
- KjBnYCCECG8mEUfphDr9+XsvOnFgeHaD6sQaehBZcLj1PhswpNEUDl07F3kydewKB688R+CJdv
- hASLtScXr/ce6aciQoBHrOS601zmrYkGO74orEvoG3FReKN0ab4ihXi6AlbNJSv2q6lYOuxt+u
- 8ISj2Y2x6QW7qZn7WqUAooYxLfw88nJH8wVeLwzWRZib9mo8yjQiiWIVOgmQcp16XbEXJ+07pN
- CkQ=
-From:   Andrew Gabbasov <andrew_gabbasov@mentor.com>
-To:     'Krzysztof Kozlowski' <krzysztof.kozlowski@canonical.com>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20210922184830.29147-1-andrew_gabbasov@mentor.com> <c6de6ec0-fd06-14bc-c483-52a2d0a4590a@canonical.com>
-In-Reply-To: <c6de6ec0-fd06-14bc-c483-52a2d0a4590a@canonical.com>
-Subject: RE: [PATCH] memory: renesas-rpc-if: Avoid unaligned bus access for HyperFlash
-Date:   Fri, 24 Sep 2021 15:34:42 +0300
-Organization: Mentor Graphics Corporation
-Message-ID: <000001d7b140$91e0a180$b5a1e480$@mentor.com>
+        Fri, 24 Sep 2021 08:36:50 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14025C061574
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 05:35:16 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:5dd8:9bc4:3752:5710])
+        by laurent.telenet-ops.be with bizsmtp
+        id xobE2500C2gynNa01obE33; Fri, 24 Sep 2021 14:35:14 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mTkQ5-008akU-RX; Fri, 24 Sep 2021 14:35:13 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mTkQ5-007cVK-5L; Fri, 24 Sep 2021 14:35:13 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Sandeep Panda <spanda@codeaurora.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix reg value
+Date:   Fri, 24 Sep 2021 14:35:12 +0200
+Message-Id: <08f73c2aa0d4e580303357dfae107d084d962835.1632486753.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHXsTUXhFdr88sfGEGUtgyCIuCyuauzFHzQ
-Content-Language: en-us
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-06.mgc.mentorg.com (139.181.222.6) To
- svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Krzysztof,
+make dtbs_check:
 
-> -----Original Message-----
-> From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Sent: Friday, September 24, 2021 2:13 PM
-> To: Gabbasov, Andrew <Andrew_Gabbasov@mentor.com>; linux-renesas-soc@vger.kernel.org; linux-
-> kernel@vger.kernel.org; Sergei Shtylyov <sergei.shtylyov@gmail.com>; Geert Uytterhoeven <geert+renesas@glider.be>
-> Subject: Re: [PATCH] memory: renesas-rpc-if: Avoid unaligned bus access for HyperFlash
-> 
-> On 22/09/2021 20:48, Andrew Gabbasov wrote:
-> > HyperFlash devices in Renesas SoCs use 2-bytes addressing, according
-> > to HW manual paragraph 62.3.3 (which officially describes Serial Flash
-> > access, but seems to be applicable to HyperFlash too). And 1-byte bus
-> > read operations to 2-bytes unaligned addresses in external address space
-> > read mode work incorrectly (returns the other byte from the same word).
-> >
-> > Function memcpy_fromio(), used by the driver to read data from the bus,
-> > in ARM64 architecture (to which Renesas cores belong) uses 8-bytes
-> > bus accesses for appropriate aligned addresses, and 1-bytes accesses
-> > for other addresses. This results in incorrect data read from HyperFlash
-> > in unaligned cases.
-> >
-> > This issue can be reproduced using something like the following commands
-> > (where mtd1 is a parition on Hyperflash storage, defined properly
-> > in a device tree):
-> >
-> > [Correct fragment, read from Hyperflash]
-> >
-> >     root@rcar-gen3:~# dd if=/dev/mtd1 of=/tmp/zz bs=32 count=1
-> >     1+0 records in
-> >     1+0 records out
-> >     root@rcar-gen3:~# hexdump -C /tmp/zz
-> >     00000000  f4 03 00 aa f5 03 01 aa  f6 03 02 aa f7 03 03 aa  |................|
-> >     00000010  00 00 80 d2 40 20 18 d5  00 06 81 d2 a0 18 a6 f2  |....@ ..........|
-> >     00000020
-> >
-> > [Incorrect read of the same fragment: see the difference at offsets 8-11]
-> >
-> >     root@rcar-gen3:~# dd if=/dev/mtd1 of=/tmp/zz bs=12 count=1
-> >     1+0 records in
-> >     1+0 records out
-> >     root@rcar-gen3:~# hexdump -C /tmp/zz
-> >     00000000  f4 03 00 aa f5 03 01 aa  03 03 aa aa              |............|
-> >     0000000c
-> >
-> > Fix this issue by creating a local replacement of the copying function,
-> > that performs only properly aligned bus accesses, and is used for reading
-> > from HyperFlash.
-> >
-> > Fixes: ca7d8b980b67f ("memory: add Renesas RPC-IF driver")
-> > Signed-off-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> > ---
-> >  drivers/memory/renesas-rpc-if.c | 47 ++++++++++++++++++++++++++++++++-
-> >  1 file changed, 46 insertions(+), 1 deletion(-)
-> >
-> 
-> Thanks for the patch.
-> 
-> Please rebase and test on a recent Linux kernel. This looks like work on
-> something slightly older or stable kernel, since you Cc not the address
-> from maintainers.
+    arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dt.yaml: bridge@2c: reg:0:0: 45 was expected
 
-The patch is already against the recent kernel versions.
-Sorry for using wrong address, I have probably taken it from some
-older mailing lists.
+According to the datasheet, the I2C address can be either 0x2c or 0x2d,
+depending on the ADDR control input.
 
-> The patch came slightly after Wolfram's and I wonder whether you hit
-> similar issue:
-> https://lore.kernel.org/lkml/20210922091007.5516-1-wsa+renesas@sang-engineering.com/
+Fixes: e3896e6dddf0b821 ("dt-bindings: drm/bridge: Document sn65dsi86 bridge bindings")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Also seen with the in-flight Falcon DSI display output patch:
 
-If I correctly understand, the underlying issue looks similar (improperly aligned
-memory/register accesses), but the affected areas are different, even non-intersecting:
-Wolfram fixes register access, affecting manual mode reads/writes, having problems
-with QSPI devices, while my fix is related to external address space reads (mapped
-memory access) with Hyperflash devices.
+    arch/arm64/boot/dts/renesas/r8a779a0-falcon.dt.yaml: sn65dsi86@2c: reg:0:0: 45 was expected
+---
+ .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks.
-
-Best regards,
-Andrew
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+index 1c2daf7c24cc0417..911564468c5e0f86 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+@@ -18,7 +18,7 @@ properties:
+     const: ti,sn65dsi86
+ 
+   reg:
+-    const: 0x2d
++    enum: [ 0x2c, 0x2d ]
+ 
+   enable-gpios:
+     maxItems: 1
+-- 
+2.25.1
 
