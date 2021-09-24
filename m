@@ -2,176 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A958F416FCC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 12:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9981241702A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 12:16:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245423AbhIXKCE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 06:02:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32866 "EHLO
+        id S245617AbhIXKRq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 06:17:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245426AbhIXKBz (ORCPT
+        with ESMTP id S245629AbhIXKRo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 06:01:55 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9371C061756
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 03:00:22 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id y28so37826034lfb.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 03:00:22 -0700 (PDT)
+        Fri, 24 Sep 2021 06:17:44 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DB29C061756;
+        Fri, 24 Sep 2021 03:16:11 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id j195so4665913ybj.8;
+        Fri, 24 Sep 2021 03:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=9spe2BT8WYhxoMB5PWx9SyNtZ6j20UIUeNEeZtSy4lI=;
-        b=agnRw4hPbQTzGV9rKZRfn9MBqDfI7I2IPjL9dwDGzo7i0qYi2HQD/SXCFBtHzg3EJw
-         jDJiurFSHVWTZ9hsJ57HjtfSKRksZYbXx7vtRuGCLsSAGGaGwcHvy17XC54cKSc7XO4M
-         TR9r3a+guTq8SfiTwFX7vbIXRg8gn7LSYOo1xwNVme4ZJjZBlDJ1idrl0xCNrLCZCEvP
-         cHwf/wTcdEz+mAWjcFEPvWefU2FwYO1HFyC1y+GwFsisopnn34E336cNqSCAATaths9b
-         8nBhLTYaDEQOHXa528iGxP7BpP8eg/kpcJdo9YVbX5n+x2nw1pNINCBl08m3xBzd1u3/
-         hPMg==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=My9M0v7qJhbKsrz/7FTz5JGmb9fs1Ll7Beio5FnmHqc=;
+        b=YXpeYDae0HLvjQhtS08y9UCK5rk2yskTekAF+77BlUR2G1BXDzQiQsChN/YVeBOmiw
+         AD7G40dwZZbyVKZakxDb/XPn8pk0la1bPLuMvGI3YmXy7g9sA/DCra6PIdGERVWAGGox
+         sUU9mJM5zklL7FItdg+4wNHHC3WGJ3ONSufasnNCaHUvO2+Nex/Y38zoBBm956bR1G7J
+         tXAqkgXBVTEviU2uPPLunTqw7GtyBn+wu6u+21OOQr+rNEyIriTu9zf8jDi19Rv7T9b0
+         QNX0V5HhIi5qsO9Oe8p7nvcGnWhnNbXLhzhJwMROGYOoxOucKhA/FJ5ciC7HN6zca9zT
+         1eCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=9spe2BT8WYhxoMB5PWx9SyNtZ6j20UIUeNEeZtSy4lI=;
-        b=SlVetzFmH6cLjx2ea7KTr74uupAY59gSljy35ctVCmKUrOGn8RZ4iKX2ut0p/965Hx
-         XWYTETgd/1ZW3F/43IKOepGgklUHhu1riBMczXZreqxphDpE0XXEkTmxATnKOvj1aXPn
-         Ejt4ZaEoeAUiNaUczGuhBsadU7neusR/n+uUkiAwgw8LBoJ5wu0lyJ3lMqAamkkF+YA5
-         sVAYJ7cOt6pQXA1mnsg/Mw2bvbKpCt3HWhlKHVkh4VCDQ1PHKRqHfuL03tQj8k6K+8n0
-         1IWcMpOcPSOXeILmd3cUwVMcrzcKSeS793lsoiPF/unftfFEwwmsGbyQDXBWpoCdLXIT
-         0UYw==
-X-Gm-Message-State: AOAM530QJho8TOIZdzhE0BnJ3L+KcVIDZKX86d37IXJl958IPbLeIc8U
-        d0hvEilJ+C+QObDfX0v+Yc8WIw==
-X-Google-Smtp-Source: ABdhPJydHkaU9EFSFsIwIQelHVAe3kif1c9lzLcXuKl1YmahZZmr6lOaVUHMmY73S3Ip6hxeGSHtzA==
-X-Received: by 2002:a2e:a4ba:: with SMTP id g26mr10314516ljm.254.1632477621131;
-        Fri, 24 Sep 2021 03:00:21 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id l11sm700284lfg.39.2021.09.24.03.00.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 03:00:20 -0700 (PDT)
-Date:   Fri, 24 Sep 2021 12:00:20 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vladimir Barinov <vladimir.barinov@cogentembedded.com>
-Subject: Re: [PATCH] media: rcar-vin: add support for GREY format
-Message-ID: <YU2htCDCbedXi4ai@oden.dyn.berto.se>
-References: <20210924081938.30230-1-nikita.yoush@cogentembedded.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=My9M0v7qJhbKsrz/7FTz5JGmb9fs1Ll7Beio5FnmHqc=;
+        b=NX+BMvZsPGgaRp1cdaOMtBGzVHCYzytXq0V8NYdOPnjay5JYsXn4xQp3n/fOxFvs87
+         6t4Z68N/eKzFc8Mpm6Obnqxp+hELkCxYKEWqOaF1yTcjL3h5xNFEdo6jO19qbsXl60/e
+         YMSLc6xP0thiu1HGY+99evHda+UVEeEUwahomD3se8UhepR/E00P7Ljq2Xo5EeeVO0ds
+         T5jYaYp3jSKA8BaIq/G/O6lWRxK9l/gPYqGO7XY1FLRTwNWPwX4Za9joc+K241KLZD4S
+         tHaALm1jPAC3QAso0h38KsfGfMPN7zjFXxFrrdwoGbHS5LDkq8x+u+JerJzZ+G008DY/
+         lLeg==
+X-Gm-Message-State: AOAM533OzPFHTv9Pwy80vwAHjbXKHhr65rn8NY4TtOFdkdjBidki/7rR
+        VyPqjgMkC69OdmJWekmS05WxvBfa0jAZr3Cgh+q/10/HR2M=
+X-Google-Smtp-Source: ABdhPJzOsCp59nNEvA0+FdeZHX2GiqipgQnOyqjACI1KSED6R6ANfZmlw+qLPmifqe/mnbjx/mN83lAochr9vEgr/xw=
+X-Received: by 2002:a25:880f:: with SMTP id c15mr1028557ybl.543.1632478570530;
+ Fri, 24 Sep 2021 03:16:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210924081938.30230-1-nikita.yoush@cogentembedded.com>
+References: <20210922212049.19851-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210922212049.19851-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWskGB9btFdnSy10862NeMSJtqOBvMeTxV14Ddzs7JzBA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWskGB9btFdnSy10862NeMSJtqOBvMeTxV14Ddzs7JzBA@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 24 Sep 2021 11:15:44 +0100
+Message-ID: <CA+V-a8uTNOh3CZYSscZcr24DQYO3eF7Ldb9FcYEg8LsiHFhpgw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzg2l-smarc: Enable CANFD
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nikita and Vladimir,
+Hi Geert,
 
-Thanks for your work.
+Thank you for the review.
 
-On 2021-09-24 11:19:39 +0300, Nikita Yushchenko wrote:
-> From: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
-> 
-> This adds support for MEDIA_BUS_FMT_Y8_1X8 input and V4L2_PIX_FMT_GREY
-> output format.
+On Fri, Sep 24, 2021 at 10:07 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Wed, Sep 22, 2021 at 11:21 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Enable CANFD on RZ/G2L SMARC platform.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> > @@ -139,6 +153,32 @@
+> >         pinctrl-0 = <&sound_clk_pins>;
+> >         pinctrl-names = "default";
+> >
+> > +       can0_pins: can0 {
+> > +               pinmux = <RZG2L_PORT_PINMUX(10, 1, 2)>, /* TX */
+> > +                        <RZG2L_PORT_PINMUX(11, 0, 2)>; /* RX */
+> > +       };
+> > +
+> > +       /* SW7 should be at position 2->3 so that GPIO8_CAN0_STB line is activated */
+> > +       can0-stb {
+> > +               gpio-hog;
+> > +               gpios = <RZG2L_GPIO(42, 2) GPIO_ACTIVE_LOW>;
+> > +               output-high;
+>
+> While this drives the STB signal correctly, I find it confusing.
+> According to the datasheet, the STB signal is active-high, so it has to
+> be pulled low to disable standby.
+agreed.
 
-Thanks for this, I'm happy to see this code!
+> So to reflect the meaning of the STB line, I would write:
+>
+>         gpios = <RZG2L_GPIO(42, 2) GPIO_ACTIVE_HIGH>;
+>         output-low;
+>
+will re-spin the patch 3/3 as above.
 
-I been wrestling a while with this as I have no sensor where I could 
-test it with I always put it off. May I ask what sensor and platform was 
-used to test this?
+Cheers,
+Prabhakar
 
-The code looks good and I truest that it's tested and produce a good 
-image, one small nit below.
-
-> 
-> Signed-off-by: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> ---
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 14 ++++++++++++++
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
->  2 files changed, 18 insertions(+)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index f5f722ab1d4e..d2bfd3e575fa 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -114,6 +114,7 @@
->  /* Video n Data Mode Register bits */
->  #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
->  #define VNDMR_A8BIT_MASK	(0xff << 24)
-> +#define VNDMR_YMODE_Y8		(1 << 12)
->  #define VNDMR_EXRGB		(1 << 8)
->  #define VNDMR_BPSM		(1 << 4)
->  #define VNDMR_ABIT		(1 << 2)
-> @@ -603,6 +604,7 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
->  	case V4L2_PIX_FMT_SGBRG8:
->  	case V4L2_PIX_FMT_SGRBG8:
->  	case V4L2_PIX_FMT_SRGGB8:
-> +	case V4L2_PIX_FMT_GREY:
->  		stride /= 2;
->  		break;
->  	default:
-> @@ -695,6 +697,7 @@ static int rvin_setup(struct rvin_dev *vin)
->  	case MEDIA_BUS_FMT_SGBRG8_1X8:
->  	case MEDIA_BUS_FMT_SGRBG8_1X8:
->  	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +	case MEDIA_BUS_FMT_Y8_1X8:
->  		vnmc |= VNMC_INF_RAW8;
->  		break;
->  	default:
-> @@ -774,6 +777,13 @@ static int rvin_setup(struct rvin_dev *vin)
->  	case V4L2_PIX_FMT_SRGGB8:
->  		dmr = 0;
->  		break;
-> +	case V4L2_PIX_FMT_GREY:
-> +		if (input_is_yuv) {
-> +			dmr = VNDMR_DTMD_YCSEP | VNDMR_YMODE_Y8;
-> +			output_is_yuv = true;
-> +		} else
-> +			dmr = 0;
-
-Please encapsulate the else clause in { } if the corresponding if clause 
-body uses { }.
-
-> +		break;
->  	default:
->  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
->  			vin->format.pixelformat);
-> @@ -1145,6 +1155,10 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
->  		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
->  			return -EPIPE;
->  		break;
-> +	case MEDIA_BUS_FMT_Y8_1X8:
-> +		if (vin->format.pixelformat != V4L2_PIX_FMT_GREY)
-> +			return -EPIPE;
-> +		break;
->  	default:
->  		return -EPIPE;
->  	}
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 0d141155f0e3..bdeff51bf768 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -82,6 +82,10 @@ static const struct rvin_video_format rvin_formats[] = {
->  		.fourcc			= V4L2_PIX_FMT_SRGGB8,
->  		.bpp			= 1,
->  	},
-> +	{
-> +		.fourcc			= V4L2_PIX_FMT_GREY,
-> +		.bpp			= 1,
-> +	},
->  };
->  
->  const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
-> -- 
-> 2.30.2
-> 
-
--- 
-Regards,
-Niklas Söderlund
+> > +               line-name = "can0_stb";
+> > +       };
+> > +
+> > +       can1_pins: can1 {
+> > +               pinmux = <RZG2L_PORT_PINMUX(12, 1, 2)>, /* TX */
+> > +                        <RZG2L_PORT_PINMUX(13, 0, 2)>; /* RX */
+> > +       };
+> > +
+> > +       /* SW8 should be at position 2->3 so that GPIO9_CAN1_STB line is activated */
+> > +       can1-stb {
+> > +               gpio-hog;
+> > +               gpios = <RZG2L_GPIO(42, 3) GPIO_ACTIVE_LOW>;
+> > +               output-high;
+>
+> Likewise.
+>
+> > +               line-name = "can1_stb";
+> > +       };
+> > +
+>
+> The rest looks good to me, so with the above fixed:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
