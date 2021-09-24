@@ -2,45 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED8C9416E42
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 10:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95C02416E50
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 10:57:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244904AbhIXIxm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 04:53:42 -0400
-Received: from mail-vs1-f42.google.com ([209.85.217.42]:38696 "EHLO
-        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244931AbhIXIxl (ORCPT
+        id S244992AbhIXI6m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 04:58:42 -0400
+Received: from mail-ua1-f42.google.com ([209.85.222.42]:36803 "EHLO
+        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244621AbhIXI6l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 04:53:41 -0400
-Received: by mail-vs1-f42.google.com with SMTP id y141so9280790vsy.5;
-        Fri, 24 Sep 2021 01:52:08 -0700 (PDT)
+        Fri, 24 Sep 2021 04:58:41 -0400
+Received: by mail-ua1-f42.google.com with SMTP id u11so6122973uaw.3;
+        Fri, 24 Sep 2021 01:57:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Q0BaeUQ6JCya9Tv7N3LQqrnpJ0OXcLRhpfU8bHHqBiE=;
-        b=hci1YUE6hqO9rk4tscfgU5Vbp190ifZokBmXy2kyOGqM12Rx4ABoCVOfZsSUlCBGOP
-         2K6gLB0gRAU3naqjlh8RRUmQMGNxotSWmh02fZXLxcTRHMX39XYr7jZV476WItkiE3l9
-         6HjbMZkH50Y+kFYgwjF5GlXpdthlnd07BvLQp5sFp+l8CJ6ZxzpIVykrmbFloDPizrtH
-         lYRZXSaDpZsQX/I/EXh9qzwL9dXyY7kCBhmvOBBW6o38PIB46lcrVAELr3FxBuPrQgwr
-         +U7yn71dYwHqE4mF6hpdpUUoQ5L1BTbl6SOB5T5oS7njl7DbBHegZ/KIAU5JLrcpA3nC
-         EpEQ==
-X-Gm-Message-State: AOAM532rWE3+pPKCii/ipsUPkOrJqrLjzWqRI2ImGKXqctPOtulC65EU
-        LlRjDlpF9AHoiqMK9NSWvUKR2LmuOzHHn14L/+0=
-X-Google-Smtp-Source: ABdhPJxiBTlQ3j+p4XoxWuAPoNBRzlFiPHCof3z2SG+GEwyGiE85wIA8mjeRhsnp4hEYHJ3mLza4pgwgzPZkPxo253M=
-X-Received: by 2002:a67:f147:: with SMTP id t7mr8152389vsm.41.1632473528503;
- Fri, 24 Sep 2021 01:52:08 -0700 (PDT)
+        bh=yWBwxApblMDF3q6kdl/4edYZKWCSaPmrZg+7mZ5l+5Q=;
+        b=ABkCeJUTvYdbCg7m2sL6nJwDoIK5/CMczQvhh2m2RazuMuumQulQlAcOI9Wp77mNhr
+         ThuRvGdQUrWp5lqqKwSfXB9Aqffk3/yCjFWFx7+35UmNBFnP3C3CsEGusvW1N0radyzn
+         z1MXWZ2thKMBN/Ck+jt/vEJiDg0YvO88s+GT6I4I5MbGSuQcyKhVrBho84GnX5Ld6csX
+         3mZzAm8XGzpfmHyLMlTWUBkpBfwbNcEYLqcgkY7EYuK01B1TkD11dUijwv0I5/MpEXWw
+         QNHpgK5S7Sm5OVKKdKW0M62LYr93PtGQs2pn5SXwKmMtUj5FWBjHYeJsslmfErwCFURj
+         dHHQ==
+X-Gm-Message-State: AOAM530OsJxHW4m11IQtAaWKj8dGU14s1v6JLU/7oOZHRiucY0LW744x
+        UVfy9dp9IyqRurxuOUR+hcDOHk3BqgLC1lvY802HZwtK
+X-Google-Smtp-Source: ABdhPJxjeRLUeN9s2JqLiyWKVJRtNyDjyERsX01iahUcov2OctU+fHFjhrW1xlohzh5mnWr/pAyNyuZq7PjLeBPkdhw=
+X-Received: by 2002:ab0:7d5:: with SMTP id d21mr8319253uaf.78.1632473828287;
+ Fri, 24 Sep 2021 01:57:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210922212049.19851-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210922212049.19851-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210922212049.19851-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210922212049.19851-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210922212049.19851-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210922212049.19851-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 24 Sep 2021 10:51:57 +0200
-Message-ID: <CAMuHMdV8purUhfMR8UdRNeWOGhTynxXkEmpm7OX9UGkX9eu_dw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: rzg2l-smarc-som: Move extal and
- memory nodes to SOM DTSI
+Date:   Fri, 24 Sep 2021 10:56:57 +0200
+Message-ID: <CAMuHMdVgqyYkNxW+gWeS9NYAXCGqN_r4NMt8gJRZAmnzyhQABw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc-som: Enable ADC on
+ SMARC platform
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -55,7 +54,7 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Wed, Sep 22, 2021 at 11:21 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Move extal and memory nodes to SOM DTSI.
+> Enable the ADC which is present on RZ/G2L SMARC SOM.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
