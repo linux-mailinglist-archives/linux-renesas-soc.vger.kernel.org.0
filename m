@@ -2,81 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ADF74171F9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 14:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A21ED417225
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 14:44:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343543AbhIXMjA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 08:39:00 -0400
-Received: from mail-vk1-f177.google.com ([209.85.221.177]:39811 "EHLO
-        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245265AbhIXMi7 (ORCPT
+        id S1343760AbhIXMqG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 08:46:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42110 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343765AbhIXMqB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 08:38:59 -0400
-Received: by mail-vk1-f177.google.com with SMTP id f73so3879605vkf.6;
-        Fri, 24 Sep 2021 05:37:26 -0700 (PDT)
+        Fri, 24 Sep 2021 08:46:01 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37FDFC0613D3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 05:44:27 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id y26so452359lfa.11
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 05:44:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4SH01R4UDbpzsZN06ben0KINDaSwIp1BbvQxp2nm2/8=;
+        b=DWYLB7LLuHrQ4AlVw9RILzREmVIi26O/N+wD49YjLAC06D8X3+1H81eGOAjuogTmMa
+         1Kgh0vPwtXHoGazJ3LDH1yHhtVN/afScINETDCMBLoZwE41d/G0htuP0+PPfkQOpo6H3
+         /OZPlGRSs0pdyU79ig8FFWyjWGx+vXoDU99cDlJYOA4+4zIh/X6NYQrjF3ylxGHJ52Gy
+         cyS8RzSg3lPtGpaZFHrMQKSnBPxXRDRmkpguJ63K9M4iwAw/XR8CV4Gj0FncMGVxFOks
+         2uQibfNBixU4r3GmH8hta7yibVmWcSYJbjPHE+XoRtaF1DMcGtV0R9a7Q3BlMJW8zdSL
+         ZK4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=42I/j7EJUoe1na+qCjbWLO26DRP+d7+Jsq/Q0zLHtDU=;
-        b=INxlBNIn5lroFdad63+AY9HCzb7+gW3EbwvlS0wa7yHSj19RRtvvXqexDl0+H2Quc5
-         NEDJgLJgpLit0vHx8IKPzRw3otOqf4Y4/QDTzQdaZFjSCSDGtOCNIkqdu25uoVt/+zMe
-         NtZL2wZUUw5S/nfHBIteupayuXmYu8LWKKEkM5kWmQ5pRIPrqriQbBL4BYvaqPhHCr/9
-         2EbYtPM4Vk+XjhUIuNXxb5yznqPKnaq4mOZSaOW6lwkTaE22K3Joned+c6KrgEnOhtBO
-         8iuRpeIj9Xwl3h1+WNQFPRf2jcsyeRxQjlHXpV8t9kd3m+30Dzc045lz2lhlV/voeV4C
-         eZqQ==
-X-Gm-Message-State: AOAM531GvFxqybDYEMW/WDZFyJcasjNBazZ/VGcC78dirVUoJc4QGSSH
-        mTQHTWdHqFLqXncefzOp/IK43+IGm7RwbsAQV8U=
-X-Google-Smtp-Source: ABdhPJyDLWMp4EQ2iv6EKC6E6I1Rf7GeNbzBrcz8iYtLmWXuBOn5YU+PcZnZqUd4X/n5/jjpEJnGnJ+041+EGAbSq/w=
-X-Received: by 2002:a1f:3a4b:: with SMTP id h72mr7384734vka.19.1632487046079;
- Fri, 24 Sep 2021 05:37:26 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4SH01R4UDbpzsZN06ben0KINDaSwIp1BbvQxp2nm2/8=;
+        b=nnpyPztGcmhyvaNRprO+FYinmjYDHqVQX5gbhNgiMweHf/byQ40HDiLUOERxS3F1xv
+         oOmHn6Uv5aU3FvwtjZcnjTGp6zVArpfImAUaf6OMfWcL6DMDjdYe258rbUUNSCvZqIFk
+         RmV8LoYP46gP0hkT0H8wsTeumUB/TvbldpWo0+HCWrOSJqeBB8+5Z2QaBdGFTF139OV3
+         bccAXqwOA147ZuL3ObVfgMBGovfysHZCjJUs6PGDQp+hSPZa1PeDF/X33FJvrmqTZyNI
+         iARc7XepTHAr0WvHHcw0ekzDehXlTNEBE639Gg0UWyCkNRN+qiPtRNt2eDJK/55ofBu0
+         kTiQ==
+X-Gm-Message-State: AOAM532Nc8706qEYS0sz6XrgCZ9etcJDJkP9PXcGl1Vi+Q28J38kwiuR
+        jOIWKh6lgIzsIFiF6WC7KerYTg==
+X-Google-Smtp-Source: ABdhPJy2dYwh7NjFnfNcBe7E7qiksBX17nrHZH5BgOqdkUVYgQKDRpJbDF4u1d1YWulSJ7Qz1Gqo4A==
+X-Received: by 2002:a2e:7f04:: with SMTP id a4mr11514596ljd.308.1632487465519;
+        Fri, 24 Sep 2021 05:44:25 -0700 (PDT)
+Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id d23sm746793lfs.125.2021.09.24.05.44.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Sep 2021 05:44:25 -0700 (PDT)
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH v2] media: rcar-vin: add GREY format
+Date:   Fri, 24 Sep 2021 15:43:17 +0300
+Message-Id: <20210924124315.26164-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YU2htCDCbedXi4ai@oden.dyn.berto.se>
+References: <YU2htCDCbedXi4ai@oden.dyn.berto.se>
 MIME-Version: 1.0
-References: <08f73c2aa0d4e580303357dfae107d084d962835.1632486753.git.geert+renesas@glider.be>
-In-Reply-To: <08f73c2aa0d4e580303357dfae107d084d962835.1632486753.git.geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 24 Sep 2021 14:37:14 +0200
-Message-ID: <CAMuHMdXQ5vv2rxWsd8EGJWufe4UwnvOoiSEXTSDWj7mUDqy+vA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix reg value
-To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 24, 2021 at 2:35 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> make dtbs_check:
->
->     arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dt.yaml: bridge@2c: reg:0:0: 45 was expected
->
-> According to the datasheet, the I2C address can be either 0x2c or 0x2d,
-> depending on the ADDR control input.
->
-> Fixes: e3896e6dddf0b821 ("dt-bindings: drm/bridge: Document sn65dsi86 bridge bindings")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Also seen with the in-flight Falcon DSI display output patch:
->
->     arch/arm64/boot/dts/renesas/r8a779a0-falcon.dt.yaml: sn65dsi86@2c: reg:0:0: 45 was expected
-> ---
->  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml        | 2 +-
+From: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
 
-And the email address of this file's maintainer bounces.
+This adds support for MEDIA_BUS_FMT_Y8_1X8 input and V4L2_PIX_FMT_GREY
+output format.
 
-Gr{oetje,eeting}s,
+Signed-off-by: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+Changes from v1:
+- fix coding style issue
 
-                        Geert
+ drivers/media/platform/rcar-vin/rcar-dma.c  | 15 +++++++++++++++
+ drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
+ 2 files changed, 19 insertions(+)
 
+diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+index f5f722ab1d4e..4d0d95cf4c5f 100644
+--- a/drivers/media/platform/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+@@ -114,6 +114,7 @@
+ /* Video n Data Mode Register bits */
+ #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
+ #define VNDMR_A8BIT_MASK	(0xff << 24)
++#define VNDMR_YMODE_Y8		(1 << 12)
+ #define VNDMR_EXRGB		(1 << 8)
+ #define VNDMR_BPSM		(1 << 4)
+ #define VNDMR_ABIT		(1 << 2)
+@@ -603,6 +604,7 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+ 	case V4L2_PIX_FMT_SGBRG8:
+ 	case V4L2_PIX_FMT_SGRBG8:
+ 	case V4L2_PIX_FMT_SRGGB8:
++	case V4L2_PIX_FMT_GREY:
+ 		stride /= 2;
+ 		break;
+ 	default:
+@@ -695,6 +697,7 @@ static int rvin_setup(struct rvin_dev *vin)
+ 	case MEDIA_BUS_FMT_SGBRG8_1X8:
+ 	case MEDIA_BUS_FMT_SGRBG8_1X8:
+ 	case MEDIA_BUS_FMT_SRGGB8_1X8:
++	case MEDIA_BUS_FMT_Y8_1X8:
+ 		vnmc |= VNMC_INF_RAW8;
+ 		break;
+ 	default:
+@@ -774,6 +777,14 @@ static int rvin_setup(struct rvin_dev *vin)
+ 	case V4L2_PIX_FMT_SRGGB8:
+ 		dmr = 0;
+ 		break;
++	case V4L2_PIX_FMT_GREY:
++		if (input_is_yuv) {
++			dmr = VNDMR_DTMD_YCSEP | VNDMR_YMODE_Y8;
++			output_is_yuv = true;
++		} else {
++			dmr = 0;
++		}
++		break;
+ 	default:
+ 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
+ 			vin->format.pixelformat);
+@@ -1145,6 +1156,10 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+ 		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
+ 			return -EPIPE;
+ 		break;
++	case MEDIA_BUS_FMT_Y8_1X8:
++		if (vin->format.pixelformat != V4L2_PIX_FMT_GREY)
++			return -EPIPE;
++		break;
+ 	default:
+ 		return -EPIPE;
+ 	}
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index 0d141155f0e3..bdeff51bf768 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -82,6 +82,10 @@ static const struct rvin_video_format rvin_formats[] = {
+ 		.fourcc			= V4L2_PIX_FMT_SRGGB8,
+ 		.bpp			= 1,
+ 	},
++	{
++		.fourcc			= V4L2_PIX_FMT_GREY,
++		.bpp			= 1,
++	},
+ };
+ 
+ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.30.2
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
