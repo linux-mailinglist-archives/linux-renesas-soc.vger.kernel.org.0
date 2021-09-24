@@ -2,155 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C70C3417725
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 16:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10FC04177A3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 17:31:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346922AbhIXO5w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 10:57:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346923AbhIXO5v (ORCPT
+        id S1347190AbhIXPdN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 11:33:13 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.50]:31536 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347184AbhIXPdM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 10:57:51 -0400
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4BCBC061613
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 07:56:18 -0700 (PDT)
-Received: by mail-il1-x132.google.com with SMTP id h9so10668601ile.6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 07:56:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BTzhRmtCWqSMLNXYgMz/A9yGJztHmzn9VR2FvTuT1X0=;
-        b=SKj11i9J4weHpWL5gca5C27GtKyeqnzkCdtcpOIE6SIBamXV+/M7CCgWI59YoHaNnN
-         iSF1u8VJNmzdE20M16uM0tZzJoOCJvjCiAKadITYS8Nm4YpI6rE0IFZKalF9NOxRcEoO
-         HNl464XYupmzvQxjt3QsQLi35uS7yBRNytTbM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BTzhRmtCWqSMLNXYgMz/A9yGJztHmzn9VR2FvTuT1X0=;
-        b=tCXSPrcRMJBD8gtZEiRz/8S5dxCHwcYbTgM6eprQjoHWlwWzV9NJxDbaXIqv/MqHzS
-         lm2LYGJ2HJzT3TErAlyat2W64HnHfpD73b+64mUJOG/F6g7tHSH9xTrxrpI9ZoKHud2q
-         7nrLYS1fvxgBLhfZh3NicFZ+nAsW0IWxYxwjR3xQ6LOz8Ql2q/bVnptHU4wuAam3h+oA
-         xL1Dx77gDlUK/GrhZ5pJQtu67OFFn57Uhqu7k8fGzvWaDhffGcaoCJsUn2V45T/mk3kX
-         vVPo9sac9vdnfQfzx5DTcd3tEF4fRy3t7EImoIj7Gnjksb1HGHN4ZbUIaMko75hLdibk
-         gNuQ==
-X-Gm-Message-State: AOAM531bZiEXI0rS0CY1Dvr4hu31Wt2Ttxpx5/bzCp77ZtQ6ZMyHhzVJ
-        OiIktigw8HkJjMBBaKWIcFo5lDEU9PNuYQ==
-X-Google-Smtp-Source: ABdhPJy4buyeBUKY0aQWKp36EUwQxhDDxJ1ssJBiA+aWdWBUrSwDg0WKpIsbg2UJ8e9+OwEwJ2RRPw==
-X-Received: by 2002:a05:6e02:18ce:: with SMTP id s14mr8743658ilu.69.1632495378091;
-        Fri, 24 Sep 2021 07:56:18 -0700 (PDT)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com. [209.85.166.44])
-        by smtp.gmail.com with ESMTPSA id f20sm147457ile.57.2021.09.24.07.56.17
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Sep 2021 07:56:17 -0700 (PDT)
-Received: by mail-io1-f44.google.com with SMTP id n71so13089059iod.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 07:56:17 -0700 (PDT)
-X-Received: by 2002:a6b:3f02:: with SMTP id m2mr9047097ioa.136.1632495366689;
- Fri, 24 Sep 2021 07:56:06 -0700 (PDT)
+        Fri, 24 Sep 2021 11:33:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632497477;
+    s=strato-dkim-0002; d=fpond.eu;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=o/Eae15nEXB7pxT57PvHnusv6LvoGe1//m7VaRfqZYk=;
+    b=ljx+3VmAmtbqV27BACCcG7+YG8N/aC6tB4xcZNRNibjWM0f63WT4xX0mF39GzBe7Pe
+    lsybGYdgF1qxD9KeoswyYQfo1C6qDttmsanA3ASrbKUDGjcLyzvPwaxTa6YiK8bR9+VC
+    z1zyOdOzX1Fj01KYMsvIVot1zLYtPOvylhTcbHQvlLH8KSOifmoqNcExB7DB0l95Ghro
+    0NUT7h9ToJY4s3USI62Us4sWhcciIgIF+kUtlG3jRX4+R8/0Mt16slaTH4ht8txeQ2/2
+    2QFkF3wBN0yth5v7ApIq3+wJJDMYfIUAfrIkIRVyovFbW4Hmp7EaVjlHH3o1zqwuEKWV
+    d07g==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR92BEa52Otg=="
+X-RZG-CLASS-ID: mo00
+Received: from gummo.fritz.box
+    by smtp.strato.de (RZmta 47.33.8 DYNA|AUTH)
+    with ESMTPSA id c00f85x8OFVGN4P
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Fri, 24 Sep 2021 17:31:16 +0200 (CEST)
+From:   Ulrich Hecht <uli+renesas@fpond.eu>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     netdev@vger.kernel.org, davem@davemloft.net,
+        linux-can@vger.kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, wsa@kernel.org,
+        yoshihiro.shimoda.uh@renesas.com, wg@grandegger.com,
+        mkl@pengutronix.de, kuba@kernel.org, mailhol.vincent@wanadoo.fr,
+        socketcan@hartkopp.net, Ulrich Hecht <uli+renesas@fpond.eu>
+Subject: [PATCH 0/3] can: rcar_canfd: Add support for V3U flavor
+Date:   Fri, 24 Sep 2021 17:31:10 +0200
+Message-Id: <20210924153113.10046-1-uli+renesas@fpond.eu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210914202202.1702601-1-dianders@chromium.org>
- <CACRpkdaTb4_UfFzCqw=fiAnQhHD+1sDDua529KdGQbgMVfjYBw@mail.gmail.com>
- <CAD=FV=VPgFRBLgOGvt4a4afDr80aQL64L7=H3kqeRf2ffiusPg@mail.gmail.com>
- <CGME20210924080417eucas1p209819b105dc64faf1f2a7140c5c1389b@eucas1p2.samsung.com>
- <874kaabdt5.fsf@intel.com> <68c3f798-a18d-fe8d-2925-2686716a985b@samsung.com> <CAD=FV=XEb-jx81inK8hGvdJeRqTLmmBKz7U-m+9=CHbNRSa16g@mail.gmail.com>
-In-Reply-To: <CAD=FV=XEb-jx81inK8hGvdJeRqTLmmBKz7U-m+9=CHbNRSa16g@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 24 Sep 2021 07:55:54 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V7V0MLy9XeA=vb_dpMS6ZBKkrGS_dC8uMeAxOeok5C3g@mail.gmail.com>
-Message-ID: <CAD=FV=V7V0MLy9XeA=vb_dpMS6ZBKkrGS_dC8uMeAxOeok5C3g@mail.gmail.com>
-Subject: Re: [PATCH v5 00/15] eDP: Support probing eDP panels dynamically
- instead of hardcoding
-To:     Andrzej Hajda <a.hajda@samsung.com>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        MSM <linux-arm-msm@vger.kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maxime Ripard <mripard@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Emil Velikov <emil.velikov@collabora.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-sunxi@lists.linux.dev,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
-        Srikanth Myakam <smyakam@microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hi!
 
-On Fri, Sep 24, 2021 at 6:59 AM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Fri, Sep 24, 2021 at 2:10 AM Andrzej Hajda <a.hajda@samsung.com> wrote:
-> >
-> > Hi
-> >
-> > removed most cc, due to server limitation
-> >
-> >
-> > W dniu 24.09.2021 o 10:03, Jani Nikula pisze:
-> > > On Mon, 20 Sep 2021, Doug Anderson <dianders@chromium.org> wrote:
-> > >> Pushed all 15 to drm-misc-next.
-> > > ...
-> > >> e8de4d55c259 drm/edid: Use new encoded panel id style for quirks matching
-> > >> d9f91a10c3e8 drm/edid: Allow querying/working with the panel ID from
-> > >> the EDID
-> > > Hi Doug, Stan's reporting "initializer element is not constant" issues
-> > > here that were discussed before [1]. I wonder what gives, you said you'd
-> > > hit them on a draft version, but not with what was merged, and I can't
-> > > reproduce this either. Curious.
-> >
-> >
-> > Apparently this is grey area of unclear specification.
-> >
-> > gcc version below 8 reports error, above 8.1+ should work [1]. I am not
-> > sure if there is nice workaround for older gcc.
-> >
-> >
-> > [1]: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=69960#c18
->
-> So I think the only solution is to go back to the character-at-a-time
-> version. It's slightly uglier but functionality trumps form.
->
-> I'll post something today though it might need to wait a few hours
-> before I can manage it.
+This adds CANFD support for V3U (R8A779A0) SoCs. The V3U's IP supports up to
+eight channels and has some other minor differences to the Gen3 variety:
 
-I managed to squeeze it in before my other obligations:
+- changes to some register offsets and layouts
+- absence of "classic CAN" registers, both modes are handled through the
+  CANFD register set
 
-https://lore.kernel.org/all/20210924075317.1.I1e58d74d501613f1fe7585958f451160d11b8a98@changeid
+This patch set tries to accommodate these changes in a minimally intrusive
+way. It follows the methods implemented in the BSP patch 745cdc4ea76af4
+("can: rcar_canfd: Add support for r8a779a0 SoC"), but has not been tested
+on an actual V3U device due to lack of hardware.
 
-I didn't CC everyone here but dri-devel and LKML are copied so
-hopefully if I missed someone it should still be accessible.
+One thing I'm not sure of is what to name the compatible string. ATM it
+looks to me like this controller cultivar is a one-off, so I named it
+"renesas,r8a779a0-canfd", but I would not be surprised if it showed up in
+future chips as well.
 
--Doug
+CU
+Uli
+
+
+Ulrich Hecht (3):
+  can: rcar_canfd: Add support for r8a779a0 SoC
+  dt-bindings: can: renesas,rcar-canfd: Document r8a779a0 support
+  arm64: dts: r8a779a0: Add CANFD device node
+
+ .../bindings/net/can/renesas,rcar-canfd.yaml  |   1 +
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi     |  55 +++++
+ drivers/net/can/rcar/rcar_canfd.c             | 227 ++++++++++++------
+ 3 files changed, 208 insertions(+), 75 deletions(-)
+
+-- 
+2.20.1
+
