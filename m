@@ -2,155 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A21ED417225
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 14:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF687417625
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 15:48:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343760AbhIXMqG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 08:46:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42110 "EHLO
+        id S1345966AbhIXNuG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 09:50:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343765AbhIXMqB (ORCPT
+        with ESMTP id S1345909AbhIXNuF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 08:46:01 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37FDFC0613D3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 05:44:27 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id y26so452359lfa.11
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 05:44:27 -0700 (PDT)
+        Fri, 24 Sep 2021 09:50:05 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62482C06161E
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 06:48:32 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id e15so40667108lfr.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 06:48:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4SH01R4UDbpzsZN06ben0KINDaSwIp1BbvQxp2nm2/8=;
-        b=DWYLB7LLuHrQ4AlVw9RILzREmVIi26O/N+wD49YjLAC06D8X3+1H81eGOAjuogTmMa
-         1Kgh0vPwtXHoGazJ3LDH1yHhtVN/afScINETDCMBLoZwE41d/G0htuP0+PPfkQOpo6H3
-         /OZPlGRSs0pdyU79ig8FFWyjWGx+vXoDU99cDlJYOA4+4zIh/X6NYQrjF3ylxGHJ52Gy
-         cyS8RzSg3lPtGpaZFHrMQKSnBPxXRDRmkpguJ63K9M4iwAw/XR8CV4Gj0FncMGVxFOks
-         2uQibfNBixU4r3GmH8hta7yibVmWcSYJbjPHE+XoRtaF1DMcGtV0R9a7Q3BlMJW8zdSL
-         ZK4g==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=NRFXtODeBa3SkSCafztgkw2bK8xqC1z8hM0PTHXmUWs=;
+        b=Xyr8Cq0ulXVujwfhCVr4s71c0ETd4kCS2Bvmae0GAAdaUYj7QoTj1cOTuxwqA6TmdD
+         4P38xm1B/MRzQsHjxACFVtbmb7jJg2fxiTRX3QdZ3I1dQaiYhVjy4nMowLTVX7autNuK
+         MGaJ+4QLoVGdHpEg5uzcxkj2VBi4OZ2fKk9yYWvzHZ9Yr9oygqDzt93/x8vSQTLiTwlX
+         +Qe6fyDFDvcseNL3XM+U0adQDEnPeCmYrPxJlhCOhoAG9hWIlztDOcu5TkFVKfd61+Zr
+         LG6Zuh51xL6Y1LZkGhSyilt8HFgyltmZOajeZ6jecF+E/IbQsruoqpKP3jAykoPB71D8
+         xDiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4SH01R4UDbpzsZN06ben0KINDaSwIp1BbvQxp2nm2/8=;
-        b=nnpyPztGcmhyvaNRprO+FYinmjYDHqVQX5gbhNgiMweHf/byQ40HDiLUOERxS3F1xv
-         oOmHn6Uv5aU3FvwtjZcnjTGp6zVArpfImAUaf6OMfWcL6DMDjdYe258rbUUNSCvZqIFk
-         RmV8LoYP46gP0hkT0H8wsTeumUB/TvbldpWo0+HCWrOSJqeBB8+5Z2QaBdGFTF139OV3
-         bccAXqwOA147ZuL3ObVfgMBGovfysHZCjJUs6PGDQp+hSPZa1PeDF/X33FJvrmqTZyNI
-         iARc7XepTHAr0WvHHcw0ekzDehXlTNEBE639Gg0UWyCkNRN+qiPtRNt2eDJK/55ofBu0
-         kTiQ==
-X-Gm-Message-State: AOAM532Nc8706qEYS0sz6XrgCZ9etcJDJkP9PXcGl1Vi+Q28J38kwiuR
-        jOIWKh6lgIzsIFiF6WC7KerYTg==
-X-Google-Smtp-Source: ABdhPJy2dYwh7NjFnfNcBe7E7qiksBX17nrHZH5BgOqdkUVYgQKDRpJbDF4u1d1YWulSJ7Qz1Gqo4A==
-X-Received: by 2002:a2e:7f04:: with SMTP id a4mr11514596ljd.308.1632487465519;
-        Fri, 24 Sep 2021 05:44:25 -0700 (PDT)
-Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id d23sm746793lfs.125.2021.09.24.05.44.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 05:44:25 -0700 (PDT)
-From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=NRFXtODeBa3SkSCafztgkw2bK8xqC1z8hM0PTHXmUWs=;
+        b=RtuzDbZfyeIT4n26B7lpTLgJejeAtXNkgqo4Z21k+SIVQ8LTajhnAyBsAS1py4jmeA
+         YRb2st8oMPx62v6H5VEVUa8gjmE3YEvL/v3cQGSXfOh7aUT4gtDaMcvd/Ra/DVd4EBpK
+         gTWEozCaEgZoUmiM/R4O+neQwV92ey7GawsAwmtveOeX/6ttE9DE91tyWft6xV6P1VEB
+         SyjWQgiipjzTW3yR8uvwmt2nk+lNXbGxrJpjQEIzWWpmRWWSbGZ3KaMcz4rvtEdhVwsZ
+         CQmg+0iol+4wVGH0T7IAEgWeGuE6VriFh4NvRoblunL4o5WSOVUntKdTiVB88OxJfbjv
+         0h9g==
+X-Gm-Message-State: AOAM533RgwUIgxlL1Kst7o5VKwsgKM3SI83ECiARRMobnEIxeOb0R/GB
+        +GZQx6Ze4+/bxJrdioUafLO1vw==
+X-Google-Smtp-Source: ABdhPJwdCnswAKXZYhPqPEnGLLiwGYtezdP3+QV+/tgwrzDMmQpSw3SOKDIKHvz0CEMmtP4UvFxHbg==
+X-Received: by 2002:a05:651c:206:: with SMTP id y6mr11209139ljn.98.1632491310631;
+        Fri, 24 Sep 2021 06:48:30 -0700 (PDT)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id r7sm761470lfc.106.2021.09.24.06.48.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Sep 2021 06:48:30 -0700 (PDT)
+Subject: Re: [PATCH] media: rcar-vin: add G/S_PARM ioctls
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
-        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH v2] media: rcar-vin: add GREY format
-Date:   Fri, 24 Sep 2021 15:43:17 +0300
-Message-Id: <20210924124315.26164-1-nikita.yoush@cogentembedded.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YU2htCDCbedXi4ai@oden.dyn.berto.se>
-References: <YU2htCDCbedXi4ai@oden.dyn.berto.se>
+        Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+References: <20210924084115.2340-1-nikita.yoush@cogentembedded.com>
+ <YU2gSJKfsqP+gUci@oden.dyn.berto.se>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Message-ID: <c90a960f-4c4d-7e9c-5f85-2931d1530550@cogentembedded.com>
+Date:   Fri, 24 Sep 2021 16:48:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YU2gSJKfsqP+gUci@oden.dyn.berto.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+> I would like to ask your use-case for this. I'm trying to make up the
+> courage to move Gen2 inline with Gen3, that is move Gen2 to use the
+> media graph interface to allow it more complex use-cases, including
+> controlling parameters on the subdevice level.
+> 
+> So I'm curious if this solve a particular problem for you or if it's
+> done "just" for completeness. If it solves a real problem then I think
+> we should move a head with a v2 (with the small comment below fixed) if
+> not I would like to try and reduce the non media graph usage of the API
+> as much as possible.
 
-This adds support for MEDIA_BUS_FMT_Y8_1X8 input and V4L2_PIX_FMT_GREY
-output format.
+I believe parallel camera - such as ov5642 - connected to Kingfisher's parallel interface still has to 
+be controlled over v4l operations on vin device. And, to control frame rate of such cameras [which is 
+the usecase we have here at Cogent], the operations that this patch adds are requied.
 
-Signed-off-by: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
-Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
----
-Changes from v1:
-- fix coding style issue
+> Please use &vin->vdev instead of video_devdata(file).
 
- drivers/media/platform/rcar-vin/rcar-dma.c  | 15 +++++++++++++++
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
- 2 files changed, 19 insertions(+)
+Preparing v2 now.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index f5f722ab1d4e..4d0d95cf4c5f 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -114,6 +114,7 @@
- /* Video n Data Mode Register bits */
- #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
- #define VNDMR_A8BIT_MASK	(0xff << 24)
-+#define VNDMR_YMODE_Y8		(1 << 12)
- #define VNDMR_EXRGB		(1 << 8)
- #define VNDMR_BPSM		(1 << 4)
- #define VNDMR_ABIT		(1 << 2)
-@@ -603,6 +604,7 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
- 	case V4L2_PIX_FMT_SGBRG8:
- 	case V4L2_PIX_FMT_SGRBG8:
- 	case V4L2_PIX_FMT_SRGGB8:
-+	case V4L2_PIX_FMT_GREY:
- 		stride /= 2;
- 		break;
- 	default:
-@@ -695,6 +697,7 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case MEDIA_BUS_FMT_SGBRG8_1X8:
- 	case MEDIA_BUS_FMT_SGRBG8_1X8:
- 	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_Y8_1X8:
- 		vnmc |= VNMC_INF_RAW8;
- 		break;
- 	default:
-@@ -774,6 +777,14 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case V4L2_PIX_FMT_SRGGB8:
- 		dmr = 0;
- 		break;
-+	case V4L2_PIX_FMT_GREY:
-+		if (input_is_yuv) {
-+			dmr = VNDMR_DTMD_YCSEP | VNDMR_YMODE_Y8;
-+			output_is_yuv = true;
-+		} else {
-+			dmr = 0;
-+		}
-+		break;
- 	default:
- 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
- 			vin->format.pixelformat);
-@@ -1145,6 +1156,10 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
- 		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
- 			return -EPIPE;
- 		break;
-+	case MEDIA_BUS_FMT_Y8_1X8:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_GREY)
-+			return -EPIPE;
-+		break;
- 	default:
- 		return -EPIPE;
- 	}
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 0d141155f0e3..bdeff51bf768 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -82,6 +82,10 @@ static const struct rvin_video_format rvin_formats[] = {
- 		.fourcc			= V4L2_PIX_FMT_SRGGB8,
- 		.bpp			= 1,
- 	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_GREY,
-+		.bpp			= 1,
-+	},
- };
- 
- const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
--- 
-2.30.2
-
+Nikita
