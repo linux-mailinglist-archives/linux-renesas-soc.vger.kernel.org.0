@@ -2,87 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F159C417171
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 14:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA6284171B9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 14:23:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245657AbhIXMD1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 08:03:27 -0400
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:56714
-        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244439AbhIXMDZ (ORCPT
+        id S245112AbhIXMZ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 08:25:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37340 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244576AbhIXMZ3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 08:03:25 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 8166140783
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 12:01:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1632484911;
-        bh=TKyRV9O1Y/ljz5T9kCOw405tGOgzBL0k1lCSjTA1wYI=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version:Content-Type;
-        b=L9HjsOhFCpjV5nJxzwpdhvyGToD7aFtNO2XR0c5uP3t3dWhCjDpO/cMZoD5mPLMRb
-         kb4J/cQ7OMudK8bk5MeEJ3ZVfNWYhDLuvdlde/fAa2WIjkwF7jEanKpXwlqC5tGUy+
-         TurNDf8oFF0Ssjze/OtyH3iPpm4vnsoimmEM1QW0vuS9diwUv4r2ucGRMspLeupCRl
-         Kxks8MMChTA87dgtNfg9AXXCOf+H76g0ybWFOVk57gKOWIlbCNfu7TayxqwNqqMqVa
-         nFy81nGJ3FF0dkXgHkbfy5Q+0BFcM+Dx9va1AOs2JDuY7AkBiqz1B3J0fTTVh3H11b
-         cPW6T6gngurlA==
-Received: by mail-wr1-f69.google.com with SMTP id f11-20020adfc98b000000b0015fedc2a8d4so7926743wrh.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 05:01:51 -0700 (PDT)
+        Fri, 24 Sep 2021 08:25:29 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03ED8C061757
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 05:23:56 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id u18so38478638lfd.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 05:23:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=dzKeUX0AW45t7iXSmN1I7J2blU6QmvARGs0GZ8XsUxE=;
+        b=luHtkgUOx6Gs0Kn+pKYj1i1+436AkRWfu9DdqJcoqtmkqd8MIhijxgBxLFopQe67Vw
+         HG1+YdXKuJDyBOzih5Zdt/49JPMSjjhcyDYuud7J5+vy1PWsyv7ugSYR4FT3RDD2EU2S
+         PN4XkAQQDrj9Y4M9B9pzQeSnWH5sv648t9jbIdFnPX6mjAxUbe/s4Z73adxbXwI1tq6a
+         qriSrgQAybbrX8aogYBVUWBaf0scUflnDmRCH6p+82AUzJXPasFcn6rHDkauRjj68ewW
+         ZmPxKZ2wh6nXMgFiFSfgpFkL+aNoqqvvrlwdEyQJAUG3h6DZdHy1cK8rKpUebHZnBRpS
+         riDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TKyRV9O1Y/ljz5T9kCOw405tGOgzBL0k1lCSjTA1wYI=;
-        b=eO/oX4G9PlIY6AhyZTu761UKYQtbjiD2yokK9eidADaTGETWG7Zf5KwGlDHKeHj2JA
-         jA2EE/EzkLfiKXVGByiobtkJE8NGo38/Ckp/FdwiL2+hcuI68A12gOUatnneoRb4+HDH
-         lh6md5cxhbxK35dXM0LQNb2J7e0nNN2g6VzbdQStzX7WwC/jQK6eiEv/kKzOCuPG1KNc
-         QXssEmiyNzTpG008T1+wAidtL9Z1gI/QNx1HH8LvISD8ikCKcTZOJea5sWK7tn8Q1zx8
-         2DyvTgot5qnTQFRdUPueFRAQHBKDv05ZSMczX/2/TJcnHvM+Uob00ooc+4yTau0bokxB
-         +JBw==
-X-Gm-Message-State: AOAM5326YpZisAz/mjir58DeTen4J1hDdgrGqAa06iLNCqS6NPjAv44S
-        6B3JJXycFKwqy5o0LdsIAl1lI2GHOUqkovMvHl1fz2PMGBi0dPuIg+8MUVP5rmc39MP8t8iJNKR
-        4HVWQkSIxFbOFIz/C1dIXFsZ5/1+oiuHLiQI3G6uotMHRewNp
-X-Received: by 2002:a05:6000:14d:: with SMTP id r13mr11212097wrx.420.1632484911273;
-        Fri, 24 Sep 2021 05:01:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzquSMRBcbVZ+YVahWJFTiZdrKlthMmH22osg55fb8riVZxx8aZY78k3Bx0kxcH0Mf93sm1aw==
-X-Received: by 2002:a05:6000:14d:: with SMTP id r13mr11212062wrx.420.1632484911102;
-        Fri, 24 Sep 2021 05:01:51 -0700 (PDT)
-Received: from localhost.localdomain (lk.84.20.244.219.dc.cable.static.lj-kabel.net. [84.20.244.219])
-        by smtp.gmail.com with ESMTPSA id o7sm10100619wro.45.2021.09.24.05.01.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 05:01:50 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     linux-kernel@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH] dt-bindings: rpc: renesas-rpc-if: Add support for the R8A779A0 RPC-IF
-Date:   Fri, 24 Sep 2021 14:01:12 +0200
-Message-Id: <163248485488.53812.2936557522765718572.b4-ty@canonical.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210922085831.5375-1-wsa+renesas@sang-engineering.com>
-References: <20210922085831.5375-1-wsa+renesas@sang-engineering.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=dzKeUX0AW45t7iXSmN1I7J2blU6QmvARGs0GZ8XsUxE=;
+        b=wpGOuIZBCBZckg1GQNuQzw2Gx3hUgMpZu/EESwoPqgoB2oGouSVAv9z8cKXh7mTLHk
+         /xcZH0j8cAWtCfd0QznYGOOur7ONzlMirwYI5fqxaxRdMuMA/JxMLhuxoLFumDUkwJWd
+         3gkNusbZPBuwYOTocPbYVF1ZB+uEW+b+8ByWGY7IlLHYRH/3bm0ZnM5ifkjz6RyWQ3Jt
+         ZxR4TyFhsbkciUnGgPTkTIxw9jjKTC52YaVCcs2807kaeT2ucRQNbGp52VbhQZPUFwDQ
+         Zvr6abkylvY5/N4ou3BSv4gsO/GQ84NXvLZeEc3p4WvN1vacftI8iS8KGMN49VyxbTEd
+         V3BA==
+X-Gm-Message-State: AOAM530S2bpkKGd6JtwYCRox7croVcgJPvOETavUgWw1DElspshh0ykt
+        +wxuzF9NmaX6A6oRoao1z8lUUw==
+X-Google-Smtp-Source: ABdhPJzrYRdIdeUvok/8Tee2r2ZdQDrv4rPEYHcthy7CJQWRo8/UnfRgrcHLHAvr5PcaU0km6647Qw==
+X-Received: by 2002:a2e:8957:: with SMTP id b23mr6744281ljk.239.1632486234327;
+        Fri, 24 Sep 2021 05:23:54 -0700 (PDT)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id o6sm130500ljh.32.2021.09.24.05.23.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Sep 2021 05:23:53 -0700 (PDT)
+Subject: Re: [PATCH] media: rcar-vin: add support for GREY format
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+References: <20210924081938.30230-1-nikita.yoush@cogentembedded.com>
+ <YU2htCDCbedXi4ai@oden.dyn.berto.se>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Message-ID: <c3c5e578-915b-8ab6-7120-d61f69106494@cogentembedded.com>
+Date:   Fri, 24 Sep 2021 15:23:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YU2htCDCbedXi4ai@oden.dyn.berto.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 22 Sep 2021 10:58:31 +0200, Wolfram Sang wrote:
-> 
+Hello Niklas
 
+> I been wrestling a while with this as I have no sensor where I could
+> test it with I always put it off. May I ask what sensor and platform was
+> used to test this?
 
-Applied with added simple commit msg, thanks!
+We have used this with ov2311 (LI-OV2311-UB953, LI-OV2311-MAX9295) on:
 
-[1/1] dt-bindings: rpc: renesas-rpc-if: Add support for the R8A779A0 RPC-IF
-      commit: 797f082738b10ff397c8d3b7804b747d766e62e6
+H3ULCB+KF+FPDLINK3/GMSL2 camera boards
+V3HSK+Cogent VideoBoxes (FPDLINK3, GMSL2).
 
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Also this code was included into Renesas BSP for a long time.
+
+> The code looks good and I truest that it's tested and produce a good
+> image, one small nit below.
+
+Will submit v2 in a moment.
+
+Nikita
