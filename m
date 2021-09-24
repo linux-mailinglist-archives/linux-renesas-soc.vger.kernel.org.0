@@ -2,22 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98908417BD6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 21:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B06F6417BEB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 21:49:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345619AbhIXThV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 15:37:21 -0400
-Received: from mxout04.lancloud.ru ([45.84.86.114]:51002 "EHLO
+        id S231756AbhIXTup (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 15:50:45 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:51282 "EHLO
         mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344824AbhIXThV (ORCPT
+        with ESMTP id S1348213AbhIXTup (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 15:37:21 -0400
+        Fri, 24 Sep 2021 15:50:45 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 1C1E2209D6E7
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 0E4FA20A6EB4
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
-Subject: Re: [RFC/PATCH 11/18] ravb: Add rx_2k_buffers to struct ravb_hw_info
+Subject: Re: [RFC/PATCH 08/18] ravb: Add mii_rgmii_selection to struct
+ ravb_hw_info
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
@@ -31,15 +32,15 @@ CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>
 References: <20210923140813.13541-1-biju.das.jz@bp.renesas.com>
- <20210923140813.13541-12-biju.das.jz@bp.renesas.com>
+ <20210923140813.13541-9-biju.das.jz@bp.renesas.com>
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <1e9d1d3c-0846-077e-8e1a-e06ff86c00fa@omp.ru>
-Date:   Fri, 24 Sep 2021 22:35:38 +0300
+Message-ID: <8b92e5f8-2f78-b64c-8356-1e43034ba622@omp.ru>
+Date:   Fri, 24 Sep 2021 22:49:08 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210923140813.13541-12-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210923140813.13541-9-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -52,30 +53,81 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 9/23/21 5:08 PM, Biju Das wrote:
 
-> R-Car AVB-DMAC has Maximum 2K size on RZ buffer.
-> We need to Allow for changing the MTU within the
-> limit of the maximum size of a descriptor (2048 bytes).
-> 
-> Add a rx_2k_buffers hw feature bit to struct ravb_hw_info
-> to add this constraint only for R-Car.
+> E-MAC on RZ/G2L supports MII/RGMII selection. Add a
+> mii_rgmii_selection feature bit to struct ravb_hw_info
+> to support this for RZ/G2L.
+> Currently only selecting RGMII is supported.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  drivers/net/ethernet/renesas/ravb.h      | 1 +
->  drivers/net/ethernet/renesas/ravb_main.c | 8 ++++++--
->  2 files changed, 7 insertions(+), 2 deletions(-)
+>  drivers/net/ethernet/renesas/ravb.h      | 17 +++++++++++++++++
+>  drivers/net/ethernet/renesas/ravb_main.c |  6 ++++++
+>  2 files changed, 23 insertions(+)
 > 
 > diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index 7532cb51d7b8..ab4909244276 100644
+> index bce480fadb91..dfaf3121da44 100644
 > --- a/drivers/net/ethernet/renesas/ravb.h
 > +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -1033,6 +1033,7 @@ struct ravb_hw_info {
->  	unsigned magic_pkt:1;		/* E-MAC supports magic packet detection */
->  	unsigned mii_rgmii_selection:1;	/* E-MAC supports mii/rgmii selection */
->  	unsigned half_duplex:1;		/* E-MAC supports half duplex mode */
-> +	unsigned rx_2k_buffers:1;	/* AVB-DMAC has Max 2K buf size on RX */
+[...]
+> @@ -951,6 +953,20 @@ enum RAVB_QUEUE {
+>  	RAVB_NC,	/* Network Control Queue */
+>  };
+>  
+> +enum CXR31_BIT {
+> +	CXR31_SEL_LINK0	= 0x00000001,
+> +	CXR31_SEL_LINK1	= 0x00000008,
+> +};
+> +
+> +enum CXR35_BIT {
+> +	CXR35_SEL_MODIN	= 0x00000100,
+> +};
+> +
+> +enum CSR0_BIT {
+> +	CSR0_TPE	= 0x00000010,
+> +	CSR0_RPE	= 0x00000020,
+> +};
 
-   It seems more flexible to specify the buffer size, not just a bit like this...
+   I don't see those used? What is CSR0?
+
+[...]
+> @@ -1008,6 +1024,7 @@ struct ravb_hw_info {
+>  	unsigned ccc_gac:1;		/* AVB-DMAC has gPTP support active in config mode */
+>  	unsigned multi_tsrq:1;		/* AVB-DMAC has MULTI TSRQ */
+>  	unsigned magic_pkt:1;		/* E-MAC supports magic packet detection */
+> +	unsigned mii_rgmii_selection:1;	/* E-MAC supports mii/rgmii selection */
+
+   Perhaps just 'mii_rgmii_sel'?
+
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 529364d8f7fb..5d18681582b9 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -1173,6 +1174,10 @@ static int ravb_phy_init(struct net_device *ndev)
+>  		netdev_info(ndev, "limited PHY to 100Mbit/s\n");
+>  	}
+>  
+> +	if (info->mii_rgmii_selection &&
+> +	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID)
+
+   Not MII?
+
+> +		ravb_write(ndev, ravb_read(ndev, CXR35) | CXR35_SEL_MODIN, CXR35);
+
+   We have ravb_mnodify() for that...
+
+> +
+>  	/* 10BASE, Pause and Asym Pause is not supported */
+>  	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Half_BIT);
+>  	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Full_BIT);
+> @@ -2132,6 +2137,7 @@ static const struct ravb_hw_info rgeth_hw_info = {
+>  	.aligned_tx = 1,
+>  	.tx_counters = 1,
+>  	.no_gptp = 1,
+> +	.mii_rgmii_selection = 1,
+
+   I don't see where we handle MII?
 
 [...]
 
