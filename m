@@ -2,23 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B06F6417BEB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 21:49:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1524C417C26
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 22:07:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231756AbhIXTup (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 15:50:45 -0400
-Received: from mxout04.lancloud.ru ([45.84.86.114]:51282 "EHLO
-        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348213AbhIXTup (ORCPT
+        id S1348349AbhIXUJM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 16:09:12 -0400
+Received: from mxout02.lancloud.ru ([45.84.86.82]:37414 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346803AbhIXUJL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 15:50:45 -0400
+        Fri, 24 Sep 2021 16:09:11 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 0E4FA20A6EB4
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 02007208404D
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
-Subject: Re: [RFC/PATCH 08/18] ravb: Add mii_rgmii_selection to struct
- ravb_hw_info
+Subject: Re: [RFC/PATCH 09/18] ravb: Add half_duplex to struct ravb_hw_info
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
@@ -32,15 +31,15 @@ CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>
 References: <20210923140813.13541-1-biju.das.jz@bp.renesas.com>
- <20210923140813.13541-9-biju.das.jz@bp.renesas.com>
+ <20210923140813.13541-10-biju.das.jz@bp.renesas.com>
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <8b92e5f8-2f78-b64c-8356-1e43034ba622@omp.ru>
-Date:   Fri, 24 Sep 2021 22:49:08 +0300
+Message-ID: <ef5073e2-ceb6-6b6b-c36d-d13dc7856a4e@omp.ru>
+Date:   Fri, 24 Sep 2021 23:07:33 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210923140813.13541-9-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20210923140813.13541-10-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -53,81 +52,40 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 9/23/21 5:08 PM, Biju Das wrote:
 
-> E-MAC on RZ/G2L supports MII/RGMII selection. Add a
-> mii_rgmii_selection feature bit to struct ravb_hw_info
-> to support this for RZ/G2L.
-> Currently only selecting RGMII is supported.
+> RZ/G2L supports half duplex mode.
+> Add a half_duplex hw feature bit to struct ravb_hw_info for
+> supporting half duplex mode for RZ/G2L.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  drivers/net/ethernet/renesas/ravb.h      | 17 +++++++++++++++++
->  drivers/net/ethernet/renesas/ravb_main.c |  6 ++++++
->  2 files changed, 23 insertions(+)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index bce480fadb91..dfaf3121da44 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
 [...]
-> @@ -951,6 +953,20 @@ enum RAVB_QUEUE {
->  	RAVB_NC,	/* Network Control Queue */
->  };
->  
-> +enum CXR31_BIT {
-> +	CXR31_SEL_LINK0	= 0x00000001,
-> +	CXR31_SEL_LINK1	= 0x00000008,
-> +};
-> +
-> +enum CXR35_BIT {
-> +	CXR35_SEL_MODIN	= 0x00000100,
-> +};
-> +
-> +enum CSR0_BIT {
-> +	CSR0_TPE	= 0x00000010,
-> +	CSR0_RPE	= 0x00000020,
-> +};
 
-   I don't see those used? What is CSR0?
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-[...]
-> @@ -1008,6 +1024,7 @@ struct ravb_hw_info {
->  	unsigned ccc_gac:1;		/* AVB-DMAC has gPTP support active in config mode */
->  	unsigned multi_tsrq:1;		/* AVB-DMAC has MULTI TSRQ */
->  	unsigned magic_pkt:1;		/* E-MAC supports magic packet detection */
-> +	unsigned mii_rgmii_selection:1;	/* E-MAC supports mii/rgmii selection */
-
-   Perhaps just 'mii_rgmii_sel'?
+   Just a little bit of change needed...
 
 [...]
 > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 529364d8f7fb..5d18681582b9 100644
+> index 5d18681582b9..04bff44b7660 100644
 > --- a/drivers/net/ethernet/renesas/ravb_main.c
 > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-[...]
-> @@ -1173,6 +1174,10 @@ static int ravb_phy_init(struct net_device *ndev)
->  		netdev_info(ndev, "limited PHY to 100Mbit/s\n");
->  	}
+> @@ -1076,6 +1076,18 @@ static int ravb_poll(struct napi_struct *napi, int budget)
+>  	return budget - quota;
+>  }
 >  
-> +	if (info->mii_rgmii_selection &&
-> +	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID)
-
-   Not MII?
-
-> +		ravb_write(ndev, ravb_read(ndev, CXR35) | CXR35_SEL_MODIN, CXR35);
-
-   We have ravb_mnodify() for that...
-
+> +static void ravb_set_duplex_rgeth(struct net_device *ndev)
+> +{
+> +	struct ravb_private *priv = netdev_priv(ndev);
+> +	u32 ecmr = ravb_read(ndev, ECMR);
 > +
->  	/* 10BASE, Pause and Asym Pause is not supported */
->  	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Half_BIT);
->  	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Full_BIT);
-> @@ -2132,6 +2137,7 @@ static const struct ravb_hw_info rgeth_hw_info = {
->  	.aligned_tx = 1,
->  	.tx_counters = 1,
->  	.no_gptp = 1,
-> +	.mii_rgmii_selection = 1,
+> +	if (priv->duplex > 0)	/* Full */
+> +		ecmr |=  ECMR_DM;
+> +	else			/* Half */
+> +		ecmr &= ~ECMR_DM;
+> +	ravb_write(ndev, ecmr, ECMR);
 
-   I don't see where we handle MII?
+   I think we should do that like sh_eth.c:
+
+	ravb_modify(ndev, ECMR, ECMR_DM, priv->duplex > 0 ? ECMR_DM : 0);
 
 [...]
 
