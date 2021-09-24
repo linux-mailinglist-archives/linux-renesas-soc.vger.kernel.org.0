@@ -2,86 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30EED4171F7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 14:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ADF74171F9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 14:37:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245760AbhIXMin (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 08:38:43 -0400
-Received: from www.zeus03.de ([194.117.254.33]:50632 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245757AbhIXMim (ORCPT
+        id S1343543AbhIXMjA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 08:39:00 -0400
+Received: from mail-vk1-f177.google.com ([209.85.221.177]:39811 "EHLO
+        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245265AbhIXMi7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 08:38:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=UtLoSjZtV/2lGEgwKxNrRZUajG+V
-        u7zQzKKFLDDkatM=; b=X2gM015DULaFbhKvthpDpQ3XrSe27bmIEsKjxhf6+Xn3
-        A99cCp/ue/Q4SvKrbJyjuUvoXTQJDmI2zOUtWAnSx7Z621JltJxWqyQuv3Yho9L7
-        +nGDq6xDeFA9YkjVrDd1pFqyfVaEdv4dpSfN++hGrQtLzEmm4qvNjqWamOi0F8E=
-Received: (qmail 4024972 invoked from network); 24 Sep 2021 14:37:08 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Sep 2021 14:37:08 +0200
-X-UD-Smtp-Session: l3s3148p1@035nAb3MZq8gAwDPXw1LAJ+FoAZ06vRo
-Date:   Fri, 24 Sep 2021 14:37:07 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Andrew Gabbasov <andrew_gabbasov@mentor.com>
-Cc:     'Krzysztof Kozlowski' <krzysztof.kozlowski@canonical.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] memory: renesas-rpc-if: Avoid unaligned bus access for
- HyperFlash
-Message-ID: <YU3Gc7isBqLzldRr@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        'Krzysztof Kozlowski' <krzysztof.kozlowski@canonical.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20210922184830.29147-1-andrew_gabbasov@mentor.com>
- <c6de6ec0-fd06-14bc-c483-52a2d0a4590a@canonical.com>
- <000001d7b140$91e0a180$b5a1e480$@mentor.com>
+        Fri, 24 Sep 2021 08:38:59 -0400
+Received: by mail-vk1-f177.google.com with SMTP id f73so3879605vkf.6;
+        Fri, 24 Sep 2021 05:37:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=42I/j7EJUoe1na+qCjbWLO26DRP+d7+Jsq/Q0zLHtDU=;
+        b=INxlBNIn5lroFdad63+AY9HCzb7+gW3EbwvlS0wa7yHSj19RRtvvXqexDl0+H2Quc5
+         NEDJgLJgpLit0vHx8IKPzRw3otOqf4Y4/QDTzQdaZFjSCSDGtOCNIkqdu25uoVt/+zMe
+         NtZL2wZUUw5S/nfHBIteupayuXmYu8LWKKEkM5kWmQ5pRIPrqriQbBL4BYvaqPhHCr/9
+         2EbYtPM4Vk+XjhUIuNXxb5yznqPKnaq4mOZSaOW6lwkTaE22K3Joned+c6KrgEnOhtBO
+         8iuRpeIj9Xwl3h1+WNQFPRf2jcsyeRxQjlHXpV8t9kd3m+30Dzc045lz2lhlV/voeV4C
+         eZqQ==
+X-Gm-Message-State: AOAM531GvFxqybDYEMW/WDZFyJcasjNBazZ/VGcC78dirVUoJc4QGSSH
+        mTQHTWdHqFLqXncefzOp/IK43+IGm7RwbsAQV8U=
+X-Google-Smtp-Source: ABdhPJyDLWMp4EQ2iv6EKC6E6I1Rf7GeNbzBrcz8iYtLmWXuBOn5YU+PcZnZqUd4X/n5/jjpEJnGnJ+041+EGAbSq/w=
+X-Received: by 2002:a1f:3a4b:: with SMTP id h72mr7384734vka.19.1632487046079;
+ Fri, 24 Sep 2021 05:37:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="j7Q9VpYJCTyd3NVu"
-Content-Disposition: inline
-In-Reply-To: <000001d7b140$91e0a180$b5a1e480$@mentor.com>
+References: <08f73c2aa0d4e580303357dfae107d084d962835.1632486753.git.geert+renesas@glider.be>
+In-Reply-To: <08f73c2aa0d4e580303357dfae107d084d962835.1632486753.git.geert+renesas@glider.be>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 24 Sep 2021 14:37:14 +0200
+Message-ID: <CAMuHMdXQ5vv2rxWsd8EGJWufe4UwnvOoiSEXTSDWj7mUDqy+vA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix reg value
+To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, Sep 24, 2021 at 2:35 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> make dtbs_check:
+>
+>     arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dt.yaml: bridge@2c: reg:0:0: 45 was expected
+>
+> According to the datasheet, the I2C address can be either 0x2c or 0x2d,
+> depending on the ADDR control input.
+>
+> Fixes: e3896e6dddf0b821 ("dt-bindings: drm/bridge: Document sn65dsi86 bridge bindings")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Also seen with the in-flight Falcon DSI display output patch:
+>
+>     arch/arm64/boot/dts/renesas/r8a779a0-falcon.dt.yaml: sn65dsi86@2c: reg:0:0: 45 was expected
+> ---
+>  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml        | 2 +-
 
---j7Q9VpYJCTyd3NVu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+And the email address of this file's maintainer bounces.
 
+Gr{oetje,eeting}s,
 
-> If I correctly understand, the underlying issue looks similar (improperly aligned
-> memory/register accesses), but the affected areas are different, even non-intersecting:
-> Wolfram fixes register access, affecting manual mode reads/writes, having problems
-> with QSPI devices, while my fix is related to external address space reads (mapped
-> memory access) with Hyperflash devices.
+                        Geert
 
-Ack.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
---j7Q9VpYJCTyd3NVu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFNxnMACgkQFA3kzBSg
-KbbE4A/8CEW8crNHXZP8zL2GCwXHLLFRr0PeqRnVOLxC5CiOxNuJfF+/pRazZHyN
-0ckvfxf5fRtA5oQOLNLkwvdKoEttkNn7CBB07ay6LyzaI7oSm+tVmXT9V8MzPblH
-QXNXk+OHPUz6bNJj2pgsOgLHeCAbV81KK65fFOoyAoky5sSDRE83MvgZRdLN7Shc
-Dn2BtAgrs6mW5MUvqMLDgWFlWgAAdRJKAb/jHDZnGQ8eyWS21kHPB47JYD5AjfbL
-DAY0fJevVRJXE6ZacAkQyysSIgrGLB/53Y5U66OId4AbmRhfeBAiFcbiXBkJIVBC
-gLirOT3x88jt0KWsuPiKG4HvxPSrDodZtHC2gA+tMZPM+QJrQFs8ZEczGwns4DHn
-d+q3afgyOAdMq4J666GhDks2HypwRYEiHrmHL0tPuw1IEMuQjd9ALcxxpyNhwJLT
-ZB8MR+eK79YPBp4QTXU1/O3Tl6wv014Wf/2gDMtM31nSh68CfPKRvY1pJ+V1HsC8
-UPZK0KhDWUMz3jciglrdhTEQy4igQNjnKnbUIsagCGRzwLXJycWNh1Kl5moob5qa
-aA3LdVl2hFfjwwBLZ9Orp4Ky956BWKoHjCFZhqIMPEBA7QLuo28lLRsNqmJjvC8c
-h1MTAQm3FkC2AhadhW4Tuf3omzT4iL/rEAetgHKqvzEq3wXemoQ=
-=j5GU
------END PGP SIGNATURE-----
-
---j7Q9VpYJCTyd3NVu--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
