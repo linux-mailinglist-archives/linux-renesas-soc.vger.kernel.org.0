@@ -2,116 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFAB0417167
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 13:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F159C417171
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Sep 2021 14:01:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245273AbhIXMAh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Sep 2021 08:00:37 -0400
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:34540
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244321AbhIXMAh (ORCPT
+        id S245657AbhIXMD1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Sep 2021 08:03:27 -0400
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:56714
+        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S244439AbhIXMDZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Sep 2021 08:00:37 -0400
+        Fri, 24 Sep 2021 08:03:25 -0400
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 499E0402DF
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 11:59:03 +0000 (UTC)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 8166140783
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 12:01:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1632484743;
-        bh=Qmruzk9u8v6gx0XfiHRSfAdmQ14ihCUNgpBU9LNLWtM=;
-        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-         In-Reply-To:Content-Type;
-        b=L/61XegKeSG4c/T9jeiewDxeYZV5nNjmvzwMGQa57fsgy3rwOORrZKYeFjomm3WNj
-         E/KHjGD4s1x7ENcgAsTL7ZMd1ATwVihDWGt1a6vRLyO5lHsxAxPoIIvk7458sdgdAL
-         ZG5kJhwV+z3fkPmSB3SVoecEgBMzwjCoqmqcMHTo84E20aJTba9sGW2tQBGVzPCuPp
-         MsxqAlUDgcmEoxDf61kEhXcA5ivz1y8Ow/zc5r03LUginT/i/FEH/Wzn3OwG/ntuA7
-         uMCqxOKyqQO/w5PC4+UU8kfJV1yW0ZrpxOWfYP9AjZ9caNCfYawIE5eiMYGVv0skZE
-         IR9UvoJjOVcsg==
-Received: by mail-wr1-f69.google.com with SMTP id l9-20020adfc789000000b00160111fd4e8so7837385wrg.17
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 04:59:03 -0700 (PDT)
+        s=20210705; t=1632484911;
+        bh=TKyRV9O1Y/ljz5T9kCOw405tGOgzBL0k1lCSjTA1wYI=;
+        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+         MIME-Version:Content-Type;
+        b=L9HjsOhFCpjV5nJxzwpdhvyGToD7aFtNO2XR0c5uP3t3dWhCjDpO/cMZoD5mPLMRb
+         kb4J/cQ7OMudK8bk5MeEJ3ZVfNWYhDLuvdlde/fAa2WIjkwF7jEanKpXwlqC5tGUy+
+         TurNDf8oFF0Ssjze/OtyH3iPpm4vnsoimmEM1QW0vuS9diwUv4r2ucGRMspLeupCRl
+         Kxks8MMChTA87dgtNfg9AXXCOf+H76g0ybWFOVk57gKOWIlbCNfu7TayxqwNqqMqVa
+         nFy81nGJ3FF0dkXgHkbfy5Q+0BFcM+Dx9va1AOs2JDuY7AkBiqz1B3J0fTTVh3H11b
+         cPW6T6gngurlA==
+Received: by mail-wr1-f69.google.com with SMTP id f11-20020adfc98b000000b0015fedc2a8d4so7926743wrh.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Sep 2021 05:01:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Qmruzk9u8v6gx0XfiHRSfAdmQ14ihCUNgpBU9LNLWtM=;
-        b=WCmYFuQx5eBP9E7Fq0XhfBPl07TDZiRQVW1DEckRyG5Dwf6uLGiX2lR+9VYI80pPXq
-         TUH2x9kVdlCbIJaCvirtnCDG/ocfEyo62t0qz3dwNxnDUyBNJMeMhvTi8eShYLc9lg8h
-         jyeozrsVbFnqndLOskQ5uKxhOZVjWwEbTGwl4YDV2J0Foo19f7KqFhVvv7ZgqDEVwMpv
-         EVIym7V+np4ua5NR31az6dsPiWWc3f4b+q4EO0ABvX8AntOEqUcbq5oeDXKTkRPV5QAo
-         VVW+1FyC9Z8inwnnlGWwTpT7AUfemfOw7mSv+mq0kDMy9ypym5gDdT14l2WxoHoK0wlN
-         8ICw==
-X-Gm-Message-State: AOAM530xXS1BP24sTC0HB2yjv3mqFuGK9pzkdzw166KL2ZRcZlDmL+HK
-        hFeDtDz/cfddqttKlJoIdp2tKSbAPCLfhCNGjewvtM8Jcep2Rym3LNEZ9a65HXj8lSUSwM20P0i
-        r/2NZIR+HtViqMlnFPlp9CUMWdWmfrXEAgybeBuoUJm+tVMRc
-X-Received: by 2002:a5d:5511:: with SMTP id b17mr10739222wrv.318.1632484743006;
-        Fri, 24 Sep 2021 04:59:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxs5Km1+A5ghUu9Vz1tl102s4xTJQ6YUDHvp8dI+O4r6vd5nQCuF5rF+2yCqLDUJjOqsEkwxQ==
-X-Received: by 2002:a5d:5511:: with SMTP id b17mr10739199wrv.318.1632484742793;
-        Fri, 24 Sep 2021 04:59:02 -0700 (PDT)
-Received: from [192.168.0.134] (lk.84.20.244.219.dc.cable.static.lj-kabel.net. [84.20.244.219])
-        by smtp.gmail.com with ESMTPSA id c18sm528492wmb.27.2021.09.24.04.59.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Sep 2021 04:59:02 -0700 (PDT)
-Subject: Re: [PATCH] dt-bindings: rpc: renesas-rpc-if: Add support for the
- R8A779A0 RPC-IF
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-References: <20210922085831.5375-1-wsa+renesas@sang-engineering.com>
- <75713e8e-f675-240e-b503-99618d07afda@canonical.com>
- <CAMuHMdVgfeHt9At7qh7syttN-2HcHg8bhi85FK3CGTevtSs9yw@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=TKyRV9O1Y/ljz5T9kCOw405tGOgzBL0k1lCSjTA1wYI=;
+        b=eO/oX4G9PlIY6AhyZTu761UKYQtbjiD2yokK9eidADaTGETWG7Zf5KwGlDHKeHj2JA
+         jA2EE/EzkLfiKXVGByiobtkJE8NGo38/Ckp/FdwiL2+hcuI68A12gOUatnneoRb4+HDH
+         lh6md5cxhbxK35dXM0LQNb2J7e0nNN2g6VzbdQStzX7WwC/jQK6eiEv/kKzOCuPG1KNc
+         QXssEmiyNzTpG008T1+wAidtL9Z1gI/QNx1HH8LvISD8ikCKcTZOJea5sWK7tn8Q1zx8
+         2DyvTgot5qnTQFRdUPueFRAQHBKDv05ZSMczX/2/TJcnHvM+Uob00ooc+4yTau0bokxB
+         +JBw==
+X-Gm-Message-State: AOAM5326YpZisAz/mjir58DeTen4J1hDdgrGqAa06iLNCqS6NPjAv44S
+        6B3JJXycFKwqy5o0LdsIAl1lI2GHOUqkovMvHl1fz2PMGBi0dPuIg+8MUVP5rmc39MP8t8iJNKR
+        4HVWQkSIxFbOFIz/C1dIXFsZ5/1+oiuHLiQI3G6uotMHRewNp
+X-Received: by 2002:a05:6000:14d:: with SMTP id r13mr11212097wrx.420.1632484911273;
+        Fri, 24 Sep 2021 05:01:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzquSMRBcbVZ+YVahWJFTiZdrKlthMmH22osg55fb8riVZxx8aZY78k3Bx0kxcH0Mf93sm1aw==
+X-Received: by 2002:a05:6000:14d:: with SMTP id r13mr11212062wrx.420.1632484911102;
+        Fri, 24 Sep 2021 05:01:51 -0700 (PDT)
+Received: from localhost.localdomain (lk.84.20.244.219.dc.cable.static.lj-kabel.net. [84.20.244.219])
+        by smtp.gmail.com with ESMTPSA id o7sm10100619wro.45.2021.09.24.05.01.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Sep 2021 05:01:50 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <b1a35304-76e9-c001-fffe-edb785cb21a4@canonical.com>
-Date:   Fri, 24 Sep 2021 13:59:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+To:     linux-kernel@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH] dt-bindings: rpc: renesas-rpc-if: Add support for the R8A779A0 RPC-IF
+Date:   Fri, 24 Sep 2021 14:01:12 +0200
+Message-Id: <163248485488.53812.2936557522765718572.b4-ty@canonical.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210922085831.5375-1-wsa+renesas@sang-engineering.com>
+References: <20210922085831.5375-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdVgfeHt9At7qh7syttN-2HcHg8bhi85FK3CGTevtSs9yw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 24/09/2021 13:55, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Fri, Sep 24, 2021 at 1:48 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@canonical.com> wrote:
->> On 22/09/2021 10:58, Wolfram Sang wrote:
->>> --- a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
->>> +++ b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
->>> @@ -33,6 +33,7 @@ properties:
->>>            - renesas,r8a77970-rpc-if       # R-Car V3M
->>>            - renesas,r8a77980-rpc-if       # R-Car V3H
->>>            - renesas,r8a77995-rpc-if       # R-Car D3
->>> +          - renesas,r8a779a0-rpc-if       # R-Car V3U
->>>        - const: renesas,rcar-gen3-rpc-if   # a generic R-Car gen3 or RZ/G2 device
->>
->> Where is the driver or DTS using these compatibles? The bindings can
->> come even without users, but are you sure this is what you want?
->> Changing them later, if ever needed, will be more difficult.
-> 
-> Driver:
->     drivers/memory/renesas-rpc-if.c:        { .compatible =
-> "renesas,rcar-gen3-rpc-if", },
-> 
-> DTS:
->     [RFC PATCH 3/4] arm64: dts: renesas: r8a779a0: Add RPC node
->     https://lore.kernel.org/linux-renesas-soc/20210913065317.2297-4-wsa+renesas@sang-engineering.com/
+On Wed, 22 Sep 2021 10:58:31 +0200, Wolfram Sang wrote:
 > 
 
-I see, thanks. It wasn't sent to main LKML so I did not find it in archives.
 
+Applied with added simple commit msg, thanks!
+
+[1/1] dt-bindings: rpc: renesas-rpc-if: Add support for the R8A779A0 RPC-IF
+      commit: 797f082738b10ff397c8d3b7804b747d766e62e6
 
 Best regards,
-Krzysztof
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
