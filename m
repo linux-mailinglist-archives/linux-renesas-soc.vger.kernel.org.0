@@ -2,125 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F9B141811C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Sep 2021 12:49:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C00A6418122
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Sep 2021 12:56:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235805AbhIYKvE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 25 Sep 2021 06:51:04 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:21814 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233380AbhIYKvE (ORCPT
+        id S241034AbhIYK6Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 25 Sep 2021 06:58:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56166 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233380AbhIYK6Z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 25 Sep 2021 06:51:04 -0400
-IronPort-SDR: mLI3V6cSwiHi8gja0CvPKJMRz8k/9q0lSDp1+zrSJHE3kGSnnmW6JW4nBmAI4Mu8l5+EtIwfXR
- +1FebL/aCLofWYk4zjqkQqNHQLBfECR/RBJ09sbFn/ChUV10Go4r1V+I+2QLbLDhN7L105UBBC
- DlVWj7ieOuxxtYIsqeWpE5YBrs+3geCK7kQWfKhfHCjILfVP0pOplvqnc0MXctpOHaWDgcXVEj
- Gsrcj2J5EQen68GST4lFrJ9DyJj0ngXZvRQitMbmXblgqUDXtVh7rIvCe0OkQIQ0bINdxNPAmN
- HeE=
-X-IronPort-AV: E=Sophos;i="5.85,321,1624348800"; 
-   d="scan'208";a="66321087"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa2.mentor.iphmx.com with ESMTP; 25 Sep 2021 02:49:27 -0800
-IronPort-SDR: 7/xLU5DcmWK0K+6/AIcAGRFZkhjeyUdlZhm/58JVwNY9emkiW7JNl1WFy6FkSCKOm7+SHUVglP
- E/SHyn0Fkg7Nr3W9NJkbTk04Fik/gDmSulmLaYRy8xTUnT5TzxZ20UANFqdL2i0aUHw1WJOXUt
- 0g0qCn2cfwETknbk/qlzDMnHsAFMHbg8X6eVmo6f4IkYuJ+yyv765HxuedvQDZXMhj/qum1fnu
- P/cFianEcy6/K1GJ3UGalGkwTpR6BAJtwKns3Q4ICcFkLT2pZoRi2fQNheJN/tH7j0A9bO7fsU
- v4Y=
-From:   Andrew Gabbasov <andrew_gabbasov@mentor.com>
-To:     'Wolfram Sang' <wsa@kernel.org>
-CC:     <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20210922184830.29147-1-andrew_gabbasov@mentor.com> <YU7x8cabSsQiUJuE@kunai>
-In-Reply-To: <YU7x8cabSsQiUJuE@kunai>
-Subject: RE: [PATCH] memory: renesas-rpc-if: Avoid unaligned bus access for HyperFlash
-Date:   Sat, 25 Sep 2021 13:49:13 +0300
-Organization: Mentor Graphics Corporation
-Message-ID: <000901d7b1fa$ff9b57f0$fed207d0$@mentor.com>
+        Sat, 25 Sep 2021 06:58:25 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F41E4C061570
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 25 Sep 2021 03:56:50 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id k17so11168901pff.8
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 25 Sep 2021 03:56:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=Jihi9rSN/rTtBAzPODlo0PBl3PSOfE2AuKvwzsc0TwU=;
+        b=U3wPeaaWk46Evj+aEP5XBo+/AdzwzpybY1qfa3kbFhVeemSk1GsKCPbuNS6W7emdtY
+         7u/zbsgisjHixfum82Rw+emma+fFF/CZWOvK2DsfEoZ8CScn534wLA9B66KtiiSQTu7X
+         Q4EPzsIDCvnJZ/zj7N0Zg7YTCEtATsn1JDsY0jbslO90cuYNovffP48lBVh/jlEqphW9
+         gftX/CipXglqw44B+QTAfdu3A8WdYEt5SAudXyM/KDJ1xnnKdCzMo2u/iT67Qf6YJkZ8
+         p+/YkQyzXOEx/o8QtrqEteuhIIjf+A8zYIXODGh6ncj4fJyNdJRScOj2Cbk280ZZs+IP
+         Cixw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=Jihi9rSN/rTtBAzPODlo0PBl3PSOfE2AuKvwzsc0TwU=;
+        b=MjpI1/jW6wSC0M0Md+kcfPxJqQo+vUP1E3DoRluLinb72+EopUFw/zuZNMldC4SveY
+         lYumIcspGn0iFO1R66SFe1HaMaijeiwopO7iaEvEjZ1M/c3IaLSMoPP/zEReBnkhNojj
+         8fflpHczaucxCc0wusXtReyC4Z0AbjzJ/VPmMcwVbffhCQyS1qD2ES1IOkPSSC+petiA
+         f16tMTd+PwRkfI37iyNTXTqAoiaK2t2MLPWQfsxNk08rA1zqzDOh9oTjuesVNFRhHHMW
+         2aJoPzzMiB3hRXrTckHBOnkJoUUaKkYI35VSCgUj9FucDgpJFr8gtC1mZLV7ppM/tDl4
+         ppzg==
+X-Gm-Message-State: AOAM5333KJSSr47YMBuUIwVLBkYwNhdg2TZ6065Xw0v+67355rHsau18
+        9KrmcRx5OrvtfOsid65+7jvSF/y4FryIagF8
+X-Google-Smtp-Source: ABdhPJzz0aWau0nnUr9DOIFqjgYKSucvCN2Y22xs1PZjmoJ9+CGEe7I7UhYlK6bTUr+lrJerW0hU5g==
+X-Received: by 2002:a05:6a00:16c6:b029:32d:e190:9dd0 with SMTP id l6-20020a056a0016c6b029032de1909dd0mr14040372pfc.70.1632567410260;
+        Sat, 25 Sep 2021 03:56:50 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id f144sm11574901pfa.24.2021.09.25.03.56.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Sep 2021 03:56:50 -0700 (PDT)
+Message-ID: <614f0072.1c69fb81.129b8.3b0a@mx.google.com>
+Date:   Sat, 25 Sep 2021 03:56:50 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHXsfNlhFdr88sfGEGUtgyCIuCyuau0iuYw
-Content-Language: en-us
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-05.mgc.mentorg.com (139.181.222.5) To
- svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2021-09-24-v5.15-rc2
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+Subject: renesas/master cros-ec: 5 runs,
+ 1 regressions (renesas-devel-2021-09-24-v5.15-rc2)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Wolfram,
+renesas/master cros-ec: 5 runs, 1 regressions (renesas-devel-2021-09-24-v5.=
+15-rc2)
 
-Thank you for your comments!
+Regressions Summary
+-------------------
 
-> -----Original Message-----
-> From: Wolfram Sang <wsa@kernel.org>
-> Sent: Saturday, September 25, 2021 12:55 PM
-> To: Gabbasov, Andrew <Andrew_Gabbasov@mentor.com>
-> Cc: linux-renesas-soc@vger.kernel.org; linux-kernel@vger.kernel.org; Krzysztof Kozlowski <krzk@kernel.org>;
-> Sergei Shtylyov <sergei.shtylyov@gmail.com>; Geert Uytterhoeven <geert+renesas@glider.be>
-> Subject: Re: [PATCH] memory: renesas-rpc-if: Avoid unaligned bus access for HyperFlash
-> 
-> Hi Andrew,
-> 
-> thanks for this patch!
-> 
-> > +	const int maxw = (IS_ENABLED(CONFIG_64BIT)) ? 8 : 4;
-> > +	u8 buf[2];
-> 
-> I could imagine the code becomes more readable if we make use of
-> something like:
-> 
-> 	unsigned long from_ul = from;
-> 
-> and then use it throughout the function?
-
-It could make sense if "from" would not change along the function.
-But in case of this function "from" is changed between usages, so
-it would be necessary to synchronize "from_ul" with "from" again
-(make "from_ul++" together with "from++", or re-assign it)
-before we could use it again correctly.
-
-> > +#ifdef CONFIG_64BIT
-> > +		*(u64 *)to = __raw_readq(from);
-> > +#else
-> > +		*(u32 *)to = __raw_readl(from);
-> > +#endif
-> 
-> To keep the ifdeffery minimal:
-> 
-> 	if (maxw == 8)
-> 		*(u64 *)to = __raw_readq(from);
-> 	else
->  		*(u32 *)to = __raw_readl(from);
-> 
-> and let the compiler do its job.
-
-I don't like #ifdef's inside the function body too, but the problem is that
-"__raw_readq" is defined in arch/arm64/include/asm/io.h unconditionally,
-but in include/asm-generic/io.h under "#ifdef CONFIG_64BIT" only.
-This file drivers/memory/renesas-rpc-if.c can be compiled not only
-for renesas/arm64 architecture, but for CONFIG_COMPILE_TEST case too.
-It means, that the file could be compiled for some other architecture,
-that does not have CONFIG_64BIT, and in this case "__raw_readq" function
-will be undefined. So, we need to hide it under "#ifdef CONFIG_64BIT" here.
-
-> I wondered if this could be a helper function somewhere instead of open
-> coded in this driver. However, I did not find any similar code in the
-> kernel yet, so it might be too early to make this a helper. Have you
-> looked for similar code? I might have just missed it.
-
-I looked through the whole kernel code too, and unfortunately didn't find
-any similar code that could be re-used or had some parts, extractable as
-a common helper. That's why I ended up with a local custom function,
-at least so far, until it could be found useful by somebody else ;)
-
-Thanks!
-
-Best regards,
-Andrew 
+platform          | arch | lab           | compiler | defconfig          | =
+regressions
+------------------+------+---------------+----------+--------------------+-=
+-----------
+rk3288-veyron-jaq | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | =
+1          =
 
 
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-09-24-v5.15-rc2/plan/cros-ec/
+
+  Test:     cros-ec
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-09-24-v5.15-rc2
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      2c0b11dd6f8ce5c74e91b71a38505ae9088bf68c
+
+  Test suite revisions:
+    cros-ec-tests
+      URL:  https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform=
+/cros-ec-tests.git
+      SHA:  86181a7fbd379fc42314c450740d2cea8cdf04c1 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform          | arch | lab           | compiler | defconfig          | =
+regressions
+------------------+------+---------------+----------+--------------------+-=
+-----------
+rk3288-veyron-jaq | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | =
+1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/614ee56a2a6422ba9d99a2fa
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-24-v5.15-rc2/arm/multi_v7_defconfig/gcc-8/lab-collabora/cros-ec-rk32=
+88-veyron-jaq.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-09-24-v5.15-rc2/arm/multi_v7_defconfig/gcc-8/lab-collabora/cros-ec-rk32=
+88-veyron-jaq.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-cros=
+-ec/20210913.0/armhf/rootfs.cpio.gz =
+
+
+
+  * cros-ec.login: https://kernelci.org/test/case/id/614ee56a2a6422ba9d99a2=
+fb
+        failing since 11 days (last pass: renesas-devel-2021-08-23-v5.14-rc=
+7, first fail: v5.15-rc1-564-ge23d26d2dc9a) =
+
+ =20
