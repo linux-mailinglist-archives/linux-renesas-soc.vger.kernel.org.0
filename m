@@ -2,108 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC4154182DD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Sep 2021 16:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE6C8418486
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Sep 2021 22:52:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234538AbhIYOwd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 25 Sep 2021 10:52:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39630 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234173AbhIYOwd (ORCPT
+        id S229914AbhIYUyN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 25 Sep 2021 16:54:13 -0400
+Received: from mxout02.lancloud.ru ([45.84.86.82]:49614 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229842AbhIYUyM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 25 Sep 2021 10:52:33 -0400
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D4030610CF;
-        Sat, 25 Sep 2021 14:50:56 +0000 (UTC)
-Date:   Sat, 25 Sep 2021 15:54:45 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 6/9] iio: common: cros_ec_sensors: simplify getting
- .driver_data
-Message-ID: <20210925155445.1edf4752@jic23-huawei>
-In-Reply-To: <716533b5-380d-be72-b45e-d9909f09286b@collabora.com>
-References: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
-        <20210920090522.23784-7-wsa+renesas@sang-engineering.com>
-        <716533b5-380d-be72-b45e-d9909f09286b@collabora.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+        Sat, 25 Sep 2021 16:54:12 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 020C82084E96
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [RFC/PATCH 12/18] ravb: Add timestamp to struct ravb_hw_info
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        Adam Ford <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20210923140813.13541-1-biju.das.jz@bp.renesas.com>
+ <20210923140813.13541-13-biju.das.jz@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <ef7c0a4c-cd4d-817a-d5af-3af1c058964f@omp.ru>
+Date:   Sat, 25 Sep 2021 23:52:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210923140813.13541-13-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 23 Sep 2021 11:16:47 +0200
-Enric Balletbo i Serra <enric.balletbo@collabora.com> wrote:
+On 9/23/21 5:08 PM, Biju Das wrote:
 
-> Hi Wolfram,
+> R-Car AVB-DMAC supports timestamp feature.
+> Add a timestamp hw feature bit to struct ravb_hw_info
+> to add this feature only for R-Car.
 > 
-> On 20/9/21 11:05, Wolfram Sang wrote:
-> > We should get 'driver_data' from 'struct device' directly. Going via
-> > platform_device is an unneeded step back and forth.
-> > 
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>  
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      |  2 +
+>  drivers/net/ethernet/renesas/ravb_main.c | 68 +++++++++++++++---------
+>  2 files changed, 45 insertions(+), 25 deletions(-)
 > 
-> Acked-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> 
-> I'm fine to pick this patch through chrome-platform tree if Jonathan is fine, or
-> can go through his tree.
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index ab4909244276..2505de5d4a28 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -1034,6 +1034,7 @@ struct ravb_hw_info {
+>  	unsigned mii_rgmii_selection:1;	/* E-MAC supports mii/rgmii selection */
+>  	unsigned half_duplex:1;		/* E-MAC supports half duplex mode */
+>  	unsigned rx_2k_buffers:1;	/* AVB-DMAC has Max 2K buf size on RX */
+> +	unsigned timestamp:1;		/* AVB-DMAC has timestamp */
 
-Fine by me, though a suggestion follows to take this a little further than done here.
+   Isn't this a matter of the gPTP support as well, i.e. no separate flag needed?
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+[...]
+> @@ -1089,6 +1090,7 @@ struct ravb_private {
+>  	unsigned int num_tx_desc;	/* TX descriptors per packet */
+>  
+>  	int duplex;
+> +	struct ravb_rx_desc *rgeth_rx_ring[NUM_RX_QUEUE];
 
-It's not something that ever bothered me that much, but we have had debates in
-the past about whether there are semantic issues around this sort of cleanup
-as it mixes
+   Strange place to declare this...
 
-platform_set_drvdata() with device_get_drvdata()
+>  
+>  	const struct ravb_hw_info *info;
+>  	struct reset_control *rstc;
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 9c0d35f4b221..2c375002ebcb 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -949,11 +949,14 @@ static bool ravb_queue_interrupt(struct net_device *ndev, int q)
+>  
+>  static bool ravb_timestamp_interrupt(struct net_device *ndev)
+>  {
+> +	struct ravb_private *priv = netdev_priv(ndev);
+> +	const struct ravb_hw_info *info = priv->info;
+>  	u32 tis = ravb_read(ndev, TIS);
+>  
+>  	if (tis & TIS_TFUF) {
+>  		ravb_write(ndev, ~(TIS_TFUF | TIS_RESERVED), TIS);
+> -		ravb_get_tx_tstamp(ndev);
+> +		if (info->timestamp)
+> +			ravb_get_tx_tstamp(ndev);
 
-Whilst they access the same pointer today, in theory that isn't necessarily
-always going to be the case in future and it isn't necessarily apparent
-to the casual reader of the code.
+   Shouldn't we just disable TIS.TFUF permanently instead for the non-gPTP case?
 
-In this particular case you could tidy that up by using device_set_drvdata() in
-the first place, but then to keep things consistent there is one other place
-where platform_get_drvdata is used in a devm_add_action_or_reset() callback.
-That one is also easily fixed though if we want to be consistent throughout.
+[...]
 
-Jonathan
-
-> 
-> I plan also to pick patch  "[PATCH 8/9] platform: chrome: cros_ec_sensorhub:
-> simplify getting .driver_data"
-> 
-> Thanks,
->   Enric
-> 
-> > ---
-> > 
-> > Build tested only. buildbot is happy.
-> > 
-> >  drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> > index 28bde13003b7..b2725c6adc7f 100644
-> > --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> > +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> > @@ -831,8 +831,7 @@ EXPORT_SYMBOL_GPL(cros_ec_sensors_core_write);
-> >  
-> >  static int __maybe_unused cros_ec_sensors_resume(struct device *dev)
-> >  {
-> > -	struct platform_device *pdev = to_platform_device(dev);
-> > -	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
-> > +	struct iio_dev *indio_dev = dev_get_drvdata(dev);
-> >  	struct cros_ec_sensors_core_state *st = iio_priv(indio_dev);
-> >  	int ret = 0;
-> >  
-> >   
-
+MBR, Sergey
