@@ -2,74 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BFA4419AC1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Sep 2021 19:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2D88419F1E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Sep 2021 21:28:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236539AbhI0RMA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Sep 2021 13:12:00 -0400
-Received: from mail-oi1-f174.google.com ([209.85.167.174]:38490 "EHLO
-        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236552AbhI0RKA (ORCPT
+        id S236399AbhI0TaD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Sep 2021 15:30:03 -0400
+Received: from mxout01.lancloud.ru ([45.84.86.81]:54652 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236395AbhI0TaB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Sep 2021 13:10:00 -0400
-Received: by mail-oi1-f174.google.com with SMTP id u22so26459579oie.5;
-        Mon, 27 Sep 2021 10:08:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LP975dl3xHlgyqPGMVgzcJgxzN1j0uNYB1HMMJCHNTg=;
-        b=e9bADm+nFDh1D9qU45S65OooI67eF8kuz0G34i1Lcl8PA7CWnwXlPZxJ4iSle8/ZWZ
-         69SzobrpRoQwfNFKWC2dYfJi2opY5FfD05rNom6M13iFZum+RW4NB/yy1jfgYBj4tqq2
-         UQGtF6vn4wNczh4nkEBUZH/2JPs8DSweuNLhJ1n4cZeuhmaaB4a8iQYS2m5XDzWeySIF
-         H7j0sJC/WKKDRYWZ1oV15bZ0+YSw1+OQch2XmQgH0NZGCOfN/ERVZ+Ei+jq5P3EhP+6V
-         wYxMvUkOHIFM2Cq4v3Zp/1kjbgY9CwkxTf/D78azAE00SwWJAtH9iZAB8GaX3VCPSZH4
-         Tgdw==
-X-Gm-Message-State: AOAM5305dF5q1w9iHvDFTOgrkNvQfVwt0GwBKm0LIuIkOVsslQHCatDy
-        oOaHUdwMpErz+RiQTOzT5w==
-X-Google-Smtp-Source: ABdhPJzTrUa14LFZIHggVDOTBYg5Zt0YNgNpRcOEWlaeESALOxzCAyAUF81ovmdfNwoyyc9kfuLQrA==
-X-Received: by 2002:aca:a88e:: with SMTP id r136mr96832oie.101.1632762501505;
-        Mon, 27 Sep 2021 10:08:21 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id x34sm1897955otr.8.2021.09.27.10.08.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 10:08:20 -0700 (PDT)
-Received: (nullmailer pid 3478888 invoked by uid 1000);
-        Mon, 27 Sep 2021 17:08:19 -0000
-Date:   Mon, 27 Sep 2021 12:08:19 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     devicetree@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-gpio@vger.kernel.org,
+        Mon, 27 Sep 2021 15:30:01 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 065E02027C67
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [RFC/PATCH 13/18] ravb: Add rx_ring_free function support for
+ GbEthernet
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Lunn <andrew@lunn.ch>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Marc Zyngier <maz@kernel.org>
-Subject: Re: [RFC PATCH v2 1/4] dt-bindings: interrupt-controller: Add
- Renesas RZ/G2L Interrupt Controller
-Message-ID: <YVH6gxfzpo2vT+Ar@robh.at.kernel.org>
-References: <20210921193028.13099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210921193028.13099-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Adam Ford <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20210923140813.13541-1-biju.das.jz@bp.renesas.com>
+ <20210923140813.13541-14-biju.das.jz@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <6d6c1a5d-fcaa-4af9-0ed8-51920c237bde@omp.ru>
+Date:   Mon, 27 Sep 2021 22:28:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210921193028.13099-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210923140813.13541-14-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 21 Sep 2021 20:30:25 +0100, Lad Prabhakar wrote:
-> Add DT bindings for the Renesas RZ/G2L Interrupt Controller.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../renesas,rzg2l-irqc.yaml                   | 130 ++++++++++++++++++
->  1 file changed, 130 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-> 
+On 9/23/21 5:08 PM, Biju Das wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> This patch adds rx_ring_free function support for GbEthernet
+> found on RZ/G2L SoC.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb_main.c | 22 +++++++++++++++++++++-
+>  1 file changed, 21 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 2c375002ebcb..038af36141bb 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -236,7 +236,27 @@ static int ravb_tx_free(struct net_device *ndev, int q, bool free_txed_only)
+>  
+>  static void ravb_rx_ring_free_rgeth(struct net_device *ndev, int q)
+>  {
+> -	/* Place holder */
+> +	struct ravb_private *priv = netdev_priv(ndev);
+> +	unsigned int ring_size;
+> +	unsigned int i;
+> +
+> +	if (!priv->rgeth_rx_ring[q])
+
+   Is the network control queue present on your hardware at all? Perhaps we can ignore q for now?
+
+> +		return;
+> +
+> +	for (i = 0; i < priv->num_rx_ring[q]; i++) {
+> +		struct ravb_rx_desc *desc = &priv->rgeth_rx_ring[q][i];
+
+   Looks like patch #12 should come after this one, not before...
+
+> +
+> +		if (!dma_mapping_error(ndev->dev.parent,
+> +				       le32_to_cpu(desc->dptr)))
+> +			dma_unmap_single(ndev->dev.parent,
+> +					 le32_to_cpu(desc->dptr),
+> +					 RGETH_RX_BUFF_MAX,
+> +					 DMA_FROM_DEVICE);
+> +	}
+> +	ring_size = sizeof(struct ravb_rx_desc) * (priv->num_rx_ring[q] + 1);
+> +	dma_free_coherent(ndev->dev.parent, ring_size, priv->rgeth_rx_ring[q],
+> +			  priv->rx_desc_dma[q]);
+> +	priv->rgeth_rx_ring[q] = NULL;
+>  }
+>  
+>  static void ravb_rx_ring_free(struct net_device *ndev, int q)
+
+MBR, Sergey
