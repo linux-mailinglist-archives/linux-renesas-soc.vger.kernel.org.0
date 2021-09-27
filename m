@@ -2,138 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 023A9419648
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Sep 2021 16:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BFA4419AC1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Sep 2021 19:10:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234754AbhI0O2L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Sep 2021 10:28:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36674 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234706AbhI0O2K (ORCPT
+        id S236539AbhI0RMA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Sep 2021 13:12:00 -0400
+Received: from mail-oi1-f174.google.com ([209.85.167.174]:38490 "EHLO
+        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236552AbhI0RKA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Sep 2021 10:28:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4AE646108E;
-        Mon, 27 Sep 2021 14:26:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632752792;
-        bh=y6jw05z4kqvX74jByJ76pgtBYsAxaKJp1OXc0rrAQIA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=st7NCBdKMvzmR5kG/s+a8GNTFBZzte2stbYbwFXbYrwvJ4bECDw5i5UWoNRkBtAhm
-         jzIzmSta6cC76Ae1SEynZxETxkJoRj8JOv06Ar8C6+DkRCM6gzkARLSCg/ftCU9TZU
-         3oUPnRFKzOreNeJ00YBDYyzNIyJf209giWOj+ptLISUsIJHjbDte9l9Lzn8joT2HxW
-         8t+2hCTpMJWNJBlmD8P6rArks9eDltTDHJQg2VyJ+YwcwZzJTIKEOeKg4yePws5HHE
-         x2XGgC07NMqVextP59WHXN9Ads+PSxtmwNou/1Tu2b1RdFpd8QVuv9UL0LkdbRRfi9
-         DeZVUHFQLlfOA==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] [RESEND] drm/rcar: stop using 'imply' for dependencies
-Date:   Mon, 27 Sep 2021 16:26:23 +0200
-Message-Id: <20210927142629.2016647-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+        Mon, 27 Sep 2021 13:10:00 -0400
+Received: by mail-oi1-f174.google.com with SMTP id u22so26459579oie.5;
+        Mon, 27 Sep 2021 10:08:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LP975dl3xHlgyqPGMVgzcJgxzN1j0uNYB1HMMJCHNTg=;
+        b=e9bADm+nFDh1D9qU45S65OooI67eF8kuz0G34i1Lcl8PA7CWnwXlPZxJ4iSle8/ZWZ
+         69SzobrpRoQwfNFKWC2dYfJi2opY5FfD05rNom6M13iFZum+RW4NB/yy1jfgYBj4tqq2
+         UQGtF6vn4wNczh4nkEBUZH/2JPs8DSweuNLhJ1n4cZeuhmaaB4a8iQYS2m5XDzWeySIF
+         H7j0sJC/WKKDRYWZ1oV15bZ0+YSw1+OQch2XmQgH0NZGCOfN/ERVZ+Ei+jq5P3EhP+6V
+         wYxMvUkOHIFM2Cq4v3Zp/1kjbgY9CwkxTf/D78azAE00SwWJAtH9iZAB8GaX3VCPSZH4
+         Tgdw==
+X-Gm-Message-State: AOAM5305dF5q1w9iHvDFTOgrkNvQfVwt0GwBKm0LIuIkOVsslQHCatDy
+        oOaHUdwMpErz+RiQTOzT5w==
+X-Google-Smtp-Source: ABdhPJzTrUa14LFZIHggVDOTBYg5Zt0YNgNpRcOEWlaeESALOxzCAyAUF81ovmdfNwoyyc9kfuLQrA==
+X-Received: by 2002:aca:a88e:: with SMTP id r136mr96832oie.101.1632762501505;
+        Mon, 27 Sep 2021 10:08:21 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id x34sm1897955otr.8.2021.09.27.10.08.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Sep 2021 10:08:20 -0700 (PDT)
+Received: (nullmailer pid 3478888 invoked by uid 1000);
+        Mon, 27 Sep 2021 17:08:19 -0000
+Date:   Mon, 27 Sep 2021 12:08:19 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     devicetree@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Marc Zyngier <maz@kernel.org>
+Subject: Re: [RFC PATCH v2 1/4] dt-bindings: interrupt-controller: Add
+ Renesas RZ/G2L Interrupt Controller
+Message-ID: <YVH6gxfzpo2vT+Ar@robh.at.kernel.org>
+References: <20210921193028.13099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210921193028.13099-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210921193028.13099-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Tue, 21 Sep 2021 20:30:25 +0100, Lad Prabhakar wrote:
+> Add DT bindings for the Renesas RZ/G2L Interrupt Controller.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../renesas,rzg2l-irqc.yaml                   | 130 ++++++++++++++++++
+>  1 file changed, 130 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
+> 
 
-The meaning of the 'imply' keyword has changed recently, and neither the
-old meaning (select the symbol if its dependencies are met) nor the new
-meaning (enable it by default, but let the user set any other setting)
-is what we want here.
-
-Work around this by adding two more Kconfig options that lead to
-the correct behavior: if DRM_RCAR_USE_CMM and DRM_RCAR_USE_LVDS
-are enabled, that portion of the driver becomes usable, and no
-configuration results in a link error.
-
-This avoids a link failure:
-
-arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_begin':
-rcar_du_crtc.c:(.text+0x1444): undefined reference to `rcar_cmm_setup'
-arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
-rcar_du_crtc.c:(.text+0x14d4): undefined reference to `rcar_cmm_enable'
-arm-linux-gnueabi-ld: rcar_du_crtc.c:(.text+0x1548): undefined reference to `rcar_cmm_setup'
-arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
-rcar_du_crtc.c:(.text+0x18b8): undefined reference to `rcar_cmm_disable'
-arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_kms.o: in function `rcar_du_modeset_init':
-
-Link: https://lore.kernel.org/all/20200417155553.675905-5-arnd@arndb.de/
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-This was last posted as part of a longer series to rework the
-DRM dependencies in a more logical way. The rest of the series
-is still open, but this one is needed as a bug fix regardless of
-the rest.
----
- drivers/gpu/drm/rcar-du/Kconfig | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index b47e74421e34..3e588ddba245 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -4,8 +4,6 @@ config DRM_RCAR_DU
- 	depends on DRM && OF
- 	depends on ARM || ARM64
- 	depends on ARCH_RENESAS || COMPILE_TEST
--	imply DRM_RCAR_CMM
--	imply DRM_RCAR_LVDS
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_CMA_HELPER
- 	select DRM_GEM_CMA_HELPER
-@@ -14,13 +12,17 @@ config DRM_RCAR_DU
- 	  Choose this option if you have an R-Car chipset.
- 	  If M is selected the module will be called rcar-du-drm.
- 
--config DRM_RCAR_CMM
--	tristate "R-Car DU Color Management Module (CMM) Support"
--	depends on DRM && OF
-+config DRM_RCAR_USE_CMM
-+	bool "R-Car DU Color Management Module (CMM) Support"
- 	depends on DRM_RCAR_DU
-+	default DRM_RCAR_DU
- 	help
- 	  Enable support for R-Car Color Management Module (CMM).
- 
-+config DRM_RCAR_CMM
-+	def_tristate DRM_RCAR_DU
-+	depends on DRM_RCAR_USE_CMM
-+
- config DRM_RCAR_DW_HDMI
- 	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
- 	depends on DRM && OF
-@@ -28,15 +30,20 @@ config DRM_RCAR_DW_HDMI
- 	help
- 	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
- 
-+config DRM_RCAR_USE_LVDS
-+	bool "R-Car DU LVDS Encoder Support"
-+	depends on DRM_BRIDGE && OF
-+	default DRM_RCAR_DU
-+	help
-+	  Enable support for the R-Car Display Unit embedded LVDS encoders.
-+
- config DRM_RCAR_LVDS
--	tristate "R-Car DU LVDS Encoder Support"
--	depends on DRM && DRM_BRIDGE && OF
-+	def_tristate DRM_RCAR_DU
-+	depends on DRM_RCAR_USE_LVDS
- 	select DRM_KMS_HELPER
- 	select DRM_PANEL
- 	select OF_FLATTREE
- 	select OF_OVERLAY
--	help
--	  Enable support for the R-Car Display Unit embedded LVDS encoders.
- 
- config DRM_RCAR_VSP
- 	bool "R-Car DU VSP Compositor Support" if ARM
--- 
-2.29.2
-
+Reviewed-by: Rob Herring <robh@kernel.org>
