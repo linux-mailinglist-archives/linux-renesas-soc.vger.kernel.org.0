@@ -2,90 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B67A64193CB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Sep 2021 14:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 023A9419648
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Sep 2021 16:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234112AbhI0ME0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Sep 2021 08:04:26 -0400
-Received: from www.zeus03.de ([194.117.254.33]:48738 "EHLO mail.zeus03.de"
+        id S234754AbhI0O2L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Sep 2021 10:28:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36674 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234087AbhI0MEZ (ORCPT
+        id S234706AbhI0O2K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Sep 2021 08:04:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=87761o7VILD8UMZI4tzHiRt1yP7F
-        BtneFUwFcJdS7kY=; b=xAD6aVLSEf1w4KptB7BX7XEPN6CUFnII1qtBzY7sVPFV
-        H5+pMY/8S8kybQh8SGSYcV2XrrIy/RbDjum27gE4uRBZVaukpb1JAC3kxPayFXIk
-        gYbTZUKaTASqbNqkWVBXkE/h8BoIa26gFzJ/tmb6eD69B/VnkfVnTaUPmaAXVuQ=
-Received: (qmail 842639 invoked from network); 27 Sep 2021 14:02:46 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Sep 2021 14:02:46 +0200
-X-UD-Smtp-Session: l3s3148p1@0DkH4PjM8sMgARa4RUvHAbZgIYagrKBM
-Date:   Mon, 27 Sep 2021 14:02:45 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: fix regression with hard reset on old
- SDHIs
-Message-ID: <YVGy5R89xycRoLP5@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20210826082107.47299-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdUXc0oSCXJ-5QmPJz0VkX1Aib+ZAv8K2LN_fT1+5mocqw@mail.gmail.com>
- <YSelsjPyswWCr7Nu@shikoro>
- <CAPDyKFp2Ut4UJoRXPD4t+k1+ZfmT-CQZ3obNA_iPF6OA-t+T7g@mail.gmail.com>
- <YVF5ZskkvlI40pkg@shikoro>
- <CAPDyKFqBWGgsVb8r_n-rR4WSStpEkpExVi_Lizds_S724zGiYw@mail.gmail.com>
+        Mon, 27 Sep 2021 10:28:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4AE646108E;
+        Mon, 27 Sep 2021 14:26:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632752792;
+        bh=y6jw05z4kqvX74jByJ76pgtBYsAxaKJp1OXc0rrAQIA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=st7NCBdKMvzmR5kG/s+a8GNTFBZzte2stbYbwFXbYrwvJ4bECDw5i5UWoNRkBtAhm
+         jzIzmSta6cC76Ae1SEynZxETxkJoRj8JOv06Ar8C6+DkRCM6gzkARLSCg/ftCU9TZU
+         3oUPnRFKzOreNeJ00YBDYyzNIyJf209giWOj+ptLISUsIJHjbDte9l9Lzn8joT2HxW
+         8t+2hCTpMJWNJBlmD8P6rArks9eDltTDHJQg2VyJ+YwcwZzJTIKEOeKg4yePws5HHE
+         x2XGgC07NMqVextP59WHXN9Ads+PSxtmwNou/1Tu2b1RdFpd8QVuv9UL0LkdbRRfi9
+         DeZVUHFQLlfOA==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] [RESEND] drm/rcar: stop using 'imply' for dependencies
+Date:   Mon, 27 Sep 2021 16:26:23 +0200
+Message-Id: <20210927142629.2016647-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZBNTQTtPRCz93PiT"
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFqBWGgsVb8r_n-rR4WSStpEkpExVi_Lizds_S724zGiYw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Arnd Bergmann <arnd@arndb.de>
 
---ZBNTQTtPRCz93PiT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The meaning of the 'imply' keyword has changed recently, and neither the
+old meaning (select the symbol if its dependencies are met) nor the new
+meaning (enable it by default, but let the user set any other setting)
+is what we want here.
 
+Work around this by adding two more Kconfig options that lead to
+the correct behavior: if DRM_RCAR_USE_CMM and DRM_RCAR_USE_LVDS
+are enabled, that portion of the driver becomes usable, and no
+configuration results in a link error.
 
-> > Your 'fixes' branch is still in -next only. Could you send it to Linus,
-> > please?
->=20
-> Yes, it was busy last week. I will send a pull request later today/evenin=
-g.
+This avoids a link failure:
 
-Thanks, Ulf! Much appreciated.
+arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_begin':
+rcar_du_crtc.c:(.text+0x1444): undefined reference to `rcar_cmm_setup'
+arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
+rcar_du_crtc.c:(.text+0x14d4): undefined reference to `rcar_cmm_enable'
+arm-linux-gnueabi-ld: rcar_du_crtc.c:(.text+0x1548): undefined reference to `rcar_cmm_setup'
+arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
+rcar_du_crtc.c:(.text+0x18b8): undefined reference to `rcar_cmm_disable'
+arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_kms.o: in function `rcar_du_modeset_init':
 
+Link: https://lore.kernel.org/all/20200417155553.675905-5-arnd@arndb.de/
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+This was last posted as part of a longer series to rework the
+DRM dependencies in a more logical way. The rest of the series
+is still open, but this one is needed as a bug fix regardless of
+the rest.
+---
+ drivers/gpu/drm/rcar-du/Kconfig | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
---ZBNTQTtPRCz93PiT
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+index b47e74421e34..3e588ddba245 100644
+--- a/drivers/gpu/drm/rcar-du/Kconfig
++++ b/drivers/gpu/drm/rcar-du/Kconfig
+@@ -4,8 +4,6 @@ config DRM_RCAR_DU
+ 	depends on DRM && OF
+ 	depends on ARM || ARM64
+ 	depends on ARCH_RENESAS || COMPILE_TEST
+-	imply DRM_RCAR_CMM
+-	imply DRM_RCAR_LVDS
+ 	select DRM_KMS_HELPER
+ 	select DRM_KMS_CMA_HELPER
+ 	select DRM_GEM_CMA_HELPER
+@@ -14,13 +12,17 @@ config DRM_RCAR_DU
+ 	  Choose this option if you have an R-Car chipset.
+ 	  If M is selected the module will be called rcar-du-drm.
+ 
+-config DRM_RCAR_CMM
+-	tristate "R-Car DU Color Management Module (CMM) Support"
+-	depends on DRM && OF
++config DRM_RCAR_USE_CMM
++	bool "R-Car DU Color Management Module (CMM) Support"
+ 	depends on DRM_RCAR_DU
++	default DRM_RCAR_DU
+ 	help
+ 	  Enable support for R-Car Color Management Module (CMM).
+ 
++config DRM_RCAR_CMM
++	def_tristate DRM_RCAR_DU
++	depends on DRM_RCAR_USE_CMM
++
+ config DRM_RCAR_DW_HDMI
+ 	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
+ 	depends on DRM && OF
+@@ -28,15 +30,20 @@ config DRM_RCAR_DW_HDMI
+ 	help
+ 	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
+ 
++config DRM_RCAR_USE_LVDS
++	bool "R-Car DU LVDS Encoder Support"
++	depends on DRM_BRIDGE && OF
++	default DRM_RCAR_DU
++	help
++	  Enable support for the R-Car Display Unit embedded LVDS encoders.
++
+ config DRM_RCAR_LVDS
+-	tristate "R-Car DU LVDS Encoder Support"
+-	depends on DRM && DRM_BRIDGE && OF
++	def_tristate DRM_RCAR_DU
++	depends on DRM_RCAR_USE_LVDS
+ 	select DRM_KMS_HELPER
+ 	select DRM_PANEL
+ 	select OF_FLATTREE
+ 	select OF_OVERLAY
+-	help
+-	  Enable support for the R-Car Display Unit embedded LVDS encoders.
+ 
+ config DRM_RCAR_VSP
+ 	bool "R-Car DU VSP Compositor Support" if ARM
+-- 
+2.29.2
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFRsuIACgkQFA3kzBSg
-Kbaz3hAAjB78E58n2UT8NpQEdk7SXzlIISnl7l05TbEqZQJ83GQnocED5s67me6Z
-lLW5tsglUo5D4ZcIZmO2avM7G/esUy96AYkvUYOLwYXnV/b475Ob9fIHU0zyp+j8
-7VZbC/ZE4cDE+iFHkb6AVhSnF63FXNscAKVUeq5gOYxcigPdBNODBY19SUHcOYcm
-P1yfgOb5Gp666YzS0KQZ3VT/zU17iN5t9UwtlulmEvQP53aUD20meebS7B5Lu5lz
-iuXSMO/sO/+sOKpYJWmeacXh7/UfNxGRnjntf8ie2QXXZ3tInP5Yqec8TY9P5GIw
-jdooLyhivd3FXEd4G2PPTir2QJcD0PwGd24Jg4YzISXz7uA7sD6FopqJst7PcZFv
-2f3qPJIBGn/hhJNwR5vuwX1lvilg0tX9XrvEAquj7/8fllBbP7AO4hVmBChTtwbR
-y+e0WKRXNnJvtyzK8ODZgrjaLZzOMx386NUKxbSim+8ug/AgOawgC4wzPUGMTn8w
-ySvVQAldXIXdb8pfer1JM7cGF7YAlaiKAy2i5A9pplugraZtenJzsPl91Ps2sEPt
-O0UQ1VQMnhqj9rHxg0OAl/NpN7stbReICFZNseaI+24Yx/+bQKWXmgJbLzDA/OlQ
-1HfMRDPB14lDtzOQTs8oWJ70pdO3/de3xAfcda7DVe0q/adGJLc=
-=mplP
------END PGP SIGNATURE-----
-
---ZBNTQTtPRCz93PiT--
