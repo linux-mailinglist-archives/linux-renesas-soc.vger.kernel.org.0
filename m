@@ -2,95 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66F0141AD12
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 12:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7FF241AE4B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 13:57:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240225AbhI1Khh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Sep 2021 06:37:37 -0400
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:58018
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240205AbhI1Khg (ORCPT
+        id S240438AbhI1L6x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Sep 2021 07:58:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44034 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240478AbhI1L6x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Sep 2021 06:37:36 -0400
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com [209.85.167.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 4C8C8402FB
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 10:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1632825353;
-        bh=AJzuKk/vJuyADYn3Tyc95ocSPqoexwLNcmXZAoYOW8U=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version:Content-Type;
-        b=gIxC8uUYYqvKB088dBQ/UXszBnRXQDTazOyrS7MnFQ14icpLby+YIG3F7LXHnH/Kw
-         JLGBzeWRhBrZrBZnRVe3UBImx+yBBRmtUau6o/TwWX2R8dhCoryWIq/iPhxtp858Jn
-         +dfh6yZ9Xei1gc/bWbpKNtfeywFFYuv9tkBVGyehJkXAJN9/KqGlD/YThX7rClXid7
-         yrv20SlOcNS6vz78gRR/fKRLrx/x38e6db2ITtHmTwBmPxnu8+pgaf9mPQmh0OxDCX
-         xgO9ZKprYmJxqlqFGbp73jpo4zARIp2+OCQoluySrbHbTd9j0TBVRBlVAwynUdsxsu
-         H74U/r4vxmi3g==
-Received: by mail-lf1-f71.google.com with SMTP id bp11-20020a056512158b00b003fc7d722819so18928113lfb.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 03:35:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AJzuKk/vJuyADYn3Tyc95ocSPqoexwLNcmXZAoYOW8U=;
-        b=zpGVmLYMDzMoePVkFkR9cTbX4ZIoQQyNGvCa4ziVRo19YzrASNiYMcbcwAGClm1f8C
-         b4Y6iRXwaze0F/+3Zap1MCYl2hDEbgbq9PpMl4yDlxWY/LQVTOmLRj+vYQ12wUvVxycs
-         6ZqmSjOseeCqfx8xpPwWa2FqdXJrKu94VO4cixWtTuVbikGqtGfRFgaM66EgshspiNZq
-         fEAgMGJ5FbHafxAK6rlxrJv/hv/6zcfjTrm2minMY8x1Ao5yO0derLfv9VWde82yRA0r
-         6cFvUd12z03Vaon8qlZiJjX9Cowpp7Ge3c50jaV9OUqNnEmCExUdP+h0VppUIVb+8y2x
-         tBxg==
-X-Gm-Message-State: AOAM531N3T9hzVki5nKK1rtT/aiAwVqkHiigu2dJRxW07KKIiA1Ik9pT
-        UdqPSDTLcRJmJM/+kf2xJckIC1SMHBinaY/1pG/Ng0ge0AQdVfzNKWw4MsU4z0YYhG+y3hMCzsi
-        8OHveyksXN0+wGYBVNTjd6Z7SyVSp7FxHKaPh1X+LhEBncF1Y
-X-Received: by 2002:a2e:4802:: with SMTP id v2mr5077374lja.501.1632825352665;
-        Tue, 28 Sep 2021 03:35:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzNA8WgVR2+8ER4/6MC54ucH82pwm2S/NMyaoL7vkvgrzQsMxv0gV4MfGvqmFBtf4FYGPJbbA==
-X-Received: by 2002:a2e:4802:: with SMTP id v2mr5077357lja.501.1632825352420;
-        Tue, 28 Sep 2021 03:35:52 -0700 (PDT)
-Received: from localhost.localdomain (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id l6sm1809230lfp.143.2021.09.28.03.35.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Sep 2021 03:35:51 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     linux-kernel@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Duc Nguyen <duc.nguyen.ub@renesas.com>
-Subject: Re: [RFC PATCH] memory: renesas-rpc-if: Correct QSPI data transfer in Manual mode
-Date:   Tue, 28 Sep 2021 12:35:48 +0200
-Message-Id: <163282533892.34438.1878675609177525004.b4-ty@canonical.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210922091007.5516-1-wsa+renesas@sang-engineering.com>
-References: <20210922091007.5516-1-wsa+renesas@sang-engineering.com>
+        Tue, 28 Sep 2021 07:58:53 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FCDBC061575
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 04:57:14 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0572B3F1;
+        Tue, 28 Sep 2021 13:57:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1632830232;
+        bh=lanGYovgtfsarvaafXMDmZJdFykrXCkZrlFgEzJgq20=;
+        h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
+        b=OMTmTQY4LCbfErKge3wwnwpD7/Li5FOycw7le+AMq/hyre7y91ZAUIiltgM8x/8NH
+         DjNeBHZJaR1YZJzBQfDoKMPAUj8GP344BwOjPOEL+1wGn2IyiMrz04b1R92LWNHL4J
+         aqvNvpKqN9c0e805uNfPnJIct2j/cfS0j9OPcFdc=
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] drm: rcar-du: Don't create encoder for unconnected LVDS
+ outputs
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com>
+Message-ID: <bba07a35-4f33-c62e-ea26-6e3fafe79c13@ideasonboard.com>
+Date:   Tue, 28 Sep 2021 12:57:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 22 Sep 2021 11:10:06 +0200, Wolfram Sang wrote:
-> This patch fixes 2 problems:
-> [1] The output warning logs and data loss when performing
-> mount/umount then remount the device with jffs2 format.
-> [2] The access width of SMWDR[0:1]/SMRDR[0:1] register is wrong.
+On 22/08/2021 01:36, Laurent Pinchart wrote:
+> On R-Car D3 and E3, the LVDS encoders provide the pixel clock to the DU,
+> even when LVDS outputs are not used. For this reason, the rcar-lvds
+> driver probes successfully on those platforms even if no further bridge
+> or panel is connected to the LVDS output, in order to provide the
+> rcar_lvds_clk_enable() and rcar_lvds_clk_disable() functions to the DU
+> driver.
 > 
-> This is the sample warning logs when performing mount/umount then
-> remount the device with jffs2 format:
-> jffs2: jffs2_scan_inode_node(): CRC failed on node at 0x031c51d4:
-> Read 0x00034e00, calculated 0xadb272a7
+> If an LVDS output isn't connected, trying to create a DRM connector for
+> the output will fail. Fix this by skipping connector creation in that
+> case, and also skip creation of the DRM encoder as there's no point in
+> an encoder without a connector.
 > 
-> [...]
+> Fixes: e9e056949c92 ("drm: rcar-du: lvds: Convert to DRM panel bridge helper")
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Applied, thanks!
+Perhaps this helps it get upstream...
 
-[1/1] memory: renesas-rpc-if: Correct QSPI data transfer in Manual mode
-      commit: fff53a551db50f5edecaa0b29a64056ab8d2bbca
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 16 ++++++++++++----
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c       | 11 +++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_lvds.h       |  5 +++++
+>  3 files changed, 28 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> index 0daa8bba50f5..4bf4e25d7f01 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> @@ -86,12 +86,20 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  	}
+>  
+>  	/*
+> -	 * Create and initialize the encoder. On Gen3 skip the LVDS1 output if
+> +	 * Create and initialize the encoder. On Gen3, skip the LVDS1 output if
+>  	 * the LVDS1 encoder is used as a companion for LVDS0 in dual-link
+> -	 * mode.
+> +	 * mode, or any LVDS output if it isn't connected. The latter may happen
+> +	 * on D3 or E3 as the LVDS encoders are needed to provide the pixel
+> +	 * clock to the DU, even when the LVDS outputs are not used.
+>  	 */
+> -	if (rcdu->info->gen >= 3 && output == RCAR_DU_OUTPUT_LVDS1) {
+> -		if (rcar_lvds_dual_link(bridge))
+> +	if (rcdu->info->gen >= 3) {
+> +		if (output == RCAR_DU_OUTPUT_LVDS1 &&
+> +		    rcar_lvds_dual_link(bridge))
+> +			return -ENOLINK;
+> +
+> +		if ((output == RCAR_DU_OUTPUT_LVDS0 ||
+> +		     output == RCAR_DU_OUTPUT_LVDS1) &&
+> +		    !rcar_lvds_is_connected(bridge))
+>  			return -ENOLINK;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index d061b8de748f..b672c5bd72ee 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -576,6 +576,9 @@ static int rcar_lvds_attach(struct drm_bridge *bridge,
+>  {
+>  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+>  
+> +	if (!lvds->next_bridge)
+> +		return 0;
+> +
+>  	return drm_bridge_attach(bridge->encoder, lvds->next_bridge, bridge,
+>  				 flags);
+>  }
+> @@ -598,6 +601,14 @@ bool rcar_lvds_dual_link(struct drm_bridge *bridge)
+>  }
+>  EXPORT_SYMBOL_GPL(rcar_lvds_dual_link);
+>  
+> +bool rcar_lvds_is_connected(struct drm_bridge *bridge)
+> +{
+> +	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> +
+> +	return lvds->next_bridge != NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(rcar_lvds_is_connected);
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Probe & Remove
+>   */
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> index 222ec0e60785..eb7c6ef03b00 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> @@ -16,6 +16,7 @@ struct drm_bridge;
+>  int rcar_lvds_clk_enable(struct drm_bridge *bridge, unsigned long freq);
+>  void rcar_lvds_clk_disable(struct drm_bridge *bridge);
+>  bool rcar_lvds_dual_link(struct drm_bridge *bridge);
+> +bool rcar_lvds_is_connected(struct drm_bridge *bridge);
+>  #else
+>  static inline int rcar_lvds_clk_enable(struct drm_bridge *bridge,
+>  				       unsigned long freq)
+> @@ -27,6 +28,10 @@ static inline bool rcar_lvds_dual_link(struct drm_bridge *bridge)
+>  {
+>  	return false;
+>  }
+> +static inline bool rcar_lvds_is_connected(struct drm_bridge *bridge)
+> +{
+> +	return false;
+> +}
+>  #endif /* CONFIG_DRM_RCAR_LVDS */
+>  
+>  #endif /* __RCAR_LVDS_H__ */
+> 
