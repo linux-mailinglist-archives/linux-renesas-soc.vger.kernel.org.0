@@ -2,75 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F8AA41AAEC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 10:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F371E41AB44
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 10:56:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239556AbhI1ItG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Sep 2021 04:49:06 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.53]:27661 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239563AbhI1ItG (ORCPT
+        id S239683AbhI1I5t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Sep 2021 04:57:49 -0400
+Received: from mail-vk1-f177.google.com ([209.85.221.177]:45699 "EHLO
+        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239254AbhI1I5s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Sep 2021 04:49:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632818824;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=gbQ3IMAvZc7aLDyCplOxZibt9MvPS8SVs44QxppKxOA=;
-    b=gFiugyO1XIpCrAYcg8xIW2AhFwdl2RbtwCdPt4NTRkscDiDegdROOIVST81bAyCka/
-    EUllEQJtKRKVGbJ1teX/P6NLpUZvnmiPjkgTCeyLIVvWwa2QN8shsnqhjrqU2aDN5ecF
-    mxr7NL387Jowb+kxHSo0UrbsepeeegSnaY+kLYKaES6fdXDPSxB0nWRbbdN20gnKshb5
-    6/9SIAvmt4D3mTlHD4snShtF6grlbJqGwSVR9mz76Yr0JXPSoyl/JRV7l9cOBsluRdOv
-    wiRu+ctTA2zabJJ/0KIjE422OGTM2x6HMbraVm4IKBYt/Iiis9ir3waz2v0rKMspAs5P
-    YjlA==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fGl/w2B+Io="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp02-03.back.ox.d0m.de
-    by smtp-ox.front (RZmta 47.33.8 AUTH)
-    with ESMTPSA id c00f85x8S8l3dQz
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-    Tue, 28 Sep 2021 10:47:03 +0200 (CEST)
-Date:   Tue, 28 Sep 2021 10:47:03 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Wolfram Sang <wsa@kernel.org>, Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        davem@davemloft.net, linux-can@vger.kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, yoshihiro.shimoda.uh@renesas.com,
-        wg@grandegger.com, mkl@pengutronix.de, kuba@kernel.org,
-        mailhol.vincent@wanadoo.fr, socketcan@hartkopp.net
-Message-ID: <128093803.822456.1632818823845@webmail.strato.com>
-In-Reply-To: <YU3+K5WQkBC2YBBy@ninjato>
-References: <20210924153113.10046-1-uli+renesas@fpond.eu>
- <20210924153113.10046-2-uli+renesas@fpond.eu> <YU3+K5WQkBC2YBBy@ninjato>
-Subject: Re: [PATCH 1/3] can: rcar_canfd: Add support for r8a779a0 SoC
+        Tue, 28 Sep 2021 04:57:48 -0400
+Received: by mail-vk1-f177.google.com with SMTP id y74so8108625vky.12
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 01:56:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m1SPxBXviVX+IXuXEsuQBsXdtNvtJMC8mWkf4HXlhYI=;
+        b=JxdH9c12F9IJaBHp3/fxMdR2Eay+kZeAisIErD18x1ENr/fN76tgCKq1u9fodgISVB
+         B91c4eltBBHyvnPsy/bSPNyWXPg7XiNuuElBm/Qlv57LKD5gjdmBmXDGceOnBq2nKgOo
+         nVVE3AGXLhGYWwXvy4KIA79FMRH8J9lxyvHOq6rdjBJ+V9Woouo1QmtPrHwY7WFgGpgv
+         glL1ge1NmlTFRvL8zW3gtUcEy+udQt/aIisjyhYfKTw/kTaa+l4mog1jznUcSym9rF9y
+         jEGboq7qwDpLBaTokztu4b78YWtTlOesuBoLA8XqmcFNrkosMS0j/a5paMFju2El6cgQ
+         3lbQ==
+X-Gm-Message-State: AOAM531LTMqcwdYIvHQbGsPc2YMaNLn7gtCedzZoHWzCzywN53IhusgN
+        ru8+AxuGPOBU4DFbwMj4wqS1ZhuHa6UY3LnkOZSf3Blt
+X-Google-Smtp-Source: ABdhPJy+pindMxBWVfaLcKOdBKp/zvSFAEW3vww4iRWQPHAR7B+Og0y4TRu4t/Zeus+2ltvVleJSy9AemEXcjC6o324=
+X-Received: by 2002:a1f:230c:: with SMTP id j12mr3610861vkj.11.1632819369174;
+ Tue, 28 Sep 2021 01:56:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.5-Rev24
-X-Originating-Client: open-xchange-appsuite
+References: <20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdWSqSb37srBG0XB-vX5ERmjDBia07k_-s2Zg=bUsQCSyA@mail.gmail.com> <YSO2h40mJN17FGvd@pendragon.ideasonboard.com>
+In-Reply-To: <YSO2h40mJN17FGvd@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 28 Sep 2021 10:55:57 +0200
+Message-ID: <CAMuHMdW6Y4rhcH4EfjnzkPvWhm2ok=7E_3Cswe=5bnozGzpmGA@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar-du: Don't create encoder for unconnected LVDS outputs
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Laurent,
 
-> On 09/24/2021 6:34 PM Wolfram Sang <wsa@kernel.org> wrote:
-> 
->  
-> >  1 file changed, 152 insertions(+), 75 deletions(-)
-> 
-> Nice work, Ulrich. Compared to the BSP patch which has "422
-> insertions(+), 128 deletions(-)", this is a really good improvement.
-> 
-> Did you test it on D3 to ensure there is no regression? Or are the
-> additions in a way that they don't affect older versions?
+On Mon, Aug 23, 2021 at 4:54 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Aug 23, 2021 at 02:25:32PM +0200, Geert Uytterhoeven wrote:
+> > On Sun, Aug 22, 2021 at 2:36 AM Laurent Pinchart wrote:
+> > > On R-Car D3 and E3, the LVDS encoders provide the pixel clock to the DU,
+> > > even when LVDS outputs are not used. For this reason, the rcar-lvds
+> > > driver probes successfully on those platforms even if no further bridge
+> > > or panel is connected to the LVDS output, in order to provide the
+> > > rcar_lvds_clk_enable() and rcar_lvds_clk_disable() functions to the DU
+> > > driver.
+> > >
+> > > If an LVDS output isn't connected, trying to create a DRM connector for
+> > > the output will fail. Fix this by skipping connector creation in that
+> > > case, and also skip creation of the DRM encoder as there's no point in
+> > > an encoder without a connector.
+> > >
+> > > Fixes: e9e056949c92 ("drm: rcar-du: lvds: Convert to DRM panel bridge helper")
+> > > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> >
+> > Can you please change that to
+> > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ?
+>
+> Sure thing.
 
-The behavior of the driver on non-V3U systems is unchanged.
+Thanks!
 
-CU
-Uli
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> >
+> > Thanks, the scary warning on Ebisu-4D is gone, so
+> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > Disclaimer: there are no displays connected to my Ebisu-4D.
+>
+> That's the best way to ensure the absence of display issues. It works
+> great for camera testing too, if you also remove networking and storage
+> :-)
+
+Any chance this fix can make it upstream?
+The fix was created before the issue entered upstream in v5.15-rc1.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
