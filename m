@@ -2,62 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B524641A9AA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 09:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58FBF41A9F6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 09:40:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239264AbhI1H2R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Sep 2021 03:28:17 -0400
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:34471 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239083AbhI1H2P (ORCPT
+        id S239410AbhI1HmR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Sep 2021 03:42:17 -0400
+Received: from mail-vs1-f54.google.com ([209.85.217.54]:45632 "EHLO
+        mail-vs1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239350AbhI1HmQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Sep 2021 03:28:15 -0400
-Received: by mail-ua1-f50.google.com with SMTP id 2so13856210uav.1;
-        Tue, 28 Sep 2021 00:26:36 -0700 (PDT)
+        Tue, 28 Sep 2021 03:42:16 -0400
+Received: by mail-vs1-f54.google.com with SMTP id x1so230705vsp.12;
+        Tue, 28 Sep 2021 00:40:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/7byrD/3uBF9jfwibepcmS0PKt87kxJxiJqtBq6JUOg=;
-        b=0PkL3x2gL912kAYMKhsHH4bL6jwp2RTSpkHxC19Eu3lZ/GwvmxTMki6OVM6f3lZEev
-         dwLQvDIH+iFATA8UWMKO9INHBgjxqaD3h0BNkaHR11ZFuM98RvmfxsuTKJkb0HsEH6VS
-         btkXQYbc1CPAchRatpd89/KPBPUfZzes7JYPMjjMmny6Ya0+kJKzhstLhIhLnsZOad2V
-         mCXzlkRrDI++sERfdzG5oMpSCdBsyHA2aQDO9wNCMwsBQXGJAHg2SbBuikCXI9i+FrJ9
-         0ZaVdQKXc2MeW0Y5NotPP9T83PdydreA0lEqqVlUWK/WO3nbinyLMdRsH8dumezdrmXa
-         qEkg==
-X-Gm-Message-State: AOAM530QZShbFPACWg38WOaEVcCG546/KwRe2HWLeqvInWoJUp8c9rbf
-        2V5USuRFA5yfcsh8jr+0Fh6f4oHaaatx9zWVXXs=
-X-Google-Smtp-Source: ABdhPJxRnw16Xl7Q2vB5IRHC/DT3o83RXhgDFpziHy/1qoWT/HjL4K6Eqzc6dNBtoaoEc6AWS5ccqDF3S0u9uedu/bI=
-X-Received: by 2002:ab0:58c1:: with SMTP id r1mr2371560uac.89.1632813996064;
- Tue, 28 Sep 2021 00:26:36 -0700 (PDT)
+        bh=fU9oYQxlMHaEmrFTAibMQ2psCWZx41wzemKb/HO3LR8=;
+        b=Z32P3eB5uU1Ik8MPNgMFTDnTUibW2R3HvSK2VrlG7ne6NBSyj562abZUqu5iFRgjWP
+         DWzoX3J7Q1DTkql9mtBJkqLOAVxDB4QZs3No9n9Wup1MIfSiYpnvqNjNxLUt/V7bvfUb
+         7ERzMpxnA5K5/ymNI4fX9KUZdoYZkhBrCwuTBZ84YpmQgHYnwCkaBaY/hCq0/h3sfjgZ
+         Dxandekw249zI2qQcSxgoWyrXst3D/5C+yvU6bmICYFHxvZhf4JIlzfKN9tnzSF11VK3
+         gQeLfTBxT1B8+3B5e0S05YTSw5yyIseq+/hN0ZKxUUbqAtspxnEYM60OC2Gtg0Bg8KL1
+         xbpw==
+X-Gm-Message-State: AOAM530UnHZ4q6xNOKHGzuwEx/5R7iOzsboNvqjiUKL+2/EjQ7S7MSA7
+        hLtDQT9DjUG+YBxwTnsjt+ERpJrMmKNHF8tIRHM=
+X-Google-Smtp-Source: ABdhPJx7QKRDdYhuI6YS9EOA8Mi2iLTrovyl/FL5RUqEieA5W05H827uSzJTvVkNa9haVDs97ya+VsOIs1lakJFP/N0=
+X-Received: by 2002:a67:cc1c:: with SMTP id q28mr3403521vsl.37.1632814837348;
+ Tue, 28 Sep 2021 00:40:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210927193551.22422-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210927193551.22422-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <cover.1631174218.git.geert+renesas@glider.be> <07bd7e04dda9e84cde0664980f0b1a6d69e03109.1631174218.git.geert+renesas@glider.be>
+In-Reply-To: <07bd7e04dda9e84cde0664980f0b1a6d69e03109.1631174218.git.geert+renesas@glider.be>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 28 Sep 2021 09:26:24 +0200
-Message-ID: <CAMuHMdXSm993uBbWa2btNRzUcDMz_qOhCKXJ=8e_0TZBqkVALg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: defconfig: Enable RZG2L_ADC
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
+Date:   Tue, 28 Sep 2021 09:40:26 +0200
+Message-ID: <CAMuHMdU6g984vuU5mq7LAxmfE=QDfKzPDW7kgfR=9X0jYQC_Bg@mail.gmail.com>
+Subject: Re: [PATCH 8/9] arm64: dts: renesas: Add compatible properties to
+ KSZ9031 Ethernet PHYs
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Adam Ford <aford173@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        netdev <netdev@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 27, 2021 at 9:36 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Enable ADC driver support for Renesas RZ/G2L based platforms.
+On Thu, Sep 9, 2021 at 10:49 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> Add compatible values to Ethernet PHY subnodes representing Micrel
+> KSZ9031 PHYs on R-Car Gen3 boards.  This allows software to identify the
+> PHY model at any time, regardless of the state of the PHY reset line.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> I could not verify the PHY revision number (least significant nibble of
+> the ID) on eagle, v3msk, conder, and v3hsk, due to lack of hardware.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.16.
+In the meantime, I managed to verify the PHY revision number on Eagle.
 
 Gr{oetje,eeting}s,
 
