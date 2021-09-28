@@ -2,87 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5368E41A47E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 03:11:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B524641A9AA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 09:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238383AbhI1BNa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Sep 2021 21:13:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbhI1BNa (ORCPT
+        id S239264AbhI1H2R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Sep 2021 03:28:17 -0400
+Received: from mail-ua1-f50.google.com ([209.85.222.50]:34471 "EHLO
+        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239083AbhI1H2P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Sep 2021 21:13:30 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2F58C061575;
-        Mon, 27 Sep 2021 18:11:51 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38CBF3F1;
-        Tue, 28 Sep 2021 03:11:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1632791508;
-        bh=UwUX/PlPzYMUbHTHRTLSsvN1z9n+AldtWKTAxW1LiJc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=elmybGLG8cVXzHZEEPUWoArcm1GPZfOKoF/P4+Xb5B88UjX3L9i5f4ytQ/8bSGTTq
-         Ai/UAXv3PPd4kVSZ/JA+y0sJLtw4mlNUCfqsjWbBJI3KMNjb8sxL7spa/zHsyor9vn
-         vnyP71ST+8oPlW0d5W8ZCSCLHIslIolMHYmtv3Q4=
-Date:   Tue, 28 Sep 2021 04:11:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@glider.be>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        David Airlie <airlied@linux.ie>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        dri-devel@lists.freedesktop.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3.1] dt-bindings: display: renesas,du: Provide bindings
- for r8a779a0
-Message-ID: <YVJrzaQS+XBQO4Xg@pendragon.ideasonboard.com>
-References: <20210922234726.3337265-2-kieran.bingham@ideasonboard.com>
- <20210923130138.67552-1-kieran.bingham@ideasonboard.com>
- <YVIwPnRxxO0Txm2G@robh.at.kernel.org>
+        Tue, 28 Sep 2021 03:28:15 -0400
+Received: by mail-ua1-f50.google.com with SMTP id 2so13856210uav.1;
+        Tue, 28 Sep 2021 00:26:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/7byrD/3uBF9jfwibepcmS0PKt87kxJxiJqtBq6JUOg=;
+        b=0PkL3x2gL912kAYMKhsHH4bL6jwp2RTSpkHxC19Eu3lZ/GwvmxTMki6OVM6f3lZEev
+         dwLQvDIH+iFATA8UWMKO9INHBgjxqaD3h0BNkaHR11ZFuM98RvmfxsuTKJkb0HsEH6VS
+         btkXQYbc1CPAchRatpd89/KPBPUfZzes7JYPMjjMmny6Ya0+kJKzhstLhIhLnsZOad2V
+         mCXzlkRrDI++sERfdzG5oMpSCdBsyHA2aQDO9wNCMwsBQXGJAHg2SbBuikCXI9i+FrJ9
+         0ZaVdQKXc2MeW0Y5NotPP9T83PdydreA0lEqqVlUWK/WO3nbinyLMdRsH8dumezdrmXa
+         qEkg==
+X-Gm-Message-State: AOAM530QZShbFPACWg38WOaEVcCG546/KwRe2HWLeqvInWoJUp8c9rbf
+        2V5USuRFA5yfcsh8jr+0Fh6f4oHaaatx9zWVXXs=
+X-Google-Smtp-Source: ABdhPJxRnw16Xl7Q2vB5IRHC/DT3o83RXhgDFpziHy/1qoWT/HjL4K6Eqzc6dNBtoaoEc6AWS5ccqDF3S0u9uedu/bI=
+X-Received: by 2002:ab0:58c1:: with SMTP id r1mr2371560uac.89.1632813996064;
+ Tue, 28 Sep 2021 00:26:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YVIwPnRxxO0Txm2G@robh.at.kernel.org>
+References: <20210927193551.22422-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210927193551.22422-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 28 Sep 2021 09:26:24 +0200
+Message-ID: <CAMuHMdXSm993uBbWa2btNRzUcDMz_qOhCKXJ=8e_0TZBqkVALg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: defconfig: Enable RZG2L_ADC
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 27, 2021 at 03:57:34PM -0500, Rob Herring wrote:
-> On Thu, 23 Sep 2021 14:01:38 +0100, Kieran Bingham wrote:
-> > From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > 
-> > Extend the Renesas DU display bindings to support the r8a779a0 V3U.
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > 
-> > ---
-> > v2:
-> >  - Collected Laurent's tag
-> >  - Remove clock-names requirement
-> >  - Specify only a single clock
-> > 
-> > v3:
-> >  - Use clocknames: 'du.0' instead of 'du' to remain consistent
-> > 
-> > v3.1:
-> >  - Require clock-names
-> >  - Collect Geert's tag
-> > 
-> >  .../bindings/display/renesas,du.yaml          | 51 +++++++++++++++++++
-> >  1 file changed, 51 insertions(+)
-> 
-> Reviewed-by: Rob Herring <robh@kernel.org>
+On Mon, Sep 27, 2021 at 9:36 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Enable ADC driver support for Renesas RZ/G2L based platforms.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you Rob, that was the missing piece for a pull request :-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.16.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
