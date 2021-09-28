@@ -2,89 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1267241A0DE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Sep 2021 22:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0A7741A404
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 02:04:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236938AbhI0U7O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Sep 2021 16:59:14 -0400
-Received: from mail-oi1-f174.google.com ([209.85.167.174]:44904 "EHLO
-        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236843AbhI0U7O (ORCPT
+        id S238248AbhI1AFj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Sep 2021 20:05:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50666 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231674AbhI1AFj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Sep 2021 16:59:14 -0400
-Received: by mail-oi1-f174.google.com with SMTP id e24so17400419oig.11;
-        Mon, 27 Sep 2021 13:57:35 -0700 (PDT)
+        Mon, 27 Sep 2021 20:05:39 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208D5C061740
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Sep 2021 17:04:00 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id x27so84959074lfu.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Sep 2021 17:04:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=9bL4iRqqm89pRQSEPivN/gaNctu5ZJkCkeOF8HtDooE=;
+        b=BWGbHDT8WDVjiSuAKlE1lEDV/8IaADOQhOuH9iOm3Fb5MPNa9fL6CHku/manoKLIJU
+         rraEp263CPdPlBzWb8rh9TpXI2OBj/+NTKT87H0QnEWiUcb7zuxJJpKVx1YzbnmyWjFA
+         Eqvg7Rd/ylGsa1bXpXdVAIfNt4TbkmKiG3Ld0g4UL0ZbHJHw7B7sOO44BlDnIhAawH84
+         8gWgDFT69Twb+xZClYc0LXHOaazrkaq1MVot4wq9JcNWI/M7UkoeGILUYNhdQLL0/MVl
+         her38/c5QTcUMXh5jepwpqSZiZvHbb8HUQrup8BuOY81QataUC1Kb0+C3RdIwR92GW2d
+         sy2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=l5Mqh3vIaAE/8zYRBqY+q9GOKFmDCTSjBlpUeQfhV/8=;
-        b=sTiKn7ZsngORPazipC07n/0hAySz0XxXabxMp5f+nul7VY0Zjchmgpz7y392IqSdjd
-         2JfF9G53SL8yPeLUy3KOe+AV5rPj0SmZUuzHaYWA/HOe5OrIywxfnW9h1uGJq2Pq1K0d
-         oeZhMrYYWJJz9Tz7sAsp73qTYef8TBjnnTTbXvTgzzdTehi1TTM6WdYyooZkoOWmCGL6
-         pqiOqm8d3p+K1+JrxmmpR2kyBZeDjl2XnQAoxojAZA+xBJwnV6DtwcIXNtK2YlHGjrAo
-         UnjT5Gp/hIRWkPsL4wwQ6KGzxtytpJpxgBfpD1lcdxPZTHIGaive+U9wInPLWPSQ4sxD
-         Y1yg==
-X-Gm-Message-State: AOAM531JNVAYCLYeGgYZ6E5GSv5dGEHVtcjJv5H3nDRkDToY7dBId1u4
-        eHlBD6k5hzZ3YMt8D/kuaQ==
-X-Google-Smtp-Source: ABdhPJzkBg9e4PP70PY+l6j+F0sfK9E2DP+ra4/sSyP2t4qiM3CxZpWCqQMgfRVKKO0v+4tLIEFDlA==
-X-Received: by 2002:aca:32c5:: with SMTP id y188mr814898oiy.163.1632776255590;
-        Mon, 27 Sep 2021 13:57:35 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id u6sm2488378ooh.15.2021.09.27.13.57.34
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=9bL4iRqqm89pRQSEPivN/gaNctu5ZJkCkeOF8HtDooE=;
+        b=e3YIfoWqtk4Avi4XYcDOcctoWO3wibMyU5xvpev5mfHpmiNAdTuAuK766r4bPJCO1J
+         LU88sOm+j0grstIgMNoaKEPcCmFKol2JZRaAfk4jDdXZiiXHTfs6OmtUCgTuU45JLie9
+         EzgNEiAT6byd+SM0zvBDtmL146zOl17AMRznJL8eDSXy90bEr7QJHOha8dzEEzIf5Ppi
+         733HcAwRHydO7VRQyBL1EcQhmUeKb07tm8UyvOMNKSZWJyq8kJGMjjdTMgRExLtLLZt5
+         76VNYDVqXMpg1ySdYjpkOlYAI268INk9Tvq1WTIemO+2fA4+0buWKC/g38Ax0D3zN49s
+         TKAg==
+X-Gm-Message-State: AOAM533WbOkxWqF+Em2asD4H65Yv3REqsfR+C6z0c5QFU2YWevGmFxfd
+        4lFk/wdjCOVE86674tw/W8MXYg==
+X-Google-Smtp-Source: ABdhPJx1XQfmZA36FtlL4UskEKqlHfdZJLZFI4pV/dsoUKSvihRwWpAfv39/56vOGjFCEbfkEIk5xg==
+X-Received: by 2002:a05:6512:3191:: with SMTP id i17mr2482707lfe.381.1632787438343;
+        Mon, 27 Sep 2021 17:03:58 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id b22sm1741542lfv.286.2021.09.27.17.03.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 13:57:35 -0700 (PDT)
-Received: (nullmailer pid 3861061 invoked by uid 1000);
-        Mon, 27 Sep 2021 20:57:34 -0000
-Date:   Mon, 27 Sep 2021 15:57:34 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert@glider.be>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        dri-devel@lists.freedesktop.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3.1] dt-bindings: display: renesas,du: Provide bindings
- for r8a779a0
-Message-ID: <YVIwPnRxxO0Txm2G@robh.at.kernel.org>
-References: <20210922234726.3337265-2-kieran.bingham@ideasonboard.com>
- <20210923130138.67552-1-kieran.bingham@ideasonboard.com>
+        Mon, 27 Sep 2021 17:03:57 -0700 (PDT)
+Date:   Tue, 28 Sep 2021 02:03:56 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+Subject: Re: [PATCH v2] media: rcar-vin: add G/S_PARM ioctls
+Message-ID: <YVJb7MUGQUoQ5oI8@oden.dyn.berto.se>
+References: <YU2gSJKfsqP+gUci@oden.dyn.berto.se>
+ <20210924135138.29950-1-nikita.yoush@cogentembedded.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210923130138.67552-1-kieran.bingham@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210924135138.29950-1-nikita.yoush@cogentembedded.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 23 Sep 2021 14:01:38 +0100, Kieran Bingham wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Hello Nikita and Vladimir,
+
+Thanks for your work.
+
+On 2021-09-24 16:51:38 +0300, Nikita Yushchenko wrote:
+> From: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
 > 
-> Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+> This adds g/s_parm ioctls for parallel interface.
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
+> Signed-off-by: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
-> v2:
->  - Collected Laurent's tag
->  - Remove clock-names requirement
->  - Specify only a single clock
+> Changes from v1:
+> - use &vin->vdev to access vin's struct video_device
 > 
-> v3:
->  - Use clocknames: 'du.0' instead of 'du' to remain consistent
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 > 
-> v3.1:
->  - Require clock-names
->  - Collect Geert's tag
-> 
->  .../bindings/display/renesas,du.yaml          | 51 +++++++++++++++++++
->  1 file changed, 51 insertions(+)
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index bdeff51bf768..a5bfa76fdac6 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -527,6 +527,24 @@ static int rvin_s_selection(struct file *file, void *fh,
+>  	return 0;
+>  }
+>  
+> +static int rvin_g_parm(struct file *file, void *priv,
+> +		       struct v4l2_streamparm *parm)
+> +{
+> +	struct rvin_dev *vin = video_drvdata(file);
+> +	struct v4l2_subdev *sd = vin_to_source(vin);
+> +
+> +	return v4l2_g_parm_cap(&vin->vdev, sd, parm);
+> +}
+> +
+> +static int rvin_s_parm(struct file *file, void *priv,
+> +		       struct v4l2_streamparm *parm)
+> +{
+> +	struct rvin_dev *vin = video_drvdata(file);
+> +	struct v4l2_subdev *sd = vin_to_source(vin);
+> +
+> +	return v4l2_s_parm_cap(&vin->vdev, sd, parm);
+> +}
+> +
+>  static int rvin_g_pixelaspect(struct file *file, void *priv,
+>  			      int type, struct v4l2_fract *f)
+>  {
+> @@ -743,6 +761,9 @@ static const struct v4l2_ioctl_ops rvin_ioctl_ops = {
+>  	.vidioc_g_selection		= rvin_g_selection,
+>  	.vidioc_s_selection		= rvin_s_selection,
+>  
+> +	.vidioc_g_parm			= rvin_g_parm,
+> +	.vidioc_s_parm			= rvin_s_parm,
+> +
+>  	.vidioc_g_pixelaspect		= rvin_g_pixelaspect,
+>  
+>  	.vidioc_enum_input		= rvin_enum_input,
+> -- 
+> 2.30.2
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+-- 
+Regards,
+Niklas Söderlund
