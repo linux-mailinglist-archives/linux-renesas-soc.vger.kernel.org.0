@@ -2,37 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02D2541AFAF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 15:11:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54ECB41B141
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 15:54:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235776AbhI1NNO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Sep 2021 09:13:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33622 "EHLO
+        id S240968AbhI1Nzl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Sep 2021 09:55:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240695AbhI1NNN (ORCPT
+        with ESMTP id S240996AbhI1Nzl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Sep 2021 09:13:13 -0400
+        Tue, 28 Sep 2021 09:55:41 -0400
 Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C39EC061575
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 06:11:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74A04C061746
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 06:54:01 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:9d6a:ba71:99b4:9160])
         by xavier.telenet-ops.be with bizsmtp
-        id zRBY2500c4bPoua01RBYtp; Tue, 28 Sep 2021 15:11:32 +0200
+        id zRtz2500V4bPoua01Rtzvm; Tue, 28 Sep 2021 15:53:59 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mVCtQ-000Knd-6y
-        for linux-renesas-soc@vger.kernel.org; Tue, 28 Sep 2021 15:11:32 +0200
+        id 1mVDYV-000LJI-Cl; Tue, 28 Sep 2021 15:53:59 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mVCtP-00ADkG-Bg
-        for linux-renesas-soc@vger.kernel.org; Tue, 28 Sep 2021 15:11:31 +0200
+        id 1mVDYU-00AEzr-Lz; Tue, 28 Sep 2021 15:53:58 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2021-09-28-v5.15-rc3
-Date:   Tue, 28 Sep 2021 15:11:31 +0200
-Message-Id: <20210928131131.2436073-1-geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Fixes for v5.15
+Date:   Tue, 28 Sep 2021 15:53:52 +0200
+Message-Id: <cover.1632836915.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -40,70 +41,35 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2021-09-28-v5.15-rc3 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+	Hi Mike, Stephen,
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
 
-Today's version is based on renesas-devel-2021-09-28-v5.15-rc3.
+  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
 
-Included branches with driver code:
-  - renesas-clk
-  - renesas-pinctrl
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/v3u/rpc
+are available in the Git repository at:
 
-Included fixes:
-  - drm: rcar-du: Don't create encoder for unconnected LVDS outputs
-  - gpio: add sloppy logic analyzer using polling
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v5.15-tag3
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.libc.org/linux-sh#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
+for you to fetch changes up to fa2a30f8e0aa9304919750b116a9e9e322465299:
+
+  clk: renesas: rzg2l: Fix clk status function (2021-09-24 15:11:05 +0200)
+
+----------------------------------------------------------------
+clk: renesas: Fixes for v5.15
+
+  - Fix inverted logic in RZ/G2L .is_enabled() function.
+
+Thanks for pulling!
+
+----------------------------------------------------------------
+Biju Das (2):
+      clk: renesas: r9a07g044: Mark IA55_CLK and DMAC_ACLK critical
+      clk: renesas: rzg2l: Fix clk status function
+
+ drivers/clk/renesas/r9a07g044-cpg.c | 2 ++
+ drivers/clk/renesas/rzg2l-cpg.c     | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
 Gr{oetje,eeting}s,
 
