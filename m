@@ -2,86 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1B3C41B2B1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 17:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 635FD41B363
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 17:59:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241495AbhI1PPR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Sep 2021 11:15:17 -0400
-Received: from www.zeus03.de ([194.117.254.33]:35364 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241442AbhI1PPQ (ORCPT
+        id S241536AbhI1QAv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Sep 2021 12:00:51 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:31766 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S241523AbhI1QAu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Sep 2021 11:15:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=+21Wry4timplKVudZJMqCEQXr3dn
-        xi/GZbTN32kQy3g=; b=LW2Ne+6LvDPugwaCBKkK8FMOiNTxdk7oDFWPUeBvfjNb
-        Fm3+RNGCJd0humYGz6v7UOsB6tNCcqkGbzsnoAog0ogmArXTfOvU/ggpjfaBuuZJ
-        DFdKvmEEOcljibibl3lXRfr3JkD1VvKmhyKpp0OKq7p6P8HZeOnju5gika2nkE4=
-Received: (qmail 1295169 invoked from network); 28 Sep 2021 17:13:34 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Sep 2021 17:13:34 +0200
-X-UD-Smtp-Session: l3s3148p1@TDI6qA/NzuYgARa4Rac9ATot9flkfyHw
-Date:   Tue, 28 Sep 2021 17:13:33 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH 2/3] mmc: core: also abort tuning with CMD12 for SD
-Message-ID: <YVMxHaTJordlRrFV@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20210914182023.8103-1-wsa+renesas@sang-engineering.com>
- <20210914182023.8103-3-wsa+renesas@sang-engineering.com>
- <CAPDyKFp0AgAqbJnvpUb4gxP_7wGszEZxVXU1=0UCMB3c+ruLzA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mDZRYI2RgJSDBSv6"
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFp0AgAqbJnvpUb4gxP_7wGszEZxVXU1=0UCMB3c+ruLzA@mail.gmail.com>
+        Tue, 28 Sep 2021 12:00:50 -0400
+X-IronPort-AV: E=Sophos;i="5.85,329,1624287600"; 
+   d="scan'208";a="95442504"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 29 Sep 2021 00:59:09 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 850AF4015A2B;
+        Wed, 29 Sep 2021 00:59:06 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: r9a07g044: Add SPI Multi I/O Bus controller node
+Date:   Tue, 28 Sep 2021 16:58:52 +0100
+Message-Id: <20210928155852.32569-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Add SPI Multi I/O Bus controller node to R9A07G044 (RZ/G2L) SoC DTSI.
 
---mDZRYI2RgJSDBSv6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+Note, patch is dependent on driver changes [1].
 
-Hi Ulf,
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/cover/
+20210928140721.8805-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+---
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-> Besides the minor nitpicks, this looks good to me!
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+index 4d4a23367529..1f01737d2def 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+@@ -358,6 +358,23 @@
+ 			};
+ 		};
+ 
++		sbc: spi@10060000 {
++			compatible = "renesas,r9a07g044-rpc-if",
++				     "renesas,rzg2l-rpc-if";
++			reg = <0 0x10060000 0 0x10000>,
++			      <0 0x20000000 0 0x10000000>,
++			      <0 0x10070000 0 0x10000>;
++			reg-names = "regs", "dirmap", "wbuf";
++			interrupts = <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G044_SPI_CLK2>,
++				 <&cpg CPG_MOD R9A07G044_SPI_CLK>;
++			resets = <&cpg R9A07G044_SPI_RST>;
++			power-domains = <&cpg>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
+ 		cpg: clock-controller@11010000 {
+ 			compatible = "renesas,r9a07g044-cpg";
+ 			reg = <0 0x11010000 0 0x10000>;
+-- 
+2.17.1
 
-Thanks for the review! However, I acquired new data which could mean
-that this series is maybe really a workaround. Let's put it on hold for
-now until I have found out more.
-
-Happy hacking,
-
-   Wolfram
-
-
---mDZRYI2RgJSDBSv6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFTMRkACgkQFA3kzBSg
-KbZeXA//bZqLOo1ZugqbgDQddaG1NbGNt+YXGKlTEKalhnuQex61bhJg+8G+L2ku
-jHDm3/pk8JkNp9J9DWSBkc/oiU4e+nQfKls9u5/oMGzYENfTQsgkFxpnpC6fAXx5
-iFWME/SNvzeXnPMBrtb1tK2fQbbnGDeISTdNEIY+BYMUsVqXx6+cO/P6ZCShcoM6
-TvrD3QiyR3jT5aYasQEAorEZQJ2DHM6YbXlJaKnwFX0/BQbu6l2iM0WmGFBwO4Zk
-x48RUg6i/H0RisZEz4WqTh/mF7w+l0QHLdOYY4E4GQGjF1n/vTLvzdjo106HVfKN
-/ndT7/VItFunz988xmDtFNvknUcGN7eXr7ZE/bYvs5f3Jcj5Q7Mx06Eo8D9sIxvD
-ocLxozYEkU5wUk4GnWt0B2oAiYi7TwVQDoN+KdxmUD9RTAKfWTi5uaZt8IIx8K7A
-pEjYtnq+iQ10D+HhPOdDmw4r6v8a5LJlTZgbwc7pv1RbwJ2N1LfGpzhS8ZdjJNGr
-J9aszYvmlikM7NVjOHuS4QJFMHZ/vFD3ThMGN2+aYv4ozE8bnB7RJXSpJqEo+mGC
-Mxvl04IywZh7OiVTE498qDVaWu3ftPPaa6YRnEekjsuscEWStbzqJCkDukrLB+eb
-8XwSfzWTutz8x4j4BDNIWd/KpHLE8uUTy6gBvzMUv6Jbwa1OZBc=
-=g279
------END PGP SIGNATURE-----
-
---mDZRYI2RgJSDBSv6--
