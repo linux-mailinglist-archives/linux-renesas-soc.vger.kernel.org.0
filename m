@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7CFB41B819
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 22:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D070E41B81C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Sep 2021 22:08:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242644AbhI1UKH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Sep 2021 16:10:07 -0400
-Received: from www.zeus03.de ([194.117.254.33]:60894 "EHLO mail.zeus03.de"
+        id S242660AbhI1UKI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Sep 2021 16:10:08 -0400
+Received: from www.zeus03.de ([194.117.254.33]:60908 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242666AbhI1UKE (ORCPT
+        id S242643AbhI1UKF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Sep 2021 16:10:04 -0400
+        Tue, 28 Sep 2021 16:10:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=CsQ9/VU2si78SJ
-        BN/HXegrfK1EiIEPajc+g792ioP8Q=; b=lc+pmZWj/zNRZP5BmTx5T1dpCJCmKQ
-        BJbBk77xkfnZx6YML5liz9p3P2lX2uvS2leZwLgfldZe9ELOEDpeoQwdp3kJNBWI
-        MzbV7wUm9yW7b1rxwejbc4W6fWWCe5p1Yqp3TOhw8TaivCmQA/vUAH30879Acc8A
-        U2hmrcGx+oJH0=
-Received: (qmail 1377444 invoked from network); 28 Sep 2021 22:08:22 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Sep 2021 22:08:22 +0200
-X-UD-Smtp-Session: l3s3148p1@NiZ9xhPNgNIgAwDPXxnDADNsFyRXxb9N
+        :mime-version:content-transfer-encoding; s=k1; bh=50+VZZr763Y4Yc
+        o+HsRSmUs/xv+RBnk0KYigKvjNxLk=; b=VJTPXTjnqkxydEykH0ffjquQuo4dWJ
+        mWZuOKS/CsHVxDUXaHGiGffrpACWdUqxPimp4Rv0XHrHqJqOELOQ10rCYzVqqNKg
+        CwzZMdbDHo8MB28K2P/nZVXJOI4WYvxnax9kJFAmGip8NLLW033klZAsO2K+yhpU
+        1V99OmUSlXiCA=
+Received: (qmail 1377488 invoked from network); 28 Sep 2021 22:08:23 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Sep 2021 22:08:23 +0200
+X-UD-Smtp-Session: l3s3148p1@qNCKxhPNgtIgAwDPXxnDADNsFyRXxb9N
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     linux-clk@vger.kernel.org, linux-mmc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [RFC PATCH 8/9] arm64: dts: r8a77965: add SDnH clocks
-Date:   Tue, 28 Sep 2021 22:08:03 +0200
-Message-Id: <20210928200804.50922-9-wsa+renesas@sang-engineering.com>
+Subject: [RFC PATCH 9/9] mmc: renesas_sdhi: parse DT for SDnH
+Date:   Tue, 28 Sep 2021 22:08:04 +0200
+Message-Id: <20210928200804.50922-10-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210928200804.50922-1-wsa+renesas@sang-engineering.com>
 References: <20210928200804.50922-1-wsa+renesas@sang-engineering.com>
@@ -40,55 +40,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+If there is a SDnH clock provided in DT, let's use it instead of relying
+on the fallback.
+
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- arch/arm64/boot/dts/renesas/r8a77965.dtsi | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/mmc/host/renesas_sdhi_core.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-index 08df75606430..3a357d958d4a 100644
---- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-@@ -2315,7 +2315,8 @@ sdhi0: mmc@ee100000 {
- 				     "renesas,rcar-gen3-sdhi";
- 			reg = <0 0xee100000 0 0x2000>;
- 			interrupts = <GIC_SPI 165 IRQ_TYPE_LEVEL_HIGH>;
--			clocks = <&cpg CPG_MOD 314>;
-+			clocks = <&cpg CPG_MOD 314>, <&cpg CPG_CORE R8A77965_CLK_SD0H>;
-+			clock-names = "core", "clkh";
- 			max-frequency = <200000000>;
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
- 			resets = <&cpg 314>;
-@@ -2328,7 +2329,8 @@ sdhi1: mmc@ee120000 {
- 				     "renesas,rcar-gen3-sdhi";
- 			reg = <0 0xee120000 0 0x2000>;
- 			interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
--			clocks = <&cpg CPG_MOD 313>;
-+			clocks = <&cpg CPG_MOD 313>, <&cpg CPG_CORE R8A77965_CLK_SD1H>;
-+			clock-names = "core", "clkh";
- 			max-frequency = <200000000>;
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
- 			resets = <&cpg 313>;
-@@ -2341,7 +2343,8 @@ sdhi2: mmc@ee140000 {
- 				     "renesas,rcar-gen3-sdhi";
- 			reg = <0 0xee140000 0 0x2000>;
- 			interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
--			clocks = <&cpg CPG_MOD 312>;
-+			clocks = <&cpg CPG_MOD 312>, <&cpg CPG_CORE R8A77965_CLK_SD2H>;
-+			clock-names = "core", "clkh";
- 			max-frequency = <200000000>;
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
- 			resets = <&cpg 312>;
-@@ -2354,7 +2357,8 @@ sdhi3: mmc@ee160000 {
- 				     "renesas,rcar-gen3-sdhi";
- 			reg = <0 0xee160000 0 0x2000>;
- 			interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>;
--			clocks = <&cpg CPG_MOD 311>;
-+			clocks = <&cpg CPG_MOD 311>, <&cpg CPG_CORE R8A77965_CLK_SD3H>;
-+			clock-names = "core", "clkh";
- 			max-frequency = <200000000>;
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
- 			resets = <&cpg 311>;
+diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+index 100f86d311ea..41a5ee80c661 100644
+--- a/drivers/mmc/host/renesas_sdhi_core.c
++++ b/drivers/mmc/host/renesas_sdhi_core.c
+@@ -922,8 +922,16 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+ 		return ret;
+ 	}
+ 
++	priv->clkh = devm_clk_get_optional(&pdev->dev, "clkh");
++	if (IS_ERR(priv->clkh)) {
++		ret = PTR_ERR(priv->clkh);
++		dev_err(&pdev->dev, "cannot get clockh: %d\n", ret);
++		return ret;
++	}
++
+ 	/* Fallback for old DTs */
+-	if (of_device_is_compatible(pdev->dev.of_node, "renesas,rcar-gen3-sdhi"))
++	if (!priv->clkh &&
++	    of_device_is_compatible(pdev->dev.of_node, "renesas,rcar-gen3-sdhi"))
+ 		priv->clkh = clk_get_parent(clk_get_parent(priv->clk));
+ 
+ 	/*
 -- 
 2.30.2
 
