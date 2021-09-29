@@ -2,97 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6A6A41CC63
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 21:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AB3641CDB8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 23:03:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346528AbhI2TN0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Sep 2021 15:13:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46910 "EHLO mail.kernel.org"
+        id S1344420AbhI2VF0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Sep 2021 17:05:26 -0400
+Received: from www.zeus03.de ([194.117.254.33]:47434 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1346510AbhI2TNQ (ORCPT
+        id S237657AbhI2VFX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Sep 2021 15:13:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EB86610E6;
-        Wed, 29 Sep 2021 19:11:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632942695;
-        bh=UjF4jv2Ru1MqOiXSdyZgXMrL/3XRvFwF9fRUynp1WR4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=n8uPiJrGgzqzYAaxHjX6S+9fK9arrf3/q66chYjHHmVgnNOSdzMsYUO/lsUKyPazq
-         6puYQKA+z0E7Lm5JAQiolXPqg6PACv3ciHHlRqllG9thD/uV6qMhe9MScYsQ+3PKN4
-         OuMPdaEK8AaX5+7cj2XVuLKHjMNFdTl+nFEKQ1Zm8eJTreEFQxAwZfRDZNpg+EPAOm
-         /r1AV9EVMQnC6fH4UHWxzu3mshPCC/e6lc+0ZlfuuxJgT1LoP+BNcYp9SmQmDvMvsJ
-         JiCeFG4YJh/Ut2BuXs9ePL86ob7+16mdP7bA2dWn+pzOcSYl1wJYbVLWXrhAAAENEQ
-         g8TS8+APczopQ==
-Date:   Wed, 29 Sep 2021 14:11:33 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] PCI: rcar: Add missing COMMON_CLK dependency
-Message-ID: <20210929191133.GA794252@bhelgaas>
+        Wed, 29 Sep 2021 17:05:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=qNDVgogKsAve+SdXmpiix6RvGn37
+        Dw9NRQ0dUuB7eWE=; b=dNvgP7Je9RQy3oxx7cnQv/6lS320feKNgKt9duZCJpLE
+        6XVWvS5vzj1QrsHB8AfK46BhyozM+cDbMHknt79SUks1HJ5ZXojqBKhv+jl+UVnE
+        k+Z4b00YgM1oNJ9fZ32CLr69olZYEwCBVBxraIdGA/4KMkXR+peiWbBGa0jsZR4=
+Received: (qmail 1802299 invoked from network); 29 Sep 2021 23:03:39 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Sep 2021 23:03:39 +0200
+X-UD-Smtp-Session: l3s3148p1@A+0RqijNEuEgAwDPXwj5ACKF5hhAYpZw
+Date:   Wed, 29 Sep 2021 23:03:37 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Ryo Kataoka <ryo.kataoka.wt@renesas.com>
+Subject: Re: [PATCH] i2c: rcar: enable interrupts before starting transfer
+Message-ID: <YVTUqQVlmB2Pe8B+@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Ryo Kataoka <ryo.kataoka.wt@renesas.com>
+References: <20210915134827.13043-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="0WE1ricZrn/U+nmo"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVNRdD8nD7w6+UsySC+8J_r5TeH1NVwgiKqKaOLBEfhcA@mail.gmail.com>
+In-Reply-To: <20210915134827.13043-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 29, 2021 at 09:08:42PM +0200, Geert Uytterhoeven wrote:
-> On Wed, Sep 29, 2021 at 8:55 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Wed, Sep 29, 2021 at 6:32 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > On Wed, Sep 29, 2021 at 03:55:09PM +0100, Lorenzo Pieralisi wrote:
-> > > > On Wed, Sep 22, 2021 at 01:13:11AM +0200, Marek Vasut wrote:
-> > > > > On 9/21/21 6:08 PM, Geert Uytterhoeven wrote:
-> > > > >
-> > > > > [...]
-> > > > >
-> > > > > > > diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
-> > > > > > > index 326f7d13024f..ee6f5e525d3a 100644
-> > > > > > > --- a/drivers/pci/controller/Kconfig
-> > > > > > > +++ b/drivers/pci/controller/Kconfig
-> > > > > > > @@ -66,6 +66,7 @@ config PCI_RCAR_GEN2
-> > > > > > >   config PCIE_RCAR_HOST
-> > > > > > >          bool "Renesas R-Car PCIe host controller"
-> > > > > > >          depends on ARCH_RENESAS || COMPILE_TEST
-> > > > > > > +       depends on COMMON_CLK
-> > > > > >
-> > > >
-> > > > Bjorn, shall we pick Arnd's patch up then ? We should be fixing this in
-> > > > one of the upcoming -rcs since we introduced it in the last merge
-> > > > window.
-> > >
-> > > IIUC, a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort
-> > > hook") appeared in v5.15-rc1 and added a use of __clk_is_enabled(),
-> > > which is only available when COMMON_CLK=y.
-> > >
-> > > PCIE_RCAR_HOST depends on ARCH_RENESAS || COMPILE_TEST.  ARCH_RENESAS
-> > > is an ARM64 platform, so when COMPILE_TEST is not set, I think we get
-> > > COMMON_CLK=y via this:
-> > >
-> > >   config ARM64
-> > >     select COMMON_CLK
-> > >
-> > > But when ARCH_RENESAS is not set and COMPILE_TEST=y, there's nothing
-> > > that enforces the dependency on COMMON_CLK.  Personally I like the
-> > > first hunk of Marek's patch at [1] because the dependency on
-> > > COMMON_CLK is explicit:
-> > >
-> > >   config PCIE_RCAR_HOST
-> > >     depends on ARCH_RENESAS || COMPILE_TEST
-> > >     depends on COMMON_CLK
-> >
-> > Agreed, Marek's version is clearer than mine, please use that.
-> 
-> But PCIE_RCAR_EP does not need the dependency.
 
-Right, that's why I said the *first* hunk of Marek's patch.  I would
-apply that and skip the second one.
+--0WE1ricZrn/U+nmo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 15, 2021 at 03:48:27PM +0200, Wolfram Sang wrote:
+> We want to enable the interrupts _before_ starting the transfer because
+> it is good programming style and also the proposed order in the R-Car
+> manual. There is no difference in practice because it doesn't matter in
+> which order both conditions appear if we wait for both to happen.
+>=20
+> Signed-off-by: Ryo Kataoka <ryo.kataoka.wt@renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Applied to for-next, thanks!
+
+
+--0WE1ricZrn/U+nmo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFU1KkACgkQFA3kzBSg
+KbYXkw/9GOcYNtCYE3I3BnCh8AFRhxa//HW7r4lcxvEpua9ezEcR1oq7YRpURsEh
+Lu/XpgmxjiaenK0l3UuES8loeXpfBssiOHJ3DCtM1k7FJV2m5O8n10JoVJa7Br0k
+mO+MN35zSqN3rlTU00ZO1Yv49OgVId1bBitJ4iD2r4Zg+vSA8OPZFB+05+WGNatX
+gc9lvFROMyPaTD8GorH730tE2eaxBoz1El/LPvVbKSHSBb+catKSxQeVN6K570Jt
+gXlwqsyLzbANpqRy48izY5csoDJaS0Pg9471Z+o3jdRx3Y73W9j8vlaQU0qa1NLN
+fuTf7Wf+7MKQLLBfpYThFXhOtgNRZEU3kMrTzqDCwbiIgjYAd9ZXHDg2AeE42gYW
+gS76os/eawyMOoTAMXVGYh8r5iffQAc0BmyMLml7WFJkjB11K+BwrNhe/LBWF20K
+uHkEKdDLoQEqMlD77C35fh2JAD82EUReGxyFJ4gpRiNEQIwZ3a038jPrNF0Gj3Xi
+Qyor61cauh3O6K1Pp+LQ0QYJVelraFN5KalfUqBpXhHo/kAxqC2bVcFhpPNKoPTl
+sTExNpMbqih9CcGFSS+2hhkIO/1MAoo49495mffNYWIOgs9qO4Al8L0XSd3aXb1l
+FERCjiEw1bhpxH5gEwWXNfSibjSaLU6CMIJX+EOwdpxOMRkI2ZA=
+=oH9w
+-----END PGP SIGNATURE-----
+
+--0WE1ricZrn/U+nmo--
