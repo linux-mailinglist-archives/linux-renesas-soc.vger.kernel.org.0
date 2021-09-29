@@ -2,202 +2,212 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 437A141BB99
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 02:07:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F81541BC06
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 03:01:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243395AbhI2AJ1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Sep 2021 20:09:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45596 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243375AbhI2AJZ (ORCPT
+        id S243532AbhI2BDQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Sep 2021 21:03:16 -0400
+Received: from mga12.intel.com ([192.55.52.136]:20442 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243514AbhI2BDQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Sep 2021 20:09:25 -0400
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F1BEC061746
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 17:07:45 -0700 (PDT)
-Received: by mail-qt1-x849.google.com with SMTP id l22-20020ac87b36000000b002a6c575f419so2744504qtu.23
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 17:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=pkFTuk+TNQNm+gOgPOs6LK/YFjb2sUYttyn3WHOqJrE=;
-        b=Shkn2BNqy0Z/1QlOaPNVHfGvNL2ujb+W4/KsDcUnxjOImmY0e6EvSbte/WgKpzf0G0
-         MQJItXxtQkS3OOLRbjBi0NDTbqGG4qZ0j/ySUwTAKw6tmUsDbU07fUu1FX8x6GuhfQ58
-         0CLtmE3kgKQxORVv9PBN22k18Ulkb+j6GTQMzbNVUV6YXSslUxSIhc4hsa9YjFkNkz93
-         HaH86K/xcVXCcbxRPRBwYQ45RA8Kev/Md3eQcx+CEnajY2rlvU2yVjWXwhi664QVGb/j
-         LkB21ATwKA9dg2/KR3bZc6ucPWb5iv1E35ofbgEk2cxDIRJhUNtbwZyKXOo3dt0RNvaQ
-         HcwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=pkFTuk+TNQNm+gOgPOs6LK/YFjb2sUYttyn3WHOqJrE=;
-        b=XB709AC1K5Hs38dZzqOFTTFp0QTF+aVyOCAwnQleb2NocJf0N2fA6JX8rcKCV6NrGE
-         peY/ZA0XnOa1gQlQlJ0qdTTbuNnjTpVLXpraStMS1qVDefDH5Pzn14OE1pmljl4M66qE
-         Q0QK3ARN39FdZEnMtAlXsucFTNMUG8yw4fA+jX31snhLEKnzIZSHKIDoUYhuHPBcMlkZ
-         07WnPvhKKWbWqBgR82VcKR9nNJTYRjeXZVikgxB8njbEAkAZZ+OKxeV5QF3kv9srlmkO
-         ppwpGBYtDeXKZmuukhvoI8Cfge1FjlawR65ozzwxQolIRhvbl1mP/lQZnbn+jtgKo1l5
-         fHgQ==
-X-Gm-Message-State: AOAM533MZY1xpxwsFWueqCaK3FDSDKnuJ0qUCCikuDJCtz/GI8zYt6Fh
-        OPr1mz62zCsuVckP9metw3o0VYvdBF0ZyEc=
-X-Google-Smtp-Source: ABdhPJxKqfXo3iQNgHrvCi7VnP8x5LUCg5ZseTj4zS2VOEiSyA3rRupZVRg7ZXrdqS1hqlyo3hFdXgX8bZj5Q+g=
-X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:5241:a7e9:90c9:9c91])
- (user=saravanak job=sendgmr) by 2002:a05:6214:406:: with SMTP id
- z6mr8713464qvx.34.1632874064532; Tue, 28 Sep 2021 17:07:44 -0700 (PDT)
-Date:   Tue, 28 Sep 2021 17:07:34 -0700
-In-Reply-To: <20210929000735.585237-1-saravanak@google.com>
-Message-Id: <20210929000735.585237-3-saravanak@google.com>
-Mime-Version: 1.0
-References: <20210929000735.585237-1-saravanak@google.com>
-X-Mailer: git-send-email 2.33.0.685.g46640cef36-goog
-Subject: [PATCH v4 2/2] drivers: bus: Delete CONFIG_SIMPLE_PM_BUS
-From:   Saravana Kannan <saravanak@google.com>
-To:     Russell King <linux@armlinux.org.uk>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Saravana Kannan <saravanak@google.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 28 Sep 2021 21:03:16 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="204323066"
+X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; 
+   d="scan'208";a="204323066"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2021 18:01:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; 
+   d="scan'208";a="554407575"
+Received: from lkp-server02.sh.intel.com (HELO f7acefbbae94) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Sep 2021 18:01:34 -0700
+Received: from kbuild by f7acefbbae94 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mVNyX-0001hC-HU; Wed, 29 Sep 2021 01:01:33 +0000
+Date:   Wed, 29 Sep 2021 09:01:05 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk-for-v5.16] BUILD SUCCESS
+ cc3e8f97bbd370b51b3bb7fec391d65d461d7d02
+Message-ID: <6153bad1.0bljb5Mlgth258Eo%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The simple-pm-bus driver is mandatory for CONFIG_OF based platforms to work
-with fw_devlink. So, always compile it in for CONFIG_OF and delete the
-config since it's no longer necessary.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.16
+branch HEAD: cc3e8f97bbd370b51b3bb7fec391d65d461d7d02  clk: renesas: r8a779a0: Add Z0 and Z1 clock support
 
-Signed-off-by: Saravana Kannan <saravanak@google.com>
-Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+elapsed time: 739m
+
+configs tested: 153
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20210928
+arc                 nsimosci_hs_smp_defconfig
+arm                  colibri_pxa270_defconfig
+powerpc                     ppa8548_defconfig
+powerpc                      pasemi_defconfig
+m68k                        m5307c3_defconfig
+sh                           se7343_defconfig
+powerpc                     mpc512x_defconfig
+mips                         cobalt_defconfig
+powerpc                     powernv_defconfig
+arm                      pxa255-idp_defconfig
+arm                          pxa168_defconfig
+sh                           se7721_defconfig
+mips                     decstation_defconfig
+arm                         s5pv210_defconfig
+sh                  sh7785lcr_32bit_defconfig
+powerpc                     skiroot_defconfig
+sh                           se7722_defconfig
+arm                            pleb_defconfig
+arm                          ep93xx_defconfig
+arm                     am200epdkit_defconfig
+mips                      maltasmvp_defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                      ep88xc_defconfig
+nios2                            allyesconfig
+m68k                          atari_defconfig
+mips                           ip32_defconfig
+arc                        nsimosci_defconfig
+nds32                               defconfig
+arm                       imx_v4_v5_defconfig
+arm                         bcm2835_defconfig
+powerpc                     ep8248e_defconfig
+m68k                       bvme6000_defconfig
+arc                        nsim_700_defconfig
+arm                           tegra_defconfig
+sh                          rsk7203_defconfig
+riscv                            alldefconfig
+sparc64                             defconfig
+arm                            hisi_defconfig
+powerpc                     kilauea_defconfig
+arm                         hackkit_defconfig
+mips                           ci20_defconfig
+arm                         lpc18xx_defconfig
+powerpc                      bamboo_defconfig
+powerpc                      ppc6xx_defconfig
+mips                  decstation_64_defconfig
+mips                      maltaaprp_defconfig
+arm                         axm55xx_defconfig
+mips                          rm200_defconfig
+arc                         haps_hs_defconfig
+um                             i386_defconfig
+arm                              alldefconfig
+h8300                            allyesconfig
+arm                        spear6xx_defconfig
+m68k                        mvme16x_defconfig
+sparc                       sparc32_defconfig
+sh                          urquell_defconfig
+mips                           ip27_defconfig
+mips                      fuloong2e_defconfig
+sh                          r7780mp_defconfig
+m68k                        m5272c3_defconfig
+csky                             alldefconfig
+powerpc                   currituck_defconfig
+sh                           se7619_defconfig
+s390                                defconfig
+sh                           se7780_defconfig
+powerpc                     tqm5200_defconfig
+powerpc                 linkstation_defconfig
+arm                         palmz72_defconfig
+powerpc                      acadia_defconfig
+microblaze                      mmu_defconfig
+sh                        sh7785lcr_defconfig
+sh                           se7751_defconfig
+sh                          sdk7780_defconfig
+arm                             ezx_defconfig
+sh                             shx3_defconfig
+x86_64               randconfig-c001-20210928
+arm                  randconfig-c002-20210928
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                             allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a014-20210928
+x86_64               randconfig-a011-20210928
+x86_64               randconfig-a013-20210928
+x86_64               randconfig-a012-20210928
+x86_64               randconfig-a015-20210928
+x86_64               randconfig-a016-20210928
+i386                 randconfig-a014-20210928
+i386                 randconfig-a013-20210928
+i386                 randconfig-a016-20210928
+i386                 randconfig-a011-20210928
+i386                 randconfig-a015-20210928
+i386                 randconfig-a012-20210928
+arc                  randconfig-r043-20210928
+riscv                randconfig-r042-20210928
+s390                 randconfig-r044-20210928
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allyesconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a002-20210928
+x86_64               randconfig-a001-20210928
+x86_64               randconfig-a003-20210928
+x86_64               randconfig-a004-20210928
+x86_64               randconfig-a005-20210928
+x86_64               randconfig-a006-20210928
+i386                 randconfig-a001-20210928
+i386                 randconfig-a005-20210928
+i386                 randconfig-a002-20210928
+i386                 randconfig-a006-20210928
+i386                 randconfig-a004-20210928
+i386                 randconfig-a003-20210928
+hexagon              randconfig-r045-20210928
+hexagon              randconfig-r041-20210928
+
 ---
- arch/arm/configs/multi_v7_defconfig |  1 -
- arch/arm/configs/oxnas_v6_defconfig |  1 -
- arch/arm/configs/shmobile_defconfig |  1 -
- arch/arm/mach-omap2/Kconfig         |  1 -
- arch/arm64/configs/defconfig        |  1 -
- drivers/bus/Kconfig                 | 12 ------------
- drivers/bus/Makefile                |  2 +-
- drivers/soc/canaan/Kconfig          |  1 -
- 8 files changed, 1 insertion(+), 19 deletions(-)
-
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index d9abaae118dd..362720ae8d65 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -196,7 +196,6 @@ CONFIG_PCI_EPF_TEST=m
- CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
- CONFIG_OMAP_OCP2SCP=y
--CONFIG_SIMPLE_PM_BUS=y
- CONFIG_MTD=y
- CONFIG_MTD_CMDLINE_PARTS=y
- CONFIG_MTD_BLOCK=y
-diff --git a/arch/arm/configs/oxnas_v6_defconfig b/arch/arm/configs/oxnas_v6_defconfig
-index cae0db6b4eaf..de37f7e90999 100644
---- a/arch/arm/configs/oxnas_v6_defconfig
-+++ b/arch/arm/configs/oxnas_v6_defconfig
-@@ -46,7 +46,6 @@ CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
- CONFIG_DMA_CMA=y
- CONFIG_CMA_SIZE_MBYTES=64
--CONFIG_SIMPLE_PM_BUS=y
- CONFIG_MTD=y
- CONFIG_MTD_CMDLINE_PARTS=y
- CONFIG_MTD_BLOCK=y
-diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-index d9a27e4e0914..18d2a960b2d2 100644
---- a/arch/arm/configs/shmobile_defconfig
-+++ b/arch/arm/configs/shmobile_defconfig
-@@ -40,7 +40,6 @@ CONFIG_PCI_RCAR_GEN2=y
- CONFIG_PCIE_RCAR_HOST=y
- CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
--CONFIG_SIMPLE_PM_BUS=y
- CONFIG_MTD=y
- CONFIG_MTD_BLOCK=y
- CONFIG_MTD_CFI=y
-diff --git a/arch/arm/mach-omap2/Kconfig b/arch/arm/mach-omap2/Kconfig
-index 7df8f5276ddf..02f2f3157f07 100644
---- a/arch/arm/mach-omap2/Kconfig
-+++ b/arch/arm/mach-omap2/Kconfig
-@@ -112,7 +112,6 @@ config ARCH_OMAP2PLUS
- 	select PM_GENERIC_DOMAINS
- 	select PM_GENERIC_DOMAINS_OF
- 	select RESET_CONTROLLER
--	select SIMPLE_PM_BUS
- 	select SOC_BUS
- 	select TI_SYSC
- 	select OMAP_IRQCHIP
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index f423d08b9a71..474b1f2e3f06 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -245,7 +245,6 @@ CONFIG_DEVTMPFS_MOUNT=y
- CONFIG_FW_LOADER_USER_HELPER=y
- CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y
- CONFIG_HISILICON_LPC=y
--CONFIG_SIMPLE_PM_BUS=y
- CONFIG_FSL_MC_BUS=y
- CONFIG_TEGRA_ACONNECT=m
- CONFIG_GNSS=m
-diff --git a/drivers/bus/Kconfig b/drivers/bus/Kconfig
-index e7f7eee6ee9a..dc3801369488 100644
---- a/drivers/bus/Kconfig
-+++ b/drivers/bus/Kconfig
-@@ -141,18 +141,6 @@ config QCOM_EBI2
- 	  Interface 2, which can be used to connect things like NAND Flash,
- 	  SRAM, ethernet adapters, FPGAs and LCD displays.
- 
--config SIMPLE_PM_BUS
--	tristate "Simple Power-Managed Bus Driver"
--	depends on OF && PM
--	help
--	  Driver for transparent busses that don't need a real driver, but
--	  where the bus controller is part of a PM domain, or under the control
--	  of a functional clock, and thus relies on runtime PM for managing
--	  this PM domain and/or clock.
--	  An example of such a bus controller is the Renesas Bus State
--	  Controller (BSC, sometimes called "LBSC within Bus Bridge", or
--	  "External Bus Interface") as found on several Renesas ARM SoCs.
--
- config SUN50I_DE2_BUS
- 	bool "Allwinner A64 DE2 Bus Driver"
- 	  default ARM64
-diff --git a/drivers/bus/Makefile b/drivers/bus/Makefile
-index 397e35392bff..86aacd36a56d 100644
---- a/drivers/bus/Makefile
-+++ b/drivers/bus/Makefile
-@@ -26,7 +26,7 @@ obj-$(CONFIG_OMAP_OCP2SCP)	+= omap-ocp2scp.o
- obj-$(CONFIG_QCOM_EBI2)		+= qcom-ebi2.o
- obj-$(CONFIG_SUN50I_DE2_BUS)	+= sun50i-de2.o
- obj-$(CONFIG_SUNXI_RSB)		+= sunxi-rsb.o
--obj-$(CONFIG_SIMPLE_PM_BUS)	+= simple-pm-bus.o
-+obj-$(CONFIG_OF)		+= simple-pm-bus.o
- obj-$(CONFIG_TEGRA_ACONNECT)	+= tegra-aconnect.o
- obj-$(CONFIG_TEGRA_GMI)		+= tegra-gmi.o
- obj-$(CONFIG_TI_PWMSS)		+= ti-pwmss.o
-diff --git a/drivers/soc/canaan/Kconfig b/drivers/soc/canaan/Kconfig
-index 8179b69518b4..853096b7e84c 100644
---- a/drivers/soc/canaan/Kconfig
-+++ b/drivers/soc/canaan/Kconfig
-@@ -5,7 +5,6 @@ config SOC_K210_SYSCTL
- 	depends on RISCV && SOC_CANAAN && OF
- 	default SOC_CANAAN
-         select PM
--        select SIMPLE_PM_BUS
-         select SYSCON
-         select MFD_SYSCON
- 	help
--- 
-2.33.0.685.g46640cef36-goog
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
