@@ -2,81 +2,316 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AB3641CDB8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 23:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 293EC41CDE0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 23:14:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344420AbhI2VF0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Sep 2021 17:05:26 -0400
-Received: from www.zeus03.de ([194.117.254.33]:47434 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237657AbhI2VFX (ORCPT
+        id S1346865AbhI2VQK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Sep 2021 17:16:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52606 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346858AbhI2VQJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Sep 2021 17:05:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=qNDVgogKsAve+SdXmpiix6RvGn37
-        Dw9NRQ0dUuB7eWE=; b=dNvgP7Je9RQy3oxx7cnQv/6lS320feKNgKt9duZCJpLE
-        6XVWvS5vzj1QrsHB8AfK46BhyozM+cDbMHknt79SUks1HJ5ZXojqBKhv+jl+UVnE
-        k+Z4b00YgM1oNJ9fZ32CLr69olZYEwCBVBxraIdGA/4KMkXR+peiWbBGa0jsZR4=
-Received: (qmail 1802299 invoked from network); 29 Sep 2021 23:03:39 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Sep 2021 23:03:39 +0200
-X-UD-Smtp-Session: l3s3148p1@A+0RqijNEuEgAwDPXwj5ACKF5hhAYpZw
-Date:   Wed, 29 Sep 2021 23:03:37 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Ryo Kataoka <ryo.kataoka.wt@renesas.com>
-Subject: Re: [PATCH] i2c: rcar: enable interrupts before starting transfer
-Message-ID: <YVTUqQVlmB2Pe8B+@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Ryo Kataoka <ryo.kataoka.wt@renesas.com>
-References: <20210915134827.13043-1-wsa+renesas@sang-engineering.com>
+        Wed, 29 Sep 2021 17:16:09 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F355C06161C
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Sep 2021 14:14:27 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id j5so11438402lfg.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Sep 2021 14:14:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JxVIPgVfpVqL0JfwpZSNVlN3XKjnqM3iLuF/UiuxfNg=;
+        b=QWuUJRCPI6/ss+u52Phgc67pCpjXKROsuUB+fzeV8jd6vsELEYp31wShUQMasDSFwE
+         j2JchLAV0HF0J4dq0D847gi2gDQrMz+ju/3z26rNlaQnGBNQDqpRwo+UykT1Rhp0m6po
+         yYlIU+uIazyeU+lNWoOEd0uMvQB9QC3bN6NuaUHfiqeQ4Qvxj4ng0VhOh8hGROe07o2X
+         Qj843skXa+9hLXGycl/tigfsga9BemGyUMgT0arI6XCp8Aew+UWlpv4bIMh4DRhoSBdx
+         RhQ4c2/O88209PI7KBxDB3dCyBfG3HczwY7ePluAHAQUv21QhqiO3KWfsPyxuZel3RQv
+         CcAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JxVIPgVfpVqL0JfwpZSNVlN3XKjnqM3iLuF/UiuxfNg=;
+        b=d638vjwNAFNCvvODNhfmmO8Dl4BP7wSJNbd4BjubX2o48pHJfkjNKzmdAMbeN5iIZn
+         VltR+S5FbYB24P2GVb06S0rb0Xg4DwuhnE+nAgxDd3GwbZkw1SQDb3VEsXvVzr3dC8dv
+         2ZKD+E26jJV/hZ5j0PyL8V9LFQjbo4TvaDfab/Hvwcb0dtwys6deOn3NBC14y2e2Jznn
+         yN1qwhHAGAxlRYLFE7kUYoSbNdAxcQoztKSKo/3JoszhloSZYsdse4tltYKFcxbWvvvi
+         6mFQU7lvgwnaKDbw4I6WniZFNQ3LiKcp4Jom9BrA4dtGBihOOBSOOdiyFp/D116XsdLk
+         ixLQ==
+X-Gm-Message-State: AOAM533CV92L2wdGa+V7INVW5VHXjlV+pVq6RNZsQX6zAPrXfDxCBTJA
+        Z+zAbBGAO9YmAq6P19dZJSMYdvkPAwBDT0Fb
+X-Google-Smtp-Source: ABdhPJzoQkLWL5uVQdbdIwZYJI4THZavHlyTpU33uxrPlGHHU9/zByUu3AjQTOsjBcTPdcv6FDn7Ew==
+X-Received: by 2002:a2e:6c14:: with SMTP id h20mr2051476ljc.519.1632950065819;
+        Wed, 29 Sep 2021 14:14:25 -0700 (PDT)
+Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id l26sm115884lfh.247.2021.09.29.14.14.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Sep 2021 14:14:25 -0700 (PDT)
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
+        Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
+        LUU HOAI <hoai.luu.ub@renesas.com>,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH] pinctrl: renesas: r8a779[56]x: add MediaLB pins
+Date:   Thu, 30 Sep 2021 00:13:51 +0300
+Message-Id: <20210929211350.4226-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="0WE1ricZrn/U+nmo"
-Content-Disposition: inline
-In-Reply-To: <20210915134827.13043-1-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
 
---0WE1ricZrn/U+nmo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This adds pins, groups, and functions for MediaLB device on Renesas
+H3 and M3.
 
-On Wed, Sep 15, 2021 at 03:48:27PM +0200, Wolfram Sang wrote:
-> We want to enable the interrupts _before_ starting the transfer because
-> it is good programming style and also the proposed order in the R-Car
-> manual. There is no difference in practice because it doesn't matter in
-> which order both conditions appear if we wait for both to happen.
->=20
-> Signed-off-by: Ryo Kataoka <ryo.kataoka.wt@renesas.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Signed-off-by: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
+Signed-off-by: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+ drivers/pinctrl/renesas/pfc-r8a77950.c | 14 ++++++++++++++
+ drivers/pinctrl/renesas/pfc-r8a77951.c | 18 ++++++++++++++++--
+ drivers/pinctrl/renesas/pfc-r8a7796.c  | 16 +++++++++++++++-
+ drivers/pinctrl/renesas/pfc-r8a77965.c | 18 ++++++++++++++++--
+ 4 files changed, 61 insertions(+), 5 deletions(-)
 
-Applied to for-next, thanks!
+diff --git a/drivers/pinctrl/renesas/pfc-r8a77950.c b/drivers/pinctrl/renesas/pfc-r8a77950.c
+index ee4ce9349aae..c86064900c6e 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a77950.c
++++ b/drivers/pinctrl/renesas/pfc-r8a77950.c
+@@ -2369,6 +2369,14 @@ static const unsigned int intc_ex_irq5_mux[] = {
+ 	IRQ5_MARK,
+ };
+ 
++/* - MLB+ ------------------------------------------------------------------- */
++static const unsigned int mlb_3pin_pins[] = {
++	RCAR_GP_PIN(5, 23), RCAR_GP_PIN(5, 24), RCAR_GP_PIN(5, 25),
++};
++static const unsigned int mlb_3pin_mux[] = {
++	MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
++};
++
+ /* - MSIOF0 ----------------------------------------------------------------- */
+ static const unsigned int msiof0_clk_pins[] = {
+ 	/* SCK */
+@@ -3987,6 +3995,7 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
+ 	SH_PFC_PIN_GROUP(intc_ex_irq3),
+ 	SH_PFC_PIN_GROUP(intc_ex_irq4),
+ 	SH_PFC_PIN_GROUP(intc_ex_irq5),
++	SH_PFC_PIN_GROUP(mlb_3pin),
+ 	SH_PFC_PIN_GROUP(msiof0_clk),
+ 	SH_PFC_PIN_GROUP(msiof0_sync),
+ 	SH_PFC_PIN_GROUP(msiof0_ss1),
+@@ -4380,6 +4389,10 @@ static const char * const intc_ex_groups[] = {
+ 	"intc_ex_irq5",
+ };
+ 
++static const char * const mlb_3pin_groups[] = {
++	"mlb_3pin",
++};
++
+ static const char * const msiof0_groups[] = {
+ 	"msiof0_clk",
+ 	"msiof0_sync",
+@@ -4709,6 +4722,7 @@ static const struct sh_pfc_function pinmux_functions[] = {
+ 	SH_PFC_FUNCTION(i2c5),
+ 	SH_PFC_FUNCTION(i2c6),
+ 	SH_PFC_FUNCTION(intc_ex),
++	SH_PFC_FUNCTION(mlb_3pin),
+ 	SH_PFC_FUNCTION(msiof0),
+ 	SH_PFC_FUNCTION(msiof1),
+ 	SH_PFC_FUNCTION(msiof2),
+diff --git a/drivers/pinctrl/renesas/pfc-r8a77951.c b/drivers/pinctrl/renesas/pfc-r8a77951.c
+index 84c0ea5d59c1..4e4e39640df4 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a77951.c
++++ b/drivers/pinctrl/renesas/pfc-r8a77951.c
+@@ -2453,6 +2453,14 @@ static const unsigned int intc_ex_irq5_mux[] = {
+ 	IRQ5_MARK,
+ };
+ 
++/* - MLB+ ------------------------------------------------------------------- */
++static const unsigned int mlb_3pin_pins[] = {
++	RCAR_GP_PIN(5, 23), RCAR_GP_PIN(5, 24), RCAR_GP_PIN(5, 25),
++};
++static const unsigned int mlb_3pin_mux[] = {
++	MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
++};
++
+ /* - MSIOF0 ----------------------------------------------------------------- */
+ static const unsigned int msiof0_clk_pins[] = {
+ 	/* SCK */
+@@ -4233,7 +4241,7 @@ static const unsigned int vin5_clk_mux[] = {
+ };
+ 
+ static const struct {
+-	struct sh_pfc_pin_group common[328];
++	struct sh_pfc_pin_group common[329];
+ #ifdef CONFIG_PINCTRL_PFC_R8A77951
+ 	struct sh_pfc_pin_group automotive[30];
+ #endif
+@@ -4326,6 +4334,7 @@ static const struct {
+ 		SH_PFC_PIN_GROUP(intc_ex_irq3),
+ 		SH_PFC_PIN_GROUP(intc_ex_irq4),
+ 		SH_PFC_PIN_GROUP(intc_ex_irq5),
++		SH_PFC_PIN_GROUP(mlb_3pin),
+ 		SH_PFC_PIN_GROUP(msiof0_clk),
+ 		SH_PFC_PIN_GROUP(msiof0_sync),
+ 		SH_PFC_PIN_GROUP(msiof0_ss1),
+@@ -4795,6 +4804,10 @@ static const char * const intc_ex_groups[] = {
+ 	"intc_ex_irq5",
+ };
+ 
++static const char * const mlb_3pin_groups[] = {
++	"mlb_3pin",
++};
++
+ static const char * const msiof0_groups[] = {
+ 	"msiof0_clk",
+ 	"msiof0_sync",
+@@ -5142,7 +5155,7 @@ static const char * const vin5_groups[] = {
+ };
+ 
+ static const struct {
+-	struct sh_pfc_function common[55];
++	struct sh_pfc_function common[56];
+ #ifdef CONFIG_PINCTRL_PFC_R8A77951
+ 	struct sh_pfc_function automotive[4];
+ #endif
+@@ -5168,6 +5181,7 @@ static const struct {
+ 		SH_PFC_FUNCTION(i2c5),
+ 		SH_PFC_FUNCTION(i2c6),
+ 		SH_PFC_FUNCTION(intc_ex),
++		SH_PFC_FUNCTION(mlb_3pin),
+ 		SH_PFC_FUNCTION(msiof0),
+ 		SH_PFC_FUNCTION(msiof1),
+ 		SH_PFC_FUNCTION(msiof2),
+diff --git a/drivers/pinctrl/renesas/pfc-r8a7796.c b/drivers/pinctrl/renesas/pfc-r8a7796.c
+index a4d74df3d201..bfbe2529ff9c 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a7796.c
++++ b/drivers/pinctrl/renesas/pfc-r8a7796.c
+@@ -2458,6 +2458,14 @@ static const unsigned int intc_ex_irq5_mux[] = {
+ 	IRQ5_MARK,
+ };
+ 
++/* - MLB+ ------------------------------------------------------------------- */
++static const unsigned int mlb_3pin_pins[] = {
++	RCAR_GP_PIN(5, 23), RCAR_GP_PIN(5, 24), RCAR_GP_PIN(5, 25),
++};
++static const unsigned int mlb_3pin_mux[] = {
++	MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
++};
++
+ /* - MSIOF0 ----------------------------------------------------------------- */
+ static const unsigned int msiof0_clk_pins[] = {
+ 	/* SCK */
+@@ -4301,6 +4309,7 @@ static const struct {
+ 		SH_PFC_PIN_GROUP(intc_ex_irq3),
+ 		SH_PFC_PIN_GROUP(intc_ex_irq4),
+ 		SH_PFC_PIN_GROUP(intc_ex_irq5),
++		SH_PFC_PIN_GROUP(mlb_3pin),
+ 		SH_PFC_PIN_GROUP(msiof0_clk),
+ 		SH_PFC_PIN_GROUP(msiof0_sync),
+ 		SH_PFC_PIN_GROUP(msiof0_ss1),
+@@ -4766,6 +4775,10 @@ static const char * const intc_ex_groups[] = {
+ 	"intc_ex_irq5",
+ };
+ 
++static const char * const mlb_3pin_groups[] = {
++	"mlb_3pin",
++};
++
+ static const char * const msiof0_groups[] = {
+ 	"msiof0_clk",
+ 	"msiof0_sync",
+@@ -5100,7 +5113,7 @@ static const char * const vin5_groups[] = {
+ };
+ 
+ static const struct {
+-	struct sh_pfc_function common[52];
++	struct sh_pfc_function common[53];
+ #if defined(CONFIG_PINCTRL_PFC_R8A77960) || defined(CONFIG_PINCTRL_PFC_R8A77961)
+ 	struct sh_pfc_function automotive[4];
+ #endif
+@@ -5126,6 +5139,7 @@ static const struct {
+ 		SH_PFC_FUNCTION(i2c5),
+ 		SH_PFC_FUNCTION(i2c6),
+ 		SH_PFC_FUNCTION(intc_ex),
++		SH_PFC_FUNCTION(mlb_3pin),
+ 		SH_PFC_FUNCTION(msiof0),
+ 		SH_PFC_FUNCTION(msiof1),
+ 		SH_PFC_FUNCTION(msiof2),
+diff --git a/drivers/pinctrl/renesas/pfc-r8a77965.c b/drivers/pinctrl/renesas/pfc-r8a77965.c
+index a7607a679886..dcde4edc309b 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a77965.c
++++ b/drivers/pinctrl/renesas/pfc-r8a77965.c
+@@ -2609,6 +2609,14 @@ static const unsigned int intc_ex_irq5_mux[] = {
+ 	IRQ5_MARK,
+ };
+ 
++/* - MLB+ ------------------------------------------------------------------- */
++static const unsigned int mlb_3pin_pins[] = {
++	RCAR_GP_PIN(5, 23), RCAR_GP_PIN(5, 24), RCAR_GP_PIN(5, 25),
++};
++static const unsigned int mlb_3pin_mux[] = {
++	MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
++};
++
+ /* - MSIOF0 ----------------------------------------------------------------- */
+ static const unsigned int msiof0_clk_pins[] = {
+ 	/* SCK */
+@@ -4458,7 +4466,7 @@ static const unsigned int vin5_clk_mux[] = {
+ };
+ 
+ static const struct {
+-	struct sh_pfc_pin_group common[326];
++	struct sh_pfc_pin_group common[327];
+ #ifdef CONFIG_PINCTRL_PFC_R8A77965
+ 	struct sh_pfc_pin_group automotive[30];
+ #endif
+@@ -4551,6 +4559,7 @@ static const struct {
+ 		SH_PFC_PIN_GROUP(intc_ex_irq3),
+ 		SH_PFC_PIN_GROUP(intc_ex_irq4),
+ 		SH_PFC_PIN_GROUP(intc_ex_irq5),
++		SH_PFC_PIN_GROUP(mlb_3pin),
+ 		SH_PFC_PIN_GROUP(msiof0_clk),
+ 		SH_PFC_PIN_GROUP(msiof0_sync),
+ 		SH_PFC_PIN_GROUP(msiof0_ss1),
+@@ -5018,6 +5027,10 @@ static const char * const intc_ex_groups[] = {
+ 	"intc_ex_irq5",
+ };
+ 
++static const char * const mlb_3pin_groups[] = {
++	"mlb_3pin",
++};
++
+ static const char * const msiof0_groups[] = {
+ 	"msiof0_clk",
+ 	"msiof0_sync",
+@@ -5356,7 +5369,7 @@ static const char * const vin5_groups[] = {
+ };
+ 
+ static const struct {
+-	struct sh_pfc_function common[53];
++	struct sh_pfc_function common[54];
+ #ifdef CONFIG_PINCTRL_PFC_R8A77965
+ 	struct sh_pfc_function automotive[4];
+ #endif
+@@ -5382,6 +5395,7 @@ static const struct {
+ 		SH_PFC_FUNCTION(i2c5),
+ 		SH_PFC_FUNCTION(i2c6),
+ 		SH_PFC_FUNCTION(intc_ex),
++		SH_PFC_FUNCTION(mlb_3pin),
+ 		SH_PFC_FUNCTION(msiof0),
+ 		SH_PFC_FUNCTION(msiof1),
+ 		SH_PFC_FUNCTION(msiof2),
+-- 
+2.30.2
 
-
---0WE1ricZrn/U+nmo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFU1KkACgkQFA3kzBSg
-KbYXkw/9GOcYNtCYE3I3BnCh8AFRhxa//HW7r4lcxvEpua9ezEcR1oq7YRpURsEh
-Lu/XpgmxjiaenK0l3UuES8loeXpfBssiOHJ3DCtM1k7FJV2m5O8n10JoVJa7Br0k
-mO+MN35zSqN3rlTU00ZO1Yv49OgVId1bBitJ4iD2r4Zg+vSA8OPZFB+05+WGNatX
-gc9lvFROMyPaTD8GorH730tE2eaxBoz1El/LPvVbKSHSBb+catKSxQeVN6K570Jt
-gXlwqsyLzbANpqRy48izY5csoDJaS0Pg9471Z+o3jdRx3Y73W9j8vlaQU0qa1NLN
-fuTf7Wf+7MKQLLBfpYThFXhOtgNRZEU3kMrTzqDCwbiIgjYAd9ZXHDg2AeE42gYW
-gS76os/eawyMOoTAMXVGYh8r5iffQAc0BmyMLml7WFJkjB11K+BwrNhe/LBWF20K
-uHkEKdDLoQEqMlD77C35fh2JAD82EUReGxyFJ4gpRiNEQIwZ3a038jPrNF0Gj3Xi
-Qyor61cauh3O6K1Pp+LQ0QYJVelraFN5KalfUqBpXhHo/kAxqC2bVcFhpPNKoPTl
-sTExNpMbqih9CcGFSS+2hhkIO/1MAoo49495mffNYWIOgs9qO4Al8L0XSd3aXb1l
-FERCjiEw1bhpxH5gEwWXNfSibjSaLU6CMIJX+EOwdpxOMRkI2ZA=
-=oH9w
------END PGP SIGNATURE-----
-
---0WE1ricZrn/U+nmo--
