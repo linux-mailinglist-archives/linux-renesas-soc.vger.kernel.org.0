@@ -2,27 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D00341C775
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 16:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7FDB41CA29
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 18:32:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344760AbhI2O46 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Sep 2021 10:56:58 -0400
-Received: from foss.arm.com ([217.140.110.172]:46826 "EHLO foss.arm.com"
+        id S1344984AbhI2Qee (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Sep 2021 12:34:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37458 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344740AbhI2O46 (ORCPT
+        id S244930AbhI2Qee (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Sep 2021 10:56:58 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B60EE6D;
-        Wed, 29 Sep 2021 07:55:16 -0700 (PDT)
-Received: from lpieralisi (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F5AD3F793;
-        Wed, 29 Sep 2021 07:55:15 -0700 (PDT)
-Date:   Wed, 29 Sep 2021 15:55:09 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Marek Vasut <marek.vasut@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wed, 29 Sep 2021 12:34:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C6772613D0;
+        Wed, 29 Sep 2021 16:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632933173;
+        bh=Pu4A65olMNr8uqiYaOhp03+vuksr93kEdd96A8SFaRk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=pdk3OySzKuPz8fIbttjoqJAj0rqGKe6CNPZ7UzWkt3bAoZ+68rcATEDR0fYmuZJ+D
+         P7u49ahZAkcmssAVBsS0EXTbdTzP+gKN5vqJqOicK0eQGOWGffBWcNcgOM0FiAnEzi
+         yUslt58mrcB43UBHTYBnnL/8Huk+sGHv7EvoYVIa613YkEFWYVyFwjbGiTAUu0NTWX
+         r3b1A6+AMpRXaJrwhewp0jXiaxMW+UC6VpKWoq7hWlck4FEJhBnKw0Po33Da2sfbWe
+         ztBfDByMyzMx1tuc1TZPKFoO1ZKVyniUrl8vYAEwtL3xzSRzfQZ0til87n4spz1SRN
+         Kz1+SD3jfVCng==
+Date:   Wed, 29 Sep 2021 11:32:50 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Marek Vasut <marek.vasut@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
         linux-pci <linux-pci@vger.kernel.org>,
         Stephen Boyd <sboyd@kernel.org>,
         Wolfram Sang <wsa@the-dreams.de>,
@@ -30,48 +37,75 @@ Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>
 Subject: Re: [PATCH] PCI: rcar: Add missing COMMON_CLK dependency
-Message-ID: <20210929145509.GA20495@lpieralisi>
-References: <20210907144512.5238-1-marek.vasut@gmail.com>
- <CAMuHMdU+QteYhw6xuhuPrX5DVfmPnBgM8JfQoTk-KOP7+fSCWQ@mail.gmail.com>
- <d720b758-109a-434e-b1a4-f49649dd34e9@gmail.com>
+Message-ID: <20210929163250.GA773921@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d720b758-109a-434e-b1a4-f49649dd34e9@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210929145509.GA20495@lpieralisi>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 22, 2021 at 01:13:11AM +0200, Marek Vasut wrote:
-> On 9/21/21 6:08 PM, Geert Uytterhoeven wrote:
-> 
-> [...]
-> 
-> > > diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
-> > > index 326f7d13024f..ee6f5e525d3a 100644
-> > > --- a/drivers/pci/controller/Kconfig
-> > > +++ b/drivers/pci/controller/Kconfig
-> > > @@ -66,6 +66,7 @@ config PCI_RCAR_GEN2
-> > >   config PCIE_RCAR_HOST
-> > >          bool "Renesas R-Car PCIe host controller"
-> > >          depends on ARCH_RENESAS || COMPILE_TEST
-> > > +       depends on COMMON_CLK
+On Wed, Sep 29, 2021 at 03:55:09PM +0100, Lorenzo Pieralisi wrote:
+> On Wed, Sep 22, 2021 at 01:13:11AM +0200, Marek Vasut wrote:
+> > On 9/21/21 6:08 PM, Geert Uytterhoeven wrote:
 > > 
-> > This part is OK.
+> > [...]
+> > 
+> > > > diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+> > > > index 326f7d13024f..ee6f5e525d3a 100644
+> > > > --- a/drivers/pci/controller/Kconfig
+> > > > +++ b/drivers/pci/controller/Kconfig
+> > > > @@ -66,6 +66,7 @@ config PCI_RCAR_GEN2
+> > > >   config PCIE_RCAR_HOST
+> > > >          bool "Renesas R-Car PCIe host controller"
+> > > >          depends on ARCH_RENESAS || COMPILE_TEST
+> > > > +       depends on COMMON_CLK
+> > > 
+> > > This part is OK.
+> > 
+> > This part is also identical in the patch from Arnd, so you can just pick
+> > that one as a fix and be done with it:
+> > 
+> > [PATCH] PCI: rcar: add COMMON_CLK dependency
+> > https://patchwork.kernel.org/project/linux-pci/patch/20210920095730.1216692-1-arnd@kernel.org/
 > 
-> This part is also identical in the patch from Arnd, so you can just pick
-> that one as a fix and be done with it:
+> It is not strictly identical (Arnd's patch only touches the COMPILE_TEST
+> option).
 > 
-> [PATCH] PCI: rcar: add COMMON_CLK dependency
-> https://patchwork.kernel.org/project/linux-pci/patch/20210920095730.1216692-1-arnd@kernel.org/
+> Bjorn, shall we pick Arnd's patch up then ? We should be fixing this in
+> one of the upcoming -rcs since we introduced it in the last merge
+> window.
 
-It is not strictly identical (Arnd's patch only touches the COMPILE_TEST
-option).
+IIUC, a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort
+hook") appeared in v5.15-rc1 and added a use of __clk_is_enabled(),
+which is only available when COMMON_CLK=y.
 
-Bjorn, shall we pick Arnd's patch up then ? We should be fixing this in
-one of the upcoming -rcs since we introduced it in the last merge
-window.
+PCIE_RCAR_HOST depends on ARCH_RENESAS || COMPILE_TEST.  ARCH_RENESAS
+is an ARM64 platform, so when COMPILE_TEST is not set, I think we get
+COMMON_CLK=y via this:
 
-Thanks,
-Lorenzo
+  config ARM64
+    select COMMON_CLK
+
+But when ARCH_RENESAS is not set and COMPILE_TEST=y, there's nothing
+that enforces the dependency on COMMON_CLK.  Personally I like the
+first hunk of Marek's patch at [1] because the dependency on
+COMMON_CLK is explicit:
+
+  config PCIE_RCAR_HOST
+    depends on ARCH_RENESAS || COMPILE_TEST
+    depends on COMMON_CLK
+
+Whereas Arnd's patch [2] implicitly depends on the fact that the platform
+selects COMMON_CLK:
+
+  config PCIE_RCAR_HOST
+    depends on ARCH_RENESAS || (COMMON_CLK && COMPILE_TEST)
+
+But either is fine and I agree we should fix it soonish.
+
+Bjorn
+
+[1] https://lore.kernel.org/all/20210907144512.5238-1-marek.vasut@gmail.com/
+[2] https://lore.kernel.org/all/20210920095730.1216692-1-arnd@kernel.org/
