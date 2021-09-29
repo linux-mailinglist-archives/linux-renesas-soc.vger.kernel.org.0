@@ -2,64 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 293EC41CDE0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 23:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD9ED41CE43
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 23:35:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346865AbhI2VQK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Sep 2021 17:16:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52606 "EHLO
+        id S1346722AbhI2VhY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Sep 2021 17:37:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346858AbhI2VQJ (ORCPT
+        with ESMTP id S1346347AbhI2VhX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Sep 2021 17:16:09 -0400
+        Wed, 29 Sep 2021 17:37:23 -0400
 Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F355C06161C
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Sep 2021 14:14:27 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id j5so11438402lfg.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Sep 2021 14:14:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE6D5C06161C
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Sep 2021 14:35:41 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id g41so16454052lfv.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Sep 2021 14:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JxVIPgVfpVqL0JfwpZSNVlN3XKjnqM3iLuF/UiuxfNg=;
-        b=QWuUJRCPI6/ss+u52Phgc67pCpjXKROsuUB+fzeV8jd6vsELEYp31wShUQMasDSFwE
-         j2JchLAV0HF0J4dq0D847gi2gDQrMz+ju/3z26rNlaQnGBNQDqpRwo+UykT1Rhp0m6po
-         yYlIU+uIazyeU+lNWoOEd0uMvQB9QC3bN6NuaUHfiqeQ4Qvxj4ng0VhOh8hGROe07o2X
-         Qj843skXa+9hLXGycl/tigfsga9BemGyUMgT0arI6XCp8Aew+UWlpv4bIMh4DRhoSBdx
-         RhQ4c2/O88209PI7KBxDB3dCyBfG3HczwY7ePluAHAQUv21QhqiO3KWfsPyxuZel3RQv
-         CcAQ==
+        bh=EyTnMzYq/vCo9+ZlAi5FiLa7VQj9CHwqWbGroqQ1q+g=;
+        b=p92tfDwcgAZ97KGfoC1Yt4fwYfXl7WZMfcSALcMasWs3c8GRxC6wenhVIFzdL9Wsq2
+         NXFzv6kwgIou6n9BdeQrNdb7Vb5IJ6tsD//eu9ahYDhr8ZoSIgAYx9PfVHDWOaUshbfm
+         DPd3pWGX5Emsn8QKCpFGY/fDKYRj+Zne9vEoPAK5pD/d0im1rHsEIn2zQahSyosaTv/h
+         xEib4h13Q0fO1GaHVfLW9PFvtPC7yrZtbBgFSdcVihg8bC80WUKAwZsJOWTgUgOWXQnc
+         c+hFNmVePqKEht1VIhoJD8WtTSaPAmw3DUVyNnYxdHre3ZIr5RJqcd+fE+e5j3BFShm1
+         Y6yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JxVIPgVfpVqL0JfwpZSNVlN3XKjnqM3iLuF/UiuxfNg=;
-        b=d638vjwNAFNCvvODNhfmmO8Dl4BP7wSJNbd4BjubX2o48pHJfkjNKzmdAMbeN5iIZn
-         VltR+S5FbYB24P2GVb06S0rb0Xg4DwuhnE+nAgxDd3GwbZkw1SQDb3VEsXvVzr3dC8dv
-         2ZKD+E26jJV/hZ5j0PyL8V9LFQjbo4TvaDfab/Hvwcb0dtwys6deOn3NBC14y2e2Jznn
-         yN1qwhHAGAxlRYLFE7kUYoSbNdAxcQoztKSKo/3JoszhloSZYsdse4tltYKFcxbWvvvi
-         6mFQU7lvgwnaKDbw4I6WniZFNQ3LiKcp4Jom9BrA4dtGBihOOBSOOdiyFp/D116XsdLk
-         ixLQ==
-X-Gm-Message-State: AOAM533CV92L2wdGa+V7INVW5VHXjlV+pVq6RNZsQX6zAPrXfDxCBTJA
-        Z+zAbBGAO9YmAq6P19dZJSMYdvkPAwBDT0Fb
-X-Google-Smtp-Source: ABdhPJzoQkLWL5uVQdbdIwZYJI4THZavHlyTpU33uxrPlGHHU9/zByUu3AjQTOsjBcTPdcv6FDn7Ew==
-X-Received: by 2002:a2e:6c14:: with SMTP id h20mr2051476ljc.519.1632950065819;
-        Wed, 29 Sep 2021 14:14:25 -0700 (PDT)
+        bh=EyTnMzYq/vCo9+ZlAi5FiLa7VQj9CHwqWbGroqQ1q+g=;
+        b=h7GrbDEYhrc3a9f8mfBKXFkS7RFurcQcFzvoJIjqGbuWvBfLaDMskS3GseiUx1wYmm
+         PddQUDGQCDZ4NErk7OYSr9gZJJ8xLcx+UNNbIuIdHjyAdkG9zy8858FFd/AIilrDI7XD
+         3iis0UYyVU6ZxQOL5+anqFn91PDaN+rppTyDPZwzBYSyanAoHz2nP+UCW0EJTUXFYZit
+         pF4hsK6C1OIsDMWwCvXkEMaMvDoYlQ7OFhtgBmsijCaq2MFYFZ7v1VzEx3yHqM0xDM2A
+         ThSY/Cjq3BGZYDFRR4Ty8MuxSDAbTwhRI5/to3zK1HTKxdKr7ohAijih+pbDTBteVHEI
+         lg9w==
+X-Gm-Message-State: AOAM530eZGZoTsDSydHrDr8btQnrYicM7sL7V7f4nxzOaGFbjs29sM0X
+        Nss6PZid/GDBAa84aSzUUUCkSg==
+X-Google-Smtp-Source: ABdhPJwkFWv34OpeQwSZYEXZsWF0YpaEoXfonGOz6oBsU4nBLcZpAQkDAYhGFtZSP9NZioVjB+JrpA==
+X-Received: by 2002:a05:6512:3d0e:: with SMTP id d14mr1932784lfv.20.1632951340130;
+        Wed, 29 Sep 2021 14:35:40 -0700 (PDT)
 Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id l26sm115884lfh.247.2021.09.29.14.14.24
+        by smtp.gmail.com with ESMTPSA id x11sm124016lfq.95.2021.09.29.14.35.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Sep 2021 14:14:25 -0700 (PDT)
+        Wed, 29 Sep 2021 14:35:39 -0700 (PDT)
 From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
-        Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
-        LUU HOAI <hoai.luu.ub@renesas.com>,
         Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH] pinctrl: renesas: r8a779[56]x: add MediaLB pins
-Date:   Thu, 30 Sep 2021 00:13:51 +0300
-Message-Id: <20210929211350.4226-1-nikita.yoush@cogentembedded.com>
+Subject: [PATCH] clk: renesas: r8a779[56]x: add MLP clock
+Date:   Thu, 30 Sep 2021 00:34:32 +0300
+Message-Id: <20210929213431.5275-1-nikita.yoush@cogentembedded.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,249 +68,52 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
 
-This adds pins, groups, and functions for MediaLB device on Renesas
-H3 and M3.
+Add clocks for MLP module on Renesas H3 and M3.
 
 Signed-off-by: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
-Signed-off-by: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
-Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
 Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 ---
- drivers/pinctrl/renesas/pfc-r8a77950.c | 14 ++++++++++++++
- drivers/pinctrl/renesas/pfc-r8a77951.c | 18 ++++++++++++++++--
- drivers/pinctrl/renesas/pfc-r8a7796.c  | 16 +++++++++++++++-
- drivers/pinctrl/renesas/pfc-r8a77965.c | 18 ++++++++++++++++--
- 4 files changed, 61 insertions(+), 5 deletions(-)
+ drivers/clk/renesas/r8a7795-cpg-mssr.c  | 1 +
+ drivers/clk/renesas/r8a7796-cpg-mssr.c  | 1 +
+ drivers/clk/renesas/r8a77965-cpg-mssr.c | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/drivers/pinctrl/renesas/pfc-r8a77950.c b/drivers/pinctrl/renesas/pfc-r8a77950.c
-index ee4ce9349aae..c86064900c6e 100644
---- a/drivers/pinctrl/renesas/pfc-r8a77950.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a77950.c
-@@ -2369,6 +2369,14 @@ static const unsigned int intc_ex_irq5_mux[] = {
- 	IRQ5_MARK,
- };
+diff --git a/drivers/clk/renesas/r8a7795-cpg-mssr.c b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+index c32d2c678046..d6b1d0148bfd 100644
+--- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+@@ -229,6 +229,7 @@ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+ 	DEF_MOD("lvds",			 727,	R8A7795_CLK_S0D4),
+ 	DEF_MOD("hdmi1",		 728,	R8A7795_CLK_HDMI),
+ 	DEF_MOD("hdmi0",		 729,	R8A7795_CLK_HDMI),
++	DEF_MOD("mlp",			 802,	R8A7795_CLK_S2D1),
+ 	DEF_MOD("vin7",			 804,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("vin6",			 805,	R8A7795_CLK_S0D2),
+ 	DEF_MOD("vin5",			 806,	R8A7795_CLK_S0D2),
+diff --git a/drivers/clk/renesas/r8a7796-cpg-mssr.c b/drivers/clk/renesas/r8a7796-cpg-mssr.c
+index 41593c126faf..9c22977e42c2 100644
+--- a/drivers/clk/renesas/r8a7796-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a7796-cpg-mssr.c
+@@ -207,6 +207,7 @@ static struct mssr_mod_clk r8a7796_mod_clks[] __initdata = {
+ 	DEF_MOD("du0",			 724,	R8A7796_CLK_S2D1),
+ 	DEF_MOD("lvds",			 727,	R8A7796_CLK_S2D1),
+ 	DEF_MOD("hdmi0",		 729,	R8A7796_CLK_HDMI),
++	DEF_MOD("mlp",			 802,	R8A7796_CLK_S2D1),
+ 	DEF_MOD("vin7",			 804,	R8A7796_CLK_S0D2),
+ 	DEF_MOD("vin6",			 805,	R8A7796_CLK_S0D2),
+ 	DEF_MOD("vin5",			 806,	R8A7796_CLK_S0D2),
+diff --git a/drivers/clk/renesas/r8a77965-cpg-mssr.c b/drivers/clk/renesas/r8a77965-cpg-mssr.c
+index bc1be8bcbbe4..52c5da26b756 100644
+--- a/drivers/clk/renesas/r8a77965-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a77965-cpg-mssr.c
+@@ -205,6 +205,7 @@ static const struct mssr_mod_clk r8a77965_mod_clks[] __initconst = {
+ 	DEF_MOD("lvds",			727,	R8A77965_CLK_S2D1),
+ 	DEF_MOD("hdmi0",		729,	R8A77965_CLK_HDMI),
  
-+/* - MLB+ ------------------------------------------------------------------- */
-+static const unsigned int mlb_3pin_pins[] = {
-+	RCAR_GP_PIN(5, 23), RCAR_GP_PIN(5, 24), RCAR_GP_PIN(5, 25),
-+};
-+static const unsigned int mlb_3pin_mux[] = {
-+	MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
-+};
-+
- /* - MSIOF0 ----------------------------------------------------------------- */
- static const unsigned int msiof0_clk_pins[] = {
- 	/* SCK */
-@@ -3987,6 +3995,7 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
- 	SH_PFC_PIN_GROUP(intc_ex_irq3),
- 	SH_PFC_PIN_GROUP(intc_ex_irq4),
- 	SH_PFC_PIN_GROUP(intc_ex_irq5),
-+	SH_PFC_PIN_GROUP(mlb_3pin),
- 	SH_PFC_PIN_GROUP(msiof0_clk),
- 	SH_PFC_PIN_GROUP(msiof0_sync),
- 	SH_PFC_PIN_GROUP(msiof0_ss1),
-@@ -4380,6 +4389,10 @@ static const char * const intc_ex_groups[] = {
- 	"intc_ex_irq5",
- };
- 
-+static const char * const mlb_3pin_groups[] = {
-+	"mlb_3pin",
-+};
-+
- static const char * const msiof0_groups[] = {
- 	"msiof0_clk",
- 	"msiof0_sync",
-@@ -4709,6 +4722,7 @@ static const struct sh_pfc_function pinmux_functions[] = {
- 	SH_PFC_FUNCTION(i2c5),
- 	SH_PFC_FUNCTION(i2c6),
- 	SH_PFC_FUNCTION(intc_ex),
-+	SH_PFC_FUNCTION(mlb_3pin),
- 	SH_PFC_FUNCTION(msiof0),
- 	SH_PFC_FUNCTION(msiof1),
- 	SH_PFC_FUNCTION(msiof2),
-diff --git a/drivers/pinctrl/renesas/pfc-r8a77951.c b/drivers/pinctrl/renesas/pfc-r8a77951.c
-index 84c0ea5d59c1..4e4e39640df4 100644
---- a/drivers/pinctrl/renesas/pfc-r8a77951.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a77951.c
-@@ -2453,6 +2453,14 @@ static const unsigned int intc_ex_irq5_mux[] = {
- 	IRQ5_MARK,
- };
- 
-+/* - MLB+ ------------------------------------------------------------------- */
-+static const unsigned int mlb_3pin_pins[] = {
-+	RCAR_GP_PIN(5, 23), RCAR_GP_PIN(5, 24), RCAR_GP_PIN(5, 25),
-+};
-+static const unsigned int mlb_3pin_mux[] = {
-+	MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
-+};
-+
- /* - MSIOF0 ----------------------------------------------------------------- */
- static const unsigned int msiof0_clk_pins[] = {
- 	/* SCK */
-@@ -4233,7 +4241,7 @@ static const unsigned int vin5_clk_mux[] = {
- };
- 
- static const struct {
--	struct sh_pfc_pin_group common[328];
-+	struct sh_pfc_pin_group common[329];
- #ifdef CONFIG_PINCTRL_PFC_R8A77951
- 	struct sh_pfc_pin_group automotive[30];
- #endif
-@@ -4326,6 +4334,7 @@ static const struct {
- 		SH_PFC_PIN_GROUP(intc_ex_irq3),
- 		SH_PFC_PIN_GROUP(intc_ex_irq4),
- 		SH_PFC_PIN_GROUP(intc_ex_irq5),
-+		SH_PFC_PIN_GROUP(mlb_3pin),
- 		SH_PFC_PIN_GROUP(msiof0_clk),
- 		SH_PFC_PIN_GROUP(msiof0_sync),
- 		SH_PFC_PIN_GROUP(msiof0_ss1),
-@@ -4795,6 +4804,10 @@ static const char * const intc_ex_groups[] = {
- 	"intc_ex_irq5",
- };
- 
-+static const char * const mlb_3pin_groups[] = {
-+	"mlb_3pin",
-+};
-+
- static const char * const msiof0_groups[] = {
- 	"msiof0_clk",
- 	"msiof0_sync",
-@@ -5142,7 +5155,7 @@ static const char * const vin5_groups[] = {
- };
- 
- static const struct {
--	struct sh_pfc_function common[55];
-+	struct sh_pfc_function common[56];
- #ifdef CONFIG_PINCTRL_PFC_R8A77951
- 	struct sh_pfc_function automotive[4];
- #endif
-@@ -5168,6 +5181,7 @@ static const struct {
- 		SH_PFC_FUNCTION(i2c5),
- 		SH_PFC_FUNCTION(i2c6),
- 		SH_PFC_FUNCTION(intc_ex),
-+		SH_PFC_FUNCTION(mlb_3pin),
- 		SH_PFC_FUNCTION(msiof0),
- 		SH_PFC_FUNCTION(msiof1),
- 		SH_PFC_FUNCTION(msiof2),
-diff --git a/drivers/pinctrl/renesas/pfc-r8a7796.c b/drivers/pinctrl/renesas/pfc-r8a7796.c
-index a4d74df3d201..bfbe2529ff9c 100644
---- a/drivers/pinctrl/renesas/pfc-r8a7796.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a7796.c
-@@ -2458,6 +2458,14 @@ static const unsigned int intc_ex_irq5_mux[] = {
- 	IRQ5_MARK,
- };
- 
-+/* - MLB+ ------------------------------------------------------------------- */
-+static const unsigned int mlb_3pin_pins[] = {
-+	RCAR_GP_PIN(5, 23), RCAR_GP_PIN(5, 24), RCAR_GP_PIN(5, 25),
-+};
-+static const unsigned int mlb_3pin_mux[] = {
-+	MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
-+};
-+
- /* - MSIOF0 ----------------------------------------------------------------- */
- static const unsigned int msiof0_clk_pins[] = {
- 	/* SCK */
-@@ -4301,6 +4309,7 @@ static const struct {
- 		SH_PFC_PIN_GROUP(intc_ex_irq3),
- 		SH_PFC_PIN_GROUP(intc_ex_irq4),
- 		SH_PFC_PIN_GROUP(intc_ex_irq5),
-+		SH_PFC_PIN_GROUP(mlb_3pin),
- 		SH_PFC_PIN_GROUP(msiof0_clk),
- 		SH_PFC_PIN_GROUP(msiof0_sync),
- 		SH_PFC_PIN_GROUP(msiof0_ss1),
-@@ -4766,6 +4775,10 @@ static const char * const intc_ex_groups[] = {
- 	"intc_ex_irq5",
- };
- 
-+static const char * const mlb_3pin_groups[] = {
-+	"mlb_3pin",
-+};
-+
- static const char * const msiof0_groups[] = {
- 	"msiof0_clk",
- 	"msiof0_sync",
-@@ -5100,7 +5113,7 @@ static const char * const vin5_groups[] = {
- };
- 
- static const struct {
--	struct sh_pfc_function common[52];
-+	struct sh_pfc_function common[53];
- #if defined(CONFIG_PINCTRL_PFC_R8A77960) || defined(CONFIG_PINCTRL_PFC_R8A77961)
- 	struct sh_pfc_function automotive[4];
- #endif
-@@ -5126,6 +5139,7 @@ static const struct {
- 		SH_PFC_FUNCTION(i2c5),
- 		SH_PFC_FUNCTION(i2c6),
- 		SH_PFC_FUNCTION(intc_ex),
-+		SH_PFC_FUNCTION(mlb_3pin),
- 		SH_PFC_FUNCTION(msiof0),
- 		SH_PFC_FUNCTION(msiof1),
- 		SH_PFC_FUNCTION(msiof2),
-diff --git a/drivers/pinctrl/renesas/pfc-r8a77965.c b/drivers/pinctrl/renesas/pfc-r8a77965.c
-index a7607a679886..dcde4edc309b 100644
---- a/drivers/pinctrl/renesas/pfc-r8a77965.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a77965.c
-@@ -2609,6 +2609,14 @@ static const unsigned int intc_ex_irq5_mux[] = {
- 	IRQ5_MARK,
- };
- 
-+/* - MLB+ ------------------------------------------------------------------- */
-+static const unsigned int mlb_3pin_pins[] = {
-+	RCAR_GP_PIN(5, 23), RCAR_GP_PIN(5, 24), RCAR_GP_PIN(5, 25),
-+};
-+static const unsigned int mlb_3pin_mux[] = {
-+	MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
-+};
-+
- /* - MSIOF0 ----------------------------------------------------------------- */
- static const unsigned int msiof0_clk_pins[] = {
- 	/* SCK */
-@@ -4458,7 +4466,7 @@ static const unsigned int vin5_clk_mux[] = {
- };
- 
- static const struct {
--	struct sh_pfc_pin_group common[326];
-+	struct sh_pfc_pin_group common[327];
- #ifdef CONFIG_PINCTRL_PFC_R8A77965
- 	struct sh_pfc_pin_group automotive[30];
- #endif
-@@ -4551,6 +4559,7 @@ static const struct {
- 		SH_PFC_PIN_GROUP(intc_ex_irq3),
- 		SH_PFC_PIN_GROUP(intc_ex_irq4),
- 		SH_PFC_PIN_GROUP(intc_ex_irq5),
-+		SH_PFC_PIN_GROUP(mlb_3pin),
- 		SH_PFC_PIN_GROUP(msiof0_clk),
- 		SH_PFC_PIN_GROUP(msiof0_sync),
- 		SH_PFC_PIN_GROUP(msiof0_ss1),
-@@ -5018,6 +5027,10 @@ static const char * const intc_ex_groups[] = {
- 	"intc_ex_irq5",
- };
- 
-+static const char * const mlb_3pin_groups[] = {
-+	"mlb_3pin",
-+};
-+
- static const char * const msiof0_groups[] = {
- 	"msiof0_clk",
- 	"msiof0_sync",
-@@ -5356,7 +5369,7 @@ static const char * const vin5_groups[] = {
- };
- 
- static const struct {
--	struct sh_pfc_function common[53];
-+	struct sh_pfc_function common[54];
- #ifdef CONFIG_PINCTRL_PFC_R8A77965
- 	struct sh_pfc_function automotive[4];
- #endif
-@@ -5382,6 +5395,7 @@ static const struct {
- 		SH_PFC_FUNCTION(i2c5),
- 		SH_PFC_FUNCTION(i2c6),
- 		SH_PFC_FUNCTION(intc_ex),
-+		SH_PFC_FUNCTION(mlb_3pin),
- 		SH_PFC_FUNCTION(msiof0),
- 		SH_PFC_FUNCTION(msiof1),
- 		SH_PFC_FUNCTION(msiof2),
++	DEF_MOD("mlp",			802,	R8A77965_CLK_S2D1),
+ 	DEF_MOD("vin7",			804,	R8A77965_CLK_S0D2),
+ 	DEF_MOD("vin6",			805,	R8A77965_CLK_S0D2),
+ 	DEF_MOD("vin5",			806,	R8A77965_CLK_S0D2),
 -- 
 2.30.2
 
