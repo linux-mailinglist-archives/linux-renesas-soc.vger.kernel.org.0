@@ -2,57 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABA1A41BB95
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 02:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 437A141BB99
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Sep 2021 02:07:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243345AbhI2AJW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Sep 2021 20:09:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45576 "EHLO
+        id S243395AbhI2AJ1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Sep 2021 20:09:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243335AbhI2AJW (ORCPT
+        with ESMTP id S243375AbhI2AJZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Sep 2021 20:09:22 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D26C061746
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 17:07:42 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 83-20020a251956000000b0059948f541cbso1155346ybz.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 17:07:42 -0700 (PDT)
+        Tue, 28 Sep 2021 20:09:25 -0400
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F1BEC061746
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 17:07:45 -0700 (PDT)
+Received: by mail-qt1-x849.google.com with SMTP id l22-20020ac87b36000000b002a6c575f419so2744504qtu.23
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Sep 2021 17:07:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=z1hBUYCayRXYRV1aBawCwI0ZIv5Q/7fBQjmnWUJmax8=;
-        b=OCTtfUW5Npi/dJF4mW3n2SkJDP9rlPZGGl3YJShJKkmbrIGTpbtm+FRSRh59L+okrW
-         +Sw89Nrsu7F20rC9Ug1X3rBcXEdArcyk+yz9F7j3EkrBMy/TUFV4KbCTCOu33ARr7dLu
-         BHtO+dcRUGo9HjZaTk3UKE0V2TKE9DUaf0Sqr2uoLhavLrbrF2O6yojifKpdtVO8SYHH
-         E7cCWqIByvVl+HGLhSwj2XRerUrrllX8R6o49LdMM1Stq6wLp0HSJCkG0SQrbCu16oPL
-         Tg59QYvArInNUx7dnNGHxcTCW2lhVC7TxzMfSHxkbtS3e6c2/nU/9yIfgIpObvQUSt3D
-         NLag==
+        bh=pkFTuk+TNQNm+gOgPOs6LK/YFjb2sUYttyn3WHOqJrE=;
+        b=Shkn2BNqy0Z/1QlOaPNVHfGvNL2ujb+W4/KsDcUnxjOImmY0e6EvSbte/WgKpzf0G0
+         MQJItXxtQkS3OOLRbjBi0NDTbqGG4qZ0j/ySUwTAKw6tmUsDbU07fUu1FX8x6GuhfQ58
+         0CLtmE3kgKQxORVv9PBN22k18Ulkb+j6GTQMzbNVUV6YXSslUxSIhc4hsa9YjFkNkz93
+         HaH86K/xcVXCcbxRPRBwYQ45RA8Kev/Md3eQcx+CEnajY2rlvU2yVjWXwhi664QVGb/j
+         LkB21ATwKA9dg2/KR3bZc6ucPWb5iv1E35ofbgEk2cxDIRJhUNtbwZyKXOo3dt0RNvaQ
+         HcwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=z1hBUYCayRXYRV1aBawCwI0ZIv5Q/7fBQjmnWUJmax8=;
-        b=U8Mue6ioajCJecTTCosFy03GLuKjIbNvn7dQqM8n4Rs6x1/Kh3PozN3ThaaLxxtfCa
-         7isjC5JhaFHAlDfGEaV55idsKkspdOz0+QHfbGZ+V5/5uiwY18oM+nHnNNDHild054x/
-         HLlVv6Owfu8QAmnTUmV/xA4p0B5ItKsUUPMMCcrkQ+vCIuF+plKGH9Zskf7dSim7scGU
-         A4RKg2SY7L56yf0h0TV8iFMiOj02WMa6DiHAEJPGqxEV2ko/Ka3GWhIcsuFM3vXoVCUD
-         LILTwePE4qi/EYWDJJakH/I9pbhqSnhS6zzSSGIJBRwPVEy146YerOBN6r5QzGBTUA9I
-         ZH8A==
-X-Gm-Message-State: AOAM530SwaIZLf5832rY23lx0NQAAp++YBRvHW2Fq6XCzoiaejNMFkzb
-        4tb+1Qz8Z9mOEOKnVoCKt+wzO2wR6B9nh5U=
-X-Google-Smtp-Source: ABdhPJzRrBTTHFIUolV1HI4zYSv3r1hQit3Ioobw+9iFo7JuoZ1s/FWEsVYnyLcKndbaY2HiicWHeMpImyPd9NU=
+        bh=pkFTuk+TNQNm+gOgPOs6LK/YFjb2sUYttyn3WHOqJrE=;
+        b=XB709AC1K5Hs38dZzqOFTTFp0QTF+aVyOCAwnQleb2NocJf0N2fA6JX8rcKCV6NrGE
+         peY/ZA0XnOa1gQlQlJ0qdTTbuNnjTpVLXpraStMS1qVDefDH5Pzn14OE1pmljl4M66qE
+         Q0QK3ARN39FdZEnMtAlXsucFTNMUG8yw4fA+jX31snhLEKnzIZSHKIDoUYhuHPBcMlkZ
+         07WnPvhKKWbWqBgR82VcKR9nNJTYRjeXZVikgxB8njbEAkAZZ+OKxeV5QF3kv9srlmkO
+         ppwpGBYtDeXKZmuukhvoI8Cfge1FjlawR65ozzwxQolIRhvbl1mP/lQZnbn+jtgKo1l5
+         fHgQ==
+X-Gm-Message-State: AOAM533MZY1xpxwsFWueqCaK3FDSDKnuJ0qUCCikuDJCtz/GI8zYt6Fh
+        OPr1mz62zCsuVckP9metw3o0VYvdBF0ZyEc=
+X-Google-Smtp-Source: ABdhPJxKqfXo3iQNgHrvCi7VnP8x5LUCg5ZseTj4zS2VOEiSyA3rRupZVRg7ZXrdqS1hqlyo3hFdXgX8bZj5Q+g=
 X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:5241:a7e9:90c9:9c91])
- (user=saravanak job=sendgmr) by 2002:a25:8885:: with SMTP id
- d5mr9515658ybl.14.1632874061568; Tue, 28 Sep 2021 17:07:41 -0700 (PDT)
-Date:   Tue, 28 Sep 2021 17:07:33 -0700
+ (user=saravanak job=sendgmr) by 2002:a05:6214:406:: with SMTP id
+ z6mr8713464qvx.34.1632874064532; Tue, 28 Sep 2021 17:07:44 -0700 (PDT)
+Date:   Tue, 28 Sep 2021 17:07:34 -0700
 In-Reply-To: <20210929000735.585237-1-saravanak@google.com>
-Message-Id: <20210929000735.585237-2-saravanak@google.com>
+Message-Id: <20210929000735.585237-3-saravanak@google.com>
 Mime-Version: 1.0
 References: <20210929000735.585237-1-saravanak@google.com>
 X-Mailer: git-send-email 2.33.0.685.g46640cef36-goog
-Subject: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for probing
- simple bus only devices
+Subject: [PATCH v4 2/2] drivers: bus: Delete CONFIG_SIMPLE_PM_BUS
 From:   Saravana Kannan <saravanak@google.com>
 To:     Russell King <linux@armlinux.org.uk>,
         Neil Armstrong <narmstrong@baylibre.com>,
@@ -74,97 +73,131 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-fw_devlink could end up creating device links for bus only devices.
-However, bus only devices don't get probed and can block probe() or
-sync_state() [1] call backs of other devices. To avoid this, probe these
-devices using the simple-pm-bus driver.
+The simple-pm-bus driver is mandatory for CONFIG_OF based platforms to work
+with fw_devlink. So, always compile it in for CONFIG_OF and delete the
+config since it's no longer necessary.
 
-However, there are instances of devices that are not simple buses (they get
-probed by their specific drivers) that also list the "simple-bus" (or other
-bus only compatible strings) in their compatible property to automatically
-populate their child devices. We still want these devices to get probed by
-their specific drivers. So, we make sure this driver only probes devices
-that are only buses.
-
-[1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
-Fixes: c442a0d18744 ("driver core: Set fw_devlink to "permissive" behavior by default")
 Signed-off-by: Saravana Kannan <saravanak@google.com>
-Tested-by: Saravana Kannan <saravanak@google.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- drivers/bus/simple-pm-bus.c | 42 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 3 deletions(-)
+ arch/arm/configs/multi_v7_defconfig |  1 -
+ arch/arm/configs/oxnas_v6_defconfig |  1 -
+ arch/arm/configs/shmobile_defconfig |  1 -
+ arch/arm/mach-omap2/Kconfig         |  1 -
+ arch/arm64/configs/defconfig        |  1 -
+ drivers/bus/Kconfig                 | 12 ------------
+ drivers/bus/Makefile                |  2 +-
+ drivers/soc/canaan/Kconfig          |  1 -
+ 8 files changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/drivers/bus/simple-pm-bus.c b/drivers/bus/simple-pm-bus.c
-index 01a3d0cd08ed..6b8d6257ed8a 100644
---- a/drivers/bus/simple-pm-bus.c
-+++ b/drivers/bus/simple-pm-bus.c
-@@ -13,11 +13,36 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index d9abaae118dd..362720ae8d65 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -196,7 +196,6 @@ CONFIG_PCI_EPF_TEST=m
+ CONFIG_DEVTMPFS=y
+ CONFIG_DEVTMPFS_MOUNT=y
+ CONFIG_OMAP_OCP2SCP=y
+-CONFIG_SIMPLE_PM_BUS=y
+ CONFIG_MTD=y
+ CONFIG_MTD_CMDLINE_PARTS=y
+ CONFIG_MTD_BLOCK=y
+diff --git a/arch/arm/configs/oxnas_v6_defconfig b/arch/arm/configs/oxnas_v6_defconfig
+index cae0db6b4eaf..de37f7e90999 100644
+--- a/arch/arm/configs/oxnas_v6_defconfig
++++ b/arch/arm/configs/oxnas_v6_defconfig
+@@ -46,7 +46,6 @@ CONFIG_DEVTMPFS=y
+ CONFIG_DEVTMPFS_MOUNT=y
+ CONFIG_DMA_CMA=y
+ CONFIG_CMA_SIZE_MBYTES=64
+-CONFIG_SIMPLE_PM_BUS=y
+ CONFIG_MTD=y
+ CONFIG_MTD_CMDLINE_PARTS=y
+ CONFIG_MTD_BLOCK=y
+diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+index d9a27e4e0914..18d2a960b2d2 100644
+--- a/arch/arm/configs/shmobile_defconfig
++++ b/arch/arm/configs/shmobile_defconfig
+@@ -40,7 +40,6 @@ CONFIG_PCI_RCAR_GEN2=y
+ CONFIG_PCIE_RCAR_HOST=y
+ CONFIG_DEVTMPFS=y
+ CONFIG_DEVTMPFS_MOUNT=y
+-CONFIG_SIMPLE_PM_BUS=y
+ CONFIG_MTD=y
+ CONFIG_MTD_BLOCK=y
+ CONFIG_MTD_CFI=y
+diff --git a/arch/arm/mach-omap2/Kconfig b/arch/arm/mach-omap2/Kconfig
+index 7df8f5276ddf..02f2f3157f07 100644
+--- a/arch/arm/mach-omap2/Kconfig
++++ b/arch/arm/mach-omap2/Kconfig
+@@ -112,7 +112,6 @@ config ARCH_OMAP2PLUS
+ 	select PM_GENERIC_DOMAINS
+ 	select PM_GENERIC_DOMAINS_OF
+ 	select RESET_CONTROLLER
+-	select SIMPLE_PM_BUS
+ 	select SOC_BUS
+ 	select TI_SYSC
+ 	select OMAP_IRQCHIP
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index f423d08b9a71..474b1f2e3f06 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -245,7 +245,6 @@ CONFIG_DEVTMPFS_MOUNT=y
+ CONFIG_FW_LOADER_USER_HELPER=y
+ CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y
+ CONFIG_HISILICON_LPC=y
+-CONFIG_SIMPLE_PM_BUS=y
+ CONFIG_FSL_MC_BUS=y
+ CONFIG_TEGRA_ACONNECT=m
+ CONFIG_GNSS=m
+diff --git a/drivers/bus/Kconfig b/drivers/bus/Kconfig
+index e7f7eee6ee9a..dc3801369488 100644
+--- a/drivers/bus/Kconfig
++++ b/drivers/bus/Kconfig
+@@ -141,18 +141,6 @@ config QCOM_EBI2
+ 	  Interface 2, which can be used to connect things like NAND Flash,
+ 	  SRAM, ethernet adapters, FPGAs and LCD displays.
  
+-config SIMPLE_PM_BUS
+-	tristate "Simple Power-Managed Bus Driver"
+-	depends on OF && PM
+-	help
+-	  Driver for transparent busses that don't need a real driver, but
+-	  where the bus controller is part of a PM domain, or under the control
+-	  of a functional clock, and thus relies on runtime PM for managing
+-	  this PM domain and/or clock.
+-	  An example of such a bus controller is the Renesas Bus State
+-	  Controller (BSC, sometimes called "LBSC within Bus Bridge", or
+-	  "External Bus Interface") as found on several Renesas ARM SoCs.
 -
- static int simple_pm_bus_probe(struct platform_device *pdev)
- {
--	const struct of_dev_auxdata *lookup = dev_get_platdata(&pdev->dev);
--	struct device_node *np = pdev->dev.of_node;
-+	const struct device *dev = &pdev->dev;
-+	const struct of_dev_auxdata *lookup = dev_get_platdata(dev);
-+	struct device_node *np = dev->of_node;
-+	const struct of_device_id *match;
-+
-+	/*
-+	 * Allow user to use driver_override to bind this driver to a
-+	 * transparent bus device which has a different compatible string
-+	 * that's not listed in simple_pm_bus_of_match. We don't want to do any
-+	 * of the simple-pm-bus tasks for these devices, so return early.
-+	 */
-+	if (pdev->driver_override)
-+		return 0;
-+
-+	match = of_match_device(dev->driver->of_match_table, dev);
-+	/*
-+	 * These are transparent bus devices (not simple-pm-bus matches) that
-+	 * have their child nodes populated automatically.  So, don't need to
-+	 * do anything more. We only match with the device if this driver is
-+	 * the most specific match because we don't want to incorrectly bind to
-+	 * a device that has a more specific driver.
-+	 */
-+	if (match && match->data) {
-+		if (of_property_match_string(np, "compatible", match->compatible) == 0)
-+			return 0;
-+		else
-+			return -ENODEV;
-+	}
- 
- 	dev_dbg(&pdev->dev, "%s\n", __func__);
- 
-@@ -31,14 +56,25 @@ static int simple_pm_bus_probe(struct platform_device *pdev)
- 
- static int simple_pm_bus_remove(struct platform_device *pdev)
- {
-+	const void *data = of_device_get_match_data(&pdev->dev);
-+
-+	if (pdev->driver_override || data)
-+		return 0;
-+
- 	dev_dbg(&pdev->dev, "%s\n", __func__);
- 
- 	pm_runtime_disable(&pdev->dev);
- 	return 0;
- }
- 
-+#define ONLY_BUS	((void *) 1) /* Match if the device is only a bus. */
-+
- static const struct of_device_id simple_pm_bus_of_match[] = {
- 	{ .compatible = "simple-pm-bus", },
-+	{ .compatible = "simple-bus",	.data = ONLY_BUS },
-+	{ .compatible = "simple-mfd",	.data = ONLY_BUS },
-+	{ .compatible = "isa",		.data = ONLY_BUS },
-+	{ .compatible = "arm,amba-bus",	.data = ONLY_BUS },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, simple_pm_bus_of_match);
+ config SUN50I_DE2_BUS
+ 	bool "Allwinner A64 DE2 Bus Driver"
+ 	  default ARM64
+diff --git a/drivers/bus/Makefile b/drivers/bus/Makefile
+index 397e35392bff..86aacd36a56d 100644
+--- a/drivers/bus/Makefile
++++ b/drivers/bus/Makefile
+@@ -26,7 +26,7 @@ obj-$(CONFIG_OMAP_OCP2SCP)	+= omap-ocp2scp.o
+ obj-$(CONFIG_QCOM_EBI2)		+= qcom-ebi2.o
+ obj-$(CONFIG_SUN50I_DE2_BUS)	+= sun50i-de2.o
+ obj-$(CONFIG_SUNXI_RSB)		+= sunxi-rsb.o
+-obj-$(CONFIG_SIMPLE_PM_BUS)	+= simple-pm-bus.o
++obj-$(CONFIG_OF)		+= simple-pm-bus.o
+ obj-$(CONFIG_TEGRA_ACONNECT)	+= tegra-aconnect.o
+ obj-$(CONFIG_TEGRA_GMI)		+= tegra-gmi.o
+ obj-$(CONFIG_TI_PWMSS)		+= ti-pwmss.o
+diff --git a/drivers/soc/canaan/Kconfig b/drivers/soc/canaan/Kconfig
+index 8179b69518b4..853096b7e84c 100644
+--- a/drivers/soc/canaan/Kconfig
++++ b/drivers/soc/canaan/Kconfig
+@@ -5,7 +5,6 @@ config SOC_K210_SYSCTL
+ 	depends on RISCV && SOC_CANAAN && OF
+ 	default SOC_CANAAN
+         select PM
+-        select SIMPLE_PM_BUS
+         select SYSCON
+         select MFD_SYSCON
+ 	help
 -- 
 2.33.0.685.g46640cef36-goog
 
