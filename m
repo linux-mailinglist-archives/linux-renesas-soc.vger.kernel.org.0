@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF8E041DD76
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Sep 2021 17:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2A1841DE29
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Sep 2021 17:56:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245356AbhI3PcA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Sep 2021 11:32:00 -0400
-Received: from mga14.intel.com ([192.55.52.115]:47584 "EHLO mga14.intel.com"
+        id S1346825AbhI3P6S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Sep 2021 11:58:18 -0400
+Received: from mga05.intel.com ([192.55.52.43]:59347 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244780AbhI3PcA (ORCPT
+        id S1347270AbhI3P6R (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Sep 2021 11:32:00 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="224866373"
+        Thu, 30 Sep 2021 11:58:17 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="310762547"
 X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; 
-   d="scan'208";a="224866373"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2021 08:30:17 -0700
+   d="scan'208";a="310762547"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2021 08:56:33 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; 
-   d="scan'208";a="539471616"
+   d="scan'208";a="709137928"
 Received: from lkp-server01.sh.intel.com (HELO 72c3bd3cf19c) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 30 Sep 2021 08:30:16 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 30 Sep 2021 08:56:30 -0700
 Received: from kbuild by 72c3bd3cf19c with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mVy0l-0000An-Jj; Thu, 30 Sep 2021 15:30:15 +0000
-Date:   Thu, 30 Sep 2021 23:29:33 +0800
+        id 1mVyQA-0000CP-1p; Thu, 30 Sep 2021 15:56:30 +0000
+Date:   Thu, 30 Sep 2021 23:56:12 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-defconfig-for-v5.16] BUILD
- SUCCESS 93207e415d134e6fbcee6a723ab4cf060ef3926e
-Message-ID: <6155d7dd.qoDA8drZTsa+CeEu%lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.16] BUILD SUCCESS
+ 732e8ee0351c59ded4d88106437a7ad1cff4cb83
+Message-ID: <6155de1c.6cxkL5qLwlVkNEEV%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,13 +40,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-defconfig-for-v5.16
-branch HEAD: 93207e415d134e6fbcee6a723ab4cf060ef3926e  arm64: defconfig: Enable RZG2L_ADC
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.16
+branch HEAD: 732e8ee0351c59ded4d88106437a7ad1cff4cb83  arm64: dts: renesas: rcar-gen3: Add missing Ethernet PHY resets
 
-elapsed time: 1265m
+elapsed time: 1294m
 
-configs tested: 117
-configs skipped: 120
+configs tested: 114
+configs skipped: 96
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -56,13 +56,10 @@ arm                                 defconfig
 arm64                            allyesconfig
 arm64                               defconfig
 arm                              allyesconfig
+arm                              allmodconfig
 i386                 randconfig-c001-20210929
-arm                            qcom_defconfig
-powerpc                   lite5200b_defconfig
-arm                             rpc_defconfig
-sparc64                          alldefconfig
-sh                            shmin_defconfig
-xtensa                              defconfig
+arm                      pxa255-idp_defconfig
+arm                         lpc32xx_defconfig
 powerpc                         ps3_defconfig
 sh                                  defconfig
 sh                 kfr2r09-romimage_defconfig
@@ -74,11 +71,10 @@ arc                         haps_hs_defconfig
 powerpc                      arches_defconfig
 powerpc                     asp8347_defconfig
 arm                      integrator_defconfig
-mips                     loongson2k_defconfig
-arc                                 defconfig
-sh                        sh7763rdp_defconfig
-powerpc                     ksi8560_defconfig
-parisc                           allyesconfig
+arm                         lpc18xx_defconfig
+powerpc                       ebony_defconfig
+mips                            ar7_defconfig
+mips                        bcm47xx_defconfig
 arm                       mainstone_defconfig
 mips                           ip27_defconfig
 powerpc                      walnut_defconfig
@@ -107,6 +103,7 @@ csky                                defconfig
 alpha                               defconfig
 alpha                            allyesconfig
 h8300                            allyesconfig
+arc                                 defconfig
 sh                               allmodconfig
 parisc                              defconfig
 s390                                defconfig
