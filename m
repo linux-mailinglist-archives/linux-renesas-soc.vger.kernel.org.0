@@ -2,140 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BA1941E135
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Sep 2021 20:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E908F41E2BF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Sep 2021 22:39:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343951AbhI3Sdj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Sep 2021 14:33:39 -0400
-Received: from mail-vs1-f53.google.com ([209.85.217.53]:34718 "EHLO
-        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343936AbhI3Sdi (ORCPT
+        id S1348240AbhI3UlO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Sep 2021 16:41:14 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:37806 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229958AbhI3UlN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Sep 2021 14:33:38 -0400
-Received: by mail-vs1-f53.google.com with SMTP id z22so6865313vsp.1;
-        Thu, 30 Sep 2021 11:31:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+uSMHJOUvBAKYYR0VTNnH4FL7RyASHXjCxf6YLbmWnU=;
-        b=0JdkRrQT3Ksxu6OpYKAzFU1ZmHmPQxUmJBtG3tMnJdkXVa2VKswizAfuWxN94iP8bh
-         9pMn9gNtEIViwOO2UT+0RyVSNiPD57R9wE6ngJPjX1/hrjE/FfkGS14I/x4KVbaHLTe/
-         sMAvHddAAY7AaDiwvECO+iAskJZvgoI4C6OWC5+JyIETPrH7ntsiAY4G2QRyi1VJeQzC
-         YzswPxmo3g+W3tXz3OeOf3i0gsBA8hRkBtPb3Tj36Ui+AESfWLmt83YhW27vNbXZmsYV
-         if2QOmxqOyPW16ZPf5JJ0NUUOyx+5PaYZBYy/M98hqfEHcQKMGeCwaTtPCfOupMuyP7s
-         qV/Q==
-X-Gm-Message-State: AOAM53027aQe5CoUZw0ZLrD2058YWTVju6HgEYkM53j3ghJQDFijR6s/
-        P2Wj6EDxHky93u/YsUAoQRByVJQxPzJnyQ7+9QE=
-X-Google-Smtp-Source: ABdhPJzPOqFubo/0aUhp7ohFtUSpBt2HTLpWxwh4z0zpjVJpCQlZ0g62S2+KGaytL3q/tQEMHQtyiSxeuGG+rT+p72k=
-X-Received: by 2002:a67:cb0a:: with SMTP id b10mr926121vsl.9.1633026715195;
- Thu, 30 Sep 2021 11:31:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210907144512.5238-1-marek.vasut@gmail.com> <163297980091.358640.10064724088378840378@swboyd.mtv.corp.google.com>
- <CAMuHMdV8Xu-Pgda9ZrgaXFqXdzBrSRWwiSQFLjzxqRGNWkO3wQ@mail.gmail.com> <163302576552.358640.2337603190171807403@swboyd.mtv.corp.google.com>
-In-Reply-To: <163302576552.358640.2337603190171807403@swboyd.mtv.corp.google.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 30 Sep 2021 20:31:43 +0200
-Message-ID: <CAMuHMdVQ7r6-H8kBiNYXdqHQRGJxc4eE4hYthFw+XJZx86g6eA@mail.gmail.com>
-Subject: Re: [PATCH] PCI: rcar: Add missing COMMON_CLK dependency
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-pci <linux-pci@vger.kernel.org>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
+        Thu, 30 Sep 2021 16:41:13 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 22BE920A5C5E
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [RFC/PATCH 18/18] ravb: Add set_feature support for RZ/G2L
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        Adam Ford <aford173@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20210923140813.13541-1-biju.das.jz@bp.renesas.com>
+ <20210923140813.13541-19-biju.das.jz@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <b19b7b83-7b0b-2c48-afc2-6fbf36a5ad98@omp.ru>
+Date:   Thu, 30 Sep 2021 23:39:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210923140813.13541-19-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Stephen,
+On 9/23/21 5:08 PM, Biju Das wrote:
 
-On Thu, Sep 30, 2021 at 8:16 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> Quoting Geert Uytterhoeven (2021-09-30 01:01:24)
-> > On Thu, Sep 30, 2021 at 7:30 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > +linux-clk as I don't regularly read my inbox :/
-> > >
-> > > Quoting marek.vasut@gmail.com (2021-09-07 07:45:12)
-> > > > From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> > > >
-> > > > Add COMMON_CLK dependency, otherwise the following build error occurs:
-> > > >   arm-linux-gnueabi-ld: drivers/pci/controller/pcie-rcar-host.o: in function `rcar_pcie_aarch32_abort_handler':
-> > > >   pcie-rcar-host.c:(.text+0xdd0): undefined reference to `__clk_is_enabled'
-> > > > This should be OK, since all platforms shipping this controller also
-> > > > need COMMON_CLK enabled for their clock driver.
-> > > >
-> > > > Fixes: a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort hook")
-> > > > Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> > > > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > > > Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> > > > Cc: Stephen Boyd <sboyd@kernel.org>
-> > > > Cc: Wolfram Sang <wsa@the-dreams.de>
-> > > > Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > > Cc: linux-renesas-soc@vger.kernel.org
-> > > > ---
-> > > > +CC Stephen, please double-check whether this is the right approach or
-> > > >     whether there is some better option
-> > >
-> > > Stop using __clk_is_enabled()? I don't quite understand what's going on in
-> > > the code but __clk_is_enabled() should really go away. I thought we were
-> > > close to doing that but now I see a handful of calls have come up. The
-> > > API should be replaced by clk_hw_is_enabled() and then removed. We move
-> > > it to clk_hw API so that only clk providers can look at it.
-> >
-> > But this is not a clk provider...
-> >
-> > > Sigh!
-> >
-> > ;-)
->
-> Exactly!
->
-> >
-> > > Anyway, fixing the dependency is "ok" but really the long term fix would
-> > > be to not use a "is this clk enabled" sort of API. If I'm reading the
-> > > code correctly, this is some sort of fault handler that's trying to
-> > > avoid hanging the bus while handling the fault so it tries to make sure
-> > > the clk is enabled first? Is it a problem if the clk is not actually
-> > > enabled here? Would runtime PM enable state of the device work just as
-> > > well?
-> >
-> > Thanks, checking Runtime PM state is a good suggestion. Doing so
-> > would require caching a pointer to the PCIe struct device instead of
-> > the struct clk.
-> > However, pcie_bus_clk is not the module clock, which is managed by
-> > Runtime PM, but the PCIe bus clock, which is managed explicitly by
-> > the driver.
-> > However, I believe that we are checking the wrong clock, as register
-> > access needs the module clock to be enabled, not the PCIe bus clock?
-> > As the driver just calls pm_runtime_get_sync() and clk_prepare_enable()
-> > in .probe(), and never touches Runtime PM status or the PCIe bus clock
-> > during the further lifetime of the driver (it cannot be unloaded), both
-> > the module clock and the PCIe bus clock should always[*] be enabled
-> > when the static copy of the remapped PCIe controller address is valid.
-> > [*] Modulo system-wide power transitions like s2ram. Does
-> >     pm_runtime_suspended() reflect that state, too?
-> >
->
-> Great! If that's all correct then simply removing the call to
-> __clk_is_enabled() should work. Can we do that?
+> This patch adds set_feature support for RZ/G2L.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      | 32 ++++++++++++++
+>  drivers/net/ethernet/renesas/ravb_main.c | 56 +++++++++++++++++++++++-
+>  2 files changed, 87 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index d42e8ea981df..2275f27c0672 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -209,6 +209,8 @@ enum ravb_reg {
+>  	CXR56	= 0x0770,	/* Documented for RZ/G2L only */
+>  	MAFCR	= 0x0778,
+>  	CSR0     = 0x0800,	/* Documented for RZ/G2L only */
+> +	CSR1     = 0x0804,	/* Documented for RZ/G2L only */
+> +	CSR2     = 0x0808,	/* Documented for RZ/G2L only */
 
-We first have to double-check that pm_runtime_suspended() reflects
-the state, as the reason behind the fault handler is to fix lock-ups
-during system-wide power transitions.
+   These are the TOE regs (CSR0 included), they only exist on RZ/G2L, no?
 
-Gr{oetje,eeting}s,
+[...]
+> @@ -978,6 +980,36 @@ enum CSR0_BIT {
+>  	CSR0_RPE	= 0x00000020,
+>  };
+>  
 
-                        Geert
+   *enum* CSR0_BIT should be here (as we concluded).
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> +enum CSR1_BIT {
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 72aea5875bc5..641ae5553b64 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -2290,7 +2308,38 @@ static void ravb_set_rx_csum(struct net_device *ndev, bool enable)
+>  static int ravb_set_features_rgeth(struct net_device *ndev,
+>  				   netdev_features_t features)
+>  {
+> -	/* Place holder */
+> +	netdev_features_t changed = features ^ ndev->features;
+> +	unsigned int reg;
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+   u32 reg;
+
+> +	int error;
+> +
+> +	reg = ravb_read(ndev, CSR0);
+
+   ... as this function returns u32.
+
+> +
+> +	ravb_write(ndev, reg & ~(CSR0_RPE | CSR0_TPE), CSR0);
+> +	error = ravb_wait(ndev, CSR0, CSR0_RPE | CSR0_TPE, 0);
+> +	if (error) {
+> +		ravb_write(ndev, reg, CSR0);
+> +		return error;
+> +	}
+> +
+> +	if (changed & NETIF_F_RXCSUM) {
+> +		if (features & NETIF_F_RXCSUM)
+> +			ravb_write(ndev, CSR2_ALL, CSR2);
+> +		else
+> +			ravb_write(ndev, 0, CSR2);
+> +	}
+> +
+> +	if (changed & NETIF_F_HW_CSUM) {
+> +		if (features & NETIF_F_HW_CSUM) {
+> +			ravb_write(ndev, CSR1_ALL, CSR1);
+> +			ndev->features |= NETIF_F_CSUM_MASK;
+
+   Hm, I don't understand this... it would be nice if someone knowledgeable about the offloads
+would look at this... Although, without the register documentation it's possibly vain...
+
+> +		} else {
+> +			ravb_write(ndev, 0, CSR1);
+> +		}
+> +	}
+> +	ravb_write(ndev, reg, CSR0);
+> +
+> +	ndev->features = features;
+> +
+>  	return 0;
+>  }
+>  
+> @@ -2432,6 +2481,11 @@ static const struct ravb_hw_info rgeth_hw_info = {
+>  	.set_feature = ravb_set_features_rgeth,
+>  	.dmac_init = ravb_dmac_init_rgeth,
+>  	.emac_init = ravb_emac_init_rgeth,
+> +	.net_hw_features = (NETIF_F_HW_CSUM | NETIF_F_RXCSUM),
+> +	.gstrings_stats = ravb_gstrings_stats_rgeth,
+> +	.gstrings_size = sizeof(ravb_gstrings_stats_rgeth),
+> +	.stats_len = ARRAY_SIZE(ravb_gstrings_stats_rgeth),
+
+    These seem unrelated, couldn't it be moved to a spearate patch?
+
+> +	.max_rx_len = RGETH_RX_BUFF_MAX + RAVB_ALIGN - 1,
+
+   This seems unrelsated and misplaced too.
+
+[...]
+
+MBR, Sergey
