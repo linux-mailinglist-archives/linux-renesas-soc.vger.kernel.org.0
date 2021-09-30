@@ -2,104 +2,178 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 578B341DCE6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Sep 2021 17:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF8E041DD76
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Sep 2021 17:30:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349085AbhI3PDl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Sep 2021 11:03:41 -0400
-Received: from www.zeus03.de ([194.117.254.33]:34256 "EHLO mail.zeus03.de"
+        id S245356AbhI3PcA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Sep 2021 11:32:00 -0400
+Received: from mga14.intel.com ([192.55.52.115]:47584 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239921AbhI3PDl (ORCPT
+        id S244780AbhI3PcA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Sep 2021 11:03:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=r+o3vngVkdgztVQkxkUxvPMjJ9nS
-        mdIiV96Cw1ESXyc=; b=CXiUxsT2FblaWdUcBNRW+qgmMsmmSNwCXBs3DTwU3ScX
-        SFb0bWfx+QD6R2MfmlF/a2igkJAipQBxDcYehr3rhi05Ed8fZsydSIBOlYBHa91a
-        mqvamJacTStj4qLZENtzL7Z49MPxeNugnjA/yO0Q9qGWFe9JuNmPTeRtGVOPsTo=
-Received: (qmail 2119133 invoked from network); 30 Sep 2021 17:01:56 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Sep 2021 17:01:56 +0200
-X-UD-Smtp-Session: l3s3148p1@mcROujfNQIYgARa4RV6LAWawlO8I9jL3
-Date:   Thu, 30 Sep 2021 17:01:56 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        devicetree@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 0/6] Add SPI Multi I/O Bus Controller support for RZ/G2L
-Message-ID: <YVXRZNxrgmfROlJy@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        devicetree@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20210928140721.8805-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Thu, 30 Sep 2021 11:32:00 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="224866373"
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; 
+   d="scan'208";a="224866373"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2021 08:30:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; 
+   d="scan'208";a="539471616"
+Received: from lkp-server01.sh.intel.com (HELO 72c3bd3cf19c) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 30 Sep 2021 08:30:16 -0700
+Received: from kbuild by 72c3bd3cf19c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mVy0l-0000An-Jj; Thu, 30 Sep 2021 15:30:15 +0000
+Date:   Thu, 30 Sep 2021 23:29:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-arm-defconfig-for-v5.16] BUILD
+ SUCCESS 93207e415d134e6fbcee6a723ab4cf060ef3926e
+Message-ID: <6155d7dd.qoDA8drZTsa+CeEu%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="gdec5ePrzlj11VEg"
-Content-Disposition: inline
-In-Reply-To: <20210928140721.8805-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-defconfig-for-v5.16
+branch HEAD: 93207e415d134e6fbcee6a723ab4cf060ef3926e  arm64: defconfig: Enable RZG2L_ADC
 
---gdec5ePrzlj11VEg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+elapsed time: 1265m
 
+configs tested: 117
+configs skipped: 120
 
-> This patch series adds a couple of fixes for rpc-if driver and
-> adds support for RZ/G2L SoC, where the SPI Multi I/O Bus Controller
-> is identical to the RPC-IF block found on R-Car Gen3 SoC's.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I did some basic testing on the Falcon board with a Renesas R-Car V3U
-SoC and did not find a regression, so:
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+i386                 randconfig-c001-20210929
+arm                            qcom_defconfig
+powerpc                   lite5200b_defconfig
+arm                             rpc_defconfig
+sparc64                          alldefconfig
+sh                            shmin_defconfig
+xtensa                              defconfig
+powerpc                         ps3_defconfig
+sh                                  defconfig
+sh                 kfr2r09-romimage_defconfig
+arm                       imx_v6_v7_defconfig
+sh                   secureedge5410_defconfig
+arm                          iop32x_defconfig
+arm                         socfpga_defconfig
+arc                         haps_hs_defconfig
+powerpc                      arches_defconfig
+powerpc                     asp8347_defconfig
+arm                      integrator_defconfig
+mips                     loongson2k_defconfig
+arc                                 defconfig
+sh                        sh7763rdp_defconfig
+powerpc                     ksi8560_defconfig
+parisc                           allyesconfig
+arm                       mainstone_defconfig
+mips                           ip27_defconfig
+powerpc                      walnut_defconfig
+sh                        sh7757lcr_defconfig
+m68k                            q40_defconfig
+sh                        edosk7760_defconfig
+arm                           stm32_defconfig
+arm                           tegra_defconfig
+arm                         shannon_defconfig
+arc                 nsimosci_hs_smp_defconfig
+arm                           h5000_defconfig
+powerpc                        cell_defconfig
+powerpc                      pmac32_defconfig
+mips                         cobalt_defconfig
+x86_64               randconfig-c001-20210929
+arm                  randconfig-c002-20210929
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+nios2                               defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+arc                              allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+i386                 randconfig-a001-20210929
+i386                 randconfig-a005-20210929
+i386                 randconfig-a002-20210929
+i386                 randconfig-a006-20210929
+i386                 randconfig-a004-20210929
+i386                 randconfig-a003-20210929
+x86_64               randconfig-a002-20210929
+x86_64               randconfig-a005-20210929
+x86_64               randconfig-a001-20210929
+x86_64               randconfig-a006-20210929
+x86_64               randconfig-a003-20210929
+x86_64               randconfig-a004-20210929
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+clang tested configs:
+powerpc              randconfig-c003-20210929
+mips                 randconfig-c004-20210929
+arm                  randconfig-c002-20210929
+x86_64               randconfig-c007-20210929
+riscv                randconfig-c006-20210929
+s390                 randconfig-c005-20210929
+i386                 randconfig-c001-20210929
+x86_64               randconfig-a014-20210929
+x86_64               randconfig-a011-20210929
+x86_64               randconfig-a013-20210929
+x86_64               randconfig-a015-20210929
+x86_64               randconfig-a012-20210929
+x86_64               randconfig-a016-20210929
+i386                 randconfig-a014-20210929
+i386                 randconfig-a013-20210929
+i386                 randconfig-a016-20210929
+i386                 randconfig-a011-20210929
+i386                 randconfig-a015-20210929
+i386                 randconfig-a012-20210929
+i386                 randconfig-a014-20210930
+i386                 randconfig-a013-20210930
+i386                 randconfig-a011-20210930
+i386                 randconfig-a015-20210930
+i386                 randconfig-a016-20210930
+i386                 randconfig-a012-20210930
+hexagon              randconfig-r045-20210929
+riscv                randconfig-r042-20210929
+hexagon              randconfig-r041-20210929
+s390                 randconfig-r044-20210929
 
-
---gdec5ePrzlj11VEg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFV0WMACgkQFA3kzBSg
-KbbtBQ//UDqnFRl9bJ/3z/krcE5cI7mn3iuGbS97ZGR6nqRDvSvmbIiQPTreCPNU
-VQqMfbLoLkHM9O9u7UR7ucjggb7kveCz1wAtz4h0WPArBvFXJXbOaaeU2dodlk2Y
-tYZCGkrfn5FhaRokcMK9MbIBxwwv5ZIypR1DBdyvPD5tX4QujTBrX2z/XzGkCfn2
-be+IxS8ibDKnx2VwD0ErPa7la4fKcGVh+4bVd8Wn3fCC+1lTBXaQl5sIcgZnS2H0
-HdhETeXxJTPLpPWKNjkYbO9gQRiKQ9iM9tg34hLjWvrgkG45LCct/Q/UTI998yeh
-4OXhypsgoFKnLjNJXh3CLAV1Ud8xQvglWV5YkLEyeinTb2xdk4LX45h+DKDOmcHU
-0GD2VvzY3ilwcneSAFRlae6EuJ+lvw6AingESituuIOPCtAmDbQ3MYkZsFHwDW2K
-rHnVMKNT6ajsehg9jmwIBOr7zAU1YEG0WrTXDI1KzoeL8hhczcGVRnhGOv0CMSXY
-tGrqEiVC9hSX6trxx60N42hLwuMxF2E4aS6mi/CsdkfPYfoOJ4YEWuvkMc+iG4mB
-4znsrDwaBYF47lX96RsW6nSI8prCyOsvf42vyZ6OeWJYOOlAgBSh9wGJN2IuYeh8
-BRop7XCqLmNVFAt/Q9CXDgsmXKcB+dE82t0MtavGfuwukYE01D4=
-=o3Q2
------END PGP SIGNATURE-----
-
---gdec5ePrzlj11VEg--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
