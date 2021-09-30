@@ -2,157 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E908F41E2BF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Sep 2021 22:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 082B541E43F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Oct 2021 00:58:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348240AbhI3UlO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Sep 2021 16:41:14 -0400
-Received: from mxout04.lancloud.ru ([45.84.86.114]:37806 "EHLO
-        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229958AbhI3UlN (ORCPT
+        id S1349359AbhI3W7l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Sep 2021 18:59:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40664 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348030AbhI3W7l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Sep 2021 16:41:13 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 22BE920A5C5E
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [RFC/PATCH 18/18] ravb: Add set_feature support for RZ/G2L
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        Adam Ford <aford173@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-References: <20210923140813.13541-1-biju.das.jz@bp.renesas.com>
- <20210923140813.13541-19-biju.das.jz@bp.renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <b19b7b83-7b0b-2c48-afc2-6fbf36a5ad98@omp.ru>
-Date:   Thu, 30 Sep 2021 23:39:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Thu, 30 Sep 2021 18:59:41 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC3EEC061770
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Sep 2021 15:57:55 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id b15so31324147lfe.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Sep 2021 15:57:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=AnIUtRQtDgk3YDJAatwz+LXUKRWPbctJNdAprjwvZ5o=;
+        b=MKgmwTymFYza+KstTnGDTbp34cg2DdcDuMfZG3PjjDuEIAc0SpQwZCBn9B5plRA2sH
+         Uy+mqVv1Mf9fqlkgaqseo24TvFunj/73s0JcELuk/QOt5BtGCma4RQT6tygXRwHsrPtE
+         9ST8RQwhU50Yg+FrMbCDBCquBabo6vCKqOzstyW1CSyiZ+4Cp0rjpLqBROCiwVuQfpzN
+         b9jMWpCHpW1PQwfOc3J8sB6Wh0R6tRcDAStyWC1+mSHz8jFSMQ+32uClRPcy6NMLYiQJ
+         77FIuOjIDsrK+IhKqBWEixFJtKAbxY7/Pt5TderdYWIJmvFDKBLHooGZre7LmJZI/7f5
+         QgsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=AnIUtRQtDgk3YDJAatwz+LXUKRWPbctJNdAprjwvZ5o=;
+        b=JjLj5DL0Svz0WiVVc7AIxXNmvnT+/3wNgB/ANvKOxVJM4z18CAeyYK23n72l83Cc1B
+         cruDfxq0JJMDekZo4rgQiz5BxkHOOWOImFABnjY51k7tuCyd9KZZABQgk4PlPv3OX7lU
+         2OyKGJXNCOUSbYyQ3bWhmzsFDMukHbUBmhOU8QgVPIupIMzOm5wboOTQ/+plHaAMCSMG
+         2scMomx/Bif731NHHT3qN54YM8A2vr6oLPdi0yEBbtIJvHkr3Ng4IvsAHaVTgXs/9yo4
+         9cUMAoJ1qxgAk9QzmPm6iA+rC8iY3kDNYCsJmS7vFOdTeCqB8des3Gw8K89ykpmEjm/m
+         HlGw==
+X-Gm-Message-State: AOAM533IPl+RFCiJXQc9nY4kNwKlMJ8oY2v4WlDK13uD7XOxtqPSNoBi
+        kLeKMjokpYYL+DcMZQPnrYeQBuYZz+sFlQRxmnA=
+X-Google-Smtp-Source: ABdhPJyaQxmyBoYIuSzQTNrAMWvExTOSuawF3Spe4WJZ9NuBcXgbhwZA4QFoC3LmIeijsu1rf0PfOv4VrMQbG+9CKgk=
+X-Received: by 2002:a05:651c:54d:: with SMTP id q13mr9205651ljp.43.1633042674048;
+ Thu, 30 Sep 2021 15:57:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210923140813.13541-19-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Received: by 2002:a05:6512:5d8:0:0:0:0 with HTTP; Thu, 30 Sep 2021 15:57:53
+ -0700 (PDT)
+Reply-To: southwestloanco59@gmail.com
+From:   SOUTHWESTLOANCO <saniabdullahinng2020@gmail.com>
+Date:   Thu, 30 Sep 2021 15:57:53 -0700
+Message-ID: <CA+3X9TyFuWcfRCd3Vjix8ovtMH4VzZ7-9+KkajEBvG+YAg+wmw@mail.gmail.com>
+Subject: Dear owner,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9/23/21 5:08 PM, Biju Das wrote:
+-- 
+Good day,
+          Do you need a loan ? We offer any kind of loan to repay in
+6months with just 2% interest
 
-> This patch adds set_feature support for RZ/G2L.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  drivers/net/ethernet/renesas/ravb.h      | 32 ++++++++++++++
->  drivers/net/ethernet/renesas/ravb_main.c | 56 +++++++++++++++++++++++-
->  2 files changed, 87 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index d42e8ea981df..2275f27c0672 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -209,6 +209,8 @@ enum ravb_reg {
->  	CXR56	= 0x0770,	/* Documented for RZ/G2L only */
->  	MAFCR	= 0x0778,
->  	CSR0     = 0x0800,	/* Documented for RZ/G2L only */
-> +	CSR1     = 0x0804,	/* Documented for RZ/G2L only */
-> +	CSR2     = 0x0808,	/* Documented for RZ/G2L only */
+Kindly Reply with below information
 
-   These are the TOE regs (CSR0 included), they only exist on RZ/G2L, no?
+NAME...............
+ADDRESS..........
+OCCUPATION....
+AGE...................
+PHONE..............
+AMOUNT NEEDED......
 
-[...]
-> @@ -978,6 +980,36 @@ enum CSR0_BIT {
->  	CSR0_RPE	= 0x00000020,
->  };
->  
+Regards
 
-   *enum* CSR0_BIT should be here (as we concluded).
+Contact  Mr Gary Edward +13182955380
 
-> +enum CSR1_BIT {
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 72aea5875bc5..641ae5553b64 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-[...]
-> @@ -2290,7 +2308,38 @@ static void ravb_set_rx_csum(struct net_device *ndev, bool enable)
->  static int ravb_set_features_rgeth(struct net_device *ndev,
->  				   netdev_features_t features)
->  {
-> -	/* Place holder */
-> +	netdev_features_t changed = features ^ ndev->features;
-> +	unsigned int reg;
-
-   u32 reg;
-
-> +	int error;
-> +
-> +	reg = ravb_read(ndev, CSR0);
-
-   ... as this function returns u32.
-
-> +
-> +	ravb_write(ndev, reg & ~(CSR0_RPE | CSR0_TPE), CSR0);
-> +	error = ravb_wait(ndev, CSR0, CSR0_RPE | CSR0_TPE, 0);
-> +	if (error) {
-> +		ravb_write(ndev, reg, CSR0);
-> +		return error;
-> +	}
-> +
-> +	if (changed & NETIF_F_RXCSUM) {
-> +		if (features & NETIF_F_RXCSUM)
-> +			ravb_write(ndev, CSR2_ALL, CSR2);
-> +		else
-> +			ravb_write(ndev, 0, CSR2);
-> +	}
-> +
-> +	if (changed & NETIF_F_HW_CSUM) {
-> +		if (features & NETIF_F_HW_CSUM) {
-> +			ravb_write(ndev, CSR1_ALL, CSR1);
-> +			ndev->features |= NETIF_F_CSUM_MASK;
-
-   Hm, I don't understand this... it would be nice if someone knowledgeable about the offloads
-would look at this... Although, without the register documentation it's possibly vain...
-
-> +		} else {
-> +			ravb_write(ndev, 0, CSR1);
-> +		}
-> +	}
-> +	ravb_write(ndev, reg, CSR0);
-> +
-> +	ndev->features = features;
-> +
->  	return 0;
->  }
->  
-> @@ -2432,6 +2481,11 @@ static const struct ravb_hw_info rgeth_hw_info = {
->  	.set_feature = ravb_set_features_rgeth,
->  	.dmac_init = ravb_dmac_init_rgeth,
->  	.emac_init = ravb_emac_init_rgeth,
-> +	.net_hw_features = (NETIF_F_HW_CSUM | NETIF_F_RXCSUM),
-> +	.gstrings_stats = ravb_gstrings_stats_rgeth,
-> +	.gstrings_size = sizeof(ravb_gstrings_stats_rgeth),
-> +	.stats_len = ARRAY_SIZE(ravb_gstrings_stats_rgeth),
-
-    These seem unrelated, couldn't it be moved to a spearate patch?
-
-> +	.max_rx_len = RGETH_RX_BUFF_MAX + RAVB_ALIGN - 1,
-
-   This seems unrelsated and misplaced too.
-
-[...]
-
-MBR, Sergey
+Remittance Department southwestloanco59@gmail.com
