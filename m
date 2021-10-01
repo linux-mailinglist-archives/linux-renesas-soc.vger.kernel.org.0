@@ -2,176 +2,224 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 210E941F25F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Oct 2021 18:43:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D3DA41F315
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Oct 2021 19:28:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355230AbhJAQpZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Oct 2021 12:45:25 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:53132 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1355258AbhJAQpY (ORCPT
+        id S1355390AbhJAR3p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Oct 2021 13:29:45 -0400
+Received: from mxout03.lancloud.ru ([45.84.86.113]:36176 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1355340AbhJAR3p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Oct 2021 12:45:24 -0400
-X-IronPort-AV: E=Sophos;i="5.85,339,1624287600"; 
-   d="scan'208";a="95827564"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 02 Oct 2021 01:43:39 +0900
-Received: from localhost.localdomain (unknown [10.226.92.36])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id AF6BC400A89E;
-        Sat,  2 Oct 2021 01:43:36 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "David S. Miller" <davem@davemloft.net>,
+        Fri, 1 Oct 2021 13:29:45 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru BAC552033887
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [RFC/PATCH 16/18] ravb: Add Packet receive function for Gigabit
+ Ethernet
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Lunn <andrew@lunn.ch>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        Adam Ford <aford173@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 8/8] ravb: Fillup ravb_set_features_gbeth() stub
-Date:   Fri,  1 Oct 2021 17:43:05 +0100
-Message-Id: <20211001164305.8999-9-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211001164305.8999-1-biju.das.jz@bp.renesas.com>
-References: <20211001164305.8999-1-biju.das.jz@bp.renesas.com>
+        Biju Das <biju.das@bp.renesas.com>
+References: <20210923140813.13541-1-biju.das.jz@bp.renesas.com>
+ <20210923140813.13541-17-biju.das.jz@bp.renesas.com>
+Organization: Open Mobile Platform
+Message-ID: <82f58946-b88b-8990-8788-a58f8d1468c2@omp.ru>
+Date:   Fri, 1 Oct 2021 20:27:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210923140813.13541-17-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fillup ravb_set_features_gbeth() function to support RZ/G2L.
-Also set the net_hw_features bits supported by GbEthernet
+On 9/23/21 5:08 PM, Biju Das wrote:
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-RFC->v1:
- * moved stats to patch #7.
- * Added CSR0 initilization
----
- drivers/net/ethernet/renesas/ravb.h      | 38 ++++++++++++++++++++++++
- drivers/net/ethernet/renesas/ravb_main.c | 34 ++++++++++++++++++++-
- 2 files changed, 71 insertions(+), 1 deletion(-)
+> This patch series adds RX(packet receive) function for
+> Gigabit Ethernet found on RZ/G2L SoC.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      |   1 +
+>  drivers/net/ethernet/renesas/ravb_main.c | 157 ++++++++++++++++++++++-
+>  2 files changed, 156 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index b0e067a6a8ee..85260f89e1cd 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -1092,6 +1092,7 @@ struct ravb_private {
+>  
+>  	int duplex;
+>  	struct ravb_rx_desc *rgeth_rx_ring[NUM_RX_QUEUE];
+> +	struct sk_buff *rxtop_skb;
 
-diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index 04aedde608e3..11a40ea0dfd2 100644
---- a/drivers/net/ethernet/renesas/ravb.h
-+++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -206,6 +206,9 @@ enum ravb_reg {
- 	CXR55	= 0x0768,	/* RZ/G2L only */
- 	CXR56	= 0x0770,	/* RZ/G2L only */
- 	MAFCR	= 0x0778,
-+	CSR0    = 0x0800,	/* RZ/G2L only */
-+	CSR1    = 0x0804,	/* RZ/G2L only */
-+	CSR2    = 0x0808,	/* RZ/G2L only */
- };
- 
- 
-@@ -966,6 +969,41 @@ enum CXR31_BIT {
- 	CXR31_SEL_LINK1	= 0x00000008,
- };
- 
-+enum CSR0_BIT {
-+	CSR0_TPE	= 0x00000010,
-+	CSR0_RPE	= 0x00000020,
-+};
-+
-+enum CSR1_BIT {
-+	CSR1_TIP4	= 0x00000001,
-+	CSR1_TTCP4	= 0x00000010,
-+	CSR1_TUDP4	= 0x00000020,
-+	CSR1_TICMP4	= 0x00000040,
-+	CSR1_TTCP6	= 0x00100000,
-+	CSR1_TUDP6	= 0x00200000,
-+	CSR1_TICMP6	= 0x00400000,
-+	CSR1_THOP	= 0x01000000,
-+	CSR1_TROUT	= 0x02000000,
-+	CSR1_TAHD	= 0x04000000,
-+	CSR1_TDHD	= 0x08000000,
-+	CSR1_ALL	= 0x0F700071,
-+};
-+
-+enum CSR2_BIT {
-+	CSR2_RIP4	= 0x00000001,
-+	CSR2_RTCP4	= 0x00000010,
-+	CSR2_RUDP4	= 0x00000020,
-+	CSR2_RICMP4	= 0x00000040,
-+	CSR2_RTCP6	= 0x00100000,
-+	CSR2_RUDP6	= 0x00200000,
-+	CSR2_RICMP6	= 0x00400000,
-+	CSR2_RHOP	= 0x01000000,
-+	CSR2_RROUT	= 0x02000000,
-+	CSR2_RAHD	= 0x04000000,
-+	CSR2_RDHD	= 0x08000000,
-+	CSR2_ALL	= 0x0F700071,
-+};
-+
- #define DBAT_ENTRY_NUM	22
- #define RX_QUEUE_OFFSET	4
- #define NUM_RX_QUEUE	2
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index ee4153831158..a2c07efdb2f5 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -533,6 +533,7 @@ static void ravb_emac_init_gbeth(struct net_device *ndev)
- 
- 	/* E-MAC status register clear */
- 	ravb_write(ndev, ECSR_ICD | ECSR_LCHNG | ECSR_PFRI, ECSR);
-+	ravb_write(ndev, CSR0_TPE | CSR0_RPE, CSR0);
- 
- 	/* E-MAC interrupt enable register */
- 	ravb_write(ndev, ECSIPR_ICDIP, ECSIPR);
-@@ -2330,7 +2331,37 @@ static void ravb_set_rx_csum(struct net_device *ndev, bool enable)
- static int ravb_set_features_gbeth(struct net_device *ndev,
- 				   netdev_features_t features)
- {
--	/* Place holder */
-+	netdev_features_t changed = features ^ ndev->features;
-+	int error;
-+	u32 csr0;
-+
-+	csr0 = ravb_read(ndev, CSR0);
-+	ravb_write(ndev, csr0 & ~(CSR0_RPE | CSR0_TPE), CSR0);
-+	error = ravb_wait(ndev, CSR0, CSR0_RPE | CSR0_TPE, 0);
-+	if (error) {
-+		ravb_write(ndev, csr0, CSR0);
-+		return error;
-+	}
-+
-+	if (changed & NETIF_F_RXCSUM) {
-+		if (features & NETIF_F_RXCSUM)
-+			ravb_write(ndev, CSR2_ALL, CSR2);
-+		else
-+			ravb_write(ndev, 0, CSR2);
-+	}
-+
-+	if (changed & NETIF_F_HW_CSUM) {
-+		if (features & NETIF_F_HW_CSUM) {
-+			ravb_write(ndev, CSR1_ALL, CSR1);
-+			ndev->features |= NETIF_F_CSUM_MASK;
-+		} else {
-+			ravb_write(ndev, 0, CSR1);
-+		}
-+	}
-+	ravb_write(ndev, csr0, CSR0);
-+
-+	ndev->features = features;
-+
- 	return 0;
- }
- 
-@@ -2473,6 +2504,7 @@ static const struct ravb_hw_info gbeth_hw_info = {
- 	.set_feature = ravb_set_features_gbeth,
- 	.dmac_init = ravb_dmac_init_gbeth,
- 	.emac_init = ravb_emac_init_gbeth,
-+	.net_hw_features = (NETIF_F_HW_CSUM | NETIF_F_RXCSUM),
- 	.gstrings_stats = ravb_gstrings_stats_gbeth,
- 	.gstrings_size = sizeof(ravb_gstrings_stats_gbeth),
- 	.stats_len = ARRAY_SIZE(ravb_gstrings_stats_gbeth),
--- 
-2.17.1
+   I'd prefer for this one declared earler in the *struct*, as well. And why not e.g 'rx_1st_skb'?
 
+>  
+>  	const struct ravb_hw_info *info;
+>  	struct reset_control *rstc;
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index a08da7a37b92..867e180e6655 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -705,6 +705,23 @@ static void ravb_get_tx_tstamp(struct net_device *ndev)
+>  	}
+>  }
+>  
+> +static void ravb_rx_csum_rgeth(struct sk_buff *skb)
+> +{
+> +	u8 *hw_csum;
+> +
+> +	/* The hardware checksum is contained in sizeof(__sum16) (2) bytes
+> +	 * appended to packet data
+> +	 */
+> +	if (unlikely(skb->len < sizeof(__sum16)))
+> +		return;
+> +	hw_csum = skb_tail_pointer(skb) - sizeof(__sum16);
+> +
+> +	if (*hw_csum == 0)
+> +		skb->ip_summed = CHECKSUM_UNNECESSARY;
+> +	else
+> +		skb->ip_summed = CHECKSUM_NONE;
+
+   Mhm, what's the point of this whole function then? Why it can't be a copy of the R-Car analog?
+
+[...]
+> @@ -720,11 +737,147 @@ static void ravb_rx_csum(struct sk_buff *skb)
+[...]
+>  /* Packet receive function for Gigabit Ethernet */
+>  static bool ravb_rgeth_rx(struct net_device *ndev, int *quota, int q)
+>  {
+> -	/* Place holder */
+> -	return true;
+> +	struct ravb_private *priv = netdev_priv(ndev);
+> +	int entry = priv->cur_rx[q] % priv->num_rx_ring[q];
+> +	int boguscnt = priv->dirty_rx[q] + priv->num_rx_ring[q] - priv->cur_rx[q];
+> +	struct net_device_stats *stats = &priv->stats[q];
+
+   [q] should be dropped, as we've agreed...
+
+> +	struct ravb_rx_desc *desc;
+> +	struct sk_buff *skb;
+> +	dma_addr_t dma_addr;
+> +	u8  desc_status;
+> +	u8  die_dt;
+> +	u16 pkt_len;
+> +	int limit;
+> +
+> +	boguscnt = min(boguscnt, *quota);
+> +	limit = boguscnt;
+> +	desc = &priv->rgeth_rx_ring[q][entry];
+> +	while (desc->die_dt != DT_FEMPTY) {
+> +		/* Descriptor type must be checked before all other reads */
+> +		dma_rmb();
+> +		desc_status = desc->msc;
+> +		pkt_len = le16_to_cpu(desc->ds_cc) & RX_DS;
+> +
+> +		if (--boguscnt < 0)
+> +			break;
+> +
+> +		/* We use 0-byte descriptors to mark the DMA mapping errors */
+> +		if (!pkt_len)
+> +			continue;
+> +
+> +		if (desc_status & MSC_MC)
+> +			stats->multicast++;
+> +
+> +		if (desc_status & (MSC_CRC | MSC_RFE | MSC_RTSF | MSC_RTLF | MSC_CEEF)) {
+> +			stats->rx_errors++;
+> +			if (desc_status & MSC_CRC)
+> +				stats->rx_crc_errors++;
+> +			if (desc_status & MSC_RFE)
+> +				stats->rx_frame_errors++;
+> +			if (desc_status & (MSC_RTLF | MSC_RTSF))
+> +				stats->rx_length_errors++;
+> +			if (desc_status & MSC_CEEF)
+> +				stats->rx_missed_errors++;
+> +		} else {
+> +			die_dt = desc->die_dt & 0xF0;
+> +			switch (die_dt) {
+> +			case DT_FSINGLE:
+> +				skb = ravb_get_skb_rgeth(ndev, q, entry, desc);
+> +				skb_put(skb, pkt_len);
+> +				skb->protocol = eth_type_trans(skb, ndev);
+> +				if (ndev->features & NETIF_F_RXCSUM)
+> +					ravb_rx_csum_rgeth(skb);
+> +				napi_gro_receive(&priv->napi[q], skb);
+> +				stats->rx_packets++;
+> +				stats->rx_bytes += pkt_len;
+> +				break;
+> +			case DT_FSTART:
+> +				priv->rxtop_skb = ravb_get_skb_rgeth(ndev, q, entry, desc);
+
+   But don't you need to  copy the data in this case?
+
+> +				skb_put(priv->rxtop_skb, pkt_len);
+> +				break;
+> +			case DT_FMID:
+> +				skb = ravb_get_skb_rgeth(ndev, q, entry, desc);
+> +				skb_copy_to_linear_data_offset(priv->rxtop_skb,
+> +							       priv->rxtop_skb->len,
+> +							       skb->data,
+> +							       pkt_len);
+> +				skb_put(priv->rxtop_skb, pkt_len);
+> +				dev_kfree_skb(skb);
+> +				break;
+> +			case DT_FEND:
+> +				skb = ravb_get_skb_rgeth(ndev, q, entry, desc);
+> +				skb_copy_to_linear_data_offset(priv->rxtop_skb,
+> +							       priv->rxtop_skb->len,
+> +							       skb->data,
+> +							       pkt_len);
+> +				skb_put(priv->rxtop_skb, pkt_len);
+> +				dev_kfree_skb(skb);
+> +				priv->rxtop_skb->protocol =
+> +					eth_type_trans(priv->rxtop_skb, ndev);
+> +				if (ndev->features & NETIF_F_RXCSUM)
+> +					ravb_rx_csum_rgeth(skb);
+> +				napi_gro_receive(&priv->napi[q],
+> +						 priv->rxtop_skb);
+> +				stats->rx_packets++;
+> +				stats->rx_bytes += priv->rxtop_skb->len;
+> +				break;
+> +			}
+> +		}
+> +
+> +		entry = (++priv->cur_rx[q]) % priv->num_rx_ring[q];
+> +		desc = &priv->rgeth_rx_ring[q][entry];
+> +	}
+> +
+> +	/* Refill the RX ring buffers. */
+> +	for (; priv->cur_rx[q] - priv->dirty_rx[q] > 0; priv->dirty_rx[q]++) {
+> +		entry = priv->dirty_rx[q] % priv->num_rx_ring[q];
+> +		desc = &priv->rgeth_rx_ring[q][entry];
+> +		desc->ds_cc = cpu_to_le16(RGETH_RX_DESC_DATA_SIZE);
+> +
+> +		if (!priv->rx_skb[q][entry]) {
+> +			skb = netdev_alloc_skb(ndev,
+> +					       RGETH_RX_BUFF_MAX + RAVB_ALIGN - 1);
+
+   ALIGN(RGETH_RX_BUFF_MAX, RAVB_ALIGN)?
+
+[...]
+
+MBR, Sergey
