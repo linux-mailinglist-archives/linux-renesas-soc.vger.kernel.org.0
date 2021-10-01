@@ -2,137 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE02541ECDD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Oct 2021 14:04:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD21241ED2C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Oct 2021 14:13:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354228AbhJAMGL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Oct 2021 08:06:11 -0400
-Received: from www.zeus03.de ([194.117.254.33]:55068 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1354151AbhJAMGK (ORCPT
+        id S1354331AbhJAMPJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Oct 2021 08:15:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50526 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1354311AbhJAMPJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Oct 2021 08:06:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=sU1jHZ5AxD4VfGEdE0alKPxI1996
-        qYnc3sUVIk98xIA=; b=o2DkK4TEJ2MjNtxegdLBJeBjQFr16jn7wHO4G/EAQU1K
-        j1RK0i4oldYwujwtqM3GV/UGHQONbcgn6x9RtjmzfinIm+xq3fgXYuoL/LArmIRH
-        m2gGCz81yu6LMx18Kdm4IrvgKuRj9bp7gMlhcF+D7jWKpZmPbsyTgyNG7rNUaMw=
-Received: (qmail 2459946 invoked from network); 1 Oct 2021 14:04:22 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Oct 2021 14:04:22 +0200
-X-UD-Smtp-Session: l3s3148p1@MLMZXUnNftIgAwDPXwmDAJN1R91E6vGQ
-Date:   Fri, 1 Oct 2021 14:04:21 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-mtd@lists.infradead.org,
-        linux-spi <linux-spi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 6/6] memory: renesas-rpc-if: Add support for RZ/G2L
-Message-ID: <YVb5RXvh9agIS7MG@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-        linux-mtd@lists.infradead.org,
-        linux-spi <linux-spi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20210928140721.8805-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210928140721.8805-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <YVXMc1A4D/y4kjim@shikoro>
- <CA+V-a8sDSsyTGfTeQfG_ZhfrJHCm+2kBTEDWaoFMTgsMOmxEgQ@mail.gmail.com>
- <YVbM3z7x+D0MCkTF@ninjato>
- <CA+V-a8uyQmW3+4hAt4534spKeQHDoeZzuJJE4RY70KLZfYOXoA@mail.gmail.com>
+        Fri, 1 Oct 2021 08:15:09 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7686C06177C
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Oct 2021 05:13:24 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by michel.telenet-ops.be with bizsmtp
+        id 0cDN2600R4C55Sk06cDN5W; Fri, 01 Oct 2021 14:13:23 +0200
+Received: from rox.of.borg ([192.168.97.57] helo=rox)
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mWHPm-0010wW-34; Fri, 01 Oct 2021 14:13:22 +0200
+Received: from geert by rox with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mWHPl-00BIkI-L3; Fri, 01 Oct 2021 14:13:21 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: net: renesas,ether: Update example to match reality
+Date:   Fri,  1 Oct 2021 14:13:20 +0200
+Message-Id: <a1cf8a6ccca511e948075c4e20eea2e2ba001c2c.1633090323.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5QK+6x2YA2y8yiDI"
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8uyQmW3+4hAt4534spKeQHDoeZzuJJE4RY70KLZfYOXoA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+  - Drop unneeded interrupt-parent,
+  - Convert to new style CPG/MSSR bindings,
+  - Add missing power-domains and resets properties,
+  - Update PHY subnode:
+      - Add example compatible values,
+      - Add micrel,led-mode and reset-gpios examples.
 
---5QK+6x2YA2y8yiDI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ .../devicetree/bindings/net/renesas,ether.yaml  | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-Hi Prabhakar,
+diff --git a/Documentation/devicetree/bindings/net/renesas,ether.yaml b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+index c101a1ec846ea8e9..06b38c9bc6ec38e4 100644
+--- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
++++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+@@ -100,15 +100,18 @@ additionalProperties: false
+ examples:
+   # Lager board
+   - |
+-    #include <dt-bindings/clock/r8a7790-clock.h>
+-    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7790-sysc.h>
++    #include <dt-bindings/gpio/gpio.h>
+ 
+     ethernet@ee700000 {
+         compatible = "renesas,ether-r8a7790", "renesas,rcar-gen2-ether";
+         reg = <0xee700000 0x400>;
+-        interrupt-parent = <&gic>;
+-        interrupts = <0 162 IRQ_TYPE_LEVEL_HIGH>;
+-        clocks = <&mstp8_clks R8A7790_CLK_ETHER>;
++        interrupts = <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&cpg CPG_MOD 813>;
++        power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
++        resets = <&cpg 813>;
+         phy-mode = "rmii";
+         phy-handle = <&phy1>;
+         renesas,ether-link-active-low;
+@@ -116,8 +119,12 @@ examples:
+         #size-cells = <0>;
+ 
+         phy1: ethernet-phy@1 {
++            compatible = "ethernet-phy-id0022.1537",
++                         "ethernet-phy-ieee802.3-c22";
+             reg = <1>;
+             interrupt-parent = <&irqc0>;
+             interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
++            micrel,led-mode = <1>;
++            reset-gpios = <&gpio5 31 GPIO_ACTIVE_LOW>;
+         };
+     };
+-- 
+2.25.1
 
-I checked the G2L datasheet and reconsidered. It is better if your patch
-goes in first. That means...
-
-> > > > Is RPCIF_CMNCR_IO3FV and RPCIF_CMNCR_IO2FV actually documented in your
-> > > > datasheets? I am asking because I have a patch pending to remove writing
-> > > > to undocumented locations. So, I was aboout to remove the IO3FV and
-> > > > IO2FV macros.
-> > > >
-> > > Yes they are documented, you should be able to download the HW manual from [1]
-> >
-> > Great, then I will keep them!
-
-... that you could change the comments here from "undocumented" to
-"documened for G2L" or similar.
-
-> > > > > +             regmap_read(rpc->regmap, RPCIF_PHYCNT, &dummy);
-> > > > > +             dummy &= ~RPCIF_PHYCNT_PHYMEM_MASK;
-> > > > > +             dummy |= RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260;
-> > > > > +             regmap_write(rpc->regmap, RPCIF_PHYCNT, dummy);
-> > > >
-> > > > regmap_update_bits?
-> > > >
-> > > Im a bit hesitant to use regmap_update_bits() here as some of the bits
-> > > are not documented.
-
-Here you can keep your code as is. I will change it afterwards if needed
-once I clarified all undocumented locations.
-
-Thanks and have a nice weekend,
-
-   Wolfram
-
-
---5QK+6x2YA2y8yiDI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFW+UEACgkQFA3kzBSg
-Kbb9Nw//bCZjWZIYqwiSCfxBOafnLWkptccKRA/ccZ57W8k5zOSNRRPmx68uEr2+
-G6p3M5tlc9g9oqT0Yek9lce9f+7SIVrbOdHLONIpBpeEHEb4FfZUKqOiLzDB+JDf
-RlMF+IbEFNOwDAfhFCJdR9SY5GeobFjmLpTWyMfJlRnFvTFFe9S3NF7V1V9AQMHh
-KrTC2H67mMpgzVwT/iF7naTL4mHI7GaT9I1bm3U1meHYxDM7hDZB2uWvwErPzh1w
-plGrppDm02M6Bj+IllzZukxvC7ppzPDAjmuHMttjuurInrem5NrWCtTMT4mZdf/w
-0OIn2me7d40DI351em9tk5YL3tsqyIgTp+MpmrDGGi/9bs5FCQzPYh5RHtRVNwiZ
-XicfUYQzFXg5FxSwf2LcDOcuHu737TZxjjrr++cKC6e9uGnzfXUlAy+HNhzSce7M
-NqIZbnMNQD2t83mThggTvl+XgNQ/c4pMiJ11Je/fImfHkB/OV+ExZzhoTYqeRkjX
-STlHRriE+XIuotL+RFD/ImGqKXPauFhWJwCrQcJFmwMhV4vl8EkWdtZlNDiR9sR7
-+ir4YTUv1s7FUEpRCozcHus1MiKtFdoxDgC+yNDLwbo/fDE21lBB7o/4nTm3P3Qd
-itXUJBUf8jxaSazpaURv1jiRCGSFZZEZCYmbnD2SDS3+y4J3PDM=
-=nApo
------END PGP SIGNATURE-----
-
---5QK+6x2YA2y8yiDI--
