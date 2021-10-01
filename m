@@ -2,124 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 498D041EDE4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Oct 2021 14:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D23AE41F07A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Oct 2021 17:06:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231476AbhJAMzn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Oct 2021 08:55:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59862 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231434AbhJAMzm (ORCPT
+        id S1354916AbhJAPI3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Oct 2021 11:08:29 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:6324 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1354827AbhJAPI2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Oct 2021 08:55:42 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0106AC061775;
-        Fri,  1 Oct 2021 05:53:58 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id r4so20290505ybp.4;
-        Fri, 01 Oct 2021 05:53:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=c+kURNAAkSIIC5kx7+rU/IV/731k5cWXXDLuC8d6BG4=;
-        b=CmoIj3+u5w6xdONToKlV8fG3jt47szGOKyPvH/oQSmMrhDRpA8wd8iTvAlViEFKcnE
-         ptqm7Fz8WTn/hYmhdBPUDI1pxU0BYKkaR0/Qx8uZUoU+s3AAdg43N+opw7vvcoUBvudJ
-         m+uduBukHAN126diABfdvwqCUu8S1uMeCv0z18Ca5Zu4h03H1g9e86piwSsC+VlqydfB
-         1pa456Rj02ulpijkQ9gFPtgOj7I+wxDjs//egaMSMWCNeOwmIMK8omDMPNLwztTIljWz
-         xbj4chFNRP/5Cm+zzHbNY0jKWhjRwdrHGn6hdZmAHKH1SW/MBKDTKU5BDE7ZJCuZg+4u
-         K0cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=c+kURNAAkSIIC5kx7+rU/IV/731k5cWXXDLuC8d6BG4=;
-        b=Hg3mpkULPyNHeStQfXOyXK673u9kLSEnIExa2fEki+69U+9E8bwE0twtOdGvsZVc+d
-         Fk6efwtKXUTNtX9Ksm52QovgT2u70pnjR3ghrA5ZnHGXt0lISdPhUt2IHuM+2FxOC96h
-         nNp5UsOSRK4SRORcqjnQhnUSUMLx1GbkoUw2/Pz4XquO8bOAAVmG5m87hglGbZ1xQVPw
-         rPeYPuCrZn6gsRODvo37XQj5x044wRF0LiMxAyzyEv1M/hUKx8X8LDpjwKSX36+vXSlq
-         tx8Zp1goES8OQokJfmSEqkBsqYoZQMr2xhWCJNYht3EhJZl9bNduhaIC4n2AoJfRnqjY
-         Op9g==
-X-Gm-Message-State: AOAM531w+u5HjDpRtWl7pQBzGvJIJ0Tl2A1PNsIXXVIDseqHjY7Wcl+I
-        lI53xh9+9Okilg5QKGxXJ4ktu9azxM+ku4yHqc8=
-X-Google-Smtp-Source: ABdhPJyoKAv0iarnUd7y3IYOy1Ztcq0Ch+N3p78eU2QqNjTH5HmI6jvK5PHdjjklcXIMiPSKYoLlsTnwZhQsST5T+GE=
-X-Received: by 2002:a25:c08a:: with SMTP id c132mr5971448ybf.49.1633092837128;
- Fri, 01 Oct 2021 05:53:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210928140721.8805-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210928140721.8805-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <YVXMc1A4D/y4kjim@shikoro> <CA+V-a8sDSsyTGfTeQfG_ZhfrJHCm+2kBTEDWaoFMTgsMOmxEgQ@mail.gmail.com>
- <YVbM3z7x+D0MCkTF@ninjato> <CA+V-a8uyQmW3+4hAt4534spKeQHDoeZzuJJE4RY70KLZfYOXoA@mail.gmail.com>
- <YVb5RXvh9agIS7MG@ninjato>
-In-Reply-To: <YVb5RXvh9agIS7MG@ninjato>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 1 Oct 2021 13:53:30 +0100
-Message-ID: <CA+V-a8vQ2EoMW18aEq5Ssa71M6VvA6YtOzU2UAe7L1Puorr07Q@mail.gmail.com>
-Subject: Re: [PATCH 6/6] memory: renesas-rpc-if: Add support for RZ/G2L
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Fri, 1 Oct 2021 11:08:28 -0400
+X-IronPort-AV: E=Sophos;i="5.85,339,1624287600"; 
+   d="scan'208";a="95822181"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 02 Oct 2021 00:06:42 +0900
+Received: from localhost.localdomain (unknown [10.226.92.36])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 986254405283;
+        Sat,  2 Oct 2021 00:06:39 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-mtd@lists.infradead.org,
-        linux-spi <linux-spi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Adam Ford <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: [PATCH 00/10] Add Gigabit Ethernet driver support
+Date:   Fri,  1 Oct 2021 16:06:26 +0100
+Message-Id: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L SoC are
+similar to the R-Car Ethernet AVB IP.
 
-On Fri, Oct 1, 2021 at 1:04 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Hi Prabhakar,
->
-> I checked the G2L datasheet and reconsidered. It is better if your patch
-> goes in first. That means...
->
-> > > > > Is RPCIF_CMNCR_IO3FV and RPCIF_CMNCR_IO2FV actually documented in your
-> > > > > datasheets? I am asking because I have a patch pending to remove writing
-> > > > > to undocumented locations. So, I was aboout to remove the IO3FV and
-> > > > > IO2FV macros.
-> > > > >
-> > > > Yes they are documented, you should be able to download the HW manual from [1]
-> > >
-> > > Great, then I will keep them!
->
-> ... that you could change the comments here from "undocumented" to
-> "documened for G2L" or similar.
->
-> > > > > > +             regmap_read(rpc->regmap, RPCIF_PHYCNT, &dummy);
-> > > > > > +             dummy &= ~RPCIF_PHYCNT_PHYMEM_MASK;
-> > > > > > +             dummy |= RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260;
-> > > > > > +             regmap_write(rpc->regmap, RPCIF_PHYCNT, dummy);
-> > > > >
-> > > > > regmap_update_bits?
-> > > > >
-> > > > Im a bit hesitant to use regmap_update_bits() here as some of the bits
-> > > > are not documented.
->
-> Here you can keep your code as is. I will change it afterwards if needed
-> once I clarified all undocumented locations.
->
-Thanks, will re-spin the patches with comments fixed.
+The Gigabit Ethernet IP consists of Ethernet controller (E-MAC), Internal
+TCP/IP Offload Engine (TOE)  and Dedicated Direct memory access controller
+(DMAC).
 
-> Thanks and have a nice weekend,
->
-You too.
+With a few changes in the driver we can support both IPs.
 
-Cheers,
-Prabhakar
+This patch series is in preparation for adding Gigabit ethernet driver support to RZ/G2L SoC.
 
->    Wolfram
->
+The number of patches after incorporatng RFC review comments is 19.
+So splitting the patches into 2 patchsets (10 + 9).
+
+The series is the first patchset which aims to add RZ/G2L SoC with
+compatible strings, E-MAC and D-MAC initialization.
+
+Second patchset basically fillup all the stubs for the full Gigabit
+Ethernet functionality.
+
+RFC->V1:
+ * Added Rb tags of patch#1 and patch #9
+ * Renamed "rgeth" to gbeth
+ * Renamed the variable "no_ptp_cfg_active" with "gptp" and
+   "ptp_cfg_active" with "ccc_gac
+ * Handled NC queue only for R-Car.
+ * Removed RIC3 initialization from DMAC init, as it is 
+   same as reset value.
+ * moved stubs function to patch#4.
+ * Added tsrq variable instead of multi_tsrq feature bit.
+ * moved CSR0 initialization from E-MAC init to later patch.
+ * started using ravb_modify for initializing link registers.
+
+Ref:-
+https://lore.kernel.org/linux-renesas-soc/20210923140813.13541-1-biju.das.jz@bp.renesas.com/T/#m5c007b42d6c334de7b2224f2b219f52efc712fe9
+
+
+Biju Das (10):
+  ravb: Rename "ravb_set_features_rx_csum" function to
+    "ravb_set_features_rcar"
+  ravb: Rename "no_ptp_cfg_active" and "ptp_cfg_active" variables
+  ravb: Add nc_queue to struct ravb_hw_info
+  ravb: Add support for RZ/G2L SoC
+  ravb: Initialize GbEthernet DMAC
+  ravb: Exclude gPTP feature support for RZ/G2L
+  ravb: Add tsrq to struct ravb_hw_info
+  ravb: Add magic_pkt to struct ravb_hw_info
+  ravb: Add half_duplex to struct ravb_hw_info
+  ravb: Initialize GbEthernet E-MAC
+
+ drivers/net/ethernet/renesas/ravb.h      |  39 +-
+ drivers/net/ethernet/renesas/ravb_main.c | 452 +++++++++++++++++------
+ 2 files changed, 362 insertions(+), 129 deletions(-)
+
+-- 
+2.17.1
+
