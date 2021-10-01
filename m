@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B2A341F07C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Oct 2021 17:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8622641F080
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Oct 2021 17:06:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231933AbhJAPIb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Oct 2021 11:08:31 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:6324 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1354920AbhJAPIa (ORCPT
+        id S1354956AbhJAPIl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Oct 2021 11:08:41 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:23063 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1354626AbhJAPIg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Oct 2021 11:08:30 -0400
+        Fri, 1 Oct 2021 11:08:36 -0400
 X-IronPort-AV: E=Sophos;i="5.85,339,1624287600"; 
-   d="scan'208";a="95822184"
+   d="scan'208";a="95671590"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 02 Oct 2021 00:06:45 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 02 Oct 2021 00:06:49 +0900
 Received: from localhost.localdomain (unknown [10.226.92.36])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 04DC34405283;
-        Sat,  2 Oct 2021 00:06:42 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 966DC4351834;
+        Sat,  2 Oct 2021 00:06:46 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrew Lunn <andrew@lunn.ch>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Adam Ford <aford173@gmail.com>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: [PATCH 01/10] ravb: Rename "ravb_set_features_rx_csum" function to "ravb_set_features_rcar"
-Date:   Fri,  1 Oct 2021 16:06:27 +0100
-Message-Id: <20211001150636.7500-2-biju.das.jz@bp.renesas.com>
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 02/10] ravb: Rename "no_ptp_cfg_active" and "ptp_cfg_active" variables
+Date:   Fri,  1 Oct 2021 16:06:28 +0100
+Message-Id: <20211001150636.7500-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
 References: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
@@ -43,75 +43,159 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Rename "ravb_set_features_rx_csum" function to "ravb_set_features_rcar" and
-replace the function pointer "set_rx_csum_feature" with "set_feature".
+Rename the variable "no_ptp_cfg_active" with "gptp" and
+"ptp_cfg_active" with "ccc_gac" to match the HW features.
+
+There is no functional change.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Suggested-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
-RFC->V1:
- * Added Rb tags of Sergei
+RFc->v1:
+ * Renamed the variable "no_ptp_cfg_active" with "gptp" and
+   "ptp_cfg_active" with "ccc_gac
 ---
- drivers/net/ethernet/renesas/ravb.h      |  2 +-
- drivers/net/ethernet/renesas/ravb_main.c | 10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/net/ethernet/renesas/ravb.h      |  4 ++--
+ drivers/net/ethernet/renesas/ravb_main.c | 26 ++++++++++++------------
+ 2 files changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index 47c5377e4f42..7363abae6e59 100644
+index 7363abae6e59..a33fbcb4aac3 100644
 --- a/drivers/net/ethernet/renesas/ravb.h
 +++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -985,7 +985,7 @@ struct ravb_hw_info {
- 	void *(*alloc_rx_desc)(struct net_device *ndev, int q);
- 	bool (*receive)(struct net_device *ndev, int *quota, int q);
- 	void (*set_rate)(struct net_device *ndev);
--	int (*set_rx_csum_feature)(struct net_device *ndev, netdev_features_t features);
-+	int (*set_feature)(struct net_device *ndev, netdev_features_t features);
- 	void (*dmac_init)(struct net_device *ndev);
- 	void (*emac_init)(struct net_device *ndev);
- 	const char (*gstrings_stats)[ETH_GSTRING_LEN];
+@@ -1000,8 +1000,8 @@ struct ravb_hw_info {
+ 	unsigned internal_delay:1;	/* AVB-DMAC has internal delays */
+ 	unsigned tx_counters:1;		/* E-MAC has TX counters */
+ 	unsigned multi_irqs:1;		/* AVB-DMAC and E-MAC has multiple irqs */
+-	unsigned no_ptp_cfg_active:1;	/* AVB-DMAC does not support gPTP active in config mode */
+-	unsigned ptp_cfg_active:1;	/* AVB-DMAC has gPTP support active in config mode */
++	unsigned gptp:1;		/* AVB-DMAC has gPTP support */
++	unsigned ccc_gac:1;		/* AVB-DMAC has gPTP support active in config mode */
+ };
+ 
+ struct ravb_private {
 diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 0f85f2d97b18..8f2358caef34 100644
+index 8f2358caef34..dc7654abfe55 100644
 --- a/drivers/net/ethernet/renesas/ravb_main.c
 +++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1918,8 +1918,8 @@ static void ravb_set_rx_csum(struct net_device *ndev, bool enable)
- 	spin_unlock_irqrestore(&priv->lock, flags);
- }
+@@ -1274,7 +1274,7 @@ static int ravb_set_ringparam(struct net_device *ndev,
+ 	if (netif_running(ndev)) {
+ 		netif_device_detach(ndev);
+ 		/* Stop PTP Clock driver */
+-		if (info->no_ptp_cfg_active)
++		if (info->gptp)
+ 			ravb_ptp_stop(ndev);
+ 		/* Wait for DMA stopping */
+ 		error = ravb_stop_dma(ndev);
+@@ -1306,7 +1306,7 @@ static int ravb_set_ringparam(struct net_device *ndev,
+ 		ravb_emac_init(ndev);
  
--static int ravb_set_features_rx_csum(struct net_device *ndev,
--				     netdev_features_t features)
-+static int ravb_set_features_rcar(struct net_device *ndev,
-+				  netdev_features_t features)
- {
- 	netdev_features_t changed = ndev->features ^ features;
+ 		/* Initialise PTP Clock driver */
+-		if (info->no_ptp_cfg_active)
++		if (info->gptp)
+ 			ravb_ptp_init(ndev, priv->pdev);
  
-@@ -1937,7 +1937,7 @@ static int ravb_set_features(struct net_device *ndev,
+ 		netif_device_attach(ndev);
+@@ -1446,7 +1446,7 @@ static int ravb_open(struct net_device *ndev)
+ 	ravb_emac_init(ndev);
+ 
+ 	/* Initialise PTP Clock driver */
+-	if (info->no_ptp_cfg_active)
++	if (info->gptp)
+ 		ravb_ptp_init(ndev, priv->pdev);
+ 
+ 	netif_tx_start_all_queues(ndev);
+@@ -1460,7 +1460,7 @@ static int ravb_open(struct net_device *ndev)
+ 
+ out_ptp_stop:
+ 	/* Stop PTP Clock driver */
+-	if (info->no_ptp_cfg_active)
++	if (info->gptp)
+ 		ravb_ptp_stop(ndev);
+ out_free_irq_nc_tx:
+ 	if (!info->multi_irqs)
+@@ -1508,7 +1508,7 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+ 	netif_tx_stop_all_queues(ndev);
+ 
+ 	/* Stop PTP Clock driver */
+-	if (info->no_ptp_cfg_active)
++	if (info->gptp)
+ 		ravb_ptp_stop(ndev);
+ 
+ 	/* Wait for DMA stopping */
+@@ -1543,7 +1543,7 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+ 
+ out:
+ 	/* Initialise PTP Clock driver */
+-	if (info->no_ptp_cfg_active)
++	if (info->gptp)
+ 		ravb_ptp_init(ndev, priv->pdev);
+ 
+ 	netif_tx_start_all_queues(ndev);
+@@ -1752,7 +1752,7 @@ static int ravb_close(struct net_device *ndev)
+ 	ravb_write(ndev, 0, TIC);
+ 
+ 	/* Stop PTP Clock driver */
+-	if (info->no_ptp_cfg_active)
++	if (info->gptp)
+ 		ravb_ptp_stop(ndev);
+ 
+ 	/* Set the config mode to stop the AVB-DMAC's processes */
+@@ -2018,7 +2018,7 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
+ 	.internal_delay = 1,
+ 	.tx_counters = 1,
+ 	.multi_irqs = 1,
+-	.ptp_cfg_active = 1,
++	.ccc_gac = 1,
+ };
+ 
+ static const struct ravb_hw_info ravb_gen2_hw_info = {
+@@ -2037,7 +2037,7 @@ static const struct ravb_hw_info ravb_gen2_hw_info = {
+ 	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
+ 	.max_rx_len = RX_BUF_SZ + RAVB_ALIGN - 1,
+ 	.aligned_tx = 1,
+-	.no_ptp_cfg_active = 1,
++	.gptp = 1,
+ };
+ 
+ static const struct of_device_id ravb_match_table[] = {
+@@ -2080,7 +2080,7 @@ static void ravb_set_config_mode(struct net_device *ndev)
  	struct ravb_private *priv = netdev_priv(ndev);
  	const struct ravb_hw_info *info = priv->info;
  
--	return info->set_rx_csum_feature(ndev, features);
-+	return info->set_feature(ndev, features);
- }
+-	if (info->no_ptp_cfg_active) {
++	if (info->gptp) {
+ 		ravb_modify(ndev, CCC, CCC_OPC, CCC_OPC_CONFIG);
+ 		/* Set CSEL value */
+ 		ravb_modify(ndev, CCC, CCC_CSEL, CCC_CSEL_HPB);
+@@ -2301,7 +2301,7 @@ static int ravb_probe(struct platform_device *pdev)
+ 	INIT_LIST_HEAD(&priv->ts_skb_list);
  
- static const struct net_device_ops ravb_netdev_ops = {
-@@ -2006,7 +2006,7 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
- 	.alloc_rx_desc = ravb_alloc_rx_desc,
- 	.receive = ravb_rcar_rx,
- 	.set_rate = ravb_set_rate,
--	.set_rx_csum_feature = ravb_set_features_rx_csum,
-+	.set_feature = ravb_set_features_rcar,
- 	.dmac_init = ravb_rcar_dmac_init,
- 	.emac_init = ravb_rcar_emac_init,
- 	.gstrings_stats = ravb_gstrings_stats,
-@@ -2027,7 +2027,7 @@ static const struct ravb_hw_info ravb_gen2_hw_info = {
- 	.alloc_rx_desc = ravb_alloc_rx_desc,
- 	.receive = ravb_rcar_rx,
- 	.set_rate = ravb_set_rate,
--	.set_rx_csum_feature = ravb_set_features_rx_csum,
-+	.set_feature = ravb_set_features_rcar,
- 	.dmac_init = ravb_rcar_dmac_init,
- 	.emac_init = ravb_rcar_emac_init,
- 	.gstrings_stats = ravb_gstrings_stats,
+ 	/* Initialise PTP Clock driver */
+-	if (info->ptp_cfg_active)
++	if (info->ccc_gac)
+ 		ravb_ptp_init(ndev, pdev);
+ 
+ 	/* Debug message level */
+@@ -2349,7 +2349,7 @@ static int ravb_probe(struct platform_device *pdev)
+ 			  priv->desc_bat_dma);
+ 
+ 	/* Stop PTP Clock driver */
+-	if (info->ptp_cfg_active)
++	if (info->ccc_gac)
+ 		ravb_ptp_stop(ndev);
+ out_disable_refclk:
+ 	clk_disable_unprepare(priv->refclk);
+@@ -2369,7 +2369,7 @@ static int ravb_remove(struct platform_device *pdev)
+ 	const struct ravb_hw_info *info = priv->info;
+ 
+ 	/* Stop PTP Clock driver */
+-	if (info->ptp_cfg_active)
++	if (info->ccc_gac)
+ 		ravb_ptp_stop(ndev);
+ 
+ 	clk_disable_unprepare(priv->refclk);
 -- 
 2.17.1
 
