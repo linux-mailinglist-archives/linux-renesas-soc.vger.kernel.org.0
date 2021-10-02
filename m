@@ -2,84 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F66741FB94
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 14:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A5B541FBFD
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 15:00:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233030AbhJBMIh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 2 Oct 2021 08:08:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33430 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233029AbhJBMIg (ORCPT
+        id S233126AbhJBNBy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 2 Oct 2021 09:01:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53898 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233093AbhJBNBx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 2 Oct 2021 08:08:36 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FA87C061570
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  2 Oct 2021 05:06:51 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id b78so14756205iof.2
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 02 Oct 2021 05:06:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=NxmQsPu6WD3Fc6VCp3t2/wszjm05n07U8NHNs+qZ8yTdVS9GNPDKcp0jR7pyx0ALZz
-         XDz771CuAG17neVFPLQFMYG0zmIPWT33UhHZBwU3DMEKU+x1nOeoVV248SBhQem46Eim
-         yZeyqH+bdoPOyHobJeABHT3DSyw0K0R01AXnChl3anjHvy7RUvq/VZIpAYYyTQ0esmCB
-         871jbfLa1OGO/2samKOFhPEuWy1yDN2wt7b1QYUHjLSsNhEf36F4c62sbBrNMfrEma5b
-         oH67WLfgfgpUy5OpLZvFCDEFv9LO1BXGN/tYuMgeNuaKtlCjw4YJtXI68INdXehGoGjQ
-         4dpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=VJOepmUcqRiwW38RRQNZwciS66GjeMWOOCXT1dInndEn2o66Ff1t1D0jIqjUWbjHvw
-         W973yMe1JEbOgrvX9/q16rA5dGvZFdkVf33+T4X/PKv1hW7jQA/fr6Nqi0dUNyJvoI+9
-         u1pRL7YrU1B2gtf2A7lLCsmR7C1nlbbnLIif1fmUAyEgajNQ+EdLoTHqd9uXAv3lwwbY
-         n8ApciXpraXx+eMqc+mPnc/nHPAevruJkEJ/7p1G2zsRbLj+BkfwJEwVm+mbR9B9VRtb
-         W46tVgOG4YAExUgemyuzZR0UG/MyHFtdU0pZ+7EKOZ43Z+mnTUct0I7UOWpYq33TH39f
-         Twlg==
-X-Gm-Message-State: AOAM530AzYKNXxXr2isRIsGa3aktdwktg7OtZz4xIyklRKqATvSwkhl1
-        zDT3oap4J41KW2wLa67V8vXNxRTMIanfCllsOZg=
-X-Google-Smtp-Source: ABdhPJwT1guwkNGWdUSFp5iibIKAEDVlOcex51e/ApiDWx9y1X8yEJvUBi9PZK28pM+6vRMxX8fb1WrDCfKQ+lDd8JQ=
-X-Received: by 2002:a5d:9613:: with SMTP id w19mr2289118iol.144.1633176410610;
- Sat, 02 Oct 2021 05:06:50 -0700 (PDT)
+        Sat, 2 Oct 2021 09:01:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id E838B61B08;
+        Sat,  2 Oct 2021 13:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633179608;
+        bh=wmjfw/tNBJqZDKcvzEcUF8UGlmBxeS3fGwMOtzmwuSQ=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=DS3XYRjarfi48FnGz52xjE05Z9vgXLMIqT5xwUd9j0AqTMsUMk37psPiPO5nZVWYA
+         5bDzIZMfe82wN3NwCLwQjPCYLYxjpODOflP7JzHuVapVWQBNC4V308L/PBPr5jCi7k
+         gS5V6ZTK2MHo9XJTLRgSXRpy/y7HE3awNNmswMhEpz+xp0Wtixn0RnkEDet8JD/hkS
+         9iccqYXPjThkdhLavzwQpUe52dqLjtv9Rq9atyUgKrPRvQ8io9tQH/ZkfHLDm7I73i
+         kR3jjwndPQik2SE7pejz0LBI8F9Fkan4GWsUeSxv5EqGUmaG4dLzY2Zhlo33NstfHD
+         ZImxdbZ9sxpIQ==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id DB2CD609D6;
+        Sat,  2 Oct 2021 13:00:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Received: by 2002:a4f:f90d:0:0:0:0:0 with HTTP; Sat, 2 Oct 2021 05:06:50 -0700 (PDT)
-Reply-To: unitednnation0@gmail.com
-From:   "U.n" <wadebaye33@gmail.com>
-Date:   Sat, 2 Oct 2021 00:06:50 -1200
-Message-ID: <CACE0T5WvuHJ+JdsC-jpfiQARe-OqDOBGfzRrzoM_6D_h4PAiKA@mail.gmail.com>
-Subject: Attention
-To:     unitednnation0@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/10] Add Gigabit Ethernet driver support
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <163317960789.20123.6630687472734688411.git-patchwork-notify@kernel.org>
+Date:   Sat, 02 Oct 2021 13:00:07 +0000
+References: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, s.shtylyov@omp.ru,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, andrew@lunn.ch,
+        sergei.shtylyov@gmail.com, geert+renesas@glider.be,
+        aford173@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris.Paterson2@renesas.com, biju.das@bp.renesas.com
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---=20
+Hello:
+
+This series was applied to netdev/net-next.git (refs/heads/master):
+
+On Fri,  1 Oct 2021 16:06:26 +0100 you wrote:
+> The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L SoC are
+> similar to the R-Car Ethernet AVB IP.
+> 
+> The Gigabit Ethernet IP consists of Ethernet controller (E-MAC), Internal
+> TCP/IP Offload Engine (TOE)  and Dedicated Direct memory access controller
+> (DMAC).
+> 
+> [...]
+
+Here is the summary with links:
+  - [01/10] ravb: Rename "ravb_set_features_rx_csum" function to "ravb_set_features_rcar"
+    https://git.kernel.org/netdev/net-next/c/d9bc9ec45e01
+  - [02/10] ravb: Rename "no_ptp_cfg_active" and "ptp_cfg_active" variables
+    https://git.kernel.org/netdev/net-next/c/2b061b545cd0
+  - [03/10] ravb: Add nc_queue to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/a92f4f0662bf
+  - [04/10] ravb: Add support for RZ/G2L SoC
+    https://git.kernel.org/netdev/net-next/c/feab85c7ccea
+  - [05/10] ravb: Initialize GbEthernet DMAC
+    https://git.kernel.org/netdev/net-next/c/660e3d95e21a
+  - [06/10] ravb: Exclude gPTP feature support for RZ/G2L
+    https://git.kernel.org/netdev/net-next/c/7e09a052dc4e
+  - [07/10] ravb: Add tsrq to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/0b395f289451
+  - [08/10] ravb: Add magic_pkt to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/ebd5df063ce4
+  - [09/10] ravb: Add half_duplex to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/68aa0763c045
+  - [10/10] ravb: Initialize GbEthernet E-MAC
+    https://git.kernel.org/netdev/net-next/c/16a235199235
+
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Attention Sir/Madam
-This is the United Nation (UN). We the United Nations (UN) Globally
-has approved (US$2.500,000)( two Million Five hundred thousand
-dollars) compensation as part of our responsibilities for humanitarian
-Aid for fighting against CoronaVirus and you are among the lucky ones.
-
-
-This compensation is for the most affected countries, communities and
-families across the global. Your funds were deposited with Bank in USA
-to transfer your funds to you via Internet Banking. You have to send
-your full details as state below:with this email Address
-  ( unitednnation0@gmail.com )
-Your full names:
-Address:
-Telephone:
-Occupation:
-
-
-
-Yours Sincerely
-Mr. Ant=C3=B3nio Guterres
-United Nations (UN).
