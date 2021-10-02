@@ -2,112 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2AB541FDE4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 21:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68EF741FE75
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Oct 2021 00:32:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233905AbhJBTov (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 2 Oct 2021 15:44:51 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:36080 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbhJBTov (ORCPT
+        id S234130AbhJBWe0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 2 Oct 2021 18:34:26 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:60607 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234111AbhJBWeZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 2 Oct 2021 15:44:51 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru E3B6C20C0450
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH 04/10] ravb: Add support for RZ/G2L SoC
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        "Adam Ford" <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
- <20211001150636.7500-5-biju.das.jz@bp.renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <b4c87a6d-014f-0170-feb5-20079c7d5761@omp.ru>
-Date:   Sat, 2 Oct 2021 22:43:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Sat, 2 Oct 2021 18:34:25 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id BEC3D580812;
+        Sat,  2 Oct 2021 18:32:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sat, 02 Oct 2021 18:32:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=feVIX2W/iu7IBNGFg1YLLfvKn4A
+        Iy1omyC/w57V7Wug=; b=ovzWw3hIbQCcGYWWfpO5bqetBoj8fYi4cU/uzea2qvO
+        Os2rrnreQKdvey22GdkFqYmTqVwHJlz6/KQlAp2Z8mQbRrcVVGS0RhHbrp1axmS1
+        T4FNGBRIC6VRRFUJMyPMA1yIs4iwF9On1Bqrg0StKz63ldd8P4gi0modAY16sbNX
+        WOnmsvjUWgOf1EVFXdUONhdRS4d570TW/OoyrKXXmebjiEw+1j8fLm+ljv907z9t
+        CIOzD86mMLeHbUi80OMHKQWQ8a2BTeJqaaCtNR9LBUJzmUq7awJMWepSCUordAjM
+        ngdvij4dTKC2HxgnXfPCiotEibBAe0PNcQega9F7pqA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=feVIX2
+        W/iu7IBNGFg1YLLfvKn4AIy1omyC/w57V7Wug=; b=YMRGtjh8b6/uHXJHbSLqIN
+        XkvnsOT7+fKkqo5MsyQdt9QElTwpFnNH7NZDiZLXzSXOS6FBDZrF/soSknUPTps7
+        cSX/90+DSQd2xC8HCoXyBNUteJevzWwv9zGF6tVIfUiERM5LrxOfobmziR9FM4T0
+        mLSPpj+5dA82NtTLbKYT3qLKVZAaZg0+5PRAHUA/IWgXUESWEo1fpoaeLWYr8All
+        JpIncHLyYWJxtXR3Pqqqab9/qf/YQ861tur8Ji253I3WZ1vgqVr7s70Rik3/dyCs
+        ITXmHAKFXd63QFz77+qvRhy+dIxMO6LWM6al1XMqrbbo7nzjVZHNbj/Kf3X0AxUg
+        ==
+X-ME-Sender: <xms:Bd5YYVrkc8p0swSo4xEZCdl3rsDWQNqeVIZdmhP6Wf4caAa16nuybQ>
+    <xme:Bd5YYXoybymUuSKmzHwxRHKymivMUvij6JnRtsZIZZVpo68liJZ5TGtJ4Vua42s3h
+    LbwxpfrPkAuPzM3xA>
+X-ME-Received: <xmr:Bd5YYSNyitcnLvWu6_RcSwzRBf9mTNYHl30tfrNj1m3MO1-0de2gr9vj-JbxHL1gJia4r6Hs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekledgudduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
+    nhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrghtth
+    gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
+    heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
+    gvvghnfhhoohesuhelvddrvghu
+X-ME-Proxy: <xmx:Bd5YYQ53pf_AP7qMCUlDCqgVT7w95ls-2nvB6UhjKENlMbZ5WDSaxg>
+    <xmx:Bd5YYU4JlqPHutlqQe1xw7mwVg9baVMFebyytWihVAutD_bPZs0x9A>
+    <xmx:Bd5YYYimDCwEr_h0ImYBRvk71nWMA2_Ffonah7m0LdYM5in_bm1rRA>
+    <xmx:Bt5YYRyL6bw7ctESdJ47OvY4c654oRJOS64QLo3qvUcb6D6jGOtaqA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 2 Oct 2021 18:32:32 -0400 (EDT)
+Date:   Sun, 3 Oct 2021 00:32:14 +0200
+From:   Fernando Ramos <greenfoo@u92.eu>
+To:     Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH v2 00/17] drm: cleanup: Use
+ DRM_MODESET_LOCK_ALL_* helpers where possible
+Message-ID: <YVjd7hLKtYG2bkY7@zacax395.localdomain>
+References: <20210924064324.229457-1-greenfoo@u92.eu>
+ <20211001183655.GW2515@art_vandelay>
+ <YVda4jNSGuQf50JV@intel.com>
+ <20211001204815.GA2515@art_vandelay>
+ <YVeGOyLzuhN7zzV7@intel.com>
+ <YVfEWaLfYWdhezCa@intel.com>
+ <YVgGklsHT5fkavDL@zacax395.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20211001150636.7500-5-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YVgGklsHT5fkavDL@zacax395.localdomain>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/1/21 6:06 PM, Biju Das wrote:
-
-> RZ/G2L SoC has Gigabit Ethernet IP consisting of Ethernet controller
-> (E-MAC), Internal TCP/IP Offload Engine (TOE) and Dedicated Direct
-> memory access controller (DMAC).
+On 21/10/02 09:13AM, Fernando Ramos wrote:
 > 
-> This patch adds compatible string for RZ/G2L and fills up the
-> ravb_hw_info struct. Function stubs are added which will be used by
-> gbeth_hw_info and will be filled incrementally.
-
-   I've always been against this patch -- we get a support for the GbEther whihc doesn't work
-after this patch. I believe we should have the GbEther support in the last patch. of the overall
-series.
-
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> RFC->v1:
->  * Added compatible string for RZ/G2L.
->  * Added feature bits max_rx_len, aligned_tx and tx_counters for RZ/G2L.
-> ---
->  drivers/net/ethernet/renesas/ravb.h      |  2 +
->  drivers/net/ethernet/renesas/ravb_main.c | 62 ++++++++++++++++++++++++
->  2 files changed, 64 insertions(+)
+> Sean, could you revert the whole patch series? I'll have a deeper look into the
+> patch set and come up with a v3 where all these issues will be addressed.
 > 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index c91e93e5590f..f6398fdcead2 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 8bf13586e90a..dc817b4d95a1 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-[...]
-> @@ -2073,12 +2120,27 @@ static const struct ravb_hw_info ravb_gen2_hw_info = {
->  	.nc_queue = 1,
->  };
->  
-> +static const struct ravb_hw_info gbeth_hw_info = {
-> +	.rx_ring_free = ravb_rx_ring_free_gbeth,
-> +	.rx_ring_format = ravb_rx_ring_format_gbeth,
-> +	.alloc_rx_desc = ravb_alloc_rx_desc_gbeth,
-> +	.receive = ravb_rx_gbeth,
-> +	.set_rate = ravb_set_rate_gbeth,
-> +	.set_feature = ravb_set_features_gbeth,
-> +	.dmac_init = ravb_dmac_init_gbeth,
-> +	.emac_init = ravb_emac_init_gbeth,
-> +	.max_rx_len = GBETH_RX_BUFF_MAX + RAVB_ALIGN - 1,
 
-   ALIGN(GBETH_RX_BUFF_MAX, RAVB_ALIGN)?
+Hi Sean,
 
-> +	.aligned_tx = 1,
-> +	.tx_counters = 1,
-> +};
-> +
+I now understand the nature of the issue that caused the problem with i915 and
+have proceed to remove the global context structure (which revealed a similar
+issue in the amdgpu driver).
 
-[...]
+I have prepared a V3 version of the patch set where these issues should
+hopefully be fixed for both the i915 and amdgpu drivers.
 
-MBR. Sergey
+In order to prevent causing more disruption, could you tell me what the proper
+way to proceed would be? In particular:
+
+  1. Is there any place where I can push my changes so that they are tested
+     on a i915 machine? (Some type of automated pool)
+
+  2. I can test the amdgpu driver on my machine but, what about all the other
+     architectures? What is the standard procedure? Should I simply publish V3
+     and wait for feedback from the different vendors? (I would hate to cause a
+     simular situation again)
+
+  3. Should I post V3 on top of drm-next or drm-misc-next?
+
+Thanks for your patience :)
