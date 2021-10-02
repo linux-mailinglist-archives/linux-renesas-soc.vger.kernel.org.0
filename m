@@ -2,83 +2,161 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8098D41FDAE
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 20:22:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DE4241FDBD
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 20:36:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233829AbhJBSYM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 2 Oct 2021 14:24:12 -0400
-Received: from mail-vk1-f177.google.com ([209.85.221.177]:45045 "EHLO
-        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233844AbhJBSYL (ORCPT
+        id S233850AbhJBShq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 2 Oct 2021 14:37:46 -0400
+Received: from mxout01.lancloud.ru ([45.84.86.81]:47532 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233872AbhJBShm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 2 Oct 2021 14:24:11 -0400
-Received: by mail-vk1-f177.google.com with SMTP id s137so5859385vke.11;
-        Sat, 02 Oct 2021 11:22:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lgYFGECkMM3zfEo/dmg94OtbjIf3E69UNOzLv03h1qA=;
-        b=T/dyIT/XHU94TgTYTSir394gp6q/jqpwfQnOP+4z4oiHlCSyIblQ25zk5GaISzFpPr
-         /KoLBzO4wNvSxGh1W3yNa/pN5OaYV6dsF4XBFigpWK9q6xXVrmhueeOl8/ZiVArC3vL8
-         GjxBPfgJ2WDIgTXy4eaDaKaX94NkPmsGcKCtsFzc8EFssBvG4ul152H2ATffJCFum53o
-         WVl9ChgNGLgpS7pBVcPF5AbcokZKwsqeRuoWmNIZ1QxyqhIunARTs5FkFZwtLSkxT5hy
-         sdUIQblb/hQMLEgaayzvws3aDwhM2kYVUfa7uNYfDppsVRJ1vKpXHkZ7uWoWq47Aqb5k
-         K4iA==
-X-Gm-Message-State: AOAM531leYad/5tkBoFz8x8BRNaNjfJavNRYSmRJF6wsNTFiu+zfbgzb
-        4oHs+7lCvJvDisleLJiCUqSP+F1uCfLtFF/FwYI=
-X-Google-Smtp-Source: ABdhPJwqppFP1oPDH04cVBPOsVKlnib0ULpmK2lW3bGkaEcAWvDIGAYuMcSdEBUyIimD9yIK2tzAJAac+qOEHmZXaAE=
-X-Received: by 2002:a1f:230c:: with SMTP id j12mr11783798vkj.11.1633198944857;
- Sat, 02 Oct 2021 11:22:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <54bed9a0e6991490ddb2b07e5abfaf40a7a62928.1633090577.git.geert+renesas@glider.be>
- <20211002155953.GA971127@bhelgaas>
-In-Reply-To: <20211002155953.GA971127@bhelgaas>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sat, 2 Oct 2021 20:22:13 +0200
-Message-ID: <CAMuHMdVRqW=v+AKsXKJkm7d_DUubF_zn3tRq560S9m5996PrHw@mail.gmail.com>
-Subject: Re: [PATCH] PCI: rcar: pcie-rcar-host: Remove unneeded includes
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Sat, 2 Oct 2021 14:37:42 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 578722091F09
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 03/10] ravb: Add nc_queue to struct ravb_hw_info
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        "Adam Ford" <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
+ <20211001150636.7500-4-biju.das.jz@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <334a8156-0645-b29c-137b-1e76d524efb9@omp.ru>
+Date:   Sat, 2 Oct 2021 21:35:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20211001150636.7500-4-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Bjorn,
+On 10/1/21 6:06 PM, Biju Das wrote:
 
-On Sat, Oct 2, 2021 at 6:00 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> Seems overkill to mention "rcar" and "pci" twice in the subject.  We
-> have so far not distinguished pcie-rcar-host.c and pcie-rcar-ep.c in
-> subject lines.
->
-> If we want to start doing that consistently, maybe we could use "PCI:
-> rcar-host:" and "PCI: rcar-ep:" as we have done for cadence-ep and
-> designware-ep.
+> R-Car supports network control queue whereas RZ/G2L does not support
+> it. Add nc_queue to struct ravb_hw_info, so that NC queue is handled
+> only by R-Car.
+> 
+> This patch also renames ravb_rcar_dmac_init to ravb_dmac_init_rcar
+> to be consistent with the naming convention used in sh_eth driver.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-I know.  But this is for PCIe, and there's also pci-rcar-gen2 for traditional
-PCI.
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-> On Fri, Oct 01, 2021 at 02:16:43PM +0200, Geert Uytterhoeven wrote:
-> > Remove includes that are not needed, to speed up (re)compilation.
-> > ...
+   One little nit below:
 
-Gr{oetje,eeting}s,
+> ---
+> RFC->v1:
+>  * Handled NC queue only for R-Car.
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      |   3 +-
+>  drivers/net/ethernet/renesas/ravb_main.c | 140 +++++++++++++++--------
+>  2 files changed, 94 insertions(+), 49 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index a33fbcb4aac3..c91e93e5590f 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -986,7 +986,7 @@ struct ravb_hw_info {
+>  	bool (*receive)(struct net_device *ndev, int *quota, int q);
+>  	void (*set_rate)(struct net_device *ndev);
+>  	int (*set_feature)(struct net_device *ndev, netdev_features_t features);
+> -	void (*dmac_init)(struct net_device *ndev);
+> +	int (*dmac_init)(struct net_device *ndev);
+>  	void (*emac_init)(struct net_device *ndev);
+>  	const char (*gstrings_stats)[ETH_GSTRING_LEN];
+>  	size_t gstrings_size;
+> @@ -1002,6 +1002,7 @@ struct ravb_hw_info {
+>  	unsigned multi_irqs:1;		/* AVB-DMAC and E-MAC has multiple irqs */
+>  	unsigned gptp:1;		/* AVB-DMAC has gPTP support */
+>  	unsigned ccc_gac:1;		/* AVB-DMAC has gPTP support active in config mode */
+> +	unsigned nc_queue:1;		/* AVB-DMAC has NC queue */
 
-                        Geert
+   Rather "queues" as there are RX and TX NC queues, no?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index dc7654abfe55..8bf13586e90a 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -1698,28 +1717,38 @@ static struct net_device_stats *ravb_get_stats(struct net_device *ndev)
+>  
+>  	nstats = &ndev->stats;
+>  	stats0 = &priv->stats[RAVB_BE];
+> -	stats1 = &priv->stats[RAVB_NC];
+>  
+>  	if (info->tx_counters) {
+>  		nstats->tx_dropped += ravb_read(ndev, TROCR);
+>  		ravb_write(ndev, 0, TROCR);	/* (write clear) */
+>  	}
+>  
+> -	nstats->rx_packets = stats0->rx_packets + stats1->rx_packets;
+> -	nstats->tx_packets = stats0->tx_packets + stats1->tx_packets;
+> -	nstats->rx_bytes = stats0->rx_bytes + stats1->rx_bytes;
+> -	nstats->tx_bytes = stats0->tx_bytes + stats1->tx_bytes;
+> -	nstats->multicast = stats0->multicast + stats1->multicast;
+> -	nstats->rx_errors = stats0->rx_errors + stats1->rx_errors;
+> -	nstats->rx_crc_errors = stats0->rx_crc_errors + stats1->rx_crc_errors;
+> -	nstats->rx_frame_errors =
+> -		stats0->rx_frame_errors + stats1->rx_frame_errors;
+> -	nstats->rx_length_errors =
+> -		stats0->rx_length_errors + stats1->rx_length_errors;
+> -	nstats->rx_missed_errors =
+> -		stats0->rx_missed_errors + stats1->rx_missed_errors;
+> -	nstats->rx_over_errors =
+> -		stats0->rx_over_errors + stats1->rx_over_errors;
+> +	nstats->rx_packets = stats0->rx_packets;
+> +	nstats->tx_packets = stats0->tx_packets;
+> +	nstats->rx_bytes = stats0->rx_bytes;
+> +	nstats->tx_bytes = stats0->tx_bytes;
+> +	nstats->multicast = stats0->multicast;
+> +	nstats->rx_errors = stats0->rx_errors;
+> +	nstats->rx_crc_errors = stats0->rx_crc_errors;
+> +	nstats->rx_frame_errors = stats0->rx_frame_errors;
+> +	nstats->rx_length_errors = stats0->rx_length_errors;
+> +	nstats->rx_missed_errors = stats0->rx_missed_errors;
+> +	nstats->rx_over_errors = stats0->rx_over_errors;
+> +	if (info->nc_queue) {
+> +		stats1 = &priv->stats[RAVB_NC];
+> +
+> +		nstats->rx_packets += stats1->rx_packets;
+> +		nstats->tx_packets += stats1->tx_packets;
+> +		nstats->rx_bytes += stats1->rx_bytes;
+> +		nstats->tx_bytes += stats1->tx_bytes;
+> +		nstats->multicast += stats1->multicast;
+> +		nstats->rx_errors += stats1->rx_errors;
+> +		nstats->rx_crc_errors += stats1->rx_crc_errors;
+> +		nstats->rx_frame_errors += stats1->rx_frame_errors;
+> +		nstats->rx_length_errors += stats1->rx_length_errors;
+> +		nstats->rx_missed_errors += stats1->rx_missed_errors;
+> +		nstats->rx_over_errors += stats1->rx_over_errors;
+> +	}
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+   Good! :-)
+
+[...]
+
+MBR, Sergey
