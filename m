@@ -2,188 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F7D741FD6A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 19:28:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A38A41FDA5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 20:19:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233670AbhJBR34 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 2 Oct 2021 13:29:56 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:45069 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233451AbhJBR3z (ORCPT
+        id S233779AbhJBSUz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 2 Oct 2021 14:20:55 -0400
+Received: from mxout02.lancloud.ru ([45.84.86.82]:34584 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233778AbhJBSUy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 2 Oct 2021 13:29:55 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 647E45804E9;
-        Sat,  2 Oct 2021 13:28:08 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Sat, 02 Oct 2021 13:28:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=N
-        dG2AiDGU0yyjfZEfSHSA1eX2my+Y7Dhy95tEwsxOEE=; b=EHf38XIxyX3AijX2q
-        ngopIdoNyr1T5LjiY1RSy1XuPrV8q1XjL/4tLTYscB1g0B6chFWCuxlMe9QImHiV
-        kUpLrMS9xdGbUshDw+eXNLhDLdgo8zVWBjqftwU0nnAVlbE+KFdfEpgLiDq38IZ4
-        AXamJNqMxQXQUKYBEugY/tcVm7z5aaZeWfLZgKrJsiQgRlW4aMI9ca3HhZF090fF
-        TY/u7r/lXgDW9S5blz3NC7PUxKj/TR7c8R646Q4AK7Nu9uCUNIXZXuEROSZtl92o
-        GYGRgcLS1zLTnpzVv/HMzNgUtzsoU8rYdAmiUHJVjxtvP/c6HfwAnyamZYrldcuB
-        93tzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=NdG2AiDGU0yyjfZEfSHSA1eX2my+Y7Dhy95tEwsxO
-        EE=; b=RrpcoIklxRRr1rba6cZd76mHODb8D+vtPu79QI+bAxxAMeXKLCDgaupqC
-        JBUzgot1VDDL+3oxEW+xFShKnLUv8F/9i97SMqx++QNxoq3x/LVndAw7I3HX3kdJ
-        /pJ7/W1ykkpDt+vPELlhrLDli4MI+GxLfSzApQw9pc2geW6yCJYw2aH9HHHcrcva
-        uSwZzMvBtjl2+H0v6OiyBRIYP9LmVlltLFMa267Jd579CWYYxFkJfi1BpSL9PqFK
-        aQfe+VLf7jqJ3oShgh3viO7+9jjJLuPfbRhF0qyGiIjt8ilL+WrvObsImLgTXnTr
-        M+oDUovLY3IvonoBXHDIz77IcXOLQ==
-X-ME-Sender: <xms:p5ZYYc6C5hKN4W1y5JtKH-pQV-GWgNVKCNp0gst7MYkbAFgbXncIXw>
-    <xme:p5ZYYd7hiKdkyl5vWoA78zGA5phD8s6tDgUtMlZBjWCMf5CXr0BN4kv6re3BEBXS4
-    dWP_07Ww8KH8SCIOw>
-X-ME-Received: <xmr:p5ZYYbf3PQTUIfpmiTMquywnIKLHp0OtfyBwiq7Vy2Og_pzRfgRNyWCRptIe86pa3FFNjg6T>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekkedgudduvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefhvghr
-    nhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrg
-    htthgvrhhnpeeghfffgedufeeuheevtddukedtteeikefgiefhudfhfeffjeetvedtgfff
-    keejudenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpmhhuthgvgidrsh
-    honecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhr
-    vggvnhhfohhosehuledvrdgvuh
-X-ME-Proxy: <xmx:qJZYYRJPiM7v-h_OyID40YuW8z7zHCbCpFD7_x7o2gIg1-LmMH0EzQ>
-    <xmx:qJZYYQKb7yPr7CSSefp3QHug76AGInQ4EfuSKY6xBTXXI7qCH73gFw>
-    <xmx:qJZYYSxoB7UTJoL9NFfxQdHs61p9oapG08SeOKgWK_YlS0lJB_xsxQ>
-    <xmx:qJZYYdDxWowz3_IF0LiVoWYot8015Y8My-CogxeqM1cnMlDwleOVxA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Oct 2021 13:28:04 -0400 (EDT)
-Date:   Sat, 2 Oct 2021 19:28:02 +0200
-From:   Fernando Ramos <greenfoo@u92.eu>
-To:     Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [Intel-gfx] [PATCH v2 00/17] drm: cleanup: Use
- DRM_MODESET_LOCK_ALL_* helpers where possible
-Message-ID: <YViWomXZWdy/81uT@zacax395.localdomain>
-References: <20210924064324.229457-1-greenfoo@u92.eu>
- <20211001183655.GW2515@art_vandelay>
- <YVda4jNSGuQf50JV@intel.com>
- <20211001204815.GA2515@art_vandelay>
- <YVeGOyLzuhN7zzV7@intel.com>
- <YVfEWaLfYWdhezCa@intel.com>
- <YVgGklsHT5fkavDL@zacax395.localdomain>
+        Sat, 2 Oct 2021 14:20:54 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru B05912084EBC
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 02/10] ravb: Rename "no_ptp_cfg_active" and
+ "ptp_cfg_active" variables
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
+ <20211001150636.7500-3-biju.das.jz@bp.renesas.com>
+ <232c6ad6-c35b-76c0-2800-e05ca2631048@omp.ru>
+ <OS0PR01MB59225BB8DF5AE4811158563786AC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <88414688-cf04-0dc9-4583-b860a04791c2@omp.ru>
+Date:   Sat, 2 Oct 2021 21:19:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YVgGklsHT5fkavDL@zacax395.localdomain>
+In-Reply-To: <OS0PR01MB59225BB8DF5AE4811158563786AC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 21/10/02 09:13AM, Fernando Ramos wrote:
-> On 21/10/02 05:30AM, Ville Syrjälä wrote:
-> > On Sat, Oct 02, 2021 at 01:05:47AM +0300, Ville Syrjälä wrote:
-> > > On Fri, Oct 01, 2021 at 04:48:15PM -0400, Sean Paul wrote:
-> > > > On Fri, Oct 01, 2021 at 10:00:50PM +0300, Ville Syrjälä wrote:
-> > > > > On Fri, Oct 01, 2021 at 02:36:55PM -0400, Sean Paul wrote:
-> > > > > > 
-> > > > > > Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
-> > > > > > with the necessary drm-tip conflict resolutions).
-> > > > > 
-> > > > > Ugh. Did anyone actually review the locking changes this does?
-> > > > > I shot the previous i915 stuff down because the commit messages
-> > > > > did not address any of it.
-> > > > 
-> > > > I reviewed the set on 9/17, I didn't see your feedback on that thread.
-> > > 
-> > > It was much earlir than that.
-> > > https://lists.freedesktop.org/archives/dri-devel/2021-June/313193.html
+Hello!
 
-Sorry, I'm new to this and it did not occur to me to search for similar patches
-in the mailing list archives in case there were additional comments that applied
-to my change set.
+   Damn, DaveM continues ignoring my review efforts... :-( will finish reviewing the series anyway.
 
-In case I had done that I would have found that, as you mentioned, you had
-already raised two issues back in June:
+On 10/2/21 10:53 AM, Biju Das wrote:
 
-    On Tue, Jun 29, 2021, Ville Syrjälä wrote:
-    >
-    > That looks wrong. You're using a private ctx here, but still
-    > passing dev->mode_config.acquire_ctx to the lower level stuff.
-    > 
-    > Also DRM_MODESET_LOCK_ALL_{BEGIN,END}() do not seem to be
-    > equivalent to drm_modeset_{lock,unlock}_all() when it comes to 
-    > mode_config.mutex. So would need a proper review whether we
-    > actually need that lock or not.
+>> Subject: Re: [PATCH 02/10] ravb: Rename "no_ptp_cfg_active" and
+>> "ptp_cfg_active" variables
+>>
+>> On 10/1/21 6:06 PM, Biju Das wrote:
+>>
+>>> Rename the variable "no_ptp_cfg_active" with "gptp" and
+>>
+>>    This shouldn't be a rename but the extension of the meaning instead...
+> 
+> This is the original ptp support for both R-Car Gen3 and R-Car Gen2 without config in active mode. Later we added feature support active in config mode for R-Car Gen3 by patch[1].
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/net/ethernet/renesas/ravb_main.c?h=v5.15-rc3&id=f5d7837f96e53a8c9b6c49e1bc95cf0ae88b99e8
 
-The first one was pointing out the same error I would later repeat in my patch
-series (ups).
+   And? Do you think I don't remember the driver development history? :-)
 
-After further inspection of the code it looks to me that changing this:
+>>> "ptp_cfg_active" with "ccc_gac" to match the HW features.
+>>>
+>>> There is no functional change.
+>>>
+>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> Suggested-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+>>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> ---
+>>> RFc->v1:
+>>>  * Renamed the variable "no_ptp_cfg_active" with "gptp" and
+>>>    "ptp_cfg_active" with "ccc_gac
+>>> ---
+>>>  drivers/net/ethernet/renesas/ravb.h      |  4 ++--
+>>>  drivers/net/ethernet/renesas/ravb_main.c | 26
+>>> ++++++++++++------------
+>>>  2 files changed, 15 insertions(+), 15 deletions(-)
+>>
+>> [...]
+>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c
+>>> b/drivers/net/ethernet/renesas/ravb_main.c
+>>> index 8f2358caef34..dc7654abfe55 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>> @@ -1274,7 +1274,7 @@ static int ravb_set_ringparam(struct net_device
+>> *ndev,
+>>>  	if (netif_running(ndev)) {
+>>>  		netif_device_detach(ndev);
+>>>  		/* Stop PTP Clock driver */
+>>> -		if (info->no_ptp_cfg_active)
+>>> +		if (info->gptp)
+>>
+>>    Where have you lost !info->ccc_gac?
+> 
+>   As per patch[1], the check is for R-Car Gen2. Why do you need additional check
+> as per the current driver?
 
-    intel_modeset_setup_hw_state(dev, dev->mode_config.acquire_ctx);
+   Because the driver now supports not only gen2, but also gen3, and RZ/G2L, finally.
 
-...into this:
+> I see below you are proposing to enable both "gptp" and "ccc_gac" for R-Car Gen3,
 
-    intel_modeset_setup_hw_state(dev, &ctx);
+   Yes, this is how the hardware evolved. gPTP hardware can (optionally) be active outside
+the config mode, otherwise there's no difference b/w gen2 and gen3.
 
-...would be enough.
+> According to me it is a feature improvement for R-Car Gen3 in which, you can have
+> 
+> 1) gPTP support active in config mode
+> 2) gPTP support not active in config mode
 
-Why? The only difference between the old drm_modeset_{lock,unlock}_all()
-functions and the new DRM_MODESET_LOCK_ALL_{BEGIN,END}() macros is that the
-former use a global context stored in dev->mode_config.acquire_ctx while the
-latter depend on a user provided one (typically in the stack).
+   Right.
 
-In the old (working) code the global context structure is freed in
-drm_modeset_unlock_all() thus we are sure no one is holding a reference to it at
-that point. This means that as long as no one accesses the global
-dev->mode_config.acquire_ctx context in the block that runs between lock/BEGIN
-and unlock/END, the code should be equivalent before and after my changes.
+> But the existing driver code just support "gPTP support active in config mode" for R-Car Gen3.
 
-In fact, now that my patch series removes the drm_modeset_{lock,unlock}_all()
-functions, the acquire_ctx field of the drm_mode_config structure should be
-deleted:
+   And?
 
-    /**
-     * @acquire_ctx:
-     *
-     * Global implicit acquire context used by atomic drivers for legacy
-     * IOCTLs. Deprecated, since implicit locking contexts make it
-     * impossible to use driver-private &struct drm_modeset_lock. Users of
-     * this must hold @mutex.
-     */
-    struct drm_modeset_acquire_ctx *acquire_ctx;
+> Do you want me to do feature improvement as well, as part of Gbethernet support?
 
-If I had done that (ie. removing this field) I would have detected the problem
-when compiling.
+   I thought we agreed on this patch in the previous iteration, To be more clear, by asking
+to remove the "double negation", I meant using:
 
-There is another place (in the amdgpu driver) where this field is still being
-referenced, but before I investigate that I would like to know if you agree that
-this is a good path to follow.
+	if (info->gptp && !info->ccc_gac)
 
-Regarding the second issue you raised...
+versus your:
 
-    > Also DRM_MODESET_LOCK_ALL_{BEGIN,END}() do not seem to be
-    > equivalent to drm_modeset_{lock,unlock}_all() when it comes to 
-    > mode_config.mutex. So would need a proper review whether we
-    > actually need that lock or not.
+	if (!info->no_gptp && !info->ccc_gac)
 
-...the only difference regarding mode_config.mutex I see is that in the new
-macros the mutex is locked only under this condition:
+> Please let me know your thoughts.
+> 
+> The same comments applies to all the comments you have mentioned below.
+> 
+> Regards,
+> Biju
 
-    if (!drm_drv_uses_atomic_modeset(dev))
+[...]
 
-...which seems reasonable, right? Is this what you were referring to or is it
-something else?
-
-Please let me know what you think.
-
-Thanks!
-
-
-
+MBR, Sergey
