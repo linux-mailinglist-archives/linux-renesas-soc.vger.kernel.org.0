@@ -2,151 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A38A41FDA5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 20:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8098D41FDAE
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 20:22:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233779AbhJBSUz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 2 Oct 2021 14:20:55 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:34584 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233778AbhJBSUy (ORCPT
+        id S233829AbhJBSYM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 2 Oct 2021 14:24:12 -0400
+Received: from mail-vk1-f177.google.com ([209.85.221.177]:45045 "EHLO
+        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233844AbhJBSYL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 2 Oct 2021 14:20:54 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru B05912084EBC
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH 02/10] ravb: Rename "no_ptp_cfg_active" and
- "ptp_cfg_active" variables
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
- <20211001150636.7500-3-biju.das.jz@bp.renesas.com>
- <232c6ad6-c35b-76c0-2800-e05ca2631048@omp.ru>
- <OS0PR01MB59225BB8DF5AE4811158563786AC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <88414688-cf04-0dc9-4583-b860a04791c2@omp.ru>
-Date:   Sat, 2 Oct 2021 21:19:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Sat, 2 Oct 2021 14:24:11 -0400
+Received: by mail-vk1-f177.google.com with SMTP id s137so5859385vke.11;
+        Sat, 02 Oct 2021 11:22:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lgYFGECkMM3zfEo/dmg94OtbjIf3E69UNOzLv03h1qA=;
+        b=T/dyIT/XHU94TgTYTSir394gp6q/jqpwfQnOP+4z4oiHlCSyIblQ25zk5GaISzFpPr
+         /KoLBzO4wNvSxGh1W3yNa/pN5OaYV6dsF4XBFigpWK9q6xXVrmhueeOl8/ZiVArC3vL8
+         GjxBPfgJ2WDIgTXy4eaDaKaX94NkPmsGcKCtsFzc8EFssBvG4ul152H2ATffJCFum53o
+         WVl9ChgNGLgpS7pBVcPF5AbcokZKwsqeRuoWmNIZ1QxyqhIunARTs5FkFZwtLSkxT5hy
+         sdUIQblb/hQMLEgaayzvws3aDwhM2kYVUfa7uNYfDppsVRJ1vKpXHkZ7uWoWq47Aqb5k
+         K4iA==
+X-Gm-Message-State: AOAM531leYad/5tkBoFz8x8BRNaNjfJavNRYSmRJF6wsNTFiu+zfbgzb
+        4oHs+7lCvJvDisleLJiCUqSP+F1uCfLtFF/FwYI=
+X-Google-Smtp-Source: ABdhPJwqppFP1oPDH04cVBPOsVKlnib0ULpmK2lW3bGkaEcAWvDIGAYuMcSdEBUyIimD9yIK2tzAJAac+qOEHmZXaAE=
+X-Received: by 2002:a1f:230c:: with SMTP id j12mr11783798vkj.11.1633198944857;
+ Sat, 02 Oct 2021 11:22:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <OS0PR01MB59225BB8DF5AE4811158563786AC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+References: <54bed9a0e6991490ddb2b07e5abfaf40a7a62928.1633090577.git.geert+renesas@glider.be>
+ <20211002155953.GA971127@bhelgaas>
+In-Reply-To: <20211002155953.GA971127@bhelgaas>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sat, 2 Oct 2021 20:22:13 +0200
+Message-ID: <CAMuHMdVRqW=v+AKsXKJkm7d_DUubF_zn3tRq560S9m5996PrHw@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rcar: pcie-rcar-host: Remove unneeded includes
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Bjorn,
 
-   Damn, DaveM continues ignoring my review efforts... :-( will finish reviewing the series anyway.
+On Sat, Oct 2, 2021 at 6:00 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> Seems overkill to mention "rcar" and "pci" twice in the subject.  We
+> have so far not distinguished pcie-rcar-host.c and pcie-rcar-ep.c in
+> subject lines.
+>
+> If we want to start doing that consistently, maybe we could use "PCI:
+> rcar-host:" and "PCI: rcar-ep:" as we have done for cadence-ep and
+> designware-ep.
 
-On 10/2/21 10:53 AM, Biju Das wrote:
+I know.  But this is for PCIe, and there's also pci-rcar-gen2 for traditional
+PCI.
 
->> Subject: Re: [PATCH 02/10] ravb: Rename "no_ptp_cfg_active" and
->> "ptp_cfg_active" variables
->>
->> On 10/1/21 6:06 PM, Biju Das wrote:
->>
->>> Rename the variable "no_ptp_cfg_active" with "gptp" and
->>
->>    This shouldn't be a rename but the extension of the meaning instead...
-> 
-> This is the original ptp support for both R-Car Gen3 and R-Car Gen2 without config in active mode. Later we added feature support active in config mode for R-Car Gen3 by patch[1].
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/net/ethernet/renesas/ravb_main.c?h=v5.15-rc3&id=f5d7837f96e53a8c9b6c49e1bc95cf0ae88b99e8
+> On Fri, Oct 01, 2021 at 02:16:43PM +0200, Geert Uytterhoeven wrote:
+> > Remove includes that are not needed, to speed up (re)compilation.
+> > ...
 
-   And? Do you think I don't remember the driver development history? :-)
+Gr{oetje,eeting}s,
 
->>> "ptp_cfg_active" with "ccc_gac" to match the HW features.
->>>
->>> There is no functional change.
->>>
->>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>> Suggested-by: Sergey Shtylyov <s.shtylyov@omp.ru>
->>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>> ---
->>> RFc->v1:
->>>  * Renamed the variable "no_ptp_cfg_active" with "gptp" and
->>>    "ptp_cfg_active" with "ccc_gac
->>> ---
->>>  drivers/net/ethernet/renesas/ravb.h      |  4 ++--
->>>  drivers/net/ethernet/renesas/ravb_main.c | 26
->>> ++++++++++++------------
->>>  2 files changed, 15 insertions(+), 15 deletions(-)
->>
->> [...]
->>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c
->>> b/drivers/net/ethernet/renesas/ravb_main.c
->>> index 8f2358caef34..dc7654abfe55 100644
->>> --- a/drivers/net/ethernet/renesas/ravb_main.c
->>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->>> @@ -1274,7 +1274,7 @@ static int ravb_set_ringparam(struct net_device
->> *ndev,
->>>  	if (netif_running(ndev)) {
->>>  		netif_device_detach(ndev);
->>>  		/* Stop PTP Clock driver */
->>> -		if (info->no_ptp_cfg_active)
->>> +		if (info->gptp)
->>
->>    Where have you lost !info->ccc_gac?
-> 
->   As per patch[1], the check is for R-Car Gen2. Why do you need additional check
-> as per the current driver?
+                        Geert
 
-   Because the driver now supports not only gen2, but also gen3, and RZ/G2L, finally.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> I see below you are proposing to enable both "gptp" and "ccc_gac" for R-Car Gen3,
-
-   Yes, this is how the hardware evolved. gPTP hardware can (optionally) be active outside
-the config mode, otherwise there's no difference b/w gen2 and gen3.
-
-> According to me it is a feature improvement for R-Car Gen3 in which, you can have
-> 
-> 1) gPTP support active in config mode
-> 2) gPTP support not active in config mode
-
-   Right.
-
-> But the existing driver code just support "gPTP support active in config mode" for R-Car Gen3.
-
-   And?
-
-> Do you want me to do feature improvement as well, as part of Gbethernet support?
-
-   I thought we agreed on this patch in the previous iteration, To be more clear, by asking
-to remove the "double negation", I meant using:
-
-	if (info->gptp && !info->ccc_gac)
-
-versus your:
-
-	if (!info->no_gptp && !info->ccc_gac)
-
-> Please let me know your thoughts.
-> 
-> The same comments applies to all the comments you have mentioned below.
-> 
-> Regards,
-> Biju
-
-[...]
-
-MBR, Sergey
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
