@@ -2,70 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7898641FC32
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 15:20:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DBCF41FCE7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 17:59:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233253AbhJBNVy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 2 Oct 2021 09:21:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60024 "EHLO mail.kernel.org"
+        id S233351AbhJBQBn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 2 Oct 2021 12:01:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57776 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233186AbhJBNVx (ORCPT
+        id S232575AbhJBQBm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 2 Oct 2021 09:21:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 2FE7961B26;
-        Sat,  2 Oct 2021 13:20:08 +0000 (UTC)
+        Sat, 2 Oct 2021 12:01:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B56261A58;
+        Sat,  2 Oct 2021 15:59:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633180808;
-        bh=F0/VjbPA67Osj1PdCdSH/KgjXfSKUxM3daMY1uw4XT8=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=BmYr7Ufqfrgy+TafjsgrJsk7Cei4rUr1YEbYMRgDugDFV/+vwACWcHGRwjAA/2j8m
-         F1x1riGvt8mrK6fIX9UWMU/IktoK/w7H80XBsRYIV/aEAqM9YLrrC9bPZPP9lLZavz
-         RJdbf+5NJtsu5T9+xrmwKEqPHvjSB9LpMfuYuh36T6ZOaxNYwBXGCxdwLbAJtyLs9q
-         VJx4eHrB8m3Bb1O3UpA6SjeLLZe1yZD8KgTToIz7KqkRC9rMenKYlm/RQAD8M0gYo1
-         tGPHitQXZbRnD0+zMPgQKsqcq0TDEN7LIyU+DW0F42Cya6P2vcFmtEOa0PbQDAlkO8
-         dtfh961RFkLgQ==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 23F3960AA0;
-        Sat,  2 Oct 2021 13:20:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] dt-bindings: net: renesas,ether: Update example to match
- reality
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <163318080814.29287.18142746828049942976.git-patchwork-notify@kernel.org>
-Date:   Sat, 02 Oct 2021 13:20:08 +0000
-References: <a1cf8a6ccca511e948075c4e20eea2e2ba001c2c.1633090323.git.geert+renesas@glider.be>
-In-Reply-To: <a1cf8a6ccca511e948075c4e20eea2e2ba001c2c.1633090323.git.geert+renesas@glider.be>
+        s=k20201202; t=1633190396;
+        bh=r5CLcFytEsB39CQqbUfFqtdEBCKXE6lCh/UIkKS5vUA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=q0lLSUECLCtw9NFfFXbo9oK/eQik0rHu3QBF/euvXMVBTqKS7W8xk9n/tfEn2IO7H
+         KRwm1m2T04DvF8TqieAt/oTmLZFjG3zdJWaEcVb2lP2ogELtV7nqQ2hdFDaJ1dodvS
+         LZk3Uvo5/E7d/q7j9mjAFuKdFd3QX8N17RX7rJiHR+zkpmtne6Pv6Hc18otHEVq/hR
+         HIwJkIXOqMCVI4ww9niTJYCqiqFcqDgbxPwObK4qeKXMyP+PegvIYk4qOLAL4010K2
+         pOUg8dBkV/H5VXkZrW7W1i43lpIuKlVQOes0/dPuu6K4ZLTLD2R/LwGt65HGQYghUe
+         d0AiKdXdq8tNw==
+Date:   Sat, 2 Oct 2021 10:59:53 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     s.shtylyov@omp.ru, davem@davemloft.net, kuba@kernel.org,
-        robh+dt@kernel.org, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] PCI: rcar: pcie-rcar-host: Remove unneeded includes
+Message-ID: <20211002155953.GA971127@bhelgaas>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54bed9a0e6991490ddb2b07e5abfaf40a7a62928.1633090577.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Seems overkill to mention "rcar" and "pci" twice in the subject.  We
+have so far not distinguished pcie-rcar-host.c and pcie-rcar-ep.c in
+subject lines.
 
-This patch was applied to netdev/net-next.git (refs/heads/master):
+If we want to start doing that consistently, maybe we could use "PCI:
+rcar-host:" and "PCI: rcar-ep:" as we have done for cadence-ep and
+designware-ep.
 
-On Fri,  1 Oct 2021 14:13:20 +0200 you wrote:
-> - Drop unneeded interrupt-parent,
->   - Convert to new style CPG/MSSR bindings,
->   - Add missing power-domains and resets properties,
->   - Update PHY subnode:
->       - Add example compatible values,
->       - Add micrel,led-mode and reset-gpios examples.
-> 
-> [...]
-
-Here is the summary with links:
-  - dt-bindings: net: renesas,ether: Update example to match reality
-    https://git.kernel.org/netdev/net-next/c/63b1bae940a9
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+On Fri, Oct 01, 2021 at 02:16:43PM +0200, Geert Uytterhoeven wrote:
+> Remove includes that are not needed, to speed up (re)compilation.
+> ...
