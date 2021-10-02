@@ -2,117 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9840D41F8D6
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 02:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED70341F964
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Oct 2021 04:30:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232222AbhJBA4V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Oct 2021 20:56:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56844 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231628AbhJBA4S (ORCPT
+        id S232474AbhJBCcj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Oct 2021 22:32:39 -0400
+Received: from mga17.intel.com ([192.55.52.151]:57897 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230386AbhJBCcj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Oct 2021 20:56:18 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21FC1C061775
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Oct 2021 17:54:33 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id y23so5741343lfb.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Oct 2021 17:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=2wsRq/ajxwUJkBE+PhgJg+DVvYk3pVsO7j0TG7nuEIw=;
-        b=A07vTvrETFdwuckhChSe786ddI2HgpmdTOmIYnNQ3kQS/fERxiBkggvWKMVlv9aucI
-         lzwuLVSfCHosI/wgApmulGin5m9plQozeVdeDUAfhAfDXdF5Mx2qFIOgAByebv1zLYLC
-         Y5DSLyrm/THBSZgn2/Yx+CypIIzjR9JbGyxvJ7n7tD3sqIVXam7MyR2IuAyQ7AsTTPYB
-         2ygKXG7BMdsh9mY1JNJ3prMaGO3Akoa/+UhV5voBOYY7j4OG0yiiyZDusrDsWIi4LtH5
-         keXlm+5JsVAx04FgF8FhywRAlHVrJvMXlZNBuOL7b62M8HyeVRzpwpx3egTKWlxYGWfy
-         DjMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=2wsRq/ajxwUJkBE+PhgJg+DVvYk3pVsO7j0TG7nuEIw=;
-        b=8PbfFs2898wipeuIcmGJ+/KCcmsPU1KdvoWW9z+eGfeka53yPJgVs7kGxdk8dtktkI
-         2lrlSHrm7caIyFMUEoji+aX28C/eDqwJ5t0t02Ts4uFYoiDvPlvitwQ6CgxtzuXFYdjv
-         IN7Fn76ez8Pl78l4aMiGRHPksDRY/DgQHO0VOZs02u7VK5//3IwXM2SB0rpjO9+NNiU8
-         x5uwEV8O2H6QcFpt+k+M55m/N9wMjWrl4Qq1/z5oDGOSf2UGhhhJmgn0tBAa8fLp+otz
-         4SZsz+9tnYknAsIvlsT4uuWu454p4yfqH1BIwFWmmFK/zeVfIIgjC/9jpU35XvoELwpA
-         5A5w==
-X-Gm-Message-State: AOAM532rhvEfD/MVWF7FD/rR78i1uAQDDhNS4cLnfCqi9MrR9ox5rQu3
-        OTN6fzWtUdTwhBxo0wzd0ac29w==
-X-Google-Smtp-Source: ABdhPJwLTnEgVGnvm84laUxgvNcto0UDXBfNgUyZmS94AiFtHZJBO3j6blFVn8v7liMgetjRUGP/Gw==
-X-Received: by 2002:a2e:a688:: with SMTP id q8mr997155lje.7.1633136071561;
-        Fri, 01 Oct 2021 17:54:31 -0700 (PDT)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id w4sm974355lfr.150.2021.10.01.17.54.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Oct 2021 17:54:31 -0700 (PDT)
-Date:   Sat, 2 Oct 2021 02:54:30 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: rcar: pcie-rcar-host: Remove unneeded includes
-Message-ID: <YVetxthvPMF5HC+f@oden.dyn.berto.se>
-References: <54bed9a0e6991490ddb2b07e5abfaf40a7a62928.1633090577.git.geert+renesas@glider.be>
+        Fri, 1 Oct 2021 22:32:39 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10124"; a="205792401"
+X-IronPort-AV: E=Sophos;i="5.85,340,1624345200"; 
+   d="scan'208";a="205792401"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2021 19:30:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,340,1624345200"; 
+   d="scan'208";a="521577655"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+  by fmsmga008.fm.intel.com with SMTP; 01 Oct 2021 19:30:49 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Sat, 02 Oct 2021 05:30:49 +0300
+Date:   Sat, 2 Oct 2021 05:30:49 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Sean Paul <sean@poorly.run>
+Cc:     Fernando Ramos <greenfoo@u92.eu>, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH v2 00/17] drm: cleanup: Use
+ DRM_MODESET_LOCK_ALL_* helpers where possible
+Message-ID: <YVfEWaLfYWdhezCa@intel.com>
+References: <20210924064324.229457-1-greenfoo@u92.eu>
+ <20211001183655.GW2515@art_vandelay>
+ <YVda4jNSGuQf50JV@intel.com>
+ <20211001204815.GA2515@art_vandelay>
+ <YVeGOyLzuhN7zzV7@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <54bed9a0e6991490ddb2b07e5abfaf40a7a62928.1633090577.git.geert+renesas@glider.be>
+In-Reply-To: <YVeGOyLzuhN7zzV7@intel.com>
+X-Patchwork-Hint: comment
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thanks for your patch.
-
-On 2021-10-01 14:16:43 +0200, Geert Uytterhoeven wrote:
-> Remove includes that are not needed, to speed up (re)compilation.
+On Sat, Oct 02, 2021 at 01:05:47AM +0300, Ville Syrjälä wrote:
+> On Fri, Oct 01, 2021 at 04:48:15PM -0400, Sean Paul wrote:
+> > On Fri, Oct 01, 2021 at 10:00:50PM +0300, Ville Syrjälä wrote:
+> > > On Fri, Oct 01, 2021 at 02:36:55PM -0400, Sean Paul wrote:
+> > > > On Fri, Sep 24, 2021 at 08:43:07AM +0200, Fernando Ramos wrote:
+> > > > > Hi all,
+> > > > > 
+> > > > > One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+> > > > > "use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
+> > > > > patch series is about.
+> > > > > 
+> > > > > You will find two types of changes here:
+> > > > > 
+> > > > >   - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
+> > > > >     "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
+> > > > >     already been done in previous commits such as b7ea04d2)
+> > > > > 
+> > > > >   - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
+> > > > >     in the remaining places (as it has already been done in previous commits
+> > > > >     such as 57037094)
+> > > > >     
+> > > > > Most of the changes are straight forward, except for a few cases in the "amd"
+> > > > > and "i915" drivers where some extra dancing was needed to overcome the
+> > > > > limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
+> > > > > once inside the same function (the reason being that the macro expansion
+> > > > > includes *labels*, and you can not have two labels named the same inside one
+> > > > > function)
+> > > > > 
+> > > > > Notice that, even after this patch series, some places remain where
+> > > > > "drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
+> > > > > all inside drm core (which makes sense), except for two (in "amd" and "i915")
+> > > > > which cannot be replaced due to the way they are being used.
+> > > > > 
+> > > > > Changes in v2:
+> > > > > 
+> > > > >   - Fix commit message typo
+> > > > >   - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
+> > > > >   - Split drm/i915 patch into two simpler ones
+> > > > >   - Remove drm_modeset_(un)lock_all()
+> > > > >   - Fix build problems in non-x86 platforms
+> > > > > 
+> > > > > Fernando Ramos (17):
+> > > > >   drm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() part 2
+> > > > >   drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm: cleanup: remove drm_modeset_(un)lock_all()
+> > > > >   doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
+> > > > > 
+> > > > 
+> > > > Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
+> > > > with the necessary drm-tip conflict resolutions).
+> > > 
+> > > Ugh. Did anyone actually review the locking changes this does?
+> > > I shot the previous i915 stuff down because the commit messages
+> > > did not address any of it.
+> > 
+> > I reviewed the set on 9/17, I didn't see your feedback on that thread.
 > 
-> Most of these are relics from splitting the driver in a host and a
-> common part.
+> It was much earlir than that.
+> https://lists.freedesktop.org/archives/dri-devel/2021-June/313193.html
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> And I think I might have also shot down a similar thing earlier.
+> 
+> I was actually half considering sending a patch to nuke that
+> misleading TODO item. I don't think anything which changes
+> which locks are taken should be considred a starter level task.
+> And the commit messages here don't seem to address any of it.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+And i915 is now broken :(
 
-> ---
->  drivers/pci/controller/pcie-rcar-host.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-> index 8f3131844e7778cf..e12c2d8be05a34e2 100644
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
-> @@ -24,13 +24,11 @@
->  #include <linux/msi.h>
->  #include <linux/of_address.h>
->  #include <linux/of_irq.h>
-> -#include <linux/of_pci.h>
->  #include <linux/of_platform.h>
->  #include <linux/pci.h>
->  #include <linux/phy/phy.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> -#include <linux/slab.h>
->  
->  #include "pcie-rcar.h"
->  
-> -- 
-> 2.25.1
-> 
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_10680/fi-bwr-2160/boot.html
 
 -- 
-Regards,
-Niklas Söderlund
+Ville Syrjälä
+Intel
