@@ -2,96 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C14804201CF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Oct 2021 15:53:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF00342041E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Oct 2021 23:48:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230184AbhJCNzN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 3 Oct 2021 09:55:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59874 "EHLO
+        id S231583AbhJCVuT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 Oct 2021 17:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230050AbhJCNzM (ORCPT
+        with ESMTP id S231685AbhJCVuS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 3 Oct 2021 09:55:12 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32517C0613EC
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Oct 2021 06:53:25 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9A727A2A;
-        Sun,  3 Oct 2021 15:53:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633269203;
-        bh=i2COgYweNcWFegEI95TYlq2aE0WKAid8UjmSCsbuI0A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fbpRWJAEnljbkMmQ9PZJJJVeFaY1fIZ9SmXj+/AKXMSku1abWmVAbqgAD0VgV/bxr
-         rMKZHuDTyyjEUkOBsDTXOCSCvkji2sN1RntdD4Ab7Q9lWWqxK/o2Bai73Njni0Hv8h
-         k2GPyzXKvgPxXHkyNMGj0ba5vPFWvOM4aznFAUu0=
-Date:   Sun, 3 Oct 2021 16:53:19 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] drm: rcar-du: Don't create encoder for unconnected LVDS
- outputs
-Message-ID: <YVm1zyrlrTqYCgC+@pendragon.ideasonboard.com>
-References: <20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com>
- <CAMuHMdWSqSb37srBG0XB-vX5ERmjDBia07k_-s2Zg=bUsQCSyA@mail.gmail.com>
- <YSO2h40mJN17FGvd@pendragon.ideasonboard.com>
- <CAMuHMdW6Y4rhcH4EfjnzkPvWhm2ok=7E_3Cswe=5bnozGzpmGA@mail.gmail.com>
+        Sun, 3 Oct 2021 17:50:18 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7421C061780
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Oct 2021 14:48:30 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id y23so24090183lfb.0
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 03 Oct 2021 14:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=voNTUJHRu2p0UrOJPaevC7glSoKCJY7cp+CEopXnX20=;
+        b=e2jLdC8flb8LbQcSIxibdfPUHmn3/F7lbP3/na8/xQar0yZm433oYS0khqC7CxWZOy
+         ixb7ouFnpABfjTA070mGjDq4TZE+wmZLmHDwOZL89EL0QH/CD7XBcRf+qkPmlJXm9oDY
+         bF3tMUkAOIGFR2Qtl9fma8OrdF/Mv4PMs+0bve0EYY9Kb2XLtXodgENoMgcCrGgU2Fxn
+         eQKVz+vspDgUFLY8WkWZ2uKhQ1DwumInig89rSNjDmjEd18EUrHDeQhhStW1NvYJFh1k
+         cnVt0BS4Mi0cU8EIRPIahNa/yjnjlLPaMf4GQW0dKFF24aXF0nsW9QnJ5Ys+bfHbrY7i
+         P6uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=voNTUJHRu2p0UrOJPaevC7glSoKCJY7cp+CEopXnX20=;
+        b=F1ODD98nkaOlBJ9MbeBxl+CYqCDbORBKd5SUPV4jAOkWOmEtUtSH/nSNxM0D7Q7O2Y
+         7Mw+Rc4pc86b21CH6VgVLklHfXpNMFJ8+EF1yDBgCH7kNBR8iah4UNw+s505l2Xh+ka2
+         9wfacpUQrlKnTJDXcRFp+3i6QvaFQ2qEI4MXt4m1Rb3YMmWVKfQ/DL3JcMc6dYukPoM8
+         /su4w5fxLA4Mg6QJa78i4h8XE5WPeQIkp5J+QV1InrYIfC1XglMNRXiUI208Qeaumboy
+         x8s+b0iYxuOBYeXs7EMve8FAOUWc2z5bxBfN+3F1M3amj4/CYBDNnGAWDO/S5so3khTw
+         yIaw==
+X-Gm-Message-State: AOAM531/e/XKWtMCm8pQqCmkg3ic9VbPaf8RWmlPfnzBC8OUZReSrRet
+        0roicP7/SLJFjUhgngmbUpxZTEKSPZeMscgxaw7plA==
+X-Google-Smtp-Source: ABdhPJwEgGAcpb775Cmq4Z4ILsnDI0eImSxuZGOBztzFK4T3jodRimaYgKJB02ynnI+EAvr3kgLgtmqriSzBRKtnsJc=
+X-Received: by 2002:a2e:8011:: with SMTP id j17mr11603489ljg.145.1633297708485;
+ Sun, 03 Oct 2021 14:48:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdW6Y4rhcH4EfjnzkPvWhm2ok=7E_3Cswe=5bnozGzpmGA@mail.gmail.com>
+References: <cover.1633081630.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1633081630.git.geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 3 Oct 2021 23:48:17 +0200
+Message-ID: <CACRpkdY0ZgsYKHpcRaFEVustfivt9V0UKQ1tuHgb5HXMmaYAXg@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.16
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Fri, Oct 1, 2021 at 11:48 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-On Tue, Sep 28, 2021 at 10:55:57AM +0200, Geert Uytterhoeven wrote:
-> On Mon, Aug 23, 2021 at 4:54 PM Laurent Pinchart wrote:
-> > On Mon, Aug 23, 2021 at 02:25:32PM +0200, Geert Uytterhoeven wrote:
-> > > On Sun, Aug 22, 2021 at 2:36 AM Laurent Pinchart wrote:
-> > > > On R-Car D3 and E3, the LVDS encoders provide the pixel clock to the DU,
-> > > > even when LVDS outputs are not used. For this reason, the rcar-lvds
-> > > > driver probes successfully on those platforms even if no further bridge
-> > > > or panel is connected to the LVDS output, in order to provide the
-> > > > rcar_lvds_clk_enable() and rcar_lvds_clk_disable() functions to the DU
-> > > > driver.
-> > > >
-> > > > If an LVDS output isn't connected, trying to create a DRM connector for
-> > > > the output will fail. Fix this by skipping connector creation in that
-> > > > case, and also skip creation of the DRM encoder as there's no point in
-> > > > an encoder without a connector.
-> > > >
-> > > > Fixes: e9e056949c92 ("drm: rcar-du: lvds: Convert to DRM panel bridge helper")
-> > > > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > >
-> > > Can you please change that to
-> > > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ?
-> >
-> > Sure thing.
-> 
-> Thanks!
-> 
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > >
-> > > Thanks, the scary warning on Ebisu-4D is gone, so
-> > > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > >
-> > > Disclaimer: there are no displays connected to my Ebisu-4D.
-> >
-> > That's the best way to ensure the absence of display issues. It works
-> > great for camera testing too, if you also remove networking and storage
-> > :-)
-> 
-> Any chance this fix can make it upstream?
-> The fix was created before the issue entered upstream in v5.15-rc1.
+> The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
+>
+>   Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.16-tag1
 
-Pull request sent.
+Pulled in!
 
--- 
-Regards,
-
-Laurent Pinchart
+Thanks!
+Linus Walleij
