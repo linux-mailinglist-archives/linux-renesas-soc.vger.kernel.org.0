@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E3344206F2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 10:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA61C42072C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 10:19:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229825AbhJDIDJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Oct 2021 04:03:09 -0400
-Received: from mga04.intel.com ([192.55.52.120]:11362 "EHLO mga04.intel.com"
+        id S230507AbhJDIVJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Oct 2021 04:21:09 -0400
+Received: from mga14.intel.com ([192.55.52.115]:11918 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229487AbhJDIDH (ORCPT
+        id S230185AbhJDIVI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Oct 2021 04:03:07 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10126"; a="224091266"
+        Mon, 4 Oct 2021 04:21:08 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10126"; a="225651470"
 X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; 
-   d="scan'208";a="224091266"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2021 01:01:12 -0700
+   d="scan'208";a="225651470"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2021 01:19:06 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; 
-   d="scan'208";a="482808264"
+   d="scan'208";a="558286692"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
-  by fmsmga007.fm.intel.com with SMTP; 04 Oct 2021 01:01:02 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Mon, 04 Oct 2021 11:01:01 +0300
-Date:   Mon, 4 Oct 2021 11:01:01 +0300
+  by FMSMGA003.fm.intel.com with SMTP; 04 Oct 2021 01:19:01 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Mon, 04 Oct 2021 11:19:01 +0300
+Date:   Mon, 4 Oct 2021 11:19:01 +0300
 From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To:     Fernando Ramos <greenfoo@u92.eu>
 Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
@@ -34,7 +34,7 @@ Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
         linux-tegra@vger.kernel.org
 Subject: Re: [Intel-gfx] [PATCH v2 00/17] drm: cleanup: Use
  DRM_MODESET_LOCK_ALL_* helpers where possible
-Message-ID: <YVq0vZgFUpSXEBFh@intel.com>
+Message-ID: <YVq49SWuC3T7i1a6@intel.com>
 References: <20210924064324.229457-1-greenfoo@u92.eu>
  <20211001183655.GW2515@art_vandelay>
  <YVda4jNSGuQf50JV@intel.com>
@@ -42,124 +42,65 @@ References: <20210924064324.229457-1-greenfoo@u92.eu>
  <YVeGOyLzuhN7zzV7@intel.com>
  <YVfEWaLfYWdhezCa@intel.com>
  <YVgGklsHT5fkavDL@zacax395.localdomain>
- <YViWomXZWdy/81uT@zacax395.localdomain>
+ <YVjd7hLKtYG2bkY7@zacax395.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YViWomXZWdy/81uT@zacax395.localdomain>
+In-Reply-To: <YVjd7hLKtYG2bkY7@zacax395.localdomain>
 X-Patchwork-Hint: comment
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Oct 02, 2021 at 07:28:02PM +0200, Fernando Ramos wrote:
+On Sun, Oct 03, 2021 at 12:32:14AM +0200, Fernando Ramos wrote:
 > On 21/10/02 09:13AM, Fernando Ramos wrote:
-> > On 21/10/02 05:30AM, Ville Syrjälä wrote:
-> > > On Sat, Oct 02, 2021 at 01:05:47AM +0300, Ville Syrjälä wrote:
-> > > > On Fri, Oct 01, 2021 at 04:48:15PM -0400, Sean Paul wrote:
-> > > > > On Fri, Oct 01, 2021 at 10:00:50PM +0300, Ville Syrjälä wrote:
-> > > > > > On Fri, Oct 01, 2021 at 02:36:55PM -0400, Sean Paul wrote:
-> > > > > > > 
-> > > > > > > Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
-> > > > > > > with the necessary drm-tip conflict resolutions).
-> > > > > > 
-> > > > > > Ugh. Did anyone actually review the locking changes this does?
-> > > > > > I shot the previous i915 stuff down because the commit messages
-> > > > > > did not address any of it.
-> > > > > 
-> > > > > I reviewed the set on 9/17, I didn't see your feedback on that thread.
-> > > > 
-> > > > It was much earlir than that.
-> > > > https://lists.freedesktop.org/archives/dri-devel/2021-June/313193.html
+> > 
+> > Sean, could you revert the whole patch series? I'll have a deeper look into the
+> > patch set and come up with a v3 where all these issues will be addressed.
+> > 
 > 
-> Sorry, I'm new to this and it did not occur to me to search for similar patches
-> in the mailing list archives in case there were additional comments that applied
-> to my change set.
+> Hi Sean,
 > 
-> In case I had done that I would have found that, as you mentioned, you had
-> already raised two issues back in June:
+> I now understand the nature of the issue that caused the problem with i915 and
+> have proceed to remove the global context structure (which revealed a similar
+> issue in the amdgpu driver).
 > 
->     On Tue, Jun 29, 2021, Ville Syrjälä wrote:
->     >
->     > That looks wrong. You're using a private ctx here, but still
->     > passing dev->mode_config.acquire_ctx to the lower level stuff.
->     > 
->     > Also DRM_MODESET_LOCK_ALL_{BEGIN,END}() do not seem to be
->     > equivalent to drm_modeset_{lock,unlock}_all() when it comes to 
->     > mode_config.mutex. So would need a proper review whether we
->     > actually need that lock or not.
+> I have prepared a V3 version of the patch set where these issues should
+> hopefully be fixed for both the i915 and amdgpu drivers.
 > 
-> The first one was pointing out the same error I would later repeat in my patch
-> series (ups).
+> In order to prevent causing more disruption, could you tell me what the proper
+> way to proceed would be? In particular:
 > 
-> After further inspection of the code it looks to me that changing this:
-> 
->     intel_modeset_setup_hw_state(dev, dev->mode_config.acquire_ctx);
-> 
-> ...into this:
-> 
->     intel_modeset_setup_hw_state(dev, &ctx);
-> 
-> ...would be enough.
+>   1. Is there any place where I can push my changes so that they are tested
+>      on a i915 machine? (Some type of automated pool)
 
-Yes.
+cc:intel-gfx, which it looks like you did, _but_ your patches did
+did not even apply against drm-tip so our CI rejected it. There was
+a reply to the patches from CI indicating that. And that is one
+reason I probably just ignored the whole thing. If it doesn't
+even apply/build it's not worth my time to read.
 
 > 
-> Why? The only difference between the old drm_modeset_{lock,unlock}_all()
-> functions and the new DRM_MODESET_LOCK_ALL_{BEGIN,END}() macros is that the
-> former use a global context stored in dev->mode_config.acquire_ctx while the
-> latter depend on a user provided one (typically in the stack).
+>   2. I can test the amdgpu driver on my machine but, what about all the other
+>      architectures? What is the standard procedure? Should I simply publish V3
+>      and wait for feedback from the different vendors? (I would hate to cause a
+>      simular situation again)
 > 
-> In the old (working) code the global context structure is freed in
-> drm_modeset_unlock_all() thus we are sure no one is holding a reference to it at
-> that point. This means that as long as no one accesses the global
-> dev->mode_config.acquire_ctx context in the block that runs between lock/BEGIN
-> and unlock/END, the code should be equivalent before and after my changes.
-> 
-> In fact, now that my patch series removes the drm_modeset_{lock,unlock}_all()
-> functions, the acquire_ctx field of the drm_mode_config structure should be
-> deleted:
-> 
->     /**
->      * @acquire_ctx:
->      *
->      * Global implicit acquire context used by atomic drivers for legacy
->      * IOCTLs. Deprecated, since implicit locking contexts make it
->      * impossible to use driver-private &struct drm_modeset_lock. Users of
->      * this must hold @mutex.
->      */
->     struct drm_modeset_acquire_ctx *acquire_ctx;
-> 
-> If I had done that (ie. removing this field) I would have detected the problem
-> when compiling.
-> 
-> There is another place (in the amdgpu driver) where this field is still being
-> referenced, but before I investigate that I would like to know if you agree that
-> this is a good path to follow.
+>   3. Should I post V3 on top of drm-next or drm-misc-next?
 
-Yeah, removing the mode_config.acquire_ctx is a good idea if it's
-no longer needed.
+The normal rule is: always work on drm-tip. That is what gets
+tested by our CI as well. Yes, it does mean a bit of extra hurdles
+during development since drm-tip is a rebasing tree, but there are
+tools like dim retip to help out here.
 
-> 
-> Regarding the second issue you raised...
-> 
->     > Also DRM_MODESET_LOCK_ALL_{BEGIN,END}() do not seem to be
->     > equivalent to drm_modeset_{lock,unlock}_all() when it comes to 
->     > mode_config.mutex. So would need a proper review whether we
->     > actually need that lock or not.
-> 
-> ...the only difference regarding mode_config.mutex I see is that in the new
-> macros the mutex is locked only under this condition:
-> 
->     if (!drm_drv_uses_atomic_modeset(dev))
-> 
-> ...which seems reasonable, right? Is this what you were referring to or is it
-> something else?
-
-In order to eliminate the lock one first has to determine what that lock
-might be protecting here, and then prove that such protection is not
-actually needed.
+As for where to merge them. I would generally recommed against merging
+i915 patches through drm-misc unless there is a very compelling reason
+to do so. i915 is a fast moving target and if there are significant
+changes coming in via drm-misc they usually will cause conflicts for
+people during drm-tip rebuild. Also I would expect to see an ack
+requested from i915 maintainers for merging anything significant via
+drm-misc, which I don't think happened in this case.
 
 -- 
 Ville Syrjälä
