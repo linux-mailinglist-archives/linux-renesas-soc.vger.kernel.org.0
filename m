@@ -2,78 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A72CB4214AA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 19:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 168914214F0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 19:14:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237495AbhJDRDy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Oct 2021 13:03:54 -0400
-Received: from mail-ot1-f44.google.com ([209.85.210.44]:39456 "EHLO
-        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236018AbhJDRDy (ORCPT
+        id S237418AbhJDRPt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Oct 2021 13:15:49 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:45671 "EHLO
+        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236127AbhJDRPs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Oct 2021 13:03:54 -0400
-Received: by mail-ot1-f44.google.com with SMTP id j11-20020a9d190b000000b00546fac94456so22433827ota.6;
-        Mon, 04 Oct 2021 10:02:05 -0700 (PDT)
+        Mon, 4 Oct 2021 13:15:48 -0400
+Received: by mail-vs1-f53.google.com with SMTP id v4so5797338vsg.12;
+        Mon, 04 Oct 2021 10:13:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=z8bpX5ohfnGv7NG36iJlZFsfoAswAuM/dfneaZYCWlc=;
-        b=BW0GbdQfEwvME+IQcjs6ntrrzzuWBZJ7ZL0AlgRBf0+k+Gl0C/ndIO+TI/CCVD2KrU
-         KiLUPsq1FkH6gdUMGDw7TnycH6i8VdNg6Wk0WKhog2BVPOIyVUd/BzY1Jne0tcPaC1ue
-         GZeKR/M2cCjWWhIaH1T0gZmjH0AENyYWZhOXona9bW3CF3XkPnLZEuIdogdjrzuv8/Qe
-         mU4e7az8X5K6gg15NwEOtxcA7xK73ptlAbozYtVin9Nz33XrSOUHsrE9WjiqvrU/9XET
-         OJCNoSIghDhdmlsdQY/JhJ6dPRL72KCOXsGcuXz4Hmbk+/oquW2Wl3zhygvjKtiJyeue
-         7g2g==
-X-Gm-Message-State: AOAM533zDONekOKZpcOXDhtx0GXk1o0rv8kEm0HB4kBHQvBQV2jJRMfw
-        pjNlcN7+mhWbaiMcUiL/yw==
-X-Google-Smtp-Source: ABdhPJxJSYblX7JkA85U0CFTxkDI1xiwSypwDUBERIDrrr6PccL+U6MR2gBqou0mYj1RzK5yhsT2RQ==
-X-Received: by 2002:a05:6830:4089:: with SMTP id x9mr10314313ott.223.1633366924827;
-        Mon, 04 Oct 2021 10:02:04 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id f61sm2994889otf.73.2021.10.04.10.02.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 10:02:03 -0700 (PDT)
-Received: (nullmailer pid 1477065 invoked by uid 1000);
-        Mon, 04 Oct 2021 17:02:03 -0000
-Date:   Mon, 4 Oct 2021 12:02:03 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        David Airlie <airlied@linux.ie>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sandeep Panda <spanda@codeaurora.org>
-Subject: Re: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix reg value
-Message-ID: <YVszi+keVlkqSfYY@robh.at.kernel.org>
-References: <08f73c2aa0d4e580303357dfae107d084d962835.1632486753.git.geert+renesas@glider.be>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qDIVmR/qFuDDiFyWNf3y3niN15+lX6TIgv0kekHzpE8=;
+        b=JlNTqYWgky0nW1lEZ6JGhUQCZVPleQEhdvbgcz/JI4TzEOBaJeXjmREs3hqs9FkNoS
+         Yc6rE6tR6YwU9qmXak1OkczTDxBz74RFDci/6ms43k2Eq+PXuzRi6BlA8k8OK9SEoy30
+         GdT2nJzSTDwdOPjqqJmHte7NnDwWVxE04l/ZbUtkipR1EogS8bNPjuZ+Zz/tENPjrakc
+         lPCHOhufPsw+IQAY7/xH3Ia322b0dQQSYuWa2lVEMWtAlj64nWWUFJ7CsfbrbQpc4PVh
+         NoemZifgUh6Vi5K4PlZEbm3uOvVTAl2+BQBMTFl+HCKctnp+CxeKsXWXkPBYRQ1JoGss
+         bRDw==
+X-Gm-Message-State: AOAM532aAC4R9bsNSZ87KYqYJFGNqxWzFNasOzeDoHihCSFmlBPs9jhx
+        tkyclS0G6kHTuV7ypmvuFIC3T8UtSj/JAZdRqog=
+X-Google-Smtp-Source: ABdhPJyfd/P5arwYcERnUkJxEhSvSRTgfpXDmvSyUgqTuMJgZeXYqwzGlSFUN1nE+bCjMj2ewLylD/0E6wTHQevyZgk=
+X-Received: by 2002:a67:2c58:: with SMTP id s85mr13878232vss.35.1633367638697;
+ Mon, 04 Oct 2021 10:13:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <08f73c2aa0d4e580303357dfae107d084d962835.1632486753.git.geert+renesas@glider.be>
+References: <20210914202202.1702601-1-dianders@chromium.org>
+ <20210914132020.v5.2.I62e76a034ac78c994d40a23cd4ec5aeee56fa77c@changeid>
+ <CAMuHMdWy+aASNevg8nc9LTvR9QNrGYZQnB3sYYLDRfEU1w_idg@mail.gmail.com> <CAD=FV=W07iZigvNaxv1WodhQZVm8hD-1NxTuBuapJYifi6ROng@mail.gmail.com>
+In-Reply-To: <CAD=FV=W07iZigvNaxv1WodhQZVm8hD-1NxTuBuapJYifi6ROng@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 4 Oct 2021 19:13:47 +0200
+Message-ID: <CAMuHMdVK9p3J762+TQM9ogS5YE2QdJ5fiXKOQo7mXy8TwzCeew@mail.gmail.com>
+Subject: Re: [PATCH v5 02/15] drm/edid: Break out reading block 0 of the EDID
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Linus W <linus.walleij@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maxime Ripard <mripard@kernel.org>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 24 Sep 2021 14:35:12 +0200, Geert Uytterhoeven wrote:
-> make dtbs_check:
-> 
->     arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dt.yaml: bridge@2c: reg:0:0: 45 was expected
-> 
-> According to the datasheet, the I2C address can be either 0x2c or 0x2d,
-> depending on the ADDR control input.
-> 
-> Fixes: e3896e6dddf0b821 ("dt-bindings: drm/bridge: Document sn65dsi86 bridge bindings")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Also seen with the in-flight Falcon DSI display output patch:
-> 
->     arch/arm64/boot/dts/renesas/r8a779a0-falcon.dt.yaml: sn65dsi86@2c: reg:0:0: 45 was expected
-> ---
->  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml        | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+Hi Doug,
 
-Applied, thanks!
+On Mon, Oct 4, 2021 at 6:26 PM Doug Anderson <dianders@chromium.org> wrote:
+> On Mon, Oct 4, 2021 at 8:42 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > -       if ((edid = kmalloc(EDID_LENGTH, GFP_KERNEL)) == NULL)
+> > > +       edid = (u8 *)drm_do_get_edid_base_block(get_edid_block, data,
+> > > +                                               &connector->edid_corrupt,
+> > > +                                               &connector->null_edid_counter);
+> > > +       if (IS_ERR_OR_NULL(edid)) {
+> > > +               if (IS_ERR(edid))
+> >
+> > So edid is an error code, not a valid pointer...
+> >
+> > > +                       connector_bad_edid(connector, edid, 1);
+> >
+> > ... while connector_bad_edid() expects edid to be a valid pointer,
+> > causing a crash:
+> >
+> > Unable to handle kernel NULL pointer dereference at virtual address
+>
+> Sigh. Thanks for the report and analysis. I guess I don't have any
+> displays reporting invalid EDIDs to test with. Hopefully this will
+> help:
+
+It doesn't happen all the time.  Looks like my EDID is only invalid after
+a reset needed to resolve an s2ram crash in the adv7511 driver...
+
+> https://lore.kernel.org/r/20211004092100.1.Ic90a5ebd44c75db963112be167a03cc96f9fb249@changeid/
+
+Thanks for the quick fix!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
