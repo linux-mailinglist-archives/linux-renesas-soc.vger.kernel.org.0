@@ -2,137 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1643E4215D5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 20:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2BCC421682
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 20:30:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236069AbhJDSCY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Oct 2021 14:02:24 -0400
-Received: from mxout04.lancloud.ru ([45.84.86.114]:34728 "EHLO
-        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236056AbhJDSCX (ORCPT
+        id S238689AbhJDScN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Oct 2021 14:32:13 -0400
+Received: from mail-ot1-f41.google.com ([209.85.210.41]:39922 "EHLO
+        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238688AbhJDScN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Oct 2021 14:02:23 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 5126D20A6900
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH 07/10] ravb: Add tsrq to struct ravb_hw_info
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        "Adam Ford" <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
- <20211001150636.7500-8-biju.das.jz@bp.renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <5193e153-2765-943b-4cf8-413d5957ec01@omp.ru>
-Date:   Mon, 4 Oct 2021 21:00:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Mon, 4 Oct 2021 14:32:13 -0400
+Received: by mail-ot1-f41.google.com with SMTP id j11-20020a9d190b000000b00546fac94456so22782575ota.6;
+        Mon, 04 Oct 2021 11:30:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+Hga8p58pr2bFvROm6q0SXOaz+V7BKKQwphrn3bK5nQ=;
+        b=Rj8Z/qcqD5FVcgQh+wFGmMDZFS0d8OOSjCu9i12RTR2Q1kQygctSzZ49lV8MEujaGX
+         yQK8840SUU1iisJSl1ONFwMEABSX0RcOVXfz0aXJJ5wrHOJioRJH9iEC0ujS6MiWKt9a
+         CjpbQQWw5tMnaQe2anF6GWdn+9je19iGaEwX7KcFon6s60Ms5zJAyi9UUbUVb9cIUpGu
+         Z/ekEGobVhE6Mvj8QJyXsS9wC/TM9SBvr6CsP0DZnpVp4tUEXvq07bMPSsjKIFFgEgnw
+         c7N+CDCszWF7as9hVOndWU5ACemU4BonEU4NNTDv+qbCvu184tfrFRzYSGOr28O6JG0+
+         zl8w==
+X-Gm-Message-State: AOAM532o1O5NP6gC/+hF3NjWhE4mRoegtNmrbwPyduRHxfZ5GZG7AnGp
+        uqK3vb1IrHGJQroi7dYDfw==
+X-Google-Smtp-Source: ABdhPJwwbNKoiwstW+77MUhfqKv75Q2Zy4WCYXvf8PuP96jj8q/xMG8t7An/cJMI3Fhl9mh1pIsSNg==
+X-Received: by 2002:a05:6830:40b0:: with SMTP id x48mr10673721ott.246.1633372223776;
+        Mon, 04 Oct 2021 11:30:23 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id 17sm2814736ois.45.2021.10.04.11.30.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Oct 2021 11:30:23 -0700 (PDT)
+Received: (nullmailer pid 1615342 invoked by uid 1000);
+        Mon, 04 Oct 2021 18:30:22 -0000
+Date:   Mon, 4 Oct 2021 13:30:22 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-spi@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-mtd@lists.infradead.org,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Richard Weinberger <richard@nod.at>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH 1/6] dt-bindings: memory: renesas,rpc-if: Add support for
+ the R9A07G044
+Message-ID: <YVtIPqHyi/z03yxS@robh.at.kernel.org>
+References: <20210928140721.8805-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210928140721.8805-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20211001150636.7500-8-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210928140721.8805-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/1/21 6:06 PM, Biju Das wrote:
-
-> R-Car AVB-DMAC has 4 Transmit start request queues, whereas
-> RZ/G2L has only 1 Transmit start request queue.
-
-   The TCCR bits are called transmit start request (queue 0/1), not transmit start request queue 0/1.
-I think you've read too much value into them for what is just TX queue 0/1.
-
-> Add a tsrq variable to struct ravb_hw_info to handle this
-> difference.
+On Tue, 28 Sep 2021 15:07:16 +0100, Lad Prabhakar wrote:
+> SPI Multi I/O Bus Controller on RZ/G2L SoC is almost identical to
+> the RPC-IF interface found on R-Car Gen3 SoC's.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> This patch adds a new compatible string to identify the RZ/G2L family
+> so that the timing values on RZ/G2L can be adjusted.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> RFC->v1:
->  * Added tsrq variable instead of multi_tsrq feature bit.
-> ---
->  drivers/net/ethernet/renesas/ravb.h      | 1 +
->  drivers/net/ethernet/renesas/ravb_main.c | 9 +++++++--
->  2 files changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index 9cd3a15743b4..c586070193ef 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -997,6 +997,7 @@ struct ravb_hw_info {
->  	netdev_features_t net_features;
->  	int stats_len;
->  	size_t max_rx_len;
-> +	u32 tsrq;
-
-   I'd call it 'tccr_value' instead.
-
->  	unsigned aligned_tx: 1;
->  
->  	/* hardware features */
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index ac141a491ca2..4784832bd93c 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -790,11 +790,13 @@ static void ravb_rcv_snd_enable(struct net_device *ndev)
->  /* function for waiting dma process finished */
->  static int ravb_stop_dma(struct net_device *ndev)
->  {
-> +	struct ravb_private *priv = netdev_priv(ndev);
-> +	const struct ravb_hw_info *info = priv->info;
->  	int error;
->  
->  	/* Wait for stopping the hardware TX process */
-> -	error = ravb_wait(ndev, TCCR,
-> -			  TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3, 0);
-> +	error = ravb_wait(ndev, TCCR, info->tsrq, 0);
-> +
->  	if (error)
->  		return error;
->  
-> @@ -2128,6 +2130,7 @@ static const struct ravb_hw_info ravb_gen3_hw_info = {
->  	.net_features = NETIF_F_RXCSUM,
->  	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
->  	.max_rx_len = RX_BUF_SZ + RAVB_ALIGN - 1,
-> +	.tsrq = TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
->  	.internal_delay = 1,
->  	.tx_counters = 1,
->  	.multi_irqs = 1,
-> @@ -2150,6 +2153,7 @@ static const struct ravb_hw_info ravb_gen2_hw_info = {
->  	.net_features = NETIF_F_RXCSUM,
->  	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
->  	.max_rx_len = RX_BUF_SZ + RAVB_ALIGN - 1,
-> +	.tsrq = TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
->  	.aligned_tx = 1,
->  	.gptp = 1,
->  	.nc_queue = 1,
-> @@ -2165,6 +2169,7 @@ static const struct ravb_hw_info gbeth_hw_info = {
->  	.dmac_init = ravb_dmac_init_gbeth,
->  	.emac_init = ravb_emac_init_gbeth,
->  	.max_rx_len = GBETH_RX_BUFF_MAX + RAVB_ALIGN - 1,
-> +	.tsrq = TCCR_TSRQ0,
->  	.aligned_tx = 1,
->  	.tx_counters = 1,
->  };
+>  .../memory-controllers/renesas,rpc-if.yaml    | 51 ++++++++++++++-----
+>  1 file changed, 37 insertions(+), 14 deletions(-)
 > 
 
-[...]
-
-MBR, Sergey
+Reviewed-by: Rob Herring <robh@kernel.org>
