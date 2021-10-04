@@ -2,110 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF715420AFE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 14:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D152420B1D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 14:44:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232773AbhJDMl7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Oct 2021 08:41:59 -0400
-Received: from mxout01.lancloud.ru ([45.84.86.81]:51152 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231216AbhJDMl6 (ORCPT
+        id S233178AbhJDMq3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Oct 2021 08:46:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52866 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231965AbhJDMq3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Oct 2021 08:41:58 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 8C0B820D4E42
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [PATCH 05/10] ravb: Initialize GbEthernet DMAC
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        "Adam Ford" <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
- <20211001150636.7500-6-biju.das.jz@bp.renesas.com>
-Organization: Open Mobile Platform
-Message-ID: <58ca2e47-9c25-c394-51e5-067ebaa66538@omp.ru>
-Date:   Mon, 4 Oct 2021 15:40:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Mon, 4 Oct 2021 08:46:29 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC4C6C061746
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Oct 2021 05:44:39 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:9ca4:a53a:9ffa:e003])
+        by baptiste.telenet-ops.be with bizsmtp
+        id 1okb2600G11933301okbfx; Mon, 04 Oct 2021 14:44:38 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mXNKd-001rhi-9u; Mon, 04 Oct 2021 14:44:35 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mXNKc-0042wr-Lg; Mon, 04 Oct 2021 14:44:34 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>, Enrico@rox.of.borg,
+        Weigelt@rox.of.borg, metux IT consult <lkml@metux.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@kernel.org>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        stratos-dev@op-lists.linaro.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] gpio: aggregator: Add interrupt support
+Date:   Mon,  4 Oct 2021 14:44:33 +0200
+Message-Id: <c987d0bf744150ca05bd952f5f9e5fb3244d27b0.1633350340.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211001150636.7500-6-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Currently the GPIO Aggregator does not support interrupts.  This means
+that kernel drivers going from a GPIO to an IRQ using gpiod_to_irq(),
+and userspace applications using line events do not work.
 
-On 10/1/21 6:06 PM, Biju Das wrote:
+Add interrupt support by providing a gpio_chip.to_irq() callback, which
+just calls into the parent GPIO controller.
 
-> Initialize GbEthernet DMAC found on RZ/G2L SoC.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> RFC->v1:
->  * Removed RIC3 initialization from DMAC init, as it is 
->    same as reset value.
+Note that this does not implement full interrupt controller (irq_chip)
+support, so using e.g. gpio-keys with "interrupts" instead of "gpios"
+still does not work.
 
-   I'm not sure we do a reset everytime...
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+I would prefer to avoid implementing irq_chip support, until there is a
+real use case for this.
 
->  * moved stubs function to earlier patches.
->  * renamed "rgeth" with "gbeth"
-> ---
->  drivers/net/ethernet/renesas/ravb.h      |  3 ++-
->  drivers/net/ethernet/renesas/ravb_main.c | 30 +++++++++++++++++++++++-
->  2 files changed, 31 insertions(+), 2 deletions(-)
-> 
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index dc817b4d95a1..5790a9332e7b 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -489,7 +489,35 @@ static void ravb_emac_init(struct net_device *ndev)
->  
->  static int ravb_dmac_init_gbeth(struct net_device *ndev)
->  {
-> -	/* Place holder */
-> +	int error;
-> +
-> +	error = ravb_ring_init(ndev, RAVB_BE);
-> +	if (error)
-> +		return error;
-> +
-> +	/* Descriptor format */
-> +	ravb_ring_format(ndev, RAVB_BE);
-> +
-> +	/* Set AVB RX */
+This has been tested with gpio-keys and gpiomon on the Koelsch
+development board:
 
-   AVB? We don't have it, do we?
+  - gpio-keys, using a DT overlay[1]:
 
-> +	ravb_write(ndev, 0x60000000, RCR);
+	$ overlay add r8a7791-koelsch-keyboard-controlled-led
+	$ echo gpio-aggregator > /sys/devices/platform/frobnicator/driver_override
+	$ echo frobnicator > /sys/bus/platform/drivers/gpio-aggregator/bind
 
-   Not even RCR.EFFS? And what do bits 29..30 mean?
+	$ gpioinfo frobnicator
+	gpiochip12 - 3 lines:
+		line   0:      "light"      "light"  output  active-high [used]
+		line   1:         "on"         "On"   input   active-low [used]
+		line   2:        "off"        "Off"   input   active-low [used]
 
-[...]
-> +	/* Set FIFO size */
-> +	ravb_write(ndev, 0x00222200, TGC);
+	$ echo 255 > /sys/class/leds/light/brightness
+	$ echo 0 > /sys/class/leds/light/brightness
 
-   Do TBD<n> (other than TBD0) fields even exist?
+	$ evtest /dev/input/event0
 
-[...]
+  - gpiomon, using the GPIO sysfs API:
 
-MBR, Sergey
+	$ echo keyboard > /sys/bus/platform/drivers/gpio-keys/unbind
+	$ echo e6055800.gpio 2,6 > /sys/bus/platform/drivers/gpio-aggregator/new_device
+	$ gpiomon gpiochip12 0 1
+
+[1] "ARM: dts: koelsch: Add overlay for keyboard-controlled LED"
+    https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?h=topic/renesas-overlays&id=c78d817869e63a3485bb4ab98aeea6ce368a396e
+---
+ drivers/gpio/gpio-aggregator.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpio/gpio-aggregator.c b/drivers/gpio/gpio-aggregator.c
+index 34e35b64dcdc0581..2ff867d2a3630d3b 100644
+--- a/drivers/gpio/gpio-aggregator.c
++++ b/drivers/gpio/gpio-aggregator.c
+@@ -374,6 +374,13 @@ static int gpio_fwd_set_config(struct gpio_chip *chip, unsigned int offset,
+ 	return gpiod_set_config(fwd->descs[offset], config);
+ }
+ 
++static int gpio_fwd_to_irq(struct gpio_chip *chip, unsigned int offset)
++{
++	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
++
++	return gpiod_to_irq(fwd->descs[offset]);
++}
++
+ /**
+  * gpiochip_fwd_create() - Create a new GPIO forwarder
+  * @dev: Parent device pointer
+@@ -414,7 +421,8 @@ static struct gpiochip_fwd *gpiochip_fwd_create(struct device *dev,
+ 	for (i = 0; i < ngpios; i++) {
+ 		struct gpio_chip *parent = gpiod_to_chip(descs[i]);
+ 
+-		dev_dbg(dev, "%u => gpio-%d\n", i, desc_to_gpio(descs[i]));
++		dev_dbg(dev, "%u => gpio %d irq %d\n", i,
++			desc_to_gpio(descs[i]), gpiod_to_irq(descs[i]));
+ 
+ 		if (gpiod_cansleep(descs[i]))
+ 			chip->can_sleep = true;
+@@ -432,6 +440,7 @@ static struct gpiochip_fwd *gpiochip_fwd_create(struct device *dev,
+ 	chip->get_multiple = gpio_fwd_get_multiple_locked;
+ 	chip->set = gpio_fwd_set;
+ 	chip->set_multiple = gpio_fwd_set_multiple_locked;
++	chip->to_irq = gpio_fwd_to_irq;
+ 	chip->base = -1;
+ 	chip->ngpio = ngpios;
+ 	fwd->descs = descs;
+-- 
+2.25.1
+
