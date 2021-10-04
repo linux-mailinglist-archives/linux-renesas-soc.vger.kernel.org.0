@@ -2,80 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44E7A421686
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 20:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B33C34216A1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 20:37:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238688AbhJDSc0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Oct 2021 14:32:26 -0400
-Received: from mail-ot1-f45.google.com ([209.85.210.45]:35490 "EHLO
-        mail-ot1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235190AbhJDSc0 (ORCPT
+        id S232043AbhJDSi7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Oct 2021 14:38:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52970 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229907AbhJDSi5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Oct 2021 14:32:26 -0400
-Received: by mail-ot1-f45.google.com with SMTP id 77-20020a9d0ed3000000b00546e10e6699so22780936otj.2;
-        Mon, 04 Oct 2021 11:30:36 -0700 (PDT)
+        Mon, 4 Oct 2021 14:38:57 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45CFBC061745;
+        Mon,  4 Oct 2021 11:37:08 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id x27so75649658lfu.5;
+        Mon, 04 Oct 2021 11:37:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xem27AtWW1FQA6QFUscNmpNu/Mi0AlB3uxJE9Zg7LWU=;
+        b=VvlK17bgfWju26sVx30X0JjTItRn2NqFbmnHvE2isMMlopyEpyhXM0Rj2E4M62D6Il
+         mTRup9WRJoLo6k5LORBQarOAcJa4XMLNjfXqvEABYiG4zjR6yNuJgUDgNTZIPyh2Ke1Y
+         9NhX46dJrB0Owho9XbLusMcZ4Od/DsIVa72+Gxas+FJoQg98YXn3bNb6UXzpmwtgkQDD
+         bowtIgQ7TXO7XcLVGzkL9wWyKCMBc49lGkB1FjmTmKoRY4Fm1o4Ek41/0OMycbY3jNrf
+         hoEwSuuwje+C1Dgd2fdtnIwWYBkWgZy5DcPgdDJ14Y4COisSaFLc8+1x/pe6Ia5Sqo35
+         C7tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EgPusyLa/5AAFYa6yY1gZl5N0nwwIA+sqa/A5TmSbTw=;
-        b=3up3cJG1GltDbF4qACuP5BDD8UMYJUh8pIhliR8w5Lpwx9AfdKpcBOyIZmhFE5ihe4
-         oSuSwfg0gUs4HTckuET76jsCZPVIWSS2wy/dk8nB/3slH+zJj0Aht1+JI9KayL3r8TR7
-         y6CedlZgKff9JS3+Rg2jqj9KiFKH8lAoSMsbHZtLZZDBLlF4eh8qtcncEyasVxd5RgmB
-         cRuI8sd0v7n83+gdk0idvlNmXxaMuBia0R568YJdHC5eE20QGmxW46mnLll5f2jobVvb
-         FBeX21XbBfN3xz/ZJiQghWzELJ6pjywy8GInz8bg2IQCS2A9VBtiA8SYDG5Ttxce9Ewr
-         Gn0Q==
-X-Gm-Message-State: AOAM533xFfXj5D/jbsL81lnX+8LAEF6zmGa0cg0HEjIeMXyr80Lsz+rb
-        QU1KmvZeaEgGYmloVfVysg==
-X-Google-Smtp-Source: ABdhPJylK2zM8ZBzjb/VuvgJd36umt1ITGM8Rr7KONWnz1nplFDn8bbEertxC5/oBScOiB5/auclxw==
-X-Received: by 2002:a05:6830:1514:: with SMTP id k20mr10340844otp.44.1633372236265;
-        Mon, 04 Oct 2021 11:30:36 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id s189sm2284253oif.14.2021.10.04.11.30.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 11:30:35 -0700 (PDT)
-Received: (nullmailer pid 1615750 invoked by uid 1000);
-        Mon, 04 Oct 2021 18:30:33 -0000
-Date:   Mon, 4 Oct 2021 13:30:33 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     linux-spi@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xem27AtWW1FQA6QFUscNmpNu/Mi0AlB3uxJE9Zg7LWU=;
+        b=H+anMHbHrvM5PlquRcHpiAnSi5ckGn/NrkzNRCwSRhd5gDKQZFf3RNjQNM6k3LXe1m
+         UiWw5ksNfJcuepAsS3I1GrVMUqYfoo8MLzuvN9ywfztY+c4jrNoraRQ0shltrIoEJt8P
+         MQodXiY8UHVLIMOndRfsRvJnL1V2Or6Y7/+wYvjdL7xrQRZUNQUmEoHcoHI09xwsKSN8
+         nwXnFXjSwgnlhGFvMVp9G9T1yxSXMHv2Q0WSaLzv2epkZXsumAzoTcqMc6iJ3mf5MDLg
+         RLIrI3zroktVfJVgYaPYic5ja03rALENdvbXi1N7WfZ9o/NHB6AHtTkdnVj8frFdTm7h
+         7tkw==
+X-Gm-Message-State: AOAM532h8JGmtjlWA4GPnLeOuWftKAZelC5oHAOgyjzbMZSOq5nB11Pp
+        LipSUh/9XtNveNRZ4j/22ZM=
+X-Google-Smtp-Source: ABdhPJxh4rDbJVCVy7zoAFnE3MkIxBFqljK7Opdyx3aKJumHOnHj5ZBOKogs7h85DCNjYopavjgDbA==
+X-Received: by 2002:a2e:a277:: with SMTP id k23mr14153835ljm.53.1633372626602;
+        Mon, 04 Oct 2021 11:37:06 -0700 (PDT)
+Received: from [192.168.1.103] ([178.176.79.223])
+        by smtp.gmail.com with ESMTPSA id w26sm1695440ljo.33.2021.10.04.11.37.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Oct 2021 11:37:06 -0700 (PDT)
+Subject: Re: [PATCH 07/10] ravb: Add tsrq to struct ravb_hw_info
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-mtd@lists.infradead.org,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 2/6] dt-bindings: memory: renesas,rpc-if: Add optional
- interrupts property
-Message-ID: <YVtISflCYbhKZzdJ@robh.at.kernel.org>
-References: <20210928140721.8805-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210928140721.8805-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211001150636.7500-1-biju.das.jz@bp.renesas.com>
+ <20211001150636.7500-8-biju.das.jz@bp.renesas.com>
+ <5193e153-2765-943b-4cf8-413d5957ec01@omp.ru>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <e83b3688-4cfe-8706-bd42-ab1ad8644239@gmail.com>
+Date:   Mon, 4 Oct 2021 21:37:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210928140721.8805-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <5193e153-2765-943b-4cf8-413d5957ec01@omp.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 28 Sep 2021 15:07:17 +0100, Lad Prabhakar wrote:
-> For completeness add optional interrupts property.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../devicetree/bindings/memory-controllers/renesas,rpc-if.yaml | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+On 10/4/21 9:00 PM, Sergey Shtylyov wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+[...]
+>    The TCCR bits are called transmit start request (queue 0/1), not transmit start request queue 0/1.
+> I think you've read too much value into them for what is just TX queue 0/1.
+> 
+>> Add a tsrq variable to struct ravb_hw_info to handle this
+>> difference.
+>>
+>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> ---
+>> RFC->v1:
+>>  * Added tsrq variable instead of multi_tsrq feature bit.
+>> ---
+>>  drivers/net/ethernet/renesas/ravb.h      | 1 +
+>>  drivers/net/ethernet/renesas/ravb_main.c | 9 +++++++--
+>>  2 files changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+>> index 9cd3a15743b4..c586070193ef 100644
+>> --- a/drivers/net/ethernet/renesas/ravb.h
+>> +++ b/drivers/net/ethernet/renesas/ravb.h
+>> @@ -997,6 +997,7 @@ struct ravb_hw_info {
+>>  	netdev_features_t net_features;
+>>  	int stats_len;
+>>  	size_t max_rx_len;
+>> +	u32 tsrq;
+> 
+>    I'd call it 'tccr_value' instead.
+
+    Or even better, 'tccr_mask'...
+
+[...]
+
+MBR, Sergey
