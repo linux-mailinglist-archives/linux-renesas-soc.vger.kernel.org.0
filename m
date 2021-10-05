@@ -2,73 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E4EC42279E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 15:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 117F34227A6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 15:20:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234170AbhJENUO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Oct 2021 09:20:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233825AbhJENUN (ORCPT
+        id S234761AbhJENWH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Oct 2021 09:22:07 -0400
+Received: from mail-vs1-f43.google.com ([209.85.217.43]:34478 "EHLO
+        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233825AbhJENWF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Oct 2021 09:20:13 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44273C061749
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Oct 2021 06:18:23 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id s64so42454099yba.11
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Oct 2021 06:18:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=pC0WRFFN27SkU+mcBFvDkCQZvw/ZpiRxiRTp57xNLA0=;
-        b=C3FQ0f2bQRPI6ss9gI1lT3NrTPaCn/n+T4wz/dNiHUoXHx1KmxkWO0jsQNwosjoG3o
-         nJkyZX/32Vv7AhI5sw79zTp62jucHFCgZoX+47b7XJ94R6WOM/yqnybS02hcwLPZaZoT
-         cCGObHeKB/yynG7cJx+X77Pe4hY3zFyGaJCxJ9WzQSPUh8HfcynqzqXzlD7YZKyxYsmE
-         hIQLdvN3z3jeyMy6yYEjmj3WyN/ULDv/ffSfHm88OFA2jlK52y/qeFrvl2AFt/1DerKy
-         R7/YPwRR3gYHU1gJ2MAOtqrKx6RtFrgyhcmo9AKjjFSThe3Dz5LR1WuMxSlOBqYNuuTC
-         R8jg==
+        Tue, 5 Oct 2021 09:22:05 -0400
+Received: by mail-vs1-f43.google.com with SMTP id d18so1004850vsh.1;
+        Tue, 05 Oct 2021 06:20:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=pC0WRFFN27SkU+mcBFvDkCQZvw/ZpiRxiRTp57xNLA0=;
-        b=kISYLHDaKBQYEd7rh9jra3S+9VzL1Peijw3FUtJCeZyHRgU9lzWdHFGjU8KvTwtvN4
-         FYUKMMkM8P8d2/DNxHo+5ml827G5SnUVgE5u+WAhnFjTUlrzKnmZ4PaUhY16YFhDAyHJ
-         3cbfNtDJLSj1Otgj5jk+VgsRPRFtadXVaVM8JM9EfC0qSsiVKHWtm5AnkhuawDYk5tup
-         bPcochMk0b3sUJswfj28NMhDgZa02UtzcB08H0y39cLu6QWL7WRl14rL4wnrTJFTqvuL
-         pw+5qoq25l+Znv6AY9p5kCVmHXZD0imxhiCX64K0iLZiGLnNwtKXat0RyVtPsymztGsJ
-         ABsw==
-X-Gm-Message-State: AOAM5335BfedI5nRJKp7jf0/0BFmoGS6SQpvMfB/w6XSc2XI4ZP+yFL5
-        IN2MWRAmbkbJJaHd9P5yPUS9qSCRPwfmTCscxl0=
-X-Google-Smtp-Source: ABdhPJynDnR2UJL1c+TSWMcAle/wHH+DhIxv3z5R9yXFb/ytHMYx2CQXH8xM47VadedhzC4zFZ9CzhaxsgBaXI/Iroc=
-X-Received: by 2002:a25:49c2:: with SMTP id w185mr20573212yba.294.1633439901364;
- Tue, 05 Oct 2021 06:18:21 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=U41vIYP4S6yqbRG1Slu37+HOLovPRo8OgE9R7vD6bFY=;
+        b=Z66mpLt9SVNNibuByFl4WaSt4+BQoBxkVew1v+5rys1pEBrplaPjg2HeSXbqrujp5y
+         04YwOSNkDjfry308R00Q8dlryC7pKqcnSpAeh01otNZRMAwxKCgWEstCe8DIz5yfey4R
+         ypEVBvvGagbjS+nELpYA8BOfrCfawng90LnJqHUrPJTj6Ahwe92k4leZ5OjTrnRh2eBx
+         mvNFoEAXEvPOMzWi2iy+7H52JgioG8P3PC930SUVGo16ktAx9kMvFDF3CIsEZzrKD7Wj
+         vYmi90yUiCFzmBuq3OwEp+vSVy7rM4VyeP+cSVgFJdFbpV+7LBaDtiyHI5SwBIiLWuqe
+         O/yQ==
+X-Gm-Message-State: AOAM5317TEnHSTDuoVixWifjyor7aiZaUEqBuMSCe+lX9bP1Y1I//Ixt
+        uWKBQRyfjDKrKp6Imz8uYk4S90jjip3FdRFe4tA=
+X-Google-Smtp-Source: ABdhPJx6S8AApCKlPVWbntYziz6p+YUeec4ETTmqZaPRa1Htlr9pyQIUAheWi4UTTxbnWWGp+v6ssK0XG8neizkedao=
+X-Received: by 2002:a67:2c58:: with SMTP id s85mr18268943vss.35.1633440014839;
+ Tue, 05 Oct 2021 06:20:14 -0700 (PDT)
 MIME-Version: 1.0
-Sender: mr.musa.ahmed7@gmail.com
-Received: by 2002:a05:7010:2183:b0:158:4a2d:3a72 with HTTP; Tue, 5 Oct 2021
- 06:18:20 -0700 (PDT)
-From:   Aisha Al-Qaddafi <aisha.gdaffi24@gmail.com>
-Date:   Tue, 5 Oct 2021 14:18:20 +0100
-X-Google-Sender-Auth: vFgxOKsf08Q_N-P5djqkBilI-Ws
-Message-ID: <CAAz8YJ_ZGNQwk-rKpQVS3PJAC_RjPH-sD0zMEG5_+gR+yCG9Fw@mail.gmail.com>
-Subject: My Dear Friend,
-To:     undisclosed-recipients:;
+References: <20210924153113.10046-1-uli+renesas@fpond.eu> <20210924153113.10046-4-uli+renesas@fpond.eu>
+In-Reply-To: <20210924153113.10046-4-uli+renesas@fpond.eu>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 5 Oct 2021 15:20:03 +0200
+Message-ID: <CAMuHMdXKuvxnLBRXUgaT=kvvyE4LY9tzM8WiM1J+=4__kY8Stw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: r8a779a0: Add CANFD device node
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>, linux-can@vger.kernel.org,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Jakub Kicinski <kuba@kernel.org>, mailhol.vincent@wanadoo.fr,
+        socketcan@hartkopp.net
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I came across your e-mail contact prior to a private search while in
-need of your assistance. I am Aisha Al-Qaddafi, the only biological
-Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
-single Mother and a Widow with three Children.
-I have investment funds worth Twenty Seven Million Five Hundred
-Thousand United State Dollar ($27.500.000.00 ) and i need a trusted
-investment Manager/Partner because of my current refugee status,
-however, I am interested in you for investment project assistance in
-your country If you are willing to handle this project on my behalf kindly reply
-urgently to enable me to provide you more information about the
-investment funds.
-Your Urgent Reply Will Be Appreciated
-Best Regards
-Mrs Aisha Al-Qaddafi
+Hi Uli,
+
+On Fri, Sep 24, 2021 at 5:34 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> This patch adds CANFD device node for r8a779a0.
+>
+> Based on patch by Kazuya Mizuguchi.
+>
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+
+> @@ -236,6 +243,54 @@
+>                         #interrupt-cells = <2>;
+>                 };
+>
+> +               canfd: can@e6660000 {
+
+Please preserve sort order (by unit address).
+
+> +                       compatible = "renesas,r8a779a0-canfd";
+> +                       reg = <0 0xe6660000 0 0x8000>;
+> +                       interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>,
+> +                                       <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
+
+Please add interrupt-names, so we can make the property required soon.
+
+> +                       clocks = <&cpg CPG_MOD 328>,
+> +                                <&cpg CPG_CORE R8A779A0_CLK_CANFD>,
+> +                                <&can_clk>;
+> +                       clock-names = "fck", "canfd", "can_clk";
+> +                       assigned-clocks = <&cpg CPG_CORE R8A779A0_CLK_CANFD>;
+> +                       assigned-clock-rates = <40000000>;
+> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> +                       resets = <&cpg 328>;
+> +                       status = "disabled";
+> +
+> +                       channel0 {
+> +                               status = "disabled";
+> +                       };
+> +
+> +                       channel1 {
+> +                               status = "disabled";
+> +                       };
+> +
+> +                       channel2 {
+> +                               status = "disabled";
+> +                       };
+> +
+> +                       channel3 {
+> +                               status = "disabled";
+> +                       };
+> +
+> +                       channel4 {
+> +                               status = "disabled";
+> +                       };
+> +
+> +                       channel5 {
+> +                               status = "disabled";
+> +                       };
+> +
+> +                       channel6 {
+> +                               status = "disabled";
+> +                       };
+> +
+> +                       channel7 {
+> +                               status = "disabled";
+> +                       };
+> +               };
+> +
+>                 cmt0: timer@e60f0000 {
+>                         compatible = "renesas,r8a779a0-cmt0",
+>                                      "renesas,rcar-gen3-cmt0";
+
+With the above fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
