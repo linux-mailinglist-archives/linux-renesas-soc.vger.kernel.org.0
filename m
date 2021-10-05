@@ -2,306 +2,224 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86B704226F1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 14:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F5C1422756
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 15:06:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234382AbhJEMmf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Oct 2021 08:42:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233842AbhJEMmf (ORCPT
+        id S233365AbhJENIZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Oct 2021 09:08:25 -0400
+Received: from mail-vs1-f42.google.com ([209.85.217.42]:47072 "EHLO
+        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234535AbhJENIZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Oct 2021 08:42:35 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59DE9C061749
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Oct 2021 05:40:44 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:9ca4:a53a:9ffa:e003])
-        by michel.telenet-ops.be with bizsmtp
-        id 2Cgf2600X11933306CgfTt; Tue, 05 Oct 2021 14:40:41 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mXjkN-002CHb-Hq; Tue, 05 Oct 2021 14:40:39 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mXjkM-005F6B-Vr; Tue, 05 Oct 2021 14:40:38 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Lukasz Stelmach <l.stelmach@samsung.com>,
-        Akashi Takahiro <takahiro.akashi@linaro.org>,
-        kexec@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] arm: kdump: Add DT properties to crash dump kernel's DTB
-Date:   Tue,  5 Oct 2021 14:40:32 +0200
-Message-Id: <20211005124032.1249636-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 5 Oct 2021 09:08:25 -0400
+Received: by mail-vs1-f42.google.com with SMTP id i30so2898849vsj.13;
+        Tue, 05 Oct 2021 06:06:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=r2FpP1EbIB3k8E1tVACO9N/+co9lYwbutThy1NWNMBI=;
+        b=Hb/qWLS0I3OSPolQjAe8cx1XtMgRHKOIFl/c5mKNqkzBwD52fGcl3Kp1YYT4jKGAvn
+         EqhtNwDgWueX5XpAxgV+HeoKIlPUf4fhO9/niRZ/8qQ0A1AFmoBgZBg8t2DlYlm8Lxxh
+         Hu1XRDVqZpbWcyd79tEo1ZcCEfsIIro6mBL1udsFuYqcmiTcJmpC0sl8r5U9B0h19vR+
+         jykIRnWidcRUYV9LVkB/kFWPpS4YkpUsHxuhVlfwQLi8rHoDEOm9CH0JdwG8JEtKFVSx
+         CaGFt5vNfKSSVRQVVOK0FVUA0RpYNJjke//w0DUmC8yXb34kJK+DO58omxi7i5GqCtQE
+         mSkA==
+X-Gm-Message-State: AOAM53083HtSjMGzj+Y8YfZJa+5SZBlfZS2mEZizd2ZNzexZ6d8Mgy9i
+        KS22Zcxja0iLUkiXuIEvKjL29EGVHXGNZWyiSMk=
+X-Google-Smtp-Source: ABdhPJxTvG2ojdYPYMsbJ/4Jm5Wj/+UlW9UcAzFCl4WQahhFXULdNKY1N2oyhXOwzeZg7k2q9zxYAGey+YZBkpX9wcI=
+X-Received: by 2002:a67:ac04:: with SMTP id v4mr9413870vse.50.1633439194150;
+ Tue, 05 Oct 2021 06:06:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210924153113.10046-1-uli+renesas@fpond.eu> <20210924153113.10046-2-uli+renesas@fpond.eu>
+In-Reply-To: <20210924153113.10046-2-uli+renesas@fpond.eu>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 5 Oct 2021 15:06:22 +0200
+Message-ID: <CAMuHMdXk2mZntTBe3skSVkcNVjC-PzMwEv_MbH85Mvn1ZkFpHw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] can: rcar_canfd: Add support for r8a779a0 SoC
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>, linux-can@vger.kernel.org,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Jakub Kicinski <kuba@kernel.org>, mailhol.vincent@wanadoo.fr,
+        socketcan@hartkopp.net
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Pass the following properties to the crash dump kernel, to provide a
-modern DT interface between kexec and the crash dump kernel:
+Hi Uli,
 
-  - linux,elfcorehdr: ELF core header segment, similar to the
-    "elfcorehdr=" kernel parameter.
-  - linux,usable-memory-range: Usable memory reserved for the crash dump
-    kernel.
-    This makes the memory reservation explicit, so Linux no longer needs
-    to mask the program counter, and rely on the "mem=" kernel parameter
-    to obtain the start and size of usable memory.
+On Fri, Sep 24, 2021 at 5:38 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> Adds support for the CANFD IP variant in the V3U SoC.
+>
+> Differences to controllers in other SoCs are limited to an increase in
+> the number of channels from two to eight, an absence of dedicated
+> registers for "classic" CAN mode, and a number of differences in magic
+> numbers (register offsets and layouts).
+>
+> Inspired by BSP patch by Kazuya Mizuguchi.
+>
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-For backwards compatibility, the "elfcorehdr=" and "mem=" kernel
-parameters are still appended to the kernel command line.
+Thanks for your patch!
 
-Loosely based on the ARM64 version by Akashi Takahiro.
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -44,10 +44,13 @@
+>  enum rcanfd_chip_id {
+>         RENESAS_RCAR_GEN3 = 0,
+>         RENESAS_RZG2L,
+> +       RENESAS_R8A779A0,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-The counterpart patch for the Linux kernel[1] has been accepted in Russell
-King's linux-arm/for-next branch[2].
+RENESAS_RCAR_V3U? ...
 
-[1] "[PATCH v6] ARM: uncompress: Parse "linux, usable-memory-range" DT
-property"
-    https://lore.kernel.org/linux-arm-kernel/0de07021e49ac26a8f9386f62f3e15e947d0f6d0.1631709384.git.geert+renesas@glider.be/
+>  };
+>
+>  /* Global register bits */
+>
+> +#define IS_V3U (gpriv->chip_id == RENESAS_R8A779A0)
 
-[2] http://git.armlinux.org.uk/cgit/linux-arm.git/commit/?h=for-next&id=2208287258d4e7dfa56394a286bb0f7ade388a91
+... As you use V3U here.
 
-v2:
-  - Rebased.
----
- kexec/arch/arm/crashdump-arm.c    |  10 ++-
- kexec/arch/arm/crashdump-arm.h    |   2 +
- kexec/arch/arm/kexec-zImage-arm.c | 137 ++++++++++++++++++++++++++++++
- 3 files changed, 147 insertions(+), 2 deletions(-)
+> +
+>  /* RSCFDnCFDGRMCFG */
+>  #define RCANFD_GRMCFG_RCMC             BIT(0)
+>
+> @@ -79,6 +82,7 @@ enum rcanfd_chip_id {
+>  #define RCANFD_GSTS_GNOPM              (BIT(0) | BIT(1) | BIT(2) | BIT(3))
+>
+>  /* RSCFDnCFDGERFL / RSCFDnGERFL */
+> +#define RCANFD_GERFL_EEF0_7            GENMASK(23, 16)
+>  #define RCANFD_GERFL_EEF1              BIT(17)
+>  #define RCANFD_GERFL_EEF0              BIT(16)
+>  #define RCANFD_GERFL_CMPOF             BIT(3)  /* CAN FD only */
+> @@ -86,20 +90,24 @@ enum rcanfd_chip_id {
+>  #define RCANFD_GERFL_MES               BIT(1)
+>  #define RCANFD_GERFL_DEF               BIT(0)
+>
+> -#define RCANFD_GERFL_ERR(gpriv, x)     ((x) & (RCANFD_GERFL_EEF1 |\
+> -                                       RCANFD_GERFL_EEF0 | RCANFD_GERFL_MES |\
+> -                                       (gpriv->fdmode ?\
+> -                                        RCANFD_GERFL_CMPOF : 0)))
+> +#define RCANFD_GERFL_ERR(gpriv, x)     ((x) & ((IS_V3U ? RCANFD_GERFL_EEF0_7 : \
+> +                                       (RCANFD_GERFL_EEF0 | RCANFD_GERFL_EEF1)) | \
+> +                                       RCANFD_GERFL_MES | ((gpriv)->fdmode ? \
+> +                                       RCANFD_GERFL_CMPOF : 0)))
 
-diff --git a/kexec/arch/arm/crashdump-arm.c b/kexec/arch/arm/crashdump-arm.c
-index daa478868b4976d7..1ec1826c24b52ed9 100644
---- a/kexec/arch/arm/crashdump-arm.c
-+++ b/kexec/arch/arm/crashdump-arm.c
-@@ -54,7 +54,7 @@ struct memory_ranges usablemem_rgns = {
- };
- 
- /* The boot-time physical memory range reserved for crashkernel region */
--static struct memory_range crash_kernel_mem;
-+struct memory_range crash_kernel_mem;
- 
- /* reserved regions */
- #define CRASH_MAX_RESERVED_RANGES 2
-@@ -64,6 +64,8 @@ static struct memory_ranges crash_reserved_rgns = {
- 	.ranges = crash_reserved_ranges,
- };
- 
-+struct memory_range elfcorehdr_mem;
-+
- static struct crash_elf_info elf_info = {
- 	.class		= ELFCLASS32,
- 	.data		= ELFDATANATIVE,
-@@ -307,7 +309,11 @@ int load_crashdump_segments(struct kexec_info *info, char *mod_cmdline)
- 					  crash_kernel_mem.start,
- 					  crash_kernel_mem.end, -1, 0);
- 
--	dbgprintf("elfcorehdr: %#lx\n", elfcorehdr);
-+	elfcorehdr_mem.start = elfcorehdr;
-+	elfcorehdr_mem.end = elfcorehdr + bufsz - 1;
-+
-+	dbgprintf("elfcorehdr 0x%llx-0x%llx\n", elfcorehdr_mem.start,
-+		  elfcorehdr_mem.end);
- 	cmdline_add_elfcorehdr(mod_cmdline, elfcorehdr);
- 
- 	/*
-diff --git a/kexec/arch/arm/crashdump-arm.h b/kexec/arch/arm/crashdump-arm.h
-index 6e87b13c4b8c86fe..bbdf8bf9de58eb5d 100644
---- a/kexec/arch/arm/crashdump-arm.h
-+++ b/kexec/arch/arm/crashdump-arm.h
-@@ -13,6 +13,8 @@ extern "C" {
- 
- 
- extern struct memory_ranges usablemem_rgns;
-+extern struct memory_range crash_kernel_mem;
-+extern struct memory_range elfcorehdr_mem;
- 
- struct kexec_info;
- 
-diff --git a/kexec/arch/arm/kexec-zImage-arm.c b/kexec/arch/arm/kexec-zImage-arm.c
-index f4c23bf3b99b1a3a..8b474ddb6268d717 100644
---- a/kexec/arch/arm/kexec-zImage-arm.c
-+++ b/kexec/arch/arm/kexec-zImage-arm.c
-@@ -4,6 +4,7 @@
-  */
- #define _GNU_SOURCE
- #define _XOPEN_SOURCE
-+#include <stdbool.h>
- #include <stdio.h>
- #include <string.h>
- #include <stdlib.h>
-@@ -374,6 +375,103 @@ static const struct zimage_tag *find_extension_tag(const char *buf, off_t len,
- 	return NULL;
- }
- 
-+static int get_cells_size(void *fdt, uint32_t *address_cells,
-+			  uint32_t *size_cells)
-+{
-+	int nodeoffset;
-+	const uint32_t *prop = NULL;
-+	int prop_len;
-+
-+	/* default values */
-+	*address_cells = 1;
-+	*size_cells = 1;
-+
-+	/* under root node */
-+	nodeoffset = fdt_path_offset(fdt, "/");
-+	if (nodeoffset < 0)
-+		return -1;
-+
-+	prop = fdt_getprop(fdt, nodeoffset, "#address-cells", &prop_len);
-+	if (prop) {
-+		if (prop_len != sizeof(*prop))
-+			return -1;
-+
-+		*address_cells = fdt32_to_cpu(*prop);
-+	}
-+
-+	prop = fdt_getprop(fdt, nodeoffset, "#size-cells", &prop_len);
-+	if (prop) {
-+		if (prop_len != sizeof(*prop))
-+			return -1;
-+
-+		*size_cells = fdt32_to_cpu(*prop);
-+	}
-+
-+	dbgprintf("%s: #address-cells:%d #size-cells:%d\n", __func__,
-+		  *address_cells, *size_cells);
-+	return 0;
-+}
-+
-+static bool cells_size_fitted(uint32_t address_cells, uint32_t size_cells,
-+			      struct memory_range *range)
-+{
-+	dbgprintf("%s: %llx-%llx\n", __func__, range->start, range->end);
-+
-+	/* if *_cells >= 2, cells can hold 64-bit values anyway */
-+	if ((address_cells == 1) && (range->start >= (1ULL << 32)))
-+		return false;
-+
-+	if ((size_cells == 1) &&
-+	    ((range->end - range->start + 1) >= (1ULL << 32)))
-+		return false;
-+
-+	return true;
-+}
-+
-+static void fill_property(void *buf, uint64_t val, uint32_t cells)
-+{
-+	uint32_t val32;
-+	int i;
-+
-+	if (cells == 1) {
-+		val32 = cpu_to_fdt32((uint32_t)val);
-+		memcpy(buf, &val32, sizeof(uint32_t));
-+	} else {
-+		for (i = 0;
-+		     i < (cells * sizeof(uint32_t) - sizeof(uint64_t)); i++)
-+			*(char *)buf++ = 0;
-+
-+		val = cpu_to_fdt64(val);
-+		memcpy(buf, &val, sizeof(uint64_t));
-+	}
-+}
-+
-+static int setup_dtb_prop_range(char **bufp, off_t *sizep, int parentoffset,
-+				const char *node_name, const char *prop_name,
-+				struct memory_range *range,
-+				uint32_t address_cells, uint32_t size_cells)
-+{
-+	void *buf, *prop;
-+	size_t buf_size;
-+	int result;
-+
-+	buf_size = (address_cells + size_cells) * sizeof(uint32_t);
-+	prop = buf = xmalloc(buf_size);
-+
-+	fill_property(prop, range->start, address_cells);
-+	prop += address_cells * sizeof(uint32_t);
-+
-+	fill_property(prop, range->end - range->start + 1, size_cells);
-+	prop += size_cells * sizeof(uint32_t);
-+
-+	result = setup_dtb_prop(bufp, sizep, parentoffset, node_name,
-+				prop_name, buf, buf_size);
-+
-+	free(buf);
-+
-+	return result;
-+}
-+
- int zImage_arm_load(int argc, char **argv, const char *buf, off_t len,
- 	struct kexec_info *info)
- {
-@@ -381,6 +479,7 @@ int zImage_arm_load(int argc, char **argv, const char *buf, off_t len,
- 	unsigned long base, kernel_base;
- 	unsigned int atag_offset = 0x1000; /* 4k offset from memory start */
- 	unsigned int extra_size = 0x8000; /* TEXT_OFFSET */
-+	uint32_t address_cells, size_cells;
- 	const struct zimage_tag *tag;
- 	size_t kernel_buf_size;
- 	size_t kernel_mem_size;
-@@ -391,6 +490,7 @@ int zImage_arm_load(int argc, char **argv, const char *buf, off_t len,
- 	const char *ramdisk_buf;
- 	int opt;
- 	int use_atags;
-+	int result;
- 	char *dtb_buf;
- 	off_t dtb_length;
- 	char *dtb_file;
-@@ -743,6 +843,43 @@ int zImage_arm_load(int argc, char **argv, const char *buf, off_t len,
- 				return -1;
- 		}
- 
-+		if (info->kexec_flags & KEXEC_ON_CRASH) {
-+			/* Determine #address-cells and #size-cells */
-+			result = get_cells_size(dtb_buf, &address_cells,
-+						&size_cells);
-+			if (result) {
-+				fprintf(stderr, "Cannot determine cells-size.\n");
-+				return -1;
-+			}
-+
-+			if (!cells_size_fitted(address_cells, size_cells,
-+					       &elfcorehdr_mem)) {
-+				fprintf(stderr, "elfcorehdr doesn't fit cells-size.\n");
-+				return -1;
-+			}
-+
-+			if (!cells_size_fitted(address_cells, size_cells,
-+					       &crash_kernel_mem)) {
-+				fprintf(stderr, "kexec: usable memory range doesn't fit cells-size.\n");
-+				return -1;
-+			}
-+
-+			/* Add linux,elfcorehdr */
-+			if (setup_dtb_prop_range(&dtb_buf, &dtb_length, 0,
-+						 "chosen", "linux,elfcorehdr",
-+						 &elfcorehdr_mem,
-+						 address_cells, size_cells))
-+				return -1;
-+
-+			/* Add linux,usable-memory-range */
-+			if (setup_dtb_prop_range(&dtb_buf, &dtb_length, 0,
-+						 "chosen",
-+						 "linux,usable-memory-range",
-+						 &crash_kernel_mem,
-+						 address_cells, size_cells))
-+				return -1;
-+		}
-+
- 		/*
- 		 * The dtb must also be placed above the memory used by
- 		 * the zImage.  We don't care about its position wrt the
+I'm wondering if some of these IS_V3U checks can be avoided, improving
+legibility, by storing a feature struct instead of a chip_id in
+rcar_canfd_of_table[].data?
+
+>  /* RSCFDnCFDRFCCx / RSCFDnRFCCx */
+> -#define RCANFD_RFCC(x)                 (0x00b8 + (0x04 * (x)))
+> +#define RCANFD_RFCC(x)                 ((IS_V3U ? 0x00c0 : 0x00b8) + \
+> +                                        (0x04 * (x)))
+>  /* RSCFDnCFDRFSTSx / RSCFDnRFSTSx */
+> -#define RCANFD_RFSTS(x)                        (0x00d8 + (0x04 * (x)))
+> +#define RCANFD_RFSTS(x)                        ((IS_V3U ? 0x00e0 : 0x00d8) + \
+> +                                        (0x04 * (x)))
+>  /* RSCFDnCFDRFPCTRx / RSCFDnRFPCTRx */
+> -#define RCANFD_RFPCTR(x)               (0x00f8 + (0x04 * (x)))
+> +#define RCANFD_RFPCTR(x)               ((IS_V3U ? 0x0100 : 0x00f8) + \
+> +                                        (0x04 * (x)))
+
+There's some logic in the offsets: they're 32 bytes apart, regardless
+of IS_V3U. Can we make use of that?
+
+>
+>  /* Common FIFO Control registers */
+>
+>  /* RSCFDnCFDCFCCx / RSCFDnCFCCx */
+> -#define RCANFD_CFCC(ch, idx)           (0x0118 + (0x0c * (ch)) + \
+> -                                        (0x04 * (idx)))
+> +#define RCANFD_CFCC(ch, idx)           ((IS_V3U ? 0x0120 : 0x0118) + \
+> +                                        (0x0c * (ch)) + (0x04 * (idx)))
+>  /* RSCFDnCFDCFSTSx / RSCFDnCFSTSx */
+> -#define RCANFD_CFSTS(ch, idx)          (0x0178 + (0x0c * (ch)) + \
+> -                                        (0x04 * (idx)))
+> +#define RCANFD_CFSTS(ch, idx)          ((IS_V3U ? 0x01e0 : 0x0178) + \
+> +                                        (0x0c * (ch)) + (0x04 * (idx)))
+>  /* RSCFDnCFDCFPCTRx / RSCFDnCFPCTRx */
+> -#define RCANFD_CFPCTR(ch, idx)         (0x01d8 + (0x0c * (ch)) + \
+> -                                        (0x04 * (idx)))
+> +#define RCANFD_CFPCTR(ch, idx)         ((IS_V3U ? 0x0240 : 0x01d8) + \
+> +                                        (0x0c * (ch)) + (0x04 * (idx)))
+
+Same here, 96 bytes spacing.
+
+> @@ -1488,22 +1545,29 @@ static netdev_tx_t rcar_canfd_start_xmit(struct sk_buff *skb,
+>  static void rcar_canfd_rx_pkt(struct rcar_canfd_channel *priv)
+>  {
+>         struct net_device_stats *stats = &priv->ndev->stats;
+> +       struct rcar_canfd_global *gpriv = priv->gpriv;
+>         struct canfd_frame *cf;
+>         struct sk_buff *skb;
+>         u32 sts = 0, id, dlc;
+>         u32 ch = priv->channel;
+>         u32 ridx = ch + RCANFD_RFFIFO_IDX;
+>
+> -       if (priv->can.ctrlmode & CAN_CTRLMODE_FD) {
+> +       if ((priv->can.ctrlmode & CAN_CTRLMODE_FD) ||
+> +           gpriv->chip_id == RENESAS_R8A779A0) {
+>                 id = rcar_canfd_read(priv->base, RCANFD_F_RFID(ridx));
+>                 dlc = rcar_canfd_read(priv->base, RCANFD_F_RFPTR(ridx));
+>
+>                 sts = rcar_canfd_read(priv->base, RCANFD_F_RFFDSTS(ridx));
+> -               if (sts & RCANFD_RFFDSTS_RFFDF)
+> -                       skb = alloc_canfd_skb(priv->ndev, &cf);
+> -               else
+> +               if (priv->can.ctrlmode & CAN_CTRLMODE_FD) {
+> +                       if (sts & RCANFD_RFFDSTS_RFFDF)
+> +                               skb = alloc_canfd_skb(priv->ndev, &cf);
+> +                       else
+> +                               skb = alloc_can_skb(priv->ndev,
+> +                                                   (struct can_frame **)&cf);
+> +               } else {
+>                         skb = alloc_can_skb(priv->ndev,
+>                                             (struct can_frame **)&cf);
+
+The two else branches do the same, so they can be combined.
+
+> +               }
+>         } else {
+>                 id = rcar_canfd_read(priv->base, RCANFD_C_RFID(ridx));
+>                 dlc = rcar_canfd_read(priv->base, RCANFD_C_RFPTR(ridx));
+
+> @@ -1563,6 +1633,7 @@ static int rcar_canfd_rx_poll(struct napi_struct *napi, int quota)
+>  {
+>         struct rcar_canfd_channel *priv =
+>                 container_of(napi, struct rcar_canfd_channel, napi);
+> +       struct rcar_canfd_global *gpriv = priv->gpriv;
+>         int num_pkts;
+>         u32 sts;
+>         u32 ch = priv->channel;
+> @@ -1762,19 +1833,23 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+>         int g_err_irq, g_recc_irq;
+>         bool fdmode = true;                     /* CAN FD only mode - default */
+>         enum rcanfd_chip_id chip_id;
+> +       int max_channels;
+> +       char name[9];
+> +       int i;
+>
+>         chip_id = (uintptr_t)of_device_get_match_data(&pdev->dev);
+> +       max_channels = chip_id == RENESAS_R8A779A0 ? 8 : 2;
+
+max_channels is a good candidate to store in the feature struct.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
