@@ -2,90 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D326422792
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 15:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E4EC42279E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 15:18:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234851AbhJENRZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Oct 2021 09:17:25 -0400
-Received: from mail-vs1-f53.google.com ([209.85.217.53]:37502 "EHLO
-        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234209AbhJENRY (ORCPT
+        id S234170AbhJENUO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Oct 2021 09:20:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56390 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233825AbhJENUN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Oct 2021 09:17:24 -0400
-Received: by mail-vs1-f53.google.com with SMTP id f2so22724219vsj.4;
-        Tue, 05 Oct 2021 06:15:33 -0700 (PDT)
+        Tue, 5 Oct 2021 09:20:13 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44273C061749
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Oct 2021 06:18:23 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id s64so42454099yba.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Oct 2021 06:18:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=pC0WRFFN27SkU+mcBFvDkCQZvw/ZpiRxiRTp57xNLA0=;
+        b=C3FQ0f2bQRPI6ss9gI1lT3NrTPaCn/n+T4wz/dNiHUoXHx1KmxkWO0jsQNwosjoG3o
+         nJkyZX/32Vv7AhI5sw79zTp62jucHFCgZoX+47b7XJ94R6WOM/yqnybS02hcwLPZaZoT
+         cCGObHeKB/yynG7cJx+X77Pe4hY3zFyGaJCxJ9WzQSPUh8HfcynqzqXzlD7YZKyxYsmE
+         hIQLdvN3z3jeyMy6yYEjmj3WyN/ULDv/ffSfHm88OFA2jlK52y/qeFrvl2AFt/1DerKy
+         R7/YPwRR3gYHU1gJ2MAOtqrKx6RtFrgyhcmo9AKjjFSThe3Dz5LR1WuMxSlOBqYNuuTC
+         R8jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OSk13JmDOAD3APp29HqxG5dZ8D802ycSa4BBBThK2Lo=;
-        b=7CBYfCOcSzuH4Dy3TjMBjvqdLsoWFKmF9lZffQNGenXv5ofOW8JUkWpmfLrvUJH+Cz
-         tmVmzJVsf2TV8o43yUHQz5ix3N23NMP/pHjFilLk5zgYJ7+nnAcrTUub3znGIUtx5jqh
-         1lkTZfSpn410uSdwIt0ZuXhbOjElTFEXg4VWcnI+gPonUig8BuhDGgGqILvT9FyM9EtH
-         a+pxmL6ouEBDTS0/4xjHfeXuXFRKVvRtWTik+h7YSwFphrUoUpw/1ScjNB+oPDKIO2yk
-         qNVotBX6ZOrbADXkFE8vprnNKID8xdc/X5mdnbZPP9+Yv1DQBRGYos87lnVtI7MF+qyu
-         MwyQ==
-X-Gm-Message-State: AOAM533jQxZ+/3xU01I5eU1S1c3CVlpMCBy5GCfUnx3+sYB6SYw+TyNF
-        kAMXvrRRArvzU4FzLkGL41WepRuNUsLGukYuZsc=
-X-Google-Smtp-Source: ABdhPJz6nnMbR+9+89nKxvJ7lKJrX7FwjNnkjIF7wUUvPVZ51A91F+WKUqXWRpll3Ph9agb50Myz4aeCp41nnDp1jcg=
-X-Received: by 2002:a67:f147:: with SMTP id t7mr18249873vsm.41.1633439733265;
- Tue, 05 Oct 2021 06:15:33 -0700 (PDT)
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=pC0WRFFN27SkU+mcBFvDkCQZvw/ZpiRxiRTp57xNLA0=;
+        b=kISYLHDaKBQYEd7rh9jra3S+9VzL1Peijw3FUtJCeZyHRgU9lzWdHFGjU8KvTwtvN4
+         FYUKMMkM8P8d2/DNxHo+5ml827G5SnUVgE5u+WAhnFjTUlrzKnmZ4PaUhY16YFhDAyHJ
+         3cbfNtDJLSj1Otgj5jk+VgsRPRFtadXVaVM8JM9EfC0qSsiVKHWtm5AnkhuawDYk5tup
+         bPcochMk0b3sUJswfj28NMhDgZa02UtzcB08H0y39cLu6QWL7WRl14rL4wnrTJFTqvuL
+         pw+5qoq25l+Znv6AY9p5kCVmHXZD0imxhiCX64K0iLZiGLnNwtKXat0RyVtPsymztGsJ
+         ABsw==
+X-Gm-Message-State: AOAM5335BfedI5nRJKp7jf0/0BFmoGS6SQpvMfB/w6XSc2XI4ZP+yFL5
+        IN2MWRAmbkbJJaHd9P5yPUS9qSCRPwfmTCscxl0=
+X-Google-Smtp-Source: ABdhPJynDnR2UJL1c+TSWMcAle/wHH+DhIxv3z5R9yXFb/ytHMYx2CQXH8xM47VadedhzC4zFZ9CzhaxsgBaXI/Iroc=
+X-Received: by 2002:a25:49c2:: with SMTP id w185mr20573212yba.294.1633439901364;
+ Tue, 05 Oct 2021 06:18:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210924153113.10046-1-uli+renesas@fpond.eu> <20210924153113.10046-3-uli+renesas@fpond.eu>
-In-Reply-To: <20210924153113.10046-3-uli+renesas@fpond.eu>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Oct 2021 15:15:17 +0200
-Message-ID: <CAMuHMdUo_96409P30O8_RAp12w322mxsTiZBHgYdAOGjEdC+EQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: can: renesas,rcar-canfd: Document
- r8a779a0 support
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>, linux-can@vger.kernel.org,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Jakub Kicinski <kuba@kernel.org>, mailhol.vincent@wanadoo.fr,
-        socketcan@hartkopp.net
+Sender: mr.musa.ahmed7@gmail.com
+Received: by 2002:a05:7010:2183:b0:158:4a2d:3a72 with HTTP; Tue, 5 Oct 2021
+ 06:18:20 -0700 (PDT)
+From:   Aisha Al-Qaddafi <aisha.gdaffi24@gmail.com>
+Date:   Tue, 5 Oct 2021 14:18:20 +0100
+X-Google-Sender-Auth: vFgxOKsf08Q_N-P5djqkBilI-Ws
+Message-ID: <CAAz8YJ_ZGNQwk-rKpQVS3PJAC_RjPH-sD0zMEG5_+gR+yCG9Fw@mail.gmail.com>
+Subject: My Dear Friend,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uli,
-
-On Fri, Sep 24, 2021 at 5:34 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> Document support for rcar_canfd on R8A779A0 (V3U) SoCs.
->
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-
-Thanks for your patch!
-
-> --- a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-> +++ b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
-> @@ -28,6 +28,7 @@ properties:
->                - renesas,r8a77980-canfd     # R-Car V3H
->                - renesas,r8a77990-canfd     # R-Car E3
->                - renesas,r8a77995-canfd     # R-Car D3
-> +              - renesas,r8a779a0-canfd     # R-Car V3U
-
-As CAN-FD on R-Car V3U differs from the other R-Car Gen3 SoCs,
-it should receive its own oneOf entry.
-
->            - const: renesas,rcar-gen3-canfd # R-Car Gen3 and RZ/G2
->
->        - items:
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I came across your e-mail contact prior to a private search while in
+need of your assistance. I am Aisha Al-Qaddafi, the only biological
+Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
+single Mother and a Widow with three Children.
+I have investment funds worth Twenty Seven Million Five Hundred
+Thousand United State Dollar ($27.500.000.00 ) and i need a trusted
+investment Manager/Partner because of my current refugee status,
+however, I am interested in you for investment project assistance in
+your country If you are willing to handle this project on my behalf kindly reply
+urgently to enable me to provide you more information about the
+investment funds.
+Your Urgent Reply Will Be Appreciated
+Best Regards
+Mrs Aisha Al-Qaddafi
