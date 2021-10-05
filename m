@@ -2,76 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6C67422BF5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 17:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CA42422C04
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 17:12:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230059AbhJEPNT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Oct 2021 11:13:19 -0400
-Received: from mail-vs1-f52.google.com ([209.85.217.52]:39557 "EHLO
-        mail-vs1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235697AbhJEPNO (ORCPT
+        id S235809AbhJEPN6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Oct 2021 11:13:58 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:34602 "EHLO
+        mail-vs1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235810AbhJEPNz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Oct 2021 11:13:14 -0400
-Received: by mail-vs1-f52.google.com with SMTP id o124so24070565vsc.6;
-        Tue, 05 Oct 2021 08:11:23 -0700 (PDT)
+        Tue, 5 Oct 2021 11:13:55 -0400
+Received: by mail-vs1-f53.google.com with SMTP id d18so1453207vsh.1;
+        Tue, 05 Oct 2021 08:12:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AO/n39DEQE+kNBhOJcG8/vIMrumgJRNvPPJVHpBpJic=;
-        b=7k88qyS5175LhLeE8r4ATbwQhNhv0NX1Jac9bvWIdpRbyEzEMqQVDy3nuWXE+uA/K4
-         gZiUBn/dg8xo9KIaEzaK19vUsqfNGg1bTRKCQQGsxDb0gnUSWqNKluw6mIqY0sJE2G+2
-         e6VC7gKUBuRg5vo0USxtA/tO8rhYIV7UAst1Ra0GIkB8yYhBS/P/NRPOxwIetRF1gNcI
-         KsOPAn34iQMiX+evvoI49/BsbkdvA+ao5db6eAadxm8Qe6aq0NPB/FiOE1zB92tQeH79
-         904T1aaPPtFFSVR/VLHlUKPo+YpkjyAzv28yIIPhuqTYXSiuxs02YEf8jqqDIo4m4Z5Z
-         xBqw==
-X-Gm-Message-State: AOAM531YEF2antANONQG+RMvRzLwue+727lIyg1w/F+IyLpD/LhYP7Sy
-        +IeFuxlPjpbGr/0OTKfhPgteHUnOIKa8zzt+G6Y=
-X-Google-Smtp-Source: ABdhPJwbutRLYFa/x4DgBk6axsrpzqnuQQS9yABJI7P4SqTGGeBmOBsHASLte9b+qo/+S14Axl7WqhSZ8l5JCixtpCM=
-X-Received: by 2002:a67:cb0a:: with SMTP id b10mr19359924vsl.9.1633446682848;
- Tue, 05 Oct 2021 08:11:22 -0700 (PDT)
+        bh=gf17DwZloYrFgqlw64n/3dkqUKbD656uIR22G5R4yNA=;
+        b=WYWH8uTxSMJq76TgA2ObpZPhrPwf5t4TEhKPIinSCwhxIUYEW17aRT2z7Ec5V2w1OF
+         fXJqV2fGKZPpZsJBLjsm257C0WpKeLnWGDnnUdaV2GgUhQOFFuYksbEinRMK0YLArKTu
+         bNrJ3gw1Mcar1W2RfltrYcKIhuoEPPqPDqo53y02iALamMZC/XrLOMEhkVPTVpmy1WMG
+         kM1TyEs4QVPdBcPBWLzRbeilnYXx6NLB1yH1g5j5qquX+SvgmCg01zCxrHf8Jyzs0fbj
+         jZLNFTyLbrv9c3/BOjdgTTtNU1Bp/3vJsStxL7BhN/ZZP0pgsIN8Tlldc6eoNQS37833
+         N/9Q==
+X-Gm-Message-State: AOAM531G7wM3MG0hgkBNVs2MKk1aim1WUNOmDg4yUvy5GDnohnB/vwbp
+        Gag/x74BaU+b4rij5+ibXPIz7p+e0ir+okDwxkM=
+X-Google-Smtp-Source: ABdhPJyixGIKxdVKLR+jX0yGSnIsxa6UT2MwKmvFfDtbnIxso2yONZOkM11x61wzCO95nrP8oCxmehr97uuO6qk3ado=
+X-Received: by 2002:a67:f147:: with SMTP id t7mr18978451vsm.41.1633446724666;
+ Tue, 05 Oct 2021 08:12:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210929000735.585237-1-saravanak@google.com> <20210929000735.585237-3-saravanak@google.com>
-In-Reply-To: <20210929000735.585237-3-saravanak@google.com>
+References: <20210928140721.8805-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210928140721.8805-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210928140721.8805-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Oct 2021 17:11:11 +0200
-Message-ID: <CAMuHMdWLgpom978bGt1vdNQNxPVb34QJRs5gdRKnRkOs6DJOLA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] drivers: bus: Delete CONFIG_SIMPLE_PM_BUS
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
+Date:   Tue, 5 Oct 2021 17:11:53 +0200
+Message-ID: <CAMuHMdWSsrV-9Kxz=zS3CVKSbo2OkwyaVK2Jx-+X68W-cqAdvQ@mail.gmail.com>
+Subject: Re: [PATCH 2/6] dt-bindings: memory: renesas,rpc-if: Add optional
+ interrupts property
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mark Brown <broonie@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-oxnas@groups.io,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:TI ETHERNET SWITCH DRIVER (CPSW)" 
-        <linux-omap@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 29, 2021 at 2:07 AM Saravana Kannan <saravanak@google.com> wrote:
-> The simple-pm-bus driver is mandatory for CONFIG_OF based platforms to work
-> with fw_devlink. So, always compile it in for CONFIG_OF and delete the
-> config since it's no longer necessary.
+On Tue, Sep 28, 2021 at 4:07 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> For completeness add optional interrupts property.
 >
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Works fine on R-Car Gen/Gen3 (simple-bus), and SH-Mobile AG5,
-R-Mobile APE6, and K210 (simple-pm-bus).
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
