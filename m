@@ -2,123 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A7B7421868
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Oct 2021 22:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F08D6421B15
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 02:25:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236120AbhJDUb3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Oct 2021 16:31:29 -0400
-Received: from mxout03.lancloud.ru ([45.84.86.113]:52374 "EHLO
-        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233934AbhJDUb2 (ORCPT
+        id S229563AbhJEA11 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Oct 2021 20:27:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47792 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229486AbhJEA11 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Oct 2021 16:31:28 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru A0B7A206179C
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH 2/8] ravb: Fillup ravb_rx_ring_free_gbeth() stub
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        "Adam Ford" <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211001164305.8999-1-biju.das.jz@bp.renesas.com>
- <20211001164305.8999-3-biju.das.jz@bp.renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <942afec6-6566-25ce-356a-f692f17b4153@omp.ru>
-Date:   Mon, 4 Oct 2021 23:29:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <20211001164305.8999-3-biju.das.jz@bp.renesas.com>
+        Mon, 4 Oct 2021 20:27:27 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 720CAC061745
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Oct 2021 17:25:37 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id a73so15226883pge.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Oct 2021 17:25:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=MQSkt5MPBuThDg/wFCbOabUSVHU0vP4SdEgt1MY4Tr0=;
+        b=rGOGoK4zjsFSR2K+QVPNEeEO8HnG0tujG0VXXiVvCxbxpPPydRKl1QmP5CbVl15e7n
+         UcCNysZUlKoAiSI9xPEFFwsbCJawFRj90aaFcRTFk+iZwh0PaPNHQYnNBU3yyKAfLY0E
+         aAlWXmHQ9AYMKvvi9m6O0b4mIgw2SNgqJcUWfBwtdJshe0Pfai2b06Ewmp/FBav7xwHc
+         YYTESeHvpLbdwcHv5puYGLk1y2UPKPiLKFIvhVfzrpRegoIUgmUEkFxWFGGH0ndK4o3h
+         e7/FEfjcQQBVSh9HYHJa9NyIWoiMAqZcBUkHjonVCahv6X6myHrlSzuKiDrpYeUXe3Sf
+         KEmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=MQSkt5MPBuThDg/wFCbOabUSVHU0vP4SdEgt1MY4Tr0=;
+        b=ESuLCs0BHBGr6OjTfOAAX0svE6U+zFwxhzvPiwjOHGxCHuotTIBjVTgkr6d2XajoFj
+         z3BDD5ML/s/e2Z3VlTc13OH9Nr5ii/o1agEBtsdjP71PBJvAwOevAJWrNCxGlGIeEeth
+         JOmHSCssCFOXCRSt7moVlp4lxwley2n0Vhrmdmsgp+8vo45MqN07qqMxsPSD65McX6qm
+         o4p7Zn0QSqawDiL7iLx1FjTrLUkHcmkibRURRvhAT4eyRUrKX0ThNP8kRc3qK3xzDDSw
+         QS0wJCjVAX49Irw8dqQLPNTz5gQNdz6/ItFuDJi1XRwWRPb2lfa3pFtqq0Ahhd3auq+S
+         enxg==
+X-Gm-Message-State: AOAM533HNtKidVpJlomW75UMSBOa0ijHLRIm2osegysLf65MBmwE5eQ4
+        O/nVAD8oXkFbVw2SjL+BTaOsQad1o0yUhFKy
+X-Google-Smtp-Source: ABdhPJwxWgo5ggDr2aoEhXsdJjDmAgKrb8lQcGPy3zpxGXq8oQURF8vydShm0ha8wPYmAD+jHtqIEA==
+X-Received: by 2002:a65:44c4:: with SMTP id g4mr13427451pgs.254.1633393536677;
+        Mon, 04 Oct 2021 17:25:36 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id y9sm15231086pfm.129.2021.10.04.17.25.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Oct 2021 17:25:36 -0700 (PDT)
+Message-ID: <615b9b80.1c69fb81.95f8a.f07b@mx.google.com>
+Date:   Mon, 04 Oct 2021 17:25:36 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2021-10-04-v5.15-rc4
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+Subject: renesas/master igt-kms-rockchip: 1 runs,
+ 1 regressions (renesas-devel-2021-10-04-v5.15-rc4)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/1/21 7:42 PM, Biju Das wrote:
+renesas/master igt-kms-rockchip: 1 runs, 1 regressions (renesas-devel-2021-=
+10-04-v5.15-rc4)
 
-> Fillup ravb_rx_ring_free_gbeth() function to support RZ/G2L.
-> 
-> This patch also renames ravb_rx_ring_free to ravb_rx_ring_free_rcar
-> to be consistent with the naming convention used in sh_eth driver.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> RFC->v1:
->  * renamed "rgeth" to "gbeth".
->  * renamed ravb_rx_ring_free to ravb_rx_ring_free_rcar
-> ---
->  drivers/net/ethernet/renesas/ravb.h      |  1 +
->  drivers/net/ethernet/renesas/ravb_main.c | 41 ++++++++++++++++++++----
->  2 files changed, 36 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index b147c4a0dc0b..1a73f960d918 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -1077,6 +1077,7 @@ struct ravb_private {
->  	unsigned int num_tx_desc;	/* TX descriptors per packet */
->  
->  	int duplex;
-> +	struct ravb_rx_desc *gbeth_rx_ring[NUM_RX_QUEUE];
+Regressions Summary
+-------------------
 
-   GBEther only has 1 RX queue, right?
-   And please move the declaration closer to ravb_private::rx_ring.
+platform         | arch  | lab           | compiler | defconfig | regressio=
+ns
+-----------------+-------+---------------+----------+-----------+----------=
+--
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 1        =
+  =
 
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 0d1e3f7d8c33..6ef55f1cf306 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-[...]
-> @@ -1084,16 +1104,25 @@ static int ravb_poll(struct napi_struct *napi, int budget)
->  	struct net_device *ndev = napi->dev;
->  	struct ravb_private *priv = netdev_priv(ndev);
->  	const struct ravb_hw_info *info = priv->info;
-> +	struct ravb_rx_desc *desc;
->  	unsigned long flags;
->  	int q = napi - priv->napi;
->  	int mask = BIT(q);
->  	int quota = budget;
-> +	unsigned int entry;
-> +	bool non_gptp = !(info->gptp || info->ccc_gac);
 
-   Just no_gptp? Or maybe gptp, seems even better?
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-10-04-v5.15-rc4/plan/igt-kms-rockchip/
 
->  
-> +	if (non_gptp) {
-> +		entry = priv->cur_rx[q] % priv->num_rx_ring[q];
-> +		desc = &priv->gbeth_rx_ring[q][entry];
-> +	}
->  	/* Processing RX Descriptor Ring */
->  	/* Clear RX interrupt */
->  	ravb_write(ndev, ~(mask | RIS0_RESERVED), RIS0);
-> -	if (ravb_rx(ndev, &quota, q))
-> -		goto out;
-> +	if (!non_gptp || desc->die_dt != DT_FEMPTY) {
-> +		if (ravb_rx(ndev, &quota, q))
-> +			goto out;
-> +	}
->  
->  	/* Processing TX Descriptor Ring */
->  	spin_lock_irqsave(&priv->lock, flags);
-[...]
+  Test:     igt-kms-rockchip
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-10-04-v5.15-rc4
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      022b9ed809ab70e8e1cac03f6a50d8cb91cf4098
 
-MBR, Sergey
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  8d0fb9b3f225183fb3276a0e4ae1f8354a3519e8
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  1084c5eb74fd0daf8c9b8e83e85f5208c396579b =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig | regressio=
+ns
+-----------------+-------+---------------+----------+-----------+----------=
+--
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-8    | defconfig | 1        =
+  =
+
+
+  Details:     https://kernelci.org/test/plan/id/615b950f5ec55b31df99a32f
+
+  Results:     79 PASS, 15 FAIL, 141 SKIP
+  Full config: defconfig
+  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-10-04-v5.15-rc4/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk=
+3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-10-04-v5.15-rc4/arm64/defconfig/gcc-8/lab-collabora/igt-kms-rockchip-rk=
+3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-igt/=
+20210913.0/arm64/rootfs.cpio.gz =
+
+
+
+  * igt-kms-rockchip.kms_setmode.basic: https://kernelci.org/test/case/id/6=
+15b950f5ec55b31df99a3d5
+        failing since 21 days (last pass: renesas-devel-2021-08-23-v5.14-rc=
+7, first fail: v5.15-rc1-564-ge23d26d2dc9a)
+
+    2021-10-04T23:55:42.278107  <8>[   44.701476] <LAVA_SIGNAL_TESTSET STOP>
+    2021-10-04T23:55:42.316928  <8>[   44.738665] <LAVA_SIGNAL_TESTSET STAR=
+T kms_setmode>
+    2021-10-04T23:55:42.351950  <6>[   44.775327] Console: switching to col=
+our dummy device 80x25
+    2021-10-04T23:55:42.358242  <14>[   44.782715] [IGT] kms_setmode: execu=
+ting
+    2021-10-04T23:55:42.370565  IGT-Version: 1.26-g1084c5e (aarch64) (Linux=
+: 5.15.0-rc4 aarch64)<14>[   44.788019] [IGT] kms_setmode: starting subtest=
+ basic
+    2021-10-04T23:55:42.371245  =
+
+    2021-10-04T23:55:42.373493  Starting subtest: basic
+    2021-10-04T23:55:42.377169  Testing: basic 1 connector combinations
+    2021-10-04T23:55:42.473191    Test id#1 CRTC count 1
+    2021-10-04T23:55:42.479870      CRTC[37] [Pipe A] Mode: 2400x1600@60Hz =
+Connectors: eDP-1[49] =
+
+    ... (68 line(s) more)  =
+
+ =20
