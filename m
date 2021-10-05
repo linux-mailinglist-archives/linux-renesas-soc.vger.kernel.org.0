@@ -2,96 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCA26421F1C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 08:53:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E09E422194
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 11:02:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232117AbhJEGzB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Oct 2021 02:55:01 -0400
-Received: from mail-ua1-f49.google.com ([209.85.222.49]:38415 "EHLO
-        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230526AbhJEGzB (ORCPT
+        id S232834AbhJEJEG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Oct 2021 05:04:06 -0400
+Received: from foss.arm.com ([217.140.110.172]:55834 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233365AbhJEJEF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Oct 2021 02:55:01 -0400
-Received: by mail-ua1-f49.google.com with SMTP id y3so8732578uar.5;
-        Mon, 04 Oct 2021 23:53:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=n5rvDJLT46KKVmj57QzEkEkQwVXnYVpO8DvlptVRyCA=;
-        b=jWK5x5OKncZn065eh5icxcgmS3DgqPjzAeVrwZIpAj/N4g1mirSuJ2X3fm4EkhyVhX
-         jfxxUi2rhaOX3YWcU3S/7Dexp5afwOmY3JDiUossOWhWTn4li9UTVY7Dnq94CUTNoiH0
-         RhCfsHh78Nt72pN4BTDVd4H/Uv2YRemTZrfPgCZtPPbGnvkCkuzZycU/xgbFv9pLri6a
-         2XH47lYpKHyTcqMndY0FJyXTj4GFwp+9q1Q71JPcbOK2yADmMQQQpRHv8CCOkC9RR7la
-         zJYPnUXiplo+gl3+OdbgaqYL+eyH58D/8lq6nnZ/n3MDxNA38earfWNfBPo4mMwW9cSY
-         SUJw==
-X-Gm-Message-State: AOAM5306A68tqOW+hJjz9TkNgItIrb+/5DHJL0mWS78nxIcdStGUAEQz
-        DCc2gvJo+AIRXB9A29au/jU06aEHcHCIdlNEwdo=
-X-Google-Smtp-Source: ABdhPJy5k1nMkYMYkWxdc7yorDKtTzk8W9HuAKjJZVnHbBCfhiYAPghoP07JTjh7MLd8GwhUpT80oTqR0wBZYVkKy3U=
-X-Received: by 2002:ab0:16d4:: with SMTP id g20mr10581513uaf.114.1633416790751;
- Mon, 04 Oct 2021 23:53:10 -0700 (PDT)
+        Tue, 5 Oct 2021 05:04:05 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D5336D;
+        Tue,  5 Oct 2021 02:02:14 -0700 (PDT)
+Received: from e123427-lin.arm.com (unknown [10.57.51.143])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 02CD93F66F;
+        Tue,  5 Oct 2021 02:02:12 -0700 (PDT)
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH] PCI: rcar: pcie-rcar-ep: Remove unneeded includes
+Date:   Tue,  5 Oct 2021 10:02:07 +0100
+Message-Id: <163342451358.26857.6595725847149939957.b4-ty@arm.com>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <7c708841a2bf84f85b14a963271c3e99c8ba38a5.1633090444.git.geert+renesas@glider.be>
+References: <7c708841a2bf84f85b14a963271c3e99c8ba38a5.1633090444.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <c987d0bf744150ca05bd952f5f9e5fb3244d27b0.1633350340.git.geert+renesas@glider.be>
- <20211005055050.ggimidaqis5tfxav@vireshk-i7>
-In-Reply-To: <20211005055050.ggimidaqis5tfxav@vireshk-i7>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Oct 2021 08:52:59 +0200
-Message-ID: <CAMuHMdVk6gDcHtYSM=Y8BAK=GVJuLqxTHk7zS4-MJPi0H0T=jQ@mail.gmail.com>
-Subject: Re: [PATCH] gpio: aggregator: Add interrupt support
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Enrico@rox.of.borg, Weigelt@rox.of.borg,
-        metux IT consult <lkml@metux.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        stratos-dev@op-lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Viresh,
+On Fri, 1 Oct 2021 14:16:09 +0200, Geert Uytterhoeven wrote:
+> Remove includes that are not needed, to speed up (re)compilation.
+> Include <linux/pm_runtime.h>, which is needed, and was included
+> implicitly through <linux/phy/phy.h> before.
+> 
+> Most of these are relics from splitting the driver in a host and a
+> common part, and adding endpoint support.
+> 
+> [...]
 
-On Tue, Oct 5, 2021 at 7:50 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> On 04-10-21, 14:44, Geert Uytterhoeven wrote:
-> > Currently the GPIO Aggregator does not support interrupts.  This means
-> > that kernel drivers going from a GPIO to an IRQ using gpiod_to_irq(),
-> > and userspace applications using line events do not work.
-> >
-> > Add interrupt support by providing a gpio_chip.to_irq() callback, which
-> > just calls into the parent GPIO controller.
-> >
-> > Note that this does not implement full interrupt controller (irq_chip)
-> > support, so using e.g. gpio-keys with "interrupts" instead of "gpios"
-> > still does not work.
->
-> Thanks for looking into this. I am not sure of the difference it makes
-> with and without full irq-chip, but lemme explain the use case that we
-> are concerned about with virtio.
->
-> Eventually the interrupt should be visible to userspace, with
-> something like libgpiod. Which can then send the information over
-> virtio to the guest.
+Applied to pci/rcar, thanks!
 
-Exactly, that was what I had in mind, too.
+[1/1] PCI: rcar: pcie-rcar-ep: Remove unneeded includes
+      https://git.kernel.org/lpieralisi/pci/c/ea52bd3459
 
-> Will the interrupts be visible in userspace with your patch ?
-
-Yes they are.
-Before, gpiomon (test app from libgpiod) didn't work, now it does.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Lorenzo
