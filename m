@@ -2,91 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47FB84222DB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 11:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 885BA42248D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 13:06:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233957AbhJEJ6M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Oct 2021 05:58:12 -0400
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:36572 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233933AbhJEJ6K (ORCPT
+        id S234210AbhJELIk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Oct 2021 07:08:40 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:29930 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233449AbhJELIj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Oct 2021 05:58:10 -0400
-Received: by mail-ua1-f41.google.com with SMTP id u11so14412044uaw.3;
-        Tue, 05 Oct 2021 02:56:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7f7La1K3j/sf3y6WAPsiJ3HiHMfo9c5sHomKDoZBG7U=;
-        b=k2IKov7jB0n+UA2Ba6xXi/dtkzWMyvN8/oXdRDjW/TVGcXQs5GyrZCahRsU9ZUzoSk
-         qXfb3TdiyKbNjQI2i2tlB32LSBrDG2mHcucnAAPxaZatqc0lz4ujs+g4Boz1/yOTQltl
-         VVYAXO9LhU2an/YvvnzO9e59P8m8QfNu6UJOD76u5w0lmLnUzjW6Zg+pAh97G1d0YN4b
-         yIcWwqrIlfIfLGbzPUvgTgzWXD8Ec7A6n5UMWjYOtUJKQjvvxirZS1f+AGXdSYOYo4VV
-         nDZzSMEPh8sRK2DfZcqwoVFSha3/emEyeiwO/zPUntHjwzyKiYFO65GDv0Jw4gJHv3Fk
-         SCPA==
-X-Gm-Message-State: AOAM531c3rkWFNKd9MWvG9S5We1t54akg894yzQ4balVf22SemmRUco6
-        9ZKSs6prEmfXhMyF7ZWVwYcmrOJvVbbl4aU24fc=
-X-Google-Smtp-Source: ABdhPJwoedqIMTs/zp1tZCy9OstAKU8ntmrhQvtFdRYOoHyHH+E8MpEzp9P57PSyaiMXuRqdCgIgcecFKpCx4qab0jY=
-X-Received: by 2002:ab0:311a:: with SMTP id e26mr10862299ual.122.1633427779260;
- Tue, 05 Oct 2021 02:56:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210921193028.13099-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20210921193028.13099-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CACRpkdaJk-G0YE63uvH9C=G3n7k2gZqf9QrwGfAZC2O4hhps=A@mail.gmail.com>
-In-Reply-To: <CACRpkdaJk-G0YE63uvH9C=G3n7k2gZqf9QrwGfAZC2O4hhps=A@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Oct 2021 11:56:07 +0200
-Message-ID: <CAMuHMdUvThtOKrhTqW+U1qijW7dRc6GYg4_Owt_GnUxX4DrGog@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 3/4] pinctrl: renesas: pinctrl-rzg2l: Add IRQ
- domain to handle GPIO interrupt
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Tue, 5 Oct 2021 07:08:39 -0400
+X-IronPort-AV: E=Sophos;i="5.85,348,1624287600"; 
+   d="scan'208";a="96017410"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 05 Oct 2021 20:06:47 +0900
+Received: from localhost.localdomain (unknown [10.226.93.104])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1BAE040078B9;
+        Tue,  5 Oct 2021 20:06:44 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Adam Ford <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: [RFC 00/12] Add functional support for Gigabit Ethernet driver
+Date:   Tue,  5 Oct 2021 12:06:30 +0100
+Message-Id: <20211005110642.3744-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L SoC are
+similar to the R-Car Ethernet AVB IP.
 
-On Thu, Sep 23, 2021 at 11:38 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Tue, Sep 21, 2021 at 9:30 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Add IRQ domian to RZ/G2L pinctrl driver to handle GPIO interrupt.
-> >
-> > GPIO0-GPIO122 pins can be used as IRQ lines but only 32 pins can be
-> > used as IRQ lines at given time. Selection of pins as IRQ lines
-> > is handled by IA55 (which is the IRQC block) which sits in between the
-> > GPIO and GIC.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Why can't you just use the hierarchical IRQ domain handling inside
-> gpiolib?
+The Gigabit Ethernet IP consists of Ethernet controller (E-MAC), Internal
+TCP/IP Offload Engine (TOE)  and Dedicated Direct memory access controller
+(DMAC).
 
-Out of interest (not related to this patch), does this support multiple
-parent domains?
+With a few changes in the driver we can support both IPs.
 
-Thanks!
+This patch series is aims to add functional support for Gigabit Ethernet driver
+by filling all the stubs.
 
-Gr{oetje,eeting}s,
+Ref:-
+https://lore.kernel.org/linux-renesas-soc/OS0PR01MB5922240F88E5E0FD989ECDF386AC9@OS0PR01MB5922.jpnprd01.prod.outlook.com/T/#m8dee0a1b14d505d4611cad8c10e4017a30db55d6
 
-                        Geert
+RFC changes:
+ * used ALIGN macro for calculating the value for max_rx_len.
+ * used rx_max_buf_size instead of rx_2k_buffers feature bit.
+ * moved struct ravb_rx_desc *gbeth_rx_ring near to ravb_private::rx_ring
+   and allocating it for 1 RX queue.
+ * Started using gbeth_rx_ring instead of gbeth_rx_ring[q].
+ * renamed ravb_alloc_rx_desc to ravb_alloc_rx_desc_rcar
+ * renamed ravb_rx_ring_free to ravb_rx_ring_free_rcar
+ * renamed ravb_rx_ring_format to ravb_rx_ring_format_rcar
+ * renamed ravb_rcar_rx to ravb_rx_rcar
+ * renamed "tsrq" variable
+ * Updated the comments
+
+Biju Das (12):
+  ravb: Use ALIGN macro for max_rx_len
+  ravb: Add rx_max_buf_size to struct ravb_hw_info
+  ravb: Fillup ravb_set_features_gbeth() stub
+  ravb: Fillup ravb_alloc_rx_desc_gbeth() stub
+  ravb: Fillup ravb_rx_ring_free_gbeth() stub
+  ravb: Fillup ravb_rx_ring_format_gbeth() stub
+  ravb: Fillup ravb_rx_gbeth() stub
+  ravb: Add carrier_counters to struct ravb_hw_info
+  ravb: Add support to retrieve stats for GbEthernet
+  ravb: Rename "tsrq" variable
+  ravb: Optimize ravb_emac_init_gbeth function
+  ravb: Update/Add comments
+
+ drivers/net/ethernet/renesas/ravb.h      |  51 +++-
+ drivers/net/ethernet/renesas/ravb_main.c | 349 +++++++++++++++++++++--
+ 2 files changed, 367 insertions(+), 33 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
