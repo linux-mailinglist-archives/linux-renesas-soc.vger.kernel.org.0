@@ -2,67 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53A834221E6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 11:14:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8041C4221E9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 11:14:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233079AbhJEJPt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Oct 2021 05:15:49 -0400
-Received: from mail.iot.bzh ([51.75.236.24]:5772 "EHLO frontal.iot.bzh"
+        id S233079AbhJEJQi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Oct 2021 05:16:38 -0400
+Received: from www.zeus03.de ([194.117.254.33]:37446 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232871AbhJEJPt (ORCPT
+        id S232992AbhJEJQh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Oct 2021 05:15:49 -0400
-Received: from frontal.iot.bzh (localhost [127.0.0.1])
-        by frontal.iot.bzh (Proxmox) with ESMTP id E88092A9A8
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Oct 2021 11:13:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc
-        :content-transfer-encoding:content-type:content-type:date:from
-        :from:in-reply-to:message-id:mime-version:references:reply-to
-        :subject:subject:to:to; s=iot.bzh; bh=bQsGsjbmxT6H8G4xmt5391UJxv
-        zMiyUarLQv+2lnIY4=; b=DENCH1AdepAhJzPjurdf2NpOe48fqIXpSl0WY27o8/
-        HlWYmvjE/47bKIBuEzCNNRTiuu6HUqe+tb3AitvcJEIIUZ2GSuj8VgqfIVDjS9Yy
-        zDI1i9xw4VQUVwj1wvIVUMZawiqlZ0EZDCpDSnVGX1U3oEbxefbdwJ4PQbTWAVDd
-        8x+dH6rntsZVvzz4RrHytDd862J36dv8yftLY/stzvOBcmUapLATOj8D/k1w+Cam
-        ynOn2Bpgq7JcRhv7xcEXooCkmmi8TWkpoAeUPwHa1J7iel6FbtAzuM/hBSkEojwz
-        O0+yeXk96m+Fn1kAXJ3MK5wOwZYt/eqEmJGErotBM4qg==
-Message-ID: <6fffa976-d705-d25c-5349-9b535247adfd@iot.bzh>
-Date:   Tue, 5 Oct 2021 11:13:52 +0200
+        Tue, 5 Oct 2021 05:16:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Ko//vJyuyzkPLobdWRfp+yv7tyBc
+        7iVoX1/SJmxO3TA=; b=VtlR4bgMqXIBd5DWuugHtGk9yyyDygAneVjffLA5ldjl
+        pAWSNhrqUERs8oyt4OKXq1q/a9QpTPiC7Rt2L+RJz5NqL/LSj5dPB5jCzcm3z6I6
+        xfvrh+wqR/siH9eEiLFS2V4S5GVnbUGickqtE8JS6mabXe0R/olbq6f5D5LA/4I=
+Received: (qmail 3740740 invoked from network); 5 Oct 2021 11:14:44 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Oct 2021 11:14:44 +0200
+X-UD-Smtp-Session: l3s3148p1@JUPbdZfNBoogAwDPXw1kABtQsg8UzxVo
+Date:   Tue, 5 Oct 2021 11:14:44 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mark Brown <broonie@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        devicetree@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 6/6] memory: renesas-rpc-if: Add support for RZ/G2L
+Message-ID: <YVwXhFalcYr72CZT@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mark Brown <broonie@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        devicetree@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20210928140721.8805-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210928140721.8805-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2] soc: renesas: rcar-rst: Add support to set rproc boot
- address
-Content-Language: en-US
-To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20210922145212.333541-1-julien.massot@iot.bzh>
-From:   Julien Massot <julien.massot@iot.bzh>
-In-Reply-To: <20210922145212.333541-1-julien.massot@iot.bzh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="1E6oOfbK851bS2lO"
+Content-Disposition: inline
+In-Reply-To: <20210928140721.8805-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
 
-> +/*
-> + * Most of R-Car Gen3 SoCs have an ARM Realtime Core.
-> + * Firmware boot address can be set before starting,
-> + * the realtime core thanks to CR7BAR register.
-> + * Boot address is on 32bit, and should be aligned on
-> + * 4k boundary.
-> + */
-> +int rcar_rst_set_gen3_rproc_boot_addr(u32 boot_addr)
-> +{
-> +	if (boot_addr % SZ_4K) {
-> +		pr_warn("Invalid boot address for CR7 processor,"
-> +		       "should be aligned on 4k got %x\n", boot_addr);
-> +		return -EINVAL;
-> +	}
-Just notice that this 4K value is wrong, CR7BAR should be aligned on 256K.
-Any comments about this v2 before I send an update ?
+--1E6oOfbK851bS2lO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Regards,
--- 
-Julien Massot [IoT.bzh]
+Hi Prabhakar,
 
+some updates after internal discussions I had.
+
+> +#define RPCIF_CMNCR_MOIIO_HIZ(val) (RPCIF_CMNCR_MOIIO0(val) | \
+> +				 RPCIF_CMNCR_MOIIO1(val) | \
+> +				 RPCIF_CMNCR_MOIIO2(val) | RPCIF_CMNCR_MOIIO3(val))
+
+Shimoda-san rightfully said that '_HIZ' should be removed from the macro
+name because HIZ implies the value 3.
+
+
+>  #define RPCIF_CMNCR_IO3FV(val)	(((val) & 0x3) << 14) /* undocumented */
+>  #define RPCIF_CMNCR_IO2FV(val)	(((val) & 0x3) << 12) /* undocumented */
+
+As discussed before, mention here that they are documented for G2L.
+Sadly, we can't use them with Gen3...
+
+> -#define RPCIF_CMNCR_IOFV_HIZ	(RPCIF_CMNCR_IO0FV(3) | RPCIF_CMNCR_IO2FV(3) | \
+> -				 RPCIF_CMNCR_IO3FV(3))
+> +#define RPCIF_CMNCR_IOFV_HIZ(val) (RPCIF_CMNCR_IO0FV(val) | RPCIF_CMNCR_IO2FV(val) | \
+> +				 RPCIF_CMNCR_IO3FV(val))
+
+... which means we should remove this macro entirely because it is
+forbidden for Gen3. I think it is best to use the RPCIF_CMNCR_IO<n>FV
+macros directly where we need them.
+
+Do you agree?
+
+Kind regards,
+
+   Wolfram
+
+
+--1E6oOfbK851bS2lO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFcF4QACgkQFA3kzBSg
+KbbnLRAAl70bTAB+aCkvy4wf5a037bvW472u2V73Husi70cFbyNZccWvjYNENHbA
+w15RefXBgSpefwx3hNndCw9hvXBW5TyLVHaKjGyN23G9y+d7clBKGUUzXI/8Wkko
+cfYmv+T9Sx+EhH+ZX2fuYId22CcR4DY7q++BDytTmgeQ9iXqvgch1fNhol/XAoVo
+8ADih0NYeq2qBD23OGejJxEQVzLSc3RX8p7oi4rNrr78nqVD+bPtKlqH7mX1s/5m
+UtjXlgc3jqRWKfCq3anpE/ketF+F/D2reqsAE29dQP8Pnwhy64XmEvsJbwy+n0xl
+GeQ7ZRS4maXgVPMcH157aPL77OgiUczqTNGYnpXGGQtUaxMNx7GOir+xtsHv9NaO
+FTczDB4l0tx7E155wgKl3+bImYvnrFPTblJpQhBkzkzzu0fF2l4HNlLkUQ2Wusb0
+MTlPa4efYMzK0Yo+BNeOf6962cjlA/Fmu+MZ1udD/Ko9NVvSfSgZH17LAX31cOGo
+pI5eDH2LHZCkP7zhH7hIKYVAn8jKqJYX6aUk5/6yt1Rj/FLSRZzSiIb2UcRwC6Hs
+gB2Ang+Rou0Dpu2rnhYxVG25tho+SeEx7I+RFXUZTQSrMCKpFIh67Oid5HY7RmaJ
+v6EsYsI4+qDVRfamnyNTjS+Hwt5/fs+uRYyHMOAj2UXeSgZiOBk=
+=3XAi
+-----END PGP SIGNATURE-----
+
+--1E6oOfbK851bS2lO--
