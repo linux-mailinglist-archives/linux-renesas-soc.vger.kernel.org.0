@@ -2,97 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DCD84230BC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 21:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65F814230DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 21:41:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229684AbhJET2Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Oct 2021 15:28:16 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:49120 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbhJET2Q (ORCPT
+        id S235168AbhJETna (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Oct 2021 15:43:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33988 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231343AbhJETn3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Oct 2021 15:28:16 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru DE5662084023
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [RFC 12/12] ravb: Update/Add comments
+        Tue, 5 Oct 2021 15:43:29 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25BB8C061749;
+        Tue,  5 Oct 2021 12:41:38 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id b20so593029lfv.3;
+        Tue, 05 Oct 2021 12:41:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oAjkqsyne2ea+PiSLO5vd6qEiJ1CP72ad+5YbvqUgHE=;
+        b=hV6P/aILMTnSwTG1sGTDSUQ12/cCRigFMoI5dPBW1C3EPxK6U1/o6cUagmP7aDHCJr
+         ffeaeVXXAsaiIpQvFw6+3cB7/TQfh3Oc7ZJKWhA4c98eNl2h0z9yLXm9ksDSY/4zq2Ty
+         zEEDXCbkADqsEByoc/qojMAeWseoyTZPPGvU8rBaPJlJSPj11bI2ZXg1E9VdSkm06KTo
+         /JVvopPrk4WpY36FF+73nBdzdqM4lqfkycE/I+pug8LasLOsHhh8ukWmOlOOjN+GMJXd
+         qTla8SIhEfgR46O6lSKov771B1a2S7AVNRYj0hujszKS2UQ3O4wiFS+5Ds855VrAROzq
+         gJCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oAjkqsyne2ea+PiSLO5vd6qEiJ1CP72ad+5YbvqUgHE=;
+        b=QJ/eD/6k1IgQzQzRnNStPfqJbYpIExOB4B4S8bQduC6RXrrJ8i0fN9/IlFJNGd/Sg/
+         y40YFH2UMRGSad/joMQLdWQ4Fwvwo5WrH9vad1RBL+x3tGSFscDYTvYKVasz/wFsRTiK
+         L+zdR5mfmC5aJ/d0AQ3hsajCDKZa5UsPyfKaqmeBTSJaBOKFrVVPOl5GE1TNnDOP210X
+         ScQ6zw3uCtglgtirFXU2UMhOcvz4l5Qglq/aZkKsLqM46L0V8EV0kswrJ3n8iTvQLRbA
+         QXQicq5x3E24jTJcv904YyxzmcR7JynC1aYx88QlOTv00VWl4447rIBH0JoVN5T+/+W9
+         PCcQ==
+X-Gm-Message-State: AOAM532LvxSL7PpqwkCX8EWD4/5787WlXVIBovx8HWbzNPyhYkW81+TJ
+        cEuNzv1iK2EEmqgCZv222Ak=
+X-Google-Smtp-Source: ABdhPJys/L9EN4v81oDm67qWbMmbDERDz2dnx6LOneWcNM1cGMAbqTTK89C2daj46vnkx6kgJO803A==
+X-Received: by 2002:a05:6512:3228:: with SMTP id f8mr5255705lfe.472.1633462896528;
+        Tue, 05 Oct 2021 12:41:36 -0700 (PDT)
+Received: from [192.168.1.103] ([31.173.84.101])
+        by smtp.gmail.com with ESMTPSA id w24sm1238782lfc.99.2021.10.05.12.41.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Oct 2021 12:41:36 -0700 (PDT)
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Subject: Re: [RFC 05/12] ravb: Fillup ravb_rx_ring_free_gbeth() stub
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
-CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        "Adam Ford" <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
         Yuusuke Ashizuka <ashiduka@fujitsu.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20211005110642.3744-1-biju.das.jz@bp.renesas.com>
- <20211005110642.3744-13-biju.das.jz@bp.renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <983e7d02-ae9e-0c30-a7b8-f94855e7927b@omp.ru>
-Date:   Tue, 5 Oct 2021 22:26:22 +0300
+ <20211005110642.3744-6-biju.das.jz@bp.renesas.com>
+Message-ID: <6675a686-3d6b-2384-7669-1097a035d4d9@gmail.com>
+Date:   Tue, 5 Oct 2021 22:41:34 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20211005110642.3744-13-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20211005110642.3744-6-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 10/5/21 2:06 PM, Biju Das wrote:
 
-> This patch update/add the following comments
+> Fillup ravb_rx_ring_free_gbeth() function to support RZ/G2L.
 > 
-> 1) Fix the typo AVB->DMAC in comment, as the code following the comment
->    is for GbEthernet DMAC in ravb_dmac_init_gbeth()
-
-   ; not needed at the end of the comment. :-)
-
+> This patch also renames ravb_rx_ring_free to ravb_rx_ring_free_rcar
+> to be consistent with the naming convention used in sh_eth driver.
 > 
-> 2) Update the comment "PAUSE prohibition"-> "EMAC Mode: PAUSE
->    prohibition; Duplex; TX; RX;" in ravb_emac_init_gbeth()
-> 
-> 3) Document PFRI register bit, as it is only supported for
->    R-Car Gen3 and RZ/G2L.
-
-   Not a good idea to do 3 different things in 1 patch... I know I said that (2) isn't worth
-a separate patch but I meant that it shouldbe done as a part of a lrger ravb_emac_init_gbeth()
-change. Sorry for not being clear enough...
-
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> RFC changes:
->  * New patch.
-> ---
->  drivers/net/ethernet/renesas/ravb.h      | 2 +-
->  drivers/net/ethernet/renesas/ravb_main.c | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index dfbbda3681f8..4a057005a470 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -519,7 +519,7 @@ static void ravb_emac_init_gbeth(struct net_device *ndev)
->  	/* Receive frame limit set register */
->  	ravb_write(ndev, GBETH_RX_BUFF_MAX + ETH_FCS_LEN, RFLR);
->  
-> -	/* PAUSE prohibition */
-> +	/* EMAC Mode: PAUSE prohibition; Duplex; TX; RX; */
-
-   No need for ; after RX.
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
 [...]
 
