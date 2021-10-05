@@ -2,139 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E1664227E1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 15:31:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7618F42282D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 15:45:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235023AbhJENdl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Oct 2021 09:33:41 -0400
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:44891 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234209AbhJENdi (ORCPT
+        id S235015AbhJENrO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Oct 2021 09:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234814AbhJENrN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Oct 2021 09:33:38 -0400
-Received: by mail-vs1-f49.google.com with SMTP id 66so7395844vsd.11;
-        Tue, 05 Oct 2021 06:31:47 -0700 (PDT)
+        Tue, 5 Oct 2021 09:47:13 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE80C06174E
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Oct 2021 06:45:23 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id y15so21838387ilu.12
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Oct 2021 06:45:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DgOIE96eS9LCwM8xrp/VmKNjdKCV3OUl2f/h98/P2uA=;
+        b=Ik3VtettYsKq8tCKrQwpYih9V4scwM/ap7YHv9s4H1bIAmcl44e9EYxcyile1eNDjn
+         BA60YaZR+yP6XLpREe7X48XFqf2HQLVL/VgOaJfgs5/OE7V9Vp2DkS5EhbtvrYQNGIaV
+         XqjjaHpSRqrz7gvM4MQOiNmfkXBcFX89TDXl0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jtIuyFUc/GQgo2brS5lWjKc5AQy0lekPqeQGIz7oxwI=;
-        b=qGcA0SUuG9YMYS/jsz7sN+FpjB7mvda0zJe+bpIBTZlpzadlmT6jVW2gZVuGVhLGWd
-         bU4pD3f5IfKidWUwsasJvh2nW69vL96rJJ7KpbWwt9W6r6AZYchianfQyq3r9FzClSHo
-         hiCqYBN3xt3NTmwzKS78O204F8NO8yjb7r7vTvttOgh22TXVjGCj7+aSrfjQn/l2rlSv
-         WKzPR3qAnbIc00OkQFyObO170EDscpPw5wfnzx7eTdUIiee/1jpKOzQP5G0fnarE1cxd
-         B+UNnZSG7OYtt9g1W3xn7MQMIGNAdqcTMIFuJXOQY53tDLDXYFoR2BPn7kdDI50+GGv2
-         Y92g==
-X-Gm-Message-State: AOAM533iXFz9uUbQ1iqPd2K06FZUXo+sSGysxYNeNAhn5UXvbOmbdlCC
-        JXN7IgOTM81pZ7UgkbFZ+cqQcqDdD1PVVFgb07dyW/mITq8=
-X-Google-Smtp-Source: ABdhPJwTl6/GZjIbngxcjUnWHz5UYozZUYroW85rNOzUtPh/QU0Fo27+EpkPx2MAnOyjQXAxXvV9KdjTzVi3yyrqXh4=
-X-Received: by 2002:a67:c295:: with SMTP id k21mr15890974vsj.37.1633440707232;
- Tue, 05 Oct 2021 06:31:47 -0700 (PDT)
+        bh=DgOIE96eS9LCwM8xrp/VmKNjdKCV3OUl2f/h98/P2uA=;
+        b=ehE0cULwcpDtThQvEN1IOMNK7TnRu3XnziaRTPYc6UbJhByfHJD9ZrQ097rqWpHAXt
+         +gxIV8G1AJbeWVS67rY6ZfXjGtDFMXAgONQ9dCvpRTf6VYBaYd12DIkz1g6I/NbSSFq8
+         IdpcMdzutQN/TIvnpZiq97ImAc8PWPqdZFuQuM0XtttE2WJtjpxnFsms/23H2ynqjVYE
+         EL4dYirqLxO3EBAqfeKyKKcTPzd0xhuzIlxLFVB8a0BvINd5SfTcgfgHS7G+NKuVo/2z
+         UbdKx8+KZz5njQtTqOMc610e0LSy3SPni146RdJ/1qlc/iPr0jjgKWg8V75aV8FNHbMB
+         ojCA==
+X-Gm-Message-State: AOAM532yOga0KChZ+H/CooOveukoLT0JX6is5rLdwEWeaSUdf1XIHmzl
+        GX11X1vg2uMmqSZB0aJUY7njnmK82LLWZg==
+X-Google-Smtp-Source: ABdhPJzEOwE+jtn7AKpks+o0XgLJHI8aVUP9SmSS9bRrpDvNVC7BOuhI0D7A7om07qLSo7AiVQdxgQ==
+X-Received: by 2002:a05:6e02:158c:: with SMTP id m12mr2927134ilu.132.1633441522532;
+        Tue, 05 Oct 2021 06:45:22 -0700 (PDT)
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com. [209.85.166.52])
+        by smtp.gmail.com with ESMTPSA id w9sm2755410ilq.73.2021.10.05.06.45.21
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Oct 2021 06:45:21 -0700 (PDT)
+Received: by mail-io1-f52.google.com with SMTP id h129so24405411iof.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Oct 2021 06:45:21 -0700 (PDT)
+X-Received: by 2002:a02:c7d2:: with SMTP id s18mr2725618jao.68.1633441521325;
+ Tue, 05 Oct 2021 06:45:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210922160649.28449-1-andrew_gabbasov@mentor.com>
-In-Reply-To: <20210922160649.28449-1-andrew_gabbasov@mentor.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Oct 2021 15:31:35 +0200
-Message-ID: <CAMuHMdVVDpBAQR+H1TAnpf65aVbAL0Mm0km7Z9L7+1JuF6n1gQ@mail.gmail.com>
-Subject: Re: [PATCH] i2c: rcar: add SMBus block read support
-To:     Andrew Gabbasov <andrew_gabbasov@mentor.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
+References: <20211004092100.1.Ic90a5ebd44c75db963112be167a03cc96f9fb249@changeid>
+ <CAMuHMdUsoBO2hjd0tAecAjnwCUbp=d8i8vaUFDT6Yn3emw2s9Q@mail.gmail.com> <CAD=FV=V8MoYX2deqD_YE6ii9+VFbwqX0bre=5xaYe8ZwwExziQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=V8MoYX2deqD_YE6ii9+VFbwqX0bre=5xaYe8ZwwExziQ@mail.gmail.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Tue, 5 Oct 2021 06:45:08 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VEdnszvbRR3dPijbzvwENUnQi2Ai+Erg6e1L9fb24R9Q@mail.gmail.com>
+Message-ID: <CAD=FV=VEdnszvbRR3dPijbzvwENUnQi2Ai+Erg6e1L9fb24R9Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/edid: Fix crash with zero/invalid EDID
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        kernel test robot <oliver.sang@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andrew,
+Hi,
 
-On Wed, Sep 22, 2021 at 6:14 PM Andrew Gabbasov
-<andrew_gabbasov@mentor.com> wrote:
-> The smbus block read is not currently supported for rcar i2c devices.
-> This patchset adds the support to rcar i2c bus so that blocks of data
-> can be read using SMbus block reads.(using i2c_smbus_read_block_data()
-> function from the i2c-core-smbus.c).
+On Mon, Oct 4, 2021 at 5:40 PM Doug Anderson <dianders@chromium.org> wrote:
 >
-> Inspired by commit 8e8782c71595 ("i2c: imx: add SMBus block read support")
+> Hi,
 >
-> This patch (adapted) was tested with v4.14, but due to lack of real
-> hardware with SMBus block read operations support, using "simulation",
-> that is manual analysis of data, read from plain I2C devices with
-> SMBus block read request.
+> On Mon, Oct 4, 2021 at 10:14 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> >
+> > Hi Douglas,
+> >
+> > On Mon, Oct 4, 2021 at 6:22 PM Douglas Anderson <dianders@chromium.org> wrote:
+> > > In the commit bac9c2948224 ("drm/edid: Break out reading block 0 of
+> > > the EDID") I broke out reading the base block of the EDID to its own
+> > > function. Unfortunately, when I did that I messed up the handling when
+> > > drm_edid_is_zero() indicated that we had an EDID that was all 0x00 or
+> > > when we went through 4 loops and didn't get a valid EDID. Specifically
+> > > I needed to pass the broken EDID to connector_bad_edid() but now I was
+> > > passing an error-pointer.
+> > >
+> > > Let's re-jigger things so we can pass the bad EDID in properly.
+> > >
+> > > Fixes: bac9c2948224 ("drm/edid: Break out reading block 0 of the EDID")
+> > > Reported-by: kernel test robot <oliver.sang@intel.com>
+> > > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> >
+> > The crash is was seeing is gone, so
+> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> Signed-off-by: Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
-> Signed-off-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
+> Thanks for testing! I'll plan to apply tomorrow morning (California
+> time) to balance between giving folks a chance to yell at me for my
+> patch and the urgency of fixing the breakage.
 
-Thanks for your patch!
+Ah, doh! I can't push until I can get a review tag from someone. As
+soon as I see one then I'll give it a push.
 
-> --- a/drivers/i2c/busses/i2c-rcar.c
-> +++ b/drivers/i2c/busses/i2c-rcar.c
-> @@ -429,9 +431,16 @@ static bool rcar_i2c_dma(struct rcar_i2c_priv *priv)
->                 /*
->                  * The last two bytes needs to be fetched using PIO in
->                  * order for the STOP phase to work.
-> +                *
-> +                * For SMBus block read the first byte was received using PIO.
-
-So it might be easier to read, and more maintainable, to keep the
-old assignments:
-
-    buf = priv->msg->buf;
-    len = priv->msg->len - 2;
-
-and adjust them for SMBus afterwards:
-
-    if (block_data) {
-            /* For SMBus block read the first byte was received using PIO */
-            buf++;
-            len--;
-    }
-
-?
-
->                  */
-> -               buf = priv->msg->buf;
-> -               len = priv->msg->len - 2;
-> +               if (block_data) {
-> +                       buf = priv->msg->buf + 1;
-> +                       len = priv->msg->len - 3;
-> +               } else {
-> +                       buf = priv->msg->buf;
-> +                       len = priv->msg->len - 2;
-> +               }
->         } else {
->                 /*
->                  * First byte in message was sent using PIO.
-
-And below we have another case handling buf and len :-(
-
-So perhaps:
-
-    buf = priv->msg->buf;
-    len = priv->msg->len;
-
-    if (read) {
-            /*
-             * The last two bytes needs to be fetched using PIO in
-             * order for the STOP phase to work.
-             */
-            len -= 2;
-    }
-    if (!read || block_data) {
-            /* First byte in message was sent using PIO *
-            buf++;
-            len--;
-    }
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-Doug
