@@ -2,118 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 802FD422D02
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 17:53:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C09AB422D1A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Oct 2021 17:56:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235067AbhJEPzH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Oct 2021 11:55:07 -0400
-Received: from mail-vk1-f169.google.com ([209.85.221.169]:40456 "EHLO
-        mail-vk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234516AbhJEPzH (ORCPT
+        id S234539AbhJEP6l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Oct 2021 11:58:41 -0400
+Received: from www.zeus03.de ([194.117.254.33]:59470 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233913AbhJEP6k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Oct 2021 11:55:07 -0400
-Received: by mail-vk1-f169.google.com with SMTP id w68so9528231vkd.7;
-        Tue, 05 Oct 2021 08:53:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Q1Xw4ky1AcjioHtE7GEPS21kis1agtXPzqqWu5ElWzw=;
-        b=xFx9mMFrDg5X2RRXWIqe02Tp85oRkc3FGcVtP5KXZHguvCcP13YkHtORJ6Y0Gs10Sk
-         yqJs8hg/hBoI0uAIXh6CURJrrnRUJVbwXA1PYtYc9vw10yfKu2TJP5kiYe7VM2Ro2FIg
-         vpwBNoUsYFjw4hhs40wn5Oz46GA/RRKcs7kK9hLgzFL+11V91+893Zd3KJaKuyLs4P+E
-         TVBW8JsUz4hDK/sCge+tWcWeuBrhxfEh+ccKM3zQQNTyqfWGjMmFV0GMcb5pm8oC6qKL
-         JTbZRPzjUJtPonkPn5PXw1252a8k4npclf0nQ2z4vhX3ahsI7HoWfQAhmBI5PtIqvCah
-         wasA==
-X-Gm-Message-State: AOAM533zMA58y0obPY55i1sR32G5yekRN4rGTTJvoO5Rl+vtxaYU8gpo
-        JoUXnXvvg28GEMzmLzBESHjgPrjJ582iwNXyTUY=
-X-Google-Smtp-Source: ABdhPJySyFDo2gMuB4Sog6kJpK0vNWCGJy24yOXVGi7bsv0910NttdqlkVdV/OruwFCqqcoLj7F6CU/hV2deF6QskpU=
-X-Received: by 2002:a1f:3a4b:: with SMTP id h72mr21287493vka.19.1633449196000;
- Tue, 05 Oct 2021 08:53:16 -0700 (PDT)
+        Tue, 5 Oct 2021 11:58:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=FJS7SPvRvF3PdPjZSbpmIydWilie
+        fMdIsZln6Wmnq3k=; b=R2+eL99TBC+Q4iA1cEl90W14Y8DmRpQmcCWYYknL2u70
+        hwDZ0eIBlFnd3oHpmObK8pQDwPbmelJ/VwYAJK6fF0+aEEEww+q4hVx2RIz/22Z2
+        ZrVUSk/bRN7CZNoqggjTCoaBd/r4QDNu4afzYa+dMobDma4S2tmAL+4irWuOnvw=
+Received: (qmail 3867808 invoked from network); 5 Oct 2021 17:56:46 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Oct 2021 17:56:46 +0200
+X-UD-Smtp-Session: l3s3148p1@yIqhE53NZosgAwDPXw1kABtQsg8UzxVo
+Date:   Tue, 5 Oct 2021 17:56:46 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] memory: RENESAS_RPCIF should select RESET_CONTROLLER
+Message-ID: <YVx1vhvtN7dFKbEl@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <d4383bd1a97c0490c0bdc9dae5695f4230d4a420.1633447185.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20210929213431.5275-1-nikita.yoush@cogentembedded.com>
-In-Reply-To: <20210929213431.5275-1-nikita.yoush@cogentembedded.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Oct 2021 17:53:04 +0200
-Message-ID: <CAMuHMdWBJSPWR+Tb87GcJiv_xkYjToOarTcHu8doAFsCECEd=w@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r8a779[56]x: add MLP clock
-To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrey Gusakov <andrey.gusakov@cogentembedded.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5qWqAgTZuFQeFEgJ"
+Content-Disposition: inline
+In-Reply-To: <d4383bd1a97c0490c0bdc9dae5695f4230d4a420.1633447185.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nikita,
 
-On Wed, Sep 29, 2021 at 11:35 PM Nikita Yushchenko
-<nikita.yoush@cogentembedded.com> wrote:
-> From: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
->
-> Add clocks for MLP module on Renesas H3 and M3.
->
-> Signed-off-by: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+--5qWqAgTZuFQeFEgJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your patch!
+On Tue, Oct 05, 2021 at 05:23:02PM +0200, Geert Uytterhoeven wrote:
+> The Renesas RPC-IF driver calls devm_reset_control_get_exclusive(),
+> which returns -ENOTSUPP if CONFIG_RESET_CONTROLLER is not enabled.
+> Even if this error is ignored, later calls to reset_control_reset() will
+> fail with a scary WARN_ON() backtrace.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> --- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
-> @@ -229,6 +229,7 @@ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
->         DEF_MOD("lvds",                  727,   R8A7795_CLK_S0D4),
->         DEF_MOD("hdmi1",                 728,   R8A7795_CLK_HDMI),
->         DEF_MOD("hdmi0",                 729,   R8A7795_CLK_HDMI),
-> +       DEF_MOD("mlp",                   802,   R8A7795_CLK_S2D1),
->         DEF_MOD("vin7",                  804,   R8A7795_CLK_S0D2),
->         DEF_MOD("vin6",                  805,   R8A7795_CLK_S0D2),
->         DEF_MOD("vin5",                  806,   R8A7795_CLK_S0D2),
-> diff --git a/drivers/clk/renesas/r8a7796-cpg-mssr.c b/drivers/clk/renesas/r8a7796-cpg-mssr.c
-> index 41593c126faf..9c22977e42c2 100644
-> --- a/drivers/clk/renesas/r8a7796-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a7796-cpg-mssr.c
-> @@ -207,6 +207,7 @@ static struct mssr_mod_clk r8a7796_mod_clks[] __initdata = {
->         DEF_MOD("du0",                   724,   R8A7796_CLK_S2D1),
->         DEF_MOD("lvds",                  727,   R8A7796_CLK_S2D1),
->         DEF_MOD("hdmi0",                 729,   R8A7796_CLK_HDMI),
-> +       DEF_MOD("mlp",                   802,   R8A7796_CLK_S2D1),
->         DEF_MOD("vin7",                  804,   R8A7796_CLK_S0D2),
->         DEF_MOD("vin6",                  805,   R8A7796_CLK_S0D2),
->         DEF_MOD("vin5",                  806,   R8A7796_CLK_S0D2),
-> diff --git a/drivers/clk/renesas/r8a77965-cpg-mssr.c b/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> index bc1be8bcbbe4..52c5da26b756 100644
-> --- a/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> @@ -205,6 +205,7 @@ static const struct mssr_mod_clk r8a77965_mod_clks[] __initconst = {
->         DEF_MOD("lvds",                 727,    R8A77965_CLK_S2D1),
->         DEF_MOD("hdmi0",                729,    R8A77965_CLK_HDMI),
->
-> +       DEF_MOD("mlp",                  802,    R8A77965_CLK_S2D1),
->         DEF_MOD("vin7",                 804,    R8A77965_CLK_S0D2),
->         DEF_MOD("vin6",                 805,    R8A77965_CLK_S0D2),
->         DEF_MOD("vin5",                 806,    R8A77965_CLK_S0D2),
+Yes, it is required. With the latter paragraph in the commit message
+removed:
 
-These additions look fine to me.  I'm only wondering about the
-actual parent clocks, which are not well-documented in the Hardware
-User's Manual.
-It does say that MLP uses the Audio main bus (AXI).
-The related AUDIO-DMAC uses S1D2, which runs at 266 MHz, while S2D1
-runs at 400 MHz?
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-BTW, do you plan to enable full support for MLP in the upstream kernel?
 
-Gr{oetje,eeting}s,
+--5qWqAgTZuFQeFEgJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                        Geert
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFcdboACgkQFA3kzBSg
+KbalLhAAsBLI1H6ydrMltgltKwq5sdezuKDBDfB09gNwCkQeTUIQDSwzhgSk1pDp
+1Sw8Dot8JWbUXDBZJ7HJJsZLU/tQtS/uIzzjQZkouax2j2QnW/7LaNtcEOkoi3Pt
+0RLFDrO/SUStqETLP1z5e0JnW8Waiws4nPeR7jmymTNX0DqxsTtDF3fekhrx1BGE
+PlVKOo9a/zeOPLSK8kX7Z9coMPk5e/dGH/xZ0rukk6HBnZbRlwQcXZfFgNn+2rF+
+dhYUV3AGSW2U0FHU6O7hZ8Ep5XY9F5YIhdoHBnrxSfn6kZRwQ7sVfcdiqqGjpNvA
+2nMtFK8dXTZW1b6re9v16GaqqOBnqha1dTSIz0QqFufytpn+dYGy2jRYk87CaJ+Q
+BdMQjKU+qN4x8XwkP5kwkR2Tni+FJNyFXE55OG3r2nXas9srwCoGvUvmf+71lUlj
+2YXvuIHFa7yYPt4LSGk0n/NRJbdff2twTpzpkdtGMJ6QKS29+ElKgwlYQ3jIzIIo
+Q7GZ7OtNSnuzoN6cs19EboRteq0vtr6I2lSJpmsqkljqfzalPB8YySPTcOGhkAze
+2DAQfKLyF3twnuP6IkOtoIveg9+xJAqJjendXjGDrPT7xYNkrqhdtZUl7LlG18nv
+KglT2ZQ38KgBrV4+7fBgOxuZKGlDk5gFHrH6OxsWgrKeXYtolvs=
+=wDgE
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--5qWqAgTZuFQeFEgJ--
