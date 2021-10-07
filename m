@@ -2,45 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C18CC4258CB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Oct 2021 19:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 483E9425952
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Oct 2021 19:23:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242989AbhJGRF4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Oct 2021 13:05:56 -0400
-Received: from mail-vs1-f46.google.com ([209.85.217.46]:43552 "EHLO
-        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242964AbhJGRFz (ORCPT
+        id S241688AbhJGRZi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Oct 2021 13:25:38 -0400
+Received: from mail-vs1-f49.google.com ([209.85.217.49]:43982 "EHLO
+        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235301AbhJGRZi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Oct 2021 13:05:55 -0400
-Received: by mail-vs1-f46.google.com with SMTP id p2so7476087vst.10;
-        Thu, 07 Oct 2021 10:04:01 -0700 (PDT)
+        Thu, 7 Oct 2021 13:25:38 -0400
+Received: by mail-vs1-f49.google.com with SMTP id p2so7543326vst.10;
+        Thu, 07 Oct 2021 10:23:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=k/AVoCzAraA2PyKzTWn7ZFVdIxhqagP4oPTHWfnliPg=;
-        b=Sn7EL4yAcsbLp08tpuDVe6fOV9OVSnzehuCilqWIHcaQvzyAqzG4dzrOqWFCwJdw2+
-         deMm14QdQ3eHfvMVZ6GAWXGmWAWIor5SA+jETbQpzSa4B+0pLtlJGK1y24g/wapPr9Ju
-         LoT1Dh/mo8PCR4Jglfp4gwPh2oRJlQ92qC70WmTCQeynQccX+lwLP3e7/fnq258GD0Yg
-         TbMYkeSuAc119LqpLiATHZq+8+rUmmZBQlj9kcnL5z/KXWyLIhSrsp/awcetuBpPVPU8
-         sjQ7qUwkArRkYruUuINnfo0bKEbEdXNgupoD6bNE9xPNsL9n2/MpG4eiPB+LhcdLsAep
-         Mj9g==
-X-Gm-Message-State: AOAM531/E1bfPFU4m+N4YEA5MgNv0jiLH2Em8+fsN5stXwbVYrT+Xo4A
-        64/shNjHgnVuIFabB1PQh65TQGzKQQoZGZN6fKQ=
-X-Google-Smtp-Source: ABdhPJy5Ztbq7UtjQc4jDGhQctOdP9bDEDAJ6WtC0mcBbAg3k+HREuP2zESbj5HH4fd3DmHYSTWScBe/Q4rUChJQTJA=
-X-Received: by 2002:a67:ac04:: with SMTP id v4mr5747203vse.50.1633626241259;
- Thu, 07 Oct 2021 10:04:01 -0700 (PDT)
+        bh=V+O/Tzkp10P1T+2/uoWEpVc+uysV2odcVKV4KvQ215U=;
+        b=mUQyB0CmULvhRojj4nHZ+DkXDyV6mZVwVT+UxOlHCanmvS0wFj72FbNuB9C+86vzX6
+         oLEnJZDmg7Eizykec56R5J7iWxhA1y8shCeAx1GrbpfxdESVVpcXDgRTEEmUljdJl1HQ
+         iQ9al3xQCmloX2srfuB0WTs/ft7lrinHQwZf289W/W8VpY7WRJ5b96J8qzwcOCNDiiuO
+         Zu68P/FtRBIXNZYreZAK2f6BjohwEZlV7eHhS2WGuAwxpS06eEe5cHVXsZa5htuJo3Wy
+         g2VV0ohxotVqvdA0HHcq7y7qqV+EBXVXm/La7sgkh94/nN/v0dGF2llyuSH2N/JkWMZ9
+         Eucg==
+X-Gm-Message-State: AOAM530jm7n/LFWa4C+lCHeq2rNoJcdt1cB36hz4X77oemp3RjPAHiTn
+        l18OCVME3I/CYjG3AGAr6lrzMfxTvcXnJX3ba5g=
+X-Google-Smtp-Source: ABdhPJy4V/GXmg0AB22mdAwPWs3SRDpQ98AGJjXgLUnixh5p7JM+hRNLqYF8eYaypEWmH3xNHiXW9XwGfcfP15BVtaQ=
+X-Received: by 2002:a67:d583:: with SMTP id m3mr5601152vsj.41.1633627423685;
+ Thu, 07 Oct 2021 10:23:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210930121630.17449-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210930121630.17449-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20210930121630.17449-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210930121630.17449-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20210930121630.17449-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210930121630.17449-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 7 Oct 2021 19:03:50 +0200
-Message-ID: <CAMuHMdUN-iFBAtUjvS8Bg+jqpkfcWrx=9Lif2VmYqMXLUZ5jtA@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/4] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Add
- output-impedance property
+Date:   Thu, 7 Oct 2021 19:23:31 +0200
+Message-ID: <CAMuHMdXHv7H3xxEYFLhfBf+Pun-w=F4k5S2RAYJY6qz75QpxhQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/4] pinctrl: renesas: pinctrl-rzg2l: Add support to
+ get/set drive-strength and output-impedance
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
@@ -57,36 +58,84 @@ Hi Prabhakar,
 
 On Thu, Sep 30, 2021 at 2:17 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> RZ/G2L SoC has two groups of pins, Group-A and Group-B. RZ/G2L SoC supports
-> configuring Output Impedance for Group-B pins (valid values 33/50/66/100).
+> Add support to get/set drive-strength and output-impedance of the pins.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
-> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
-> @@ -73,6 +73,8 @@ additionalProperties:
->          pins: true
->          drive-strength:
->            enum: [ 2, 4, 8, 12 ]
-> +        output-impedance:
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -47,6 +47,7 @@
+>  #define PIN_CFG_FILONOFF               BIT(9)
+>  #define PIN_CFG_FILNUM                 BIT(10)
+>  #define PIN_CFG_FILCLKSEL              BIT(11)
+> +#define PIN_CFG_GROUP_B                        BIT(12)
 
-"output-impedance-ohms", as per DT standardized property units.
+Perhaps it would be easier to have separate PIN_CFG_IOLH_A and
+PIN_CFG_IOLH_B flags, instead of a PIN_CFG_IOLH flag and a
+PIN_CFG_GROUP_B modifier flag?
 
-> +          enum: [ 33, 50, 66, 100 ]
->          power-source:
->            enum: [ 1800, 2500, 3300 ]
->          slew-rate: true
+>
+>  #define RZG2L_MPXED_PIN_FUNCS          (PIN_CFG_IOLH | \
+>                                          PIN_CFG_SR | \
 
-With the above fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> @@ -484,6 +513,38 @@ static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
+>                 break;
+>         }
+>
+> +       case PIN_CONFIG_OUTPUT_IMPEDANCE:
+> +       case PIN_CONFIG_DRIVE_STRENGTH: {
+> +               unsigned int mA[4] = { 2, 4, 8, 12 };
+> +               unsigned int oi[4] = { 100, 66, 50, 33 };
+
+static const
+
+> +
+> +               if (param == PIN_CONFIG_DRIVE_STRENGTH) {
+> +                       if (!(cfg & PIN_CFG_IOLH) || groupb_pin)
+> +                               return -EINVAL;
+> +               } else {
+> +                       if (!(cfg & PIN_CFG_IOLH) || !groupb_pin)
+> +                               return -EINVAL;
+> +               }
+> +
+> +               spin_lock_irqsave(&pctrl->lock, flags);
+> +
+> +               /* handle _L/_H for 32-bit register read/write */
+> +               addr = pctrl->base + IOLH(port);
+> +               if (bit >= 4) {
+> +                       bit -= 4;
+> +                       addr += 4;
+> +               }
+> +
+> +               reg = readl(addr) & (IOLH_MASK << (bit * 8));
+> +               reg = reg >> (bit * 8);
+> +               if (param == PIN_CONFIG_DRIVE_STRENGTH)
+> +                       arg = mA[reg];
+> +               else
+> +                       arg = oi[reg];
+> +               spin_unlock_irqrestore(&pctrl->lock, flags);
+
+I think you've reached the point where it starts to make sense to
+have helper functions to read and modify these sub-register fields
+that may be located into the current or next register.
+
+And after that, you can split it in two smaller separate cases for
+drive strength and output impedance.
+
+> +               break;
+> +       }
+> +
+>         default:
+>                 return -ENOTSUPP;
+>         }
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
