@@ -2,161 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B56CA4251D3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Oct 2021 13:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12D4542558C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Oct 2021 16:39:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240848AbhJGLQi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Oct 2021 07:16:38 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:13699 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232680AbhJGLQi (ORCPT
+        id S242120AbhJGOkw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Oct 2021 10:40:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58138 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242076AbhJGOkv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Oct 2021 07:16:38 -0400
-X-IronPort-AV: E=Sophos;i="5.85,354,1624287600"; 
-   d="scan'208";a="96435185"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 07 Oct 2021 20:14:44 +0900
-Received: from localhost.localdomain (unknown [10.226.93.49])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id BDE144011429;
-        Thu,  7 Oct 2021 20:14:41 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/2] drivers: clk: renesas: r9a07g044-cpg: Add SDHI clock and reset entries
-Date:   Thu,  7 Oct 2021 12:14:34 +0100
-Message-Id: <20211007111434.8665-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211007111434.8665-1-biju.das.jz@bp.renesas.com>
-References: <20211007111434.8665-1-biju.das.jz@bp.renesas.com>
+        Thu, 7 Oct 2021 10:40:51 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A766EC061570
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Oct 2021 07:38:57 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:cc6:af5d:7a02:2753])
+        by michel.telenet-ops.be with bizsmtp
+        id 32et2600L1WYgkx062eucL; Thu, 07 Oct 2021 16:38:54 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mYUXt-002n71-ML; Thu, 07 Oct 2021 16:38:53 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mYUXt-006mJ0-5Z; Thu, 07 Oct 2021 16:38:53 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/5] pinctrl: renesas: Fixes and checker improvements
+Date:   Thu,  7 Oct 2021 16:38:45 +0200
+Message-Id: <cover.1633615652.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add SDHI{0,1} mux, clock and reset entries to CPG driver.
+	Hi all,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2:
- * Renamed the clk source names as per latest HW manual
- * Removed .flag and .mux_flags from DEF_SD_MUX
- * Changed the mult/divider values for 533MHz clock
----
- drivers/clk/renesas/r9a07g044-cpg.c | 36 +++++++++++++++++++++++++++++
- drivers/clk/renesas/rzg2l-cpg.h     |  4 ++++
- 2 files changed, 40 insertions(+)
+This is a small set of fixes and improvements for the Renesas pin
+control drivers.  Most of them are related to the built-in checker,
+which is only enabled in DEBUG builds.
 
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index 1e331cdb13a5..47c16265fca9 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -44,6 +44,12 @@ enum clk_ids {
- 	CLK_PLL6,
- 	CLK_PLL6_250,
- 	CLK_P1_DIV2,
-+	CLK_PLL2_800,
-+	CLK_PLL2_SDHI_533,
-+	CLK_PLL2_SDHI_400,
-+	CLK_PLL2_SDHI_266,
-+	CLK_SD0_DIV4,
-+	CLK_SD1_DIV4,
- 
- 	/* Module Clocks */
- 	MOD_CLK_BASE,
-@@ -62,6 +68,7 @@ static const struct clk_div_table dtable_1_32[] = {
- /* Mux clock tables */
- static const char * const sel_pll3_3[] = { ".pll3_533", ".pll3_400" };
- static const char * const sel_pll6_2[]	= { ".pll6_250", ".pll5_250" };
-+static const char * const sel_shdi[] = { ".clk_533", ".clk_400", ".clk_266" };
- 
- static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 	/* External Clock Inputs */
-@@ -82,6 +89,11 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 	DEF_FIXED(".pll6", CLK_PLL6, CLK_EXTAL, 125, 6),
- 
- 	DEF_FIXED(".pll2_div2", CLK_PLL2_DIV2, CLK_PLL2, 1, 2),
-+	DEF_FIXED(".clk_800", CLK_PLL2_800, CLK_PLL2, 1, 2),
-+	DEF_FIXED(".clk_533", CLK_PLL2_SDHI_533, CLK_PLL2, 1, 3),
-+	DEF_FIXED(".clk_400", CLK_PLL2_SDHI_400, CLK_PLL2_800, 1, 2),
-+	DEF_FIXED(".clk_266", CLK_PLL2_SDHI_266, CLK_PLL2_SDHI_533, 1, 2),
-+
- 	DEF_FIXED(".pll2_div16", CLK_PLL2_DIV16, CLK_PLL2, 1, 16),
- 	DEF_FIXED(".pll2_div20", CLK_PLL2_DIV20, CLK_PLL2, 1, 20),
- 
-@@ -114,6 +126,12 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
- 		sel_pll6_2, ARRAY_SIZE(sel_pll6_2), 0, CLK_MUX_HIWORD_MASK),
- 	DEF_FIXED("SPI0", R9A07G044_CLK_SPI0, CLK_DIV_PLL3_C, 1, 2),
- 	DEF_FIXED("SPI1", R9A07G044_CLK_SPI1, CLK_DIV_PLL3_C, 1, 4),
-+	DEF_SD_MUX("SD0", R9A07G044_CLK_SD0, SEL_SDHI0,
-+		   sel_shdi, ARRAY_SIZE(sel_shdi)),
-+	DEF_SD_MUX("SD1", R9A07G044_CLK_SD1, SEL_SDHI1,
-+		   sel_shdi, ARRAY_SIZE(sel_shdi)),
-+	DEF_FIXED("SD0_DIV4", CLK_SD0_DIV4, R9A07G044_CLK_SD0, 1, 4),
-+	DEF_FIXED("SD1_DIV4", CLK_SD1_DIV4, R9A07G044_CLK_SD1, 1, 4),
- };
- 
- static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
-@@ -131,6 +149,22 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
- 				0x550, 0),
- 	DEF_MOD("spi_clk",	R9A07G044_SPI_CLK, R9A07G044_CLK_SPI0,
- 				0x550, 1),
-+	DEF_MOD("sdhi0_imclk",	R9A07G044_SDHI0_IMCLK, CLK_SD0_DIV4,
-+				0x554, 0),
-+	DEF_MOD("sdhi0_imclk2",	R9A07G044_SDHI0_IMCLK2, CLK_SD0_DIV4,
-+				0x554, 1),
-+	DEF_MOD("sdhi0_clk_hs",	R9A07G044_SDHI0_CLK_HS, R9A07G044_CLK_SD0,
-+				0x554, 2),
-+	DEF_MOD("sdhi0_aclk",	R9A07G044_SDHI0_ACLK, R9A07G044_CLK_P1,
-+				0x554, 3),
-+	DEF_MOD("sdhi1_imclk",	R9A07G044_SDHI1_IMCLK, CLK_SD1_DIV4,
-+				0x554, 4),
-+	DEF_MOD("sdhi1_imclk2",	R9A07G044_SDHI1_IMCLK2, CLK_SD1_DIV4,
-+				0x554, 5),
-+	DEF_MOD("sdhi1_clk_hs",	R9A07G044_SDHI1_CLK_HS, R9A07G044_CLK_SD1,
-+				0x554, 6),
-+	DEF_MOD("sdhi1_aclk",	R9A07G044_SDHI1_ACLK, R9A07G044_CLK_P1,
-+				0x554, 7),
- 	DEF_MOD("ssi0_pclk",	R9A07G044_SSI0_PCLK2, R9A07G044_CLK_P0,
- 				0x570, 0),
- 	DEF_MOD("ssi0_sfr",	R9A07G044_SSI0_PCLK_SFR, R9A07G044_CLK_P0,
-@@ -200,6 +234,8 @@ static struct rzg2l_reset r9a07g044_resets[] = {
- 	DEF_RST(R9A07G044_DMAC_ARESETN, 0x82c, 0),
- 	DEF_RST(R9A07G044_DMAC_RST_ASYNC, 0x82c, 1),
- 	DEF_RST(R9A07G044_SPI_RST, 0x850, 0),
-+	DEF_RST(R9A07G044_SDHI0_IXRST, 0x854, 0),
-+	DEF_RST(R9A07G044_SDHI1_IXRST, 0x854, 1),
- 	DEF_RST(R9A07G044_SSI0_RST_M2_REG, 0x870, 0),
- 	DEF_RST(R9A07G044_SSI1_RST_M2_REG, 0x870, 1),
- 	DEF_RST(R9A07G044_SSI2_RST_M2_REG, 0x870, 2),
-diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
-index 952fca98ba71..7fb6b4030f72 100644
---- a/drivers/clk/renesas/rzg2l-cpg.h
-+++ b/drivers/clk/renesas/rzg2l-cpg.h
-@@ -11,6 +11,7 @@
- 
- #define CPG_PL2_DDIV		(0x204)
- #define CPG_PL3A_DDIV		(0x208)
-+#define CPG_PL2SDHI_DSEL	(0x218)
- #define CPG_CLKSTATUS		(0x280)
- #define CPG_PL3_SSEL		(0x408)
- #define CPG_PL6_ETH_SSEL	(0x418)
-@@ -39,6 +40,9 @@
- #define SEL_PLL3_3	SEL_PLL_PACK(CPG_PL3_SSEL, 8, 1)
- #define SEL_PLL6_2	SEL_PLL_PACK(CPG_PL6_ETH_SSEL, 0, 1)
- 
-+#define SEL_SDHI0	DDIV_PACK(CPG_PL2SDHI_DSEL, 0, 2)
-+#define SEL_SDHI1	DDIV_PACK(CPG_PL2SDHI_DSEL, 4, 2)
-+
- /**
-  * Definitions of CPG Core Clocks
-  *
+I have a few more checks pending, but they need more polishing to make
+them suitable for upstream.  Note that there are no pending issues in
+the actual driver that can be detected by these checker improvements, as
+all fixes for such issues are already upstream.
+
+To be queued in renesas-pinctrl for v5.16.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (5):
+  pinctrl: renesas: Fix save/restore on SoCs with pull-down only pins
+  pinctrl: renesas: checker: Fix off-by-one bug in drive register check
+  pinctrl: renesas: checker: Move overlapping field check
+  pinctrl: renesas: checker: Fix bias checks on SoCs with pull-down only
+    pins
+  pinctrl: renesas: checker: Prefix common checker output
+
+ drivers/pinctrl/renesas/core.c | 73 +++++++++++++++++++++-------------
+ 1 file changed, 45 insertions(+), 28 deletions(-)
+
 -- 
-2.17.1
+2.25.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
