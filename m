@@ -2,45 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39284425BA1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Oct 2021 21:38:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D857B425BA6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Oct 2021 21:38:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241477AbhJGTkB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Oct 2021 15:40:01 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:59647 "EHLO
+        id S241537AbhJGTkH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Oct 2021 15:40:07 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:33691 "EHLO
         wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241443AbhJGTkA (ORCPT
+        by vger.kernel.org with ESMTP id S241500AbhJGTkG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Oct 2021 15:40:00 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.west.internal (Postfix) with ESMTP id 1B17B2B009FD;
-        Thu,  7 Oct 2021 15:38:06 -0400 (EDT)
+        Thu, 7 Oct 2021 15:40:06 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.west.internal (Postfix) with ESMTP id 4B3C82B009FD;
+        Thu,  7 Oct 2021 15:38:11 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 07 Oct 2021 15:38:06 -0400
+  by compute3.internal (MEProxy); Thu, 07 Oct 2021 15:38:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
         :to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm3; bh=7drGizuMVrgy3
-        XtFLhWzlftyWemSxaP+r0ayB6xLFcI=; b=KvXB9xq8TlLHSJus6JCKqNaZADhq5
-        MVGaDsjNudk2fAZqlWlHUuSbMD2AAakw4R2HKYsN/iQED24zPjG/cMm9ZVOnE8jJ
-        noJBzjzkfRn+wrb0loh2pwrZaM+05IntAMTU4YIWChG2hTvAOyFQwpelsthUUeyg
-        FBqjf4QCwbGaeB7c4MyR9fOka2oMfQY+zPJ8mbFJy76cIG4qfDftlIDZMKLW9P2g
-        tLfsGVwHJeTUAEBRAjJvLL36WICGC6KiNGHD5kyy8JUVEMY63tUyzugmMjDRG4Hl
-        eYNUhswO1V5oEBE4a8+0Gd2MYKLFkEp8pmsSMQ+YHISSx6CxoD76w2lug==
+        :mime-version:content-transfer-encoding; s=fm3; bh=2vRU8CfQA//y8
+        mJpNYyM4Fgn9sjm+M/V2WJONp99P2M=; b=rq+oY61s3KnF97is/ht0v3w2H/glU
+        kM439zn9ix0lXkvvdyGR9ltRGeqQySTbLJlKhNhptDZDJhGfYjInO8nyLDUz57c+
+        NNGKa/xWFkeVcWfPHA+jf8yLkLdsAr0geLC7cqZ1bdOV1gTS0IAgn1mlK4m41otL
+        noIbSVhgJVSWnKtPoRQt+eySDPNBWJ9IER7HSza1UfTudGxl9ZJUBEPsY6Ak1bwU
+        wW5YcVzqNgQFijx26Zi850uiOZrPGMiuZYhI/ekmyFpPR7jgIO4PhsfPR0dbcyZJ
+        xLWXn77yYA8U9qGxOS0t+v+hSOpIBPD2/G1iCpaSNNywuY97f73Q0v/DQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=7drGizuMVrgy3XtFLhWzlftyWemSxaP+r0ayB6xLFcI=; b=nT9hFVt2
-        mc2sYTZLaOCw9Z7Kk5RCVO7eBRMoHclVehYvGhmyMkmQ5f726WohWcOM4Lh6epE4
-        8fnNqkbksabDVCOtZDoCEo1UeuqKeXUXpJT0owneJXnL0kWNX6yBvECkF0Nbj3yA
-        1ICIaB05UvWI/scUSfqE2JVBCGClTg7kVCvD957pNG3GXX0RFTvQZlcZJPZKgCP4
-        QMJ8sSOD61uR26xt0JR1noHpz1jprOA5xNztd5CjbTFWE0rD2f8FQU+JQK4QLsoP
-        M7lxQvBwR8n3je4PkI8RxoDALQEPY0+U3fG5CdI0PX0bmgX6Hkkkx2ZRorjN3mDl
-        R3FUVqqnMbtpRw==
-X-ME-Sender: <xms:nUxfYUxaTBgwdTjYG9xTc4jy7PjZPpS6izJdIgqIrwQ7XR_aQCfRnQ>
-    <xme:nUxfYYTWqF_slclXQ4eLhOW9pATKmLpRVrdsV5Nz5hqRgJ9zhYc0Op_XrByguoll7
-    b4Ubi9eA0o0egrsaA>
-X-ME-Received: <xmr:nUxfYWVGrpz9IuTgKvXhSUB-a_BzCwGI13qlpvrPXJDYb709tyIM5vMlI7JW7r8VXQdc>
+        fm1; bh=2vRU8CfQA//y8mJpNYyM4Fgn9sjm+M/V2WJONp99P2M=; b=Jn7vzD/s
+        uo1T/FSGmhLI8GoMz4+A3+KOIYRJiRLe8l6Zgn9h1uxSSl4kBGvQ3DD0RUwpaXqc
+        r2rckLFV4JTYzbGhW2hDiU3/obuFVtj10Jft92UIb+Y7CnGLmnEc5dgqmEksY14l
+        xEbso1aS3r5fo37D/5NPF4jqB9doeaijrQ/bHrQGP/PwtW5yzBfnkhWam26ko6Tk
+        gN8ObC0lwWLigSYJJlC7ZXwrOherp3kg+UlRZB9KtlaNrmKBShFP3KAqGSG2VXiF
+        jbhxDd5RWCfz7/w3a7zhUBNYyOI9I+8j0GmccQt8rmtBbRkieZd3rIRqLgs+JiAS
+        MAcjYRSUc7qUJw==
+X-ME-Sender: <xms:oUxfYbHKVHYD3Ln0GQdXRkIG2ZEPyDO8Ff489A3jq_RgFqUTPGhNQw>
+    <xme:oUxfYYVvVzGImqc7zBRosZhfR0X4sDs4me82a-JuxXnpunoFJUFZE-jW7wT5rf_Tc
+    hUKLEg7xmSHqJpZrA>
+X-ME-Received: <xmr:oUxfYdJRaKyF2Lllzy0mUkOabWViR18WezZK5A7ilgGkkETJdsmVQ2XOPoEIoaR6LQV0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelkedgudefjecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
@@ -48,12 +48,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelkedgudefjecutefuodetgg
     ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
     fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedtnecu
     rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:nUxfYSgjcgnn6GxQbYMqRjjZ8ZyRg3QBcAMVowrDcEnOjF3ROplG-Q>
-    <xmx:nUxfYWCsUubJmCzKEHWDKbMAxh6oBou_cHjcpgxYRW2MwJcvrfxnpQ>
-    <xmx:nUxfYTJBeAF_rZGm-ZxCw89KYhjCy0FPjUQ3x4C1-SxPipyWS3lJGA>
-    <xmx:nUxfYetddlX3vUf2ms7cvrzo2DnVqintbqj0N10dlq5vMp1IxYO2yk7C_8s>
+X-ME-Proxy: <xmx:oUxfYZHuaPBMzdDsFz6MYpJkvZ4IQ3WHUSguCoWrh9scUO98POJRFA>
+    <xmx:oUxfYRWe84qyCZw6OLPSetJSyBS13o-n168RvnfBwXLu2b1HGvZcTw>
+    <xmx:oUxfYUPJA3zizqPfxPVLPkcqEWNoqrnckd2ZsCNbvQjLp17ZuFuvzA>
+    <xmx:oUxfYZTVSnMnhGQXi5Ue1mPFsir835dEAaf49TG_AlVmDnUIM10Itt-7mGs>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 Oct 2021 15:38:02 -0400 (EDT)
+ 7 Oct 2021 15:38:07 -0400 (EDT)
 From:   Fernando Ramos <greenfoo@u92.eu>
 To:     dri-devel@lists.freedesktop.org
 Cc:     linux-kernel@vger.kernel.org, sean@poorly.run,
@@ -61,9 +61,9 @@ Cc:     linux-kernel@vger.kernel.org, sean@poorly.run,
         intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
         freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
         linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v3 01/20] drm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
-Date:   Thu,  7 Oct 2021 21:37:36 +0200
-Message-Id: <20211007193755.29579-2-greenfoo@u92.eu>
+Subject: [PATCH v3 02/20] drm/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+Date:   Thu,  7 Oct 2021 21:37:37 +0200
+Message-Id: <20211007193755.29579-3-greenfoo@u92.eu>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211007193755.29579-1-greenfoo@u92.eu>
 References: <20211007193755.29579-1-greenfoo@u92.eu>
@@ -78,44 +78,50 @@ surrounding drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN()
 and DRM_MODESET_LOCK_ALL_END()
 
 Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
+Reviewed-by: Sean Paul <sean@poorly.run>
 ---
- drivers/gpu/drm/drm_client_modeset.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index ced09c7c06f9..5f5184f071ed 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -574,6 +574,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
- 	int num_connectors_detected = 0;
- 	int num_tiled_conns = 0;
- 	struct drm_modeset_acquire_ctx ctx;
-+	int err;
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 4f0badb11bbb..cb1142447186 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -43,6 +43,7 @@
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_rect.h>
++#include <drm/drm_drv.h>
  
- 	if (!drm_drv_uses_atomic_modeset(dev))
- 		return false;
-@@ -585,10 +586,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
- 	if (!save_enabled)
- 		return false;
+ #include "display/intel_audio.h"
+ #include "display/intel_crt.h"
+@@ -12656,22 +12657,13 @@ void intel_display_resume(struct drm_device *dev)
+ 	if (state)
+ 		state->acquire_ctx = &ctx;
  
 -	drm_modeset_acquire_init(&ctx, 0);
 -
--	while (drm_modeset_lock_all_ctx(dev, &ctx) != 0)
+-	while (1) {
+-		ret = drm_modeset_lock_all_ctx(dev, &ctx);
+-		if (ret != -EDEADLK)
+-			break;
+-
 -		drm_modeset_backoff(&ctx);
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+-	}
++	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
  
- 	memcpy(save_enabled, enabled, count);
- 	mask = GENMASK(count - 1, 0);
-@@ -743,8 +741,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
- 		ret = false;
- 	}
+-	if (!ret)
+-		ret = __intel_display_resume(dev, state, &ctx);
++	ret = __intel_display_resume(dev, state, &ctx);
  
+ 	intel_enable_ipc(dev_priv);
 -	drm_modeset_drop_locks(&ctx);
 -	drm_modeset_acquire_fini(&ctx);
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
++
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
  
- 	kfree(save_enabled);
- 	return ret;
+ 	if (ret)
+ 		drm_err(&dev_priv->drm,
 -- 
 2.33.0
 
