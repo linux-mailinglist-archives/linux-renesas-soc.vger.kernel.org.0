@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD678426A25
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Oct 2021 13:50:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7780B426A5A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Oct 2021 14:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241150AbhJHLww (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Oct 2021 07:52:52 -0400
-Received: from mail-vs1-f46.google.com ([209.85.217.46]:38743 "EHLO
-        mail-vs1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241072AbhJHLwv (ORCPT
+        id S240374AbhJHMEj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Oct 2021 08:04:39 -0400
+Received: from mail-vs1-f48.google.com ([209.85.217.48]:41634 "EHLO
+        mail-vs1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230155AbhJHMEj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Oct 2021 07:52:51 -0400
-Received: by mail-vs1-f46.google.com with SMTP id x192so7970875vsx.5;
-        Fri, 08 Oct 2021 04:50:56 -0700 (PDT)
+        Fri, 8 Oct 2021 08:04:39 -0400
+Received: by mail-vs1-f48.google.com with SMTP id g10so10250274vsb.8;
+        Fri, 08 Oct 2021 05:02:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nQIe1mpPozhcy3n95drUQugG9ZDdKS0eZzq0/N/T6Dk=;
-        b=EAUAiIcTpSyTy7HnEfBCkBQ4PK++62TfxsvpSs4PKmfNcwZnfLbxAhfbT34VVLKgRU
-         qD8FSepmWBIt7e4Nmp4lVX6qewiszA9DozYmoHYKrIRuJETHkf6CUEboleEtbK01g8bm
-         U58hbrPpwUo6MsQ7miDdKOHGPc7EzyNw4sBrpjToU9qvlj46WnqDt4cAJeQaZ2kBIejb
-         hxz8RjUbP6qYkkpumycj10/bMsOHAaXjAOyTheiZnq1SaW6oZVdpaj+spnrzi/pBd1eu
-         7iSvNQ1D3AD9K37nFMjd9KERVHWTCRqk5e5fwFBYdDk2xNltFhfwiYrd2tZpnzf7w4OJ
-         dDGQ==
-X-Gm-Message-State: AOAM532f+otCN6Wkzgemn93+U9+YaZ5FcSEocYCw3WjNaz8utCkNDw/M
-        bfViTZXvfMRn0ivnSy7/8mMQc1vkCkb48vtRrxg=
-X-Google-Smtp-Source: ABdhPJzb50Lwf3AqKsaa3r8TgaTkPnOEbJbnHBz5c2Ym+VLBkRV9KHXIWxLzY/RTjy5V7M675IJ+DDqGQjdBzd2hFPI=
-X-Received: by 2002:a05:6102:d8c:: with SMTP id d12mr3061347vst.35.1633693856099;
- Fri, 08 Oct 2021 04:50:56 -0700 (PDT)
+        bh=A0+rwXe/EfPT3EPp2b+/7zjwdIkw54r6xjr7WDHipGg=;
+        b=tbWhMfonwBQoBta7zHIr33hnLGa24g5iKXzX0HsuZbDFxyZVokF5xrDOkA3aMuFnmS
+         vX+IBaXeYjAryDpzLDEaFxShjNqJo9M4kAOuYdUl6o6zvVzvlb4dxSn66TrQ6DxyxPiO
+         rr6vZt7RRueRRaRHUzkpJ0lPKvAxloc+35NciJPBTr6Xh0W7TXFKKoqRA3NtGOU75xpu
+         /XnglJICsyt2E7wvp1XhCUR+55b4VWXWvnLcVyCJ1ahOltJoniypRvn0unwJQUYKIotJ
+         8klEQB0l83AuW4edjqpbbSfT4GLJBMiPLFzUJ1c04GqMRr5Z82b3QpbkiVVJf9p3g/lP
+         1A/Q==
+X-Gm-Message-State: AOAM532zCm/wHpPMW7DZ8y80mlWrL8+LHY2tKbGgVIJLcmbyi4cV/lnl
+        1WSUb/CYQNsBM7V008zaQzL/lslDIJANCAmT1SA=
+X-Google-Smtp-Source: ABdhPJz1I5jGEJU7TK/0vyR/77CUcyJcVdHz/hk4RBRc9m7txMRjELOJ6Pawv56A4xSPhFpiLF5O9/5a4IxzBfzoQe0=
+X-Received: by 2002:a67:ac04:: with SMTP id v4mr10184520vse.50.1633694563359;
+ Fri, 08 Oct 2021 05:02:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211007155451.10654-1-biju.das.jz@bp.renesas.com> <20211007155451.10654-3-biju.das.jz@bp.renesas.com>
 In-Reply-To: <20211007155451.10654-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Oct 2021 13:50:44 +0200
-Message-ID: <CAMuHMdVAk0_Fp=EPYJLd41DARk7qji62T=qvrdNyfYukOvJE4Q@mail.gmail.com>
+Date:   Fri, 8 Oct 2021 14:02:32 +0200
+Message-ID: <CAMuHMdXgc9MnZyznCN0CkM4bkoqz71JTAnHG_CeaDHAOCpVutg@mail.gmail.com>
 Subject: Re: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc-som: Enable eMMC on
  SMARC platform
 To:     Biju Das <biju.das.jz@bp.renesas.com>
@@ -72,57 +72,9 @@ On Thu, Oct 7, 2021 at 5:55 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thanks for your patch!
-
-
 > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
 > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-> @@ -5,14 +5,55 @@
->   * Copyright (C) 2021 Renesas Electronics Corp.
->   */
->
-> +#include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
->
-> +/* SW1[2] should be at position 2/OFF to enable 64Gb eMMC */
 
-64 GB (the MTFC64GASAQHD datasheet isn't clear about the exact size
-and the meaning of GB)
-
-> +#define EMMC   1
-> +
-> +/*
-> + * To enable uSD card on CN3,
-> + * SW1[2] should be at position 3/ON.
-> + * Disable eMMC by setting "#define EMMC       0" above.
-> + */
-> +#define SDHI   (!EMMC)
-> +
->  / {
->         memory@48000000 {
->                 device_type = "memory";
->                 /* first 128MB is reserved for secure area. */
->                 reg = <0x0 0x48000000 0x0 0x78000000>;
->         };
-> +
-> +       reg_1p8v: regulator0 {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "fixed-1.8V";
-> +               regulator-min-microvolt = <1800000>;
-> +               regulator-max-microvolt = <1800000>;
-> +               regulator-boot-on;
-> +               regulator-always-on;
-> +       };
-> +
-> +       reg_3p3v: regulator1 {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "fixed-3.3V";
-> +               regulator-min-microvolt = <3300000>;
-> +               regulator-max-microvolt = <3300000>;
-> +               regulator-boot-on;
-> +               regulator-always-on;
-> +       };
-> +
 > +       vccq_sdhi0: regulator-vccq-sdhi0 {
 > +               compatible = "regulator-gpio";
 > +
@@ -130,66 +82,21 @@ and the meaning of GB)
 > +               regulator-min-microvolt = <1800000>;
 > +               regulator-max-microvolt = <3300000>;
 > +               states = <3300000 1 1800000 0>;
-
-"make dtbs_check" says:
-
-    regulator-vccq-sdhi0: states:0: [3300000, 1, 1800000, 0] is too long
-
-Please group the two states using angular brackets.
-
 > +               regulator-boot-on;
 > +               gpios = <&pinctrl RZG2L_GPIO(39, 0) GPIO_ACTIVE_HIGH>;
+
+Is this correct?
+According to the schematics, the GPIO should be high to select 3.3V.
+
 > +               regulator-always-on;
 > +       };
 >  };
->
->  &adc {
-> @@ -32,4 +73,108 @@
->         adc_pins: adc {
->                 pinmux = <RZG2L_PORT_PINMUX(9, 0, 2)>; /* ADC_TRG */
->         };
-> +
-> +       /*
-> +        * SDO device selection is XOR between GPIO_SD0_DEV_SEL and SW1[2]
-> +        * The below switch logic can be used to select the device between
-> +        * eMMC and microSD, after setting GPIO_SD0_DEV_SEL to high in DT.
-> +        * SW1[2] should be at position 2/OFF to enable 64Gb eMMC
-> +        * SW1[2] should be at position 3/ON to enable uSD card CN3
-> +        */
-> +       gpio_sd0_dev_sel {
-
-    gpio_sd0_dev_sel: $nodename:0: 'gpio_sd0_dev_sel' does not match
-'^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-    (for all hogs)
-
-Please use e.g. "sd0-dev-sel-hog".
-
-> +               gpio-hog;
-> +               gpios = <RZG2L_GPIO(41, 1) GPIO_ACTIVE_HIGH>;
-> +               output-high;
-> +               line-name = "gpio_sd0_dev_sel";
-> +       };
-> +
-> +       sd0_pwr_en {
-
-gpio-sd0-pwr-en-hog (with "gpio-" prefix, to match schematics)
-
-> +               gpio-hog;
-> +               gpios = <RZG2L_GPIO(4, 1) GPIO_ACTIVE_HIGH>;
-> +               output-high;
-> +               line-name = "sd0_pwr_en";
-
-gpio_sd0_pwr_en
-
-> +       };
-
-The rest looks good to me.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
