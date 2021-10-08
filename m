@@ -2,82 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32C3E426B1F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Oct 2021 14:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8068426B5B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Oct 2021 14:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230216AbhJHMuW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Oct 2021 08:50:22 -0400
-Received: from mail-vk1-f179.google.com ([209.85.221.179]:33391 "EHLO
-        mail-vk1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230204AbhJHMuS (ORCPT
+        id S230258AbhJHM6G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Oct 2021 08:58:06 -0400
+Received: from mail-vs1-f52.google.com ([209.85.217.52]:42698 "EHLO
+        mail-vs1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242124AbhJHM6G (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Oct 2021 08:50:18 -0400
-Received: by mail-vk1-f179.google.com with SMTP id t200so4177257vkt.0;
-        Fri, 08 Oct 2021 05:48:23 -0700 (PDT)
+        Fri, 8 Oct 2021 08:58:06 -0400
+Received: by mail-vs1-f52.google.com with SMTP id l22so7986695vsq.9;
+        Fri, 08 Oct 2021 05:56:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2CZA5owzP75Fk3OUthJZqkUZwf9bToqDOhS3PDP9ylg=;
-        b=0xiwhAHaIYXS6I4PlmgO0CR3a2nNgtpZwOrMdtqjf0sZG9eTCxFqE3zdFBNmLrFxGu
-         +4GPGtR73+W31UAmqS+a7DqiYU1uMbcSRVpqFasXse6ethYaPQYoZrYE2EfpM7Fh17CB
-         Wm+OG2ENJvX7hCiqlcaQXO1MhakXdLLTWwNqTonbjJMKyZ7/du3wrjyVQ5nPMPPMgJg7
-         L5t3JcGdvbI301W5/ZgumlgTyYzaw1ewm2C+Xd6NkmnRAeFpYfxY1DncQpI0M9co6PQ9
-         3LvRulKVS5JOBzS58qfVhMNfxfxzcNx09XklkQFEOUZX7M/YWeg4CtEoIlvvF1IXcAFb
-         8Hgw==
-X-Gm-Message-State: AOAM531mFOV3pNaJTs4LadrO+vRtBsvX0sarDTtlZswYZhOlBW/hZXYe
-        FW1j6VGijRDVxrH1+LsLAsm7N9767mRQcWrKbkE=
-X-Google-Smtp-Source: ABdhPJzhaludNGFd2M+jSs3csgSWFGRxQKaQ5CFdeS+FIxZB4w/RVLybb15Btky/2gRCvdqiCLIczqmpmRi0rz61IR4=
-X-Received: by 2002:a1f:5e84:: with SMTP id s126mr9100625vkb.7.1633697303106;
- Fri, 08 Oct 2021 05:48:23 -0700 (PDT)
+        bh=QbNRDYbUInfalX6L9Ogc3pNoDeOxrxefMK44LIdGSZs=;
+        b=g8JvPE+05OhGUrFp++ntkrHwCg67Zu7SiCjAm5zWYfwmfC24oVqnF0DkLwJxtZnkjo
+         yU966e8unw/Ui/XyNkSKoZ3vV9fMxhhzRqYF4vDVWTfIWJeLZhauWw/xZVwUDWMuvumf
+         ZaAJDX6s261ddSnAvjEAihTpLXBrdbw6UNhfCfqYX3NWeUNdASIGzXvk3f3uzgmFe7i5
+         MSwJeLxliOoTe/O3xY1GLHj+H+Uxs2ApGf2OwQad3t7gE5cd/OPq3ZNgDPMc2ml0WsJF
+         JssdSpj+cZXL3OjnJMeWPjibliLcCywNbx6w7mrts+vLSmTcbrAPfmM3PpOI3kFaqa1a
+         UHTg==
+X-Gm-Message-State: AOAM532Zpjepxjo6PolStfzC7FJ0BkFrQa2yD9RZrfxKbb673nDrS/M5
+        jgy9IS1HnyQfTvn4unP2flfEeDSnPFL+a2e2+KOE6fCRs/w=
+X-Google-Smtp-Source: ABdhPJy5sOMI+IEARY8vNuwiYRTAjHcVi8CDkQ1m3s7Q68dWYTqtR32jLp12RRIFhIlsogu0ViKmgQowBO6KtLk+3Hk=
+X-Received: by 2002:a67:ac04:: with SMTP id v4mr10586756vse.50.1633697770379;
+ Fri, 08 Oct 2021 05:56:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAMuHMdUvNM8Tu-+Ed0vjB2-_JUQe7ojUPbzJM=Vy1m_j31sNSg@mail.gmail.com>
- <20211007200250.20661-1-nikita.yoush@cogentembedded.com>
-In-Reply-To: <20211007200250.20661-1-nikita.yoush@cogentembedded.com>
+References: <20211007155451.10654-1-biju.das.jz@bp.renesas.com>
+ <20211007155451.10654-3-biju.das.jz@bp.renesas.com> <CAMuHMdXgc9MnZyznCN0CkM4bkoqz71JTAnHG_CeaDHAOCpVutg@mail.gmail.com>
+ <OS0PR01MB5922CFA47D2B427FF65BE5F886B29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922CFA47D2B427FF65BE5F886B29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Oct 2021 14:48:11 +0200
-Message-ID: <CAMuHMdU2Nr1V035Ntz-XNrc10t7femUFt_WV+Q3EHiWZD5HmkQ@mail.gmail.com>
-Subject: Re: [PATCH v2] pinctrl: renesas: r8a779[56]x: add MediaLB pins
-To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
+Date:   Fri, 8 Oct 2021 14:55:59 +0200
+Message-ID: <CAMuHMdXcc5+-ramVcVaBnwM6jE71aS97_Z_fEDuMiaO0UZjg=g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc-som: Enable eMMC on
+ SMARC platform
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
-        Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
-        LUU HOAI <hoai.luu.ub@renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nikita,
+Hi Biju,
 
-On Thu, Oct 7, 2021 at 10:03 PM Nikita Yushchenko
-<nikita.yoush@cogentembedded.com> wrote:
-> From: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
+On Fri, Oct 8, 2021 at 2:43 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc-som: Enable eMMC
+> > on SMARC platform
+> > On Thu, Oct 7, 2021 at 5:55 PM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > RZ/G2L SoM has both 64Gb eMMC and micro SD connected to SDHI0.
+> > >
+> > > Both these interfaces are mutually exclusive and the SD0 device
+> > > selection is based on the XOR between GPIO_SD0_DEV_SEL and SW1[2]
+> > > switch position.
+> > >
+> > > This patch sets GPIO_SD0_DEV_SEL to high in DT. Use the below switch
+> > > setting logic for device selection between eMMC and microSD slot
+> > > connected to SDHI0.
+> > >
+> > > Set SW1[2] to position 2/OFF for selecting eMMC Set SW1[2] to position
+> > > 3/ON for selecting micro SD
+> > >
+> > > This patch enables eMMC on RZ/G2L SMARC platform by default.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >
+> > > --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+> >
+> > > +       vccq_sdhi0: regulator-vccq-sdhi0 {
+> > > +               compatible = "regulator-gpio";
+> > > +
+> > > +               regulator-name = "SDHI0 VccQ";
+> > > +               regulator-min-microvolt = <1800000>;
+> > > +               regulator-max-microvolt = <3300000>;
+> > > +               states = <3300000 1 1800000 0>;
+> > > +               regulator-boot-on;
+> > > +               gpios = <&pinctrl RZG2L_GPIO(39, 0) GPIO_ACTIVE_HIGH>;
+> >
+> > Is this correct?
+> > According to the schematics, the GPIO should be high to select 3.3V.
 >
-> This adds pins, groups, and functions for MediaLB device on Renesas
-> H3 and M3.
+> Yes, But it is "AND" Operation between SD0_DEV_SEL and GPIO_SD0_PWR_SEL.
 >
-> Signed-off-by: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
-> Signed-off-by: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
-> Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> ---
-> Changes from v1:
-> - move mlb_3pin from common[] to automotive[] arrays
-> - fix missed array size update in pfc-r8a7796.c
+> For eMMC, SD0_PWR_SEL will be always 1.8V
+>
+> For Micro SD, SD0_PWR_SEL will be 3.3V when GPIO_SD0_PWR_SEL is high
+>           SD0_PWR_SEL will be 1.8V when GPIO_SD0_PWR_SEL is low.
 
-Thanks for the update!
+Doesn't the first state in states = <3300000 1 1800000 0> correspond
+to GPIO_SD0_PWR_SEL being low?
 
-Obviously not only the mlb_3pin groups, but also the functions have to
-be moved to the automotive[] arrays ;-)
+Oh no, the second cell is the GPIO state...
+Why is it common to order these in reverse order? :-(
 
-I'll fix these up while applying, so no need to resend.
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl-for-v5.16.
+Sorry, you're right. Please ignore my comment, also for the next patch.
 
 Gr{oetje,eeting}s,
 
