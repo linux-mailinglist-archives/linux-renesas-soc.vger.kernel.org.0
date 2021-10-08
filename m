@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BB0F42671D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Oct 2021 11:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D90742671E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Oct 2021 11:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239258AbhJHJsb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Oct 2021 05:48:31 -0400
-Received: from mail-vs1-f54.google.com ([209.85.217.54]:46927 "EHLO
-        mail-vs1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239243AbhJHJsb (ORCPT
+        id S239485AbhJHJtI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Oct 2021 05:49:08 -0400
+Received: from mail-vk1-f181.google.com ([209.85.221.181]:38652 "EHLO
+        mail-vk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239501AbhJHJtF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Oct 2021 05:48:31 -0400
-Received: by mail-vs1-f54.google.com with SMTP id o15so5036139vsr.13;
-        Fri, 08 Oct 2021 02:46:36 -0700 (PDT)
+        Fri, 8 Oct 2021 05:49:05 -0400
+Received: by mail-vk1-f181.google.com with SMTP id bb12so1935970vkb.5;
+        Fri, 08 Oct 2021 02:47:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dDxXTwD9W/UyPRLFm8DBvWQ1XnuyqNvFuXxe/PQ3Qq4=;
-        b=Abvxb+roQllLFBG0m2uzsaR5CSOy/QpAWnkmQMvQy7DleHDanKb/ZUEoRSqmTop7K6
-         Az02pvq0ls5ubEvFT1SddUAFgxOdJ82zs7npth+k03buKCPY2uknYypf5c4U8rti5Xd0
-         mfVRXVSRL8Yx/RzxvCm5vuZyi3W/FNcL/hW3D53cQRY4hWvgNrIC1Y34lsEeCHmZ4vsc
-         l/dXGR10IrRkktLfR3UiQNM+OM9YsnWotAb5Dyhv4fqvyzCXscVllbU7DWsTGFKkpKnD
-         08+LjhthgxpBsTWjBO5xbRLi5Ywa/ZunI4UT/ksb3aBtOMgh53cUb79evwV5WEhw4fTk
-         87Og==
-X-Gm-Message-State: AOAM531WqPsHgmyLHxwnG4+vM/vZDuUYT7kd5fqWDtjzI4THmj0VZzK1
-        KshVzXgy5Aed1HhvJtUsxxjWwIaFKE0hY2Fi6AchFax+
-X-Google-Smtp-Source: ABdhPJzw7MkI9yt1Um/Q10RUSzsIWk90cMyMklD09KpTvfB0X06hXwD55iL3BU5JWqcfh0iC4Uh+Z1FSMAxpC+1MwtM=
-X-Received: by 2002:a67:ac04:: with SMTP id v4mr9471328vse.50.1633686396056;
- Fri, 08 Oct 2021 02:46:36 -0700 (PDT)
+        bh=ZhkuDcQL9tzn4rlqi3fw3STDZb023NsQ7pw++PUWl98=;
+        b=ufPSRqdATuVpXqRL3/Bpn1X0drQ6+HAUIpeMX3lgNrjd3afsYezQK/3vIgorYOw5Ad
+         zMvjfnK9l1bPC4bnexdk+1ANLFD1OXBcG1y7oymnUgOQa/mdDBwn9ILw/h4eufsBosYW
+         bAk3etWantJpfonHtSgqHLdez4UncsowgHV3tjRjsTX3F1XQnPSpRwIDp0jIUL9JctHS
+         WtwRQleIBpK0HrXHVfR4wYbg8gXRNSXjmE8RJqY7li1Sgc5PlLgAKqc81IErNsbx7Uqf
+         opZgltp7/kRH2oFgy+d8eTY6Td36CPW3yo95aALTvgzBuUqeXGUdefH/ffAKC2DaZE8z
+         3qpg==
+X-Gm-Message-State: AOAM533NLkiynhgd29mK6bzYJH1//iStgGc4OWWxP7qYQ2/WdJM7XiwI
+        vz5MvEyabrWiCZ7Ra0bbvvTPKu6Jj112a48RJD4=
+X-Google-Smtp-Source: ABdhPJx0vp+vewsGH6TcoNQtzkUhJtw6lJRBl36QRSHBSd/FGPv4RBBT40lkJ0ifQL61E5H/rORLvoHMSkvcJhw4fh0=
+X-Received: by 2002:a1f:5e84:: with SMTP id s126mr8220069vkb.7.1633686429994;
+ Fri, 08 Oct 2021 02:47:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211007111434.8665-1-biju.das.jz@bp.renesas.com> <20211007111434.8665-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20211007111434.8665-2-biju.das.jz@bp.renesas.com>
+References: <20211007111434.8665-1-biju.das.jz@bp.renesas.com> <20211007111434.8665-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211007111434.8665-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Oct 2021 11:46:25 +0200
-Message-ID: <CAMuHMdUD6CEUWnL+PAowN1fAoTpuh6=JXt8gwCgeqH2u0Cpv5A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drivers: clk: renesas: rzg2l-cpg: Add SDHI clk mux support
+Date:   Fri, 8 Oct 2021 11:46:59 +0200
+Message-ID: <CAMuHMdU0xsy=t=2mdvjEmD_eNjVieHUAZThDQWXC4zz5iyzNTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drivers: clk: renesas: r9a07g044-cpg: Add SDHI
+ clock and reset entries
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -54,23 +55,15 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Biju,
 
 On Thu, Oct 7, 2021 at 1:14 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add SDHI clk mux support to select SDHI clock from different clock
-> sources.
->
-> As per HW manual, direct clock switching from 533MHz to 400MHz and
-> vice versa is not recommended. So added support for handling this
-> in mux.
+> Add SDHI{0,1} mux, clock and reset entries to CPG driver.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> This patch depend upon [1]
-> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210928130132.15022-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
->
 > v1->v2:
->  * Removed flags and mux flags
->  * Added readl_poll_timeout to check CPG_CLKSTATUS.SELSDHIx_STS bit
->  * Added curly braces around val in rzg2l_cpg_sd_clk_mux_get_parent()
+>  * Renamed the clk source names as per latest HW manual
+>  * Removed .flag and .mux_flags from DEF_SD_MUX
+>  * Changed the mult/divider values for 533MHz clock
 
 Thanks for the update!
 
