@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 378AD42770D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Oct 2021 06:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C0E342770F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Oct 2021 06:03:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbhJIEEg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 9 Oct 2021 00:04:36 -0400
-Received: from mga03.intel.com ([134.134.136.65]:6083 "EHLO mga03.intel.com"
+        id S229474AbhJIEFi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 9 Oct 2021 00:05:38 -0400
+Received: from mga02.intel.com ([134.134.136.20]:35256 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229474AbhJIEEf (ORCPT
+        id S229441AbhJIEFh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 9 Oct 2021 00:04:35 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="226584836"
+        Sat, 9 Oct 2021 00:05:37 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="213772781"
 X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="226584836"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 21:02:39 -0700
+   d="scan'208";a="213772781"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 21:03:39 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="440851092"
+   d="scan'208";a="624935632"
 Received: from lkp-server02.sh.intel.com (HELO 1950922c5479) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 08 Oct 2021 21:02:38 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 08 Oct 2021 21:03:38 -0700
 Received: from kbuild by 1950922c5479 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mZ3ZF-00016d-SL; Sat, 09 Oct 2021 04:02:37 +0000
-Date:   Sat, 09 Oct 2021 12:01:53 +0800
+        id 1mZ3aD-00016v-Vi; Sat, 09 Oct 2021 04:03:37 +0000
+Date:   Sat, 09 Oct 2021 12:02:45 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk-for-v5.16] BUILD SUCCESS
- 373bd6f487562e8727bc842e9983b093d57968cc
-Message-ID: <61611431.27KmB2fBi78vwmGC%lkp@intel.com>
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ 4dad7e7e2891c1acd6d07d221d854f2d67fd30a9
+Message-ID: <61611465.fwCGOeyxVUbQytR6%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,10 +40,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.16
-branch HEAD: 373bd6f487562e8727bc842e9983b093d57968cc  clk: renesas: r9a07g044: Add SDHI clock and reset entries
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: 4dad7e7e2891c1acd6d07d221d854f2d67fd30a9  Merge branch 'renesas-arm-dt-for-v5.16' into renesas-next
 
-elapsed time: 822m
+elapsed time: 823m
 
 configs tested: 156
 configs skipped: 4
