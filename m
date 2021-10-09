@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BB5B4276F9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Oct 2021 05:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4235642770C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Oct 2021 06:01:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229970AbhJIDrg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Oct 2021 23:47:36 -0400
-Received: from mga07.intel.com ([134.134.136.100]:20988 "EHLO mga07.intel.com"
+        id S229474AbhJIEDg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 9 Oct 2021 00:03:36 -0400
+Received: from mga09.intel.com ([134.134.136.24]:27083 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229561AbhJIDrf (ORCPT
+        id S229441AbhJIEDf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Oct 2021 23:47:35 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="290128098"
+        Sat, 9 Oct 2021 00:03:35 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="226529083"
 X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="290128098"
+   d="scan'208";a="226529083"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 20:45:39 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 21:01:39 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="479194109"
+   d="scan'208";a="479196784"
 Received: from lkp-server02.sh.intel.com (HELO 1950922c5479) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 08 Oct 2021 20:45:38 -0700
+  by orsmga007.jf.intel.com with ESMTP; 08 Oct 2021 21:01:38 -0700
 Received: from kbuild by 1950922c5479 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mZ3In-00015j-K9; Sat, 09 Oct 2021 03:45:37 +0000
-Date:   Sat, 09 Oct 2021 11:44:53 +0800
+        id 1mZ3YH-00016S-PI; Sat, 09 Oct 2021 04:01:37 +0000
+Date:   Sat, 09 Oct 2021 12:01:34 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.16] BUILD SUCCESS
- a83ad872f4ba6b9fbf81b9f70d6ff6d61d74bf7e
-Message-ID: <61611035./iAvFr284nUUh+Mv%lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-pinctrl-for-v5.16] BUILD SUCCESS
+ 106502e232ed0296275d15054591133f168eaacd
+Message-ID: <6161141e.To8LmuRTsxpprF5X%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,13 +40,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.16
-branch HEAD: a83ad872f4ba6b9fbf81b9f70d6ff6d61d74bf7e  arm64: dts: renesas: r9a07g044: Add SDHI nodes
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.16
+branch HEAD: 106502e232ed0296275d15054591133f168eaacd  pinctrl: renesas: r8a779[56]x: add MediaLB pins
 
-elapsed time: 805m
+elapsed time: 821m
 
-configs tested: 143
-configs skipped: 97
+configs tested: 161
+configs skipped: 4
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -82,6 +82,12 @@ mips                         rt305x_defconfig
 arm                            zeus_defconfig
 arm                         socfpga_defconfig
 arm                           corgi_defconfig
+sh                          rsk7264_defconfig
+xtensa                    xip_kc705_defconfig
+nds32                             allnoconfig
+powerpc                 mpc8560_ads_defconfig
+mips                       lemote2f_defconfig
+m68k                        stmark2_defconfig
 sh                          sdk7786_defconfig
 powerpc                       holly_defconfig
 arm                     am200epdkit_defconfig
@@ -95,6 +101,10 @@ powerpc                 mpc832x_mds_defconfig
 arm                            xcep_defconfig
 mips                           rs90_defconfig
 mips                        bcm63xx_defconfig
+mips                malta_qemu_32r6_defconfig
+powerpc                          g5_defconfig
+arm                        keystone_defconfig
+riscv                               defconfig
 mips                         tb0219_defconfig
 arc                            hsdk_defconfig
 sh                        apsh4ad0a_defconfig
@@ -106,7 +116,6 @@ powerpc                      arches_defconfig
 sh                   secureedge5410_defconfig
 m68k                            mac_defconfig
 xtensa                       common_defconfig
-powerpc                 mpc8560_ads_defconfig
 powerpc                   lite5200b_defconfig
 powerpc                      cm5200_defconfig
 arm                       multi_v4t_defconfig
@@ -116,6 +125,11 @@ xtensa                generic_kc705_defconfig
 mips                         db1xxx_defconfig
 arm                          ep93xx_defconfig
 powerpc                   microwatt_defconfig
+arm                           u8500_defconfig
+h8300                    h8300h-sim_defconfig
+arm                           viper_defconfig
+mips                 decstation_r4k_defconfig
+powerpc                 mpc837x_rdb_defconfig
 arm                         s3c6400_defconfig
 arm                        realview_defconfig
 powerpc                     tqm8560_defconfig
@@ -129,7 +143,6 @@ m68k                                defconfig
 m68k                             allyesconfig
 nios2                               defconfig
 arc                              allyesconfig
-nds32                             allnoconfig
 nds32                               defconfig
 nios2                            allyesconfig
 csky                                defconfig
@@ -142,15 +155,17 @@ sh                               allmodconfig
 parisc                              defconfig
 parisc                           allyesconfig
 s390                                defconfig
+s390                             allyesconfig
+s390                             allmodconfig
 sparc                            allyesconfig
 sparc                               defconfig
 i386                                defconfig
 i386                             allyesconfig
 mips                             allyesconfig
 mips                             allmodconfig
-powerpc                          allyesconfig
 powerpc                          allmodconfig
 powerpc                           allnoconfig
+powerpc                          allyesconfig
 x86_64               randconfig-a015-20211008
 x86_64               randconfig-a012-20211008
 x86_64               randconfig-a016-20211008
@@ -169,12 +184,13 @@ riscv                randconfig-r042-20211008
 riscv                    nommu_k210_defconfig
 riscv                    nommu_virt_defconfig
 riscv                             allnoconfig
-riscv                               defconfig
 riscv                          rv32_defconfig
 riscv                            allmodconfig
+riscv                            allyesconfig
 x86_64                    rhel-8.3-kselftests
 um                           x86_64_defconfig
 um                             i386_defconfig
+x86_64                           allyesconfig
 x86_64                              defconfig
 x86_64                               rhel-8.3
 x86_64                                  kexec
@@ -199,6 +215,8 @@ i386                 randconfig-a005-20211008
 i386                 randconfig-a004-20211008
 i386                 randconfig-a002-20211008
 i386                 randconfig-a006-20211008
+hexagon              randconfig-r045-20211008
+hexagon              randconfig-r041-20211008
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
