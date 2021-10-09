@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4235642770C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Oct 2021 06:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 378AD42770D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Oct 2021 06:02:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229474AbhJIEDg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 9 Oct 2021 00:03:36 -0400
-Received: from mga09.intel.com ([134.134.136.24]:27083 "EHLO mga09.intel.com"
+        id S229518AbhJIEEg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 9 Oct 2021 00:04:36 -0400
+Received: from mga03.intel.com ([134.134.136.65]:6083 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229441AbhJIEDf (ORCPT
+        id S229474AbhJIEEf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 9 Oct 2021 00:03:35 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="226529083"
+        Sat, 9 Oct 2021 00:04:35 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="226584836"
 X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="226529083"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 21:01:39 -0700
+   d="scan'208";a="226584836"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 21:02:39 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="479196784"
+   d="scan'208";a="440851092"
 Received: from lkp-server02.sh.intel.com (HELO 1950922c5479) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 08 Oct 2021 21:01:38 -0700
+  by orsmga003.jf.intel.com with ESMTP; 08 Oct 2021 21:02:38 -0700
 Received: from kbuild by 1950922c5479 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mZ3YH-00016S-PI; Sat, 09 Oct 2021 04:01:37 +0000
-Date:   Sat, 09 Oct 2021 12:01:34 +0800
+        id 1mZ3ZF-00016d-SL; Sat, 09 Oct 2021 04:02:37 +0000
+Date:   Sat, 09 Oct 2021 12:01:53 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl-for-v5.16] BUILD SUCCESS
- 106502e232ed0296275d15054591133f168eaacd
-Message-ID: <6161141e.To8LmuRTsxpprF5X%lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-clk-for-v5.16] BUILD SUCCESS
+ 373bd6f487562e8727bc842e9983b093d57968cc
+Message-ID: <61611431.27KmB2fBi78vwmGC%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,12 +40,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.16
-branch HEAD: 106502e232ed0296275d15054591133f168eaacd  pinctrl: renesas: r8a779[56]x: add MediaLB pins
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.16
+branch HEAD: 373bd6f487562e8727bc842e9983b093d57968cc  clk: renesas: r9a07g044: Add SDHI clock and reset entries
 
-elapsed time: 821m
+elapsed time: 822m
 
-configs tested: 161
+configs tested: 156
 configs skipped: 4
 
 The following configs have been built successfully.
@@ -125,11 +125,6 @@ xtensa                generic_kc705_defconfig
 mips                         db1xxx_defconfig
 arm                          ep93xx_defconfig
 powerpc                   microwatt_defconfig
-arm                           u8500_defconfig
-h8300                    h8300h-sim_defconfig
-arm                           viper_defconfig
-mips                 decstation_r4k_defconfig
-powerpc                 mpc837x_rdb_defconfig
 arm                         s3c6400_defconfig
 arm                        realview_defconfig
 powerpc                     tqm8560_defconfig
