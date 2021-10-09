@@ -2,259 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7904427911
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Oct 2021 12:42:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F9AB42795E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Oct 2021 13:13:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244550AbhJIKop (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 9 Oct 2021 06:44:45 -0400
-Received: from mga05.intel.com ([192.55.52.43]:23666 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232564AbhJIKop (ORCPT
+        id S232017AbhJILPg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 9 Oct 2021 07:15:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43962 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231932AbhJILPf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 9 Oct 2021 06:44:45 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="312851509"
-X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="312851509"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2021 03:42:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="440203561"
-Received: from lkp-server02.sh.intel.com (HELO 08b2c502c3de) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 09 Oct 2021 03:42:46 -0700
-Received: from kbuild by 08b2c502c3de with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mZ9oU-00009A-1A; Sat, 09 Oct 2021 10:42:46 +0000
-Date:   Sat, 09 Oct 2021 18:41:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- c2a19dc748287f470b9f2117e1b50206988efa8f
-Message-ID: <616171eb.I+xcRQPDTOkP2xrj%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 9 Oct 2021 07:15:35 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A224C061570
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  9 Oct 2021 04:13:38 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id z20so45982682edc.13
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 09 Oct 2021 04:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zQmsE1hWSKo2mCNAEH/8xFkkAJ8qHpcx34rZSKeVszI=;
+        b=dl1UNfwuCKJswuIVXoGfzUh6EuqWHM9EtE7n5rmLP2g5ZxF5jmFVi/kxNPC+wyCyXb
+         X251S3s+5QGAytZ77qX6FDH4EFBiBa/znTnSneFIt9FnY5AgUZHEj5Blan7sjN83ePTY
+         0Dia9+LLzWbNeFgdvPTcO5N9TeejiHeecVBXOmPxsCzfCDR63xHO8Z+ndRQNu5JaHVb2
+         H69vGaPY86DVIQJqUy7Nxs8EmM4FPXb0UKjyV16AAH9/1VeepuxIKjTcQoyZuqS2oITp
+         7aWMTWG21BKVR/c9GQmEbAR9aeEhzo7CszEECDS1lc+abSk9Xq4J5TFSHE0zbYkctAjQ
+         S9JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zQmsE1hWSKo2mCNAEH/8xFkkAJ8qHpcx34rZSKeVszI=;
+        b=6N231lrJln/KNR5PE068+V+vjPp5ph137posb5neBv+1ROp8ObH9C0j9waBPqSYg9X
+         9vgt7nRtblH8QHMpd6V3ZZ/ixlzO5trXHzBlhva2YMekvX5LxWs3zF8Rn8DB+LTQNJDd
+         WvpiM1KOOkuEOc0CSIasSZvOh9rxBLFH8KLCY2pbbbQSxSV1gZfXPrgMdipDTkgJn4o3
+         PGnn2IayLDk8bC+pPsuh+0hkP8rMTkAvXwzdwuqwCT3S0/NesHX99eOj3J5VCMC6pvWb
+         JsfC8Ami0RHF0BGZgA1SbYCwnFlHb5GdKn4Pjosu5KDvRhm3XwMFw+jsPebi9wyuNYn4
+         nW2Q==
+X-Gm-Message-State: AOAM531mN4LZw8lnGiX+zilRuB7RvQgMnwlfOtFAPFtXc0tGmUQ8bKqr
+        WFYb0W1VLQeTtshr8vRrfEC7duXwnOA9c9zqPxA=
+X-Google-Smtp-Source: ABdhPJyFK97d5YaxbyqTj/us5xUKewVmfNrduDNr9+6lo0cYUwfcQrJvdlSo5q8neC99uv0Hjz7CXBLI0vMqoAFDEJY=
+X-Received: by 2002:a50:9d48:: with SMTP id j8mr23504019edk.165.1633778016849;
+ Sat, 09 Oct 2021 04:13:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20210924171905.347115-1-aford173@gmail.com> <CAMuHMdXoLkh9Mt=8Q-dJeBrrHR_96MJUTA8ZJTtDSgMym0+J1w@mail.gmail.com>
+In-Reply-To: <CAMuHMdXoLkh9Mt=8Q-dJeBrrHR_96MJUTA8ZJTtDSgMym0+J1w@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Sat, 9 Oct 2021 06:13:25 -0500
+Message-ID: <CAHCN7xJjejzQ3ouS=_t8+yO1rE4CCPp9VPgbARJyuTU_q-_8qA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: beacon: Fix memory corruption from TF-A
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: c2a19dc748287f470b9f2117e1b50206988efa8f  Merge branch 'renesas-next' into renesas-devel
+On Tue, Oct 5, 2021 at 9:30 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Adam,
+>
+> On Fri, Sep 24, 2021 at 7:19 PM Adam Ford <aford173@gmail.com> wrote:
+> > Trusted Firmware allocates a chunk of memory for a lossy compressor
+> > which makes the memory unavailable to Linux and any attempts to read/write
+> > from Linux result in memory corruption or a crash.  Fix this by reserving
+> > the section of memory marked as unavailable by TF-A.
+> >
+> > Fixes: a1d8a344f1ca ("arm64: dts: renesas: Introduce r8a774a1-beacon-rzg2m-kit")
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+>
+> Thanks for your patch!
+>
+> > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+> > @@ -13,6 +13,17 @@ memory@48000000 {
+> >                 reg = <0x0 0x48000000 0x0 0x78000000>;
+> >         };
+> >
+> > +       reserved-memory {
+> > +               #address-cells = <2>;
+> > +               #size-cells = <2>;
+> > +               ranges;
+> > +
+> > +               lossy_decompress: lossy-decompress@54000000 {
+> > +                       reg = <0 0x54000000 0 0x03000000>; /* Reserved by TF-A */
+> > +                       no-map;
+> > +               };
+> > +       };
+> > +
+> >         osc_32k: osc_32k {
+> >                 compatible = "fixed-clock";
+> >                 #clock-cells = <0>;
+>
+> I believe these days it's the responsibility of TF-A to create these nodes
+> in the DTB, and pass that to U-Boot.
+>
+> What bootloader are you running?
 
-elapsed time: 1222m
+U-Boot 2021.04
 
-configs tested: 200
-configs skipped: 4
+> Does "fdt addr $fdtcontroladdr ; fdt print" show the area as reserved?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I see the memory nodes, but I don't see any reserved memory being
+carved out of it.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20211009
-powerpc                      chrp32_defconfig
-arm                            pleb_defconfig
-mips                     loongson1c_defconfig
-m68k                        mvme147_defconfig
-powerpc                 mpc837x_rdb_defconfig
-sh                           se7206_defconfig
-sh                   sh7724_generic_defconfig
-powerpc                      pasemi_defconfig
-x86_64                              defconfig
-arm                        cerfcube_defconfig
-m68k                        mvme16x_defconfig
-mips                         tb0226_defconfig
-arm                          pxa168_defconfig
-arm                         axm55xx_defconfig
-arm                           stm32_defconfig
-powerpc                     pseries_defconfig
-xtensa                           alldefconfig
-arm                          moxart_defconfig
-sh                           se7724_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                       cns3420vb_defconfig
-mips                           rs90_defconfig
-xtensa                              defconfig
-sh                        sh7763rdp_defconfig
-powerpc                     mpc83xx_defconfig
-sh                          rsk7264_defconfig
-xtensa                    xip_kc705_defconfig
-powerpc                 mpc8560_ads_defconfig
-mips                       lemote2f_defconfig
-m68k                        stmark2_defconfig
-sh                      rts7751r2d1_defconfig
-m68k                          atari_defconfig
-arm                             mxs_defconfig
-arc                         haps_hs_defconfig
-sh                   sh7770_generic_defconfig
-arm                        mvebu_v7_defconfig
-powerpc                      tqm8xx_defconfig
-sh                            titan_defconfig
-sh                             espt_defconfig
-arm                      jornada720_defconfig
-powerpc                  mpc885_ads_defconfig
-arm                       imx_v4_v5_defconfig
-mips                         mpc30x_defconfig
-arm                          collie_defconfig
-mips                     loongson1b_defconfig
-arm64                            alldefconfig
-mips                    maltaup_xpa_defconfig
-riscv                             allnoconfig
-arm                          ixp4xx_defconfig
-powerpc                      mgcoge_defconfig
-mips                           mtx1_defconfig
-sh                           se7712_defconfig
-sh                   secureedge5410_defconfig
-mips                malta_qemu_32r6_defconfig
-powerpc                          g5_defconfig
-arm                        keystone_defconfig
-riscv                               defconfig
-arm                        vexpress_defconfig
-powerpc                      ppc40x_defconfig
-um                                  defconfig
-mips                           ip22_defconfig
-mips                   sb1250_swarm_defconfig
-m68k                         apollo_defconfig
-openrisc                            defconfig
-powerpc                      arches_defconfig
-m68k                            mac_defconfig
-xtensa                       common_defconfig
-arm                        realview_defconfig
-arm                       versatile_defconfig
-powerpc                 mpc836x_mds_defconfig
-arm                          gemini_defconfig
-m68k                            q40_defconfig
-microblaze                      mmu_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                               j2_defconfig
-sh                            shmin_defconfig
-sh                           se7619_defconfig
-sh                           se7721_defconfig
-powerpc                 mpc85xx_cds_defconfig
-m68k                        m5307c3_defconfig
-arm                   milbeaut_m10v_defconfig
-arm                  colibri_pxa270_defconfig
-arm                            mps2_defconfig
-sh                          lboxre2_defconfig
-arm                     davinci_all_defconfig
-arm                            dove_defconfig
-powerpc                  iss476-smp_defconfig
-mips                           xway_defconfig
-m68k                          multi_defconfig
-x86_64               randconfig-c001-20211008
-i386                 randconfig-c001-20211008
-arm                  randconfig-c002-20211008
-x86_64               randconfig-c001-20211009
-arm                  randconfig-c002-20211009
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nds32                             allnoconfig
-arc                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                                defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                             allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-powerpc                          allyesconfig
-x86_64               randconfig-a003-20211009
-x86_64               randconfig-a005-20211009
-x86_64               randconfig-a001-20211009
-x86_64               randconfig-a002-20211009
-x86_64               randconfig-a004-20211009
-x86_64               randconfig-a006-20211009
-i386                 randconfig-a001-20211009
-i386                 randconfig-a003-20211009
-i386                 randconfig-a005-20211009
-i386                 randconfig-a004-20211009
-i386                 randconfig-a002-20211009
-i386                 randconfig-a006-20211009
-x86_64               randconfig-a015-20211008
-x86_64               randconfig-a012-20211008
-x86_64               randconfig-a016-20211008
-x86_64               randconfig-a013-20211008
-x86_64               randconfig-a011-20211008
-x86_64               randconfig-a014-20211008
-i386                 randconfig-a013-20211008
-i386                 randconfig-a016-20211008
-i386                 randconfig-a014-20211008
-i386                 randconfig-a011-20211008
-i386                 randconfig-a012-20211008
-i386                 randconfig-a015-20211008
-arc                  randconfig-r043-20211008
-s390                 randconfig-r044-20211008
-riscv                randconfig-r042-20211008
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                            allmodconfig
-riscv                          rv32_defconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
+> Does TF-A print something about reserving the memory?
 
-clang tested configs:
-x86_64               randconfig-a003-20211008
-x86_64               randconfig-a005-20211008
-x86_64               randconfig-a001-20211008
-x86_64               randconfig-a002-20211008
-x86_64               randconfig-a004-20211008
-x86_64               randconfig-a006-20211008
-i386                 randconfig-a001-20211008
-i386                 randconfig-a003-20211008
-i386                 randconfig-a005-20211008
-i386                 randconfig-a004-20211008
-i386                 randconfig-a002-20211008
-i386                 randconfig-a006-20211008
-x86_64               randconfig-a015-20211009
-x86_64               randconfig-a012-20211009
-x86_64               randconfig-a016-20211009
-x86_64               randconfig-a013-20211009
-x86_64               randconfig-a011-20211009
-x86_64               randconfig-a014-20211009
-i386                 randconfig-a013-20211009
-i386                 randconfig-a016-20211009
-i386                 randconfig-a014-20211009
-i386                 randconfig-a012-20211009
-i386                 randconfig-a011-20211009
-i386                 randconfig-a015-20211009
-hexagon              randconfig-r045-20211009
-hexagon              randconfig-r041-20211009
-s390                 randconfig-r044-20211009
-riscv                randconfig-r042-20211009
-hexagon              randconfig-r045-20211008
-hexagon              randconfig-r041-20211008
+Yes:
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+NOTICE:  BL2: DRAM Split is 2ch
+NOTICE:  BL2: QoS is default setting(rev.0.19)
+NOTICE:  BL2: DRAM refresh interval 1.95 usec
+NOTICE:  BL2: Periodic Write DQ Training
+NOTICE:  BL2: DRAM don't have ECC configuration
+NOTICE:  BL2: CH0: 400000000 - 47fffffff, 2 GiB
+NOTICE:  BL2: CH2: 600000000 - 67fffffff, 2 GiB
+NOTICE:  BL2: Lossy Decomp areas
+NOTICE:       Entry 0: DCMPAREACRAx:0x80000540 DCMPAREACRBx:0x570
+NOTICE:       Entry 1: DCMPAREACRAx:0x40000000 DCMPAREACRBx:0x0
+NOTICE:       Entry 2: DCMPAREACRAx:0x20000000 DCMPAREACRBx:0x0
+NOTICE:  BL2: FDT at 0xe631e588
+
+If I set the fdt address to 0xe631e588, I can see the memory nodes:
+
+=> fdt addr 0xe631e588
+=> fdt  print
+/ {
+    compatible = "renesas,beacon", "renesas,r8a774a1";
+    #size-cells = <0x00000002>;
+    #address-cells = <0x00000002>;
+    reserved-memory {
+        lossy-decompression@54000000 {
+        renesas,formats = <0x00000000>;
+        no-map;
+        reg = <0x00000000 0x54000000 0x00000000 0x03000000>;
+        compatible = "renesas,lossy-decompression", "shared-dma-pool";
+    };
+};
+memory@48000000 {
+    reg = <0x00000000 0x48000000 0x00000000 0x78000000>;
+    device_type = "memory";
+};
+memory@600000000 {
+    reg = <0x00000006 0x00000000 0x00000000 0x80000000>;
+    device_type = "memory";
+};
+};
+=>
+
+I'll look into seeing how to append the memory nodes at 0xe631e588
+onto the device tree we're loading and passing to the kernel
+
+>
+> Thanks!
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
