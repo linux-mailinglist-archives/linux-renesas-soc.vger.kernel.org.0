@@ -2,37 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87EAB428221
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Oct 2021 17:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7136342829F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Oct 2021 19:24:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231968AbhJJPJB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 10 Oct 2021 11:09:01 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:59540 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231842AbhJJPJB (ORCPT
+        id S230267AbhJJR0K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 10 Oct 2021 13:26:10 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:35058 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229872AbhJJR0K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 10 Oct 2021 11:09:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=oSEC+2pNGXb0zXkZliC2hv8mrA0BDtnrgquBa5rePM0=; b=JiXChuZbeaTtTBbVjVM02VcHWV
-        VrCCz+BY1nDirPzPJWrm3vX09y+H4r4JarRCwchs5TCLVefX5lLSFka50QcBmJFyh6H9QPUnK+aci
-        uHT7NCaPEYKJv/yW8pYjXOP0vm84fV6LO+S1ynQBINkYCp377MQxSEM3hPMNVPVIFkI4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1mZaPX-00AExd-Fn; Sun, 10 Oct 2021 17:06:47 +0200
-Date:   Sun, 10 Oct 2021 17:06:47 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Sun, 10 Oct 2021 13:26:10 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 111BD20981A5
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH net-next v2 13/14] ravb: Update EMAC configuration mode
+ comment
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "Jakub Kicinski" <kuba@kernel.org>
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>,
+        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
         Yuusuke Ashizuka <ashiduka@fujitsu.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
@@ -40,37 +33,105 @@ Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next v2 13/14] ravb: Update EMAC configuration mode
- comment
-Message-ID: <YWMBh33gBnAlHI1N@lunn.ch>
+        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20211010072920.20706-1-biju.das.jz@bp.renesas.com>
  <20211010072920.20706-14-biju.das.jz@bp.renesas.com>
  <8c6496db-8b91-8fb8-eb01-d35807694149@gmail.com>
  <OS0PR01MB5922109B263B7FDBB02E33B986B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
  <57dbab90-6f2c-40f5-2b73-43c1ee2c6e06@gmail.com>
  <OS0PR01MB592229224714550A4BFC10B986B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <5b1fda6d-5be2-6d3d-a90e-cf1509a35191@omp.ru>
+Date:   Sun, 10 Oct 2021 20:24:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <OS0PR01MB592229224714550A4BFC10B986B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> by looking at the RJ LED's there is not much activity and packet
-> statistics also show not much activity by default.
+On 10/10/21 1:56 PM, Biju Das wrote:
 
-> How can we check, it is overloading the controller? So that I can
-> compare with and without this setting
+[...]
+>>>>> Update EMAC configuration mode comment from "PAUSE prohibition"
+>>>>> to "EMAC Mode: PAUSE prohibition; Duplex; TX; RX; CRC Pass Through;
+>>>>> Promiscuous".
+>>>>>
+>>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>>>> Suggested-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+>>>>> ---
+>>>>> v1->v2:
+>>>>>    * No change
+>>>>> V1:
+>>>>>    * New patch.
+>>>>> ---
+>>>>>    drivers/net/ethernet/renesas/ravb_main.c | 2 +-
+>>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c
+>>>>> b/drivers/net/ethernet/renesas/ravb_main.c
+>>>>> index 9a770a05c017..b78aca235c37 100644
+>>>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>>>> @@ -519,7 +519,7 @@ static void ravb_emac_init_gbeth(struct
+>>>>> net_device
+>>>> *ndev)
+>>>>>    	/* Receive frame limit set register */
+>>>>>    	ravb_write(ndev, GBETH_RX_BUFF_MAX + ETH_FCS_LEN, RFLR);
+>>>>>
+>>>>> -	/* PAUSE prohibition */
+>>>>> +	/* EMAC Mode: PAUSE prohibition; Duplex; TX; RX; CRC Pass Through;
+>>>>> +Promiscuous */
+>>>>
+>>>>      Promiscuous mode, really? Why?!
+>>>
+>>> This is TOE related,
+> 
+> I meant the context here is TOE register related. That is what I meant.
+> 
+>>
+>>     The promiscuous mode is supported by _all_ Ethernet controllers, I
+>> think.
+>>
+>>> and is recommendation from BSP team.
+>>
+>>     On what grounds?
+> 
+> The reference implementation has this on. Any way it is good catch. 
+> I will turn it off and check.
+> 
+> by looking at the RJ LED's there is not much activity and packet statistics also show not much activity by default.
+> 
+> How can we check, it is overloading the controller? So that I can compare with and without this setting
 
-What is you link peer? A switch? That will be doing some filtering, so
-you probably don't see unicast traffic from other devices. So you need
-to flood your link with traffic the switch does not filter. Try
-multicast traffic for a group you are not a member off. You might need
-to disable IGMP snooping on the switch.
+   Maybe it doesn't get overloaded that simply, but definitely the promiscuous mode is not the thing
+for the normal driver use...
 
-Or use a traffic generator as a link peer and have it generate streams
-with mixed sources and destinations.
+>>> If you think it is wrong.
+>>> I can take this out. Please let me know. Currently the board is booting
+>> and everything works without issues.
+>>
+>>     Please do take it out. It'll needlessly overload the controller when
+>> there's much traffic on the local network.
+> 
+> 
+> I can see much activity only on RJ45 LED's when I call tcpdump or by setting IP link set eth0 promisc on.
+> Otherwise there is no traffic at all.
 
-     Andrew
+   Sounds like the kernel initially sets the RX mode with IFF_PROMISC = 0 and thus clear ECMR.PRM but I don't
+see where it does this? Could you instrument ravb_set_tx_mode() plz?
+
+> Regards,
+> Biju
+
+[...]
+
+MBR, Sergey
