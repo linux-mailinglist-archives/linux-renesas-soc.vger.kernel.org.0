@@ -2,148 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77C104281E0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Oct 2021 16:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87EAB428221
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Oct 2021 17:07:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232181AbhJJO13 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 10 Oct 2021 10:27:29 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:33850 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231928AbhJJO12 (ORCPT
+        id S231968AbhJJPJB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 10 Oct 2021 11:09:01 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:59540 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231842AbhJJPJB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 10 Oct 2021 10:27:28 -0400
-X-IronPort-AV: E=Sophos;i="5.85,362,1624287600"; 
-   d="scan'208";a="96527130"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Oct 2021 23:25:29 +0900
-Received: from localhost.localdomain (unknown [10.226.92.12])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id BECF540065DA;
-        Sun, 10 Oct 2021 23:25:27 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Sun, 10 Oct 2021 11:09:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=oSEC+2pNGXb0zXkZliC2hv8mrA0BDtnrgquBa5rePM0=; b=JiXChuZbeaTtTBbVjVM02VcHWV
+        VrCCz+BY1nDirPzPJWrm3vX09y+H4r4JarRCwchs5TCLVefX5lLSFka50QcBmJFyh6H9QPUnK+aci
+        uHT7NCaPEYKJv/yW8pYjXOP0vm84fV6LO+S1ynQBINkYCp377MQxSEM3hPMNVPVIFkI4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mZaPX-00AExd-Fn; Sun, 10 Oct 2021 17:06:47 +0200
+Date:   Sun, 10 Oct 2021 17:06:47 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        Adam Ford <aford173@gmail.com>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 2/2] arm64: dts: renesas: rzg2l-smarc: Enable microSD on SMARC platform
-Date:   Sun, 10 Oct 2021 15:25:20 +0100
-Message-Id: <20211010142520.21976-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211010142520.21976-1-biju.das.jz@bp.renesas.com>
-References: <20211010142520.21976-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH net-next v2 13/14] ravb: Update EMAC configuration mode
+ comment
+Message-ID: <YWMBh33gBnAlHI1N@lunn.ch>
+References: <20211010072920.20706-1-biju.das.jz@bp.renesas.com>
+ <20211010072920.20706-14-biju.das.jz@bp.renesas.com>
+ <8c6496db-8b91-8fb8-eb01-d35807694149@gmail.com>
+ <OS0PR01MB5922109B263B7FDBB02E33B986B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <57dbab90-6f2c-40f5-2b73-43c1ee2c6e06@gmail.com>
+ <OS0PR01MB592229224714550A4BFC10B986B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB592229224714550A4BFC10B986B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch enables microSD card slot connected to SDHI1 on RZ/G2L SMARC
-platform.
+> by looking at the RJ LED's there is not much activity and packet
+> statistics also show not much activity by default.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-This patch has dependency upon [1]
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20211006171605.6861-1-biju.das.jz@bp.renesas.com/
-v3->v4:
- * No change
-v2->v3
- * No change
-v1->v2:
- * Used angular brackets for states
- * Removed extra space from power source
- * Fixed gpio-hog node name
----
- arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi | 62 ++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+> How can we check, it is overloading the controller? So that I can
+> compare with and without this setting
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-index a02784fab46a..d8b3d32dc6f5 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-@@ -70,6 +70,16 @@
- 		regulator-min-microvolt = <5000000>;
- 		regulator-max-microvolt = <5000000>;
- 	};
-+
-+	vccq_sdhi1: regulator-vccq-sdhi1 {
-+		compatible = "regulator-gpio";
-+		regulator-name = "SDHI1 VccQ";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpios = <&pinctrl RZG2L_GPIO(39, 1) GPIO_ACTIVE_HIGH>;
-+		gpios-states = <1>;
-+		states = <3300000 1>, <1800000 0>;
-+	};
- };
- 
- &audio_clk1{
-@@ -199,6 +209,45 @@
- 			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
- 	};
- 
-+	sd1-pwr-en-hog {
-+		gpio-hog;
-+		gpios = <RZG2L_GPIO(39, 2) GPIO_ACTIVE_HIGH>;
-+		output-high;
-+		line-name = "sd1_pwr_en";
-+	};
-+
-+	sdhi1_pins: sd1 {
-+		sd1_data {
-+			pins = "SD1_DATA0", "SD1_DATA1", "SD1_DATA2", "SD1_DATA3";
-+			power-source = <3300>;
-+		};
-+
-+		sd1_ctrl {
-+			pins = "SD1_CLK", "SD1_CMD";
-+			power-source = <3300>;
-+		};
-+
-+		sd1_mux {
-+			pinmux = <RZG2L_PORT_PINMUX(19, 0, 1)>; /* SD1_CD */
-+		};
-+	};
-+
-+	sdhi1_pins_uhs: sd1_uhs {
-+		sd1_data_uhs {
-+			pins = "SD1_DATA0", "SD1_DATA1", "SD1_DATA2", "SD1_DATA3";
-+			power-source = <1800>;
-+		};
-+
-+		sd1_ctrl_uhs {
-+			pins = "SD1_CLK", "SD1_CMD";
-+			power-source = <1800>;
-+		};
-+
-+		sd1_mux_uhs {
-+			pinmux = <RZG2L_PORT_PINMUX(19, 0, 1)>; /* SD1_CD */
-+		};
-+	};
-+
- 	sound_clk_pins: sound_clk {
- 		pins = "AUDIO_CLK1", "AUDIO_CLK2";
- 		input-enable;
-@@ -229,6 +278,19 @@
- 	status = "okay";
- };
- 
-+&sdhi1 {
-+	pinctrl-0 = <&sdhi1_pins>;
-+	pinctrl-1 = <&sdhi1_pins_uhs>;
-+	pinctrl-names = "default", "state_uhs";
-+
-+	vmmc-supply = <&reg_3p3v>;
-+	vqmmc-supply = <&vccq_sdhi1>;
-+	bus-width = <4>;
-+	sd-uhs-sdr50;
-+	sd-uhs-sdr104;
-+	status = "okay";
-+};
-+
- &ssi0 {
- 	pinctrl-0 = <&ssi0_pins>;
- 	pinctrl-names = "default";
--- 
-2.17.1
+What is you link peer? A switch? That will be doing some filtering, so
+you probably don't see unicast traffic from other devices. So you need
+to flood your link with traffic the switch does not filter. Try
+multicast traffic for a group you are not a member off. You might need
+to disable IGMP snooping on the switch.
 
+Or use a traffic generator as a link peer and have it generate streams
+with mixed sources and destinations.
+
+     Andrew
