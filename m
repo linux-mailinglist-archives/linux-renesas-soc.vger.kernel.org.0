@@ -2,74 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E9B8427FD0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Oct 2021 09:30:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A6E6428024
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Oct 2021 11:13:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230516AbhJJHcg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 10 Oct 2021 03:32:36 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:55371 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231325AbhJJHcP (ORCPT
+        id S231352AbhJJJPq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 10 Oct 2021 05:15:46 -0400
+Received: from mxout03.lancloud.ru ([45.84.86.113]:35960 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231351AbhJJJPp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 10 Oct 2021 03:32:15 -0400
-X-IronPort-AV: E=Sophos;i="5.85,362,1624287600"; 
-   d="scan'208";a="96511232"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Oct 2021 16:30:15 +0900
-Received: from localhost.localdomain (unknown [10.226.92.12])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 87D64400197C;
-        Sun, 10 Oct 2021 16:30:12 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "David S. Miller" <davem@davemloft.net>,
+        Sun, 10 Oct 2021 05:15:45 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 0E9BF20A80FF
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 00/14] Add functional support for Gigabit Ethernet driver
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
+CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "Andrew Lunn" <andrew@lunn.ch>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        "Adam Ford" <aford173@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next v2 14/14] ravb: Fix typo AVB->DMAC
-Date:   Sun, 10 Oct 2021 08:29:20 +0100
-Message-Id: <20211010072920.20706-15-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211010072920.20706-1-biju.das.jz@bp.renesas.com>
-References: <20211010072920.20706-1-biju.das.jz@bp.renesas.com>
+        Biju Das <biju.das@bp.renesas.com>
+References: <20211009190802.18585-1-biju.das.jz@bp.renesas.com>
+ <ccdd66e0-5d67-905d-a2ff-65ca95d2680a@omp.ru>
+ <OS0PR01MB5922B0A86C654401D7B719E086B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <eefb62c7-d200-78d5-9268-d84b75c753c3@omp.ru>
+Date:   Sun, 10 Oct 2021 12:13:39 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <OS0PR01MB5922B0A86C654401D7B719E086B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix the typo AVB->DMAC in comment, as the code following the comment
-is for DMAC on Gigabit Ethernet IP.
+On 10.10.2021 10:27, Biju Das wrote:
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Suggested-by: Sergey Shtylyov <s.shtylyov@omp.ru>
----
-v1->v2:
- * No change
-v1:
- * New patch.
----
- drivers/net/ethernet/renesas/ravb_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[...]
+>>> The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L SoC
+>>> are similar to the R-Car Ethernet AVB IP.
+>>>
+>>> The Gigabit Ethernet IP consists of Ethernet controller (E-MAC),
+>>> Internal TCP/IP Offload Engine (TOE)  and Dedicated Direct memory
+>>> access controller (DMAC).
+>>>
+>>> With a few changes in the driver we can support both IPs.
+>>>
+>>> This patch series is aims to add functional support for Gigabit
+>>> Ethernet driver by filling all the stubs except set_features.
+>>>
+>>> set_feature patch will send as separate RFC patch along with
+>>> rx_checksum patch, as it needs detailed discussion related to HW
+>> checksum.
+>>>
+>>> Ref:-
+>>>
+>>> https://jpn01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatc
+>>> hwork.kernel.org%2Fproject%2Flinux-renesas-soc%2Flist%2F%3Fseries%3D55
+>>> 7655&amp;data=04%7C01%7Cbiju.das.jz%40bp.renesas.com%7C25bc7b9155d8402
+>>> a191808d98b5ae62f%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C6376940
+>>> 44814904836%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMz
+>>> IiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Vktj5v0GvrNf%2BDNIFs
+>>> e6xjCUm6OjtzwHvK3q8aG1E5Y%3D&amp;reserved=0
+>>>
+>>> RFC->V1:
+>>>   * Removed patch#3 will send it as RFC
+>>>   * Removed rx_csum functionality from patch#7, will send it as RFC
+>>>   * Renamed "nc_queue" -> "nc_queues"
+>>>   * Separated the comment patch into 2 separate patches.
+>>>   * Documented PFRI register bit
+>>>   * Added Sergy's Rb tag
+>>
+>>     It's Sergey. :-)
+> 
+> My Bad. Sorry will taken care this in future. I need to send V2, as accidentally I have added 2 macros in patch #6
+> As part of RFC discussion into v1. I will send V2 to remove this.
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index b78aca235c37..139d48746935 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -587,7 +587,7 @@ static int ravb_dmac_init_gbeth(struct net_device *ndev)
- 	/* Descriptor format */
- 	ravb_ring_format(ndev, RAVB_BE);
- 
--	/* Set AVB RX */
-+	/* Set DMAC RX */
- 	ravb_write(ndev, 0x60000000, RCR);
- 
- 	/* Set Max Frame Length (RTC) */
--- 
-2.17.1
+    I'm not seeing patches #2, #4, and #9 in my inboxes... :-/
 
+> Regards,
+> Biju
+
+MBR, Sergey
