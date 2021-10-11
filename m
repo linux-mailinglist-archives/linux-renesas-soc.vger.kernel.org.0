@@ -2,81 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2CDA428B63
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Oct 2021 12:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D618428CA8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Oct 2021 14:08:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236095AbhJKK6V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Oct 2021 06:58:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51538 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236112AbhJKK6M (ORCPT
+        id S236492AbhJKMKT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Oct 2021 08:10:19 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:60818 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236508AbhJKMKQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Oct 2021 06:58:12 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17686C061765
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Oct 2021 03:56:12 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id y3so21730061wrl.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Oct 2021 03:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=km/+rwE10MGCG3K0BNjxD+A2l394aMlSCDFqBEiDyrs45mObKwVEkOccUp5BPFftJU
-         5cB06txNzUPVxcrxQnkqMq9zaxAqQeR9eoa3+7DqnAg3rX7wMze/dloERdrhczopiGET
-         PvxtLks7kWCMKTs5Q8Mmq12LwUKUT5cPH1x1mszpEwl0kuXWAYNTl0kX4+cL3oWAj8+a
-         6an2wLimFEmscCT9jtQf7FGYav0q/UTa6GRCeFihab7mYp8KZTVzyAi9ONxHllw1wfay
-         OSS3CoE7RnQ2PFKTnc/5Yya8gHnSshWvMzermo1msudbBS7MTk09iY8fA6ci8A/KmFSk
-         +E4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=22pTk358AsuMdvzNaDhnQK/ns+tro2yYpaw3vIJO7BQmg/7WrJCs/PQ4IKJRv4ceIi
-         zuRDTxEtl4GGOAZqskIXrScRFfjrlKSVzfd3+Cl7SpKH1/mtkZJMJCbMy+bAKTGUgvaq
-         QQOLhL8GxJcgL0h77Gh3raVJS4b+48hwmbXUtxsJwACb4fjoAB+a7o0QK8t5jT+LB4r5
-         E5UgibnL70DHS5PJCgFEEZSA/4lIOuEURzy2J9U3j7GP5l7nEDLKB/wMGUFXbvyeerdO
-         mKUKwvY9HwixOmldXzPVyb/TElBgDyuNDdMBt954lgMYcyj4tONe6rBg4SmkhDq2FrpM
-         61cw==
-X-Gm-Message-State: AOAM531tQ3/uuUZKhOoAQvvWjzzMK19Sfv5YFq/haakZIcaRLDTdxza+
-        dnnWeHUcIbV3kDJYPvY7BDUM7zuj5VW3E01MbtAf1/zWdGpwRA==
-X-Google-Smtp-Source: ABdhPJxWYMUVxuj7Tly9azrkWxEMXzTPZAklmoVIH4V2ykknMMiBN9imOFz2zTqxux/zk/7pzvFSRlX+C6mfjc7ADy4=
-X-Received: by 2002:adf:8b9a:: with SMTP id o26mr24377548wra.109.1633949760323;
- Mon, 11 Oct 2021 03:56:00 -0700 (PDT)
+        Mon, 11 Oct 2021 08:10:16 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru B66042111ED5
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 00/14] Add functional support for Gigabit Ethernet driver
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "Andrew Lunn" <andrew@lunn.ch>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "Adam Ford" <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20211009190802.18585-1-biju.das.jz@bp.renesas.com>
+ <ccdd66e0-5d67-905d-a2ff-65ca95d2680a@omp.ru>
+ <OS0PR01MB5922B0A86C654401D7B719E086B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <eefb62c7-d200-78d5-9268-d84b75c753c3@omp.ru>
+ <6a57ab4e-3681-6a47-c47b-fd7ad022d239@omp.ru>
+ <OS0PR01MB5922FA0C0B34CF86286F518686B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <deecd659-f9e7-0ab1-d898-8d3d196862c5@omp.ru>
+ <OS0PR01MB592231245B070634A3449C6E86B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <fac46880-ec04-0c7d-1746-e0c1a1e270ad@omp.ru>
+Date:   Mon, 11 Oct 2021 15:08:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Received: by 2002:adf:dd8c:0:0:0:0:0 with HTTP; Mon, 11 Oct 2021 03:55:59
- -0700 (PDT)
-Reply-To: ramcharan9910@outlook.com
-From:   "Cr.David Ramcharan" <convy0101@gmail.com>
-Date:   Mon, 11 Oct 2021 03:55:59 -0700
-Message-ID: <CADDRs95718H=K3tUjphEHH_C96xYhoJw7jeCMpt_FfZZjhEXrA@mail.gmail.com>
-Subject: Thank You
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <OS0PR01MB592231245B070634A3449C6E86B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Please I am writing to notify you again on my intention to list your
-name as a beneficiary to the total sum of GBP6.350 million (Six
-million, Three hundred and fifty thousand British Pounds Sterlings) in
-the intent of the deceased (name now withheld since this is my second
-letter to you).
+On 10/10/21 1:31 PM, Biju Das wrote:
 
-I contacted you because you bear the surname identity and therefore
-can present you as the beneficiary to inherit the account proceeds of
-the deceased since there is no written "WILL" or trace to the deceased
-family relatives. My aim is to present you to my Bank Authorities as
-the Next of Kin to our deceased client. I will guide you all through
-the Claim procedure by providing all relevant Information and guiding
-you in your decisions and response to the Bank Management. All the
-papers will be processed after your acceptance.
+[...]
+>>>>>>>> The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L
+>>>>>>>> SoC are similar to the R-Car Ethernet AVB IP.
+>>>>>>>>
+>>>>>>>> The Gigabit Ethernet IP consists of Ethernet controller (E-MAC),
+>>>>>>>> Internal TCP/IP Offload Engine (TOE)  and Dedicated Direct memory
+>>>>>>>> access controller (DMAC).
+>>>>>>>>
+>>>>>>>> With a few changes in the driver we can support both IPs.
+>>>>>>>>
+>>>>>>>> This patch series is aims to add functional support for Gigabit
+>>>>>>>> Ethernet driver by filling all the stubs except set_features.
+>>>>>>>>
+>>>>>>>> set_feature patch will send as separate RFC patch along with
+>>>>>>>> rx_checksum patch, as it needs detailed discussion related to HW
+>>>>>>> checksum.
+>>>>>>>>
+>>>>>>>> Ref:-
+>>>>>>>>
+>>>>>>>> https://jpn01.safelinks.protection.outlook.com/?url=https%3A%2F%2
+>>>>>>>> Fp
+>>>>>>>> atc
+>>>>>>>> hwork.kernel.org%2Fproject%2Flinux-renesas-soc%2Flist%2F%3Fseries
+>>>>>>>> %3
+>>>>>>>> D55
+>>>>>>>> 7655&amp;data=04%7C01%7Cbiju.das.jz%40bp.renesas.com%7C25bc7b9155
+>>>>>>>> d8
+>>>>>>>> 402
+>>>>>>>> a191808d98b5ae62f%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C63
+>>>>>>>> 76
+>>>>>>>> 940
+>>>>>>>> 44814904836%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV
+>>>>>>>> 2l
+>>>>>>>> uMz
+>>>>>>>> IiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Vktj5v0GvrNf%2B
+>>>>>>>> DN
+>>>>>>>> IFs
+>>>>>>>> e6xjCUm6OjtzwHvK3q8aG1E5Y%3D&amp;reserved=0
+>>>>>>>>
+>>>>>>>> RFC->V1:
+>>>>>>>>    * Removed patch#3 will send it as RFC
+>>>>>>>>    * Removed rx_csum functionality from patch#7, will send it as
+>>>>>>>> RFC
+>>>>>>>>    * Renamed "nc_queue" -> "nc_queues"
+>>>>>>>>    * Separated the comment patch into 2 separate patches.
+>>>>>>>>    * Documented PFRI register bit
+>>>>>>>>    * Added Sergy's Rb tag
+>>>>>>>
+>>>>>>>      It's Sergey. :-)
+>>>>>>
+>>>>>> My Bad. Sorry will taken care this in future. I need to send V2, as
+>>>>>> accidentally I have added 2 macros in patch #6 As part of RFC
+>>>>>> discussion into v1. I will send V2 to remove this.
+>>>>>
+>>>>>      I'm not seeing patches #2, #4, and #9 in my inboxes... :-/
+>>>>
+>>>>      Seeing them now in the linux-renesas-soc folder in the GMail
+>> account.
+>>>> But they should have landed on the OMP account too. :-/
+>>>
+>>> Can you please confirm latest series[1] lands on your OMP account?
+>>> [1]
+>>> https://jpn01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatc
+>>> hwork.kernel.org%2Fproject%2Fnetdevbpf%2Flist%2F%3Fseries%3D560617&amp
+>>> ;data=04%7C01%7Cbiju.das.jz%40bp.renesas.com%7C4ba52eb2327b42fb997c08d
+>>> 98bd48373%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C637694567141278
+>>> 405%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTi
+>>> I6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=LyurKu2sR%2BujQkts4LRyLMfPxw
+>>> 7xmjON91zgS7f5Ktg%3D&amp;reserved=0
+>>
+>>     No, as I've told you already. Was unclear again. :-)
+> 
+> Which patch doesn't have OMP account?
 
-In your acceptance of this deal, I request that you kindly forward to
-me your letter of acceptance; your current telephone and fax numbers
-,age, occupational status and a forwarding address to enable me submit
-to the Bank Management the details as the Next of Kin to their
-deceased customer. Reply strictly through: ramcharancrdavid@gmail.com
+    As I said, #2, #4, and #9.
 
-Yours faithfully,
-Cr.David Ramcharan
+> I am sure, I have added your OMP account 
+> As first cc list in the latest series.
+
+   Still not seeing them in v2.
+
+> Regards,
+> Biju
+
+MBR, Sergey
