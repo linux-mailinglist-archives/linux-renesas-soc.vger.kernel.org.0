@@ -2,184 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B1DF42A9FF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 18:51:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8C6742AAD9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 19:33:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231796AbhJLQx7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Oct 2021 12:53:59 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:19793 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231368AbhJLQx6 (ORCPT
+        id S230268AbhJLRf1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Oct 2021 13:35:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45802 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229810AbhJLRf0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Oct 2021 12:53:58 -0400
-X-IronPort-AV: E=Sophos;i="5.85,368,1624287600"; 
-   d="scan'208";a="96772353"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 13 Oct 2021 01:51:56 +0900
-Received: from localhost.localdomain (unknown [10.226.92.46])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1E52D40ADCDB;
-        Wed, 13 Oct 2021 01:51:53 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: rzg2l-smarc-som: Enable Ethernet
-Date:   Tue, 12 Oct 2021 17:51:44 +0100
-Message-Id: <20211012165144.30350-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211012165144.30350-1-biju.das.jz@bp.renesas.com>
-References: <20211012165144.30350-1-biju.das.jz@bp.renesas.com>
+        Tue, 12 Oct 2021 13:35:26 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFE7FC061570
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Oct 2021 10:33:24 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id om14so159731pjb.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Oct 2021 10:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=zNZPoEvjurJhtiX4csmGPsRfeyyetZDAZcMglElRVEU=;
+        b=cn8arNgvQOhlIttE2rLvmqp6TJJhc2aoU6z39YcbKYOADjPmtWZOlMRgqpStRDgq7B
+         b1W+1EGMiBfFjMa1GcryUVHBpzOOMFZ1lJ+DCVbMInkupogHkdLRwHiivLMW/HYwY7Lf
+         KmkmnrpX7XKiWuvBSmrd9NdAMZlmuCb+s718CFB/J0/ZdNp5ABXhHKJPDE/r6cEviD1k
+         ULsJpgrT6y2XNOpuxhds/uzVr+EH5zVe+HPEfY/EXNmeOL2B74BKkOAr5WO+HUn+o3me
+         ptjyCfbCukoRMyGiAKilbi176a8oqtB+8Hm8Ysn+dkae9Y0Cmd2tm2rpHs6rYXEvCGrW
+         NVZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=zNZPoEvjurJhtiX4csmGPsRfeyyetZDAZcMglElRVEU=;
+        b=hyQR3lE9d0sGs/Gx0KEeWM77dJ+9jrFyT73Dt3ap7W+2iZB6rBZD2n3S4OqxBmDXji
+         FuLSBAw5QdBx1f4rohA/hlbDkK0I/Kx67UwJJxcLJtmXoqEfWP4TMyLYRoNQhe1kknAv
+         pb5FkWnEnYl686DZ2nOOnaBp45Ny9ZUgpXZpJ96Cno/H6b2AnZ8QL25iNXZ8v4irMsFL
+         ZIp4GEBkLTUOSTfMwbvZ/c/XEcKslHx1kF24DnHrD6rnNWy2ekbYRbL4cy3jD44z3L8q
+         Jm7sZrXd24ztsbPE0L2TWlGyx7r8gYiNAevXccXUGBohkiaSEu3h2aKFBqcciuT2E0qM
+         N5sg==
+X-Gm-Message-State: AOAM531t/xjYOKE/vBvUdJz1Gw3PuQQ/6zK1sRVQws6kKHbzD4hr7JQK
+        RO59t1CQ3gaAR73agXWARfATdTAO5vEwOX/Y
+X-Google-Smtp-Source: ABdhPJxZpu6VUvWFm/a7cpTJXo7zJzrwcrEVuBjd8790lrd78B7n9ef/RWYeNwVnDZyGV0HyNGqo4w==
+X-Received: by 2002:a17:90a:29a6:: with SMTP id h35mr7624421pjd.188.1634060004279;
+        Tue, 12 Oct 2021 10:33:24 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id jz10sm3409246pjb.39.2021.10.12.10.33.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Oct 2021 10:33:23 -0700 (PDT)
+Message-ID: <6165c6e3.1c69fb81.529b2.a375@mx.google.com>
+Date:   Tue, 12 Oct 2021 10:33:23 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2021-10-11-v5.15-rc5
+Subject: renesas/master igt-gpu-panfrost: 1 runs,
+ 1 regressions (renesas-devel-2021-10-11-v5.15-rc5)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable Ethernet{0,1} interfaces on RZ/G2L SMARC EVK.
+renesas/master igt-gpu-panfrost: 1 runs, 1 regressions (renesas-devel-2021-=
+10-11-v5.15-rc5)
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- .../boot/dts/renesas/rzg2l-smarc-som.dtsi     | 97 +++++++++++++++++++
- arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  |  1 -
- 2 files changed, 97 insertions(+), 1 deletion(-)
+Regressions Summary
+-------------------
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-index fbf51043d6cc..7e84a29dddfa 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-@@ -19,6 +19,15 @@
- #define SDHI	(!EMMC)
- 
- / {
-+	aliases {
-+		ethernet0 = &eth0;
-+		ethernet1 = &eth1;
-+	};
-+
-+	chosen {
-+		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
-+	};
-+
- 	memory@48000000 {
- 		device_type = "memory";
- 		/* first 128MB is reserved for secure area. */
-@@ -65,6 +74,58 @@
- 	/delete-node/ channel@7;
- };
- 
-+&eth0 {
-+	pinctrl-0 = <&eth0_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&phy0>;
-+	phy-mode = "rgmii-id";
-+	status = "okay";
-+
-+	phy0: ethernet-phy@7 {
-+		compatible = "ethernet-phy-id0022.1640",
-+			     "ethernet-phy-ieee802.3-c22";
-+		reg = <7>;
-+		rxc-skew-psec = <2400>;
-+		txc-skew-psec = <2400>;
-+		rxdv-skew-psec = <0>;
-+		txdv-skew-psec = <0>;
-+		rxd0-skew-psec = <0>;
-+		rxd1-skew-psec = <0>;
-+		rxd2-skew-psec = <0>;
-+		rxd3-skew-psec = <0>;
-+		txd0-skew-psec = <0>;
-+		txd1-skew-psec = <0>;
-+		txd2-skew-psec = <0>;
-+		txd3-skew-psec = <0>;
-+	};
-+};
-+
-+&eth1 {
-+	pinctrl-0 = <&eth1_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&phy1>;
-+	phy-mode = "rgmii-id";
-+	status = "okay";
-+
-+	phy1: ethernet-phy@7 {
-+		compatible = "ethernet-phy-id0022.1640",
-+			     "ethernet-phy-ieee802.3-c22";
-+		reg = <7>;
-+		rxc-skew-psec = <2400>;
-+		txc-skew-psec = <2400>;
-+		rxdv-skew-psec = <0>;
-+		txdv-skew-psec = <0>;
-+		rxd0-skew-psec = <0>;
-+		rxd1-skew-psec = <0>;
-+		rxd2-skew-psec = <0>;
-+		rxd3-skew-psec = <0>;
-+		txd0-skew-psec = <0>;
-+		txd1-skew-psec = <0>;
-+		txd2-skew-psec = <0>;
-+		txd3-skew-psec = <0>;
-+	};
-+};
-+
- &extal_clk {
- 	clock-frequency = <24000000>;
- };
-@@ -74,6 +135,42 @@
- 		pinmux = <RZG2L_PORT_PINMUX(9, 0, 2)>; /* ADC_TRG */
- 	};
- 
-+	eth0_pins: eth0 {
-+		pinmux = <RZG2L_PORT_PINMUX(28, 1, 1)>, /* ET0_LINKSTA */
-+			 <RZG2L_PORT_PINMUX(27, 1, 1)>, /* ET0_MDC */
-+			 <RZG2L_PORT_PINMUX(28, 0, 1)>, /* ET0_MDIO */
-+			 <RZG2L_PORT_PINMUX(20, 0, 1)>, /* ET0_TXC */
-+			 <RZG2L_PORT_PINMUX(20, 1, 1)>, /* ET0_TX_CTL */
-+			 <RZG2L_PORT_PINMUX(20, 2, 1)>, /* ET0_TXD0 */
-+			 <RZG2L_PORT_PINMUX(21, 0, 1)>, /* ET0_TXD1 */
-+			 <RZG2L_PORT_PINMUX(21, 1, 1)>, /* ET0_TXD2 */
-+			 <RZG2L_PORT_PINMUX(22, 0, 1)>, /* ET0_TXD3 */
-+			 <RZG2L_PORT_PINMUX(24, 0, 1)>, /* ET0_RXC */
-+			 <RZG2L_PORT_PINMUX(24, 1, 1)>, /* ET0_RX_CTL */
-+			 <RZG2L_PORT_PINMUX(25, 0, 1)>, /* ET0_RXD0 */
-+			 <RZG2L_PORT_PINMUX(25, 1, 1)>, /* ET0_RXD1 */
-+			 <RZG2L_PORT_PINMUX(26, 0, 1)>, /* ET0_RXD2 */
-+			 <RZG2L_PORT_PINMUX(26, 1, 1)>; /* ET0_RXD3 */
-+	};
-+
-+	eth1_pins: eth1 {
-+		pinmux = <RZG2L_PORT_PINMUX(37, 2, 1)>, /* ET1_LINKSTA */
-+			 <RZG2L_PORT_PINMUX(37, 0, 1)>, /* ET1_MDC */
-+			 <RZG2L_PORT_PINMUX(37, 1, 1)>, /* ET1_MDIO */
-+			 <RZG2L_PORT_PINMUX(29, 0, 1)>, /* ET1_TXC */
-+			 <RZG2L_PORT_PINMUX(29, 1, 1)>, /* ET1_TX_CTL */
-+			 <RZG2L_PORT_PINMUX(30, 0, 1)>, /* ET1_TXD0 */
-+			 <RZG2L_PORT_PINMUX(30, 1, 1)>, /* ET1_TXD1 */
-+			 <RZG2L_PORT_PINMUX(31, 0, 1)>, /* ET1_TXD2 */
-+			 <RZG2L_PORT_PINMUX(31, 1, 1)>, /* ET1_TXD3 */
-+			 <RZG2L_PORT_PINMUX(33, 1, 1)>, /* ET1_RXC */
-+			 <RZG2L_PORT_PINMUX(34, 0, 1)>, /* ET1_RX_CTL */
-+			 <RZG2L_PORT_PINMUX(34, 1, 1)>, /* ET1_RXD0 */
-+			 <RZG2L_PORT_PINMUX(35, 0, 1)>, /* ET1_RXD1 */
-+			 <RZG2L_PORT_PINMUX(35, 1, 1)>, /* ET1_RXD2 */
-+			 <RZG2L_PORT_PINMUX(36, 0, 1)>; /* ET1_RXD3 */
-+	};
-+
- 	gpio-sd0-pwr-en-hog {
- 		gpio-hog;
- 		gpios = <RZG2L_GPIO(4, 1) GPIO_ACTIVE_HIGH>;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-index d8b3d32dc6f5..2863e487a640 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-@@ -30,7 +30,6 @@
- 	};
- 
- 	chosen {
--		bootargs = "ignore_loglevel";
- 		stdout-path = "serial0:115200n8";
- 	};
- 
--- 
-2.17.1
+platform          | arch | lab           | compiler | defconfig          | =
+regressions
+------------------+------+---------------+----------+--------------------+-=
+-----------
+rk3288-veyron-jaq | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | =
+1          =
 
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-10-11-v5.15-rc5/plan/igt-gpu-panfrost/
+
+  Test:     igt-gpu-panfrost
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-10-11-v5.15-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      6e602e69ec04a3e0887e4fd9189250b4e7ee7e23
+
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  8d0fb9b3f225183fb3276a0e4ae1f8354a3519e8
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  b232a092b9e1b10a8be13601acaa440903b226bc =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform          | arch | lab           | compiler | defconfig          | =
+regressions
+------------------+------+---------------+----------+--------------------+-=
+-----------
+rk3288-veyron-jaq | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | =
+1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6165addc6b758899ee08fab5
+
+  Results:     15 PASS, 2 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-10-11-v5.15-rc5/arm/multi_v7_defconfig/gcc-8/lab-collabora/igt-gpu-panf=
+rost-rk3288-veyron-jaq.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-10-11-v5.15-rc5/arm/multi_v7_defconfig/gcc-8/lab-collabora/igt-gpu-panf=
+rost-rk3288-veyron-jaq.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-igt/=
+20211008.0/armhf/rootfs.cpio.gz =
+
+
+
+  * igt-gpu-panfrost.panfrost_submit.pan-unhandled-pagefault: https://kerne=
+lci.org/test/case/id/6165addc6b758899ee08fab8
+        failing since 3 days (last pass: renesas-devel-2021-10-04-v5.15-rc4=
+, first fail: renesas-devel-2021-10-08-v5.15-rc4)
+
+    2021-10-12T15:46:29.811955  <6>[   14.362709] Console: switching to col=
+our dummy device 80x30
+    2021-10-12T15:46:29.812473  <14>[   14.369354] [IGT] panfrost_submit: e=
+xecuting
+    2021-10-12T15:46:29.824740  IGT-Version: 1.26-gb232a09 (arm) (Linux: 5.=
+15.0-rc5 armv7l)
+    2021-10-12T15:46:29.830543  <14>[   14.376288] [IGT] panfrost_submit: s=
+tarting subtest pan-unhandled-pagefault
+    2021-10-12T15:46:29.831060  Starting subtest: pan-unhandled-pagefault
+    2021-10-12T15:46:29.943251  (panfrost_submit:289) CRITICAL: Test assert=
+ion failure function __real_main65, file ../tests/panfrost_submit.c:179:
+    2021-10-12T15:46:29.955753  (panfrost_submit:289) CRITICAL: Failed asse=
+rtion: syncobj_wait(fd, &submit->args->out_sync, 1, abs_timeout(SHORT_TIME_=
+NSEC), 0, NULL)
+    2021-10-12T15:46:29.970628  Stack trace:
+    2021-10-12T15:46:29.971135    #0 ../lib/igt_core.c:1745 __igt_fail_asse=
+rt()
+    2021-10-12T15:46:29.971579  <14>[   14.525553] [IGT] panfrost_submit: e=
+xiting, ret=3D98 =
+
+    ... (12 line(s) more)  =
+
+ =20
