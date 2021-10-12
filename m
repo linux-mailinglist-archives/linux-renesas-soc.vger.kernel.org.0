@@ -2,106 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DD8C42AB9E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 20:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E5EB42ABB3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 20:14:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232532AbhJLSJN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Oct 2021 14:09:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53988 "EHLO
+        id S232809AbhJLSQb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Oct 2021 14:16:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232740AbhJLSJM (ORCPT
+        with ESMTP id S232462AbhJLSQa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Oct 2021 14:09:12 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A982DC061570;
-        Tue, 12 Oct 2021 11:07:10 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id u18so445760lfd.12;
-        Tue, 12 Oct 2021 11:07:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DRCwLgEAONvFgKey07j1rJr2zlgk68fuh0WGNXA5pUI=;
-        b=Iw8u6Vdeo6bEQ4D38jIkZxsrMgohnIDf38LukDy4SSHQre/9hBhur8Xkf8xpsj2INU
-         ZVXBRBaMhSXUYynfft/6fDHD2hlHgDIjiV0iunFWJKRCxdcUT6lYhZfCRey2t3aaeZqQ
-         qLFxH2yP3BAsVyy6lpyPiaM1avc+mj5EfFCEWZmnwWxMGmbtEYEUgYeSbPcbQou7ELXH
-         pMGUDSc+VrZ+S+R4mPZ30aHQ/fy5FJ9y1D/TxCS1U0QojpfqTCm48vhGasNmQmwSMhXD
-         ZXqRW0g9gbJl7sgydv8S3NsguJmiEwy1V/7xZS7FiidoKrnvTEBEOFWLdoNxOvS6bkYz
-         wXEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DRCwLgEAONvFgKey07j1rJr2zlgk68fuh0WGNXA5pUI=;
-        b=PnfPYfLrOhoXuijA2o5Fn533AQb7OYboTuea/ZGnpq56ZeDcGOj9OtwzyzofCk3XJ1
-         +Hy8DDrYgy9xVqFHOpnNT9DKdo6VmkYaYmi1oBQIDUi2QlxTieQbh3flwTagWMHK+97J
-         /g+W13LvGFAw/HdSVmFmXGSXaeBNEq8gf5FussLrwd/FIFtv6+B+HtJEeHK00zjOjm8T
-         37MnEznsHgE6/91LgLI8YR4YsTQbL/jrDB8XEgl0AsSZgxEMRA5KFkq5+d0pZJh77g96
-         XL2PLj+97mfLz8UjYirgru0D1muZC4eseddgTOiowXaxOTFpPpOLTuuYb8Fbr2iLxt8e
-         Qxig==
-X-Gm-Message-State: AOAM532UqM+iCcRocP4+UfTozxquBt25ySnVMNcRvS10puPwngIjHr6H
-        aL973vaW0te1hNaCL+16p9U=
-X-Google-Smtp-Source: ABdhPJw8bBVaGEztANZDCouYtkxQg87MaokItd0sNAjgSPWbs0J3GCtmafb5QyOODTlHvvzK4VQeSA==
-X-Received: by 2002:a05:6512:3189:: with SMTP id i9mr35822457lfe.152.1634062009591;
-        Tue, 12 Oct 2021 11:06:49 -0700 (PDT)
-Received: from [192.168.1.103] ([31.173.83.90])
-        by smtp.gmail.com with ESMTPSA id s18sm1095372lfg.27.2021.10.12.11.06.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Oct 2021 11:06:49 -0700 (PDT)
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a07g044: Add GbEthernet nodes
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211012165144.30350-1-biju.das.jz@bp.renesas.com>
- <20211012165144.30350-2-biju.das.jz@bp.renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <f37fb863-92bc-79b1-26e4-1336874041d1@gmail.com>
-Date:   Tue, 12 Oct 2021 21:06:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Tue, 12 Oct 2021 14:16:30 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45813C061745
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Oct 2021 11:14:22 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:9c93:91ff:d58:ecfb])
+        by laurent.telenet-ops.be with bizsmtp
+        id 56EE2600J0KW32a016EEoF; Tue, 12 Oct 2021 20:14:17 +0200
+Received: from geert (helo=localhost)
+        by ramsan.of.borg with local-esmtp (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1maMI2-004QmP-Cm; Tue, 12 Oct 2021 20:14:14 +0200
+Date:   Tue, 12 Oct 2021 20:14:14 +0200 (CEST)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+X-X-Sender: geert@ramsan.of.borg
+To:     Christian Gromm <christian.gromm@microchip.com>,
+        gregkh@linuxfoundation.org
+cc:     Rob Herring <robh+dt@kernel.org>,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+        linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 23/28] staging: most: dim2: use device tree
+In-Reply-To: <1525772716-15742-24-git-send-email-christian.gromm@microchip.com>
+Message-ID: <alpine.DEB.2.22.394.2110121749450.1045463@ramsan.of.borg>
+References: <1525772716-15742-1-git-send-email-christian.gromm@microchip.com> <1525772716-15742-24-git-send-email-christian.gromm@microchip.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <20211012165144.30350-2-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/12/21 7:51 PM, Biju Das wrote:
+ 	Hi Christian, Greg,
 
-> Add Gigabit Ethernet{0,1} nodes to SoC DTSI.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 40 ++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> index 0b0372a02515..93e1ec271ff1 100644
-> --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-> @@ -488,6 +488,46 @@
->  			status = "disabled";
->  		};
->  
-> +		eth0: ethernet@11c20000 {
-> +			compatible = "renesas,r9a07g044-gbeth",
-> +				     "renesas,rzg2l-gbeth";
-> +			reg = <0 0x11c20000 0 0x10000>;
-> +			interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "mux", "fil",  "arp_ns";
+CC devicetree, linux-renesas-soc
 
-   Why 2 spaces before "arp_ns"?
+On Tue, 8 May 2018, Christian Gromm wrote:
+> This patch removes the dependency to platform specific source files
+> that do platform specific initialization and supply the IRQ number.
+> Instead DT code is added
+>
+> Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
 
-[...]
+This patch bypassed review by the DT people, and ended up in v4.18 as
+commit 21e57ff086056c01 ("staging: most: dim2: use device tree").
 
-MBR, Sergey
+> --- a/drivers/staging/most/dim2/dim2.c
+> +++ b/drivers/staging/most/dim2/dim2.c
+> +static const struct of_device_id dim2_of_match[] = {
+> +	{
+> +		.compatible = "fsl,imx6q-mlb150",
+> +		.data = plat_data + FSL_MX6
+> +	},
+> +	{
+> +		.compatible = "renesas,mlp",
+> +		.data = plat_data + RCAR_H2
+> +	},
+> +	{
+> +		.compatible = "rcar,medialb-dim2",
+> +		.data = plat_data + RCAR_M3
+> +	},
+> +	{
+> +		.compatible = "xlnx,axi4-os62420_3pin-1.00.a",
+> +	},
+> +	{
+> +		.compatible = "xlnx,axi4-os62420_6pin-1.00.a",
+> +	},
+> +	{},
+> };
+
+There are no documented DT bindings for this hardware block, nor any
+upstream example users.  Given some compatible values do not follow
+standard practises (no idea about the other parts), it's very likely
+these de facto bindings, and all their out-of-tree users, will have to
+be changed.
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
