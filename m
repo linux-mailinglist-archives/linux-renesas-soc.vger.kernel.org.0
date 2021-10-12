@@ -2,77 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 448DF42A9A4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 18:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0602642A9FB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 18:51:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229996AbhJLQjS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Oct 2021 12:39:18 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:11336 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231655AbhJLQjR (ORCPT
+        id S231672AbhJLQxz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Oct 2021 12:53:55 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:40546 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231622AbhJLQxy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Oct 2021 12:39:17 -0400
+        Tue, 12 Oct 2021 12:53:54 -0400
 X-IronPort-AV: E=Sophos;i="5.85,368,1624287600"; 
-   d="scan'208";a="96771860"
+   d="scan'208";a="96964201"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 13 Oct 2021 01:37:12 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 13 Oct 2021 01:51:51 +0900
 Received: from localhost.localdomain (unknown [10.226.92.46])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4F52B40AA82C;
-        Wed, 13 Oct 2021 01:37:09 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4F5A940AFC12;
+        Wed, 13 Oct 2021 01:51:49 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next v3 14/14] ravb: Fix typo AVB->DMAC
-Date:   Tue, 12 Oct 2021 17:36:13 +0100
-Message-Id: <20211012163613.30030-15-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 0/2] Add Ethernet support
+Date:   Tue, 12 Oct 2021 17:51:42 +0100
+Message-Id: <20211012165144.30350-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211012163613.30030-1-biju.das.jz@bp.renesas.com>
-References: <20211012163613.30030-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix the typo AVB->DMAC in comment, as the code following the comment
-is for DMAC on Gigabit Ethernet IP.
+This patch series aims to add Ethernet support on RZ/G2L SMARC EVK
+platform.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Suggested-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
----
-v2->v3:
- * Added Sergey's Rb tag.
-v1->v2:
- * No change
-v1:
- * New patch.
----
- drivers/net/ethernet/renesas/ravb_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch series has functional dependency on [1]
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=561965
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index f3f676e433d1..e5243cc87a19 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -588,7 +588,7 @@ static int ravb_dmac_init_gbeth(struct net_device *ndev)
- 	/* Descriptor format */
- 	ravb_ring_format(ndev, RAVB_BE);
- 
--	/* Set AVB RX */
-+	/* Set DMAC RX */
- 	ravb_write(ndev, 0x60000000, RCR);
- 
- 	/* Set Max Frame Length (RTC) */
+Biju Das (2):
+  arm64: dts: renesas: r9a07g044: Add GbEther nodes
+  arm64: dts: renesas: rzg2l-smarc-som: Enable Ethernet
+
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 40 ++++++++
+ .../boot/dts/renesas/rzg2l-smarc-som.dtsi     | 97 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  |  1 -
+ 3 files changed, 137 insertions(+), 1 deletion(-)
+
 -- 
 2.17.1
 
