@@ -2,110 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 550C9429EAA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 09:31:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEBED429EB3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 09:35:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232500AbhJLHdT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Oct 2021 03:33:19 -0400
-Received: from www.zeus03.de ([194.117.254.33]:57828 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234023AbhJLHdS (ORCPT
+        id S234124AbhJLHhI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Oct 2021 03:37:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48674 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232530AbhJLHhH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Oct 2021 03:33:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=k+hc0LSqnRlLyAmA5ndee0bb+bdx
-        PickL2OMT3KDJ2A=; b=QpNcJGSvkhsSbw9V3qrSHAVeGitvSJ++ylGiq1zM1qyF
-        vYBQ9Mvt6APCO/hsl8CeqzqX7Qj7Ml3vuJQbXwpEuSQsHQH33f114ShA18/Kee7v
-        UNkTFxv+/aFN+dPF3ci2vmz2BEsFjQPhWKCcgJUuM5b6a2EJr+3ePlfnnOZZjks=
-Received: (qmail 116915 invoked from network); 12 Oct 2021 09:31:15 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Oct 2021 09:31:15 +0200
-X-UD-Smtp-Session: l3s3148p1@rRNs1CLOgNggAwDPXw9GALaHP6nygzLh
-Date:   Tue, 12 Oct 2021 09:31:11 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 6/9] iio: common: cros_ec_sensors: simplify getting
- .driver_data
-Message-ID: <YWU5v8aH3wtsAMlp@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org
-References: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
- <20210920090522.23784-7-wsa+renesas@sang-engineering.com>
- <716533b5-380d-be72-b45e-d9909f09286b@collabora.com>
- <20210925155445.1edf4752@jic23-huawei>
+        Tue, 12 Oct 2021 03:37:07 -0400
+X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 12 Oct 2021 00:35:06 PDT
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8275FC061570
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Oct 2021 00:35:06 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id aCIOm68q3k3b0aCIRmPMmY; Tue, 12 Oct 2021 09:34:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1634024040; bh=K9friEJkZ5Q7D+co6uEjCR7+fPf9hr4m70FOs99cVU0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Hqda4GXFn6MjbMOOzxblg64uGR4rJCdzfdWtRCVokNxrkQXrIdOL8x/dT46tM+0ZM
+         z3c//dnRlxs5vY72wIVME3ypNeA66PKUmsNIu97+EBo64BHIcxycunTsEL530L4ocl
+         OK1SG0+AvgBAHqDOGPeAuvu7q4tj6CbCH2nR+UKCAN6tZPYSxCndgCXlVJ+HTONEee
+         B3f63XiaJmC0rNZ4YVwIJkDrxoKSjx7D9eDWFMUXxg/JElVRkWk9YEv36i5z9sYIOS
+         Q3FOJfBaxj645kJInYwwzP075th8CJY5cfWyneoJfFMdxEqY1r4ijKYe6JBnM8deIy
+         EUxdLfqyQOpsw==
+Subject: Re: [PATCH v2] media: rcar-vin: add G/S_PARM ioctls
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+References: <YU2gSJKfsqP+gUci@oden.dyn.berto.se>
+ <20210924135138.29950-1-nikita.yoush@cogentembedded.com>
+ <20210928084323.5vuhvkp6ev2emv2z@uno.localdomain>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <46a129ad-c57e-3230-3a8c-5724be34479b@xs4all.nl>
+Date:   Tue, 12 Oct 2021 09:33:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="H8wWZOzgwv6hePvi"
-Content-Disposition: inline
-In-Reply-To: <20210925155445.1edf4752@jic23-huawei>
+In-Reply-To: <20210928084323.5vuhvkp6ev2emv2z@uno.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfIXZ77Buivuccp/MoYzJt9vqCVjSij+tqIIReMqGXF5ihHswaVjy3vmEdCkEr5gYUYlvu+rAuUWxUpRyKKyWHJSEgT6PfNbHhxItY5+OV59QEC7YKKBw
+ W+bZB3Wg3VdyklZ+iZOHIN6kSwegMowyKPOYmFIiR8f4HP2JiTE2eU602fziBqHaHnuKB1dFR8ZanIRtZrm8w4xNQ1B0hj9t1gPZwiI/ktOnC1HRcrP3zikj
+ 14R+7Q7EdxC5kJajgsNhRP8QnR+BibI4gZscp12J2o5aCKehsJ43jNyWLwm+V5MM4CNMTHj4mmymCSMmoxihjm6Z9YhNCErX0S7Y4JMnJLm85ZBChoMe8/JY
+ BPan99Ga5vWapHKGDnHTWBJJhFB+yNS4JnEhrSIRIefiAlh5b8ix3EvP77MOewgO46KfLVVKdEvMzoLX/7vW3WAkiPxfK1mSm1LARet3rnBdt4JfTAKLKWYq
+ Ht9MOH9DXRENOD3P
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Jacopo,
 
---H8wWZOzgwv6hePvi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 28/09/2021 10:43, Jacopo Mondi wrote:
+> Hello
+>   explicit Cc Hans, as I recall the usage of s/g_parm was deprecated
+> and discouraged in mainline.
 
-Hi Jonathan,
+It's perfectly fine to use it, but for the non-MC case only. Which is what
+this patch does, so I'm accepting it.
 
-> It's not something that ever bothered me that much, but we have had debat=
-es in
-> the past about whether there are semantic issues around this sort of clea=
-nup
-> as it mixes
->=20
-> platform_set_drvdata() with device_get_drvdata()
+s/g_parm isn't deprecated for non-MC drivers, it's ugly but it's the only
+way to set or report the framerate for such drivers.
 
-Yeah, I see this concern. Mixing the two makes reading the code a bit
-more difficult. As I said, it wasn't so easy to convert set_drvdata, but
-I will have another go at this.
+Regards,
 
-> Whilst they access the same pointer today, in theory that isn't necessari=
-ly
-> always going to be the case in future and it isn't necessarily apparent
-> to the casual reader of the code.
+	Hans
 
-That one I don't really see. *_get_drvdata() should always get
-'dev->driver_data' and the prefix just tells from what namespace we
-come. If you want to change that, a lot of things will break loose, I'd
-think. Even in the unlikely case of platform_device gaining a seperate
-driver_data(?), it probably should be named *_get_pdrvdata(), or?
+> 
+> Hans: Support for g/s_param is required by Nikita to maintain
+> compatibility with (out of tree?) subdevice drivers. Should we add it
+> to the mainline receiver driver ?
+> 
+> What other API should be used to control the subdevice framerate ?
+> Should it go through VIDIOC_SUBDEV_S_FRAME_INTERVAL instead ?
+> 
+> Thanks
+>    j
+> 
+> On Fri, Sep 24, 2021 at 04:51:38PM +0300, Nikita Yushchenko wrote:
+>> From: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+>>
+>> This adds g/s_parm ioctls for parallel interface.
+>>
+>> Signed-off-by: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+>> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+>> ---
+>> Changes from v1:
+>> - use &vin->vdev to access vin's struct video_device
+>>
+>>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 21 +++++++++++++++++++++
+>>  1 file changed, 21 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+>> index bdeff51bf768..a5bfa76fdac6 100644
+>> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+>> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+>> @@ -527,6 +527,24 @@ static int rvin_s_selection(struct file *file, void *fh,
+>>  	return 0;
+>>  }
+>>
+>> +static int rvin_g_parm(struct file *file, void *priv,
+>> +		       struct v4l2_streamparm *parm)
+>> +{
+>> +	struct rvin_dev *vin = video_drvdata(file);
+>> +	struct v4l2_subdev *sd = vin_to_source(vin);
+>> +
+>> +	return v4l2_g_parm_cap(&vin->vdev, sd, parm);
+>> +}
+>> +
+>> +static int rvin_s_parm(struct file *file, void *priv,
+>> +		       struct v4l2_streamparm *parm)
+>> +{
+>> +	struct rvin_dev *vin = video_drvdata(file);
+>> +	struct v4l2_subdev *sd = vin_to_source(vin);
+>> +
+>> +	return v4l2_s_parm_cap(&vin->vdev, sd, parm);
+>> +}
+>> +
+>>  static int rvin_g_pixelaspect(struct file *file, void *priv,
+>>  			      int type, struct v4l2_fract *f)
+>>  {
+>> @@ -743,6 +761,9 @@ static const struct v4l2_ioctl_ops rvin_ioctl_ops = {
+>>  	.vidioc_g_selection		= rvin_g_selection,
+>>  	.vidioc_s_selection		= rvin_s_selection,
+>>
+>> +	.vidioc_g_parm			= rvin_g_parm,
+>> +	.vidioc_s_parm			= rvin_s_parm,
+>> +
+>>  	.vidioc_g_pixelaspect		= rvin_g_pixelaspect,
+>>
+>>  	.vidioc_enum_input		= rvin_enum_input,
+>> --
+>> 2.30.2
+>>
 
-Thanks and happy hacking,
-
-   Wolfram
-
-
---H8wWZOzgwv6hePvi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFlObsACgkQFA3kzBSg
-KbYHVxAAjVE/Na4B2QboUrgsaxXsyQVAW6iHuD1YLul89LLjniraw9jmgty2R1at
-CYAfsZ2X3vK9/uoGcHVnH6eqCHZETvD9B1fqHUXP3GsPibLGCFrd8jF1qbHgo6hA
-jDJlcvffRpWymJEylM1EySX4MOpaStFWmhTzhuGKFhpk5FdPD6/5Y1tMNyNL1ftO
-rrCYEwtzhyIJNCTTh/825Fzal3WnhaUnYLijCBip/43LEhpEGPU0bHqe14AkToYj
-yY9kfGU4gHD742fTOOGTqOmFLSY+7J7r/zp7dwlx+84Fee+1x+kCnXoCalqD/jQy
-r5Zlaij6C4KroQ6/8K17TgGKP+H4cfy7ZqJj0rJEvcsW/uM7txG5r3qBj2vzIMEK
-qyNlQWm8CxPuwKjZ1vSBIpb0NkE5Qqn2+ekY7gi+ckHQUCZNBcOunCr3K+w52a98
-k1dRoMWGYy1657yUQgZoi1AvGEGYs1u8RLLNVfykwcIqntUbsZJpL0ZxbYe+4bYz
-cDBOc4eTME75Vu6EREOuUQk7V+OxEasO1UfH+LV7S0seduchTXBxjeJKdNalprFa
-BxuUPEFw91ldNO0O6JI3hzRLp8VRn5tRlDoBO7T01AALyxDDgqYGKjp4JC+TE7tP
-L//s2Wt0fLoZcnAlnswb6HL/67Bx7vB7e28ksM+qgokAXQPTXk4=
-=Xx+O
------END PGP SIGNATURE-----
-
---H8wWZOzgwv6hePvi--
