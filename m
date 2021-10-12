@@ -2,170 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36F9442A410
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 14:11:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19BA442A5C6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 15:35:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236339AbhJLMNg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Oct 2021 08:13:36 -0400
-Received: from mail.iot.bzh ([51.75.236.24]:21292 "EHLO frontal.iot.bzh"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236317AbhJLMNg (ORCPT
+        id S236773AbhJLNgX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Oct 2021 09:36:23 -0400
+Received: from mail-eopbgr1400109.outbound.protection.outlook.com ([40.107.140.109]:7479
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S236856AbhJLNgW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Oct 2021 08:13:36 -0400
-Received: from frontal.iot.bzh (localhost [127.0.0.1])
-        by frontal.iot.bzh (Proxmox) with ESMTP id 1E0A3256E9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Oct 2021 14:11:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
-        :content-transfer-encoding:date:from:from:message-id
-        :mime-version:reply-to:subject:subject:to:to; s=iot.bzh; bh=UdN5
-        gdfEkMoK5yBCIID1bJjcrq4hFxNw9jQE0umc2f8=; b=Uxm+QOe7EgGQFQvIlYkV
-        mgAFnwg4+ymJGkqqY1j7BdRfQQSuojO6INs4PkP1BD2eCTu5e2S3n6ceffeJtce0
-        X6oa413lgysLoIKvwTElq06iQBJk72jgXMIb31rBH5xizuyLPF6LUoiR4S99Drax
-        IgJ72FNUUb38MCvKds9i/WTV6Kq8Ab5JNPWZeXsHlZDXVrC6KP9bF9mMUs+H0nxc
-        m9vv09tk8FP0nlW1pfx6kvXXXzQYASSzhJ6yLzjse2mFM8lZawGbpfhWnCFtS1An
-        a+3/PkTCPbDF7rHqRxyPBc+WXtfTcHjEqE5SGhMR59Xa6Qz9yzSgrMd9j5cD0PJL
-        HA==
-From:   Julien Massot <julien.massot@iot.bzh>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Julien Massot <julien.massot@iot.bzh>
-Subject: [PATCH v3] soc: renesas: rcar-rst: Add support to set rproc boot address
-Date:   Tue, 12 Oct 2021 14:11:17 +0200
-Message-Id: <20211012121117.61864-1-julien.massot@iot.bzh>
-X-Mailer: git-send-email 2.31.1
+        Tue, 12 Oct 2021 09:36:22 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dA120DawEEqKlSDYGW5IJHdeilDBqmESxcvf5leWNZHlO3SMQQznimeVBmr91ROmjN+eZE0C4sSSvpxvyi44i89LhstypMN2ocgK1G3/VET7CvYqtfngp63MFRfUEmF8+aU5l+/p4uplFRYiMoYRMxS37Mw2tklqLKOrvg4881nAa8BXLm9YpXMQTzfFOYlY5ryXEgNHniPU8RhwiwHoz73vGecmtyHGiYyDgDufaSHaE/nBFxwkz/7Gnzq6FLxr4IcldaeozhYhx9GX8/CH3ytT7orlJ0GXzpjnE6iCS+VDHYZIVv3O4crIT6D4FY0v6I/Z5z9raxcbHFDZYRpG2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RdFaUkMEUYiV5Pn8v1rsqUoxYiWuYnZB96kwdgdvC7o=;
+ b=acNm6zJHtj+PLzQQgJ6Snxhhj92ngJ8vGIwQ4AB/nOhtpIyY4lrAKf7LBlMHK94jw/Hz4R8qKh/U7fJpZ5u60vNkeHAEYEL0NctYFWF/xvBNjLy6RmqoN3qJLZE+DY5zCXdLYz2VVVEZdxXQ0tpeZyhgnDhSo06tE+7yK/80Pf2MvZ72/uoLzW7Vy0F4RVi6sLfQVLmh2KfpOGlsp64l2C+VZUokCKTP9WZWMR8USb4WOJVngXjVp8KFx5xEXSkXpWtuG7pnWbHa6k/bJrb1yiYquzBbZBWF9jeDNvULoZAxA8RRgMguOQoN7xQDhss58GCDQF4SCWkdTRvgVr3+TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RdFaUkMEUYiV5Pn8v1rsqUoxYiWuYnZB96kwdgdvC7o=;
+ b=n2QaQdgg3OfHOke9Kn28vQIOJYXW+066Zz+HK3ykJcALUdZ62HRig5j1wX9RSShO8a8vnSXVibF1kSJdN2mC88ehTYBPAOFcEcAW1n+4XLLYEsj1URNGlNRrFONl+fQAVreM5/QAVga6qbwBS8uTQY+K5bP9vhMj92ehLNLV4zI=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OS0PR01MB5731.jpnprd01.prod.outlook.com (2603:1096:604:be::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.20; Tue, 12 Oct
+ 2021 13:34:18 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::9ca6:1cf:5:9fc1]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::9ca6:1cf:5:9fc1%3]) with mapi id 15.20.4587.026; Tue, 12 Oct 2021
+ 13:34:18 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
+        Adam Ford <aford173@gmail.com>,
+        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH net-next v2 13/14] ravb: Update EMAC configuration mode
+ comment
+Thread-Topic: [PATCH net-next v2 13/14] ravb: Update EMAC configuration mode
+ comment
+Thread-Index: AQHXvaixd8lMzh4St0+QfQ9kX6MhhKvL9taAgAABWOCAAAStAIAABr7QgABR+YCAAtShoA==
+Date:   Tue, 12 Oct 2021 13:34:18 +0000
+Message-ID: <OS0PR01MB5922253965DE7FAAE0A679E586B69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20211010072920.20706-1-biju.das.jz@bp.renesas.com>
+ <20211010072920.20706-14-biju.das.jz@bp.renesas.com>
+ <8c6496db-8b91-8fb8-eb01-d35807694149@gmail.com>
+ <OS0PR01MB5922109B263B7FDBB02E33B986B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <57dbab90-6f2c-40f5-2b73-43c1ee2c6e06@gmail.com>
+ <OS0PR01MB592229224714550A4BFC10B986B49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <YWMBh33gBnAlHI1N@lunn.ch>
+In-Reply-To: <YWMBh33gBnAlHI1N@lunn.ch>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lunn.ch; dkim=none (message not signed)
+ header.d=none;lunn.ch; dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 577aa08c-da5e-4489-f35a-08d98d84fdc9
+x-ms-traffictypediagnostic: OS0PR01MB5731:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OS0PR01MB573115F1AF77E98E14A7988286B69@OS0PR01MB5731.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wn+k05oj1DxtCPJEulipouumOKTh/+sVFkASvZ8lzHQ7L7FzJ6f4EHH4OYJTlzI19BbTRYqOuHsAqvvVhsyjtxWVDppO7mGD3++CoAb6Pqa/0u7re0HKXCcxmbeBOtrHMCmu0vE79c4v4QKtMb/ufFoeRQKmZcT52iDFmP6diDHxFxfAHC4LdxnRvaGF6l4ELrzpXHoIM5Mgl1P3np21AOV4XjjSZDtuhh4IPCUdjvYiwNYPze6hAcrtHhBCa3Zw3uEPPD50+gGWxP/x4lss/lOVBusVyg6zHwCBjclHFwW/c0evyP80qxBm57/TA/exOKo3jv7Qb8a/n7SHVOwwZyvzOybtaip2u7uC7OWFnZqWp2xGBtpWH8ValUYZdYQYp/bcDu3msfyQjOYe3Yy+I0iL5lLdGzM9SDssbJ0lbFkNt9Yg1jCz3d4Opevsh8/y6f48hhVCILDeBNYa/C2zVxIZH4aAHX+KAYQTXsIvRU+RR0z2mAzkwEUpr5HtfNYDNMzr9GrmBxegVAb0MaXno0dWuJD+1rEcXQpLmQuhnMP4Y+orHE+A5M5y/omg5EZoPRRPaLJ/zpyP+aK1PeuFwe+DYfNiLET+VqpqCcHlBYXjUQ1y8K0toy6IYttH5FXdXoMj2MqGPv05XDz99eeHtFCeOyOVZoqE+zXr3N4wJtzzgztxAXUTOV+8h+yexFKH9oghnJJ8gXvc1KKtQFbefw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(55016002)(316002)(66476007)(71200400001)(83380400001)(76116006)(2906002)(8936002)(66446008)(66556008)(64756008)(9686003)(508600001)(15650500001)(33656002)(54906003)(52536014)(6916009)(66946007)(7416002)(186003)(26005)(4326008)(5660300002)(107886003)(8676002)(38100700002)(6506007)(122000001)(86362001)(7696005)(38070700005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Vfm7r2QHSgPu7ABGmhtnI3XqMeesCIPvcieSqEm5cxZlQlFCvAi6kx8KeszD?=
+ =?us-ascii?Q?1Ooj5ptUWZZSQD+sYKIi/ErSQlmKTR2J245Zp4BXKybnDr6+/mZx32ObLtWB?=
+ =?us-ascii?Q?dX0gFOkbW8cZeJ/+4ejL5ywD+rZAMs89C9ahszT2uA8S+nqVPaIqrhAQbICP?=
+ =?us-ascii?Q?38zdoI+nBCvFvJvB/Rd6DSBdOuxqQkLphT3xqbHS/fG6QxX/mho6eHG0bKrU?=
+ =?us-ascii?Q?Y62jX3KWJdMXAKr5Uo1HHD/NTOgS2ciGtWh+PLqpRbasYnk8s3TLtS0Ek2cZ?=
+ =?us-ascii?Q?X7kE9tewYni3/UbaTus0jQHf9ifBoUugyoTqbixxXoBD8gdpfEZyvFmdRicv?=
+ =?us-ascii?Q?BFECBktfgPmXjFltOCnspgeIkWzS+wTPB/pYbR65PA56n7GRvwkNs7dpQ+rT?=
+ =?us-ascii?Q?YeDZJIhepkhiIu3f0E7SB+eQPtdO2yJpxyzDAJ7u6tvuy8x/t5yUqTfnegpr?=
+ =?us-ascii?Q?U+O2zn5DA2KIJJiG93+B3pHk2H/JhP0CdAGt6zKPd6Sket07gUJRaOwenWwm?=
+ =?us-ascii?Q?4nzKx14tQt3KsAioewJn9mrhYmfv4NEhHp4IQyPqc+MGiRfOinGVbCNgHLFM?=
+ =?us-ascii?Q?tXYUR9jZxHC+5R5AnYQQ4ygAaXXJ30pnHNI+w9uLtnnlOryqHNSh3l2zAjgH?=
+ =?us-ascii?Q?dKu5yMoJ8+In9NFqrQBt+wGhD9McshiL0gIinqMDJ+H3k8hINAkp5IUtgZPD?=
+ =?us-ascii?Q?Gd3tqxOJ9onh7yq178e9zu/5umK8u92nKnx5liBQcm+S6PXgEryPqokVRn7M?=
+ =?us-ascii?Q?38o//+rjeyn7jinHdOx8JW7/mIMWAZ5scY90zOMaxr3fEU0VT3KupnLujf2H?=
+ =?us-ascii?Q?Da61dDJOyHphVHnMO9DF6CKBh3iHYhdSHcz8EgYq3sV2ZqK7Oo1p9SHRbwlg?=
+ =?us-ascii?Q?2bUTWkRWJq4Wxt1FvtWwdlPaKM9s5dqVPc5t+07MQQQTGX5ETR3MlZnhozKU?=
+ =?us-ascii?Q?b9J0UnwlFMJH+ZR8TDHWOBsrIDKXK8OxYKiu6qIoxOJIi2ogM3BM7mnVRdSX?=
+ =?us-ascii?Q?hMucdRnQBWS6MTLbsWU8vVEI5XtdgQmKDaP7H+GxA7LbzCQ23YI/MTQr0+G3?=
+ =?us-ascii?Q?9Fvm/Jlpa7Tg7br8EtVYcyuBPFDNYkAn1EXcEos3rTgkFA85Jcl5WRe4QbSn?=
+ =?us-ascii?Q?HOIGIUaoCmmJcRvpXE7MU77Xz5uMrB+ecZL8eFI9UQRz5Ds9py5jdrsAJDED?=
+ =?us-ascii?Q?dLv553Vo/tTIGDepTTQs5ZnPw1L+XDqc8zlTD1rRxqdQMF2GWvEE3U3B1vWE?=
+ =?us-ascii?Q?SjHKMAFBNb9c45ATAsLiwtMA4pCD6eEhpJNhtUY4wfxyUlhhVHIzhCrBmleS?=
+ =?us-ascii?Q?7tE=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 577aa08c-da5e-4489-f35a-08d98d84fdc9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2021 13:34:18.1461
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vrIr2qH/rYrdo3HDVSENdqntRCCwscwxg/LnE3PkowWGN2wNtDgJiDQqdbjRg2DpgbBLtRRZ6exmkHjeG+8qmRyzWe/1VzqZQvS7BTQ1+2w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5731
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-R-Car Gen3 SoC series has a realtime processor, the boot
-address of this processor can be set thanks to CR7BAR register
-of the reset module.
+Hi Andrew,
 
-Export this function so that it's possible to set the boot
-address from a remoteproc driver.
+Thanks for the feedback.
 
-Also drop the __initdata qualifier on rcar_rst_base,
-since we will use this address later than init time.
+> Subject: Re: [PATCH net-next v2 13/14] ravb: Update EMAC configuration
+> mode comment
+>=20
+> > by looking at the RJ LED's there is not much activity and packet
+> > statistics also show not much activity by default.
+>=20
+> > How can we check, it is overloading the controller? So that I can
+> > compare with and without this setting
+>=20
+> What is you link peer? A switch? That will be doing some filtering, so yo=
+u
+> probably don't see unicast traffic from other devices. So you need to
+> flood your link with traffic the switch does not filter. Try multicast
+> traffic for a group you are not a member off. You might need to disable
+> IGMP snooping on the switch.
+>=20
 
-Signed-off-by: Julien Massot <julien.massot@iot.bzh>
----
+I have tested in below environments
+Setup 1:=20
+  Machine1: RZ/G2L platform connected to Ubuntu Guest VM(bridged),Host oS w=
+indows via SWITCH and
+  Machine2: RZ/G2M platform connected to Ubuntu Guest VM(bridged),Host oS w=
+indows via SWITCH
 
-Change since v2:
-- Reordered rcar_rst_set_gen3_rproc_boot_addr and variable to avoid forward declaration
-- Turned const struct rst_config structs back to __initconst
-- Check for 256KiB boundary and not 4KiB
-- Rephrase comment about boot address on Gen 3
+Then ran multicast_sender app from machine 2 and ran tcpdump on machine 1.
+using devmem, I have controlled on/off PRM bit.
 
----
- drivers/soc/renesas/rcar-rst.c       | 42 ++++++++++++++++++++++++++--
- include/linux/soc/renesas/rcar-rst.h |  2 ++
- 2 files changed, 41 insertions(+), 3 deletions(-)
+In both cases, on tcpdump from machine 1, I see multicast packets which I a=
+m not a member off.
 
-diff --git a/drivers/soc/renesas/rcar-rst.c b/drivers/soc/renesas/rcar-rst.c
-index 8a1e402ea799..3bd0595f1535 100644
---- a/drivers/soc/renesas/rcar-rst.c
-+++ b/drivers/soc/renesas/rcar-rst.c
-@@ -12,6 +12,12 @@
- 
- #define WDTRSTCR_RESET		0xA55A0002
- #define WDTRSTCR		0x0054
-+#define CR7BAR			0x0070
-+#define CR7BAREN		BIT(4)
-+
-+static void __iomem *rcar_rst_base;
-+static u32 saved_mode __initdata;
-+static int (*rcar_rst_set_rproc_boot_addr_func)(u32 boot_addr);
- 
- static int rcar_rst_enable_wdt_reset(void __iomem *base)
- {
-@@ -19,9 +25,30 @@ static int rcar_rst_enable_wdt_reset(void __iomem *base)
- 	return 0;
- }
- 
-+/*
-+ * Most of the R-Car Gen3 SoCs have an ARM Realtime Core.
-+ * Firmware boot address has to be set in CR7BAR before
-+ * starting the realtime core.
-+ * Boot address must be aligned on a 256k boundary.
-+ */
-+static int rcar_rst_set_gen3_rproc_boot_addr(u32 boot_addr)
-+{
-+	if (boot_addr % SZ_256K) {
-+		pr_warn("Invalid boot address for CR7 processor,"
-+		       "should be aligned on 256KiB got %x\n", boot_addr);
-+		return -EINVAL;
-+	}
-+
-+	iowrite32(boot_addr, rcar_rst_base + CR7BAR);
-+	iowrite32(boot_addr | CR7BAREN, rcar_rst_base + CR7BAR);
-+
-+	return 0;
-+}
-+
- struct rst_config {
- 	unsigned int modemr;		/* Mode Monitoring Register Offset */
- 	int (*configure)(void __iomem *base);	/* Platform specific config */
-+	int (*set_rproc_boot_addr)(u32 boot_addr);
- };
- 
- static const struct rst_config rcar_rst_gen1 __initconst = {
-@@ -35,6 +62,7 @@ static const struct rst_config rcar_rst_gen2 __initconst = {
- 
- static const struct rst_config rcar_rst_gen3 __initconst = {
- 	.modemr = 0x60,
-+	.set_rproc_boot_addr = rcar_rst_set_gen3_rproc_boot_addr,
- };
- 
- static const struct rst_config rcar_rst_r8a779a0 __initconst = {
-@@ -76,9 +104,6 @@ static const struct of_device_id rcar_rst_matches[] __initconst = {
- 	{ /* sentinel */ }
- };
- 
--static void __iomem *rcar_rst_base __initdata;
--static u32 saved_mode __initdata;
--
- static int __init rcar_rst_init(void)
- {
- 	const struct of_device_id *match;
-@@ -100,6 +125,8 @@ static int __init rcar_rst_init(void)
- 
- 	rcar_rst_base = base;
- 	cfg = match->data;
-+	rcar_rst_set_rproc_boot_addr_func = cfg->set_rproc_boot_addr;
-+
- 	saved_mode = ioread32(base + cfg->modemr);
- 	if (cfg->configure) {
- 		error = cfg->configure(base);
-@@ -130,3 +157,12 @@ int __init rcar_rst_read_mode_pins(u32 *mode)
- 	*mode = saved_mode;
- 	return 0;
- }
-+
-+int rcar_rst_set_rproc_boot_addr(u32 boot_addr)
-+{
-+	if (!rcar_rst_set_rproc_boot_addr_func)
-+		return -EIO;
-+
-+	return rcar_rst_set_rproc_boot_addr_func(boot_addr);
-+}
-+EXPORT_SYMBOL(rcar_rst_set_rproc_boot_addr);
-diff --git a/include/linux/soc/renesas/rcar-rst.h b/include/linux/soc/renesas/rcar-rst.h
-index 7899a5b8c247..7c97c2c4bba6 100644
---- a/include/linux/soc/renesas/rcar-rst.h
-+++ b/include/linux/soc/renesas/rcar-rst.h
-@@ -4,8 +4,10 @@
- 
- #ifdef CONFIG_RST_RCAR
- int rcar_rst_read_mode_pins(u32 *mode);
-+int rcar_rst_set_rproc_boot_addr(u32 boot_addr);
- #else
- static inline int rcar_rst_read_mode_pins(u32 *mode) { return -ENODEV; }
-+static inline int rcar_rst_set_rproc_boot_addr(u32 boot_addr) { return -ENODEV; }
- #endif
- 
- #endif /* __LINUX_SOC_RENESAS_RCAR_RST_H__ */
--- 
-2.31.1
+Setup2:-
+
+  RZ/G2L platform directly connected to RZ/G2M platform.=20
+
+Ran UDP unicast sockets to send data from RZ/G2M platform
+
+ran tcpdump from from RZ/G2L platform
+
+using devmem, I am controlling on/off PRM bit.
+
+But for different addressed packet, I see RZ/G2L platfrom is trying to do A=
+RP request for
+different address. So packets are handled, with and without PRM bit set.
+
+Regards,
+Biju
+
+> Or use a traffic generator as a link peer and have it generate streams
+> with mixed sources and destinations.
 
 
