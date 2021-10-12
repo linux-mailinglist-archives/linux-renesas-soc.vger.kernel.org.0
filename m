@@ -2,237 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D296A429EA4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 09:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 550C9429EAA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 09:31:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233860AbhJLHc0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Oct 2021 03:32:26 -0400
-Received: from mga04.intel.com ([192.55.52.120]:45835 "EHLO mga04.intel.com"
+        id S232500AbhJLHdT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Oct 2021 03:33:19 -0400
+Received: from www.zeus03.de ([194.117.254.33]:57828 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232500AbhJLHc0 (ORCPT
+        id S234023AbhJLHdS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Oct 2021 03:32:26 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="225840222"
-X-IronPort-AV: E=Sophos;i="5.85,367,1624345200"; 
-   d="scan'208";a="225840222"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2021 00:30:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,367,1624345200"; 
-   d="scan'208";a="441119442"
-Received: from lkp-server02.sh.intel.com (HELO 08b2c502c3de) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 12 Oct 2021 00:30:19 -0700
-Received: from kbuild by 08b2c502c3de with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1maCEs-0003CC-Rd; Tue, 12 Oct 2021 07:30:18 +0000
-Date:   Tue, 12 Oct 2021 15:29:54 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- 321d106e70eb261bd55bee08d881cbd5468d9d64
-Message-ID: <61653972.+tsSejSMWi7oOlU4%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 12 Oct 2021 03:33:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=k+hc0LSqnRlLyAmA5ndee0bb+bdx
+        PickL2OMT3KDJ2A=; b=QpNcJGSvkhsSbw9V3qrSHAVeGitvSJ++ylGiq1zM1qyF
+        vYBQ9Mvt6APCO/hsl8CeqzqX7Qj7Ml3vuJQbXwpEuSQsHQH33f114ShA18/Kee7v
+        UNkTFxv+/aFN+dPF3ci2vmz2BEsFjQPhWKCcgJUuM5b6a2EJr+3ePlfnnOZZjks=
+Received: (qmail 116915 invoked from network); 12 Oct 2021 09:31:15 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Oct 2021 09:31:15 +0200
+X-UD-Smtp-Session: l3s3148p1@rRNs1CLOgNggAwDPXw9GALaHP6nygzLh
+Date:   Tue, 12 Oct 2021 09:31:11 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org
+Subject: Re: [PATCH 6/9] iio: common: cros_ec_sensors: simplify getting
+ .driver_data
+Message-ID: <YWU5v8aH3wtsAMlp@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org
+References: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
+ <20210920090522.23784-7-wsa+renesas@sang-engineering.com>
+ <716533b5-380d-be72-b45e-d9909f09286b@collabora.com>
+ <20210925155445.1edf4752@jic23-huawei>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="H8wWZOzgwv6hePvi"
+Content-Disposition: inline
+In-Reply-To: <20210925155445.1edf4752@jic23-huawei>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 321d106e70eb261bd55bee08d881cbd5468d9d64  Merge branch 'renesas-arm-dt-for-v5.16' into renesas-next
 
-elapsed time: 1019m
+--H8wWZOzgwv6hePvi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-configs tested: 175
-configs skipped: 3
+Hi Jonathan,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> It's not something that ever bothered me that much, but we have had debat=
+es in
+> the past about whether there are semantic issues around this sort of clea=
+nup
+> as it mixes
+>=20
+> platform_set_drvdata() with device_get_drvdata()
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20211012
-i386                 randconfig-c001-20211011
-powerpc              randconfig-c003-20211011
-sh                           se7705_defconfig
-m68k                             alldefconfig
-sh                              ul2_defconfig
-sh                            hp6xx_defconfig
-powerpc                 mpc837x_rdb_defconfig
-mips                   sb1250_swarm_defconfig
-powerpc                      obs600_defconfig
-powerpc                    gamecube_defconfig
-mips                       bmips_be_defconfig
-sh                           se7619_defconfig
-arm                            mps2_defconfig
-powerpc                     mpc5200_defconfig
-powerpc                 mpc834x_itx_defconfig
-mips                          rm200_defconfig
-powerpc                       holly_defconfig
-powerpc                 mpc8315_rdb_defconfig
-powerpc                         ps3_defconfig
-powerpc                 xes_mpc85xx_defconfig
-sh                ecovec24-romimage_defconfig
-sparc                       sparc64_defconfig
-sh                        sh7757lcr_defconfig
-arm                         hackkit_defconfig
-m68k                          amiga_defconfig
-um                               alldefconfig
-sh                        sh7785lcr_defconfig
-mips                        vocore2_defconfig
-powerpc                      pasemi_defconfig
-arm                         s3c6400_defconfig
-arm                            lart_defconfig
-m68k                            mac_defconfig
-mips                      loongson3_defconfig
-arm                       omap2plus_defconfig
-arm                         mv78xx0_defconfig
-arm                         orion5x_defconfig
-mips                        maltaup_defconfig
-parisc                generic-32bit_defconfig
-microblaze                          defconfig
-mips                           ip22_defconfig
-xtensa                generic_kc705_defconfig
-mips                         db1xxx_defconfig
-mips                malta_qemu_32r6_defconfig
-arm                         lubbock_defconfig
-mips                         mpc30x_defconfig
-ia64                         bigsur_defconfig
-powerpc                   bluestone_defconfig
-arm                           sama5_defconfig
-arc                        nsim_700_defconfig
-mips                         tb0226_defconfig
-sh                     magicpanelr2_defconfig
-mips                  cavium_octeon_defconfig
-mips                           gcw0_defconfig
-powerpc                     pseries_defconfig
-mips                      maltasmvp_defconfig
-xtensa                    xip_kc705_defconfig
-powerpc                 linkstation_defconfig
-arc                         haps_hs_defconfig
-m68k                       m5249evb_defconfig
-sh                          rsk7203_defconfig
-mips                      fuloong2e_defconfig
-powerpc                      ppc64e_defconfig
-xtensa                           alldefconfig
-powerpc                           allnoconfig
-powerpc                      tqm8xx_defconfig
-powerpc               mpc834x_itxgp_defconfig
-arm                            mmp2_defconfig
-arm                        mvebu_v5_defconfig
-powerpc                        fsp2_defconfig
-um                                  defconfig
-riscv                    nommu_k210_defconfig
-m68k                            q40_defconfig
-powerpc                      ppc44x_defconfig
-powerpc                      chrp32_defconfig
-arm                           spitz_defconfig
-m68k                        m5407c3_defconfig
-arm                         assabet_defconfig
-arm                        neponset_defconfig
-sh                         ecovec24_defconfig
-mips                     loongson2k_defconfig
-mips                     loongson1b_defconfig
-arc                        nsimosci_defconfig
-arm                  randconfig-c002-20211011
-x86_64               randconfig-c001-20211011
-arm                  randconfig-c002-20211012
-x86_64               randconfig-c001-20211012
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nds32                             allnoconfig
-arc                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-parisc                           allyesconfig
-s390                                defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-x86_64               randconfig-a015-20211011
-x86_64               randconfig-a012-20211011
-x86_64               randconfig-a016-20211011
-x86_64               randconfig-a014-20211011
-x86_64               randconfig-a013-20211011
-x86_64               randconfig-a011-20211011
-i386                 randconfig-a016-20211011
-i386                 randconfig-a014-20211011
-i386                 randconfig-a011-20211011
-i386                 randconfig-a015-20211011
-i386                 randconfig-a012-20211011
-i386                 randconfig-a013-20211011
-arc                  randconfig-r043-20211011
-s390                 randconfig-r044-20211011
-riscv                randconfig-r042-20211011
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                           allyesconfig
+Yeah, I see this concern. Mixing the two makes reading the code a bit
+more difficult. As I said, it wasn't so easy to convert set_drvdata, but
+I will have another go at this.
 
-clang tested configs:
-arm                  randconfig-c002-20211011
-mips                 randconfig-c004-20211011
-i386                 randconfig-c001-20211011
-s390                 randconfig-c005-20211011
-x86_64               randconfig-c007-20211011
-powerpc              randconfig-c003-20211011
-riscv                randconfig-c006-20211011
-x86_64               randconfig-a004-20211011
-x86_64               randconfig-a006-20211011
-x86_64               randconfig-a001-20211011
-x86_64               randconfig-a005-20211011
-x86_64               randconfig-a002-20211011
-x86_64               randconfig-a003-20211011
-i386                 randconfig-a001-20211011
-i386                 randconfig-a003-20211011
-i386                 randconfig-a004-20211011
-i386                 randconfig-a005-20211011
-i386                 randconfig-a002-20211011
-i386                 randconfig-a006-20211011
-x86_64               randconfig-a015-20211012
-x86_64               randconfig-a012-20211012
-x86_64               randconfig-a016-20211012
-x86_64               randconfig-a014-20211012
-x86_64               randconfig-a013-20211012
-x86_64               randconfig-a011-20211012
-hexagon              randconfig-r041-20211011
-hexagon              randconfig-r045-20211011
+> Whilst they access the same pointer today, in theory that isn't necessari=
+ly
+> always going to be the case in future and it isn't necessarily apparent
+> to the casual reader of the code.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+That one I don't really see. *_get_drvdata() should always get
+'dev->driver_data' and the prefix just tells from what namespace we
+come. If you want to change that, a lot of things will break loose, I'd
+think. Even in the unlikely case of platform_device gaining a seperate
+driver_data(?), it probably should be named *_get_pdrvdata(), or?
+
+Thanks and happy hacking,
+
+   Wolfram
+
+
+--H8wWZOzgwv6hePvi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFlObsACgkQFA3kzBSg
+KbYHVxAAjVE/Na4B2QboUrgsaxXsyQVAW6iHuD1YLul89LLjniraw9jmgty2R1at
+CYAfsZ2X3vK9/uoGcHVnH6eqCHZETvD9B1fqHUXP3GsPibLGCFrd8jF1qbHgo6hA
+jDJlcvffRpWymJEylM1EySX4MOpaStFWmhTzhuGKFhpk5FdPD6/5Y1tMNyNL1ftO
+rrCYEwtzhyIJNCTTh/825Fzal3WnhaUnYLijCBip/43LEhpEGPU0bHqe14AkToYj
+yY9kfGU4gHD742fTOOGTqOmFLSY+7J7r/zp7dwlx+84Fee+1x+kCnXoCalqD/jQy
+r5Zlaij6C4KroQ6/8K17TgGKP+H4cfy7ZqJj0rJEvcsW/uM7txG5r3qBj2vzIMEK
+qyNlQWm8CxPuwKjZ1vSBIpb0NkE5Qqn2+ekY7gi+ckHQUCZNBcOunCr3K+w52a98
+k1dRoMWGYy1657yUQgZoi1AvGEGYs1u8RLLNVfykwcIqntUbsZJpL0ZxbYe+4bYz
+cDBOc4eTME75Vu6EREOuUQk7V+OxEasO1UfH+LV7S0seduchTXBxjeJKdNalprFa
+BxuUPEFw91ldNO0O6JI3hzRLp8VRn5tRlDoBO7T01AALyxDDgqYGKjp4JC+TE7tP
+L//s2Wt0fLoZcnAlnswb6HL/67Bx7vB7e28ksM+qgokAXQPTXk4=
+=Xx+O
+-----END PGP SIGNATURE-----
+
+--H8wWZOzgwv6hePvi--
