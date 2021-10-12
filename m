@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5852942A3E4
+	by mail.lfdr.de (Postfix) with ESMTP id 581A642A3E3
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 14:07:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236366AbhJLMJi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S236345AbhJLMJi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Tue, 12 Oct 2021 08:09:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54804 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236368AbhJLMJd (ORCPT
+        with ESMTP id S236376AbhJLMJd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 12 Oct 2021 08:09:33 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B922C061753
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563B8C061762
         for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Oct 2021 05:07:31 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id e7so13703522pgk.2
+Received: by mail-pj1-x102b.google.com with SMTP id pf6-20020a17090b1d8600b0019fa884ab85so1702084pjb.5
         for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Oct 2021 05:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=gURghvRWNoA++o2VFeVcVYw4TbRESAtmR/5Dm1UqSbk=;
-        b=AIEiNJvMbVLffm0cTU2EXRLjd46/i3JhNuEYCnQEd208t5hNzE58FtGZ/YG+eCZOfS
-         oLW/SSr8gvCSC2vxNa/t0hMJuD4xtQQuJg04K+gHKzyvZy5xbVpNkBSumBCYMWxGYItD
-         1k9TApev2lA9OeUtratgKPk4LO0aFqhwwP3CR8BE6uSawdcDbYN0guYisxRllbVByb6f
-         ZCvbzqOIUHyOfO1iDZprNB5r6QAWDOApbahC2Ds5bVmdUHsP4B/4oKSyLeJMdIFsINgZ
-         pSkKUdIQGXB4xwlp41GlrfbJlo4GrO9HyJLQQk7TLJAwu0pp/Sr1cS0A2JHioHRS/+Mr
-         6Qyg==
+        bh=ne+BiRGK9c8zvYasbo57BcNsN4XN2CZ23M1Ag45J0VU=;
+        b=ERra/DKUifyn1eoSF2kJ++iUwcczsmDFDqmua9CltU7MD/4T94tEJaeeH+GwjtOdjh
+         HO4Hy+3CnDXZW7nNHqXqsV/7D8iMBMIWOWZf59mf4rkvFkWw50BP8CMxV13Fq+HzWH4Z
+         Gw5IXa1CXaazTUSyJyqBaQ5yWmBFNmx/dQXjNPyZRsrvWBE0xUQNQvj6Ch1z6ZIvsU6t
+         1f60x6r0xryGoFQ03B0bik+hvBaZk7eeFCL7v5y+X0/XLsyDGj6s34prBYvSe5lZ2+45
+         WHPh8YFLrgnjpuSU+8ihx1vJkXo0X6Lau7EdVDS9FeE7Ub7ABQ+cWMuA/ce54IVa3ae+
+         OIRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=gURghvRWNoA++o2VFeVcVYw4TbRESAtmR/5Dm1UqSbk=;
-        b=detYP3GkFMFt9w+L28sbrG6UTUL9V+tt3bY1n7cXSwvh3UaLw+CoeD9PxAcEjtk+Vj
-         4O64HEudWJ47okGQ4y6T9qDBRFFXbrAGMi3muP2KH0B42bN1WZQPw20cAAt5CPGyixfu
-         shh1nx+z1uk77wE8vfDMY/BRzIB6W1/HnNyWhjn69Sw1tmafjkhNubklKXvpfF8IqVfI
-         1pX3RMBgKMdmc2HmOBDzKCi4Jjs8N+BKjTArYbLxVhRJR6NiYGJvAQiOn6hH/Q5/sUT7
-         oIdm824SW1zW/+oWoq5Mn6T3jI2pzfPex+cR39kRoFNpAdzkQMuDogkcNF4I38zBUu3E
-         Zhwg==
-X-Gm-Message-State: AOAM530EhmumQ2Arv7Hp02jrHDUPJp7Bg+fGYTO/pCDaj8bf/d3z+qFl
-        G/I9IHsPFJOw6oo57+CzQKbXwhrj0j/J7r35
-X-Google-Smtp-Source: ABdhPJxkEKmWYSUJI8yJuriWhKipPD4IFqTHfIs+f4EdBu/izgUgatHhyKb9BwWu8izsD7npgST7UQ==
-X-Received: by 2002:a05:6a00:1c60:b0:44c:def1:a66b with SMTP id s32-20020a056a001c6000b0044cdef1a66bmr24427752pfw.7.1634040450469;
+        bh=ne+BiRGK9c8zvYasbo57BcNsN4XN2CZ23M1Ag45J0VU=;
+        b=GSDmZiX0czwRwCCrvhzei8glOnCk2zjAR36Rd0jgpiwE7LeMjDa9B/B8LD48qcia5x
+         MBHcoJbMiE8oBQ2gFpVJ98eRTWp/S5eekviyBBrggZw5YD7h3INqzceEAXb2PW/+PR0Y
+         SzjgjbsJ4NQrlctlDAoyvQLL+3VleF9gcVrTlzN1jipMLWrvZEGM5V/JTDnu+iLldhUl
+         yLQk8UipIj1cYqE1uAY9zR7Qzv7H76CUGbfJvkKAUZ5fMipHjTpIlqg+biTmSQ8GsFeN
+         FZyLCj+NPkGTKdKzt+KA/bFWvjocX7h56UVDewwnE6e9XUZQfGUwprcaGsxw5NPBqDTY
+         gBpg==
+X-Gm-Message-State: AOAM533QRs3mSCUQZIWuYa+nEpcrEC9Pe9o/0TuCI4PrReRElXGq2M+9
+        Hc39kD9MwxkYiya8BDTlPXCO4hwGnHDS989S
+X-Google-Smtp-Source: ABdhPJySo/Xoq8xvvkkNQaPxmTC2dKL90YHp5PlgBqQbgBrULd5dOtmJlay0FWz0e/hVsL7opAR39g==
+X-Received: by 2002:a17:90a:9291:: with SMTP id n17mr5551683pjo.243.1634040450750;
         Tue, 12 Oct 2021 05:07:30 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id c9sm11046738pgq.58.2021.10.12.05.07.29
+        by smtp.gmail.com with ESMTPSA id c24sm12415004pgj.63.2021.10.12.05.07.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 05:07:29 -0700 (PDT)
-Message-ID: <61657a81.1c69fb81.25209.ee93@mx.google.com>
-Date:   Tue, 12 Oct 2021 05:07:29 -0700 (PDT)
+        Tue, 12 Oct 2021 05:07:30 -0700 (PDT)
+Message-ID: <61657a82.1c69fb81.ccdf7.2448@mx.google.com>
+Date:   Tue, 12 Oct 2021 05:07:30 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -57,41 +57,49 @@ X-Kernelci-Branch: next
 X-Kernelci-Tree: renesas
 X-Kernelci-Report-Type: test
 X-Kernelci-Kernel: renesas-next-2021-10-11-v5.15-rc1
-Subject: renesas/next sleep: 10 runs,
- 2 regressions (renesas-next-2021-10-11-v5.15-rc1)
+Subject: renesas/next v4l2-compliance on uvcvideo: 2 runs,
+ 1 regressions (renesas-next-2021-10-11-v5.15-rc1)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next sleep: 10 runs, 2 regressions (renesas-next-2021-10-11-v5.15-r=
-c1)
+renesas/next v4l2-compliance on uvcvideo: 2 runs, 1 regressions (renesas-ne=
+xt-2021-10-11-v5.15-rc1)
 
 Regressions Summary
 -------------------
 
-platform          | arch  | lab           | compiler | defconfig          |=
- regressions
-------------------+-------+---------------+----------+--------------------+=
-------------
-rk3288-veyron-jaq | arm   | lab-collabora | gcc-8    | multi_v7_defconfig |=
- 1          =
-
-rk3399-gru-kevin  | arm64 | lab-collabora | gcc-8    | defconfig          |=
- 1          =
+platform        | arch  | lab           | compiler | defconfig | regressions
+----------------+-------+---------------+----------+-----------+------------
+mt8173-elm-hana | arm64 | lab-collabora | gcc-8    | defconfig | 1          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-10-11-v5.15-rc1/plan/sleep/
+s-next-2021-10-11-v5.15-rc1/plan/v4l2-compliance-uvc/
 
-  Test:     sleep
+V4L2 Compliance on the uvcvideo driver.
+
+This test ran "v4l2-compliance -s" from v4l-utils:
+
+    https://www.linuxtv.org/wiki/index.php/V4l2-utils
+
+See each detailed section in the report below to find out the git URL and
+particular revision that was used to build the test binaries.
+
+
   Tree:     renesas
   Branch:   next
   Describe: renesas-next-2021-10-11-v5.15-rc1
   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
 evel.git
-  SHA:      321d106e70eb261bd55bee08d881cbd5468d9d64 =
+  SHA:      321d106e70eb261bd55bee08d881cbd5468d9d64
+
+  Test suite revisions:
+    v4l2-compliance
+      URL:  git://linuxtv.org/v4l-utils.git
+      SHA:  fb4f059c875c9f9859cc5bce36c8170fc24f375d =
 
 
 
@@ -100,84 +108,47 @@ Test Regressions
 
 
 
-platform          | arch  | lab           | compiler | defconfig          |=
- regressions
-------------------+-------+---------------+----------+--------------------+=
-------------
-rk3288-veyron-jaq | arm   | lab-collabora | gcc-8    | multi_v7_defconfig |=
- 1          =
+platform        | arch  | lab           | compiler | defconfig | regressions
+----------------+-------+---------------+----------+-----------+------------
+mt8173-elm-hana | arm64 | lab-collabora | gcc-8    | defconfig | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/616567df712ebe33ba08faa6
+  Details:     https://kernelci.org/test/plan/id/61656576f1109f752a08faab
 
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--10-11-v5.15-rc1/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288-ve=
-yron-jaq.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--10-11-v5.15-rc1/arm/multi_v7_defconfig/gcc-8/lab-collabora/sleep-rk3288-ve=
-yron-jaq.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-1008.0/armhf/rootfs.cpio.gz =
-
-
-
-  * sleep.login: https://kernelci.org/test/case/id/616567df712ebe33ba08faa7
-        failing since 20 days (last pass: renesas-next-2021-08-10-v5.14-rc1=
-, first fail: renesas-next-2021-09-20-v5.15-rc1) =
-
- =
-
-
-
-platform          | arch  | lab           | compiler | defconfig          |=
- regressions
-------------------+-------+---------------+----------+--------------------+=
-------------
-rk3399-gru-kevin  | arm64 | lab-collabora | gcc-8    | defconfig          |=
- 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61656644b3fbc2154408faa6
-
-  Results:     12 PASS, 1 FAIL, 0 SKIP
+  Results:     1 PASS, 1 FAIL, 0 SKIP
   Full config: defconfig
   Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
   Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--10-11-v5.15-rc1/arm64/defconfig/gcc-8/lab-collabora/sleep-rk3399-gru-kevin=
-.txt
+-10-11-v5.15-rc1/arm64/defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc-mt=
+8173-elm-hana.txt
   HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--10-11-v5.15-rc1/arm64/defconfig/gcc-8/lab-collabora/sleep-rk3399-gru-kevin=
-.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-1008.0/arm64/rootfs.cpio.gz =
+-10-11-v5.15-rc1/arm64/defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc-mt=
+8173-elm-hana.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-v4l2=
+/20211008.0/arm64/rootfs.cpio.gz =
 
 
 
-  * sleep.rtcwake-mem-4: https://kernelci.org/test/case/id/61656644b3fbc215=
-4408faae
-        new failure (last pass: renesas-next-2021-09-28-v5.15-rc1)
+  * v4l2-compliance-uvc.device-presence: https://kernelci.org/test/case/id/=
+61656576f1109f752a08faad
+        failing since 28 days (last pass: renesas-next-2021-08-12-v5.14-rc1=
+, first fail: v5.15-rc1-39-gcbbd8f16ae1c)
 
-    2021-10-12T10:36:08.774352  rtcwake: assuming RTC uses UTC ...
-    2021-10-12T10:36:08.780570  rtcwake: wakeup from \"mem\" using rtc0 at =
-Tue Oct 12 09:32:58 2021
-    2021-10-12T10:36:08.794099  <6>[   25.723287] PM: suspend entry (deep)
-    2021-10-12T10:36:08.806982  <6>[   25.735414] Filesystems sync: 0.000 s=
-econds
-    2021-10-12T10:36:08.827143  <6>[   25.749945] Freezing user space proce=
-sses ... (elapsed 0.001 seconds) done.
-    2021-10-12T10:36:08.839338  <6>[   25.767675] OOM killer disabled.
-    2021-10-12T10:36:08.858091  <6>[   25.778774] Freezing remaining freeza=
-ble tasks ... (elapsed 0.004 seconds) done.
-    2021-10-12T10:36:08.871951  <6>[   25.796907] printk: Suspending consol=
-e(s) (use no_console_suspend to debug)
-    2021-10-12T10:36:15.379691  =EF=BF=BD=00=00<3>[   25.812969] mwifiex_pc=
-ie 0000:01:00.0: adapter is not valid
-    2021-10-12T10:36:15.395667  <6>[   26.082092] Disabling non-boot CPUs .=
-.. =
+    2021-10-12T10:37:36.952610  / # =
 
-    ... (43 line(s) more)  =
+    2021-10-12T10:37:36.956360  =
+
+    2021-10-12T10:37:37.064716  / # #
+    2021-10-12T10:37:37.068714  #
+    2021-10-12T10:37:37.172062  / # export SHELL=3D/bin/sh
+    2021-10-12T10:37:37.175769  export SHELL=3D/bin/sh
+    2021-10-12T10:37:37.278698  / # . /lava-4701120/environment
+    2021-10-12T10:37:37.283022  . /lava-4701120/environment
+    2021-10-12T10:37:37.385826  / # /lava-4701120/bin/lava-test-runner /lav=
+a-4701120/0
+    2021-10-12T10:37:37.389162  /lava-4701120/bin/lava-test-runner /lava-47=
+01120/0 =
+
+    ... (7 line(s) more)  =
 
  =20
