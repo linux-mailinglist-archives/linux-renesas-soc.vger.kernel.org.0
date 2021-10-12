@@ -2,145 +2,190 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEBED429EB3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 09:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBF2B429F1D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Oct 2021 09:58:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234124AbhJLHhI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Oct 2021 03:37:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232530AbhJLHhH (ORCPT
+        id S234071AbhJLIAO convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Oct 2021 04:00:14 -0400
+Received: from mail-vk1-f170.google.com ([209.85.221.170]:43656 "EHLO
+        mail-vk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232541AbhJLIAN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Oct 2021 03:37:07 -0400
-X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 12 Oct 2021 00:35:06 PDT
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8275FC061570
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Oct 2021 00:35:06 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id aCIOm68q3k3b0aCIRmPMmY; Tue, 12 Oct 2021 09:34:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634024040; bh=K9friEJkZ5Q7D+co6uEjCR7+fPf9hr4m70FOs99cVU0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Hqda4GXFn6MjbMOOzxblg64uGR4rJCdzfdWtRCVokNxrkQXrIdOL8x/dT46tM+0ZM
-         z3c//dnRlxs5vY72wIVME3ypNeA66PKUmsNIu97+EBo64BHIcxycunTsEL530L4ocl
-         OK1SG0+AvgBAHqDOGPeAuvu7q4tj6CbCH2nR+UKCAN6tZPYSxCndgCXlVJ+HTONEee
-         B3f63XiaJmC0rNZ4YVwIJkDrxoKSjx7D9eDWFMUXxg/JElVRkWk9YEv36i5z9sYIOS
-         Q3FOJfBaxj645kJInYwwzP075th8CJY5cfWyneoJfFMdxEqY1r4ijKYe6JBnM8deIy
-         EUxdLfqyQOpsw==
-Subject: Re: [PATCH v2] media: rcar-vin: add G/S_PARM ioctls
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vladimir Barinov <vladimir.barinov@cogentembedded.com>
-References: <YU2gSJKfsqP+gUci@oden.dyn.berto.se>
- <20210924135138.29950-1-nikita.yoush@cogentembedded.com>
- <20210928084323.5vuhvkp6ev2emv2z@uno.localdomain>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <46a129ad-c57e-3230-3a8c-5724be34479b@xs4all.nl>
-Date:   Tue, 12 Oct 2021 09:33:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        Tue, 12 Oct 2021 04:00:13 -0400
+Received: by mail-vk1-f170.google.com with SMTP id j38so6816417vkd.10
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Oct 2021 00:58:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=EapaJeEkd+vSTU8C7fw9jinBp8H40YembPdnoTBcpL8=;
+        b=dVRlf3pZYXRPkK5/OGAQaZzNzvJQHJr0if2VZpfyjuUXvzBSx62931bepUfWNRNs+F
+         7IhkZXnON6Ch91qbdjGxaz5GcuAf4Dvzaxreh6qk3PN/7bKhHhgShjmoecm+qzadjejE
+         I5vuylgaq+hiWHpKwcVGqBRSXWPLIApg1miweSN6WkkQBK3gtjLc3xHvhvLJPibFlFT6
+         4lvslJv2q2N0FY0Kv7ITE3eVeLh2PgINyyOxEarPCJaiiVYMKy7IfCYMdMhnUS6uftHV
+         DSByy2uUQvONfJqdaFYZQ+WvFx1qtwMlykJtDDNQT9+PRFanMSY/Zd9kDGfgIsZSvZZ5
+         Tsxg==
+X-Gm-Message-State: AOAM5330L9jTM9cdNOVqwd0/pUnSZZ3LsxbWav0ca+63YhIqAKD8JG32
+        8TYflxuk5WoBiuRKTqtlmUkXCdqz8puLbEFrg/c9VKXJqW0=
+X-Google-Smtp-Source: ABdhPJwwi89+jCfIDv+14N2aOvJVD7WAb8VB9UVFukYfgk/ktOouSchagSxIFT8ZTrqxFtkYwK/BcDPulrDRg9UMK+U=
+X-Received: by 2002:a05:6122:a20:: with SMTP id 32mr8813820vkn.15.1634025491739;
+ Tue, 12 Oct 2021 00:58:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210928084323.5vuhvkp6ev2emv2z@uno.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfIXZ77Buivuccp/MoYzJt9vqCVjSij+tqIIReMqGXF5ihHswaVjy3vmEdCkEr5gYUYlvu+rAuUWxUpRyKKyWHJSEgT6PfNbHhxItY5+OV59QEC7YKKBw
- W+bZB3Wg3VdyklZ+iZOHIN6kSwegMowyKPOYmFIiR8f4HP2JiTE2eU602fziBqHaHnuKB1dFR8ZanIRtZrm8w4xNQ1B0hj9t1gPZwiI/ktOnC1HRcrP3zikj
- 14R+7Q7EdxC5kJajgsNhRP8QnR+BibI4gZscp12J2o5aCKehsJ43jNyWLwm+V5MM4CNMTHj4mmymCSMmoxihjm6Z9YhNCErX0S7Y4JMnJLm85ZBChoMe8/JY
- BPan99Ga5vWapHKGDnHTWBJJhFB+yNS4JnEhrSIRIefiAlh5b8ix3EvP77MOewgO46KfLVVKdEvMzoLX/7vW3WAkiPxfK1mSm1LARet3rnBdt4JfTAKLKWYq
- Ht9MOH9DXRENOD3P
+References: <20211010175227.3247895-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20211010175227.3247895-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 12 Oct 2021 09:58:00 +0200
+Message-ID: <CAMuHMdVY+f22BAT7XBvNX3Nironhu8+vat=_ZOEJZHbSUeQpCQ@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: r8a779a0: Add and connect all
+ CSI-2, ISP and VIN nodes
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hi Niklas,
 
-On 28/09/2021 10:43, Jacopo Mondi wrote:
-> Hello
->   explicit Cc Hans, as I recall the usage of s/g_parm was deprecated
-> and discouraged in mainline.
+On Sun, Oct 10, 2021 at 7:52 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> The V3U have 32 VIN, 4 CSI-2 and 4 ISP nodes that interact with each
+> other for video capture. Add all nodes and record how they are
+> interconnected.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> * Changes since v1
+> - Fix endpoint for vin00 to vin07 that where missing @0 and
+>   {address,size}-cells and reg properties.
+> - Fix endpoint for all isp nodes that where missing @0 and
+>   {address,size}-cells and reg properties.
+> - Update compatible for ISP from renesas,isp-r8a779a0 to
+>   renesas,r8a779a0-isp.
 
-It's perfectly fine to use it, but for the non-MC case only. Which is what
-this patch does, so I'm accepting it.
+Thanks for the update!
 
-s/g_parm isn't deprecated for non-MC drivers, it's ugly but it's the only
-way to set or report the framerate for such drivers.
+> The last binding document for the CSI-2 nodes are now merged in the
+> media-tree and this completes the coverage for the nodes in this patch.
+>
+> If you are happy with the corrections I made from v1 I think this is
+> ready to be picked up.
 
-Regards,
+The new version looks good to me, but I still get one complaint from
+"make dtbs_check", cfr. below.
 
-	Hans
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
 
-> 
-> Hans: Support for g/s_param is required by Nikita to maintain
-> compatibility with (out of tree?) subdevice drivers. Should we add it
-> to the mainline receiver driver ?
-> 
-> What other API should be used to control the subdevice framerate ?
-> Should it go through VIDIOC_SUBDEV_S_FRAME_INTERVAL instead ?
-> 
-> Thanks
->    j
-> 
-> On Fri, Sep 24, 2021 at 04:51:38PM +0300, Nikita Yushchenko wrote:
->> From: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
->>
->> This adds g/s_parm ioctls for parallel interface.
->>
->> Signed-off-by: Vladimir Barinov <vladimir.barinov@cogentembedded.com>
->> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
->> ---
->> Changes from v1:
->> - use &vin->vdev to access vin's struct video_device
->>
->>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 21 +++++++++++++++++++++
->>  1 file changed, 21 insertions(+)
->>
->> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
->> index bdeff51bf768..a5bfa76fdac6 100644
->> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
->> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
->> @@ -527,6 +527,24 @@ static int rvin_s_selection(struct file *file, void *fh,
->>  	return 0;
->>  }
->>
->> +static int rvin_g_parm(struct file *file, void *priv,
->> +		       struct v4l2_streamparm *parm)
->> +{
->> +	struct rvin_dev *vin = video_drvdata(file);
->> +	struct v4l2_subdev *sd = vin_to_source(vin);
->> +
->> +	return v4l2_g_parm_cap(&vin->vdev, sd, parm);
->> +}
->> +
->> +static int rvin_s_parm(struct file *file, void *priv,
->> +		       struct v4l2_streamparm *parm)
->> +{
->> +	struct rvin_dev *vin = video_drvdata(file);
->> +	struct v4l2_subdev *sd = vin_to_source(vin);
->> +
->> +	return v4l2_s_parm_cap(&vin->vdev, sd, parm);
->> +}
->> +
->>  static int rvin_g_pixelaspect(struct file *file, void *priv,
->>  			      int type, struct v4l2_fract *f)
->>  {
->> @@ -743,6 +761,9 @@ static const struct v4l2_ioctl_ops rvin_ioctl_ops = {
->>  	.vidioc_g_selection		= rvin_g_selection,
->>  	.vidioc_s_selection		= rvin_s_selection,
->>
->> +	.vidioc_g_parm			= rvin_g_parm,
->> +	.vidioc_s_parm			= rvin_s_parm,
->> +
->>  	.vidioc_g_pixelaspect		= rvin_g_pixelaspect,
->>
->>  	.vidioc_enum_input		= rvin_enum_input,
->> --
->> 2.30.2
->>
+> @@ -1268,6 +2164,426 @@ vspd1: vsp@fea28000 {
+>                         renesas,fcp = <&fcpvd1>;
+>                 };
+>
+> +               csi40: csi2@feaa0000 {
+> +                       compatible = "renesas,r8a779a0-csi2";
+> +                       reg = <0 0xfeaa0000 0 0x10000>;
+> +                       interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 331>;
+> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> +                       resets = <&cpg 331>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@1 {
+> +                                       reg = <1>;
+> +                                       csi40isp0: endpoint {
+> +                                               remote-endpoint = <&isp0csi40>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +
+> +               csi41: csi2@feab0000 {
+> +                       compatible = "renesas,r8a779a0-csi2";
+> +                       reg = <0 0xfeab0000 0 0x10000>;
+> +                       interrupts = <GIC_SPI 193 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 400>;
+> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> +                       resets = <&cpg 400>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@1 {
+> +                                       reg = <1>;
+> +                                       csi41isp1: endpoint {
+> +                                               remote-endpoint = <&isp1csi41>;
+> +                                       };
+> +                               };
 
+arch/arm64/boot/dts/renesas/r8a779a0-falcon.dt.yaml: csi2@feab0000:
+ports: 'port@0' is a required property
+From schema: Documentation/devicetree/bindings/media/renesas,csi2.yaml
+
+(only for this CSI instance).
+
+> +                       };
+> +               };
+> +
+> +               csi42: csi2@fed60000 {
+> +                       compatible = "renesas,r8a779a0-csi2";
+> +                       reg = <0 0xfed60000 0 0x10000>;
+> +                       interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 401>;
+> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> +                       resets = <&cpg 401>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@1 {
+> +                                       reg = <1>;
+> +                                       csi42isp2: endpoint {
+> +                                               remote-endpoint = <&isp2csi42>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +
+> +               csi43: csi2@fed70000 {
+> +                       compatible = "renesas,r8a779a0-csi2";
+> +                       reg = <0 0xfed70000 0 0x10000>;
+> +                       interrupts = <GIC_SPI 195 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 402>;
+> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> +                       resets = <&cpg 402>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@1 {
+> +                                       reg = <1>;
+> +                                       csi43isp3: endpoint {
+> +                                               remote-endpoint = <&isp3csi43>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
