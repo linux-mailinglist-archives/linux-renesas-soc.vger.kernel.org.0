@@ -2,99 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31FA342BCA8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Oct 2021 12:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62C9D42BFD6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Oct 2021 14:24:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230005AbhJMKWR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Oct 2021 06:22:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47956 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239334AbhJMKWJ (ORCPT
+        id S232528AbhJMM0z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Oct 2021 08:26:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34330 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230196AbhJMM0z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Oct 2021 06:22:09 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A98C061570
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Oct 2021 03:20:05 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:9c93:91ff:d58:ecfb])
-        by baptiste.telenet-ops.be with bizsmtp
-        id 5NL32600A0KW32a01NL3z1; Wed, 13 Oct 2021 12:20:03 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mabMh-004XwN-21; Wed, 13 Oct 2021 12:20:03 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1maa86-002sph-VX; Wed, 13 Oct 2021 11:00:54 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/LOCAL 4/4] arm64: renesas: defconfig: Enable more support for RZ/G2L
-Date:   Wed, 13 Oct 2021 11:00:45 +0200
-Message-Id: <619cb14ceae0387de36f344f897b11453a34c98b.1634115568.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <fa758f27d9153ae3d8d92d7452bce9aa881327c7.1634115568.git.geert+renesas@glider.be>
-References: <fa758f27d9153ae3d8d92d7452bce9aa881327c7.1634115568.git.geert+renesas@glider.be>
+        Wed, 13 Oct 2021 08:26:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9AF6A60F23;
+        Wed, 13 Oct 2021 12:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1634127892;
+        bh=4s6wU6xVKQAR878cEXhPsqNrnWGlU/+dyX5KTUREZ18=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=S4umREiHN43ck0bJtS5IRQc0Hf0stWqeWleSpMWn3iSIeP/bdGO8xsT0+JWIxLs+N
+         z7t0n7C+46wOreMyY5MtU9w9c1d+JcnbAnT6YWDcQQr6BtwS4UJZEPBRKt6KlwFZfz
+         T++70qYJgZK6yVJod1zvCaGaTM2uPd56fvopHfeg=
+Date:   Wed, 13 Oct 2021 14:24:49 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Christian Gromm <christian.gromm@microchip.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+        linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 23/28] staging: most: dim2: use device tree
+Message-ID: <YWbQEQBYTrfmzq4N@kroah.com>
+References: <1525772716-15742-1-git-send-email-christian.gromm@microchip.com>
+ <1525772716-15742-24-git-send-email-christian.gromm@microchip.com>
+ <alpine.DEB.2.22.394.2110121749450.1045463@ramsan.of.borg>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2110121749450.1045463@ramsan.of.borg>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable more support for the RZ/G2L SoC and the RZ/G2L SMARC EVK board.
+On Tue, Oct 12, 2021 at 08:14:14PM +0200, Geert Uytterhoeven wrote:
+> 	Hi Christian, Greg,
+> 
+> CC devicetree, linux-renesas-soc
+> 
+> On Tue, 8 May 2018, Christian Gromm wrote:
+> > This patch removes the dependency to platform specific source files
+> > that do platform specific initialization and supply the IRQ number.
+> > Instead DT code is added
+> > 
+> > Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
+> 
+> This patch bypassed review by the DT people, and ended up in v4.18 as
+> commit 21e57ff086056c01 ("staging: most: dim2: use device tree").
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Not intended for upstream merge.
-To be applied to the topic/renesas-defconfig branch.
----
- arch/arm64/configs/renesas_defconfig | 6 ++++++
- 1 file changed, 6 insertions(+)
+Yeah, staging-only dt changes are not usually run by the dt maintainers.
 
-diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index 45df24076e34f341..01ea7ff02d5d0f06 100644
---- a/arch/arm64/configs/renesas_defconfig
-+++ b/arch/arm64/configs/renesas_defconfig
-@@ -150,6 +150,7 @@ CONFIG_I2C_CHARDEV=y
- CONFIG_I2C_MUX=y
- CONFIG_I2C_MUX_PCA954x=y
- CONFIG_I2C_DESIGNWARE_PLATFORM=y
-+CONFIG_I2C_RIIC=y
- CONFIG_I2C_SH_MOBILE=y
- CONFIG_I2C_RCAR=y
- CONFIG_SPI=y
-@@ -256,8 +257,10 @@ CONFIG_SND=y
- # CONFIG_SND_USB is not set
- CONFIG_SND_SOC=y
- CONFIG_SND_SOC_RCAR=y
-+CONFIG_SND_SOC_RZ=y
- CONFIG_SND_SOC_AK4613=y
- CONFIG_SND_SOC_PCM3168A_I2C=y
-+CONFIG_SND_SOC_WM8978=y
- CONFIG_SND_SIMPLE_CARD=y
- CONFIG_SND_AUDIO_GRAPH_CARD=y
- CONFIG_USB=y
-@@ -296,6 +299,7 @@ CONFIG_RTC_DRV_RX8581=y
- CONFIG_DMADEVICES=y
- CONFIG_RCAR_DMAC=y
- CONFIG_RENESAS_USB_DMAC=y
-+CONFIG_RZ_DMAC=y
- CONFIG_VFIO=y
- CONFIG_VFIO_PCI=y
- CONFIG_VIRTIO_PCI=y
-@@ -331,9 +335,11 @@ CONFIG_MEMORY=y
- CONFIG_RENESAS_RPCIF=y
- CONFIG_IIO=y
- CONFIG_MAX9611=y
-+CONFIG_RZG2L_ADC=y
- CONFIG_PWM=y
- CONFIG_PWM_RCAR=y
- CONFIG_PWM_RENESAS_TPU=y
-+CONFIG_RESET_RZG2L_USBPHY_CTRL=y
- CONFIG_PHY_RCAR_GEN3_PCIE=y
- CONFIG_PHY_RCAR_GEN3_USB2=y
- CONFIG_PHY_RCAR_GEN3_USB3=y
--- 
-2.25.1
+> 
+> > --- a/drivers/staging/most/dim2/dim2.c
+> > +++ b/drivers/staging/most/dim2/dim2.c
+> > +static const struct of_device_id dim2_of_match[] = {
+> > +	{
+> > +		.compatible = "fsl,imx6q-mlb150",
+> > +		.data = plat_data + FSL_MX6
+> > +	},
+> > +	{
+> > +		.compatible = "renesas,mlp",
+> > +		.data = plat_data + RCAR_H2
+> > +	},
+> > +	{
+> > +		.compatible = "rcar,medialb-dim2",
+> > +		.data = plat_data + RCAR_M3
+> > +	},
+> > +	{
+> > +		.compatible = "xlnx,axi4-os62420_3pin-1.00.a",
+> > +	},
+> > +	{
+> > +		.compatible = "xlnx,axi4-os62420_6pin-1.00.a",
+> > +	},
+> > +	{},
+> > };
+> 
+> There are no documented DT bindings for this hardware block, nor any
+> upstream example users.  Given some compatible values do not follow
+> standard practises (no idea about the other parts), it's very likely
+> these de facto bindings, and all their out-of-tree users, will have to
+> be changed.
 
+Great, fix the bindings and anything in-kernel here please.  We don't
+care about out-of-kernel stuff for drivers/staging/ at all.
+
+thanks,
+
+greg k-h
