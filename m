@@ -2,77 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E52242C5BF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Oct 2021 18:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EC2542C62F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Oct 2021 18:20:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236087AbhJMQFW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Oct 2021 12:05:22 -0400
-Received: from mxout04.lancloud.ru ([45.84.86.114]:48522 "EHLO
-        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbhJMQFV (ORCPT
+        id S233774AbhJMQWP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Oct 2021 12:22:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37594 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229702AbhJMQWO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Oct 2021 12:05:21 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 9781420A4E41
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH net-next v3 13/14] ravb: Update ravb_emac_init_gbeth()
-To:     Jakub Kicinski <kuba@kernel.org>
-CC:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omprussia.ru>,
-        Adam Ford <aford173@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Yuusuke Ashizuka <ashiduka@fujitsu.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org\"" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "Prabhakar Mahadev Lad" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211012163613.30030-1-biju.das.jz@bp.renesas.com>
- <20211012163613.30030-14-biju.das.jz@bp.renesas.com>
- <b06ad74a-5ecd-8dbf-4b54-fc18ce679053@omp.ru>
- <OS0PR01MB59220334F9C1891BE848638D86B69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <dd98fb58-5cd7-94d6-14d6-cc013164d047@gmail.com>
- <OS0PR01MB59223759B5B15858E394461086B69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <8b261e85-4aa3-3d58-906d-4da931057e96@gmail.com>
- <OS0PR01MB592259FBB622ECABF6ED250486B69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <0517bd54-2da8-82cb-c844-bd5b73febd8f@omp.ru>
- <20211013085704.4a059444@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <52132e66-79e4-8e0e-82bc-5aa16f00175f@omp.ru>
-Date:   Wed, 13 Oct 2021 19:03:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <20211013085704.4a059444@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        Wed, 13 Oct 2021 12:22:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 25556611BD;
+        Wed, 13 Oct 2021 16:20:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634142011;
+        bh=6zeBuwcYZ+VQY4PXrTu59wRZdlj9oYJkOMhjYcehcpg=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=NUFZ3hw2xLJETDhIerxF2fxtTNJ7tAq0a5LNV5rpZ0fHJmI+WRycVKCg3wQP1BoN7
+         tId1nCaAHeJGWrey3Ei++iiuN9GIWLhP+kerOsF3hH3d4q725JFhApYZ9R4MmqOAyJ
+         Ju8fxu0Dn1XnGNIOti4Hm5W2zUdFwiALsx1jMiYMgA1yof5QXwFzVb10WE/TlKLstL
+         0pZ/hsXiPmpa2tlTbNfVnYlVNnkmuNOYSagnavATQ7qh4D3ik9dpAjjJzCdzmhnSuY
+         auXxtT2DzA/SRo7N3lnLmP2vhT//9XK7pi0Hiwr90uTzVJiqybyeGpmJicLYrzecr7
+         gB7XXmHittNfA==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 12CE960173;
+        Wed, 13 Oct 2021 16:20:11 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3 00/14] Add functional support for Gigabit Ethernet
+ driver
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <163414201107.13761.9091083859002281113.git-patchwork-notify@kernel.org>
+Date:   Wed, 13 Oct 2021 16:20:11 +0000
+References: <20211012163613.30030-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211012163613.30030-1-biju.das.jz@bp.renesas.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, s.shtylyov@omp.ru,
+        sergei.shtylyov@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        andrew@lunn.ch, geert+renesas@glider.be, aford173@gmail.com,
+        yoshihiro.shimoda.uh@renesas.com, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, Chris.Paterson2@renesas.com,
+        biju.das@bp.renesas.com
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/13/21 6:57 PM, Jakub Kicinski wrote:
+Hello:
 
->>    Ah, I think it's the (usual) checksum-vs-CRC mixup. I don't know
->> why TOE needs CRC tho but it's 4 bytes at the end of a frame, not
->> having much toi do with the 2-byte checksums...
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-   s/toi/to/.
+On Tue, 12 Oct 2021 17:35:59 +0100 you wrote:
+> The DMAC and EMAC blocks of Gigabit Ethernet IP found on RZ/G2L SoC are
+> similar to the R-Car Ethernet AVB IP.
+> 
+> The Gigabit Ethernet IP consists of Ethernet controller (E-MAC), Internal
+> TCP/IP Offload Engine (TOE)  and Dedicated Direct memory access controller
+> (DMAC).
+> 
+> [...]
 
-> Meaning v3 is good as is? I'm trying understand if I should apply it ;)
+Here is the summary with links:
+  - [net-next,v3,01/14] ravb: Use ALIGN macro for max_rx_len
+    https://git.kernel.org/netdev/net-next/c/23144a915684
+  - [net-next,v3,02/14] ravb: Add rx_max_buf_size to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/2e95e08ac009
+  - [net-next,v3,03/14] ravb: Fillup ravb_alloc_rx_desc_gbeth() stub
+    https://git.kernel.org/netdev/net-next/c/3d4e37df882b
+  - [net-next,v3,04/14] ravb: Fillup ravb_rx_ring_free_gbeth() stub
+    https://git.kernel.org/netdev/net-next/c/2458b8edb887
+  - [net-next,v3,05/14] ravb: Fillup ravb_rx_ring_format_gbeth() stub
+    https://git.kernel.org/netdev/net-next/c/16a6e245a9f3
+  - [net-next,v3,06/14] ravb: Fillup ravb_rx_gbeth() stub
+    https://git.kernel.org/netdev/net-next/c/1c59eb678cbd
+  - [net-next,v3,07/14] ravb: Add carrier_counters to struct ravb_hw_info
+    https://git.kernel.org/netdev/net-next/c/b6a4ee6e74de
+  - [net-next,v3,08/14] ravb: Add support to retrieve stats for GbEthernet
+    https://git.kernel.org/netdev/net-next/c/0ee65bc14ff2
+  - [net-next,v3,09/14] ravb: Rename "tsrq" variable
+    https://git.kernel.org/netdev/net-next/c/4ea3167bad27
+  - [net-next,v3,10/14] ravb: Optimize ravb_emac_init_gbeth function
+    https://git.kernel.org/netdev/net-next/c/030634f37db9
+  - [net-next,v3,11/14] ravb: Rename "nc_queue" feature bit
+    https://git.kernel.org/netdev/net-next/c/1091da579d7c
+  - [net-next,v3,12/14] ravb: Document PFRI register bit
+    https://git.kernel.org/netdev/net-next/c/95e99b10482d
+  - [net-next,v3,13/14] ravb: Update ravb_emac_init_gbeth()
+    https://git.kernel.org/netdev/net-next/c/3d6b24a2ada3
+  - [net-next,v3,14/14] ravb: Fix typo AVB->DMAC
+    https://git.kernel.org/netdev/net-next/c/940409264647
 
-   Yes, I'm giving up (-:
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-MBR, Sergey
