@@ -2,119 +2,201 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B2A542C846
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Oct 2021 20:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF58A42CB52
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Oct 2021 22:48:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238383AbhJMSFG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Oct 2021 14:05:06 -0400
-Received: from mail-ua1-f46.google.com ([209.85.222.46]:34493 "EHLO
-        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238258AbhJMSFF (ORCPT
+        id S229769AbhJMUu6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Oct 2021 16:50:58 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:47481 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229496AbhJMUu5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Oct 2021 14:05:05 -0400
-Received: by mail-ua1-f46.google.com with SMTP id h4so6306471uaw.1;
-        Wed, 13 Oct 2021 11:03:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T1C46/jpqxsz6tI+W9Ak1jYU3EAHgNQuUCSEWH/baCg=;
-        b=o3eR/nuf/QOUa+P5Zohqh13O2y7fM44EmaducPjlPlpJl0PxWEgjobRXYnTL4ufWIU
-         fsrzOnYQRtwOemvOQdl6l8Zv+kW5eHdElavtPrw+PN1Bfe1LFvPZpZDEDHzrN/idcEEX
-         ZlVltthBjj5W5RFeYPDviXqq9ounuCyoJeJyJt9JsvKQUgF2o3/fY05RA5N4Isw7gbtp
-         X4YjjT/Vx5W0wbn2gsPmglTWYX++SrhT7UXINaUPqkNyr+8Fn8XkZ1aZemEeQZgWDw4g
-         vhUu/NM7w0/WrqK/Tw8vklqW5KLxU4JefpK7fckVCIPSeVGMjy6yFgMfOIW9ZxVufhJC
-         gYvw==
-X-Gm-Message-State: AOAM5305SS3P3dSozrUhQU8jVLD0e/YL9tLrNDGEJcQEFRkPQj5yLl2A
-        0HofuVAU67E0feMZa7L5QhrYHV9BF3BHAClNj2o=
-X-Google-Smtp-Source: ABdhPJzWe6D7GpmHL+uu9iSk9ZLP4zKoa4o6l86DroGgxk7GjStl2R3PiVqSWJKWWCbyRLA3ar1NMSHf1zJJNcPf5Fo=
-X-Received: by 2002:a67:ac04:: with SMTP id v4mr772084vse.50.1634148180292;
- Wed, 13 Oct 2021 11:03:00 -0700 (PDT)
+        Wed, 13 Oct 2021 16:50:57 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id D8351581176;
+        Wed, 13 Oct 2021 16:48:52 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 13 Oct 2021 16:48:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
+        :to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm3; bh=K+ngjCbNvg5biFXc4iBRazvtWT
+        DSOI4XVs1u0aTjJbw=; b=Tvjc1tOnjj3zGJw0lJZ80K3vhPCpmQ4oICUTkyXtHN
+        d7S1dTjM0HnRfgzQAGPwFDs9wkg/mNeRZq9Je/IyIvnILR5i8vUw0FDq7i8kdoXV
+        8OHXQb6b0gaPZooAr41EXUe6kdR/u2VNxZ1tb16g76/ABq36qxZzcvpzyFsH0Nvy
+        1v/g/4w7KD7gxDOjBICloby6BV/tSrE9+92QC/XD5Y2FsVwGd1M6M0a6rPleh2Dh
+        XUEbfzqDWq6wqv3Q26I5gIBkYyfR06Y5/UMcqxiWJWL7MHEHqqwUAz4tmEiGb0HN
+        rG9pP9UfmgTfvnZumPqlt+SruCihex0E4PYas5mlL+Eg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=K+ngjCbNvg5biFXc4
+        iBRazvtWTDSOI4XVs1u0aTjJbw=; b=OT0uXg/paNJS3IjRzXVsRS3ataNv4/0v8
+        iujH8IUrJogzX5gw5E1nzExfP/VmXpNF2YvQ4+Thm826+TxyEGUmrfG1bAWQvb6l
+        5H1VXUXQgY2+GHvB4DzYN4tR4QMzddEJIpYRdFJ9XQa99otYc7hzGyeRSEumFnzQ
+        66O0UA3Vsh7wKat3UHns2X0lStQvL+7yCZMmCtqWClFLfykwHR2pOrFEUjOpUDHi
+        wjCuGJbmQznTkg2+Eu4Lb9VbAXetiym8lqt9C0K1e5dgqdQbbrZYNEO3TJwNP+DE
+        v6wBXVOZWsFW0vo1ryZqbaFMdjcEOq4l3VzjXDxlSsVe3q+0KcF6g==
+X-ME-Sender: <xms:NEZnYaCj1HzF6opwzNRsaxopnIaizVToTfF_GQ_o2D9sy-jd4jnNQw>
+    <xme:NEZnYUiHARGY_-ZTWQ0rdC32Utq73HPHz7K1iaBLzSCii3qxCQqV0HGOrWtliaw7D
+    PkFT2duxEkBraCMjQ>
+X-ME-Received: <xmr:NEZnYdmh8boRq2KjNANujOFlMBrPY-6cbIDRh3M1u5jy8UEs33e2CLP4vLorS2dzgluD>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohes
+    uhelvddrvghuqeenucggtffrrghtthgvrhhnpeegtdehgeduteehkeeugedtuedugfffhe
+    fguedtudefvddtgeevudeuleegkeeitdenucffohhmrghinhepkhgvrhhnvghlrdhorhhg
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvg
+    gvnhhfohhosehuledvrdgvuh
+X-ME-Proxy: <xmx:NEZnYYxLOlfgjCsN1mknSxUY6OhEw46SW-6i569oRrbxhEE8YwYWFg>
+    <xmx:NEZnYfS2Bc0lpW3Gb6nLbgi9EIH56SRdvdvEwM6YhPe2zSRll0cEpQ>
+    <xmx:NEZnYTa6pC95ZCv7oO6YlghtPySmIb7yOZAu8Z0w90Q8ryfcN3GZ4A>
+    <xmx:NEZnYU9n6XIbyHQQuIU_I61tKhKiUR7mz1O7X6E3BPRW9P_35jNWyQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 13 Oct 2021 16:48:49 -0400 (EDT)
+From:   Fernando Ramos <greenfoo@u92.eu>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-kernel@vger.kernel.org, sean@poorly.run,
+        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v4 00/20] drm: cleanup: Use DRM_MODESET_LOCK_ALL_* helpers
+Date:   Wed, 13 Oct 2021 22:48:26 +0200
+Message-Id: <20211013204846.90026-1-greenfoo@u92.eu>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20210913170436.243-1-alexander.helms.jy@renesas.com> <20210913170436.243-2-alexander.helms.jy@renesas.com>
-In-Reply-To: <20210913170436.243-2-alexander.helms.jy@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Oct 2021 20:02:49 +0200
-Message-ID: <CAMuHMdWZp=7sR+dTL0F8o61weLqqC3k1kkemm_PktvyK8+ONmw@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] dt-bindings: Add binding for Renesas 8T49N241
-To:     Alex Helms <alexander.helms.jy@renesas.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        david.cater.jc@renesas.com, Michal Simek <michal.simek@xilinx.com>,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alex,
+Hi all,
 
-On Mon, Sep 13, 2021 at 7:05 PM Alex Helms
-<alexander.helms.jy@renesas.com> wrote:
-> Renesas 8T49N241 has 4 outputs, 1 integral and 3 fractional dividers.
-> The 8T49N241 accepts up to two differential or single-ended input clocks
-> and a fundamental-mode crystal input. The internal PLL can lock to either
-> of the input reference clocks or to the crystal to behave as a frequency
-> synthesizer.
->
-> Signed-off-by: Alex Helms <alexander.helms.jy@renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+"use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
+patch series is about.
 
-Thanks for your patch!
+You will find two types of changes here:
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
+  - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
+    "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
+    already been done in previous commits such as b7ea04d2)
 
-> +  reg:
-> +    description: I2C device address
-> +    enum: [ 0x7c, 0x6c, 0x7d, 0x6d, 0x7e, 0x6e, 0x7f, 0x6f ]
+  - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
+    in the remaining places (as it has already been done in previous commits
+    such as 57037094)
+    
+Most of the changes are straight forward, except for a few cases in the "amd"
+and "i915" drivers where some extra dancing was needed to overcome the
+limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
+once inside the same function (the reason being that the macro expansion
+includes *labels*, and you can not have two labels named the same inside one
+function)
 
-I think this is too strict: according to the datasheet, the full
-device address can be customized when ordering.
+Notice that, even after this patch series, some places remain where
+"drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
+all inside drm core (which makes sense), except for two (in "amd" and "i915")
+which cannot be replaced due to the way they are being used.
 
-> +examples:
+Changes in v2:
+  - Fix commit message typo
+  - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
+  - Split drm/i915 patch into two simpler ones
+  - Remove drm_modeset_(un)lock_all()
+  - Fix build problems in non-x86 platforms
 
-> +    i2c@0 {
-> +        reg = <0x0 0x100>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        renesas8t49n241_2: clock-generator@6c {
-> +            compatible = "renesas,8t49n241";
-> +            reg = <0x6c>;
-> +            #clock-cells = <1>;
-> +
-> +            clocks = <&xtal>;
-> +            clock-names = "xtal";
-> +
-> +            renesas,settings=[
+Changes in v3:
+  - Fix in drm/i915 driver to make sure global context is no longer used
+  - Fix in drm/amdgpu driver to make sure global context is no longer used
+  - Split amdgpu driver to make it easier to understand
+  - Remove acquire_ctx from drm_mode_config 
+  - Rebase on top of drm-tip
+  - WARNING: There is some discussion going on regarding whether the new macros
+    should be used (or not) in the i915 driver, as a different set of functions
+    has been proposed in the past (see here:
+    https://lore.kernel.org/dri-devel/YVriZxCeipBUgc8O@intel.com/).
+    In that case I will need to create a v4 where i915 files are left unchanged.
+    Let me know your thoughts regarding this.
 
-Missing spaces around equal sign.
+Changes in v4:
+  - Fix missing "Signed-off-by" in one commit
+  - No extra comments received in one week
+  - Rebase on top of drm-tip
 
-> +                09 50 00 60 67 C5 6C FF 03 00 30 00 00 01 00 00
+Fernando Ramos (20):
+  drm: cleanup: drm_modeset_lock_all_ctx() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all_ctx() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/msm: cleanup: drm_modeset_lock_all_ctx() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/vmwgfx: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/tegra: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/shmobile: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/radeon: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/omapdrm: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/nouveau: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/msm: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN() [part 2]
+  drm/i915: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN() [part 3]
+  drm/gma500: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/amd: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/amd: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN() [part 2]
+  drm/amd: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN() [part 3]
+  drm: cleanup: remove drm_modeset_(un)lock_all()
+  drm: cleanup: remove acquire_ctx from drm_mode_config
 
-[...]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 21 +++--
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 58 ++++++------
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  3 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 25 ++---
+ drivers/gpu/drm/drm_client_modeset.c          | 14 ++-
+ drivers/gpu/drm/drm_crtc_helper.c             | 18 ++--
+ drivers/gpu/drm/drm_fb_helper.c               | 10 +-
+ drivers/gpu/drm/drm_framebuffer.c             |  6 +-
+ drivers/gpu/drm/drm_modeset_lock.c            | 94 +------------------
+ drivers/gpu/drm/gma500/psb_device.c           | 18 ++--
+ drivers/gpu/drm/i915/display/intel_audio.c    | 16 ++--
+ drivers/gpu/drm/i915/display/intel_display.c  | 25 ++---
+ .../drm/i915/display/intel_display_debugfs.c  | 46 +++++----
+ drivers/gpu/drm/i915/display/intel_overlay.c  | 46 ++++-----
+ drivers/gpu/drm/i915/display/intel_pipe_crc.c |  7 +-
+ drivers/gpu/drm/i915/i915_drv.c               | 13 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 10 +-
+ .../gpu/drm/msm/disp/msm_disp_snapshot_util.c | 12 +--
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       | 15 ++-
+ drivers/gpu/drm/omapdrm/omap_fb.c             |  9 +-
+ drivers/gpu/drm/radeon/radeon_device.c        | 21 +++--
+ drivers/gpu/drm/radeon/radeon_dp_mst.c        | 10 +-
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c      |  6 +-
+ drivers/gpu/drm/tegra/dsi.c                   |  6 +-
+ drivers/gpu/drm/tegra/hdmi.c                  |  6 +-
+ drivers/gpu/drm/tegra/sor.c                   | 11 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 11 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 12 ++-
+ include/drm/drm_mode_config.h                 | 10 --
+ include/drm/drm_modeset_lock.h                |  2 -
+ 30 files changed, 272 insertions(+), 289 deletions(-)
 
-> +            ];
 
-With the above fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-BTW, do you plan to add interrupt and/or GPIO support later?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+base-commit: 3fdfa1de4774903b9cb4fb308102b5a2d762d829
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.33.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
