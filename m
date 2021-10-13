@@ -2,130 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F46B42C47F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Oct 2021 17:08:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C45942C4C9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Oct 2021 17:28:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbhJMPLA convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Oct 2021 11:11:00 -0400
-Received: from mail-ua1-f49.google.com ([209.85.222.49]:33356 "EHLO
-        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbhJMPK7 (ORCPT
+        id S229715AbhJMPaH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Oct 2021 11:30:07 -0400
+Received: from mail-ua1-f42.google.com ([209.85.222.42]:45742 "EHLO
+        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229514AbhJMPaG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Oct 2021 11:10:59 -0400
-Received: by mail-ua1-f49.google.com with SMTP id i15so5256367uap.0;
-        Wed, 13 Oct 2021 08:08:56 -0700 (PDT)
+        Wed, 13 Oct 2021 11:30:06 -0400
+Received: by mail-ua1-f42.google.com with SMTP id 64so5205127uab.12;
+        Wed, 13 Oct 2021 08:28:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=oFBAfPgyMuB17AqaY51r0mJ1e8vUmKj2hXWfsRy5A/I=;
-        b=s1PFQeBjY7ahXzB6d3bs5mW4d1YDM+i4gdPl1PZyicUFV5RD9ownQJlh3swezpAkGz
-         Nfs75+oRdCTxssz+mZjhqMz55GsK5GlGlV/GJCS4QGfgP2p8xWYOQ+tbz2m8+113n+nj
-         1cjUGIAwwfp4+wLRc7agYNrJJ4w1V3IRDzvr+K9yEwNoBTHB+sogqUl2sWU5LANOM8Mm
-         SDFE7t/RLkE8RiytWIcWaN8pOSz4WbYXVE0Gk698aucT0hUmx5kmWsnxpBpbILdScLhw
-         qJG/LWR5eXAQ0SzVWGaEiwLA17jfwQBdvSgabW824yx+jqWEJZQ5k4F3JAN3nj2VbA81
-         C2hg==
-X-Gm-Message-State: AOAM533Begi86te5hqnBHBWc8rqslvScyonWQcXVaVkY+L8MUFPVXI3+
-        DQbOatGWzBszvmgUV5GK16KSzRdIIzprRHGgIU3gul9F5TE=
-X-Google-Smtp-Source: ABdhPJyq/aqaQT5yX/UCK1Tolq/X2MRdqalWJlYJWiRxvS5BF9LwB21plAGTnUadD4q5Mu7TrFEE7lFo7wqtSzWDky0=
-X-Received: by 2002:a67:cb0a:: with SMTP id b10mr39805069vsl.9.1634137735682;
- Wed, 13 Oct 2021 08:08:55 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=kVVmY5OcYf0DohQJT+evgWUz/UIxo3Hbg6s+ngWAqMs=;
+        b=6nAOuJwX/aWPqIcBBHX+hLThCxU+L5oxcRtsBirtey/W9PQUFxccQ36Aw5AIDDO9IH
+         ifGMk8avtUOIOqtYCYJ6esk3y1++ve+vZEFtedN2byhC2EN+OyTFLdmPiTKpUVRK8vlP
+         omiX4pC6pGJYO5EM8XYrEwiZh7BJZUnGAgP0hUYVUPly2DPa0OfgPeuyQVsyA71rTxSc
+         6bR5ADwZwFVLfU1ujnjUeiUib3P+ydcFjkmmb7Y8ipQmBmOPXwIb85SPIG2SmOcpISVo
+         UZPJTyGUy00ouDZ0hyWYRPTm1ITw2zlBcuLmctybvJn+I5SK+PIm5Ai7btl0k4eMFina
+         +/gg==
+X-Gm-Message-State: AOAM532PmLFexhMMQ4bDO28fnHEgbwC0v3vh6csFZ7+cQ5050uEDYNXj
+        RHfNdR2yj1gFLhW3IFc7fNIOqvyzjlOuKjbu12irddvdG5M=
+X-Google-Smtp-Source: ABdhPJw6dsHz60dW3ysQzGjilPhENSH9U1h/MWFKtwWpyT7CKRgOy52zBJozD7co2ikQqoub/p29o1rYmFciEG0K6LU=
+X-Received: by 2002:ab0:16d4:: with SMTP id g20mr29804961uaf.114.1634138882801;
+ Wed, 13 Oct 2021 08:28:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211012183324.717975-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20211012183324.717975-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20211013075647.32231-1-biju.das.jz@bp.renesas.com> <20211013075647.32231-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211013075647.32231-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Oct 2021 17:08:44 +0200
-Message-ID: <CAMuHMdX8LzmksfB85iSMX4+RYq=SYTamw5C3GNgbAV+9f1uAyQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: adv748x: Convert bindings to json-schema
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
+Date:   Wed, 13 Oct 2021 17:27:51 +0200
+Message-ID: <CAMuHMdWxzk84GWC6H5DGesMmL_k1zDbGJ6CT0xqH5mfRHZRJCw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r9a07g044: Add GbEthernet nodes
+To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+On Wed, Oct 13, 2021 at 9:57 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add Gigabit Ethernet{0,1} nodes to SoC DTSI.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---v1->v2:
+>  * Removed extra space before arp_ns.
 
-Thanks for your patch!
-
-On Tue, Oct 12, 2021 at 8:48 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Convert ADV748X analog video decoder documentation to json-schema.
-
-You may want to list what changes you made:
-  - Add missing ports subnode
-  - Anything else I didn't notice? ;-)
-
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
-
-> +  reg-names:
-> +    minItems: 1
-> +    items:
-> +      - const: main
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-
-They can really appear in any order?
-
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: adi,adv7481
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          minItems: 1
-> +          maxItems: 3
-> +
-> +        interrupt-names:
-> +          minItems: 1
-> +          items:
-> +            - enum: [ intrq1, intrq2, intrq3 ]
-> +            - enum: [ intrq1, intrq2, intrq3 ]
-> +            - enum: [ intrq1, intrq2, intrq3 ]
-
-They can really appear in any order?
-
-> +    else:
-> +      properties:
-> +        interrupts:
-> +          minItems: 1
-> +          maxItems: 2
-> +
-> +        interrupt-names:
-> +          minItems: 1
-> +          items:
-> +            - enum: [ intrq1, intrq2 ]
-> +            - enum: [ intrq1, intrq2 ]
-
-They can really appear in any order?
-
-If not, you can merge the entries, and just override maxItems.
-
-The rest looks good to me, but I'm no graph expert.
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.16.
 
 Gr{oetje,eeting}s,
 
