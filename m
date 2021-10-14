@@ -2,116 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B97F642D52C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Oct 2021 10:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8E7442D5B9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Oct 2021 11:10:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230051AbhJNIiS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Oct 2021 04:38:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43562 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230078AbhJNIiS (ORCPT
+        id S229970AbhJNJM1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Oct 2021 05:12:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53144 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229691AbhJNJM1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Oct 2021 04:38:18 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89CCDC061570
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Oct 2021 01:36:13 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:ad48:4534:27c0:db4b])
-        by xavier.telenet-ops.be with bizsmtp
-        id 5kc92600X0SQF6f01kc9nR; Thu, 14 Oct 2021 10:36:10 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mawDh-004lmr-FP; Thu, 14 Oct 2021 10:36:09 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mawDg-003TLs-LI; Thu, 14 Oct 2021 10:36:08 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] arm64: dts: renesas: rcar-gen3e: Add Cortex-A57 2 GHz opps
-Date:   Thu, 14 Oct 2021 10:36:07 +0200
-Message-Id: <08a0f27f50b8ad4a78c05186190bebcfb364fe8f.1634200489.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Thu, 14 Oct 2021 05:12:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id A164E6101D
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Oct 2021 09:10:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634202622;
+        bh=exTiO+8ShJiyO/h1RQQ0E/f/0MwSeVXw5+Hc5s/v4Hw=;
+        h=Subject:From:Date:To:From;
+        b=E6W5h5B1JpgIhNDMvS3i42LGiWj0qRbtGIaW1z7YQvWTbv1i3CjBG0zoHz0IzzG8g
+         y5RxUALPkN7LvFbnJGDQE+QjZ6McgBNi04i7i7MR/8/PfNPmluVUg3RZn9b0Y9bHmR
+         mTG/7DsruqrnjM1ziWT4WQoVjiUf74qRDBlIhYBesAGPkj/3vJlia7oousaErcwJxd
+         boxEVYE/uxeTwMXZnqjBj7Ky3XmWi+rG+KHuKcePSXssOH7ilf/+S2L3J26rEfyGjk
+         iCy1LeKs/OdoVVy5GlmrHmC5uFCYaNUl2fzZUwVy0LBlDg40spN0N24sOducOPbJop
+         anNkVf2ohFAkw==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 92C5D609ED
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Oct 2021 09:10:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <163420262254.31336.9101237899754996650.git-patchwork-summary@kernel.org>
+Date:   Thu, 14 Oct 2021 09:10:22 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add operating points for running the Cortex-A57 CPU cores on R-Car
-H3e-2G, M3e-2G, and M3Ne-2G at 2 GHz.
+Hello:
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Merge 3 patches,
-  - Change 2 GHz opps from 1.02V to 0.96V.
-    According to the R-Car Series, 3rd Generation-e Hardware User's
-    Manual Rev.0.80, the performance mode on R-Car Gen3e-2G SoCs is 2
-    GHz, compared to 1.7 on R-Car H3 and 1.8 GHz on R-Car M3-W+ and
-    M3-N, but the typical core supply voltages are unchanged.
----
-To be queued in renesas-devel for v5.16.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
- arch/arm64/boot/dts/renesas/r8a779m1.dtsi | 9 +++++++++
- arch/arm64/boot/dts/renesas/r8a779m3.dtsi | 9 +++++++++
- arch/arm64/boot/dts/renesas/r8a779m5.dtsi | 9 +++++++++
- 3 files changed, 27 insertions(+)
+Series: [PATCH/LOCAL,1/4] arm64: renesas: defconfig: Disable CONFIG_SPMI
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=562559
+  Lore link: https://lore.kernel.org/r/fa758f27d9153ae3d8d92d7452bce9aa881327c7.1634115568.git.geert+renesas@glider.be
+    Patches: [PATCH/LOCAL,1/4] arm64: renesas: defconfig: Disable CONFIG_SPMI
+             [PATCH/LOCAL,2/4] arm64: renesas: defconfig: Refresh for v5.15-rc5
+             [PATCH/LOCAL,3/4] arm64: renesas: defconfig: Enable CONFIG_PWM_RENESAS_TPU
+             [PATCH/LOCAL,4/4] arm64: renesas: defconfig: Enable more support for RZ/G2L
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m1.dtsi b/arch/arm64/boot/dts/renesas/r8a779m1.dtsi
-index 0e9b04469b83c661..b6e855f52adf99b5 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m1.dtsi
-@@ -10,3 +10,12 @@
- / {
- 	compatible = "renesas,r8a779m1", "renesas,r8a7795";
- };
-+
-+&cluster0_opp {
-+	opp-2000000000 {
-+		opp-hz = /bits/ 64 <2000000000>;
-+		opp-microvolt = <960000>;
-+		clock-latency-ns = <300000>;
-+		turbo-mode;
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m3.dtsi b/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
-index 65bb6188ccf5470a..6cff38a6d20b47ea 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m3.dtsi
-@@ -10,3 +10,12 @@
- / {
- 	compatible = "renesas,r8a779m3", "renesas,r8a77961";
- };
-+
-+&cluster0_opp {
-+	opp-2000000000 {
-+		opp-hz = /bits/ 64 <2000000000>;
-+		opp-microvolt = <960000>;
-+		clock-latency-ns = <300000>;
-+		turbo-mode;
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/renesas/r8a779m5.dtsi b/arch/arm64/boot/dts/renesas/r8a779m5.dtsi
-index f0ef765f6cf87319..8c9c0557fe77ed7d 100644
---- a/arch/arm64/boot/dts/renesas/r8a779m5.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779m5.dtsi
-@@ -10,3 +10,12 @@
- / {
- 	compatible = "renesas,r8a779m5", "renesas,r8a77965";
- };
-+
-+&cluster0_opp {
-+	opp-2000000000 {
-+		opp-hz = /bits/ 64 <2000000000>;
-+		opp-microvolt = <960000>;
-+		clock-latency-ns = <300000>;
-+		turbo-mode;
-+	};
-+};
--- 
-2.25.1
+Series: Add Ethernet support
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=562447
+  Lore link: https://lore.kernel.org/r/20211013075647.32231-1-biju.das.jz@bp.renesas.com
+    Patches: [v2,1/2] arm64: dts: renesas: r9a07g044: Add GbEthernet nodes
+             [v2,2/2] arm64: dts: renesas: rzg2l-smarc-som: Enable Ethernet
+
+Patch: [v3] arm64: dts: renesas: r8a779a0: Add and connect all CSI-2, ISP and VIN nodes
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=561659
+  Lore link: https://lore.kernel.org/r/20211012100038.375289-1-niklas.soderlund+renesas@ragnatech.se
+
+Patch: [v2] arm64: dts: renesas: rcar-gen3e: Add Cortex-A57 2 GHz opps
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=563285
+  Lore link: https://lore.kernel.org/r/08a0f27f50b8ad4a78c05186190bebcfb364fe8f.1634200489.git.geert+renesas@glider.be
+
+
+Total patches: 8
+
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
