@@ -2,108 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF99842DBF9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Oct 2021 16:44:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F096A42E209
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Oct 2021 21:27:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbhJNOqW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Oct 2021 10:46:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43686 "EHLO
+        id S231502AbhJNT3H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Oct 2021 15:29:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230198AbhJNOqW (ORCPT
+        with ESMTP id S232265AbhJNT3G (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Oct 2021 10:46:22 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 375DFC061570
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Oct 2021 07:44:17 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:ad48:4534:27c0:db4b])
-        by xavier.telenet-ops.be with bizsmtp
-        id 5qkE2600L0SQF6f01qkE6A; Thu, 14 Oct 2021 16:44:14 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mb1xu-004qMm-2D; Thu, 14 Oct 2021 16:44:14 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mb1xt-004Abq-Hx; Thu, 14 Oct 2021 16:44:13 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Add missing camera regulators
-Date:   Thu, 14 Oct 2021 16:44:12 +0200
-Message-Id: <300149c730931914b77e17df6bcce89b67c3005f.1634222546.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Thu, 14 Oct 2021 15:29:06 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55ADAC061755
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Oct 2021 12:27:01 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id i24so30431801lfj.13
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Oct 2021 12:27:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=plSxLdohiawK9v5g/YQxS/w9Rn9HzCKJRyvLQE2YWx8=;
+        b=kZOFJUN4j714xJTUzU1dxNFBnaNDBBA58bdY92Z5ZrqC7F2kYWqI/pcg9LdQUsf+o8
+         DXxtT6jINJTJeAXoRtZP/doSelLOXCL1H1fegOIItUQbYk7juW1GazDumsmw3ORSBvTE
+         72oTtcriLDfxUaK+MDHrPesf/JXqtLdgLBaaWN1YSD+rgl2I2leR5Zc5+w8d11DY2jYo
+         J1iiRyLBpmpvoFgz/nJkJ3Ut3EQqEm/VovzJI5pkOTZdmaqneVclQZPUpse0yUqMiti+
+         ZBMe+O3oA7w2+cGmsugwBxW65zEkBRZ5xY8JriFgKVBq29Seo1bYO7pC6MOwNXbsVVar
+         hsLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=plSxLdohiawK9v5g/YQxS/w9Rn9HzCKJRyvLQE2YWx8=;
+        b=x6O/tZGEQzLpKaT9qwFZN37k44M6Fhbs8oCIUVECA/ZCJZ61XwJ0kAO4RgeKLt0+LJ
+         JmimhX395GzMd8PhgGXE1wvSCpt2Y0f74Dyr1GSvfMPFNQZunKTLwg4jMS48/RJLF51s
+         W/vG9lY5mF9N1ODPHfHrt6BCdFuhHLGkIAOYIqBX9jHhs76Mjig5ljYze55wDo+hcpFO
+         tcUO+ro4mzbCxSht6VBuIMy6P5BitJNTaNl5OAQr1sFwcxP7HwUqic8Rpx/isYiGFoG9
+         Ww1sDKTgOy04xXMJxROYZLAfpPNrYLkyydqIbAnsxYhI8X9Okg9cVA/IJm4c5gLsgyIO
+         CIsw==
+X-Gm-Message-State: AOAM532C+E8IZAGlWyL8JAoyhfaC9pt46KOt89N38xg3u/qRPvS4BWby
+        BvreV5liJTP+B7oQhxG4PdFWww==
+X-Google-Smtp-Source: ABdhPJyZZTUDQSFoiBxUa58tb09wa37AJZpduqIQeub/B8AmxTEv6Zh5nbYLQ4ysdr8DeAMY/rKNiw==
+X-Received: by 2002:a2e:9b4e:: with SMTP id o14mr7856596ljj.278.1634239619670;
+        Thu, 14 Oct 2021 12:26:59 -0700 (PDT)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id b25sm297865lfi.151.2021.10.14.12.26.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Oct 2021 12:26:59 -0700 (PDT)
+Subject: Re: [PATCH v2] pinctrl: renesas: r8a779[56]x: add MediaLB pins
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
+        Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
+        LUU HOAI <hoai.luu.ub@renesas.com>
+References: <CAMuHMdUvNM8Tu-+Ed0vjB2-_JUQe7ojUPbzJM=Vy1m_j31sNSg@mail.gmail.com>
+ <20211007200250.20661-1-nikita.yoush@cogentembedded.com>
+ <CAMuHMdU2Nr1V035Ntz-XNrc10t7femUFt_WV+Q3EHiWZD5HmkQ@mail.gmail.com>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Message-ID: <c8234074-a22e-72f9-fbe7-e65d6af74eec@cogentembedded.com>
+Date:   Thu, 14 Oct 2021 22:26:58 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdU2Nr1V035Ntz-XNrc10t7femUFt_WV+Q3EHiWZD5HmkQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-make dtbs_check:
+Hi,
 
-    arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dt.yaml: ov5640@3c: 'AVDD-supply' is a required property
-	    From schema: Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-    arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dt.yaml: ov5640@3c: 'DVDD-supply' is a required property
-	    From schema: Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-    arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dt.yaml: ov5640@3c: 'DOVDD-supply' is a required property
-	    From schema: Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+> 
+> Obviously not only the mlb_3pin groups, but also the functions have to
+> be moved to the automotive[] arrays ;-)
+> 
+> I'll fix these up while applying, so no need to resend.
 
-Fix this by describing the missing regulators.
+Looking at error mail from build robot (cited below).
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-[PATCH v2 27/52] dt-bindings: media: Convert OV5640 binding to a schema
-https://lore.kernel.org/all/20210901091852.479202-28-maxime@cerno.tech/
----
- arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts  | 16 ++++++++++++++++
- .../r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi    |  3 +++
- 2 files changed, 19 insertions(+)
+Looks like also must put definitions of mlb_3pin_groups[] / mlb_3pin_mux[] / mlb_3pin_pins[] under GEN3 
+ifdefs.
 
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-index 7e7b1028108dd133..75258f480a99a57c 100644
---- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-+++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-@@ -44,6 +44,22 @@ mclk_cam4: mclk-cam4 {
- 		#clock-cells = <0>;
- 		clock-frequency = <26000000>;
- 	};
-+
-+	reg_1p8v: 1p8v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "1P8V";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-always-on;
-+	};
-+
-+	reg_2p8v: 2p8v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "2P8V";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		regulator-always-on;
-+	};
- };
- 
- &avb {
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-index 70c72ba4fe724a70..40cef0b1d1e6267f 100644
---- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-+++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-@@ -17,6 +17,9 @@ ov5640@3c {
- 		reg = <0x3c>;
- 		clocks = <&MCLK_CAM>;
- 		clock-names = "xclk";
-+		AVDD-supply = <&reg_2p8v>;
-+		DOVDD-supply = <&reg_2p8v>;
-+		DVDD-supply = <&reg_1p8v>;
- 		status = "okay";
- 
- 		port {
--- 
-2.25.1
+What are the proper steps now - send a v3 of the original patch, or send a fix to what is in linux-next ?
+
+Nikita
+
+
+ > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+ > head:   8006b911c90a4ec09958447d24c8a4c3538f5723
+ > commit: 23f87fe82c0341ff79807fb5f92a05a33ce1b055 [7355/7806] pinctrl: renesas: r8a779[56]x: Add 
+MediaLB pins
+ > config: sh-buildonly-randconfig-r002-20211014 (attached as .config)
+ > compiler: sh4-linux-gcc (GCC) 11.2.0
+ > reproduce (this is a W=1 build):
+ >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O 
+~/bin/make.cross
+ >          chmod +x ~/bin/make.cross
+ >          # 
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=23f87fe82c0341ff79807fb5f92a05a33ce1b055
+ >          git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+ >          git fetch --no-tags linux-next master
+ >          git checkout 23f87fe82c0341ff79807fb5f92a05a33ce1b055
+ >          # save the attached .config to linux build tree
+ >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross ARCH=sh
+ >
+ > If you fix the issue, kindly add following tag as appropriate
+ > Reported-by: kernel test robot <lkp@intel.com>
+ >
+ > All errors (new ones prefixed by >>):
+ >
+ >>> drivers/pinctrl/renesas/pfc-r8a77965.c:5030:27: error: 'mlb_3pin_groups' defined but not used 
+[-Werror=unused-const-variable=]
+ >      5030 | static const char * const mlb_3pin_groups[] = {
+ >           |                           ^~~~~~~~~~~~~~~
+ >>> drivers/pinctrl/renesas/pfc-r8a77965.c:2616:27: error: 'mlb_3pin_mux' defined but not used 
+[-Werror=unused-const-variable=]
+ >      2616 | static const unsigned int mlb_3pin_mux[] = {
+ >           |                           ^~~~~~~~~~~~
+ >>> drivers/pinctrl/renesas/pfc-r8a77965.c:2613:27: error: 'mlb_3pin_pins' defined but not used 
+[-Werror=unused-const-variable=]
+ >      2613 | static const unsigned int mlb_3pin_pins[] = {
+ >           |                           ^~~~~~~~~~~~~
+ >     cc1: all warnings being treated as errors
+ > --
+ >>> drivers/pinctrl/renesas/pfc-r8a77951.c:4807:27: error: 'mlb_3pin_groups' defined but not used 
+[-Werror=unused-const-variable=]
+ >      4807 | static const char * const mlb_3pin_groups[] = {
+ >           |                           ^~~~~~~~~~~~~~~
+ >>> drivers/pinctrl/renesas/pfc-r8a77951.c:2460:27: error: 'mlb_3pin_mux' defined but not used 
+[-Werror=unused-const-variable=]
+ >      2460 | static const unsigned int mlb_3pin_mux[] = {
+ >           |                           ^~~~~~~~~~~~
+ >>> drivers/pinctrl/renesas/pfc-r8a77951.c:2457:27: error: 'mlb_3pin_pins' defined but not used 
+[-Werror=unused-const-variable=]
+ >      2457 | static const unsigned int mlb_3pin_pins[] = {
+ >           |                           ^~~~~~~~~~~~~
+ >     cc1: all warnings being treated as errors
+ >
+ >
+ > vim +/mlb_3pin_groups +5030 drivers/pinctrl/renesas/pfc-r8a77965.c
+ >
+ >    5029	
+ >> 5030	static const char * const mlb_3pin_groups[] = {
+ >    5031		"mlb_3pin",
+ >    5032	};
+ >    5033	
+ >
 
