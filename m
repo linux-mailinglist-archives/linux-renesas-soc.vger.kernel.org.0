@@ -2,249 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 367C142D73C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Oct 2021 12:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8C9C42D770
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Oct 2021 12:48:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbhJNKlE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Oct 2021 06:41:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43336 "EHLO
+        id S230288AbhJNKuG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Oct 2021 06:50:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbhJNKlE (ORCPT
+        with ESMTP id S230272AbhJNKuE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Oct 2021 06:41:04 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50730C061570
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Oct 2021 03:38:59 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id r10so17878384wra.12
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Oct 2021 03:38:59 -0700 (PDT)
+        Thu, 14 Oct 2021 06:50:04 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F150AC06174E
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Oct 2021 03:47:59 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id j21so25373909lfe.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Oct 2021 03:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JNQ7unH4p4GdzAmfmmLNFZaa88jcFz4jGRQ3QMWXmys=;
-        b=X+nzPW2LmuNF1vhvZeCIkvFlygn6hXzs4j5UQPxmy++/MmYN48Y3D245dZlAtKEFmt
-         7+ohu76X0KS62dTIUrbHqon0+r0hc2woDpB8waSGa0iUKQsAJqENa0adicL6cdPNIDdU
-         eXt+aL2Pmb2xLj9yLGl+RHuqfCA/3RyQix83YCoh7K+23mZRb9fBMPXJGBzbKuo3PKS+
-         h/rqWVI7G5S2HPTBFrWGc2TcZtUPtpvpQ7LbA3CnZbOdwIfPSOC6n2kU3S9TjPQorcQk
-         Qqvsz7sXVTBybVWyYMXcH2QWywAruJDLuqUod9hY9biBlG8usoa2014Wx1ckoZT4Z705
-         sXLw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Y5SU88VxmkbI0mbNF2Xaeysw2Rm83gIlpNsXvM/RlQ0=;
+        b=4RgwXXXSWg3C2mppMJSND+KOR94oio05+Xw63mT7iar0p7GhNdHyDkT/Lozhx5izV2
+         UzmxuboW6Rk3kCgQWDR2EGckgx8pVIxL8wBbky1TRC1Cw9CefYgON7p8aX4/SG+wqSWQ
+         RT6D5W8HEJVxoAdgA0/o25eP2+uGpob+EIMlgtQhO+wY3acAnf0wN1K2mA5EO+a6AD/B
+         zHUTZbAnFCnMVov1FsUWbUmBEi98Wij7diWFlsOPMN9sZa/YupuWKzoG2Gi/vSEQYBvN
+         ezTEJvpQvPnQ2geBDtH9OZ0YMqIpClHnHD9YY6ps/Gc1bACqd4k6czH5ongLS8qQz1ke
+         aQ5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JNQ7unH4p4GdzAmfmmLNFZaa88jcFz4jGRQ3QMWXmys=;
-        b=HzcNvnmtGXKica1tlouX/0YNzfbcV6P9rOfAoeeup00LhHZ0f4OSGz/ESaCJbPtNFU
-         nmTg4PzODm3FOyDCQwui7d6PRY9+FG6bhbfMm9BIdqxPZkra99VwzjWKddTV2wCOc5YA
-         40RSngppJCop0/FaL6T/vKVHbkIk2Mr3cOGcJgCQ/yEKQauF/D2vqAL7I4l2XvlsglL9
-         f3AKOBQomqQMLU2szDRDv1EsUyM25lif7YfBmRguSzKcNGzxkXVCfm95F/Lvc+uqJ+Q3
-         r7Xt/hxOCAiHr/XtPP4826aY828Gg8oSErQLf+a5Mjgz5ARzNPe1rvEivfB4/EhMvFm2
-         IGyA==
-X-Gm-Message-State: AOAM533bm9r4zT/bnw7Co31q2ely2hgf/8+JVuJRD0KQANXOgFziq5XZ
-        HYuRgYnosbeU0ZpjZJ/J+c+mVQ==
-X-Google-Smtp-Source: ABdhPJxFMvv4aXFUEoE22MmikRgoJYR38KUuaS7BlIDaD/6ShxRxoSobLRxGHAjKcPaA5o9/j0kfcg==
-X-Received: by 2002:a5d:63ca:: with SMTP id c10mr5578771wrw.407.1634207937942;
-        Thu, 14 Oct 2021 03:38:57 -0700 (PDT)
-Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.googlemail.com with ESMTPSA id f6sm1744976wmj.28.2021.10.14.03.38.57
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Y5SU88VxmkbI0mbNF2Xaeysw2Rm83gIlpNsXvM/RlQ0=;
+        b=3uDG014mbgcXFPGwGQPQZoPp8130sZpM6MVKqqz0HLMLROZep0xx/owcDYb2VcbJvM
+         rSPJxhiKc0RRlAXaIoZQS5Vf2fL83im9AFLuwUQ1BTS62Wen0t65p83X0MEe6r7dygPw
+         NxS4VZfD89CwH0oJ+Fda5FK7ZJU9V7WDt1uVbKCL2tcVSzmfxiziHN8lFwBYI3g1L3cQ
+         GrYnq3zzxBhUuPQLr5fpSSXvZKFG0mYDg5cNap+Kx/PtChLO+cFu9N3IDwgglRzt8bHq
+         J4yHo1MeDKtIk1mr5al6QXk4x9dlvDkVnHeuMGZDTzHu2UBoIwDexBnJrZtpESc6Sh6/
+         KumA==
+X-Gm-Message-State: AOAM5339A8NQoiGqFGVbZflqsaAjXpLOWNvDrxFAdZka65KpLlcwZRTi
+        RK+mTdu/+TQd7jRV9xDYgKYVEg==
+X-Google-Smtp-Source: ABdhPJzcdE5baOuW79vInqMNEd95GdH46CZDxL0qynIX10cSbctJtc/a9FLLrvy1gtxkc5/UmSGp6Q==
+X-Received: by 2002:ac2:5a0c:: with SMTP id q12mr4440494lfn.133.1634208478334;
+        Thu, 14 Oct 2021 03:47:58 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id x1sm195759lfr.83.2021.10.14.03.47.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Oct 2021 03:38:57 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        Thu, 14 Oct 2021 03:47:57 -0700 (PDT)
+Date:   Thu, 14 Oct 2021 12:47:57 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/2] thermal: rcar_gen3_thermal: Read calibration from hardware
-Date:   Thu, 14 Oct 2021 12:38:16 +0200
-Message-Id: <20211014103816.1939782-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211014103816.1939782-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20211014103816.1939782-1-niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] dt-bindings: adv748x: Convert bindings to json-schema
+Message-ID: <YWgK3c+8wHWw8IYM@oden.dyn.berto.se>
+References: <20211012183324.717975-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdX8LzmksfB85iSMX4+RYq=SYTamw5C3GNgbAV+9f1uAyQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdX8LzmksfB85iSMX4+RYq=SYTamw5C3GNgbAV+9f1uAyQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In production hardware the calibration values used to convert register
-values to temperatures can be read from hardware. While pre-production
-hardware still depends on pseudo values hard-coded in the driver.
+Hi Geert,
 
-Add support for reading out calibration values from hardware if it's
-fused. The presence of fused calibration is indicated in the THSCP
-register.
+Thanks for your review.
 
-Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
-Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-* Changes since v1
-- Renamed rcar_gen3_thermal_update_fuses() to
-  rcar_gen3_thermal_read_fuses().
-- Move static thcodes array inside the 'if' block where it's used.
-- Invert dev_info logic to only inform if there are no fused
-  calibration values, instead of logging if they are set as this should
-  be the default case in production systems.
-- Collect tags.
+On 2021-10-13 17:08:44 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> Thanks for your patch!
+> 
+> On Tue, Oct 12, 2021 at 8:48 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > Convert ADV748X analog video decoder documentation to json-schema.
+> 
+> You may want to list what changes you made:
+>   - Add missing ports subnode
+>   - Anything else I didn't notice? ;-)
 
-* Changes since RFT
-- Keep thcodes array static.
----
- drivers/thermal/rcar_gen3_thermal.c | 94 +++++++++++++++++++++++------
- 1 file changed, 74 insertions(+), 20 deletions(-)
+Wops, I intended to mention the addition of ports node. Thanks for 
+noticing, will send a v2.
 
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index 7d7e6ebe837a83af..43eb25b167bc006f 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -34,6 +34,10 @@
- #define REG_GEN3_THCODE1	0x50
- #define REG_GEN3_THCODE2	0x54
- #define REG_GEN3_THCODE3	0x58
-+#define REG_GEN3_PTAT1		0x5c
-+#define REG_GEN3_PTAT2		0x60
-+#define REG_GEN3_PTAT3		0x64
-+#define REG_GEN3_THSCP		0x68
- 
- /* IRQ{STR,MSK,EN} bits */
- #define IRQ_TEMP1		BIT(0)
-@@ -55,6 +59,9 @@
- #define THCTR_PONM	BIT(6)
- #define THCTR_THSST	BIT(0)
- 
-+/* THSCP bits */
-+#define THSCP_COR_PARA_VLD	(BIT(15) | BIT(14))
-+
- #define CTEMP_MASK	0xFFF
- 
- #define MCELSIUS(temp)	((temp) * 1000)
-@@ -245,6 +252,64 @@ static const struct soc_device_attribute r8a7795es1[] = {
- 	{ /* sentinel */ }
- };
- 
-+static bool rcar_gen3_thermal_read_fuses(struct rcar_gen3_thermal_priv *priv)
-+{
-+	unsigned int i;
-+	u32 thscp;
-+
-+	/* If fuses are not set, fallback to pseudo values. */
-+	thscp = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN3_THSCP);
-+	if ((thscp & THSCP_COR_PARA_VLD) != THSCP_COR_PARA_VLD) {
-+		/* Default THCODE values in case FUSEs are not set. */
-+		static const int thcodes[TSC_MAX_NUM][3] = {
-+			{ 3397, 2800, 2221 },
-+			{ 3393, 2795, 2216 },
-+			{ 3389, 2805, 2237 },
-+			{ 3415, 2694, 2195 },
-+			{ 3356, 2724, 2244 },
-+		};
-+
-+		priv->ptat[0] = 2631;
-+		priv->ptat[1] = 1509;
-+		priv->ptat[2] = 435;
-+
-+		for (i = 0; i < priv->num_tscs; i++) {
-+			struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
-+
-+			tsc->thcode[0] = thcodes[i][0];
-+			tsc->thcode[1] = thcodes[i][1];
-+			tsc->thcode[2] = thcodes[i][2];
-+		}
-+
-+		return false;
-+	}
-+
-+	/*
-+	 * Set the pseudo calibration points with fused values.
-+	 * PTAT is shared between all TSCs but only fused for the first
-+	 * TSC while THCODEs are fused for each TSC.
-+	 */
-+	priv->ptat[0] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN3_PTAT1) &
-+		GEN3_FUSE_MASK;
-+	priv->ptat[1] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN3_PTAT2) &
-+		GEN3_FUSE_MASK;
-+	priv->ptat[2] = rcar_gen3_thermal_read(priv->tscs[0], REG_GEN3_PTAT3) &
-+		GEN3_FUSE_MASK;
-+
-+	for (i = 0; i < priv->num_tscs; i++) {
-+		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
-+
-+		tsc->thcode[0] = rcar_gen3_thermal_read(tsc, REG_GEN3_THCODE1) &
-+			GEN3_FUSE_MASK;
-+		tsc->thcode[1] = rcar_gen3_thermal_read(tsc, REG_GEN3_THCODE2) &
-+			GEN3_FUSE_MASK;
-+		tsc->thcode[2] = rcar_gen3_thermal_read(tsc, REG_GEN3_THCODE3) &
-+			GEN3_FUSE_MASK;
-+	}
-+
-+	return true;
-+}
-+
- static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
- {
- 	rcar_gen3_thermal_write(tsc, REG_GEN3_CTSR,  CTSR_THBGR);
-@@ -393,16 +458,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 	unsigned int i;
- 	int ret;
- 
--	/* Default THCODE values in case FUSEs are not set. */
--	/* TODO: Read values from hardware on supported platforms */
--	static const int thcodes[TSC_MAX_NUM][3] = {
--		{ 3397, 2800, 2221 },
--		{ 3393, 2795, 2216 },
--		{ 3389, 2805, 2237 },
--		{ 3415, 2694, 2195 },
--		{ 3356, 2724, 2244 },
--	};
--
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
-@@ -411,10 +466,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 	if (soc_device_match(r8a7795es1))
- 		priv->thermal_init = rcar_gen3_thermal_init_r8a7795es1;
- 
--	priv->ptat[0] = 2631;
--	priv->ptat[1] = 1509;
--	priv->ptat[2] = 435;
--
- 	platform_set_drvdata(pdev, priv);
- 
- 	if (rcar_gen3_thermal_request_irqs(priv, pdev))
-@@ -442,11 +493,16 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 			goto error_unregister;
- 		}
- 
--		tsc->thcode[0] = thcodes[i][0];
--		tsc->thcode[1] = thcodes[i][1];
--		tsc->thcode[2] = thcodes[i][2];
--
- 		priv->tscs[i] = tsc;
-+	}
-+
-+	priv->num_tscs = i;
-+
-+	if (!rcar_gen3_thermal_read_fuses(priv))
-+		dev_info(dev, "No calibration values fused, fallback to driver values\n");
-+
-+	for (i = 0; i < priv->num_tscs; i++) {
-+		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
- 
- 		zone = devm_thermal_zone_of_sensor_register(dev, i, tsc,
- 							    &rcar_gen3_tz_of_ops);
-@@ -476,8 +532,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 		dev_info(dev, "TSC%u: Loaded %d trip points\n", i, ret);
- 	}
- 
--	priv->num_tscs = i;
--
- 	if (!priv->num_tscs) {
- 		ret = -ENODEV;
- 		goto error_unregister;
+> 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+> 
+> > +  reg-names:
+> > +    minItems: 1
+> > +    items:
+> > +      - const: main
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> > +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> 
+> They can really appear in any order?
+
+Yes they are refereed by i2c_new_ancillary_device() so any order is 
+fine. They can only appear once tho, but I'm not sure how to enforce 
+that.
+
+> 
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: adi,adv7481
+> > +    then:
+> > +      properties:
+> > +        interrupts:
+> > +          minItems: 1
+> > +          maxItems: 3
+> > +
+> > +        interrupt-names:
+> > +          minItems: 1
+> > +          items:
+> > +            - enum: [ intrq1, intrq2, intrq3 ]
+> > +            - enum: [ intrq1, intrq2, intrq3 ]
+> > +            - enum: [ intrq1, intrq2, intrq3 ]
+> 
+> They can really appear in any order?
+
+Yes, as not all interrupt lines may be wired up. It would be nice to 
+enforce that intrq2 must come before intrq3 if both are wired but I'm 
+not sure how to express that.
+
+> 
+> > +    else:
+> > +      properties:
+> > +        interrupts:
+> > +          minItems: 1
+> > +          maxItems: 2
+> > +
+> > +        interrupt-names:
+> > +          minItems: 1
+> > +          items:
+> > +            - enum: [ intrq1, intrq2 ]
+> > +            - enum: [ intrq1, intrq2 ]
+> 
+> They can really appear in any order?
+> 
+> If not, you can merge the entries, and just override maxItems.
+> 
+> The rest looks good to me, but I'm no graph expert.
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Thanks!
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
 -- 
-2.33.0
-
+Regards,
+Niklas Söderlund
