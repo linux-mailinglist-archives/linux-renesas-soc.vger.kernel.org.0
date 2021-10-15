@@ -2,152 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A43FF42E216
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Oct 2021 21:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 053CD42E4FC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Oct 2021 02:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233539AbhJNTli (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Oct 2021 15:41:38 -0400
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:38443 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232556AbhJNTli (ORCPT
+        id S234544AbhJOAEO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Oct 2021 20:04:14 -0400
+Received: from mga17.intel.com ([192.55.52.151]:7560 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234549AbhJOAEN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Oct 2021 15:41:38 -0400
-Received: by mail-ua1-f41.google.com with SMTP id h19so13541862uax.5;
-        Thu, 14 Oct 2021 12:39:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mKswVKHsYaVmj+miEFc+WAd+jtG8tqDfzq5v7oYhDog=;
-        b=16PiWEFEbRFaVMrcDdPUz1zP4cjqKbgFLADx9g09QrXstQWEUtXKaHD7cmSAiMXqsr
-         pNrbdytIiZsW8l+UPSIGrk0+dfI3+GOXOIJ0vtWciFuTMy8v5dQ1C3bH9VDFeGlix8SK
-         d0AwiLZMX6+GIud//JZFohyaBUovnAfwzJHeytjT/FmAMevYBO0QXuLqDkYDVfSwWyUv
-         meMrIGeMOwNPXLN3+jN5KKZQKV+rtIWV3RWAa7WFST1lIOVz4dGKunZB7EAKTk3gA3+M
-         WppQ6EIfpNI8h0AsHAuQr+52M1wg1Dkgy9rYkDFFFQVXKT3FX+T6v9+rBI4Y2PS2IN/w
-         dmAg==
-X-Gm-Message-State: AOAM530f+KG+bhi2KElHwcHDZX4Ays2THfny7GzDirzya1ZoYyRxI43S
-        xr/kw0ROdJKeA2oZ1VTM0FhoGFtyMp/NvM5i
-X-Google-Smtp-Source: ABdhPJxLjwf6uJlAsnft6IqvwXKkqPfUiIJP+N7srcfQG3q4NjgeuuEy3jj4Ea7URiBx8sLxElVO1g==
-X-Received: by 2002:ab0:70d6:: with SMTP id r22mr8702107ual.139.1634240372314;
-        Thu, 14 Oct 2021 12:39:32 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id q12sm2465114uae.15.2021.10.14.12.39.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Oct 2021 12:39:31 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id f4so13560326uad.4;
-        Thu, 14 Oct 2021 12:39:31 -0700 (PDT)
-X-Received: by 2002:a05:6102:290c:: with SMTP id cz12mr9646854vsb.35.1634240371444;
- Thu, 14 Oct 2021 12:39:31 -0700 (PDT)
+        Thu, 14 Oct 2021 20:04:13 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="208618713"
+X-IronPort-AV: E=Sophos;i="5.85,374,1624345200"; 
+   d="scan'208";a="208618713"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2021 17:01:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,374,1624345200"; 
+   d="scan'208";a="660182014"
+Received: from lkp-server02.sh.intel.com (HELO 08b2c502c3de) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 14 Oct 2021 17:01:54 -0700
+Received: from kbuild by 08b2c502c3de with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mbAfZ-0006sc-Ot; Fri, 15 Oct 2021 00:01:53 +0000
+Date:   Fri, 15 Oct 2021 08:01:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:topic/renesas-defconfig] BUILD SUCCESS
+ 88861cd98bdd710223cdd9cf5c05ad5d768148d7
+Message-ID: <6168c4d6.OTjkAi4FF1D/3OO/%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <CAMuHMdUvNM8Tu-+Ed0vjB2-_JUQe7ojUPbzJM=Vy1m_j31sNSg@mail.gmail.com>
- <20211007200250.20661-1-nikita.yoush@cogentembedded.com> <CAMuHMdU2Nr1V035Ntz-XNrc10t7femUFt_WV+Q3EHiWZD5HmkQ@mail.gmail.com>
- <c8234074-a22e-72f9-fbe7-e65d6af74eec@cogentembedded.com>
-In-Reply-To: <c8234074-a22e-72f9-fbe7-e65d6af74eec@cogentembedded.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Oct 2021 21:39:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU1OhyqnREnwpEUubUsR1DUF_3a1z2MpWxe5U6rWCLUUA@mail.gmail.com>
-Message-ID: <CAMuHMdU1OhyqnREnwpEUubUsR1DUF_3a1z2MpWxe5U6rWCLUUA@mail.gmail.com>
-Subject: Re: [PATCH v2] pinctrl: renesas: r8a779[56]x: add MediaLB pins
-To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
-        Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
-        LUU HOAI <hoai.luu.ub@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nikita,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git topic/renesas-defconfig
+branch HEAD: 88861cd98bdd710223cdd9cf5c05ad5d768148d7  arm64: renesas: defconfig: Enable more support for RZ/G2L
 
-On Thu, Oct 14, 2021 at 9:27 PM Nikita Yushchenko
-<nikita.yoush@cogentembedded.com> wrote:
-> > Obviously not only the mlb_3pin groups, but also the functions have to
-> > be moved to the automotive[] arrays ;-)
-> >
-> > I'll fix these up while applying, so no need to resend.
->
-> Looking at error mail from build robot (cited below).
->
-> Looks like also must put definitions of mlb_3pin_groups[] / mlb_3pin_mux[] / mlb_3pin_pins[] under GEN3
-> ifdefs.
->
-> What are the proper steps now - send a v3 of the original patch, or send a fix to what is in linux-next ?
+elapsed time: 878m
 
-No worries, I'll fix it up tomorrow myself (unless you beat me to it,
-then I'll fold
-your fix into the original commit ;-)
+configs tested: 103
+configs skipped: 3
 
->  > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->  > head:   8006b911c90a4ec09958447d24c8a4c3538f5723
->  > commit: 23f87fe82c0341ff79807fb5f92a05a33ce1b055 [7355/7806] pinctrl: renesas: r8a779[56]x: Add
-> MediaLB pins
->  > config: sh-buildonly-randconfig-r002-20211014 (attached as .config)
->  > compiler: sh4-linux-gcc (GCC) 11.2.0
->  > reproduce (this is a W=1 build):
->  >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O
-> ~/bin/make.cross
->  >          chmod +x ~/bin/make.cross
->  >          #
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=23f87fe82c0341ff79807fb5f92a05a33ce1b055
->  >          git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->  >          git fetch --no-tags linux-next master
->  >          git checkout 23f87fe82c0341ff79807fb5f92a05a33ce1b055
->  >          # save the attached .config to linux build tree
->  >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross ARCH=sh
->  >
->  > If you fix the issue, kindly add following tag as appropriate
->  > Reported-by: kernel test robot <lkp@intel.com>
->  >
->  > All errors (new ones prefixed by >>):
->  >
->  >>> drivers/pinctrl/renesas/pfc-r8a77965.c:5030:27: error: 'mlb_3pin_groups' defined but not used
-> [-Werror=unused-const-variable=]
->  >      5030 | static const char * const mlb_3pin_groups[] = {
->  >           |                           ^~~~~~~~~~~~~~~
->  >>> drivers/pinctrl/renesas/pfc-r8a77965.c:2616:27: error: 'mlb_3pin_mux' defined but not used
-> [-Werror=unused-const-variable=]
->  >      2616 | static const unsigned int mlb_3pin_mux[] = {
->  >           |                           ^~~~~~~~~~~~
->  >>> drivers/pinctrl/renesas/pfc-r8a77965.c:2613:27: error: 'mlb_3pin_pins' defined but not used
-> [-Werror=unused-const-variable=]
->  >      2613 | static const unsigned int mlb_3pin_pins[] = {
->  >           |                           ^~~~~~~~~~~~~
->  >     cc1: all warnings being treated as errors
->  > --
->  >>> drivers/pinctrl/renesas/pfc-r8a77951.c:4807:27: error: 'mlb_3pin_groups' defined but not used
-> [-Werror=unused-const-variable=]
->  >      4807 | static const char * const mlb_3pin_groups[] = {
->  >           |                           ^~~~~~~~~~~~~~~
->  >>> drivers/pinctrl/renesas/pfc-r8a77951.c:2460:27: error: 'mlb_3pin_mux' defined but not used
-> [-Werror=unused-const-variable=]
->  >      2460 | static const unsigned int mlb_3pin_mux[] = {
->  >           |                           ^~~~~~~~~~~~
->  >>> drivers/pinctrl/renesas/pfc-r8a77951.c:2457:27: error: 'mlb_3pin_pins' defined but not used
-> [-Werror=unused-const-variable=]
->  >      2457 | static const unsigned int mlb_3pin_pins[] = {
->  >           |                           ^~~~~~~~~~~~~
->  >     cc1: all warnings being treated as errors
->  >
->  >
->  > vim +/mlb_3pin_groups +5030 drivers/pinctrl/renesas/pfc-r8a77965.c
->  >
->  >    5029
->  >> 5030        static const char * const mlb_3pin_groups[] = {
->  >    5031              "mlb_3pin",
->  >    5032      };
->  >    5033
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Gr{oetje,eeting}s,
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20211014
+arm                       aspeed_g5_defconfig
+sh                          sdk7786_defconfig
+sparc                            alldefconfig
+ia64                         bigsur_defconfig
+powerpc                 mpc85xx_cds_defconfig
+powerpc                    sam440ep_defconfig
+powerpc                        warp_defconfig
+parisc                           allyesconfig
+mips                           ci20_defconfig
+arm                       omap2plus_defconfig
+arc                        vdk_hs38_defconfig
+powerpc                 mpc8272_ads_defconfig
+arm64                            alldefconfig
+sh                        sh7757lcr_defconfig
+powerpc                         ps3_defconfig
+openrisc                  or1klitex_defconfig
+sh                          rsk7269_defconfig
+mips                          rm200_defconfig
+powerpc                    ge_imp3a_defconfig
+powerpc                   lite5200b_defconfig
+powerpc                     sequoia_defconfig
+arm                  randconfig-c002-20211014
+x86_64               randconfig-c001-20211014
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a006-20211014
+x86_64               randconfig-a004-20211014
+x86_64               randconfig-a001-20211014
+x86_64               randconfig-a005-20211014
+x86_64               randconfig-a002-20211014
+x86_64               randconfig-a003-20211014
+i386                 randconfig-a003-20211014
+i386                 randconfig-a001-20211014
+i386                 randconfig-a005-20211014
+i386                 randconfig-a004-20211014
+i386                 randconfig-a002-20211014
+i386                 randconfig-a006-20211014
+arc                  randconfig-r043-20211014
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-                        Geert
+clang tested configs:
+x86_64               randconfig-a012-20211014
+x86_64               randconfig-a015-20211014
+x86_64               randconfig-a016-20211014
+x86_64               randconfig-a014-20211014
+x86_64               randconfig-a011-20211014
+x86_64               randconfig-a013-20211014
+i386                 randconfig-a016-20211014
+i386                 randconfig-a014-20211014
+i386                 randconfig-a011-20211014
+i386                 randconfig-a015-20211014
+i386                 randconfig-a012-20211014
+i386                 randconfig-a013-20211014
+hexagon              randconfig-r041-20211014
+s390                 randconfig-r044-20211014
+riscv                randconfig-r042-20211014
+hexagon              randconfig-r045-20211014
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
