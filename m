@@ -2,90 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF1E242F01A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Oct 2021 13:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 157FB42F054
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Oct 2021 14:17:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238640AbhJOMBn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Oct 2021 08:01:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48706 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238638AbhJOMBm (ORCPT
+        id S238695AbhJOMTh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Oct 2021 08:19:37 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52806 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235418AbhJOMTg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Oct 2021 08:01:42 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80F4DC061762
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Oct 2021 04:59:36 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:ad48:4534:27c0:db4b])
-        by andre.telenet-ops.be with bizsmtp
-        id 6Bza2600C0SQF6f01BzaSA; Fri, 15 Oct 2021 13:59:35 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mbLs6-0053nA-KV; Fri, 15 Oct 2021 13:59:34 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mbLs6-004hzu-49; Fri, 15 Oct 2021 13:59:34 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: renesas: Updates for v5.16 (take two)
-Date:   Fri, 15 Oct 2021 13:59:32 +0200
-Message-Id: <cover.1634298539.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 15 Oct 2021 08:19:36 -0400
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 743372E3;
+        Fri, 15 Oct 2021 14:17:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1634300249;
+        bh=Y26gykfvoBYAwHOlbJJzohRUdx54o1lNeJXJDFTGgS0=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=lD5ZQF0s3MJoR62zL7U7w+dq1iUX0b5biTuGOr79vLXMKbdzEgOMqJ4c6yo94d5FM
+         b3ESA9BDsvOuI+hxHnYDWoH1wZupKOGbWombVXlZ8H9POoLsAWl9z/bDn+EzKw2OJH
+         0A20gip31lF9vcrWxYk30wFNTo2ZwcLGKyD+jvjs=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <300149c730931914b77e17df6bcce89b67c3005f.1634222546.git.geert+renesas@glider.be>
+References: <300149c730931914b77e17df6bcce89b67c3005f.1634222546.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Add missing camera regulators
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Maxime Ripard <maxime@cerno.tech>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>
+Date:   Fri, 15 Oct 2021 13:17:27 +0100
+Message-ID: <163430024769.4171071.7250599031921542063@Monstersaurus>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
+Quoting Geert Uytterhoeven (2021-10-14 15:44:12)
+> make dtbs_check:
+>=20
+>     arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dt.yaml: ov5640@3c: 'AVDD=
+-supply' is a required property
+>             From schema: Documentation/devicetree/bindings/media/i2c/ovti=
+,ov5640.yaml
+>     arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dt.yaml: ov5640@3c: 'DVDD=
+-supply' is a required property
+>             From schema: Documentation/devicetree/bindings/media/i2c/ovti=
+,ov5640.yaml
+>     arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dt.yaml: ov5640@3c: 'DOVD=
+D-supply' is a required property
+>             From schema: Documentation/devicetree/bindings/media/i2c/ovti=
+,ov5640.yaml
+>=20
+> Fix this by describing the missing regulators.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> [PATCH v2 27/52] dt-bindings: media: Convert OV5640 binding to a schema
+> https://lore.kernel.org/all/20210901091852.479202-28-maxime@cerno.tech/
 
-The following changes since commit fcfb63148c241adad54ed99fc318167176d7254b:
+Given that the OV5640 datasheet explicitly states=20
 
-  pinctrl: renesas: rzg2l: Fix missing port register 21h (2021-09-24 15:14:49 +0200)
+ "
+ If 2.8V is used for I/O power, due to a high voltage drop at the
+ internal DVDD regulator, there is a potential heat issue. Hence, for a
+ 2.8V power system, OmniVision recommends using an external DVDD source.
+ Due to the higher power down current when using an external DVDD
+ source, OmniVision strongly recommends cutting off all powers,
+ including the external DVDD, when the sensor is not in use in the case
+ of 2.8V I/O and external DVDD.
+ "
 
-are available in the Git repository at:
+I was expecting these not to be fixed regulators. But having checked in
+with you, I hear you've followed the schematics so that is what we have
+to live with ;-)
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.16-tag2
 
-for you to fetch changes up to f4e260bffcf367523b77f936fe0dbd278581305e:
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-  pinctrl: renesas: checker: Prefix common checker output (2021-10-15 09:48:00 +0200)
-
-----------------------------------------------------------------
-pinctrl: renesas: Updates for v5.16 (take two)
-
-  - Add MediaLB pins on R-Car H3, M3-W/W+, and M3-N.
-  - Miscellaneous fixes and improvements.
-
-Thanks for pulling!
-----------------------------------------------------------------
-Andrey Gusakov (1):
-      pinctrl: renesas: r8a779[56]x: Add MediaLB pins
-
-Geert Uytterhoeven (5):
-      pinctrl: renesas: Fix save/restore on SoCs with pull-down only pins
-      pinctrl: renesas: checker: Fix off-by-one bug in drive register check
-      pinctrl: renesas: checker: Move overlapping field check
-      pinctrl: renesas: checker: Fix bias checks on SoCs with pull-down only pins
-      pinctrl: renesas: checker: Prefix common checker output
-
- drivers/pinctrl/renesas/core.c         | 73 +++++++++++++++++++++-------------
- drivers/pinctrl/renesas/pfc-r8a77950.c | 14 +++++++
- drivers/pinctrl/renesas/pfc-r8a77951.c | 22 +++++++++-
- drivers/pinctrl/renesas/pfc-r8a7796.c  | 22 +++++++++-
- drivers/pinctrl/renesas/pfc-r8a77965.c | 22 +++++++++-
- 5 files changed, 119 insertions(+), 34 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+> ---
+>  arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts  | 16 ++++++++++++++++
+>  .../r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi    |  3 +++
+>  2 files changed, 19 insertions(+)
+>=20
+> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/b=
+oot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> index 7e7b1028108dd133..75258f480a99a57c 100644
+> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> @@ -44,6 +44,22 @@ mclk_cam4: mclk-cam4 {
+>                 #clock-cells =3D <0>;
+>                 clock-frequency =3D <26000000>;
+>         };
+> +
+> +       reg_1p8v: 1p8v {
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "1P8V";
+> +               regulator-min-microvolt =3D <1800000>;
+> +               regulator-max-microvolt =3D <1800000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       reg_2p8v: 2p8v {
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "2P8V";
+> +               regulator-min-microvolt =3D <2800000>;
+> +               regulator-max-microvolt =3D <2800000>;
+> +               regulator-always-on;
+> +       };
+>  };
+> =20
+>  &avb {
+> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi =
+b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> index 70c72ba4fe724a70..40cef0b1d1e6267f 100644
+> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> @@ -17,6 +17,9 @@ ov5640@3c {
+>                 reg =3D <0x3c>;
+>                 clocks =3D <&MCLK_CAM>;
+>                 clock-names =3D "xclk";
+> +               AVDD-supply =3D <&reg_2p8v>;
+> +               DOVDD-supply =3D <&reg_2p8v>;
+> +               DVDD-supply =3D <&reg_1p8v>;
+>                 status =3D "okay";
+> =20
+>                 port {
+> --=20
+> 2.25.1
+>
