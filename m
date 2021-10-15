@@ -2,108 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CD0D42FA36
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Oct 2021 19:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6985D42FDC4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Oct 2021 00:01:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237789AbhJOR0P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Oct 2021 13:26:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242250AbhJORZq (ORCPT
+        id S243246AbhJOWDx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Oct 2021 18:03:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54328 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243244AbhJOWDw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Oct 2021 13:25:46 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 154F5C0617BA
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Oct 2021 10:22:32 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id w12-20020a056830410c00b0054e7ceecd88so13835967ott.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Oct 2021 10:22:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8GXf6iIkeLSmbnCwp/TnDsH3fwbQUD1XiOH8muSbIdM=;
-        b=AzlT/VF3vNrvaXMA6yupvoTzvJVIPoxbKtPfW8YnVJaJ6TvF75GPEm8I4v8TBAuHwD
-         xXYMe3/F5qzdc2toQmMpBJSi9ufh/kCygFWvbceu3OB5hvfjZenyOaoDv/DaCxg8Pr5b
-         b3A+1O8vmB3bA6FY9c4XPjwoTNYLEvt4DEKLfLyVisJRLl/sj4+qjBYAS4JL+Aje633l
-         UJ6BvkSmhvdUJYWiRgjmsebeqbbwUFMELtCNLmRyjheSv8M6Sq2bsWw1onXUQEIWWN++
-         693DPX65oIdROYAMmDNG8DTq/cOg5xD9+/IHzoeqmtl72bYa+FJHBSrFOwpyxe+bKkmY
-         g5Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8GXf6iIkeLSmbnCwp/TnDsH3fwbQUD1XiOH8muSbIdM=;
-        b=6MHaUA6ITmwqBL0AlwDDvzMPrnN3ZXaTANesFCn+g3t7DVNKDOyt3NkaVHWCVOJ/9Y
-         UDFK3IXBzUzjU1rcjc8QaOpYQdP8IN137nAXKGjEQ+BD4Zsm86xR+PLu8mfVfK6F2GHt
-         ixF3+og1GAZcel0eL4i3I6pZ4F+lZRlSn/FYMeyxHLeIyjfScTxaYPI/mVZVFCIY0XSL
-         VTvw1qtpfcnBbWuOsoCiLvnEyfNYNNUef6r6qLW0ZGLrZfh8U43754f0FEnKSJsMZgi6
-         TLLMQq/CnuLyiKFfWBcoZWtXhGoGnRYaxJPL4QgRVbeRnNCHF1BKEoPon+bTD2wDM/1Q
-         Kikw==
-X-Gm-Message-State: AOAM533op7gDVAgcRFr1bTbCO61FaWUhdWgjx3vY8npX9z0e38KKGxuN
-        gXhF2M8lHX4DQtOPMc3j7rJsXw==
-X-Google-Smtp-Source: ABdhPJw43C2jPHke2r6UygEFoXfBVXJc2rkJUM25RFmbv18wSheOEBVNo3sZzMCBhf8p+nKZSpfNiQ==
-X-Received: by 2002:a05:6830:2805:: with SMTP id w5mr9028837otu.248.1634318549944;
-        Fri, 15 Oct 2021 10:22:29 -0700 (PDT)
-Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
-        by smtp.gmail.com with ESMTPSA id s206sm1289635oia.33.2021.10.15.10.22.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Oct 2021 10:22:29 -0700 (PDT)
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-kernel@vger.kernel.org
-Cc:     dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-gpio@vger.kernel.org, freedreno@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 0/9] treewide: simplify getting .driver_data
-Date:   Fri, 15 Oct 2021 12:22:20 -0500
-Message-Id: <163431847249.251657.9669509178222541492.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
-References: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
-MIME-Version: 1.0
+        Fri, 15 Oct 2021 18:03:52 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B8CD61027;
+        Fri, 15 Oct 2021 22:01:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634335305;
+        bh=u6gBdaPvvrBZfMHz7pA4zkuNG0Wt+WGPJFcDufvT57o=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=UKPw+T1myTIvcSarTfMnNHLMWKSRkZFQhaRcErAHpErRzs4yjB8jd/Oh0M/w9ueyy
+         J8BnyMMo2P/nLtDwp4lYwP2FVF0rX0fDQuglUOUiK/jMBvP8OHYghdvCpiQfXOsT1c
+         uxrqUcXZdugBgjPYvtCHr7ZGqpZbnySC8q+Hi0weUXszdCM5VsXcpTEbJR0w40uJIS
+         ZXv6wCEBfMhWA1Titl6eqo0MP8jk9azaWgNCUI4TxGtA+k3zAou3VcmLRbBbnZ1aoC
+         XjF6OrHaD5gIOomp5qiWk2xtRImiXRRyAdvePKI2MmZ4WDoTzE7OB/Z103/tBPrRr9
+         n7G9vIojasPHQ==
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cover.1634298371.git.geert+renesas@glider.be>
+References: <cover.1634298371.git.geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v5.16 (take two)
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>
+Date:   Fri, 15 Oct 2021 15:01:43 -0700
+Message-ID: <163433530395.1688384.483025089157707634@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 20 Sep 2021 11:05:12 +0200, Wolfram Sang wrote:
-> I got tired of fixing this in Renesas drivers manually, so I took the big
-> hammer. Remove this cumbersome code pattern which got copy-pasted too much
-> already:
-> 
-> -	struct platform_device *pdev = to_platform_device(dev);
-> -	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
-> +	struct ep93xx_keypad *keypad = dev_get_drvdata(dev);
-> 
-> [...]
+Quoting Geert Uytterhoeven (2021-10-15 04:47:36)
+>         Hi Mike, Stephen,
+>=20
+> The following changes since commit cc3e8f97bbd370b51b3bb7fec391d65d461d7d=
+02:
+>=20
+>   clk: renesas: r8a779a0: Add Z0 and Z1 clock support (2021-09-28 09:28:5=
+3 +0200)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-clk-for-v5.16-tag2
+>=20
+> for you to fetch changes up to 2bd9feed23166f5ab67dec2ca02bd3f74c77b0ba:
+>=20
+>   clk: renesas: r8a779[56]x: Add MLP clocks (2021-10-15 09:46:14 +0200)
+>=20
+> ----------------------------------------------------------------
 
-Applied, thanks!
-
-[1/9] dmaengine: stm32-dmamux: simplify getting .driver_data
-      (no commit info)
-[2/9] firmware: meson: simplify getting .driver_data
-      (no commit info)
-[3/9] gpio: xilinx: simplify getting .driver_data
-      (no commit info)
-[4/9] drm/msm: simplify getting .driver_data
-      (no commit info)
-[5/9] drm/panfrost: simplify getting .driver_data
-      (no commit info)
-[6/9] iio: common: cros_ec_sensors: simplify getting .driver_data
-      (no commit info)
-[7/9] net: mdio: mdio-bcm-iproc: simplify getting .driver_data
-      (no commit info)
-[8/9] platform: chrome: cros_ec_sensorhub: simplify getting .driver_data
-      (no commit info)
-[9/9] remoteproc: omap_remoteproc: simplify getting .driver_data
-      commit: c34bfafd7c6ce8bdb5205aa990973b6ec7a6557c
-
-Best regards,
--- 
-Bjorn Andersson <bjorn.andersson@linaro.org>
+Thanks. Pulled into clk-next
