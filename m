@@ -2,222 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F226642FE7A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Oct 2021 01:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2541D42FF48
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Oct 2021 01:58:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243443AbhJOXDq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Oct 2021 19:03:46 -0400
-Received: from mga01.intel.com ([192.55.52.88]:24545 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243422AbhJOXDp (ORCPT
+        id S236194AbhJPAAt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Oct 2021 20:00:49 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35300 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235896AbhJPAAs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Oct 2021 19:03:45 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10138"; a="251451371"
-X-IronPort-AV: E=Sophos;i="5.85,376,1624345200"; 
-   d="scan'208";a="251451371"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2021 16:01:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,376,1624345200"; 
-   d="scan'208";a="442680233"
-Received: from lkp-server02.sh.intel.com (HELO 08b2c502c3de) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 15 Oct 2021 16:01:30 -0700
-Received: from kbuild by 08b2c502c3de with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mbWCf-0008Sm-RI; Fri, 15 Oct 2021 23:01:29 +0000
-Date:   Sat, 16 Oct 2021 07:01:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk-for-v5.16] BUILD SUCCESS
- 2bd9feed23166f5ab67dec2ca02bd3f74c77b0ba
-Message-ID: <616a083d.5MERcC6y0L+hY/Fd%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 15 Oct 2021 20:00:48 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1EA3429B;
+        Sat, 16 Oct 2021 01:58:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1634342320;
+        bh=BzLBS8UmTthXP7ryl5Pf+TC1GM1HHtLkkNry3SWtiRc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tx/sg4ojtcVwZsE4E2BGiXdx/R84Cuf67XmYSqpXxutIQRYS3I5/N4baO6PGJ1ySL
+         vbuEFXgiYhPxHk58Urd/v0jxLh1+MeZI+i+3Jw3hK+TbpmUmWsi7oak5cnu/R+iTaK
+         3MS5rfcAy/7Ld0O08Ei+kVBr7R923v1gW3bcfeMs=
+Date:   Sat, 16 Oct 2021 02:58:24 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [RESEND] drm/rcar: stop using 'imply' for dependencies
+Message-ID: <YWoVoPxq5Hd1S0ph@pendragon.ideasonboard.com>
+References: <20210927142629.2016647-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210927142629.2016647-1-arnd@kernel.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.16
-branch HEAD: 2bd9feed23166f5ab67dec2ca02bd3f74c77b0ba  clk: renesas: r8a779[56]x: Add MLP clocks
+Hi Arnd,
 
-elapsed time: 843m
+Thank you for the patch.
 
-configs tested: 161
-configs skipped: 3
+On Mon, Sep 27, 2021 at 04:26:23PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The meaning of the 'imply' keyword has changed recently, and neither the
+> old meaning (select the symbol if its dependencies are met) nor the new
+> meaning (enable it by default, but let the user set any other setting)
+> is what we want here.
+> 
+> Work around this by adding two more Kconfig options that lead to
+> the correct behavior: if DRM_RCAR_USE_CMM and DRM_RCAR_USE_LVDS
+> are enabled, that portion of the driver becomes usable, and no
+> configuration results in a link error.
+> 
+> This avoids a link failure:
+> 
+> arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_begin':
+> rcar_du_crtc.c:(.text+0x1444): undefined reference to `rcar_cmm_setup'
+> arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
+> rcar_du_crtc.c:(.text+0x14d4): undefined reference to `rcar_cmm_enable'
+> arm-linux-gnueabi-ld: rcar_du_crtc.c:(.text+0x1548): undefined reference to `rcar_cmm_setup'
+> arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
+> rcar_du_crtc.c:(.text+0x18b8): undefined reference to `rcar_cmm_disable'
+> arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_kms.o: in function `rcar_du_modeset_init':
+> 
+> Link: https://lore.kernel.org/all/20200417155553.675905-5-arnd@arndb.de/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> This was last posted as part of a longer series to rework the
+> DRM dependencies in a more logical way. The rest of the series
+> is still open, but this one is needed as a bug fix regardless of
+> the rest.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This looks a bit complicated, but at the same time probably as clean as
+it can get with the existing Kconfig grammar. I don't believe the needs
+of the rcar-du driver are really exotic, so better support for this in
+Kconfig would be nice. Until that happens,
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20211015
-i386                             alldefconfig
-ia64                                defconfig
-mips                          malta_defconfig
-sh                     sh7710voipgw_defconfig
-powerpc                        icon_defconfig
-sh                          rsk7269_defconfig
-m68k                        m5307c3_defconfig
-m68k                          amiga_defconfig
-arm                        realview_defconfig
-sh                           se7343_defconfig
-ia64                            zx1_defconfig
-powerpc                          allyesconfig
-powerpc                      obs600_defconfig
-powerpc                        fsp2_defconfig
-powerpc                     sequoia_defconfig
-arm                         orion5x_defconfig
-arm                            zeus_defconfig
-alpha                            alldefconfig
-sh                   secureedge5410_defconfig
-m68k                          sun3x_defconfig
-arc                           tb10x_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-arm                    vt8500_v6_v7_defconfig
-mips                        workpad_defconfig
-powerpc                    ge_imp3a_defconfig
-arm                         bcm2835_defconfig
-arc                              alldefconfig
-arm                           sama5_defconfig
-arm                             rpc_defconfig
-powerpc                 mpc834x_mds_defconfig
-mips                   sb1250_swarm_defconfig
-mips                         db1xxx_defconfig
-microblaze                      mmu_defconfig
-mips                        vocore2_defconfig
-powerpc                      tqm8xx_defconfig
-mips                           gcw0_defconfig
-mips                         tb0219_defconfig
-m68k                       m5475evb_defconfig
-m68k                          atari_defconfig
-sh                          rsk7201_defconfig
-mips                           ip27_defconfig
-sh                          r7780mp_defconfig
-sh                ecovec24-romimage_defconfig
-mips                malta_qemu_32r6_defconfig
-arm                        keystone_defconfig
-powerpc                   motionpro_defconfig
-arm64                            alldefconfig
-arm                           omap1_defconfig
-arm                          ixp4xx_defconfig
-mips                            e55_defconfig
-powerpc                      pasemi_defconfig
-powerpc                     taishan_defconfig
-arm                        cerfcube_defconfig
-um                               alldefconfig
-riscv                    nommu_k210_defconfig
-sh                        apsh4ad0a_defconfig
-mips                        nlm_xlr_defconfig
-mips                      maltaaprp_defconfig
-arm                  randconfig-c002-20211015
-x86_64               randconfig-c001-20211015
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-parisc                              defconfig
-s390                             allyesconfig
-i386                             allyesconfig
-sparc                               defconfig
-sparc                            allyesconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a001-20211014
-x86_64               randconfig-a002-20211014
-x86_64               randconfig-a003-20211014
-x86_64               randconfig-a012-20211015
-x86_64               randconfig-a015-20211015
-x86_64               randconfig-a016-20211015
-x86_64               randconfig-a014-20211015
-x86_64               randconfig-a011-20211015
-x86_64               randconfig-a013-20211015
-i386                 randconfig-a016-20211015
-i386                 randconfig-a014-20211015
-i386                 randconfig-a011-20211015
-i386                 randconfig-a015-20211015
-i386                 randconfig-a012-20211015
-i386                 randconfig-a013-20211015
-arc                  randconfig-r043-20211014
-x86_64               randconfig-a006-20211014
-x86_64               randconfig-a004-20211014
-x86_64               randconfig-a005-20211014
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                           allyesconfig
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-clang tested configs:
-mips                 randconfig-c004-20211015
-arm                  randconfig-c002-20211015
-i386                 randconfig-c001-20211015
-s390                 randconfig-c005-20211015
-x86_64               randconfig-c007-20211015
-powerpc              randconfig-c003-20211015
-riscv                randconfig-c006-20211015
-x86_64               randconfig-a006-20211015
-x86_64               randconfig-a004-20211015
-x86_64               randconfig-a001-20211015
-x86_64               randconfig-a005-20211015
-x86_64               randconfig-a002-20211015
-x86_64               randconfig-a003-20211015
-i386                 randconfig-a003-20211015
-i386                 randconfig-a001-20211015
-i386                 randconfig-a005-20211015
-i386                 randconfig-a004-20211015
-i386                 randconfig-a002-20211015
-i386                 randconfig-a006-20211015
-x86_64               randconfig-a014-20211014
-x86_64               randconfig-a013-20211014
-x86_64               randconfig-a012-20211014
-x86_64               randconfig-a015-20211014
-x86_64               randconfig-a016-20211014
-x86_64               randconfig-a011-20211014
-i386                 randconfig-a016-20211014
-i386                 randconfig-a015-20211014
-i386                 randconfig-a014-20211014
-i386                 randconfig-a011-20211014
-s390                 randconfig-r044-20211014
-hexagon              randconfig-r041-20211014
-riscv                randconfig-r042-20211014
-hexagon              randconfig-r045-20211014
-hexagon              randconfig-r041-20211015
-hexagon              randconfig-r045-20211015
+Dave or Daniel, I don't have other pending patches for v5.16, could you
+pick this one up ? It fixes a build failure in -next.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> ---
+>  drivers/gpu/drm/rcar-du/Kconfig | 25 ++++++++++++++++---------
+>  1 file changed, 16 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index b47e74421e34..3e588ddba245 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -4,8 +4,6 @@ config DRM_RCAR_DU
+>  	depends on DRM && OF
+>  	depends on ARM || ARM64
+>  	depends on ARCH_RENESAS || COMPILE_TEST
+> -	imply DRM_RCAR_CMM
+> -	imply DRM_RCAR_LVDS
+>  	select DRM_KMS_HELPER
+>  	select DRM_KMS_CMA_HELPER
+>  	select DRM_GEM_CMA_HELPER
+> @@ -14,13 +12,17 @@ config DRM_RCAR_DU
+>  	  Choose this option if you have an R-Car chipset.
+>  	  If M is selected the module will be called rcar-du-drm.
+>  
+> -config DRM_RCAR_CMM
+> -	tristate "R-Car DU Color Management Module (CMM) Support"
+> -	depends on DRM && OF
+> +config DRM_RCAR_USE_CMM
+> +	bool "R-Car DU Color Management Module (CMM) Support"
+>  	depends on DRM_RCAR_DU
+> +	default DRM_RCAR_DU
+>  	help
+>  	  Enable support for R-Car Color Management Module (CMM).
+>  
+> +config DRM_RCAR_CMM
+> +	def_tristate DRM_RCAR_DU
+> +	depends on DRM_RCAR_USE_CMM
+> +
+>  config DRM_RCAR_DW_HDMI
+>  	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
+>  	depends on DRM && OF
+> @@ -28,15 +30,20 @@ config DRM_RCAR_DW_HDMI
+>  	help
+>  	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
+>  
+> +config DRM_RCAR_USE_LVDS
+> +	bool "R-Car DU LVDS Encoder Support"
+> +	depends on DRM_BRIDGE && OF
+> +	default DRM_RCAR_DU
+> +	help
+> +	  Enable support for the R-Car Display Unit embedded LVDS encoders.
+> +
+>  config DRM_RCAR_LVDS
+> -	tristate "R-Car DU LVDS Encoder Support"
+> -	depends on DRM && DRM_BRIDGE && OF
+> +	def_tristate DRM_RCAR_DU
+> +	depends on DRM_RCAR_USE_LVDS
+>  	select DRM_KMS_HELPER
+>  	select DRM_PANEL
+>  	select OF_FLATTREE
+>  	select OF_OVERLAY
+> -	help
+> -	  Enable support for the R-Car Display Unit embedded LVDS encoders.
+>  
+>  config DRM_RCAR_VSP
+>  	bool "R-Car DU VSP Compositor Support" if ARM
+
+-- 
+Regards,
+
+Laurent Pinchart
