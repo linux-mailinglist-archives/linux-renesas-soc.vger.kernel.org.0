@@ -2,85 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4874F430251
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Oct 2021 13:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A380430529
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Oct 2021 00:07:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244282AbhJPLLU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Oct 2021 07:11:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49476 "EHLO
+        id S244628AbhJPWJz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 16 Oct 2021 18:09:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244264AbhJPLLT (ORCPT
+        with ESMTP id S241000AbhJPWJz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Oct 2021 07:11:19 -0400
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7933C061764
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Oct 2021 04:09:11 -0700 (PDT)
-Received: by mail-il1-x136.google.com with SMTP id w11so9828059ilv.6
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Oct 2021 04:09:11 -0700 (PDT)
+        Sat, 16 Oct 2021 18:09:55 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3512C061766
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Oct 2021 15:07:46 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id n8so57301496lfk.6
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Oct 2021 15:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=1EzzsA3gLBYCuarIvmQ5m2wJZBnmUOheVE2nUrjxfgc=;
-        b=ZLabdB5yBGsZXbDpLQWTrGDt72NyW+3fvSxc8fPKqelmR3J7bAmtbuiK1DHFQ+xIDz
-         d72+U28WfrtHIt+Ig7FOaIFSZ0W+ASrWY2LXO4jvidVjYuN9ZY5MCivsqjkDtUywTpH+
-         NY5H03hjixhNTKOGyZniuKH8kvBqQHsiS9l/Zb8ws4zE/AsCWbuTNQ97B8uUd+JpLhGA
-         PaN04u/Dn4x1R+tr10iNWNIkHyN2isX6Kb1qpQxylQVNN4ALyujZnEuSZdqCuLKusesV
-         geGNjeZwLTKBGLSzWq6Qnrvr4wC/Nj7/uBp4mmbiVXxbuak9sqecSbpHtwkEMLx/9kol
-         5Thg==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BtYFng1Uk/yaYSKrJeyCbIBhgNc8Kre6Rcfsm9aoRMg=;
+        b=tabQStQ2kVKuLsKT/AZl8t8RVMmUQNIrKv/f/kUZhRL7AtrKQLms7R8PBBPBotET5v
+         afQtcGOAnD5ORsRf91EaK0s5DWfZAbvRG0B9AINfLpqwrf6I8xzUmskykpPF1V0+vH1P
+         nAqry2oBtTrlC+V58K0Nhii0gzO1RVBQYAfF79dzWw9EvwIRPzVPWiUA0mAmjJI/X72P
+         DqCkL7aabiv0C4fs7k6dX0YmdXTwwMsmIufQEU/TorEnMBSAe8EA4Dy/SPPZOwzBWDUS
+         toxN1jCk4SY+gB4t3yD6kG1rXG0yglZdryF1g5ZPiM0wDCqvDI68s5uIs8+KSOrrJ8eT
+         Cl9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=1EzzsA3gLBYCuarIvmQ5m2wJZBnmUOheVE2nUrjxfgc=;
-        b=3R+15Z49ozkN3zcSDnnzWKUit+3NI1Ls4xBL2egnlkj6zOY4QFGdRSNjzZcHHBPmUB
-         WWkaMWZ9CehwIPQ2tHu2b/nWYBVX+AsMswFDQ8Jl644w81QIa1TS5H09cfEWZVsOOUXR
-         ZQbk2u7uHs7Nc8tTjzHXw9EjREOhhFPDVNw2v4Xo4cLoHECA7UnZ6fqTdwSWOdzBEoZB
-         GBj7kPZPvn09E5DL7j56lmp7gSX57Abft2c4CQs9qrFDng69SqSbdkK6lw3/Vutl6rH6
-         M1C6TGzHTOSTcbir03ixIW6FhuR1Ag40CnDqKse1VU8S5tN7TKo4R8SfylpOnZMy4gRH
-         Uttw==
-X-Gm-Message-State: AOAM530GZTuiqiorjz5gelm0D+xhCCc0W02Y2ps5KGEkHhMDrVyLkO8s
-        HHb5PHz1VzojAPcOhB652L496frFuY2CdUs4ms8=
-X-Google-Smtp-Source: ABdhPJz8AxDLNnsWE0yYIuaQ1rn6Tnugq7u9eMygffS0Ln+iHsOeICMWOWlstjelw3CkkkuplNqV1b5/QprmHtY+iic=
-X-Received: by 2002:a92:1a0c:: with SMTP id a12mr7165958ila.281.1634382551175;
- Sat, 16 Oct 2021 04:09:11 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BtYFng1Uk/yaYSKrJeyCbIBhgNc8Kre6Rcfsm9aoRMg=;
+        b=YLoBuhZ5NjUvQArdYFuaIQ5N5Rsk1GlzdIXjE5mxJLIgA4no7YMmpRdU77lLoQhm+l
+         Od9gfTSdGbd74uxgcVwSMLDYIGhdaMKgH/YErjIsGmmxRarEFnT9HqC3cARMXHYpHsOQ
+         jJ29bD5870TfDIQi9aTA72HcRoqMKOniH9+k4A5UKn1j2R6Bgg2ZVlgGMo/qgexIWaFY
+         oGAGOb40fS0b9jufOj25+I5HMDFx13TN0qfZLuksqrCUpX0mbcsEq3HsKGFzvejFo3Lt
+         lqfIE0F/FnHoYicO1Q2iOwz7sCO/tu8KIHQDiQeqihfj9sMfC/hNgpj43E8dH8zyqaqM
+         s1Vg==
+X-Gm-Message-State: AOAM530eaXlbvNhHUa5Im/q7qdH67QtzCWw8YKuxl98gzJmB6IvQMVQe
+        RRC2ZNN3mnX0PzJUmprWPqvaH8xAhJ9CQHTOHojNdw==
+X-Google-Smtp-Source: ABdhPJxGOJ3aWSfE3IJAFM0owr3C0A9MABkjQOj6Hfdmog8eMHRmK4pJHVtA1PNI/GZMkAbj61EYPm6ua3tqlbk+4PE=
+X-Received: by 2002:ac2:5d4a:: with SMTP id w10mr19814773lfd.584.1634422064982;
+ Sat, 16 Oct 2021 15:07:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6e02:214d:0:0:0:0 with HTTP; Sat, 16 Oct 2021 04:09:10
- -0700 (PDT)
-Reply-To: mrsaishag45@gmail.com
-From:   Mrs Aisha Al-Qaddafi <mrsaishagaddafi488@gmail.com>
-Date:   Sat, 16 Oct 2021 04:09:10 -0700
-Message-ID: <CAOXivUrqJbg97Hb01Fhk3Sevt7hNnUjxVKFZ81s5=oQdaXiSLA@mail.gmail.com>
-Subject: Dear Friend,
-To:     undisclosed-recipients:;
+References: <cover.1634298539.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1634298539.git.geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 17 Oct 2021 00:07:34 +0200
+Message-ID: <CACRpkdbayCGEDVCX25aLvQfB9dF3vRfO87NJTpmuqPjvs1cJMw@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.16 (take two)
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I came across your e-mail contact prior a private search while in need
-of your assistance. My name is Aisha Gaddafi a single
+On Fri, Oct 15, 2021 at 1:59 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Mother and a Widow with three Children. I am the only biological
-Daughter of late Libyan President (Late Colonel Muammar
+> The following changes since commit fcfb63148c241adad54ed99fc318167176d7254b:
+>
+>   pinctrl: renesas: rzg2l: Fix missing port register 21h (2021-09-24 15:14:49 +0200)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.16-tag2
+>
+> for you to fetch changes up to f4e260bffcf367523b77f936fe0dbd278581305e:
+>
+>   pinctrl: renesas: checker: Prefix common checker output (2021-10-15 09:48:00 +0200)
 
-Gaddafi).
+Pulled into my devel branch for v5.16!
 
-I have investment funds worth Twenty Seven Million Five Hundred
-Thousand United State Dollar ($27.500.000.00 ) and i need a
+Thanks Geert!
 
-trusted investment Manager/Partner because of my current refugee
-status, however, I am interested in you for investment
-
-project assistance in your country, may be from there, we can build
-business relationship in the nearest future.
-
-I am willing to negotiate investment/business profit sharing ratio
-with you base on the future investment earning profits.
-If you are willing to handle this project on my behalf kindly reply
-urgent to enable me provide you more information about
-
-the investment funds. Your Urgent Reply Will Be appreciated and all
-email should be at the email below;
-
-Best Regards
-Mrs Aisha Al-Qaddafi
+Yours,
+Linus Walleij
