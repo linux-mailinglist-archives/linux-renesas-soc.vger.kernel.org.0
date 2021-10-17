@@ -2,81 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A380430529
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Oct 2021 00:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07E7A430940
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Oct 2021 15:08:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244628AbhJPWJz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Oct 2021 18:09:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51246 "EHLO
+        id S1343658AbhJQNKd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 17 Oct 2021 09:10:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241000AbhJPWJz (ORCPT
+        with ESMTP id S1343651AbhJQNKb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Oct 2021 18:09:55 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3512C061766
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Oct 2021 15:07:46 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id n8so57301496lfk.6
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Oct 2021 15:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BtYFng1Uk/yaYSKrJeyCbIBhgNc8Kre6Rcfsm9aoRMg=;
-        b=tabQStQ2kVKuLsKT/AZl8t8RVMmUQNIrKv/f/kUZhRL7AtrKQLms7R8PBBPBotET5v
-         afQtcGOAnD5ORsRf91EaK0s5DWfZAbvRG0B9AINfLpqwrf6I8xzUmskykpPF1V0+vH1P
-         nAqry2oBtTrlC+V58K0Nhii0gzO1RVBQYAfF79dzWw9EvwIRPzVPWiUA0mAmjJI/X72P
-         DqCkL7aabiv0C4fs7k6dX0YmdXTwwMsmIufQEU/TorEnMBSAe8EA4Dy/SPPZOwzBWDUS
-         toxN1jCk4SY+gB4t3yD6kG1rXG0yglZdryF1g5ZPiM0wDCqvDI68s5uIs8+KSOrrJ8eT
-         Cl9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BtYFng1Uk/yaYSKrJeyCbIBhgNc8Kre6Rcfsm9aoRMg=;
-        b=YLoBuhZ5NjUvQArdYFuaIQ5N5Rsk1GlzdIXjE5mxJLIgA4no7YMmpRdU77lLoQhm+l
-         Od9gfTSdGbd74uxgcVwSMLDYIGhdaMKgH/YErjIsGmmxRarEFnT9HqC3cARMXHYpHsOQ
-         jJ29bD5870TfDIQi9aTA72HcRoqMKOniH9+k4A5UKn1j2R6Bgg2ZVlgGMo/qgexIWaFY
-         oGAGOb40fS0b9jufOj25+I5HMDFx13TN0qfZLuksqrCUpX0mbcsEq3HsKGFzvejFo3Lt
-         lqfIE0F/FnHoYicO1Q2iOwz7sCO/tu8KIHQDiQeqihfj9sMfC/hNgpj43E8dH8zyqaqM
-         s1Vg==
-X-Gm-Message-State: AOAM530eaXlbvNhHUa5Im/q7qdH67QtzCWw8YKuxl98gzJmB6IvQMVQe
-        RRC2ZNN3mnX0PzJUmprWPqvaH8xAhJ9CQHTOHojNdw==
-X-Google-Smtp-Source: ABdhPJxGOJ3aWSfE3IJAFM0owr3C0A9MABkjQOj6Hfdmog8eMHRmK4pJHVtA1PNI/GZMkAbj61EYPm6ua3tqlbk+4PE=
-X-Received: by 2002:ac2:5d4a:: with SMTP id w10mr19814773lfd.584.1634422064982;
- Sat, 16 Oct 2021 15:07:44 -0700 (PDT)
+        Sun, 17 Oct 2021 09:10:31 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E606DC061765
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 17 Oct 2021 06:08:21 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1mc5tc-0000CJ-Cn; Sun, 17 Oct 2021 15:08:12 +0200
+Received: from pengutronix.de (2a03-f580-87bc-d400-7b24-848c-3829-1203.ip6.dokom21.de [IPv6:2a03:f580:87bc:d400:7b24:848c:3829:1203])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 52FD4695D2C;
+        Sun, 17 Oct 2021 13:08:09 +0000 (UTC)
+Date:   Sun, 17 Oct 2021 15:08:08 +0200
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     wg@grandegger.com, davem@davemloft.net, kuba@kernel.org,
+        linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2] can: rcar_can: Fix suspend/resume
+Message-ID: <20211017130808.fxyzq6yqh44lirlf@pengutronix.de>
+References: <20210924075556.223685-1-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-References: <cover.1634298539.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1634298539.git.geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 17 Oct 2021 00:07:34 +0200
-Message-ID: <CACRpkdbayCGEDVCX25aLvQfB9dF3vRfO87NJTpmuqPjvs1cJMw@mail.gmail.com>
-Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.16 (take two)
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="aq4mbtvzmu7apxyo"
+Content-Disposition: inline
+In-Reply-To: <20210924075556.223685-1-yoshihiro.shimoda.uh@renesas.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 1:59 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
 
-> The following changes since commit fcfb63148c241adad54ed99fc318167176d7254b:
->
->   pinctrl: renesas: rzg2l: Fix missing port register 21h (2021-09-24 15:14:49 +0200)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.16-tag2
->
-> for you to fetch changes up to f4e260bffcf367523b77f936fe0dbd278581305e:
->
->   pinctrl: renesas: checker: Prefix common checker output (2021-10-15 09:48:00 +0200)
+--aq4mbtvzmu7apxyo
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Pulled into my devel branch for v5.16!
+On 24.09.2021 16:55:56, Yoshihiro Shimoda wrote:
+> If the driver was not opened, rcar_can_suspend() should not call
+> clk_disable() because the clock was not enabled.
+>=20
+> Fixes: fd1159318e55 ("can: add Renesas R-Car CAN driver")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Tested-by: Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thanks Geert!
+Applied to linux-can/testing, added stable on Cc.
 
-Yours,
-Linus Walleij
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--aq4mbtvzmu7apxyo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmFsIDUACgkQqclaivrt
+76lbmwf9HpboAd6PqC5qPwslXUSCzVSpHfjs+6wWUmHFFetBdjB2Al3O1va0pADI
+xeCbcQmEkRSW6rXj6KTH2ryzsttm4b/NvCCjVvOB2RbP/uE5mi6L27Jq+U/5Woxk
+2KD5Zd/gqlnXC3Ig4zX0TI5zUD6PkuSm3SfVyIpYBpbG3JmsirEgwLz31amc0Jep
+ejzNnvB+r4UHaP80uIqewXSxOT2kfzy/c8hV3WRAOsRXegj+Xp0hUNDJRfzqjnYI
+dG07U2NwRGpxkdVk0sph63lznasRJBpsnWoBIM0/ODkykEbrhkrQV4ZKEatbinIe
+xJVadI3aoXXxcG08enq6//lSSjOP1g==
+=xTRR
+-----END PGP SIGNATURE-----
+
+--aq4mbtvzmu7apxyo--
