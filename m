@@ -2,96 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07E7A430940
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Oct 2021 15:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90D8B430B67
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Oct 2021 20:24:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343658AbhJQNKd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 17 Oct 2021 09:10:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48924 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343651AbhJQNKb (ORCPT
+        id S1344032AbhJQS0X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 17 Oct 2021 14:26:23 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:54935 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344031AbhJQS0W (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 17 Oct 2021 09:10:31 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E606DC061765
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 17 Oct 2021 06:08:21 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1mc5tc-0000CJ-Cn; Sun, 17 Oct 2021 15:08:12 +0200
-Received: from pengutronix.de (2a03-f580-87bc-d400-7b24-848c-3829-1203.ip6.dokom21.de [IPv6:2a03:f580:87bc:d400:7b24:848c:3829:1203])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 52FD4695D2C;
-        Sun, 17 Oct 2021 13:08:09 +0000 (UTC)
-Date:   Sun, 17 Oct 2021 15:08:08 +0200
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     wg@grandegger.com, davem@davemloft.net, kuba@kernel.org,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2] can: rcar_can: Fix suspend/resume
-Message-ID: <20211017130808.fxyzq6yqh44lirlf@pengutronix.de>
-References: <20210924075556.223685-1-yoshihiro.shimoda.uh@renesas.com>
+        Sun, 17 Oct 2021 14:26:22 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 7FC2C200005;
+        Sun, 17 Oct 2021 18:24:09 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        kieran.bingham@ideasonboard.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 00/13] media: Add multiplexed support to R-Car CSI-2 and GMSL
+Date:   Sun, 17 Oct 2021 20:24:36 +0200
+Message-Id: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="aq4mbtvzmu7apxyo"
-Content-Disposition: inline
-In-Reply-To: <20210924075556.223685-1-yoshihiro.shimoda.uh@renesas.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello,
+  this series is based on v9 of Tomi's
+"v4l: subdev internal routing and streams":
 
---aq4mbtvzmu7apxyo
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+With a few out-of-tree patches for GMSL support on top.
 
-On 24.09.2021 16:55:56, Yoshihiro Shimoda wrote:
-> If the driver was not opened, rcar_can_suspend() should not call
-> clk_disable() because the clock was not enabled.
->=20
-> Fixes: fd1159318e55 ("can: add Renesas R-Car CAN driver")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Tested-by: Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+The series aims to
+1) Plumb into Tomi's v4l2 subdev streams and routing to compare it with the
+   previous implementations of multistream support
+2) Add support for multiplexed streams to R-Car CSI-2 and MAX9286
 
-Applied to linux-can/testing, added stable on Cc.
+For testing, I have re-proposed Niklas' patches on top of v4l2-ctl to control
+routing and ported them to this last version. Support for state-based format
+handling has been added on top. Two simple scripts to be deployed in vin-test
+have been used to set routing and capture frames. Both are available at:
+https://git.sr.ht/~jmondi_/v4l2-utils
+https://git.sr.ht/~jmondi_/vin-test-multi
 
-regards,
-Marc
+v2 contains changes to max9286 and R-Car CSI-2 while changes to support
+routing VIN are still WIP and not included.
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+Tested on Eagle V3M by routing VC0 and VC1 to VIN0 and VIN3 respectively.
 
---aq4mbtvzmu7apxyo
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks
+   j
 
------BEGIN PGP SIGNATURE-----
+v1->v2:
+- Rebase on Tomi's v9
+- Break-out max9286 and CSI-2 mux support
+- Add for_each_active_route() macro
+- Add get_frame_desc to R-Car CSI-2
 
-iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmFsIDUACgkQqclaivrt
-76lbmwf9HpboAd6PqC5qPwslXUSCzVSpHfjs+6wWUmHFFetBdjB2Al3O1va0pADI
-xeCbcQmEkRSW6rXj6KTH2ryzsttm4b/NvCCjVvOB2RbP/uE5mi6L27Jq+U/5Woxk
-2KD5Zd/gqlnXC3Ig4zX0TI5zUD6PkuSm3SfVyIpYBpbG3JmsirEgwLz31amc0Jep
-ejzNnvB+r4UHaP80uIqewXSxOT2kfzy/c8hV3WRAOsRXegj+Xp0hUNDJRfzqjnYI
-dG07U2NwRGpxkdVk0sph63lznasRJBpsnWoBIM0/ODkykEbrhkrQV4ZKEatbinIe
-xJVadI3aoXXxcG08enq6//lSSjOP1g==
-=xTRR
------END PGP SIGNATURE-----
+Jacopo Mondi (13):
+  media: max9286: Add support for v4l2_subdev_state
+  media: max9286: Implement set_routing
+  media: max9286: Use enabled routes to calculate pixelrate
+  media: max9286: Use routes to configure link order
+  media: max9286: Move format to subdev state
+  media: subdev: Add for_each_active_route() macro
+  media: max9286: Implement get_frame_desc()
+  media: rcar-csi2: Add support for v4l2_subdev_state
+  media: rcar-csi2: Implement set_routing
+  media: rcar-csi2: Move format to subdev state
+  media: rcar-csi2: Config by using the remote frame_desc
+  media: rcar-csi2: Implement .get_frame_desc()
+  media: rcar-vin: Support multiplexed CSI-2 receiver
 
---aq4mbtvzmu7apxyo--
+ drivers/media/i2c/ds90ub913.c               |   8 +-
+ drivers/media/i2c/ds90ub953.c               |   7 +-
+ drivers/media/i2c/ds90ub960.c               |   8 +-
+ drivers/media/i2c/max9286.c                 | 448 ++++++++++++++------
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 338 ++++++++++++---
+ drivers/media/platform/rcar-vin/rcar-dma.c  |   3 +-
+ drivers/media/platform/ti-vpe/cal-video.c   |   9 +-
+ drivers/media/v4l2-core/v4l2-subdev.c       |  18 +
+ include/media/v4l2-subdev.h                 |  11 +
+ 9 files changed, 640 insertions(+), 210 deletions(-)
+
+--
+2.33.0
+
