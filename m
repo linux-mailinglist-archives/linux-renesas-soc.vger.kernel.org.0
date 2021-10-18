@@ -2,108 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A004F431764
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Oct 2021 13:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3174431774
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Oct 2021 13:34:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231241AbhJRLe4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Oct 2021 07:34:56 -0400
-Received: from mail-ua1-f45.google.com ([209.85.222.45]:45895 "EHLO
-        mail-ua1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbhJRLez (ORCPT
+        id S231268AbhJRLg6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Oct 2021 07:36:58 -0400
+Received: from mail-ua1-f44.google.com ([209.85.222.44]:41852 "EHLO
+        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231217AbhJRLg6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Oct 2021 07:34:55 -0400
-Received: by mail-ua1-f45.google.com with SMTP id a17so1378710uax.12;
-        Mon, 18 Oct 2021 04:32:44 -0700 (PDT)
+        Mon, 18 Oct 2021 07:36:58 -0400
+Received: by mail-ua1-f44.google.com with SMTP id r17so521964uaf.8;
+        Mon, 18 Oct 2021 04:34:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=C0ObgRrATtrPSK/G4VV3LCyZwiCeoUzdzpzXNcktwlM=;
-        b=OPhI2GQUOUf/z6GJ0EyL7zohIqlYAVyq+fBJduNp9Z6Ksc6QUNEmDcYAG3zg0gQGWc
-         ycTgb2uIoJgOZGB3B+lZ70PuMxpoqbUZZxR56V0QZYYL8dZ1+meUPqDWasbR40xl8BAy
-         xsqGtS6AsWt+0eWLJm3FylMWQPSlVL4YMtYCA8bp/z2BpbUDIIomk4MHMdeCHPc5d9w5
-         O32ThN6h/wJZFJSfZRtLiWdM49LeZ3F7r2OUOtDu8oXwZ2u4n6jxoBSysEINVYmsA2BV
-         WvdMFy5Gbz5oKUWF04HMU/C0Bjk2GnU83qN7MEevFnUZ7NMDLM19HNtQWS2HJDltKCPg
-         JIiQ==
-X-Gm-Message-State: AOAM5329s8tHM17sJrZeR6qmRbhlMQNe9TGvYjkTFHNURM+TvDMGABXR
-        GwtKhcza1XSVwTb8jzV9cHJb591q598lBw==
-X-Google-Smtp-Source: ABdhPJxpuWLTNTjDJUNeXSEF5hgcFu5tSKuC/aiMdGy4Z316nwX2zg697Padya+s82NkljAxaR8QXw==
-X-Received: by 2002:ab0:6546:: with SMTP id x6mr24460407uap.1.1634556764247;
-        Mon, 18 Oct 2021 04:32:44 -0700 (PDT)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id w8sm8845280vkh.36.2021.10.18.04.32.43
+        bh=6IaelJrOWMpa4QAL/Q/iLPggGYl6ZVnf+Z8JHUKXX5M=;
+        b=hvb9Wwq43L8ElKt7vyoA2GstxJULwpV/W1OasgR0dyNLCq03qvMWhlh0fr/kHh8TWb
+         GNwK/BfflyZnA23SNWM4Fr92gTYOlBRdchKtektPA8ZSmREgat/klSrEKL4UjLx9nFSU
+         t5KunvVU6Uwl/PSXtc4IAjux0oMNcA1VAWJOXj/tqH8Tw3HzBXowY6HfJXtbh9ixAVgo
+         v/ZlCdsOwANxOpa4EDrBa2kdlGcUU/p+0oJeWGV/eDqLZJFxH1i19KuDxYNUUiqEwS6O
+         GiYH3f7CLIxI9Y+lf1EUxUTQXW6nDtbvHmSHVegfb2hK1ZaeujljAzdC35Ny2gwrNObq
+         mx3Q==
+X-Gm-Message-State: AOAM532msyroz2av7aliZ9jKDzR3zkYza9mpqstUG77941kN3PXeijts
+        S/xpxE9uzaY9u4ZZgfGy6x6cNY6iHXlPwQ==
+X-Google-Smtp-Source: ABdhPJxJRJAYWTZiZk+IKwDkT7LqcVPgxwi5YBSCprR9WkFVle0VS/VLhtNdct4VRTKWyJHaNI14VA==
+X-Received: by 2002:a67:d111:: with SMTP id u17mr26704847vsi.37.1634556886652;
+        Mon, 18 Oct 2021 04:34:46 -0700 (PDT)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id 39sm9116159vki.56.2021.10.18.04.34.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Oct 2021 04:32:43 -0700 (PDT)
-Received: by mail-ua1-f46.google.com with SMTP id f4so5100184uad.4;
-        Mon, 18 Oct 2021 04:32:43 -0700 (PDT)
-X-Received: by 2002:a67:d583:: with SMTP id m3mr26629786vsj.41.1634556763010;
- Mon, 18 Oct 2021 04:32:43 -0700 (PDT)
+        Mon, 18 Oct 2021 04:34:46 -0700 (PDT)
+Received: by mail-vk1-f170.google.com with SMTP id j12so8384799vka.4;
+        Mon, 18 Oct 2021 04:34:45 -0700 (PDT)
+X-Received: by 2002:a05:6122:a20:: with SMTP id 32mr23628239vkn.15.1634556885722;
+ Mon, 18 Oct 2021 04:34:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1634306198.git.naveennaidu479@gmail.com> <2544a93bf8725eecbea510e7ddbff6b5a5593c84.1634306198.git.naveennaidu479@gmail.com>
-In-Reply-To: <2544a93bf8725eecbea510e7ddbff6b5a5593c84.1634306198.git.naveennaidu479@gmail.com>
+References: <362d9ced19f3524ee8917df5681b3880c13cac85.1630416373.git.geert+renesas@glider.be>
+ <20210831133238.75us5ipf25wzqkuq@pengutronix.de>
+In-Reply-To: <20210831133238.75us5ipf25wzqkuq@pengutronix.de>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 Oct 2021 13:32:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVh79gvAZn+nBeWWtkJqvUb3woi1rRY=BkY+bc4YXFj1Q@mail.gmail.com>
-Message-ID: <CAMuHMdVh79gvAZn+nBeWWtkJqvUb3woi1rRY=BkY+bc4YXFj1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 14/24] PCI: rcar: Remove redundant error fabrication
- when device read fails
-To:     Naveen Naidu <naveennaidu479@gmail.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        "open list:PCI DRIVER FOR RENESAS R-CAR" 
-        <linux-renesas-soc@vger.kernel.org>
+Date:   Mon, 18 Oct 2021 13:34:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX63XMfHS+d9FM0oR_-hnFi4z_GsSwhCmkNKQ01093ttQ@mail.gmail.com>
+Message-ID: <CAMuHMdX63XMfHS+d9FM0oR_-hnFi4z_GsSwhCmkNKQ01093ttQ@mail.gmail.com>
+Subject: Re: [PATCH] can: rcar: Drop unneeded ARM dependency
+To:     Marc Kleine-Budde <mkl@pengutronix.de>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Naveen,
+Hi Marc,
 
-On Sat, Oct 16, 2021 at 5:33 PM Naveen Naidu <naveennaidu479@gmail.com> wrote:
-> An MMIO read from a PCI device that doesn't exist or doesn't respond
-> causes a PCI error. There's no real data to return to satisfy the
-> CPU read, so most hardware fabricates ~0 data.
+On Tue, Aug 31, 2021 at 3:32 PM Marc Kleine-Budde <mkl@pengutronix.de> wrote:
+> On 31.08.2021 15:27:40, Geert Uytterhoeven wrote:
+> > The dependency on ARM predates the dependency on ARCH_RENESAS.
+> > The latter was introduced for Renesas arm64 SoCs first, and later
+> > extended to cover Renesas ARM SoCs, too.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> The host controller drivers sets the error response values (~0) and
-> returns an error when faulty hardware read occurs. But the error
-> response value (~0) is already being set in PCI_OP_READ and
-> PCI_USER_READ_CONFIG whenever a read by host controller driver fails.
->
-> Thus, it's no longer necessary for the host controller drivers to
-> fabricate any error response.
->
-> This helps unify PCI error response checking and make error check
-> consistent and easier to find.
->
-> Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+> Applied to linux-can-next/testing.
 
-Thanks for your patch!
+Thanks!
 
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
-> @@ -161,10 +161,8 @@ static int rcar_pcie_read_conf(struct pci_bus *bus, unsigned int devfn,
->
->         ret = rcar_pcie_config_access(host, RCAR_PCI_ACCESS_READ,
->                                       bus, devfn, where, val);
-> -       if (ret != PCIBIOS_SUCCESSFUL) {
-> -               *val = 0xffffffff;
+https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git/log/?h=testing
+still predates my patch. Am I looking at the wrong tree?
 
-I don't see the behavior you describe in PCI_OP_READ(), so dropping
-this will lead to returning an uninitialized value?
-
-> +       if (ret != PCIBIOS_SUCCESSFUL)
->                 return ret;
-> -       }
->
->         if (size == 1)
->                 *val = (*val >> (BITS_PER_BYTE * (where & 3))) & 0xff;
+Thanks again!
 
 Gr{oetje,eeting}s,
 
