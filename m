@@ -2,152 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8BEC43182A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Oct 2021 13:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 432B243184B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Oct 2021 13:58:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230526AbhJRLyY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Oct 2021 07:54:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbhJRLyX (ORCPT
+        id S230346AbhJRMBA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Oct 2021 08:01:00 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49496 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229781AbhJRMBA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Oct 2021 07:54:23 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AFF8C06161C;
-        Mon, 18 Oct 2021 04:52:12 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id k26so14529856pfi.5;
-        Mon, 18 Oct 2021 04:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=uRAY4X8owdY8nPICo6sM8mmRScQ57odxEdrE5BZO3fg=;
-        b=lLW/sx9seF41ns6WqHqVgRo4ZIDaXamsZ+4e3CxEEI4Zzu6ej9A6NL0VFlxASZR37P
-         pFABjVc76JTsA1lvjm6YgbvdMzD4cP5s5sucJcyqlc3qSS1IM3v20f6DfShDmdaqOcON
-         BdzOgG0nUGA+XmA9qY5xk8mxkybUk8w21dprzQ9acSm72Yq8LeUO2DPhgo0YhkRYRh9t
-         egt8GFz0s0i47ZeUQOpD+aPgn0SL5JIOo6Mi9yMkahq1cFS2gFPt+VF1eOXkJKJcJPfV
-         sSx5WymcT0ty40x83D3Z8T2OwiTzWmuSO6RfUO78MpqoCOKp1YBvzb0v/fMHFu4BHXz+
-         OO/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uRAY4X8owdY8nPICo6sM8mmRScQ57odxEdrE5BZO3fg=;
-        b=AK5cJZ9tAeoG7sXt0xCQyE+e9lnS9tlc6+EbLH1EZFnCfN+xd5fc0i+jl6XYLbetHa
-         dJUszlIid6Gu3kB96pcPK13aWQv7117Zw6suNczj9I+Bm1/jGY/ICoFi5XWqC/5+JYZG
-         bO/2K5qq+DSZZSMJzL6rfGkCJg+zN45hfOdN3rV4Mns2WjfiPV7GDAPYdy7UOrLC1+v0
-         0QMRqGzMudqk036VknCQvI9FRr9Yg++1pBaqsfKOuQk5Ll9JWHUk1L6Hm9N6dkEyl/C8
-         IdeHl8n/h69A1MrerhWTByGwHb/Ko57zFT/q+/FkzPXK+V2EFR57fnajpXZzsuyIaK2T
-         ZJug==
-X-Gm-Message-State: AOAM530tYKdRD5+Y4+YAsP3MkLA0RtE95SQLZlawHPzWgNPUzqH6BW9p
-        iSszPkhA3BYNzgUm+UPdsx0=
-X-Google-Smtp-Source: ABdhPJxtvO8Bq4YHHd6MoeEGykVU5WbXUmVMDCgGnwY4ZJm9lm+MyUAhrP7H1Nm5UUhNPn+8CHQX3Q==
-X-Received: by 2002:a63:ed13:: with SMTP id d19mr23042349pgi.430.1634557932111;
-        Mon, 18 Oct 2021 04:52:12 -0700 (PDT)
-Received: from theprophet ([2406:7400:63:eae8:5466:4cd4:63af:c661])
-        by smtp.gmail.com with ESMTPSA id m22sm13297924pfo.176.2021.10.18.04.52.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 04:52:11 -0700 (PDT)
-Date:   Mon, 18 Oct 2021 17:21:48 +0530
-From:   Naveen Naidu <naveennaidu479@gmail.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        "open list:PCI DRIVER FOR RENESAS R-CAR" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 14/24] PCI: rcar: Remove redundant error fabrication
- when device read fails
-Message-ID: <20211018115148.iwhiknpd6o4okudq@theprophet>
-References: <cover.1634306198.git.naveennaidu479@gmail.com>
- <2544a93bf8725eecbea510e7ddbff6b5a5593c84.1634306198.git.naveennaidu479@gmail.com>
- <CAMuHMdVh79gvAZn+nBeWWtkJqvUb3woi1rRY=BkY+bc4YXFj1Q@mail.gmail.com>
+        Mon, 18 Oct 2021 08:01:00 -0400
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A43AB8C6;
+        Mon, 18 Oct 2021 13:58:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1634558327;
+        bh=VO53NUXpVpxk/i/v3NczIQT48srH7kX+QlKH+aMbtMc=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=pIhfoL6N/JROU8/hNhymJYffG/VFkscXSPUqZftQNempnt5E3uQNxxclIibuD3ipa
+         D4R/utKvNG4xhBVd28Jjk0HJPUDrm1ZyZ6hed7eRFjrQ1Rn5xxsmyu9LYTbocITBpC
+         fQILki3OSL3uVwFoVJ7a/A+OEqh3ik69TkLs+HO0=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVh79gvAZn+nBeWWtkJqvUb3woi1rRY=BkY+bc4YXFj1Q@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210926155356.23861-1-nikita.yoush@cogentembedded.com>
+References: <20210926155356.23861-1-nikita.yoush@cogentembedded.com>
+Subject: Re: [PATCH] media: vsp1: mask interrupts before enabling
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Date:   Mon, 18 Oct 2021 12:58:45 +0100
+Message-ID: <163455832550.1371157.18009256492359430197@Monstersaurus>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 18/10, Geert Uytterhoeven wrote:
-> Hi Naveen,
-> 
-> On Sat, Oct 16, 2021 at 5:33 PM Naveen Naidu <naveennaidu479@gmail.com> wrote:
-> > An MMIO read from a PCI device that doesn't exist or doesn't respond
-> > causes a PCI error. There's no real data to return to satisfy the
-> > CPU read, so most hardware fabricates ~0 data.
-> >
-> > The host controller drivers sets the error response values (~0) and
-> > returns an error when faulty hardware read occurs. But the error
-> > response value (~0) is already being set in PCI_OP_READ and
-> > PCI_USER_READ_CONFIG whenever a read by host controller driver fails.
-> >
-> > Thus, it's no longer necessary for the host controller drivers to
-> > fabricate any error response.
-> >
-> > This helps unify PCI error response checking and make error check
-> > consistent and easier to find.
-> >
-> > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/pci/controller/pcie-rcar-host.c
-> > +++ b/drivers/pci/controller/pcie-rcar-host.c
-> > @@ -161,10 +161,8 @@ static int rcar_pcie_read_conf(struct pci_bus *bus, unsigned int devfn,
-> >
-> >         ret = rcar_pcie_config_access(host, RCAR_PCI_ACCESS_READ,
-> >                                       bus, devfn, where, val);
-> > -       if (ret != PCIBIOS_SUCCESSFUL) {
-> > -               *val = 0xffffffff;
-> 
-> I don't see the behavior you describe in PCI_OP_READ(), so dropping
-> this will lead to returning an uninitialized value?
+Hi Nikita,
+
+Quoting Nikita Yushchenko (2021-09-26 16:53:56)
+> Setting up VSP interrupt handler without masking interrupt before causes
+> interrupt handler to be immediately called (and crash due to null pointer
+> dereference) on r8a77951-ulcb-kf board.
+>=20
+> Fix that by explicitly masking all interrupts before setting the interrupt
+> handler. To do so, have to set the interrupt handler later, after hw
+> revision is already detected and number of interrupts to mask gets
+> known.
+>=20
+> Based on patch by Koji Matsuoka <koji.matsuoka.xm@renesas.com> included
+> in the Renesas BSP kernel. Updated that to use wfp_count as the number of
+
+s/wfp_count/wpf_count/
+
+> WPF interrupts to mask.
+>=20
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+> ---
+>  drivers/media/platform/vsp1/vsp1_drv.c | 23 +++++++++++++++--------
+>  1 file changed, 15 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platf=
+orm/vsp1/vsp1_drv.c
+> index de442d6c9926..0e9a6fad54f8 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+> @@ -811,13 +811,6 @@ static int vsp1_probe(struct platform_device *pdev)
+>                 return -EINVAL;
+>         }
+> =20
+> -       ret =3D devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
+> -                             IRQF_SHARED, dev_name(&pdev->dev), vsp1);
+> -       if (ret < 0) {
+> -               dev_err(&pdev->dev, "failed to request IRQ\n");
+> -               return ret;
+> -       }
+> -
+>         /* FCP (optional). */
+>         fcp_node =3D of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0=
+);
+>         if (fcp_node) {
+> @@ -847,7 +840,6 @@ static int vsp1_probe(struct platform_device *pdev)
+>                 goto done;
+> =20
+>         vsp1->version =3D vsp1_read(vsp1, VI6_IP_VERSION);
+> -       vsp1_device_put(vsp1);
+> =20
+>         for (i =3D 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+>                 if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) =3D=3D
+> @@ -861,11 +853,26 @@ static int vsp1_probe(struct platform_device *pdev)
+>                 dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
+>                         vsp1->version);
+>                 ret =3D -ENXIO;
+> +               vsp1_device_put(vsp1);
+>                 goto done;
+>         }
+> =20
+>         dev_dbg(&pdev->dev, "IP version 0x%08x\n", vsp1->version);
+> =20
+> +       for (i =3D 0; i < vsp1->info->lif_count; ++i)
+> +               vsp1_write(vsp1, VI6_DISP_IRQ_ENB(i), 0);
+> +       for (i =3D 0; i < vsp1->info->wpf_count; ++i)
+> +               vsp1_write(vsp1, VI6_WPF_IRQ_ENB(i), 0);
+
+Should any other state or context on the hardware be manually reset?
+
+The initial value of VI6_WPFn_IRQ_ENB and VI6_DISPn_IRQ_ENB is
+explicitly stated as H'00000000 in the datasheet. So perhaps that
+implies that something else is going on here.
+
+Perhaps the display is already used before the kernel boots to handle a
+bootsplash screen or such ?
+
+Will the 'pending' interrupts have otherwise been cleared by the time we
+get to come to enable them? or will we still have a race...
+
+Otherwise we should be clearing the status bits too. And if we need to
+do a whole software reset, we should use the software reset controls
+instead.
+
+Looking at vsp1_device_init(), which does a vsp1_reset_wpf for any WPF
+running, and is called at vsp1_pm_runtime_resume() means that everything
+should already be getting reset by software at the first call to
+pm_runtime_enable I think...
+
+That said, I can see how there could still be a race so requesting the
+IRQ below /after/ the device is initialised is a good thing. I just
+don't think we need the manual resets that you've added above.
+
+Could you test to see if those lines to explicitly set VI6_DISP_IRQ_ENB
+and VI6_WPF_IRQ_ENB are really needed in your use case please?
+
+--
+Kieran
+
+
+> +
+> +       vsp1_device_put(vsp1);
+> +
+> +       ret =3D devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
+> +                              IRQF_SHARED, dev_name(&pdev->dev), vsp1);
+> +       if (ret < 0) {
+> +               dev_err(&pdev->dev, "failed to request IRQ\n");
+> +               goto done;
+> +       }
+> +
+>         /* Instantiate entities. */
+>         ret =3D vsp1_create_entities(vsp1);
+>         if (ret < 0) {
+> --=20
+> 2.30.2
 >
-
-Hello Geert,
-
-Thank you for looking into the patch.
-
-The described behaviour for PCI_OP_READ is part of the 01/24 [1] patch of
-the series. 
-
-[1]:
-https://lore.kernel.org/linux-pci/b913b4966938b7cad8c049dc34093e6c4b2fae68.1634306198.git.naveennaidu479@gmail.com/T/#u
-
-It looks like, I did not add proper receipients for that patch and hence
-is leading to confusion. I really apologize for that.
-
-I do not know what the right approach here should be, should I resend
-the entire patch series, adding proper receipients OR should I reply to
-each of the patches for the drivers and add the link to the patch. I did
-not want to spam people with a lot of mails so I was confused as to what
-the right option is.
-
-Thanks,
-Naveen
-
-> > +       if (ret != PCIBIOS_SUCCESSFUL)
-> >                 return ret;
-> > -       }
-> >
-> >         if (size == 1)
-> >                 *val = (*val >> (BITS_PER_BYTE * (where & 3))) & 0xff;
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
