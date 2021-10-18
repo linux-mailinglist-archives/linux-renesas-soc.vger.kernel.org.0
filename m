@@ -2,54 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DDD34310A3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Oct 2021 08:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08238431330
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Oct 2021 11:20:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229847AbhJRGjP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Oct 2021 02:39:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42040 "EHLO mail.kernel.org"
+        id S231351AbhJRJWm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Oct 2021 05:22:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45714 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229533AbhJRGjP (ORCPT
+        id S231149AbhJRJWm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Oct 2021 02:39:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED71261250;
-        Mon, 18 Oct 2021 06:37:03 +0000 (UTC)
+        Mon, 18 Oct 2021 05:22:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 1A43B610E7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Oct 2021 09:20:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634539024;
-        bh=PEdlLhjMCVBBmQt9REdXYrhvMVe/FkFIfB6TaXtEL7M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Dt0aTZtb2mC8AmAMMuvs0+MyWvP/WyTeJau8h+fqpu3Uz6fu/YRJzk9JImE3AKuiD
-         Up/tO2pyn3LDTricOh+3fD/PBcwqLNDWCuygsSP4AMPIo2Dus//i20okBeAHptHNwe
-         09D+HDMxAnXbrWQ2IyjbgK41TggDVWD7pXFtBXMstJ3qxdXXQzgEVVh1IfaaEzX3W1
-         6n9o5gRwuDQGre+t4cNOxMMh3L1LYUXyVuZ9sFXECdyTPvFbgivUbNMEEUnCoW+eln
-         ai5X8vjGrZ2yYH0avgsWsEuK4LNMmRNFB5uZEcGWCcpbaOt9X8GN0CwEfdq1kPslFi
-         KXEPr3245lwmA==
-Date:   Mon, 18 Oct 2021 12:06:59 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dmaengine@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] dmaengine: sh: rz-dmac: Add DMA clock handling
-Message-ID: <YW0WCyDAEi87Vsed@matsya>
-References: <20210923102451.11403-1-biju.das.jz@bp.renesas.com>
+        s=k20201202; t=1634548831;
+        bh=PpxlXdrQhSxqUdj1PlZCuxepsiGrTjNueW0xNj5jA0o=;
+        h=Subject:From:Date:To:From;
+        b=RvVwYRncqDR/0lyWpvEK31fpkqAA1FJXlnA3abN+Bi4qOhzM7do2CRCR7MSebCiod
+         FspoOcb1+h7IgQLXfsIHblYxbLOcecLr5Rp/2zGRrQP2KBAVmcNtCNjx+PJdP4/S3L
+         IJmUwCto/NrdGOH+A0vc9kOyYQgdoRKZ4BnOpNC7C5sSOiDXHHS3I2S62FThHmYwsk
+         oFCFYEn/Kr97r6q58VMT/uq5xmhbHDNk0VaqmfUunkbB8PC/iDmb61j5tv2pI6lqO9
+         QtxA/2QlaLFLzf3K2auTYQNxBw7eGVBNXoWGuBstx4kgDlEfJQszfZvda6H6lfer74
+         0hOxBAmH7gY/A==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 0995B60971
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Oct 2021 09:20:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210923102451.11403-1-biju.das.jz@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <163454883098.20070.16267294065319615677.git-patchwork-summary@kernel.org>
+Date:   Mon, 18 Oct 2021 09:20:30 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 23-09-21, 11:24, Biju Das wrote:
-> Currently, DMA clocks are turned on by the bootloader.
-> This patch adds support for DMA clock handling so that
-> the driver manages the DMA clocks.
+Hello:
 
-Applied, thanks
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
--- 
-~Vinod
+Patch: drm: rcar-du: Don't create encoder for unconnected LVDS outputs
+  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  Committer: Dave Airlie <airlied@redhat.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=535345
+  Lore link: https://lore.kernel.org/r/20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com
+
+Patch: [next] iio: adc: Fix -EBUSY timeout error return
+  Submitter: Colin King <colin.king@canonical.com>
+  Committer: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=532869
+  Lore link: https://lore.kernel.org/r/20210817172111.495897-1-colin.king@canonical.com
+
+
+Total patches: 2
+
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
