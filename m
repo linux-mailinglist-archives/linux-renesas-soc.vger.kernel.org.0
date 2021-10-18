@@ -2,112 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 807604317FE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Oct 2021 13:48:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8BEC43182A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Oct 2021 13:52:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230350AbhJRLvC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Oct 2021 07:51:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39226 "EHLO
+        id S230526AbhJRLyY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Oct 2021 07:54:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229699AbhJRLvB (ORCPT
+        with ESMTP id S229569AbhJRLyX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Oct 2021 07:51:01 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A0CC061714
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Oct 2021 04:48:50 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1mcR8G-0003IK-0z; Mon, 18 Oct 2021 13:48:44 +0200
-Received: from pengutronix.de (2a03-f580-87bc-d400-c2ef-28ab-e0cd-e8fd.ip6.dokom21.de [IPv6:2a03:f580:87bc:d400:c2ef:28ab:e0cd:e8fd])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 1680869667F;
-        Mon, 18 Oct 2021 11:48:42 +0000 (UTC)
-Date:   Mon, 18 Oct 2021 13:48:41 +0200
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
+        Mon, 18 Oct 2021 07:54:23 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AFF8C06161C;
+        Mon, 18 Oct 2021 04:52:12 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id k26so14529856pfi.5;
+        Mon, 18 Oct 2021 04:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=uRAY4X8owdY8nPICo6sM8mmRScQ57odxEdrE5BZO3fg=;
+        b=lLW/sx9seF41ns6WqHqVgRo4ZIDaXamsZ+4e3CxEEI4Zzu6ej9A6NL0VFlxASZR37P
+         pFABjVc76JTsA1lvjm6YgbvdMzD4cP5s5sucJcyqlc3qSS1IM3v20f6DfShDmdaqOcON
+         BdzOgG0nUGA+XmA9qY5xk8mxkybUk8w21dprzQ9acSm72Yq8LeUO2DPhgo0YhkRYRh9t
+         egt8GFz0s0i47ZeUQOpD+aPgn0SL5JIOo6Mi9yMkahq1cFS2gFPt+VF1eOXkJKJcJPfV
+         sSx5WymcT0ty40x83D3Z8T2OwiTzWmuSO6RfUO78MpqoCOKp1YBvzb0v/fMHFu4BHXz+
+         OO/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uRAY4X8owdY8nPICo6sM8mmRScQ57odxEdrE5BZO3fg=;
+        b=AK5cJZ9tAeoG7sXt0xCQyE+e9lnS9tlc6+EbLH1EZFnCfN+xd5fc0i+jl6XYLbetHa
+         dJUszlIid6Gu3kB96pcPK13aWQv7117Zw6suNczj9I+Bm1/jGY/ICoFi5XWqC/5+JYZG
+         bO/2K5qq+DSZZSMJzL6rfGkCJg+zN45hfOdN3rV4Mns2WjfiPV7GDAPYdy7UOrLC1+v0
+         0QMRqGzMudqk036VknCQvI9FRr9Yg++1pBaqsfKOuQk5Ll9JWHUk1L6Hm9N6dkEyl/C8
+         IdeHl8n/h69A1MrerhWTByGwHb/Ko57zFT/q+/FkzPXK+V2EFR57fnajpXZzsuyIaK2T
+         ZJug==
+X-Gm-Message-State: AOAM530tYKdRD5+Y4+YAsP3MkLA0RtE95SQLZlawHPzWgNPUzqH6BW9p
+        iSszPkhA3BYNzgUm+UPdsx0=
+X-Google-Smtp-Source: ABdhPJxtvO8Bq4YHHd6MoeEGykVU5WbXUmVMDCgGnwY4ZJm9lm+MyUAhrP7H1Nm5UUhNPn+8CHQX3Q==
+X-Received: by 2002:a63:ed13:: with SMTP id d19mr23042349pgi.430.1634557932111;
+        Mon, 18 Oct 2021 04:52:12 -0700 (PDT)
+Received: from theprophet ([2406:7400:63:eae8:5466:4cd4:63af:c661])
+        by smtp.gmail.com with ESMTPSA id m22sm13297924pfo.176.2021.10.18.04.52.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Oct 2021 04:52:11 -0700 (PDT)
+Date:   Mon, 18 Oct 2021 17:21:48 +0530
+From:   Naveen Naidu <naveennaidu479@gmail.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] can: rcar: Drop unneeded ARM dependency
-Message-ID: <20211018114841.g6lhqmhjj5dkddqm@pengutronix.de>
-References: <362d9ced19f3524ee8917df5681b3880c13cac85.1630416373.git.geert+renesas@glider.be>
- <20210831133238.75us5ipf25wzqkuq@pengutronix.de>
- <CAMuHMdX63XMfHS+d9FM0oR_-hnFi4z_GsSwhCmkNKQ01093ttQ@mail.gmail.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        "open list:PCI DRIVER FOR RENESAS R-CAR" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 14/24] PCI: rcar: Remove redundant error fabrication
+ when device read fails
+Message-ID: <20211018115148.iwhiknpd6o4okudq@theprophet>
+References: <cover.1634306198.git.naveennaidu479@gmail.com>
+ <2544a93bf8725eecbea510e7ddbff6b5a5593c84.1634306198.git.naveennaidu479@gmail.com>
+ <CAMuHMdVh79gvAZn+nBeWWtkJqvUb3woi1rRY=BkY+bc4YXFj1Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dqep4stlafi7ze6u"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdX63XMfHS+d9FM0oR_-hnFi4z_GsSwhCmkNKQ01093ttQ@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+In-Reply-To: <CAMuHMdVh79gvAZn+nBeWWtkJqvUb3woi1rRY=BkY+bc4YXFj1Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---dqep4stlafi7ze6u
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 18.10.2021 13:34:34, Geert Uytterhoeven wrote:
-> Hi Marc,
->=20
-> On Tue, Aug 31, 2021 at 3:32 PM Marc Kleine-Budde <mkl@pengutronix.de> wr=
-ote:
-> > On 31.08.2021 15:27:40, Geert Uytterhoeven wrote:
-> > > The dependency on ARM predates the dependency on ARCH_RENESAS.
-> > > The latter was introduced for Renesas arm64 SoCs first, and later
-> > > extended to cover Renesas ARM SoCs, too.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 18/10, Geert Uytterhoeven wrote:
+> Hi Naveen,
+> 
+> On Sat, Oct 16, 2021 at 5:33 PM Naveen Naidu <naveennaidu479@gmail.com> wrote:
+> > An MMIO read from a PCI device that doesn't exist or doesn't respond
+> > causes a PCI error. There's no real data to return to satisfy the
+> > CPU read, so most hardware fabricates ~0 data.
 > >
-> > Applied to linux-can-next/testing.
->=20
-> Thanks!
->=20
-> https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git/lo=
-g/?h=3Dtesting
-> still predates my patch. Am I looking at the wrong tree?
+> > The host controller drivers sets the error response values (~0) and
+> > returns an error when faulty hardware read occurs. But the error
+> > response value (~0) is already being set in PCI_OP_READ and
+> > PCI_USER_READ_CONFIG whenever a read by host controller driver fails.
+> >
+> > Thus, it's no longer necessary for the host controller drivers to
+> > fabricate any error response.
+> >
+> > This helps unify PCI error response checking and make error check
+> > consistent and easier to find.
+> >
+> > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+> 
+> Thanks for your patch!
+> 
+> > --- a/drivers/pci/controller/pcie-rcar-host.c
+> > +++ b/drivers/pci/controller/pcie-rcar-host.c
+> > @@ -161,10 +161,8 @@ static int rcar_pcie_read_conf(struct pci_bus *bus, unsigned int devfn,
+> >
+> >         ret = rcar_pcie_config_access(host, RCAR_PCI_ACCESS_READ,
+> >                                       bus, devfn, where, val);
+> > -       if (ret != PCIBIOS_SUCCESSFUL) {
+> > -               *val = 0xffffffff;
+> 
+> I don't see the behavior you describe in PCI_OP_READ(), so dropping
+> this will lead to returning an uninitialized value?
+>
 
-I've just updated the branch.
+Hello Geert,
 
-I'm working on can-next patches while waiting on other things, and I'm
-not finished yet, so I haven't pushed it until now. More updates and
-probably rebases will be done to the testing branch.
+Thank you for looking into the patch.
 
-Regards,
-Marc
+The described behaviour for PCI_OP_READ is part of the 01/24 [1] patch of
+the series. 
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+[1]:
+https://lore.kernel.org/linux-pci/b913b4966938b7cad8c049dc34093e6c4b2fae68.1634306198.git.naveennaidu479@gmail.com/T/#u
 
---dqep4stlafi7ze6u
-Content-Type: application/pgp-signature; name="signature.asc"
+It looks like, I did not add proper receipients for that patch and hence
+is leading to confusion. I really apologize for that.
 
------BEGIN PGP SIGNATURE-----
+I do not know what the right approach here should be, should I resend
+the entire patch series, adding proper receipients OR should I reply to
+each of the patches for the drivers and add the link to the patch. I did
+not want to spam people with a lot of mails so I was confused as to what
+the right option is.
 
-iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmFtXxYACgkQqclaivrt
-76nUVAgAkjgphtYG7xiudeAsbUG4bevPIfZ79yVFUcNAYapMtEItW9OvYzI8wbcj
-/epJrqVWsI5M+Q+Lxnn4wOtaPqCO8/nvGhQqBo3T5Ve0Wo1/t75dOehBWJxvp8zX
-u+C+ogzLpOYp3zpTKvw9wgGNf6fI7AhvKghx6TCVuv6NEgN++5JqKf9ns6thoRWK
-HSUZYQ1ZSWyaNlpB/Nb9C+MNx0M/GdInV+5waxaBClY06974DzXSNqDNgJqGMxxa
-659otjJjXns+rZDi0Y96GHYi4frYaymc3N+yXF4eB8RyynKY4MGXkHRq2wDgU6vM
-XmqudxWvR36+pNvxyttjd8o8WgGgvA==
-=VeZK
------END PGP SIGNATURE-----
+Thanks,
+Naveen
 
---dqep4stlafi7ze6u--
+> > +       if (ret != PCIBIOS_SUCCESSFUL)
+> >                 return ret;
+> > -       }
+> >
+> >         if (size == 1)
+> >                 *val = (*val >> (BITS_PER_BYTE * (where & 3))) & 0xff;
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
