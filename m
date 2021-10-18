@@ -2,139 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 032CC431A0C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Oct 2021 14:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB6EA431F45
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Oct 2021 16:16:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231700AbhJRMxD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Oct 2021 08:53:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54152 "EHLO
+        id S232127AbhJROSf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Oct 2021 10:18:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbhJRMxB (ORCPT
+        with ESMTP id S232201AbhJROSb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Oct 2021 08:53:01 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6BBC06161C
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Oct 2021 05:50:50 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1mcS6B-0003Xo-IR; Mon, 18 Oct 2021 14:50:39 +0200
-Received: from pengutronix.de (2a03-f580-87bc-d400-c2ef-28ab-e0cd-e8fd.ip6.dokom21.de [IPv6:2a03:f580:87bc:d400:c2ef:28ab:e0cd:e8fd])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 5DC0C696774;
-        Mon, 18 Oct 2021 12:50:36 +0000 (UTC)
-Date:   Mon, 18 Oct 2021 14:50:35 +0200
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>, linux-can@vger.kernel.org,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Jakub Kicinski <kuba@kernel.org>, mailhol.vincent@wanadoo.fr,
-        socketcan@hartkopp.net
-Subject: Re: [PATCH 1/3] can: rcar_canfd: Add support for r8a779a0 SoC
-Message-ID: <20211018125035.mquerdthczmnazmg@pengutronix.de>
-References: <20210924153113.10046-1-uli+renesas@fpond.eu>
- <20210924153113.10046-2-uli+renesas@fpond.eu>
- <CAMuHMdXk2mZntTBe3skSVkcNVjC-PzMwEv_MbH85Mvn1ZkFpHw@mail.gmail.com>
+        Mon, 18 Oct 2021 10:18:31 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A76C061786
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Oct 2021 07:01:14 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:e87a:7c37:aec5:5884])
+        by andre.telenet-ops.be with bizsmtp
+        id 7S1D2600322VXnz01S1DK3; Mon, 18 Oct 2021 16:01:13 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mcTCS-005v0i-Pv; Mon, 18 Oct 2021 16:01:12 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mcTCS-00Ddmw-6W; Mon, 18 Oct 2021 16:01:12 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Adam Ford <aford173@gmail.com>, patches@opensource.cirrus.com
+Cc:     alsa-devel@alsa-project.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ASoC: wm8962: Convert to devm_clk_get_optional()
+Date:   Mon, 18 Oct 2021 16:01:11 +0200
+Message-Id: <c2a8a1a628804a4439732d02847e25c227083690.1634565564.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4ymvzzrx4bpdikfp"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXk2mZntTBe3skSVkcNVjC-PzMwEv_MbH85Mvn1ZkFpHw@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Use the existing devm_clk_get_optional() helper instead of building a
+similar construct on top of devm_clk_get() that fails to handle all
+errors but -EPROBE_DEFER.
 
---4ymvzzrx4bpdikfp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Compile-tested only.
+---
+ sound/soc/codecs/wm8962.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
-On 05.10.2021 15:06:22, Geert Uytterhoeven wrote:
-> Hi Uli,
->=20
-> On Fri, Sep 24, 2021 at 5:38 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> > Adds support for the CANFD IP variant in the V3U SoC.
-> >
-> > Differences to controllers in other SoCs are limited to an increase in
-> > the number of channels from two to eight, an absence of dedicated
-> > registers for "classic" CAN mode, and a number of differences in magic
-> > numbers (register offsets and layouts).
-> >
-> > Inspired by BSP patch by Kazuya Mizuguchi.
-> >
-> > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
->=20
-> Thanks for your patch!
->=20
-> > --- a/drivers/net/can/rcar/rcar_canfd.c
-> > +++ b/drivers/net/can/rcar/rcar_canfd.c
-[...]
-> >  /* RSCFDnCFDGERFL / RSCFDnGERFL */
-> > +#define RCANFD_GERFL_EEF0_7            GENMASK(23, 16)
-> >  #define RCANFD_GERFL_EEF1              BIT(17)
-> >  #define RCANFD_GERFL_EEF0              BIT(16)
-> >  #define RCANFD_GERFL_CMPOF             BIT(3)  /* CAN FD only */
-> > @@ -86,20 +90,24 @@ enum rcanfd_chip_id {
-> >  #define RCANFD_GERFL_MES               BIT(1)
-> >  #define RCANFD_GERFL_DEF               BIT(0)
-> >
-> > -#define RCANFD_GERFL_ERR(gpriv, x)     ((x) & (RCANFD_GERFL_EEF1 |\
-> > -                                       RCANFD_GERFL_EEF0 | RCANFD_GERF=
-L_MES |\
-> > -                                       (gpriv->fdmode ?\
-> > -                                        RCANFD_GERFL_CMPOF : 0)))
-> > +#define RCANFD_GERFL_ERR(gpriv, x)     ((x) & ((IS_V3U ? RCANFD_GERFL_=
-EEF0_7 : \
-> > +                                       (RCANFD_GERFL_EEF0 | RCANFD_GER=
-FL_EEF1)) | \
-> > +                                       RCANFD_GERFL_MES | ((gpriv)->fd=
-mode ? \
-> > +                                       RCANFD_GERFL_CMPOF : 0)))
->=20
-> I'm wondering if some of these IS_V3U checks can be avoided, improving
-> legibility, by storing a feature struct instead of a chip_id in
-> rcar_canfd_of_table[].data?
+diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
+index ba16bdf9e478ca5f..a5584ba962dcf005 100644
+--- a/sound/soc/codecs/wm8962.c
++++ b/sound/soc/codecs/wm8962.c
+@@ -3538,9 +3538,8 @@ static int wm8962_set_pdata_from_of(struct i2c_client *i2c,
+ 				pdata->gpio_init[i] = 0x0;
+ 		}
+ 
+-	pdata->mclk = devm_clk_get(&i2c->dev, NULL);
+-
+-	return 0;
++	pdata->mclk = devm_clk_get_optional(&i2c->dev, NULL);
++	return PTR_ERR_OR_ZERO(pdata->mclk);
+ }
+ 
+ static int wm8962_i2c_probe(struct i2c_client *i2c,
+@@ -3572,14 +3571,6 @@ static int wm8962_i2c_probe(struct i2c_client *i2c,
+ 			return ret;
+ 	}
+ 
+-	/* Mark the mclk pointer to NULL if no mclk assigned */
+-	if (IS_ERR(wm8962->pdata.mclk)) {
+-		/* But do not ignore the request for probe defer */
+-		if (PTR_ERR(wm8962->pdata.mclk) == -EPROBE_DEFER)
+-			return -EPROBE_DEFER;
+-		wm8962->pdata.mclk = NULL;
+-	}
+-
+ 	for (i = 0; i < ARRAY_SIZE(wm8962->supplies); i++)
+ 		wm8962->supplies[i].supply = wm8962_supply_names[i];
+ 
+-- 
+2.25.1
 
-+1
-
-regards,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---4ymvzzrx4bpdikfp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmFtbZkACgkQqclaivrt
-76kNXgf9FSEXYx2nx0/xzXkBNlXSLOsBX+9UdzELtvnrHOp0kp/Px5s/xhOCxMeD
-Nehm60XiZSQOlLkJcsM+HSxOjIHTruAwYjBwQtSFEtGj0exwkI91pfzHryqrUpNk
-+udG6cOClZbJ57AGO7YI2AZeEzmmmFY6MyJ3xw4TOiCJd+7UcrzHpOLcLZsqqHDw
-HwR5Xjt1x331LLNp+pZYLlZ1dKpCa/Lq0qk3Y1zQeT3g3N7xqci7viTC4gJmzuxx
-KwQfGxsGFbE/sO3kl6R0SMw47ULc6LvgOeXVt0O4A3hKPqqAKNua/6t8KF4SkpTw
-zHRvey2I/hz/yKPWVtsOazJ+siPNOg==
-=W1uJ
------END PGP SIGNATURE-----
-
---4ymvzzrx4bpdikfp--
