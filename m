@@ -2,90 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF928433615
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 14:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B258433631
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 14:43:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235684AbhJSMiY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Oct 2021 08:38:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34110 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235726AbhJSMiX (ORCPT
+        id S235699AbhJSMpf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Oct 2021 08:45:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230338AbhJSMpf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Oct 2021 08:38:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9CEA361260;
-        Tue, 19 Oct 2021 12:36:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634646971;
-        bh=u73RnjWbRxhH6CwTauke6NzU7tR5DI62J9FiY8yQVbs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TqrwQPwytMD1dfbq9Mtnro8tcleYatLeGtxlHL9aRTHzVTrMrqRCc5Q5qIXLoP1VL
-         y1gAC3s3q5RxgnG+mt1Mnd+MMkk20x3T442HHl9B7+jEiXygfHKeSDW1H5g96t6gMy
-         t5gEMN/JxlbDOfqjNgSWkdM9CSjmzW997iSiZs+h0wwKEN+QnwKo+/OKMaKZDgf24S
-         1GYnil1dhH0AcMlNL+G0oY5XDpSyLi83jl0XDBbmXuY2wvtFvZcg9nrO5Cj7etEUdw
-         TWFZEm6guT3uA6Y236lN1khW177KNWlDxeKN2w9Zx6wKZOGJenIpOvFpLZRoVUYwfo
-         KpON6gydXzB5w==
-Date:   Tue, 19 Oct 2021 13:36:06 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Meng Li <Meng.Li@windriver.com>
-Cc:     geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org,
-        marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
-        lorenzo.pieralisi@arm.com, kw@linux.com, bhelgaas@google.com,
-        lgirdwood@gmail.com, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: Re: [PATCH] pci: pcie-rcar: add regulators support
-Message-ID: <YW67tsigF89EkDWS@sirena.org.uk>
-References: <20211019095858.21316-1-Meng.Li@windriver.com>
+        Tue, 19 Oct 2021 08:45:35 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 613D4C061745
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Oct 2021 05:43:22 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:b4c3:ba80:54db:46f])
+        by michel.telenet-ops.be with bizsmtp
+        id 7ojF2600T12AN0U06ojFz9; Tue, 19 Oct 2021 14:43:20 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mcoSZ-0069O3-4O; Tue, 19 Oct 2021 14:43:15 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mcoSY-00EESZ-FR; Tue, 19 Oct 2021 14:43:14 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Rob Herring <robh+dt@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        David Lechner <david@lechnology.com>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/3] dt-bindings: net: TI wlcore json schema conversion and fix
+Date:   Tue, 19 Oct 2021 14:43:10 +0200
+Message-Id: <cover.1634646975.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZkQuIMugRNgJ9HKi"
-Content-Disposition: inline
-In-Reply-To: <20211019095858.21316-1-Meng.Li@windriver.com>
-X-Cookie: I program, therefore I am.
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+	Hi all,
 
---ZkQuIMugRNgJ9HKi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch series converts the Device Tree bindings for the Texas
+Instruments Wilink Wireless LAN and Bluetooth Controllers to
+json-schema, after fixing an issue in a Device Tree source file.
 
-On Tue, Oct 19, 2021 at 05:58:58PM +0800, Meng Li wrote:
+Thanks for your comments!
 
-> From: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
->=20
-> Add PCIe regulators for KingFisher board.
->=20
-> Signed-off-by: Meng Li <Meng.Li@windriver.com>
-> ---
+Geert Uytterhoeven (3):
+  ARM: dts: motorola-mapphone: Drop second ti,wlcore compatible value
+  dt-bindings: net: wireless: ti,wlcore: Convert to json-schema
+  dt-bindings: net: ti,bluetooth: Convert to json-schema
 
-You've not provided a Signed-off-by for Andrey, please see
-Documentation/process/submitting-patches.rst for details on what this is
-and why it's important.
+ .../devicetree/bindings/net/ti,bluetooth.yaml |  91 ++++++++++++
+ .../devicetree/bindings/net/ti-bluetooth.txt  |  60 --------
+ .../bindings/net/wireless/ti,wlcore,spi.txt   |  57 --------
+ .../bindings/net/wireless/ti,wlcore.txt       |  45 ------
+ .../bindings/net/wireless/ti,wlcore.yaml      | 134 ++++++++++++++++++
+ .../boot/dts/motorola-mapphone-common.dtsi    |   2 +-
+ arch/arm/boot/dts/omap3-gta04a5.dts           |   2 +-
+ 7 files changed, 227 insertions(+), 164 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/ti,bluetooth.yaml
+ delete mode 100644 Documentation/devicetree/bindings/net/ti-bluetooth.txt
+ delete mode 100644 Documentation/devicetree/bindings/net/wireless/ti,wlcore,spi.txt
+ delete mode 100644 Documentation/devicetree/bindings/net/wireless/ti,wlcore.txt
+ create mode 100644 Documentation/devicetree/bindings/net/wireless/ti,wlcore.yaml
 
-> +	host->pcie3v3 =3D devm_regulator_get_optional(dev, "pcie3v3");
+-- 
+2.25.1
 
-> +	host->pcie1v8 =3D devm_regulator_get_optional(dev, "pcie1v8");
+Gr{oetje,eeting}s,
 
-Unless PCIe works without these supplies (which are in my understanding
-mandatory according to the spec) these should not be optional, this API
-is for supplies that may be physically absent.
+						Geert
 
---ZkQuIMugRNgJ9HKi
-Content-Type: application/pgp-signature; name="signature.asc"
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFuu7YACgkQJNaLcl1U
-h9Arnwf+PlApDFGSrd0BxXmjAa5FJY9Vb9EbiuK19rDX3HvMtAKrjMfYkmMoO/6w
-7vZ1B/AjW3O8GV7mVJZbela5JVwm3FeDUyL2YDRYsIyRChgwvD7zlUjBoT5bEZVa
-kad7VwGSBXaWZfGsm5xlAsN/AAKSKxSkGu/85fYlVWNm/Cg+Mb/N+qp5O+U+jHa6
-4eIsau9/dnP2Hu0wjq8+qvfTZQ9gaSqDZdXC8o1y/j5+3cWSGwwQ9cOQMnKO/YlN
-w5E5pJ8UCjeA2i7PNp8bFfkGOjqft377c2jpNyrQY8uKeWW/pBCHAQB+DoqR7n2p
-npgiAcdcadDCCYkAt0FBJyMjIH5oMg==
-=0qYG
------END PGP SIGNATURE-----
-
---ZkQuIMugRNgJ9HKi--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
