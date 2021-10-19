@@ -2,462 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74C5F433F2C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 21:21:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9CF433F93
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 22:05:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234401AbhJSTXc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Oct 2021 15:23:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230432AbhJSTXb (ORCPT
+        id S233440AbhJSUII (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Oct 2021 16:08:08 -0400
+Received: from mail-ua1-f52.google.com ([209.85.222.52]:46691 "EHLO
+        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231355AbhJSUIH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Oct 2021 15:23:31 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65465C061749
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Oct 2021 12:21:18 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 67-20020a1c1946000000b0030d4c90fa87so5059227wmz.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Oct 2021 12:21:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=POSpimPwOga4MxucgzjiMGK0DJtRchyGayC88AjIBms=;
-        b=DHzyfTx5GdrgLZTY7zUxi6Qcme8whdX6lrS+rEEGBo55WJo19WlS1F6iDh07pfw0ME
-         MH+RCpVFmkiT0zXRjMCu9xIVchufVHu8Tpp/AI93T87i7IcYuR2lm/W3LfKroQd6v83P
-         yfurM3PtwERIQOB6v9B5v8M9+TmTmMinlOOY3amrl4n2U6WzRmnflDZStgSGwev5sVa0
-         /AxbFWQ2z2JHuDK7sV8Mug0/AfdOVK4fUAKRwiDapPfUIU4VPLFq9LbtlNRr+nIr/2ul
-         +xAYuR/p3BqQeSXqA7Xo4WincIaznmekwF1WXKiuGFsnelPMNjdbno2OCVprk0NpXQsT
-         LUDw==
+        Tue, 19 Oct 2021 16:08:07 -0400
+Received: by mail-ua1-f52.google.com with SMTP id u5so2259400uao.13;
+        Tue, 19 Oct 2021 13:05:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=POSpimPwOga4MxucgzjiMGK0DJtRchyGayC88AjIBms=;
-        b=cyHY0BRvniEhaU+4tn4Ew/ZAHEABSN6iMGol/jOrH3W90QC9P+AZsiKZBCFR52qehp
-         13tQ4LfXukdCFpt7Uxk1zwXiRNqx0pFtfU08/aQ8O7J8hiRGy/bvTUR8Mxmy5AuVH0nQ
-         OHoAk5wTofgs+EGGckcH5WoMr0ljSMuOHuC/WJBP0o0A+K3PctEw+E01rtl4nixdyaAg
-         eEzYz3PY9nkxbvyUdX+wNuiaCDe/tj3dzvP6oNhMlXTSLuBY6PVO0vGRpXx4+W/shgMH
-         C5PXJMN/26iJ1dWuCqJx0hysRhnf2G3uHyHTXHhqspd8G2YMFjUOB/5pEDKWvMpU4AUN
-         NNUg==
-X-Gm-Message-State: AOAM530OvVqHEpYwtREGJ085QkMUHlxN7u61DE91njzGy1stJ4vkNSkA
-        E+yQqsxs6P5qauUadf6zRVeA5A==
-X-Google-Smtp-Source: ABdhPJzZvNKb8PI1utk3xvB8t+1MzJKmrlY9iwaiPFu6WGqUy/CxBSkAYOMpPQp/B0eBG0JvF3gHdA==
-X-Received: by 2002:a7b:c757:: with SMTP id w23mr8124222wmk.84.1634671276922;
-        Tue, 19 Oct 2021 12:21:16 -0700 (PDT)
-Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.googlemail.com with ESMTPSA id q14sm2940543wmq.4.2021.10.19.12.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 12:21:16 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v3] dt-bindings: adv748x: Convert bindings to json-schema
-Date:   Tue, 19 Oct 2021 21:20:44 +0200
-Message-Id: <20211019192044.782830-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.33.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OJuwtmxpS0dVu0QSLCNxBq3CqaxqLtoYSRoUqyl67fo=;
+        b=tmeSgCmhPYAoqDRCUb0cP6zJf5uQzfIsxq5XnA1y13HfLdVXlVu+B+Yqxce8I3YGM3
+         VLTamKipmNeL6jpLeRmNjVOWc7vz4lVmk7mNmftpSgHhADlbH72tjGg9PohEbNgk+Jh1
+         WYHXGPN3JAMrrRRcGsLiGInwh5X4M97JI8mui93+k7DCDm1NgfVCUoEl4gvwjM9fr0YE
+         h2I8vEUKeCg9BY2x3vaFJK29rfDtzRmKHg6GVLYo1A4HGR3dk3G+qcvvzm53dfDNfocp
+         PO7RMTNoKExDqEgROkqGPt9QLACv351qRDjtBQpymDrMzOrTskV4FMe06X0Z4E4vy+Mx
+         5s5Q==
+X-Gm-Message-State: AOAM531ak48J1ZnGp+xRn78CWjBoEjPAOfexuwC8G4dpLAiKROwNTXW8
+        RQg3EsKo0cO1AT5sjXi4x4nrwOB8iO9epg==
+X-Google-Smtp-Source: ABdhPJw4/OCO2/ispicPxfOr398MXzMCD6fLq8Ou6i83NEIvD6trXJ7x7tJqWvmkHbaBV/R1jhHQqQ==
+X-Received: by 2002:a67:e04c:: with SMTP id n12mr38271362vsl.9.1634673953781;
+        Tue, 19 Oct 2021 13:05:53 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id z4sm11913049vsk.15.2021.10.19.13.05.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Oct 2021 13:05:53 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id h19so2335631uax.5;
+        Tue, 19 Oct 2021 13:05:52 -0700 (PDT)
+X-Received: by 2002:a67:d111:: with SMTP id u17mr38534586vsi.37.1634673952603;
+ Tue, 19 Oct 2021 13:05:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20211019145719.122751-1-kory.maincent@bootlin.com>
+ <CAMuHMdWghZ7HM5RRFRsZu8P_ikna0QWoRfCKeym61N-Lv-v4Xw@mail.gmail.com>
+ <20211019173520.0154a8cb@kmaincent-XPS-13-7390> <YW7nPfzjstmeoMbf@lunn.ch> <20211019175746.11b388ce@windsurf>
+In-Reply-To: <20211019175746.11b388ce@windsurf>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 19 Oct 2021 22:05:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXiMhpU0vDV3KaOg4DY59cszAtoG1sDOgnTRY6C6cyitQ@mail.gmail.com>
+Message-ID: <CAMuHMdXiMhpU0vDV3KaOg4DY59cszAtoG1sDOgnTRY6C6cyitQ@mail.gmail.com>
+Subject: Re: [PATCH] net: renesas: Fix rgmii-id delays
+To:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        =?UTF-8?Q?K=C3=B6ry_Maincent?= <kory.maincent@bootlin.com>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Adam Ford <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Yang Yingliang <yangyingliang@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert ADV748X analog video decoder documentation to json-schema.
+Hi Thomas,
 
-While converting the bindings extend it to enforce that all port@n nodes
-shall be encapsulated inside a ports node. This change does not have an
-effect on drivers parsing the ports@n nodes.
+On Tue, Oct 19, 2021 at 5:57 PM Thomas Petazzoni
+<thomas.petazzoni@bootlin.com> wrote:
+> On Tue, 19 Oct 2021 17:41:49 +0200
+> Andrew Lunn <andrew@lunn.ch> wrote:
+> > > When people update the kernel version don't they update also the devicetree?
+> >
+> > DT is ABI. Driver writers should not break old blobs running on new
+> > kernels. Often the DT blob is updated with the kernel, but it is not
+> > required. It could be stored in a hard to reach place, shared with
+> > u-boot etc.
+>
+> Right, but conversely if someone reads the DT bindings that exists
+> today, specifies phy-mode = "rgmii-rxid" or phy-mmode = "rmgii-txid",
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-* Changes sinve v2
-- Add adv748x.yaml to MAINTAINERS.
-- Update commit message.
-- Add myself to under the maintainers section after talking with Kieran.
-- Split reg in examples in two lines to match reg-names.
+Today == v5.10-rc1 and later?
 
-* Changes since v1
-- Update commit message to mention the added ports node.
+> this person will get incorrect behavior. Sure a behavior that is
+> backward compatible with older DTs, but a terribly wrong one when you
+> write a new DT and read the DT binding documentation. This is exactly
+> the problem that happened to us.
 
-Hello,
+If you write a new DT, you read the DT binding documentation, and
+"make dtbs_check" will inform you politely if you use the legacy/wrong
+DT (i.e. lacking "[rt]x-internal-delay-ps")?
 
-This conversion revealed a problem with the Renesas DTSI files for the
-adv7482 nodes. A fix for that have been submitted in a separate patch,
+> I know that those properties are considered obsolete, but even though
+> they are considered as such, they are still supported, but for this
+> particular MAC driver, with an inverted meaning compared to what the DT
+> binding documentation says.
+>
+> What wins: DT ABI backward compatibility, or correctness of the DT
+> binding ? :-)
 
-    [PATCH] arm64: dts: renesas: Add ports node to all adv7482 nodes
+Both ;-)
 
-Kind Regards,
-Niklas Söderlund
----
- .../devicetree/bindings/media/i2c/adv748x.txt | 116 ----------
- .../bindings/media/i2c/adv748x.yaml           | 213 ++++++++++++++++++
- MAINTAINERS                                   |   1 +
- 3 files changed, 214 insertions(+), 116 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+The current driver is backwards-compatible with the legacy/wrong DTB.
+The current DT bindings (as of v5.10-rc1), using "[rt]x-internal-delay-ps"
+are correct.
+Or am I missing something here?
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/adv748x.txt b/Documentation/devicetree/bindings/media/i2c/adv748x.txt
-deleted file mode 100644
-index 4f91686e54a6b939..0000000000000000
---- a/Documentation/devicetree/bindings/media/i2c/adv748x.txt
-+++ /dev/null
-@@ -1,116 +0,0 @@
--* Analog Devices ADV748X video decoder with HDMI receiver
--
--The ADV7481 and ADV7482 are multi format video decoders with an integrated
--HDMI receiver. They can output CSI-2 on two independent outputs TXA and TXB
--from three input sources HDMI, analog and TTL.
--
--Required Properties:
--
--  - compatible: Must contain one of the following
--    - "adi,adv7481" for the ADV7481
--    - "adi,adv7482" for the ADV7482
--
--  - reg: I2C slave addresses
--    The ADV748x has up to twelve 256-byte maps that can be accessed via the
--    main I2C ports. Each map has it own I2C address and acts as a standard
--    slave device on the I2C bus. The main address is mandatory, others are
--    optional and remain at default values if not specified.
--
--Optional Properties:
--
--  - interrupt-names: Should specify the interrupts as "intrq1", "intrq2" and/or
--		     "intrq3". All interrupts are optional. The "intrq3" interrupt
--		     is only available on the adv7481
--  - interrupts: Specify the interrupt lines for the ADV748x
--  - reg-names : Names of maps with programmable addresses.
--		It shall contain all maps needing a non-default address.
--		Possible map names are:
--		  "main", "dpll", "cp", "hdmi", "edid", "repeater",
--		  "infoframe", "cbus", "cec", "sdp", "txa", "txb"
--
--The device node must contain one 'port' child node per device input and output
--port, in accordance with the video interface bindings defined in
--Documentation/devicetree/bindings/media/video-interfaces.txt. The port nodes
--are numbered as follows.
--
--	  Name		Type		Port
--	---------------------------------------
--	  AIN0		sink		0
--	  AIN1		sink		1
--	  AIN2		sink		2
--	  AIN3		sink		3
--	  AIN4		sink		4
--	  AIN5		sink		5
--	  AIN6		sink		6
--	  AIN7		sink		7
--	  HDMI		sink		8
--	  TTL		sink		9
--	  TXA		source		10
--	  TXB		source		11
--
--The digital output port nodes, when present, shall contain at least one
--endpoint. Each of those endpoints shall contain the data-lanes property as
--described in video-interfaces.txt.
--
--Required source endpoint properties:
--  - data-lanes: an array of physical data lane indexes
--    The accepted value(s) for this property depends on which of the two
--    sources are described. For TXA 1, 2 or 4 data lanes can be described
--    while for TXB only 1 data lane is valid. See video-interfaces.txt
--    for detailed description.
--
--Ports are optional if they are not connected to anything at the hardware level.
--
--Example:
--
--	video-receiver@70 {
--		compatible = "adi,adv7482";
--		reg = <0x70 0x71 0x72 0x73 0x74 0x75
--		       0x60 0x61 0x62 0x63 0x64 0x65>;
--		reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
--			    "infoframe", "cbus", "cec", "sdp", "txa", "txb";
--
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		interrupt-parent = <&gpio6>;
--		interrupt-names = "intrq1", "intrq2";
--		interrupts = <30 IRQ_TYPE_LEVEL_LOW>,
--			     <31 IRQ_TYPE_LEVEL_LOW>;
--
--		port@7 {
--			reg = <7>;
--
--			adv7482_ain7: endpoint {
--				remote-endpoint = <&cvbs_in>;
--			};
--		};
--
--		port@8 {
--			reg = <8>;
--
--			adv7482_hdmi: endpoint {
--				remote-endpoint = <&hdmi_in>;
--			};
--		};
--
--		port@a {
--			reg = <10>;
--
--			adv7482_txa: endpoint {
--				clock-lanes = <0>;
--				data-lanes = <1 2 3 4>;
--				remote-endpoint = <&csi40_in>;
--			};
--		};
--
--		port@b {
--			reg = <11>;
--
--			adv7482_txb: endpoint {
--				clock-lanes = <0>;
--				data-lanes = <1>;
--				remote-endpoint = <&csi20_in>;
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/media/i2c/adv748x.yaml b/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
-new file mode 100644
-index 0000000000000000..30c361766ba3023e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
-@@ -0,0 +1,213 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/adv748x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Analog Devices ADV748X video decoder with HDMI receiver
-+
-+maintainers:
-+  - Kieran Bingham <kieran.bingham@ideasonboard.com>
-+  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
-+
-+description:
-+  The ADV7481 and ADV7482 are multi format video decoders with an integrated
-+  HDMI receiver. They can output CSI-2 on two independent outputs TXA and TXB
-+  from three input sources HDMI, analog and TTL.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - adi,adv7481
-+          - adi,adv7482
-+
-+  reg:
-+    minItems: 1
-+    maxItems: 12
-+    description:
-+      The ADV748x has up to twelve 256-byte maps that can be accessed via the
-+      main I2C ports. Each map has it own I2C address and acts as a standard
-+      slave device on the I2C bus. The main address is mandatory, others are
-+      optional and remain at default values if not specified.
-+
-+  reg-names:
-+    minItems: 1
-+    items:
-+      - const: main
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
-+
-+  interrupts: true
-+
-+  interrupt-names: true
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    patternProperties:
-+      "^port@[0-7]$":
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Input port nodes for analog inputs AIN[0-7].
-+
-+    properties:
-+      port@8:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Input port node for HDMI.
-+
-+      port@9:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Input port node for TTL.
-+
-+      port@a:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description:
-+          Output port node, single endpoint describing the CSI-2 transmitter TXA.
-+
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              clock-lanes:
-+                maxItems: 1
-+
-+              data-lanes:
-+                minItems: 1
-+                maxItems: 4
-+
-+            required:
-+              - clock-lanes
-+              - data-lanes
-+
-+      port@b:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description:
-+          Output port node, single endpoint describing the CSI-2 transmitter TXB.
-+
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              clock-lanes:
-+                maxItems: 1
-+
-+              data-lanes:
-+                maxItems: 1
-+
-+            required:
-+              - clock-lanes
-+              - data-lanes
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: adi,adv7481
-+    then:
-+      properties:
-+        interrupts:
-+          minItems: 1
-+          maxItems: 3
-+
-+        interrupt-names:
-+          minItems: 1
-+          items:
-+            - enum: [ intrq1, intrq2, intrq3 ]
-+            - enum: [ intrq1, intrq2, intrq3 ]
-+            - enum: [ intrq1, intrq2, intrq3 ]
-+    else:
-+      properties:
-+        interrupts:
-+          minItems: 1
-+          maxItems: 2
-+
-+        interrupt-names:
-+          minItems: 1
-+          items:
-+            - enum: [ intrq1, intrq2 ]
-+            - enum: [ intrq1, intrq2 ]
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - ports
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        video-receiver@70 {
-+            compatible = "adi,adv7482";
-+            reg = <0x70 0x71 0x72 0x73 0x74 0x75
-+                   0x60 0x61 0x62 0x63 0x64 0x65>;
-+            reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
-+                        "infoframe", "cbus", "cec", "sdp", "txa", "txb";
-+
-+            interrupt-parent = <&gpio6>;
-+            interrupts = <30 IRQ_TYPE_LEVEL_LOW>, <31 IRQ_TYPE_LEVEL_LOW>;
-+            interrupt-names = "intrq1", "intrq2";
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@7 {
-+                    reg = <7>;
-+
-+                    adv7482_ain7: endpoint {
-+                        remote-endpoint = <&cvbs_in>;
-+                    };
-+                };
-+
-+                port@8 {
-+                    reg = <8>;
-+
-+                    adv7482_hdmi: endpoint {
-+                        remote-endpoint = <&hdmi_in>;
-+                    };
-+                };
-+
-+                port@a {
-+                    reg = <10>;
-+
-+                    adv7482_txa: endpoint {
-+                        clock-lanes = <0>;
-+                        data-lanes = <1 2 3 4>;
-+                        remote-endpoint = <&csi40_in>;
-+                    };
-+                };
-+
-+                port@b {
-+                    reg = <11>;
-+
-+                    adv7482_txb: endpoint {
-+                        clock-lanes = <0>;
-+                        data-lanes = <1>;
-+                        remote-endpoint = <&csi20_in>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ee91c5472bc1540a..6ea3e63cbc7f33c3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1124,6 +1124,7 @@ M:	Kieran Bingham <kieran.bingham@ideasonboard.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	drivers/media/i2c/adv748x/*
-+F:	Documentation/devicetree/bindings/media/i2c/adv748x.yaml
- 
- ANALOG DEVICES INC ADV7511 DRIVER
- M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
--- 
-2.33.1
+BTW, it's still not clear to me why the inversion would be needed.
+Cfr. Andrew's comment:
 
+| So with rgmii-rxid, what is actually passed to the PHY? Is your
+| problem you get twice the delay in one direction, and no delay in the
+| other?
+
+We know the ravb driver misbehaved in the past by applying the
+rgmii-*id values to the MAC, while they are meant for the PHY, thus
+causing bad interaction with PHY drivers.  But that was fixed
+by commit 9b23203c32ee02cd ("ravb: Mask PHY mode to avoid inserting
+delays twice") and a6f51f2efa742df0 ("ravb: Add support for explicit
+internal clock delay configuration").
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
