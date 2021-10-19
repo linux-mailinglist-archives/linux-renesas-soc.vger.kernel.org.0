@@ -2,89 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BA9B433610
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 14:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF928433615
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 14:36:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235667AbhJSMh7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Oct 2021 08:37:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38554 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235626AbhJSMh6 (ORCPT
+        id S235684AbhJSMiY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Oct 2021 08:38:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34110 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235726AbhJSMiX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Oct 2021 08:37:58 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1A01C061745
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Oct 2021 05:35:45 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:b4c3:ba80:54db:46f])
-        by laurent.telenet-ops.be with bizsmtp
-        id 7obk2600212AN0U01obkni; Tue, 19 Oct 2021 14:35:44 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mcoLH-0069I3-PL; Tue, 19 Oct 2021 14:35:43 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mcoLH-00EEKh-93; Tue, 19 Oct 2021 14:35:43 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: rzg2l: Add missing kerneldoc for resets
-Date:   Tue, 19 Oct 2021 14:35:36 +0200
-Message-Id: <39c2c5fd4232b6620a4a56dba4e2b0d61476ee36.1634646869.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 19 Oct 2021 08:38:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9CEA361260;
+        Tue, 19 Oct 2021 12:36:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634646971;
+        bh=u73RnjWbRxhH6CwTauke6NzU7tR5DI62J9FiY8yQVbs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TqrwQPwytMD1dfbq9Mtnro8tcleYatLeGtxlHL9aRTHzVTrMrqRCc5Q5qIXLoP1VL
+         y1gAC3s3q5RxgnG+mt1Mnd+MMkk20x3T442HHl9B7+jEiXygfHKeSDW1H5g96t6gMy
+         t5gEMN/JxlbDOfqjNgSWkdM9CSjmzW997iSiZs+h0wwKEN+QnwKo+/OKMaKZDgf24S
+         1GYnil1dhH0AcMlNL+G0oY5XDpSyLi83jl0XDBbmXuY2wvtFvZcg9nrO5Cj7etEUdw
+         TWFZEm6guT3uA6Y236lN1khW177KNWlDxeKN2w9Zx6wKZOGJenIpOvFpLZRoVUYwfo
+         KpON6gydXzB5w==
+Date:   Tue, 19 Oct 2021 13:36:06 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Meng Li <Meng.Li@windriver.com>
+Cc:     geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org,
+        marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        lorenzo.pieralisi@arm.com, kw@linux.com, bhelgaas@google.com,
+        lgirdwood@gmail.com, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Subject: Re: [PATCH] pci: pcie-rcar: add regulators support
+Message-ID: <YW67tsigF89EkDWS@sirena.org.uk>
+References: <20211019095858.21316-1-Meng.Li@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ZkQuIMugRNgJ9HKi"
+Content-Disposition: inline
+In-Reply-To: <20211019095858.21316-1-Meng.Li@windriver.com>
+X-Cookie: I program, therefore I am.
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-make W=1:
 
-    drivers/clk/renesas/rzg2l-cpg.c:95: warning: Function parameter or member 'num_resets' not described in 'rzg2l_cpg_priv'
+--ZkQuIMugRNgJ9HKi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Add the missing kerneldoc for fields in struct rzg2l_cpg_priv and struct
-rzg2l_cpg_info related to Module Resets.
+On Tue, Oct 19, 2021 at 05:58:58PM +0800, Meng Li wrote:
 
-Fixes: c3e67ad6f5a2c698 ("dt-bindings: clock: r9a07g044-cpg: Update clock/reset definitions")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-clk for v5.17.
----
- drivers/clk/renesas/rzg2l-cpg.c | 1 +
- drivers/clk/renesas/rzg2l-cpg.h | 3 +++
- 2 files changed, 4 insertions(+)
+> From: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
+>=20
+> Add PCIe regulators for KingFisher board.
+>=20
+> Signed-off-by: Meng Li <Meng.Li@windriver.com>
+> ---
 
-diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index 4021f6cabda4b3bc..a77cb47b75e7c253 100644
---- a/drivers/clk/renesas/rzg2l-cpg.c
-+++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -74,6 +74,7 @@ struct sd_hw_data {
-  * @clks: Array containing all Core and Module Clocks
-  * @num_core_clks: Number of Core Clocks in clks[]
-  * @num_mod_clks: Number of Module Clocks in clks[]
-+ * @num_resets: Number of Module Resets in info->resets[]
-  * @last_dt_core_clk: ID of the last Core Clock exported to DT
-  * @notifiers: Notifier chain to save/restore clock state for system resume
-  * @info: Pointer to platform data
-diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
-index 7fb6b4030f72e237..484c7cee2629366f 100644
---- a/drivers/clk/renesas/rzg2l-cpg.h
-+++ b/drivers/clk/renesas/rzg2l-cpg.h
-@@ -168,6 +168,9 @@ struct rzg2l_reset {
-  * @num_mod_clks: Number of entries in mod_clks[]
-  * @num_hw_mod_clks: Number of Module Clocks supported by the hardware
-  *
-+ * @resets: Array of Module Reset definitions
-+ * @num_resets: Number of entries in resets[]
-+ *
-  * @crit_mod_clks: Array with Module Clock IDs of critical clocks that
-  *                 should not be disabled without a knowledgeable driver
-  * @num_crit_mod_clks: Number of entries in crit_mod_clks[]
--- 
-2.25.1
+You've not provided a Signed-off-by for Andrey, please see
+Documentation/process/submitting-patches.rst for details on what this is
+and why it's important.
 
+> +	host->pcie3v3 =3D devm_regulator_get_optional(dev, "pcie3v3");
+
+> +	host->pcie1v8 =3D devm_regulator_get_optional(dev, "pcie1v8");
+
+Unless PCIe works without these supplies (which are in my understanding
+mandatory according to the spec) these should not be optional, this API
+is for supplies that may be physically absent.
+
+--ZkQuIMugRNgJ9HKi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFuu7YACgkQJNaLcl1U
+h9Arnwf+PlApDFGSrd0BxXmjAa5FJY9Vb9EbiuK19rDX3HvMtAKrjMfYkmMoO/6w
+7vZ1B/AjW3O8GV7mVJZbela5JVwm3FeDUyL2YDRYsIyRChgwvD7zlUjBoT5bEZVa
+kad7VwGSBXaWZfGsm5xlAsN/AAKSKxSkGu/85fYlVWNm/Cg+Mb/N+qp5O+U+jHa6
+4eIsau9/dnP2Hu0wjq8+qvfTZQ9gaSqDZdXC8o1y/j5+3cWSGwwQ9cOQMnKO/YlN
+w5E5pJ8UCjeA2i7PNp8bFfkGOjqft377c2jpNyrQY8uKeWW/pBCHAQB+DoqR7n2p
+npgiAcdcadDCCYkAt0FBJyMjIH5oMg==
+=0qYG
+-----END PGP SIGNATURE-----
+
+--ZkQuIMugRNgJ9HKi--
