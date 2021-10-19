@@ -2,24 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05FAC433A9C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 17:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C7B3433AE5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 17:41:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229991AbhJSPhk convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Oct 2021 11:37:40 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:50899 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230511AbhJSPhi (ORCPT
+        id S231847AbhJSPoJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Oct 2021 11:44:09 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:46900 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231848AbhJSPoI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Oct 2021 11:37:38 -0400
-Received: (Authenticated sender: kory.maincent@bootlin.com)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 4EE0E240010;
-        Tue, 19 Oct 2021 15:35:21 +0000 (UTC)
-Date:   Tue, 19 Oct 2021 17:35:20 +0200
-From:   =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     netdev <netdev@vger.kernel.org>,
+        Tue, 19 Oct 2021 11:44:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=+OlbF0jSuR1cXQ3cNgQFhYBGf1ZZmkVncY84uNcWU8Y=; b=wlZeNwBvlU25W+mRhLeX89o/rQ
+        pHdRSigCWgOSi+Y3P4l1ivNhiHMWCREGUNgrUNgFvHowdLiRksDHUzuzxHa9zUeDVd1xYyNzV8hLO
+        pP+Aq2UJax0wTmrigSurIypV2omnepek1WATh7i5oXrHZ2fCPU+HuQI6TaaXi3EpauDg=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mcrFN-00B5hX-MU; Tue, 19 Oct 2021 17:41:49 +0200
+Date:   Tue, 19 Oct 2021 17:41:49 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        netdev <netdev@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
@@ -29,67 +37,27 @@ Cc:     netdev <netdev@vger.kernel.org>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>, Adam Ford <aford173@gmail.com>,
+        Adam Ford <aford173@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Yang Yingliang <yangyingliang@huawei.com>
 Subject: Re: [PATCH] net: renesas: Fix rgmii-id delays
-Message-ID: <20211019173520.0154a8cb@kmaincent-XPS-13-7390>
-In-Reply-To: <CAMuHMdWghZ7HM5RRFRsZu8P_ikna0QWoRfCKeym61N-Lv-v4Xw@mail.gmail.com>
+Message-ID: <YW7nPfzjstmeoMbf@lunn.ch>
 References: <20211019145719.122751-1-kory.maincent@bootlin.com>
-        <CAMuHMdWghZ7HM5RRFRsZu8P_ikna0QWoRfCKeym61N-Lv-v4Xw@mail.gmail.com>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ <CAMuHMdWghZ7HM5RRFRsZu8P_ikna0QWoRfCKeym61N-Lv-v4Xw@mail.gmail.com>
+ <20211019173520.0154a8cb@kmaincent-XPS-13-7390>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211019173520.0154a8cb@kmaincent-XPS-13-7390>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Geert,
+> When people update the kernel version don't they update also the devicetree?
 
-Thanks for the review.
+DT is ABI. Driver writers should not break old blobs running on new
+kernels. Often the DT blob is updated with the kernel, but it is not
+required. It could be stored in a hard to reach place, shared with
+u-boot etc.
 
-On Tue, 19 Oct 2021 17:13:52 +0200
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-
-> > The ravb MAC is adding RX delay if RGMII_RXID is selected and TX delay
-> > if RGMII_TXID but that behavior is wrong.
-> > Indeed according to the ethernet.txt documentation the ravb configuration  
-> 
-> Do you mean ethernet-controller.yaml?
-
-Doh, yes, I paste the commit log from the older Kernel git and forget to
-change that.
-
-> 
-> > should be inverted:
-> >   * "rgmii-rxid" (RGMII with internal RX delay provided by the PHY, the MAC
-> >      should not add an RX delay in this case)
-> >   * "rgmii-txid" (RGMII with internal TX delay provided by the PHY, the MAC
-> >      should not add an TX delay in this case)
-> >
-> > This patch inverts the behavior, i.e adds TX delay when RGMII_RXID is
-> > selected and RX delay when RGMII_TXID is selected.
-> >
-> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>  
-> 
-> Does this fix an actual problem for you?
-
-In fact, this fix a problem for an older 4.14 Kernel on my current project.
-I wanted to push my fix in the mainline kernel also, but as you say below, now
-this code is legacy.
-Does it matter to fix legacy code?
-
-> Note that in accordance with the comment above, the code section
-> below is only present to support old DTBs.  Contemporary DTBs rely
-> on the now mandatory "rx-internal-delay-ps" and "tx-internal-delay-ps"
-> properties instead.
-> Hence changing this code has no effect on DTS files as supplied with
-> the kernel, but may have ill effects on DTB files in the field, which
-> rely on the current behavior.
-
-When people update the kernel version don't they update also the devicetree?
-
-Regards,
-Köry
+	Andrew
