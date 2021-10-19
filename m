@@ -2,109 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9762443366C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 14:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7330943370D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 15:30:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235762AbhJSM5G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Oct 2021 08:57:06 -0400
-Received: from mail-ua1-f45.google.com ([209.85.222.45]:41870 "EHLO
-        mail-ua1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235752AbhJSM5E (ORCPT
+        id S235739AbhJSNcW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Oct 2021 09:32:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39974 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231563AbhJSNcV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Oct 2021 08:57:04 -0400
-Received: by mail-ua1-f45.google.com with SMTP id r17so7769644uaf.8;
-        Tue, 19 Oct 2021 05:54:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JvoSpxbgmuSGONsknYaeD8ot8h+9x3xQBXz+/ENCpyM=;
-        b=Yp3s19uUuGnvUNZQmHUesVsFGktjBQtYuf5WSvza1DeSqdcNEjedf6arbzPBKOX8E0
-         KmmkVrzVs7XmBP/WHGOMyO62mWZpDx3P1cUYNs3peVDEXkXGYcQIrXZ1wuFflhPW1AJ9
-         3SJoHEmP4TyYnHZKVegTFf2wAhRFmi7d9bxgEASuJU9R6j+FCBLwFNF/WPcDvZKc+Kio
-         o9OnfUXmnbbNamg01UOXrR1/BQC0XGv2smq1VsvEv5R0779Jz0tFZGYQ76a9VfY70oo2
-         kCseBFfw8MsJ9eSb9U2yhzRCEWQLlSiT9N+TSXQVsc2qbXMPrDh9ejNRp2dsQZwe5Lcx
-         ipTQ==
-X-Gm-Message-State: AOAM5337YUpQvxNVKJa63BTyYlvfDmaqWnYRuZRPOvOy0MDjBpVlj1H1
-        fSLv+6WiGJfUWHKwhHUKPLUlONY70+UNAQ==
-X-Google-Smtp-Source: ABdhPJwXOEF23Js68UeSUBsN8FseHwxkq5rytN5ZebvXddk61OZuR77EClBil2xVmHVM/yDXX80XZQ==
-X-Received: by 2002:a9f:2429:: with SMTP id 38mr32421236uaq.109.1634648091524;
-        Tue, 19 Oct 2021 05:54:51 -0700 (PDT)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id u22sm10673726vkp.41.2021.10.19.05.54.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Oct 2021 05:54:51 -0700 (PDT)
-Received: by mail-ua1-f51.google.com with SMTP id i22so3593706ual.10;
-        Tue, 19 Oct 2021 05:54:50 -0700 (PDT)
-X-Received: by 2002:a05:6102:290c:: with SMTP id cz12mr34800626vsb.35.1634648090758;
- Tue, 19 Oct 2021 05:54:50 -0700 (PDT)
+        Tue, 19 Oct 2021 09:32:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D4AB61374;
+        Tue, 19 Oct 2021 13:30:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634650208;
+        bh=f/wB0Vy8SSk93aaj9uXpLmhnQ6j6vR6JE5NX/5XOTLk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=kSs8J+h7vHCexTiX4JxHH2cZhH9R2XzyTETKuuof/x0oPYLcWM0atJg2OaU48MXW4
+         W4Fo4sum+Zti0WYc9yuqWwzELFW+C4KMYzxegHAiqW0icZ/7Phz7kCDcjykwgUyoft
+         lfSFEO7r/MPHk8WktZOaYbQ0BNXxc5v8JLgt/I21GSWtjWMq29pVbMSHTaH53+KWBD
+         6Sjysoh2lybw61bPFpbh+GLse4Cm/RCHwdC3ct//Hjti7ktl/BsaNXUki/k7egeBam
+         tBgbWTBIEtiRvrpOzbFAn8pP14sBLRihkMYo7VfuYvVtk2cSnOhwPgh6FET46bElpU
+         h2yhP8GywpAWw==
+Date:   Tue, 19 Oct 2021 08:30:07 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Meng Li <Meng.Li@windriver.com>
+Cc:     geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org,
+        marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        lorenzo.pieralisi@arm.com, kw@linux.com, bhelgaas@google.com,
+        lgirdwood@gmail.com, broonie@kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH] pci: pcie-rcar: add regulators support
+Message-ID: <20211019133007.GA2331336@bhelgaas>
 MIME-Version: 1.0
-References: <2188ede78110c64b8a3bfbfa794a085dac0e4cd2.1634645735.git.geert+renesas@glider.be>
- <20211019124315.5dg5pfaas2qmm7lx@uno.localdomain>
-In-Reply-To: <20211019124315.5dg5pfaas2qmm7lx@uno.localdomain>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 19 Oct 2021 14:54:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX6OO19+pgxUYATT9AZ5BuXXMzRCPbtn7aZC_Lc6pt96g@mail.gmail.com>
-Message-ID: <CAMuHMdX6OO19+pgxUYATT9AZ5BuXXMzRCPbtn7aZC_Lc6pt96g@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rza1: Fix kerneldoc function names
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211019095858.21316-1-Meng.Li@windriver.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+On Tue, Oct 19, 2021 at 05:58:58PM +0800, Meng Li wrote:
+> From: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
+> 
+> Add PCIe regulators for KingFisher board.
 
-On Tue, Oct 19, 2021 at 2:42 PM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> On Tue, Oct 19, 2021 at 02:34:22PM +0200, Geert Uytterhoeven wrote:
-> > make W=1:
-> >
-> >     drivers/pinctrl/renesas/pinctrl-rza1.c:770: warning: expecting prototype for rza1_gpio_disable_free(). Prototype was for rza1_gpio_free() instead
-> >     drivers/pinctrl/renesas/pinctrl-rza1.c:889: warning: expecting prototype for rza1_parse_pmx_function(). Prototype was for rza1_parse_pinmux_node() instead
-> >
-> > Fixes: 5a49b644b3075f88 ("pinctrl: Renesas RZ/A1 pin and gpio controller")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Thanks, looking at the driver now it seems I was really eager to write
-> comments at the time I wrote it! :)
->
-> Probably all kernel-doc comments should be demoted to regular
-> comments, as they're only internal driver functions.
+Please pay attention to the existing code and history.  Your current
+subject line is:
 
-;-)
+  pci: pcie-rcar: add regulators support
 
-> > --- a/drivers/pinctrl/renesas/pinctrl-rza1.c
-> > +++ b/drivers/pinctrl/renesas/pinctrl-rza1.c
-> > @@ -757,7 +757,7 @@ static int rza1_gpio_request(struct gpio_chip *chip, unsigned int gpio)
-> >  }
-> >
-> >  /**
-> > - * rza1_gpio_disable_free() - reset a pin
-> > + * rza1_gpio_free() - reset a pin
-> >   *
-> >   * Surprisingly, disable_free a gpio, is equivalent to request it.
->
-> s/disable_free/free ?
+which looks nothing like the history:
 
-Yup, will fix while applying to:
+  $ git log --oneline drivers/pci/controller/pcie-rcar-host.c
+  861e133ba268 ("PCI: rcar-host: Remove unneeded includes")
+  a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort hook")
+  d21faba11693 ("PCI: Bulk conversion to generic_handle_domain_irq()")
+  83ed8d4fa656 ("PCI: rcar: Convert to MSI domains")
+  93cd1bb4862d ("PCI: rcar: Don't allocate extra memory for the MSI capture address")
+  c4e0fec2f7ee ("PCI: rcar: Always allocate MSI addresses in 32bit space")
+  6e8e137abeab ("PCI: rcar: Drop unused members from struct rcar_pcie_host")
+  b64aa11eb2dd ("PCI: Set bridge map_irq and swizzle_irq to default functions")
+  669cbc708122 ("PCI: Move DT resource setup into devm_pci_alloc_host_bridge()")
+  b411b2e1adb9 ("PCI: rcar: Use struct pci_host_bridge.windows list directly")
+  61f11f8250e2 ("PCI: rcar: Use devm_pci_alloc_host_bridge()")
+  4f5c883d7815 ("PCI: Move setting pci_host_bridge.busnr out of host drivers")
+  6176a5f32751 ("PCI: rcar: Use pci_is_root_bus() to check if bus is root bus")
+  6a589900d050 ("PCI: Set default bridge parent device")
+  a68e06e729b1 ("PCI: rcar: Fix runtime PM imbalance on error")
+  56d292348470 ("PCI: rcar: Use pci_host_probe() to register host")
+  78a0d7f2f5a3 ("PCI: rcar: Move shareable code to a common file")
+  a18f4b6ea50b ("PCI: rcar: Rename pcie-rcar.c to pcie-rcar-host.c")
 
-    disabling a gpio is equivalent to requesting it
+You could use something like:
 
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+  PCI: rcar-host: Add regulator support for KingFisher
 
-Thanks!
+> +	host->pcie3v3 = devm_regulator_get_optional(dev, "pcie3v3");
+> +	if (IS_ERR(host->pcie3v3)) {
 
-Gr{oetje,eeting}s,
++1 to Geert's comments.  Sprinkling IS_ERR() everywhere is kind of
+ugly.  host->pcie3v3 should be NULL if not present.
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Bjorn
