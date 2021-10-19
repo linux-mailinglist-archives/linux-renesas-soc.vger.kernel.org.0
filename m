@@ -2,86 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1FCA433892
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 16:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFCA443395F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 16:57:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230269AbhJSOou (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Oct 2021 10:44:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35988 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbhJSOot (ORCPT
+        id S232251AbhJSO7l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Oct 2021 10:59:41 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:52997 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232333AbhJSO7h (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Oct 2021 10:44:49 -0400
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8606012A;
-        Tue, 19 Oct 2021 16:42:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1634654555;
-        bh=rxp6PMBsDJjGA2wH/eGe+dqU2991TJOOwj2FEZEGGiU=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=KCo5atH4zp/Z5y88JzcnrVAd8Gs2RAhpmhcgdx462FrtLgCxAFWPGI1rek2yxj0LG
-         XtL2l8nDkYucsGEJAhqyiZ4NgF1gezbU/Ie8LxTWKW8CqA5dot5WmR3qo8tXbmVJc6
-         EiJEeZOuaPuiMBab4231e7OtuIbizKtNsiEDUPyQ=
-Content-Type: text/plain; charset="utf-8"
+        Tue, 19 Oct 2021 10:59:37 -0400
+Received: (Authenticated sender: kory.maincent@bootlin.com)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 93D4E100007;
+        Tue, 19 Oct 2021 14:57:19 +0000 (UTC)
+From:   Kory Maincent <kory.maincent@bootlin.com>
+To:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     thomas.petazzoni@bootlin.com, Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>, Adam Ford <aford173@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yang Yingliang <yangyingliang@huawei.com>
+Subject: [PATCH] net: renesas: Fix rgmii-id delays
+Date:   Tue, 19 Oct 2021 16:57:17 +0200
+Message-Id: <20211019145719.122751-1-kory.maincent@bootlin.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211019090020.11724-1-Meng.Li@windriver.com>
-References: <20211019090020.11724-1-Meng.Li@windriver.com>
-Subject: Re: [PATCH] arch: arm64: dts: Set gpio5-pin9 as input by default
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, meng.li@windriver.com
-To:     Meng Li <Meng.Li@windriver.com>, geert+renesas@glider.be,
-        magnus.damm@gmail.com, robh+dt@kernel.org
-Date:   Tue, 19 Oct 2021 15:42:33 +0100
-Message-ID: <163465455377.2083150.11106861856940757460@Monstersaurus>
-User-Agent: alot/0.9.2
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Meng Li (2021-10-19 10:00:20)
-> The gpio5-pin9 is used as the interrupt pin of i2c external
-> gpio chip, so set this pin as input by default.
+Invert the configuration of the RGMII delay selected by RGMII_RXID and
+RGMII_TXID.
 
-Is a GPIO hog the right way to do this?
-Shouldn't the other GPIO chip be modelled in DT and reference the gpio
-interrupt line from there in its interrupt property?
+The ravb MAC is adding RX delay if RGMII_RXID is selected and TX delay
+if RGMII_TXID but that behavior is wrong.
+Indeed according to the ethernet.txt documentation the ravb configuration
+should be inverted:
+  * "rgmii-rxid" (RGMII with internal RX delay provided by the PHY, the MAC
+     should not add an RX delay in this case)
+  * "rgmii-txid" (RGMII with internal TX delay provided by the PHY, the MAC
+     should not add an TX delay in this case)
 
-I assume by 'external gpio chip' you mean one which is permanantly
-attached to the ULCB Kingfisher board, and not a custom addition?
+This patch inverts the behavior, i.e adds TX delay when RGMII_RXID is
+selected and RX delay when RGMII_TXID is selected.
 
---
-Regards
-Kieran
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ drivers/net/ethernet/renesas/ravb_main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->=20
-> Signed-off-by: Meng Li <Meng.Li@windriver.com>
-> ---
->  arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/d=
-ts/renesas/ulcb-kf.dtsi
-> index 202177706cde..8986a7e6e099 100644
-> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> @@ -205,6 +205,15 @@
->         };
->  };
-> =20
-> +&gpio5 {
-> +       gpio_exp_77_int {
-> +               gpio-hog;
-> +               gpios =3D <9 0>;
-> +               input;
-> +               line-name =3D "gpio-exp-77-int";
-> +       };
-> +};
-> +
->  &i2c4 {
->         i2cswitch4: i2c-switch@71 {
->                 compatible =3D "nxp,pca9548";
-> --=20
-> 2.17.1
->
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 0f85f2d97b18..89cd88e5b450 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -2114,13 +2114,13 @@ static void ravb_parse_delay_mode(struct device_node *np, struct net_device *nde
+ 	/* Fall back to legacy rgmii-*id behavior */
+ 	if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID ||
+ 	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_RXID) {
+-		priv->rxcidm = 1;
++		priv->txcidm = 1;
+ 		priv->rgmii_override = 1;
+ 	}
+ 
+ 	if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID ||
+ 	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_TXID) {
+-		priv->txcidm = 1;
++		priv->rxcidm = 1;
+ 		priv->rgmii_override = 1;
+ 	}
+ }
+-- 
+2.25.1
+
