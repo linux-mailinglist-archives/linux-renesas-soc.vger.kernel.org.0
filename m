@@ -2,233 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 094E9433364
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 12:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23D1E4333CA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Oct 2021 12:43:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235169AbhJSKWL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Oct 2021 06:22:11 -0400
-Received: from mail-ua1-f48.google.com ([209.85.222.48]:43634 "EHLO
-        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230117AbhJSKWL (ORCPT
+        id S235237AbhJSKp0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Oct 2021 06:45:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40576 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234955AbhJSKpY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Oct 2021 06:22:11 -0400
-Received: by mail-ua1-f48.google.com with SMTP id i22so2753367ual.10;
-        Tue, 19 Oct 2021 03:19:58 -0700 (PDT)
+        Tue, 19 Oct 2021 06:45:24 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2004BC06161C
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Oct 2021 03:43:12 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id n7so5305141ljp.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Oct 2021 03:43:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=i/b/YZSKNuUJ2xKiLl2T6Ik48leNz994lleo14luhkQ=;
+        b=vaE+gM4ogGjWES/SHtVx88HSgWQAXaslPk6AJvQ2vfs+VMYC7IqSEOQeJU2ck6luGe
+         +C5abktFnPouMpw3nGapEH37IdHKK530X5X2hqxa6C1lGMDJg1Niub0Kxsvrvn3E0Oy4
+         0LI+Sb2sYbJCVQYWlSj3uG3l6I4uQ98sXAFIHKu4RcpYjUeU3bi8htoUyDQhtua0iWJk
+         scD1NZ4QGI+6qWy4WnP11o7IE4FrYemZ2ZBwObB5lnQr88UiCpceriRTn3z7Q1ZzLUa6
+         t+tdblwIKltLWk2Ac/EembU6Mig4S5x4yPq5DpmeoaPgy87bbaPeTjTPnbQUfPejJmku
+         M+Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=p6OZFW3ezrlsvIWoQgzoCARmyBJqP61SO2gxRkAy/uo=;
-        b=CMv4MSCjHqRUSlfvIzI1QNel+7CTWtK7AByjbxm29PMGppkQIcIA14ayL/rooAj8Ha
-         m5EzkDAa5Ec1PjKqAihtn7DE4boAbVk+pCU3yDc7fAOP+VwmDCppjF1xoFz/2ELI1gI1
-         le+0JJMILhETO/xw9m277ba0BjXj/6laCvuryXJI90ryw+bV0aUHXpx/zH/LVB+AHcXC
-         KKOvBZ+xOO3yqogtmc589H5P6/CdOwGoVy7a/9JFD5c4qZeypO9016N5VJxCDcZ+OXJI
-         AxyWyyEJAiK/mw2dm+VGmqDbPXxlxCL82XCXyHBQp5LX8Ejkhs8jZG8md6Jm+9NnykSk
-         wDJQ==
-X-Gm-Message-State: AOAM5331/NSAKzZ4bmFqfxtTRtGkZK3Qo3Vnq5pcye7STWOnWLjcAoEt
-        WvDqODtsoeJgON1zrlRRr77JqtnJz1QWmA==
-X-Google-Smtp-Source: ABdhPJwyTbDbYL9Be2J58hjWet64L1WtCHnEOSZSgVQPRRIyaTSHNtGKzzzrqCBUjtacWppBQeRecg==
-X-Received: by 2002:a67:d51a:: with SMTP id l26mr33813660vsj.29.1634638797600;
-        Tue, 19 Oct 2021 03:19:57 -0700 (PDT)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id u75sm10778783vke.29.2021.10.19.03.19.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Oct 2021 03:19:57 -0700 (PDT)
-Received: by mail-ua1-f44.google.com with SMTP id i22so2753205ual.10;
-        Tue, 19 Oct 2021 03:19:56 -0700 (PDT)
-X-Received: by 2002:a9f:29a5:: with SMTP id s34mr26300307uas.122.1634638796170;
- Tue, 19 Oct 2021 03:19:56 -0700 (PDT)
+        bh=i/b/YZSKNuUJ2xKiLl2T6Ik48leNz994lleo14luhkQ=;
+        b=24gSbo1kwdgEO9JISHeROUkYX0iynYEdiS8nfhe+9LR1MN7IGB5r/LvzYFHNESWV2u
+         6+kipRrz8s8ZCEi075npt1F4UJHhqfcDGROIW9pA1H4tSDPwx3+Un9Vy0ePOKyPF/A5d
+         dBG2r4y/fk3Njnn8IVw2yqBVV9LDfkEg2BF3ShyPY2E6rlD2t5avqF6wX6MZXYZgq8eQ
+         jHHRLzkAsTysXqGpERiY+Shw4d46Zli1DSjuQwUTurtmmrwr6rkwsdiUxsaAosYXnoWa
+         GSwOwd9Xj1Gc4nOW0zPQG0uQCASrsNXQufQfuOfdeMoLnVHsYTndXjVupBy5iFhzLUFA
+         IQ3w==
+X-Gm-Message-State: AOAM532yq03kIyHP6jrb9axfTYAtR1IRGaWkXFdk0f0SCYK/3mi95Z+2
+        +boRIKwTWR8YfdH/eFg61xe5R0ZeVappe6hHUXamVA==
+X-Google-Smtp-Source: ABdhPJzM9M7omIxr24XkH4sfWDyxD92tmWR//t3hGn62ModYoEb3B5aedVggmpJsiwR826wfeTvFUpyC/9nHort98Cw=
+X-Received: by 2002:a2e:b550:: with SMTP id a16mr553525ljn.229.1634640190414;
+ Tue, 19 Oct 2021 03:43:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211019095858.21316-1-Meng.Li@windriver.com>
-In-Reply-To: <20211019095858.21316-1-Meng.Li@windriver.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 19 Oct 2021 12:19:45 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUJ4nzz169=LG_q6rx7naKVdk-VUrxiQ9VzS=fxjCQ2WA@mail.gmail.com>
-Message-ID: <CAMuHMdUJ4nzz169=LG_q6rx7naKVdk-VUrxiQ9VzS=fxjCQ2WA@mail.gmail.com>
-Subject: Re: [PATCH] pci: pcie-rcar: add regulators support
-To:     Meng Li <Meng.Li@windriver.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>
+References: <20211006171605.6861-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211006171605.6861-1-biju.das.jz@bp.renesas.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Tue, 19 Oct 2021 12:42:34 +0200
+Message-ID: <CAPDyKFrOudyqH1hszzWFS2CR7sxwfvdy7cjr8NvKVQ0_vtRbYA@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: Fix internal cd irq miss with hard reset
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Meng,
-
-On Tue, Oct 19, 2021 at 11:59 AM Meng Li <Meng.Li@windriver.com> wrote:
-> From: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
+On Wed, 6 Oct 2021 at 19:16, Biju Das <biju.das.jz@bp.renesas.com> wrote:
 >
-> Add PCIe regulators for KingFisher board.
 >
-> Signed-off-by: Meng Li <Meng.Li@windriver.com>
-
-Thanks for your patch!
-
->  arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 47 +++++++++++++++++
->  drivers/pci/controller/pcie-rcar-host.c  | 64 ++++++++++++++++++++++++
-
-Please split patches touching both DT and driver sources.
-
-> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-
-> @@ -259,6 +303,9 @@
+> This patch fixes internal cd irq miss after hard reset by enabling
+> internal card insertion/removal interrupts.
 >
->  &pciec1 {
->         status = "okay";
-> +
-> +       pcie3v3-supply = <&mpcie_3v3>;
-> +       pcie1v8-supply = <&mpcie_1v8>;
+> Fixes: b4d86f37eacb ("mmc: renesas_sdhi: do hard reset if possible")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-This needs an update to the R-Car PCIe DT bindings first.
+Wolfram, would you mind having a look at this?
 
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
+Kind regards
+Uffe
 
-> @@ -893,6 +896,36 @@ static const struct of_device_id rcar_pcie_of_match[] = {
->         {},
->  };
+> ---
+> Hi All,
 >
-> +static int rcar_pcie_set_vpcie(struct rcar_pcie_host *host)
-> +{
-> +       struct device *dev = host->pcie.dev;
-> +       int err;
-> +
-> +       if (!IS_ERR(host->pcie3v3)) {
-> +               err = regulator_enable(host->pcie3v3);
-
-This will crash if host->pcie3v3 is NULL (optional regulator not
-present).  Probably you just want to check for non-NULL (see below).
-
-> +               if (err) {
-> +                       dev_err(dev, "fail to enable vpcie3v3 regulator\n");
-> +                       goto err_out;
-> +               }
-> +       }
-> +
-> +       if (!IS_ERR(host->pcie1v8)) {
-> +               err = regulator_enable(host->pcie1v8);
-
-Likewise.
-
-> +               if (err) {
-> +                       dev_err(dev, "fail to enable vpcie1v8 regulator\n");
-> +                       goto err_disable_3v3;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +
-> +err_disable_3v3:
-> +       if (!IS_ERR(host->pcie3v3))
-
-Likewise.
-
-> +               regulator_disable(host->pcie3v3);
-> +err_out:
-> +       return err;
-> +}
-> +
->  static int rcar_pcie_probe(struct platform_device *pdev)
->  {
->         struct device *dev = &pdev->dev;
-> @@ -911,6 +944,31 @@ static int rcar_pcie_probe(struct platform_device *pdev)
->         pcie->dev = dev;
->         platform_set_drvdata(pdev, host);
+> On RZ/G2M board, if i enable internal cd, then it is missing irq after hard reset.
+> Please find my test logs with card inserted during boot,
 >
-> +       host->pcie3v3 = devm_regulator_get_optional(dev, "pcie3v3");
-> +       if (IS_ERR(host->pcie3v3)) {
-> +               if (PTR_ERR(host->pcie3v3) == -EPROBE_DEFER) {
-> +                       pci_free_host_bridge(bridge);
-
-Please drop this.  As the bridge was allocated using
-devm_pci_alloc_host_bridge(), freeing it manually will cause a
-double free.
-
-> +                       return -EPROBE_DEFER;
-> +               }
-> +               dev_info(dev, "no pcie3v3 regulator found\n");
-
-devm_regulator_get_optional() returns NULL if the regulator was not
-found.  Hence if IS_ERR() is true, this indicates a real error, which
-you should handle:
-
-    if (IS_ERR(host->pcie3v3))
-            return PTR_ERR(host->pcie3v3);
-
-> +       }
-> +
-> +       host->pcie1v8 = devm_regulator_get_optional(dev, "pcie1v8");
-> +       if (IS_ERR(host->pcie1v8)) {
-> +               if (PTR_ERR(host->pcie1v8) == -EPROBE_DEFER) {
-> +                       pci_free_host_bridge(bridge);
-> +                       return -EPROBE_DEFER;
-> +               }
-> +               dev_info(dev, "no pcie1v8 regulator found\n");
-
-Likewise.
-
-> +       }
-> +
-> +       err = rcar_pcie_set_vpcie(host);
-> +       if (err) {
-> +               dev_err(dev, "failed to set pcie regulators\n");
-> +               pci_free_host_bridge(bridge);
-
-Please drop this to avoid double free.
-
-> +               return err;
-> +       }
-> +
->         pm_runtime_enable(pcie->dev);
->         err = pm_runtime_get_sync(pcie->dev);
->         if (err < 0) {
-> @@ -985,6 +1043,12 @@ static int rcar_pcie_probe(struct platform_device *pdev)
->         irq_dispose_mapping(host->msi.irq1);
+> case 1:- current case (no internal cd interrupt)
+> root@hihope-rzg2m:~# cat /proc/interrupts | grep mmc
+> 162:          0          0          0          0          0          0     GIC-0 197 Level     ee100000.mmc
+> 163:        151          0          0          0          0          0     GIC-0 199 Level     ee140000.mmc
+> 164:       1500          0          0          0          0          0     GIC-0 200 Level     ee160000.mmc
+> root@hihope-rzg2m:~#
 >
->  err_pm_put:
-> +       if(!IS_ERR(host->pcie3v3))
-
-if (host->pcie3v3)
-
-> +               if (regulator_is_enabled(host->pcie3v3))
-
-If you get here, the regulator should be enabled?
-
-> +                       regulator_disable(host->pcie3v3);
-> +       if(!IS_ERR(host->pcie1v8))
-
-if (host->pcie1v8)
-
-> +               if (regulator_is_enabled(host->pcie1v8))
-> +                       regulator_disable(host->pcie1v8);
-
-Please move this below the call to pm_runtime_disable(), to preserve
-symmetry.
-
->         pm_runtime_put(dev);
->         pm_runtime_disable(dev);
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>
+> case 2:- current case + patch
+> root@hihope-rzg2m:~# cat /proc/interrupts | grep mmc
+> 162:       1107          0          0          0          0          0     GIC-0 197 Level     ee100000.mmc
+> 163:        151          0          0          0          0          0     GIC-0 199 Level     ee140000.mmc
+> 164:       1106          0          0          0          0          0     GIC-0 200 Level     ee160000.mmc
+> root@hihope-rzg2m:~#
+>
+> case 3:- with cd nterrupt as gpio
+> root@hihope-rzg2m:~# cat /proc/interrupts | grep mmc
+> 162:        796          0          0          0          0          0     GIC-0 197 Level     ee100000.mmc
+> 163:        151          0          0          0          0          0     GIC-0 199 Level     ee140000.mmc
+> 164:       1010          0          0          0          0          0     GIC-0 200 Level     ee160000.mmc
+> 197:          0          0          0          0          0          0  gpio-rcar  12 Edge      ee100000.mmc cd
+> root@hihope-rzg2m:~#
+> ---
+>  drivers/mmc/host/renesas_sdhi.h      | 1 +
+>  drivers/mmc/host/renesas_sdhi_core.c | 9 +++++++++
+>  2 files changed, 10 insertions(+)
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
+> index 0c45e82ff0de..1199693690da 100644
+> --- a/drivers/mmc/host/renesas_sdhi.h
+> +++ b/drivers/mmc/host/renesas_sdhi.h
+> @@ -68,6 +68,7 @@ struct renesas_sdhi {
+>         u32 scc_tappos_hs400;
+>         const u8 *adjust_hs400_calib_table;
+>         bool needs_adjust_hs400;
+> +       bool internal_cd;
+>
+>         /* Tuning values: 1 for success, 0 for failure */
+>         DECLARE_BITMAP(taps, BITS_PER_LONG);
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index a4407f391f66..9d828094169a 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -561,6 +561,11 @@ static void renesas_sdhi_reset(struct tmio_mmc_host *host)
+>                 /* Unknown why but without polling reset status, it will hang */
+>                 read_poll_timeout(reset_control_status, ret, ret == 0, 1, 100,
+>                                   false, priv->rstc);
+> +
+> +               if (priv->internal_cd)
+> +                       tmio_mmc_enable_mmc_irqs(host, TMIO_STAT_CARD_REMOVE |
+> +                                                TMIO_STAT_CARD_INSERT);
+> +
+>                 /* At least SDHI_VER_GEN2_SDR50 needs manual release of reset */
+>                 sd_ctrl_write16(host, CTL_RESET_SD, 0x0001);
+>                 priv->needs_adjust_hs400 = false;
+> @@ -1017,6 +1022,10 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>         if (IS_ERR(priv->rstc))
+>                 return PTR_ERR(priv->rstc);
+>
+> +       if (priv->rstc && !(host->mmc->caps & MMC_CAP_NONREMOVABLE) &&
+> +           !mmc_can_gpio_cd(host->mmc))
+> +               priv->internal_cd = true;
+> +
+>         ver = sd_ctrl_read16(host, CTL_VERSION);
+>         /* GEN2_SDR104 is first known SDHI to use 32bit block count */
+>         if (ver < SDHI_VER_GEN2_SDR104 && mmc_data->max_blk_count > U16_MAX)
+> --
+> 2.17.1
+>
