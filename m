@@ -2,89 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8878434B05
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Oct 2021 14:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEF6E434D5C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Oct 2021 16:21:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230187AbhJTMTQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Oct 2021 08:19:16 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:48550 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230205AbhJTMTQ (ORCPT
+        id S230020AbhJTOXp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Oct 2021 10:23:45 -0400
+Received: from mail-ot1-f41.google.com ([209.85.210.41]:34782 "EHLO
+        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229639AbhJTOXp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Oct 2021 08:19:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=32GYkFGawk1EHwubKe3VWlQKW04GyjW6olYclX1Tk34=; b=RtVOIeZ3PSCRdaK6EFw6Mufldc
-        FCR2wMQvAml1Qlq2OYjJgctYcQ5iMmh7GJmitlPzROfHxV7aBjd2hV9GNCMR/KxBQjSp8DlhClDvf
-        +zi4IBK2/Lm4fk0gkMzLfzztsOGGqA+xRx/ioUUkN7cB284Gh0EsuFEEADsUCUpI7oNM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1mdAWd-00BBMp-US; Wed, 20 Oct 2021 14:16:55 +0200
-Date:   Wed, 20 Oct 2021 14:16:55 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Adam Ford <aford173@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Yang Yingliang <yangyingliang@huawei.com>
-Subject: Re: [PATCH] net: renesas: Fix rgmii-id delays
-Message-ID: <YXAIt3TOaCiEuHSt@lunn.ch>
-References: <20211019145719.122751-1-kory.maincent@bootlin.com>
- <CAMuHMdWghZ7HM5RRFRsZu8P_ikna0QWoRfCKeym61N-Lv-v4Xw@mail.gmail.com>
- <20211019173520.0154a8cb@kmaincent-XPS-13-7390>
- <YW7nPfzjstmeoMbf@lunn.ch>
- <20211019175746.11b388ce@windsurf>
- <CAMuHMdXiMhpU0vDV3KaOg4DY59cszAtoG1sDOgnTRY6C6cyitQ@mail.gmail.com>
- <20211020105328.411a712f@kmaincent-XPS-13-7390>
+        Wed, 20 Oct 2021 10:23:45 -0400
+Received: by mail-ot1-f41.google.com with SMTP id g62-20020a9d2dc4000000b0054752cfbc59so6317946otb.1;
+        Wed, 20 Oct 2021 07:21:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=XG3RAyJEhy1T5+7Mzfxe89VCAx3Ob+1lXbbGvhvmLrg=;
+        b=K8LOnyN8ODE+Z3Ny8WHYXvAWtmUtIgxFpfPRqpVB/JvEB//9ODqCS7UhS/c1mwcbfD
+         5j6FdJYpH7AuwmSvNELMt5AaLdwaDLuls5h1U9ce4nehyMq4LMVWM0nMWZNvAeyUbLSj
+         vsTX68d51ifFCWypPEmLiyBudpH67YM355HvbVsHnKSh0hau/kquvUFWxRjgPm+4cFNH
+         BaG6I6hFf0zj3UBe+AXXbnVec7Trs+/MZSafk37COIMu8uTFlKJ+gRG+0dDxkEmeHjYh
+         Q3NLRBGXBxVg5PiJKJi3Kz0AAjiO7e25cN2LksIbgWREuqHaCIqRdQoxPCsvTaTJuDbt
+         4v9w==
+X-Gm-Message-State: AOAM530RCkDYYtC/VTOATHHLkOS9HlisJgVjF0mIiL4pRztgi3APTCaR
+        udwQY0vESWL5rGLJRgqK5A==
+X-Google-Smtp-Source: ABdhPJx4od9dszhBlHZ5LNPRg1jYyAj0rc84Zjz3OBzNi2cUC4Fohy/HjYC8gvuMpM1STyKm4mqKHg==
+X-Received: by 2002:a9d:728d:: with SMTP id t13mr163090otj.66.1634739689320;
+        Wed, 20 Oct 2021 07:21:29 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id x8sm494492otg.31.2021.10.20.07.21.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Oct 2021 07:21:28 -0700 (PDT)
+Received: (nullmailer pid 2301836 invoked by uid 1000);
+        Wed, 20 Oct 2021 14:21:27 -0000
+Date:   Wed, 20 Oct 2021 09:21:27 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     devicetree@vger.kernel.org, linux-omap@vger.kernel.org,
+        Russell King <linux@armlinux.org.uk>,
+        Sebastian Reichel <sre@kernel.org>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Tony Lindgren <tony@atomide.com>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        David Lechner <david@lechnology.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [PATCH 2/3] dt-bindings: net: wireless: ti,wlcore: Convert to
+ json-schema
+Message-ID: <YXAl5zLeFP3lxs0S@robh.at.kernel.org>
+References: <cover.1634646975.git.geert+renesas@glider.be>
+ <23a2fbc46255a988e5d36f6c14abb7130480d200.1634646975.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211020105328.411a712f@kmaincent-XPS-13-7390>
+In-Reply-To: <23a2fbc46255a988e5d36f6c14abb7130480d200.1634646975.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> > BTW, it's still not clear to me why the inversion would be needed.
-> > Cfr. Andrew's comment:
-> > 
-> > | So with rgmii-rxid, what is actually passed to the PHY? Is your
-> > | problem you get twice the delay in one direction, and no delay in the
-> > | other?
+On Tue, 19 Oct 2021 14:43:12 +0200, Geert Uytterhoeven wrote:
+> The Texas Instruments Wilink 6/7/8 (wl12xx/wl18xx) Wireless LAN
+> Controllers can be connected via SPI or via SDIO.
+> Convert the two Device Tree binding documents to json-schema, and merge
+> them into a single document.
 > 
-> Yes, it was the problem I got.
-> The PHY I use have RX delay enabled by default, currently the PHY driver does
-> not support delay configuration, therefore I let the MAC handle TX delay. I
-> have stumbling over that legacy/wrong DTS on the old Kernel.
+> Add missing ti,wl1285 compatible value.
+> Add missing interrupt-names property.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>   - The wlcore driver is marked orphan in MAINTAINERS.  Both Tony and
+>     Russell made recent bugfixes, and my not-so-random coin picked Tony
+>     as a suitable maintainer.  Please scream if not appropriate.
+>   - How to express if a property is required when connected to a
+>     specific bus type?
+> ---
+>  .../devicetree/bindings/net/ti-bluetooth.txt  |   2 +-
+>  .../bindings/net/wireless/ti,wlcore,spi.txt   |  57 --------
+>  .../bindings/net/wireless/ti,wlcore.txt       |  45 ------
+>  .../bindings/net/wireless/ti,wlcore.yaml      | 134 ++++++++++++++++++
+>  arch/arm/boot/dts/omap3-gta04a5.dts           |   2 +-
+>  5 files changed, 136 insertions(+), 104 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/net/wireless/ti,wlcore,spi.txt
+>  delete mode 100644 Documentation/devicetree/bindings/net/wireless/ti,wlcore.txt
+>  create mode 100644 Documentation/devicetree/bindings/net/wireless/ti,wlcore.yaml
+> 
 
-This is where we get into the horrible mess of RGMII delays.
-
-The real solution is to fix the PHY driver. If it is asked to do
-rgmii, but is actually doing rgmii-id, the PHY driver is broken. It
-either should do what it is told, or return -EINVAL/-EOPNOTSUPP etc to
-indicate it does not support what it is asked to do.
-
-But fixing things like this often breaks working systems, because the
-DT says rgmii, the PHY actually does rgmii-id, the board works, until
-the PHY is fixed to do what it is told, and all the bugs in the DT
-suddenly come to light.
-
-Now, you said you are using an old kernel. So it could be we have
-already fixed this, and had the pain of fixing broken DT. Please look
-at the current kernel PHY driver, and see if all you need to do is
-back port some PHY fixes, or better still, throw away your old kernel
-and use a modern one.
-
-       Andrew
+Applied, thanks!
