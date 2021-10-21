@@ -2,132 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE8143621E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Oct 2021 14:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3E824362A1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Oct 2021 15:19:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbhJUMyz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Oct 2021 08:54:55 -0400
-Received: from mail.iot.bzh ([51.75.236.24]:24012 "EHLO frontal.iot.bzh"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230374AbhJUMyz (ORCPT
+        id S231144AbhJUNVU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Oct 2021 09:21:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50982 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230374AbhJUNVS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Oct 2021 08:54:55 -0400
-Received: from frontal.iot.bzh (localhost [127.0.0.1])
-        by frontal.iot.bzh (Proxmox) with ESMTP id 35C9016730;
-        Thu, 21 Oct 2021 14:52:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
-        :content-transfer-encoding:content-type:content-type:date:from
-        :from:in-reply-to:message-id:mime-version:references:reply-to
-        :subject:subject:to:to; s=iot.bzh; bh=qy++6GyZIXpqBNMU/RewEwPaWp
-        lhjUkLfMbVjY7RepA=; b=mWHarlmST/4D9A3nm/+F3DlSaB/ncXXr97s50kjqH/
-        pwM0+hgXXkb309RsEyxWo2j6Vbs/OQxotzhuXq36I0Ft9PIcMJCR42zM0oIoa4Da
-        gL3Y5OVlV6uWOFrLKGowd3osv5aEpf5hM1vS4XWwH3YIBAM8dKx/e3CGl6n2yr1n
-        27CrVACf6VliQWpkfn0H0Xate7v9BoYe+uEVVCpywYXtrXCdmgD8Jj56DT9uP5zK
-        Visy6WK/AejdzXeRFYsuY5k0qb5/wPHclsBRViDdR/H4gNA/iFFGT4JH2YDEeBX4
-        8p9nXGxbeialOkayc//Y700vBTCgcg+gkT/+yXFzE03w==
-Message-ID: <2df286a3-c805-c160-d656-5ab88b7ea3ba@iot.bzh>
-Date:   Thu, 21 Oct 2021 14:52:31 +0200
+        Thu, 21 Oct 2021 09:21:18 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6F5DC061243
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Oct 2021 06:19:00 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:2c41:c2bf:5c8f:53c5])
+        by xavier.telenet-ops.be with bizsmtp
+        id 8dJv260041Z5S4H01dJvnF; Thu, 21 Oct 2021 15:18:58 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mdXyA-006ZA9-SL; Thu, 21 Oct 2021 15:18:54 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mdXyA-00GQ7o-FK; Thu, 21 Oct 2021 15:18:54 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/3] dt-bindings: display: bridge: nxp,tda998x: Json-schema conversion and fixes
+Date:   Thu, 21 Oct 2021 15:18:50 +0200
+Message-Id: <cover.1634822085.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3] soc: renesas: rcar-rst: Add support to set rproc boot
- address
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20211012121117.61864-1-julien.massot@iot.bzh>
- <CAMuHMdUyO+L40hP5+uzeyY+Tn-9un-ignekzzqx=5Nd6DkJSxg@mail.gmail.com>
-From:   Julien Massot <julien.massot@iot.bzh>
-In-Reply-To: <CAMuHMdUyO+L40hP5+uzeyY+Tn-9un-ignekzzqx=5Nd6DkJSxg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+	Hi all,
 
->> +/*
->> + * Most of the R-Car Gen3 SoCs have an ARM Realtime Core.
->> + * Firmware boot address has to be set in CR7BAR before
->> + * starting the realtime core.
->> + * Boot address must be aligned on a 256k boundary.
->> + */
->> +static int rcar_rst_set_gen3_rproc_boot_addr(u32 boot_addr)
-> 
-> phys_addr_t?
-Not sure, in the remoteproc subsystem the boot address is in the
-remote processor address space, which can be a different mapping than the host
-processor. On Gen3 both the realtime and the application cores share the same address
-map. (excepted for 64 bits address)
-So a physical address from the CA5x processors is the same on the CR7
-processor.
-My feeling is that it's better to keep u32.
+This patch series converts the NXP TDA998x HDMI transmitter Device Tree
+binding documentation to json-schema, after a few customary fixes.
 
-> 
->> +{
->> +       if (boot_addr % SZ_256K) {
->> +               pr_warn("Invalid boot address for CR7 processor,"
->> +                      "should be aligned on 256KiB got %x\n", boot_addr);
-> 
-> Please don't split printed messages, for easier searching.
-Sure will fix.
-> 
->> +               return -EINVAL;
->> +       }
->> +
->> +       iowrite32(boot_addr, rcar_rst_base + CR7BAR);
->> +       iowrite32(boot_addr | CR7BAREN, rcar_rst_base + CR7BAR);
->> +
->> +       return 0;
->> +}
->> +
->>   struct rst_config {
->>          unsigned int modemr;            /* Mode Monitoring Register Offset */
->>          int (*configure)(void __iomem *base);   /* Platform specific config */
->> +       int (*set_rproc_boot_addr)(u32 boot_addr);
-> 
-> phys_addr_t
-> 
->>   };
->>
->>   static const struct rst_config rcar_rst_gen1 __initconst = {
-> 
->> @@ -130,3 +157,12 @@ int __init rcar_rst_read_mode_pins(u32 *mode)
->>          *mode = saved_mode;
->>          return 0;
->>   }
->> +
->> +int rcar_rst_set_rproc_boot_addr(u32 boot_addr)
-> 
-> phys_addr_t
-> 
->> +{
->> +       if (!rcar_rst_set_rproc_boot_addr_func)
->> +               return -EIO;
->> +
->> +       return rcar_rst_set_rproc_boot_addr_func(boot_addr);
->> +}
->> +EXPORT_SYMBOL(rcar_rst_set_rproc_boot_addr);
-> 
-> EXPORT_SYMBOL_GPL?
-Ok
+Thanks for your comments!
 
-> 
-> Do you have a public user of this code, too?
-I have one that I plan to submit to the remoteproc subsystem once
-it will be possible to set the CR7 boot address.
+Geert Uytterhoeven (3):
+  ARM: dts: am335x: Fix TDA998x ports addressing
+  [RFC] arm64: dts: renesas: cat874: Drop bogus clocks property
+  [RFC] dt-bindings: display: bridge: nxp,tda998x: Convert to
+    json-schema
 
-Please have a look there
-https://github.com/iotbzh/linux/blob/iot/for-upstream/rproc/drivers/remoteproc/rcar_rproc.c#L114
+ .../bindings/display/bridge/nxp,tda998x.yaml  | 108 ++++++++++++++++++
+ .../bindings/display/bridge/tda998x.txt       |  54 ---------
+ arch/arm/boot/dts/am335x-boneblack-hdmi.dtsi  |   7 +-
+ arch/arm/boot/dts/am335x-myirtech-myd.dts     |   7 +-
+ .../boot/dts/renesas/r8a774c0-cat874.dts      |   1 -
+ 5 files changed, 120 insertions(+), 57 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/tda998x.txt
 
-In this function the remoteproc subsystem already fetched a firmware and parsed the elf file.
-The firmware entry point is stored in a u64 variable
-https://github.com/iotbzh/linux/blob/iot/for-upstream/rproc/include/linux/remoteproc.h#L550
+-- 
+2.25.1
 
-Then we can start the processor by deasserting the reset.
+Gr{oetje,eeting}s,
 
+						Geert
 
-Thanks,
-Julien
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
