@@ -2,214 +2,286 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7848B43601A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Oct 2021 13:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F05E4360E9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Oct 2021 14:01:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230283AbhJULX6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Oct 2021 07:23:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51310 "EHLO
+        id S230425AbhJUMDp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Oct 2021 08:03:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230225AbhJULX6 (ORCPT
+        with ESMTP id S230231AbhJUMDp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Oct 2021 07:23:58 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1D48C06174E
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Oct 2021 04:21:41 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id i189so434560ioa.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Oct 2021 04:21:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hHTl0EN9dQ/dp9evKTTMpGqyp59LLT52mZlH+IIiot8=;
-        b=AQ+5EHmgKNlon0JYKx/HWu5x6U66Dcgko2YsZqPv201SVAWH6nfAXCe6BrNIJTgweU
-         owxFxSqSKQ9lfcUwyV5ckK+OFn0e5vmPJR0CFUWJ53fpkGyrgJFB1ZfsmNZL3iUFz8jH
-         OkREspWPq5dNqwJRHY0/qL6/apmHCbOMTfg9d8moUcertONvMnP7xYWRrSx9gCe7OwYG
-         J9aPVhC3YVVbEWzBVBCINMU/2Q4E8R0jUYUxzNmdIq4wj64/gJsEr1qWWjBfwL9+V238
-         0Vu3k6epCFJJEmMmYn8r3vfBt2LLoyx+84QGCYdsK46gvG0KfTTlZuBV03A344QGE1pb
-         6nOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hHTl0EN9dQ/dp9evKTTMpGqyp59LLT52mZlH+IIiot8=;
-        b=hYjIIGIicxBHCkKSca71Buzi53pPbCpfE4vofOmhAmw5fheLSWowRW4IuMDKACiNOH
-         04dZcICOD3jWTCDSvK0/EpBg6JKfTcdacRMMDNmxyUPTLgJkNoba6CULrM05ob7OQNCk
-         1T55ZlCvdk2kGzNvXTM6d1drdPN6DpTbIkG9nky6rKOjtmmq4BGXBt67jJT9bkF8zNz0
-         8i/hLUZ1Af6U1h1Vj7PNxkmv3e3x+bgVKmDtsL8blv697AQ3wDrNybfZBVk9qnU4OvvT
-         2FmBHu78mRTy21Fxy3xBRBaLI7F4vAMq5/UmNAO2lDpY9Tb78Kqj/Jb0MpMliA5+pY6S
-         wqog==
-X-Gm-Message-State: AOAM531olckgR1RtVOY3PPBYxjEGvpyNrwpP1QEGprqivJUE/yNQAvIr
-        OTagOl6s9PM3M1Y0M8ehwpFV2HZCkaym4wvG3Gso3w==
-X-Google-Smtp-Source: ABdhPJxMRo/M6HcJdEwh6eTZSJmNRK1zwILbTp96Xp6bcY/ASKoT49bvdtBnoUUI19JfFMMWqZN4m0P00TAN76G7v0w=
-X-Received: by 2002:a05:6638:3796:: with SMTP id w22mr3510784jal.25.1634815300995;
- Thu, 21 Oct 2021 04:21:40 -0700 (PDT)
+        Thu, 21 Oct 2021 08:03:45 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05533C06161C
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Oct 2021 05:01:28 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:2c41:c2bf:5c8f:53c5])
+        by laurent.telenet-ops.be with bizsmtp
+        id 8c1R260021Z5S4H01c1Rhs; Thu, 21 Oct 2021 14:01:25 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mdWlA-006Y6m-Pe; Thu, 21 Oct 2021 14:01:24 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mdWlA-00GCux-18; Thu, 21 Oct 2021 14:01:24 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Boris Brezillon <bbrezillon@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] [RFC] dt-bindings: display: bridge: sil,sii9022: Convert to json-schema
+Date:   Thu, 21 Oct 2021 14:01:22 +0200
+Message-Id: <1ad70333148a473c1344a87993e795be90f355e4.1634817622.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210929000735.585237-1-saravanak@google.com> <20210929000735.585237-3-saravanak@google.com>
-In-Reply-To: <20210929000735.585237-3-saravanak@google.com>
-From:   Amit Pundir <amit.pundir@linaro.org>
-Date:   Thu, 21 Oct 2021 16:51:04 +0530
-Message-ID: <CAMi1Hd0HvPOT277mx8hNTU9NQH2ti7h5qc5+rxOkRWwbfrhyQQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] drivers: bus: Delete CONFIG_SIMPLE_PM_BUS
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        linux-arm-kernel@lists.infradead.org,
-        lkml <linux-kernel@vger.kernel.org>, linux-oxnas@groups.io,
-        linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        John Stultz <john.stultz@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
+Convert the Silicon Image sii902x HDMI bridge Device Tree binding
+documentation to json-schema.
 
-This patch broke v5.15-rc6 on RB5 (sm8250 | qcom/qrb5165-rb5.dts).
-I can't boot past this point https://www.irccloud.com/pastebin/raw/Nv6ZwHmW.
+Add missing sil,sii9022-cpi and sil,sii9022-tpi compatible values.
 
-Regards,
-Amit Pundir
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+RFC as I do not know the meaning of the various ports subnodes.
+---
+ .../bindings/display/bridge/sii902x.txt       |  78 ----------
+ .../bindings/display/bridge/sil,sii9022.yaml  | 133 ++++++++++++++++++
+ 2 files changed, 133 insertions(+), 78 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/sii902x.txt
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
 
-On Wed, 29 Sept 2021 at 05:37, Saravana Kannan <saravanak@google.com> wrote:
->
-> The simple-pm-bus driver is mandatory for CONFIG_OF based platforms to work
-> with fw_devlink. So, always compile it in for CONFIG_OF and delete the
-> config since it's no longer necessary.
->
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
-> ---
->  arch/arm/configs/multi_v7_defconfig |  1 -
->  arch/arm/configs/oxnas_v6_defconfig |  1 -
->  arch/arm/configs/shmobile_defconfig |  1 -
->  arch/arm/mach-omap2/Kconfig         |  1 -
->  arch/arm64/configs/defconfig        |  1 -
->  drivers/bus/Kconfig                 | 12 ------------
->  drivers/bus/Makefile                |  2 +-
->  drivers/soc/canaan/Kconfig          |  1 -
->  8 files changed, 1 insertion(+), 19 deletions(-)
->
-> diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-> index d9abaae118dd..362720ae8d65 100644
-> --- a/arch/arm/configs/multi_v7_defconfig
-> +++ b/arch/arm/configs/multi_v7_defconfig
-> @@ -196,7 +196,6 @@ CONFIG_PCI_EPF_TEST=m
->  CONFIG_DEVTMPFS=y
->  CONFIG_DEVTMPFS_MOUNT=y
->  CONFIG_OMAP_OCP2SCP=y
-> -CONFIG_SIMPLE_PM_BUS=y
->  CONFIG_MTD=y
->  CONFIG_MTD_CMDLINE_PARTS=y
->  CONFIG_MTD_BLOCK=y
-> diff --git a/arch/arm/configs/oxnas_v6_defconfig b/arch/arm/configs/oxnas_v6_defconfig
-> index cae0db6b4eaf..de37f7e90999 100644
-> --- a/arch/arm/configs/oxnas_v6_defconfig
-> +++ b/arch/arm/configs/oxnas_v6_defconfig
-> @@ -46,7 +46,6 @@ CONFIG_DEVTMPFS=y
->  CONFIG_DEVTMPFS_MOUNT=y
->  CONFIG_DMA_CMA=y
->  CONFIG_CMA_SIZE_MBYTES=64
-> -CONFIG_SIMPLE_PM_BUS=y
->  CONFIG_MTD=y
->  CONFIG_MTD_CMDLINE_PARTS=y
->  CONFIG_MTD_BLOCK=y
-> diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-> index d9a27e4e0914..18d2a960b2d2 100644
-> --- a/arch/arm/configs/shmobile_defconfig
-> +++ b/arch/arm/configs/shmobile_defconfig
-> @@ -40,7 +40,6 @@ CONFIG_PCI_RCAR_GEN2=y
->  CONFIG_PCIE_RCAR_HOST=y
->  CONFIG_DEVTMPFS=y
->  CONFIG_DEVTMPFS_MOUNT=y
-> -CONFIG_SIMPLE_PM_BUS=y
->  CONFIG_MTD=y
->  CONFIG_MTD_BLOCK=y
->  CONFIG_MTD_CFI=y
-> diff --git a/arch/arm/mach-omap2/Kconfig b/arch/arm/mach-omap2/Kconfig
-> index 7df8f5276ddf..02f2f3157f07 100644
-> --- a/arch/arm/mach-omap2/Kconfig
-> +++ b/arch/arm/mach-omap2/Kconfig
-> @@ -112,7 +112,6 @@ config ARCH_OMAP2PLUS
->         select PM_GENERIC_DOMAINS
->         select PM_GENERIC_DOMAINS_OF
->         select RESET_CONTROLLER
-> -       select SIMPLE_PM_BUS
->         select SOC_BUS
->         select TI_SYSC
->         select OMAP_IRQCHIP
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index f423d08b9a71..474b1f2e3f06 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -245,7 +245,6 @@ CONFIG_DEVTMPFS_MOUNT=y
->  CONFIG_FW_LOADER_USER_HELPER=y
->  CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y
->  CONFIG_HISILICON_LPC=y
-> -CONFIG_SIMPLE_PM_BUS=y
->  CONFIG_FSL_MC_BUS=y
->  CONFIG_TEGRA_ACONNECT=m
->  CONFIG_GNSS=m
-> diff --git a/drivers/bus/Kconfig b/drivers/bus/Kconfig
-> index e7f7eee6ee9a..dc3801369488 100644
-> --- a/drivers/bus/Kconfig
-> +++ b/drivers/bus/Kconfig
-> @@ -141,18 +141,6 @@ config QCOM_EBI2
->           Interface 2, which can be used to connect things like NAND Flash,
->           SRAM, ethernet adapters, FPGAs and LCD displays.
->
-> -config SIMPLE_PM_BUS
-> -       tristate "Simple Power-Managed Bus Driver"
-> -       depends on OF && PM
-> -       help
-> -         Driver for transparent busses that don't need a real driver, but
-> -         where the bus controller is part of a PM domain, or under the control
-> -         of a functional clock, and thus relies on runtime PM for managing
-> -         this PM domain and/or clock.
-> -         An example of such a bus controller is the Renesas Bus State
-> -         Controller (BSC, sometimes called "LBSC within Bus Bridge", or
-> -         "External Bus Interface") as found on several Renesas ARM SoCs.
-> -
->  config SUN50I_DE2_BUS
->         bool "Allwinner A64 DE2 Bus Driver"
->           default ARM64
-> diff --git a/drivers/bus/Makefile b/drivers/bus/Makefile
-> index 397e35392bff..86aacd36a56d 100644
-> --- a/drivers/bus/Makefile
-> +++ b/drivers/bus/Makefile
-> @@ -26,7 +26,7 @@ obj-$(CONFIG_OMAP_OCP2SCP)    += omap-ocp2scp.o
->  obj-$(CONFIG_QCOM_EBI2)                += qcom-ebi2.o
->  obj-$(CONFIG_SUN50I_DE2_BUS)   += sun50i-de2.o
->  obj-$(CONFIG_SUNXI_RSB)                += sunxi-rsb.o
-> -obj-$(CONFIG_SIMPLE_PM_BUS)    += simple-pm-bus.o
-> +obj-$(CONFIG_OF)               += simple-pm-bus.o
->  obj-$(CONFIG_TEGRA_ACONNECT)   += tegra-aconnect.o
->  obj-$(CONFIG_TEGRA_GMI)                += tegra-gmi.o
->  obj-$(CONFIG_TI_PWMSS)         += ti-pwmss.o
-> diff --git a/drivers/soc/canaan/Kconfig b/drivers/soc/canaan/Kconfig
-> index 8179b69518b4..853096b7e84c 100644
-> --- a/drivers/soc/canaan/Kconfig
-> +++ b/drivers/soc/canaan/Kconfig
-> @@ -5,7 +5,6 @@ config SOC_K210_SYSCTL
->         depends on RISCV && SOC_CANAAN && OF
->         default SOC_CANAAN
->          select PM
-> -        select SIMPLE_PM_BUS
->          select SYSCON
->          select MFD_SYSCON
->         help
-> --
-> 2.33.0.685.g46640cef36-goog
->
+diff --git a/Documentation/devicetree/bindings/display/bridge/sii902x.txt b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
+deleted file mode 100644
+index 3bc760cc31cbbeee..0000000000000000
+--- a/Documentation/devicetree/bindings/display/bridge/sii902x.txt
++++ /dev/null
+@@ -1,78 +0,0 @@
+-sii902x HDMI bridge bindings
+-
+-Required properties:
+-	- compatible: "sil,sii9022"
+-	- reg: i2c address of the bridge
+-
+-Optional properties:
+-	- interrupts: describe the interrupt line used to inform the host
+-	  about hotplug events.
+-	- reset-gpios: OF device-tree gpio specification for RST_N pin.
+-	- iovcc-supply: I/O Supply Voltage (1.8V or 3.3V)
+-	- cvcc12-supply: Digital Core Supply Voltage (1.2V)
+-
+-	HDMI audio properties:
+-	- #sound-dai-cells: <0> or <1>. <0> if only i2s or spdif pin
+-	   is wired, <1> if the both are wired. HDMI audio is
+-	   configured only if this property is found.
+-	- sil,i2s-data-lanes: Array of up to 4 integers with values of 0-3
+-	   Each integer indicates which i2s pin is connected to which
+-	   audio fifo. The first integer selects i2s audio pin for the
+-	   first audio fifo#0 (HDMI channels 1&2), second for fifo#1
+-	   (HDMI channels 3&4), and so on. There is 4 fifos and 4 i2s
+-	   pins (SD0 - SD3). Any i2s pin can be connected to any fifo,
+-	   but there can be no gaps. E.g. an i2s pin must be mapped to
+-	   fifo#0 and fifo#1 before mapping a channel to fifo#2. Default
+-	   value is <0>, describing SD0 pin beiging routed to hdmi audio
+-	   fifo #0.
+-	- clocks: phandle and clock specifier for each clock listed in
+-           the clock-names property
+-	- clock-names: "mclk"
+-	   Describes SII902x MCLK input. MCLK can be used to produce
+-	   HDMI audio CTS values. This property follows
+-	   Documentation/devicetree/bindings/clock/clock-bindings.txt
+-	   consumer binding.
+-
+-	If HDMI audio is configured the sii902x device becomes an I2S
+-	and/or spdif audio codec component (e.g a digital audio sink),
+-	that can be used in configuring a full audio devices with
+-	simple-card or audio-graph-card binding. See their binding
+-	documents on how to describe the way the sii902x device is
+-	connected to the rest of the audio system:
+-	Documentation/devicetree/bindings/sound/simple-card.yaml
+-	Documentation/devicetree/bindings/sound/audio-graph-card.yaml
+-	Note: In case of the audio-graph-card binding the used port
+-	index should be 3.
+-
+-Optional subnodes:
+-	- video input: this subnode can contain a video input port node
+-	  to connect the bridge to a display controller output (See this
+-	  documentation [1]).
+-
+-[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
+-
+-Example:
+-	hdmi-bridge@39 {
+-		compatible = "sil,sii9022";
+-		reg = <0x39>;
+-		reset-gpios = <&pioA 1 0>;
+-		iovcc-supply = <&v3v3_hdmi>;
+-		cvcc12-supply = <&v1v2_hdmi>;
+-
+-		#sound-dai-cells = <0>;
+-		sil,i2s-data-lanes = < 0 1 2 >;
+-		clocks = <&mclk>;
+-		clock-names = "mclk";
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				bridge_in: endpoint {
+-					remote-endpoint = <&dc_out>;
+-				};
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
+new file mode 100644
+index 0000000000000000..4e5a8ecf87647e8b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
+@@ -0,0 +1,133 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/sil,sii9022.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Silicon Image sii902x HDMI bridge
++
++maintainers:
++  - Boris Brezillon <bbrezillon@kernel.org>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - sil,sii9022-cpi
++              - sil,sii9022-tpi
++          - const: sil,sii9022
++      - const: sil,sii9022
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description: Interrupt line used to inform the host about hotplug events.
++
++  reset-gpios:
++    maxItems: 1
++
++  iovcc-supply:
++    description: I/O Supply Voltage (1.8V or 3.3V)
++
++  cvcc12-supply:
++    description: Digital Core Supply Voltage (1.2V)
++
++  '#sound-dai-cells':
++    enum: [ 0, 1 ]
++    description: |
++      <0> if only i2s or spdif pin is wired,
++      <1> if both are wired.
++      HDMI audio is configured only if this property is found.
++      If HDMI audio is configured the sii902x device becomes an I2S and/or
++      spdif audio codec component (e.g. a digital audio sink), that can be used
++      in configuring a full audio devices with simple-card or audio-graph-card
++      binding. See their binding documents on how to describe the way the
++      sii902x device is connected to the rest of the audio system:
++      Documentation/devicetree/bindings/sound/simple-card.yaml
++      Documentation/devicetree/bindings/sound/audio-graph-card.yaml
++      Note: In case of the audio-graph-card binding the used port index should
++      be 3.
++
++  sil,i2s-data-lanes:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 1
++    items:
++      - enum: [ 0, 1, 2, 3 ]
++      - enum: [ 0, 1, 2, 3 ]
++      - enum: [ 0, 1, 2, 3 ]
++      - enum: [ 0, 1, 2, 3 ]
++    description:
++      Each integer indicates which i2s pin is connected to which audio fifo.
++      The first integer selects i2s audio pin for the first audio fifo#0 (HDMI
++      channels 1&2), second for fifo#1 (HDMI channels 3&4), and so on. There
++      are 4 fifos and 4 i2s pins (SD0 - SD3). Any i2s pin can be connected to
++      any fifo, but there can be no gaps. E.g. an i2s pin must be mapped to
++      fifo#0 and fifo#1 before mapping a channel to fifo#2. Default value is
++      <0>, describing SD0 pin being routed to hdmi audio fifo #0.
++
++  clocks:
++    maxItems: 1
++    description: MCLK input. MCLK can be used to produce HDMI audio CTS values.
++
++  clock-names:
++    const: mclk
++
++  ports:
++    type: object
++    properties:
++      port@0:
++        type: object
++        description: FIXME
++
++      port@1:
++        type: object
++        description: FIXME
++
++      port@2:
++        type: object
++        description: FIXME
++
++      port@3:
++        type: object
++        description: FIXME
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        hdmi-bridge@39 {
++            compatible = "sil,sii9022";
++            reg = <0x39>;
++            reset-gpios = <&pioA 1 0>;
++            iovcc-supply = <&v3v3_hdmi>;
++            cvcc12-supply = <&v1v2_hdmi>;
++
++            #sound-dai-cells = <0>;
++            sil,i2s-data-lanes = < 0 1 2 >;
++            clocks = <&mclk>;
++            clock-names = "mclk";
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    bridge_in: endpoint {
++                        remote-endpoint = <&dc_out>;
++                    };
++                };
++            };
++        };
++    };
+-- 
+2.25.1
+
