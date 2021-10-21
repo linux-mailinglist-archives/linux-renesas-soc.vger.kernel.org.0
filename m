@@ -2,156 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E212D435DAD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Oct 2021 11:10:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2BBD435E71
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Oct 2021 11:59:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231406AbhJUJM6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Oct 2021 05:12:58 -0400
-Received: from mail-ua1-f44.google.com ([209.85.222.44]:33757 "EHLO
-        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231446AbhJUJM5 (ORCPT
+        id S231584AbhJUKBY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Oct 2021 06:01:24 -0400
+Received: from www.zeus03.de ([194.117.254.33]:51448 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231334AbhJUKBY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Oct 2021 05:12:57 -0400
-Received: by mail-ua1-f44.google.com with SMTP id i15so11970023uap.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Oct 2021 02:10:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+PgB+dbOE70eGxu6zey353QkaSYAScxZXhXBf5X1ki0=;
-        b=pI2IMqP/145tVgPFoQQpnJs2BxjcoI21WvYZsfSHdLjGgUQli3f9D0DBTs3qOmodYg
-         wfMBKTr8YugaBnIN2555LL0Vb3IP0/ops2fhqCDhO3H1tYuxlHXIqp7ttnb+U2eNS0LE
-         ZFeJlaLKpSNfYI0MseoFab4QZCItqxUqjZH7ONjFPoKVe1QFPFS8rRQi1zCzvwj9jtf4
-         e8257yFjhgf/GNz+93tKtjhMRRq7CjuHc2rb4q6jSWwtcKJJAlXkrnN3A0rr+eUen9vr
-         y2YcamwfYxPccN41KHy8WLEGKEEnUZybkAcRCXgQ8EMSGkB/36hVXB+mzI9VXVAbOKqt
-         5oig==
-X-Gm-Message-State: AOAM532UhZPOCcNulE8PxyyaL8IH5JT8b4GGNx8Ft/vjtxJ2ERNp7T7t
-        se4Iwqz1o16Z0PudnIU+g73nDB0pYPEFUQ==
-X-Google-Smtp-Source: ABdhPJyfHMvMNKPiQszjFw+s6sVqizfm+86TH37RbKQK3960ta+odCgxN55kzEt+VEIDtFcIPzQLHg==
-X-Received: by 2002:ab0:6393:: with SMTP id y19mr4584371uao.94.1634807439651;
-        Thu, 21 Oct 2021 02:10:39 -0700 (PDT)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id a135sm2813387vki.23.2021.10.21.02.10.39
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Oct 2021 02:10:39 -0700 (PDT)
-Received: by mail-ua1-f48.google.com with SMTP id f3so11848498uap.6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Oct 2021 02:10:39 -0700 (PDT)
-X-Received: by 2002:a67:d583:: with SMTP id m3mr4228825vsj.41.1634807438953;
- Thu, 21 Oct 2021 02:10:38 -0700 (PDT)
+        Thu, 21 Oct 2021 06:01:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=2BkjldVqIQHsO2/nJKSdoDqWxO9j
+        oBWYCAvLIzZmWFY=; b=xEXqv0C8blQN4bmvQA4uhrh30wrprnSu2Z6tsnilUoCE
+        RuRny0Xv/beEosSQ3v2v1vHS2tTxFHayfuLjd5875JlFu+Xw3rVx1cqZRGCnceUg
+        3Atkvvx5MS92uonvPTKYFiQzw8HGUrXJnnQQ9IDBrzdEhtryfUcp4ohiAWMpjWg=
+Received: (qmail 3297087 invoked from network); 21 Oct 2021 11:59:06 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Oct 2021 11:59:06 +0200
+X-UD-Smtp-Session: l3s3148p1@MYbO8dnOUrggAwDPXwvHAFIqwjQGZDAy
+Date:   Thu, 21 Oct 2021 11:59:03 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [RFC PATCH 4/9] clk: renesas: gen3: switch to new SD clock
+ handling
+Message-ID: <YXE5597s0BigDNzu@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20210928200804.50922-1-wsa+renesas@sang-engineering.com>
+ <20210928200804.50922-5-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUdjNXkW-F0-aPR-o6uQaHsYz=yKf6RhC2tvxRpdhDzhw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211012121117.61864-1-julien.massot@iot.bzh>
-In-Reply-To: <20211012121117.61864-1-julien.massot@iot.bzh>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 21 Oct 2021 11:10:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUyO+L40hP5+uzeyY+Tn-9un-ignekzzqx=5Nd6DkJSxg@mail.gmail.com>
-Message-ID: <CAMuHMdUyO+L40hP5+uzeyY+Tn-9un-ignekzzqx=5Nd6DkJSxg@mail.gmail.com>
-Subject: Re: [PATCH v3] soc: renesas: rcar-rst: Add support to set rproc boot address
-To:     Julien Massot <julien.massot@iot.bzh>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Fzu4nAS5Zwnu60Ma"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUdjNXkW-F0-aPR-o6uQaHsYz=yKf6RhC2tvxRpdhDzhw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Julien,
 
-On Tue, Oct 12, 2021 at 2:12 PM Julien Massot <julien.massot@iot.bzh> wrote:
-> R-Car Gen3 SoC series has a realtime processor, the boot
-> address of this processor can be set thanks to CR7BAR register
-> of the reset module.
->
-> Export this function so that it's possible to set the boot
-> address from a remoteproc driver.
->
-> Also drop the __initdata qualifier on rcar_rst_base,
-> since we will use this address later than init time.
->
-> Signed-off-by: Julien Massot <julien.massot@iot.bzh>
-> ---
->
-> Change since v2:
-> - Reordered rcar_rst_set_gen3_rproc_boot_addr and variable to avoid forward declaration
-> - Turned const struct rst_config structs back to __initconst
-> - Check for 256KiB boundary and not 4KiB
-> - Rephrase comment about boot address on Gen 3
+--Fzu4nAS5Zwnu60Ma
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the update!
+Hi Geert,
 
-> --- a/drivers/soc/renesas/rcar-rst.c
-> +++ b/drivers/soc/renesas/rcar-rst.c
+> BTW, the diff looks much better with the --histogram option of
+> git diff/show.
 
-> @@ -19,9 +25,30 @@ static int rcar_rst_enable_wdt_reset(void __iomem *base)
->         return 0;
->  }
->
-> +/*
-> + * Most of the R-Car Gen3 SoCs have an ARM Realtime Core.
-> + * Firmware boot address has to be set in CR7BAR before
-> + * starting the realtime core.
-> + * Boot address must be aligned on a 256k boundary.
-> + */
-> +static int rcar_rst_set_gen3_rproc_boot_addr(u32 boot_addr)
+Thanks, I tend to forget this option.
 
-phys_addr_t?
+> > +       if (IS_ERR(clk))
+> > +               return clk;
+>=20
+> Missing "kfree(csn)".
 
-> +{
-> +       if (boot_addr % SZ_256K) {
-> +               pr_warn("Invalid boot address for CR7 processor,"
-> +                      "should be aligned on 256KiB got %x\n", boot_addr);
+Ouch, yes!
 
-Please don't split printed messages, for easier searching.
+> > +       return clk_register_divider_table(NULL, name, parent_name, 0, s=
+dnckcr,
+> > +                                         0, 2, 0, cpg_sd_div_table, &c=
+pg_lock);
+>=20
+> So the SDn clock can no longer be disabled, as CPG_SD_STP_CK
+> handling is gone?
 
-> +               return -EINVAL;
-> +       }
-> +
-> +       iowrite32(boot_addr, rcar_rst_base + CR7BAR);
-> +       iowrite32(boot_addr | CR7BAREN, rcar_rst_base + CR7BAR);
-> +
-> +       return 0;
-> +}
-> +
->  struct rst_config {
->         unsigned int modemr;            /* Mode Monitoring Register Offset */
->         int (*configure)(void __iomem *base);   /* Platform specific config */
-> +       int (*set_rproc_boot_addr)(u32 boot_addr);
+Yes. I thought we can do it since we had 7f2c2f38c1c0 ("clk: renesas:
+rcar-gen3: Remove stp_ck handling for SDHI") anyhow.
 
-phys_addr_t
+> > +       if (ref_clk =3D=3D priv->clkh)
+>=20
+> "if (priv->clkh)", for consistency with above?
 
->  };
->
->  static const struct rst_config rcar_rst_gen1 __initconst = {
+Can do. I even had this originally. Then, I thought the comparison makes
+it easier to understand. But it seems, it is understandable enough
+without the comparison.
 
-> @@ -130,3 +157,12 @@ int __init rcar_rst_read_mode_pins(u32 *mode)
->         *mode = saved_mode;
->         return 0;
->  }
-> +
-> +int rcar_rst_set_rproc_boot_addr(u32 boot_addr)
+> > +       /* Fallback for old DTs */
+> > +       if (of_device_is_compatible(pdev->dev.of_node, "renesas,rcar-ge=
+n3-sdhi"))
+>=20
+> I think it would be cleaner to check a flag in struct
+> renesas_sdhi_of_data instead.
 
-phys_addr_t
+Because new SoCs with the fallback compatible might show up?
 
-> +{
-> +       if (!rcar_rst_set_rproc_boot_addr_func)
-> +               return -EIO;
-> +
-> +       return rcar_rst_set_rproc_boot_addr_func(boot_addr);
-> +}
-> +EXPORT_SYMBOL(rcar_rst_set_rproc_boot_addr);
+> >          * Some controllers provide a 2nd clock just to run the interna=
+l card
+> >          * detection logic. Unfortunately, the existing driver architec=
+ture does
+>=20
+> The core looks good to me, but I have to admit I'm no expert on the
+> SDHn/SDn clock relations and the various SDHI transfer modes.
 
-EXPORT_SYMBOL_GPL?
+I am really glad you like the changes in general. And you point to the
+reason for this change. All the clock relations of the SDHI transfer
+modes should go into the SDHI driver. Now, we can control SDnH and SDn
+seperately, so the SDHI driver can do the proper things depending on the
+mode and the quirks of the SDHI instance. I really think the clock
+driver part should be as simple as it is with this series.
 
-Do you have a public user of this code, too?
+Thanks for the review, I will fix the other minor issues soon as well.
 
-Thanks!
+Happy hacking,
 
-Gr{oetje,eeting}s,
+   Wolfram
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--Fzu4nAS5Zwnu60Ma
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmFxOeMACgkQFA3kzBSg
+KbZJiw//adK1B2h5aFyw8G7OaJmbX7n06XvCmgVQYnyymMca1Y+CDxa70QxJgpY6
+TY7dgsP+PcdAxaNrejM/V07RC7Zydj+G6wXY0IErHPUZNlCOdsfcBFIBStJx9itJ
+atG2Eg4v58RTWd/D1FkEO1wk5Oh5q5aM6j2NCkzuhyQgvHfJNbQqu/nsLR5t3z8E
+wHRiut5O+ncydxjHu/OxPxzODm7bM04mT2HSCPVzHZd9c3x8WL5NqJoYD6D4OEy1
+XUdwBy7LAitynT2SR8iVSO5d/U4iN+5pyQVtxQNhv9MD9Oktg9WaH2NhPpREQ5sc
+f+8DkKgzWv78tN6l0IoDoHtVoH4jMoElZJtZRBiajA2lQT6M3Kq8lzekFMsU4BgH
+MctaPp8AYQW+SpcmUlJeyZV0xV9uidAuDm/Wi394QI5QBgDhBIZI3Txcm+dcfQKh
+ap8dwbDa75dxYaIg0j+CqtnbcH1iFo5gN/WDNlkpqqtfN2P+JzJF8RNNiqCmV046
+wJjCSXYMidMrZRmDK2ZsqpxY5kpzyzmtgCEPCS+AaRXpYFcV/NfZeRp1d7FjkUb2
+Zesri9IJa8TG4oBtMg422gJYeiXUdxZQnBGzQJT/0GJ+z0KFGxwQaYLXsiS0euNl
+hsOsDNFBq2KHfizZ7QmeJdi7bDBKEgr5X6AM6ElJ+l2TaUTmnTo=
+=j0V3
+-----END PGP SIGNATURE-----
+
+--Fzu4nAS5Zwnu60Ma--
