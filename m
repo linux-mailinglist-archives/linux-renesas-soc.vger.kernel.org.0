@@ -2,111 +2,214 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FC00436002
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Oct 2021 13:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7848B43601A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Oct 2021 13:21:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230190AbhJULNI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Oct 2021 07:13:08 -0400
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:46059 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbhJULNH (ORCPT
+        id S230283AbhJULX6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Oct 2021 07:23:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51310 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230225AbhJULX6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Oct 2021 07:13:07 -0400
-Received: by mail-ua1-f50.google.com with SMTP id a17so324392uax.12;
-        Thu, 21 Oct 2021 04:10:52 -0700 (PDT)
+        Thu, 21 Oct 2021 07:23:58 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1D48C06174E
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Oct 2021 04:21:41 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id i189so434560ioa.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Oct 2021 04:21:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hHTl0EN9dQ/dp9evKTTMpGqyp59LLT52mZlH+IIiot8=;
+        b=AQ+5EHmgKNlon0JYKx/HWu5x6U66Dcgko2YsZqPv201SVAWH6nfAXCe6BrNIJTgweU
+         owxFxSqSKQ9lfcUwyV5ckK+OFn0e5vmPJR0CFUWJ53fpkGyrgJFB1ZfsmNZL3iUFz8jH
+         OkREspWPq5dNqwJRHY0/qL6/apmHCbOMTfg9d8moUcertONvMnP7xYWRrSx9gCe7OwYG
+         J9aPVhC3YVVbEWzBVBCINMU/2Q4E8R0jUYUxzNmdIq4wj64/gJsEr1qWWjBfwL9+V238
+         0Vu3k6epCFJJEmMmYn8r3vfBt2LLoyx+84QGCYdsK46gvG0KfTTlZuBV03A344QGE1pb
+         6nOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=NiDoiN/gjYe+NR2j6ocH9JPnqQ+cVfUkoRHRlpOG3os=;
-        b=UbPhpmYVB8xFVoyKBiZAkA+YTWWXvwU7JXNLzceUYabdfU3hV9h7E19CtK7ZNIbzgj
-         /DX0ZxOOceW5djUnIghnbdOADuzCPUP8WqeuAZYaB/N50y9BLhtfNHmCUMFzE6aJGzL5
-         IsPrXb+qTwgUX70g3HyQkD9pMx09/mTP3NzqI0BhbdpJkZyAXn90icLJkyIRZHy21RSc
-         vc7wUDsCC2Lb7I6WER0RKF1YjuaLwT0wsWSMA0N83GbfqfYTnk7PDHYo4kTtwIDHntG7
-         9xW1EAVJMOdsd855MsSNDA/V3Ao2f36cclugMPO0Q8U4Cbb0Wkb824Lv894ngwV/3yHq
-         Pngw==
-X-Gm-Message-State: AOAM5316iTCvV4qbWQx2EMY9BAEZ6ekEtx90BTWAS36nUQuxaGKB9vPz
-        f67gTeDlSJWC2u4dPMT4GXoR6D2to0lMLg==
-X-Google-Smtp-Source: ABdhPJzUdJ4ms7vTEULfRWp7IkYmuL5cOImhVVZVvfGiyDsx0h1Qrv7EABNgn+cJqZdJiLPkvVqnRw==
-X-Received: by 2002:a05:6102:38cc:: with SMTP id k12mr5087861vst.24.1634814651397;
-        Thu, 21 Oct 2021 04:10:51 -0700 (PDT)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id b20sm2881390uaf.10.2021.10.21.04.10.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Oct 2021 04:10:50 -0700 (PDT)
-Received: by mail-ua1-f50.google.com with SMTP id i22so351404ual.10;
-        Thu, 21 Oct 2021 04:10:50 -0700 (PDT)
-X-Received: by 2002:ab0:3d9a:: with SMTP id l26mr5561151uac.114.1634814650361;
- Thu, 21 Oct 2021 04:10:50 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=hHTl0EN9dQ/dp9evKTTMpGqyp59LLT52mZlH+IIiot8=;
+        b=hYjIIGIicxBHCkKSca71Buzi53pPbCpfE4vofOmhAmw5fheLSWowRW4IuMDKACiNOH
+         04dZcICOD3jWTCDSvK0/EpBg6JKfTcdacRMMDNmxyUPTLgJkNoba6CULrM05ob7OQNCk
+         1T55ZlCvdk2kGzNvXTM6d1drdPN6DpTbIkG9nky6rKOjtmmq4BGXBt67jJT9bkF8zNz0
+         8i/hLUZ1Af6U1h1Vj7PNxkmv3e3x+bgVKmDtsL8blv697AQ3wDrNybfZBVk9qnU4OvvT
+         2FmBHu78mRTy21Fxy3xBRBaLI7F4vAMq5/UmNAO2lDpY9Tb78Kqj/Jb0MpMliA5+pY6S
+         wqog==
+X-Gm-Message-State: AOAM531olckgR1RtVOY3PPBYxjEGvpyNrwpP1QEGprqivJUE/yNQAvIr
+        OTagOl6s9PM3M1Y0M8ehwpFV2HZCkaym4wvG3Gso3w==
+X-Google-Smtp-Source: ABdhPJxMRo/M6HcJdEwh6eTZSJmNRK1zwILbTp96Xp6bcY/ASKoT49bvdtBnoUUI19JfFMMWqZN4m0P00TAN76G7v0w=
+X-Received: by 2002:a05:6638:3796:: with SMTP id w22mr3510784jal.25.1634815300995;
+ Thu, 21 Oct 2021 04:21:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210928200804.50922-1-wsa+renesas@sang-engineering.com>
- <20210928200804.50922-5-wsa+renesas@sang-engineering.com> <CAMuHMdUdjNXkW-F0-aPR-o6uQaHsYz=yKf6RhC2tvxRpdhDzhw@mail.gmail.com>
- <YXE5597s0BigDNzu@ninjato>
-In-Reply-To: <YXE5597s0BigDNzu@ninjato>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 21 Oct 2021 13:10:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVXgWvP+mj-1uUqS0JYCe_FOo3Hr5DfafJ-eUX07VK4qw@mail.gmail.com>
-Message-ID: <CAMuHMdVXgWvP+mj-1uUqS0JYCe_FOo3Hr5DfafJ-eUX07VK4qw@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/9] clk: renesas: gen3: switch to new SD clock handling
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20210929000735.585237-1-saravanak@google.com> <20210929000735.585237-3-saravanak@google.com>
+In-Reply-To: <20210929000735.585237-3-saravanak@google.com>
+From:   Amit Pundir <amit.pundir@linaro.org>
+Date:   Thu, 21 Oct 2021 16:51:04 +0530
+Message-ID: <CAMi1Hd0HvPOT277mx8hNTU9NQH2ti7h5qc5+rxOkRWwbfrhyQQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] drivers: bus: Delete CONFIG_SIMPLE_PM_BUS
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        linux-arm-kernel@lists.infradead.org,
+        lkml <linux-kernel@vger.kernel.org>, linux-oxnas@groups.io,
+        linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        John Stultz <john.stultz@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Saravana,
 
-On Thu, Oct 21, 2021 at 11:59 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > > +       return clk_register_divider_table(NULL, name, parent_name, 0, sdnckcr,
-> > > +                                         0, 2, 0, cpg_sd_div_table, &cpg_lock);
-> >
-> > So the SDn clock can no longer be disabled, as CPG_SD_STP_CK
-> > handling is gone?
+This patch broke v5.15-rc6 on RB5 (sm8250 | qcom/qrb5165-rb5.dts).
+I can't boot past this point https://www.irccloud.com/pastebin/raw/Nv6ZwHmW.
+
+Regards,
+Amit Pundir
+
+On Wed, 29 Sept 2021 at 05:37, Saravana Kannan <saravanak@google.com> wrote:
 >
-> Yes. I thought we can do it since we had 7f2c2f38c1c0 ("clk: renesas:
-> rcar-gen3: Remove stp_ck handling for SDHI") anyhow.
-
-OK.
-
-> > > +       /* Fallback for old DTs */
-> > > +       if (of_device_is_compatible(pdev->dev.of_node, "renesas,rcar-gen3-sdhi"))
-> >
-> > I think it would be cleaner to check a flag in struct
-> > renesas_sdhi_of_data instead.
+> The simple-pm-bus driver is mandatory for CONFIG_OF based platforms to work
+> with fw_devlink. So, always compile it in for CONFIG_OF and delete the
+> config since it's no longer necessary.
 >
-> Because new SoCs with the fallback compatible might show up?
-
-Because it's frowned upon to sprinkle of_device_is_compatible()
-calls all over the code, especially if you already use
-of_device_get_match_data().
-
-> > >          * Some controllers provide a 2nd clock just to run the internal card
-> > >          * detection logic. Unfortunately, the existing driver architecture does
-> >
-> > The core looks good to me, but I have to admit I'm no expert on the
-> > SDHn/SDn clock relations and the various SDHI transfer modes.
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+> ---
+>  arch/arm/configs/multi_v7_defconfig |  1 -
+>  arch/arm/configs/oxnas_v6_defconfig |  1 -
+>  arch/arm/configs/shmobile_defconfig |  1 -
+>  arch/arm/mach-omap2/Kconfig         |  1 -
+>  arch/arm64/configs/defconfig        |  1 -
+>  drivers/bus/Kconfig                 | 12 ------------
+>  drivers/bus/Makefile                |  2 +-
+>  drivers/soc/canaan/Kconfig          |  1 -
+>  8 files changed, 1 insertion(+), 19 deletions(-)
 >
-> I am really glad you like the changes in general. And you point to the
-> reason for this change. All the clock relations of the SDHI transfer
-> modes should go into the SDHI driver. Now, we can control SDnH and SDn
-> seperately, so the SDHI driver can do the proper things depending on the
-> mode and the quirks of the SDHI instance. I really think the clock
-> driver part should be as simple as it is with this series.
-
-Good!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+> index d9abaae118dd..362720ae8d65 100644
+> --- a/arch/arm/configs/multi_v7_defconfig
+> +++ b/arch/arm/configs/multi_v7_defconfig
+> @@ -196,7 +196,6 @@ CONFIG_PCI_EPF_TEST=m
+>  CONFIG_DEVTMPFS=y
+>  CONFIG_DEVTMPFS_MOUNT=y
+>  CONFIG_OMAP_OCP2SCP=y
+> -CONFIG_SIMPLE_PM_BUS=y
+>  CONFIG_MTD=y
+>  CONFIG_MTD_CMDLINE_PARTS=y
+>  CONFIG_MTD_BLOCK=y
+> diff --git a/arch/arm/configs/oxnas_v6_defconfig b/arch/arm/configs/oxnas_v6_defconfig
+> index cae0db6b4eaf..de37f7e90999 100644
+> --- a/arch/arm/configs/oxnas_v6_defconfig
+> +++ b/arch/arm/configs/oxnas_v6_defconfig
+> @@ -46,7 +46,6 @@ CONFIG_DEVTMPFS=y
+>  CONFIG_DEVTMPFS_MOUNT=y
+>  CONFIG_DMA_CMA=y
+>  CONFIG_CMA_SIZE_MBYTES=64
+> -CONFIG_SIMPLE_PM_BUS=y
+>  CONFIG_MTD=y
+>  CONFIG_MTD_CMDLINE_PARTS=y
+>  CONFIG_MTD_BLOCK=y
+> diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+> index d9a27e4e0914..18d2a960b2d2 100644
+> --- a/arch/arm/configs/shmobile_defconfig
+> +++ b/arch/arm/configs/shmobile_defconfig
+> @@ -40,7 +40,6 @@ CONFIG_PCI_RCAR_GEN2=y
+>  CONFIG_PCIE_RCAR_HOST=y
+>  CONFIG_DEVTMPFS=y
+>  CONFIG_DEVTMPFS_MOUNT=y
+> -CONFIG_SIMPLE_PM_BUS=y
+>  CONFIG_MTD=y
+>  CONFIG_MTD_BLOCK=y
+>  CONFIG_MTD_CFI=y
+> diff --git a/arch/arm/mach-omap2/Kconfig b/arch/arm/mach-omap2/Kconfig
+> index 7df8f5276ddf..02f2f3157f07 100644
+> --- a/arch/arm/mach-omap2/Kconfig
+> +++ b/arch/arm/mach-omap2/Kconfig
+> @@ -112,7 +112,6 @@ config ARCH_OMAP2PLUS
+>         select PM_GENERIC_DOMAINS
+>         select PM_GENERIC_DOMAINS_OF
+>         select RESET_CONTROLLER
+> -       select SIMPLE_PM_BUS
+>         select SOC_BUS
+>         select TI_SYSC
+>         select OMAP_IRQCHIP
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index f423d08b9a71..474b1f2e3f06 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -245,7 +245,6 @@ CONFIG_DEVTMPFS_MOUNT=y
+>  CONFIG_FW_LOADER_USER_HELPER=y
+>  CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y
+>  CONFIG_HISILICON_LPC=y
+> -CONFIG_SIMPLE_PM_BUS=y
+>  CONFIG_FSL_MC_BUS=y
+>  CONFIG_TEGRA_ACONNECT=m
+>  CONFIG_GNSS=m
+> diff --git a/drivers/bus/Kconfig b/drivers/bus/Kconfig
+> index e7f7eee6ee9a..dc3801369488 100644
+> --- a/drivers/bus/Kconfig
+> +++ b/drivers/bus/Kconfig
+> @@ -141,18 +141,6 @@ config QCOM_EBI2
+>           Interface 2, which can be used to connect things like NAND Flash,
+>           SRAM, ethernet adapters, FPGAs and LCD displays.
+>
+> -config SIMPLE_PM_BUS
+> -       tristate "Simple Power-Managed Bus Driver"
+> -       depends on OF && PM
+> -       help
+> -         Driver for transparent busses that don't need a real driver, but
+> -         where the bus controller is part of a PM domain, or under the control
+> -         of a functional clock, and thus relies on runtime PM for managing
+> -         this PM domain and/or clock.
+> -         An example of such a bus controller is the Renesas Bus State
+> -         Controller (BSC, sometimes called "LBSC within Bus Bridge", or
+> -         "External Bus Interface") as found on several Renesas ARM SoCs.
+> -
+>  config SUN50I_DE2_BUS
+>         bool "Allwinner A64 DE2 Bus Driver"
+>           default ARM64
+> diff --git a/drivers/bus/Makefile b/drivers/bus/Makefile
+> index 397e35392bff..86aacd36a56d 100644
+> --- a/drivers/bus/Makefile
+> +++ b/drivers/bus/Makefile
+> @@ -26,7 +26,7 @@ obj-$(CONFIG_OMAP_OCP2SCP)    += omap-ocp2scp.o
+>  obj-$(CONFIG_QCOM_EBI2)                += qcom-ebi2.o
+>  obj-$(CONFIG_SUN50I_DE2_BUS)   += sun50i-de2.o
+>  obj-$(CONFIG_SUNXI_RSB)                += sunxi-rsb.o
+> -obj-$(CONFIG_SIMPLE_PM_BUS)    += simple-pm-bus.o
+> +obj-$(CONFIG_OF)               += simple-pm-bus.o
+>  obj-$(CONFIG_TEGRA_ACONNECT)   += tegra-aconnect.o
+>  obj-$(CONFIG_TEGRA_GMI)                += tegra-gmi.o
+>  obj-$(CONFIG_TI_PWMSS)         += ti-pwmss.o
+> diff --git a/drivers/soc/canaan/Kconfig b/drivers/soc/canaan/Kconfig
+> index 8179b69518b4..853096b7e84c 100644
+> --- a/drivers/soc/canaan/Kconfig
+> +++ b/drivers/soc/canaan/Kconfig
+> @@ -5,7 +5,6 @@ config SOC_K210_SYSCTL
+>         depends on RISCV && SOC_CANAAN && OF
+>         default SOC_CANAAN
+>          select PM
+> -        select SIMPLE_PM_BUS
+>          select SYSCON
+>          select MFD_SYSCON
+>         help
+> --
+> 2.33.0.685.g46640cef36-goog
+>
