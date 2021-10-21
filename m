@@ -2,105 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83AC8435C86
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Oct 2021 09:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2C18435DA1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Oct 2021 11:08:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231228AbhJUIBr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Oct 2021 04:01:47 -0400
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:38884 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231133AbhJUIBq (ORCPT
+        id S231485AbhJUJLG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Oct 2021 05:11:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231153AbhJUJLF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Oct 2021 04:01:46 -0400
-Received: by mail-ua1-f41.google.com with SMTP id h19so11563580uax.5;
-        Thu, 21 Oct 2021 00:59:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JqD7D3pbeGKTvxzUJ9i8K7JJYOkSeWMS6MSFRPQ+gGI=;
-        b=tW9lLHgCHZ8rZuhtVnntIFE6GyW27SRrNvXKWErYz+KB+BhYykLvxgk2S3NDwHhJ1J
-         0scKg2Ecdge4BrIetLbhqzMvt5Tc5ZQlc4cX8IyJRph5qnPKCVm6gbb9TrRrD0udNe/L
-         VlCDotj+cStUPcmD1NFhWTQ259ZXjO5xEoB9thkqdkL2Q6pzHnFPrLnQE5OW0GbZYy3H
-         b7lBPTIpmvoorag6lH7WrkLtYFoVQ5U7t6J8zoufOoJXJu757jSQz9YMtNw1MhuqVRsg
-         j2UlYRNTtQKz4XiiGbqLkh/CnWMowdAGg4Yr1QYHEfzzxuyAEVNmSmQKyJ7M4BC0+X5W
-         7L3A==
-X-Gm-Message-State: AOAM533Usr2vnZ6nJQE+xWgVaJNu+1Pqwagx/pi8HJ8i5HkGjZVwP9yq
-        6KKjP1iLKWBOU3JLFAJInnMJ/4zObZ1Q8w==
-X-Google-Smtp-Source: ABdhPJwg6PWPU4n9FHepey5GHZsDOBg4NW389GQeglcjtsnQydzCz+uXSETymOJHPMfF7irD9TlTTw==
-X-Received: by 2002:a67:e15b:: with SMTP id o27mr4329457vsl.22.1634803170400;
-        Thu, 21 Oct 2021 00:59:30 -0700 (PDT)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id u13sm2646960vsl.11.2021.10.21.00.59.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Oct 2021 00:59:30 -0700 (PDT)
-Received: by mail-ua1-f50.google.com with SMTP id h4so11622088uaw.1;
-        Thu, 21 Oct 2021 00:59:29 -0700 (PDT)
-X-Received: by 2002:ab0:3154:: with SMTP id e20mr4686380uam.14.1634803169371;
- Thu, 21 Oct 2021 00:59:29 -0700 (PDT)
+        Thu, 21 Oct 2021 05:11:05 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85D5EC06161C;
+        Thu, 21 Oct 2021 02:08:49 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2376A2BA;
+        Thu, 21 Oct 2021 11:08:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1634807326;
+        bh=1R6z7yIisJy0tgOfsaD+O62w7W2Ho8F1w+hStl7uzrg=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=YNAPTcfNR2J+82uNeXYvZHAGeNBD5FoZBGBv6M15A/fOyxo3LDkXjYu+PVSRgnTBk
+         vXxsqIyFCUIETwvthk5YPEPohRz+jIIXPb29K3d00N2TWb12Ikt8ajPClROhcKVBXV
+         4Iavf6AvkSWquBGCNhLVgYjOF+6ZxTEdRdB5sjQs=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20211021030938.51884-1-tangbin@cmss.chinamobile.com>
-In-Reply-To: <20211021030938.51884-1-tangbin@cmss.chinamobile.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 21 Oct 2021 09:59:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWD+FXt-rUz6oiU9MNq3EiKExgic17kCnUjynidii470w@mail.gmail.com>
-Message-ID: <CAMuHMdWD+FXt-rUz6oiU9MNq3EiKExgic17kCnUjynidii470w@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMuHMdWD+FXt-rUz6oiU9MNq3EiKExgic17kCnUjynidii470w@mail.gmail.com>
+References: <20211021030938.51884-1-tangbin@cmss.chinamobile.com> <CAMuHMdWD+FXt-rUz6oiU9MNq3EiKExgic17kCnUjynidii470w@mail.gmail.com>
 Subject: Re: [PATCH] media: rcar_fdp1: Fix the correct variable assignments
-To:     Tang Bin <tangbin@cmss.chinamobile.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Tang Bin <tangbin@cmss.chinamobile.com>
+Date:   Thu, 21 Oct 2021 10:08:43 +0100
+Message-ID: <163480732348.2663858.5189176300885425535@Monstersaurus>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Tang,
 
-Thanks for your patch!
+Quoting Geert Uytterhoeven (2021-10-21 08:59:18)
+> Hi Tang,
+>=20
+> Thanks for your patch!
+>=20
+> On Thu, Oct 21, 2021 at 5:10 AM Tang Bin <tangbin@cmss.chinamobile.com> w=
+rote:
+> > In the function fdp1_probe(), when get irq failed, the
+> > function platform_get_irq() log an error message, so
+> > remove redundant message here. And the variable type
+> > of "ret" is int, the "fdp1->irq" is unsigned int, when
+> > irq failed, this place maybe wrong, thus fix it.
+>=20
+> The second issue is not actually present, as the error check
+> operates on ret, not fdp1->irq?
 
-On Thu, Oct 21, 2021 at 5:10 AM Tang Bin <tangbin@cmss.chinamobile.com> wrote:
-> In the function fdp1_probe(), when get irq failed, the
-> function platform_get_irq() log an error message, so
-> remove redundant message here. And the variable type
-> of "ret" is int, the "fdp1->irq" is unsigned int, when
-> irq failed, this place maybe wrong, thus fix it.
+Agreed, the error print is redundant.=20
 
-The second issue is not actually present, as the error check
-operates on ret, not fdp1->irq?
+In fact it would have erroneously print on ret=3D-EPROBE_DEFER cases too,
+so it's not just redundant, but inaccurate too.
 
-> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+I don't think the assignment of fdp1->irq =3D ret at the same time is an
+issue, because if ret < 0, fdp1->irq wouldn't ever get read, as the call
+returns.
 
-> --- a/drivers/media/platform/rcar_fdp1.c
-> +++ b/drivers/media/platform/rcar_fdp1.c
-> @@ -2289,11 +2289,10 @@ static int fdp1_probe(struct platform_device *pdev)
->                 return PTR_ERR(fdp1->regs);
->
->         /* Interrupt service routine registration */
-> -       fdp1->irq = ret = platform_get_irq(pdev, 0);
-> -       if (ret < 0) {
-> -               dev_err(&pdev->dev, "cannot find IRQ\n");
-> +       ret = platform_get_irq(pdev, 0);
-> +       if (ret < 0)
->                 return ret;
-> -       }
-> +       fdp1->irq = ret;
->
->         ret = devm_request_irq(&pdev->dev, fdp1->irq, fdp1_irq_handler, 0,
->                                dev_name(&pdev->dev), fdp1);
+But .. I have no objection to setting it after instead.
 
-Anyway, the code is correct, so:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+>=20
+> > --- a/drivers/media/platform/rcar_fdp1.c
+> > +++ b/drivers/media/platform/rcar_fdp1.c
+> > @@ -2289,11 +2289,10 @@ static int fdp1_probe(struct platform_device *p=
+dev)
+> >                 return PTR_ERR(fdp1->regs);
+> >
+> >         /* Interrupt service routine registration */
+> > -       fdp1->irq =3D ret =3D platform_get_irq(pdev, 0);
+> > -       if (ret < 0) {
+> > -               dev_err(&pdev->dev, "cannot find IRQ\n");
+> > +       ret =3D platform_get_irq(pdev, 0);
+> > +       if (ret < 0)
+> >                 return ret;
+> > -       }
+> > +       fdp1->irq =3D ret;
+> >
+> >         ret =3D devm_request_irq(&pdev->dev, fdp1->irq, fdp1_irq_handle=
+r, 0,
+> >                                dev_name(&pdev->dev), fdp1);
+>=20
+> Anyway, the code is correct, so:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Gr{oetje,eeting}s,
+Perhaps with the commit message updated/simplified, but either way:
 
-                        Geert
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>=20
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
