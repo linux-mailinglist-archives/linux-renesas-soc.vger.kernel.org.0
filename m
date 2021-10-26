@@ -2,284 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D718043A54E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Oct 2021 22:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 524DB43A93E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 02:30:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234732AbhJYU7k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Oct 2021 16:59:40 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:15799 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S234881AbhJYU7a (ORCPT
+        id S235233AbhJZAdC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Oct 2021 20:33:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36734 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234104AbhJZAdC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Oct 2021 16:59:30 -0400
-X-IronPort-AV: E=Sophos;i="5.87,181,1631545200"; 
-   d="scan'208";a="98142164"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 26 Oct 2021 05:57:06 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 48745410099C;
-        Tue, 26 Oct 2021 05:57:03 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mon, 25 Oct 2021 20:33:02 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A22C061745
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Oct 2021 17:30:39 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id y80so12409744ybe.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Oct 2021 17:30:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GKpt6gbUiUnxRUWu5oj6hwoD4Hy59PUSCVuLvc1dxEQ=;
+        b=RXv66RKwy6UqpmJo42NU6ImPtA0hhG8/Hy8v1NimoQYcVrEDXumRbWrcFjH1xV+Ock
+         bXfHSE1/Aa52wxOkNcAfIoezAMn3Lpd9TvcFaLmUkm9YSD1ViBQO3RTcfNLjsQAEVwPO
+         Sr04OJMjHKpOMiakJvt4bqsOkwBFejrv5vw1+yiMxdDWuSGB3dwrLvEHrZHaBDAxQ3uA
+         mA+d2EtJEqyxDpUIrllz7ZzNwH/TJ1a18W6GZtWTatTAtJkG5uU+3x0kjP5oP99JIRpK
+         8UWvswhWCiyJQ6Wipr1qNVQ4eL1Iq7g7upvvOrcQcLjJqw8VVQGfniWrGznluMgNzjyV
+         XYgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GKpt6gbUiUnxRUWu5oj6hwoD4Hy59PUSCVuLvc1dxEQ=;
+        b=2B44MmatgMpQ9huoY1hSb0jVgiBThAllCtbGZJcYV7/YU7S7n1L4QKoYGVRFSUblVx
+         fv3nPiTk9/W8rIIi7jXDIektIiNPjb1lWmRtdw+5CXJvLPfo48zAYNPqkprXr+/rmrN5
+         2nUUcMtojjWw3J1fk8mP5vxEqkS5nU89/0rO7haaiSCH17Box8GOrcodGRR+/4EnE9fD
+         AM3XfUZwy/u7Rez/55LcOkKEIYqJQZt/D85bUQzUVzH2eaPVWrcNx3qrg45PMufqLtGI
+         8Kf1E3O5ac1Z31/Nl3KByaWPA60f+2b5WXpp3gp4aDoPfnurhhFXv/Nwm/vtWJzctdxv
+         ogMA==
+X-Gm-Message-State: AOAM531HZp7v/cIxmomuqbIM2EqXJD1ZMUjU0q+355MC8jFsMDRgGRSX
+        fiw2sS+0bsEDClYQBrbtuJ1Y+Gy6cEk8Y8tZ7qTE/w==
+X-Google-Smtp-Source: ABdhPJwkdfRIKjhmBppLm+T21H0QPHoD4LXXiPIYhqq5jQAumISBbcpXVG/c3VSAYycVKUykbWB0N2n0Rav/D4MlbEo=
+X-Received: by 2002:a5b:cce:: with SMTP id e14mr20273877ybr.486.1635208238648;
+ Mon, 25 Oct 2021 17:30:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210929000735.585237-1-saravanak@google.com> <20210929000735.585237-3-saravanak@google.com>
+ <CAMi1Hd0HvPOT277mx8hNTU9NQH2ti7h5qc5+rxOkRWwbfrhyQQ@mail.gmail.com>
+ <CAGETcx_YZOd05Gg53ZR8mfVhFUzwQWo4MrrWF8JHF_DCwEtunw@mail.gmail.com> <CAMi1Hd3M--+V6jPTV=psYGpOqi3UeQBs_FHqOg=oUf1hH-EU4w@mail.gmail.com>
+In-Reply-To: <CAMi1Hd3M--+V6jPTV=psYGpOqi3UeQBs_FHqOg=oUf1hH-EU4w@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Mon, 25 Oct 2021 17:30:02 -0700
+Message-ID: <CAGETcx9U130Oq-umrvXME4JhEpO0Wadoki3kNxx=0-YvTR6PtQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] drivers: bus: Delete CONFIG_SIMPLE_PM_BUS
+To:     Amit Pundir <amit.pundir@linaro.org>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <narmstrong@baylibre.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 7/7] memory: renesas-rpc-if: Add support for RZ/G2L
-Date:   Mon, 25 Oct 2021 21:56:31 +0100
-Message-Id: <20211025205631.21151-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211025205631.21151-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211025205631.21151-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        linux-arm-kernel@lists.infradead.org,
+        lkml <linux-kernel@vger.kernel.org>, linux-oxnas@groups.io,
+        linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        John Stultz <john.stultz@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SPI Multi I/O Bus Controller on RZ/G2L SoC is almost identical to
-the RPC-IF interface found on R-Car Gen3 SoC's.
+On Fri, Oct 22, 2021 at 10:00 AM Amit Pundir <amit.pundir@linaro.org> wrote:
+>
+> On Fri, 22 Oct 2021 at 05:13, Saravana Kannan <saravanak@google.com> wrote:
+> >
+> > On Thu, Oct 21, 2021 at 4:21 AM Amit Pundir <amit.pundir@linaro.org> wrote:
+> > >
+> > > Hi Saravana,
+> > >
+> > > This patch broke v5.15-rc6 on RB5 (sm8250 | qcom/qrb5165-rb5.dts).
+> > > I can't boot past this point https://www.irccloud.com/pastebin/raw/Nv6ZwHmW.
+> >
+> > Amit top posting? How did that happen? :)
+> >
+> > The fact you are seeing this issue is super strange though. The driver
+> > literally does nothing other than allowing some sync_state() callbacks
+> > to happen. I also grepped for the occurence of "simple-bus" in
+> > arch/arm64/boot/dts/qcom/ and the only instance for 8250 is for the
+> > soc node.
+> >
+> > The only thing I can think of is that without my patch some
+> > sync_state() callbacks weren't getting called and maybe it was masking
+> > some other issue.
+> >
+> > Can you try to boot with this log (see log patch below) and see if the
+> > device hangs right after a sync_state() callback? Also, looking at the
+> > different sync_state() implementations in upstream, I'm guessing one
+> > of the devices isn't voting for interconnect bandwidth when it should
+> > have.
+> >
+> > Another thing you could do is boot without the simple-bus changes and
+> > then look for all instances of "state_synced" in /sys/devices and then
+> > see if any of them has the value "0" after boot up is complete.
+>
+> Turned out RB5 is not even reaching up to
+> device_links_flush_sync_list() and seem to be stuck somewhere in
+> device_links_driver_bound(). So I added more print logs to narrow down
+> to any specific lock state but those additional prints seem to have
+> added enough delay to unblock that particular driver (Serial:
+> 8250/16550 driver if I understood the logs correctly) and I eventually
+> booted to UI.
 
-This patch adds a new compatible string for the RZ/G2L family so
-that the timing values on RZ/G2L can be adjusted.
+Ugh... I think I know what's going on. It popped into my head over the weekend.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Updated macros as suggested by Wolfram
----
- drivers/memory/renesas-rpc-if.c | 72 ++++++++++++++++++++++++++++-----
- drivers/mtd/hyperbus/rpc-if.c   |  4 +-
- drivers/spi/spi-rpc-if.c        |  4 +-
- include/memory/renesas-rpc-if.h |  8 +++-
- 4 files changed, 75 insertions(+), 13 deletions(-)
+Couple of ways to confirm my theory:
+1. After it finishes booting in both cases, can you compare the output
+of the command below? I'm expecting to see a significant drop in the
+number of device links.
+ls -l /sys/class/devlink | wc -l
 
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 0c56decc91f2..8c51145c0f5c 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -12,6 +12,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
- 
-@@ -27,8 +28,8 @@
- #define RPCIF_CMNCR_MOIIO_HIZ	(RPCIF_CMNCR_MOIIO0(3) | \
- 				 RPCIF_CMNCR_MOIIO1(3) | \
- 				 RPCIF_CMNCR_MOIIO2(3) | RPCIF_CMNCR_MOIIO3(3))
--#define RPCIF_CMNCR_IO3FV(val)	(((val) & 0x3) << 14) /* undocumented */
--#define RPCIF_CMNCR_IO2FV(val)	(((val) & 0x3) << 12) /* undocumented */
-+#define RPCIF_CMNCR_IO3FV(val)	(((val) & 0x3) << 14) /* documented for RZ/G2L */
-+#define RPCIF_CMNCR_IO2FV(val)	(((val) & 0x3) << 12) /* documented for RZ/G2L */
- #define RPCIF_CMNCR_IO0FV(val)	(((val) & 0x3) << 8)
- #define RPCIF_CMNCR_IOFV_HIZ	(RPCIF_CMNCR_IO0FV(3) | RPCIF_CMNCR_IO2FV(3) | \
- 				 RPCIF_CMNCR_IO3FV(3))
-@@ -126,6 +127,9 @@
- #define RPCIF_SMDRENR_OPDRE	BIT(4)
- #define RPCIF_SMDRENR_SPIDRE	BIT(0)
- 
-+#define RPCIF_PHYADD		0x0070	/* R/W available on R-Car E3/D3/V3M and RZ/G2{E,L} */
-+#define RPCIF_PHYWR		0x0074	/* R/W available on R-Car E3/D3/V3M and RZ/G2{E,L} */
-+
- #define RPCIF_PHYCNT		0x007C	/* R/W */
- #define RPCIF_PHYCNT_CAL	BIT(31)
- #define RPCIF_PHYCNT_OCTA(v)	(((v) & 0x3) << 22)
-@@ -133,10 +137,12 @@
- #define RPCIF_PHYCNT_OCT	BIT(20)
- #define RPCIF_PHYCNT_DDRCAL	BIT(19)
- #define RPCIF_PHYCNT_HS		BIT(18)
--#define RPCIF_PHYCNT_STRTIM(v)	(((v) & 0x7) << 15)
-+#define RPCIF_PHYCNT_CKSEL(v)	(((v) & 0x3) << 16) /* valid only for RZ/G2L */
-+#define RPCIF_PHYCNT_STRTIM(v)	(((v) & 0x7) << 15) /* valid for R-Car and RZ/G2{E,H,M,N} */
- #define RPCIF_PHYCNT_WBUF2	BIT(4)
- #define RPCIF_PHYCNT_WBUF	BIT(2)
- #define RPCIF_PHYCNT_PHYMEM(v)	(((v) & 0x3) << 0)
-+#define RPCIF_PHYCNT_PHYMEM_MASK GENMASK(1, 0)
- 
- #define RPCIF_PHYOFFSET1	0x0080	/* R/W */
- #define RPCIF_PHYOFFSET1_DDRTMG(v) (((v) & 0x3) << 28)
-@@ -244,18 +250,46 @@ int rpcif_sw_init(struct rpcif *rpc, struct device *dev)
- 		return PTR_ERR(rpc->dirmap);
- 	rpc->size = resource_size(res);
- 
-+	rpc->type = (enum rpcif_type)of_device_get_match_data(dev);
- 	rpc->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
- 
- 	return PTR_ERR_OR_ZERO(rpc->rstc);
- }
- EXPORT_SYMBOL(rpcif_sw_init);
- 
--void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
-+static void rpcif_rzg2l_timing_adjust_sdr(struct rpcif *rpc)
-+{
-+	u32 data;
-+
-+	regmap_write(rpc->regmap, RPCIF_PHYWR, 0xa5390000);
-+	regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000000);
-+	regmap_write(rpc->regmap, RPCIF_PHYWR, 0x00008080);
-+	regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000022);
-+	regmap_write(rpc->regmap, RPCIF_PHYWR, 0x00008080);
-+	regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000024);
-+
-+	regmap_read(rpc->regmap, RPCIF_PHYCNT, &data);
-+	regmap_write(rpc->regmap, RPCIF_PHYCNT, data | RPCIF_PHYCNT_CKSEL(3));
-+	regmap_write(rpc->regmap, RPCIF_PHYWR, 0x00000030);
-+	regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000032);
-+}
-+
-+int rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
- {
- 	u32 dummy;
- 
- 	pm_runtime_get_sync(rpc->dev);
- 
-+	if (rpc->type == RPCIF_RZ_G2L) {
-+		int ret;
-+
-+		ret = reset_control_reset(rpc->rstc);
-+		if (ret)
-+			return ret;
-+		usleep_range(200, 300);
-+		rpcif_rzg2l_timing_adjust_sdr(rpc);
-+	}
-+
- 	/*
- 	 * NOTE: The 0x260 are undocumented bits, but they must be set.
- 	 *	 RPCIF_PHYCNT_STRTIM is strobe timing adjustment bits,
-@@ -264,8 +298,15 @@ void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
- 	 *	 On H3 ES1.x, the value should be 0, while on others,
- 	 *	 the value should be 7.
- 	 */
--	regmap_write(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_STRTIM(7) |
--		     RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260);
-+	if (rpc->type == RPCIF_RCAR_GEN3) {
-+		regmap_write(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_STRTIM(7) |
-+			     RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260);
-+	} else {
-+		regmap_read(rpc->regmap, RPCIF_PHYCNT, &dummy);
-+		dummy &= ~RPCIF_PHYCNT_PHYMEM_MASK;
-+		dummy |= RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260;
-+		regmap_write(rpc->regmap, RPCIF_PHYCNT, dummy);
-+	}
- 
- 	/*
- 	 * NOTE: The 0x1511144 are undocumented bits, but they must be set
-@@ -282,9 +323,17 @@ void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
- 		regmap_update_bits(rpc->regmap, RPCIF_PHYINT,
- 				   RPCIF_PHYINT_WPVAL, 0);
- 
--	regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
--		     RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_IOFV_HIZ |
--		     RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
-+	if (rpc->type == RPCIF_RCAR_GEN3)
-+		regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
-+			     RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_IOFV_HIZ |
-+			     RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
-+	else
-+		regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
-+			     RPCIF_CMNCR_MOIIO3(1) | RPCIF_CMNCR_MOIIO2(1) |
-+			     RPCIF_CMNCR_MOIIO1(1) | RPCIF_CMNCR_MOIIO0(1) |
-+			     RPCIF_CMNCR_IO3FV(2) | RPCIF_CMNCR_IO2FV(2) |
-+			     RPCIF_CMNCR_IO0FV(2) | RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
-+
- 	/* Set RCF after BSZ update */
- 	regmap_write(rpc->regmap, RPCIF_DRCR, RPCIF_DRCR_RCF);
- 	/* Dummy read according to spec */
-@@ -295,6 +344,8 @@ void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
- 	pm_runtime_put(rpc->dev);
- 
- 	rpc->bus_size = hyperflash ? 2 : 1;
-+
-+	return 0;
- }
- EXPORT_SYMBOL(rpcif_hw_init);
- 
-@@ -657,7 +708,8 @@ static int rpcif_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id rpcif_of_match[] = {
--	{ .compatible = "renesas,rcar-gen3-rpc-if", },
-+	{ .compatible = "renesas,rcar-gen3-rpc-if", .data = (void *)RPCIF_RCAR_GEN3 },
-+	{ .compatible = "renesas,rzg2l-rpc-if", .data = (void *)RPCIF_RZ_G2L },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, rpcif_of_match);
-diff --git a/drivers/mtd/hyperbus/rpc-if.c b/drivers/mtd/hyperbus/rpc-if.c
-index 367b0d72bf62..40bca89268c3 100644
---- a/drivers/mtd/hyperbus/rpc-if.c
-+++ b/drivers/mtd/hyperbus/rpc-if.c
-@@ -132,7 +132,9 @@ static int rpcif_hb_probe(struct platform_device *pdev)
- 
- 	rpcif_enable_rpm(&hyperbus->rpc);
- 
--	rpcif_hw_init(&hyperbus->rpc, true);
-+	error = rpcif_hw_init(&hyperbus->rpc, true);
-+	if (error)
-+		return error;
- 
- 	hyperbus->hbdev.map.size = hyperbus->rpc.size;
- 	hyperbus->hbdev.map.virt = hyperbus->rpc.dirmap;
-diff --git a/drivers/spi/spi-rpc-if.c b/drivers/spi/spi-rpc-if.c
-index 83796a4ead34..fe82f3575df4 100644
---- a/drivers/spi/spi-rpc-if.c
-+++ b/drivers/spi/spi-rpc-if.c
-@@ -156,7 +156,9 @@ static int rpcif_spi_probe(struct platform_device *pdev)
- 	ctlr->mode_bits = SPI_CPOL | SPI_CPHA | SPI_TX_QUAD | SPI_RX_QUAD;
- 	ctlr->flags = SPI_CONTROLLER_HALF_DUPLEX;
- 
--	rpcif_hw_init(rpc, false);
-+	error = rpcif_hw_init(rpc, false);
-+	if (error)
-+		return error;
- 
- 	error = spi_register_controller(ctlr);
- 	if (error) {
-diff --git a/include/memory/renesas-rpc-if.h b/include/memory/renesas-rpc-if.h
-index 77c694a19149..7c93f5177532 100644
---- a/include/memory/renesas-rpc-if.h
-+++ b/include/memory/renesas-rpc-if.h
-@@ -57,6 +57,11 @@ struct rpcif_op {
- 	} data;
- };
- 
-+enum rpcif_type {
-+	RPCIF_RCAR_GEN3,
-+	RPCIF_RZ_G2L,
-+};
-+
- struct rpcif {
- 	struct device *dev;
- 	void __iomem *base;
-@@ -64,6 +69,7 @@ struct rpcif {
- 	struct regmap *regmap;
- 	struct reset_control *rstc;
- 	size_t size;
-+	enum rpcif_type type;
- 	enum rpcif_data_dir dir;
- 	u8 bus_size;
- 	void *buffer;
-@@ -78,7 +84,7 @@ struct rpcif {
- };
- 
- int rpcif_sw_init(struct rpcif *rpc, struct device *dev);
--void rpcif_hw_init(struct rpcif *rpc, bool hyperflash);
-+int rpcif_hw_init(struct rpcif *rpc, bool hyperflash);
- void rpcif_prepare(struct rpcif *rpc, const struct rpcif_op *op, u64 *offs,
- 		   size_t *len);
- int rpcif_manual_xfer(struct rpcif *rpc);
--- 
-2.17.1
+2. Can you try out this terrible hack patch (not final fix, no code
+reviews please) on top of Tot to see if it fixes your issue without
+having to add hacky logs?
 
+Thanks,
+Saravana
+
+--- a/drivers/bus/simple-pm-bus.c
++++ b/drivers/bus/simple-pm-bus.c
+@@ -38,10 +38,12 @@ static int simple_pm_bus_probe(struct platform_device *pdev)
+         * a device that has a more specific driver.
+         */
+        if (match && match->data) {
+-               if (of_property_match_string(np, "compatible",
+match->compatible) == 0)
++               if (of_property_match_string(np, "compatible",
+match->compatible) == 0) {
++                       of_platform_populate(np, NULL, lookup, &pdev->dev);
+                        return 0;
+-               else
++               } else {
+                        return -ENODEV;
++               }
+        }
