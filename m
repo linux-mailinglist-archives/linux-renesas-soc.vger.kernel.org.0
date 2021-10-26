@@ -2,151 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 524DB43A93E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 02:30:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A78D643AD4F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 09:36:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235233AbhJZAdC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Oct 2021 20:33:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36734 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234104AbhJZAdC (ORCPT
+        id S231876AbhJZHiZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Oct 2021 03:38:25 -0400
+Received: from mail-ua1-f48.google.com ([209.85.222.48]:37604 "EHLO
+        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231589AbhJZHiZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Oct 2021 20:33:02 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A22C061745
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Oct 2021 17:30:39 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id y80so12409744ybe.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Oct 2021 17:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GKpt6gbUiUnxRUWu5oj6hwoD4Hy59PUSCVuLvc1dxEQ=;
-        b=RXv66RKwy6UqpmJo42NU6ImPtA0hhG8/Hy8v1NimoQYcVrEDXumRbWrcFjH1xV+Ock
-         bXfHSE1/Aa52wxOkNcAfIoezAMn3Lpd9TvcFaLmUkm9YSD1ViBQO3RTcfNLjsQAEVwPO
-         Sr04OJMjHKpOMiakJvt4bqsOkwBFejrv5vw1+yiMxdDWuSGB3dwrLvEHrZHaBDAxQ3uA
-         mA+d2EtJEqyxDpUIrllz7ZzNwH/TJ1a18W6GZtWTatTAtJkG5uU+3x0kjP5oP99JIRpK
-         8UWvswhWCiyJQ6Wipr1qNVQ4eL1Iq7g7upvvOrcQcLjJqw8VVQGfniWrGznluMgNzjyV
-         XYgQ==
+        Tue, 26 Oct 2021 03:38:25 -0400
+Received: by mail-ua1-f48.google.com with SMTP id f4so27353655uad.4;
+        Tue, 26 Oct 2021 00:36:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GKpt6gbUiUnxRUWu5oj6hwoD4Hy59PUSCVuLvc1dxEQ=;
-        b=2B44MmatgMpQ9huoY1hSb0jVgiBThAllCtbGZJcYV7/YU7S7n1L4QKoYGVRFSUblVx
-         fv3nPiTk9/W8rIIi7jXDIektIiNPjb1lWmRtdw+5CXJvLPfo48zAYNPqkprXr+/rmrN5
-         2nUUcMtojjWw3J1fk8mP5vxEqkS5nU89/0rO7haaiSCH17Box8GOrcodGRR+/4EnE9fD
-         AM3XfUZwy/u7Rez/55LcOkKEIYqJQZt/D85bUQzUVzH2eaPVWrcNx3qrg45PMufqLtGI
-         8Kf1E3O5ac1Z31/Nl3KByaWPA60f+2b5WXpp3gp4aDoPfnurhhFXv/Nwm/vtWJzctdxv
-         ogMA==
-X-Gm-Message-State: AOAM531HZp7v/cIxmomuqbIM2EqXJD1ZMUjU0q+355MC8jFsMDRgGRSX
-        fiw2sS+0bsEDClYQBrbtuJ1Y+Gy6cEk8Y8tZ7qTE/w==
-X-Google-Smtp-Source: ABdhPJwkdfRIKjhmBppLm+T21H0QPHoD4LXXiPIYhqq5jQAumISBbcpXVG/c3VSAYycVKUykbWB0N2n0Rav/D4MlbEo=
-X-Received: by 2002:a5b:cce:: with SMTP id e14mr20273877ybr.486.1635208238648;
- Mon, 25 Oct 2021 17:30:38 -0700 (PDT)
+        bh=cskXgtg91PRxnTvZsU1AQy3+KEjaEciMaMxgC4WMxUc=;
+        b=Dyyx6Uu871Y5iW5Wm4CPuBoVSpzmL4AAGWK1Dmc23Qcsuu+c0RPQyZkFj17zJSKqhc
+         hxYApgAkfMJHMU4PLb7ZMpUv01bzfm+06o3HbP2iN0JNRjCrpaXesZaSDjIbVTECih3c
+         PNOIJqkDmq8PAepCaF6ijik0qqSXF2nnmiYuXMGDH9F2MEGGdZbzLe32RnQQwmS/n7MI
+         mbtRK5eXX+1x7T3/PdghmyBtVlug3GkaiXtFBAnXk5TBSoO6QP5AqmCMhR7BvCszUmgD
+         Ts2PGsENojBIIJc1LzDcFb3ciyHBHQCrl0WZVNqXIOEt1b+0xiuva29E1T4J1QFy+dSa
+         UIyw==
+X-Gm-Message-State: AOAM530mSWEdtnefJqqDLHFH/8V0K+een9EGZCkK0Ig5gSNUSzX0uH3V
+        L4bn2DE7Vl4pxXjOJNHq2QGM4tDTJyyOSw==
+X-Google-Smtp-Source: ABdhPJyMKxGOWYdD6151aC8zmTcjQe8n0e/y+/flfbUT1VmoqJj4h8TXU+7b7BwszgWVmpRElg+bUQ==
+X-Received: by 2002:a05:6102:cc8:: with SMTP id g8mr21755713vst.47.1635233760931;
+        Tue, 26 Oct 2021 00:36:00 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id o18sm10801648vkb.21.2021.10.26.00.36.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Oct 2021 00:36:00 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id p23so14569748uaa.6;
+        Tue, 26 Oct 2021 00:36:00 -0700 (PDT)
+X-Received: by 2002:a67:d111:: with SMTP id u17mr22000314vsi.37.1635233760625;
+ Tue, 26 Oct 2021 00:36:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210929000735.585237-1-saravanak@google.com> <20210929000735.585237-3-saravanak@google.com>
- <CAMi1Hd0HvPOT277mx8hNTU9NQH2ti7h5qc5+rxOkRWwbfrhyQQ@mail.gmail.com>
- <CAGETcx_YZOd05Gg53ZR8mfVhFUzwQWo4MrrWF8JHF_DCwEtunw@mail.gmail.com> <CAMi1Hd3M--+V6jPTV=psYGpOqi3UeQBs_FHqOg=oUf1hH-EU4w@mail.gmail.com>
-In-Reply-To: <CAMi1Hd3M--+V6jPTV=psYGpOqi3UeQBs_FHqOg=oUf1hH-EU4w@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Mon, 25 Oct 2021 17:30:02 -0700
-Message-ID: <CAGETcx9U130Oq-umrvXME4JhEpO0Wadoki3kNxx=0-YvTR6PtQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] drivers: bus: Delete CONFIG_SIMPLE_PM_BUS
-To:     Amit Pundir <amit.pundir@linaro.org>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        linux-arm-kernel@lists.infradead.org,
-        lkml <linux-kernel@vger.kernel.org>, linux-oxnas@groups.io,
-        linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        John Stultz <john.stultz@linaro.org>
+References: <2188ede78110c64b8a3bfbfa794a085dac0e4cd2.1634645735.git.geert+renesas@glider.be>
+ <20211019124315.5dg5pfaas2qmm7lx@uno.localdomain> <CAMuHMdX6OO19+pgxUYATT9AZ5BuXXMzRCPbtn7aZC_Lc6pt96g@mail.gmail.com>
+In-Reply-To: <CAMuHMdX6OO19+pgxUYATT9AZ5BuXXMzRCPbtn7aZC_Lc6pt96g@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 26 Oct 2021 09:35:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU3OWVd8FSzD27Hcchn-_mvBquCHrQ73j5pmYTY=A-GCQ@mail.gmail.com>
+Message-ID: <CAMuHMdU3OWVd8FSzD27Hcchn-_mvBquCHrQ73j5pmYTY=A-GCQ@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: renesas: rza1: Fix kerneldoc function names
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 22, 2021 at 10:00 AM Amit Pundir <amit.pundir@linaro.org> wrote:
->
-> On Fri, 22 Oct 2021 at 05:13, Saravana Kannan <saravanak@google.com> wrote:
-> >
-> > On Thu, Oct 21, 2021 at 4:21 AM Amit Pundir <amit.pundir@linaro.org> wrote:
+On Tue, Oct 19, 2021 at 2:54 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Tue, Oct 19, 2021 at 2:42 PM Jacopo Mondi <jacopo@jmondi.org> wrote:
+> > On Tue, Oct 19, 2021 at 02:34:22PM +0200, Geert Uytterhoeven wrote:
+> > > --- a/drivers/pinctrl/renesas/pinctrl-rza1.c
+> > > +++ b/drivers/pinctrl/renesas/pinctrl-rza1.c
+> > > @@ -757,7 +757,7 @@ static int rza1_gpio_request(struct gpio_chip *chip, unsigned int gpio)
+> > >  }
 > > >
-> > > Hi Saravana,
-> > >
-> > > This patch broke v5.15-rc6 on RB5 (sm8250 | qcom/qrb5165-rb5.dts).
-> > > I can't boot past this point https://www.irccloud.com/pastebin/raw/Nv6ZwHmW.
+> > >  /**
+> > > - * rza1_gpio_disable_free() - reset a pin
+> > > + * rza1_gpio_free() - reset a pin
+> > >   *
+> > >   * Surprisingly, disable_free a gpio, is equivalent to request it.
 > >
-> > Amit top posting? How did that happen? :)
-> >
-> > The fact you are seeing this issue is super strange though. The driver
-> > literally does nothing other than allowing some sync_state() callbacks
-> > to happen. I also grepped for the occurence of "simple-bus" in
-> > arch/arm64/boot/dts/qcom/ and the only instance for 8250 is for the
-> > soc node.
-> >
-> > The only thing I can think of is that without my patch some
-> > sync_state() callbacks weren't getting called and maybe it was masking
-> > some other issue.
-> >
-> > Can you try to boot with this log (see log patch below) and see if the
-> > device hangs right after a sync_state() callback? Also, looking at the
-> > different sync_state() implementations in upstream, I'm guessing one
-> > of the devices isn't voting for interconnect bandwidth when it should
-> > have.
-> >
-> > Another thing you could do is boot without the simple-bus changes and
-> > then look for all instances of "state_synced" in /sys/devices and then
-> > see if any of them has the value "0" after boot up is complete.
+> > s/disable_free/free ?
 >
-> Turned out RB5 is not even reaching up to
-> device_links_flush_sync_list() and seem to be stuck somewhere in
-> device_links_driver_bound(). So I added more print logs to narrow down
-> to any specific lock state but those additional prints seem to have
-> added enough delay to unblock that particular driver (Serial:
-> 8250/16550 driver if I understood the logs correctly) and I eventually
-> booted to UI.
+> Yup, will fix while applying to:
+>
+>     disabling a gpio is equivalent to requesting it
 
-Ugh... I think I know what's going on. It popped into my head over the weekend.
+"freeing...", of course.
 
-Couple of ways to confirm my theory:
-1. After it finishes booting in both cases, can you compare the output
-of the command below? I'm expecting to see a significant drop in the
-number of device links.
-ls -l /sys/class/devlink | wc -l
+Gr{oetje,eeting}s,
 
-2. Can you try out this terrible hack patch (not final fix, no code
-reviews please) on top of Tot to see if it fixes your issue without
-having to add hacky logs?
+                        Geert
 
-Thanks,
-Saravana
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---- a/drivers/bus/simple-pm-bus.c
-+++ b/drivers/bus/simple-pm-bus.c
-@@ -38,10 +38,12 @@ static int simple_pm_bus_probe(struct platform_device *pdev)
-         * a device that has a more specific driver.
-         */
-        if (match && match->data) {
--               if (of_property_match_string(np, "compatible",
-match->compatible) == 0)
-+               if (of_property_match_string(np, "compatible",
-match->compatible) == 0) {
-+                       of_platform_populate(np, NULL, lookup, &pdev->dev);
-                        return 0;
--               else
-+               } else {
-                        return -ENODEV;
-+               }
-        }
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
