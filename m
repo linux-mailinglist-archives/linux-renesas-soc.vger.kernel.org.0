@@ -2,236 +2,291 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 939A443B385
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 16:02:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFC0B43B4AC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 16:47:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232091AbhJZOEa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Oct 2021 10:04:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48936 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230119AbhJZOEa (ORCPT
+        id S231530AbhJZOt3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Oct 2021 10:49:29 -0400
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:53316
+        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234301AbhJZOtZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Oct 2021 10:04:30 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71161C061745
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Oct 2021 07:02:06 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id v20so10404999plo.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Oct 2021 07:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=AMQsE0Q0OJACmGqI7GLExuP64uI+Kq/kqTXJdB/Wvh8=;
-        b=5zIzRvd5iq7hA5MCz4a00d3SvdCDfsxEqjBD9qdnoeE7o1v5NpPAfwvoRZjPHcKG3g
-         jw89RnL4T8v/mqCxctK6Zja59DZw3y6gYdr77CbZKmPbQaVnyfbQBP8ruH6UuB5JOdhw
-         8ce2F2165Fiw4yOGYihVuf0a11/pBWWruWCBYBXSC5Z4jP6yx/nrGsOrpLuhyJOajk5f
-         2ZXJfc1hwzHqQqdI3jc24eUZf3RaFI/HXlaXruRsS/JAO6YxmfdToEKtFrXXdQEu/NH8
-         VaYD1sQhHE8Hwmpt2+OAacqyUSevhOXuoYNy+xi/8neWvXlXeDSANSv8rVKRDPF1P1sB
-         v29g==
+        Tue, 26 Oct 2021 10:49:25 -0400
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com [209.85.167.71])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id C25A63F19A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Oct 2021 14:47:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1635259620;
+        bh=sGvC/moOvdyUz5BgWBNn++QElNeJtVEkhjy6Xzwoit8=;
+        h=To:Cc:References:From:Subject:Message-ID:Date:MIME-Version:
+         In-Reply-To:Content-Type;
+        b=tTEpThVMckOVdRCkGaKZtaK0DpoNm35vn70zkEvJDH8465UsbXo9aIsnVjzfHf5W9
+         RJayEMiSDIkw8Io8SK2iWJVkZSjFikgjYaQU9V/5JzbsPZNnDWHw6jiZeNKAIDk9+P
+         S96ZkRv4lDiXgKggZ8MI4dsQzim0u0AeUw4HZCEIj0ooaxmjE2HHUvXnTWzYO42zES
+         LgT2Riy+kkSd82DjnT/E9X7aba+YP/ixC61rGNErMaWXHOnNmk7tNRc55XSDkcaTTh
+         N+yUA6nVMyeTY6AGdrOFJtKLKM2Y/e+vsnD1TszBDqz/NqRp9W5CtbtTQoPi9pVqar
+         RV0qnFj5JEl2Q==
+Received: by mail-lf1-f71.google.com with SMTP id p19-20020a056512139300b003ff6dfea137so6249335lfa.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Oct 2021 07:47:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=AMQsE0Q0OJACmGqI7GLExuP64uI+Kq/kqTXJdB/Wvh8=;
-        b=7GvrLwGF8+A12i0wl3eilu2Gl8Q0E1urS0/YQzYmsfyYKcWPiTNB4vWb+BTaqkhvX+
-         L5LIvrIEz/d11fHgikN9Kn3HVcUu8UQhdLYtPJkwCvbj97E8sd/xKCe/hDH1XlcZz4in
-         jnL8TGAPhOT6GGPDEcwHI0x64Oq/UGp7GqjKwE4f+N+zZK6XFasAcCjmbPZhLW7jPAoh
-         2PItQziO+l7zdLNibodBKfXMhyNQEiZ4LnyLYIWda0uLCroblsuSw3oDdTNA19LwcW0Y
-         K8QcTMxBcGLinrq6MPJ2aw0i0sI4vLuXhpeonHvDpCxn0DihUPiVWbvRcw05jUZ0yHTD
-         kYXA==
-X-Gm-Message-State: AOAM531z0pYAS0cU0vCtaSvVVH3RckqIpILLUix3N+CGAIEO7Hnb42wP
-        VIzdkrcH7i+DPErDDLcM+2Nby04GnvgM7OTC
-X-Google-Smtp-Source: ABdhPJyT9bQzn83ZUiSnRbpaTp6wqZ492+tJnhIzrqM78mKhBm6FCrW3isr4r/KsY+iKn9mA2OcfQA==
-X-Received: by 2002:a17:903:22c5:b0:140:298b:9e27 with SMTP id y5-20020a17090322c500b00140298b9e27mr21889805plg.23.1635256924212;
-        Tue, 26 Oct 2021 07:02:04 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id nv5sm1199313pjb.10.2021.10.26.07.02.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 07:02:03 -0700 (PDT)
-Message-ID: <61780a5b.1c69fb81.4956c.266a@mx.google.com>
-Date:   Tue, 26 Oct 2021 07:02:03 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=sGvC/moOvdyUz5BgWBNn++QElNeJtVEkhjy6Xzwoit8=;
+        b=ZChAlmyedB/ir5ItlaPlbPNzk1gcTTAW4ewZOBAqFzARl39p0EdIqDGQNy7WfX4XJv
+         UlSrFkXU7p7yuBfEVeYNb0iWmBb2kHkFqT326jZZEliqZebZ/Ws5lRcmXC5nFS8opG3P
+         a45iEE/BxLM/TP4dtgRQqdcx6JWeQ3XcU2kjPt8Py2CmzqaPiYflYP7oIPZvXNpx+su2
+         kIzCR1LuhtjdTz59N4XWiyH856ziDJVwg7QTZsn0NJbqjV+KlF1OJSZpv3Q7VoQILBZW
+         nBWTrGAAukwl0xfvhE+v0xxQ7ilUknUJOoVBfmstWdM9db6uQjSZXbvBH/Zy8TVpku+c
+         GwrA==
+X-Gm-Message-State: AOAM531jP0a2PtXpIQsnXTQsBveYAoAkCXXdIvghBD6DN7kYQYnu02BT
+        yiU/g/6kCZAAo9h7+EhTp5U8gI8INt8iZiSApdR/SqL0EhbQfOznT6J8HcZyjygARZUtUAcnFQ8
+        1r7inyUpflTb+4wq9ZIBpNJXHNKnDmurkUyNvUX5dpZW31tqB
+X-Received: by 2002:a2e:9a44:: with SMTP id k4mr27138540ljj.149.1635259620090;
+        Tue, 26 Oct 2021 07:47:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzId5LC3CECZNRGA5TXwzhpCrfWJ3jxLerU06SuBsMlTmuewBOjpfWson2aDsP9+nWnmzeFEA==
+X-Received: by 2002:a2e:9a44:: with SMTP id k4mr27138506ljj.149.1635259619839;
+        Tue, 26 Oct 2021 07:46:59 -0700 (PDT)
+Received: from [192.168.3.161] (89-77-68-124.dynamic.chello.pl. [89.77.68.124])
+        by smtp.gmail.com with ESMTPSA id u1sm1369162lfs.21.2021.10.26.07.46.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Oct 2021 07:46:59 -0700 (PDT)
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mark Brown <broonie@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20211025205631.21151-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211025205631.21151-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH v2 7/7] memory: renesas-rpc-if: Add support for RZ/G2L
+Message-ID: <3739744b-0a10-6d6b-8d1c-9c82b6afe0b3@canonical.com>
+Date:   Tue, 26 Oct 2021 16:46:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-devel-2021-10-26-v5.15-rc7
-X-Kernelci-Report-Type: test
-Subject: renesas/master baseline: 387 runs,
- 4 regressions (renesas-devel-2021-10-26-v5.15-rc7)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+In-Reply-To: <20211025205631.21151-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 387 runs, 4 regressions (renesas-devel-2021-10-26-=
-v5.15-rc7)
+On 25/10/2021 22:56, Lad Prabhakar wrote:
+> SPI Multi I/O Bus Controller on RZ/G2L SoC is almost identical to
+> the RPC-IF interface found on R-Car Gen3 SoC's.
+> 
+> This patch adds a new compatible string for the RZ/G2L family so
+> that the timing values on RZ/G2L can be adjusted.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Updated macros as suggested by Wolfram
+> ---
+>  drivers/memory/renesas-rpc-if.c | 72 ++++++++++++++++++++++++++++-----
+>  drivers/mtd/hyperbus/rpc-if.c   |  4 +-
+>  drivers/spi/spi-rpc-if.c        |  4 +-
+>  include/memory/renesas-rpc-if.h |  8 +++-
+>  4 files changed, 75 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+> index 0c56decc91f2..8c51145c0f5c 100644
+> --- a/drivers/memory/renesas-rpc-if.c
+> +++ b/drivers/memory/renesas-rpc-if.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/of.h>
+> +#include <linux/of_device.h>
+>  #include <linux/regmap.h>
+>  #include <linux/reset.h>
+>  
+> @@ -27,8 +28,8 @@
+>  #define RPCIF_CMNCR_MOIIO_HIZ	(RPCIF_CMNCR_MOIIO0(3) | \
+>  				 RPCIF_CMNCR_MOIIO1(3) | \
+>  				 RPCIF_CMNCR_MOIIO2(3) | RPCIF_CMNCR_MOIIO3(3))
+> -#define RPCIF_CMNCR_IO3FV(val)	(((val) & 0x3) << 14) /* undocumented */
+> -#define RPCIF_CMNCR_IO2FV(val)	(((val) & 0x3) << 12) /* undocumented */
+> +#define RPCIF_CMNCR_IO3FV(val)	(((val) & 0x3) << 14) /* documented for RZ/G2L */
+> +#define RPCIF_CMNCR_IO2FV(val)	(((val) & 0x3) << 12) /* documented for RZ/G2L */
+>  #define RPCIF_CMNCR_IO0FV(val)	(((val) & 0x3) << 8)
+>  #define RPCIF_CMNCR_IOFV_HIZ	(RPCIF_CMNCR_IO0FV(3) | RPCIF_CMNCR_IO2FV(3) | \
+>  				 RPCIF_CMNCR_IO3FV(3))
+> @@ -126,6 +127,9 @@
+>  #define RPCIF_SMDRENR_OPDRE	BIT(4)
+>  #define RPCIF_SMDRENR_SPIDRE	BIT(0)
+>  
+> +#define RPCIF_PHYADD		0x0070	/* R/W available on R-Car E3/D3/V3M and RZ/G2{E,L} */
+> +#define RPCIF_PHYWR		0x0074	/* R/W available on R-Car E3/D3/V3M and RZ/G2{E,L} */
+> +
+>  #define RPCIF_PHYCNT		0x007C	/* R/W */
+>  #define RPCIF_PHYCNT_CAL	BIT(31)
+>  #define RPCIF_PHYCNT_OCTA(v)	(((v) & 0x3) << 22)
+> @@ -133,10 +137,12 @@
+>  #define RPCIF_PHYCNT_OCT	BIT(20)
+>  #define RPCIF_PHYCNT_DDRCAL	BIT(19)
+>  #define RPCIF_PHYCNT_HS		BIT(18)
+> -#define RPCIF_PHYCNT_STRTIM(v)	(((v) & 0x7) << 15)
+> +#define RPCIF_PHYCNT_CKSEL(v)	(((v) & 0x3) << 16) /* valid only for RZ/G2L */
+> +#define RPCIF_PHYCNT_STRTIM(v)	(((v) & 0x7) << 15) /* valid for R-Car and RZ/G2{E,H,M,N} */
+>  #define RPCIF_PHYCNT_WBUF2	BIT(4)
+>  #define RPCIF_PHYCNT_WBUF	BIT(2)
+>  #define RPCIF_PHYCNT_PHYMEM(v)	(((v) & 0x3) << 0)
+> +#define RPCIF_PHYCNT_PHYMEM_MASK GENMASK(1, 0)
+>  
+>  #define RPCIF_PHYOFFSET1	0x0080	/* R/W */
+>  #define RPCIF_PHYOFFSET1_DDRTMG(v) (((v) & 0x3) << 28)
+> @@ -244,18 +250,46 @@ int rpcif_sw_init(struct rpcif *rpc, struct device *dev)
+>  		return PTR_ERR(rpc->dirmap);
+>  	rpc->size = resource_size(res);
+>  
+> +	rpc->type = (enum rpcif_type)of_device_get_match_data(dev);
+>  	rpc->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+>  
+>  	return PTR_ERR_OR_ZERO(rpc->rstc);
+>  }
+>  EXPORT_SYMBOL(rpcif_sw_init);
+>  
+> -void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
+> +static void rpcif_rzg2l_timing_adjust_sdr(struct rpcif *rpc)
+> +{
+> +	u32 data;
+> +
+> +	regmap_write(rpc->regmap, RPCIF_PHYWR, 0xa5390000);
+> +	regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000000);
+> +	regmap_write(rpc->regmap, RPCIF_PHYWR, 0x00008080);
+> +	regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000022);
+> +	regmap_write(rpc->regmap, RPCIF_PHYWR, 0x00008080);
+> +	regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000024);
+> +
+> +	regmap_read(rpc->regmap, RPCIF_PHYCNT, &data);
+> +	regmap_write(rpc->regmap, RPCIF_PHYCNT, data | RPCIF_PHYCNT_CKSEL(3));
+> +	regmap_write(rpc->regmap, RPCIF_PHYWR, 0x00000030);
+> +	regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000032);
+> +}
+> +
+> +int rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
+>  {
+>  	u32 dummy;
+>  
+>  	pm_runtime_get_sync(rpc->dev);
+>  
+> +	if (rpc->type == RPCIF_RZ_G2L) {
+> +		int ret;
+> +
+> +		ret = reset_control_reset(rpc->rstc);
+> +		if (ret)
+> +			return ret;
+> +		usleep_range(200, 300);
+> +		rpcif_rzg2l_timing_adjust_sdr(rpc);
+> +	}
+> +
+>  	/*
+>  	 * NOTE: The 0x260 are undocumented bits, but they must be set.
+>  	 *	 RPCIF_PHYCNT_STRTIM is strobe timing adjustment bits,
+> @@ -264,8 +298,15 @@ void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
+>  	 *	 On H3 ES1.x, the value should be 0, while on others,
+>  	 *	 the value should be 7.
+>  	 */
+> -	regmap_write(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_STRTIM(7) |
+> -		     RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260);
+> +	if (rpc->type == RPCIF_RCAR_GEN3) {
+> +		regmap_write(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_STRTIM(7) |
+> +			     RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260);
+> +	} else {
+> +		regmap_read(rpc->regmap, RPCIF_PHYCNT, &dummy);
+> +		dummy &= ~RPCIF_PHYCNT_PHYMEM_MASK;
+> +		dummy |= RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260;
+> +		regmap_write(rpc->regmap, RPCIF_PHYCNT, dummy);
+> +	}
+>  
+>  	/*
+>  	 * NOTE: The 0x1511144 are undocumented bits, but they must be set
+> @@ -282,9 +323,17 @@ void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
+>  		regmap_update_bits(rpc->regmap, RPCIF_PHYINT,
+>  				   RPCIF_PHYINT_WPVAL, 0);
+>  
+> -	regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
+> -		     RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_IOFV_HIZ |
+> -		     RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
+> +	if (rpc->type == RPCIF_RCAR_GEN3)
+> +		regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
+> +			     RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_IOFV_HIZ |
+> +			     RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
+> +	else
+> +		regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
+> +			     RPCIF_CMNCR_MOIIO3(1) | RPCIF_CMNCR_MOIIO2(1) |
+> +			     RPCIF_CMNCR_MOIIO1(1) | RPCIF_CMNCR_MOIIO0(1) |
+> +			     RPCIF_CMNCR_IO3FV(2) | RPCIF_CMNCR_IO2FV(2) |
+> +			     RPCIF_CMNCR_IO0FV(2) | RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
+> +
+>  	/* Set RCF after BSZ update */
+>  	regmap_write(rpc->regmap, RPCIF_DRCR, RPCIF_DRCR_RCF);
+>  	/* Dummy read according to spec */
+> @@ -295,6 +344,8 @@ void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
+>  	pm_runtime_put(rpc->dev);
+>  
+>  	rpc->bus_size = hyperflash ? 2 : 1;
+> +
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(rpcif_hw_init);
+>  
+> @@ -657,7 +708,8 @@ static int rpcif_remove(struct platform_device *pdev)
+>  }
+>  
+>  static const struct of_device_id rpcif_of_match[] = {
+> -	{ .compatible = "renesas,rcar-gen3-rpc-if", },
+> +	{ .compatible = "renesas,rcar-gen3-rpc-if", .data = (void *)RPCIF_RCAR_GEN3 },
+> +	{ .compatible = "renesas,rzg2l-rpc-if", .data = (void *)RPCIF_RZ_G2L },
+>  	{},
+>  };
+>  MODULE_DEVICE_TABLE(of, rpcif_of_match);
+> diff --git a/drivers/mtd/hyperbus/rpc-if.c b/drivers/mtd/hyperbus/rpc-if.c
+> index 367b0d72bf62..40bca89268c3 100644
+> --- a/drivers/mtd/hyperbus/rpc-if.c
+> +++ b/drivers/mtd/hyperbus/rpc-if.c
+> @@ -132,7 +132,9 @@ static int rpcif_hb_probe(struct platform_device *pdev)
+>  
+>  	rpcif_enable_rpm(&hyperbus->rpc);
+>  
+> -	rpcif_hw_init(&hyperbus->rpc, true);
+> +	error = rpcif_hw_init(&hyperbus->rpc, true);
+> +	if (error)
+> +		return error;
+>  
 
-Regressions Summary
--------------------
+Not related to this patch, but the concept used here looks fragile. The
+child driver calls also rpcif_sw_init() and ignores the error code. What
+happens in case of rpcif_sw_init() failure or child probe deferral?
+Since the SW and HW init is called in context of child device, the
+parent won't do anything. Then, second bind of child device (manual or
+because of deferral) will fail on devm_reset_control_get_exclusive()
+with -EBUSY.
 
-platform              | arch  | lab         | compiler | defconfig         =
-           | regressions
-----------------------+-------+-------------+----------+-------------------=
------------+------------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig         =
-           | 1          =
+Initializing parent's resources should be rather done from parent's
+context (so renesas-rpc-if.c) to handle properly deferred probe and
+other failures. Doing it from a child, breaks encapsulation and
+separation of devices.
 
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+ima     =
-           | 1          =
+Is there any reason why memory/renesas-rpc-if.c cannot do SW and HW init?
 
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+CON...OM=
-IZE_BASE=3Dy | 1          =
-
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+crypto  =
-           | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-10-26-v5.15-rc7/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-10-26-v5.15-rc7
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      1eb1073587ad2566bf2f1746c425ce1804b54276 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform              | arch  | lab         | compiler | defconfig         =
-           | regressions
-----------------------+-------+-------------+----------+-------------------=
------------+------------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig         =
-           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6177d2427bc47ae4fd3358dc
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-10-26-v5.15-rc7/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-kbo=
-x-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-10-26-v5.15-rc7/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-kbo=
-x-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-6-g8983f3b738df/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6177d2427bc47ae4fd335=
-8dd
-        new failure (last pass: renesas-devel-2021-10-18-v5.15-rc6) =
-
- =
-
-
-
-platform              | arch  | lab         | compiler | defconfig         =
-           | regressions
-----------------------+-------+-------------+----------+-------------------=
------------+------------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+ima     =
-           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6177d410ad7e50de8b3358f4
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+ima
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-10-26-v5.15-rc7/arm64/defconfig+ima/gcc-10/lab-kontron/baseline-kontron=
--kbox-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-10-26-v5.15-rc7/arm64/defconfig+ima/gcc-10/lab-kontron/baseline-kontron=
--kbox-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-6-g8983f3b738df/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6177d410ad7e50de8b335=
-8f5
-        new failure (last pass: renesas-devel-2021-10-18-v5.15-rc6) =
-
- =
-
-
-
-platform              | arch  | lab         | compiler | defconfig         =
-           | regressions
-----------------------+-------+-------------+----------+-------------------=
------------+------------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+CON...OM=
-IZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6177d7eb1fcf1790e0335909
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-10-26-v5.15-rc7/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-ko=
-ntron/baseline-kontron-kbox-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-10-26-v5.15-rc7/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-ko=
-ntron/baseline-kontron-kbox-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-6-g8983f3b738df/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6177d7eb1fcf1790e0335=
-90a
-        new failure (last pass: renesas-devel-2021-10-18-v5.15-rc6) =
-
- =
-
-
-
-platform              | arch  | lab         | compiler | defconfig         =
-           | regressions
-----------------------+-------+-------------+----------+-------------------=
------------+------------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+crypto  =
-           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6177d8c09eb514334833590c
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+crypto
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-10-26-v5.15-rc7/arm64/defconfig+crypto/gcc-10/lab-kontron/baseline-kont=
-ron-kbox-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-10-26-v5.15-rc7/arm64/defconfig+crypto/gcc-10/lab-kontron/baseline-kont=
-ron-kbox-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-6-g8983f3b738df/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6177d8c09eb5143348335=
-90d
-        new failure (last pass: renesas-devel-2021-10-18-v5.15-rc6) =
-
- =20
+Best regards,
+Krzysztof
