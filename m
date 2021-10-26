@@ -2,79 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A8D043ADCA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 10:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9B9943ADCB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 10:10:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234229AbhJZILK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Oct 2021 04:11:10 -0400
-Received: from mail.iot.bzh ([51.75.236.24]:17554 "EHLO frontal.iot.bzh"
+        id S231228AbhJZIMj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Oct 2021 04:12:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51412 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233734AbhJZII2 (ORCPT
+        id S231158AbhJZIMi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Oct 2021 04:08:28 -0400
-Received: from frontal.iot.bzh (localhost [127.0.0.1])
-        by frontal.iot.bzh (Proxmox) with ESMTP id 4873320F4D;
-        Tue, 26 Oct 2021 10:05:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
-        :content-transfer-encoding:content-type:content-type:date:from
-        :from:in-reply-to:message-id:mime-version:references:reply-to
-        :subject:subject:to:to; s=iot.bzh; bh=oTbE3zSBh0x9Rb5BSbHRWbgw/v
-        yrcl2SsWgBCp9ybnY=; b=IgGVg4D9+pnuKthzi1aaAVjAtNb3LdN6jM6YTmsMKy
-        mk8k50/ArtLqPwepC5nGUEC+Ky/1lKRBy2EQDhhqtx4mPzHdX4jykY9UAnneubuQ
-        Yi9Vy9tAdHyRQgrtb9QDWgCv44U5nj9CyQIXcyrMtD93ytKR4+FZNmzVbPqal5Fv
-        Zm7RrbplXtDMH5YCLzzuR9Uqn6lFSbMuBd/AxIHV4IJ2FTRm21wtQLqjYyMrfV0p
-        zmwtDifZU2ZB5wPBC48IvbKPmjWaTTlMI8+uf9CjHrJUSUzoz1EjzcMIDcPEZDaI
-        KPAUAwcnZsJF0DL697wTpaCLKwBJXqRusR65NDlCSR8Q==
-Message-ID: <a611a687-38e2-1183-6422-f200a56cf35b@iot.bzh>
-Date:   Tue, 26 Oct 2021 10:05:20 +0200
+        Tue, 26 Oct 2021 04:12:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 3181E60F9B
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Oct 2021 08:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635235815;
+        bh=O3Sg36S7/gbhuddqjL6Qn03HtHWU2Tld9BZ8T473n7w=;
+        h=Subject:From:Date:To:From;
+        b=j3GXVWZ6yPxMTk24O6TCi6kZhqaAWR2VrFeAJuhFN3/nDf1SzrAzXVOCU6mBsizTi
+         Gg94Idl5+xFjLVnyLwM3NiacUAbsRdE+0uBSx7INjrJU+pRE36u6oW4AQIzAIfXFGP
+         YYD0yo23aSm+b1HIuGbtA5aoNHJrJMsLQPyKVZs4BPtGNegPVpKn8RGIIVTAoA4a0b
+         H7M12qubzxOt5sfXIp5Xg+b5DuS58aAweOF9I+lSbXXPd3OSBBPU3EDu+8mnZSdNvJ
+         DIqelsT8IqR6OyHdJJK23sGgzbwQZYK79hopgEUx1biYamMRzzQzfC/9sfAaJr1N0K
+         xY4ZtlzyEcLRw==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 227EB60726
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Oct 2021 08:10:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v4] soc: renesas: rcar-rst: Add support to set rproc boot
- address
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20211022122101.66998-1-julien.massot@iot.bzh>
- <CAMuHMdXr2W5QO0s2n+fVj6CSe1+Cmbfw0aFRkjJ2zdFaB1BSkg@mail.gmail.com>
-From:   Julien Massot <julien.massot@iot.bzh>
-In-Reply-To: <CAMuHMdXr2W5QO0s2n+fVj6CSe1+Cmbfw0aFRkjJ2zdFaB1BSkg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <163523581508.24102.2640196939201336788.git-patchwork-summary@kernel.org>
+Date:   Tue, 26 Oct 2021 08:10:15 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hello:
+
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
+
+Patch: [v2] can: rcar_can: Fix suspend/resume
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Committer: Marc Kleine-Budde <mkl@pengutronix.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=552069
+  Lore link: https://lore.kernel.org/r/20210924075556.223685-1-yoshihiro.shimoda.uh@renesas.com
+
+Patch: ARM: shmobile: Add missing of_node_put()
+  Submitter: Wan Jiabing <wanjiabing@vivo.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=565075
+  Lore link: https://lore.kernel.org/r/20211018014503.7598-1-wanjiabing@vivo.com
+
+Patch: ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Add missing camera regulators
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=563543
+  Lore link: https://lore.kernel.org/r/300149c730931914b77e17df6bcce89b67c3005f.1634222546.git.geert+renesas@glider.be
 
 
->> +/*
->> + * Most of the R-Car Gen3 SoCs have an ARM Realtime Core.
->> + * Firmware boot address has to be set in CR7BAR before
->> + * starting the realtime core.
->> + * Boot address must be aligned on a 256k boundary.
->> + */
->> +static int rcar_rst_set_gen3_rproc_boot_addr(u64 boot_addr)
->> +{
->> +       if (boot_addr & ~(u64)CR7BAR_MASK) {
->> +               pr_warn("Invalid boot address got %llx\n", boot_addr);
-> 
-> pr_err
-> 
->> +               return -EINVAL;
->> +       }
->> +
->> +       iowrite32((u32)boot_addr, rcar_rst_base + CR7BAR);
->> +       iowrite32((u32)boot_addr | CR7BAREN, rcar_rst_base + CR7BAR);
-> 
-> These casts to u32 are not needed.
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v5.17, with the above fixed
-> (no need to resend).
+Total patches: 3
 
-Thanks, will send initial remoteproc support soon then !
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Regards,
-Julien
 
