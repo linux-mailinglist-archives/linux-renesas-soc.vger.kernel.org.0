@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E31F443BBF3
+	by mail.lfdr.de (Postfix) with ESMTP id 9AB1143BBF2
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 22:59:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231430AbhJZVBj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Oct 2021 17:01:39 -0400
-Received: from mga03.intel.com ([134.134.136.65]:62410 "EHLO mga03.intel.com"
+        id S234945AbhJZVBi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Oct 2021 17:01:38 -0400
+Received: from mga17.intel.com ([192.55.52.151]:35404 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234153AbhJZVBi (ORCPT
+        id S231396AbhJZVBi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 26 Oct 2021 17:01:38 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="229961028"
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="210795641"
 X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; 
-   d="scan'208";a="229961028"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2021 13:59:14 -0700
+   d="scan'208";a="210795641"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2021 13:59:14 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; 
-   d="scan'208";a="635408175"
+   d="scan'208";a="537286341"
 Received: from lkp-server01.sh.intel.com (HELO 072b454ebba8) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Oct 2021 13:59:13 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 26 Oct 2021 13:59:13 -0700
 Received: from kbuild by 072b454ebba8 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mfTXM-0000Sr-Cy; Tue, 26 Oct 2021 20:59:12 +0000
-Date:   Wed, 27 Oct 2021 04:58:20 +0800
+        id 1mfTXM-0000So-CR; Tue, 26 Oct 2021 20:59:12 +0000
+Date:   Wed, 27 Oct 2021 04:58:33 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.17] BUILD SUCCESS
- 8262d6ca5605dda635da5184248d1a7923187640
-Message-ID: <61786bec.DXuGDrVV9Hu6nl2D%lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-pinctrl-for-v5.17] BUILD SUCCESS
+ a14c786382eaafe655d8f84ddc6bc0b477cf0c1a
+Message-ID: <61786bf9.iUiPO45v2O6zQm8j%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,10 +40,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.17
-branch HEAD: 8262d6ca5605dda635da5184248d1a7923187640  ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Add missing camera regulators
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.17
+branch HEAD: a14c786382eaafe655d8f84ddc6bc0b477cf0c1a  pinctrl: renesas: rza1: Fix kerneldoc function names
 
-elapsed time: 731m
+elapsed time: 733m
 
 configs tested: 52
 configs skipped: 3
