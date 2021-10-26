@@ -2,109 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BAA443BBF4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 22:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA4B943BC85
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 23:36:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231396AbhJZVBj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Oct 2021 17:01:39 -0400
-Received: from mga12.intel.com ([192.55.52.136]:45716 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231430AbhJZVBi (ORCPT
+        id S239675AbhJZVjJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Oct 2021 17:39:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41472 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239669AbhJZVjI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Oct 2021 17:01:38 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="210096565"
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; 
-   d="scan'208";a="210096565"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2021 13:59:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; 
-   d="scan'208";a="597081123"
-Received: from lkp-server01.sh.intel.com (HELO 072b454ebba8) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 26 Oct 2021 13:59:13 -0700
-Received: from kbuild by 072b454ebba8 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mfTXM-0000Sj-Ar; Tue, 26 Oct 2021 20:59:12 +0000
-Date:   Wed, 27 Oct 2021 04:58:35 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk-for-v5.17] BUILD SUCCESS
- 29e6f71d7d85b64f0a94fd9be55e5f08afa69e3a
-Message-ID: <61786bfb.w4pQBwQS68/hUuGI%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 26 Oct 2021 17:39:08 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09638C061570;
+        Tue, 26 Oct 2021 14:36:44 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id a6so1031212ybq.9;
+        Tue, 26 Oct 2021 14:36:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4wNyPqGE0Nzj26+1d7qK2TZKb0WDGW0xR3NS0/Dm8D8=;
+        b=GEmgQETGyiJphS4CkZY+/W+RfT30EWmPhkSALapYdNnp7ZzzxU7W9CBTByYovl3XTu
+         D1o4ToRTb4bN/71ajbmVU8N4Em1c8Q4hc9b461DCLf0F7hqdnyh7jmgeUBgvdAIZ+1bC
+         op5Z2bIVLdcIGRRGO1vIPOWreM5JcGlu2Zvqh6Az3ccghSTHQ146nyhOjZF10Ggu26jO
+         rXO0ZnJElx0VGUpvt4HjxAADRtNFhtk/eHxODAIIYXQDcYfCZ3FHlLMRaCurRUVHtcEP
+         W29TdhkYvTJdTFzCBG/l/3GqQUW0HaFL/z+IMKoU8gCYeLWm4G/AD/MQJ+VLbuyxnQ8I
+         KK6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4wNyPqGE0Nzj26+1d7qK2TZKb0WDGW0xR3NS0/Dm8D8=;
+        b=7pvWeqUn4/hU2irWQg1J9h4evfmcfyRhmJ7UuKUgwfhJJ1OkvznEMci0pKIQRBFq75
+         3oyd5haCjxRbVcob0IdEuCa9Fxwyn3pwypmqS0i2nzO06H/WFng1pDBz6qYdci7viVy9
+         RmLLjHUWWfNTXqViZRHmVI9/IkaNfZytrR+cN5ZC57HojTMXOEMghEGfm7hDxvD54TRU
+         fx6EPpxE+rP+z6JOg/nMlVA0J0BWqB1+vRhmvROVjT0T3DtEL2ZcigNqFMrWwJB+OX0G
+         ZcROQTtPaNXn8dnrokATeYsCp50Ke5rEmZJJosXUiVbFeUc+mqp2qxx5WPU8mfybu95u
+         KDSQ==
+X-Gm-Message-State: AOAM533MndgV8ZuV+0vYBZGoRlXpKnG28+QeytmXoCX6We9s+n8tda04
+        2sE98VbmzF9/eDR8mPHMl6arXeyXjWNc1d/nBIJatVKqGzk=
+X-Google-Smtp-Source: ABdhPJyYcqrrKYkTH7z5pS2QaoRaP8XhF7TcGKpw4QG6fNwhow0uLaanWQMMefPjJDQjEA4NA6a4x+vUzsD+cW4aFGY=
+X-Received: by 2002:a5b:783:: with SMTP id b3mr25680236ybq.328.1635284203236;
+ Tue, 26 Oct 2021 14:36:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20210930121630.17449-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20210930121630.17449-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXHv7H3xxEYFLhfBf+Pun-w=F4k5S2RAYJY6qz75QpxhQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdXHv7H3xxEYFLhfBf+Pun-w=F4k5S2RAYJY6qz75QpxhQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 26 Oct 2021 22:36:17 +0100
+Message-ID: <CA+V-a8uS6fiHAWbJTXtVJgHPqvtDGPf-RupQGaKJv7wWkurLYw@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/4] pinctrl: renesas: pinctrl-rzg2l: Add support to
+ get/set drive-strength and output-impedance
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.17
-branch HEAD: 29e6f71d7d85b64f0a94fd9be55e5f08afa69e3a  clk: renesas: rzg2l: Add missing kerneldoc for resets
+Hi Geert,
 
-elapsed time: 733m
+Thank you for the review.
 
-configs tested: 52
-configs skipped: 3
+On Thu, Oct 7, 2021 at 6:23 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Sep 30, 2021 at 2:17 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add support to get/set drive-strength and output-impedance of the pins.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > @@ -47,6 +47,7 @@
+> >  #define PIN_CFG_FILONOFF               BIT(9)
+> >  #define PIN_CFG_FILNUM                 BIT(10)
+> >  #define PIN_CFG_FILCLKSEL              BIT(11)
+> > +#define PIN_CFG_GROUP_B                        BIT(12)
+>
+> Perhaps it would be easier to have separate PIN_CFG_IOLH_A and
+> PIN_CFG_IOLH_B flags, instead of a PIN_CFG_IOLH flag and a
+> PIN_CFG_GROUP_B modifier flag?
+>
+Agreed will do that.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> >
+> >  #define RZG2L_MPXED_PIN_FUNCS          (PIN_CFG_IOLH | \
+> >                                          PIN_CFG_SR | \
+>
+> > @@ -484,6 +513,38 @@ static int rzg2l_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
+> >                 break;
+> >         }
+> >
+> > +       case PIN_CONFIG_OUTPUT_IMPEDANCE:
+> > +       case PIN_CONFIG_DRIVE_STRENGTH: {
+> > +               unsigned int mA[4] = { 2, 4, 8, 12 };
+> > +               unsigned int oi[4] = { 100, 66, 50, 33 };
+>
+> static const
+>
+agreed.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                              debian-10.3
-i386                             allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                           allyesconfig
+> > +
+> > +               if (param == PIN_CONFIG_DRIVE_STRENGTH) {
+> > +                       if (!(cfg & PIN_CFG_IOLH) || groupb_pin)
+> > +                               return -EINVAL;
+> > +               } else {
+> > +                       if (!(cfg & PIN_CFG_IOLH) || !groupb_pin)
+> > +                               return -EINVAL;
+> > +               }
+> > +
+> > +               spin_lock_irqsave(&pctrl->lock, flags);
+> > +
+> > +               /* handle _L/_H for 32-bit register read/write */
+> > +               addr = pctrl->base + IOLH(port);
+> > +               if (bit >= 4) {
+> > +                       bit -= 4;
+> > +                       addr += 4;
+> > +               }
+> > +
+> > +               reg = readl(addr) & (IOLH_MASK << (bit * 8));
+> > +               reg = reg >> (bit * 8);
+> > +               if (param == PIN_CONFIG_DRIVE_STRENGTH)
+> > +                       arg = mA[reg];
+> > +               else
+> > +                       arg = oi[reg];
+> > +               spin_unlock_irqrestore(&pctrl->lock, flags);
+>
+> I think you've reached the point where it starts to make sense to
+> have helper functions to read and modify these sub-register fields
+> that may be located into the current or next register.
+>
+Ok will add helpers to read and rmw.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> And after that, you can split it in two smaller separate cases for
+> drive strength and output impedance.
+>
+Agreed.
+
+Cheers,
+Prabhakar
+
+> > +               break;
+> > +       }
+> > +
+> >         default:
+> >                 return -ENOTSUPP;
+> >         }
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
