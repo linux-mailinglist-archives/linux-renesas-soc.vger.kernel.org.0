@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F18C43B384
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 16:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 939A443B385
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Oct 2021 16:02:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbhJZOE1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Oct 2021 10:04:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48920 "EHLO
+        id S232091AbhJZOEa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Oct 2021 10:04:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230119AbhJZOE0 (ORCPT
+        with ESMTP id S230119AbhJZOEa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Oct 2021 10:04:26 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B051AC061745
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Oct 2021 07:02:02 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id u6-20020a17090a3fc600b001a00250584aso2328430pjm.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Oct 2021 07:02:02 -0700 (PDT)
+        Tue, 26 Oct 2021 10:04:30 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71161C061745
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Oct 2021 07:02:06 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id v20so10404999plo.7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Oct 2021 07:02:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=Gg6oQEdyzKL8cbZyDJervHTjxjdbTuujDIJbcppmnho=;
-        b=VzvWTE58UGIeVCSWgzJOEXnA/7/X5mkxZUNkbK8rWNiZq8WJ7sgK6LUoJdxsiY1x+i
-         6TgRj15/YtHysor6ev4vDFfj+4phLHv3x0mtxG2MBK1zSiXcK5dJP0lkCEtDreXzirxP
-         mBx/pqr/4NCNV8aq+mva1/IlUIRwU2Ftyi70gVDWH4onxfhGw4RdD6L69wtDk3mPo7rf
-         pYGtlQBe3cLZeFCIF4ZgIW7QohmjBMrlTzbh2SqaIn4+aIrSgblq7uNx4rc2xyko+mma
-         8lQT6It+xPelIjCmZXmTuym9EMXADTg7JUBaRg+DmFhP4iBo5l6DOv3CNk/Of4YGGXkj
-         EfLw==
+        bh=AMQsE0Q0OJACmGqI7GLExuP64uI+Kq/kqTXJdB/Wvh8=;
+        b=5zIzRvd5iq7hA5MCz4a00d3SvdCDfsxEqjBD9qdnoeE7o1v5NpPAfwvoRZjPHcKG3g
+         jw89RnL4T8v/mqCxctK6Zja59DZw3y6gYdr77CbZKmPbQaVnyfbQBP8ruH6UuB5JOdhw
+         8ce2F2165Fiw4yOGYihVuf0a11/pBWWruWCBYBXSC5Z4jP6yx/nrGsOrpLuhyJOajk5f
+         2ZXJfc1hwzHqQqdI3jc24eUZf3RaFI/HXlaXruRsS/JAO6YxmfdToEKtFrXXdQEu/NH8
+         VaYD1sQhHE8Hwmpt2+OAacqyUSevhOXuoYNy+xi/8neWvXlXeDSANSv8rVKRDPF1P1sB
+         v29g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=Gg6oQEdyzKL8cbZyDJervHTjxjdbTuujDIJbcppmnho=;
-        b=08NnhZJJDN70oyh3tWS+aa1yRWj1GLkwnBxhDYiYOZ+vNnHkyHM5g5D19njAYv+LVf
-         bn9XIEVG61S4a/RImv+wOkc22c+NOgDSJZXTalxJo30Y4yNzjFk/HTv3vZHpkJpsGzy5
-         AWG9rd6bg/vhS3L7OccxKFMxrFtM/F/S6V2cbDeJSwjKGCqmtadrN2FyzDoiJYZh6e4j
-         lg2cjjWQPY9kpClorRGk5E1W/G8EHPT7pjRGRbcrXOlG90Rv94VsolrZMCrXO053swiE
-         1APPtao2gf2Nllga/Lu2mjweSAMh75L9SP/mvnE20F4Tif8ZD3XSGehbg3TTq4Hp2Zpn
-         p6eA==
-X-Gm-Message-State: AOAM530CZKs7OQXldWNhtkoUA1iqSs/484Sh3OjyKY7LuU4L7kdkT8Js
-        KZcKwtlNcugDNSuKbC7wFeuPhSV1mCYtygQC
-X-Google-Smtp-Source: ABdhPJy7ATeahxmCIN6ZjpHUlxTb7+33894b4LB+oc86LVnUWKRnkelomh3bt7JWVE0Lkg/pAgoF/Q==
-X-Received: by 2002:a17:902:da88:b0:141:636e:46fb with SMTP id j8-20020a170902da8800b00141636e46fbmr495567plx.26.1635256921937;
-        Tue, 26 Oct 2021 07:02:01 -0700 (PDT)
+        bh=AMQsE0Q0OJACmGqI7GLExuP64uI+Kq/kqTXJdB/Wvh8=;
+        b=7GvrLwGF8+A12i0wl3eilu2Gl8Q0E1urS0/YQzYmsfyYKcWPiTNB4vWb+BTaqkhvX+
+         L5LIvrIEz/d11fHgikN9Kn3HVcUu8UQhdLYtPJkwCvbj97E8sd/xKCe/hDH1XlcZz4in
+         jnL8TGAPhOT6GGPDEcwHI0x64Oq/UGp7GqjKwE4f+N+zZK6XFasAcCjmbPZhLW7jPAoh
+         2PItQziO+l7zdLNibodBKfXMhyNQEiZ4LnyLYIWda0uLCroblsuSw3oDdTNA19LwcW0Y
+         K8QcTMxBcGLinrq6MPJ2aw0i0sI4vLuXhpeonHvDpCxn0DihUPiVWbvRcw05jUZ0yHTD
+         kYXA==
+X-Gm-Message-State: AOAM531z0pYAS0cU0vCtaSvVVH3RckqIpILLUix3N+CGAIEO7Hnb42wP
+        VIzdkrcH7i+DPErDDLcM+2Nby04GnvgM7OTC
+X-Google-Smtp-Source: ABdhPJyT9bQzn83ZUiSnRbpaTp6wqZ492+tJnhIzrqM78mKhBm6FCrW3isr4r/KsY+iKn9mA2OcfQA==
+X-Received: by 2002:a17:903:22c5:b0:140:298b:9e27 with SMTP id y5-20020a17090322c500b00140298b9e27mr21889805plg.23.1635256924212;
+        Tue, 26 Oct 2021 07:02:04 -0700 (PDT)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id lb5sm1088601pjb.11.2021.10.26.07.02.01
+        by smtp.gmail.com with ESMTPSA id nv5sm1199313pjb.10.2021.10.26.07.02.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 07:02:01 -0700 (PDT)
-Message-ID: <61780a59.1c69fb81.a5dcb.1f87@mx.google.com>
-Date:   Tue, 26 Oct 2021 07:02:01 -0700 (PDT)
+        Tue, 26 Oct 2021 07:02:03 -0700 (PDT)
+Message-ID: <61780a5b.1c69fb81.4956c.266a@mx.google.com>
+Date:   Tue, 26 Oct 2021 07:02:03 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -57,32 +57,41 @@ X-Kernelci-Branch: master
 X-Kernelci-Tree: renesas
 X-Kernelci-Kernel: renesas-devel-2021-10-26-v5.15-rc7
 X-Kernelci-Report-Type: test
-Subject: renesas/master baseline-nfs: 43 runs,
- 1 regressions (renesas-devel-2021-10-26-v5.15-rc7)
+Subject: renesas/master baseline: 387 runs,
+ 4 regressions (renesas-devel-2021-10-26-v5.15-rc7)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline-nfs: 43 runs, 1 regressions (renesas-devel-2021-10-=
-26-v5.15-rc7)
+renesas/master baseline: 387 runs, 4 regressions (renesas-devel-2021-10-26-=
+v5.15-rc7)
 
 Regressions Summary
 -------------------
 
-platform                     | arch  | lab           | compiler | defconfig=
- | regressions
------------------------------+-------+---------------+----------+----------=
--+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
- | 1          =
+platform              | arch  | lab         | compiler | defconfig         =
+           | regressions
+----------------------+-------+-------------+----------+-------------------=
+-----------+------------
+kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig         =
+           | 1          =
+
+kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+ima     =
+           | 1          =
+
+kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+CON...OM=
+IZE_BASE=3Dy | 1          =
+
+kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+crypto  =
+           | 1          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-10-26-v5.15-rc7/plan/baseline-nfs/
+sas-devel-2021-10-26-v5.15-rc7/plan/baseline/
 
-  Test:     baseline-nfs
+  Test:     baseline
   Tree:     renesas
   Branch:   master
   Describe: renesas-devel-2021-10-26-v5.15-rc7
@@ -97,33 +106,132 @@ Test Regressions
 
 
 
-platform                     | arch  | lab           | compiler | defconfig=
- | regressions
------------------------------+-------+---------------+----------+----------=
--+------------
-mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
- | 1          =
+platform              | arch  | lab         | compiler | defconfig         =
+           | regressions
+----------------------+-------+-------------+----------+-------------------=
+-----------+------------
+kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig         =
+           | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/6177d2bd13cd326761335912
+  Details:     https://kernelci.org/test/plan/id/6177d2427bc47ae4fd3358dc
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
   Full config: defconfig
   Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
 110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-10-26-v5.15-rc7/arm64/defconfig/gcc-10/lab-collabora/baseline-nfs-mt818=
-3-kukui-jacuzzi-juniper-sku16.txt
+021-10-26-v5.15-rc7/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-kbo=
+x-a-230-ls.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-10-26-v5.15-rc7/arm64/defconfig/gcc-10/lab-collabora/baseline-nfs-mt818=
-3-kukui-jacuzzi-juniper-sku16.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-1022.1/arm64/initrd.cpio.gz =
+021-10-26-v5.15-rc7/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-kbo=
+x-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-6-g8983f3b738df/arm64/baseline/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.login: https://kernelci.org/test/case/id/6177d2bd13cd32676=
-1335913
+  * baseline.login: https://kernelci.org/test/case/id/6177d2427bc47ae4fd335=
+8dd
+        new failure (last pass: renesas-devel-2021-10-18-v5.15-rc6) =
+
+ =
+
+
+
+platform              | arch  | lab         | compiler | defconfig         =
+           | regressions
+----------------------+-------+-------------+----------+-------------------=
+-----------+------------
+kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+ima     =
+           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6177d410ad7e50de8b3358f4
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+ima
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-10-26-v5.15-rc7/arm64/defconfig+ima/gcc-10/lab-kontron/baseline-kontron=
+-kbox-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-10-26-v5.15-rc7/arm64/defconfig+ima/gcc-10/lab-kontron/baseline-kontron=
+-kbox-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-6-g8983f3b738df/arm64/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/6177d410ad7e50de8b335=
+8f5
+        new failure (last pass: renesas-devel-2021-10-18-v5.15-rc6) =
+
+ =
+
+
+
+platform              | arch  | lab         | compiler | defconfig         =
+           | regressions
+----------------------+-------+-------------+----------+-------------------=
+-----------+------------
+kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+CON...OM=
+IZE_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6177d7eb1fcf1790e0335909
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-10-26-v5.15-rc7/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-ko=
+ntron/baseline-kontron-kbox-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-10-26-v5.15-rc7/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-ko=
+ntron/baseline-kontron-kbox-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-6-g8983f3b738df/arm64/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/6177d7eb1fcf1790e0335=
+90a
+        new failure (last pass: renesas-devel-2021-10-18-v5.15-rc6) =
+
+ =
+
+
+
+platform              | arch  | lab         | compiler | defconfig         =
+           | regressions
+----------------------+-------+-------------+----------+-------------------=
+-----------+------------
+kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig+crypto  =
+           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6177d8c09eb514334833590c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+crypto
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-10-26-v5.15-rc7/arm64/defconfig+crypto/gcc-10/lab-kontron/baseline-kont=
+ron-kbox-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-10-26-v5.15-rc7/arm64/defconfig+crypto/gcc-10/lab-kontron/baseline-kont=
+ron-kbox-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-6-g8983f3b738df/arm64/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/6177d8c09eb5143348335=
+90d
         new failure (last pass: renesas-devel-2021-10-18-v5.15-rc6) =
 
  =20
