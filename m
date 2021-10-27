@@ -2,293 +2,462 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4663143CE86
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Oct 2021 18:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5A0443D38C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Oct 2021 23:09:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238176AbhJ0QTq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Oct 2021 12:19:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41068 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232053AbhJ0QTq (ORCPT
+        id S244193AbhJ0VLi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Oct 2021 17:11:38 -0400
+Received: from mail-oi1-f169.google.com ([209.85.167.169]:33389 "EHLO
+        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235939AbhJ0VLh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Oct 2021 12:19:46 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF72C061570;
-        Wed, 27 Oct 2021 09:17:20 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id v64so1221999ybi.5;
-        Wed, 27 Oct 2021 09:17:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=c0NYR0kLEjfc5N0ORTYdWPC/foh9nh5Icj3EAFpS6Bo=;
-        b=VG5zPN/tGx1CqpKnEDAAMN7juwfvgsqYtApvFaex9Wmdd+jRafNDdh6O90sjO0oYkF
-         KygURBRTay2uvh9Ca/2kYcGiyFqLcCq8BP+WjG4GpCRBek7bfCf0+CPN9+qKjJsjeOvC
-         MJSgMw8i4vG+OGZ63eQGEKUKSpRNgOuL9cIMgyYRDxOxQKImnZwSfd4HIvu+SJcgCy/Z
-         dS/AHTdbg9wpnEYh91S+JDqFrQHLgHX7m052ILN0edQ7JOFLsH7f8USMwSTSBf4f04iZ
-         +NhQke+ILy/pgbsqVB8Gq/Ugu2ZziyYVW194S6jS2y8S0a/InxjgtUy3/xSPEDe999OQ
-         jy+A==
+        Wed, 27 Oct 2021 17:11:37 -0400
+Received: by mail-oi1-f169.google.com with SMTP id q129so5383231oib.0;
+        Wed, 27 Oct 2021 14:09:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c0NYR0kLEjfc5N0ORTYdWPC/foh9nh5Icj3EAFpS6Bo=;
-        b=7dIQ4VrLlWxUyfbLMaxPZ3Bx6I+DRZdknI3927X/+Nn4P2ePWnNXT66UR591EkW4pZ
-         OjlLmc4mjhs+y0jzi6EFwZ2XIt0qkxDvrbgCg8JjUQeDTCjxTVMspIxBh3RYngi2Dxis
-         moaMS+uTna9om3jlKnJb0da7XFyvC3sKzB3Up59YXrWSJSOipZLe0aM9EhAY6T5662/5
-         uOPhDjFrYtEq8Orz+WXAdU5E25lobjtwdDQUf7ODwt7xtCyoiGZt343drI1P9xeV9ZhZ
-         w6HgneKSG3TME8a56Qzn1suznaQCqc63bZMgtrg6kP8ZpJVbm6KxRM2ndP081UzoJpQm
-         r7cw==
-X-Gm-Message-State: AOAM5329Wk4tUCaL0TJD/sI6bSwrR+WkvOwfpZqnPKgviHPg6KQEGArT
-        xEJ/ZQTnhYHoKsQuGrw+YZGRCWhR+QwKDaGPTa0=
-X-Google-Smtp-Source: ABdhPJw88bg60vtfPAuUoTx9q9NFfLF7ehLb97ABYlXeWT4Fh8ewINCIOmKYIBROI+6iNwBjNP9fqxUrSTkNr6f1Qo0=
-X-Received: by 2002:a5b:783:: with SMTP id b3mr30504481ybq.328.1635351439577;
- Wed, 27 Oct 2021 09:17:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211025205631.21151-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211025205631.21151-8-prabhakar.mahadev-lad.rj@bp.renesas.com> <3739744b-0a10-6d6b-8d1c-9c82b6afe0b3@canonical.com>
-In-Reply-To: <3739744b-0a10-6d6b-8d1c-9c82b6afe0b3@canonical.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 27 Oct 2021 17:16:53 +0100
-Message-ID: <CA+V-a8u16Xu6Ygn5m0cgKB7qtwrco7AW=7QnTODP4gcZWve8Ew@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] memory: renesas-rpc-if: Add support for RZ/G2L
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Hw83hMJmCtxiL5x7TuXqw5DZFTuJb4Rf63vmKsiFGQE=;
+        b=ryL/Uvo1jXfpK0O0jmeEjL51hIJErsMREd2ajAMUXf1io/7+fn/1X2T+I3cW+zpCyl
+         2w+M0baYMOZoKzSLlOZxQpCiAUlH7PqDRCZSL7xHouGPjU1ROUSgy08YZ4xSj3SUHONF
+         G+KD/xe/j4Mg5fZfuDxC9VG+PJKEH3Sp8gsAowaadIiT0VcooxDoPqj1gubBfy7VesPL
+         RPudYqJ5FJPYm/y5V7mjAmTxjEG3/Qaa1DwodR3f57eFSOx5VKuRZbKCrtmSeGx7gYu/
+         lUKL+o4lIXvx8Wn3wM+/r4FoYwZZU5B1x6HlhvFigF/SjZe7VYagygflRe8Y+ZCrN+vB
+         ypUg==
+X-Gm-Message-State: AOAM533kvOBfsTp+vq1izD/8f1KPwqx9yrLDAQVIsnhGFOZjMGytF82m
+        AE7IPrmUfpvcDzXeKerMIvdIPaVf9Q==
+X-Google-Smtp-Source: ABdhPJy6uB62ShxE0tQNqd4saAwsNz9wnJhvJtX9VN/A/501WBXPSQMfMFiAn8dGkjT8ASce9vBqQQ==
+X-Received: by 2002:a05:6808:1306:: with SMTP id y6mr56687oiv.160.1635368951322;
+        Wed, 27 Oct 2021 14:09:11 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id n187sm377317oif.52.2021.10.27.14.09.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Oct 2021 14:09:10 -0700 (PDT)
+Received: (nullmailer pid 2164222 invoked by uid 1000);
+        Wed, 27 Oct 2021 21:09:09 -0000
+Date:   Wed, 27 Oct 2021 16:09:09 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-mtd@lists.infradead.org,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3] dt-bindings: adv748x: Convert bindings to json-schema
+Message-ID: <YXm/9cVkJnMqwktY@robh.at.kernel.org>
+References: <20211019192044.782830-1-niklas.soderlund+renesas@ragnatech.se>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211019192044.782830-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+On Tue, Oct 19, 2021 at 09:20:44PM +0200, Niklas Söderlund wrote:
+> Convert ADV748X analog video decoder documentation to json-schema.
+> 
+> While converting the bindings extend it to enforce that all port@n nodes
+> shall be encapsulated inside a ports node. This change does not have an
+> effect on drivers parsing the ports@n nodes.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+> * Changes sinve v2
+> - Add adv748x.yaml to MAINTAINERS.
+> - Update commit message.
+> - Add myself to under the maintainers section after talking with Kieran.
+> - Split reg in examples in two lines to match reg-names.
+> 
+> * Changes since v1
+> - Update commit message to mention the added ports node.
+> 
+> Hello,
+> 
+> This conversion revealed a problem with the Renesas DTSI files for the
+> adv7482 nodes. A fix for that have been submitted in a separate patch,
+> 
+>     [PATCH] arm64: dts: renesas: Add ports node to all adv7482 nodes
+> 
+> Kind Regards,
+> Niklas Söderlund
+> ---
+>  .../devicetree/bindings/media/i2c/adv748x.txt | 116 ----------
+>  .../bindings/media/i2c/adv748x.yaml           | 213 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  3 files changed, 214 insertions(+), 116 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/adv748x.txt b/Documentation/devicetree/bindings/media/i2c/adv748x.txt
+> deleted file mode 100644
+> index 4f91686e54a6b939..0000000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/adv748x.txt
+> +++ /dev/null
+> @@ -1,116 +0,0 @@
+> -* Analog Devices ADV748X video decoder with HDMI receiver
+> -
+> -The ADV7481 and ADV7482 are multi format video decoders with an integrated
+> -HDMI receiver. They can output CSI-2 on two independent outputs TXA and TXB
+> -from three input sources HDMI, analog and TTL.
+> -
+> -Required Properties:
+> -
+> -  - compatible: Must contain one of the following
+> -    - "adi,adv7481" for the ADV7481
+> -    - "adi,adv7482" for the ADV7482
+> -
+> -  - reg: I2C slave addresses
+> -    The ADV748x has up to twelve 256-byte maps that can be accessed via the
+> -    main I2C ports. Each map has it own I2C address and acts as a standard
+> -    slave device on the I2C bus. The main address is mandatory, others are
+> -    optional and remain at default values if not specified.
+> -
+> -Optional Properties:
+> -
+> -  - interrupt-names: Should specify the interrupts as "intrq1", "intrq2" and/or
+> -		     "intrq3". All interrupts are optional. The "intrq3" interrupt
+> -		     is only available on the adv7481
+> -  - interrupts: Specify the interrupt lines for the ADV748x
+> -  - reg-names : Names of maps with programmable addresses.
+> -		It shall contain all maps needing a non-default address.
+> -		Possible map names are:
+> -		  "main", "dpll", "cp", "hdmi", "edid", "repeater",
+> -		  "infoframe", "cbus", "cec", "sdp", "txa", "txb"
+> -
+> -The device node must contain one 'port' child node per device input and output
+> -port, in accordance with the video interface bindings defined in
+> -Documentation/devicetree/bindings/media/video-interfaces.txt. The port nodes
+> -are numbered as follows.
+> -
+> -	  Name		Type		Port
+> -	---------------------------------------
+> -	  AIN0		sink		0
+> -	  AIN1		sink		1
+> -	  AIN2		sink		2
+> -	  AIN3		sink		3
+> -	  AIN4		sink		4
+> -	  AIN5		sink		5
+> -	  AIN6		sink		6
+> -	  AIN7		sink		7
+> -	  HDMI		sink		8
+> -	  TTL		sink		9
+> -	  TXA		source		10
+> -	  TXB		source		11
+> -
+> -The digital output port nodes, when present, shall contain at least one
+> -endpoint. Each of those endpoints shall contain the data-lanes property as
+> -described in video-interfaces.txt.
+> -
+> -Required source endpoint properties:
+> -  - data-lanes: an array of physical data lane indexes
+> -    The accepted value(s) for this property depends on which of the two
+> -    sources are described. For TXA 1, 2 or 4 data lanes can be described
+> -    while for TXB only 1 data lane is valid. See video-interfaces.txt
+> -    for detailed description.
+> -
+> -Ports are optional if they are not connected to anything at the hardware level.
+> -
+> -Example:
+> -
+> -	video-receiver@70 {
+> -		compatible = "adi,adv7482";
+> -		reg = <0x70 0x71 0x72 0x73 0x74 0x75
+> -		       0x60 0x61 0x62 0x63 0x64 0x65>;
+> -		reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
+> -			    "infoframe", "cbus", "cec", "sdp", "txa", "txb";
+> -
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -
+> -		interrupt-parent = <&gpio6>;
+> -		interrupt-names = "intrq1", "intrq2";
+> -		interrupts = <30 IRQ_TYPE_LEVEL_LOW>,
+> -			     <31 IRQ_TYPE_LEVEL_LOW>;
+> -
+> -		port@7 {
+> -			reg = <7>;
+> -
+> -			adv7482_ain7: endpoint {
+> -				remote-endpoint = <&cvbs_in>;
+> -			};
+> -		};
+> -
+> -		port@8 {
+> -			reg = <8>;
+> -
+> -			adv7482_hdmi: endpoint {
+> -				remote-endpoint = <&hdmi_in>;
+> -			};
+> -		};
+> -
+> -		port@a {
+> -			reg = <10>;
+> -
+> -			adv7482_txa: endpoint {
+> -				clock-lanes = <0>;
+> -				data-lanes = <1 2 3 4>;
+> -				remote-endpoint = <&csi40_in>;
+> -			};
+> -		};
+> -
+> -		port@b {
+> -			reg = <11>;
+> -
+> -			adv7482_txb: endpoint {
+> -				clock-lanes = <0>;
+> -				data-lanes = <1>;
+> -				remote-endpoint = <&csi20_in>;
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/media/i2c/adv748x.yaml b/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+> new file mode 100644
+> index 0000000000000000..30c361766ba3023e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+> @@ -0,0 +1,213 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/adv748x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices ADV748X video decoder with HDMI receiver
+> +
+> +maintainers:
+> +  - Kieran Bingham <kieran.bingham@ideasonboard.com>
+> +  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> +
+> +description:
+> +  The ADV7481 and ADV7482 are multi format video decoders with an integrated
+> +  HDMI receiver. They can output CSI-2 on two independent outputs TXA and TXB
+> +  from three input sources HDMI, analog and TTL.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - adi,adv7481
+> +          - adi,adv7482
+> +
+> +  reg:
+> +    minItems: 1
+> +    maxItems: 12
+> +    description:
+> +      The ADV748x has up to twelve 256-byte maps that can be accessed via the
+> +      main I2C ports. Each map has it own I2C address and acts as a standard
+> +      slave device on the I2C bus. The main address is mandatory, others are
+> +      optional and remain at default values if not specified.
+> +
+> +  reg-names:
+> +    minItems: 1
+> +    items:
+> +      - const: main
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +
+> +  interrupts: true
+> +
+> +  interrupt-names: true
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    patternProperties:
+> +      "^port@[0-7]$":
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Input port nodes for analog inputs AIN[0-7].
+> +
+> +    properties:
+> +      port@8:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Input port node for HDMI.
+> +
+> +      port@9:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Input port node for TTL.
+> +
+> +      port@a:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Output port node, single endpoint describing the CSI-2 transmitter TXA.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@b:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Output port node, single endpoint describing the CSI-2 transmitter TXB.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                maxItems: 1
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: adi,adv7481
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 1
+> +          maxItems: 3
+> +
+> +        interrupt-names:
+> +          minItems: 1
+> +          items:
+> +            - enum: [ intrq1, intrq2, intrq3 ]
+> +            - enum: [ intrq1, intrq2, intrq3 ]
+> +            - enum: [ intrq1, intrq2, intrq3 ]
 
-Thank you for the review.
+minItems: 1
+maxItems: 3
+items:
+  enum: [ intrq1, intrq2, intrq3 ]
 
+> +    else:
+> +      properties:
+> +        interrupts:
+> +          minItems: 1
+> +          maxItems: 2
+> +
+> +        interrupt-names:
+> +          minItems: 1
+> +          items:
+> +            - enum: [ intrq1, intrq2 ]
+> +            - enum: [ intrq1, intrq2 ]
 
-On Tue, Oct 26, 2021 at 3:47 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@canonical.com> wrote:
->
-> On 25/10/2021 22:56, Lad Prabhakar wrote:
-> > SPI Multi I/O Bus Controller on RZ/G2L SoC is almost identical to
-> > the RPC-IF interface found on R-Car Gen3 SoC's.
-> >
-> > This patch adds a new compatible string for the RZ/G2L family so
-> > that the timing values on RZ/G2L can be adjusted.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > v1->v2:
-> >  * Updated macros as suggested by Wolfram
-> > ---
-> >  drivers/memory/renesas-rpc-if.c | 72 ++++++++++++++++++++++++++++-----
-> >  drivers/mtd/hyperbus/rpc-if.c   |  4 +-
-> >  drivers/spi/spi-rpc-if.c        |  4 +-
-> >  include/memory/renesas-rpc-if.h |  8 +++-
-> >  4 files changed, 75 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-> > index 0c56decc91f2..8c51145c0f5c 100644
-> > --- a/drivers/memory/renesas-rpc-if.c
-> > +++ b/drivers/memory/renesas-rpc-if.c
-> > @@ -12,6 +12,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/of.h>
-> > +#include <linux/of_device.h>
-> >  #include <linux/regmap.h>
-> >  #include <linux/reset.h>
-> >
-> > @@ -27,8 +28,8 @@
-> >  #define RPCIF_CMNCR_MOIIO_HIZ        (RPCIF_CMNCR_MOIIO0(3) | \
-> >                                RPCIF_CMNCR_MOIIO1(3) | \
-> >                                RPCIF_CMNCR_MOIIO2(3) | RPCIF_CMNCR_MOIIO3(3))
-> > -#define RPCIF_CMNCR_IO3FV(val)       (((val) & 0x3) << 14) /* undocumented */
-> > -#define RPCIF_CMNCR_IO2FV(val)       (((val) & 0x3) << 12) /* undocumented */
-> > +#define RPCIF_CMNCR_IO3FV(val)       (((val) & 0x3) << 14) /* documented for RZ/G2L */
-> > +#define RPCIF_CMNCR_IO2FV(val)       (((val) & 0x3) << 12) /* documented for RZ/G2L */
-> >  #define RPCIF_CMNCR_IO0FV(val)       (((val) & 0x3) << 8)
-> >  #define RPCIF_CMNCR_IOFV_HIZ (RPCIF_CMNCR_IO0FV(3) | RPCIF_CMNCR_IO2FV(3) | \
-> >                                RPCIF_CMNCR_IO3FV(3))
-> > @@ -126,6 +127,9 @@
-> >  #define RPCIF_SMDRENR_OPDRE  BIT(4)
-> >  #define RPCIF_SMDRENR_SPIDRE BIT(0)
-> >
-> > +#define RPCIF_PHYADD         0x0070  /* R/W available on R-Car E3/D3/V3M and RZ/G2{E,L} */
-> > +#define RPCIF_PHYWR          0x0074  /* R/W available on R-Car E3/D3/V3M and RZ/G2{E,L} */
-> > +
-> >  #define RPCIF_PHYCNT         0x007C  /* R/W */
-> >  #define RPCIF_PHYCNT_CAL     BIT(31)
-> >  #define RPCIF_PHYCNT_OCTA(v) (((v) & 0x3) << 22)
-> > @@ -133,10 +137,12 @@
-> >  #define RPCIF_PHYCNT_OCT     BIT(20)
-> >  #define RPCIF_PHYCNT_DDRCAL  BIT(19)
-> >  #define RPCIF_PHYCNT_HS              BIT(18)
-> > -#define RPCIF_PHYCNT_STRTIM(v)       (((v) & 0x7) << 15)
-> > +#define RPCIF_PHYCNT_CKSEL(v)        (((v) & 0x3) << 16) /* valid only for RZ/G2L */
-> > +#define RPCIF_PHYCNT_STRTIM(v)       (((v) & 0x7) << 15) /* valid for R-Car and RZ/G2{E,H,M,N} */
-> >  #define RPCIF_PHYCNT_WBUF2   BIT(4)
-> >  #define RPCIF_PHYCNT_WBUF    BIT(2)
-> >  #define RPCIF_PHYCNT_PHYMEM(v)       (((v) & 0x3) << 0)
-> > +#define RPCIF_PHYCNT_PHYMEM_MASK GENMASK(1, 0)
-> >
-> >  #define RPCIF_PHYOFFSET1     0x0080  /* R/W */
-> >  #define RPCIF_PHYOFFSET1_DDRTMG(v) (((v) & 0x3) << 28)
-> > @@ -244,18 +250,46 @@ int rpcif_sw_init(struct rpcif *rpc, struct device *dev)
-> >               return PTR_ERR(rpc->dirmap);
-> >       rpc->size = resource_size(res);
-> >
-> > +     rpc->type = (enum rpcif_type)of_device_get_match_data(dev);
-> >       rpc->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> >
-> >       return PTR_ERR_OR_ZERO(rpc->rstc);
-> >  }
-> >  EXPORT_SYMBOL(rpcif_sw_init);
-> >
-> > -void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
-> > +static void rpcif_rzg2l_timing_adjust_sdr(struct rpcif *rpc)
-> > +{
-> > +     u32 data;
-> > +
-> > +     regmap_write(rpc->regmap, RPCIF_PHYWR, 0xa5390000);
-> > +     regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000000);
-> > +     regmap_write(rpc->regmap, RPCIF_PHYWR, 0x00008080);
-> > +     regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000022);
-> > +     regmap_write(rpc->regmap, RPCIF_PHYWR, 0x00008080);
-> > +     regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000024);
-> > +
-> > +     regmap_read(rpc->regmap, RPCIF_PHYCNT, &data);
-> > +     regmap_write(rpc->regmap, RPCIF_PHYCNT, data | RPCIF_PHYCNT_CKSEL(3));
-> > +     regmap_write(rpc->regmap, RPCIF_PHYWR, 0x00000030);
-> > +     regmap_write(rpc->regmap, RPCIF_PHYADD, 0x80000032);
-> > +}
-> > +
-> > +int rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
-> >  {
-> >       u32 dummy;
-> >
-> >       pm_runtime_get_sync(rpc->dev);
-> >
-> > +     if (rpc->type == RPCIF_RZ_G2L) {
-> > +             int ret;
-> > +
-> > +             ret = reset_control_reset(rpc->rstc);
-> > +             if (ret)
-> > +                     return ret;
-> > +             usleep_range(200, 300);
-> > +             rpcif_rzg2l_timing_adjust_sdr(rpc);
-> > +     }
-> > +
-> >       /*
-> >        * NOTE: The 0x260 are undocumented bits, but they must be set.
-> >        *       RPCIF_PHYCNT_STRTIM is strobe timing adjustment bits,
-> > @@ -264,8 +298,15 @@ void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
-> >        *       On H3 ES1.x, the value should be 0, while on others,
-> >        *       the value should be 7.
-> >        */
-> > -     regmap_write(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_STRTIM(7) |
-> > -                  RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260);
-> > +     if (rpc->type == RPCIF_RCAR_GEN3) {
-> > +             regmap_write(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_STRTIM(7) |
-> > +                          RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260);
-> > +     } else {
-> > +             regmap_read(rpc->regmap, RPCIF_PHYCNT, &dummy);
-> > +             dummy &= ~RPCIF_PHYCNT_PHYMEM_MASK;
-> > +             dummy |= RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260;
-> > +             regmap_write(rpc->regmap, RPCIF_PHYCNT, dummy);
-> > +     }
-> >
-> >       /*
-> >        * NOTE: The 0x1511144 are undocumented bits, but they must be set
-> > @@ -282,9 +323,17 @@ void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
-> >               regmap_update_bits(rpc->regmap, RPCIF_PHYINT,
-> >                                  RPCIF_PHYINT_WPVAL, 0);
-> >
-> > -     regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
-> > -                  RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_IOFV_HIZ |
-> > -                  RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
-> > +     if (rpc->type == RPCIF_RCAR_GEN3)
-> > +             regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
-> > +                          RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_IOFV_HIZ |
-> > +                          RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
-> > +     else
-> > +             regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
-> > +                          RPCIF_CMNCR_MOIIO3(1) | RPCIF_CMNCR_MOIIO2(1) |
-> > +                          RPCIF_CMNCR_MOIIO1(1) | RPCIF_CMNCR_MOIIO0(1) |
-> > +                          RPCIF_CMNCR_IO3FV(2) | RPCIF_CMNCR_IO2FV(2) |
-> > +                          RPCIF_CMNCR_IO0FV(2) | RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
-> > +
-> >       /* Set RCF after BSZ update */
-> >       regmap_write(rpc->regmap, RPCIF_DRCR, RPCIF_DRCR_RCF);
-> >       /* Dummy read according to spec */
-> > @@ -295,6 +344,8 @@ void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
-> >       pm_runtime_put(rpc->dev);
-> >
-> >       rpc->bus_size = hyperflash ? 2 : 1;
-> > +
-> > +     return 0;
-> >  }
-> >  EXPORT_SYMBOL(rpcif_hw_init);
-> >
-> > @@ -657,7 +708,8 @@ static int rpcif_remove(struct platform_device *pdev)
-> >  }
-> >
-> >  static const struct of_device_id rpcif_of_match[] = {
-> > -     { .compatible = "renesas,rcar-gen3-rpc-if", },
-> > +     { .compatible = "renesas,rcar-gen3-rpc-if", .data = (void *)RPCIF_RCAR_GEN3 },
-> > +     { .compatible = "renesas,rzg2l-rpc-if", .data = (void *)RPCIF_RZ_G2L },
-> >       {},
-> >  };
-> >  MODULE_DEVICE_TABLE(of, rpcif_of_match);
-> > diff --git a/drivers/mtd/hyperbus/rpc-if.c b/drivers/mtd/hyperbus/rpc-if.c
-> > index 367b0d72bf62..40bca89268c3 100644
-> > --- a/drivers/mtd/hyperbus/rpc-if.c
-> > +++ b/drivers/mtd/hyperbus/rpc-if.c
-> > @@ -132,7 +132,9 @@ static int rpcif_hb_probe(struct platform_device *pdev)
-> >
-> >       rpcif_enable_rpm(&hyperbus->rpc);
-> >
-> > -     rpcif_hw_init(&hyperbus->rpc, true);
-> > +     error = rpcif_hw_init(&hyperbus->rpc, true);
-> > +     if (error)
-> > +             return error;
-> >
->
-> Not related to this patch, but the concept used here looks fragile. The
-> child driver calls also rpcif_sw_init() and ignores the error code. What
-> happens in case of rpcif_sw_init() failure or child probe deferral?
-> Since the SW and HW init is called in context of child device, the
-> parent won't do anything. Then, second bind of child device (manual or
-> because of deferral) will fail on devm_reset_control_get_exclusive()
-> with -EBUSY.
->
-> Initializing parent's resources should be rather done from parent's
-> context (so renesas-rpc-if.c) to handle properly deferred probe and
-> other failures. Doing it from a child, breaks encapsulation and
-> separation of devices.
->
-Agree with the above.
+Similar here.
 
-> Is there any reason why memory/renesas-rpc-if.c cannot do SW and HW init?
->
-I'll investigate this to avoid the above issues.
-
-Cheers,
-Prabhakar
-
-> Best regards,
-> Krzysztof
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - ports
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        video-receiver@70 {
+> +            compatible = "adi,adv7482";
+> +            reg = <0x70 0x71 0x72 0x73 0x74 0x75
+> +                   0x60 0x61 0x62 0x63 0x64 0x65>;
+> +            reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
+> +                        "infoframe", "cbus", "cec", "sdp", "txa", "txb";
+> +
+> +            interrupt-parent = <&gpio6>;
+> +            interrupts = <30 IRQ_TYPE_LEVEL_LOW>, <31 IRQ_TYPE_LEVEL_LOW>;
+> +            interrupt-names = "intrq1", "intrq2";
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@7 {
+> +                    reg = <7>;
+> +
+> +                    adv7482_ain7: endpoint {
+> +                        remote-endpoint = <&cvbs_in>;
+> +                    };
+> +                };
+> +
+> +                port@8 {
+> +                    reg = <8>;
+> +
+> +                    adv7482_hdmi: endpoint {
+> +                        remote-endpoint = <&hdmi_in>;
+> +                    };
+> +                };
+> +
+> +                port@a {
+> +                    reg = <10>;
+> +
+> +                    adv7482_txa: endpoint {
+> +                        clock-lanes = <0>;
+> +                        data-lanes = <1 2 3 4>;
+> +                        remote-endpoint = <&csi40_in>;
+> +                    };
+> +                };
+> +
+> +                port@b {
+> +                    reg = <11>;
+> +
+> +                    adv7482_txb: endpoint {
+> +                        clock-lanes = <0>;
+> +                        data-lanes = <1>;
+> +                        remote-endpoint = <&csi20_in>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ee91c5472bc1540a..6ea3e63cbc7f33c3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1124,6 +1124,7 @@ M:	Kieran Bingham <kieran.bingham@ideasonboard.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/media/i2c/adv748x/*
+> +F:	Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+>  
+>  ANALOG DEVICES INC ADV7511 DRIVER
+>  M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> -- 
+> 2.33.1
+> 
+> 
