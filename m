@@ -2,75 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB6D043C9FD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Oct 2021 14:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E18B43CA59
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Oct 2021 15:09:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241989AbhJ0MtB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Oct 2021 08:49:01 -0400
-Received: from mail-wr1-f43.google.com ([209.85.221.43]:33397 "EHLO
-        mail-wr1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240324AbhJ0MtB (ORCPT
+        id S236870AbhJ0NLx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Oct 2021 09:11:53 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53170 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234339AbhJ0NLx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Oct 2021 08:49:01 -0400
-Received: by mail-wr1-f43.google.com with SMTP id m22so4053528wrb.0;
-        Wed, 27 Oct 2021 05:46:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=0i79uPRCmX80gmP5j45gffMsWk5YGAYUEfx8SEm13/k=;
-        b=3fFzpppLKRxR6Q/KYfmcA2SEbmRBMYlVOn9K7IRBronJNV3Tpprh6dAP1tsB3d3iFP
-         5tEFBd6zo+G3fLQ/5uP8hRE+zbgnzl3rruugDnjTryxy47SittMLcZ8ND/IL9lu0QQXa
-         Eh6f21JqPtdU86MgnKvFeTIJXVJZuFCUkNqSZ/G4LzyZsNGKjzx1AOq/vnp/WWk9d7LO
-         QGGFpm9H876Cv4eYdrubmb6wqPV0CS+hZazVKLxr5wNhkELMpWxjzxm0W9PBrfhW/M6y
-         Is/1eE5FmyoP96L0ecoTgVKYx/z67iUOnvvwsnAUDtQsuNHkLGfaDxOfBaJlugoCWbNm
-         jXEQ==
-X-Gm-Message-State: AOAM531NxGKIbaMYVoy2cQBd5jVlk6zG+hXwqMB6VmB7rEiLPoFGzCnc
-        WIB90V9ApUXNXX8r1ZRg9IM=
-X-Google-Smtp-Source: ABdhPJwRfTIKue/gCyowiA+0n5wKFzz2rRjDO/BK/to8Vm1yjkZzpuyy+M9KzWIdXWKhB+4PZ5oZEw==
-X-Received: by 2002:adf:a411:: with SMTP id d17mr33227540wra.232.1635338795087;
-        Wed, 27 Oct 2021 05:46:35 -0700 (PDT)
-Received: from rocinante ([95.155.85.46])
-        by smtp.gmail.com with ESMTPSA id 9sm3263250wmi.46.2021.10.27.05.46.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Oct 2021 05:46:34 -0700 (PDT)
-Date:   Wed, 27 Oct 2021 14:46:33 +0200
-From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
-Subject: Re: [PATCH] dt-bindings: pci: rcar-pci-ep: Document r8a7795
-Message-ID: <YXlKKROsS07F64xg@rocinante>
-References: <e4acfe90021e45658e82ed042746707ace208a93.1635337518.git.geert+renesas@glider.be>
+        Wed, 27 Oct 2021 09:11:53 -0400
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D986F596;
+        Wed, 27 Oct 2021 15:09:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1635340167;
+        bh=nSBBdtY5RhYIZtueCATbtovl6jxRm2CUdgwXLZX9OJg=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=GyENAem8SFatgBxmn368G5y7yWnjGEgs1MOTSNCdRKls4mwtdQ9vF72N+/HHiZgK2
+         GM+/H6yUrXgjStMuWcf74ZtUFmQto6fHeKKNMHgElJLaBmy92RyX7SY8G28xvXttIt
+         fFLjquHqFVMuIfmsOIct7jNY0hOWYCdBufsfnDaQ=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e4acfe90021e45658e82ed042746707ace208a93.1635337518.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <dc4e3692480a136f5c2efdd38862ff2c8741f93c.1635338097.git.geert+renesas@glider.be>
+References: <dc4e3692480a136f5c2efdd38862ff2c8741f93c.1635338097.git.geert+renesas@glider.be>
+Subject: Re: [PATCH v2] watchdog: rza_wdt: Use semicolons instead of commas
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Julia Lawall <julia.lawall@inria.fr>,
+        linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>
+Date:   Wed, 27 Oct 2021 14:09:24 +0100
+Message-ID: <163534016415.1184428.1151584448808244621@Monstersaurus>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert and Yuya,
+Quoting Geert Uytterhoeven (2021-10-27 13:36:03)
+> This code works, but it is cleaner to use semicolons at the end of
+> statements instead of commas.
+>=20
+> Extracted from a big anonymous patch by Julia Lawall
+> <julia.lawall@inria.fr>.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-[...]
-> --- a/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-> +++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-> @@ -19,6 +19,7 @@ properties:
->            - renesas,r8a774b1-pcie-ep     # RZ/G2N
->            - renesas,r8a774c0-pcie-ep     # RZ/G2E
->            - renesas,r8a774e1-pcie-ep     # RZ/G2H
-> +          - renesas,r8a7795-pcie-ep      # R-Car H3
+Yikes, that's subtle, the fun you can have with valid C code ;-)
 
-Thank you!
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
-
-	Krzysztof
+> ---
+> v2:
+>   - Add Reviewed-by.
+> ---
+>  drivers/watchdog/rza_wdt.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/watchdog/rza_wdt.c b/drivers/watchdog/rza_wdt.c
+> index 7b6c365f7cd36297..fe6c2ed35e04cc4b 100644
+> --- a/drivers/watchdog/rza_wdt.c
+> +++ b/drivers/watchdog/rza_wdt.c
+> @@ -189,8 +189,8 @@ static int rza_wdt_probe(struct platform_device *pdev)
+>                 return -ENOENT;
+>         }
+> =20
+> -       priv->wdev.info =3D &rza_wdt_ident,
+> -       priv->wdev.ops =3D &rza_wdt_ops,
+> +       priv->wdev.info =3D &rza_wdt_ident;
+> +       priv->wdev.ops =3D &rza_wdt_ops;
+>         priv->wdev.parent =3D dev;
+> =20
+>         priv->cks =3D (u8)(uintptr_t) of_device_get_match_data(dev);
+> --=20
+> 2.25.1
+>
