@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CE6F43BE44
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Oct 2021 02:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7770943C376
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Oct 2021 09:03:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234992AbhJ0ADo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Oct 2021 20:03:44 -0400
-Received: from mga02.intel.com ([134.134.136.20]:4730 "EHLO mga02.intel.com"
+        id S236956AbhJ0HGA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Oct 2021 03:06:00 -0400
+Received: from mga01.intel.com ([192.55.52.88]:9199 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234725AbhJ0ADo (ORCPT
+        id S231686AbhJ0HF7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Oct 2021 20:03:44 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="217213401"
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; 
-   d="scan'208";a="217213401"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2021 17:01:19 -0700
+        Wed, 27 Oct 2021 03:05:59 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="253636606"
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; 
+   d="scan'208";a="253636606"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2021 00:03:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; 
-   d="scan'208";a="446981459"
-Received: from lkp-server01.sh.intel.com (HELO 072b454ebba8) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 26 Oct 2021 17:01:18 -0700
-Received: from kbuild by 072b454ebba8 with local (Exim 4.92)
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; 
+   d="scan'208";a="664871009"
+Received: from lkp-server01.sh.intel.com (HELO 3b851179dbd8) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 27 Oct 2021 00:03:30 -0700
+Received: from kbuild by 3b851179dbd8 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mfWNZ-0000dd-Jg; Wed, 27 Oct 2021 00:01:17 +0000
-Date:   Wed, 27 Oct 2021 08:00:36 +0800
+        id 1mfcyA-00007H-9M; Wed, 27 Oct 2021 07:03:30 +0000
+Date:   Wed, 27 Oct 2021 15:03:00 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 1eb1073587ad2566bf2f1746c425ce1804b54276
-Message-ID: <617896a4.Ijj+LywCz1LBydTa%lkp@intel.com>
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ 6a864ab983ad691c9ad111865638b87a4aed5cee
+Message-ID: <6178f9a4.ADZ4W/wuGKCNlZt6%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,10 +40,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 1eb1073587ad2566bf2f1746c425ce1804b54276  Merge branches 'renesas-arm-dt-for-v5.17', 'renesas-arm-soc-for-v5.17' and 'renesas-drivers-for-v5.17' into renesas-devel
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: 6a864ab983ad691c9ad111865638b87a4aed5cee  arm64/sve: Fix warnings when SVE is disabled
 
-elapsed time: 914m
+elapsed time: 885m
 
 configs tested: 52
 configs skipped: 3
@@ -63,6 +63,9 @@ ia64                             allyesconfig
 m68k                             allmodconfig
 m68k                                defconfig
 m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
 nds32                               defconfig
 nios2                            allyesconfig
 csky                                defconfig
@@ -82,9 +85,6 @@ sparc                            allyesconfig
 sparc                               defconfig
 i386                                defconfig
 i386                              debian-10.3
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
 mips                             allyesconfig
 mips                             allmodconfig
 powerpc                          allyesconfig
