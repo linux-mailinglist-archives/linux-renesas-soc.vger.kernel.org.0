@@ -2,108 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEF0F43DD7C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Oct 2021 11:12:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FE6A43DD72
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Oct 2021 11:10:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbhJ1JOa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Oct 2021 05:14:30 -0400
-Received: from mslow1.mail.gandi.net ([217.70.178.240]:56977 "EHLO
-        mslow1.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbhJ1JOa (ORCPT
+        id S229835AbhJ1JM7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Oct 2021 05:12:59 -0400
+Received: from mail-ua1-f50.google.com ([209.85.222.50]:45645 "EHLO
+        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229626AbhJ1JM6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Oct 2021 05:14:30 -0400
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 3579AD16FF
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Oct 2021 09:03:07 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id D4BE5FF808;
-        Thu, 28 Oct 2021 09:02:41 +0000 (UTC)
-Date:   Thu, 28 Oct 2021 11:03:31 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 06/13] media: subdev: Add for_each_active_route() macro
-Message-ID: <20211028090331.sccuthk5h3tw22f3@uno.localdomain>
-References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
- <20211017182449.64192-7-jacopo+renesas@jmondi.org>
- <8c16cd01-48c6-ecc8-4437-e597559f492f@ideasonboard.com>
+        Thu, 28 Oct 2021 05:12:58 -0400
+Received: by mail-ua1-f50.google.com with SMTP id z22so7850080uaq.12;
+        Thu, 28 Oct 2021 02:10:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jIdjJwfIBGv1KS5xhlxqTwJnLJVOANH70wfvTGUMbeI=;
+        b=MTI/PviUH7WLYyisUCS7UlJRSoWQ9uIMpq+iviYVQ/WbT4D4x3BeNKAOhuzsF6AjVL
+         vIalfZZSA+OHJd54S1iP9HvIk7W+b8iVfWsghrD/iZ4tab5i/BDJ6Kgd284WWCmc1jTM
+         m1pZr52DY2ppOoEluNd4qH7xWwof52+0Ls/YGvpQx7aZCX/lMXMDShy2ZftxnSbdZ6cw
+         STgjM4RkMog7xsa4uC8tPx75lfhZ209iq9RzBAdonB6zkVdHwYZLCnPlx9/QnPrD6VYu
+         uQHlg+kFQdiSzkj3pEKU/H8QmZFJ/WQX65GEXE59hdacFSAg1B5EbE3dfT8AbXdddpaX
+         NZsA==
+X-Gm-Message-State: AOAM532Y3pKr81xDPKJhIVe9LPurCt0KInN+5UCg68ZC0rqPCcpn3yEI
+        5mNWDH/YrbgVocIvwyulbdyKlhYHhj3hIg==
+X-Google-Smtp-Source: ABdhPJzIhfq0NCdhh0fNLeuuIsaoD0K1CJogFbOa1BJfOl03xCJIC7UmovGr6pCInWISsiXrUZ95dw==
+X-Received: by 2002:a67:ca81:: with SMTP id a1mr2656042vsl.56.1635412231255;
+        Thu, 28 Oct 2021 02:10:31 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id n17sm380262vkp.36.2021.10.28.02.10.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Oct 2021 02:10:30 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id e2so10195882uax.7;
+        Thu, 28 Oct 2021 02:10:30 -0700 (PDT)
+X-Received: by 2002:ab0:3818:: with SMTP id x24mr2932390uav.122.1635412230510;
+ Thu, 28 Oct 2021 02:10:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8c16cd01-48c6-ecc8-4437-e597559f492f@ideasonboard.com>
+References: <20211027134509.5036-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211027134509.5036-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdX81X+1AHp4Dsp70kG1TaYj=x3T8j3xidfLuskjd1Vc6g@mail.gmail.com> <CA+V-a8tRRaF=-1_94g54mYREujLed4G-=DtCXP=QJ6YeRwgfWg@mail.gmail.com>
+In-Reply-To: <CA+V-a8tRRaF=-1_94g54mYREujLed4G-=DtCXP=QJ6YeRwgfWg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 28 Oct 2021 11:10:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXK0dVpNsCUAv6eqPi0Zqek1hymvW6HrcDfJPtDVJ4hog@mail.gmail.com>
+Message-ID: <CAMuHMdXK0dVpNsCUAv6eqPi0Zqek1hymvW6HrcDfJPtDVJ4hog@mail.gmail.com>
+Subject: Re: [PATCH 4/4] pinctrl: renesas: pinctrl-rzg2l: Add support to
+ get/set drive-strength and output-impedance-ohms
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tomi,
+Hi Prabhakar,
 
-On Thu, Oct 28, 2021 at 11:32:12AM +0300, Tomi Valkeinen wrote:
-> On 17/10/2021 21:24, Jacopo Mondi wrote:
-> > Add a for_each_active_route() macro to replace the repeated pattern
-> > of iterating on the active routes of a routing table.
+On Thu, Oct 28, 2021 at 10:59 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Thu, Oct 28, 2021 at 8:56 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Wed, Oct 27, 2021 at 3:45 PM Lad Prabhakar
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > Add support to get/set drive-strength and output-impedance-ohms
+> > > for the supported pins.
+> > >
+> > > While at it also renamed the below macros to match the HW manual,
+> > > PIN_CFG_IOLH_SD0 -> PIN_CFG_IO_VMC_SD0
+> > > PIN_CFG_IOLH_SD1 -> PIN_CFG_IO_VMC_SD1
+> > > PIN_CFG_IOLH_QSPI -> PIN_CFG_IO_VMC_QSPI
+> > > PIN_CFG_IOLH_ETH0 -> PIN_CFG_IO_VMC_ETH0
+> > > PIN_CFG_IOLH_ETH1 -> PIN_CFG_IO_VMC_ETH1
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+> > The rest looks good to me!
 > >
-> > Replace the existing occurrences of such pattern in the codebase.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >   drivers/media/i2c/ds90ub913.c             |  8 ++------
-> >   drivers/media/i2c/ds90ub953.c             |  7 ++-----
-> >   drivers/media/i2c/ds90ub960.c             |  8 ++------
-> >   drivers/media/i2c/max9286.c               | 10 ++--------
-> >   drivers/media/platform/ti-vpe/cal-video.c |  9 ++-------
-> >   drivers/media/v4l2-core/v4l2-subdev.c     | 18 ++++++++++++++++++
-> >   include/media/v4l2-subdev.h               | 11 +++++++++++
-> >   7 files changed, 39 insertions(+), 32 deletions(-)
-> >
->
-> ...
->
-> > +struct v4l2_subdev_route *next_active_route(const struct v4l2_subdev_krouting *routing,
-> > +					    struct v4l2_subdev_route *route)
-> > +{
-> > +	if (route)
-> > +		++route;
-> > +	else
-> > +		route = &routing->routes[0];
-> > +
-> > +	for (; route < routing->routes + routing->num_routes; ++route) {
-> > +		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-> > +			continue;
-> > +
-> > +		return route;
-> > +	}
-> > +
-> > +	return NULL;
-> > +}
->
-> Also, this must be exported. I'll add that. And probably better to have a
+> Thanks, I'll post a v2 just with patches 3 and 4 only. Hope that is OK with you.
 
-Does it ? I would rather have it in the header, as this is only
-meant to be called by the for_each_active_route() macro, and not by
-other users. However it seemed to be rather long to be defined as a
-static inline function in the header, so I opted to move it to the c
-file.
+That's fine for me.  I can take 1/4 and 2/4 of this series, if LinusW
+and Rob give their Acked-by.
 
-To be honest, it's not clear to me what happens if a module calls the
-for_each_active_route() macro that calls this non-exported function,
-so you're probably correct.
+Gr{oetje,eeting}s,
 
-However exporting the symbol makes it available globally, but I guess
-that's not a big deal if it's clearly documented that drivers shall
-not call this directly (or maybe we want it to be available globally,
-why not...)
+                        Geert
 
-> prefix in the function name.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-This might be a good idea!
-
-Thanks
-   j
-
->
->  Tomi
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
