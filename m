@@ -2,90 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D468843DF7C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Oct 2021 12:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDEBB43E910
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Oct 2021 21:45:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230195AbhJ1KzA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Oct 2021 06:55:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37546 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230296AbhJ1Kyw (ORCPT
+        id S231216AbhJ1TsI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Oct 2021 15:48:08 -0400
+Received: from www.zeus03.de ([194.117.254.33]:45704 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230293AbhJ1TsH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Oct 2021 06:54:52 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC45C07978C
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Oct 2021 03:52:23 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id ee16so10053985edb.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Oct 2021 03:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
-        b=MqgQiMnth4O6zLvpsYbAhVLW1BorpgoCleWwfkY0/i+i6OSDuXRZO1jIKzpTTrmehO
-         XtsLWdXiTcL+XCe4naFtf2tTUJnbwwmDpuUkpvRhLd+LEnuxY7nNr11hmTRUVX1WOHsO
-         bN0u1arCg4gm9LHdXRMZFcXOD22U5gDGuBOuhPo6qvWbt6nA2j/p/5IZ88XFHrEsiSW3
-         12hentYJMlWeUfa2lUQkLm+5/fvMSizrI7wGoF2taOa3dgGUV5HKZWb0yAAH7nAXVevJ
-         tDC/xbHNLzSn310XeD3Gkoobjl6MPBQzT5DSLzerNBdTKOdmyp3xvfvOyo80qVUTZIED
-         gaRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
-        b=vnKiHUH9CA+QZ0DChmejrF6gcA+2XYLPhol2gXezFm/wmX+PRSfn7F1yE3DjMpPrB6
-         zpJW0ErLVupX+0FK826OOebxktWCfkjj7L7TWa0ULHGEBcQ4z2NJAgO3DRwlWb4KwqyH
-         Q4FefuZ4Uh2aeHtq0q+c44WDUxESxELm5h1xFtKn09ragU2IlgcxbByWjHK0/vkUhSe/
-         ZWg2YXyx4aO+2pwkTC4iTQpVPLc4PhtmXnwrw12NMLbKQBKQrjD7VAMcL9haY+5QQZ4c
-         u0dxyvueBmUUv7C/JjJpu33pWill1qj+alB+ALZ+gGrPgM4JkngqrnJLG53Q0Fz5lctm
-         CWfA==
-X-Gm-Message-State: AOAM531PqMT6YaI7B2tcLTGYZuKyCLSQ8NdUPN60gosnap4Gs9RuZ58F
-        IEYqsWOYuajHKzKfimpnq7PcMJTII8PP2f729E6x50ZHkmbFk2ik
-X-Google-Smtp-Source: ABdhPJw39EF9dJlXS9lAFrZ3adXxB8DVzXcygVzA3uRLiZxWlggxaB9ElCxkEB0P82xisoA6G442GD5iqMe2hCgLIt8=
-X-Received: by 2002:a2e:9a83:: with SMTP id p3mr3750290lji.145.1635418330269;
- Thu, 28 Oct 2021 03:52:10 -0700 (PDT)
+        Thu, 28 Oct 2021 15:48:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=wxlD5013LNiQQgL/tzZDr2AT9RRh
+        MDI50vtSZ0v/UHs=; b=gexUEuKOY4sHapxE4n8lS1vobMFQiSqoHJ6ascCKzybP
+        KBSiUgQIMPWXKUNVNPfHbr2+N5CIHbmtxpQDlqtYhZEhA+QPbMQEjVAzpXXtppf1
+        BvwoDW4TdXTkzU6no8YoTW4kmcZPESkyPIBwqkibq9cjN71jcK6/p4Bnl8UZqC8=
+Received: (qmail 1839090 invoked from network); 28 Oct 2021 21:45:38 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Oct 2021 21:45:38 +0200
+X-UD-Smtp-Session: l3s3148p1@HrHK827PjsUgAwDPXw4yADGDI0jlsL8i
+Date:   Thu, 28 Oct 2021 21:45:26 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] mmc: renesas_sdhi: Fix internal cd irq miss with hard
+ reset
+Message-ID: <YXr91sKve3pmY+yj@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20211006171605.6861-1-biju.das.jz@bp.renesas.com>
+ <YXK7AfUYxuFWl3rl@ninjato>
+ <OS0PR01MB5922DC39B54A0B8D7AA8B3DC86809@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592212E593522E4E72BEAFCA86809@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592273BA2B117BE67B108BDF86819@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Received: by 2002:ab3:6f89:0:0:0:0:0 with HTTP; Thu, 28 Oct 2021 03:52:09
- -0700 (PDT)
-Reply-To: aabdulwalialhashmi@gmail.com
-From:   Abdulwali Alhashmi <husamalsayed.hs@gmail.com>
-Date:   Thu, 28 Oct 2021 03:52:09 -0700
-Message-ID: <CAF6yYCeS=rm8=_71-kMjVo4oaVK57w9X52R_yv1HDrBe7vh-sA@mail.gmail.com>
-Subject: PLEASE GET BACK TO ME IF I CAN I TRUST YOU
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="iuKUPiXlsmQ10vsO"
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB592273BA2B117BE67B108BDF86819@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
--- 
-Greetings,
 
-Firstly, I apologize for encroaching into your privacy in this manner
-as it may seem unethical though it is a matter of great importance.
+--iuKUPiXlsmQ10vsO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I am Abdulwali Alhashmi, I work with Cayman National Bank (Cayman Islands).
+Hi Biju,
 
-I am contacting you because my status would not permit me to do this
-alone as it is concerning our customer and an investment placed under
-our bank's management over 5 years ago.
+> Finally found the issue. There is one more patch for host->reset in tmio_=
+mmc_core.c. please see below.
+> If you add this code, then it works.
 
-I have a proposal I would love to discuss with you which will be very
-beneficial to both of us. It's regarding my late client who has a huge
-deposit with my bank.
+Thanks for finding the culprit! To get this hopefully into v5.15 still,
+I will simply add this chunk like you suggested. However, I really
+wonder if we shouldn't just replace this:
 
-He is from your country and shares the same last name with you.
+>                 /* For R-Car Gen2+, we need to reset SDHI specific SCC */
+>                 if (host->pdata->flags & TMIO_MMC_MIN_RCAR2)
+>                         host->reset(host);
+> =20
+>                 if (host->native_hotplug)
+>                         tmio_mmc_enable_mmc_irqs(host,
+>                                 TMIO_STAT_CARD_REMOVE | TMIO_STAT_CARD_IN=
+SERT);
+> =20
 
-I want to seek your consent to present you as the next of kin to my
-late client who died and left a huge deposit with my bank.
+with a simple call to
 
-I would respectfully request that you keep the contents of this mail
-confidential and respect the integrity of the information you come by
-as a result of this mail.
+	tmio_mmc_reset(host)
 
-Please kindly get back to me for more details if I can TRUST YOU.{
-aabdulwalialhashmi@gmail.com }
+(with tmio_mmc_reset() still updated to set the card interrupts, of
+course)? I have to admit I haven't checked all paths for side-effects
+yet, but maybe you can already test if this change also works (instead
+of adding the second chunk)? If so, we could change it incrementally for
+5.16.
 
-Regards
-Abdulwali Alhashmi
-Treasury and Deposit Management,
-Cayman National Bank Cayman Islands
+Anyhow, will send the patch for 5.15 in some minutes.
+
+Thanks and all the best,
+
+   Wolfram
+
+
+--iuKUPiXlsmQ10vsO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmF6/dIACgkQFA3kzBSg
+KbZBrBAAnaeiiizNoOrKqelxHX3gVsvl7snYr3dgntCL0Qaeu7qnRRZVXqXlA8AL
+GnCSyXmI8urj0ZNypaRqvruiH7bJv8oNfKlv9ihMGIjCPRL4x6ymzXnSYE0Zsyw1
+KSUTHZ/W3q/V0rf+RVhIVkNOgdkf32oDQoYi113LsGxz74hRC6L4+V4okyrGleuX
+0B/zI/A0F/nVCgErriyP2p2Y3C3GNBB8Z/LESZhQ0e70L7xasoGVW73kDAwEs7hC
+6bUnLB+BJ98bSK6xNNbgFiLs/pwuzG9QBzCqN/s0QJQM3gFi4qd6mjrPRiRKlN6d
+NkjxkY38iUHP/Y/eivG4s9fhnEZc56+vXZyzbmEM/oo9r2BwzphHAahGeFWKEjhO
+7d7vjOdPj2OIFxUGu6ByP1D274ixErgKggaoaJkC7Lqlb3DhhgCd91EvN75vUarb
+rQsGRJDFPO0peUMNtsoRr+EqcnUk1TkPyKCHEE8tivKq/OrPUOKXa7sC4pkwlmVh
+W83TAOxadsvTG4+KdRdot0NGOpaYHYgI2CP6BkXAnXf8zCHYkGXHCa755rhi3czG
+/qj6w506FaOmwiiHdmqJzDjTAp9Fn4KpgGhN8vRZVa6ymU5wONxxA4Y08/sIDQ2M
+Kahik9Pv7Xjuj5k3xGEYZ+DpZtPeklGbDqAgrRQLLLawlpscZbc=
+=3J98
+-----END PGP SIGNATURE-----
+
+--iuKUPiXlsmQ10vsO--
