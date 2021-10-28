@@ -2,102 +2,471 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FE6A43DD72
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Oct 2021 11:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C475543DDE9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Oct 2021 11:38:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbhJ1JM7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Oct 2021 05:12:59 -0400
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:45645 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbhJ1JM6 (ORCPT
+        id S230126AbhJ1Jkf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Oct 2021 05:40:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230122AbhJ1Jkf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Oct 2021 05:12:58 -0400
-Received: by mail-ua1-f50.google.com with SMTP id z22so7850080uaq.12;
-        Thu, 28 Oct 2021 02:10:31 -0700 (PDT)
+        Thu, 28 Oct 2021 05:40:35 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A0ABC061767
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Oct 2021 02:38:08 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id m22so9125557wrb.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Oct 2021 02:38:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j5rh0h4mklEWCPl6TjlyfphmPWR42M7gh457kP6GUnk=;
+        b=hUgePhwBXzU22rv3mvh0VSsJYL5F1E63CtpibeCpYyF4HXKcqJLUB43CE36CPQ08/K
+         lsMSjqHJPrardwFZsvgRFt16WZFh0whvbXBGuvCGAz8INFFActeKGsZNc7lxgtPidEW8
+         yhgwxdMjtNP0auqB8O4dbwGiRltNZmPJ4yPGjNbQpPFYKCo0wFt8IiFUoc2fspVDj5F7
+         OYGY05ZGozpcfXDucOtZl33l9IgrI+ozk9W1whp06e2AI3Gig65OQuycx5PctWcB0hEr
+         mFcZKsoh+VeHbQFwjpBzHfdnUmVab1sSN31Y9qp2Zy2sn60bhGeUHj2S17BLbIf5IQwH
+         /Eug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jIdjJwfIBGv1KS5xhlxqTwJnLJVOANH70wfvTGUMbeI=;
-        b=MTI/PviUH7WLYyisUCS7UlJRSoWQ9uIMpq+iviYVQ/WbT4D4x3BeNKAOhuzsF6AjVL
-         vIalfZZSA+OHJd54S1iP9HvIk7W+b8iVfWsghrD/iZ4tab5i/BDJ6Kgd284WWCmc1jTM
-         m1pZr52DY2ppOoEluNd4qH7xWwof52+0Ls/YGvpQx7aZCX/lMXMDShy2ZftxnSbdZ6cw
-         STgjM4RkMog7xsa4uC8tPx75lfhZ209iq9RzBAdonB6zkVdHwYZLCnPlx9/QnPrD6VYu
-         uQHlg+kFQdiSzkj3pEKU/H8QmZFJ/WQX65GEXE59hdacFSAg1B5EbE3dfT8AbXdddpaX
-         NZsA==
-X-Gm-Message-State: AOAM532Y3pKr81xDPKJhIVe9LPurCt0KInN+5UCg68ZC0rqPCcpn3yEI
-        5mNWDH/YrbgVocIvwyulbdyKlhYHhj3hIg==
-X-Google-Smtp-Source: ABdhPJzIhfq0NCdhh0fNLeuuIsaoD0K1CJogFbOa1BJfOl03xCJIC7UmovGr6pCInWISsiXrUZ95dw==
-X-Received: by 2002:a67:ca81:: with SMTP id a1mr2656042vsl.56.1635412231255;
-        Thu, 28 Oct 2021 02:10:31 -0700 (PDT)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id n17sm380262vkp.36.2021.10.28.02.10.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Oct 2021 02:10:30 -0700 (PDT)
-Received: by mail-ua1-f45.google.com with SMTP id e2so10195882uax.7;
-        Thu, 28 Oct 2021 02:10:30 -0700 (PDT)
-X-Received: by 2002:ab0:3818:: with SMTP id x24mr2932390uav.122.1635412230510;
- Thu, 28 Oct 2021 02:10:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211027134509.5036-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211027134509.5036-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdX81X+1AHp4Dsp70kG1TaYj=x3T8j3xidfLuskjd1Vc6g@mail.gmail.com> <CA+V-a8tRRaF=-1_94g54mYREujLed4G-=DtCXP=QJ6YeRwgfWg@mail.gmail.com>
-In-Reply-To: <CA+V-a8tRRaF=-1_94g54mYREujLed4G-=DtCXP=QJ6YeRwgfWg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 28 Oct 2021 11:10:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXK0dVpNsCUAv6eqPi0Zqek1hymvW6HrcDfJPtDVJ4hog@mail.gmail.com>
-Message-ID: <CAMuHMdXK0dVpNsCUAv6eqPi0Zqek1hymvW6HrcDfJPtDVJ4hog@mail.gmail.com>
-Subject: Re: [PATCH 4/4] pinctrl: renesas: pinctrl-rzg2l: Add support to
- get/set drive-strength and output-impedance-ohms
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j5rh0h4mklEWCPl6TjlyfphmPWR42M7gh457kP6GUnk=;
+        b=D6OagzQrhAttvH869m9mS4y7KqtpR/wm6sRVjf4BcGuLWoq4qA3NtjYewQlaBeV7/C
+         e/wloPrDL3VWot5eo1Euy+zkqUPSQAZ87I45N+Wu60l//+HXQvxrKCJKe3RS1JyRKP8c
+         KzmQOtwWUUXZZ02FDifWdICAhW9HeWmK4cyEAC0u3ijUVIw53HsKhefqVNrFZOs6DfFM
+         hpDU95DSl5lSzG5/GWqr16ayjWEOGA8SySHT0ouLnin3ACoTXL6Pi3nnRjVy3bjHEo7q
+         6KOjGNa9pbdr5z6dy0E6ocjASlQVOiusUiISASusnyjmxl96yIKLaw2GUXf8KcMey+e4
+         gN6Q==
+X-Gm-Message-State: AOAM530hHmNU2Vuw22BapruAQGQea7V83AtzK/lrN1VLclxgQ3BeIzHx
+        LQvUNRQrfd3I6Y7yWF1hTuzRdQ==
+X-Google-Smtp-Source: ABdhPJycfFVG/cjt6RVCDQ/ais1HS1NpohHVhyoVp3Q/nIgk5ohQeXjrk7GESGoWjxl98lkEgMaivA==
+X-Received: by 2002:adf:ec88:: with SMTP id z8mr4270093wrn.4.1635413886466;
+        Thu, 28 Oct 2021 02:38:06 -0700 (PDT)
+Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
+        by smtp.googlemail.com with ESMTPSA id m34sm1037934wms.25.2021.10.28.02.38.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Oct 2021 02:38:06 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v4] dt-bindings: adv748x: Convert bindings to json-schema
+Date:   Thu, 28 Oct 2021 11:37:49 +0200
+Message-Id: <20211028093749.2878541-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.33.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Convert ADV748X analog video decoder documentation to json-schema.
 
-On Thu, Oct 28, 2021 at 10:59 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Thu, Oct 28, 2021 at 8:56 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Wed, Oct 27, 2021 at 3:45 PM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > Add support to get/set drive-strength and output-impedance-ohms
-> > > for the supported pins.
-> > >
-> > > While at it also renamed the below macros to match the HW manual,
-> > > PIN_CFG_IOLH_SD0 -> PIN_CFG_IO_VMC_SD0
-> > > PIN_CFG_IOLH_SD1 -> PIN_CFG_IO_VMC_SD1
-> > > PIN_CFG_IOLH_QSPI -> PIN_CFG_IO_VMC_QSPI
-> > > PIN_CFG_IOLH_ETH0 -> PIN_CFG_IO_VMC_ETH0
-> > > PIN_CFG_IOLH_ETH1 -> PIN_CFG_IO_VMC_ETH1
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+While converting the bindings extend it to enforce that all port@n nodes
+shall be encapsulated inside a ports node. This change does not have an
+effect on drivers parsing the ports@n nodes.
 
-> > The rest looks good to me!
-> >
-> Thanks, I'll post a v2 just with patches 3 and 4 only. Hope that is OK with you.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+* Changes since v3
+- For 'interrupt-names' use the pattern
+    minItems: 1
+    maxItems: 3
+    items:
+      enum: [ intrq1, intrq2, intrq3 ]
 
-That's fine for me.  I can take 1/4 and 2/4 of this series, if LinusW
-and Rob give their Acked-by.
+ Instead of an items list with three '- enum: [ intrq1, intrq2, intrq3 ]'
+ rows.
 
-Gr{oetje,eeting}s,
+* Changes since v2
+- Add adv748x.yaml to MAINTAINERS.
+- Update commit message.
+- Add myself to under the maintainers section after talking with Kieran.
+- Split reg in examples in two lines to match reg-names.
 
-                        Geert
+* Changes since v1
+- Update commit message to mention the added ports node.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Hello,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+This conversion revealed a problem with the Renesas DTSI files for the
+adv7482 nodes. A fix for that have been submitted in a separate patch,
+
+    [PATCH] arm64: dts: renesas: Add ports node to all adv7482 nodes
+
+Kind Regards,
+Niklas Söderlund
+---
+ .../devicetree/bindings/media/i2c/adv748x.txt | 116 ----------
+ .../bindings/media/i2c/adv748x.yaml           | 212 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 3 files changed, 213 insertions(+), 116 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv748x.txt b/Documentation/devicetree/bindings/media/i2c/adv748x.txt
+deleted file mode 100644
+index 4f91686e54a6b939..0000000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/adv748x.txt
++++ /dev/null
+@@ -1,116 +0,0 @@
+-* Analog Devices ADV748X video decoder with HDMI receiver
+-
+-The ADV7481 and ADV7482 are multi format video decoders with an integrated
+-HDMI receiver. They can output CSI-2 on two independent outputs TXA and TXB
+-from three input sources HDMI, analog and TTL.
+-
+-Required Properties:
+-
+-  - compatible: Must contain one of the following
+-    - "adi,adv7481" for the ADV7481
+-    - "adi,adv7482" for the ADV7482
+-
+-  - reg: I2C slave addresses
+-    The ADV748x has up to twelve 256-byte maps that can be accessed via the
+-    main I2C ports. Each map has it own I2C address and acts as a standard
+-    slave device on the I2C bus. The main address is mandatory, others are
+-    optional and remain at default values if not specified.
+-
+-Optional Properties:
+-
+-  - interrupt-names: Should specify the interrupts as "intrq1", "intrq2" and/or
+-		     "intrq3". All interrupts are optional. The "intrq3" interrupt
+-		     is only available on the adv7481
+-  - interrupts: Specify the interrupt lines for the ADV748x
+-  - reg-names : Names of maps with programmable addresses.
+-		It shall contain all maps needing a non-default address.
+-		Possible map names are:
+-		  "main", "dpll", "cp", "hdmi", "edid", "repeater",
+-		  "infoframe", "cbus", "cec", "sdp", "txa", "txb"
+-
+-The device node must contain one 'port' child node per device input and output
+-port, in accordance with the video interface bindings defined in
+-Documentation/devicetree/bindings/media/video-interfaces.txt. The port nodes
+-are numbered as follows.
+-
+-	  Name		Type		Port
+-	---------------------------------------
+-	  AIN0		sink		0
+-	  AIN1		sink		1
+-	  AIN2		sink		2
+-	  AIN3		sink		3
+-	  AIN4		sink		4
+-	  AIN5		sink		5
+-	  AIN6		sink		6
+-	  AIN7		sink		7
+-	  HDMI		sink		8
+-	  TTL		sink		9
+-	  TXA		source		10
+-	  TXB		source		11
+-
+-The digital output port nodes, when present, shall contain at least one
+-endpoint. Each of those endpoints shall contain the data-lanes property as
+-described in video-interfaces.txt.
+-
+-Required source endpoint properties:
+-  - data-lanes: an array of physical data lane indexes
+-    The accepted value(s) for this property depends on which of the two
+-    sources are described. For TXA 1, 2 or 4 data lanes can be described
+-    while for TXB only 1 data lane is valid. See video-interfaces.txt
+-    for detailed description.
+-
+-Ports are optional if they are not connected to anything at the hardware level.
+-
+-Example:
+-
+-	video-receiver@70 {
+-		compatible = "adi,adv7482";
+-		reg = <0x70 0x71 0x72 0x73 0x74 0x75
+-		       0x60 0x61 0x62 0x63 0x64 0x65>;
+-		reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
+-			    "infoframe", "cbus", "cec", "sdp", "txa", "txb";
+-
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-
+-		interrupt-parent = <&gpio6>;
+-		interrupt-names = "intrq1", "intrq2";
+-		interrupts = <30 IRQ_TYPE_LEVEL_LOW>,
+-			     <31 IRQ_TYPE_LEVEL_LOW>;
+-
+-		port@7 {
+-			reg = <7>;
+-
+-			adv7482_ain7: endpoint {
+-				remote-endpoint = <&cvbs_in>;
+-			};
+-		};
+-
+-		port@8 {
+-			reg = <8>;
+-
+-			adv7482_hdmi: endpoint {
+-				remote-endpoint = <&hdmi_in>;
+-			};
+-		};
+-
+-		port@a {
+-			reg = <10>;
+-
+-			adv7482_txa: endpoint {
+-				clock-lanes = <0>;
+-				data-lanes = <1 2 3 4>;
+-				remote-endpoint = <&csi40_in>;
+-			};
+-		};
+-
+-		port@b {
+-			reg = <11>;
+-
+-			adv7482_txb: endpoint {
+-				clock-lanes = <0>;
+-				data-lanes = <1>;
+-				remote-endpoint = <&csi20_in>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv748x.yaml b/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+new file mode 100644
+index 0000000000000000..d6353081402bed84
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+@@ -0,0 +1,212 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/adv748x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices ADV748X video decoder with HDMI receiver
++
++maintainers:
++  - Kieran Bingham <kieran.bingham@ideasonboard.com>
++  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
++
++description:
++  The ADV7481 and ADV7482 are multi format video decoders with an integrated
++  HDMI receiver. They can output CSI-2 on two independent outputs TXA and TXB
++  from three input sources HDMI, analog and TTL.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - adi,adv7481
++          - adi,adv7482
++
++  reg:
++    minItems: 1
++    maxItems: 12
++    description:
++      The ADV748x has up to twelve 256-byte maps that can be accessed via the
++      main I2C ports. Each map has it own I2C address and acts as a standard
++      slave device on the I2C bus. The main address is mandatory, others are
++      optional and remain at default values if not specified.
++
++  reg-names:
++    minItems: 1
++    items:
++      - const: main
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
++
++  interrupts: true
++
++  interrupt-names: true
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    patternProperties:
++      "^port@[0-7]$":
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Input port nodes for analog inputs AIN[0-7].
++
++    properties:
++      port@8:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Input port node for HDMI.
++
++      port@9:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Input port node for TTL.
++
++      port@a:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Output port node, single endpoint describing the CSI-2 transmitter TXA.
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - clock-lanes
++              - data-lanes
++
++      port@b:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Output port node, single endpoint describing the CSI-2 transmitter TXB.
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                maxItems: 1
++
++            required:
++              - clock-lanes
++              - data-lanes
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: adi,adv7481
++    then:
++      properties:
++        interrupts:
++          minItems: 1
++          maxItems: 3
++
++        interrupt-names:
++          minItems: 1
++          maxItems: 3
++          items:
++            enum: [ intrq1, intrq2, intrq3 ]
++    else:
++      properties:
++        interrupts:
++          minItems: 1
++          maxItems: 2
++
++        interrupt-names:
++          minItems: 1
++          maxItems: 2
++          items:
++            enum: [ intrq1, intrq2 ]
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - ports
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        video-receiver@70 {
++            compatible = "adi,adv7482";
++            reg = <0x70 0x71 0x72 0x73 0x74 0x75
++                   0x60 0x61 0x62 0x63 0x64 0x65>;
++            reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
++                        "infoframe", "cbus", "cec", "sdp", "txa", "txb";
++
++            interrupt-parent = <&gpio6>;
++            interrupts = <30 IRQ_TYPE_LEVEL_LOW>, <31 IRQ_TYPE_LEVEL_LOW>;
++            interrupt-names = "intrq1", "intrq2";
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@7 {
++                    reg = <7>;
++
++                    adv7482_ain7: endpoint {
++                        remote-endpoint = <&cvbs_in>;
++                    };
++                };
++
++                port@8 {
++                    reg = <8>;
++
++                    adv7482_hdmi: endpoint {
++                        remote-endpoint = <&hdmi_in>;
++                    };
++                };
++
++                port@a {
++                    reg = <10>;
++
++                    adv7482_txa: endpoint {
++                        clock-lanes = <0>;
++                        data-lanes = <1 2 3 4>;
++                        remote-endpoint = <&csi40_in>;
++                    };
++                };
++
++                port@b {
++                    reg = <11>;
++
++                    adv7482_txb: endpoint {
++                        clock-lanes = <0>;
++                        data-lanes = <1>;
++                        remote-endpoint = <&csi20_in>;
++                    };
++                };
++            };
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ee91c5472bc1540a..6ea3e63cbc7f33c3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1124,6 +1124,7 @@ M:	Kieran Bingham <kieran.bingham@ideasonboard.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	drivers/media/i2c/adv748x/*
++F:	Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+ 
+ ANALOG DEVICES INC ADV7511 DRIVER
+ M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+-- 
+2.33.1
+
