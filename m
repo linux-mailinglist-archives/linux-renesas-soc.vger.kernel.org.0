@@ -2,110 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3B63441F8D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Nov 2021 18:48:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 407BC4422B4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Nov 2021 22:33:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229834AbhKARuh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 1 Nov 2021 13:50:37 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55704 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229802AbhKARuh (ORCPT
+        id S231911AbhKAVfk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 1 Nov 2021 17:35:40 -0400
+Received: from mail-oi1-f174.google.com ([209.85.167.174]:45685 "EHLO
+        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231862AbhKAVfj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Nov 2021 13:50:37 -0400
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41728929;
-        Mon,  1 Nov 2021 18:48:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1635788882;
-        bh=W9HyK+vhDRW88PZ3tjPyKPtS1OGK3r2MbvJO5AQmumU=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=sAn9kXqpjDxqMXtazqjqV0mSqE2uFmifeG/kV2VcV4YmWG6PIUipaTCg1cpQ92rz+
-         02SmyVGBc5xzAr/ix6DI/qLIveQhHsh3ePzKNWWPJ1KBPfrp1PH2nRzlporAherNQ1
-         0dRoaNvNkIqDxCLAP7Q/Iu3EIt6vsMITap8J+bdM=
-Content-Type: text/plain; charset="utf-8"
+        Mon, 1 Nov 2021 17:35:39 -0400
+Received: by mail-oi1-f174.google.com with SMTP id u2so7755531oiu.12;
+        Mon, 01 Nov 2021 14:33:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rAZfMt0W72OQ5Uazy33FSpqP64Oe4jvKwHBVPsVewGM=;
+        b=c3vSq+ZjR5jLWdI0ZUZaY0TzrAQK09oT4Wpq89I6y1SyPdJq5L2pVA7bdEuHJBQ2bP
+         Bz0x6QMzDwgH4C4ZeRh1MTF95/j/Z2smkmckzjgQV0dxEx9/Xg4+SEK9BHtbDCn2FdMw
+         tp+IdPZw2PUXecBmxR1BRlQzqCICY9FtnTHk3++RJrmn9s/IlJkWtAzJ1D7ok5avGfYQ
+         mOJ6g3Cqg2Pbeip+k3gkDYLPsKTEw/w8pY8cLCPF34mBHLK9uUH1LgNLotL5fcSTZ3xQ
+         8igMD2beoOVEHAfMJOlJF5IfXovaGlQwUUqZhXQNd5uEjPOikyee5J570VRyYVFdPHUD
+         LUBw==
+X-Gm-Message-State: AOAM531mo66KDhtj0eDrI+o8/PA2htRqR/RVfDRqtSXdf7N1WUUolxxW
+        xW5QrOSILFHQ4lhEGYPYzqxhQLso7A==
+X-Google-Smtp-Source: ABdhPJyZvDljdInZp2AIvJVkRBF2bwvS15/1QohCgzr/lJbsxLdLWdVN5P2cIxaAQrhQBL8KIOYlRA==
+X-Received: by 2002:a05:6808:18a7:: with SMTP id bi39mr1413053oib.136.1635802385437;
+        Mon, 01 Nov 2021 14:33:05 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id c18sm2615222otr.32.2021.11.01.14.33.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Nov 2021 14:33:04 -0700 (PDT)
+Received: (nullmailer pid 1102648 invoked by uid 1000);
+        Mon, 01 Nov 2021 21:33:04 -0000
+Date:   Mon, 1 Nov 2021 16:33:04 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-pci@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>,
+        devicetree@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH] dt-bindings: pci: rcar-pci-ep: Document r8a7795
+Message-ID: <YYBdEFBKsxwaTNtg@robh.at.kernel.org>
+References: <e4acfe90021e45658e82ed042746707ace208a93.1635337518.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YYAiihIejUuF+uu0@oden.dyn.berto.se>
-References: <20211101171949.1059566-1-kieran.bingham+renesas@ideasonboard.com> <YYAiihIejUuF+uu0@oden.dyn.berto.se>
-Subject: Re: [PATCH] media: i2c: max9286: Depend on VIDEO_V4L2
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     sakari.ailus@iki.fi, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-To:     Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Date:   Mon, 01 Nov 2021 17:48:00 +0000
-Message-ID: <163578888022.1097798.14100032684481849335@Monstersaurus>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e4acfe90021e45658e82ed042746707ace208a93.1635337518.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Niklas S=C3=B6derlund (2021-11-01 17:23:22)
-> Hi Kieran,
->=20
-> Thanks for your work.
->=20
-> On 2021-11-01 17:19:49 +0000, Kieran Bingham wrote:
-> > The MAX9286 has not explicitly declared a dependency upon VIDEO_V4L2.
-> > While this dependency has likely always been met by configurations
-> > including it, the device does use V4L2 core, and should depend upon it.
-> >=20
-> > Add VIDEO_V4L2 as a dependency to match other drivers and prevent
-> > failures when compile testing.
-> >=20
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >=20
-> > ---
-> > A bit of an RFC almost, as I haven't seen any failure on this, however
-> > this does stand out as different to other drivers, and the recent
-> > "max96712: Select VIDEO_V4L2" posting has shown that these deserialiser
-> > drivers could find themselves being compile tested in a manner which
-> > would other wise break.
-> > ---
-> >  drivers/media/i2c/Kconfig | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > index d6a5d4ca439a..9eac5e96c6aa 100644
-> > --- a/drivers/media/i2c/Kconfig
-> > +++ b/drivers/media/i2c/Kconfig
-> > @@ -468,7 +468,7 @@ config VIDEO_VPX3220
-> > =20
-> >  config VIDEO_MAX9286
-> >       tristate "Maxim MAX9286 GMSL deserializer support"
-> > -     depends on I2C && I2C_MUX
-> > +     depends on VIDEO_V4L2 && I2C && I2C_MUX
->=20
-> I think the new 'depends on' shall be on a separate line. Reading this=20
-> is confusing as now the V4L2 is mixed with I2C while GPIO is still on a=20
-> separate line.
+On Wed, 27 Oct 2021 14:26:36 +0200, Geert Uytterhoeven wrote:
+> From: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
+> 
+> Document the support for R-Car PCIe EP on R8A7795 SoC device.
+> 
+> Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Indeed, I'm happy to put it on a new line too, but so very many of the
-other users of VIDEO_V4L2 and I2C here in media/i2c/Kconfig use
-  depends on VIDEO_V4L2 && I2C
-
-So the difference is having the I2C_MUX ...
-
-There are only two other 'patterns' that have also added directly to the
-end of that:
-
-
-drivers/media/i2c/Kconfig:      depends on VIDEO_V4L2 && I2C && I2C_MUX
-drivers/media/i2c/Kconfig:      depends on VIDEO_V4L2 && I2C && GPIOLIB
-drivers/media/platform/Kconfig: depends on VIDEO_V4L2 && I2C && PM
-
-(Where the I2C_MUX is MAX9286) but it's not a very strong pattern, so
-splitting is still fine with me.
-
---
-Kieran
-
-> >       depends on OF_GPIO
-> >       select V4L2_FWNODE
-> >       select VIDEO_V4L2_SUBDEV_API
-> > --=20
-> > 2.30.2
-> >=20
->=20
-> --=20
-> Regards,
-> Niklas S=C3=B6derlund
+Applied, thanks!
