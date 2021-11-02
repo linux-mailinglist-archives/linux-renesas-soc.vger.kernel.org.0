@@ -2,135 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDCB744308E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Nov 2021 15:36:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B10F0443119
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Nov 2021 16:00:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230333AbhKBOj3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Nov 2021 10:39:29 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:53977 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbhKBOj2 (ORCPT
+        id S234435AbhKBPCn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Nov 2021 11:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48988 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234447AbhKBPCh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Nov 2021 10:39:28 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 206041C000A;
-        Tue,  2 Nov 2021 14:36:48 +0000 (UTC)
-Date:   Tue, 2 Nov 2021 15:37:40 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        sakari.ailus@linux.intel.com, niklas.soderlund@ragnatech.se,
-        kieran.bingham@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 06/13] media: subdev: Add for_each_active_route() macro
-Message-ID: <20211102143740.bu5kfmcyj5opkuxg@uno.localdomain>
-References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
- <20211017182449.64192-7-jacopo+renesas@jmondi.org>
- <8c16cd01-48c6-ecc8-4437-e597559f492f@ideasonboard.com>
- <20211028090331.sccuthk5h3tw22f3@uno.localdomain>
- <b029f3ad-1790-d316-dfb0-0e64e161fc2c@ideasonboard.com>
- <YXp5BKABg0lb7EZk@pendragon.ideasonboard.com>
+        Tue, 2 Nov 2021 11:02:37 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F2BDC061203
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Nov 2021 08:00:02 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id k24so15996941ljg.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Nov 2021 08:00:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=GL9y3QxOGALzOsukPP8rl92QF0DvSrOPcH1BSiTiCGM=;
+        b=jovuFuSlZoKnJzt4a74kci9wdiYWHBk+RIjP8RjPFQR0rNyrT8DVBk7wfk0DGYc/zA
+         VliTRYHtqbFFBEsCffeM1ZACt75I3o4ERsLTb/UlyJBZ7i20exAQiWEuWabeNVhzka6+
+         BRVevyZhoUmkW7wxbrLLrOoUNxTmih7sEUj1+88WW+0BNbxMItZkIgBjxItBoUJaeTU9
+         SS/CueEMxO3NrnLwxzaeIg2lCNSP1+w5J3G5HN+ClcZ7+ACBu4YNB0xSfad8LKIZANvs
+         RIa69Rgy02ocdoVXSMP9Q+3I+vAf4HTGhZlavUrfPl5liBmOETpwoHwJt3vXEa7YEdMQ
+         8lJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=GL9y3QxOGALzOsukPP8rl92QF0DvSrOPcH1BSiTiCGM=;
+        b=DTkxhSzVAKWcnZIDdYahrMYjRHMUvJ6DndxXSjb11KgJXjcIqFYWR9IV80Q2hNAy45
+         F/Qxmg8jWPJvGgAq9ZTavX9d+xiOeExG6DMC4lWEvnBxNN9vKMuho9zv4JewxyJBCxr/
+         jk6FlCjNAUN3YrRMCQ8F60XyQlXbwCq61qvm3X/hYmNGzOQAvJwW5rG7uqDaQHcWk03u
+         sP7Rw47+IrtjCpWKm1dO3cNHD9tlScWj26eA8vqSjtNdaymjxQ9mDRxgXdRS4CC1iBOU
+         CVd73nGd6DuYEHzOnh4gsghD7yHJAOxCuxjnEPEPLlni8ei3HSGrqmuzxCzvHkeqx368
+         ExXQ==
+X-Gm-Message-State: AOAM531pnYyEegMwOlIY5uvPDvb+FoI0BQFObtb9hc3DOvAuuXU4zwnR
+        xgDrK3A18n0gFIs4WeyhLqsfHCuM0Y1CjQ==
+X-Google-Smtp-Source: ABdhPJx6r9H0NVbaSmeaYLRybp1iZt9Sv0vlRdUQDWAsowPW2u4/JtWPLS7fuflBJ4xp6jR/ASSFwQ==
+X-Received: by 2002:a2e:9b11:: with SMTP id u17mr24312455lji.237.1635865200410;
+        Tue, 02 Nov 2021 08:00:00 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id q17sm377420lfr.246.2021.11.02.07.59.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Nov 2021 08:00:00 -0700 (PDT)
+Date:   Tue, 2 Nov 2021 15:59:59 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     sakari.ailus@iki.fi, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] media: i2c: max9286: Depend on VIDEO_V4L2
+Message-ID: <YYFSb/rkrgbwUR3U@oden.dyn.berto.se>
+References: <20211102110243.1510895-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YXp5BKABg0lb7EZk@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211102110243.1510895-1-kieran.bingham+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+Hi Kieran,
 
-On Thu, Oct 28, 2021 at 01:18:44PM +0300, Laurent Pinchart wrote:
-> On Thu, Oct 28, 2021 at 01:17:10PM +0300, Tomi Valkeinen wrote:
-> > On 28/10/2021 12:03, Jacopo Mondi wrote:
-> > > On Thu, Oct 28, 2021 at 11:32:12AM +0300, Tomi Valkeinen wrote:
-> > >> On 17/10/2021 21:24, Jacopo Mondi wrote:
-> > >>> Add a for_each_active_route() macro to replace the repeated pattern
-> > >>> of iterating on the active routes of a routing table.
-> > >>>
-> > >>> Replace the existing occurrences of such pattern in the codebase.
-> > >>>
-> > >>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > >>> ---
-> > >>>    drivers/media/i2c/ds90ub913.c             |  8 ++------
-> > >>>    drivers/media/i2c/ds90ub953.c             |  7 ++-----
-> > >>>    drivers/media/i2c/ds90ub960.c             |  8 ++------
-> > >>>    drivers/media/i2c/max9286.c               | 10 ++--------
-> > >>>    drivers/media/platform/ti-vpe/cal-video.c |  9 ++-------
-> > >>>    drivers/media/v4l2-core/v4l2-subdev.c     | 18 ++++++++++++++++++
-> > >>>    include/media/v4l2-subdev.h               | 11 +++++++++++
-> > >>>    7 files changed, 39 insertions(+), 32 deletions(-)
-> > >>>
-> > >>
-> > >> ...
-> > >>
-> > >>> +struct v4l2_subdev_route *next_active_route(const struct v4l2_subdev_krouting *routing,
-> > >>> +					    struct v4l2_subdev_route *route)
-> > >>> +{
-> > >>> +	if (route)
-> > >>> +		++route;
-> > >>> +	else
-> > >>> +		route = &routing->routes[0];
-> > >>> +
-> > >>> +	for (; route < routing->routes + routing->num_routes; ++route) {
-> > >>> +		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-> > >>> +			continue;
-> > >>> +
-> > >>> +		return route;
-> > >>> +	}
-> > >>> +
-> > >>> +	return NULL;
-> > >>> +}
-> > >>
-> > >> Also, this must be exported. I'll add that. And probably better to have a
-> > >
-> > > Does it ? I would rather have it in the header, as this is only
-> > > meant to be called by the for_each_active_route() macro, and not by
-> > > other users. However it seemed to be rather long to be defined as a
-> > > static inline function in the header, so I opted to move it to the c
-> > > file.
-> >
-> > Yes, static inline is an option. The function is a bit long-ish, though,
-> > as you mention.
-> >
-> > > To be honest, it's not clear to me what happens if a module calls the
-> > > for_each_active_route() macro that calls this non-exported function,
-> > > so you're probably correct.
-> >
-> > The module cannot be loaded if it refers to a non-exported symbol.
-> >
+Thanks for your work.
 
-Yeah, dumb me, the macro will just expand and the symbol won't be
-available.
+On 2021-11-02 11:02:43 +0000, Kieran Bingham wrote:
+> The MAX9286 has not explicitly declared a dependency upon VIDEO_V4L2.
+> While this dependency has likely always been met by configurations
+> including it, the device does use V4L2 core, and should depend upon it.
+> 
+> Add VIDEO_V4L2 as a dependency to match other drivers and prevent
+> failures when compile testing.
+> 
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> > > However exporting the symbol makes it available globally, but I guess
-> >
-> > Yes, thus the prefix is a good thing =).
-> >
-> > > that's not a big deal if it's clearly documented that drivers shall
-> > > not call this directly (or maybe we want it to be available globally,
-> > > why not...)
-> >
-> > I'll see how long helper functions similar macros have as inline in
-> > other parts of the kernel. Maybe static inline is fine.
-> >
-> > But if not, we'll just need to document the helper function. I don't see
-> > why we should say it shouldn't be called directly, though. But if that
-> > is the case, we can prefix it with __.
->
-> The __ prefix is exactly what I was going to propose.
->
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Ack to the __ prefix and export the symbol from the .c file if it's
-deemed too long to live in the header!
+> 
+> ---
+> v2:
+>  - Split VIDEO_V4L2 to it's own line
+> 
+> A bit of an RFC almost, as I haven't seen any failure on this, however
+> this does stand out as different to other drivers, and the recent
+> "max96712: Select VIDEO_V4L2" posting has shown that these deserialiser
+> drivers could find themselves being compile tested in a manner which
+> would other wise break.
+> 
+>  drivers/media/i2c/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index d6a5d4ca439a..e9cfedf561d3 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -469,6 +469,7 @@ config VIDEO_VPX3220
+>  config VIDEO_MAX9286
+>  	tristate "Maxim MAX9286 GMSL deserializer support"
+>  	depends on I2C && I2C_MUX
+> +	depends on VIDEO_V4L2
+>  	depends on OF_GPIO
+>  	select V4L2_FWNODE
+>  	select VIDEO_V4L2_SUBDEV_API
+> -- 
+> 2.30.2
+> 
 
-Thanks
-   j
-
-> --
-> Regards,
->
-> Laurent Pinchart
+-- 
+Regards,
+Niklas Söderlund
