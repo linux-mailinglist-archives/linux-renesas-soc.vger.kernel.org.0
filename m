@@ -2,128 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6D8B4432BD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Nov 2021 17:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52D44443387
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Nov 2021 17:44:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234842AbhKBQeS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Nov 2021 12:34:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35432 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234685AbhKBQG6 (ORCPT
+        id S234821AbhKBQrH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Nov 2021 12:47:07 -0400
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:38778 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234774AbhKBQrC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Nov 2021 12:06:58 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 999ECC061714
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Nov 2021 09:03:43 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id t21so16959112plr.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Nov 2021 09:03:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=ruGe32uatfdZvr1usgvp0HdqEnRJmJac59f1BAHm2ac=;
-        b=3GMA1WsvqyToa8cGkjjbKfrYRzZd2a1W+Br8sF1DrrhLLRlD3x0DaIKDr5Adw5Z6Qt
-         f9VoEd6S18wu+pu1jYnEKxom+3BwUgs3Kx8Xhk45ou7r769ApUVilPaq8YIRG7VsKmds
-         FmXYdyGjbbbXdn3nt4GMA6fvoBVfllJiW8WI3sIMG6AwNLQGtK/7S5v776H1Jd00Rkk2
-         NyVO77JHP0bacIIjvw/Ro7qQL17PpVJcZFO+g8693YsDlkuRMA+dMubjBVhRZ1S+CqTF
-         B3yjMsuxNtD5r1GtYs89hBeB8HJ4zFXEchtO+ymt36EcuLfKGqBSzDkwT4093ve+rQ9s
-         0PWg==
+        Tue, 2 Nov 2021 12:47:02 -0400
+Received: by mail-ot1-f52.google.com with SMTP id c2-20020a056830348200b0055a46c889a8so10106369otu.5;
+        Tue, 02 Nov 2021 09:44:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=ruGe32uatfdZvr1usgvp0HdqEnRJmJac59f1BAHm2ac=;
-        b=aT4guUBorDGKp0B8Js5LPBkLqfzL/7aP7FOclNWf5FjbqtZ/CqubY4dO3CN9LJ3es2
-         olLAxkrj5YPH4tYuItydjJefn3OM7FSUTOdWoTBPSc8UT2l+DDsUd6qUUAaGHfWwBHlM
-         XFLn1UqRTrFMYW+A5hxfgP9f4Y1tkTeOQBRuy3CxK+XIL5VWwYDMAmtzj9eiSxndjdtV
-         YtepA7Hw+HcklheIuQ5+zFR7im0egRwrx11MU10qvwmm7YSX6LHcsIgZ75Gd0zauWWh+
-         GqVMITIA1K52Mo0M6zWDls83vMnAJnBM0GvOrfJnDgTWwGPco7AIt4MAaB8a5RzcYM+e
-         LIBw==
-X-Gm-Message-State: AOAM532IUvPWl/vjTK9a0qf5/dXXl1WPQ7soc11wgwYDvl5ICTpAq2/l
-        VZq90SxXBjRVFaRI/u1rlPwv57tZ30Cf5CHg
-X-Google-Smtp-Source: ABdhPJwXTNezJHlGMg9FtZJTvEx/xGSaxyH6RKBZ9ylvRkf/Uui5VmCNnDfgWWyFRPOSoJMqhwlHkg==
-X-Received: by 2002:a17:90a:d192:: with SMTP id fu18mr8022941pjb.177.1635869022509;
-        Tue, 02 Nov 2021 09:03:42 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id y16sm19439709pfl.198.2021.11.02.09.03.41
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=IlPOJgGOo4bJ93R7WE1TPyotJtl1kL8cB6BhFupd7dU=;
+        b=JJ4A96w9EYmK9f4+N369+e54nbJmDudROXUMeqqbp0ekcBFNHSUrmFgpsMvE9zj0pb
+         meXNmfhFWB9AbCMSuRtzolb7IdHf1SzgstBqYk0niVFN7tPnvE0ijLdBXShDSByJYKen
+         bDo04YfyI4pg6sSspL+m+WYa7xnqb3mCyr4FZTohKwLbKdUAYJbOsqMeiMvEB9BqEyqx
+         UcdTIeRH6WlUPmxy7LiaNfEamuKyafWfNlqeE4shX/AYK1N7q5Xq+j1Y/wWJymWnkZye
+         Uku34Z726dPuOrgX8ljiqZg1J44mh/+gGLTEPauO7g5p2mGEmSBtX8Zsv0JJWZi+pFeX
+         wS/g==
+X-Gm-Message-State: AOAM533vH44el0XkgpLOmXQT1KQIJRZGqFwVgOIYEE0gOWyizjVf3GU1
+        6DBP0saOfhLKsyopDbBFXA==
+X-Google-Smtp-Source: ABdhPJzc8qp+aAtj6hV4bRyxszUSjUyI1EcKb6/X6zAAyEc+tvCtmPnXJXwXacjX7gogAMgJ64kt0A==
+X-Received: by 2002:a05:6830:2058:: with SMTP id f24mr13140404otp.248.1635871467129;
+        Tue, 02 Nov 2021 09:44:27 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id n10sm2892051ooj.42.2021.11.02.09.44.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Nov 2021 09:03:41 -0700 (PDT)
-Message-ID: <6181615d.1c69fb81.6523.7e47@mx.google.com>
-Date:   Tue, 02 Nov 2021 09:03:41 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 02 Nov 2021 09:44:26 -0700 (PDT)
+Received: (nullmailer pid 3040017 invoked by uid 1000);
+        Tue, 02 Nov 2021 16:44:25 -0000
+Date:   Tue, 2 Nov 2021 11:44:25 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v4] dt-bindings: adv748x: Convert bindings to json-schema
+Message-ID: <YYFq6X1Gsy7rYbGy@robh.at.kernel.org>
+References: <20211028093749.2878541-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-devel-2021-11-02-v5.15
-X-Kernelci-Report-Type: test
-Subject: renesas/master baseline-nfs: 62 runs,
- 1 regressions (renesas-devel-2021-11-02-v5.15)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211028093749.2878541-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline-nfs: 62 runs, 1 regressions (renesas-devel-2021-11-=
-02-v5.15)
+On Thu, 28 Oct 2021 11:37:49 +0200, Niklas Söderlund wrote:
+> Convert ADV748X analog video decoder documentation to json-schema.
+> 
+> While converting the bindings extend it to enforce that all port@n nodes
+> shall be encapsulated inside a ports node. This change does not have an
+> effect on drivers parsing the ports@n nodes.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+> * Changes since v3
+> - For 'interrupt-names' use the pattern
+>     minItems: 1
+>     maxItems: 3
+>     items:
+>       enum: [ intrq1, intrq2, intrq3 ]
+> 
+>  Instead of an items list with three '- enum: [ intrq1, intrq2, intrq3 ]'
+>  rows.
+> 
+> * Changes since v2
+> - Add adv748x.yaml to MAINTAINERS.
+> - Update commit message.
+> - Add myself to under the maintainers section after talking with Kieran.
+> - Split reg in examples in two lines to match reg-names.
+> 
+> * Changes since v1
+> - Update commit message to mention the added ports node.
+> 
+> Hello,
+> 
+> This conversion revealed a problem with the Renesas DTSI files for the
+> adv7482 nodes. A fix for that have been submitted in a separate patch,
+> 
+>     [PATCH] arm64: dts: renesas: Add ports node to all adv7482 nodes
+> 
+> Kind Regards,
+> Niklas Söderlund
+> ---
+>  .../devicetree/bindings/media/i2c/adv748x.txt | 116 ----------
+>  .../bindings/media/i2c/adv748x.yaml           | 212 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  3 files changed, 213 insertions(+), 116 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+> 
 
-Regressions Summary
--------------------
-
-platform   | arch | lab           | compiler | defconfig          | regress=
-ions
------------+------+---------------+----------+--------------------+--------=
-----
-odroid-xu3 | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | 1      =
-    =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-11-02-v5.15/plan/baseline-nfs/
-
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-11-02-v5.15
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      ee746325c55436cdf9cd64a0a06a190fe72678b5 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform   | arch | lab           | compiler | defconfig          | regress=
-ions
------------+------+---------------+----------+--------------------+--------=
-----
-odroid-xu3 | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | 1      =
-    =
-
-
-  Details:     https://kernelci.org/test/plan/id/61812d1614fdadb3443358dc
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-11-02-v5.15/arm/multi_v7_defconfig/gcc-10/lab-collabora/baseline-nfs-od=
-roid-xu3.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-11-02-v5.15/arm/multi_v7_defconfig/gcc-10/lab-collabora/baseline-nfs-od=
-roid-xu3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-1030.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/61812d1714fdadb34=
-43358dd
-        new failure (last pass: renesas-devel-2021-10-26-v5.15-rc7) =
-
- =20
+Reviewed-by: Rob Herring <robh@kernel.org>
