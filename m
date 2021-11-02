@@ -2,148 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4667E442F1F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Nov 2021 14:33:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDCB744308E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Nov 2021 15:36:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbhKBNgT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Nov 2021 09:36:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230208AbhKBNgT (ORCPT
+        id S230333AbhKBOj3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Nov 2021 10:39:29 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:53977 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229530AbhKBOj2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Nov 2021 09:36:19 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68B94C061714
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Nov 2021 06:33:44 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id n23so9512933pgh.8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Nov 2021 06:33:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=x9bw8CxOAW5BFP9vRPJCvFi8eosKEd7p9JPmNcJzRRI=;
-        b=sANVxWPBCGjZhLr6SXPBeFROpH7alZy/HZOzkpCingwE7TyJXGlNXZ+RT4TOV5bBz4
-         6t5Kp+Eg/8lIxs73hdsJ5+RD88qUx0TihcK6nQYV9G/nskUIj6jN9CuRDtW9/Pmc7v4i
-         rzzeJ/Ir7Zhfal0+MfRZOutYwcBnuYQtpGxjIO0GAKacRuklOIeYRS7ewN8hnOpLlAXt
-         uIzrtZBHxhff11wkyhtkSskcy8r6dAlOYx4H23oQCpOkWEuOec/ynZipsmkE7OLefkv/
-         id57hQsqZF78/r9aZUyHJWr610i0VbgCMh1NBWp5g71QjWEhlczHPcLkSNsib2zioRVb
-         pwxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=x9bw8CxOAW5BFP9vRPJCvFi8eosKEd7p9JPmNcJzRRI=;
-        b=okNEzbJ1aTqUwKs7XoQxCNhWZlGJ7KVld5XIXtJFSWDbrwtn3eThQigHdJDg8TVvNd
-         cM/1BS8vJS+zy8E1bN76wr201J5aJRhyQIAS2AzaHE/JRz1zKc+zdrBYWW9B+k8ue9ex
-         6AACNKrhef3MwRUc05k138dUJBymG+8H0mMiHBhRJ5bcsbzOPc6qGmhxh8RQ6OXDdDKI
-         Yv4e3IP6BiEYAZPoIW9SgQYYieOgAh20BjxNKMO8FJ9Iiq8qZF4Vp4Hk3uv+jNd5D3Cg
-         4SLxX+o7tsvqw5F0u/3ya+sG6I7DE3Rop4TCKNg7tK0AGRX9VW+xOnvRuSfUR7hkkr6/
-         VS2Q==
-X-Gm-Message-State: AOAM530h3mT3iET/Q+GZvyIsW+2Mpj67ap35/wTBK+nqX9d8FhrKbjo0
-        sk0UEnwWO4qjYLg0nzq+qwpmYxeEGgEWn5n9
-X-Google-Smtp-Source: ABdhPJwj3/+Jf9udrV/7Io3CpbjGOkN2k6hkq34PJ/rY+lohWoXpOqRkGQ+4mV7pDzFv97TnZ9REzQ==
-X-Received: by 2002:a05:6a00:1ad2:b0:47c:8125:4daa with SMTP id f18-20020a056a001ad200b0047c81254daamr36344047pfv.60.1635860023731;
-        Tue, 02 Nov 2021 06:33:43 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id pc18sm3103971pjb.0.2021.11.02.06.33.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Nov 2021 06:33:43 -0700 (PDT)
-Message-ID: <61813e37.1c69fb81.43664.8044@mx.google.com>
-Date:   Tue, 02 Nov 2021 06:33:43 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 2 Nov 2021 10:39:28 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 206041C000A;
+        Tue,  2 Nov 2021 14:36:48 +0000 (UTC)
+Date:   Tue, 2 Nov 2021 15:37:40 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        sakari.ailus@linux.intel.com, niklas.soderlund@ragnatech.se,
+        kieran.bingham@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 06/13] media: subdev: Add for_each_active_route() macro
+Message-ID: <20211102143740.bu5kfmcyj5opkuxg@uno.localdomain>
+References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
+ <20211017182449.64192-7-jacopo+renesas@jmondi.org>
+ <8c16cd01-48c6-ecc8-4437-e597559f492f@ideasonboard.com>
+ <20211028090331.sccuthk5h3tw22f3@uno.localdomain>
+ <b029f3ad-1790-d316-dfb0-0e64e161fc2c@ideasonboard.com>
+ <YXp5BKABg0lb7EZk@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-devel-2021-11-02-v5.15
-X-Kernelci-Report-Type: test
-Subject: renesas/master v4l2-compliance on uvcvideo: 2 runs,
- 1 regressions (renesas-devel-2021-11-02-v5.15)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YXp5BKABg0lb7EZk@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master v4l2-compliance on uvcvideo: 2 runs, 1 regressions (renesas-=
-devel-2021-11-02-v5.15)
+Hello,
 
-Regressions Summary
--------------------
+On Thu, Oct 28, 2021 at 01:18:44PM +0300, Laurent Pinchart wrote:
+> On Thu, Oct 28, 2021 at 01:17:10PM +0300, Tomi Valkeinen wrote:
+> > On 28/10/2021 12:03, Jacopo Mondi wrote:
+> > > On Thu, Oct 28, 2021 at 11:32:12AM +0300, Tomi Valkeinen wrote:
+> > >> On 17/10/2021 21:24, Jacopo Mondi wrote:
+> > >>> Add a for_each_active_route() macro to replace the repeated pattern
+> > >>> of iterating on the active routes of a routing table.
+> > >>>
+> > >>> Replace the existing occurrences of such pattern in the codebase.
+> > >>>
+> > >>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > >>> ---
+> > >>>    drivers/media/i2c/ds90ub913.c             |  8 ++------
+> > >>>    drivers/media/i2c/ds90ub953.c             |  7 ++-----
+> > >>>    drivers/media/i2c/ds90ub960.c             |  8 ++------
+> > >>>    drivers/media/i2c/max9286.c               | 10 ++--------
+> > >>>    drivers/media/platform/ti-vpe/cal-video.c |  9 ++-------
+> > >>>    drivers/media/v4l2-core/v4l2-subdev.c     | 18 ++++++++++++++++++
+> > >>>    include/media/v4l2-subdev.h               | 11 +++++++++++
+> > >>>    7 files changed, 39 insertions(+), 32 deletions(-)
+> > >>>
+> > >>
+> > >> ...
+> > >>
+> > >>> +struct v4l2_subdev_route *next_active_route(const struct v4l2_subdev_krouting *routing,
+> > >>> +					    struct v4l2_subdev_route *route)
+> > >>> +{
+> > >>> +	if (route)
+> > >>> +		++route;
+> > >>> +	else
+> > >>> +		route = &routing->routes[0];
+> > >>> +
+> > >>> +	for (; route < routing->routes + routing->num_routes; ++route) {
+> > >>> +		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> > >>> +			continue;
+> > >>> +
+> > >>> +		return route;
+> > >>> +	}
+> > >>> +
+> > >>> +	return NULL;
+> > >>> +}
+> > >>
+> > >> Also, this must be exported. I'll add that. And probably better to have a
+> > >
+> > > Does it ? I would rather have it in the header, as this is only
+> > > meant to be called by the for_each_active_route() macro, and not by
+> > > other users. However it seemed to be rather long to be defined as a
+> > > static inline function in the header, so I opted to move it to the c
+> > > file.
+> >
+> > Yes, static inline is an option. The function is a bit long-ish, though,
+> > as you mention.
+> >
+> > > To be honest, it's not clear to me what happens if a module calls the
+> > > for_each_active_route() macro that calls this non-exported function,
+> > > so you're probably correct.
+> >
+> > The module cannot be loaded if it refers to a non-exported symbol.
+> >
 
-platform         | arch  | lab           | compiler | defconfig | regressio=
-ns
------------------+-------+---------------+----------+-----------+----------=
---
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig | 1        =
-  =
+Yeah, dumb me, the macro will just expand and the symbol won't be
+available.
 
+> > > However exporting the symbol makes it available globally, but I guess
+> >
+> > Yes, thus the prefix is a good thing =).
+> >
+> > > that's not a big deal if it's clearly documented that drivers shall
+> > > not call this directly (or maybe we want it to be available globally,
+> > > why not...)
+> >
+> > I'll see how long helper functions similar macros have as inline in
+> > other parts of the kernel. Maybe static inline is fine.
+> >
+> > But if not, we'll just need to document the helper function. I don't see
+> > why we should say it shouldn't be called directly, though. But if that
+> > is the case, we can prefix it with __.
+>
+> The __ prefix is exactly what I was going to propose.
+>
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-11-02-v5.15/plan/v4l2-compliance-uvc/
+Ack to the __ prefix and export the symbol from the .c file if it's
+deemed too long to live in the header!
 
-V4L2 Compliance on the uvcvideo driver.
+Thanks
+   j
 
-This test ran "v4l2-compliance -s" from v4l-utils:
-
-    https://www.linuxtv.org/wiki/index.php/V4l2-utils
-
-See each detailed section in the report below to find out the git URL and
-particular revision that was used to build the test binaries.
-
-
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-11-02-v5.15
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      ee746325c55436cdf9cd64a0a06a190fe72678b5
-
-  Test suite revisions:
-    v4l2-compliance
-      URL:  git://linuxtv.org/v4l-utils.git
-      SHA:  9f1d1e0cf8dbdcfb8bc6d817734d85417960a054 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform         | arch  | lab           | compiler | defconfig | regressio=
-ns
------------------+-------+---------------+----------+-----------+----------=
---
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig | 1        =
-  =
-
-
-  Details:     https://kernelci.org/test/plan/id/61812e1e42e8828fa43358f7
-
-  Results:     47 PASS, 8 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-11-02-v5.15/arm64/defconfig/gcc-10/lab-collabora/v4l2-compliance-uvc-rk=
-3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-11-02-v5.15/arm64/defconfig/gcc-10/lab-collabora/v4l2-compliance-uvc-rk=
-3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-v4l2=
-/20211022.1/arm64/rootfs.cpio.gz =
-
-
-
-  * v4l2-compliance-uvc.Streaming-ioctls_Test-input-0.USERPTR-no-poll: http=
-s://kernelci.org/test/case/id/61812e1e42e8828fa43358fc
-        new failure (last pass: renesas-devel-2021-10-26-v5.15-rc7)
-
-    2021-11-02T12:24:38.201649  		fail: v4l2-test-buffers.cpp(1629): buf.qb=
-uf(node)
-    2021-11-02T12:24:38.223991  		fail: v4l2-test-buffers.cpp(1732): setupU=
-serPtr(node, q)
-    2021-11-02T12:24:38.244852  	test USERPTR (no poll): FAIL   =
-
- =20
+> --
+> Regards,
+>
+> Laurent Pinchart
