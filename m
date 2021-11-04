@@ -2,91 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 441EA44590B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Nov 2021 18:54:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92025445942
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Nov 2021 19:04:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233817AbhKDR4h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Nov 2021 13:56:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34474 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231742AbhKDR4g (ORCPT
+        id S232360AbhKDSHJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 Nov 2021 14:07:09 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:46901 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231593AbhKDSHH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Nov 2021 13:56:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A47F4C061714;
-        Thu,  4 Nov 2021 10:53:58 -0700 (PDT)
-Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A11F91C18;
-        Thu,  4 Nov 2021 18:53:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1636048435;
-        bh=qGSuuTnM3mb4rnj/RSz/PrRrWVygP1aCNwH3RPQW22E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=epZS5N3bJxC9UzAyp64zLc0C1SJD8BQA06Sg6cSngLDnFsloHxIq8pw7ZkbPdHx1/
-         2/s2n9i42K/6NX7TYeyDj3UQyNHWloGHH0N7TQiSCN+0jRT4a3x9IdZEIBvn2hnvsI
-         FOOHfYE48SXTEA5MUbgldcLLBc7dm8fLTBctqW9c=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-input@vger.kernel.org, Geert Uytterhoeven <geert@glider.be>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] Input: add 'safe' user switch codes
-Date:   Thu,  4 Nov 2021 17:53:39 +0000
-Message-Id: <20211104175339.3906851-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211025130457.935122-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20211025130457.935122-1-kieran.bingham+renesas@ideasonboard.com>
+        Thu, 4 Nov 2021 14:07:07 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id F1AD8200009;
+        Thu,  4 Nov 2021 18:04:25 +0000 (UTC)
+Date:   Thu, 4 Nov 2021 19:05:17 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/3] media: rcar-{csi2,vin}: Move to full Virtual Channel
+ routing per CSI-2 IP
+Message-ID: <20211104180517.e3o4wnifys4p6cv2@uno.localdomain>
+References: <20211020200225.1956048-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211020200225.1956048-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-All existing SW input codes define an action which can be interpreted by
-a user environment to adapt to the condition of the switch.
+Hi Niklas,
 
-For example, switches to define the audio mute, will prevent audio
-playback, and switches to indicate lid and covers being closed may
-disable displays.
+On Wed, Oct 20, 2021 at 10:02:22PM +0200, Niklas Söderlund wrote:
+> Hello,
+>
+> This series attempts to increase the flexibility of the R-Car VIN
+> capture pipeline by allowing for free form Virtual Channel routing
+> within the same CSI-2 IP block.
+>
+> When Gen3 support was first added to this R-Car VIN and CSI-2 driver the
+> routing was centred around the CHSEL register which multiplex the
+> different parallel buses that sits between the CSI-2 receivers source
+> side and the VIN dma engines. This was a bad design as the multiplexing
+> do allow for only a few combinations and do not play nice with many
+> video streams in the system.
+>
+> For example it's only possible for CSI-2 Virtual Channels 0 and 1 of any
+> given CSI-2 receiver to be used together with the scaler.
+>
+> Later datasheets have expanded the documentation and it is now possible
+> to improve on this design by allowing any Virtual Channel to be routed
+> to any R-Car VIN instance, provided that there exists a parallel bus
+> between them. This increases the flexibility as all Virtual Channels can
+> now be used together with the scaler for example.
+>
+> The redesign is not however perfect. While the new design allows for
+> many more routes, two constrains limit a small portion of routes that
+> was possible in the old design but are no more.
+>
+> - It is no longer possible to route the same CSI-2 and VC to more then
+> one VIN at a time. This was theoretically possible before if the
+> specific SoC allowed for the same CSI-2 and VC to be routed to two
+> different VIN capture groups.
+>
+> - It is no longer possible to simultaneously mix links from two CSI-2 IP
+> blocks to the same VIN capture group.
+>
+> For example if VIN2 is capturing from CSI40 then VIN{0,1,3} must also
+> capture from CSI40. While VIN{4,5,6,7} is still free to capture from
+> any other CSI-2 IP in the system. Once all VIN{0,1,2,3} links to CSI40
+> are disabled that VIN capture group is free again to capture from any
+> other CSI-2 IP it is connected to.
+>
+> At the core of the redesign is greater cooperator of the R-Car VIN and
+> CSI-2 drivers in configuring the routing. The VIN driver is after this
+> change only responsible to configure the full VIN capture groups
+> parallel buses to be to a particular CSI-2 IP. While the configuration
+> of which CSI-2 Virtual Channel is outputted on which of the R-Car CSI-2
+> IP output ports is handled by the CSI-2 driver.
+>
+> Before this change the CSI-2 Virtual Channel to output port was static
+> in the CSI-2 driver and the different links only manipulated the VIN
+> capture groups CHSEL register. With this change both the CHSEl register
+> and the CSI-2 routing VCDT registers are modified for greater
+> flexibility.
+>
+> Patch 1/3 and 2/3 are cleanup patches moving code around preparing for
+> the real work in 3/3. The work is based on the latest media-tree.
 
-Many evaluation platforms provide switches which can be connected to the
-input system but associating these to an action incorrectly could
-provide inconsistent end user experiences due to unmarked switch
-positions.
+I have tested this series with the GMSL multiplexed support.
+Test branch is available at
+https://git.sr.ht/~jmondi_/linux/log/multistream/media-master/tomba-v9/niklas/gmsl-dev
 
-Define two custom user defined switches allowing hardware descriptions
-to be created whereby the position of the switch is not interpreted as
-any standard condition that will affect a user experience.
+Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-This allows wiring up custom generic switches in a way that will allow
-them to be read and processed, without incurring undesired or otherwise
-undocumented (by the hardware) 'default' behaviours.
+Thanks
+   j
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-I'd like to hear feedback from linux-input on this of course, and if
-accepted I'll submit updates to the evtest utility too.
-
-
- include/uapi/linux/input-event-codes.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 225ec87d4f22..84a7b3debcb3 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -894,7 +894,9 @@
- #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
- #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
- #define SW_MACHINE_COVER	0x10  /* set = cover closed */
--#define SW_MAX			0x10
-+#define SW_1			0x11  /* set = user defined */
-+#define SW_2			0x12  /* set = user defined */
-+#define SW_MAX			0x12
- #define SW_CNT			(SW_MAX+1)
- 
- /*
--- 
-2.30.2
-
+>
+> Kind Regards,
+> Niklas Söderlund
+>
+> Niklas Söderlund (3):
+>   media: rcar-vin: Refactor link notify
+>   media: rcar-vin: Breakout media link creation
+>   media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2
+>     IP
+>
+>  drivers/media/platform/rcar-vin/rcar-core.c | 379 ++++++--------------
+>  drivers/media/platform/rcar-vin/rcar-csi2.c |  58 ++-
+>  drivers/media/platform/rcar-vin/rcar-dma.c  |   2 +-
+>  drivers/media/platform/rcar-vin/rcar-vin.h  |  18 +-
+>  4 files changed, 167 insertions(+), 290 deletions(-)
+>
+> --
+> 2.33.1
+>
