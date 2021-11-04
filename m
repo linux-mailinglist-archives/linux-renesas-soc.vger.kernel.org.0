@@ -2,110 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 002284453A7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Nov 2021 14:14:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E61F4456D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Nov 2021 17:09:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231211AbhKDNR3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Nov 2021 09:17:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54708 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231160AbhKDNR3 (ORCPT
+        id S231658AbhKDQLo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 Nov 2021 12:11:44 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:34037 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231642AbhKDQLn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Nov 2021 09:17:29 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25ACBC061714
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Nov 2021 06:14:51 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1micZo-0002J3-BX; Thu, 04 Nov 2021 14:14:44 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1micZm-0005KK-Iz; Thu, 04 Nov 2021 14:14:42 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1micZm-0007IK-Hr; Thu, 04 Nov 2021 14:14:42 +0100
-Date:   Thu, 4 Nov 2021 14:14:42 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Thu, 4 Nov 2021 12:11:43 -0400
+X-IronPort-AV: E=Sophos;i="5.87,209,1631545200"; 
+   d="scan'208";a="99217943"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 05 Nov 2021 01:09:03 +0900
+Received: from localhost.localdomain (unknown [10.226.92.57])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id EEFCB4017749;
+        Fri,  5 Nov 2021 01:09:00 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Duc Nguyen <duc.nguyen.ub@renesas.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: pwm: tpu: Add R-Car V3U device tree bindings
-Message-ID: <20211104131442.b3yzmdmq2fylkbpz@pengutronix.de>
-References: <8ec1e2aadfc894a3cc8c412e266b87220fa0404e.1635337616.git.geert+renesas@glider.be>
- <20211029160303.lv6je33mjr6zk7xh@pengutronix.de>
- <YYPV0PVC9dwnxG1I@ninjato>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="6d7huwtxdjrm6neu"
-Content-Disposition: inline
-In-Reply-To: <YYPV0PVC9dwnxG1I@ninjato>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [RFC 0/4] Add WDT driver for RZ/G2L
+Date:   Thu,  4 Nov 2021 16:08:54 +0000
+Message-Id: <20211104160858.15550-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+This patch series aims to add WDT driver support for RZ/G2L SoC's.
 
---6d7huwtxdjrm6neu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+WDT has 3 channels
+1) CH0 to check the operation of Cortex-A55-CPU Core0
+2) CH1 to check the operation of Cortex-A55-CPU Core1
+3) CH2 to check the operation of Cortex-M33 CPU
 
-On Thu, Nov 04, 2021 at 01:45:04PM +0100, Wolfram Sang wrote:
-> On Fri, Oct 29, 2021 at 06:03:03PM +0200, Uwe Kleine-K=F6nig wrote:
-> > On Wed, Oct 27, 2021 at 02:28:09PM +0200, Geert Uytterhoeven wrote:
-> > > From: Duc Nguyen <duc.nguyen.ub@renesas.com>
-> > >=20
-> > > Add device tree bindings for TPU with the PWM controller found
-> > > on R-Car V3U SoCs.
-> > >=20
-> > > Signed-off-by: Duc Nguyen <duc.nguyen.ub@renesas.com>
-> > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > > Acked-by: Rob Herring <robh@kernel.org>
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >=20
-> > From PWM POV:
-> >=20
-> > Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> Uwe, thanks for the ack. Do such changes go via the PWM tree usually?
+WDT IP supports 
+1) Normal Watchdog Timer Function
+2) Reset Request Function due to CPU Parity Error
 
-Yes, but it's Thierry who manages the git tree, so my Ack is mostly
-cosmetic. And I said "From PWM POV" because I didn't want to judge if
-the added SoC really exists.
+Once the software activates the watchdog timer, the watchdog timer does
+not stop until it is reset.
 
-Best regards and sorry for the confusion,
-Uwe
+The WDT Overflow System Reset Register (CPG_WDTOVF_RST) and 
+WDT Reset Selector Register (CPG_WDTRST_SEL) are in CPG IP
+block.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Current driver support is basic normal Watchdog Timer Function.
 
---6d7huwtxdjrm6neu
-Content-Type: application/pgp-signature; name="signature.asc"
+Later will extend support to identify the WDT channel that generated
+the reset request using CPG_WDTOVF_RST. Need to figure out how to expose
+this to WDT driver from CPG driver?
 
------BEGIN PGP SIGNATURE-----
+and also Reset Request Function due to CPU Parity Error.
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmGD3L8ACgkQwfwUeK3K
-7AmxrAf9GdirV3O0EBkEBm3gFTZLTdWsRqY7hG1z/CdbVA70h84X97FY21hD5WNq
-x7uAAd+OSN0l1Jo4MpNb6+Z9jEj9JZZB/IQuM+ig5NQ4lWJ3PYD4C+An+jW6jLuo
-xuUhchp7FIHn1VfsP9N+nFzKA4S44/btztYn/CCCLQ36MWt9aRUvhlCek5LNXyVd
-KChAETNYUNN6cK266PoobGDyyqv8aWIcPiVulG2ensbaGSYFJVWwiEP2g5MZInjA
-BgesGTYyE+4AXyK4z/IIz/fRR7kIesZXXiB/E57U3iBtdngJiE1Uh0mmulKGywmt
-yl6zU41dSo+jTkbWaj0a/ofQvWrEsA==
-=KYbz
------END PGP SIGNATURE-----
+Tested WDT driver with selftests tool and reboot command
 
---6d7huwtxdjrm6neu--
+All 3 channels tested with below command.
+
+cat /dev/watchdog  & for i in {1..60}; do sleep 1; echo $i; devmem2 0x12800808; done
+cat /dev/watchdog1  & for i in {1..60}; do sleep 1; echo $i; devmem2 0x12800c08; done
+cat /dev/watchdog2 & for i in {1..60}; do sleep 1; echo $i; devmem2 0x12800408; done
+
+Please share your valuable comments.
+
+Biju Das (4):
+  clk: renesas: rzg2l: Add support for watchdog reset selection
+  dt-bindings: watchdog: renesas,wdt: Add support for RZ/G2L
+  clk: renesas: r9a07g044: Add WDT clock and reset entries
+  watchdog: Add Watchdog Timer driver for RZ/G2L
+
+ .../bindings/watchdog/renesas,wdt.yaml        |  72 +++--
+ drivers/clk/renesas/r9a07g044-cpg.c           |  37 +++
+ drivers/clk/renesas/rzg2l-cpg.c               |   6 +
+ drivers/clk/renesas/rzg2l-cpg.h               |  14 +
+ drivers/watchdog/Kconfig                      |   8 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/rzg2l_wdt.c                  | 281 ++++++++++++++++++
+ 7 files changed, 401 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/watchdog/rzg2l_wdt.c
+
+-- 
+2.17.1
+
