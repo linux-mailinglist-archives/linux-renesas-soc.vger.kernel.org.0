@@ -2,57 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 093C6446B16
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Nov 2021 00:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00398446D5D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Nov 2021 11:13:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231915AbhKEXHI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 5 Nov 2021 19:07:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58670 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230331AbhKEXHH (ORCPT
+        id S231371AbhKFKQA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 6 Nov 2021 06:16:00 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43306 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229645AbhKFKP7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 5 Nov 2021 19:07:07 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2BF4C061570;
-        Fri,  5 Nov 2021 16:04:27 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id t11so11910970plq.11;
-        Fri, 05 Nov 2021 16:04:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mLpj0IWmQy+qHP6id8yi4q2C/7CSHG0Ef5TY0V38uHo=;
-        b=gGnuyysLOjn74YheWLVOOvB91aEDyv98a5sjftQC6Q+xFJi7KlA5ry6s5GpNLCbD0i
-         UklDrKpPtmTRk734CRE21u1TEvGwSalDHrGdYOBinXcemCjF3R1o1d5isaqQGzEbmsb9
-         adEnVYojuNOUvXMOGz/hNrbzIVTM3oiUo00x19scAPafqpW1J1hx/weOcIj1TpWiMpoJ
-         tHCDhFFffImJHP+24so2WY1qSkgE747iS64fDG1FOPLzi+C85vI5E2ZEs0craW3qcaIv
-         VNROOWbkjbrbzuFxDfOLMFQ7BYLskN7K/0asQCb3eawbdy4LWX2m9hdgRqCwQ/gdkCqf
-         1XDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mLpj0IWmQy+qHP6id8yi4q2C/7CSHG0Ef5TY0V38uHo=;
-        b=7LRqYzzdIFcFuVFEjuxIQvVFngx8ogUYWibXUizZU24inaL9gPEVctZQ5kKmhFsXz3
-         DOPFLSZRKoO88/URLZfHOhB+iROvmNzDOf8nh9FE8i7M5DBL7P2gg7mT52hHDIFLdjkr
-         N11mf3VF/PYRF7NLoS7ffe0wWlawxWD6Dg4ihUyUuONDdeKzQtXvAsjP4vIX0GF0AMxr
-         2EFyEWDDZHv/gnnQpxqDUfYiuH7SjsXyltDxPjwKAUcwixXUv+oqxlDZt8xQpGK+9y0L
-         6DTS3bonzjjc1p1xhVjipQ+ZSZNEFkGMxW4mq7yPs5kB0ypwUAgi+mOYrsXBp42DzwQZ
-         HieQ==
-X-Gm-Message-State: AOAM533gIJNIYokT2XjTmzF4UDwZCiPa9T6jQ5DKki6dG7eY+9ZvbcJ4
-        bGUCqh4dVJzahqIbrBI8TGc=
-X-Google-Smtp-Source: ABdhPJztZtaqlyNPm8X9iqeNAYQv3RY5G3wWepW3L3TyqzB3tjQRdBWkhvx3sLhA1A2JKTB9jauHHQ==
-X-Received: by 2002:a17:90b:1241:: with SMTP id gx1mr33623659pjb.164.1636153467201;
-        Fri, 05 Nov 2021 16:04:27 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:837c:e765:475f:22d3])
-        by smtp.gmail.com with ESMTPSA id c5sm3757408pjm.52.2021.11.05.16.04.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Nov 2021 16:04:25 -0700 (PDT)
-Date:   Fri, 5 Nov 2021 16:04:23 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-input@vger.kernel.org, Geert Uytterhoeven <geert@glider.be>,
+        Sat, 6 Nov 2021 06:15:59 -0400
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7025D18FC;
+        Sat,  6 Nov 2021 11:13:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1636193597;
+        bh=pWHsN85WQE04ifv7GnoCEhAUNAYLGxlr6rj0B8T8H+Y=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=aX4+ukReNH2TvvALnKExXBbdCMgB8yR1AJiq7A/sxMEfOveQ2jO8BnW0cjnX1lNA6
+         YM3GRHxa7o19KNhFPjlsOKVD/90R/XIsrLUysuPSdIZatON9TPKvHv8OOkl603p7vT
+         RU+/tqlEUZKA6c8WlQKDkH722qzUabhtNbIjcFQ0=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YYW4d/YK1MkIfGT/@google.com>
+References: <20211105103508.4153491-1-kieran.bingham+renesas@ideasonboard.com> <20211105170037.GA65511@nixie71> <YYW4d/YK1MkIfGT/@google.com>
+Subject: Re: [PATCH v2] Input: add 'safe' user switch codes
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-input@vger.kernel.org, Geert Uytterhoeven <geert@glider.be>,
         linux-renesas-soc@vger.kernel.org,
         Max Gurtovoy <mgurtovoy@nvidia.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -63,69 +40,119 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Stephan Gerhold <stephan@gerhold.net>,
         Xu Yilun <yilun.xu@intel.com>,
         open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] Input: add 'safe' user switch codes
-Message-ID: <YYW4d/YK1MkIfGT/@google.com>
-References: <20211105103508.4153491-1-kieran.bingham+renesas@ideasonboard.com>
- <20211105170037.GA65511@nixie71>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211105170037.GA65511@nixie71>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jeff LaBundy <jeff@labundy.com>
+Date:   Sat, 06 Nov 2021 10:13:15 +0000
+Message-ID: <163619359511.3601475.3667763097540792609@Monstersaurus>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jeff, Kieran,
+Hi Dmitry, Jeff,
 
-On Fri, Nov 05, 2021 at 12:00:37PM -0500, Jeff LaBundy wrote:
-> Hi Kieran,
-> 
-> On Fri, Nov 05, 2021 at 10:35:07AM +0000, Kieran Bingham wrote:
-> > All existing SW input codes define an action which can be interpreted by
-> > a user environment to adapt to the condition of the switch.
-> > 
-> > For example, switches to define the audio mute, will prevent audio
-> > playback, and switches to indicate lid and covers being closed may
-> > disable displays.
-> > 
-> > Many evaluation platforms provide switches which can be connected to the
-> > input system but associating these to an action incorrectly could
-> > provide inconsistent end user experiences due to unmarked switch
-> > positions.
-> > 
-> > Define two custom user defined switches allowing hardware descriptions
-> > to be created whereby the position of the switch is not interpreted as
-> > any standard condition that will affect a user experience.
-> > 
-> > This allows wiring up custom generic switches in a way that will allow
-> > them to be read and processed, without incurring undesired or otherwise
-> > undocumented (by the hardware) 'default' behaviours.
-> > 
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > ---
-> > 
-> > Sigh, a compile test might have at least saved the buildbots the trouble
-> > of notifying me I also need to update the INPUT_DEVICE_ID_SW_MAX. But
-> > even so - I'm really looking for a discussion on the best ways to
-> > describe a non-defined switch in device tree.
-> > 
-> > Here's a compiling v2 ;-) But the real questions are :
-> > 
-> >  - Should an existing feature switch be used for generic switches?
-> >  - Should we even have a 'user' defined switch?
-> >  - If we add user switches, how many?
-> > 
-> 
-> This is merely my opinion, but if a hardware switch does not have a defined
-> purpose, it does not seem necessary to represent it with an input device.
+Thanks for looking into this,
 
-Yes, exactly. For input core we are trying to avoid generic events with
-no defined meaning.
+Quoting Dmitry Torokhov (2021-11-05 23:04:23)
+> Hi Jeff, Kieran,
+>=20
+> On Fri, Nov 05, 2021 at 12:00:37PM -0500, Jeff LaBundy wrote:
+> > Hi Kieran,
+> >=20
+> > On Fri, Nov 05, 2021 at 10:35:07AM +0000, Kieran Bingham wrote:
+> > > All existing SW input codes define an action which can be interpreted=
+ by
+> > > a user environment to adapt to the condition of the switch.
+> > >=20
+> > > For example, switches to define the audio mute, will prevent audio
+> > > playback, and switches to indicate lid and covers being closed may
+> > > disable displays.
+> > >=20
+> > > Many evaluation platforms provide switches which can be connected to =
+the
+> > > input system but associating these to an action incorrectly could
+> > > provide inconsistent end user experiences due to unmarked switch
+> > > positions.
+> > >=20
+> > > Define two custom user defined switches allowing hardware descriptions
+> > > to be created whereby the position of the switch is not interpreted as
+> > > any standard condition that will affect a user experience.
+> > >=20
+> > > This allows wiring up custom generic switches in a way that will allow
+> > > them to be read and processed, without incurring undesired or otherwi=
+se
+> > > undocumented (by the hardware) 'default' behaviours.
+> > >=20
+> > > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.co=
+m>
+> > > ---
+> > >=20
+> > > Sigh, a compile test might have at least saved the buildbots the trou=
+ble
+> > > of notifying me I also need to update the INPUT_DEVICE_ID_SW_MAX. But
+> > > even so - I'm really looking for a discussion on the best ways to
+> > > describe a non-defined switch in device tree.
+> > >=20
+> > > Here's a compiling v2 ;-) But the real questions are :
+> > >=20
+> > >  - Should an existing feature switch be used for generic switches?
+> > >  - Should we even have a 'user' defined switch?
+> > >  - If we add user switches, how many?
+> > >=20
+> >=20
+> > This is merely my opinion, but if a hardware switch does not have a def=
+ined
+> > purpose, it does not seem necessary to represent it with an input devic=
+e.
+>=20
+> Yes, exactly. For input core we are trying to avoid generic events with
+> no defined meaning.
 
-What are these switches? GPIOs? Maybe it would be better to use GPIO
-layer to test the state for them?
+That's understandable, particularly as I could then ponder - how do we
+even define generic switches, and how many ;-) I wanted to discuss it
+because otherwise these switches will be defined in DT as buttons. And
+they are not buttons...
 
-Thanks.
 
--- 
-Dmitry
+> What are these switches? GPIOs? Maybe it would be better to use GPIO
+> layer to test the state for them?
+
+They are physical slide switches on the board. But they have no defined
+purpose by the hardware designer. The purpose would be defined by the
+end user, as otherwise they are generic test switches.
+
+These have been previously handled as gpio-key buttons, for instance
+key-1 to key-4 at [0] are actually four slides switches.=20
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?id=3De3414b8c45afa5cdfb1ffd10f5334da3458c4aa5
+
+What I'm trying to determine/promote is that they are not push buttons,
+and shouldn't be described as such. I have posted [1] to add support for
+these switches, but I am limited to chosing 'functions' which will have
+an impact on the system...
+
+[1] https://lore.kernel.org/all/20211025130457.935122-1-kieran.bingham+rene=
+sas@ideasonboard.com/
+
+Presently in [1] I have chosen SW_LID and SW_DOCK as very arbitrary
+functions for the switches. But my concern is that in doing so, the
+SW_LID position could for instance suggest to a window environment or
+power management system that the lid is closed, and the system should
+be suspended (of course depending upon configurations). That would mean
+that the board would now be potentially always heading into a suspend
+after power up which would not be at all clear from the switch.
+
+I believe a 'switch' is the correct way to define this hardware, so that
+both positions can be determined, and read, and events generated on
+state change - but that there shouldn't be any artificially imposed side
+effects from the description.
+
+If the answer is "no we can't have generic switches" then so be it, but
+it feels wrong to further propogate the definition of these test
+switches as keys.
+
+--
+Regards
+
+Kieran
