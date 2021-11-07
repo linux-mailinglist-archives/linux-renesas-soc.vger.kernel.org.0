@@ -2,72 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 283B24473FE
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Nov 2021 17:48:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DA39447530
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Nov 2021 20:11:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235855AbhKGQvc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 7 Nov 2021 11:51:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35196 "EHLO
+        id S236265AbhKGTOC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 7 Nov 2021 14:14:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235841AbhKGQva (ORCPT
+        with ESMTP id S236262AbhKGTOC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 7 Nov 2021 11:51:30 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D8DC06120F
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  7 Nov 2021 08:48:47 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id n8so14254890plf.4
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 07 Nov 2021 08:48:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=3KhLtwCKP93j3EcWq+BGTsAWsp8Oi4eBuXX0Ov40ah8=;
-        b=TNg4tHoQw5kKoLZkiGTAZIxJzUBBq4ejYt4ncgOecgNOvSUwtqqwittPPI+7pJVjX+
-         GpTp2M0KfhRYRUpBRXEYVXnxqP/7lqMWjwkVgxSXQTHg4r801CGBH3Cxkr2xCA8iHpDQ
-         PkNioeCtNa8D4FxZOybE5F6kFZNCXIj5SS/5dluRY9kmgQGkqsgb/0EL9qYgh0jdJYEk
-         mgqrImAxVO9xLB3ph2REOdqPQUk3eSUgj070IZGlv2zYI0h97xHGiGSssFFZrlwEHWTd
-         7gJa3FlCIyQYHI4/knwR34TShiwqFLlPcy+ypePmUlRAZLKNrHzuj6T1hpUgZdGxUgLr
-         tNtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=3KhLtwCKP93j3EcWq+BGTsAWsp8Oi4eBuXX0Ov40ah8=;
-        b=ku51bm5+Dyh3T7mq2QYO5uh7JFTV23YzCr2KaU7r4uLnSZD2dyvZn3VuB0EvbLEhtd
-         0VtLY7W+Dkl5CyvdhvaZXwErzFB6mgsEcqiJl9EhkIO0boPg02LYoW7XhDLLsMtpW7zF
-         FvQhtbgUTRytZskmX/tT+gq9sxVuSFJtUEsnYLhY2MIvbvdrEd4xaOvDJcLnnwhjzmhG
-         o8v1bivL4+b6CfTvF7SmBmsplhvn6rpTrXA4boMrYiejABtqd0AN0SZmsaVCowA+W6FO
-         KOGmUD2n6nw7WgA1fZGgm8nf+rBPWDXu67euiv7pAFpH5x8DV1bgP06InIToga6smG/L
-         w5iA==
-X-Gm-Message-State: AOAM533K8bayR8hxF7aY+CUfqKeuSQCDQXvyaB63PJBuO+WGVf5IAr2e
-        AgKxLtf0kM+K6GlyxHO9+SI8nwWU6BP/+rMNTpk=
-X-Google-Smtp-Source: ABdhPJxAeCOxzzTO2bC1ebInPX7TK42gu5RWx2Xb9R/R8imfArbHNs+vmtD0xqJ/WYY5NVOuLREd2E+dZSLVoRt6leo=
-X-Received: by 2002:a17:902:a60b:b0:142:7621:be0b with SMTP id
- u11-20020a170902a60b00b001427621be0bmr4070721plq.58.1636303726736; Sun, 07
- Nov 2021 08:48:46 -0800 (PST)
+        Sun, 7 Nov 2021 14:14:02 -0500
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9638C061570;
+        Sun,  7 Nov 2021 11:11:18 -0800 (PST)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id F402A8350D;
+        Sun,  7 Nov 2021 20:11:14 +0100 (CET)
+From:   marek.vasut@gmail.com
+To:     linux-pci@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3] PCI: rcar: Check if device is runtime suspended instead of __clk_is_enabled()
+Date:   Sun,  7 Nov 2021 20:10:57 +0100
+Message-Id: <20211107191057.145467-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:4a14:0:0:0:0 with HTTP; Sun, 7 Nov 2021 08:48:46
- -0800 (PST)
-Reply-To: amabenchambers00@gmail.com
-From:   Amadou Benjamin <ousmanekarim54@gmail.com>
-Date:   Sun, 7 Nov 2021 08:48:46 -0800
-Message-ID: <CAJFAt4Zwu2DZNzEx2mhTp73fqWvHNwMrUMgOFZ==TBGW8S=HkA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
+
+Replace __clk_is_enabled() with pm_runtime_suspended(),
+otherwise the following build error occurs:
+  arm-linux-gnueabi-ld: drivers/pci/controller/pcie-rcar-host.o: in function `rcar_pcie_aarch32_abort_handler':
+  pcie-rcar-host.c:(.text+0xdd0): undefined reference to `__clk_is_enabled'
+
+Fixes: a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort hook")
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: Drop the __clk_is_enabled(), like it was done already in V1 of
+    a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort hook")
+V3: Use pm_runtime_suspended() instead of __clk_is_enabled()
+---
+ drivers/pci/controller/pcie-rcar-host.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index e12c2d8be05a..138592e22600 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -50,10 +50,10 @@ struct rcar_msi {
+  */
+ static void __iomem *pcie_base;
+ /*
+- * Static copy of bus clock pointer, so we can check whether the clock
+- * is enabled or not.
++ * Static copy of pcie device pointer, so we can check whether the
++ * device is runtime suspended or not.
+  */
+-static struct clk *pcie_bus_clk;
++static struct device *pcie_dev;
+ #endif
+ 
+ /* Structure representing the PCIe interface */
+@@ -792,7 +792,7 @@ static int rcar_pcie_get_resources(struct rcar_pcie_host *host)
+ #ifdef CONFIG_ARM
+ 	/* Cache static copy for L1 link state fixup hook on aarch32 */
+ 	pcie_base = pcie->base;
+-	pcie_bus_clk = host->bus_clk;
++	pcie_dev = pcie->dev;
+ #endif
+ 
+ 	return 0;
+@@ -1062,7 +1062,7 @@ static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+ 
+ 	spin_lock_irqsave(&pmsr_lock, flags);
+ 
+-	if (!pcie_base || !__clk_is_enabled(pcie_bus_clk)) {
++	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
+ 		ret = 1;
+ 		goto unlock_exit;
+ 	}
 -- 
-Hello good day.
+2.33.0
 
-I am Barrister Amadou Benjamin by name, with due respect, I am
-contacting you to help get the deposit 10.5 million Dollars, my late
-client Engineer Vasiliy left in his Bank before his sudden death on
-April 21, 2007, to avoid confiscation by Lloyds bank. Please write me
-back through this email (amabenchambers00@gmail.com)for more
-information about this transaction or send me your private email to
-Contact you myself.
-
-Sincerely,
-Barrister Amadou Benjamin Esq
