@@ -2,108 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47183448107
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 15:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4AFC44810C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 15:13:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238926AbhKHOPS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 09:15:18 -0500
-Received: from mail-vk1-f181.google.com ([209.85.221.181]:44580 "EHLO
-        mail-vk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237250AbhKHOPR (ORCPT
+        id S239029AbhKHOQR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 09:16:17 -0500
+Received: from mail-vk1-f173.google.com ([209.85.221.173]:33689 "EHLO
+        mail-vk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234532AbhKHOQQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 09:15:17 -0500
-Received: by mail-vk1-f181.google.com with SMTP id d128so8246855vkf.11;
-        Mon, 08 Nov 2021 06:12:33 -0800 (PST)
+        Mon, 8 Nov 2021 09:16:16 -0500
+Received: by mail-vk1-f173.google.com with SMTP id d130so8289594vke.0;
+        Mon, 08 Nov 2021 06:13:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BPrzNjKOLau3hKF+y8oEKhXRBCES6tkh2qL6Bflm6IE=;
-        b=ebHAKzmUSnHOFSGkTFQaGS8FV4RI5yhUiO1RiBaFIIYrNz9OVHYoA6iZjmMJH3d+aI
-         l/njNmbKnFc1R+LaHcI9VRxY6xdd75MDckedmpmb9THcH1R7Q2TOa5fEJdxxYVkBkfL6
-         hGuG1YBVagHeAFxV21W7l6rVmMsrxSGjyx/IrTg6Zsp9qiL91Z6C58MjZUqGJzjq8m9u
-         A/+YF+iKnohLMyfKE9Hw58qbZN2Pl74rtscAsftmh1PFM4jGZLSVF07Uc1S0Ah3ga6O2
-         9peCChU3O8PpSERxYN5tn1GuIwl3q2DAoL+RBlhCyjc2PDdM8UPze1UtyGw1Xs8biNcJ
-         Zd4A==
-X-Gm-Message-State: AOAM530pXj3D6pPvKJGrP/2qhxMh9+7ExlCHLw5elpwBIK87yFOE75k5
-        7xKdDCZRbAZ92Ka6W6emHQJ2Px3Hy3+tTxDO
-X-Google-Smtp-Source: ABdhPJzdYP6krv5UfwBjHy/wLWmObTsStfKHvpfjnzyOK/NZ21hk8+GcmHgVCeu3d97H+lDOppxTbA==
-X-Received: by 2002:a05:6122:1812:: with SMTP id ay18mr12453769vkb.18.1636380752676;
-        Mon, 08 Nov 2021 06:12:32 -0800 (PST)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id m186sm3140724vsm.11.2021.11.08.06.12.32
+        bh=l47DyX7zT07Ftsepq+P26ZkT5gnhRsZgVIxOMImJuls=;
+        b=1D/YMS5J9wFckgE4pyemTZX7npsBbLLGByoX5AIHlCzcfN5VERfw/ORKFWCQQVKsIT
+         aFxb/IAbonJcjNJH71agikUOrlfLWxy4JYm/cs39x4SkbrSzYAolDGnM5sbWxG+nawXw
+         Ic92Z+3L4fpsXKzPAuEnWvsvXcA3UjTcN+H/FJL1iLnCJHqzQ07H3n0cSTgX/5kCQzy0
+         m++imdr6IlSpCEHPpxbUW0ZMIou9FidTXIxToDkEV23aSruJlg+W9nAazS+yPJjkjPnb
+         fUrpYgTp5kBU9aea4SNAIDOm9WmZ0Dvdfm6CUjuUIGnjL276an98fkNv6OjfwBeCds3T
+         BDXQ==
+X-Gm-Message-State: AOAM531pfZ+fHRrVP3h9t3EtSjEFdiY0ccMb5qZlGL0CTgK1uk15Totz
+        j26K2UNBlmoBTUCNV9mMiixrI57Lc5dYrDzX
+X-Google-Smtp-Source: ABdhPJyivZeljKXDxJCQtIxyZYyGnsHP69Ogaoz04J3MilG4pXl4Mvo2hy4SD1N+g5lAo6G0Z6XIYw==
+X-Received: by 2002:a05:6122:2015:: with SMTP id l21mr291031vkd.16.1636380811701;
+        Mon, 08 Nov 2021 06:13:31 -0800 (PST)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
+        by smtp.gmail.com with ESMTPSA id o16sm3254094vss.29.2021.11.08.06.13.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Nov 2021 06:12:32 -0800 (PST)
-Received: by mail-vk1-f174.google.com with SMTP id b192so2619943vkf.3;
-        Mon, 08 Nov 2021 06:12:32 -0800 (PST)
-X-Received: by 2002:a05:6122:20ab:: with SMTP id i43mr21826948vkd.19.1636380752180;
- Mon, 08 Nov 2021 06:12:32 -0800 (PST)
+        Mon, 08 Nov 2021 06:13:31 -0800 (PST)
+Received: by mail-vk1-f179.google.com with SMTP id d130so8289571vke.0;
+        Mon, 08 Nov 2021 06:13:31 -0800 (PST)
+X-Received: by 2002:a05:6122:50e:: with SMTP id x14mr22172276vko.7.1636380811049;
+ Mon, 08 Nov 2021 06:13:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20211108101157.15189-1-bp@alien8.de> <20211108101157.15189-5-bp@alien8.de>
-In-Reply-To: <20211108101157.15189-5-bp@alien8.de>
+References: <20211029124437.20721-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211029124437.20721-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211029124437.20721-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Nov 2021 15:12:21 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUSvU6mW8cpiNGru7cv+B3hCvF=ou8ujTOz5czZqLrAxw@mail.gmail.com>
-Message-ID: <CAMuHMdUSvU6mW8cpiNGru7cv+B3hCvF=ou8ujTOz5czZqLrAxw@mail.gmail.com>
-Subject: Re: [PATCH v0 04/42] clk: renesas: Check notifier registration return value
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
+Date:   Mon, 8 Nov 2021 15:13:20 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVu49AC0nc0hgV=HsR8qEM0pQQuo8T-RRCwwTLvXgO2HQ@mail.gmail.com>
+Message-ID: <CAMuHMdVu49AC0nc0hgV=HsR8qEM0pQQuo8T-RRCwwTLvXgO2HQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] pinctrl: renesas: pinctrl-rzg2l: Rename PIN_CFG_*
+ macros to match HW manual
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Borislav,
-
-Thanks for your patch!
-
-On Mon, Nov 8, 2021 at 1:49 PM Borislav Petkov <bp@alien8.de> wrote:
-> From: Borislav Petkov <bp@suse.de>
+On Fri, Oct 29, 2021 at 2:44 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Rename the below macros to match the HW manual (Rev.1.00):
+> PIN_CFG_IOLH_SD0 -> PIN_CFG_IO_VMC_SD0
+> PIN_CFG_IOLH_SD1 -> PIN_CFG_IO_VMC_SD1
+> PIN_CFG_IOLH_QSPI -> PIN_CFG_IO_VMC_QSPI
+> PIN_CFG_IOLH_ETH0 -> PIN_CFG_IO_VMC_ETH0
+> PIN_CFG_IOLH_ETH1 -> PIN_CFG_IO_VMC_ETH1
 >
-> Avoid homegrown notifier registration checks.
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Which homegrown notifier registration check is avoided?
-IIANM, you're adding a homegrown notifier registration check?
-
-> No functional changes.
->
-> Signed-off-by: Borislav Petkov <bp@suse.de>
-
-> --- a/drivers/clk/renesas/clk-div6.c
-> +++ b/drivers/clk/renesas/clk-div6.c
-> @@ -306,7 +306,9 @@ struct clk * __init cpg_div6_register(const char *name,
->
->         if (notifiers) {
->                 clock->nb.notifier_call = cpg_div6_clock_notifier_call;
-> -               raw_notifier_chain_register(notifiers, &clock->nb);
-> +
-> +               if (raw_notifier_chain_register(notifiers, &clock->nb))
-> +                       pr_warn("CPG DIV6 clock notifier already registered\n");
-
-A duplicate registration cannot happen, as the notifier is freshly allocated.
-
->         }
->
->         return clk;
-> diff --git a/drivers/clk/renesas/rcar-cpg-lib.c b/drivers/clk/renesas/rcar-cpg-lib.c
-> index e93f0011eb07..fbbb6f4a8148 100644
-> --- a/drivers/clk/renesas/rcar-cpg-lib.c
-> +++ b/drivers/clk/renesas/rcar-cpg-lib.c
-> @@ -59,7 +59,9 @@ void cpg_simple_notifier_register(struct raw_notifier_head *notifiers,
->                                   struct cpg_simple_notifier *csn)
->  {
->         csn->nb.notifier_call = cpg_simple_notifier_call;
-> -       raw_notifier_chain_register(notifiers, &csn->nb);
-> +
-> +       if (raw_notifier_chain_register(notifiers, &csn->nb))
-> +               pr_warn("CPG notifier already registered\n");
-
-A duplicate registration cannot happen, as the notifier is freshly allocated.
-
->  }
->
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl-for-v5.17.
 
 Gr{oetje,eeting}s,
 
