@@ -2,62 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A379F447AD3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 08:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50E33447D17
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 10:53:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235023AbhKHH3l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 02:29:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57486 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235351AbhKHH3k (ORCPT
+        id S238465AbhKHJ4C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 04:56:02 -0500
+Received: from mail-ua1-f48.google.com ([209.85.222.48]:46799 "EHLO
+        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237728AbhKHJ4B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 02:29:40 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 260CAC061205
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  7 Nov 2021 23:26:56 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id o8so58515891edc.3
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 07 Nov 2021 23:26:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=gS+G2bXPLTc8QV9oSOsVFPfildfSifO+gabOlUjPn+8=;
-        b=PnTjqCg/4dLlfwZvkIw5TCFiXXqI7eQL3D+17+RauQ+gPkf2k9hY9S+Ii/M5IA0uoj
-         tcY9XkBE8UoWnMFVRIdA+q744Hmx7Z0JsFaVREssmf6KamM5Bd6A03cMP5bTAvPf1/y/
-         DwxXsJaTEuCfFdzSQFJTUHpZB56hO6UBVJPo7/S7fIQbraF2JB9fnNx0H/YOCyXyn5Fv
-         TpIbuoc9MhMDHEy5d5ztUWIHQVhdvbVN+KOKXsEiQg7QzXSruhiqF9yWAy+A70V6Qa0U
-         ve8aiam44Pcv5P2919T2rRvgnVW0nPh2s7GY8MWiotEmFwjxJpYnpgBFa5LZ/bTsndTX
-         N0eA==
+        Mon, 8 Nov 2021 04:56:01 -0500
+Received: by mail-ua1-f48.google.com with SMTP id az37so30256701uab.13;
+        Mon, 08 Nov 2021 01:53:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=gS+G2bXPLTc8QV9oSOsVFPfildfSifO+gabOlUjPn+8=;
-        b=AylnKD7K84Wrtke6SoNGo+H9aRaGzKNL/Q4qXJ/VlLW0O5fNJ16NxgBeSaZqr3WD7F
-         mU8kSTD5sUBcO817uduN2zYHPmfLrp1FS7PDsZl9NLgGNP1qI/jq9hdPI6hDW9jajQwo
-         eAoTB9EzMFGryvlFa68N46HvSTJMYtaDruybz+aXvsGaImZu13+2GbW+I6340xL7dnNp
-         uw2qzH+JUHEGZuVSpKb4FZSBWdfmWdGTvSJMjsQc7qW45NVaESr8FIRVZnbsAazdvUy5
-         NNJshx20x2HRW1Go39XXJD0y595JfEeptSMOyiXOzaFNMG+lpOcHFlby+bS61t0fQ+zi
-         MCHA==
-X-Gm-Message-State: AOAM5305Yhi+mo08ya/jjw3MB49pcGq7TKaN/xlPsaIIqhi6QKn1rG29
-        kzjzNi239ySZmvclWAnJReuIsmlbrpb9ScDrynQ=
-X-Google-Smtp-Source: ABdhPJz9Akl6xfGwwFGOOyIMXLWznjij6kDDSEQ53AjVdYeVh/nfgX+la012XOuUHhNctlqPhGJ9oR9znvMO/9Cv6/o=
-X-Received: by 2002:a50:930b:: with SMTP id m11mr83450378eda.133.1636356414537;
- Sun, 07 Nov 2021 23:26:54 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l9iy/NdjxFem4zTtxC00Zuf9Q21cXTvvJdAqpWDyk58=;
+        b=oj0YYjtYbImbfNKP3MaBfN0R+sTTfYv0D1NEm/PLIAUV6N1DKYzQARapm0AxTg0NsF
+         Tbvft5Nsxv9vtVMzox0TRt5GFuVmYjgXyLQv6iZfTzqK1W99udatOzkP6OQrkUcfMepM
+         sDXXwqzJxUVbN5hyl4Xt+QO33WP/mJYYZ+wXCEypLDA2rZraCCWmvIRJ22yx4KRjSXGf
+         79sylyCCXDlm95iPOUtUgCnenem326RLDKHlfB3WzOE9TzgVL6XrYRwp2sFGo/7JLFxK
+         EYI/DQo7NwUA/JuE3uZ7meksm+RMT8jWgblxWv94pB/t+pG80K9rFtibqkiZZVzP46Iq
+         pfSQ==
+X-Gm-Message-State: AOAM530XDuWE2hHTni2YA8znQpWBHTI8ARRWVYKYgsKaS+WUsl2bkzAt
+        pnrsZzOmjUxawSlMSDyML0k0r1ebcaa0ag==
+X-Google-Smtp-Source: ABdhPJwLYpgPIaI+2SaYLE7gzscQQYLfEGfaa9nVcl8d01iWbTI0JQhL9z7ciDzaggeFm6GjP67X1A==
+X-Received: by 2002:a67:f516:: with SMTP id u22mr2203113vsn.47.1636365197147;
+        Mon, 08 Nov 2021 01:53:17 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id d128sm3101701vsd.20.2021.11.08.01.53.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Nov 2021 01:53:16 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id i6so30239181uae.6;
+        Mon, 08 Nov 2021 01:53:16 -0800 (PST)
+X-Received: by 2002:a67:c38f:: with SMTP id s15mr38923383vsj.50.1636365196479;
+ Mon, 08 Nov 2021 01:53:16 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a50:2501:0:0:0:0:0 with HTTP; Sun, 7 Nov 2021 23:26:54 -0800 (PST)
-Reply-To: mariaschaefler@gmx.com
-From:   Maria Schaefler <ziskoraa@gmail.com>
-Date:   Mon, 8 Nov 2021 07:26:54 +0000
-Message-ID: <CAJh0FjiDs5_oQE4K3AME-kH_RMPNXEEapYKvrR9As+S+Dzwh5Q@mail.gmail.com>
-Subject: MY HEART CHOOSE YOU.
-To:     undisclosed-recipients:;
+References: <20211107191057.145467-1-marek.vasut@gmail.com>
+In-Reply-To: <20211107191057.145467-1-marek.vasut@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 8 Nov 2021 10:53:05 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXOBNJcwWVwF-zVgYQ0uezFfRO8ODKAzVExdYV3zH158A@mail.gmail.com>
+Message-ID: <CAMuHMdXOBNJcwWVwF-zVgYQ0uezFfRO8ODKAzVExdYV3zH158A@mail.gmail.com>
+Subject: Re: [PATCH v3] PCI: rcar: Check if device is runtime suspended
+ instead of __clk_is_enabled()
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     linux-pci <linux-pci@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Given my current state of health, I have decided to donate what I
-inherited from my late husband to you to help the poor and needy. I am
-Mrs Maria Schaefler,a 57years old dying woman. I was diagnosed for
-cancer about 2 years ago and I have few months to live according to
-medical experts. Email me for my directives
+Hi Marek,
+
+Thanks for your patch!
+
+On Sun, Nov 7, 2021 at 8:11 PM <marek.vasut@gmail.com> wrote:
+> From: Marek Vasut <marek.vasut+renesas@gmail.com>
+>
+> Replace __clk_is_enabled() with pm_runtime_suspended(),
+> otherwise the following build error occurs:
+>   arm-linux-gnueabi-ld: drivers/pci/controller/pcie-rcar-host.o: in function `rcar_pcie_aarch32_abort_handler':
+>   pcie-rcar-host.c:(.text+0xdd0): undefined reference to `__clk_is_enabled'
+
+While this describes what is done and why, it misses one important
+semantic change: the old __clk_is_enabled() actually checked the wrong
+clock (bus clock instead of module clock), while pm_runtime_suspended()
+reflects (a.o.) the state of the module clock.
+
+>
+> Fixes: a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort hook")
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
