@@ -2,97 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50E33447D17
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 10:53:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F3F1447D57
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 11:12:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238465AbhKHJ4C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 04:56:02 -0500
-Received: from mail-ua1-f48.google.com ([209.85.222.48]:46799 "EHLO
-        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237728AbhKHJ4B (ORCPT
+        id S237757AbhKHKO7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 05:14:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235650AbhKHKO5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 04:56:01 -0500
-Received: by mail-ua1-f48.google.com with SMTP id az37so30256701uab.13;
-        Mon, 08 Nov 2021 01:53:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l9iy/NdjxFem4zTtxC00Zuf9Q21cXTvvJdAqpWDyk58=;
-        b=oj0YYjtYbImbfNKP3MaBfN0R+sTTfYv0D1NEm/PLIAUV6N1DKYzQARapm0AxTg0NsF
-         Tbvft5Nsxv9vtVMzox0TRt5GFuVmYjgXyLQv6iZfTzqK1W99udatOzkP6OQrkUcfMepM
-         sDXXwqzJxUVbN5hyl4Xt+QO33WP/mJYYZ+wXCEypLDA2rZraCCWmvIRJ22yx4KRjSXGf
-         79sylyCCXDlm95iPOUtUgCnenem326RLDKHlfB3WzOE9TzgVL6XrYRwp2sFGo/7JLFxK
-         EYI/DQo7NwUA/JuE3uZ7meksm+RMT8jWgblxWv94pB/t+pG80K9rFtibqkiZZVzP46Iq
-         pfSQ==
-X-Gm-Message-State: AOAM530XDuWE2hHTni2YA8znQpWBHTI8ARRWVYKYgsKaS+WUsl2bkzAt
-        pnrsZzOmjUxawSlMSDyML0k0r1ebcaa0ag==
-X-Google-Smtp-Source: ABdhPJwLYpgPIaI+2SaYLE7gzscQQYLfEGfaa9nVcl8d01iWbTI0JQhL9z7ciDzaggeFm6GjP67X1A==
-X-Received: by 2002:a67:f516:: with SMTP id u22mr2203113vsn.47.1636365197147;
-        Mon, 08 Nov 2021 01:53:17 -0800 (PST)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id d128sm3101701vsd.20.2021.11.08.01.53.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Nov 2021 01:53:16 -0800 (PST)
-Received: by mail-ua1-f51.google.com with SMTP id i6so30239181uae.6;
-        Mon, 08 Nov 2021 01:53:16 -0800 (PST)
-X-Received: by 2002:a67:c38f:: with SMTP id s15mr38923383vsj.50.1636365196479;
- Mon, 08 Nov 2021 01:53:16 -0800 (PST)
+        Mon, 8 Nov 2021 05:14:57 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D41E3C061570;
+        Mon,  8 Nov 2021 02:12:12 -0800 (PST)
+Received: from zn.tnic (p200300ec2f33110088892b77bd117736.dip0.t-ipconnect.de [IPv6:2003:ec:2f33:1100:8889:2b77:bd11:7736])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 637521EC04DE;
+        Mon,  8 Nov 2021 11:12:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1636366331;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TQJym/1rmYQ4+cETXUsQAXpKycUCv2OKpLpqlLMp4Ec=;
+        b=Uqo+C9vwlVvqmyoGrtoRTw3O16a0AUpdq1SX2Gz7G0aoPI3oBCWzbY7o/NkFklAhHi8jOP
+        4k0JkskOEA2iWDf7cBUvtnCWIUr/7QKWlwCNCd7otRQAmCXhaayQyrbnUisCH0B82J4mq6
+        iNmEsmAyNNdmWWvc0o1vQmkI5q9GmBQ=
+From:   Borislav Petkov <bp@alien8.de>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: [PATCH v0 04/42] clk: renesas: Check notifier registration return value
+Date:   Mon,  8 Nov 2021 11:11:19 +0100
+Message-Id: <20211108101157.15189-5-bp@alien8.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20211108101157.15189-1-bp@alien8.de>
+References: <20211108101157.15189-1-bp@alien8.de>
 MIME-Version: 1.0
-References: <20211107191057.145467-1-marek.vasut@gmail.com>
-In-Reply-To: <20211107191057.145467-1-marek.vasut@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Nov 2021 10:53:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXOBNJcwWVwF-zVgYQ0uezFfRO8ODKAzVExdYV3zH158A@mail.gmail.com>
-Message-ID: <CAMuHMdXOBNJcwWVwF-zVgYQ0uezFfRO8ODKAzVExdYV3zH158A@mail.gmail.com>
-Subject: Re: [PATCH v3] PCI: rcar: Check if device is runtime suspended
- instead of __clk_is_enabled()
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     linux-pci <linux-pci@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marek,
+From: Borislav Petkov <bp@suse.de>
 
-Thanks for your patch!
+Avoid homegrown notifier registration checks.
 
-On Sun, Nov 7, 2021 at 8:11 PM <marek.vasut@gmail.com> wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
->
-> Replace __clk_is_enabled() with pm_runtime_suspended(),
-> otherwise the following build error occurs:
->   arm-linux-gnueabi-ld: drivers/pci/controller/pcie-rcar-host.o: in function `rcar_pcie_aarch32_abort_handler':
->   pcie-rcar-host.c:(.text+0xdd0): undefined reference to `__clk_is_enabled'
+No functional changes.
 
-While this describes what is done and why, it misses one important
-semantic change: the old __clk_is_enabled() actually checked the wrong
-clock (bus clock instead of module clock), while pm_runtime_suspended()
-reflects (a.o.) the state of the module clock.
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-clk@vger.kernel.org
+---
+ drivers/clk/renesas/clk-div6.c     | 4 +++-
+ drivers/clk/renesas/rcar-cpg-lib.c | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
->
-> Fixes: a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort hook")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+diff --git a/drivers/clk/renesas/clk-div6.c b/drivers/clk/renesas/clk-div6.c
+index 3abd6e5400ad..7d89ca01889a 100644
+--- a/drivers/clk/renesas/clk-div6.c
++++ b/drivers/clk/renesas/clk-div6.c
+@@ -306,7 +306,9 @@ struct clk * __init cpg_div6_register(const char *name,
+ 
+ 	if (notifiers) {
+ 		clock->nb.notifier_call = cpg_div6_clock_notifier_call;
+-		raw_notifier_chain_register(notifiers, &clock->nb);
++
++		if (raw_notifier_chain_register(notifiers, &clock->nb))
++			pr_warn("CPG DIV6 clock notifier already registered\n");
+ 	}
+ 
+ 	return clk;
+diff --git a/drivers/clk/renesas/rcar-cpg-lib.c b/drivers/clk/renesas/rcar-cpg-lib.c
+index e93f0011eb07..fbbb6f4a8148 100644
+--- a/drivers/clk/renesas/rcar-cpg-lib.c
++++ b/drivers/clk/renesas/rcar-cpg-lib.c
+@@ -59,7 +59,9 @@ void cpg_simple_notifier_register(struct raw_notifier_head *notifiers,
+ 				  struct cpg_simple_notifier *csn)
+ {
+ 	csn->nb.notifier_call = cpg_simple_notifier_call;
+-	raw_notifier_chain_register(notifiers, &csn->nb);
++
++	if (raw_notifier_chain_register(notifiers, &csn->nb))
++		pr_warn("CPG notifier already registered\n");
+ }
+ 
+ /*
+-- 
+2.29.2
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
