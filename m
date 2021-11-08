@@ -2,152 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C0B44480E7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 15:07:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47183448107
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 15:12:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240275AbhKHOKJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 09:10:09 -0500
-Received: from mail-ua1-f54.google.com ([209.85.222.54]:34507 "EHLO
-        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240246AbhKHOKC (ORCPT
+        id S238926AbhKHOPS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 09:15:18 -0500
+Received: from mail-vk1-f181.google.com ([209.85.221.181]:44580 "EHLO
+        mail-vk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237250AbhKHOPR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 09:10:02 -0500
-Received: by mail-ua1-f54.google.com with SMTP id b3so31739471uam.1;
-        Mon, 08 Nov 2021 06:07:16 -0800 (PST)
+        Mon, 8 Nov 2021 09:15:17 -0500
+Received: by mail-vk1-f181.google.com with SMTP id d128so8246855vkf.11;
+        Mon, 08 Nov 2021 06:12:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=srssYsTsVb5ivMDmTAt6Y7lXgP/lHHGiJX97jzZpFII=;
-        b=lT7Q627YXwAYYti9TyWmhNrAwxF37ER+DnnHvi8ZOaxozyOw/rwlQ66wlApkNuyNN0
-         l/36WyzNYJX7UwsJU1aMV3bW5Sz7j/IP33Z/kZbh3aJA6GtHX+o7tNp9p+l7GF4QkKIB
-         sjbbINID3WCsCkZrFWfMUwfrp9PjYh6onoNzXUnoEQ/95F5HYU5n5UHmTstBfe0urn4h
-         1SE5gPNj3Pc2mvjTTyE8StQTFs4/Z7quYn3ZeZl33bFkXJAPxUlQqv23fQ05cU4PyTMU
-         am1ot2b90FgHRA4kFfiBdu8fFSdh6YxyoBpITiqz4ORJJJdFb9hLqYTU1fxm5MWEErbR
-         0b5Q==
-X-Gm-Message-State: AOAM531VcfMwSWKNLwI/Nir0vc2ScGiGBGnffpEeKxm2KOJGi6tJeJ4f
-        ZdyVgO2KwEjymrO3gMZbXCXik2FZgi7ZJAl7
-X-Google-Smtp-Source: ABdhPJx9G54VGw4oc23XJRelgp9dkMEtXydk+uvqLajllgER83nLii76Q7zBboH+kgBjAPFdw36B5A==
-X-Received: by 2002:ab0:3e3:: with SMTP id 90mr185644uau.102.1636380435783;
-        Mon, 08 Nov 2021 06:07:15 -0800 (PST)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id c11sm3226781vsh.22.2021.11.08.06.07.14
+         :message-id:subject:to:cc;
+        bh=BPrzNjKOLau3hKF+y8oEKhXRBCES6tkh2qL6Bflm6IE=;
+        b=ebHAKzmUSnHOFSGkTFQaGS8FV4RI5yhUiO1RiBaFIIYrNz9OVHYoA6iZjmMJH3d+aI
+         l/njNmbKnFc1R+LaHcI9VRxY6xdd75MDckedmpmb9THcH1R7Q2TOa5fEJdxxYVkBkfL6
+         hGuG1YBVagHeAFxV21W7l6rVmMsrxSGjyx/IrTg6Zsp9qiL91Z6C58MjZUqGJzjq8m9u
+         A/+YF+iKnohLMyfKE9Hw58qbZN2Pl74rtscAsftmh1PFM4jGZLSVF07Uc1S0Ah3ga6O2
+         9peCChU3O8PpSERxYN5tn1GuIwl3q2DAoL+RBlhCyjc2PDdM8UPze1UtyGw1Xs8biNcJ
+         Zd4A==
+X-Gm-Message-State: AOAM530pXj3D6pPvKJGrP/2qhxMh9+7ExlCHLw5elpwBIK87yFOE75k5
+        7xKdDCZRbAZ92Ka6W6emHQJ2Px3Hy3+tTxDO
+X-Google-Smtp-Source: ABdhPJzdYP6krv5UfwBjHy/wLWmObTsStfKHvpfjnzyOK/NZ21hk8+GcmHgVCeu3d97H+lDOppxTbA==
+X-Received: by 2002:a05:6122:1812:: with SMTP id ay18mr12453769vkb.18.1636380752676;
+        Mon, 08 Nov 2021 06:12:32 -0800 (PST)
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
+        by smtp.gmail.com with ESMTPSA id m186sm3140724vsm.11.2021.11.08.06.12.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Nov 2021 06:07:14 -0800 (PST)
-Received: by mail-vk1-f171.google.com with SMTP id a129so8254621vkb.8;
-        Mon, 08 Nov 2021 06:07:14 -0800 (PST)
-X-Received: by 2002:a05:6122:1350:: with SMTP id f16mr21288847vkp.26.1636380434409;
- Mon, 08 Nov 2021 06:07:14 -0800 (PST)
+        Mon, 08 Nov 2021 06:12:32 -0800 (PST)
+Received: by mail-vk1-f174.google.com with SMTP id b192so2619943vkf.3;
+        Mon, 08 Nov 2021 06:12:32 -0800 (PST)
+X-Received: by 2002:a05:6122:20ab:: with SMTP id i43mr21826948vkd.19.1636380752180;
+ Mon, 08 Nov 2021 06:12:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20211108101157.15189-1-bp@alien8.de> <20211108101157.15189-43-bp@alien8.de>
-In-Reply-To: <20211108101157.15189-43-bp@alien8.de>
+References: <20211108101157.15189-1-bp@alien8.de> <20211108101157.15189-5-bp@alien8.de>
+In-Reply-To: <20211108101157.15189-5-bp@alien8.de>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Nov 2021 15:07:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com>
-Message-ID: <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com>
-Subject: Re: [PATCH v0 42/42] notifier: Return an error when callback is
- already registered
+Date:   Mon, 8 Nov 2021 15:12:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUSvU6mW8cpiNGru7cv+B3hCvF=ou8ujTOz5czZqLrAxw@mail.gmail.com>
+Message-ID: <CAMuHMdUSvU6mW8cpiNGru7cv+B3hCvF=ou8ujTOz5czZqLrAxw@mail.gmail.com>
+Subject: Re: [PATCH v0 04/42] clk: renesas: Check notifier registration return value
 To:     Borislav Petkov <bp@alien8.de>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Ayush Sawal <ayush.sawal@chelsio.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rohit Maheshwari <rohitm@chelsio.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        intel-gvt-dev@lists.freedesktop.org,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-edac@vger.kernel.org,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        linux-hyperv@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-leds <linux-leds@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
-        <linux-remoteproc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        scsi <linux-scsi@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-staging@lists.linux.dev,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>, netdev <netdev@vger.kernel.org>,
-        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
-        sparclinux <sparclinux@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        xen-devel@lists.xenproject.org
+        linux-clk <linux-clk@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Borislav,
 
-On Mon, Nov 8, 2021 at 11:13 AM Borislav Petkov <bp@alien8.de> wrote:
-> From: Borislav Petkov <bp@suse.de>
->
-> The notifier registration routine doesn't return a proper error value
-> when a callback has already been registered, leading people to track
-> whether that registration has happened at the call site:
->
->   https://lore.kernel.org/amd-gfx/20210512013058.6827-1-mukul.joshi@amd.com/
->
-> Which is unnecessary.
->
-> Return -EEXIST to signal that case so that callers can act accordingly.
-> Enforce callers to check the return value, leading to loud screaming
-> during build:
->
->   arch/x86/kernel/cpu/mce/core.c: In function ‘mce_register_decode_chain’:
->   arch/x86/kernel/cpu/mce/core.c:167:2: error: ignoring return value of \
->    ‘blocking_notifier_chain_register’, declared with attribute warn_unused_result [-Werror=unused-result]
->     blocking_notifier_chain_register(&x86_mce_decoder_chain, nb);
->   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> Drop the WARN too, while at it.
->
-> Suggested-by: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Borislav Petkov <bp@suse.de>
-
 Thanks for your patch!
 
-> --- a/include/linux/notifier.h
-> +++ b/include/linux/notifier.h
-> @@ -141,13 +141,13 @@ extern void srcu_init_notifier_head(struct srcu_notifier_head *nh);
+On Mon, Nov 8, 2021 at 1:49 PM Borislav Petkov <bp@alien8.de> wrote:
+> From: Borislav Petkov <bp@suse.de>
 >
->  #ifdef __KERNEL__
->
-> -extern int atomic_notifier_chain_register(struct atomic_notifier_head *nh,
-> +extern int __must_check atomic_notifier_chain_register(struct atomic_notifier_head *nh,
->                 struct notifier_block *nb);
-> -extern int blocking_notifier_chain_register(struct blocking_notifier_head *nh,
-> +extern int __must_check blocking_notifier_chain_register(struct blocking_notifier_head *nh,
->                 struct notifier_block *nb);
-> -extern int raw_notifier_chain_register(struct raw_notifier_head *nh,
-> +extern int __must_check raw_notifier_chain_register(struct raw_notifier_head *nh,
->                 struct notifier_block *nb);
-> -extern int srcu_notifier_chain_register(struct srcu_notifier_head *nh,
-> +extern int __must_check srcu_notifier_chain_register(struct srcu_notifier_head *nh,
->                 struct notifier_block *nb);
+> Avoid homegrown notifier registration checks.
 
-I think the addition of __must_check is overkill, leading to the
-addition of useless error checks and message printing.  Many callers
-call this where it cannot fail, and where nothing can be done in the
-very unlikely event that the call would ever start to fail.
+Which homegrown notifier registration check is avoided?
+IIANM, you're adding a homegrown notifier registration check?
+
+> No functional changes.
+>
+> Signed-off-by: Borislav Petkov <bp@suse.de>
+
+> --- a/drivers/clk/renesas/clk-div6.c
+> +++ b/drivers/clk/renesas/clk-div6.c
+> @@ -306,7 +306,9 @@ struct clk * __init cpg_div6_register(const char *name,
+>
+>         if (notifiers) {
+>                 clock->nb.notifier_call = cpg_div6_clock_notifier_call;
+> -               raw_notifier_chain_register(notifiers, &clock->nb);
+> +
+> +               if (raw_notifier_chain_register(notifiers, &clock->nb))
+> +                       pr_warn("CPG DIV6 clock notifier already registered\n");
+
+A duplicate registration cannot happen, as the notifier is freshly allocated.
+
+>         }
+>
+>         return clk;
+> diff --git a/drivers/clk/renesas/rcar-cpg-lib.c b/drivers/clk/renesas/rcar-cpg-lib.c
+> index e93f0011eb07..fbbb6f4a8148 100644
+> --- a/drivers/clk/renesas/rcar-cpg-lib.c
+> +++ b/drivers/clk/renesas/rcar-cpg-lib.c
+> @@ -59,7 +59,9 @@ void cpg_simple_notifier_register(struct raw_notifier_head *notifiers,
+>                                   struct cpg_simple_notifier *csn)
+>  {
+>         csn->nb.notifier_call = cpg_simple_notifier_call;
+> -       raw_notifier_chain_register(notifiers, &csn->nb);
+> +
+> +       if (raw_notifier_chain_register(notifiers, &csn->nb))
+> +               pr_warn("CPG notifier already registered\n");
+
+A duplicate registration cannot happen, as the notifier is freshly allocated.
+
+>  }
+>
 
 Gr{oetje,eeting}s,
 
