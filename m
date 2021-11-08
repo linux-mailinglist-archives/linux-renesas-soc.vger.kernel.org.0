@@ -2,50 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 166E7447EC7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 12:21:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41B1C447F53
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 13:10:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237790AbhKHLY0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 06:24:26 -0500
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:43649 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239195AbhKHLYZ (ORCPT
+        id S238262AbhKHMNh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 07:13:37 -0500
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:38513 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237547AbhKHMNg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 06:24:25 -0500
+        Mon, 8 Nov 2021 07:13:36 -0500
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 68FAB40006;
-        Mon,  8 Nov 2021 11:21:38 +0000 (UTC)
-Date:   Mon, 8 Nov 2021 12:22:31 +0100
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id F160B240004;
+        Mon,  8 Nov 2021 12:10:49 +0000 (UTC)
+Date:   Mon, 8 Nov 2021 13:11:42 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH v2 1/2] media: max9271: Ignore busy loop read errors
-Message-ID: <20211108112231.ps2kf4ie6o6bxfdh@uno.localdomain>
+Message-ID: <20211108121142.r7v3pe36oojy2reg@uno.localdomain>
 References: <20211104110924.248444-1-jacopo+renesas@jmondi.org>
  <20211104110924.248444-2-jacopo+renesas@jmondi.org>
- <CAMuHMdVF2fU4UTZTe_xjJUg7khUwhT_1kHQq49rbzZJygbpbow@mail.gmail.com>
+ <163606709702.3601475.5348110236576814282@Monstersaurus>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdVF2fU4UTZTe_xjJUg7khUwhT_1kHQq49rbzZJygbpbow@mail.gmail.com>
+In-Reply-To: <163606709702.3601475.5348110236576814282@Monstersaurus>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert
+Hi Kieran
 
-On Mon, Nov 08, 2021 at 11:45:58AM +0100, Geert Uytterhoeven wrote:
-> Hi Jacopo,
->
-> On Thu, Nov 4, 2021 at 12:10 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+On Thu, Nov 04, 2021 at 11:04:57PM +0000, Kieran Bingham wrote:
+> Quoting Jacopo Mondi (2021-11-04 11:09:23)
 > > Valid pixel clock detection is performed by spinning on a register read
 > > which if repeated too frequently might fail. As the error is not fatal
 > > ignore it instead of bailing out to continue spinning until the timeout
@@ -56,14 +52,44 @@ On Mon, Nov 08, 2021 at 11:45:58AM +0100, Geert Uytterhoeven wrote:
 > >
 > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>
+> This seems good to me. In your testing did you identify how many
+> spins/how long it usually takes before it first detects the pixel clock?
+>
+> I.e. - was it cutting it close at 10ms, and we should even still extend
+> this further? (as the usleep_range means we could still loop this 10 ms)
+
+Thanks for asking, this turned out to be much quicker than expected
+with the pclk_clk detected at the first or second attempts all the
+times. I would not bother reducing the sleep time though.
+
+>
+> Anyway, this looks like a strong improvement.
+>
+>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+Thanks
+  j
+
+>
 > > ---
 > >
 > > v1->v2:
 > > - Do not continue but jump to a label to respect the sleep timout after a
 > >   failed read
->
-> Thanks for the update!
->
+> >
+> > Niklas I kept your tag anyway, hope it's ok.
+> >
+> > Thanks
+> >    j
+> >
+> > ---
+> >  drivers/media/i2c/max9271.c | 9 +++++----
+> >  1 file changed, 5 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/max9271.c b/drivers/media/i2c/max9271.c
+> > index ff86c8c4ea61..aa4add473716 100644
 > > --- a/drivers/media/i2c/max9271.c
 > > +++ b/drivers/media/i2c/max9271.c
 > > @@ -55,7 +55,7 @@ static int max9271_write(struct max9271_device *dev, u8 reg, u8 val)
@@ -85,25 +111,8 @@ On Mon, Nov 08, 2021 at 11:45:58AM +0100, Geert Uytterhoeven wrote:
 > >                 if (ret < 0)
 > > -                       return ret;
 > > +                       goto skip;
->
-> Edgar Dijkstra: Go To Statement Considered Harmful?
->
-
-Dijkstra would be very unpleased reading the kernel error path
-handling implementations. But I got your point, we're not in a cleanup
-path here =)
-
 > >
 > >                 if (ret & MAX9271_PCLKDET)
->
-> "if (ret > 0 && (ret & MAX9271_PCLKDET))"?
->
-
-Much better, thanks. I'll resend!
-
-Thanks
-   j
-
 > >                         return 0;
 > >
 > > -               usleep_range(50, 100);
@@ -112,14 +121,6 @@ Thanks
 > >         }
 > >
 > >         dev_err(&dev->client->dev, "Unable to detect valid pixel clock\n");
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> > --
+> > 2.33.1
+> >
