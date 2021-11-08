@@ -2,70 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F2C244991A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 17:08:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79F5E449938
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 17:12:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241171AbhKHQKw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 11:10:52 -0500
-Received: from mail-ua1-f54.google.com ([209.85.222.54]:46657 "EHLO
-        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235799AbhKHQKw (ORCPT
+        id S237310AbhKHQPR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 11:15:17 -0500
+Received: from mail-ua1-f42.google.com ([209.85.222.42]:36511 "EHLO
+        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231976AbhKHQPP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 11:10:52 -0500
-Received: by mail-ua1-f54.google.com with SMTP id az37so32489429uab.13;
-        Mon, 08 Nov 2021 08:08:07 -0800 (PST)
+        Mon, 8 Nov 2021 11:15:15 -0500
+Received: by mail-ua1-f42.google.com with SMTP id e10so32564015uab.3;
+        Mon, 08 Nov 2021 08:12:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=l1guUS2rE5b4UjdbPreB/LTbDFGmKIfPoVdUdqsaY5k=;
-        b=EK8idvfU3T4JLQsR78BJgoUtf5zvMuHGtNJPGQfEChDfv43lfDsY1TqSdzVKOt8RQN
-         y6Z7HxDvX5haJTQUyFednhHs0aBOsm9gCL+Bh7E48GPI4B+mig9SNWWVOUCfUcn535K9
-         nayGyYTPQHFS8l71PyEfvlOh82TwK6XClMTBEnxuHm4OufnLLnegrYasPf6RPuun4vK3
-         kF2Rtr29SlOC1O0hj0x507MJFUQd9SSSKd6g3Bcg8dnBgxbJLB9HTqFxghUH4hKWT7Yi
-         yrTGVQaK/1Yt01j6slSS0cwxze/nzQGk5WVYpJhpgPEOThp3aFanYw6RtP5cC/LGDLuF
-         dzZw==
-X-Gm-Message-State: AOAM5329NdMINvMUveqJk0he4A12GhXS/QzebesPXp9IKQ6o2Teo8kmd
-        3fTmS6rdqLyN5VZwe/Rc+Zt5xF+Phw0WuJ61
-X-Google-Smtp-Source: ABdhPJyvihKNXbo2jHQj27t0VVFWT/2OjwTPdL1bpG69Qk5rn3dEhWjxmXQ1ctYo4NgYOqUTXXW+sg==
-X-Received: by 2002:a05:6102:948:: with SMTP id a8mr81797vsi.51.1636387687076;
-        Mon, 08 Nov 2021 08:08:07 -0800 (PST)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id v1sm2774841uac.18.2021.11.08.08.08.06
+        bh=hEQQmRj7LTpJogPgt2xRVOX7N+txus6iMmGepIZghfU=;
+        b=6Syoq3UJc9F69Br0sBFpk6RXHRMeuYXTvKjf4/mPkGe4FYwxl6tGFzpgg5Ffeef7QH
+         jXnjEmKBI2Gr5+Xow1AQTwKFMBiHN52GceJ07J01c2xOO96O7RaMIpW2fPxqhM4ltjX0
+         ADkJrllkqdxhszF3ASqri5CNVzXw3FMsIq+DaP0Vh8dtlWwMIslFznFFE5up3PlEAbQz
+         M0ROOfLDGYH+D8tEQSi7tUMGNbEGm8eYCUR+bDFaEc8LuiEdgQf2F+iDlQvXjNcEVaGL
+         THVDJhBiJ59Om9S9/FXuY0GNsdQGvF35U3YlJvq+qkSuRahZ+Wvx2/50KDXS2Ieqpxco
+         Qzfg==
+X-Gm-Message-State: AOAM530E2jUS0t/A6z8puiwBo7zU97dFnqpAITI+Qi9jpLPxnz9GACEv
+        EyrNPGOZNcZS4LazJnF/jQXArVVGU+Kix41X
+X-Google-Smtp-Source: ABdhPJxb7f8vOf1U8hfBptjO9dfxwRBRUSwReN0xMc/29Wjx93em3eNYCiggGS5kLSVRuKyq/aAMqQ==
+X-Received: by 2002:a05:6102:3ed4:: with SMTP id n20mr114208vsv.57.1636387948517;
+        Mon, 08 Nov 2021 08:12:28 -0800 (PST)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
+        by smtp.gmail.com with ESMTPSA id t76sm2751741vkt.0.2021.11.08.08.12.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Nov 2021 08:08:06 -0800 (PST)
-Received: by mail-ua1-f48.google.com with SMTP id s13so16953139uaj.11;
-        Mon, 08 Nov 2021 08:08:06 -0800 (PST)
-X-Received: by 2002:a67:c38f:: with SMTP id s15mr715081vsj.50.1636387686435;
- Mon, 08 Nov 2021 08:08:06 -0800 (PST)
+        Mon, 08 Nov 2021 08:12:27 -0800 (PST)
+Received: by mail-vk1-f180.google.com with SMTP id t127so8459709vke.13;
+        Mon, 08 Nov 2021 08:12:27 -0800 (PST)
+X-Received: by 2002:a1f:f24f:: with SMTP id q76mr347755vkh.11.1636387947335;
+ Mon, 08 Nov 2021 08:12:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20211104160858.15550-1-biju.das.jz@bp.renesas.com> <20211104160858.15550-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20211104160858.15550-4-biju.das.jz@bp.renesas.com>
+References: <20211108101157.15189-1-bp@alien8.de> <20211108101157.15189-43-bp@alien8.de>
+ <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com>
+ <YYkyUEqcsOwQMb1S@zn.tnic> <CAMuHMdXiBEQyEXJagSfpH44hxVA2t0sDH7B7YubLGHrb2MJLLA@mail.gmail.com>
+ <YYlJQYLiIrhjwOmT@zn.tnic>
+In-Reply-To: <YYlJQYLiIrhjwOmT@zn.tnic>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Nov 2021 17:07:55 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXCFLCfobzhMyOTNAF7C34BRJLDBasb+2v49Hfm2++FXg@mail.gmail.com>
-Message-ID: <CAMuHMdXCFLCfobzhMyOTNAF7C34BRJLDBasb+2v49Hfm2++FXg@mail.gmail.com>
-Subject: Re: [RFC 3/4] clk: renesas: r9a07g044: Add WDT clock and reset entries
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+Date:   Mon, 8 Nov 2021 17:12:16 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXHikGrmUzuq0WG5JRHUUE=5zsaVCTF+e4TiHpM5tc5kA@mail.gmail.com>
+Message-ID: <CAMuHMdXHikGrmUzuq0WG5JRHUUE=5zsaVCTF+e4TiHpM5tc5kA@mail.gmail.com>
+Subject: Re: [PATCH v0 42/42] notifier: Return an error when callback is
+ already registered
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rohit Maheshwari <rohitm@chelsio.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        intel-gvt-dev@lists.freedesktop.org,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         linux-clk <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-edac@vger.kernel.org,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        linux-hyperv@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-leds <linux-leds@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
+        <linux-remoteproc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        scsi <linux-scsi@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-staging@lists.linux.dev,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        linux-um <linux-um@lists.infradead.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>, netdev <netdev@vger.kernel.org>,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux <sparclinux@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        xen-devel@lists.xenproject.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 4, 2021 at 5:09 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add WDT{0,1,2} clock and reset entries to CPG driver.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Borislav,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.17.
+On Mon, Nov 8, 2021 at 4:59 PM Borislav Petkov <bp@alien8.de> wrote:
+> On Mon, Nov 08, 2021 at 04:25:47PM +0100, Geert Uytterhoeven wrote:
+> > I'm not against returning proper errors codes.  I'm against forcing
+> > callers to check things that cannot fail and to add individual error
+> > printing to each and every caller.
+>
+> If you're against checking things at the callers, then the registration
+> function should be void. IOW, those APIs are not optimally designed atm.
+
+Returning void is the other extreme ;-)
+
+There are 3 levels (ignoring BUG_ON()/panic () inside the callee):
+  1. Return void: no one can check success or failure,
+  2. Return an error code: up to the caller to decide,
+  3. Return a __must_check error code: every caller must check.
+
+I'm in favor of 2, as there are several places where it cannot fail.
 
 Gr{oetje,eeting}s,
 
