@@ -2,119 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 538C6449F95
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 01:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F19BC44A268
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 02:16:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241242AbhKIAkA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 19:40:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37374 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229974AbhKIAj7 (ORCPT
+        id S242769AbhKIBSF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 20:18:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44184 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242910AbhKIBOd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 19:39:59 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9137EC061570;
-        Mon,  8 Nov 2021 16:37:14 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id s186so48324980yba.12;
-        Mon, 08 Nov 2021 16:37:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bSfeCJ2Z/X7kBSChbyDqpzm4O/dmdGm7eTZ8A/c58wk=;
-        b=R+KiBS7oLE3TLSGAGsi5KEYaDb2+CqL0D7eYn6MOYLVFhfL+SPrF3sDCqsGcUZARvC
-         YvbfHMZ84Fw8/GzKEeFBjwfutKtekNfMeX2q2CkEwxLSBMB3zBR3qLo9Pm5nkspAVVFj
-         TzBpLIWCMoHRLhqjxOtImpMGWBVX3/VWWbhQwcw9MSoh5RwT/8K9P37q/qoZyJcr+YQR
-         fSLFEctvMK3o2vROi4oEBCu5EZHiFuBd4VrC/Qq2UmNAv6e5rC9ly+eyqJq+DmILeTJi
-         s6WKjj3mW1gUvRiNUt1SkNMKWASH5DVRRETUU84e/z3S7hTSkVw/aiblapjH5x324elg
-         8BqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bSfeCJ2Z/X7kBSChbyDqpzm4O/dmdGm7eTZ8A/c58wk=;
-        b=T6agn+l0qn5+3Uw3t76ENjG8dsFNtIHmNfbcWdzmi4/1uza8XKxaoiESdjQhYZ8nLT
-         GOSObKLRHWKqX6Ed3N61CW7qTh2ctx1SB5stqc+MOXY/rMpSZz9PYf2CfVOktFLRGI3d
-         ISVHbSzQhy7HYqHgI2+cXujxCBt/9mY4LxY7cwT6hc0unLGuV7QvgBAAxRdN3QfwkGRA
-         6xWrM5llmHC4usByvYcPR383BLQFxjg0dLyeiSjDS69V2RabbmLhm9Yr2ZUbGRtUMDtX
-         4yJi/3NShudGjUkSmb9iS5EG3kzLc6nLfoiirhdTMwe+8EeEZSIW/W2M6gCWLW1AL56/
-         +poQ==
-X-Gm-Message-State: AOAM530SN+q3H64xMPkcw1RkY0Zu8f4QTZQsN4Ff6lxWjUtigr33J482
-        xZtiERjRqgdROzpTKVBt18MjS3vpRaYAcGlAZoPGclExztk=
-X-Google-Smtp-Source: ABdhPJxplGon2xCo4mu4L8SQRbCJtXQl1XvfzXos6JHFgiXDGfe/eWF8St9CiA2jHQwbtgSVdmTpN1pqXP4PlnBMyvo=
-X-Received: by 2002:a5b:783:: with SMTP id b3mr3665309ybq.328.1636418233817;
- Mon, 08 Nov 2021 16:37:13 -0800 (PST)
+        Mon, 8 Nov 2021 20:14:33 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EFD361AD0;
+        Tue,  9 Nov 2021 01:05:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636419955;
+        bh=HHNgnnC0YH+UQ2SkIlv++jtsxO7zKOpuQ4wWcjuxFCY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=G8uOdoWHBChJ7itRoPun0CxCIH4UizQKVl7ucfkj3TPnZHEjHl13njjMKw7c6jWec
+         Fn2zwARUPFgW1wFkzRY6iFHVq3/eYbcoO87g+c7wo0Zib1tNhntC4VvETy1ZQsOabb
+         8T/KZsfoAiw7nelWl5eH84kxuyzL4GY9i2ndYCWbbC1qAz5VonRl6xXmOuXxbtgQHM
+         /vDS/zMoaMKqJiOQBJREB4yfTEU1yVmq6vXfCW61hMIZVu8iHX0sS6kmzwiCB8R/HR
+         w+7DHOQVkhE0oGDqEnIKPMPlMTf/9zDTDPf1TNZLmEMOWSAiirNELFniw9/clnRuka
+         XnPYPlYEbUwbw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Nadezda Lutovinova <lutovinova@ispras.ru>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, niklas.soderlund@ragnatech.se,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 22/47] media: rcar-csi2: Add checking to rcsi2_start_receiver()
+Date:   Mon,  8 Nov 2021 12:50:06 -0500
+Message-Id: <20211108175031.1190422-22-sashal@kernel.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211108175031.1190422-1-sashal@kernel.org>
+References: <20211108175031.1190422-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20211103173127.13701-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211103173127.13701-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUjp4WQgkVxaSFJ-ge071KZ_JFWOuBQKZMpSCUW4kG9Ug@mail.gmail.com>
-In-Reply-To: <CAMuHMdUjp4WQgkVxaSFJ-ge071KZ_JFWOuBQKZMpSCUW4kG9Ug@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 9 Nov 2021 00:36:48 +0000
-Message-ID: <CA+V-a8vg8Qf+xetzNAyA2Oa9-BVUgZht=Nxw3or6GBgkVRi0Gw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: serial: renesas,scif: Make resets as a
- required property
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+From: Nadezda Lutovinova <lutovinova@ispras.ru>
 
-Thank you for the review.
+[ Upstream commit fc41665498332ad394b7db37f23e9394096ddc71 ]
 
-On Mon, Nov 8, 2021 at 4:29 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> On Wed, Nov 3, 2021 at 6:31 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Make "resets" as required property for RZ/G2L. On RZ/G2L the devices
-> > should be explicitly pulled out of reset for this reason make "resets"
-> > as required property.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> > --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > @@ -151,6 +151,7 @@ if:
-> >      compatible:
-> >        contains:
-> >          enum:
-> > +          - renesas,scif-r9a07g044
-> >            - renesas,rcar-gen2-scif
-> >            - renesas,rcar-gen3-scif
->
-> People might prefer alphabetical sort order...
->
-My intention was to keep the generic ones at the end as we do for
-compatible property.  Let me know if you still want me to change it.
+If rcsi2_code_to_fmt() return NULL, then null pointer dereference occurs
+in the next cycle. That should not be possible now but adding checking
+protects from future bugs.
+The patch adds checking if format is NULL.
 
-Cheers,
-Prabhakar
+Found by Linux Driver Verification project (linuxtesting.org).
 
-> >  then:
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index dc5ae8025832a..23f55514b002a 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -474,6 +474,8 @@ static int rcsi2_start(struct rcar_csi2 *priv)
+ 
+ 	/* Code is validated in set_fmt. */
+ 	format = rcsi2_code_to_fmt(priv->mf.code);
++	if (!format)
++		return -EINVAL;
+ 
+ 	/*
+ 	 * Enable all Virtual Channels.
+-- 
+2.33.0
+
