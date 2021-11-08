@@ -2,101 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5157F4499BB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 17:29:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEDC04499D5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 17:30:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237175AbhKHQcb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 11:32:31 -0500
-Received: from mail-ua1-f48.google.com ([209.85.222.48]:38701 "EHLO
-        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236934AbhKHQcb (ORCPT
+        id S241290AbhKHQct (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 11:32:49 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:40218 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239403AbhKHQcr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 11:32:31 -0500
-Received: by mail-ua1-f48.google.com with SMTP id o26so32629488uab.5;
-        Mon, 08 Nov 2021 08:29:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=woZgaj6Mu44Tryh18+xnuY1/GMuhYHx753N+bB1veGY=;
-        b=n6pIS/9NTEG06oBdZ7vif1tjFt8xFQugM9QbjFgirdzfcGRmDC6Lc5vpEXXyckB6Hq
-         e53ke5mn6i5ve8WyueU14VBHoYV3bDEq6W4hEWF7b8TXP0PYvXn2/tP0G6CUIQkV2U5+
-         laIMRxMLTCnS5kWEujGQCf538y6DEfW5UlRFy2YkFmiQ5fPfgfgEBjhkSLe6osLj77+g
-         rdohj4VlF0wnYIJzA5sUOIoMPpu1Yo7mkGNwinbwKANnr0OYLAuK7RutcpavktZ8bcSx
-         KP51SwTg/UwSWL4io1idMzziYlYbNF8iRkPBwmLuipej0NRhuE6S1Apy6E9qJ5Tc4Hho
-         Aimg==
-X-Gm-Message-State: AOAM530xnSEJHK19Cr9JEfbq1p8uuUuZhABPIAqzH8Em7boe8k0a3E9L
-        CyTEWQ7iw6KeTHxXbc8uSOfpTrSt6GR6pt5n
-X-Google-Smtp-Source: ABdhPJzKVOZYGibPHG+h892i7OUGjYuFesWp37cMNDki40TQiZRr4hfUhCDQ/tcAqjanivAlJUtsgA==
-X-Received: by 2002:a05:6102:3f02:: with SMTP id k2mr437155vsv.26.1636388985966;
-        Mon, 08 Nov 2021 08:29:45 -0800 (PST)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id r20sm1417594vkq.15.2021.11.08.08.29.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Nov 2021 08:29:45 -0800 (PST)
-Received: by mail-ua1-f42.google.com with SMTP id t13so17309483uad.9;
-        Mon, 08 Nov 2021 08:29:45 -0800 (PST)
-X-Received: by 2002:a05:6102:3a07:: with SMTP id b7mr75736580vsu.35.1636388985293;
- Mon, 08 Nov 2021 08:29:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20211103173127.13701-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211103173127.13701-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20211103173127.13701-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Nov 2021 17:29:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUjp4WQgkVxaSFJ-ge071KZ_JFWOuBQKZMpSCUW4kG9Ug@mail.gmail.com>
-Message-ID: <CAMuHMdUjp4WQgkVxaSFJ-ge071KZ_JFWOuBQKZMpSCUW4kG9Ug@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: serial: renesas,scif: Make resets as a
- required property
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mon, 8 Nov 2021 11:32:47 -0500
+Received: from zn.tnic (p200300ec2f331100181cb4ce2fe9e1de.dip0.t-ipconnect.de [IPv6:2003:ec:2f33:1100:181c:b4ce:2fe9:e1de])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 652D11EC0512;
+        Mon,  8 Nov 2021 17:29:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1636388997;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=OSbzA4U/ida8aXvLATS9A1smiSvQH5VirglC+wMEOMM=;
+        b=pBzIQNPgz9f6MnJz8NuSpWeZa+X2KJ2EY1gkFfqIgUOOdk5ooj7nS3SZlOvvPfnLO1w7js
+        1rE5oU8U3sZ2kD0zZzsPOjz5Rjy821j5ugVLv+TE7mQzDtZGil7p5QTxNJmqJYfQhl3i/U
+        43Oeu8iAMBrtl8n9GGHPMyt/ODoo1Kk=
+Date:   Mon, 8 Nov 2021 17:29:55 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Rohit Maheshwari <rohitm@chelsio.com>,
+        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+        alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v0 00/42] notifiers: Return an error when callback is
+ already registered
+Message-ID: <YYlQg+OvUpUL630W@zn.tnic>
+References: <20211108101157.15189-1-bp@alien8.de>
+ <20211108101924.15759-1-bp@alien8.de>
+ <20211108141703.GB1666297@rowland.harvard.edu>
+ <YYkzJ3+faVga2Tl3@zn.tnic>
+ <YYk1xi3eJdMJdjHC@zn.tnic>
+ <20211108112313.73d0727e@gandalf.local.home>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211108112313.73d0727e@gandalf.local.home>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 3, 2021 at 6:31 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Make "resets" as required property for RZ/G2L. On RZ/G2L the devices
-> should be explicitly pulled out of reset for this reason make "resets"
-> as required property.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Mon, Nov 08, 2021 at 11:23:13AM -0500, Steven Rostedt wrote:
+> Question, how often does this warning trigger? Is it common to see in
+> development?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Yeah, haven't seen it myself yet.
 
-> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> @@ -151,6 +151,7 @@ if:
->      compatible:
->        contains:
->          enum:
-> +          - renesas,scif-r9a07g044
->            - renesas,rcar-gen2-scif
->            - renesas,rcar-gen3-scif
+But we hashed it out over IRC. :-)
 
-People might prefer alphabetical sort order...
+-- 
+Regards/Gruss,
+    Boris.
 
->  then:
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+https://people.kernel.org/tglx/notes-about-netiquette
