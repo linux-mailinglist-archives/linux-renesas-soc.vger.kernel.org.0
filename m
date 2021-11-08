@@ -2,88 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4AFC44810C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 15:13:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 860CE448122
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 15:17:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239029AbhKHOQR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 09:16:17 -0500
-Received: from mail-vk1-f173.google.com ([209.85.221.173]:33689 "EHLO
-        mail-vk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234532AbhKHOQQ (ORCPT
+        id S240303AbhKHOTv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 09:19:51 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:38865 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S240312AbhKHOTt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 09:16:16 -0500
-Received: by mail-vk1-f173.google.com with SMTP id d130so8289594vke.0;
-        Mon, 08 Nov 2021 06:13:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l47DyX7zT07Ftsepq+P26ZkT5gnhRsZgVIxOMImJuls=;
-        b=1D/YMS5J9wFckgE4pyemTZX7npsBbLLGByoX5AIHlCzcfN5VERfw/ORKFWCQQVKsIT
-         aFxb/IAbonJcjNJH71agikUOrlfLWxy4JYm/cs39x4SkbrSzYAolDGnM5sbWxG+nawXw
-         Ic92Z+3L4fpsXKzPAuEnWvsvXcA3UjTcN+H/FJL1iLnCJHqzQ07H3n0cSTgX/5kCQzy0
-         m++imdr6IlSpCEHPpxbUW0ZMIou9FidTXIxToDkEV23aSruJlg+W9nAazS+yPJjkjPnb
-         fUrpYgTp5kBU9aea4SNAIDOm9WmZ0Dvdfm6CUjuUIGnjL276an98fkNv6OjfwBeCds3T
-         BDXQ==
-X-Gm-Message-State: AOAM531pfZ+fHRrVP3h9t3EtSjEFdiY0ccMb5qZlGL0CTgK1uk15Totz
-        j26K2UNBlmoBTUCNV9mMiixrI57Lc5dYrDzX
-X-Google-Smtp-Source: ABdhPJyivZeljKXDxJCQtIxyZYyGnsHP69Ogaoz04J3MilG4pXl4Mvo2hy4SD1N+g5lAo6G0Z6XIYw==
-X-Received: by 2002:a05:6122:2015:: with SMTP id l21mr291031vkd.16.1636380811701;
-        Mon, 08 Nov 2021 06:13:31 -0800 (PST)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
-        by smtp.gmail.com with ESMTPSA id o16sm3254094vss.29.2021.11.08.06.13.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Nov 2021 06:13:31 -0800 (PST)
-Received: by mail-vk1-f179.google.com with SMTP id d130so8289571vke.0;
-        Mon, 08 Nov 2021 06:13:31 -0800 (PST)
-X-Received: by 2002:a05:6122:50e:: with SMTP id x14mr22172276vko.7.1636380811049;
- Mon, 08 Nov 2021 06:13:31 -0800 (PST)
+        Mon, 8 Nov 2021 09:19:49 -0500
+Received: (qmail 1667203 invoked by uid 1000); 8 Nov 2021 09:17:03 -0500
+Date:   Mon, 8 Nov 2021 09:17:03 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rohit Maheshwari <rohitm@chelsio.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+        alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v0 00/42] notifiers: Return an error when callback is
+ already registered
+Message-ID: <20211108141703.GB1666297@rowland.harvard.edu>
+References: <20211108101157.15189-1-bp@alien8.de>
+ <20211108101924.15759-1-bp@alien8.de>
 MIME-Version: 1.0
-References: <20211029124437.20721-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211029124437.20721-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20211029124437.20721-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Nov 2021 15:13:20 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVu49AC0nc0hgV=HsR8qEM0pQQuo8T-RRCwwTLvXgO2HQ@mail.gmail.com>
-Message-ID: <CAMuHMdVu49AC0nc0hgV=HsR8qEM0pQQuo8T-RRCwwTLvXgO2HQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] pinctrl: renesas: pinctrl-rzg2l: Rename PIN_CFG_*
- macros to match HW manual
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211108101924.15759-1-bp@alien8.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 29, 2021 at 2:44 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Rename the below macros to match the HW manual (Rev.1.00):
-> PIN_CFG_IOLH_SD0 -> PIN_CFG_IO_VMC_SD0
-> PIN_CFG_IOLH_SD1 -> PIN_CFG_IO_VMC_SD1
-> PIN_CFG_IOLH_QSPI -> PIN_CFG_IO_VMC_QSPI
-> PIN_CFG_IOLH_ETH0 -> PIN_CFG_IO_VMC_ETH0
-> PIN_CFG_IOLH_ETH1 -> PIN_CFG_IO_VMC_ETH1
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Mon, Nov 08, 2021 at 11:19:24AM +0100, Borislav Petkov wrote:
+> From: Borislav Petkov <bp@suse.de>
+> 
+> Hi all,
+> 
+> this is a huge patchset for something which is really trivial - it
+> changes the notifier registration routines to return an error value
+> if a notifier callback is already present on the respective list of
+> callbacks. For more details scroll to the last patch.
+> 
+> Everything before it is converting the callers to check the return value
+> of the registration routines and issue a warning, instead of the WARN()
+> notifier_chain_register() does now.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl-for-v5.17.
+What reason is there for moving the check into the callers?  It seems 
+like pointless churn.  Why not add the error return code, change the 
+WARN to pr_warn, and leave the callers as they are?  Wouldn't that end 
+up having exactly the same effect?
 
-Gr{oetje,eeting}s,
+For that matter, what sort of remedial action can a caller take if the 
+return code is -EEXIST?  Is there any point in forcing callers to check 
+the return code if they can't do anything about it?
 
-                        Geert
+> Before the last patch has been applied, though, that checking is a
+> NOP which would make the application of those patches trivial - every
+> maintainer can pick a patch at her/his discretion - only the last one
+> enables the build warnings and that one will be queued only after the
+> preceding patches have all been merged so that there are no build
+> warnings.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Why should there be _any_ build warnings?  The real problem occurs when 
+a notifier callback is added twice, not when a caller fails to check the 
+return code.  Double-registration is not the sort of thing that can be 
+detected at build time.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Alan Stern
+
+> Due to the sheer volume of the patches, I have addressed the respective
+> patch and the last one, which enables the warning, with addressees for
+> each maintained area so as not to spam people unnecessarily.
+> 
+> If people prefer I carry some through tip, instead, I'll gladly do so -
+> your call.
+> 
+> And, if you think the warning messages need to be more precise, feel
+> free to adjust them before committing.
+> 
+> Thanks!
