@@ -2,112 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46811449964
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 17:21:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 844D044996C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 17:21:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241194AbhKHQYh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 11:24:37 -0500
-Received: from mail-ua1-f42.google.com ([209.85.222.42]:40958 "EHLO
-        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235634AbhKHQYf (ORCPT
+        id S241201AbhKHQYi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 11:24:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38612 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239990AbhKHQYh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 11:24:35 -0500
-Received: by mail-ua1-f42.google.com with SMTP id e2so32563019uax.7;
-        Mon, 08 Nov 2021 08:21:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ESDtvsNlgJcuTwTe88lHQLLpH15E8fkhw3F6cbpUyQ8=;
-        b=TbBKwEvaLMIZjv/u721FdLZOrWZiMX6xO5PGKs8BjEfOS8YMDldFTs/coGRMRAYfLU
-         2xMN2dNH2i343ltteY9ve7o+gYyHVtmS+eqlb/tSDUFNUqZfSd0fTWR8Sr/Rucicd9Ci
-         mMbiFQz8M/eXujts0ZzVgWu3drU7IczlFuVZteP0Ntu3dyvH5/fGIVnM4yCs6xsxYrSO
-         xChzuO043H3OL6I29zm07m3f2SNh+gpnNH0hx2Je5Xri3NdTjMYQpNxoCTeizozel8fY
-         QnbykL4i2IwER3iLGDpI39GsSKm7Bdk6av+K4JZdip7LVttsjdR+g19IYXpY2ilabG+Y
-         owFg==
-X-Gm-Message-State: AOAM5334ELpp0jpQM0ta7DiWLG3DDEn1U0aJnZEd+wJIbhNduXk0JbWX
-        +l4J6PwzM8Pi3gc9thDe5wUayJM/5WPRhm9O
-X-Google-Smtp-Source: ABdhPJwl168tBA02oIJz2CU0UBxW/e6rrtoKVxSoohWsil9g6h9OJM1vTf7tQn16u1jkHYYczmK9mQ==
-X-Received: by 2002:a67:ed5a:: with SMTP id m26mr108079760vsp.35.1636388510706;
-        Mon, 08 Nov 2021 08:21:50 -0800 (PST)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id c2sm2937337uab.11.2021.11.08.08.21.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Nov 2021 08:21:50 -0800 (PST)
-Received: by mail-ua1-f49.google.com with SMTP id v3so32479522uam.10;
-        Mon, 08 Nov 2021 08:21:50 -0800 (PST)
-X-Received: by 2002:a05:6102:2910:: with SMTP id cz16mr39988675vsb.9.1636388510087;
- Mon, 08 Nov 2021 08:21:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20211103173127.13701-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211103173127.13701-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20211103173127.13701-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Nov 2021 17:21:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUPYYfPu7NDE2uh9woP7p6_53XinASH-=USG5qwN2m=hA@mail.gmail.com>
-Message-ID: <CAMuHMdUPYYfPu7NDE2uh9woP7p6_53XinASH-=USG5qwN2m=hA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: serial: renesas,sci: Document RZ/G2L SoC
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mon, 8 Nov 2021 11:24:37 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A331C061570;
+        Mon,  8 Nov 2021 08:21:52 -0800 (PST)
+Received: from zn.tnic (p200300ec2f331100181cb4ce2fe9e1de.dip0.t-ipconnect.de [IPv6:2003:ec:2f33:1100:181c:b4ce:2fe9:e1de])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 071501EC0503;
+        Mon,  8 Nov 2021 17:21:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1636388511;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=BmhP/O36y2kgWhY9wVesOsCT3VZHRN0l2HSALpf1H38=;
+        b=PwrrR1/9r0PtkEkx8l94Lq5o8cthN3NxILevAwj1LoIRoN/B58W84rM+iyPPtwIBmVMRtG
+        8jlUd2DAmGqQe7+sK0xny6az8RzdndQG0jeU2pdwyReIQXuaywQhQg+JKE/uRG6ku5v9jN
+        K5y81X7+5Pp2iJVW5AZDozV+KOdqQTY=
+Date:   Mon, 8 Nov 2021 17:21:45 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rohit Maheshwari <rohitm@chelsio.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        intel-gvt-dev@lists.freedesktop.org,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-edac@vger.kernel.org,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        linux-hyperv@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-leds <linux-leds@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
+        <linux-remoteproc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-s390 <linux-s390@vger.kernel.org>,
+        scsi <linux-scsi@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-staging@lists.linux.dev,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        linux-um <linux-um@lists.infradead.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>, netdev <netdev@vger.kernel.org>,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux <sparclinux@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v0 42/42] notifier: Return an error when callback is
+ already registered
+Message-ID: <YYlOmd0AeA8DSluD@zn.tnic>
+References: <20211108101157.15189-1-bp@alien8.de>
+ <20211108101157.15189-43-bp@alien8.de>
+ <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com>
+ <YYkyUEqcsOwQMb1S@zn.tnic>
+ <CAMuHMdXiBEQyEXJagSfpH44hxVA2t0sDH7B7YubLGHrb2MJLLA@mail.gmail.com>
+ <YYlJQYLiIrhjwOmT@zn.tnic>
+ <CAMuHMdXHikGrmUzuq0WG5JRHUUE=5zsaVCTF+e4TiHpM5tc5kA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXHikGrmUzuq0WG5JRHUUE=5zsaVCTF+e4TiHpM5tc5kA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 3, 2021 at 6:31 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add SCI binding documentation for Renesas RZ/G2L SoC.
->
-> Also update the example node with real world DT node.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Mon, Nov 08, 2021 at 05:12:16PM +0100, Geert Uytterhoeven wrote:
+> Returning void is the other extreme ;-)
+> 
+> There are 3 levels (ignoring BUG_ON()/panic () inside the callee):
+>   1. Return void: no one can check success or failure,
+>   2. Return an error code: up to the caller to decide,
+>   3. Return a __must_check error code: every caller must check.
+> 
+> I'm in favor of 2, as there are several places where it cannot fail.
 
-> --- a/Documentation/devicetree/bindings/serial/renesas,sci.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,sci.yaml
+Makes sense to me. I'll do that in the next iteration.
 
-> @@ -54,18 +58,45 @@ required:
->    - clocks
->    - clock-names
->
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - renesas,r9a07g044-sci
-> +then:
-> +  properties:
-> +    resets:
-> +      maxItems: 1
-> +
-> +    power-domains:
-> +      maxItems: 1
-> +
-> +  required:
-> +    - resets
-> +    - power-domains
+Thx.
 
-We really should make interrupt-names required everywhere, after
-fixing the H8/300 DTS files.
+-- 
+Regards/Gruss,
+    Boris.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+https://people.kernel.org/tglx/notes-about-netiquette
