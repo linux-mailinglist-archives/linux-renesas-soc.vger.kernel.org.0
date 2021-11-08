@@ -2,73 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22386449D52
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 21:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19FBD449D67
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 21:59:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237505AbhKHU7Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 15:59:25 -0500
-Received: from mail-oi1-f170.google.com ([209.85.167.170]:37786 "EHLO
-        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236925AbhKHU7Y (ORCPT
+        id S238723AbhKHVCQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 16:02:16 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:48045 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S238271AbhKHVCN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 15:59:24 -0500
-Received: by mail-oi1-f170.google.com with SMTP id o83so29738018oif.4;
-        Mon, 08 Nov 2021 12:56:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ROr6nFterK3OoeHb8IzT+KJ6EzNKL5k74QBsZO4xI28=;
-        b=IxGbk1W/y3CCa8aLPTb36J2spIsr7JSJx6PhPFfO1diCEK8T3kw/T/JI4u4KEaG0CH
-         oTZ7kLpgBI8ZF270/H1QqD9os+F0k57i9Tq3D6B8d2aHdAKPX9A7NM88EY+lDnUn59TD
-         SDizi8Vf5JT4jJy3hPwvWWmSdKus1OnusJdYUeFsiygspnGCKqqjHE4brG7wcAc5w94F
-         sirc5QA8KrbGISK86LTHvndH+AncS32bcQQ7jMlBWCVCSuFm2vatudTwzLbRTvuvNEU4
-         /x2N/SQmMbGK2fdmgggQk7HIb/m8HKth3B6NAXamlxPcR7Hiphicwen8q5KAfhTscoPD
-         HzTw==
-X-Gm-Message-State: AOAM530OmLP+sUQAnYF/ReyFGq/wRATAFpjS0cCH5KrlcUuldh1KB2Xl
-        Lfp9mXu7nbmsRL8C2hFPsA==
-X-Google-Smtp-Source: ABdhPJwjqns1w3PPkpnQgHj7gavQ6nnOTZgyEEJoCHPPbJYilKF3I4gS8+TjRXtVoGZ3b0n4+yykvQ==
-X-Received: by 2002:aca:3055:: with SMTP id w82mr1080310oiw.2.1636404999517;
-        Mon, 08 Nov 2021 12:56:39 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id 2sm2899127oih.34.2021.11.08.12.56.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 12:56:38 -0800 (PST)
-Received: (nullmailer pid 4173 invoked by uid 1000);
-        Mon, 08 Nov 2021 20:56:38 -0000
-Date:   Mon, 8 Nov 2021 14:56:38 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Prabhakar <prabhakar.csengg@gmail.com>, linux-gpio@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Add
- output-impedance-ohms property
-Message-ID: <YYmPBkHyfaitPMIE@robh.at.kernel.org>
-References: <20211029124437.20721-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211029124437.20721-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 8 Nov 2021 16:02:13 -0500
+Received: (qmail 1679175 invoked by uid 1000); 8 Nov 2021 15:59:26 -0500
+Date:   Mon, 8 Nov 2021 15:59:26 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rohit Maheshwari <rohitm@chelsio.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        intel-gvt-dev@lists.freedesktop.org,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-edac@vger.kernel.org,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        linux-hyperv@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-leds <linux-leds@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM" 
+        <linux-remoteproc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        scsi <linux-scsi@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-staging@lists.linux.dev,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        linux-um <linux-um@lists.infradead.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        "open list:TENSILICA XTENSA PORT \(xtensa\)" 
+        <linux-xtensa@linux-xtensa.org>, netdev <netdev@vger.kernel.org>,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux <sparclinux@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v0 42/42] notifier: Return an error when callback is
+ already registered
+Message-ID: <20211108205926.GA1678880@rowland.harvard.edu>
+References: <20211108101157.15189-1-bp@alien8.de>
+ <20211108101157.15189-43-bp@alien8.de>
+ <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com>
+ <YYkyUEqcsOwQMb1S@zn.tnic>
+ <CAMuHMdXiBEQyEXJagSfpH44hxVA2t0sDH7B7YubLGHrb2MJLLA@mail.gmail.com>
+ <YYlJQYLiIrhjwOmT@zn.tnic>
+ <CAMuHMdXHikGrmUzuq0WG5JRHUUE=5zsaVCTF+e4TiHpM5tc5kA@mail.gmail.com>
+ <YYlOmd0AeA8DSluD@zn.tnic>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211029124437.20721-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <YYlOmd0AeA8DSluD@zn.tnic>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 29 Oct 2021 13:44:33 +0100, Lad Prabhakar wrote:
-> RZ/G2L SoC has two groups of pins, Group-A and Group-B. RZ/G2L SoC supports
-> configuring Output Impedance for Group-B pins (valid values 33/50/66/100).
+On Mon, Nov 08, 2021 at 05:21:45PM +0100, Borislav Petkov wrote:
+> On Mon, Nov 08, 2021 at 05:12:16PM +0100, Geert Uytterhoeven wrote:
+> > Returning void is the other extreme ;-)
+> > 
+> > There are 3 levels (ignoring BUG_ON()/panic () inside the callee):
+> >   1. Return void: no one can check success or failure,
+> >   2. Return an error code: up to the caller to decide,
+> >   3. Return a __must_check error code: every caller must check.
+> > 
+> > I'm in favor of 2, as there are several places where it cannot fail.
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml      | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+> Makes sense to me. I'll do that in the next iteration.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Is there really any reason for returning an error code?  For example, is 
+it anticipated that at some point in the future these registration calls 
+might fail?
+
+Currently, the only reason for failing to register a notifier callback 
+is because the callback is already registered.  In a sense this isn't 
+even an actual failure -- after the registration returns the callback 
+_will_ still be registered.
+
+So if the call can never really fail, why bother with a return code?  
+Especially since the caller can't do anything with such a code value.
+
+Given the current state of affairs, I vote in favor of 1 (plus a WARN or 
+something similar to generate a stack dump in the callee, since double 
+registration really is a bug).
+
+Alan Stern
