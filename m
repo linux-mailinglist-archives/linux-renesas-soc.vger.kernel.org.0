@@ -2,117 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F211944AA29
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 10:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3245D44AB05
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 10:56:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244704AbhKIJMg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Nov 2021 04:12:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40294 "EHLO
+        id S243535AbhKIJ7U convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Nov 2021 04:59:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244684AbhKIJMf (ORCPT
+        with ESMTP id S243350AbhKIJ7P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Nov 2021 04:12:35 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C7BC061764
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Nov 2021 01:09:49 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id e11so15712782ljo.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Nov 2021 01:09:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=kus4q4w/MRHo7vb0zRbS2VwR79Spya1yRC0ArOdsenE=;
-        b=ZWZnKj77Bb0zN+NtDHkcLIakxLUogbyA7v7+ivtezp4n4NuGhNWL6tJEsoUAl4X2Rz
-         zEK5cQWJwG//muWN+ClyrRUkHFSKzTZ8sb3zWMYQGRfiyDXmY9RRibc2pA5/NwWi1cSH
-         i50S/3hrwkOVmnWp6TgVRLIptDNgAKE66Nszt8RzaMrsQPBJ87+2h2YAvlIl2W68c2CG
-         Tl5dlw4nQrbdXgZAlIuQnhOJ7O2PC+AJeaAxU1Rv1eHInQsjVlHrxAtnItoeCncXvqRB
-         FSelqX4zqam4rHbF6NNFRtJrMmlIridh9KAvX+00U53pz0Tq8iMAsUJ6FKMiI3netaA1
-         hGbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=kus4q4w/MRHo7vb0zRbS2VwR79Spya1yRC0ArOdsenE=;
-        b=NaerGPq1frVhC/cJU6IVDHjBSKw9uw2GnLK2F88yHw8cFVBVsqq/Fwb1mSrQdx9jcW
-         VzT86VCvlTE2E4kn+vDMsClUa9ms1Y3WfwOmJzo4vC2okunV0IfnUv2U+J4IWylutgFN
-         AMLSUZRPGXr0wTjxuimkDhQfFcIWisVb7IO9Kch9cX761YkzT5WaPLZvJgQshsVUZgWA
-         04IxyxLWxqpXl7jfI668fL2YDKWzYSHw5RIqkHceecPhhMxchDOmrVSVIGJRh5vsH0gq
-         mg4YCp+lzkKdc0IDHQxWuJG6zkuSOb+VgfPCEjVq2VvCKcIomF1V0pRO8YM04vDkqQpC
-         eGsg==
-X-Gm-Message-State: AOAM532H3rBJIfyv1juXewTqBzWwHYpolI6mir8u2tcgk7JnYOmAlhkM
-        xlxZELBruhBzijchE3ZliVxV/w==
-X-Google-Smtp-Source: ABdhPJwcrEHsK3imEHQJg0uuHq01I7FN9FrVAlluvNnoCcfBvfbVXKgX5owLubLXvq2Tmmtz0wAeQg==
-X-Received: by 2002:a2e:8515:: with SMTP id j21mr5531503lji.531.1636448987671;
-        Tue, 09 Nov 2021 01:09:47 -0800 (PST)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id d11sm191292lfq.303.2021.11.09.01.09.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Nov 2021 01:09:47 -0800 (PST)
-Date:   Tue, 9 Nov 2021 10:09:46 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 0/9] arm64: dts: renesas: Thermal binding validation
-Message-ID: <YYo62jdzSTxqCMtk@oden.dyn.berto.se>
-References: <20211104224033.3997504-1-kieran.bingham+renesas@ideasonboard.com>
- <CAMuHMdXVBj58ZM3LqCN3cudsE3VJV8AQC5OCOJP96RaqYf4NDQ@mail.gmail.com>
- <YYo0syH9m/CYlB2d@oden.dyn.berto.se>
+        Tue, 9 Nov 2021 04:59:15 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7ADC061766
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Nov 2021 01:56:29 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1mkNrR-0002z2-9N; Tue, 09 Nov 2021 10:56:13 +0100
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1mkNrP-000Vmq-9F; Tue, 09 Nov 2021 10:56:11 +0100
+Message-ID: <9ac6629d3fb4002b51c7b39eda4648d8845795a3.camel@pengutronix.de>
+Subject: Re: [RFC 4/4] watchdog: Add Watchdog Timer driver for RZ/G2L
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-watchdog@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Date:   Tue, 09 Nov 2021 10:56:11 +0100
+In-Reply-To: <20211104160858.15550-5-biju.das.jz@bp.renesas.com>
+References: <20211104160858.15550-1-biju.das.jz@bp.renesas.com>
+         <20211104160858.15550-5-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YYo0syH9m/CYlB2d@oden.dyn.berto.se>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2021-11-09 09:43:33 +0100, Niklas Söderlund wrote:
-> > > linux/arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dt.yaml: 
-> > > thermal-zones: sensor3-thermal:cooling-maps:map0:contribution:0:0: 
-> > > 1024 is greater than the maximum of 100
-> > >         From schema: Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-> > >
-> > > This validation error appears to be pervasive across all of these
-> > > bindings, but changing that will be more invasive and require someone to
-> > > perform dedicated testing with the thermal drivers to ensure that the
-> > > updates to the ranges do not cause unexpected side effects.
-> > 
-> > Niklas?
-> 
-> I will have a look. The thermal driver is the one driver where I have 
-> automated CI test running.
+On Thu, 2021-11-04 at 16:08 +0000, Biju Das wrote:
+[...]
+> +static int rzg2l_wdt_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct rzg2l_wdt_priv *priv;
+> +	struct clk *wdt_clk;
+> +	int ret;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(priv->base))
+> +		return PTR_ERR(priv->base);
+> +
+> +	/* Get watchdog main clock */
+> +	wdt_clk = devm_clk_get(&pdev->dev, "oscclk");
+> +	if (IS_ERR(wdt_clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(wdt_clk), "no oscclk");
+> +
+> +	priv->osc_clk_rate = clk_get_rate(wdt_clk);
+> +	if (!priv->osc_clk_rate)
+> +		return dev_err_probe(&pdev->dev, -EINVAL, "oscclk rate is 0");
+> +
+> +	/* Get Peripheral clock */
+> +	wdt_clk = devm_clk_get(&pdev->dev, "pclk");
+> +	if (IS_ERR(wdt_clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(wdt_clk), "no pclk");
+> +
+> +	priv->pclk_rate = clk_get_rate(wdt_clk);
+> +	if (!priv->pclk_rate)
+> +		return dev_err_probe(&pdev->dev, -EINVAL, "pclk rate is 0");
+> +
+> +	priv->delay = F2CYCLE_NSEC(priv->osc_clk_rate) * 6 + F2CYCLE_NSEC(priv->pclk_rate) * 9;
+> +
+> +	priv->rstc = devm_reset_control_get(&pdev->dev, NULL);
 
-So the core of the issue is that the definition of the property changed 
-in the txt to yaml conversion. The original definition was,
+Please use devm_reset_control_get_exclusive().
 
-  Optional property:
-  - contribution:         The cooling contribution to the thermal zone of the
-    Type: unsigned        referred cooling device at the referred trip point.
-    Size: one cell        The contribution is a ratio of the sum
-			    of all cooling contributions within a thermal zone.
+> +	if (IS_ERR(priv->rstc))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(priv->rstc),
+> +			"failed to get cpg reset");
+> +
+> +	reset_control_deassert(priv->rstc);
+> +	ret = devm_add_action_or_reset(&pdev->dev,
+> +				       rzg2l_wdt_reset_assert_clock_disable,
 
-While the  new binding states,
+I suppose rzg2l_wdt_reset_assert_clock_disable should be renamed to
+rzg2l_wdt_reset_assert given that it does not disable a clock.
 
-  contribution:
-    $ref: /schemas/types.yaml#/definitions/uint32
-    minimum: 0
-    maximum: 100 
-    description:
-      The percentage contribution of the cooling devices at the 
-      specific trip temperature referenced in this map 
-      to this thermal zone
+> +				       &priv->wdev);
+> +	if (ret < 0)
+> +		return dev_err_probe(&pdev->dev, ret, "failed to get reset");
 
-Looking at the real world usage of this only 2 out of 17 platforms sets 
-a contribution value less or equal to 100. I will send a patch to fix 
-the bindings.
+I think this should just return ret, as the only possible failure from
+devm_add_action_or_reset() is -ENOMEM.
 
--- 
-Kind Regards,
-Niklas Söderlund
+> +
+> +	pm_runtime_enable(&pdev->dev);
+> +	ret = pm_runtime_resume_and_get(&pdev->dev);
+> +	if (ret < 0) {
+> +		dev_err(dev, "pm_runtime_resume_and_get failed");
+
+Consider printing ret with %pe.
+
+> +		goto out_pm_get;
+> +	}
+> +
+> +	priv->wdev.info = &rzg2l_wdt_ident;
+> +	priv->wdev.ops = &rzg2l_wdt_ops;
+> +	priv->wdev.parent = dev;
+> +	priv->wdev.min_timeout = 1;
+> +	priv->wdev.max_timeout = WDT_CYCLE_MSEC(priv->osc_clk_rate, 0xfff);
+> +	priv->wdev.timeout = WDT_DEFAULT_TIMEOUT;
+> +
+> +	platform_set_drvdata(pdev, priv);
+> +	watchdog_set_drvdata(&priv->wdev, priv);
+> +	watchdog_set_nowayout(&priv->wdev, nowayout);
+> +	watchdog_set_restart_priority(&priv->wdev, 0);
+> +	watchdog_stop_on_unregister(&priv->wdev);
+> +
+> +	ret = watchdog_init_timeout(&priv->wdev, 0, dev);
+> +	if (ret)
+> +		dev_warn(dev, "Specified timeout invalid, using default");
+> +
+> +	ret = devm_watchdog_register_device(&pdev->dev, &priv->wdev);
+> +	if (ret < 0)
+> +		goto out_pm_disable;
+> +
+> +	return 0;
+> +
+> +out_pm_disable:
+> +	pm_runtime_put(dev);
+> +out_pm_get:
+> +	pm_runtime_disable(dev);
+> +
+> +	return ret;
+> +}
+
+regards
+Philipp
