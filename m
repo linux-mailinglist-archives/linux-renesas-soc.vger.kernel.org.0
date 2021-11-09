@@ -2,151 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58AC344A85B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 09:30:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75D3C44A993
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 09:43:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241549AbhKIId1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Nov 2021 03:33:27 -0500
-Received: from mail-vk1-f174.google.com ([209.85.221.174]:33718 "EHLO
-        mail-vk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230361AbhKIId0 (ORCPT
+        id S244449AbhKIIq1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Nov 2021 03:46:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34146 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244454AbhKIIqU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Nov 2021 03:33:26 -0500
-Received: by mail-vk1-f174.google.com with SMTP id d130so9622088vke.0;
-        Tue, 09 Nov 2021 00:30:41 -0800 (PST)
+        Tue, 9 Nov 2021 03:46:20 -0500
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E09ACC0613F5
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Nov 2021 00:43:34 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id v15so27731892ljc.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Nov 2021 00:43:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=UbIICAMlLKgGbZxE5t5FiNaR0uUnSWbFWBMze1UqKbU=;
+        b=ZvTEl+KhNytMLoId74/PtYyQAWwDPoqCG/DrJ7UNZ6GoD2jWsQ7xMZTdqLOmobRWpD
+         i+U1KN25ShrE0J42n0cJ5pwlD9Y0aQdylwnlm8lcnw8ZPjlwuS1zKsaUGMM2z1kgVHL4
+         NxA9MH6R3d0ILPz6RCq7TBBhR2YrRJgBwY+20WUQArVDpfbrh8KhWOCiG17IkUeQaV5s
+         3+rJJaxl49S8JpN6sy1w4lWbV8JdUGtwc+MH1BiyIHTWKpCHl6IgJtPWT1IM/H4oY+ki
+         lDdauMsY6wkZ2Zu6dzCRlabKwpxD79pGkDcN8sGqYDaALiHqB3s7UslDo2WQlS4VBv1g
+         LsqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gGstnhGZbRY0Qd8//rKyVCZDyuB1qDxTjF/eZkOvFlU=;
-        b=H0Upa6jU4LDLBG1zP0XUZO7vMowA3FOAW++BBkVon2LoDWSegz4g8ox3L5UPVKgscy
-         j5IN9wwM3Wec2IxV66dBek177UI0BMo36hG4ItnqYBMbnTz8S6u9gyIQgKTW3tqWKcmr
-         w87llQX4KJt9qO8XcXjww5cw9W3bjcm5CchWG4b6dlCUZNkJDqeRwQdjtPcMgH9oKaFd
-         JFaB4EBPSTXldrKHlVfHDZkzhSwDaIXXCnKK7miuxWCpLD1YCf/8l4DlxUa6AAn+0Xvc
-         hqYWDRKCe3eVoMARuAynsOqVQn4idt5EZQqUOSnP1PyGMW3RyDaiucBAJVYZZp5qqkBu
-         vvIQ==
-X-Gm-Message-State: AOAM530QotiJAHqja77y6IFOmZwRUBvC7gWPfETJQKEDz0r06+Z25+Pa
-        yjPRuaUsczdl9ujYNgu07K+m2KBWkLsEu3SS
-X-Google-Smtp-Source: ABdhPJz3uA//hLkDB1L1TCC+Y689SiR00uwWOCHBsVUHmdIGEHW5mDV8iyUTrcTpoGsIgeIKd8wwsQ==
-X-Received: by 2002:a05:6122:ca7:: with SMTP id ba39mr8457930vkb.25.1636446640710;
-        Tue, 09 Nov 2021 00:30:40 -0800 (PST)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id f188sm48432vsc.16.2021.11.09.00.30.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Nov 2021 00:30:40 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id s13so21466615uaj.11;
-        Tue, 09 Nov 2021 00:30:39 -0800 (PST)
-X-Received: by 2002:ab0:3154:: with SMTP id e20mr7912090uam.14.1636446639734;
- Tue, 09 Nov 2021 00:30:39 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=UbIICAMlLKgGbZxE5t5FiNaR0uUnSWbFWBMze1UqKbU=;
+        b=uqOysXt0mOyMTEqD2g9YniBeoZYWcwPGJayOR4/sfJu74SI6v1YZpw+CG7jvlKJE1u
+         h9G7NxtlwT0d/wRfD9IMNPVk5IFw23yX1vyplasGj+lXO89CvsHOTk2zEm8OyeZcEosS
+         GKDvGZAY8wM+sdCktwx1gugwmPFL1geYNpJeFjt8zu6hn8+vN92PnIQYZc4AKsq+7VE0
+         6q0gVKJTEpgRsf60SlSD3OLAiuxxlZYu2qj43oO/krGVQr8wTsYnBZJKwjHTQiiHtwz5
+         mJkd7e+sCGJ/6Ti4Zpzx1+XQLRVF4oWh2atRvCUHprlKHF4eZ/XelyOFDETxs5+H2KQ+
+         7b3w==
+X-Gm-Message-State: AOAM533OuryHhZUXXiWZuW/sVT7qAstTKShF9w6xpMApFWyWft2cYGhc
+        QIR9qJEckRT+hL+FL6S4YsvJjg==
+X-Google-Smtp-Source: ABdhPJy89nC4+cwHu1qMOe9P48aCHVErD+JA9oP7lBxpaP6qglqN3kI+gSlmZauWxtrSWDbclIqUwQ==
+X-Received: by 2002:a2e:b0c5:: with SMTP id g5mr5549849ljl.381.1636447413290;
+        Tue, 09 Nov 2021 00:43:33 -0800 (PST)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id i8sm2071131lfb.227.2021.11.09.00.43.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Nov 2021 00:43:32 -0800 (PST)
+Date:   Tue, 9 Nov 2021 09:43:31 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 0/9] arm64: dts: renesas: Thermal binding validation
+Message-ID: <YYo0syH9m/CYlB2d@oden.dyn.berto.se>
+References: <20211104224033.3997504-1-kieran.bingham+renesas@ideasonboard.com>
+ <CAMuHMdXVBj58ZM3LqCN3cudsE3VJV8AQC5OCOJP96RaqYf4NDQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211104160858.15550-1-biju.das.jz@bp.renesas.com>
- <20211104160858.15550-5-biju.das.jz@bp.renesas.com> <70ba0c57-aca5-4822-631b-1eb7e7b9b3a2@roeck-us.net>
- <CAMuHMdXrqkowJnQAT2DvcJx6jsEoMcrEUN6k=NNcqoxc8-aKFw@mail.gmail.com> <OS0PR01MB59222E6080E92731DD66A03586929@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59222E6080E92731DD66A03586929@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 9 Nov 2021 09:30:28 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXnyTPB2bo5PS=A4iwUfLivJa=KC7u7urWb0jDvpnuc+g@mail.gmail.com>
-Message-ID: <CAMuHMdXnyTPB2bo5PS=A4iwUfLivJa=KC7u7urWb0jDvpnuc+g@mail.gmail.com>
-Subject: Re: [RFC 4/4] watchdog: Add Watchdog Timer driver for RZ/G2L
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXVBj58ZM3LqCN3cudsE3VJV8AQC5OCOJP96RaqYf4NDQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hello,
 
-On Tue, Nov 9, 2021 at 9:22 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [RFC 4/4] watchdog: Add Watchdog Timer driver for RZ/G2L
-> > On Mon, Nov 8, 2021 at 7:38 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> > > On 11/4/21 9:08 AM, Biju Das wrote:
-> > > > Add Watchdog Timer driver for RZ/G2L SoC.
-> > > >
-> > > > WDT IP block supports normal watchdog timer function and reset
-> > > > request function due to CPU parity error.
-> > > >
-> > > > This driver currently supports normal watchdog timer function and
-> > > > later will add support for reset request function due to CPU parity
-> > > > error.
-> > > >
-> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On 2021-11-09 09:29:01 +0100, Geert Uytterhoeven wrote:
+> Hi Kieran,
+> 
+> On Thu, Nov 4, 2021 at 11:40 PM Kieran Bingham
+> <kieran.bingham+renesas@ideasonboard.com> wrote:
+> > The thermal sensor bindings were not matched correctly against the
+> > expected naming scheme.
 > >
-> > > > --- /dev/null
-> > > > +++ b/drivers/watchdog/rzg2l_wdt.c
+> > r8a77980.dtsi also used a different naming scheme compared to the other
+> > related platforms.
+> 
+> It lacked the labels, which you added for consistency.
+> Is there any point in providing them, as there are no users? Or should
+> they be removed instead?
+> 
+> > This series cleans up the dtsi files for the CPU target thermal sensors,
+> > allowing the validation to run.
 > >
-> > > > +struct rzg2l_wdt_priv {
-> > > > +     void __iomem *base;
-> > > > +     struct watchdog_device wdev;
-> > > > +     struct reset_control *rstc;
-> > > > +     unsigned long osc_clk_rate;
-> > > > +     unsigned long pclk_rate;
-> > >
-> > > pclk_rate is only used in the probe function and thus not needed here.
+> > Enabling this validation shows up a new validation failure:
 > >
-> > Indeed...
-> OK.
+> > linux/arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dt.yaml: thermal-zones: sensor3-thermal:cooling-maps:map0:contribution:0:0: 1024 is greater than the maximum of 100
+> >         From schema: Documentation/devicetree/bindings/thermal/thermal-zones.yaml
 > >
-> > > > +static int rzg2l_wdt_probe(struct platform_device *pdev) {
-> > > > +     struct device *dev = &pdev->dev;
-> > > > +     struct rzg2l_wdt_priv *priv;
-> > > > +     struct clk *wdt_clk;
-> > > > +     int ret;
-> > > > +
-> > > > +     priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> > > > +     if (!priv)
-> > > > +             return -ENOMEM;
-> > > > +
-> > > > +     priv->base = devm_platform_ioremap_resource(pdev, 0);
-> > > > +     if (IS_ERR(priv->base))
-> > > > +             return PTR_ERR(priv->base);
-> > > > +
-> > > > +     /* Get watchdog main clock */
-> > > > +     wdt_clk = devm_clk_get(&pdev->dev, "oscclk");
-> > > > +     if (IS_ERR(wdt_clk))
-> > > > +             return dev_err_probe(&pdev->dev, PTR_ERR(wdt_clk), "no
-> > > > + oscclk");
-> > > > +
-> > > > +     priv->osc_clk_rate = clk_get_rate(wdt_clk);
-> > > > +     if (!priv->osc_clk_rate)
-> > > > +             return dev_err_probe(&pdev->dev, -EINVAL, "oscclk rate
-> > > > + is 0");
-> > > > +
-> > > > +     /* Get Peripheral clock */
-> > > > +     wdt_clk = devm_clk_get(&pdev->dev, "pclk");
-> > > > +     if (IS_ERR(wdt_clk))
-> > > > +             return dev_err_probe(&pdev->dev, PTR_ERR(wdt_clk), "no
-> > > > + pclk");
-> > > > +
-> > > > +     priv->pclk_rate = clk_get_rate(wdt_clk);
-> > > > +     if (!priv->pclk_rate)
-> > > > +             return dev_err_probe(&pdev->dev, -EINVAL, "pclk rate
-> > > > + is 0");
-> >
-> > ... and this can't really happen, can it?
->
-> But I need pclk frequency  for delay calculation. That is the reason I am doing a get. Probably after
-> Getting the rate, I should do a "put". So that Run time PM will be in full control for the clocks.
-> Same for oscillator clk. Is it ok?
+> > This validation error appears to be pervasive across all of these
+> > bindings, but changing that will be more invasive and require someone to
+> > perform dedicated testing with the thermal drivers to ensure that the
+> > updates to the ranges do not cause unexpected side effects.
+> 
+> Niklas?
 
-Oops, I missed that.  Please ignore my comment, I'll grab a coffee
-soon ;-)
+I will have a look. The thermal driver is the one driver where I have 
+automated CI test running.
 
-Gr{oetje,eeting}s,
+> 
+> > Kieran Bingham (9):
+> >   arm64: dts: renesas: r8a774a1: Fix thermal bindings
+> >   arm64: dts: renesas: r8a774b1: Fix thermal bindings
+> >   arm64: dts: renesas: r8a774e1: Fix thermal bindings
+> >   arm64: dts: renesas: r8a77951: Fix thermal bindings
+> >   arm64: dts: renesas: r8a77960: Fix thermal bindings
+> >   arm64: dts: renesas: r8a77961: Fix thermal bindings
+> >   arm64: dts: renesas: r8a77965: Fix thermal bindings
+> >   arm64: dts: renesas: r8a77980: Fix thermal bindings
+> >   arm64: dts: renesas: r8a779a0: Fix thermal bindings
+> 
+> For the whole series:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-                        Geert
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Kind Regards,
+Niklas Söderlund
