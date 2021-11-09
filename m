@@ -2,123 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97FA0449DE5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Nov 2021 22:19:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DF90449F61
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 01:17:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239998AbhKHVW0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 16:22:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49682 "EHLO
+        id S241169AbhKIAUm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 19:20:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239990AbhKHVVk (ORCPT
+        with ESMTP id S241154AbhKIAUl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 16:21:40 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F44C061570;
-        Mon,  8 Nov 2021 13:18:55 -0800 (PST)
-Received: from zn.tnic (p200300ec2f3311007827e440708b1099.dip0.t-ipconnect.de [IPv6:2003:ec:2f33:1100:7827:e440:708b:1099])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E3BE71EC051F;
-        Mon,  8 Nov 2021 22:18:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1636406333;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=AU7V4fSHGUK4yNvIX3QFWGgL2mpvsQwlJrzk1EYTZE4=;
-        b=HI4wHVqdPFUaTmLfTawRP0YuILjCSvy0XvR7UY6GhjpkLZ7Jcpensq3GPz/wKuSVQPh/ah
-        JjfisFcmsOLL77YybjTfUcF4SOtfsMptjoCY2iNpL/QAVX8IlmhT4tll2zqUciAF4fFC2q
-        GhOxoJIWWV9UKbtfg9ziQ2wDV7UERPU=
-Date:   Mon, 8 Nov 2021 22:18:47 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Ayush Sawal <ayush.sawal@chelsio.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rohit Maheshwari <rohitm@chelsio.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        intel-gvt-dev@lists.freedesktop.org,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-edac@vger.kernel.org,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        linux-hyperv@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-leds <linux-leds@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
-        <linux-remoteproc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        scsi <linux-scsi@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-staging@lists.linux.dev,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>, netdev <netdev@vger.kernel.org>,
-        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
-        sparclinux <sparclinux@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v0 42/42] notifier: Return an error when callback is
- already registered
-Message-ID: <YYmUN69Y7z9xITas@zn.tnic>
-References: <20211108101157.15189-1-bp@alien8.de>
- <20211108101157.15189-43-bp@alien8.de>
- <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com>
- <YYkyUEqcsOwQMb1S@zn.tnic>
- <CAMuHMdXiBEQyEXJagSfpH44hxVA2t0sDH7B7YubLGHrb2MJLLA@mail.gmail.com>
- <YYlJQYLiIrhjwOmT@zn.tnic>
- <CAMuHMdXHikGrmUzuq0WG5JRHUUE=5zsaVCTF+e4TiHpM5tc5kA@mail.gmail.com>
- <YYlOmd0AeA8DSluD@zn.tnic>
- <20211108205926.GA1678880@rowland.harvard.edu>
+        Mon, 8 Nov 2021 19:20:41 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C2CC061570;
+        Mon,  8 Nov 2021 16:17:56 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id s186so48219365yba.12;
+        Mon, 08 Nov 2021 16:17:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Kv70nKReru2U0FWWfEZVZKiB4QAPq6CzVK+RIiY/Pas=;
+        b=KfMuTM8gtKNwavjBrO+oz/leteZBvGcJE1qEg9uYFxdtZjI+cDiSJhu3YwaYRMe0vR
+         NpH22jOvCX8ic6oH8ka484+WQxeWbaixoewVHAL4fSaEMZ7+gadvgP6kc08Px8B4mh0g
+         05qd8TVsUwe6TkgcPEf+ti1tkEjOBwpIRhCawNwjaYE3nsEfr5bJBr7vUj3ewryR+9zG
+         SGrvc+nJeK40600coZ1WGnNrmz4SBQMQ8xULOpZ5miIxShha3yHK2lNPDbKZ0OErg0V0
+         Gjm/K4NTDQatAZ9I3a5uxrrbxZoNnElrkAnTHVbgsln/pZRA+j5uL4xatd1YxbTv/g4G
+         gQhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Kv70nKReru2U0FWWfEZVZKiB4QAPq6CzVK+RIiY/Pas=;
+        b=e4zmL0NOk2JHMp4ehYU//5C8fBYULk5R8dPSLVoo+Vlzx8Wb8NWUaDmBzpHZOhJ/CL
+         oDky9NZSRRP5e7khxgW7pOiiUsU1BdZJ3VHU/G9PVWoG1Y+QJGR3YIeyQ/uYswDNZuTG
+         hE7VD6OOKUiugFjxhlcBKF8hCeiZt4orSRUfcwckKR3OvzDdAUrI8z/DGO+21/frhJVz
+         qRBD2xopfCueTSTnRy21YydMPmdSS8rcv5ea0mzBDgwEsXa/WUem/u5IQj8zQjrXzUGL
+         b3X0R/wn/DdVLUcfC22ndTDlJaESRIVUtp9bFExxsrfGwHCrb9i/LKEe130WUfK1jsOO
+         Ku3g==
+X-Gm-Message-State: AOAM532eSDL3E2r6IqYtcCyRyGz1GKlkH5Vm03y2YnkxpFJznn+fQZgk
+        u4Zw1sK0J/0361VLMiqERX4AY4tRikQwQsFXaqk=
+X-Google-Smtp-Source: ABdhPJwObN6ajVBlMuqDsnX6vf6ZzuSvu0Hvn7GHKUzd1yOEGu3a5nNPMUk0FTfy4TUawFNCwKqbeHbJZ/NO6O1sWfE=
+X-Received: by 2002:a25:dc4d:: with SMTP id y74mr3596735ybe.422.1636417076117;
+ Mon, 08 Nov 2021 16:17:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211108205926.GA1678880@rowland.harvard.edu>
+References: <20211103173127.13701-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211103173127.13701-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXE9t5immi5WCVgPOe0dwioj3N_PGTk4Z_tWPaWtyQ6VQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdXE9t5immi5WCVgPOe0dwioj3N_PGTk4Z_tWPaWtyQ6VQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 9 Nov 2021 00:17:30 +0000
+Message-ID: <CA+V-a8vU9jKn2LBo+vVykCH2L_LqOmpXeR7XxX56_L7myi6xLw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: serial: renesas,sci: Document RZ/G2L SoC
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Nov 08, 2021 at 03:59:26PM -0500, Alan Stern wrote:
-> Is there really any reason for returning an error code?  For example, is 
-> it anticipated that at some point in the future these registration calls 
-> might fail?
-> 
-> Currently, the only reason for failing...
+Hi Geert,
 
-Right, I believe with not making it return void we're leaving the door
-open for some, *hypothetical* future return values if we decide we need
-to return them too, at some point.
+Thank you for the review.
 
-Yes, I can't think of another fact to state besides that the callback
-was already registered or return success but who knows what we wanna do
-in the future...
+On Mon, Nov 8, 2021 at 4:19 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Wed, Nov 3, 2021 at 6:31 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add SCI binding documentation for Renesas RZ/G2L SoC.
+> >
+> > Also update the example node with real world DT node.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> > --- a/Documentation/devicetree/bindings/serial/renesas,sci.yaml
+> > +++ b/Documentation/devicetree/bindings/serial/renesas,sci.yaml
+> > @@ -14,7 +14,11 @@ allOf:
+> >
+> >  properties:
+> >    compatible:
+> > -    const: renesas,sci
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - renesas,r9a07g044-sci     # RZ/G2{L,LC}
+> > +          - const: renesas,sci            # generic SCI compatible UART
+>
+> You added a oneOf, but forgot to keep the old single compatible
+> value as used on H8/300?
+>
+Ouch I grepped renesas,sci only in arm{64}, will fix that.
 
-And so if we change them all to void now, I think it'll be a lot more
-churn to switch back to returning a non-void value and having the
-callers who choose to handle that value, do so again.
-
-So, long story short, keeping the retval - albeit not very useful right
-now - is probably easier.
-
-I hope I'm making some sense here.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Cheers,
+Prabhakar
+> >
+> >    reg:
+> >      maxItems: 1
+>
+> With the above fixed:
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
