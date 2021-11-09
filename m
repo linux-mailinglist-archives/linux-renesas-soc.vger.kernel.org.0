@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8309B44AD57
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 13:17:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D48E44AD5D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 13:17:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242232AbhKIMTp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Nov 2021 07:19:45 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:44278 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S242052AbhKIMTl (ORCPT
+        id S242219AbhKIMTu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Nov 2021 07:19:50 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:34826 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S242214AbhKIMTo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Nov 2021 07:19:41 -0500
+        Tue, 9 Nov 2021 07:19:44 -0500
 X-IronPort-AV: E=Sophos;i="5.87,220,1631545200"; 
-   d="scan'208";a="99679493"
+   d="scan'208";a="99983750"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 09 Nov 2021 21:16:54 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 09 Nov 2021 21:16:57 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3CED04391CBA;
-        Tue,  9 Nov 2021 21:16:52 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 070D54392862;
+        Tue,  9 Nov 2021 21:16:54 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -30,9 +30,9 @@ Cc:     linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/3] dt-bindings: serial: renesas,sci: Document RZ/G2L SoC
-Date:   Tue,  9 Nov 2021 12:16:30 +0000
-Message-Id: <20211109121631.26687-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 3/3] serial: sh-sci: Add support to deassert/assert reset line
+Date:   Tue,  9 Nov 2021 12:16:31 +0000
+Message-Id: <20211109121631.26687-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211109121631.26687-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20211109121631.26687-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -40,90 +40,121 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add SCI binding documentation for Renesas RZ/G2L SoC.
+On RZ/G2L SoC we need to explicitly deassert the reset line
+for the device to work, use this opportunity to deassert/assert
+reset line in sh-sci driver.
 
-Also update the example node with RZ/G2L SCI0 node.
+This patch adds support to read the "resets" property (if available)
+from DT and perform deassert/assert when required.
+
+Also, propagate the error to the caller of sci_parse_dt() instead of
+returning NULL in case of failure.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v1->v2
-* Added const "renesas,sci" entry in compatible property for h8300
-* Included RB tag from Geert
+* deassert/assert reset line if available on all SoC's
+* Updated commit message
 ---
- .../bindings/serial/renesas,sci.yaml          | 44 ++++++++++++++++---
- 1 file changed, 38 insertions(+), 6 deletions(-)
+ drivers/tty/serial/sh-sci.c | 47 ++++++++++++++++++++++++++++++-------
+ 1 file changed, 39 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/serial/renesas,sci.yaml b/Documentation/devicetree/bindings/serial/renesas,sci.yaml
-index 22ed2f0b1dc3..141d3b368f10 100644
---- a/Documentation/devicetree/bindings/serial/renesas,sci.yaml
-+++ b/Documentation/devicetree/bindings/serial/renesas,sci.yaml
-@@ -14,7 +14,12 @@ allOf:
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index 89ee43061d3a..7aced84d2f04 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -37,6 +37,7 @@
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
++#include <linux/reset.h>
+ #include <linux/scatterlist.h>
+ #include <linux/serial.h>
+ #include <linux/serial_sci.h>
+@@ -3203,23 +3204,53 @@ static const struct of_device_id of_sci_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, of_sci_match);
  
- properties:
-   compatible:
--    const: renesas,sci
-+    oneOf:
-+      - items:
-+          - enum:
-+              - renesas,r9a07g044-sci     # RZ/G2{L,LC}
-+          - const: renesas,sci            # generic SCI compatible UART
-+      - const: renesas,sci                # generic SCI compatible UART
- 
-   reg:
-     maxItems: 1
-@@ -54,18 +59,45 @@ required:
-   - clocks
-   - clock-names
- 
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - renesas,r9a07g044-sci
-+then:
-+  properties:
-+    resets:
-+      maxItems: 1
++static void sci_reset_control_assert(void *data)
++{
++	reset_control_assert(data);
++}
 +
-+    power-domains:
-+      maxItems: 1
-+
-+  required:
-+    - resets
-+    - power-domains
-+
- unevaluatedProperties: false
+ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
+ 					  unsigned int *dev_id)
+ {
+ 	struct device_node *np = pdev->dev.of_node;
++	const struct of_device_id *of_id;
++	struct reset_control *rstc;
+ 	struct plat_sci_port *p;
+ 	struct sci_port *sp;
+ 	const void *data;
+-	int id;
++	int id, ret;
  
- examples:
-   - |
-+    #include <dt-bindings/clock/r9a07g044-cpg.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
+ 	if (!IS_ENABLED(CONFIG_OF) || !np)
+-		return NULL;
++		return ERR_PTR(-EINVAL);
 +
-     aliases {
-             serial0 = &sci0;
-     };
++	of_id = of_match_device(of_sci_match, &pdev->dev);
++	if (!of_id)
++		return ERR_PTR(-EINVAL);
  
--    sci0: serial@ffff78 {
--            compatible = "renesas,sci";
--            reg = <0xffff78 8>;
--            interrupts = <88 0>, <89 0>, <90 0>, <91 0>;
--            clocks = <&fclk>;
-+    sci0: serial@1004d000 {
-+            compatible = "renesas,r9a07g044-sci", "renesas,sci";
-+            reg = <0x1004d000 0x400>;
-+            interrupts = <GIC_SPI 405 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+            interrupt-names = "eri", "rxi", "txi", "tei";
-+            clocks = <&cpg CPG_MOD R9A07G044_SCI0_CLKP>;
-             clock-names = "fck";
-+            power-domains = <&cpg>;
-+            resets = <&cpg R9A07G044_SCI0_RST>;
-     };
+-	data = of_device_get_match_data(&pdev->dev);
++	rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
++	if (IS_ERR(rstc)) {
++		dev_err(&pdev->dev, "failed to get reset ctrl %ld\n", PTR_ERR(rstc));
++		return ERR_PTR(PTR_ERR(rstc));
++	}
++
++	ret = reset_control_deassert(rstc);
++	if (ret) {
++		dev_err(&pdev->dev, "failed to deassert reset %d\n", ret);
++		return ERR_PTR(ret);
++	}
++
++	ret = devm_add_action_or_reset(&pdev->dev, sci_reset_control_assert, rstc);
++	if (ret) {
++		dev_err(&pdev->dev, "failed to register assert devm action, %d\n",
++			ret);
++		return ERR_PTR(ret);
++	}
++
++	data = of_id->data;
+ 
+ 	p = devm_kzalloc(&pdev->dev, sizeof(struct plat_sci_port), GFP_KERNEL);
+ 	if (!p)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	/* Get the line number from the aliases node. */
+ 	id = of_alias_get_id(np, "serial");
+@@ -3227,11 +3258,11 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
+ 		id = ffz(sci_ports_in_use);
+ 	if (id < 0) {
+ 		dev_err(&pdev->dev, "failed to get alias id (%d)\n", id);
+-		return NULL;
++		return ERR_PTR(-EINVAL);
+ 	}
+ 	if (id >= ARRAY_SIZE(sci_ports)) {
+ 		dev_err(&pdev->dev, "serial%d out of range\n", id);
+-		return NULL;
++		return ERR_PTR(-EINVAL);
+ 	}
+ 
+ 	sp = &sci_ports[id];
+@@ -3318,8 +3349,8 @@ static int sci_probe(struct platform_device *dev)
+ 
+ 	if (dev->dev.of_node) {
+ 		p = sci_parse_dt(dev, &dev_id);
+-		if (p == NULL)
+-			return -EINVAL;
++		if (IS_ERR(p))
++			return PTR_ERR(p);
+ 	} else {
+ 		p = dev->dev.platform_data;
+ 		if (p == NULL) {
 -- 
 2.17.1
 
