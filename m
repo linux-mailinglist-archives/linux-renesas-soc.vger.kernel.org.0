@@ -2,88 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F19BC44A268
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 02:16:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 689C444A5C8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Nov 2021 05:32:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242769AbhKIBSF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Nov 2021 20:18:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44184 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242910AbhKIBOd (ORCPT
+        id S240614AbhKIEf1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Nov 2021 23:35:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34662 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236033AbhKIEf0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Nov 2021 20:14:33 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EFD361AD0;
-        Tue,  9 Nov 2021 01:05:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636419955;
-        bh=HHNgnnC0YH+UQ2SkIlv++jtsxO7zKOpuQ4wWcjuxFCY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=G8uOdoWHBChJ7itRoPun0CxCIH4UizQKVl7ucfkj3TPnZHEjHl13njjMKw7c6jWec
-         Fn2zwARUPFgW1wFkzRY6iFHVq3/eYbcoO87g+c7wo0Zib1tNhntC4VvETy1ZQsOabb
-         8T/KZsfoAiw7nelWl5eH84kxuyzL4GY9i2ndYCWbbC1qAz5VonRl6xXmOuXxbtgQHM
-         /vDS/zMoaMKqJiOQBJREB4yfTEU1yVmq6vXfCW61hMIZVu8iHX0sS6kmzwiCB8R/HR
-         w+7DHOQVkhE0oGDqEnIKPMPlMTf/9zDTDPf1TNZLmEMOWSAiirNELFniw9/clnRuka
-         XnPYPlYEbUwbw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nadezda Lutovinova <lutovinova@ispras.ru>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, niklas.soderlund@ragnatech.se,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 22/47] media: rcar-csi2: Add checking to rcsi2_start_receiver()
-Date:   Mon,  8 Nov 2021 12:50:06 -0500
-Message-Id: <20211108175031.1190422-22-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211108175031.1190422-1-sashal@kernel.org>
-References: <20211108175031.1190422-1-sashal@kernel.org>
+        Mon, 8 Nov 2021 23:35:26 -0500
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8482BC061764
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Nov 2021 20:32:41 -0800 (PST)
+Received: by mail-oi1-x236.google.com with SMTP id q124so31546453oig.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Nov 2021 20:32:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XPW05/I7JWkMC7nH5tjGxCD4A2fkhvnHq9/c9af0GlQ=;
+        b=VFf04iPQt21pyD9jgemG/8UjO2n+aCufGZ28WT29USfCMN6WMRHlJwx6YXw+G3e/hi
+         l9o4HvJMRjBXcEtDAfVqfI/VaiwPf2WUa4KQ0P7QxDCtMWmKQjLBzOs+WMGiajpfWV6f
+         tJvIJtL62+qGxeqv3bId01R5WrekNfG5dXKMnM1Co3lyCKvfakCxjba5fV1JyCegCZj2
+         Utq5TtiPKuebOMiYUKoJf2lr1+CEfFHS4Zxmsb10U26N4R220mDZuQ7KqHAgoI48UelD
+         9GNTCoVNJQBCLaaKtRh+eysMJuWfQcbwR4Biv7fUkF/W0ifQ3BcBJLRP5A2PfWbpV2Xb
+         iriA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XPW05/I7JWkMC7nH5tjGxCD4A2fkhvnHq9/c9af0GlQ=;
+        b=RnRUja/iVrntF9XJpi3eZ1H5bL+ctJxz+bwt9fXlk3Zb/YoRkb9mivPLJaegDpe40w
+         flmGV6I0z4zx+r0TdjCurCRmBEzeAuVrNcf6P3Am8Pl8YbXXycbPNhH2IOwSNHxO1GNO
+         2VrmxCvaV97V/GbAx1P3yewyeZKuwoB/kdqwLkH6oo/jQDWdnht21NrjOLPWTFYJCMuo
+         i2AFE3JUKnrlVjSv9zs2zvYDYGryodpjtt5eMRr7gE5CcLnu9syRxKKBfDPOAE5w5IEc
+         aJlGkkwIkQtKBP5pgwzCe1T7QqiB5MEcqwBQI4tT22uwsV0wk02Tm4GBYAWOaZ/TrKIu
+         qluA==
+X-Gm-Message-State: AOAM53362YvzQG6950Z6//Wa8EuQmghSF1D9s9PKiRdORwp+mnEw1n9R
+        PGG4Dpvw37EZly070ifc5bVYVNGdgiv3T3W6fMF1tA==
+X-Google-Smtp-Source: ABdhPJyiXYZZr89IAwXjMdgsg06kxN10S6s/oac8LsbHgXOCPomhOTw0JA/nU8TmlBO67To6uEcKTgdCFGNIZPdoNy4=
+X-Received: by 2002:a54:4791:: with SMTP id o17mr3342475oic.114.1636432360933;
+ Mon, 08 Nov 2021 20:32:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20211027134509.5036-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211027134509.5036-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211027134509.5036-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 9 Nov 2021 05:32:29 +0100
+Message-ID: <CACRpkdbY7QtjACCu63k+=Mn-XeLN3+fOjmKYR0w2NbhEZYGbeQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] pinctrl: pinconf-generic: Add support for
+ "output-impedance-ohms" to be extracted from DT files
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Nadezda Lutovinova <lutovinova@ispras.ru>
+On Wed, Oct 27, 2021 at 3:45 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 
-[ Upstream commit fc41665498332ad394b7db37f23e9394096ddc71 ]
+> Add "output-impedance-ohms" property to generic options used for DT
+> parsing files. This enables drivers, which use generic pin configurations,
+> to get the value passed to this property.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-If rcsi2_code_to_fmt() return NULL, then null pointer dereference occurs
-in the next cycle. That should not be possible now but adding checking
-protects from future bugs.
-The patch adds checking if format is NULL.
+Looks good to me:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Found by Linux Driver Verification project (linuxtesting.org).
+I suppose Geert will queue this patch with the rest of the Renesas stuff?
 
-Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index dc5ae8025832a..23f55514b002a 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -474,6 +474,8 @@ static int rcsi2_start(struct rcar_csi2 *priv)
- 
- 	/* Code is validated in set_fmt. */
- 	format = rcsi2_code_to_fmt(priv->mf.code);
-+	if (!format)
-+		return -EINVAL;
- 
- 	/*
- 	 * Enable all Virtual Channels.
--- 
-2.33.0
-
+Yours,
+Linus Walleij
