@@ -2,234 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07A5B44C860
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Nov 2021 20:05:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77FE744C88F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Nov 2021 20:08:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233481AbhKJTIK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Nov 2021 14:08:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233322AbhKJTIH (ORCPT
+        id S232659AbhKJTKf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Nov 2021 14:10:35 -0500
+Received: from mail-ua1-f54.google.com ([209.85.222.54]:45760 "EHLO
+        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232658AbhKJTKf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Nov 2021 14:08:07 -0500
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09B78C04C330
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Nov 2021 11:00:57 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:c018:2195:47a6:f384])
-        by laurent.telenet-ops.be with bizsmtp
-        id Gj0v2600816Lvom01j0vpa; Wed, 10 Nov 2021 20:00:55 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mksq6-00BX6N-Vm; Wed, 10 Nov 2021 20:00:54 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1mksq6-007h4a-05; Wed, 10 Nov 2021 20:00:54 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] soc: renesas: Consolidate product register handling
-Date:   Wed, 10 Nov 2021 20:00:52 +0100
-Message-Id: <057721f46c7499de4133135488f0f3da7fb39265.1636570669.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Wed, 10 Nov 2021 14:10:35 -0500
+Received: by mail-ua1-f54.google.com with SMTP id ay21so6909483uab.12;
+        Wed, 10 Nov 2021 11:07:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JVkOVIMojOtjUqioksXn7GnT56ja9tgOLgQ+4277MEE=;
+        b=fjYd9yz6VcyU8bHkb7NCESnndM5ERwt/R6eMIB60oXmL6xMJGL4iOfVRaRj3ar0Jqb
+         3ZEaNO3lrz49KdnI5FHckHwpOxhYjMlrxPX5Ht1GYJxlYUKn8PzRzHPzExqrPed2RG1C
+         51EoQzXxOzZSyoy0OslIqvMdwKCKUzpJvz7Eq5T7nrMz/r/ATYp8sLlwVAIAJ+yHHY/f
+         OVj0zYE5B0d1A2r9SKsvNNoP4gxzcqRnwrclwf1FFd/0RbJNlSsQK0r7NuCpxqNzqf83
+         hYRxCeD1LFoto6cfVGkvcv3sKF+9UbmxlHRuHZK+0icxbNnFaGja5x3VBHoNj84zGlVK
+         IHKw==
+X-Gm-Message-State: AOAM533g65lhvf+wLaq1fqggmL6HldV4WSXOoQaNgbfc6eK3+4/3BDfJ
+        0MG0Fpv7Tg2XgJwFuMV/zsC8KMHzrP9Gvg==
+X-Google-Smtp-Source: ABdhPJz+5wSNqDwACFvZCj9Bqo/s6w8WqkMTykc6tiPrOZqv3IDJZ4PLRbigmePd99pI/3CXAQqrOQ==
+X-Received: by 2002:a05:6102:d94:: with SMTP id d20mr2044416vst.12.1636571265982;
+        Wed, 10 Nov 2021 11:07:45 -0800 (PST)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id u14sm592142vsi.2.2021.11.10.11.07.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Nov 2021 11:07:45 -0800 (PST)
+Received: by mail-ua1-f43.google.com with SMTP id i6so6943206uae.6;
+        Wed, 10 Nov 2021 11:07:45 -0800 (PST)
+X-Received: by 2002:a05:6102:2910:: with SMTP id cz16mr2351290vsb.9.1636571265036;
+ Wed, 10 Nov 2021 11:07:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <ef59d6fd3b2201b912d5eaa7f7a037d8f9adb744.1636561068.git.geert+renesas@glider.be>
+ <ddcfa4b9-f7f4-04f5-89f2-b04c284e1945@prevas.dk>
+In-Reply-To: <ddcfa4b9-f7f4-04f5-89f2-b04c284e1945@prevas.dk>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 10 Nov 2021 20:07:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX_h9Tz8C-2SYyrS_G5BBbBNctqRA1mgKbhmYJxWzF-hg@mail.gmail.com>
+Message-ID: <CAMuHMdX_h9Tz8C-2SYyrS_G5BBbBNctqRA1mgKbhmYJxWzF-hg@mail.gmail.com>
+Subject: Re: [PATCH/RFC] of: Shrink struct of_device_id
+To:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Currently renesas_soc_init() scans the whole device tree up to three
-times, to find a device node describing a product register.
-Furthermore, the product register handling for the different variants is
-very similar, with the major difference being the location of the
-product bitfield inside the product register.
+Hi Rasmus,
 
-Reduce scanning to a single pass using of_find_matching_node_and_match()
-instead.  Switch to a common handling of product registers, by storing
-the intrinsics of each product register type in the data field of the
-corresponding match entry.
+On Wed, Nov 10, 2021 at 5:51 PM Rasmus Villemoes
+<rasmus.villemoes@prevas.dk> wrote:
+> On 10/11/2021 17.23, Geert Uytterhoeven wrote:
+> > Currently struct of_device_id is 196 (32-bit) or 200 (64-bit) bytes
+> > large.  It contains fixed-size strings for a name, a type, and a
+> > compatible value, but the first two are barely used.
+> > OF device ID tables contain multiple entries, plus an empty sentinel
+> > entry.
+> >
+> > Statistics for my current kernel source tree:
+> >   - 4487 tables with 16836 entries (3367200 bytes)
+> >   - 176 names (average 6.7 max 23 chars)
+> >   - 66 types (average 5.1 max 21 chars)
+> >   - 12192 compatible values (average 18.0 max 45 chars)
+> > Taking into account the minimum needed size to store the strings, only
+> > 6.9% of the allocated space is used...
+> >
+> > Reduce kernel size by reducing the sizes of the fixed strings by one
+> > half.
+>
+> Tried something like this 2.5 years ago:
+> https://lore.kernel.org/lkml/20190425203101.9403-1-linux@rasmusvillemoes.dk/
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Unfortunately the simplication of the source code is not reflected in
-the actual object code size, due to the sheer size of struct
-of_device_id (196 or 200 bytes on 32 vs. 64-bit).
+I wasn't aware of that.  I reworked some code which used multiple
+of_find_compatible_node() calls before, and noticed the end result
+had grown a lot due to the sheer size of of_device_id
+("[PATCH] soc: renesas: Consolidate product register handling",
+ https://lore.kernel.org/all/057721f46c7499de4133135488f0f3da7fb39265.1636570669.git.geert+renesas@glider.be).
 
-"[PATCH/RFC] of: Shrink struct of_device_id"
-https://lore.kernel.org/all/ef59d6fd3b2201b912d5eaa7f7a037d8f9adb744.1636561068.git.geert+renesas@glider.be
----
- drivers/soc/renesas/renesas-soc.c | 115 +++++++++++++++---------------
- 1 file changed, 56 insertions(+), 59 deletions(-)
+> I think that there might be some not-in-tree code that relies on the
+> existing layout. I considered adding a CONFIG_ knob, either for these
+> sizes in particular, or more generally a def_bool y "CONFIG_LEGACY"
+> which embedded folks that build the entire distro from source and don't
+> have any legacy things can turn off, and then get more sensible defaults
+> all around.
 
-diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
-index 7961b0be1850922d..7da0ea3587c4eab8 100644
---- a/drivers/soc/renesas/renesas-soc.c
-+++ b/drivers/soc/renesas/renesas-soc.c
-@@ -328,16 +328,49 @@ static const struct of_device_id renesas_socs[] __initconst = {
- 	{ /* sentinel */ }
- };
- 
-+struct renesas_id {
-+	unsigned int offset;
-+	u32 mask;
-+};
-+
-+static const struct renesas_id id_bsid __initconst = {
-+	.offset = 0,
-+	.mask = 0xff0000,
-+	/*
-+	 * TODO: Upper 4 bits of BSID are for chip version, but the format is
-+	 * not known at this time so we don't know how to specify eshi and eslo
-+	 */
-+};
-+
-+static const struct renesas_id id_rzg2l __initconst = {
-+	.offset = 0xa04,
-+	.mask = 0xfffffff,
-+};
-+
-+static const struct renesas_id id_prr __initconst = {
-+	.offset = 0,
-+	.mask = 0xff00,
-+};
-+
-+static const struct of_device_id renesas_ids[] __initconst = {
-+	{ .compatible = "renesas,bsid",			.data = &id_bsid },
-+	{ .compatible = "renesas,r9a07g044-sysc",	.data = &id_rzg2l },
-+	{ .compatible = "renesas,prr",			.data = &id_prr },
-+	{ /* sentinel */ }
-+};
-+
- static int __init renesas_soc_init(void)
- {
- 	struct soc_device_attribute *soc_dev_attr;
-+	unsigned int product, eshi = 0, eslo;
- 	const struct renesas_family *family;
- 	const struct of_device_id *match;
- 	const struct renesas_soc *soc;
-+	const struct renesas_id *id;
- 	void __iomem *chipid = NULL;
- 	struct soc_device *soc_dev;
- 	struct device_node *np;
--	unsigned int product, eshi = 0, eslo;
-+	const char *soc_id;
- 
- 	match = of_match_node(renesas_socs, of_root);
- 	if (!match)
-@@ -345,77 +378,42 @@ static int __init renesas_soc_init(void)
- 
- 	soc = match->data;
- 	family = soc->family;
-+	soc_id = strchr(match->compatible, ',') + 1;
- 
--	np = of_find_compatible_node(NULL, NULL, "renesas,bsid");
-+	np = of_find_matching_node_and_match(NULL, renesas_ids, &match);
- 	if (np) {
-+		id = match->data;
- 		chipid = of_iomap(np, 0);
- 		of_node_put(np);
--
--		if (chipid) {
--			product = readl(chipid);
--			iounmap(chipid);
--
--			if (soc->id && ((product >> 16) & 0xff) != soc->id) {
--				pr_warn("SoC mismatch (product = 0x%x)\n",
--					product);
--				return -ENODEV;
--			}
--		}
--
--		/*
--		 * TODO: Upper 4 bits of BSID are for chip version, but the
--		 * format is not known at this time so we don't know how to
--		 * specify eshi and eslo
--		 */
--
--		goto done;
-+	} else if (soc->id && family->reg) {
-+		/* Try hardcoded CCCR/PRR fallback */
-+		id = &id_prr;
-+		chipid = ioremap(family->reg, 4);
- 	}
- 
--	np = of_find_compatible_node(NULL, NULL, "renesas,r9a07g044-sysc");
--	if (np) {
--		chipid = of_iomap(np, 0);
--		of_node_put(np);
-+	if (chipid) {
-+		product = readl(chipid + id->offset);
-+		iounmap(chipid);
- 
--		if (chipid) {
--			product = readl(chipid + 0x0a04);
--			iounmap(chipid);
-+		if (id == &id_prr) {
-+			/* R-Car M3-W ES1.1 incorrectly identifies as ES2.0 */
-+			if ((product & 0x7fff) == 0x5210)
-+				product ^= 0x11;
-+			/* R-Car M3-W ES1.3 incorrectly identifies as ES2.1 */
-+			if ((product & 0x7fff) == 0x5211)
-+				product ^= 0x12;
- 
--			if (soc->id && (product & 0xfffffff) != soc->id) {
--				pr_warn("SoC mismatch (product = 0x%x)\n",
--					product);
--				return -ENODEV;
--			}
-+			eshi = ((product >> 4) & 0x0f) + 1;
-+			eslo = product & 0xf;
- 		}
- 
--		goto done;
--	}
--
--	/* Try PRR first, then hardcoded fallback */
--	np = of_find_compatible_node(NULL, NULL, "renesas,prr");
--	if (np) {
--		chipid = of_iomap(np, 0);
--		of_node_put(np);
--	} else if (soc->id && family->reg) {
--		chipid = ioremap(family->reg, 4);
--	}
--	if (chipid) {
--		product = readl(chipid);
--		iounmap(chipid);
--		/* R-Car M3-W ES1.1 incorrectly identifies as ES2.0 */
--		if ((product & 0x7fff) == 0x5210)
--			product ^= 0x11;
--		/* R-Car M3-W ES1.3 incorrectly identifies as ES2.1 */
--		if ((product & 0x7fff) == 0x5211)
--			product ^= 0x12;
--		if (soc->id && ((product >> 8) & 0xff) != soc->id) {
-+		if (soc->id &&
-+		    ((product & id->mask) >> __ffs(id->mask)) != soc->id) {
- 			pr_warn("SoC mismatch (product = 0x%x)\n", product);
- 			return -ENODEV;
- 		}
--		eshi = ((product >> 4) & 0x0f) + 1;
--		eslo = product & 0xf;
- 	}
- 
--done:
- 	soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
- 	if (!soc_dev_attr)
- 		return -ENOMEM;
-@@ -425,8 +423,7 @@ static int __init renesas_soc_init(void)
- 	of_node_put(np);
- 
- 	soc_dev_attr->family = kstrdup_const(family->name, GFP_KERNEL);
--	soc_dev_attr->soc_id = kstrdup_const(strchr(match->compatible, ',') + 1,
--					     GFP_KERNEL);
-+	soc_dev_attr->soc_id = kstrdup_const(soc_id, GFP_KERNEL);
- 	if (eshi)
- 		soc_dev_attr->revision = kasprintf(GFP_KERNEL, "ES%u.%u", eshi,
- 						   eslo);
--- 
-2.25.1
+Most of that should have been gone since the #ifdef KERNEL was removed
+from include/linux/mod_devicetable.h in commit 6543becf26fff612
+("mod/file2alias: make modalias generation safe for cross compiling").
+Of course you can never know for sure...
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
