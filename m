@@ -2,173 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B3D344C05A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Nov 2021 12:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 409AE44C112
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Nov 2021 13:16:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231158AbhKJLzx convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Nov 2021 06:55:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34084 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbhKJLzw (ORCPT
+        id S231500AbhKJMTM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Nov 2021 07:19:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55322 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231131AbhKJMTM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Nov 2021 06:55:52 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F90BC061764
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Nov 2021 03:53:05 -0800 (PST)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1mkm9r-0004Z4-FQ; Wed, 10 Nov 2021 12:52:51 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1mkm9n-000A1I-IA; Wed, 10 Nov 2021 12:52:47 +0100
-Message-ID: <92389952d7072efafaf7da67acfce84fd5f3b932.camel@pengutronix.de>
-Subject: Re: [PATCH 2/2] clocksource/drivers/renesas-ostm: Add RZ/G2L OSTM
- support
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Wed, 10 Nov 2021 07:19:12 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B97761247;
+        Wed, 10 Nov 2021 12:16:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636546584;
+        bh=ZYFWL/ZZSINDrj9gVT8HDnC1qKVafjx6t2mJPgowNVQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=reIhBKYtcg8k442u+V9YxuQbe8lxhoFCd41JIRHoPfobRr49BEKhEDTBUAwCjT0Vf
+         Rp0CEx223jng3x8zHBLJMnLNfaS0xrx15PkY/xJ/7cFe1uXdqc3JdekDpP+80ysXF5
+         uUmkOdyU7+Wi/2sF8m32JRo1J72u5NLS28WSnUedYUGEo6g9aIKdkF6VK8DT/14LCF
+         ldkxpAYsUNmVgj31jZvsa4NSzTQ1O+B7RtbRT0Ib8LuZGZcG8gaFJ6KBFy1462TVDu
+         9u7Yz0LaUUv7rD9tiA3F07iRoRI1/GvF2wO12X+hvrZa8UwsCawwpXMey99vsww45J
+         VbXyxJRP5OlBw==
+Date:   Wed, 10 Nov 2021 14:16:18 +0200
+From:   Abel Vesa <abelvesa@kernel.org>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <narmstrong@baylibre.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Date:   Wed, 10 Nov 2021 12:52:47 +0100
-In-Reply-To: <OS0PR01MB59224396F5796647A675D75486939@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20211110083152.31144-1-biju.das.jz@bp.renesas.com>
-         <20211110083152.31144-3-biju.das.jz@bp.renesas.com>
-         <CAMuHMdX+3TfX21HtuUcUQp1SZKJgZ0By8XFxzpxSED1H8_ua0w@mail.gmail.com>
-         <d9f7b80e1abbd1323c5ec7fcdf57fb1a855929cd.camel@pengutronix.de>
-         <OS0PR01MB59224396F5796647A675D75486939@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.38.3-1 
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for
+ probing simple bus only devices
+Message-ID: <YYu4EglV7SBZU2Iy@ryzen>
+References: <20210929000735.585237-1-saravanak@google.com>
+ <20210929000735.585237-2-saravanak@google.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210929000735.585237-2-saravanak@google.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 2021-11-10 at 11:37 +0000, Biju Das wrote:
-> Hi Philipp and Geert,
+On 21-09-28 17:07:33, Saravana Kannan wrote:
+> fw_devlink could end up creating device links for bus only devices.
+> However, bus only devices don't get probed and can block probe() or
+> sync_state() [1] call backs of other devices. To avoid this, probe these
+> devices using the simple-pm-bus driver.
 > 
-> Thanks for the feedback.
+> However, there are instances of devices that are not simple buses (they get
+> probed by their specific drivers) that also list the "simple-bus" (or other
+> bus only compatible strings) in their compatible property to automatically
+> populate their child devices. We still want these devices to get probed by
+> their specific drivers. So, we make sure this driver only probes devices
+> that are only buses.
 > 
-> > Subject: Re: [PATCH 2/2] clocksource/drivers/renesas-ostm: Add RZ/G2L OSTM
-> > support
-> > 
-> > Hi Geert, Biju,
-> > 
-> > On Wed, 2021-11-10 at 11:27 +0100, Geert Uytterhoeven wrote:
-> > > Hi Biju,
-> > > 
-> > > On Wed, Nov 10, 2021 at 9:32 AM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > > RZ/G2L SoC has Generic Timer Module(a.k.a OSTM) which needs to
-> > > > deassert the reset line before accessing any registers.
-> > > > 
-> > > > This patch adds an entry point for RZ/G2L so that we can deassert
-> > > > the reset line in probe callback.
-> > > > 
-> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > 
-> > > Thanks for your patch!
-> > > 
-> > > > --- a/drivers/clocksource/renesas-ostm.c
-> > > > +++ b/drivers/clocksource/renesas-ostm.c
-> > > > @@ -209,3 +211,39 @@ static int __init ostm_init(struct device_node
-> > > > *np)
-> > > >  }
-> > > > 
-> > > >  TIMER_OF_DECLARE(ostm, "renesas,ostm", ostm_init);
-> > > 
-> > > Background: this driver uses TIMER_OF_DECLARE() because the OSTM is
-> > > the system timer on RZ/A SoCs, which do not have the ARM architectured
-> > > timer.  RZ/G2L does have the ARM architectured timer.
-> > 
-> > Thanks.
-> > 
-> > > > +
-> > > > +#ifdef CONFIG_ARCH_R9A07G044
-> > > > +static int __init ostm_probe(struct platform_device *pdev) {
-> > > > +       struct device *dev = &pdev->dev;
-> > > > +       struct reset_control *rstc;
-> > > > +       int ret;
-> > > > +
-> > > > +       rstc = devm_reset_control_get_exclusive(dev, NULL);
-> > > > +       if (IS_ERR(rstc))
-> > > > +               return dev_err_probe(dev, PTR_ERR(rstc), "failed to
-> > > > + get reset");
-> > > > +
-> > > > +       reset_control_deassert(rstc);
-> > > > +
-> > > > +       ret = ostm_init(dev->of_node);
-> > > > +       if (ret) {
-> > > > +               reset_control_assert(rstc);
-> > > > +               return ret;
-> > > > +       }
-> > > > +
-> > > > +       return 0;
-> > > > +}
-> > > > +
-> > > > +static const struct of_device_id ostm_of_table[] = {
-> > > > +       { .compatible = "renesas,rzg2l-ostm", },
-> > > 
-> > > I believe the OSTM block on RZ/G2L is identical to the one on RZ/A,
-> > > and the requirement to deassert its module reset is an SoC integration
-> > > feature on RZ/G2L.  Hence the driver should match on "renesas,ostm"
-> > > for both?
-> > 
-> > If that is the case, the reset could be made required for
-> >   compatible = "renesas,r9a07g044-ostm", "renesas,ostm"; in the .yaml
-> > file.
-> > 
-> > > So my suggestion would be to include the reset handling in ostm_init()
-> > > instead, but make it optional, and error out in case of -EPROBE_DEFER.
-> > > 
-> > > In case initialization from TIMER_OF_DECLARE() failed, the platform
-> > > driver can kick in later and retry.
-> > > 
-> > > However, it seems __of_reset_control_get() ignores all errors,
-> > > including -EPROBE_DEFER, if optional is true, so this won't work?
-> > > 
-> > > Philipp: is that correct? If yes, ostm_init() has to check the
-> > > presence of a resets property to see if the reset is optional or
-> > required.
-> > 
-> > No, __of_reset_control_get() should only replace its -ENOENT return value
-> > due to errors from of_property_match_string() and
-> > of_parse_phandle_with_args() with NULL. Anything else I'd consider a bug.
-> > 
-> > Specifically, -EPROBE_DEFER is still returned if no existing rcdev is
-> > found matching the successful "resets" phandle lookup. So
-> > 
-> > 	rstc = devm_reset_control_get_optional_exclusive(dev, NULL);
+> [1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
+> Fixes: c442a0d18744 ("driver core: Set fw_devlink to "permissive" behavior by default")
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> Tested-by: Saravana Kannan <saravanak@google.com>
+> Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+> ---
+>  drivers/bus/simple-pm-bus.c | 42 ++++++++++++++++++++++++++++++++++---
+>  1 file changed, 39 insertions(+), 3 deletions(-)
 > 
-> In this case, How do we get dev here from device_node, as device is not available at this point?
+> diff --git a/drivers/bus/simple-pm-bus.c b/drivers/bus/simple-pm-bus.c
+> index 01a3d0cd08ed..6b8d6257ed8a 100644
+> --- a/drivers/bus/simple-pm-bus.c
+> +++ b/drivers/bus/simple-pm-bus.c
+> @@ -13,11 +13,36 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  
+> -
+>  static int simple_pm_bus_probe(struct platform_device *pdev)
+>  {
+> -	const struct of_dev_auxdata *lookup = dev_get_platdata(&pdev->dev);
+> -	struct device_node *np = pdev->dev.of_node;
+> +	const struct device *dev = &pdev->dev;
+> +	const struct of_dev_auxdata *lookup = dev_get_platdata(dev);
+> +	struct device_node *np = dev->of_node;
+> +	const struct of_device_id *match;
+> +
+> +	/*
+> +	 * Allow user to use driver_override to bind this driver to a
+> +	 * transparent bus device which has a different compatible string
+> +	 * that's not listed in simple_pm_bus_of_match. We don't want to do any
+> +	 * of the simple-pm-bus tasks for these devices, so return early.
+> +	 */
+> +	if (pdev->driver_override)
+> +		return 0;
+> +
+> +	match = of_match_device(dev->driver->of_match_table, dev);
+> +	/*
+> +	 * These are transparent bus devices (not simple-pm-bus matches) that
+> +	 * have their child nodes populated automatically.  So, don't need to
+> +	 * do anything more. We only match with the device if this driver is
+> +	 * the most specific match because we don't want to incorrectly bind to
+> +	 * a device that has a more specific driver.
+> +	 */
+> +	if (match && match->data) {
+> +		if (of_property_match_string(np, "compatible", match->compatible) == 0)
+> +			return 0;
+> +		else
+> +			return -ENODEV;
+> +	}
 
-Oh, right.
-We are missing an of_reset_control_get_optional_exclusive() for this:
+This change is breaking the expected behavior for the already existent
+simple-bus nodes. All the simple-bus compatibles should be replaced now
+to simple-pm-bus. In my case, on some i.MX8 platforms, without the
+devlink, the devices suspend sequence changes (and even breaks).
 
-static inline struct reset_control *of_reset_control_get_optional_exclusive(
-		struct device_node *node, const char *id)
-{
-	return __of_reset_control_get(node, id, 0, false, true, true);
-}
+To avoid breaking the already existent simple-bus nodes, maybe the logic
+should've been reversed: keep the simple-bus as is and add another
+compatible, IDK, something like simple-trasnparent-bus, or something.
 
-regards
-Philipp
+>  
+>  	dev_dbg(&pdev->dev, "%s\n", __func__);
+>  
+> @@ -31,14 +56,25 @@ static int simple_pm_bus_probe(struct platform_device *pdev)
+>  
+>  static int simple_pm_bus_remove(struct platform_device *pdev)
+>  {
+> +	const void *data = of_device_get_match_data(&pdev->dev);
+> +
+> +	if (pdev->driver_override || data)
+> +		return 0;
+> +
+>  	dev_dbg(&pdev->dev, "%s\n", __func__);
+>  
+>  	pm_runtime_disable(&pdev->dev);
+>  	return 0;
+>  }
+>  
+> +#define ONLY_BUS	((void *) 1) /* Match if the device is only a bus. */
+> +
+>  static const struct of_device_id simple_pm_bus_of_match[] = {
+>  	{ .compatible = "simple-pm-bus", },
+> +	{ .compatible = "simple-bus",	.data = ONLY_BUS },
+> +	{ .compatible = "simple-mfd",	.data = ONLY_BUS },
+> +	{ .compatible = "isa",		.data = ONLY_BUS },
+> +	{ .compatible = "arm,amba-bus",	.data = ONLY_BUS },
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, simple_pm_bus_of_match);
+> -- 
+> 2.33.0.685.g46640cef36-goog
+>
