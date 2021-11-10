@@ -2,113 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E6E644BCEE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Nov 2021 09:32:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C310644BD2E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Nov 2021 09:42:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230244AbhKJIew (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Nov 2021 03:34:52 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:41853 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230245AbhKJIew (ORCPT
+        id S229595AbhKJIpZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Nov 2021 03:45:25 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:47787 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230258AbhKJIpZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Nov 2021 03:34:52 -0500
+        Wed, 10 Nov 2021 03:45:25 -0500
 X-IronPort-AV: E=Sophos;i="5.87,223,1631545200"; 
-   d="scan'208";a="99778047"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Nov 2021 17:32:05 +0900
+   d="scan'208";a="100086081"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 10 Nov 2021 17:42:37 +0900
 Received: from localhost.localdomain (unknown [10.226.92.40])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 52DB6400C4E7;
-        Wed, 10 Nov 2021 17:32:02 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2AB6C42412BE;
+        Wed, 10 Nov 2021 17:42:34 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/2] clocksource/drivers/renesas-ostm: Add RZ/G2L OSTM support
-Date:   Wed, 10 Nov 2021 08:31:52 +0000
-Message-Id: <20211110083152.31144-3-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/3] Enable RZ/G2L OSTM support
+Date:   Wed, 10 Nov 2021 08:42:29 +0000
+Message-Id: <20211110084232.652-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211110083152.31144-1-biju.das.jz@bp.renesas.com>
-References: <20211110083152.31144-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-RZ/G2L SoC has Generic Timer Module(a.k.a OSTM) which needs to
-deassert the reset line before accessing any registers.
+This patch series aims to enable Generic Timer Module (a.k.a OSTM) support
+for RZ/G2L SMARC platform.
 
-This patch adds an entry point for RZ/G2L so that we can deassert
-the reset line in probe callback.
+This patch series is depend upon [1]
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=577857
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clocksource/renesas-ostm.c | 38 ++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+Biju Das (3):
+  drivers: soc: renesas: Enable RENESAS_OSTM
+  arm64: dts: renesas: r9a07g044: Add OSTM nodes
+  arm64: dts: renesas: rzg2l-smarc-som: Enable OSTM
 
-diff --git a/drivers/clocksource/renesas-ostm.c b/drivers/clocksource/renesas-ostm.c
-index 3d06ba66008c..6b28c45c86f7 100644
---- a/drivers/clocksource/renesas-ostm.c
-+++ b/drivers/clocksource/renesas-ostm.c
-@@ -9,6 +9,8 @@
- #include <linux/clk.h>
- #include <linux/clockchips.h>
- #include <linux/interrupt.h>
-+#include <linux/platform_device.h>
-+#include <linux/reset.h>
- #include <linux/sched_clock.h>
- #include <linux/slab.h>
- 
-@@ -209,3 +211,39 @@ static int __init ostm_init(struct device_node *np)
- }
- 
- TIMER_OF_DECLARE(ostm, "renesas,ostm", ostm_init);
-+
-+#ifdef CONFIG_ARCH_R9A07G044
-+static int __init ostm_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct reset_control *rstc;
-+	int ret;
-+
-+	rstc = devm_reset_control_get_exclusive(dev, NULL);
-+	if (IS_ERR(rstc))
-+		return dev_err_probe(dev, PTR_ERR(rstc), "failed to get reset");
-+
-+	reset_control_deassert(rstc);
-+
-+	ret = ostm_init(dev->of_node);
-+	if (ret) {
-+		reset_control_assert(rstc);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ostm_of_table[] = {
-+	{ .compatible = "renesas,rzg2l-ostm", },
-+	{ }
-+};
-+
-+static struct platform_driver ostm_device_driver = {
-+	.driver		= {
-+		.name	= "rzg2l_ostm",
-+		.of_match_table = of_match_ptr(ostm_of_table),
-+	},
-+};
-+builtin_platform_driver_probe(ostm_device_driver, ostm_probe);
-+#endif
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 33 +++++++++++++++++++
+ .../boot/dts/renesas/rzg2l-smarc-som.dtsi     |  8 +++++
+ drivers/soc/renesas/Kconfig                   |  1 +
+ 3 files changed, 42 insertions(+)
+
 -- 
 2.17.1
 
