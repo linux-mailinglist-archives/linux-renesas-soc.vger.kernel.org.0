@@ -2,174 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AACEA44C4C3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Nov 2021 17:01:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B23E544C4FE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Nov 2021 17:23:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231838AbhKJQEZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Nov 2021 11:04:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35226 "EHLO
+        id S230006AbhKJQ0M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Nov 2021 11:26:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231743AbhKJQEY (ORCPT
+        with ESMTP id S229602AbhKJQ0K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Nov 2021 11:04:24 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FCEFC061764
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Nov 2021 08:01:36 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id k37so7160686lfv.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Nov 2021 08:01:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=wibWDxYwBQXD/Fufok7R2wldSeiCyjELusSq7rGOsxA=;
-        b=CFof9sA6KDx3j0wtmViLOrnQyYP3IXa/NqswqzdYWzHLnEOY+xhLjkKwP3ab4mmDDr
-         YAtVNFTSvMOVTfFvtyyL65W/iteJcTyhYsQhrF5ktFmKY6dFhYbXfO37RV+gjx72/8Lt
-         81+Cxs5i3/mebtWl//wQJmVkN2M5ozuG4L3MR+AUX6zZyTiQzjXhpm52lUK8YQsttjN8
-         sK877rFzb37q3oSvP7KIde8ii7msn1pJtdIc0n1YCAg6x9fs3RwqLpFHU2x5/Uk3GVEt
-         OSLJDhOtMuIfA5OoPyk/ebaGZDFaInoT05uoAAvh60l5BroeKdiIb3glgcI1SUcLZYvK
-         cyLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=wibWDxYwBQXD/Fufok7R2wldSeiCyjELusSq7rGOsxA=;
-        b=xxYB5ZvScDh2KudXOGjQpjZolIixpNl+D/MC5xPJj6G4gSOlCG5UsNj3KVroC+uzlp
-         SSFlxn3YYdOBOSELJPd5ZcK53ygF3yRnSEDa9VbFyCcMPIvwSHxyR+l+Mwom1Gp3lHkP
-         7mCsa4DAByBK1P5VbD5whLj9U7/1/70tdREQOxa6QpwW4n7X0d4DBXJjlxP7akqJG4/i
-         nw/xFVaFExKBAfl98Ft6J+ReapeNKaBp7EtIGiUhnoGETQjKhsDDn87wJBq0i6GpukJc
-         Oj9ijWScICofqFeM1WFAmVXwvtDbuN2Igi5o3VElAipxj7/VEG3p44X2HaPum3yGBUPE
-         IPhg==
-X-Gm-Message-State: AOAM530TaQLmjxq+Ouo4D5kwELtU8ih1fasfSlLGqEspA4OkgNp0KIYr
-        Q0vCcKHmJ+FEmNlvLDtMRO7nfQ==
-X-Google-Smtp-Source: ABdhPJxDICcrPkR8UwlImZ6/H3cpzalTYQMvB9sdGWASjS1vU8HSbjlequsHqIv3mg82jWZc0TzQ5w==
-X-Received: by 2002:a05:6512:449:: with SMTP id y9mr108875lfk.609.1636560093237;
-        Wed, 10 Nov 2021 08:01:33 -0800 (PST)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id v19sm29431lfg.160.2021.11.10.08.01.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Nov 2021 08:01:32 -0800 (PST)
-Date:   Wed, 10 Nov 2021 17:01:31 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/3] media: rcar-{csi2,vin}: Move to full Virtual Channel
- routing per CSI-2 IP
-Message-ID: <YYvs20DbCoz5qY2S@oden.dyn.berto.se>
-References: <20211020200225.1956048-1-niklas.soderlund+renesas@ragnatech.se>
- <YYvkglOfUwlsobAV@pendragon.ideasonboard.com>
+        Wed, 10 Nov 2021 11:26:10 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E374CC061767
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Nov 2021 08:23:22 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:9dc9:efd5:4c6f:baa9])
+        by laurent.telenet-ops.be with bizsmtp
+        id GgPK2600C1LAWtA01gPKaH; Wed, 10 Nov 2021 17:23:20 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mkqNb-00BUyT-26; Wed, 10 Nov 2021 17:23:19 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mkqNa-007g1r-LI; Wed, 10 Nov 2021 17:23:18 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] of: Shrink struct of_device_id
+Date:   Wed, 10 Nov 2021 17:23:17 +0100
+Message-Id: <ef59d6fd3b2201b912d5eaa7f7a037d8f9adb744.1636561068.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YYvkglOfUwlsobAV@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Currently struct of_device_id is 196 (32-bit) or 200 (64-bit) bytes
+large.  It contains fixed-size strings for a name, a type, and a
+compatible value, but the first two are barely used.
+OF device ID tables contain multiple entries, plus an empty sentinel
+entry.
 
-On 2021-11-10 17:25:54 +0200, Laurent Pinchart wrote:
-> Hi Niklas,
-> 
-> On Wed, Oct 20, 2021 at 10:02:22PM +0200, Niklas Söderlund wrote:
-> > Hello,
-> > 
-> > This series attempts to increase the flexibility of the R-Car VIN 
-> > capture pipeline by allowing for free form Virtual Channel routing 
-> > within the same CSI-2 IP block.
-> > 
-> > When Gen3 support was first added to this R-Car VIN and CSI-2 driver the
-> > routing was centred around the CHSEL register which multiplex the
-> > different parallel buses that sits between the CSI-2 receivers source
-> > side and the VIN dma engines. This was a bad design as the multiplexing
-> > do allow for only a few combinations and do not play nice with many
-> > video streams in the system.
-> > 
-> > For example it's only possible for CSI-2 Virtual Channels 0 and 1 of any
-> > given CSI-2 receiver to be used together with the scaler.
-> > 
-> > Later datasheets have expanded the documentation and it is now possible
-> > to improve on this design by allowing any Virtual Channel to be routed
-> > to any R-Car VIN instance, provided that there exists a parallel bus
-> > between them. This increases the flexibility as all Virtual Channels can
-> > now be used together with the scaler for example.
-> > 
-> > The redesign is not however perfect. While the new design allows for
-> > many more routes, two constrains limit a small portion of routes that
-> > was possible in the old design but are no more.
-> > 
-> > - It is no longer possible to route the same CSI-2 and VC to more then
-> > one VIN at a time. This was theoretically possible before if the
-> > specific SoC allowed for the same CSI-2 and VC to be routed to two
-> > different VIN capture groups.
-> 
-> Does it mean we can't capture image data and embedded data from the same
-> camera sensor in separate buffers ?
+Statistics for my current kernel source tree:
+  - 4487 tables with 16836 entries (3367200 bytes)
+  - 176 names (average 6.7 max 23 chars)
+  - 66 types (average 5.1 max 21 chars)
+  - 12192 compatible values (average 18.0 max 45 chars)
+Taking into account the minimum needed size to store the strings, only
+6.9% of the allocated space is used...
 
-On the contrary. Without this change we can't capture any embedded data.  
-With this patch we still can't capture it, unless the R-Car CSI-2 
-receiver lies. But with this applied we are closer to enable meta data 
-to reach user space.
+Reduce kernel size by reducing the sizes of the fixed strings by one
+half.
 
-> 
-> > - It is no longer possible to simultaneously mix links from two CSI-2 IP
-> > blocks to the same VIN capture group.
-> > 
-> > For example if VIN2 is capturing from CSI40 then VIN{0,1,3} must also
-> > capture from CSI40. While VIN{4,5,6,7} is still free to capture from
-> > any other CSI-2 IP in the system. Once all VIN{0,1,2,3} links to CSI40
-> > are disabled that VIN capture group is free again to capture from any
-> > other CSI-2 IP it is connected to.
-> 
-> What practical limitation does this bring, does it forbid any useful use
-> case ?
+This reduces the size of an ARM multi_v7_defconfig kernel by ca. 400
+KiB.  For a typical kernel supporting a single board, you can expect to
+save 50-100 KiB.
 
-Yes and no ;-). It limits a small set of use-cases, while enabling a 
-great many more. In the old setup you are allowed to route a mix of Rx 
-to Tx intermixing a few of the modules 1:1 as an exception. With this 
-change you get routing n:to:n with a few exceptions.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Notes:
+  - While gcc complains if the non-NUL characters in a string do not fit
+    in the available space, it does not complain if there is no space to
+    store the string's NUL-terminator.  However, that should be caught
+    during testing, as the affected entry won't ever match.  The kernel
+    won't crash, as such strings will still be terminated by the
+    sentinel in the table.
 
-> 
-> > At the core of the redesign is greater cooperator of the R-Car VIN and
-> > CSI-2 drivers in configuring the routing. The VIN driver is after this
-> > change only responsible to configure the full VIN capture groups
-> > parallel buses to be to a particular CSI-2 IP. While the configuration
-> > of which CSI-2 Virtual Channel is outputted on which of the R-Car CSI-2
-> > IP output ports is handled by the CSI-2 driver.
-> > 
-> > Before this change the CSI-2 Virtual Channel to output port was static
-> > in the CSI-2 driver and the different links only manipulated the VIN
-> > capture groups CHSEL register. With this change both the CHSEl register
-> > and the CSI-2 routing VCDT registers are modified for greater
-> > flexibility.
-> > 
-> > Patch 1/3 and 2/3 are cleanup patches moving code around preparing for 
-> > the real work in 3/3. The work is based on the latest media-tree.
-> > 
-> > Kind Regards,
-> > Niklas Söderlund
-> > 
-> > Niklas Söderlund (3):
-> >   media: rcar-vin: Refactor link notify
-> >   media: rcar-vin: Breakout media link creation
-> >   media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2
-> >     IP
-> > 
-> >  drivers/media/platform/rcar-vin/rcar-core.c | 379 ++++++--------------
-> >  drivers/media/platform/rcar-vin/rcar-csi2.c |  58 ++-
-> >  drivers/media/platform/rcar-vin/rcar-dma.c  |   2 +-
-> >  drivers/media/platform/rcar-vin/rcar-vin.h  |  18 +-
-> >  4 files changed, 167 insertions(+), 290 deletions(-)
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+  - We could save even more by converting the strings from fixed-size
+    arrays to pointers, at the expense of making it harder to mark
+    entries __init.  Given most drivers support binding and unbinding
+    and thus cannot use __init for of_device_id tables, perhaps that's
+    the way to go?
 
+Thanks for your comments!
+---
+ include/linux/mod_devicetable.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index ae2e75d15b219920..2bb2558d52d30d2b 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -266,9 +266,9 @@ struct sdw_device_id {
+  * Struct used for matching a device
+  */
+ struct of_device_id {
+-	char	name[32];
+-	char	type[32];
+-	char	compatible[128];
++	char	name[24];
++	char	type[24];
++	char	compatible[48];
+ 	const void *data;
+ };
+ 
 -- 
-Kind Regards,
-Niklas Söderlund
+2.25.1
+
