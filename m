@@ -2,56 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0E6E44D453
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Nov 2021 10:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FA6244D455
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Nov 2021 10:49:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232565AbhKKJv6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Nov 2021 04:51:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49166 "EHLO
+        id S229649AbhKKJwE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Nov 2021 04:52:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbhKKJv6 (ORCPT
+        with ESMTP id S229674AbhKKJwD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Nov 2021 04:51:58 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B1FC061767
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Nov 2021 01:49:09 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id z34so12817110lfu.8
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Nov 2021 01:49:08 -0800 (PST)
+        Thu, 11 Nov 2021 04:52:03 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3836C061766
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Nov 2021 01:49:14 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id 207so10785426ljf.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Nov 2021 01:49:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=bscmqvKY3qs0pUbbPr6KH9l4LuaJZAV8odiAQTS5aUI=;
-        b=bnUqmU9RMckhyuhgB5IouEkMMKDZPTtloMzcZtCFlzc9oHSQjHWMSZ9g+Wtez5SCwE
-         6o/5SA/wDnQrD7zIisyn/8zravwFop45fVXuyexDJUop8HQm5UqrRaPzwqI7BxOYdl2i
-         YoRNwmzFBxa7d8XmGdvRSCK8KWRAPHo+xGKb31YsZKlCQI5DAhjtkFXnqbm2L/D3zkxQ
-         2usJuH14Pokm3gRBpu3v0JHA7Gnajm+0vb2q381LgiKniWd5dZVWsqJ0TxSNXew0c4Lf
-         QBFIxJsTpV1ctkbWlyhU7uIAX72NCwWkjsNBYXRdptmnHD7oegOQ+i3Wdp5KIiojqqyQ
-         5i3Q==
+        bh=OCREGG06PLhapCFom87STE1uw55Yr5x9ePMRWOvmT3k=;
+        b=J/P1hPH6j7wvhRvFyZd3TqxaZ6OSx5WqY79nSlVHc4q6aeCj4OCVN+lpKr5aO4eqav
+         IPFsV0kv/g4BObRIKl9w8qk9UoqVi/8vR/0nRghSEKV4z0cZMzgvCU/vUJ7HbB4o2Y3d
+         1qSTNUQddXh+8wvVo08Dz/WCCuaeIEfsODFVrgBdmxHrNzPpnF8nAwkGfo1be2/P1DNp
+         Xa6sgTl0U0KkhVEVBO6ghGt/4WR1iUFpPVd4/CI3RhmNeK8iTFleaaIdQB3M8BFB9yx7
+         1HSWsHio+2uDFqg0+fkcemqvzpCwM+W5Cjtt7mdn76KfyXVA1YsmlqpdRaqlvEfNuY4x
+         j7lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bscmqvKY3qs0pUbbPr6KH9l4LuaJZAV8odiAQTS5aUI=;
-        b=jQUHkt61RPNf765pr0GcSB1KKmrwmAY2g4D/pxWbSPLJ+g/eS5UxHoBSU25a7muyYl
-         WYEv5r5Rcd5Za7s1quQM7/G06iHc4COuIfH/w5+fTvw1dcPZjKE2ubqvE3s4/aeCOcIn
-         gXyxGHbRgf/9TG8IBK5COHnBe1PdBgURAyRBLeTdovAJJRTTJ/R38F7C49LlPvx4Z0yr
-         lmaiywNFOjFeSAKd/QiIAFQzuwvTzZ06vsMxxnhbimsKtyllcsdh6sX6W2urbV5TGi73
-         5iO853E9D/eaPg9zwU+uLG0nRMzlHE/cNy9M7B/cqew69janmYoxq2US39A6l2QnnFp3
-         lNkg==
-X-Gm-Message-State: AOAM533mkJt0N3vD4YY3zXvKqnKcuVONgzWAVXk++ehfH0otTU1cH4nj
-        uvhMp5KJWcKYF0KWLAdeWf0c6Psk5eUFazL1aHmnvA==
-X-Google-Smtp-Source: ABdhPJy6OBQrkaiJBnz0O2C51my2vcC59Rwr/B4LtoL55wvLujU33ENQEZkM16r+cAIxi2G3+vJHVv1orw1v9VSgN+Y=
-X-Received: by 2002:a05:6512:1113:: with SMTP id l19mr5611593lfg.184.1636624147417;
- Thu, 11 Nov 2021 01:49:07 -0800 (PST)
+        bh=OCREGG06PLhapCFom87STE1uw55Yr5x9ePMRWOvmT3k=;
+        b=YZM1q5WTy45yFQVC7bBkx2EwU21V5smVjhZJ4p/Hx960zWoTmq1Mx5+2n7cKcinwqD
+         kiAZc3ye4e93XqcaTDiaHA3rvtkNz/IS7QY88pNWvtpM6/lmx7SkIA4ZRbO/nWt9LhsR
+         wpukN5CWJmG+hiGRfnFGfKoLtrdERWW1zSzPprp/AijsP2SrZz1rjhqPXoqfMg6PQwpK
+         gxNLO73cA+NjU+Aai0+gj8KLlW/RqHcIebjUjjyHdKamAnUCsAhUWR3kY4WjK7zhyM5X
+         Phl7Nu+GWztonUlvpofG2rymM9aUfcKLiYHzXZ6T+hxZVLj3fg1sjNBwcZFJcsuKrKJU
+         rgqw==
+X-Gm-Message-State: AOAM530PIBTj5fceSIAj6kttESbxfSFFMl+J1LMdJ0e0xZUwsiNJdhZG
+        Tuqq+aaFsKki+cUwO+v2Y8gJAX/uuUdEXCSKU4AQLw==
+X-Google-Smtp-Source: ABdhPJxkX3V93M0k93HKNu7+qIoL9WfO3AxPfyLW/zo4eZiEbynnSydtnx20bP3Pjol+PTMrmXAci3syYf02ZC4ce3U=
+X-Received: by 2002:a2e:7114:: with SMTP id m20mr5714665ljc.229.1636624153256;
+ Thu, 11 Nov 2021 01:49:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com> <20211110191610.5664-20-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20211110191610.5664-20-wsa+renesas@sang-engineering.com>
+References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com> <20211110191610.5664-21-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20211110191610.5664-21-wsa+renesas@sang-engineering.com>
 From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 11 Nov 2021 10:48:31 +0100
-Message-ID: <CAPDyKFr5OXigAF88FR7u2xaGBJ6eQajnq-wAyR2dyEBD-hL4Dg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 19/21] mmc: sdhi: use dev_err_probe when getting
- clock fails
+Date:   Thu, 11 Nov 2021 10:48:36 +0100
+Message-ID: <CAPDyKFrW1T-4UeS6R2j8+2LKJ5D0iELXJ_Q+Mmq=Mk6CfjDPQA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 20/21] mmc: sdhi: parse DT for SDnH
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -64,10 +63,11 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Wed, 10 Nov 2021 at 20:16, Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
 >
-> This is to improve deferred probe in this driver and to keep consistent
-> with an up-to-date handling of a soon to be added second clock.
+> If there is a SDnH clock provided in DT, let's use it instead of relying
+> on the fallback.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 
@@ -75,32 +75,39 @@ Kind regards
 Uffe
 
 
-
 > ---
-> Changes since RFC v1:
-> * new patch
 >
->  drivers/mmc/host/renesas_sdhi_core.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
+> Changes since RFC v1:
+> * added tag from Geert
+> * use dev_err_probe()
+>
+>  drivers/mmc/host/renesas_sdhi_core.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index 4572242f9816..230182de5e88 100644
+> index 230182de5e88..db053fba5330 100644
 > --- a/drivers/mmc/host/renesas_sdhi_core.c
 > +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -916,11 +916,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->         dma_priv = &priv->dma_priv;
+> @@ -919,6 +919,10 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>         if (IS_ERR(priv->clk))
+>                 return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk), "cannot get clock");
 >
->         priv->clk = devm_clk_get(&pdev->dev, NULL);
-> -       if (IS_ERR(priv->clk)) {
-> -               ret = PTR_ERR(priv->clk);
-> -               dev_err(&pdev->dev, "cannot get clock: %d\n", ret);
-> -               return ret;
-> -       }
-> +       if (IS_ERR(priv->clk))
-> +               return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk), "cannot get clock");
->
+> +       priv->clkh = devm_clk_get_optional(&pdev->dev, "clkh");
+> +       if (IS_ERR(priv->clkh))
+> +               return dev_err_probe(&pdev->dev, PTR_ERR(priv->clkh), "cannot get clkh");
+> +
 >         /*
 >          * Some controllers provide a 2nd clock just to run the internal card
+>          * detection logic. Unfortunately, the existing driver architecture does
+> @@ -957,7 +961,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>                 dma_priv->dma_buswidth = of_data->dma_buswidth;
+>                 host->bus_shift = of_data->bus_shift;
+>                 /* Fallback for old DTs */
+> -               if (of_data->sdhi_flags & SDHI_FLAG_NEED_CLKH_FALLBACK)
+> +               if (!priv->clkh && of_data->sdhi_flags & SDHI_FLAG_NEED_CLKH_FALLBACK)
+>                         priv->clkh = clk_get_parent(clk_get_parent(priv->clk));
+>
+>         }
 > --
 > 2.30.2
 >
