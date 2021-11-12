@@ -2,78 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32AFF44E709
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 14:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D41344E711
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 14:07:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235029AbhKLNJc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Nov 2021 08:09:32 -0500
-Received: from mail-vk1-f177.google.com ([209.85.221.177]:45784 "EHLO
-        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235044AbhKLNJb (ORCPT
+        id S234998AbhKLNKU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Nov 2021 08:10:20 -0500
+Received: from www.zeus03.de ([194.117.254.33]:57690 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234942AbhKLNKT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Nov 2021 08:09:31 -0500
-Received: by mail-vk1-f177.google.com with SMTP id m19so287061vko.12;
-        Fri, 12 Nov 2021 05:06:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Nq5oEJjJ9olOZrDprxv3x92YdgPfLIcqK5R5QEqV1ng=;
-        b=GWh5RNYExKJIawBwpfDuZrx0efdWzqbcN1tn1PM26WEQM03WmoElP0JBQSKLz4ilQ0
-         7QpG7IatxULSTL1py1fcq6iBl3tUNrlswIhk9a4fFbmjAIvIApmCxlg/TCMydHx6R7TN
-         V5buJK7pkGAUutyZ8k/M1tbIwcwxzRWbSdPDItt3QWRNk4uDMAWa4Fqio0ubIw2fIdJx
-         VeIXet6Wj6PjAee8SamugQZvlxPJrrjQPh6xY+B3W0EjCAVDIfx1fASY8a92vTf+zcg7
-         UARNzdHUdelQ2QOaShovfpm03KpBgL6yw9ouBmpG9TxunmxZ/6FmfG51PB1zS+XuziTr
-         H0XQ==
-X-Gm-Message-State: AOAM531g9a3PzVLg2qrwANydopg54GLLWFpsZVPMnXK9iIehx1LbSeTC
-        RdrQ2nMXRzhCjOG4eeSxyOPdKsY2r11+8A==
-X-Google-Smtp-Source: ABdhPJwlWv4cH3RQAuYtqYHYZtvAc75i0SxXLmw+H0QfMG+64wC0cg52dvGjoWC53sr+e/7GrQ43mA==
-X-Received: by 2002:a05:6122:790:: with SMTP id k16mr23554254vkr.26.1636722400434;
-        Fri, 12 Nov 2021 05:06:40 -0800 (PST)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id c2sm4359991uab.11.2021.11.12.05.06.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Nov 2021 05:06:40 -0800 (PST)
-Received: by mail-ua1-f46.google.com with SMTP id p2so18597872uad.11;
-        Fri, 12 Nov 2021 05:06:40 -0800 (PST)
-X-Received: by 2002:a67:c38f:: with SMTP id s15mr9886013vsj.50.1636722400181;
- Fri, 12 Nov 2021 05:06:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com> <20211110191610.5664-5-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20211110191610.5664-5-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 12 Nov 2021 14:06:29 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWa50fZup9j9v5ArmYXNH3Gi6Zv0L9z+nH317SA1GZK9g@mail.gmail.com>
-Message-ID: <CAMuHMdWa50fZup9j9v5ArmYXNH3Gi6Zv0L9z+nH317SA1GZK9g@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 04/21] mmc: sdhi: internal_dmac: flag non-standard
- SDnH handling for V3M
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Fri, 12 Nov 2021 08:10:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=TwbvoMVc6/+l27aLDbiYiDtidDr9
+        722wkbITOnJJyGQ=; b=hJyYs4uS1TOiOSJcsevSCBEc+yDr3Cp5nr7Q555buaub
+        dp1gxIlvCqXO7st6stQJJO0IuBQ2IPARyu1TNPpOWiwAVWV4dmoRM2ZY44cF+5Wn
+        TgkKOeHWFpqoLkani1hBhJPOnsOpxmjFwUkzRds5yQ/iBYAXw1w+92gSuyyj2LI=
+Received: (qmail 1376498 invoked from network); 12 Nov 2021 14:07:26 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Nov 2021 14:07:26 +0100
+X-UD-Smtp-Session: l3s3148p1@OjQDJJfQRM8gAQnoAFqiAcAEyXqBia2a
+Date:   Fri, 12 Nov 2021 14:07:26 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux MMC List <linux-mmc@vger.kernel.org>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC PATCH v2 02/21] clk: renesas: rcar-gen3: add SDnH clock
+Message-ID: <YY5nDgVrlTI0A5cW@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com>
+ <20211110191610.5664-3-wsa+renesas@sang-engineering.com>
+ <CAMuHMdXLNB3ycxFkXH6UHAbAHWk0qr4UnSq5VNnYTXsEqTBzHQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="UwoaDWHcmW31ehkG"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXLNB3ycxFkXH6UHAbAHWk0qr4UnSq5VNnYTXsEqTBzHQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 10, 2021 at 8:16 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> V3M handles SDnH differently than other Gen3 SoCs, so let's add a
-> separate entry for that. This will allow better SDnH handling in the
-> future.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+--UwoaDWHcmW31ehkG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Gr{oetje,eeting}s,
 
-                        Geert
+> No need to resend, consider it done while queuing in renesas-clk-for-v5.17.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Thank you, Geert!
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+--UwoaDWHcmW31ehkG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGOZwoACgkQFA3kzBSg
+KbZ+VxAArYNBtF9ngjrpdX++MlpOcjoVTOQriKtyhU0AjX7abdF36uLOsAUlG4vM
+k41O9hfdd/UMXjxcN/ZuaX8dCncEwF4+XSaVjRerU8rtSdiopfJRNcnJCW8ZaGO4
+1SapXln1ERI4MebNBcoJgYyb01ruREeMoZkAvix9bUvJRZ9fvFLCxuTbdsBzN59M
+Hui7cluCkOEKJYadKMmOR59NjXFpDgoRkDRHluo4PTJe+5NZjdNop2NqufAqcMYf
+oOIpTboX2mRPRTRzJW+xAcJ7EC7XWCS1Vx9C3cVXM/rAdMig37qCIDEviAguwEQ4
+x7nuxUNaHrC1IDMB9T8V//Xipj+Ai0h1a8OUGwpSz12/JGEXiA9lM3t7DdBHmOv2
+7yw8BsBqAtCimH1xs28dqYnAIa5SAFwtYtjkZtfYjLtt3XhZ9IYASyNmdYq0QOgR
+aS0DiIlNH4eLPybG9dy9GJ4BJkEMOVfxHGt9hIBIFIvaKUAUXCoZc4SrFnSCPBug
+O/kdc4fFHqZVXjPzHl9ABeg1NfRmavRJHK/lgwmNFsVfUeHTJnbYXoSYSqPTkJsn
+OEBUbwBm8Tw3vLuxFSQ6p9rekvQULvcqOC+sUvcNw+fpJRhRNt8pev0OOXifeKsv
+6fgSy81HufhsmAshYaF1co/m4oRyXiaOyVqBOgcsZS7MfGIHXvw=
+=QELM
+-----END PGP SIGNATURE-----
+
+--UwoaDWHcmW31ehkG--
