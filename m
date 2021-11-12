@@ -2,50 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 357E844E78A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 14:40:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4887844E797
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 14:40:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234199AbhKLNmw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Nov 2021 08:42:52 -0500
-Received: from mail-ua1-f44.google.com ([209.85.222.44]:35706 "EHLO
-        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233894AbhKLNmw (ORCPT
+        id S235046AbhKLNnm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Nov 2021 08:43:42 -0500
+Received: from mail-ua1-f54.google.com ([209.85.222.54]:37773 "EHLO
+        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232760AbhKLNnm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Nov 2021 08:42:52 -0500
-Received: by mail-ua1-f44.google.com with SMTP id l24so14573686uak.2;
-        Fri, 12 Nov 2021 05:40:01 -0800 (PST)
+        Fri, 12 Nov 2021 08:43:42 -0500
+Received: by mail-ua1-f54.google.com with SMTP id l43so18875682uad.4;
+        Fri, 12 Nov 2021 05:40:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Hd4mT8j/7UACpiBDtGHrwN1mhksetRGczTew0AK43BQ=;
-        b=fQDIYFbDquNXJ0DPtEk1tVJMWEgUxz+VOM3HAu84EkVBbvYOBqKtc5BPslu0YX+v9P
-         TcqnqP10hGWuHnA0vTLtlJpRmAjBjysN9wHQ96XTyb6ATgBQgbE4FzGI/SuCq+NeJoF1
-         Nm40deoR29zPdgfjOMxHxgeZBwqCWk8g7KkJPrqC0VD7FNhrPU6tMMvNCz3hLgWZrE2q
-         gsQp5YeRGVyWPjpVzddXNJKFavvQ52YDeWfCGS0Nqcp41hvkCZlN8nNwg9LnHThKhK4R
-         5LH7PnIWtB3R6T9yobiBFl9IcC/UQ28NJxmr5Df3BiPS/Yrxn2sSue4z7sygAum9Zyp2
-         50QQ==
-X-Gm-Message-State: AOAM531FNHjPNnHIPforr1t2IvqNG60r775K6KtQG/5ubgX3p2QqbFwU
-        xZ+zC0aOJjGBUzx1k63r5b2F8sLicDhJiQ==
-X-Google-Smtp-Source: ABdhPJyMvg/qRUgaVqD+b1lKHF++ii+Uwc4wfm0fs75EQ+GL68cTYTnhnuIJStfoG513Ira5WRFQwg==
-X-Received: by 2002:ab0:3c9f:: with SMTP id a31mr23166873uax.134.1636724400153;
-        Fri, 12 Nov 2021 05:40:00 -0800 (PST)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id g21sm4772253vkd.26.2021.11.12.05.39.59
+        bh=7sZAmLBIGZWe3jCH7XC+K7+dfSJpViCOkZv6jZzhTEE=;
+        b=P8ERwmKbOunsNx/JHQhzLLCMnzFduCWS4JqHoijG5QAOmCfEiUBrThCjP2b6adA9XN
+         0Dol4OvlTXU9ouhs+dGkfHpuflBUnX+rb/6qFgw2OiS2jQ9GpXUcRf5TePKeDa45jcUh
+         nlv+N50wEX7APKlCKZVFii06TXW/E4xtP4hA+1gGCy+/j6TQnwQxXIna7ntGgvs/+s16
+         7SGR/+o4efmSn86Xx3RiFvj6SxuuVLlWsAJtPauE7tKbl/6+g4KhJel4LhM5Nuh8NhLS
+         A92a9OTeB+lbOuR0+za3FFi/KGxHq6uym9jDN7o1Pi6mCus87P7IaAea+Ny/nva6LlPE
+         L7yA==
+X-Gm-Message-State: AOAM530nsayiYGidyzOTD5lv2+GO6fT87FefBoItTgO/ZDVz9QdnusW+
+        AivKCuaYuITl59H2kJZy7Tei3VKflmTwDg==
+X-Google-Smtp-Source: ABdhPJzOs4A37a7U7yWZTWttTQk0o6Md4Dlq9wchiZvAA4RLKK0/Tqi71htPUIjZ2CebdS/AFXdyOw==
+X-Received: by 2002:a67:c11c:: with SMTP id d28mr10489717vsj.54.1636724450902;
+        Fri, 12 Nov 2021 05:40:50 -0800 (PST)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
+        by smtp.gmail.com with ESMTPSA id t1sm3952219vkl.56.2021.11.12.05.40.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Nov 2021 05:39:59 -0800 (PST)
-Received: by mail-vk1-f174.google.com with SMTP id a129so5098496vkb.8;
-        Fri, 12 Nov 2021 05:39:59 -0800 (PST)
-X-Received: by 2002:a05:6122:20ab:: with SMTP id i43mr23557923vkd.19.1636724399212;
- Fri, 12 Nov 2021 05:39:59 -0800 (PST)
+        Fri, 12 Nov 2021 05:40:50 -0800 (PST)
+Received: by mail-ua1-f44.google.com with SMTP id ay21so18814218uab.12;
+        Fri, 12 Nov 2021 05:40:49 -0800 (PST)
+X-Received: by 2002:a9f:248b:: with SMTP id 11mr18174697uar.14.1636724449074;
+ Fri, 12 Nov 2021 05:40:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com> <20211110191610.5664-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20211110191610.5664-3-wsa+renesas@sang-engineering.com>
+References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com> <20211110191610.5664-4-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20211110191610.5664-4-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 12 Nov 2021 14:39:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW7dZTFoZkuqCcxVfZf5iH-HFzd0mdPXckdhz8bEGzHGg@mail.gmail.com>
-Message-ID: <CAMuHMdW7dZTFoZkuqCcxVfZf5iH-HFzd0mdPXckdhz8bEGzHGg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 02/21] clk: renesas: rcar-gen3: add SDnH clock
+Date:   Fri, 12 Nov 2021 14:40:37 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUK_rPAR_SMVxM7bZ8S7=Ww-1FQ2HWoxmv7LhW22QOMCA@mail.gmail.com>
+Message-ID: <CAMuHMdUK_rPAR_SMVxM7bZ8S7=Ww-1FQ2HWoxmv7LhW22QOMCA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 03/21] clk: renesas: r8a779a0: add SDnH clock to V3U
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux MMC List <linux-mmc@vger.kernel.org>,
@@ -69,236 +69,53 @@ On Wed, Nov 10, 2021 at 8:16 PM Wolfram Sang
 > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 > Changes since RFC v1:
-> * fixed subject prefix
-> * fixed whitespace issues
 > * added tag from Geert
 >
->  drivers/clk/renesas/r8a774a1-cpg-mssr.c | 12 ++++++++----
->  drivers/clk/renesas/r8a774b1-cpg-mssr.c | 12 ++++++++----
->  drivers/clk/renesas/r8a774c0-cpg-mssr.c |  9 ++++++---
->  drivers/clk/renesas/r8a774e1-cpg-mssr.c | 12 ++++++++----
->  drivers/clk/renesas/r8a7795-cpg-mssr.c  | 12 ++++++++----
->  drivers/clk/renesas/r8a7796-cpg-mssr.c  | 12 ++++++++----
->  drivers/clk/renesas/r8a77965-cpg-mssr.c | 12 ++++++++----
->  drivers/clk/renesas/r8a77980-cpg-mssr.c |  3 ++-
->  drivers/clk/renesas/r8a77990-cpg-mssr.c |  9 ++++++---
->  drivers/clk/renesas/r8a77995-cpg-mssr.c |  3 ++-
->  10 files changed, 64 insertions(+), 32 deletions(-)
+>  drivers/clk/renesas/r8a779a0-cpg-mssr.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/clk/renesas/r8a774a1-cpg-mssr.c b/drivers/clk/renesas/r8a774a1-cpg-mssr.c
-> index 39b185d8e957..804f3362763c 100644
-> --- a/drivers/clk/renesas/r8a774a1-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a774a1-cpg-mssr.c
-> @@ -100,10 +100,14 @@ static const struct cpg_core_clk r8a774a1_core_clks[] __initconst = {
->         DEF_FIXED("s3d2",       R8A774A1_CLK_S3D2,  CLK_S3,         2, 1),
->         DEF_FIXED("s3d4",       R8A774A1_CLK_S3D4,  CLK_S3,         4, 1),
+> diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+> index f16d125ca009..fb7f0cf2654a 100644
+> --- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+> @@ -33,6 +33,7 @@ enum rcar_r8a779a0_clk_types {
+>         CLK_TYPE_R8A779A0_PLL1,
+>         CLK_TYPE_R8A779A0_PLL2X_3X,     /* PLL[23][01] */
+>         CLK_TYPE_R8A779A0_PLL5,
+> +       CLK_TYPE_R8A779A0_SDH,
+>         CLK_TYPE_R8A779A0_SD,
+>         CLK_TYPE_R8A779A0_MDSEL,        /* Select parent/divider using mode pin */
+>         CLK_TYPE_R8A779A0_OSC,  /* OSC EXTAL predivider and fixed divider */
+> @@ -84,6 +85,9 @@ enum clk_ids {
+>         DEF_BASE(_name, _id, CLK_TYPE_R8A779A0_PLL2X_3X, CLK_MAIN, \
+>                  .offset = _offset)
 >
-> -       DEF_GEN3_SD("sd0",      R8A774A1_CLK_SD0,   CLK_SDSRC,     0x074),
-> -       DEF_GEN3_SD("sd1",      R8A774A1_CLK_SD1,   CLK_SDSRC,     0x078),
-> -       DEF_GEN3_SD("sd2",      R8A774A1_CLK_SD2,   CLK_SDSRC,     0x268),
-> -       DEF_GEN3_SD("sd3",      R8A774A1_CLK_SD3,   CLK_SDSRC,     0x26c),
-> +       DEF_GEN3_SDH("sd0h",    R8A774A1_CLK_SD0H,  CLK_SDSRC,        0x074),
-> +       DEF_GEN3_SD( "sd0",     R8A774A1_CLK_SD0,   R8A774A1_CLK_SD0H, 0x074),
-> +       DEF_GEN3_SDH("sd1h",    R8A774A1_CLK_SD1H,  CLK_SDSRC,        0x078),
-> +       DEF_GEN3_SD( "sd1",     R8A774A1_CLK_SD1,   R8A774A1_CLK_SD1H, 0x078),
-> +       DEF_GEN3_SDH("sd2h",    R8A774A1_CLK_SD2H,  CLK_SDSRC,        0x268),
-> +       DEF_GEN3_SD( "sd2",     R8A774A1_CLK_SD2,   R8A774A1_CLK_SD2H, 0x268),
-> +       DEF_GEN3_SDH("sd3h",    R8A774A1_CLK_SD3H,  CLK_SDSRC,        0x26c),
-> +       DEF_GEN3_SD( "sd3",     R8A774A1_CLK_SD3,   R8A774A1_CLK_SD3H, 0x26c),
+> +#define DEF_SDH(_name, _id, _parent, _offset)   \
+> +       DEF_BASE(_name, _id, CLK_TYPE_R8A779A0_SDH, _parent, .offset = _offset)
+> +
+>  #define DEF_SD(_name, _id, _parent, _offset)   \
+>         DEF_BASE(_name, _id, CLK_TYPE_R8A779A0_SD, _parent, .offset = _offset)
 >
->         DEF_FIXED("cl",         R8A774A1_CLK_CL,    CLK_PLL1_DIV2, 48, 1),
->         DEF_FIXED("cp",         R8A774A1_CLK_CP,    CLK_EXTAL,      2, 1),
-> diff --git a/drivers/clk/renesas/r8a774b1-cpg-mssr.c b/drivers/clk/renesas/r8a774b1-cpg-mssr.c
-> index af602d83c8ce..97fe5d2227fe 100644
-> --- a/drivers/clk/renesas/r8a774b1-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a774b1-cpg-mssr.c
-> @@ -97,10 +97,14 @@ static const struct cpg_core_clk r8a774b1_core_clks[] __initconst = {
->         DEF_FIXED("s3d2",       R8A774B1_CLK_S3D2,  CLK_S3,         2, 1),
->         DEF_FIXED("s3d4",       R8A774B1_CLK_S3D4,  CLK_S3,         4, 1),
+> @@ -145,7 +149,8 @@ static const struct cpg_core_clk r8a779a0_core_clks[] __initconst = {
+>         DEF_FIXED("cp",         R8A779A0_CLK_CP,        CLK_EXTAL,      2, 1),
+>         DEF_FIXED("cl16mck",    R8A779A0_CLK_CL16MCK,   CLK_PLL1_DIV2,  64, 1),
 >
-> -       DEF_GEN3_SD("sd0",      R8A774B1_CLK_SD0,   CLK_SDSRC,     0x074),
-> -       DEF_GEN3_SD("sd1",      R8A774B1_CLK_SD1,   CLK_SDSRC,     0x078),
-> -       DEF_GEN3_SD("sd2",      R8A774B1_CLK_SD2,   CLK_SDSRC,     0x268),
-> -       DEF_GEN3_SD("sd3",      R8A774B1_CLK_SD3,   CLK_SDSRC,     0x26c),
-> +       DEF_GEN3_SDH("sd0h",    R8A774B1_CLK_SD0H,  CLK_SDSRC,         0x074),
-> +       DEF_GEN3_SD( "sd0",     R8A774B1_CLK_SD0,   R8A774B1_CLK_SD0H, 0x074),
-> +       DEF_GEN3_SDH("sd1h",    R8A774B1_CLK_SD1H,  CLK_SDSRC,         0x078),
-> +       DEF_GEN3_SD( "sd1",     R8A774B1_CLK_SD1,   R8A774B1_CLK_SD1H, 0x078),
-> +       DEF_GEN3_SDH("sd2h",    R8A774B1_CLK_SD2H,  CLK_SDSRC,         0x268),
-> +       DEF_GEN3_SD( "sd2",     R8A774B1_CLK_SD2,   R8A774B1_CLK_SD2H, 0x268),
-> +       DEF_GEN3_SDH("sd3h",    R8A774B1_CLK_SD3H,  CLK_SDSRC,         0x26c),
-> +       DEF_GEN3_SD( "sd3",     R8A774B1_CLK_SD3,   R8A774B1_CLK_SD3H, 0x26c),
+> -       DEF_SD("sd0",           R8A779A0_CLK_SD0,       CLK_SDSRC,      0x870),
+> +       DEF_SDH("sdh0",         R8A779A0_CLK_SD0H,      CLK_SDSRC,         0x870),
+> +       DEF_SD( "sd0",          R8A779A0_CLK_SD0,       R8A779A0_CLK_SD0H, 0x870),
 >
->         DEF_FIXED("cl",         R8A774B1_CLK_CL,    CLK_PLL1_DIV2, 48, 1),
->         DEF_FIXED("cp",         R8A774B1_CLK_CP,    CLK_EXTAL,      2, 1),
-> diff --git a/drivers/clk/renesas/r8a774c0-cpg-mssr.c b/drivers/clk/renesas/r8a774c0-cpg-mssr.c
-> index 5b938eb2df25..cef676c6b04e 100644
-> --- a/drivers/clk/renesas/r8a774c0-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a774c0-cpg-mssr.c
-> @@ -108,9 +108,12 @@ static const struct cpg_core_clk r8a774c0_core_clks[] __initconst = {
->         DEF_FIXED("s3d2",      R8A774C0_CLK_S3D2,  CLK_S3,         2, 1),
->         DEF_FIXED("s3d4",      R8A774C0_CLK_S3D4,  CLK_S3,         4, 1),
+>         DEF_DIV6P1("mso",       R8A779A0_CLK_MSO,       CLK_PLL5_DIV4,  0x87c),
+>         DEF_DIV6P1("canfd",     R8A779A0_CLK_CANFD,     CLK_PLL5_DIV4,  0x878),
+> @@ -293,6 +298,10 @@ static struct clk * __init rcar_r8a779a0_cpg_clk_register(struct device *dev,
+>                 div = cpg_pll_config->pll5_div;
+>                 break;
 >
-> -       DEF_GEN3_SD("sd0",     R8A774C0_CLK_SD0,   CLK_SDSRC,     0x0074),
-> -       DEF_GEN3_SD("sd1",     R8A774C0_CLK_SD1,   CLK_SDSRC,     0x0078),
-> -       DEF_GEN3_SD("sd3",     R8A774C0_CLK_SD3,   CLK_SDSRC,     0x026c),
-> +       DEF_GEN3_SDH("sd0h",   R8A774C0_CLK_SD0H, CLK_SDSRC,         0x0074),
-> +       DEF_GEN3_SD( "sd0",    R8A774C0_CLK_SD0,  R8A774C0_CLK_SD0H, 0x0074),
-> +       DEF_GEN3_SDH("sd1h",   R8A774C0_CLK_SD1H, CLK_SDSRC,         0x0078),
-> +       DEF_GEN3_SD( "sd1",    R8A774C0_CLK_SD1,  R8A774C0_CLK_SD1H, 0x0078),
-> +       DEF_GEN3_SDH("sd3h",   R8A774C0_CLK_SD3H, CLK_SDSRC,         0x026c),
-> +       DEF_GEN3_SD( "sd3",    R8A774C0_CLK_SD3,  R8A774C0_CLK_SD3H, 0x026c),
->
->         DEF_FIXED("cl",        R8A774C0_CLK_CL,    CLK_PLL1,      48, 1),
->         DEF_FIXED("cp",        R8A774C0_CLK_CP,    CLK_EXTAL,      2, 1),
-> diff --git a/drivers/clk/renesas/r8a774e1-cpg-mssr.c b/drivers/clk/renesas/r8a774e1-cpg-mssr.c
-> index 40c71466df37..98beea6f4f6c 100644
-> --- a/drivers/clk/renesas/r8a774e1-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a774e1-cpg-mssr.c
-> @@ -100,10 +100,14 @@ static const struct cpg_core_clk r8a774e1_core_clks[] __initconst = {
->         DEF_FIXED("s3d2",       R8A774E1_CLK_S3D2,  CLK_S3,         2, 1),
->         DEF_FIXED("s3d4",       R8A774E1_CLK_S3D4,  CLK_S3,         4, 1),
->
-> -       DEF_GEN3_SD("sd0",      R8A774E1_CLK_SD0,   CLK_SDSRC,     0x074),
-> -       DEF_GEN3_SD("sd1",      R8A774E1_CLK_SD1,   CLK_SDSRC,     0x078),
-> -       DEF_GEN3_SD("sd2",      R8A774E1_CLK_SD2,   CLK_SDSRC,     0x268),
-> -       DEF_GEN3_SD("sd3",      R8A774E1_CLK_SD3,   CLK_SDSRC,     0x26c),
-> +       DEF_GEN3_SDH("sd0h",    R8A774E1_CLK_SD0H,  CLK_SDSRC,         0x074),
-> +       DEF_GEN3_SD( "sd0",     R8A774E1_CLK_SD0,   R8A774E1_CLK_SD0H, 0x074),
-> +       DEF_GEN3_SDH("sd1h",    R8A774E1_CLK_SD1H,  CLK_SDSRC,         0x078),
-> +       DEF_GEN3_SD( "sd1",     R8A774E1_CLK_SD1,   R8A774E1_CLK_SD1H, 0x078),
-> +       DEF_GEN3_SDH("sd2h",    R8A774E1_CLK_SD2H,  CLK_SDSRC,         0x268),
-> +       DEF_GEN3_SD( "sd2",     R8A774E1_CLK_SD2,   R8A774E1_CLK_SD2H, 0x268),
-> +       DEF_GEN3_SDH("sd3h",    R8A774E1_CLK_SD3H,  CLK_SDSRC,         0x26c),
-> +       DEF_GEN3_SD( "sd3",     R8A774E1_CLK_SD3,   R8A774E1_CLK_SD3H, 0x26c),
->
->         DEF_FIXED("cl",         R8A774E1_CLK_CL,    CLK_PLL1_DIV2, 48, 1),
->         DEF_FIXED("cr",         R8A774E1_CLK_CR,    CLK_PLL1_DIV4,  2, 1),
-> diff --git a/drivers/clk/renesas/r8a7795-cpg-mssr.c b/drivers/clk/renesas/r8a7795-cpg-mssr.c
-> index c32d2c678046..9ca26057e809 100644
-> --- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
-> @@ -104,10 +104,14 @@ static struct cpg_core_clk r8a7795_core_clks[] __initdata = {
->         DEF_FIXED("s3d2",       R8A7795_CLK_S3D2,  CLK_S3,         2, 1),
->         DEF_FIXED("s3d4",       R8A7795_CLK_S3D4,  CLK_S3,         4, 1),
->
-> -       DEF_GEN3_SD("sd0",      R8A7795_CLK_SD0,   CLK_SDSRC,     0x074),
-> -       DEF_GEN3_SD("sd1",      R8A7795_CLK_SD1,   CLK_SDSRC,     0x078),
-> -       DEF_GEN3_SD("sd2",      R8A7795_CLK_SD2,   CLK_SDSRC,     0x268),
-> -       DEF_GEN3_SD("sd3",      R8A7795_CLK_SD3,   CLK_SDSRC,     0x26c),
-> +       DEF_GEN3_SDH("sd0h",    R8A7795_CLK_SD0H,  CLK_SDSRC,        0x074),
-> +       DEF_GEN3_SD( "sd0",     R8A7795_CLK_SD0,   R8A7795_CLK_SD0H, 0x074),
-> +       DEF_GEN3_SDH("sd1h",    R8A7795_CLK_SD1H,  CLK_SDSRC,        0x078),
-> +       DEF_GEN3_SD( "sd1",     R8A7795_CLK_SD1,   R8A7795_CLK_SD1H, 0x078),
-> +       DEF_GEN3_SDH("sd2h",    R8A7795_CLK_SD2H,  CLK_SDSRC,        0x268),
-> +       DEF_GEN3_SD( "sd2",     R8A7795_CLK_SD2,   R8A7795_CLK_SD2H, 0x268),
-> +       DEF_GEN3_SDH("sd3h",    R8A7795_CLK_SD3H,  CLK_SDSRC,        0x26c),
-> +       DEF_GEN3_SD( "sd3",     R8A7795_CLK_SD3,   R8A7795_CLK_SD3H, 0x26c),
->
->         DEF_FIXED("cl",         R8A7795_CLK_CL,    CLK_PLL1_DIV2, 48, 1),
->         DEF_FIXED("cr",         R8A7795_CLK_CR,    CLK_PLL1_DIV4,  2, 1),
-> diff --git a/drivers/clk/renesas/r8a7796-cpg-mssr.c b/drivers/clk/renesas/r8a7796-cpg-mssr.c
-> index 41593c126faf..0dc0ba349a54 100644
-> --- a/drivers/clk/renesas/r8a7796-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a7796-cpg-mssr.c
-> @@ -106,10 +106,14 @@ static const struct cpg_core_clk r8a7796_core_clks[] __initconst = {
->         DEF_FIXED("s3d2",       R8A7796_CLK_S3D2,  CLK_S3,         2, 1),
->         DEF_FIXED("s3d4",       R8A7796_CLK_S3D4,  CLK_S3,         4, 1),
->
-> -       DEF_GEN3_SD("sd0",      R8A7796_CLK_SD0,   CLK_SDSRC,     0x074),
-> -       DEF_GEN3_SD("sd1",      R8A7796_CLK_SD1,   CLK_SDSRC,     0x078),
-> -       DEF_GEN3_SD("sd2",      R8A7796_CLK_SD2,   CLK_SDSRC,     0x268),
-> -       DEF_GEN3_SD("sd3",      R8A7796_CLK_SD3,   CLK_SDSRC,     0x26c),
-> +       DEF_GEN3_SDH("sd0h",    R8A7796_CLK_SD0H,  CLK_SDSRC,        0x074),
-> +       DEF_GEN3_SD( "sd0",     R8A7796_CLK_SD0,   R8A7796_CLK_SD0H, 0x074),
-> +       DEF_GEN3_SDH("sd1h",    R8A7796_CLK_SD1H,  CLK_SDSRC,        0x078),
-> +       DEF_GEN3_SD( "sd1",     R8A7796_CLK_SD1,   R8A7796_CLK_SD1H, 0x078),
-> +       DEF_GEN3_SDH("sd2h",    R8A7796_CLK_SD2H,  CLK_SDSRC,        0x268),
-> +       DEF_GEN3_SD( "sd2",     R8A7796_CLK_SD2,   R8A7796_CLK_SD2H, 0x268),
-> +       DEF_GEN3_SDH("sd3h",    R8A7796_CLK_SD3H,  CLK_SDSRC,        0x26c),
-> +       DEF_GEN3_SD( "sd3",     R8A7796_CLK_SD3,   R8A7796_CLK_SD3H, 0x26c),
->
->         DEF_FIXED("cl",         R8A7796_CLK_CL,    CLK_PLL1_DIV2, 48, 1),
->         DEF_FIXED("cr",         R8A7796_CLK_CR,    CLK_PLL1_DIV4,  2, 1),
-> diff --git a/drivers/clk/renesas/r8a77965-cpg-mssr.c b/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> index bc1be8bcbbe4..d20a9a0fb3b8 100644
-> --- a/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> @@ -101,10 +101,14 @@ static const struct cpg_core_clk r8a77965_core_clks[] __initconst = {
->         DEF_FIXED("s3d2",       R8A77965_CLK_S3D2,      CLK_S3,         2, 1),
->         DEF_FIXED("s3d4",       R8A77965_CLK_S3D4,      CLK_S3,         4, 1),
->
-> -       DEF_GEN3_SD("sd0",      R8A77965_CLK_SD0,       CLK_SDSRC,      0x074),
-> -       DEF_GEN3_SD("sd1",      R8A77965_CLK_SD1,       CLK_SDSRC,      0x078),
-> -       DEF_GEN3_SD("sd2",      R8A77965_CLK_SD2,       CLK_SDSRC,      0x268),
-> -       DEF_GEN3_SD("sd3",      R8A77965_CLK_SD3,       CLK_SDSRC,      0x26c),
-> +       DEF_GEN3_SDH("sd0h",    R8A77965_CLK_SD0H,      CLK_SDSRC,         0x074),
-> +       DEF_GEN3_SD( "sd0",     R8A77965_CLK_SD0,       R8A77965_CLK_SD0H, 0x074),
-> +       DEF_GEN3_SDH("sd1h",    R8A77965_CLK_SD1H,      CLK_SDSRC,         0x078),
-> +       DEF_GEN3_SD( "sd1",     R8A77965_CLK_SD1,       R8A77965_CLK_SD1H, 0x078),
-> +       DEF_GEN3_SDH("sd2h",    R8A77965_CLK_SD2H,      CLK_SDSRC,         0x268),
-> +       DEF_GEN3_SD( "sd2",     R8A77965_CLK_SD2,       R8A77965_CLK_SD2H, 0x268),
-> +       DEF_GEN3_SDH("sd3h",    R8A77965_CLK_SD3H,      CLK_SDSRC,         0x26c),
-> +       DEF_GEN3_SD( "sd3",     R8A77965_CLK_SD3,       R8A77965_CLK_SD3H, 0x26c),
->
->         DEF_FIXED("cl",         R8A77965_CLK_CL,        CLK_PLL1_DIV2, 48, 1),
->         DEF_FIXED("cr",         R8A77965_CLK_CR,        CLK_PLL1_DIV4,  2, 1),
-> diff --git a/drivers/clk/renesas/r8a77980-cpg-mssr.c b/drivers/clk/renesas/r8a77980-cpg-mssr.c
-> index 9fe372286c1e..4ff2abad1de0 100644
-> --- a/drivers/clk/renesas/r8a77980-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a77980-cpg-mssr.c
-> @@ -96,7 +96,8 @@ static const struct cpg_core_clk r8a77980_core_clks[] __initconst = {
->         DEF_FIXED("s3d2",       R8A77980_CLK_S3D2,  CLK_S3,         2, 1),
->         DEF_FIXED("s3d4",       R8A77980_CLK_S3D4,  CLK_S3,         4, 1),
->
-> -       DEF_GEN3_SD("sd0",      R8A77980_CLK_SD0,   CLK_SDSRC,    0x0074),
-> +       DEF_GEN3_SDH("sd0h",    R8A77980_CLK_SD0H,  CLK_SDSRC,         0x0074),
-> +       DEF_GEN3_SD( "sd0",     R8A77980_CLK_SD0,   R8A77980_CLK_SD0H, 0x0074),
->
->         DEF_FIXED("cl",         R8A77980_CLK_CL,    CLK_PLL1_DIV2, 48, 1),
->         DEF_FIXED("cp",         R8A77980_CLK_CP,    CLK_EXTAL,      2, 1),
-> diff --git a/drivers/clk/renesas/r8a77990-cpg-mssr.c b/drivers/clk/renesas/r8a77990-cpg-mssr.c
-> index a582f2ec3294..637c3f062fae 100644
-> --- a/drivers/clk/renesas/r8a77990-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a77990-cpg-mssr.c
-> @@ -100,9 +100,12 @@ static const struct cpg_core_clk r8a77990_core_clks[] __initconst = {
->         DEF_FIXED("s3d2",      R8A77990_CLK_S3D2,  CLK_S3,         2, 1),
->         DEF_FIXED("s3d4",      R8A77990_CLK_S3D4,  CLK_S3,         4, 1),
->
-> -       DEF_GEN3_SD("sd0",     R8A77990_CLK_SD0,   CLK_SDSRC,     0x0074),
-> -       DEF_GEN3_SD("sd1",     R8A77990_CLK_SD1,   CLK_SDSRC,     0x0078),
-> -       DEF_GEN3_SD("sd3",     R8A77990_CLK_SD3,   CLK_SDSRC,     0x026c),
-> +       DEF_GEN3_SDH("sd0h",   R8A77990_CLK_SD0H,  CLK_SDSRC,         0x0074),
-> +       DEF_GEN3_SD( "sd0",    R8A77990_CLK_SD0,   R8A77990_CLK_SD0H, 0x0074),
-> +       DEF_GEN3_SDH("sd1h",   R8A77990_CLK_SD1H,  CLK_SDSRC,         0x0078),
-> +       DEF_GEN3_SD( "sd1",    R8A77990_CLK_SD1,   R8A77990_CLK_SD1H, 0x0078),
-> +       DEF_GEN3_SDH("sd3h",   R8A77990_CLK_SD3H,  CLK_SDSRC,         0x026c),
-> +       DEF_GEN3_SD( "sd3",    R8A77990_CLK_SD3,   R8A77990_CLK_SD3H, 0x026c),
->
->         DEF_FIXED("cl",        R8A77990_CLK_CL,    CLK_PLL1,      48, 1),
->         DEF_FIXED("cr",        R8A77990_CLK_CR,    CLK_PLL1D2,     2, 1),
-> diff --git a/drivers/clk/renesas/r8a77995-cpg-mssr.c b/drivers/clk/renesas/r8a77995-cpg-mssr.c
-> index 81c0bc1e78af..007f6fda1db4 100644
-> --- a/drivers/clk/renesas/r8a77995-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a77995-cpg-mssr.c
-> @@ -103,7 +103,8 @@ static const struct cpg_core_clk r8a77995_core_clks[] __initconst = {
->         DEF_GEN3_PE("s3d2c",   R8A77995_CLK_S3D2C, CLK_S3, 2, CLK_PE, 2),
->         DEF_GEN3_PE("s3d4c",   R8A77995_CLK_S3D4C, CLK_S3, 4, CLK_PE, 4),
->
-> -       DEF_GEN3_SD("sd0",     R8A77995_CLK_SD0,   CLK_SDSRC,     0x268),
-> +       DEF_GEN3_SDH("sd0h",   R8A77995_CLK_SD0H, CLK_SDSRC,         0x268),
-> +       DEF_GEN3_SD( "sd0",    R8A77995_CLK_SD0,  R8A77995_CLK_SD0H, 0x268),
->
->         DEF_DIV6P1("canfd",    R8A77995_CLK_CANFD, CLK_PLL0D3,    0x244),
->         DEF_DIV6P1("mso",      R8A77995_CLK_MSO,   CLK_PLL1D2,    0x014),
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +       case CLK_TYPE_R8A779A0_SDH:
+> +               return cpg_sdh_clk_register(core->name, base + core->offset,
+> +                                          __clk_get_name(parent), notifiers);
+> +
+>         case CLK_TYPE_R8A779A0_SD:
+>                 return cpg_sd_clk_register(core->name, base, core->offset,
+>                                            __clk_get_name(parent), notifiers,
+> --
+> 2.30.2
