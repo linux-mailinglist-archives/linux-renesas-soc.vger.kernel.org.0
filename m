@@ -2,120 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4887844E797
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 14:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CF5344E799
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 14:41:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235046AbhKLNnm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Nov 2021 08:43:42 -0500
-Received: from mail-ua1-f54.google.com ([209.85.222.54]:37773 "EHLO
-        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232760AbhKLNnm (ORCPT
+        id S232760AbhKLNn4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Nov 2021 08:43:56 -0500
+Received: from www.zeus03.de ([194.117.254.33]:37340 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231436AbhKLNnz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Nov 2021 08:43:42 -0500
-Received: by mail-ua1-f54.google.com with SMTP id l43so18875682uad.4;
-        Fri, 12 Nov 2021 05:40:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7sZAmLBIGZWe3jCH7XC+K7+dfSJpViCOkZv6jZzhTEE=;
-        b=P8ERwmKbOunsNx/JHQhzLLCMnzFduCWS4JqHoijG5QAOmCfEiUBrThCjP2b6adA9XN
-         0Dol4OvlTXU9ouhs+dGkfHpuflBUnX+rb/6qFgw2OiS2jQ9GpXUcRf5TePKeDa45jcUh
-         nlv+N50wEX7APKlCKZVFii06TXW/E4xtP4hA+1gGCy+/j6TQnwQxXIna7ntGgvs/+s16
-         7SGR/+o4efmSn86Xx3RiFvj6SxuuVLlWsAJtPauE7tKbl/6+g4KhJel4LhM5Nuh8NhLS
-         A92a9OTeB+lbOuR0+za3FFi/KGxHq6uym9jDN7o1Pi6mCus87P7IaAea+Ny/nva6LlPE
-         L7yA==
-X-Gm-Message-State: AOAM530nsayiYGidyzOTD5lv2+GO6fT87FefBoItTgO/ZDVz9QdnusW+
-        AivKCuaYuITl59H2kJZy7Tei3VKflmTwDg==
-X-Google-Smtp-Source: ABdhPJzOs4A37a7U7yWZTWttTQk0o6Md4Dlq9wchiZvAA4RLKK0/Tqi71htPUIjZ2CebdS/AFXdyOw==
-X-Received: by 2002:a67:c11c:: with SMTP id d28mr10489717vsj.54.1636724450902;
-        Fri, 12 Nov 2021 05:40:50 -0800 (PST)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id t1sm3952219vkl.56.2021.11.12.05.40.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Nov 2021 05:40:50 -0800 (PST)
-Received: by mail-ua1-f44.google.com with SMTP id ay21so18814218uab.12;
-        Fri, 12 Nov 2021 05:40:49 -0800 (PST)
-X-Received: by 2002:a9f:248b:: with SMTP id 11mr18174697uar.14.1636724449074;
- Fri, 12 Nov 2021 05:40:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com> <20211110191610.5664-4-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20211110191610.5664-4-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 12 Nov 2021 14:40:37 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUK_rPAR_SMVxM7bZ8S7=Ww-1FQ2HWoxmv7LhW22QOMCA@mail.gmail.com>
-Message-ID: <CAMuHMdUK_rPAR_SMVxM7bZ8S7=Ww-1FQ2HWoxmv7LhW22QOMCA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 03/21] clk: renesas: r8a779a0: add SDnH clock to V3U
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Fri, 12 Nov 2021 08:43:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=7evMkvgcnS0WHy2iZIZTybCuOKTB
+        zfHMH8VRm70oK5Q=; b=kQuZQPb1IYZJuUpBHUoBJsfv8PDKWIfFOV+cophUYkKo
+        o/K4ygFz9lVGQ2M+aMx6iLfruNYR4oj3Em3vnxDwdGTF1O/xHm+rRidbmQttNqOh
+        tOxYW3vtogeVcDcPytLozU7qog0kzXnAjhtZiNcT+1R1nH1YUq75pL3U8nTf4mE=
+Received: (qmail 1386690 invoked from network); 12 Nov 2021 14:41:03 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Nov 2021 14:41:03 +0100
+X-UD-Smtp-Session: l3s3148p1@jF0+nJfQQNAgAQnoAFqiAcAEyXqBia2a
+Date:   Fri, 12 Nov 2021 14:41:03 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux MMC List <linux-mmc@vger.kernel.org>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [RFC PATCH v2 08/21] arm64: dts: reneas: r8a774a1: add SDnH
+ clocks
+Message-ID: <YY5u770TU6/RcFLs@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com>
+ <20211110191610.5664-9-wsa+renesas@sang-engineering.com>
+ <CAMuHMdX_xXb0t5g8t9Pmc9LLGUhD0FA9R7NonF-92a2M556pYg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="bY8wj9Vy/qP3ij7/"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdX_xXb0t5g8t9Pmc9LLGUhD0FA9R7NonF-92a2M556pYg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-CC clk
 
-On Wed, Nov 10, 2021 at 8:16 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Currently a pass-through clock but we will make it a real divider clock
-> in the next patches.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Changes since RFC v1:
-> * added tag from Geert
->
->  drivers/clk/renesas/r8a779a0-cpg-mssr.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> index f16d125ca009..fb7f0cf2654a 100644
-> --- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> @@ -33,6 +33,7 @@ enum rcar_r8a779a0_clk_types {
->         CLK_TYPE_R8A779A0_PLL1,
->         CLK_TYPE_R8A779A0_PLL2X_3X,     /* PLL[23][01] */
->         CLK_TYPE_R8A779A0_PLL5,
-> +       CLK_TYPE_R8A779A0_SDH,
->         CLK_TYPE_R8A779A0_SD,
->         CLK_TYPE_R8A779A0_MDSEL,        /* Select parent/divider using mode pin */
->         CLK_TYPE_R8A779A0_OSC,  /* OSC EXTAL predivider and fixed divider */
-> @@ -84,6 +85,9 @@ enum clk_ids {
->         DEF_BASE(_name, _id, CLK_TYPE_R8A779A0_PLL2X_3X, CLK_MAIN, \
->                  .offset = _offset)
->
-> +#define DEF_SDH(_name, _id, _parent, _offset)   \
-> +       DEF_BASE(_name, _id, CLK_TYPE_R8A779A0_SDH, _parent, .offset = _offset)
-> +
->  #define DEF_SD(_name, _id, _parent, _offset)   \
->         DEF_BASE(_name, _id, CLK_TYPE_R8A779A0_SD, _parent, .offset = _offset)
->
-> @@ -145,7 +149,8 @@ static const struct cpg_core_clk r8a779a0_core_clks[] __initconst = {
->         DEF_FIXED("cp",         R8A779A0_CLK_CP,        CLK_EXTAL,      2, 1),
->         DEF_FIXED("cl16mck",    R8A779A0_CLK_CL16MCK,   CLK_PLL1_DIV2,  64, 1),
->
-> -       DEF_SD("sd0",           R8A779A0_CLK_SD0,       CLK_SDSRC,      0x870),
-> +       DEF_SDH("sdh0",         R8A779A0_CLK_SD0H,      CLK_SDSRC,         0x870),
-> +       DEF_SD( "sd0",          R8A779A0_CLK_SD0,       R8A779A0_CLK_SD0H, 0x870),
->
->         DEF_DIV6P1("mso",       R8A779A0_CLK_MSO,       CLK_PLL5_DIV4,  0x87c),
->         DEF_DIV6P1("canfd",     R8A779A0_CLK_CANFD,     CLK_PLL5_DIV4,  0x878),
-> @@ -293,6 +298,10 @@ static struct clk * __init rcar_r8a779a0_cpg_clk_register(struct device *dev,
->                 div = cpg_pll_config->pll5_div;
->                 break;
->
-> +       case CLK_TYPE_R8A779A0_SDH:
-> +               return cpg_sdh_clk_register(core->name, base + core->offset,
-> +                                          __clk_get_name(parent), notifiers);
-> +
->         case CLK_TYPE_R8A779A0_SD:
->                 return cpg_sd_clk_register(core->name, base, core->offset,
->                                            __clk_get_name(parent), notifiers,
-> --
-> 2.30.2
+--bY8wj9Vy/qP3ij7/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+
+> If you don't mind, I'll squash all RZ/G2 DTS patches into a single commit?
+
+I don't mind. It was easier for developing and thought it was easier for
+review as well. In the tree, one commit should be enough, true.
+
+
+--bY8wj9Vy/qP3ij7/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGObusACgkQFA3kzBSg
+KbZPKA/+KeRv2/JEQ+jtLiLJQ5+TKta/TBhmZCuwGKc4nPBProQUvazFR8edjmb5
+sVMBSMw5qOtD9CjhKigT7fkBPmJQYzL8W1lDgC0XZ7AdGbQwvJvU/xUA13qyqntH
+0dNtA8GArTiD+NKe9wBkB4AzmNkDvMfnbi8RKe8KBXXLeReM8N3q2wPSYxgl1a0v
+by8GQWdpJj4QpR7MNo9SVMMi7/70E5gSOz/1wfv0Y4tQktsAylSyYPLUldLkX5Oh
+WYs3PKsHbNLBFWollD4xFX7IZ5ItyeP88E6/hb+C8w1/qREH0ftWld6V+Zy0Zb9X
+UobYOzWTk9nvBgxe0E1ku4CUZnZ19dZ1M6zqfY/3iac3xJUzdiW02V9KLckLh85Y
+a9EHB5ZdfQb+HU7NZIE2G2jQuho+iTzZvX1fqfERGLhusXD5lASEBeKW7mHeKpAy
+o3gMQyOti4pn2gR5eHUQ1pM3yMi+u6wlobOPtaqKWeCRdOgcmsrcbmc8Ql9SNjbL
+9/KkA3eAASJ1weZaKgDxotrXDXx23mLTAFG7fQVGJmjLex1nJZTi14VjlW9UYY7/
+nDz8rUVmf16Fwn+rlvXf/WAlD6KZDbFpm7gcE84mKjiGhR9wK2B2sMplvhOFbP/4
+Fbs7t/gMsJTl9OEmFAsjwa3bXGZRruqgImhN+TSlMZZpnGCR7eY=
+=0nSm
+-----END PGP SIGNATURE-----
+
+--bY8wj9Vy/qP3ij7/--
