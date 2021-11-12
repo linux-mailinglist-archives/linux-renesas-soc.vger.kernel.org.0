@@ -2,50 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1F5544E6FB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 14:05:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32AFF44E709
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 14:06:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234899AbhKLNIF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Nov 2021 08:08:05 -0500
-Received: from mail-ua1-f45.google.com ([209.85.222.45]:43743 "EHLO
-        mail-ua1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231652AbhKLNIC (ORCPT
+        id S235029AbhKLNJc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Nov 2021 08:09:32 -0500
+Received: from mail-vk1-f177.google.com ([209.85.221.177]:45784 "EHLO
+        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235044AbhKLNJb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Nov 2021 08:08:02 -0500
-Received: by mail-ua1-f45.google.com with SMTP id v3so18546734uam.10;
-        Fri, 12 Nov 2021 05:05:11 -0800 (PST)
+        Fri, 12 Nov 2021 08:09:31 -0500
+Received: by mail-vk1-f177.google.com with SMTP id m19so287061vko.12;
+        Fri, 12 Nov 2021 05:06:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cpWPWQ5V5jSlJkNgA2Bco8aLW+Cp4lV6fRTZaCU0dKY=;
-        b=GBEQc+QYuqmNX3jOJb9rU3MDtQZfH3gpyN5u226LRal8YkHrtgZYmgPJP8hSluFKj9
-         gYK+PDe8rJXc3WGzepGyeXbHzmjuP5weUCeMZnFKUKlYUeurc6Kj3PQuAmnydLfqC8sw
-         GiKYZiMUsc2yjtMplHt/0TG/TmOh8WZMEU18Upd2FJINMCP6PBDdr8rP0VQdVS0fhhBO
-         B1zkhumCuA9n10/mHc1O35BbuAf6CqTN2mzwPnwnOPheEkDpHzSD/7U5nm55996FRNzv
-         BfSxr/FaLTyDDnbMd52tn0DIzYDBVvCIqzrsgQ/p+eoalbCHn4UC1raSuVuzcEvPeDTr
-         rmsA==
-X-Gm-Message-State: AOAM531ckA840GYshX9wUTXxo5Q7dV+pa8s3NC+Q7hASSkX2VtwWy6zg
-        DGumZfWgaGX35jGxjEiBd7JFwWLi34N+3w==
-X-Google-Smtp-Source: ABdhPJyIcW8iZmylvMj5kHMTjcG+ppcPV4airBPDM0GxK6sBk6opPyv5MsQehqZ+Orl8ob7DdMnCYQ==
-X-Received: by 2002:a67:3310:: with SMTP id z16mr9701544vsz.5.1636722311295;
-        Fri, 12 Nov 2021 05:05:11 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id 23sm3766735vkk.17.2021.11.12.05.05.10
+        bh=Nq5oEJjJ9olOZrDprxv3x92YdgPfLIcqK5R5QEqV1ng=;
+        b=GWh5RNYExKJIawBwpfDuZrx0efdWzqbcN1tn1PM26WEQM03WmoElP0JBQSKLz4ilQ0
+         7QpG7IatxULSTL1py1fcq6iBl3tUNrlswIhk9a4fFbmjAIvIApmCxlg/TCMydHx6R7TN
+         V5buJK7pkGAUutyZ8k/M1tbIwcwxzRWbSdPDItt3QWRNk4uDMAWa4Fqio0ubIw2fIdJx
+         VeIXet6Wj6PjAee8SamugQZvlxPJrrjQPh6xY+B3W0EjCAVDIfx1fASY8a92vTf+zcg7
+         UARNzdHUdelQ2QOaShovfpm03KpBgL6yw9ouBmpG9TxunmxZ/6FmfG51PB1zS+XuziTr
+         H0XQ==
+X-Gm-Message-State: AOAM531g9a3PzVLg2qrwANydopg54GLLWFpsZVPMnXK9iIehx1LbSeTC
+        RdrQ2nMXRzhCjOG4eeSxyOPdKsY2r11+8A==
+X-Google-Smtp-Source: ABdhPJwlWv4cH3RQAuYtqYHYZtvAc75i0SxXLmw+H0QfMG+64wC0cg52dvGjoWC53sr+e/7GrQ43mA==
+X-Received: by 2002:a05:6122:790:: with SMTP id k16mr23554254vkr.26.1636722400434;
+        Fri, 12 Nov 2021 05:06:40 -0800 (PST)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id c2sm4359991uab.11.2021.11.12.05.06.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Nov 2021 05:05:11 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id l43so18647398uad.4;
-        Fri, 12 Nov 2021 05:05:10 -0800 (PST)
-X-Received: by 2002:a67:af0a:: with SMTP id v10mr9951410vsl.35.1636722310600;
- Fri, 12 Nov 2021 05:05:10 -0800 (PST)
+        Fri, 12 Nov 2021 05:06:40 -0800 (PST)
+Received: by mail-ua1-f46.google.com with SMTP id p2so18597872uad.11;
+        Fri, 12 Nov 2021 05:06:40 -0800 (PST)
+X-Received: by 2002:a67:c38f:: with SMTP id s15mr9886013vsj.50.1636722400181;
+ Fri, 12 Nov 2021 05:06:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com> <20211110191610.5664-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20211110191610.5664-3-wsa+renesas@sang-engineering.com>
+References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com> <20211110191610.5664-5-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20211110191610.5664-5-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 12 Nov 2021 14:04:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXLNB3ycxFkXH6UHAbAHWk0qr4UnSq5VNnYTXsEqTBzHQ@mail.gmail.com>
-Message-ID: <CAMuHMdXLNB3ycxFkXH6UHAbAHWk0qr4UnSq5VNnYTXsEqTBzHQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 02/21] clk: renesas: rcar-gen3: add SDnH clock
+Date:   Fri, 12 Nov 2021 14:06:29 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWa50fZup9j9v5ArmYXNH3Gi6Zv0L9z+nH317SA1GZK9g@mail.gmail.com>
+Message-ID: <CAMuHMdWa50fZup9j9v5ArmYXNH3Gi6Zv0L9z+nH317SA1GZK9g@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 04/21] mmc: sdhi: internal_dmac: flag non-standard
+ SDnH handling for V3M
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux MMC List <linux-mmc@vger.kernel.org>,
@@ -58,44 +59,13 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Wed, Nov 10, 2021 at 8:16 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> Currently a pass-through clock but we will make it a real divider clock
-> in the next patches.
+> V3M handles SDnH differently than other Gen3 SoCs, so let's add a
+> separate entry for that. This will allow better SDnH handling in the
+> future.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Changes since RFC v1:
-> * fixed subject prefix
-> * fixed whitespace issues
-> * added tag from Geert
 
-Thanks for the update!
-
-> --- a/drivers/clk/renesas/r8a774a1-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a774a1-cpg-mssr.c
-> @@ -100,10 +100,14 @@ static const struct cpg_core_clk r8a774a1_core_clks[] __initconst = {
->         DEF_FIXED("s3d2",       R8A774A1_CLK_S3D2,  CLK_S3,         2, 1),
->         DEF_FIXED("s3d4",       R8A774A1_CLK_S3D4,  CLK_S3,         4, 1),
->
-> -       DEF_GEN3_SD("sd0",      R8A774A1_CLK_SD0,   CLK_SDSRC,     0x074),
-> -       DEF_GEN3_SD("sd1",      R8A774A1_CLK_SD1,   CLK_SDSRC,     0x078),
-> -       DEF_GEN3_SD("sd2",      R8A774A1_CLK_SD2,   CLK_SDSRC,     0x268),
-> -       DEF_GEN3_SD("sd3",      R8A774A1_CLK_SD3,   CLK_SDSRC,     0x26c),
-> +       DEF_GEN3_SDH("sd0h",    R8A774A1_CLK_SD0H,  CLK_SDSRC,        0x074),
-> +       DEF_GEN3_SD( "sd0",     R8A774A1_CLK_SD0,   R8A774A1_CLK_SD0H, 0x074),
-> +       DEF_GEN3_SDH("sd1h",    R8A774A1_CLK_SD1H,  CLK_SDSRC,        0x078),
-> +       DEF_GEN3_SD( "sd1",     R8A774A1_CLK_SD1,   R8A774A1_CLK_SD1H, 0x078),
-> +       DEF_GEN3_SDH("sd2h",    R8A774A1_CLK_SD2H,  CLK_SDSRC,        0x268),
-> +       DEF_GEN3_SD( "sd2",     R8A774A1_CLK_SD2,   R8A774A1_CLK_SD2H, 0x268),
-> +       DEF_GEN3_SDH("sd3h",    R8A774A1_CLK_SD3H,  CLK_SDSRC,        0x26c),
-> +       DEF_GEN3_SD( "sd3",     R8A774A1_CLK_SD3,   R8A774A1_CLK_SD3H, 0x26c),
-
-The last column is no longer aligned.
-I don't like the extra space before the "sdN" names. I understand
-why you added it, but it can easily be made looking good by listing
-all sdNh clocks first ;-)
-
-No need to resend, consider it done while queuing in renesas-clk-for-v5.17.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
