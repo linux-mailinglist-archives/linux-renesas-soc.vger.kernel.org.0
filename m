@@ -2,112 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC70144E86C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 15:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8629844E887
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 15:21:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234942AbhKLOUv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Nov 2021 09:20:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235096AbhKLOUv (ORCPT
+        id S235035AbhKLOX5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Nov 2021 09:23:57 -0500
+Received: from mail-ua1-f41.google.com ([209.85.222.41]:39861 "EHLO
+        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233894AbhKLOX4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Nov 2021 09:20:51 -0500
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF095C061766;
-        Fri, 12 Nov 2021 06:18:00 -0800 (PST)
-Received: by mail-yb1-xb2a.google.com with SMTP id y3so24063170ybf.2;
-        Fri, 12 Nov 2021 06:18:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8GW8Ktwdvz3yOVsUiwE1qEeSmqgP7liHkg9/rj0kpmg=;
-        b=YljvRFEWNYsZBhp4XWpLm9WojDm+QblDf+TsfWcNb7zE6zGpVSqylrYt7R+tP5crWy
-         IsEC5PnPyrnWeoHbSpjygv84V80qw4JhYiQ82SLu10FDFbPcTLdnhZv165j3Atiidbhx
-         FCxCnOzYhgpNPg+W/Fa0Oa4KAXqm+6aihkrHcUx4/puxcb/ukt6OetRs+wMiNuJSNl0K
-         ywjqvlsb7OAMQW6C/YhJUKSyA1hKcuqezV82orV2T9B51fzXWH2DLdelD5tOJ3cAqaVR
-         8eNoEr3L5i1ll6mBsWGv6N3oYdgEcA/swg7K/DmoItBAWdRpmQ+FH40HSWzCTDAHr4o9
-         +YyA==
+        Fri, 12 Nov 2021 09:23:56 -0500
+Received: by mail-ua1-f41.google.com with SMTP id i6so19092548uae.6;
+        Fri, 12 Nov 2021 06:21:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8GW8Ktwdvz3yOVsUiwE1qEeSmqgP7liHkg9/rj0kpmg=;
-        b=j4UrTCLWPM4+PfKirvL91np4+is89QVKEGQXckMigOPEUZE9bi3gn183AgIqQLePdA
-         BapXo7xuF4MhOUjlAAhE4Bah4V3i2KvzdASqLrj70NiYX8rvyWAJts+WR7pFDHWgL3mU
-         eqBvqX07+fbjxJ5qL6q0aRzo4EP1JQNRIQA4JGAtboYVgqx292gMWHA50AsEM8FjZaEr
-         5IjtA3jEoXOmswKvAY/plr0+ShImq1r7kYIx/xuo0DBgnhVlu3OVK5Hqh5/u/GQf+3T3
-         WA2NshPusGLYQaa9weD7EgZdAOMhH4UWCXqe5lAWGBgx83stbZlE1Opjw9XhtpFaBmEw
-         zN4g==
-X-Gm-Message-State: AOAM533EHvtcBl5MivwQlSmV4Wrs++8RkJ5worYXqsrOh6/NiT5LDf89
-        wUCjtPVSLEcoDwoEGQJFwDeKpHYH6nRaAUpVWmE=
-X-Google-Smtp-Source: ABdhPJy8zWIEN6Xk5IvLbBpN7EDSIpRpKemxsQnUf6/ud1TWix6coMoFlaXbmk5G55NxGjOzsu6pimxsP6zLHJbjsx8=
-X-Received: by 2002:a25:c792:: with SMTP id w140mr16519436ybe.131.1636726680056;
- Fri, 12 Nov 2021 06:18:00 -0800 (PST)
+        bh=d0xUKMNGAKW3Rv2NiR2CE/TSNmlcrsKAFcxfksPwJsc=;
+        b=RL3vJ7j9iuORfEq6EvcizcD9TTu1NbRoAESKz+AflnMUvZkgCs8qC1LyF+bM0RM7Sa
+         UO+/04mJN5UJDb49mhvaNr22Q+zq41feQuN/XQaUphbw2nMtGW52PFZ/fnqZfaxOksFJ
+         t/TAPJnVGkRGtX7yWnBbsi/fKTHcbZ8MRkHm9XqzRmSMSHqgIGxunSG6AQfnaxLHzOYh
+         kJfzGpdEsw0Wry2UsWd+HI80ru0o7hXEikqytqm2pU//PX0cOJUw42QDWkH+S0DbELe6
+         u2AbDoJaNzYBrdihXB3c0+Hi9mEZCyuHOuXBuP2gc4VLmicGAM7lBltuM8RxLGsWY0DV
+         D70A==
+X-Gm-Message-State: AOAM532/DgTPe1eJwfTbzNIkU0vpWCOZ8mwn3uYFWy22SSz6zNDNAvrE
+        2kiSUqOiSqrEC0o9Ek0F04+P01ykQ/TcqQ==
+X-Google-Smtp-Source: ABdhPJwtAZ2nlUntcVflRIDcdzZRS/OxqcqCaQDDg9wv5sciVWz1cJv8uLClM814F9dGHZ4NoOjT1Q==
+X-Received: by 2002:a05:6102:dcb:: with SMTP id e11mr10634002vst.8.1636726864420;
+        Fri, 12 Nov 2021 06:21:04 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id p3sm4200321vsr.3.2021.11.12.06.21.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Nov 2021 06:21:04 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id t13so19083541uad.9;
+        Fri, 12 Nov 2021 06:21:03 -0800 (PST)
+X-Received: by 2002:a05:6102:1354:: with SMTP id j20mr10408439vsl.41.1636726863321;
+ Fri, 12 Nov 2021 06:21:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20211110224622.16022-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVw=bDj=Uq+wXzBb_HhG4viHZC0A0znv15htvwwS15oEQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVw=bDj=Uq+wXzBb_HhG4viHZC0A0znv15htvwwS15oEQ@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 12 Nov 2021 14:17:34 +0000
-Message-ID: <CA+V-a8t2_m7S38_ZF5tu_EfZ1A-oTBeXwmPXARAYF4N9JQ7PhQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] RZ/G2L: pinctrl: Support to get/set drive-strength
- and output-impedance-ohms
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
+References: <20211110232920.19198-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211110232920.19198-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211110232920.19198-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 12 Nov 2021 15:20:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXXhBpcL+VrLQCnSNvsdVWLACyBRSGaVKj+F_NZZBxGTg@mail.gmail.com>
+Message-ID: <CAMuHMdXXhBpcL+VrLQCnSNvsdVWLACyBRSGaVKj+F_NZZBxGTg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] serial: sh-sci: Add support to deassert/assert
+ reset line
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Thu, Nov 11, 2021 at 12:29 AM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> On RZ/G2L SoC we need to explicitly deassert the reset line
+> for the device to work, use this opportunity to deassert/assert
+> reset line in sh-sci driver.
+>
+> This patch adds support to read the "resets" property (if available)
+> from DT and perform deassert/assert when required.
+>
+> Also, propagate the error to the caller of sci_parse_dt() instead of
+> returning NULL in case of failure.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-On Fri, Nov 12, 2021 at 2:09 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Nov 10, 2021 at 11:46 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > This patch series add support to get/set drive-strength and
-> > output-impedance for RZ/G2L SoC. Along with some macro renames
-> > and code cleanup.
-> >
-> > Cheers,
-> > Prabhakar
-> >
-> > Changes for v3:
-> > * Fixed review comments pointed by Geert.
-> >
-> > Changes for v2:
-> > * Fixed review comments pointed by Geert, split up patch 4 from series [1]
-> >
-> > Note: This patch series is dependent on first two patches of series [1]
-> >
-> > [1] https://patchwork.kernel.org/project/linux-renesas-soc/cover/
-> > 20211027134509.5036-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
->
-> Thank you, will queue in renesas-pinctrl-for-v5.17 with the dependencies.
->
-Thank you for the review and acceptance.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Cheers,
-Prabhakar
+Gr{oetje,eeting}s,
 
+                        Geert
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
