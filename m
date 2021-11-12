@@ -2,50 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0887044E74B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 14:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B191944E74D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 14:28:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232441AbhKLNa2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Nov 2021 08:30:28 -0500
-Received: from mail-ua1-f44.google.com ([209.85.222.44]:46621 "EHLO
+        id S231920AbhKLNa5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Nov 2021 08:30:57 -0500
+Received: from mail-ua1-f44.google.com ([209.85.222.44]:44957 "EHLO
         mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231553AbhKLNa2 (ORCPT
+        with ESMTP id S231553AbhKLNa5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Nov 2021 08:30:28 -0500
-Received: by mail-ua1-f44.google.com with SMTP id az37so18716811uab.13;
-        Fri, 12 Nov 2021 05:27:37 -0800 (PST)
+        Fri, 12 Nov 2021 08:30:57 -0500
+Received: by mail-ua1-f44.google.com with SMTP id p2so18730195uad.11;
+        Fri, 12 Nov 2021 05:28:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
         bh=z9iJ184pTnCaa6ehbVjWTeQI8DGobiB3mmOI1dCbKMU=;
-        b=teey8fICiOOi+3CM5QVgbQMF98wbXhaxTc8uDv81AuLqZmNRYOfwKLUQTn3GKSlo39
-         rJSX9g1NMIp03A6w0TDI+IoErIULa9K69WDrXamcx5dwB7iT9/KoaKJ0TZ+e/gy64rwq
-         HBKw5IMBMLqS4lXiWOfUdTg0euOdjplQXyUcnJExATPgn804tmb18H0TUBxL4WuDD6Lh
-         2fQSYYIa8DAfbTyx+toC4Hd9ZyZRtFL/0ZHRind6z5pdPBMoKcMKUCv4/gu1Il/p5cRt
-         RFWTUsAQGRLDKdZsGMpovguGzqC/T82kpeTYOHm39p+lvYa16aZ/JM1kiLSCxQ8sCaQA
-         v0uw==
-X-Gm-Message-State: AOAM532V/XC390uhj87BFf0y2CTQewLmOZ2s/iyqKbS3g8G4VdwznekS
-        AXgJ7nD4IptR50sAxX68YtH2817RDoH6yw==
-X-Google-Smtp-Source: ABdhPJz2kPCce4etSjfu8dZJ9sot+HF2CzsOyLLef4QKYowCgXjSuPrOSWlWKHPgYOu7HxQPAZAVCA==
-X-Received: by 2002:a67:7247:: with SMTP id n68mr9630333vsc.6.1636723657044;
-        Fri, 12 Nov 2021 05:27:37 -0800 (PST)
+        b=Sk97xZahKCn5uG+mxtFcV2ut+m0g42roBdEzcEheY+og1ektTuzpeigcQIaYqIxmvW
+         HqYzEKxNr0vTxWfUWKdwW6IhrQlN94c2gCyFz1ZvYIwkebp9TuyCRWLGq4u/uwWsNpad
+         nCEG+9eBRRZlgTMj+Qg7jLgL6ziIkDjC22ZahaUlN/vXV82FOSz2bCZPQt0df3wmtxgS
+         Tfqjd6Wbim7sLIxrZ5yy50EbK43dNsw5oEy2amAP1WSGyXTWdRB+RkrCDA/UdpDop24D
+         YDhVWOiF1MmBtxZPTXUH47mR9Hrl7ZJsQ5vZjYVu/t5sDVufkErzU26ywymcxRuC+dZI
+         9Spg==
+X-Gm-Message-State: AOAM533Pnpzz+6/VFqimoUYeO5tf/9PuX8kYR4FYNiMTjy8RRRgSgTX5
+        v6dqEKkCM8+KnZgOd3PX4KeCV2r3ftaUPg==
+X-Google-Smtp-Source: ABdhPJy/pJh52OckUpgyUqw+AUf6r1+L7KFFy8jCmXGun2d+KPGlQQ6sJVKTsjkIwLJJjeEkkMkqKg==
+X-Received: by 2002:ab0:6354:: with SMTP id f20mr22743532uap.116.1636723686106;
+        Fri, 12 Nov 2021 05:28:06 -0800 (PST)
 Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id 15sm3959366vkj.49.2021.11.12.05.27.36
+        by smtp.gmail.com with ESMTPSA id p18sm4178446uaa.16.2021.11.12.05.28.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Nov 2021 05:27:36 -0800 (PST)
-Received: by mail-ua1-f46.google.com with SMTP id v3so18688237uam.10;
-        Fri, 12 Nov 2021 05:27:36 -0800 (PST)
-X-Received: by 2002:a67:c38f:: with SMTP id s15mr10047347vsj.50.1636723656538;
- Fri, 12 Nov 2021 05:27:36 -0800 (PST)
+        Fri, 12 Nov 2021 05:28:05 -0800 (PST)
+Received: by mail-ua1-f46.google.com with SMTP id p2so18730127uad.11;
+        Fri, 12 Nov 2021 05:28:05 -0800 (PST)
+X-Received: by 2002:a9f:248b:: with SMTP id 11mr18067621uar.14.1636723685377;
+ Fri, 12 Nov 2021 05:28:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com> <20211110191610.5664-11-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20211110191610.5664-11-wsa+renesas@sang-engineering.com>
+References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com> <20211110191610.5664-12-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20211110191610.5664-12-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 12 Nov 2021 14:27:25 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVz8-kvyA0a8AW4uF9Tk-5GtuPLTtm9C6+-rEhSQ=+zZg@mail.gmail.com>
-Message-ID: <CAMuHMdVz8-kvyA0a8AW4uF9Tk-5GtuPLTtm9C6+-rEhSQ=+zZg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 10/21] arm64: dts: reneas: r8a774c0: add SDnH clocks
+Date:   Fri, 12 Nov 2021 14:27:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWSG6E0_1ZBs4EE4kEFDAjqMYp1yji0DPpgrk2Wqufp5g@mail.gmail.com>
+Message-ID: <CAMuHMdWSG6E0_1ZBs4EE4kEFDAjqMYp1yji0DPpgrk2Wqufp5g@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 11/21] arm64: dts: reneas: r8a774e1: add SDnH clocks
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux MMC List <linux-mmc@vger.kernel.org>,
