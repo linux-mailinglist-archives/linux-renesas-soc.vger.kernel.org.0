@@ -2,67 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B31DF44ECC7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Nov 2021 19:44:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAEBB44F42F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Nov 2021 17:42:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235618AbhKLSrW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Nov 2021 13:47:22 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:46808 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229892AbhKLSrW (ORCPT
+        id S235916AbhKMQpZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 13 Nov 2021 11:45:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50788 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231912AbhKMQpZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Nov 2021 13:47:22 -0500
-X-IronPort-AV: E=Sophos;i="5.87,230,1631545200"; 
-   d="scan'208";a="100101582"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 13 Nov 2021 03:44:30 +0900
-Received: from localhost.localdomain (unknown [10.226.92.48])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2B08840D8E11;
-        Sat, 13 Nov 2021 03:44:28 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 4/4] clocksource/drivers/renesas,ostm: Make RENESAS_OSTM symbol visible
-Date:   Fri, 12 Nov 2021 18:44:13 +0000
-Message-Id: <20211112184413.4391-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211112184413.4391-1-biju.das.jz@bp.renesas.com>
-References: <20211112184413.4391-1-biju.das.jz@bp.renesas.com>
+        Sat, 13 Nov 2021 11:45:25 -0500
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3A9A8604DA;
+        Sat, 13 Nov 2021 16:42:31 +0000 (UTC)
+Date:   Sat, 13 Nov 2021 16:47:18 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Xu Wang <vulab@iscas.ac.cn>
+Cc:     prabhakar.mahadev-lad.rj@bp.renesas.com, lars@metafoo.de,
+        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: adc: rzg2l_adc: Remove unnecessary print function
+ dev_err()
+Message-ID: <20211113164718.139af103@jic23-huawei>
+In-Reply-To: <20211105015504.39226-1-vulab@iscas.ac.cn>
+References: <20211105015504.39226-1-vulab@iscas.ac.cn>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As RZ/G2L uses the ARM Architected Timer as system timer, enabling
-the OSTM is not mandatory.
+On Fri,  5 Nov 2021 01:55:04 +0000
+Xu Wang <vulab@iscas.ac.cn> wrote:
 
-Make RENESAS_OSTM symbol visible, so that user can enable it
-when needed.
+> The print function dev_err() is redundant because
+> platform_get_irq() already prints an error.
+> 
+> Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+Applied, thanks
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/clocksource/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
-index 0f5e3983951a..b4e7f7be3c10 100644
---- a/drivers/clocksource/Kconfig
-+++ b/drivers/clocksource/Kconfig
-@@ -507,7 +507,8 @@ config SH_TIMER_MTU2
- 	  This hardware comes with 16-bit timer registers.
- 
- config RENESAS_OSTM
--	bool "Renesas OSTM timer driver" if COMPILE_TEST
-+	bool "Renesas OSTM timer driver"
-+	depends on ARCH_RENESAS || COMPILE_TEST
- 	select CLKSRC_MMIO
- 	select TIMER_OF
- 	help
--- 
-2.17.1
+Jonathan
+> ---
+>  drivers/iio/adc/rzg2l_adc.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+> index 32fbf57c362f..9d5be52bd948 100644
+> --- a/drivers/iio/adc/rzg2l_adc.c
+> +++ b/drivers/iio/adc/rzg2l_adc.c
+> @@ -506,10 +506,8 @@ static int rzg2l_adc_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	irq = platform_get_irq(pdev, 0);
+> -	if (irq < 0) {
+> -		dev_err(dev, "no irq resource\n");
+> +	if (irq < 0)
+>  		return irq;
+> -	}
+>  
+>  	ret = devm_request_irq(dev, irq, rzg2l_adc_isr,
+>  			       0, dev_name(dev), adc);
 
