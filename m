@@ -2,83 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BD2D450834
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 16:24:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AC9D450933
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 17:06:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236554AbhKOP1h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Nov 2021 10:27:37 -0500
-Received: from www.zeus03.de ([194.117.254.33]:56650 "EHLO mail.zeus03.de"
+        id S232422AbhKOQJP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Nov 2021 11:09:15 -0500
+Received: from www.zeus03.de ([194.117.254.33]:40860 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232424AbhKOP0v (ORCPT
+        id S236687AbhKOQJM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Nov 2021 10:26:51 -0500
+        Mon, 15 Nov 2021 11:09:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=shoNJ4zQL6aY89k+n+/ckjNC6mE6
-        LxV/uIaRVU4+4IA=; b=XwZOeVsV3MXPfIeBMQWZ4inquKPGxW90/YeYvZo4e+o7
-        L3qnrC7mubkVAoReAYJWdbC0Jv3vnOHsPq+YiF+cdKXZU/rpIC2ykUsbNJHHnR8F
-        lUAFhfkkDgeerAitjk07LAlzMECRo7nu43oxZx55ga+TXQY4GAbLJXgZ4ki0LBE=
-Received: (qmail 2381361 invoked from network); 15 Nov 2021 16:23:42 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Nov 2021 16:23:42 +0100
-X-UD-Smtp-Session: l3s3148p1@eb+oZNXQdIAgAQnoAGuqAcpaucS5KLT8
-Date:   Mon, 15 Nov 2021 16:23:38 +0100
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=6gUTls22z+eIxQzXKfmovBe1hF6
+        ZTKjEiIDzMmNc3jA=; b=Ps8ItQbChwoNyJSFga8QqmYmfWQrGjP+vreJJ34kf7c
+        CyEHdyXwiQvHwBWSngvKKyziu5ztTMnuKTvjXr2cnl3IYoMSMAdY1Iojb9yFI53N
+        jyQAMmqVEd7ztjeayDHgO7wrdxS9q+TZcCdBlTTwcRpyUdFmXYGWIp2sFMBmn42o
+        =
+Received: (qmail 2395182 invoked from network); 15 Nov 2021 17:06:14 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Nov 2021 17:06:14 +0100
+X-UD-Smtp-Session: l3s3148p1@U473/NXQDoEgAQnoAGuqAcpaucS5KLT8
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [RFC PATCH v2 00/21] clk/mmc: renesas_sdhi: refactor SDnH to be
- a separate clock
-Message-ID: <YZJ7ep2A91AjFntJ@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20211110191610.5664-1-wsa+renesas@sang-engineering.com>
- <OS0PR01MB5922A97F46F04F3EBDD8E55886989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Subject: [PATCH v3] dt-bindings: mmc: renesas,sdhi: add optional SDnH clock
+Date:   Mon, 15 Nov 2021 17:06:00 +0100
+Message-Id: <20211115160600.4455-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="I5IM6s6XROec0zQS"
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922A97F46F04F3EBDD8E55886989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+This only applies to R-Car Gen2 and later generations, so we need to
+distinguish.
 
---I5IM6s6XROec0zQS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+---
 
+v1 and v2 were part of a 21-patch-series which was accepted now except
+for this patch. Updated according to Geert's comments and finally also
+sent to Rob and the DT mailing list.
 
-> I have tested this patch series on RZ/G2{M,N,E,L} boards
-> and all looks good.
+Tested with:
+m dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
 
-Awesome! Thank you very much for this testing.
+I hope it really does what I intended to check.
 
+If so, the patch can be applied individually. I think, however, it is
+most convenient if Geert picks it up together with the 20 other patches.
 
---I5IM6s6XROec0zQS
-Content-Type: application/pgp-signature; name="signature.asc"
+ .../devicetree/bindings/mmc/renesas,sdhi.yaml | 40 ++++++++++++++-----
+ 1 file changed, 31 insertions(+), 9 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+index 9f1e7092cf44..43fc6ac56038 100644
+--- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
++++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+@@ -129,15 +129,37 @@ allOf:
+         - clock-names
+         - resets
+     else:
+-      properties:
+-        clocks:
+-          minItems: 1
+-          maxItems: 2
+-        clock-names:
+-          minItems: 1
+-          items:
+-            - const: core
+-            - const: cd
++      if:
++        properties:
++          compatible:
++            contains:
++              enum:
++                - renesas,rcar-gen2-sdhi
++                - renesas,rcar-gen3-sdhi
++      then:
++        properties:
++          clocks:
++            minItems: 1
++            maxItems: 3
++          clock-names:
++            minItems: 1
++            maxItems: 3
++            uniqueItems: true
++            items:
++              - const: core
++              - enum: [ clkh, cd ]
++              - const: cd
++      else:
++        properties:
++          clocks:
++            minItems: 1
++            maxItems: 2
++          clock-names:
++            minItems: 1
++            maxItems: 2
++            items:
++              - const: core
++              - const: cd
+ 
+   - if:
+       properties:
+-- 
+2.30.2
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGSe3YACgkQFA3kzBSg
-KbY76A//Q0fjDxz7N4oeypqYSSz6Xn6h//GkaD8hM2nnApqVdV3GLUmEmPGgyyh5
-weWY+nzavQfUB/HMIBnxrafVXTtnU3UvqqJHtUusJF1GFspeI1XQkLNlUWZDq11x
-qo/ZAIyrelj+sQFUUIKwpFw+3CeAdQz4gi0xC/v2hMdjaRcrx0b/4Gxil4nsjfoL
-HTuB0Qy8lkS7rmvSxJHEw/Wm+TUlkO3Q/vkQyxlMALz9JmaBqBuUgyqevrX6cP3Q
-BCyz17k7uGgqcLAB7mTTkGHDCgfkU1w97Dkws0DQRG7u3cu5JKT2/y/PxYs9/CmC
-oWjB2ISnKzpDkat8rVFVnRmUQHwz1Vse51oVemh6kfuYDWyENGPfLNfYckHP9FLs
-tWqVGlU27Fqoo72SraxjtKfdcgbWOhGYYRkWOe8frBn9hGU1yS0zG+YN1xO7o9ri
-KwSv4FGcJeRafM2z6t82CvdfCp7+AIv4PylNOOkCYCU0PvQ85acfIHErUeEgKY+a
-1Lho2ueEU6fmpn8kRcwRaX8V5/dKPS1AOOuYc+f0unS+A4mcyQjOJPcnRJJog8zV
-iAeNC/eowV2dc1KUbGWGzGc8vCZwrkpXovAovXY7IgFTlLSpxkabWE4ZzHDeYTDv
-b6lvPaiZ8+Q4DpJxKNoIHXQ7829B61MAtCi48y8HkXrtQIiEVHk=
-=89iR
------END PGP SIGNATURE-----
-
---I5IM6s6XROec0zQS--
