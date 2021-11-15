@@ -2,96 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B467E45072D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 15:37:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09814450754
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 15:42:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236401AbhKOOkA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Nov 2021 09:40:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57494 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236409AbhKOOjl (ORCPT
+        id S232172AbhKOOos (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Nov 2021 09:44:48 -0500
+Received: from mail.iot.bzh ([51.75.236.24]:3001 "EHLO frontal.iot.bzh"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236330AbhKOOoY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Nov 2021 09:39:41 -0500
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81595C061746;
-        Mon, 15 Nov 2021 06:36:44 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id md67mFcqefwDFmd6AmOnt4; Mon, 15 Nov 2021 15:36:42 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1636987002; bh=Eq8jPtVL/oHYIw4ntcjM8qwwXXZSyrJg4HfNEOGCtGY=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=cLUOUeUp6+F8NNd028CZ2CSjVhGR2TxuUXlFX7BogUFRUdj4jVOmEHu/SwUjpkIRM
-         e7uON3evraTJYhc+M8kavKvRy2yd3c7CW/P+ajSwpphXMCPKXTt/0axjs7VYCadlXn
-         yqdRIgqG5iELvu4M3lsm6leHDg+6bdB5e1YVAQp0mbGUMt4oYRnKWAv3ZsbdDFn5kf
-         aqykpPMDKkA0R1UBHcWCc9WgB0WcXGDgUbq8CDoGuwFo9fUG8OBYkfxy5oqh2BK5jG
-         xEnzfzPtZVK51b27+DxEvV8HbgG4KpfHPGv2MvV6m7C1eyIqzIuxKkr1+9rVcj00ZN
-         +Hw+m6XoA/J2Q==
-Subject: Re: [PATCH 1/4] media: rcar-vin: Free buffers with error if hardware
- stop fails
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20211108160220.767586-1-niklas.soderlund+renesas@ragnatech.se>
- <20211108160220.767586-2-niklas.soderlund+renesas@ragnatech.se>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <f6a00224-82b1-c506-2c1b-4ebb75657268@xs4all.nl>
-Date:   Mon, 15 Nov 2021 15:36:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        Mon, 15 Nov 2021 09:44:24 -0500
+Received: from frontal.iot.bzh (localhost [127.0.0.1])
+        by frontal.iot.bzh (Proxmox) with ESMTP id AC1341BB74;
+        Mon, 15 Nov 2021 15:41:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
+        :content-transfer-encoding:content-type:content-type:date:from
+        :from:in-reply-to:message-id:mime-version:references:reply-to
+        :subject:subject:to:to; s=iot.bzh; bh=j+bzqqrq+TWyqf01ZRR84hQ+Wq
+        V/PrDVrNtYep63MsQ=; b=Qo0IDOn6WCcWC5mzu2auDKbNpbNagTb82VwDalaYQd
+        4hIYf7x1Y0ed5TVY5gmfMrhzK3r3zsqXZbW3ywFHj2PPrWv5EnX79o3vXLXRP2ZJ
+        2/0k5PE6E65mIPZAXEUP9v5I6XvPiG4ym46n91apxLipUIE1m01u9AViKPRx7CL3
+        tFcJ3z4ltk6cEdtJUphT/TIWXaoWm330so9VCToQH1HN+ZBFPBxKSp++NlfAfUXb
+        BW1ew7lSv27dukm6sH1GX1EETP9N2TzUdEJl6fx0ffbTTweIEqI2ysEz3sEjV804
+        /gnteCFJ5/tPT/IaL4MAEh/H8MEo0EjW73lHgUAXqV+g==
+Message-ID: <ebca7899-1b7e-66d4-f022-576b18b9bc95@iot.bzh>
+Date:   Mon, 15 Nov 2021 15:41:19 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211108160220.767586-2-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v1 3/3] remoteproc: Add Renesas rcar driver
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfBet5P8/Mr0cDaia8dBXLIl2AhlAPapHVtHoeN+q0zLtdHNaRhj8lzv4akkLd41L++PMWZISK0WlY0+jJImgmso38adL1562FHo2+rmV5p/pS/HeLaie
- enIAYoKStXBG+dFUXE9rfN6rrCbXQzpoS/sODqGEd6HgGU7UndRwpZDw+JdwgM2d7kdaNrSmQwGtE25OGx+wbDAA/3kq7XEm+0kYUkIV+rW/DWaj7YNDSlIv
- JjHvrYw44zKdo+AsrZBNsJKrthGcv7ECi6xeQlJGz+ZqFrGAEIJQh2vQw+j1JI9b7+wbjnxEg55acaEubfbcsw==
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+        "mathieu.poirier@linaro.org" <mathieu.poirier@linaro.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>
+Cc:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+References: <20211115135032.129227-1-julien.massot@iot.bzh>
+ <20211115135032.129227-4-julien.massot@iot.bzh>
+ <OS0PR01MB5922D67AEFD75847CE5B0DD586989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Julien Massot <julien.massot@iot.bzh>
+In-Reply-To: <OS0PR01MB5922D67AEFD75847CE5B0DD586989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 08/11/2021 17:02, Niklas Söderlund wrote:
-> The driver already have logic to detect if it fails to stop properly and
-> report this error to the user. The driver however did not report the
-> unused buffers or buffers given to the hardware (if any) with an error,
-> the buffers where instead returned to user-space in the active state.
-> 
-> Build on the existing detection of the error condition and correctly
-> return the buffers with an error if it triggers.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-dma.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index 25ead9333d0046e7..79bb9081853f8781 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -1371,6 +1371,16 @@ void rvin_stop_streaming(struct rvin_dev *vin)
->  
->  	spin_unlock_irqrestore(&vin->qlock, flags);
->  
-> +	/* If something went wrong, free buffers with an error. */
-> +	if (!buffersFreed) {
-> +		return_unused_buffers(vin, VB2_BUF_STATE_ERROR);
-> +		for (i = 0; i < HW_BUFFER_NUM; i++) {
-> +			if (vin->buf_hw[i].buffer)
-> +				vb2_buffer_done(&vin->buf_hw[i].buffer->vb2_buf,
-> +						VB2_BUF_STATE_ERROR);
-> +		}
-> +	}
-> +
->  	rvin_set_stream(vin, 0);
->  
->  	/* disable interrupts */
-> 
+Hi Biju,
 
-I'll take this patch, but mark the other three as 'Changes Requested'.
+> 
+> One question CR7 Can be master boot processor. In that case
+> How to avoid loading and booting  CR7 processor from Linux?
+> Reading boot modes??
+> 
+Thanks for the question.
+
+I did not test this case. There is also other scenarios where the
+Cortex-R7 is started by an earlier component such as BL2, u-boot or
+OP-Tee.
+In these cases Linux should not try to start / stop this remote processor.
+One idea could be to read the power status CR7PSTR / PWRSR7, or use
+one of the MFIS register as a communication register. STM32 processor
+use this last solution to indicate that the remote processor is
+already started, in that scenario remoteproc driver starts in 'detached' state
+instead of 'offline' state.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/remoteproc.h#n418
+
+In that state, remoteproc driver can initiate communication with
+this remote processor but will not try to start or to stop it.
+
+That's something I have in mind, with an existing implementation there
+https://github.com/iotbzh/linux/blob/iot/julien/rproc/drivers/remoteproc/rcar_rproc.c#L524
+(that is not ready for upstream yet :)).
+
+I guess this issue also exists when one device is dedicated to the secure world, so
+the device exists, but not available for Linux. The most obvious (and dirty ?) solution is to keep
+the device disabled in dts.
 
 Regards,
+Julien
 
-	Hans
