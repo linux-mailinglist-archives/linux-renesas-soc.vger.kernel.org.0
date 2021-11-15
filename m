@@ -2,198 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBCCE450534
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 14:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 625E1450589
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 14:32:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231561AbhKONVf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Nov 2021 08:21:35 -0500
-Received: from mail.iot.bzh ([51.75.236.24]:65250 "EHLO frontal.iot.bzh"
+        id S231639AbhKONf1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Nov 2021 08:35:27 -0500
+Received: from mail.iot.bzh ([51.75.236.24]:21363 "EHLO frontal.iot.bzh"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231669AbhKONUr (ORCPT
+        id S231875AbhKONdq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Nov 2021 08:20:47 -0500
+        Mon, 15 Nov 2021 08:33:46 -0500
 Received: from frontal.iot.bzh (localhost [127.0.0.1])
-        by frontal.iot.bzh (Proxmox) with ESMTP id 6B8D91B49B;
-        Mon, 15 Nov 2021 14:17:07 +0100 (CET)
+        by frontal.iot.bzh (Proxmox) with ESMTP id A7B021B646;
+        Mon, 15 Nov 2021 14:30:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
         :content-transfer-encoding:content-type:content-type:date:from
         :from:in-reply-to:message-id:mime-version:references:reply-to
-        :subject:subject:to:to; s=iot.bzh; bh=iD/8ScGgHyxYRSyim/LEUHDqOQ
-        /t6Gf9toI7NdGvnOM=; b=WClNw81+cXhjY7/ASVO0Rth8iRMB1Fe4QCJCIckypX
-        0PWijdnXv+q9b3TDw8dDp6lSUEe28sJ4txC5ns+K5MgVMHzmQAMSQGGMKGmpnARl
-        D16zO2OFAyFaf0/1uIqEbeMEwJ3jvP5nLYt9knA0JGyzgfd99v19iBhCn1hsY8ln
-        pQQpSHxTv9NwmVbXKaTBmYjDDmw5+E/0uOZQNcCvFe0c1zdwCuUiaS5AiIyxGyX+
-        RjV7xKv6oFP66xJW9mf3wzMd9jk91/DTHxzFCSdSQl8XsNQ2jL3Q3UhNH2ad2UDL
-        glPceC2w9sj9CYMUeFeq8euG/lV0u34ATLQMPZG267Yg==
-Message-ID: <80842bed-86ce-3424-feac-b4c38675cea8@iot.bzh>
-Date:   Mon, 15 Nov 2021 14:17:00 +0100
+        :subject:subject:to:to; s=iot.bzh; bh=Pb1meLNgceFRGl3J1QiW/2avLk
+        XztIsTucUjZId/JzA=; b=L2Pv3TlhNXDl6WbSfCFUfmkDo4sm1Clqa30AGHlm78
+        g2h0G7yY9HZyLesfQ3XPGvCHUu17doOrmtmPnPD3Aq1jAMtd5js+LvIanhqv9d1F
+        NnqJtVBtLb3oFHmMhuDhtl500OzEzjFL/YDh1t5MCgbV2mCvgFKB54aSOLsLmT7X
+        bpV1bc73p+hHLfY6vUQYUOoa3U0GZRiqml4rxFr4dGMoHHRqAbzgz3Rw0P0b9PAe
+        giaTQan4bxHWp1eejfSeTHBzdReX6foaLeGGFy1gK+mWTO1a6Qukb3/TjXwMMARl
+        akTmzzH/kK174TQ0rCSbgDcVvIBwbSrUCdN8l4ZAA8dw==
+Message-ID: <9ba66a3c-2a0e-9f1c-a8eb-e99a8867938e@iot.bzh>
+Date:   Mon, 15 Nov 2021 14:30:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
 Subject: Re: [RFC PATCH 3/3] remoteproc: Add Renesas rcar driver
 Content-Language: en-US
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     bjorn.andersson@linaro.org, robh+dt@kernel.org,
-        geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc:     =?UTF-8?Q?Bj=c3=b6rn_Andersson?= <bjorn.andersson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
+        <linux-remoteproc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 References: <20211027073020.17055-1-julien.massot@iot.bzh>
  <20211027073020.17055-4-julien.massot@iot.bzh>
  <20211108184252.GA1971795@p14s>
+ <CAMuHMdWZTXp5O56wkf3Lesd4jDv4tvhpKfagq3uUW5qNTNYdOQ@mail.gmail.com>
 From:   Julien Massot <julien.massot@iot.bzh>
-In-Reply-To: <20211108184252.GA1971795@p14s>
+In-Reply-To: <CAMuHMdWZTXp5O56wkf3Lesd4jDv4tvhpKfagq3uUW5qNTNYdOQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mathieu,
+Hi Geert, Mathieu,
 
-Thanks for the review !
+Thanks for the review
 
->> diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
->> index 9a6eedc3994a..3e87eadbaf59 100644
->> --- a/drivers/remoteproc/Kconfig
->> +++ b/drivers/remoteproc/Kconfig
->> @@ -261,6 +261,17 @@ config QCOM_WCNSS_PIL
->>   	  verified and booted with the help of the Peripheral Authentication
->>   	  System (PAS) in TrustZone.
->>   
->> +config RCAR_REMOTEPROC
->> +	tristate "Renesas RCAR remoteproc support"
+On 11/9/21 09:09, Geert Uytterhoeven wrote:
+> On Mon, Nov 8, 2021 at 7:42 PM Mathieu Poirier
+> <mathieu.poirier@linaro.org> wrote:
+>> On Wed, Oct 27, 2021 at 09:30:20AM +0200, Julien Massot wrote:
+>>> Renesas Gen3 platform includes a Cortex-r7 processor.
+>>>
+>>> Both: the application cores (A5x) and the realtime core (CR7)
+>>> share access to the RAM and devices with the same address map,
+>>> so device addresses are equal to the Linux physical addresses.
+>>>
+>>> In order to initialize this remote processor we need to:
+>>> - power on the realtime core
+>>> - put the firmware in a ram area
+>>> - set the boot address for this firmware (reset vector)
+>>> - Deassert the reset
+>>>
+>>> This initial driver allows to start and stop the Cortex R7
+>>> processor.
+>>>
+>>> Signed-off-by: Julien Massot <julien.massot@iot.bzh>
 > 
-> It is probably a good idea to include the type of SoC being supported, something
-> like:
+>>> --- a/drivers/remoteproc/Kconfig
+>>> +++ b/drivers/remoteproc/Kconfig
+>>> @@ -261,6 +261,17 @@ config QCOM_WCNSS_PIL
+>>>          verified and booted with the help of the Peripheral Authentication
+>>>          System (PAS) in TrustZone.
+>>>
+>>> +config RCAR_REMOTEPROC
+>>> +     tristate "Renesas RCAR remoteproc support"
+>>
+>> It is probably a good idea to include the type of SoC being supported, something
+>> like:
+>>
+>>          tristate "Renesas Gen3 RCAR remoteproc support"
 > 
->          tristate "Renesas Gen3 RCAR remoteproc support"
-> 
-> That will make it easier to support future RCAR processors that may not share
-> the same architecture.
+> R-Car Gen3 please
+Thanks changed to "Renesas R-Car Gen3 remoteproc support".
 
-Ok, changed according to Geert's suggestion to:
-"Renesas R-CAR Gen3 remoteproc support"
+>>
+>>> +     priv->dev = dev;
+>>> +
+>>> +     priv->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+>>> +     if (IS_ERR(priv->rst)) {
+>>> +             ret = PTR_ERR(priv->rst);
+>>> +             dev_err(dev, "fail to acquire rproc reset\n");
+>>> +             goto free_rproc;
+>>> +     }
+>>> +
+>>> +     pm_runtime_enable(priv->dev);
+>>> +     ret = pm_runtime_get_sync(priv->dev);
+>>
+>> There is no dev_pm_ops for the platform driver nor clocks to manage for this
+>> device - is there something that requires pm_runtime operations to be called?
+> 
+> Given
+> 
+>      cr7_rproc: cr7 {
+>          compatible = "renesas,rcar-cr7";
+>          memory-region = <&cr7_ram>;
+>          power-domains = <&sysc R8A7795_PD_CR7>;
+>          resets = <&cpg 222>;
+>          status = "okay";
+>      };
+> 
+> the pm_runtime_get_sync() is intended to power the CR7 power domain,
+> right?
 
-> 
-> 
->> +	depends on ARCH_RENESAS
->> +	depends on REMOTEPROC
->> +	help
->> +	  Say y here to support R-Car realtime processor via the
->> +	  remote processor framework. An elf firmware can be loaded
->> +	  thanks to sysfs remoteproc entries. The remote processor
->> +	  can be started and stopped.
->> +	  This can be either built-in or a loadable module.
-> 
-> Please add the name of the module when compiled as such.
-Ok
+That's exactly why I'm calling pm_runtime_get_sync. The Cortex R7 power domain
+needs to be enabled.
+  
+> However, I have my doubt about the (bindings for) that node, as it
+> does not represent the hardware.  Shouldn't the Cortex R7 have its
+> own CPU node instead, with an appropriate enable-method?
 
-
->> +
->> +#include "remoteproc_internal.h"
->> +
->> +struct rcar_rproc {
->> +	struct device			*dev;
->> +	struct rproc			*rproc;
->> +	struct reset_control            *rst;
->> +};
->> +
->> +static int rcar_rproc_mem_alloc(struct rproc *rproc,
->> +				 struct rproc_mem_entry *mem)
->> +{
->> +	struct device *dev = rproc->dev.parent;
->> +	void *va;
->> +
->> +	dev_dbg(dev, "map memory: %p+%zx\n", &mem->dma, mem->len);
-> 
-> I think this should be "map memory: %pa+%lx\n" to be consistent with dev_err()
-> below and the original implementation in stm32_rproc.c.
-Ok
-
-..
->> +
->> +static int rcar_rproc_parse_fw(struct rproc *rproc, const struct firmware *fw)
->> +{
->> +	int ret;
->> +
->> +	ret = rproc_elf_load_rsc_table(rproc, fw);
->> +	if (ret)
->> +		dev_info(&rproc->dev, "No resource table in elf\n");
-> 
-> In the above functions rproc->dev.parent is used for output.  I don't have a
-> strong opinion on which of rproc->dev or rproc->dev.parent is used but I would
-> like to see consistency throughout the driver.
-Thanks I choosed to use rproc->dev. Indeed logs are more consistent now.
-> 
->> +
->> +	return 0;
->> +}
->> +
->> +static int rcar_rproc_start(struct rproc *rproc)
->> +{
->> +	struct rcar_rproc *priv = rproc->priv;
->> +	int err;
->> +
->> +	if (!rproc->bootaddr)
->> +		return -EINVAL;
->> +
->> +	err = rcar_rst_set_rproc_boot_addr(rproc->bootaddr);
->> +	if (err) {
->> +		dev_err(&rproc->dev, "failed to set rproc boot addr\n");
-> 
-> Same comment as above.
-ok
-
->> +
->> +static int rcar_rproc_probe(struct platform_device *pdev)
->> +{
->> +	struct device *dev = &pdev->dev;
->> +	struct device_node *np = dev->of_node;
->> +	struct rcar_rproc *priv;
->> +	struct rproc *rproc;
->> +	int ret;
->> +
->> +	rproc = rproc_alloc(dev, np->name, &rcar_rproc_ops,
->> +			    NULL, sizeof(*priv));
->> +	if (!rproc)
->> +		return -ENOMEM;
->> +
->> +	priv = rproc->priv;
->> +	priv->rproc = rproc;
-> 
-> I don't see rcar_rproc::rproc being used anywhere.
-Indeed, rproc member will be removed in next version.
-
-> 
->> +	priv->dev = dev;
->> +
->> +	priv->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
->> +	if (IS_ERR(priv->rst)) {
->> +		ret = PTR_ERR(priv->rst);
->> +		dev_err(dev, "fail to acquire rproc reset\n");
->> +		goto free_rproc;
->> +	}
->> +
->> +	pm_runtime_enable(priv->dev);
->> +	ret = pm_runtime_get_sync(priv->dev);
-> 
-> There is no dev_pm_ops for the platform driver nor clocks to manage for this
-> device - is there something that requires pm_runtime operations to be called?
-Will reply in Geert's reply.
->> +
->> +static int rcar_rproc_remove(struct platform_device *pdev)
->> +{
->> +	struct rproc *rproc = platform_get_drvdata(pdev);
->> +	struct rcar_rproc *priv = rproc->priv;
->> +
->> +	rproc_del(rproc);
->> +	pm_runtime_disable(priv->dev);
-> 
-> As far as I can tell rcar_rproc::dev is not required.  It is only used in
-> rproc_probe() and rproc_remove() where pdev->dev is available.
-Thanks rcar_rproc::dev will be removed in next version.
-
+Yes, representation is really from Remoteproc point of view, the Cortex R7 is
+represented as other devices, and doesn't have a cpu node. As far I know it's
+how others remoteproc CPUs are described in other SoCs such as ST, Qcom, TI, or NXP
+SoCs. From what I see, CPU nodes are given for binary compatible CPUs where Linux can
+execute on.
 
 Regards,
+
 -- 
 Julien Massot [IoT.bzh]
 
