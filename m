@@ -2,172 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF6F645154E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 21:32:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7616451551
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 21:32:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240211AbhKOUe4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Nov 2021 15:34:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49734 "EHLO
+        id S1346020AbhKOUe7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Nov 2021 15:34:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350456AbhKOUXy (ORCPT
+        with ESMTP id S1350483AbhKOUX4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Nov 2021 15:23:54 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ADAFC061714
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 12:18:24 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id s186so50481519yba.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 12:18:24 -0800 (PST)
+        Mon, 15 Nov 2021 15:23:56 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E32C2C061208
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 12:20:10 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id n15-20020a17090a160f00b001a75089daa3so231326pja.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 12:20:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ti2qS38N54C0keJ4viYpkfZvuilsGcLNEF7JfCXeTTQ=;
-        b=dh/Oa9Ne/UX3lXjDB4COE5fcmk8sukuVS9CcQeo4HvaaL9inYkLrRgESiTiiJjH8Ha
-         VD+voEPVlu4lT/PFKwINwdG4d11smF+KO/ppWh9QkjAYWf9nI2V51AWJZTZVp4mOvqr/
-         OqeBQGqGBLjLgEja7DyQ3k/np69fx0UsIFBY0muAvUQRNUVa5/KFzlzavNtVE2HhmDsK
-         bmh6KbqsAKlU3IKOQjpgPqjw0dOCkZxcS8P+7EtoLtYNqQhqa9IbpkxB9gRHMNpqSxBi
-         l/xRTx3ssiex9d5VCAExW9LSc6GJtcglSAdxi43WZcr1AEmZAEonPwY3qqbOY1Qs3OD3
-         dPHA==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=Dh06O/veDjnzJdaftgMgLWIETo4/eXGg8988BwFGADk=;
+        b=ROhV8sIPnPqPfY35vK8VMS7OTrClksedmKpMIqosaGlUxVdCdINeD0Ecmd7eXwbdzy
+         Bbx3qAPIPkmsCZU12EOH4o31Ec6ca7sDxm2I0tunrnKsNtcygWu3VQTREiI6kA+C0T55
+         G4YBFT2nQbxt7WFqRAdfNG9K6mLERk/th4K+ztWA71ZnvOBZHIViGzwhCktNvWap84fc
+         bD7vKhvDtUuxb3zQXmKefy4XOFZQFmd6R4sjn7TmBKOsAYpPiiXO2l6NQNq4NExlsiJ+
+         n1XyJlJjPQt3xbSfMXOxmQ3M8Du6LTO6WRfis7PKXn/lM+t9Lnpv8Ryh0F8Se6urJV5y
+         jgMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ti2qS38N54C0keJ4viYpkfZvuilsGcLNEF7JfCXeTTQ=;
-        b=qB+RHcBnS16GO35+3+MiTxPoODDQHVKaqNw6SYVuSGLkV02YsVZRDyoLs91ejah07I
-         Qj7J92gGbzIB8lguIK3+3t7mggcUaFxiLh8NKTvvhvaQs3ziq4Cuiar+dHSOMx4I8gUl
-         be53Dh/I9fKzbTzz+DNWncapN4TwRdqJdP124DiBHxGZNHkjn7OVXoUPCrXX8FQy3r17
-         6DpC/GFaBwIC/uwQD9LR22dEQF1F600m+DhgnRWGVdbh8HdNx/SXixekPecBzj9K3o2N
-         jov0j8sIUWn2ia0D7/j53vXvgxhMYy0twc516hqBSkdv/qpeJkGbfYIcnJYu3Mq6d+/O
-         HO6Q==
-X-Gm-Message-State: AOAM531JnQw8zdggBdPyHfwvKUY22tAau8TIAvTzJ1/QJuekEMmfm+Yk
-        q04Jes0YDVCQcwUVEeVm9UHWkFvlAD9qTz3RyK74dw==
-X-Google-Smtp-Source: ABdhPJxKkmPEnUXj0aVbJDTQXnWiiYrBJDqwAo+CYLHhYd6MMCN9FGeHm5tb4KkW7mZ9cUyGQQ0uXz7x+4W8OBjmlCo=
-X-Received: by 2002:a5b:783:: with SMTP id b3mr1822562ybq.328.1637007502971;
- Mon, 15 Nov 2021 12:18:22 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=Dh06O/veDjnzJdaftgMgLWIETo4/eXGg8988BwFGADk=;
+        b=TTYz5bGvgVuTdl+bV6bKAc4CM3aXHsRfKolpQNfnlfb39ICgnviLakHbQZHthIvH/y
+         sFVmKEJ7Whqm66MZ376NWtHPtPAH5+7j4Yzycmjjmlyo4ODgk8Bmft3Oi+1QiggXPvT1
+         JKfqQLLl/NHnh6bTjSA0rEh7lhL7/BKyDZZePvlM6hWcMMU8d5I4WcRhp01n0nzj1pbC
+         PqeS3c0FPRV6zfhWMEWvLZTevKdjgY76JwdGFSgCUBVd0YFpf7Dt4Um5ye2G/Nlog0SH
+         MB50nDBukJwmRURqwGRRMdDPhowQw+mPWyPg+G5e+2kqptfhMJupkF5MRiQTE7iqdy5x
+         GOKg==
+X-Gm-Message-State: AOAM532t5jt6kJAC45qXhnb4HUW9/iSV5A34BdM+UadU85vtYXlSrR7J
+        DmM7RCpbPLdwsNkW46XuPk+vR7N8ULspEAVh
+X-Google-Smtp-Source: ABdhPJyhEoCQgYduSvG5Ni4alyoGluUzRaAhI+c25o5PaMZqIj1EbGtYtizMlocEefFjOAuY5w4j7A==
+X-Received: by 2002:a17:90a:df01:: with SMTP id gp1mr1673581pjb.28.1637007610340;
+        Mon, 15 Nov 2021 12:20:10 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id w129sm15711049pfd.61.2021.11.15.12.20.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Nov 2021 12:20:10 -0800 (PST)
+Message-ID: <6192c0fa.1c69fb81.7ea81.df60@mx.google.com>
+Date:   Mon, 15 Nov 2021 12:20:10 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210929000735.585237-1-saravanak@google.com> <20210929000735.585237-2-saravanak@google.com>
- <YYu4EglV7SBZU2Iy@ryzen> <CAGETcx_m3f5JgrKQXZ5DUxDkpGhAau9G8uYm8a0iQ8JbcD0Rtg@mail.gmail.com>
-In-Reply-To: <CAGETcx_m3f5JgrKQXZ5DUxDkpGhAau9G8uYm8a0iQ8JbcD0Rtg@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Mon, 15 Nov 2021 12:17:46 -0800
-Message-ID: <CAGETcx_a-d7qQNi3sUce3AzbPcvGJK5JSuiiHm4h4e_q-MT7Dg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for
- probing simple bus only devices
-To:     Abel Vesa <abelvesa@kernel.org>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2021-11-15-v5.16-rc1
+X-Kernelci-Report-Type: test
+Subject: renesas/master igt-gpu-panfrost: 2 runs,
+ 1 regressions (renesas-devel-2021-11-15-v5.16-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 10, 2021 at 12:24 PM Saravana Kannan <saravanak@google.com> wrote:
->
-> On Wed, Nov 10, 2021 at 4:16 AM Abel Vesa <abelvesa@kernel.org> wrote:
-> >
-> > On 21-09-28 17:07:33, Saravana Kannan wrote:
-> > > fw_devlink could end up creating device links for bus only devices.
-> > > However, bus only devices don't get probed and can block probe() or
-> > > sync_state() [1] call backs of other devices. To avoid this, probe these
-> > > devices using the simple-pm-bus driver.
-> > >
-> > > However, there are instances of devices that are not simple buses (they get
-> > > probed by their specific drivers) that also list the "simple-bus" (or other
-> > > bus only compatible strings) in their compatible property to automatically
-> > > populate their child devices. We still want these devices to get probed by
-> > > their specific drivers. So, we make sure this driver only probes devices
-> > > that are only buses.
-> > >
-> > > [1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
-> > > Fixes: c442a0d18744 ("driver core: Set fw_devlink to "permissive" behavior by default")
-> > > Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > > Tested-by: Saravana Kannan <saravanak@google.com>
-> > > Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
-> > > ---
-> > >  drivers/bus/simple-pm-bus.c | 42 ++++++++++++++++++++++++++++++++++---
-> > >  1 file changed, 39 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/bus/simple-pm-bus.c b/drivers/bus/simple-pm-bus.c
-> > > index 01a3d0cd08ed..6b8d6257ed8a 100644
-> > > --- a/drivers/bus/simple-pm-bus.c
-> > > +++ b/drivers/bus/simple-pm-bus.c
-> > > @@ -13,11 +13,36 @@
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/pm_runtime.h>
-> > >
-> > > -
-> > >  static int simple_pm_bus_probe(struct platform_device *pdev)
-> > >  {
-> > > -     const struct of_dev_auxdata *lookup = dev_get_platdata(&pdev->dev);
-> > > -     struct device_node *np = pdev->dev.of_node;
-> > > +     const struct device *dev = &pdev->dev;
-> > > +     const struct of_dev_auxdata *lookup = dev_get_platdata(dev);
-> > > +     struct device_node *np = dev->of_node;
-> > > +     const struct of_device_id *match;
-> > > +
-> > > +     /*
-> > > +      * Allow user to use driver_override to bind this driver to a
-> > > +      * transparent bus device which has a different compatible string
-> > > +      * that's not listed in simple_pm_bus_of_match. We don't want to do any
-> > > +      * of the simple-pm-bus tasks for these devices, so return early.
-> > > +      */
-> > > +     if (pdev->driver_override)
-> > > +             return 0;
-> > > +
-> > > +     match = of_match_device(dev->driver->of_match_table, dev);
-> > > +     /*
-> > > +      * These are transparent bus devices (not simple-pm-bus matches) that
-> > > +      * have their child nodes populated automatically.  So, don't need to
-> > > +      * do anything more. We only match with the device if this driver is
-> > > +      * the most specific match because we don't want to incorrectly bind to
-> > > +      * a device that has a more specific driver.
-> > > +      */
-> > > +     if (match && match->data) {
-> > > +             if (of_property_match_string(np, "compatible", match->compatible) == 0)
-> > > +                     return 0;
-> > > +             else
-> > > +                     return -ENODEV;
-> > > +     }
-> >
-> > This change is breaking the expected behavior for the already existent
-> > simple-bus nodes. All the simple-bus compatibles should be replaced now
-> > to simple-pm-bus. In my case, on some i.MX8 platforms, without the
-> > devlink, the devices suspend sequence changes (and even breaks).
-> >
-> > To avoid breaking the already existent simple-bus nodes, maybe the logic
-> > should've been reversed: keep the simple-bus as is and add another
-> > compatible, IDK, something like simple-trasnparent-bus, or something.
->
-> The intent of this change IS to affect existing simple-bus nodes (but
-> not in the way it's affecting you). But if it's breaking stuff, we
-> obviously need to fix it.
->
-> I have a hunch on what's going on in your case, but can you point me
-> to the specific simple-bus node that's getting affected? I'm expecting
-> it to be a simple-bus node that gets added AFTER this driver is
-> registered at device_initcall (module_init gets converted to
-> device_initcall).
->
-> Also, can you try this hack patch to see if it helps your case?
-> https://lore.kernel.org/lkml/CAGETcx9U130Oq-umrvXME4JhEpO0Wadoki3kNxx=0-YvTR6PtQ@mail.gmail.com/
->
-> I have some thoughts on how I could fix this, but I need to think
-> about a few cases.
+renesas/master igt-gpu-panfrost: 2 runs, 1 regressions (renesas-devel-2021-=
+11-15-v5.16-rc1)
 
-Hi Abel,
+Regressions Summary
+-------------------
 
-Friendly reminder.
+platform          | arch | lab           | compiler | defconfig          | =
+regressions
+------------------+------+---------------+----------+--------------------+-=
+-----------
+rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
+1          =
 
--Saravana
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-11-15-v5.16-rc1/plan/igt-gpu-panfrost/
+
+  Test:     igt-gpu-panfrost
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-11-15-v5.16-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      fd3659fd4309cfa765464c92978ee507e04f7710
+
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  8d0fb9b3f225183fb3276a0e4ae1f8354a3519e8
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  246bfd31dba6bf184b26b170d91d72c90a54be6b =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform          | arch | lab           | compiler | defconfig          | =
+regressions
+------------------+------+---------------+----------+--------------------+-=
+-----------
+rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
+1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6192ba893d475a8abc335916
+
+  Results:     15 PASS, 2 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-11-15-v5.16-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/igt-gpu-pan=
+frost-rk3288-veyron-jaq.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-11-15-v5.16-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/igt-gpu-pan=
+frost-rk3288-veyron-jaq.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-igt/=
+20211112.0/armhf/rootfs.cpio.gz =
+
+
+
+  * igt-gpu-panfrost.panfrost_submit.pan-unhandled-pagefault: https://kerne=
+lci.org/test/case/id/6192ba893d475a8abc335919
+        failing since 20 days (last pass: renesas-devel-2021-10-18-v5.15-rc=
+6, first fail: renesas-devel-2021-10-26-v5.15-rc7)
+
+    2021-11-15T19:52:21.592414  <6>[   14.006661] Console: switching to col=
+our dummy device 80x30
+    2021-11-15T19:52:21.592935  <14>[   14.013252] [IGT] panfrost_submit: e=
+xecuting
+    2021-11-15T19:52:21.598169  IGT-Version: 1.26-g246bfd3 (arm) (Linux: 5.=
+16.0-rc1 armv7l)
+    2021-11-15T19:52:21.614683  <14>[   14.030805] [IGT] panfrost_submit: s=
+tarting subtest pan-unhandled-pagefault
+    2021-11-15T19:52:21.615204  Starting subtest: pan-unhandled-pagefault
+    2021-11-15T19:52:21.737920  (panfrost_submit:283) CRITICAL: Test assert=
+ion failure function __igt_unique____real_main65, file ../tests/panfrost_su=
+bmit.c:179:
+    2021-11-15T19:52:21.750969  (panfrost_submit:283) CRITICAL: Failed asse=
+rtion: syncobj_wait(fd, &submit->args->out_sync, 1, abs_timeout(SHORT_TIME_=
+NSEC), <14>[   14.165799] [IGT] panfrost_submit: exiting, ret=3D98
+    2021-11-15T19:52:21.751496  0, NULL)
+    2021-11-15T19:52:21.752170  Stack trace:
+    2021-11-15T19:52:21.763905    #0 ../lib/igt_core.c:1745 __igt_fail_asse=
+rt() =
+
+    ... (8 line(s) more)  =
+
+ =20
