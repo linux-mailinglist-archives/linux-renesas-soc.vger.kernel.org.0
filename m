@@ -2,159 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7616451551
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 21:32:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40B08451553
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 21:32:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346020AbhKOUe7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Nov 2021 15:34:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49500 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350483AbhKOUX4 (ORCPT
+        id S1346426AbhKOUfB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Nov 2021 15:35:01 -0500
+Received: from mail-eopbgr1410108.outbound.protection.outlook.com ([40.107.141.108]:32640
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1350938AbhKOU1y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Nov 2021 15:23:56 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E32C2C061208
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 12:20:10 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id n15-20020a17090a160f00b001a75089daa3so231326pja.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 12:20:10 -0800 (PST)
+        Mon, 15 Nov 2021 15:27:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Eod7IAtG79ITIyAiybWcPAqNIwEkEt6Sa7r42UQ47RznvcAr+yUzdgKnHEC59YUzg8jCb4sga7eWKImrjWyt/nO7t+RiYJ7xeJd0bBrmZk+Jhv7elmvbp7auPXZHmsuZLIHZmigYMwtwJcYlCygqaSsU5IRSUn3MQVe68KJ8nO1RVpye+l0L89mlWuQOa/5U3K8yEfYOTPIAzYKPEuVaizkjegZqm7aoHAMuhPzwN87Y4uHs+NZU3SxrPb7Re/W/KcnfVR6q8+jQficzQGRe8ib4pD0jOvoa6ZFFIxC7NVVDeKvyGS8BuOy4V7oQxY1y/sH8M0+6cXnMc9Y4KGQn4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JFNYNY9b+0h2NoPcG20pok4JPXAzY4BR4PebtGL7sN8=;
+ b=CgZu8RN4gsNuHd5MZFlv3T4kVbCE7BXSEi/MQP/9NE0qpFgIQmgcCVHkuuAnFQ7zcAF1gsrY4UzwR1pLwosfXMnRXwf4hb3Hm1oRMdZssUTjhx7+E2KvOOGq/82C1C8ENsfFIAgxflFwpDwaA2ogAvTHe25cEs1DwNGCMU/WiEqqDgdn1sB+1neCdWXLvE0SOWenEsSo+WqHGre1UysSP+RL9AZDV/q/m6YtXsQ1MkvGuAFwY0LgU6GUykKR/FqR224noMhHNPhGmINR20FPskHqqPHDsN4cQuvBV6GyOYEmu3Vsh6f4t6SYDd3sZh5tNEwnbzyiHg7U0thRrYRrCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=Dh06O/veDjnzJdaftgMgLWIETo4/eXGg8988BwFGADk=;
-        b=ROhV8sIPnPqPfY35vK8VMS7OTrClksedmKpMIqosaGlUxVdCdINeD0Ecmd7eXwbdzy
-         Bbx3qAPIPkmsCZU12EOH4o31Ec6ca7sDxm2I0tunrnKsNtcygWu3VQTREiI6kA+C0T55
-         G4YBFT2nQbxt7WFqRAdfNG9K6mLERk/th4K+ztWA71ZnvOBZHIViGzwhCktNvWap84fc
-         bD7vKhvDtUuxb3zQXmKefy4XOFZQFmd6R4sjn7TmBKOsAYpPiiXO2l6NQNq4NExlsiJ+
-         n1XyJlJjPQt3xbSfMXOxmQ3M8Du6LTO6WRfis7PKXn/lM+t9Lnpv8Ryh0F8Se6urJV5y
-         jgMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=Dh06O/veDjnzJdaftgMgLWIETo4/eXGg8988BwFGADk=;
-        b=TTYz5bGvgVuTdl+bV6bKAc4CM3aXHsRfKolpQNfnlfb39ICgnviLakHbQZHthIvH/y
-         sFVmKEJ7Whqm66MZ376NWtHPtPAH5+7j4Yzycmjjmlyo4ODgk8Bmft3Oi+1QiggXPvT1
-         JKfqQLLl/NHnh6bTjSA0rEh7lhL7/BKyDZZePvlM6hWcMMU8d5I4WcRhp01n0nzj1pbC
-         PqeS3c0FPRV6zfhWMEWvLZTevKdjgY76JwdGFSgCUBVd0YFpf7Dt4Um5ye2G/Nlog0SH
-         MB50nDBukJwmRURqwGRRMdDPhowQw+mPWyPg+G5e+2kqptfhMJupkF5MRiQTE7iqdy5x
-         GOKg==
-X-Gm-Message-State: AOAM532t5jt6kJAC45qXhnb4HUW9/iSV5A34BdM+UadU85vtYXlSrR7J
-        DmM7RCpbPLdwsNkW46XuPk+vR7N8ULspEAVh
-X-Google-Smtp-Source: ABdhPJyhEoCQgYduSvG5Ni4alyoGluUzRaAhI+c25o5PaMZqIj1EbGtYtizMlocEefFjOAuY5w4j7A==
-X-Received: by 2002:a17:90a:df01:: with SMTP id gp1mr1673581pjb.28.1637007610340;
-        Mon, 15 Nov 2021 12:20:10 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id w129sm15711049pfd.61.2021.11.15.12.20.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 12:20:10 -0800 (PST)
-Message-ID: <6192c0fa.1c69fb81.7ea81.df60@mx.google.com>
-Date:   Mon, 15 Nov 2021 12:20:10 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JFNYNY9b+0h2NoPcG20pok4JPXAzY4BR4PebtGL7sN8=;
+ b=rGg7H3wustWk35M/G5e9ODoNIKyhI+Ht5tGVXuuRY77mNhlS/zuSzHl7Y9gD6zUTFG+KMNo1P15E7R3miRTgi5KHolnL83/Vbo/QXKQAo6N8O8nP+vEZFrFE5x/yGxhB1IgY6CCtF4ooFf6gOP2kTc3E/ba4P3cTmLXrMK/hSyw=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OS0PR01MB6481.jpnprd01.prod.outlook.com (2603:1096:604:107::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.17; Mon, 15 Nov
+ 2021 20:24:55 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::c0bd:405a:cdd3:f153]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::c0bd:405a:cdd3:f153%8]) with mapi id 15.20.4690.027; Mon, 15 Nov 2021
+ 20:24:55 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Subject: RE: [PATCH v3] dt-bindings: mmc: renesas,sdhi: add optional SDnH
+ clock
+Thread-Topic: [PATCH v3] dt-bindings: mmc: renesas,sdhi: add optional SDnH
+ clock
+Thread-Index: AQHX2jrE4eSX7ohpXUa1PkZIvz7h+6wEx4EwgAAw7wCAAA+tYA==
+Date:   Mon, 15 Nov 2021 20:24:54 +0000
+Message-ID: <OS0PR01MB592241C04F5CDDB94D850FFA86989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20211115160600.4455-1-wsa+renesas@sang-engineering.com>
+ <OS0PR01MB59220D97CD59F44918DE4FA586989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <YZKz/ptgPfzqGfeq@kunai>
+In-Reply-To: <YZKz/ptgPfzqGfeq@kunai>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b803871f-768f-4a71-07c8-08d9a875fc80
+x-ms-traffictypediagnostic: OS0PR01MB6481:
+x-microsoft-antispam-prvs: <OS0PR01MB64816F31A29D8B4CBDF9424386989@OS0PR01MB6481.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: EB+3Xx4Vh73shkVKcdf24Beb+Bt9NPBH4nuo3u3Nd4SXxawkN6o5YmeSsxGsh8cVxChn1uKJfOJqkcrBo3gHkuCob51TEgCnvQcGI0zA0mYYdils7hQ/jKdtaU6TP9odijZmYWOEyEEvX66T/NTzUbPz60kdWyyQmCjZ7BoN1rGjrkmlThlYyInyFoErvIRYlviulSo5kYpaWSyhYtkYEIPLQ1+EWnOR2n4Tf6DFIw7SyPmzOCdSkbuOqUWfndWD8GJHnix2cFXc2RdN6P0qOHNApP8oCbVkmmBznZu6x+o8ffNPdcuRXqP9NyWe8hCmyS9hWWR31MgiqQpULjYjn/u66kOP9k7u65bdB/o+drM+vSvkvXCDiSNQsp6v6/qMT+Rh8dBZwin/wRdfwI2uD2yobiVJPfc4FM7UTtxYwrBVn4Wp8Dk5wDUeLrNah/QrhOIrvphmZHobxbnQa8p1eGl5l/FmdRj8MNrYUM+GL9O63FCmpQzvVMxarGFM5sEg/C3SCEZhvxspXnLLt9YtOs1X1TWzI5ySYBV1JgWWHN2LAOfQpnLlyEfsTy4Qn9LbV2K73UtVuT9z2IYnKIm9a5BFkoQxhJNazEuld0nrOjL3d/i8NRVCePPvG7KjqypMGQrx22fGMuUMwfIjBnbUGBZK8iaVVXdrd65mFTiMTIwKnQr5Guen98kzfKXteVlDrDvtOvklOu0el1ygbVsyRg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66476007)(4744005)(83380400001)(66556008)(26005)(76116006)(71200400001)(186003)(33656002)(508600001)(66946007)(55016002)(86362001)(52536014)(7696005)(2906002)(38100700002)(122000001)(4326008)(6506007)(5660300002)(316002)(38070700005)(54906003)(8676002)(9686003)(64756008)(66446008)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?yEfiwGU8thme8n+j2OfyycNjigC3AyY5ssDesp96rI4p5I5rBqzxJRwbNXfv?=
+ =?us-ascii?Q?WJpem9aOwKFD5CHbaFxuoQGcqON/dJFSXuvrrCfprtB7UQB5eAptpPgBtlyf?=
+ =?us-ascii?Q?KZoEL2t3+THYwZA4BL0kL8CTfm0qx0F5AMhZh6Gt4HBIzVL/rDh2RUtuC2ox?=
+ =?us-ascii?Q?G5nELp2B2cgEF+/LC9EWMoUcbjDCsNoAHV2ubS5zzJRWpmy6GKvnQlYt9Q+Z?=
+ =?us-ascii?Q?CsiMGpVtuVrUpQr/tVMXtMAkcIof643Q9sLvYFDPPMYTItuGOoWQM/r2y9eI?=
+ =?us-ascii?Q?4zm3RVYeGnIWN3BS6bMQnYSO3/ZCIYH3MJJbATIgzQVrR22Zz+PyQoonXYsE?=
+ =?us-ascii?Q?fnjKby13OB+9qe5Pse8FzBGfOay/eoGXM2Kr8D6KBPNBe2X+c/3FYuLQVeyc?=
+ =?us-ascii?Q?SGLLaMxUZ6f4XpSClDDEKWVw3LhIhTw1tnDFqCGQuir97WNrhTTq812MbBXa?=
+ =?us-ascii?Q?Tle8tvs3AHpbo/1i00bMrjf9Wl5qSK1OiODgsIGS89KArTsnDuewgr+o53IN?=
+ =?us-ascii?Q?1mMUq5tY8tb/QyJ0U/GSQWA7RZXJb8/eex+wfD0gYb9gBNDF9dlWPn7vYxBN?=
+ =?us-ascii?Q?+da+8wnoq3Wu+EahohT+RiievmT3h2LfCIGIh+H0gmQnyNVzmVeTat960Gfc?=
+ =?us-ascii?Q?MtYSvl6QcUculu71g3elzpQhZjudhv8O/KdIJwgvDRziQP6TEC78eUOfbmXE?=
+ =?us-ascii?Q?YdgEUwYtd9GxKhO5IQ7GhibnhsznzOOJ4Bq9UUHl0L0oxP0nBrS3EYLN+2Vk?=
+ =?us-ascii?Q?R1+/+JB+p8VBAhMVdD3enpBY/X4XeEgPvmpHjZ4ntCuJrxiWbkppILuSAU8q?=
+ =?us-ascii?Q?s0QVR9UxS/j3n34BLavl1W4D9TRxQS2rSx/AZtnWQ7BL/iK0VL1bSN4UjLeh?=
+ =?us-ascii?Q?jX3+rZymfcHwjL8X4G/L6tt1nU5dZlvKpV/9G2oMYCvP768tnbzC75KP3rYW?=
+ =?us-ascii?Q?EJweeGkB7yDGPOg7nNdY58cFt05sm50yigZ1Lv1oXwFzNQO4mP1/N7AKh0if?=
+ =?us-ascii?Q?rXKH377xdRmEeJoq+Kl4Ksz9oYtbRuur7FfJwHxNI2wboHYnzmA/L7Au/Z2+?=
+ =?us-ascii?Q?ZPlTfR2e6kZXtNoVkqSWtt5OW/8EFuYO8nEAySVjEIdd4jPHgJwj8ldrFLv5?=
+ =?us-ascii?Q?ufqwnGB3llS1aAREzif2gj37hCbtykmpa7+jYO0PoKtyF2WqLgtwgI3mWZN9?=
+ =?us-ascii?Q?f6e7aIU5trE3tSZnzyGOWy4JidSjL9+metrkCZut1cQSKPkwVRLBBu+7IawT?=
+ =?us-ascii?Q?jxo6KbP0pTS50/4q89NXe+sXTaMxEYagtX1PjN4ixHrTH1PPoIPlIKGhZV1I?=
+ =?us-ascii?Q?eZotussq/QwYiQOUgzEhkPG6U00QjnAYcUNtwl9kwMOr01TUbiM89Hkjqw07?=
+ =?us-ascii?Q?ahzCu8/ADwMyZZKakIawVqOjQclGWUvwKmj1ZP0a5XPjuOqf9OGGYKvfTIwI?=
+ =?us-ascii?Q?cZcxCdJO2M/yc8OR5tcCvr9gp56iXamVn+XUUlzW+bMUkFSG0nfTXT/9uPJk?=
+ =?us-ascii?Q?kdAi9xhxr/lW6gCowVIB53zS2Kdq220r6MqGVm71hkvArgC7gf+5oohI/ocR?=
+ =?us-ascii?Q?gWeljcBPEbSC1sjHbgnjsw8+k2kaAoluS+bFlLG/MpyocB6BnOwyyany1JZY?=
+ =?us-ascii?Q?rItB0RTXbvgSGKhaAOyZ7H+YQGycyb2KgpPrIkZMWbP30RDJI2TvkGsmml/p?=
+ =?us-ascii?Q?+1vDiw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-devel-2021-11-15-v5.16-rc1
-X-Kernelci-Report-Type: test
-Subject: renesas/master igt-gpu-panfrost: 2 runs,
- 1 regressions (renesas-devel-2021-11-15-v5.16-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b803871f-768f-4a71-07c8-08d9a875fc80
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2021 20:24:54.8444
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EpvzjYTzR8ZmTlnA1Yp/m0i5hYt519zQX4jCCRlSBA4z7dgFwpQOCapW7mpoIQzA5xPsDvHpXuSb5K+F6RJJTODpvqhXKgESQvvj6W+ZoNI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB6481
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master igt-gpu-panfrost: 2 runs, 1 regressions (renesas-devel-2021-=
-11-15-v5.16-rc1)
+Hi Wolfram,
 
-Regressions Summary
--------------------
+> Subject: Re: [PATCH v3] dt-bindings: mmc: renesas,sdhi: add optional SDnH
+> clock
+>=20
+>=20
+> > > +      if:
+> > > +        properties:
+> > > +          compatible:
+> > > +            contains:
+> > > +              enum:
+> > > +                - renesas,rcar-gen2-sdhi
+> > > +                - renesas,rcar-gen3-sdhi
+> >
+> > What about RZ/G2L, as it has 4 clocks?
+>=20
+> They are a few lines above this in a seperate block if I am not confusing
+> the SoC numbering.
 
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
+Ah ok, I thought, since RZ/G2L using generic rcar-gen3-sdhi compatible, We =
+need to move that
+Separate block inside this if block. With in gen3 compatible, if RZG2L then=
+=20
+Max 4 clocks else Max 3 Clocks. I may be completely wrong.
 
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-11-15-v5.16-rc1/plan/igt-gpu-panfrost/
-
-  Test:     igt-gpu-panfrost
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-11-15-v5.16-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      fd3659fd4309cfa765464c92978ee507e04f7710
-
-  Test suite revisions:
-    drm
-      URL:  git://anongit.freedesktop.org/mesa/drm
-      SHA:  8d0fb9b3f225183fb3276a0e4ae1f8354a3519e8
-    igt-gpu-tools
-      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
-      SHA:  246bfd31dba6bf184b26b170d91d72c90a54be6b =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6192ba893d475a8abc335916
-
-  Results:     15 PASS, 2 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-11-15-v5.16-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/igt-gpu-pan=
-frost-rk3288-veyron-jaq.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-11-15-v5.16-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/igt-gpu-pan=
-frost-rk3288-veyron-jaq.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-igt/=
-20211112.0/armhf/rootfs.cpio.gz =
-
-
-
-  * igt-gpu-panfrost.panfrost_submit.pan-unhandled-pagefault: https://kerne=
-lci.org/test/case/id/6192ba893d475a8abc335919
-        failing since 20 days (last pass: renesas-devel-2021-10-18-v5.15-rc=
-6, first fail: renesas-devel-2021-10-26-v5.15-rc7)
-
-    2021-11-15T19:52:21.592414  <6>[   14.006661] Console: switching to col=
-our dummy device 80x30
-    2021-11-15T19:52:21.592935  <14>[   14.013252] [IGT] panfrost_submit: e=
-xecuting
-    2021-11-15T19:52:21.598169  IGT-Version: 1.26-g246bfd3 (arm) (Linux: 5.=
-16.0-rc1 armv7l)
-    2021-11-15T19:52:21.614683  <14>[   14.030805] [IGT] panfrost_submit: s=
-tarting subtest pan-unhandled-pagefault
-    2021-11-15T19:52:21.615204  Starting subtest: pan-unhandled-pagefault
-    2021-11-15T19:52:21.737920  (panfrost_submit:283) CRITICAL: Test assert=
-ion failure function __igt_unique____real_main65, file ../tests/panfrost_su=
-bmit.c:179:
-    2021-11-15T19:52:21.750969  (panfrost_submit:283) CRITICAL: Failed asse=
-rtion: syncobj_wait(fd, &submit->args->out_sync, 1, abs_timeout(SHORT_TIME_=
-NSEC), <14>[   14.165799] [IGT] panfrost_submit: exiting, ret=3D98
-    2021-11-15T19:52:21.751496  0, NULL)
-    2021-11-15T19:52:21.752170  Stack trace:
-    2021-11-15T19:52:21.763905    #0 ../lib/igt_core.c:1745 __igt_fail_asse=
-rt() =
-
-    ... (8 line(s) more)  =
-
- =20
+Regards,
+Biju
