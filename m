@@ -2,136 +2,172 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF71C451537
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 21:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF6F645154E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 21:32:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240107AbhKOU3Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Nov 2021 15:29:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36118 "EHLO
+        id S240211AbhKOUe4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Nov 2021 15:34:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245128AbhKOTTc (ORCPT
+        with ESMTP id S1350456AbhKOUXy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Nov 2021 14:19:32 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67552C0432F9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 10:10:40 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id y7so15260580plp.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 10:10:40 -0800 (PST)
+        Mon, 15 Nov 2021 15:23:54 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ADAFC061714
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 12:18:24 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id s186so50481519yba.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 12:18:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=YM/BDkHk6Vn5QiPpZwxaD/d/I7TPDYs9RR7ukf+/xMs=;
-        b=bkDelfYnLSqD4Yv5PZ3Oy9XmA4+IHYG+hCzcQJ+091dZmyzry8Y06ewKRMQXmVZ1fM
-         o+bRzlT9cQfG7ihzd631YIIky7cX2dyFEbrDqVeu4tGv2IKgd2J2n5ojH+g253wPm5H2
-         MiLGZWPrRRygy+AkWk2L4LGRXGdHc8/1fepym8C/Z6Y8gUUAQ9wuLm33Dc2/BtSTcQTD
-         PUFtcqkPmal09lIdzbVSY3JtCwGqVdu5TTrDtcxxcMDic9cfNUDwcNPsiWbslRRzM2G0
-         kr/zF5RFkQZ3+G+T4hzzRhXKKCyYZxeb/hbnnuscqynkmvNKT+pMDgLdAE4rFSonSI9X
-         HJxQ==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ti2qS38N54C0keJ4viYpkfZvuilsGcLNEF7JfCXeTTQ=;
+        b=dh/Oa9Ne/UX3lXjDB4COE5fcmk8sukuVS9CcQeo4HvaaL9inYkLrRgESiTiiJjH8Ha
+         VD+voEPVlu4lT/PFKwINwdG4d11smF+KO/ppWh9QkjAYWf9nI2V51AWJZTZVp4mOvqr/
+         OqeBQGqGBLjLgEja7DyQ3k/np69fx0UsIFBY0muAvUQRNUVa5/KFzlzavNtVE2HhmDsK
+         bmh6KbqsAKlU3IKOQjpgPqjw0dOCkZxcS8P+7EtoLtYNqQhqa9IbpkxB9gRHMNpqSxBi
+         l/xRTx3ssiex9d5VCAExW9LSc6GJtcglSAdxi43WZcr1AEmZAEonPwY3qqbOY1Qs3OD3
+         dPHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=YM/BDkHk6Vn5QiPpZwxaD/d/I7TPDYs9RR7ukf+/xMs=;
-        b=cRmLPAnKrqbFN7DwONm6qIaFOhDC0K6abA9whQV9nIRlWwxm9q0jRjp0Gd9fV+V0dK
-         fJo0RiZWylsEgOcsUMTsvP0Wx/naYIYD/9Rt8AWMQhUPwh9X014EChIitFbg/RdcRD8J
-         uTlkGBmV4sEwXqyU7lvDx4ERJy8T0jYCj035LFrgrgB1Ru/n+iJN6BE1xCH6QnUrLuWH
-         8xvIhyXwrsSLz76IOjWzdR/PK/dGp9Np48KVkAjxEFhkJehdlZ/44OINiz7lsV9Dm5Xl
-         +78sZMAW8qifKyf/Q208bWdSFnp01Id6QEf6EeRybtty4fTQio1hpaDQAJxfHhZDEvLO
-         7kVg==
-X-Gm-Message-State: AOAM530q/9Hk2i9KiA4rTAC+m0pDvjl5exsanKzBhushti+dCaE19/bI
-        6Fee7OnVOeupRmW59oJYI4Trwg==
-X-Google-Smtp-Source: ABdhPJyQqPiDgUfpIPWJFzXM/rmCYzhCuO9hlX8B2xMkX1lEl5guJ1XdOMoeSvRr5ILEOWHp41w4Dw==
-X-Received: by 2002:a17:90b:4a50:: with SMTP id lb16mr557483pjb.147.1636999839828;
-        Mon, 15 Nov 2021 10:10:39 -0800 (PST)
-Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id co4sm46714pjb.2.2021.11.15.10.10.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 10:10:38 -0800 (PST)
-Date:   Mon, 15 Nov 2021 11:10:36 -0700
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Julien Massot <julien.massot@iot.bzh>
-Cc:     bjorn.andersson@linaro.org, robh+dt@kernel.org,
-        geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v1 0/3] Initial Renesas R-Car remoteproc support
-Message-ID: <20211115181036.GA2281903@p14s>
-References: <20211115135032.129227-1-julien.massot@iot.bzh>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ti2qS38N54C0keJ4viYpkfZvuilsGcLNEF7JfCXeTTQ=;
+        b=qB+RHcBnS16GO35+3+MiTxPoODDQHVKaqNw6SYVuSGLkV02YsVZRDyoLs91ejah07I
+         Qj7J92gGbzIB8lguIK3+3t7mggcUaFxiLh8NKTvvhvaQs3ziq4Cuiar+dHSOMx4I8gUl
+         be53Dh/I9fKzbTzz+DNWncapN4TwRdqJdP124DiBHxGZNHkjn7OVXoUPCrXX8FQy3r17
+         6DpC/GFaBwIC/uwQD9LR22dEQF1F600m+DhgnRWGVdbh8HdNx/SXixekPecBzj9K3o2N
+         jov0j8sIUWn2ia0D7/j53vXvgxhMYy0twc516hqBSkdv/qpeJkGbfYIcnJYu3Mq6d+/O
+         HO6Q==
+X-Gm-Message-State: AOAM531JnQw8zdggBdPyHfwvKUY22tAau8TIAvTzJ1/QJuekEMmfm+Yk
+        q04Jes0YDVCQcwUVEeVm9UHWkFvlAD9qTz3RyK74dw==
+X-Google-Smtp-Source: ABdhPJxKkmPEnUXj0aVbJDTQXnWiiYrBJDqwAo+CYLHhYd6MMCN9FGeHm5tb4KkW7mZ9cUyGQQ0uXz7x+4W8OBjmlCo=
+X-Received: by 2002:a5b:783:: with SMTP id b3mr1822562ybq.328.1637007502971;
+ Mon, 15 Nov 2021 12:18:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211115135032.129227-1-julien.massot@iot.bzh>
+References: <20210929000735.585237-1-saravanak@google.com> <20210929000735.585237-2-saravanak@google.com>
+ <YYu4EglV7SBZU2Iy@ryzen> <CAGETcx_m3f5JgrKQXZ5DUxDkpGhAau9G8uYm8a0iQ8JbcD0Rtg@mail.gmail.com>
+In-Reply-To: <CAGETcx_m3f5JgrKQXZ5DUxDkpGhAau9G8uYm8a0iQ8JbcD0Rtg@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Mon, 15 Nov 2021 12:17:46 -0800
+Message-ID: <CAGETcx_a-d7qQNi3sUce3AzbPcvGJK5JSuiiHm4h4e_q-MT7Dg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for
+ probing simple bus only devices
+To:     Abel Vesa <abelvesa@kernel.org>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Good morning,
+On Wed, Nov 10, 2021 at 12:24 PM Saravana Kannan <saravanak@google.com> wrote:
+>
+> On Wed, Nov 10, 2021 at 4:16 AM Abel Vesa <abelvesa@kernel.org> wrote:
+> >
+> > On 21-09-28 17:07:33, Saravana Kannan wrote:
+> > > fw_devlink could end up creating device links for bus only devices.
+> > > However, bus only devices don't get probed and can block probe() or
+> > > sync_state() [1] call backs of other devices. To avoid this, probe these
+> > > devices using the simple-pm-bus driver.
+> > >
+> > > However, there are instances of devices that are not simple buses (they get
+> > > probed by their specific drivers) that also list the "simple-bus" (or other
+> > > bus only compatible strings) in their compatible property to automatically
+> > > populate their child devices. We still want these devices to get probed by
+> > > their specific drivers. So, we make sure this driver only probes devices
+> > > that are only buses.
+> > >
+> > > [1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
+> > > Fixes: c442a0d18744 ("driver core: Set fw_devlink to "permissive" behavior by default")
+> > > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > > Tested-by: Saravana Kannan <saravanak@google.com>
+> > > Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+> > > ---
+> > >  drivers/bus/simple-pm-bus.c | 42 ++++++++++++++++++++++++++++++++++---
+> > >  1 file changed, 39 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/bus/simple-pm-bus.c b/drivers/bus/simple-pm-bus.c
+> > > index 01a3d0cd08ed..6b8d6257ed8a 100644
+> > > --- a/drivers/bus/simple-pm-bus.c
+> > > +++ b/drivers/bus/simple-pm-bus.c
+> > > @@ -13,11 +13,36 @@
+> > >  #include <linux/platform_device.h>
+> > >  #include <linux/pm_runtime.h>
+> > >
+> > > -
+> > >  static int simple_pm_bus_probe(struct platform_device *pdev)
+> > >  {
+> > > -     const struct of_dev_auxdata *lookup = dev_get_platdata(&pdev->dev);
+> > > -     struct device_node *np = pdev->dev.of_node;
+> > > +     const struct device *dev = &pdev->dev;
+> > > +     const struct of_dev_auxdata *lookup = dev_get_platdata(dev);
+> > > +     struct device_node *np = dev->of_node;
+> > > +     const struct of_device_id *match;
+> > > +
+> > > +     /*
+> > > +      * Allow user to use driver_override to bind this driver to a
+> > > +      * transparent bus device which has a different compatible string
+> > > +      * that's not listed in simple_pm_bus_of_match. We don't want to do any
+> > > +      * of the simple-pm-bus tasks for these devices, so return early.
+> > > +      */
+> > > +     if (pdev->driver_override)
+> > > +             return 0;
+> > > +
+> > > +     match = of_match_device(dev->driver->of_match_table, dev);
+> > > +     /*
+> > > +      * These are transparent bus devices (not simple-pm-bus matches) that
+> > > +      * have their child nodes populated automatically.  So, don't need to
+> > > +      * do anything more. We only match with the device if this driver is
+> > > +      * the most specific match because we don't want to incorrectly bind to
+> > > +      * a device that has a more specific driver.
+> > > +      */
+> > > +     if (match && match->data) {
+> > > +             if (of_property_match_string(np, "compatible", match->compatible) == 0)
+> > > +                     return 0;
+> > > +             else
+> > > +                     return -ENODEV;
+> > > +     }
+> >
+> > This change is breaking the expected behavior for the already existent
+> > simple-bus nodes. All the simple-bus compatibles should be replaced now
+> > to simple-pm-bus. In my case, on some i.MX8 platforms, without the
+> > devlink, the devices suspend sequence changes (and even breaks).
+> >
+> > To avoid breaking the already existent simple-bus nodes, maybe the logic
+> > should've been reversed: keep the simple-bus as is and add another
+> > compatible, IDK, something like simple-trasnparent-bus, or something.
+>
+> The intent of this change IS to affect existing simple-bus nodes (but
+> not in the way it's affecting you). But if it's breaking stuff, we
+> obviously need to fix it.
+>
+> I have a hunch on what's going on in your case, but can you point me
+> to the specific simple-bus node that's getting affected? I'm expecting
+> it to be a simple-bus node that gets added AFTER this driver is
+> registered at device_initcall (module_init gets converted to
+> device_initcall).
+>
+> Also, can you try this hack patch to see if it helps your case?
+> https://lore.kernel.org/lkml/CAGETcx9U130Oq-umrvXME4JhEpO0Wadoki3kNxx=0-YvTR6PtQ@mail.gmail.com/
+>
+> I have some thoughts on how I could fix this, but I need to think
+> about a few cases.
 
-I have received your patchset but the backlog accumulated over the last little
-while as become impressive.  As such I may not be able to provide a review in
-a timeframe that usually expected.
+Hi Abel,
 
+Friendly reminder.
 
-Thanks,
-Mathieu
-
-On Mon, Nov 15, 2021 at 02:50:29PM +0100, Julien Massot wrote:
-> Most of the SoCs in the R-Car gen3 SoC series such as
-> H3,M3 and E3 have an 'Arm Realtime Core'.
-> This Realtime core is an Arm Cortex-R7 clocked at 800MHz.
-> This series adds initial support to load a firmware and start
-> this remote processor through the remoteproc subsystem.
-> 
-> This series depends on
-> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20211022122101.66998-1-julien.massot@iot.bzh/
-> to be able to set the Cortex-R7 boot address.
-> 
-> One of the way to test this driver is to  use the zephyr upstream support
-> for h3ulcb board 'blinky' demo is my favorite testing firmware.
-> 
-> To generate a firmware with the zephyr project.
-> 
-> follow this starting guide
-> https://docs.zephyrproject.org/2.7.0/getting_started/index.html
-> 
-> Then compile your zephyr demo
-> west build -b rcar_h3ulcb_cr7 zephyr/samples/basic/blinky \
->     -DCONFIG_KERNEL_ENTRY=\"_vector_table\" \
->     --build-dir h3-blinky
-> 
-> Then you can use h3-blinky/zephyr/zephyr.elf as a testing
-> firmware.
-> 
-> Patch 1/3 adds the dt-bindings
-> 
-> Patch 2/3 adds entries into the dts/dtsi files for r8a77951,
-> my testing platform. This driver has also been tested on E3 and M3,
-> but lacks proper zephyr support at the moment.
-> 
-> Modifications to r8a77951-ulcb.dts are given as usage example
-> and may be dropped in future patchset since it use some memory
-> range that may be reserved for other usage.
-> 
-> Patch 3/3 is a small driver to cover basic remoteproc
-> usage: loading firmware from filesystem, starting and stopping the
-> Cortex-r7 processor.
-> 
-> Julien Massot (3):
->   dt-bindings: remoteproc: Add Renesas R-Car
->   arm64: dts: renesas: r8a77951: Add CR7 realtime processor
->   remoteproc: Add Renesas rcar driver
-> 
->  .../remoteproc/renesas,rcar-rproc.yaml        |  66 +++++
->  arch/arm64/boot/dts/renesas/r8a77951-ulcb.dts |  15 ++
->  arch/arm64/boot/dts/renesas/r8a77951.dtsi     |   7 +
->  drivers/remoteproc/Kconfig                    |  12 +
->  drivers/remoteproc/Makefile                   |   1 +
->  drivers/remoteproc/rcar_rproc.c               | 226 ++++++++++++++++++
->  6 files changed, 327 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
->  create mode 100644 drivers/remoteproc/rcar_rproc.c
-> 
-> -- 
-> 2.31.1
-> 
-> 
+-Saravana
