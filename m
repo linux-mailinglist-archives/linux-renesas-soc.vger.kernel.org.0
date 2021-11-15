@@ -2,342 +2,431 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 721E9450609
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 14:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1B1B45066E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 15:13:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232117AbhKONy3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Nov 2021 08:54:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46844 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231761AbhKONyG (ORCPT
+        id S231986AbhKOOPz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Nov 2021 09:15:55 -0500
+Received: from mail-eopbgr1410129.outbound.protection.outlook.com ([40.107.141.129]:23680
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233591AbhKOOPZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Nov 2021 08:54:06 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C366C061570
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 05:51:09 -0800 (PST)
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD7D693;
-        Mon, 15 Nov 2021 14:51:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1636984267;
-        bh=V5u5JQGkGk10qLkx22oWmpShhhMfc1fW9Ebhy0ybUBI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UEdKiBXGljxTN1RPBdVZ7ulNPXj9ikhJJpkP/5mbysnkvgqEJXaQjSbQDKwmUDxZx
-         slJGAmfSZPBHUtmp9tvQaFYbqsmYnu4WXtwgG2OFhnneg0ii7+3qeeL182UsfuVWkM
-         8GU8BBGTTXJjSF1TDCOsNi07a4gIH7GFmQoYjzdM=
-Date:   Mon, 15 Nov 2021 15:50:45 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
-        maarten.lankhorst@linux.intel.com,
-        kieran.bingham+renesas@ideasonboard.com, emma@anholt.net,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/cma-helper: Pass GEM CMA object in public
- interfaces
-Message-ID: <YZJltbbFp4Gr201g@pendragon.ideasonboard.com>
-References: <20211115120148.21766-1-tzimmermann@suse.de>
- <20211115120148.21766-4-tzimmermann@suse.de>
+        Mon, 15 Nov 2021 09:15:25 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rz0eRds2k204yAjHAVaMO8fEBLzI8ieWHfD3d6vMLJfS8JmL/rBiGxGKy55IFZEhyZ2yEM+dkUfJj5dZp8MXZMxCmMd4MJU//PwUm3hlKvW5wklTxkFOFpywYQoRszG5hnZNiLQ9EDy3MN1W+LxLTDtDVilIlknP4Gip/3NggA2/E1j7SUmKMTHLCdl9IdauaS853vO4sszz6n8I/vPmacGswT3U9LBx5mq4BNBav0RlKKe4nHzqv5yFRYK5RYCmAKna/3z1H5p+Wg4Co6aQWu84jUd6Vor6FD13SGZWzYx2fVkXlbMmmc2g5Jk4EPjPAAxJs7z7BUdZB8ls5aFZvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3todiJHm1IhCDZKf42L1K37xO4B8Bmq5tuzwOLLvZqY=;
+ b=SsxWJrZ25/4ySpiNX/7VMDPElqdrHYJWLiY1sxGAsdy+FwWvByEh2D/KKNYqMIOqyxYo0gorQmqWxfjZfKNPMDkGQd31nF/6Qkxk5NCJsZwfD+veskvGxr2CUcWm35OeDOfqwL8YkrFNzc0TaVYzOuCbSllmA0c20O66WI0ZUW47w30BPxHU+GCuJhrPnKNcKTcesZOeF88rsGOqg3sYng/6m+Nm/ygVhrBgzTLxFqPMeAwdFDtCrBlkLEGoXXZom4yBaP463N3RIxUWHSsHtRAinXRV1vb2Odjy2GFoh9abgclNphQ44Osecs5n0DSlk8VaKmWnXPYYfpvM6w/qYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3todiJHm1IhCDZKf42L1K37xO4B8Bmq5tuzwOLLvZqY=;
+ b=VKuWiwlkZAIl6O6BkcsltNeIp8KObiNmBv7hGxmCYFHRrwcJ8BUVhhW0OB4Izr69N5fDWw1MPVfyIjXCa+SsxRSj+CqYGslRtXppP5MUM9im/pC1VcLyHZTiJ+UaUY9c8+7moFJtuS1qlLmM5yZy3tHt7wTXpzVMFjDwhBoyQrk=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSZPR01MB6327.jpnprd01.prod.outlook.com (2603:1096:604:ea::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Mon, 15 Nov
+ 2021 14:12:27 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::c0bd:405a:cdd3:f153]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::c0bd:405a:cdd3:f153%8]) with mapi id 15.20.4690.027; Mon, 15 Nov 2021
+ 14:12:27 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Julien Massot <julien.massot@iot.bzh>,
+        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+        "mathieu.poirier@linaro.org" <mathieu.poirier@linaro.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>
+CC:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: RE: [PATCH v1 3/3] remoteproc: Add Renesas rcar driver
+Thread-Topic: [PATCH v1 3/3] remoteproc: Add Renesas rcar driver
+Thread-Index: AQHX2ifxeC/e9Bm+2E2JGBX7Ft2snawEoDGA
+Date:   Mon, 15 Nov 2021 14:12:26 +0000
+Message-ID: <OS0PR01MB5922D67AEFD75847CE5B0DD586989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20211115135032.129227-1-julien.massot@iot.bzh>
+ <20211115135032.129227-4-julien.massot@iot.bzh>
+In-Reply-To: <20211115135032.129227-4-julien.massot@iot.bzh>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f9dcd623-a20f-4d28-0427-08d9a841f426
+x-ms-traffictypediagnostic: OSZPR01MB6327:
+x-microsoft-antispam-prvs: <OSZPR01MB632772BCC86B88A1FE7D502786989@OSZPR01MB6327.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IT/V+JWJoxa9Vhnw9clKx/FyLSuiMi5wBuCh+gnfl00PolDBwhHuNx8zPtTNEytYdeoRobYzq/LF6+UNw0zegy6Qzz1t+y3GJHpmyUdIYyRWKilUNTzJjTwiKPfk+tddD9L0DmtcSIqPKLZuWV7HHvit+RQLiPAsGpjvldx2kseJuPO8rNeaPXQatLkB8C6s8oTYA/UGjsFdDqBjfDVpzLaS7fvuEiIG7iKIq/uQg3AgGD4/iOYcrj6/AeVA0c8dHpiuzE4PZiTIsrWM7u8OMT4iydaYM0Mh2PCc8l6Tk1u7T0rQ/RiemzTptNwLtH2/443AZThhY/h2Do3FjkzDfEaZFyvhXuhFcAdQwWwfbQRsUiuhJl9Zyp7/bpGIiN8rXOTukmSYBQvBgVJhP0cMC00XIqAguwyQw4VLybtC7mT95djF+Nxx3pvQtEHRBXD2a39QF5dHvfeSVRWegCmogcq+gOWhT42rS5HKJMH0hSZ33UdwQoRdEwAtbGroJ+itsAz1x10GIgLKburWw6u+pEMUjjbSKkgaMOAjfKKonSOCGSYQuglG8h5HQ4ahIGI8DsJrIRwnG3Yun+wLyZSDwmH2eHUxf9Yg+YdFl6FFOdv6+yc8MRX9RYxs9cv604x+nE/C3bXoWQdD5pnrD837E7jYZ9fh4s68gnbuiHIr4MJoNq/nHPZpq1hSGRu37b+eQj6HRFvY/dE7sRPYHnsNug==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(7696005)(8936002)(2906002)(76116006)(33656002)(5660300002)(4326008)(86362001)(186003)(6506007)(52536014)(508600001)(316002)(26005)(71200400001)(38100700002)(55016002)(66946007)(66446008)(64756008)(8676002)(66556008)(66476007)(38070700005)(54906003)(110136005)(83380400001)(122000001)(9686003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?F+aQRLROx5Zw8/5KNKapbMF1EILV504KeBQte0wwgBAIVL4cdTJ13xc6ESPi?=
+ =?us-ascii?Q?rOPyVVbm7eYa8Siif6Z33xYhBbl4UupSwqXZw4lb9EVwMoJnQsl63qK7Hgl3?=
+ =?us-ascii?Q?PK88qysg0ypdSjawmNkJpOqtae33wCTthGsEx9SHT/XIgoIkE3yOQoLtMRZV?=
+ =?us-ascii?Q?pVCksjBBHHPZEP2DPmomLnOErGVuvPYarm9zS74RzNCqa0ui5/TnSORBjMMG?=
+ =?us-ascii?Q?CFhWIKhhAmFcFgj5sGgxaOoP1GSblsdyokiox7GIY9L5DuzavQzn3/08llPL?=
+ =?us-ascii?Q?aNXT64BunVwgl8MQHzFPJqUU0vIqAilOKIXZ2gkEL2BH6wnfsI35bZINfjMU?=
+ =?us-ascii?Q?dPUL1HtMPUOrGGSVGx6AZQX12CWrEfWBZSp1gC8XLv/B7bl49EwNnVwSo3ZR?=
+ =?us-ascii?Q?ENNFlGV3d5WusW/T/Q4+Ouc4TGFXCBlgdp1H4tGC1m1uACZjyb7jBwIwIa5z?=
+ =?us-ascii?Q?jSkJOKpR9rDippdY2RFD0HvVEAC07t4RwXVWK1+VYI9QJUJKXkjpaSYYu7wD?=
+ =?us-ascii?Q?ajoe3R4yNgOinbyTjOWnJXnv06HkFWn8geF+AE8HpQmTKs/3e7lSEWnq5wHd?=
+ =?us-ascii?Q?1tMQrIxz4xbuouITjWwdN6vpHwt+a8u5chUrjGb+FY9in+snFipyZnt8xlUe?=
+ =?us-ascii?Q?Jt4J7LZWmbHnFqOXzHpCfSBTckYAhJcYOpvu58srmiCnnYJmo5zxeLWDAYPl?=
+ =?us-ascii?Q?4unjiFiRWXMqSjMTfWxtyU1xf/v2q8xUTRpj1dRfq8DEkaaSdvvhSKcaQOk8?=
+ =?us-ascii?Q?JJkoNizP6oAhwkWvYZr9YBIuaCfOs2XZyki2t9IAlDH1PUpZKJ4uUQx4PX8m?=
+ =?us-ascii?Q?DY2vp+nUem9FkoKKd5KkmTObncGdCxS9em/MAgDNtGX5sudpyKTG6JtzIh9Y?=
+ =?us-ascii?Q?7FiWhpNSpnnKmieMVq0x8CsmX7RqLWHfaYg7Qt8UwqUlCB1XtOjbVbr3z9K6?=
+ =?us-ascii?Q?0eY0Vd7G5xznnsimBflb5HRG/dNjgTe8MlCLguWBhCDu0I0AoV0uStJjQJz/?=
+ =?us-ascii?Q?NkMhjjJ329yeY+pxnsaYIlBtOUkrRVPmVometKm6oefkO5MyZEi65VKqE9xt?=
+ =?us-ascii?Q?GBahuRcxczsDRUERa3NYI2XLyGolku7tjJEV+FBnOcWRR2yqYR/ecwFDUT2B?=
+ =?us-ascii?Q?Z28pqhb6JFM/Wh3dzM2XKXcuwP1nuCEuxRHuRSNwA5RReXV2M9rW7HymB3YO?=
+ =?us-ascii?Q?MznLPceWerBzNExseNJM8Xd/azjk8a0HmpDwyfIcg4foW4m4xa6us8tt9UuJ?=
+ =?us-ascii?Q?RV+bGhg14Nof/2w6CyHw8JWHMPtfNbYLoIe+CPTVv4tapERqamWFyBqaToN2?=
+ =?us-ascii?Q?i/qt5GmMpJhsr9owtSvSB+DkSxMeH4pjYe4NX2mPUy6aBoRsuIRwC1ntp4I0?=
+ =?us-ascii?Q?3fG4NmNUQkFN8iL6afGSnUhiK+CP1WLobU5i6tBuS5RRFxy3XJ4uwr8T2WrZ?=
+ =?us-ascii?Q?quVEKC1z3j5Z1BI2f4mfB7/ma+mMHfthDEGcM/dkwPoveMp21sWt1nqGA0eW?=
+ =?us-ascii?Q?Y9D1ZW2Vnz+PaAtRGe1D8IhrrWv484Y9/MoFet3h4Xhy7yRI2xrSglsc99AR?=
+ =?us-ascii?Q?GaMBjHk3pxg2b3/CT8+7hvRqKFe+mqzcqKr11J0X3wAHgqg3c0LTA5HDN46k?=
+ =?us-ascii?Q?EYVNBn7w5n3y+eX8j2n+C8Fpkqc4l+kcdgdpAdd25tze33r/ms19az65BRQy?=
+ =?us-ascii?Q?ZMxg1Q=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211115120148.21766-4-tzimmermann@suse.de>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9dcd623-a20f-4d28-0427-08d9a841f426
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2021 14:12:27.0077
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CnNIvj29of8xaaY5j83ApwAMLtGTjH1MYJLgtes28/Ron4nE4gytBfNoIFnOZaEpiqIs/vbkL5N3b6Dz9LztB0IFNTxnAmR5McByQs/ukEM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6327
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Thomas,
+Hi Julien,
 
-Thank you for the patch.
+Thanks for the patch.
 
-On Mon, Nov 15, 2021 at 01:01:48PM +0100, Thomas Zimmermann wrote:
-> Change all GEM CMA object functions that receive a GEM object
-> of type struct drm_gem_object to expect an object of type
-> struct drm_gem_cma_object instead.
-> 
-> This change reduces the number of upcasts from struct drm_gem_object
-> by moving them into callers. The C compiler can now verify that the
-> GEM CMA functions are called with the correct type.
-> 
-> For consistency, the patch also renames drm_gem_cma_free_object to
-> drm_gem_cma_free. It further updates documentation for a number of
-> functions.
+One question CR7 Can be master boot processor. In that case
+How to avoid loading and booting  CR7 processor from Linux?
+Reading boot modes??
 
-I'm not convinced to be honest. I won't block this series, but I don't
-really see what it brings us.
-
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_gem_cma_helper.c | 52 +++++++++++++---------------
->  drivers/gpu/drm/vc4/vc4_bo.c         |  4 +--
->  include/drm/drm_gem_cma_helper.h     | 39 ++++++++++++---------
->  3 files changed, 48 insertions(+), 47 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-> index 27ccb71e3d66..7d4895de9e0d 100644
-> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-> @@ -32,6 +32,10 @@
->   * The DRM GEM/CMA helpers use this allocator as a means to provide buffer
->   * objects that are physically contiguous in memory. This is useful for
->   * display drivers that are unable to map scattered buffers via an IOMMU.
-> + *
-> + * For GEM callback helpers in struct &drm_gem_object functions, see likewise
-> + * named functions with an _object_ infix (e.g., drm_gem_cma_object_vmap() wraps
-> + * drm_gem_cma_vmap()). These helpers perform the necessary type conversion.
->   */
->  
->  static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
-> @@ -192,16 +196,16 @@ drm_gem_cma_create_with_handle(struct drm_file *file_priv,
->  }
->  
->  /**
-> - * drm_gem_cma_free_object - free resources associated with a CMA GEM object
-> - * @gem_obj: GEM object to free
-> + * drm_gem_cma_free - free resources associated with a CMA GEM object
-> + * @cma_obj: CMA GEM object to free
->   *
->   * This function frees the backing memory of the CMA GEM object, cleans up the
->   * GEM object state and frees the memory used to store the object itself.
->   * If the buffer is imported and the virtual address is set, it is released.
->   */
-> -void drm_gem_cma_free_object(struct drm_gem_object *gem_obj)
-> +void drm_gem_cma_free(struct drm_gem_cma_object *cma_obj)
->  {
-> -	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(gem_obj);
-> +	struct drm_gem_object *gem_obj = &cma_obj->base;
->  	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(cma_obj->vaddr);
->  
->  	if (gem_obj->import_attach) {
-> @@ -222,7 +226,7 @@ void drm_gem_cma_free_object(struct drm_gem_object *gem_obj)
->  
->  	kfree(cma_obj);
->  }
-> -EXPORT_SYMBOL_GPL(drm_gem_cma_free_object);
-> +EXPORT_SYMBOL_GPL(drm_gem_cma_free);
->  
->  /**
->   * drm_gem_cma_dumb_create_internal - create a dumb buffer object
-> @@ -369,18 +373,15 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_get_unmapped_area);
->  
->  /**
->   * drm_gem_cma_print_info() - Print &drm_gem_cma_object info for debugfs
-> + * @cma_obj: CMA GEM object
->   * @p: DRM printer
->   * @indent: Tab indentation level
-> - * @obj: GEM object
->   *
-> - * This function can be used as the &drm_driver->gem_print_info callback.
-> - * It prints paddr and vaddr for use in e.g. debugfs output.
-> + * This function prints paddr and vaddr for use in e.g. debugfs output.
->   */
-> -void drm_gem_cma_print_info(struct drm_printer *p, unsigned int indent,
-> -			    const struct drm_gem_object *obj)
-> +void drm_gem_cma_print_info(const struct drm_gem_cma_object *cma_obj,
-> +			    struct drm_printer *p, unsigned int indent)
->  {
-> -	const struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-> -
->  	drm_printf_indent(p, indent, "paddr=%pad\n", &cma_obj->paddr);
->  	drm_printf_indent(p, indent, "vaddr=%p\n", cma_obj->vaddr);
->  }
-> @@ -389,7 +390,7 @@ EXPORT_SYMBOL(drm_gem_cma_print_info);
->  /**
->   * drm_gem_cma_get_sg_table - provide a scatter/gather table of pinned
->   *     pages for a CMA GEM object
-> - * @obj: GEM object
-> + * @cma_obj: CMA GEM object
->   *
->   * This function exports a scatter/gather table by calling the standard
->   * DMA mapping API.
-> @@ -397,9 +398,9 @@ EXPORT_SYMBOL(drm_gem_cma_print_info);
->   * Returns:
->   * A pointer to the scatter/gather table of pinned pages or NULL on failure.
->   */
-> -struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_object *obj)
-> +struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_cma_object *cma_obj)
->  {
-> -	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-> +	struct drm_gem_object *obj = &cma_obj->base;
->  	struct sg_table *sgt;
->  	int ret;
->  
-> @@ -465,22 +466,19 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_prime_import_sg_table);
->  /**
->   * drm_gem_cma_vmap - map a CMA GEM object into the kernel's virtual
->   *     address space
-> - * @obj: GEM object
-> + * @cma_obj: CMA GEM object
->   * @map: Returns the kernel virtual address of the CMA GEM object's backing
->   *       store.
->   *
-> - * This function maps a buffer into the kernel's
-> - * virtual address space. Since the CMA buffers are already mapped into the
-> - * kernel virtual address space this simply returns the cached virtual
-> - * address.
-> + * This function maps a buffer into the kernel's virtual address space.
-> + * Since the CMA buffers are already mapped into the kernel virtual address
-> + * space this simply returns the cached virtual address.
->   *
->   * Returns:
->   * 0 on success, or a negative error code otherwise.
->   */
-> -int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-> +int drm_gem_cma_vmap(struct drm_gem_cma_object *cma_obj, struct dma_buf_map *map)
->  {
-> -	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-> -
->  	dma_buf_map_set_vaddr(map, cma_obj->vaddr);
->  
->  	return 0;
-> @@ -489,7 +487,7 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
->  
->  /**
->   * drm_gem_cma_mmap - memory-map an exported CMA GEM object
-> - * @obj: GEM object
-> + * @cma_obj: CMA GEM object
->   * @vma: VMA for the area to be mapped
->   *
->   * This function maps a buffer into a userspace process's address space.
-> @@ -499,9 +497,9 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
->   * Returns:
->   * 0 on success or a negative error code on failure.
->   */
-> -int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-> +int drm_gem_cma_mmap(struct drm_gem_cma_object *cma_obj, struct vm_area_struct *vma)
->  {
-> -	struct drm_gem_cma_object *cma_obj;
-> +	struct drm_gem_object *obj = &cma_obj->base;
->  	int ret;
->  
->  	/*
-> @@ -512,8 +510,6 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
->  	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
->  	vma->vm_flags &= ~VM_PFNMAP;
->  
-> -	cma_obj = to_drm_gem_cma_obj(obj);
-> -
->  	if (cma_obj->map_noncoherent) {
->  		vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
->  
-> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-> index 830756b3159e..6d1281a343e9 100644
-> --- a/drivers/gpu/drm/vc4/vc4_bo.c
-> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
-> @@ -177,7 +177,7 @@ static void vc4_bo_destroy(struct vc4_bo *bo)
->  		bo->validated_shader = NULL;
->  	}
->  
-> -	drm_gem_cma_free_object(obj);
-> +	drm_gem_cma_free(&bo->base);
->  }
->  
->  static void vc4_bo_remove_from_cache(struct vc4_bo *bo)
-> @@ -720,7 +720,7 @@ static int vc4_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct
->  		return -EINVAL;
->  	}
->  
-> -	return drm_gem_cma_mmap(obj, vma);
-> +	return drm_gem_cma_mmap(&bo->base, vma);
->  }
->  
->  static const struct vm_operations_struct vc4_vm_ops = {
-> diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
-> index 56d2f9fdf9ac..adb507a9dbf0 100644
-> --- a/include/drm/drm_gem_cma_helper.h
-> +++ b/include/drm/drm_gem_cma_helper.h
-> @@ -32,28 +32,23 @@ struct drm_gem_cma_object {
->  #define to_drm_gem_cma_obj(gem_obj) \
->  	container_of(gem_obj, struct drm_gem_cma_object, base)
->  
-> -/* free GEM object */
-> -void drm_gem_cma_free_object(struct drm_gem_object *gem_obj);
-> -
-> -/* allocate physical memory */
->  struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
->  					      size_t size);
-> +void drm_gem_cma_free(struct drm_gem_cma_object *cma_obj);
-> +void drm_gem_cma_print_info(const struct drm_gem_cma_object *cma_obj,
-> +			    struct drm_printer *p, unsigned int indent);
-> +struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_cma_object *cma_obj);
-> +int drm_gem_cma_vmap(struct drm_gem_cma_object *cma_obj, struct dma_buf_map *map);
-> +int drm_gem_cma_mmap(struct drm_gem_cma_object *cma_obj, struct vm_area_struct *vma);
->  
->  extern const struct vm_operations_struct drm_gem_cma_vm_ops;
->  
-> -void drm_gem_cma_print_info(struct drm_printer *p, unsigned int indent,
-> -			    const struct drm_gem_object *obj);
-> -
-> -struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_object *obj);
-> -int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
-> -int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
-> -
->  /*
->   * GEM object functions
->   */
->  
->  /**
-> - * drm_gem_cma_object_free - GEM object function for drm_gem_cma_free_object()
-> + * drm_gem_cma_object_free - GEM object function for drm_gem_cma_free()
->   * @obj: GEM object to free
->   *
->   * This function wraps drm_gem_cma_free_object(). Drivers that employ the CMA helpers
-> @@ -61,7 +56,9 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
->   */
->  static inline void drm_gem_cma_object_free(struct drm_gem_object *obj)
->  {
-> -	drm_gem_cma_free_object(obj);
-> +	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-> +
-> +	drm_gem_cma_free(cma_obj);
->  }
->  
->  /**
-> @@ -76,7 +73,9 @@ static inline void drm_gem_cma_object_free(struct drm_gem_object *obj)
->  static inline void drm_gem_cma_object_print_info(struct drm_printer *p, unsigned int indent,
->  						 const struct drm_gem_object *obj)
->  {
-> -	drm_gem_cma_print_info(p, indent, obj);
-> +	const struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-> +
-> +	drm_gem_cma_print_info(cma_obj, p, indent);
->  }
->  
->  /**
-> @@ -91,7 +90,9 @@ static inline void drm_gem_cma_object_print_info(struct drm_printer *p, unsigned
->   */
->  static inline struct sg_table *drm_gem_cma_object_get_sg_table(struct drm_gem_object *obj)
->  {
-> -	return drm_gem_cma_get_sg_table(obj);
-> +	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-> +
-> +	return drm_gem_cma_get_sg_table(cma_obj);
->  }
->  
->  /*
-> @@ -107,7 +108,9 @@ static inline struct sg_table *drm_gem_cma_object_get_sg_table(struct drm_gem_ob
->   */
->  static inline int drm_gem_cma_object_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
->  {
-> -	return drm_gem_cma_vmap(obj, map);
-> +	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-> +
-> +	return drm_gem_cma_vmap(cma_obj, map);
->  }
->  
->  /**
-> @@ -123,7 +126,9 @@ static inline int drm_gem_cma_object_vmap(struct drm_gem_object *obj, struct dma
->   */
->  static inline int drm_gem_cma_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
->  {
-> -	return drm_gem_cma_mmap(obj, vma);
-> +	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-> +
-> +	return drm_gem_cma_mmap(cma_obj, vma);
->  }
->  
->  /*
-
--- 
 Regards,
+biju
 
-Laurent Pinchart
+
+> Subject: [PATCH v1 3/3] remoteproc: Add Renesas rcar driver
+>=20
+> Renesas Gen3 platform includes a Cortex-r7 processor.
+>=20
+> Both: the application cores (A5x) and the realtime core (CR7) share acces=
+s
+> to the RAM and devices with the same address map, so device addresses are
+> equal to the Linux physical addresses.
+>=20
+> In order to initialize this remote processor we need to:
+> - power on the realtime core
+> - put the firmware in a ram area
+> - set the boot address for this firmware (reset vector)
+> - Deassert the reset
+>=20
+> This initial driver allows to start and stop the Cortex R7 processor.
+>=20
+> Signed-off-by: Julien Massot <julien.massot@iot.bzh>
+> ---
+>=20
+> Change since RFC:
+> - Improve Kconfig description.
+> - Use consistent device for pr_* messages.
+> - Drop unused dev and rproc member of struct rcar_rproc.
+>=20
+> ---
+>  drivers/remoteproc/Kconfig      |  12 ++
+>  drivers/remoteproc/Makefile     |   1 +
+>  drivers/remoteproc/rcar_rproc.c | 226 ++++++++++++++++++++++++++++++++
+>  3 files changed, 239 insertions(+)
+>  create mode 100644 drivers/remoteproc/rcar_rproc.c
+>=20
+> diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig inde=
+x
+> 9a6eedc3994a..5b0c617d45f6 100644
+> --- a/drivers/remoteproc/Kconfig
+> +++ b/drivers/remoteproc/Kconfig
+> @@ -261,6 +261,18 @@ config QCOM_WCNSS_PIL
+>  	  verified and booted with the help of the Peripheral Authentication
+>  	  System (PAS) in TrustZone.
+>=20
+> +config RCAR_REMOTEPROC
+> +	tristate "Renesas R-CAR Gen3 remoteproc support"
+> +	depends on ARCH_RENESAS
+> +	depends on REMOTEPROC
+> +	help
+> +	  Say y here to support R-Car realtime processor via the
+> +	  remote processor framework. An elf firmware can be loaded
+> +	  thanks to sysfs remoteproc entries. The remote processor
+> +	  can be started and stopped.
+> +	  This can be either built-in or a loadable module.
+> +	  If compiled as module (M), the module name is rcar_rproc.
+> +
+>  config ST_REMOTEPROC
+>  	tristate "ST remoteproc support"
+>  	depends on ARCH_STI
+> diff --git a/drivers/remoteproc/Makefile b/drivers/remoteproc/Makefile
+> index bb26c9e4ef9c..bb290cc08e99 100644
+> --- a/drivers/remoteproc/Makefile
+> +++ b/drivers/remoteproc/Makefile
+> @@ -30,6 +30,7 @@ obj-$(CONFIG_QCOM_SYSMON)		+=3D qcom_sysmon.o
+>  obj-$(CONFIG_QCOM_WCNSS_PIL)		+=3D qcom_wcnss_pil.o
+>  qcom_wcnss_pil-y			+=3D qcom_wcnss.o
+>  qcom_wcnss_pil-y			+=3D qcom_wcnss_iris.o
+> +obj-$(CONFIG_RCAR_REMOTEPROC)		+=3D rcar_rproc.o
+>  obj-$(CONFIG_ST_REMOTEPROC)		+=3D st_remoteproc.o
+>  obj-$(CONFIG_ST_SLIM_REMOTEPROC)	+=3D st_slim_rproc.o
+>  obj-$(CONFIG_STM32_RPROC)		+=3D stm32_rproc.o
+> diff --git a/drivers/remoteproc/rcar_rproc.c
+> b/drivers/remoteproc/rcar_rproc.c new file mode 100644 index
+> 000000000000..795089dc4337
+> --- /dev/null
+> +++ b/drivers/remoteproc/rcar_rproc.c
+> @@ -0,0 +1,226 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) IoT.bzh 2021
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_reserved_mem.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/remoteproc.h>
+> +#include <linux/reset.h>
+> +#include <linux/soc/renesas/rcar-rst.h>
+> +
+> +#include "remoteproc_internal.h"
+> +
+> +struct rcar_rproc {
+> +	struct reset_control *rst;
+> +};
+> +
+> +static int rcar_rproc_mem_alloc(struct rproc *rproc,
+> +				 struct rproc_mem_entry *mem)
+> +{
+> +	struct device *dev =3D &rproc->dev;
+> +	void *va;
+> +
+> +	dev_dbg(dev, "map memory: %pa+%lx\n", &mem->dma, mem->len);
+> +	va =3D ioremap_wc(mem->dma, mem->len);
+> +	if (IS_ERR_OR_NULL(va)) {
+> +		dev_err(dev, "Unable to map memory region: %pa+%lx\n",
+> +			&mem->dma, mem->len);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	/* Update memory entry va */
+> +	mem->va =3D va;
+> +
+> +	return 0;
+> +}
+> +
+> +static int rcar_rproc_mem_release(struct rproc *rproc,
+> +				   struct rproc_mem_entry *mem)
+> +{
+> +	dev_dbg(&rproc->dev, "unmap memory: %pa\n", &mem->dma);
+> +	iounmap(mem->va);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rcar_rproc_prepare(struct rproc *rproc) {
+> +	struct device *dev =3D rproc->dev.parent;
+> +	struct device_node *np =3D dev->of_node;
+> +	struct of_phandle_iterator it;
+> +	struct rproc_mem_entry *mem;
+> +	struct reserved_mem *rmem;
+> +	u64 da;
+> +
+> +	/* Register associated reserved memory regions */
+> +	of_phandle_iterator_init(&it, np, "memory-region", NULL, 0);
+> +	while (of_phandle_iterator_next(&it) =3D=3D 0) {
+> +
+> +		rmem =3D of_reserved_mem_lookup(it.node);
+> +		if (!rmem) {
+> +			dev_err(&rproc->dev,
+> +				"unable to acquire memory-region\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		/* No need to translate pa to da, R-Car use same map */
+> +		da =3D rmem->base;
+> +
+> +		mem =3D rproc_mem_entry_init(dev, NULL,
+> +					   (dma_addr_t)rmem->base,
+> +					   rmem->size, da,
+> +					   rcar_rproc_mem_alloc,
+> +					   rcar_rproc_mem_release,
+> +					   it.node->name);
+> +
+> +		if (!mem)
+> +			return -ENOMEM;
+> +
+> +		rproc_add_carveout(rproc, mem);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rcar_rproc_parse_fw(struct rproc *rproc, const struct
+> +firmware *fw) {
+> +	int ret;
+> +
+> +	ret =3D rproc_elf_load_rsc_table(rproc, fw);
+> +	if (ret)
+> +		dev_info(&rproc->dev, "No resource table in elf\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int rcar_rproc_start(struct rproc *rproc) {
+> +	struct rcar_rproc *priv =3D rproc->priv;
+> +	int err;
+> +
+> +	if (!rproc->bootaddr)
+> +		return -EINVAL;
+> +
+> +	err =3D rcar_rst_set_rproc_boot_addr(rproc->bootaddr);
+> +	if (err) {
+> +		dev_err(&rproc->dev, "failed to set rproc boot addr\n");
+> +		return err;
+> +	}
+> +
+> +	err =3D reset_control_deassert(priv->rst);
+> +	if (err)
+> +		dev_err(&rproc->dev, "failed to deassert reset\n");
+> +
+> +	return err;
+> +}
+> +
+> +static int rcar_rproc_stop(struct rproc *rproc) {
+> +	struct rcar_rproc *priv =3D rproc->priv;
+> +	int err;
+> +
+> +	err =3D reset_control_assert(priv->rst);
+> +	if (err)
+> +		dev_err(&rproc->dev, "failed to assert reset\n");
+> +
+> +	return err;
+> +}
+> +
+> +static struct rproc_ops rcar_rproc_ops =3D {
+> +	.prepare	=3D rcar_rproc_prepare,
+> +	.start		=3D rcar_rproc_start,
+> +	.stop		=3D rcar_rproc_stop,
+> +	.load		=3D rproc_elf_load_segments,
+> +	.parse_fw	=3D rcar_rproc_parse_fw,
+> +	.find_loaded_rsc_table =3D rproc_elf_find_loaded_rsc_table,
+> +	.sanity_check	=3D rproc_elf_sanity_check,
+> +	.get_boot_addr	=3D rproc_elf_get_boot_addr,
+> +
+> +};
+> +
+> +static int rcar_rproc_probe(struct platform_device *pdev) {
+> +	struct device *dev =3D &pdev->dev;
+> +	struct device_node *np =3D dev->of_node;
+> +	struct rcar_rproc *priv;
+> +	struct rproc *rproc;
+> +	int ret;
+> +
+> +	rproc =3D rproc_alloc(dev, np->name, &rcar_rproc_ops,
+> +			    NULL, sizeof(*priv));
+> +	if (!rproc)
+> +		return -ENOMEM;
+> +
+> +	priv =3D rproc->priv;
+> +
+> +	priv->rst =3D devm_reset_control_get_exclusive(dev, NULL);
+> +	if (IS_ERR(priv->rst)) {
+> +		ret =3D PTR_ERR(priv->rst);
+> +		dev_err(dev, "fail to acquire rproc reset\n");
+> +		goto free_rproc;
+> +	}
+> +
+> +	pm_runtime_enable(dev);
+> +	ret =3D pm_runtime_get_sync(dev);
+> +	if (ret) {
+> +		dev_err(dev, "failed to power up\n");
+> +		goto free_rproc;
+> +	}
+> +
+> +	dev_set_drvdata(dev, rproc);
+> +
+> +	/* Manually start the rproc */
+> +	rproc->auto_boot =3D false;
+> +
+> +	ret =3D rproc_add(rproc);
+> +	if (ret) {
+> +		dev_err(dev, "rproc_add failed\n");
+> +		goto pm_disable;
+> +	}
+> +
+> +	return 0;
+> +
+> +pm_disable:
+> +	pm_runtime_disable(dev);
+> +free_rproc:
+> +	rproc_free(rproc);
+> +
+> +	return ret;
+> +}
+> +
+> +static int rcar_rproc_remove(struct platform_device *pdev) {
+> +	struct device *dev =3D &pdev->dev;
+> +	struct rproc *rproc =3D platform_get_drvdata(pdev);
+> +
+> +	rproc_del(rproc);
+> +	pm_runtime_disable(dev);
+> +	rproc_free(rproc);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id rcar_rproc_of_match[] =3D {
+> +	{ .compatible =3D "renesas,rcar-cr7" },
+> +	{},
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, rcar_rproc_of_match);
+> +
+> +static struct platform_driver rcar_rproc_driver =3D {
+> +	.probe =3D rcar_rproc_probe,
+> +	.remove =3D rcar_rproc_remove,
+> +	.driver =3D {
+> +		.name =3D "rcar-rproc",
+> +		.of_match_table =3D rcar_rproc_of_match,
+> +	},
+> +};
+> +
+> +module_platform_driver(rcar_rproc_driver);
+> +
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_DESCRIPTION("Renesas Gen3 R-Car remote processor control
+> +driver"); MODULE_AUTHOR("Julien Massot <julien.massot@iot.bzh>");
+> --
+> 2.31.1
+>=20
+
