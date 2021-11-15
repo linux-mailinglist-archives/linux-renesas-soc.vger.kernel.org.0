@@ -2,113 +2,198 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3B6F4504E4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 14:04:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBCCE450534
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 14:18:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231375AbhKONGx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Nov 2021 08:06:53 -0500
-Received: from www.zeus03.de ([194.117.254.33]:45382 "EHLO mail.zeus03.de"
+        id S231561AbhKONVf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Nov 2021 08:21:35 -0500
+Received: from mail.iot.bzh ([51.75.236.24]:65250 "EHLO frontal.iot.bzh"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231537AbhKONGt (ORCPT
+        id S231669AbhKONUr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Nov 2021 08:06:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=OLQihzRKyh2y1tQZCycpI3W9roJE
-        NIrd1K7JiBrcKzw=; b=e3Bu02K7i7uyvNYMDoFHa46HUAPsXRIPSBTVuOHM4mR/
-        vrYNlMettOwqW611Y6BjqKTTJzT2FGszgkpJme9B3HYLTrfcCET06f9hgR/7WSXY
-        8l/kPvJQrXup+4Myb+hu4+4gmiBxQ4m2sErKCtDDPnUsCwNHfRw+js+cxSlSvus=
-Received: (qmail 2337764 invoked from network); 15 Nov 2021 14:03:50 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Nov 2021 14:03:50 +0100
-X-UD-Smtp-Session: l3s3148p1@2jancNPQvrYgAwDPXwfBADNdh3YJLcIx
-Date:   Mon, 15 Nov 2021 14:03:50 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 7/7] memory: renesas-rpc-if: Add support for RZ/G2L
-Message-ID: <YZJatk2Xs6bYdCyB@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20211025205631.21151-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211025205631.21151-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 15 Nov 2021 08:20:47 -0500
+Received: from frontal.iot.bzh (localhost [127.0.0.1])
+        by frontal.iot.bzh (Proxmox) with ESMTP id 6B8D91B49B;
+        Mon, 15 Nov 2021 14:17:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
+        :content-transfer-encoding:content-type:content-type:date:from
+        :from:in-reply-to:message-id:mime-version:references:reply-to
+        :subject:subject:to:to; s=iot.bzh; bh=iD/8ScGgHyxYRSyim/LEUHDqOQ
+        /t6Gf9toI7NdGvnOM=; b=WClNw81+cXhjY7/ASVO0Rth8iRMB1Fe4QCJCIckypX
+        0PWijdnXv+q9b3TDw8dDp6lSUEe28sJ4txC5ns+K5MgVMHzmQAMSQGGMKGmpnARl
+        D16zO2OFAyFaf0/1uIqEbeMEwJ3jvP5nLYt9knA0JGyzgfd99v19iBhCn1hsY8ln
+        pQQpSHxTv9NwmVbXKaTBmYjDDmw5+E/0uOZQNcCvFe0c1zdwCuUiaS5AiIyxGyX+
+        RjV7xKv6oFP66xJW9mf3wzMd9jk91/DTHxzFCSdSQl8XsNQ2jL3Q3UhNH2ad2UDL
+        glPceC2w9sj9CYMUeFeq8euG/lV0u34ATLQMPZG267Yg==
+Message-ID: <80842bed-86ce-3424-feac-b4c38675cea8@iot.bzh>
+Date:   Mon, 15 Nov 2021 14:17:00 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ih87i6XTGwSWpEQ3"
-Content-Disposition: inline
-In-Reply-To: <20211025205631.21151-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [RFC PATCH 3/3] remoteproc: Add Renesas rcar driver
+Content-Language: en-US
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc:     bjorn.andersson@linaro.org, robh+dt@kernel.org,
+        geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
+References: <20211027073020.17055-1-julien.massot@iot.bzh>
+ <20211027073020.17055-4-julien.massot@iot.bzh>
+ <20211108184252.GA1971795@p14s>
+From:   Julien Massot <julien.massot@iot.bzh>
+In-Reply-To: <20211108184252.GA1971795@p14s>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Mathieu,
 
---ih87i6XTGwSWpEQ3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the review !
 
-On Mon, Oct 25, 2021 at 09:56:31PM +0100, Lad Prabhakar wrote:
-> SPI Multi I/O Bus Controller on RZ/G2L SoC is almost identical to
-> the RPC-IF interface found on R-Car Gen3 SoC's.
->=20
-> This patch adds a new compatible string for the RZ/G2L family so
-> that the timing values on RZ/G2L can be adjusted.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>> diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
+>> index 9a6eedc3994a..3e87eadbaf59 100644
+>> --- a/drivers/remoteproc/Kconfig
+>> +++ b/drivers/remoteproc/Kconfig
+>> @@ -261,6 +261,17 @@ config QCOM_WCNSS_PIL
+>>   	  verified and booted with the help of the Peripheral Authentication
+>>   	  System (PAS) in TrustZone.
+>>   
+>> +config RCAR_REMOTEPROC
+>> +	tristate "Renesas RCAR remoteproc support"
+> 
+> It is probably a good idea to include the type of SoC being supported, something
+> like:
+> 
+>          tristate "Renesas Gen3 RCAR remoteproc support"
+> 
+> That will make it easier to support future RCAR processors that may not share
+> the same architecture.
 
-After some internal investigations we found out that we have to live
-with these magic numbers. We shouldn't mix documentation there. So, this
-patch is fine as is. The minor nit I will fix incrementally because I
-will work on this file soon as well.
+Ok, changed according to Geert's suggestion to:
+"Renesas R-CAR Gen3 remoteproc support"
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
+> 
+>> +	depends on ARCH_RENESAS
+>> +	depends on REMOTEPROC
+>> +	help
+>> +	  Say y here to support R-Car realtime processor via the
+>> +	  remote processor framework. An elf firmware can be loaded
+>> +	  thanks to sysfs remoteproc entries. The remote processor
+>> +	  can be started and stopped.
+>> +	  This can be either built-in or a loadable module.
+> 
+> Please add the name of the module when compiled as such.
+Ok
 
 
---ih87i6XTGwSWpEQ3
-Content-Type: application/pgp-signature; name="signature.asc"
+>> +
+>> +#include "remoteproc_internal.h"
+>> +
+>> +struct rcar_rproc {
+>> +	struct device			*dev;
+>> +	struct rproc			*rproc;
+>> +	struct reset_control            *rst;
+>> +};
+>> +
+>> +static int rcar_rproc_mem_alloc(struct rproc *rproc,
+>> +				 struct rproc_mem_entry *mem)
+>> +{
+>> +	struct device *dev = rproc->dev.parent;
+>> +	void *va;
+>> +
+>> +	dev_dbg(dev, "map memory: %p+%zx\n", &mem->dma, mem->len);
+> 
+> I think this should be "map memory: %pa+%lx\n" to be consistent with dev_err()
+> below and the original implementation in stm32_rproc.c.
+Ok
 
------BEGIN PGP SIGNATURE-----
+..
+>> +
+>> +static int rcar_rproc_parse_fw(struct rproc *rproc, const struct firmware *fw)
+>> +{
+>> +	int ret;
+>> +
+>> +	ret = rproc_elf_load_rsc_table(rproc, fw);
+>> +	if (ret)
+>> +		dev_info(&rproc->dev, "No resource table in elf\n");
+> 
+> In the above functions rproc->dev.parent is used for output.  I don't have a
+> strong opinion on which of rproc->dev or rproc->dev.parent is used but I would
+> like to see consistency throughout the driver.
+Thanks I choosed to use rproc->dev. Indeed logs are more consistent now.
+> 
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int rcar_rproc_start(struct rproc *rproc)
+>> +{
+>> +	struct rcar_rproc *priv = rproc->priv;
+>> +	int err;
+>> +
+>> +	if (!rproc->bootaddr)
+>> +		return -EINVAL;
+>> +
+>> +	err = rcar_rst_set_rproc_boot_addr(rproc->bootaddr);
+>> +	if (err) {
+>> +		dev_err(&rproc->dev, "failed to set rproc boot addr\n");
+> 
+> Same comment as above.
+ok
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGSWrUACgkQFA3kzBSg
-KbZACQ//QW6h49hTvyDnW3FXxCnOu8Fjy4Du93vzYyiffKiu1rT1kWz/eCxEDYIe
-nAjwuUERonPPxtlnfyH7b1ZvC4wAde8dskw01huc7sJT/gNFHNp5t20B9Aj1R/eP
-yMNoG5cEtDcYNUvjTQkfLZ9XQvH8m7KWVQUOcVx9IgCnCL9QGzOe6lGVADhTf5gX
-orNojeAF09rUS/VkjzEbvcsx/8l4zKHQYmYWEIb9Q3nPvrv3UtT0DZeK7S9r1LMi
-NsCrQCTKQQ4F31Vl3VQQMF+WhO3hGHXpzQKWK6MjccNGA/HgccptkYmgx7MECgrX
-+k5deLVADSt18C+1ExdaODcD056JYw39cqOZL3Ig1K+9YVeWDFXXIcfFGoSUwFNR
-eCn6Z+ps5LWaVqRIUkLHjo6X80IXoK3Z8GX2R518BLxc+tLRZbC0LObGPmIr3T+l
-U0AE2NjVxscEFB/CFHRx4JR0W1ywyD6ZwbIoZVo2Mf5kdvjzJGajGRrGQLbPzLkO
-9K8as9oOsjHwDhMKTJ4a8/9qTzWgsmzz5x9hZB+30g8JJm9l18+s0EKHFwmt0kR/
-Ly0L8nVSI3C4NSTf+i02jsxC5wXoUXUZzAJc57XdME5SQEGxEbDJNbNvhstKsyZh
-je4ZKZtMQKci6ngq+QhKF/eODcypttoHlG886SPcmoH5W+U6cKA=
-=JiqE
------END PGP SIGNATURE-----
+>> +
+>> +static int rcar_rproc_probe(struct platform_device *pdev)
+>> +{
+>> +	struct device *dev = &pdev->dev;
+>> +	struct device_node *np = dev->of_node;
+>> +	struct rcar_rproc *priv;
+>> +	struct rproc *rproc;
+>> +	int ret;
+>> +
+>> +	rproc = rproc_alloc(dev, np->name, &rcar_rproc_ops,
+>> +			    NULL, sizeof(*priv));
+>> +	if (!rproc)
+>> +		return -ENOMEM;
+>> +
+>> +	priv = rproc->priv;
+>> +	priv->rproc = rproc;
+> 
+> I don't see rcar_rproc::rproc being used anywhere.
+Indeed, rproc member will be removed in next version.
 
---ih87i6XTGwSWpEQ3--
+> 
+>> +	priv->dev = dev;
+>> +
+>> +	priv->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+>> +	if (IS_ERR(priv->rst)) {
+>> +		ret = PTR_ERR(priv->rst);
+>> +		dev_err(dev, "fail to acquire rproc reset\n");
+>> +		goto free_rproc;
+>> +	}
+>> +
+>> +	pm_runtime_enable(priv->dev);
+>> +	ret = pm_runtime_get_sync(priv->dev);
+> 
+> There is no dev_pm_ops for the platform driver nor clocks to manage for this
+> device - is there something that requires pm_runtime operations to be called?
+Will reply in Geert's reply.
+>> +
+>> +static int rcar_rproc_remove(struct platform_device *pdev)
+>> +{
+>> +	struct rproc *rproc = platform_get_drvdata(pdev);
+>> +	struct rcar_rproc *priv = rproc->priv;
+>> +
+>> +	rproc_del(rproc);
+>> +	pm_runtime_disable(priv->dev);
+> 
+> As far as I can tell rcar_rproc::dev is not required.  It is only used in
+> rproc_probe() and rproc_remove() where pdev->dev is available.
+Thanks rcar_rproc::dev will be removed in next version.
+
+
+Regards,
+-- 
+Julien Massot [IoT.bzh]
+
