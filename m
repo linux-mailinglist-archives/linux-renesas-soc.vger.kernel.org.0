@@ -2,28 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9667D45168E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 22:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9918345171A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Nov 2021 23:02:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350346AbhKOVbL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Nov 2021 16:31:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353306AbhKOUzg (ORCPT
+        id S1351368AbhKOWFN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Nov 2021 17:05:13 -0500
+Received: from mail-pf1-f180.google.com ([209.85.210.180]:40865 "EHLO
+        mail-pf1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347660AbhKOWCo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Nov 2021 15:55:36 -0500
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAE12C079791;
-        Mon, 15 Nov 2021 12:46:51 -0800 (PST)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id CF311831E9;
-        Mon, 15 Nov 2021 21:46:47 +0100 (CET)
-From:   marek.vasut@gmail.com
-To:     linux-pci@vger.kernel.org
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Mon, 15 Nov 2021 17:02:44 -0500
+Received: by mail-pf1-f180.google.com with SMTP id z6so16228202pfe.7;
+        Mon, 15 Nov 2021 13:59:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UFAP1oAnn6MbmB29dQFqbnJScGDdm0DPgaEWvP1J3gI=;
+        b=s4/3y5GvzP6CWc9qRKnPcg/EidAPU4FrmzhCNxVXq0uCTS7nKk0aHySrrJ4FdW1tkr
+         0wTX5oMniVlxvHGkOUGcI1+gi0c2K18/A8RIabrpSVvtNF+e5SW9fL8Y/rnmHgU2cY7o
+         FTL1vwdNz815M15p2LeucfBoduHcBCoJljU4treGsDMta6dP+w6wXWrsmbv0IZYwn/mv
+         3yCHr1ZFFAhZdaXNvqUZYWhj3KDaK+/VHdf+942VzZI+LqS2gNB0PI033w5aVZFJFHwH
+         10ML1JaExHndJ3SppK0tTRTC7lbb/Vw8oRh44I1qHjfszpaIL+Ox2XelIu1EP7vJ1yGF
+         mp7w==
+X-Gm-Message-State: AOAM531Dy4GZ6QE5BW3aYS2MhWe0LHf4oXhZkBZcmFoOQbBHvie7/jn5
+        wqD3wo2UilRVlQllLHG9xgbqAohiivJqGRsM
+X-Google-Smtp-Source: ABdhPJyrq/k7SU2twBKgDghx/9so0FeU56V5XYnp9oXw45iCn7Cn5LgJKV1NXVlWubHAkaSh/pXgAQ==
+X-Received: by 2002:a65:670d:: with SMTP id u13mr1440890pgf.251.1637013587668;
+        Mon, 15 Nov 2021 13:59:47 -0800 (PST)
+Received: from rocinante ([95.155.85.46])
+        by smtp.gmail.com with ESMTPSA id na13sm288559pjb.11.2021.11.15.13.59.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Nov 2021 13:59:47 -0800 (PST)
+Date:   Mon, 15 Nov 2021 22:59:34 +0100
+From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To:     marek.vasut@gmail.com
+Cc:     linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Randy Dunlap <rdunlap@infradead.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -32,84 +47,34 @@ Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
         Stephen Boyd <sboyd@kernel.org>,
         Wolfram Sang <wsa@the-dreams.de>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4] PCI: rcar: Check if device is runtime suspended instead of __clk_is_enabled()
-Date:   Mon, 15 Nov 2021 21:46:41 +0100
-Message-Id: <20211115204641.12941-1-marek.vasut@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        linux-renesas-soc@vger.kernel.org, Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH v4] PCI: rcar: Check if device is runtime suspended
+ instead of __clk_is_enabled()
+Message-ID: <YZLYRjZxTclKX9mJ@rocinante>
+References: <20211115204641.12941-1-marek.vasut@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211115204641.12941-1-marek.vasut@gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Marek Vasut <marek.vasut+renesas@gmail.com>
+[+CC Adding Sasha for visibility]
 
-Replace __clk_is_enabled() with pm_runtime_suspended(),
-as __clk_is_enabled() was checking the wrong bus clock
-and caused the following build error too:
-  arm-linux-gnueabi-ld: drivers/pci/controller/pcie-rcar-host.o: in function `rcar_pcie_aarch32_abort_handler':
-  pcie-rcar-host.c:(.text+0xdd0): undefined reference to `__clk_is_enabled'
+Hi Marek,
 
-Fixes: a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort hook")
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Wolfram Sang <wsa@the-dreams.de>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: Drop the __clk_is_enabled(), like it was done already in V1 of
-    a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort hook")
-V3: Use pm_runtime_suspended() instead of __clk_is_enabled()
-V4: Rework the commit message
----
- drivers/pci/controller/pcie-rcar-host.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Thank you for taking care about this.  I am adding Sasha since this is
+something we should most likely port to stable and long-term kernels,
+especially since this isn't a new driver.
 
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index e12c2d8be05a..138592e22600 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -50,10 +50,10 @@ struct rcar_msi {
-  */
- static void __iomem *pcie_base;
- /*
-- * Static copy of bus clock pointer, so we can check whether the clock
-- * is enabled or not.
-+ * Static copy of pcie device pointer, so we can check whether the
-+ * device is runtime suspended or not.
-  */
--static struct clk *pcie_bus_clk;
-+static struct device *pcie_dev;
- #endif
- 
- /* Structure representing the PCIe interface */
-@@ -792,7 +792,7 @@ static int rcar_pcie_get_resources(struct rcar_pcie_host *host)
- #ifdef CONFIG_ARM
- 	/* Cache static copy for L1 link state fixup hook on aarch32 */
- 	pcie_base = pcie->base;
--	pcie_bus_clk = host->bus_clk;
-+	pcie_dev = pcie->dev;
- #endif
- 
- 	return 0;
-@@ -1062,7 +1062,7 @@ static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
- 
- 	spin_lock_irqsave(&pmsr_lock, flags);
- 
--	if (!pcie_base || !__clk_is_enabled(pcie_bus_clk)) {
-+	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
- 		ret = 1;
- 		goto unlock_exit;
- 	}
--- 
-2.33.0
+[...]
+> - * Static copy of bus clock pointer, so we can check whether the clock
+> - * is enabled or not.
+> + * Static copy of pcie device pointer, so we can check whether the
+> + * device is runtime suspended or not.
 
+A small nitpick: it would be "PCIe" in the above comment.  However,
+probably not worth sending another version just for this.
+
+	Krzysztof
