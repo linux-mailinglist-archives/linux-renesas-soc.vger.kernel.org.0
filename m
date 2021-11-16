@@ -2,100 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CD21452F23
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Nov 2021 11:31:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28059452F2C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Nov 2021 11:34:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234147AbhKPKer (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Nov 2021 05:34:47 -0500
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:56638
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234159AbhKPKep (ORCPT
+        id S234264AbhKPKgf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Nov 2021 05:36:35 -0500
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:41622
+        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234238AbhKPKgE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Nov 2021 05:34:45 -0500
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com [209.85.208.197])
+        Tue, 16 Nov 2021 05:36:04 -0500
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com [209.85.167.71])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 3CC043F499
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Nov 2021 10:31:48 +0000 (UTC)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 56C4240017
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Nov 2021 10:33:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1637058708;
-        bh=92zi+uaozVd3dQpRcG3KZ4gZNNYCSn9kCZHl66TmEQ4=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version:Content-Type;
-        b=eSHrNXAaa7jcE23FJU6xMLwAh58fSEIpwvNDYd2SLdr+rc3pY/Ga8zMfWzT1cmTFK
-         oHq1nZvququpBpEg3suchbo+S0I2X/CYmyiaH6SXAoUv4AbD24mEzTV6j0ZnJkfYsl
-         LBXJf8oV0SHdmv4EjW8BECZkwOXuLO9jzZkUGNKkHq3bnknfqEbo5mAvaONc+qE8sx
-         SkXeDwJJg3fKPFfIRPweyf6LsetSVkR3tRyzFUpY+1dwM9NjzNWurepe9T+IdRvloP
-         mxbzJSmcS6jZp4Jb4dQfOl4gUTr1BsC+6yrr8bjVnQetNW0DMTjo/m4fovnUEC3mBa
-         AwkkS2Z14xkNw==
-Received: by mail-lj1-f197.google.com with SMTP id d20-20020a05651c111400b00218c6372b7eso6084710ljo.16
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Nov 2021 02:31:48 -0800 (PST)
+        s=20210705; t=1637058787;
+        bh=9Le9vThg2zYYZ4FT+Lsh8JZmnjsCqwGI+kiP40c27ZQ=;
+        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+         In-Reply-To:Content-Type;
+        b=R+54iYerD3XUe0bho3L2AEPDUBTwpTJsRvL6Z6hVfdLPKVFfNNx+nwjDgYZ8qqF51
+         C/t2i2mIeYEdtMDPfn8RSPLirEuDuWpMH8NDwLVfy5ruPaWMJkFZCaqEl1ZnDxQEmI
+         DFrEt+qf7QxWGzp9Lq8TMgyplU/0q/CJPxU5UxX4Pn1wGow1Wg8ga+HKcogj1g8592
+         h3hQET6ea2/zIHQmZFI8ovCP3lMdkkqMNplheIUiEselpNUHUAqOduSkeA4HN6F2oe
+         yNefAGATRZgQSG0X8i8JbDmn4DM1lbBKy9d2LqrNGWqoF0jRNk9iGsdBhCRkd+cQ+I
+         ulzqdtH+P7FWw==
+Received: by mail-lf1-f71.google.com with SMTP id w2-20020a0565120b0200b004036bc9597eso7963186lfu.14
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Nov 2021 02:33:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=92zi+uaozVd3dQpRcG3KZ4gZNNYCSn9kCZHl66TmEQ4=;
-        b=fJGRMUNVKTS+y4xXlXnx9fGLETatIxEXeMVin/MJ0jzv6HSms1iNxYCdKUQYjgQ9eH
-         c5jZOIzgcXnrFqKwJ8tc5Zd0kaxaMZTTzpqRYe2h6iiWI3bFK778ZQdt+T6eBY/NvzhS
-         wATkqAL4NMvSgH8ZwigRM/O8NNMmWNB2xUEOPDVkvjNBFGvuttWvzXTyUOsef/rvYDjT
-         xDXKpEehiLS8JhdhoLsfhN8bHRahmCTxiFpGDSjpBTDpaQBQHSx5pIeN81bCTk76z0yt
-         RsWCiys8YTRTUPt8BtITsVPj/k4fghecNPp4EY9mFexw5yW6fRjQpe9Q90/JlJLYqQMd
-         bVgQ==
-X-Gm-Message-State: AOAM531uC/+oIBr+T7U/WGHw6SR20/s8enkuTbI586VX0/hAoqQqH8m7
-        XB1Tn4YSWIMwwXdkRKaTpCITxNuv79U2+Vn3pGmS7LZXMhsHZ4Y2m30lHanPEX2OloJxOOjxyeu
-        QDXTejYA8jIGLqg8R7GI7vtPwvrlp67ZQmR4uFjKVPe9c+ibT
-X-Received: by 2002:a05:6512:1093:: with SMTP id j19mr5749221lfg.340.1637058706565;
-        Tue, 16 Nov 2021 02:31:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwFJQ83v72RjqgTGJjKyb8RGySZcPwWRf/nb5XIMU/rZuTUXd/qfX1IRjsZ+BlY4jF7IoGErg==
-X-Received: by 2002:a05:6512:1093:: with SMTP id j19mr5749196lfg.340.1637058706395;
-        Tue, 16 Nov 2021 02:31:46 -0800 (PST)
-Received: from localhost.localdomain (89-77-68-124.dynamic.chello.pl. [89.77.68.124])
-        by smtp.gmail.com with ESMTPSA id j5sm1114418lfe.219.2021.11.16.02.31.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Nov 2021 02:31:45 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=9Le9vThg2zYYZ4FT+Lsh8JZmnjsCqwGI+kiP40c27ZQ=;
+        b=f968TX1rBOtkyEkb5LIV2kxgLoxLz/Hmm0yymgx93FBrCBynfXQ4F26PqSDqb/lYGR
+         QtVY65jBMMoBw7LObujgD1HmcrX/KfvYMg++bVKhIUTlzSXoZVQanTc799KrEktkVpRI
+         nuEX1NXvVPR6OrFf5K7mDpKyGwOF/pxp+HOkjVWKLPJGxFPnKiXGTFwOKLfuieCxuRof
+         md76OKD2wWXXPwbMZR//7vQQjRhuHv9AAVAQbbmSmE03gxR8JdnCh3AsvSQ3g4OLfa2V
+         GmD6SvjLJrf7LggtImuiepz4Dmlmy1kxWTvwIlDyxWtU3ZBY/Gca0otsdlwIA9F0jPPF
+         PKrw==
+X-Gm-Message-State: AOAM531GR9r41df98NCrnEoPCtJPoGuGpVpSXNcSHRSjh5qzCqi0V4jF
+        VPBN3IpEuhZwGkHCQ+AdX0mnhBIQGpztjHv9aw4/bvut3lHi5NkLvLKQ3QWrqNWuKWLaCGZe+1i
+        F60arypl1ms9Bt9KPgatn+XJA46z9ITRms/wLaUMAcT7ZKmJq
+X-Received: by 2002:ac2:5dc2:: with SMTP id x2mr5601495lfq.228.1637058786586;
+        Tue, 16 Nov 2021 02:33:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxPHWqAmG6+W2LmzevHiirWdaFqHMhmEygAsdCaVQYS7N7sZyD1DqEoJyS2ahO2I8igQ/Bl5w==
+X-Received: by 2002:ac2:5dc2:: with SMTP id x2mr5601460lfq.228.1637058786409;
+        Tue, 16 Nov 2021 02:33:06 -0800 (PST)
+Received: from [192.168.3.67] (89-77-68-124.dynamic.chello.pl. [89.77.68.124])
+        by smtp.gmail.com with ESMTPSA id p3sm1717385lft.66.2021.11.16.02.33.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Nov 2021 02:33:06 -0800 (PST)
+Message-ID: <a8b126e6-62e7-7979-01cb-b7a1ce4ae8d1@canonical.com>
+Date:   Tue, 16 Nov 2021 11:33:05 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH v2 0/7] Add SPI Multi I/O Bus Controller support for
+ RZ/G2L
+Content-Language: en-US
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Richard Weinberger <richard@nod.at>,
         Mark Brown <broonie@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mtd@lists.infradead.org, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
-        devicetree@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 6/7] memory: renesas-rpc-if: Drop usage of RPCIF_DIRMAP_SIZE macro
-Date:   Tue, 16 Nov 2021 11:31:05 +0100
-Message-Id: <163705866144.26823.8540217279898779126.b4-ty@canonical.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211025205631.21151-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211025205631.21151-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211025205631.21151-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20211025205631.21151-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20211025205631.21151-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 25 Oct 2021 21:56:30 +0100, Lad Prabhakar wrote:
-> RPCIF_DIRMAP_SIZE may differ on various SoC's. Instead of using
-> RPCIF_DIRMAP_SIZE macro use resource size to get dirmap size
-> which is already part of struct rpcif.
+On 25/10/2021 22:56, Lad Prabhakar wrote:
+> Hi All,
 > 
+> This patch series adds a couple of fixes for rpc-if driver and
+> adds support for RZ/G2L SoC, where the SPI Multi I/O Bus Controller
+> is identical to the RPC-IF block found on R-Car Gen3 SoC's.
+> 
+> Cheers,
+> Prabhakar
+> 
+> Changes for v2:
+> * Rebased the patches on linux-next
+> * Split patch 5 from v1
+> * Included RB tags
+> * Fixed review comments pointed by Wolfram
+> 
+> v1:
+> https://patchwork.kernel.org/project/linux-renesas-soc/cover/
+> 20210928140721.8805-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> 
+> Lad Prabhakar (7):
+>   dt-bindings: memory: renesas,rpc-if: Add support for the R9A07G044
+>   dt-bindings: memory: renesas,rpc-if: Add optional interrupts property
+>   spi: spi-rpc-if: Check return value of rpcif_sw_init()
+>   mtd: hyperbus: rpc-if: Check return value of rpcif_sw_init()
+>   memory: renesas-rpc-if: Return error in case devm_ioremap_resource()
+>     fails
+>   memory: renesas-rpc-if: Drop usage of RPCIF_DIRMAP_SIZE macro
+>   memory: renesas-rpc-if: Add support for RZ/G2L
 > 
 
-Applied, thanks!
+Applied parts 1, 2, 5 and 6. I think 7 is going to have a new version
+due to Wolfram's comments?
 
-[6/7] memory: renesas-rpc-if: Drop usage of RPCIF_DIRMAP_SIZE macro
-      commit: 5da9b59b23d8112709034a07338e03dcc65fa11f
 
 Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Krzysztof
