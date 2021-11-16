@@ -2,102 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A311A45297F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Nov 2021 06:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77709452BE0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Nov 2021 08:44:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231822AbhKPFX4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Nov 2021 00:23:56 -0500
-Received: from muru.com ([72.249.23.125]:56730 "EHLO muru.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233571AbhKPFWr (ORCPT
+        id S231344AbhKPHpm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Nov 2021 02:45:42 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:48885 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231274AbhKPHpi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Nov 2021 00:22:47 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id 31EF8806C;
-        Tue, 16 Nov 2021 05:20:23 +0000 (UTC)
-Date:   Tue, 16 Nov 2021 07:19:43 +0200
-From:   Tony Lindgren <tony@atomide.com>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Abel Vesa <abelvesa@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for
- probing simple bus only devices
-Message-ID: <YZM/b2/F8xmK43vr@atomide.com>
-References: <20210929000735.585237-1-saravanak@google.com>
- <20210929000735.585237-2-saravanak@google.com>
- <YYu4EglV7SBZU2Iy@ryzen>
- <CAGETcx_m3f5JgrKQXZ5DUxDkpGhAau9G8uYm8a0iQ8JbcD0Rtg@mail.gmail.com>
- <CAGETcx_a-d7qQNi3sUce3AzbPcvGJK5JSuiiHm4h4e_q-MT7Dg@mail.gmail.com>
+        Tue, 16 Nov 2021 02:45:38 -0500
+X-IronPort-AV: E=Sophos;i="5.87,238,1631545200"; 
+   d="scan'208";a="100433326"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 16 Nov 2021 16:42:37 +0900
+Received: from localhost.localdomain (unknown [10.166.14.185])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 337AB40083D3;
+        Tue, 16 Nov 2021 16:42:37 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-serial@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 00/16] treewide: Initial support for R-Car S4-8
+Date:   Tue, 16 Nov 2021 16:41:14 +0900
+Message-Id: <20211116074130.107554-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGETcx_a-d7qQNi3sUce3AzbPcvGJK5JSuiiHm4h4e_q-MT7Dg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-* Saravana Kannan <saravanak@google.com> [211115 20:19]:
-> On Wed, Nov 10, 2021 at 12:24 PM Saravana Kannan <saravanak@google.com> wrote:
-> >
-> > On Wed, Nov 10, 2021 at 4:16 AM Abel Vesa <abelvesa@kernel.org> wrote:
-> > >
-> > > On 21-09-28 17:07:33, Saravana Kannan wrote:
-> > > > fw_devlink could end up creating device links for bus only devices.
-> > > > However, bus only devices don't get probed and can block probe() or
-> > > > sync_state() [1] call backs of other devices. To avoid this, probe these
-> > > > devices using the simple-pm-bus driver.
-> > > >
-> > > > However, there are instances of devices that are not simple buses (they get
-> > > > probed by their specific drivers) that also list the "simple-bus" (or other
-> > > > bus only compatible strings) in their compatible property to automatically
-> > > > populate their child devices. We still want these devices to get probed by
-> > > > their specific drivers. So, we make sure this driver only probes devices
-> > > > that are only buses.
-...
-> > >
-> > > This change is breaking the expected behavior for the already existent
-> > > simple-bus nodes. All the simple-bus compatibles should be replaced now
-> > > to simple-pm-bus. In my case, on some i.MX8 platforms, without the
-> > > devlink, the devices suspend sequence changes (and even breaks).
-> > >
-> > > To avoid breaking the already existent simple-bus nodes, maybe the logic
-> > > should've been reversed: keep the simple-bus as is and add another
-> > > compatible, IDK, something like simple-trasnparent-bus, or something.
-> >
-> > The intent of this change IS to affect existing simple-bus nodes (but
-> > not in the way it's affecting you). But if it's breaking stuff, we
-> > obviously need to fix it.
-> >
-> > I have a hunch on what's going on in your case, but can you point me
-> > to the specific simple-bus node that's getting affected? I'm expecting
-> > it to be a simple-bus node that gets added AFTER this driver is
-> > registered at device_initcall (module_init gets converted to
-> > device_initcall).
-> >
-> > Also, can you try this hack patch to see if it helps your case?
-> > https://lore.kernel.org/lkml/CAGETcx9U130Oq-umrvXME4JhEpO0Wadoki3kNxx=0-YvTR6PtQ@mail.gmail.com/
-> >
-> > I have some thoughts on how I could fix this, but I need to think
-> > about a few cases.
+This patch series adds initial support for the Renesas R-Car S4-8
+(r8a779f0) SoC.
 
-Not sure if this is related.. Some drivers need to be updated from
-builtin_platform_driver_probe() to use builtin_platform_driver() when
-switching to simple-pm-bus because of deferred probe. See more info
-in commit e259c2926c01 ("PCI: pci-dra7xx: Prepare for deferred probe
-with module_platform_driver").
+Yoshihiro Shimoda (16):
+  dt-bindings: arm: renesas: Document R-Car S4-8 SoC DT bindings
+  dt-bindings: arm: renesas: Document Renesas Spider boards
+  dt-bindings: reset: renesas,rst: Document r8a779f0 reset module
+  dt-bindings: power: renesas,rcar-sysc: Document r8a779f0 SYSC bindings
+  dt-bindings: power: Add r8a779f0 SYSC power domain definitions
+  dt-bindings: clock: renesas,cpg-mssr: Document r8a779f0
+  dt-bindings: clock: Add r8a779f0 CPG Core Clock Definitions
+  dt-bindings: serial: renesas,scif: Document r8a779f0 bindings
+  soc: renesas: Identify R-Car S4-8
+  soc: renesas: r8a779f0-sysc: Add r8a779f0 support
+  soc: renesas: rcar-rst: Add support for R-Car S4-8
+  clk: renesas: cpg-mssr: Add support for R-Car S4-8
+  tty: serial: sh-sci: Add support for R-Car Gen4
+  arm64: dts: renesas: Add Renesas R8A779F0 SoC support
+  arm64: dts: renesas: Add Renesas Spider boards support
+  arm64: defconfig: Enable R-Car S4-8
 
-Regards,
+ .../devicetree/bindings/arm/renesas.yaml      |  12 +
+ .../bindings/clock/renesas,cpg-mssr.yaml      |   1 +
+ .../bindings/power/renesas,rcar-sysc.yaml     |   1 +
+ .../bindings/reset/renesas,rst.yaml           |   1 +
+ .../bindings/serial/renesas,scif.yaml         |   6 +
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi |  36 ++
+ .../boot/dts/renesas/r8a779f0-spider.dts      |  22 +
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi     | 121 ++++++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/Kconfig                   |  10 +
+ drivers/clk/renesas/Makefile                  |   2 +
+ drivers/clk/renesas/r8a779a0-cpg-mssr.c       |   2 +-
+ drivers/clk/renesas/r8a779f0-cpg-mssr.c       | 188 +++++++++
+ drivers/clk/renesas/rcar-gen4-cpg.c           | 141 +++++++
+ drivers/clk/renesas/rcar-gen4-cpg.h           |  76 ++++
+ drivers/clk/renesas/renesas-cpg-mssr.c        |  42 +-
+ drivers/clk/renesas/renesas-cpg-mssr.h        |   3 +-
+ drivers/soc/renesas/Kconfig                   |  10 +
+ drivers/soc/renesas/Makefile                  |   3 +-
+ drivers/soc/renesas/r8a779a0-sysc.c           | 380 +-----------------
+ drivers/soc/renesas/r8a779f0-sysc.c           |  47 +++
+ drivers/soc/renesas/rcar-gen4-sysc.c          | 376 +++++++++++++++++
+ drivers/soc/renesas/rcar-gen4-sysc.h          |  43 ++
+ drivers/soc/renesas/rcar-rst.c                |  14 +-
+ drivers/soc/renesas/renesas-soc.c             |  13 +
+ drivers/tty/serial/sh-sci.c                   |   3 +
+ include/dt-bindings/clock/r8a779f0-cpg-mssr.h |  65 +++
+ include/dt-bindings/power/r8a779f0-sysc.h     |  30 ++
+ 29 files changed, 1251 insertions(+), 400 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+ create mode 100644 drivers/clk/renesas/r8a779f0-cpg-mssr.c
+ create mode 100644 drivers/clk/renesas/rcar-gen4-cpg.c
+ create mode 100644 drivers/clk/renesas/rcar-gen4-cpg.h
+ create mode 100644 drivers/soc/renesas/r8a779f0-sysc.c
+ create mode 100644 drivers/soc/renesas/rcar-gen4-sysc.c
+ create mode 100644 drivers/soc/renesas/rcar-gen4-sysc.h
+ create mode 100644 include/dt-bindings/clock/r8a779f0-cpg-mssr.h
+ create mode 100644 include/dt-bindings/power/r8a779f0-sysc.h
 
-Tony
+-- 
+2.25.1
+
