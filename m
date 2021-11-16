@@ -2,164 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89D064528D9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Nov 2021 04:57:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A311A45297F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Nov 2021 06:21:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236720AbhKPEAY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Nov 2021 23:00:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36686 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236690AbhKPEAW (ORCPT
+        id S231822AbhKPFX4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Nov 2021 00:23:56 -0500
+Received: from muru.com ([72.249.23.125]:56730 "EHLO muru.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233571AbhKPFWr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Nov 2021 23:00:22 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9240CC076B32
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 16:40:31 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id gb13-20020a17090b060d00b001a674e2c4a8so1281389pjb.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Nov 2021 16:40:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=5ZCdyn2jyhC8j4x3jckUTfrI8ZbxBwMWbPqyk9uq45g=;
-        b=ts9+WvhXOrC0Vj6RiDjlbrGalfa6sjabUWnUbaxAiAonn0KlFF2GbK/Yw6fCvgXt2b
-         op0JdMKgglPWAsqkImlGRT3fKaUb+g+LbeIU2MUmqCDa3/Bv00zEgZ+F8UndwF3ZNaQ8
-         xskr2EWqa+Y7CyALb+tk3YKynGetAYB875cE4ylNCrv8s1wYb3vdQ8Sp7enW9/Y91L6L
-         VigtUwwTj5wtTsnBQviFjaIn8bWPyjT1xKGwIbohFj2sJG2bEfFiux+1sbH14KPncfRY
-         U/4ac7WHiHVRIEEpQ8nsyQwgAWBx/ds+E4Y7MLhUnoJeDzdwfpLxFTMit+5CPw5SepEw
-         RBsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=5ZCdyn2jyhC8j4x3jckUTfrI8ZbxBwMWbPqyk9uq45g=;
-        b=qiHYvD4G81F5BwOnoC/4BZHpUqmSJU6quv+O0MjPCKUg18ZpTY6TPCRcccxp9I2emm
-         HJ98HpfwiPwt3zupAiGTTJEOCc16+c3n9ZruqXU+KnmsXqG9p3OMiqHSvkqGrL3WnZzD
-         RLGxbM+OhQpaqOmcK9Z8WHj+AS50RAOL0dJMuVlyXXZAecUsYffaaAuhOYG48c2g28Rf
-         BDXstHmkxrQZpts33jCmbRvH4nwqc03GWsQmjFhZMIfAEtdkXyhoaj7OHigyS8P0G5OK
-         wk4WHx8/ZW7h1hsu1h4aZLO+1d/HMHCNOD/fAsDTIZTQ4PSkaGwoEyBBymbHpDLpjLFd
-         bw4Q==
-X-Gm-Message-State: AOAM533QCJ2mT3bLyNaGT/TYbG9BfMopmg3S5/kfwVVDIc90jCppkq4I
-        YkDgbbGk35uc5IJfJcNdGuwOFAiMlIbxERhO
-X-Google-Smtp-Source: ABdhPJzycXFSEubdgTnnD7uAZqiZ5K7+X65KEZ3rV+vzKph6bXf0xoRPcUGFH7dDAsT41YDjH2udSQ==
-X-Received: by 2002:a17:90b:380e:: with SMTP id mq14mr71536477pjb.74.1637023230982;
-        Mon, 15 Nov 2021 16:40:30 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id me7sm467831pjb.9.2021.11.15.16.40.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 16:40:30 -0800 (PST)
-Message-ID: <6192fdfe.1c69fb81.1dc73.23fa@mx.google.com>
-Date:   Mon, 15 Nov 2021 16:40:30 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 16 Nov 2021 00:22:47 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by muru.com (Postfix) with ESMTPS id 31EF8806C;
+        Tue, 16 Nov 2021 05:20:23 +0000 (UTC)
+Date:   Tue, 16 Nov 2021 07:19:43 +0200
+From:   Tony Lindgren <tony@atomide.com>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Abel Vesa <abelvesa@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for
+ probing simple bus only devices
+Message-ID: <YZM/b2/F8xmK43vr@atomide.com>
+References: <20210929000735.585237-1-saravanak@google.com>
+ <20210929000735.585237-2-saravanak@google.com>
+ <YYu4EglV7SBZU2Iy@ryzen>
+ <CAGETcx_m3f5JgrKQXZ5DUxDkpGhAau9G8uYm8a0iQ8JbcD0Rtg@mail.gmail.com>
+ <CAGETcx_a-d7qQNi3sUce3AzbPcvGJK5JSuiiHm4h4e_q-MT7Dg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-next-2021-11-15-v5.16-rc1
-X-Kernelci-Report-Type: test
-Subject: renesas/next baseline-nfs: 57 runs,
- 2 regressions (renesas-next-2021-11-15-v5.16-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGETcx_a-d7qQNi3sUce3AzbPcvGJK5JSuiiHm4h4e_q-MT7Dg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next baseline-nfs: 57 runs, 2 regressions (renesas-next-2021-11-15-=
-v5.16-rc1)
+* Saravana Kannan <saravanak@google.com> [211115 20:19]:
+> On Wed, Nov 10, 2021 at 12:24 PM Saravana Kannan <saravanak@google.com> wrote:
+> >
+> > On Wed, Nov 10, 2021 at 4:16 AM Abel Vesa <abelvesa@kernel.org> wrote:
+> > >
+> > > On 21-09-28 17:07:33, Saravana Kannan wrote:
+> > > > fw_devlink could end up creating device links for bus only devices.
+> > > > However, bus only devices don't get probed and can block probe() or
+> > > > sync_state() [1] call backs of other devices. To avoid this, probe these
+> > > > devices using the simple-pm-bus driver.
+> > > >
+> > > > However, there are instances of devices that are not simple buses (they get
+> > > > probed by their specific drivers) that also list the "simple-bus" (or other
+> > > > bus only compatible strings) in their compatible property to automatically
+> > > > populate their child devices. We still want these devices to get probed by
+> > > > their specific drivers. So, we make sure this driver only probes devices
+> > > > that are only buses.
+...
+> > >
+> > > This change is breaking the expected behavior for the already existent
+> > > simple-bus nodes. All the simple-bus compatibles should be replaced now
+> > > to simple-pm-bus. In my case, on some i.MX8 platforms, without the
+> > > devlink, the devices suspend sequence changes (and even breaks).
+> > >
+> > > To avoid breaking the already existent simple-bus nodes, maybe the logic
+> > > should've been reversed: keep the simple-bus as is and add another
+> > > compatible, IDK, something like simple-trasnparent-bus, or something.
+> >
+> > The intent of this change IS to affect existing simple-bus nodes (but
+> > not in the way it's affecting you). But if it's breaking stuff, we
+> > obviously need to fix it.
+> >
+> > I have a hunch on what's going on in your case, but can you point me
+> > to the specific simple-bus node that's getting affected? I'm expecting
+> > it to be a simple-bus node that gets added AFTER this driver is
+> > registered at device_initcall (module_init gets converted to
+> > device_initcall).
+> >
+> > Also, can you try this hack patch to see if it helps your case?
+> > https://lore.kernel.org/lkml/CAGETcx9U130Oq-umrvXME4JhEpO0Wadoki3kNxx=0-YvTR6PtQ@mail.gmail.com/
+> >
+> > I have some thoughts on how I could fix this, but I need to think
+> > about a few cases.
 
-Regressions Summary
--------------------
+Not sure if this is related.. Some drivers need to be updated from
+builtin_platform_driver_probe() to use builtin_platform_driver() when
+switching to simple-pm-bus because of deferred probe. See more info
+in commit e259c2926c01 ("PCI: pci-dra7xx: Prepare for deferred probe
+with module_platform_driver").
 
-platform   | arch | lab           | compiler | defconfig                   =
- | regressions
------------+------+---------------+----------+-----------------------------=
--+------------
-odroid-xu3 | arm  | lab-collabora | gcc-10   | multi_v7_defconfig          =
- | 1          =
+Regards,
 
-odroid-xu3 | arm  | lab-collabora | gcc-10   | multi_v7_defc...G_ARM_LPAE=
-=3Dy | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-11-15-v5.16-rc1/plan/baseline-nfs/
-
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2021-11-15-v5.16-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      17fc0a96f4b49440c8f494f996de7ca33086036a =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform   | arch | lab           | compiler | defconfig                   =
- | regressions
------------+------+---------------+----------+-----------------------------=
--+------------
-odroid-xu3 | arm  | lab-collabora | gcc-10   | multi_v7_defconfig          =
- | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6192eee0daa6b2edd03358e1
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--11-15-v5.16-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/baseline-nfs-o=
-droid-xu3.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--11-15-v5.16-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/baseline-nfs-o=
-droid-xu3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-1112.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/6192eee0daa6b2edd=
-03358e2
-        new failure (last pass: renesas-next-2021-10-18-v5.15-rc1) =
-
- =
-
-
-
-platform   | arch | lab           | compiler | defconfig                   =
- | regressions
------------+------+---------------+----------+-----------------------------=
--+------------
-odroid-xu3 | arm  | lab-collabora | gcc-10   | multi_v7_defc...G_ARM_LPAE=
-=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6192f0d5cc4f382935335919
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--11-15-v5.16-rc1/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/=
-gcc-10/lab-collabora/baseline-nfs-odroid-xu3.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--11-15-v5.16-rc1/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/=
-gcc-10/lab-collabora/baseline-nfs-odroid-xu3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-1112.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/6192f0d5cc4f38293=
-533591a
-        new failure (last pass: renesas-next-2021-10-18-v5.15-rc1) =
-
- =20
+Tony
