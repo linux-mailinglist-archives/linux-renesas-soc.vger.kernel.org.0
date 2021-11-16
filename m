@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BAC8452CB5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Nov 2021 09:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1456F452CB6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Nov 2021 09:26:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232059AbhKPI3n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Nov 2021 03:29:43 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:56962 "EHLO
+        id S232030AbhKPI3o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Nov 2021 03:29:44 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:42674 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232033AbhKPI3h (ORCPT
+        by vger.kernel.org with ESMTP id S232032AbhKPI3l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Nov 2021 03:29:37 -0500
-Date:   16 Nov 2021 17:26:38 +0900
+        Tue, 16 Nov 2021 03:29:41 -0500
+Date:   16 Nov 2021 17:26:44 +0900
 X-IronPort-AV: E=Sophos;i="5.87,238,1631545200"; 
-   d="scan'208";a="100773489"
+   d="scan'208";a="100773495"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 16 Nov 2021 17:26:38 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 16 Nov 2021 17:26:44 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CF064423B05C;
-        Tue, 16 Nov 2021 17:26:38 +0900 (JST)
-Message-ID: <87wnl8wloh.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 119AC423B06F;
+        Tue, 16 Nov 2021 17:26:44 +0900 (JST)
+Message-ID: <87v90swlob.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 1/3] arm64: dts: renesas: ulcb/ulcb-kf: switch to use audio-graph-card2 for sound
+Subject: [PATCH 2/3] arm64: defconfig: Enable Audio Graph Card2 driver
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Magnus <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org
@@ -34,114 +34,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Current ULCB{-KF} are using audio-graph-card.
-Now ALSA is supporting new audio-graph-card2 which can easily handle
-more advanced feature. Let's switch to use it.
+commit 6e5f68fe3f2d35 ("ASoC: add Audio Graph Card2 driver")
+added new Audio Graph Card2 driver which can handle
+sound card more flexibly.
+This patch enables it on defconfig.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 22 ++++++++--------------
- arch/arm64/boot/dts/renesas/ulcb.dtsi    | 20 +++++++-------------
- 2 files changed, 15 insertions(+), 27 deletions(-)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-index 61bd4df09df0..7266c02ee31d 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-@@ -302,12 +302,9 @@ rsnd_port2: port@2 {
- 			reg = <2>;
- 			rsnd_for_pcm3168a_play: endpoint {
- 				remote-endpoint = <&pcm3168a_endpoint_p>;
--
--				dai-format = "i2s";
--				bitclock-master = <&rsnd_for_pcm3168a_play>;
--				frame-master = <&rsnd_for_pcm3168a_play>;
-+				bitclock-master;
-+				frame-master;
- 				dai-tdm-slot-num = <8>;
--
- 				playback = <&ssi3>;
- 			};
- 		};
-@@ -315,12 +312,9 @@ rsnd_port3: port@3 {
- 			reg = <3>;
- 			rsnd_for_pcm3168a_capture: endpoint {
- 				remote-endpoint = <&pcm3168a_endpoint_c>;
--
--				dai-format = "i2s";
--				bitclock-master = <&rsnd_for_pcm3168a_capture>;
--				frame-master = <&rsnd_for_pcm3168a_capture>;
-+				bitclock-master;
-+				frame-master;
- 				dai-tdm-slot-num = <6>;
--
- 				capture  = <&ssi4>;
- 			};
- 		};
-@@ -360,10 +354,10 @@ wlcore: wlcore@2 {
- };
- 
- &sound_card {
--	dais = <&rsnd_port0	/* ak4613 */
--		&rsnd_port1	/* HDMI0  */
--		&rsnd_port2	/* pcm3168a playback */
--		&rsnd_port3	/* pcm3168a capture  */
-+	links = <&rsnd_port0	/* ak4613 */
-+		 &rsnd_port1	/* HDMI0  */
-+		 &rsnd_port2	/* pcm3168a playback */
-+		 &rsnd_port3	/* pcm3168a capture  */
- 		>;
- };
- 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-index 7edffe7f8cfa..b4e69d212970 100644
---- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-@@ -94,11 +94,11 @@ reg_3p3v: regulator1 {
- 	};
- 
- 	sound_card: sound {
--		compatible = "audio-graph-card";
-+		compatible = "audio-graph-card2";
- 		label = "rcar-sound";
- 
--		dais = <&rsnd_port0	/* ak4613 */
--			&rsnd_port1	/* HDMI0  */
-+		links = <&rsnd_port0	/* ak4613 */
-+			 &rsnd_port1	/* HDMI0  */
- 			>;
- 	};
- 
-@@ -411,11 +411,8 @@ rsnd_port0: port@0 {
- 			reg = <0>;
- 			rsnd_for_ak4613: endpoint {
- 				remote-endpoint = <&ak4613_endpoint>;
--
--				dai-format = "left_j";
--				bitclock-master = <&rsnd_for_ak4613>;
--				frame-master = <&rsnd_for_ak4613>;
--
-+				bitclock-master;
-+				frame-master;
- 				playback = <&ssi0>, <&src0>, <&dvc0>;
- 				capture  = <&ssi1>, <&src1>, <&dvc1>;
- 			};
-@@ -424,11 +421,8 @@ rsnd_port1: port@1 {
- 			reg = <1>;
- 			rsnd_for_hdmi: endpoint {
- 				remote-endpoint = <&dw_hdmi0_snd_in>;
--
--				dai-format = "i2s";
--				bitclock-master = <&rsnd_for_hdmi>;
--				frame-master = <&rsnd_for_hdmi>;
--
-+				bitclock-master;
-+				frame-master;
- 				playback = <&ssi2>;
- 			};
- 		};
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index f2e2b9bdd702..3bc3e1b6dd6a 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -802,6 +802,7 @@ CONFIG_SND_SOC_LPASS_WSA_MACRO=m
+ CONFIG_SND_SOC_LPASS_VA_MACRO=m
+ CONFIG_SND_SIMPLE_CARD=m
+ CONFIG_SND_AUDIO_GRAPH_CARD=m
++CONFIG_SND_AUDIO_GRAPH_CARD2=m
+ CONFIG_HID_MULTITOUCH=m
+ CONFIG_I2C_HID_ACPI=m
+ CONFIG_I2C_HID_OF=m
 -- 
 2.25.1
 
