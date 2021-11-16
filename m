@@ -2,113 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4DE1452F08
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Nov 2021 11:26:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40D9A452F19
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Nov 2021 11:31:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233988AbhKPK32 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Nov 2021 05:29:28 -0500
-Received: from mail-vk1-f182.google.com ([209.85.221.182]:43921 "EHLO
-        mail-vk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233807AbhKPK31 (ORCPT
+        id S234175AbhKPKeo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Nov 2021 05:34:44 -0500
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:41434
+        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234157AbhKPKek (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Nov 2021 05:29:27 -0500
-Received: by mail-vk1-f182.google.com with SMTP id f7so10893019vkf.10;
-        Tue, 16 Nov 2021 02:26:30 -0800 (PST)
+        Tue, 16 Nov 2021 05:34:40 -0500
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com [209.85.167.69])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 377573F1A5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Nov 2021 10:31:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1637058703;
+        bh=z+K3n14wNxyJpFthL4d/JKrdOFIgfqkYidh/vwHh0o8=;
+        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+         MIME-Version:Content-Type;
+        b=Se1cPDujcfh+xmtclW5H1YWTw/u8W21jJim8WQFKyovTVAWBfep4ko14C3/EW/Y7V
+         kGLyuA3AHRTcgJMR7cFit2M42pS+/8DG696TvqLyAGCRETrujvI9nglhsRmxu/b0HP
+         KGuFOgJGbrYBnOeGtFneMtEK00gbRoWP/afc7TPPBaX4uCod6pOJvpf8yOSxWLEozC
+         76hopsUzc3Mcbiq7YD9ydV4R/82g/6Go3AEl8YIkOdjgCrzFY/nItO2rOipssX8Sc6
+         HzI1BvpKQT6NjEJvap38KWmdk6savcCzfN7ah2L8pF9aidrmK6GcO7SJV1AMq9xsX8
+         FNzgxpYT4Zy3Q==
+Received: by mail-lf1-f69.google.com with SMTP id x7-20020a056512130700b003fd1a7424a8so7975157lfu.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Nov 2021 02:31:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eiiYNIGtI4pGCvP2Hkjjxqji+rVM90dLAs2ei/jjzho=;
-        b=XWJ/Jr1s9S6dRK1hkzLI+xB5AU8ox4Po4rII0dYO8VZhc3164s2K21gAwVCOeZ8224
-         QkXLV4stCZ5FB8h9fIXtJyw8WOYydaZjTMOGZbc9J8HCUfIAS8AFClhufrUqq+DJxfBI
-         IYSIYEQji8pdzIj5Zol4ZQyCeMq3fntCDLf7wa1p5QfdZWqkNAXSkPPGDD5eWBQG+Op5
-         ybr/HQKm1BBSr1lXtwoCljYu+MUiUGxfUvlHfEPAliFeymmFZkA6borzO4H2oJLoBwXF
-         8LXKJ3NIOdJW0G33GccwaHhH80vEE0wXRJbWSZpkyZeRNmPh4Zl6qao/SJ+v342WTTDV
-         D+kA==
-X-Gm-Message-State: AOAM530V0Xi3C4PNi1UBVzH6Aql+FkhH+LAF8k0hvZSxid3B0e6qRRKp
-        lkJI/4Snhxw6/+CMqv40fN9D1nurXZxnJQ==
-X-Google-Smtp-Source: ABdhPJwNaBC9uM1Wz0eagSciXuUeNKsFVd9FUyCfEGVhly7TOuzAf3lRPEc7wi06mvl+QSEift/a/Q==
-X-Received: by 2002:a05:6122:d9d:: with SMTP id bc29mr19348412vkb.14.1637058390183;
-        Tue, 16 Nov 2021 02:26:30 -0800 (PST)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id t1sm9861845vkl.56.2021.11.16.02.26.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Nov 2021 02:26:29 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id v3so41136135uam.10;
-        Tue, 16 Nov 2021 02:26:29 -0800 (PST)
-X-Received: by 2002:ab0:5552:: with SMTP id u18mr9140636uaa.78.1637058389381;
- Tue, 16 Nov 2021 02:26:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20211115160600.4455-1-wsa+renesas@sang-engineering.com>
- <OS0PR01MB59220D97CD59F44918DE4FA586989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <YZKz/ptgPfzqGfeq@kunai> <OS0PR01MB592241C04F5CDDB94D850FFA86989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592241C04F5CDDB94D850FFA86989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 16 Nov 2021 11:26:18 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUm2EG3Yi+eTZA0E9tZOT71ewkbx=yh8sVOnL207Od3Rw@mail.gmail.com>
-Message-ID: <CAMuHMdUm2EG3Yi+eTZA0E9tZOT71ewkbx=yh8sVOnL207Od3Rw@mail.gmail.com>
-Subject: Re: [PATCH v3] dt-bindings: mmc: renesas,sdhi: add optional SDnH clock
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=z+K3n14wNxyJpFthL4d/JKrdOFIgfqkYidh/vwHh0o8=;
+        b=7TrIdr6w5DCbPFsms/6l/4VY9DiH4OKBVcQJUt0WeKRnrb1OiKuUuZiD2ozOT9nz9B
+         GAiGjJfGQDDhAGjDbCIe3cmig6lKTni0K4JbLS8ZjrvZdUsezv+nQrPRaf3lx94vq9Ac
+         34UUlw+j360n2/RsgFKr2JzFTSF890nvjOcz0U1C/RXrASArJeDPwQTkDxqu4LZFTHMJ
+         ch6bjt6Frg7VWcCQGc5056hUJXBOZJCdtElYV0jun9/CGy4JVBGlBC+qyuNwkVpqsfax
+         DpPDmgoWmf/Pg/A0CGtUfrrGNAzGTkWq8LXopeWunLJigw0r6MHFmRQzuWJG0NSZc3Xx
+         nrrA==
+X-Gm-Message-State: AOAM530XyZypdZ+B+cRJy2qjzRCkoVa6YfVzH31sFdtPhI6aqA9YYddD
+        8HtXJCGNoZCC0Ok6/z0ksZsGvZn59Zioc6tcofGlTblKdFFeZTK6V0RP+TRpr5bMYnDFtb9WPV4
+        nnn0EOFLUJSWtfK7xtJ9ICcKEMUBn4pdPKHgKouN8xb1ugS3F
+X-Received: by 2002:a05:6512:2601:: with SMTP id bt1mr5653780lfb.147.1637058702684;
+        Tue, 16 Nov 2021 02:31:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVpknv8td/Cxpbi8ipZR258BpylSboXrsot6U5M9i5s8+zkf0/9R+6Q6RjQtFYrAR4CqJBFg==
+X-Received: by 2002:a05:6512:2601:: with SMTP id bt1mr5653761lfb.147.1637058702540;
+        Tue, 16 Nov 2021 02:31:42 -0800 (PST)
+Received: from localhost.localdomain (89-77-68-124.dynamic.chello.pl. [89.77.68.124])
+        by smtp.gmail.com with ESMTPSA id j5sm1114418lfe.219.2021.11.16.02.31.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Nov 2021 02:31:42 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mark Brown <broonie@kernel.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-mtd@lists.infradead.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        devicetree@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 1/7] dt-bindings: memory: renesas,rpc-if: Add support for the R9A07G044
+Date:   Tue, 16 Nov 2021 11:31:02 +0100
+Message-Id: <163705866144.26823.6564269821681639208.b4-ty@canonical.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211025205631.21151-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211025205631.21151-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211025205631.21151-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Mon, 25 Oct 2021 21:56:25 +0100, Lad Prabhakar wrote:
+> SPI Multi I/O Bus Controller on RZ/G2L SoC is almost identical to
+> the RPC-IF interface found on R-Car Gen3 SoC's.
+> 
+> This patch adds a new compatible string to identify the RZ/G2L family
+> so that the timing values on RZ/G2L can be adjusted.
+> 
+> 
+> [...]
 
-On Mon, Nov 15, 2021 at 9:32 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v3] dt-bindings: mmc: renesas,sdhi: add optional SDnH
-> > clock
-> >
-> >
-> > > > +      if:
-> > > > +        properties:
-> > > > +          compatible:
-> > > > +            contains:
-> > > > +              enum:
-> > > > +                - renesas,rcar-gen2-sdhi
-> > > > +                - renesas,rcar-gen3-sdhi
-> > >
-> > > What about RZ/G2L, as it has 4 clocks?
-> >
-> > They are a few lines above this in a seperate block if I am not confusing
-> > the SoC numbering.
->
-> Ah ok, I thought, since RZ/G2L using generic rcar-gen3-sdhi compatible, We need to move that
-> Separate block inside this if block. With in gen3 compatible, if RZG2L then
-> Max 4 clocks else Max 3 Clocks. I may be completely wrong.
+Applied, thanks!
 
-But is it working?
-With this series, the driver looks for the "sdh" clock, while it is
-called "clk_hs" on RZ/G2L.
+[1/7] dt-bindings: memory: renesas,rpc-if: Add support for the R9A07G044
+      commit: c271aa1f73515bcb35f977f30825832d41a2f504
 
-As the RZ/G2L part declares compatibility with the generic
-rcar-gen3-sdhi compatible, it is subject to SDHI_FLAG_NEED_CLKH_FALLBACK.
-In the absence of an "sdh" clock, the driver will use
-clk_get_parent(clk_get_parent(priv->clk) instead.
-On RZ/G2L, we have:
-  SD0 -> SD0_DIV4 -> imclk
-      -> clk_hs
-So that will pick up SD0, which might be correct, accidentally ;-)
-As quirks is not set, it will use clkh_shift = 2.
-
-So all is good? I think we still want the driver to check for "clk_hs",
-too, to avoid having to depend on the fallback.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
