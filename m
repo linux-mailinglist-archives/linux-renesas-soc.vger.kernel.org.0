@@ -2,102 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B1E6454676
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 13:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2748A4546B6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 13:55:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231185AbhKQMkP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Nov 2021 07:40:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58956 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbhKQMkP (ORCPT
+        id S235833AbhKQM6S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Nov 2021 07:58:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58436 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235135AbhKQM6S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Nov 2021 07:40:15 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0993AC061570
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Nov 2021 04:37:16 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id bu18so7885629lfb.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Nov 2021 04:37:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=UmgNinn2XG0l2TpUWf4rIjZei+iMCEFikabmRp2Oijw=;
-        b=VIcyXUUnkhvAZoaEKNOq2M/yKqEWjaYjpRjMRTdrb9sWFn0NWiRt44NaqXp+dmCGGl
-         5oUbEOay7eRM+/h+SP+th8Dm/VSVD5NlKhMZnO/Sd9TZYC426S2x2fz1N5TbUy7jk6Zj
-         /0CdXr8OUfuuxUYRgB0n7H9nzbajOOt995rKyGUyJVxRI0gN2KzjoNNBoQI0Mt3qJqvn
-         wyiXeEGSVrkYUsdHiGcImABne+uLWNrLN2kLiWqNJc8f3hyVcWRadwRQNQo4Pdkm4WJy
-         doZbiWqjsOOT2cBvTBL1fG/iHyDInhU1jza6HuHRkgwOfYphFGtQafxBO8FlkQRVYqNR
-         Q9dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=UmgNinn2XG0l2TpUWf4rIjZei+iMCEFikabmRp2Oijw=;
-        b=yNlU/kNoOp69JZM1MhlVdiP+v++UYltlbZwEC5EK/F6nKJIVm8lnoNmtHWcK1GABNa
-         dTkWPjvYjeS4dASXMBdJRN2CqTUzNkyADWZLaonxBOmYLSq8ik/LSn8qCPCDqdlaYME9
-         F3hEG9k8DOFjLHI9Sq5T8oi1Ku4F7TQLVswVx8OA77OLK86XlZKAikgP67+57TKV+UJ7
-         V7nMieM7Mqr4ejpjQr36fiAeJDUAIQvrx6wyz6kD/2ya35IBDOPwAYpzgZmHG/wB0zdb
-         Jydpc8gYkaV6j5q/+gt4NYXtog5FnnKjunlzmv7lfWzzWf+fLecV+AEHdoX4fG4sLSGm
-         6qOA==
-X-Gm-Message-State: AOAM533m36UKEKs+o2f4hN64fJkL/tvMRCLH8Mq7TP5mStSxXQ54NSS3
-        OwWhG/NtW3gQ8sYFUJK4aa0Yix0+pB30cE+o
-X-Google-Smtp-Source: ABdhPJx8dnn1MWVaLvGvat9pWvPezRMJtiUeuocTmxk6ejL4s0ulJIeu/Gt9DwFiczdwPMXzkEnTmA==
-X-Received: by 2002:a19:c30e:: with SMTP id t14mr15152912lff.375.1637152634425;
-        Wed, 17 Nov 2021 04:37:14 -0800 (PST)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id x17sm2133612ljp.95.2021.11.17.04.37.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 04:37:13 -0800 (PST)
-Date:   Wed, 17 Nov 2021 13:37:13 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] mmc: renesas_sdhi: simplify an expression
-Message-ID: <YZT3eQKg8AIzMIPC@oden.dyn.berto.se>
-References: <20211117103850.28397-1-wsa+renesas@sang-engineering.com>
+        Wed, 17 Nov 2021 07:58:18 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7575861B7D;
+        Wed, 17 Nov 2021 12:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637153719;
+        bh=8JLZmI9VYjUjkTwlKzaUB2jGVugQsQHRSvVyCU0a5gw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RxmGFuA1QFLoIvddFpnX7yipA/mGAdKzmsjvyEiKjXm9AlhP4Jm40fSsDB+C58J0f
+         JSpE3v1vBgdfgxtHUCajhN+2uejc0wKibHMeQ+lTiuC0l11SrnZZ8BKyMFMifU9Xw2
+         2T9z9eYkgX7r1uBoZz3vGLdqjOMZ8ZIrFdl7BuG8jyow1HHIwPrjJRsMJ3un3FGmJt
+         IsWaY5AkeCZAhOyaKAtSTsOjDfonpHAHi9/yOTRhX/rAcNPs3D0vgrH3nlD1SUUEor
+         3n4hTvksnXK6NwvrJQM+KrXq6CrFzZrzhzvGu00g5XTr/m5xMF2FNX2gA+2PXYoZGE
+         rEGQM9dmkvJqA==
+Date:   Wed, 17 Nov 2021 12:55:14 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-spi@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 1/3] dt-bindings: spi: renesas,rspi: Document RZ/G2L SoC
+Message-ID: <YZT7suWucdD+FU6k@sirena.org.uk>
+References: <20211117010527.27365-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211117010527.27365-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="dTY+a439r+UjD8cz"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211117103850.28397-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20211117010527.27365-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Cookie: One Bell System - it sometimes works.
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
 
-Nice fix.
+--dTY+a439r+UjD8cz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2021-11-17 11:38:50 +0100, Wolfram Sang wrote:
-> We already have 'quirks', no need to go via 'priv'.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On Wed, Nov 17, 2021 at 01:05:25AM +0000, Lad Prabhakar wrote:
+> Add RSPI binding documentation for Renesas RZ/G2L SoC.
+>=20
+> RSPI block is identical to one found on RZ/A, so no driver changes are
+> required the fallback compatible string "renesas,rspi-rz" will be used
+> on RZ/G2L
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-> ---
->  drivers/mmc/host/renesas_sdhi_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index a4407f391f66..29bc086f6cb5 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -1044,7 +1044,7 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->  	     host->mmc->caps2 & (MMC_CAP2_HS200_1_8V_SDR |
->  				 MMC_CAP2_HS400_1_8V))) {
->  		const struct renesas_sdhi_scc *taps = of_data->taps;
-> -		bool use_4tap = priv->quirks && priv->quirks->hs400_4taps;
-> +		bool use_4tap = quirks && quirks->hs400_4taps;
->  		bool hit = false;
->  
->  		for (i = 0; i < of_data->taps_num; i++) {
-> -- 
-> 2.30.2
-> 
+--dTY+a439r+UjD8cz
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Kind Regards,
-Niklas Söderlund
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmGU+7EACgkQJNaLcl1U
+h9BdtAf/VmkMMGhu3XIzeaXgRoqE0g29SY/hGvaybxu0nXF+m0MZrbbpS83fNEe6
+EffVbR0u5hsbdNCQtvOE4mf/saXqtnKMNetoxmYYZZMB5Lc1aPkk/pT2I1GtMd1Y
+P2qI2S9PxpJfHQhe22ziN9N14ZBONPWoX50YojMVbOGpbxUTjctDZca6h++8hNcZ
+xe2Z55pKMTWGalEMeoXpVLPIXxh+53wnr1r/bgFxtO2xPwYMPv9QhZIz9XPSLdHV
+kmq/QavqBPe+baiwog+QzaFx44hf8Kgz2ynAA7km6aMwXXtxsE6xWwObNdVz+gTx
+eKPdt55LNZaxQDJhWsSVyq3uUNQx1g==
+=IzaT
+-----END PGP SIGNATURE-----
+
+--dTY+a439r+UjD8cz--
