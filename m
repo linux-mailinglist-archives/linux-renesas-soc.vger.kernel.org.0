@@ -2,77 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B25C2453D7B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 02:05:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BE08453D80
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 02:12:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231734AbhKQBIo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Nov 2021 20:08:44 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:15400 "EHLO
+        id S230442AbhKQBPw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Nov 2021 20:15:52 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:58705 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231755AbhKQBIo (ORCPT
+        by vger.kernel.org with ESMTP id S230429AbhKQBPv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Nov 2021 20:08:44 -0500
+        Tue, 16 Nov 2021 20:15:51 -0500
 X-IronPort-AV: E=Sophos;i="5.87,239,1631545200"; 
-   d="scan'208";a="100509804"
+   d="scan'208";a="100510914"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 17 Nov 2021 10:05:45 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 17 Nov 2021 10:12:52 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 59074400F4FF;
-        Wed, 17 Nov 2021 10:05:43 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D32B6400090F;
+        Wed, 17 Nov 2021 10:12:50 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mark Brown <broonie@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-spi@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 3/3] spi: spi-rspi: Drop redeclaring ret variable in qspi_transfer_in()
-Date:   Wed, 17 Nov 2021 01:05:27 +0000
-Message-Id: <20211117010527.27365-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] Enable RSPI support on RZ/G2L SMARC EVK
+Date:   Wed, 17 Nov 2021 01:12:45 +0000
+Message-Id: <20211117011247.27621-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211117010527.27365-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211117010527.27365-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-"ret" variable is already declared in qspi_transfer_in() at the
-beginning of function, drop redeclaring ret in the if block, fixing
-below:
+Hi All,
 
-spi-rspi.c: In function ‘qspi_transfer_in’:
-spi-rspi.c:838:7: warning: declaration of ‘ret’ shadows a previous local
-  838 |   int ret = rspi_dma_transfer(rspi, NULL, &xfer->rx_sg);
-      |       ^~~
-spi-rspi.c:835:6: note: shadowed declaration is here
-  835 |  int ret;
+This patch series enables RSPI support to RZ/G2L SMARC EVK.
 
-Fixes: db30083813b55 ("spi: rspi: avoid uninitialized variable access")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/spi/spi-rspi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Note: Patches are dependent on series [1].
 
-diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
-index 592682d96562..815698366412 100644
---- a/drivers/spi/spi-rspi.c
-+++ b/drivers/spi/spi-rspi.c
-@@ -835,7 +835,7 @@ static int qspi_transfer_in(struct rspi_data *rspi, struct spi_transfer *xfer)
- 	int ret;
- 
- 	if (rspi->ctlr->can_dma && __rspi_can_dma(rspi, xfer)) {
--		int ret = rspi_dma_transfer(rspi, NULL, &xfer->rx_sg);
-+		ret = rspi_dma_transfer(rspi, NULL, &xfer->rx_sg);
- 		if (ret != -EAGAIN)
- 			return ret;
- 	}
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/cover/
+20211117010527.27365-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (2):
+  arm64: dts: renesas: r9a07g044: Add RSPI{0,1,2} nodes
+  arm64: dts: renesas: rzg2l-smarc: Enable RSPI1 on carrier board
+
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi   | 48 ++++++++++++++++++++
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi | 15 ++++++
+ 2 files changed, 63 insertions(+)
+
 -- 
 2.17.1
 
