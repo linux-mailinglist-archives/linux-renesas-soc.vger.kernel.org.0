@@ -2,80 +2,384 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 461634542BB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 09:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0E344542D0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 09:40:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230396AbhKQIib (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Nov 2021 03:38:31 -0500
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:34426 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbhKQIia (ORCPT
+        id S233110AbhKQInu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Nov 2021 03:43:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33108 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232292AbhKQInu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Nov 2021 03:38:30 -0500
-Received: by mail-ua1-f50.google.com with SMTP id n6so4255059uak.1;
-        Wed, 17 Nov 2021 00:35:31 -0800 (PST)
+        Wed, 17 Nov 2021 03:43:50 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9985C061570
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Nov 2021 00:40:51 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id b40so5236433lfv.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Nov 2021 00:40:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=NCC3jhHm1vgvJtex0pKNVWkOiQ1M1BKeH2Irqbf2Qfw=;
+        b=wkUOkK2O9CcLAcVAY0VLACuK8uXIvFI+Oxj12TI6YeuMO+Sh5NIe6czIaGK7kWuauj
+         iQQd+9mSKYNcd5nSJD9SU9fADIVfz8O0dYsQAvsDHpwiVfS+lUsDCVISSkXfiCqwZHOd
+         zKsKuil408JND+xmuZb3PbKRmZ0Rz/uVnh1aCCRTaC5f8jEYYmGLNXHIWLtQ2NAIRTOP
+         2v5xJG8mEBno7lWqI7ELm8t2EnXiB6fZqf4CV1rc3/0Z5jiKe/c3B8ftXl042Kg73In8
+         ttJr55pUsIGYxYpUO36qab1SE8HeJxPjS5XdynsmCyl8evklxI91n7apnt+jbw7SqFag
+         izOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KKIA1upJqygr//sjp58akhT1zX2W+sdXN8b5hk4xNeg=;
-        b=IyvezFj2kQ1Z63MNr0AeXY6pnQ1yJfGgscuGbYT7NgruaNyKwKV9pn85h4fNnOsDNv
-         dNX+SJTeD6duwn1BRfmnMbP6CCq/KQMeWzmcKJd9DekvOXCprKWE5ddAbLmwm2JJPSKj
-         7ggDT7aAaUHc1qbH9RTK2ZBgXvg4DCAd7AAWFXKji5/Ybtu8otOfTN7f05/twXbkl3WZ
-         oEqrlx+nTkukyCAKmh/FVuopXg3dIexOZaR58TjcYe/hXnCju4b/HtLWb5UBp/Zdmvdj
-         SnjtZlSw/vAvlt0GLkj66EOs40CIz6zR1uJk4lYiQ9YxxO9qpCv2uSjSWVE0WYMQI7oG
-         cknQ==
-X-Gm-Message-State: AOAM533MT3ETyG1U+6UUBSz1BdjXff9zjwQljxEUikuwF+t+H25qurHp
-        fXzNPmL7CzXJSdragUvlhYQmkfEsHpi+4A==
-X-Google-Smtp-Source: ABdhPJwe8lIUD0WHjtuDCoKY2ae8+gVFj6JjVkV1GY0fzyprwwy/3k46cN2X0MqOPFkZuz/UWQZFCA==
-X-Received: by 2002:a05:6102:ac3:: with SMTP id m3mr49055434vsh.1.1637138131210;
-        Wed, 17 Nov 2021 00:35:31 -0800 (PST)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id p69sm13515202uap.1.2021.11.17.00.35.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Nov 2021 00:35:30 -0800 (PST)
-Received: by mail-vk1-f174.google.com with SMTP id j1so1191059vkr.1;
-        Wed, 17 Nov 2021 00:35:30 -0800 (PST)
-X-Received: by 2002:a05:6122:20a7:: with SMTP id i39mr84861911vkd.15.1637138130556;
- Wed, 17 Nov 2021 00:35:30 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=NCC3jhHm1vgvJtex0pKNVWkOiQ1M1BKeH2Irqbf2Qfw=;
+        b=sDsSd49uUzWWaSgDzj/Hi1KlkI8V+AYpPoS7EbqiH07oN+mg6k6NoZs4QwwrqyWTRW
+         Auh9usod4h3AqmoOdqskrVyFUAv35+fKOzLJIPRRrSQsmBpM+UIQ7hBY5W9TWKVtUB9S
+         pH2JdCHn8dZ4zRQqiEDPX1IDjvJpXAvSAP37hIjZ/Zzi3ircIxmalwOb7hVtHi7LVjlA
+         qcmCOkyZZ9uhWHz3Bo+EvH7ltT6qhrM4rIzIwd5t6aH5P9ikf/BByAeflApwY/BBn7Oh
+         mFW0SctxKPPJX7xbJgLZTtNmx1HUegYHEhGoYe10R5OJ5YMtLCRbibI9Jv/Dl731htHB
+         hjhQ==
+X-Gm-Message-State: AOAM532iG2C1XrOx9tAxBuTu0NKpLVn/CsZcFYprmoIphakIHOYqmeJT
+        w6hrtjHiW8mCDb08+FXeZgpRIg==
+X-Google-Smtp-Source: ABdhPJxrpmwo+sxFbZfOBxvtO9cXhvncH2i6ZhwKYJkjWSGAMBYrA1Ui9AQ/Vj9Wu/UdNZwd2eOpAA==
+X-Received: by 2002:a05:6512:2521:: with SMTP id be33mr13061690lfb.598.1637138450077;
+        Wed, 17 Nov 2021 00:40:50 -0800 (PST)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id u21sm797611ljl.76.2021.11.17.00.40.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Nov 2021 00:40:49 -0800 (PST)
+Date:   Wed, 17 Nov 2021 09:40:48 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 3/5] thermal/drivers: Add TSU driver for RZ/G2L
+Message-ID: <YZTAEIv2AcURBA1Q@oden.dyn.berto.se>
+References: <20211116151750.24857-1-biju.das.jz@bp.renesas.com>
+ <20211116151750.24857-4-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-References: <20211117002601.17971-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20211117002601.17971-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 17 Nov 2021 09:35:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXyBcJ8FB+AQ4QEVFXnCH32kJwNmRqs_FqYpmtWcVMxBA@mail.gmail.com>
-Message-ID: <CAMuHMdXyBcJ8FB+AQ4QEVFXnCH32kJwNmRqs_FqYpmtWcVMxBA@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r9a07g044: Add RSPI clock and reset entries
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211116151750.24857-4-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 17, 2021 at 1:26 AM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add RSPI{0,1,2} clock and reset entries to CPG driver.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+HI Biju,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.17.
+Thanks for your work.
 
-Gr{oetje,eeting}s,
+On 2021-11-16 15:17:48 +0000, Biju Das wrote:
+> Add Thermal Sensor Unit(TSU) driver for RZ/G2L SoC.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/thermal/Kconfig         |   9 ++
+>  drivers/thermal/Makefile        |   1 +
+>  drivers/thermal/rzg2l_thermal.c | 239 ++++++++++++++++++++++++++++++++
+>  3 files changed, 249 insertions(+)
+>  create mode 100644 drivers/thermal/rzg2l_thermal.c
+> 
+> diff --git a/drivers/thermal/Kconfig b/drivers/thermal/Kconfig
+> index d7f44deab5b1..e37691e0bf20 100644
+> --- a/drivers/thermal/Kconfig
+> +++ b/drivers/thermal/Kconfig
+> @@ -354,6 +354,15 @@ config RCAR_GEN3_THERMAL
+>  	  Enable this to plug the R-Car Gen3 or RZ/G2 thermal sensor driver into
+>  	  the Linux thermal framework.
+>  
+> +config RZG2L_THERMAL
+> +	tristate "Renesas RZ/G2L thermal driver"
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	depends on HAS_IOMEM
+> +	depends on OF
+> +	help
+> +	  Enable this to plug the RZ/G2L thermal sensor driver into the Linux
+> +	  thermal framework.
+> +
+>  config KIRKWOOD_THERMAL
+>  	tristate "Temperature sensor on Marvell Kirkwood SoCs"
+>  	depends on MACH_KIRKWOOD || COMPILE_TEST
+> diff --git a/drivers/thermal/Makefile b/drivers/thermal/Makefile
+> index 82fc3e616e54..f0c36a1530d5 100644
+> --- a/drivers/thermal/Makefile
+> +++ b/drivers/thermal/Makefile
+> @@ -37,6 +37,7 @@ obj-$(CONFIG_SUN8I_THERMAL)     += sun8i_thermal.o
+>  obj-$(CONFIG_ROCKCHIP_THERMAL)	+= rockchip_thermal.o
+>  obj-$(CONFIG_RCAR_THERMAL)	+= rcar_thermal.o
+>  obj-$(CONFIG_RCAR_GEN3_THERMAL)	+= rcar_gen3_thermal.o
+> +obj-$(CONFIG_RZG2L_THERMAL)	+= rzg2l_thermal.o
+>  obj-$(CONFIG_KIRKWOOD_THERMAL)  += kirkwood_thermal.o
+>  obj-y				+= samsung/
+>  obj-$(CONFIG_DOVE_THERMAL)  	+= dove_thermal.o
+> diff --git a/drivers/thermal/rzg2l_thermal.c b/drivers/thermal/rzg2l_thermal.c
+> new file mode 100644
+> index 000000000000..e551355cd4f6
+> --- /dev/null
+> +++ b/drivers/thermal/rzg2l_thermal.c
+> @@ -0,0 +1,239 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/G2L TSU Thermal Sensor Driver
+> + *
+> + * Copyright (C) 2021 Renesas Electronics Corporation
+> + */
+> +#include <linux/delay.h>
+> +#include <linux/err.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+> +#include <linux/thermal.h>
+> +
+> +#include "thermal_hwmon.h"
+> +
+> +#define CTEMP_MASK	0xFFF
+> +
+> +/* default calibration values, if FUSE values are missing */
+> +#define SW_CALIB0_VAL	3148
+> +#define SW_CALIB1_VAL	503
+> +
+> +/* Register offsets */
+> +#define TSU_SM		0x00
+> +#define TSU_ST		0x04
+> +#define TSU_SAD		0x0C
+> +#define TSU_SS		0x10
+> +
+> +#define OTPTSUTRIM_REG(n)	(0x18 + ((n) * 0x4))
+> +
+> +/* Sensor Mode Register(TSU_SM) */
+> +#define TSU_SM_EN_TS		BIT(0)
+> +#define TSU_SM_ADC_EN_TS	BIT(1)
+> +#define TSU_SM_NORMAL_MODE	(TSU_SM_EN_TS | TSU_SM_ADC_EN_TS)
+> +
+> +/* TSU_ST bits */
+> +#define TSU_ST_START		BIT(0)
+> +
+> +#define TSU_SS_CONV_RUNNING	BIT(0)
+> +
+> +#define TS_CODE_AVE_SCALE(x)	((x) * 1000000)
+> +#define MCELSIUS(temp)		((temp) * 1000)
+> +#define TS_CODE_CAP_TIMES	8	/* Capture  times */
+> +#define RZG2L_THERMAL_GRAN	500	/* milli Celsius */
+> +
+> +#define RZG2L_TSU_SS_TIMEOUT_US	1000
+> +
+> +struct rzg2l_thermal_priv {
+> +	struct device *dev;
+> +	void __iomem *base;
+> +	struct thermal_zone_device *zone;
+> +	struct reset_control *rstc;
+> +	u32 calib0, calib1;
+> +};
+> +
+> +static inline u32 rzg2l_thermal_read(struct rzg2l_thermal_priv *priv, u32 reg)
+> +{
+> +	return ioread32(priv->base + reg);
+> +}
+> +
+> +static inline void rzg2l_thermal_write(struct rzg2l_thermal_priv *priv, u32 reg,
+> +				       u32 data)
+> +{
+> +	iowrite32(data, priv->base + reg);
+> +}
+> +
+> +static int rzg2l_thermal_round(int temp)
+> +{
+> +	int result, round_offs;
+> +
+> +	round_offs = temp >= 0 ? RZG2L_THERMAL_GRAN / 2 : -RZG2L_THERMAL_GRAN / 2;
+> +	result = (temp + round_offs) / RZG2L_THERMAL_GRAN;
+> +
+> +	return result * RZG2L_THERMAL_GRAN;
+> +}
+> +
+> +static int rzg2l_thermal_get_temp(void *devdata, int *temp)
+> +{
+> +	struct rzg2l_thermal_priv *priv = devdata;
+> +	u32 result, dsensor, ts_code_ave;
+> +	int val, i;
+> +
+> +	result = 0;
+> +	/*  Read the ADC value 8 times with an interval of 20 microsecs */
+> +	for (i = 0; i < TS_CODE_CAP_TIMES ; i++) {
+> +		result += rzg2l_thermal_read(priv, TSU_SAD) & CTEMP_MASK;
+> +		usleep_range(20, 30);
+> +	}
+> +
+> +	/* Calculate the average value */
+> +	ts_code_ave = result / TS_CODE_CAP_TIMES;
+> +
+> +	/* Curvature correction */
+> +	dsensor = TS_CODE_AVE_SCALE(ts_code_ave) /
+> +		(TS_CODE_AVE_SCALE(1) + (ts_code_ave * 13));
+> +
+> +	/* Temperature calculation */
+> +	val = ((dsensor - priv->calib1) * (MCELSIUS(165) /
+> +		(priv->calib0 - priv->calib1))) - MCELSIUS(40);
+> +
+> +	/* Round value to device granularity setting */
+> +	*temp = rzg2l_thermal_round(val);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct thermal_zone_of_device_ops rzg2l_tz_of_ops = {
+> +	.get_temp = rzg2l_thermal_get_temp,
+> +};
+> +
+> +static int rzg2l_thermal_init(struct rzg2l_thermal_priv *priv)
+> +{
+> +	u32 reg_val;
+> +
+> +	rzg2l_thermal_write(priv, TSU_SM, TSU_SM_NORMAL_MODE);
+> +	rzg2l_thermal_write(priv, TSU_ST, 0);
+> +
+> +	/* Before setting START bit, Wait for 60 µs */
+> +	usleep_range(60, 80);
+> +
+> +	reg_val = rzg2l_thermal_read(priv, TSU_ST);
+> +	reg_val |= TSU_ST_START;
+> +	rzg2l_thermal_write(priv, TSU_ST, reg_val);
+> +
+> +	return readl_poll_timeout(priv->base + TSU_SS, reg_val,
+> +				  reg_val == TSU_SS_CONV_RUNNING, 50,
+> +				  RZG2L_TSU_SS_TIMEOUT_US);
+> +}
+> +
+> +static int rzg2l_thermal_remove(struct platform_device *pdev)
+> +{
+> +	struct rzg2l_thermal_priv *priv = dev_get_drvdata(&pdev->dev);
+> +
+> +	pm_runtime_put(&pdev->dev);
+> +	pm_runtime_disable(&pdev->dev);
+> +	reset_control_assert(priv->rstc);
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzg2l_hwmon_action(void *data)
+> +{
+> +	struct thermal_zone_device *zone = data;
+> +
+> +	thermal_remove_hwmon_sysfs(zone);
+> +}
+> +
+> +static int rzg2l_thermal_probe(struct platform_device *pdev)
+> +{
+> +	struct thermal_zone_device *zone;
+> +	struct rzg2l_thermal_priv *priv;
+> +	struct device *dev = &pdev->dev;
+> +	int ret;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(priv->base))
+> +		return PTR_ERR(priv->base);
+> +
+> +	priv->dev = dev;
+> +	priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+> +	if (IS_ERR(priv->rstc))
+> +		return dev_err_probe(dev, PTR_ERR(priv->rstc),
+> +				     "failed to get cpg reset");
+> +
+> +	reset_control_deassert(priv->rstc);
+> +
+> +	pm_runtime_enable(dev);
+> +	pm_runtime_get_sync(dev);
+> +
+> +	priv->calib0 = rzg2l_thermal_read(priv, OTPTSUTRIM_REG(0));
+> +	if (!priv->calib0)
+> +		priv->calib0 = SW_CALIB0_VAL;
+> +
+> +	priv->calib1 = rzg2l_thermal_read(priv, OTPTSUTRIM_REG(1));
+> +	if (!priv->calib1)
+> +		priv->calib1 = SW_CALIB1_VAL;
+> +
+> +	platform_set_drvdata(pdev, priv);
+> +	ret = rzg2l_thermal_init(priv);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to start TSU");
+> +		goto error_unregister;
+> +	}
+> +
+> +	zone = devm_thermal_zone_of_sensor_register(dev, 0, priv,
+> +						    &rzg2l_tz_of_ops);
+> +	if (IS_ERR(zone)) {
+> +		dev_err(dev, "Can't register thermal zone");
+> +		ret = PTR_ERR(zone);
+> +		goto error_unregister;
+> +	}
+> +
+> +	priv->zone = zone;
+> +	priv->zone->tzp->no_hwmon = false;
+> +	ret = thermal_add_hwmon_sysfs(priv->zone);
+> +	if (ret)
+> +		goto error_unregister;
+> +
+> +	ret = devm_add_action_or_reset(dev, rzg2l_hwmon_action, zone);
+> +	if (ret)
+> +		goto error_unregister;
 
-                        Geert
+This driver only uses one zone would it be worth considering calling 
+thermal_remove_hwmon_sysfs() directly from rzg2l_thermal_remove()?  
+Compare then Renesas Gen2 and Gen3 drivers. Where Gen3 uses devres to 
+make it easier to deal with more then one zone wile Gen2 calls it 
+directly from its remove function.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> +
+> +	dev_info(dev, "TSU probed with %s caliberation values",
+> +		 rzg2l_thermal_read(priv, OTPTSUTRIM_REG(0)) ?  "hw" : "sw");
+> +
+> +	return 0;
+> +
+> +error_unregister:
+> +	rzg2l_thermal_remove(pdev);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct of_device_id rzg2l_thermal_dt_ids[] = {
+> +	{ .compatible = "renesas,rzg2l-tsu", },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, rzg2l_thermal_dt_ids);
+> +
+> +static struct platform_driver rzg2l_thermal_driver = {
+> +	.driver = {
+> +		.name = "rzg2l_thermal",
+> +		.of_match_table = rzg2l_thermal_dt_ids,
+> +	},
+> +	.probe = rzg2l_thermal_probe,
+> +	.remove = rzg2l_thermal_remove,
+> +};
+> +module_platform_driver(rzg2l_thermal_driver);
+> +
+> +MODULE_DESCRIPTION("Renesas RZ/G2L TSU Thermal Sensor Driver");
+> +MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
+> +MODULE_LICENSE("GPL v2");
+> -- 
+> 2.17.1
+> 
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Kind Regards,
+Niklas Söderlund
