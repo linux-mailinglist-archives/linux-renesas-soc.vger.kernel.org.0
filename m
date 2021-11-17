@@ -2,145 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23C774543D1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 10:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86E744544B8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 11:10:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235292AbhKQJkV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Nov 2021 04:40:21 -0500
-Received: from www.zeus03.de ([194.117.254.33]:57394 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235152AbhKQJkU (ORCPT
+        id S236072AbhKQKNy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Nov 2021 05:13:54 -0500
+Received: from mail-ua1-f44.google.com ([209.85.222.44]:37814 "EHLO
+        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236071AbhKQKNx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Nov 2021 04:40:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=FYUeK2JdrU/rAWh4/4QkV2cW9d6
-        JzIm6PfHQdMILjT4=; b=IVU+geOLyX4mJ8TDuiC6Wrb2wtz8IUV3a5Mu2trNrBG
-        eUevbfUsmZLQmzv/o2Dl8ElDGmvLvm1RhUUi1UTfCfQ1YHYrgkl+8mZDiMdQzaOl
-        Iric4Vd9vNSq6eL4CWBl9PiobySlnhVQZnvb6RnzgkD+4IA9RjnOFaViM7rN0J6g
-        =
-Received: (qmail 3038911 invoked from network); 17 Nov 2021 10:37:19 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Nov 2021 10:37:19 +0100
-X-UD-Smtp-Session: l3s3148p1@60NkyfjQtusgAwDPXwoaAHKn46ZTsFWo
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] memory: renesas-rpc-if: avoid use of undocumented bits
-Date:   Wed, 17 Nov 2021 10:37:10 +0100
-Message-Id: <20211117093710.14430-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        Wed, 17 Nov 2021 05:13:53 -0500
+Received: by mail-ua1-f44.google.com with SMTP id o1so4706394uap.4;
+        Wed, 17 Nov 2021 02:10:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qevdWOqC+tLNVkrAWY5Ram6wKwTTrGq6c/WGLRh1MTs=;
+        b=JHeDgYBoobloEOzmS4UsTslPHFV5UL8l84pQoXJowfSE7B1ycW9Vif7aX3DbyGEa+6
+         jdSnvJUVrCsqqWwWjaVHxlB1oDkXkK765o9RQnT7vIGPjoJ1I4OT7tlqliQBA8SZU8bp
+         kV2jxkKASgk9PiQ6XCf/DXfGVK77qHT/HRdqkzc+Q6rz1ZRAi8KAw01cyEZNVFVqGAfk
+         KB4raA+Z2UnDuATLq2LKqioYwb/Rbu4yxib00IiKHqCyy7q7yqErsueD9L6enpTQVN4R
+         aPpTIHSX20MDYBQgDfVOQuGnTu6BWdoqpq2121VFXO6s9Uk3507HpJlC20joqosl3YsD
+         ZJOw==
+X-Gm-Message-State: AOAM531HdK9XcQJ5UGm7lTDOAuQO4myOpDMQlMBA5NQXRuixBBWmadF0
+        6JPWbrIJ4VLM7WNOlbkNP8CyFBxMdZvktQ==
+X-Google-Smtp-Source: ABdhPJz2IKejb+wBnv4SXliW3evzzzQtJ688e1/e9Ys3/LihZNn1vJlFel5SHVKVIQBiKdbm24OO1g==
+X-Received: by 2002:a67:d61d:: with SMTP id n29mr67070534vsj.52.1637143854405;
+        Wed, 17 Nov 2021 02:10:54 -0800 (PST)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id l24sm11528127vkk.37.2021.11.17.02.10.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Nov 2021 02:10:54 -0800 (PST)
+Received: by mail-vk1-f175.google.com with SMTP id e64so1300450vke.4;
+        Wed, 17 Nov 2021 02:10:54 -0800 (PST)
+X-Received: by 2002:a05:6122:20ab:: with SMTP id i43mr86278652vkd.19.1637143853825;
+ Wed, 17 Nov 2021 02:10:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211117011247.27621-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211117011247.27621-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211117011247.27621-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 17 Nov 2021 11:10:42 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVbd4e=Z4+s3VOTCSwitdG=wYV8M+MotWBiK=HwhwuopA@mail.gmail.com>
+Message-ID: <CAMuHMdVbd4e=Z4+s3VOTCSwitdG=wYV8M+MotWBiK=HwhwuopA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: rzg2l-smarc: Enable RSPI1 on
+ carrier board
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Instead of writing fixed values with undocumented bits which happen to
-be set on some SoCs, better switch to read-modify-write operations
-changing only bits which are documented. This is way more future-proof
-as we don't know yet how these bits may be on upcoming SoCs.
+Hi Prabhakar,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+On Wed, Nov 17, 2021 at 2:12 AM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> RSPI1 (SPI1) interface is available on PMOD0 connector (J1) on carrier
+> board, This patch adds pinmux and spi1 node to carrier board dtsi file.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-This patch is based on the Krzysztof's for-next branch as it depends on
-Prabhakar's G2L additions.
+Thanks for your patch!
 
-Tested on a V3U with some debug code verifying that the same values are
-written before and after the patch.
+> --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> @@ -31,6 +31,7 @@
+>                 i2c0 = &i2c0;
+>                 i2c1 = &i2c1;
+>                 i2c3 = &i2c3;
+> +               spi1 = &spi1;
 
-@Prabhakar: would you be so kind and test this patch on G2L?
+Do you mind if I drop this while applying?
 
- drivers/memory/renesas-rpc-if.c | 58 +++++++++++++--------------------
- 1 file changed, 22 insertions(+), 36 deletions(-)
+>         };
+>
+>         chosen {
 
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 8c51145c0f5c..a9f3e7bdddf8 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -20,7 +20,6 @@
- 
- #define RPCIF_CMNCR		0x0000	/* R/W */
- #define RPCIF_CMNCR_MD		BIT(31)
--#define RPCIF_CMNCR_SFDE	BIT(24) /* undocumented but must be set */
- #define RPCIF_CMNCR_MOIIO3(val)	(((val) & 0x3) << 22)
- #define RPCIF_CMNCR_MOIIO2(val)	(((val) & 0x3) << 20)
- #define RPCIF_CMNCR_MOIIO1(val)	(((val) & 0x3) << 18)
-@@ -290,49 +289,36 @@ int rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
- 		rpcif_rzg2l_timing_adjust_sdr(rpc);
- 	}
- 
--	/*
--	 * NOTE: The 0x260 are undocumented bits, but they must be set.
--	 *	 RPCIF_PHYCNT_STRTIM is strobe timing adjustment bits,
--	 *	 0x0 : the delay is biggest,
--	 *	 0x1 : the delay is 2nd biggest,
--	 *	 On H3 ES1.x, the value should be 0, while on others,
--	 *	 the value should be 7.
--	 */
--	if (rpc->type == RPCIF_RCAR_GEN3) {
--		regmap_write(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_STRTIM(7) |
--			     RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260);
--	} else {
--		regmap_read(rpc->regmap, RPCIF_PHYCNT, &dummy);
--		dummy &= ~RPCIF_PHYCNT_PHYMEM_MASK;
--		dummy |= RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0) | 0x260;
--		regmap_write(rpc->regmap, RPCIF_PHYCNT, dummy);
--	}
-+	regmap_update_bits(rpc->regmap, RPCIF_PHYCNT, RPCIF_PHYCNT_PHYMEM_MASK,
-+			   RPCIF_PHYCNT_PHYMEM(hyperflash ? 3 : 0));
-+
-+	if (rpc->type == RPCIF_RCAR_GEN3)
-+		regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
-+				   RPCIF_PHYCNT_STRTIM(7), RPCIF_PHYCNT_STRTIM(7));
- 
--	/*
--	 * NOTE: The 0x1511144 are undocumented bits, but they must be set
--	 *       for RPCIF_PHYOFFSET1.
--	 *	 The 0x31 are undocumented bits, but they must be set
--	 *	 for RPCIF_PHYOFFSET2.
--	 */
--	regmap_write(rpc->regmap, RPCIF_PHYOFFSET1, 0x1511144 |
--		     RPCIF_PHYOFFSET1_DDRTMG(3));
--	regmap_write(rpc->regmap, RPCIF_PHYOFFSET2, 0x31 |
--		     RPCIF_PHYOFFSET2_OCTTMG(4));
-+	regmap_update_bits(rpc->regmap, RPCIF_PHYOFFSET1, RPCIF_PHYOFFSET1_DDRTMG(3),
-+			   RPCIF_PHYOFFSET1_DDRTMG(3));
-+	regmap_update_bits(rpc->regmap, RPCIF_PHYOFFSET2, RPCIF_PHYOFFSET2_OCTTMG(7),
-+			   RPCIF_PHYOFFSET2_OCTTMG(4));
- 
- 	if (hyperflash)
- 		regmap_update_bits(rpc->regmap, RPCIF_PHYINT,
- 				   RPCIF_PHYINT_WPVAL, 0);
- 
- 	if (rpc->type == RPCIF_RCAR_GEN3)
--		regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
--			     RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_IOFV_HIZ |
--			     RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
-+		regmap_update_bits(rpc->regmap, RPCIF_CMNCR,
-+				   RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_BSZ(3),
-+				   RPCIF_CMNCR_MOIIO_HIZ |
-+				   RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
- 	else
--		regmap_write(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_SFDE |
--			     RPCIF_CMNCR_MOIIO3(1) | RPCIF_CMNCR_MOIIO2(1) |
--			     RPCIF_CMNCR_MOIIO1(1) | RPCIF_CMNCR_MOIIO0(1) |
--			     RPCIF_CMNCR_IO3FV(2) | RPCIF_CMNCR_IO2FV(2) |
--			     RPCIF_CMNCR_IO0FV(2) | RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
-+		regmap_update_bits(rpc->regmap, RPCIF_CMNCR,
-+				   RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_IOFV_HIZ |
-+				   RPCIF_CMNCR_BSZ(3),
-+				   RPCIF_CMNCR_MOIIO3(1) | RPCIF_CMNCR_MOIIO2(1) |
-+				   RPCIF_CMNCR_MOIIO1(1) | RPCIF_CMNCR_MOIIO0(1) |
-+				   RPCIF_CMNCR_IO3FV(2) | RPCIF_CMNCR_IO2FV(2) |
-+				   RPCIF_CMNCR_IO0FV(2) |
-+				   RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
- 
- 	/* Set RCF after BSZ update */
- 	regmap_write(rpc->regmap, RPCIF_DRCR, RPCIF_DRCR_RCF);
--- 
-2.30.2
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.17.
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
