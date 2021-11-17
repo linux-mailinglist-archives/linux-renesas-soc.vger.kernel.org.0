@@ -2,404 +2,295 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4762453FFB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 06:24:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75352454286
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 09:21:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233089AbhKQF1F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Nov 2021 00:27:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232042AbhKQF1E (ORCPT
+        id S233313AbhKQIYA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Nov 2021 03:24:00 -0500
+Received: from mail-tycjpn01on2102.outbound.protection.outlook.com ([40.107.114.102]:47616
+        "EHLO JPN01-TYC-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229944AbhKQIX6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Nov 2021 00:27:04 -0500
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBCA8C061570;
-        Tue, 16 Nov 2021 21:24:06 -0800 (PST)
-Received: by mail-oi1-x232.google.com with SMTP id r26so3827099oiw.5;
-        Tue, 16 Nov 2021 21:24:06 -0800 (PST)
+        Wed, 17 Nov 2021 03:23:58 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VGYpwEm1GfHz+8nTzsxPoww9Hs3rATiIOcMX2hgSZMZnu+W8C1EtzCdgZkud2z7Orp9SMCXrzik32UC0OiQmaTzfDYRnf/U727QCznYxVO7iy5irvx4OweUuV751w2WY3W0zEs88TgPq2wL4KLEGefTHwhnup7JSnu5ljGrZaug5TkBcq54K4Kc/QNuzvx/96og29k0RkO23/pPbUVJWGiUeYJaXnMy+6mMIcqE0yZrH5hR3Jet8wiz+4UnqjyeKj38Jbui+sHcCyWcziay58wlwReNltUMbROjzsPghVGxSWyk64Pv0P7ULDJMrVvUaKo2JFjPy7cdR9zvDoDpoPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V5OuXBy6PtUBdHoLSsJ07q+uB2Ov9jnZmJuGRXaJ1tk=;
+ b=QIeV5vmOp32/erES2ZyF793Ccq6Rht5m4cfhNip10R5sZSlXkeqOuHvbYkMzQjF3IrmilHsc7toEZIcRrRrny6a7w+Oi2FUBvWKBgtxi9Bb/8IQ6lfbr6V9T/k9d2mM7u+Q942cFAs6kGjBbFh2oKW2CXRpOIpawWSMIjJdbnenQvMh4xYiqHfByubgT1NhDTMPAr5hE0sf5mKniaUBxBjTPaSYiU1Qh4nnje2VjSAGS+Fy2015N+R6m3c3rIPnl5C9YkeJsMBwrZj2Ly9SnNzbo+Nydu0LRvOdKOG16oa+RV5YKVno/Ke5VX2edxuFBDJYLKP7UYsKgBWB08Xz9YA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Q3TrBI96Vc01VQX7u+AAwaZlrQN8WLnrpPHzPDz/QaM=;
-        b=UgJoILtebbQwOXTf91zAnarao1cPxUSmkKFHxuJIs4ty67tg+6LVvD/x6pVIS6hd5T
-         AxL1KwiGuI3ePEVSViSWqgFFTJE1FWw+iY4eu7lbE6cECHaxo/FYcMaEs5/n8GUgAL9n
-         lfIItaI/ZmF1Wv2d2748HAU3Wul1CTqdDzLTnnl5KJZ9PxXW3AXDVQ56v8sRKelShTdV
-         wui3hAdn5RJ5pdIMt1Xp6aGYRpi6uaAHAqP6wnmim7EZT12714VtiYmyC5uFU6CWSvvq
-         k9nNQbLJBPkpSFYmeccCh0qqGwG7SrflhL7zLn/wvhZrnuJrN5Slv9s7ZJSsaOMBTOdm
-         VA5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=Q3TrBI96Vc01VQX7u+AAwaZlrQN8WLnrpPHzPDz/QaM=;
-        b=nfl/S2dipqO9JZ1D+NkrTU3qBr/XZToTxfDQBbSIHQ4RAjYewkae8Xh4tPu09o/Bfz
-         OSY0oSJl1BgDyBiuV/G0zNUVPVbl7kAnBTDB+iGqfTOltIFyPobrCyuSvn4GJv+hw6W2
-         zx+pT6yaBGdrIPaY8zi5Py5OJ6jauC/3SWCfzcYi4GQD6K5iA4NwyCf7QGkuOJB/AK0s
-         sIuHOQnyqOuMDbUb/tZglBDmAEhu84TpBKf/H5S++K1jRtO5nCL4yI83/yQjNi6wur4t
-         X5MQpMmw9uAmfp0Ci9LuFn6buLrBDJZiFYIPEZNxdxUHu9xOsGzI8ih3Q7Q+4enkZg9o
-         Se6w==
-X-Gm-Message-State: AOAM530QIBKv9uassFAVBLV4WVGtskXx+WWhKME5O5g5gIrI28Uus6aN
-        ZEgSK17kn290w/qlWUfZTpo=
-X-Google-Smtp-Source: ABdhPJzMLXJlS8KDeFAPyYOrAZxrVv5VPbfn9e9c4OSLK5ZbKaSQhcBSeSt6mMvjbkG1sIlYexzwtg==
-X-Received: by 2002:a05:6808:60e:: with SMTP id y14mr11580671oih.162.1637126646036;
-        Tue, 16 Nov 2021 21:24:06 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id u40sm2555491oiw.56.2021.11.16.21.24.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Nov 2021 21:24:05 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 16 Nov 2021 21:24:04 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-watchdog@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V5OuXBy6PtUBdHoLSsJ07q+uB2Ov9jnZmJuGRXaJ1tk=;
+ b=EDm1OhvJV2Ah67cBSm6pbqhawk5K4LzJWwhDAjCEmJcpT+gIYBUWLQfsoaAUfXwPnzGQKanPRYMNONREmwsOILU0KioqMfbmf9NbLZPcLi7BzMzalTJhV5oAU9nCc9BhFwVMfnhKijekc5aOp1lhOQS3UgwhMsEkXHfoz2G3TGI=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSAPR01MB1874.jpnprd01.prod.outlook.com (2603:1096:603:2c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Wed, 17 Nov
+ 2021 08:20:57 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::c0bd:405a:cdd3:f153]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::c0bd:405a:cdd3:f153%8]) with mapi id 15.20.4690.027; Wed, 17 Nov 2021
+ 08:20:56 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] watchdog: Add Watchdog Timer driver for RZ/G2L
-Message-ID: <20211117052404.GD215087@roeck-us.net>
+        Biju Das <biju.das@bp.renesas.com>
+Subject: RE: [PATCH v2 1/3] clk: renesas: rzg2l: Add support for watchdog
+ reset selection
+Thread-Topic: [PATCH v2 1/3] clk: renesas: rzg2l: Add support for watchdog
+ reset selection
+Thread-Index: AQHX1vLnlfB1SUBaW0CHFGqbJXktJKwG4nSAgACCKpA=
+Date:   Wed, 17 Nov 2021 08:20:55 +0000
+Message-ID: <OS0PR01MB5922F6D7662F86089833F326869A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 References: <20211111115427.8228-1-biju.das.jz@bp.renesas.com>
- <20211111115427.8228-4-biju.das.jz@bp.renesas.com>
+ <20211111115427.8228-2-biju.das.jz@bp.renesas.com>
+ <OSZPR01MB70196F7398C5DA1E940E79CAAA9A9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSZPR01MB70196F7398C5DA1E940E79CAAA9A9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e00642a4-faf8-4b43-ce73-08d9a9a32dbf
+x-ms-traffictypediagnostic: OSAPR01MB1874:
+x-microsoft-antispam-prvs: <OSAPR01MB1874832D8AE493D3987F6845869A9@OSAPR01MB1874.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pDZm3oDNPINEXTHHOhby58/CdopX4zwJ2YA1EeqR6Su92T8kruXU5oLGt8AZ25hmNs4/KxXLi4DiCiHQgx/C458aedIUqyYTEjkwPHml2L03K6+A+AAar8YxVUHZGS/LuonbOux85lv+DNXzUTNmlxcrwraHaWjXpq2fdFpcB1upkw2D36Uz0KLKc9bU/TxczB4hRvjA6PaxCr0o/ZmSXYBP84vfvThzBseZYH7H6TDCNzidk46HDVVklT1U9+xX9pwF4EFzcQ2nOmAreoYmoYGYyMFb1TMXlqrBXqyvHyfZ53DJat/oZ27E8ZISzWDyyQK8QJ1Tm4kYFIgIjmfMMD6Ei7/An/fA942RYIrAKyd8/i3tyamerOo8f5SVbRS+EpYaQKNTFYc2XdnhKgcsFU7vbY06fdTGZe7jXw7DQUvpFE/5QzVwHRg/2Vl+f/+2eptHcbK1ah5nO3h8K2hco2vP5MsX6S7A4mCzv7IXzXrtYNrTxqlNtrP5iGVzUBVUAHx+mMF92DYQoIn0oTGnofZ2xyYPKVKml4K+EkozoeZ9BU124l0qM+M564FMzjSmLdxc+3B3JzoazjqsWE/Q6Atq7kNNmzmi36uIjqfOsVgUtSexzfLMSYShPCcBs8AWxF1FCGNRszv5PsvpBfTEvd/1Iw02I3qA1Gkgg0CKLVJU9BnYxx/Ie+RVYDrFRH/oTCN39unJsqul+oFwOykuqPp5+EzYelbSpYHq2sWWfRw=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(9686003)(186003)(2906002)(55016002)(5660300002)(76116006)(71200400001)(4326008)(508600001)(54906003)(53546011)(7696005)(107886003)(8676002)(66476007)(66946007)(110136005)(38070700005)(52536014)(316002)(66556008)(64756008)(66446008)(83380400001)(6506007)(8936002)(26005)(33656002)(122000001)(38100700002)(86362001)(171213001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?v1DDLoj3KwyViNfLp0TlgAPylWWA9nMZ3HqPdmLE6oqEck2g7ysRFHoX9UMn?=
+ =?us-ascii?Q?eq5fCPojGFx/gqGYOFxwJ7D800yYrLjA0s8C1Hhub3g92dwMMgJVrLpJxjp2?=
+ =?us-ascii?Q?FSLcc1pOjLLZTfKOtBwIQ6BI0dBOETUwEBF1VxZytlQXvLUJoGQF93pCv146?=
+ =?us-ascii?Q?5vDtUt/HpZVW9i1qZZu38qc4Ho7d6t5KzJD2CD2uvHRJSCjScqqYkqiQXDVw?=
+ =?us-ascii?Q?OfASWlYlm18nKsRgVrA7aZp1AhArhcsB5YR8+ZVBwax3jw4Gev5R9r+g2kR3?=
+ =?us-ascii?Q?j+bWo7to10kcuS7hUon1qCotmK7EEerIi6R9zBL9xGwLx69caynwPTIxQ3yq?=
+ =?us-ascii?Q?QkP+zV04yk8iFSBITdh8+igbj4ml+disnWPpIVs5l0rCA8cqG+kicsPD/p65?=
+ =?us-ascii?Q?2S2sS2waaw7TN4SehAWQPQ3B0nvAmveNMx0W2I/yCL3rDAn7q/LnWHwSjwor?=
+ =?us-ascii?Q?lbiURkDK4Np7lzb64tKzUU8yh6sRSbfyJ/WoedcjaEWB8gB2f7ck+mcceg/L?=
+ =?us-ascii?Q?5QuchqnEuQDz1nUTmBi6L9LKjT2fzEUUT+4dXNcr9g2Dlu19MnC4m13wjEeh?=
+ =?us-ascii?Q?CHjHJIXb1eFpXaLusbgjLngG58oBp1oe7Ylr1j6XtYMnTx9ErarvWl7kA468?=
+ =?us-ascii?Q?3IfSeIdzHf20gnxIA3+W7KZISCJ7C1ayIHVff9JeLKQM0E6s0KVfKgqxP4uj?=
+ =?us-ascii?Q?IzVA/suU9E9NraWYOMXDvWWihearMDw0q/fPWfBFZutSmwU+UrzvLAyNmkyk?=
+ =?us-ascii?Q?v/cMBC8a3C1P4gJVFtNCI5atvEAchAag7Q50NEVNIbQOH+cTMTvzmEaQMBg2?=
+ =?us-ascii?Q?T7yTYiNl33nWx51VcijaUAx8Wp96A4TwpuxTbl9LIyijlt+CAR7/QJCiC3Z6?=
+ =?us-ascii?Q?QO6mGGif7omq6AsIkYvoHY3KEIRT58fJbgbzLHElaml2fNqOADgiHAhW0Ede?=
+ =?us-ascii?Q?HfetLnpS0S/v8cDzVb63XouHJUmscdTpu61q/2BxNLEERNGlDHYC7D00fnFf?=
+ =?us-ascii?Q?XJFtVrriTu0RSIdgkAA4HBB33a6s8pa/nzpr0LG7NN2gcBHIGucuMmEk1dI0?=
+ =?us-ascii?Q?1Iqxo60IDIJKdiyMgb9F3bCHE3PhPfV2XdxlYHdStBgc6nADhmaHuxqn2TxQ?=
+ =?us-ascii?Q?nhlkdqOAMpl3F59sdIxQGJZ7oz8j3tt/28IJZ9pMoeRATCpmWuafUPCx5dGl?=
+ =?us-ascii?Q?XqMmVkFsWLyI4Wjyx1811QERvbc/E7bw5X2AYzNOsbiEsMjfiqUa7YNvcsdj?=
+ =?us-ascii?Q?7Op8ukVcIF3H8d2wtnA2euZNoTkBcs7EYMcTMFJy+AhCHdimVT1uet4frwIF?=
+ =?us-ascii?Q?gn7sf5ZISbMHWH8MV4geNzDjHnGJc90h/pb6vrNcdhXlDh6oiW6cT/indxMe?=
+ =?us-ascii?Q?8ja6xkfNeGHpoZT/pAwq+YJrtHJvkxoFiFYHJFNHTL5RbRhMPIjDLJWkzAlx?=
+ =?us-ascii?Q?7ANA1qR/INZ0/K9kJ7qTLzx+0fGr5ZU4C0BLi+SJnkWGBNCSEiYMhWybvAYu?=
+ =?us-ascii?Q?wqYnfTifo1/WkvCeA4LkB0kcYB6ejaretuJJrTYE9Pmz34rRAawLbZxVh/DK?=
+ =?us-ascii?Q?cBGibl0H8C9roWv1s8k414qxP1fCVT1OtvVm5XwyPlkEvPO379BadrcTXmHJ?=
+ =?us-ascii?Q?YOri6k95AH++A+t6+6FnKuOYrVx/WzIE5/Adr+HoJhuHU0zDQ0RBBo9ry61T?=
+ =?us-ascii?Q?AKtw8A=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211111115427.8228-4-biju.das.jz@bp.renesas.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e00642a4-faf8-4b43-ce73-08d9a9a32dbf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2021 08:20:55.8748
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +n+Q89x59AP8Hc9PPKd1xlROafMpn2ROWw6o56CE/cGGiY7lZb97EuI52p4gtymIeuvLA7Oy2xe7yogB9VcpcJCc+/z14Wbn0UUyW89zVLY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB1874
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 11, 2021 at 11:54:27AM +0000, Biju Das wrote:
-> Add Watchdog Timer driver for RZ/G2L SoC.
-> 
-> WDT IP block supports normal watchdog timer function and reset
-> request function due to CPU parity error.
-> 
-> This driver currently supports normal watchdog timer function
-> and later will add support for reset request function due to
-> CPU parity error.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Prabhakar,
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Thanks for the feedback
 
-> ---
-> V1->V2:
->  * started using clk_get/put instead of devm_clk_get/put
->  * Moved devm_add_action_or_reset after set_drvdata() and 
->  * removed redundant action on devm_add_action_or_reset() failure.
-> RFC->V1
->  * Removed pclk_rate from priv.
->  * rzg2l_wdt_write() returns void and Removed tiemout related to register update 
->  * rzg2l_wdt_init_timeout() returns void and removed delays.
->  * removed set_bit(WDOG_HW_RUNNING,..) as we can stop watchdog
->  * renamed reset_assert_clock_disable->reset_assert_pm_disable_put
->  * started using devm_reset_control_get_exclusive()
->  * removed platform_set_drvdata(pdev, priv) as there is no user
->  * removed watchdog_set_restart_priority(&priv->wdev, 0) as 0 is the default.
->  * removed remove callback as it is empty.
-> ---
->  drivers/watchdog/Kconfig     |   8 ++
->  drivers/watchdog/Makefile    |   1 +
->  drivers/watchdog/rzg2l_wdt.c | 255 +++++++++++++++++++++++++++++++++++
->  3 files changed, 264 insertions(+)
->  create mode 100644 drivers/watchdog/rzg2l_wdt.c
-> 
-> diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-> index bf59faeb3de1..34da309a7afd 100644
-> --- a/drivers/watchdog/Kconfig
-> +++ b/drivers/watchdog/Kconfig
-> @@ -895,6 +895,14 @@ config RENESAS_RZAWDT
->  	  This driver adds watchdog support for the integrated watchdogs in the
->  	  Renesas RZ/A SoCs. These watchdogs can be used to reset a system.
->  
-> +config RENESAS_RZG2LWDT
-> +	tristate "Renesas RZ/G2L WDT Watchdog"
-> +	depends on ARCH_RENESAS || COMPILE_TEST
-> +	select WATCHDOG_CORE
-> +	help
-> +	  This driver adds watchdog support for the integrated watchdogs in the
-> +	  Renesas RZ/G2L SoCs. These watchdogs can be used to reset a system.
-> +
->  config ASPEED_WATCHDOG
->  	tristate "Aspeed BMC watchdog support"
->  	depends on ARCH_ASPEED || COMPILE_TEST
-> diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
-> index 1bd2d6f37c53..e7e8ce546814 100644
-> --- a/drivers/watchdog/Makefile
-> +++ b/drivers/watchdog/Makefile
-> @@ -85,6 +85,7 @@ obj-$(CONFIG_LPC18XX_WATCHDOG) += lpc18xx_wdt.o
->  obj-$(CONFIG_BCM7038_WDT) += bcm7038_wdt.o
->  obj-$(CONFIG_RENESAS_WDT) += renesas_wdt.o
->  obj-$(CONFIG_RENESAS_RZAWDT) += rza_wdt.o
-> +obj-$(CONFIG_RENESAS_RZG2LWDT) += rzg2l_wdt.o
->  obj-$(CONFIG_ASPEED_WATCHDOG) += aspeed_wdt.o
->  obj-$(CONFIG_STM32_WATCHDOG) += stm32_iwdg.o
->  obj-$(CONFIG_UNIPHIER_WATCHDOG) += uniphier_wdt.o
-> diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
-> new file mode 100644
-> index 000000000000..77f1cfc5ecf6
-> --- /dev/null
-> +++ b/drivers/watchdog/rzg2l_wdt.c
-> @@ -0,0 +1,255 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Renesas RZ/G2L WDT Watchdog Driver
-> + *
-> + * Copyright (C) 2021 Renesas Electronics Corporation
-> + */
-> +#include <linux/bitops.h>
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/reset.h>
-> +#include <linux/watchdog.h>
-> +
-> +#define WDTCNT		0x00
-> +#define WDTSET		0x04
-> +#define WDTTIM		0x08
-> +#define WDTINT		0x0C
-> +#define WDTCNT_WDTEN	BIT(0)
-> +#define WDTINT_INTDISP	BIT(0)
-> +
-> +#define WDT_DEFAULT_TIMEOUT		60U
-> +
-> +/* Setting period time register only 12 bit set in WDTSET[31:20] */
-> +#define WDTSET_COUNTER_MASK		(0xFFF00000)
-> +#define WDTSET_COUNTER_VAL(f)		((f) << 20)
-> +
-> +#define F2CYCLE_NSEC(f)			(1000000000 / (f))
-> +#define WDT_CYCLE_MSEC(f, wdttime)	((1024 * 1024 * (((u64)wdttime) + 1)) / \
-> +					 ((f) / 1000000))
-> +
-> +static bool nowayout = WATCHDOG_NOWAYOUT;
-> +module_param(nowayout, bool, 0);
-> +MODULE_PARM_DESC(nowayout, "Watchdog cannot be stopped once started (default="
-> +				__MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
-> +
-> +struct rzg2l_wdt_priv {
-> +	void __iomem *base;
-> +	struct watchdog_device wdev;
-> +	struct reset_control *rstc;
-> +	unsigned long osc_clk_rate;
-> +	unsigned long delay;
-> +};
-> +
-> +static void rzg2l_wdt_wait_delay(struct rzg2l_wdt_priv *priv)
-> +{
-> +	/* delay timer when change the setting register */
-> +	ndelay(priv->delay);
-> +}
-> +
-> +static void rzg2l_wdt_write(struct rzg2l_wdt_priv *priv, u32 val, unsigned int reg)
-> +{
-> +	if (reg == WDTSET)
-> +		val &= WDTSET_COUNTER_MASK;
-> +
-> +	writel_relaxed(val, priv->base + reg);
-> +	/* Registers other than the WDTINT is always synchronized with WDT_CLK */
-> +	if (reg != WDTINT)
-> +		rzg2l_wdt_wait_delay(priv);
-> +}
-> +
-> +static void rzg2l_wdt_init_timeout(struct watchdog_device *wdev)
-> +{
-> +	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-> +	u32 time_out;
-> +
-> +	/* Clear Lapsed Time Register and clear Interrupt */
-> +	rzg2l_wdt_write(priv, WDTINT_INTDISP, WDTINT);
-> +	/* 2 consecutive overflow cycle needed to trigger reset */
-> +	time_out = (wdev->timeout / 2 * 1000000) / WDT_CYCLE_MSEC(priv->osc_clk_rate, 0);
-> +	rzg2l_wdt_write(priv, WDTSET_COUNTER_VAL(time_out), WDTSET);
-> +}
-> +
-> +static int rzg2l_wdt_start(struct watchdog_device *wdev)
-> +{
-> +	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-> +
-> +	reset_control_deassert(priv->rstc);
-> +	pm_runtime_get_sync(wdev->parent);
-> +
-> +	/* Initialize time out */
-> +	rzg2l_wdt_init_timeout(wdev);
-> +
-> +	/* Initialize watchdog counter register */
-> +	rzg2l_wdt_write(priv, 0, WDTTIM);
-> +
-> +	/* Enable watchdog timer*/
-> +	rzg2l_wdt_write(priv, WDTCNT_WDTEN, WDTCNT);
-> +
-> +	return 0;
-> +}
-> +
-> +static int rzg2l_wdt_stop(struct watchdog_device *wdev)
-> +{
-> +	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-> +
-> +	pm_runtime_put(wdev->parent);
-> +	reset_control_assert(priv->rstc);
-> +
-> +	return 0;
-> +}
-> +
-> +static int rzg2l_wdt_restart(struct watchdog_device *wdev,
-> +			     unsigned long action, void *data)
-> +{
-> +	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-> +
-> +	/* Reset the module before we modify any register */
-> +	reset_control_reset(priv->rstc);
-> +	pm_runtime_get_sync(wdev->parent);
-> +
-> +	/* smallest counter value to reboot soon */
-> +	rzg2l_wdt_write(priv, WDTSET_COUNTER_VAL(1), WDTSET);
-> +
-> +	/* Enable watchdog timer*/
-> +	rzg2l_wdt_write(priv, WDTCNT_WDTEN, WDTCNT);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct watchdog_info rzg2l_wdt_ident = {
-> +	.options = WDIOF_MAGICCLOSE | WDIOF_KEEPALIVEPING | WDIOF_SETTIMEOUT,
-> +	.identity = "Renesas RZ/G2L WDT Watchdog",
-> +};
-> +
-> +static int rzg2l_wdt_ping(struct watchdog_device *wdev)
-> +{
-> +	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-> +
-> +	rzg2l_wdt_write(priv, WDTINT_INTDISP, WDTINT);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct watchdog_ops rzg2l_wdt_ops = {
-> +	.owner = THIS_MODULE,
-> +	.start = rzg2l_wdt_start,
-> +	.stop = rzg2l_wdt_stop,
-> +	.ping = rzg2l_wdt_ping,
-> +	.restart = rzg2l_wdt_restart,
-> +};
-> +
-> +static void rzg2l_wdt_reset_assert_pm_disable_put(void *data)
-> +{
-> +	struct watchdog_device *wdev = data;
-> +	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-> +
-> +	pm_runtime_put(wdev->parent);
-> +	pm_runtime_disable(wdev->parent);
-> +	reset_control_assert(priv->rstc);
-> +}
-> +
-> +static int rzg2l_wdt_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct rzg2l_wdt_priv *priv;
-> +	unsigned long pclk_rate;
-> +	struct clk *wdt_clk;
-> +	int ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(priv->base))
-> +		return PTR_ERR(priv->base);
-> +
-> +	/* Get watchdog main clock */
-> +	wdt_clk = clk_get(&pdev->dev, "oscclk");
-> +	if (IS_ERR(wdt_clk))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(wdt_clk), "no oscclk");
-> +
-> +	priv->osc_clk_rate = clk_get_rate(wdt_clk);
-> +	clk_put(wdt_clk);
-> +	if (!priv->osc_clk_rate)
-> +		return dev_err_probe(&pdev->dev, -EINVAL, "oscclk rate is 0");
-> +
-> +	/* Get Peripheral clock */
-> +	wdt_clk = clk_get(&pdev->dev, "pclk");
-> +	if (IS_ERR(wdt_clk))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(wdt_clk), "no pclk");
-> +
-> +	pclk_rate = clk_get_rate(wdt_clk);
-> +	clk_put(wdt_clk);
-> +	if (!pclk_rate)
-> +		return dev_err_probe(&pdev->dev, -EINVAL, "pclk rate is 0");
-> +
-> +	priv->delay = F2CYCLE_NSEC(priv->osc_clk_rate) * 6 + F2CYCLE_NSEC(pclk_rate) * 9;
-> +
-> +	priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> +	if (IS_ERR(priv->rstc))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(priv->rstc),
-> +				     "failed to get cpg reset");
-> +
-> +	reset_control_deassert(priv->rstc);
-> +	pm_runtime_enable(&pdev->dev);
-> +	ret = pm_runtime_resume_and_get(&pdev->dev);
-> +	if (ret < 0) {
-> +		dev_err(dev, "pm_runtime_resume_and_get failed ret=%pe", ERR_PTR(ret));
-> +		goto out_pm_get;
-> +	}
-> +
-> +	priv->wdev.info = &rzg2l_wdt_ident;
-> +	priv->wdev.ops = &rzg2l_wdt_ops;
-> +	priv->wdev.parent = dev;
-> +	priv->wdev.min_timeout = 1;
-> +	priv->wdev.max_timeout = WDT_CYCLE_MSEC(priv->osc_clk_rate, 0xfff);
-> +	priv->wdev.timeout = WDT_DEFAULT_TIMEOUT;
-> +
-> +	watchdog_set_drvdata(&priv->wdev, priv);
-> +	ret = devm_add_action_or_reset(&pdev->dev,
-> +				       rzg2l_wdt_reset_assert_pm_disable_put,
-> +				       &priv->wdev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	watchdog_set_nowayout(&priv->wdev, nowayout);
-> +	watchdog_stop_on_unregister(&priv->wdev);
-> +
-> +	ret = watchdog_init_timeout(&priv->wdev, 0, dev);
-> +	if (ret)
-> +		dev_warn(dev, "Specified timeout invalid, using default");
-> +
-> +	return devm_watchdog_register_device(&pdev->dev, &priv->wdev);
-> +
-> +out_pm_get:
-> +	pm_runtime_disable(dev);
-> +	reset_control_assert(priv->rstc);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct of_device_id rzg2l_wdt_ids[] = {
-> +	{ .compatible = "renesas,rzg2l-wdt", },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, rzg2l_wdt_ids);
-> +
-> +static struct platform_driver rzg2l_wdt_driver = {
-> +	.driver = {
-> +		.name = "rzg2l_wdt",
-> +		.of_match_table = rzg2l_wdt_ids,
-> +	},
-> +	.probe = rzg2l_wdt_probe,
-> +};
-> +module_platform_driver(rzg2l_wdt_driver);
-> +
-> +MODULE_DESCRIPTION("Renesas RZ/G2L WDT Watchdog Driver");
-> +MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-> +MODULE_LICENSE("GPL v2");
-> -- 
-> 2.17.1
-> 
+> Subject: RE: [PATCH v2 1/3] clk: renesas: rzg2l: Add support for watchdog
+> reset selection
+>=20
+> Hi Biju,
+>=20
+> Thank you for the patch.
+>=20
+> > -----Original Message-----
+> > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > Sent: 11 November 2021 11:54
+> > To: Michael Turquette <mturquette@baylibre.com>; Stephen Boyd
+> > <sboyd@kernel.org>
+> > Cc: Biju Das <biju.das.jz@bp.renesas.com>; Geert Uytterhoeven
+> > <geert+renesas@glider.be>; linux- renesas-soc@vger.kernel.org;
+> > linux-watchdog@vger.kernel.org; linux-clk@vger.kernel.org; Chris
+> > Paterson <Chris.Paterson2@renesas.com>; Biju Das
+> > <biju.das@bp.renesas.com>; Prabhakar Mahadev Lad
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Subject: [PATCH v2 1/3] clk: renesas: rzg2l: Add support for watchdog
+> > reset selection
+> >
+> > This patch adds support for watchdog reset selection.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > V1->V2:
+> >  * No Change
+> > RFC->V1:
+> >  * No change
+> > ---
+> >  drivers/clk/renesas/r9a07g044-cpg.c | 22 ++++++++++++++++++++++
+> >  drivers/clk/renesas/rzg2l-cpg.c     |  6 ++++++
+> >  drivers/clk/renesas/rzg2l-cpg.h     | 14 ++++++++++++++
+> >  3 files changed, 42 insertions(+)
+> >
+> > diff --git a/drivers/clk/renesas/r9a07g044-cpg.c
+> > b/drivers/clk/renesas/r9a07g044-cpg.c
+> > index 91643b4e1c9c..0bbdc8bd6235 100644
+> > --- a/drivers/clk/renesas/r9a07g044-cpg.c
+> > +++ b/drivers/clk/renesas/r9a07g044-cpg.c
+> > @@ -8,6 +8,7 @@
+> >  #include <linux/clk-provider.h>
+> >  #include <linux/device.h>
+> >  #include <linux/init.h>
+> > +#include <linux/io.h>
+> >  #include <linux/kernel.h>
+> >
+> >  #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > @@ -295,7 +296,28 @@ static const unsigned int r9a07g044_crit_mod_clks[=
+]
+> __initconst =3D {
+> >  	MOD_CLK_BASE + R9A07G044_DMAC_ACLK,
+> >  };
+> >
+> > +#define CPG_WDTRST_SEL			0xb14
+> > +#define CPG_WDTRST_SEL_WDTRSTSEL(n)	BIT(n)
+> > +
+> > +#define CPG_WDTRST_SEL_WDTRST	(CPG_WDTRST_SEL_WDTRSTSEL(0) | \
+> > +				 CPG_WDTRST_SEL_WDTRSTSEL(1) | \
+> > +				 CPG_WDTRST_SEL_WDTRSTSEL(2))
+> > +
+> > +int r9a07g044_wdt_rst_setect(void __iomem *base) {
+> Can be static.
+
+OK. Will change to static on the next version.
+
+Geert,
+On the, next version I am planning to introduce the below code for
+Reset selection based on device availability, instead of selecting
+all the channels. Is it the right way to do ? please let me know.
+
+node =3D of_find_node_by_name (NULL, NULL, "watchdog@12800800");
+if (node && of_device_is_available(node) {
+ 	// set reset selection for that channel
+ 	of_node_put(node);
+}
+
+node =3D of_find_node_by_name (NULL, NULL, "watchdog@12800c00");
+if (node && of_device_is_available(node) {
+ 	// set reset selection for that channel
+ 	of_node_put(node);
+}
+
+node =3D of_find_node_by_name (NULL, NULL, "watchdog@12800400");
+if (node && of_device_is_available(node) {
+ 	// set reset selection for that channel
+ 	of_node_put(node);
+}
+
+Regards,
+Biju
+
+>=20
+> Cheers,
+> Prabhakar
+>=20
+> > +	writel((CPG_WDTRST_SEL_WDTRST << 16) | CPG_WDTRST_SEL_WDTRST,
+> > +	       base + CPG_WDTRST_SEL);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct rzg2l_cpg_soc_operations r9a07g044_cpg_ops =3D {
+> > +	.wdt_rst_setect =3D r9a07g044_wdt_rst_setect, };
+> > +
+> >  const struct rzg2l_cpg_info r9a07g044_cpg_info =3D {
+> > +	.ops =3D &r9a07g044_cpg_ops,
+> > +
+> >  	/* Core Clocks */
+> >  	.core_clks =3D r9a07g044_core_clks,
+> >  	.num_core_clks =3D ARRAY_SIZE(r9a07g044_core_clks), diff --git
+> > a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+> > index a77cb47b75e7..f9dfee14a33e 100644
+> > --- a/drivers/clk/renesas/rzg2l-cpg.c
+> > +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> > @@ -932,6 +932,12 @@ static int __init rzg2l_cpg_probe(struct
+> platform_device *pdev)
+> >  	if (error)
+> >  		return error;
+> >
+> > +	if (info->ops && info->ops->wdt_rst_setect) {
+> > +		error =3D info->ops->wdt_rst_setect(priv->base);
+> > +		if (error)
+> > +			return error;
+> > +	}
+> > +
+> >  	return 0;
+> >  }
+> >
+> > diff --git a/drivers/clk/renesas/rzg2l-cpg.h
+> > b/drivers/clk/renesas/rzg2l-cpg.h index 484c7cee2629..e1b1497002ed
+> > 100644
+> > --- a/drivers/clk/renesas/rzg2l-cpg.h
+> > +++ b/drivers/clk/renesas/rzg2l-cpg.h
+> > @@ -156,9 +156,20 @@ struct rzg2l_reset {
+> >  		.bit =3D (_bit) \
+> >  	}
+> >
+> > +/**
+> > + * struct rzg2l_cpg_soc_operations - SoC-specific CPG Operations
+> > + *
+> > + * @wdt_rst_setect: WDT reset selection  */ struct
+> > +rzg2l_cpg_soc_operations {
+> > +	int (*wdt_rst_setect)(void __iomem *base); /* Platform specific WDT
+> > +reset selection */ };
+> > +
+> >  /**
+> >   * struct rzg2l_cpg_info - SoC-specific CPG Description
+> >   *
+> > + * @ops: SoC-specific CPG Operations
+> > + *
+> >   * @core_clks: Array of Core Clock definitions
+> >   * @num_core_clks: Number of entries in core_clks[]
+> >   * @last_dt_core_clk: ID of the last Core Clock exported to DT @@
+> > -176,6 +187,9 @@ struct rzg2l_reset {
+> >   * @num_crit_mod_clks: Number of entries in crit_mod_clks[]
+> >   */
+> >  struct rzg2l_cpg_info {
+> > +	/* CPG Operations */
+> > +	const struct rzg2l_cpg_soc_operations *ops;
+> > +
+> >  	/* Core Clocks */
+> >  	const struct cpg_core_clk *core_clks;
+> >  	unsigned int num_core_clks;
+> > --
+> > 2.17.1
+
