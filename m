@@ -2,145 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A828D45431E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 09:58:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEA72454365
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Nov 2021 10:15:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234755AbhKQJAy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Nov 2021 04:00:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36984 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231221AbhKQJAv (ORCPT
+        id S234275AbhKQJSD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Nov 2021 04:18:03 -0500
+Received: from mail-ua1-f47.google.com ([209.85.222.47]:46790 "EHLO
+        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233027AbhKQJSD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Nov 2021 04:00:51 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C550EC061570;
-        Wed, 17 Nov 2021 00:57:53 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id g17so5273899ybe.13;
-        Wed, 17 Nov 2021 00:57:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HUiyit5tQy5o0QwMAm4GtgzAdKI/JBRlz32ayUt2mTw=;
-        b=MJDbcFPSI/ig98hUASGVMjNqp1NdUn+zl29/HisQTBxXJ/ayP5/X9rntN7TfevDhjW
-         PED/ZTg4GiPht8Ug6k9NxHW2LB1hx5loa72oYC3UKhMul+GNQlVa7JYwsKN6WBV8JZSV
-         uz6rj7yhJ2AwUXdCuCmKaLgnq8sglf0dH0sVs1mSGy36MEWZ4dMfqNFlghSQ5plAgsg4
-         BRoaBuoioy/QIPEcML/b4ufXw4xNxGDbyqCHxP3ATBAd08NhqZjrykVsl54dWZYS5MbT
-         Yn2ce+08p6WEuVYNvaDxK/bKuU8CwYpquuIV9d8ZQpp0PCd2DQ02P2KwXZ+Dre7L5VXS
-         A2yA==
+        Wed, 17 Nov 2021 04:18:03 -0500
+Received: by mail-ua1-f47.google.com with SMTP id az37so4301681uab.13;
+        Wed, 17 Nov 2021 01:15:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HUiyit5tQy5o0QwMAm4GtgzAdKI/JBRlz32ayUt2mTw=;
-        b=c548AIQXjJgV1gUeaERZKX/kzb3l+JpmCer4uOXjcvB2kqDKbqBIOR1P0TeXg0G5kX
-         RnA4vT3qK89QOst0bbGO6Gk+fAeqIqbYOFaVuuN2KUPRtA2aDyn32OasHuLeKyozT7fG
-         u5qvo6/cXQ2bagjrjGqEH1Ixdns1qzzaLXMP1+53SeTOvI4VANAsmrenW/hIokjAjZ7s
-         6HifDOSfC1r/umjbiHJlFr1YylcgcuVDh+ursc82AZvgDn+LLIMsu0gkYFAPwAV4XV8P
-         Uv6x9bNd0hTtKBJKYUXDnLCB8DY2t3hy3TUJ0BXtTEr/B5j2/rcWCfvpdGTLKESA6Gzh
-         sbgQ==
-X-Gm-Message-State: AOAM533k1Nox+0Bq0vwJOOpKJ3s0+7oyXDCsIjjICKSA0azBs8hF62qX
-        KBljiZOHoE2nxMtXCVDbn/zCfvxIsnEVwbMijBn1u4ZAJQw=
-X-Google-Smtp-Source: ABdhPJygUEXx1NF7gy4wM+ewvaEdJxoMDaJXYy4Q2cqKWi575+6f3KzBSgO7k9GSZXT3MT1mEnToVsM7odfVnHbVpa4=
-X-Received: by 2002:a25:1c02:: with SMTP id c2mr15816214ybc.218.1637139473020;
- Wed, 17 Nov 2021 00:57:53 -0800 (PST)
+        bh=2yw0daN24K7Z3l7UJaapRLUGRejP8tOZUJiOqwwQGLc=;
+        b=A9A4YeTpB1AkhgoR0o0ebxel/gOx/idH00182blEiDV/f1UjPOFcdXZn2O00AXneqk
+         fez1270AaMFKRxK9UkobNW7KepHSzSpUvFPFk8CUCpohhRN2ygbN5K3YjGC/ZbTwnK8M
+         EabKyvR8tw8qIPBUlUGs1EUU9jXBAbFBfy4fTzvgXAqFvlehEVNqLI/R0QJBAqCXLOV0
+         D4iBvTYdhZeyrp/ndGbRfxVykTSXmbY5PDp+kJsshy677bto4FGHauEinmW7NVhKT0pU
+         tNt6+JnY7T9cKLUh2+Rf5qhhjInyn1+kbfM/1eXxzyDD2Dcwb+eWkOfnhj+X67Fum5gu
+         RZWg==
+X-Gm-Message-State: AOAM531MFj+jQ7vt//JwgHB/qcF9BGXVO64Qq3q1S1YPu1h4lDWGW4/W
+        /7BXCei8mXjtK8dWmeTfjfwgX3p+f8clUA==
+X-Google-Smtp-Source: ABdhPJw9CVUa6TCIz54tqwze04Q1IdxV7ktHv2XEoL4/TVdVOMrivo1GEjflpj+ydqnOAqgcGiu6oQ==
+X-Received: by 2002:a05:6102:4ac:: with SMTP id r12mr66053179vsa.32.1637140504388;
+        Wed, 17 Nov 2021 01:15:04 -0800 (PST)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id y7sm13210876uac.3.2021.11.17.01.15.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Nov 2021 01:15:03 -0800 (PST)
+Received: by mail-ua1-f49.google.com with SMTP id p2so4308494uad.11;
+        Wed, 17 Nov 2021 01:15:03 -0800 (PST)
+X-Received: by 2002:a67:c38f:: with SMTP id s15mr66012549vsj.50.1637140503208;
+ Wed, 17 Nov 2021 01:15:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20211117010527.27365-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211117010527.27365-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWD-bANzURAgksYyZM-u6wPaATiNS-DjVg6NLpk7Stj6g@mail.gmail.com>
-In-Reply-To: <CAMuHMdWD-bANzURAgksYyZM-u6wPaATiNS-DjVg6NLpk7Stj6g@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 17 Nov 2021 08:57:27 +0000
-Message-ID: <CA+V-a8sJoNJuKJ3Hcq8LkZsS7SazywuEOYR3KLPZH117qDk+Rg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: spi: renesas,rspi: Document RZ/G2L SoC
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mark Brown <broonie@kernel.org>,
+References: <20211117011247.27621-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211117011247.27621-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211117011247.27621-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 17 Nov 2021 10:14:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUxuVYMrgsN4cfLaZG=_nhPkwm-At97EcxX59cvTHrz4Q@mail.gmail.com>
+Message-ID: <CAMuHMdUxuVYMrgsN4cfLaZG=_nhPkwm-At97EcxX59cvTHrz4Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a07g044: Add RSPI{0,1,2} nodes
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Wed, Nov 17, 2021 at 2:13 AM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add RSPI{0,1,2} nodes to R9A07G044 (RZ/G2L) SoC DTSI.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thank you for the review.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.17.
 
-On Wed, Nov 17, 2021 at 8:51 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Nov 17, 2021 at 2:05 AM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Add RSPI binding documentation for Renesas RZ/G2L SoC.
-> >
-> > RSPI block is identical to one found on RZ/A, so no driver changes are
-> > required the fallback compatible string "renesas,rspi-rz" will be used
->
-> ... required. The ...
->
-will fix that.
+Gr{oetje,eeting}s,
 
-> > on RZ/G2L
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> > --- a/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-> > +++ b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-> > @@ -21,7 +21,8 @@ properties:
-> >            - enum:
-> >                - renesas,rspi-r7s72100  # RZ/A1H
-> >                - renesas,rspi-r7s9210   # RZ/A2
-> > -          - const: renesas,rspi-rz     # RZ/A
-> > +              - renesas,r9a07g044-rspi # RZ/G2{L,LC}
-> > +          - const: renesas,rspi-rz     # RZ/A and RZ/G2{L,LC}
-> >
-> >        - items:
-> >            - enum:
-> > @@ -116,6 +117,16 @@ allOf:
-> >        required:
-> >          - interrupt-names
-> >
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,r9a07g044-rspi
-> > +    then:
-> > +      required:
-> > +        - resets
-> > +
->
-> You may want to merge this with the existing section that makes
-> resets required for renesas,qspi.
->
-Right, I completely missed that.
+                        Geert
 
-Cheers,
-Prabhakar
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> >    - if:
-> >        properties:
-> >          compatible:
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
