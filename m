@@ -2,143 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 271B6455D59
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 15:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C4EA455EC2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 15:56:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232270AbhKROI0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 09:08:26 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58790 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232252AbhKROIZ (ORCPT
+        id S231405AbhKRO7F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 09:59:05 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:34542 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229587AbhKRO7F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 09:08:25 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A48323E5;
-        Thu, 18 Nov 2021 15:05:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637244324;
-        bh=EsamhzVuXX3YEy0k91hEwA8EXqH3aaab9haLwq+oakA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YP8q7PaENd0SMS0a5L6uefKyMtiRyx5q4VZLsFGY9hz20T+WBxIhq/Lx1Fhy4PUTT
-         llYfjD2WMAAzKQTjxKBqE3ewsuPhgWSRHE8RL4QZq4To5u1liqW8zFsT84wHLxbPjG
-         j7eQD2NvjiT5bC5lXYaCjsr4Zu8VYJeAZyUKfybQ=
-Date:   Thu, 18 Nov 2021 16:05:02 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Stone <daniel@fooishbar.org>
-Cc:     Esaki Tomohito <etom@igel.co.jp>,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm: rcar-du: add modifiers support
-Message-ID: <YZZdjlzFPDCbAfQU@pendragon.ideasonboard.com>
-References: <20190509054518.10781-1-etom@igel.co.jp>
- <20190509071429.GA4773@pendragon.ideasonboard.com>
- <20217791-f912-0864-48a9-dfacadfb3650@igel.co.jp>
- <20190511181027.GC13043@pendragon.ideasonboard.com>
- <YZZHuNgGr0kZXzyl@pendragon.ideasonboard.com>
- <CAPj87rNPiLve14H85ZBbn-oozqgeS26DGUCg2oJ8LupAdYcEqA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPj87rNPiLve14H85ZBbn-oozqgeS26DGUCg2oJ8LupAdYcEqA@mail.gmail.com>
+        Thu, 18 Nov 2021 09:59:05 -0500
+X-IronPort-AV: E=Sophos;i="5.87,245,1631545200"; 
+   d="scan'208";a="101052139"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 18 Nov 2021 23:56:03 +0900
+Received: from localhost.localdomain (unknown [10.226.93.19])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9DB4443D7FED;
+        Thu, 18 Nov 2021 23:56:01 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RFC] pinctrl: renesas: rzg2l: Add support to select MII/RGMII mode
+Date:   Thu, 18 Nov 2021 14:55:58 +0000
+Message-Id: <20211118145558.32359-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel,
+RZ/G2L supports Ether MII/RGMII mode control which select
+the direction of the pins based on PHY mode.
 
-On Thu, Nov 18, 2021 at 01:02:11PM +0000, Daniel Stone wrote:
-> Hi all,
-> Thanks for this Laurent. Esaki-san, could you please CC dri-devel@ on
-> discussions like this?
-> 
-> On Thu, 18 Nov 2021 at 12:32, Laurent Pinchart wrote:
-> > On Sat, May 11, 2019 at 09:10:27PM +0300, Laurent Pinchart wrote:
-> > > On Thu, May 09, 2019 at 06:25:19PM +0900, Esaki Tomohito wrote:
-> > > > Weston compositor (v5.0.0 or later) uses the DRM API to get the
-> > > > supported modifiers and determines if the sprite plane can be used by
-> > > > comparing the modifiers with the client specified modifier.
-> > > > In currently driver, since the weston doesn't know supported modifiers,
-> > > > that cannot determine if the received dmabuf can be passed through to
-> > > > sprite plane.
-> > > > Since there are R-Car GPU which support linear modifier, the sprite
-> > > > plane cannot be used in a compositor similar to the weston if client
-> > > > specify linear modifier.
-> > >
-> > > I don't think the right solution is to expose the linear modifier from
-> > > all drivers that don't otherwise support modifiers. We should instead
-> > > fix it either in Weston, and treat drivers that don't support the
-> > > modifiers API as supporting the linear modifier only, or in the DRM/KMS
-> > > core by reporting the linear modifier for drivers that don't explicitly
-> > > support modifiers.
-> >
-> > I've been pointed to
-> > https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/3350#note_1161827,
-> > and we had a discussion on the #dri-devel IRC channel today on this
-> > topic. It turns out I was wrong, not specifying modifiers in userspace
-> > is different than specifying a linear modifier. This is true for some
-> > legacy drivers only (e.g. radeon) that pre-date the modifiers API, and
-> > which select a tiling format internally based on some heuristics.
-> >
-> > I still don't like this patch though, as it would need to be replicated
-> > in most drivers. It would be better if we could handle this in the DRM
-> > core. Daniel kindly offered to summarize the IRC discussion in a reply
-> > to this e-mail.
-> 
-> Just quickly, I believe the check for the linear modifier in fb_create
-> is unnecessary, as this should already be checked in the core through
-> format_mod_supported().
-> 
-> There is indeed a difference between LINEAR and INVALID. Linear is an
-> explicit declaration of the layout; INVALID (i.e. no modifier) means
-> 'I don't know what this is, so you should guess'. Guessing is
-> obviously not reliable, so Weston only passes buffers with no modifier
-> to KMS in two cases. The first case is when we allocate a dumb buffer
-> and the driver does not support modifiers; this is safe since it's the
-> same driver. The second case is when either the GPU driver or KMS
-> driver do not support modifiers and we allocate a buffer via GBM with
-> USE_SCANOUT; in this case, it is GBM's responsibility to select the
-> 'right' layout.
-> 
-> We will never create a DRM framebuffer with no modifiers when the
-> original buffer comes from a client. If the client does not support
-> modifiers but the KMS driver does, then we do not know that the client
-> has allocated a suitable layout, so this is not safe. If the client
-> does explicitly declare a modifier but the KMS driver does not support
-> modifiers, then we also do not know that this is safe to use. So
-> unless both sides (client/GPU and KMS) support modifiers, we do not do
-> direct scanout from client buffers.
-> 
-> This patch would enable this usecase by declaring support for the
-> linear modifier from KMS; when used with a PVR driver which explicitly
-> declares the linear modifier, we know it is safe to pass that client
-> buffer to KMS.
-> 
-> Laurent's concern is that the DRM core should handle this rather than
-> open-coding in every driver, which I agree with. Some drivers (e.g.
-> radeon, maybe legacy NV?) do not support modifiers, and _also_ do
-> magic inference of the actual layout of the underlying buffer.
-> However, these drivers are legacy and we do not accept any new
-> addition of inferring layout without modifiers.
-> 
-> I think the best way forward here is:
->   - add a new mode_config.cannot_support_modifiers flag, and enable
-> this in radeon (plus any other drivers in the same boat)
+This patch adds support to select MII/RGMII mode based on
+the phy-mode property present in the ether node, as the
+register for configuring the same is located in pinctrl block
+rather than GbEthernet block.
 
-Is there an easy way to identify the drivers that need this ?
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+Current names on HW manual is based on pins which is going to
+change in next version like below.
 
->   - change drm_universal_plane_init() to advertise the LINEAR modifier
-> when NULL is passed as the modifier list (including installing a
-> default .format_mod_supported hook)
->   - remove the mode_config.allow_fb_modifiers hook and always
-> advertise modifier support, unless
-> mode_config.cannot_support_modifiers is set
+P20_0->ETH0_mode
+P29_0->ETH1_mode
+---
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 70 +++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-Looks good to me.
-
-> FWIW, the effective modifier API and also valid usage is documented
-> here, which should be finished and merged shortly:
->     https://lore.kernel.org/dri-devel/20210905122742.86029-1-daniels@collabora.com/
-
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index ccee9c9e2e22..bc86119be01e 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -92,6 +92,7 @@
+ #define PWPR			(0x3014)
+ #define SD_CH(n)		(0x3000 + (n) * 4)
+ #define QSPI			(0x3008)
++#define ETHER_MODE		(0x3018)
+ 
+ #define PVDD_1800		1	/* I/O domain voltage <= 1.8V */
+ #define PVDD_3300		0	/* I/O domain voltage >= 3.3V */
+@@ -104,6 +105,10 @@
+ #define PFC_MASK		0x07
+ #define IEN_MASK		0x01
+ #define IOLH_MASK		0x03
++#define ETHER_MODE_ETH0_MASK	BIT(0)
++#define ETHER_MODE_ETH1_MASK	BIT(1)
++#define ETHER_MODE_ETH0_ADDR	0x11c20000
++#define ETHER_MODE_ETH1_ADDR	0x11c30000
+ 
+ #define PM_INPUT		0x1
+ #define PM_OUTPUT		0x2
+@@ -1197,6 +1202,69 @@ static void rzg2l_pinctrl_clk_disable(void *data)
+ 	clk_disable_unprepare(data);
+ }
+ 
++static bool rzg2l_pinctrl_is_rgmii_mode(struct rzg2l_pinctrl *pctrl,
++					struct device_node *node)
++{
++	const char *mode = of_get_property(node, "phy-mode", NULL);
++	bool ret = false;
++
++	if (!mode) {
++		dev_err(pctrl->dev, "phy-mode missing, setting to mii mode");
++		return ret;
++	}
++
++	if ((!strcmp("rgmii", mode)) || (!strcmp("rgmii-id", mode)) ||
++	    (!strcmp("rgmii-rxid", mode)) || (!strcmp("rgmii-txid", mode)))
++		ret = true;
++
++	return ret;
++}
++
++static void rzg2l_pinctrl_set_eth_mode(struct rzg2l_pinctrl *pctrl,
++				       struct device_node *np)
++{
++	u8 reg = readb(pctrl->base + ETHER_MODE);
++	u8 mask = ETHER_MODE_ETH0_MASK;
++	const __be32 *prop;
++	u64 addr;
++
++	prop = of_get_property(np, "reg", NULL);
++	if (!prop)
++		return;
++
++	addr = of_read_number(prop, of_n_addr_cells(np));
++	if (addr == ETHER_MODE_ETH1_ADDR)
++		mask = ETHER_MODE_ETH1_MASK;
++
++	if (rzg2l_pinctrl_is_rgmii_mode(pctrl, np))
++		reg &= ~mask;
++	else
++		reg |= mask;
++
++	writeb(reg, pctrl->base + ETHER_MODE);
++}
++
++static void rzg2l_pinctrl_set_ether_modes(struct rzg2l_pinctrl *pctrl)
++{
++	struct device_node *np, *np1 = NULL;
++
++	np = of_find_compatible_node(NULL, NULL, "renesas,rzg2l-gbeth");
++	if (np) {
++		np1 = of_find_compatible_node(np, NULL, "renesas,rzg2l-gbeth");
++		if (of_device_is_available(np))
++			rzg2l_pinctrl_set_eth_mode(pctrl, np);
++
++		of_node_put(np);
++	}
++
++	if (np1) {
++		if (of_device_is_available(np1))
++			rzg2l_pinctrl_set_eth_mode(pctrl, np1);
++
++		of_node_put(np1);
++	}
++}
++
+ static int rzg2l_pinctrl_probe(struct platform_device *pdev)
+ {
+ 	struct rzg2l_pinctrl *pctrl;
+@@ -1246,6 +1314,8 @@ static int rzg2l_pinctrl_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
++	rzg2l_pinctrl_set_ether_modes(pctrl);
++
+ 	dev_info(pctrl->dev, "%s support registered\n", DRV_NAME);
+ 	return 0;
+ }
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
