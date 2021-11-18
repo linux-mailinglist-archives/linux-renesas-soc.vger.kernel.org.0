@@ -2,89 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4FDD4559AC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 12:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7263B455A0A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 12:21:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343708AbhKRLME (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 06:12:04 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:48999 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1343622AbhKRLLZ (ORCPT
+        id S1343799AbhKRLY1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 06:24:27 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:52865 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343737AbhKRLWp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 06:11:25 -0500
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-267-yIaQ9ldLMt-dGp5bzBnaGQ-1; Thu, 18 Nov 2021 11:08:20 +0000
-X-MC-Unique: yIaQ9ldLMt-dGp5bzBnaGQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.26; Thu, 18 Nov 2021 11:08:19 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.026; Thu, 18 Nov 2021 11:08:19 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Sergey Shtylyov' <s.shtylyov@omp.ru>,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        "davem@davemloft.net" <davem@davemloft.net>
-CC:     "kuba@kernel.org" <kuba@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH -next] ethernet: renesas: Use div64_ul instead of do_div
-Thread-Topic: [PATCH -next] ethernet: renesas: Use div64_ul instead of do_div
-Thread-Index: AQHX3FvXWbL1hyrH7EOl5fQWEw6276wJH72w
-Date:   Thu, 18 Nov 2021 11:08:19 +0000
-Message-ID: <ca35a5ba3970462d8eba69ab440da1b3@AcuMS.aculab.com>
-References: <1637203805-125780-1-git-send-email-yang.lee@linux.alibaba.com>
- <6851a10a-e7cf-b533-ab9d-0df539bbba00@omp.ru>
-In-Reply-To: <6851a10a-e7cf-b533-ab9d-0df539bbba00@omp.ru>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Thu, 18 Nov 2021 06:22:45 -0500
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 5421120011;
+        Thu, 18 Nov 2021 11:19:41 +0000 (UTC)
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michael Walle <michael@walle.cc>,
+        <linux-mtd@lists.infradead.org>
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH 0/3] Renesas RZ/N1 NAND controller support
+Date:   Thu, 18 Nov 2021 12:19:37 +0100
+Message-Id: <20211118111940.1275351-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-RnJvbTogU2VyZ2V5IFNodHlseW92DQo+IFNlbnQ6IDE4IE5vdmVtYmVyIDIwMjEgMDk6MDgNCj4g
-T24gMTguMTEuMjAyMSA1OjUwLCBZYW5nIExpIHdyb3RlOg0KPiANCj4gPiBkb19kaXYoKSBkb2Vz
-IGEgNjQtYnktMzIgZGl2aXNpb24uIEhlcmUgdGhlIGRpdmlzb3IgaXMgYW4NCj4gPiB1bnNpZ25l
-ZCBsb25nIHdoaWNoIG9uIHNvbWUgcGxhdGZvcm1zIGlzIDY0IGJpdCB3aWRlLiBTbyB1c2UNCj4g
-PiBkaXY2NF91bCBpbnN0ZWFkIG9mIGRvX2RpdiB0byBhdm9pZCBhIHBvc3NpYmxlIHRydW5jYXRp
-b24uDQo+ID4NCj4gPiBFbGltaW5hdGUgdGhlIGZvbGxvd2luZyBjb2NjaWNoZWNrIHdhcm5pbmc6
-DQo+ID4gLi9kcml2ZXJzL25ldC9ldGhlcm5ldC9tYXJ2ZWxsL212cHAyL212cHAyX21haW4uYzoy
-NzQyOjEtNzogV0FSTklORzoNCj4gPiBkb19kaXYoKSBkb2VzIGEgNjQtYnktMzIgZGl2aXNpb24s
-IHBsZWFzZSBjb25zaWRlciB1c2luZyBkaXY2NF91bA0KPiA+IGluc3RlYWQuDQo+ID4NCj4gPiBS
-ZXBvcnRlZC1ieTogQWJhY2kgUm9ib3QgPGFiYWNpQGxpbnV4LmFsaWJhYmEuY29tPg0KPiA+IFNp
-Z25lZC1vZmYtYnk6IFlhbmcgTGkgPHlhbmcubGVlQGxpbnV4LmFsaWJhYmEuY29tPg0KPiA+IC0t
-LQ0KPiA+ICAgZHJpdmVycy9uZXQvZXRoZXJuZXQvcmVuZXNhcy9yYXZiX21haW4uYyB8IDIgKy0N
-Cj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+
-DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L3JlbmVzYXMvcmF2Yl9tYWlu
-LmMgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9yZW5lc2FzL3JhdmJfbWFpbi5jDQo+ID4gaW5kZXgg
-YjRjNTk3Zi4uMmI4OTcxMCAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL25ldC9ldGhlcm5ldC9y
-ZW5lc2FzL3JhdmJfbWFpbi5jDQo+ID4gKysrIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvcmVuZXNh
-cy9yYXZiX21haW4uYw0KPiA+IEBAIC0yNDg5LDcgKzI0ODksNyBAQCBzdGF0aWMgaW50IHJhdmJf
-c2V0X2d0aShzdHJ1Y3QgbmV0X2RldmljZSAqbmRldikNCj4gPiAgIAkJcmV0dXJuIC1FSU5WQUw7
-DQo+ID4NCj4gPiAgIAlpbmMgPSAxMDAwMDAwMDAwVUxMIDw8IDIwOw0KPiA+IC0JZG9fZGl2KGlu
-YywgcmF0ZSk7DQo+ID4gKwlpbmMgPSBkaXY2NF91bChpbmMsIHJhdGUpOw0KPiANCj4gICAgIFdo
-eSBub3QganVzdDoNCj4gDQo+IAlpbmMgPSBkaXY2NF91bCgxMDAwMDAwMDAwVUxMIDw8IDIwLCBy
-YXRlKTsNCj4gDQo+ID4gICAJaWYgKGluYyA8IEdUSV9USVZfTUlOIHx8IGluYyA+IEdUSV9USVZf
-TUFYKSB7DQo+ID4gICAJCWRldl9lcnIoZGV2LCAiZ3RpLnRpdiBpbmNyZW1lbnQgMHglbGx4IGlz
-IG91dHNpZGUgdGhlIHJhbmdlIDB4JXggLSAweCV4XG4iLA0KDQpFdmVuIHdpdGggaGFyZHdhcmUg
-ZGl2aWRlIGEgNjQvMzIgZGl2aWRlIGlzIGxpa2VseSB0byBiZSBmYXN0ZXIgdGhhdCBhIDY0LzY0
-IG9uZS4NCg0KTWF5YmUgdGhlIGNvY2NpY2hlY2sgd2FybmluZyBtZXNzYWdlIHNob3VsZCBzdWdn
-ZXN0IGNoZWNraW5nIHRoZSBkb21haW4NCm9mIHRoZSBkaXZpc29yIGFuZCB0aGVuIGNoYW5naW5n
-IHRoZSB0eXBlPz8NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwg
-QnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVn
-aXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
+Hello,
+
+Here is a short series bringing support for Renesas RZ/N1 NAND
+controller. I tried to follow the upstream conventions for the
+compatible name but used a more easy to read name for the driver itself,
+please tell me if this is an issue.
+
+So far this driver has been tested with a not-fully-upstream device tree
+because clock tree is not yet described entirely, I am going to work on
+it really soon but I believe we don't need full clock support to get the
+NAND controller driver merged for now.
+
+Cheers,
+Miquèl
+
+Miquel Raynal (3):
+  dt-bindings: mtd: rzn1: Describe Renesas RZ/N1 NAND controller
+  mtd: rawnand: rzn1: Add new NAND controller driver
+  MAINTAINERS: Add an entry for Renesas RZ/N1 NAND controller
+
+ .../renesas,r9a06g032-nand-controller.yaml    |   60 +
+ MAINTAINERS                                   |    7 +
+ drivers/mtd/nand/raw/Kconfig                  |    6 +
+ drivers/mtd/nand/raw/Makefile                 |    1 +
+ drivers/mtd/nand/raw/rzn1-nand-controller.c   | 1417 +++++++++++++++++
+ 5 files changed, 1491 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mtd/renesas,r9a06g032-nand-controller.yaml
+ create mode 100644 drivers/mtd/nand/raw/rzn1-nand-controller.c
+
+-- 
+2.27.0
 
