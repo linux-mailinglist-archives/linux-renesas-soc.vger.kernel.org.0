@@ -2,84 +2,215 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3628E455C47
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 14:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D13DD455CB0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 14:30:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229607AbhKRNKB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 08:10:01 -0500
-Received: from www.zeus03.de ([194.117.254.33]:60718 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229955AbhKRNJy (ORCPT
+        id S231209AbhKRNd5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 08:33:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58042 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230424AbhKRNd5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 08:09:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=0AjK/6ELzqnn+1TTNieJMElcmvHw
-        6i5ur293uoT8SsU=; b=aB9fQfPxxhkyrzvUBay6VU0dVMDDVLDW14Z18RB+upKJ
-        VyljtO5us7l9Q4emh1yMW9epIzE64+QWjDWLEo3MbdPkq2rZJ20lR79gDK/1gq4B
-        dpaqz15dWq9Shh/enkW6ROcDUNKx0x9mm1ySelWOaT74dx37FsC43nZp+jdsrYg=
-Received: (qmail 3515465 invoked from network); 18 Nov 2021 14:06:52 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Nov 2021 14:06:52 +0100
-X-UD-Smtp-Session: l3s3148p1@SqvL1A/RlMggAwDPXw9mAHdR4GY8xQjZ
-Date:   Thu, 18 Nov 2021 14:06:48 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
+        Thu, 18 Nov 2021 08:33:57 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D7ADC061570;
+        Thu, 18 Nov 2021 05:30:57 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id x7so5178191pjn.0;
+        Thu, 18 Nov 2021 05:30:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Rri8CgMU3iUgw+czpevbWjMbr1UWm75xhAwXD02I6xU=;
+        b=FDEnvL+UtpoLRk6Q1zJ5TWKgN3pkejoc+c1lfiUwMmvGmldi6KxwZO1grB8bUwgggl
+         NxymJ9lCNeYeShRKPCEoAFb/qyeXIlHXW6H9LhjrDZVVUGNirPbyJuI24LirczSzl/Na
+         OK380QfTTMyJLsiytjnQRYSmo9aAci9N0vFC8VP0JB29tQt8eoW/ggKIxCPmK5+dxsXW
+         XwurEenZVOh5wEwUMaPPAASeHd9USOigFhhHFenuvMmC1EPdDlgUL2LZwm9an0CE8meS
+         Rv6YcVKeQnHd4N1kacEKQoyflUzVHPAi/1nTgQ8d8eBhHJHyNrVBYPckBm/kGT11HH/L
+         8L/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Rri8CgMU3iUgw+czpevbWjMbr1UWm75xhAwXD02I6xU=;
+        b=a5WFdMRvp59jhSVUzUa3eYMxNzpW8Q7md3s6YaaeYv6B7nGagPp3xNDSe4S4qzCcDB
+         gBgod+Jv66g2t1uVbtTBcWfu56FEb2SvMdkW9UbcqDaaWZWmFtFOZ5Q7wCw0uL+Zw6Hm
+         IghIgj2G1L4KmyLCtUwbdzVkjgNZGZpSU3WDkUJLGykHb4eXCPONhs62AT+Uu1McOUip
+         f+kNo3TvJFpDzMAhz0fmhzqn+du/F08d8iXWR/w3Xju+3GIxnkfqBOn6W0OyoaVr/yg3
+         tKrjAsDs+UFzd9UndqdMEaPldoGAqp09Lm0u/P77JE0LHcd4FS8z1ORSjNkMMiNvNVzI
+         u3Rg==
+X-Gm-Message-State: AOAM532rTZkZbHnxzyYK6ahZXygsGr1UCOQsit2BEcvyF7POV9Q2O9CW
+        pOFUIE4dfDh9KMbfoOEtVqvNVkNSa113nkgB
+X-Google-Smtp-Source: ABdhPJw603nbU+O/fPHP8RoT4nn8P5boytORpwShOu3KLVJrVk3lFo3z0RQCNEqj18u5XFcu5Q1lpg==
+X-Received: by 2002:a17:90a:df14:: with SMTP id gp20mr10690696pjb.186.1637242256451;
+        Thu, 18 Nov 2021 05:30:56 -0800 (PST)
+Received: from theprophet ([2406:7400:63:2c47:5ffe:fc34:61f0:f1ea])
+        by smtp.gmail.com with ESMTPSA id z19sm3624615pfe.181.2021.11.18.05.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Nov 2021 05:30:56 -0800 (PST)
+Date:   Thu, 18 Nov 2021 19:00:20 +0530
+From:   Naveen Naidu <naveennaidu479@gmail.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     bhelgaas@google.com,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        linux-hyperv@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
+        linux-pci@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
+        Binghui Wang <wangbinghui@hisilicon.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Oliver O'Halloran <oohall@gmail.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Russell Currey <ruscur@russell.cc>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Toan Le <toan@os.amperecomputing.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Nirmal Patel <nirmal.patel@linux.intel.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Rob Herring <robh@kernel.org>, Wei Liu <wei.liu@kernel.org>,
+        linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+        Joyce Ooi <joyce.ooi@intel.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        Jianjun Wang <jianjun.wang@mediatek.com>,
+        linux-rockchip@lists.infradead.org,
+        "maintainer:BROADCOM IPROC ARM ARCHITECTURE" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Jonathan Derrick <jonathan.derrick@linux.dev>,
+        Xiaowei Song <songxiaowei@hisilicon.com>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Robert Richter <rric@kernel.org>,
+        Sean V Kelley <sean.v.kelley@intel.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        linuxppc-dev@lists.ozlabs.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] memory: renesas-rpc-if: avoid use of undocumented bits
-Message-ID: <YZZP6Ml6KGVsdr/9@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20211117093710.14430-1-wsa+renesas@sang-engineering.com>
- <OSZPR01MB7019741B3AC0B31EEBF8058CAA9B9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Lukas Wunner <lukas@wunner.de>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+Subject: Re: [PATCH v3 01/25] PCI: Add PCI_ERROR_RESPONSE and it's related
+ definitions
+Message-ID: <20211118133020.nkr3xzbzonxtrqbw@theprophet>
+References: <f7960a4dee0e417eedd7d2e031d04ac9016c6686.1634825082.git.naveennaidu479@gmail.com>
+ <20211117235812.GA1786428@bhelgaas>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="KMcyXOPMhmQ2b/B5"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OSZPR01MB7019741B3AC0B31EEBF8058CAA9B9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+In-Reply-To: <20211117235812.GA1786428@bhelgaas>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 17/11, Bjorn Helgaas wrote:
+> On Thu, Oct 21, 2021 at 08:37:26PM +0530, Naveen Naidu wrote:
+> > An MMIO read from a PCI device that doesn't exist or doesn't respond
+> > causes a PCI error.  There's no real data to return to satisfy the
+> > CPU read, so most hardware fabricates ~0 data.
+> > 
+> > Add a PCI_ERROR_RESPONSE definition for that and use it where
+> > appropriate to make these checks consistent and easier to find.
+> > 
+> > Also add helper definitions SET_PCI_ERROR_RESPONSE and
+> > RESPONSE_IS_PCI_ERROR to make the code more readable.
+> > 
+> > Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+> > ---
+> >  include/linux/pci.h | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/include/linux/pci.h b/include/linux/pci.h
+> > index cd8aa6fce204..689c8277c584 100644
+> > --- a/include/linux/pci.h
+> > +++ b/include/linux/pci.h
+> > @@ -154,6 +154,15 @@ enum pci_interrupt_pin {
+> >  /* The number of legacy PCI INTx interrupts */
+> >  #define PCI_NUM_INTX	4
+> >  
+> > +/*
+> > + * Reading from a device that doesn't respond typically returns ~0.  A
+> > + * successful read from a device may also return ~0, so you need additional
+> > + * information to reliably identify errors.
+> > + */
+> > +#define PCI_ERROR_RESPONSE     (~0ULL)
+> > +#define SET_PCI_ERROR_RESPONSE(val)    (*(val) = ((typeof(*(val))) PCI_ERROR_RESPONSE))
+> > +#define RESPONSE_IS_PCI_ERROR(val) ((val) == ((typeof(val)) PCI_ERROR_RESPONSE))
+> 
+> Beautiful!  I really like this.
+>
 
---KMcyXOPMhmQ2b/B5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you very much for the review ^^
 
+> I would prefer the macros to start with "PCI_", e.g.,
+> PCI_SET_ERROR_RESPONSE().
+> 
 
-> Dumped the registers before and after patch, register values do match. Al=
-so tested read/write operation on RZ/G2L.
->=20
-> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+ACK
 
-Awesome, thanks for the lightning fast testing and review!
+> I think "RESPONSE_IS_PCI_ERROR()" is too strong because (as the
+> comment says), ~0 *may* indicate an error.  Or it may be a successful
+> read of a register that happens to contain ~0.
+> 
+> Possibilities to convey the idea that this isn't definitive:
+> 
+>   PCI_POSSIBLE_ERROR_RESPONSE(val)  # a little long
+>   PCI_LIKELY_ERROR(val)             # we really have no idea whether
+>   PCI_PROBABLE_ERROR(val)           #   likely or probable
+>   PCI_POSSIBLE_ERROR(val)           # promising?
+>
 
+ACK. Will use PCI_POSSIBLE_ERROR()
 
---KMcyXOPMhmQ2b/B5
-Content-Type: application/pgp-signature; name="signature.asc"
+> Can you rebase to my "main" branch (v5.16-rc1), tweak the above, and
+> collect up the acks/reviews?
+> 
 
------BEGIN PGP SIGNATURE-----
+ACK
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGWT+MACgkQFA3kzBSg
-KbYa0A/9GzsqNFt/797QECR8SY54GA7m+DvKMA9uK27KVSf5RpoUJeayCZZHr3d1
-vZRqlveaOOtj6wm2g9Cxq1jObG3usT+azHpkpCSKU2gWaMS5r01C2lcs2VS8M4lN
-AMhAERUixKe6kygs+XL+UBLaqu5dDX/6OTkJCjrF06yMNflyEbn5hxGBMbYEwUFJ
-J4/nVM5mC6edAZGc18l0cPafJE8zh4kbxOpwRgktPLs29+2IMi2yP10/VgEhdfa4
-GspHKngoGeZ62lTAGh1Ny8ph25K/DwepvZJpoUqtJ9/Ft6QBCLeBUy6lb/XoWL1P
-IEmeUyeUPyKe1PBv5N2H61xwjdCsc7Yj60Nw5/dz6++fUs6E/MviI3o0EZvdlini
-ARaFc7B7q7pgf+CD0erw0YbCBn9u5K/1bdncEQVvBpEZR8vsqKlCneYb0kA4CQ3V
-Nb2nXt9ALjSqFPva0mQL3Dl2e2PoyZv0veDhr6SwdKwbZY97dHEDQDHNbi9fJJti
-WdHNqho7saVFo5GbCS2Qw1YUxA0oyNPTFfZZWo2UiwW+PmycHy8HqUg9dYsMgaJp
-uPdifAPgLkm0vbPC8Q291Tt2F4lUmgutmiKpglfjVhqB2yT9D68B325lcrZtpAFz
-b0QR5ZQlSkmH0qu/cTLulucKoQCOU2w4KjEs5aMDa/FQTpqin6U=
-=KhNt
------END PGP SIGNATURE-----
+> We should also browse drivers outside drivers/pci for places we could
+> use these.  Not necessarily as part of this series, although if
+> authors there object, it would be good to learn that earlier than
+> later.
+> 
+> Drivers that implement pci_error_handlers might be a fruitful place to
+> start.  But you've done a great job finding users of ~0 and 0xffff...
+> in drivers/pci/, too.
+> 
 
---KMcyXOPMhmQ2b/B5--
+A quick grep showed that there are around 80 drivers which have
+pci_error_handlers. I was thinking that it would be better if we handle
+these drivers in another patch series since the current patch series is
+itself 25 patches long. And in my short tenure reading LKML, I gathered
+that folks generally are not so kind to a long list of patches in a
+single patch series ^^' (I might be wrong though, Apologies)
+
+The consensus on the patch series does seem slightly positive so
+ideally, I was hoping that we would not have the case where a author
+does not like the way we are handling this patch. Then again, I'm
+pretty sure that I might be wrong ^^'
+
+I hope it would be okay that I send in a new patch series with the
+suggested changes and handle the other changes in another patch series
+^^
+
+Thanks,
+Naveen
+> > +
+> >  /*
+> >   * pci_power_t values must match the bits in the Capabilities PME_Support
+> >   * and Control/Status PowerState fields in the Power Management capability.
+> > -- 
+> > 2.25.1
+> > 
+> > _______________________________________________
+> > Linux-kernel-mentees mailing list
+> > Linux-kernel-mentees@lists.linuxfoundation.org
+> > https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
