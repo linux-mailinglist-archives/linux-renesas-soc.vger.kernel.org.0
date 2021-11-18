@@ -2,51 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E4B4562FE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 19:56:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E46B9456316
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 20:03:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232724AbhKRS7U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 13:59:20 -0500
-Received: from mail-ua1-f54.google.com ([209.85.222.54]:42714 "EHLO
-        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231912AbhKRS7U (ORCPT
+        id S232274AbhKRTGo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 14:06:44 -0500
+Received: from mail-ua1-f52.google.com ([209.85.222.52]:40940 "EHLO
+        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230107AbhKRTGo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 13:59:20 -0500
-Received: by mail-ua1-f54.google.com with SMTP id t13so15879865uad.9;
-        Thu, 18 Nov 2021 10:56:19 -0800 (PST)
+        Thu, 18 Nov 2021 14:06:44 -0500
+Received: by mail-ua1-f52.google.com with SMTP id y5so15939682ual.7;
+        Thu, 18 Nov 2021 11:03:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HZ8ErkqPDi32GIspIXb48yMTlFFLUxU8AVqaaI3lQ5U=;
-        b=Do0ticNxfNfw3/i4yd1BH01fRQi11laateScBnIkfM9Pihp9reibqLVe/4USrMpBwA
-         f9aL1fFdfVOaWJVQzAIbbyPrRB77rJBJsDlHVKDr64z7fU8gTLzMMjJbBI/qD1WiSLbo
-         yso3ND7IYSBDYKSgJsrzBE2ib7jpVj+YnxlY34gLbqEVqPTSSZQTKeUzZwZjU90M0CRk
-         BshKVxZ67XxashCzQioVuFPSKzV4hw9pGIt4ZxH2zNkAltni4NAdDHFNy0QCTllJf96C
-         T6/pe8BALUH5i3s85tcUbwijOmPtkmSyRij7gy/lLOfuqM+2rd6PKA1p8hLlOJSWEbxx
-         zY3w==
-X-Gm-Message-State: AOAM530ZlC7ig8I28yKx/UTHG56gDYf1YLs/a+zNTw2M1inhYW8A5YRl
-        ep27nm7erOzg9gqN0vxSWPOD1uBHGhBhTQ==
-X-Google-Smtp-Source: ABdhPJy39gUVZwl3fXUmuiHBmWdV8z3qiidXxKesFPwypZT2zGcY/EJgAr4OpGgs3BgVjbhYInsGyw==
-X-Received: by 2002:a05:6102:c8a:: with SMTP id f10mr29093389vst.22.1637261778785;
-        Thu, 18 Nov 2021 10:56:18 -0800 (PST)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id p130sm347525vke.56.2021.11.18.10.56.18
+        bh=fti3uEpcoz+oVQwCBL2YlzOXlOGhg8Y8VpbkJ31LRB0=;
+        b=3IFz1reLo3xBlMmp7H1HeQWSAAh5HCiyIISvZl2v6iespJCH1n9DB4CjWtib2h8yLk
+         WDxulMnYYCD797w98MzkiHaME7+eM0IA8rby8obPR/HuusX0ai8GDKqZbsqPyudNnOpS
+         kgnXLRsNpPnQVFUPsVSyyakYg6WHuQqHN4hiijPSV6UUtD892bhhu1oqdMvJFjeyWMvc
+         m3gOI1F2k8gTB41Q6GDoFwUYpnhZsRhJH6Q7EV8YBB9IKdl3cUff+WTMZ4T/oIDGOoEU
+         Rf1XKlOuqtvvyP/AalGy0aSG0sO2rLDMe1xC/sXRb7xR5PBjzILGuonfgrOmSNYFZ3kV
+         ZZZg==
+X-Gm-Message-State: AOAM530K4fVXn4CpAgix64sV38TRWI12HZsRUJ5XfNOoLGiXVmsmU5C0
+        srlduYRJO5Nc00WTc7+1jNT05a1UT7fk6A==
+X-Google-Smtp-Source: ABdhPJy/PkndwIBoWHmtRkapmc9RXRh1ncq2R8Lo8NRrroEfuWQHzLCWl+5twXau3gRLaRC0GkweCw==
+X-Received: by 2002:a67:ca92:: with SMTP id a18mr84903099vsl.11.1637262222906;
+        Thu, 18 Nov 2021 11:03:42 -0800 (PST)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id p69sm375758uap.1.2021.11.18.11.03.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 10:56:18 -0800 (PST)
-Received: by mail-ua1-f50.google.com with SMTP id ay21so15861922uab.12;
-        Thu, 18 Nov 2021 10:56:18 -0800 (PST)
-X-Received: by 2002:a9f:3e01:: with SMTP id o1mr39720262uai.89.1637261778131;
- Thu, 18 Nov 2021 10:56:18 -0800 (PST)
+        Thu, 18 Nov 2021 11:03:42 -0800 (PST)
+Received: by mail-ua1-f49.google.com with SMTP id p37so15938037uae.8;
+        Thu, 18 Nov 2021 11:03:42 -0800 (PST)
+X-Received: by 2002:a05:6102:1354:: with SMTP id j20mr84778395vsl.41.1637262222298;
+ Thu, 18 Nov 2021 11:03:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20211116074130.107554-1-yoshihiro.shimoda.uh@renesas.com> <20211116074130.107554-9-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20211116074130.107554-9-yoshihiro.shimoda.uh@renesas.com>
+References: <20211116074130.107554-1-yoshihiro.shimoda.uh@renesas.com> <20211116074130.107554-10-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20211116074130.107554-10-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Nov 2021 19:56:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWWDUWajpRaoQYRsihu1JOD+itzgn3Gc3tVzK7_4vhzFQ@mail.gmail.com>
-Message-ID: <CAMuHMdWWDUWajpRaoQYRsihu1JOD+itzgn3Gc3tVzK7_4vhzFQ@mail.gmail.com>
-Subject: Re: [PATCH 08/16] dt-bindings: serial: renesas,scif: Document
- r8a779f0 bindings
+Date:   Thu, 18 Nov 2021 20:03:31 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWvgK7w82Y1D27y98RdZZWLjXv-Q-jjh=g3YQw5zfbNfQ@mail.gmail.com>
+Message-ID: <CAMuHMdWvgK7w82Y1D27y98RdZZWLjXv-Q-jjh=g3YQw5zfbNfQ@mail.gmail.com>
+Subject: Re: [PATCH 09/16] soc: renesas: Identify R-Car S4-8
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -65,33 +64,49 @@ Hi Shimoda-san,
 
 On Tue, Nov 16, 2021 at 8:42 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> R-Car S4-8 (R8A779F0) SoC has the R-Car Gen4 compatible SCIF ports,
-> so document the SoC specific bindings.
+> Add support for identifying the R-Car S4-8 (R8A779F0) SoC.
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
 Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> @@ -64,6 +64,12 @@ properties:
->            - const: renesas,rcar-gen3-scif # R-Car Gen3 and RZ/G2
->            - const: renesas,scif           # generic SCIF compatible UART
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -256,6 +256,13 @@ config ARCH_R8A779A0
+>         help
+>           This enables support for the Renesas R-Car V3U SoC.
 >
-> +      - items:
-> +          - enum:
-> +              - renesas,scif-r8a779f0     # R-Car S4-8
-> +          - const: renesas,rcar-gen4-scif # R-Car Gen4
-> +          - const: renesas,scif           # generic SCIF compatible UART
+> +config ARCH_R8A779F0
+> +       bool "ARM64 Platform support for R-Car S4-8"
+> +       select ARCH_RCAR_GEN3
+> +       select SYSC_R8A779F0
+> +       help
+> +         This enables support for the Renesas R-Car S4-8 SoC.
 > +
 
-OK.
+Please keep sort order (alphabetical, not by part number).
 
->        - items:
->            - enum:
->                - renesas,scif-r9a07g044      # RZ/G2{L,LC}
+>  config ARCH_R8A774C0
+>         bool "ARM64 Platform support for RZ/G2E"
+>         select ARCH_RCAR_GEN3
+> diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
+> index 7961b0be1850..857a42a82747 100644
+> --- a/drivers/soc/renesas/renesas-soc.c
+> +++ b/drivers/soc/renesas/renesas-soc.c
+> @@ -33,6 +33,11 @@ static const struct renesas_family fam_rcar_gen3 __initconst __maybe_unused = {
+>         .reg    = 0xfff00044,           /* PRR (Product Register) */
+>  };
+>
+> +static const struct renesas_family fam_rcar_gen4 __initconst __maybe_unused = {
+> +       .name   = "R-Car Gen4",
+> +       .reg    = 0xfff00044,           /* PRR (Product Register) */
 
-Please add "renesas,rcar-gen4-scif" to the block that requires resets.
+Please drop ".reg", which is only meant for existing SoCs.
+For new SoCs, we rely on the presence of a "renesas,prr" node in DT.
+
+> +};
+
+The rest looks good to me.
 
 Gr{oetje,eeting}s,
 
