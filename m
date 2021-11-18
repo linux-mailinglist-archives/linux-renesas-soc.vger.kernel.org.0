@@ -2,84 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39AAE45594E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 11:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D699A455954
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 11:45:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244339AbhKRKrR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 05:47:17 -0500
-Received: from mail-ua1-f42.google.com ([209.85.222.42]:43787 "EHLO
-        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235730AbhKRKrQ (ORCPT
+        id S245743AbhKRKsn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 05:48:43 -0500
+Received: from mail-ua1-f48.google.com ([209.85.222.48]:45824 "EHLO
+        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245739AbhKRKsk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 05:47:16 -0500
-Received: by mail-ua1-f42.google.com with SMTP id j14so2815811uan.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Nov 2021 02:44:16 -0800 (PST)
+        Thu, 18 Nov 2021 05:48:40 -0500
+Received: by mail-ua1-f48.google.com with SMTP id ay21so12549687uab.12;
+        Thu, 18 Nov 2021 02:45:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4v2AD/7kPOPPNFxUrwvcAKdN8Awv89acKC5POSyWGVI=;
-        b=S/HUz+WZAwdUD8piLotG0c4P/rH/sRUcDKuTG/177/o4x7T3/uW4szQBI93k6IgaB/
-         UZWc49/NbTIM1RPNl91Sx7dIjpNEMb/I+YDkuMp6vrp5sCaWylCcH9ve49bqG4QR9ZvG
-         Ua2+6VqC6ou+0kArLDklPSLVeYR3jkddyosK/Z3haWsh+K7PyRyJPjjR9lLUuY5PZRiU
-         CJVo+xsp0DMCFaQZ8VEC7y3jYV84FWpVljr+LVkdugVfQzZp7MKXYn/PtyshxzyvlGnG
-         3T+ruAKqHggmjpA0sa0FHzK7X+J8FUr4gBJvCpj+bdeClqo797VJpqpqBD/a+5/I3PdA
-         v5aQ==
-X-Gm-Message-State: AOAM532eC41Cfgai2vEJgLNGgS5n3plSSZ5IX8iMPXbmKfCXBp6R9rk2
-        3u9NRXMfaFUr8Ry2IlUXWbPwL1OwAknMhQ==
-X-Google-Smtp-Source: ABdhPJxIXx2xNY3uQ4gXyAlGoCpHbU0kVzwtN7t16azyOaGO4h3E7oxCREZWxtGrtv0PVV1VR0Tfxg==
-X-Received: by 2002:a05:6102:3708:: with SMTP id s8mr79050691vst.45.1637232255612;
-        Thu, 18 Nov 2021 02:44:15 -0800 (PST)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
-        by smtp.gmail.com with ESMTPSA id 23sm1343788vkk.17.2021.11.18.02.44.14
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=jwyfX5QkyNDSWX36XR0Y1Qjb5iKXqQUatmee83MHCms=;
+        b=xZJiZwGcL7/yWrlfivPnjU8toZ5Nsj0/w15QnmFkNT/OEQulw32xYMsathzaWcDoHs
+         e4ZTm34uZOzoOiKAnKoZ7YtD1acwYdUm+fdD+pJz6kTbU/6TKsNOtAbbMw90/6eRnoxO
+         RMlxzu0YvdSGBf+e4B4X7aE2kSRsj8zksjackbGSynYj8U8/S20Wa8se+3s+buXTkz1U
+         VfJMWzY8Cb11syGG8rux/C5LuUSN2c7GuKSHUZkGhfmFvG3CTFsn1PS4vHao4b5ki3A0
+         hcbi0laRl7iiHbWjj3QP2ki8ULqWphmwTx6KcspWVILxcYlmM16zzmhbZM5VfawuMLRW
+         vw5A==
+X-Gm-Message-State: AOAM530L5tL/nLy++Xy3H5FnDCS3yA/0Y4B3i3gnrnyQ+Z/HyS5aSWJr
+        q38YWbuQnTtq54YT9rGJOylRORz4BPgJzg==
+X-Google-Smtp-Source: ABdhPJxr0zWs9RTMUFw41O4RBBVXHPS0QhFk/ylplmXQJKiGkvOZ78hfi+LwGUitPqHVh3oLGNUsxA==
+X-Received: by 2002:ab0:5ad1:: with SMTP id x17mr34702915uae.13.1637232339797;
+        Thu, 18 Nov 2021 02:45:39 -0800 (PST)
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
+        by smtp.gmail.com with ESMTPSA id t132sm1393384vkb.19.2021.11.18.02.45.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 02:44:14 -0800 (PST)
-Received: by mail-ua1-f52.google.com with SMTP id i6so12615549uae.6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Nov 2021 02:44:14 -0800 (PST)
-X-Received: by 2002:ab0:15a1:: with SMTP id i30mr35081179uae.122.1637232254305;
- Thu, 18 Nov 2021 02:44:14 -0800 (PST)
+        Thu, 18 Nov 2021 02:45:39 -0800 (PST)
+Received: by mail-vk1-f174.google.com with SMTP id t127so3471643vke.13;
+        Thu, 18 Nov 2021 02:45:39 -0800 (PST)
+X-Received: by 2002:a05:6122:50e:: with SMTP id x14mr102191127vko.7.1637232338840;
+ Thu, 18 Nov 2021 02:45:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20211112184413.4391-1-biju.das.jz@bp.renesas.com> <20211112184413.4391-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20211112184413.4391-4-biju.das.jz@bp.renesas.com>
+References: <20211110084232.652-1-biju.das.jz@bp.renesas.com> <20211110084232.652-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211110084232.652-4-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Nov 2021 11:44:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW3LP6YkGPwiA0Cpmmmb5YkL5LcSgp0C9JKPDvHfV0KGg@mail.gmail.com>
-Message-ID: <CAMuHMdW3LP6YkGPwiA0Cpmmmb5YkL5LcSgp0C9JKPDvHfV0KGg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] clocksource/drivers/renesas-ostm: Add RZ/G2L OSTM support
+Date:   Thu, 18 Nov 2021 11:45:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXj5vwo4694v_uPo+J4knhE2oboWs+RG7D2SFCtE8rWmw@mail.gmail.com>
+Message-ID: <CAMuHMdXj5vwo4694v_uPo+J4knhE2oboWs+RG7D2SFCtE8rWmw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzg2l-smarc-som: Enable OSTM
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Nov 12, 2021 at 7:44 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> RZ/G2L SoC has Generic Timer Module(a.k.a OSTM) which needs to
-> deassert the reset line before accessing any registers.
->
-> This patch adds an entry point for RZ/G2L so that we can deassert
-> the reset line in probe callback.
+On Wed, Nov 10, 2021 at 9:42 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Enable OSTM{1, 2} interfaces on RZ/G2L SMARC EVK.
+> OSTM0 is reserved for TF-A.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->v3:
->  * Added reset_control_put() on error path.
->  * enabled suppress_bind_attrs in ostm_device_driver structure
-
-Thanks for the update!
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
