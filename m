@@ -2,74 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2E2C455F86
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 16:31:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D61C455FC5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 16:46:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232303AbhKRPdp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 10:33:45 -0500
-Received: from mail-ua1-f54.google.com ([209.85.222.54]:38462 "EHLO
-        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232326AbhKRPdo (ORCPT
+        id S232226AbhKRPtE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 10:49:04 -0500
+Received: from mail-vk1-f172.google.com ([209.85.221.172]:42518 "EHLO
+        mail-vk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231920AbhKRPtC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 10:33:44 -0500
-Received: by mail-ua1-f54.google.com with SMTP id w23so14520063uao.5;
-        Thu, 18 Nov 2021 07:30:43 -0800 (PST)
+        Thu, 18 Nov 2021 10:49:02 -0500
+Received: by mail-vk1-f172.google.com with SMTP id b125so4043885vkb.9;
+        Thu, 18 Nov 2021 07:46:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cWbgo8PKSGKJr3zLyC4gZLnDiH16ZCT+ZaBLyQp5tCU=;
-        b=hPfeMQ+0LKO6z3iigSIr4NnjtwKpRieLVt48lLcnhm6G9X1YAgvFWT8wDvADonJxvw
-         Nlew5pOgPmX14ETj+tj/YH50U1Fxd/iUecYW8tiKipvUe/QBpRyQIWjqj1NZecSX6ZTH
-         ZyvPTgPFFOIxsKQybmKJcUq9cUB9DYSW0I1T837usPl7maLy8q6HW2L68g5IkmDno/jf
-         pE2n6sM8eFnPeMoY5RRciM13tbjnsCqxbijFVBm8ybonQPBkI9957q2cXCJoM3AV+Mt9
-         bbgKoAouCpXlAfHRwCsKxFaofpzGku1TiRFX4aJxGfygiysO4LMzFX4hgpz2ZY586l29
-         8hkA==
-X-Gm-Message-State: AOAM530fFvNthwTu8In6vWiatolq0/+tUMz1EO/Go536Tf0Fhr5IXTNf
-        kRxHRvfQlgi+eH/dSVhAVKmySrz3xYChmg==
-X-Google-Smtp-Source: ABdhPJz+f9cyc/jATvZmQqj826TqBkdg9TOeVrzWUGVaCan/Srp6Dlz25EP65WRvkB7TZGcGcWTJCw==
-X-Received: by 2002:ab0:1c02:: with SMTP id a2mr37555256uaj.115.1637249443222;
-        Thu, 18 Nov 2021 07:30:43 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id z188sm81203vsz.12.2021.11.18.07.30.42
+        bh=shqi6GAZQi9nVTVL9z1EWiqg7vtbPf56eOryjn/ImXI=;
+        b=sr2ayZAFy0xIdXylOnC34Z7cC/DiSQGOf3pnqx8cdmvFq30ti3aGjtw42uvRSHVNEk
+         ZOp20IjmQlGRc5UV/uNtleT0CYmlNU5k6Kf0cRyKITGH2UYVB0noTwD2YkFX3pV7xDHS
+         e3S90Q0P7cF/oBJm6qqQKWDC23dS83eaM3U5m5GUCAaZPHXsF1ZvXpq3pia6X1XBe/TV
+         xmL/YnRXytp18YiudPLvej6VT/wGFnrf8YBylIOb0W9TCoGCBruz1E7OnEo8TugVQX35
+         Y9nv+MpvkI1Y7+YEGGGvOXyzpRDsmZWD3AyoYEYaiKtqaVAYfEaFFb3LUXOhTXAELqK0
+         4+pQ==
+X-Gm-Message-State: AOAM530VsUupdMzNQnzK9Xg+a4JeXnV0GiCcCva0PTYE+yYEZU0TKi8/
+        5QCwN4w1ksC9bnj+/6ZlGfwiuRR8ekC3Ig==
+X-Google-Smtp-Source: ABdhPJwDPp6BWq6ryAgJCqUHaj+53QL74yofGpZS0crZnKgDO5BhZ+pAW0IDrWFKxLun6ZrflpO1rQ==
+X-Received: by 2002:a05:6122:907:: with SMTP id j7mr106439572vka.12.1637250361043;
+        Thu, 18 Nov 2021 07:46:01 -0800 (PST)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
+        by smtp.gmail.com with ESMTPSA id r13sm89105vkl.13.2021.11.18.07.46.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 07:30:43 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id i6so14511905uae.6;
-        Thu, 18 Nov 2021 07:30:42 -0800 (PST)
-X-Received: by 2002:ab0:15a1:: with SMTP id i30mr37755691uae.122.1637249442562;
- Thu, 18 Nov 2021 07:30:42 -0800 (PST)
+        Thu, 18 Nov 2021 07:46:00 -0800 (PST)
+Received: by mail-vk1-f179.google.com with SMTP id s17so4054496vka.5;
+        Thu, 18 Nov 2021 07:46:00 -0800 (PST)
+X-Received: by 2002:a05:6122:7d4:: with SMTP id l20mr9348507vkr.26.1637250360038;
+ Thu, 18 Nov 2021 07:46:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20211117115101.28281-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211117115101.28281-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20211117115101.28281-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211115142830.12651-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211115142830.12651-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Nov 2021 16:30:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV00Xp3SKwsiA+QvPLYzPXSQEHJRMbmMYwakk_vfbhTyQ@mail.gmail.com>
-Message-ID: <CAMuHMdV00Xp3SKwsiA+QvPLYzPXSQEHJRMbmMYwakk_vfbhTyQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] clk: renesas: cpg-mssr: propagate return value of_genpd_add_provider_simple()
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jiri Kosina <trivial@kernel.org>,
+Date:   Thu, 18 Nov 2021 16:45:48 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWyKt0XyLwXE8J5jvEhqtitHY5Lhw1zryY3uzJ4LN4PBg@mail.gmail.com>
+Message-ID: <CAMuHMdWyKt0XyLwXE8J5jvEhqtitHY5Lhw1zryY3uzJ4LN4PBg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: cat875: Add rx/tx delays
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Willy Liu <willy.liu@realtek.com>,
+        "David S. Miller" <davem@davemloft.net>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 17, 2021 at 12:51 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> of_genpd_add_provider_simple() might fail, this patch makes sure we check
-> the return value of of_genpd_add_provider_simple() by propagating the
-> return value to the caller of cpg_mssr_add_clk_domain().
+On Mon, Nov 15, 2021 at 3:28 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The CAT875 sub board from Silicon Linux uses Realtek PHY.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> The phy driver commit bbc4d71d63549bcd003
+> ("net: phy: realtek: fix rtl8211e rx/tx delay config") introduced
+> NFS mount failure. Now it needs both rx/tx delays for the NFS mount to
+> work.
+>
+> This patch fixes the NFS mount failure issue by adding "rgmii-id" mode
+> on the avb device node.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Fixes: bbc4d71d63549bcd ("net: phy: realtek: fix rtl8211e rx/tx delay config")
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.17.
+i.e. will queue in renesas-devel for v5.17.
 
 Gr{oetje,eeting}s,
 
