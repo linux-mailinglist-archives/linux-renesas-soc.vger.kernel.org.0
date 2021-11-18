@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC2E5455912
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 11:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCA03455915
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 11:31:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245222AbhKRKeY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 05:34:24 -0500
-Received: from mail-vk1-f182.google.com ([209.85.221.182]:41668 "EHLO
-        mail-vk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245691AbhKRKdu (ORCPT
+        id S245253AbhKRKeZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 05:34:25 -0500
+Received: from mail-ua1-f52.google.com ([209.85.222.52]:33457 "EHLO
+        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245194AbhKRKeY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 05:33:50 -0500
-Received: by mail-vk1-f182.google.com with SMTP id 188so513132vku.8;
-        Thu, 18 Nov 2021 02:30:50 -0800 (PST)
+        Thu, 18 Nov 2021 05:34:24 -0500
+Received: by mail-ua1-f52.google.com with SMTP id b17so12651421uas.0;
+        Thu, 18 Nov 2021 02:31:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mJJOUrv2FDSzz/F4qnTuDfi/Fxwt6nD8cIvN15jOU7Y=;
-        b=Vj47fRzImh6t5hHx1koImucg2KV3bR74+fBHDloaGsC/Y9pwJ9rCipjdBwddfmtE0i
-         I9I+s3QieeL2AmqPBePduDDf1IH7bJYcNlT4g5eRbyWNLTdxv+qzv5smuhpkjo/euSRd
-         ll3B0f/dTpcUkz9hf8K1Rklzeh0qvIBf06eyVwFsXZicBnoKNKPXiZIKla3jAT9Dr2sy
-         FjKYmTIMV9X3ofBG8ETMB8LJNTeAN7UrB9TGu7msOv6+Oul63tWQ3ZO3UDMNybVqrmZ6
-         bSDyPhKFPu7x5wrbkMeFd2RGa9CfYKKe8bHomNfY9ImSxO3OxWTQttNeseiF+y34ODGV
-         u5RQ==
-X-Gm-Message-State: AOAM533nJ1N/J2ASSc5ozzWabbUcqm3493+jHMfZSXvJlmo9bOtxgBTi
-        Mh1aNU04XBje/ELMwQHGBYof8FLUqYirTA==
-X-Google-Smtp-Source: ABdhPJx8dsyYayxFiWR/Sz5rb9RV5GETGb9KFssCc42wXLwWa9npANTA89nfGlUEwuZ4UwxO5Yt2Jw==
-X-Received: by 2002:a05:6122:d05:: with SMTP id az5mr101499373vkb.9.1637231449891;
-        Thu, 18 Nov 2021 02:30:49 -0800 (PST)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id s16sm1416410uag.14.2021.11.18.02.30.49
+        bh=urgLeqavleorgzQqsupgeowcrEUJP19OSswfhnTfXUA=;
+        b=RJXz8isN5//MhkqNdymqJeCZdxHVBkRR/cOup8PrCCLtasbljXYbjuH8equOO+r3N8
+         f7OzevrRN41d8nSRhTQ21WaBgY1R6JC5f4kTX5XiGI8e6OejDLF16AGPmojmYQLcZ6fY
+         4Twde5OyfCpWP6/34o4dzmZtv1I2GJwIcdAxDoUmYvZuzGSuPMuACv13/+deVKb4L7Ta
+         LxMHn3sQhEl0AsxJLpM6Ngn0jptIdmmkOcOXiWJCU923b94WElaxOdp8e40ymh/zOqGw
+         1hKnjddMS5xs+ZWXAufyQ5JpIkDd/V/wiE8bCHKeUi7y74ai/AtR0ridlNKX5kBeV4oC
+         jxTQ==
+X-Gm-Message-State: AOAM533l+4i/VNQuoSrUPZaX1u98mRM7KtntdGfrIw2bc9KUvY3GE8aG
+        k0RJPIYbOswwz1AGPnhWB8xXrRmtYaKAiQ==
+X-Google-Smtp-Source: ABdhPJzOQjrlJCLMbATdNqyWjmasaz7nJW+a9TBjpCtV7PBv3uGRXUUwTuKC+XwmmcYRh5Jq+hwxyw==
+X-Received: by 2002:a67:f754:: with SMTP id w20mr78189594vso.3.1637231484309;
+        Thu, 18 Nov 2021 02:31:24 -0800 (PST)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id bi35sm1373367vkb.3.2021.11.18.02.31.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 02:30:49 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id b17so12648124uas.0;
-        Thu, 18 Nov 2021 02:30:49 -0800 (PST)
-X-Received: by 2002:ab0:5552:: with SMTP id u18mr34178842uaa.78.1637231449248;
- Thu, 18 Nov 2021 02:30:49 -0800 (PST)
+        Thu, 18 Nov 2021 02:31:24 -0800 (PST)
+Received: by mail-vk1-f175.google.com with SMTP id 84so3490762vkc.6;
+        Thu, 18 Nov 2021 02:31:23 -0800 (PST)
+X-Received: by 2002:a05:6122:7d4:: with SMTP id l20mr6043529vkr.26.1637231483636;
+ Thu, 18 Nov 2021 02:31:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20211112081003.15453-1-biju.das.jz@bp.renesas.com> <20211112081003.15453-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20211112081003.15453-2-biju.das.jz@bp.renesas.com>
+References: <20211112081003.15453-1-biju.das.jz@bp.renesas.com> <20211112081003.15453-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211112081003.15453-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Nov 2021 11:30:37 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW9BqxF1_vPby50Cpn+afSirx=wJuN-=m88pp+BejcurQ@mail.gmail.com>
-Message-ID: <CAMuHMdW9BqxF1_vPby50Cpn+afSirx=wJuN-=m88pp+BejcurQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] clk: renesas: rzg2l: Add CPG_PL1_DDIV macro
+Date:   Thu, 18 Nov 2021 11:31:12 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXvo9favMM8Dci-=jniPqK6GkC5TNGfx86qmROk6MR+NQ@mail.gmail.com>
+Message-ID: <CAMuHMdXvo9favMM8Dci-=jniPqK6GkC5TNGfx86qmROk6MR+NQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] clk: renesas: r9a07g044: Change core clock "I"
+ from DEF_FIXED->DEF_DIV
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         linux-clk <linux-clk@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
@@ -61,9 +61,11 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Fri, Nov 12, 2021 at 9:10 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Core clock "I" is sourced from  CPG_PL1_DDIV which controls CPU
-> frequency. Define CPG_PL1_DDIV, so that we can register it as a
-> clock divider in later patch.
+> Core clock "I" is sourced from CPG_PL1_DDIV divider as per HW manual
+> Rev.1.00.
+>
+> This patch adds clock divider table "dtable_1_8" and switches to
+> DEF_DIV for "I" clock.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
