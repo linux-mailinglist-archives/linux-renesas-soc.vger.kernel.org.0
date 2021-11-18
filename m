@@ -2,82 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3558645583A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 10:48:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C84854558A3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 11:07:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245248AbhKRJvN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 04:51:13 -0500
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:52804 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S245246AbhKRJvM (ORCPT
+        id S245497AbhKRKKu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 05:10:50 -0500
+Received: from mxout01.lancloud.ru ([45.84.86.81]:36494 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245491AbhKRKJ1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 04:51:12 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R641e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UxAmziA_1637228888;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0UxAmziA_1637228888)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 18 Nov 2021 17:48:10 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     davem@davemloft.net
-Cc:     kuba@kernel.org, s.shtylyov@omp.ru, geert@linux-m68k.org,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>
-Subject: [PATCH -next v2] ethernet: renesas: Use div64_ul instead of do_div
-Date:   Thu, 18 Nov 2021 17:48:03 +0800
-Message-Id: <1637228883-100100-1-git-send-email-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        Thu, 18 Nov 2021 05:09:27 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 7C2A320E66C1
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Message-ID: <733ea341-7105-e552-f562-4fb362543088@omp.ru>
+Date:   Thu, 18 Nov 2021 13:06:14 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH -next v2] ethernet: renesas: Use div64_ul instead of
+ do_div
+Content-Language: en-US
+To:     Yang Li <yang.lee@linux.alibaba.com>, <davem@davemloft.net>
+CC:     <kuba@kernel.org>, <geert@linux-m68k.org>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1637228883-100100-1-git-send-email-yang.lee@linux.alibaba.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+In-Reply-To: <1637228883-100100-1-git-send-email-yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-do_div() does a 64-by-32 division. Here the divisor is an
-unsigned long which on some platforms is 64 bit wide. So use
-div64_ul instead of do_div to avoid a possible truncation.
+On 18.11.2021 12:48, Yang Li wrote:
 
-Eliminate the following coccicheck warning:
-./drivers/net/ethernet/renesas/ravb_main.c:2492:1-7: WARNING:
-do_div() does a 64-by-32 division, please consider using div64_ul
-instead.
+> do_div() does a 64-by-32 division. Here the divisor is an
+> unsigned long which on some platforms is 64 bit wide. So use
+> div64_ul instead of do_div to avoid a possible truncation.
+> 
+> Eliminate the following coccicheck warning:
+> ./drivers/net/ethernet/renesas/ravb_main.c:2492:1-7: WARNING:
+> do_div() does a 64-by-32 division, please consider using div64_ul
+> instead.
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
----
+    I haven't given you this tag, yet I was going to give you one, so
+it's OK finally. :-)
 
-change in v2:
---According to Geert's suggestion
-  replace #include <asm/div64.h> by
-  #include <linux/math64.h>
---According to Sergey's suggestion
-  Merge two statements into one
+[...]
 
- drivers/net/ethernet/renesas/ravb_main.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index b4c597f..151cce2 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -30,8 +30,7 @@
- #include <linux/spinlock.h>
- #include <linux/sys_soc.h>
- #include <linux/reset.h>
--
--#include <asm/div64.h>
-+#include <linux/math64.h>
- 
- #include "ravb.h"
- 
-@@ -2488,8 +2487,7 @@ static int ravb_set_gti(struct net_device *ndev)
- 	if (!rate)
- 		return -EINVAL;
- 
--	inc = 1000000000ULL << 20;
--	do_div(inc, rate);
-+	inc = div64_ul(1000000000ULL << 20, rate);
- 
- 	if (inc < GTI_TIV_MIN || inc > GTI_TIV_MAX) {
- 		dev_err(dev, "gti.tiv increment 0x%llx is outside the range 0x%x - 0x%x\n",
--- 
-1.8.3.1
-
+MBR, Sergey
