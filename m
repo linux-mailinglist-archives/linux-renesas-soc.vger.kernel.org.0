@@ -2,89 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AF20456352
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 20:18:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57C3545646B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 21:44:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233652AbhKRTV4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 14:21:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:32854 "EHLO mail.kernel.org"
+        id S233479AbhKRUrX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 15:47:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34004 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233353AbhKRTVw (ORCPT
+        id S232565AbhKRUrX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 14:21:52 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 19373610F8;
-        Thu, 18 Nov 2021 19:18:48 +0000 (UTC)
+        Thu, 18 Nov 2021 15:47:23 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 475F96128C;
+        Thu, 18 Nov 2021 20:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637263131;
-        bh=t9+2AiggnVqrgGTuAYu/rgjO7OPWObSz0aLxHrxrgzk=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=hOWlFB/lIwuYvXFb2FfpbBsiesTwCfVP8m5EXaSYw9bMGp+EkhorGv/URD7L+I/gb
-         KBTra7PW94zlwnSKUq7QD/jM6+CWqBCnswF6cP44rNSLr27btWKM+kv0GzVZPwvLor
-         XUX6Nn7gQowciyO3WBzJyOkFpFo48coP0DypGBtSeXdno2+NecxxyOLXnWna14TpiX
-         Yz3W/1yDoRJDf3mtyP+ekBcpo4iHk7Sv9GgtrSMSEAnw2P7cKq4ApHTbXUDzAcv+kL
-         77iRMLh7323djq5r9jtJoQfJqAfrs8Vekx+bnZR8FZktcDmtDEDwvALeNtELmaUfEW
-         ivilocTl078Pg==
-From:   Mark Brown <broonie@kernel.org>
-To:     Arnd Bergmann <arnd@arndb.de>, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-kernel@vger.kernel.org
-In-Reply-To: <20211118031041.2312-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211118031041.2312-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 0/3] RSPI driver support for RZ/G2L
-Message-Id: <163726312883.102649.5640486048664140521.b4-ty@kernel.org>
-Date:   Thu, 18 Nov 2021 19:18:48 +0000
+        s=k20201202; t=1637268262;
+        bh=sVeugOXOThpr87Zi3LpkKeS4dLNuxTnnYlOPOREQuJ0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=Jb8casGJHw1GPw52ROWvElXI1Y3Ol4NorSB8tY4VFUWAsxhMhJw1eGg8yeeDOl3HL
+         1gEwn+J/Nwj3oOgX2oyUA2qOkyE/QgPMADTRcCzD9yMiYgcjYUYDgq+dL2TdYrZkrO
+         DdUxiQel6roOXC65gdhkzxUJk9jgL+XYK9S7+j+2lkQ1K/Kzq9TxQ0cGLh3BqCmPU8
+         SJQVIITH1U7ML7B0BhEONKb9SbGnIRmDeuojCtWd98bXE7wmEYbfbkzXsfTzGIULyP
+         C+fXuO7dL5eKt7rtZyOn/GSS+MoJ67VMC4nYz5UwIajXf0XXzbE3KqP5TeTFwOTboQ
+         1i0TF1Z0kO7nA==
+Date:   Thu, 18 Nov 2021 14:44:21 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Naveen Naidu <naveennaidu479@gmail.com>
+Cc:     bhelgaas@google.com,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        linux-hyperv@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
+        linux-pci@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
+        Binghui Wang <wangbinghui@hisilicon.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Oliver O'Halloran <oohall@gmail.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Russell Currey <ruscur@russell.cc>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Toan Le <toan@os.amperecomputing.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Nirmal Patel <nirmal.patel@linux.intel.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Rob Herring <robh@kernel.org>, Wei Liu <wei.liu@kernel.org>,
+        linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+        Joyce Ooi <joyce.ooi@intel.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Jianjun Wang <jianjun.wang@mediatek.com>,
+        linux-rockchip@lists.infradead.org,
+        "maintainer:BROADCOM IPROC ARM ARCHITECTURE" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Jonathan Derrick <jonathan.derrick@linux.dev>,
+        Xiaowei Song <songxiaowei@hisilicon.com>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Robert Richter <rric@kernel.org>,
+        Sean V Kelley <sean.v.kelley@intel.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        linuxppc-dev@lists.ozlabs.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Lukas Wunner <lukas@wunner.de>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+Subject: Re: [PATCH v4 00/25] Unify PCI error response checking
+Message-ID: <20211118204421.GA1881943@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1637243717.git.naveennaidu479@gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 18 Nov 2021 03:10:38 +0000, Lad Prabhakar wrote:
-> This patch series adds RSPI driver and dt binding support to RZ/G2L SoC.
+On Thu, Nov 18, 2021 at 07:33:10PM +0530, Naveen Naidu wrote:
+> An MMIO read from a PCI device that doesn't exist or doesn't respond
+> causes a PCI error.  There's no real data to return to satisfy the 
+> CPU read, so most hardware fabricates ~0 data.
 > 
-> Cheers,
-> Prabhakar
+> This patch series adds PCI_ERROR_RESPONSE definition and other helper
+> definition PCI_SET_ERROR_RESPONSE and PCI_POSSIBLE_ERROR and uses it
+> where appropriate to make these checks consistent and easier to find.
 > 
-> Changes for v2:
-> * Fixed review comments pointed by Geert.
+> This helps unify PCI error response checking and make error check
+> consistent and easier to find.
 > 
-> [...]
+> This series also ensures that the error response fabrication now happens
+> in the PCI_OP_READ and PCI_USER_READ_CONFIG. This removes the
+> responsibility from controller drivers to do the error response setting. 
 
-Applied to
+Applied to pci/error for v5.17.  Thanks, this is really nice work.
+Somehow small changes like these add up to something much greater than
+one would expect.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+This touches many native controller drivers but in trivial ways, so I
+plan to merge this branch after the usual native controller stuff from
+Lorenzo.
 
-Thanks!
+I tweaked the commit logs to clarify that this series is all about
+*config* reads, not MMIO reads.  MMIO reads have similar issues, and
+we can use PCI_ERROR_RESPONSE, etc., there, too, but that's not what
+this series does.
 
-[1/3] spi: dt-bindings: renesas,rspi: Document RZ/G2L SoC
-      commit: 5a8f8542e34b6469cd5c5a3d075fa5977d90775e
-[2/3] spi: spi-rspi: Add support to deassert/assert reset line
-      commit: aadbff4af5c90919cbe67e2c4d77c68cdefa454e
-[3/3] spi: spi-rspi: Drop redeclaring ret variable in qspi_transfer_in()
-      commit: 1d734f592e1a1d41af80e90001d109cec1c98fb4
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Bjorn
