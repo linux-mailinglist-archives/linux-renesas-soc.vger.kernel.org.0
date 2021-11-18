@@ -2,115 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B727455D79
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 15:08:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 271B6455D59
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 15:05:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232501AbhKROKz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 09:10:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38528 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232503AbhKROKy (ORCPT
+        id S232270AbhKROI0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 09:08:26 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58790 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232252AbhKROIZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 09:10:54 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89E93C061570;
-        Thu, 18 Nov 2021 06:07:54 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id x5so6175666pfr.0;
-        Thu, 18 Nov 2021 06:07:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=MC+uMtAqzrUGxiPuMGV2uquDaVscrAuApobHOB73Khc=;
-        b=iujRsX4QPoiun7MHP0bUBZW28PjBf6o6gfGjY/YCm/Lpia8P/wzPGdCWhiyGfZG09g
-         Gjrmitr/DvKW1Se/u30W1xBctEtQ460BlEKz4w4a4RRLsG/Z9uYu8quQ3S8YNaXabwUL
-         c0ODX2zYAPzZEc+6s3kYCQfPner0LQoYLnPLwcCCQxCnx5DSiPpfmdj91JA28o2Bh+zR
-         Xxth8mCjdAdYY8DkskQ2AL8PFVJqPwsIgFNlvyqn9V5Q7seZuDDq1aaOMfpUVkRLcLVb
-         p2wov/u8f1vPaBr2+y9SQZFEwiXZ5iREzuqbl0+ygDk3ftzRQ2vbE6NVCZ+zPwJOU+sx
-         PG0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=MC+uMtAqzrUGxiPuMGV2uquDaVscrAuApobHOB73Khc=;
-        b=4AmvMsilUFcc9yAL0G1NHGdVHQX1A7b376rkqlxdCW3fwAule/EkVKnarNDNZD3Xu5
-         tw4mRzYvBHUKfiaiNzF2p9tjsSBevq4V9FOCFvpE8yPhMviUvEw/XB+Bx0Y2Q//kGoW1
-         8ALbAfFz87Bs6bf3PDZC12jP2z1a/mU+45oXSzBuw7p8hzzJ/z/QfOtEsh9tEo9sUmxY
-         fDxW/SoMlmOoBAtuNDyFG4cBYMHi0bdrWWV8DNjOKn9aj8S/AYNF7V3bHUWrNY9O8xpA
-         SlNGlem4d4+n1R9jhu92AB0e+ejDvdcmFwdNBWzPIVsEPLlvFcnDoXGZsze7PimU23gG
-         1R/w==
-X-Gm-Message-State: AOAM530nda8+C5DufGi/C/JmEO2M1TdPnqCfjpgdGjG/TehvRG0JrR3x
-        G0qPPrz7epsTWAQALOGPXJw=
-X-Google-Smtp-Source: ABdhPJyuYGF3D5BwP9dBQadEZLcKBgGb+caRhXPH1nLvYia+cdRfnIzBQGuarTkOzB+UKMsDzzIvlg==
-X-Received: by 2002:a63:725e:: with SMTP id c30mr11339989pgn.240.1637244474011;
-        Thu, 18 Nov 2021 06:07:54 -0800 (PST)
-Received: from localhost.localdomain ([2406:7400:63:2c47:5ffe:fc34:61f0:f1ea])
-        by smtp.gmail.com with ESMTPSA id x14sm2822878pjl.27.2021.11.18.06.07.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Nov 2021 06:07:53 -0800 (PST)
-From:   Naveen Naidu <naveennaidu479@gmail.com>
-To:     bhelgaas@google.com
-Cc:     Naveen Naidu <naveennaidu479@gmail.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        linux-renesas-soc@vger.kernel.org (open list:PCI DRIVER FOR RENESAS
-        R-CAR)
-Subject: [PATCH v4 14/25] PCI: rcar: Remove redundant error fabrication when device read fails
-Date:   Thu, 18 Nov 2021 19:33:24 +0530
-Message-Id: <83540eb3ae76a0d28bbe03d69d685a6d549b456b.1637243717.git.naveennaidu479@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1637243717.git.naveennaidu479@gmail.com>
-References: <cover.1637243717.git.naveennaidu479@gmail.com>
+        Thu, 18 Nov 2021 09:08:25 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A48323E5;
+        Thu, 18 Nov 2021 15:05:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1637244324;
+        bh=EsamhzVuXX3YEy0k91hEwA8EXqH3aaab9haLwq+oakA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YP8q7PaENd0SMS0a5L6uefKyMtiRyx5q4VZLsFGY9hz20T+WBxIhq/Lx1Fhy4PUTT
+         llYfjD2WMAAzKQTjxKBqE3ewsuPhgWSRHE8RL4QZq4To5u1liqW8zFsT84wHLxbPjG
+         j7eQD2NvjiT5bC5lXYaCjsr4Zu8VYJeAZyUKfybQ=
+Date:   Thu, 18 Nov 2021 16:05:02 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Daniel Stone <daniel@fooishbar.org>
+Cc:     Esaki Tomohito <etom@igel.co.jp>,
+        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm: rcar-du: add modifiers support
+Message-ID: <YZZdjlzFPDCbAfQU@pendragon.ideasonboard.com>
+References: <20190509054518.10781-1-etom@igel.co.jp>
+ <20190509071429.GA4773@pendragon.ideasonboard.com>
+ <20217791-f912-0864-48a9-dfacadfb3650@igel.co.jp>
+ <20190511181027.GC13043@pendragon.ideasonboard.com>
+ <YZZHuNgGr0kZXzyl@pendragon.ideasonboard.com>
+ <CAPj87rNPiLve14H85ZBbn-oozqgeS26DGUCg2oJ8LupAdYcEqA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPj87rNPiLve14H85ZBbn-oozqgeS26DGUCg2oJ8LupAdYcEqA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-An MMIO read from a PCI device that doesn't exist or doesn't respond
-causes a PCI error. There's no real data to return to satisfy the
-CPU read, so most hardware fabricates ~0 data.
+Hi Daniel,
 
-The host controller drivers sets the error response values (~0) and
-returns an error when faulty hardware read occurs. But the error
-response value (~0) is already being set in PCI_OP_READ and
-PCI_USER_READ_CONFIG whenever a read by host controller driver fails.
+On Thu, Nov 18, 2021 at 01:02:11PM +0000, Daniel Stone wrote:
+> Hi all,
+> Thanks for this Laurent. Esaki-san, could you please CC dri-devel@ on
+> discussions like this?
+> 
+> On Thu, 18 Nov 2021 at 12:32, Laurent Pinchart wrote:
+> > On Sat, May 11, 2019 at 09:10:27PM +0300, Laurent Pinchart wrote:
+> > > On Thu, May 09, 2019 at 06:25:19PM +0900, Esaki Tomohito wrote:
+> > > > Weston compositor (v5.0.0 or later) uses the DRM API to get the
+> > > > supported modifiers and determines if the sprite plane can be used by
+> > > > comparing the modifiers with the client specified modifier.
+> > > > In currently driver, since the weston doesn't know supported modifiers,
+> > > > that cannot determine if the received dmabuf can be passed through to
+> > > > sprite plane.
+> > > > Since there are R-Car GPU which support linear modifier, the sprite
+> > > > plane cannot be used in a compositor similar to the weston if client
+> > > > specify linear modifier.
+> > >
+> > > I don't think the right solution is to expose the linear modifier from
+> > > all drivers that don't otherwise support modifiers. We should instead
+> > > fix it either in Weston, and treat drivers that don't support the
+> > > modifiers API as supporting the linear modifier only, or in the DRM/KMS
+> > > core by reporting the linear modifier for drivers that don't explicitly
+> > > support modifiers.
+> >
+> > I've been pointed to
+> > https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/3350#note_1161827,
+> > and we had a discussion on the #dri-devel IRC channel today on this
+> > topic. It turns out I was wrong, not specifying modifiers in userspace
+> > is different than specifying a linear modifier. This is true for some
+> > legacy drivers only (e.g. radeon) that pre-date the modifiers API, and
+> > which select a tiling format internally based on some heuristics.
+> >
+> > I still don't like this patch though, as it would need to be replicated
+> > in most drivers. It would be better if we could handle this in the DRM
+> > core. Daniel kindly offered to summarize the IRC discussion in a reply
+> > to this e-mail.
+> 
+> Just quickly, I believe the check for the linear modifier in fb_create
+> is unnecessary, as this should already be checked in the core through
+> format_mod_supported().
+> 
+> There is indeed a difference between LINEAR and INVALID. Linear is an
+> explicit declaration of the layout; INVALID (i.e. no modifier) means
+> 'I don't know what this is, so you should guess'. Guessing is
+> obviously not reliable, so Weston only passes buffers with no modifier
+> to KMS in two cases. The first case is when we allocate a dumb buffer
+> and the driver does not support modifiers; this is safe since it's the
+> same driver. The second case is when either the GPU driver or KMS
+> driver do not support modifiers and we allocate a buffer via GBM with
+> USE_SCANOUT; in this case, it is GBM's responsibility to select the
+> 'right' layout.
+> 
+> We will never create a DRM framebuffer with no modifiers when the
+> original buffer comes from a client. If the client does not support
+> modifiers but the KMS driver does, then we do not know that the client
+> has allocated a suitable layout, so this is not safe. If the client
+> does explicitly declare a modifier but the KMS driver does not support
+> modifiers, then we also do not know that this is safe to use. So
+> unless both sides (client/GPU and KMS) support modifiers, we do not do
+> direct scanout from client buffers.
+> 
+> This patch would enable this usecase by declaring support for the
+> linear modifier from KMS; when used with a PVR driver which explicitly
+> declares the linear modifier, we know it is safe to pass that client
+> buffer to KMS.
+> 
+> Laurent's concern is that the DRM core should handle this rather than
+> open-coding in every driver, which I agree with. Some drivers (e.g.
+> radeon, maybe legacy NV?) do not support modifiers, and _also_ do
+> magic inference of the actual layout of the underlying buffer.
+> However, these drivers are legacy and we do not accept any new
+> addition of inferring layout without modifiers.
+> 
+> I think the best way forward here is:
+>   - add a new mode_config.cannot_support_modifiers flag, and enable
+> this in radeon (plus any other drivers in the same boat)
 
-Thus, it's no longer necessary for the host controller drivers to
-fabricate any error response.
+Is there an easy way to identify the drivers that need this ?
 
-This helps unify PCI error response checking and make error check
-consistent and easier to find.
+>   - change drm_universal_plane_init() to advertise the LINEAR modifier
+> when NULL is passed as the modifier list (including installing a
+> default .format_mod_supported hook)
+>   - remove the mode_config.allow_fb_modifiers hook and always
+> advertise modifier support, unless
+> mode_config.cannot_support_modifiers is set
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
----
- drivers/pci/controller/pcie-rcar-host.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Looks good to me.
 
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index e12c2d8be05a..6bd5619fbbf4 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -159,10 +159,8 @@ static int rcar_pcie_read_conf(struct pci_bus *bus, unsigned int devfn,
- 
- 	ret = rcar_pcie_config_access(host, RCAR_PCI_ACCESS_READ,
- 				      bus, devfn, where, val);
--	if (ret != PCIBIOS_SUCCESSFUL) {
--		*val = 0xffffffff;
-+	if (ret != PCIBIOS_SUCCESSFUL)
- 		return ret;
--	}
- 
- 	if (size == 1)
- 		*val = (*val >> (BITS_PER_BYTE * (where & 3))) & 0xff;
+> FWIW, the effective modifier API and also valid usage is documented
+> here, which should be finished and merged shortly:
+>     https://lore.kernel.org/dri-devel/20210905122742.86029-1-daniels@collabora.com/
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
