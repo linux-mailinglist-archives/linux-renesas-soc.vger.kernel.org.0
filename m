@@ -2,64 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 515404552FC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 03:58:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71B2E455322
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 04:11:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233719AbhKRDB5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Nov 2021 22:01:57 -0500
-Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:52216 "EHLO
-        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242292AbhKRDB4 (ORCPT
+        id S242665AbhKRDN4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Nov 2021 22:13:56 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:52439 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S242654AbhKRDNy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Nov 2021 22:01:56 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R831e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0Ux7j-05_1637204334;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0Ux7j-05_1637204334)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 18 Nov 2021 10:58:55 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     davem@davemloft.net
-Cc:     kuba@kernel.org, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yang Li <yang.lee@linux.alibaba.com>
-Subject: [PATCH -next v2] ethernet: renesas: Use div64_ul instead of do_div
-Date:   Thu, 18 Nov 2021 10:58:49 +0800
-Message-Id: <1637204329-3314-1-git-send-email-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        Wed, 17 Nov 2021 22:13:54 -0500
+X-IronPort-AV: E=Sophos;i="5.87,243,1631545200"; 
+   d="scan'208";a="100984197"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 18 Nov 2021 12:10:51 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 9D1C1400F2C2;
+        Thu, 18 Nov 2021 12:10:49 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-spi@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/3] RSPI driver support for RZ/G2L
+Date:   Thu, 18 Nov 2021 03:10:38 +0000
+Message-Id: <20211118031041.2312-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-do_div() does a 64-by-32 division. Here the divisor is an
-unsigned long which on some platforms is 64 bit wide. So use
-div64_ul instead of do_div to avoid a possible truncation.
+Hi All,
 
-Eliminate the following coccicheck warning:
-./drivers/net/ethernet/renesas/ravb_main.c:2492:1-7: WARNING: 
-do_div() does a 64-by-32 division, please consider using div64_ul instead.
+This patch series adds RSPI driver and dt binding support to RZ/G2L SoC.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
+Cheers,
+Prabhakar
 
-change in v2:
---Fixed warning message
+Changes for v2:
+* Fixed review comments pointed by Geert.
 
- drivers/net/ethernet/renesas/ravb_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v1: https://patchwork.kernel.org/project/linux-renesas-soc/
+cover/20211117010527.27365-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index b4c597f..2b89710 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2489,7 +2489,7 @@ static int ravb_set_gti(struct net_device *ndev)
- 		return -EINVAL;
- 
- 	inc = 1000000000ULL << 20;
--	do_div(inc, rate);
-+	inc = div64_ul(inc, rate);
- 
- 	if (inc < GTI_TIV_MIN || inc > GTI_TIV_MAX) {
- 		dev_err(dev, "gti.tiv increment 0x%llx is outside the range 0x%x - 0x%x\n",
+Lad Prabhakar (3):
+  spi: dt-bindings: renesas,rspi: Document RZ/G2L SoC
+  spi: spi-rspi: Add support to deassert/assert reset line
+  spi: spi-rspi: Drop redeclaring ret variable in qspi_transfer_in()
+
+ .../devicetree/bindings/spi/renesas,rspi.yaml |  4 ++-
+ drivers/spi/spi-rspi.c                        | 27 ++++++++++++++++++-
+ 2 files changed, 29 insertions(+), 2 deletions(-)
+
 -- 
-1.8.3.1
+2.17.1
 
