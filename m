@@ -2,105 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA266455778
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 09:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 888A64557BE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 10:08:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244803AbhKRI7m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 03:59:42 -0500
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:44902 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244881AbhKRI62 (ORCPT
+        id S242808AbhKRJLS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 04:11:18 -0500
+Received: from mxout04.lancloud.ru ([45.84.86.114]:52080 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242855AbhKRJLA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 03:58:28 -0500
-Received: by mail-ua1-f41.google.com with SMTP id p2so11981138uad.11;
-        Thu, 18 Nov 2021 00:55:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YOmh4NAexkt9kWz5Qwf9Sj7DdfWS748BS2ZhFDkB+f4=;
-        b=Dq/nSAnZGUnXtJh62c5AcqQM9j0PTPBkyd403J5OqlQckZwQR7HlAGTEtNOjC+HcLm
-         5ZzAjinS1sw91yUn0mt+QehKMNHoV2bJD4Nn2ssJZsipLDZBsJMAx8W25nzTYfefn88I
-         FRrwrkGDvzpWHf6JB2PKGGQp0+zU+ek3GY/iepbYzy/fND1hNCsdlCHPp5pO3tzQR/WG
-         RgOIsbZKvyU7E4YLY3ZTBwqw+7vr2kaDNTjOYfnnRz+JLaBkEMkqPUCdsQb0GvUO2PvY
-         uxbs9xiGJM/0MGWGmJLpAeiBNhCTCinXo/BP+Vamzg8HTnayPAkaUKUCFvYhq1+LhBcM
-         yJYg==
-X-Gm-Message-State: AOAM531KfG+faSQwWSKgyFMp+zbXQiyktlWDzG5MUIXrzWJhMrW6sH5l
-        q2kGfwUE1pPMw4nxBjZCbpEpUStQmWkHPw==
-X-Google-Smtp-Source: ABdhPJwogE6Xv/0Ea8CccYwVe3NMBZ7ECCCduqaObZ2HvXG+Chn1XDS1QZ3QWYC/fM4uFOpNMd2/bQ==
-X-Received: by 2002:ab0:2a10:: with SMTP id o16mr34054532uar.36.1637225728022;
-        Thu, 18 Nov 2021 00:55:28 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id c11sm1253778vsh.22.2021.11.18.00.55.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 00:55:27 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id b17so12176745uas.0;
-        Thu, 18 Nov 2021 00:55:27 -0800 (PST)
-X-Received: by 2002:a67:c38f:: with SMTP id s15mr78809125vsj.50.1637225727483;
- Thu, 18 Nov 2021 00:55:27 -0800 (PST)
+        Thu, 18 Nov 2021 04:11:00 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 591F620CDD6D
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Message-ID: <6851a10a-e7cf-b533-ab9d-0df539bbba00@omp.ru>
+Date:   Thu, 18 Nov 2021 12:07:45 +0300
 MIME-Version: 1.0
-References: <20211111115427.8228-1-biju.das.jz@bp.renesas.com>
- <20211111115427.8228-2-biju.das.jz@bp.renesas.com> <OSZPR01MB70196F7398C5DA1E940E79CAAA9A9@OSZPR01MB7019.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922F6D7662F86089833F326869A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922F6D7662F86089833F326869A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Nov 2021 09:55:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUmCCc3UCQe=b_GrFOkZW_tiL1bpsqiTcQRW5TU2GkDNA@mail.gmail.com>
-Message-ID: <CAMuHMdUmCCc3UCQe=b_GrFOkZW_tiL1bpsqiTcQRW5TU2GkDNA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] clk: renesas: rzg2l: Add support for watchdog
- reset selection
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [PATCH -next] ethernet: renesas: Use div64_ul instead of do_div
+To:     Yang Li <yang.lee@linux.alibaba.com>, <davem@davemloft.net>
+CC:     <kuba@kernel.org>, <netdev@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1637203805-125780-1-git-send-email-yang.lee@linux.alibaba.com>
+Content-Language: en-US
+Organization: Open Mobile Platform
+In-Reply-To: <1637203805-125780-1-git-send-email-yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hello!
 
-On Wed, Nov 17, 2021 at 9:21 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> On the, next version I am planning to introduce the below code for
-> Reset selection based on device availability, instead of selecting
-> all the channels. Is it the right way to do ? please let me know.
->
-> node = of_find_node_by_name (NULL, NULL, "watchdog@12800800");
-> if (node && of_device_is_available(node) {
->         // set reset selection for that channel
->         of_node_put(node);
-> }
->
-> node = of_find_node_by_name (NULL, NULL, "watchdog@12800c00");
-> if (node && of_device_is_available(node) {
->         // set reset selection for that channel
->         of_node_put(node);
-> }
->
-> node = of_find_node_by_name (NULL, NULL, "watchdog@12800400");
-> if (node && of_device_is_available(node) {
->         // set reset selection for that channel
->         of_node_put(node);
-> }
+    Why you didn't Cc me (as a reviewer)?
 
-Matching on node names is very fragile.  And what if the watchdog
-node is enabled in DT, but the watchdog driver is not available?
-Moreover, this looks like it should not be controlled from the clock
-driver, but from the watchdog driver instead.
+On 18.11.2021 5:50, Yang Li wrote:
 
-Gr{oetje,eeting}s,
+> do_div() does a 64-by-32 division. Here the divisor is an
+> unsigned long which on some platforms is 64 bit wide. So use
+> div64_ul instead of do_div to avoid a possible truncation.
+> 
+> Eliminate the following coccicheck warning:
+> ./drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:2742:1-7: WARNING:
+> do_div() does a 64-by-32 division, please consider using div64_ul
+> instead.
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>   drivers/net/ethernet/renesas/ravb_main.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index b4c597f..2b89710 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2489,7 +2489,7 @@ static int ravb_set_gti(struct net_device *ndev)
+>   		return -EINVAL;
+>   
+>   	inc = 1000000000ULL << 20;
+> -	do_div(inc, rate);
+> +	inc = div64_ul(inc, rate);
 
-                        Geert
+    Why not just:
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+	inc = div64_ul(1000000000ULL << 20, rate);
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>   	if (inc < GTI_TIV_MIN || inc > GTI_TIV_MAX) {
+>   		dev_err(dev, "gti.tiv increment 0x%llx is outside the range 0x%x - 0x%x\n",
+
+MBR, Sergey
