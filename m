@@ -2,81 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD5E1455330
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 04:11:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3276455726
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 09:39:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242735AbhKRDOI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Nov 2021 22:14:08 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:51670 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S242697AbhKRDOA (ORCPT
+        id S244696AbhKRIm5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 03:42:57 -0500
+Received: from mail-vk1-f178.google.com ([209.85.221.178]:33464 "EHLO
+        mail-vk1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242185AbhKRImz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Nov 2021 22:14:00 -0500
-X-IronPort-AV: E=Sophos;i="5.87,243,1631545200"; 
-   d="scan'208";a="100643664"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 18 Nov 2021 12:11:00 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E9A1E4008C4D;
-        Thu, 18 Nov 2021 12:10:57 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-spi@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 3/3] spi: spi-rspi: Drop redeclaring ret variable in qspi_transfer_in()
-Date:   Thu, 18 Nov 2021 03:10:41 +0000
-Message-Id: <20211118031041.2312-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211118031041.2312-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211118031041.2312-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Thu, 18 Nov 2021 03:42:55 -0500
+Received: by mail-vk1-f178.google.com with SMTP id d130so3379869vke.0;
+        Thu, 18 Nov 2021 00:39:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jRhaJP30xRfGoC6YfQR1gJhdJCfA0BcIWGwc3ucBNgY=;
+        b=eP4RJ2wYhz2Aod0sWLHh3u8VGOjWWffBO5antXYK6ZvykOLwg7Fk65vJOafO9wWeoH
+         Za1eTahl3P8stzkWSetnagkc0eq4V8gnnYOeTOCdelO7W/S85KFeJzoMpF2Qhmiy6yss
+         gOdb/O8SK5LyV6wVljcRRDdq70Et5UV2TRoF/EeNABiMKALQRPyA+IzGuoLBmut7zEw7
+         kn+VgGfIlZEXtGSXoQqskd5fqmTpKEHYcvfh8aLRD54+4jcDUUkn4t3Az8BbzCD+jy8T
+         Qeo7V9YUgsRtl0L4Y1zltWfiVfzgZlC4JcZ/ueEOOje3XNE50SsR734xvbsdkbgk/2A9
+         VZ4Q==
+X-Gm-Message-State: AOAM531G8DZAIkZ7M4XEa0o7UmqaB+Osz1iMmHO9jTKF6utvsIKVGx3R
+        +Rta+oSKWhcLYUyTj88guhZFP4H0ZPLVhg==
+X-Google-Smtp-Source: ABdhPJw6TFS2OAxiO9CEBXu37PgWmucGjUZy3O0qTJmxjSvOWLW3HvjdYpV98A4hxhApXn5vYYnZXg==
+X-Received: by 2002:a05:6122:2158:: with SMTP id m24mr34049603vkd.1.1637224794868;
+        Thu, 18 Nov 2021 00:39:54 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id 92sm1396828uav.9.2021.11.18.00.39.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Nov 2021 00:39:54 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id o1so12010161uap.4;
+        Thu, 18 Nov 2021 00:39:54 -0800 (PST)
+X-Received: by 2002:a05:6102:2910:: with SMTP id cz16mr78807614vsb.9.1637224794088;
+ Thu, 18 Nov 2021 00:39:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1637204329-3314-1-git-send-email-yang.lee@linux.alibaba.com>
+In-Reply-To: <1637204329-3314-1-git-send-email-yang.lee@linux.alibaba.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 18 Nov 2021 09:39:42 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXL4nfiq8B-PtAiQmCQkZMBP8t-CUBO4bbMZumiA=QpaQ@mail.gmail.com>
+Message-ID: <CAMuHMdXL4nfiq8B-PtAiQmCQkZMBP8t-CUBO4bbMZumiA=QpaQ@mail.gmail.com>
+Subject: Re: [PATCH -next v2] ethernet: renesas: Use div64_ul instead of do_div
+To:     Yang Li <yang.lee@linux.alibaba.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-"ret" variable is already declared in qspi_transfer_in() at the
-beginning of function, drop redeclaring ret in the if block, fixing
-below:
+Hi Yang,
 
-spi-rspi.c: In function ‘qspi_transfer_in’:
-spi-rspi.c:838:7: warning: declaration of ‘ret’ shadows a previous local
-  838 |   int ret = rspi_dma_transfer(rspi, NULL, &xfer->rx_sg);
-      |       ^~~
-spi-rspi.c:835:6: note: shadowed declaration is here
-  835 |  int ret;
+On Thu, Nov 18, 2021 at 4:13 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
+> do_div() does a 64-by-32 division. Here the divisor is an
+> unsigned long which on some platforms is 64 bit wide. So use
+> div64_ul instead of do_div to avoid a possible truncation.
+>
+> Eliminate the following coccicheck warning:
+> ./drivers/net/ethernet/renesas/ravb_main.c:2492:1-7: WARNING:
+> do_div() does a 64-by-32 division, please consider using div64_ul instead.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 
-Fixes: db30083813b55 ("spi: rspi: avoid uninitialized variable access")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Thanks for your patch!
+
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2489,7 +2489,7 @@ static int ravb_set_gti(struct net_device *ndev)
+>                 return -EINVAL;
+>
+>         inc = 1000000000ULL << 20;
+> -       do_div(inc, rate);
+> +       inc = div64_ul(inc, rate);
+>
+>         if (inc < GTI_TIV_MIN || inc > GTI_TIV_MAX) {
+>                 dev_err(dev, "gti.tiv increment 0x%llx is outside the range 0x%x - 0x%x\n",
+
+Please also replace
+
+    #include <asm/div64.h>
+
+by
+
+#include <linux/math64.h>
+
+With that added:
+
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v1->v2
-* Included RB tag
----
- drivers/spi/spi-rspi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
-index 592682d96562..815698366412 100644
---- a/drivers/spi/spi-rspi.c
-+++ b/drivers/spi/spi-rspi.c
-@@ -835,7 +835,7 @@ static int qspi_transfer_in(struct rspi_data *rspi, struct spi_transfer *xfer)
- 	int ret;
- 
- 	if (rspi->ctlr->can_dma && __rspi_can_dma(rspi, xfer)) {
--		int ret = rspi_dma_transfer(rspi, NULL, &xfer->rx_sg);
-+		ret = rspi_dma_transfer(rspi, NULL, &xfer->rx_sg);
- 		if (ret != -EAGAIN)
- 			return ret;
- 	}
--- 
-2.17.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
