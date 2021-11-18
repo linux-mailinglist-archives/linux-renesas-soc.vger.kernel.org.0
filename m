@@ -2,50 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC64D455F80
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 16:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2E2C455F86
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 16:31:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232370AbhKRPdO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 10:33:14 -0500
-Received: from mail-ua1-f51.google.com ([209.85.222.51]:40910 "EHLO
-        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232255AbhKRPdL (ORCPT
+        id S232303AbhKRPdp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 10:33:45 -0500
+Received: from mail-ua1-f54.google.com ([209.85.222.54]:38462 "EHLO
+        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232326AbhKRPdo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 10:33:11 -0500
-Received: by mail-ua1-f51.google.com with SMTP id y5so14469969ual.7;
-        Thu, 18 Nov 2021 07:30:11 -0800 (PST)
+        Thu, 18 Nov 2021 10:33:44 -0500
+Received: by mail-ua1-f54.google.com with SMTP id w23so14520063uao.5;
+        Thu, 18 Nov 2021 07:30:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6WlBFhFdLaiNrzdAPfTzWOZByLWbYzJb4NTghlT9WrI=;
-        b=UU3yGyZiROXYsaBx2gjhM60eWmw6dUN0sNw0CFAxf3mXCcmVOKvyTshMxZmtn76EY+
-         vxxSAun24U7IdPBe+v6DGNHLqJeOMrTny7bDTCeJiLIBKThR4Be42Y3vwwur+1k+7/2g
-         h0LkR73Ua1s7rAccbekGnaq86fc/znLEeDYXt1AM5LCw5SPxryQi1bzJYiR8QIAn3a3s
-         x0XCEwSEcjTsD/HT2rLSesKCRaUe2sqUrvTSto02c7KOBTa66bMoqnt6tf+omXjET9ac
-         LmzsfD6yFrXV3+2tWz4r3QQKtkWFR/OHjtwnR5N8HQy5fA6k3zC4XWeyQmBsVl7s9F4k
-         XTmA==
-X-Gm-Message-State: AOAM531mVxMHya+r/qcRMWZ8sfkvtbawI59J1Ts8MHEimII/qrtFk6lT
-        oa2qyafQcyV6fKxAT5fQ3V/54SKrjvmbbw==
-X-Google-Smtp-Source: ABdhPJz6hoAdzIZ6+jEpqzRupXbOO/TmrgMCCm7VRRs9Uqso7sY4Ka2GDnJ3vxDkkINL2REliWd1ZA==
-X-Received: by 2002:a67:fad4:: with SMTP id g20mr83633737vsq.1.1637249410849;
-        Thu, 18 Nov 2021 07:30:10 -0800 (PST)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id t189sm56207vsb.13.2021.11.18.07.30.10
+        bh=cWbgo8PKSGKJr3zLyC4gZLnDiH16ZCT+ZaBLyQp5tCU=;
+        b=hPfeMQ+0LKO6z3iigSIr4NnjtwKpRieLVt48lLcnhm6G9X1YAgvFWT8wDvADonJxvw
+         Nlew5pOgPmX14ETj+tj/YH50U1Fxd/iUecYW8tiKipvUe/QBpRyQIWjqj1NZecSX6ZTH
+         ZyvPTgPFFOIxsKQybmKJcUq9cUB9DYSW0I1T837usPl7maLy8q6HW2L68g5IkmDno/jf
+         pE2n6sM8eFnPeMoY5RRciM13tbjnsCqxbijFVBm8ybonQPBkI9957q2cXCJoM3AV+Mt9
+         bbgKoAouCpXlAfHRwCsKxFaofpzGku1TiRFX4aJxGfygiysO4LMzFX4hgpz2ZY586l29
+         8hkA==
+X-Gm-Message-State: AOAM530fFvNthwTu8In6vWiatolq0/+tUMz1EO/Go536Tf0Fhr5IXTNf
+        kRxHRvfQlgi+eH/dSVhAVKmySrz3xYChmg==
+X-Google-Smtp-Source: ABdhPJz+f9cyc/jATvZmQqj826TqBkdg9TOeVrzWUGVaCan/Srp6Dlz25EP65WRvkB7TZGcGcWTJCw==
+X-Received: by 2002:ab0:1c02:: with SMTP id a2mr37555256uaj.115.1637249443222;
+        Thu, 18 Nov 2021 07:30:43 -0800 (PST)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id z188sm81203vsz.12.2021.11.18.07.30.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 07:30:10 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id t13so14455133uad.9;
-        Thu, 18 Nov 2021 07:30:10 -0800 (PST)
-X-Received: by 2002:a05:6102:e82:: with SMTP id l2mr82475115vst.37.1637249410167;
- Thu, 18 Nov 2021 07:30:10 -0800 (PST)
+        Thu, 18 Nov 2021 07:30:43 -0800 (PST)
+Received: by mail-ua1-f54.google.com with SMTP id i6so14511905uae.6;
+        Thu, 18 Nov 2021 07:30:42 -0800 (PST)
+X-Received: by 2002:ab0:15a1:: with SMTP id i30mr37755691uae.122.1637249442562;
+ Thu, 18 Nov 2021 07:30:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20211117115101.28281-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211117115101.28281-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20211117115101.28281-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211117115101.28281-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211117115101.28281-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211117115101.28281-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Nov 2021 16:29:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUi_Aj6JQ5n31R3DROUMG8F+032+L43AMmkiBwB_TQhWw@mail.gmail.com>
-Message-ID: <CAMuHMdUi_Aj6JQ5n31R3DROUMG8F+032+L43AMmkiBwB_TQhWw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] clk: renesas: cpg-mssr: Check return value of pm_genpd_init()
+Date:   Thu, 18 Nov 2021 16:30:31 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV00Xp3SKwsiA+QvPLYzPXSQEHJRMbmMYwakk_vfbhTyQ@mail.gmail.com>
+Message-ID: <CAMuHMdV00Xp3SKwsiA+QvPLYzPXSQEHJRMbmMYwakk_vfbhTyQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] clk: renesas: cpg-mssr: propagate return value of_genpd_add_provider_simple()
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -62,33 +62,14 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Wed, Nov 17, 2021 at 12:51 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Make sure we check the return value of pm_genpd_init() which might fail.
-> Also add a devres action to remove the power-domain in-case the probe
-> callback fails further down in the code flow.
+> of_genpd_add_provider_simple() might fail, this patch makes sure we check
+> the return value of of_genpd_add_provider_simple() by propagating the
+> return value to the caller of cpg_mssr_add_clk_domain().
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-clk-for-v5.17.
-
-> @@ -574,7 +580,13 @@ static int __init cpg_mssr_add_clk_domain(struct device *dev,
->                        GENPD_FLAG_ACTIVE_WAKEUP;
->         genpd->attach_dev = cpg_mssr_attach_dev;
->         genpd->detach_dev = cpg_mssr_detach_dev;
-> -       pm_genpd_init(genpd, &pm_domain_always_on_gov, false);
-> +       ret = pm_genpd_init(genpd, &pm_domain_always_on_gov, false);
-> +       if (ret)
-> +               return ret;
-> +       ret = devm_add_action_or_reset(dev, cpg_mssr_genpd_remove, genpd);
-
-Will insert a blank line here.
-
-> +       if (ret)
-> +               return ret;
-> +
->         cpg_mssr_clk_domain = pd;
->
->         of_genpd_add_provider_simple(np, genpd);
 
 Gr{oetje,eeting}s,
 
