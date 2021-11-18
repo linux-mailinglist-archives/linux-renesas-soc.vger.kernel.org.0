@@ -2,160 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C4EA455EC2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 15:56:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AD93455F6A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Nov 2021 16:25:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231405AbhKRO7F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Nov 2021 09:59:05 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:34542 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229587AbhKRO7F (ORCPT
+        id S232088AbhKRP2z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Nov 2021 10:28:55 -0500
+Received: from mail-vk1-f180.google.com ([209.85.221.180]:45579 "EHLO
+        mail-vk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230376AbhKRP2z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Nov 2021 09:59:05 -0500
-X-IronPort-AV: E=Sophos;i="5.87,245,1631545200"; 
-   d="scan'208";a="101052139"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Nov 2021 23:56:03 +0900
-Received: from localhost.localdomain (unknown [10.226.93.19])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9DB4443D7FED;
-        Thu, 18 Nov 2021 23:56:01 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RFC] pinctrl: renesas: rzg2l: Add support to select MII/RGMII mode
-Date:   Thu, 18 Nov 2021 14:55:58 +0000
-Message-Id: <20211118145558.32359-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 18 Nov 2021 10:28:55 -0500
+Received: by mail-vk1-f180.google.com with SMTP id m19so3999009vko.12;
+        Thu, 18 Nov 2021 07:25:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l75YBvaIKIqMqRd0fPmOyxtiZBsumc8q9gz1NkIt1Os=;
+        b=zmBlb8RiIvXVZs0/HRSajIyAL9eQ0lqYKFPYwoGLjOaVp/X9QAI99bQHP9rkW8Nonw
+         fcl1xcvT5M0a7sn8sVtLaQ05g9q2FF8b05yl0xGIKtVfFngdDeQdL9GdPG4mIGq+M4+m
+         6XREFcqV91Tz+Okxfw5krRP1zVYOSCzdjfiD9xcJZoFtkKfRfe2YvtqUCgfpc5sriAGI
+         RdUhk962sQ9SSXKHg/krx6M7X59aFY6mCfITQJVazdiyG+J408vLT+TP6TI0Pt/FeMFC
+         ML9RAJnkoOXZqP/cMrgdCW36cfNCHuKTNx9SUQ75BxZ956ioFxFKqPwvwl+IGs9kvfh1
+         3vcQ==
+X-Gm-Message-State: AOAM532VfHTHyGUGM2++e8JhB6VRJDY8WvAnN4NAfKjEZtgFNS8nsYmQ
+        OjgPhAL4Edrb+VnRqW4PZBIwUJaippNzJQ==
+X-Google-Smtp-Source: ABdhPJwPINizTvpshG6X52QT8E8P79GrAmIz20sbfN05UjqYivYKBpMiDkqYDdfLytK3SGlvQ6nanA==
+X-Received: by 2002:a1f:f24f:: with SMTP id q76mr104864791vkh.11.1637249153981;
+        Thu, 18 Nov 2021 07:25:53 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id f21sm45253vke.39.2021.11.18.07.25.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Nov 2021 07:25:53 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id y5so14436512ual.7;
+        Thu, 18 Nov 2021 07:25:53 -0800 (PST)
+X-Received: by 2002:a67:af0a:: with SMTP id v10mr82716792vsl.35.1637249153248;
+ Thu, 18 Nov 2021 07:25:53 -0800 (PST)
+MIME-Version: 1.0
+References: <20211117115101.28281-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211117115101.28281-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211117115101.28281-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 18 Nov 2021 16:25:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUhT64AixfTunxcu0T8xmP8sKH-k=f_w9T6pQDRBSPP0A@mail.gmail.com>
+Message-ID: <CAMuHMdUhT64AixfTunxcu0T8xmP8sKH-k=f_w9T6pQDRBSPP0A@mail.gmail.com>
+Subject: Re: [PATCH 1/4] clk: renesas: rzg2l: Check return value of pm_genpd_init()
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-RZ/G2L supports Ether MII/RGMII mode control which select
-the direction of the pins based on PHY mode.
+On Wed, Nov 17, 2021 at 12:51 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Make sure we check the return value of pm_genpd_init() which might fail.
+> Also add a devres action to remove the power-domain in-case the probe
+> callback fails further down in the code flow.
+>
+> Fixes: ef3c613ccd68a ("clk: renesas: Add CPG core wrapper for RZ/G2L SoC")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-This patch adds support to select MII/RGMII mode based on
-the phy-mode property present in the ether node, as the
-register for configuring the same is located in pinctrl block
-rather than GbEthernet block.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-Current names on HW manual is based on pins which is going to
-change in next version like below.
+Gr{oetje,eeting}s,
 
-P20_0->ETH0_mode
-P29_0->ETH1_mode
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 70 +++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+                        Geert
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index ccee9c9e2e22..bc86119be01e 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -92,6 +92,7 @@
- #define PWPR			(0x3014)
- #define SD_CH(n)		(0x3000 + (n) * 4)
- #define QSPI			(0x3008)
-+#define ETHER_MODE		(0x3018)
- 
- #define PVDD_1800		1	/* I/O domain voltage <= 1.8V */
- #define PVDD_3300		0	/* I/O domain voltage >= 3.3V */
-@@ -104,6 +105,10 @@
- #define PFC_MASK		0x07
- #define IEN_MASK		0x01
- #define IOLH_MASK		0x03
-+#define ETHER_MODE_ETH0_MASK	BIT(0)
-+#define ETHER_MODE_ETH1_MASK	BIT(1)
-+#define ETHER_MODE_ETH0_ADDR	0x11c20000
-+#define ETHER_MODE_ETH1_ADDR	0x11c30000
- 
- #define PM_INPUT		0x1
- #define PM_OUTPUT		0x2
-@@ -1197,6 +1202,69 @@ static void rzg2l_pinctrl_clk_disable(void *data)
- 	clk_disable_unprepare(data);
- }
- 
-+static bool rzg2l_pinctrl_is_rgmii_mode(struct rzg2l_pinctrl *pctrl,
-+					struct device_node *node)
-+{
-+	const char *mode = of_get_property(node, "phy-mode", NULL);
-+	bool ret = false;
-+
-+	if (!mode) {
-+		dev_err(pctrl->dev, "phy-mode missing, setting to mii mode");
-+		return ret;
-+	}
-+
-+	if ((!strcmp("rgmii", mode)) || (!strcmp("rgmii-id", mode)) ||
-+	    (!strcmp("rgmii-rxid", mode)) || (!strcmp("rgmii-txid", mode)))
-+		ret = true;
-+
-+	return ret;
-+}
-+
-+static void rzg2l_pinctrl_set_eth_mode(struct rzg2l_pinctrl *pctrl,
-+				       struct device_node *np)
-+{
-+	u8 reg = readb(pctrl->base + ETHER_MODE);
-+	u8 mask = ETHER_MODE_ETH0_MASK;
-+	const __be32 *prop;
-+	u64 addr;
-+
-+	prop = of_get_property(np, "reg", NULL);
-+	if (!prop)
-+		return;
-+
-+	addr = of_read_number(prop, of_n_addr_cells(np));
-+	if (addr == ETHER_MODE_ETH1_ADDR)
-+		mask = ETHER_MODE_ETH1_MASK;
-+
-+	if (rzg2l_pinctrl_is_rgmii_mode(pctrl, np))
-+		reg &= ~mask;
-+	else
-+		reg |= mask;
-+
-+	writeb(reg, pctrl->base + ETHER_MODE);
-+}
-+
-+static void rzg2l_pinctrl_set_ether_modes(struct rzg2l_pinctrl *pctrl)
-+{
-+	struct device_node *np, *np1 = NULL;
-+
-+	np = of_find_compatible_node(NULL, NULL, "renesas,rzg2l-gbeth");
-+	if (np) {
-+		np1 = of_find_compatible_node(np, NULL, "renesas,rzg2l-gbeth");
-+		if (of_device_is_available(np))
-+			rzg2l_pinctrl_set_eth_mode(pctrl, np);
-+
-+		of_node_put(np);
-+	}
-+
-+	if (np1) {
-+		if (of_device_is_available(np1))
-+			rzg2l_pinctrl_set_eth_mode(pctrl, np1);
-+
-+		of_node_put(np1);
-+	}
-+}
-+
- static int rzg2l_pinctrl_probe(struct platform_device *pdev)
- {
- 	struct rzg2l_pinctrl *pctrl;
-@@ -1246,6 +1314,8 @@ static int rzg2l_pinctrl_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	rzg2l_pinctrl_set_ether_modes(pctrl);
-+
- 	dev_info(pctrl->dev, "%s support registered\n", DRV_NAME);
- 	return 0;
- }
--- 
-2.17.1
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
