@@ -2,101 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9486456E56
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Nov 2021 12:44:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 425AC456EB7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Nov 2021 13:11:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235141AbhKSLkS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Nov 2021 06:40:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48378 "EHLO
+        id S234684AbhKSMOS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Nov 2021 07:14:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235131AbhKSLkP (ORCPT
+        with ESMTP id S230385AbhKSMOS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Nov 2021 06:40:15 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1870AC06173E
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Nov 2021 03:37:14 -0800 (PST)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1mo2CU-0001Lo-Gn; Fri, 19 Nov 2021 12:37:02 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1mo2CS-0008Yh-FY; Fri, 19 Nov 2021 12:37:00 +0100
-Message-ID: <b3bfa4b6e96f8a057c0ee7743a4e11aa9be4e8bb.camel@pengutronix.de>
-Subject: Re: [PATCH v3 1/4] reset: Add
- of_reset_control_get_optional_exclusive()
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Date:   Fri, 19 Nov 2021 12:37:00 +0100
-In-Reply-To: <20211112184413.4391-2-biju.das.jz@bp.renesas.com>
-References: <20211112184413.4391-1-biju.das.jz@bp.renesas.com>
-         <20211112184413.4391-2-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.38.3-1 
+        Fri, 19 Nov 2021 07:14:18 -0500
+Received: from mail-vk1-xa36.google.com (mail-vk1-xa36.google.com [IPv6:2607:f8b0:4864:20::a36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D1CC061574
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Nov 2021 04:11:16 -0800 (PST)
+Received: by mail-vk1-xa36.google.com with SMTP id d130so5793534vke.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Nov 2021 04:11:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=pA4LOyU1ITW9Ybka/nY8oF+Z+zeR3qpDd/7rUrPksqk=;
+        b=pNWb/xY7BDUr+olSQKpNJbaC5rE1YwQvqBYUknUXdFRV4/TJMTSy6tWZjHyWz6wL1I
+         B3E6I9RAv0fERrRb+PXXkVbCCb5vxwI/y/9jbdkRIZ1vtmGPWt964JxbW5gCO7hiWaJn
+         KESHY3DXnnlb/PsrCHLI+SXAdZPp8EnkM8YkzS3JmVZJA9Doo9UT9Q0BalXwdzlKcF+7
+         lXcnT+28eW7Oep2yBfNnPDYxUV43c/QrFWLvB3lDnRXVo9Hr8PS15DYxaohhHj/cl6xH
+         lxCli6Bvti+00uuapAegz6HXIzAuH9ZAB9Sp4d2Z3zTp9h3SmFdBe++mzOjlWXZTE7Mm
+         xNyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=pA4LOyU1ITW9Ybka/nY8oF+Z+zeR3qpDd/7rUrPksqk=;
+        b=DZzbtTfElidtrFsAyTmbTsnpZkkhEae+NWRcRPdTXxXkp/vFRzU1CZrcNTOJm4syH3
+         CP4bAyAVwIHZV8fPYa5e7+NCSXbNuRDT/cKntFQir30PGXKsnWAVqL8Yqf4UFbvHFUku
+         PW7pslafuE3IoOjSDMMmPNZng/VWHA/2THdecILb7aGYf6+/8T2j7eTXGHDMwAAJZAQN
+         Hvh8iu1bdJJC+fbkM/yua4J/UPrZUIAhjUsFTIpy7FAHO71BMXRpAZLRe41o3skgP5cG
+         q3blFhsnp7ks5sJrfcUKe61/WpFLDhFYf+3qgEFiDGhtcedBTrR6oWKP4fhDXdQbSS1m
+         MRhw==
+X-Gm-Message-State: AOAM5321S87Ly1YUTajjtExgZy/jKRUus4p00QijANyWTLBv5CwOD4+R
+        +mGJiDbodNUAjEN6yMrOr4ss62QpW5C5cgkpeH4=
+X-Google-Smtp-Source: ABdhPJy+hyATjs1YfJ31zyXRRIto9WJZdzf5bzc739XdhnutaLAeFLJFAz/C5nfCXpsBE/XP3QxZFzHkJdGwKTI8Ihs=
+X-Received: by 2002:a05:6122:786:: with SMTP id k6mr116311985vkr.26.1637323876147;
+ Fri, 19 Nov 2021 04:11:16 -0800 (PST)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Received: by 2002:a59:a732:0:b0:260:4760:210d with HTTP; Fri, 19 Nov 2021
+ 04:11:15 -0800 (PST)
+Reply-To: egomihnyemihdavidegomih02@gmail.com
+From:   Davids Nyemih <florencesenoua1986@gmail.com>
+Date:   Fri, 19 Nov 2021 13:11:15 +0100
+Message-ID: <CANYbtVMv+omkgzuRERftDAN-wo+rz42=gYDjP5Te2Y0uwNxyFw@mail.gmail.com>
+Subject: Re
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel, Thomas,
-
-On Fri, 2021-11-12 at 18:44 +0000, Biju Das wrote:
-> Add optional variant of of_reset_control_get_exclusive(). If the
-> requested reset is not specified in the device tree, this function
-> returns NULL instead of an error.
-> 
-> Suggested-by: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2->v3:
->  * Added Geert's Rb tag
-> ---
-
-I've picked up this patch for the reset/next branch:
-
-----------8<----------
-The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
-
-  Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
-
-are available in the Git repository at:
-
-  git://git.pengutronix.de/pza/linux reset/of-get-optional-exclusive
-
-for you to fetch changes up to c4f5b30dda01f2f6979a9681142de454991182ee:
-
-  reset: Add of_reset_control_get_optional_exclusive() (2021-11-19 12:23:45 +0100)
-
-----------------------------------------------------------------
-Biju Das (1):
-      reset: Add of_reset_control_get_optional_exclusive()
-
- include/linux/reset.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
----------->8----------
-
-Patch 3/4 of the "Add RZ/G2L OSTM support" series depends on it. Let me
-know if you prefer this to be merged together with the rest of the
-series instad, in which case you'll have my
-
-Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-on the patch and I'll drop it from reset/next.
-
-regards
-Philipp
+HI,
+Good day.
+Kindly confirm to me if this is your correct email Address and get
+back to me for our interest.
+Sincerely,
+Davids
