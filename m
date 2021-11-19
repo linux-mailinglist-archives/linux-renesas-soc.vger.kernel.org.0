@@ -2,156 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0043456D0D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Nov 2021 11:13:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4743A456DF0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Nov 2021 12:04:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234493AbhKSKQM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Nov 2021 05:16:12 -0500
-Received: from mail-ua1-f46.google.com ([209.85.222.46]:36759 "EHLO
-        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234484AbhKSKQM (ORCPT
+        id S231810AbhKSLHy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Nov 2021 06:07:54 -0500
+Received: from www.zeus03.de ([194.117.254.33]:55580 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229521AbhKSLHy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Nov 2021 05:16:12 -0500
-Received: by mail-ua1-f46.google.com with SMTP id r15so20192188uao.3;
-        Fri, 19 Nov 2021 02:13:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fS6d9y8Vy5SYPiYgWonLI58Ywvany20rJrIAPh73s/0=;
-        b=IYOXJbcP7ASJm8bAbprLPykjWbr6PTNzbTuYdgwAdhyGKfjuUnU/SSj7plFGRmdn06
-         +VRRXYMvZnjLiCZERjILEVuusB0V6iIeLaB3Cqa5UGw/y1mzVrGzIoEgx923kgRrGMCx
-         nyeRCdhyr0+WMpgtORjPEhFXS8T3RWPeRXdDBch6ppJ7DJBvNK7D8nNlWHMNHh9/o1/f
-         vgIZE6FClsCxbeECSyElvHrxUsfjc6mvNSB0QoZ/MkxnNCgYzAz5AYld6EGdJy6pBwn/
-         5n7/36DAsjEDLHqZtO/ZJ1XxgECHsnkqksMwQj33jCXeNfV2+Kd6X152qbqu6fn590+z
-         iz9w==
-X-Gm-Message-State: AOAM532gtk6jYLS/eR8895p9cr1hv+RAnwmcuXRV6lmCAvHDk9U1EGF6
-        O9aNZzhJ3EFd1HXpr6R046IRcc/ecJ0sCA==
-X-Google-Smtp-Source: ABdhPJz20uFXjx9Mu1LflRcuPh8g4+O+72SP+DxNxKCk2EQBALtpnVUpF33FiqjRbivCCMjEBxwSkg==
-X-Received: by 2002:ab0:4911:: with SMTP id z17mr46946002uac.91.1637316790219;
-        Fri, 19 Nov 2021 02:13:10 -0800 (PST)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id j145sm1382498vke.47.2021.11.19.02.13.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Nov 2021 02:13:10 -0800 (PST)
-Received: by mail-vk1-f171.google.com with SMTP id q21so5593100vkn.2;
-        Fri, 19 Nov 2021 02:13:09 -0800 (PST)
-X-Received: by 2002:a1f:f24f:: with SMTP id q76mr115866789vkh.11.1637316789632;
- Fri, 19 Nov 2021 02:13:09 -0800 (PST)
+        Fri, 19 Nov 2021 06:07:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=Q5hBlseJ4CtxJ5PJ/p/Zakla2XF
+        bhRUuAD43AIi09cI=; b=Wv5+MZNFL9VYJ2vN5skrZDSJq9v8+dq5xZYK+YGhncZ
+        /PkOh+Jj1IxWR/Rrm6r/pY4x5mGXW/cW/AeoSob+yDzl/13jmHgf6NrBUTMiZlDc
+        qldEdwWw71WkUqw32lJEJwkG+GK0a5a2vK3KpFIuaQMToSqOnyxK2JwnNcOizN9M
+        =
+Received: (qmail 3883871 invoked from network); 19 Nov 2021 12:04:51 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Nov 2021 12:04:51 +0100
+X-UD-Smtp-Session: l3s3148p1@1PpHPiLRPsUgAQnoAEKfAbIul1RxZQ+M
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] memory: renesas-rpc-if: refactor MOIIO and IOFV macros
+Date:   Fri, 19 Nov 2021 12:04:42 +0100
+Message-Id: <20211119110442.4946-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20211115160600.4455-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20211115160600.4455-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 19 Nov 2021 11:12:57 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVR=6KNY2bZcdDPGm7QA+7x=-0qNpa3Ev-2C3ut09KMHQ@mail.gmail.com>
-Message-ID: <CAMuHMdVR=6KNY2bZcdDPGm7QA+7x=-0qNpa3Ev-2C3ut09KMHQ@mail.gmail.com>
-Subject: Re: [PATCH v3] dt-bindings: mmc: renesas,sdhi: add optional SDnH clock
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Don't use _HIZ macros but also provide a val. This is more consistent
+with the other macros and, thus, easier to read. Also shorter.
 
-On Mon, Nov 15, 2021 at 5:08 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> This only applies to R-Car Gen2 and later generations, so we need to
-> distinguish.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Thanks for your patch!
+More readable but otherwise equal. I checked thatthe object files do
+match.
 
-> ---
->
-> v1 and v2 were part of a 21-patch-series which was accepted now except
-> for this patch. Updated according to Geert's comments and finally also
-> sent to Rob and the DT mailing list.
->
-> Tested with:
-> m dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
->
-> I hope it really does what I intended to check.
->
-> If so, the patch can be applied individually. I think, however, it is
-> most convenient if Geert picks it up together with the 20 other patches.
+ drivers/memory/renesas-rpc-if.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.17, with the below fixed.
+diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+index 0c8f00323a91..4fa4e621d41c 100644
+--- a/drivers/memory/renesas-rpc-if.c
++++ b/drivers/memory/renesas-rpc-if.c
+@@ -24,14 +24,13 @@
+ #define RPCIF_CMNCR_MOIIO2(val)	(((val) & 0x3) << 20)
+ #define RPCIF_CMNCR_MOIIO1(val)	(((val) & 0x3) << 18)
+ #define RPCIF_CMNCR_MOIIO0(val)	(((val) & 0x3) << 16)
+-#define RPCIF_CMNCR_MOIIO_HIZ	(RPCIF_CMNCR_MOIIO0(3) | \
+-				 RPCIF_CMNCR_MOIIO1(3) | \
+-				 RPCIF_CMNCR_MOIIO2(3) | RPCIF_CMNCR_MOIIO3(3))
++#define RPCIF_CMNCR_MOIIO(val)	(RPCIF_CMNCR_MOIIO0(val) | RPCIF_CMNCR_MOIIO1(val) | \
++				 RPCIF_CMNCR_MOIIO2(val) | RPCIF_CMNCR_MOIIO3(val))
+ #define RPCIF_CMNCR_IO3FV(val)	(((val) & 0x3) << 14) /* documented for RZ/G2L */
+ #define RPCIF_CMNCR_IO2FV(val)	(((val) & 0x3) << 12) /* documented for RZ/G2L */
+ #define RPCIF_CMNCR_IO0FV(val)	(((val) & 0x3) << 8)
+-#define RPCIF_CMNCR_IOFV_HIZ	(RPCIF_CMNCR_IO0FV(3) | RPCIF_CMNCR_IO2FV(3) | \
+-				 RPCIF_CMNCR_IO3FV(3))
++#define RPCIF_CMNCR_IOFV(val)	(RPCIF_CMNCR_IO0FV(val) | RPCIF_CMNCR_IO2FV(val) | \
++				 RPCIF_CMNCR_IO3FV(val))
+ #define RPCIF_CMNCR_BSZ(val)	(((val) & 0x3) << 0)
+ 
+ #define RPCIF_SSLDR		0x0004	/* R/W */
+@@ -304,17 +303,14 @@ int rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
+ 
+ 	if (rpc->type == RPCIF_RCAR_GEN3)
+ 		regmap_update_bits(rpc->regmap, RPCIF_CMNCR,
+-				   RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_BSZ(3),
+-				   RPCIF_CMNCR_MOIIO_HIZ |
++				   RPCIF_CMNCR_MOIIO(3) | RPCIF_CMNCR_BSZ(3),
++				   RPCIF_CMNCR_MOIIO(3) |
+ 				   RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
+ 	else
+ 		regmap_update_bits(rpc->regmap, RPCIF_CMNCR,
+-				   RPCIF_CMNCR_MOIIO_HIZ | RPCIF_CMNCR_IOFV_HIZ |
++				   RPCIF_CMNCR_MOIIO(3) | RPCIF_CMNCR_IOFV(3) |
+ 				   RPCIF_CMNCR_BSZ(3),
+-				   RPCIF_CMNCR_MOIIO3(1) | RPCIF_CMNCR_MOIIO2(1) |
+-				   RPCIF_CMNCR_MOIIO1(1) | RPCIF_CMNCR_MOIIO0(1) |
+-				   RPCIF_CMNCR_IO3FV(2) | RPCIF_CMNCR_IO2FV(2) |
+-				   RPCIF_CMNCR_IO0FV(2) |
++				   RPCIF_CMNCR_MOIIO(1) | RPCIF_CMNCR_IOFV(2) |
+ 				   RPCIF_CMNCR_BSZ(hyperflash ? 1 : 0));
+ 
+ 	/* Set RCF after BSZ update */
+-- 
+2.30.2
 
-> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> @@ -129,15 +129,37 @@ allOf:
->          - clock-names
->          - resets
->      else:
-> -      properties:
-> -        clocks:
-> -          minItems: 1
-> -          maxItems: 2
-> -        clock-names:
-> -          minItems: 1
-> -          items:
-> -            - const: core
-> -            - const: cd
-> +      if:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              enum:
-> +                - renesas,rcar-gen2-sdhi
-> +                - renesas,rcar-gen3-sdhi
-> +      then:
-> +        properties:
-> +          clocks:
-> +            minItems: 1
-> +            maxItems: 3
-> +          clock-names:
-> +            minItems: 1
-> +            maxItems: 3
-
-"maxItems" is not needed with an "items" list
-
-"make dt_bindings_check" doesn't complain, presumably because this
-is part of an if/else block.
-
-> +            uniqueItems: true
-> +            items:
-> +              - const: core
-> +              - enum: [ clkh, cd ]
-> +              - const: cd
-> +      else:
-> +        properties:
-> +          clocks:
-> +            minItems: 1
-> +            maxItems: 2
-> +          clock-names:
-> +            minItems: 1
-> +            maxItems: 2
-
-Likewise ("git show --color-words" shows it wasn't present before).
-
-> +            items:
-> +              - const: core
-> +              - const: cd
->
->    - if:
->        properties:
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
