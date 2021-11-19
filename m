@@ -2,52 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E940456BF8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Nov 2021 09:57:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B49B456C3C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Nov 2021 10:19:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230027AbhKSJAe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Nov 2021 04:00:34 -0500
-Received: from mail-ua1-f42.google.com ([209.85.222.42]:37615 "EHLO
-        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbhKSJAe (ORCPT
+        id S234138AbhKSJWN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Nov 2021 04:22:13 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:40767 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232838AbhKSJWN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Nov 2021 04:00:34 -0500
-Received: by mail-ua1-f42.google.com with SMTP id o1so19850644uap.4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Nov 2021 00:57:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cDmEtlUJW/U2TV/6uXra9mxD+3D+ySGPKfAlnRkVzM4=;
-        b=4eVmeQYQ8K2N101suMR4ftsIbxCHoTdzeqxIQl8r10wFtChv+p071npIpCS/v3EWrf
-         9pifqzEzS6OHPOuLXsfXrrw0epU8Wt7wCrl4EFg1iLno6EmifnFfrpEalCH64f2xV1Ow
-         +BCUXBX++WkvgwF+2xtDiN5KnAhfd0pNvpo5jvCI/YM86/7RCV1mAz6lnST4ClIkmDju
-         yhspZMU3sVLm3fmVkJ7f8wvn6DMROlXgVkPSM4SjwlzKsW1lT4Rg4FyezYxs1F+dcpIu
-         bDtTxGzfyJti1Rvc19L7Wi03rrI8GVxwftV+tZh8agcaLQoxiEq4VWRvUqlOKIcfXcbk
-         hNBg==
-X-Gm-Message-State: AOAM532z40hD1tT28uhLyT0Blxnp5Ku16tr0G9ogbasgbrU0A820ygTW
-        N/FcAGw2zgwWipISWdQXlYknUlFtctdWJA==
-X-Google-Smtp-Source: ABdhPJxIX+jU2Wrzda7gzbgky/EPf+dOBb7yqTeqi5B9jq02jdTpdnghPLc62KV/AStBWDGTXL7gGA==
-X-Received: by 2002:ab0:7095:: with SMTP id m21mr46876937ual.82.1637312252677;
-        Fri, 19 Nov 2021 00:57:32 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id w2sm1333327vsw.29.2021.11.19.00.57.31
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Nov 2021 00:57:31 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id l24so19860355uak.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Nov 2021 00:57:31 -0800 (PST)
-X-Received: by 2002:a05:6102:2910:: with SMTP id cz16mr91656903vsb.9.1637312251119;
- Fri, 19 Nov 2021 00:57:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20211118111940.1275351-1-miquel.raynal@bootlin.com> <20211118111940.1275351-4-miquel.raynal@bootlin.com>
-In-Reply-To: <20211118111940.1275351-4-miquel.raynal@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 19 Nov 2021 09:57:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW=QgdrVHZXcZtQvtx=BUrugM6sPynt4EXMyA3=JxUV4g@mail.gmail.com>
-Message-ID: <CAMuHMdW=QgdrVHZXcZtQvtx=BUrugM6sPynt4EXMyA3=JxUV4g@mail.gmail.com>
-Subject: Re: [PATCH 3/3] MAINTAINERS: Add an entry for Renesas RZ/N1 NAND controller
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
+        Fri, 19 Nov 2021 04:22:13 -0500
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id B9AF2E0003;
+        Fri, 19 Nov 2021 09:19:08 +0000 (UTC)
+Date:   Fri, 19 Nov 2021 10:19:07 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Richard Weinberger <richard@nod.at>,
         Vignesh Raghavendra <vigneshr@ti.com>,
         Tudor Ambarus <Tudor.Ambarus@microchip.com>,
@@ -57,54 +28,107 @@ Cc:     Richard Weinberger <richard@nod.at>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Gareth Williams <gareth.williams.jx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 1/3] dt-bindings: mtd: rzn1: Describe Renesas RZ/N1 NAND
+ controller
+Message-ID: <20211119101907.2ce429e6@xps13>
+In-Reply-To: <CAMuHMdXi0PPXjH_hHxO1-Lz9fupe4oo936ENe9DzMW8Sb1G6mg@mail.gmail.com>
+References: <20211118111940.1275351-1-miquel.raynal@bootlin.com>
+        <20211118111940.1275351-2-miquel.raynal@bootlin.com>
+        <CAMuHMdXi0PPXjH_hHxO1-Lz9fupe4oo936ENe9DzMW8Sb1G6mg@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
+Hi Geert,
 
-CC Gareth
+geert@linux-m68k.org wrote on Fri, 19 Nov 2021 09:41:35 +0100:
 
-On Thu, Nov 18, 2021 at 12:19 PM Miquel Raynal
-<miquel.raynal@bootlin.com> wrote:
-> Point to the driver and the bindings.
->
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Hi Miquel,
+> 
+> CC Gareth
+> 
+> On Thu, Nov 18, 2021 at 12:19 PM Miquel Raynal
+> <miquel.raynal@bootlin.com> wrote:
+> > Add a Yaml description for this Renesas NAND controller bindings.
+> >
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>  
+> 
+> Thanks for your patch!
+> 
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/mtd/renesas,r9a06g032-nand-controller.yaml
+> > @@ -0,0 +1,60 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/mtd/renesas,r9a06g032-nand-controller.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas RZ/N1x NAND flash controller device tree bindings
+> > +
+> > +maintainers:
+> > +  - Miquel Raynal <miquel.raynal@bootlin.com>
+> > +
+> > +allOf:
+> > +  - $ref: "nand-controller.yaml"
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: renesas,r9a06g032-nand-controller  
+> 
+> As the NAND Flash Controller is present on all of RZ/N1D, RZ/N1S,
+> and RZ/N1L, I think you should add a family-specific compatible value
+> "renesas,rzn1-nand-controller" as a fallback.
 
-Thanks for your patch!
+I see, that's right, I should have added two compatibles.
 
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16004,6 +16004,13 @@ S:     Supported
->  F:     Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
->  F:     drivers/iio/adc/rzg2l_adc.c
->
-> +RENESAS RZ/N1X NAND CONTROLLER DRIVER
-> +M:     Miquel Raynal <miquel.raynal@bootlin.com>
-> +L:     linux-mtd@lists.infradead.org
-> +S:     Maintained
-> +F:     Documentation/devicetree/bindings/mtd/renesas,r9a06g032-nand-controller.yaml
+As there is currently only one 'specific' compatible (r9axxx), should I
+describe the two compatibles as being mandatory? Or should I set the
+most specific one as optional and the least specific one (rzn1)
+mandatory?
 
-.../renesas,rzn1-nand-controller.yaml
+I'll then rename the yaml file, the MAINTAINERS entry and the
+compatible in the driver of course.
 
-> +F:     drivers/mtd/nand/raw/rzn1-nand-controller.c
-> +
->  RESET CONTROLLER FRAMEWORK
->  M:     Philipp Zabel <p.zabel@pengutronix.de>
->  S:     Maintained
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +
+> > +    nand-controller@40102000 {
+> > +        compatible = "renesas,r9a06g032-nand-controller";
+> > +        reg = <0x40102000 0x2000>;
+> > +        interrupts = <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks = <&hclk_nand>, <&clk_nand>;  
+> 
+> This clocks property is not based on an actual .dtsi, right?
 
-Gr{oetje,eeting}s,
+It's not indeed. As said in the cover letter I am going to work on the
+clock tree (nov-dec 2021) because I would like to have this driver fully
+working on a mainline base. So far I used a mixed vendor/upstream DT
+just to have access to the clocks and focus on the 'real' feature but
+now that it is working I am going to switch on the clocks side
+(hopefully with your support :) ).
 
-                        Geert
+> 
+> > +        clock-names = "hclk", "eclk";
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +    };  
+> 
+> The rest looks good to me.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Thanks for the review!
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Miquèl
